@@ -1,232 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1C0BE7DE80
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:50:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 913BB7D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:51:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390557AbeGKV4c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 17:56:32 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:50573 "EHLO
-        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732452AbeGKV4c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:56:32 -0400
-X-Greylist: delayed 431 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Jul 2018 17:56:31 EDT
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 32E61256;
-        Wed, 11 Jul 2018 17:43:08 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 11 Jul 2018 17:43:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=LKxdHjvbzHqWCvLMt
-        ysu/h6lmqGxQFVuhZicxaoeRg0=; b=o4n+yYH7UVjF/xHlg5vbd3PUtNYjFyYXp
-        X4a/SroGZDe6ETAjzxdySQ4d9xf6i8mmKCmUJ8Hro4SljKhwEX2DvAFCyzrRVdWp
-        LgOVDMqInf1uOflXXVYC3sZ3BH26V1RF/4Z6bJYmYWDyHqIF5HTeLHaestSR8IHe
-        ruN/BTz30XelZA7acyoa8yvx1x5aUemUGRUibCtBJI40nk7zth9un4AJiEm4xjOa
-        5H9E7/mQwQEWse6JRzAmpCjA6KVMMUGdXgon9FhfODueWok8iAIyVRQhU4enYe22
-        Py9tdm5tshj0uHMyzmwtVrKjV4Ztl8VHifL4Lr2joBfy0sZ+s0KMw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:date:from:in-reply-to:message-id
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=LKxdHjvbzHqWCvLMtysu/h6lmqGxQFVuhZicxaoeRg0=; b=HhlS4TNB
-        Yl+A6pFudD0qZw0Anz6GQmxCdK1l40Spi0J6ed1LeLlNQ2CQYawLQaDpG3NQ4ulM
-        u9tCvQ7bL05nAAJtF04lCQCJhxoamUQ0nRWDjwzHzbUccleloBJn5XN+89/R4Mbw
-        l8Qwd5XY1SJJ7FPBTtPSViD1Htfw9phOic1vqcgwJ0xeWhFU0cBup3lBz9dTubOe
-        XPT9hZtqk0iCeiySd/0zlHTCV+RweRXwxyIVEc/Cg5kYxS4rsoViBtLB7U6DAym8
-        zaVXCeo0xhcB/ViCBLqTm04Cxh3Tv7VZA+J7r9EoowEx5ykud+X3P2IvFISc0hh6
-        RoMvYvyCZBXZqA==
-X-ME-Proxy: <xmx:63lGW_NwWIjlOTXKW6SoxJ5FIJFo6FH6BVJJDSpRxkcPNIgbi4wmMQ>
-    <xmx:63lGW8NOkmGgTM1mo_oH6jfcQp6rBcWq5RZFMxk_RC5BYCXIobIzjg>
-    <xmx:63lGW74ZN6POo-1nnN_BZsRlYiiStlDSM_Faplr6D8eh9tkJrEeuzA>
-    <xmx:63lGWwkYdyBukuGh2iripGx-tAS8zBsSlHTUhqI6WYe1BBVTNPntMw>
-    <xmx:63lGW4YEN7eejuVgGAWSN6H_-EaXE2SGk2PekiCi90t8qMzaw96p9g>
-    <xmx:63lGWwS_QQLo-XrzQYxI4VYYYGQwxAmzw_CstmXz-e5Sdg6Ldm9Iig>
-X-ME-Sender: <xms:63lGW2_JcQWaoZ_Ufp9FD3w-iwI6geEJvYsIW1NZk1aFLoY-NlI_SA>
-Received: from localhost (ppp121-44-208-89.bras1.syd2.internode.on.net [121.44.208.89])
-        by mail.messagingengine.com (Postfix) with ESMTPA id CC1A91026B;
-        Wed, 11 Jul 2018 17:43:06 -0400 (EDT)
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     "David S. Miller" <davem@davemloft.net>
-Cc:     "Tobin C. Harding" <me@tobin.cc>,
-        Sridhar Samudrala <sridhar.samudrala@intel.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH net-next 2/2] docs: networking: Fix failover build warnings
-Date:   Thu, 12 Jul 2018 07:42:50 +1000
-Message-Id: <20180711214250.19039-3-me@tobin.cc>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180711214250.19039-1-me@tobin.cc>
-References: <20180711214250.19039-1-me@tobin.cc>
+        id S2390576AbeGKV6J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 17:58:09 -0400
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:35033 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390572AbeGKV6J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:58:09 -0400
+Received: by mail-oi0-f67.google.com with SMTP id i12-v6so52086096oik.2
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 14:51:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=TVRNTmRWO2wQytdTDFngybIz4dJcoC9eCZgev1fFilQ=;
+        b=Kv24bkNGejoTFY6SOcx+SfP4MLgqa0d46z+gTLmMVdcvzEAApGa8/oaNamlpLZipXy
+         CNPfGGsYQpaVRlQwcTrX3IO6cfTFEeaqZB/kgqIXUFnzhVt2kh+iKfrb3U/DWkQzpdHe
+         PjtjIOzMd8PiIqEmMkbSxDH116Yupsqs1RIe5Z3ntQMtJXQeSNAFaJLRmRbjGPWWTgMA
+         WKHfX/3a+gS1JjWrnxOvoXSRe3fGpxefL2fRyqqrl8qnkjSVZIQfKOOlVAg8SbAMd6dU
+         zFMrg7AEVOpRRF2CM6mWxSPT7D0vG5xqPobrxLMDtO4kjOK60lsMTQclpjknzTSQBbj8
+         nskQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=TVRNTmRWO2wQytdTDFngybIz4dJcoC9eCZgev1fFilQ=;
+        b=En21ruy4E72ASGwzh92smuP/IEk7eUOCFRjPLsITq4rR2jep0FI2L/pKo9mnpRlBNA
+         jiLEwqP2DD5pWxeP1TNPCKy96Ut8IPvr7ZMlHu5xvoI2hn6RL/vxTgAbxn1KCd8WephW
+         1d9bgtd3xmp8vm3UnuZuNLnPbYrd0ESk68Y3KU5sMwItZ9Nd/rB4z5xDJINqS1/PeBVQ
+         AxrXpJZyImGWDDjq3LtU0fM2PYklY3f5tszb7HN4XplmkSDrhQ3LGdg5168qPRlSnPet
+         r5aISFyBrQ7pugJodMle2aRPKqG+bkP9Hv+2HlWl5srTtIUh7+fXEbI5SrNgJlmZTQUS
+         vScw==
+X-Gm-Message-State: AOUpUlFmjaGikcHyL/jJih55Om0v3CJlGOwSpz4ciE34E7HuhIpqNxll
+        jplcq5ywIauXoB8RQGSzFzLykJsxa+7l9aEuGsGu/w==
+X-Google-Smtp-Source: AAOMgpct/wgsduIHdVvpsAMLLAyrlQx7dqJJnZG3h/O/IJj0EImGRMYdzmhvpnJdodEaH/Q9o7+UZYeVW11aB4XH4x8=
+X-Received: by 2002:aca:d015:: with SMTP id h21-v6mr511553oig.142.1531345907484;
+ Wed, 11 Jul 2018 14:51:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com> <20180710222639.8241-18-yu-cheng.yu@intel.com>
+ <CAG48ez1ytOfQyNZMNPFp7XqKcpd7_aRai9G5s7rx0V=8ZG+r2A@mail.gmail.com> <6F5FEFFD-0A9A-4181-8D15-5FC323632BA6@amacapital.net>
+In-Reply-To: <6F5FEFFD-0A9A-4181-8D15-5FC323632BA6@amacapital.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 11 Jul 2018 14:51:21 -0700
+Message-ID: <CAG48ez1OwQMmhQfHaauo+vneywsQ_ERKr4uVcQebC=GbdqZWtA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 17/27] x86/cet/shstk: User-mode shadow stack support
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     yu-cheng.yu@intel.com, "the arch/x86 maintainers" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, bsingharora@gmail.com,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently building the net_failover docs causes a bunch of warnings to
-be emitted.  These warnings are all related to indentation and correctly
-highlight missing '::' (for code sections).  It looks, from other rst
-files in Documentation, that the first column should be indented 2
-spaces.
+On Wed, Jul 11, 2018 at 2:34 PM Andy Lutomirski <luto@amacapital.net> wrote=
+:
+> > On Jul 11, 2018, at 2:10 PM, Jann Horn <jannh@google.com> wrote:
+> >
+> >> On Tue, Jul 10, 2018 at 3:31 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wr=
+ote:
+> >>
+> >> This patch adds basic shadow stack enabling/disabling routines.
+> >> A task's shadow stack is allocated from memory with VM_SHSTK
+> >> flag set and read-only protection.  The shadow stack is
+> >> allocated to a fixed size.
+> >>
+> >> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > [...]
+> >> diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> >> new file mode 100644
+> >> index 000000000000..96bf69db7da7
+> >> --- /dev/null
+> >> +++ b/arch/x86/kernel/cet.c
+> > [...]
+> >> +static unsigned long shstk_mmap(unsigned long addr, unsigned long len=
+)
+> >> +{
+> >> +       struct mm_struct *mm =3D current->mm;
+> >> +       unsigned long populate;
+> >> +
+> >> +       down_write(&mm->mmap_sem);
+> >> +       addr =3D do_mmap(NULL, addr, len, PROT_READ,
+> >> +                      MAP_ANONYMOUS | MAP_PRIVATE, VM_SHSTK,
+> >> +                      0, &populate, NULL);
+> >> +       up_write(&mm->mmap_sem);
+> >> +
+> >> +       if (populate)
+> >> +               mm_populate(addr, populate);
+> >> +
+> >> +       return addr;
+> >> +}
+[...]
+> > Should the kernel enforce that two shadow stacks must have a guard
+> > page between them so that they can not be directly adjacent, so that
+> > if you have too much recursion, you can't end up corrupting an
+> > adjacent shadow stack?
+>
+> I think the answer is a qualified =E2=80=9Cno=E2=80=9D. I would like to i=
+nstead enforce a general guard page on all mmaps that don=E2=80=99t use MAP=
+_FORCE. We *might* need to exempt any mmap with an address hint for compati=
+bility.
 
-Add '::' before code snippets and indent all snippets uniformly starting
-with 2 spaces.
+I like this idea a lot.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Tobin C. Harding <me@tobin.cc>
----
+> My commercial software has been manually adding guard pages on every sing=
+le mmap done by tcmalloc for years, and it has caught a couple bugs and cos=
+ts essentially nothing.
+>
+> Hmm. Linux should maybe add something like Windows=E2=80=99 =E2=80=9Crese=
+rved=E2=80=9D virtual memory. It=E2=80=99s basically a way to ask for a VA =
+range that explicitly contains nothing and can be subsequently be turned in=
+to something useful with the equivalent of MAP_FORCE.
 
-Cc'd Jon incase he wants to suggest a preferred level of indentation.
-
-thanks,
-Tobin.
-
- Documentation/networking/net_failover.rst | 111 +++++++++++-----------
- 1 file changed, 57 insertions(+), 54 deletions(-)
-
-diff --git a/Documentation/networking/net_failover.rst b/Documentation/networking/net_failover.rst
-index 70ca2f5800c4..06c97dcb57ca 100644
---- a/Documentation/networking/net_failover.rst
-+++ b/Documentation/networking/net_failover.rst
-@@ -36,37 +36,39 @@ feature on the virtio-net interface and assign the same MAC address to both
- virtio-net and VF interfaces.
- 
- Here is an example XML snippet that shows such configuration.
--
-- <interface type='network'>
--   <mac address='52:54:00:00:12:53'/>
--   <source network='enp66s0f0_br'/>
--   <target dev='tap01'/>
--   <model type='virtio'/>
--   <driver name='vhost' queues='4'/>
--   <link state='down'/>
--   <address type='pci' domain='0x0000' bus='0x00' slot='0x0a' function='0x0'/>
-- </interface>
-- <interface type='hostdev' managed='yes'>
--   <mac address='52:54:00:00:12:53'/>
--   <source>
--     <address type='pci' domain='0x0000' bus='0x42' slot='0x02' function='0x5'/>
--   </source>
--   <address type='pci' domain='0x0000' bus='0x00' slot='0x0b' function='0x0'/>
-- </interface>
-+::
-+
-+  <interface type='network'>
-+    <mac address='52:54:00:00:12:53'/>
-+    <source network='enp66s0f0_br'/>
-+    <target dev='tap01'/>
-+    <model type='virtio'/>
-+    <driver name='vhost' queues='4'/>
-+    <link state='down'/>
-+    <address type='pci' domain='0x0000' bus='0x00' slot='0x0a' function='0x0'/>
-+  </interface>
-+  <interface type='hostdev' managed='yes'>
-+    <mac address='52:54:00:00:12:53'/>
-+    <source>
-+      <address type='pci' domain='0x0000' bus='0x42' slot='0x02' function='0x5'/>
-+    </source>
-+    <address type='pci' domain='0x0000' bus='0x00' slot='0x0b' function='0x0'/>
-+  </interface>
- 
- Booting a VM with the above configuration will result in the following 3
- netdevs created in the VM.
--
--4: ens10: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
--    link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
--    inet 192.168.12.53/24 brd 192.168.12.255 scope global dynamic ens10
--       valid_lft 42482sec preferred_lft 42482sec
--    inet6 fe80::97d8:db2:8c10:b6d6/64 scope link
--       valid_lft forever preferred_lft forever
--5: ens10nsby: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel master ens10 state UP group default qlen 1000
--    link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
--7: ens11: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq master ens10 state UP group default qlen 1000
--    link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
-+::
-+
-+  4: ens10: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
-+      link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
-+      inet 192.168.12.53/24 brd 192.168.12.255 scope global dynamic ens10
-+         valid_lft 42482sec preferred_lft 42482sec
-+      inet6 fe80::97d8:db2:8c10:b6d6/64 scope link
-+         valid_lft forever preferred_lft forever
-+  5: ens10nsby: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel master ens10 state UP group default qlen 1000
-+      link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
-+  7: ens11: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq master ens10 state UP group default qlen 1000
-+      link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
- 
- ens10 is the 'failover' master netdev, ens10nsby and ens11 are the slave
- 'standby' and 'primary' netdevs respectively.
-@@ -80,37 +82,38 @@ the paravirtual datapath when the VF is unplugged.
- 
- Here is a sample script that shows the steps to initiate live migration on
- the source hypervisor.
-+::
- 
--# cat vf_xml
--<interface type='hostdev' managed='yes'>
--  <mac address='52:54:00:00:12:53'/>
--  <source>
--    <address type='pci' domain='0x0000' bus='0x42' slot='0x02' function='0x5'/>
--  </source>
--  <address type='pci' domain='0x0000' bus='0x00' slot='0x0b' function='0x0'/>
--</interface>
-+  # cat vf_xml
-+  <interface type='hostdev' managed='yes'>
-+    <mac address='52:54:00:00:12:53'/>
-+    <source>
-+      <address type='pci' domain='0x0000' bus='0x42' slot='0x02' function='0x5'/>
-+    </source>
-+    <address type='pci' domain='0x0000' bus='0x00' slot='0x0b' function='0x0'/>
-+  </interface>
- 
--# Source Hypervisor
--#!/bin/bash
-+  # Source Hypervisor
-+  #!/bin/bash
- 
--DOMAIN=fedora27-tap01
--PF=enp66s0f0
--VF_NUM=5
--TAP_IF=tap01
--VF_XML=
-+  DOMAIN=fedora27-tap01
-+  PF=enp66s0f0
-+  VF_NUM=5
-+  TAP_IF=tap01
-+  VF_XML=
- 
--MAC=52:54:00:00:12:53
--ZERO_MAC=00:00:00:00:00:00
-+  MAC=52:54:00:00:12:53
-+  ZERO_MAC=00:00:00:00:00:00
- 
--virsh domif-setlink $DOMAIN $TAP_IF up
--bridge fdb del $MAC dev $PF master
--virsh detach-device $DOMAIN $VF_XML
--ip link set $PF vf $VF_NUM mac $ZERO_MAC
-+  virsh domif-setlink $DOMAIN $TAP_IF up
-+  bridge fdb del $MAC dev $PF master
-+  virsh detach-device $DOMAIN $VF_XML
-+  ip link set $PF vf $VF_NUM mac $ZERO_MAC
- 
--virsh migrate --live $DOMAIN qemu+ssh://$REMOTE_HOST/system
-+  virsh migrate --live $DOMAIN qemu+ssh://$REMOTE_HOST/system
- 
--# Destination Hypervisor
--#!/bin/bash
-+  # Destination Hypervisor
-+  #!/bin/bash
- 
--virsh attach-device $DOMAIN $VF_XML
--virsh domif-setlink $DOMAIN $TAP_IF down
-+  virsh attach-device $DOMAIN $VF_XML
-+  virsh domif-setlink $DOMAIN $TAP_IF down
--- 
-2.17.1
-
+What's the benefit over creating an anonymous PROT_NONE region? That
+the kernel won't have to scan through the corresponding PTEs when
+tearing down the mapping?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
