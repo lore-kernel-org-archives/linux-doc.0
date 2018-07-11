@@ -5,26 +5,27 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 293B37DE80
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:47:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BA9BB7D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:48:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387563AbeGKPv2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 11:51:28 -0400
-Received: from mga12.intel.com ([192.55.52.136]:40653 "EHLO mga12.intel.com"
+        id S2389413AbeGKPxk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 11:53:40 -0400
+Received: from mga05.intel.com ([192.55.52.43]:50317 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389424AbeGKPv2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Jul 2018 11:51:28 -0400
+        id S1732935AbeGKPxk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 11:53:40 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 08:46:32 -0700
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 08:48:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,338,1526367600"; 
-   d="scan'208";a="71462702"
+   d="scan'208";a="239537221"
 Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2018 08:45:26 -0700
-Message-ID: <1531323709.13297.25.camel@intel.com>
-Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
+  by orsmga005.jf.intel.com with ESMTP; 11 Jul 2018 08:48:42 -0700
+Message-ID: <1531323904.13297.26.camel@intel.com>
+Subject: Re: [RFC PATCH v2 17/27] x86/cet/shstk: User-mode shadow stack
+ support
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -46,66 +47,32 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Wed, 11 Jul 2018 08:41:49 -0700
-In-Reply-To: <20180711152754.GJ2476@hirez.programming.kicks-ass.net>
+Date:   Wed, 11 Jul 2018 08:45:04 -0700
+In-Reply-To: <20180711093454.GX2476@hirez.programming.kicks-ass.net>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-         <20180710222639.8241-19-yu-cheng.yu@intel.com>
-         <20180711094549.GA2476@hirez.programming.kicks-ass.net>
-         <1531321089.13297.4.camel@intel.com>
-         <20180711152754.GJ2476@hirez.programming.kicks-ass.net>
+         <20180710222639.8241-18-yu-cheng.yu@intel.com>
+         <20180711093454.GX2476@hirez.programming.kicks-ass.net>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2018-07-11 at 17:27 +0200, Peter Zijlstra wrote:
-> On Wed, Jul 11, 2018 at 07:58:09AM -0700, Yu-cheng Yu wrote:
+On Wed, 2018-07-11 at 11:34 +0200, Peter Zijlstra wrote:
+> On Tue, Jul 10, 2018 at 03:26:29PM -0700, Yu-cheng Yu wrote:
 > > 
-> > On Wed, 2018-07-11 at 11:45 +0200, Peter Zijlstra wrote:
-> > > 
-> > > On Tue, Jul 10, 2018 at 03:26:30PM -0700, Yu-cheng Yu wrote:
-> > > > 
-> > > > 
-> > > > diff --git a/arch/x86/lib/x86-opcode-map.txt
-> > > > b/arch/x86/lib/x86-
-> > > > opcode-map.txt
-> > > > index e0b85930dd77..72bb7c48a7df 100644
-> > > > --- a/arch/x86/lib/x86-opcode-map.txt
-> > > > +++ b/arch/x86/lib/x86-opcode-map.txt
-> > > > @@ -789,7 +789,7 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32
-> > > > Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
-> > > >  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32
-> > > > Gd,Ew (66&F2)
-> > > >  f2: ANDN Gy,By,Ey (v)
-> > > >  f3: Grp17 (1A)
-> > > > -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey
-> > > > (F2),(v)
-> > > > +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey
-> > > > (F2),(v) | WRUSS Pq,Qq (66),REX.W
-> > > >  f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey
-> > > > (F2),(v)
-> > > >  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX
-> > > > Gy,Ey,By
-> > > > (F3),(v) | SHRX Gy,Ey,By (F2),(v)
-> > > >  EndTable
-> > > Where are all the other instructions? ISTR that documentation
-> > > patch
-> > > listing a whole bunch of new instructions, not just wuss.
-> > Currently we only use WRUSS in the kernel code.  Do we want to add
-> > all
-> > instructions here?
-> Yes, since we also use the in-kernel decoder to decode random
-> userspace
-> code.
+> > +/* MSR_IA32_U_CET and MSR_IA32_S_CET bits */
+> > +#define MSR_IA32_CET_SHSTK_EN		0x0000000000000001
+> > +#define MSR_IA32_CET_WRSS_EN		0x0000000000000002
+> > +#define MSR_IA32_CET_ENDBR_EN		0x0000000000000004
+> > +#define MSR_IA32_CET_LEG_IW_EN		0x0000000000000008
+> > +#define MSR_IA32_CET_NO_TRACK_EN	0x0000000000000010
+> Do those want a ULL literal suffix?
 
-I will add other instructions.
-
-Yu-cheng
-
+I will fix it.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
