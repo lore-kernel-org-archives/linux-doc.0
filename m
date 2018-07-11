@@ -1,96 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 072917D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 17:31:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0A04A7D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 17:42:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732705AbeGKRhR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 13:37:17 -0400
-Received: from mga03.intel.com ([134.134.136.65]:20438 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732677AbeGKRhR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Jul 2018 13:37:17 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 10:31:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,338,1526367600"; 
-   d="scan'208";a="74003160"
-Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by orsmga002.jf.intel.com with ESMTP; 11 Jul 2018 10:31:53 -0700
-Message-ID: <1531330096.15351.10.camel@intel.com>
-Subject: Re: [RFC PATCH v2 12/27] x86/mm: Shadow stack page fault error
- checking
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1733209AbeGKRrx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 13:47:53 -0400
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:56654 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732359AbeGKRrx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 13:47:53 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 3F6A58EE48E;
+        Wed, 11 Jul 2018 10:42:29 -0700 (PDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id y68BUJqWWAxd; Wed, 11 Jul 2018 10:42:29 -0700 (PDT)
+Received: from [153.66.254.194] (unknown [50.35.68.20])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 5480B8EE0E4;
+        Wed, 11 Jul 2018 10:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1531330949;
+        bh=/i2uv9lgWVR3en/qN3yD+9oGuCpCbIzxUbuRseOfIfg=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=s3fs1x0S7oC3FInN+Et1coP2A8nYwewOfSfucSrHPMZUgDukF02kq5gnHd2qDpcpx
+         3WcevZfxiyOCCbBbCrfoSXpFIISsmkTna0FJht2fwVeC6Ys5ung7mu1WB6Jd0n/1vz
+         lnkeLTyhIsrHwg7bvsrom11S8BlnoHBDxr32ZkI4=
+Message-ID: <1531330947.3260.13.camel@HansenPartnership.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Waiman Long <longman@redhat.com>, Michal Hocko <mhocko@kernel.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Wed, 11 Jul 2018 10:28:16 -0700
-In-Reply-To: <61793360-f37c-ec19-c390-abe3c76a5f5c@linux.intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-         <20180710222639.8241-13-yu-cheng.yu@intel.com>
-         <61793360-f37c-ec19-c390-abe3c76a5f5c@linux.intel.com>
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>
+Date:   Wed, 11 Jul 2018 10:42:27 -0700
+In-Reply-To: <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
+References: <1530905572-817-1-git-send-email-longman@redhat.com>
+         <20180709081920.GD22049@dhcp22.suse.cz>
+         <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
+         <20180710142740.GQ14284@dhcp22.suse.cz>
+         <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
+         <20180711102139.GG20050@dhcp22.suse.cz>
+         <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+X-Mailer: Evolution 3.22.6 
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2018-07-10 at 15:52 -0700, Dave Hansen wrote:
-> On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
+On Wed, 2018-07-11 at 11:13 -0400, Waiman Long wrote:
+> On 07/11/2018 06:21 AM, Michal Hocko wrote:
+> > On Tue 10-07-18 12:09:17, Waiman Long wrote:
+[...]
+> > > I am going to reduce the granularity of each unit to 1/1000 of
+> > > the total system memory so that for large system with TB of
+> > > memory, a smaller amount of memory can be specified.
 > > 
-> > +++ b/arch/x86/include/asm/traps.h
-> > @@ -157,6 +157,7 @@ enum {
-> >   *   bit 3 ==				1: use of reserved
-> > bit detected
-> >   *   bit 4 ==				1: fault was an
-> > instruction fetch
-> >   *   bit 5 ==				1: protection keys
-> > block access
-> > + *   bit 6 ==				1: shadow stack
-> > access fault
-> >   */
-> Could we document this bit better?
+> > It is just a matter of time for this to be too coarse as well.
 > 
-> Is this a fault where the *processor* thought it should be a shadow
-> stack fault?  Or is it also set on faults to valid shadow stack PTEs
-> that just happen to fault for other reasons, say protection keys?
+> The goal is to not have too much memory being consumed by negative
+> dentries and also the limit won't be reached by regular daily
+> activities. So a limit of 1/1000 of the total system memory will be
+> good enough on large memory system even if the absolute number is
+> really big.
 
-Thanks Vedvyas for explaining this to me.
-I will add this to comments:
+OK, I think the reason we're going round and round here without
+converging is that one of the goals of the mm subsystem is to manage
+all of our cached objects and to it the negative (and positive)
+dentries simply look like a clean cache of objects.  Right at the
+moment mm manages them in the same way it manages all the other caches,
+a lot of which suffer from the "you can cause lots of allocations to
+artificially grow them" problem.  So the main question is why doesn't
+the current mm control of the caches work well enough for dentries? 
+What are the problems you're seeing that mm should be catching?  If you
+can answer this, then we could get on to whether a separate shrinker,
+cache separation or some fix in mm itself is the right answer.
 
-This flag is 1 if (1) CR4.CET = 1; and (2) the access causing the page-
-fault exception was a shadow-stack data access.
+What you say above is based on a conclusion: limiting dentries improves
+the system performance.  What we're asking for is evidence for that
+conclusion so we can explore whether the same would go for any of our
+other system caches (so do we have a global cache management problem or
+is it only the dentry cache?)
 
-So this bit does not report the reason for the fault. It reports the
-type of access; i.e. it was a shadow-stack-load or a shadow-stack-store 
-that took the page fault. The fault could have been caused by any
-variety of reasons including protection keys.
+James
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
