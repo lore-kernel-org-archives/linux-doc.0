@@ -2,112 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A81A87D085
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:10:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 27EE47D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:14:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732921AbeGKPPV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 11:15:21 -0400
-Received: from mga03.intel.com ([134.134.136.65]:12957 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732916AbeGKPPT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Jul 2018 11:15:19 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 08:10:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,338,1526367600"; 
-   d="scan'208";a="56086848"
-Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by orsmga008.jf.intel.com with ESMTP; 11 Jul 2018 08:10:32 -0700
-Message-ID: <1531321615.13297.9.camel@intel.com>
-Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S2388907AbeGKPSs convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 11:18:48 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:48350 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388906AbeGKPSr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 11:18:47 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 461854070489;
+        Wed, 11 Jul 2018 15:13:59 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 80C2D2166BA2;
+        Wed, 11 Jul 2018 15:13:58 +0000 (UTC)
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Wed, 11 Jul 2018 08:06:55 -0700
-In-Reply-To: <20180711094448.GZ2476@hirez.programming.kicks-ass.net>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-         <20180710222639.8241-19-yu-cheng.yu@intel.com>
-         <20180711094448.GZ2476@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>
+References: <1530905572-817-1-git-send-email-longman@redhat.com>
+ <20180709081920.GD22049@dhcp22.suse.cz>
+ <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
+ <20180710142740.GQ14284@dhcp22.suse.cz>
+ <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
+ <20180711102139.GG20050@dhcp22.suse.cz>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
+Date:   Wed, 11 Jul 2018 11:13:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
+MIME-Version: 1.0
+In-Reply-To: <20180711102139.GG20050@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Wed, 11 Jul 2018 15:13:59 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Wed, 11 Jul 2018 15:13:59 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2018-07-11 at 11:44 +0200, Peter Zijlstra wrote:
-> On Tue, Jul 10, 2018 at 03:26:30PM -0700, Yu-cheng Yu wrote:
-> > 
-> > WRUSS is a new kernel-mode instruction but writes directly
-> > to user shadow stack memory.  This is used to construct
-> > a return address on the shadow stack for the signal
-> > handler.
-> > 
-> > This instruction can fault if the user shadow stack is
-> > invalid shadow stack memory.  In that case, the kernel does
-> > fixup.
-> > 
-> > 
-> > +static inline int write_user_shstk_64(unsigned long addr, unsigned
-> > long val)
-> > +{
-> > +	int err = 0;
-> > +
-> > +	asm volatile("1: wrussq %[val], (%[addr])\n"
-> > +		     "xor %[err], %[err]\n"
-> this XOR is superfluous, you already cleared @err above.
+On 07/11/2018 06:21 AM, Michal Hocko wrote:
+> On Tue 10-07-18 12:09:17, Waiman Long wrote:
+>> On 07/10/2018 10:27 AM, Michal Hocko wrote:
+>>> On Mon 09-07-18 12:01:04, Waiman Long wrote:
+>>>> On 07/09/2018 04:19 AM, Michal Hocko wrote:
+> [...]
+>>>>> percentage has turned out to be a really wrong unit for many tunables
+>>>>> over time. Even 1% can be just too much on really large machines.
+>>>> Yes, that is true. Do you have any suggestion of what kind of unit
+>>>> should be used? I can scale down the unit to 0.1% of the system memory.
+>>>> Alternatively, one unit can be 10k/cpu thread, so a 20-thread system
+>>>> corresponds to 200k, etc.
+>>> I simply think this is a strange user interface. How much is a
+>>> reasonable number? How can any admin figure that out?
+>> Without the optional enforcement, the limit is essentially just a
+>> notification mechanism where the system signals that there is something
+>> wrong going on and the system administrator need to take a look. So it
+>> is perfectly OK if the limit is sufficiently high that normally we won't
+>> need to use that many negative dentries. The goal is to prevent negative
+>> dentries from consuming a significant portion of the system memory.
+> So again. How do you tell the right number?
 
-I will fix it.
+I guess it will be more a trial and error kind of adjustment as the
+right figure will depend on the kind of workloads being run on the
+system. So unless the enforcement option is turned on, setting a limit
+that is too small won't have too much impact over than a slight
+performance drop because of the invocation of the slowpaths and the
+warning messages in the console. Whenever a non-zero value is written
+into "neg-dentry-limit", an informational message will be printed about
+what the actual negative dentry limits
+will be. It can be compared against the current negative dentry number
+(5th number) from "dentry-state" to see if there is enough safe margin
+to avoid false positive warning.
 
-> 
-> > 
-> > +		     "2:\n"
-> > +		     ".section .fixup,\"ax\"\n"
-> > +		     "3: mov $-1, %[err]; jmp 2b\n"
-> > +		     ".previous\n"
-> > +		     _ASM_EXTABLE(1b, 3b)
-> > +		     : [err] "=a" (err)
-> > +		     : [val] "S" (val), [addr] "D" (addr));
-> > +
-> > +	return err;
-> > +}
-> > +#endif /* CONFIG_X86_INTEL_CET */
-> > +
-> >  #define nop() asm volatile ("nop")
-> What happened to:
-> 
->   https://lkml.kernel.org/r/1528729376.4526.0.camel@2b52.sc.intel.com
+>
+>> I am going to reduce the granularity of each unit to 1/1000 of the total
+>> system memory so that for large system with TB of memory, a smaller
+>> amount of memory can be specified.
+> It is just a matter of time for this to be too coarse as well.
 
-Yes, I put that in once and realized we only need to skip the
-instruction and return err.  Do you think we still need a handler for
-that?
+The goal is to not have too much memory being consumed by negative
+dentries and also the limit won't be reached by regular daily
+activities. So a limit of 1/1000 of the total system memory will be good
+enough on large memory system even if the absolute number is really big.
 
-Yu-cheng
+Cheers,
+Longman
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
