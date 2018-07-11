@@ -1,244 +1,159 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7F8C87DE80
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:40:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5ABA7D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:44:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732913AbeGKPoz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 11:44:55 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:46572 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389195AbeGKPoz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 11:44:55 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 203-v6so8704613ljj.13;
-        Wed, 11 Jul 2018 08:39:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=SY8vwH8HvMI62hiOgFGJooBTRfQaHoRvqnodPnknhBs=;
-        b=IifICxaMX5Uygxb2XO26uj1MAsNbH2g0ayu8PEqHVrs95YIRGFZKuZ8P3c0W4FDjVh
-         ELw14iEjiTComRTjxh2auZGQtK+EKT/JZiUqL0aVaYjiKtWfaVPgjT1Fy7c60XXZMNtH
-         LMzUpaE4Zs0bTkf9tHTHs5xSTAa+wwJgXpU8M16rZlVWsDNYB/03e5RW6OZ37ok0Thvt
-         +Wh5BXPZwEgh8qRCTc+rRTZARF/L2Bf1wholtVuJfdaAXmXdW9nuVUZtR6y4sp/w6zvo
-         x6HB/6TLLDC9Z8jupEl1z+gx14NV09bG5ski+t85f04+GI74JrTBS5E+5A6coY6rL9TV
-         zgig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=SY8vwH8HvMI62hiOgFGJooBTRfQaHoRvqnodPnknhBs=;
-        b=gierOqqXG9s6nhmNldFDCFG0/WOGmQ3tmr+ktFYVwsdr2Qgy2A3VRC9yxXnspXD4tv
-         qpjvlle7Q9ka/iwQ1GMOxL5kILLPxaBMREyGlpvwlXPXhfQIHDZ6wnqizjlF5IyAcsYi
-         XEQoLQffnUvOdxGiAJ0zF1vD6YlG7MfL4K921EXm63R+4J8soS/WJKtwvFR09E2h3QLj
-         wGrC1bbeLb06nRKMPILcG7cDqk9S9/hnIb+OewxtRJIs5ZkPNASm1elG9UKO7MutJB9P
-         x63h1MvEVtHQeHQqoaiKFd47zGNg3MDhjsggGw6B49ELb8dsPjDyqYlVzSZVDcHpFJhH
-         tUsw==
-X-Gm-Message-State: APt69E0YfIG4Nqn2CXeQKLTHPVrkHakDM8SM+ts4HmW3WdQcS/yJ0Toj
-        1Cp6xAofN2PjodfridQRml8bKsH1tPnW67q+tyI=
-X-Google-Smtp-Source: AAOMgpcVC14oNLQ7iIxFDSQhhJXIrdB4gZpSc/yUhYybseaGbBtLLFLvItv766o5qBzr/Ri26+/RDX12niqGwTkB4oo=
-X-Received: by 2002:a2e:1207:: with SMTP id t7-v6mr18902806lje.129.1531323597316;
- Wed, 11 Jul 2018 08:39:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Wed, 11 Jul 2018 08:39:56
- -0700 (PDT)
-In-Reply-To: <20180711164120.3e32fb08@bbrezillon>
-References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
- <20180330074751.25987-2-boris.brezillon@bootlin.com> <CAK8P3a1aZXf2sQW2mgwJScycKPhdoOAwxRjm5cQG83513uc3fg@mail.gmail.com>
- <20180711164120.3e32fb08@bbrezillon>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 11 Jul 2018 17:39:56 +0200
-X-Google-Sender-Auth: HI0bzqHk0-CmvDBVKx07Tma1k5Q
-Message-ID: <CAK8P3a2EZB_tMS_47wv6M2Qpm79ZocxxhG5zLxXsBM_YjZgkyA@mail.gmail.com>
-Subject: Re: [PATCH v4 01/10] i3c: Add core I3C infrastructure
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        id S1733115AbeGKPtS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 11:49:18 -0400
+Received: from mga04.intel.com ([192.55.52.120]:8554 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732819AbeGKPtS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 11:49:18 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 08:44:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,338,1526367600"; 
+   d="scan'208";a="56861618"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by orsmga006.jf.intel.com with ESMTP; 11 Jul 2018 08:44:16 -0700
+Message-ID: <1531323638.13297.24.camel@intel.com>
+Subject: Re: [RFC PATCH v2 25/27] x86/cet: Add PTRACE interface for CET
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Ingo Molnar <mingo@kernel.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Wed, 11 Jul 2018 08:40:38 -0700
+In-Reply-To: <20180711102035.GB8574@gmail.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+         <20180710222639.8241-26-yu-cheng.yu@intel.com>
+         <20180711102035.GB8574@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 11, 2018 at 4:41 PM, Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
-> On Wed, 11 Jul 2018 16:01:56 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
->> > - the bus element is a separate object and is not implicitly described
->> >   by the master (as done in I2C). The reason is that I want to be able
->> >   to handle multiple master connected to the same bus and visible to
->> >   Linux.
->> >   In this situation, we should only have one instance of the device and
->> >   not one per master, and sharing the bus object would be part of the
->> >   solution to gracefully handle this case.
->> >   I'm not sure we will ever need to deal with multiple masters
->> >   controlling the same bus and exposed under Linux, but separating the
->> >   bus and master concept is pretty easy, hence the decision to do it
->> >   like that.
->> >   The other benefit of separating the bus and master concepts is that
->> >   master devices appear under the bus directory in sysfs.
->>
->> I'm not following here at all, sorry for missing prior discussion if this
->> was already explained. What is the "multiple master" case? Do you
->> mean multiple devices that are controlled by Linux and that each talk
->> to other devices on the same bus, multiple operating systems that
->> have talk to are able to own the bus with the kernel being one of
->> them, a controller that controls multiple independent buses,
->> or something else?
->
-> I mean several masters connected to the same bus and all exposed to the
-> same Linux instance. In this case, the question is, should we have X
-> I3C buses exposed (X being the number of masters) or should we only
-> have one?
->
-> Having a bus represented as a separate object allows us to switch to
-> the "one bus : X masters" representation if we need too.
-...
->>
->> This feels a bit odd: so you have bus_type that can contain devices
->> of three (?) different device types: i3c_device_type, i3c_master_type
->> and i3c_busdev_type.
->>
->> Generally speaking, we don't have a lot of subsystems that even
->> use device_types. I assume that the i3c_device_type for a
->> device that corresponds to an endpoint on the bus, but I'm
->> still confused about the other two, and why they are part of
->> the same bus_type.
->
-> i3c_busdev is just a virtual device representing the bus itself.
-> i3c_master is representing the I3C master driving the bus. The reason
-> for having a different type here is to avoid attaching this device to a
-> driver but still being able to see the master controller as a device on
-> the bus. And finally, i3c_device are all remote devices that can be
-> accessed through a given i3c_master.
->
-> This all comes from the design choice I made to represent the bus as a
-> separate object in order to be able to share it between different
-> master controllers exposed through the same Linux instance. Since
-> master controllers are also remote devices for other controllers, we
-> need to represent them.
+On Wed, 2018-07-11 at 12:20 +0200, Ingo Molnar wrote:
+> * Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> 
+> > 
+> > Add PTRACE interface for CET MSRs.
+> Please *always* describe new ABIs in the changelog, in a precise,
+> well-documented 
+> way.
 
-Ok, so I think this is the most important question to resolve: do we
-actually need to control multiple masters on a single bus from one OS
-or not?
+Ok!
 
-The problem that I see is that it breaks the tree abstraction that
-we use in the dtb interface, in the driver model and in sysfs.
-If we need to deal with a hardware bus structure like
+> > 
+> > diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
+> > index e2ee403865eb..ac2bc3a18427 100644
+> > --- a/arch/x86/kernel/ptrace.c
+> > +++ b/arch/x86/kernel/ptrace.c
+> > @@ -49,7 +49,9 @@ enum x86_regset {
+> >  	REGSET_IOPERM64 = REGSET_XFP,
+> >  	REGSET_XSTATE,
+> >  	REGSET_TLS,
+> > +	REGSET_CET64 = REGSET_TLS,
+> >  	REGSET_IOPERM32,
+> > +	REGSET_CET32,
+> >  };
+> Why does REGSET_CET64 alias on REGSET_TLS?
 
-              cpu
-             /   \
-            /     \
-       platdev   platdev
-           |        |
-     i3c-master   i3c-master
-            \      /
-             \    /
-            i3c-bus
-             /    \
-         device   device
+In x86_64_regsets[], there is no [REGSET_TLS].  The core dump code
+cannot handle holes in the array.
 
-then that abstraction no longer holds. Clearly you could build
-a system like that, and if we have to support it, the i3c infrastructure
-should be prepared for it, since we wouldn't be able to retrofit
-it later.
+> 
+> > 
+> >  struct pt_regs_offset {
+> > @@ -1276,6 +1278,13 @@ static struct user_regset x86_64_regsets[]
+> > __ro_after_init = {
+> >  		.size = sizeof(long), .align = sizeof(long),
+> >  		.active = ioperm_active, .get = ioperm_get
+> >  	},
+> > +	[REGSET_CET64] = {
+> > +		.core_note_type = NT_X86_CET,
+> > +		.n = sizeof(struct cet_user_state) / sizeof(u64),
+> > +		.size = sizeof(u64), .align = sizeof(u64),
+> > +		.active = cetregs_active, .get = cetregs_get,
+> > +		.set = cetregs_set
+> > +	},
+> Ok, could we first please make this part of the regset code more
+> readable and 
+> start the series with a standalone clean-up patch that changes these
+> initializers 
+> to something more readable:
+> 
+> 	[REGSET_CET64] = {
+> 		.core_note_type	= NT_X86_CET,
+> 		.n		= sizeof(struct cet_user_state) /
+> sizeof(u64),
+> 		.size		= sizeof(u64),
+> 		.align		= sizeof(u64),
+> 		.active		= cetregs_active,
+> 		.get		= cetregs_get,
+> 		.set		= cetregs_set
+> 	},
+> 
+> ? (I'm demonstrating the cleanup based on REGSET_CET64, but this
+> should be done on 
+> every other entry first.)
+> 
 
-What would be the point of building such a system though?
-Is this for performance, failover, or something else?
-IOW, what feature would we lose if we were to declare that
-setup above invalid (and ensure you cannot represent it in DT)?
+I will fix it.
 
->> > +/**
->> > + * struct i3c_ccc_mwl - payload passed to SETMWL/GETMWL CCC
->> > + *
->> > + * @len: maximum write length in bytes
->> > + *
->> > + * The maximum write length is only applicable to SDR private messages or
->> > + * extended Write CCCs (like SETXTIME).
->> > + */
->> > +struct i3c_ccc_mwl {
->> > +       __be16 len;
->> > +} __packed;
->>
->> I would suggest only marking structures as __packed that are not already
->> naturally packed. Note that a side-effect of __packed is that here
->> alignof(struct i3c_ccc_mwl) will be '1', and architectures without efficient
->> unaligned access will have to access the field one byte at a time because
->> they assume that it may be misaligned.
->
-> These are structure used to create packets to be sent on the wire.
-> Making sure that everything is packed correctly is important, so I'm
-> not sure I can remove the __packed everywhere.
+> 
+> > 
+> > --- a/include/uapi/linux/elf.h
+> > +++ b/include/uapi/linux/elf.h
+> > @@ -401,6 +401,7 @@ typedef struct elf64_shdr {
+> >  #define NT_386_TLS	0x200		/* i386 TLS slots
+> > (struct user_desc) */
+> >  #define NT_386_IOPERM	0x201		/* x86 io
+> > permission bitmap (1=deny) */
+> >  #define NT_X86_XSTATE	0x202		/* x86 extended
+> > state using xsave */
+> > +#define NT_X86_CET	0x203		/* x86 cet state */
+> Acronyms in comments should be in capital letters.
+> 
+> Also, I think I asked this before: why does "Control Flow
+> Enforcement" abbreviate 
+> to "CET" (which is a well-known acronym for "Central European Time"),
+> not to CFE?
+> 
 
-I mean just the ones for which the __packed attribute only changes
-the alignment of the outer structure but not the layout inside of the
-structure. Alternatively, set both __packed and __aligned().
+I don't know if I can change that, will find out.
 
->> > +/**
->> > + * struct i3c_i2c_dev - I3C/I2C common information
->> > + * @node: node element used to insert the device into the I2C or I3C device
->> > + *       list
->> > + * @bus: I3C bus this device is connected to
->> > + * @master: I3C master that instantiated this device. Will be used to send
->> > + *         I2C/I3C frames on the bus
->> > + * @master_priv: master private data assigned to the device. Can be used to
->> > + *              add master specific information
->> > + *
->> > + * This structure is describing common I3C/I2C dev information.
->> > + */
->> > +struct i3c_i2c_dev {
->> > +       struct list_head node;
->> > +       struct i3c_bus *bus;
->> > +       struct i3c_master_controller *master;
->> > +       void *master_priv;
->> > +};
->>
->> I find this hard to follow, which means either this has to be complicated
->> and I just didn't take enough time to think it through, or maybe it can
->> be simplified.
->>
->> The 'node' field seems particularly odd, can you explain what it's
->> for? Normally all children of a bus device can be enumerated by
->> walking the device model structures. Are you doing this just so
->> you can walk a single list rather than walking the i3c and i2c
->> devices separately?
->
-> The devices discovered on the bus are not directly registered to the
-> device model, and I need to store them in a list to do some operations
-> before exposing them. Once everything is ready to be used, I then
-> iterate the list and register all not-yet-registered I3C devs.
+Thanks,
+Yu-cheng
 
-Can you explain what those operations are and why we can't
-register everything directly? This seems rather unconventional,
-so I want to make sure it's done for a good reason.
-
-      Arnd
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
