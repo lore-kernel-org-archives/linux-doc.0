@@ -1,144 +1,172 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DAEE57D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 19:22:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B2DC57D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 19:37:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388167AbeGKT1j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 15:27:39 -0400
-Received: from bedivere.hansenpartnership.com ([66.63.167.143]:57302 "EHLO
-        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387848AbeGKT1j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 15:27:39 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id E0B4E8EE409;
-        Wed, 11 Jul 2018 12:21:54 -0700 (PDT)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id LAqvlV1V78k0; Wed, 11 Jul 2018 12:21:54 -0700 (PDT)
-Received: from [153.66.254.194] (unknown [50.35.68.20])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id E30848EE0E4;
-        Wed, 11 Jul 2018 12:21:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1531336914;
-        bh=fzg/ZSvljtLnk0afJMLCTukW2IE7VYCFdKbcP6kXYFc=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=I7umh6V2F4EMzoIvgmg+8vJkDMjtS/R7LYWiat1o/GHsrRl9Pe1pS/CVdUeJkxkoH
-         ZfuL03xv2tMywEXguE7IHuv+ktA2Qr/7Ca7U8PglUc/hHIPibddjMAvBgSI+Tz3G3r
-         B7yXh0fHqrIDh9qPJuMpzr/DFRFDkW6YGLrIBpnk=
-Message-ID: <1531336913.3260.18.camel@HansenPartnership.com>
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Waiman Long <longman@redhat.com>, Michal Hocko <mhocko@kernel.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Larry Woodman <lwoodman@redhat.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>
-Date:   Wed, 11 Jul 2018 12:21:53 -0700
-In-Reply-To: <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
-References: <1530905572-817-1-git-send-email-longman@redhat.com>
-         <20180709081920.GD22049@dhcp22.suse.cz>
-         <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
-         <20180710142740.GQ14284@dhcp22.suse.cz>
-         <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
-         <20180711102139.GG20050@dhcp22.suse.cz>
-         <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
-         <1531330947.3260.13.camel@HansenPartnership.com>
-         <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+        id S2388647AbeGKTnQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 15:43:16 -0400
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:43577 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387415AbeGKTnQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 15:43:16 -0400
+Received: by mail-oi0-f67.google.com with SMTP id b15-v6so51361863oib.10
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 12:37:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a3LXUR9nQD0pc+O2mZgeYpMpc/NwJ3OV10XN889Lpzk=;
+        b=Su6v94tanbltsA+6+y8Rq9aI2A/VZ4v1G7rQ2r6JD26Uep44LItZocVVqss6fqkL5P
+         eTs6//9kiW7/L6xn30kRsce3AIvFAdvkTlJyrI34DOm7R8OHBUVoVeNUJKbmM67d6NhQ
+         ZM07JL2i5//NSlJsKRk12TTARh1Hfs7sLZW6+AliKW8LKAGNgPThgntFbrAQdAFpx/8X
+         ZlKuX16LlBFPuCLayvW+cgKFopV4r9eWkB2BJ++LnM8Mpfjdpr3m6/tYQGbw2IkcFHNP
+         LDtn1W+4yeHcEHbYX1yescRr/TRb8xNhaazB1hXREjmzEZl6xUMOykSVqKfsrFHEyQvy
+         4agg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a3LXUR9nQD0pc+O2mZgeYpMpc/NwJ3OV10XN889Lpzk=;
+        b=ijkJHsxpSjbcRX8M/gEFkb94Y+ITHcVyOoA3IcI1Wlc8xTjyKh5bR6xt0zIUq+ZPq7
+         IMEZIfNyEuHbJ0n46S2B50V/SYZIFGKDVZYeSVkaaTXSl2g/2h8+jB1pvMvq9mpC+6ks
+         U/lFK3nMDoLZTQ7w1TDCR+w/XVZ90cmHZGLnWbkn51S7DHarASHeUk/YG6ipdVAUNTNh
+         Y1snJnmMajerkof0veHJqfUig7DxCMqUZ2lqaHcmIOdtNS2ARfgQFxeWdgcN12UpaulK
+         iPd86Q4GLnHthZAj3wK4DGpakcNca6bD+5bs33h4dNThLjKAue6W+cMLsBzs4zOHjHrg
+         mt6A==
+X-Gm-Message-State: AOUpUlErBOP9mO5Sg0V0InmLaAAnnO/RgbRPBz1InQAqtHxZyrMNOMoL
+        BsyQBc2BYL2b7HMWOLVsJ70konS9bWlqxGdOjITRjw==
+X-Google-Smtp-Source: AAOMgpeF4GgY637d33fRYpggwzoIXKNrirwsqo+1PKoudyAEWAm+FjJG3CbbbEHFME3u9XFaFTmMYMdT8ByA0y/dEE4=
+X-Received: by 2002:aca:5155:: with SMTP id f82-v6mr742047oib.272.1531337846593;
+ Wed, 11 Jul 2018 12:37:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com> <20180710222639.8241-21-yu-cheng.yu@intel.com>
+In-Reply-To: <20180710222639.8241-21-yu-cheng.yu@intel.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 11 Jul 2018 12:37:00 -0700
+Message-ID: <CAG48ez3DYQtgk_WfOwbFFeuWJmzwZhH-DkDT1UKYVZaYi6V_Pg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 20/27] x86/cet/shstk: ELF header parsing of CET
+To:     yu-cheng.yu@intel.com
+Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>, bsingharora@gmail.com,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2018-07-11 at 15:07 -0400, Waiman Long wrote:
-> On 07/11/2018 01:42 PM, James Bottomley wrote:
-> > On Wed, 2018-07-11 at 11:13 -0400, Waiman Long wrote:
-> > > On 07/11/2018 06:21 AM, Michal Hocko wrote:
-> > > > On Tue 10-07-18 12:09:17, Waiman Long wrote:
-> > 
-> > [...]
-> > > > > I am going to reduce the granularity of each unit to 1/1000
-> > > > > of the total system memory so that for large system with TB
-> > > > > of memory, a smaller amount of memory can be specified.
-> > > > 
-> > > > It is just a matter of time for this to be too coarse as well.
-> > > 
-> > > The goal is to not have too much memory being consumed by
-> > > negative
-> > > dentries and also the limit won't be reached by regular daily
-> > > activities. So a limit of 1/1000 of the total system memory will
-> > > be good enough on large memory system even if the absolute number
-> > > is really big.
-> > 
-> > OK, I think the reason we're going round and round here without
-> > converging is that one of the goals of the mm subsystem is to
-> > manage all of our cached objects and to it the negative (and
-> > positive) dentries simply look like a clean cache of
-> > objects.  Right at the moment mm manages them in the same way it
-> > manages all the other caches, a lot of which suffer from the "you
-> > can cause lots of allocations to artificially grow them"
-> > problem.  So the main question is why doesn't the current mm
-> > control of the caches work well enough for dentries? 
-> > What are the problems you're seeing that mm should be catching?  If
-> > you can answer this, then we could get on to whether a separate
-> > shrinker, cache separation or some fix in mm itself is the right
-> > answer.
-> > 
-> > What you say above is based on a conclusion: limiting dentries
-> > improves the system performance.  What we're asking for is evidence
-> > for that conclusion so we can explore whether the same would go for
-> > any of our other system caches (so do we have a global cache
-> > management problem or is it only the dentry cache?)
-> > 
-> > James
-> > 
-> 
-> I am not saying that limiting dentries will improve performance. I am
-> just saying that unlimited growth in the number of negative dentries
-> will reduce the amount of memory available to other applications and
-> hence will have an impact on performance. Normally the amount of
-> memory consumed by dentries is a very small portion of the system
-> memory.
+On Tue, Jul 10, 2018 at 3:31 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> Look in .note.gnu.property of an ELF file and check if shadow stack needs
+> to be enabled for the task.
+>
+> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+[...]
+> diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
+> new file mode 100644
+> index 000000000000..233f6dad9c1f
+> --- /dev/null
+> +++ b/arch/x86/kernel/elf.c
+[...]
+> +#define NOTE_SIZE_BAD(n, align, max) \
+> +       ((n->n_descsz < 8) || ((n->n_descsz % align) != 0) || \
+> +        (((u8 *)(n + 1) + 4 + n->n_descsz) > (max)))
 
-OK, can we poke on only this point for a while?  Linux never really has
-any "available memory": pretty much as soon as you boot up the system
-will consume all your free memory for some type of cache (usually the
-page cache which got filled during boot).  The expectation is that in a
-steady, running, state the system is using almost all available memory
-for caching something ... if it's not negative dentries it will be
-something else.  The mm assumption is that clean cache is so cheap to
-recover that it's almost equivalent to free memory and your patch is
-saying this isn't so and we have a problem dumping the dentry cache.
+Please do not compute out-of-bounds pointers and then compare them
+against an expected maximum pointer. Computing an out-of-bounds
+pointer is undefined behavior according to the C99 specification,
+section "6.5.6 Additive operators", paragraph 8; and in this case,
+n->n_descsz is 32 bits wide, which means that even if the compiler
+isn't doing anything funny, if you're operating on addresses in the
+last 4GiB of virtual memory and the pointer wraps around, this could
+break.
+In particular, if anyone ever uses this code in a 32-bit kernel, this
+is going to blow up.
+Please use size comparisons instead of pointer comparisons.
 
-So, why can't we treat the dentry cache as equivalent to free memory? 
-What in your tests is making it harder to recover the memory in the
-dentry cache?
+> +
+> +/*
+> + * Go through the property array and look for the one
+> + * with pr_type of GNU_PROPERTY_X86_FEATURE_1_AND.
+> + */
+> +static u32 find_x86_feature_1(u8 *buf, u32 size, u32 align)
+> +{
+> +       u8 *end = buf + size;
+> +       u8 *ptr = buf;
+> +
+> +       while (1) {
+> +               u32 pr_type, pr_datasz;
+> +
+> +               if ((ptr + 4) >= end)
+> +                       break;
 
-James
+Theoretical UB.
 
+> +               pr_type = *(u32 *)ptr;
+> +               pr_datasz = *(u32 *)(ptr + 4);
+> +               ptr += 8;
+> +
+> +               if ((ptr + pr_datasz) >= end)
+> +                       break;
 
+UB, like in NOTE_SIZE_BAD().
 
+> +               if (pr_type == GNU_PROPERTY_X86_FEATURE_1_AND &&
+> +                   pr_datasz == 4)
+> +                       return *(u32 *)ptr;
+> +
+> +               ptr += pr_datasz;
+> +       }
+> +       return 0;
+> +}
+[...]
+> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+> index 0ac456b52bdd..3395f6a631d5 100644
+> --- a/fs/binfmt_elf.c
+> +++ b/fs/binfmt_elf.c
+> @@ -1081,6 +1081,22 @@ static int load_elf_binary(struct linux_binprm *bprm)
+>                 goto out_free_dentry;
+>         }
+>
+> +#ifdef CONFIG_ARCH_HAS_PROGRAM_PROPERTIES
+> +
+> +       if (interpreter) {
+> +               retval = arch_setup_features(&loc->interp_elf_ex,
+> +                                            interp_elf_phdata,
+> +                                            interpreter, true);
+> +       } else {
+> +               retval = arch_setup_features(&loc->elf_ex,
+> +                                            elf_phdata,
+> +                                            bprm->file, false);
+> +       }
+
+So for non-static binaries, the ELF headers of ld.so determine whether
+CET will be on or off for the entire system, right? Is the intent here
+that ld.so should start with CET enabled, and then either use the
+compatibility bitmap or turn CET off at runtime if the executable or
+one of the libraries doesn't actually work with CET?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
