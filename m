@@ -5,104 +5,105 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 21FA67D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 09:48:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67E9F7D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 09:52:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726488AbeGKJvf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 05:51:35 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:46364 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbeGKJvf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 05:51:35 -0400
-Received: from 79.184.255.246.ipv4.supernova.orange.pl (79.184.255.246) (HELO aspire.rjw.lan)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83)
- id e070bb6c99e58c30; Wed, 11 Jul 2018 11:48:04 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Vivek Gautam <vivek.gautam@codeaurora.org>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH 2/2] device core: Add flag to autoremove device link on supplier unbind
-Date:   Wed, 11 Jul 2018 11:46:33 +0200
-Message-ID: <1982222.Z9Wz93BAKD@aspire.rjw.lan>
-In-Reply-To: <1c0f5cb8-4805-4200-406f-0725122b524f@codeaurora.org>
-References: <20180627125056.12851-1-vivek.gautam@codeaurora.org> <CAJZ5v0jb2075fcabZDxPpE+7Bo=NpcFm7kEY5QfO-ZbcfGkDyw@mail.gmail.com> <1c0f5cb8-4805-4200-406f-0725122b524f@codeaurora.org>
+        id S1726429AbeGKJ4S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 05:56:18 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53268 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726388AbeGKJ4S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 05:56:18 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6B9onJA015571
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 05:52:47 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2k5c9qr47s-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 05:52:45 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Wed, 11 Jul 2018 10:52:43 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 11 Jul 2018 10:52:37 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6B9qaOl32833602
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 11 Jul 2018 09:52:36 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7F2B611C052;
+        Wed, 11 Jul 2018 12:52:58 +0100 (BST)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3E74511C066;
+        Wed, 11 Jul 2018 12:52:55 +0100 (BST)
+Received: from [9.124.31.141] (unknown [9.124.31.141])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 11 Jul 2018 12:52:55 +0100 (BST)
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+To:     Oleg Nesterov <oleg@redhat.com>, srikar@linux.vnet.ibm.com
+Cc:     rostedt@goodmis.org, mhiramat@kernel.org, peterz@infradead.org,
+        mingo@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
+        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
+ <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+ <20180701210935.GA14404@redhat.com>
+ <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
+ <20180702180156.GA31400@redhat.com>
+ <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
+ <20180703163645.GA23144@redhat.com> <20180703172543.GC23144@redhat.com>
+ <f5a39a88-c21e-4606-a04d-11b5f32016b8@linux.ibm.com>
+ <20180710152527.GA3616@redhat.com>
+ <6e3ff60b-267a-d49d-4ebb-c4264f9c034b@linux.ibm.com>
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Date:   Wed, 11 Jul 2018 15:22:32 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <6e3ff60b-267a-d49d-4ebb-c4264f9c034b@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18071109-4275-0000-0000-0000029764BB
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18071109-4276-0000-0000-0000379F03C5
+Message-Id: <62933fa6-542c-6fc1-354c-51597d5523ef@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-11_01:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=749 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807110105
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, July 5, 2018 6:28:16 AM CEST Vivek Gautam wrote:
+Minor correction:
+
+On 07/11/2018 02:14 PM, Ravi Bangoria wrote:
 > 
-> On 7/5/2018 4:49 AM, Rafael J. Wysocki wrote:
-> > On Wed, Jul 4, 2018 at 8:09 PM, Vivek Gautam
-> > <vivek.gautam@codeaurora.org> wrote:
-> >>
-> >> On 7/4/2018 4:14 PM, Rafael J. Wysocki wrote:
-> >>> On Wednesday, July 4, 2018 9:16:20 AM CEST Vivek Gautam wrote:
-> >>>> Adding Ulf and Marek.
-> >>>>
-> >>>> On 6/27/2018 6:20 PM, Vivek Gautam wrote:
-> >>>>> Add a flag to autoremove the device links on supplier driver
-> >>>>> unbind. This obviates the need to explicitly delete the link
-> >>>>> in the remove path.
-> >>>>> We remove these links only when the supplier's link to its
-> >>>>> consumers has gone to DL_STATE_SUPPLIER_UNBIND state.
-> >>>>>
-> >>>>> Signed-off-by: Vivek Gautam <vivek.gautam@codeaurora.org>
-> >>>>> Suggested-by: Lukas Wunner <lukas@wunner.de>
-> >>>>> Cc: Jonathan Corbet <corbet@lwn.net>
-> >>>>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >>>>> Cc: Robin Murphy <robin.murphy@arm.com>
-> >>>>> Cc: linux-doc@vger.kernel.org
-> >>>>> Cc: linux-arm-kernel@lists.infradead.org
-> >>>>> Cc: linux-pm@vger.kernel.org
-> >>>>> Cc: linux-arm-msm@vger.kernel.org
-> >>>>> ---
-> >>>> Hi Rafael, et al.
-> >>>>
-> >>>> Gentle ping.
-> >>>> Do you have comments on this series. I would really like to conclude
-> >>>> these
-> >>>> device link additions sooner, and get things moving on the long awaited
-> >>>> arm-smmu clock/runtime support series.
-> >>>>
-> >>>> Thanks again for reviewing these patches.
-> >>> They are fine by me.
-> >>>
-> >>> I can queue them up for 4.19 if no one has objections (Greg in
-> >>> particular).
-> >>
-> >> Hi Rafael,
-> >>
-> >> I will resubmit these 2 patches as part of the arm-smmu series, as one
-> >> of the patch in the series depends on addition of
-> >> DL_FLAG_AUTOREMOVE_SUPPLIER.
-> >> So these 2 patches and arm-smmu series should go together.
-> >> Can you please consider givnig your Ack?
-> > I would prefer to apply them myself to be honest and put them on an
-> > public git branch for you to pull from.
-> 
-> Sure. Fine with me. I will base the smmu patches on your branch.
+> Third options: How about allowing 0 as a special value for reference
+> counter?
 
-The patches have been applied and are available for pulling in the pm-core
-branch of the linux-pm.git tree:
+s/reference counter/reference counter offset/
 
-git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git pm-core
+ I mean allow uprobe_register() and uprobe_register_refctr()
+> in parallel but do not allow two uprobe_register_refctr() with two
+> different reference counter.
 
-Thanks,
-Rafael
+Ditto.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
