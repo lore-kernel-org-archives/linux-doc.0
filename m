@@ -2,46 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5361B7D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:02:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 85FD07D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:03:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390308AbeGKVII (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 17:08:08 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54532 "EHLO
+        id S1732481AbeGKVJq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 17:09:46 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34052 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2390062AbeGKVII (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:08:08 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6BL0Eag086344
-        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:01:57 -0400
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2k5qy03huy-1
+        by vger.kernel.org with ESMTP id S2389935AbeGKVIE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:08:04 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6BL0F5d022943
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:01:53 -0400
+Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2k5pwe61dd-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:01:56 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:01:53 -0400
 Received: from localhost
-        by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
-        Wed, 11 Jul 2018 15:01:56 -0600
-Received: from b03cxnp08026.gho.boulder.ibm.com (9.17.130.18)
-        by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
         Wed, 11 Jul 2018 15:01:52 -0600
+Received: from b03cxnp08025.gho.boulder.ibm.com (9.17.130.17)
+        by e35.co.us.ibm.com (192.168.1.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 11 Jul 2018 15:01:48 -0600
 Received: from b03ledav001.gho.boulder.ibm.com (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
-        by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6BL1pjr6357290
+        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6BL1ltY21823878
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 11 Jul 2018 14:01:51 -0700
+        Wed, 11 Jul 2018 14:01:47 -0700
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8F7816E053;
-        Wed, 11 Jul 2018 15:01:51 -0600 (MDT)
+        by IMSVA (Postfix) with ESMTP id 81F596E05B;
+        Wed, 11 Jul 2018 15:01:47 -0600 (MDT)
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BE4316E052;
-        Wed, 11 Jul 2018 15:01:50 -0600 (MDT)
+        by IMSVA (Postfix) with ESMTP id AF6ED6E053;
+        Wed, 11 Jul 2018 15:01:46 -0600 (MDT)
 Received: from talon7.ibm.com (unknown [9.41.102.69])
         by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed, 11 Jul 2018 15:01:50 -0600 (MDT)
+        Wed, 11 Jul 2018 15:01:46 -0600 (MDT)
 From:   Eddie James <eajames@linux.vnet.ibm.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
@@ -49,20 +49,20 @@ Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         benh@kernel.crashing.org, linux@roeck-us.net, jdelvare@suse.com,
         mark.rutland@arm.com, openbmc@lists.ozlabs.org, robh+dt@kernel.org,
         joel@jms.id.au, Eddie James <eajames@linux.vnet.ibm.com>
-Subject: [PATCH v4 5/9] hwmon (occ): Add command transport method for P8 and P9
-Date:   Wed, 11 Jul 2018 16:01:34 -0500
+Subject: [PATCH v4 3/9] dt-bindings: i2c: Add P8 OCC hwmon device documentation
+Date:   Wed, 11 Jul 2018 16:01:32 -0500
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
 References: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18071121-0016-0000-0000-00000906CFAF
+x-cbid: 18071121-0012-0000-0000-0000168AA710
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00009352; HX=3.00000241; KW=3.00000007;
  PH=3.00000004; SC=3.00000266; SDB=6.01059946; UDB=6.00544035; IPR=6.00837866;
- MB=3.00022107; MTD=3.00000008; XFM=3.00000015; UTC=2018-07-11 21:01:55
+ MB=3.00022107; MTD=3.00000008; XFM=3.00000015; UTC=2018-07-11 21:01:52
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18071121-0017-0000-0000-00003F98E0E2
-Message-Id: <1531342898-15790-6-git-send-email-eajames@linux.vnet.ibm.com>
+x-cbparentid: 18071121-0013-0000-0000-000053A34738
+Message-Id: <1531342898-15790-4-git-send-email-eajames@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-11_06:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -75,284 +75,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For the P8 OCC, add the procedure to send a command to the OCC over I2C
-bus. This involves writing the OCC command registers with serial
-communication operations (SCOMs) interpreted by the I2C slave. For the
-P9 OCC, add a procedure to use the OCC in-kernel API to send a command
-to the OCC through the SBE.
+Document the bindings for I2C-based OCC hwmon device.
 
 Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- drivers/hwmon/occ/p8_i2c.c | 185 ++++++++++++++++++++++++++++++++++++++++++++-
- drivers/hwmon/occ/p9_sbe.c |  38 +++++++++-
- 2 files changed, 221 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt   | 25 ++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
 
-diff --git a/drivers/hwmon/occ/p8_i2c.c b/drivers/hwmon/occ/p8_i2c.c
-index 899294b..9a920db 100644
---- a/drivers/hwmon/occ/p8_i2c.c
-+++ b/drivers/hwmon/occ/p8_i2c.c
-@@ -12,11 +12,29 @@
- 
- #include <linux/device.h>
- #include <linux/errno.h>
-+#include <linux/fsi-occ.h>
- #include <linux/i2c.h>
-+#include <linux/jiffies.h>
- #include <linux/module.h>
-+#include <linux/sched.h>
-+#include <asm/unaligned.h>
- 
- #include "common.h"
- 
-+#define OCC_TIMEOUT_MS			1000
-+#define OCC_CMD_IN_PRG_WAIT_MS		50
+diff --git a/Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt b/Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
+new file mode 100644
+index 0000000..5dc5d2e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
+@@ -0,0 +1,25 @@
++Device-tree bindings for I2C-based On-Chip Controller hwmon device
++------------------------------------------------------------------
 +
-+/* OCB (on-chip control bridge - interface to OCC) registers */
-+#define OCB_DATA1			0x6B035
-+#define OCB_ADDR			0x6B070
-+#define OCB_DATA3			0x6B075
++Required properties:
++ - compatible = "ibm,p8-occ-hwmon";
++ - reg = <I2C address>;			: I2C bus address
 +
-+/* OCC SRAM address space */
-+#define OCC_SRAM_ADDR_CMD		0xFFFF6000
-+#define OCC_SRAM_ADDR_RESP		0xFFFF7000
++Examples:
 +
-+#define OCC_DATA_ATTN			0x20010000
++    i2c-bus@100 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        clock-frequency = <100000>;
++        < more properties >
 +
- struct p8_i2c_occ {
- 	struct occ occ;
- 	struct i2c_client *client;
-@@ -24,9 +42,174 @@ struct p8_i2c_occ {
- 
- #define to_p8_i2c_occ(x)	container_of((x), struct p8_i2c_occ, occ)
- 
-+static int p8_i2c_occ_getscom(struct i2c_client *client, u32 address, u8 *data)
-+{
-+	ssize_t rc;
-+	__be64 buf;
-+	struct i2c_msg msgs[2];
++        occ-hwmon@1 {
++            compatible = "ibm,p8-occ-hwmon";
++            reg = <0x50>;
++        };
 +
-+	/* p8 i2c slave requires shift */
-+	address <<= 1;
-+
-+	msgs[0].addr = client->addr;
-+	msgs[0].flags = client->flags & I2C_M_TEN;
-+	msgs[0].len = sizeof(u32);
-+	/* address is a scom address; bus-endian */
-+	msgs[0].buf = (char *)&address;
-+
-+	/* data from OCC is big-endian */
-+	msgs[1].addr = client->addr;
-+	msgs[1].flags = (client->flags & I2C_M_TEN) | I2C_M_RD;
-+	msgs[1].len = sizeof(u64);
-+	msgs[1].buf = (char *)&buf;
-+
-+	rc = i2c_transfer(client->adapter, msgs, 2);
-+	if (rc < 0)
-+		return rc;
-+
-+	*(u64 *)data = be64_to_cpu(buf);
-+
-+	return 0;
-+}
-+
-+static int p8_i2c_occ_putscom(struct i2c_client *client, u32 address, u8 *data)
-+{
-+	u32 buf[3];
-+	ssize_t rc;
-+
-+	/* p8 i2c slave requires shift */
-+	address <<= 1;
-+
-+	/* address is bus-endian; data passed through from user as-is */
-+	buf[0] = address;
-+	memcpy(&buf[1], &data[4], sizeof(u32));
-+	memcpy(&buf[2], data, sizeof(u32));
-+
-+	rc = i2c_master_send(client, (const char *)buf, sizeof(buf));
-+	if (rc < 0)
-+		return rc;
-+	else if (rc != sizeof(buf))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static int p8_i2c_occ_putscom_u32(struct i2c_client *client, u32 address,
-+				  u32 data0, u32 data1)
-+{
-+	u8 buf[8];
-+
-+	memcpy(buf, &data0, 4);
-+	memcpy(buf + 4, &data1, 4);
-+
-+	return p8_i2c_occ_putscom(client, address, buf);
-+}
-+
-+static int p8_i2c_occ_putscom_be(struct i2c_client *client, u32 address,
-+				 u8 *data)
-+{
-+	__be32 data0, data1;
-+
-+	memcpy(&data0, data, 4);
-+	memcpy(&data1, data + 4, 4);
-+
-+	return p8_i2c_occ_putscom_u32(client, address, be32_to_cpu(data0),
-+				      be32_to_cpu(data1));
-+}
-+
- static int p8_i2c_occ_send_cmd(struct occ *occ, u8 *cmd)
- {
--	return -EOPNOTSUPP;
-+	int i, rc;
-+	unsigned long start;
-+	u16 data_length;
-+	const unsigned long timeout = msecs_to_jiffies(OCC_TIMEOUT_MS);
-+	const long int wait_time = msecs_to_jiffies(OCC_CMD_IN_PRG_WAIT_MS);
-+	struct p8_i2c_occ *ctx = to_p8_i2c_occ(occ);
-+	struct i2c_client *client = ctx->client;
-+	struct occ_response *resp = &occ->resp;
-+
-+	start = jiffies;
-+
-+	/* set sram address for command */
-+	rc = p8_i2c_occ_putscom_u32(client, OCB_ADDR, OCC_SRAM_ADDR_CMD, 0);
-+	if (rc)
-+		return rc;
-+
-+	/* write command (expected to already be BE), we need bus-endian... */
-+	rc = p8_i2c_occ_putscom_be(client, OCB_DATA3, cmd);
-+	if (rc)
-+		return rc;
-+
-+	/* trigger OCC attention */
-+	rc = p8_i2c_occ_putscom_u32(client, OCB_DATA1, OCC_DATA_ATTN, 0);
-+	if (rc)
-+		return rc;
-+
-+	do {
-+		/* set sram address for response */
-+		rc = p8_i2c_occ_putscom_u32(client, OCB_ADDR,
-+					    OCC_SRAM_ADDR_RESP, 0);
-+		if (rc)
-+			return rc;
-+
-+		rc = p8_i2c_occ_getscom(client, OCB_DATA3, (u8 *)resp);
-+		if (rc)
-+			return rc;
-+
-+		/* wait for OCC */
-+		if (resp->return_status == OCC_RESP_CMD_IN_PRG) {
-+			rc = -EALREADY;
-+
-+			if (time_after(jiffies, start + timeout))
-+				break;
-+
-+			set_current_state(TASK_INTERRUPTIBLE);
-+			schedule_timeout(wait_time);
-+		}
-+	} while (rc);
-+
-+	/* check the OCC response */
-+	switch (resp->return_status) {
-+	case OCC_RESP_CMD_IN_PRG:
-+		rc = -ETIMEDOUT;
-+		break;
-+	case OCC_RESP_SUCCESS:
-+		rc = 0;
-+		break;
-+	case OCC_RESP_CMD_INVAL:
-+	case OCC_RESP_CMD_LEN_INVAL:
-+	case OCC_RESP_DATA_INVAL:
-+	case OCC_RESP_CHKSUM_ERR:
-+		rc = -EINVAL;
-+		break;
-+	case OCC_RESP_INT_ERR:
-+	case OCC_RESP_BAD_STATE:
-+	case OCC_RESP_CRIT_EXCEPT:
-+	case OCC_RESP_CRIT_INIT:
-+	case OCC_RESP_CRIT_WATCHDOG:
-+	case OCC_RESP_CRIT_OCB:
-+	case OCC_RESP_CRIT_HW:
-+		rc = -EREMOTEIO;
-+		break;
-+	default:
-+		rc = -EPROTO;
-+	}
-+
-+	if (rc < 0)
-+		return rc;
-+
-+	data_length = get_unaligned_be16(&resp->data_length);
-+	if (data_length > OCC_RESP_DATA_BYTES)
-+		return -EMSGSIZE;
-+
-+	/* fetch the rest of the response data */
-+	for (i = 8; i < data_length + 7; i += 8) {
-+		rc = p8_i2c_occ_getscom(client, OCB_DATA3, ((u8 *)resp) + i);
-+		if (rc)
-+			return rc;
-+	}
-+
-+	return 0;
- }
- 
- static int p8_i2c_occ_probe(struct i2c_client *client,
-diff --git a/drivers/hwmon/occ/p9_sbe.c b/drivers/hwmon/occ/p9_sbe.c
-index 7c026a5..fb32788 100644
---- a/drivers/hwmon/occ/p9_sbe.c
-+++ b/drivers/hwmon/occ/p9_sbe.c
-@@ -12,6 +12,7 @@
- 
- #include <linux/device.h>
- #include <linux/errno.h>
-+#include <linux/fsi-occ.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- 
-@@ -26,7 +27,42 @@ struct p9_sbe_occ {
- 
- static int p9_sbe_occ_send_cmd(struct occ *occ, u8 *cmd)
- {
--	return -EOPNOTSUPP;
-+	struct occ_response *resp = &occ->resp;
-+	struct p9_sbe_occ *ctx = to_p9_sbe_occ(occ);
-+	size_t resp_len = sizeof(*resp);
-+	int rc;
-+
-+	rc = fsi_occ_submit(ctx->sbe, cmd, 8, resp, &resp_len);
-+	if (rc < 0)
-+		return rc;
-+
-+	switch (resp->return_status) {
-+	case OCC_RESP_CMD_IN_PRG:
-+		rc = -ETIMEDOUT;
-+		break;
-+	case OCC_RESP_SUCCESS:
-+		rc = 0;
-+		break;
-+	case OCC_RESP_CMD_INVAL:
-+	case OCC_RESP_CMD_LEN_INVAL:
-+	case OCC_RESP_DATA_INVAL:
-+	case OCC_RESP_CHKSUM_ERR:
-+		rc = -EINVAL;
-+		break;
-+	case OCC_RESP_INT_ERR:
-+	case OCC_RESP_BAD_STATE:
-+	case OCC_RESP_CRIT_EXCEPT:
-+	case OCC_RESP_CRIT_INIT:
-+	case OCC_RESP_CRIT_WATCHDOG:
-+	case OCC_RESP_CRIT_OCB:
-+	case OCC_RESP_CRIT_HW:
-+		rc = -EREMOTEIO;
-+		break;
-+	default:
-+		rc = -EPROTO;
-+	}
-+
-+	return rc;
- }
- 
- static int p9_sbe_occ_probe(struct platform_device *pdev)
++        occ-hwmon@2 {
++            compatible = "ibm,p8-occ-hwmon";
++            reg = <0x51>;
++        };
++    };
 -- 
 1.8.3.1
 
