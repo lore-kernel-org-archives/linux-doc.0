@@ -1,170 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66CA37D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 01:00:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4267A7D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 08:27:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732278AbeGKBCe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 21:02:34 -0400
-Received: from mo-csw-fb1516.securemx.jp ([210.130.202.172]:37822 "EHLO
-        mo-csw-fb.securemx.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732263AbeGKBCe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jul 2018 21:02:34 -0400
-X-Greylist: delayed 490 seconds by postgrey-1.27 at vger.kernel.org; Tue, 10 Jul 2018 21:02:33 EDT
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1516) id w6B0qkI6023977; Wed, 11 Jul 2018 09:52:46 +0900
-Received: by mo-csw.securemx.jp (mx-mo-csw1515) id w6B0pKZ1014505; Wed, 11 Jul 2018 09:51:21 +0900
-X-Iguazu-Qid: 34tKBBYqqdQC3lc2N6
-X-Iguazu-QSIG: v=1; s=0; t=1531270280; q=34tKBBYqqdQC3lc2N6; m=6GECy/tLec19e/r/4rT9sugbhMRJXakuq0RfmjYyJVs=
-Received: from imx2.toshiba.co.jp (imx2.toshiba.co.jp [106.186.93.51])
-        by relay.securemx.jp (mx-mr1510) id w6B0pFOt002376;
-        Wed, 11 Jul 2018 09:51:16 +0900
-Received: from hop001.toshiba.co.jp ([133.199.164.63])
-        by imx2.toshiba.co.jp  with ESMTP id w6B0pFf9018200;
-        Wed, 11 Jul 2018 09:51:15 +0900 (JST)
-Content-Transfer-Encoding: 7bit
-From:   Daniel Sangorrin <daniel.sangorrin@toshiba.co.jp>
-To:     stable@vger.kernel.org
-Cc:     Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        Brian Gerst <brgerst@gmail.com>,
+        id S1726582AbeGKIaw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 04:30:52 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:51674 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726280AbeGKIaw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 04:30:52 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id E00FA804B7; Wed, 11 Jul 2018 10:27:42 +0200 (CEST)
+Date:   Wed, 11 Jul 2018 10:27:39 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Denys Vlasenko <dvlasenk@redhat.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Quentin Casasnovas <quentin.casasnovas@oracle.com>,
-        Rik van Riel <riel@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Razvan Ghitulete <rga@amazon.de>,
-        Kees Cook <keescook@chromium.org>,
-        Borislav Petkov <bp@suse.de>, Hugh Dickins <hughd@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4.4.y 3/3] x86/fpu: Finish excising 'eagerfpu'
-Date:   Wed, 11 Jul 2018 09:48:40 +0900
-X-TSB-HOP: ON
-Message-Id: <1531270120-19068-4-git-send-email-daniel.sangorrin@toshiba.co.jp>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1531270120-19068-1-git-send-email-daniel.sangorrin@toshiba.co.jp>
-References: <1531270120-19068-1-git-send-email-daniel.sangorrin@toshiba.co.jp>
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v2 05/27] Documentation/x86: Add CET description
+Message-ID: <20180711082739.GA18919@amd>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+ <20180710222639.8241-6-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Disposition: inline
+In-Reply-To: <20180710222639.8241-6-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Andy Lutomirski <luto@kernel.org>
 
-commit e63650840e8b053aa09ad934877e87e9941ed135 upstream
+--IJpNTDwzlM2Ie8A6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Now that eagerfpu= is gone, remove it from the docs and some
-comments.  Also sync the changes to tools/.
+On Tue 2018-07-10 15:26:17, Yu-cheng Yu wrote:
+> Explain how CET works and the no_cet_shstk/no_cet_ibt kernel
+> parameters.
+>=20
 
-Signed-off-by: Andy Lutomirski <luto@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Brian Gerst <brgerst@gmail.com>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Denys Vlasenko <dvlasenk@redhat.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>
-Cc: H. Peter Anvin <hpa@zytor.com>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Quentin Casasnovas <quentin.casasnovas@oracle.com>
-Cc: Rik van Riel <riel@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Link: http://lkml.kernel.org/r/cf430dd4481d41280e93ac6cf0def1007a67fc8e.1476740397.git.luto@kernel.org
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Daniel Sangorrin <daniel.sangorrin@toshiba.co.jp>
+> --- /dev/null
+> +++ b/Documentation/x86/intel_cet.txt
+> @@ -0,0 +1,250 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Control Flow Enforcement Technology (CET)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Conflicts:
-	Documentation/kernel-parameters.txt
-	arch/x86/include/asm/cpufeatures.h
-	arch/x86/mm/pkeys.c
-	tools/arch/x86/include/asm/cpufeatures.h
----
- Documentation/kernel-parameters.txt |  6 ------
- arch/x86/include/asm/cpufeature.h   |  1 -
- arch/x86/include/asm/fpu/types.h    | 23 -----------------------
- 3 files changed, 30 deletions(-)
-
-diff --git a/Documentation/kernel-parameters.txt b/Documentation/kernel-parameters.txt
-index 4df6bd7..792945c 100644
---- a/Documentation/kernel-parameters.txt
-+++ b/Documentation/kernel-parameters.txt
-@@ -961,12 +961,6 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
- 			See Documentation/x86/intel_mpx.txt for more
- 			information about the feature.
- 
--	eagerfpu=	[X86]
--			on	enable eager fpu restore
--			off	disable eager fpu restore
--			auto	selects the default scheme, which automatically
--				enables eagerfpu restore for xsaveopt.
--
- 	module.async_probe [KNL]
- 			Enable asynchronous probe on this module.
- 
-diff --git a/arch/x86/include/asm/cpufeature.h b/arch/x86/include/asm/cpufeature.h
-index 232621c..ac4aa86 100644
---- a/arch/x86/include/asm/cpufeature.h
-+++ b/arch/x86/include/asm/cpufeature.h
-@@ -104,7 +104,6 @@
- #define X86_FEATURE_EXTD_APICID	( 3*32+26) /* has extended APICID (8 bits) */
- #define X86_FEATURE_AMD_DCM     ( 3*32+27) /* multi-node processor */
- #define X86_FEATURE_APERFMPERF	( 3*32+28) /* APERFMPERF */
--/* free, was #define X86_FEATURE_EAGER_FPU	( 3*32+29) * "eagerfpu" Non lazy FPU restore */
- #define X86_FEATURE_NONSTOP_TSC_S3 ( 3*32+30) /* TSC doesn't stop in S3 state */
- 
- /* Intel-defined CPU features, CPUID level 0x00000001 (ecx), word 4 */
-diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
-index dcb85a9..0d81c7d 100644
---- a/arch/x86/include/asm/fpu/types.h
-+++ b/arch/x86/include/asm/fpu/types.h
-@@ -310,29 +310,6 @@ struct fpu {
- 	 * the registers in the FPU are more recent than this state
- 	 * copy. If the task context-switches away then they get
- 	 * saved here and represent the FPU state.
--	 *
--	 * After context switches there may be a (short) time period
--	 * during which the in-FPU hardware registers are unchanged
--	 * and still perfectly match this state, if the tasks
--	 * scheduled afterwards are not using the FPU.
--	 *
--	 * This is the 'lazy restore' window of optimization, which
--	 * we track though 'fpu_fpregs_owner_ctx' and 'fpu->last_cpu'.
--	 *
--	 * We detect whether a subsequent task uses the FPU via setting
--	 * CR0::TS to 1, which causes any FPU use to raise a #NM fault.
--	 *
--	 * During this window, if the task gets scheduled again, we
--	 * might be able to skip having to do a restore from this
--	 * memory buffer to the hardware registers - at the cost of
--	 * incurring the overhead of #NM fault traps.
--	 *
--	 * Note that on modern CPUs that support the XSAVEOPT (or other
--	 * optimized XSAVE instructions), we don't use #NM traps anymore,
--	 * as the hardware can track whether FPU registers need saving
--	 * or not. On such CPUs we activate the non-lazy ('eagerfpu')
--	 * logic, which unconditionally saves/restores all FPU state
--	 * across context switches. (if FPU state exists.)
- 	 */
- 	union fpregs_state		state;
- 	/*
--- 
-2.1.4
+We normally use .rst for this kind of formatted text.
 
 
+> +[6] The implementation of the SHSTK
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +SHSTK size
+> +----------
+> +
+> +A task's SHSTK is allocated from memory to a fixed size that can
+> +support 32 KB nested function calls; that is 256 KB for a 64-bit
+> +application and 128 KB for a 32-bit application.  The system admin
+> +can change the default size.
+
+How does admin change that? We already have ulimit for stack size,
+should those be somehow tied together?
+
+$ ulimit -a
+=2E..
+stack size              (kbytes, -s) 8192
+
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--IJpNTDwzlM2Ie8A6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAltFv3sACgkQMOfwapXb+vJCUwCfRHq9+RCMp+u2Y1KcEeEwRWQo
+uw4AoKTNBubkPzJE8R3PcwGC3r8tTOI2
+=YfD9
+-----END PGP SIGNATURE-----
+
+--IJpNTDwzlM2Ie8A6--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
