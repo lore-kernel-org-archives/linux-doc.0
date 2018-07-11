@@ -2,93 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 63EB07D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:02:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B1CB7D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:03:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732764AbeGKPGh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 11:06:37 -0400
-Received: from mga06.intel.com ([134.134.136.31]:42568 "EHLO mga06.intel.com"
+        id S2388844AbeGKPII (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 11:08:08 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:58260 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726340AbeGKPGh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Jul 2018 11:06:37 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 08:01:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,338,1526367600"; 
-   d="scan'208";a="53602529"
-Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Jul 2018 08:01:46 -0700
-Message-ID: <1531321089.13297.4.camel@intel.com>
-Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1732605AbeGKPII (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 11:08:08 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 8400F20766; Wed, 11 Jul 2018 17:03:21 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-12-56.w90-88.abo.wanadoo.fr [90.88.133.56])
+        by mail.bootlin.com (Postfix) with ESMTPSA id DDDE52072C;
+        Wed, 11 Jul 2018 17:03:20 +0200 (CEST)
+Date:   Wed, 11 Jul 2018 17:03:20 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Wed, 11 Jul 2018 07:58:09 -0700
-In-Reply-To: <20180711094549.GA2476@hirez.programming.kicks-ass.net>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-         <20180710222639.8241-19-yu-cheng.yu@intel.com>
-         <20180711094549.GA2476@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 01/10] i3c: Add core I3C infrastructure
+Message-ID: <20180711170320.5b2b0114@bbrezillon>
+In-Reply-To: <20180711164120.3e32fb08@bbrezillon>
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+        <20180330074751.25987-2-boris.brezillon@bootlin.com>
+        <CAK8P3a1aZXf2sQW2mgwJScycKPhdoOAwxRjm5cQG83513uc3fg@mail.gmail.com>
+        <20180711164120.3e32fb08@bbrezillon>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2018-07-11 at 11:45 +0200, Peter Zijlstra wrote:
-> On Tue, Jul 10, 2018 at 03:26:30PM -0700, Yu-cheng Yu wrote:
+On Wed, 11 Jul 2018 16:41:20 +0200
+Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+
+> > > +/**
+> > > + * i3cdev_to_dev() - Returns the device embedded in @i3cdev
+> > > + * @i3cdev: I3C device
+> > > + *
+> > > + * Return: a pointer to a device object.
+> > > + */
+> > > +struct device *i3cdev_to_dev(struct i3c_device *i3cdev)
+> > > +{
+> > > +       return &i3cdev->dev;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(i3cdev_to_dev);
+> > > +
+> > > +/**
+> > > + * dev_to_i3cdev() - Returns the I3C device containing @dev
+> > > + * @dev: device object
+> > > + *
+> > > + * Return: a pointer to an I3C device object.
+> > > + */
+> > > +struct i3c_device *dev_to_i3cdev(struct device *dev)
+> > > +{
+> > > +       return container_of(dev, struct i3c_device, dev);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(dev_to_i3cdev);    
 > > 
-> > diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-
-> > opcode-map.txt
-> > index e0b85930dd77..72bb7c48a7df 100644
-> > --- a/arch/x86/lib/x86-opcode-map.txt
-> > +++ b/arch/x86/lib/x86-opcode-map.txt
-> > @@ -789,7 +789,7 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32
-> > Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
-> >  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32
-> > Gd,Ew (66&F2)
-> >  f2: ANDN Gy,By,Ey (v)
-> >  f3: Grp17 (1A)
-> > -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey
-> > (F2),(v)
-> > +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey
-> > (F2),(v) | WRUSS Pq,Qq (66),REX.W
-> >  f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
-> >  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By
-> > (F3),(v) | SHRX Gy,Ey,By (F2),(v)
-> >  EndTable
-> Where are all the other instructions? ISTR that documentation patch
-> listing a whole bunch of new instructions, not just wuss.
+> > Many other subsystems just make the device structure available
+> > to all client drivers so this can be an inline operation. Is there
+> > a strong reason to hide it here?  
+> 
+> No, but I think most subsystem do provide dev_to_xxxdev() at least
+> (to_platform_device() for instance)
+> 
 
-Currently we only use WRUSS in the kernel code.  Do we want to add all
-instructions here?
-
-Yu-cheng
+My bad. I misunderstood you question. The main reason I did that was
+because I didn't want to expose i3c_device internals to the I3C device
+drivers. Anyway, this part will be reworked in my v6 to address one
+problem we had when re-attaching a pre-existing device that had lost
+its dynamic address and acquired a new one.
+Since we want that operation to be transparent to I3C device drivers, I
+had to decouple the I3C device driver representation from the I3C master
+controller one. I thus end up with struct i3C_dev_desc on the controller
+API side, and struct i3c_device on the driver side with a link between
+the 2 object that can be updated at runtime. And as you can imagine,
+i3c_device does not contain a lot of information now.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
