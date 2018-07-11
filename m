@@ -1,30 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_SIGNED,FSL_HELO_FAKE,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 52DCD7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 09:57:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5CED27DE80
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 10:20:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726450AbeGKKAq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 06:00:46 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:59744 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726429AbeGKKAq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Jul 2018 06:00:46 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5C9EF818F6E6;
-        Wed, 11 Jul 2018 09:57:14 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (dhcp-192-212.str.redhat.com [10.33.192.212])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 019891C65F;
-        Wed, 11 Jul 2018 09:57:07 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 05/27] Documentation/x86: Add CET description
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
+        id S1732523AbeGKKYR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 06:24:17 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:55653 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732466AbeGKKYQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 06:24:16 -0400
+Received: by mail-wm0-f66.google.com with SMTP id v128-v6so1872495wme.5;
+        Wed, 11 Jul 2018 03:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=nSp3+wzsdAhxLCvXlZ+mk8sdJkEDYAeAFB3cwn5eQZE=;
+        b=aKZ8ryFYidsJqErEl30iE3sVb8LmUVOGPG2IhTJViJlBK4yWdeBW97puG2sy0jkIBs
+         FyOOU90ordpLFEPLRMGJzFiAIm14hHJ0bZvZtQmSUUjtzmWLxUGRZuFoK5zc5bxQg5V/
+         8jigbqrf1ut60Dr/ZIu3K3HiGaNXmWFr49D7dTASJ5cXf/1khfnf1gSZj6hb1vWp2QXd
+         vjetvwGzjdV+pIalBAoztCwOXxyQuidJ92nrLC1geJmGuAhSAquruDWamDvdEMt07BFj
+         5yBfi5zQWCIZLUYX8qCnMib2vPtUYkTEt1q8WL36++kWFeHEgDzDXFJZvxrEwHMsVsF5
+         IAJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=nSp3+wzsdAhxLCvXlZ+mk8sdJkEDYAeAFB3cwn5eQZE=;
+        b=nhdwpWD3zu2Jbe12wj/DisUPlnlGS2aBo0pSPCI2m/QrK01YExf78P4jr6EkpOZ92d
+         +MbvV2PVhAEf6X8qbpqnlQyTane/HB3QKPCCOeDzmvxnYwGUWyE/VlSBm3nH41eULhq0
+         PC2R7co5vEWbzQ2pw80BPBVLMDU4ucVOJu1QMzA6+MD32NGMMYewJrHg5vCS2K5WBjAJ
+         WAK6Rf78Zi8NLIjXy6lecj1rjn5YTzr+Q0duCV6i8YpKhvE/rTWbAc8LzHAbZ7FuKQiy
+         7NwQ2oDNhFKTUj0WRYue2GBMGbIJu4gRQvWTv0kGYWq1zrscSnABdYxEs8Mm+x6lqBy4
+         YXKw==
+X-Gm-Message-State: APt69E2MnAp2hcqqsPpmmRDiiIGuH4deNPpoproEax9/9+ZHimq+GkCL
+        r3C7IqslkYukvVGAf0PO7xA=
+X-Google-Smtp-Source: AAOMgpePvDpkTvaBxWA+FvwlO276KC6bPAv4ybXNKhxXKHk9WqkQNirLQ+L4weWxzHLZ3Q/QIp/gqg==
+X-Received: by 2002:a1c:928c:: with SMTP id u134-v6mr16275316wmd.106.1531304438785;
+        Wed, 11 Jul 2018 03:20:38 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id g17-v6sm1685587wmd.25.2018.07.11.03.20.37
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 11 Jul 2018 03:20:38 -0700 (PDT)
+Date:   Wed, 11 Jul 2018 12:20:35 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
@@ -34,6 +60,7 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
         "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromiun.org>,
@@ -43,36 +70,90 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v2 25/27] x86/cet: Add PTRACE interface for CET
+Message-ID: <20180711102035.GB8574@gmail.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-6-yu-cheng.yu@intel.com>
-From:   Florian Weimer <fweimer@redhat.com>
-Message-ID: <ae3e2013-9c90-af39-f9da-278bf7af6f73@redhat.com>
-Date:   Wed, 11 Jul 2018 11:57:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+ <20180710222639.8241-26-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20180710222639.8241-6-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Wed, 11 Jul 2018 09:57:14 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Wed, 11 Jul 2018 09:57:14 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'fweimer@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180710222639.8241-26-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/11/2018 12:26 AM, Yu-cheng Yu wrote:
 
-> +To build a CET-enabled kernel, Binutils v2.30 and GCC v8.1 or later
-> +are required.  To build a CET-enabled application, GLIBC v2.29 or
-> +later is also requried.
+* Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 
-Have you given up on getting the required changes into glibc 2.28?
+> Add PTRACE interface for CET MSRs.
+
+Please *always* describe new ABIs in the changelog, in a precise, well-documented 
+way.
+
+> diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
+> index e2ee403865eb..ac2bc3a18427 100644
+> --- a/arch/x86/kernel/ptrace.c
+> +++ b/arch/x86/kernel/ptrace.c
+> @@ -49,7 +49,9 @@ enum x86_regset {
+>  	REGSET_IOPERM64 = REGSET_XFP,
+>  	REGSET_XSTATE,
+>  	REGSET_TLS,
+> +	REGSET_CET64 = REGSET_TLS,
+>  	REGSET_IOPERM32,
+> +	REGSET_CET32,
+>  };
+
+Why does REGSET_CET64 alias on REGSET_TLS?
+
+>  struct pt_regs_offset {
+> @@ -1276,6 +1278,13 @@ static struct user_regset x86_64_regsets[] __ro_after_init = {
+>  		.size = sizeof(long), .align = sizeof(long),
+>  		.active = ioperm_active, .get = ioperm_get
+>  	},
+> +	[REGSET_CET64] = {
+> +		.core_note_type = NT_X86_CET,
+> +		.n = sizeof(struct cet_user_state) / sizeof(u64),
+> +		.size = sizeof(u64), .align = sizeof(u64),
+> +		.active = cetregs_active, .get = cetregs_get,
+> +		.set = cetregs_set
+> +	},
+
+Ok, could we first please make this part of the regset code more readable and 
+start the series with a standalone clean-up patch that changes these initializers 
+to something more readable:
+
+	[REGSET_CET64] = {
+		.core_note_type	= NT_X86_CET,
+		.n		= sizeof(struct cet_user_state) / sizeof(u64),
+		.size		= sizeof(u64),
+		.align		= sizeof(u64),
+		.active		= cetregs_active,
+		.get		= cetregs_get,
+		.set		= cetregs_set
+	},
+
+? (I'm demonstrating the cleanup based on REGSET_CET64, but this should be done on 
+every other entry first.)
+
+
+> --- a/include/uapi/linux/elf.h
+> +++ b/include/uapi/linux/elf.h
+> @@ -401,6 +401,7 @@ typedef struct elf64_shdr {
+>  #define NT_386_TLS	0x200		/* i386 TLS slots (struct user_desc) */
+>  #define NT_386_IOPERM	0x201		/* x86 io permission bitmap (1=deny) */
+>  #define NT_X86_XSTATE	0x202		/* x86 extended state using xsave */
+> +#define NT_X86_CET	0x203		/* x86 cet state */
+
+Acronyms in comments should be in capital letters.
+
+Also, I think I asked this before: why does "Control Flow Enforcement" abbreviate 
+to "CET" (which is a well-known acronym for "Central European Time"), not to CFE?
 
 Thanks,
-Florian
+
+	Ingo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
