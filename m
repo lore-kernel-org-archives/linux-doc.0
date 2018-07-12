@@ -2,145 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7A8A87D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 14:58:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA4147D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 15:55:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732456AbeGLPIv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 11:08:51 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:59038 "EHLO mx1.redhat.com"
+        id S1726912AbeGLQFC convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 12:05:02 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34216 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732386AbeGLPIu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Jul 2018 11:08:50 -0400
+        id S1726725AbeGLQFC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Jul 2018 12:05:02 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A59C74075764;
-        Thu, 12 Jul 2018 14:58:54 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 19D03111AF0E;
-        Thu, 12 Jul 2018 14:58:50 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 12 Jul 2018 16:58:54 +0200 (CEST)
-Date:   Thu, 12 Jul 2018 16:58:50 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-Message-ID: <20180712145849.GB15265@redhat.com>
-References: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180701210935.GA14404@redhat.com>
- <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
- <20180702180156.GA31400@redhat.com>
- <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
- <20180703163645.GA23144@redhat.com>
- <20180703172543.GC23144@redhat.com>
- <f5a39a88-c21e-4606-a04d-11b5f32016b8@linux.ibm.com>
- <20180710152527.GA3616@redhat.com>
- <6e3ff60b-267a-d49d-4ebb-c4264f9c034b@linux.ibm.com>
+        by mx1.redhat.com (Postfix) with ESMTPS id 299CB40122CD;
+        Thu, 12 Jul 2018 15:54:52 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7114A1102E23;
+        Thu, 12 Jul 2018 15:54:51 +0000 (UTC)
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Michal Hocko <mhocko@kernel.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>
+References: <1530905572-817-1-git-send-email-longman@redhat.com>
+ <20180709081920.GD22049@dhcp22.suse.cz>
+ <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
+ <20180710142740.GQ14284@dhcp22.suse.cz>
+ <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
+ <20180711102139.GG20050@dhcp22.suse.cz>
+ <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
+ <1531330947.3260.13.camel@HansenPartnership.com>
+ <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+ <1531336913.3260.18.camel@HansenPartnership.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+Date:   Thu, 12 Jul 2018 11:54:51 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6e3ff60b-267a-d49d-4ebb-c4264f9c034b@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <1531336913.3260.18.camel@HansenPartnership.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 12 Jul 2018 14:58:54 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 12 Jul 2018 14:58:54 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 12 Jul 2018 15:54:52 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 12 Jul 2018 15:54:52 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/11, Ravi Bangoria wrote:
+On 07/11/2018 03:21 PM, James Bottomley wrote:
+> On Wed, 2018-07-11 at 15:07 -0400, Waiman Long wrote:
+>> On 07/11/2018 01:42 PM, James Bottomley wrote:
+>>> On Wed, 2018-07-11 at 11:13 -0400, Waiman Long wrote:
+>>>> On 07/11/2018 06:21 AM, Michal Hocko wrote:
+>>>>> On Tue 10-07-18 12:09:17, Waiman Long wrote:
+>>> [...]
+>>>>>> I am going to reduce the granularity of each unit to 1/1000
+>>>>>> of the total system memory so that for large system with TB
+>>>>>> of memory, a smaller amount of memory can be specified.
+>>>>> It is just a matter of time for this to be too coarse as well.
+>>>> The goal is to not have too much memory being consumed by
+>>>> negative
+>>>> dentries and also the limit won't be reached by regular daily
+>>>> activities. So a limit of 1/1000 of the total system memory will
+>>>> be good enough on large memory system even if the absolute number
+>>>> is really big.
+>>> OK, I think the reason we're going round and round here without
+>>> converging is that one of the goals of the mm subsystem is to
+>>> manage all of our cached objects and to it the negative (and
+>>> positive) dentries simply look like a clean cache of
+>>> objects.  Right at the moment mm manages them in the same way it
+>>> manages all the other caches, a lot of which suffer from the "you
+>>> can cause lots of allocations to artificially grow them"
+>>> problem.  So the main question is why doesn't the current mm
+>>> control of the caches work well enough for dentries? 
+>>> What are the problems you're seeing that mm should be catching?  If
+>>> you can answer this, then we could get on to whether a separate
+>>> shrinker, cache separation or some fix in mm itself is the right
+>>> answer.
+>>>
+>>> What you say above is based on a conclusion: limiting dentries
+>>> improves the system performance.  What we're asking for is evidence
+>>> for that conclusion so we can explore whether the same would go for
+>>> any of our other system caches (so do we have a global cache
+>>> management problem or is it only the dentry cache?)
+>>>
+>>> James
+>>>
+>> I am not saying that limiting dentries will improve performance. I am
+>> just saying that unlimited growth in the number of negative dentries
+>> will reduce the amount of memory available to other applications and
+>> hence will have an impact on performance. Normally the amount of
+>> memory consumed by dentries is a very small portion of the system
+>> memory.
+> OK, can we poke on only this point for a while?  Linux never really has
+> any "available memory": pretty much as soon as you boot up the system
+> will consume all your free memory for some type of cache (usually the
+> page cache which got filled during boot).  The expectation is that in a
+> steady, running, state the system is using almost all available memory
+> for caching something ... if it's not negative dentries it will be
+> something else.  The mm assumption is that clean cache is so cheap to
+> recover that it's almost equivalent to free memory and your patch is
+> saying this isn't so and we have a problem dumping the dentry cache.
 >
-> > However, I still think it would be better to avoid uprobe exporting and modifying
-> > set_swbp/set_orig_insn. May be we can simply kill both set_swbp() and set_orig_insn(),
-> > I'll re-check...
+> So, why can't we treat the dentry cache as equivalent to free memory? 
+> What in your tests is making it harder to recover the memory in the
+> dentry cache?
 >
-> Good that you bring this up. Actually, we can implement same logic
-> without exporting uprobe. We can do "uprobe = container_of(arch_uprobe)"
-> in uprobe_write_opcode(). No need to export struct uprobe outside,
-> no need to change set_swbp() / set_orig_insn() syntax. Just that we
-> need to pass arch_uprobe object to uprobe_write_opcode().
+> James
 
-Yes, but you still need to modify set_swbp/set_orig_insn to pass the new
-arg to uprobe_write_opcode(). OK, this is fine.
+It is not that dentry cache is harder to get rid of than the other
+memory. It is that the ability of generate unlimited number of negative
+dentries that will displace other useful memory from the system. What
+the patch is trying to do is to have a warning or notification system in
+place to spot unusual activities in regard to the number of negative
+dentries in the system. The system administrators can then decide on
+what to do next.
 
+For many user activities, there are ways to audit what the users are
+doing and what resources they are consuming. I don't think that is the
+case for negative dentries. The closest I can think of is the use of
+memory controller to limit the amount of kernel memory use. This
+patchset will provide more visibility about the memory consumption of
+negative dentries for the system as a whole, though it won't go into the
+per-user level. We just don't want a disproportionate amount of memory
+to be used up by negative dentries.
 
-> But, I wanted to discuss about making ref_ctr_offset a uprobe property
-> or a consumer property, before posting v6:
->
-> If we make it a consumer property, the design becomes flexible for
-> user. User will have an option to either depend on kernel to handle
-> reference counter or he can create normal uprobe and manipulate
-> reference counter on his own. This will not require any changes to
-> existing tools. With this approach we need to increment / decrement
-> reference counter for each consumer. But, because of the fact that our
-> install_breakpoint() / remove_breakpoint() are not balanced, we have
-> to keep track of which reference counter have been updated in which
-> mm, for which uprobe and for which consumer. I.e. Maintain a list of
-> {uprobe, consumer, mm}.
+Cheers,
+Longman
 
-Did you explore the UPROBE_KERN_CTR hack I tried to suggest?
-
-If it can work then, again, *ctr_ptr |= UPROBE_KERN_CTR from install_breakpoint()
-paths is always fine, the nontrivial part is remove_breakpoint() case, perhaps
-you can do something like
-
-		for (each uprobe in inode)
-			for (each consumer)
-				if (consumer_filter(consumer))
-					goto keep_ctr;
-
-		for (each vma which maps this counter)
-			*ctr_ptr &= ~UPROBE_KERN_CTR;
-
-	keep_ctr:
-		set_orig_insn(...);
-
-but again, I didn't even try to think about details, not sure this
-can really work.
-
-And in any case:
-
-> This will make kernel implementation quite
-> complex
-
-Yes. So I personally won't insist on this feature.
-
-> Third options: How about allowing 0 as a special value for reference
-> counter? I mean allow uprobe_register() and uprobe_register_refctr()
-> in parallel but do not allow two uprobe_register_refctr() with two
-> different reference counter.
-
-I am not sure I understand how you can do this, and how much complications
-this needs, so I have no opinion.
-
-
-Cough, just noticed the final part below...
-
-> PS: We can't abuse MSB with first approach because any userspace tool
-> can also abuse MSB in parallel.
-
-For what?
-
-> Probably, we can abuse MSB in second
-> and third approach, though, there is no need to.
-
-Confused... If userspace can change it, how we can use it in 2nd approach?
-
-Oleg.
+Cheers,
+Longman
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
