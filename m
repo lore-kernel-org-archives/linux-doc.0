@@ -1,320 +1,208 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 709647D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 08:00:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1FC5E7D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 08:05:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbeGLIIh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 04:08:37 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58340 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725825AbeGLIIh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Jul 2018 04:08:37 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 27377AE6E;
-        Thu, 12 Jul 2018 08:00:07 +0000 (UTC)
-Date:   Thu, 12 Jul 2018 10:00:06 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 06/11] mm/memblock: add a name for memblock flags
- enumeration
-Message-ID: <20180712080006.GA328@dhcp22.suse.cz>
-References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1530370506-21751-7-git-send-email-rppt@linux.vnet.ibm.com>
+        id S1732281AbeGLINb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 04:13:31 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:52605 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726896AbeGLINa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Jul 2018 04:13:30 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 00F732074F; Thu, 12 Jul 2018 10:05:02 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-12-56.w90-88.abo.wanadoo.fr [90.88.133.56])
+        by mail.bootlin.com (Postfix) with ESMTPSA id AFB2420618;
+        Thu, 12 Jul 2018 10:04:35 +0200 (CEST)
+Date:   Thu, 12 Jul 2018 10:04:34 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Peter Rosin <peda@axentia.se>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Wolfram Sang <wsa@the-dreams.de>,
+        linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 01/10] i3c: Add core I3C infrastructure
+Message-ID: <20180712100434.79f1e962@bbrezillon>
+In-Reply-To: <a31dc625-56bf-7a59-d9a3-2841360b864e@axentia.se>
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+        <20180330074751.25987-2-boris.brezillon@bootlin.com>
+        <CAK8P3a1aZXf2sQW2mgwJScycKPhdoOAwxRjm5cQG83513uc3fg@mail.gmail.com>
+        <20180711164120.3e32fb08@bbrezillon>
+        <CAK8P3a2EZB_tMS_47wv6M2Qpm79ZocxxhG5zLxXsBM_YjZgkyA@mail.gmail.com>
+        <20180711191212.3855bb25@bbrezillon>
+        <a31dc625-56bf-7a59-d9a3-2841360b864e@axentia.se>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1530370506-21751-7-git-send-email-rppt@linux.vnet.ibm.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat 30-06-18 17:55:01, Mike Rapoport wrote:
-> Since kernel-doc does not like anonymous enums the name is required for
-> adding documentation. While on it, I've also updated all the function
-> declarations to use 'enum memblock_flags' instead of unsigned long.
+On Thu, 12 Jul 2018 06:41:15 +0200
+Peter Rosin <peda@axentia.se> wrote:
 
-memblock_flags doesn't tell me much about the purpose of these flags. We
-could bikeshed about the name but let's keep it this way. I do not have
-good tip for nice name either.
-
-I haven't checked whether all places have been updated (the memblock api
-is quite large) but this changes makes perfect sense to me. Unsigned
-long is just improper type for something like this.
-
-> Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
-> ---
->  include/linux/memblock.h | 22 +++++++++++-----------
->  mm/memblock.c            | 37 +++++++++++++++++++++----------------
->  mm/nobootmem.c           |  2 +-
->  3 files changed, 33 insertions(+), 28 deletions(-)
+> [tried to send something like this yesterday, but it appears to have been
+> lost, sorry for any duplicate]
 > 
-> diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-> index ca59883..8b8fbce 100644
-> --- a/include/linux/memblock.h
-> +++ b/include/linux/memblock.h
-> @@ -21,7 +21,7 @@
->  #define INIT_PHYSMEM_REGIONS	4
->  
->  /* Definition of memblock flags. */
-> -enum {
-> +enum memblock_flags {
->  	MEMBLOCK_NONE		= 0x0,	/* No special request */
->  	MEMBLOCK_HOTPLUG	= 0x1,	/* hotpluggable region */
->  	MEMBLOCK_MIRROR		= 0x2,	/* mirrored region */
-> @@ -31,7 +31,7 @@ enum {
->  struct memblock_region {
->  	phys_addr_t base;
->  	phys_addr_t size;
-> -	unsigned long flags;
-> +	enum memblock_flags flags;
->  #ifdef CONFIG_HAVE_MEMBLOCK_NODE_MAP
->  	int nid;
->  #endif
-> @@ -72,7 +72,7 @@ void memblock_discard(void);
->  
->  phys_addr_t memblock_find_in_range_node(phys_addr_t size, phys_addr_t align,
->  					phys_addr_t start, phys_addr_t end,
-> -					int nid, ulong flags);
-> +					int nid, enum memblock_flags flags);
->  phys_addr_t memblock_find_in_range(phys_addr_t start, phys_addr_t end,
->  				   phys_addr_t size, phys_addr_t align);
->  void memblock_allow_resize(void);
-> @@ -89,19 +89,19 @@ int memblock_clear_hotplug(phys_addr_t base, phys_addr_t size);
->  int memblock_mark_mirror(phys_addr_t base, phys_addr_t size);
->  int memblock_mark_nomap(phys_addr_t base, phys_addr_t size);
->  int memblock_clear_nomap(phys_addr_t base, phys_addr_t size);
-> -ulong choose_memblock_flags(void);
-> +enum memblock_flags choose_memblock_flags(void);
->  
->  /* Low level functions */
->  int memblock_add_range(struct memblock_type *type,
->  		       phys_addr_t base, phys_addr_t size,
-> -		       int nid, unsigned long flags);
-> +		       int nid, enum memblock_flags flags);
->  
-> -void __next_mem_range(u64 *idx, int nid, ulong flags,
-> +void __next_mem_range(u64 *idx, int nid, enum memblock_flags flags,
->  		      struct memblock_type *type_a,
->  		      struct memblock_type *type_b, phys_addr_t *out_start,
->  		      phys_addr_t *out_end, int *out_nid);
->  
-> -void __next_mem_range_rev(u64 *idx, int nid, ulong flags,
-> +void __next_mem_range_rev(u64 *idx, int nid, enum memblock_flags flags,
->  			  struct memblock_type *type_a,
->  			  struct memblock_type *type_b, phys_addr_t *out_start,
->  			  phys_addr_t *out_end, int *out_nid);
-> @@ -253,13 +253,13 @@ void __next_mem_pfn_range(int *idx, int nid, unsigned long *out_start_pfn,
->  			   NUMA_NO_NODE, MEMBLOCK_NONE, p_start, p_end, NULL)
->  
->  static inline void memblock_set_region_flags(struct memblock_region *r,
-> -					     unsigned long flags)
-> +					     enum memblock_flags flags)
->  {
->  	r->flags |= flags;
->  }
->  
->  static inline void memblock_clear_region_flags(struct memblock_region *r,
-> -					       unsigned long flags)
-> +					       enum memblock_flags flags)
->  {
->  	r->flags &= ~flags;
->  }
-> @@ -317,10 +317,10 @@ static inline bool memblock_bottom_up(void)
->  
->  phys_addr_t __init memblock_alloc_range(phys_addr_t size, phys_addr_t align,
->  					phys_addr_t start, phys_addr_t end,
-> -					ulong flags);
-> +					enum memblock_flags flags);
->  phys_addr_t memblock_alloc_base_nid(phys_addr_t size,
->  					phys_addr_t align, phys_addr_t max_addr,
-> -					int nid, ulong flags);
-> +					int nid, enum memblock_flags flags);
->  phys_addr_t memblock_alloc_base(phys_addr_t size, phys_addr_t align,
->  				phys_addr_t max_addr);
->  phys_addr_t __memblock_alloc_base(phys_addr_t size, phys_addr_t align,
-> diff --git a/mm/memblock.c b/mm/memblock.c
-> index cc16d70..4f5aecb 100644
-> --- a/mm/memblock.c
-> +++ b/mm/memblock.c
-> @@ -61,7 +61,7 @@ static int memblock_can_resize __initdata_memblock;
->  static int memblock_memory_in_slab __initdata_memblock = 0;
->  static int memblock_reserved_in_slab __initdata_memblock = 0;
->  
-> -ulong __init_memblock choose_memblock_flags(void)
-> +enum memblock_flags __init_memblock choose_memblock_flags(void)
->  {
->  	return system_has_some_mirror ? MEMBLOCK_MIRROR : MEMBLOCK_NONE;
->  }
-> @@ -110,7 +110,7 @@ bool __init_memblock memblock_overlaps_region(struct memblock_type *type,
->  static phys_addr_t __init_memblock
->  __memblock_find_range_bottom_up(phys_addr_t start, phys_addr_t end,
->  				phys_addr_t size, phys_addr_t align, int nid,
-> -				ulong flags)
-> +				enum memblock_flags flags)
->  {
->  	phys_addr_t this_start, this_end, cand;
->  	u64 i;
-> @@ -144,7 +144,7 @@ __memblock_find_range_bottom_up(phys_addr_t start, phys_addr_t end,
->  static phys_addr_t __init_memblock
->  __memblock_find_range_top_down(phys_addr_t start, phys_addr_t end,
->  			       phys_addr_t size, phys_addr_t align, int nid,
-> -			       ulong flags)
-> +			       enum memblock_flags flags)
->  {
->  	phys_addr_t this_start, this_end, cand;
->  	u64 i;
-> @@ -189,7 +189,8 @@ __memblock_find_range_top_down(phys_addr_t start, phys_addr_t end,
->   */
->  phys_addr_t __init_memblock memblock_find_in_range_node(phys_addr_t size,
->  					phys_addr_t align, phys_addr_t start,
-> -					phys_addr_t end, int nid, ulong flags)
-> +					phys_addr_t end, int nid,
-> +					enum memblock_flags flags)
->  {
->  	phys_addr_t kernel_end, ret;
->  
-> @@ -252,7 +253,7 @@ phys_addr_t __init_memblock memblock_find_in_range(phys_addr_t start,
->  					phys_addr_t align)
->  {
->  	phys_addr_t ret;
-> -	ulong flags = choose_memblock_flags();
-> +	enum memblock_flags flags = choose_memblock_flags();
->  
->  again:
->  	ret = memblock_find_in_range_node(size, align, start, end,
-> @@ -473,7 +474,8 @@ static void __init_memblock memblock_merge_regions(struct memblock_type *type)
->  static void __init_memblock memblock_insert_region(struct memblock_type *type,
->  						   int idx, phys_addr_t base,
->  						   phys_addr_t size,
-> -						   int nid, unsigned long flags)
-> +						   int nid,
-> +						   enum memblock_flags flags)
->  {
->  	struct memblock_region *rgn = &type->regions[idx];
->  
-> @@ -505,7 +507,7 @@ static void __init_memblock memblock_insert_region(struct memblock_type *type,
->   */
->  int __init_memblock memblock_add_range(struct memblock_type *type,
->  				phys_addr_t base, phys_addr_t size,
-> -				int nid, unsigned long flags)
-> +				int nid, enum memblock_flags flags)
->  {
->  	bool insert = false;
->  	phys_addr_t obase = base;
-> @@ -874,7 +876,8 @@ void __init_memblock __next_reserved_mem_region(u64 *idx,
->   * As both region arrays are sorted, the function advances the two indices
->   * in lockstep and returns each intersection.
->   */
-> -void __init_memblock __next_mem_range(u64 *idx, int nid, ulong flags,
-> +void __init_memblock __next_mem_range(u64 *idx, int nid,
-> +				      enum memblock_flags flags,
->  				      struct memblock_type *type_a,
->  				      struct memblock_type *type_b,
->  				      phys_addr_t *out_start,
-> @@ -983,7 +986,8 @@ void __init_memblock __next_mem_range(u64 *idx, int nid, ulong flags,
->   *
->   * Reverse of __next_mem_range().
->   */
-> -void __init_memblock __next_mem_range_rev(u64 *idx, int nid, ulong flags,
-> +void __init_memblock __next_mem_range_rev(u64 *idx, int nid,
-> +					  enum memblock_flags flags,
->  					  struct memblock_type *type_a,
->  					  struct memblock_type *type_b,
->  					  phys_addr_t *out_start,
-> @@ -1141,7 +1145,8 @@ int __init_memblock memblock_set_node(phys_addr_t base, phys_addr_t size,
->  
->  static phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
->  					phys_addr_t align, phys_addr_t start,
-> -					phys_addr_t end, int nid, ulong flags)
-> +					phys_addr_t end, int nid,
-> +					enum memblock_flags flags)
->  {
->  	phys_addr_t found;
->  
-> @@ -1163,7 +1168,7 @@ static phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
->  
->  phys_addr_t __init memblock_alloc_range(phys_addr_t size, phys_addr_t align,
->  					phys_addr_t start, phys_addr_t end,
-> -					ulong flags)
-> +					enum memblock_flags flags)
->  {
->  	return memblock_alloc_range_nid(size, align, start, end, NUMA_NO_NODE,
->  					flags);
-> @@ -1171,14 +1176,14 @@ phys_addr_t __init memblock_alloc_range(phys_addr_t size, phys_addr_t align,
->  
->  phys_addr_t __init memblock_alloc_base_nid(phys_addr_t size,
->  					phys_addr_t align, phys_addr_t max_addr,
-> -					int nid, ulong flags)
-> +					int nid, enum memblock_flags flags)
->  {
->  	return memblock_alloc_range_nid(size, align, 0, max_addr, nid, flags);
->  }
->  
->  phys_addr_t __init memblock_alloc_nid(phys_addr_t size, phys_addr_t align, int nid)
->  {
-> -	ulong flags = choose_memblock_flags();
-> +	enum memblock_flags flags = choose_memblock_flags();
->  	phys_addr_t ret;
->  
->  again:
-> @@ -1259,7 +1264,7 @@ static void * __init memblock_virt_alloc_internal(
->  {
->  	phys_addr_t alloc;
->  	void *ptr;
-> -	ulong flags = choose_memblock_flags();
-> +	enum memblock_flags flags = choose_memblock_flags();
->  
->  	if (WARN_ONCE(nid == MAX_NUMNODES, "Usage of MAX_NUMNODES is deprecated. Use NUMA_NO_NODE instead\n"))
->  		nid = NUMA_NO_NODE;
-> @@ -1734,7 +1739,7 @@ phys_addr_t __init_memblock memblock_get_current_limit(void)
->  static void __init_memblock memblock_dump(struct memblock_type *type)
->  {
->  	phys_addr_t base, end, size;
-> -	unsigned long flags;
-> +	enum memblock_flags flags;
->  	int idx;
->  	struct memblock_region *rgn;
->  
-> @@ -1752,7 +1757,7 @@ static void __init_memblock memblock_dump(struct memblock_type *type)
->  			snprintf(nid_buf, sizeof(nid_buf), " on node %d",
->  				 memblock_get_region_node(rgn));
->  #endif
-> -		pr_info(" %s[%#x]\t[%pa-%pa], %pa bytes%s flags: %#lx\n",
-> +		pr_info(" %s[%#x]\t[%pa-%pa], %pa bytes%s flags: %#x\n",
->  			type->name, idx, &base, &end, &size, nid_buf, flags);
->  	}
->  }
-> diff --git a/mm/nobootmem.c b/mm/nobootmem.c
-> index c2cfa04..439af3b 100644
-> --- a/mm/nobootmem.c
-> +++ b/mm/nobootmem.c
-> @@ -42,7 +42,7 @@ static void * __init __alloc_memory_core_early(int nid, u64 size, u64 align,
->  {
->  	void *ptr;
->  	u64 addr;
-> -	ulong flags = choose_memblock_flags();
-> +	enum memblock_flags flags = choose_memblock_flags();
->  
->  	if (limit > memblock.current_limit)
->  		limit = memblock.current_limit;
-> -- 
-> 2.7.4
+> On 2018-07-11 19:12, Boris Brezillon wrote:
+> > On Wed, 11 Jul 2018 17:39:56 +0200
+> > Arnd Bergmann <arnd@arndb.de> wrote:
+> >   
+> >> On Wed, Jul 11, 2018 at 4:41 PM, Boris Brezillon
+> >> <boris.brezillon@bootlin.com> wrote:  
+> >>> On Wed, 11 Jul 2018 16:01:56 +0200 Arnd Bergmann <arnd@arndb.de> wrote:    
+> >>>>> - the bus element is a separate object and is not implicitly described
+> >>>>>   by the master (as done in I2C). The reason is that I want to be able
+> >>>>>   to handle multiple master connected to the same bus and visible to
+> >>>>>   Linux.
+> >>>>>   In this situation, we should only have one instance of the device and
+> >>>>>   not one per master, and sharing the bus object would be part of the
+> >>>>>   solution to gracefully handle this case.
+> >>>>>   I'm not sure we will ever need to deal with multiple masters
+> >>>>>   controlling the same bus and exposed under Linux, but separating the
+> >>>>>   bus and master concept is pretty easy, hence the decision to do it
+> >>>>>   like that.
+> >>>>>   The other benefit of separating the bus and master concepts is that
+> >>>>>   master devices appear under the bus directory in sysfs.    
+> >>>>
+> >>>> I'm not following here at all, sorry for missing prior discussion if this
+> >>>> was already explained. What is the "multiple master" case? Do you
+> >>>> mean multiple devices that are controlled by Linux and that each talk
+> >>>> to other devices on the same bus, multiple operating systems that
+> >>>> have talk to are able to own the bus with the kernel being one of
+> >>>> them, a controller that controls multiple independent buses,
+> >>>> or something else?    
+> >>>
+> >>> I mean several masters connected to the same bus and all exposed to the
+> >>> same Linux instance. In this case, the question is, should we have X
+> >>> I3C buses exposed (X being the number of masters) or should we only
+> >>> have one?
+> >>>
+> >>> Having a bus represented as a separate object allows us to switch to
+> >>> the "one bus : X masters" representation if we need too.    
+> >> ...  
+> >>>>
+> >>>> This feels a bit odd: so you have bus_type that can contain devices
+> >>>> of three (?) different device types: i3c_device_type, i3c_master_type
+> >>>> and i3c_busdev_type.
+> >>>>
+> >>>> Generally speaking, we don't have a lot of subsystems that even
+> >>>> use device_types. I assume that the i3c_device_type for a
+> >>>> device that corresponds to an endpoint on the bus, but I'm
+> >>>> still confused about the other two, and why they are part of
+> >>>> the same bus_type.    
+> >>>
+> >>> i3c_busdev is just a virtual device representing the bus itself.
+> >>> i3c_master is representing the I3C master driving the bus. The reason
+> >>> for having a different type here is to avoid attaching this device to a
+> >>> driver but still being able to see the master controller as a device on
+> >>> the bus. And finally, i3c_device are all remote devices that can be
+> >>> accessed through a given i3c_master.
+> >>>
+> >>> This all comes from the design choice I made to represent the bus as a
+> >>> separate object in order to be able to share it between different
+> >>> master controllers exposed through the same Linux instance. Since
+> >>> master controllers are also remote devices for other controllers, we
+> >>> need to represent them.    
+> >>
+> >> Ok, so I think this is the most important question to resolve: do we
+> >> actually need to control multiple masters on a single bus from one OS
+> >> or not?
+> >>
+> >> The problem that I see is that it breaks the tree abstraction that
+> >> we use in the dtb interface, in the driver model and in sysfs.
+> >> If we need to deal with a hardware bus structure like
+> >>
+> >>               cpu
+> >>              /   \
+> >>             /     \
+> >>        platdev   platdev
+> >>            |        |
+> >>      i3c-master   i3c-master
+> >>             \      /
+> >>              \    /
+> >>             i3c-bus
+> >>              /    \
+> >>          device   device
+> >>
+> >> then that abstraction no longer holds. Clearly you could build
+> >> a system like that, and if we have to support it, the i3c infrastructure
+> >> should be prepared for it, since we wouldn't be able to retrofit
+> >> it later.  
+> > 
+> > Exactly. For the DT representation I thought we could have the primary
+> > master hold the device nodes, and then have secondary masters reference
+> > the main master with a phandle (i3c-bus = <&main_i3c_master>;). For the
+> > sysfs representation, it would be the same. Only one of the master
+> > would create the i3c_bus object and the other masters would just
+> > reference it.
+> >   
+> >>
+> >> What would be the point of building such a system though?  
+> > 
+> > This, I don't know. But as you said, if we go for a "one bus per
+> > master" representation, going back will be difficult.
+> >   
+> >> Is this for performance, failover, or something else?  
+> > 
+> > No, I don't think so, especially since the mastership handover
+> > operation is not free. So keeping the same master in control is
+> > probably better in term of perfs.
+> > 
+> > One case I can think of is when the primary master does not have enough
+> > resources to address all devices on the bus, and let the secondary
+> > master handle all transactions targeting those devices.
+> >   
+> >> IOW, what feature would we lose if we were to declare that
+> >> setup above invalid (and ensure you cannot represent it in DT)?  
+> > 
+> > That's exactly the sort of discussion I wanted to trigger. Maybe we
+> > shouldn't care and expose this use case as if it was X different I3C
+> > buses (with all devices present on the bus being exposed X times to the
+> > system).  
+> 
+> For I2C, this multiple masters for one bus case was retrofitted in
+> the i2c-demux-pinctrl driver. It's a huge kludge with a number of
+> undesirable quirks. I don't know if the circumstances for adding
+> this I2C driver also applies for I3C,
 
--- 
-Michal Hocko
-SUSE Labs
+It's hard to guess now.
+
+> but it might be an argument
+> in favor of the proposed extra bus object...
+
+I know that Wolfram was in favor of this separate bus <-> master
+representation, probably because of his experience with this particular
+driver.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
