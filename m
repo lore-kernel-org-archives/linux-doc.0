@@ -3,62 +3,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CD6D7DE80
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 08:08:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D91AD7DE80
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 08:21:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732424AbeGLIQh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 04:16:37 -0400
-Received: from mail-lf0-f65.google.com ([209.85.215.65]:36415 "EHLO
-        mail-lf0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726497AbeGLIQg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 04:16:36 -0400
-Received: by mail-lf0-f65.google.com with SMTP id b22-v6so11058255lfa.3;
-        Thu, 12 Jul 2018 01:08:07 -0700 (PDT)
+        id S1726486AbeGLIaQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 04:30:16 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:41922 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725874AbeGLIaP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 04:30:15 -0400
+Received: by mail-lj1-f194.google.com with SMTP id y17-v6so16558543ljy.8;
+        Thu, 12 Jul 2018 01:21:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:sender:in-reply-to:references:from:date:message-id
          :subject:to:cc;
-        bh=zqpK3YHjwleJqx6PiBCC/89qvsqEXLCeMNu82nibIDk=;
-        b=Rf0eZyhQXslhN6JEBUJJKqk+QcK2kB501C3r9E7Z7rqarRyZrlLa/2H24vSqBsgujB
-         Skzaf7TG6G+0NDARuSXuH7zFbUTulBCviJT0OfNbHQMH1jcHv6rc4oGCeemTh0EFC+Sq
-         3QK2VTHek4nL++wLc442WCm+68IK2SlPCs+JOLiaIsC6XG7SoVfKK+OK3iyAwBQR5fRe
-         EtzPMI6TggR2p0gzDBg8mDVCA/ucxHXcmQWxFDokblDQp3H0vcK2W3RuzevxEFzaqB5Y
-         3uH+BbDBZQfiD0huJ+42wMStj882qs6UvwKogpoJrDt2J/ZSoBb40WF9MgkJCHm/zHy2
-         sZ+w==
+        bh=j3GRVs5QdaCvzkNqHu3pRIHoQbXSF4DPa5zkup5RP0I=;
+        b=RHRuN39ItsDFxGc1cWjLEJZQmV29TcarcMt1X4T69oyd1773KoLJh4/259KVNI88jS
+         36ci2nOjnaPAsEYIZavrtMf0KVwUvJxNUCeRiYmURCKc9CEaYUTui5XNgthfq+0OCcNx
+         ffDcH6to64fcl9+VnYmrWCrSq0TK7U5AWXXuWX1bQnGlpqxf84lt92Nf/z5g5CWHXYWZ
+         Z3KfKN+U8/aCSwz+eTjJICFk8Ws734D8vkTRQdhb1ccmsbVqZ/HOyUPTfGWlOCotkn3b
+         3yj6l43xHd7jFpU3yAtjJzYR2c3sefKymWZ261UI3oe1B1bOGrU/suZ7OOpjfGkvYiCw
+         6+ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
          :date:message-id:subject:to:cc;
-        bh=zqpK3YHjwleJqx6PiBCC/89qvsqEXLCeMNu82nibIDk=;
-        b=eboVBvO4LD+IvjFg6vBgvPKlygjVOrFeNsOjsFxqIbHozWOlwY1U5yTbWi7BaWdlLg
-         moNB32BTwOIkpIhH3gl5uroFpX5pSvVsnIDiziCxtuSL0VeC/x9PvdimQ8wGKYdg6yzQ
-         lAyGLcdpsR85YO7IjPYo2heB5UbFHL4Jrhb9Ury3HyDyz7Sb7EjE3pNGa1dr806X5rZg
-         ZSpxjiibBg/+0/yvkep7sylEUyg9lfkt4MXs7y7oX+I2fAwRPeaAsQokKEds0IG5Xdbx
-         1FcF3pbG3/NP3azrrfZ0GdK3rWm0bpde/6umUR1dtVE0DeDHQxVPi1/L4V2BPw/nvb+5
-         EabA==
-X-Gm-Message-State: AOUpUlG7pH5fcUWMTJzvb5I9I7FFFAgJbk+i8um3YgBhPlThaFMF5PiS
-        X1qV6XJUj7A8eNg+qY0ZkxBWTY1Jr1pr6F8QIog=
-X-Google-Smtp-Source: AAOMgpcIKW8JvFcBTfObUfsPzbXyFTNAOvCM5hxK9JEdABgJfEfdAf6ABHgch4RCHQ0In5okBN2qxrRywX0XZ8N33sg=
-X-Received: by 2002:a19:b24e:: with SMTP id b75-v6mr939664lff.11.1531382886917;
- Thu, 12 Jul 2018 01:08:06 -0700 (PDT)
+        bh=j3GRVs5QdaCvzkNqHu3pRIHoQbXSF4DPa5zkup5RP0I=;
+        b=IT3sU8IwQDZzl57YHi5MW4iE4BQl7NATXQVcUlwzm/gmERWTH2I/eruz/SkYjDG7DV
+         svLz0N46U3ZSDGY7bDxFnUZRAv02Ze3tbHcpwJqeaH5Ww3PihcvhjratUX1+Et4G/vc3
+         YCyiwXf4E5TulF4wjmCy1PngH69wB/TgBEZzSlsOrNBwCFEqC9eAPi7VeCgimf1Hl8wn
+         4mgEddab3wB2IWw4g4SljxIQxCu4zasTlQEEfC9m1mXU/JyHbB1tIXonYc3U3KCDOpND
+         7eN/Y8xGcLebtdMsLzKk77O8g/71asq2KBr4LRHTN++G+0V7WGdkvjQpT34Moesiqzje
+         2ObA==
+X-Gm-Message-State: APt69E1RD1dvpSm9CQB0UzsdN4NaQqg9+5lFnplhhbOm5RYSGBMlG5nI
+        chuyXo7i63l2RAE9PkoDDWHLR3mAwcsQXTBJfXw=
+X-Google-Smtp-Source: AAOMgpejjrhfHovHvH/M3Su+a1+j4rc6LlGIShC1a6mXfuZiZNCf0pe4Ad7aGrx4iBGb/UV+ioTZpVxY7WFvxqfaejQ=
+X-Received: by 2002:a2e:118f:: with SMTP id 15-v6mr19848413ljr.38.1531383701692;
+ Thu, 12 Jul 2018 01:21:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Thu, 12 Jul 2018 01:08:05
+Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Thu, 12 Jul 2018 01:21:40
  -0700 (PDT)
-In-Reply-To: <a31dc625-56bf-7a59-d9a3-2841360b864e@axentia.se>
+In-Reply-To: <20180712000932.3b04ee9d@bbrezillon>
 References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
  <20180330074751.25987-2-boris.brezillon@bootlin.com> <CAK8P3a1aZXf2sQW2mgwJScycKPhdoOAwxRjm5cQG83513uc3fg@mail.gmail.com>
  <20180711164120.3e32fb08@bbrezillon> <CAK8P3a2EZB_tMS_47wv6M2Qpm79ZocxxhG5zLxXsBM_YjZgkyA@mail.gmail.com>
- <20180711191212.3855bb25@bbrezillon> <a31dc625-56bf-7a59-d9a3-2841360b864e@axentia.se>
+ <20180711191212.3855bb25@bbrezillon> <CAK8P3a2djk8c6STaxJC0MCkBddyOafk4WbG2LdfPf0V1EYiqmQ@mail.gmail.com>
+ <20180712000932.3b04ee9d@bbrezillon>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 12 Jul 2018 10:08:05 +0200
-X-Google-Sender-Auth: r04NhL0R8-yZlON2DPxF_T_AKjc
-Message-ID: <CAK8P3a2oMDw2zHzE5vFFHDqzKVKEzOga6v0ExdYVawnMtcdbrQ@mail.gmail.com>
+Date:   Thu, 12 Jul 2018 10:21:40 +0200
+X-Google-Sender-Auth: fqlxLLQ7N9vvq3ZEjGGtsR8bo5w
+Message-ID: <CAK8P3a13GX67YEci2J8Rxn6O4FBjjD82X+w3hyGMT3TDbtFkTg@mail.gmail.com>
 Subject: Re: [PATCH v4 01/10] i3c: Add core I3C infrastructure
-To:     Peter Rosin <peda@axentia.se>
-Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -89,32 +89,113 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 12, 2018 at 6:41 AM, Peter Rosin <peda@axentia.se> wrote:
-> On 2018-07-11 19:12, Boris Brezillon wrote:
->> On Wed, 11 Jul 2018 17:39:56 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
+On Thu, Jul 12, 2018 at 12:09 AM, Boris Brezillon
+<boris.brezillon@bootlin.com> wrote:
+> On Wed, 11 Jul 2018 22:10:26 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
+>> On Wed, Jul 11, 2018 at 7:12 PM, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+>> > On Wed, 11 Jul 2018 17:39:56 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
+>> >> On Wed, Jul 11, 2018 at 4:41 PM, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+
+>> >> IOW, what feature would we lose if we were to declare that
+>> >> setup above invalid (and ensure you cannot represent it in DT)?
+>> >
+>> > That's exactly the sort of discussion I wanted to trigger. Maybe we
+>> > shouldn't care and expose this use case as if it was X different I3C
+>> > buses (with all devices present on the bus being exposed X times
+>> > to the system).
 >>
->> That's exactly the sort of discussion I wanted to trigger. Maybe we
->> shouldn't care and expose this use case as if it was X different I3C
->> buses (with all devices present on the bus being exposed X times to the
->> system).
+>> That's probably fine for many slave devices (you could read a
+>> single sensor multiple times if you iterate through all i2c sensors
+>> on all buses) but might not work for others (a slave device sending
+>> an interrupt to the current master for a request that was started
+>> from the previous master).
+>> My impression however is that this is actually a corner case that
+>> we can leave to be undefined, and not prepare to handle well,
+>> as long as we can deal with the interesting examples above.
 >
-> For I2C, this multiple masters for one bus case was retrofitted in
-> the i2c-demux-pinctrl driver. It's a huge kludge with a number of
-> undesirable quirks. I don't know if the circumstances for adding
-> this I2C driver also applies for I3C, but it might be an argument
-> in favor of the proposed extra bus object...
+> Mastership handover/takeover is something I already thought about.
+> Actually, that's the reason for the i3c_bus->cur_master field (so that
+> the master being asked to do a transfer on the bus can request bus
+> ownership it bus->cur_master != master->this->info.pid).
+>
+> I guess this would be replaced by something simpler if we get rid of
+> the i3c_bus object (just a bool i3c_master->owns_bus).
 
-From reading the documentation and git history on that driver,
-it seems to be used only for static configuration, i.e. you use
-one driver or the other, but don't flip between them at runtime,
-right?
+If we can ignore the case of handing over between two masters that
+we both own, we end up being in just one of two states:
 
-I'm guessing that even with i3c we may have to support something
-like that, as a likely scenario might be that the i3c controller is
-multiplexed with a traditional i2c controller and/or gpios, but you
-would not be able to perform the i3c standard secondary master
-transition with the latter two because they are (by definition) not
-i3c compatible.
+a) currently we are the master
+b) we are not currently the master but have asked the current
+    master to transfer ownership back to us. For this, we have to
+    know who the current master is of course.
+
+I think that's the simplest case that would work with the specification,
+but it relies on the assumption that the master controlled by Linux
+is always more important than any other master, and that we just
+hand over ownership for as long as the others want it.
+
+If that is not the case, we also need a third state
+
+c) we have handed ownership to another master that is equally
+    important, but no i2c device driver is currently trying to talk
+    to a device, so we don't need ownership back until a slave driver
+    changes state.
+
+The main difference between b) and c) that I see would be what
+happens with in-band interrupts. If I understand the specification
+correctly, only the current master receives them, so if you have
+any i2c device that uses interrupts to talk to a Linux driver, we
+want to be in b) rather than c). An example of this would be
+an input device on a PC: If the user operateds the keyboard
+or pointer and we have handed off ownership to a sensor hub,
+we never get an input event, right?
+
+>> Ok, but maybe you could you put the information about those devices
+>> on a local list on the stack rather than the controller? I suppose this
+>> would not change the logic much, but it would slightly simplify the
+>> data structures for the bus and stop others from wondering about
+>> them. ;-)
+>
+> This has changed a bit in the v6 I'm about to send (probably next week).
+> I now have 2 different objects which do not necessarily have the same
+> lifetime:
+>
+> * i3c_dev_desc: an I3C device descriptor. This is the representation
+>   exposed to I3C master controller drivers which usually reserve one
+>   slot in the HW device table per-device on the bus. Since the same
+>   device can be re-discovered with a different address, we have a short
+>   period in time during which the controller will have 2
+>   slots/descriptors used to control the same device, except one would
+>   be inactive (any transfer to the old dynamic address would fail) and
+>   the other one would be active. The core then takes care of releasing
+>   the old descriptor/slot and attaching the new one to the i3c_device
+>   object exposed to I3C device drivers
+>
+> * i3c_device: this is the object exposed to I3C device drivers. It's
+>   lifetime is usually the same as the i3c_dev_desc it's attached to,
+>   except when the device lose its dynamic address and get a new one
+>   assigned. In this case we keep the same i3c_device object, but
+>   dynamically re-attach it to a new i3c_dev_desc before releasing the
+>   old dev desc. This way the I3C does not even see that the device
+>   address has changed and can keep doing transfers to it.
+>
+> With these 2 distinct representations, the handling on the controller
+> side is greatly simplified: the core takes care of the resource
+> migration steps, while it was up to the controller to do that my
+> previous versions (look at the ->reattach_i3c_dev() hook in the Cadence
+> driver, and I think it's even more complicated with other controllers,
+> like the HCI one).
+>
+>> This is a really minor point though, let's work out the problem of the
+>> multiple masters first.
+>
+> I agree. This being said, moving to a representation where the bus is
+> implicitly represented by the master_controller instance shouldn't be
+> too difficult. So, if you think we should try this approach I can do
+> the modifications in my v6.
+
+I'd say let's wait before you do that change, possibly add a comment
+in there now to remind us of what an alternative would be.
 
        Arnd
 --
