@@ -5,77 +5,88 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4410A7D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 17:04:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D2FD17D085
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 17:08:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732248AbeGLROa convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 13:14:30 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:53210 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727455AbeGLROa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Jul 2018 13:14:30 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D0E2D400ADC2;
-        Thu, 12 Jul 2018 17:04:05 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F06112026D6B;
-        Thu, 12 Jul 2018 17:04:04 +0000 (UTC)
-Subject: Re: [PATCH v7 3/6] fs/dcache: Add sysctl parameter neg-dentry-limit
- as a soft limit on negative dentries
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1727113AbeGLRTL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 13:19:11 -0400
+Received: from mail-qk0-f176.google.com ([209.85.220.176]:38980 "EHLO
+        mail-qk0-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727136AbeGLRTK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 13:19:10 -0400
+Received: by mail-qk0-f176.google.com with SMTP id b5-v6so13790814qkg.6
+        for <linux-doc@vger.kernel.org>; Thu, 12 Jul 2018 10:08:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mxVJfEER+J5B3l40i01U/7LJQDG8BOPAQdROdUmpqm0=;
+        b=AAymVzxA2pYfQsVV0/KQHs/Tn8gKwo2Js6xVS711R3d2QkaK5OCpFta2ukMO9BQZzP
+         ySKE8NfGeAYqn4tC7izU2foWVwbkTrK+g7AvdmCdBQOSDPyGJPnG+yETu5yT3AUl/ChI
+         +XovABUVIt3/pnSS8d3d/a6sAIAD/b9wqAlN4KcuryIrZH/3Mk7EQb5wdtMPZdBFgggG
+         Qs8Degl36BltX7MO+Qp0NT/T/IpR5zKHtF2S+uLBgwQ161KDnGrMjlBKSOKQX1sgqnET
+         HrtGlbj19bW7XH45WXiXQ+iMqOmhSJKiznr2wlo0IohrcvMzVEc8VfOV4DDPf5eFG/z1
+         WUnA==
+X-Gm-Message-State: AOUpUlEs2oVFUQmWzZCZKabYuqyJHN/8mOM3N4hZ2me9mvUI9aBZYrMv
+        kBnU038tdoYhm+LOqv9FwADa+tfIcoY=
+X-Google-Smtp-Source: AAOMgpdl7Df4FkMNu0WERfwCdyYU5HVoOvA+qRN2c24YR7fBMA6qKy6M5mA7MzC06poW3ajUE9bHtQ==
+X-Received: by 2002:a37:4951:: with SMTP id w78-v6mr2585312qka.2.1531415324419;
+        Thu, 12 Jul 2018 10:08:44 -0700 (PDT)
+Received: from ?IPv6:2601:602:9802:a8dc::1941? ([2601:602:9802:a8dc::1941])
+        by smtp.gmail.com with ESMTPSA id s1-v6sm1792244qte.89.2018.07.12.10.08.41
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 12 Jul 2018 10:08:42 -0700 (PDT)
+Subject: Re: [PATCHv2 0/7] HOSTFLAGS and HOSTLDFLAGS from the environment
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>, Jiri Olsa <jolsa@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Robin Jarry <robin.jarry@6wind.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
-        Michal Hocko <mhocko@kernel.org>
-References: <1531413965-5401-1-git-send-email-longman@redhat.com>
- <1531413965-5401-4-git-send-email-longman@redhat.com>
- <20180712165605.GB3475@bombadil.infradead.org>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <91d03770-b184-354b-576c-690dade2d695@redhat.com>
-Date:   Thu, 12 Jul 2018 13:04:04 -0400
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20180710004602.21599-1-labbott@redhat.com>
+ <CAK7LNAQ0dWqaYkLjevCuboCBovcsTV1cMh48qv__wwMZs-vAxg@mail.gmail.com>
+From:   Laura Abbott <labbott@redhat.com>
+Message-ID: <bd8bd678-c42d-4b04-fa55-00c6f524a4bb@redhat.com>
+Date:   Thu, 12 Jul 2018 10:08:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180712165605.GB3475@bombadil.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <CAK7LNAQ0dWqaYkLjevCuboCBovcsTV1cMh48qv__wwMZs-vAxg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 12 Jul 2018 17:04:05 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 12 Jul 2018 17:04:05 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/12/2018 12:56 PM, Matthew Wilcox wrote:
-> On Thu, Jul 12, 2018 at 12:46:02PM -0400, Waiman Long wrote:
->> +int neg_dentry_limit;
->> +EXPORT_SYMBOL_GPL(neg_dentry_limit);
-> Why are you exporting it?  What module needs this?
+On 07/12/2018 03:13 AM, Masahiro Yamada wrote:
+> 2018-07-10 9:45 GMT+09:00 Laura Abbott <labbott@redhat.com>:
+>>
+>> Hi,
+>>
+>> This is v2 of the series to set HOSTCFLAGS and HOSTLDFLAGS from the
+>> environment. The changes are mostly minor fixups requested and also
+>> include documentation of the new options.
+> 
+> 
+> 
+> I checked this series.
+> 
+> 
+> I left minor comments for 3/7 and 7/7.
+> 
+> Unless you disagree,
+> I will fix them up locally
+> and queue it to my tree.
+> 
 
-I was following the example of another sysctl parameter in dcache.c -
-sysctl_vfs_cache_pressure. Looking more carefully now, you are right
-that I don't need to do the exporting. Will fix that in the next update.
+The fixes look fine.
 
 Thanks,
-Longman
+Laura
 
 
 --
