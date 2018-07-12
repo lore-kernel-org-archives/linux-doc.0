@@ -1,93 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2FD17D085
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 17:08:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 43B1C7D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 17:21:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727113AbeGLRTL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 13:19:11 -0400
-Received: from mail-qk0-f176.google.com ([209.85.220.176]:38980 "EHLO
-        mail-qk0-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727136AbeGLRTK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 13:19:10 -0400
-Received: by mail-qk0-f176.google.com with SMTP id b5-v6so13790814qkg.6
-        for <linux-doc@vger.kernel.org>; Thu, 12 Jul 2018 10:08:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mxVJfEER+J5B3l40i01U/7LJQDG8BOPAQdROdUmpqm0=;
-        b=AAymVzxA2pYfQsVV0/KQHs/Tn8gKwo2Js6xVS711R3d2QkaK5OCpFta2ukMO9BQZzP
-         ySKE8NfGeAYqn4tC7izU2foWVwbkTrK+g7AvdmCdBQOSDPyGJPnG+yETu5yT3AUl/ChI
-         +XovABUVIt3/pnSS8d3d/a6sAIAD/b9wqAlN4KcuryIrZH/3Mk7EQb5wdtMPZdBFgggG
-         Qs8Degl36BltX7MO+Qp0NT/T/IpR5zKHtF2S+uLBgwQ161KDnGrMjlBKSOKQX1sgqnET
-         HrtGlbj19bW7XH45WXiXQ+iMqOmhSJKiznr2wlo0IohrcvMzVEc8VfOV4DDPf5eFG/z1
-         WUnA==
-X-Gm-Message-State: AOUpUlEs2oVFUQmWzZCZKabYuqyJHN/8mOM3N4hZ2me9mvUI9aBZYrMv
-        kBnU038tdoYhm+LOqv9FwADa+tfIcoY=
-X-Google-Smtp-Source: AAOMgpdl7Df4FkMNu0WERfwCdyYU5HVoOvA+qRN2c24YR7fBMA6qKy6M5mA7MzC06poW3ajUE9bHtQ==
-X-Received: by 2002:a37:4951:: with SMTP id w78-v6mr2585312qka.2.1531415324419;
-        Thu, 12 Jul 2018 10:08:44 -0700 (PDT)
-Received: from ?IPv6:2601:602:9802:a8dc::1941? ([2601:602:9802:a8dc::1941])
-        by smtp.gmail.com with ESMTPSA id s1-v6sm1792244qte.89.2018.07.12.10.08.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 12 Jul 2018 10:08:42 -0700 (PDT)
-Subject: Re: [PATCHv2 0/7] HOSTFLAGS and HOSTLDFLAGS from the environment
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>, Jiri Olsa <jolsa@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Robin Jarry <robin.jarry@6wind.com>,
+        id S1732363AbeGLRbw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 13:31:52 -0400
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:38222 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727366AbeGLRbw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 13:31:52 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 6B6288EE3D1;
+        Thu, 12 Jul 2018 10:21:22 -0700 (PDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id v7uBKOlRvzJQ; Thu, 12 Jul 2018 10:21:22 -0700 (PDT)
+Received: from [153.66.254.194] (unknown [50.35.68.20])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 5BBF38EE02B;
+        Thu, 12 Jul 2018 10:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1531416082;
+        bh=zyZh5Q25EA/lJyDUxSqWTDBIZdVBeBvleUeq+/iF1G8=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=Vd/iVz4OhaEcWGVSmIO5ez/3XtdG3Yye4M/5n4vfDzAaK/aiO1uoOLyfwZZSP8MrR
+         v8m2zJi66XuVeNmBZ2eIyjOhgo2Txqba4g/wy/DFU3BJaYRKDa3294EX5ddwdbBsVT
+         yej0ibeMfuVBKfFguDGJEslWN/BRoI1cJoUuFHaY=
+Message-ID: <1531416080.18255.8.camel@HansenPartnership.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Waiman Long <longman@redhat.com>, Michal Hocko <mhocko@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20180710004602.21599-1-labbott@redhat.com>
- <CAK7LNAQ0dWqaYkLjevCuboCBovcsTV1cMh48qv__wwMZs-vAxg@mail.gmail.com>
-From:   Laura Abbott <labbott@redhat.com>
-Message-ID: <bd8bd678-c42d-4b04-fa55-00c6f524a4bb@redhat.com>
-Date:   Thu, 12 Jul 2018 10:08:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQ0dWqaYkLjevCuboCBovcsTV1cMh48qv__wwMZs-vAxg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>
+Date:   Thu, 12 Jul 2018 10:21:20 -0700
+In-Reply-To: <20180712164932.GA3475@bombadil.infradead.org>
+References: <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
+         <20180710142740.GQ14284@dhcp22.suse.cz>
+         <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
+         <20180711102139.GG20050@dhcp22.suse.cz>
+         <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
+         <1531330947.3260.13.camel@HansenPartnership.com>
+         <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+         <1531336913.3260.18.camel@HansenPartnership.com>
+         <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+         <1531411494.18255.6.camel@HansenPartnership.com>
+         <20180712164932.GA3475@bombadil.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/12/2018 03:13 AM, Masahiro Yamada wrote:
-> 2018-07-10 9:45 GMT+09:00 Laura Abbott <labbott@redhat.com>:
->>
->> Hi,
->>
->> This is v2 of the series to set HOSTCFLAGS and HOSTLDFLAGS from the
->> environment. The changes are mostly minor fixups requested and also
->> include documentation of the new options.
+On Thu, 2018-07-12 at 09:49 -0700, Matthew Wilcox wrote:
+> On Thu, Jul 12, 2018 at 09:04:54AM -0700, James Bottomley wrote:
+[...]
+> > The question I'm trying to get an answer to is why does the dentry
+> > cache need special limits when the mm handling of the page cache
+> > (and other mm caches) just works?
 > 
-> 
-> 
-> I checked this series.
-> 
-> 
-> I left minor comments for 3/7 and 7/7.
-> 
-> Unless you disagree,
-> I will fix them up locally
-> and queue it to my tree.
-> 
+> I don't know that it does work.  Or that it works well.
 
-The fixes look fine.
+I'm not claiming the general heuristics are perfect (in fact I know we
+still have a lot of problems with dirty reclaim and writeback).  I am
+willing to bet that any discussion of the heuristics will get a lot of
+opposition if we try to introduce per-object limits for every object.
 
-Thanks,
-Laura
+Our clean cache heuristics are simple: clean caches are easy to reclaim
+and are thus treated like free memory (there's little cost to filling
+them or reclaiming them again).  There is speculation that this
+equivalence is problematic because the shrinkers reclaim objects but mm
+is looking to reclaim pages and thus you can end up with a few objects
+pinning many pages even if the shrinker freed a lot of them.
 
+However, we haven't even reached that level yet ... I'm still
+struggling to establish that we have a problem with the behaviour of
+the dentry cache under current mm heuristics.  
+
+James
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
