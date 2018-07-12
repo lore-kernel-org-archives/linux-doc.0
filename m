@@ -1,36 +1,31 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 113BD7DE7F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 16:56:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4410A7D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 17:04:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727277AbeGLRGk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 13:06:40 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43474 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726925AbeGLRGk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 13:06:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Ezivkyy8DR9jRLwZAdh5OgweEpGw7Q6hWS2sAOWJCPY=; b=VOTxOErVvIOAHF1j8dc82gob9
-        Nhgy47DdV0U8UU7DXT0TNRwv2S7QfIJjIJcoa1/WboEsxX45kArv+mvlEZJFz5nkbHymOX3RAOzHx
-        6f6EQjQXuD02Ke49SJp9089OIdzVRnzumlmh0DwFNanB/sUOpQbNDQimfx32g0AQ8kYAI4GyeZYme
-        kgJc+BcdRXgsjGGWVI+/I5fJJwe2aJjsGWBLgh6foedG7/S0/YdUHYxWs0ajh/wNMB7aIOuK1eSYQ
-        O2lQCvfURicxL5w0Zf54ZPwK77WMcMj8UPeZfDFQ1YYRY607eOg5d9+87TdwlK4aT4fTxbWksQgjd
-        ojtn3dEpA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fdesv-0001ZN-7E; Thu, 12 Jul 2018 16:56:05 +0000
-Date:   Thu, 12 Jul 2018 09:56:05 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Waiman Long <longman@redhat.com>
+        id S1732248AbeGLROa convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 13:14:30 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:53210 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727455AbeGLROa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Jul 2018 13:14:30 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id D0E2D400ADC2;
+        Thu, 12 Jul 2018 17:04:05 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F06112026D6B;
+        Thu, 12 Jul 2018 17:04:04 +0000 (UTC)
+Subject: Re: [PATCH v7 3/6] fs/dcache: Add sysctl parameter neg-dentry-limit
+ as a soft limit on negative dentries
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
         "Luis R. Rodriguez" <mcgrof@kernel.org>,
@@ -47,26 +42,42 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>,
         Michal Hocko <mhocko@kernel.org>
-Subject: Re: [PATCH v7 3/6] fs/dcache: Add sysctl parameter neg-dentry-limit
- as a soft limit on negative dentries
-Message-ID: <20180712165605.GB3475@bombadil.infradead.org>
 References: <1531413965-5401-1-git-send-email-longman@redhat.com>
  <1531413965-5401-4-git-send-email-longman@redhat.com>
+ <20180712165605.GB3475@bombadil.infradead.org>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <91d03770-b184-354b-576c-690dade2d695@redhat.com>
+Date:   Thu, 12 Jul 2018 13:04:04 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1531413965-5401-4-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <20180712165605.GB3475@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 12 Jul 2018 17:04:05 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 12 Jul 2018 17:04:05 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 12, 2018 at 12:46:02PM -0400, Waiman Long wrote:
-> +int neg_dentry_limit;
-> +EXPORT_SYMBOL_GPL(neg_dentry_limit);
+On 07/12/2018 12:56 PM, Matthew Wilcox wrote:
+> On Thu, Jul 12, 2018 at 12:46:02PM -0400, Waiman Long wrote:
+>> +int neg_dentry_limit;
+>> +EXPORT_SYMBOL_GPL(neg_dentry_limit);
+> Why are you exporting it?  What module needs this?
 
-Why are you exporting it?  What module needs this?
+I was following the example of another sysctl parameter in dcache.c -
+sysctl_vfs_cache_pressure. Looking more carefully now, you are right
+that I don't need to do the exporting. Will fix that in the next update.
+
+Thanks,
+Longman
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
