@@ -1,141 +1,149 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DC8877D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 19:53:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C8927D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 19:57:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732409AbeGLUEP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 16:04:15 -0400
-Received: from mail-oi0-f66.google.com ([209.85.218.66]:40548 "EHLO
-        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732204AbeGLUEP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 16:04:15 -0400
-Received: by mail-oi0-f66.google.com with SMTP id w126-v6so58027920oie.7;
-        Thu, 12 Jul 2018 12:53:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=rFH8P876Vl2E94mklJe34lGBbiVYKqYfk0DpwQ0FUK0=;
-        b=JKrLjoXI0tbP+SQX/D9NcBYGdkyqVOxyIomy9yvtcSbVyeNbr+bAG9RLoATno8rkfS
-         YV/9+lo6wG9AMjI296zN/uy9z8s3GL/jfczF6YclDcpArgOQ3tqVHs8bHygzVhq+VQDy
-         bj8yaDOwwIYVwGhpKiIywyTEwfznCC+vtfeUz96F9Y/PeSrt2jtVu6UZF12j9VO+Nync
-         ShYgDa/vORnhaVEHtHED2bBISwpfb6ReJBYtD6Q0zW/8vlv2WixLb0/o9v4KgKs44FoD
-         yXkWbAyjJJIIyvy+iwI19qBNpx4P5MpYdNJ4R/Cok7q1YhfUrt7Pr82fbsyZKvz2Whbe
-         Kj+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=rFH8P876Vl2E94mklJe34lGBbiVYKqYfk0DpwQ0FUK0=;
-        b=AMMZo0TtgrKrjDv2I8xKD/bXUS/p0MFM2ULcvaEQyrb69ubBqMqIo93ffk+1EI8sqC
-         3TzCpocYnNdrBlnpt7XxY7bpmH1vaCBQcOYuREXO0trgj4laLewBtshiNsESIl+N/+PU
-         OFNmas4wk485+3gvzYf97KZdonu6nqWfZkSjcFh4u2RRKA8JEYWztYQZu/BplUlLjv69
-         gu4XkNRqX9f61ykI8ljCm2J9Vm7C39FRhm+pZEgdTB4kLqfZnL/upMPpkZGmCPnTF4Z6
-         yRH+1RncSdTnsVgloYRZP2dF2HBQW/uACWXxSUV7b4jHl4MgbjS3jX+lNGJblVObLUUa
-         IiZg==
-X-Gm-Message-State: AOUpUlFSx9dpPPYNrq1BOpoe2TUMknCt6NQfWqIGbTOWTiZeWmW/0HwZ
-        MqA630bGc06/NY6IvQtl88CkCX7BktOoDJSMlAY=
-X-Google-Smtp-Source: AAOMgpcf0DTWbJP4wZXMlpjHY0oG8Pp/hBgvCt3IpuoFgZDSbMeHt8TebBd/HA1g6p4+OTuy4nj6ieuBiLHnEHlZrRM=
-X-Received: by 2002:aca:4784:: with SMTP id u126-v6mr4047569oia.229.1531425192244;
- Thu, 12 Jul 2018 12:53:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:5e0c:0:0:0:0:0 with HTTP; Thu, 12 Jul 2018 12:53:11
- -0700 (PDT)
-In-Reply-To: <20180712145849.GB15265@redhat.com>
-References: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180701210935.GA14404@redhat.com> <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
- <20180702180156.GA31400@redhat.com> <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
- <20180703163645.GA23144@redhat.com> <20180703172543.GC23144@redhat.com>
- <f5a39a88-c21e-4606-a04d-11b5f32016b8@linux.ibm.com> <20180710152527.GA3616@redhat.com>
- <6e3ff60b-267a-d49d-4ebb-c4264f9c034b@linux.ibm.com> <20180712145849.GB15265@redhat.com>
-From:   Song Liu <liu.song.a23@gmail.com>
-Date:   Thu, 12 Jul 2018 12:53:11 -0700
-Message-ID: <CAPhsuW6kCtn-tWSj5eKf+kGt8ZEjVwJKLxj9C6zdaqMZByRytg@mail.gmail.com>
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>,
-        srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        mhiramat@kernel.org, Peter Zijlstra <peterz@infradead.org>,
-        mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, open list <linux-kernel@vger.kernel.org>,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        ananth@linux.vnet.ibm.com, alexis.berlemont@gmail.com,
-        naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
+        id S1732235AbeGLUIV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 16:08:21 -0400
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:39604 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726815AbeGLUIV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 16:08:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id AACDA8EE3D1;
+        Thu, 12 Jul 2018 12:57:17 -0700 (PDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 6HoYkUYjGNuj; Thu, 12 Jul 2018 12:57:17 -0700 (PDT)
+Received: from [153.66.254.194] (unknown [50.35.68.20])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id AEDFF8EE02B;
+        Thu, 12 Jul 2018 12:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1531425437;
+        bh=7sazteA/gCT16xXLmFQBwcia+C/xjckWaefm+hMnMh8=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=utshGp9ex8Ez67m8RS8fMIPXAnNQoZAgzmc8X2RONFDLdnBnT+1x6WQtLJk4z5Nwm
+         a8vl1zcrbizzRJHkF4Os+DY2oyZeVIVELecxBsATU/B/ESpnEvDYN7J38kYvGP+kEx
+         im1lJF8WFk+M9lHPVAYQlL/6eEGrqZq8Xu9713MQ=
+Message-ID: <1531425435.18255.17.camel@HansenPartnership.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Waiman Long <longman@redhat.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
+Date:   Thu, 12 Jul 2018 12:57:15 -0700
+In-Reply-To: <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
+References: <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
+         <20180710142740.GQ14284@dhcp22.suse.cz>
+         <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
+         <20180711102139.GG20050@dhcp22.suse.cz>
+         <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
+         <1531330947.3260.13.camel@HansenPartnership.com>
+         <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+         <1531336913.3260.18.camel@HansenPartnership.com>
+         <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+         <1531411494.18255.6.camel@HansenPartnership.com>
+         <20180712164932.GA3475@bombadil.infradead.org>
+         <1531416080.18255.8.camel@HansenPartnership.com>
+         <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I guess I got to the party late. I found this thread after I started developing
-the same feature...
+On Thu, 2018-07-12 at 11:06 -0700, Linus Torvalds wrote:
+> On Thu, Jul 12, 2018 at 10:21 AM James Bottomley
+> <James.Bottomley@hansenpartnership.com> wrote:
+> > 
+> > On Thu, 2018-07-12 at 09:49 -0700, Matthew Wilcox wrote:
+> > > 
+> > > I don't know that it does work.  Or that it works well.
+> > 
+> > I'm not claiming the general heuristics are perfect (in fact I know
+> > we
+> > still have a lot of problems with dirty reclaim and writeback).
+> 
+> I think this whole "this is about running out of memory" approach is
+> wrong.
+> 
+> We *should* handle that well. Or well enough in practice, at least.
+> 
+> Do we? Maybe not. Should the dcache be the one area to be policed and
+> worked around? Probably not.
+> 
+> But there may be other reasons to just limit negative dentries.
+> 
+> What does the attached program do to people? It's written to be
+> intentionally annoying to the dcache.
 
-On Thu, Jul 12, 2018 at 7:58 AM, Oleg Nesterov <oleg@redhat.com> wrote:
-> On 07/11, Ravi Bangoria wrote:
->>
->> > However, I still think it would be better to avoid uprobe exporting and modifying
->> > set_swbp/set_orig_insn. May be we can simply kill both set_swbp() and set_orig_insn(),
->> > I'll re-check...
->>
->> Good that you bring this up. Actually, we can implement same logic
->> without exporting uprobe. We can do "uprobe = container_of(arch_uprobe)"
->> in uprobe_write_opcode(). No need to export struct uprobe outside,
->> no need to change set_swbp() / set_orig_insn() syntax. Just that we
->> need to pass arch_uprobe object to uprobe_write_opcode().
->
-> Yes, but you still need to modify set_swbp/set_orig_insn to pass the new
-> arg to uprobe_write_opcode(). OK, this is fine.
->
->
->> But, I wanted to discuss about making ref_ctr_offset a uprobe property
->> or a consumer property, before posting v6:
->>
->> If we make it a consumer property, the design becomes flexible for
->> user. User will have an option to either depend on kernel to handle
->> reference counter or he can create normal uprobe and manipulate
->> reference counter on his own. This will not require any changes to
->> existing tools. With this approach we need to increment / decrement
->> reference counter for each consumer. But, because of the fact that our
->> install_breakpoint() / remove_breakpoint() are not balanced, we have
->> to keep track of which reference counter have been updated in which
->> mm, for which uprobe and for which consumer. I.e. Maintain a list of
->> {uprobe, consumer, mm}.
+So it's interesting.  What happens for me is that I start out at pretty
+much no free memory so the programme slowly starts to fill up my
+available swap without shrinking my page cache (presumably it's causing
+dirty anonymous objects to be pushed out) and the dcache grows a bit.
+Then when my free swap reaches 0 we start to reclaim the dcache and it
+shrinks again (apparently still keeping the page cache at around 1.8G).
+ The system seems perfectly usable while this is running (tried browser
+and a couple of compiles) ... any calls for free memory seem to come
+out of the enormous but easily reclaimable dcache.
 
-Is it possible to maintain balanced refcount by modifying callers of
-install_breakpoint() and remove_breakpoint()? I am actually working
-toward this direction. And I found some imbalance between
-     register_for_each_vma(uprobe, uc)
-and
-     register_for_each_vma(uprobe, NULL)
+The swap effect is unexpected, but everything else seems to be going
+according to how I would wish.
 
-From reading the thread, I think there are other sources of imbalance.
-But I think it is still possible to fix it? Please let me know if this is not
-realistic...
+When I kill the programme I get about a megabyte of swap back but it's
+staying with the rest of swap occupied.  When all this started I had an
+8G laptop with 2G of swap of which 1G was used.  Now I have 2G of swap
+used but it all seems to be running OK.
 
+So what I mean by dcache grows a bit is this:
 
-About race conditions, I think both install_breakpoint() and remove_breakpoint()
-are called with
+I missed checking it before I started, but it eventually grew to
 
-   down_write(&mm->mmap_sem);
+jejb@jarvis:~> cat /proc/sys/fs/dentry-state 
+2841534	2816297	45	0	0	0
 
+Before eventually going back after I killed the programme to
 
-As long as we do the same when modifying the reference counter,
-it should be fine, right?
+jejb@jarvis:~> cat /proc/sys/fs/dentry-state 
+806559	781138	45	0	0	0
 
-Wait... sometimes we only down_read(). Is this by design?
+I just tried it again and this time the dcache only peaked at 
 
-Thanks,
-Song
+jejb@jarvis:~> cat /proc/sys/fs/dentry-state 
+2321933	2296607	45	0	0	0
+
+What surprises me most about this behaviour is the steadiness of the
+page cache ... I would have thought we'd have shrunk it somewhat given
+the intense call on the dcache.
+
+James
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
