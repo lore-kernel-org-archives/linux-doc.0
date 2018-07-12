@@ -1,41 +1,36 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D53357D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 23:03:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC7F57D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 23:08:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733154AbeGLXPY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 19:15:24 -0400
-Received: from mga18.intel.com ([134.134.136.126]:10312 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732493AbeGLXPY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Jul 2018 19:15:24 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jul 2018 16:03:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,345,1526367600"; 
-   d="scan'208";a="66542265"
-Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by orsmga003.jf.intel.com with ESMTP; 12 Jul 2018 16:03:38 -0700
-Message-ID: <1531436398.2965.18.camel@intel.com>
-Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1733211AbeGLXUS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 19:20:18 -0400
+Received: from Galois.linutronix.de ([146.0.238.70]:46071 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733207AbeGLXUS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 19:20:18 -0400
+Received: from p4fea482e.dip0.t-ipconnect.de ([79.234.72.46] helo=nanos.glx-home)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1fdkhE-0007hs-IU; Fri, 13 Jul 2018 01:08:24 +0200
+Date:   Fri, 13 Jul 2018 01:08:23 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+cc:     Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Florian Weimer <fweimer@redhat.com>,
         "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -46,60 +41,65 @@ To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Thu, 12 Jul 2018 15:59:58 -0700
-In-Reply-To: <bbb487cc-ac1c-f734-eee3-2463a0ba7efc@linux.intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-         <20180710222639.8241-19-yu-cheng.yu@intel.com>
-         <bbb487cc-ac1c-f734-eee3-2463a0ba7efc@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [RFC PATCH v2 25/27] x86/cet: Add PTRACE interface for CET
+In-Reply-To: <1531435034.2965.15.camel@intel.com>
+Message-ID: <alpine.DEB.2.21.1807130102470.1597@nanos.tec.linutronix.de>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>  <20180710222639.8241-26-yu-cheng.yu@intel.com>  <20180711102035.GB8574@gmail.com> <1531323638.13297.24.camel@intel.com>  <20180712140327.GA7810@gmail.com> <1531435034.2965.15.camel@intel.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="8323329-1575887918-1531436904=:1597"
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2018-07-10 at 16:48 -0700, Dave Hansen wrote:
-> > 
-> > +/*
-> > + * WRUSS is a kernel instrcution and but writes to user
-> > + * shadow stack memory.  When a fault occurs, both
-> > + * X86_PF_USER and X86_PF_SHSTK are set.
-> > + */
-> > +static int is_wruss(struct pt_regs *regs, unsigned long error_code)
-> > +{
-> > +	return (((error_code & (X86_PF_USER | X86_PF_SHSTK)) ==
-> > +		(X86_PF_USER | X86_PF_SHSTK)) && !user_mode(regs));
-> > +}
-> I thought X86_PF_USER was set based on the mode in which the fault
-> occurred.  Does this mean that the architecture of this bit is different
-> now?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Yes.
+--8323329-1575887918-1531436904=:1597
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-> That seems like something we need to call out if so.  It also means we
-> need to update the SDM because some of the text is wrong.
-
-It needs to mention the WRUSS case.
-
+On Thu, 12 Jul 2018, Yu-cheng Yu wrote:
+> On Thu, 2018-07-12 at 16:03 +0200, Ingo Molnar wrote:
+> > * Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > > > > diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
+> > > > > index e2ee403865eb..ac2bc3a18427 100644
+> > > > > --- a/arch/x86/kernel/ptrace.c
+> > > > > +++ b/arch/x86/kernel/ptrace.c
+> > > > > @@ -49,7 +49,9 @@ enum x86_regset {
+> > > > >  	REGSET_IOPERM64 = REGSET_XFP,
+> > > > >  	REGSET_XSTATE,
+> > > > >  	REGSET_TLS,
+> > > > > +	REGSET_CET64 = REGSET_TLS,
+> > > > >  	REGSET_IOPERM32,
+> > > > > +	REGSET_CET32,
+> > > > >  };
+> > > > Why does REGSET_CET64 alias on REGSET_TLS?
+> > > In x86_64_regsets[], there is no [REGSET_TLS].  The core dump code
+> > > cannot handle holes in the array.
+> > Is there a fundamental (ABI) reason for that?
 > 
-> > 
-> >  static void
-> >  show_fault_oops(struct pt_regs *regs, unsigned long error_code,
-> >  		unsigned long address)
-> > @@ -848,7 +859,7 @@ __bad_area_nosemaphore(struct pt_regs *regs, unsigned long error_code,
-> >  	struct task_struct *tsk = current;
-> >  
-> >  	/* User mode accesses just cause a SIGSEGV */
-> > -	if (error_code & X86_PF_USER) {
-> > +	if ((error_code & X86_PF_USER) && !is_wruss(regs, error_code)) {
-> >  		/*
-> >  		 * It's possible to have interrupts off here:
-> >  		 */
-> This needs commenting about why is_wruss() is special.
+> What I did was, ran Linux with 'slub_debug', and forced a core dump
+> (kill -abrt <pid>), then there was a red zone warning in the dmesg.
+> My feeling is there could be issues in the core dump code.  These
 
-Ok.
+Kernel development is not about feelings.
+
+Either you can track down the root cause or you cannot. There is no place
+for feelings and no place in between. And if you cannot track down the root
+cause and explain it proper then the resulting patch is just papering over
+the symptoms and will come back to hunt you (or others) sooner than later.
+
+No if, no could, no feelings. Facts is what matters. Really.
+
+Thanks,
+
+	tglx
+--8323329-1575887918-1531436904=:1597--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
