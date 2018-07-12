@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 788C17DE7F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 16:47:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CBE867D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 16:47:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732429AbeGLQ52 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 12:57:28 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:57348 "EHLO mx1.redhat.com"
+        id S1727045AbeGLQ6F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 12:58:05 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:57324 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732381AbeGLQ51 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Jul 2018 12:57:27 -0400
+        id S1726906AbeGLQ50 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Jul 2018 12:57:26 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 7DDCF818F042;
+        by mx1.redhat.com (Postfix) with ESMTPS id 029B3818BAFC;
         Thu, 12 Jul 2018 16:47:05 +0000 (UTC)
 Received: from llong.com (dhcp-17-175.bos.redhat.com [10.18.17.175])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 08C0F1C677;
-        Thu, 12 Jul 2018 16:47:05 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7BAE51C676;
+        Thu, 12 Jul 2018 16:47:04 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -41,9 +41,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>,
         Michal Hocko <mhocko@kernel.org>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v7 6/6] fs/dcache: Allow deconfiguration of negative dentry code to reduce kernel size
-Date:   Thu, 12 Jul 2018 12:46:05 -0400
-Message-Id: <1531413965-5401-7-git-send-email-longman@redhat.com>
+Subject: [PATCH v7 5/6] fs/dcache: Allow optional enforcement of negative dentry limit
+Date:   Thu, 12 Jul 2018 12:46:04 -0400
+Message-Id: <1531413965-5401-6-git-send-email-longman@redhat.com>
 In-Reply-To: <1531413965-5401-1-git-send-email-longman@redhat.com>
 References: <1531413965-5401-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
@@ -54,174 +54,218 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The tracking and limit of negative dentries in a filesystem is a useful
-addition. However, for users who want to reduce the kernel size as much
-as possible, this feature will probably be on the chopping block. To
-suit those users, a default-y config option DCACHE_LIMIT_NEG_ENTRY is
-added so that the negative dentry limiting code can be configured out,
-if necessary.
+If a rogue application that generates a large number of negative dentries
+is running, it is possible that negative dentries will use up most of
+the available memory in the system when that application is not under
+the control of a memory cgroup that limit kernel memory.
+
+The lack of available memory may significantly impact the operation
+of other applications running in the system. It will slow down system
+performance and may even work as part of a DoS attack on the system.
+
+To allow system administrators the option to prevent this extreme
+situation from happening, a new "neg-dentry-enforce" sysctl parameter
+is now added which can be set to to enforce the negative dentry soft
+limit set in "neg-dentry-limit" so that it becomes a hard limit. When
+the limit is enforced, extra negative dentries that exceed the limit
+will be killed after use instead of leaving them in the LRU.
+
+Note that negative dentry killing happens when the global negative
+dentry free pool is depleted even if there are space in other percpu
+negative dentry counts for more.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- fs/Kconfig             | 10 ++++++++++
- fs/dcache.c            | 29 +++++++++++++++++++++++------
- include/linux/dcache.h |  2 ++
- kernel/sysctl.c        |  2 ++
- 4 files changed, 37 insertions(+), 6 deletions(-)
+ Documentation/sysctl/fs.txt | 10 +++++++++
+ fs/dcache.c                 | 51 ++++++++++++++++++++++++++++++++++++---------
+ include/linux/dcache.h      |  2 ++
+ kernel/sysctl.c             |  9 ++++++++
+ 4 files changed, 62 insertions(+), 10 deletions(-)
 
-diff --git a/fs/Kconfig b/fs/Kconfig
-index ac474a6..b521941 100644
---- a/fs/Kconfig
-+++ b/fs/Kconfig
-@@ -113,6 +113,16 @@ source "fs/autofs/Kconfig"
- source "fs/fuse/Kconfig"
- source "fs/overlayfs/Kconfig"
+diff --git a/Documentation/sysctl/fs.txt b/Documentation/sysctl/fs.txt
+index 6fd43b3..b073d9a 100644
+--- a/Documentation/sysctl/fs.txt
++++ b/Documentation/sysctl/fs.txt
+@@ -32,6 +32,7 @@ Currently, these files are in /proc/sys/fs:
+ - nr_open
+ - overflowuid
+ - overflowgid
++- neg-dentry-enforce
+ - neg-dentry-limit
+ - pipe-user-pages-hard
+ - pipe-user-pages-soft
+@@ -169,6 +170,15 @@ The default is 65534.
  
-+#
-+# Track and limit the number of negative dentries allowed in the system.
-+#
-+config DCACHE_LIMIT_NEG_ENTRY
-+	bool "Track & limit negative dcache entries"
-+	default y
-+	help
-+	  This option enables the tracking and limiting of the total
-+	  number of negative dcache entries allowable in the filesystem.
+ ==============================================================
+ 
++neg-dentry-enforce:
 +
- menu "Caches"
++The file neg-dentry-enforce, if present, contains a boolean flag (0 or
++1) indicating if the negative dentries limit set by the "neg-dentry-limit"
++sysctl parameter should be enforced or not.  If enforced, excess negative
++dentries over the limit will be killed immediately after use.
++
++==============================================================
++
+ neg-dentry-limit:
  
- source "fs/fscache/Kconfig"
+ This integer value specifies a soft limit on the total number of
 diff --git a/fs/dcache.c b/fs/dcache.c
-index 843c8be..dccfe39 100644
+index b2c1585..843c8be 100644
 --- a/fs/dcache.c
 +++ b/fs/dcache.c
-@@ -141,6 +141,7 @@ struct dentry_stat_t dentry_stat = {
- #define NEG_DENTRY_BATCH	(1 << 8)
- #define NEG_WARN_PERIOD 	(60 * HZ)	/* Print a warning every min */
- 
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- static struct static_key limit_neg_key = STATIC_KEY_INIT_FALSE;
+@@ -145,6 +145,8 @@ struct dentry_stat_t dentry_stat = {
  static int neg_dentry_limit_old;
  int neg_dentry_limit;
-@@ -156,6 +157,7 @@ struct dentry_stat_t dentry_stat = {
- 	unsigned long warn_jiffies;	/* Time when last warning is printed */
- } ndblk ____cacheline_aligned_in_smp;
- proc_handler proc_neg_dentry_limit;
-+#endif /* CONFIG_DCACHE_LIMIT_NEG_ENTRY */
+ EXPORT_SYMBOL_GPL(neg_dentry_limit);
++int neg_dentry_enforce;	/* Enforce the negative dentry limit */
++EXPORT_SYMBOL_GPL(neg_dentry_enforce);
  
- static DEFINE_PER_CPU(long, nr_dentry);
- static DEFINE_PER_CPU(long, nr_dentry_unused);
-@@ -200,7 +202,9 @@ static long get_nr_dentry_neg(void)
- 
- 	for_each_possible_cpu(i)
- 		sum += per_cpu(nr_dentry_neg, i);
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- 	sum += neg_dentry_nfree_init - ndblk.nfree;
-+#endif
- 	return sum < 0 ? 0 : sum;
+ static long neg_dentry_percpu_limit __read_mostly;
+ static long neg_dentry_nfree_init __read_mostly; /* Free pool initial value */
+@@ -308,7 +310,7 @@ static long __neg_dentry_nfree_dec(long cnt)
+ 	return cnt;
  }
  
-@@ -267,6 +271,7 @@ static inline int dentry_string_cmp(const unsigned char *cs, const unsigned char
- 
- #endif
- 
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- /*
-  * Decrement negative dentry count if applicable.
-  */
-@@ -289,12 +294,6 @@ static void __neg_dentry_dec(struct dentry *dentry)
- 	}
- }
- 
--static inline void neg_dentry_dec(struct dentry *dentry)
--{
--	if (unlikely(d_is_negative(dentry)))
--		__neg_dentry_dec(dentry);
--}
--
- /*
-  * Try to decrement the negative dentry free pool by NEG_DENTRY_BATCH.
-  * The actual decrement returned by the function may be smaller.
-@@ -454,6 +453,20 @@ int proc_neg_dentry_limit(struct ctl_table *ctl, int write,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(proc_neg_dentry_limit);
-+#else /* CONFIG_DCACHE_LIMIT_NEG_ENTRY */
-+
-+static inline void __neg_dentry_dec(struct dentry *dentry)
-+{
-+	 this_cpu_dec(nr_dentry_neg);
-+}
-+
-+#endif /* CONFIG_DCACHE_LIMIT_NEG_ENTRY */
-+
-+static inline void neg_dentry_dec(struct dentry *dentry)
-+{
-+	if (unlikely(d_is_negative(dentry)))
-+		__neg_dentry_dec(dentry);
-+}
- 
- static inline int dentry_cmp(const struct dentry *dentry, const unsigned char *ct, unsigned tcount)
+-static noinline void neg_dentry_inc_slowpath(struct dentry *dentry)
++static noinline int neg_dentry_inc_slowpath(struct dentry *dentry)
  {
-@@ -642,6 +655,7 @@ static void d_lru_add(struct dentry *dentry)
- 	dentry->d_flags |= DCACHE_LRU_LIST;
- 	this_cpu_inc(nr_dentry_unused);
+ 	long cnt = 0, *pcnt;
+ 	unsigned long current_time;
+@@ -330,6 +332,24 @@ static noinline void neg_dentry_inc_slowpath(struct dentry *dentry)
+ 		goto out;
+ 
+ 	/*
++	 * Kill the dentry by setting the DCACHE_KILL_NEGATIVE flag and
++	 * dec the negative dentry count if the enforcing option is on.
++	 */
++	if (neg_dentry_enforce) {
++		dentry->d_flags |= DCACHE_KILL_NEGATIVE;
++		this_cpu_dec(nr_dentry_neg);
++
++		/*
++		 * When the dentry is not put into the LRU, we
++		 * need to keep the reference count to 1 to
++		 * avoid problem when killing it.
++		 */
++		WARN_ON_ONCE(dentry->d_lockref.count);
++		dentry->d_lockref.count = 1;
++		return -1; /* Kill the dentry now */
++	}
++
++	/*
+ 	 * Put out a warning every minute or so if there are just too many
+ 	 * negative dentries.
+ 	 */
+@@ -354,27 +374,28 @@ static noinline void neg_dentry_inc_slowpath(struct dentry *dentry)
+ 	 */
+ 	cnt = get_nr_dentry_neg();
+ 	pr_warn("Warning: Too many negative dentries (%ld). "
+-		"This warning can be disabled by writing 0 to \"fs/neg-dentry-limit\" or increasing the limit.\n",
++		"This warning can be disabled by writing 0 to \"fs/neg-dentry-limit\", increasing the limit or writing 1 to \"fs/neg-dentry-enforce\".\n",
+ 		cnt);
+ out:
+-	return;
++	return 0;
+ }
+ 
+ /*
+  * Increment negative dentry count if applicable.
++ * Return: 0 on success, -1 to kill it.
+  */
+-static void neg_dentry_inc(struct dentry *dentry)
++static int neg_dentry_inc(struct dentry *dentry)
+ {
+ 	if (!static_key_false(&limit_neg_key)) {
+ 		this_cpu_inc(nr_dentry_neg);
+-		return;
++		return 0;
+ 	}
+ 
+ 	if (likely(this_cpu_inc_return(nr_dentry_neg) <=
+ 		   neg_dentry_percpu_limit))
+-		return;
++		return 0;
+ 
+-	neg_dentry_inc_slowpath(dentry);
++	return neg_dentry_inc_slowpath(dentry);
+ }
+ 
+ /*
+@@ -623,7 +644,11 @@ static void d_lru_add(struct dentry *dentry)
  	if (d_is_negative(dentry)) {
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
  		if (dentry->d_flags & DCACHE_NEW_NEGATIVE) {
  			dentry->d_flags &= ~DCACHE_NEW_NEGATIVE;
- 			if (unlikely(neg_dentry_inc(dentry) < 0)) {
-@@ -658,6 +672,7 @@ static void d_lru_add(struct dentry *dentry)
- 				&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
- 			return;
- 		}
-+#endif
- 		/*
- 		 * We don't do limit check for existing negative
- 		 * dentries.
-@@ -3431,7 +3446,9 @@ static void __init dcache_init(void)
- 		SLAB_RECLAIM_ACCOUNT|SLAB_PANIC|SLAB_MEM_SPREAD|SLAB_ACCOUNT,
- 		d_iname);
+-			neg_dentry_inc(dentry);
++			if (unlikely(neg_dentry_inc(dentry) < 0)) {
++				this_cpu_dec(nr_dentry_unused);
++				dentry->d_flags &= ~DCACHE_LRU_LIST;
++				return;	/* To be killed */
++			}
  
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- 	raw_spin_lock_init(&ndblk.nfree_lock);
-+#endif
+ 			/*
+ 			 * Add the negative dentry to the head once, it
+@@ -878,16 +903,22 @@ static inline bool retain_dentry(struct dentry *dentry)
+ 	if (unlikely(dentry->d_flags & DCACHE_DISCONNECTED))
+ 		return false;
  
- 	/* Hash may have been set up in dcache_init_early */
- 	if (!hashdist)
++	if (unlikely(dentry->d_flags & DCACHE_KILL_NEGATIVE))
++		return false;
++
+ 	if (unlikely(dentry->d_flags & DCACHE_OP_DELETE)) {
+ 		if (dentry->d_op->d_delete(dentry))
+ 			return false;
+ 	}
+ 	/* retain; LRU fodder */
+ 	dentry->d_lockref.count--;
+-	if (unlikely(!(dentry->d_flags & DCACHE_LRU_LIST)))
++	if (unlikely(!(dentry->d_flags & DCACHE_LRU_LIST))) {
+ 		d_lru_add(dentry);
+-	else if (unlikely(!(dentry->d_flags & DCACHE_REFERENCED)))
++		if (unlikely(dentry->d_flags & DCACHE_KILL_NEGATIVE))
++			return false;
++	} else if (unlikely(!(dentry->d_flags & DCACHE_REFERENCED))) {
+ 		dentry->d_flags |= DCACHE_REFERENCED;
++	}
+ 	return true;
+ }
+ 
 diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index 934a6d9..11729a1 100644
+index 4216eca..934a6d9 100644
 --- a/include/linux/dcache.h
 +++ b/include/linux/dcache.h
-@@ -612,10 +612,12 @@ struct name_snapshot {
- void take_dentry_name_snapshot(struct name_snapshot *, struct dentry *);
- void release_dentry_name_snapshot(struct name_snapshot *);
+@@ -219,6 +219,7 @@ struct dentry_operations {
  
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- /*
+ #define DCACHE_PAR_LOOKUP		0x10000000 /* being looked up (with parent locked shared) */
+ #define DCACHE_DENTRY_CURSOR		0x20000000
++#define DCACHE_KILL_NEGATIVE		0x40000000 /* Kill negative dentry */
+ 
+ extern seqlock_t rename_lock;
+ 
+@@ -615,5 +616,6 @@ struct name_snapshot {
   * Negative dentry related declarations.
   */
  extern int neg_dentry_limit;
- extern int neg_dentry_enforce;
-+#endif
++extern int neg_dentry_enforce;
  
  #endif	/* __LINUX_DCACHE_H */
 diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index a24101e..732c624 100644
+index 2877782..a24101e 100644
 --- a/kernel/sysctl.c
 +++ b/kernel/sysctl.c
-@@ -1851,6 +1851,7 @@ static int sysrq_sysctl_handler(struct ctl_table *table, int write,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= &one,
- 	},
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- 	{
- 		.procname	= "neg-dentry-limit",
- 		.data		= &neg_dentry_limit,
-@@ -1869,6 +1870,7 @@ static int sysrq_sysctl_handler(struct ctl_table *table, int write,
+@@ -1860,6 +1860,15 @@ static int sysrq_sysctl_handler(struct ctl_table *table, int write,
  		.extra1		= &zero,
- 		.extra2		= &one,
+ 		.extra2		= &one_hundred,
  	},
-+#endif
++	{
++		.procname	= "neg-dentry-enforce",
++		.data		= &neg_dentry_enforce,
++		.maxlen		= sizeof(neg_dentry_enforce),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= &zero,
++		.extra2		= &one,
++	},
  	{ }
  };
  
