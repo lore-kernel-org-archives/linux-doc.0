@@ -3,62 +3,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D91AD7DE80
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 08:21:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1EB297DE80
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 08:45:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726486AbeGLIaQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 04:30:16 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41922 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725874AbeGLIaP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 04:30:15 -0400
-Received: by mail-lj1-f194.google.com with SMTP id y17-v6so16558543ljy.8;
-        Thu, 12 Jul 2018 01:21:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=j3GRVs5QdaCvzkNqHu3pRIHoQbXSF4DPa5zkup5RP0I=;
-        b=RHRuN39ItsDFxGc1cWjLEJZQmV29TcarcMt1X4T69oyd1773KoLJh4/259KVNI88jS
-         36ci2nOjnaPAsEYIZavrtMf0KVwUvJxNUCeRiYmURCKc9CEaYUTui5XNgthfq+0OCcNx
-         ffDcH6to64fcl9+VnYmrWCrSq0TK7U5AWXXuWX1bQnGlpqxf84lt92Nf/z5g5CWHXYWZ
-         Z3KfKN+U8/aCSwz+eTjJICFk8Ws734D8vkTRQdhb1ccmsbVqZ/HOyUPTfGWlOCotkn3b
-         3yj6l43xHd7jFpU3yAtjJzYR2c3sefKymWZ261UI3oe1B1bOGrU/suZ7OOpjfGkvYiCw
-         6+ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=j3GRVs5QdaCvzkNqHu3pRIHoQbXSF4DPa5zkup5RP0I=;
-        b=IT3sU8IwQDZzl57YHi5MW4iE4BQl7NATXQVcUlwzm/gmERWTH2I/eruz/SkYjDG7DV
-         svLz0N46U3ZSDGY7bDxFnUZRAv02Ze3tbHcpwJqeaH5Ww3PihcvhjratUX1+Et4G/vc3
-         YCyiwXf4E5TulF4wjmCy1PngH69wB/TgBEZzSlsOrNBwCFEqC9eAPi7VeCgimf1Hl8wn
-         4mgEddab3wB2IWw4g4SljxIQxCu4zasTlQEEfC9m1mXU/JyHbB1tIXonYc3U3KCDOpND
-         7eN/Y8xGcLebtdMsLzKk77O8g/71asq2KBr4LRHTN++G+0V7WGdkvjQpT34Moesiqzje
-         2ObA==
-X-Gm-Message-State: APt69E1RD1dvpSm9CQB0UzsdN4NaQqg9+5lFnplhhbOm5RYSGBMlG5nI
-        chuyXo7i63l2RAE9PkoDDWHLR3mAwcsQXTBJfXw=
-X-Google-Smtp-Source: AAOMgpejjrhfHovHvH/M3Su+a1+j4rc6LlGIShC1a6mXfuZiZNCf0pe4Ad7aGrx4iBGb/UV+ioTZpVxY7WFvxqfaejQ=
-X-Received: by 2002:a2e:118f:: with SMTP id 15-v6mr19848413ljr.38.1531383701692;
- Thu, 12 Jul 2018 01:21:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Thu, 12 Jul 2018 01:21:40
- -0700 (PDT)
-In-Reply-To: <20180712000932.3b04ee9d@bbrezillon>
-References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
- <20180330074751.25987-2-boris.brezillon@bootlin.com> <CAK8P3a1aZXf2sQW2mgwJScycKPhdoOAwxRjm5cQG83513uc3fg@mail.gmail.com>
- <20180711164120.3e32fb08@bbrezillon> <CAK8P3a2EZB_tMS_47wv6M2Qpm79ZocxxhG5zLxXsBM_YjZgkyA@mail.gmail.com>
- <20180711191212.3855bb25@bbrezillon> <CAK8P3a2djk8c6STaxJC0MCkBddyOafk4WbG2LdfPf0V1EYiqmQ@mail.gmail.com>
- <20180712000932.3b04ee9d@bbrezillon>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 12 Jul 2018 10:21:40 +0200
-X-Google-Sender-Auth: fqlxLLQ7N9vvq3ZEjGGtsR8bo5w
-Message-ID: <CAK8P3a13GX67YEci2J8Rxn6O4FBjjD82X+w3hyGMT3TDbtFkTg@mail.gmail.com>
+        id S1732366AbeGLIxw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 04:53:52 -0400
+Received: from mail-eopbgr00123.outbound.protection.outlook.com ([40.107.0.123]:56530
+        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726393AbeGLIxw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Jul 2018 04:53:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q9TTyTBkxohpJpku1rYg97bQm5Z08Aslibl+Of9T3iA=;
+ b=Cg9aJbysJxBemqtue61Z39b3VLaSpNZ6uq5asbLIHRxRyd3obi9CQAmFc6tYHkoUsezEFL8JaaN3R5SBXfFVUXXNUqyoiSnWPqn4rPLE54qCWIsteqIXhojghPgL+nuknm+xP3LpBQJP60bH6Lvm5sL/J3c/ZJEI7ZanuO0HEhI=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=peda@axentia.se; 
+Received: from [192.168.13.3] (85.226.244.23) by
+ VI1PR0201MB2464.eurprd02.prod.outlook.com (2603:10a6:800:55::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.930.21; Thu, 12 Jul
+ 2018 08:45:03 +0000
 Subject: Re: [PATCH v4 01/10] i3c: Add core I3C infrastructure
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -83,121 +55,132 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+ <20180330074751.25987-2-boris.brezillon@bootlin.com>
+ <CAK8P3a1aZXf2sQW2mgwJScycKPhdoOAwxRjm5cQG83513uc3fg@mail.gmail.com>
+ <20180711164120.3e32fb08@bbrezillon>
+ <CAK8P3a2EZB_tMS_47wv6M2Qpm79ZocxxhG5zLxXsBM_YjZgkyA@mail.gmail.com>
+ <20180711191212.3855bb25@bbrezillon>
+ <a31dc625-56bf-7a59-d9a3-2841360b864e@axentia.se>
+ <CAK8P3a2oMDw2zHzE5vFFHDqzKVKEzOga6v0ExdYVawnMtcdbrQ@mail.gmail.com>
+From:   Peter Rosin <peda@axentia.se>
+Organization: Axentia Technologies AB
+Message-ID: <bd07430a-8ec6-e2b5-64fd-c4361fe5760f@axentia.se>
+Date:   Thu, 12 Jul 2018 10:44:59 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAK8P3a2oMDw2zHzE5vFFHDqzKVKEzOga6v0ExdYVawnMtcdbrQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [85.226.244.23]
+X-ClientProxiedBy: HE1PR02CA0096.eurprd02.prod.outlook.com
+ (2603:10a6:7:29::25) To VI1PR0201MB2464.eurprd02.prod.outlook.com
+ (2603:10a6:800:55::7)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bb077ece-9b3f-48c2-663b-08d5e7d3c41e
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652040)(7021125)(8989117)(5600053)(711020)(4534165)(7022125)(4603075)(4627221)(201702281549075)(8990107)(7048125)(7024125)(7027125)(7028125)(7023125)(2017052603328)(7153060)(7193020);SRVR:VI1PR0201MB2464;
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR0201MB2464;3:3+m9jvrZEl2nu8BA0EeAmmiLkC06tKVqrfKglKT+tvpENSWZSoBchBPOYayIWgeFFNUgbuhpy+ELnXZot3bfUUDkIa/vg5uTJ7Gv+kXv9vgaPVFrToxei3VvjO6M8IavvyaW01hUyEjrwQTivdrAiQCmQYvF+R7a14NWWp+QMyOUsH4EoU666F5ufnJ9pHMrZbl8G9+FQFd5I9ppW4zd182A9j6+dVkv3SxBRpfSbaPnAXQaVEnYli/UMSLS3ViF;25:mTBSU8OzglAtxsG5550c4GhX0ZEOPjU4CxZ3u0ecBa+xdv6c5eGaerlD+LGAU2XgFJp4jWpiJEFgaVVhcMcms+cbqQUzJyIItHtGaDACYEwvAut6hQj75Ht58SnBuWuHm9IQS/JZvQvhK+irTxPp4/sVWY+UBWY97iuvFVMijOyA/Hxcr1w4CO5zAY2BgVk4ZcZ79gDnNJ8kpq56tTKujimqxpQC0Chfm5Eap7aHv7qa6f26BHqQQ7E9RNuOVs8a/hbl/+dSsL53UcLlUH1BoOnxA/k1KHPF45UkPNQsMlll02KhgoRmEpF1oOTwfOsu6GB9BDDSKsZpoNqpqIpZbA==;31:F9fCZP8HGfb4b25tDwmiXvaT2QbOStUeqm9Kj6rAn/XF9F//hOJyTSg/PfN/64obWyVLDhRoaEWKrMrrdrA6sz3beYARG68fiQqj6wiR+9krRSiyLXWXwThawCJhAjaY2/O6pI6dSTS3MxhWD0b0dfLgRu19VuBnWo+rQ6N/nlE+gnyXiNYvyLBDR5DALBA86mtR7MwmOlTdkwRAYaZQniTHxTTBgtrayb7soYwNXsg=
+X-MS-TrafficTypeDiagnostic: VI1PR0201MB2464:
+X-Microsoft-Antispam-PRVS: <VI1PR0201MB2464B48C93A6A1A7A82CE885BC590@VI1PR0201MB2464.eurprd02.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(6040522)(2401047)(8121501046)(5005006)(3231311)(944501410)(52105095)(93006095)(93001095)(10201501046)(3002001)(149027)(150027)(6041310)(2016111802025)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(6043046)(6072148)(201708071742011)(7699016);SRVR:VI1PR0201MB2464;BCL:0;PCL:0;RULEID:;SRVR:VI1PR0201MB2464;
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR0201MB2464;4:rdxKprIUmuiopG3T2XIiEOHh/dOShCJFgfs6SJdupSlaQnvQcgjQTWZFY4rCIp+shHDNmljEozgtmRsbDBWknDbzzyaFjjPv5tQJOKWy3QRueYNCsKLJo9CY5PolMy6nIBRqaq5kRrFzyfwtKUMMIzhH7Aa/TVqVij444w+tylV1hMd2yIcUcw+gw+faz9Dedm19cWft7sp5Vqa4rhEOGpUGFCBvVcxd2+51YOr1Vg+GMyNxdc5SwHFRSBFZ887ACgeEEaqTIX1h6rqdeNYTYw==
+X-Forefront-PRVS: 0731AA2DE6
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(6049001)(396003)(136003)(366004)(39830400003)(376002)(346002)(199004)(189003)(6486002)(65956001)(66066001)(65806001)(47776003)(36756003)(230700001)(3846002)(229853002)(6116002)(97736004)(7736002)(31696002)(86362001)(105586002)(106356001)(305945005)(31686004)(8676002)(81156014)(81166006)(2906002)(8936002)(93886005)(50466002)(386003)(53546011)(68736007)(53936002)(6246003)(54906003)(4326008)(316002)(64126003)(74482002)(58126008)(117156002)(25786009)(3260700006)(16576012)(2486003)(52116002)(6916009)(6666003)(36916002)(23676004)(52146003)(2616005)(5660300001)(7406005)(7416002)(11346002)(476003)(956004)(26005)(16526019)(478600001)(76176011)(486006)(65826007)(446003)(186003)(77096007)(42262002);DIR:OUT;SFP:1102;SCL:1;SRVR:VI1PR0201MB2464;H:[192.168.13.3];FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+Received-SPF: None (protection.outlook.com: axentia.se does not designate
+ permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtWSTFQUjAyMDFNQjI0NjQ7MjM6OEpId2NNUGRCRmNvblppRm9nZWtBT2w0?=
+ =?utf-8?B?M1lIdEpwcDlucjNFdWVQQm5SaGVEd2REdzE0bWNqVGpaRFdvUkJ2WFNjMUl1?=
+ =?utf-8?B?aEJFdjlzMkdITWdmREliQytnL0tSdlkvNWR5T2p1alFXOVl1SWcyM0pMOGMy?=
+ =?utf-8?B?UkZJRnBhZVNBT3VQcU55by9IN044Uk1wZEFkY0lhR01GbjF6Tys5VHhTZzZk?=
+ =?utf-8?B?RDh1VVQ3OWxidld1cXd0N0NBaWJVMGVjVFpNQk44Z0NPVjVSVitMZnYwVHli?=
+ =?utf-8?B?aEFpSVdaaWhJYmxFYnR2RGY5L1B2ZDcrYVp0L0ZzWWdJMHNQSnFWQVBhOTB0?=
+ =?utf-8?B?eng0bHV1OHlYZENtbk5XNzRDblB6ajBCcnRUeDh4aHFKaGxRbS9QYy8raWo2?=
+ =?utf-8?B?M1F4WnMwdndXYkFGbmttTUhPQmdkYXArUjJVbkV4aG5lUGZyZzJUdTM2Zm5y?=
+ =?utf-8?B?eDNOcGlSY05FeHhiRUFEQkdyejk0amUyWG1Wczc3N2pNTHpxNk9KbmUra1ZI?=
+ =?utf-8?B?V3VxRW41cjkrVTFYQkNVUnNyaXNjb3dqcE5YMUN5LzcvWXdmc3FTU3pzbkxP?=
+ =?utf-8?B?cHpsTlNCdEw3Y0xMQmp1TSs1ekE4YjlQMlhTWGcyOHg5QWhSem9JRUU3cXNB?=
+ =?utf-8?B?dFMvSlBqTXF4cEFxbXBpTmx0aFRPdWVEYVpEWG0zR1ZBS1BUbDNFTFdYdVNX?=
+ =?utf-8?B?eC9PMk9RZXN0QXVudkpoaERnWWJ1SWp2cjlialVnSVZNWDE0d0ROV2VCUE05?=
+ =?utf-8?B?elc0Yk1YSjVtMzVmWDZUR0RFb2t4bHl2b2l3T2NDTjI4Q0o3Y1F6Q0Qrc0Nm?=
+ =?utf-8?B?M1RWazAzbFAwdTRha3Rjei82akFSeFEzZFV5RVRsUGRpR1JKK0t4dEl4NEtv?=
+ =?utf-8?B?TW5aSGRsd1ErRWRNRmJ5V0k4L2dNaFhXaldIeUVtc2ZLbmNpRS8xQzFsVWkv?=
+ =?utf-8?B?R2NienY3M1ZnMVdaRFdIQVorSmxsN1I2TE5FSTU1aVdiTGk1TVlPWnhSNEhI?=
+ =?utf-8?B?WXF2K1RYWkZmQ05RT0hoSDZ6Y1JiKzBlTTdBeHNFWTBFUHFoQkNTT3dUQ241?=
+ =?utf-8?B?VW5BYmttYlpMaG9DbXZjMXVMUHZoZTJFOXNVQlMwc1VqbEZUeUt3SVVoaEp1?=
+ =?utf-8?B?NzZVeGFNMEFwY0tkVExrRDBrS29WSno5MEVXamdnMVBNZGQwZkNlaDFnb2Vl?=
+ =?utf-8?B?ekd6SFRCeC9KWlRpWEpNc0VIUDVaaE5mOGMvQlRwOHRWMm0rZ09MK1YrUnAx?=
+ =?utf-8?B?K1A2UUxIUlAybXlhWHRhaW12TlY0YU9WMVF5bUJybjE3V3lCd3ZHOHRrbC9V?=
+ =?utf-8?B?RFB2Zm15Q2t1b29laE9VU3Y2eWFZRWtyNzloVUtsWStnd3U1cmdPeG1RWmYv?=
+ =?utf-8?B?YTkvdDlQR2I0NWJlblJhcVV3b3Jqc041OUR0UzQ0VVFVdzZueElvbzIxVitx?=
+ =?utf-8?B?cUVCRlk3WWNMdWRsWFlsOW4rTzhwNGFyTFNya1RKSFRLN3ljc1lTYTdiaTI1?=
+ =?utf-8?B?YTNSMTBKT0hNQTBFZXpTbFUxMjQ2cHBlZ0ROZWs3MDAvUTBpS1BIeUJXUDVH?=
+ =?utf-8?B?VG96aTFONG9DTE1YWWpBZjB1K29CM25UUjdZUHgvWnAzU0JEUkk0cHZ3ZDdK?=
+ =?utf-8?B?MUtPak1hMTJUMi9IWUNyRHkzUzRBemFWVy9ZTTlGblJ6eldCNjY1RUhRM0Zw?=
+ =?utf-8?B?eVg3Sm43Y3FKR0lReWtBMFZSendXS2ladTBERjI5NzNoeGl3WGQ1MUhaSDY4?=
+ =?utf-8?B?UmtVdDZ6M0VLVXNMdmlWRkVBNUlodE5wdmtWVU5Tc2lRWUR5MkF4eFNxS0Vy?=
+ =?utf-8?B?WWJ2Mm1NZkZKNWIyTTUwVDgzRlBQK0pYbjNuMG9SODdxeGdjZlIzcDdPSXE0?=
+ =?utf-8?B?MXdrNzB2SjlKeCtVZmNoSVhPcHAya0UrbWhsTGtQZFVSVmZjM3NQd0pZUk5L?=
+ =?utf-8?B?SGVrcUlnODBnM1NoaXZaQW1Zc0lIbkg2eFNQY0RjSnhRbUxzL00yclB1NkVO?=
+ =?utf-8?B?OCtQdFF0NEExL2tNdHBZTUlNUGVaKy9MYWhsUk5CMUFtdVRVMThsS3lJdWdC?=
+ =?utf-8?B?T0hkMGJOMTJaL0p0WGpCc3E0NnF2RUhzSjhPMzU5Rnp1QzNNQW94YzFsMkxX?=
+ =?utf-8?Q?WhjV87JfH6JaBgyQUur52E0lfg8GHJZa5nhjf/URnnR0NH?=
+X-Microsoft-Antispam-Message-Info: 8cGUalrYyDF4tay0faEvTc6ZZVOJR9ogVG6bGB59M0mMfHgXIjuzJtmFu44aGOuyu+GKoRnevZq068EnGsLaRJW3O2K2jLDbX8U3MFssmAH7C+Q6KCDiKUlWfIfQ/rXWvjYp4Y9uPGlp9FfQ7IY/2rWR/QHI93m5svVQSg8C2rF/hEnMuJGxeNzJn4ZfAtea9jdy2XL+gfC3z3g88p+XdZ/z8hSoT+7rOyEZct9pbxxQK38M4uS7yMfkUcd/Cdg+jleik9hknYG6zs27BM5zUToHnku1Ey9YaI/eoXCFCbi7F6CKHGwgOSAOuANNkTm/81RFsIcG0GGmtNaj0qaD7vhFUomWD46Nz4HzyWk3Tk4=
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR0201MB2464;6:qVLoC3D1xDf+H4TtjgUUH39vSCa8R92xKsFDQCz0+IhtKD7Q3SQ9UVA4mHrfR8bxOx/wvpN081to0A/3R1RB0zDMPzzi9iiayGmdGSddmOwdy4CnPGKqy6eTN+MLqIlyf3HVParvogEjf3npXgz55+2wHm03f46azyGwll4X7JDOtNy4CgRyg/Zb8F/dzzzAw1VsJK54smgY8ZqAHQ3pQgQr0mblL4S7fD+RCX3UX2ndVFByY0yfbwq3QnpeZVnf1QqzDBk3UeFeY7EBADjv3tr5oHM7lBJyEj0ZkXmMAQgOWpOupjLIz38shzTcEkJkOid2+UIfSV611sw3/lYWaK/QSWOwCbukanlL97VCLrDYAmsksDzOrq36y5l1rDPliiqDaZNawVu1E93bKGB7Mg8jVQ+TAhshXTIdM64iV2SiopMFrIERhMQ6fIiUT8KlyjufUAyImnriYYN99KHPbQ==;5:Jn+syLSD3FUehwnVqqfj2nowdvk/owjxKttk8pwVquUlWEk+6KJpX6/q3fLIXKW5pGgknQlh2qSkctJL+jEvtVn2iUfUipjFzY0nvpo3eb3zvWp0G1N+ocLvasfc+bWWvzKUaXhnnFvMxFgEDotVmn3FUZYqdGH2hlv45hxaK7I=;24:AolY3b4z5YvFsbHl5Tdwg7OWbqQ6fERixW0sN6nVN7gPm502w0IGb2NmL1ZxwlyhRlt/4+qgdEMZ8gJk68z+PeR/aRen6OyZZr4P9RWdBEs=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR0201MB2464;7:Z2P+cMJb4oTQP8yL99SAI5Rkt2pMOKbdCwrfySInjMj7VnL75bWXs9o5ne5fp5HVc2cXKVyDhG1HZapS0PxIjqz6luukCBkj1WtLGZY7nrX56t6LWXF3Ja6oDEWXOeRRiQ44f0bWjoL74h/d7TCAhEC3lMXHoJC6e5znOgf5qDqkZpI4lBmjwC7E+fSl4hhrGe2Z9qQLgKBe9t/yFxCUh5z4Q6SjPs36mVyNCn9YVJV6O1Tw2dzDPe/4+RgIaOPT
+X-OriginatorOrg: axentia.se
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2018 08:45:03.6922 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb077ece-9b3f-48c2-663b-08d5e7d3c41e
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0201MB2464
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 12, 2018 at 12:09 AM, Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
-> On Wed, 11 Jul 2018 22:10:26 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
->> On Wed, Jul 11, 2018 at 7:12 PM, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
->> > On Wed, 11 Jul 2018 17:39:56 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
->> >> On Wed, Jul 11, 2018 at 4:41 PM, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-
->> >> IOW, what feature would we lose if we were to declare that
->> >> setup above invalid (and ensure you cannot represent it in DT)?
->> >
->> > That's exactly the sort of discussion I wanted to trigger. Maybe we
->> > shouldn't care and expose this use case as if it was X different I3C
->> > buses (with all devices present on the bus being exposed X times
->> > to the system).
+On 2018-07-12 10:08, Arnd Bergmann wrote:
+> On Thu, Jul 12, 2018 at 6:41 AM, Peter Rosin <peda@axentia.se> wrote:
+>> On 2018-07-11 19:12, Boris Brezillon wrote:
+>>> On Wed, 11 Jul 2018 17:39:56 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
+>>>
+>>> That's exactly the sort of discussion I wanted to trigger. Maybe we
+>>> shouldn't care and expose this use case as if it was X different I3C
+>>> buses (with all devices present on the bus being exposed X times to the
+>>> system).
 >>
->> That's probably fine for many slave devices (you could read a
->> single sensor multiple times if you iterate through all i2c sensors
->> on all buses) but might not work for others (a slave device sending
->> an interrupt to the current master for a request that was started
->> from the previous master).
->> My impression however is that this is actually a corner case that
->> we can leave to be undefined, and not prepare to handle well,
->> as long as we can deal with the interesting examples above.
->
-> Mastership handover/takeover is something I already thought about.
-> Actually, that's the reason for the i3c_bus->cur_master field (so that
-> the master being asked to do a transfer on the bus can request bus
-> ownership it bus->cur_master != master->this->info.pid).
->
-> I guess this would be replaced by something simpler if we get rid of
-> the i3c_bus object (just a bool i3c_master->owns_bus).
+>> For I2C, this multiple masters for one bus case was retrofitted in
+>> the i2c-demux-pinctrl driver. It's a huge kludge with a number of
+>> undesirable quirks. I don't know if the circumstances for adding
+>> this I2C driver also applies for I3C, but it might be an argument
+>> in favor of the proposed extra bus object...
+> 
+> From reading the documentation and git history on that driver,
+> it seems to be used only for static configuration, i.e. you use
+> one driver or the other, but don't flip between them at runtime,
+> right?
 
-If we can ignore the case of handing over between two masters that
-we both own, we end up being in just one of two states:
+There is a sysfs file that can be used to change master at runtime
+(current_master). This causes all client drivers to be reprobed,
+which may not be the best thing to do for every client out there...
 
-a) currently we are the master
-b) we are not currently the master but have asked the current
-    master to transfer ownership back to us. For this, we have to
-    know who the current master is of course.
+> I'm guessing that even with i3c we may have to support something
+> like that, as a likely scenario might be that the i3c controller is
+> multiplexed with a traditional i2c controller and/or gpios, but you
+> would not be able to perform the i3c standard secondary master
+> transition with the latter two because they are (by definition) not
+> i3c compatible.
 
-I think that's the simplest case that would work with the specification,
-but it relies on the assumption that the master controlled by Linux
-is always more important than any other master, and that we just
-hand over ownership for as long as the others want it.
+i2c-demux-pinctrl should probably not be used as template for something
+else, but it is a good argument for some other design IMHO...
 
-If that is not the case, we also need a third state
-
-c) we have handed ownership to another master that is equally
-    important, but no i2c device driver is currently trying to talk
-    to a device, so we don't need ownership back until a slave driver
-    changes state.
-
-The main difference between b) and c) that I see would be what
-happens with in-band interrupts. If I understand the specification
-correctly, only the current master receives them, so if you have
-any i2c device that uses interrupts to talk to a Linux driver, we
-want to be in b) rather than c). An example of this would be
-an input device on a PC: If the user operateds the keyboard
-or pointer and we have handed off ownership to a sensor hub,
-we never get an input event, right?
-
->> Ok, but maybe you could you put the information about those devices
->> on a local list on the stack rather than the controller? I suppose this
->> would not change the logic much, but it would slightly simplify the
->> data structures for the bus and stop others from wondering about
->> them. ;-)
->
-> This has changed a bit in the v6 I'm about to send (probably next week).
-> I now have 2 different objects which do not necessarily have the same
-> lifetime:
->
-> * i3c_dev_desc: an I3C device descriptor. This is the representation
->   exposed to I3C master controller drivers which usually reserve one
->   slot in the HW device table per-device on the bus. Since the same
->   device can be re-discovered with a different address, we have a short
->   period in time during which the controller will have 2
->   slots/descriptors used to control the same device, except one would
->   be inactive (any transfer to the old dynamic address would fail) and
->   the other one would be active. The core then takes care of releasing
->   the old descriptor/slot and attaching the new one to the i3c_device
->   object exposed to I3C device drivers
->
-> * i3c_device: this is the object exposed to I3C device drivers. It's
->   lifetime is usually the same as the i3c_dev_desc it's attached to,
->   except when the device lose its dynamic address and get a new one
->   assigned. In this case we keep the same i3c_device object, but
->   dynamically re-attach it to a new i3c_dev_desc before releasing the
->   old dev desc. This way the I3C does not even see that the device
->   address has changed and can keep doing transfers to it.
->
-> With these 2 distinct representations, the handling on the controller
-> side is greatly simplified: the core takes care of the resource
-> migration steps, while it was up to the controller to do that my
-> previous versions (look at the ->reattach_i3c_dev() hook in the Cadence
-> driver, and I think it's even more complicated with other controllers,
-> like the HCI one).
->
->> This is a really minor point though, let's work out the problem of the
->> multiple masters first.
->
-> I agree. This being said, moving to a representation where the bus is
-> implicitly represented by the master_controller instance shouldn't be
-> too difficult. So, if you think we should try this approach I can do
-> the modifications in my v6.
-
-I'd say let's wait before you do that change, possibly add a comment
-in there now to remind us of what an alternative would be.
-
-       Arnd
+Cheers,
+Peter
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
