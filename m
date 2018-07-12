@@ -2,29 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7B5BC7D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 16:12:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 25C567D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 16:26:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727181AbeGLQWo convert rfc822-to-8bit (ORCPT
+        id S1727017AbeGLQgv convert rfc822-to-8bit (ORCPT
         <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 12:22:44 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34844 "EHLO mx1.redhat.com"
+        Thu, 12 Jul 2018 12:36:51 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:40022 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726912AbeGLQWn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Jul 2018 12:22:43 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        id S1726816AbeGLQgv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Jul 2018 12:36:51 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0669540122CD;
-        Thu, 12 Jul 2018 16:12:30 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id E194C7A7EB;
+        Thu, 12 Jul 2018 16:26:34 +0000 (UTC)
 Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 36EA62026D6B;
-        Thu, 12 Jul 2018 16:12:28 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 20C381C676;
+        Thu, 12 Jul 2018 16:26:33 +0000 (UTC)
 Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-To:     Michal Hocko <mhocko@kernel.org>
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Michal Hocko <mhocko@kernel.org>
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
         "Luis R. Rodriguez" <mcgrof@kernel.org>,
@@ -39,7 +40,6 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Matthew Wilcox <willy@infradead.org>,
         Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>
 References: <1530905572-817-1-git-send-email-longman@redhat.com>
  <20180709081920.GD22049@dhcp22.suse.cz>
@@ -48,84 +48,63 @@ References: <1530905572-817-1-git-send-email-longman@redhat.com>
  <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
  <20180711102139.GG20050@dhcp22.suse.cz>
  <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
- <20180712084807.GF32648@dhcp22.suse.cz>
+ <1531330947.3260.13.camel@HansenPartnership.com>
+ <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+ <1531336913.3260.18.camel@HansenPartnership.com>
+ <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+ <1531411494.18255.6.camel@HansenPartnership.com>
 From:   Waiman Long <longman@redhat.com>
 Organization: Red Hat
-Message-ID: <c68aa6ad-9e35-f828-6373-39938fd6e2a7@redhat.com>
-Date:   Thu, 12 Jul 2018 12:12:28 -0400
+Message-ID: <30ac8e9b-a48c-9c37-5a96-731ad214262b@redhat.com>
+Date:   Thu, 12 Jul 2018 12:26:33 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.0
 MIME-Version: 1.0
-In-Reply-To: <20180712084807.GF32648@dhcp22.suse.cz>
+In-Reply-To: <1531411494.18255.6.camel@HansenPartnership.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8BIT
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 12 Jul 2018 16:12:30 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 12 Jul 2018 16:12:30 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 12 Jul 2018 16:26:35 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 12 Jul 2018 16:26:35 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/12/2018 04:48 AM, Michal Hocko wrote:
-> On Wed 11-07-18 11:13:58, Waiman Long wrote:
->> On 07/11/2018 06:21 AM, Michal Hocko wrote:
->>> On Tue 10-07-18 12:09:17, Waiman Long wrote:
->>>> On 07/10/2018 10:27 AM, Michal Hocko wrote:
->>>>> On Mon 09-07-18 12:01:04, Waiman Long wrote:
->>>>>> On 07/09/2018 04:19 AM, Michal Hocko wrote:
->>> [...]
->>>>>>> percentage has turned out to be a really wrong unit for many tunables
->>>>>>> over time. Even 1% can be just too much on really large machines.
->>>>>> Yes, that is true. Do you have any suggestion of what kind of unit
->>>>>> should be used? I can scale down the unit to 0.1% of the system memory.
->>>>>> Alternatively, one unit can be 10k/cpu thread, so a 20-thread system
->>>>>> corresponds to 200k, etc.
->>>>> I simply think this is a strange user interface. How much is a
->>>>> reasonable number? How can any admin figure that out?
->>>> Without the optional enforcement, the limit is essentially just a
->>>> notification mechanism where the system signals that there is something
->>>> wrong going on and the system administrator need to take a look. So it
->>>> is perfectly OK if the limit is sufficiently high that normally we won't
->>>> need to use that many negative dentries. The goal is to prevent negative
->>>> dentries from consuming a significant portion of the system memory.
->>> So again. How do you tell the right number?
->> I guess it will be more a trial and error kind of adjustment as the
->> right figure will depend on the kind of workloads being run on the
->> system. So unless the enforcement option is turned on, setting a limit
->> that is too small won't have too much impact over than a slight
->> performance drop because of the invocation of the slowpaths and the
->> warning messages in the console. Whenever a non-zero value is written
->> into "neg-dentry-limit", an informational message will be printed about
->> what the actual negative dentry limits
->> will be. It can be compared against the current negative dentry number
->> (5th number) from "dentry-state" to see if there is enough safe margin
->> to avoid false positive warning.
-> What you wrote above is exactly the reason why I do not like yet another
-> tunable. If you cannot give a reasonable cook book on how to tune this
-> properly then nobody will really use it and we will eventually find
-> out that we have a user visible API which might simply make further
-> development harder and which will be hard to get rid of because you
-> never know who is going to use it for strange purposes.
+On 07/12/2018 12:04 PM, James Bottomley wrote:
+> On Thu, 2018-07-12 at 11:54 -0400, Waiman Long wrote:
+>>
+>> It is not that dentry cache is harder to get rid of than the other
+>> memory. It is that the ability of generate unlimited number of
+>> negative dentries that will displace other useful memory from the
+>> system. What the patch is trying to do is to have a warning or
+>> notification system in place to spot unusual activities in regard to
+>> the number of negative dentries in the system. The system
+>> administrators can then decide on what to do next.
+> But every cache has this property: I can cause the same effect by doing
+> a streaming read on a multi gigabyte file: the page cache will fill
+> with the clean pages belonging to the file until I run out of memory
+> and it has to start evicting older cache entries.  Once we hit the
+> steady state of minimal free memory, the mm subsytem tries to balance
+> the cache requests (like my streaming read) against the existing pool
+> of cached objects.
 >
-> Really, negative entries are a cache and if we do not shrink that cache
-> properly then this should be fixed rather than giving up and pretending
-> that the admin is the one to control that.
+> The question I'm trying to get an answer to is why does the dentry
+> cache need special limits when the mm handling of the page cache (and
+> other mm caches) just works?
+>
+> James
+>
 
-The rationale beside this patchset comes from a customer request to have
-the ability to track and limit negative dentries. The goal is to not
-have a disproportionate amount of memory being consumed by negative
-dentries. Setting the limit and reaching it does nothing other than
-gives out a warning about the limit being breached unless the enforce
-option is turned on which is for the paranoids.
-
-There is no one right value for the limit. It all depends on what the
-users think is a disproportionate amount of memory.
+I/O activities can be easily tracked. Generation of negative dentries,
+however, is more insidious. So the ability to track and be notified when
+too many negative dentries are created can be a useful tool for the
+system administrators. Besides, there are paranoid users out there who
+want to have control of as much as system parameters as possible.
 
 Cheers,
 Longman
-
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
