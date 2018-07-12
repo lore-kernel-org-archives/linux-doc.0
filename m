@@ -5,32 +5,29 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 25C567D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 16:26:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD4FC7D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 16:47:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727017AbeGLQgv convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 12:36:51 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:40022 "EHLO mx1.redhat.com"
+        id S1726962AbeGLQ5Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 12:57:24 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:57250 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726816AbeGLQgv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Jul 2018 12:36:51 -0400
+        id S1726820AbeGLQ5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Jul 2018 12:57:23 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id E194C7A7EB;
-        Thu, 12 Jul 2018 16:26:34 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 20C381C676;
-        Thu, 12 Jul 2018 16:26:33 +0000 (UTC)
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Michal Hocko <mhocko@kernel.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        by mx1.redhat.com (Postfix) with ESMTPS id 5B04B81663FC;
+        Thu, 12 Jul 2018 16:47:02 +0000 (UTC)
+Received: from llong.com (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E37031C676;
+        Thu, 12 Jul 2018 16:46:59 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
         "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, linux-doc@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Jan Kara <jack@suse.cz>,
@@ -40,71 +37,150 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Matthew Wilcox <willy@infradead.org>,
         Larry Woodman <lwoodman@redhat.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>
-References: <1530905572-817-1-git-send-email-longman@redhat.com>
- <20180709081920.GD22049@dhcp22.suse.cz>
- <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
- <20180710142740.GQ14284@dhcp22.suse.cz>
- <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
- <20180711102139.GG20050@dhcp22.suse.cz>
- <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
- <1531330947.3260.13.camel@HansenPartnership.com>
- <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
- <1531336913.3260.18.camel@HansenPartnership.com>
- <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
- <1531411494.18255.6.camel@HansenPartnership.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <30ac8e9b-a48c-9c37-5a96-731ad214262b@redhat.com>
-Date:   Thu, 12 Jul 2018 12:26:33 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <1531411494.18255.6.camel@HansenPartnership.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v7 0/6] fs/dcache: Track & limit # of negative dentries
+Date:   Thu, 12 Jul 2018 12:45:59 -0400
+Message-Id: <1531413965-5401-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 12 Jul 2018 16:26:35 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 12 Jul 2018 16:26:35 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Thu, 12 Jul 2018 16:47:02 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Thu, 12 Jul 2018 16:47:02 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/12/2018 12:04 PM, James Bottomley wrote:
-> On Thu, 2018-07-12 at 11:54 -0400, Waiman Long wrote:
->>
->> It is not that dentry cache is harder to get rid of than the other
->> memory. It is that the ability of generate unlimited number of
->> negative dentries that will displace other useful memory from the
->> system. What the patch is trying to do is to have a warning or
->> notification system in place to spot unusual activities in regard to
->> the number of negative dentries in the system. The system
->> administrators can then decide on what to do next.
-> But every cache has this property: I can cause the same effect by doing
-> a streaming read on a multi gigabyte file: the page cache will fill
-> with the clean pages belonging to the file until I run out of memory
-> and it has to start evicting older cache entries.  Once we hit the
-> steady state of minimal free memory, the mm subsytem tries to balance
-> the cache requests (like my streaming read) against the existing pool
-> of cached objects.
->
-> The question I'm trying to get an answer to is why does the dentry
-> cache need special limits when the mm handling of the page cache (and
-> other mm caches) just works?
->
-> James
->
+ v6->v7:
+  - Drop the 2 patches that add a new shrinker for negative dentries.
+    Instead, the default memory shrinker will be relied on to get
+    rid of excess negative dentries when free memory is low.
+  - Change the sysctl parameter "neg-dentry-pc" to "neg-dentry-limit"
+    and the unit is now 1/1000 of the total system memory with a range
+    of 0-100.
+  - Add a patch to brief up the warning so that one warning will be
+    printed every minute to the console if the limit is exceeded until
+    the system administrator does something about it. It can be disabling
+    the limit, raising the limit or turning on the enforcement option.
 
-I/O activities can be easily tracked. Generation of negative dentries,
-however, is more insidious. So the ability to track and be notified when
-too many negative dentries are created can be a useful tool for the
-system administrators. Besides, there are paranoid users out there who
-want to have control of as much as system parameters as possible.
+ v5->v6:
+  - Drop the neg_dentry_pc boot command line option, but add a
+    "neg-dentry-pc" sysctl parameter instead.
+  - Change the "enforce-neg-dentry-limit" sysctl parameter to
+    "neg-dentry-enforce".
+  - Add a patch to add negative dentry to the head of the LRU initially
+    so that they will be the first to be removed if they are not
+    accessed again.
+  - Run some additional performance test.
 
-Cheers,
-Longman
+ v4->v5:
+  - Backed to the latest 4.18 kernel and modify the code
+    accordingly. Patch 1 "Relocate dentry_kill() after lock_parent()"
+    is now no longer necessary.
+  - Make tracking and limiting of negative dentries a user configurable
+    option (CONFIG_DCACHE_TRACK_NEG_ENTRY) so that users can decide if
+    they want to include this capability in the kernel.
+  - Make killing excess negative dentries an optional feature that can be
+    enabled via a boot command line option or a sysctl parameter.
+  - Spread negative dentry pruning across multiple CPUs.
+
+ v4: https://lkml.org/lkml/2017/9/18/739
+ v5: https://lkml.org/lkml/2018/7/2/21
+ v6: https://lkml.org/lkml/2018/7/6/875
+
+A rogue application can potentially create a large number of negative
+dentries in the system consuming a significant portion of the memory
+available if it is not under the direct control of a memory controller
+that enforces kernel memory limit. Unlike other user activities that
+can be easily tracked, generation of too many negative dentries is hard
+to detect.
+
+This patchset introduces changes to the dcache subsystem to track and
+optionally limit the number of negative dentries allowed to be created.
+Once the limit is exceeded, warnings will be printed in the console.
+System administrators can then either disable the limit, raise the limit
+or enforce the limit by killing off excess negative dentries. They
+should also investigate if something wrong is happening that causes
+the number of negative dentries used to go way up.
+
+Patch 1 tracks the number of negative dentries present in the LRU
+lists and reports it in /proc/sys/fs/dentry-state.
+
+Patch 2 moves the negative dentries to the head of the LRU after they
+are initially created. They will be moved to the tail like the positive
+dentries the second time they are reinserted. This will make sure that
+all those accssed-once negative dentries will be removed first when a
+shrinker is running.
+
+Patch 3 adds a "neg-dentry-limit" sysctl parameter that can be used to
+to specify a soft limit on the number of negative allowed as a multiple
+of 1/1000 of the total system memory available. This parameter is 0 by
+default which means no negative dentry limiting will be performed.
+
+Patch 4 briefs up the warning to once every minute and gives instruction
+on how to disable it.
+
+Patch 5 adds a "neg-dentry-enforce" sysctl parameter which can be
+dynamically enabled at run time to enforce the negative dentry limit
+by killing excess newly created negative dentires right after use,
+if necessary.
+
+Patch 6 makes the negative dentry limiting code a user configurable
+option so that it can be configured out, if desired.
+
+With a 4.18 based kernel and a simple microbenchmark to measure dentry
+lookup and creation rates, the rates (average on 3 runs) after initial
+boot on a 2-socket 24-core 48-thread 128G memory system with and without
+the patch were as follows:
+
+  Metric               w/o patch   limit=0  limit=1  limit=1,enforce
+  ------               ---------   -------  -------  ---------------
+  +ve dentry lookup      672313     679720   676250      676071
+  -ve dentry lookup     1547694    1555210  1542731     1559395
+  -ve dentry creation    696427     700975   697713      693494
+
+For the lookup and creation rates, there wasn't any signifcant difference
+with or without the patch. It could be hard to compare the figures as
+they were from different kernels and other factors like code layout
+could have an impact.
+
+When the limit was enabled, a very slight performance drop (0.5%-0.8%)
+was observed.
+
+The negative dentry creation test created 10 millions unique negative
+dentries. With a setting of neg-dentry-limit=1, the warning threshold
+was about 339020.  So most of negative dentries were created with the
+limit exceeded.  The performance drop was only about 0.5% which was not
+much. Turning on the enforce option to kill excess negative dentries
+dropped the performance by a further 0.6% (1.1% in total).
+
+I had also run other microbenchmarks, but I didn't observe any changes
+in performance that were not in the run-to-run variation range for
+those benchmarks.
+
+Waiman Long (6):
+  fs/dcache: Track & report number of negative dentries
+  fs/dcache: Add negative dentries to LRU head initially
+  fs/dcache: Add sysctl parameter neg-dentry-limit as a soft limit on
+    negative dentries
+  fs/dcache: Print negative dentry warning every min until turned off by
+    user
+  fs/dcache: Allow optional enforcement of negative dentry limit
+  fs/dcache: Allow deconfiguration of negative dentry code to reduce
+    kernel size
+
+ Documentation/sysctl/fs.txt |  40 +++++-
+ fs/Kconfig                  |  10 ++
+ fs/dcache.c                 | 310 +++++++++++++++++++++++++++++++++++++++++++-
+ include/linux/dcache.h      |  17 ++-
+ include/linux/list_lru.h    |  17 +++
+ kernel/sysctl.c             |  22 ++++
+ mm/list_lru.c               |  19 ++-
+ 7 files changed, 421 insertions(+), 14 deletions(-)
+
+-- 
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
