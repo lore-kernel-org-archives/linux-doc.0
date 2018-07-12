@@ -5,39 +5,38 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 43B1C7D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 17:21:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA4067D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 17:33:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732363AbeGLRbw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 13:31:52 -0400
-Received: from bedivere.hansenpartnership.com ([66.63.167.143]:38222 "EHLO
+        id S1726424AbeGLRo2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 13:44:28 -0400
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:38592 "EHLO
         bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727366AbeGLRbw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 13:31:52 -0400
+        by vger.kernel.org with ESMTP id S1725967AbeGLRo2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 13:44:28 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 6B6288EE3D1;
-        Thu, 12 Jul 2018 10:21:22 -0700 (PDT)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id B57898EE3D1;
+        Thu, 12 Jul 2018 10:33:55 -0700 (PDT)
 Received: from bedivere.hansenpartnership.com ([127.0.0.1])
         by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id v7uBKOlRvzJQ; Thu, 12 Jul 2018 10:21:22 -0700 (PDT)
+        with ESMTP id FWM_1h14zIs3; Thu, 12 Jul 2018 10:33:55 -0700 (PDT)
 Received: from [153.66.254.194] (unknown [50.35.68.20])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 5BBF38EE02B;
-        Thu, 12 Jul 2018 10:21:21 -0700 (PDT)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id CAA278EE02B;
+        Thu, 12 Jul 2018 10:33:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1531416082;
-        bh=zyZh5Q25EA/lJyDUxSqWTDBIZdVBeBvleUeq+/iF1G8=;
+        s=20151216; t=1531416835;
+        bh=P+0Y3CmrPjaP0qgRVVH0vxI/F3BD8twcnxEYeh9Mm9Q=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Vd/iVz4OhaEcWGVSmIO5ez/3XtdG3Yye4M/5n4vfDzAaK/aiO1uoOLyfwZZSP8MrR
-         v8m2zJi66XuVeNmBZ2eIyjOhgo2Txqba4g/wy/DFU3BJaYRKDa3294EX5ddwdbBsVT
-         yej0ibeMfuVBKfFguDGJEslWN/BRoI1cJoUuFHaY=
-Message-ID: <1531416080.18255.8.camel@HansenPartnership.com>
+        b=pMsd2c6AJOGcK0wgTLAxS/qXvVqj8qmcqCvMjs3YuCcnlLgmWgd9WqaaZhowQOQJ9
+         WylxiiGm+itvtc4kO2kDKs3gR+8ejveo6I2s2qjgRHNi7uMKSBp5IlTszpC5Ll2bGp
+         c/w0aIZP9vZlym+Tfq46zFaUzPVa5Z96+edGSVJY=
+Message-ID: <1531416833.18255.10.camel@HansenPartnership.com>
 Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
 From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Waiman Long <longman@redhat.com>, Michal Hocko <mhocko@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+To:     Waiman Long <longman@redhat.com>, Michal Hocko <mhocko@kernel.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
         "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
@@ -49,11 +48,14 @@ Cc:     Waiman Long <longman@redhat.com>, Michal Hocko <mhocko@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Ingo Molnar <mingo@kernel.org>,
         Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
         Larry Woodman <lwoodman@redhat.com>,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>
-Date:   Thu, 12 Jul 2018 10:21:20 -0700
-In-Reply-To: <20180712164932.GA3475@bombadil.infradead.org>
-References: <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
+Date:   Thu, 12 Jul 2018 10:33:53 -0700
+In-Reply-To: <30ac8e9b-a48c-9c37-5a96-731ad214262b@redhat.com>
+References: <1530905572-817-1-git-send-email-longman@redhat.com>
+         <20180709081920.GD22049@dhcp22.suse.cz>
+         <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
          <20180710142740.GQ14284@dhcp22.suse.cz>
          <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
          <20180711102139.GG20050@dhcp22.suse.cz>
@@ -63,7 +65,7 @@ References: <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
          <1531336913.3260.18.camel@HansenPartnership.com>
          <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
          <1531411494.18255.6.camel@HansenPartnership.com>
-         <20180712164932.GA3475@bombadil.infradead.org>
+         <30ac8e9b-a48c-9c37-5a96-731ad214262b@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.22.6 
 Mime-Version: 1.0
@@ -73,30 +75,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-07-12 at 09:49 -0700, Matthew Wilcox wrote:
-> On Thu, Jul 12, 2018 at 09:04:54AM -0700, James Bottomley wrote:
-[...]
+On Thu, 2018-07-12 at 12:26 -0400, Waiman Long wrote:
+> On 07/12/2018 12:04 PM, James Bottomley wrote:
+> > On Thu, 2018-07-12 at 11:54 -0400, Waiman Long wrote:
+> > > 
+> > > It is not that dentry cache is harder to get rid of than the
+> > > other memory. It is that the ability of generate unlimited number
+> > > of negative dentries that will displace other useful memory from
+> > > the system. What the patch is trying to do is to have a warning
+> > > or notification system in place to spot unusual activities in
+> > > regard to the number of negative dentries in the system. The
+> > > system administrators can then decide on what to do next.
+> > 
+> > But every cache has this property: I can cause the same effect by
+> > doing a streaming read on a multi gigabyte file: the page cache
+> > will fill with the clean pages belonging to the file until I run
+> > out of memory and it has to start evicting older cache
+> > entries.  Once we hit the steady state of minimal free memory, the
+> > mm subsytem tries to balance the cache requests (like my streaming
+> > read) against the existing pool of cached objects.
+> > 
 > > The question I'm trying to get an answer to is why does the dentry
 > > cache need special limits when the mm handling of the page cache
 > > (and other mm caches) just works?
+> > 
+> > James
+> > 
 > 
-> I don't know that it does work.  Or that it works well.
+> I/O activities can be easily tracked.
 
-I'm not claiming the general heuristics are perfect (in fact I know we
-still have a lot of problems with dirty reclaim and writeback).  I am
-willing to bet that any discussion of the heuristics will get a lot of
-opposition if we try to introduce per-object limits for every object.
+Tracked?  What do you mean tracked?  you mean we can control the page
+cache through userfaultfd or something without resorting to cgroup
+limits or something different?  I mean all caches are "tracked" because
+otherwise we wouldn't know whether we have to retrieve/generate the
+object or pull it from the cache.  If it's just about cache state,
+what's wrong with /proc/sys/fs/dentry-state?
 
-Our clean cache heuristics are simple: clean caches are easy to reclaim
-and are thus treated like free memory (there's little cost to filling
-them or reclaiming them again).  There is speculation that this
-equivalence is problematic because the shrinkers reclaim objects but mm
-is looking to reclaim pages and thus you can end up with a few objects
-pinning many pages even if the shrinker freed a lot of them.
+>  Generation of negative dentries, however, is more insidious. So the
+> ability to track and be notified when too many negative dentries are
+> created can be a useful tool for the system administrators. Besides,
+> there are paranoid users out there who want to have control of as
+> much as system parameters as possible.
 
-However, we haven't even reached that level yet ... I'm still
-struggling to establish that we have a problem with the behaviour of
-the dentry cache under current mm heuristics.  
+To what end?  what problem are these administrators trying to solve? 
+You keep coming back to the circular argument that the problem they're
+trying to solve is limiting negative dentries, but I want to know what
+issue they see in their systems that causes them to ask for this knob.
 
 James
 
