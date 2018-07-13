@@ -1,147 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 165147D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 00:41:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 719D97D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 01:31:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387800AbeGMAxZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 20:53:25 -0400
-Received: from ipmailnode02.adl6.internode.on.net ([150.101.137.148]:29463
-        "EHLO ipmailnode02.adl6.internode.on.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387799AbeGMAxZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 20:53:25 -0400
-X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Thu, 12 Jul 2018 20:53:24 EDT
-Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
-  by ipmail02.adl6.internode.on.net with ESMTP; 13 Jul 2018 10:06:16 +0930
-Received: from dave by dastard with local (Exim 4.80)
-        (envelope-from <david@fromorbit.com>)
-        id 1fdm4E-0005Aw-MI; Fri, 13 Jul 2018 10:36:14 +1000
-Date:   Fri, 13 Jul 2018 10:36:14 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Waiman Long <longman@redhat.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-Message-ID: <20180713003614.GW2234@dastard>
-References: <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
- <1531330947.3260.13.camel@HansenPartnership.com>
- <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
- <1531336913.3260.18.camel@HansenPartnership.com>
- <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
- <1531411494.18255.6.camel@HansenPartnership.com>
- <20180712164932.GA3475@bombadil.infradead.org>
- <1531416080.18255.8.camel@HansenPartnership.com>
- <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
- <1531425435.18255.17.camel@HansenPartnership.com>
+        id S2387931AbeGMBoE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 21:44:04 -0400
+Received: from mail-oi0-f50.google.com ([209.85.218.50]:35257 "EHLO
+        mail-oi0-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387923AbeGMBoE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 21:44:04 -0400
+Received: by mail-oi0-f50.google.com with SMTP id i12-v6so59387183oik.2
+        for <linux-doc@vger.kernel.org>; Thu, 12 Jul 2018 18:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kent-edu.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=4L+FvtfAtsriWQPhgh/lj6hp7cX6qeZwB1eNp8IOFY0=;
+        b=U46SYUBWXXXerapaRAP2foFnbc19pFlzwUxo5qnVpjVOTcRa8oZelc879Nvk5nBG1B
+         eA5ynZ8v8XXDZS9qmIy+qgckKalNqlBhBougqL8oAKGQFc8EoTzZzgA4zl6X3hd/Jili
+         D0iIgRZU5fVgo2vCZo/RSCDbWsM8gWvNsp5kDvXciKi92F+AkFT5xaWORL/uqFT+Jdl5
+         RPLYOlDvQ5rtxvp7euNkBFSiJLjcILOsKRcJAueAUWVd80EoTTw4wItIEd/XMfLnj5Qp
+         vvQuOwpvuBI2Cb/SXLMJhMX4CqEyRzQ8R1ps/4qmwmrCj2raR+S9PDrHsJE2EzEG2aMy
+         upRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=4L+FvtfAtsriWQPhgh/lj6hp7cX6qeZwB1eNp8IOFY0=;
+        b=PZ8JBmSmAPHkc/WxvfcezVCMavplX5hbKwB1rDH5QTlu0VYVIMZHub3yFl0nrTOxLr
+         bLvuLuWVkSHoax0LTQPgi9LX0xjr7mzfJZL43dF8LuonUiZvw9fCP/FIoTY9ZGp3hG0O
+         dcgFpEW+N5mdQ9D24yr0gSn/WquxRdAqtAvxZPKdIsotlQWkvjDKCnMl83Utgdgr/rhj
+         MgmfhXO4CR4ncWUTKAAgjZIF+2jtOxMEeVHAPMaajxfexK2WdQ7UbBSTa0AwD6OjpjEa
+         bXTRRfZgEeUZSUKxQJYI9IY/5JyjTsv7nPguxl70/Oz2X0R+9W3gPBtzBYkLBRQIIANe
+         dabA==
+X-Gm-Message-State: AOUpUlEvJglleNwcp7twKRHeL3gr7Yin+4fdFWFgfrc2ek+RLYZn41cr
+        kKSj3LHu2/9F2ey5d2Dcp+tr9OdmutsipB4muiJDaIvQ
+X-Google-Smtp-Source: AAOMgpfqNjmzw5FbDQgZ7hVV/bsb+zw1BsrVMcU/FT1rJHWV2CrevEoH7Wa7O5tNIhu2xb77Y/hn/x4DAmazm5dgPX8=
+X-Received: by 2002:aca:c00b:: with SMTP id q11-v6mr4575598oif.330.1531445510738;
+ Thu, 12 Jul 2018 18:31:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1531425435.18255.17.camel@HansenPartnership.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Received: by 2002:a9d:ce2:0:0:0:0:0 with HTTP; Thu, 12 Jul 2018 18:31:50 -0700 (PDT)
+From:   "Md. Islam" <mislam4@kent.edu>
+Date:   Thu, 12 Jul 2018 21:31:50 -0400
+Message-ID: <CAFgPn1BPQ2jSbF7cEgdk+0hkKDEUnNmQ_bkhL0-mA_SneVmD-Q@mail.gmail.com>
+Subject: [patch] printk format for u16 and u8
+To:     linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 12, 2018 at 12:57:15PM -0700, James Bottomley wrote:
-> What surprises me most about this behaviour is the steadiness of the
-> page cache ... I would have thought we'd have shrunk it somewhat given
-> the intense call on the dcache.
+diff --git a/Documentation/printk-formats.txt b/Documentation/printk-formats.txt
+index 361789d..d878079 100644
+--- a/Documentation/printk-formats.txt
++++ b/Documentation/printk-formats.txt
+@@ -14,6 +14,7 @@ Integer types
+     If variable is of Type,        use printk format specifier:
+     ------------------------------------------------------------
+         int            %d or %x
++        unsigned short        %d or %x
+         unsigned int        %u or %x
+         long            %ld or %lx
+         unsigned long        %lu or %lx
+@@ -22,6 +23,8 @@ Integer types
+         size_t            %zu or %zx
+         ssize_t            %zd or %zx
+         s32            %d or %x
++        u8            %d or %x
++        u16            %d or %x
+         u32            %u or %x
+         s64            %lld or %llx
+         u64            %llu or %llx
 
-Oh, good, the page cache vs superblock shrinker balancing still
-protects the working set of each cache the way it's supposed to
-under heavy single cache pressure. :)
+Could you please let me know if it makes sense?
 
-Keep in mind that the amount of work slab cache shrinkers perform is
-directly proportional to the amount of page cache reclaim that is
-performed and the size of the slab cache being reclaimed.  IOWs,
-under a "single cache pressure" workload we should be directing
-reclaim work to the huge cache creating the pressure and do very
-little reclaim from other caches....
-
-[ What follows from here is conjecture, but is based on what I've
-seen in the past 10+ years on systems with large numbers of negative
-dentries and fragmented dentry/inode caches. ]
-
-However, this only reaches steady state if the reclaim rate can keep
-ahead of the allocation rate. This single threaded micro-workload
-won't result in an internally fragmented dentry slab cache, so
-reclaim is going to be as efficient as possible and have the CPU to
-keep up with the allocation rate.  i.e. Bulk negative dentry reclaim
-is cheap, in LRU order, and frees slab pages quickly and efficiently
-in large batches so steady state is easily reached.
-
-Problems arise when the slab *page* reclaim rate drops below
-allocation rate. i.e when you have short term (negative) dentries
-mixed into the same slab pages as long term stable dentries. This
-causes the dentry cache to fragment internally - reclaim hits the
-negative dentries and creates large numbers of partial pages - and
-so reclaim of negative dentries will fail to free memory. Creating
-new negative dentries then fills these partial pages first, and so
-the alloc/reclaim cycles on negative dentries only ever produce
-partial pages and never free slab cache pages. IOWs, the cost of
-reclaim slab *pages* goes way up despite the fact that the cost of
-reclaiming individual dentries has remained the same.
-
-That's the underlying problem here - the cost of reclaiming dentries
-is constant but the cost of reclaiming *slab pages* is not.  It is
-not uncommon to have to trash 90% of the dentry or inode caches to
-reduce internal fragmentation down to the point where pages start to
-get freed and the per-slab-page reclaim cost reduces to be less than
-the allocation cost. Then we see the system return to normal steady
-state behaviour.
-
-In situations where lots of negative dentries are created by
-production workloads, that "90%" of the cache that needs to be
-reclaimed to fix the internal fragmentation issue is all negative
-dentries and just enough of the real dentries to be freeing
-quantities of partial pages in the slab. Hence negative dentries are
-seen as the problem because they make up the vast majority of the
-dentries that get reclaimed when the problem goes away.
-
-By limiting the number of negative dentries in this case, internal
-slab fragmentation is reduced such that reclaim cost never gets out
-of control. While it appears to "fix" the symptoms, it doesn't
-address the underlying problem. It is a partial solution at best but
-at worst it's another opaque knob that nobody knows how or when to
-tune.
-
-Very few microbenchmarks expose this internal slab fragmentation
-problem because they either don't run long enough, don't create
-memory pressure, or don't have access patterns that mix long and
-short term slab objects together in a way that causes slab
-fragmentation. Run some cold cache directory traversals (git
-status?) at the same time you are creating negative dentries so you
-create pinned partial pages in the slab cache and see how the
-behaviour changes....
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+Thanks
+Tamim
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
