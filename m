@@ -1,30 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A89067D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 01:50:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 567327DE7F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 02:21:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387965AbeGMCCr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 22:02:47 -0400
-Received: from mga01.intel.com ([192.55.52.88]:42978 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387934AbeGMCCr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Jul 2018 22:02:47 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jul 2018 18:50:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,346,1526367600"; 
-   d="scan'208";a="66571010"
-Received: from andreser-mobl.amr.corp.intel.com (HELO [10.252.137.224]) ([10.252.137.224])
-  by orsmga003.jf.intel.com with ESMTP; 12 Jul 2018 18:50:29 -0700
+        id S2388073AbeGMCeJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 22:34:09 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:33284 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388022AbeGMCeJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 22:34:09 -0400
+Received: by mail-pg1-f196.google.com with SMTP id r5-v6so4430098pgv.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 Jul 2018 19:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=VMG98WkTF/mPvmh0b4ZGZibMeOHdZxDMpo96QUx+54Q=;
+        b=gBsa3UPN96SxMI/gVLHmOB3r3xQrFYHl+Y8KlJy+B2X818xJkTBTlmp56gYg9ICowf
+         8BVhqjSal6A76Q4QKd1doUr3db+iDI75H5Jfo7qaay1nMdM6MutIjAeU3ut3AokwtrDY
+         wcDvdXfAzqai9JGkmVd+D10lH+s0Ect9F0tzWPu9LMVG/3+EhvlfLp/bwE4TwHkvKm1j
+         kh/sZxOI6k0S1H2Fw8nzyUumS1ywKUOxABt4+0KPcbVL02COwiia+OHBWYhrcR332XPI
+         5X0UK6iyqGRpKoaubmSexjD9UMVuA7v0GYmkoXUFMkYTAdeie72GZDBm5qXfG4Y/dWaM
+         El1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=VMG98WkTF/mPvmh0b4ZGZibMeOHdZxDMpo96QUx+54Q=;
+        b=i3+6/mbPDawkZmOWJ+q3OG1z4v6FC6kIwnjctZS5Xap0m/Eeg2jauYx4fgWRCTNWem
+         l/9yFwUZ+n2Ea2pwUVUqspfNUwfKHdQXwHpbqhfZxSirs5dRf+RvoBHxwras6m3CmCqr
+         sJIotlaEw5D8kx+QxK7FyUlA+fiF1d2WJa105FUVPk1aMlhyCVbGPPcVXyu3H/QF+F1F
+         7wFKOWk5R0fGSejpJHi8H/KvERAfQVwb0CzeE0uMa8Yza9x7J2wfjlsWpvOzUVVxPtkn
+         Szcp18gx/vWaMNFJiN7GXAukxAZxNWFyeF+h3NUSsrCD+OZY63tZIqk7+/GZaJuPxRAd
+         Xzlw==
+X-Gm-Message-State: AOUpUlEvhpZcoQkVHy6sDB6KLk/8/RGA0Ed0geVzEJkS19BhqQ1F2nEu
+        +Z5v05sW9KHeb+1sa7TM+ENsbg==
+X-Google-Smtp-Source: AAOMgpfGMw8dfnxP2DIYRSVsrRbQp6mwqxV7HfhqrbJs7jULkqYDJkgjsLFNGjRuGS6DZEvX2lPvQg==
+X-Received: by 2002:a62:404e:: with SMTP id n75-v6mr4937887pfa.232.1531448505785;
+        Thu, 12 Jul 2018 19:21:45 -0700 (PDT)
+Received: from ?IPv6:2600:1011:b01e:e4d1:54df:ba07:cac1:aeab? ([2600:1011:b01e:e4d1:54df:ba07:cac1:aeab])
+        by smtp.gmail.com with ESMTPSA id n18-v6sm62228505pfa.50.2018.07.12.19.21.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 12 Jul 2018 19:21:44 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
 Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
-To:     Dave Hansen <dave.hansen@linux.intel.com>,
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (15F79)
+In-Reply-To: <167645aa-f1c7-bd6a-c7e0-2da317cbbaba@intel.com>
+Date:   Thu, 12 Jul 2018 19:21:42 -0700
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
         Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -32,7 +63,6 @@ To:     Dave Hansen <dave.hansen@linux.intel.com>,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
         linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Florian Weimer <fweimer@redhat.com>,
@@ -45,93 +75,51 @@ To:     Dave Hansen <dave.hansen@linux.intel.com>,
         Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-19-yu-cheng.yu@intel.com>
- <bbb487cc-ac1c-f734-eee3-2463a0ba7efc@linux.intel.com>
- <1531436398.2965.18.camel@intel.com>
- <46784af0-6fbb-522d-6acb-c6248e5e0e0d@linux.intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <167645aa-f1c7-bd6a-c7e0-2da317cbbaba@intel.com>
-Date:   Thu, 12 Jul 2018 18:50:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <46784af0-6fbb-522d-6acb-c6248e5e0e0d@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <55A0592D-0E8D-4BC5-BA4B-E82E92EEA36A@amacapital.net>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com> <20180710222639.8241-19-yu-cheng.yu@intel.com> <bbb487cc-ac1c-f734-eee3-2463a0ba7efc@linux.intel.com> <1531436398.2965.18.camel@intel.com> <46784af0-6fbb-522d-6acb-c6248e5e0e0d@linux.intel.com> <167645aa-f1c7-bd6a-c7e0-2da317cbbaba@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/12/2018 04:49 PM, Dave Hansen wrote:
->>> That seems like something we need to call out if so.  It also means we
->>> need to update the SDM because some of the text is wrong.
->> It needs to mention the WRUSS case.
-> Ugh.  The documentation for this is not pretty.  But, I guess this is
-> not fundamentally different from access to U=1 pages when SMAP is in
-> place and we've set EFLAGS.AC=1.
 
-I was wrong and misread the docs.  We do not get X86_PF_USER set when
-EFLAGS.AC=1.
 
-But, we *do* get X86_PF_USER (otherwise defined to be set when in ring3)
-when running in ring0 with the WRUSS instruction and some other various
-shadow-stack-access-related things.  I'm sure folks had a good reason
-for this architecture, but it is a pretty fundamentally *new*
-architecture that we have to account for.
+> On Jul 12, 2018, at 6:50 PM, Dave Hansen <dave.hansen@intel.com> wrote:
+>=20
+> On 07/12/2018 04:49 PM, Dave Hansen wrote:
+>>>> That seems like something we need to call out if so.  It also means we
+>>>> need to update the SDM because some of the text is wrong.
+>>> It needs to mention the WRUSS case.
+>> Ugh.  The documentation for this is not pretty.  But, I guess this is
+>> not fundamentally different from access to U=3D1 pages when SMAP is in
+>> place and we've set EFLAGS.AC=3D1.
+>=20
+> I was wrong and misread the docs.  We do not get X86_PF_USER set when
+> EFLAGS.AC=3D1.
+>=20
+> But, we *do* get X86_PF_USER (otherwise defined to be set when in ring3)
+> when running in ring0 with the WRUSS instruction and some other various
+> shadow-stack-access-related things.  I'm sure folks had a good reason
+> for this architecture, but it is a pretty fundamentally *new*
+> architecture that we have to account for.
 
-This new architecture is also not spelled out or accounted for in the
-SDM as of yet.  It's only called out here as far as I know:
-https://software.intel.com/sites/default/files/managed/4d/2a/control-flow-enforcement-technology-preview.pdf
+I think it makes (some) sense. The USER bit is set for a page fault that was=
+ done with user privilege. So a descriptor table fault at CPL 3 has USER cle=
+ar (regardless of the cause of the fault) and WRUSS has USER set.
 
-Which reminds me:  Yu-cheng, do you have a link to the docs anywhere in
-your set?  If not, you really should.
+>=20
+> This new architecture is also not spelled out or accounted for in the
+> SDM as of yet.  It's only called out here as far as I know:
+> https://software.intel.com/sites/default/files/managed/4d/2a/control-flow-=
+enforcement-technology-preview.pdf
+>=20
+> Which reminds me:  Yu-cheng, do you have a link to the docs anywhere in
+> your set?  If not, you really should.
+
+I am tempted to suggest that the whole series not be merged until there are a=
+ctual docs. It=E2=80=99s not a fantastic precedent.=
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
