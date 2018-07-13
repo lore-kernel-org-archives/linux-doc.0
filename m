@@ -5,133 +5,143 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3BBDD7D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 07:25:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 801387D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 07:48:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729175AbeGMHiY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 03:38:24 -0400
-Received: from mail-it0-f66.google.com ([209.85.214.66]:53513 "EHLO
-        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbeGMHiY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 03:38:24 -0400
-Received: by mail-it0-f66.google.com with SMTP id a195-v6so10303669itd.3
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jul 2018 00:25:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RckRxjLWcSUAoOdaSiTimk+esXC6JwYcZvyVlEDY9yU=;
-        b=BaDvOlu1zqaq4eeYcX+KHqkWpoVZPjJqMfvKmgodsVPVZx5wvUYIyY3e+6JTMvu6Hg
-         e6RqQwRbGKbwC4OkCLj04NeKJHC1rzcDGEJmjZc250f/LcFBnj5QTS3ZxTC75CLMCMbw
-         fyhAz5zwU1BCcshMOa+BY5oVRgmuVJJUcA49U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RckRxjLWcSUAoOdaSiTimk+esXC6JwYcZvyVlEDY9yU=;
-        b=aIu8dFz606JcYlIDgzD4Q5mjWG8VQ9CuNkavVhNBghXgEuoO5IyJS4guQXhd+MbFr7
-         C9U7KTwrSK8fjjQEixLnRqH3iuz+nyrXLdUWeW6SMMj8Ui0XrwTzW6SCe+5lyLRpgNoM
-         m7OSsGIzGZ/wB05WMonTU0wvYdStBOD2pykI4rFsyDagoVU4soNSTAKuLOXwMcic9sq0
-         N7nbRCJxqOaE3TH3AsZJeJVEfqb9wlbdhhsrHXZJKRvgj5In0jiCGq/FitxKoeLPH0+B
-         xInqvWLxvAFfVxPJn54fNNQVwP+vPlzhHtc84MnFNgMIpZo94kj5an+KGgN/7wedZERf
-         9DHw==
-X-Gm-Message-State: AOUpUlHL8L274tx9H8vCwDPo5sXR7FB/rGD3Nw5D9TW8ulHTKgC/S4kp
-        pB0+mntJXLmqAGWBa+5er7vOD4YHVwAcaBQK8BM7vw==
-X-Google-Smtp-Source: AAOMgpf1/SPR220mv1Qgjv8Bgnf2x3ATU4snIfbnInI0IXGO9nh/2deaI44Wq8tCZI1A0OyGuR6IU847l/D7uVIgz+A=
-X-Received: by 2002:a24:ad01:: with SMTP id c1-v6mr3834114itf.70.1531466703679;
- Fri, 13 Jul 2018 00:25:03 -0700 (PDT)
+        id S1731210AbeGMIBn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 04:01:43 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:45108 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729764AbeGMIBn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 04:01:43 -0400
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id w6D7m35p070450;
+        Fri, 13 Jul 2018 02:48:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1531468083;
+        bh=ekpUcaDQsAyRxA8GvaXIzJI9wHMGBXFPL6x3qRKEaVo=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=a21LfUktq9n4sZmv362gOT98Jog8JDKPhCW2UMC6K7/FRk9jfkEik91ldpMxpvSZP
+         vzTxpxE6jeHSEtp7Ob0KjX7516d2sAYPyHVJBDERr0JRlJU+lSoEM+qMEBDhdYwyg8
+         m6rpXPtqEfiDvjPJuQJFlpp/GYlSVsX/+NXcPjhI=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w6D7m2IP004345;
+        Fri, 13 Jul 2018 02:48:02 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Fri, 13
+ Jul 2018 02:48:01 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Fri, 13 Jul 2018 02:48:02 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w6D7lwsq027765;
+        Fri, 13 Jul 2018 02:47:59 -0500
+Subject: Re: [PATCH v9 01/12] PCI: dwc: Fix EP link notification
+ implementation
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
+        <adouglas@cadence.com>, <jesper.nilsson@axis.com>,
+        <shawn.lin@rock-chips.com>
+References: <cover.1531155252.git.gustavo.pimentel@synopsys.com>
+ <3b43f37cc5fe654294c1ea696ed8df1797ad213b.1531155252.git.gustavo.pimentel@synopsys.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <d7ce93a5-0f35-4b8e-3744-d5fd319d8172@ti.com>
+Date:   Fri, 13 Jul 2018 13:17:57 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-References: <20180710144737.1136856-1-arnd@arndb.de>
-In-Reply-To: <20180710144737.1136856-1-arnd@arndb.de>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 13 Jul 2018 09:24:52 +0200
-Message-ID: <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
-Subject: Re: [PATCH] [v2] Documentation: document ktime_get_*() APIs
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Gregor Boirie <gregor.boirie@parrot.com>,
-        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-        Lars-Peter Clausen <lars@metafoo.de>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, david@fromorbit.com,
-        John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, willy@infradead.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <3b43f37cc5fe654294c1ea696ed8df1797ad213b.1531155252.git.gustavo.pimentel@synopsys.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 10, 2018 at 4:48 PM Arnd Bergmann <arnd@arndb.de> wrote:
 
-> As Dave Chinner points out, we don't have a proper documentation for the
-> ktime_get() family of interfaces, making it rather unclear which of the
-> over 30 (!) interfaces one should actually use in a driver or elsewhere
-> in the kernel.
->
-> I wrote up an explanation from how I personally see the interfaces,
-> documenting what each of the functions do and hopefully making it a bit
-> clearer which should be used where.
->
-> This is the first time I tried writing .rst format documentation, so
-> in addition to any mistakes in the content, I probably also introduce
-> nonstandard formatting ;-)
->
-> I first tried to add an extra section to
-> Documentation/timers/timekeeping.txt, but this is currently not included
-> in the generated API, and it seems useful to have the API docs as part
-> of what gets generated in
-> https://www.kernel.org/doc/html/latest/core-api/index.html#core-utilities
-> instead, so I started a new file there.
->
-> I also considered adding the documentation inline in the
-> include/linux/timekeeping.h header, but couldn't figure out how to do
-> that in a way that would result both in helpful inline comments as
-> well as readable html output, so I settled for the latter, with
-> a small note pointing to it from the header.
->
-> Cc: Dave Chinner <david@fromorbit.com>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+On Monday 09 July 2018 11:12 PM, Gustavo Pimentel wrote:
+> Move specific features settings from EP shared code
+> (pcie-designware-ep.c) to the driver (pcie-designware-plat.c).
+> 
+> Previous implementation disables the EP link notification
+> by default for all SoCs that uses EP DesignWare IP, which affects
+> directly the dra7xx and artpec6 SoCs.
+> 
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+
+Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
 > ---
-> v2: minor changes suggested by Randy
-
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-This brings into question commit bc2b7dab629a5
-"iio:core: timestamping clock selection support"
-that has bothered me for some time. Now that is ABI, but
-we might be able to do some recommendations based on the
-time base and have a sensible default moving forward.
-
-As I want to make that clock base parsing similar for GPIO
-I first thought it was a good idea to support the same clocks,
-but now it seems like a bad idea.
-
-IIRC you told me to simply hammer down the clock that
-makes the most sense.
-
-At the same time userspace libraries (such as GNU radio) will
-be confused if they can't match the timestamping clocks,
-as correlating GPIO and IIO events is something they will
-want to do. And I guess these clocks are there for a reason.
-
-So asking Lars-Peter and Gregor: from a userspace point
-of view, what makes most sense for the usecases you
-have seen? Having one consistent time base or all of these
-as we currently have? Different clocks under different
-circumstances?
-
-Yours,
-Linus Walleij
+> Change v8->v9:
+>  - Created patch file.
+> 
+>  drivers/pci/controller/dwc/pcie-designware-ep.c   | 14 ++++++--------
+>  drivers/pci/controller/dwc/pcie-designware-plat.c |  3 +++
+>  2 files changed, 9 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index 8650416..04092a7 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -386,15 +386,18 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+>  		return -ENOMEM;
+>  	ep->outbound_addr = addr;
+>  
+> -	if (ep->ops->ep_init)
+> -		ep->ops->ep_init(ep);
+> -
+>  	epc = devm_pci_epc_create(dev, &epc_ops);
+>  	if (IS_ERR(epc)) {
+>  		dev_err(dev, "Failed to create epc device\n");
+>  		return PTR_ERR(epc);
+>  	}
+>  
+> +	ep->epc = epc;
+> +	epc_set_drvdata(epc, ep);
+> +
+> +	if (ep->ops->ep_init)
+> +		ep->ops->ep_init(ep);
+> +
+>  	ret = of_property_read_u8(np, "max-functions", &epc->max_functions);
+>  	if (ret < 0)
+>  		epc->max_functions = 1;
+> @@ -413,11 +416,6 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+>  		return -ENOMEM;
+>  	}
+>  
+> -	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
+> -	EPC_FEATURE_SET_BAR(epc->features, BAR_0);
+> -
+> -	ep->epc = epc;
+> -	epc_set_drvdata(epc, ep);
+>  	dw_pcie_setup(pci);
+>  
+>  	return 0;
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-plat.c b/drivers/pci/controller/dwc/pcie-designware-plat.c
+> index 5937fed..0ce3440 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-plat.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-plat.c
+> @@ -70,10 +70,13 @@ static const struct dw_pcie_ops dw_pcie_ops = {
+>  static void dw_plat_pcie_ep_init(struct dw_pcie_ep *ep)
+>  {
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	struct pci_epc *epc = ep->epc;
+>  	enum pci_barno bar;
+>  
+>  	for (bar = BAR_0; bar <= BAR_5; bar++)
+>  		dw_pcie_ep_reset_bar(pci, bar);
+> +
+> +	epc->features |= EPC_FEATURE_NO_LINKUP_NOTIFIER;
+>  }
+>  
+>  static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
