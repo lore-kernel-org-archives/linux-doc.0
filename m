@@ -1,198 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 973F37D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 22:00:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3CCB7D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 23:17:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731965AbeGMWQc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 18:16:32 -0400
-Received: from mail-pf0-f195.google.com ([209.85.192.195]:41372 "EHLO
-        mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731935AbeGMWQb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 18:16:31 -0400
-Received: by mail-pf0-f195.google.com with SMTP id c21-v6so18726060pfn.8
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jul 2018 15:00:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=+DENwK4lkCnJMvCIXw6fud1Fyp78X4KXSPKJLfYtvXc=;
-        b=Efte97/gBjn/+D4ZQhrjfhi2NLUL/U5RfkolzZ/7+WnVX/zuZmP4EgSbySZUmrqDRT
-         nzfp2ENl37woS+lcz+AZhQIhbazCWe80pMSzWzD/TR8sMnbTq0l1jSbeYyRkSd/+0FZH
-         P4aBaxbQ4/qOJts7P9mWQi87Z6A7mhzGBzFm9MC3dB9taU7JAtwTWQ/Mi8ZtfjNTr2jq
-         WzH5iPW1jIRq7co5dRQPjjS+PBOAtoVZ7Y0Zi9n+d23CgtRY+qfKX6u6lgvR4YDT0iry
-         nT7jiZonn1NmRrCIodch0pID+Zb4Z6yigMpPDoQ0vHTbLW0CeUta7sdNFHkBOpzxrNxh
-         RbWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=+DENwK4lkCnJMvCIXw6fud1Fyp78X4KXSPKJLfYtvXc=;
-        b=pKZae1ZrFCxxIFZu2mmy03jFVOFBI/Sxf4aCUrj/V7tOWKBseT6RaZYwA2Tc0cIT9u
-         hc47Mgd78fTbQYBwJwK5envSwQnxd6L1Vd2I3TtjYB3hylP31JgX6SE+nAPAWSQWRpEi
-         BNC0HGlnwA/Jt9KAqm/10eQIZvApCPAjsf20+49Y3Ri12F33APfJEjZHDUbiTdlMQys2
-         UNHU8JZ/dmgaCrnc+9YDwhYUB7uRbg+x39DxAXz8wU10n+2aiZH33UmkN1cbzoAOMxHG
-         8ddHOiQtxMkPAR8iQMW2KTcIIMg/arY8YEGZjTtwBDWwGSwEsYYyBu7ERL5mbG/1Mfg0
-         XgQg==
-X-Gm-Message-State: AOUpUlHD8JopjV7CqehSvoyls+9t593TFMvt8l7VrhVN3WmOrAcQwNhG
-        YJRgdEUrKVvmB0gfzzOaj6p4YlZ1pteyS6iTnj4Kb7Cd206snLr6orQvIS1KyBFPPXSjeuFyUiy
-        RZlshIfje0j4=
-X-Google-Smtp-Source: AAOMgpexxCfrTRthYRVhVdqr69GRrevH699iSoNH3coiGjWHWBki+FllLFOlhjJgrpexgNh//W9ZKw==
-X-Received: by 2002:a63:a5c:: with SMTP id z28-v6mr7541682pgk.209.1531519201081;
-        Fri, 13 Jul 2018 15:00:01 -0700 (PDT)
-Received: from [2620:15c:17:3:3a5:23a7:5e32:4598] ([2620:15c:17:3:3a5:23a7:5e32:4598])
-        by smtp.gmail.com with ESMTPSA id z4-v6sm30494987pfl.11.2018.07.13.14.59.59
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 13 Jul 2018 15:00:00 -0700 (PDT)
-Date:   Fri, 13 Jul 2018 14:59:59 -0700 (PDT)
-From:   David Rientjes <rientjes@google.com>
-X-X-Sender: rientjes@chino.kir.corp.google.com
-To:     Michal Hocko <mhocko@kernel.org>
-cc:     Roman Gushchin <guro@fb.com>, linux-mm@vger.kernel.org,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        id S1729214AbeGMXeG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 19:34:06 -0400
+Received: from ipmail01.adl6.internode.on.net ([150.101.137.136]:40172 "EHLO
+        ipmail01.adl6.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727524AbeGMXeG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 19:34:06 -0400
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail01.adl6.internode.on.net with ESMTP; 14 Jul 2018 08:47:18 +0930
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1fe7JN-0006Tw-9P; Sat, 14 Jul 2018 09:17:17 +1000
+Date:   Sat, 14 Jul 2018 09:17:17 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Waiman Long <longman@redhat.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, kernel-team@fb.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v13 0/7] cgroup-aware OOM killer
-In-Reply-To: <20180605114729.GB19202@dhcp22.suse.cz>
-Message-ID: <alpine.DEB.2.21.1807131438380.194789@chino.kir.corp.google.com>
-References: <20171130152824.1591-1-guro@fb.com> <20180605114729.GB19202@dhcp22.suse.cz>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+Message-ID: <20180713231717.GX2234@dastard>
+References: <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+ <1531336913.3260.18.camel@HansenPartnership.com>
+ <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+ <1531411494.18255.6.camel@HansenPartnership.com>
+ <20180712164932.GA3475@bombadil.infradead.org>
+ <1531416080.18255.8.camel@HansenPartnership.com>
+ <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
+ <1531425435.18255.17.camel@HansenPartnership.com>
+ <20180713003614.GW2234@dastard>
+ <1531496812.3361.9.camel@HansenPartnership.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-ccpol: medium
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1531496812.3361.9.camel@HansenPartnership.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 5 Jun 2018, Michal Hocko wrote:
-
-> 1) comparision root with tail memcgs during the OOM killer is not fair
-> because we are comparing tasks with memcgs.
+On Fri, Jul 13, 2018 at 08:46:52AM -0700, James Bottomley wrote:
+> On Fri, 2018-07-13 at 10:36 +1000, Dave Chinner wrote:
+> > On Thu, Jul 12, 2018 at 12:57:15PM -0700, James Bottomley wrote:
+> > > What surprises me most about this behaviour is the steadiness of
+> > > the page cache ... I would have thought we'd have shrunk it
+> > > somewhat given the intense call on the dcache.
+> > 
+> > Oh, good, the page cache vs superblock shrinker balancing still
+> > protects the working set of each cache the way it's supposed to
+> > under heavy single cache pressure. :)
 > 
-> This is true, but I do not think this matters much for workloads which
-> are going to use the feature. Why? Because the main consumers of the new
-> feature seem to be containers which really need some fairness when
-> comparing _workloads_ rather than processes. Those are unlikely to
-> contain any significant memory consumers in the root memcg. That would
-> be mostly common infrastructure.
+> Well, yes, but my expectation is most of the page cache is clean, so
+> easily reclaimable.  I suppose part of my surprise is that I expected
+> us to reclaim the clean caches first before we started pushing out the
+> dirty stuff and reclaiming it.  I'm not saying it's a bad thing, just
+> saying I didn't expect us to make such good decisions under the
+> parameters of this test.
+
+The clean caches are still turned over by the workload, but it is
+very slow and only enough to eject old objects that have fallen out
+of the working set. We've got a lot better at keeping the working
+set in memory in adverse conditions over the past few years...
+
+> > Keep in mind that the amount of work slab cache shrinkers perform is
+> > directly proportional to the amount of page cache reclaim that is
+> > performed and the size of the slab cache being reclaimed.  IOWs,
+> > under a "single cache pressure" workload we should be directing
+> > reclaim work to the huge cache creating the pressure and do very
+> > little reclaim from other caches....
 > 
+> That definitely seems to happen.  The thing I was most surprised about
+> is the steady pushing of anonymous objects to swap.  I agree the dentry
+> cache doesn't seem to be growing hugely after the initial jump, so it
+> seems to be the largest source of reclaim.
 
-There are users (us) who want to use the feature and not all processes are 
-attached to leaf mem cgroups.  The functionality can be provided in a 
-generally useful way that doesn't require any specific hierarchy, and I 
-implemented this in my patch series at 
-https://marc.info/?l=linux-mm&m=152175563004458&w=2.  That proposal to fix 
-*all* of my concerns with the cgroup-aware oom killer as it sits in -mm, 
-in it's entirety, only extends it so it is generally useful and does not 
-remove any functionality.  I'm not sure why we are discussing ways of 
-moving forward when that patchset has been waiting for review for almost 
-four months and, to date, I haven't seen an objection to.
+Which means swap behaviour has changed since I last looked at
+reclaim balance several years ago. These sorts of dentry/inode loads
+never used to push the system to swap. Not saying it's a bad thing,
+just that it is different. :)
 
-I don't know why we cannot agree on making solutions generally useful nor 
-why that patchset has not been merged into -mm so that the whole feature 
-can be merged.  It's baffling.  This is the first time I've encountered a 
-perceived stalemate when there is a patchset sitting, unreviewed, that 
-fixes all of the concerns that there are about the implementation sitting 
-in -mm.
-
-This isn't a criticism just of comparing processes attached to root 
-differently than leaf mem cgroups, it's how oom_score_adj influences that 
-decision.  It's trivial for a very small consumer (not "significant" 
-memory consumer, as you put it) to require an oom kill from root instead 
-of a leaf mem cgroup.  I show in 
-https://marc.info/?l=linux-mm&m=152175564104468&w=2 that changing the 
-oom_score_adj of my bash shell attached to the root mem cgroup is 
-considered equal to a 95GB leaf mem cgroup with the current 
-implementation.
-
-> Is this is fixable? Yes, we would need to account in the root memcgs.
-> Why are we not doing that now? Because it has some negligible
-> performance overhead. Are there other ways? Yes we can approximate root
-> memcg memory consumption but I would rather wait for somebody seeing
-> that as a real problem rather than add hacks now without a strong
-> reason.
+> > [ What follows from here is conjecture, but is based on what I've
+> > seen in the past 10+ years on systems with large numbers of negative
+> > dentries and fragmented dentry/inode caches. ]
 > 
+> OK, so I fully agree with the concern about pathological object vs page
+> freeing problems (I referred to it previously).  However, I did think
+> the compaction work that's been ongoing in mm was supposed to help
+> here?
 
-I fixed this in https://marc.info/?t=152175564500007&r=1&w=2, and from 
-what I remmeber Roman actually liked it.
+Compaction doesn't touch slab caches. We can't move active dentries
+and other slab objects around in memory because they have external
+objects with active references that point directly to them. Getting
+exclusive access to active objects and all the things that point to
+them from reclaim so we can move them is an intractable problem - it
+has sunk slab cache defragmentation every time it has been attempted
+in the past 15 years....
 
-> 2) Evading the oom killer by attaching processes to child cgroups which
-> basically means that a task can split up the workload into smaller
-> memcgs to hide their real memory consumption.
-> 
-> Again true but not really anything new. Processes can already fork and
-> split up the memory consumption. Moreover it doesn't even require any
-> special privileges to do so unlike creating a sub memcg. Is this
-> fixable? Yes, untrusted workloads can setup group oom evaluation at the
-> delegation layer so all subgroups would be considered together.
-> 
+Cheers,
 
-Processes being able to fork to split up memory consumption is also fixed 
-by https://marc.info/?l=linux-mm&m=152175564104467 just as creating 
-subcontainers to intentionally or unintentionally subverting the oom 
-policy is fixed.  It solves both problems.
-
-> 3) Userspace has zero control over oom kill selection in leaf mem
-> cgroups.
-> 
-> Again true but this is something that needs a good evaluation to not end
-> up in the fiasko we have seen with oom_score*. Current users demanding
-> this feature can live without any prioritization so blocking the whole
-> feature seems unreasonable.
-> 
-
-One objection here is how the oom_score_adj of a process means something 
-or doesn't mean something depending on what cgroup it is attached to.  The 
-cgroup-aware oom killer is cgroup aware.  oom_score_adj should play no 
-part.  I fixed this with https://marc.info/?t=152175564500007&r=1&w=2.  
-The other objection is that users do have cgroups that shouldn't be oom 
-killed because they are important, either because they are required to 
-provide a service for a smaller cgroup or because of business goals.  We 
-have cgroups that use more than half of system memory and they are allowed 
-to do so because they are important.  We would love to be able to bias 
-against that cgroup to prefer others, or prefer cgroups for oom kill 
-because they are less important.  This was done for processes with 
-oom_score_adj, we need it for a cgroup aware oom killer for the same 
-reason.
-
-But notice even in https://marc.info/?l=linux-mm&m=152175563004458&w=2 
-that I said priority or adjustment can be added on top of the feature 
-after it's merged.  This itself is not precluding anything from being 
-merged.
-
-> 4) Future extensibility to be backward compatible.
-> 
-> David is wrong here IMHO. Any prioritization or oom selection policy
-> controls added in future are orthogonal to the oom_group concept added
-> by this patchset. Allowing memcg to be an oom entity is something that
-> we really want longterm. Global CGRP_GROUP_OOM is the most restrictive
-> semantic and softening it will be possible by a adding a new knob to
-> tell whether a memcg/hierarchy is a workload or a set of tasks.
-
-I've always said that the mechanism and policy in this patchset should be 
-separated.  I do that exact thing in 
-https://marc.info/?l=linux-mm&m=152175564304469&w=2.  I suggest that 
-different subtrees will want (or the admin will require) different 
-behaviors with regard to the mechanism.
-
-
-I've stated the problems (and there are others wrt mempolicy selection) 
-that the current implementation has and given a full solution at 
-https://marc.info/?l=linux-mm&m=152175563004458&w=2 that has not been 
-reviewed.  I would love feedback from anybody on this thread on that.  I'm 
-not trying to preclude the cgroup-aware oom killer from being merged, I'm 
-the only person actively trying to get it merged.
-
-Thanks.
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
