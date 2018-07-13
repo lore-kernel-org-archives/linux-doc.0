@@ -1,109 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C2B307D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 06:28:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3BBDD7D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 07:25:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727147AbeGMGlR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 02:41:17 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:53595 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbeGMGlR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 02:41:17 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 7CA6180500; Fri, 13 Jul 2018 08:28:05 +0200 (CEST)
-Date:   Fri, 13 Jul 2018 08:28:04 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v2 25/27] x86/cet: Add PTRACE interface for CET
-Message-ID: <20180713062804.GA6905@amd>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-26-yu-cheng.yu@intel.com>
- <20180711102035.GB8574@gmail.com>
- <1531323638.13297.24.camel@intel.com>
- <20180712140327.GA7810@gmail.com>
+        id S1729175AbeGMHiY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 03:38:24 -0400
+Received: from mail-it0-f66.google.com ([209.85.214.66]:53513 "EHLO
+        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726655AbeGMHiY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 03:38:24 -0400
+Received: by mail-it0-f66.google.com with SMTP id a195-v6so10303669itd.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Jul 2018 00:25:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RckRxjLWcSUAoOdaSiTimk+esXC6JwYcZvyVlEDY9yU=;
+        b=BaDvOlu1zqaq4eeYcX+KHqkWpoVZPjJqMfvKmgodsVPVZx5wvUYIyY3e+6JTMvu6Hg
+         e6RqQwRbGKbwC4OkCLj04NeKJHC1rzcDGEJmjZc250f/LcFBnj5QTS3ZxTC75CLMCMbw
+         fyhAz5zwU1BCcshMOa+BY5oVRgmuVJJUcA49U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RckRxjLWcSUAoOdaSiTimk+esXC6JwYcZvyVlEDY9yU=;
+        b=aIu8dFz606JcYlIDgzD4Q5mjWG8VQ9CuNkavVhNBghXgEuoO5IyJS4guQXhd+MbFr7
+         C9U7KTwrSK8fjjQEixLnRqH3iuz+nyrXLdUWeW6SMMj8Ui0XrwTzW6SCe+5lyLRpgNoM
+         m7OSsGIzGZ/wB05WMonTU0wvYdStBOD2pykI4rFsyDagoVU4soNSTAKuLOXwMcic9sq0
+         N7nbRCJxqOaE3TH3AsZJeJVEfqb9wlbdhhsrHXZJKRvgj5In0jiCGq/FitxKoeLPH0+B
+         xInqvWLxvAFfVxPJn54fNNQVwP+vPlzhHtc84MnFNgMIpZo94kj5an+KGgN/7wedZERf
+         9DHw==
+X-Gm-Message-State: AOUpUlHL8L274tx9H8vCwDPo5sXR7FB/rGD3Nw5D9TW8ulHTKgC/S4kp
+        pB0+mntJXLmqAGWBa+5er7vOD4YHVwAcaBQK8BM7vw==
+X-Google-Smtp-Source: AAOMgpf1/SPR220mv1Qgjv8Bgnf2x3ATU4snIfbnInI0IXGO9nh/2deaI44Wq8tCZI1A0OyGuR6IU847l/D7uVIgz+A=
+X-Received: by 2002:a24:ad01:: with SMTP id c1-v6mr3834114itf.70.1531466703679;
+ Fri, 13 Jul 2018 00:25:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
-Content-Disposition: inline
-In-Reply-To: <20180712140327.GA7810@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <20180710144737.1136856-1-arnd@arndb.de>
+In-Reply-To: <20180710144737.1136856-1-arnd@arndb.de>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 13 Jul 2018 09:24:52 +0200
+Message-ID: <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Documentation: document ktime_get_*() APIs
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Gregor Boirie <gregor.boirie@parrot.com>,
+        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+        Lars-Peter Clausen <lars@metafoo.de>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, david@fromorbit.com,
+        John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, willy@infradead.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jul 10, 2018 at 4:48 PM Arnd Bergmann <arnd@arndb.de> wrote:
 
---Dxnq1zWXvFF0Q93v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> As Dave Chinner points out, we don't have a proper documentation for the
+> ktime_get() family of interfaces, making it rather unclear which of the
+> over 30 (!) interfaces one should actually use in a driver or elsewhere
+> in the kernel.
+>
+> I wrote up an explanation from how I personally see the interfaces,
+> documenting what each of the functions do and hopefully making it a bit
+> clearer which should be used where.
+>
+> This is the first time I tried writing .rst format documentation, so
+> in addition to any mistakes in the content, I probably also introduce
+> nonstandard formatting ;-)
+>
+> I first tried to add an extra section to
+> Documentation/timers/timekeeping.txt, but this is currently not included
+> in the generated API, and it seems useful to have the API docs as part
+> of what gets generated in
+> https://www.kernel.org/doc/html/latest/core-api/index.html#core-utilities
+> instead, so I started a new file there.
+>
+> I also considered adding the documentation inline in the
+> include/linux/timekeeping.h header, but couldn't figure out how to do
+> that in a way that would result both in helpful inline comments as
+> well as readable html output, so I settled for the latter, with
+> a small note pointing to it from the header.
+>
+> Cc: Dave Chinner <david@fromorbit.com>
+> Cc: John Stultz <john.stultz@linaro.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: minor changes suggested by Randy
 
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-> > > to "CET" (which is a well-known acronym for "Central European Time"),
-> > > not to CFE?
-> > >=20
-> >=20
-> > I don't know if I can change that, will find out.
->=20
-> So what I'd suggest is something pretty simple: to use CFT/cft in kernel =
-internal=20
-> names, except for the Intel feature bit and any MSR enumeration which can=
- be CET=20
-> if Intel named it that way, and a short comment explaining the acronym di=
-fference.
->=20
-> Or something like that.
+This brings into question commit bc2b7dab629a5
+"iio:core: timestamping clock selection support"
+that has bothered me for some time. Now that is ABI, but
+we might be able to do some recommendations based on the
+time base and have a sensible default moving forward.
 
-Actually, I don't think CFT is much better -- there's limited number
-of TLAs (*). "ENFORCE_FLOW"? "FLOWE"? "EFLOW"?
+As I want to make that clock base parsing similar for GPIO
+I first thought it was a good idea to support the same clocks,
+but now it seems like a bad idea.
 
-									Pavel
+IIRC you told me to simply hammer down the clock that
+makes the most sense.
 
-(*) Three letter accronyms.
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+At the same time userspace libraries (such as GNU radio) will
+be confused if they can't match the timestamping clocks,
+as correlating GPIO and IIO events is something they will
+want to do. And I guess these clocks are there for a reason.
 
---Dxnq1zWXvFF0Q93v
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+So asking Lars-Peter and Gregor: from a userspace point
+of view, what makes most sense for the usecases you
+have seen? Having one consistent time base or all of these
+as we currently have? Different clocks under different
+circumstances?
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAltIRnQACgkQMOfwapXb+vJRBACbBpRDlJCr67dR/rk3Htvd60uk
-2z0AoJRrkyCatIQBwROh41c0B0Qw/Luu
-=9cvN
------END PGP SIGNATURE-----
-
---Dxnq1zWXvFF0Q93v--
+Yours,
+Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
