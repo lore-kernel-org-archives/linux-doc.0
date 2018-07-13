@@ -5,70 +5,108 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB1167D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 17:28:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 461CB7D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 17:40:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730028AbeGMRnp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 13:43:45 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36018 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730017AbeGMRnp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Jul 2018 13:43:45 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B04AE7A7F1;
-        Fri, 13 Jul 2018 17:28:11 +0000 (UTC)
-Received: from pdhamdhe.redhat.com (unknown [10.76.1.186])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9E7E82026D6B;
-        Fri, 13 Jul 2018 17:28:09 +0000 (UTC)
-From:   Prashant Dhamdhere <pdhamdhe@redhat.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        pdhamdhe@redhat.com
-Subject: [PATCH v2] Documentation: proc.txt: Adding 'HardwareCorrupted' field and description.
-Date:   Fri, 13 Jul 2018 22:58:06 +0530
-Message-Id: <20180713172806.17387-1-pdhamdhe@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 13 Jul 2018 17:28:11 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 13 Jul 2018 17:28:11 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'pdhamdhe@redhat.com' RCPT:''
+        id S1730017AbeGMR41 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 13:56:27 -0400
+Received: from mga17.intel.com ([192.55.52.151]:20375 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729982AbeGMR41 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 13 Jul 2018 13:56:27 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Jul 2018 10:40:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,348,1526367600"; 
+   d="scan'208";a="64505102"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Jul 2018 10:40:50 -0700
+Message-ID: <1531503430.11680.2.camel@intel.com>
+Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Fri, 13 Jul 2018 10:37:10 -0700
+In-Reply-To: <166536e2-b296-7be5-d1b7-982cf56f1f9b@linux.intel.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+         <20180710222639.8241-19-yu-cheng.yu@intel.com>
+         <166536e2-b296-7be5-d1b7-982cf56f1f9b@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch talks about the 'HardwareCorrupted' field currently missing from
-the 'meminfo' section of 'proc.txt' file. It also includes short description
-of 'HardwareCorrupted' field.
+On Fri, 2018-07-13 at 05:12 -0700, Dave Hansen wrote:
+> On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
+> > 
+> > +static int is_wruss(struct pt_regs *regs, unsigned long error_code)
+> > +{
+> > +	return (((error_code & (X86_PF_USER | X86_PF_SHSTK)) ==
+> > +		(X86_PF_USER | X86_PF_SHSTK)) && !user_mode(regs));
+> > +}
+> > +
+> >  static void
+> >  show_fault_oops(struct pt_regs *regs, unsigned long error_code,
+> >  		unsigned long address)
+> > @@ -848,7 +859,7 @@ __bad_area_nosemaphore(struct pt_regs *regs, unsigned long error_code,
+> >  	struct task_struct *tsk = current;
+> >  
+> >  	/* User mode accesses just cause a SIGSEGV */
+> > -	if (error_code & X86_PF_USER) {
+> > +	if ((error_code & X86_PF_USER) && !is_wruss(regs, error_code)) {
+> >  		/*
+> >  		 * It's possible to have interrupts off here:
+> >  		 */
+> Please don't do it this way.
+> 
+> We have two styles of page fault:
+> 1. User page faults: find a VMA, try to handle (allocate memory et al.),
+>    kill process if we can't handle.
+> 2. Kernel page faults: search for a *discrete* set of conditions that
+>    can be handled, including faults in instructions marked in exception
+>    tables.
+> 
+> X86_PF_USER *means*: do user page fault handling.  In the places where
+> the hardware doesn't set it, but we still want user page fault handling,
+> we manually set it, like this where we "downgrade" an implicit
+> supervisor access to a user access:
+> 
+>         if (user_mode(regs)) {
+>                 local_irq_enable();
+>                 error_code |= X86_PF_USER;
+>                 flags |= FAULT_FLAG_USER;
+> 
+> So, just please *clear* X86_PF_USER if !user_mode(regs) and X86_PF_SS.
+> We do not want user page fault handling, thus we should not keep the bit
+> set.
 
-Signed-off-by: Prashant Dhamdhere <pdhamdhe@redhat.com>
----
- Documentation/filesystems/proc.txt | 3 +++
- 1 file changed, 3 insertions(+)
+Agree.  I will change that.
 
-diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-index 520f6a84cf50..1605acbb23b6 100644
---- a/Documentation/filesystems/proc.txt
-+++ b/Documentation/filesystems/proc.txt
-@@ -870,6 +870,7 @@ Committed_AS:   100056 kB
- VmallocTotal:   112216 kB
- VmallocUsed:       428 kB
- VmallocChunk:   111088 kB
-+HardwareCorrupted:   0 kB
- AnonHugePages:   49152 kB
- ShmemHugePages:      0 kB
- ShmemPmdMapped:      0 kB
-@@ -915,6 +916,8 @@ MemAvailable: An estimate of how much memory is available for starting new
-        Dirty: Memory which is waiting to get written back to the disk
-    Writeback: Memory which is actively being written back to the disk
-    AnonPages: Non-file backed pages mapped into userspace page tables
-+HardwareCorrupted: The amount of RAM/memory in KB, the kernel identifies as
-+	      corrupted.
- AnonHugePages: Non-file backed huge pages mapped into userspace page tables
-       Mapped: files which have been mmaped, such as libraries
-        Shmem: Total memory used by shared memory (shmem) and tmpfs
--- 
-2.17.1
+Yu-cheng
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
