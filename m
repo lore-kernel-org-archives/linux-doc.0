@@ -2,136 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 622C17DF85
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 18:07:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C0B497D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 18:26:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387784AbeGMSW1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 14:22:27 -0400
-Received: from mga11.intel.com ([192.55.52.93]:4809 "EHLO mga11.intel.com"
+        id S1729982AbeGMSmd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 14:42:33 -0400
+Received: from mga07.intel.com ([134.134.136.100]:57542 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387717AbeGMSW1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Jul 2018 14:22:27 -0400
+        id S1729963AbeGMSmd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 13 Jul 2018 14:42:33 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Jul 2018 11:06:45 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Jul 2018 11:26:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,348,1526367600"; 
-   d="scan'208";a="72146951"
-Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Jul 2018 11:06:45 -0700
-Message-ID: <1531504984.11680.21.camel@intel.com>
-Subject: Re: [RFC PATCH v2 17/27] x86/cet/shstk: User-mode shadow stack
- support
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Andy Lutomirski <luto@amacapital.net>, Jann Horn <jannh@google.com>
-Cc:     the arch/x86 maintainers <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
+   d="scan'208";a="66758892"
+Received: from binman-mobl2.amr.corp.intel.com (HELO [10.252.141.97]) ([10.252.141.97])
+  by orsmga003.jf.intel.com with ESMTP; 13 Jul 2018 11:26:46 -0700
+Subject: Re: [RFC PATCH v2 16/27] mm: Modify can_follow_write_pte/pmd for
+ shadow stack
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, bsingharora@gmail.com,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
-        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
-Date:   Fri, 13 Jul 2018 11:03:04 -0700
-In-Reply-To: <A034EC34-13E7-4AEF-BB3C-FEF14143B601@amacapital.net>
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-         <20180710222639.8241-18-yu-cheng.yu@intel.com>
-         <CAG48ez1ytOfQyNZMNPFp7XqKcpd7_aRai9G5s7rx0V=8ZG+r2A@mail.gmail.com>
-         <6F5FEFFD-0A9A-4181-8D15-5FC323632BA6@amacapital.net>
-         <CAG48ez1OwQMmhQfHaauo+vneywsQ_ERKr4uVcQebC=GbdqZWtA@mail.gmail.com>
-         <A034EC34-13E7-4AEF-BB3C-FEF14143B601@amacapital.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
+ <20180710222639.8241-17-yu-cheng.yu@intel.com>
+ <de510df6-7ea9-edc6-9c49-2f80f16472b4@linux.intel.com>
+ <1531328731.15351.3.camel@intel.com>
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <45a85b01-e005-8cb6-af96-b23ce9b5fca7@linux.intel.com>
+Date:   Fri, 13 Jul 2018 11:26:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <1531328731.15351.3.camel@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2018-07-11 at 15:21 -0700, Andy Lutomirski wrote:
-> > 
-> > On Jul 11, 2018, at 2:51 PM, Jann Horn <jannh@google.com> wrote:
-> > 
-> > On Wed, Jul 11, 2018 at 2:34 PM Andy Lutomirski <luto@amacapital.net> wrote:
-> > > 
-> > > > 
-> > > > On Jul 11, 2018, at 2:10 PM, Jann Horn <jannh@google.com> wrote:
-> > > > 
-> > > > > 
-> > > > > On Tue, Jul 10, 2018 at 3:31 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > > > > 
-> > > > > This patch adds basic shadow stack enabling/disabling routines.
-> > > > > A task's shadow stack is allocated from memory with VM_SHSTK
-> > > > > flag set and read-only protection.  The shadow stack is
-> > > > > allocated to a fixed size.
-> > > > > 
-> > > > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > > [...]
-> > > > > 
-> > > > > diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..96bf69db7da7
-> > > > > --- /dev/null
-> > > > > +++ b/arch/x86/kernel/cet.c
-> > > > [...]
-> > > > > 
-> > > > > +static unsigned long shstk_mmap(unsigned long addr, unsigned long len)
-> > > > > +{
-> > > > > +       struct mm_struct *mm = current->mm;
-> > > > > +       unsigned long populate;
-> > > > > +
-> > > > > +       down_write(&mm->mmap_sem);
-> > > > > +       addr = do_mmap(NULL, addr, len, PROT_READ,
-> > > > > +                      MAP_ANONYMOUS | MAP_PRIVATE, VM_SHSTK,
-> > > > > +                      0, &populate, NULL);
-> > > > > +       up_write(&mm->mmap_sem);
-> > > > > +
-> > > > > +       if (populate)
-> > > > > +               mm_populate(addr, populate);
-> > > > > +
-> > > > > +       return addr;
-> > > > > +}
-> > [...]
-> > > 
-> > > > 
-> > > > Should the kernel enforce that two shadow stacks must have a guard
-> > > > page between them so that they can not be directly adjacent, so that
-> > > > if you have too much recursion, you can't end up corrupting an
-> > > > adjacent shadow stack?
-> > > I think the answer is a qualified “no”. I would like to instead enforce a general guard page on all mmaps that don’t use MAP_FORCE. We *might* need to exempt any mmap with an address hint for
-> > > compatibility.
-> > I like this idea a lot.
-> > 
-> > > 
-> > > My commercial software has been manually adding guard pages on every single mmap done by tcmalloc for years, and it has caught a couple bugs and costs essentially nothing.
-> > > 
-> > > Hmm. Linux should maybe add something like Windows’ “reserved” virtual memory. It’s basically a way to ask for a VA range that explicitly contains nothing and can be subsequently be turned into
-> > > something useful with the equivalent of MAP_FORCE.
-> > What's the benefit over creating an anonymous PROT_NONE region? That
-> > the kernel won't have to scan through the corresponding PTEs when
-> > tearing down the mapping?
-> Make it more obvious what’s happening and avoid accounting issues?  What I’ve actually used is MAP_NORESERVE | PROT_NONE, but I think this still counts against the VA rlimit. But maybe that’s
-> actually the desired behavior.
+On 07/11/2018 10:05 AM, Yu-cheng Yu wrote:
+> My understanding is that we don't want to follow write pte if the page
+> is shared as read-only.  For a SHSTK page, that is (R/O + DIRTY_SW),
+> which means the SHSTK page has not been COW'ed.  Is that right?
 
-We can put a NULL at both ends of a SHSTK to guard against corruption.
+Let's look at the code again:
 
-Yu-cheng 
+> -static inline bool can_follow_write_pte(pte_t pte, unsigned int flags)
+> +static inline bool can_follow_write_pte(pte_t pte, unsigned int flags,
+> +					bool shstk)
+>  {
+> +	bool pte_cowed = shstk ? is_shstk_pte(pte):pte_dirty(pte);
+> +
+>  	return pte_write(pte) ||
+> -		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte));
+> +		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_cowed);
+>  }
 
+This is another case where the naming of pte_*() is biting us vs. the
+perversion of the PTE bits.  The lack of comments and explanation inthe
+patch is compounding the confusion.
+
+We need to find a way to differentiate "someone can write to this PTE"
+from "the write bit is set in this PTE".
+
+In this particular hunk, we need to make it clear that pte_write() is
+*never* true for shadowstack PTEs.  In other words, shadow stack VMAs
+will (should?) never even *see* a pte_write() PTE.
+
+I think this is a case where you just need to bite the bullet and
+bifurcate can_follow_write_pte().  Just separate the shadowstack and
+non-shadowstack parts.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
