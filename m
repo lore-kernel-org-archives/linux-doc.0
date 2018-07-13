@@ -5,32 +5,33 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2FD307D071
+	by archive.lwn.net (Postfix) with ESMTP id 972247D085
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 15:56:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729779AbeGMQMD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 12:12:03 -0400
-Received: from smtprelay2.synopsys.com ([198.182.60.111]:35040 "EHLO
+        id S1731021AbeGMQME (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 12:12:04 -0400
+Received: from smtprelay4.synopsys.com ([198.182.47.9]:57955 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729735AbeGMQMD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 12:12:03 -0400
+        with ESMTP id S1729762AbeGMQME (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 12:12:04 -0400
 Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 48EC910C1961;
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 26A7C24E082E;
         Fri, 13 Jul 2018 08:56:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1531497410; bh=qf7yS+1TljvRed6b3T+kKuzd5gtZUqQ6UqK52fEsx3I=;
-        h=From:To:Cc:Subject:Date:From;
-        b=cInQRrZfbvOVjxFSTq2Z4ysKXEx/FNodcoVCtK22oEIRVNCg1QZyb0TLd/q1J8LpI
-         iNeeVWes1ag7ptMZ51dKJ1vgDqnD5gE16Y49fTWQakXzWWAv+OXJUWodkD+pKzb9Ug
-         SHAFfGT6l0QwkAlaEPCx+G/r/f6ogOjAWqGgQOTBmFJpVV9rsZmfZpNAj6+k1FUjTM
-         vPjf5FbqDs02zDhFcF8EN6gjsykX/iKuRQjfnXWITAgbMQrpdKCk5UFW7y7momiaUb
-         Ozfn0OMh76WRTfAw/S7zCrHkcnFnHJky5sRX+JpBvosAFZOg6QyLHVdS8NfDNGKIER
-         0jN9/Hn68oNkA==
+        t=1531497411; bh=evyae7gxx7k7ivy3n0QAAQHbwJHsrCXF4dYRRZqDsZ4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
+         References:From;
+        b=NogsiDc7r4rkNuoizvFSm7C9dQ3K0YcmdbYHqPFU+jUjhCovNp+ht1ZFgOz4s4Sr6
+         iuEnQaclnHLRMbB24Yj1HWQ6HOEpv385AAY039VGvCl5zHuQXWBf/8ddTjz3GoHyUQ
+         G8TeEnr13Ekh6RNdzWgPZfgdm+OXyJMZDf/NXGfU5WTNo+OREYigHh6HW/ZvmE3jLd
+         8+a/6DQZbKSc5t1o1m9Tj/LbyNOG85RRtyikbgQHDI4MrmBoX+qen20Q3ysKksD+36
+         xnpKC6LaEUnltWhUaUp2cOV3fdGtHkuSndgtSpl/Q5mPb0oL4kotjav8yAjXWnIwFn
+         XNNWOVYkY6nJg==
 Received: from de02.synopsys.com (germany.internal.synopsys.com [10.225.17.21])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 9A5C23B8C;
+        by mailhost.synopsys.com (Postfix) with ESMTP id AA58A3B8D;
         Fri, 13 Jul 2018 08:56:49 -0700 (PDT)
 Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
-        by de02.synopsys.com (Postfix) with ESMTP id C16F23E8C5;
+        by de02.synopsys.com (Postfix) with ESMTP id D42223E8C7;
         Fri, 13 Jul 2018 17:56:48 +0200 (CEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
@@ -40,70 +41,93 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v10 00/12] Add MSI-X support on pcitest tool
-Date:   Fri, 13 Jul 2018 17:56:32 +0200
-Message-Id: <cover.1531496321.git.gustavo.pimentel@synopsys.com>
+Subject: [PATCH v10 01/12] PCI: dwc: Fix EP link notification implementation
+Date:   Fri, 13 Jul 2018 17:56:33 +0200
+Message-Id: <3b43f37cc5fe654294c1ea696ed8df1797ad213b.1531496321.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1531496321.git.gustavo.pimentel@synopsys.com>
+References: <cover.1531496321.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <cover.1531496321.git.gustavo.pimentel@synopsys.com>
+References: <cover.1531496321.git.gustavo.pimentel@synopsys.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Patch series made against Lorenzo's master branch.
+Move specific features settings from EP shared code
+(pcie-designware-ep.c) to the driver (pcie-designware-plat.c).
 
-Fix EP link notification implementation.
+Previous implementation disables the EP link notification
+by default for all SoCs that uses EP DesignWare IP, which affects
+directly the dra7xx and artpec6 SoCs.
 
-Add MSI-X support on pcitest tool.
+Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+---
+Change v8->v9:
+ - Created patch file.
+Change v9->v10:
+ - Nothing changed, just to follow the patch set version.
 
-Add new callbacks methods and handlers to trigger the MSI-X interrupts
-on the EP DesignWare IP driver.
+ drivers/pci/controller/dwc/pcie-designware-ep.c   | 14 ++++++--------
+ drivers/pci/controller/dwc/pcie-designware-plat.c |  3 +++
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-Allow to set/get MSI-X EP maximum capability number.
-
-Rework on set/get and triggering MSI methods on EP DesignWare IP driver.
-
-Add a new input parameter (msix) to pcitest tool to test MSI-X feature.
-
-Update the pcitest.sh script to support MSI-X feature tests.
-
-Gustavo Pimentel (12):
-  PCI: dwc: Fix EP link notification implementation
-  PCI: endpoint: Add MSI-X interfaces
-  PCI: Update xxx_pcie_ep_raise_irq() and pci_epc_raise_irq() signatures
-  PCI: dwc: Add MSI-X callbacks handler
-  PCI: dwc: Rework MSI callbacks handler
-  PCI: dwc: Add legacy interrupt callback handler
-  pci-epf-test/pci_endpoint_test: Cleanup PCI_ENDPOINT_TEST memspace
-  pci-epf-test/pci_endpoint_test: Use irq_type module parameter
-  pci-epf-test/pci_endpoint_test: Add MSI-X support
-  pci_endpoint_test: Add 2 ioctl commands
-  tools: PCI: Add MSI-X support
-  PCI: endpoint: Add MSI set maximum restriction
-
- .../PCI/endpoint/function/binding/pci-test.txt     |   2 +
- Documentation/PCI/endpoint/pci-endpoint.txt        |   4 +-
- Documentation/PCI/endpoint/pci-test-function.txt   |  29 ++-
- Documentation/PCI/endpoint/pci-test-howto.txt      |  30 ++-
- Documentation/ioctl/ioctl-number.txt               |   1 +
- Documentation/misc-devices/pci-endpoint-test.txt   |   6 +
- drivers/misc/pci_endpoint_test.c                   | 260 +++++++++++++++------
- drivers/pci/controller/dwc/pci-dra7xx.c            |   2 +-
- drivers/pci/controller/dwc/pcie-artpec6.c          |   2 +-
- drivers/pci/controller/dwc/pcie-designware-ep.c    | 210 +++++++++++++++--
- drivers/pci/controller/dwc/pcie-designware-plat.c  |  11 +-
- drivers/pci/controller/dwc/pcie-designware.h       |  29 ++-
- drivers/pci/controller/pcie-cadence-ep.c           |   3 +-
- drivers/pci/controller/pcie-rockchip-ep.c          |   2 +-
- drivers/pci/endpoint/functions/pci-epf-test.c      |  86 +++++--
- drivers/pci/endpoint/pci-ep-cfs.c                  |  24 ++
- drivers/pci/endpoint/pci-epc-core.c                |  68 +++++-
- include/linux/pci-epc.h                            |  16 +-
- include/linux/pci-epf.h                            |   1 +
- include/uapi/linux/pcitest.h                       |   3 +
- tools/pci/pcitest.c                                |  51 +++-
- tools/pci/pcitest.sh                               |  15 ++
- 22 files changed, 706 insertions(+), 149 deletions(-)
-
+diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+index 8650416..04092a7 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-ep.c
++++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+@@ -386,15 +386,18 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+ 		return -ENOMEM;
+ 	ep->outbound_addr = addr;
+ 
+-	if (ep->ops->ep_init)
+-		ep->ops->ep_init(ep);
+-
+ 	epc = devm_pci_epc_create(dev, &epc_ops);
+ 	if (IS_ERR(epc)) {
+ 		dev_err(dev, "Failed to create epc device\n");
+ 		return PTR_ERR(epc);
+ 	}
+ 
++	ep->epc = epc;
++	epc_set_drvdata(epc, ep);
++
++	if (ep->ops->ep_init)
++		ep->ops->ep_init(ep);
++
+ 	ret = of_property_read_u8(np, "max-functions", &epc->max_functions);
+ 	if (ret < 0)
+ 		epc->max_functions = 1;
+@@ -413,11 +416,6 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+ 		return -ENOMEM;
+ 	}
+ 
+-	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
+-	EPC_FEATURE_SET_BAR(epc->features, BAR_0);
+-
+-	ep->epc = epc;
+-	epc_set_drvdata(epc, ep);
+ 	dw_pcie_setup(pci);
+ 
+ 	return 0;
+diff --git a/drivers/pci/controller/dwc/pcie-designware-plat.c b/drivers/pci/controller/dwc/pcie-designware-plat.c
+index 5937fed..0ce3440 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-plat.c
++++ b/drivers/pci/controller/dwc/pcie-designware-plat.c
+@@ -70,10 +70,13 @@ static const struct dw_pcie_ops dw_pcie_ops = {
+ static void dw_plat_pcie_ep_init(struct dw_pcie_ep *ep)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	struct pci_epc *epc = ep->epc;
+ 	enum pci_barno bar;
+ 
+ 	for (bar = BAR_0; bar <= BAR_5; bar++)
+ 		dw_pcie_ep_reset_bar(pci, bar);
++
++	epc->features |= EPC_FEATURE_NO_LINKUP_NOTIFIER;
+ }
+ 
+ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
 -- 
 2.7.4
 
