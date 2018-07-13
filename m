@@ -5,159 +5,143 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 29DFA7D085
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Jul 2018 23:50:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 165147D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 00:41:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387740AbeGMACP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Jul 2018 20:02:15 -0400
-Received: from mga12.intel.com ([192.55.52.136]:51153 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387733AbeGMACJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Jul 2018 20:02:09 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jul 2018 16:50:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,345,1526367600"; 
-   d="scan'208";a="66541200"
-Received: from andreser-mobl.amr.corp.intel.com (HELO [10.252.137.224]) ([10.252.137.224])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Jul 2018 16:49:56 -0700
-Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S2387800AbeGMAxZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Jul 2018 20:53:25 -0400
+Received: from ipmailnode02.adl6.internode.on.net ([150.101.137.148]:29463
+        "EHLO ipmailnode02.adl6.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387799AbeGMAxZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jul 2018 20:53:25 -0400
+X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Thu, 12 Jul 2018 20:53:24 EDT
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail02.adl6.internode.on.net with ESMTP; 13 Jul 2018 10:06:16 +0930
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1fdm4E-0005Aw-MI; Fri, 13 Jul 2018 10:36:14 +1000
+Date:   Fri, 13 Jul 2018 10:36:14 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Waiman Long <longman@redhat.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-19-yu-cheng.yu@intel.com>
- <bbb487cc-ac1c-f734-eee3-2463a0ba7efc@linux.intel.com>
- <1531436398.2965.18.camel@intel.com>
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <46784af0-6fbb-522d-6acb-c6248e5e0e0d@linux.intel.com>
-Date:   Thu, 12 Jul 2018 16:49:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+Message-ID: <20180713003614.GW2234@dastard>
+References: <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
+ <1531330947.3260.13.camel@HansenPartnership.com>
+ <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+ <1531336913.3260.18.camel@HansenPartnership.com>
+ <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+ <1531411494.18255.6.camel@HansenPartnership.com>
+ <20180712164932.GA3475@bombadil.infradead.org>
+ <1531416080.18255.8.camel@HansenPartnership.com>
+ <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
+ <1531425435.18255.17.camel@HansenPartnership.com>
 MIME-Version: 1.0
-In-Reply-To: <1531436398.2965.18.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1531425435.18255.17.camel@HansenPartnership.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/12/2018 03:59 PM, Yu-cheng Yu wrote:
-> On Tue, 2018-07-10 at 16:48 -0700, Dave Hansen wrote:
->>>
->>> +/*
->>> + * WRUSS is a kernel instrcution and but writes to user
->>> + * shadow stack memory.  When a fault occurs, both
->>> + * X86_PF_USER and X86_PF_SHSTK are set.
->>> + */
->>> +static int is_wruss(struct pt_regs *regs, unsigned long error_code)
->>> +{
->>> +	return (((error_code & (X86_PF_USER | X86_PF_SHSTK)) ==
->>> +		(X86_PF_USER | X86_PF_SHSTK)) && !user_mode(regs));
->>> +}
->> I thought X86_PF_USER was set based on the mode in which the fault
->> occurred.  Does this mean that the architecture of this bit is different
->> now?
-> 
-> Yes.
-> 
->> That seems like something we need to call out if so.  It also means we
->> need to update the SDM because some of the text is wrong.
-> 
-> It needs to mention the WRUSS case.
+On Thu, Jul 12, 2018 at 12:57:15PM -0700, James Bottomley wrote:
+> What surprises me most about this behaviour is the steadiness of the
+> page cache ... I would have thought we'd have shrunk it somewhat given
+> the intense call on the dcache.
 
-Ugh.  The documentation for this is not pretty.  But, I guess this is
-not fundamentally different from access to U=1 pages when SMAP is in
-place and we've set EFLAGS.AC=1.
+Oh, good, the page cache vs superblock shrinker balancing still
+protects the working set of each cache the way it's supposed to
+under heavy single cache pressure. :)
 
-But, sheesh, we need to call this out really explicitly and make it
-crystal clear what is going on.
+Keep in mind that the amount of work slab cache shrinkers perform is
+directly proportional to the amount of page cache reclaim that is
+performed and the size of the slab cache being reclaimed.  IOWs,
+under a "single cache pressure" workload we should be directing
+reclaim work to the huge cache creating the pressure and do very
+little reclaim from other caches....
 
-We need to go through the page fault code very carefully and audit all
-the X86_PF_USER spots and make sure there's no impact to those.  SMAP
-should mean that we already dealt with these, but we still need an audit.
+[ What follows from here is conjecture, but is based on what I've
+seen in the past 10+ years on systems with large numbers of negative
+dentries and fragmented dentry/inode caches. ]
 
-The docs[1] are clear as mud on this though: "Page entry has user
-privilege (U=1) for a supervisor-level shadow-stack-load,
-shadow-stack-store-intent or shadow-stack-store access except those that
-originate from the WRUSS instruction."
+However, this only reaches steady state if the reclaim rate can keep
+ahead of the allocation rate. This single threaded micro-workload
+won't result in an internally fragmented dentry slab cache, so
+reclaim is going to be as efficient as possible and have the CPU to
+keep up with the allocation rate.  i.e. Bulk negative dentry reclaim
+is cheap, in LRU order, and frees slab pages quickly and efficiently
+in large batches so steady state is easily reached.
 
-Or, in short:
+Problems arise when the slab *page* reclaim rate drops below
+allocation rate. i.e when you have short term (negative) dentries
+mixed into the same slab pages as long term stable dentries. This
+causes the dentry cache to fragment internally - reclaim hits the
+negative dentries and creates large numbers of partial pages - and
+so reclaim of negative dentries will fail to free memory. Creating
+new negative dentries then fills these partial pages first, and so
+the alloc/reclaim cycles on negative dentries only ever produce
+partial pages and never free slab cache pages. IOWs, the cost of
+reclaim slab *pages* goes way up despite the fact that the cost of
+reclaiming individual dentries has remained the same.
 
-	"Page has U=1 ... except those that originate from the WRUSS 	
-	instruction."
+That's the underlying problem here - the cost of reclaiming dentries
+is constant but the cost of reclaiming *slab pages* is not.  It is
+not uncommon to have to trash 90% of the dentry or inode caches to
+reduce internal fragmentation down to the point where pages start to
+get freed and the per-slab-page reclaim cost reduces to be less than
+the allocation cost. Then we see the system return to normal steady
+state behaviour.
 
-Which is backwards from what you said.  I really wish those docs had
-reused the established SDM language instead of reinventing their own way
-of saying things.
+In situations where lots of negative dentries are created by
+production workloads, that "90%" of the cache that needs to be
+reclaimed to fix the internal fragmentation issue is all negative
+dentries and just enough of the real dentries to be freeing
+quantities of partial pages in the slab. Hence negative dentries are
+seen as the problem because they make up the vast majority of the
+dentries that get reclaimed when the problem goes away.
 
-1.
-https://software.intel.com/sites/default/files/managed/4d/2a/control-flow-enforcement-technology-preview.pdf
+By limiting the number of negative dentries in this case, internal
+slab fragmentation is reduced such that reclaim cost never gets out
+of control. While it appears to "fix" the symptoms, it doesn't
+address the underlying problem. It is a partial solution at best but
+at worst it's another opaque knob that nobody knows how or when to
+tune.
+
+Very few microbenchmarks expose this internal slab fragmentation
+problem because they either don't run long enough, don't create
+memory pressure, or don't have access patterns that mix long and
+short term slab objects together in a way that causes slab
+fragmentation. Run some cold cache directory traversals (git
+status?) at the same time you are creating negative dentries so you
+create pinned partial pages in the slab cache and see how the
+behaviour changes....
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
