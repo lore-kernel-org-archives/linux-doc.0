@@ -1,268 +1,212 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3786B7D085
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 07:55:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 011407D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 07:55:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729768AbeGMIJF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 04:09:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36592 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729790AbeGMII7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 04:08:59 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6D7s4wo102781
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jul 2018 03:55:30 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2k6qkkh7ug-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jul 2018 03:55:30 -0400
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Fri, 13 Jul 2018 08:55:27 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 13 Jul 2018 08:55:21 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6D7tK3Z40960036
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 13 Jul 2018 07:55:20 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5CCA911C054;
-        Fri, 13 Jul 2018 10:55:41 +0100 (BST)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 04EBA11C05B;
-        Fri, 13 Jul 2018 10:55:38 +0100 (BST)
-Received: from [9.124.31.56] (unknown [9.124.31.56])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 13 Jul 2018 10:55:37 +0100 (BST)
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-To:     Song Liu <liu.song.a23@gmail.com>
-Cc:     Oleg Nesterov <oleg@redhat.com>, srikar@linux.vnet.ibm.com,
-        rostedt@goodmis.org, mhiramat@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        open list <linux-kernel@vger.kernel.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-References: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180701210935.GA14404@redhat.com>
- <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
- <20180702180156.GA31400@redhat.com>
- <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
- <20180703163645.GA23144@redhat.com> <20180703172543.GC23144@redhat.com>
- <f5a39a88-c21e-4606-a04d-11b5f32016b8@linux.ibm.com>
- <20180710152527.GA3616@redhat.com>
- <6e3ff60b-267a-d49d-4ebb-c4264f9c034b@linux.ibm.com>
- <20180712145849.GB15265@redhat.com>
- <CAPhsuW6kCtn-tWSj5eKf+kGt8ZEjVwJKLxj9C6zdaqMZByRytg@mail.gmail.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Date:   Fri, 13 Jul 2018 13:25:16 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1731883AbeGMIJU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 04:09:20 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:45648 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729790AbeGMIJU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 04:09:20 -0400
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id w6D7tbQr071648;
+        Fri, 13 Jul 2018 02:55:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1531468537;
+        bh=GnZcImdhFHgnugR65xkrimI4bbwTo5co9kHxCymPHaA=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=S+JdNMeGB+VihOAHI1HS/TGDnMD1dH6x/GNnruWqoQDY6rAEiRixaeB6mRqypqUfa
+         KMhJJWNEGz/OXMvnoSxi6NnYJdfhno4Jg6zPewuWJKG8yoBYuDHSvlI8qqVuPLlLhU
+         s3gL62gqE141apdwi3XZaAy/RNG56T4QQtt9hdak=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w6D7tbdr017695;
+        Fri, 13 Jul 2018 02:55:37 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Fri, 13
+ Jul 2018 02:55:37 -0500
+Received: from dflp32.itg.ti.com (10.64.6.15) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Fri, 13 Jul 2018 02:55:37 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id w6D7tWAt027013;
+        Fri, 13 Jul 2018 02:55:33 -0500
+Subject: Re: [PATCH v9 05/12] PCI: dwc: Rework MSI callbacks handler
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
+        <adouglas@cadence.com>, <jesper.nilsson@axis.com>,
+        <shawn.lin@rock-chips.com>
+References: <cover.1531155252.git.gustavo.pimentel@synopsys.com>
+ <a15f35afd66c8dd32617fcfc0086a0d21846bac3.1531155252.git.gustavo.pimentel@synopsys.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <f6317bed-884c-3a64-b04b-72d2e2b101de@ti.com>
+Date:   Fri, 13 Jul 2018 13:25:32 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAPhsuW6kCtn-tWSj5eKf+kGt8ZEjVwJKLxj9C6zdaqMZByRytg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <a15f35afd66c8dd32617fcfc0086a0d21846bac3.1531155252.git.gustavo.pimentel@synopsys.com>
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 18071307-0028-0000-0000-000002DB2B79
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18071307-0029-0000-0000-00002392DB60
-Message-Id: <9b062a19-d9a7-b360-26b1-d28b8dfc35a3@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-13_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807130054
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Song,
 
-On 07/13/2018 01:23 AM, Song Liu wrote:
-> I guess I got to the party late. I found this thread after I started developing
-> the same feature...
+
+On Monday 09 July 2018 11:12 PM, Gustavo Pimentel wrote:
+> Remove duplicate defines located on pcie-designware.h file already
+> available on /include/uapi/linux/pci-regs.h file.
 > 
-> On Thu, Jul 12, 2018 at 7:58 AM, Oleg Nesterov <oleg@redhat.com> wrote:
->> On 07/11, Ravi Bangoria wrote:
->>>
->>>> However, I still think it would be better to avoid uprobe exporting and modifying
->>>> set_swbp/set_orig_insn. May be we can simply kill both set_swbp() and set_orig_insn(),
->>>> I'll re-check...
->>>
->>> Good that you bring this up. Actually, we can implement same logic
->>> without exporting uprobe. We can do "uprobe = container_of(arch_uprobe)"
->>> in uprobe_write_opcode(). No need to export struct uprobe outside,
->>> no need to change set_swbp() / set_orig_insn() syntax. Just that we
->>> need to pass arch_uprobe object to uprobe_write_opcode().
->>
->> Yes, but you still need to modify set_swbp/set_orig_insn to pass the new
->> arg to uprobe_write_opcode(). OK, this is fine.
->>
->>
->>> But, I wanted to discuss about making ref_ctr_offset a uprobe property
->>> or a consumer property, before posting v6:
->>>
->>> If we make it a consumer property, the design becomes flexible for
->>> user. User will have an option to either depend on kernel to handle
->>> reference counter or he can create normal uprobe and manipulate
->>> reference counter on his own. This will not require any changes to
->>> existing tools. With this approach we need to increment / decrement
->>> reference counter for each consumer. But, because of the fact that our
->>> install_breakpoint() / remove_breakpoint() are not balanced, we have
->>> to keep track of which reference counter have been updated in which
->>> mm, for which uprobe and for which consumer. I.e. Maintain a list of
->>> {uprobe, consumer, mm}.
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+
+Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
+> ---
+> Change v1->v2:
+>  - Nothing changed, just to follow the patch set version.
+> Change v2->v3:
+>  - Replaced wrong return value 0 to -EINVAL.
+> Change v3->v4:
+>  - Rebased to Lorenzo's master branch v4.18-rc1.
+> Change v4->v5:
+>  - Moved pci_epc_set_msi maximum interrupts validation into a new patch
+> file #11.
+> Change v5->v6:
+>  - Nothing changed, just to follow the patch set version.
+> Change v6->v7:
+>  - Nothing changed, just to follow the patch set version.
+> Change v7->v8:
+>  - Re-sending the patch series.
+> Change v8->v9:
+>  - Nothing changed, just to follow the patch set version.
 > 
-> Is it possible to maintain balanced refcount by modifying callers of
-> install_breakpoint() and remove_breakpoint()? I am actually working
-> toward this direction. And I found some imbalance between
->      register_for_each_vma(uprobe, uc)
-> and
->      register_for_each_vma(uprobe, NULL)
+>  drivers/pci/controller/dwc/pcie-designware-ep.c | 49 +++++++++++++++++--------
+>  drivers/pci/controller/dwc/pcie-designware.h    | 11 ------
+>  2 files changed, 33 insertions(+), 27 deletions(-)
 > 
-> From reading the thread, I think there are other sources of imbalance.
-> But I think it is still possible to fix it? Please let me know if this is not
-> realistic...
-
-
-I don't think so. It all depends on memory layout of the process, the
-execution sequence of tracer vs target, how binary is loaded or how mmap()s
-are called. To achieve a balance you need to change current uprobe
-implementation. (I haven't explored to change current implementation because
-I personally think there is no need to). Let me show you a simple example on
-my Ubuntu 18.04 (powerpc vm) with upstream kernel:
-
--------------
-  $ cat loop.c
-    #include <stdio.h>
-    #include <unistd.h>
-    
-    void foo(int i)
-    {
-            printf("Hi: %d\n", i);
-            sleep(1);
-    }
-    
-    void main()
-    {
-            int i;
-            for (i = 0; i < 100; i++)
-                    foo(i);
-    }
-  
-  $ sudo ./perf probe -x ~/loop foo
-  $ sudo ./perf probe install_breakpoint uprobe mm vaddr
-  $ sudo ./perf probe remove_breakpoint uprobe mm vaddr
-  
-  term1~$ ./loop
-  
-  term2~$ sudo ./perf record -a -e probe:* -o perf.data.kprobe
-  
-  term3~$ sudo ./perf record -a -e probe_loop:foo
-          ^C
-  
-  term2~$ ...
-          ^C[ perf record: Woken up 1 times to write data ]
-          [ perf record: Captured and wrote 0.217 MB perf.data.probe (10 samples) ]
-  
-  term2~$ sudo ./perf script -i perf.data.kprobe
-    probe:install_breakpoint: (c00000000032e4e8) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5072900 vaddr=0x1108e0844
-    probe:install_breakpoint: (c00000000032e4e8) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5072900 vaddr=0x1108d0844
-    probe:install_breakpoint: (c00000000032e4e8) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5055500 vaddr=0x7fffa2620844
-    probe:install_breakpoint: (c00000000032e4e8) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5055500 vaddr=0x7fffa2620844
-     probe:remove_breakpoint: (c00000000032e938) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5072900 vaddr=0x1108e0844
-     probe:remove_breakpoint: (c00000000032e938) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5072900 vaddr=0x1108d0844
-     probe:remove_breakpoint: (c00000000032e938) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5072900 vaddr=0x1108d0844
-     probe:remove_breakpoint: (c00000000032e938) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5072900 vaddr=0x1108e0844
-     probe:remove_breakpoint: (c00000000032e938) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5072900 vaddr=0x1108e0844
-     probe:remove_breakpoint: (c00000000032e938) uprobe=0xc0000000a40d0e00 mm=0xc0000000b5072900 vaddr=0x1108d0844
--------------
-
-Here install_breakpoint() for our target (mm: 0xc0000000b5072900) was
-called 2 times where as remove_breakpoint() was called 6 times.
-
-Because, there is an imbalance, and if you make reference counter a
-consumer property, you have two options. Either you have to fix
-current uprobe infrastructure to solve this imbalance. Or maintain
-a list of already updated counter as I've explained(in reply to Oleg).
-
-Now,
-
-  uprobe_register()
-    register_for_each_vma()
-      install_breakpoint()
-
-gets called for each consumer, but
-
-  uprobe_mmap()
-    install_breakpoint()
-
-gets called only once. Now, if you make ref_ctr_offset a consumer
-property, you have to increment reference counter for each consumer
-in case of uprobe_mmap(). Also, you have to make sure you update
-reference counter only once for each consumer because install/
-remove_breakpoint() are not balanced. Now, what if reference
-counter increment fails for any one consumer? You have to rollback
-already updated ones, which brings more complication.
-
-Now, other complication is, generally vma holding reference counter
-won't be present when install_breakpoint() gets called from
-uprobe_mmap(). I've introduced delayed_uprobes for this. This is
-anyway needed with any approach.
-
-The only advantage I was seeing by making reference counter a
-consumer property was a user flexibility to update reference counter
-on his own. But I've already proposed a solution for that.
-
-So, I personally don't suggest to make ref_ctr_offset a consumer
-property because I, again personally, don't think it's a consumer
-property.
-
-Please feel free to say if this all looks crap to you :)
-
-
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index 72c4188..afb48b5 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -246,29 +246,38 @@ static int dw_pcie_ep_map_addr(struct pci_epc *epc, u8 func_no,
+>  
+>  static int dw_pcie_ep_get_msi(struct pci_epc *epc, u8 func_no)
+>  {
+> -	int val;
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	u32 val, reg;
+> +
+> +	if (!ep->msi_cap)
+> +		return -EINVAL;
+>  
+> -	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
+> -	if (!(val & MSI_CAP_MSI_EN_MASK))
+> +	reg = ep->msi_cap + PCI_MSI_FLAGS;
+> +	val = dw_pcie_readw_dbi(pci, reg);
+> +	if (!(val & PCI_MSI_FLAGS_ENABLE))
+>  		return -EINVAL;
+>  
+> -	val = (val & MSI_CAP_MME_MASK) >> MSI_CAP_MME_SHIFT;
+> +	val = (val & PCI_MSI_FLAGS_QSIZE) >> 4;
+> +
+>  	return val;
+>  }
+>  
+> -static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
+> +static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
+>  {
+> -	int val;
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	u32 val, reg;
+>  
+> -	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
+> -	val &= ~MSI_CAP_MMC_MASK;
+> -	val |= (encode_int << MSI_CAP_MMC_SHIFT) & MSI_CAP_MMC_MASK;
+> +	if (!ep->msi_cap)
+> +		return -EINVAL;
+> +
+> +	reg = ep->msi_cap + PCI_MSI_FLAGS;
+> +	val = dw_pcie_readw_dbi(pci, reg);
+> +	val &= ~PCI_MSI_FLAGS_QMASK;
+> +	val |= (interrupts << 1) & PCI_MSI_FLAGS_QMASK;
+>  	dw_pcie_dbi_ro_wr_en(pci);
+> -	dw_pcie_writew_dbi(pci, MSI_MESSAGE_CONTROL, val);
+> +	dw_pcie_writew_dbi(pci, reg, val);
+>  	dw_pcie_dbi_ro_wr_dis(pci);
+>  
+>  	return 0;
+> @@ -367,21 +376,29 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  	struct pci_epc *epc = ep->epc;
+>  	u16 msg_ctrl, msg_data;
+> -	u32 msg_addr_lower, msg_addr_upper;
+> +	u32 msg_addr_lower, msg_addr_upper, reg;
+>  	u64 msg_addr;
+>  	bool has_upper;
+>  	int ret;
+>  
+> +	if (!ep->msi_cap)
+> +		return -EINVAL;
+> +
+>  	/* Raise MSI per the PCI Local Bus Specification Revision 3.0, 6.8.1. */
+> -	msg_ctrl = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
+> +	reg = ep->msi_cap + PCI_MSI_FLAGS;
+> +	msg_ctrl = dw_pcie_readw_dbi(pci, reg);
+>  	has_upper = !!(msg_ctrl & PCI_MSI_FLAGS_64BIT);
+> -	msg_addr_lower = dw_pcie_readl_dbi(pci, MSI_MESSAGE_ADDR_L32);
+> +	reg = ep->msi_cap + PCI_MSI_ADDRESS_LO;
+> +	msg_addr_lower = dw_pcie_readl_dbi(pci, reg);
+>  	if (has_upper) {
+> -		msg_addr_upper = dw_pcie_readl_dbi(pci, MSI_MESSAGE_ADDR_U32);
+> -		msg_data = dw_pcie_readw_dbi(pci, MSI_MESSAGE_DATA_64);
+> +		reg = ep->msi_cap + PCI_MSI_ADDRESS_HI;
+> +		msg_addr_upper = dw_pcie_readl_dbi(pci, reg);
+> +		reg = ep->msi_cap + PCI_MSI_DATA_64;
+> +		msg_data = dw_pcie_readw_dbi(pci, reg);
+>  	} else {
+>  		msg_addr_upper = 0;
+> -		msg_data = dw_pcie_readw_dbi(pci, MSI_MESSAGE_DATA_32);
+> +		reg = ep->msi_cap + PCI_MSI_DATA_32;
+> +		msg_data = dw_pcie_readw_dbi(pci, reg);
+>  	}
+>  	msg_addr = ((u64) msg_addr_upper) << 32 | msg_addr_lower;
+>  	ret = dw_pcie_ep_map_addr(epc, func_no, ep->msi_mem_phys, msg_addr,
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index b22c5bb..a0ab12f 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -96,17 +96,6 @@
+>  #define PCIE_GET_ATU_INB_UNR_REG_OFFSET(region)				\
+>  			((0x3 << 20) | ((region) << 9) | (0x1 << 8))
+>  
+> -#define MSI_MESSAGE_CONTROL		0x52
+> -#define MSI_CAP_MMC_SHIFT		1
+> -#define MSI_CAP_MMC_MASK		(7 << MSI_CAP_MMC_SHIFT)
+> -#define MSI_CAP_MME_SHIFT		4
+> -#define MSI_CAP_MSI_EN_MASK		0x1
+> -#define MSI_CAP_MME_MASK		(7 << MSI_CAP_MME_SHIFT)
+> -#define MSI_MESSAGE_ADDR_L32		0x54
+> -#define MSI_MESSAGE_ADDR_U32		0x58
+> -#define MSI_MESSAGE_DATA_32		0x58
+> -#define MSI_MESSAGE_DATA_64		0x5C
+> -
+>  #define MAX_MSI_IRQS			256
+>  #define MAX_MSI_IRQS_PER_CTRL		32
+>  #define MAX_MSI_CTRLS			(MAX_MSI_IRQS / MAX_MSI_IRQS_PER_CTRL)
 > 
-> 
-> About race conditions, I think both install_breakpoint() and remove_breakpoint()
-> are called with
-> 
->    down_write(&mm->mmap_sem);
-> 
-
-
-No. Not about updating in one mm. I meant, races in maintaining
-all complication I've mentioned above.
-
-
-> 
-> As long as we do the same when modifying the reference counter,
-> it should be fine, right?
-> 
-> Wait... sometimes we only down_read(). Is this by design?
-
-
-Didn't get this.
-
-Thanks,
-Ravi
-
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
