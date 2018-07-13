@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F2457D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 23:32:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7550A7D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 23:32:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731590AbeGMXtB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 19:49:01 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:48356 "EHLO ale.deltatee.com"
+        id S1731935AbeGMXtC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 19:49:02 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:48352 "EHLO ale.deltatee.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729926AbeGMXtB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1731571AbeGMXtB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 13 Jul 2018 19:49:01 -0400
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
         by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.89)
         (envelope-from <gunthorp@deltatee.com>)
-        id 1fe7Xm-000243-1V; Fri, 13 Jul 2018 17:32:10 -0600
+        id 1fe7Xm-000248-1V; Fri, 13 Jul 2018 17:32:10 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
         (envelope-from <gunthorp@deltatee.com>)
-        id 1fe7Xd-00055j-JC; Fri, 13 Jul 2018 17:32:01 -0600
+        id 1fe7Xd-00055r-VY; Fri, 13 Jul 2018 17:32:02 -0600
 From:   Logan Gunthorpe <logang@deltatee.com>
 To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -42,16 +42,15 @@ Cc:     Stephen Bates <sbates@raithlin.com>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         Matthew Wilcox <willy@infradead.org>,
         Logan Gunthorpe <logang@deltatee.com>
-Date:   Fri, 13 Jul 2018 17:31:54 -0600
-Message-Id: <20180713233158.19528-1-logang@deltatee.com>
+Date:   Fri, 13 Jul 2018 17:31:57 -0600
+Message-Id: <20180713233158.19528-4-logang@deltatee.com>
 X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180713233158.19528-1-logang@deltatee.com>
+References: <20180713233158.19528-1-logang@deltatee.com>
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, sbates@raithlin.com, hch@lst.de, bhelgaas@google.com, corbet@lwn.net, tglx@linutronix.de, paulmck@linux.vnet.ibm.com, marc.zyngier@arm.com, kai.heng.feng@canonical.com, mingo@kernel.org, frederic@kernel.org, dan.j.williams@intel.com, benh@kernel.crashing.org, jglisse@redhat.com, alex.williamson@redhat.com, christian.koenig@amd.com, willy@infradead.org, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v6 0/4] Add parameter for disabling ACS redirection for P2P
+Subject: [PATCH v6 3/4] PCI: Introduce disable_acs_redir quirk
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
@@ -59,77 +58,147 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changes since v5:
-* Add a quirk to handle the Intel SPT PCH case (as pointed out by Alex)
-* Warn in the case that we try to disable ACS redirect on a device
-  that doesn't have the ACS capability (also suggested by Alex)
-* Collect reviewed-by tag from Alex
-* Rebased onto v4.18-rc4 (no conflicts)
+Intel SPT PCH hardware has an implementation of the ACS bits that
+does not comply with the PCI express standard. To deal with this
+the existing code has an enable_acs() quirk for the hardware.
 
-Changes since v4:
-* Fixed a couple documentation mistakes spotted by Randy
+In order to be able to correctly disable the ACS redirect bits for
+all hardware we need an analagous quirk to disable those bits.
 
-Changes since v3:
-* Removed some of the cruft that was copied from the resource_alignment
-  paramater (per Alex)
-* A number of docuemntation fixes as noticed by Alex and Willy
+This adds the function pci_dev_specific_disable_acs_redir() which
+behaves similarly to pci_dev_specific_enable_acs() but uses a new
+function pointer for quirks which disables the ACS redirect bits.
 
-Changes since v2:
-* Rebased onto v4.18-rc1 (no conflicts)
-* Minor tweaks to the documentation per Andy
-* Removed the "path:" prefix and use the path parsing code
-  for simple devices (as it works the same). Per a suggestion from Alex
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+---
+ drivers/pci/quirks.c | 78 ++++++++++++++++++++++++++++++++++++++++++++--------
+ include/linux/pci.h  |  5 ++++
+ 2 files changed, 71 insertions(+), 12 deletions(-)
 
-Changes since v1:
-* Reworked pci_dev_str_match_path using strrchr as suggested by Alex
-* Collected Christian's Acks
-
---
-
-Hi,
-
-As discussed in our PCI P2PDMA series, we'd like to add a kernel
-parameter for selectively disabling ACS redirection for select
-bridges. Seeing this turned out to be a small series in itself, we've
-decided to send this separately from the P2P work.
-
-This series generalizes the code already done for the resource_alignment
-option that already exists. The first patch creates a helper function
-to match PCI devices against strings based on the code that already
-existed in pci_specified_resource_alignment().
-
-The second patch expands the new helper to optionally take a path of
-PCI devfns. This is to address Alex's renumbering concern when using
-simple bus-devfns. The implementation is essentially how he described it and
-similar to the Intel VT-d spec (Section 8.3.1).
-
-The final patch adds the disable_acs_redir kernel parameter which takes
-a list of PCI devices and will disable the ACS P2P Request Redirect,
-ACS P2P Completion Redirect and ACS P2P Egress Control bits for the
-selected devices. This allows P2P traffic between selected bridges and
-seeing it's done at boot, before the IOMMU groups will be created, the
-groups will match the security provided by ACS.
-
-Thanks,
-
-Logan
-
---
-
-Logan Gunthorpe (4):
-  PCI: Make specifying PCI devices in kernel parameters reusable
-  PCI: Allow specifying devices using a base bus and path of devfns
-  PCI: Introduce disable_acs_redir quirk
-  PCI: Introduce the disable_acs_redir parameter
-
- Documentation/admin-guide/kernel-parameters.txt |  41 +++-
- drivers/pci/pci.c                               | 310 +++++++++++++++++++-----
- drivers/pci/quirks.c                            |  78 +++++-
- include/linux/pci.h                             |   5 +
- 4 files changed, 361 insertions(+), 73 deletions(-)
-
---
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index f439de848658..414b22dc06b8 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -4553,27 +4553,81 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
+ 	return 0;
+ }
+ 
+-static const struct pci_dev_enable_acs {
++static int pci_quirk_disable_intel_spt_pch_acs_redir(struct pci_dev *dev)
++{
++	int pos;
++	u32 cap, ctrl;
++
++	if (!pci_quirk_intel_spt_pch_acs_match(dev))
++		return -ENOTTY;
++
++	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
++	if (!pos)
++		return -ENOTTY;
++
++	pci_read_config_dword(dev, pos + PCI_ACS_CAP, &cap);
++	pci_read_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, &ctrl);
++
++	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
++
++	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
++
++	pci_info(dev, "Intel SPT PCH root port workaround: disabled ACS redirect\n");
++
++	return 0;
++}
++
++static const struct pci_dev_acs_ops {
+ 	u16 vendor;
+ 	u16 device;
+ 	int (*enable_acs)(struct pci_dev *dev);
+-} pci_dev_enable_acs[] = {
+-	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID, pci_quirk_enable_intel_pch_acs },
+-	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID, pci_quirk_enable_intel_spt_pch_acs },
+-	{ 0 }
++	int (*disable_acs_redir)(struct pci_dev *dev);
++} pci_dev_acs_ops[] = {
++	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID,
++	  .enable_acs = pci_quirk_enable_intel_pch_acs,
++	},
++	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID,
++	  .enable_acs = pci_quirk_enable_intel_spt_pch_acs,
++	  .disable_acs_redir = pci_quirk_disable_intel_spt_pch_acs_redir
++	},
+ };
+ 
+ int pci_dev_specific_enable_acs(struct pci_dev *dev)
+ {
+-	const struct pci_dev_enable_acs *i;
++	const struct pci_dev_acs_ops *p;
++	int i;
+ 	int ret;
+ 
+-	for (i = pci_dev_enable_acs; i->enable_acs; i++) {
+-		if ((i->vendor == dev->vendor ||
+-		     i->vendor == (u16)PCI_ANY_ID) &&
+-		    (i->device == dev->device ||
+-		     i->device == (u16)PCI_ANY_ID)) {
+-			ret = i->enable_acs(dev);
++	for (i = 0; i < ARRAY_SIZE(pci_dev_acs_ops); i++) {
++		p = &pci_dev_acs_ops[i];
++		if ((p->vendor == dev->vendor ||
++		     p->vendor == (u16)PCI_ANY_ID) &&
++		    (p->device == dev->device ||
++		     p->device == (u16)PCI_ANY_ID) &&
++		    p->enable_acs) {
++			ret = p->enable_acs(dev);
++			if (ret >= 0)
++				return ret;
++		}
++	}
++
++	return -ENOTTY;
++}
++
++int pci_dev_specific_disable_acs_redir(struct pci_dev *dev)
++{
++	const struct pci_dev_acs_ops *p;
++	int i;
++	int ret;
++
++	for (i = 0; i < ARRAY_SIZE(pci_dev_acs_ops); i++) {
++		p = &pci_dev_acs_ops[i];
++		if ((p->vendor == dev->vendor ||
++		     p->vendor == (u16)PCI_ANY_ID) &&
++		    (p->device == dev->device ||
++		     p->device == (u16)PCI_ANY_ID) &&
++		    p->disable_acs_redir) {
++			ret = p->disable_acs_redir(dev);
+ 			if (ret >= 0)
+ 				return ret;
+ 		}
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 340029b2fb38..3b61068dc7d1 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1878,6 +1878,7 @@ enum pci_fixup_pass {
+ void pci_fixup_device(enum pci_fixup_pass pass, struct pci_dev *dev);
+ int pci_dev_specific_acs_enabled(struct pci_dev *dev, u16 acs_flags);
+ int pci_dev_specific_enable_acs(struct pci_dev *dev);
++int pci_dev_specific_disable_acs_redir(struct pci_dev *dev);
+ #else
+ static inline void pci_fixup_device(enum pci_fixup_pass pass,
+ 				    struct pci_dev *dev) { }
+@@ -1890,6 +1891,10 @@ static inline int pci_dev_specific_enable_acs(struct pci_dev *dev)
+ {
+ 	return -ENOTTY;
+ }
++static inline int pci_dev_specific_disable_acs_redir(struct pci_dev *dev)
++{
++	return -ENOTTY;
++}
+ #endif
+ 
+ void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned long maxlen);
+-- 
 2.11.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
