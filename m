@@ -5,128 +5,131 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A3CCB7D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 23:17:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F2457D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 23:32:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729214AbeGMXeG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 19:34:06 -0400
-Received: from ipmail01.adl6.internode.on.net ([150.101.137.136]:40172 "EHLO
-        ipmail01.adl6.internode.on.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727524AbeGMXeG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 19:34:06 -0400
-Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
-  by ipmail01.adl6.internode.on.net with ESMTP; 14 Jul 2018 08:47:18 +0930
-Received: from dave by dastard with local (Exim 4.80)
-        (envelope-from <david@fromorbit.com>)
-        id 1fe7JN-0006Tw-9P; Sat, 14 Jul 2018 09:17:17 +1000
-Date:   Sat, 14 Jul 2018 09:17:17 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Waiman Long <longman@redhat.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S1731590AbeGMXtB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 19:49:01 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:48356 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729926AbeGMXtB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 13 Jul 2018 19:49:01 -0400
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+        by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1fe7Xm-000243-1V; Fri, 13 Jul 2018 17:32:10 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1fe7Xd-00055j-JC; Fri, 13 Jul 2018 17:32:01 -0600
+From:   Logan Gunthorpe <logang@deltatee.com>
+To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
         Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-Message-ID: <20180713231717.GX2234@dastard>
-References: <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
- <1531336913.3260.18.camel@HansenPartnership.com>
- <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
- <1531411494.18255.6.camel@HansenPartnership.com>
- <20180712164932.GA3475@bombadil.infradead.org>
- <1531416080.18255.8.camel@HansenPartnership.com>
- <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
- <1531425435.18255.17.camel@HansenPartnership.com>
- <20180713003614.GW2234@dastard>
- <1531496812.3361.9.camel@HansenPartnership.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Logan Gunthorpe <logang@deltatee.com>
+Date:   Fri, 13 Jul 2018 17:31:54 -0600
+Message-Id: <20180713233158.19528-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1531496812.3361.9.camel@HansenPartnership.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, sbates@raithlin.com, hch@lst.de, bhelgaas@google.com, corbet@lwn.net, tglx@linutronix.de, paulmck@linux.vnet.ibm.com, marc.zyngier@arm.com, kai.heng.feng@canonical.com, mingo@kernel.org, frederic@kernel.org, dan.j.williams@intel.com, benh@kernel.crashing.org, jglisse@redhat.com, alex.williamson@redhat.com, christian.koenig@amd.com, willy@infradead.org, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v6 0/4] Add parameter for disabling ACS redirection for P2P
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 13, 2018 at 08:46:52AM -0700, James Bottomley wrote:
-> On Fri, 2018-07-13 at 10:36 +1000, Dave Chinner wrote:
-> > On Thu, Jul 12, 2018 at 12:57:15PM -0700, James Bottomley wrote:
-> > > What surprises me most about this behaviour is the steadiness of
-> > > the page cache ... I would have thought we'd have shrunk it
-> > > somewhat given the intense call on the dcache.
-> > 
-> > Oh, good, the page cache vs superblock shrinker balancing still
-> > protects the working set of each cache the way it's supposed to
-> > under heavy single cache pressure. :)
-> 
-> Well, yes, but my expectation is most of the page cache is clean, so
-> easily reclaimable.  I suppose part of my surprise is that I expected
-> us to reclaim the clean caches first before we started pushing out the
-> dirty stuff and reclaiming it.  I'm not saying it's a bad thing, just
-> saying I didn't expect us to make such good decisions under the
-> parameters of this test.
+Changes since v5:
+* Add a quirk to handle the Intel SPT PCH case (as pointed out by Alex)
+* Warn in the case that we try to disable ACS redirect on a device
+  that doesn't have the ACS capability (also suggested by Alex)
+* Collect reviewed-by tag from Alex
+* Rebased onto v4.18-rc4 (no conflicts)
 
-The clean caches are still turned over by the workload, but it is
-very slow and only enough to eject old objects that have fallen out
-of the working set. We've got a lot better at keeping the working
-set in memory in adverse conditions over the past few years...
+Changes since v4:
+* Fixed a couple documentation mistakes spotted by Randy
 
-> > Keep in mind that the amount of work slab cache shrinkers perform is
-> > directly proportional to the amount of page cache reclaim that is
-> > performed and the size of the slab cache being reclaimed.  IOWs,
-> > under a "single cache pressure" workload we should be directing
-> > reclaim work to the huge cache creating the pressure and do very
-> > little reclaim from other caches....
-> 
-> That definitely seems to happen.  The thing I was most surprised about
-> is the steady pushing of anonymous objects to swap.  I agree the dentry
-> cache doesn't seem to be growing hugely after the initial jump, so it
-> seems to be the largest source of reclaim.
+Changes since v3:
+* Removed some of the cruft that was copied from the resource_alignment
+  paramater (per Alex)
+* A number of docuemntation fixes as noticed by Alex and Willy
 
-Which means swap behaviour has changed since I last looked at
-reclaim balance several years ago. These sorts of dentry/inode loads
-never used to push the system to swap. Not saying it's a bad thing,
-just that it is different. :)
+Changes since v2:
+* Rebased onto v4.18-rc1 (no conflicts)
+* Minor tweaks to the documentation per Andy
+* Removed the "path:" prefix and use the path parsing code
+  for simple devices (as it works the same). Per a suggestion from Alex
 
-> > [ What follows from here is conjecture, but is based on what I've
-> > seen in the past 10+ years on systems with large numbers of negative
-> > dentries and fragmented dentry/inode caches. ]
-> 
-> OK, so I fully agree with the concern about pathological object vs page
-> freeing problems (I referred to it previously).  However, I did think
-> the compaction work that's been ongoing in mm was supposed to help
-> here?
+Changes since v1:
+* Reworked pci_dev_str_match_path using strrchr as suggested by Alex
+* Collected Christian's Acks
 
-Compaction doesn't touch slab caches. We can't move active dentries
-and other slab objects around in memory because they have external
-objects with active references that point directly to them. Getting
-exclusive access to active objects and all the things that point to
-them from reclaim so we can move them is an intractable problem - it
-has sunk slab cache defragmentation every time it has been attempted
-in the past 15 years....
+--
 
-Cheers,
+Hi,
 
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+As discussed in our PCI P2PDMA series, we'd like to add a kernel
+parameter for selectively disabling ACS redirection for select
+bridges. Seeing this turned out to be a small series in itself, we've
+decided to send this separately from the P2P work.
+
+This series generalizes the code already done for the resource_alignment
+option that already exists. The first patch creates a helper function
+to match PCI devices against strings based on the code that already
+existed in pci_specified_resource_alignment().
+
+The second patch expands the new helper to optionally take a path of
+PCI devfns. This is to address Alex's renumbering concern when using
+simple bus-devfns. The implementation is essentially how he described it and
+similar to the Intel VT-d spec (Section 8.3.1).
+
+The final patch adds the disable_acs_redir kernel parameter which takes
+a list of PCI devices and will disable the ACS P2P Request Redirect,
+ACS P2P Completion Redirect and ACS P2P Egress Control bits for the
+selected devices. This allows P2P traffic between selected bridges and
+seeing it's done at boot, before the IOMMU groups will be created, the
+groups will match the security provided by ACS.
+
+Thanks,
+
+Logan
+
+--
+
+Logan Gunthorpe (4):
+  PCI: Make specifying PCI devices in kernel parameters reusable
+  PCI: Allow specifying devices using a base bus and path of devfns
+  PCI: Introduce disable_acs_redir quirk
+  PCI: Introduce the disable_acs_redir parameter
+
+ Documentation/admin-guide/kernel-parameters.txt |  41 +++-
+ drivers/pci/pci.c                               | 310 +++++++++++++++++++-----
+ drivers/pci/quirks.c                            |  78 +++++-
+ include/linux/pci.h                             |   5 +
+ 4 files changed, 361 insertions(+), 73 deletions(-)
+
+--
+2.11.0
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
