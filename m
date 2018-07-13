@@ -1,85 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F1DC27D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 09:11:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A46B57D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 09:16:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726626AbeGMJZQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 05:25:16 -0400
-Received: from smtp3-1.goneo.de ([85.220.129.38]:34778 "EHLO smtp3-1.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726364AbeGMJZQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Jul 2018 05:25:16 -0400
-X-Greylist: delayed 401 seconds by postgrey-1.27 at vger.kernel.org; Fri, 13 Jul 2018 05:25:15 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by smtp3.goneo.de (Postfix) with ESMTP id 8CD1F23F3CC;
-        Fri, 13 Jul 2018 11:04:49 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp3.goneo.de ([127.0.0.1])
-        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id KCKOS2fnah-Y; Fri, 13 Jul 2018 11:04:48 +0200 (CEST)
-Received: from ryzen (dyndsl-091-096-214-158.ewe-ip-backbone.de [91.96.214.158])
-        by smtp3.goneo.de (Postfix) with ESMTPSA id DB39223F11C;
-        Fri, 13 Jul 2018 11:04:47 +0200 (CEST)
-Message-ID: <9bc6b8f18ee22d9e7aa053a1167a3830a4e8f401.camel@darmarit.de>
-Subject: FYI: [PATCH net-next 2/2] docs: networking: Fix failover build
- warnings
-From:   Markus Heiser <markus.heiser@darmarit.de>
-To:     "Tobin C. Harding" <me@tobin.cc>,
-        "David S. Miller" <davem@davemloft.net>
-Cc:     Sridhar Samudrala <sridhar.samudrala@intel.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Date:   Fri, 13 Jul 2018 11:04:47 +0200
-In-Reply-To: <20180711214250.19039-3-me@tobin.cc>
-References: <20180711214250.19039-1-me@tobin.cc>
-         <20180711214250.19039-3-me@tobin.cc>
+        id S1727015AbeGMJaF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 05:30:05 -0400
+Received: from mail-lf0-f66.google.com ([209.85.215.66]:34007 "EHLO
+        mail-lf0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726380AbeGMJaF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 05:30:05 -0400
+Received: by mail-lf0-f66.google.com with SMTP id n96-v6so26591044lfi.1;
+        Fri, 13 Jul 2018 02:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=5Bvfon67BDmp31Z9COYKH7Af/D2Kct0djPnYlOf6Qj0=;
+        b=L5+OAx9EhX1CNBqI20oeRQfbaNPO4Psp5LYHbxsPy7tOXGZVYLHxqI28g97uJHlIB0
+         /FyGqypyYJ5VR65NV/hGR4CIF4sHZvoUGp33FQi8BNQI1RD4zyMVd4WtbBCWc0MoQOdi
+         FZHJflqTMMxeEqP3tCc668/tWkearw4AkMbGGi3eCZhmM1/4M89o5WNWZS1RDJ9QNvPQ
+         OIeEa2QUUUVzLLkr8alYi8UiLAqIY70Wx5JPVxmZm8/NlULOip7U8nPmSdmHSX8wL1Dz
+         QnCc8pyIx8bSiI3+njVv9BG+O5rp2BneXwG9RSANsszMNGiJYwidNgT6VbfJulmcthjl
+         8llw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=5Bvfon67BDmp31Z9COYKH7Af/D2Kct0djPnYlOf6Qj0=;
+        b=EoJ8JzjOcf67sg6BCZHKy0YaDxfNVmP6KLSn2txaNlNi8l7s0S/LI/YUs+wGgzMuB7
+         Zp5F9IldmlOpRAfsWDvwlyIh8gP92N9BKsA+52D5MA82m/Czd7tiBWqEUBeTITChyCec
+         EafcDTbYcA19KvkpqgZ9NZQZBWR2y1qjrRsv7AqK+lov0PQ57NunNRvVQN4VUFOVFiOM
+         CuCIDoSkASDPxUSvHvELL7c0wEvIybUVrgFAInn1aYeTUc7xVF6o7QfCY8pI2PIdMl53
+         JxHVXGVC+m1JUZGcBEakvCyn3XsCkvGMZmOEunEuHHlXqQzltS9YwBjGoikZuOQuXWPj
+         YefA==
+X-Gm-Message-State: AOUpUlFxbD8VC8tBKuG+rCqHR7INleftU2A2jUqV4hTwhMTMF74E4aJ4
+        KQTxI/bC7/xK5iQnnsRS7rwZ4n6M+GGWvziWWJ1A8Q==
+X-Google-Smtp-Source: AAOMgpdB3bJh2Lw4fKTzPpfjrU2eBg971BCXFp2KUqjSMROv/K5FEDwwxrF7BqWhgqIN3fp3hmzTYkgkWwLrglAwOGM=
+X-Received: by 2002:a19:b2c7:: with SMTP id t68-v6mr4248295lfk.132.1531473377150;
+ Fri, 13 Jul 2018 02:16:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Fri, 13 Jul 2018 02:16:16
+ -0700 (PDT)
+In-Reply-To: <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
+References: <20180710144737.1136856-1-arnd@arndb.de> <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 13 Jul 2018 11:16:16 +0200
+X-Google-Sender-Auth: BulammMxklL6EtbpxZ1Q1B8_kis
+Message-ID: <CAK8P3a1M78gtJm95eMjrk+N4KdiY3T=dqyksYdNJotd90qV60A@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Documentation: document ktime_get_*() APIs
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Gregor Boirie <gregor.boirie@parrot.com>,
+        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hy Tobin, 
+On Fri, Jul 13, 2018 at 9:24 AM, Linus Walleij <linus.walleij@linaro.org> wrote:
+> On Tue, Jul 10, 2018 at 4:48 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>>
+>> Cc: Dave Chinner <david@fromorbit.com>
+>> Cc: John Stultz <john.stultz@linaro.org>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: Stephen Boyd <sboyd@kernel.org>
+>> Cc: Linus Walleij <linus.walleij@linaro.org>
+>> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>> ---
+>> v2: minor changes suggested by Randy
+>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-> Add '::' before code snippets and indent all snippets uniformly starting
-> with 2 spaces.
+Thanks!
 
-Just FYI about reST Markup (no need to fix anything in your patch).
+> This brings into question commit bc2b7dab629a5
+> "iio:core: timestamping clock selection support"
+> that has bothered me for some time. Now that is ABI, but
+> we might be able to do some recommendations based on the
+> time base and have a sensible default moving forward.
+>
+> As I want to make that clock base parsing similar for GPIO
+> I first thought it was a good idea to support the same clocks,
+> but now it seems like a bad idea.
+>
+> IIRC you told me to simply hammer down the clock that
+> makes the most sense.
 
-You can also add '::' (the markup for literal blocks) at the last line of the
-previous paragraph, e.g:
+Right, my general recommendation would be to return the
+result of ktime_get_ns() in a __u64, since this does not suffer
+from the settimeofday or leap second issues that clock_realtime
+has, using the coarse clock to save 100 cycles per call probably
+won't help.
 
-<snip>--- 
-Booting a VM with the above configuration will result in the following 3
-netdevs created in the VM.::
-
-  4: ens10: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP
-group default qlen 1000
-      link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
-<snap>---
-
-IMO its more readable in plain text. Anyway it is not wrong to add '::' in a
-separated new line ... and thanks for your patch.
-
-If you have any doubt about reST markup, I recommend the primer from the Sphinx
-project:
-
-  http://www.sphinx-doc.org/en/stable/rest.html
-
-and the quickref from the (underlying) docutils project:
-
-  http://docutils.sourceforge.net/docs/user/rst/quickref.html
-
--- Markus --
-
+       Arnd
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
