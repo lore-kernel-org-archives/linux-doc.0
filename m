@@ -1,116 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A46B57D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 09:16:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 147C37D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 12:12:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbeGMJaF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 05:30:05 -0400
-Received: from mail-lf0-f66.google.com ([209.85.215.66]:34007 "EHLO
-        mail-lf0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726380AbeGMJaF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 05:30:05 -0400
-Received: by mail-lf0-f66.google.com with SMTP id n96-v6so26591044lfi.1;
-        Fri, 13 Jul 2018 02:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=5Bvfon67BDmp31Z9COYKH7Af/D2Kct0djPnYlOf6Qj0=;
-        b=L5+OAx9EhX1CNBqI20oeRQfbaNPO4Psp5LYHbxsPy7tOXGZVYLHxqI28g97uJHlIB0
-         /FyGqypyYJ5VR65NV/hGR4CIF4sHZvoUGp33FQi8BNQI1RD4zyMVd4WtbBCWc0MoQOdi
-         FZHJflqTMMxeEqP3tCc668/tWkearw4AkMbGGi3eCZhmM1/4M89o5WNWZS1RDJ9QNvPQ
-         OIeEa2QUUUVzLLkr8alYi8UiLAqIY70Wx5JPVxmZm8/NlULOip7U8nPmSdmHSX8wL1Dz
-         QnCc8pyIx8bSiI3+njVv9BG+O5rp2BneXwG9RSANsszMNGiJYwidNgT6VbfJulmcthjl
-         8llw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=5Bvfon67BDmp31Z9COYKH7Af/D2Kct0djPnYlOf6Qj0=;
-        b=EoJ8JzjOcf67sg6BCZHKy0YaDxfNVmP6KLSn2txaNlNi8l7s0S/LI/YUs+wGgzMuB7
-         Zp5F9IldmlOpRAfsWDvwlyIh8gP92N9BKsA+52D5MA82m/Czd7tiBWqEUBeTITChyCec
-         EafcDTbYcA19KvkpqgZ9NZQZBWR2y1qjrRsv7AqK+lov0PQ57NunNRvVQN4VUFOVFiOM
-         CuCIDoSkASDPxUSvHvELL7c0wEvIybUVrgFAInn1aYeTUc7xVF6o7QfCY8pI2PIdMl53
-         JxHVXGVC+m1JUZGcBEakvCyn3XsCkvGMZmOEunEuHHlXqQzltS9YwBjGoikZuOQuXWPj
-         YefA==
-X-Gm-Message-State: AOUpUlFxbD8VC8tBKuG+rCqHR7INleftU2A2jUqV4hTwhMTMF74E4aJ4
-        KQTxI/bC7/xK5iQnnsRS7rwZ4n6M+GGWvziWWJ1A8Q==
-X-Google-Smtp-Source: AAOMgpdB3bJh2Lw4fKTzPpfjrU2eBg971BCXFp2KUqjSMROv/K5FEDwwxrF7BqWhgqIN3fp3hmzTYkgkWwLrglAwOGM=
-X-Received: by 2002:a19:b2c7:: with SMTP id t68-v6mr4248295lfk.132.1531473377150;
- Fri, 13 Jul 2018 02:16:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Fri, 13 Jul 2018 02:16:16
- -0700 (PDT)
-In-Reply-To: <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
-References: <20180710144737.1136856-1-arnd@arndb.de> <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 13 Jul 2018 11:16:16 +0200
-X-Google-Sender-Auth: BulammMxklL6EtbpxZ1Q1B8_kis
-Message-ID: <CAK8P3a1M78gtJm95eMjrk+N4KdiY3T=dqyksYdNJotd90qV60A@mail.gmail.com>
-Subject: Re: [PATCH] [v2] Documentation: document ktime_get_*() APIs
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Gregor Boirie <gregor.boirie@parrot.com>,
-        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        John Stultz <john.stultz@linaro.org>,
+        id S1729625AbeGMM0j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 08:26:39 -0400
+Received: from mga18.intel.com ([134.134.136.126]:57328 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728327AbeGMM0j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 13 Jul 2018 08:26:39 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Jul 2018 05:12:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,347,1526367600"; 
+   d="scan'208";a="244994126"
+Received: from andreser-mobl.amr.corp.intel.com (HELO [10.252.137.224]) ([10.252.137.224])
+  by fmsmga005.fm.intel.com with ESMTP; 13 Jul 2018 05:12:02 -0700
+Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+ <20180710222639.8241-19-yu-cheng.yu@intel.com>
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <166536e2-b296-7be5-d1b7-982cf56f1f9b@linux.intel.com>
+Date:   Fri, 13 Jul 2018 05:12:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20180710222639.8241-19-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 13, 2018 at 9:24 AM, Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Tue, Jul 10, 2018 at 4:48 PM Arnd Bergmann <arnd@arndb.de> wrote:
->>
->> Cc: Dave Chinner <david@fromorbit.com>
->> Cc: John Stultz <john.stultz@linaro.org>
->> Cc: Thomas Gleixner <tglx@linutronix.de>
->> Cc: Stephen Boyd <sboyd@kernel.org>
->> Cc: Linus Walleij <linus.walleij@linaro.org>
->> Tested-by: Randy Dunlap <rdunlap@infradead.org>
->> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->> ---
->> v2: minor changes suggested by Randy
->
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
+> +static int is_wruss(struct pt_regs *regs, unsigned long error_code)
+> +{
+> +	return (((error_code & (X86_PF_USER | X86_PF_SHSTK)) ==
+> +		(X86_PF_USER | X86_PF_SHSTK)) && !user_mode(regs));
+> +}
+> +
+>  static void
+>  show_fault_oops(struct pt_regs *regs, unsigned long error_code,
+>  		unsigned long address)
+> @@ -848,7 +859,7 @@ __bad_area_nosemaphore(struct pt_regs *regs, unsigned long error_code,
+>  	struct task_struct *tsk = current;
+>  
+>  	/* User mode accesses just cause a SIGSEGV */
+> -	if (error_code & X86_PF_USER) {
+> +	if ((error_code & X86_PF_USER) && !is_wruss(regs, error_code)) {
+>  		/*
+>  		 * It's possible to have interrupts off here:
+>  		 */
 
-Thanks!
+Please don't do it this way.
 
-> This brings into question commit bc2b7dab629a5
-> "iio:core: timestamping clock selection support"
-> that has bothered me for some time. Now that is ABI, but
-> we might be able to do some recommendations based on the
-> time base and have a sensible default moving forward.
->
-> As I want to make that clock base parsing similar for GPIO
-> I first thought it was a good idea to support the same clocks,
-> but now it seems like a bad idea.
->
-> IIRC you told me to simply hammer down the clock that
-> makes the most sense.
+We have two styles of page fault:
+1. User page faults: find a VMA, try to handle (allocate memory et al.),
+   kill process if we can't handle.
+2. Kernel page faults: search for a *discrete* set of conditions that
+   can be handled, including faults in instructions marked in exception
+   tables.
 
-Right, my general recommendation would be to return the
-result of ktime_get_ns() in a __u64, since this does not suffer
-from the settimeofday or leap second issues that clock_realtime
-has, using the coarse clock to save 100 cycles per call probably
-won't help.
+X86_PF_USER *means*: do user page fault handling.  In the places where
+the hardware doesn't set it, but we still want user page fault handling,
+we manually set it, like this where we "downgrade" an implicit
+supervisor access to a user access:
 
-       Arnd
+        if (user_mode(regs)) {
+                local_irq_enable();
+                error_code |= X86_PF_USER;
+                flags |= FAULT_FLAG_USER;
+
+So, just please *clear* X86_PF_USER if !user_mode(regs) and X86_PF_SS.
+We do not want user page fault handling, thus we should not keep the bit
+set.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
