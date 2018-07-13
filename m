@@ -5,125 +5,70 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F03F7D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 16:11:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB1167D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 17:28:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729771AbeGMQ05 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 12:26:57 -0400
-Received: from mga09.intel.com ([134.134.136.24]:50420 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729736AbeGMQ05 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Jul 2018 12:26:57 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Jul 2018 09:11:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,348,1526367600"; 
-   d="scan'208";a="71159019"
-Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Jul 2018 09:11:40 -0700
-Message-ID: <1531498079.8494.16.camel@intel.com>
-Subject: Re: [RFC PATCH v2 25/27] x86/cet: Add PTRACE interface for CET
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Fri, 13 Jul 2018 09:07:59 -0700
-In-Reply-To: <alpine.DEB.2.21.1807130102470.1597@nanos.tec.linutronix.de>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-          <20180710222639.8241-26-yu-cheng.yu@intel.com>
-          <20180711102035.GB8574@gmail.com> <1531323638.13297.24.camel@intel.com>
-          <20180712140327.GA7810@gmail.com> <1531435034.2965.15.camel@intel.com>
-         <alpine.DEB.2.21.1807130102470.1597@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1730028AbeGMRnp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 13:43:45 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36018 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730017AbeGMRnp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 13 Jul 2018 13:43:45 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id B04AE7A7F1;
+        Fri, 13 Jul 2018 17:28:11 +0000 (UTC)
+Received: from pdhamdhe.redhat.com (unknown [10.76.1.186])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9E7E82026D6B;
+        Fri, 13 Jul 2018 17:28:09 +0000 (UTC)
+From:   Prashant Dhamdhere <pdhamdhe@redhat.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        pdhamdhe@redhat.com
+Subject: [PATCH v2] Documentation: proc.txt: Adding 'HardwareCorrupted' field and description.
+Date:   Fri, 13 Jul 2018 22:58:06 +0530
+Message-Id: <20180713172806.17387-1-pdhamdhe@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 13 Jul 2018 17:28:11 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 13 Jul 2018 17:28:11 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'pdhamdhe@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2018-07-13 at 01:08 +0200, Thomas Gleixner wrote:
-> On Thu, 12 Jul 2018, Yu-cheng Yu wrote:
-> > 
-> > On Thu, 2018-07-12 at 16:03 +0200, Ingo Molnar wrote:
-> > > 
-> > > * Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > > > 
-> > > > > 
-> > > > > > 
-> > > > > > diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
-> > > > > > index e2ee403865eb..ac2bc3a18427 100644
-> > > > > > --- a/arch/x86/kernel/ptrace.c
-> > > > > > +++ b/arch/x86/kernel/ptrace.c
-> > > > > > @@ -49,7 +49,9 @@ enum x86_regset {
-> > > > > >  	REGSET_IOPERM64 = REGSET_XFP,
-> > > > > >  	REGSET_XSTATE,
-> > > > > >  	REGSET_TLS,
-> > > > > > +	REGSET_CET64 = REGSET_TLS,
-> > > > > >  	REGSET_IOPERM32,
-> > > > > > +	REGSET_CET32,
-> > > > > >  };
-> > > > > Why does REGSET_CET64 alias on REGSET_TLS?
-> > > > In x86_64_regsets[], there is no [REGSET_TLS].  The core dump code
-> > > > cannot handle holes in the array.
-> > > Is there a fundamental (ABI) reason for that?
-> > What I did was, ran Linux with 'slub_debug', and forced a core dump
-> > (kill -abrt <pid>), then there was a red zone warning in the dmesg.
-> > My feeling is there could be issues in the core dump code.  These
-> Kernel development is not about feelings.
+This patch talks about the 'HardwareCorrupted' field currently missing from
+the 'meminfo' section of 'proc.txt' file. It also includes short description
+of 'HardwareCorrupted' field.
 
-I got that :-)
+Signed-off-by: Prashant Dhamdhere <pdhamdhe@redhat.com>
+---
+ Documentation/filesystems/proc.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> 
-> Either you can track down the root cause or you cannot. There is no place
-> for feelings and no place in between. And if you cannot track down the root
-> cause and explain it proper then the resulting patch is just papering over
-> the symptoms and will come back to hunt you (or others) sooner than later.
-> 
-> No if, no could, no feelings. Facts is what matters. Really.
-
-In kernel/ptrace.c,
-
-find_regset(const struct user_regset_view *view, unsigned int type)
-{
-	const struct user_regset *regset;
-	int n;
-
-	for (n = 0; n < view->n; ++n) {
-		regset = view->regsets + n;
-		if (regset->core_note_type == type)
-			return regset;
-	}
-
-	return NULL;
-}
-
-If there is a hole in the regset array, the empty slot's
-regset->core_note_type is not defined.
-
-We can add some comments near those enum's.
-
-Yu-cheng
+diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
+index 520f6a84cf50..1605acbb23b6 100644
+--- a/Documentation/filesystems/proc.txt
++++ b/Documentation/filesystems/proc.txt
+@@ -870,6 +870,7 @@ Committed_AS:   100056 kB
+ VmallocTotal:   112216 kB
+ VmallocUsed:       428 kB
+ VmallocChunk:   111088 kB
++HardwareCorrupted:   0 kB
+ AnonHugePages:   49152 kB
+ ShmemHugePages:      0 kB
+ ShmemPmdMapped:      0 kB
+@@ -915,6 +916,8 @@ MemAvailable: An estimate of how much memory is available for starting new
+        Dirty: Memory which is waiting to get written back to the disk
+    Writeback: Memory which is actively being written back to the disk
+    AnonPages: Non-file backed pages mapped into userspace page tables
++HardwareCorrupted: The amount of RAM/memory in KB, the kernel identifies as
++	      corrupted.
+ AnonHugePages: Non-file backed huge pages mapped into userspace page tables
+       Mapped: files which have been mmaped, such as libraries
+        Shmem: Total memory used by shared memory (shmem) and tmpfs
+-- 
+2.17.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
