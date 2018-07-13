@@ -1,120 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_SIGNED,FSL_HELO_FAKE,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1B4CA7D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 13:34:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E6187D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 15:32:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729765AbeGMNsn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 09:48:43 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43201 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729628AbeGMNsn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 09:48:43 -0400
-Received: by mail-wr1-f67.google.com with SMTP id b15-v6so25188784wrv.10;
-        Fri, 13 Jul 2018 06:34:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0hm7Lbjf7JCwsRCsIm1qeBxf1xRhgj3Q2/MVZ6NA+bg=;
-        b=S9r7y1kHZAYUfd3KQO0h3goUvSQLC+t4RufftkII57uvp443jaoMx7jCombJqnPcpM
-         o9qyK8zBjLRXbmNBN4oxZvJ6bCrOlVvqYxnI6uZ/+rM/RucC8pTyJFb2byKdQFhfPyuE
-         nYcWlfFvLlPosY9nM6/Nndslk7UbaBrQEaoGqa20IMZ3lOZv8Fpm6YMqZAWWBMVthaa+
-         cVsp8mXHKeAQOHf1IGZK7O0hLhd7cZjlkKT8gEXy2DScfOfbXJs45HpUbrvEnhOPzjN4
-         HedlxSQDEvu3f6VrffV7Cp5vMXa6cr6caGZ0SvuD5wdgbHIditQXHLHmRndxZ459OYK+
-         0kyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0hm7Lbjf7JCwsRCsIm1qeBxf1xRhgj3Q2/MVZ6NA+bg=;
-        b=fJTBpSm9C27QXHSNnNks2VzKkAsBFXB8fxEYN9EF9kCwrxJshRZcakjnic8N1EPyZz
-         wFdqhCGUzeyFY0ppd6mYrHwSLqh67VPPNjDYVpZX2TwUAxDYvgxq80eI3OSi9YDard2c
-         tU1WS+WXWLxLHJOC2UwKQ1dITyQgZwR6nJHBav/IWD5aPo/PONCzp+t4dLEAvV9TuAIP
-         JFZz4K/cULo6hl5Y6Li/poKKcOQGtNDSteQDBAQ++q4GL5j5npm4Prp7NRe3vI+GuHSA
-         INfEl8ISeXOyv59BL1BE8cq0nfnRdBrvhJZ6rWHlhq2HSKGCM6L7CqnAm/iXaWp/+T/B
-         fXzg==
-X-Gm-Message-State: AOUpUlEOerfN4zxtX5/GnqrQZ72fn9Lx38yP6PM4vVW8tfTyLLFokiex
-        Ht4w+GI9urWHXV7eU/qPmm4=
-X-Google-Smtp-Source: AAOMgpeCgJ9lm6L40GU/6oZ0tjViqkZw1XrylgdhWxFXqzLhvNqzicO052bJtjuo8br45dhfBG1GPQ==
-X-Received: by 2002:a5d:4701:: with SMTP id y1-v6mr4915096wrq.107.1531488841433;
-        Fri, 13 Jul 2018 06:34:01 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id b1-v6sm9229199wma.23.2018.07.13.06.33.59
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 13 Jul 2018 06:34:00 -0700 (PDT)
-Date:   Fri, 13 Jul 2018 15:33:58 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1729788AbeGMPrf convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 11:47:35 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:38376 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729762AbeGMPrf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 13 Jul 2018 11:47:35 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id ACC3E81663EE;
+        Fri, 13 Jul 2018 15:32:27 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 875D110F1BE0;
+        Fri, 13 Jul 2018 15:32:26 +0000 (UTC)
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Michal Hocko <mhocko@kernel.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v2 25/27] x86/cet: Add PTRACE interface for CET
-Message-ID: <20180713133357.GB13602@gmail.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-26-yu-cheng.yu@intel.com>
- <20180711102035.GB8574@gmail.com>
- <1531323638.13297.24.camel@intel.com>
- <20180712140327.GA7810@gmail.com>
- <20180713062804.GA6905@amd>
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>
+References: <1530905572-817-1-git-send-email-longman@redhat.com>
+ <20180709081920.GD22049@dhcp22.suse.cz>
+ <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
+ <20180710142740.GQ14284@dhcp22.suse.cz>
+ <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
+ <20180711102139.GG20050@dhcp22.suse.cz>
+ <9f24c043-1fca-ee86-d609-873a7a8f7a64@redhat.com>
+ <1531330947.3260.13.camel@HansenPartnership.com>
+ <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+ <1531336913.3260.18.camel@HansenPartnership.com>
+ <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+ <1531411494.18255.6.camel@HansenPartnership.com>
+ <30ac8e9b-a48c-9c37-5a96-731ad214262b@redhat.com>
+ <1531416833.18255.10.camel@HansenPartnership.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <919c5749-4528-ad30-28dd-a3ebb2c42021@redhat.com>
+Date:   Fri, 13 Jul 2018 11:32:26 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180713062804.GA6905@amd>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <1531416833.18255.10.camel@HansenPartnership.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 13 Jul 2018 15:32:27 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 13 Jul 2018 15:32:27 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 07/12/2018 01:33 PM, James Bottomley wrote:
+> On Thu, 2018-07-12 at 12:26 -0400, Waiman Long wrote:
+>> On 07/12/2018 12:04 PM, James Bottomley wrote:
+>>> On Thu, 2018-07-12 at 11:54 -0400, Waiman Long wrote:
+>>>> It is not that dentry cache is harder to get rid of than the
+>>>> other memory. It is that the ability of generate unlimited number
+>>>> of negative dentries that will displace other useful memory from
+>>>> the system. What the patch is trying to do is to have a warning
+>>>> or notification system in place to spot unusual activities in
+>>>> regard to the number of negative dentries in the system. The
+>>>> system administrators can then decide on what to do next.
+>>> But every cache has this property: I can cause the same effect by
+>>> doing a streaming read on a multi gigabyte file: the page cache
+>>> will fill with the clean pages belonging to the file until I run
+>>> out of memory and it has to start evicting older cache
+>>> entries.  Once we hit the steady state of minimal free memory, the
+>>> mm subsytem tries to balance the cache requests (like my streaming
+>>> read) against the existing pool of cached objects.
+>>>
+>>> The question I'm trying to get an answer to is why does the dentry
+>>> cache need special limits when the mm handling of the page cache
+>>> (and other mm caches) just works?
+>>>
+>>> James
+>>>
+>> I/O activities can be easily tracked.
+> Tracked?  What do you mean tracked?  you mean we can control the page
+> cache through userfaultfd or something without resorting to cgroup
+> limits or something different?  I mean all caches are "tracked" because
+> otherwise we wouldn't know whether we have to retrieve/generate the
+> object or pull it from the cache.  If it's just about cache state,
+> what's wrong with /proc/sys/fs/dentry-state?
 
-* Pavel Machek <pavel@ucw.cz> wrote:
+Sorry for being imprecise. What I meant is it is easy to find out which
+tasks issue the most I/O request and consume the most I/O bandwidth.
+IOW, which one we can blame if there are too much I/O activities. On the
+other hand, it is not that easy to find out which task generates the
+most negative dentries.
 
-> 
-> > > > to "CET" (which is a well-known acronym for "Central European Time"),
-> > > > not to CFE?
-> > > > 
-> > > 
-> > > I don't know if I can change that, will find out.
-> > 
-> > So what I'd suggest is something pretty simple: to use CFT/cft in kernel internal 
-> > names, except for the Intel feature bit and any MSR enumeration which can be CET 
-> > if Intel named it that way, and a short comment explaining the acronym difference.
-> > 
-> > Or something like that.
-> 
-> Actually, I don't think CFT is much better -- there's limited number
-> of TLAs (*). "ENFORCE_FLOW"? "FLOWE"? "EFLOW"?
+>>  Generation of negative dentries, however, is more insidious. So the
+>> ability to track and be notified when too many negative dentries are
+>> created can be a useful tool for the system administrators. Besides,
+>> there are paranoid users out there who want to have control of as
+>> much as system parameters as possible.
+> To what end?  what problem are these administrators trying to solve? 
+> You keep coming back to the circular argument that the problem they're
+> trying to solve is limiting negative dentries, but I want to know what
+> issue they see in their systems that causes them to ask for this knob.
+>
+> James
+>
+I would say most system administrators don't want to have surprise. They
+don't want to see bad performance or other system problems and after
+some digging find out that some tasks are generating too much negative
+dentries and thus consuming too much memory, for example. They would
+certainly like to a way to notify them before the problems happen.
 
-Erm, I wanted to say 'CFE', i.e. the abbreviation of 'Control Flow Enforcement'.
+Cheers,
+Longman
 
-But I guess I can live with CET as well ...
 
-Thanks,
-
-	Ingo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
