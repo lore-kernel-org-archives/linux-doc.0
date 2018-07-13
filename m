@@ -5,128 +5,245 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC2287D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 04:18:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8126B7D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 05:39:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726088AbeGMEbA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 00:31:00 -0400
-Received: from mga17.intel.com ([192.55.52.151]:38243 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725916AbeGMEa7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Jul 2018 00:30:59 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jul 2018 21:18:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,346,1526367600"; 
-   d="scan'208";a="66591679"
-Received: from andreser-mobl.amr.corp.intel.com (HELO [10.252.137.224]) ([10.252.137.224])
-  by orsmga003.jf.intel.com with ESMTP; 12 Jul 2018 21:18:02 -0700
-Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
-From:   Dave Hansen <dave.hansen@intel.com>
-To:     Andy Lutomirski <luto@amacapital.net>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-19-yu-cheng.yu@intel.com>
- <bbb487cc-ac1c-f734-eee3-2463a0ba7efc@linux.intel.com>
- <1531436398.2965.18.camel@intel.com>
- <46784af0-6fbb-522d-6acb-c6248e5e0e0d@linux.intel.com>
- <167645aa-f1c7-bd6a-c7e0-2da317cbbaba@intel.com>
- <55A0592D-0E8D-4BC5-BA4B-E82E92EEA36A@amacapital.net>
- <66016722-9872-a3f9-f88b-37397f9b6979@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzShEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gPGRhdmVAc3I3MS5uZXQ+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAUCTo3k0QIZAQAKCRBoNZUwcMmSsMO2D/421Xg8pimb9mPzM5N7khT0
- 2MCnaGssU1T59YPE25kYdx2HntwdO0JA27Wn9xx5zYijOe6B21ufrvsyv42auCO85+oFJWfE
- K2R/IpLle09GDx5tcEmMAHX6KSxpHmGuJmUPibHVbfep2aCh9lKaDqQR07gXXWK5/yU1Dx0r
- VVFRaHTasp9fZ9AmY4K9/BSA3VkQ8v3OrxNty3OdsrmTTzO91YszpdbjjEFZK53zXy6tUD2d
- e1i0kBBS6NLAAsqEtneplz88T/v7MpLmpY30N9gQU3QyRC50jJ7LU9RazMjUQY1WohVsR56d
- ORqFxS8ChhyJs7BI34vQusYHDTp6PnZHUppb9WIzjeWlC7Jc8lSBDlEWodmqQQgp5+6AfhTD
- kDv1a+W5+ncq+Uo63WHRiCPuyt4di4/0zo28RVcjtzlGBZtmz2EIC3vUfmoZbO/Gn6EKbYAn
- rzz3iU/JWV8DwQ+sZSGu0HmvYMt6t5SmqWQo/hyHtA7uF5Wxtu1lCgolSQw4t49ZuOyOnQi5
- f8R3nE7lpVCSF1TT+h8kMvFPv3VG7KunyjHr3sEptYxQs4VRxqeirSuyBv1TyxT+LdTm6j4a
- mulOWf+YtFRAgIYyyN5YOepDEBv4LUM8Tz98lZiNMlFyRMNrsLV6Pv6SxhrMxbT6TNVS5D+6
- UorTLotDZKp5+M7BTQRUY85qARAAsgMW71BIXRgxjYNCYQ3Xs8k3TfAvQRbHccky50h99TUY
- sqdULbsb3KhmY29raw1bgmyM0a4DGS1YKN7qazCDsdQlxIJp9t2YYdBKXVRzPCCsfWe1dK/q
- 66UVhRPP8EGZ4CmFYuPTxqGY+dGRInxCeap/xzbKdvmPm01Iw3YFjAE4PQ4hTMr/H76KoDbD
- cq62U50oKC83ca/PRRh2QqEqACvIH4BR7jueAZSPEDnzwxvVgzyeuhwqHY05QRK/wsKuhq7s
- UuYtmN92Fasbxbw2tbVLZfoidklikvZAmotg0dwcFTjSRGEg0Gr3p/xBzJWNavFZZ95Rj7Et
- db0lCt0HDSY5q4GMR+SrFbH+jzUY/ZqfGdZCBqo0cdPPp58krVgtIGR+ja2Mkva6ah94/oQN
- lnCOw3udS+Eb/aRcM6detZr7XOngvxsWolBrhwTQFT9D2NH6ryAuvKd6yyAFt3/e7r+HHtkU
- kOy27D7IpjngqP+b4EumELI/NxPgIqT69PQmo9IZaI/oRaKorYnDaZrMXViqDrFdD37XELwQ
- gmLoSm2VfbOYY7fap/AhPOgOYOSqg3/Nxcapv71yoBzRRxOc4FxmZ65mn+q3rEM27yRztBW9
- AnCKIc66T2i92HqXCw6AgoBJRjBkI3QnEkPgohQkZdAb8o9WGVKpfmZKbYBo4pEAEQEAAcLB
- XwQYAQIACQUCVGPOagIbDAAKCRBoNZUwcMmSsJeCEACCh7P/aaOLKWQxcnw47p4phIVR6pVL
- e4IEdR7Jf7ZL00s3vKSNT+nRqdl1ugJx9Ymsp8kXKMk9GSfmZpuMQB9c6io1qZc6nW/3TtvK
- pNGz7KPPtaDzvKA4S5tfrWPnDr7n15AU5vsIZvgMjU42gkbemkjJwP0B1RkifIK60yQqAAlT
- YZ14P0dIPdIPIlfEPiAWcg5BtLQU4Wg3cNQdpWrCJ1E3m/RIlXy/2Y3YOVVohfSy+4kvvYU3
- lXUdPb04UPw4VWwjcVZPg7cgR7Izion61bGHqVqURgSALt2yvHl7cr68NYoFkzbNsGsye9ft
- M9ozM23JSgMkRylPSXTeh5JIK9pz2+etco3AfLCKtaRVysjvpysukmWMTrx8QnI5Nn5MOlJj
- 1Ov4/50JY9pXzgIDVSrgy6LYSMc4vKZ3QfCY7ipLRORyalFDF3j5AGCMRENJjHPD6O7bl3Xo
- 4DzMID+8eucbXxKiNEbs21IqBZbbKdY1GkcEGTE7AnkA3Y6YB7I/j9mQ3hCgm5muJuhM/2Fr
- OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
- ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
- z5cecg==
-Message-ID: <8bd46e0e-5418-0b22-d471-092d31c78320@intel.com>
-Date:   Thu, 12 Jul 2018 21:18:01 -0700
+        id S1726626AbeGMFw3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 01:52:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42396 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726605AbeGMFw3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 01:52:29 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6D5ceYO117241
+        for <linux-doc@vger.kernel.org>; Fri, 13 Jul 2018 01:39:29 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2k6gq9spv1-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 13 Jul 2018 01:39:29 -0400
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Fri, 13 Jul 2018 06:39:26 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 13 Jul 2018 06:39:21 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6D5dKtm41812210
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 13 Jul 2018 05:39:20 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A250942041;
+        Fri, 13 Jul 2018 08:39:41 +0100 (BST)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 390DD42042;
+        Fri, 13 Jul 2018 08:39:38 +0100 (BST)
+Received: from [9.124.31.56] (unknown [9.124.31.56])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 13 Jul 2018 08:39:38 +0100 (BST)
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+ <20180701210935.GA14404@redhat.com>
+ <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
+ <20180702180156.GA31400@redhat.com>
+ <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
+ <20180703163645.GA23144@redhat.com> <20180703172543.GC23144@redhat.com>
+ <f5a39a88-c21e-4606-a04d-11b5f32016b8@linux.ibm.com>
+ <20180710152527.GA3616@redhat.com>
+ <6e3ff60b-267a-d49d-4ebb-c4264f9c034b@linux.ibm.com>
+ <20180712145849.GB15265@redhat.com>
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Date:   Fri, 13 Jul 2018 11:09:16 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <66016722-9872-a3f9-f88b-37397f9b6979@intel.com>
+In-Reply-To: <20180712145849.GB15265@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18071305-0016-0000-0000-000001E6526B
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18071305-0017-0000-0000-0000323AEA9C
+Message-Id: <fb088370-ed2b-b9f7-04bb-c3b7bc946d71@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-13_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807130028
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/12/2018 09:16 PM, Dave Hansen wrote:
-> On 07/12/2018 07:21 PM, Andy Lutomirski wrote:
->> I am tempted to suggest that the whole series not be merged until
->> there are actual docs. It’s not a fantastic precedent.
+Hi Oleg,
+
+On 07/12/2018 08:28 PM, Oleg Nesterov wrote:
+> On 07/11, Ravi Bangoria wrote:
+>>
+>>> However, I still think it would be better to avoid uprobe exporting and modifying
+>>> set_swbp/set_orig_insn. May be we can simply kill both set_swbp() and set_orig_insn(),
+>>> I'll re-check...
+>>
+>> Good that you bring this up. Actually, we can implement same logic
+>> without exporting uprobe. We can do "uprobe = container_of(arch_uprobe)"
+>> in uprobe_write_opcode(). No need to export struct uprobe outside,
+>> no need to change set_swbp() / set_orig_insn() syntax. Just that we
+>> need to pass arch_uprobe object to uprobe_write_opcode().
 > 
-> Do you mean Documentation or manpages, or are you talking about hardware
-> documentation?
-> https://software.intel.com/sites/default/files/managed/4d/2a/control-flow-enforcement-technology-preview.pdf
+> Yes, but you still need to modify set_swbp/set_orig_insn to pass the new
+> arg to uprobe_write_opcode(). OK, this is fine.
+> 
 
-Hit send too soon...
 
-We do need manpages a well.  If I had to do it for protection keys,
-everyone else has to suffer too. :)
+We can probably kill set_swbp()/set_orig_insn() but with container_of()
+tweak, we don't need to.
 
-Yu-cheng, I really do think selftests are a necessity before this gets
-merged.
+
+> 
+>> But, I wanted to discuss about making ref_ctr_offset a uprobe property
+>> or a consumer property, before posting v6:
+>>
+>> If we make it a consumer property, the design becomes flexible for
+>> user. User will have an option to either depend on kernel to handle
+>> reference counter or he can create normal uprobe and manipulate
+>> reference counter on his own. This will not require any changes to
+>> existing tools. With this approach we need to increment / decrement
+>> reference counter for each consumer. But, because of the fact that our
+>> install_breakpoint() / remove_breakpoint() are not balanced, we have
+>> to keep track of which reference counter have been updated in which
+>> mm, for which uprobe and for which consumer. I.e. Maintain a list of
+>> {uprobe, consumer, mm}.
+> 
+> Did you explore the UPROBE_KERN_CTR hack I tried to suggest?
+
+
+Yes I tried to implement it. Seems it's not safe to use MSB. Let me explain
+this at the end.
+
+
+> 
+> If it can work then, again, *ctr_ptr |= UPROBE_KERN_CTR from install_breakpoint()
+> paths is always fine, the nontrivial part is remove_breakpoint() case, perhaps
+> you can do something like
+> 
+> 		for (each uprobe in inode)
+> 			for (each consumer)
+> 				if (consumer_filter(consumer))
+> 					goto keep_ctr;
+> 
+> 		for (each vma which maps this counter)
+> 			*ctr_ptr &= ~UPROBE_KERN_CTR;
+> 
+> 	keep_ctr:
+> 		set_orig_insn(...);
+> 
+> but again, I didn't even try to think about details, not sure this
+> can really work.
+> 
+> And in any case:
+> 
+>> This will make kernel implementation quite
+>> complex
+> 
+> Yes. So I personally won't insist on this feature.
+
+
+Sure, thanks for giving your opinion.
+
+
+> 
+>> Third options: How about allowing 0 as a special value for reference
+>> counter? I mean allow uprobe_register() and uprobe_register_refctr()
+>> in parallel but do not allow two uprobe_register_refctr() with two
+>> different reference counter.
+> 
+> I am not sure I understand how you can do this, and how much complications
+> this needs, so I have no opinion.
+
+
+Yes, it's quite possible. So the design will remain same as current set of
+patches(v5). v5 basically forces to use only one reference counter for one
+uprobe, the new design will allow 0 as a special value for reference counter
+_offset_. But still two non-zero reference counter offset for same uprobe
+won't be allowed. So there won't be any major changes in the code. Only few
+tweaks are needed. I've initial draft ready and it seems working. I'll test
+it properly and send it as v6.
+
+
+> 
+> 
+> Cough, just noticed the final part below...
+> 
+>> PS: We can't abuse MSB with first approach because any userspace tool
+>> can also abuse MSB in parallel.
+> 
+> For what?
+
+
+Ok. With first approach, we wants to allow multiple reference counter by
+making ref_ctr_offset a consumer property. Now let's say one application
+rely on kernel to maintain reference counter and other wants to maintain
+on his own, and if we use MSB, reference counter value can not be
+consistent. For ex,
+
+  step1.
+   app1 calls uprobe_register(inode1, off1, consumer{ref_ctr_offset = 0x123});
+   kernel will use MSB and thus reference counter is 0x8000
+
+  step2.
+   app2 calls uprobe_register(inode1, off1, consumer{ref_ctr_offset = 0x0});
+   and modifies reference counter by changing MSB. So reference
+   counter is still 0x8000
+
+  step3.
+   app2 calls uprobe_unregister();
+   and modifies reference counter by resetting MSB. So reference
+   counter becomes 0x0000
+
+  ... which is wrong.
+
+
+> 
+>> Probably, we can abuse MSB in second
+>> and third approach, though, there is no need to.
+> 
+> Confused... If userspace can change it, how we can use it in 2nd approach?
+
+
+Now, with second approach, we are making uprobe_register_refctr()
+and uprobe_register() mutually exclusive. So, step2 in above example
+is not possible. i.e. Either kernel can use MSB or user can use
+MSB, but both can't at the same time. So it's quite safe to use MSB
+with this approach. BUT, as this is all userspace, we can't assume
+anything. If user has totally different mechanism for tracing SDT
+event, he can still use uprobe infrastructure(which will use MSB)
+and his own mechanism which will use MSB as well and again we are
+screwed! So, IMO, it's not safe to use MSB. Better to stick with
+increment/decrement ABI. Please let me know if you disagree. Anyway,
+if we go by second approach, increment/decrement are always balanced.
+So no need to use MSB with second approach.
+
+Hmm, but for third approach, we have same issue as first approach so
+it's not safe to use MSB with third approach as well.
+
+Thanks,
+Ravi
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
