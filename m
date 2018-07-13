@@ -1,145 +1,198 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C0B497D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 18:26:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 973F37D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Jul 2018 22:00:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729982AbeGMSmd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 14:42:33 -0400
-Received: from mga07.intel.com ([134.134.136.100]:57542 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729963AbeGMSmd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Jul 2018 14:42:33 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Jul 2018 11:26:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,348,1526367600"; 
-   d="scan'208";a="66758892"
-Received: from binman-mobl2.amr.corp.intel.com (HELO [10.252.141.97]) ([10.252.141.97])
-  by orsmga003.jf.intel.com with ESMTP; 13 Jul 2018 11:26:46 -0700
-Subject: Re: [RFC PATCH v2 16/27] mm: Modify can_follow_write_pte/pmd for
- shadow stack
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-17-yu-cheng.yu@intel.com>
- <de510df6-7ea9-edc6-9c49-2f80f16472b4@linux.intel.com>
- <1531328731.15351.3.camel@intel.com>
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <45a85b01-e005-8cb6-af96-b23ce9b5fca7@linux.intel.com>
-Date:   Fri, 13 Jul 2018 11:26:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1731965AbeGMWQc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Jul 2018 18:16:32 -0400
+Received: from mail-pf0-f195.google.com ([209.85.192.195]:41372 "EHLO
+        mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731935AbeGMWQb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 18:16:31 -0400
+Received: by mail-pf0-f195.google.com with SMTP id c21-v6so18726060pfn.8
+        for <linux-doc@vger.kernel.org>; Fri, 13 Jul 2018 15:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=+DENwK4lkCnJMvCIXw6fud1Fyp78X4KXSPKJLfYtvXc=;
+        b=Efte97/gBjn/+D4ZQhrjfhi2NLUL/U5RfkolzZ/7+WnVX/zuZmP4EgSbySZUmrqDRT
+         nzfp2ENl37woS+lcz+AZhQIhbazCWe80pMSzWzD/TR8sMnbTq0l1jSbeYyRkSd/+0FZH
+         P4aBaxbQ4/qOJts7P9mWQi87Z6A7mhzGBzFm9MC3dB9taU7JAtwTWQ/Mi8ZtfjNTr2jq
+         WzH5iPW1jIRq7co5dRQPjjS+PBOAtoVZ7Y0Zi9n+d23CgtRY+qfKX6u6lgvR4YDT0iry
+         nT7jiZonn1NmRrCIodch0pID+Zb4Z6yigMpPDoQ0vHTbLW0CeUta7sdNFHkBOpzxrNxh
+         RbWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=+DENwK4lkCnJMvCIXw6fud1Fyp78X4KXSPKJLfYtvXc=;
+        b=pKZae1ZrFCxxIFZu2mmy03jFVOFBI/Sxf4aCUrj/V7tOWKBseT6RaZYwA2Tc0cIT9u
+         hc47Mgd78fTbQYBwJwK5envSwQnxd6L1Vd2I3TtjYB3hylP31JgX6SE+nAPAWSQWRpEi
+         BNC0HGlnwA/Jt9KAqm/10eQIZvApCPAjsf20+49Y3Ri12F33APfJEjZHDUbiTdlMQys2
+         UNHU8JZ/dmgaCrnc+9YDwhYUB7uRbg+x39DxAXz8wU10n+2aiZH33UmkN1cbzoAOMxHG
+         8ddHOiQtxMkPAR8iQMW2KTcIIMg/arY8YEGZjTtwBDWwGSwEsYYyBu7ERL5mbG/1Mfg0
+         XgQg==
+X-Gm-Message-State: AOUpUlHD8JopjV7CqehSvoyls+9t593TFMvt8l7VrhVN3WmOrAcQwNhG
+        YJRgdEUrKVvmB0gfzzOaj6p4YlZ1pteyS6iTnj4Kb7Cd206snLr6orQvIS1KyBFPPXSjeuFyUiy
+        RZlshIfje0j4=
+X-Google-Smtp-Source: AAOMgpexxCfrTRthYRVhVdqr69GRrevH699iSoNH3coiGjWHWBki+FllLFOlhjJgrpexgNh//W9ZKw==
+X-Received: by 2002:a63:a5c:: with SMTP id z28-v6mr7541682pgk.209.1531519201081;
+        Fri, 13 Jul 2018 15:00:01 -0700 (PDT)
+Received: from [2620:15c:17:3:3a5:23a7:5e32:4598] ([2620:15c:17:3:3a5:23a7:5e32:4598])
+        by smtp.gmail.com with ESMTPSA id z4-v6sm30494987pfl.11.2018.07.13.14.59.59
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 13 Jul 2018 15:00:00 -0700 (PDT)
+Date:   Fri, 13 Jul 2018 14:59:59 -0700 (PDT)
+From:   David Rientjes <rientjes@google.com>
+X-X-Sender: rientjes@chino.kir.corp.google.com
+To:     Michal Hocko <mhocko@kernel.org>
+cc:     Roman Gushchin <guro@fb.com>, linux-mm@vger.kernel.org,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Tejun Heo <tj@kernel.org>, kernel-team@fb.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v13 0/7] cgroup-aware OOM killer
+In-Reply-To: <20180605114729.GB19202@dhcp22.suse.cz>
+Message-ID: <alpine.DEB.2.21.1807131438380.194789@chino.kir.corp.google.com>
+References: <20171130152824.1591-1-guro@fb.com> <20180605114729.GB19202@dhcp22.suse.cz>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <1531328731.15351.3.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+X-ccpol: medium
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/11/2018 10:05 AM, Yu-cheng Yu wrote:
-> My understanding is that we don't want to follow write pte if the page
-> is shared as read-only.  For a SHSTK page, that is (R/O + DIRTY_SW),
-> which means the SHSTK page has not been COW'ed.  Is that right?
+On Tue, 5 Jun 2018, Michal Hocko wrote:
 
-Let's look at the code again:
+> 1) comparision root with tail memcgs during the OOM killer is not fair
+> because we are comparing tasks with memcgs.
+> 
+> This is true, but I do not think this matters much for workloads which
+> are going to use the feature. Why? Because the main consumers of the new
+> feature seem to be containers which really need some fairness when
+> comparing _workloads_ rather than processes. Those are unlikely to
+> contain any significant memory consumers in the root memcg. That would
+> be mostly common infrastructure.
+> 
 
-> -static inline bool can_follow_write_pte(pte_t pte, unsigned int flags)
-> +static inline bool can_follow_write_pte(pte_t pte, unsigned int flags,
-> +					bool shstk)
->  {
-> +	bool pte_cowed = shstk ? is_shstk_pte(pte):pte_dirty(pte);
-> +
->  	return pte_write(pte) ||
-> -		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte));
-> +		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_cowed);
->  }
+There are users (us) who want to use the feature and not all processes are 
+attached to leaf mem cgroups.  The functionality can be provided in a 
+generally useful way that doesn't require any specific hierarchy, and I 
+implemented this in my patch series at 
+https://marc.info/?l=linux-mm&m=152175563004458&w=2.  That proposal to fix 
+*all* of my concerns with the cgroup-aware oom killer as it sits in -mm, 
+in it's entirety, only extends it so it is generally useful and does not 
+remove any functionality.  I'm not sure why we are discussing ways of 
+moving forward when that patchset has been waiting for review for almost 
+four months and, to date, I haven't seen an objection to.
 
-This is another case where the naming of pte_*() is biting us vs. the
-perversion of the PTE bits.  The lack of comments and explanation inthe
-patch is compounding the confusion.
+I don't know why we cannot agree on making solutions generally useful nor 
+why that patchset has not been merged into -mm so that the whole feature 
+can be merged.  It's baffling.  This is the first time I've encountered a 
+perceived stalemate when there is a patchset sitting, unreviewed, that 
+fixes all of the concerns that there are about the implementation sitting 
+in -mm.
 
-We need to find a way to differentiate "someone can write to this PTE"
-from "the write bit is set in this PTE".
+This isn't a criticism just of comparing processes attached to root 
+differently than leaf mem cgroups, it's how oom_score_adj influences that 
+decision.  It's trivial for a very small consumer (not "significant" 
+memory consumer, as you put it) to require an oom kill from root instead 
+of a leaf mem cgroup.  I show in 
+https://marc.info/?l=linux-mm&m=152175564104468&w=2 that changing the 
+oom_score_adj of my bash shell attached to the root mem cgroup is 
+considered equal to a 95GB leaf mem cgroup with the current 
+implementation.
 
-In this particular hunk, we need to make it clear that pte_write() is
-*never* true for shadowstack PTEs.  In other words, shadow stack VMAs
-will (should?) never even *see* a pte_write() PTE.
+> Is this is fixable? Yes, we would need to account in the root memcgs.
+> Why are we not doing that now? Because it has some negligible
+> performance overhead. Are there other ways? Yes we can approximate root
+> memcg memory consumption but I would rather wait for somebody seeing
+> that as a real problem rather than add hacks now without a strong
+> reason.
+> 
 
-I think this is a case where you just need to bite the bullet and
-bifurcate can_follow_write_pte().  Just separate the shadowstack and
-non-shadowstack parts.
+I fixed this in https://marc.info/?t=152175564500007&r=1&w=2, and from 
+what I remmeber Roman actually liked it.
+
+> 2) Evading the oom killer by attaching processes to child cgroups which
+> basically means that a task can split up the workload into smaller
+> memcgs to hide their real memory consumption.
+> 
+> Again true but not really anything new. Processes can already fork and
+> split up the memory consumption. Moreover it doesn't even require any
+> special privileges to do so unlike creating a sub memcg. Is this
+> fixable? Yes, untrusted workloads can setup group oom evaluation at the
+> delegation layer so all subgroups would be considered together.
+> 
+
+Processes being able to fork to split up memory consumption is also fixed 
+by https://marc.info/?l=linux-mm&m=152175564104467 just as creating 
+subcontainers to intentionally or unintentionally subverting the oom 
+policy is fixed.  It solves both problems.
+
+> 3) Userspace has zero control over oom kill selection in leaf mem
+> cgroups.
+> 
+> Again true but this is something that needs a good evaluation to not end
+> up in the fiasko we have seen with oom_score*. Current users demanding
+> this feature can live without any prioritization so blocking the whole
+> feature seems unreasonable.
+> 
+
+One objection here is how the oom_score_adj of a process means something 
+or doesn't mean something depending on what cgroup it is attached to.  The 
+cgroup-aware oom killer is cgroup aware.  oom_score_adj should play no 
+part.  I fixed this with https://marc.info/?t=152175564500007&r=1&w=2.  
+The other objection is that users do have cgroups that shouldn't be oom 
+killed because they are important, either because they are required to 
+provide a service for a smaller cgroup or because of business goals.  We 
+have cgroups that use more than half of system memory and they are allowed 
+to do so because they are important.  We would love to be able to bias 
+against that cgroup to prefer others, or prefer cgroups for oom kill 
+because they are less important.  This was done for processes with 
+oom_score_adj, we need it for a cgroup aware oom killer for the same 
+reason.
+
+But notice even in https://marc.info/?l=linux-mm&m=152175563004458&w=2 
+that I said priority or adjustment can be added on top of the feature 
+after it's merged.  This itself is not precluding anything from being 
+merged.
+
+> 4) Future extensibility to be backward compatible.
+> 
+> David is wrong here IMHO. Any prioritization or oom selection policy
+> controls added in future are orthogonal to the oom_group concept added
+> by this patchset. Allowing memcg to be an oom entity is something that
+> we really want longterm. Global CGRP_GROUP_OOM is the most restrictive
+> semantic and softening it will be possible by a adding a new knob to
+> tell whether a memcg/hierarchy is a workload or a set of tasks.
+
+I've always said that the mechanism and policy in this patchset should be 
+separated.  I do that exact thing in 
+https://marc.info/?l=linux-mm&m=152175564304469&w=2.  I suggest that 
+different subtrees will want (or the admin will require) different 
+behaviors with regard to the mechanism.
+
+
+I've stated the problems (and there are others wrt mempolicy selection) 
+that the current implementation has and given a full solution at 
+https://marc.info/?l=linux-mm&m=152175563004458&w=2 that has not been 
+reviewed.  I would love feedback from anybody on this thread on that.  I'm 
+not trying to preclude the cgroup-aware oom killer from being merged, I'm 
+the only person actively trying to get it merged.
+
+Thanks.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
