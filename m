@@ -1,69 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 087917D071
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Jul 2018 01:56:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 84F3F7D071
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Jul 2018 06:27:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731526AbeGNCNN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Jul 2018 22:13:13 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:43370 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729771AbeGNCNN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jul 2018 22:13:13 -0400
-Received: from fsav105.sakura.ne.jp (fsav105.sakura.ne.jp [27.133.134.232])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id w6E1tia9089660;
-        Sat, 14 Jul 2018 10:55:44 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav105.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav105.sakura.ne.jp);
- Sat, 14 Jul 2018 10:55:44 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav105.sakura.ne.jp)
-Received: from [192.168.1.8] (softbank126074194044.bbtec.net [126.74.194.44])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id w6E1temd089623
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Sat, 14 Jul 2018 10:55:44 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH v13 0/7] cgroup-aware OOM killer
-To:     David Rientjes <rientjes@google.com>,
-        Michal Hocko <mhocko@kernel.org>
-Cc:     Roman Gushchin <guro@fb.com>, linux-mm@vger.kernel.org,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, kernel-team@fb.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <20171130152824.1591-1-guro@fb.com>
- <20180605114729.GB19202@dhcp22.suse.cz>
- <alpine.DEB.2.21.1807131438380.194789@chino.kir.corp.google.com>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <0a86d2a7-b78e-7e69-f628-aa2c75d91ff0@i-love.sakura.ne.jp>
-Date:   Sat, 14 Jul 2018 10:55:41 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726275AbeGNGpf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 14 Jul 2018 02:45:35 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:55760 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725809AbeGNGpf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Jul 2018 02:45:35 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 5E03280391; Sat, 14 Jul 2018 08:27:38 +0200 (CEST)
+Date:   Sat, 14 Jul 2018 08:27:37 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Ingo Molnar <mingo@kernel.org>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v2 25/27] x86/cet: Add PTRACE interface for CET
+Message-ID: <20180714062737.GA13242@amd>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+ <20180710222639.8241-26-yu-cheng.yu@intel.com>
+ <20180711102035.GB8574@gmail.com>
+ <1531323638.13297.24.camel@intel.com>
+ <20180712140327.GA7810@gmail.com>
+ <20180713062804.GA6905@amd>
+ <20180713133357.GB13602@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1807131438380.194789@chino.kir.corp.google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="ikeVEW9yuYc//A+q"
+Content-Disposition: inline
+In-Reply-To: <20180713133357.GB13602@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2018/07/14 6:59, David Rientjes wrote:
-> I'm not trying to preclude the cgroup-aware oom killer from being merged,
-> I'm the only person actively trying to get it merged.
 
-Before merging the cgroup-aware oom killer, can we merge OOM lockup fixes
-and my cleanup? The gap between linux.git and linux-next.git keeps us unable
-to use agreed baseline.
+--ikeVEW9yuYc//A+q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri 2018-07-13 15:33:58, Ingo Molnar wrote:
+>=20
+> * Pavel Machek <pavel@ucw.cz> wrote:
+>=20
+> >=20
+> > > > > to "CET" (which is a well-known acronym for "Central European Tim=
+e"),
+> > > > > not to CFE?
+> > > > >=20
+> > > >=20
+> > > > I don't know if I can change that, will find out.
+> > >=20
+> > > So what I'd suggest is something pretty simple: to use CFT/cft in ker=
+nel internal=20
+> > > names, except for the Intel feature bit and any MSR enumeration which=
+ can be CET=20
+> > > if Intel named it that way, and a short comment explaining the acrony=
+m difference.
+> > >=20
+> > > Or something like that.
+> >=20
+> > Actually, I don't think CFT is much better -- there's limited number
+> > of TLAs (*). "ENFORCE_FLOW"? "FLOWE"? "EFLOW"?
+>=20
+> Erm, I wanted to say 'CFE', i.e. the abbreviation of 'Control Flow Enforc=
+ement'.
+>=20
+> But I guess I can live with CET as well ...
+
+Yeah, and I am trying to say that perhaps we should use something
+longer than three letters. It will make code longer but easier to
+read.
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--ikeVEW9yuYc//A+q
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAltJl9kACgkQMOfwapXb+vJ/zwCglPFXsNNzgW0ML/M0vPlj5C0a
+To0AoJ4qd5n1bRykjwlqyW6Hs34O+tnJ
+=7LRO
+-----END PGP SIGNATURE-----
+
+--ikeVEW9yuYc//A+q--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
