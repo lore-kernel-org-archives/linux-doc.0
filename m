@@ -1,38 +1,35 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,TVD_PH_BODY_ACCOUNTS_PRE
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B03307D071
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Jul 2018 09:27:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC2FD7D071
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Jul 2018 10:26:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726099AbeGOJtr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 15 Jul 2018 05:49:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52662 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726077AbeGOJtq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 15 Jul 2018 05:49:46 -0400
-Received: from archlinux (cpc91196-cmbg18-2-0-cust659.5-4.cable.virginm.net [81.96.234.148])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2175D20850;
-        Sun, 15 Jul 2018 09:27:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1531646848;
-        bh=eY6RCS7I30DhoUHp7yldf682bWL1C1NChS0BxfDdWMM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=FYwsLxUy9GfaAmccc8lZuljuQz5gDihBY4VmJeYMgBpARJ6NxgO9WHL/ed7RBbmpo
-         Dg4r5INbLRpr5P1YifjgpaqdoYy6HgTB38p5cnjzLgGhgeCccerktlsfI/jl6Qoe+x
-         7fNqgkVkI1RNrv1Lwq8Gdzb2CAYf2BOs7gjh8AXM=
-Date:   Sun, 15 Jul 2018 10:27:22 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
+        id S1726244AbeGOKsd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 15 Jul 2018 06:48:33 -0400
+Received: from www381.your-server.de ([78.46.137.84]:43979 "EHLO
+        www381.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726106AbeGOKsd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Jul 2018 06:48:33 -0400
+Received: from [78.46.172.3] (helo=sslproxy06.your-server.de)
+        by www381.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.85_2)
+        (envelope-from <lars@metafoo.de>)
+        id 1feeDx-0006Fw-Mg; Sun, 15 Jul 2018 12:25:53 +0200
+Received: from [188.174.116.68] (helo=[192.168.178.33])
+        by sslproxy06.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89)
+        (envelope-from <lars@metafoo.de>)
+        id 1feeDx-0005l9-DP; Sun, 15 Jul 2018 12:25:53 +0200
+Subject: Re: [PATCH] [v2] Documentation: document ktime_get_*() APIs
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Gregor Boirie <gregor.boirie@parrot.com>,
-        linux-iio@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
-        Randy Dunlap <rdunlap@infradead.org>, david@fromorbit.com,
+        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, david@fromorbit.com,
         John Stultz <john.stultz@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -40,61 +37,64 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-doc@vger.kernel.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] [v2] Documentation: document ktime_get_*() APIs
-Message-ID: <20180715102722.71fe618e@archlinux>
-In-Reply-To: <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
 References: <20180710144737.1136856-1-arnd@arndb.de>
-        <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
+From:   Lars-Peter Clausen <lars@metafoo.de>
+Message-ID: <2d5fd2ac-6f82-557a-326b-d8ce0f293ef2@metafoo.de>
+Date:   Sun, 15 Jul 2018 12:25:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: lars@metafoo.de
+X-Virus-Scanned: Clear (ClamAV 0.100.0/24754/Sun Jul 15 06:52:15 2018)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 13 Jul 2018 09:24:52 +0200
-Linus Walleij <linus.walleij@linaro.org> wrote:
-
+On 07/13/2018 09:24 AM, Linus Walleij wrote:
 > On Tue, Jul 10, 2018 at 4:48 PM Arnd Bergmann <arnd@arndb.de> wrote:
 > 
-> > As Dave Chinner points out, we don't have a proper documentation for the
-> > ktime_get() family of interfaces, making it rather unclear which of the
-> > over 30 (!) interfaces one should actually use in a driver or elsewhere
-> > in the kernel.
-> >
-> > I wrote up an explanation from how I personally see the interfaces,
-> > documenting what each of the functions do and hopefully making it a bit
-> > clearer which should be used where.
-> >
-> > This is the first time I tried writing .rst format documentation, so
-> > in addition to any mistakes in the content, I probably also introduce
-> > nonstandard formatting ;-)
-> >
-> > I first tried to add an extra section to
-> > Documentation/timers/timekeeping.txt, but this is currently not included
-> > in the generated API, and it seems useful to have the API docs as part
-> > of what gets generated in
-> > https://www.kernel.org/doc/html/latest/core-api/index.html#core-utilities
-> > instead, so I started a new file there.
-> >
-> > I also considered adding the documentation inline in the
-> > include/linux/timekeeping.h header, but couldn't figure out how to do
-> > that in a way that would result both in helpful inline comments as
-> > well as readable html output, so I settled for the latter, with
-> > a small note pointing to it from the header.
-> >
-> > Cc: Dave Chinner <david@fromorbit.com>
-> > Cc: John Stultz <john.stultz@linaro.org>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Stephen Boyd <sboyd@kernel.org>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > ---
-> > v2: minor changes suggested by Randy  
+>> As Dave Chinner points out, we don't have a proper documentation for the
+>> ktime_get() family of interfaces, making it rather unclear which of the
+>> over 30 (!) interfaces one should actually use in a driver or elsewhere
+>> in the kernel.
+>>
+>> I wrote up an explanation from how I personally see the interfaces,
+>> documenting what each of the functions do and hopefully making it a bit
+>> clearer which should be used where.
+>>
+>> This is the first time I tried writing .rst format documentation, so
+>> in addition to any mistakes in the content, I probably also introduce
+>> nonstandard formatting ;-)
+>>
+>> I first tried to add an extra section to
+>> Documentation/timers/timekeeping.txt, but this is currently not included
+>> in the generated API, and it seems useful to have the API docs as part
+>> of what gets generated in
+>> https://www.kernel.org/doc/html/latest/core-api/index.html#core-utilities
+>> instead, so I started a new file there.
+>>
+>> I also considered adding the documentation inline in the
+>> include/linux/timekeeping.h header, but couldn't figure out how to do
+>> that in a way that would result both in helpful inline comments as
+>> well as readable html output, so I settled for the latter, with
+>> a small note pointing to it from the header.
+>>
+>> Cc: Dave Chinner <david@fromorbit.com>
+>> Cc: John Stultz <john.stultz@linaro.org>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: Stephen Boyd <sboyd@kernel.org>
+>> Cc: Linus Walleij <linus.walleij@linaro.org>
+>> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>> ---
+>> v2: minor changes suggested by Randy
 > 
 > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 > 
@@ -122,42 +122,56 @@ Linus Walleij <linus.walleij@linaro.org> wrote:
 > as we currently have? Different clocks under different
 > circumstances?
 
-Yeah, this mess in IIO was all a silly mistake I made years
-ago, though we may have messed up how to 'fix' it.
+It is a question of correlation. What other events do you want to correlate
+your events to.
 
-Basically I should probably have gone with a monotonic clock
-but I didn't.  This leads to some really odd algorithm issues
-when the non monotonic clocks are updated.
+If you only want to correlate events to other events from the same source
+(i.e. know the amount of time that has elapsed between two events) the best
+in my opinion is a monotonic clock. You can't account for changes to the
+realtime clock and it will screw up your measurements when it changes in
+between two events.
 
-Still when we originally looked at it, the answer is that there
-are different 'right' choices depending largely on what timescales
-you are working at.
+Now for monotonic clocks there are two variants available MONOTONIC and
+BOOTTIME. BOOTTIME will account for time that the device has been in
+suspend, MONOTONIC will not. Most applications will not care for either. But
+those which care about it and want to measure the duration between two
+events will most likely prefer BOOTTIME, especially if the wakeup event was
+caused by the device itself.
 
-There are systems where you want to sample fairly infrequently enough
-that you are not going to see the non monotonic jumps, and where your
-biggest requirement is absolute precision on the time stamp.  In these
-you would be frequently updating your clock.
+So in my opinion BOOTTIME is the most sensible default.
 
-Others are running at high speed and you need a best estimate smoothed
-result that doesn't ever go backwards.
+REALTIME should probably also be an option in case you want to correlate
+your events to other events for which only a REALTIME timestamp is available
+or when the absolute time matters rather than the relative time. This could
+for example be rare events and you want to log time and date when they happened.
 
-The right answer was probably to limit it to a couple of 'almost'
-right choices - but that's hind sight.  Certainly don't copy this
-without a lot of thought!
+Right now I can't think of a usecase where soembody would prefer MONOTONIC
+over BOOTTIME, but I'm sure there are some.
 
-Now I wonder which of those clocks choices we can remove without anyone
-ever noticing?
+TAI and MONOTONIC_RAW are kind of the same thing. They are more immune to
+changes of the exact duration of what is reported as a second. I'm sure
+there are special applications that would prefer this over REALTIME and
+MONOTONIC.
 
-Jonathan
+The only thing that is probably not really needed are the coarse variants.
+But even there I could see people arguing that it serves their performance
+and precision requirements better.
 
-> 
-> Yours,
-> Linus Walleij
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-iio" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+And to make this a lot more complicated many applications, especially in the
+high-speed area, don't really care about the system time as reported by the
+CPU (or a on-SoC timer) at all. They care about the time as reported by a
+clock that is synchronous to the signal processing itself.
 
+Different oscillators in a system will run at slightly different
+frequencies, even if they are nominal the same frequency. So if you have 1
+counter that says 1 second has elapsed another might say that 1.0001 seconds
+have elapsed. If you do timestamping using a clock that is not synchronous
+to your signal processing clock your results will be imprecise.
+
+So that is something to keep in mind. Beyond just the system clock we might
+want to have the ability to assign other timestamp sources in a way that is
+consistent across subsystems. So that we can for example as you said
+correlate events between IIO and GPIO.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
