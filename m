@@ -5,34 +5,34 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BDC847DE80
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 14:53:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2FAEC7D071
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 14:53:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729838AbeGPPUl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 11:20:41 -0400
-Received: from smtprelay.synopsys.com ([198.182.60.111]:46674 "EHLO
+        id S1729917AbeGPPUP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 11:20:15 -0400
+Received: from smtprelay2.synopsys.com ([198.182.60.111]:46651 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729834AbeGPPUP (ORCPT
+        with ESMTP id S1728063AbeGPPUP (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 11:20:15 -0400
 Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 3B6C810C1A78;
-        Mon, 16 Jul 2018 07:52:29 -0700 (PDT)
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 1828C10C1409;
+        Mon, 16 Jul 2018 07:52:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1531752749; bh=zxCkoVDlhNLo/w0zJ6grAOq+03c9KbbQxtQDfhgaNpA=;
+        t=1531752748; bh=sUpGPZRB0+2M3wrgSiccJ16kRYRj7vnrTTifRe2OPBQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=VYf7aMatxMnAs5TpxSlcEqO8oO4BJBf5zNHOh3Ocou6dRy4GEu2kHT1jMz0tnYutL
-         qTg4gZrSwySgIA9bZyPoFx2VyGbXANJ9FlefE733NG1fgF2mThCzAjGs2B94CyH9s7
-         HBrFEKkdkhWiINcWOSMcJvqAGKrvqEuDq9c4zbY718f9TQgOZxdYHdRbpGeAu+WTF1
-         35/13NmgPzWO2GkK8u+fBanAhWyc2eLhLRO/vR0xkYGIJbBL9frL1saxYO44fZnS8B
-         MXxZaApYqqRaqGEvujDGKV7DDk358DvjTVnESqMfZlPpLFaXxdnFDebG1l+BP2hKRv
-         dD9eu6WsRh+bg==
+        b=fGU5LK1aCQAAXye5o+cszyIuXogmWwoLx4UFYw0d4AdUEv1kIN6TOzbwsjkTPM0hU
+         KcDNdtxghu7POE7ZX91U8ZL2PBMP8flStf/FxFEjQi4ahQgJJ46vkFGBu9Fe24+m8z
+         1DzZnG7JlpKSLfYWaIFlLcxM6IhQfHXuoXrSJnDNEq742KgWYzkMfRI+r5TcsVztAZ
+         U7bPhGTppaP3ZS2IB2rE4RgtXfjngI83dJH++/T1c6T/5ALKu36S1QJEmF/5UftNAX
+         AGlAUyEuODwr/atLW1nCcS2Z+x6QIqYzEss68v2l0zKCI3b7xWzlf57C8JWvqsmeGE
+         soxarvu8fiTvg==
 Received: from de02.synopsys.com (germany.internal.synopsys.com [10.225.17.21])
-        by mailhost.synopsys.com (Postfix) with ESMTP id E28A1511D;
-        Mon, 16 Jul 2018 07:52:28 -0700 (PDT)
+        by mailhost.synopsys.com (Postfix) with ESMTP id BA6E350D8;
+        Mon, 16 Jul 2018 07:52:27 -0700 (PDT)
 Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
-        by de02.synopsys.com (Postfix) with ESMTP id 620C73DCDD;
-        Mon, 16 Jul 2018 16:52:27 +0200 (CEST)
+        by de02.synopsys.com (Postfix) with ESMTP id D2AB73DCC7;
+        Mon, 16 Jul 2018 16:52:26 +0200 (CEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
         joao.pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
@@ -41,9 +41,9 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v11 09/12] pci-epf-test/pci_endpoint_test: Add MSI-X support
-Date:   Mon, 16 Jul 2018 16:52:21 +0200
-Message-Id: <700680b7adaa169c13cac7f877c223df079e4345.1531751641.git.gustavo.pimentel@synopsys.com>
+Subject: [PATCH v11 03/12] PCI: Update xxx_pcie_ep_raise_irq() and pci_epc_raise_irq() signatures
+Date:   Mon, 16 Jul 2018 16:52:15 +0200
+Message-Id: <57701b3fe8a92a516448455ce6b6e17d2de12847.1531751641.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1531751641.git.gustavo.pimentel@synopsys.com>
 References: <cover.1531751641.git.gustavo.pimentel@synopsys.com>
@@ -54,399 +54,200 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add MSI-X support and update driver documentation accordingly.
+Change {cdns, dra7xx, artpec6, dw, rockchip}_pcie_ep_raise_irq() and
+pci_epc_raise_irq() signature, namely the interrupt_num variable type
+from u8 to u16 to accommodate 2048 maximum MSI-X interrupts.
 
 Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Acked-by: Alan Douglas <adouglas@cadence.com>
+Acked-by: Shawn Lin <shawn.lin@rock-chips.com>
+Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
+Acked-by: Joao Pinto <jpinto@synopsys.com>
 Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
 ---
+Change v1->v2:
+ - Nothing changed, just to follow the patch set version.
 Change v2->v3:
- - New patch file created base on the previous patch
-"misc: pci_endpoint_test: Add MSI-X support" patch file following
-Kishon's suggestion.
+ - Move into here the pci_epc_raise_irq() signature change from patch
+file #1.
+ - Move into here the {dra7xx, artpec6}_pcie_ep_raise_irq() signature
+changes from patch file #2.
 Change v3->v4:
  - Rebased to Lorenzo's master branch v4.18-rc1.
 Change v4->v5:
- - Nothing changed, just to follow the patch set version.
+ - Swap patch files position (#3 -> #2).
+ - Moved dw_pcie_ep_raise_irq and dw_plat_pcie_ep_raise_irq functions
+signatures changes from patch file #3.
+ - Changed rockchip_pcie_ep_raise_irq function signature.
 Change v5->v6:
- - Moved PCITEST_MSIX ioctl entry from patch #10 to here.
- - Documented ioctl parameter type associated to
-drivers/misc/pci_endpoint_test.c driver.
+ - Nothing changed, just to follow the patch set version.
 Change v6->v7:
- - Updated documentation.
- - Added flag that enables or not the MSI-X on the EP features. 
+ - Nothing changed, just to follow the patch set version.
 Change v7->v8:
  - Re-sending the patch series.
 Change v8->v9:
- - Moving the EPC_FEATURE_MSIX_AVAILABLE feature set from the
-dw_pcie_ep_init() to dw_plat_pcie_ep_init().
+ - Nothing changed, just to follow the patch set version.
 Change v9->v10:
- - Update documentation.
+ - Nothing changed, just to follow the patch set version.
 Change v10->v11:
  - Nothing changed, just to follow the patch set version.
 
- Documentation/PCI/endpoint/pci-test-function.txt  |  2 +-
- Documentation/PCI/endpoint/pci-endpoint.txt       |  4 ++--
- Documentation/PCI/endpoint/pci-test-function.txt  |  4 +++-
- Documentation/PCI/endpoint/pci-test-howto.txt     | 22 ++++++++++++++---
- Documentation/ioctl/ioctl-number.txt              |  1 +
- Documentation/misc-devices/pci-endpoint-test.txt  |  3 +++
- drivers/misc/pci_endpoint_test.c                  | 29 ++++++++++++++++-------
- drivers/pci/controller/dwc/pcie-designware-plat.c |  1 +
- drivers/pci/endpoint/functions/pci-epf-test.c     | 29 +++++++++++++++++++++--
- include/linux/pci-epc.h                           |  1 +
- include/uapi/linux/pcitest.h                      |  1 +
- 10 files changed, 79 insertions(+), 16 deletions(-)
+ drivers/pci/controller/dwc/pci-dra7xx.c           | 2 +-
+ drivers/pci/controller/dwc/pcie-artpec6.c         | 2 +-
+ drivers/pci/controller/dwc/pcie-designware-ep.c   | 2 +-
+ drivers/pci/controller/dwc/pcie-designware-plat.c | 2 +-
+ drivers/pci/controller/dwc/pcie-designware.h      | 2 +-
+ drivers/pci/controller/pcie-cadence-ep.c          | 3 ++-
+ drivers/pci/controller/pcie-rockchip-ep.c         | 2 +-
+ drivers/pci/endpoint/pci-epc-core.c               | 8 ++++----
+ include/linux/pci-epc.h                           | 6 +++---
+ 9 files changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/PCI/endpoint/pci-endpoint.txt b/Documentation/PCI/endpoint/pci-endpoint.txt
-index 9b1d668..e86a96b 100644
---- a/Documentation/PCI/endpoint/pci-endpoint.txt
-+++ b/Documentation/PCI/endpoint/pci-endpoint.txt
-@@ -44,7 +44,7 @@ by the PCI controller driver.
- 	 * clear_bar: ops to reset the BAR
- 	 * alloc_addr_space: ops to allocate in PCI controller address space
- 	 * free_addr_space: ops to free the allocated address space
--	 * raise_irq: ops to raise a legacy or MSI interrupt
-+	 * raise_irq: ops to raise a legacy, MSI or MSI-X interrupt
- 	 * start: ops to start the PCI link
- 	 * stop: ops to stop the PCI link
- 
-@@ -96,7 +96,7 @@ by the PCI endpoint function driver.
- *) pci_epc_raise_irq()
- 
-    The PCI endpoint function driver should use pci_epc_raise_irq() to raise
--   Legacy Interrupt or MSI Interrupt.
-+   Legacy Interrupt, MSI or MSI-X Interrupt.
- 
- *) pci_epc_mem_alloc_addr()
- 
-diff --git a/Documentation/PCI/endpoint/pci-test-function.txt b/Documentation/PCI/endpoint/pci-test-function.txt
-index bf4b5cf..5916f1f 100644
---- a/Documentation/PCI/endpoint/pci-test-function.txt
-+++ b/Documentation/PCI/endpoint/pci-test-function.txt
-@@ -36,7 +36,7 @@ that the endpoint device must perform.
- Bitfield Description:
-   Bit 0		: raise legacy IRQ
-   Bit 1		: raise MSI IRQ
--  Bit 2		: raise MSI-X IRQ (reserved for future implementation)
-+  Bit 2		: raise MSI-X IRQ
-   Bit 3		: read command (read data from RC buffer)
-   Bit 4		: write command (write data to RC buffer)
-   Bit 5		: copy command (copy data from one RC buffer to another
-@@ -75,6 +75,7 @@ for the READ/WRITE/COPY and raise IRQ (Legacy/MSI) commands.
- Possible types:
-  - Legacy	: 0
-  - MSI		: 1
-+ - MSI-X	: 2
- 
- *) PCI_ENDPOINT_TEST_IRQ_NUMBER
- 
-@@ -83,3 +84,4 @@ This register contains the triggered ID interrupt.
- Admissible values:
-  - Legacy	: 0
-  - MSI		: [1 .. 32]
-+ - MSI-X	: [1 .. 2048]
-diff --git a/Documentation/PCI/endpoint/pci-test-howto.txt b/Documentation/PCI/endpoint/pci-test-howto.txt
-index 75f48c3..65f1a13 100644
---- a/Documentation/PCI/endpoint/pci-test-howto.txt
-+++ b/Documentation/PCI/endpoint/pci-test-howto.txt
-@@ -45,9 +45,9 @@ The PCI endpoint framework populates the directory with the following
- configurable fields.
- 
- 	# ls functions/pci_epf_test/func1
--	  baseclass_code	interrupt_pin	revid		subsys_vendor_id
--	  cache_line_size	msi_interrupts	subclass_code	vendorid
--	  deviceid          	progif_code	subsys_id
-+	  baseclass_code	interrupt_pin	progif_code	subsys_id
-+	  cache_line_size	msi_interrupts	revid		subsys_vendorid
-+	  deviceid          	msix_interrupts	subclass_code	vendorid
- 
- The PCI endpoint function driver populates these entries with default values
- when the device is bound to the driver. The pci-epf-test driver populates
-@@ -67,6 +67,7 @@ device, the following commands can be used.
- 	# echo 0x104c > functions/pci_epf_test/func1/vendorid
- 	# echo 0xb500 > functions/pci_epf_test/func1/deviceid
- 	# echo 16 > functions/pci_epf_test/func1/msi_interrupts
-+	# echo 8 > functions/pci_epf_test/func1/msix_interrupts
- 
- 1.5 Binding pci-epf-test Device to EP Controller
- 
-@@ -153,6 +154,21 @@ following commands.
- 	MSI30:          NOT OKAY
- 	MSI31:          NOT OKAY
- 	MSI32:          NOT OKAY
-+	MSIX1:          OKAY
-+	MSIX2:          OKAY
-+	MSIX3:          OKAY
-+	MSIX4:          OKAY
-+	MSIX5:          OKAY
-+	MSIX6:          OKAY
-+	MSIX7:          OKAY
-+	MSIX8:          OKAY
-+	MSIX9:          NOT OKAY
-+	MSIX10:         NOT OKAY
-+	MSIX11:         NOT OKAY
-+	MSIX12:         NOT OKAY
-+	MSIX13:         NOT OKAY
-+	[...]
-+	MSIX2048:       NOT OKAY
- 
- 	Read Tests
- 
-diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
-index 480c860..65259d4 100644
---- a/Documentation/ioctl/ioctl-number.txt
-+++ b/Documentation/ioctl/ioctl-number.txt
-@@ -166,6 +166,7 @@ Code  Seq#(hex)	Include File		Comments
- 'P'	all	linux/soundcard.h	conflict!
- 'P'	60-6F	sound/sscape_ioctl.h	conflict!
- 'P'	00-0F	drivers/usb/class/usblp.c	conflict!
-+'P'	01-07	drivers/misc/pci_endpoint_test.c	conflict!
- 'Q'	all	linux/soundcard.h
- 'R'	00-1F	linux/random.h		conflict!
- 'R'	01	linux/rfkill.h		conflict!
-diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
-index 4ebc359..fdfa0f6 100644
---- a/Documentation/misc-devices/pci-endpoint-test.txt
-+++ b/Documentation/misc-devices/pci-endpoint-test.txt
-@@ -10,6 +10,7 @@ The PCI driver for the test device performs the following tests
- 	*) verifying addresses programmed in BAR
- 	*) raise legacy IRQ
- 	*) raise MSI IRQ
-+	*) raise MSI-X IRQ
- 	*) read data
- 	*) write data
- 	*) copy data
-@@ -25,6 +26,8 @@ ioctl
-  PCITEST_LEGACY_IRQ: Tests legacy IRQ
-  PCITEST_MSI: Tests message signalled interrupts. The MSI number
- 	      to be tested should be passed as argument.
-+ PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
-+	      to be tested should be passed as argument.
-  PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
- 		as argument.
-  PCITEST_READ: Perform read tests. The size of the buffer should be passed
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index 349794c..f4fef10 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -39,13 +39,14 @@
- 
- #define IRQ_TYPE_LEGACY				0
- #define IRQ_TYPE_MSI				1
-+#define IRQ_TYPE_MSIX				2
- 
- #define PCI_ENDPOINT_TEST_MAGIC			0x0
- 
- #define PCI_ENDPOINT_TEST_COMMAND		0x4
- #define COMMAND_RAISE_LEGACY_IRQ		BIT(0)
- #define COMMAND_RAISE_MSI_IRQ			BIT(1)
--/* BIT(2) is reserved for raising MSI-X IRQ command */
-+#define COMMAND_RAISE_MSIX_IRQ			BIT(2)
- #define COMMAND_READ				BIT(3)
- #define COMMAND_WRITE				BIT(4)
- #define COMMAND_COPY				BIT(5)
-@@ -84,7 +85,7 @@ MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
- 
- static int irq_type = IRQ_TYPE_MSI;
- module_param(irq_type, int, 0444);
--MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI)");
-+MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI, 2 - MSI-X)");
- 
- enum pci_barno {
- 	BAR_0,
-@@ -202,16 +203,18 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
+diff --git a/drivers/pci/controller/dwc/pci-dra7xx.c b/drivers/pci/controller/dwc/pci-dra7xx.c
+index 345aab5..ce9224a 100644
+--- a/drivers/pci/controller/dwc/pci-dra7xx.c
++++ b/drivers/pci/controller/dwc/pci-dra7xx.c
+@@ -370,7 +370,7 @@ static void dra7xx_pcie_raise_msi_irq(struct dra7xx_pcie *dra7xx,
  }
  
- static bool pci_endpoint_test_msi_irq(struct pci_endpoint_test *test,
--				      u8 msi_num)
-+				       u16 msi_num, bool msix)
+ static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+-				 enum pci_epc_irq_type type, u8 interrupt_num)
++				 enum pci_epc_irq_type type, u16 interrupt_num)
  {
- 	u32 val;
- 	struct pci_dev *pdev = test->pdev;
- 
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
--				 IRQ_TYPE_MSI);
-+				 msix == false ? IRQ_TYPE_MSI :
-+				 IRQ_TYPE_MSIX);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, msi_num);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
--				 COMMAND_RAISE_MSI_IRQ);
-+				 msix == false ? COMMAND_RAISE_MSI_IRQ :
-+				 COMMAND_RAISE_MSIX_IRQ);
- 	val = wait_for_completion_timeout(&test->irq_raised,
- 					  msecs_to_jiffies(1000));
- 	if (!val)
-@@ -456,7 +459,8 @@ static long pci_endpoint_test_ioctl(struct file *file, unsigned int cmd,
- 		ret = pci_endpoint_test_legacy_irq(test);
- 		break;
- 	case PCITEST_MSI:
--		ret = pci_endpoint_test_msi_irq(test, arg);
-+	case PCITEST_MSIX:
-+		ret = pci_endpoint_test_msi_irq(test, arg, cmd == PCITEST_MSIX);
- 		break;
- 	case PCITEST_WRITE:
- 		ret = pci_endpoint_test_write(test, arg);
-@@ -542,6 +546,12 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 			dev_err(dev, "Failed to get MSI interrupts\n");
- 		test->num_irqs = irq;
- 		break;
-+	case IRQ_TYPE_MSIX:
-+		irq = pci_alloc_irq_vectors(pdev, 1, 2048, PCI_IRQ_MSIX);
-+		if (irq < 0)
-+			dev_err(dev, "Failed to get MSI-X interrupts\n");
-+		test->num_irqs = irq;
-+		break;
- 	default:
- 		dev_err(dev, "Invalid IRQ type selected\n");
- 	}
-@@ -558,8 +568,9 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 				       pci_endpoint_test_irqhandler,
- 				       IRQF_SHARED, DRV_MODULE_NAME, test);
- 		if (err)
--			dev_err(dev, "failed to request IRQ %d for MSI %d\n",
--				pci_irq_vector(pdev, i), i + 1);
-+			dev_err(dev, "Failed to request IRQ %d for MSI%s %d\n",
-+				pci_irq_vector(pdev, i),
-+				irq_type == IRQ_TYPE_MSIX ? "-X" : "", i + 1);
- 	}
- 
- 	for (bar = BAR_0; bar <= BAR_5; bar++) {
-@@ -625,6 +636,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 
- err_disable_msi:
- 	pci_disable_msi(pdev);
-+	pci_disable_msix(pdev);
- 	pci_release_regions(pdev);
- 
- err_disable_pdev:
-@@ -656,6 +668,7 @@ static void pci_endpoint_test_remove(struct pci_dev *pdev)
- 	for (i = 0; i < test->num_irqs; i++)
- 		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, i), test);
- 	pci_disable_msi(pdev);
-+	pci_disable_msix(pdev);
- 	pci_release_regions(pdev);
- 	pci_disable_device(pdev);
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pci);
+diff --git a/drivers/pci/controller/dwc/pcie-artpec6.c b/drivers/pci/controller/dwc/pcie-artpec6.c
+index 321b56c..9a2474b 100644
+--- a/drivers/pci/controller/dwc/pcie-artpec6.c
++++ b/drivers/pci/controller/dwc/pcie-artpec6.c
+@@ -428,7 +428,7 @@ static void artpec6_pcie_ep_init(struct dw_pcie_ep *ep)
  }
+ 
+ static int artpec6_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+-				  enum pci_epc_irq_type type, u8 interrupt_num)
++				  enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 
+diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+index 04092a7..69d039d 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-ep.c
++++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+@@ -242,7 +242,7 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
+ }
+ 
+ static int dw_pcie_ep_raise_irq(struct pci_epc *epc, u8 func_no,
+-				enum pci_epc_irq_type type, u8 interrupt_num)
++				enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+ 
 diff --git a/drivers/pci/controller/dwc/pcie-designware-plat.c b/drivers/pci/controller/dwc/pcie-designware-plat.c
-index 160714d..d2dd0c7 100644
+index 0ce3440..0efb318 100644
 --- a/drivers/pci/controller/dwc/pcie-designware-plat.c
 +++ b/drivers/pci/controller/dwc/pcie-designware-plat.c
-@@ -77,6 +77,7 @@ static void dw_plat_pcie_ep_init(struct dw_pcie_ep *ep)
- 		dw_pcie_ep_reset_bar(pci, bar);
- 
- 	epc->features |= EPC_FEATURE_NO_LINKUP_NOTIFIER;
-+	epc->features |= EPC_FEATURE_MSIX_AVAILABLE;
- }
+@@ -81,7 +81,7 @@ static void dw_plat_pcie_ep_init(struct dw_pcie_ep *ep)
  
  static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
-diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-index eb9cd00..123f58c 100644
---- a/drivers/pci/endpoint/functions/pci-epf-test.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-@@ -20,10 +20,11 @@
+ 				     enum pci_epc_irq_type type,
+-				     u8 interrupt_num)
++				     u16 interrupt_num)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
  
- #define IRQ_TYPE_LEGACY			0
- #define IRQ_TYPE_MSI			1
-+#define IRQ_TYPE_MSIX			2
- 
- #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
- #define COMMAND_RAISE_MSI_IRQ		BIT(1)
--/* BIT(2) is reserved for raising MSI-X IRQ command */
-+#define COMMAND_RAISE_MSIX_IRQ		BIT(2)
- #define COMMAND_READ			BIT(3)
- #define COMMAND_WRITE			BIT(4)
- #define COMMAND_COPY			BIT(5)
-@@ -47,6 +48,7 @@ struct pci_epf_test {
- 	struct pci_epf		*epf;
- 	enum pci_barno		test_reg_bar;
- 	bool			linkup_notifier;
-+	bool			msix_available;
- 	struct delayed_work	cmd_handler;
+diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+index bee4e25..9d581c0 100644
+--- a/drivers/pci/controller/dwc/pcie-designware.h
++++ b/drivers/pci/controller/dwc/pcie-designware.h
+@@ -191,7 +191,7 @@ enum dw_pcie_as_type {
+ struct dw_pcie_ep_ops {
+ 	void	(*ep_init)(struct dw_pcie_ep *ep);
+ 	int	(*raise_irq)(struct dw_pcie_ep *ep, u8 func_no,
+-			     enum pci_epc_irq_type type, u8 interrupt_num);
++			     enum pci_epc_irq_type type, u16 interrupt_num);
  };
  
-@@ -266,6 +268,9 @@ static void pci_epf_test_raise_irq(struct pci_epf_test *epf_test, u8 irq_type,
- 	case IRQ_TYPE_MSI:
- 		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_MSI, irq);
- 		break;
-+	case IRQ_TYPE_MSIX:
-+		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_MSIX, irq);
-+		break;
- 	default:
- 		dev_err(dev, "Failed to raise IRQ, unknown type\n");
- 		break;
-@@ -292,7 +297,7 @@ static void pci_epf_test_cmd_handler(struct work_struct *work)
- 	reg->command = 0;
- 	reg->status = 0;
+ struct dw_pcie_ep {
+diff --git a/drivers/pci/controller/pcie-cadence-ep.c b/drivers/pci/controller/pcie-cadence-ep.c
+index e3fe412..208d11f 100644
+--- a/drivers/pci/controller/pcie-cadence-ep.c
++++ b/drivers/pci/controller/pcie-cadence-ep.c
+@@ -363,7 +363,8 @@ static int cdns_pcie_ep_send_msi_irq(struct cdns_pcie_ep *ep, u8 fn,
+ }
  
--	if (reg->irq_type > IRQ_TYPE_MSI) {
-+	if (reg->irq_type > IRQ_TYPE_MSIX) {
- 		dev_err(dev, "Failed to detect IRQ type\n");
- 		goto reset_handler;
- 	}
-@@ -346,6 +351,16 @@ static void pci_epf_test_cmd_handler(struct work_struct *work)
- 		goto reset_handler;
- 	}
+ static int cdns_pcie_ep_raise_irq(struct pci_epc *epc, u8 fn,
+-				  enum pci_epc_irq_type type, u8 interrupt_num)
++				  enum pci_epc_irq_type type,
++				  u16 interrupt_num)
+ {
+ 	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
  
-+	if (command & COMMAND_RAISE_MSIX_IRQ) {
-+		count = pci_epc_get_msix(epc, epf->func_no);
-+		if (reg->irq_number > count || count <= 0)
-+			goto reset_handler;
-+		reg->status = STATUS_IRQ_RAISED;
-+		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_MSIX,
-+				  reg->irq_number);
-+		goto reset_handler;
-+	}
-+
- reset_handler:
- 	queue_delayed_work(kpcitest_workqueue, &epf_test->cmd_handler,
- 			   msecs_to_jiffies(1));
-@@ -459,6 +474,8 @@ static int pci_epf_test_bind(struct pci_epf *epf)
- 	else
- 		epf_test->linkup_notifier = true;
+diff --git a/drivers/pci/controller/pcie-rockchip-ep.c b/drivers/pci/controller/pcie-rockchip-ep.c
+index 6beba8e..b8163c5 100644
+--- a/drivers/pci/controller/pcie-rockchip-ep.c
++++ b/drivers/pci/controller/pcie-rockchip-ep.c
+@@ -472,7 +472,7 @@ static int rockchip_pcie_ep_send_msi_irq(struct rockchip_pcie_ep *ep, u8 fn,
  
-+	epf_test->msix_available = epc->features & EPC_FEATURE_MSIX_AVAILABLE;
-+
- 	epf_test->test_reg_bar = EPC_FEATURE_GET_BAR(epc->features);
+ static int rockchip_pcie_ep_raise_irq(struct pci_epc *epc, u8 fn,
+ 				      enum pci_epc_irq_type type,
+-				      u8 interrupt_num)
++				      u16 interrupt_num)
+ {
+ 	struct rockchip_pcie_ep *ep = epc_get_drvdata(epc);
  
- 	ret = pci_epc_write_header(epc, epf->func_no, header);
-@@ -481,6 +498,14 @@ static int pci_epf_test_bind(struct pci_epf *epf)
- 		return ret;
- 	}
- 
-+	if (epf_test->msix_available) {
-+		ret = pci_epc_set_msix(epc, epf->func_no, epf->msix_interrupts);
-+		if (ret) {
-+			dev_err(dev, "MSI-X configuration failed\n");
-+			return ret;
-+		}
-+	}
-+
- 	if (!epf_test->linkup_notifier)
- 		queue_work(kpcitest_workqueue, &epf_test->cmd_handler.work);
- 
+diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+index 7d77bd0..c72e656 100644
+--- a/drivers/pci/endpoint/pci-epc-core.c
++++ b/drivers/pci/endpoint/pci-epc-core.c
+@@ -131,13 +131,13 @@ EXPORT_SYMBOL_GPL(pci_epc_start);
+  * pci_epc_raise_irq() - interrupt the host system
+  * @epc: the EPC device which has to interrupt the host
+  * @func_no: the endpoint function number in the EPC device
+- * @type: specify the type of interrupt; legacy or MSI
+- * @interrupt_num: the MSI interrupt number
++ * @type: specify the type of interrupt; legacy, MSI or MSI-X
++ * @interrupt_num: the MSI or MSI-X interrupt number
+  *
+- * Invoke to raise an MSI or legacy interrupt
++ * Invoke to raise an legacy, MSI or MSI-X interrupt
+  */
+ int pci_epc_raise_irq(struct pci_epc *epc, u8 func_no,
+-		      enum pci_epc_irq_type type, u8 interrupt_num)
++		      enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	int ret;
+ 	unsigned long flags;
 diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index bb2395b..37dab81 100644
+index 89f079f..bb2395b 100644
 --- a/include/linux/pci-epc.h
 +++ b/include/linux/pci-epc.h
-@@ -102,6 +102,7 @@ struct pci_epc {
- 
- #define EPC_FEATURE_NO_LINKUP_NOTIFIER		BIT(0)
- #define EPC_FEATURE_BAR_MASK			(BIT(1) | BIT(2) | BIT(3))
-+#define EPC_FEATURE_MSIX_AVAILABLE		BIT(4)
- #define EPC_FEATURE_SET_BAR(features, bar)	\
- 		(features |= (EPC_FEATURE_BAR_MASK & (bar << 1)))
- #define EPC_FEATURE_GET_BAR(features)		\
-diff --git a/include/uapi/linux/pcitest.h b/include/uapi/linux/pcitest.h
-index 953cf03..d746fb1 100644
---- a/include/uapi/linux/pcitest.h
-+++ b/include/uapi/linux/pcitest.h
-@@ -16,5 +16,6 @@
- #define PCITEST_WRITE		_IOW('P', 0x4, unsigned long)
- #define PCITEST_READ		_IOW('P', 0x5, unsigned long)
- #define PCITEST_COPY		_IOW('P', 0x6, unsigned long)
-+#define PCITEST_MSIX		_IOW('P', 0x7, int)
- 
- #endif /* __UAPI_LINUX_PCITEST_H */
+@@ -35,7 +35,7 @@ enum pci_epc_irq_type {
+  *	     MSI-X capability register
+  * @get_msix: ops to get the number of MSI-X interrupts allocated by the RC
+  *	     from the MSI-X capability register
+- * @raise_irq: ops to raise a legacy or MSI interrupt
++ * @raise_irq: ops to raise a legacy, MSI or MSI-X interrupt
+  * @start: ops to start the PCI link
+  * @stop: ops to stop the PCI link
+  * @owner: the module owner containing the ops
+@@ -56,7 +56,7 @@ struct pci_epc_ops {
+ 	int	(*set_msix)(struct pci_epc *epc, u8 func_no, u16 interrupts);
+ 	int	(*get_msix)(struct pci_epc *epc, u8 func_no);
+ 	int	(*raise_irq)(struct pci_epc *epc, u8 func_no,
+-			     enum pci_epc_irq_type type, u8 interrupt_num);
++			     enum pci_epc_irq_type type, u16 interrupt_num);
+ 	int	(*start)(struct pci_epc *epc);
+ 	void	(*stop)(struct pci_epc *epc);
+ 	struct module *owner;
+@@ -154,7 +154,7 @@ int pci_epc_get_msi(struct pci_epc *epc, u8 func_no);
+ int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts);
+ int pci_epc_get_msix(struct pci_epc *epc, u8 func_no);
+ int pci_epc_raise_irq(struct pci_epc *epc, u8 func_no,
+-		      enum pci_epc_irq_type type, u8 interrupt_num);
++		      enum pci_epc_irq_type type, u16 interrupt_num);
+ int pci_epc_start(struct pci_epc *epc);
+ void pci_epc_stop(struct pci_epc *epc);
+ struct pci_epc *pci_epc_get(const char *epc_name);
 -- 
 2.7.4
 
