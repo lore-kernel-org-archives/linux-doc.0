@@ -5,35 +5,40 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E0A87D072
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 12:41:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D57937D085
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 14:42:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728734AbeGPNIr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 09:08:47 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:53212 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728524AbeGPNIr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 09:08:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=zPEqDOFprwoXXn63mjwk15X67uYxvwTZxSf1rrlNs6M=; b=U+dn8b5vlK1cX8FCLp89UNn4R
-        IT1AyYuys9JF/h9mNac33UahDPjqSFWLtzgaIgoP+ONNNOHEL/yqsgMqnvrBb/XsR6YAUSc4MG7b8
-        NJ1I0yxOawJy4qIf7fP/QvVie/Ub3GhiscQEjE/VbeQaZMKJQS543fyYn1iay3B/DBQ2TRm9tvjhv
-        NXXo0XGf7ZvD2d5XST2nJLQWqQkm9BowyWE4TN/NUdIIFNpx8CH/nULl+cYBk8m2Kod3K6guoTRf6
-        7kiucijhA04b68KUVg/yYJjcaHoVMewJShkboMxqNPJ+hhjvEMqG0ziejIEw8TbfhVgRGT20NEai3
-        L2RYSeisQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1ff2oV-0006nN-Pe; Mon, 16 Jul 2018 12:41:15 +0000
-Date:   Mon, 16 Jul 2018 05:41:15 -0700
-From:   Matthew Wilcox <willy@infradead.org>
+        id S1729811AbeGPPKO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 11:10:14 -0400
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:33572 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727452AbeGPPKO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 11:10:14 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id ACC8F8EE1DD;
+        Mon, 16 Jul 2018 07:42:28 -0700 (PDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id pBwIdhHv1rgj; Mon, 16 Jul 2018 07:42:28 -0700 (PDT)
+Received: from [153.66.254.194] (unknown [50.35.68.20])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 5BDD28EE055;
+        Mon, 16 Jul 2018 07:42:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1531752148;
+        bh=iY7NsuSeiC+PXz/Ajbq1MCS9othzTsFVp96pDDktKic=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=vGZBFbwYkHjhdndgKR7ukJVdyKv8Z9OMBMqsb8o7pPR/vIEDWj8xa4E7pKK4FlBI9
+         bzQyUhOFPrwEYH6ocX6pQbWO7IjsIOnt766tzxjjL40QKmBskAZW+KlxdSU0sQcAZi
+         nbPckJqGB2Hfxhly+Xwkcj9m50qBcMZ0CcW+KtrA=
+Message-ID: <1531752146.3171.2.camel@HansenPartnership.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
 To:     Michal Hocko <mhocko@kernel.org>
 Cc:     Dave Chinner <david@fromorbit.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
         Waiman Long <longman@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -50,43 +55,60 @@ Cc:     Dave Chinner <david@fromorbit.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Larry Woodman <lwoodman@redhat.com>,
         "Wangkai (Kevin,C)" <wangkai86@huawei.com>
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-Message-ID: <20180716124115.GA7072@bombadil.infradead.org>
+Date:   Mon, 16 Jul 2018 07:42:26 -0700
+In-Reply-To: <20180716091040.GH17280@dhcp22.suse.cz>
 References: <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
- <1531336913.3260.18.camel@HansenPartnership.com>
- <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
- <1531411494.18255.6.camel@HansenPartnership.com>
- <20180712164932.GA3475@bombadil.infradead.org>
- <1531416080.18255.8.camel@HansenPartnership.com>
- <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
- <1531425435.18255.17.camel@HansenPartnership.com>
- <20180713003614.GW2234@dastard>
- <20180716090901.GG17280@dhcp22.suse.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180716090901.GG17280@dhcp22.suse.cz>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+         <1531336913.3260.18.camel@HansenPartnership.com>
+         <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+         <1531411494.18255.6.camel@HansenPartnership.com>
+         <20180712164932.GA3475@bombadil.infradead.org>
+         <1531416080.18255.8.camel@HansenPartnership.com>
+         <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
+         <1531425435.18255.17.camel@HansenPartnership.com>
+         <20180713003614.GW2234@dastard>
+         <1531496812.3361.9.camel@HansenPartnership.com>
+         <20180716091040.GH17280@dhcp22.suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 16, 2018 at 11:09:01AM +0200, Michal Hocko wrote:
-> On Fri 13-07-18 10:36:14, Dave Chinner wrote:
-> [...]
-> > By limiting the number of negative dentries in this case, internal
-> > slab fragmentation is reduced such that reclaim cost never gets out
-> > of control. While it appears to "fix" the symptoms, it doesn't
-> > address the underlying problem. It is a partial solution at best but
-> > at worst it's another opaque knob that nobody knows how or when to
-> > tune.
+On Mon, 2018-07-16 at 11:10 +0200, Michal Hocko wrote:
+> On Fri 13-07-18 08:46:52, James Bottomley wrote:
+> > On Fri, 2018-07-13 at 10:36 +1000, Dave Chinner wrote:
+> > > On Thu, Jul 12, 2018 at 12:57:15PM -0700, James Bottomley wrote:
+> > > > What surprises me most about this behaviour is the steadiness
+> > > > of the page cache ... I would have thought we'd have shrunk it
+> > > > somewhat given the intense call on the dcache.
+> > > 
+> > > Oh, good, the page cache vs superblock shrinker balancing still
+> > > protects the working set of each cache the way it's supposed to
+> > > under heavy single cache pressure. :)
+> > 
+> > Well, yes, but my expectation is most of the page cache is clean,
+> > so easily reclaimable.  I suppose part of my surprise is that I
+> > expected us to reclaim the clean caches first before we started
+> > pushing out the dirty stuff and reclaiming it.  I'm not saying it's
+> > a bad thing, just saying I didn't expect us to make such good
+> > decisions under the parameters of this test.
 > 
-> Would it help to put all the negative dentries into its own slab cache?
+> This is indeed unepxected. Especially when the current LRU reclaim
+> balancing logic is highly pagecache biased. Are you sure you were not
+> running in a memcg with a small amount of the pagecache?
 
-Maybe the dcache should be more sensitive to its own needs.  In __d_alloc,
-it could check whether there are a high proportion of negative dentries
-and start recycling some existing negative dentries.
+Yes, absolutely: I just compiled and ran the programme on my laptop
+with no type of containment (I trust Linus, right ...)
+
+To be clear, the dirty anon push out was quite slow, so I don't think
+mm was using it as a serious source of reclaim, it was probably just
+being caught up in some other page clearing process.
+
+James
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
