@@ -1,223 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B9E77D071
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 05:01:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 309FB7D071
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 08:20:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726811AbeGPF1D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 01:27:03 -0400
-Received: from mail-pf0-f195.google.com ([209.85.192.195]:42493 "EHLO
-        mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726253AbeGPF1D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 01:27:03 -0400
-Received: by mail-pf0-f195.google.com with SMTP id l9-v6so14060187pff.9
-        for <linux-doc@vger.kernel.org>; Sun, 15 Jul 2018 22:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=50YhrAuYg/CT46fNlm8kNLIw8KO5YacaRbRckxYOZPw=;
-        b=hrB4az4zgw1utrIZhFYK+3FyPeWatikPuJX/oNPoJEVDn3ZbxM7ngRENRPVZ+Z5mTo
-         7+/SJm2hETi/ExqSIIRqXRiKQ5rAURDv7UzAEb+AtwVAZ7Rw5mqyZc5yr0wtkHxRMeM/
-         DpcxSvLAlfkEk+B4qYUIr1CA+KrAboPkqHN8S3/5IUWUhU4/D0X4Mo+ESokrsrE8KqJW
-         /mYqCUyZf+vtGQ42DEXTtPCokmz/sLls1+4YIEEbwgJNHQEsPSfHIzA2MVYko0sBx+4V
-         FVAGe+p1mr9WbfDgHBolgbSzxHG+kxNDcI1ljcfOfhkRkv0lvQFEZDUoVn4ViIVBaICP
-         fYaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=50YhrAuYg/CT46fNlm8kNLIw8KO5YacaRbRckxYOZPw=;
-        b=GhVTDbe1l0/n6rDEYpCBdidMakLor7Cy515Ae0lhRr+FpjaiLjADBXWF2OfmuC5VYK
-         jmHUMwwrsCEZ2e8LgBRA7M6wWxyYFvkUPwO0/3QUhmjjtQAZ4VH4RBuCvbsfiP0jJNlD
-         mYFZQ0Xsomu5q8h/8XNuDqyCVdJKYTJUxOSSWIpJz5znBxEjWF8Kh9crhW3iCXp8ZwYi
-         PQ1Woa2ixFMRrTU59pl+UT1IvfJryRZKJo9jgs5idsSeD2ULWAriWEF1rCTvRgGrofkE
-         udyknoS20+HhDKSKCD/i+/LnWaKt7lVP4UinRSdCJctMT7R58/417iH96RLvRCsaGAVt
-         vBZw==
-X-Gm-Message-State: AOUpUlHq8YJz/rchIOOkef6McbomFKR05D0evmtEnIt7oskCdozLiJ/n
-        ZxeVfBgoYuOoW3XWzyoqzcl4Jw==
-X-Google-Smtp-Source: AAOMgpfqyiJao6XEr6LpLwfzjnXwDxJBBpGZw0ZYguWO0rPA9hCTKQhHFSzi4C/t6oB2QyTiwQt8SA==
-X-Received: by 2002:a63:8a41:: with SMTP id y62-v6mr13800408pgd.291.1531717290795;
-        Sun, 15 Jul 2018 22:01:30 -0700 (PDT)
-Received: from [10.61.2.175] ([122.99.82.10])
-        by smtp.googlemail.com with ESMTPSA id f3-v6sm3749278pgq.49.2018.07.15.22.01.24
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 15 Jul 2018 22:01:29 -0700 (PDT)
-Subject: Re: [PATCH v6 0/4] Add parameter for disabling ACS redirection for
- P2P
-To:     Logan Gunthorpe <logang@deltatee.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Matthew Wilcox <willy@infradead.org>
-References: <20180713233158.19528-1-logang@deltatee.com>
-From:   Alexey Kardashevskiy <aik@ozlabs.ru>
-Openpgp: preference=signencrypt
-Autocrypt: addr=aik@ozlabs.ru; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <710e15b2-89f8-a658-656f-84492ef78898@ozlabs.ru>
-Date:   Mon, 16 Jul 2018 15:01:21 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        id S1729859AbeGPIqh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 04:46:37 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43826 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729615AbeGPIqh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 04:46:37 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6G8JfZv095858
+        for <linux-doc@vger.kernel.org>; Mon, 16 Jul 2018 04:20:24 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2k8jaak2qa-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 16 Jul 2018 04:20:23 -0400
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Mon, 16 Jul 2018 09:20:21 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 16 Jul 2018 09:20:15 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6G8KEhn21364892
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 16 Jul 2018 08:20:14 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id ECA56A4040;
+        Mon, 16 Jul 2018 11:20:32 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 76A61A404D;
+        Mon, 16 Jul 2018 11:20:29 +0100 (BST)
+Received: from [9.124.31.217] (unknown [9.124.31.217])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon, 16 Jul 2018 11:20:29 +0100 (BST)
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+To:     Song Liu <liu.song.a23@gmail.com>
+Cc:     Oleg Nesterov <oleg@redhat.com>, srikar@linux.vnet.ibm.com,
+        rostedt@goodmis.org, mhiramat@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        open list <linux-kernel@vger.kernel.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+ <20180701210935.GA14404@redhat.com>
+ <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
+ <20180702180156.GA31400@redhat.com>
+ <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
+ <20180703163645.GA23144@redhat.com> <20180703172543.GC23144@redhat.com>
+ <f5a39a88-c21e-4606-a04d-11b5f32016b8@linux.ibm.com>
+ <20180710152527.GA3616@redhat.com>
+ <6e3ff60b-267a-d49d-4ebb-c4264f9c034b@linux.ibm.com>
+ <20180712145849.GB15265@redhat.com>
+ <CAPhsuW6kCtn-tWSj5eKf+kGt8ZEjVwJKLxj9C6zdaqMZByRytg@mail.gmail.com>
+ <9b062a19-d9a7-b360-26b1-d28b8dfc35a3@linux.ibm.com>
+ <CAPhsuW5njYcYXxYYEUsdVWem3qwk2z_bra_eRpwHwEy9TA-LHQ@mail.gmail.com>
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Date:   Mon, 16 Jul 2018 13:50:10 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180713233158.19528-1-logang@deltatee.com>
+In-Reply-To: <CAPhsuW5njYcYXxYYEUsdVWem3qwk2z_bra_eRpwHwEy9TA-LHQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18071608-0012-0000-0000-0000028A991D
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18071608-0013-0000-0000-000020BC503B
+Message-Id: <a37cc94b-5940-643c-3e81-fc375c6aada0@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-16_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=898 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807160100
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14/7/18 9:31 am, Logan Gunthorpe wrote:
-> Changes since v5:
-> * Add a quirk to handle the Intel SPT PCH case (as pointed out by Alex)
-> * Warn in the case that we try to disable ACS redirect on a device
->   that doesn't have the ACS capability (also suggested by Alex)
-> * Collect reviewed-by tag from Alex
-> * Rebased onto v4.18-rc4 (no conflicts)
+Hi Song,
+
+On 07/14/2018 05:20 AM, Song Liu wrote:
 > 
-> Changes since v4:
-> * Fixed a couple documentation mistakes spotted by Randy
-> 
-> Changes since v3:
-> * Removed some of the cruft that was copied from the resource_alignment
->   paramater (per Alex)
-> * A number of docuemntation fixes as noticed by Alex and Willy
-> 
-> Changes since v2:
-> * Rebased onto v4.18-rc1 (no conflicts)
-> * Minor tweaks to the documentation per Andy
-> * Removed the "path:" prefix and use the path parsing code
->   for simple devices (as it works the same). Per a suggestion from Alex
-> 
-> Changes since v1:
-> * Reworked pci_dev_str_match_path using strrchr as suggested by Alex
-> * Collected Christian's Acks
-> 
-> --
-> 
-> Hi,
-> 
-> As discussed in our PCI P2PDMA series, we'd like to add a kernel
-> parameter for selectively disabling ACS redirection for select
-> bridges. Seeing this turned out to be a small series in itself, we've
-> decided to send this separately from the P2P work.
-> 
-> This series generalizes the code already done for the resource_alignment
-> option that already exists. The first patch creates a helper function
-> to match PCI devices against strings based on the code that already
-> existed in pci_specified_resource_alignment().
-> 
-> The second patch expands the new helper to optionally take a path of
-> PCI devfns. This is to address Alex's renumbering concern when using
-> simple bus-devfns. The implementation is essentially how he described it and
-> similar to the Intel VT-d spec (Section 8.3.1).
-> 
-> The final patch adds the disable_acs_redir kernel parameter which takes
-> a list of PCI devices and will disable the ACS P2P Request Redirect,
-> ACS P2P Completion Redirect and ACS P2P Egress Control bits for the
-> selected devices. This allows P2P traffic between selected bridges and
-> seeing it's done at boot, before the IOMMU groups will be created, the
-> groups will match the security provided by ACS.
+> Hmm... what happens when we have multiple uprobes sharing the same
+> reference counter? It feels equally complicate to me. Or did I miss any
+> cases here?
 
 
-I am pretty sure it's been discussed but just to make sure I understand the
-whole picture - why exactly does ACS have to be disabled at the boot time?
-We could enable it, for example, for 2 devices in the same VFIO container
-if there are in isolatable part of the PCI tree, or we just do not want to
-make VFIO containers or QEMU aware of PCI hierarchy (I can see why, just
-double checking)? Thanks.
+As far as I can think of, it should be handled by default. No special
+treatment needed for this.
 
-
-
+...
 
 > 
-> Thanks,
+> This patch tries to resolve this imbalance by passing extra flag
+> "restore_insn" to probe_event_disable().
 > 
-> Logan
-> 
-> --
-> 
-> Logan Gunthorpe (4):
->   PCI: Make specifying PCI devices in kernel parameters reusable
->   PCI: Allow specifying devices using a base bus and path of devfns
->   PCI: Introduce disable_acs_redir quirk
->   PCI: Introduce the disable_acs_redir parameter
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  41 +++-
->  drivers/pci/pci.c                               | 310 +++++++++++++++++++-----
->  drivers/pci/quirks.c                            |  78 +++++-
->  include/linux/pci.h                             |   5 +
->  4 files changed, 361 insertions(+), 73 deletions(-)
-> 
-> --
-> 2.11.0
-> 
+> Signed-off-by: Song Liu <songliubraving@fb.com>
 
 
--- 
-Alexey
+Ah cool. Seems this will make them balanced. But is it fine to change
+uprobe_unregister()? It's already an ABI. No other way around?
+
+Also, one more source of imbalance is this condition:
+
+          if (is_register)
+                  flags |= VM_WRITE;
+
+in valid_vma(). You need to take care of that as well.
+
+Thanks,
+Ravi
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
