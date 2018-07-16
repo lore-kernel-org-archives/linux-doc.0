@@ -1,109 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DC5A57D071
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 08:51:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC28D7D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 09:09:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729997AbeGPJRw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 05:17:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45810 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727431AbeGPJRv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 05:17:51 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6G8mo7K062137
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jul 2018 04:51:29 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2k8q84tfvp-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jul 2018 04:51:29 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Mon, 16 Jul 2018 09:51:27 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 16 Jul 2018 09:51:20 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6G8pKnS33620118
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 16 Jul 2018 08:51:20 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8A129A4051;
-        Mon, 16 Jul 2018 11:51:38 +0100 (BST)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1F774A404D;
-        Mon, 16 Jul 2018 11:51:35 +0100 (BST)
-Received: from [9.124.31.217] (unknown [9.124.31.217])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon, 16 Jul 2018 11:51:34 +0100 (BST)
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-To:     Song Liu <liu.song.a23@gmail.com>
-Cc:     Oleg Nesterov <oleg@redhat.com>, srikar@linux.vnet.ibm.com,
-        rostedt@goodmis.org, mhiramat@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        open list <linux-kernel@vger.kernel.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-References: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180701210935.GA14404@redhat.com>
- <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
- <20180702180156.GA31400@redhat.com>
- <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
- <20180703163645.GA23144@redhat.com> <20180703172543.GC23144@redhat.com>
- <f5a39a88-c21e-4606-a04d-11b5f32016b8@linux.ibm.com>
- <20180710152527.GA3616@redhat.com>
- <6e3ff60b-267a-d49d-4ebb-c4264f9c034b@linux.ibm.com>
- <20180712145849.GB15265@redhat.com>
- <CAPhsuW6kCtn-tWSj5eKf+kGt8ZEjVwJKLxj9C6zdaqMZByRytg@mail.gmail.com>
- <9b062a19-d9a7-b360-26b1-d28b8dfc35a3@linux.ibm.com>
- <CAPhsuW5njYcYXxYYEUsdVWem3qwk2z_bra_eRpwHwEy9TA-LHQ@mail.gmail.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Date:   Mon, 16 Jul 2018 14:21:15 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1727594AbeGPJfd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 05:35:33 -0400
+Received: from mx2.suse.de ([195.135.220.15]:59092 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727182AbeGPJfc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Jul 2018 05:35:32 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id B1394AD36;
+        Mon, 16 Jul 2018 09:09:04 +0000 (UTC)
+Date:   Mon, 16 Jul 2018 11:09:01 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Waiman Long <longman@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+Message-ID: <20180716090901.GG17280@dhcp22.suse.cz>
+References: <1531330947.3260.13.camel@HansenPartnership.com>
+ <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+ <1531336913.3260.18.camel@HansenPartnership.com>
+ <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+ <1531411494.18255.6.camel@HansenPartnership.com>
+ <20180712164932.GA3475@bombadil.infradead.org>
+ <1531416080.18255.8.camel@HansenPartnership.com>
+ <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
+ <1531425435.18255.17.camel@HansenPartnership.com>
+ <20180713003614.GW2234@dastard>
 MIME-Version: 1.0
-In-Reply-To: <CAPhsuW5njYcYXxYYEUsdVWem3qwk2z_bra_eRpwHwEy9TA-LHQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 18071608-0020-0000-0000-000002A6F524
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18071608-0021-0000-0000-000020F353BA
-Message-Id: <cb4b58e1-c345-3686-d619-d6a4ed97d3e5@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-16_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=865 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807160106
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180713003614.GW2234@dastard>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Song,
+On Fri 13-07-18 10:36:14, Dave Chinner wrote:
+[...]
+> By limiting the number of negative dentries in this case, internal
+> slab fragmentation is reduced such that reclaim cost never gets out
+> of control. While it appears to "fix" the symptoms, it doesn't
+> address the underlying problem. It is a partial solution at best but
+> at worst it's another opaque knob that nobody knows how or when to
+> tune.
 
-BTW, I've sent v6. Can you please review it.
+Would it help to put all the negative dentries into its own slab cache?
 
-https://lkml.org/lkml/2018/7/16/353
+> Very few microbenchmarks expose this internal slab fragmentation
+> problem because they either don't run long enough, don't create
+> memory pressure, or don't have access patterns that mix long and
+> short term slab objects together in a way that causes slab
+> fragmentation. Run some cold cache directory traversals (git
+> status?) at the same time you are creating negative dentries so you
+> create pinned partial pages in the slab cache and see how the
+> behaviour changes....
 
-Thanks
-Ravi
-
+Agreed! Slab fragmentation is a real problem we are seeing for quite
+some time. We should try to address it rather than paper over it with
+weird knobs.
+-- 
+Michal Hocko
+SUSE Labs
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
