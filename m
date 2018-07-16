@@ -1,167 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C0307D072
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 11:26:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0E0A87D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 12:41:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729778AbeGPLw7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 07:52:59 -0400
-Received: from mail-it0-f66.google.com ([209.85.214.66]:38715 "EHLO
-        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728588AbeGPLw7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 07:52:59 -0400
-Received: by mail-it0-f66.google.com with SMTP id v71-v6so20733528itb.3
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jul 2018 04:26:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=/YPa6Sdy2/on0zZ7jbnftgKcU0iEKh1WX6C3i6WznqA=;
-        b=cXfan1LQmXXmaW8pnKXTfbic1RY8UzmGBwDKrpvZWQDj8vb09wWNfwZijU2pzEDO4P
-         bnEdgIh6mC4Px1ewjBflhJysSrDfg/OLDvwGmkWcdKxr4agyzilTuldxrpNujTEpLVMH
-         1iPjIzi9CIakSr2XH89e+orIePlUqWtsDtvYX9waO7I5xpBPLfa071/IPVxVbNJnLkgk
-         AIRqJcoeEzx0bGfsim9GjptKRxuGk+S9LrCFYY4tE7zj0eEbRB4JnwoGS4Vgn7q1TsNY
-         ohmqdbXLQnZd4IU7aTbU3qeBVtRttZI/UYU8Dgl5vat/UQFOof/sohNMGgkUQcsgH1EA
-         2acg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=/YPa6Sdy2/on0zZ7jbnftgKcU0iEKh1WX6C3i6WznqA=;
-        b=o3EttyqtNRoZOdvoNXdDrThG1OmFz1i+ZUMd7HR1RN32K3etjDBpnsE3+dYT4AdbfM
-         ONv+B1SIhZeoGeLqkWrHC566teUdEha9UPET46PAw4XNXbnF/M1NF/PUqQ3INEwdGU1m
-         i/Bpn+gsvPQOIlKmwUl1+u80EpB6uJmAu4Z088cW2y7kpIq2RCVunZJQ8xL+P77WPvaB
-         qNCAuUp5hMy8iDzosoC9fTr43MqNJ29vhz5jGHskgih232pRzMCZQll5RQ1Ces+DlO77
-         OQlEfz2woA3HMMHqRYf8P2gskTY35zjL3Wj9WoubkcnZv8MkHYbyL99fllaL5Xw8LPIN
-         J13A==
-X-Gm-Message-State: AOUpUlFN9oBf/iafjiq4w4xKTSvQkq0BViF5Ot7lNqBqbPeom2ZMoSTP
-        P8IMmpL5IE+ZkD1s6rz/k81rIyyJoC0anNJIQKN+dg==
-X-Google-Smtp-Source: AAOMgpeAjZ7RTjM0881IZwR67ZMAPa8PtFIUJSovJC0xyVDVZJIRHnA5WzMZ7kbdcidVy75aiQHFGI0jyDDaK+eJ89E=
-X-Received: by 2002:a24:db05:: with SMTP id c5-v6mr13160080itg.44.1531740360422;
- Mon, 16 Jul 2018 04:26:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:918c:0:0:0:0:0 with HTTP; Mon, 16 Jul 2018 04:25:59
- -0700 (PDT)
-In-Reply-To: <CAAeHK+wJbbCZd+-X=9oeJgsqQJiq8h+Aagz3SQMPaAzCD+pvFw@mail.gmail.com>
-References: <cover.1529507994.git.andreyknvl@google.com> <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
- <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
- <CAAeHK+yqWKTdTG+ymZ2-5XKiDANV+fmUjnQkRy-5tpgphuLJRA@mail.gmail.com> <CAAeHK+wJbbCZd+-X=9oeJgsqQJiq8h+Aagz3SQMPaAzCD+pvFw@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 16 Jul 2018 13:25:59 +0200
-Message-ID: <CAAeHK+yWF05XoU+0iuJoXAL3cWgdtxbeLoBz169yP12W4LkcQw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
+        id S1728734AbeGPNIr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 09:08:47 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53212 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728524AbeGPNIr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 09:08:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=zPEqDOFprwoXXn63mjwk15X67uYxvwTZxSf1rrlNs6M=; b=U+dn8b5vlK1cX8FCLp89UNn4R
+        IT1AyYuys9JF/h9mNac33UahDPjqSFWLtzgaIgoP+ONNNOHEL/yqsgMqnvrBb/XsR6YAUSc4MG7b8
+        NJ1I0yxOawJy4qIf7fP/QvVie/Ub3GhiscQEjE/VbeQaZMKJQS543fyYn1iay3B/DBQ2TRm9tvjhv
+        NXXo0XGf7ZvD2d5XST2nJLQWqQkm9BowyWE4TN/NUdIIFNpx8CH/nULl+cYBk8m2Kod3K6guoTRf6
+        7kiucijhA04b68KUVg/yYJjcaHoVMewJShkboMxqNPJ+hhjvEMqG0ziejIEw8TbfhVgRGT20NEai3
+        L2RYSeisQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1ff2oV-0006nN-Pe; Mon, 16 Jul 2018 12:41:15 +0000
+Date:   Mon, 16 Jul 2018 05:41:15 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Dave Chinner <david@fromorbit.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Waiman Long <longman@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-doc@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+Message-ID: <20180716124115.GA7072@bombadil.infradead.org>
+References: <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+ <1531336913.3260.18.camel@HansenPartnership.com>
+ <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+ <1531411494.18255.6.camel@HansenPartnership.com>
+ <20180712164932.GA3475@bombadil.infradead.org>
+ <1531416080.18255.8.camel@HansenPartnership.com>
+ <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
+ <1531425435.18255.17.camel@HansenPartnership.com>
+ <20180713003614.GW2234@dastard>
+ <20180716090901.GG17280@dhcp22.suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180716090901.GG17280@dhcp22.suse.cz>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 28, 2018 at 9:30 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> On Wed, Jun 27, 2018 at 5:05 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
->> On Tue, Jun 26, 2018 at 7:29 PM, Catalin Marinas
->> <catalin.marinas@arm.com> wrote:
->>> While I support this work, as a maintainer I'd like to understand
->>> whether we'd be in a continuous chase of ABI breaks with every kernel
->>> release or we have a better way to identify potential issues. Is there
->>> any way to statically analyse conversions from __user ptr to long for
->>> example? Or, could we get the compiler to do this for us?
->>
->>
->> OK, got it, I'll try to figure out a way to find these conversions.
->
-> I've prototyped a checker on top of clang static analyzer (initially
-> looked at sparse, but couldn't find any documentation or examples).
-> The results are here [1], search for "warning: user pointer cast".
-> Sharing in case anybody wants to take a look, will look at them myself
-> tomorrow.
->
-> [1] https://gist.github.com/xairy/433edd5c86456a64026247cb2fef2115
+On Mon, Jul 16, 2018 at 11:09:01AM +0200, Michal Hocko wrote:
+> On Fri 13-07-18 10:36:14, Dave Chinner wrote:
+> [...]
+> > By limiting the number of negative dentries in this case, internal
+> > slab fragmentation is reduced such that reclaim cost never gets out
+> > of control. While it appears to "fix" the symptoms, it doesn't
+> > address the underlying problem. It is a partial solution at best but
+> > at worst it's another opaque knob that nobody knows how or when to
+> > tune.
+> 
+> Would it help to put all the negative dentries into its own slab cache?
 
-So the checker reports ~100 different places where a __user pointer
-being casted. I've looked through them and found 3 places where we
-need to add untagging. Source code lines below come from 4.18-rc2+
-(6f0d349d).
-
-Place 1:
-
-arch/arm64/mm/fault.c:302:34: warning: user pointer cast
-current->thread.fault_address = (unsigned long)info->si_addr;
-
-Compare a pointer with TASK_SIZE (1 << 48) to check whether it lies in
-the kernel or in user space. Need to untag the address before
-performing a comparison.
-
-Place 2:
-
-fs/namespace.c:2736:21: warning: user pointer cast
-size = TASK_SIZE - (unsigned long)data;
-
-A similar check performed by subtracting a pointer from TASK_SIZE.
-Need to untag before subtracting.
-
-Place 3:
-
-drivers/usb/core/devio.c:1407:29: warning: user pointer cast
-unsigned long uurb_start = (unsigned long)uurb->buffer;
-drivers/usb/core/devio.c:1636:31: warning: user pointer cast
-unsigned long uurb_start = (unsigned long)uurb->buffer;
-drivers/usb/core/devio.c:1715:30: warning: user pointer cast
-unsigned long uurb_start = (unsigned long)uurb->buffer;
-
-The device keeps list of mmapped areas and searches them for provided
-__user pointer. Need to untag before searching.
-
-There are also a few cases of memory syscalls operating on __user
-pointers instead of unsigned longs like mmap:
-
-ipc/shm.c:1355:23: warning: user pointer cast
-unsigned long addr = (unsigned long)shmaddr;
-ipc/shm.c:1566:23: warning: user pointer cast
-unsigned long addr = (unsigned long)shmaddr;
-mm/migrate.c:1586:10: warning: user pointer cast
-addr = (unsigned long)p;
-mm/migrate.c:1660:24: warning: user pointer cast
-unsigned long addr = (unsigned long)(*pages);
-
-If we don't add untagging to mmap, we probably don't need it here.
-
-The rest of reported places look fine as is. Full annotated results of
-running the checker are here [2].
-
-I'll add the 3 patches with fixes to v5 of this patchset.
-
-Catalin, WDYT?
-
-[2] https://gist.github.com/xairy/aabda57741919df67d79895356ba9b58
+Maybe the dcache should be more sensitive to its own needs.  In __d_alloc,
+it could check whether there are a high proportion of negative dentries
+and start recycling some existing negative dentries.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
