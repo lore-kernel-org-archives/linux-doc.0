@@ -5,34 +5,34 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D7957D071
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 14:52:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A7FB47DE7F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 14:53:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727573AbeGPPUQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 11:20:16 -0400
-Received: from smtprelay2.synopsys.com ([198.182.60.111]:46657 "EHLO
+        id S1730821AbeGPPUl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 11:20:41 -0400
+Received: from smtprelay.synopsys.com ([198.182.60.111]:46672 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729593AbeGPPUP (ORCPT
+        with ESMTP id S1729827AbeGPPUP (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 11:20:15 -0400
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 2C82110C1A61;
-        Mon, 16 Jul 2018 07:52:28 -0700 (PDT)
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 3AE0810C1A72;
+        Mon, 16 Jul 2018 07:52:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1531752748; bh=HtlYz51v/dMT+BWkZXvXcXvkxrvI8KkJ/TYasi8BwYo=;
+        t=1531752749; bh=mzR00LFsl8gMVW8v36JOBhwTfUsaib+grVsFlvW8tG8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=g/KNDXKajFAkA3zg7t8dhkwJNpDhjpdlDtaIGIHZ7ohtcizMr72hMYE5SKfKdK3kQ
-         Uon3iIw0gwN3Va3FiYxg4572eMkR04iH6FSF+ZSBVpuqt+IqodnnMnoVZCKr7l5Nyt
-         lz8HTXdyN11U2UW0ZEX4zvzfdrAA87B4m2Kw4INgOVLAM8+XfozXqr6pSLL/OCGEUW
-         jhky4FCJWbjZRd+d6isJGfnhshwurOuuCo2roRnZI+TY2I+zkr1+xlfKivACr5EFsx
-         pPMQCHQIvd1ASJGdORHKxC4zqcJMbDSLh1AWzlOcOE6+EffquClMpDUaDalC1zZdHC
-         rq0tdQVlNwqvw==
+        b=B8mluuCn7DGVHI0RpStKqd7HYYXfucxCHf++mMLQfoseTwNsLvdzaAT1KlVMCNiV4
+         CSfJMwzaReCHZ4AJQAPo+jQ+CW/7ysLFDhGrfGOiBMUdUbD7Y1iR3AnBLXYvRXW9L2
+         aDlJTQ2EQpfsdp38K8RudDvJWsX7jI+jDDRmB8mk/ur6yx2oqayNUlbyMmLGnRfYut
+         5HLIRGDITB4qJMDGM+9vUhBqIN9du2tMX6UyC+/qW0+6wE0nxNW0AZhzp0zCuTPYQE
+         rG8ZimFiPSsaR8KV7tZrzt9q9fG6I8cwlEWx1rJKT6/dROYOj3P8+TAbJVdieuO1jU
+         Pndv/H3rEh7HA==
 Received: from de02.synopsys.com (germany.internal.synopsys.com [10.225.17.21])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 82E5A304D;
-        Mon, 16 Jul 2018 07:52:27 -0700 (PDT)
+        by mailhost.synopsys.com (Postfix) with ESMTP id E516D49F5;
+        Mon, 16 Jul 2018 07:52:28 -0700 (PDT)
 Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
-        by de02.synopsys.com (Postfix) with ESMTP id AD6A63DCC1;
-        Mon, 16 Jul 2018 16:52:26 +0200 (CEST)
+        by de02.synopsys.com (Postfix) with ESMTP id 92DF23DCE4;
+        Mon, 16 Jul 2018 16:52:27 +0200 (CEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
         joao.pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
@@ -41,9 +41,9 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v11 01/12] PCI: dwc: Fix EP link notification implementation
-Date:   Mon, 16 Jul 2018 16:52:13 +0200
-Message-Id: <3cefa89ce2e496e7627bd3c7ade93348230adc14.1531751641.git.gustavo.pimentel@synopsys.com>
+Subject: [PATCH v11 11/12] tools: PCI: Add MSI-X support
+Date:   Mon, 16 Jul 2018 16:52:23 +0200
+Message-Id: <54f46aa3181cb1a34983ba72fcda02251f93baf2.1531751641.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1531751641.git.gustavo.pimentel@synopsys.com>
 References: <cover.1531751641.git.gustavo.pimentel@synopsys.com>
@@ -54,83 +54,243 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move specific features settings from EP shared code
-(pcie-designware-ep.c) to the driver (pcie-designware-plat.c).
+Add MSI-X support to pcitest tool.
 
-Previous implementation disables the EP link notification
-by default for all SoCs that uses EP DesignWare IP, which affects
-directly the dra7xx and artpec6 SoCs.
+Modify pcitest.sh script to accommodate MSI-X interrupt tests.
+
+Update documentation accordingly.
 
 Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
 ---
-Change v8->v9:
- - Created patch file.
-Change v9->v10:
+Change v1->v2:
+ - Allow IRQ type driver reconfiguring in runtime, follwing Kishon's
+suggestion.
+Change v2->v3:
  - Nothing changed, just to follow the patch set version.
+Change v3->v4:
+ - Rebased to Lorenzo's master branch v4.18-rc1.
+Change v4->v5:
+ - Nothing changed, just to follow the patch set version.
+Change v5->v6:
+ - Moved PCITEST_MSIX ioctl entry to patch #8.
+ - Moved PCITEST_SET_IRQTYPE and PCITEST_GET_IRQTYPE ioctl entries
+to patch #9.
+Change v6->v7:
+ - Nothing changed, just to follow the patch set version.
+Change v7->v8:
+ - Re-sending the patch series.
+Change v8->v9:
+ - Nothing changed, just to follow the patch set version.
+Change v9->v10:
+ - Updated documentation.
 Change v10->v11:
- - Missed Kishon acknowledge.
+ - Nothing changed, just to follow the patch set version.
 
- drivers/pci/controller/dwc/pcie-designware-ep.c   | 14 ++++++--------
- drivers/pci/controller/dwc/pcie-designware-plat.c |  3 +++
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ Documentation/PCI/endpoint/pci-test-howto.txt | 36 +++++++++++--------
+ tools/pci/pcitest.c                           | 51 ++++++++++++++++++++++++++-
+ tools/pci/pcitest.sh                          | 15 ++++++++
+ 3 files changed, 87 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index 8650416..04092a7 100644
---- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -386,15 +386,18 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
- 		return -ENOMEM;
- 	ep->outbound_addr = addr;
+diff --git a/Documentation/PCI/endpoint/pci-test-howto.txt b/Documentation/PCI/endpoint/pci-test-howto.txt
+index 65f1a13..e40cf0f 100644
+--- a/Documentation/PCI/endpoint/pci-test-howto.txt
++++ b/Documentation/PCI/endpoint/pci-test-howto.txt
+@@ -121,7 +121,9 @@ following commands.
  
--	if (ep->ops->ep_init)
--		ep->ops->ep_init(ep);
--
- 	epc = devm_pci_epc_create(dev, &epc_ops);
- 	if (IS_ERR(epc)) {
- 		dev_err(dev, "Failed to create epc device\n");
- 		return PTR_ERR(epc);
+ 	Interrupt tests
+ 
++	SET IRQ TYPE TO LEGACY:         OKAY
+ 	LEGACY IRQ:     NOT OKAY
++	SET IRQ TYPE TO MSI:            OKAY
+ 	MSI1:           OKAY
+ 	MSI2:           OKAY
+ 	MSI3:           OKAY
+@@ -154,24 +156,30 @@ following commands.
+ 	MSI30:          NOT OKAY
+ 	MSI31:          NOT OKAY
+ 	MSI32:          NOT OKAY
+-	MSIX1:          OKAY
+-	MSIX2:          OKAY
+-	MSIX3:          OKAY
+-	MSIX4:          OKAY
+-	MSIX5:          OKAY
+-	MSIX6:          OKAY
+-	MSIX7:          OKAY
+-	MSIX8:          OKAY
+-	MSIX9:          NOT OKAY
+-	MSIX10:         NOT OKAY
+-	MSIX11:         NOT OKAY
+-	MSIX12:         NOT OKAY
+-	MSIX13:         NOT OKAY
++	SET IRQ TYPE TO MSI-X:          OKAY
++	MSI-X1:         OKAY
++	MSI-X2:         OKAY
++	MSI-X3:         OKAY
++	MSI-X4:         OKAY
++	MSI-X5:         OKAY
++	MSI-X6:         OKAY
++	MSI-X7:         OKAY
++	MSI-X8:         OKAY
++	MSI-X9:         NOT OKAY
++	MSI-X10:        NOT OKAY
++	MSI-X11:        NOT OKAY
++	MSI-X12:        NOT OKAY
++	MSI-X13:        NOT OKAY
++	MSI-X14:        NOT OKAY
++	MSI-X15:        NOT OKAY
++	MSI-X16:        NOT OKAY
+ 	[...]
+-	MSIX2048:       NOT OKAY
++	MSI-X2047:      NOT OKAY
++	MSI-X2048:      NOT OKAY
+ 
+ 	Read Tests
+ 
++	SET IRQ TYPE TO MSI:            OKAY
+ 	READ (      1 bytes):           OKAY
+ 	READ (   1024 bytes):           OKAY
+ 	READ (   1025 bytes):           OKAY
+diff --git a/tools/pci/pcitest.c b/tools/pci/pcitest.c
+index 9074b47..af146bb 100644
+--- a/tools/pci/pcitest.c
++++ b/tools/pci/pcitest.c
+@@ -31,12 +31,17 @@
+ #define BILLION 1E9
+ 
+ static char *result[] = { "NOT OKAY", "OKAY" };
++static char *irq[] = { "LEGACY", "MSI", "MSI-X" };
+ 
+ struct pci_test {
+ 	char		*device;
+ 	char		barnum;
+ 	bool		legacyirq;
+ 	unsigned int	msinum;
++	unsigned int	msixnum;
++	int		irqtype;
++	bool		set_irqtype;
++	bool		get_irqtype;
+ 	bool		read;
+ 	bool		write;
+ 	bool		copy;
+@@ -65,6 +70,24 @@ static int run_test(struct pci_test *test)
+ 			fprintf(stdout, "%s\n", result[ret]);
  	}
  
-+	ep->epc = epc;
-+	epc_set_drvdata(epc, ep);
++	if (test->set_irqtype) {
++		ret = ioctl(fd, PCITEST_SET_IRQTYPE, test->irqtype);
++		fprintf(stdout, "SET IRQ TYPE TO %s:\t\t", irq[test->irqtype]);
++		if (ret < 0)
++			fprintf(stdout, "FAILED\n");
++		else
++			fprintf(stdout, "%s\n", result[ret]);
++	}
 +
-+	if (ep->ops->ep_init)
-+		ep->ops->ep_init(ep);
++	if (test->get_irqtype) {
++		ret = ioctl(fd, PCITEST_GET_IRQTYPE);
++		fprintf(stdout, "GET IRQ TYPE:\t\t");
++		if (ret < 0)
++			fprintf(stdout, "FAILED\n");
++		else
++			fprintf(stdout, "%s\n", irq[ret]);
++	}
 +
- 	ret = of_property_read_u8(np, "max-functions", &epc->max_functions);
- 	if (ret < 0)
- 		epc->max_functions = 1;
-@@ -413,11 +416,6 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
- 		return -ENOMEM;
+ 	if (test->legacyirq) {
+ 		ret = ioctl(fd, PCITEST_LEGACY_IRQ, 0);
+ 		fprintf(stdout, "LEGACY IRQ:\t");
+@@ -83,6 +106,15 @@ static int run_test(struct pci_test *test)
+ 			fprintf(stdout, "%s\n", result[ret]);
  	}
  
--	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
--	EPC_FEATURE_SET_BAR(epc->features, BAR_0);
--
--	ep->epc = epc;
--	epc_set_drvdata(epc, ep);
- 	dw_pcie_setup(pci);
- 
- 	return 0;
-diff --git a/drivers/pci/controller/dwc/pcie-designware-plat.c b/drivers/pci/controller/dwc/pcie-designware-plat.c
-index 5937fed..0ce3440 100644
---- a/drivers/pci/controller/dwc/pcie-designware-plat.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-plat.c
-@@ -70,10 +70,13 @@ static const struct dw_pcie_ops dw_pcie_ops = {
- static void dw_plat_pcie_ep_init(struct dw_pcie_ep *ep)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	struct pci_epc *epc = ep->epc;
- 	enum pci_barno bar;
- 
- 	for (bar = BAR_0; bar <= BAR_5; bar++)
- 		dw_pcie_ep_reset_bar(pci, bar);
++	if (test->msixnum > 0 && test->msixnum <= 2048) {
++		ret = ioctl(fd, PCITEST_MSIX, test->msixnum);
++		fprintf(stdout, "MSI-X%d:\t\t", test->msixnum);
++		if (ret < 0)
++			fprintf(stdout, "TEST FAILED\n");
++		else
++			fprintf(stdout, "%s\n", result[ret]);
++	}
 +
-+	epc->features |= EPC_FEATURE_NO_LINKUP_NOTIFIER;
- }
+ 	if (test->write) {
+ 		ret = ioctl(fd, PCITEST_WRITE, test->size);
+ 		fprintf(stdout, "WRITE (%7ld bytes):\t\t", test->size);
+@@ -133,7 +165,7 @@ int main(int argc, char **argv)
+ 	/* set default endpoint device */
+ 	test->device = "/dev/pci-endpoint-test.0";
  
- static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+-	while ((c = getopt(argc, argv, "D:b:m:lrwcs:")) != EOF)
++	while ((c = getopt(argc, argv, "D:b:m:x:i:Ilrwcs:")) != EOF)
+ 	switch (c) {
+ 	case 'D':
+ 		test->device = optarg;
+@@ -151,6 +183,20 @@ int main(int argc, char **argv)
+ 		if (test->msinum < 1 || test->msinum > 32)
+ 			goto usage;
+ 		continue;
++	case 'x':
++		test->msixnum = atoi(optarg);
++		if (test->msixnum < 1 || test->msixnum > 2048)
++			goto usage;
++		continue;
++	case 'i':
++		test->irqtype = atoi(optarg);
++		if (test->irqtype < 0 || test->irqtype > 2)
++			goto usage;
++		test->set_irqtype = true;
++		continue;
++	case 'I':
++		test->get_irqtype = true;
++		continue;
+ 	case 'r':
+ 		test->read = true;
+ 		continue;
+@@ -173,6 +219,9 @@ int main(int argc, char **argv)
+ 			"\t-D <dev>		PCI endpoint test device {default: /dev/pci-endpoint-test.0}\n"
+ 			"\t-b <bar num>		BAR test (bar number between 0..5)\n"
+ 			"\t-m <msi num>		MSI test (msi number between 1..32)\n"
++			"\t-x <msix num>	\tMSI-X test (msix number between 1..2048)\n"
++			"\t-i <irq type>	\tSet IRQ type (0 - Legacy, 1 - MSI, 2 - MSI-X)\n"
++			"\t-I			Get current IRQ type configured\n"
+ 			"\t-l			Legacy IRQ test\n"
+ 			"\t-r			Read buffer test\n"
+ 			"\t-w			Write buffer test\n"
+diff --git a/tools/pci/pcitest.sh b/tools/pci/pcitest.sh
+index 77e8c85..75ed48f 100644
+--- a/tools/pci/pcitest.sh
++++ b/tools/pci/pcitest.sh
+@@ -16,7 +16,10 @@ echo
+ echo "Interrupt tests"
+ echo
+ 
++pcitest -i 0
+ pcitest -l
++
++pcitest -i 1
+ msi=1
+ 
+ while [ $msi -lt 33 ]
+@@ -26,9 +29,21 @@ do
+ done
+ echo
+ 
++pcitest -i 2
++msix=1
++
++while [ $msix -lt 2049 ]
++do
++        pcitest -x $msix
++        msix=`expr $msix + 1`
++done
++echo
++
+ echo "Read Tests"
+ echo
+ 
++pcitest -i 1
++
+ pcitest -r -s 1
+ pcitest -r -s 1024
+ pcitest -r -s 1025
 -- 
 2.7.4
 
