@@ -1,177 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,TVD_PH_BODY_ACCOUNTS_PRE
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DC2FD7D071
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Jul 2018 10:26:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 97A247D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 04:08:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726244AbeGOKsd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 15 Jul 2018 06:48:33 -0400
-Received: from www381.your-server.de ([78.46.137.84]:43979 "EHLO
-        www381.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726106AbeGOKsd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Jul 2018 06:48:33 -0400
-Received: from [78.46.172.3] (helo=sslproxy06.your-server.de)
-        by www381.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.85_2)
-        (envelope-from <lars@metafoo.de>)
-        id 1feeDx-0006Fw-Mg; Sun, 15 Jul 2018 12:25:53 +0200
-Received: from [188.174.116.68] (helo=[192.168.178.33])
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89)
-        (envelope-from <lars@metafoo.de>)
-        id 1feeDx-0005l9-DP; Sun, 15 Jul 2018 12:25:53 +0200
-Subject: Re: [PATCH] [v2] Documentation: document ktime_get_*() APIs
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Gregor Boirie <gregor.boirie@parrot.com>,
-        Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, david@fromorbit.com,
-        John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, willy@infradead.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org,
+        id S1727199AbeGPEdT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 00:33:19 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:37892 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726612AbeGPEdT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 00:33:19 -0400
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id w6G47dCf001096;
+        Sun, 15 Jul 2018 23:07:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1531714059;
+        bh=8ECphnHKzNmGtvMBcvVsbUpeSR2t31xtgl7GgHnpMuc=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=vmCtlqhV9KIzwoNxuXrZYO1gwDMKAzGg/A7oRs7wdJZ/mtEnTMaB3kcdLc6iMTwPk
+         tmjyRJrUnVK0hOavWhae6D5DvtJ3MPLzbNWZrIUwsC00FMOmnMeOu4UU4dwJ83HdKW
+         ZaA4dz/MyeIm0yLc6tfchcWaeWnBdamlU/6vK0Bs=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w6G47dRP031661;
+        Sun, 15 Jul 2018 23:07:39 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Sun, 15
+ Jul 2018 23:07:38 -0500
+Received: from dlep32.itg.ti.com (157.170.170.100) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Sun, 15 Jul 2018 23:07:38 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dlep32.itg.ti.com (8.14.3/8.13.8) with ESMTP id w6G47YlG006835;
+        Sun, 15 Jul 2018 23:07:35 -0500
+Subject: Re: [PATCH v9 00/12] Add MSI-X support on pcitest tool
+To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+References: <cover.1531155252.git.gustavo.pimentel@synopsys.com>
+ <20180713132513.GD18515@red-moon>
+ <aabf72f0-e325-b5d2-0d2e-048acb6c1721@synopsys.com>
+CC:     "bhelgaas@google.com" <bhelgaas@google.com>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "adouglas@cadence.com" <adouglas@cadence.com>,
+        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
+        "shawn.lin@rock-chips.com" <shawn.lin@rock-chips.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20180710144737.1136856-1-arnd@arndb.de>
- <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
-From:   Lars-Peter Clausen <lars@metafoo.de>
-Message-ID: <2d5fd2ac-6f82-557a-326b-d8ce0f293ef2@metafoo.de>
-Date:   Sun, 15 Jul 2018 12:25:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <cf97fd13-568b-cd45-fcfb-f91d52a907bf@ti.com>
+Date:   Mon, 16 Jul 2018 09:37:34 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdY5oMG0WknSEnG1khTTm_UKwWwdAbAthA54geGhqgyXpQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: lars@metafoo.de
-X-Virus-Scanned: Clear (ClamAV 0.100.0/24754/Sun Jul 15 06:52:15 2018)
+In-Reply-To: <aabf72f0-e325-b5d2-0d2e-048acb6c1721@synopsys.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/13/2018 09:24 AM, Linus Walleij wrote:
-> On Tue, Jul 10, 2018 at 4:48 PM Arnd Bergmann <arnd@arndb.de> wrote:
+Hi,
+
+On Friday 13 July 2018 09:29 PM, Gustavo Pimentel wrote:
+> Hi Lorenzo,
 > 
->> As Dave Chinner points out, we don't have a proper documentation for the
->> ktime_get() family of interfaces, making it rather unclear which of the
->> over 30 (!) interfaces one should actually use in a driver or elsewhere
->> in the kernel.
+> On 13/07/2018 14:25, Lorenzo Pieralisi wrote:
+>> On Mon, Jul 09, 2018 at 06:42:38PM +0100, Gustavo Pimentel wrote:
+>>> Patch series made against Lorenzo's master branch.
+>>>
+>>> Fix EP link notification implementation.
+>>>
+>>> Add MSI-X support on pcitest tool.
+>>>
+>>> Add new callbacks methods and handlers to trigger the MSI-X interrupts
+>>> on the EP DesignWare IP driver.
+>>>
+>>> Allow to set/get MSI-X EP maximum capability number.
+>>>
+>>> Rework on set/get and triggering MSI methods on EP DesignWare IP driver.
+>>>
+>>> Add a new input parameter (msix) to pcitest tool to test MSI-X feature.
+>>>
+>>> Update the pcitest.sh script to support MSI-X feature tests.
+>>>
+>>> Gustavo Pimentel (12):
+>>>   PCI: dwc: Fix EP link notification implementation
+>>>   PCI: endpoint: Add MSI-X interfaces
+>>>   PCI: Update xxx_pcie_ep_raise_irq() and pci_epc_raise_irq() signatures
+>>>   PCI: dwc: Add MSI-X callbacks handler
+>>>   PCI: dwc: Rework MSI callbacks handler
+>>>   PCI: dwc: Add legacy interrupt callback handler
+>>>   pci-epf-test/pci_endpoint_test: Cleanup PCI_ENDPOINT_TEST memspace
+>>>   pci-epf-test/pci_endpoint_test: Use irq_type module parameter
+>>>   pci-epf-test/pci_endpoint_test: Add MSI-X support
+>>>   pci_endpoint_test: Add 2 ioctl commands
+>>>   tools: PCI: Add MSI-X support
+>>>   PCI: endpoint: Add MSI set maximum restriction
+>>>
+>>>  Documentation/PCI/endpoint/pci-test-function.txt  |   8 +-
+>>>  Documentation/ioctl/ioctl-number.txt              |   1 +
+>>>  Documentation/misc-devices/pci-endpoint-test.txt  |   6 +
+>>>  drivers/misc/pci_endpoint_test.c                  | 260 ++++++++++++++++------
+>>>  drivers/pci/controller/dwc/pci-dra7xx.c           |   2 +-
+>>>  drivers/pci/controller/dwc/pcie-artpec6.c         |   2 +-
+>>>  drivers/pci/controller/dwc/pcie-designware-ep.c   | 217 ++++++++++++++++--
+>>>  drivers/pci/controller/dwc/pcie-designware-plat.c |  11 +-
+>>>  drivers/pci/controller/dwc/pcie-designware.h      |  31 ++-
+>>>  drivers/pci/controller/pcie-cadence-ep.c          |   3 +-
+>>>  drivers/pci/controller/pcie-rockchip-ep.c         |   2 +-
+>>>  drivers/pci/endpoint/functions/pci-epf-test.c     |  86 +++++--
+>>>  drivers/pci/endpoint/pci-ep-cfs.c                 |  24 ++
+>>>  drivers/pci/endpoint/pci-epc-core.c               |  68 +++++-
+>>>  include/linux/pci-epc.h                           |  16 +-
+>>>  include/linux/pci-epf.h                           |   1 +
+>>>  include/uapi/linux/pcitest.h                      |   3 +
+>>>  tools/pci/pcitest.c                               |  51 ++++-
+>>>  tools/pci/pcitest.sh                              |  15 ++
+>>>  19 files changed, 664 insertions(+), 143 deletions(-)
 >>
->> I wrote up an explanation from how I personally see the interfaces,
->> documenting what each of the functions do and hopefully making it a bit
->> clearer which should be used where.
+>> Gustavo, Kishon,
 >>
->> This is the first time I tried writing .rst format documentation, so
->> in addition to any mistakes in the content, I probably also introduce
->> nonstandard formatting ;-)
->>
->> I first tried to add an extra section to
->> Documentation/timers/timekeeping.txt, but this is currently not included
->> in the generated API, and it seems useful to have the API docs as part
->> of what gets generated in
->> https://www.kernel.org/doc/html/latest/core-api/index.html#core-utilities
->> instead, so I started a new file there.
->>
->> I also considered adding the documentation inline in the
->> include/linux/timekeeping.h header, but couldn't figure out how to do
->> that in a way that would result both in helpful inline comments as
->> well as readable html output, so I settled for the latter, with
->> a small note pointing to it from the header.
->>
->> Cc: Dave Chinner <david@fromorbit.com>
->> Cc: John Stultz <john.stultz@linaro.org>
->> Cc: Thomas Gleixner <tglx@linutronix.de>
->> Cc: Stephen Boyd <sboyd@kernel.org>
->> Cc: Linus Walleij <linus.walleij@linaro.org>
->> Tested-by: Randy Dunlap <rdunlap@infradead.org>
->> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->> ---
->> v2: minor changes suggested by Randy
+>> it seems like this series has been thoroughly reviewed and it is
+>> ready to go, please let me know if there is any pending change.
 > 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> 
-> This brings into question commit bc2b7dab629a5
-> "iio:core: timestamping clock selection support"
-> that has bothered me for some time. Now that is ABI, but
-> we might be able to do some recommendations based on the
-> time base and have a sensible default moving forward.
-> 
-> As I want to make that clock base parsing similar for GPIO
-> I first thought it was a good idea to support the same clocks,
-> but now it seems like a bad idea.
-> 
-> IIRC you told me to simply hammer down the clock that
-> makes the most sense.
-> 
-> At the same time userspace libraries (such as GNU radio) will
-> be confused if they can't match the timestamping clocks,
-> as correlating GPIO and IIO events is something they will
-> want to do. And I guess these clocks are there for a reason.
-> 
-> So asking Lars-Peter and Gregor: from a userspace point
-> of view, what makes most sense for the usecases you
-> have seen? Having one consistent time base or all of these
-> as we currently have? Different clocks under different
-> circumstances?
+> I just sent the patch # 10 based on Kishon's latest review.
+> For me it's nearly perfect. :)
 
-It is a question of correlation. What other events do you want to correlate
-your events to.
+I got to test this series today and I found one issue.
 
-If you only want to correlate events to other events from the same source
-(i.e. know the amount of time that has elapsed between two events) the best
-in my opinion is a monotonic clock. You can't account for changes to the
-realtime clock and it will screw up your measurements when it changes in
-between two events.
+use this sequence:
+1) pcitest -i 2 /* change to MSIX irq type */
+   For platforms that doesn't support MSIX, get the following message
+   pci-endpoint-test 0000:01:00.0: Failed to get MSI-X interrupts
+   SET IRQ TYPE TO MSI-X:          NOT OKAY
 
-Now for monotonic clocks there are two variants available MONOTONIC and
-BOOTTIME. BOOTTIME will account for time that the device has been in
-suspend, MONOTONIC will not. Most applications will not care for either. But
-those which care about it and want to measure the duration between two
-events will most likely prefer BOOTTIME, especially if the wakeup event was
-caused by the device itself.
+   However after this, pci_endpoint_test_set_irq() will invoke
+   pci_endpoint_test_free_irq_vectors() and pci_endpoint_test_release_irq().
+   This will free previously allocated MSI irq vectors.
 
-So in my opinion BOOTTIME is the most sensible default.
+2) pcitest -i 1 /* change to MSI irq type */
 
-REALTIME should probably also be an option in case you want to correlate
-your events to other events for which only a REALTIME timestamp is available
-or when the absolute time matters rather than the relative time. This could
-for example be rare events and you want to log time and date when they happened.
+   This will not invoke pci_endpoint_test_alloc_irq_vectors() and
+   pci_endpoint_test_request_irq() since now "if (irq_type == req_irq_type)"
+   will return true.
 
-Right now I can't think of a usecase where soembody would prefer MONOTONIC
-over BOOTTIME, but I'm sure there are some.
+   After this MSI tests will fail.
 
-TAI and MONOTONIC_RAW are kind of the same thing. They are more immune to
-changes of the exact duration of what is reported as a second. I'm sure
-there are special applications that would prefer this over REALTIME and
-MONOTONIC.
+Other than this failing sequence, the series looks good to me.
 
-The only thing that is probably not really needed are the coarse variants.
-But even there I could see people arguing that it serves their performance
-and precision requirements better.
-
-And to make this a lot more complicated many applications, especially in the
-high-speed area, don't really care about the system time as reported by the
-CPU (or a on-SoC timer) at all. They care about the time as reported by a
-clock that is synchronous to the signal processing itself.
-
-Different oscillators in a system will run at slightly different
-frequencies, even if they are nominal the same frequency. So if you have 1
-counter that says 1 second has elapsed another might say that 1.0001 seconds
-have elapsed. If you do timestamping using a clock that is not synchronous
-to your signal processing clock your results will be imprecise.
-
-So that is something to keep in mind. Beyond just the system clock we might
-want to have the ability to assign other timestamp sources in a way that is
-consistent across subsystems. So that we can for example as you said
-correlate events between IIO and GPIO.
+Thanks
+Kishon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
