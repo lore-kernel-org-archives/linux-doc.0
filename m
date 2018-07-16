@@ -4,77 +4,94 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E81177D072
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 09:12:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 13F057D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 09:36:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727594AbeGPJiw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 05:38:52 -0400
-Received: from mx2.suse.de ([195.135.220.15]:59936 "EHLO mx1.suse.de"
+        id S1727850AbeGPKDG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 06:03:06 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35264 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727022AbeGPJiw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Jul 2018 05:38:52 -0400
+        id S1727606AbeGPKDG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Jul 2018 06:03:06 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 4FA41AE4C;
-        Mon, 16 Jul 2018 09:12:24 +0000 (UTC)
-Date:   Mon, 16 Jul 2018 11:12:22 +0200
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 0FF9AAD24;
+        Mon, 16 Jul 2018 09:36:32 +0000 (UTC)
+Date:   Mon, 16 Jul 2018 11:36:30 +0200
 From:   Michal Hocko <mhocko@kernel.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Waiman Long <longman@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+To:     David Rientjes <rientjes@google.com>
+Cc:     Roman Gushchin <guro@fb.com>, linux-mm@vger.kernel.org,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-Message-ID: <20180716091222.GI17280@dhcp22.suse.cz>
-References: <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
- <1531336913.3260.18.camel@HansenPartnership.com>
- <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
- <1531411494.18255.6.camel@HansenPartnership.com>
- <20180712164932.GA3475@bombadil.infradead.org>
- <1531416080.18255.8.camel@HansenPartnership.com>
- <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
- <1531425435.18255.17.camel@HansenPartnership.com>
- <20180713003614.GW2234@dastard>
- <20180716090901.GG17280@dhcp22.suse.cz>
+        Tejun Heo <tj@kernel.org>, kernel-team@fb.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v13 0/7] cgroup-aware OOM killer
+Message-ID: <20180716093630.GJ17280@dhcp22.suse.cz>
+References: <20171130152824.1591-1-guro@fb.com>
+ <20180605114729.GB19202@dhcp22.suse.cz>
+ <alpine.DEB.2.21.1807131438380.194789@chino.kir.corp.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180716090901.GG17280@dhcp22.suse.cz>
+In-Reply-To: <alpine.DEB.2.21.1807131438380.194789@chino.kir.corp.google.com>
 User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 16-07-18 11:09:01, Michal Hocko wrote:
-> On Fri 13-07-18 10:36:14, Dave Chinner wrote:
-> [...]
-> > By limiting the number of negative dentries in this case, internal
-> > slab fragmentation is reduced such that reclaim cost never gets out
-> > of control. While it appears to "fix" the symptoms, it doesn't
-> > address the underlying problem. It is a partial solution at best but
-> > at worst it's another opaque knob that nobody knows how or when to
-> > tune.
+On Fri 13-07-18 14:59:59, David Rientjes wrote:
+> On Tue, 5 Jun 2018, Michal Hocko wrote:
 > 
-> Would it help to put all the negative dentries into its own slab cache?
+> > 1) comparision root with tail memcgs during the OOM killer is not fair
+> > because we are comparing tasks with memcgs.
+> > 
+> > This is true, but I do not think this matters much for workloads which
+> > are going to use the feature. Why? Because the main consumers of the new
+> > feature seem to be containers which really need some fairness when
+> > comparing _workloads_ rather than processes. Those are unlikely to
+> > contain any significant memory consumers in the root memcg. That would
+> > be mostly common infrastructure.
+> > 
+> 
+> There are users (us) who want to use the feature and not all processes are 
+> attached to leaf mem cgroups.  The functionality can be provided in a 
+> generally useful way that doesn't require any specific hierarchy, and I 
+> implemented this in my patch series at 
+> https://marc.info/?l=linux-mm&m=152175563004458&w=2.  That proposal to fix 
+> *all* of my concerns with the cgroup-aware oom killer as it sits in -mm, 
+> in it's entirety, only extends it so it is generally useful and does not 
+> remove any functionality.  I'm not sure why we are discussing ways of 
+> moving forward when that patchset has been waiting for review for almost 
+> four months and, to date, I haven't seen an objection to.
 
-We couldn't http://lkml.kernel.org/r/20180714173516.uumlhs4wgfgrlc32@devuan
-Sorry I haven't noticed the other line of discussion
+Well, I didn't really get to your patches yet. The last time I've
+checked I had some pretty serious concerns about the consistency of your
+proposal. Those might have been fixed in the lastest version of your
+patchset I haven't seen. But I still strongly suspect that you are
+largerly underestimating the complexity of more generic oom policies
+which you are heading to.
+
+Considering user API failures from the past (oom_*adj fiasco for
+example) suggests that we should start with smaller steps and only
+provide a clear and simple API. oom_group is such a simple and
+semantically consistent thing which is the reason I am OK with it much
+more than your "we can be more generic" approach. I simply do not trust
+we can agree on sane and consistent api in a reasonable time.
+
+And it is quite mind boggling that a simpler approach has been basically
+blocked for months because there are some concerns for workloads which
+are not really asking for the feature. Sure your usecase might need to
+handle root memcg differently. That is a fair point but that shouldn't
+really block containers users who can use the proposed solution without
+any further changes. If we ever decide to handle root memcg differently
+we are free to do so because the oom selection policy is not carved in
+stone by any api.
+ 
+[...]
 -- 
 Michal Hocko
 SUSE Labs
