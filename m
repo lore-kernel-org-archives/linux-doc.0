@@ -5,83 +5,61 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B957B7D072
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 17:18:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 316B77D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 18:28:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727652AbeGPRqU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 13:46:20 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:37002 "EHLO ale.deltatee.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727479AbeGPRqU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Jul 2018 13:46:20 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1ff77l-0005gj-8L; Mon, 16 Jul 2018 11:17:25 -0600
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Matthew Wilcox <willy@infradead.org>
-References: <20180713233158.19528-1-logang@deltatee.com>
- <20180713233158.19528-5-logang@deltatee.com>
- <20180716111543.6ddf584c@t450s.home>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <0a195c47-0a3d-e2f0-588b-214f6720528a@deltatee.com>
-Date:   Mon, 16 Jul 2018 11:17:07 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <20180716111543.6ddf584c@t450s.home>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1728037AbeGPS4w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 14:56:52 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:57796 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727866AbeGPS4w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 14:56:52 -0400
+Received: from localhost (74-93-104-98-Washington.hfc.comcastbusiness.net [74.93.104.98])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id A60D313FD9040;
+        Mon, 16 Jul 2018 11:28:13 -0700 (PDT)
+Date:   Mon, 16 Jul 2018 11:28:13 -0700 (PDT)
+Message-Id: <20180716.112813.1857756879663677102.davem@davemloft.net>
+To:     me@tobin.cc
+Cc:     sridhar.samudrala@intel.com, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 0/2] docs: Fix failover build warnings
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20180711214250.19039-1-me@tobin.cc>
+References: <20180711214250.19039-1-me@tobin.cc>
+X-Mailer: Mew version 6.7 on Emacs 25.3 / Mule 6.0 (HANACHIRUSATO)
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: willy@infradead.org, christian.koenig@amd.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, alex.williamson@redhat.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v6 4/4] PCI: Introduce the disable_acs_redir parameter
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 16 Jul 2018 11:28:13 -0700 (PDT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: "Tobin C. Harding" <me@tobin.cc>
+Date: Thu, 12 Jul 2018 07:42:48 +1000
 
-
-On 16/07/18 11:15 AM, Alex Williamson wrote:
->> +	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
->> +	if (!pos) {
->> +		pci_warn(dev, "cannot disable ACS redirect for this hardware as it does not have ACS capabilities\n");
->> +		return;
->> +	}
->> +
->> +	if (!pci_dev_specific_disable_acs_redir(dev))
->> +		return;
+> This is my first patch set to net-next.  Please shout loud and clear if
+> I've botched anything.
 > 
-> Shouldn't this come before the above ACS capability test?  The PCH
-> quirk without a disable_acs_redir callback will fall out with the
-> pci_warn() above either way, but this ordering precludes that a quirk
-> could be written for that device since it doesn't have an ACS
-> capability.  Otherwise the series looks ok to me.  Thanks,
+> Recently failover and net_failover modules were added to the mainline.
+> Documentation was included in rst format but they were not added to the
+> toctree in `networking/index.rst`.  Also building docs for net_failover
+> is currently emitting a few warnings.
+> 
+> Patch 1 adds failover and net_failover to the index toctree
+> Patch 2 fixes the build warnings for net_failover
+> 
+> I haven't been super active on netdev list so if there is some reason I
+> missed why these files are not in the index please do say so.
+> 
+> Has there been any discussion on preferred order for the toctree index
+> list?  I just added them to the bottom of the list.
 
-Yup, nice catch. I'll respin a v7 shortly.
-
-Thanks,
-
-Logan
+Series applied, thanks.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
