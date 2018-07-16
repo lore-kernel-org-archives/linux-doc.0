@@ -5,43 +5,43 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 309FB7D071
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 08:20:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC5A57D071
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 08:51:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729859AbeGPIqh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 04:46:37 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43826 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729615AbeGPIqh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 04:46:37 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6G8JfZv095858
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jul 2018 04:20:24 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2k8jaak2qa-1
+        id S1729997AbeGPJRw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 05:17:52 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45810 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727431AbeGPJRv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 05:17:51 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6G8mo7K062137
+        for <linux-doc@vger.kernel.org>; Mon, 16 Jul 2018 04:51:29 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2k8q84tfvp-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jul 2018 04:20:23 -0400
+        for <linux-doc@vger.kernel.org>; Mon, 16 Jul 2018 04:51:29 -0400
 Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Mon, 16 Jul 2018 09:20:21 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Mon, 16 Jul 2018 09:51:27 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 16 Jul 2018 09:20:15 +0100
+        Mon, 16 Jul 2018 09:51:20 +0100
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6G8KEhn21364892
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6G8pKnS33620118
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 16 Jul 2018 08:20:14 GMT
+        Mon, 16 Jul 2018 08:51:20 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id ECA56A4040;
-        Mon, 16 Jul 2018 11:20:32 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id 8A129A4051;
+        Mon, 16 Jul 2018 11:51:38 +0100 (BST)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 76A61A404D;
-        Mon, 16 Jul 2018 11:20:29 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id 1F774A404D;
+        Mon, 16 Jul 2018 11:51:35 +0100 (BST)
 Received: from [9.124.31.217] (unknown [9.124.31.217])
         by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon, 16 Jul 2018 11:20:29 +0100 (BST)
+        Mon, 16 Jul 2018 11:51:34 +0100 (BST)
 Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
  count (semaphore)
 To:     Song Liu <liu.song.a23@gmail.com>
@@ -70,7 +70,7 @@ References: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
  <9b062a19-d9a7-b360-26b1-d28b8dfc35a3@linux.ibm.com>
  <CAPhsuW5njYcYXxYYEUsdVWem3qwk2z_bra_eRpwHwEy9TA-LHQ@mail.gmail.com>
 From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Date:   Mon, 16 Jul 2018 13:50:10 +0530
+Date:   Mon, 16 Jul 2018 14:21:15 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
@@ -79,17 +79,17 @@ Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 18071608-0012-0000-0000-0000028A991D
+x-cbid: 18071608-0020-0000-0000-000002A6F524
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18071608-0013-0000-0000-000020BC503B
-Message-Id: <a37cc94b-5940-643c-3e81-fc375c6aada0@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-16_02:,,
+x-cbparentid: 18071608-0021-0000-0000-000020F353BA
+Message-Id: <cb4b58e1-c345-3686-d619-d6a4ed97d3e5@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-16_03:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=898 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807160100
+ mlxlogscore=865 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807160106
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -97,36 +97,11 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Song,
 
-On 07/14/2018 05:20 AM, Song Liu wrote:
-> 
-> Hmm... what happens when we have multiple uprobes sharing the same
-> reference counter? It feels equally complicate to me. Or did I miss any
-> cases here?
+BTW, I've sent v6. Can you please review it.
 
+https://lkml.org/lkml/2018/7/16/353
 
-As far as I can think of, it should be handled by default. No special
-treatment needed for this.
-
-...
-
-> 
-> This patch tries to resolve this imbalance by passing extra flag
-> "restore_insn" to probe_event_disable().
-> 
-> Signed-off-by: Song Liu <songliubraving@fb.com>
-
-
-Ah cool. Seems this will make them balanced. But is it fine to change
-uprobe_unregister()? It's already an ABI. No other way around?
-
-Also, one more source of imbalance is this condition:
-
-          if (is_register)
-                  flags |= VM_WRITE;
-
-in valid_vma(). You need to take care of that as well.
-
-Thanks,
+Thanks
 Ravi
 
 --
