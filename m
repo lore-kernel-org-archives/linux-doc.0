@@ -5,138 +5,92 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A18307D071
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Jul 2018 23:40:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4F7927D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 00:55:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729615AbeGQAKR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Jul 2018 20:10:17 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:41978 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729245AbeGQAKQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 20:10:16 -0400
-Received: from akpm3.svl.corp.google.com (unknown [104.133.9.92])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id A8628BE1;
-        Mon, 16 Jul 2018 23:40:33 +0000 (UTC)
-Date:   Mon, 16 Jul 2018 16:40:32 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        Dave Chinner <david@fromorbit.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Waiman Long <longman@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-Message-Id: <20180716164032.94e13f765c5f33c6022eca38@linux-foundation.org>
-In-Reply-To: <20180716124115.GA7072@bombadil.infradead.org>
-References: <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
-        <1531336913.3260.18.camel@HansenPartnership.com>
-        <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
-        <1531411494.18255.6.camel@HansenPartnership.com>
-        <20180712164932.GA3475@bombadil.infradead.org>
-        <1531416080.18255.8.camel@HansenPartnership.com>
-        <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
-        <1531425435.18255.17.camel@HansenPartnership.com>
-        <20180713003614.GW2234@dastard>
-        <20180716090901.GG17280@dhcp22.suse.cz>
-        <20180716124115.GA7072@bombadil.infradead.org>
-X-Mailer: Sylpheed 3.6.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1729930AbeGQBZ2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Jul 2018 21:25:28 -0400
+Received: from www262.sakura.ne.jp ([202.181.97.72]:25287 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729871AbeGQBZ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jul 2018 21:25:28 -0400
+Received: from fsav105.sakura.ne.jp (fsav105.sakura.ne.jp [27.133.134.232])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id w6H0tHDu075677;
+        Tue, 17 Jul 2018 09:55:17 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav105.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav105.sakura.ne.jp);
+ Tue, 17 Jul 2018 09:55:17 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav105.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id w6H0tHIS075671;
+        Tue, 17 Jul 2018 09:55:17 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: (from i-love@localhost)
+        by www262.sakura.ne.jp (8.15.2/8.15.2/Submit) id w6H0tHn5075670;
+        Tue, 17 Jul 2018 09:55:17 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Message-Id: <201807170055.w6H0tHn5075670@www262.sakura.ne.jp>
+X-Authentication-Warning: www262.sakura.ne.jp: i-love set sender to penguin-kernel@i-love.sakura.ne.jp using -f
+Subject: Re: [PATCH v13 0/7] cgroup-aware OOM killer
+From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+To:     Roman Gushchin <guro@fb.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Michal Hocko <mhocko@kernel.org>, linux-mm@vger.kernel.org,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tejun Heo <tj@kernel.org>, kernel-team@fb.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+MIME-Version: 1.0
+Date:   Tue, 17 Jul 2018 09:55:17 +0900
+References: <0d018c7e-a3de-a23a-3996-bed8b28b1e4a@i-love.sakura.ne.jp> <20180716220918.GA3898@castle.DHCP.thefacebook.com>
+In-Reply-To: <20180716220918.GA3898@castle.DHCP.thefacebook.com>
+Content-Type: text/plain; charset="ISO-2022-JP"
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 16 Jul 2018 05:41:15 -0700 Matthew Wilcox <willy@infradead.org> wrote:
-
-> On Mon, Jul 16, 2018 at 11:09:01AM +0200, Michal Hocko wrote:
-> > On Fri 13-07-18 10:36:14, Dave Chinner wrote:
-> > [...]
-> > > By limiting the number of negative dentries in this case, internal
-> > > slab fragmentation is reduced such that reclaim cost never gets out
-> > > of control. While it appears to "fix" the symptoms, it doesn't
-> > > address the underlying problem. It is a partial solution at best but
-> > > at worst it's another opaque knob that nobody knows how or when to
-> > > tune.
+Roman Gushchin wrote:
+> On Tue, Jul 17, 2018 at 06:13:47AM +0900, Tetsuo Handa wrote:
+> > No response from Roman and David...
 > > 
-> > Would it help to put all the negative dentries into its own slab cache?
+> > Andrew, will you once drop Roman's cgroup-aware OOM killer and David's patches?
+> > Roman's series has a bug which I mentioned and which can be avoided by my patch.
+> > David's patch is using MMF_UNSTABLE incorrectly such that it might start selecting
+> > next OOM victim without trying to reclaim any memory.
+> > 
+> > Since they are not responding to my mail, I suggest once dropping from linux-next.
 > 
-> Maybe the dcache should be more sensitive to its own needs.  In __d_alloc,
-> it could check whether there are a high proportion of negative dentries
-> and start recycling some existing negative dentries.
+> I was in cc, and didn't thought that you're expecting something from me.
 
-Well, yes.
+Oops. I was waiting for your response. ;-)
 
-The proposed patchset adds all this background reclaiming.  Problem is
-a) that background reclaiming sometimes can't keep up so a synchronous
-direct-reclaim was added on top and b) reclaiming dentries in the
-background will cause non-dentry-allocating tasks to suffer because of
-activity from the dentry-allocating tasks, which is inappropriate.
+  But Roman, my patch conflicts with your "mm, oom: cgroup-aware OOM killer" patch
+  in linux-next. And it seems to me that your patch contains a bug which leads to
+  premature memory allocation failure explained below.
 
-I expect a better design is something like
+  Can we apply my patch prior to your "mm, oom: cgroup-aware OOM killer" patch
+  (which eliminates "delay" and "out:" from your patch) so that people can easily
+  backport my patch? Or, do you want to apply a fix (which eliminates "delay" and
+  "out:" from linux-next) prior to my patch?
 
-__d_alloc()
-{
-	...
-	while (too many dentries)
-		call the dcache shrinker
-	...
-}
+> 
+> I don't get, why it's necessary to drop the cgroup oom killer to merge your fix?
+> I'm happy to help with rebasing and everything else.
 
-and that's it.  This way we have a hard upper limit and only the tasks
-which are creating dentries suffer the cost.
+Yes, I wish you rebase your series on top of OOM lockup (CVE-2016-10723) mitigation
+patch ( https://marc.info/?l=linux-mm&m=153112243424285&w=4 ). It is a trivial change
+and easy to cleanly backport (if applied before your series).
 
-
-Regarding the slab page fragmentation issue: I'm wondering if the whole
-idea of balancing the slab scan rates against the page scan rates isn't
-really working out.  Maybe shrink_slab() should be sitting there
-hammering the caches until they have freed up a particular number of
-pages.  Quite a big change, conceptually and implementationally.
-
-Aside: about a billion years ago we were having issues with processes
-getting stuck in direct reclaim because other processes were coming in
-and stealing away the pages which the direct-reclaimer had just freed. 
-One possible solution to that was to make direct-reclaiming tasks
-release the freed pages into a list on the task_struct.  So those pages
-were invisible to other allocating tasks and were available to the
-direct-reclaimer when it returned from the reclaim effort.  I forget
-what happened to this.
-
-It's quite a small code change and would provide a mechanism for
-implementing the hammer-cache-until-youve-freed-enough design above.
-
-
-
-Aside 2: if we *do* do something like the above __d_alloc() pseudo code
-then perhaps it could be cast in terms of pages, not dentries.  ie,
-
-__d_alloc()
-{
-	...
-	while (too many pages in dentry_cache)
-		call the dcache shrinker
-	...
-}
-
-and, apart from the external name thing (grr), that should address
-these fragmentation issues, no?  I assume it's easy to ask slab how
-many pages are presently in use for a particular cache.
-
+Also, I expect you to check whether my cleanup patch which removes "abort" path
+( [PATCH 1/2] at https://marc.info/?l=linux-mm&m=153119509215026&w=4 ) helps
+simplifying your series. I don't know detailed behavior of your series, but I
+assume that your series do not kill threads which current thread should not wait
+for MMF_OOM_SKIP.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
