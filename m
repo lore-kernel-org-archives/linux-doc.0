@@ -5,33 +5,33 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9EBEB7DE7F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 10:27:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2B037D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 10:27:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730974AbeGQK62 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1730878AbeGQK62 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Tue, 17 Jul 2018 06:58:28 -0400
-Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:39973 "EHLO
+Received: from us01smtprelay-2.synopsys.com ([198.182.47.9]:60762 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729665AbeGQK61 (ORCPT
+        with ESMTP id S1730229AbeGQK61 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 06:58:27 -0400
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 8F9F110C16DC;
-        Tue, 17 Jul 2018 03:26:31 -0700 (PDT)
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 830E124E04B9;
+        Tue, 17 Jul 2018 03:26:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1531823191; bh=8ZLvA1uAinWLLjKxeY4pyOQwCMeXjD+E5QZF3XlIHQU=;
+        t=1531823191; bh=3MBEtH5TQpdodBmYEPsEyjmfStSPh5MgPCPvXngVQ8c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=dqHwLuciJhe7O4MJM56S04pr8tUwkWx/PcIOU/zqDajc9DOHI4kVZ5L4cyXs1r72G
-         +4X7ayF8H0jYT74Cq+LQ8trtfnwFrfpI62qLaUDNldz2TRdvIOCaYRzu8zMWwp6l1B
-         vO9SbzlGr7eXCD7gq4wabx1g9z5wNG3F9R5dKhz1KI92DgfiaZm/hE/f+Fri2j96jX
-         Iqv60+q1v0eI+ctBCYnDMoc7gAT2Iyuop27v/V/+P3ypgMdxuq2o3m6/ypTOxB54Fd
-         FaN76zMr4Q7wplbzPO52d2V52KraL3hrWMs1BR5RzyB9VWn3rP3E2C+Hk3cn4rvEBL
-         aDfeBLLy33dPQ==
+        b=A38/71kRllUFOqlGzvM5hyatBNNSa3aQ78Mmud6hUUWM6wZplfaLJFMfucbMezPS2
+         1X4zvmsuA6T4SZYbuBfS4IqQjsY4LWX2g1bsWFkmUcZkTr4uxRbmp1KUNyaQ4L3s4M
+         +6yb9tSVxXgxeDpDrFUr+hswVZ0QVwp4SKewrZRRtq3jJ+3+WgI+XMvqavE5WOigFY
+         SqMjsGlPgnnenlMF+RR5WxxeFK9wjTXGENvkd5t8NkYCnzEfFkD5nlTF19xoxYbFq8
+         J4MJPlVwPoHOlH0ORyxpOaGHZCG4HkzscUVatlpLnQxfWNc2R+3Y2y+zUGqV58l9sa
+         6YwmKrkayHt0w==
 Received: from de02.synopsys.com (germany.internal.synopsys.com [10.225.17.21])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 38011350A;
-        Tue, 17 Jul 2018 03:26:31 -0700 (PDT)
+        by mailhost.synopsys.com (Postfix) with ESMTP id 0716C3464;
+        Tue, 17 Jul 2018 03:26:30 -0700 (PDT)
 Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
-        by de02.synopsys.com (Postfix) with ESMTP id 6B5813C32C;
+        by de02.synopsys.com (Postfix) with ESMTP id 2C73E3C31E;
         Tue, 17 Jul 2018 12:26:29 +0200 (CEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
@@ -41,9 +41,9 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v13 06/12] PCI: dwc: Add legacy interrupt callback handler
-Date:   Tue, 17 Jul 2018 12:26:21 +0200
-Message-Id: <3579a0b9b6eefcf306af4ccfd5cd3396df4d8f63.1531822532.git.gustavo.pimentel@synopsys.com>
+Subject: [PATCH v13 02/12] PCI: endpoint: Add MSI-X interfaces
+Date:   Tue, 17 Jul 2018 12:26:17 +0200
+Message-Id: <008979e1aa4c70eb0257f341ca8878f541ac1fa2.1531822532.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1531822532.git.gustavo.pimentel@synopsys.com>
 References: <cover.1531822532.git.gustavo.pimentel@synopsys.com>
@@ -54,8 +54,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a legacy interrupt callback handler. Currently DesignWare IP don't
-allow trigger legacy interrupts.
+Add PCI_EPC_IRQ_MSIX type.
+
+Add MSI-X callbacks signatures to the ops structure.
+
+Add sysfs interface for set/get MSI-X capability maximum number.
+
+Update documentation accordingly.
 
 Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
@@ -63,7 +68,7 @@ Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
 Change v1->v2:
  - Nothing changed, just to follow the patch set version.
 Change v2->v3:
- - Nothing changed, just to follow the patch set version.
+ - Moved pci_epc_raise_irq() signature changes to patch file #3.
 Change v3->v4:
  - Rebased to Lorenzo's master branch v4.18-rc1.
 Change v4->v5:
@@ -77,7 +82,7 @@ Change v7->v8:
 Change v8->v9:
  - Nothing changed, just to follow the patch set version.
 Change v9->v10:
- - Nothing changed, just to follow the patch set version.
+ - Updated documentation.
 Change v10->v11:
  - Nothing changed, just to follow the patch set version.
 Change v11->v12:
@@ -85,70 +90,193 @@ Change v11->v12:
 Change v12->v13:
  - Re-sending the patch series.
 
- drivers/pci/controller/dwc/pcie-designware-ep.c   | 10 ++++++++++
- drivers/pci/controller/dwc/pcie-designware-plat.c |  3 +--
- drivers/pci/controller/dwc/pcie-designware.h      |  6 ++++++
- 3 files changed, 17 insertions(+), 2 deletions(-)
+ .../PCI/endpoint/function/binding/pci-test.txt     |  2 +
+ drivers/pci/endpoint/pci-ep-cfs.c                  | 24 +++++++++
+ drivers/pci/endpoint/pci-epc-core.c                | 57 ++++++++++++++++++++++
+ include/linux/pci-epc.h                            |  9 ++++
+ include/linux/pci-epf.h                            |  1 +
+ 5 files changed, 93 insertions(+)
 
-diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index dd9c366..1e7b022 100644
---- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -370,6 +370,16 @@ static const struct pci_epc_ops epc_ops = {
- 	.stop			= dw_pcie_ep_stop,
- };
- 
-+int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
-+{
-+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	struct device *dev = pci->dev;
-+
-+	dev_err(dev, "EP cannot trigger legacy IRQs\n");
-+
-+	return -EINVAL;
-+}
-+
- int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 			     u8 interrupt_num)
- {
-diff --git a/drivers/pci/controller/dwc/pcie-designware-plat.c b/drivers/pci/controller/dwc/pcie-designware-plat.c
-index 8bb2ecb..160714d 100644
---- a/drivers/pci/controller/dwc/pcie-designware-plat.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-plat.c
-@@ -87,8 +87,7 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
- 
- 	switch (type) {
- 	case PCI_EPC_IRQ_LEGACY:
--		dev_err(pci->dev, "EP cannot trigger legacy IRQs\n");
--		return -EINVAL;
-+		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
- 	case PCI_EPC_IRQ_MSI:
- 		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
- 	case PCI_EPC_IRQ_MSIX:
-diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-index e8b97f5..96126fd 100644
---- a/drivers/pci/controller/dwc/pcie-designware.h
-+++ b/drivers/pci/controller/dwc/pcie-designware.h
-@@ -348,6 +348,7 @@ static inline int dw_pcie_allocate_domains(struct pcie_port *pp)
- void dw_pcie_ep_linkup(struct dw_pcie_ep *ep);
- int dw_pcie_ep_init(struct dw_pcie_ep *ep);
- void dw_pcie_ep_exit(struct dw_pcie_ep *ep);
-+int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no);
- int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 			     u8 interrupt_num);
- int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
-@@ -367,6 +368,11 @@ static inline void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
- {
+diff --git a/Documentation/PCI/endpoint/function/binding/pci-test.txt b/Documentation/PCI/endpoint/function/binding/pci-test.txt
+index 3b68b95..cd76ba4 100644
+--- a/Documentation/PCI/endpoint/function/binding/pci-test.txt
++++ b/Documentation/PCI/endpoint/function/binding/pci-test.txt
+@@ -15,3 +15,5 @@ subsys_id	 : don't care
+ interrupt_pin	 : Should be 1 - INTA, 2 - INTB, 3 - INTC, 4 -INTD
+ msi_interrupts	 : Should be 1 to 32 depending on the number of MSI interrupts
+ 		   to test
++msix_interrupts	 : Should be 1 to 2048 depending on the number of MSI-X
++		   interrupts to test
+diff --git a/drivers/pci/endpoint/pci-ep-cfs.c b/drivers/pci/endpoint/pci-ep-cfs.c
+index 018ea34..d1288a0 100644
+--- a/drivers/pci/endpoint/pci-ep-cfs.c
++++ b/drivers/pci/endpoint/pci-ep-cfs.c
+@@ -286,6 +286,28 @@ static ssize_t pci_epf_msi_interrupts_show(struct config_item *item,
+ 		       to_pci_epf_group(item)->epf->msi_interrupts);
  }
  
-+static inline int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
++static ssize_t pci_epf_msix_interrupts_store(struct config_item *item,
++					     const char *page, size_t len)
 +{
-+	return 0;
++	u16 val;
++	int ret;
++
++	ret = kstrtou16(page, 0, &val);
++	if (ret)
++		return ret;
++
++	to_pci_epf_group(item)->epf->msix_interrupts = val;
++
++	return len;
 +}
 +
- static inline int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 					   u8 interrupt_num)
- {
++static ssize_t pci_epf_msix_interrupts_show(struct config_item *item,
++					    char *page)
++{
++	return sprintf(page, "%d\n",
++		       to_pci_epf_group(item)->epf->msix_interrupts);
++}
++
+ PCI_EPF_HEADER_R(vendorid)
+ PCI_EPF_HEADER_W_u16(vendorid)
+ 
+@@ -327,6 +349,7 @@ CONFIGFS_ATTR(pci_epf_, subsys_vendor_id);
+ CONFIGFS_ATTR(pci_epf_, subsys_id);
+ CONFIGFS_ATTR(pci_epf_, interrupt_pin);
+ CONFIGFS_ATTR(pci_epf_, msi_interrupts);
++CONFIGFS_ATTR(pci_epf_, msix_interrupts);
+ 
+ static struct configfs_attribute *pci_epf_attrs[] = {
+ 	&pci_epf_attr_vendorid,
+@@ -340,6 +363,7 @@ static struct configfs_attribute *pci_epf_attrs[] = {
+ 	&pci_epf_attr_subsys_id,
+ 	&pci_epf_attr_interrupt_pin,
+ 	&pci_epf_attr_msi_interrupts,
++	&pci_epf_attr_msix_interrupts,
+ 	NULL,
+ };
+ 
+diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+index b0ee427..7d77bd0 100644
+--- a/drivers/pci/endpoint/pci-epc-core.c
++++ b/drivers/pci/endpoint/pci-epc-core.c
+@@ -218,6 +218,63 @@ int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
+ EXPORT_SYMBOL_GPL(pci_epc_set_msi);
+ 
+ /**
++ * pci_epc_get_msix() - get the number of MSI-X interrupt numbers allocated
++ * @epc: the EPC device to which MSI-X interrupts was requested
++ * @func_no: the endpoint function number in the EPC device
++ *
++ * Invoke to get the number of MSI-X interrupts allocated by the RC
++ */
++int pci_epc_get_msix(struct pci_epc *epc, u8 func_no)
++{
++	int interrupt;
++	unsigned long flags;
++
++	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions)
++		return 0;
++
++	if (!epc->ops->get_msix)
++		return 0;
++
++	spin_lock_irqsave(&epc->lock, flags);
++	interrupt = epc->ops->get_msix(epc, func_no);
++	spin_unlock_irqrestore(&epc->lock, flags);
++
++	if (interrupt < 0)
++		return 0;
++
++	return interrupt + 1;
++}
++EXPORT_SYMBOL_GPL(pci_epc_get_msix);
++
++/**
++ * pci_epc_set_msix() - set the number of MSI-X interrupt numbers required
++ * @epc: the EPC device on which MSI-X has to be configured
++ * @func_no: the endpoint function number in the EPC device
++ * @interrupts: number of MSI-X interrupts required by the EPF
++ *
++ * Invoke to set the required number of MSI-X interrupts.
++ */
++int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts)
++{
++	int ret;
++	unsigned long flags;
++
++	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions ||
++	    interrupts < 1 || interrupts > 2048)
++		return -EINVAL;
++
++	if (!epc->ops->set_msix)
++		return 0;
++
++	spin_lock_irqsave(&epc->lock, flags);
++	ret = epc->ops->set_msix(epc, func_no, interrupts - 1);
++	spin_unlock_irqrestore(&epc->lock, flags);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(pci_epc_set_msix);
++
++/**
+  * pci_epc_unmap_addr() - unmap CPU address from PCI address
+  * @epc: the EPC device on which address is allocated
+  * @func_no: the endpoint function number in the EPC device
+diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+index 243eaa5..89f079f 100644
+--- a/include/linux/pci-epc.h
++++ b/include/linux/pci-epc.h
+@@ -17,6 +17,7 @@ enum pci_epc_irq_type {
+ 	PCI_EPC_IRQ_UNKNOWN,
+ 	PCI_EPC_IRQ_LEGACY,
+ 	PCI_EPC_IRQ_MSI,
++	PCI_EPC_IRQ_MSIX,
+ };
+ 
+ /**
+@@ -30,6 +31,10 @@ enum pci_epc_irq_type {
+  *	     capability register
+  * @get_msi: ops to get the number of MSI interrupts allocated by the RC from
+  *	     the MSI capability register
++ * @set_msix: ops to set the requested number of MSI-X interrupts in the
++ *	     MSI-X capability register
++ * @get_msix: ops to get the number of MSI-X interrupts allocated by the RC
++ *	     from the MSI-X capability register
+  * @raise_irq: ops to raise a legacy or MSI interrupt
+  * @start: ops to start the PCI link
+  * @stop: ops to stop the PCI link
+@@ -48,6 +53,8 @@ struct pci_epc_ops {
+ 			      phys_addr_t addr);
+ 	int	(*set_msi)(struct pci_epc *epc, u8 func_no, u8 interrupts);
+ 	int	(*get_msi)(struct pci_epc *epc, u8 func_no);
++	int	(*set_msix)(struct pci_epc *epc, u8 func_no, u16 interrupts);
++	int	(*get_msix)(struct pci_epc *epc, u8 func_no);
+ 	int	(*raise_irq)(struct pci_epc *epc, u8 func_no,
+ 			     enum pci_epc_irq_type type, u8 interrupt_num);
+ 	int	(*start)(struct pci_epc *epc);
+@@ -144,6 +151,8 @@ void pci_epc_unmap_addr(struct pci_epc *epc, u8 func_no,
+ 			phys_addr_t phys_addr);
+ int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts);
+ int pci_epc_get_msi(struct pci_epc *epc, u8 func_no);
++int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts);
++int pci_epc_get_msix(struct pci_epc *epc, u8 func_no);
+ int pci_epc_raise_irq(struct pci_epc *epc, u8 func_no,
+ 		      enum pci_epc_irq_type type, u8 interrupt_num);
+ int pci_epc_start(struct pci_epc *epc);
+diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
+index 4e77649..ec02f587 100644
+--- a/include/linux/pci-epf.h
++++ b/include/linux/pci-epf.h
+@@ -119,6 +119,7 @@ struct pci_epf {
+ 	struct pci_epf_header	*header;
+ 	struct pci_epf_bar	bar[6];
+ 	u8			msi_interrupts;
++	u16			msix_interrupts;
+ 	u8			func_no;
+ 
+ 	struct pci_epc		*epc;
 -- 
 2.7.4
 
