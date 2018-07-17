@@ -1,174 +1,186 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD3097D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 18:59:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D64FB7D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 20:39:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729757AbeGQTdS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 15:33:18 -0400
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:43186
-        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729727AbeGQTdS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 15:33:18 -0400
-X-IronPort-AV: E=Sophos;i="5.51,366,1526335200"; 
-   d="scan'208";a="273321535"
-Received: from abo-214-111-68.mrs.modulonet.fr (HELO [192.168.0.15]) ([85.68.111.214])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Jul 2018 20:59:17 +0200
-Date:   Tue, 17 Jul 2018 20:59:16 +0200 (CEST)
-From:   Julia Lawall <julia.lawall@lip6.fr>
-X-X-Sender: jll@hadrien
-To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-cc:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
-        joao.pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
-        adouglas@cadence.com, jesper.nilsson@axis.com,
-        shawn.lin@rock-chips.com, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kbuild-all@01.org
-Subject: Re: [PATCH v12 07/12] pci-epf-test/pci_endpoint_test: Cleanup
- PCI_ENDPOINT_TEST memspace (fwd)
-Message-ID: <alpine.DEB.2.20.1807172056580.2373@hadrien>
-User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+        id S1729728AbeGQVNZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 17:13:25 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52530 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729714AbeGQVNZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 17:13:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=RT9m9Jo/4f2z1JheJt0va8jBUyLU1K3xlQqo3pocaRo=; b=NTXbPzt/QX+r833Ap6UR4ycoY
+        qooR9pt2aQ86f+q1EwGUxJOET271mcHWLqhfauG+jro/fmRLuefATOUNK0ijmOB3HIgnoTCSTHdkI
+        wblUUtG73mq3tg3A1DogSRv5rP+HgSBtsJX0m0+LIqt6rltOXF8ZN9Dt7SRnP33nktmhyrU9TWmOA
+        OLNxrYNLU4EB7VGUQhIgeIkgxhMpHo5PD2aYKdtdLPmD2nFpyK2g7nFzcNtVvJdakjR1i67cfBqYg
+        k3udd3vJddI9BsI3ct/hgS7h8snAjuc2Dx9KJ/q058zxtjZBC1+qN3q8l9a61BwgFhnNdGe8FOSAk
+        8WYpaQMVg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1ffWkO-0000Bq-Ld; Tue, 17 Jul 2018 20:39:00 +0000
+Date:   Tue, 17 Jul 2018 13:39:00 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Martin Mares <mj@ucw.cz>, Logan Gunthorpe <logang@deltatee.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: lspci: Display path to device
+Message-ID: <20180717203900.GA1771@bombadil.infradead.org>
+References: <20180717170204.30470-1-logang@deltatee.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180717170204.30470-1-logang@deltatee.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following code contains the following lines:
+On Tue, Jul 17, 2018 at 11:02:00AM -0600, Logan Gunthorpe wrote:
+> The second patch expands the new helper to optionally take a path of
+> PCI devfns. This is to address Alex's renumbering concern when using
+> simple bus-devfns. The implementation is essentially how he described it and
+> similar to the Intel VT-d spec (Section 8.3.1).
 
-045c759f Gustavo Pimentel       2018-07-17  340                 count = pci_epc_get_msi(epc, epf->func_no);
-045c759f Gustavo Pimentel       2018-07-17 @341                 if (reg->irq_number > count || count <= 0)
+I don't like telling the user to grovel around lspci -t by hand.  It's
+not many lines of code to add a new -P option to lspci to show the path
+to each device instead of bus:dev.fn
 
-count has type u16, so it cannot be < 0.  Furthermore, pci_epc_get_msi
-never returns a negative value, so the test for < 0 is unnecessary.
+Here's three examples, first without, then with -P.
 
-julia
+(my laptop):
+6d:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM961/PM961
+00:1d.0/00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM961/PM961
 
----------- Forwarded message ----------
-Date: Wed, 18 Jul 2018 02:50:45 +0800
-From: kbuild test robot <lkp@intel.com>
-To: kbuild@01.org
-Cc: Julia Lawall <julia.lawall@lip6.fr>
-Subject: Re: [PATCH v12 07/12] pci-epf-test/pci_endpoint_test: Cleanup
-    PCI_ENDPOINT_TEST memspace
+(tests/PCI-X-bridges-and-domains):
+0002:42:00.0 Ethernet controller: Trident Microsystems 4DWave DX (rev 26)
+0002:00:02.4/01.0/00.0 Ethernet controller: Trident Microsystems 4DWave DX (rev 26)
 
-CC: kbuild-all@01.org
-In-Reply-To: <26fc54d264ca4229360cf632f08e6935b1abb30c.1531818979.git.gustavo.pimentel@synopsys.com>
-References: <26fc54d264ca4229360cf632f08e6935b1abb30c.1531818979.git.gustavo.pimentel@synopsys.com>
-TO: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-CC: bhelgaas@google.com, lorenzo.pieralisi@arm.com, joao.pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com, adouglas@cadence.com, jesper.nilsson@axis.com, shawn.lin@rock-chips.com
-CC: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+(my Nehalem system):
+04:00.0 Serial Attached SCSI controller: LSI Logic / Symbios Logic SAS2008 PCI-Express Fusion-MPT SAS-2 [Falcon] (rev 02)
+00:03.0/00.0/00.0/00.0 Serial Attached SCSI controller: LSI Logic / Symbios Logic SAS2008 PCI-Express Fusion-MPT SAS-2 [Falcon] (rev 02)
 
-Hi Gustavo,
+The Nehalem system makes an interesting testcase because it exposes some
+registers in fake PCIe devices that aren't behind the root ports.  eg:
 
-Thank you for the patch! Perhaps something to improve:
+ff:06.3 Host bridge: Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Thermal Control Registers (rev 04)
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on v4.18-rc5 next-20180717]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+Martin, what do you think to this patch?  Also, I'm happy to send you
+the lspci -xxxx from the Nehalem system to add to tests/
 
-url:    https://github.com/0day-ci/linux/commits/Gustavo-Pimentel/Add-MSI-X-support-on-pcitest-tool/20180717-233319
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-
->> drivers/pci/endpoint/functions/pci-epf-test.c:341:33-38: WARNING: Unsigned expression compared with zero: count <= 0
-
-# https://github.com/0day-ci/linux/commit/045c759f7ad4eeb208d74b476af11c8bba90e80e
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 045c759f7ad4eeb208d74b476af11c8bba90e80e
-vim +341 drivers/pci/endpoint/functions/pci-epf-test.c
-
-349e7a85 Kishon Vijay Abraham I 2017-03-27  274
-349e7a85 Kishon Vijay Abraham I 2017-03-27  275  static void pci_epf_test_cmd_handler(struct work_struct *work)
-349e7a85 Kishon Vijay Abraham I 2017-03-27  276  {
-349e7a85 Kishon Vijay Abraham I 2017-03-27  277  	int ret;
-045c759f Gustavo Pimentel       2018-07-17  278  	u16 count;
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  279  	u32 command;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  280  	struct pci_epf_test *epf_test = container_of(work, struct pci_epf_test,
-349e7a85 Kishon Vijay Abraham I 2017-03-27  281  						     cmd_handler.work);
-349e7a85 Kishon Vijay Abraham I 2017-03-27  282  	struct pci_epf *epf = epf_test->epf;
-045c759f Gustavo Pimentel       2018-07-17  283  	struct device *dev = &epf->dev;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  284  	struct pci_epc *epc = epf->epc;
-3235b994 Kishon Vijay Abraham I 2017-08-18  285  	enum pci_barno test_reg_bar = epf_test->test_reg_bar;
-3235b994 Kishon Vijay Abraham I 2017-08-18  286  	struct pci_epf_test_reg *reg = epf_test->reg[test_reg_bar];
-349e7a85 Kishon Vijay Abraham I 2017-03-27  287
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  288  	command = reg->command;
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  289  	if (!command)
-349e7a85 Kishon Vijay Abraham I 2017-03-27  290  		goto reset_handler;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  291
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  292  	reg->command = 0;
-3235b994 Kishon Vijay Abraham I 2017-08-18  293  	reg->status = 0;
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  294
-045c759f Gustavo Pimentel       2018-07-17  295  	if (reg->irq_type > IRQ_TYPE_MSI) {
-045c759f Gustavo Pimentel       2018-07-17  296  		dev_err(dev, "Failed to detect IRQ type\n");
-045c759f Gustavo Pimentel       2018-07-17  297  		goto reset_handler;
-045c759f Gustavo Pimentel       2018-07-17  298  	}
-749aaf33 John Keeping           2017-09-20  299
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  300  	if (command & COMMAND_RAISE_LEGACY_IRQ) {
-349e7a85 Kishon Vijay Abraham I 2017-03-27  301  		reg->status = STATUS_IRQ_RAISED;
-4494738d Cyrille Pitchen        2018-01-30  302  		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_LEGACY, 0);
-349e7a85 Kishon Vijay Abraham I 2017-03-27  303  		goto reset_handler;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  304  	}
-349e7a85 Kishon Vijay Abraham I 2017-03-27  305
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  306  	if (command & COMMAND_WRITE) {
-349e7a85 Kishon Vijay Abraham I 2017-03-27  307  		ret = pci_epf_test_write(epf_test);
-349e7a85 Kishon Vijay Abraham I 2017-03-27  308  		if (ret)
-349e7a85 Kishon Vijay Abraham I 2017-03-27  309  			reg->status |= STATUS_WRITE_FAIL;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  310  		else
-349e7a85 Kishon Vijay Abraham I 2017-03-27  311  			reg->status |= STATUS_WRITE_SUCCESS;
-045c759f Gustavo Pimentel       2018-07-17  312  		pci_epf_test_raise_irq(epf_test, reg->irq_type,
-045c759f Gustavo Pimentel       2018-07-17  313  				       reg->irq_number);
-349e7a85 Kishon Vijay Abraham I 2017-03-27  314  		goto reset_handler;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  315  	}
-349e7a85 Kishon Vijay Abraham I 2017-03-27  316
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  317  	if (command & COMMAND_READ) {
-349e7a85 Kishon Vijay Abraham I 2017-03-27  318  		ret = pci_epf_test_read(epf_test);
-349e7a85 Kishon Vijay Abraham I 2017-03-27  319  		if (!ret)
-349e7a85 Kishon Vijay Abraham I 2017-03-27  320  			reg->status |= STATUS_READ_SUCCESS;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  321  		else
-349e7a85 Kishon Vijay Abraham I 2017-03-27  322  			reg->status |= STATUS_READ_FAIL;
-045c759f Gustavo Pimentel       2018-07-17  323  		pci_epf_test_raise_irq(epf_test, reg->irq_type,
-045c759f Gustavo Pimentel       2018-07-17  324  				       reg->irq_number);
-349e7a85 Kishon Vijay Abraham I 2017-03-27  325  		goto reset_handler;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  326  	}
-349e7a85 Kishon Vijay Abraham I 2017-03-27  327
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  328  	if (command & COMMAND_COPY) {
-349e7a85 Kishon Vijay Abraham I 2017-03-27  329  		ret = pci_epf_test_copy(epf_test);
-349e7a85 Kishon Vijay Abraham I 2017-03-27  330  		if (!ret)
-349e7a85 Kishon Vijay Abraham I 2017-03-27  331  			reg->status |= STATUS_COPY_SUCCESS;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  332  		else
-349e7a85 Kishon Vijay Abraham I 2017-03-27  333  			reg->status |= STATUS_COPY_FAIL;
-045c759f Gustavo Pimentel       2018-07-17  334  		pci_epf_test_raise_irq(epf_test, reg->irq_type,
-045c759f Gustavo Pimentel       2018-07-17  335  				       reg->irq_number);
-349e7a85 Kishon Vijay Abraham I 2017-03-27  336  		goto reset_handler;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  337  	}
-349e7a85 Kishon Vijay Abraham I 2017-03-27  338
-3ecf3232 Kishon Vijay Abraham I 2017-08-18  339  	if (command & COMMAND_RAISE_MSI_IRQ) {
-045c759f Gustavo Pimentel       2018-07-17  340  		count = pci_epc_get_msi(epc, epf->func_no);
-045c759f Gustavo Pimentel       2018-07-17 @341  		if (reg->irq_number > count || count <= 0)
-349e7a85 Kishon Vijay Abraham I 2017-03-27  342  			goto reset_handler;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  343  		reg->status = STATUS_IRQ_RAISED;
-045c759f Gustavo Pimentel       2018-07-17  344  		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_MSI,
-045c759f Gustavo Pimentel       2018-07-17  345  				  reg->irq_number);
-349e7a85 Kishon Vijay Abraham I 2017-03-27  346  		goto reset_handler;
-349e7a85 Kishon Vijay Abraham I 2017-03-27  347  	}
-349e7a85 Kishon Vijay Abraham I 2017-03-27  348
-349e7a85 Kishon Vijay Abraham I 2017-03-27  349  reset_handler:
-349e7a85 Kishon Vijay Abraham I 2017-03-27  350  	queue_delayed_work(kpcitest_workqueue, &epf_test->cmd_handler,
-349e7a85 Kishon Vijay Abraham I 2017-03-27  351  			   msecs_to_jiffies(1));
-349e7a85 Kishon Vijay Abraham I 2017-03-27  352  }
-349e7a85 Kishon Vijay Abraham I 2017-03-27  353
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+diff --git a/lspci.c b/lspci.c
+index 3bf1925..ae0fdd2 100644
+--- a/lspci.c
++++ b/lspci.c
+@@ -19,6 +19,7 @@ int verbose;				/* Show detailed information */
+ static int opt_hex;			/* Show contents of config space as hexadecimal numbers */
+ struct pci_filter filter;		/* Device filter */
+ static int opt_tree;			/* Show bus tree */
++static int opt_path;			/* Show bridge path */
+ static int opt_machine;			/* Generate machine-readable output */
+ static int opt_map_mode;		/* Bus mapping mode enabled */
+ static int opt_domains;			/* Show domain numbers (0=disabled, 1=auto-detected, 2=requested) */
+@@ -29,7 +30,7 @@ char *opt_pcimap;			/* Override path to Linux modules.pcimap */
+ 
+ const char program_name[] = "lspci";
+ 
+-static char options[] = "nvbxs:d:ti:mgp:qkMDQ" GENERIC_OPTIONS ;
++static char options[] = "nvbxs:d:tPi:mgp:qkMDQ" GENERIC_OPTIONS ;
+ 
+ static char help_msg[] =
+ "Usage: lspci [<switches>]\n"
+@@ -247,6 +248,34 @@ sort_them(void)
+ 
+ /*** Normal output ***/
+ 
++static void
++show_slot_path(struct pci_dev *p)
++{
++  struct pci_dev *d = NULL;
++
++  if (opt_path && p->bus)
++    {
++      for (d = p->access->devices; d; d = d->next) {
++	if (d->hdrtype == -1)
++	  d->hdrtype = pci_read_byte(d, PCI_HEADER_TYPE) & 0x7f;
++	if (d->hdrtype != PCI_HEADER_TYPE_BRIDGE &&
++	    d->hdrtype != PCI_HEADER_TYPE_CARDBUS)
++	  continue;
++	if (pci_read_byte(d, PCI_SECONDARY_BUS) > p->bus)
++	  continue;
++	if (pci_read_byte(d, PCI_SUBORDINATE_BUS) < p->bus)
++	  continue;
++	show_slot_path(d);
++	break;
++      }
++    }
++
++  if (d)
++    printf("/%02x.%d", p->dev, p->func);
++  else
++    printf("%02x:%02x.%d", p->bus, p->dev, p->func);
++}
++
+ static void
+ show_slot_name(struct device *d)
+ {
+@@ -254,7 +283,7 @@ show_slot_name(struct device *d)
+ 
+   if (!opt_machine ? opt_domains : (p->domain || opt_domains >= 2))
+     printf("%04x:", p->domain);
+-  printf("%02x:%02x.%d", p->bus, p->dev, p->func);
++  show_slot_path(p);
+ }
+ 
+ void
+@@ -989,6 +1018,9 @@ main(int argc, char **argv)
+       case 'x':
+ 	opt_hex++;
+ 	break;
++      case 'P':
++	opt_path++;
++	break;
+       case 't':
+ 	opt_tree++;
+ 	break;
+diff --git a/lspci.man b/lspci.man
+index 35b3620..565dd5b 100644
+--- a/lspci.man
++++ b/lspci.man
+@@ -95,6 +95,9 @@ PCI bus instead of as seen by the kernel.
+ .B -D
+ Always show PCI domain numbers. By default, lspci suppresses them on machines which
+ have only domain 0.
++.TP
++.B -P
++Name PCI devices by path through each bridge, instead of by bus number.
+ 
+ .SS Options to control resolving ID's to names
+ .TP
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
