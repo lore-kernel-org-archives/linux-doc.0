@@ -1,25 +1,36 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 562DF7D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 20:52:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6F1067D085
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 21:01:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729675AbeGQV03 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 17:26:29 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:46384 "EHLO ale.deltatee.com"
+        id S1731103AbeGQVfV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 17:35:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35390 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729478AbeGQV03 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Jul 2018 17:26:29 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1ffWwn-0000hi-8V; Tue, 17 Jul 2018 14:51:50 -0600
-To:     Matthew Wilcox <willy@infradead.org>, Martin Mares <mj@ucw.cz>
-Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        id S1730092AbeGQVfV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Jul 2018 17:35:21 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A6A3520693;
+        Tue, 17 Jul 2018 21:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1531861254;
+        bh=jyAyA87q5GjW/n4zlgeFINvr31lUtLiCTCEMZgF1ysk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=u96y1yL0kwVMqpOZXOv35K4M0LO/9ie2yOqg4Fab5vmZKWeXGNUTxdZlq31GL1KzK
+         VUG03m+gxa4seXvEck8VKKAfa4qcgjbl7uRWC79LdAF0Ah7eQuw8QKaCFWJXssvPw8
+         UMPgECZGk1XlQ5IS2ahhZLUIYgJ0OZP+t06LBscU=
+Date:   Tue, 17 Jul 2018 16:00:53 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Martin Mares <mj@ucw.cz>, Logan Gunthorpe <logang@deltatee.com>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
         Christoph Hellwig <hch@lst.de>,
         Bjorn Helgaas <bhelgaas@google.com>,
@@ -31,106 +42,42 @@ Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         Kai-Heng Feng <kai.heng.feng@canonical.com>,
         Frederic Weisbecker <frederic@kernel.org>,
         Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Alex Williamson <alex.williamson@redhat.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: lspci: Display path to device
+Message-ID: <20180717210053.GB128988@bhelgaas-glaptop.roam.corp.google.com>
 References: <20180717170204.30470-1-logang@deltatee.com>
  <20180717203900.GA1771@bombadil.infradead.org>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <1e1f1e0d-520a-e2f9-15cb-09e97cd4a836@deltatee.com>
-Date:   Tue, 17 Jul 2018 14:51:40 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20180717203900.GA1771@bombadil.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: christian.koenig@amd.com, alex.williamson@redhat.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, mj@ucw.cz, willy@infradead.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: lspci: Display path to device
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 17/07/18 02:39 PM, Matthew Wilcox wrote:
-> On Tue, Jul 17, 2018 at 11:02:00AM -0600, Logan Gunthorpe wrote:
->> The second patch expands the new helper to optionally take a path of
->> PCI devfns. This is to address Alex's renumbering concern when using
->> simple bus-devfns. The implementation is essentially how he described it and
->> similar to the Intel VT-d spec (Section 8.3.1).
-> 
+On Tue, Jul 17, 2018 at 01:39:00PM -0700, Matthew Wilcox wrote:
 > I don't like telling the user to grovel around lspci -t by hand.  It's
 > not many lines of code to add a new -P option to lspci to show the path
 > to each device instead of bus:dev.fn
+> 
+> Here's three examples, first without, then with -P.
+> ...
 
-Thanks, this looks great! I also found parsing the lspci -t output
-cumbersome.
+> The Nehalem system makes an interesting testcase because it exposes some
+> registers in fake PCIe devices that aren't behind the root ports.  eg:
+> 
+> ff:06.3 Host bridge: Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Thermal Control Registers (rev 04)
 
-I've also got patches pending for switchtec-user[1] that help users find
-the path of downstream ports for Microsemi switches. (An example is
-shown below). As the ACS feature is primarily for PCI switch users, this
-should help a good segment of people. The lspci patches should cover a
-lot more people though.
+I think these appear as conventional PCI devices; at least the ones
+I've seen, e.g., [1], don't have a PCIe capability, so I think it
+makes sense that they're not behind a root port.
 
-Logan
-
-sudo switchtec status /dev/switchtec0 -v
-Partition 0:    (LOCAL)
-    Logical Port ID 0 (USP):
-	Phys Port ID:    	32 (Stack 4, Port 0)
-	Bus-Dev-Func:    	0000:02:00.0
-	Bus-Dev-Func Path:	0000:00:02:0/00.0
-	Status:          	UP
-	LTSSM:           	L0
-	Max-Width:       	x16
-	Neg Width:       	x16
-	Rate:            	Gen3 - 8 GT/s  15.76 GB/s
-	Out Bytes:       	70.3 GB
-	In Bytes:        	70.8 GB
-    Logical Port ID 1 (DSP):
-	Phys Port ID:    	8 (Stack 1, Port 0)
-	Bus-Dev-Func:    	0000:03:00.0
-	Bus-Dev-Func Path:	0000:00:02:0/00.0/00.0
-	Status:          	UP
-	LTSSM:           	L0
-	Max-Width:       	x8
-	Neg Width:       	x8
-	Rate:            	Gen3 - 8 GT/s  7.88 GB/s
-	Out Bytes:       	12.2 MB
-	In Bytes:        	441 MB
-	ACS:             	SrcValid- TransBlk- ReqRedir- CmpltRedir-
-UpstreamFwd- EgressCtrl- DirectTrans-
-	Device:          	10b5:8724 (0000:04:00.0)
-	                 	0000:05
-    Logical Port ID 2 (DSP):
-	Phys Port ID:    	12 (Stack 1, Port 4)
-	Bus-Dev-Func:    	0000:03:01.0
-	Bus-Dev-Func Path:	0000:00:02:0/00.0/01.0
-	Status:          	UP
-	LTSSM:           	L0
-	Max-Width:       	x8
-	Neg Width:       	x8
-	Rate:            	Gen3 - 8 GT/s  7.88 GB/s
-	Out Bytes:       	1.65 MB
-	In Bytes:        	107 MB
-	ACS:             	SrcValid- TransBlk- ReqRedir- CmpltRedir-
-UpstreamFwd- EgressCtrl- DirectTrans-
-	Device:          	11f8:f117 (0000:0b:00.0)
-	                 	nvme4
-
-
-
-
-[1] https://github.com/Microsemi/switchtec-user/pull/25
-
+[1] https://bugzilla5.redhat.com/attachment.cgi?id=433169
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
