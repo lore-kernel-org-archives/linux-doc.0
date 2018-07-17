@@ -5,90 +5,137 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1BEFD7D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 16:57:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D78857D085
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 17:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729980AbeGQRbK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 13:31:10 -0400
-Received: from outbound.smtp.vt.edu ([198.82.183.121]:43956 "EHLO
-        omr2.cc.vt.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729688AbeGQRbK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 13:31:10 -0400
-Received: from mr6.cc.vt.edu (mr6.cc.vt.edu [IPv6:2607:b400:92:8500:0:af:2d00:4488])
-        by omr2.cc.vt.edu (8.14.4/8.14.4) with ESMTP id w6HGvbHu018483
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jul 2018 12:57:37 -0400
-Received: from mail-qk0-f197.google.com (mail-qk0-f197.google.com [209.85.220.197])
-        by mr6.cc.vt.edu (8.14.7/8.14.7) with ESMTP id w6HGvVhR031897
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jul 2018 12:57:37 -0400
-Received: by mail-qk0-f197.google.com with SMTP id w14-v6so1354615qkw.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jul 2018 09:57:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:mime-version:date:message-id;
-        bh=LtVku/iuck+D5WG5Ro4sIvNmREvameSM9cOdfPJuUAE=;
-        b=H9fvSbbSn/k1iRRNrrxQu+Qv5LgHCly0dW+e6zanzSwrA+2kpdw/ASwNt+Ia1xt0Mu
-         +yg1FtUz8Ac//iMfDHm+SEJCb7AYi2mihPAdXuV562n9hpNapy+gdL0iw7s0e3/KPNGa
-         LMd5n2hrxnhQfZ1mGYqGAyFjru53rAIBwbG3nXjKhqtW7PGgprmzzarhirklgii2+b4p
-         HzhqtbXbJ5CHwg9o0K4uSEGAc+KbfvXqNFkySvafwsDIqXmkAIRGqI62v9eywvCtHeZ+
-         C/clArAA9L0jXs6lqRRQDi+pDbkJtFmcDAoLY5CyP/Gsvn+Uuazj1HeDIbuJ/oW2NSF9
-         +ifg==
-X-Gm-Message-State: AOUpUlExOIaeny5wCSfFHC4S/OmimqnQBdfP6KrHtYgsB9px8T+WRYAk
-        m5tdYcAV6ArTdZxAkKntY/a4FI7gXyR5dxTL1MgDa/Gp++5p9wiOuHiISkVuoKRzn5JYjXVNZKJ
-        Vtdg4ZX+VU5nJD5OxRMyY5P+eULi6J44=
-X-Received: by 2002:a37:6393:: with SMTP id x141-v6mr2341550qkb.318.1531846651692;
-        Tue, 17 Jul 2018 09:57:31 -0700 (PDT)
-X-Google-Smtp-Source: AAOMgpdpiNgvm6shMF4qL/Yf2bto6cOEuUd7mdXbqGEQORhoVFUWKjpsRzFTyyZn/mpKw+qbW7RMnQ==
-X-Received: by 2002:a37:6393:: with SMTP id x141-v6mr2341537qkb.318.1531846651542;
-        Tue, 17 Jul 2018 09:57:31 -0700 (PDT)
-Received: from turing-police.cc.vt.edu ([2607:b400:24:0:40a6:3022:e8ef:6dd0])
-        by smtp.gmail.com with ESMTPSA id k38-v6sm1341653qtc.45.2018.07.17.09.57.29
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 17 Jul 2018 09:57:30 -0700 (PDT)
-X-Mailer: exmh version 2.8.0 04/21/2017 with nmh-1.7+dev
-From:   valdis.kletnieks@vt.edu
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>
-cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: PATCH scripts/kernel-doc
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Date:   Tue, 17 Jul 2018 12:57:29 -0400
-Message-ID: <50400.1531846649@turing-police.cc.vt.edu>
+        id S1729741AbeGQRf4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 13:35:56 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:44588 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729689AbeGQRf4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Jul 2018 13:35:56 -0400
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+        by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1ffTMh-0006bv-TU; Tue, 17 Jul 2018 11:02:20 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1ffTMT-0007wD-Le; Tue, 17 Jul 2018 11:02:05 -0600
+From:   Logan Gunthorpe <logang@deltatee.com>
+To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Logan Gunthorpe <logang@deltatee.com>
+Date:   Tue, 17 Jul 2018 11:02:00 -0600
+Message-Id: <20180717170204.30470-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, sbates@raithlin.com, hch@lst.de, bhelgaas@google.com, corbet@lwn.net, tglx@linutronix.de, paulmck@linux.vnet.ibm.com, marc.zyngier@arm.com, kai.heng.feng@canonical.com, mingo@kernel.org, frederic@kernel.org, dan.j.williams@intel.com, benh@kernel.crashing.org, jglisse@redhat.com, alex.williamson@redhat.com, christian.koenig@amd.com, willy@infradead.org, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v7 0/4] Add parameter for disabling ACS redirection for P2P
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix a warning whinge from Perl introduced by "scripts: kernel-doc: parse next structs/unions"
+Changes since v6:
+* Fixed order of operations for device specific disable function as
+  noticed by Alex
+* Rebased onto v4.18-rc5 (no conflicts)
 
-Unescaped left brace in regex is deprecated here (and will be fatal in Perl 5.32), passed through in regex; marked by <-- HERE in m/({ <-- HERE [^\{\}]*})/ at ./scripts/kernel-doc line 1155.
-Unescaped left brace in regex is deprecated here (and will be fatal in Perl 5.32), passed through in regex; marked by <-- HERE in m/({ <-- HERE )/ at ./scripts/kernel-doc line 1179.
 
-Signed-off-by: Valdis Kletnieks <valdis.kletnieks@vt.edu>
----
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 0057d8eafcc1..31a34ced55a3 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1152,7 +1152,7 @@ sub dump_struct($$) {
- 	}
- 
- 	# Ignore other nested elements, like enums
--	$members =~ s/({[^\{\}]*})//g;
-+	$members =~ s/(\{[^\{\}]*})//g;
- 
- 	create_parameterlist($members, ';', $file, $declaration_name);
- 	check_sections($file, $declaration_name, $decl_type, $sectcheck, $struct_actual);
-@@ -1176,7 +1176,7 @@ sub dump_struct($$) {
- 			$declaration .= "\t" x $level;
- 		}
- 		$declaration .= "\t" . $clause . "\n";
--		$level++ if ($clause =~ m/({)/ && !($clause =~m/}/));
-+		$level++ if ($clause =~ m/(\{)/ && !($clause =~m/}/));
- 	}
- 	output_declaration($declaration_name,
- 			   'struct',
+Changes since v5:
+* Add a quirk to handle the Intel SPT PCH case (as pointed out by Alex)
+* Warn in the case that we try to disable ACS redirect on a device
+  that doesn't have the ACS capability (also suggested by Alex)
+* Collect reviewed-by tag from Alex
+* Rebased onto v4.18-rc4 (no conflicts)
 
+Changes since v4:
+* Fixed a couple documentation mistakes spotted by Randy
+
+Changes since v3:
+* Removed some of the cruft that was copied from the resource_alignment
+  paramater (per Alex)
+* A number of docuemntation fixes as noticed by Alex and Willy
+
+Changes since v2:
+* Rebased onto v4.18-rc1 (no conflicts)
+* Minor tweaks to the documentation per Andy
+* Removed the "path:" prefix and use the path parsing code
+  for simple devices (as it works the same). Per a suggestion from Alex
+
+Changes since v1:
+* Reworked pci_dev_str_match_path using strrchr as suggested by Alex
+* Collected Christian's Acks
+
+--
+
+Hi,
+
+As discussed in our PCI P2PDMA series, we'd like to add a kernel
+parameter for selectively disabling ACS redirection for select
+bridges. Seeing this turned out to be a small series in itself, we've
+decided to send this separately from the P2P work.
+
+This series generalizes the code already done for the resource_alignment
+option that already exists. The first patch creates a helper function
+to match PCI devices against strings based on the code that already
+existed in pci_specified_resource_alignment().
+
+The second patch expands the new helper to optionally take a path of
+PCI devfns. This is to address Alex's renumbering concern when using
+simple bus-devfns. The implementation is essentially how he described it and
+similar to the Intel VT-d spec (Section 8.3.1).
+
+The final patch adds the disable_acs_redir kernel parameter which takes
+a list of PCI devices and will disable the ACS P2P Request Redirect,
+ACS P2P Completion Redirect and ACS P2P Egress Control bits for the
+selected devices. This allows P2P traffic between selected bridges and
+seeing it's done at boot, before the IOMMU groups will be created, the
+groups will match the security provided by ACS.
+
+Thanks,
+
+Logan
+
+--
+
+Logan Gunthorpe (4):
+  PCI: Make specifying PCI devices in kernel parameters reusable
+  PCI: Allow specifying devices using a base bus and path of devfns
+  PCI: Introduce disable_acs_redir quirk
+  PCI: Introduce the disable_acs_redir parameter
+
+ Documentation/admin-guide/kernel-parameters.txt |  41 +++-
+ drivers/pci/pci.c                               | 310 +++++++++++++++++++-----
+ drivers/pci/quirks.c                            |  78 +++++-
+ include/linux/pci.h                             |   5 +
+ 4 files changed, 361 insertions(+), 73 deletions(-)
+
+--
+2.11.0
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
