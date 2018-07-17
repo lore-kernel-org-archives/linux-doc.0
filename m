@@ -3,36 +3,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3C2CC7D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 09:31:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A2C887DE80
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 09:32:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729721AbeGQKDR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 06:03:17 -0400
-Received: from smtprelay2.synopsys.com ([198.182.60.111]:38973 "EHLO
+        id S1730616AbeGQKDT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 06:03:19 -0400
+Received: from us01smtprelay-2.synopsys.com ([198.182.47.9]:59880 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729707AbeGQKDR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 06:03:17 -0400
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id B2C7E10C14B1;
-        Tue, 17 Jul 2018 02:31:35 -0700 (PDT)
+        with ESMTP id S1730123AbeGQKDS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 06:03:18 -0400
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id E566024E0762;
+        Tue, 17 Jul 2018 02:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1531819895; bh=w7YjSlCdPQrYkR6OUtEivkzkwouW9GKWB5UCYgk89/o=;
+        t=1531819896; bh=RX1UUV3Uv74b3n8WRaby7Cw/fcc88erhc4ieU+hqRA4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=PxIz2Wx2Hx4DPgqav3pjU2np8x0S0H0ZiOvYvL7LRDdQnBZ54A4OI6Oh5Tj1E6cLb
-         FB//dbjHEbQ0VXvEYZMdLyiDsxF7X57w2UPB1t6nuSSWSoj9zvCAbJ/q5IvsUpj3vn
-         IKCxFcd+1dDd2pNRL2MdgN9uGNmr00Ft2cYMszykmEvRy+mLMOeRLdcBT0+toy59G/
-         5hrm6kEiiG5CB5L2wWx3d9URVnscRAJYYebtM6gB/TFlVP6xCCKrnloPLkyluDBmNp
-         o+Xz3OROZapJPaHfFpmLf5djLiueodWjwsMo7DgMi/Qm9eTQq4Bli82vy+/JRMsG4K
-         8c6GCIMi3rQwA==
+        b=SdgASmhezUazOY9CuOarMMPe429UDTB467Zg2ySOeYxtRzXQkAF4ATCCqUnJU406Z
+         ZiI0QnXqVcOm/K0TyZMDVXfO+ZCcA7Q6lkXOV46LOBrgITIA7y12CKrpOQppg+0Buj
+         KqiUSEfTcnDKJQVwxmV4W9VoIMpghzmkDPJb0Bcz4ddvHnh3k1IYG9Mq91euLPAPrt
+         35RBWygnk/0iDe05FNYk+KvrAoKcnn4lRwdKwvocTSshcZKDvukdi0WlF3R6O/QD1n
+         dlhTwP4mR2DlGlUs7qcZ6bYIRBU2XLmoG9F3F7VJENf1VBageLaD3q4vE6rZjDTtOV
+         tFO0T4V/JMtpQ==
 Received: from de02.synopsys.com (de02.internal.synopsys.com [10.225.17.21])
-        by mailhost.synopsys.com (Postfix) with ESMTP id C1234378B;
-        Tue, 17 Jul 2018 02:31:34 -0700 (PDT)
+        by mailhost.synopsys.com (Postfix) with ESMTP id 9A8803FB6;
+        Tue, 17 Jul 2018 02:31:36 -0700 (PDT)
 Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
-        by de02.synopsys.com (Postfix) with ESMTP id D9DA73BBEE;
-        Tue, 17 Jul 2018 11:31:33 +0200 (CEST)
+        by de02.synopsys.com (Postfix) with ESMTP id B24793BC22;
+        Tue, 17 Jul 2018 11:31:34 +0200 (CEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
         joao.pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
@@ -41,9 +41,9 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v12 02/12] PCI: endpoint: Add MSI-X interfaces
-Date:   Tue, 17 Jul 2018 11:31:22 +0200
-Message-Id: <008979e1aa4c70eb0257f341ca8878f541ac1fa2.1531818979.git.gustavo.pimentel@synopsys.com>
+Subject: [PATCH v12 11/12] tools: PCI: Add MSI-X support
+Date:   Tue, 17 Jul 2018 11:31:31 +0200
+Message-Id: <54f46aa3181cb1a34983ba72fcda02251f93baf2.1531818979.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1531818979.git.gustavo.pimentel@synopsys.com>
 References: <cover.1531818979.git.gustavo.pimentel@synopsys.com>
@@ -54,11 +54,9 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add PCI_EPC_IRQ_MSIX type.
+Add MSI-X support to pcitest tool.
 
-Add MSI-X callbacks signatures to the ops structure.
-
-Add sysfs interface for set/get MSI-X capability maximum number.
+Modify pcitest.sh script to accommodate MSI-X interrupt tests.
 
 Update documentation accordingly.
 
@@ -66,15 +64,18 @@ Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
 ---
 Change v1->v2:
- - Nothing changed, just to follow the patch set version.
+ - Allow IRQ type driver reconfiguring in runtime, follwing Kishon's
+suggestion.
 Change v2->v3:
- - Moved pci_epc_raise_irq() signature changes to patch file #3.
+ - Nothing changed, just to follow the patch set version.
 Change v3->v4:
  - Rebased to Lorenzo's master branch v4.18-rc1.
 Change v4->v5:
  - Nothing changed, just to follow the patch set version.
 Change v5->v6:
- - Nothing changed, just to follow the patch set version.
+ - Moved PCITEST_MSIX ioctl entry to patch #8.
+ - Moved PCITEST_SET_IRQTYPE and PCITEST_GET_IRQTYPE ioctl entries
+to patch #9.
 Change v6->v7:
  - Nothing changed, just to follow the patch set version.
 Change v7->v8:
@@ -88,193 +89,210 @@ Change v10->v11:
 Change v11->v12:
  - Nothing changed, just to follow the patch set version.
 
- .../PCI/endpoint/function/binding/pci-test.txt     |  2 +
- drivers/pci/endpoint/pci-ep-cfs.c                  | 24 +++++++++
- drivers/pci/endpoint/pci-epc-core.c                | 57 ++++++++++++++++++++++
- include/linux/pci-epc.h                            |  9 ++++
- include/linux/pci-epf.h                            |  1 +
- 5 files changed, 93 insertions(+)
+ Documentation/PCI/endpoint/pci-test-howto.txt | 36 +++++++++++--------
+ tools/pci/pcitest.c                           | 51 ++++++++++++++++++++++++++-
+ tools/pci/pcitest.sh                          | 15 ++++++++
+ 3 files changed, 87 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/PCI/endpoint/function/binding/pci-test.txt b/Documentation/PCI/endpoint/function/binding/pci-test.txt
-index 3b68b95..cd76ba4 100644
---- a/Documentation/PCI/endpoint/function/binding/pci-test.txt
-+++ b/Documentation/PCI/endpoint/function/binding/pci-test.txt
-@@ -15,3 +15,5 @@ subsys_id	 : don't care
- interrupt_pin	 : Should be 1 - INTA, 2 - INTB, 3 - INTC, 4 -INTD
- msi_interrupts	 : Should be 1 to 32 depending on the number of MSI interrupts
- 		   to test
-+msix_interrupts	 : Should be 1 to 2048 depending on the number of MSI-X
-+		   interrupts to test
-diff --git a/drivers/pci/endpoint/pci-ep-cfs.c b/drivers/pci/endpoint/pci-ep-cfs.c
-index 018ea34..d1288a0 100644
---- a/drivers/pci/endpoint/pci-ep-cfs.c
-+++ b/drivers/pci/endpoint/pci-ep-cfs.c
-@@ -286,6 +286,28 @@ static ssize_t pci_epf_msi_interrupts_show(struct config_item *item,
- 		       to_pci_epf_group(item)->epf->msi_interrupts);
- }
+diff --git a/Documentation/PCI/endpoint/pci-test-howto.txt b/Documentation/PCI/endpoint/pci-test-howto.txt
+index 65f1a13..e40cf0f 100644
+--- a/Documentation/PCI/endpoint/pci-test-howto.txt
++++ b/Documentation/PCI/endpoint/pci-test-howto.txt
+@@ -121,7 +121,9 @@ following commands.
  
-+static ssize_t pci_epf_msix_interrupts_store(struct config_item *item,
-+					     const char *page, size_t len)
-+{
-+	u16 val;
-+	int ret;
-+
-+	ret = kstrtou16(page, 0, &val);
-+	if (ret)
-+		return ret;
-+
-+	to_pci_epf_group(item)->epf->msix_interrupts = val;
-+
-+	return len;
-+}
-+
-+static ssize_t pci_epf_msix_interrupts_show(struct config_item *item,
-+					    char *page)
-+{
-+	return sprintf(page, "%d\n",
-+		       to_pci_epf_group(item)->epf->msix_interrupts);
-+}
-+
- PCI_EPF_HEADER_R(vendorid)
- PCI_EPF_HEADER_W_u16(vendorid)
+ 	Interrupt tests
  
-@@ -327,6 +349,7 @@ CONFIGFS_ATTR(pci_epf_, subsys_vendor_id);
- CONFIGFS_ATTR(pci_epf_, subsys_id);
- CONFIGFS_ATTR(pci_epf_, interrupt_pin);
- CONFIGFS_ATTR(pci_epf_, msi_interrupts);
-+CONFIGFS_ATTR(pci_epf_, msix_interrupts);
++	SET IRQ TYPE TO LEGACY:         OKAY
+ 	LEGACY IRQ:     NOT OKAY
++	SET IRQ TYPE TO MSI:            OKAY
+ 	MSI1:           OKAY
+ 	MSI2:           OKAY
+ 	MSI3:           OKAY
+@@ -154,24 +156,30 @@ following commands.
+ 	MSI30:          NOT OKAY
+ 	MSI31:          NOT OKAY
+ 	MSI32:          NOT OKAY
+-	MSIX1:          OKAY
+-	MSIX2:          OKAY
+-	MSIX3:          OKAY
+-	MSIX4:          OKAY
+-	MSIX5:          OKAY
+-	MSIX6:          OKAY
+-	MSIX7:          OKAY
+-	MSIX8:          OKAY
+-	MSIX9:          NOT OKAY
+-	MSIX10:         NOT OKAY
+-	MSIX11:         NOT OKAY
+-	MSIX12:         NOT OKAY
+-	MSIX13:         NOT OKAY
++	SET IRQ TYPE TO MSI-X:          OKAY
++	MSI-X1:         OKAY
++	MSI-X2:         OKAY
++	MSI-X3:         OKAY
++	MSI-X4:         OKAY
++	MSI-X5:         OKAY
++	MSI-X6:         OKAY
++	MSI-X7:         OKAY
++	MSI-X8:         OKAY
++	MSI-X9:         NOT OKAY
++	MSI-X10:        NOT OKAY
++	MSI-X11:        NOT OKAY
++	MSI-X12:        NOT OKAY
++	MSI-X13:        NOT OKAY
++	MSI-X14:        NOT OKAY
++	MSI-X15:        NOT OKAY
++	MSI-X16:        NOT OKAY
+ 	[...]
+-	MSIX2048:       NOT OKAY
++	MSI-X2047:      NOT OKAY
++	MSI-X2048:      NOT OKAY
  
- static struct configfs_attribute *pci_epf_attrs[] = {
- 	&pci_epf_attr_vendorid,
-@@ -340,6 +363,7 @@ static struct configfs_attribute *pci_epf_attrs[] = {
- 	&pci_epf_attr_subsys_id,
- 	&pci_epf_attr_interrupt_pin,
- 	&pci_epf_attr_msi_interrupts,
-+	&pci_epf_attr_msix_interrupts,
- 	NULL,
- };
+ 	Read Tests
  
-diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index b0ee427..7d77bd0 100644
---- a/drivers/pci/endpoint/pci-epc-core.c
-+++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -218,6 +218,63 @@ int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
- EXPORT_SYMBOL_GPL(pci_epc_set_msi);
++	SET IRQ TYPE TO MSI:            OKAY
+ 	READ (      1 bytes):           OKAY
+ 	READ (   1024 bytes):           OKAY
+ 	READ (   1025 bytes):           OKAY
+diff --git a/tools/pci/pcitest.c b/tools/pci/pcitest.c
+index 9074b47..af146bb 100644
+--- a/tools/pci/pcitest.c
++++ b/tools/pci/pcitest.c
+@@ -31,12 +31,17 @@
+ #define BILLION 1E9
  
- /**
-+ * pci_epc_get_msix() - get the number of MSI-X interrupt numbers allocated
-+ * @epc: the EPC device to which MSI-X interrupts was requested
-+ * @func_no: the endpoint function number in the EPC device
-+ *
-+ * Invoke to get the number of MSI-X interrupts allocated by the RC
-+ */
-+int pci_epc_get_msix(struct pci_epc *epc, u8 func_no)
-+{
-+	int interrupt;
-+	unsigned long flags;
-+
-+	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions)
-+		return 0;
-+
-+	if (!epc->ops->get_msix)
-+		return 0;
-+
-+	spin_lock_irqsave(&epc->lock, flags);
-+	interrupt = epc->ops->get_msix(epc, func_no);
-+	spin_unlock_irqrestore(&epc->lock, flags);
-+
-+	if (interrupt < 0)
-+		return 0;
-+
-+	return interrupt + 1;
-+}
-+EXPORT_SYMBOL_GPL(pci_epc_get_msix);
-+
-+/**
-+ * pci_epc_set_msix() - set the number of MSI-X interrupt numbers required
-+ * @epc: the EPC device on which MSI-X has to be configured
-+ * @func_no: the endpoint function number in the EPC device
-+ * @interrupts: number of MSI-X interrupts required by the EPF
-+ *
-+ * Invoke to set the required number of MSI-X interrupts.
-+ */
-+int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts)
-+{
-+	int ret;
-+	unsigned long flags;
-+
-+	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions ||
-+	    interrupts < 1 || interrupts > 2048)
-+		return -EINVAL;
-+
-+	if (!epc->ops->set_msix)
-+		return 0;
-+
-+	spin_lock_irqsave(&epc->lock, flags);
-+	ret = epc->ops->set_msix(epc, func_no, interrupts - 1);
-+	spin_unlock_irqrestore(&epc->lock, flags);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(pci_epc_set_msix);
-+
-+/**
-  * pci_epc_unmap_addr() - unmap CPU address from PCI address
-  * @epc: the EPC device on which address is allocated
-  * @func_no: the endpoint function number in the EPC device
-diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index 243eaa5..89f079f 100644
---- a/include/linux/pci-epc.h
-+++ b/include/linux/pci-epc.h
-@@ -17,6 +17,7 @@ enum pci_epc_irq_type {
- 	PCI_EPC_IRQ_UNKNOWN,
- 	PCI_EPC_IRQ_LEGACY,
- 	PCI_EPC_IRQ_MSI,
-+	PCI_EPC_IRQ_MSIX,
- };
+ static char *result[] = { "NOT OKAY", "OKAY" };
++static char *irq[] = { "LEGACY", "MSI", "MSI-X" };
  
- /**
-@@ -30,6 +31,10 @@ enum pci_epc_irq_type {
-  *	     capability register
-  * @get_msi: ops to get the number of MSI interrupts allocated by the RC from
-  *	     the MSI capability register
-+ * @set_msix: ops to set the requested number of MSI-X interrupts in the
-+ *	     MSI-X capability register
-+ * @get_msix: ops to get the number of MSI-X interrupts allocated by the RC
-+ *	     from the MSI-X capability register
-  * @raise_irq: ops to raise a legacy or MSI interrupt
-  * @start: ops to start the PCI link
-  * @stop: ops to stop the PCI link
-@@ -48,6 +53,8 @@ struct pci_epc_ops {
- 			      phys_addr_t addr);
- 	int	(*set_msi)(struct pci_epc *epc, u8 func_no, u8 interrupts);
- 	int	(*get_msi)(struct pci_epc *epc, u8 func_no);
-+	int	(*set_msix)(struct pci_epc *epc, u8 func_no, u16 interrupts);
-+	int	(*get_msix)(struct pci_epc *epc, u8 func_no);
- 	int	(*raise_irq)(struct pci_epc *epc, u8 func_no,
- 			     enum pci_epc_irq_type type, u8 interrupt_num);
- 	int	(*start)(struct pci_epc *epc);
-@@ -144,6 +151,8 @@ void pci_epc_unmap_addr(struct pci_epc *epc, u8 func_no,
- 			phys_addr_t phys_addr);
- int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts);
- int pci_epc_get_msi(struct pci_epc *epc, u8 func_no);
-+int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts);
-+int pci_epc_get_msix(struct pci_epc *epc, u8 func_no);
- int pci_epc_raise_irq(struct pci_epc *epc, u8 func_no,
- 		      enum pci_epc_irq_type type, u8 interrupt_num);
- int pci_epc_start(struct pci_epc *epc);
-diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
-index 4e77649..ec02f587 100644
---- a/include/linux/pci-epf.h
-+++ b/include/linux/pci-epf.h
-@@ -119,6 +119,7 @@ struct pci_epf {
- 	struct pci_epf_header	*header;
- 	struct pci_epf_bar	bar[6];
- 	u8			msi_interrupts;
-+	u16			msix_interrupts;
- 	u8			func_no;
+ struct pci_test {
+ 	char		*device;
+ 	char		barnum;
+ 	bool		legacyirq;
+ 	unsigned int	msinum;
++	unsigned int	msixnum;
++	int		irqtype;
++	bool		set_irqtype;
++	bool		get_irqtype;
+ 	bool		read;
+ 	bool		write;
+ 	bool		copy;
+@@ -65,6 +70,24 @@ static int run_test(struct pci_test *test)
+ 			fprintf(stdout, "%s\n", result[ret]);
+ 	}
  
- 	struct pci_epc		*epc;
++	if (test->set_irqtype) {
++		ret = ioctl(fd, PCITEST_SET_IRQTYPE, test->irqtype);
++		fprintf(stdout, "SET IRQ TYPE TO %s:\t\t", irq[test->irqtype]);
++		if (ret < 0)
++			fprintf(stdout, "FAILED\n");
++		else
++			fprintf(stdout, "%s\n", result[ret]);
++	}
++
++	if (test->get_irqtype) {
++		ret = ioctl(fd, PCITEST_GET_IRQTYPE);
++		fprintf(stdout, "GET IRQ TYPE:\t\t");
++		if (ret < 0)
++			fprintf(stdout, "FAILED\n");
++		else
++			fprintf(stdout, "%s\n", irq[ret]);
++	}
++
+ 	if (test->legacyirq) {
+ 		ret = ioctl(fd, PCITEST_LEGACY_IRQ, 0);
+ 		fprintf(stdout, "LEGACY IRQ:\t");
+@@ -83,6 +106,15 @@ static int run_test(struct pci_test *test)
+ 			fprintf(stdout, "%s\n", result[ret]);
+ 	}
+ 
++	if (test->msixnum > 0 && test->msixnum <= 2048) {
++		ret = ioctl(fd, PCITEST_MSIX, test->msixnum);
++		fprintf(stdout, "MSI-X%d:\t\t", test->msixnum);
++		if (ret < 0)
++			fprintf(stdout, "TEST FAILED\n");
++		else
++			fprintf(stdout, "%s\n", result[ret]);
++	}
++
+ 	if (test->write) {
+ 		ret = ioctl(fd, PCITEST_WRITE, test->size);
+ 		fprintf(stdout, "WRITE (%7ld bytes):\t\t", test->size);
+@@ -133,7 +165,7 @@ int main(int argc, char **argv)
+ 	/* set default endpoint device */
+ 	test->device = "/dev/pci-endpoint-test.0";
+ 
+-	while ((c = getopt(argc, argv, "D:b:m:lrwcs:")) != EOF)
++	while ((c = getopt(argc, argv, "D:b:m:x:i:Ilrwcs:")) != EOF)
+ 	switch (c) {
+ 	case 'D':
+ 		test->device = optarg;
+@@ -151,6 +183,20 @@ int main(int argc, char **argv)
+ 		if (test->msinum < 1 || test->msinum > 32)
+ 			goto usage;
+ 		continue;
++	case 'x':
++		test->msixnum = atoi(optarg);
++		if (test->msixnum < 1 || test->msixnum > 2048)
++			goto usage;
++		continue;
++	case 'i':
++		test->irqtype = atoi(optarg);
++		if (test->irqtype < 0 || test->irqtype > 2)
++			goto usage;
++		test->set_irqtype = true;
++		continue;
++	case 'I':
++		test->get_irqtype = true;
++		continue;
+ 	case 'r':
+ 		test->read = true;
+ 		continue;
+@@ -173,6 +219,9 @@ int main(int argc, char **argv)
+ 			"\t-D <dev>		PCI endpoint test device {default: /dev/pci-endpoint-test.0}\n"
+ 			"\t-b <bar num>		BAR test (bar number between 0..5)\n"
+ 			"\t-m <msi num>		MSI test (msi number between 1..32)\n"
++			"\t-x <msix num>	\tMSI-X test (msix number between 1..2048)\n"
++			"\t-i <irq type>	\tSet IRQ type (0 - Legacy, 1 - MSI, 2 - MSI-X)\n"
++			"\t-I			Get current IRQ type configured\n"
+ 			"\t-l			Legacy IRQ test\n"
+ 			"\t-r			Read buffer test\n"
+ 			"\t-w			Write buffer test\n"
+diff --git a/tools/pci/pcitest.sh b/tools/pci/pcitest.sh
+index 77e8c85..75ed48f 100644
+--- a/tools/pci/pcitest.sh
++++ b/tools/pci/pcitest.sh
+@@ -16,7 +16,10 @@ echo
+ echo "Interrupt tests"
+ echo
+ 
++pcitest -i 0
+ pcitest -l
++
++pcitest -i 1
+ msi=1
+ 
+ while [ $msi -lt 33 ]
+@@ -26,9 +29,21 @@ do
+ done
+ echo
+ 
++pcitest -i 2
++msix=1
++
++while [ $msix -lt 2049 ]
++do
++        pcitest -x $msix
++        msix=`expr $msix + 1`
++done
++echo
++
+ echo "Read Tests"
+ echo
+ 
++pcitest -i 1
++
+ pcitest -r -s 1
+ pcitest -r -s 1024
+ pcitest -r -s 1025
 -- 
 2.7.4
 
