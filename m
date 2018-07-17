@@ -1,303 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D19E37D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 17:51:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 369237D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 17:57:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729754AbeGQSZB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 14:25:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53104 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729721AbeGQSZB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Jul 2018 14:25:01 -0400
-Received: from mail-yb0-f169.google.com (mail-yb0-f169.google.com [209.85.213.169])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C8F6A20834;
-        Tue, 17 Jul 2018 17:51:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1531849875;
-        bh=+herIqvgXQJ0BE2my7SIvRLORuf5kM6iDM5eS8WhmiQ=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=W/uxpuH5gYyM6vi4AW65nwxzv5VlP0N2TpBR+5US0+kP8kXGhNC9/hmZSqfPHLLHP
-         XRYIZ6sw4cy4cU/PTUd1cdb/S7OgooJTVHgN5m0krpd6pu7XaQidr3x2yNEzbt/Tv/
-         KSAHBbqHkyMOQP3AAgXQ1KjSOInEwQZHuSfZDxpM=
-Received: by mail-yb0-f169.google.com with SMTP id s1-v6so761604ybk.3;
-        Tue, 17 Jul 2018 10:51:15 -0700 (PDT)
-X-Gm-Message-State: AOUpUlEuZcNxFYeF6r4MxOE4Xd6fhkeifi26T91ieOc/797TxuJ0p/3K
-        XyAfdWfpXSDIV9+lHhd0fO6OMA04ZGXaiXX4qMo=
-X-Google-Smtp-Source: AAOMgpdnKVtDdhirAfokJyu1xdnOolHJf2hBncdU9yOp0Xx8wuSGxzFJ2av18EmA3FBQehferiyRqZoit53SYKSaiRI=
-X-Received: by 2002:a25:1f0b:: with SMTP id f11-v6mr1505956ybf.100.1531849874994;
- Tue, 17 Jul 2018 10:51:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:8182:0:0:0:0:0 with HTTP; Tue, 17 Jul 2018 10:50:34
- -0700 (PDT)
-In-Reply-To: <CAJYdmeNSOydws+a=QBG93FHq+3WFzcBR=R_+dM_0Vb_v2zHCvA@mail.gmail.com>
-References: <1530629215-26990-1-git-send-email-richard.gong@linux.intel.com>
- <1530629215-26990-7-git-send-email-richard.gong@linux.intel.com> <CAJYdmeNSOydws+a=QBG93FHq+3WFzcBR=R_+dM_0Vb_v2zHCvA@mail.gmail.com>
-From:   Alan Tull <atull@kernel.org>
-Date:   Tue, 17 Jul 2018 12:50:34 -0500
-X-Gmail-Original-Message-ID: <CANk1AXT5DrJf_-dq1DxrGVB23t74+os_F37GFd_i3yY=TgT6CA@mail.gmail.com>
-Message-ID: <CANk1AXT5DrJf_-dq1DxrGVB23t74+os_F37GFd_i3yY=TgT6CA@mail.gmail.com>
-Subject: Re: [PATCHv6 6/8] fpga: add intel stratix10 soc fpga manager driver
-To:     Moritz Fischer <moritz.fischer.private@gmail.com>
-Cc:     Richard Gong <richard.gong@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1729730AbeGQSbh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 14:31:37 -0400
+Received: from mail-eopbgr660118.outbound.protection.outlook.com ([40.107.66.118]:56448
+        "EHLO CAN01-QB1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729688AbeGQSbh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Jul 2018 14:31:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raithlin.onmicrosoft.com; s=selector1-raithlin-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SFhPg4kGfuP4WiRbHzCW2hei+Xqp3iafW9qhiUobnVo=;
+ b=YpsuTcRGnXCGp5+m8fnV+XdkDaIZvfFdgPhONPPzK+tfLGgDEt3bJLDyuNPeNBPmG6E/JMRTgQN0XQBy1nAHkwbt3HXVSjo7ItSciUVvfG3sWJcqIyFFPezJAvM9hqRPAOo63noH7AjnvXQnMGtz8FdOUPgLJopQJ6Vl9zY26Fk=
+Received: from YTXPR0101MB2045.CANPRD01.PROD.OUTLOOK.COM (52.132.39.161) by
+ YTXPR0101MB1263.CANPRD01.PROD.OUTLOOK.COM (52.132.33.156) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.952.17; Tue, 17 Jul 2018 17:57:48 +0000
+Received: from YTXPR0101MB2045.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::9855:3d86:374c:95b7]) by YTXPR0101MB2045.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::9855:3d86:374c:95b7%3]) with mapi id 15.20.0952.021; Tue, 17 Jul 2018
+ 17:57:48 +0000
+From:   "Stephen  Bates" <sbates@raithlin.com>
+To:     Logan Gunthorpe <logang@deltatee.com>,
+        Alex Williamson <alex.williamson@redhat.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        linux-fpga@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Yves Vandervennet <yves.vandervennet@linux.intel.com>,
-        Richard Gong <richard.gong@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?utf-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v7 4/4] PCI: Introduce the disable_acs_redir parameter
+Thread-Topic: [PATCH v7 4/4] PCI: Introduce the disable_acs_redir parameter
+Thread-Index: AQHUHe/v75a2v6FwDUisHhlkvKPSdKSTsPQAgAAAKAD//53FgA==
+Date:   Tue, 17 Jul 2018 17:57:47 +0000
+Message-ID: <ADC606E4-5A29-41AB-BE4D-51B89318B333@raithlin.com>
+References: <20180717170204.30470-1-logang@deltatee.com>
+ <20180717170204.30470-5-logang@deltatee.com>
+ <20180717114848.2914d547@t450s.home>
+ <a3197c27-1b41-7784-374b-948e43471789@deltatee.com>
+In-Reply-To: <a3197c27-1b41-7784-374b-948e43471789@deltatee.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/10.f.0.180709
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=sbates@raithlin.com; 
+x-originating-ip: [70.73.168.51]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;YTXPR0101MB1263;7:e4P9WvsEqWabiJSltuUiVnP6ZIULGdL3eAjzOsN/qh+DvjpISRWHlJ+pfqOW0T6zaliZqiPrx03vQ2wnUqRRtyVP6h0sgzphVFl7LcO3N3gT0YCbYqpC8/ZsPxVXgHJTdlaLle1Nmek5RJFsI/2U52U+0y14423VByqJmEsVKvFQrvopgTQ4Q9OrNsk0WOv5RjMMOaluvZ0+/tGgeiwAH8nlV8ee2Qh+RiaPM8Dn+avlFV/oWVJ0aME39Ml+jSoV
+x-ms-exchange-antispam-srfa-diagnostics: SOS;
+x-ms-office365-filtering-correlation-id: de3e747e-e012-4a6f-3812-08d5ec0ecea4
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652040)(7021125)(8989117)(5600053)(711020)(4534165)(7022125)(4603075)(4627221)(201702281549075)(8990107)(7048125)(7024125)(7027125)(7028125)(7023125)(2017052603328)(7153060)(7193020);SRVR:YTXPR0101MB1263;
+x-ms-traffictypediagnostic: YTXPR0101MB1263:
+x-microsoft-antispam-prvs: <YTXPR0101MB1263B94D531B7CFB7D243D4DAA5C0@YTXPR0101MB1263.CANPRD01.PROD.OUTLOOK.COM>
+x-exchange-antispam-report-test: UriScan:;
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(3231311)(944501410)(52105095)(93006095)(93001095)(149027)(150027)(6041310)(20161123560045)(20161123558120)(2016111802025)(20161123564045)(20161123562045)(6043046)(6072148)(201708071742011)(7699016);SRVR:YTXPR0101MB1263;BCL:0;PCL:0;RULEID:;SRVR:YTXPR0101MB1263;
+x-forefront-prvs: 073631BD3D
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(396003)(39830400003)(346002)(136003)(376002)(189003)(199004)(69224002)(229853002)(81166006)(305945005)(26005)(54906003)(6116002)(478600001)(7736002)(105586002)(186003)(558084003)(110136005)(25786009)(8936002)(6246003)(6512007)(97736004)(36756003)(3846002)(2906002)(6506007)(14454004)(81156014)(76176011)(33656002)(8676002)(6486002)(82746002)(93886005)(476003)(53936002)(68736007)(106356001)(102836004)(2616005)(11346002)(6436002)(4326008)(83716003)(5660300001)(99286004)(5250100002)(256004)(446003)(7416002)(58126008)(66066001)(486006)(316002)(2900100001)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:YTXPR0101MB1263;H:YTXPR0101MB2045.CANPRD01.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: raithlin.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: ZYxqI04DYc8R8oIsAKpKvxLF1iJwgicIRLIVzwTLUM0DPGlC7+cCTsvZKKkZu4TSQTtd/u3vCWKiUY7c9ItXV1mJjfbJvbqy3gayfI/vMi9R9EmxsFBw5MLI88e6mvnXnG7wAqzomikEstu+jJXirbyA02Tmu1lzlD/acjGpfs3wKjywaAcEKjs5IXcE5yesydGrSk/q+nqE1iFvJicdkPO9Ta7Q9GLuciivUtS5BfkUYOJx2SsqEk4hX7UNeBKUk6ghCttdghwuA21XyhmStXcuy61NcRTxGnHRr/KTd1vwtv1B2WLx4NIFMlI4jIp2SMwabrN9ICAvUpmh/UIRpr2ZjlAT0UM7C70RZ+zjVqo=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <24B73FC6A8D2694AA351ED33AECBC101@CANPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: raithlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de3e747e-e012-4a6f-3812-08d5ec0ecea4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2018 17:57:48.2988
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 18519031-7ff4-4cbb-bbcb-c3252d330f4b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YTXPR0101MB1263
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 9, 2018 at 6:05 PM, Moritz Fischer
-<moritz.fischer.private@gmail.com> wrote:
-> Hi Richard + Alan,
->
-> couple of small stuff inline. Sorry for the super late reply.
->
-
-Hi Moritz,
-
-Thanks for the review comments!
-
-> On Tue, Jul 3, 2018 at 7:46 AM,  <richard.gong@linux.intel.com> wrote:
->> From: Alan Tull <atull@kernel.org>
->>
->> Add driver for reconfiguring Intel Stratix10 SoC FPGA devices.
->> This driver communicates through the Intel Service Driver which
->> does communication with privileged hardware (that does the
->> FPGA programming) through a secure mailbox.
->>
->> Signed-off-by: Alan Tull <atull@kernel.org>
->> Signed-off-by: Richard Gong <richard.gong@intel.com>
-...
->> +static int s10_svc_send_msg(struct s10_priv *priv,
->> +                           enum stratix10_svc_command_code command,
->> +                           void *payload, u32 payload_length)
->> +{
->> +       struct stratix10_svc_chan *chan = priv->chan;
->> +       struct stratix10_svc_client_msg msg;
->> +       int ret;
->> +
->> +       pr_debug("%s cmd=%d payload=%p legnth=%d\n",
->> +                __func__, command, payload, payload_length);
->
-> Can we make those dev_dbg() ? Or do we not have a device available?
-
-It's easy to get client dev:and it's worth doing by adding:
-
-struct device *dev = priv->client.dev;
-
->> +
->> +       msg.command = command;
->> +       msg.payload = payload;
->> +       msg.payload_length = payload_length;
->> +
->> +       ret = stratix10_svc_send(chan, &msg);
->> +       pr_debug("stratix10_svc_send returned status %d\n", ret);
->> +
->> +       return ret;
->> +}
->> +
-...
->> +/**
->> + * s10_ops_write_init
->> + * Prepare for FPGA reconfiguration by requesting partial reconfig and
->> + * allocating buffers from the service layer.
->> + * @mgr: fpga manager
->> + * @info: fpga image info
->> + * @buf: fpga image buffer
->> + * @count: size of buf in bytes
->> + */
->> +static int s10_ops_write_init(struct fpga_manager *mgr,
->> +                             struct fpga_image_info *info,
->> +                             const char *buf, size_t count)
->> +{
->> +       struct s10_priv *priv = mgr->priv;
->> +       struct device *dev = priv->client.dev;
->> +       struct stratix10_svc_command_reconfig_payload payload;
->> +       char *kbuf;
->> +       uint i;
->> +       int ret;
->> +
->> +       payload.flags = 0;
->> +       if (info->flags & FPGA_MGR_PARTIAL_RECONFIG) {
->> +               dev_info(dev, "Requesting partial reconfiguration.\n");
-> Do we need these to be _info() or can the by _dbg()? The Framework
-> already prints ("Writing blah.foo to ...")
->> +               payload.flags |= BIT(COMMAND_RECONFIG_FLAG_PARTIAL);
->> +       } else {
->> +               dev_info(dev, "Requesting full reconfiguration.\n");
-> Same here.
-
-These can go away or be dgb.  fpga-mgr.c has dev_info(dev, "writing %s
-to %s\n", image_name, mgr->name); in fpga_mgr_firmware_load().
-
-Maybe at some point it would be better to have the "Reauesting
-full/partial reconfiguration" messages as dbg messages in fpga-mgr.c.
-Some of the fpga manager drivers have one message or the other only
-because they only handle full or partial, so it's an error message in
-their case.such as "Partial reconfiguration not supported."
-
->> +       }
->> +
->> +       reinit_completion(&priv->status_return_completion);
->> +       ret = s10_svc_send_msg(priv, COMMAND_RECONFIG,
->> +                              &payload, sizeof(payload));
->> +       if (ret < 0)
->> +               goto init_done;
->> +
->> +       ret = wait_for_completion_interruptible_timeout(
->> +               &priv->status_return_completion, S10_RECONFIG_TIMEOUT);
->> +       if (!ret) {
->> +               dev_err(dev, "timeout waiting for RECONFIG_REQUEST\n");
->> +               ret = -ETIMEDOUT;
->> +               goto init_done;
->> +       }
->> +       if (ret < 0) {
->> +               dev_err(dev, "error (%d) waiting for RECONFIG_REQUEST\n", ret);
->> +               goto init_done;
->> +       }
->> +
->> +       ret = 0;
->> +       if (!test_and_clear_bit(SVC_STATUS_RECONFIG_REQUEST_OK,
->> +                               &priv->status)) {
->> +               ret = -ETIMEDOUT;
->> +               goto init_done;
->> +       }
->> +
->> +       /* Allocate buffers from the service layer's pool. */
->> +       for (i = 0; i < NUM_SVC_BUFS; i++) {
->> +               kbuf = stratix10_svc_allocate_memory(priv->chan, SVC_BUF_SIZE);
->> +               if (!kbuf) {
->> +                       s10_free_buffers(mgr);
->> +                       ret = -ENOMEM;
->> +                       goto init_done;
->> +               }
->> +
->> +               priv->svc_bufs[i].buf = kbuf;
->> +               priv->svc_bufs[i].lock = 0;
->> +       }
->> +
->> +init_done:
->> +       stratix10_svc_done(priv->chan);
->> +       return ret;
->> +}
->> +
->> +/**
->> + * s10_send_buf
->> + * Send a buffer to the service layer queue
->> + * @mgr: fpga manager struct
->> + * @buf: fpga image buffer
->> + * @count: size of buf in bytes
->> + * Returns # of bytes transferred or -ENOBUFS if the all the buffers are in use
->> + * or if the service queue is full. Never returns 0.
->> + */
->> +static int s10_send_buf(struct fpga_manager *mgr, const char *buf, size_t count)
->> +{
->> +       struct s10_priv *priv = mgr->priv;
->> +       struct device *dev = priv->client.dev;
->> +       void *svc_buf;
->> +       size_t xfer_sz;
->> +       int ret;
->> +       uint i;
->> +
->> +       /* get/lock a buffer that that's not being used */
->> +       for (i = 0; i < NUM_SVC_BUFS; i++)
->> +               if (!test_and_set_bit_lock(SVC_BUF_LOCK,
->> +                                          &priv->svc_bufs[i].lock))
->> +                       break;
->> +
->> +       if (i == NUM_SVC_BUFS)
->> +               return -ENOBUFS;
->> +
->> +       xfer_sz = count < SVC_BUF_SIZE ? count : SVC_BUF_SIZE;
->> +
->> +       svc_buf = priv->svc_bufs[i].buf;
->> +       memcpy(svc_buf, buf, xfer_sz);
->> +       ret = s10_svc_send_msg(priv, COMMAND_RECONFIG_DATA_SUBMIT,
->> +                              svc_buf, xfer_sz);
->> +       if (ret < 0) {
->> +               dev_err(dev,
->> +                       "Error while sending data to service layer (%d)", ret);
->> +               return ret;
->> +       }
-> Do we need to clean up anything here, or is the buffer unlocked if we fail?
-
-Yes, need to unlock buff if s10_svc_send_msg() fails.
-
-                        clear_bit_unlock(SVC_BUF_LOCK,
-                                         &priv->svc_bufs[i].lock);
-
->> +
->> +       return xfer_sz;
->> +}
-...
->> +static int s10_probe(struct platform_device *pdev)
->> +{
->> +       struct device *dev = &pdev->dev;
->> +       struct s10_priv *priv;
->> +       struct fpga_manager *mgr;
->> +       int ret;
->> +
->> +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->> +       if (!priv)
->> +               return -ENOMEM;
->> +
->> +       priv->client.dev = dev;
->> +       priv->client.receive_cb = s10_receive_callback;
->> +       priv->client.priv = priv;
->> +
->> +       priv->chan = stratix10_svc_request_channel_byname(&priv->client,
->> +                                               SVC_CLIENT_FPGA);
->> +       if (IS_ERR(priv->chan)) {
->> +               dev_err(dev, "couldn't get service channel (%s)\n",
->> +                       SVC_CLIENT_FPGA);
->> +               return PTR_ERR(priv->chan);
->> +       }
->> +
->> +       init_completion(&priv->status_return_completion);
->> +
->> +       mgr = fpga_mgr_create(dev, "Stratix10 SOC FPGA Manager",
->> +                             &s10_ops, priv);
->> +       if (!mgr)
->> +               return -ENOMEM;
-> Does this release the channel above?
-
-We need to call "stratix10_svc_free_channel(priv->chan);" here if
-fpga_mgr_create() fails.
-
->> +
->> +       ret = fpga_mgr_register(mgr);
->> +       if (ret) {
->> +               dev_err(dev, "unable to register FPGA manager\n");
->> +               stratix10_svc_free_channel(priv->chan);
->> +               fpga_mgr_free(mgr);
->> +               return ret;
->> +       }
->> +
->> +       platform_set_drvdata(pdev, mgr);
->> +
->> +       return ret;
->> +}
+Pj4gUmV2aWV3ZWQtYnk6IEFsZXggV2lsbGlhbXNvbiA8YWxleC53aWxsaWFtc29uQHJlZGhhdC5j
+b20+DQo+ICAgIA0KPiAgICANCj4gICAgVGhhbmtzIGZvciBhbGwgdGhlIHRob3JvdWdoIHJldmll
+dyENCg0KKzEhIFllcywgdGhhbmtzIEFsZXggZm9yIGFsbCB0aGUgZmVlZGJhY2sgb24gdGhpcyBz
+ZXJpZXMuDQoNCkJqb3JuZSwgaXMgQWxleCdzIHJldmlldyBlbm91Z2ggZm9yIHlvdSB0byB0YWtl
+IHRoaXMgc2VyaWVzPw0KDQpTdGVwaGVuDQogDQoNCg==
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
