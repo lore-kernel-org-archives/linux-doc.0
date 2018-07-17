@@ -1,217 +1,483 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CC2B7D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 04:29:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2551A7D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 05:21:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbeGQFAD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 01:00:03 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:43809 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726753AbeGQFAD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 01:00:03 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 8AF29207;
-        Tue, 17 Jul 2018 00:29:25 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Tue, 17 Jul 2018 00:29:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=E51ZeaKeSCSZRdA9s
-        nfWGr7eofIzogqKM9jkSzBBtWE=; b=kOeQoNSmMxT29wERXH/G4mMUeMDEWQGLf
-        vlP2Ulc2MwaC6i8SrMatuvDFb+B219649uO+hNXucCKPOygcbp92hTXb3QYlBIlV
-        F/yjSBzGuup7gmzEi7fQyvz9nuMaWaRMH5QHk03JHBr+Q6XCKUFxbCurlD9hzpUP
-        70H6GYJaaHSLxRyu2PIdpHGS0xTDWo5ZCNDe1KMDJYSbcopIhLJFeUpJ+QwHcJtX
-        b+SOmtpmEmTicz0v6TOIle89TRss2QWQBYzqQkBLMVxZ7WqZGNjPF6rtM/XRgk06
-        2y7SSEYKlC4QDEcL/zZgP1SuAqEHTTVX+E4uM/KN8EPtutaIEPRnA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:date:from:in-reply-to:message-id
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=E51ZeaKeSCSZRdA9snfWGr7eofIzogqKM9jkSzBBtWE=; b=t+yV6wd/
-        F2SJzZHBbny6xE/vvwgOqwEmMAj+l+Ok8Q/6lRxRrbgEpwqvQzg6JbuhkS+Mmuxu
-        0riYH0+rEoYtYwZgmu1L+R3wrWt4QnvN+KyN0gUT1EH7CYBmhWHnqlFBzlmg/nmi
-        KdF8uodBbLQw5u0aHgIoMmbYm/pY2NvojB9NvTd5wzpABDfj3Fo1lC8NUjZ61dRL
-        DyNkYshn0ptEcl2G56I3mMGb7LQEbSk2IjJKY0hcjS+X5Mc80z0aWajkW+0P1+YF
-        6/J63blY3Q+pYyvkChkcpaKLPnJTJvbXcgaRrZmAXDUkVNgH74ZmKIn+rJBok7Ah
-        CvXv34/drtYtQA==
-X-ME-Proxy: <xmx:pXBNWzhzrHtnVzV9Fmg6MMxuvIAv4Q_zfa7spRyx12GDX9pd8MXH2Q>
-    <xmx:pXBNW790vtgQMbj2YPPYFvBN7KelMaf5sKa8FozuznDuq5u5VYVO-Q>
-    <xmx:pXBNW2JsoEWlcxkPtVXgCBkY9a_KpEu7u0PHy6WPJTENzAC6ih3eWQ>
-    <xmx:pXBNW7rh1dxVN09TyQdbdVMVULkCRxDBg7goohVsHsCaGspuwQNa6w>
-    <xmx:pXBNWyxOy53HffXSlqG5h8k_II15Bzozsn1AOkXhiOPhk8rSWFwUdw>
-    <xmx:pXBNW6IhL274QZnGGqc90Yw9z9WvsTg7CofKnhNUyREbQQnFHJ2EfQ>
-X-ME-Sender: <xms:pXBNW3jdsh9jrGaSX1HdEYSJcXFoZLHC8T2mz_LoEIa-LBuQp6D2Mw>
-Received: from localhost (ppp121-44-239-37.bras2.syd2.internode.on.net [121.44.239.37])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4E4F410268;
-        Tue, 17 Jul 2018 00:29:24 -0400 (EDT)
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     "David S. Miller" <davem@davemloft.net>
-Cc:     "Tobin C. Harding" <me@tobin.cc>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH net-next 2/3] docs: networking: Convert alias.txt to rst
-Date:   Tue, 17 Jul 2018 14:29:05 +1000
-Message-Id: <20180717042906.17308-3-me@tobin.cc>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180717042906.17308-1-me@tobin.cc>
-References: <20180717042906.17308-1-me@tobin.cc>
+        id S1727118AbeGQFwH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 01:52:07 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:36081 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727038AbeGQFwG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 01:52:06 -0400
+Received: by mail-oi0-f66.google.com with SMTP id r16-v6so79296474oie.3;
+        Mon, 16 Jul 2018 22:21:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=25ETgUHEO8k2VH3dv/9NQq9he6DpaeoRQt+EOX5Qfh0=;
+        b=ew5C2T3vD0KvLHm9Au7x1N2LScACYyphW7/MdMx9imlNfzOjLF/Otg42ftM+vUNS2A
+         EPnbdoARAh4LSVHjoLOiPN9ITA/5VyQyWhHe6R61gQC5USOLU9q0qVn9hJMnEyBkNTWu
+         9vCOxxC0gbbpaEzKtVYq/SNp6fkP8+/480OyGGzvMR3PdA1U1gl8piLjfLPq+wWNDcqF
+         ZrPi4cAV5bv5b3OQyZBOoJ1qxHURQCl4oON7umqdm5lxzex1IzrWPsnKzig3Dm0DYDKi
+         0d4Sk4swrNO9rWc+Jmd4w4N+sxSFN+eOdJCB/2aCpvaJ4aoWEIINuCDB96iCyp98MVtQ
+         fkiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=25ETgUHEO8k2VH3dv/9NQq9he6DpaeoRQt+EOX5Qfh0=;
+        b=bLBaOXCY50Ot/9EsTsTmfYSObBW4EW9Fi/8P7e+XzmQepOT8YWACjIXz2SaX/zB6V9
+         v+VB0e2iqUUkPhv+JY6uLunfwl3kJ0Rw/9ORVutkOijuDDp4ZxazfOuOiCW89fq+FF5I
+         RXBdnIZVx92DUkeuxdXfxkaKbmfK/oQ9xGuxt2qhjgkmg5KFwX/GD9bFi9X8tCLbYxdK
+         cL98R08cn1HDiplBzK22VND6xbpmgIs6yd0WKXNGqQgpu9hzK4W6Edwn3iUl85M4UNpp
+         8fCkSdsWpP/oToHBJ5bcB0eBiW9W3+1UZwVaIQueeoIV3gaQspVcPmgCqKQ1YNEJN4RZ
+         fG3w==
+X-Gm-Message-State: AOUpUlHU/iTJsEI8wgDsOpN4yQsgl1yQkUivieXjYyr50KZ4GX2IX0eI
+        Isa+WuAyuPxZhQ3Dxz7ynYE5astFfa7/puMeMGg=
+X-Google-Smtp-Source: AAOMgpfIY1KliLsgYmtWW4y5QYh+BhngIVkAwxRXrW9MonJFDX079tIeQlFKF4R+4wI6M1j0qq6TtwxVAj4GXhyks4U=
+X-Received: by 2002:aca:f516:: with SMTP id t22-v6mr191555oih.56.1531804880424;
+ Mon, 16 Jul 2018 22:21:20 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:d37:0:0:0:0:0 with HTTP; Mon, 16 Jul 2018 22:21:19 -0700 (PDT)
+In-Reply-To: <CAKTKpr5d0f6Hjj5_j4OFh609SrMOEYg+Zgm3O7UiJx7bw5A_XA@mail.gmail.com>
+References: <20180621063338.20093-1-ganapatrao.kulkarni@cavium.com>
+ <20180621063338.20093-3-ganapatrao.kulkarni@cavium.com> <20180712165606.3vqx4ysnvdlfzmtp@lakrids.cambridge.arm.com>
+ <CAKTKpr5d0f6Hjj5_j4OFh609SrMOEYg+Zgm3O7UiJx7bw5A_XA@mail.gmail.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Tue, 17 Jul 2018 10:51:19 +0530
+Message-ID: <CAKTKpr67DTvD8R5kS0OA53UH2d_cc_1vAbR3_NAo_-wfDMGO-Q@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
+        Robert Richter <Robert.Richter@cavium.com>,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel documentation is now restructured text. Convert the IP
-aliasing documentation and include it in the toplevel kernel
-documentation.
+Hi Mark,
 
- - Fix heading adornments.
- - Correctly indent code snippets.
- - Limit line length to 72 characters inline with kernel documentation
-   standards.
- - Add license identifier.
 
-Signed-off-by: Tobin C. Harding <me@tobin.cc>
----
- Documentation/networking/00-INDEX  |  2 --
- Documentation/networking/alias.rst | 49 ++++++++++++++++++++++++++++++
- Documentation/networking/alias.txt | 40 ------------------------
- Documentation/networking/index.rst |  1 +
- 4 files changed, 50 insertions(+), 42 deletions(-)
- create mode 100644 Documentation/networking/alias.rst
- delete mode 100644 Documentation/networking/alias.txt
+On Fri, Jul 13, 2018 at 6:28 PM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
+> thanks Mark for the comments.
+>
+> On Thu, Jul 12, 2018 at 10:26 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+>> Hi Ganapat,
+>>
+>> On Thu, Jun 21, 2018 at 12:03:38PM +0530, Ganapatrao Kulkarni wrote:
+>>> This patch adds a perf driver for the PMU UNCORE devices DDR4 Memory
+>>> Controller(DMC) and Level 3 Cache(L3C).
+>>>
+>>> ThunderX2 has 8 independent DMC PMUs to capture performance events
+>>> corresponding to 8 channels of DDR4 Memory Controller and 16 independent
+>>> L3C PMUs to capture events corresponding to 16 tiles of L3 cache.
+>>> Each PMU supports up to 4 counters. All counters lack overflow interrupt
+>>> and are sampled periodically.
+>>>
+>>> Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
+>>> ---
+>>>  drivers/perf/Kconfig         |   8 +
+>>>  drivers/perf/Makefile        |   1 +
+>>>  drivers/perf/thunderx2_pmu.c | 949 +++++++++++++++++++++++++++++++++++++++++++
+>>>  include/linux/cpuhotplug.h   |   1 +
+>>>  4 files changed, 959 insertions(+)
+>>>  create mode 100644 drivers/perf/thunderx2_pmu.c
+>>>
+>>> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+>>> index 08ebaf7..ecedb9e 100644
+>>> --- a/drivers/perf/Kconfig
+>>> +++ b/drivers/perf/Kconfig
+>>> @@ -87,6 +87,14 @@ config QCOM_L3_PMU
+>>>          Adds the L3 cache PMU into the perf events subsystem for
+>>>          monitoring L3 cache events.
+>>>
+>>> +config THUNDERX2_PMU
+>>> +        bool "Cavium ThunderX2 SoC PMU UNCORE"
+>>> +     depends on ARCH_THUNDER2 && ARM64 && ACPI
+>>
+>> Surely this depends on NUMA for the node id?
+>  it is, i will update.
+>
+>>
+>> [...]
+>>
+>>> +/*
+>>> + * pmu on each socket has 2 uncore devices(dmc and l3),
+>>> + * each uncore device has up to 16 channels, each channel can sample
+>>> + * events independently with counters up to 4.
+>>> + */
+>>> +struct thunderx2_pmu_uncore_channel {
+>>> +     struct pmu pmu;
+>>> +     struct hlist_node       node;
+>>> +     struct thunderx2_pmu_uncore_dev *uncore_dev;
+>>> +     int channel;
+>>> +     int cpu;
+>>> +     DECLARE_BITMAP(active_counters, UNCORE_MAX_COUNTERS);
+>>> +     struct perf_event *events[UNCORE_MAX_COUNTERS];
+>>> +     struct hrtimer hrtimer;
+>>> +     /* to sync counter alloc/release */
+>>> +     raw_spinlock_t lock;
+>>> +};
+>>
+>> This lock should not be necessary. The pmu::{add,del} callbacks are
+>> strictly serialised w.r.t. one another per CPU because the core perf
+>> code holds ctx->lock whenever it calls either.
+>>
+>> Previously, you mentioned you'd seen scheduling while atomic when this
+>> lock was removed. Could you please provide a backtrace?
+>
+> yes, i have seen,  if i try to kick in simulatneously more events than
+> h/w counters available(4 here).
+> i will try with v6 and send the trace asap.
 
-diff --git a/Documentation/networking/00-INDEX b/Documentation/networking/00-INDEX
-index 2b89d91b376f..1e5153ed8990 100644
---- a/Documentation/networking/00-INDEX
-+++ b/Documentation/networking/00-INDEX
-@@ -18,8 +18,6 @@ README.ipw2200
- 	- README for the Intel PRO/Wireless 2915ABG and 2200BG driver.
- README.sb1000
- 	- info on General Instrument/NextLevel SURFboard1000 cable modem.
--alias.txt
--	- info on using alias network devices.
- altera_tse.txt
- 	- Altera Triple-Speed Ethernet controller.
- arcnet-hardware.txt
-diff --git a/Documentation/networking/alias.rst b/Documentation/networking/alias.rst
-new file mode 100644
-index 000000000000..af7c5ee92014
---- /dev/null
-+++ b/Documentation/networking/alias.rst
-@@ -0,0 +1,49 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========
-+IP-Aliasing
-+===========
-+
-+IP-aliases are an obsolete way to manage multiple IP-addresses/masks
-+per interface. Newer tools such as iproute2 support multiple
-+address/prefixes per interface, but aliases are still supported
-+for backwards compatibility.
-+
-+An alias is formed by adding a colon and a string when running ifconfig.
-+This string is usually numeric, but this is not a must.
-+
-+
-+Alias creation
-+==============
-+
-+Alias creation is done by 'magic' interface naming: eg. to create a
-+200.1.1.1 alias for eth0 ...
-+::
-+
-+  # ifconfig eth0:0 200.1.1.1  etc,etc....
-+	~~ -> request alias #0 creation (if not yet exists) for eth0
-+
-+The corresponding route is also set up by this command.  Please note:
-+The route always points to the base interface.
-+
-+
-+Alias deletion
-+==============
-+
-+The alias is removed by shutting the alias down::
-+
-+  # ifconfig eth0:0 down
-+	~~~~~~~~~~ -> will delete alias
-+
-+
-+Alias (re-)configuring
-+======================
-+
-+Aliases are not real devices, but programs should be able to configure
-+and refer to them as usual (ifconfig, route, etc).
-+
-+
-+Relationship with main device
-+=============================
-+
-+If the base device is shut down the added aliases will be deleted too.
-diff --git a/Documentation/networking/alias.txt b/Documentation/networking/alias.txt
-deleted file mode 100644
-index 85046f53fcfc..000000000000
---- a/Documentation/networking/alias.txt
-+++ /dev/null
-@@ -1,40 +0,0 @@
--
--IP-Aliasing:
--============
--
--IP-aliases are an obsolete way to manage multiple IP-addresses/masks
--per interface. Newer tools such as iproute2 support multiple
--address/prefixes per interface, but aliases are still supported
--for backwards compatibility.
--
--An alias is formed by adding a colon and a string when running ifconfig.
--This string is usually numeric, but this is not a must.
--
--o Alias creation.
--  Alias creation is done by 'magic' interface naming: eg. to create a
--  200.1.1.1 alias for eth0 ...
--  
--    # ifconfig eth0:0 200.1.1.1  etc,etc....
--                   ~~ -> request alias #0 creation (if not yet exists) for eth0
--
--    The corresponding route is also set up by this command. 
--    Please note: The route always points to the base interface.
--	
--
--o Alias deletion.
--  The alias is removed by shutting the alias down:
--
--    # ifconfig eth0:0 down
--                 ~~~~~~~~~~ -> will delete alias
--
--  		   		   
--o Alias (re-)configuring
--
--  Aliases are not real devices, but programs should be able to configure and
--  refer to them as usual (ifconfig, route, etc).
--
--
--o Relationship with main device
--
--  If the base device is shut down the added aliases will be deleted 
--  too.
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index a4bbde70bcb9..65502f2031a8 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -17,6 +17,7 @@ Contents:
-    msg_zerocopy
-    failover
-    net_failover
-+   alias
- 
- .. only::  subproject
- 
--- 
-2.17.1
+i dont have the setup on which i have seen this issue. I have tried to
+recreate on my current setup and not able to see it as before. I will
+remove these locks, if i dont see any issue while sending next
+version. Sorry for the noise!
 
+>
+>>
+>> [...]
+>>
+>> It would be worth a comment here explaining which resources the channel
+>> PMUs share, and why we need this thunderx2_pmu_uncore_dev. IIUC, it's
+>> just that they share a register windows switched by FW?
+>>
+>>> +struct thunderx2_pmu_uncore_dev {
+>>> +     char *name;
+>>> +     struct device *dev;
+>>> +     enum thunderx2_uncore_type type;
+>>> +     void __iomem *base;
+>>> +     int node;
+>>> +     u32    max_counters;
+>>> +     u32    max_channels;
+>>> +     u32    max_events;
+>>> +     u64 hrtimer_interval;
+>>> +     /* this lock synchronizes across channels */
+>>> +     raw_spinlock_t lock;
+>>> +     const struct attribute_group **attr_groups;
+>>> +     void    (*init_cntr_base)(struct perf_event *event,
+>>> +                     struct thunderx2_pmu_uncore_dev *uncore_dev);
+>>> +     void    (*select_channel)(struct perf_event *event);
+>>> +     void    (*stop_event)(struct perf_event *event);
+>>> +     void    (*start_event)(struct perf_event *event, int flags);
+>>> +};
+>>
+>> As a general thing, the really long structure/enum/macro names make
+>> things really hard to read.
+>>
+>> Could we s/THUNDERX2/TX2/ and s/thunderx2/tx2/ for identifiers please?
+>
+> thanks, will do.
+>>
+>> Similarly:
+>>
+>> * s/thunderx2_pmu_uncore_channel/tx2_pmu/
+>>
+>> * s/thunderx2_pmu_uncore_dev/tx2_pmu_group/
+>>
+>> ... and consistently name those "pmu" and "pmu_group" respectively --
+>> that mekas the relationship between the two much clearer for someone who
+>> is not intimately familiar with the hardware.
+>
+> These PMUs(UNCORE) counters makes only sense to someone who is
+> familiar with the hardware.
+> IMHO,  the current names aligned to hardware design like channels ,
+> tiles, counter etc,
+> which is explained in PATCH1/2.
+>
+> I will try to simplify long names.
+>
+>>
+>> That makes things far more legible, e.g.
+>>
+>>> +static inline struct thunderx2_pmu_uncore_channel *
+>>> +pmu_to_thunderx2_pmu_uncore(struct pmu *pmu)
+>>> +{
+>>> +     return container_of(pmu, struct thunderx2_pmu_uncore_channel, pmu);
+>>> +}
+>>
+>> ... becomes:
+>>
+>> static struct tx2_pmu *pmu_to_tx2_pmu(struct pmu *pmu)
+>> {
+>>         return container_of(pmu, struct tx2_pmu, pmu);
+>> }
+>>
+>> [...]
+>>
+>>> +/*
+>>> + * sysfs cpumask attributes
+>>> + */
+>>> +static ssize_t cpumask_show(struct device *dev,
+>>> +                             struct device_attribute *attr, char *buf)
+>>> +{
+>>> +     struct cpumask cpu_mask;
+>>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore =
+>>> +             pmu_to_thunderx2_pmu_uncore(dev_get_drvdata(dev));
+>>> +
+>>> +     cpumask_clear(&cpu_mask);
+>>> +     cpumask_set_cpu(pmu_uncore->cpu, &cpu_mask);
+>>> +     return cpumap_print_to_pagebuf(true, buf, &cpu_mask);
+>>> +}
+>>> +static DEVICE_ATTR_RO(cpumask);
+>>
+>> This can be simplified to:
+>>
+>> static ssize_t cpumask_show(struct device *dev, struct device_attribute
+>>                             *attr, char *buf)
+>> {
+>>         struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>>         pmu_uncore = pmu_to_thunderx2_pmu_uncore(dev_get_drvdata(dev));
+>>
+>>         return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu_uncore->cpu));
+>> }
+>
+> thanks, will do
+>>
+>> [...]
+>>
+>>> +static int alloc_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore)
+>>> +{
+>>> +     int counter;
+>>> +
+>>> +     raw_spin_lock(&pmu_uncore->lock);
+>>> +     counter = find_first_zero_bit(pmu_uncore->active_counters,
+>>> +                             pmu_uncore->uncore_dev->max_counters);
+>>> +     if (counter == pmu_uncore->uncore_dev->max_counters) {
+>>> +             raw_spin_unlock(&pmu_uncore->lock);
+>>> +             return -ENOSPC;
+>>> +     }
+>>> +     set_bit(counter, pmu_uncore->active_counters);
+>>> +     raw_spin_unlock(&pmu_uncore->lock);
+>>> +     return counter;
+>>> +}
+>>> +
+>>> +static void free_counter(
+>>> +             struct thunderx2_pmu_uncore_channel *pmu_uncore, int counter)
+>>> +{
+>>> +     raw_spin_lock(&pmu_uncore->lock);
+>>> +     clear_bit(counter, pmu_uncore->active_counters);
+>>> +     raw_spin_unlock(&pmu_uncore->lock);
+>>> +}
+>>
+>> As above, I still don't believe that these locks are necessary, unless
+>> we have a bug elsewhere.
+>
+> i will try to debug and provide you more info.
+>
+>>
+>> [...]
+>>
+>>> +/*
+>>> + * DMC and L3 counter interface is muxed across all channels.
+>>> + * hence we need to select the channel before accessing counter
+>>> + * data/control registers.
+>>> + *
+>>> + *  L3 Tile and DMC channel selection is through SMC call
+>>> + *  SMC call arguments,
+>>> + *   x0 = THUNDERX2_SMC_CALL_ID      (Vendor SMC call Id)
+>>> + *   x1 = THUNDERX2_SMC_SET_CHANNEL  (Id to set DMC/L3C channel)
+>>> + *   x2 = Node id
+>>> + *   x3 = DMC(1)/L3C(0)
+>>> + *   x4 = channel Id
+>>> + */
+>>
+>> Please document which ID space the node id is in, e.g.
+>>
+>>         x2 = FW Node ID (matching SRAT/SLIT IDs)
+>>
+>> ... so that it's clear that this isn't a Linux logical node id, even if
+>> those happen to be the same today.
+>
+> sure.
+>>
+>> [...]
+>>
+>>> +static void thunderx2_uncore_start(struct perf_event *event, int flags)
+>>> +{
+>>> +     struct hw_perf_event *hwc = &event->hw;
+>>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>>> +     struct thunderx2_pmu_uncore_dev *uncore_dev;
+>>> +     unsigned long irqflags;
+>>> +
+>>> +     hwc->state = 0;
+>>> +     pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+>>> +     uncore_dev = pmu_uncore->uncore_dev;
+>>> +
+>>> +     raw_spin_lock_irqsave(&uncore_dev->lock, irqflags);
+>>> +     uncore_dev->select_channel(event);
+>>> +     uncore_dev->start_event(event, flags);
+>>> +     raw_spin_unlock_irqrestore(&uncore_dev->lock, irqflags);
+>>> +     perf_event_update_userpage(event);
+>>> +
+>>> +     if (!find_last_bit(pmu_uncore->active_counters,
+>>> +                             pmu_uncore->uncore_dev->max_counters)) {
+>>
+>> This would be clearer using !bitmap_empty().
+>
+> thanks.
+>>
+>>> +             hrtimer_start(&pmu_uncore->hrtimer,
+>>> +                     ns_to_ktime(uncore_dev->hrtimer_interval),
+>>> +                     HRTIMER_MODE_REL_PINNED);
+>>> +     }
+>>> +}
+>>
+>> [...]
+>>
+>>> +static enum hrtimer_restart thunderx2_uncore_hrtimer_callback(
+>>> +             struct hrtimer *hrt)
+>>
+>> s/hrt/timer/ please
+>
+> sure, thanks.
+>>
+>>> +{
+>>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>>> +     unsigned long irqflags;
+>>> +     int idx;
+>>> +     bool restart_timer = false;
+>>> +
+>>> +     pmu_uncore = container_of(hrt, struct thunderx2_pmu_uncore_channel,
+>>> +                     hrtimer);
+>>> +
+>>> +     raw_spin_lock_irqsave(&pmu_uncore->uncore_dev->lock, irqflags);
+>>> +     for_each_set_bit(idx, pmu_uncore->active_counters,
+>>> +                     pmu_uncore->uncore_dev->max_counters) {
+>>> +             struct perf_event *event = pmu_uncore->events[idx];
+>>> +
+>>> +             thunderx2_uncore_update(event);
+>>> +             restart_timer = true;
+>>> +     }
+>>> +     raw_spin_unlock_irqrestore(&pmu_uncore->uncore_dev->lock, irqflags);
+>>> +
+>>> +     if (restart_timer)
+>>> +             hrtimer_forward_now(hrt,
+>>> +                     ns_to_ktime(
+>>> +                             pmu_uncore->uncore_dev->hrtimer_interval));
+>>> +
+>>> +     return restart_timer ? HRTIMER_RESTART : HRTIMER_NORESTART;
+>>> +}
+>>
+>> You don't need to take the lock at all if there are no active events,
+>> and we can avoid all the conditional logic that way. e.g. assuming the
+>> renames I requested above:
+>>
+>> static enum hrtimer_restart tx2_hrtimer_callback(struct hrtimer *timer)
+>>
+>> {
+>>         struct tx2_pmu *pmu;
+>>         struct tx2_pmu_group *pmu_group;
+>>         unsigned long irqflags;
+>>         int max_counters;
+>>         int idx;
+>>
+>>         pmu = container_of(timer, struct tx2_pmu, hrtimer);
+>>         pmu_group = pmu->pmu_group;
+>>         max_counters = pmu_group->max_counters;
+>>
+>>         if (cpumask_empty(pmu->active_counters, max_counters))
+>>                 return HRTIMER_NORESTART;
+>>
+>>         raw_spin_lock_irqsave(&pmu_group->lock, irqflags);
+>>         for_each_set_bit(idx, pmu->active_counters, max_counters) {
+>>                 struct perf_event *event = pmu->events[idx];
+>>
+>>                 tx2_uncore_update(event);
+>>                 restart_timer = true;
+>>         }
+>>         raw_spin_unlock_irqrestore(&pmu_group->lock, irqflags);
+>>
+>>         hrtimer_forward_now(hrt, ns_to_ktime(pmu_group->hrtimer_interval));
+>>
+>>         return HRTIMER_RESTART;
+>> }
+>
+> thanks, i will adopt this function.
+>>
+>> [...]
+>>
+>>> +     switch (uncore_dev->type) {
+>>> +     case PMU_TYPE_L3C:
+>>> +             uncore_dev->max_counters = UNCORE_MAX_COUNTERS;
+>>> +             uncore_dev->max_channels = UNCORE_L3_MAX_TILES;
+>>> +             uncore_dev->max_events = L3_EVENT_MAX;
+>>> +             uncore_dev->hrtimer_interval = UNCORE_HRTIMER_INTERVAL;
+>>> +             uncore_dev->attr_groups = l3c_pmu_attr_groups;
+>>> +             uncore_dev->name = devm_kasprintf(dev, GFP_KERNEL,
+>>> +                             "uncore_l3c_%d", uncore_dev->node);
+>>> +             uncore_dev->init_cntr_base = init_cntr_base_l3c;
+>>> +             uncore_dev->start_event = uncore_start_event_l3c;
+>>> +             uncore_dev->stop_event = uncore_stop_event_l3c;
+>>> +             uncore_dev->select_channel = uncore_select_channel;
+>>> +             break;
+>>> +     case PMU_TYPE_DMC:
+>>> +             uncore_dev->max_counters = UNCORE_MAX_COUNTERS;
+>>> +             uncore_dev->max_channels = UNCORE_DMC_MAX_CHANNELS;
+>>> +             uncore_dev->max_events = DMC_EVENT_MAX;
+>>> +             uncore_dev->hrtimer_interval = UNCORE_HRTIMER_INTERVAL;
+>>> +             uncore_dev->attr_groups = dmc_pmu_attr_groups;
+>>> +             uncore_dev->name = devm_kasprintf(dev, GFP_KERNEL,
+>>> +                             "uncore_dmc_%d", uncore_dev->node);
+>>> +             uncore_dev->init_cntr_base = init_cntr_base_dmc;
+>>> +             uncore_dev->start_event = uncore_start_event_dmc;
+>>> +             uncore_dev->stop_event = uncore_stop_event_dmc;
+>>> +             uncore_dev->select_channel = uncore_select_channel;
+>>> +             break;
+>>
+>> We should probably s/uncore/tx2/, or s/uncore/thunderx2/ to namespace
+>> this.
+>
+> ok, i would preffer tx2.
+>>
+>>> +static int thunderx2_uncore_pmu_offline_cpu(unsigned int cpu,
+>>> +             struct hlist_node *node)
+>>> +{
+>>> +     int new_cpu;
+>>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>>> +
+>>> +     pmu_uncore = hlist_entry_safe(node,
+>>> +                     struct thunderx2_pmu_uncore_channel, node);
+>>> +     if (cpu != pmu_uncore->cpu)
+>>> +             return 0;
+>>> +
+>>> +     new_cpu = cpumask_any_and(
+>>> +                     cpumask_of_node(pmu_uncore->uncore_dev->node),
+>>> +                     cpu_online_mask);
+>>> +     if (new_cpu >= nr_cpu_ids)
+>>> +             return 0;
+>>> +
+>>> +     pmu_uncore->cpu = new_cpu;
+>>> +     perf_pmu_migrate_context(&pmu_uncore->pmu, cpu, new_cpu);
+>>> +     return 0;
+>>> +}
+>>
+>> We'll also need a onlining callback. Consider if all CPUs in a NUMA node
+>> were offlined, then we tried to online an arbitrary CPU from that node.
+>
+> sure, will add.
+>>
+>> Thanks,
+>> Mark.
+>
+> thanks
+> Ganapat
+
+thanks
+Ganapat
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
