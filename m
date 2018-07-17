@@ -5,337 +5,343 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 928A07D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 09:36:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E74EB7D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 09:40:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729976AbeGQKHv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 06:07:51 -0400
-Received: from smtprelay2.synopsys.com ([198.182.60.111]:39139 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728835AbeGQKHv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 06:07:51 -0400
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 6B0A310C134F;
-        Tue, 17 Jul 2018 02:36:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1531820168; bh=1O/r2aDYKcGdEXAYb1vdl90YJL9gPljVDVaYHM9y6N0=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=K0ccWrCG3mscUjLxB55Zuep7yOaXhjLKt9wNBQlgeFgJJeXxuwN/lC2c8AercZgzx
-         TjFgqv3/bXMGaInqjT/CIj8kGV7DCR6p83tkVsyZZ9uiipOnmhXz8j5DUM3FOGOX+I
-         S4s0E8385b8MiXimgdHadNEcfaQmsXPPL9j47d2mqrrFx1qq472gfSDL9Z+1HCLUg8
-         o1cwlKy/zbyAzPOwmv76/k6pRMP3Glj28d4mX2if5RTsmEk0T8MPMfCDlKkv+J6xRP
-         DvmtP74B0vD9cBHbXQWYMNXKj/JayP9fIEYjmGuaILqH2MY+VnAzf8SHMlGqMB9bjz
-         wRO5aliN++2aQ==
-Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 45E8A3C49;
-        Tue, 17 Jul 2018 02:36:08 -0700 (PDT)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Tue, 17 Jul 2018 02:36:07 -0700
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Tue, 17 Jul 2018 11:36:06 +0200
-Received: from [10.107.25.102] (10.107.25.102) by
- DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Tue, 17 Jul 2018 11:36:05 +0200
-Subject: Re: [PATCH v11 10/12] pci_endpoint_test: Add 2 ioctl commands
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "joao.pinto@synopsys.com" <joao.pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
-        "shawn.lin@rock-chips.com" <shawn.lin@rock-chips.com>
-CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <cover.1531751641.git.gustavo.pimentel@synopsys.com>
- <0dc487515e28a6cd790888cb98f84fb7ea3a412e.1531751641.git.gustavo.pimentel@synopsys.com>
- <fe9da184-e085-05d2-2c12-4dc50633736f@ti.com>
-From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Message-ID: <a89dac70-860b-be00-f5f0-88e69613fe00@synopsys.com>
-Date:   Tue, 17 Jul 2018 10:33:53 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1729696AbeGQKMC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 06:12:02 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:56692 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728610AbeGQKMC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 06:12:02 -0400
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id w6H9e5xB039110;
+        Tue, 17 Jul 2018 04:40:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1531820405;
+        bh=U5BstpYBsUlBCJItY2G581idWcuhNw8uXNew8a5P9F0=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=YUnlf0mzwFjFo/ZDsgQAkXJVfrYnaPfv7fJ+DS85rLHX3KH7G5fxRY5kERlrmkueH
+         HmLtpcW4uf9WwJ05SpZZo0VLGP0c0qb+7COBZeHBUARFJn1dJVs5MWN4gMraXPX/QJ
+         DoiXk/moe9T8Cs4wnks1mlzSAPoCwmOzMpcwD1DQ=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w6H9e5XO024780;
+        Tue, 17 Jul 2018 04:40:05 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Tue, 17
+ Jul 2018 04:40:05 -0500
+Received: from dflp32.itg.ti.com (10.64.6.15) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Tue, 17 Jul 2018 04:40:05 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id w6H9e1tm014021;
+        Tue, 17 Jul 2018 04:40:02 -0500
+Subject: Re: [PATCH v12 04/12] PCI: dwc: Add MSI-X callbacks handler
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <joao.pinto@synopsys.com>, <jingoohan1@gmail.com>,
+        <adouglas@cadence.com>, <jesper.nilsson@axis.com>,
+        <shawn.lin@rock-chips.com>
+References: <cover.1531818979.git.gustavo.pimentel@synopsys.com>
+ <7bd86d9f0ea3dc83b2f09dbe02bd279d0be14061.1531818979.git.gustavo.pimentel@synopsys.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <377d4b37-bc7f-0792-0117-13657a59269b@ti.com>
+Date:   Tue, 17 Jul 2018 15:10:00 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <fe9da184-e085-05d2-2c12-4dc50633736f@ti.com>
+In-Reply-To: <7bd86d9f0ea3dc83b2f09dbe02bd279d0be14061.1531818979.git.gustavo.pimentel@synopsys.com>
 Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.107.25.102]
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Kishon,
 
-On 17/07/2018 03:43, Kishon Vijay Abraham I wrote:
-> Hi Gustavo,
-> 
-> On Monday 16 July 2018 08:22 PM, Gustavo Pimentel wrote:
->> Add MSI-X support and update driver documentation accordingly.
->>
->> Add 2 new IOCTL commands:
->>  - Allow to reconfigure driver IRQ type in runtime.
->>  - Allow to retrieve current driver IRQ type configured.
->>
->> Add IRQ type validation before executing the READ/WRITE/COPY tests.
->>
->> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->> ---
->> Change v2->v3:
->>  - New patch file created base on the previous patch
->> "misc: pci_endpoint_test: Add MSI-X support" patch file following
->> Kishon's suggestion.
->> Change v3->v4:
->>  - Rebased to Lorenzo's master branch v4.18-rc1.
->> Change v4->v5:
->>  - Nothing changed, just to follow the patch set version.
->> Change v5->v6:
->>  - Moved PCITEST_SET_IRQTYPE and PCITEST_GET_IRQTYPE ioctl entries
->> from patch #10 to here.
->>  - Increased ioctl parameters range associated to
->> drivers/misc/pci_endpoint_test.c driver.
->> Change v6->v7:
->>  - irq_type variable update just before returning the function.
->> Change v7->v8:
->>  - Re-sending the patch series.
->> Change v8->v9:
->>  - Added a extra parameter to pci_endpoint_test_alloc_irq_vectors,
->> that specifies which irq type should be allocated.
->> Change v9->v10:
->>  - Fixed bug, report available: https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.org_lkml_2018_7_16_11&d=DwIC-g&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=kfPim9EoIsdNO2BRH1BV6fsKhqV4Qy_JAofUZ2bPmpg&s=sz6k8lKVuC2tpzwc3T-OwE9ShzNwtALcrS_fuJGfiK0&e=
->>  - Added IRQ type validation before executing the READ/WRITE/COPY
->> tests.
->>
->>  Documentation/ioctl/ioctl-number.txt             |   2 +-
->>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
->>  drivers/misc/pci_endpoint_test.c                 | 192 +++++++++++++++++------
->>  include/uapi/linux/pcitest.h                     |   2 +
->>  4 files changed, 152 insertions(+), 47 deletions(-)
->>
->> diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
->> index 65259d4..c15c4f3 100644
->> --- a/Documentation/ioctl/ioctl-number.txt
->> +++ b/Documentation/ioctl/ioctl-number.txt
->> @@ -166,7 +166,7 @@ Code  Seq#(hex)	Include File		Comments
->>  'P'	all	linux/soundcard.h	conflict!
->>  'P'	60-6F	sound/sscape_ioctl.h	conflict!
->>  'P'	00-0F	drivers/usb/class/usblp.c	conflict!
->> -'P'	01-07	drivers/misc/pci_endpoint_test.c	conflict!
->> +'P'	01-09	drivers/misc/pci_endpoint_test.c	conflict!
->>  'Q'	all	linux/soundcard.h
->>  'R'	00-1F	linux/random.h		conflict!
->>  'R'	01	linux/rfkill.h		conflict!
->> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
->> index fdfa0f6..58ccca4 100644
->> --- a/Documentation/misc-devices/pci-endpoint-test.txt
->> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
->> @@ -28,6 +28,9 @@ ioctl
->>  	      to be tested should be passed as argument.
->>   PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
->>  	      to be tested should be passed as argument.
->> + PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
->> +	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
->> + PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
->>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
->>  		as argument.
->>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
->> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
->> index f4fef10..d909ca5 100644
->> --- a/drivers/misc/pci_endpoint_test.c
->> +++ b/drivers/misc/pci_endpoint_test.c
->> @@ -37,6 +37,7 @@
->>  
->>  #define DRV_MODULE_NAME				"pci-endpoint-test"
->>  
->> +#define IRQ_TYPE_UNDEFINED			-1
->>  #define IRQ_TYPE_LEGACY				0
->>  #define IRQ_TYPE_MSI				1
->>  #define IRQ_TYPE_MSIX				2
->> @@ -157,6 +158,88 @@ static irqreturn_t pci_endpoint_test_irqhandler(int irq, void *dev_id)
->>  	return IRQ_HANDLED;
->>  }
->>  
->> +static void pci_endpoint_test_free_irq_vectors(struct pci_endpoint_test *test)
->> +{
->> +	int i;
->> +	struct pci_dev *pdev = test->pdev;
->> +	struct device *dev = &pdev->dev;
->> +
->> +	for (i = 0; i < test->num_irqs; i++)
->> +		devm_free_irq(dev, pci_irq_vector(pdev, i), test);
->> +
->> +	test->num_irqs = 0;
->> +}
->> +
->> +static bool pci_endpoint_test_alloc_irq_vectors(struct pci_endpoint_test *test,
->> +						int type)
->> +{
->> +	int irq = -1;
->> +	struct pci_dev *pdev = test->pdev;
->> +	struct device *dev = &pdev->dev;
->> +	bool res = true;
->> +
->> +	switch (type) {
->> +	case IRQ_TYPE_LEGACY:
->> +		irq = 0;
->> +		break;
->> +	case IRQ_TYPE_MSI:
->> +		irq = pci_alloc_irq_vectors(pdev, 1, 32, PCI_IRQ_MSI);
->> +		if (irq < 0)
->> +			dev_err(dev, "Failed to get MSI interrupts\n");
->> +		break;
->> +	case IRQ_TYPE_MSIX:
->> +		irq = pci_alloc_irq_vectors(pdev, 1, 2048, PCI_IRQ_MSIX);
->> +		if (irq < 0)
->> +			dev_err(dev, "Failed to get MSI-X interrupts\n");
->> +		break;
->> +	default:
->> +		dev_err(dev, "Invalid IRQ type selected\n");
->> +	}
->> +
->> +	if (irq < 0) {
->> +		irq = 0;
->> +		res = false;
->> +	}
->> +	test->num_irqs = irq;
->> +
->> +	return res;
->> +}
->> +
->> +static void pci_endpoint_test_release_irq(struct pci_endpoint_test *test)
->> +{
->> +	struct pci_dev *pdev = test->pdev;
->> +
->> +	pci_disable_msi(pdev);
->> +	pci_disable_msix(pdev);
->> +}
->> +
->> +static bool pci_endpoint_test_request_irq(struct pci_endpoint_test *test)
->> +{
->> +	int i;
->> +	int err;
->> +	struct pci_dev *pdev = test->pdev;
->> +	struct device *dev = &pdev->dev;
->> +
->> +	err = devm_request_irq(dev, pdev->irq, pci_endpoint_test_irqhandler,
->> +			       IRQF_SHARED, DRV_MODULE_NAME, test);
->> +	if (err) {
->> +		dev_err(dev, "Failed to request IRQ %d\n", pdev->irq);
->> +		return false;
->> +	}
->> +
->> +	for (i = 1; i < test->num_irqs; i++) {
->> +		err = devm_request_irq(dev, pci_irq_vector(pdev, i),
->> +				       pci_endpoint_test_irqhandler,
->> +				       IRQF_SHARED, DRV_MODULE_NAME, test);
->> +		if (err)
->> +			dev_err(dev, "Failed to request IRQ %d for MSI%s %d\n",
->> +				pci_irq_vector(pdev, i),
->> +				irq_type == IRQ_TYPE_MSIX ? "-X" : "", i + 1);
->> +	}
->> +
->> +	return true;
->> +}
->> +
->>  static bool pci_endpoint_test_bar(struct pci_endpoint_test *test,
->>  				  enum pci_barno barno)
->>  {
->> @@ -247,6 +330,11 @@ static bool pci_endpoint_test_copy(struct pci_endpoint_test *test, size_t size)
->>  	if (size > SIZE_MAX - alignment)
->>  		goto err;
->>  
->> +	if (irq_type < IRQ_TYPE_LEGACY || irq_type > IRQ_TYPE_MSIX) {
->> +		dev_err(dev, "Invalid IRQ type option\n");
->> +		goto err;
->> +	}
->> +
->>  	orig_src_addr = dma_alloc_coherent(dev, size + alignment,
->>  					   &orig_src_phys_addr, GFP_KERNEL);
->>  	if (!orig_src_addr) {
->> @@ -337,6 +425,11 @@ static bool pci_endpoint_test_write(struct pci_endpoint_test *test, size_t size)
->>  	if (size > SIZE_MAX - alignment)
->>  		goto err;
->>  
->> +	if (irq_type < IRQ_TYPE_LEGACY || irq_type > IRQ_TYPE_MSIX) {
->> +		dev_err(dev, "Invalid IRQ type option\n");
->> +		goto err;
->> +	}
->> +
->>  	orig_addr = dma_alloc_coherent(dev, size + alignment, &orig_phys_addr,
->>  				       GFP_KERNEL);
->>  	if (!orig_addr) {
->> @@ -400,6 +493,11 @@ static bool pci_endpoint_test_read(struct pci_endpoint_test *test, size_t size)
->>  	if (size > SIZE_MAX - alignment)
->>  		goto err;
->>  
->> +	if (irq_type < IRQ_TYPE_LEGACY || irq_type > IRQ_TYPE_MSIX) {
->> +		dev_err(dev, "Invalid IRQ type option\n");
->> +		goto err;
->> +	}
->> +
->>  	orig_addr = dma_alloc_coherent(dev, size + alignment, &orig_phys_addr,
->>  				       GFP_KERNEL);
->>  	if (!orig_addr) {
->> @@ -440,6 +538,38 @@ static bool pci_endpoint_test_read(struct pci_endpoint_test *test, size_t size)
->>  	return ret;
->>  }
->>  
->> +static bool pci_endpoint_test_set_irq(struct pci_endpoint_test *test,
->> +				      int req_irq_type)
->> +{
->> +	struct pci_dev *pdev = test->pdev;
->> +	struct device *dev = &pdev->dev;
->> +
->> +	if (req_irq_type < IRQ_TYPE_LEGACY || req_irq_type > IRQ_TYPE_MSIX) {
->> +		dev_err(dev, "Invalid IRQ type option\n");
->> +		return false;
->> +	}
->> +
->> +	if (irq_type == req_irq_type)
->> +		return true;
->> +
->> +	pci_endpoint_test_free_irq_vectors(test);
->> +	pci_endpoint_test_release_irq(test);
->> +
->> +	if (!pci_endpoint_test_alloc_irq_vectors(test, req_irq_type))
->> +		goto err;
->> +
->> +	if (!pci_endpoint_test_request_irq(test))
->> +		goto err;
->> +
->> +	irq_type = req_irq_type;
->> +	return true;
->> +
->> +err:
->> +	pci_endpoint_test_release_irq(test);
-> 
-> sorry for not noticing this earlier..
-> 
-> pci_endpoint_test_alloc_irq_vectors enables MSI.. I'd have expected
-> pci_endpoint_test_free_irq_vectors to disable MSI. Similarly
-> pci_endpoint_test_request_irq requests irq. Ideally
-> pci_endpoint_test_release_irq should have freed irq. I feel the contents of
-> pci_endpoint_test_release_irq() and pci_endpoint_test_free_irq_vectors are swapped.
-> 
-> For the patch itself, I have tested it now and the issue I reported earlier is
-> not seen in this series.
 
-I just sent the patch series V12 with that swapped.
-Please give the Acked for the missing patches #4, #7 and #10 (if you agree) to
-close this patch series.
-
+On Tuesday 17 July 2018 03:01 PM, Gustavo Pimentel wrote:
+> Add PCIe config space capability search function.
 > 
-> Thanks
-> Kishon
+> Add sysfs set/get interface to allow the change of EP MSI-X maximum number.
 > 
+> Add EP MSI-X callback for triggering interruptions.
+> 
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 
-Regards,
-Gustavo
+Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
+> ---
+> Change v1->v2:
+>  - Nothing changed, just to follow the patch set version.
+> Change v2->v3:
+>  - Moved dra7xx_pcie_raise_irq() signature change to patch file #3.
+>  - Moved artpec6_pcie_raise_irq() signature change to patch file #3.
+>  - Replaced wrong return value 0 to -EINVAL.
+>  - Removed an else if by code refactoring.
+>  - Reduced the size of ioremap_nocache mapping from ep->addr_size to
+> PCI_MSIX_ENTRY_SIZE.
+>  - Fixed a small bug. If the MSI-X vector bit has been set, the function
+> would return without executing the proper unmap.
+> Change v3->v4:
+>  - Rebased to Lorenzo's master branch v4.18-rc1.
+>  - Added static prefix to __dw_pcie_ep_find_next_cap function.
+> Change v4->v5:
+>  - Added static prefix to dw_pcie_ep_find_capability function.
+>  - Swap patch files position (#2 <-> #3).
+>  - Moved dw_pcie_ep_raise_irq and dw_plat_pcie_ep_raise_irq functions
+> signatures change to patch file #2.
+> Change v5->v6:
+>  - Nothing changed, just to follow the patch set version.
+> Change v6->v7:
+>  - Nothing changed, just to follow the patch set version.
+> Change v7->v8:
+>  - Re-sending the patch series.
+> Change v8->v9:
+>  - Nothing changed, just to follow the patch set version.
+> Change v9->v10:
+>  - Reuse of msix_mem and msi_mem_phys variables.
+> Change v10->v11:
+>  - Nothing changed, just to follow the patch set version.
+> Change v11->v12:
+>  - Nothing changed, just to follow the patch set version.
+> 
+>  drivers/pci/controller/dwc/pcie-designware-ep.c   | 137 +++++++++++++++++++++-
+>  drivers/pci/controller/dwc/pcie-designware-plat.c |   2 +
+>  drivers/pci/controller/dwc/pcie-designware.h      |  10 ++
+>  3 files changed, 148 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index 69d039d..23be2c0 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -40,6 +40,39 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
+>  	__dw_pcie_ep_reset_bar(pci, bar, 0);
+>  }
+>  
+> +static u8 __dw_pcie_ep_find_next_cap(struct dw_pcie *pci, u8 cap_ptr,
+> +			      u8 cap)
+> +{
+> +	u8 cap_id, next_cap_ptr;
+> +	u16 reg;
+> +
+> +	reg = dw_pcie_readw_dbi(pci, cap_ptr);
+> +	next_cap_ptr = (reg & 0xff00) >> 8;
+> +	cap_id = (reg & 0x00ff);
+> +
+> +	if (!next_cap_ptr || cap_id > PCI_CAP_ID_MAX)
+> +		return 0;
+> +
+> +	if (cap_id == cap)
+> +		return cap_ptr;
+> +
+> +	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
+> +}
+> +
+> +static u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
+> +{
+> +	u8 next_cap_ptr;
+> +	u16 reg;
+> +
+> +	reg = dw_pcie_readw_dbi(pci, PCI_CAPABILITY_LIST);
+> +	next_cap_ptr = (reg & 0x00ff);
+> +
+> +	if (!next_cap_ptr)
+> +		return 0;
+> +
+> +	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
+> +}
+> +
+>  static int dw_pcie_ep_write_header(struct pci_epc *epc, u8 func_no,
+>  				   struct pci_epf_header *hdr)
+>  {
+> @@ -241,6 +274,45 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
+>  	return 0;
+>  }
+>  
+> +static int dw_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no)
+> +{
+> +	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	u32 val, reg;
+> +
+> +	if (!ep->msix_cap)
+> +		return -EINVAL;
+> +
+> +	reg = ep->msix_cap + PCI_MSIX_FLAGS;
+> +	val = dw_pcie_readw_dbi(pci, reg);
+> +	if (!(val & PCI_MSIX_FLAGS_ENABLE))
+> +		return -EINVAL;
+> +
+> +	val &= PCI_MSIX_FLAGS_QSIZE;
+> +
+> +	return val;
+> +}
+> +
+> +static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts)
+> +{
+> +	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	u32 val, reg;
+> +
+> +	if (!ep->msix_cap)
+> +		return -EINVAL;
+> +
+> +	reg = ep->msix_cap + PCI_MSIX_FLAGS;
+> +	val = dw_pcie_readw_dbi(pci, reg);
+> +	val &= ~PCI_MSIX_FLAGS_QSIZE;
+> +	val |= interrupts;
+> +	dw_pcie_dbi_ro_wr_en(pci);
+> +	dw_pcie_writew_dbi(pci, reg, val);
+> +	dw_pcie_dbi_ro_wr_dis(pci);
+> +
+> +	return 0;
+> +}
+> +
+>  static int dw_pcie_ep_raise_irq(struct pci_epc *epc, u8 func_no,
+>  				enum pci_epc_irq_type type, u16 interrupt_num)
+>  {
+> @@ -282,6 +354,8 @@ static const struct pci_epc_ops epc_ops = {
+>  	.unmap_addr		= dw_pcie_ep_unmap_addr,
+>  	.set_msi		= dw_pcie_ep_set_msi,
+>  	.get_msi		= dw_pcie_ep_get_msi,
+> +	.set_msix		= dw_pcie_ep_set_msix,
+> +	.get_msix		= dw_pcie_ep_get_msix,
+>  	.raise_irq		= dw_pcie_ep_raise_irq,
+>  	.start			= dw_pcie_ep_start,
+>  	.stop			= dw_pcie_ep_stop,
+> @@ -322,6 +396,64 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	return 0;
+>  }
+>  
+> +int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+> +			     u16 interrupt_num)
+> +{
+> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	struct pci_epc *epc = ep->epc;
+> +	u16 tbl_offset, bir;
+> +	u32 bar_addr_upper, bar_addr_lower;
+> +	u32 msg_addr_upper, msg_addr_lower;
+> +	u32 reg, msg_data, vec_ctrl;
+> +	u64 tbl_addr, msg_addr, reg_u64;
+> +	void __iomem *msix_tbl;
+> +	int ret;
+> +
+> +	reg = ep->msix_cap + PCI_MSIX_TABLE;
+> +	tbl_offset = dw_pcie_readl_dbi(pci, reg);
+> +	bir = (tbl_offset & PCI_MSIX_TABLE_BIR);
+> +	tbl_offset &= PCI_MSIX_TABLE_OFFSET;
+> +	tbl_offset >>= 3;
+> +
+> +	reg = PCI_BASE_ADDRESS_0 + (4 * bir);
+> +	bar_addr_upper = 0;
+> +	bar_addr_lower = dw_pcie_readl_dbi(pci, reg);
+> +	reg_u64 = (bar_addr_lower & PCI_BASE_ADDRESS_MEM_TYPE_MASK);
+> +	if (reg_u64 == PCI_BASE_ADDRESS_MEM_TYPE_64)
+> +		bar_addr_upper = dw_pcie_readl_dbi(pci, reg + 4);
+> +
+> +	tbl_addr = ((u64) bar_addr_upper) << 32 | bar_addr_lower;
+> +	tbl_addr += (tbl_offset + ((interrupt_num - 1) * PCI_MSIX_ENTRY_SIZE));
+> +	tbl_addr &= PCI_BASE_ADDRESS_MEM_MASK;
+> +
+> +	msix_tbl = ioremap_nocache(ep->phys_base + tbl_addr,
+> +				   PCI_MSIX_ENTRY_SIZE);
+> +	if (!msix_tbl)
+> +		return -EINVAL;
+> +
+> +	msg_addr_lower = readl(msix_tbl + PCI_MSIX_ENTRY_LOWER_ADDR);
+> +	msg_addr_upper = readl(msix_tbl + PCI_MSIX_ENTRY_UPPER_ADDR);
+> +	msg_addr = ((u64) msg_addr_upper) << 32 | msg_addr_lower;
+> +	msg_data = readl(msix_tbl + PCI_MSIX_ENTRY_DATA);
+> +	vec_ctrl = readl(msix_tbl + PCI_MSIX_ENTRY_VECTOR_CTRL);
+> +
+> +	iounmap(msix_tbl);
+> +
+> +	if (vec_ctrl & PCI_MSIX_ENTRY_CTRL_MASKBIT)
+> +		return -EPERM;
+> +
+> +	ret = dw_pcie_ep_map_addr(epc, func_no, ep->msi_mem_phys, msg_addr,
+> +				  epc->mem->page_size);
+> +	if (ret)
+> +		return ret;
+> +
+> +	writel(msg_data, ep->msi_mem);
+> +
+> +	dw_pcie_ep_unmap_addr(epc, func_no, ep->msi_mem_phys);
+> +
+> +	return 0;
+> +}
+> +
+>  void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+>  {
+>  	struct pci_epc *epc = ep->epc;
+> @@ -412,9 +544,12 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+>  	ep->msi_mem = pci_epc_mem_alloc_addr(epc, &ep->msi_mem_phys,
+>  					     epc->mem->page_size);
+>  	if (!ep->msi_mem) {
+> -		dev_err(dev, "Failed to reserve memory for MSI\n");
+> +		dev_err(dev, "Failed to reserve memory for MSI/MSI-X\n");
+>  		return -ENOMEM;
+>  	}
+> +	ep->msi_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSI);
+> +
+> +	ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
+>  
+>  	dw_pcie_setup(pci);
+>  
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-plat.c b/drivers/pci/controller/dwc/pcie-designware-plat.c
+> index 0efb318..8bb2ecb 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-plat.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-plat.c
+> @@ -91,6 +91,8 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  		return -EINVAL;
+>  	case PCI_EPC_IRQ_MSI:
+>  		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+> +	case PCI_EPC_IRQ_MSIX:
+> +		return dw_pcie_ep_raise_msix_irq(ep, func_no, interrupt_num);
+>  	default:
+>  		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+>  	}
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index 9d581c0..00ac419 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -208,6 +208,8 @@ struct dw_pcie_ep {
+>  	u32			num_ob_windows;
+>  	void __iomem		*msi_mem;
+>  	phys_addr_t		msi_mem_phys;
+> +	u8			msi_cap;	/* MSI capability offset */
+> +	u8			msix_cap;	/* MSI-X capability offset */
+>  };
+>  
+>  struct dw_pcie_ops {
+> @@ -359,6 +361,8 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep);
+>  void dw_pcie_ep_exit(struct dw_pcie_ep *ep);
+>  int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  			     u8 interrupt_num);
+> +int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+> +			     u16 interrupt_num);
+>  void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar);
+>  #else
+>  static inline void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
+> @@ -380,6 +384,12 @@ static inline int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	return 0;
+>  }
+>  
+> +static inline int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+> +					   u16 interrupt_num)
+> +{
+> +	return 0;
+> +}
+> +
+>  static inline void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
+>  {
+>  }
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
