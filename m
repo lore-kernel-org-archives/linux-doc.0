@@ -1,483 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2551A7D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 05:21:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4ACB47D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 08:28:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727118AbeGQFwH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 01:52:07 -0400
-Received: from mail-oi0-f66.google.com ([209.85.218.66]:36081 "EHLO
-        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727038AbeGQFwG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 01:52:06 -0400
-Received: by mail-oi0-f66.google.com with SMTP id r16-v6so79296474oie.3;
-        Mon, 16 Jul 2018 22:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=25ETgUHEO8k2VH3dv/9NQq9he6DpaeoRQt+EOX5Qfh0=;
-        b=ew5C2T3vD0KvLHm9Au7x1N2LScACYyphW7/MdMx9imlNfzOjLF/Otg42ftM+vUNS2A
-         EPnbdoARAh4LSVHjoLOiPN9ITA/5VyQyWhHe6R61gQC5USOLU9q0qVn9hJMnEyBkNTWu
-         9vCOxxC0gbbpaEzKtVYq/SNp6fkP8+/480OyGGzvMR3PdA1U1gl8piLjfLPq+wWNDcqF
-         ZrPi4cAV5bv5b3OQyZBOoJ1qxHURQCl4oON7umqdm5lxzex1IzrWPsnKzig3Dm0DYDKi
-         0d4Sk4swrNO9rWc+Jmd4w4N+sxSFN+eOdJCB/2aCpvaJ4aoWEIINuCDB96iCyp98MVtQ
-         fkiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=25ETgUHEO8k2VH3dv/9NQq9he6DpaeoRQt+EOX5Qfh0=;
-        b=bLBaOXCY50Ot/9EsTsTmfYSObBW4EW9Fi/8P7e+XzmQepOT8YWACjIXz2SaX/zB6V9
-         v+VB0e2iqUUkPhv+JY6uLunfwl3kJ0Rw/9ORVutkOijuDDp4ZxazfOuOiCW89fq+FF5I
-         RXBdnIZVx92DUkeuxdXfxkaKbmfK/oQ9xGuxt2qhjgkmg5KFwX/GD9bFi9X8tCLbYxdK
-         cL98R08cn1HDiplBzK22VND6xbpmgIs6yd0WKXNGqQgpu9hzK4W6Edwn3iUl85M4UNpp
-         8fCkSdsWpP/oToHBJ5bcB0eBiW9W3+1UZwVaIQueeoIV3gaQspVcPmgCqKQ1YNEJN4RZ
-         fG3w==
-X-Gm-Message-State: AOUpUlHU/iTJsEI8wgDsOpN4yQsgl1yQkUivieXjYyr50KZ4GX2IX0eI
-        Isa+WuAyuPxZhQ3Dxz7ynYE5astFfa7/puMeMGg=
-X-Google-Smtp-Source: AAOMgpfIY1KliLsgYmtWW4y5QYh+BhngIVkAwxRXrW9MonJFDX079tIeQlFKF4R+4wI6M1j0qq6TtwxVAj4GXhyks4U=
-X-Received: by 2002:aca:f516:: with SMTP id t22-v6mr191555oih.56.1531804880424;
- Mon, 16 Jul 2018 22:21:20 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:d37:0:0:0:0:0 with HTTP; Mon, 16 Jul 2018 22:21:19 -0700 (PDT)
-In-Reply-To: <CAKTKpr5d0f6Hjj5_j4OFh609SrMOEYg+Zgm3O7UiJx7bw5A_XA@mail.gmail.com>
-References: <20180621063338.20093-1-ganapatrao.kulkarni@cavium.com>
- <20180621063338.20093-3-ganapatrao.kulkarni@cavium.com> <20180712165606.3vqx4ysnvdlfzmtp@lakrids.cambridge.arm.com>
- <CAKTKpr5d0f6Hjj5_j4OFh609SrMOEYg+Zgm3O7UiJx7bw5A_XA@mail.gmail.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Tue, 17 Jul 2018 10:51:19 +0530
-Message-ID: <CAKTKpr67DTvD8R5kS0OA53UH2d_cc_1vAbR3_NAo_-wfDMGO-Q@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
-        Robert Richter <Robert.Richter@cavium.com>,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
+        id S1728723AbeGQI7r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 04:59:47 -0400
+Received: from smtp1-3.goneo.de ([85.220.129.32]:40665 "EHLO smtp1-3.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728420AbeGQI7q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Jul 2018 04:59:46 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id 6EC7923F4D8;
+        Tue, 17 Jul 2018 10:28:17 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id FbrA-UTWhb7I; Tue, 17 Jul 2018 10:28:16 +0200 (CEST)
+Received: from ryzen (dyndsl-091-248-070-004.ewe-ip-backbone.de [91.248.70.4])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id 0DC4623F4CC;
+        Tue, 17 Jul 2018 10:28:15 +0200 (CEST)
+Message-ID: <1d7a309eb7561b9bb4c31f5deb9a0b63b6263232.camel@darmarit.de>
+Subject: Re: [PATCH net-next 1/3] docs: networking: Fix indices heading
+ indentation
+From:   Markus Heiser <markus.heiser@darmarit.de>
+To:     "Tobin C. Harding" <me@tobin.cc>,
+        "David S. Miller" <davem@davemloft.net>
+Cc:     linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 17 Jul 2018 10:28:15 +0200
+In-Reply-To: <20180717042906.17308-2-me@tobin.cc>
+References: <20180717042906.17308-1-me@tobin.cc>
+         <20180717042906.17308-2-me@tobin.cc>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mark,
+Am Dienstag, den 17.07.2018, 14:29 +1000 schrieb Tobin C. Harding:
+> Currently the 'Indices' heading is not aligned with column 0, it should
+> be.
 
+Hi Tobin, thats not correct. The 'Indices' heading is a part of the 'only'
+block:
 
-On Fri, Jul 13, 2018 at 6:28 PM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
-> thanks Mark for the comments.
->
-> On Thu, Jul 12, 2018 at 10:26 PM, Mark Rutland <mark.rutland@arm.com> wrote:
->> Hi Ganapat,
->>
->> On Thu, Jun 21, 2018 at 12:03:38PM +0530, Ganapatrao Kulkarni wrote:
->>> This patch adds a perf driver for the PMU UNCORE devices DDR4 Memory
->>> Controller(DMC) and Level 3 Cache(L3C).
->>>
->>> ThunderX2 has 8 independent DMC PMUs to capture performance events
->>> corresponding to 8 channels of DDR4 Memory Controller and 16 independent
->>> L3C PMUs to capture events corresponding to 16 tiles of L3 cache.
->>> Each PMU supports up to 4 counters. All counters lack overflow interrupt
->>> and are sampled periodically.
->>>
->>> Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
->>> ---
->>>  drivers/perf/Kconfig         |   8 +
->>>  drivers/perf/Makefile        |   1 +
->>>  drivers/perf/thunderx2_pmu.c | 949 +++++++++++++++++++++++++++++++++++++++++++
->>>  include/linux/cpuhotplug.h   |   1 +
->>>  4 files changed, 959 insertions(+)
->>>  create mode 100644 drivers/perf/thunderx2_pmu.c
->>>
->>> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
->>> index 08ebaf7..ecedb9e 100644
->>> --- a/drivers/perf/Kconfig
->>> +++ b/drivers/perf/Kconfig
->>> @@ -87,6 +87,14 @@ config QCOM_L3_PMU
->>>          Adds the L3 cache PMU into the perf events subsystem for
->>>          monitoring L3 cache events.
->>>
->>> +config THUNDERX2_PMU
->>> +        bool "Cavium ThunderX2 SoC PMU UNCORE"
->>> +     depends on ARCH_THUNDER2 && ARM64 && ACPI
->>
->> Surely this depends on NUMA for the node id?
->  it is, i will update.
->
->>
->> [...]
->>
->>> +/*
->>> + * pmu on each socket has 2 uncore devices(dmc and l3),
->>> + * each uncore device has up to 16 channels, each channel can sample
->>> + * events independently with counters up to 4.
->>> + */
->>> +struct thunderx2_pmu_uncore_channel {
->>> +     struct pmu pmu;
->>> +     struct hlist_node       node;
->>> +     struct thunderx2_pmu_uncore_dev *uncore_dev;
->>> +     int channel;
->>> +     int cpu;
->>> +     DECLARE_BITMAP(active_counters, UNCORE_MAX_COUNTERS);
->>> +     struct perf_event *events[UNCORE_MAX_COUNTERS];
->>> +     struct hrtimer hrtimer;
->>> +     /* to sync counter alloc/release */
->>> +     raw_spinlock_t lock;
->>> +};
->>
->> This lock should not be necessary. The pmu::{add,del} callbacks are
->> strictly serialised w.r.t. one another per CPU because the core perf
->> code holds ctx->lock whenever it calls either.
->>
->> Previously, you mentioned you'd seen scheduling while atomic when this
->> lock was removed. Could you please provide a backtrace?
->
-> yes, i have seen,  if i try to kick in simulatneously more events than
-> h/w counters available(4 here).
-> i will try with v6 and send the trace asap.
+  http://www.sphinx-doc.org/en/stable/markup/misc.html#including-content-based-on-tags
 
-i dont have the setup on which i have seen this issue. I have tried to
-recreate on my current setup and not able to see it as before. I will
-remove these locks, if i dont see any issue while sending next
-version. Sorry for the noise!
+-- Markus --
 
->
->>
->> [...]
->>
->> It would be worth a comment here explaining which resources the channel
->> PMUs share, and why we need this thunderx2_pmu_uncore_dev. IIUC, it's
->> just that they share a register windows switched by FW?
->>
->>> +struct thunderx2_pmu_uncore_dev {
->>> +     char *name;
->>> +     struct device *dev;
->>> +     enum thunderx2_uncore_type type;
->>> +     void __iomem *base;
->>> +     int node;
->>> +     u32    max_counters;
->>> +     u32    max_channels;
->>> +     u32    max_events;
->>> +     u64 hrtimer_interval;
->>> +     /* this lock synchronizes across channels */
->>> +     raw_spinlock_t lock;
->>> +     const struct attribute_group **attr_groups;
->>> +     void    (*init_cntr_base)(struct perf_event *event,
->>> +                     struct thunderx2_pmu_uncore_dev *uncore_dev);
->>> +     void    (*select_channel)(struct perf_event *event);
->>> +     void    (*stop_event)(struct perf_event *event);
->>> +     void    (*start_event)(struct perf_event *event, int flags);
->>> +};
->>
->> As a general thing, the really long structure/enum/macro names make
->> things really hard to read.
->>
->> Could we s/THUNDERX2/TX2/ and s/thunderx2/tx2/ for identifiers please?
->
-> thanks, will do.
->>
->> Similarly:
->>
->> * s/thunderx2_pmu_uncore_channel/tx2_pmu/
->>
->> * s/thunderx2_pmu_uncore_dev/tx2_pmu_group/
->>
->> ... and consistently name those "pmu" and "pmu_group" respectively --
->> that mekas the relationship between the two much clearer for someone who
->> is not intimately familiar with the hardware.
->
-> These PMUs(UNCORE) counters makes only sense to someone who is
-> familiar with the hardware.
-> IMHO,  the current names aligned to hardware design like channels ,
-> tiles, counter etc,
-> which is explained in PATCH1/2.
->
-> I will try to simplify long names.
->
->>
->> That makes things far more legible, e.g.
->>
->>> +static inline struct thunderx2_pmu_uncore_channel *
->>> +pmu_to_thunderx2_pmu_uncore(struct pmu *pmu)
->>> +{
->>> +     return container_of(pmu, struct thunderx2_pmu_uncore_channel, pmu);
->>> +}
->>
->> ... becomes:
->>
->> static struct tx2_pmu *pmu_to_tx2_pmu(struct pmu *pmu)
->> {
->>         return container_of(pmu, struct tx2_pmu, pmu);
->> }
->>
->> [...]
->>
->>> +/*
->>> + * sysfs cpumask attributes
->>> + */
->>> +static ssize_t cpumask_show(struct device *dev,
->>> +                             struct device_attribute *attr, char *buf)
->>> +{
->>> +     struct cpumask cpu_mask;
->>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore =
->>> +             pmu_to_thunderx2_pmu_uncore(dev_get_drvdata(dev));
->>> +
->>> +     cpumask_clear(&cpu_mask);
->>> +     cpumask_set_cpu(pmu_uncore->cpu, &cpu_mask);
->>> +     return cpumap_print_to_pagebuf(true, buf, &cpu_mask);
->>> +}
->>> +static DEVICE_ATTR_RO(cpumask);
->>
->> This can be simplified to:
->>
->> static ssize_t cpumask_show(struct device *dev, struct device_attribute
->>                             *attr, char *buf)
->> {
->>         struct thunderx2_pmu_uncore_channel *pmu_uncore;
->>         pmu_uncore = pmu_to_thunderx2_pmu_uncore(dev_get_drvdata(dev));
->>
->>         return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu_uncore->cpu));
->> }
->
-> thanks, will do
->>
->> [...]
->>
->>> +static int alloc_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore)
->>> +{
->>> +     int counter;
->>> +
->>> +     raw_spin_lock(&pmu_uncore->lock);
->>> +     counter = find_first_zero_bit(pmu_uncore->active_counters,
->>> +                             pmu_uncore->uncore_dev->max_counters);
->>> +     if (counter == pmu_uncore->uncore_dev->max_counters) {
->>> +             raw_spin_unlock(&pmu_uncore->lock);
->>> +             return -ENOSPC;
->>> +     }
->>> +     set_bit(counter, pmu_uncore->active_counters);
->>> +     raw_spin_unlock(&pmu_uncore->lock);
->>> +     return counter;
->>> +}
->>> +
->>> +static void free_counter(
->>> +             struct thunderx2_pmu_uncore_channel *pmu_uncore, int counter)
->>> +{
->>> +     raw_spin_lock(&pmu_uncore->lock);
->>> +     clear_bit(counter, pmu_uncore->active_counters);
->>> +     raw_spin_unlock(&pmu_uncore->lock);
->>> +}
->>
->> As above, I still don't believe that these locks are necessary, unless
->> we have a bug elsewhere.
->
-> i will try to debug and provide you more info.
->
->>
->> [...]
->>
->>> +/*
->>> + * DMC and L3 counter interface is muxed across all channels.
->>> + * hence we need to select the channel before accessing counter
->>> + * data/control registers.
->>> + *
->>> + *  L3 Tile and DMC channel selection is through SMC call
->>> + *  SMC call arguments,
->>> + *   x0 = THUNDERX2_SMC_CALL_ID      (Vendor SMC call Id)
->>> + *   x1 = THUNDERX2_SMC_SET_CHANNEL  (Id to set DMC/L3C channel)
->>> + *   x2 = Node id
->>> + *   x3 = DMC(1)/L3C(0)
->>> + *   x4 = channel Id
->>> + */
->>
->> Please document which ID space the node id is in, e.g.
->>
->>         x2 = FW Node ID (matching SRAT/SLIT IDs)
->>
->> ... so that it's clear that this isn't a Linux logical node id, even if
->> those happen to be the same today.
->
-> sure.
->>
->> [...]
->>
->>> +static void thunderx2_uncore_start(struct perf_event *event, int flags)
->>> +{
->>> +     struct hw_perf_event *hwc = &event->hw;
->>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
->>> +     struct thunderx2_pmu_uncore_dev *uncore_dev;
->>> +     unsigned long irqflags;
->>> +
->>> +     hwc->state = 0;
->>> +     pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
->>> +     uncore_dev = pmu_uncore->uncore_dev;
->>> +
->>> +     raw_spin_lock_irqsave(&uncore_dev->lock, irqflags);
->>> +     uncore_dev->select_channel(event);
->>> +     uncore_dev->start_event(event, flags);
->>> +     raw_spin_unlock_irqrestore(&uncore_dev->lock, irqflags);
->>> +     perf_event_update_userpage(event);
->>> +
->>> +     if (!find_last_bit(pmu_uncore->active_counters,
->>> +                             pmu_uncore->uncore_dev->max_counters)) {
->>
->> This would be clearer using !bitmap_empty().
->
-> thanks.
->>
->>> +             hrtimer_start(&pmu_uncore->hrtimer,
->>> +                     ns_to_ktime(uncore_dev->hrtimer_interval),
->>> +                     HRTIMER_MODE_REL_PINNED);
->>> +     }
->>> +}
->>
->> [...]
->>
->>> +static enum hrtimer_restart thunderx2_uncore_hrtimer_callback(
->>> +             struct hrtimer *hrt)
->>
->> s/hrt/timer/ please
->
-> sure, thanks.
->>
->>> +{
->>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
->>> +     unsigned long irqflags;
->>> +     int idx;
->>> +     bool restart_timer = false;
->>> +
->>> +     pmu_uncore = container_of(hrt, struct thunderx2_pmu_uncore_channel,
->>> +                     hrtimer);
->>> +
->>> +     raw_spin_lock_irqsave(&pmu_uncore->uncore_dev->lock, irqflags);
->>> +     for_each_set_bit(idx, pmu_uncore->active_counters,
->>> +                     pmu_uncore->uncore_dev->max_counters) {
->>> +             struct perf_event *event = pmu_uncore->events[idx];
->>> +
->>> +             thunderx2_uncore_update(event);
->>> +             restart_timer = true;
->>> +     }
->>> +     raw_spin_unlock_irqrestore(&pmu_uncore->uncore_dev->lock, irqflags);
->>> +
->>> +     if (restart_timer)
->>> +             hrtimer_forward_now(hrt,
->>> +                     ns_to_ktime(
->>> +                             pmu_uncore->uncore_dev->hrtimer_interval));
->>> +
->>> +     return restart_timer ? HRTIMER_RESTART : HRTIMER_NORESTART;
->>> +}
->>
->> You don't need to take the lock at all if there are no active events,
->> and we can avoid all the conditional logic that way. e.g. assuming the
->> renames I requested above:
->>
->> static enum hrtimer_restart tx2_hrtimer_callback(struct hrtimer *timer)
->>
->> {
->>         struct tx2_pmu *pmu;
->>         struct tx2_pmu_group *pmu_group;
->>         unsigned long irqflags;
->>         int max_counters;
->>         int idx;
->>
->>         pmu = container_of(timer, struct tx2_pmu, hrtimer);
->>         pmu_group = pmu->pmu_group;
->>         max_counters = pmu_group->max_counters;
->>
->>         if (cpumask_empty(pmu->active_counters, max_counters))
->>                 return HRTIMER_NORESTART;
->>
->>         raw_spin_lock_irqsave(&pmu_group->lock, irqflags);
->>         for_each_set_bit(idx, pmu->active_counters, max_counters) {
->>                 struct perf_event *event = pmu->events[idx];
->>
->>                 tx2_uncore_update(event);
->>                 restart_timer = true;
->>         }
->>         raw_spin_unlock_irqrestore(&pmu_group->lock, irqflags);
->>
->>         hrtimer_forward_now(hrt, ns_to_ktime(pmu_group->hrtimer_interval));
->>
->>         return HRTIMER_RESTART;
->> }
->
-> thanks, i will adopt this function.
->>
->> [...]
->>
->>> +     switch (uncore_dev->type) {
->>> +     case PMU_TYPE_L3C:
->>> +             uncore_dev->max_counters = UNCORE_MAX_COUNTERS;
->>> +             uncore_dev->max_channels = UNCORE_L3_MAX_TILES;
->>> +             uncore_dev->max_events = L3_EVENT_MAX;
->>> +             uncore_dev->hrtimer_interval = UNCORE_HRTIMER_INTERVAL;
->>> +             uncore_dev->attr_groups = l3c_pmu_attr_groups;
->>> +             uncore_dev->name = devm_kasprintf(dev, GFP_KERNEL,
->>> +                             "uncore_l3c_%d", uncore_dev->node);
->>> +             uncore_dev->init_cntr_base = init_cntr_base_l3c;
->>> +             uncore_dev->start_event = uncore_start_event_l3c;
->>> +             uncore_dev->stop_event = uncore_stop_event_l3c;
->>> +             uncore_dev->select_channel = uncore_select_channel;
->>> +             break;
->>> +     case PMU_TYPE_DMC:
->>> +             uncore_dev->max_counters = UNCORE_MAX_COUNTERS;
->>> +             uncore_dev->max_channels = UNCORE_DMC_MAX_CHANNELS;
->>> +             uncore_dev->max_events = DMC_EVENT_MAX;
->>> +             uncore_dev->hrtimer_interval = UNCORE_HRTIMER_INTERVAL;
->>> +             uncore_dev->attr_groups = dmc_pmu_attr_groups;
->>> +             uncore_dev->name = devm_kasprintf(dev, GFP_KERNEL,
->>> +                             "uncore_dmc_%d", uncore_dev->node);
->>> +             uncore_dev->init_cntr_base = init_cntr_base_dmc;
->>> +             uncore_dev->start_event = uncore_start_event_dmc;
->>> +             uncore_dev->stop_event = uncore_stop_event_dmc;
->>> +             uncore_dev->select_channel = uncore_select_channel;
->>> +             break;
->>
->> We should probably s/uncore/tx2/, or s/uncore/thunderx2/ to namespace
->> this.
->
-> ok, i would preffer tx2.
->>
->>> +static int thunderx2_uncore_pmu_offline_cpu(unsigned int cpu,
->>> +             struct hlist_node *node)
->>> +{
->>> +     int new_cpu;
->>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
->>> +
->>> +     pmu_uncore = hlist_entry_safe(node,
->>> +                     struct thunderx2_pmu_uncore_channel, node);
->>> +     if (cpu != pmu_uncore->cpu)
->>> +             return 0;
->>> +
->>> +     new_cpu = cpumask_any_and(
->>> +                     cpumask_of_node(pmu_uncore->uncore_dev->node),
->>> +                     cpu_online_mask);
->>> +     if (new_cpu >= nr_cpu_ids)
->>> +             return 0;
->>> +
->>> +     pmu_uncore->cpu = new_cpu;
->>> +     perf_pmu_migrate_context(&pmu_uncore->pmu, cpu, new_cpu);
->>> +     return 0;
->>> +}
->>
->> We'll also need a onlining callback. Consider if all CPUs in a NUMA node
->> were offlined, then we tried to online an arbitrary CPU from that node.
->
-> sure, will add.
->>
->> Thanks,
->> Mark.
->
-> thanks
-> Ganapat
-
-thanks
-Ganapat
+> 
+> Fix 'Indices' heading indentation.
+> 
+> Signed-off-by: Tobin C. Harding <me@tobin.cc>
+> ---
+>  Documentation/networking/index.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+> index 6123a7e9e1da..a4bbde70bcb9 100644
+> --- a/Documentation/networking/index.rst
+> +++ b/Documentation/networking/index.rst
+> @@ -20,7 +20,7 @@ Contents:
+>  
+>  .. only::  subproject
+>  
+> -   Indices
+> -   =======
+> +Indices
+> +=======
+>  
+>     * :ref:`genindex`
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
