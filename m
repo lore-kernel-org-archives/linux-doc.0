@@ -5,33 +5,32 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E43FA7D085
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 10:27:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 487377D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 10:27:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729752AbeGQK7G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 06:59:06 -0400
-Received: from us01smtprelay-2.synopsys.com ([198.182.47.9]:60788 "EHLO
+        id S1730667AbeGQK7Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 06:59:16 -0400
+Received: from smtprelay.synopsys.com ([198.182.47.9]:60753 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730702AbeGQK62 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 06:58:28 -0400
+        with ESMTP id S1730072AbeGQK61 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 06:58:27 -0400
 Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id C47CB24E1405;
-        Tue, 17 Jul 2018 03:26:31 -0700 (PDT)
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 6B88F24E05C8;
+        Tue, 17 Jul 2018 03:26:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1531823191; bh=nAda4nVtOMwhVKmLLxs+0qf83egUBY6Kxkt3uoOMVQQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
-         References:From;
-        b=YTCbTTYkKQ1KAVd0p5Hdx2GStGziXANs3Zl5MyFp63XCFKxvZFy9agQgORqwiJRfE
-         v44a8DHShFNacbD/v93P3gdcO0uVeWizQl1W5UDVtq3dPvxrGbVAPGQ7sBiveXZIUp
-         0DleHlUP5eNGGXzYgFUR39G61aHu+6mWWcImPIpSx+TdOIulQNaxOg69FjOr5cxsc0
-         G6rpfhzewDReK6wxinhiuam83kOGbQYEdD5UMm9uZqxckMde/3lp6zQLHxxV16uO/Y
-         k+zk/sOFoLqIIO0h1ArvTN79voQlzcl9tOcyxESq55PoyYd4OKQ7YZGjO8rUp7qoLJ
-         OGq5JndzKcPow==
+        t=1531823191; bh=Ze+QtjepikiNsEISY3Odaj+B8yZLxSQbMc1k2xa/AnQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SRCnZdnvmH3lEAgPt3egkfEVpaYNMba21+P0nu+0Igsu2GzG5DPYFsHdlrB8oW+Yh
+         KXK4XpryXp/22UY3IFYWZqyrRF/oNyhEOVlgxHgfFUjZ5QLa2WpgksmWy9Ki4YIdhr
+         IWySToL97AGrsBO/2JhNbcP3FJU0KFLL0GVFbsfW/EdHvOyHZUHUd8Ogf+XeK8ppVN
+         PS883rigBRR2qvXjMHuD8WaFKeanYFGm7XZVqRhYsIJbeckEUHPa756x231MRamMTu
+         A1XLOe9RHJQPecZLknETf3UhdLSHgC3VLUmXMQGEoJj5QemrRkkXjbJrhyXJeqINxd
+         ovUfmVapu9vIg==
 Received: from de02.synopsys.com (de02.internal.synopsys.com [10.225.17.21])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 4C2E1558B;
-        Tue, 17 Jul 2018 03:26:31 -0700 (PDT)
+        by mailhost.synopsys.com (Postfix) with ESMTP id D982E553E;
+        Tue, 17 Jul 2018 03:26:29 -0700 (PDT)
 Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
-        by de02.synopsys.com (Postfix) with ESMTP id D78853C33F;
+        by de02.synopsys.com (Postfix) with ESMTP id 05BCF3C318;
         Tue, 17 Jul 2018 12:26:29 +0200 (CEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
@@ -41,260 +40,72 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v13 11/12] tools: PCI: Add MSI-X support
-Date:   Tue, 17 Jul 2018 12:26:26 +0200
-Message-Id: <66559d05af96aa3a0af1c8eb9d3e7f0ab3b1bcd8.1531822532.git.gustavo.pimentel@synopsys.com>
+Subject: [PATCH v13 00/12] Add MSI-X support on pcitest tool
+Date:   Tue, 17 Jul 2018 12:26:15 +0200
+Message-Id: <cover.1531822532.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1531822532.git.gustavo.pimentel@synopsys.com>
-References: <cover.1531822532.git.gustavo.pimentel@synopsys.com>
-In-Reply-To: <cover.1531822532.git.gustavo.pimentel@synopsys.com>
-References: <cover.1531822532.git.gustavo.pimentel@synopsys.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add MSI-X support to pcitest tool.
+Patch series made against Lorenzo's master branch.
 
-Modify pcitest.sh script to accommodate MSI-X interrupt tests.
+Fix EP link notification implementation.
 
-Update documentation accordingly.
+Add MSI-X support on pcitest tool.
 
-Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
----
-Change v1->v2:
- - Allow IRQ type driver reconfiguring in runtime, follwing Kishon's
-suggestion.
-Change v2->v3:
- - Nothing changed, just to follow the patch set version.
-Change v3->v4:
- - Rebased to Lorenzo's master branch v4.18-rc1.
-Change v4->v5:
- - Nothing changed, just to follow the patch set version.
-Change v5->v6:
- - Moved PCITEST_MSIX ioctl entry to patch #8.
- - Moved PCITEST_SET_IRQTYPE and PCITEST_GET_IRQTYPE ioctl entries
-to patch #9.
-Change v6->v7:
- - Nothing changed, just to follow the patch set version.
-Change v7->v8:
- - Re-sending the patch series.
-Change v8->v9:
- - Nothing changed, just to follow the patch set version.
-Change v9->v10:
- - Updated documentation.
-Change v10->v11:
- - Nothing changed, just to follow the patch set version.
-Change v11->v12:
- - Nothing changed, just to follow the patch set version.
-Change v12->v13:
- - Re-sending the patch series.
+Add new callbacks methods and handlers to trigger the MSI-X interrupts
+on the EP DesignWare IP driver.
 
- Documentation/PCI/endpoint/pci-test-howto.txt | 36 +++++++++++--------
- tools/pci/pcitest.c                           | 51 ++++++++++++++++++++++++++-
- tools/pci/pcitest.sh                          | 15 ++++++++
- 3 files changed, 87 insertions(+), 15 deletions(-)
+Allow to set/get MSI-X EP maximum capability number.
 
-diff --git a/Documentation/PCI/endpoint/pci-test-howto.txt b/Documentation/PCI/endpoint/pci-test-howto.txt
-index 65f1a13..e40cf0f 100644
---- a/Documentation/PCI/endpoint/pci-test-howto.txt
-+++ b/Documentation/PCI/endpoint/pci-test-howto.txt
-@@ -121,7 +121,9 @@ following commands.
- 
- 	Interrupt tests
- 
-+	SET IRQ TYPE TO LEGACY:         OKAY
- 	LEGACY IRQ:     NOT OKAY
-+	SET IRQ TYPE TO MSI:            OKAY
- 	MSI1:           OKAY
- 	MSI2:           OKAY
- 	MSI3:           OKAY
-@@ -154,24 +156,30 @@ following commands.
- 	MSI30:          NOT OKAY
- 	MSI31:          NOT OKAY
- 	MSI32:          NOT OKAY
--	MSIX1:          OKAY
--	MSIX2:          OKAY
--	MSIX3:          OKAY
--	MSIX4:          OKAY
--	MSIX5:          OKAY
--	MSIX6:          OKAY
--	MSIX7:          OKAY
--	MSIX8:          OKAY
--	MSIX9:          NOT OKAY
--	MSIX10:         NOT OKAY
--	MSIX11:         NOT OKAY
--	MSIX12:         NOT OKAY
--	MSIX13:         NOT OKAY
-+	SET IRQ TYPE TO MSI-X:          OKAY
-+	MSI-X1:         OKAY
-+	MSI-X2:         OKAY
-+	MSI-X3:         OKAY
-+	MSI-X4:         OKAY
-+	MSI-X5:         OKAY
-+	MSI-X6:         OKAY
-+	MSI-X7:         OKAY
-+	MSI-X8:         OKAY
-+	MSI-X9:         NOT OKAY
-+	MSI-X10:        NOT OKAY
-+	MSI-X11:        NOT OKAY
-+	MSI-X12:        NOT OKAY
-+	MSI-X13:        NOT OKAY
-+	MSI-X14:        NOT OKAY
-+	MSI-X15:        NOT OKAY
-+	MSI-X16:        NOT OKAY
- 	[...]
--	MSIX2048:       NOT OKAY
-+	MSI-X2047:      NOT OKAY
-+	MSI-X2048:      NOT OKAY
- 
- 	Read Tests
- 
-+	SET IRQ TYPE TO MSI:            OKAY
- 	READ (      1 bytes):           OKAY
- 	READ (   1024 bytes):           OKAY
- 	READ (   1025 bytes):           OKAY
-diff --git a/tools/pci/pcitest.c b/tools/pci/pcitest.c
-index 9074b47..af146bb 100644
---- a/tools/pci/pcitest.c
-+++ b/tools/pci/pcitest.c
-@@ -31,12 +31,17 @@
- #define BILLION 1E9
- 
- static char *result[] = { "NOT OKAY", "OKAY" };
-+static char *irq[] = { "LEGACY", "MSI", "MSI-X" };
- 
- struct pci_test {
- 	char		*device;
- 	char		barnum;
- 	bool		legacyirq;
- 	unsigned int	msinum;
-+	unsigned int	msixnum;
-+	int		irqtype;
-+	bool		set_irqtype;
-+	bool		get_irqtype;
- 	bool		read;
- 	bool		write;
- 	bool		copy;
-@@ -65,6 +70,24 @@ static int run_test(struct pci_test *test)
- 			fprintf(stdout, "%s\n", result[ret]);
- 	}
- 
-+	if (test->set_irqtype) {
-+		ret = ioctl(fd, PCITEST_SET_IRQTYPE, test->irqtype);
-+		fprintf(stdout, "SET IRQ TYPE TO %s:\t\t", irq[test->irqtype]);
-+		if (ret < 0)
-+			fprintf(stdout, "FAILED\n");
-+		else
-+			fprintf(stdout, "%s\n", result[ret]);
-+	}
-+
-+	if (test->get_irqtype) {
-+		ret = ioctl(fd, PCITEST_GET_IRQTYPE);
-+		fprintf(stdout, "GET IRQ TYPE:\t\t");
-+		if (ret < 0)
-+			fprintf(stdout, "FAILED\n");
-+		else
-+			fprintf(stdout, "%s\n", irq[ret]);
-+	}
-+
- 	if (test->legacyirq) {
- 		ret = ioctl(fd, PCITEST_LEGACY_IRQ, 0);
- 		fprintf(stdout, "LEGACY IRQ:\t");
-@@ -83,6 +106,15 @@ static int run_test(struct pci_test *test)
- 			fprintf(stdout, "%s\n", result[ret]);
- 	}
- 
-+	if (test->msixnum > 0 && test->msixnum <= 2048) {
-+		ret = ioctl(fd, PCITEST_MSIX, test->msixnum);
-+		fprintf(stdout, "MSI-X%d:\t\t", test->msixnum);
-+		if (ret < 0)
-+			fprintf(stdout, "TEST FAILED\n");
-+		else
-+			fprintf(stdout, "%s\n", result[ret]);
-+	}
-+
- 	if (test->write) {
- 		ret = ioctl(fd, PCITEST_WRITE, test->size);
- 		fprintf(stdout, "WRITE (%7ld bytes):\t\t", test->size);
-@@ -133,7 +165,7 @@ int main(int argc, char **argv)
- 	/* set default endpoint device */
- 	test->device = "/dev/pci-endpoint-test.0";
- 
--	while ((c = getopt(argc, argv, "D:b:m:lrwcs:")) != EOF)
-+	while ((c = getopt(argc, argv, "D:b:m:x:i:Ilrwcs:")) != EOF)
- 	switch (c) {
- 	case 'D':
- 		test->device = optarg;
-@@ -151,6 +183,20 @@ int main(int argc, char **argv)
- 		if (test->msinum < 1 || test->msinum > 32)
- 			goto usage;
- 		continue;
-+	case 'x':
-+		test->msixnum = atoi(optarg);
-+		if (test->msixnum < 1 || test->msixnum > 2048)
-+			goto usage;
-+		continue;
-+	case 'i':
-+		test->irqtype = atoi(optarg);
-+		if (test->irqtype < 0 || test->irqtype > 2)
-+			goto usage;
-+		test->set_irqtype = true;
-+		continue;
-+	case 'I':
-+		test->get_irqtype = true;
-+		continue;
- 	case 'r':
- 		test->read = true;
- 		continue;
-@@ -173,6 +219,9 @@ int main(int argc, char **argv)
- 			"\t-D <dev>		PCI endpoint test device {default: /dev/pci-endpoint-test.0}\n"
- 			"\t-b <bar num>		BAR test (bar number between 0..5)\n"
- 			"\t-m <msi num>		MSI test (msi number between 1..32)\n"
-+			"\t-x <msix num>	\tMSI-X test (msix number between 1..2048)\n"
-+			"\t-i <irq type>	\tSet IRQ type (0 - Legacy, 1 - MSI, 2 - MSI-X)\n"
-+			"\t-I			Get current IRQ type configured\n"
- 			"\t-l			Legacy IRQ test\n"
- 			"\t-r			Read buffer test\n"
- 			"\t-w			Write buffer test\n"
-diff --git a/tools/pci/pcitest.sh b/tools/pci/pcitest.sh
-index 77e8c85..75ed48f 100644
---- a/tools/pci/pcitest.sh
-+++ b/tools/pci/pcitest.sh
-@@ -16,7 +16,10 @@ echo
- echo "Interrupt tests"
- echo
- 
-+pcitest -i 0
- pcitest -l
-+
-+pcitest -i 1
- msi=1
- 
- while [ $msi -lt 33 ]
-@@ -26,9 +29,21 @@ do
- done
- echo
- 
-+pcitest -i 2
-+msix=1
-+
-+while [ $msix -lt 2049 ]
-+do
-+        pcitest -x $msix
-+        msix=`expr $msix + 1`
-+done
-+echo
-+
- echo "Read Tests"
- echo
- 
-+pcitest -i 1
-+
- pcitest -r -s 1
- pcitest -r -s 1024
- pcitest -r -s 1025
+Rework on set/get and triggering MSI methods on EP DesignWare IP driver.
+
+Add a new input parameter (msix) to pcitest tool to test MSI-X feature.
+
+Update the pcitest.sh script to support MSI-X feature tests.
+
+Update related documentation accordingly.
+
+Gustavo Pimentel (12):
+  PCI: dwc: Fix EP link notification implementation
+  PCI: endpoint: Add MSI-X interfaces
+  PCI: Update xxx_pcie_ep_raise_irq() and pci_epc_raise_irq() signatures
+  PCI: dwc: Add MSI-X callbacks handler
+  PCI: dwc: Rework MSI callbacks handler
+  PCI: dwc: Add legacy interrupt callback handler
+  pci-epf-test/pci_endpoint_test: Cleanup PCI_ENDPOINT_TEST memspace
+  pci-epf-test/pci_endpoint_test: Use irq_type module parameter
+  pci-epf-test/pci_endpoint_test: Add MSI-X support
+  pci_endpoint_test: Add 2 ioctl commands
+  tools: PCI: Add MSI-X support
+  PCI: endpoint: Add MSI set maximum restriction
+
+ .../PCI/endpoint/function/binding/pci-test.txt     |   2 +
+ Documentation/PCI/endpoint/pci-endpoint.txt        |   4 +-
+ Documentation/PCI/endpoint/pci-test-function.txt   |  29 ++-
+ Documentation/PCI/endpoint/pci-test-howto.txt      |  30 ++-
+ Documentation/ioctl/ioctl-number.txt               |   1 +
+ Documentation/misc-devices/pci-endpoint-test.txt   |   6 +
+ drivers/misc/pci_endpoint_test.c                   | 277 ++++++++++++++++-----
+ drivers/pci/controller/dwc/pci-dra7xx.c            |   2 +-
+ drivers/pci/controller/dwc/pcie-artpec6.c          |   2 +-
+ drivers/pci/controller/dwc/pcie-designware-ep.c    | 210 ++++++++++++++--
+ drivers/pci/controller/dwc/pcie-designware-plat.c  |  11 +-
+ drivers/pci/controller/dwc/pcie-designware.h       |  29 ++-
+ drivers/pci/controller/pcie-cadence-ep.c           |   3 +-
+ drivers/pci/controller/pcie-rockchip-ep.c          |   2 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c      |  86 +++++--
+ drivers/pci/endpoint/pci-ep-cfs.c                  |  24 ++
+ drivers/pci/endpoint/pci-epc-core.c                |  68 ++++-
+ include/linux/pci-epc.h                            |  16 +-
+ include/linux/pci-epf.h                            |   1 +
+ include/uapi/linux/pcitest.h                       |   3 +
+ tools/pci/pcitest.c                                |  51 +++-
+ tools/pci/pcitest.sh                               |  15 ++
+ 22 files changed, 722 insertions(+), 150 deletions(-)
+
 -- 
 2.7.4
 
