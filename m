@@ -1,107 +1,303 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 838427D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 17:50:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D19E37D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Jul 2018 17:51:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729737AbeGQSXw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 14:23:52 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:45146 "EHLO ale.deltatee.com"
+        id S1729754AbeGQSZB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 14:25:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53104 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729980AbeGQSXw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Jul 2018 14:23:52 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1ffU6P-00077P-1J; Tue, 17 Jul 2018 11:49:33 -0600
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Matthew Wilcox <willy@infradead.org>
-References: <20180717170204.30470-1-logang@deltatee.com>
- <20180717170204.30470-5-logang@deltatee.com>
- <20180717114848.2914d547@t450s.home>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <a3197c27-1b41-7784-374b-948e43471789@deltatee.com>
-Date:   Tue, 17 Jul 2018 11:49:22 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1729721AbeGQSZB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Jul 2018 14:25:01 -0400
+Received: from mail-yb0-f169.google.com (mail-yb0-f169.google.com [209.85.213.169])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C8F6A20834;
+        Tue, 17 Jul 2018 17:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1531849875;
+        bh=+herIqvgXQJ0BE2my7SIvRLORuf5kM6iDM5eS8WhmiQ=;
+        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+        b=W/uxpuH5gYyM6vi4AW65nwxzv5VlP0N2TpBR+5US0+kP8kXGhNC9/hmZSqfPHLLHP
+         XRYIZ6sw4cy4cU/PTUd1cdb/S7OgooJTVHgN5m0krpd6pu7XaQidr3x2yNEzbt/Tv/
+         KSAHBbqHkyMOQP3AAgXQ1KjSOInEwQZHuSfZDxpM=
+Received: by mail-yb0-f169.google.com with SMTP id s1-v6so761604ybk.3;
+        Tue, 17 Jul 2018 10:51:15 -0700 (PDT)
+X-Gm-Message-State: AOUpUlEuZcNxFYeF6r4MxOE4Xd6fhkeifi26T91ieOc/797TxuJ0p/3K
+        XyAfdWfpXSDIV9+lHhd0fO6OMA04ZGXaiXX4qMo=
+X-Google-Smtp-Source: AAOMgpdnKVtDdhirAfokJyu1xdnOolHJf2hBncdU9yOp0Xx8wuSGxzFJ2av18EmA3FBQehferiyRqZoit53SYKSaiRI=
+X-Received: by 2002:a25:1f0b:: with SMTP id f11-v6mr1505956ybf.100.1531849874994;
+ Tue, 17 Jul 2018 10:51:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180717114848.2914d547@t450s.home>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: willy@infradead.org, christian.koenig@amd.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, alex.williamson@redhat.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v7 4/4] PCI: Introduce the disable_acs_redir parameter
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Received: by 2002:a25:8182:0:0:0:0:0 with HTTP; Tue, 17 Jul 2018 10:50:34
+ -0700 (PDT)
+In-Reply-To: <CAJYdmeNSOydws+a=QBG93FHq+3WFzcBR=R_+dM_0Vb_v2zHCvA@mail.gmail.com>
+References: <1530629215-26990-1-git-send-email-richard.gong@linux.intel.com>
+ <1530629215-26990-7-git-send-email-richard.gong@linux.intel.com> <CAJYdmeNSOydws+a=QBG93FHq+3WFzcBR=R_+dM_0Vb_v2zHCvA@mail.gmail.com>
+From:   Alan Tull <atull@kernel.org>
+Date:   Tue, 17 Jul 2018 12:50:34 -0500
+X-Gmail-Original-Message-ID: <CANk1AXT5DrJf_-dq1DxrGVB23t74+os_F37GFd_i3yY=TgT6CA@mail.gmail.com>
+Message-ID: <CANk1AXT5DrJf_-dq1DxrGVB23t74+os_F37GFd_i3yY=TgT6CA@mail.gmail.com>
+Subject: Re: [PATCHv6 6/8] fpga: add intel stratix10 soc fpga manager driver
+To:     Moritz Fischer <moritz.fischer.private@gmail.com>
+Cc:     Richard Gong <richard.gong@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Devicetree List <devicetree@vger.kernel.org>,
+        linux-fpga@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Yves Vandervennet <yves.vandervennet@linux.intel.com>,
+        Richard Gong <richard.gong@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jul 9, 2018 at 6:05 PM, Moritz Fischer
+<moritz.fischer.private@gmail.com> wrote:
+> Hi Richard + Alan,
+>
+> couple of small stuff inline. Sorry for the super late reply.
+>
 
+Hi Moritz,
 
-On 17/07/18 11:48 AM, Alex Williamson wrote:
-> On Tue, 17 Jul 2018 11:02:04 -0600
-> Logan Gunthorpe <logang@deltatee.com> wrote:
-> 
->> In order to support P2P traffic on a segment of the PCI hierarchy,
->> we must be able to disable the ACS redirect bits for select
->> PCI bridges. The bridges must be selected before the devices are
->> discovered by the kernel and the IOMMU groups created. Therefore,
->> a kernel command line parameter is created to specify devices
->> which must have their ACS bits disabled.
+Thanks for the review comments!
+
+> On Tue, Jul 3, 2018 at 7:46 AM,  <richard.gong@linux.intel.com> wrote:
+>> From: Alan Tull <atull@kernel.org>
 >>
->> The new parameter takes a list of devices separated by a semicolon.
->> Each device specified will have it's ACS redirect bits disabled.
->> This is similar to the existing 'resource_alignment' parameter.
+>> Add driver for reconfiguring Intel Stratix10 SoC FPGA devices.
+>> This driver communicates through the Intel Service Driver which
+>> does communication with privileged hardware (that does the
+>> FPGA programming) through a secure mailbox.
 >>
->> The ACS Request P2P Request Redirect, P2P Completion Redirect and P2P
->> Egress Control bits are disabled which is sufficient to always allow
->> passing P2P traffic uninterrupted. The bits are set after the kernel
->> (optionally) enables the ACS bits itself. It is also done regardless of
->> whether the kernel sets the bits or not seeing some BIOS firmware is known
->> to set the bits on boot.
->>
->> If the user tries to disable the ACS redirct for a device without the
->> ACS capability, a warning is printed to dmesg.
->>
->> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
->> Reviewed-by: Stephen Bates <sbates@raithlin.com>
->> Acked-by: Christian König <christian.koenig@amd.com>
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt |  9 +++
->>  drivers/pci/pci.c                               | 76 ++++++++++++++++++++++++-
->>  2 files changed, 83 insertions(+), 2 deletions(-)
-> 
-> Thanks for the re-spins!
-> 
-> Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+>> Signed-off-by: Alan Tull <atull@kernel.org>
+>> Signed-off-by: Richard Gong <richard.gong@intel.com>
+...
+>> +static int s10_svc_send_msg(struct s10_priv *priv,
+>> +                           enum stratix10_svc_command_code command,
+>> +                           void *payload, u32 payload_length)
+>> +{
+>> +       struct stratix10_svc_chan *chan = priv->chan;
+>> +       struct stratix10_svc_client_msg msg;
+>> +       int ret;
+>> +
+>> +       pr_debug("%s cmd=%d payload=%p legnth=%d\n",
+>> +                __func__, command, payload, payload_length);
+>
+> Can we make those dev_dbg() ? Or do we not have a device available?
 
+It's easy to get client dev:and it's worth doing by adding:
 
-Thanks for all the thorough review!
+struct device *dev = priv->client.dev;
 
-Logan
+>> +
+>> +       msg.command = command;
+>> +       msg.payload = payload;
+>> +       msg.payload_length = payload_length;
+>> +
+>> +       ret = stratix10_svc_send(chan, &msg);
+>> +       pr_debug("stratix10_svc_send returned status %d\n", ret);
+>> +
+>> +       return ret;
+>> +}
+>> +
+...
+>> +/**
+>> + * s10_ops_write_init
+>> + * Prepare for FPGA reconfiguration by requesting partial reconfig and
+>> + * allocating buffers from the service layer.
+>> + * @mgr: fpga manager
+>> + * @info: fpga image info
+>> + * @buf: fpga image buffer
+>> + * @count: size of buf in bytes
+>> + */
+>> +static int s10_ops_write_init(struct fpga_manager *mgr,
+>> +                             struct fpga_image_info *info,
+>> +                             const char *buf, size_t count)
+>> +{
+>> +       struct s10_priv *priv = mgr->priv;
+>> +       struct device *dev = priv->client.dev;
+>> +       struct stratix10_svc_command_reconfig_payload payload;
+>> +       char *kbuf;
+>> +       uint i;
+>> +       int ret;
+>> +
+>> +       payload.flags = 0;
+>> +       if (info->flags & FPGA_MGR_PARTIAL_RECONFIG) {
+>> +               dev_info(dev, "Requesting partial reconfiguration.\n");
+> Do we need these to be _info() or can the by _dbg()? The Framework
+> already prints ("Writing blah.foo to ...")
+>> +               payload.flags |= BIT(COMMAND_RECONFIG_FLAG_PARTIAL);
+>> +       } else {
+>> +               dev_info(dev, "Requesting full reconfiguration.\n");
+> Same here.
+
+These can go away or be dgb.  fpga-mgr.c has dev_info(dev, "writing %s
+to %s\n", image_name, mgr->name); in fpga_mgr_firmware_load().
+
+Maybe at some point it would be better to have the "Reauesting
+full/partial reconfiguration" messages as dbg messages in fpga-mgr.c.
+Some of the fpga manager drivers have one message or the other only
+because they only handle full or partial, so it's an error message in
+their case.such as "Partial reconfiguration not supported."
+
+>> +       }
+>> +
+>> +       reinit_completion(&priv->status_return_completion);
+>> +       ret = s10_svc_send_msg(priv, COMMAND_RECONFIG,
+>> +                              &payload, sizeof(payload));
+>> +       if (ret < 0)
+>> +               goto init_done;
+>> +
+>> +       ret = wait_for_completion_interruptible_timeout(
+>> +               &priv->status_return_completion, S10_RECONFIG_TIMEOUT);
+>> +       if (!ret) {
+>> +               dev_err(dev, "timeout waiting for RECONFIG_REQUEST\n");
+>> +               ret = -ETIMEDOUT;
+>> +               goto init_done;
+>> +       }
+>> +       if (ret < 0) {
+>> +               dev_err(dev, "error (%d) waiting for RECONFIG_REQUEST\n", ret);
+>> +               goto init_done;
+>> +       }
+>> +
+>> +       ret = 0;
+>> +       if (!test_and_clear_bit(SVC_STATUS_RECONFIG_REQUEST_OK,
+>> +                               &priv->status)) {
+>> +               ret = -ETIMEDOUT;
+>> +               goto init_done;
+>> +       }
+>> +
+>> +       /* Allocate buffers from the service layer's pool. */
+>> +       for (i = 0; i < NUM_SVC_BUFS; i++) {
+>> +               kbuf = stratix10_svc_allocate_memory(priv->chan, SVC_BUF_SIZE);
+>> +               if (!kbuf) {
+>> +                       s10_free_buffers(mgr);
+>> +                       ret = -ENOMEM;
+>> +                       goto init_done;
+>> +               }
+>> +
+>> +               priv->svc_bufs[i].buf = kbuf;
+>> +               priv->svc_bufs[i].lock = 0;
+>> +       }
+>> +
+>> +init_done:
+>> +       stratix10_svc_done(priv->chan);
+>> +       return ret;
+>> +}
+>> +
+>> +/**
+>> + * s10_send_buf
+>> + * Send a buffer to the service layer queue
+>> + * @mgr: fpga manager struct
+>> + * @buf: fpga image buffer
+>> + * @count: size of buf in bytes
+>> + * Returns # of bytes transferred or -ENOBUFS if the all the buffers are in use
+>> + * or if the service queue is full. Never returns 0.
+>> + */
+>> +static int s10_send_buf(struct fpga_manager *mgr, const char *buf, size_t count)
+>> +{
+>> +       struct s10_priv *priv = mgr->priv;
+>> +       struct device *dev = priv->client.dev;
+>> +       void *svc_buf;
+>> +       size_t xfer_sz;
+>> +       int ret;
+>> +       uint i;
+>> +
+>> +       /* get/lock a buffer that that's not being used */
+>> +       for (i = 0; i < NUM_SVC_BUFS; i++)
+>> +               if (!test_and_set_bit_lock(SVC_BUF_LOCK,
+>> +                                          &priv->svc_bufs[i].lock))
+>> +                       break;
+>> +
+>> +       if (i == NUM_SVC_BUFS)
+>> +               return -ENOBUFS;
+>> +
+>> +       xfer_sz = count < SVC_BUF_SIZE ? count : SVC_BUF_SIZE;
+>> +
+>> +       svc_buf = priv->svc_bufs[i].buf;
+>> +       memcpy(svc_buf, buf, xfer_sz);
+>> +       ret = s10_svc_send_msg(priv, COMMAND_RECONFIG_DATA_SUBMIT,
+>> +                              svc_buf, xfer_sz);
+>> +       if (ret < 0) {
+>> +               dev_err(dev,
+>> +                       "Error while sending data to service layer (%d)", ret);
+>> +               return ret;
+>> +       }
+> Do we need to clean up anything here, or is the buffer unlocked if we fail?
+
+Yes, need to unlock buff if s10_svc_send_msg() fails.
+
+                        clear_bit_unlock(SVC_BUF_LOCK,
+                                         &priv->svc_bufs[i].lock);
+
+>> +
+>> +       return xfer_sz;
+>> +}
+...
+>> +static int s10_probe(struct platform_device *pdev)
+>> +{
+>> +       struct device *dev = &pdev->dev;
+>> +       struct s10_priv *priv;
+>> +       struct fpga_manager *mgr;
+>> +       int ret;
+>> +
+>> +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+>> +       if (!priv)
+>> +               return -ENOMEM;
+>> +
+>> +       priv->client.dev = dev;
+>> +       priv->client.receive_cb = s10_receive_callback;
+>> +       priv->client.priv = priv;
+>> +
+>> +       priv->chan = stratix10_svc_request_channel_byname(&priv->client,
+>> +                                               SVC_CLIENT_FPGA);
+>> +       if (IS_ERR(priv->chan)) {
+>> +               dev_err(dev, "couldn't get service channel (%s)\n",
+>> +                       SVC_CLIENT_FPGA);
+>> +               return PTR_ERR(priv->chan);
+>> +       }
+>> +
+>> +       init_completion(&priv->status_return_completion);
+>> +
+>> +       mgr = fpga_mgr_create(dev, "Stratix10 SOC FPGA Manager",
+>> +                             &s10_ops, priv);
+>> +       if (!mgr)
+>> +               return -ENOMEM;
+> Does this release the channel above?
+
+We need to call "stratix10_svc_free_channel(priv->chan);" here if
+fpga_mgr_create() fails.
+
+>> +
+>> +       ret = fpga_mgr_register(mgr);
+>> +       if (ret) {
+>> +               dev_err(dev, "unable to register FPGA manager\n");
+>> +               stratix10_svc_free_channel(priv->chan);
+>> +               fpga_mgr_free(mgr);
+>> +               return ret;
+>> +       }
+>> +
+>> +       platform_set_drvdata(pdev, mgr);
+>> +
+>> +       return ret;
+>> +}
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
