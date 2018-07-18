@@ -2,111 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 90D067DE7F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 16:32:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4139C7D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 17:01:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731105AbeGRRKg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 13:10:36 -0400
-Received: from hurricane.elijah.cs.cmu.edu ([128.2.209.191]:45778 "EHLO
-        hurricane.elijah.cs.cmu.edu" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727535AbeGRRKg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 13:10:36 -0400
-Received: from [127.0.0.1] (helo=cs.cmu.edu)
-        by hurricane.elijah.cs.cmu.edu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.91)
-        (envelope-from <jaharkes@cs.cmu.edu>)
-        id 1ffpMo-0005cG-Mv; Wed, 18 Jul 2018 12:31:54 -0400
-Date:   Wed, 18 Jul 2018 12:31:53 -0400
-From:   Jan Harkes <jaharkes@cs.cmu.edu>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Deepa Dinamani <deepa.kernel@gmail.com>
-Subject: Re: [PATCH] [RESEND] coda: stop using 'struct timespec' in user API
-Message-ID: <20180718163153.ogfriudjw7ztwpag@cs.cmu.edu>
-Mail-Followup-To: Arnd Bergmann <arnd@arndb.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Deepa Dinamani <deepa.kernel@gmail.com>
-References: <20180718114645.591551-1-arnd@arndb.de>
- <20180718155006.lkoktldllafrfqbf@cs.cmu.edu>
- <CAK8P3a3HYBar1yVCEjxR2VNpPOOx23qM5fCyO-TMmeF780rBiQ@mail.gmail.com>
+        id S1728000AbeGRRjm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 13:39:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49488 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727575AbeGRRjm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 13:39:42 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6IGsWtX021347
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 13:00:53 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2ka6fj0nqt-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 13:00:52 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Wed, 18 Jul 2018 18:00:50 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 18 Jul 2018 18:00:47 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6IH0kjx31195240
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 18 Jul 2018 17:00:46 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9903E42054;
+        Wed, 18 Jul 2018 20:01:04 +0100 (BST)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DF71842047;
+        Wed, 18 Jul 2018 20:01:03 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.204.179])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 18 Jul 2018 20:01:03 +0100 (BST)
+Date:   Wed, 18 Jul 2018 20:00:43 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 00/11] docs/mm: add boot time memory management docs
+References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <20180702113255.1f7504e2@lwn.net>
+ <20180718114730.GD4302@rapoport-lnx>
+ <20180718060249.6b45605d@lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a3HYBar1yVCEjxR2VNpPOOx23qM5fCyO-TMmeF780rBiQ@mail.gmail.com>
-User-Agent: NeoMutt/20180512
+In-Reply-To: <20180718060249.6b45605d@lwn.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 18071817-4275-0000-0000-0000029A9775
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18071817-4276-0000-0000-000037A2B637
+Message-Id: <20180718170043.GA23770@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-18_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807180187
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 18, 2018 at 06:10:29PM +0200, Arnd Bergmann wrote:
-> On Wed, Jul 18, 2018 at 5:50 PM, Jan Harkes <jaharkes@cs.cmu.edu> wrote:
-> > On Wed, Jul 18, 2018 at 01:46:25PM +0200, Arnd Bergmann wrote:
-> >> Unfortunately, this breaks the layout of the coda_vattr structure, so
-> >> we need to redefine that in terms of something that does not change.
-> >> I'm introducing a new 'struct vtimespec' structure here that keeps
-> >> the existing layout, and the same change has to be done in the coda
-> >> user space copy of linux/coda.h before anyone can use that on a 32-bit
-> >> architecture with 64-bit time_t.
-> >
-> > I think the userbase is small enough that we can handle a much simpler
-> > transition to 64-bit timespecs everywhere. In that case the
-> > CODA_KERNEL_VERSION should be updated, which is currently defined in
-> > include/uapi/linux/coda.h as 3. As moving to 64-bit timespecs only
-> > breaks 32-bit systems this allows userspace to catch that case and
-> > refuse to run userspace with a mismatched layout (or handle
-> > translation).
-> 
-> Ok, so to make sure I get this right, you say we can do an
-> incompatible ABI change for coda without causing any problems
-> for existing users?
-> 
-> That would definitely be the easiest approach here. I guess
-> we also just have to be incompatible for 32-bit user space,
-> since it would make 32-bit users have the same ABI as 64-bit
-> ones, right?
-> 
-> I'll have another look at the ABI side then, to see how it can
-> be transitioned.
+(added Andrew)
 
-Correct, the first thing a client does after opening the /dev/cfs0
-device is to send a CIOC_KERNEL_VERSION ioctl. In response the Coda
-kernel module returns the current value of CODA_KERNEL_VERSION.
-
-Right now anything but 3 will make the client complain about version
-mismatch and refuse to start. It is trivial to allow existing 64-bit
-clients to accept both 3 and 4 as valid, and when 32-bit userspace is
-updated to also use 64-bit timespec it can be changed to accept only 4.
-
-> >> > If we only have one code base, it should be fairly straightforward to
-> >> > make it deal with 'unsigned' timestamps consistently, which would
-> >> > let the code work fine until 2106 rather than wrapping around from
-> >> > 2038 to 1902.
-> >
-> > At some point there was a webdav filesystem that used the Coda kernel
-> > apis, but I think they may have moved to FUSE since then so I would not
-> > be surprised if there is only a single code base at this point.
+On Wed, Jul 18, 2018 at 06:02:49AM -0600, Jonathan Corbet wrote:
+> On Wed, 18 Jul 2018 14:47:30 +0300
+> Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
 > 
-> Ok, I found davfs2 at http://dav.sourceforge.net/index.shtml
+> > > So this seems like good stuff overall.  It digs pretty deeply into the mm
+> > > code, though, so I'm a little reluctant to apply it without an ack from an
+> > > mm developer.  Alternatively, I'm happy to step back if Andrew wants to
+> > > pick the set up.  
+> > 
+> > Jon, does Michal's reply [1] address your concerns?
+> > Or should I respin and ask Andrew to pick it up? 
+> > 
+> > [1] https://lore.kernel.org/lkml/20180712080006.GA328@dhcp22.suse.cz/
 > 
-> Ah, so the coda kernel implementation is similar to both fuse and 9pfs
-> in that it can connect to arbitrary user space implementations, but with
-> no known users other than your coda user space and some versions of
-> davfs2?
+> Michal acked #11 (the docs patch) in particular but not the series as a
+> whole.  But it's the rest of the series that I was most worried about :)
+> I'm happy for the patches to take either path, but I'd really like an
+> explicit ack before I apply that many changes directly to the MM code...
 
-Correct and since the FUSE api is easier to work with it has seen more
-users. AFAIK, the work on davfs2 was started before FUSE existed.
+Andrew,
 
-Jan
+Can you please take a look at this series? The thread starts at [1] and if
+it'd be more convenient to you I can respin the whole set.
+ 
+[1] https://lore.kernel.org/lkml/1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com/
+
+> Thanks,
+> 
+> jon
+> 
+
+-- 
+Sincerely yours,
+Mike.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
