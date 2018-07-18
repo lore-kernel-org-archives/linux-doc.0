@@ -1,130 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C821D7DE80
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 16:11:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5BAC67D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 16:18:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731368AbeGRQtH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 12:49:07 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46362 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731361AbeGRQtH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 12:49:07 -0400
-Received: by mail-lj1-f195.google.com with SMTP id 203-v6so4566838ljj.13;
-        Wed, 18 Jul 2018 09:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=IF9bR0+4/6n4RL0exynGUupnYhn/Qsfmu1qFrjhvzrU=;
-        b=Lt0CQyrVhnePEzOMXZbY1/GgUPKTepGeyn/KIHHpCZbC1whS+0u5o4FKND+k+YyxMv
-         UqyOSK+5xOnhdkqJqbI7C4q2/2JF2BZnYsQHuPqv+LMtsNvsULv2B3TTV2d91PatbaFc
-         tmpYURkKwPJTaygBdbdPdjhQuEIUSEW1PPKOSn6umlRSuOBDdG8pxTf8qLQHcXr9YZCc
-         nVHmw46Wgzz1UaZ4Sp73dtZXDxqsvTrWOjqWWwdp8HgDh/IbScwJAsbzPpu4qRPZAddU
-         /pZlzLnzVfon0pgVfoWJc5gliIT/51hp1UFu+rjpmf+vD/OSvZdQZNKbdkG5NSie+nHO
-         ChkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=IF9bR0+4/6n4RL0exynGUupnYhn/Qsfmu1qFrjhvzrU=;
-        b=hLpmUBjD/8B3lxx2HoNbwA0Y6GnCkdxRAnqVI3ddHcNzxY8guJ8rIzNR5SB5u9GXW5
-         35RxKO5+vIsKkiV/aSVoxUewYQ+xUnQMCCfLun/HFz0cSvNL+IXu22jA1zzPisAnd2Y/
-         T9CPo+d0ZgbHSUfdSdCRPqz+U67F8BL+l2SEI1HxNfFB2qfmP96hcn7JeQdZBEAfE0oR
-         Ai110lex6+3OoMUnu6L+aJAjVmRB3o7Anm3YJiyO4IDVC64DNP0erPRzSkPWLm/q9Za/
-         L3eba7DRR7zawwr1+wPnANq4KhWTi+2ZiOqASCGJC25TqlN+dDRb+9WbS0z7ag1oK+8G
-         BnFw==
-X-Gm-Message-State: AOUpUlEXBiIfRpNk/jMUURwVeGAjMuS7Bl+/qCnZeU22akF7afMEbbyw
-        0766IRXUnuzAIfbrCALoP0HOpRemRTwRva6I63s=
-X-Google-Smtp-Source: AAOMgpctPg6cMlPjPVlPAQF9jHVDQt8YlW1nShLv1+DrkcLtbnL+T87Rj3LzXv+Wze4ej0QiXFW4B4inU9oHE6THU/4=
-X-Received: by 2002:a2e:998e:: with SMTP id w14-v6mr3800658lji.7.1531930230033;
- Wed, 18 Jul 2018 09:10:30 -0700 (PDT)
+        id S1731398AbeGRQzL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 12:55:11 -0400
+Received: from mga14.intel.com ([192.55.52.115]:3828 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731282AbeGRQzL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Jul 2018 12:55:11 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jul 2018 09:16:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,370,1526367600"; 
+   d="scan'208";a="67947007"
+Received: from marshy.an.intel.com ([10.122.105.159])
+  by orsmga003.jf.intel.com with ESMTP; 18 Jul 2018 09:16:30 -0700
+From:   richard.gong@linux.intel.com
+To:     gregkh@linuxfoundation.org, catalin.marinas@arm.com,
+        will.deacon@arm.com, dinguyen@kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, atull@kernel.org, mdf@kernel.org,
+        arnd@arndb.de, corbet@lwn.net
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, yves.vandervennet@linux.intel.com,
+        richard.gong@intel.com
+Subject: [PATCHv7 0/9] Add Intel Stratix10 FPGA manager and service layer 
+Date:   Wed, 18 Jul 2018 11:18:35 -0500
+Message-Id: <1531930724-22061-1-git-send-email-richard.gong@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Wed, 18 Jul 2018 09:10:29
- -0700 (PDT)
-In-Reply-To: <20180718155006.lkoktldllafrfqbf@cs.cmu.edu>
-References: <20180718114645.591551-1-arnd@arndb.de> <20180718155006.lkoktldllafrfqbf@cs.cmu.edu>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 18 Jul 2018 18:10:29 +0200
-X-Google-Sender-Auth: t3SjPtl-EgfxMOvnScb4k_2eP1A
-Message-ID: <CAK8P3a3HYBar1yVCEjxR2VNpPOOx23qM5fCyO-TMmeF780rBiQ@mail.gmail.com>
-Subject: Re: [PATCH] [RESEND] coda: stop using 'struct timespec' in user API
-To:     Jan Harkes <jaharkes@cs.cmu.edu>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Deepa Dinamani <deepa.kernel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 18, 2018 at 5:50 PM, Jan Harkes <jaharkes@cs.cmu.edu> wrote:
-> On Wed, Jul 18, 2018 at 01:46:25PM +0200, Arnd Bergmann wrote:
->> Unfortunately, this breaks the layout of the coda_vattr structure, so
->> we need to redefine that in terms of something that does not change.
->> I'm introducing a new 'struct vtimespec' structure here that keeps
->> the existing layout, and the same change has to be done in the coda
->> user space copy of linux/coda.h before anyone can use that on a 32-bit
->> architecture with 64-bit time_t.
->
-> I think the userbase is small enough that we can handle a much simpler
-> transition to 64-bit timespecs everywhere. In that case the
-> CODA_KERNEL_VERSION should be updated, which is currently defined in
-> include/uapi/linux/coda.h as 3. As moving to 64-bit timespecs only
-> breaks 32-bit systems this allows userspace to catch that case and
-> refuse to run userspace with a mismatched layout (or handle
-> translation).
+From: Richard Gong <richard.gong@intel.com>
 
-Ok, so to make sure I get this right, you say we can do an
-incompatible ABI change for coda without causing any problems
-for existing users?
+This is the 7th submission of Intel stratix10 service layer patches. This
+submission includes one additional patch for supporting remote status update,
+the second Stratix10 service layer client. Intel Stratix10 FPGA manager,
+which is 1st Stratix10 service layer client, is included in this submission. 
 
-That would definitely be the easiest approach here. I guess
-we also just have to be incompatible for 32-bit user space,
-since it would make 32-bit users have the same ABI as 64-bit
-ones, right?
+Stratix10 service layer patches have been reviewed internally by Alan Tull
+and other colleagues at Intel.
 
-I'll have another look at the ABI side then, to see how it can
-be transitioned.
+Some features of the Intel Stratix10 SoC require a level of privilege
+higher than the kernel is granted. Such secure features include
+FPGA programming. In terms of the ARMv8 architecture, the kernel runs
+at Exception Level 1 (EL1), access to the features requires
+Exception Level 3 (EL3).
 
-> It also would make how to handle questions about truncation moot, or at
-> least moves the problem out of the kernel into userspace.  We actually
-> were already using unsigned integers for timestamps in the client <->
-> server protocol, so as you noted, that does give us a little breather
-> until 2106.
+The Intel Stratix10 service layer provides an in kernel API for drivers to
+request access to the secure features. The requests are queued and
+processed one by one. ARM’s SMCCC is used to pass the execution of the
+requests on to a secure monitor (EL3).
 
-ok.
+Later the Intel Stratix10 service layer driver will be extended to provide
+services for QSPI, Crypto and warm reset.
 
->> Originally sent on June 19, which lead to a short discussion
->> and an Ack, but the patch did not get picked up for 4.19 yet.
->
-> I'm sorry, somehow I missed the follow up questions in that discussion.
->
->> > If we only have one code base, it should be fairly straightforward to
->> > make it deal with 'unsigned' timestamps consistently, which would
->> > let the code work fine until 2106 rather than wrapping around from
->> > 2038 to 1902.
->
-> At some point there was a webdav filesystem that used the Coda kernel
-> apis, but I think they may have moved to FUSE since then so I would not
-> be surprised if there is only a single code base at this point.
+v2: add patches for FPGA manager, FPGA manager binding, dts and defconfig
+    remove intel-service subdirectory and intel-service.h, move intel-smc.h
+    and intel-service.c to driver/misc subdirectory
+    remove global variables
+    change service layer driver be 'default n'
+    correct SPDX markers
+    add timeout for do..while() loop
+    add kernel-doc for the functions and structs, correct multiline comments
+    replace kfifo_in/kfifo_out with kfifo_in_spinlocked/kfifo_out_spinlocked
+    rename struct intel_svc_data (at client header) to intel_svc_client_msg
+    rename struct intel_svc_private_mem to intel_svc_data
+    other corrections/changes from Intel internal code reviews
+v3: change all exported functions with "intel_svc_" as the prefix
+    increase timeout values for claiming back submitted buffer(s)
+    rename struct intel_command_reconfig_payload to
+    struct intel_svc_command_reconfig_payload
+    add pr_err() to provide the error return value
+    change to put fpga_mgr node under firmware/svc node
+    change to FPGA manager to align the update of service client APIs, and the
+    update of fpga_mgr device node
+    Other corrections/changes
+v4: s/intel/stratix10/ on some variables, structs, functions, and file names
+    intel-service.c -> stratix10-svc.c
+    intel-smc.h -> stratix10-smc.h
+    intel-service-client.h -> stratix10-svc-client.h
+    remove non-kernel-doc formatting
+    s/fpga-mgr@0/fpga-mgr/ to remove unit_address at fpga_mgr node
+    add Rob's Reviewed-by
+    add Richard's signed-off-by
+v5: add a new API statix10_svc_done() which is called by service client
+    when client request is completed or error occurs during request
+    process. Which allows service layer to free its resources.
+    remove dummy client from service layer client header and service layer
+    source file.
+    add Rob's Reviewed-by
+    add a new file stratix10-svc.rst and add that to driver-api/index.rst
+    kernel-doc fixes
+v6: replace kthread_create_on_cpu() with kthread_create_on_node()
+    extend stratix_svc_send() to support service client which doesn't use
+    memory allocated by service layer
+    add S10_RECONFIG_TIMEOUT
+    rename s/S10_BUF_TIMEOUT/S10_BUFFER_TIMEOUT/
+    fix service layer and FPGA manager Klocwork errors
+v7: add remote status update client support
+    s/pr_debug/dev_dbg, s/dev_info/dev_dbg
+    add unlock buffer if s10_svc_send_msg() fails
+    add release channel if fpga_mgr_create() fails
+    handle invalid pointer at svc if the client passed an invalid name
 
-Ok, I found davfs2 at http://dav.sourceforge.net/index.shtml
+Alan Tull (3):
+  dt-bindings: fpga: add Stratix10 SoC FPGA manager binding
+  arm64: dts: stratix10: add fpga manager and region
+  fpga: add intel stratix10 soc fpga manager driver
 
-Ah, so the coda kernel implementation is similar to both fuse and 9pfs
-in that it can connect to arbitrary user space implementations, but with
-no known users other than your coda user space and some versions of
-davfs2?
+Richard Gong (6):
+  dt-bindings, firmware: add Intel Stratix10 service layer binding
+  arm64: dts: stratix10: add stratix10 service driver binding to base
+    dtsi
+  misc: add Intel Stratix10 service layer driver
+  defconfig: enable fpga and service layer
+  Documentation: driver-api: add stratix10 service layer
+  misc: add remote status update client support
 
-      Arnd
+ .../bindings/firmware/intel,stratix10-svc.txt      |   57 ++
+ .../bindings/fpga/intel-stratix10-soc-fpga-mgr.txt |   17 +
+ Documentation/driver-api/index.rst                 |    1 +
+ Documentation/driver-api/stratix10-svc.rst         |   32 +
+ arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi  |   33 +
+ arch/arm64/configs/defconfig                       |    7 +
+ drivers/fpga/Kconfig                               |    6 +
+ drivers/fpga/Makefile                              |    1 +
+ drivers/fpga/stratix10-soc.c                       |  558 ++++++++++
+ drivers/misc/Kconfig                               |   12 +
+ drivers/misc/Makefile                              |    1 +
+ drivers/misc/stratix10-smc.h                       |  313 ++++++
+ drivers/misc/stratix10-svc.c                       | 1067 ++++++++++++++++++++
+ include/linux/stratix10-svc-client.h               |  217 ++++
+ 14 files changed, 2322 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/firmware/intel,stratix10-svc.txt
+ create mode 100644 Documentation/devicetree/bindings/fpga/intel-stratix10-soc-fpga-mgr.txt
+ create mode 100644 Documentation/driver-api/stratix10-svc.rst
+ create mode 100644 drivers/fpga/stratix10-soc.c
+ create mode 100644 drivers/misc/stratix10-smc.h
+ create mode 100644 drivers/misc/stratix10-svc.c
+ create mode 100644 include/linux/stratix10-svc-client.h
+
+-- 
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
