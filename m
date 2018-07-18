@@ -5,86 +5,98 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5B407D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 03:23:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD80E7D085
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 03:28:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731304AbeGRD7E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 23:59:04 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:59559 "EHLO
+        id S1726130AbeGREDd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 00:03:33 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:38109 "EHLO
         wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731232AbeGRD7D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 23:59:03 -0400
+        by vger.kernel.org with ESMTP id S1725721AbeGREDd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 00:03:33 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 07A87309;
-        Tue, 17 Jul 2018 23:23:18 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Tue, 17 Jul 2018 23:23:19 -0400
+        by mailout.west.internal (Postfix) with ESMTP id 5B05D2E8;
+        Tue, 17 Jul 2018 23:27:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 17 Jul 2018 23:27:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=8h1bS4V2L6/I5lGwoqn/GmHND8IFZVlcPpckMLyVDZE=; b=Px5+n1MT
-        M3HEP/XP0GkIxswXibd8s9PTjXnRf0DQnfjrjf+X+2lvlWIwvROfNC13cbkYPAQb
-        +JUZLsxDQJNQCv5qE+G15EmOyrvyO8dlRyq69+yNDieOaCm8n6efvFPl0hyUu8MA
-        /aP6EWX/Ati+Ps6tlZ7HMo7agpjuQH1mD0Apd9C9FytPLH5yd+UYGDtE9KDCgQuv
-        6TLHshRLCk/ZXqrlwkENcVFYlDxiolSCXzeOmp7PUcdHYNaFI3GnGiUnYyYf0Xka
-        K1fesMrgdt8mpKAzWsKsIHf2uAas3KGOksNVdOZ3NQkpR6finCJnKVQa4ZZFfqfH
-        nnRaPoW53RZBcQ==
+        :date:from:message-id:subject:to:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=50/uR4Ik6sptR5UglqZ77ufXYpdElsKaC27w+W7kr
+        1I=; b=QlJaRhjQXBBXE85wJ2KqehhE1WiB3RfKVAps17JhT0dJZ4dkKpdkO+rxR
+        dvARnv0jQ5nEoiTB8IVeF6QZ9ml8+s2OTHgJZBE8SNYIweEdnHv9lp875Rvhp8yQ
+        yTGgyuLIPIXUsTfFZ/Fr4tovp33CZNTXNYHr1pcwpTwFAOX4yOy7jFESpOYWq9QT
+        cMebu4HUOxGfE+uPGaDCEA/RN0t1OUgsHjY171jslqFPD09z6StWfVEqaw3vHNNO
+        Y0qu15NJqcdpnE6/AU5jaYIU/yYZ2iFE793hTAoDW1WaVAJNoCInIqHEgmiealFr
+        dCRWo1EVrRWitupAR/YUQi87XtBzw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=8h1bS4V2L6/I5lGwoqn/GmHND8IFZ
-        VlcPpckMLyVDZE=; b=HkA1lHtcE6axv5BUAuafc0FkQu197RTVUjewlAmMBlJ6O
-        Vx6hTAPOCdtZ85F7PUD1u0UP+r/heXuVM6o0GOE0ClirdyDRtzPTeDQKYevm+8wW
-        XSYeqxmXrBvpjSW7TVAehOsNt2Qxgh0ThVVp/hLsWl0Rfi0B0OvkMTbYYAy/RHDz
-        XdW7npDmEwlfof1+x78GImzpcbLrx9GpE+mxiXvj4mLwQQOJMApcM+fzaj8z4Puz
-        O9bMzMBNiwWV4TetFsfiyK99lW0B6xUddhzn0E3kQEomP8eNbKTVdLFF75xCED3s
-        wKejmGKyuMr7S13MxJrwJyCR4U3BDd3mgTKXqo6nQ==
-X-ME-Proxy: <xmx:prJOW8pZIzcQWOHGf9lUkTARyu1Vaa58dYX1JdtvcrTx3thaFetllQ>
-    <xmx:prJOWzEqm2KuYdxX0yLXn3YJ_LxB2d1y1zjXq3hVWJok_4zvp-VkTQ>
-    <xmx:prJOWw9tCCjlFLqYh9faQY166qCEKOW4DP-xl3rADvBMIxzvSrzd7A>
-    <xmx:prJOWwS5939PWBck71G5zvMUE8aFIJW2pEn2gFehC5qebVuBxjOSJw>
-    <xmx:prJOW1ppDi_RPY6u3-ST20o-mzVflzsGXCHiqkMvqxOM361Hhbofww>
-    <xmx:prJOW0nQodH-biriYcNbZxo4KD401RuRR_sNO3hpIXS7tscf7ZqDwA>
-X-ME-Sender: <xms:prJOWx1gMT0kWX9dJxTDL6us_nssybGx9hQ39EhAbfZxC45zL0Ts_A>
+        messagingengine.com; h=cc:date:from:message-id:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=50/uR4Ik6sptR5Ugl
+        qZ77ufXYpdElsKaC27w+W7kr1I=; b=Qu1KqOpTXCrQK7B4VVMsegCCDCOVN6slO
+        3Sc59KacWAD8J/rfLc/RjXnYciQSOrjrMPaSCq5SGaxHNkWhcLwqyQ/iCJQWNELI
+        Y9/zhJl+LASPT/HneB+1Bag/Q/6JmYxWmdnxwZlftShnhnHi3D2Po21mTTPaY7Zh
+        RHBdc7wONVxBNsEKWDz2wJsXQ4Dd86tuHQAULXnJ3OjCGMBiSdPGC24ncqf631yp
+        25/nswWPT9v3if5EEU2TdsM1I3AbObvpgtpoh+wBMQH9E2ISALUcsN6+XMFeycvU
+        blYB9rF8qj2ltmiP8yeqHdTlTUYj8fTxMx/JrsrqZB8e/I46+QEvg==
+X-ME-Proxy: <xmx:tLNOW_FsfnRKExyIvzj3eitCA34ULrN45iPjTNBklyFs51stR3BpGw>
+    <xmx:tLNOWxtG8zZIZCD1JHBu9Z00mYkGpDiFKt6AS_wrSX8FIyELYMligg>
+    <xmx:tLNOW9kdmdRYmqVuQiB7QLajSTUvhIX3VbUv2EN_nF4pyTlRGMbryw>
+    <xmx:tLNOWyM9T-xoBRRc7hfRuZP_5Hsfie2hoJH9dI6yOfJ99iOe6M-Srg>
+    <xmx:tLNOW8z4EJS0agShKC7E9t08GkXgLt5VncEVv3bUui6QORoCOXg6AQ>
+    <xmx:tLNOWxETt89H2JaaeHkCGFI1fowgXPKbEwR0KEQ12yUNHr1SN5p_cQ>
+X-ME-Sender: <xms:tLNOW3bEWFbspl7wLu96cYBQkkLfT8REA1K5mCT5Rgo6O8hB7BkQxg>
 Received: from localhost (124-169-0-210.dyn.iinet.net.au [124.169.0.210])
-        by mail.messagingengine.com (Postfix) with ESMTPA id B346110255;
-        Tue, 17 Jul 2018 23:23:17 -0400 (EDT)
-Date:   Wed, 18 Jul 2018 13:23:14 +1000
+        by mail.messagingengine.com (Postfix) with ESMTPA id D7A4AE465F;
+        Tue, 17 Jul 2018 23:27:47 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 1/3] docs: networking: Fix indices heading
- indentation
-Message-ID: <20180718032314.GC25311@eros>
-References: <20180717042906.17308-1-me@tobin.cc>
- <20180717042906.17308-2-me@tobin.cc>
- <1d7a309eb7561b9bb4c31f5deb9a0b63b6263232.camel@darmarit.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1d7a309eb7561b9bb4c31f5deb9a0b63b6263232.camel@darmarit.de>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+To:     "David S. Miller" <davem@davemloft.net>
+Cc:     "Tobin C. Harding" <me@tobin.cc>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v2 0/2] docs: Convert alias and bridge to rst
+Date:   Wed, 18 Jul 2018 13:27:34 +1000
+Message-Id: <20180718032736.8000-1-me@tobin.cc>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 17, 2018 at 10:28:15AM +0200, Markus Heiser wrote:
-> Am Dienstag, den 17.07.2018, 14:29 +1000 schrieb Tobin C. Harding:
-> > Currently the 'Indices' heading is not aligned with column 0, it should
-> > be.
-> 
-> Hi Tobin, thats not correct. The 'Indices' heading is a part of the 'only'
-> block:
+Hi Dave,
 
-Thanks for picking this up Markus.  A little knowledge is dangerous eh
-:) Will remove this patch from the set and re-spin.
+Here is my first attempt at working on converting docs in
+Documentation/networking to rst format.  I've picked a couple of trivial
+ones to start with.  If there is anything extra I can do to make your
+life easier during documentation conversion please say.  (Also if there
+is some reason that it would be preferable to _not_ embark on this task
+please say :)
 
+This set does not make any changes to the converted files apart from
+formatting.
 
 thanks,
 Tobin.
+
+v2:
+ - remove incorrect patch from set (changing 'Indices' indentation)
+
+Tobin C. Harding (2):
+  docs: networking: Convert alias.txt to rst
+  docs: networking: Convert bridge.txt to rst
+
+ Documentation/networking/00-INDEX             |  2 -
+ Documentation/networking/alias.rst            | 49 +++++++++++++++++++
+ Documentation/networking/alias.txt            | 40 ---------------
+ .../networking/{bridge.txt => bridge.rst}     |  6 +++
+ Documentation/networking/index.rst            |  2 +
+ 5 files changed, 57 insertions(+), 42 deletions(-)
+ create mode 100644 Documentation/networking/alias.rst
+ delete mode 100644 Documentation/networking/alias.txt
+ rename Documentation/networking/{bridge.txt => bridge.rst} (85%)
+
+-- 
+2.17.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
