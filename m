@@ -1,176 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B7FAD7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 17:16:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2F9257D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 18:39:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731392AbeGRRzT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 13:55:19 -0400
-Received: from mail-it0-f68.google.com ([209.85.214.68]:37005 "EHLO
-        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731325AbeGRRzT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 13:55:19 -0400
-Received: by mail-it0-f68.google.com with SMTP id p17-v6so5380941itc.2
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 10:16:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=nOIbBvKs7w+wDJzSJuqG5t9kAUaD+w7MtOThWcWpJpo=;
-        b=uTE7WuPlpO+F+1fy9ED3zC7wsb2oMoyAFmebI0zDhkGEG8O2t7slJFbRqp5sO0H5HY
-         5VOLwXtD52V4sIDFMVOaONcyMJFxXkV+QfzXGm9XrVW6DmECnuhFRjB2N8qymetwGmYR
-         BY4TVkws+3ZSPAprGBp7bTf5AFLsrfCkilMS0DHG31lRmDmvBHfSGbtyNzkoK7hqRc0C
-         qAWOm6Q1LAn4sdyw6UVJWtYqmAWEpG9rGWCinL8eo+0uNvzSh8mjMT/tHsr+pBQRnWl2
-         /Jx3GmkOtIESzP0XGs5pPxC7GKMoqVEZi8se0uqHoJjWecZSZqwuvhDc0+NvinPTIWf1
-         toBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=nOIbBvKs7w+wDJzSJuqG5t9kAUaD+w7MtOThWcWpJpo=;
-        b=raLtHNwMhmb/7HqVEm3qb4sMJO58t7vD+/t7FI5V3fcgAqytvqbgP85lxry4tDNIA0
-         +310wDbVPxsP6Ck2VpkzC6DGavQbwEcggIo932XdB7ktx5IByeGVS6APjq8+L4XQadg+
-         T+yCkrwyeruH91crbI1qV3mjypXTpMHpObWwzgkOsABR9AibpuwNatDS/wcjvW2Bs4Xb
-         oHuN05hLfqlyfySIDodQvRDEMuUU72aotuFe+OH2pj6FV/+8E0Kr16K+kRoDpsW3rgEj
-         LMcKQU76a4A/QQ4GSiRI25zbX6XE9X+7J/lfQABQpmpg7i1gHdsO9ppMHkw6mxlynObu
-         4pEA==
-X-Gm-Message-State: AOUpUlFjJ3S2pyd8aSQ54aK9o8GoyOcPBt8NK9BPkiCD1YxnOFmXgRBM
-        dP+0w95uC2SxfvH8Bo/sKE1hLX9ZfgiXWK5mrq3sjQ==
-X-Google-Smtp-Source: AAOMgpeV7pxdF9d94E24HUYDMpB/nyI0kS9DCG0THXgoTYiQbL5hkLsq0Dt0iNa1hzNxofvP0G0cu7qwIl78TXQtQ8U=
-X-Received: by 2002:a02:3941:: with SMTP id w1-v6mr6402449jae.132.1531934186638;
- Wed, 18 Jul 2018 10:16:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:918c:0:0:0:0:0 with HTTP; Wed, 18 Jul 2018 10:16:25
- -0700 (PDT)
-In-Reply-To: <20180703173608.GF27243@arm.com>
-References: <cover.1530018818.git.andreyknvl@google.com> <20180628105057.GA26019@e103592.cambridge.arm.com>
- <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
- <20180629110709.GA17859@arm.com> <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
- <20180703173608.GF27243@arm.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 18 Jul 2018 19:16:25 +0200
-Message-ID: <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
+        id S1726834AbeGRTTB convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 15:19:01 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44918 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726445AbeGRTTB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Jul 2018 15:19:01 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 25331402315B;
+        Wed, 18 Jul 2018 18:39:50 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 36A28111E406;
+        Wed, 18 Jul 2018 18:39:48 +0000 (UTC)
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
 To:     Andrew Morton <akpm@linux-foundation.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Christoph Lameter <cl@linux.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Michal Hocko <mhocko@kernel.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
         Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
+References: <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
+ <1531336913.3260.18.camel@HansenPartnership.com>
+ <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+ <1531411494.18255.6.camel@HansenPartnership.com>
+ <20180712164932.GA3475@bombadil.infradead.org>
+ <1531416080.18255.8.camel@HansenPartnership.com>
+ <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
+ <1531425435.18255.17.camel@HansenPartnership.com>
+ <20180713003614.GW2234@dastard> <20180716090901.GG17280@dhcp22.suse.cz>
+ <20180716124115.GA7072@bombadil.infradead.org>
+ <20180716164032.94e13f765c5f33c6022eca38@linux-foundation.org>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <d37af7a4-b9a9-0928-eed0-10ab818d08c0@redhat.com>
+Date:   Wed, 18 Jul 2018 14:39:48 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
+MIME-Version: 1.0
+In-Reply-To: <20180716164032.94e13f765c5f33c6022eca38@linux-foundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 18 Jul 2018 18:39:50 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 18 Jul 2018 18:39:50 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 2, 2018 at 10:30 PM, Andrew Morton
-<akpm@linux-foundation.org> wrote:
-> OK, anecdotal experience works for me.  But this is all stuff that
-> should have been in the changelog from day zero, please.  It describes
-> the reason for the patchset's existence!
+On 07/16/2018 07:40 PM, Andrew Morton wrote:
+> On Mon, 16 Jul 2018 05:41:15 -0700 Matthew Wilcox <willy@infradead.org> wrote:
+>
+>> On Mon, Jul 16, 2018 at 11:09:01AM +0200, Michal Hocko wrote:
+>>> On Fri 13-07-18 10:36:14, Dave Chinner wrote:
+>>> [...]
+>>>> By limiting the number of negative dentries in this case, internal
+>>>> slab fragmentation is reduced such that reclaim cost never gets out
+>>>> of control. While it appears to "fix" the symptoms, it doesn't
+>>>> address the underlying problem. It is a partial solution at best but
+>>>> at worst it's another opaque knob that nobody knows how or when to
+>>>> tune.
+>>> Would it help to put all the negative dentries into its own slab cache?
+>> Maybe the dcache should be more sensitive to its own needs.  In __d_alloc,
+>> it could check whether there are a high proportion of negative dentries
+>> and start recycling some existing negative dentries.
+> Well, yes.
+>
+> The proposed patchset adds all this background reclaiming.  Problem is
+> a) that background reclaiming sometimes can't keep up so a synchronous
+> direct-reclaim was added on top and b) reclaiming dentries in the
+> background will cause non-dentry-allocating tasks to suffer because of
+> activity from the dentry-allocating tasks, which is inappropriate.
 
-I will add all those points to the cover letter in v5.
+I have taken out the background reclaiming in the latest v7 patch for
+the concern people have on duplicating the reclaim effort. We can always
+add it back on later on if we want to.
 
-On Tue, Jul 3, 2018 at 7:36 PM, Will Deacon <will.deacon@arm.com> wrote:
-> Hmm, but elsewhere in this thread, Evgenii is motivating the need for this
-> patch set precisely because the lower overhead means it's suitable for
-> "near-production" use. So I don't think writing this off as a debugging
-> feature is the right approach, and we instead need to put effort into
-> analysing the impact of address tags on the kernel as a whole. Playing
-> whack-a-mole with subtle tag issues sounds like the worst possible outcome
-> for the long-term.
+> I expect a better design is something like
+>
+> __d_alloc()
+> {
+> 	...
+> 	while (too many dentries)
+> 		call the dcache shrinker
+> 	...
+> }
+>
+> and that's it.  This way we have a hard upper limit and only the tasks
+> which are creating dentries suffer the cost.
 
-I don't see a way to find cases where pointer tags would matter
-statically, so I've implemented the dynamic approach that I mentioned
-above. I've instrumented all pointer comparisons/subtractions in an
-LLVM compiler pass and used a kernel module that would print a bug
-report whenever two pointers with different tags are being
-compared/subtracted (ignoring comparisons with NULL pointers and with
-pointers obtained by casting an error code to a pointer type). Then I
-tried booting the kernel in QEMU and on an Odroid C2 board and I ran
-syzkaller overnight.
+Yes, that is certainly one way of doing it.
 
-This yielded the following results.
+Cheers,
+Longman
 
-======
-
-The two places that look interesting are:
-
-is_vmalloc_addr in include/linux/mm.h (already mentioned by Catalin)
-is_kernel_rodata in mm/util.c
-
-Here we compare a pointer with some fixed untagged values to make sure
-that the pointer lies in a particular part of the kernel address
-space. Since KWHASAN doesn't add tags to pointers that belong to
-rodata or vmalloc regions, this should work as is. To make sure I've
-added debug checks to those two functions that check that the result
-doesn't change whether we operate on pointers with or without
-untagging.
-
-======
-
-A few other cases that don't look that interesting:
-
-Comparing pointers to achieve unique sorting order of pointee objects
-(e.g. sorting locks addresses before performing a double lock):
-
-tty_ldisc_lock_pair_timeout in drivers/tty/tty_ldisc.c
-pipe_double_lock in fs/pipe.c
-unix_state_double_lock in net/unix/af_unix.c
-lock_two_nondirectories in fs/inode.c
-mutex_lock_double in kernel/events/core.c
-
-ep_cmp_ffd in fs/eventpoll.c
-fsnotify_compare_groups fs/notify/mark.c
-
-Nothing needs to be done here, since the tags embedded into pointers
-don't change, so the sorting order would still be unique.
-
-Check that a pointer belongs to some particular allocation:
-
-is_sibling_entry lib/radix-tree.c
-object_is_on_stack in include/linux/sched/task_stack.h
-
-Nothing needs to be here either, since two pointers can only belong to
-the same allocation if they have the same tag.
-
-======
-
-Will, Catalin, WDYT?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
