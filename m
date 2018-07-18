@@ -5,64 +5,103 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D6BD57D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 12:02:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F86B7D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 14:06:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727000AbeGRMka (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 08:40:30 -0400
-Received: from ms.lwn.net ([45.79.88.28]:58108 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726254AbeGRMka (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Jul 2018 08:40:30 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BDD622BA;
-        Wed, 18 Jul 2018 12:02:53 +0000 (UTC)
-Date:   Wed, 18 Jul 2018 06:02:49 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 00/11] docs/mm: add boot time memory management docs
-Message-ID: <20180718060249.6b45605d@lwn.net>
-In-Reply-To: <20180718114730.GD4302@rapoport-lnx>
-References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
-        <20180702113255.1f7504e2@lwn.net>
-        <20180718114730.GD4302@rapoport-lnx>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730151AbeGROoL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 10:44:11 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:35231 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729185AbeGROoL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 10:44:11 -0400
+Received: by mail-lj1-f196.google.com with SMTP id p10-v6so4223405ljg.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 07:06:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=O8BaYOu5SbHyO8N5K98eagX0iw+1ClmX460ELB1HzEg=;
+        b=qT6RgJBtRvEmwkmazLdnuhpUd16c4eFARpsN6+NpNEy8NHjzfnQSmJFLnW/V/0p8XD
+         nQTfKYug8s85VYTekMRDjFgB8kpJie9C0RMksPUTgLz1j1tf597ZE3lKwiaf1wTWklks
+         KRJZIRpyFFEUWvOBbK1zbALCbUk6AOn+ImtGRxdPlRGBkrqAVmOtqdE5WUl2wRj2gEpP
+         y/M+pP0Nkh+YEbhlLte2yCTPb+nCSR3+DfIJMJpwXYEPKRflef3vR/wwKF2XWUJXWCzi
+         niZ5G0OSmIVhCe1V/d4OrKMRPrRj4tv7K0mAa3lQidWExQfjiNYdBSAV4U39KrsqY0ky
+         eNhw==
+X-Gm-Message-State: AOUpUlHNgrituFI6R/1Dh2954pgpKaYyGZOX2+2rZoVfOXbywim0j78R
+        SJT3EkuBksgs0eEKJp5KSytEbdWoR4WTfRgRw7LyDw==
+X-Google-Smtp-Source: AAOMgpdorSGRtnK+08EioHv1U/+VC87chEnOLbtpn7UAc6hYzJh+yYiUDfyS8gGs4bibdOt8577oCW1av2puWNcsqGQ=
+X-Received: by 2002:a2e:2282:: with SMTP id i124-v6mr1031823lji.11.1531922764956;
+ Wed, 18 Jul 2018 07:06:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Received: by 2002:ab3:4e8a:0:0:0:0:0 with HTTP; Wed, 18 Jul 2018 07:05:24
+ -0700 (PDT)
+In-Reply-To: <20180710151656.5ecaae11@lwn.net>
+References: <CAF1GLkkzSzUnGKprz9CroVv=xBoUaym53PUTgi1RDNiEmr6PWw@mail.gmail.com>
+ <20180710151656.5ecaae11@lwn.net>
+From:   Prashant Dhamdhere <pdhamdhe@redhat.com>
+Date:   Wed, 18 Jul 2018 19:35:24 +0530
+Message-ID: <CAF1GLkk6fUbpdJhfNYhDL7NBf+chvv0H5SR-9_ofTrcHmqgDfQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: proc.txt: Adding 'HardwareCorrupted'
+ parameter and description.
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 18 Jul 2018 14:47:30 +0300
-Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+On Wed, Jul 11, 2018 at 2:46 AM, Jonathan Corbet <corbet@lwn.net> wrote:
+> On Tue, 10 Jul 2018 20:05:22 +0530
+> Prashant Dhamdhere <pdhamdhe@redhat.com> wrote:
+>
+>> Signed-off-by: Prashant Dhamdhere <pdhamdhe@redhat.com>
+>> ---
+>>  Documentation/filesystems/proc.txt | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/Documentation/filesystems/proc.txt
+>> b/Documentation/filesystems/proc.txt
+>> index 520f6a84cf50..b2fa7e7c4300 100644
+>> --- a/Documentation/filesystems/proc.txt
+>> +++ b/Documentation/filesystems/proc.txt
+>> @@ -870,6 +870,7 @@ Committed_AS:   100056 kB
+>>  VmallocTotal:   112216 kB
+>>  VmallocUsed:       428 kB
+>>  VmallocChunk:   111088 kB
+>> +HardwareCorrupted:   0 kB
+>>  AnonHugePages:   49152 kB
+>>  ShmemHugePages:      0 kB
+>>  ShmemPmdMapped:      0 kB
+>> @@ -915,6 +916,8 @@ MemAvailable: An estimate of how much memory is
+>> available for starting new
+>
+> This patch, too, was corrupted by your mailer.  Please resubmit it after
+> fixing the issue (and with a changelog, please).
+>
+> Thanks,
+>
+> jon
 
-> > So this seems like good stuff overall.  It digs pretty deeply into the mm
-> > code, though, so I'm a little reluctant to apply it without an ack from an
-> > mm developer.  Alternatively, I'm happy to step back if Andrew wants to
-> > pick the set up.  
-> 
-> Jon, does Michal's reply [1] address your concerns?
-> Or should I respin and ask Andrew to pick it up? 
-> 
-> [1] https://lore.kernel.org/lkml/20180712080006.GA328@dhcp22.suse.cz/
 
-Michal acked #11 (the docs patch) in particular but not the series as a
-whole.  But it's the rest of the series that I was most worried about :)
-I'm happy for the patches to take either path, but I'd really like an
-explicit ack before I apply that many changes directly to the MM code...
+Hi Jon,
 
-Thanks,
+I have resubmitted this patch with a changelog, please review and share feedback
+so that I will be able to submit other patches.
 
-jon
+--
+Prashant
+
+>
+>>         Dirty: Memory which is waiting to get written back to the disk
+>>     Writeback: Memory which is actively being written back to the disk
+>>     AnonPages: Non-file backed pages mapped into userspace page tables
+>> +HardwareCorrupted: The amount of RAM/memory in KB, the kernel identified as
+>> +              corrupted.
+>>  AnonHugePages: Non-file backed huge pages mapped into userspace page tables
+>>        Mapped: files which have been mmaped, such as libraries
+>>         Shmem: Total memory used by shared memory (shmem) and tmpfs
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
