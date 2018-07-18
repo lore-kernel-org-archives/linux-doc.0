@@ -1,221 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-3.8 required=5.0 tests=DKIM_ADSP_DISCARD,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4FF647D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 09:11:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7BEA07D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 09:40:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729619AbeGRJsx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 05:48:53 -0400
-Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:36436 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729209AbeGRJsx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 05:48:53 -0400
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 7A7E410C115D;
-        Wed, 18 Jul 2018 02:11:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1531905117; bh=azyBCV96xi3m6QImKSHjjHTPlvu8XUlD0trCBmHZNLw=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=WdNND5c0WTvM5eawiIShFSxP3pU7VTB7uwEDMmX5z1QDtfVMnkJ57AEDBrD48bASX
-         n0/zEO7wqsRME4iWh1yhmbw2EtaaBlge5R6ZCJSNLj1okr+BTbg8yQ8B43rVNPMXUC
-         s9fSqOp59EuEuWQKvs8QzmbWzJdmvcGeShOSPztJICrkxatAar2c9SSvKyDYlanaPM
-         7YL3cUntzaxfJSf+5AkTIYBkXqw2/8IGby2UZP31nxxAemvqYQJtwL68mqSU/k+oot
-         9heDYlq6/Z55L5tEcw2DiS2yaoi5FtEletirQBsYnlj+sKKSuis9+bNOvuBI5jl9KG
-         6teLiC6L4hvnA==
-Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
-        by mailhost.synopsys.com (Postfix) with ESMTP id D37C73CD7;
-        Wed, 18 Jul 2018 02:11:41 -0700 (PDT)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 18 Jul 2018 02:11:38 -0700
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 18 Jul 2018 11:11:35 +0200
-Received: from [10.107.25.102] (10.107.25.102) by
- DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 18 Jul 2018 11:11:35 +0200
-Subject: Re: [PATCH v12 07/12] pci-epf-test/pci_endpoint_test: Cleanup
- PCI_ENDPOINT_TEST memspace (fwd)
-To:     Julia Lawall <julia.lawall@lip6.fr>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-CC:     "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "joao.pinto@synopsys.com" <joao.pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "kishon@ti.com" <kishon@ti.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
-        "shawn.lin@rock-chips.com" <shawn.lin@rock-chips.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kbuild-all@01.org" <kbuild-all@01.org>
-References: <alpine.DEB.2.20.1807172056580.2373@hadrien>
-From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Message-ID: <1760e154-afa9-7013-c756-8e255e89c8d3@synopsys.com>
-Date:   Wed, 18 Jul 2018 10:09:22 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.20.1807172056580.2373@hadrien>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.107.25.102]
+        id S1730846AbeGRKRH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 06:17:07 -0400
+Received: from services.gouders.net ([141.101.32.176]:54977 "EHLO
+        services.gouders.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730906AbeGRKRH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 06:17:07 -0400
+X-Greylist: delayed 1428 seconds by postgrey-1.27 at vger.kernel.org; Wed, 18 Jul 2018 06:17:07 EDT
+Received: from lena.gouders.net ([193.175.198.193])
+        (authenticated bits=0)
+        by services.gouders.net (8.14.8/8.14.8) with ESMTP id w6I9DuD7028581
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Wed, 18 Jul 2018 11:14:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gouders.net; s=gnet;
+        t=1531905247; bh=Ttig7I4bBJY7gQ+/MLdt4XgYmszpqezZ2QsOmkEC3UU=;
+        h=From:To:Cc:Subject:Date;
+        b=LWTdsitapnQ9qUkw6IhTbQ/YZa+DcUs7dJSLL5Ce13Z3k8dVXuv+hP9dhQSfevtoX
+         Dv7tWF1xQdX7M7NBg1OJ01m2hycSBRf3Z/17ENRExqMBwI7pBefjIPPN8HMBgRPAoV
+         Jg08S+PAcD/hR6x19MiwLDiuz+B5k+cYlsQm1YYo=
+From:   Dirk Gouders <dirk@gouders.net>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Dirk Gouders <dirk@gouders.net>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: if_changed: document single use per target limitation
+Date:   Wed, 18 Jul 2018 11:13:36 +0200
+Message-Id: <20180718091336.4540-1-dirk@gouders.net>
+X-Mailer: git-send-email 2.16.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Julia,
+Users of if_changed could easily feel invited to use it to divide a
+recipe into parts like:
 
-Thanks for the review.
+a: prereq FORCE
+	$(call if_changed,do_a)
+	$(call if_changed,do_b)
 
-You're correct, but I'd prefer to change the variable count from u16 to int
-type. I know the pci_epc_get_msi() currently doesn't return any negative values,
-but since the function signature allows the return of negative values, I think
-it'd be good to be prepared for such a future possibility.
+But this is problematic, because if_changed should not be used more
+than once per target: in the above example, if_changed stores the
+command-line of the given command in .a.cmd and when a is up-to-date
+with respect to prereq, the file .a.cmd contains the command-line for
+the last command executed, i.e. do_b.
 
-Regards,
-Gustavo
+When the recipe is then executed again, without any change of
+prerequisites, the command-line check for do_a will fail, do_a will be
+executed and stored in .a.cmd.  The next check, however, will still see
+the old content (the file isn't re-read) and if_changed will skip
+do_b, because the command-line test will not recognize a change.  On
+the next execution of the recipe the roles will flip: do_a is OK but
+do_b not and it will be executed.  And so on...
 
+Signed-off-by: Dirk Gouders <dirk@gouders.net>
+---
+ Documentation/kbuild/makefiles.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-On 17/07/2018 19:59, Julia Lawall wrote:
-> The following code contains the following lines:
-> 
-> 045c759f Gustavo Pimentel       2018-07-17  340                 count = pci_epc_get_msi(epc, epf->func_no);
-> 045c759f Gustavo Pimentel       2018-07-17 @341                 if (reg->irq_number > count || count <= 0)
-> 
-> count has type u16, so it cannot be < 0.  Furthermore, pci_epc_get_msi
-> never returns a negative value, so the test for < 0 is unnecessary.
-> 
-> julia
-> 
-> ---------- Forwarded message ----------
-> Date: Wed, 18 Jul 2018 02:50:45 +0800
-> From: kbuild test robot <lkp@intel.com>
-> To: kbuild@01.org
-> Cc: Julia Lawall <julia.lawall@lip6.fr>
-> Subject: Re: [PATCH v12 07/12] pci-epf-test/pci_endpoint_test: Cleanup
->     PCI_ENDPOINT_TEST memspace
-> 
-> CC: kbuild-all@01.org
-> In-Reply-To: <26fc54d264ca4229360cf632f08e6935b1abb30c.1531818979.git.gustavo.pimentel@synopsys.com>
-> References: <26fc54d264ca4229360cf632f08e6935b1abb30c.1531818979.git.gustavo.pimentel@synopsys.com>
-> TO: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> CC: bhelgaas@google.com, lorenzo.pieralisi@arm.com, joao.pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com, adouglas@cadence.com, jesper.nilsson@axis.com, shawn.lin@rock-chips.com
-> CC: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> 
-> Hi Gustavo,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on pci/next]
-> [also build test WARNING on v4.18-rc5 next-20180717]
-> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-> 
-> url:    https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_0day-2Dci_linux_commits_Gustavo-2DPimentel_Add-2DMSI-2DX-2Dsupport-2Don-2Dpcitest-2Dtool_20180717-2D233319&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=ju28bmySEdjoY0RxIN6ae4986tlIzESmT3TcyqLjcSs&s=tJOfNk_YHxRjCj6t3MWt_0PqaBUYpxcqofxQ4TNEKO8&e=
-> base:   https://urldefense.proofpoint.com/v2/url?u=https-3A__git.kernel.org_pub_scm_linux_kernel_git_helgaas_pci.git&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=ju28bmySEdjoY0RxIN6ae4986tlIzESmT3TcyqLjcSs&s=iglvG6xPgtxkXhIKK8J49nR3kIwcDHQwvr60gdJjFc4&e= next
-> :::::: branch date: 3 hours ago
-> :::::: commit date: 3 hours ago
-> 
->>> drivers/pci/endpoint/functions/pci-epf-test.c:341:33-38: WARNING: Unsigned expression compared with zero: count <= 0
-> 
-> # https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_0day-2Dci_linux_commit_045c759f7ad4eeb208d74b476af11c8bba90e80e&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=ju28bmySEdjoY0RxIN6ae4986tlIzESmT3TcyqLjcSs&s=mJbi04745s0pc9UI89wYjCXD9nlYdzL4yfClFeU2UgU&e=
-> git remote add linux-review https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_0day-2Dci_linux&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=ju28bmySEdjoY0RxIN6ae4986tlIzESmT3TcyqLjcSs&s=0HOVHucs3OqPvQI__Fs54JiTqpI660FDxgcSmgEv3I0&e=
-> git remote update linux-review
-> git checkout 045c759f7ad4eeb208d74b476af11c8bba90e80e
-> vim +341 drivers/pci/endpoint/functions/pci-epf-test.c
-> 
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  274
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  275  static void pci_epf_test_cmd_handler(struct work_struct *work)
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  276  {
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  277  	int ret;
-> 045c759f Gustavo Pimentel       2018-07-17  278  	u16 count;
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  279  	u32 command;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  280  	struct pci_epf_test *epf_test = container_of(work, struct pci_epf_test,
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  281  						     cmd_handler.work);
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  282  	struct pci_epf *epf = epf_test->epf;
-> 045c759f Gustavo Pimentel       2018-07-17  283  	struct device *dev = &epf->dev;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  284  	struct pci_epc *epc = epf->epc;
-> 3235b994 Kishon Vijay Abraham I 2017-08-18  285  	enum pci_barno test_reg_bar = epf_test->test_reg_bar;
-> 3235b994 Kishon Vijay Abraham I 2017-08-18  286  	struct pci_epf_test_reg *reg = epf_test->reg[test_reg_bar];
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  287
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  288  	command = reg->command;
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  289  	if (!command)
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  290  		goto reset_handler;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  291
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  292  	reg->command = 0;
-> 3235b994 Kishon Vijay Abraham I 2017-08-18  293  	reg->status = 0;
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  294
-> 045c759f Gustavo Pimentel       2018-07-17  295  	if (reg->irq_type > IRQ_TYPE_MSI) {
-> 045c759f Gustavo Pimentel       2018-07-17  296  		dev_err(dev, "Failed to detect IRQ type\n");
-> 045c759f Gustavo Pimentel       2018-07-17  297  		goto reset_handler;
-> 045c759f Gustavo Pimentel       2018-07-17  298  	}
-> 749aaf33 John Keeping           2017-09-20  299
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  300  	if (command & COMMAND_RAISE_LEGACY_IRQ) {
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  301  		reg->status = STATUS_IRQ_RAISED;
-> 4494738d Cyrille Pitchen        2018-01-30  302  		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_LEGACY, 0);
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  303  		goto reset_handler;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  304  	}
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  305
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  306  	if (command & COMMAND_WRITE) {
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  307  		ret = pci_epf_test_write(epf_test);
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  308  		if (ret)
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  309  			reg->status |= STATUS_WRITE_FAIL;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  310  		else
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  311  			reg->status |= STATUS_WRITE_SUCCESS;
-> 045c759f Gustavo Pimentel       2018-07-17  312  		pci_epf_test_raise_irq(epf_test, reg->irq_type,
-> 045c759f Gustavo Pimentel       2018-07-17  313  				       reg->irq_number);
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  314  		goto reset_handler;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  315  	}
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  316
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  317  	if (command & COMMAND_READ) {
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  318  		ret = pci_epf_test_read(epf_test);
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  319  		if (!ret)
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  320  			reg->status |= STATUS_READ_SUCCESS;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  321  		else
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  322  			reg->status |= STATUS_READ_FAIL;
-> 045c759f Gustavo Pimentel       2018-07-17  323  		pci_epf_test_raise_irq(epf_test, reg->irq_type,
-> 045c759f Gustavo Pimentel       2018-07-17  324  				       reg->irq_number);
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  325  		goto reset_handler;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  326  	}
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  327
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  328  	if (command & COMMAND_COPY) {
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  329  		ret = pci_epf_test_copy(epf_test);
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  330  		if (!ret)
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  331  			reg->status |= STATUS_COPY_SUCCESS;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  332  		else
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  333  			reg->status |= STATUS_COPY_FAIL;
-> 045c759f Gustavo Pimentel       2018-07-17  334  		pci_epf_test_raise_irq(epf_test, reg->irq_type,
-> 045c759f Gustavo Pimentel       2018-07-17  335  				       reg->irq_number);
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  336  		goto reset_handler;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  337  	}
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  338
-> 3ecf3232 Kishon Vijay Abraham I 2017-08-18  339  	if (command & COMMAND_RAISE_MSI_IRQ) {
-> 045c759f Gustavo Pimentel       2018-07-17  340  		count = pci_epc_get_msi(epc, epf->func_no);
-> 045c759f Gustavo Pimentel       2018-07-17 @341  		if (reg->irq_number > count || count <= 0)
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  342  			goto reset_handler;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  343  		reg->status = STATUS_IRQ_RAISED;
-> 045c759f Gustavo Pimentel       2018-07-17  344  		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_MSI,
-> 045c759f Gustavo Pimentel       2018-07-17  345  				  reg->irq_number);
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  346  		goto reset_handler;
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  347  	}
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  348
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  349  reset_handler:
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  350  	queue_delayed_work(kpcitest_workqueue, &epf_test->cmd_handler,
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  351  			   msecs_to_jiffies(1));
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  352  }
-> 349e7a85 Kishon Vijay Abraham I 2017-03-27  353
-> 
-> ---
-> 0-DAY kernel test infrastructure                Open Source Technology Center
-> https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.01.org_pipermail_kbuild-2Dall&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=ju28bmySEdjoY0RxIN6ae4986tlIzESmT3TcyqLjcSs&s=6qrmeltWerJZCA5GyZEp0LuxfhZa1jpgfZdQflb0mPE&e=                   Intel Corporation
-> 
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index 048fc39a6b91..01fae5a01ce7 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -1105,6 +1105,12 @@ When kbuild executes, the following steps are followed (roughly):
+ 		target: source(s) FORCE
+ 	#WRONG!#	$(call if_changed, ld/objcopy/gzip/...)
+ 
++        Note: if_changed should not be used more than once per target.
++              It stores the executed command in a corresponding .cmd
++        file and multiple calls would result in overwrites and
++        unwanted results when the target is up to date and only the
++        tests on changed commands trigger execution of commands.
++
+     ld
+ 	Link target. Often, LDFLAGS_$@ is used to set specific options to ld.
+ 
+-- 
+2.16.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
