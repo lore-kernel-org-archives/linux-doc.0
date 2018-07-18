@@ -1,97 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A06097D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 15:31:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F04B57D085
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 15:50:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730663AbeGRQKI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 12:10:08 -0400
-Received: from mail-yb0-f175.google.com ([209.85.213.175]:41679 "EHLO
-        mail-yb0-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729776AbeGRQKI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 12:10:08 -0400
-Received: by mail-yb0-f175.google.com with SMTP id s8-v6so1992702ybe.8;
-        Wed, 18 Jul 2018 08:31:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=hR+qD/rstAfQOlQkLYPzveTTy2nQYci9SLbQtsf9TfI=;
-        b=sMZc31jhwq9tu4K/f0rBurhN0Hpa+rkT0/9jX9xSiSQF3nFbe87mIpEQY6aXK+t3k3
-         SR3a5suk1TX1lgqqOJ9djyBEmB5Z+mSDOd8CGS1I6qq9w5oTNAAPyRzbA2rJoPbUP4hz
-         DlC9f445y24coOLwjQyLpsVzs2JQJPS1AVY53zrWhVv0XZEN6tzOe9gATcQZYDCEErKT
-         2D48L1LLAE4h23oQ6b6UahXV7IIjBK+n2uVBbvbwZpSCJZ1hc3jEdC6lLkb6uXGnXXZK
-         jDiX9Ixul6z2OvIvpjA8wiPSf2QWv7S0fj9WuBGVNpebCaIHbRngkbKrY2W6TSdAteVP
-         RPaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hR+qD/rstAfQOlQkLYPzveTTy2nQYci9SLbQtsf9TfI=;
-        b=KeOoty7t+pxH8rRRKrP+n4Im1kakBQJsYSTtr1eBbLRJRT2+atMIxaV2EDLtVDb4Dx
-         oUh+Uq3kjM4lGo8vS8iHTzu1dKo20bYN72LCCuEAnTwwpkk1P7Hi6ck51W1c8ocY1FYa
-         iXh3ThVKbTw6pvCtsSfLvnB5vEjSoUyTJw/6WX32wCgwVjVbpZGI4xMHnCq13lDExB3c
-         giNuWK8sUHQOHkxM8b7oIAqNqdjfVPR5IBr6oD20/s5zbIGn8P7NRJzlLrO9JwYYNrzA
-         gBywRtd0gSPeuDFDk0zfmsSkUwjRuUIHc0zvkaHN7BX84/cibf+/PnUdfmJE8X9Bb89W
-         nKnA==
-X-Gm-Message-State: AOUpUlGW7+MTkgI5YAUAIYCGEzqyr4CBib0slCB9BJL2RaWXEcZvqCJ1
-        wgLRy+QvURraI3cWQnnN8LFTTOGd
-X-Google-Smtp-Source: AAOMgpfqwFRutIEdLHIldf8r+nxrIo8dwcStaSerhbbTZ97AeQTzXme7RQRgNO+V42yhzKCQG34QBg==
-X-Received: by 2002:a25:51c1:: with SMTP id f184-v6mr3398581ybb.81.1531927901787;
-        Wed, 18 Jul 2018 08:31:41 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:200::2:eedb])
-        by smtp.gmail.com with ESMTPSA id 203-v6sm1129211ywv.34.2018.07.18.08.31.40
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 Jul 2018 08:31:40 -0700 (PDT)
-Date:   Wed, 18 Jul 2018 08:31:39 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-Message-ID: <20180718153139.GQ72677@devbig577.frc2.facebook.com>
-References: <1529825440-9574-1-git-send-email-longman@redhat.com>
- <1529825440-9574-8-git-send-email-longman@redhat.com>
- <20180702165322.GI533219@devbig577.frc2.facebook.com>
- <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
- <20180703155823.GS533219@devbig577.frc2.facebook.com>
- <4cf9924e-7b97-187f-a1f5-853a45165abb@redhat.com>
- <151fc655-7e29-f060-789e-ee6c5c23d132@redhat.com>
- <a1eb4971-ff23-6fd8-d75b-112d63f0aee9@redhat.com>
+        id S1731379AbeGRQ2t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 12:28:49 -0400
+Received: from hurricane.elijah.cs.cmu.edu ([128.2.209.191]:45244 "EHLO
+        hurricane.elijah.cs.cmu.edu" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731295AbeGRQ2s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 12:28:48 -0400
+Received: from [127.0.0.1] (helo=cs.cmu.edu)
+        by hurricane.elijah.cs.cmu.edu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.91)
+        (envelope-from <jaharkes@cs.cmu.edu>)
+        id 1ffoiT-0003wA-Py; Wed, 18 Jul 2018 11:50:13 -0400
+Date:   Wed, 18 Jul 2018 11:50:06 -0400
+From:   Jan Harkes <jaharkes@cs.cmu.edu>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [RESEND] coda: stop using 'struct timespec' in user API
+Message-ID: <20180718155006.lkoktldllafrfqbf@cs.cmu.edu>
+Mail-Followup-To: Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Deepa Dinamani <deepa.kernel@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20180718114645.591551-1-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a1eb4971-ff23-6fd8-d75b-112d63f0aee9@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20180718114645.591551-1-arnd@arndb.de>
+User-Agent: NeoMutt/20180512
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 18, 2018 at 11:21:18AM -0400, Waiman Long wrote:
-> What do you think about this patch?
-> 
-> Are there any other issues you have with this patchset?
+On Wed, Jul 18, 2018 at 01:46:25PM +0200, Arnd Bergmann wrote:
+> Unfortunately, this breaks the layout of the coda_vattr structure, so
+> we need to redefine that in terms of something that does not change.
+> I'm introducing a new 'struct vtimespec' structure here that keeps
+> the existing layout, and the same change has to be done in the coda
+> user space copy of linux/coda.h before anyone can use that on a 32-bit
+> architecture with 64-bit time_t.
 
-Looks good to me.  If others are okay with it, I think we're all good.
+I think the userbase is small enough that we can handle a much simpler
+transition to 64-bit timespecs everywhere. In that case the
+CODA_KERNEL_VERSION should be updated, which is currently defined in
+include/uapi/linux/coda.h as 3. As moving to 64-bit timespecs only
+breaks 32-bit systems this allows userspace to catch that case and
+refuse to run userspace with a mismatched layout (or handle
+translation).
 
-Thanks.
+It also would make how to handle questions about truncation moot, or at
+least moves the problem out of the kernel into userspace.  We actually
+were already using unsigned integers for timestamps in the client <->
+server protocol, so as you noted, that does give us a little breather
+until 2106.
 
--- 
-tejun
+> Originally sent on June 19, which lead to a short discussion
+> and an Ack, but the patch did not get picked up for 4.19 yet.
+
+I'm sorry, somehow I missed the follow up questions in that discussion.
+
+> > If we only have one code base, it should be fairly straightforward to
+> > make it deal with 'unsigned' timestamps consistently, which would
+> > let the code work fine until 2106 rather than wrapping around from
+> > 2038 to 1902.
+
+At some point there was a webdav filesystem that used the Coda kernel
+apis, but I think they may have moved to FUSE since then so I would not
+be surprised if there is only a single code base at this point.
+
+Jan
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
