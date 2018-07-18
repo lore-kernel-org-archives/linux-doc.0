@@ -2,27 +2,27 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2B197DF85
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 16:18:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 74FA77DE7F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 16:18:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731282AbeGRQzQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 12:55:16 -0400
-Received: from mga14.intel.com ([192.55.52.115]:3828 "EHLO mga14.intel.com"
+        id S1731728AbeGRQzg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 12:55:36 -0400
+Received: from mga06.intel.com ([134.134.136.31]:52005 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730987AbeGRQzO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Jul 2018 12:55:14 -0400
+        id S1730987AbeGRQzf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Jul 2018 12:55:35 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jul 2018 09:16:36 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jul 2018 09:16:58 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,370,1526367600"; 
-   d="scan'208";a="67947049"
+   d="scan'208";a="67947088"
 Received: from marshy.an.intel.com ([10.122.105.159])
-  by orsmga003.jf.intel.com with ESMTP; 18 Jul 2018 09:16:35 -0700
+  by orsmga003.jf.intel.com with ESMTP; 18 Jul 2018 09:16:41 -0700
 From:   richard.gong@linux.intel.com
 To:     gregkh@linuxfoundation.org, catalin.marinas@arm.com,
         will.deacon@arm.com, dinguyen@kernel.org, robh+dt@kernel.org,
@@ -32,60 +32,87 @@ Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-fpga@vger.kernel.org,
         linux-doc@vger.kernel.org, yves.vandervennet@linux.intel.com,
         richard.gong@intel.com
-Subject: [PATCHv7 4/9] dt-bindings: fpga: add Stratix10 SoC FPGA manager binding
-Date:   Wed, 18 Jul 2018 11:18:39 -0500
-Message-Id: <1531930724-22061-5-git-send-email-richard.gong@linux.intel.com>
+Subject: [PATCHv7 8/9] Documentation: driver-api: add stratix10 service layer
+Date:   Wed, 18 Jul 2018 11:18:43 -0500
+Message-Id: <1531930724-22061-9-git-send-email-richard.gong@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1531930724-22061-1-git-send-email-richard.gong@linux.intel.com>
 References: <1531930724-22061-1-git-send-email-richard.gong@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alan Tull <atull@kernel.org>
+From: Richard Gong <richard.gong@intel.com>
 
-Add a Device Tree binding for the Intel Stratix10 SoC FPGA manager.
+Add new file stratix10-svc.rst
+Add stratix10-svc.rst to driver-api/index.rst
 
-Signed-off-by: Alan Tull <atull@kernel.org>
 Signed-off-by: Richard Gong <richard.gong@intel.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Alan Tull <atull@kernel.org>
 ---
-v2: this patch is added in patch set version 2
-v3: change to put fpga_mgr node under firmware/svc node
-v4: s/fpga-mgr@0/fpga-mgr/ to remove unit_address
-    add Richard's signed-off-by
-v5: add Reviewed-by Rob Herring
+v5: this patch is added in patch set version 5
 v6: no change
 v7: no change
 ---
- .../bindings/fpga/intel-stratix10-soc-fpga-mgr.txt      | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/fpga/intel-stratix10-soc-fpga-mgr.txt
+ Documentation/driver-api/index.rst         |  1 +
+ Documentation/driver-api/stratix10-svc.rst | 32 ++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 Documentation/driver-api/stratix10-svc.rst
 
-diff --git a/Documentation/devicetree/bindings/fpga/intel-stratix10-soc-fpga-mgr.txt b/Documentation/devicetree/bindings/fpga/intel-stratix10-soc-fpga-mgr.txt
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index 6d9f2f9..d4d2671 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -53,6 +53,7 @@ available subsections can be seen below.
+    slimbus
+    soundwire/index
+    fpga/index
++   stratix10-svc
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/driver-api/stratix10-svc.rst b/Documentation/driver-api/stratix10-svc.rst
 new file mode 100644
-index 0000000..6e03f79
+index 0000000..ed361d8
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/fpga/intel-stratix10-soc-fpga-mgr.txt
-@@ -0,0 +1,17 @@
-+Intel Stratix10 SoC FPGA Manager
++++ b/Documentation/driver-api/stratix10-svc.rst
+@@ -0,0 +1,32 @@
 +
-+Required properties:
-+The fpga_mgr node has the following mandatory property, must be located under
-+firmware/svc node.
++Intel Stratix10 SoC Service Layer
++=================================
 +
-+- compatible : should contain "intel,stratix10-soc-fpga-mgr"
++Some features of the Intel Stratix10 SoC require a level of privilege
++higher than the kernel is granted. Such secure features include
++FPGA programming. In terms of the ARMv8 architecture, the kernel runs
++at Exception Level 1 (EL1), access to the features requires
++Exception Level 3 (EL3).
 +
-+Example:
++The Intel Stratix10 SoC service layer provides an in kernel API for
++drivers to request access to the secure features. The requests are queued
++and processed one by one. ARM’s SMCCC is used to pass the execution
++of the requests on to a secure monitor (EL3).
 +
-+	firmware {
-+		svc {
-+			fpga_mgr: fpga-mgr {
-+				compatible = "intel,stratix10-soc-fpga-mgr";
-+			};
-+		};
-+	};
++.. kernel-doc:: include/linux/stratix10-svc-client.h
++   :functions: stratix10_svc_command_code
++
++.. kernel-doc:: include/linux/stratix10-svc-client.h
++   :functions: stratix10_svc_client_msg
++
++.. kernel-doc:: include/linux/stratix10-svc-client.h
++   :functions: stratix10_svc_command_reconfig_payload
++
++.. kernel-doc:: include/linux/stratix10-svc-client.h
++   :functions: stratix10_svc_cb_data
++
++.. kernel-doc:: include/linux/stratix10-svc-client.h
++   :functions: stratix10_svc_client
++
++.. kernel-doc:: drivers/misc/stratix10-svc.c
++   :export:
 -- 
 2.7.4
 
