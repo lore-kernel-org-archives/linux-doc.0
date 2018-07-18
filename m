@@ -5,118 +5,64 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E9DB7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 11:47:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D6BD57D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 12:02:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731028AbeGRMZJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 08:25:09 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57616 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731001AbeGRMZJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 08:25:09 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6IBhmlU115634
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 07:47:37 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2ka2gyxjhv-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 07:47:37 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 18 Jul 2018 12:47:35 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 18 Jul 2018 12:47:33 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6IBlWqw41549858
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 18 Jul 2018 11:47:32 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 28F39AE045;
-        Wed, 18 Jul 2018 14:47:48 +0100 (BST)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A8C51AE05A;
-        Wed, 18 Jul 2018 14:47:47 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.216])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 18 Jul 2018 14:47:47 +0100 (BST)
-Date:   Wed, 18 Jul 2018 14:47:30 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
+        id S1727000AbeGRMka (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 08:40:30 -0400
+Received: from ms.lwn.net ([45.79.88.28]:58108 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726254AbeGRMka (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Jul 2018 08:40:30 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id BDD622BA;
+        Wed, 18 Jul 2018 12:02:53 +0000 (UTC)
+Date:   Wed, 18 Jul 2018 06:02:49 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         linux-doc <linux-doc@vger.kernel.org>,
         linux-mm <linux-mm@kvack.org>,
         lkml <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v2 00/11] docs/mm: add boot time memory management docs
+Message-ID: <20180718060249.6b45605d@lwn.net>
+In-Reply-To: <20180718114730.GD4302@rapoport-lnx>
 References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
- <20180702113255.1f7504e2@lwn.net>
+        <20180702113255.1f7504e2@lwn.net>
+        <20180718114730.GD4302@rapoport-lnx>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180702113255.1f7504e2@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18071811-0016-0000-0000-000001E845DE
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18071811-0017-0000-0000-0000323CFEA5
-Message-Id: <20180718114730.GD4302@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-18_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807180134
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Wed, 18 Jul 2018 14:47:30 +0300
+Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
 
-On Mon, Jul 02, 2018 at 11:32:55AM -0600, Jonathan Corbet wrote:
-> On Sat, 30 Jun 2018 17:54:55 +0300
-> Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+> > So this seems like good stuff overall.  It digs pretty deeply into the mm
+> > code, though, so I'm a little reluctant to apply it without an ack from an
+> > mm developer.  Alternatively, I'm happy to step back if Andrew wants to
+> > pick the set up.  
 > 
-> > Both bootmem and memblock have pretty good documentation coverage. With
-> > some fixups and additions we get a nice overall description.
-> > 
-> > v2 changes:
-> > * address Randy's comments
-> > 
-> > Mike Rapoport (11):
-> >   mm/bootmem: drop duplicated kernel-doc comments
-> >   docs/mm: nobootmem: fixup kernel-doc comments
-> >   docs/mm: bootmem: fix kernel-doc warnings
-> >   docs/mm: bootmem: add kernel-doc description of 'struct bootmem_data'
-> >   docs/mm: bootmem: add overview documentation
-> >   mm/memblock: add a name for memblock flags enumeration
-> >   docs/mm: memblock: update kernel-doc comments
-> >   docs/mm: memblock: add kernel-doc comments for memblock_add[_node]
-> >   docs/mm: memblock: add kernel-doc description for memblock types
-> >   docs/mm: memblock: add overview documentation
-> >   docs/mm: add description of boot time memory management
+> Jon, does Michal's reply [1] address your concerns?
+> Or should I respin and ask Andrew to pick it up? 
 > 
-> So this seems like good stuff overall.  It digs pretty deeply into the mm
-> code, though, so I'm a little reluctant to apply it without an ack from an
-> mm developer.  Alternatively, I'm happy to step back if Andrew wants to
-> pick the set up.
+> [1] https://lore.kernel.org/lkml/20180712080006.GA328@dhcp22.suse.cz/
 
-Jon, does Michal's reply [1] address your concerns?
-Or should I respin and ask Andrew to pick it up? 
+Michal acked #11 (the docs patch) in particular but not the series as a
+whole.  But it's the rest of the series that I was most worried about :)
+I'm happy for the patches to take either path, but I'd really like an
+explicit ack before I apply that many changes directly to the MM code...
 
-[1] https://lore.kernel.org/lkml/20180712080006.GA328@dhcp22.suse.cz/
-> Thanks,
-> 
-> jon
-> 
+Thanks,
 
--- 
-Sincerely yours,
-Mike.
-
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
