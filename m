@@ -2,117 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1D4567DF96
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 16:18:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 90D067DE7F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 16:32:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731884AbeGRQ4F convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 12:56:05 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:54378 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731325AbeGRQ4E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Jul 2018 12:56:04 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 50B6A401EF07;
-        Wed, 18 Jul 2018 16:17:25 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 55C382026D69;
-        Wed, 18 Jul 2018 16:17:24 +0000 (UTC)
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-To:     Michal Hocko <mhocko@kernel.org>,
-        Dave Chinner <david@fromorbit.com>
-Cc:     James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
+        id S1731105AbeGRRKg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 13:10:36 -0400
+Received: from hurricane.elijah.cs.cmu.edu ([128.2.209.191]:45778 "EHLO
+        hurricane.elijah.cs.cmu.edu" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727535AbeGRRKg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 13:10:36 -0400
+Received: from [127.0.0.1] (helo=cs.cmu.edu)
+        by hurricane.elijah.cs.cmu.edu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.91)
+        (envelope-from <jaharkes@cs.cmu.edu>)
+        id 1ffpMo-0005cG-Mv; Wed, 18 Jul 2018 12:31:54 -0400
+Date:   Wed, 18 Jul 2018 12:31:53 -0400
+From:   Jan Harkes <jaharkes@cs.cmu.edu>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Deepa Dinamani <deepa.kernel@gmail.com>
+Subject: Re: [PATCH] [RESEND] coda: stop using 'struct timespec' in user API
+Message-ID: <20180718163153.ogfriudjw7ztwpag@cs.cmu.edu>
+Mail-Followup-To: Arnd Bergmann <arnd@arndb.de>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
-References: <1531330947.3260.13.camel@HansenPartnership.com>
- <18c5cbfe-403b-bb2b-1d11-19d324ec6234@redhat.com>
- <1531336913.3260.18.camel@HansenPartnership.com>
- <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
- <1531411494.18255.6.camel@HansenPartnership.com>
- <20180712164932.GA3475@bombadil.infradead.org>
- <1531416080.18255.8.camel@HansenPartnership.com>
- <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
- <1531425435.18255.17.camel@HansenPartnership.com>
- <20180713003614.GW2234@dastard> <20180716090901.GG17280@dhcp22.suse.cz>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <caf309f5-2844-6546-e545-6ae56ad7d022@redhat.com>
-Date:   Wed, 18 Jul 2018 12:17:24 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Deepa Dinamani <deepa.kernel@gmail.com>
+References: <20180718114645.591551-1-arnd@arndb.de>
+ <20180718155006.lkoktldllafrfqbf@cs.cmu.edu>
+ <CAK8P3a3HYBar1yVCEjxR2VNpPOOx23qM5fCyO-TMmeF780rBiQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20180716090901.GG17280@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Wed, 18 Jul 2018 16:17:25 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Wed, 18 Jul 2018 16:17:25 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a3HYBar1yVCEjxR2VNpPOOx23qM5fCyO-TMmeF780rBiQ@mail.gmail.com>
+User-Agent: NeoMutt/20180512
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/16/2018 05:09 AM, Michal Hocko wrote:
-> On Fri 13-07-18 10:36:14, Dave Chinner wrote:
-> [...]
->> By limiting the number of negative dentries in this case, internal
->> slab fragmentation is reduced such that reclaim cost never gets out
->> of control. While it appears to "fix" the symptoms, it doesn't
->> address the underlying problem. It is a partial solution at best but
->> at worst it's another opaque knob that nobody knows how or when to
->> tune.
-> Would it help to put all the negative dentries into its own slab cache?
->
->> Very few microbenchmarks expose this internal slab fragmentation
->> problem because they either don't run long enough, don't create
->> memory pressure, or don't have access patterns that mix long and
->> short term slab objects together in a way that causes slab
->> fragmentation. Run some cold cache directory traversals (git
->> status?) at the same time you are creating negative dentries so you
->> create pinned partial pages in the slab cache and see how the
->> behaviour changes....
-> Agreed! Slab fragmentation is a real problem we are seeing for quite
-> some time. We should try to address it rather than paper over it with
-> weird knobs.
+On Wed, Jul 18, 2018 at 06:10:29PM +0200, Arnd Bergmann wrote:
+> On Wed, Jul 18, 2018 at 5:50 PM, Jan Harkes <jaharkes@cs.cmu.edu> wrote:
+> > On Wed, Jul 18, 2018 at 01:46:25PM +0200, Arnd Bergmann wrote:
+> >> Unfortunately, this breaks the layout of the coda_vattr structure, so
+> >> we need to redefine that in terms of something that does not change.
+> >> I'm introducing a new 'struct vtimespec' structure here that keeps
+> >> the existing layout, and the same change has to be done in the coda
+> >> user space copy of linux/coda.h before anyone can use that on a 32-bit
+> >> architecture with 64-bit time_t.
+> >
+> > I think the userbase is small enough that we can handle a much simpler
+> > transition to 64-bit timespecs everywhere. In that case the
+> > CODA_KERNEL_VERSION should be updated, which is currently defined in
+> > include/uapi/linux/coda.h as 3. As moving to 64-bit timespecs only
+> > breaks 32-bit systems this allows userspace to catch that case and
+> > refuse to run userspace with a mismatched layout (or handle
+> > translation).
+> 
+> Ok, so to make sure I get this right, you say we can do an
+> incompatible ABI change for coda without causing any problems
+> for existing users?
+> 
+> That would definitely be the easiest approach here. I guess
+> we also just have to be incompatible for 32-bit user space,
+> since it would make 32-bit users have the same ABI as 64-bit
+> ones, right?
+> 
+> I'll have another look at the ABI side then, to see how it can
+> be transitioned.
 
-I am aware that you don't like the limit knob that control how many
-negative dentries are allowed as a percentage of total system memory. I
-got comments in the past about doing some kind of auto-tuning. How about
-consolidating the 2 knobs that I currently have in the patchset into a
-single one with 3 possible values, like:
+Correct, the first thing a client does after opening the /dev/cfs0
+device is to send a CIOC_KERNEL_VERSION ioctl. In response the Coda
+kernel module returns the current value of CODA_KERNEL_VERSION.
 
-0 - no limiting
-1 - set soft limit to "a constant + 4 x max # of positive dentries" and
-warn if exceeded
-2 - same limit but kill excess negative dentries after use.
+Right now anything but 3 will make the client complain about version
+mismatch and refuse to start. It is trivial to allow existing 64-bit
+clients to accept both 3 and 4 as valid, and when 32-bit userspace is
+updated to also use 64-bit timespec it can be changed to accept only 4.
 
-Does that kind of knob make more sense to you?
+> >> > If we only have one code base, it should be fairly straightforward to
+> >> > make it deal with 'unsigned' timestamps consistently, which would
+> >> > let the code work fine until 2106 rather than wrapping around from
+> >> > 2038 to 1902.
+> >
+> > At some point there was a webdav filesystem that used the Coda kernel
+> > apis, but I think they may have moved to FUSE since then so I would not
+> > be surprised if there is only a single code base at this point.
+> 
+> Ok, I found davfs2 at http://dav.sourceforge.net/index.shtml
+> 
+> Ah, so the coda kernel implementation is similar to both fuse and 9pfs
+> in that it can connect to arbitrary user space implementations, but with
+> no known users other than your coda user space and some versions of
+> davfs2?
 
-Cheers,
-Longman
+Correct and since the FUSE api is easier to work with it has seen more
+users. AFAIK, the work on davfs2 was started before FUSE existed.
 
-
+Jan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
