@@ -1,119 +1,176 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4139C7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 17:01:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7FAD7D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 17:16:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728000AbeGRRjm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 13:39:42 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49488 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727575AbeGRRjm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 13:39:42 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6IGsWtX021347
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 13:00:53 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2ka6fj0nqt-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 13:00:52 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 18 Jul 2018 18:00:50 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 18 Jul 2018 18:00:47 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6IH0kjx31195240
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 18 Jul 2018 17:00:46 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9903E42054;
-        Wed, 18 Jul 2018 20:01:04 +0100 (BST)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DF71842047;
-        Wed, 18 Jul 2018 20:01:03 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.204.179])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 18 Jul 2018 20:01:03 +0100 (BST)
-Date:   Wed, 18 Jul 2018 20:00:43 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 00/11] docs/mm: add boot time memory management docs
-References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
- <20180702113255.1f7504e2@lwn.net>
- <20180718114730.GD4302@rapoport-lnx>
- <20180718060249.6b45605d@lwn.net>
+        id S1731392AbeGRRzT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 13:55:19 -0400
+Received: from mail-it0-f68.google.com ([209.85.214.68]:37005 "EHLO
+        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731325AbeGRRzT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 13:55:19 -0400
+Received: by mail-it0-f68.google.com with SMTP id p17-v6so5380941itc.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 10:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=nOIbBvKs7w+wDJzSJuqG5t9kAUaD+w7MtOThWcWpJpo=;
+        b=uTE7WuPlpO+F+1fy9ED3zC7wsb2oMoyAFmebI0zDhkGEG8O2t7slJFbRqp5sO0H5HY
+         5VOLwXtD52V4sIDFMVOaONcyMJFxXkV+QfzXGm9XrVW6DmECnuhFRjB2N8qymetwGmYR
+         BY4TVkws+3ZSPAprGBp7bTf5AFLsrfCkilMS0DHG31lRmDmvBHfSGbtyNzkoK7hqRc0C
+         qAWOm6Q1LAn4sdyw6UVJWtYqmAWEpG9rGWCinL8eo+0uNvzSh8mjMT/tHsr+pBQRnWl2
+         /Jx3GmkOtIESzP0XGs5pPxC7GKMoqVEZi8se0uqHoJjWecZSZqwuvhDc0+NvinPTIWf1
+         toBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=nOIbBvKs7w+wDJzSJuqG5t9kAUaD+w7MtOThWcWpJpo=;
+        b=raLtHNwMhmb/7HqVEm3qb4sMJO58t7vD+/t7FI5V3fcgAqytvqbgP85lxry4tDNIA0
+         +310wDbVPxsP6Ck2VpkzC6DGavQbwEcggIo932XdB7ktx5IByeGVS6APjq8+L4XQadg+
+         T+yCkrwyeruH91crbI1qV3mjypXTpMHpObWwzgkOsABR9AibpuwNatDS/wcjvW2Bs4Xb
+         oHuN05hLfqlyfySIDodQvRDEMuUU72aotuFe+OH2pj6FV/+8E0Kr16K+kRoDpsW3rgEj
+         LMcKQU76a4A/QQ4GSiRI25zbX6XE9X+7J/lfQABQpmpg7i1gHdsO9ppMHkw6mxlynObu
+         4pEA==
+X-Gm-Message-State: AOUpUlFjJ3S2pyd8aSQ54aK9o8GoyOcPBt8NK9BPkiCD1YxnOFmXgRBM
+        dP+0w95uC2SxfvH8Bo/sKE1hLX9ZfgiXWK5mrq3sjQ==
+X-Google-Smtp-Source: AAOMgpeV7pxdF9d94E24HUYDMpB/nyI0kS9DCG0THXgoTYiQbL5hkLsq0Dt0iNa1hzNxofvP0G0cu7qwIl78TXQtQ8U=
+X-Received: by 2002:a02:3941:: with SMTP id w1-v6mr6402449jae.132.1531934186638;
+ Wed, 18 Jul 2018 10:16:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180718060249.6b45605d@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18071817-4275-0000-0000-0000029A9775
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18071817-4276-0000-0000-000037A2B637
-Message-Id: <20180718170043.GA23770@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-18_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807180187
+Received: by 2002:a02:918c:0:0:0:0:0 with HTTP; Wed, 18 Jul 2018 10:16:25
+ -0700 (PDT)
+In-Reply-To: <20180703173608.GF27243@arm.com>
+References: <cover.1530018818.git.andreyknvl@google.com> <20180628105057.GA26019@e103592.cambridge.arm.com>
+ <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+ <20180629110709.GA17859@arm.com> <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
+ <20180703173608.GF27243@arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 18 Jul 2018 19:16:25 +0200
+Message-ID: <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(added Andrew)
+On Mon, Jul 2, 2018 at 10:30 PM, Andrew Morton
+<akpm@linux-foundation.org> wrote:
+> OK, anecdotal experience works for me.  But this is all stuff that
+> should have been in the changelog from day zero, please.  It describes
+> the reason for the patchset's existence!
 
-On Wed, Jul 18, 2018 at 06:02:49AM -0600, Jonathan Corbet wrote:
-> On Wed, 18 Jul 2018 14:47:30 +0300
-> Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
-> 
-> > > So this seems like good stuff overall.  It digs pretty deeply into the mm
-> > > code, though, so I'm a little reluctant to apply it without an ack from an
-> > > mm developer.  Alternatively, I'm happy to step back if Andrew wants to
-> > > pick the set up.  
-> > 
-> > Jon, does Michal's reply [1] address your concerns?
-> > Or should I respin and ask Andrew to pick it up? 
-> > 
-> > [1] https://lore.kernel.org/lkml/20180712080006.GA328@dhcp22.suse.cz/
-> 
-> Michal acked #11 (the docs patch) in particular but not the series as a
-> whole.  But it's the rest of the series that I was most worried about :)
-> I'm happy for the patches to take either path, but I'd really like an
-> explicit ack before I apply that many changes directly to the MM code...
+I will add all those points to the cover letter in v5.
 
-Andrew,
+On Tue, Jul 3, 2018 at 7:36 PM, Will Deacon <will.deacon@arm.com> wrote:
+> Hmm, but elsewhere in this thread, Evgenii is motivating the need for this
+> patch set precisely because the lower overhead means it's suitable for
+> "near-production" use. So I don't think writing this off as a debugging
+> feature is the right approach, and we instead need to put effort into
+> analysing the impact of address tags on the kernel as a whole. Playing
+> whack-a-mole with subtle tag issues sounds like the worst possible outcome
+> for the long-term.
 
-Can you please take a look at this series? The thread starts at [1] and if
-it'd be more convenient to you I can respin the whole set.
- 
-[1] https://lore.kernel.org/lkml/1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com/
+I don't see a way to find cases where pointer tags would matter
+statically, so I've implemented the dynamic approach that I mentioned
+above. I've instrumented all pointer comparisons/subtractions in an
+LLVM compiler pass and used a kernel module that would print a bug
+report whenever two pointers with different tags are being
+compared/subtracted (ignoring comparisons with NULL pointers and with
+pointers obtained by casting an error code to a pointer type). Then I
+tried booting the kernel in QEMU and on an Odroid C2 board and I ran
+syzkaller overnight.
 
-> Thanks,
-> 
-> jon
-> 
+This yielded the following results.
 
--- 
-Sincerely yours,
-Mike.
+======
 
+The two places that look interesting are:
+
+is_vmalloc_addr in include/linux/mm.h (already mentioned by Catalin)
+is_kernel_rodata in mm/util.c
+
+Here we compare a pointer with some fixed untagged values to make sure
+that the pointer lies in a particular part of the kernel address
+space. Since KWHASAN doesn't add tags to pointers that belong to
+rodata or vmalloc regions, this should work as is. To make sure I've
+added debug checks to those two functions that check that the result
+doesn't change whether we operate on pointers with or without
+untagging.
+
+======
+
+A few other cases that don't look that interesting:
+
+Comparing pointers to achieve unique sorting order of pointee objects
+(e.g. sorting locks addresses before performing a double lock):
+
+tty_ldisc_lock_pair_timeout in drivers/tty/tty_ldisc.c
+pipe_double_lock in fs/pipe.c
+unix_state_double_lock in net/unix/af_unix.c
+lock_two_nondirectories in fs/inode.c
+mutex_lock_double in kernel/events/core.c
+
+ep_cmp_ffd in fs/eventpoll.c
+fsnotify_compare_groups fs/notify/mark.c
+
+Nothing needs to be done here, since the tags embedded into pointers
+don't change, so the sorting order would still be unique.
+
+Check that a pointer belongs to some particular allocation:
+
+is_sibling_entry lib/radix-tree.c
+object_is_on_stack in include/linux/sched/task_stack.h
+
+Nothing needs to be here either, since two pointers can only belong to
+the same allocation if they have the same tag.
+
+======
+
+Will, Catalin, WDYT?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
