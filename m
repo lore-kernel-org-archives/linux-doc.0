@@ -3,60 +3,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1378C7DE80
+	by archive.lwn.net (Postfix) with ESMTP id 665E17DF7E
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 03:28:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726271AbeGREDh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 00:03:37 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:37629 "EHLO
+        id S1726680AbeGREDk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 00:03:40 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:37729 "EHLO
         wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725721AbeGREDg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 00:03:36 -0400
+        by vger.kernel.org with ESMTP id S1725721AbeGREDk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 00:03:40 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id E57032FD;
-        Tue, 17 Jul 2018 23:27:52 -0400 (EDT)
+        by mailout.west.internal (Postfix) with ESMTP id A726C324;
+        Tue, 17 Jul 2018 23:27:56 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 17 Jul 2018 23:27:53 -0400
+  by compute5.internal (MEProxy); Tue, 17 Jul 2018 23:27:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
         :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=E51ZeaKeSCSZRdA9s
-        nfWGr7eofIzogqKM9jkSzBBtWE=; b=kVYO68gd1kh+XOzOLYCHi9ciJRo4+ah9N
-        jL8/phO+at5Fmn+U6Ept9YwSxSEjgCH2XAc5sUYalOS4kSQYwzPNrZhhwkaAmaey
-        nXfzzTAJz8gYCGKcsmqiZY7T60r3qZRt/MC+WAXtNlkSDRGkh8sGdietBSJfor+V
-        8+jKp3BLNHH6JGjdj8fdPu1k6e1PSXYHuKrqDOJEnE55tlGyklh2vtBwWG7ikYN7
-        YzhT7Billf/FDs5PbdpiIRerSATDlU/VkMyM1SGET++D29MwyQqenmyPLdybuhry
-        MTyNdfpD0b25O1L/UXYd1xljEtwKnpwymL2l6VLfWur4h60qZzYLw==
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=llyu8kt/AANGU+ufu
+        g73RrFNiQyLGZgShGQBqI7yYvw=; b=WHAOTgzBUEkZ5hi9JJYvrSe8N++VBWdLC
+        qqQVaYzOZTCgqcaRygKunYXUnSuCohifl63i4CPnO9hNc0Z9I3Cmd40lHtkEvxzU
+        /+/XUo8UFSiV4kU6VVharsxjNZots6Cp6oOFzb+rKqyoxD1UOjSFDUTRbRj7S5i5
+        BA2aOYtCvIRy29Yz4S5xv3Bbxw8zRubtUwsm6u+9TR78HFzA6KSeOIyf2uS/YLNv
+        n0TrLql8v3yflHaJGfu0NCRRu4TEzaSdDbTQ6/zto/KxDfokYRZG8oViQQOQ9RC6
+        KfgoA853hgt4iSK8b+QPzIg2+4Fguay8fQ3ATcgDFqsGXauX+ONHQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:date:from:in-reply-to:message-id
         :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=E51ZeaKeSCSZRdA9snfWGr7eofIzogqKM9jkSzBBtWE=; b=VlhxaMHI
-        U6A1D/3bx8Bevoroq0TOhptD3fpECqppqo6xP0YOmpFZ+vk+xiCFXFaqVnK9AMp/
-        QBRwDQNyPNVP53ChJ+nh97ryT+e9Zk5xVzp8CmugEfQ4FjRjuHUUB+iDta0L8mbK
-        v6/zifa9Xc81X0b8qXZ1GlBq8XI0U2/+/1Nu8cGqTOy8HA+gZ1iPeZ7yJ1TmJCUw
-        6YMyzgCkWJnbAPBot7vWvZCd1p33RkJvfeD2zmCT45aPozbl1pdOSVecxm48AutN
-        YVmjA3rpBu23q0yDARp/Hn2pcgrnbgnvyh1VYbOJWRBvovaODhjoRdkHsf9ce4+S
-        4c8E3blBn3g0mg==
-X-ME-Proxy: <xmx:uLNOW7Y3l7hEe4zaGlk4OSsPIYcf_FpP1Th6y5u21nuriB2JPnFSZQ>
-    <xmx:uLNOWzW6_o2hjdNtHF4OYBDPU9E1w5WcYEqCPhMyYBWltCb6UcYgKA>
-    <xmx:uLNOW_7RNI1OUzQo8KbsaofWtr0uGB4bdrjK0T-pzygc0NsFxN4cDQ>
-    <xmx:uLNOW-hP5EkZYhEtYS8v_f4rC57x0KlsRYeqo6ikFqtEOs5otjpS3Q>
-    <xmx:uLNOW2dtsiFEgwc5bMnDvfvkSkFoXUuqFad3Aag72ZnIlHjsad8uFA>
-    <xmx:uLNOW3oIAYY25GIqtSf0bU5uzNhuQIXaeS9yDHUG8k2NwzMe5JxkRQ>
-X-ME-Sender: <xms:uLNOWyyi4LTo7F505ZbsNQpFiczu5ChpAwMyr3E1oehzkn98zp-8BQ>
+        fm3; bh=llyu8kt/AANGU+ufug73RrFNiQyLGZgShGQBqI7yYvw=; b=dOnvJTV7
+        t6oqIDnyLZQZ0/1ZPmsuk7gPPJfKa5inDCDhXshkSWa0y9i8I6SsI0lXS7Q4Lue3
+        +St3rN+3N2dlc8NQXf2VmQ7PrDp0b2IKn+ZXUzHvdUYJWWx0etlGIf82E+6cFfxK
+        PvWhaNEgRP7MDXMiassY9QpzPZHFj9GAnU0OsL2apGFSozhEHoHzdsh61h7pc7QV
+        QgCAkEMKe4KWjrFyMwnx7AmQGutC+e6DQYCQ3bFEtWf/4pobkT22sj+JjsEHl60o
+        L1S30l1nkhG9amQCIh22kzam3IYlkKA0J0EFsLzKgQLco4xGYISXPLZFr9gg2QoA
+        MkXLiPZ/Sf1zvw==
+X-ME-Proxy: <xmx:vLNOWyJoVChSy0M-KWDlzUzkyeFSE5udEAQ4ukCBZ6rpDLt_4gC64A>
+    <xmx:vLNOW7zpn5KedBS5CVQ5B6Z5mw09K9OMNNPjj0CNGcHtNceBtKGTpQ>
+    <xmx:vLNOW2xSJwKLv_zWmYdTZX5Hr3BEApnXHwBQr4URnLU1wnR2qmn84g>
+    <xmx:vLNOW93GbKhbFaSZlMRy4aNPAaidm_lbTGm0eJnajrSaHbk130iaMQ>
+    <xmx:vLNOW4XWsTia_XD3k9MD5r8X6HOFlm1g2Xua8EC6hg6uY4HsogjUWA>
+    <xmx:vLNOWyoMDhf_i49PIHsammO38Tt11QHln-u0kYSCxx1QZwCAfpTgvA>
+X-ME-Sender: <xms:vLNOW4EWk55BQGS6mA6Zg6-QH_DdqadpAClX5SYDC02HV8ZQ5t98-w>
 Received: from localhost (124-169-0-210.dyn.iinet.net.au [124.169.0.210])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A002CE48A9;
-        Tue, 17 Jul 2018 23:27:51 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 695C0E465F;
+        Tue, 17 Jul 2018 23:27:55 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     "David S. Miller" <davem@davemloft.net>
 Cc:     "Tobin C. Harding" <me@tobin.cc>,
         Markus Heiser <markus.heiser@darmarit.de>,
         linux-doc@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 1/2] docs: networking: Convert alias.txt to rst
-Date:   Wed, 18 Jul 2018 13:27:35 +1000
-Message-Id: <20180718032736.8000-2-me@tobin.cc>
+Subject: [PATCH net-next v2 2/2] docs: networking: Convert bridge.txt to rst
+Date:   Wed, 18 Jul 2018 13:27:36 +1000
+Message-Id: <20180718032736.8000-3-me@tobin.cc>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180718032736.8000-1-me@tobin.cc>
 References: <20180718032736.8000-1-me@tobin.cc>
@@ -65,149 +65,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel documentation is now restructured text. Convert the IP
-aliasing documentation and include it in the toplevel kernel
+The kernel documentation is now restructured text. Convert the Ethernet
+Bridge documentation and include it in the toplevel kernel
 documentation.
 
  - Fix heading adornments.
- - Correctly indent code snippets.
- - Limit line length to 72 characters inline with kernel documentation
-   standards.
  - Add license identifier.
 
 Signed-off-by: Tobin C. Harding <me@tobin.cc>
 ---
- Documentation/networking/00-INDEX  |  2 --
- Documentation/networking/alias.rst | 49 ++++++++++++++++++++++++++++++
- Documentation/networking/alias.txt | 40 ------------------------
- Documentation/networking/index.rst |  1 +
- 4 files changed, 50 insertions(+), 42 deletions(-)
- create mode 100644 Documentation/networking/alias.rst
- delete mode 100644 Documentation/networking/alias.txt
+ Documentation/networking/{bridge.txt => bridge.rst} | 6 ++++++
+ Documentation/networking/index.rst                  | 1 +
+ 2 files changed, 7 insertions(+)
+ rename Documentation/networking/{bridge.txt => bridge.rst} (85%)
 
-diff --git a/Documentation/networking/00-INDEX b/Documentation/networking/00-INDEX
-index 2b89d91b376f..1e5153ed8990 100644
---- a/Documentation/networking/00-INDEX
-+++ b/Documentation/networking/00-INDEX
-@@ -18,8 +18,6 @@ README.ipw2200
- 	- README for the Intel PRO/Wireless 2915ABG and 2200BG driver.
- README.sb1000
- 	- info on General Instrument/NextLevel SURFboard1000 cable modem.
--alias.txt
--	- info on using alias network devices.
- altera_tse.txt
- 	- Altera Triple-Speed Ethernet controller.
- arcnet-hardware.txt
-diff --git a/Documentation/networking/alias.rst b/Documentation/networking/alias.rst
-new file mode 100644
-index 000000000000..af7c5ee92014
---- /dev/null
-+++ b/Documentation/networking/alias.rst
-@@ -0,0 +1,49 @@
+diff --git a/Documentation/networking/bridge.txt b/Documentation/networking/bridge.rst
+similarity index 85%
+rename from Documentation/networking/bridge.txt
+rename to Documentation/networking/bridge.rst
+index a27cb6214ed7..4aef9cddde2f 100644
+--- a/Documentation/networking/bridge.txt
++++ b/Documentation/networking/bridge.rst
+@@ -1,3 +1,9 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===========
-+IP-Aliasing
-+===========
++=================
++Ethernet Bridging
++=================
 +
-+IP-aliases are an obsolete way to manage multiple IP-addresses/masks
-+per interface. Newer tools such as iproute2 support multiple
-+address/prefixes per interface, but aliases are still supported
-+for backwards compatibility.
-+
-+An alias is formed by adding a colon and a string when running ifconfig.
-+This string is usually numeric, but this is not a must.
-+
-+
-+Alias creation
-+==============
-+
-+Alias creation is done by 'magic' interface naming: eg. to create a
-+200.1.1.1 alias for eth0 ...
-+::
-+
-+  # ifconfig eth0:0 200.1.1.1  etc,etc....
-+	~~ -> request alias #0 creation (if not yet exists) for eth0
-+
-+The corresponding route is also set up by this command.  Please note:
-+The route always points to the base interface.
-+
-+
-+Alias deletion
-+==============
-+
-+The alias is removed by shutting the alias down::
-+
-+  # ifconfig eth0:0 down
-+	~~~~~~~~~~ -> will delete alias
-+
-+
-+Alias (re-)configuring
-+======================
-+
-+Aliases are not real devices, but programs should be able to configure
-+and refer to them as usual (ifconfig, route, etc).
-+
-+
-+Relationship with main device
-+=============================
-+
-+If the base device is shut down the added aliases will be deleted too.
-diff --git a/Documentation/networking/alias.txt b/Documentation/networking/alias.txt
-deleted file mode 100644
-index 85046f53fcfc..000000000000
---- a/Documentation/networking/alias.txt
-+++ /dev/null
-@@ -1,40 +0,0 @@
--
--IP-Aliasing:
--============
--
--IP-aliases are an obsolete way to manage multiple IP-addresses/masks
--per interface. Newer tools such as iproute2 support multiple
--address/prefixes per interface, but aliases are still supported
--for backwards compatibility.
--
--An alias is formed by adding a colon and a string when running ifconfig.
--This string is usually numeric, but this is not a must.
--
--o Alias creation.
--  Alias creation is done by 'magic' interface naming: eg. to create a
--  200.1.1.1 alias for eth0 ...
--  
--    # ifconfig eth0:0 200.1.1.1  etc,etc....
--                   ~~ -> request alias #0 creation (if not yet exists) for eth0
--
--    The corresponding route is also set up by this command. 
--    Please note: The route always points to the base interface.
--	
--
--o Alias deletion.
--  The alias is removed by shutting the alias down:
--
--    # ifconfig eth0:0 down
--                 ~~~~~~~~~~ -> will delete alias
--
--  		   		   
--o Alias (re-)configuring
--
--  Aliases are not real devices, but programs should be able to configure and
--  refer to them as usual (ifconfig, route, etc).
--
--
--o Relationship with main device
--
--  If the base device is shut down the added aliases will be deleted 
--  too.
+ In order to use the Ethernet bridging functionality, you'll need the
+ userspace tools.
+ 
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index a4bbde70bcb9..65502f2031a8 100644
+index 65502f2031a8..d75da2ff25c7 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -17,6 +17,7 @@ Contents:
-    msg_zerocopy
+@@ -18,6 +18,7 @@ Contents:
     failover
     net_failover
-+   alias
+    alias
++   bridge
  
  .. only::  subproject
  
