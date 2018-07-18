@@ -5,110 +5,86 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 387667D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 00:59:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5B407D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Jul 2018 03:23:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730614AbeGRBeK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Jul 2018 21:34:10 -0400
-Received: from condef-01.nifty.com ([202.248.20.66]:59485 "EHLO
-        condef-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731513AbeGRBeI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 21:34:08 -0400
-Received: from conssluserg-02.nifty.com ([10.126.8.81])by condef-01.nifty.com with ESMTP id w6I0rJaL011874
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jul 2018 09:53:19 +0900
-Received: from mail-ua0-f175.google.com (mail-ua0-f175.google.com [209.85.217.175]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id w6I0qwfM032648;
-        Wed, 18 Jul 2018 09:52:58 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com w6I0qwfM032648
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1531875179;
-        bh=lYqEq28KFEi2SfHDQG28X5BGNtVJLWXq2pv/8ehGV1U=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=V77oTJg4YBSDpn6Ha/oCdO7pb1JZJFWFlt/XyWGHKqWT0c4zB48aBIv7sK6ihT71j
-         MH/02b0EP9sfImNjjGJ6pJwMu/33MC0RfZKoB1jXu7o46PFaLB5EOg40EgIVsL3wBi
-         3ICwny1zKNZiw/6TJgQAz93+BPiRFcC4WkaYpop0wMTo0mx2ImwlxQHnxtu9LIjBTb
-         1/wbEDdVJbBDVmVFJ4aMR/pE/7IaiKU+ZCGnvoFTJcah2Qqd3B5ONcEIc8xBUzZUdU
-         wAY4k1Yf285ckcj1qV+ciOQIoHyj4pF6fNNB3G5CJ8KU/5j7UEURnpT8aB6p2MIJQ5
-         ioNlGxYoGoRSQ==
-X-Nifty-SrcIP: [209.85.217.175]
-Received: by mail-ua0-f175.google.com with SMTP id x24-v6so1875554ual.10;
-        Tue, 17 Jul 2018 17:52:58 -0700 (PDT)
-X-Gm-Message-State: AOUpUlFLOPRklXlpoeKhrNvtLgU7iJBJlTrHB8T7YAAC7GeNDiomfbGq
-        WOUaJWjKIYur/dFTVTOoNL3C7XNdYHFil3m443g=
-X-Google-Smtp-Source: AAOMgpetCRndZguWwwqVwpjeOGZ/5LvcnBDI7iF1If1jg7dI8NZa5vaXva/8hW9Fnih6tgNrHABK+NSBRiydp5ImX4M=
-X-Received: by 2002:ab0:4705:: with SMTP id h5-v6mr2611615uac.140.1531875177745;
- Tue, 17 Jul 2018 17:52:57 -0700 (PDT)
+        id S1731304AbeGRD7E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Jul 2018 23:59:04 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:59559 "EHLO
+        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731232AbeGRD7D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jul 2018 23:59:03 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 07A87309;
+        Tue, 17 Jul 2018 23:23:18 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 17 Jul 2018 23:23:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :content-type:date:from:in-reply-to:message-id:mime-version
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=8h1bS4V2L6/I5lGwoqn/GmHND8IFZVlcPpckMLyVDZE=; b=Px5+n1MT
+        M3HEP/XP0GkIxswXibd8s9PTjXnRf0DQnfjrjf+X+2lvlWIwvROfNC13cbkYPAQb
+        +JUZLsxDQJNQCv5qE+G15EmOyrvyO8dlRyq69+yNDieOaCm8n6efvFPl0hyUu8MA
+        /aP6EWX/Ati+Ps6tlZ7HMo7agpjuQH1mD0Apd9C9FytPLH5yd+UYGDtE9KDCgQuv
+        6TLHshRLCk/ZXqrlwkENcVFYlDxiolSCXzeOmp7PUcdHYNaFI3GnGiUnYyYf0Xka
+        K1fesMrgdt8mpKAzWsKsIHf2uAas3KGOksNVdOZ3NQkpR6finCJnKVQa4ZZFfqfH
+        nnRaPoW53RZBcQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=8h1bS4V2L6/I5lGwoqn/GmHND8IFZ
+        VlcPpckMLyVDZE=; b=HkA1lHtcE6axv5BUAuafc0FkQu197RTVUjewlAmMBlJ6O
+        Vx6hTAPOCdtZ85F7PUD1u0UP+r/heXuVM6o0GOE0ClirdyDRtzPTeDQKYevm+8wW
+        XSYeqxmXrBvpjSW7TVAehOsNt2Qxgh0ThVVp/hLsWl0Rfi0B0OvkMTbYYAy/RHDz
+        XdW7npDmEwlfof1+x78GImzpcbLrx9GpE+mxiXvj4mLwQQOJMApcM+fzaj8z4Puz
+        O9bMzMBNiwWV4TetFsfiyK99lW0B6xUddhzn0E3kQEomP8eNbKTVdLFF75xCED3s
+        wKejmGKyuMr7S13MxJrwJyCR4U3BDd3mgTKXqo6nQ==
+X-ME-Proxy: <xmx:prJOW8pZIzcQWOHGf9lUkTARyu1Vaa58dYX1JdtvcrTx3thaFetllQ>
+    <xmx:prJOWzEqm2KuYdxX0yLXn3YJ_LxB2d1y1zjXq3hVWJok_4zvp-VkTQ>
+    <xmx:prJOWw9tCCjlFLqYh9faQY166qCEKOW4DP-xl3rADvBMIxzvSrzd7A>
+    <xmx:prJOWwS5939PWBck71G5zvMUE8aFIJW2pEn2gFehC5qebVuBxjOSJw>
+    <xmx:prJOW1ppDi_RPY6u3-ST20o-mzVflzsGXCHiqkMvqxOM361Hhbofww>
+    <xmx:prJOW0nQodH-biriYcNbZxo4KD401RuRR_sNO3hpIXS7tscf7ZqDwA>
+X-ME-Sender: <xms:prJOWx1gMT0kWX9dJxTDL6us_nssybGx9hQ39EhAbfZxC45zL0Ts_A>
+Received: from localhost (124-169-0-210.dyn.iinet.net.au [124.169.0.210])
+        by mail.messagingengine.com (Postfix) with ESMTPA id B346110255;
+        Tue, 17 Jul 2018 23:23:17 -0400 (EDT)
+Date:   Wed, 18 Jul 2018 13:23:14 +1000
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 1/3] docs: networking: Fix indices heading
+ indentation
+Message-ID: <20180718032314.GC25311@eros>
+References: <20180717042906.17308-1-me@tobin.cc>
+ <20180717042906.17308-2-me@tobin.cc>
+ <1d7a309eb7561b9bb4c31f5deb9a0b63b6263232.camel@darmarit.de>
 MIME-Version: 1.0
-Received: by 2002:ab0:3308:0:0:0:0:0 with HTTP; Tue, 17 Jul 2018 17:52:17
- -0700 (PDT)
-In-Reply-To: <bd8bd678-c42d-4b04-fa55-00c6f524a4bb@redhat.com>
-References: <20180710004602.21599-1-labbott@redhat.com> <CAK7LNAQ0dWqaYkLjevCuboCBovcsTV1cMh48qv__wwMZs-vAxg@mail.gmail.com>
- <bd8bd678-c42d-4b04-fa55-00c6f524a4bb@redhat.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 18 Jul 2018 09:52:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATtCz9FwELNOcrWHKp=5KSh+y68d5tjZbqnK=DCXVYFrQ@mail.gmail.com>
-Message-ID: <CAK7LNATtCz9FwELNOcrWHKp=5KSh+y68d5tjZbqnK=DCXVYFrQ@mail.gmail.com>
-Subject: Re: [PATCHv2 0/7] HOSTFLAGS and HOSTLDFLAGS from the environment
-To:     Laura Abbott <labbott@redhat.com>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>, Jiri Olsa <jolsa@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Robin Jarry <robin.jarry@6wind.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d7a309eb7561b9bb4c31f5deb9a0b63b6263232.camel@darmarit.de>
+X-Mailer: Mutt 1.9.4 (2018-02-28)
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-07-13 2:08 GMT+09:00 Laura Abbott <labbott@redhat.com>:
-> On 07/12/2018 03:13 AM, Masahiro Yamada wrote:
->>
->> 2018-07-10 9:45 GMT+09:00 Laura Abbott <labbott@redhat.com>:
->>>
->>>
->>> Hi,
->>>
->>> This is v2 of the series to set HOSTCFLAGS and HOSTLDFLAGS from the
->>> environment. The changes are mostly minor fixups requested and also
->>> include documentation of the new options.
->>
->>
->>
->>
->> I checked this series.
->>
->>
->> I left minor comments for 3/7 and 7/7.
->>
->> Unless you disagree,
->> I will fix them up locally
->> and queue it to my tree.
->>
->
-> The fixes look fine.
->
+On Tue, Jul 17, 2018 at 10:28:15AM +0200, Markus Heiser wrote:
+> Am Dienstag, den 17.07.2018, 14:29 +1000 schrieb Tobin C. Harding:
+> > Currently the 'Indices' heading is not aligned with column 0, it should
+> > be.
+> 
+> Hi Tobin, thats not correct. The 'Indices' heading is a part of the 'only'
+> block:
+
+Thanks for picking this up Markus.  A little knowledge is dangerous eh
+:) Will remove this patch from the set and re-spin.
 
 
-Applied to linux-kbuild. Thanks.
-
-
-> Thanks,
-> Laura
->
->
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kbuild" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+thanks,
+Tobin.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
