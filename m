@@ -1,105 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E906F7D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 09:13:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 219E07D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 10:21:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730491AbeGSJzk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 05:55:40 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38852 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726574AbeGSJzk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Jul 2018 05:55:40 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 03A9FADB3;
-        Thu, 19 Jul 2018 09:13:26 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id BB9C11E3C28; Thu, 19 Jul 2018 11:13:24 +0200 (CEST)
-Date:   Thu, 19 Jul 2018 11:13:24 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Dave Chinner <david@fromorbit.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Waiman Long <longman@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-Message-ID: <20180719091324.ohattgzh53zlpi3p@quack2.suse.cz>
-References: <1531416080.18255.8.camel@HansenPartnership.com>
- <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
- <1531425435.18255.17.camel@HansenPartnership.com>
- <20180713003614.GW2234@dastard>
- <20180716090901.GG17280@dhcp22.suse.cz>
- <20180716124115.GA7072@bombadil.infradead.org>
- <20180716164032.94e13f765c5f33c6022eca38@linux-foundation.org>
- <20180717083326.GD16803@dhcp22.suse.cz>
- <20180719003329.GD19934@dastard>
- <20180719084538.GP7193@dhcp22.suse.cz>
+        id S1727487AbeGSLDa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 07:03:30 -0400
+Received: from mout.gmx.net ([212.227.15.18]:45045 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727367AbeGSLDa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Jul 2018 07:03:30 -0400
+Received: from [10.10.23.31] ([13.75.126.230]) by mail.gmx.com (mrgmx002
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 0MHHZT-1flIrZ3JnX-00E5Ep; Thu, 19
+ Jul 2018 12:20:59 +0200
+Subject: Re: [RFC]:Involved in Linux doc translation for Chinese
+From:   Norman <norman.kern@gmx.com>
+To:     linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net
+References: <47d88404-dec2-3ae5-b273-ba9dcab093e1@gmx.com>
+Message-ID: <5042c0ea-d229-88b2-8b47-21d7de774336@gmx.com>
+Date:   Thu, 19 Jul 2018 18:20:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180719084538.GP7193@dhcp22.suse.cz>
-User-Agent: NeoMutt/20170912 (1.9.0)
+In-Reply-To: <47d88404-dec2-3ae5-b273-ba9dcab093e1@gmx.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Provags-ID: V03:K1:FkGiIzGVx6G6fsLaR55V2SjbjxBcUPrXvfXtnJ82Wl3NY5/Bevb
+ BHglA59TDdPNqE/TDCrTHsTmQfWIiMBRanXRxYVfuhUn4AaPD6sJ/DBhlrjq08BKMBpUt1k
+ 6OJB5v/PZ6iBOSwspav0L5vAahSJcVXwm3Nc5CiV4Nn+wCy+UDXPz/Se3KlUPn8X3kOibMT
+ JYItPPEN66oPJelDrcSUA==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:NUntlePYF94=:zSB+YTnDcbh926u8TyY9Mt
+ bGHDsR90aRFvZ8eRlt9kG2DBBFEL/H69//2Lb0zwrMrlCxAb5g8r3UAZIj7/XktocvEZz2hIb
+ hgn7I6V5SINN/C9tK0mUMioYf07qhkp+cWnJQlclpYovJz700MHhgJwTN7MmjDNfDFZXgqIPf
+ EDSzgGEZnhsLnJ0FbxemCh1JzkIdsiQQwTWWlu0jVf3Ok6+EWsWGYe1DQXpjM7/d7gKbPrYkF
+ HNS1abgZ6cRqb6J8uZRn2B07RzHU+1hS1xDSDyn0UxIYN2svJeaFAWbmzt4s8sZPrvEWANVaC
+ PrrM3BMTc30cKfRar/kdavYitMDYfdJ0he+PZOyNc5oDSndQYh+r0qbX0H4VP8O9c1yvQsdnD
+ Rk1e2W27xKY/m8Rp8tlp96SJg0eGwgQkgtMrTl1a64kr36Q9cfud1jFzJ8gbfKY6zREFPlZ5c
+ S26793pXMyV6DNYC6JK4BoRStLu4TpqKcTsKs4WK6poSpLiO98W7y3HYSwwgdm4LNvPua4Al6
+ J01zPNhcqe4sFaeFOwLactDRYgsqSlTvSeZdhwkgiM4CIL7vAUUSKcAoIv0Q/QxsuyR+OjqPP
+ 3zy4E7sXFMreHxqysrCa+oeAQMcjMNMMd0erssFcvwGuCnd9WwGBo+Dx2Az46sk5aGpQUQS2s
+ hFP29g4X6kypiIK0aDmj4CFnvnu9EFjQexQaEP5sBdaWIijVzK79lXeMZMulGxbWkVSm8kT5Q
+ U1prE2EB2jjbGeTiKLO42JWTJQ8I4FLeXk8LyF3LjfG+npA4L4QWTamDSt8cJSTyYmJASVCqq
+ DJo7IgD
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 19-07-18 10:45:38, Michal Hocko wrote:
-> On Thu 19-07-18 10:33:29, Dave Chinner wrote:
-> > > > and, apart from the external name thing (grr), that should address
-> > > > these fragmentation issues, no?  I assume it's easy to ask slab how
-> > > > many pages are presently in use for a particular cache.
-> > > 
-> > > I remember Dave Chinner had an idea how to age dcache pages to push
-> > > dentries with similar live time to the same page. Not sure what happened
-> > > to that.
-> > 
-> > Same thing that happened to all the "select the dentries on this
-> > page for reclaim". i.e. it's referenced dentries that we can't
-> > reclaim or move that are the issue, not the reclaimable dentries on
-> > the page.
-> > 
-> > Bsaically, without a hint at allocation time as to the expected life
-> > time of the dentry, we can't be smart about how we select partial
-> > pages to allocate from. And because we don't know at allocation time
-> > if the dentry is going to remain a negative dentry or not, we can't
-> > provide a hint about expected lifetime of teh object being
-> > allocated.
-> 
-> Can we allocate a new dentry at the time when we know the life time or
-> the dentry pointer is so spread by that time that we cannot?
+Hi, Jonathan
 
-It's difficult. We allocate dentry, put it in our structures, use it for
-synchronization e.g. of parallel lookups of the same name (so for that it is
-important that it is visible to everybody) and only after that we ask
-filesystem what does it have (if anything) under that name... So delaying
-allocation would mean overhauling the locking logic in the whole dcache.
+'Documentation/translations/'  has been discarded or not ? I found few 
+translations there :(
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
+On 2018年07月19日 15:53, Norman wrote:
+> Hi Harry,
+>
+> I have been a Linux kernel developer for several years, and I like it 
+> so much。
+>
+> I spent much time on reading source codes, and I found many documents 
+> haven't been translated into Chinese,
+>
+> so I make a plan to translate all documents into Chinese to make 
+> others easily know the architecture of
+>
+> the Linux modules.
+>
+> So, can you give me some advices to make it work well?
+>
+> -- 
+> To unsubscribe from this list: send the line "unsubscribe linux-doc" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
