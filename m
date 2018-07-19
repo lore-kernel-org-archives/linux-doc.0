@@ -1,136 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A74C7D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 19:31:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C4E1D7D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 20:00:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727492AbeGSUQR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 16:16:17 -0400
-Received: from mga06.intel.com ([134.134.136.31]:38597 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726875AbeGSUQR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Jul 2018 16:16:17 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jul 2018 12:31:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,375,1526367600"; 
-   d="scan'208";a="74204098"
-Received: from ray.jf.intel.com (HELO [10.7.201.15]) ([10.7.201.15])
-  by orsmga001.jf.intel.com with ESMTP; 19 Jul 2018 12:31:43 -0700
-Subject: Re: [RFC PATCH v2 16/27] mm: Modify can_follow_write_pte/pmd for
- shadow stack
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-17-yu-cheng.yu@intel.com>
- <de510df6-7ea9-edc6-9c49-2f80f16472b4@linux.intel.com>
- <1531328731.15351.3.camel@intel.com>
- <45a85b01-e005-8cb6-af96-b23ce9b5fca7@linux.intel.com>
- <1531868610.3541.21.camel@intel.com>
- <fa9db8c5-41c8-05e9-ad8d-dc6aaf11cb04@linux.intel.com>
- <1531944882.10738.1.camel@intel.com>
- <3f158401-f0b6-7bf7-48ab-2958354b28ad@linux.intel.com>
- <1531955428.12385.30.camel@intel.com>
- <f4c90626-51d8-5551-5b77-baaff81f16bb@linux.intel.com>
- <1532019963.16711.61.camel@intel.com>
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <b3cafb94-39c1-3e03-a4f0-295e506da0a6@linux.intel.com>
-Date:   Thu, 19 Jul 2018 12:31:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <1532019963.16711.61.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1727769AbeGSUoz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 16:44:55 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:35594 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727449AbeGSUoz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jul 2018 16:44:55 -0400
+Received: by mail-pg1-f193.google.com with SMTP id e6-v6so4710479pgv.2
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jul 2018 13:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=I75kxmBTru1UzX2PQRe3XdnyeGupJQzpnNNYnAgGGLg=;
+        b=ZS9Et4pUmgr/FSYDih5UtMKXideAWa8ZeeI8iZXwv4CkaWbVjAOpQPTXjsZKoCohLu
+         yHVfxxdwLa5GnVaVSxD+zbQ+Dfxrt0sVMcMvC31hM+zssmJDvfLYkhDxQTgD3k8MxuUj
+         K1usnZ4X8HrlucJLz7i4heVgB+uxsbVbV/xao=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=I75kxmBTru1UzX2PQRe3XdnyeGupJQzpnNNYnAgGGLg=;
+        b=c3QQWpv63S2YpmdEqKZFU3NobETJMIF4wd58+uu7sq/gqVpzthZ2Y4HLhdX9kO244L
+         Y3awwG26ilTOz+b+ojX+BDIauyN4JoxPdmGH4+hZWUUR1h+gABjdJQZ3jVdwBHIpf0zQ
+         OCpAPZEV0ne+2PR5skOGV6wIhTGmr+T2vz7GV7wpH5bKq9xzEa3HTrusQA41nxpr+q5/
+         FvyOCYKi6jbFmIan6lOWI65MMF/0uvJ0noqdL+aV3SgKPdqVvqwiuaNg/cD855UyiPE+
+         0iXVKEpiLNDT53g1Mag2mTB4LmrG2qojmNioOyk1nIvp0tJWIf4yIxUj5PMj7z6Rqukh
+         DtmQ==
+X-Gm-Message-State: AOUpUlEvr9qnv0GvI/YcmoT+2eVtxEGI8pqZUKvt45dFb7msusatdA8J
+        i9IkeCpFOnm5Ij5VdOWnmNpUQ5p5NHg=
+X-Google-Smtp-Source: AAOMgpcO1AH75HpcnXi3yE/HOWglb6fxGeKqQik7cozriRvPgUTI26zwXmNN+xUtrycyrs8QtGyCIQ==
+X-Received: by 2002:a62:f0d:: with SMTP id x13-v6mr10777303pfi.123.1532030415613;
+        Thu, 19 Jul 2018 13:00:15 -0700 (PDT)
+Received: from joelaf.mtv.corp.google.com ([2620:0:1000:1600:3122:ea9c:d178:eb])
+        by smtp.gmail.com with ESMTPSA id x4-v6sm15379pfm.119.2018.07.19.13.00.14
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 19 Jul 2018 13:00:15 -0700 (PDT)
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     kernel-team@android.com, Ruchi Kandoi <kandoiruchi@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Subject: [PATCH RFC] cpufreq: trace frequency limits change
+Date:   Thu, 19 Jul 2018 12:59:57 -0700
+Message-Id: <20180719195957.59000-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.18.0.203.gfac676dfb9-goog
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/19/2018 10:06 AM, Yu-cheng Yu wrote:
-> Which pte_write() do you think is right?
+From: Ruchi Kandoi <kandoiruchi@google.com>
 
-There isn't one that's right.
+systrace used for tracing for Android systems has carried a patch for
+many years in the Android tree that traces when the cpufreq limits
+change.  With the help of this information, systrace can know when the
+policy limits change and can visually display the data. Lets add
+upstream support for the same.
 
-The problem is that the behavior right now is ambiguous.  Some callers
-of pte_write() need to know about _PAGE_RW alone and others want to know
-if (_PAGE_RW || is_shstk()).
+Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+ Documentation/trace/events-power.rst |  1 +
+ drivers/cpufreq/cpufreq.c            |  1 +
+ include/trace/events/power.h         | 25 +++++++++++++++++++++++++
+ 3 files changed, 27 insertions(+)
 
-The point is that you need both, plus a big audit of all the pte_write()
-users to ensure they use the right one.
+diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
+index a77daca75e30..2ef318962e29 100644
+--- a/Documentation/trace/events-power.rst
++++ b/Documentation/trace/events-power.rst
+@@ -27,6 +27,7 @@ cpufreq.
+ 
+   cpu_idle		"state=%lu cpu_id=%lu"
+   cpu_frequency		"state=%lu cpu_id=%lu"
++  cpu_frequency_limits	"min=%lu max=%lu cpu_id=%lu"
+ 
+ A suspend event is used to indicate the system going in and out of the
+ suspend mode:
+diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+index b0dfd3222013..6533c6987866 100644
+--- a/drivers/cpufreq/cpufreq.c
++++ b/drivers/cpufreq/cpufreq.c
+@@ -2236,6 +2236,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
+ 
+ 	policy->min = new_policy->min;
+ 	policy->max = new_policy->max;
++	trace_cpu_frequency_limits(policy->max, policy->min, policy->cpu);
+ 
+ 	policy->cached_target_freq = UINT_MAX;
+ 
+diff --git a/include/trace/events/power.h b/include/trace/events/power.h
+index 908977d69783..e978b05b0200 100644
+--- a/include/trace/events/power.h
++++ b/include/trace/events/power.h
+@@ -148,6 +148,31 @@ DEFINE_EVENT(cpu, cpu_frequency,
+ 	TP_ARGS(frequency, cpu_id)
+ );
+ 
++TRACE_EVENT(cpu_frequency_limits,
++
++	TP_PROTO(unsigned int max_freq, unsigned int min_freq,
++		unsigned int cpu_id),
++
++	TP_ARGS(max_freq, min_freq, cpu_id),
++
++	TP_STRUCT__entry(
++		__field(u32,		min_freq)
++		__field(u32,		max_freq)
++		__field(u32,		cpu_id)
++	),
++
++	TP_fast_assign(
++		__entry->min_freq = min_freq;
++		__entry->max_freq = max_freq;
++		__entry->cpu_id = cpu_id;
++	),
++
++	TP_printk("min=%lu max=%lu cpu_id=%lu",
++		  (unsigned long)__entry->min_freq,
++		  (unsigned long)__entry->max_freq,
++		  (unsigned long)__entry->cpu_id)
++);
++
+ TRACE_EVENT(device_pm_callback_start,
+ 
+ 	TP_PROTO(struct device *dev, const char *pm_ops, int event),
+-- 
+2.18.0.203.gfac676dfb9-goog
 
-For instance, see spurious_fault_check().  We can get a shadowstack
-fault that also has X86_PF_WRITE, but pte_write()==0.  That might make a
-shadowstack write fault falsely appear spurious.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
