@@ -5,153 +5,114 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 581937D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 17:10:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2CC77D085
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 17:22:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732080AbeGSRyA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 13:54:00 -0400
-Received: from mga04.intel.com ([192.55.52.120]:31604 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732050AbeGSRyA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Jul 2018 13:54:00 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jul 2018 10:09:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,375,1526367600"; 
-   d="scan'208";a="74165176"
-Received: from 2b52.sc.intel.com ([143.183.136.146])
-  by orsmga001.jf.intel.com with ESMTP; 19 Jul 2018 10:09:53 -0700
-Message-ID: <1532019963.16711.61.camel@intel.com>
-Subject: Re: [RFC PATCH v2 16/27] mm: Modify can_follow_write_pte/pmd for
- shadow stack
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Thu, 19 Jul 2018 10:06:03 -0700
-In-Reply-To: <f4c90626-51d8-5551-5b77-baaff81f16bb@linux.intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-         <20180710222639.8241-17-yu-cheng.yu@intel.com>
-         <de510df6-7ea9-edc6-9c49-2f80f16472b4@linux.intel.com>
-         <1531328731.15351.3.camel@intel.com>
-         <45a85b01-e005-8cb6-af96-b23ce9b5fca7@linux.intel.com>
-         <1531868610.3541.21.camel@intel.com>
-         <fa9db8c5-41c8-05e9-ad8d-dc6aaf11cb04@linux.intel.com>
-         <1531944882.10738.1.camel@intel.com>
-         <3f158401-f0b6-7bf7-48ab-2958354b28ad@linux.intel.com>
-         <1531955428.12385.30.camel@intel.com>
-         <f4c90626-51d8-5551-5b77-baaff81f16bb@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1732089AbeGSSGr convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 14:06:47 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:35892 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731661AbeGSSGr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Jul 2018 14:06:47 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 35AD081A8EA9;
+        Thu, 19 Jul 2018 17:22:38 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E0F192026D6B;
+        Thu, 19 Jul 2018 17:22:36 +0000 (UTC)
+Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
+ on cgroup v2 root
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+References: <1529825440-9574-1-git-send-email-longman@redhat.com>
+ <1529825440-9574-8-git-send-email-longman@redhat.com>
+ <20180702165322.GI533219@devbig577.frc2.facebook.com>
+ <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
+ <20180703155823.GS533219@devbig577.frc2.facebook.com>
+ <20180719135224.GE2494@hirez.programming.kicks-ass.net>
+ <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
+ <20180719153045.GT72677@devbig577.frc2.facebook.com>
+ <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
+ <20180719165201.GU72677@devbig577.frc2.facebook.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <69903192-8711-6a1e-0cd0-fbb249a4204b@redhat.com>
+Date:   Thu, 19 Jul 2018 13:22:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
+MIME-Version: 1.0
+In-Reply-To: <20180719165201.GU72677@devbig577.frc2.facebook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Thu, 19 Jul 2018 17:22:38 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Thu, 19 Jul 2018 17:22:38 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2018-07-18 at 17:06 -0700, Dave Hansen wrote:
-> > 
-> > > 
-> > > > 
-> > > > -static inline bool can_follow_write_pte(pte_t pte, unsigned
-> > > > int flags)
-> > > > +static inline bool can_follow_write(pte_t pte, unsigned int
-> > > > flags,
-> > > > +				    struct vm_area_struct
-> > > > *vma)
-> > > >  {
-> > > > -	return pte_write(pte) ||
-> > > > -		((flags & FOLL_FORCE) && (flags & FOLL_COW)
-> > > > && pte_dirty(pte));
-> > > > +	if (!is_shstk_mapping(vma->vm_flags)) {
-> > > > +		if (pte_write(pte))
-> > > > +			return true;
-> > > Let me see if I can say this another way.
-> > > 
-> > > The bigger issue is that these patches change the semantics of
-> > > pte_write().  Before these patches, it meant that you *MUST*
-> > > have this
-> > > bit set to write to the page controlled by the PTE.  Now, it
-> > > means: you
-> > > can write if this bit is set *OR* the shadowstack bit
-> > > combination is set.
-> > Here, we only figure out (1) if the page is pointed by a writable
-> > PTE; or
-> > (2) if the page is pointed by a RO PTE (data or SHSTK) and it has
-> > been
-> > copied and it still exists.  We are not trying to
-> > determine if the
-> > SHSTK PTE is writable (we know it is not).
-> Please think about the big picture.  I'm not just talking about this
-> patch, but about every use of pte_write() in the kernel.
-> 
-> > 
-> > > 
-> > > That's the fundamental problem.  We need some code in the kernel
-> > > that
-> > > logically represents the concept of "is this PTE a shadowstack
-> > > PTE or a
-> > > PTE with the write bit set", and we will call that pte_write(),
-> > > or maybe
-> > > pte_writable().
-> > > 
-> > > You *have* to somehow rectify this situation.  We can absolutely
-> > > no
-> > > leave pte_write() in its current, ambiguous state where it has
-> > > no real
-> > > meaning or where it is used to mean _both_ things depending on
-> > > context.
-> > True, the processor can always write to a page through a shadow
-> > stack
-> > PTE, but it must do that with a CALL instruction.  Can we define
-> > a 
-> > write operation as: MOV r1, *(r2).  Then we don't have any doubt
-> > on
-> > pte_write() any more.
-> No, we can't just move the target. :)
-> 
-> You can define it this way, but then you also need to go to every
-> spot
-> in the kernel that calls pte_write() (and _PAGE_RW in fact) and
-> audit it
-> to ensure it means "mov ..." and not push.
+On 07/19/2018 12:52 PM, Tejun Heo wrote:
+> Hello,
+>
+> On Thu, Jul 19, 2018 at 11:52:46AM -0400, Waiman Long wrote:
+>> BTW, the way the partition is currently implemented right now is that a
+>> child cannot be a partition root unless its parent is a partition root
+>> itself. That is to avoid turning on partition to affect ancestors
+>> further up the hierarchy than just the parent. So in the case of a
+>> container, it cannot allocate sub-partitions underneath it unless it is
+>> a partition itself. Will that solve your concern?
+> Hmm... so a given ancestor must be able to both
+>
+> 1. control which cpus are moved into a partition in all of its
+>    subtree.
 
-Which pte_write() do you think is right?
+Not at the moment. I do have another idea of adding a "cpus.subpart"
+file, for example, to indicate what CPUs a child sub-partition can use
+in its partition. This control file only serves as an intention to
+grant, it won't affect anything else. Before the partition flag can be
+turned on, the kernel will have to check if the cpu list of the child is
+also a subset of its parent's cpus.subpart as a precondition. Does that
+serve the purpose of letting a parent has a say of what CPUs can be
+included in a child partition?
 
-bool is_shstk_pte(pte) {
-	return (_PAGE_RW not set) &&
-(_PAGE_DIRTY_HW set);
-}
+This change will require adding a new cpumask into the cpuset structure,
+the code to handle the mask as well as an additional check in the
+partition enable code. That will have minimal impact to the current code.
 
-int pte_write_1(pte) {
-	return (_PAGE_RW set) && !is_shstk_pte(pte);
-}
+> 2. take away any given cpu from ist subtree.
+>
+> Right now, I don't think it's achieving either, right?
 
-int pte_write_2(pte) {
-	return (_PAGE_RW set) || is_shstk_pte(pte);
-}
+The only way to take away the CPUs from a sub-partition is to turn off
+the partition flag in the child provided that it has no sub-partitions
+underneath it.
 
-Yu-cheng
+Do you want a way at the parent level to take CPUs away from child
+partitions? The "cpus.subpart" file can probably be used also for this
+purpose, but we have to decide what taking CPUs away from child
+partition means. Does that mean automatically turn off the partition
+flag in the children if there is no CPU left in the partition? There are
+some implementation details that need to be fleshed out. I would prefer
+not doing this as this will complicate the code without too much benefit
+that I can see.
+
+Cheers,
+Longman
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
