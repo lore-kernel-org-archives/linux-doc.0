@@ -2,29 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35BF87D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 08:45:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3FC2D7D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 08:48:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbeGSJ1r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 05:27:47 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34016 "EHLO mx1.suse.de"
+        id S1726840AbeGSJaM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 05:30:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:34458 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726704AbeGSJ1r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Jul 2018 05:27:47 -0400
+        id S1725985AbeGSJaM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Jul 2018 05:30:12 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 9042AADD7;
-        Thu, 19 Jul 2018 08:45:39 +0000 (UTC)
-Date:   Thu, 19 Jul 2018 10:45:38 +0200
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id ADF7EAE52;
+        Thu, 19 Jul 2018 08:48:03 +0000 (UTC)
+Date:   Thu, 19 Jul 2018 10:48:02 +0200
 From:   Michal Hocko <mhocko@kernel.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
+To:     Waiman Long <longman@redhat.com>
+Cc:     Dave Chinner <david@fromorbit.com>,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Waiman Long <longman@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
         "Luis R. Rodriguez" <mcgrof@kernel.org>,
@@ -35,112 +34,73 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Jan Kara <jack@suse.cz>,
         Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Ingo Molnar <mingo@kernel.org>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Larry Woodman <lwoodman@redhat.com>,
         "Wangkai (Kevin,C)" <wangkai86@huawei.com>
 Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-Message-ID: <20180719084538.GP7193@dhcp22.suse.cz>
-References: <20180712164932.GA3475@bombadil.infradead.org>
+Message-ID: <20180719084802.GQ7193@dhcp22.suse.cz>
+References: <1531336913.3260.18.camel@HansenPartnership.com>
+ <4d49a270-23c9-529f-f544-65508b6b53cc@redhat.com>
+ <1531411494.18255.6.camel@HansenPartnership.com>
+ <20180712164932.GA3475@bombadil.infradead.org>
  <1531416080.18255.8.camel@HansenPartnership.com>
  <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
  <1531425435.18255.17.camel@HansenPartnership.com>
  <20180713003614.GW2234@dastard>
  <20180716090901.GG17280@dhcp22.suse.cz>
- <20180716124115.GA7072@bombadil.infradead.org>
- <20180716164032.94e13f765c5f33c6022eca38@linux-foundation.org>
- <20180717083326.GD16803@dhcp22.suse.cz>
- <20180719003329.GD19934@dastard>
+ <caf309f5-2844-6546-e545-6ae56ad7d022@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180719003329.GD19934@dastard>
+In-Reply-To: <caf309f5-2844-6546-e545-6ae56ad7d022@redhat.com>
 User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 19-07-18 10:33:29, Dave Chinner wrote:
-> On Tue, Jul 17, 2018 at 10:33:26AM +0200, Michal Hocko wrote:
-> > On Mon 16-07-18 16:40:32, Andrew Morton wrote:
-> > > On Mon, 16 Jul 2018 05:41:15 -0700 Matthew Wilcox <willy@infradead.org> wrote:
-> > > It's quite a small code change and would provide a mechanism for
-> > > implementing the hammer-cache-until-youve-freed-enough design above.
-> > > 
-> > > 
-> > > 
-> > > Aside 2: if we *do* do something like the above __d_alloc() pseudo code
-> > > then perhaps it could be cast in terms of pages, not dentries.  ie,
-> > > 
-> > > __d_alloc()
-> > > {
-> > > 	...
-> > > 	while (too many pages in dentry_cache)
-> > > 		call the dcache shrinker
-> > > 	...
-> > > }
+On Wed 18-07-18 12:17:24, Waiman Long wrote:
+> On 07/16/2018 05:09 AM, Michal Hocko wrote:
+> > On Fri 13-07-18 10:36:14, Dave Chinner wrote:
+> > [...]
+> >> By limiting the number of negative dentries in this case, internal
+> >> slab fragmentation is reduced such that reclaim cost never gets out
+> >> of control. While it appears to "fix" the symptoms, it doesn't
+> >> address the underlying problem. It is a partial solution at best but
+> >> at worst it's another opaque knob that nobody knows how or when to
+> >> tune.
+> > Would it help to put all the negative dentries into its own slab cache?
+> >
+> >> Very few microbenchmarks expose this internal slab fragmentation
+> >> problem because they either don't run long enough, don't create
+> >> memory pressure, or don't have access patterns that mix long and
+> >> short term slab objects together in a way that causes slab
+> >> fragmentation. Run some cold cache directory traversals (git
+> >> status?) at the same time you are creating negative dentries so you
+> >> create pinned partial pages in the slab cache and see how the
+> >> behaviour changes....
+> > Agreed! Slab fragmentation is a real problem we are seeing for quite
+> > some time. We should try to address it rather than paper over it with
+> > weird knobs.
 > 
-> Direct reclaim will result in all the people who care about long
-> tail latencies and/or highly concurent workloads starting to hate
-> you.  Direct reclaim already hammers superblock shrinkers with
-> excessive concurrency, this would only make it worse.
-
-I can only confirm that! We have something similar in our SLES kernel.
-We have page cache soft limit implemented for many years and it is
-basically similar thing to above. We just shrink the page cache when we
-have too much of it. It turned out to be a complete PITA on large
-machines when hundreds of CPUs are fighting for locks. We have tried to
-address that but it is a complete whack a mole.
-
-More important lesson from this is that the original motivation for this
-functionality was to not allow too much page cache which would push a
-useful DB data out to swap. And as it turned out MM internals have
-changed a lot since the introduction and we do not really swap out in
-presence of the page cache anymore. Moreover we have a much more
-effective reclaim protection thanks to memcg low limit reclaim etc.
-While that is all good and nice there are still people tunning the
-pagecache limit based on some really old admin guides and the feature
-makes more harm than good and we see bug reports that system gets
-stalled...
-
-I really do not see why limiting (negative) dentries should be any
-different.
-
-> IOWs, anything like this needs to co-ordinate with other reclaim
-> operations in progress and, most likely, be done via background
-> reclaim processing rather than blocking new allocations
-> indefinitely. background processing can be done in bulk and as
-> efficiently as possible - concurrent direct reclaim in tiny batches
-> will just hammer dcache locks and destroy performance when there is
-> memory pressure.
-
-Absolutely agreed!
-
-> How many times do we have to learn this lesson the hard way?
+> I am aware that you don't like the limit knob that control how many
+> negative dentries are allowed as a percentage of total system memory. I
+> got comments in the past about doing some kind of auto-tuning. How about
+> consolidating the 2 knobs that I currently have in the patchset into a
+> single one with 3 possible values, like:
 > 
-> > > and, apart from the external name thing (grr), that should address
-> > > these fragmentation issues, no?  I assume it's easy to ask slab how
-> > > many pages are presently in use for a particular cache.
-> > 
-> > I remember Dave Chinner had an idea how to age dcache pages to push
-> > dentries with similar live time to the same page. Not sure what happened
-> > to that.
+> 0 - no limiting
+> 1 - set soft limit to "a constant + 4 x max # of positive dentries" and
+> warn if exceeded
+> 2 - same limit but kill excess negative dentries after use.
 > 
-> Same thing that happened to all the "select the dentries on this
-> page for reclaim". i.e. it's referenced dentries that we can't
-> reclaim or move that are the issue, not the reclaimable dentries on
-> the page.
-> 
-> Bsaically, without a hint at allocation time as to the expected life
-> time of the dentry, we can't be smart about how we select partial
-> pages to allocate from. And because we don't know at allocation time
-> if the dentry is going to remain a negative dentry or not, we can't
-> provide a hint about expected lifetime of teh object being
-> allocated.
+> Does that kind of knob make more sense to you?
 
-Can we allocate a new dentry at the time when we know the life time or
-the dentry pointer is so spread by that time that we cannot?
+Not really. See the pagecache limit story in http://lkml.kernel.org/r/20180719084538.GP7193@dhcp22.suse.cz
+I might be overly sensitive but I got burnt a lot in the past. We should
+strive to make the reclaim seamless without asking admins to do our job.
 -- 
 Michal Hocko
 SUSE Labs
