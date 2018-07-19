@@ -1,107 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CAE937D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 17:38:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A98B7D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 18:16:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731810AbeGSSW0 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 14:22:26 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:55182 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731680AbeGSSW0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Jul 2018 14:22:26 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8282C40252ED;
-        Thu, 19 Jul 2018 17:38:14 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A385F2026D6B;
-        Thu, 19 Jul 2018 17:38:13 +0000 (UTC)
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-To:     Tejun Heo <tj@kernel.org>, Peter Zijlstra <peterz@infradead.org>
-Cc:     Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <1529825440-9574-8-git-send-email-longman@redhat.com>
- <20180702165322.GI533219@devbig577.frc2.facebook.com>
- <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
- <20180703155823.GS533219@devbig577.frc2.facebook.com>
- <20180719135224.GE2494@hirez.programming.kicks-ass.net>
- <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
- <20180719153045.GT72677@devbig577.frc2.facebook.com>
- <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
- <20180719165201.GU72677@devbig577.frc2.facebook.com>
- <69903192-8711-6a1e-0cd0-fbb249a4204b@redhat.com>
- <20180719172551.GW72677@devbig577.frc2.facebook.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <468d70b2-c3d8-53c6-bbda-050106bcf60d@redhat.com>
-Date:   Thu, 19 Jul 2018 13:38:13 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S1731960AbeGSTAT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 15:00:19 -0400
+Received: from imap.thunk.org ([74.207.234.97]:34704 "EHLO imap.thunk.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731839AbeGSTAT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Jul 2018 15:00:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
+         s=ef5046eb; h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=CsWiNSMj4wWO2YbzxVRcioQ6BwJumItbhbMgfCXRCh4=; b=u9HsvkpnRxpEJSJnO+BRB/sQKx
+        NiP7kIdttOJfBuoNlqp6pj2DHcNZYjpXkABBKUOSPDdD+y2tIFiEWfn1tgJlYR+N+WR+ozVWvjLFE
+        CHD8lIL31lOE1dsFVQf2lwuToTif0J1RTcNQQErJjI56obFzAumR5ghihkiSjtFAYo2Y=;
+Received: from root (helo=callcc.thunk.org)
+        by imap.thunk.org with local-esmtp (Exim 4.89)
+        (envelope-from <tytso@thunk.org>)
+        id 1fgDT5-0007GL-BZ; Thu, 19 Jul 2018 18:15:59 +0000
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 2CFC57A6417; Thu, 19 Jul 2018 14:15:56 -0400 (EDT)
+Date:   Thu, 19 Jul 2018 14:15:56 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org
+Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Subject: Sphinx version dependencies?
+Message-ID: <20180719181556.GA21435@thunk.org>
 MIME-Version: 1.0
-In-Reply-To: <20180719172551.GW72677@devbig577.frc2.facebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 19 Jul 2018 17:38:14 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 19 Jul 2018 17:38:14 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.0 (2018-05-17)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: tytso@thunk.org
+X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/19/2018 01:25 PM, Tejun Heo wrote:
-> Hello, Waiman.
->
-> On Thu, Jul 19, 2018 at 01:22:36PM -0400, Waiman Long wrote:
-> ...
->> Do you want a way at the parent level to take CPUs away from child
->> partitions? The "cpus.subpart" file can probably be used also for this
->> purpose, but we have to decide what taking CPUs away from child
->> partition means. Does that mean automatically turn off the partition
->> flag in the children if there is no CPU left in the partition? There are
-> Yeah, I think so.  That's what we do when cpuset.cpus or mems go empty
-> - ignoring the config.
->
->> some implementation details that need to be fleshed out. I would prefer
->> not doing this as this will complicate the code without too much benefit
->> that I can see.
-> So, given how long this has been dragging along and it isn't yet super
-> clear to me why this needs to be fully hierarchical, I'd actually
-> prefer just restricting it to the first level children.
->
-> Thanks.
->
-Yes, I would prefer to check in the v11 cpuset patch as it is today,
-including the incremental patch to limit partition to first level child
-minus the debug patch. I do need to make cpuset v2 enabled ASAP.
+Darrick has sent in patches to convert the ext4 documentation to use
+rst and to be built as part of the full kernel documentation thanks.
+In addition to that, he's imported the on-disk documentation from the
+ext4 wiki into the kernel sources, so hopefully we can keep it more up
+to date.
 
-This will give me more times to work on extending partition to be
-hierarchical if the need arises as well as other cpuset v2 features. We
-usually can't get all the things right in one single step.
+When I was experimenting with this, I had to actually build the kernel
+docs using Sphinx for the first time.  I'm using Debian testing, so at
+first I blindly followed the instructions by
+./scripts/sphinx-pre-install:
 
-Peter, are you OK with that? I can promise you that I will work to make
-this happen at a later date if you really want it.
+Detected OS: Debian GNU/Linux unstable (sid).
+	/usr/local/bin/virtualenv sphinx_1.4
+	. sphinx_1.4/bin/activate
+	pip install -r Documentation/sphinx/requirements.txt
 
-Cheers,
-Longman
+But when I did that, Sphinx had heartburn over the ext4.rst file.
 
+    ./include/linux/spi/spi.h:373: ERROR: Unexpected indentation.
+    /usr/projects/linux/ext4/Documentation/filesystems/ext4/ext4.rst:139: ERROR: Malformed table.
+    Column span alignment problem in table line 5.
+    ...
 
+After consulting with Darrick, it appears the problem is that Sphinx8
+1.4.9 was the problem.  This is the version that
+Documentation/sphinx/requirements.txt calls for.  He did his rst
+conversion work using Ubuntu 18.04's Sphinx 1.6.7.
+
+As it turns out Debian testing/unstable already has Sphinx 1.7.5 in
+its repository, so if I simply install Sphinx 1.7.5, it works fine.
+That's what I've done for now.
+
+So that leaves me with some questions:
+
+* Is there a reason why scripts/sphinx-pre-install suggested using a
+  Python virtual environment and installing Sphinx 1.4.9 instead of
+  using the distro's pre-packaged Sphinx for Debian unstable/testing?
+
+* Why does Documentation/sphinx/requirements.txt asking for such an
+  old version of Sphinx?
+ 
+* Is it a requirement that *.rst files that are checked into the
+  kernel repo have to work with Sphinx 1.4.9?  Or is it sufficient
+  that it works with Sphinx 1.6.7 and 1.7.5 (which are the prepackaged
+  Debian and Ubuntu versions).  And it looks like Fedora 28 has Sphinx
+  1.7.2 if I'm not mistaken.   How many versions of Sphinx are various
+  automated build/test systems using?
+
+Thanks,
+
+						- Ted
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
