@@ -1,55 +1,31 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA02A7D085
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 15:31:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8F2E7D085
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 15:52:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732144AbeGSQOb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 12:14:31 -0400
-Received: from mail-yb0-f196.google.com ([209.85.213.196]:35648 "EHLO
-        mail-yb0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730899AbeGSQOb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jul 2018 12:14:31 -0400
-Received: by mail-yb0-f196.google.com with SMTP id x15-v6so3420405ybm.2;
-        Thu, 19 Jul 2018 08:30:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=g4Zr28DVOj84QY7szq3yRIAxlimqHglCuCxjWlH9YW0=;
-        b=YWMBkxfelbOQ+qIePoSMIS0ClcZXhErnpXQJcKCxs+GJ3zKUkIaFrP+OkGff2hF+yV
-         DhLkJCLXllK4yRhyKJ8i0zyzYgmm56r9gYQezioRNuhqwr7zYAjCfhV0iwYPL/MLXDAx
-         6epXNN2p5sZrnKS2wt1SU83Mp6jpuYNyaqcmv+shflalBkRaCU0PMInb9ffeXRbBiHYp
-         7cvhH+ccy1PxpKAhmyKdEijC/X01jn3NfBJBilXjrypKN5SmyURb2o4Qa05Itj3K0qIf
-         u4IqgBHCsCXLHA0QCQ1fIrE9MwZXS0J192mG1RbGTfgbvXppttUtdHkxFrtdfUi3gvXj
-         zZug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=g4Zr28DVOj84QY7szq3yRIAxlimqHglCuCxjWlH9YW0=;
-        b=o/284FQOhoceNP7XUgDSy0VDlfRAjHKK/Hgu4HHq+IFDCuTlLkd1qAvKRIC6D/+0Zh
-         RLHoCTrvM83jFpfAd569ev14W+5LkDzYSfcgGVnd/pYb+CAKAk0hy7aD1+3RiNJag8VQ
-         gPzbwhr6BNS8mjS4iVcc/eWivA3/i5IlnWqBVSiYuRXCIbAEFnLTRXcKuSdQeEY02/WH
-         S+Zyw8LWzu5a8voVPr/PTz1MqjaBc4Exu3VXSeDUZuiq0ZSJ+6sFCiuvr7ksW9lO9gam
-         wpP7u6fBbb4oBHsYzmsXbImn7fw7o9LOsxHIu5VwuQTtpf53oHy/0GtBU3AVV9m3J3E4
-         PD4g==
-X-Gm-Message-State: AOUpUlFKUtz8RTu8ETnVw/ODlqkRfla5yUo9hOrk1A/56T/5Um3jW1cb
-        /xltazwpn+Nq7aBoWK1/PrUO62kF
-X-Google-Smtp-Source: AAOMgpfGd3vnL8EMa50fxU3v1fnmLQ71jzSE4a8nWuFZOXWBtcO9DVyFsEdD1dBXvT/jec4T/KEj7g==
-X-Received: by 2002:a25:3604:: with SMTP id d4-v6mr5719007yba.106.1532014248517;
-        Thu, 19 Jul 2018 08:30:48 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:200::1:7eec])
-        by smtp.gmail.com with ESMTPSA id f137-v6sm7781895ywb.52.2018.07.19.08.30.47
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 Jul 2018 08:30:47 -0700 (PDT)
-Date:   Thu, 19 Jul 2018 08:30:45 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
+        id S1731894AbeGSQgj convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 12:36:39 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:37208 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727575AbeGSQgj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Jul 2018 12:36:39 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id AB84E407563F;
+        Thu, 19 Jul 2018 15:52:50 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-125-125.rdu2.redhat.com [10.10.125.125])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0917D2156897;
+        Thu, 19 Jul 2018 15:52:46 +0000 (UTC)
+Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
+ on cgroup v2 root
+To:     Tejun Heo <tj@kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -60,9 +36,6 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Roman Gushchin <guro@fb.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-Message-ID: <20180719153045.GT72677@devbig577.frc2.facebook.com>
 References: <1529825440-9574-1-git-send-email-longman@redhat.com>
  <1529825440-9574-8-git-send-email-longman@redhat.com>
  <20180702165322.GI533219@devbig577.frc2.facebook.com>
@@ -70,48 +43,66 @@ References: <1529825440-9574-1-git-send-email-longman@redhat.com>
  <20180703155823.GS533219@devbig577.frc2.facebook.com>
  <20180719135224.GE2494@hirez.programming.kicks-ass.net>
  <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
+ <20180719153045.GT72677@devbig577.frc2.facebook.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
+Date:   Thu, 19 Jul 2018 11:52:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20180719153045.GT72677@devbig577.frc2.facebook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 19 Jul 2018 15:52:50 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 19 Jul 2018 15:52:50 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On 07/19/2018 11:30 AM, Tejun Heo wrote:
+> Hello,
+>
+> On Thu, Jul 19, 2018 at 10:04:54AM -0400, Waiman Long wrote:
+>>> Why would a container not be allowed to create partitions for its
+>>> various RT workloads?
+>> As far as I understand, Tejun has some concern about the way that
+>> partitioning works is inconsistent with how other resources are being
+>> managed by cgroup v2 controllers. I adds an incremental patch to
+>> temporarily disable the creation of partition below the first level
+>> children to buy us time so that we can reach a compromise later on what
+>> to do. We can always add features, but taking away features after they
+>> are made available will be hard.
+>>
+>> I am fine either way. It is up to you and Tejun to figure out what
+>> should be made available to the users.
+> So, the main thing is that putting a cpu into a partition locks away
+> the cpu from its ancestors.  That's a system level operation which
+> isn't delegatable.  If we want to allow partitioning in subtrees, the
+> parent still be able to take away partitioned cpus too even if that
+> means ignoring descendants' configurations, which btw is exactly what
+> cpuset does for non-partition configs.
+>
+> I don't think this would be technically too challenging to implement,
+> but unless there are immediate use cases for it, we can start simpler
+> & restricted.
+>
+> Thanks.
+>
+BTW, the way the partition is currently implemented right now is that a
+child cannot be a partition root unless its parent is a partition root
+itself. That is to avoid turning on partition to affect ancestors
+further up the hierarchy than just the parent. So in the case of a
+container, it cannot allocate sub-partitions underneath it unless it is
+a partition itself. Will that solve your concern?
 
-On Thu, Jul 19, 2018 at 10:04:54AM -0400, Waiman Long wrote:
-> > Why would a container not be allowed to create partitions for its
-> > various RT workloads?
-> 
-> As far as I understand, Tejun has some concern about the way that
-> partitioning works is inconsistent with how other resources are being
-> managed by cgroup v2 controllers. I adds an incremental patch to
-> temporarily disable the creation of partition below the first level
-> children to buy us time so that we can reach a compromise later on what
-> to do. We can always add features, but taking away features after they
-> are made available will be hard.
-> 
-> I am fine either way. It is up to you and Tejun to figure out what
-> should be made available to the users.
+Thanks,
+Longman
 
-So, the main thing is that putting a cpu into a partition locks away
-the cpu from its ancestors.  That's a system level operation which
-isn't delegatable.  If we want to allow partitioning in subtrees, the
-parent still be able to take away partitioned cpus too even if that
-means ignoring descendants' configurations, which btw is exactly what
-cpuset does for non-partition configs.
 
-I don't think this would be technically too challenging to implement,
-but unless there are immediate use cases for it, we can start simpler
-& restricted.
-
-Thanks.
-
--- 
-tejun
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
