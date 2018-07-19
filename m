@@ -1,39 +1,30 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 033287D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 13:54:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 576547D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 13:56:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731625AbeGSOiC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 10:38:02 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:38738 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730433AbeGSOiC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jul 2018 10:38:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=knconBZjf3pP0Q8+N2eKVc87U+1NaPR4TA9wiezBgO4=; b=stj1ws77G++GvZtkY5v5lPt88
-        YQjEbfRAQ7X+rS9vRxYH47FVukq5q/a/RmKv5pRG0sR24RYvmHs0yanTQroB3guDwkoljmhGGjLKX
-        aT1wsykQARkiLaEcr1YBjIiErV0v4jtq3+LvDaFXaKLdWHsIQ1z2KuzMRqTbUtRKxkoDqfaqMKFdj
-        5k4eBVuEeEv4OdZ0QrRrOQ+UiIHKqz3GbDTb5stLt1sOYQhxfePCOSj4qd6tKg68uw7sB1+yG0sL4
-        2kePc2VeM67ur4ZkH0MPMFbQdlIoHlkBKnw4sjNKZAx/ayFG+s9tK8/4qTlTP3j6WxaExugUmtXCA
-        6P7FmlBXQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fg9O2-0003fV-Qc; Thu, 19 Jul 2018 13:54:31 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 969FD20289330; Thu, 19 Jul 2018 15:54:29 +0200 (CEST)
-Date:   Thu, 19 Jul 2018 15:54:29 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Waiman Long <longman@redhat.com>
+        id S1731553AbeGSOkH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 10:40:07 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44064 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730470AbeGSOkH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Jul 2018 10:40:07 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id E752472622;
+        Thu, 19 Jul 2018 13:56:48 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D6D5A2026D6B;
+        Thu, 19 Jul 2018 13:56:47 +0000 (UTC)
+Subject: Re: [PATCH v11 9/9] cpuset: Allow reporting of sched domain
+ generation info
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
@@ -43,63 +34,78 @@ Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Roman Gushchin <guro@fb.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v11 9/9] cpuset: Allow reporting of sched domain
- generation info
-Message-ID: <20180719135429.GF2494@hirez.programming.kicks-ass.net>
 References: <1529825440-9574-1-git-send-email-longman@redhat.com>
  <1529825440-9574-10-git-send-email-longman@redhat.com>
+ <20180719135429.GF2494@hirez.programming.kicks-ass.net>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <f1761707-28be-3e72-d87d-6e9a0f1653c8@redhat.com>
+Date:   Thu, 19 Jul 2018 09:56:47 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1529825440-9574-10-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <20180719135429.GF2494@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 19 Jul 2018 13:56:49 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 19 Jul 2018 13:56:49 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jun 24, 2018 at 03:30:40PM +0800, Waiman Long wrote:
-> This patch enables us to report sched domain generation information.
-> 
-> If DYNAMIC_DEBUG is enabled, issuing the following command
-> 
->   echo "file cpuset.c +p" > /sys/kernel/debug/dynamic_debug/control
-> 
-> and setting loglevel to 8 will allow the kernel to show what scheduling
-> domain changes are being made.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  kernel/cgroup/cpuset.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 07a5575..62b7e61 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -836,6 +836,23 @@ static int generate_sched_domains(cpumask_var_t **domains,
->  	return ndoms;
->  }
->  
-> +#ifdef CONFIG_DEBUG_KERNEL
-> +static inline void debug_print_domains(cpumask_var_t *doms, int ndoms)
-> +{
-> +	int i;
-> +	char buf[200];
-> +	char *ptr, *end = buf + sizeof(buf) - 1;
-> +
-> +	for (i = 0, ptr = buf, *end = '\0'; i < ndoms; i++)
-> +		ptr += snprintf(ptr, end - ptr, "dom%d=%*pbl ", i,
-> +				cpumask_pr_args(doms[i]));
-> +
-> +	pr_debug("Generated %d domains: %s\n", ndoms, buf);
-> +}
-> +#else
-> +static inline void debug_print_domains(cpumask_var_t *doms, int ndoms) { }
-> +#endif
+On 07/19/2018 09:54 AM, Peter Zijlstra wrote:
+> On Sun, Jun 24, 2018 at 03:30:40PM +0800, Waiman Long wrote:
+>> This patch enables us to report sched domain generation information.
+>>
+>> If DYNAMIC_DEBUG is enabled, issuing the following command
+>>
+>>   echo "file cpuset.c +p" > /sys/kernel/debug/dynamic_debug/control
+>>
+>> and setting loglevel to 8 will allow the kernel to show what scheduling
+>> domain changes are being made.
+>>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>  kernel/cgroup/cpuset.c | 18 ++++++++++++++++++
+>>  1 file changed, 18 insertions(+)
+>>
+>> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+>> index 07a5575..62b7e61 100644
+>> --- a/kernel/cgroup/cpuset.c
+>> +++ b/kernel/cgroup/cpuset.c
+>> @@ -836,6 +836,23 @@ static int generate_sched_domains(cpumask_var_t **domains,
+>>  	return ndoms;
+>>  }
+>>  
+>> +#ifdef CONFIG_DEBUG_KERNEL
+>> +static inline void debug_print_domains(cpumask_var_t *doms, int ndoms)
+>> +{
+>> +	int i;
+>> +	char buf[200];
+>> +	char *ptr, *end = buf + sizeof(buf) - 1;
+>> +
+>> +	for (i = 0, ptr = buf, *end = '\0'; i < ndoms; i++)
+>> +		ptr += snprintf(ptr, end - ptr, "dom%d=%*pbl ", i,
+>> +				cpumask_pr_args(doms[i]));
+>> +
+>> +	pr_debug("Generated %d domains: %s\n", ndoms, buf);
+>> +}
+>> +#else
+>> +static inline void debug_print_domains(cpumask_var_t *doms, int ndoms) { }
+>> +#endif
+> I still hate this patch.. it prints information already available in
+> sched_debug and has that rediculous on-stack buffer.
 
-I still hate this patch.. it prints information already available in
-sched_debug and has that rediculous on-stack buffer.
+This patch is just for my own testing purpose. We can certainly drop that.
+
+Tejun, please drop this one.
+
+Thanks,
+Longman
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
