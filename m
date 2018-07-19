@@ -1,107 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A8F2E7D085
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 15:52:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4BC877D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 16:37:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731894AbeGSQgj convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 12:36:39 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:37208 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727575AbeGSQgj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Jul 2018 12:36:39 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id AB84E407563F;
-        Thu, 19 Jul 2018 15:52:50 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-125-125.rdu2.redhat.com [10.10.125.125])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0917D2156897;
-        Thu, 19 Jul 2018 15:52:46 +0000 (UTC)
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <1529825440-9574-1-git-send-email-longman@redhat.com>
- <1529825440-9574-8-git-send-email-longman@redhat.com>
- <20180702165322.GI533219@devbig577.frc2.facebook.com>
- <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
- <20180703155823.GS533219@devbig577.frc2.facebook.com>
- <20180719135224.GE2494@hirez.programming.kicks-ass.net>
- <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
- <20180719153045.GT72677@devbig577.frc2.facebook.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
-Date:   Thu, 19 Jul 2018 11:52:46 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <20180719153045.GT72677@devbig577.frc2.facebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 19 Jul 2018 15:52:50 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 19 Jul 2018 15:52:50 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        id S1731847AbeGSRVD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 13:21:03 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:38065 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731839AbeGSRVD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jul 2018 13:21:03 -0400
+Received: by mail-pg1-f194.google.com with SMTP id k3-v6so4249462pgq.5;
+        Thu, 19 Jul 2018 09:37:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=/jlu4MmIdp+EOK5XWMB3wRQZ+hjKKPG5sAGg36rKF2g=;
+        b=M0sAPYcKf4JNsRDypz8OYRnfO0uO/H6WX3ZR2exR8zoorYgR+WDAiV/YgBAHFUyDnN
+         nwxHM9sisy+YrPyTm2XILmjYljb4gsNZsRe/+oTMR1YvxdcaYOEdVd35TR4XF4DVgZXS
+         gQDtsbboNEqlfKKk04hIYa8UQzRKCFTuZTo9VAzgd8+sUJMY9kt5FjLxorjMdt5OqJiZ
+         //zF4XtJ7shYLGQb8JdaigrKDbhU9jlxOCHoY8HGVtsIRbvXsw0DIbo9BUTzD8V9mWx8
+         +0XuyqC/QF5A3unxPenBrEEgBNSwusZK2iKfuxSZrrk7MyiBld/EDin55IDkObQ1W3R6
+         SBWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=/jlu4MmIdp+EOK5XWMB3wRQZ+hjKKPG5sAGg36rKF2g=;
+        b=fRXQbdWzh6tUjDgM4Gi+nvdfOuBVnQu0/rxxY6tc7JmvIkjfJL2nl5hVz30ENYW/eL
+         wYe+2IXmzbskeHec9hX42WfblsTk5An8KWgKONby3MlD5GHpkzoSTFlkPQKrKx9GzyVf
+         Wg8gm9DUeBdJWBxF8K+2FS6Qy+spx2FGtaVHx6NrF4lmZXD+w6tPpIzmTom7wzgsYHyA
+         T4urAClUWg7Nga+o3VT4z3H5dMgSYTotrNjKc7ZRGt/LCvzzkxZGD/r382NsoDtRjN8Y
+         VjCtJgdAf8b6EjV9fkfYlTBUdu/GYNXaJoyk7qjAZEZ2sTqY+AcDPBTT3kBYXvA826p/
+         QREA==
+X-Gm-Message-State: AOUpUlE8CoCmcMWJ6b6OMh/xrGv1Gdod6RlJDr14UKfWENC0tTANi15o
+        IPt0gKVtK9MlZP758M4vAwBIri2Ms7NlzQ==
+X-Google-Smtp-Source: AAOMgpd0Z3iqpBMpKYrjNnaIPylfY73KQwTOhVsVss0ZrtfLwLIySv5SFEh0vhW20llVpdC2zF+irg==
+X-Received: by 2002:a65:4888:: with SMTP id n8-v6mr10860794pgs.149.1532018225095;
+        Thu, 19 Jul 2018 09:37:05 -0700 (PDT)
+Received: from siddaraj-MOBL.gar.corp.intel.com ([192.55.54.45])
+        by smtp.gmail.com with ESMTPSA id 14-v6sm12578525pft.93.2018.07.19.09.37.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 19 Jul 2018 09:37:04 -0700 (PDT)
+From:   Siddaraju DH <siddarajudh@gmail.com>
+To:     john.stultz@linaro.org
+Cc:     tglx@linutronix.de, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Siddaraju DH <siddarajudh@gmail.com>
+Subject: [PATCH] timekeeping.txt: Correct maxCount of n-bit binary counter
+Date:   Thu, 19 Jul 2018 22:06:51 +0530
+Message-Id: <20180719163651.19360-1-siddarajudh@gmail.com>
+X-Mailer: git-send-email 2.15.1.windows.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/19/2018 11:30 AM, Tejun Heo wrote:
-> Hello,
->
-> On Thu, Jul 19, 2018 at 10:04:54AM -0400, Waiman Long wrote:
->>> Why would a container not be allowed to create partitions for its
->>> various RT workloads?
->> As far as I understand, Tejun has some concern about the way that
->> partitioning works is inconsistent with how other resources are being
->> managed by cgroup v2 controllers. I adds an incremental patch to
->> temporarily disable the creation of partition below the first level
->> children to buy us time so that we can reach a compromise later on what
->> to do. We can always add features, but taking away features after they
->> are made available will be hard.
->>
->> I am fine either way. It is up to you and Tejun to figure out what
->> should be made available to the users.
-> So, the main thing is that putting a cpu into a partition locks away
-> the cpu from its ancestors.  That's a system level operation which
-> isn't delegatable.  If we want to allow partitioning in subtrees, the
-> parent still be able to take away partitioned cpus too even if that
-> means ignoring descendants' configurations, which btw is exactly what
-> cpuset does for non-partition configs.
->
-> I don't think this would be technically too challenging to implement,
-> but unless there are immediate use cases for it, we can start simpler
-> & restricted.
->
-> Thanks.
->
-BTW, the way the partition is currently implemented right now is that a
-child cannot be a partition root unless its parent is a partition root
-itself. That is to avoid turning on partition to affect ancestors
-further up the hierarchy than just the parent. So in the case of a
-container, it cannot allocate sub-partitions underneath it unless it is
-a partition itself. Will that solve your concern?
+A n-bit binary counter can count a maximum of 2^n events and the count
+value ranges from 0 to (2^n)-1
 
-Thanks,
-Longman
+Signed-off-by: Siddaraju DH <siddarajudh@gmail.com>
+---
+ Documentation/timers/timekeeping.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/timers/timekeeping.txt b/Documentation/timers/timekeeping.txt
+index f3a8cf2..2d1732b 100644
+--- a/Documentation/timers/timekeeping.txt
++++ b/Documentation/timers/timekeeping.txt
+@@ -27,7 +27,7 @@ a Linux system will eventually read the clock source to determine exactly
+ what time it is.
+ 
+ Typically the clock source is a monotonic, atomic counter which will provide
+-n bits which count from 0 to 2^(n-1) and then wraps around to 0 and start over.
++n bits which count from 0 to (2^n)-1 and then wraps around to 0 and start over.
+ It will ideally NEVER stop ticking as long as the system is running. It
+ may stop during system suspend.
+ 
+-- 
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
