@@ -5,159 +5,124 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 381017D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 00:06:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 919A87D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 00:33:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729692AbeGSAq5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Jul 2018 20:46:57 -0400
-Received: from mga18.intel.com ([134.134.136.126]:53967 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728467AbeGSAq5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Jul 2018 20:46:57 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jul 2018 17:06:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,371,1526367600"; 
-   d="scan'208";a="73939172"
-Received: from ray.jf.intel.com (HELO [10.7.201.15]) ([10.7.201.15])
-  by orsmga001.jf.intel.com with ESMTP; 18 Jul 2018 17:06:36 -0700
-Subject: Re: [RFC PATCH v2 16/27] mm: Modify can_follow_write_pte/pmd for
- shadow stack
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1729861AbeGSBOA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Jul 2018 21:14:00 -0400
+Received: from ipmail02.adl2.internode.on.net ([150.101.137.139]:53704 "EHLO
+        ipmail02.adl2.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729309AbeGSBOA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jul 2018 21:14:00 -0400
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail02.adl2.internode.on.net with ESMTP; 19 Jul 2018 10:03:30 +0930
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1ffwsr-0004uB-MN; Thu, 19 Jul 2018 10:33:29 +1000
+Date:   Thu, 19 Jul 2018 10:33:29 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Waiman Long <longman@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-17-yu-cheng.yu@intel.com>
- <de510df6-7ea9-edc6-9c49-2f80f16472b4@linux.intel.com>
- <1531328731.15351.3.camel@intel.com>
- <45a85b01-e005-8cb6-af96-b23ce9b5fca7@linux.intel.com>
- <1531868610.3541.21.camel@intel.com>
- <fa9db8c5-41c8-05e9-ad8d-dc6aaf11cb04@linux.intel.com>
- <1531944882.10738.1.camel@intel.com>
- <3f158401-f0b6-7bf7-48ab-2958354b28ad@linux.intel.com>
- <1531955428.12385.30.camel@intel.com>
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <f4c90626-51d8-5551-5b77-baaff81f16bb@linux.intel.com>
-Date:   Wed, 18 Jul 2018 17:06:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        "Wangkai (Kevin,C)" <wangkai86@huawei.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+Message-ID: <20180719003329.GD19934@dastard>
+References: <1531411494.18255.6.camel@HansenPartnership.com>
+ <20180712164932.GA3475@bombadil.infradead.org>
+ <1531416080.18255.8.camel@HansenPartnership.com>
+ <CA+55aFzfQz7c8pcMfLDaRNReNF2HaKJGoWpgB6caQjNAyjg-hA@mail.gmail.com>
+ <1531425435.18255.17.camel@HansenPartnership.com>
+ <20180713003614.GW2234@dastard>
+ <20180716090901.GG17280@dhcp22.suse.cz>
+ <20180716124115.GA7072@bombadil.infradead.org>
+ <20180716164032.94e13f765c5f33c6022eca38@linux-foundation.org>
+ <20180717083326.GD16803@dhcp22.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <1531955428.12385.30.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180717083326.GD16803@dhcp22.suse.cz>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->>> -static inline bool can_follow_write_pte(pte_t pte, unsigned int flags)
->>> +static inline bool can_follow_write(pte_t pte, unsigned int flags,
->>> +				    struct vm_area_struct *vma)
->>>  {
->>> -	return pte_write(pte) ||
->>> -		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte));
->>> +	if (!is_shstk_mapping(vma->vm_flags)) {
->>> +		if (pte_write(pte))
->>> +			return true;
->> Let me see if I can say this another way.
->>
->> The bigger issue is that these patches change the semantics of
->> pte_write().  Before these patches, it meant that you *MUST* have this
->> bit set to write to the page controlled by the PTE.  Now, it means: you
->> can write if this bit is set *OR* the shadowstack bit combination is set.
+On Tue, Jul 17, 2018 at 10:33:26AM +0200, Michal Hocko wrote:
+> On Mon 16-07-18 16:40:32, Andrew Morton wrote:
+> > On Mon, 16 Jul 2018 05:41:15 -0700 Matthew Wilcox <willy@infradead.org> wrote:
+> > It's quite a small code change and would provide a mechanism for
+> > implementing the hammer-cache-until-youve-freed-enough design above.
+> > 
+> > 
+> > 
+> > Aside 2: if we *do* do something like the above __d_alloc() pseudo code
+> > then perhaps it could be cast in terms of pages, not dentries.  ie,
+> > 
+> > __d_alloc()
+> > {
+> > 	...
+> > 	while (too many pages in dentry_cache)
+> > 		call the dcache shrinker
+> > 	...
+> > }
+
+Direct reclaim will result in all the people who care about long
+tail latencies and/or highly concurent workloads starting to hate
+you.  Direct reclaim already hammers superblock shrinkers with
+excessive concurrency, this would only make it worse.
+
+IOWs, anything like this needs to co-ordinate with other reclaim
+operations in progress and, most likely, be done via background
+reclaim processing rather than blocking new allocations
+indefinitely. background processing can be done in bulk and as
+efficiently as possible - concurrent direct reclaim in tiny batches
+will just hammer dcache locks and destroy performance when there is
+memory pressure.
+
+How many times do we have to learn this lesson the hard way?
+
+> > and, apart from the external name thing (grr), that should address
+> > these fragmentation issues, no?  I assume it's easy to ask slab how
+> > many pages are presently in use for a particular cache.
 > 
-> Here, we only figure out (1) if the page is pointed by a writable PTE; or
-> (2) if the page is pointed by a RO PTE (data or SHSTK) and it has been
-> copied and it still exists.  We are not trying to
-> determine if the
-> SHSTK PTE is writable (we know it is not).
+> I remember Dave Chinner had an idea how to age dcache pages to push
+> dentries with similar live time to the same page. Not sure what happened
+> to that.
 
-Please think about the big picture.  I'm not just talking about this
-patch, but about every use of pte_write() in the kernel.
+Same thing that happened to all the "select the dentries on this
+page for reclaim". i.e. it's referenced dentries that we can't
+reclaim or move that are the issue, not the reclaimable dentries on
+the page.
 
->> That's the fundamental problem.  We need some code in the kernel that
->> logically represents the concept of "is this PTE a shadowstack PTE or a
->> PTE with the write bit set", and we will call that pte_write(), or maybe
->> pte_writable().
->>
->> You *have* to somehow rectify this situation.  We can absolutely no
->> leave pte_write() in its current, ambiguous state where it has no real
->> meaning or where it is used to mean _both_ things depending on context.
-> 
-> True, the processor can always write to a page through a shadow stack
-> PTE, but it must do that with a CALL instruction.  Can we define a 
-> write operation as: MOV r1, *(r2).  Then we don't have any doubt on
-> pte_write() any more.
+Bsaically, without a hint at allocation time as to the expected life
+time of the dentry, we can't be smart about how we select partial
+pages to allocate from. And because we don't know at allocation time
+if the dentry is going to remain a negative dentry or not, we can't
+provide a hint about expected lifetime of teh object being
+allocated.
 
-No, we can't just move the target. :)
+Cheers,
 
-You can define it this way, but then you also need to go to every spot
-in the kernel that calls pte_write() (and _PAGE_RW in fact) and audit it
-to ensure it means "mov ..." and not push.
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
