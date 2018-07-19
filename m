@@ -1,143 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C4E1D7D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 20:00:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B40307D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Jul 2018 21:40:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727769AbeGSUoz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 16:44:55 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:35594 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727449AbeGSUoz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jul 2018 16:44:55 -0400
-Received: by mail-pg1-f193.google.com with SMTP id e6-v6so4710479pgv.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jul 2018 13:00:15 -0700 (PDT)
+        id S1730651AbeGSWZJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 18:25:09 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:41663 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730638AbeGSWZI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jul 2018 18:25:08 -0400
+Received: by mail-ed1-f66.google.com with SMTP id s24-v6so8166342edr.8;
+        Thu, 19 Jul 2018 14:40:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=I75kxmBTru1UzX2PQRe3XdnyeGupJQzpnNNYnAgGGLg=;
-        b=ZS9Et4pUmgr/FSYDih5UtMKXideAWa8ZeeI8iZXwv4CkaWbVjAOpQPTXjsZKoCohLu
-         yHVfxxdwLa5GnVaVSxD+zbQ+Dfxrt0sVMcMvC31hM+zssmJDvfLYkhDxQTgD3k8MxuUj
-         K1usnZ4X8HrlucJLz7i4heVgB+uxsbVbV/xao=
+        bh=yvcM8h5p7whjEv93lnAc89bX0Y0PnpWl508XB98yDHI=;
+        b=CK2iWGKi+zcQFg+bEnJEGWaOF/XV0YSfVH1mu0yUgktEHXilRA7oYQTqRRvXNYY2sJ
+         6jo1Vlp00sq+HOGwmKkldi71JNVvMAc2uiJUms1wOWETVx4M32eDSH+eaT7x9E58Th0L
+         KquJxDGe9khVjzW0Kn+PjWHukUsuo1CeD7nu3rGu/NlTHSy7wCdv9qgSfcDj95RWZW/n
+         kBIbI7G9Zx44qFNJJY2RhquqsYaxJJYfTb/+1SMrC9H+KfX2g4r6znFzYaQM1u0CcDxu
+         wY56xkv68WtHLW2EEBYPbWuBPgRMrCrG4FdO+9J9PcGrKSlhq4Cx+R35ynnF+cVPZcUO
+         QQmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=I75kxmBTru1UzX2PQRe3XdnyeGupJQzpnNNYnAgGGLg=;
-        b=c3QQWpv63S2YpmdEqKZFU3NobETJMIF4wd58+uu7sq/gqVpzthZ2Y4HLhdX9kO244L
-         Y3awwG26ilTOz+b+ojX+BDIauyN4JoxPdmGH4+hZWUUR1h+gABjdJQZ3jVdwBHIpf0zQ
-         OCpAPZEV0ne+2PR5skOGV6wIhTGmr+T2vz7GV7wpH5bKq9xzEa3HTrusQA41nxpr+q5/
-         FvyOCYKi6jbFmIan6lOWI65MMF/0uvJ0noqdL+aV3SgKPdqVvqwiuaNg/cD855UyiPE+
-         0iXVKEpiLNDT53g1Mag2mTB4LmrG2qojmNioOyk1nIvp0tJWIf4yIxUj5PMj7z6Rqukh
-         DtmQ==
-X-Gm-Message-State: AOUpUlEvr9qnv0GvI/YcmoT+2eVtxEGI8pqZUKvt45dFb7msusatdA8J
-        i9IkeCpFOnm5Ij5VdOWnmNpUQ5p5NHg=
-X-Google-Smtp-Source: AAOMgpcO1AH75HpcnXi3yE/HOWglb6fxGeKqQik7cozriRvPgUTI26zwXmNN+xUtrycyrs8QtGyCIQ==
-X-Received: by 2002:a62:f0d:: with SMTP id x13-v6mr10777303pfi.123.1532030415613;
-        Thu, 19 Jul 2018 13:00:15 -0700 (PDT)
-Received: from joelaf.mtv.corp.google.com ([2620:0:1000:1600:3122:ea9c:d178:eb])
-        by smtp.gmail.com with ESMTPSA id x4-v6sm15379pfm.119.2018.07.19.13.00.14
+        bh=yvcM8h5p7whjEv93lnAc89bX0Y0PnpWl508XB98yDHI=;
+        b=nW+qCT6kruxn9SssBnbINRPEIVMO1zayEiUrcqktyK6Ym32ynGW/JfqjPnVjkw6j4Z
+         6AUkMzpSqtDclBDXzmBK2R2PHzQF2jfpqlvMdfw4ZSBgsqeLSjnrUpKmES7ZCO3HGPHf
+         hqGFHdG3nc1uwZjQX7gVpsvdWuSOztKugac5PLiDRiQr3jPS/wwqVK2mAj/tl6vooPkK
+         Ee4o748BtCKqyfKld9k3E9E6HIVNd9UZ3iYR+aEJgNERxgPMR2i+3Q7Feexct80FuhGe
+         feo8aPnhZkacRVSCkqCfcTtLm4V88nNY3sy7KnNqEHlw0w3naYCGX87Ql4EbX35u0UIR
+         3Obg==
+X-Gm-Message-State: AOUpUlGbETPQpVnqZpKTnmnqq1G06b85Wp7ICbv5UeSHs9L8y/uWovPl
+        tu/kcGSAgpovKTQ0pBHCkFtu69qugWM=
+X-Google-Smtp-Source: AAOMgpcrQZINh+cKVlZPOCfn18fgVdYjUfcrAb/W2sufOwfYtWU3/A4zS2+S7nVG6D/vmB1rWmYckw==
+X-Received: by 2002:a50:9943:: with SMTP id l3-v6mr12494973edb.272.1532036407430;
+        Thu, 19 Jul 2018 14:40:07 -0700 (PDT)
+Received: from localhost.localdomain ([41.35.209.101])
+        by smtp.gmail.com with ESMTPSA id g9-v6sm224049edq.34.2018.07.19.14.40.04
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 Jul 2018 13:00:15 -0700 (PDT)
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     kernel-team@android.com, Ruchi Kandoi <kandoiruchi@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Subject: [PATCH RFC] cpufreq: trace frequency limits change
-Date:   Thu, 19 Jul 2018 12:59:57 -0700
-Message-Id: <20180719195957.59000-1-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.18.0.203.gfac676dfb9-goog
+        Thu, 19 Jul 2018 14:40:06 -0700 (PDT)
+From:   Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
+To:     kvm@vger.kernel.org,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        virtualization@lists.linux-foundation.org,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
+        nathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, hpa@zytor.com,
+        Kees Cook <keescook@chromium.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        David Hildenbrand <david@redhat.com>,
+        Boris Lukashev <blukashev@sempervictus.com>,
+        David Vrabel <david.vrabel@nutanix.com>, nigel.edwards@hpe.com,
+        Rik van Riel <riel@surriel.com>
+Subject: Memory Read Only Enforcement: VMM assisted kernel rootkit mitigation for KVM 
+Date:   Thu, 19 Jul 2018 23:37:59 +0200
+Message-Id: <20180719213802.17161-1-ahmedsoliman0x666@gmail.com>
+X-Mailer: git-send-email 2.16.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ruchi Kandoi <kandoiruchi@google.com>
+Hi,
 
-systrace used for tracing for Android systems has carried a patch for
-many years in the Android tree that traces when the cpufreq limits
-change.  With the help of this information, systrace can know when the
-policy limits change and can visually display the data. Lets add
-upstream support for the same.
+This is my first set of patches that works as I would expect, and the
+third revision I sent to mailing lists.
 
-Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- Documentation/trace/events-power.rst |  1 +
- drivers/cpufreq/cpufreq.c            |  1 +
- include/trace/events/power.h         | 25 +++++++++++++++++++++++++
- 3 files changed, 27 insertions(+)
+Following up with my previous discussions about kernel rootkit mitigation
+via placing R/O protection on critical data structure, static data,
+privileged registers with static content. These patches present the
+first part where it is only possible to place these protections on
+memory pages. Feature-wise, this set of patches is incomplete in the sense of:
+- They still don't protect privileged registers
+- They don't protect guest TLB from malicious gva -> gpa page mappings.
+But they provide sketches for a basic working design. Note that I am totally
+noob and it took lots of time and effort to get to this point. So sorry in
+advance if I overlooked something.
 
-diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
-index a77daca75e30..2ef318962e29 100644
---- a/Documentation/trace/events-power.rst
-+++ b/Documentation/trace/events-power.rst
-@@ -27,6 +27,7 @@ cpufreq.
- 
-   cpu_idle		"state=%lu cpu_id=%lu"
-   cpu_frequency		"state=%lu cpu_id=%lu"
-+  cpu_frequency_limits	"min=%lu max=%lu cpu_id=%lu"
- 
- A suspend event is used to indicate the system going in and out of the
- suspend mode:
-diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-index b0dfd3222013..6533c6987866 100644
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -2236,6 +2236,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
- 
- 	policy->min = new_policy->min;
- 	policy->max = new_policy->max;
-+	trace_cpu_frequency_limits(policy->max, policy->min, policy->cpu);
- 
- 	policy->cached_target_freq = UINT_MAX;
- 
-diff --git a/include/trace/events/power.h b/include/trace/events/power.h
-index 908977d69783..e978b05b0200 100644
---- a/include/trace/events/power.h
-+++ b/include/trace/events/power.h
-@@ -148,6 +148,31 @@ DEFINE_EVENT(cpu, cpu_frequency,
- 	TP_ARGS(frequency, cpu_id)
- );
- 
-+TRACE_EVENT(cpu_frequency_limits,
-+
-+	TP_PROTO(unsigned int max_freq, unsigned int min_freq,
-+		unsigned int cpu_id),
-+
-+	TP_ARGS(max_freq, min_freq, cpu_id),
-+
-+	TP_STRUCT__entry(
-+		__field(u32,		min_freq)
-+		__field(u32,		max_freq)
-+		__field(u32,		cpu_id)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->min_freq = min_freq;
-+		__entry->max_freq = max_freq;
-+		__entry->cpu_id = cpu_id;
-+	),
-+
-+	TP_printk("min=%lu max=%lu cpu_id=%lu",
-+		  (unsigned long)__entry->min_freq,
-+		  (unsigned long)__entry->max_freq,
-+		  (unsigned long)__entry->cpu_id)
-+);
-+
- TRACE_EVENT(device_pm_callback_start,
- 
- 	TP_PROTO(struct device *dev, const char *pm_ops, int event),
--- 
-2.18.0.203.gfac676dfb9-goog
+[PATCH 1/3] [RFC V3] KVM: X86: Memory ROE documentation
+[PATCH 2/3] [RFC V3] KVM: X86: Adding arbitrary data pointer in kvm memslot itterator functions
+[PATCH 3/3] [RFC V3] KVM: X86: Adding skeleton for Memory ROE
+
+Summery:
+
+ Documentation/virtual/kvm/hypercalls.txt |  14 ++++
+ arch/x86/include/asm/kvm_host.h          |  11 ++-
+ arch/x86/kvm/Kconfig                     |   7 ++
+ arch/x86/kvm/mmu.c                       | 127 ++++++++++++++++++++++---------
+ arch/x86/kvm/x86.c                       |  82 +++++++++++++++++++-
+ include/linux/kvm_host.h                 |   3 +
+ include/uapi/linux/kvm_para.h            |   1 +
+ virt/kvm/kvm_main.c                      |  29 ++++++-
+ 8 files changed, 232 insertions(+), 42 deletions(-)
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
