@@ -1,61 +1,25 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2732A7D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 10:57:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A29CF7D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 11:05:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727983AbeGTLox (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 07:44:53 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:41292 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727233AbeGTLox (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 07:44:53 -0400
-Received: by mail-lf1-f65.google.com with SMTP id v22-v6so1503178lfe.8;
-        Fri, 20 Jul 2018 03:57:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=z43dF2khbYJcgqJvlRlv7aXo1E2B5EqmU3p5M6AROqs=;
-        b=fF8DXxnqJsv/N4ovg8dfZcjqG9NXZ6o0SsV3vwcevT/CSsVqHt2m2rYHsU2Khhsevp
-         uIPpODV7KwV7cBFpv23t+Nj5GP6x2JrADfknnEez/2vGgEUMPQL2VhXA3NmJyNbi+CuO
-         m017cyKmJDj8FDY9CAArInHbelzeBleZ8QUsamgqPUuZuK3T0RAT0QpVuls/nsdyI/4U
-         /uxhfqDe9Gr4mAFOWkMXuQh/QyGeJZOK3HJVan2HLkxsWjxBEv7pKoMxTafmE2qW15kW
-         bNp7RQ+wql75YNbYHNV8hlmQtQG3gasrvYv7JnZkT/RJk/kdujx6AMRFVmZ4IXsSTYny
-         tz+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=z43dF2khbYJcgqJvlRlv7aXo1E2B5EqmU3p5M6AROqs=;
-        b=ojuZHzM82Q9pfB0TALtUntNPhqPvXhnD43TCPviiTIrHCbHzNxflcDTBuGiQh3z0iT
-         DPTm05VVj3cBjPMmAVmh5N2LUzJEnmWe+2mBE52J/cG62oOIL2ky5fgwKlyupoM5PqgG
-         GJ5XpeUBRhoQUBpg3omfySeteQvANx6ulI2LXrP0ppx7ReypsJsbnr2dqvtVTW6gvydP
-         CsNLuiX77C/cVsv90h8Xkb4PmdVvshisO+TQKdWZBJ5Gj7UVrTQ6G0cEMHsp2w9PG/d3
-         nSdgD8jtQYMQViRxkNBwH32DcCbXn/8lPnkGmGLrgFLHsRZEPDLQDND6jbMUCsCy7TIL
-         attw==
-X-Gm-Message-State: AOUpUlFAIi6F1Hsss4Q3nyjq+2neskVzQg7eOCUYQMeJ28lHwqGVFBAR
-        +u790qIwG0QHDWppPeKORiD09WKLiktf1moOVEA=
-X-Google-Smtp-Source: AAOMgpes4jGE6gov3v1Fs7zaUSsQNUXZviXPt7ZrFzgDMphV1iyMS63q8NZ90QNErLfgF9O+tVnQGGNza3lsi/qVl98=
-X-Received: by 2002:a19:b24e:: with SMTP id b75-v6mr1063381lff.11.1532084228538;
- Fri, 20 Jul 2018 03:57:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Fri, 20 Jul 2018 03:57:07
- -0700 (PDT)
-In-Reply-To: <20180720101206.tv7nsoanwo5ftnia@ninjato>
-References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
- <CAK8P3a2MP5+oFz--e+BM24D8Ahw7H_RKgN1S6wY1nQE6JL0dmw@mail.gmail.com>
- <2ab0ab75-2df0-2714-f007-c33b25481016@axentia.se> <20180720101206.tv7nsoanwo5ftnia@ninjato>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 20 Jul 2018 12:57:07 +0200
-X-Google-Sender-Auth: WxP8cv0M6F9eLTfnExnz8SPkC0c
-Message-ID: <CAK8P3a2Pqo5DuYBb09+w4nGWGOw+e_tZPxnA06qjNO_6Hw6NvQ@mail.gmail.com>
-Subject: Re: [PATCH v6 00/10] Add the I3C subsystem
-To:     Wolfram Sang <wsa@the-dreams.de>
+        id S1727851AbeGTLxg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 07:53:36 -0400
+Received: from sauhun.de ([88.99.104.3]:56162 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727664AbeGTLxg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Jul 2018 07:53:36 -0400
+Received: from localhost (p54B33241.dip0.t-ipconnect.de [84.179.50.65])
+        by pokefinder.org (Postfix) with ESMTPSA id 360F45E000F;
+        Fri, 20 Jul 2018 13:05:50 +0200 (CEST)
+Date:   Fri, 20 Jul 2018 13:05:49 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Peter Rosin <peda@axentia.se>,
         Boris Brezillon <boris.brezillon@bootlin.com>,
         linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
@@ -84,87 +48,76 @@ Cc:     Peter Rosin <peda@axentia.se>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
         Przemyslaw Gaj <pgaj@cadence.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v6 00/10] Add the I3C subsystem
+Message-ID: <20180720110549.zgre7f7x7jkrbyt7@ninjato>
+References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
+ <CAK8P3a2MP5+oFz--e+BM24D8Ahw7H_RKgN1S6wY1nQE6JL0dmw@mail.gmail.com>
+ <2ab0ab75-2df0-2714-f007-c33b25481016@axentia.se>
+ <20180720101206.tv7nsoanwo5ftnia@ninjato>
+ <CAK8P3a2Pqo5DuYBb09+w4nGWGOw+e_tZPxnA06qjNO_6Hw6NvQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="xkvhz6jgoqk4tzls"
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a2Pqo5DuYBb09+w4nGWGOw+e_tZPxnA06qjNO_6Hw6NvQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 20, 2018 at 12:12 PM, Wolfram Sang <wsa@the-dreams.de> wrote:
->
->> I have not read much of the I3C spec. I'm just coming from the
->> current situation with I2C and the i2c-demux-pinctrl driver which
->> tries to retrofit this into the I2C world and is not doing a grand
->> job. And how could it?
->>
->> If you can acknowledge that i2c-demux-pinctrl is needed for I2C
->> but for some reason is not needed for I3C because of something
->> that differs between I2C and I3C, then fine, by all means ditch
->> the explicit bus object.
->>
->> But in my mind splitting up the devices on the same bus between
->> several of our own masters and then not have a single object for
->> the bus is going to cause headaches down the line. Be it address
->> clashes or trouble with master ping-pong or whatever.
->>
->> I think the reason for i2c-demux-pinctrl is that some (most?) I2C
->> hardware suffers from quirks and one way to work around it is to
->> make selected accesses from a different master. I expect I3C HW
->> to also suffer from quirks...
->>
->> Maybe a bit-bang I3C master isn't feasible for some fundamental
->> reason? But if it is, then I'd say that it's just a matter of time
->> until someone finds a situation where such a thing could be used to
->> work around some I3C quirk. And then it might be too expensive to
->> always use the bit-bang master for the affected device.
->>
->> But what do I know? Don't let me hold this series back...
->
-> Thanks, Peter. You nailed it, the I2C use case (and its limits). From
-> what I know about I3C, bit-banging doesn't sound very feasible to me, so
-> the situation might be a bit different. Still, no one knows about future
-> I3C use cases and HW quirks. This is why I encouraged the seperate bus
-> object because back then it was said it was easy to do and implement. If
-> this now becomes a show-stopper, we can surely re-decide. I am not
-> strong on this point, it was just something which would have helped I2C.
-> (And for that matter, we (= the Renesas Upstream Kernel Team) was
-> discussing something similar to the i2c demuxer for SPI, too. We have
-> multiple IP cores which can do SPI on R-Car, all with their pros and
-> cons)
 
-I think we need to distinguish between demuxing and i3c master
-handover here, they are two separate issues that both need to be solved
-and that are not too hard to do, but we get into trouble if we combine
-them in arbitrary ways, which is what I'm concerned about:
+--xkvhz6jgoqk4tzls
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-* What I understand from reading i2c-demux-pinctrl.c, a slave device
-  will only ever be observable from one master at a time, when you
-  switch over, all children get removed on one master and added to
-  the other one, to be probed again by their respective drivers.
-  I can see this as a useful feature on i3c as well, in particular to
-  deal with the situation where we have i2c slaves connected to a
-  pinmux that can switch them between an i3c master and an
-  i2c-only master (possibly a gpio based one). That particular use
-  case however doesn't seem to fix well in the current code, which
-  is structure around i3c buses.
 
-* The other thing we definitely have to support for i3c is to deal with
-   handing over control of the bus between the i3c master owned
-   by Linux, and other masters that are /not/ owned by the same
-   Linux instance. This is the part that the spec discusses in much
-   detail, with the intention of temporarily giving up control of the
-   bus to let another master do its thing on a shared slave without
-   user interaction.
+> * What I understand from reading i2c-demux-pinctrl.c, a slave device
+>   will only ever be observable from one master at a time, when you
+>   switch over, all children get removed on one master and added to
+>   the other one, to be probed again by their respective drivers.
 
-Combining the two quickly gets nasty I think. The current design
-seems to imply that a device driver could keep talking to a slave
-while it is being reparented from one master to another. I can't
-think of a good reason why we would possibly want that, but
-it definitely opens up questions in what happens to e.g. the sysfs
-representation, lock order, and power management that I'd rather
-not have to think about.
+Yes. The very first versions of the demuxer tried to do it in a
+hot-swapping like fashion but then I switched over because of...
 
-       Arnd
+> it definitely opens up questions in what happens to e.g. the sysfs
+> representation, lock order, and power management that I'd rather
+> not have to think about.
+
+... this! There are dragons, I can tell you :)
+
+> * The other thing we definitely have to support for i3c is to deal with
+>    handing over control of the bus between the i3c master owned
+>    by Linux, and other masters that are /not/ owned by the same
+>    Linux instance. This is the part that the spec discusses in much
+>    detail, with the intention of temporarily giving up control of the
+>    bus to let another master do its thing on a shared slave without
+>    user interaction.
+
+I can't comment about this one.
+
+
+--xkvhz6jgoqk4tzls
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAltRwgkACgkQFA3kzBSg
+KbZY3w/9Fp795KxCTRbIxeQgXGj98k3Bl1La27iUL2CwndG4xQaRfaVIEkXTTCfF
+5mFk/Ui4wzofIK3d6s97bmiu3WyMG+wR6rIEB7ikVZUeuGbXmSrygcidPkCbw7ka
+EDrbnA+Sfj5+a0yOUGquZ6sho2+jFeTnTIG2zRm8vsbqXqHkqZMrFrrf5EFH27GH
+stpmRZhfHzimbLLbq5fw1Q0GdPz2g5xlMbioBkGGVq4Q26B2XE4Ggp26UcGlyraF
+wBEfTYW23JQ/uepPhvxVR/Cj63s9hq5e4o4YMb9PJsTmJ/FG4Ja317hYc0MR+jS8
+6G5eYdzve2P+6tz0+syo8OVS0gjWSm1b7XXsYpeeZtoM2/2sDHMrEGPkvsfrLtBQ
+2xT9SrClmT8SX9Sc3rQEFJNxlzVTv/bp+kfMRnN1DVG+Aa6KnPLJxoLhfMapEzgf
+JUZ2fZs35Puo1Aw/dQWuBQiqvPpqyd4PEsC/f0WiebQYviXnDgXpV3WmEwCAWOyz
+2qVFZwYoQ3LuzOVSNLY42FDyHAgrS/TOzKP2WExlFIin0yyjCmEWBmhwH5Tfr9ww
+MMzy3E2VIFpHlFEW4LwhbheT7BMt3Rrn42aJ+7FBw8NVgsTTuublb8F+tt5fN1B8
+mX9y6VFUJWd/BMf/RIYNB3HZCxIwvRAJWYuv0SwWighqYetB0NU=
+=qblC
+-----END PGP SIGNATURE-----
+
+--xkvhz6jgoqk4tzls--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
