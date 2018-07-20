@@ -1,111 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B72027D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 14:52:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 69C157D085
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 15:02:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731797AbeGTPlY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 11:41:24 -0400
-Received: from imap.thunk.org ([74.207.234.97]:38568 "EHLO imap.thunk.org"
+        id S1731968AbeGTPum (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 11:50:42 -0400
+Received: from mga03.intel.com ([134.134.136.65]:7402 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731792AbeGTPlY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Jul 2018 11:41:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
-         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=bplxIP+SLnBc1iadpefxLFf9wKLgwuSyI+4TCN0EdF4=; b=Hf41RgK1IdCGLVlVLx50Ue4E1K
-        8UCgfZiI2OGBtiBnh2QiKoMRI0qvJ74vmIShkheXHtoIQT6oXcMzrqIUoVSOX9rAQl9G8T8koLoY2
-        E8G8j7IsFfrK8hcl7KMqtPiGfMKELuqLODzez31AM/51LDtAG4IwfbpXo5/EdN355ZI8=;
-Received: from root (helo=callcc.thunk.org)
-        by imap.thunk.org with local-esmtp (Exim 4.89)
-        (envelope-from <tytso@thunk.org>)
-        id 1fgWlt-0004FW-36; Fri, 20 Jul 2018 14:52:41 +0000
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id E79D57A6417; Fri, 20 Jul 2018 10:52:35 -0400 (EDT)
-Date:   Fri, 20 Jul 2018 10:52:35 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Sphinx version dependencies?
-Message-ID: <20180720145235.GA27862@thunk.org>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20180719181556.GA21435@thunk.org>
- <20180719190400.GB4800@magnolia>
- <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
- <20180720131206.GM30706@thunk.org>
- <d064f468ab9fc60a02242331e0dddc185d6556ba.camel@darmarit.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d064f468ab9fc60a02242331e0dddc185d6556ba.camel@darmarit.de>
-User-Agent: Mutt/1.10.0 (2018-05-17)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: tytso@thunk.org
-X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
+        id S1731731AbeGTPum (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Jul 2018 11:50:42 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Jul 2018 08:02:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,380,1526367600"; 
+   d="scan'208";a="73077337"
+Received: from unknown (HELO [143.183.136.146]) ([143.183.136.146])
+  by fmsmga004.fm.intel.com with ESMTP; 20 Jul 2018 08:02:00 -0700
+Message-ID: <1532098688.23487.0.camel@intel.com>
+Subject: Re: [RFC PATCH v2 14/27] mm: Handle THP/HugeTLB shadow stack page
+ fault
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Fri, 20 Jul 2018 07:58:08 -0700
+In-Reply-To: <adc8f0b0-e2a5-d3e9-edaf-8d5b3be6a5b6@linux.intel.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+         <20180710222639.8241-15-yu-cheng.yu@intel.com>
+         <adc8f0b0-e2a5-d3e9-edaf-8d5b3be6a5b6@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 20, 2018 at 03:45:37PM +0200, Markus Heiser wrote:
-> Am Freitag, den 20.07.2018, 09:12 -0400 schrieb Theodore Y. Ts'o:
-> > I'm not entirely sure what's the best approach.  Right now I just want
-> > to understand --- do I have to make ext4.rst work against one, or many
-> > versions of Sphinx?  And which version(s) of Sphinx do I need to
-> > concern myself with?  If that turns out to be an onerous burden, I'm
-> > sure I won't be the only person complaining.  :-)
-> 
-> In that case ...
-> 
-> > But when I did that, Sphinx had heartburn over the ext4.rst file.
+On Fri, 2018-07-20 at 07:20 -0700, Dave Hansen wrote:
+> On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
 > > 
-> >     ./include/linux/spi/spi.h:373: ERROR: Unexpected indentation.
-> >     /usr/projects/linux/ext4/Documentation/filesystems/ext4/ext4.rst:139: ERROR: Malformed table.
-> >     Column span alignment problem in table line 5.
+> > @@ -1193,6 +1195,8 @@ static int
+> > do_huge_pmd_wp_page_fallback(struct vm_fault *vmf, pmd_t orig_pmd,
+> >  		pte_t entry;
+> >  		entry = mk_pte(pages[i], vma->vm_page_prot);
+> >  		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> > +		if (is_shstk_mapping(vma->vm_flags))
+> > +			entry = pte_mkdirty_shstk(entry);
+> Peter Z was pointing out that we should get rid of all this generic
+> code
+> manipulation.  We might not easily be able to do it *all*, but we
+> can do
+> better than what we've got here.
 > 
-> ... its clear; the table was malformed. A markup error which is not detected
-> by older versions of docutils (very special case).
+> Basically, if you have code outside of arch/x86 in your patch set
+> that
+> refers to shadow stacks, you should consider it a bug (for now),
+> especially if you have to hack .c files.
+> 
+> For instance, in the code above, you could move the
+> is_shstk_mapping() into:
+> 
+> static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct
+> *vma)
+> {
+>         if (likely(vma->vm_flags & VM_WRITE))
+>                 pte = pte_mkwrite(pte);
+> 	
+> +	pte = arch_pte_mkwrite(pte, vma);
+> +
+>         return pte;
+> }
+> 
+> ... and add an arch callback that does:
+> 
+> static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct
+> *vma)
+> {
+> 	if (!is_shstk_mapping(vma->vm_flags))
+> 		return pte;
+> 
+> 	WARN_ON(... pte bits incompatible with shadow stacks?);
+> 
+> 	/* Lots of comments of course */
+> 	entry = pte_mkdirty_shstk(entry);
+> }
+> 
+> This is just one example.  You are probably going to need a couple
+> of
+> similar things.  Just remember: the bar is very high to make changes
+> to
+> .c files outside of arch/x86.  You can do a _bit_ more in non-x86
+> headers, but you have the most freedom to patch what you want as
+> long as
+> it's in arch/x86.
 
-... except that newer verions are A-OK with it.  Apparently 1.3.x was
-OK with it, and 1.6.x and 1.7.x were ok with it.  ***ONLY*** Sphinx
-1.4.9 blew up on the "malformed table".
+Ok, I will work on that.  Thanks!
 
-So in this case, Darrick has come up with a patch that is makes it OK
-with 1.4.9 without breaking on 1.7.5 --- and obviously, doing
-something that makes it broadly portable is the right thing.
-
-I'm asking a larger question, which is moving forward, which is more
-important?  Make it work with Sphinx 1.4.9?  Or making it Sphinx work
-with Sphinx 1.7.5?
-
-And should we change Documentation/sphinx/requirements.txt to require
-something newer, such as Sphinx 1.7.5?  And should we require that
-Ubuntu 18.04 which is using Sphinx 1.6.8 use a virtualenv and use
-download Sphinx 1.6.8?
-
-My understanding that the Sphinx developers make no guarantees that if
-we follow some external, version-indepedent spec, that it will work on
-Sphinx version N, as well as Sphinx version N+1.  (In the ideal world,
-if there was such an independent spec for .rst format files, and a
-compliant .rst file doesn't work for Sphinx version N, it's a bug, and
-we should expect somebody --- perhaps the Distro's --- to backport the
-fix from Sphinx version N+1 to Sphinx version N.)  E.g., is there an
-equivalent for ANSI C 1999 standard for .rst files?
-
-		       	      	   	    - Ted
+Yu-cheng
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
