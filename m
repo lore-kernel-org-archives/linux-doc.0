@@ -1,157 +1,193 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 34BBA7DE80
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 14:20:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 35B977D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 14:44:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731986AbeGTPJJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 11:09:09 -0400
-Received: from mga17.intel.com ([192.55.52.151]:14685 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731305AbeGTPJI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Jul 2018 11:09:08 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Jul 2018 07:20:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,379,1526367600"; 
-   d="scan'208";a="68545716"
-Received: from pavlovix-mobl.ger.corp.intel.com (HELO [10.249.254.39]) ([10.249.254.39])
-  by orsmga003.jf.intel.com with ESMTP; 20 Jul 2018 07:20:27 -0700
-Subject: Re: [RFC PATCH v2 14/27] mm: Handle THP/HugeTLB shadow stack page
- fault
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-15-yu-cheng.yu@intel.com>
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <adc8f0b0-e2a5-d3e9-edaf-8d5b3be6a5b6@linux.intel.com>
-Date:   Fri, 20 Jul 2018 07:20:25 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1731821AbeGTPdP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 11:33:15 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:54429 "EHLO
+        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731699AbeGTPdP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 11:33:15 -0400
+Received: by mail-it0-f67.google.com with SMTP id s7-v6so14980311itb.4;
+        Fri, 20 Jul 2018 07:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=KAPbA5bTicJEEEqpqlpLggBFAhmc/Vw8hpfD1ZhNeeA=;
+        b=NQn/Gudtfpa57idjqRh9M1kFshjxJi2fW4R01aBN3xMHUW+b7sjpbtQdReK+kOXBQe
+         x7HnXSoOWdG4OKkZgraoAcODBlzLp0ZxFlJDUlsHkTtNZgFhdIh+QESIE0xH9JXc9Z4c
+         hP0aAt3cFWmeAhbhGo9vLt/xK2moZ4Q90Wmdz+5GHWK7OTbYj2oGeXAR+mYSp15YHonI
+         QihEMFpGmX4GmT32s3VLGpKBiEtJF8TgBkhQ16UnFr5ZMVPdhW91gEtl5a9AtCmXVWsg
+         hRffSRWILWLLoxoC+QtBkkibB9x33OWMky8t57d6EhhK9qaYyCbZDvkOPzF/jkzSjsXM
+         cgEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=KAPbA5bTicJEEEqpqlpLggBFAhmc/Vw8hpfD1ZhNeeA=;
+        b=Kr2x77jDEJcq5CRRbIiXmjGFDufm+4OvvE9QTGoLcgg2oDKH0wNhqnzu+yEbyye8ie
+         zMRbj7Fs8qhFji3Ju+amPKXEYQyw7T34i+27PeH8nehPieqzuPdGsRvwAyg9w77jA/uh
+         PoSCqk4PWC34QGTjNhSkVM+LxF4HrGefs5aq+waVLi7upehytKpdhws2u7t3YXkeEYdd
+         9Ciza5IwuhNk3xS6Nq1tSnyLL7hJZtwH9LdBSNS24qRXfiAopqPMoo24BoXED7wO8oOO
+         1q/jcS1wa3A9tsy5DI8tHLGeGPgwAHu5gpDPOLyN80eVe+RfY11erwVYsk/MtnWF3oHj
+         5IRw==
+X-Gm-Message-State: AOUpUlF4BXkeycnqa/y1BfpDiHrIPe64LxdG8UeCqF6fDe7t1hI0PfnQ
+        hVascUb3tGKhN3Q1obpR5I0Ks1D2f0J1oOqFAMM=
+X-Google-Smtp-Source: AAOMgpcB4h0Hqm6aWpzNcYPCDM6VbhZqbcyed/d43QC0hyu3+Pwp0JUW6NZkP5dESdTXERCPO0Y+HGEVMSEClhIxRGE=
+X-Received: by 2002:a24:dec5:: with SMTP id d188-v6mr2014182itg.123.1532097877879;
+ Fri, 20 Jul 2018 07:44:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180710222639.8241-15-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a6b:2c9:0:0:0:0:0 with HTTP; Fri, 20 Jul 2018 07:44:37 -0700 (PDT)
+In-Reply-To: <CAG48ez0+KiOhyX1R3=FjWQe5M0MFZ5GC=AkV6ZiSYK3OBXsS+A@mail.gmail.com>
+References: <20180719213802.17161-1-ahmedsoliman0x666@gmail.com>
+ <20180719213802.17161-4-ahmedsoliman0x666@gmail.com> <CAG48ez3EyU=ROBczUdHEuOYBtZghYqOpq3K16Bs4RQLO1OO6oA@mail.gmail.com>
+ <CAAGnT3aQhvHJ4H1vaTYiYotN022wh1if76=xywTVGqA5o_UQrA@mail.gmail.com> <CAG48ez0+KiOhyX1R3=FjWQe5M0MFZ5GC=AkV6ZiSYK3OBXsS+A@mail.gmail.com>
+From:   Ahmed Soliman <ahmedsoliman0x666@gmail.com>
+Date:   Fri, 20 Jul 2018 16:44:37 +0200
+Message-ID: <CAAGnT3a9ckTt3+ati5Xi=7=pcDiXkasZP=t0hrsp9Tw-B6p5DQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] [RFC V3] KVM: X86: Adding skeleton for Memory ROE
+To:     Jann Horn <jannh@google.com>
+Cc:     kvm@vger.kernel.org,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        virtualization@lists.linux-foundation.org,
+        linux-doc@vger.kernel.org,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        David Hildenbrand <david@redhat.com>,
+        Boris Lukashev <blukashev@sempervictus.com>,
+        David Vrabel <david.vrabel@nutanix.com>, nigel.edwards@hpe.com,
+        Rik van Riel <riel@surriel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
-> @@ -1193,6 +1195,8 @@ static int do_huge_pmd_wp_page_fallback(struct vm_fault *vmf, pmd_t orig_pmd,
->  		pte_t entry;
->  		entry = mk_pte(pages[i], vma->vm_page_prot);
->  		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
-> +		if (is_shstk_mapping(vma->vm_flags))
-> +			entry = pte_mkdirty_shstk(entry);
+On 20 July 2018 at 03:28, Jann Horn <jannh@google.com> wrote:
+> On Fri, Jul 20, 2018 at 2:26 AM Ahmed Soliman
+> <ahmedsoliman0x666@gmail.com> wrote:
+>>
+>> On 20 July 2018 at 00:59, Jann Horn <jannh@google.com> wrote:
+>> > On Thu, Jul 19, 2018 at 11:40 PM Ahmed Abd El Mawgood
+>>
+>> > Why are you implementing this in the kernel, instead of doing it in
+>> > host userspace?
+>>
+>> I thought about implementing it completely in QEMU but It won't be
+>> possible for few reasons:
+>>
+>> - After talking to QEMU folks I came up to conclusion that it when it
+>>  comes to managing memory allocated for guest, it is always better to let
+>>  KVM handles everything, unless there is a good reason to play with that
+>>  memory chunk inside QEMU itself.
+>
+> Why? It seems to me like it'd be easier to add a way to mprotect()
+> guest pages to readonly via virtio or whatever in QEMU than to add
+> kernel code?
 
-Peter Z was pointing out that we should get rid of all this generic code
-manipulation.  We might not easily be able to do it *all*, but we can do
-better than what we've got here.
+I did an early prototype with mprotect(), But then mprotect() didn't do exactly
+what I wanted, The goal here is to prevent the guest from writing to protected
+page but allow the host to do if it ever needs to at the same time.
+mprotect() will
+either allow both host and guest, or prevent both host and guest. Even though I
+can not come up with a use case where one might need to allow host to read/write
+to a page but prevent guest from writing to that page, I think that it
+is a limitation
+that will cost complete redesign if it proves that this kind of
+behavior is undesired.
+Also mprotect is kind of inflexible. Writing to mprotected pages would
+immediately
+trigger SIGSEGV and then userspace process will have to handle that
+fault in order
+to control the situation. That sounded to me more like a little hack
+than a solid design.
 
-Basically, if you have code outside of arch/x86 in your patch set that
-refers to shadow stacks, you should consider it a bug (for now),
-especially if you have to hack .c files.
 
-For instance, in the code above, you could move the is_shstk_mapping() into:
+> And if you ever want to support VM snapshotting/resumption, you'll
+> need support for restoring the protection flags from QEMU anyway.
 
-static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
-{
-        if (likely(vma->vm_flags & VM_WRITE))
-                pte = pte_mkwrite(pte);
-	
-+	pte = arch_pte_mkwrite(pte, vma);
-+
-        return pte;
-}
+I never thought about that, but thanks for letting me know. I will keep that in
+my TODO list.
 
-... and add an arch callback that does:
 
-static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
-{
-	if (!is_shstk_mapping(vma->vm_flags))
-		return pte;
+>> - But actually there is a good reason for implementing ROE in kernel space,
+>>  it is that ROE is architecture dependent to great extent.
+>
+> How so? The host component just has to make pages in guest memory
+> readonly, right? As far as I can tell, from QEMU, it'd more or less be
+> a matter of calling mprotect() a few times? (Plus potentially some
+> hooks to prevent other virtio code from crashing by attempting to
+> access protected pages - but you'd need that anyway, no matter where
+> the protection for the guest is enforced.)
 
-	WARN_ON(... pte bits incompatible with shadow stacks?);
+I don't think that virtio would crash that way, because host should be
+able write to memory
+as it wants. but yet I see where there is this going, probably I can
+add hooks so that virtio
+can respect the read only flags.
 
-	/* Lots of comments of course */
-	entry = pte_mkdirty_shstk(entry);
-}
 
-This is just one example.  You are probably going to need a couple of
-similar things.  Just remember: the bar is very high to make changes to
-.c files outside of arch/x86.  You can do a _bit_ more in non-x86
-headers, but you have the most freedom to patch what you want as long as
-it's in arch/x86.
+>> I should have
+>>  emphasized that the only currently supported architecture is X86. I am
+>>  not sure how deep the dependency on architecture goes. But as for now
+>>  the current set of patches does a SPTE enumeration as part of the process.
+>>  To my best knowledge, this isn't exposed outside arch/x68/kvm let alone
+>>  having a host user space interface for it. Also the way I am planning to
+>>  protect TLB from malicious gva -> gpa mapping is by knowing that in x86
+>>  it is possible to VMEXIT on page faults, I am not sure if it will safe to
+>>  assume that all kvm supported architectures will behave this way.
+>
+> You mean EPT faults, right? If so: I think all architectures have to
+> support that - there are already other reasons why random guest memory
+> accesses can fault. In particular, the host can page out guest memory.
+> I think that's the case on all architectures?
+
+Here my lack of full knowledge kicks in, I am not sure whether is EPT fault or
+guest pf is what I want to capture validate. I think X86 can vm exit
+on both. Due to
+nature of ROE, guest user space code can not have ROE because it is
+irreversible, so it will be safe to assume that only pages that are
+not swappable
+are the one's I would care about. still lots of the details are blurry for me.
+But what I was trying to say is that there is always differences based
+on architecture
+that is why it will be better to do things in kernel module if we
+decided not to use
+mprotect method.
+
+
+>> For these reasons I thought it will be better if arch dependent stuff (the
+>> mechanism implementation) is kept in arch/*/kvm folder and with minimal
+>> modifications to virt/kvm/* after setting a kconfig variable to enable ROE.
+>> But I left room for the user space app using kvm to decide the rightful policy
+>> for handling ROE violations. The way it works by KVM_EXIT_MMIO error to user
+>> space, keeping all the architectural details hidden away from user space.
+>>
+>> A last note is that I didn't create this from scratch, instead I extended
+>> KVM_MEM_READONLY implementation to also allow R/O per page instead
+>> R/O per whole slot which is already done in kernel space.
+>
+> But then you still have to also do something about virtio code in QEMU
+> that might write to those pages, right?
+
+Probably yes, still I haven't fully planned that yet. But I was thinking about
+if I can make use of IOMMU protection for DMA and have something
+similar for emulated devices backed by virtio.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
