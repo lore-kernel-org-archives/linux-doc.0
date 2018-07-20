@@ -1,127 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 69C157D085
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 15:02:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BF5BE7D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 15:04:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731968AbeGTPum (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 11:50:42 -0400
-Received: from mga03.intel.com ([134.134.136.65]:7402 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731731AbeGTPum (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Jul 2018 11:50:42 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Jul 2018 08:02:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,380,1526367600"; 
-   d="scan'208";a="73077337"
-Received: from unknown (HELO [143.183.136.146]) ([143.183.136.146])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Jul 2018 08:02:00 -0700
-Message-ID: <1532098688.23487.0.camel@intel.com>
-Subject: Re: [RFC PATCH v2 14/27] mm: Handle THP/HugeTLB shadow stack page
- fault
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Fri, 20 Jul 2018 07:58:08 -0700
-In-Reply-To: <adc8f0b0-e2a5-d3e9-edaf-8d5b3be6a5b6@linux.intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-         <20180710222639.8241-15-yu-cheng.yu@intel.com>
-         <adc8f0b0-e2a5-d3e9-edaf-8d5b3be6a5b6@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1731763AbeGTPwv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 11:52:51 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:39472 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731731AbeGTPwv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 11:52:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=X/YQ9WADySG6qPPI1jIYNSTgs8iZ/cBt/yn6nRQq+AM=; b=IB0gu2XaTzHzWbutwLBKk6kNt
+        98Yt7kuj2/qTu3YpyuyfIIhyWaMFpvDPLklPfvlFGMqOpyfzuZ5fOQi2LKrLX7K7Im5g1PQHGpeUR
+        QcvPEsAB57to5fjJlhV6Xx8QyEjOQ0oCh0jTdwF2ZlpEtvQ7KSFlmhNNYoGS4BzvktQsPP0NVuB4F
+        hqKDAWoNEMLlPUWaXaiceJpda1//PQZ+f596W6hbeHPJ4NvbN+GBx0eOjOt1xqKthkNls+27PxfF4
+        Vl56E/6BaiyTKZvW9N5CUspVcuFMylgE20hN9YvG8rEu4F6xJP2KakogC9wd/gOr8xUBNsKTj+HYI
+        mlBjepI0g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fgWwt-0000Io-0D; Fri, 20 Jul 2018 15:04:03 +0000
+Date:   Fri, 20 Jul 2018 08:04:02 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Sphinx version dependencies?
+Message-ID: <20180720150402.GA32320@infradead.org>
+References: <20180719181556.GA21435@thunk.org>
+ <20180719190400.GB4800@magnolia>
+ <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2018-07-20 at 07:20 -0700, Dave Hansen wrote:
-> On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
-> > 
-> > @@ -1193,6 +1195,8 @@ static int
-> > do_huge_pmd_wp_page_fallback(struct vm_fault *vmf, pmd_t orig_pmd,
-> >  		pte_t entry;
-> >  		entry = mk_pte(pages[i], vma->vm_page_prot);
-> >  		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
-> > +		if (is_shstk_mapping(vma->vm_flags))
-> > +			entry = pte_mkdirty_shstk(entry);
-> Peter Z was pointing out that we should get rid of all this generic
-> code
-> manipulation.  We might not easily be able to do it *all*, but we
-> can do
-> better than what we've got here.
-> 
-> Basically, if you have code outside of arch/x86 in your patch set
-> that
-> refers to shadow stacks, you should consider it a bug (for now),
-> especially if you have to hack .c files.
-> 
-> For instance, in the code above, you could move the
-> is_shstk_mapping() into:
-> 
-> static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct
-> *vma)
-> {
->         if (likely(vma->vm_flags & VM_WRITE))
->                 pte = pte_mkwrite(pte);
-> 	
-> +	pte = arch_pte_mkwrite(pte, vma);
-> +
->         return pte;
-> }
-> 
-> ... and add an arch callback that does:
-> 
-> static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct
-> *vma)
-> {
-> 	if (!is_shstk_mapping(vma->vm_flags))
-> 		return pte;
-> 
-> 	WARN_ON(... pte bits incompatible with shadow stacks?);
-> 
-> 	/* Lots of comments of course */
-> 	entry = pte_mkdirty_shstk(entry);
-> }
-> 
-> This is just one example.  You are probably going to need a couple
-> of
-> similar things.  Just remember: the bar is very high to make changes
-> to
-> .c files outside of arch/x86.  You can do a _bit_ more in non-x86
-> headers, but you have the most freedom to patch what you want as
-> long as
-> it's in arch/x86.
+On Fri, Jul 20, 2018 at 09:30:33AM +0200, Markus Heiser wrote:
+> We have this discussion over and over again an I believe we will have it again
+> and again, as long as we do not change our POV .. building viewing formats is
+> an application not a part of the Kernel.
 
-Ok, I will work on that.  Thanks!
+Sorry, but this is complete and utter bullshit.
 
-Yu-cheng
+If that was the case we could skip all that RST stuff and just stick
+to text files.  If we want fancy docs it better behave like the rest
+of the kernel and just works.  python virtual environments are just
+not going to cut it as they lead to a long-term maintainance nightmare.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
