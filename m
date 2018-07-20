@@ -1,130 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8FA137D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 15:41:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DFFAF7D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 15:45:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387800AbeGTQa1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 12:30:27 -0400
-Received: from sauhun.de ([88.99.104.3]:57802 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731747AbeGTQa0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Jul 2018 12:30:26 -0400
-Received: from localhost (p54B33241.dip0.t-ipconnect.de [84.179.50.65])
-        by pokefinder.org (Postfix) with ESMTPSA id 2416E5E000F;
-        Fri, 20 Jul 2018 17:41:33 +0200 (CEST)
-Date:   Fri, 20 Jul 2018 17:41:32 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Peter Rosin <peda@axentia.se>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>
-Subject: Re: [PATCH v6 00/10] Add the I3C subsystem
-Message-ID: <20180720154132.2fwmwpiwtxa73ljf@ninjato>
-References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
- <CAK8P3a2MP5+oFz--e+BM24D8Ahw7H_RKgN1S6wY1nQE6JL0dmw@mail.gmail.com>
- <2ab0ab75-2df0-2714-f007-c33b25481016@axentia.se>
- <20180720101206.tv7nsoanwo5ftnia@ninjato>
- <CAK8P3a2Pqo5DuYBb09+w4nGWGOw+e_tZPxnA06qjNO_6Hw6NvQ@mail.gmail.com>
- <21b269c5-a3a7-c5de-c81e-c9c9301ae13e@axentia.se>
- <CAK8P3a1t2fhdw7HwxNkOs9o2pBECZ0ZdOysA=r2SPTWEvx76kw@mail.gmail.com>
- <a74a7472-e900-d031-d10b-b12f03ea9ff1@axentia.se>
+        id S1731892AbeGTQeG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 12:34:06 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:40102 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731583AbeGTQeG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 12:34:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=CTrgbzCEKwqwIlnAuzvzAfy7hiCeZtkIp3hlVKFAupY=; b=ZDkXng6iPrf7HgV0QmP6nbYJZ
+        iepEUF6kOnr6mFNCo5Rd5SuQb2txNi/aPqt3Al2wttST8EAwOA/ClV6akx5jFIfu3qp/1RejfCf+u
+        jjMq2z7TQQOQG05F47AQQtLOc71uyHpEdV7AitHRuCCx0U8jnBEBNRwGvC0XUc0g/OCMXe2pgFALw
+        ZKsWMEpmR8nXpDCyaq6mJ4cvAMzJxzmjMzGIhgNmHziQfbOMPL7OUPTopKK1uSaJh8H/2RDIVzNp3
+        jh273DMC6davrkmmBvfNAgZ4L4JIfKXEO8qXnG6ddf5NrXzwrtHsJfWu7+r39njbXElf/5oJU2LDk
+        6Q5x2bmiQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fgXaS-0006CY-SX; Fri, 20 Jul 2018 15:44:57 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0C9DE20275F37; Fri, 20 Jul 2018 17:44:54 +0200 (CEST)
+Date:   Fri, 20 Jul 2018 17:44:54 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Waiman Long <longman@redhat.com>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
+ on cgroup v2 root
+Message-ID: <20180720154454.GR2494@hirez.programming.kicks-ass.net>
+References: <20180702165322.GI533219@devbig577.frc2.facebook.com>
+ <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
+ <20180703155823.GS533219@devbig577.frc2.facebook.com>
+ <20180719135224.GE2494@hirez.programming.kicks-ass.net>
+ <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
+ <20180719153045.GT72677@devbig577.frc2.facebook.com>
+ <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
+ <20180719165201.GU72677@devbig577.frc2.facebook.com>
+ <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
+ <20180720114549.GY72677@devbig577.frc2.facebook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="5qjmuivse67kaw4q"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a74a7472-e900-d031-d10b-b12f03ea9ff1@axentia.se>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20180720114549.GY72677@devbig577.frc2.facebook.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Jul 20, 2018 at 04:45:49AM -0700, Tejun Heo wrote:
 
---5qjmuivse67kaw4q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> > > Hmm... so a given ancestor must be able to both
+> > > 
+> > > 1. control which cpus are moved into a partition in all of its
+> > >    subtree.
+> > 
+> > By virtue of the partition file being owned by the parent, this is
+> > already achived, no?
+> 
+> The currently proposed implementation is somewhere in the middle.  It
+> kinda gets there by restricting a partition to be a child of another
+> partition, which may be okay but it does make the whole delegation
+> mechanism less useful.
 
+So the implementation does not set ownership of the 'partition' file to
+that of the parent directory? Because _that_ is what I understood from
+Waiman (many versions ago). And that _does_ allow delegation to work
+nicely.
 
-> I don't have an actual example for I2C, maybe Wolfram does? But I can
-> invent a case. E.g. the speedy DMA-enabled master cannot generate
-> RESTART, which is a must for (re-)configuration, but not for passing
-> data to the device.
+> > > 2. take away any given cpu from ist subtree.
+> > 
+> > I really hate this obsession of yours and doubly so for partitions. But
+> > why would this currently not be allowed?
+> 
+> Well, sorry that you hate it.  It's a fundamental architectural
+> constraint.  If it can't satisfy that, it should't be in cgroup.
 
-DMA capable controllers may also not react adequate to the slave doing
-clock stretching (which is forbidden in I3C).
+So is hierarchical behaviour; but you seem willing to forgo that.
 
-Renesas R-Car Gen2 has two I2C IP cores. One can do DMA and automatic
-transfers to the PMIC, the other has I2C slave functionality. One cannot
-do I2C_SMBUS_QUICK, the other can. And some more kind of quirks.
-Sometimes you can mux the pins to GPIO, so you have a third option.
-
-This setup is the reason the demux driver exists.
-
-> Also consider some future HW that has several I3C blocks, but they
-> are not identical. There's one beefy kind and one slim kind (I'm sure
-> you can find HW with different flavors of I2C blocks). Even if the
-> HW designers intended for one type of block to be superior in every
-> aspect, they might have made a mistake? This HW also has a pinmux, so
-> the SW is free to route different I3C blocks to the actual I3C bus.
-
-So, basically this is what happened with R-Car. Now, I tend to think
-that I3C is much more complex and noone would put two I3C IP cores into
-on SoC. But it was not too long ago that I wouldn't believe someone put
-two different I2C IP cores into a SoC. Then again, it happened when I2C
-was around for 35 years...
-
-
---5qjmuivse67kaw4q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAltSAqgACgkQFA3kzBSg
-KbbN1g//WcDSNStRmr0iBDO0XSjnWhcI+kcUTf8ETxISUPklVAzkORin4E42FKXC
-soxRpX/m7z5tU5QjHJRq5MFXFp3JShO3kUpofLAhC6eQt60C75Unk48QP7Doktmg
-Rx4OoWOkNwykZEYglRN1pSjdCzu0kRboRsxpAuUD41YVSRebRdzxwXpgVEUeA9pG
-W4apNVpmjn1CBxDP9UmM7rE+6hJIUS5tzA0KtRHaF3QoAn2kH1F/c+lHFYaTqSUR
-WZw7hcyIOky6ylSQShY2OTV4xurZm8Qx84QE0i+DJ9VENTMuhvZisEKlxm5pSelL
-TGWqDNHe16kxNMaheRP/rZVMlbLosbtlhvRrrYwfoH+1M2tl50nk7rDCqd/EBgv/
-KIrCprk6tZeSITJUd+GO5Srx3JYD1Cwj0L9wbt0IEHHj+ZamisgO5VhqqqcXcp0e
-NXPsp1vcbnoUTNqk7P8yK6UDlhSRoCbcMlQ0BE6hm6qvwYfwLHnLlVnDi9fShsnd
-m4ielcyEKVvj8VSufzYNuRy3G0FZmujMJJlnaMa/ZqESjfaRquWlhKvpwDyvghdC
-5i0VNH1dAJoCyMejMlMFTLc/4+Gew1I6p0pCmfI5NJDLmyTuQQpRk4lA57qHueY4
-4hkWptnUuKNTE1+C7xXKj25gm/lnr4HoF+4aT1H6vI6FNT1y8OI=
-=nV3b
------END PGP SIGNATURE-----
-
---5qjmuivse67kaw4q--
+Still, the question was, how is this (dispicable or not) behaviour not
+allowed by the current implementation?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
