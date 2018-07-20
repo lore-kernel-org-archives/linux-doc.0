@@ -6,47 +6,47 @@ X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2BAA37D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 23:32:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2B7E7D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 23:32:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728398AbeGUAXJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 20:23:09 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:38223 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727812AbeGUAXJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 20:23:09 -0400
-Received: by mail-ed1-f66.google.com with SMTP id t2-v6so10952256edr.5;
-        Fri, 20 Jul 2018 16:32:40 -0700 (PDT)
+        id S1728585AbeGUAXN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 20:23:13 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:43702 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728469AbeGUAXN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 20:23:13 -0400
+Received: by mail-ed1-f65.google.com with SMTP id b20-v6so10951895edt.10;
+        Fri, 20 Jul 2018 16:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=uZEtkX0PPZKorG/JXchp6jfbakQsYoY5ofcxslL+ZhE=;
-        b=LmsZvUZWQj41rO3IEkuuMK72gV2IIyXbNp+v+sf5wEfKKZ8G9eZfREAMan4wpiIBiH
-         4G1U1EiK8IKkBWl/NKPoSYjsM3OVSbkVqv2V72V/h4lOzlje+lsP0teVSnk4jnI71sYE
-         b0Z+jkcXXtyPTFCX26ckj1ggjmH87o8+MErk4G2l3/wBS3KL9ypdBaZM+Fxb6iZ1PZLx
-         pmuLStRf/1Nf6SMmbPesdXbAUAI03vRVbJFPHAvSPb0Z91b4RdgUYuhfY0W0EWERA+UP
-         hLbXKu7rF4fIKE8FKpCAGEwtZlLleUJoW4UgkC1hAkWndzf26T+6YQAjSGO3mKrRzy7D
-         t4cQ==
+        bh=9C8qpNYvHyGQ1129baPOpZj+Z9WVomApri//w41v92Q=;
+        b=E+Qav9TIaP72dzg+2Y3nW0GWlmxvl1yy7eTY2AdazvWDZ4ufDm6W1e3K0E2rPdRYo8
+         j0nggZLL3JeC4a8vpMdwxsJAp4eL1Zcus2NhRpn9khJGC+zmqI4Ap0NHo/eZELdhKMfR
+         trjGuWv9X6dgH29MYyq84zG13u8tSVUXBRXHDVVFavMfov6H2VsG6t9XEd1x8fk1PgH+
+         mg7Gj2XRv6qg0KcN/tAU/SmXYX68GxI0Bgex5Jt73mxVpqbHjPDyML1qXd5fqk0rWFsB
+         ulTWZWHWutip2IYahfBV8cZ0/nL5RfEoLbMNsPlQtvtuvYwNm0Edr3BBYdZ5i+93rrT+
+         swAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=uZEtkX0PPZKorG/JXchp6jfbakQsYoY5ofcxslL+ZhE=;
-        b=mL7vo983vHU42BbdkJNDGiUb6uTKqZg8vX41rqnE3pTG3g5g8H4lS+vAqDW8CUM2Z5
-         iNNLXPfmPsiDi5Or8BzfR/6s7T7lm0rFBD7qBy88OidQvWuGzs7NCrGA8+0Cvi86yvpd
-         IR6+7a+shLxl5f9o6GbdL4IsX6giu6RkvaP6NI9j4BaiP1wQIPkQFtVtsT4qP3+jjw3D
-         JzALGxgcqJT7wwCiAqezCZjR+OO5DF8iK3rnso81CmPYinCw5dBAT9MIBGB7rgsJLCOJ
-         ZZO+OQkI2KC/mDvitcRdVf/TuzzjnKk+rDSpgBJoe8J1vNfH97OI/RsEzHr7K9KMxQ8F
-         X2/w==
-X-Gm-Message-State: AOUpUlFdTCdPQ+NQwSYaGkGf3XVf1+fa3G8ZHa/TSUJ0wbULnv1QBpYa
-        D4WykD90sSj+BnaRAfA4OKxM6u7ChHE=
-X-Google-Smtp-Source: AAOMgpfuB4en0+sTAwTnwUnAy/VSaHuqANm3ig6Gaw2dAiLUr5lwvCwEExWBI3EXiHhECkwq6EoxWw==
-X-Received: by 2002:a50:b5a5:: with SMTP id a34-v6mr4288680ede.88.1532129559636;
-        Fri, 20 Jul 2018 16:32:39 -0700 (PDT)
+        bh=9C8qpNYvHyGQ1129baPOpZj+Z9WVomApri//w41v92Q=;
+        b=XAeGh24yzF4nCYZ85u74yxwGXoLaRMFElrTm5eOZzZvwVCf4n+dmU0ucFbpbXwBvJI
+         t5Aj30QMMf7OsgMCPgVZ+sqjXkkGr2IOU1nTHiQdMRFL23Z1z3tBfGEPMllOD5q6cxSM
+         LEoLfCpNu45OwSYAVMUe3gbvgDuP9s1yvS0va0uTzLSpNO+iEjK+zZE00GTNPG2pUkLL
+         0BKwhWf/KggG1ococ1hYXRV7sCflIDFrGLSzd9w3xqmxoBz4lj5jfTQZQtlwMo7nHOQz
+         UpYP65UEt3FzHoY3yw8Y61ncAHb6PIkcerKc05LXSrKA55S3EAuQxf2m6Pi9zbvWut0Y
+         ccCA==
+X-Gm-Message-State: AOUpUlHAQkgHHGYAwueGgFkAzOXL7P9vSDEfwC4sNa5ie+DEqA74eltG
+        9iUTHHR+NNVhbzcRT2FlkolNsR3eWdw=
+X-Google-Smtp-Source: AAOMgpd5U1BHQqpUQNZobs9Kqsw5jaWYqb3TNXp9K3vjYZ5ogSWh8/z+3G7vNPfTVE/e55yaK033Cw==
+X-Received: by 2002:a50:b505:: with SMTP id y5-v6mr4252107edd.195.1532129563314;
+        Fri, 20 Jul 2018 16:32:43 -0700 (PDT)
 Received: from localhost.localdomain ([41.35.209.101])
-        by smtp.gmail.com with ESMTPSA id p12-v6sm1117092eds.13.2018.07.20.16.32.35
+        by smtp.gmail.com with ESMTPSA id p12-v6sm1117092eds.13.2018.07.20.16.32.39
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Jul 2018 16:32:39 -0700 (PDT)
+        Fri, 20 Jul 2018 16:32:42 -0700 (PDT)
 From:   Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
 To:     kvm@vger.kernel.org,
         Kernel Hardening <kernel-hardening@lists.openwall.com>,
@@ -64,9 +64,9 @@ Cc:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         David Vrabel <david.vrabel@nutanix.com>, nigel.edwards@hpe.com,
         Rik van Riel <riel@surriel.com>,
         Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
-Subject: [PATCH RFC V4 1/3] KVM: X86: Memory ROE documentation
-Date:   Sat, 21 Jul 2018 01:31:28 +0200
-Message-Id: <20180720233130.14129-2-ahmedsoliman0x666@gmail.com>
+Subject: [PATCH RFC V4 2/3] KVM: X86: Adding arbitrary data pointer in kvm memslot iterator functions
+Date:   Sat, 21 Jul 2018 01:31:29 +0200
+Message-Id: <20180720233130.14129-3-ahmedsoliman0x666@gmail.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20180720233130.14129-1-ahmedsoliman0x666@gmail.com>
 References: <20180720233130.14129-1-ahmedsoliman0x666@gmail.com>
@@ -75,39 +75,246 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Following up with my previous threads on KVM assisted Anti rootkit
-protections.
-The current version doesn't address the attacks involving pages
-remapping. It is still design in progress, nevertheless, it will be in
-my later patch sets.
+This will help sharing data into the slot_level_handler callback. In my
+case I need to a share a counter for the pages traversed to use it in some
+bitmap. Being able to send arbitrary memory pointer into the
+slot_level_handler callback made it easy.
 
 Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
 ---
- Documentation/virtual/kvm/hypercalls.txt | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ arch/x86/kvm/mmu.c | 65 +++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 37 insertions(+), 28 deletions(-)
 
-diff --git a/Documentation/virtual/kvm/hypercalls.txt b/Documentation/virtual/kvm/hypercalls.txt
-index a890529c63ed..affd997eabfe 100644
---- a/Documentation/virtual/kvm/hypercalls.txt
-+++ b/Documentation/virtual/kvm/hypercalls.txt
-@@ -121,3 +121,17 @@ compute the CLOCK_REALTIME for its clock, at the same instant.
+diff --git a/arch/x86/kvm/mmu.c b/arch/x86/kvm/mmu.c
+index d594690d8b95..77661530b2c4 100644
+--- a/arch/x86/kvm/mmu.c
++++ b/arch/x86/kvm/mmu.c
+@@ -1418,7 +1418,7 @@ static bool spte_write_protect(u64 *sptep, bool pt_protect)
  
- Returns KVM_EOPNOTSUPP if the host does not use TSC clocksource,
- or if clock type is different than KVM_CLOCK_PAIRING_WALLCLOCK.
-+
-+7. KVM_HC_HMROE
-+----------------
-+Architecture: x86
-+Status: active
-+Purpose: Hypercall used to apply Read-Only Enforcement to guest pages
-+Usage:
-+     a0: Start address aligned to page boundary.
-+     a1: Number of pages to be protected.
-+This hypercall lets a guest kernel have part of its read/write memory
-+converted into read-only.  This action is irreversible. KVM_HC_HMROE can
-+not be triggered from guest Ring 3 (user mode). The reason is that user
-+mode malicious software can make use of it to enforce read only protection
-+on an arbitrary memory page thus crashing the kernel.
+ static bool __rmap_write_protect(struct kvm *kvm,
+ 				 struct kvm_rmap_head *rmap_head,
+-				 bool pt_protect)
++				 bool pt_protect, void *data)
+ {
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -1457,7 +1457,8 @@ static bool wrprot_ad_disabled_spte(u64 *sptep)
+  *	- W bit on ad-disabled SPTEs.
+  * Returns true iff any D or W bits were cleared.
+  */
+-static bool __rmap_clear_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head)
++static bool __rmap_clear_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
++				void *data)
+ {
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -1483,7 +1484,8 @@ static bool spte_set_dirty(u64 *sptep)
+ 	return mmu_spte_update(sptep, spte);
+ }
+ 
+-static bool __rmap_set_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head)
++static bool __rmap_set_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
++				void *data)
+ {
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -1515,7 +1517,7 @@ static void kvm_mmu_write_protect_pt_masked(struct kvm *kvm,
+ 	while (mask) {
+ 		rmap_head = __gfn_to_rmap(slot->base_gfn + gfn_offset + __ffs(mask),
+ 					  PT_PAGE_TABLE_LEVEL, slot);
+-		__rmap_write_protect(kvm, rmap_head, false);
++		__rmap_write_protect(kvm, rmap_head, false, NULL);
+ 
+ 		/* clear the first set bit */
+ 		mask &= mask - 1;
+@@ -1541,7 +1543,7 @@ void kvm_mmu_clear_dirty_pt_masked(struct kvm *kvm,
+ 	while (mask) {
+ 		rmap_head = __gfn_to_rmap(slot->base_gfn + gfn_offset + __ffs(mask),
+ 					  PT_PAGE_TABLE_LEVEL, slot);
+-		__rmap_clear_dirty(kvm, rmap_head);
++		__rmap_clear_dirty(kvm, rmap_head, NULL);
+ 
+ 		/* clear the first set bit */
+ 		mask &= mask - 1;
+@@ -1594,7 +1596,8 @@ bool kvm_mmu_slot_gfn_write_protect(struct kvm *kvm,
+ 
+ 	for (i = PT_PAGE_TABLE_LEVEL; i <= PT_MAX_HUGEPAGE_LEVEL; ++i) {
+ 		rmap_head = __gfn_to_rmap(gfn, i, slot);
+-		write_protected |= __rmap_write_protect(kvm, rmap_head, true);
++		write_protected |= __rmap_write_protect(kvm, rmap_head, true,
++				NULL);
+ 	}
+ 
+ 	return write_protected;
+@@ -1608,7 +1611,8 @@ static bool rmap_write_protect(struct kvm_vcpu *vcpu, u64 gfn)
+ 	return kvm_mmu_slot_gfn_write_protect(vcpu->kvm, slot, gfn);
+ }
+ 
+-static bool kvm_zap_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head)
++static bool kvm_zap_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
++		void *data)
+ {
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -1628,7 +1632,7 @@ static int kvm_unmap_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+ 			   struct kvm_memory_slot *slot, gfn_t gfn, int level,
+ 			   unsigned long data)
+ {
+-	return kvm_zap_rmapp(kvm, rmap_head);
++	return kvm_zap_rmapp(kvm, rmap_head, NULL);
+ }
+ 
+ static int kvm_set_pte_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+@@ -5086,13 +5090,15 @@ void kvm_mmu_uninit_vm(struct kvm *kvm)
+ }
+ 
+ /* The return value indicates if tlb flush on all vcpus is needed. */
+-typedef bool (*slot_level_handler) (struct kvm *kvm, struct kvm_rmap_head *rmap_head);
++typedef bool (*slot_level_handler) (struct kvm *kvm,
++		struct kvm_rmap_head *rmap_head, void *data);
+ 
+ /* The caller should hold mmu-lock before calling this function. */
+ static __always_inline bool
+ slot_handle_level_range(struct kvm *kvm, struct kvm_memory_slot *memslot,
+ 			slot_level_handler fn, int start_level, int end_level,
+-			gfn_t start_gfn, gfn_t end_gfn, bool lock_flush_tlb)
++			gfn_t start_gfn, gfn_t end_gfn, bool lock_flush_tlb,
++			void *data)
+ {
+ 	struct slot_rmap_walk_iterator iterator;
+ 	bool flush = false;
+@@ -5100,7 +5106,7 @@ slot_handle_level_range(struct kvm *kvm, struct kvm_memory_slot *memslot,
+ 	for_each_slot_rmap_range(memslot, start_level, end_level, start_gfn,
+ 			end_gfn, &iterator) {
+ 		if (iterator.rmap)
+-			flush |= fn(kvm, iterator.rmap);
++			flush |= fn(kvm, iterator.rmap, data);
+ 
+ 		if (need_resched() || spin_needbreak(&kvm->mmu_lock)) {
+ 			if (flush && lock_flush_tlb) {
+@@ -5122,36 +5128,36 @@ slot_handle_level_range(struct kvm *kvm, struct kvm_memory_slot *memslot,
+ static __always_inline bool
+ slot_handle_level(struct kvm *kvm, struct kvm_memory_slot *memslot,
+ 		  slot_level_handler fn, int start_level, int end_level,
+-		  bool lock_flush_tlb)
++		  bool lock_flush_tlb, void *data)
+ {
+ 	return slot_handle_level_range(kvm, memslot, fn, start_level,
+ 			end_level, memslot->base_gfn,
+ 			memslot->base_gfn + memslot->npages - 1,
+-			lock_flush_tlb);
++			lock_flush_tlb, data);
+ }
+ 
+ static __always_inline bool
+ slot_handle_all_level(struct kvm *kvm, struct kvm_memory_slot *memslot,
+-		      slot_level_handler fn, bool lock_flush_tlb)
++		      slot_level_handler fn, bool lock_flush_tlb, void *data)
+ {
+ 	return slot_handle_level(kvm, memslot, fn, PT_PAGE_TABLE_LEVEL,
+-				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb);
++				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb, data);
+ }
+ 
+ static __always_inline bool
+ slot_handle_large_level(struct kvm *kvm, struct kvm_memory_slot *memslot,
+-			slot_level_handler fn, bool lock_flush_tlb)
++			slot_level_handler fn, bool lock_flush_tlb, void *data)
+ {
+ 	return slot_handle_level(kvm, memslot, fn, PT_PAGE_TABLE_LEVEL + 1,
+-				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb);
++				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb, data);
+ }
+ 
+ static __always_inline bool
+ slot_handle_leaf(struct kvm *kvm, struct kvm_memory_slot *memslot,
+-		 slot_level_handler fn, bool lock_flush_tlb)
++		 slot_level_handler fn, bool lock_flush_tlb, void *data)
+ {
+ 	return slot_handle_level(kvm, memslot, fn, PT_PAGE_TABLE_LEVEL,
+-				 PT_PAGE_TABLE_LEVEL, lock_flush_tlb);
++				 PT_PAGE_TABLE_LEVEL, lock_flush_tlb, data);
+ }
+ 
+ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+@@ -5173,7 +5179,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+ 
+ 			slot_handle_level_range(kvm, memslot, kvm_zap_rmapp,
+ 						PT_PAGE_TABLE_LEVEL, PT_MAX_HUGEPAGE_LEVEL,
+-						start, end - 1, true);
++						start, end - 1, true, NULL);
+ 		}
+ 	}
+ 
+@@ -5181,9 +5187,10 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+ }
+ 
+ static bool slot_rmap_write_protect(struct kvm *kvm,
+-				    struct kvm_rmap_head *rmap_head)
++				    struct kvm_rmap_head *rmap_head,
++				    void *data)
+ {
+-	return __rmap_write_protect(kvm, rmap_head, false);
++	return __rmap_write_protect(kvm, rmap_head, false, data);
+ }
+ 
+ void kvm_mmu_slot_remove_write_access(struct kvm *kvm,
+@@ -5193,7 +5200,7 @@ void kvm_mmu_slot_remove_write_access(struct kvm *kvm,
+ 
+ 	spin_lock(&kvm->mmu_lock);
+ 	flush = slot_handle_all_level(kvm, memslot, slot_rmap_write_protect,
+-				      false);
++				      false, NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ 
+ 	/*
+@@ -5219,7 +5226,8 @@ void kvm_mmu_slot_remove_write_access(struct kvm *kvm,
+ }
+ 
+ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
+-					 struct kvm_rmap_head *rmap_head)
++					 struct kvm_rmap_head *rmap_head,
++					 void *data)
+ {
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -5257,7 +5265,7 @@ void kvm_mmu_zap_collapsible_sptes(struct kvm *kvm,
+ 	/* FIXME: const-ify all uses of struct kvm_memory_slot.  */
+ 	spin_lock(&kvm->mmu_lock);
+ 	slot_handle_leaf(kvm, (struct kvm_memory_slot *)memslot,
+-			 kvm_mmu_zap_collapsible_spte, true);
++			 kvm_mmu_zap_collapsible_spte, true, NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ }
+ 
+@@ -5267,7 +5275,7 @@ void kvm_mmu_slot_leaf_clear_dirty(struct kvm *kvm,
+ 	bool flush;
+ 
+ 	spin_lock(&kvm->mmu_lock);
+-	flush = slot_handle_leaf(kvm, memslot, __rmap_clear_dirty, false);
++	flush = slot_handle_leaf(kvm, memslot, __rmap_clear_dirty, false, NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ 
+ 	lockdep_assert_held(&kvm->slots_lock);
+@@ -5290,7 +5298,7 @@ void kvm_mmu_slot_largepage_remove_write_access(struct kvm *kvm,
+ 
+ 	spin_lock(&kvm->mmu_lock);
+ 	flush = slot_handle_large_level(kvm, memslot, slot_rmap_write_protect,
+-					false);
++					false, NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ 
+ 	/* see kvm_mmu_slot_remove_write_access */
+@@ -5307,7 +5315,8 @@ void kvm_mmu_slot_set_dirty(struct kvm *kvm,
+ 	bool flush;
+ 
+ 	spin_lock(&kvm->mmu_lock);
+-	flush = slot_handle_all_level(kvm, memslot, __rmap_set_dirty, false);
++	flush = slot_handle_all_level(kvm, memslot, __rmap_set_dirty, false,
++			NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ 
+ 	lockdep_assert_held(&kvm->slots_lock);
 -- 
 2.16.4
 
