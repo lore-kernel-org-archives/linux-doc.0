@@ -5,131 +5,109 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 83D587D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 16:00:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5ECEE7DE80
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 16:19:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731608AbeGTQt3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 12:49:29 -0400
-Received: from smtp3-1.goneo.de ([85.220.129.38]:32781 "EHLO smtp3-1.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728409AbeGTQt3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Jul 2018 12:49:29 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp3.goneo.de (Postfix) with ESMTP id 85C4723F7DE;
-        Fri, 20 Jul 2018 18:00:30 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp3.goneo.de ([127.0.0.1])
-        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 0YsKOzmgi-Yg; Fri, 20 Jul 2018 18:00:29 +0200 (CEST)
-Received: from ryzen (dyndsl-091-248-138-213.ewe-ip-backbone.de [91.248.138.213])
-        by smtp3.goneo.de (Postfix) with ESMTPSA id ED4FD23F6B7;
-        Fri, 20 Jul 2018 18:00:28 +0200 (CEST)
-Message-ID: <cd31ba58ac24851698e06628ceebce4648345ff6.camel@darmarit.de>
-Subject: Re: Sphinx version dependencies?
-From:   Markus Heiser <markus.heiser@darmarit.de>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 20 Jul 2018 18:00:28 +0200
-In-Reply-To: <20180720145235.GA27862@thunk.org>
-References: <20180719181556.GA21435@thunk.org>
-         <20180719190400.GB4800@magnolia>
-         <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
-         <20180720131206.GM30706@thunk.org>
-         <d064f468ab9fc60a02242331e0dddc185d6556ba.camel@darmarit.de>
-         <20180720145235.GA27862@thunk.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S2387920AbeGTRIa convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 13:08:30 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:47998 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2387855AbeGTRIa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Jul 2018 13:08:30 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 6D72A81A4EA6;
+        Fri, 20 Jul 2018 16:19:30 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8A7FA2026D69;
+        Fri, 20 Jul 2018 16:19:29 +0000 (UTC)
+Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
+ on cgroup v2 root
+To:     Tejun Heo <tj@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+Cc:     Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+References: <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
+ <20180703155823.GS533219@devbig577.frc2.facebook.com>
+ <20180719135224.GE2494@hirez.programming.kicks-ass.net>
+ <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
+ <20180719153045.GT72677@devbig577.frc2.facebook.com>
+ <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
+ <20180719165201.GU72677@devbig577.frc2.facebook.com>
+ <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
+ <20180720114549.GY72677@devbig577.frc2.facebook.com>
+ <20180720154454.GR2494@hirez.programming.kicks-ass.net>
+ <20180720155613.GB1934745@devbig577.frc2.facebook.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <4857a9db-ebf5-24f8-c42d-d795f5c75854@redhat.com>
+Date:   Fri, 20 Jul 2018 12:19:29 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
+MIME-Version: 1.0
+In-Reply-To: <20180720155613.GB1934745@devbig577.frc2.facebook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 20 Jul 2018 16:19:30 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 20 Jul 2018 16:19:30 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am Freitag, den 20.07.2018, 10:52 -0400 schrieb Theodore Y. Ts'o:
-> On Fri, Jul 20, 2018 at 03:45:37PM +0200, Markus Heiser wrote:
-> > Am Freitag, den 20.07.2018, 09:12 -0400 schrieb Theodore Y. Ts'o:
-> > > I'm not entirely sure what's the best approach.  Right now I just want
-> > > to understand --- do I have to make ext4.rst work against one, or many
-> > > versions of Sphinx?  And which version(s) of Sphinx do I need to
-> > > concern myself with?  If that turns out to be an onerous burden, I'm
-> > > sure I won't be the only person complaining.  :-)
-> > 
-> > In that case ...
-> > 
-> > > But when I did that, Sphinx had heartburn over the ext4.rst file.
-> > > 
-> > >     ./include/linux/spi/spi.h:373: ERROR: Unexpected indentation.
-> > >     /usr/projects/linux/ext4/Documentation/filesystems/ext4/ext4.rst:139: ERROR: Malformed table.
-> > >     Column span alignment problem in table line 5.
-> > 
-> > ... its clear; the table was malformed. A markup error which is not detected
-> > by older versions of docutils (very special case).
-> 
-> ... except that newer verions are A-OK with it.  Apparently 1.3.x was
-> OK with it, and 1.6.x and 1.7.x were ok with it.  ***ONLY*** Sphinx
-> 1.4.9 blew up on the "malformed table".
+On 07/20/2018 11:56 AM, Tejun Heo wrote:
+> Hello, Peter.
+>
+> On Fri, Jul 20, 2018 at 05:44:54PM +0200, Peter Zijlstra wrote:
+>>> The currently proposed implementation is somewhere in the middle.  It
+>>> kinda gets there by restricting a partition to be a child of another
+>>> partition, which may be okay but it does make the whole delegation
+>>> mechanism less useful.
+>> So the implementation does not set ownership of the 'partition' file to
+>> that of the parent directory? Because _that_ is what I understood from
+>> Waiman (many versions ago). And that _does_ allow delegation to work
+>> nicely.
+> So, that part isn't the problem.  The problem is that if we allow
+> partitioning nested further away from ancestor, the descendant would
+> be able to take away reources from the removed ancestor.  Waiman
+> avoids this problem by only allowing partitions to nest but then it's
+> kinda weird cuz it's just a separate tree.
 
-Are you sure that it was not due to the docutils version?
-I can't reproduce it but the table parser is a part of docutils.
-
-> 
-> So in this case, Darrick has come up with a patch that is makes it OK
-> with 1.4.9 without breaking on 1.7.5 --- and obviously, doing
-> something that makes it broadly portable is the right thing.
-
-Right, fix it by the markup .. is what I recommend.
-
-> I'm asking a larger question, which is moving forward, which is more
-> important?  Make it work with Sphinx 1.4.9?  Or making it Sphinx work
-> with Sphinx 1.7.5?
-> 
-> And should we change Documentation/sphinx/requirements.txt to require
-> something newer, such as Sphinx 1.7.5?  And should we require that
-> Ubuntu 18.04 which is using Sphinx 1.6.8 use a virtualenv and use
-> download Sphinx 1.6.8?
-
-The requirements.txt came from commit fb947f3f47 [1] (inital 24071ac1a6).
-Where Jon and Mauro decided to tag explicit versions ...
-
-docutils==0.12
-Sphinx==1.4.9
-sphinx_rtd_theme
-
-Maybe it is time to switch to something like .. ?
-
-Sphinx>=1.4.9
-sphinx_rtd_theme
-
-I don't know. Mauro has tested on many distros, he has more experience with
-the wide range of distros then I.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fb947f3f47
-
-> 
-> My understanding that the Sphinx developers make no guarantees that if
-> we follow some external, version-indepedent spec, that it will work on
-> Sphinx version N, as well as Sphinx version N+1.  (In the ideal world,
-> if there was such an independent spec for .rst format files, and a
-> compliant .rst file doesn't work for Sphinx version N, it's a bug, and
-> we should expect somebody --- perhaps the Distro's --- to backport the
-> fix from Sphinx version N+1 to Sphinx version N.)  E.g., is there an
-> equivalent for ANSI C 1999 standard for .rst files?
-
-The reST markup is specified here:
-
- http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
-
-but the (last) example of the simple table does not match your "1.4.9"
-experience.
-
--- Markus --
+The rationale behind the current design is that a parent is allowed to
+create a child partition if it fully owns all the cpus it has. That is
+true only if it is a partition itself. IOW, making a cpuset a partition
+won't affect any ancestors other than the parent.
 
 
-> 
-> 		       	      	   	    - Ted
+>>>>> 2. take away any given cpu from ist subtree.
+>>>> I really hate this obsession of yours and doubly so for partitions. But
+>>>> why would this currently not be allowed?
+>>> Well, sorry that you hate it.  It's a fundamental architectural
+>>> constraint.  If it can't satisfy that, it should't be in cgroup.
+>> So is hierarchical behaviour; but you seem willing to forgo that.
+> Well, we do have root or first-level only things.  Things just need to
+> be properly delegatable when they're hierarchical (and things should
+> be hierarchical only when that actually means something).  While not
+> desirable, considering the history, accomodating this specific usage
+> that way seems acceptable to me.
+
+I am not against the idea of making it hierarchical eventually. I am
+just hoping to get thing going by merging the patchset in its current
+form and then we can make it hierarchical in a followup patch.
+
+Cheers,
+Longman
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
