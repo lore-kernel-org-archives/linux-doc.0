@@ -1,126 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 587CB7D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 16:25:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A2427D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 16:28:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387910AbeGTRON (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 13:14:13 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36002 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387909AbeGTRON (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 13:14:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=3Cqmez5xv91CGTI0za12HyrLz9SVqDku4azKe5IUmDc=; b=bS0deEeetcouwZvmTdzTV/3eo
-        kUbcdqOBJix8/K9j5QDOm6uNlFX/KGIuh7lVxLzQSnRA/5fFGQF6mjapXdPYEQu95OWAksWqFgMHa
-        pEfwCDh2qrvdGQRtCHTN53r8Xnbwsvo+kO04W1BpmanHexge2kMTTF3TjLh8jn38psqreG2iJHBK/
-        2HUNOGsCTJiPY/dVroO5lGhBFJJXgRuYY3YXmPMnKkBtBIVFmDKN7ZLUfrBrvIFp/EKb0jMcff0F7
-        Z8GWMY/1sJrhIFAq9vqsUSbgbeKUvyPlpGCUKepo1ZneDY+K1RvxGMtQutfjh+mZmbE4ynPhb4ozk
-        4c8NWqO1g==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fgYDG-0003hE-Tt; Fri, 20 Jul 2018 16:25:03 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id D056C20275F4B; Fri, 20 Jul 2018 18:25:00 +0200 (CEST)
-Date:   Fri, 20 Jul 2018 18:25:00 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Waiman Long <longman@redhat.com>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-Message-ID: <20180720162500.GT2494@hirez.programming.kicks-ass.net>
-References: <20180703155823.GS533219@devbig577.frc2.facebook.com>
- <20180719135224.GE2494@hirez.programming.kicks-ass.net>
- <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
- <20180719153045.GT72677@devbig577.frc2.facebook.com>
- <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
- <20180719165201.GU72677@devbig577.frc2.facebook.com>
- <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
- <20180720114549.GY72677@devbig577.frc2.facebook.com>
- <20180720154454.GR2494@hirez.programming.kicks-ass.net>
- <20180720155613.GB1934745@devbig577.frc2.facebook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180720155613.GB1934745@devbig577.frc2.facebook.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+        id S2387918AbeGTRRP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 13:17:15 -0400
+Received: from smtp2-2.goneo.de ([85.220.129.34]:50822 "EHLO smtp2-2.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733198AbeGTRRP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Jul 2018 13:17:15 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp2.goneo.de (Postfix) with ESMTP id 241A323F3C4;
+        Fri, 20 Jul 2018 18:28:11 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp2.goneo.de ([127.0.0.1])
+        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id RSnng9x4hlVA; Fri, 20 Jul 2018 18:28:10 +0200 (CEST)
+Received: from ryzen (dyndsl-091-248-138-213.ewe-ip-backbone.de [91.248.138.213])
+        by smtp2.goneo.de (Postfix) with ESMTPSA id BA8ED23EFCC;
+        Fri, 20 Jul 2018 18:28:09 +0200 (CEST)
+Message-ID: <1cc801608a1e71b54fe97aae6f5ad2a0024e8e5d.camel@darmarit.de>
+Subject: Re: Sphinx version dependencies?
+From:   Markus Heiser <markus.heiser@darmarit.de>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 20 Jul 2018 18:28:09 +0200
+In-Reply-To: <20180720150402.GA32320@infradead.org>
+References: <20180719181556.GA21435@thunk.org>
+         <20180719190400.GB4800@magnolia>
+         <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
+         <20180720150402.GA32320@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 20, 2018 at 08:56:13AM -0700, Tejun Heo wrote:
-> Hello, Peter.
+Am Freitag, den 20.07.2018, 08:04 -0700 schrieb Christoph Hellwig:
+> On Fri, Jul 20, 2018 at 09:30:33AM +0200, Markus Heiser wrote:
+> > We have this discussion over and over again an I believe we will have it again
+> > and again, as long as we do not change our POV .. building viewing formats is
+> > an application not a part of the Kernel.
 > 
-> On Fri, Jul 20, 2018 at 05:44:54PM +0200, Peter Zijlstra wrote:
-> > > The currently proposed implementation is somewhere in the middle.  It
-> > > kinda gets there by restricting a partition to be a child of another
-> > > partition, which may be okay but it does make the whole delegation
-> > > mechanism less useful.
-> > 
-> > So the implementation does not set ownership of the 'partition' file to
-> > that of the parent directory? Because _that_ is what I understood from
-> > Waiman (many versions ago). And that _does_ allow delegation to work
-> > nicely.
+> Sorry, but this is complete and utter bullshit.
+
+Maybe .. I'am not a Kernel developer .. I only try to help with the doc tool-
+chain. But if I don't want to install anything from the web, the plain text
+is not as bad.
+
 > 
-> So, that part isn't the problem.  The problem is that if we allow
-> partitioning nested further away from ancestor, the descendant would
-> be able to take away reources from the removed ancestor.
+> If that was the case we could skip all that RST stuff and just stick
+> to text files.  If we want fancy docs it better behave like the rest
+> of the kernel and just works.  python virtual environments are just
+> not going to cut it as they lead to a long-term maintainance nightmare.
 
-If the partition file is owned by the parent, the descendant cannot take
-away anything. It can only read the file, not actually write to it.
+Really a nightmare? This is what I do on my ubuntu/debian box ... I do
+prefer py3 so I installed *virtualenv-py3* once from distro's package
+manager:
 
-To be explicit, if we have:
+$ sudo apt install python3-virtualenv
 
-	/.			(uid = root)
-	/A/.			(uid = user1)
-	/A/cpuset.partition	(uid = root)
+To setup up a environment for building htmldocs:
 
-so ./*/cpuset.partition is always owned by .
+$ python3 -m virtualenv py3env
+$ ./py3env/bin/pip install -r ./Documentation/sphinx/requirements.txt
 
-> Waiman avoids this problem by only allowing partitions to nest but
-> then it's kinda weird cuz it's just a separate tree.
+now I have all installed in the in the py3env folder. To build htmldocs
+with:
 
-The only real constraint is that the parent must have exclusive
-'ownership' of the CPUs. Being a partition mandates that to be so. There
-is no other way to distinguish exclusive / shared CPUs.
+ $ SPHINXBUILD=./py3env/bin/sphinx-build make htmldocs
 
-But I don't see how any of this is related to delegation per se. It is a
-prerequisite for creating nested partitions, which in turn is a
-prerequisite for delegation of partitions.
+If the env is no longer needed:
 
-> > > > > 2. take away any given cpu from ist subtree.
+ $ rm -r py3env
 
-> > Still, the question was, how is this (dispicable or not) behaviour not
-> > allowed by the current implementation?
-> 
-> I'm not quite sure what you're trying to ask.  Can you elaborate?
-
-We can always offline the CPU, so how exactly can the ancestor not take
-back it's CPU?
-
-The parent can simply shrink it's cpuset.cpus, no? Then the child gets
-to recompute its setup and it might find its sub-partition just became
-smaller or empty -- just like hotplug.
+ -- Markus --
 
 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-doc" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
