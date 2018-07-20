@@ -1,116 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2A61C7D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 00:26:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8E777D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 01:08:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730679AbeGTBMX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 21:12:23 -0400
-Received: from mail-io0-f193.google.com ([209.85.223.193]:39284 "EHLO
-        mail-io0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730213AbeGTBMX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jul 2018 21:12:23 -0400
-Received: by mail-io0-f193.google.com with SMTP id o22-v6so7522616ioh.6;
-        Thu, 19 Jul 2018 17:26:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=J4Lk8nsPzRRGZvWR2Xm4oyDudDUrXKNQVGg5/IMdGNM=;
-        b=Yu9dm2dz2ptrLxSCLYqMf5+yS9uh/4eFEC2cRMnbvAhX//itQAsihAzUQqRdVGt7M9
-         Bc0/1YiMQgPupan3sTovfhrzWG50KgyA1LO064uLLv1HmQ6tYwW9A3XM5u0iwzCV8ytV
-         k9r0cL2DAw+cuhICrIZRALayrwQlTOP22Ix4CgfLmpsj0niahHXUtJq/FO/YPN9xOS8/
-         9JMPvfhoRO+SOiDxBjOX60+vbtc+53P9hTckKmm8IUqKJeY5AhyKXX9VttK/aJKSG0if
-         RAHeS/c31Jo6vezX+mmGA3psyFht0remMpm1eouoBbcVyOYh87L1qh1vXJn/Ra2vAwRj
-         JeCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=J4Lk8nsPzRRGZvWR2Xm4oyDudDUrXKNQVGg5/IMdGNM=;
-        b=LAEmIGwEuNni0azxpiKg5bzym0iplvVYDOx3mvSsnula1LKkSgkFHKiJ5JzUGFa9tH
-         GdIWA4m3zKLx/brpFNOjhynqYJqvjnOiL+f9vhYavp65Ti3x6/od2mandf9ohsbZGY3b
-         BYhqon8d1nHW/8VUdz56QzOl26WtqHWZokMz8aGNDeYrvm0W7fCAkxD7ws3oZF4KszUB
-         JdMpFA2BiyRRpAwCx4MEyA8LkRYOPbfcBAM7h4EkYar2joMgfX86uFDJ1hESOLIrXV4h
-         JjPpC98d/DD92lV48gK2P7pynJonDQk7dpOK+Wikw1719USGuFmFKw8jTOij1iPVXu7U
-         Mv7A==
-X-Gm-Message-State: AOUpUlE0WN7YFuPVN5orG5J/p/sZ2pnqLs3zfsOun1FLtzrIhOEEI8vF
-        fkNBMbwrQgVlUxnJsi7i9IPQdqhbfbF1P76wNHY=
-X-Google-Smtp-Source: AAOMgpfZJAiHTIcCLyYCYojEDN+MEqT7LBSKOQPPeJx3DexYcKjs5uWjJD/EPBxB4r3Q6NPdkwvRLU2fqbswPfikwc0=
-X-Received: by 2002:a6b:3b47:: with SMTP id i68-v6mr10374956ioa.133.1532046406995;
- Thu, 19 Jul 2018 17:26:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a6b:2c9:0:0:0:0:0 with HTTP; Thu, 19 Jul 2018 17:26:46 -0700 (PDT)
-In-Reply-To: <CAG48ez3EyU=ROBczUdHEuOYBtZghYqOpq3K16Bs4RQLO1OO6oA@mail.gmail.com>
-References: <20180719213802.17161-1-ahmedsoliman0x666@gmail.com>
- <20180719213802.17161-4-ahmedsoliman0x666@gmail.com> <CAG48ez3EyU=ROBczUdHEuOYBtZghYqOpq3K16Bs4RQLO1OO6oA@mail.gmail.com>
-From:   Ahmed Soliman <ahmedsoliman0x666@gmail.com>
-Date:   Fri, 20 Jul 2018 02:26:46 +0200
-Message-ID: <CAAGnT3aQhvHJ4H1vaTYiYotN022wh1if76=xywTVGqA5o_UQrA@mail.gmail.com>
+        id S1730304AbeGTBx6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Jul 2018 21:53:58 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:46090 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727615AbeGTBx6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jul 2018 21:53:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ikjzEA/Awl4AWR7zIUQTwRxM50ZjQDBLCLojESLY5dE=; b=HrP7uP5M5SFxrYVxpZjzd/NDS
+        t0mT3qUTzvAm6RAKC2ZdLbnW/uW9gbhOcJbapMdciK63b6P3tYXLdMJuS19UXyBftXHp4FkX14exs
+        inWJiCA7Kmu38167ZBVQJHfBcQPZl0NEsTKpFyryRpG+Hg52CtuMlByKA77ZYsS3fw7hVcm5pBOmT
+        qSH3tUxlEnPYbSWr0/TenLhnIIFbX5FG1dCd5eiS0uPgKBZfprss5AVNLB1Br00z/oKbEWoabQ15l
+        F/hy/MkxF8eSycBKKnyFW5RrooeGzB/6RQqOKWo/cwZoqD3Q2GjlxrW8GRQbGPj8UZ5anDplEdzF3
+        hlWV022rg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fgJtp-0005YD-T2; Fri, 20 Jul 2018 01:08:01 +0000
 Subject: Re: [PATCH 3/3] [RFC V3] KVM: X86: Adding skeleton for Memory ROE
-To:     Jann Horn <jannh@google.com>
-Cc:     kvm@vger.kernel.org,
+To:     Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>,
+        kvm@vger.kernel.org,
         Kernel Hardening <kernel-hardening@lists.openwall.com>,
         virtualization@lists.linux-foundation.org,
-        linux-doc@vger.kernel.org,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
+        nathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>, hpa@zytor.com,
         Kees Cook <keescook@chromium.org>,
         Ard Biesheuvel <ard.biesheuvel@linaro.org>,
         David Hildenbrand <david@redhat.com>,
         Boris Lukashev <blukashev@sempervictus.com>,
         David Vrabel <david.vrabel@nutanix.com>, nigel.edwards@hpe.com,
         Rik van Riel <riel@surriel.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20180719213802.17161-1-ahmedsoliman0x666@gmail.com>
+ <20180719213802.17161-4-ahmedsoliman0x666@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <26f2e29b-c016-7140-4fea-853fbbd01459@infradead.org>
+Date:   Thu, 19 Jul 2018 18:07:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20180719213802.17161-4-ahmedsoliman0x666@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20 July 2018 at 00:59, Jann Horn <jannh@google.com> wrote:
-> On Thu, Jul 19, 2018 at 11:40 PM Ahmed Abd El Mawgood
+On 07/19/2018 02:38 PM, Ahmed Abd El Mawgood wrote:
+> This patch introduces a hypercall implemented for X86 that can assist
+> against subset of kernel rootkits, it works by place readonly protection in
+> shadow PTE. The end result protection is also kept in a bitmap for each
+> kvm_memory_slot and is used as reference when updating SPTEs. The whole
+> goal is to protect the guest kernel static data from modification if
+> attacker is running from guest ring 0, for this reason there is no
+> hypercall to revert effect of Memory ROE hypercall. This patch doesn't
+> implement integrity check on guest TLB so obvious attack on the current
+> implementation will involve guest virtual address -> guest physical
+> address remapping, but there are plans to fix that.
+> 
+> Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
+> ---
 
-> Why are you implementing this in the kernel, instead of doing it in
-> host userspace?
+> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+> index 92fd433c50b9..8ae822a8dc7a 100644
+> --- a/arch/x86/kvm/Kconfig
+> +++ b/arch/x86/kvm/Kconfig
+> @@ -96,6 +96,13 @@ config KVM_MMU_AUDIT
+>  	 This option adds a R/W kVM module parameter 'mmu_audit', which allows
+>  	 auditing of KVM MMU events at runtime.
+>  
+> +config KVM_MROE
+> +	bool "Hypercall Memory Read-Only Enforcement"
+> +	depends on KVM && X86
+> +	help
+> +	This option add KVM_HC_HMROE hypercall to kvm which as hardening
 
-I thought about implementing it completely in QEMU but It won't be
-possible for few reasons:
+	            adds                       to kvm as a hardening   (???)
 
-- After talking to QEMU folks I came up to conclusion that it when it
- comes to managing memory allocated for guest, it is always better to let
- KVM handles everything, unless there is a good reason to play with that
- memory chunk inside QEMU itself.
-- But actually there is a good reason for implementing ROE in kernel space,
- it is that ROE is architecture dependent to great extent. I should have
- emphasized that the only currently supported architecture is X86. I am
- not sure how deep the dependency on architecture goes. But as for now
- the current set of patches does a SPTE enumeration as part of the process.
- To my best knowledge, this isn't exposed outside arch/x68/kvm let alone
- having a host user space interface for it. Also the way I am planning to
- protect TLB from malicious gva -> gpa mapping is by knowing that in x86
- it is possible to VMEXIT on page faults, I am not sure if it will safe to
- assume that all kvm supported architectures will behave this way.
 
-For these reasons I thought it will be better if arch dependent stuff (the
-mechanism implementation) is kept in arch/*/kvm folder and with minimal
-modifications to virt/kvm/* after setting a kconfig variable to enable ROE.
-But I left room for the user space app using kvm to decide the rightful policy
-for handling ROE violations. The way it works by KVM_EXIT_MMIO error to user
-space, keeping all the architectural details hidden away from user space.
+> +	mechanism to protect memory pages from being edited.
+> +
+>  # OK, it's a little counter-intuitive to do this, but it puts it neatly under
+>  # the virtualization menu.
+>  source drivers/vhost/Kconfig
 
-A last note is that I didn't create this from scratch, instead I extended
-KVM_MEM_READONLY implementation to also allow R/O per page instead
-R/O per whole slot which is already done in kernel space.
+
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
