@@ -3,124 +3,159 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-	version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0B0037D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 02:46:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E25E77D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 04:52:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731001AbeGTDc1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Jul 2018 23:32:27 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:54028 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730862AbeGTDc1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jul 2018 23:32:27 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w6K2iNe4021311;
-        Fri, 20 Jul 2018 02:45:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=aNii+UprM/Oqj1k9JsYWg7ZIG8RZmPxLdhWOSSXOLYA=;
- b=dPnVU7UOHrRf2E7ezwFYk1pNQjDwzf79ByFmB9GJdLVJHPMUdFlVahhBe3ydE6GzRpkr
- fzeFv5ORAPOcOZ4In4obzL+DGNhVQr5e0wmAptKSKgklPPJE81l190EGC14qy3sXqVhe
- euhuNC4WeKQQtTuqDD+31NgHC5NFjXyrt5bYgwg82QqEyhbppOjNO+7UHWazUDCV7cyY
- Kws3W4O70nAtXhF+tqWUHsy+lYnV3RLyMqfvqew7PsaYQcb/k/MC1+gujm7e7up0Yf3/
- vgdl8ILx4VLzYvIrOjKWH1B8JbuZDblo0FG1KuAkaFvYjo1GsYQ4ZBk0E2h1hKI/Zoio kw== 
-Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
-        by aserp2120.oracle.com with ESMTP id 2k9yjgsfay-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 20 Jul 2018 02:45:40 +0000
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w6K2jcoe013538
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 20 Jul 2018 02:45:38 GMT
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w6K2jZcY008218;
-        Fri, 20 Jul 2018 02:45:35 GMT
-Received: from char.us.oracle.com (/10.137.176.158)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 19 Jul 2018 19:45:35 -0700
-Received: by char.us.oracle.com (Postfix, from userid 1000)
-        id 6B92D6A00EB; Thu, 19 Jul 2018 22:45:33 -0400 (EDT)
-Date:   Thu, 19 Jul 2018 22:45:33 -0400
-From:   Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To:     Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>,
-        xen-devel@lists.xensource.com
-Cc:     kvm@vger.kernel.org,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        virtualization@lists.linux-foundation.org,
-        linux-doc@vger.kernel.org, x86@kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
-        nathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, hpa@zytor.com,
-        Kees Cook <keescook@chromium.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        David Hildenbrand <david@redhat.com>,
-        Boris Lukashev <blukashev@sempervictus.com>,
-        David Vrabel <david.vrabel@nutanix.com>, nigel.edwards@hpe.com,
-        Rik van Riel <riel@surriel.com>
-Subject: Re: Memory Read Only Enforcement: VMM assisted kernel rootkit
- mitigation for KVM
-Message-ID: <20180720024533.GA27437@char.US.ORACLE.com>
-References: <20180719213802.17161-1-ahmedsoliman0x666@gmail.com>
+        id S1727011AbeGTFjO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 01:39:14 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:41667 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725139AbeGTFjO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 01:39:14 -0400
+Received: by mail-pg1-f194.google.com with SMTP id z8-v6so5740223pgu.8
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jul 2018 21:52:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=hxhkMrbaxebjOm6h7Yg6Zyigby/9hyd16t2QLtWOKuc=;
+        b=euqzlOqd5li+10Qo1s0moSpvwpIwecKecccamLu4mRd2uJ5n3XKm0o6K1iJIwdqIOy
+         lesaM1bIKllX8T/WMNezN9goef4kp3S0MPCyAUo0WJr2t6ERAihb9NxvIdyoTVxspi92
+         /BeDusgwtDL7F226UDVAIUx3j6GdMwQ7s2Dm8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=hxhkMrbaxebjOm6h7Yg6Zyigby/9hyd16t2QLtWOKuc=;
+        b=SmZWs6Ige0jxPd3DsVqsKZAjo3Qf4HTcFq1Y8n1o6pz+mELAASN6cahcIqvtvTCvl4
+         BlsDB+4BH4C4EssQB7Sy0LzyBs27NN5x0s90VsFzYw0nvj17QDlGyxeqTyiFtjU2e+9i
+         lRDGnNhCqacJVPxFaZOzjFmg9cEGnB8Bk+iVkPVO3novuN+Il/u/DGhRa2uzttNtP+La
+         88mR3x3Vq0WKXfeJPSqC21/4nlnsJdb/GDbYZnHz5JxEaW1ga+STza6UdxUZqFgVhQRD
+         MJe95kX2+ImnE50xeGBE+RwfT3aUgzRxlT6hxd2znbUBMe+XQ8wfBDzb4u9nlG3AM9Lm
+         oXtw==
+X-Gm-Message-State: AOUpUlEtrijcRRMB1y1YDD8wd0fbH0d898gmjUh2cQd1X3TPvn/unIUg
+        Vficb6riP680qzgCCqgeVaXiHc32Z4k=
+X-Google-Smtp-Source: AAOMgpftNcl0myrdINgqMxCUdmpnThRlHaGhmtOw06x9zFJiE9kbTm259VQ+e/5KWp5kaZ5JUwVxMA==
+X-Received: by 2002:a63:d518:: with SMTP id c24-v6mr560650pgg.357.1532062372116;
+        Thu, 19 Jul 2018 21:52:52 -0700 (PDT)
+Received: from localhost ([122.171.235.75])
+        by smtp.gmail.com with ESMTPSA id z9-v6sm1238410pfi.150.2018.07.19.21.52.50
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 19 Jul 2018 21:52:51 -0700 (PDT)
+Date:   Fri, 20 Jul 2018 10:22:49 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Ruchi Kandoi <kandoiruchi@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH RFC] cpufreq: trace frequency limits change
+Message-ID: <20180720045249.urvjk2hbkd2ny67s@vireshk-i7>
+References: <20180719195957.59000-1-joel@joelfernandes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180719213802.17161-1-ahmedsoliman0x666@gmail.com>
-User-Agent: Mutt/1.8.3 (2017-05-23)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8959 signatures=668706
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1806210000 definitions=main-1807200031
+In-Reply-To: <20180719195957.59000-1-joel@joelfernandes.org>
+User-Agent: NeoMutt/20180323-120-3dd1ac
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 19, 2018 at 11:37:59PM +0200, Ahmed Abd El Mawgood wrote:
-> Hi,
+On 19-07-18, 12:59, Joel Fernandes wrote:
+> From: Ruchi Kandoi <kandoiruchi@google.com>
 > 
-> This is my first set of patches that works as I would expect, and the
-> third revision I sent to mailing lists.
+> systrace used for tracing for Android systems has carried a patch for
+> many years in the Android tree that traces when the cpufreq limits
+> change.  With the help of this information, systrace can know when the
+> policy limits change and can visually display the data. Lets add
+> upstream support for the same.
 > 
-> Following up with my previous discussions about kernel rootkit mitigation
-> via placing R/O protection on critical data structure, static data,
-> privileged registers with static content. These patches present the
-> first part where it is only possible to place these protections on
-> memory pages. Feature-wise, this set of patches is incomplete in the sense of:
-> - They still don't protect privileged registers
-> - They don't protect guest TLB from malicious gva -> gpa page mappings.
-> But they provide sketches for a basic working design. Note that I am totally
-> noob and it took lots of time and effort to get to this point. So sorry in
-> advance if I overlooked something.
+> Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> ---
+>  Documentation/trace/events-power.rst |  1 +
+>  drivers/cpufreq/cpufreq.c            |  1 +
+>  include/trace/events/power.h         | 25 +++++++++++++++++++++++++
+>  3 files changed, 27 insertions(+)
+> 
+> diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
+> index a77daca75e30..2ef318962e29 100644
+> --- a/Documentation/trace/events-power.rst
+> +++ b/Documentation/trace/events-power.rst
+> @@ -27,6 +27,7 @@ cpufreq.
+>  
+>    cpu_idle		"state=%lu cpu_id=%lu"
+>    cpu_frequency		"state=%lu cpu_id=%lu"
+> +  cpu_frequency_limits	"min=%lu max=%lu cpu_id=%lu"
 
-This reminds me of Xen PV page model. That is the hypervisor is the one
-auditing the page tables and the guest's pages are read-only.
+The order of prints is min,max,id
 
-Ditto for IDT, GDT, etc. Gosh, did you by chance look at how
-Xen PV mechanism is done? It may provide the protection you are looking for?
+>  
+>  A suspend event is used to indicate the system going in and out of the
+>  suspend mode:
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index b0dfd3222013..6533c6987866 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -2236,6 +2236,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
+>  
+>  	policy->min = new_policy->min;
+>  	policy->max = new_policy->max;
+> +	trace_cpu_frequency_limits(policy->max, policy->min, policy->cpu);
 
-CC-ing xen-devel.
-> 
-> [PATCH 1/3] [RFC V3] KVM: X86: Memory ROE documentation
-> [PATCH 2/3] [RFC V3] KVM: X86: Adding arbitrary data pointer in kvm memslot itterator functions
-> [PATCH 3/3] [RFC V3] KVM: X86: Adding skeleton for Memory ROE
-> 
-> Summery:
-> 
->  Documentation/virtual/kvm/hypercalls.txt |  14 ++++
->  arch/x86/include/asm/kvm_host.h          |  11 ++-
->  arch/x86/kvm/Kconfig                     |   7 ++
->  arch/x86/kvm/mmu.c                       | 127 ++++++++++++++++++++++---------
->  arch/x86/kvm/x86.c                       |  82 +++++++++++++++++++-
->  include/linux/kvm_host.h                 |   3 +
->  include/uapi/linux/kvm_para.h            |   1 +
->  virt/kvm/kvm_main.c                      |  29 ++++++-
->  8 files changed, 232 insertions(+), 42 deletions(-)
-> 
+But arguments are max,min,cpu
+
+Lets align them and make it min/max/id everywhere for readability.
+
+>  
+>  	policy->cached_target_freq = UINT_MAX;
+>  
+> diff --git a/include/trace/events/power.h b/include/trace/events/power.h
+> index 908977d69783..e978b05b0200 100644
+> --- a/include/trace/events/power.h
+> +++ b/include/trace/events/power.h
+> @@ -148,6 +148,31 @@ DEFINE_EVENT(cpu, cpu_frequency,
+>  	TP_ARGS(frequency, cpu_id)
+>  );
+>  
+> +TRACE_EVENT(cpu_frequency_limits,
+> +
+> +	TP_PROTO(unsigned int max_freq, unsigned int min_freq,
+> +		unsigned int cpu_id),
+> +
+> +	TP_ARGS(max_freq, min_freq, cpu_id),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(u32,		min_freq)
+> +		__field(u32,		max_freq)
+> +		__field(u32,		cpu_id)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->min_freq = min_freq;
+> +		__entry->max_freq = max_freq;
+> +		__entry->cpu_id = cpu_id;
+> +	),
+> +
+> +	TP_printk("min=%lu max=%lu cpu_id=%lu",
+> +		  (unsigned long)__entry->min_freq,
+> +		  (unsigned long)__entry->max_freq,
+> +		  (unsigned long)__entry->cpu_id)
+> +);
+> +
+>  TRACE_EVENT(device_pm_callback_start,
+>  
+>  	TP_PROTO(struct device *dev, const char *pm_ops, int event),
+> -- 
+> 2.18.0.203.gfac676dfb9-goog
+
+-- 
+viresh
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
