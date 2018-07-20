@@ -1,113 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 444C17D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 12:04:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 074847E205
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 13:24:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727755AbeGTMwQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 08:52:16 -0400
-Received: from mail-yb0-f193.google.com ([209.85.213.193]:45250 "EHLO
-        mail-yb0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727518AbeGTMwQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 08:52:16 -0400
-Received: by mail-yb0-f193.google.com with SMTP id h127-v6so4517771ybg.12;
-        Fri, 20 Jul 2018 05:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EE8DOX5ZIE3rtJp1zM5TJJep5oDH4cHuKZ9DE8KZmQI=;
-        b=OoTcvBb9/Pxtz93qbOBRPREr0gTpQu+qg8l1NQieCQL7aoaa9AdGaResGWg/E8BD4+
-         Ja8+/Q/uzzzh+hKvRb8C68OWXeYG6ymZjz+lx2IbcQqhgTrmJ7Nmo+f2QGYJbBrZTq5v
-         0Cu6zJLbBbaz+/L+usDwGAqocoMS8UpEzp9MiZ6jzIYx4V9a1KvItwIwZh5HJwo2uQxg
-         jysCdVepx29TMc8/03OrQDYKuG3RbiGfVumeZJ6MBrc21wZo39ajH+GUstd3mIn2CfV3
-         PEx4wggSHlid2yxGhakfWrrbk6u9RpMUHWnp4xLlwcSpxhsAatsAC6Ll+Mom2KRCqTXr
-         EJTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EE8DOX5ZIE3rtJp1zM5TJJep5oDH4cHuKZ9DE8KZmQI=;
-        b=Fi/cp1FhW/rGCG287wR576pPnV1ROwEUnu5JW/doPXxIbM2bk5+JqIcIpXZh0ksqFt
-         ru5Mk3ooHTzh5aDPq5Dgs8UPjtiY/ZdCElg/B2fTchtmPkF4siFS9zZsgN8mVJawAqxu
-         L9m5SYiVm1d7nRijok7TkA3vjLjFgSuWkE9gYDqBVC8bjYCEJ/Cqi9rgzsg6y7myDehu
-         hEoyoj8Z3EENpQOd/xzfWH/oa3bnrxJZuRqsVAq693748D9Cg2dtQ4ZkiP8AnZppFl/B
-         RcrYv+y00nEC8qCW55Z3tIm1oKeyxDenILdQ9bT9YUNlteP8aO8cyJ5zCsbSejaFZhbR
-         ORfA==
-X-Gm-Message-State: AOUpUlFZqU3P11iF+djLtjFVUoYOHCw3ftjS3MlHjHa6oiWS5c224qzA
-        jYEVPGihwcqdPd98OkMpaeU=
-X-Google-Smtp-Source: AAOMgpc3m2WvQa11oTasLwdButJ3/ZBtiqI9qN6lPnCYPGa2qd6/hAY9L2TmqYu3ttxHXI7lmZK6JQ==
-X-Received: by 2002:a25:c641:: with SMTP id k62-v6mr829717ybf.384.1532088259189;
-        Fri, 20 Jul 2018 05:04:19 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:180::1:5c80])
-        by smtp.gmail.com with ESMTPSA id g203-v6sm811530ywb.69.2018.07.20.05.04.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Jul 2018 05:04:18 -0700 (PDT)
-Date:   Fri, 20 Jul 2018 05:04:16 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Waiman Long <longman@redhat.com>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-Message-ID: <20180720120416.GA1934745@devbig577.frc2.facebook.com>
-References: <20180702165322.GI533219@devbig577.frc2.facebook.com>
- <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
- <20180703155823.GS533219@devbig577.frc2.facebook.com>
- <20180719135224.GE2494@hirez.programming.kicks-ass.net>
- <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
- <20180719153045.GT72677@devbig577.frc2.facebook.com>
- <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
- <20180719165201.GU72677@devbig577.frc2.facebook.com>
- <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
- <20180720114549.GY72677@devbig577.frc2.facebook.com>
+        id S1731860AbeGTOAh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 10:00:37 -0400
+Received: from imap.thunk.org ([74.207.234.97]:38172 "EHLO imap.thunk.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731209AbeGTOAh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Jul 2018 10:00:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
+         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=ryBOwCv0wLn1ENr1CA3uyl7/gLMKc93gQnzQfJMW8sE=; b=LrN+unjJcVktmiruZ7xY+g9wgF
+        rpjtE+7X5R2DWJPBakTmrTU5D6adypcK3xFenIo9aH9RHV9ChAjTUVroCM/v9lx6N5FLl7RdqsDcR
+        TUjeomapqc3n6eMRdUkL/ImOx8tMZAjH/U1tbdfylaY5eYGRRTOmCHrvCfYw9bseoRgw=;
+Received: from root (helo=callcc.thunk.org)
+        by imap.thunk.org with local-esmtp (Exim 4.89)
+        (envelope-from <tytso@thunk.org>)
+        id 1fgVCh-0003eW-N7; Fri, 20 Jul 2018 13:12:15 +0000
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 1F3207A644D; Fri, 20 Jul 2018 09:12:06 -0400 (EDT)
+Date:   Fri, 20 Jul 2018 09:12:06 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Sphinx version dependencies?
+Message-ID: <20180720131206.GM30706@thunk.org>
+Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20180719181556.GA21435@thunk.org>
+ <20180719190400.GB4800@magnolia>
+ <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180720114549.GY72677@devbig577.frc2.facebook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
+User-Agent: Mutt/1.10.0 (2018-05-17)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: tytso@thunk.org
+X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
-
-On Fri, Jul 20, 2018 at 04:45:49AM -0700, Tejun Heo wrote:
-> > > 2. take away any given cpu from ist subtree.
-> > 
-> > I really hate this obsession of yours and doubly so for partitions. But
-> > why would this currently not be allowed?
+On Fri, Jul 20, 2018 at 09:30:33AM +0200, Markus Heiser wrote:
+> Normally I would say, lets use (and test against) state of the art. This is
+> easily done by installing py3 and using virtualenv. But this seems not match the
+> philosophy of the whole Linux community.
 > 
-> Well, sorry that you hate it.  It's a fundamental architectural
-> constraint.  If it can't satisfy that, it should't be in cgroup.
+> As one told me, the philosophy is to build the Kernel with less installations
+> from the web by using what the distro ships. IMO this might be right for the
+> Kernel but not for applications building viewing formats. When it comes to
+> build PDF you will realize how naive this approach is. IMO there is also no
+> need to build viewing formats as we can read the documentation in plain text
+> as we can do it since the beginning ... and this is one reason why we changed
+> from XML to a plain text markup.u
+> 
+> The script named 'sphinx-pre-install' is the crutch that supports this
+> philosophy.
 
-Just in case it wasn't clear from previous the exchanges, basic
-architecture designs like this are what makes things like delegation
-actually useful across all controllers.  If we allow a descendant in
-the hierarchy to restrict waht its ancestors can do, it becomes really
-painful operationally.
+It's clear we have an over-constrained problem.  On the one hand, we
+want to make sure that the Linux kernel (but maybe not the docs?
+unclear?) can build on a wide variety of Linux distros, from those
+that are shipping (in some cases) decade-old, antiquated tools in
+Enterprise Distrobutions, to bleeding edge Community Distro's.  On the
+other, we want to be able to use the latest and greatest features.
+And on yet a third hand, we need to deal with the fact that
+historically, developers have hated it when they have to download
+wierd tools, often ones that are not packaged by the distro, such as
+cmake, imake, etc., etc.  (Fortunately with Python virtualenv makes
+things relatively painless; unlike in the past.  But I think we
+sometimes have biases on past experience.)
 
-For now, I'd suggest just doing it at the first child level and move
-on unless there are clear use cases where nested partitions are
-useful, which I find unlikely given the nature of the operation -
-partitions don't really have anything to do with one another.
+My observation though is that at the moment sphinx-pre-install doesn't
+really seem to support any one philosophy consistently.  On the one
+hand, if you are running Debian unstable, and you don't have the
+distro-packaged Sphinx installed, it tells you to use virtualenv, and
+force-installs Sphinx 1.4.9.  On the other hand, if you happen to have
+the debian-packaged Sphinx installed already it says, "go forth and
+build!"  This means that from the perspective of a Kernel developer,
+we don't know whether someone will be running Sphinx 1.4.9, or some
+other random Distro version.
 
-Thanks.
+One approach might be to build the virtualenv setup and download
+directly into build sequence.  But the problem with that is it would
+break hermetic build systems that some distros use, which (by design)
+are not connected to the network for security reasons.
 
--- 
-tejun
+Another solution is to specify that the kernel docs *must* build on
+1.4.9, and change sphinx-pre-install to always require this.  This
+might require imposing a requirement on distro's to package more than
+one version of Sphinx.  (There is precedence, at one point Debian
+packaged something like four different versions of autoconf, because
+it's needed because autoconf is not necessary backwards *or* forwards
+compatible.)
+
+Yet another solution is to impose the burden on kernel developers and
+tell them that the kernel docs must be built on a variety of Sphinx
+versions, and that over time, changes will break the docs even if
+nothing has changed.  So in addition to testing on a large range of
+Sphinx versions, over time we will have to continuously update the
+kernel docs to deal with backwards incompatible changes in how Sphinx
+processes the .rst format.
+
+A forth solution is to force everyone to use something correleted to
+what the community distro's are packaging, but roughly every 12-18
+months, we leapfrog to a newer version of Sphinx.  This decreases the
+continuous upgrade burden, but doesn't make it go away.
+
+I'm not entirely sure what's the best approach.  Right now I just want
+to understand --- do I have to make ext4.rst work against one, or many
+versions of Sphinx?  And which version(s) of Sphinx do I need to
+concern myself with?  If that turns out to be an onerous burden, I'm
+sure I won't be the only person complaining.  :-)
+
+							- Ted
+							
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
