@@ -5,90 +5,75 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7ACD97D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 13:39:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2DF3A7DF81
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 13:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731289AbeGTOZf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 10:25:35 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:36962 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727693AbeGTOZf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 10:25:35 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1fgVar-0003U7-6u; Fri, 20 Jul 2018 07:37:13 -0600
-Received: from [97.119.167.31] (helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1fgVaq-0005gt-LB; Fri, 20 Jul 2018 07:37:13 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Salvatore Mesoraca <s.mesoraca16@gmail.com>
-Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Laura Abbott <labbott@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org, Kees Cook <keescook@chromium.org>
-References: <1531935483-30784-1-git-send-email-s.mesoraca16@gmail.com>
-        <CAGXu5jK4q6HLDZ6jokTeDABbzVasY85Jo0HFNKYeaKWZYPjPKg@mail.gmail.com>
-Date:   Fri, 20 Jul 2018 08:37:04 -0500
-In-Reply-To: <CAGXu5jK4q6HLDZ6jokTeDABbzVasY85Jo0HFNKYeaKWZYPjPKg@mail.gmail.com>
-        (Kees Cook's message of "Thu, 19 Jul 2018 22:15:15 -0700")
-Message-ID: <87effy9gfz.fsf@xmission.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1fgVaq-0005gt-LB;;;mid=<87effy9gfz.fsf@xmission.com>;;;hst=in02.mta.xmission.com;;;ip=97.119.167.31;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1/hahftwkIP0ZjnYet3ZaYXea+PRQt0Z6I=
-X-SA-Exim-Connect-IP: 97.119.167.31
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [RFC] kconfig: add hardened defconfig helpers
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+        id S1731852AbeGTOeF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 10:34:05 -0400
+Received: from smtp1-3.goneo.de ([85.220.129.32]:53658 "EHLO smtp1-3.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731314AbeGTOeF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Jul 2018 10:34:05 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id 74FAB23F779;
+        Fri, 20 Jul 2018 15:45:39 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id bYFeQf1rBiRV; Fri, 20 Jul 2018 15:45:38 +0200 (CEST)
+Received: from ryzen (dyndsl-091-248-138-213.ewe-ip-backbone.de [91.248.138.213])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id 5172323F068;
+        Fri, 20 Jul 2018 15:45:38 +0200 (CEST)
+Message-ID: <d064f468ab9fc60a02242331e0dddc185d6556ba.camel@darmarit.de>
+Subject: Re: Sphinx version dependencies?
+From:   Markus Heiser <markus.heiser@darmarit.de>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 20 Jul 2018 15:45:37 +0200
+In-Reply-To: <20180720131206.GM30706@thunk.org>
+References: <20180719181556.GA21435@thunk.org>
+         <20180719190400.GB4800@magnolia>
+         <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
+         <20180720131206.GM30706@thunk.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kees Cook <keescook@chromium.org> writes:
+Am Freitag, den 20.07.2018, 09:12 -0400 schrieb Theodore Y. Ts'o:
+> I'm not entirely sure what's the best approach.  Right now I just want
+> to understand --- do I have to make ext4.rst work against one, or many
+> versions of Sphinx?  And which version(s) of Sphinx do I need to
+> concern myself with?  If that turns out to be an onerous burden, I'm
+> sure I won't be the only person complaining.  :-)
 
->> +CONFIG_USER_NS=n
->> +~~~~~~~~~~~~~~~~
->> +
->> +**Negative side effects level:** Medium
->
-> Unfortunately I think this is High or Extreme. USER_NS gets a lot of use.
->
->> +**- Protection type:** Attack surface reduction
->> +
->> +This allows containers to use user namespaces to provide different
->> +user info for different servers.
->> +User namespaces have been abused in the past for privilege
->> +escalation.
+In that case ...
 
-This is not a particularly good description.
+> But when I did that, Sphinx had heartburn over the ext4.rst file.
+> 
+>     ./include/linux/spi/spi.h:373: ERROR: Unexpected indentation.
+>     /usr/projects/linux/ext4/Documentation/filesystems/ext4/ext4.rst:139: ERROR: Malformed table.
+>     Column span alignment problem in table line 5.
 
-User namespaces do indeed increase the attack surface of programs that
-don't use them.
+... its clear; the table was malformed. A markup error which is not detected
+by older versions of docutils (very special case).
 
-User namespaces when used to build ``unprivileged containers'' remove or
-at least drastically reduce the need to run as root when setting up
-containers.  Which is attack surface reduction.
+In general I recommend to install an up-to-date Sphinx-doc in a virtualenv .. this
+is what I do in my projects ... and where I haven't seen those version problems ;)
 
-User namespaces make available tools that are commonly used to build
-sandboxes.  Chrome for example uses users namespaces if they are
-available as part of setting up it's sandbox.
+If we have errors downward we have to handle them. The main thing is the markup
+is correct.
 
-User namespaces are not limited to containers.
+  -- Markus --
 
-The bugs in the attack surface that user namespaces expose that have
-been used for privilege escalation have to the best of my knowledge
-closed.  So while there is some danger in the increased attack surface
-we are looking at implementation defects rather than design defects.
 
-Eric
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
