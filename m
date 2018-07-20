@@ -1,120 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D85C07D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 17:41:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 83DA67D085
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 20:44:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387989AbeGTSaV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 14:30:21 -0400
-Received: from mail-yw0-f196.google.com ([209.85.161.196]:37430 "EHLO
-        mail-yw0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731305AbeGTSaV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 14:30:21 -0400
-Received: by mail-yw0-f196.google.com with SMTP id w76-v6so4631198ywg.4;
-        Fri, 20 Jul 2018 10:41:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=cwFuLmY72f0ORSsZ9OAumVPGmBV/AQlH7QKLVGd2oNA=;
-        b=Pl5o/+18GRH9i/WZPjrEHnH3xfrmbYm7BON6a7jmSq5sF3+GRLSTqbeeqtYn+3iXLE
-         IlYlR8zTN1r4vyBHxlYGZSNvFBykG51Bnj1Sn+O0+K8r86OBfJYnEOqVAdidxjwLaSF7
-         /O+pkY8WVMC+jLpTh/8Rlpb5/1cXey/xMa7tdqZkZdF4BBlFtBeVSxecbxl+N5vgsF0/
-         Sd7Wctlehg/wrpySRhUo8TFRdgFM77UjoUIN9/gCh/EC4fNpb1s7IBFC3B0Rfd3G8pV9
-         OPQ4D1rrhh1DsyY5Bp+fe1ZZzXLgBSUx4h/Ztm2QxNWIGbG8+lkxT70JSSJXJH+UvYWf
-         sMvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cwFuLmY72f0ORSsZ9OAumVPGmBV/AQlH7QKLVGd2oNA=;
-        b=PNhsYo19rcTCOiJF3ftKr08PRnAEaRzk2ZtToeW4TN47PzBk+AjW7NDNmrk3uADdoF
-         fOlHl8gPqyJjhkM97M5InJWD16vHwpQezxmZepOWav1GZwtur+0cj318kGi8kX+2L1y7
-         nKe7SXGI+Xnk1EXmeOCQHebPnpnbajEt1Z1lyc5Vk3t5DtEC75ViKBLz2b9StoD0hh0r
-         s0rniSn+Q6qFz/KH6T06GdFXXt/WY9EVZXcbcmmxHVpvZvgRZyPN3/5R7DZiTmJ43iQd
-         3WewqgRsiXKv08Mbwv+kUBhdBqu+V9kwBfFYLz92LItfToqmF1yddahzsrXf4WONMOAV
-         cBSA==
-X-Gm-Message-State: AOUpUlHRo0zXnplmOjUzaBLzoKoAuN5AciCbTU5lPGz6Q2RCRfc3xriN
-        NkNNAoD5xuJ9mJr1MlXSezs=
-X-Google-Smtp-Source: AAOMgpd7HeKVK5z9xo3iYYL1DI1ScsG9/UjoUEIkcyEGmefRU3FJ/PPqhO54/eeO8dQRmM9nK7nzfA==
-X-Received: by 2002:a0d:ddc8:: with SMTP id g191-v6mr1549773ywe.145.1532108463068;
-        Fri, 20 Jul 2018 10:41:03 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:180::1:b56b])
-        by smtp.gmail.com with ESMTPSA id x69-v6sm2384166ywx.105.2018.07.20.10.41.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Jul 2018 10:41:02 -0700 (PDT)
-Date:   Fri, 20 Jul 2018 10:41:00 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-Message-ID: <20180720174100.GC1934745@devbig577.frc2.facebook.com>
-References: <20180719153045.GT72677@devbig577.frc2.facebook.com>
- <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
- <20180719165201.GU72677@devbig577.frc2.facebook.com>
- <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
- <20180720114549.GY72677@devbig577.frc2.facebook.com>
- <20180720154454.GR2494@hirez.programming.kicks-ass.net>
- <20180720155613.GB1934745@devbig577.frc2.facebook.com>
- <4857a9db-ebf5-24f8-c42d-d795f5c75854@redhat.com>
- <20180720163712.GU2494@hirez.programming.kicks-ass.net>
- <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
+        id S1728258AbeGTVdt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 17:33:49 -0400
+Received: from imap.thunk.org ([74.207.234.97]:39860 "EHLO imap.thunk.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727736AbeGTVdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Jul 2018 17:33:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
+         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=aBpIiEuf+EAeo/WY63YvLs5OyNSDKcW7QK2+8NFT1PY=; b=xgvSFt/jX6yTzD+++f9Vf2cUu2
+        CL3BbrMhQ2z4krLn3RaBz8VdTifdIIHYcN3cYczB4FOKndOnNY7bjvfn03P7tVsPudQd1Am1wEe5n
+        EsFeb5SSo/O+DXbWHWKqxrCU0ZCQ2kknFeFLQSURmcfInuVOMgeJhEudTPGmBFkFKGms=;
+Received: from root (helo=callcc.thunk.org)
+        by imap.thunk.org with local-esmtp (Exim 4.89)
+        (envelope-from <tytso@thunk.org>)
+        id 1fgcFg-00072h-Fn; Fri, 20 Jul 2018 20:43:48 +0000
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 8DD1C7A6419; Fri, 20 Jul 2018 16:43:43 -0400 (EDT)
+Date:   Fri, 20 Jul 2018 16:43:43 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     Markus Heiser <markus.heiser@darmarit.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Sphinx version dependencies?
+Message-ID: <20180720204343.GC27862@thunk.org>
+Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20180719181556.GA21435@thunk.org>
+ <20180719190400.GB4800@magnolia>
+ <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
+ <20180720131206.GM30706@thunk.org>
+ <d064f468ab9fc60a02242331e0dddc185d6556ba.camel@darmarit.de>
+ <20180720145235.GA27862@thunk.org>
+ <cd31ba58ac24851698e06628ceebce4648345ff6.camel@darmarit.de>
+ <20180720164421.GG4800@magnolia>
+ <93aa59853a491a5ba3d5c3bcc0c991a1b815a67d.camel@darmarit.de>
+ <20180720171020.GI4800@magnolia>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20180720171020.GI4800@magnolia>
+User-Agent: Mutt/1.10.0 (2018-05-17)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: tytso@thunk.org
+X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
-
-On Fri, Jul 20, 2018 at 01:09:23PM -0400, Waiman Long wrote:
-> On 07/20/2018 12:37 PM, Peter Zijlstra wrote:
-> > On Fri, Jul 20, 2018 at 12:19:29PM -0400, Waiman Long wrote:
-> >> I am not against the idea of making it hierarchical eventually. I am
-> >> just hoping to get thing going by merging the patchset in its current
-> >> form and then we can make it hierarchical in a followup patch.
-> > Where's the rush? Why can't we do this right in one go?
+On Fri, Jul 20, 2018 at 10:10:20AM -0700, Darrick J. Wong wrote:
 > 
-> For me, the rush comes from RHEL8 as it is a goal to have a fully
-> functioning cgroup v2 in that release.
-> 
-> I also believe that most of the use cases of partition can be satisfied
-> with partitions at the first level children. Getting hierarchical
-> partition right may drag on for half a year, maybe, giving our history
-> with cpu v2 controller. No matter what we do to enable hierarchical
-> partition in the future, the current model of using a partition flag is
-> intuitive enough that it won't be changed at least for the first level
-> children.
+> Well yes, but it's the virtualenv workflow that produced build errors
+> for Ted; that's what would seem to need fixing?
 
-I'm fully with Waiman here.  There are people wanting to use it and
-the part most people isn't controversial at all.  I don't see what'd
-be gained by further delaying the whole thing.  If the first level
-partition thing isn't acceptable to everyone, we can even strip down
-further.  We can get .cpus and .mems merged first, which is what most
-people want anyway.
+What would delight me if there was a fixed docutils and Sphinx version
+which is the **only** thing which subsystem maintainers need to test
+against.  If it fails for that version, then I reject the patch; and
+if it works on that version (say, 1.4.9), and it fails on some other
+version that a Distro wants to use for its hermetic build environment
+(say, 1.7.5), I can tell them, "not my problem, feel free to send me a
+patch that makes things work for 1.7.5, and doesn't break on 1.4.9 ---
+or package 1.4.9 for your distro build systems."
 
-Thanks.
+I don't really care what the mandated version is --- although given
+that Fedora and Debian seem to be using 1.7.5, maybe that's the right
+answer, and too bad for the enterprise distro build systems --- that's
+why they get paid the big bucks.  I just want to know what I'm obliged
+to test against.
 
--- 
-tejun
+So if Documentation/sphinx/requirements.txt is the only thing which is
+guaranteed to work, that's fine.  But it might be good to document
+that somewhere.
+
+						- Ted
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
