@@ -5,49 +5,49 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 378767D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 11:45:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 444C17D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 12:04:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728178AbeGTMdo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 08:33:44 -0400
-Received: from mail-yb0-f196.google.com ([209.85.213.196]:36361 "EHLO
-        mail-yb0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727408AbeGTMdo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 08:33:44 -0400
-Received: by mail-yb0-f196.google.com with SMTP id s1-v6so4509601ybk.3;
-        Fri, 20 Jul 2018 04:45:52 -0700 (PDT)
+        id S1727755AbeGTMwQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 08:52:16 -0400
+Received: from mail-yb0-f193.google.com ([209.85.213.193]:45250 "EHLO
+        mail-yb0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727518AbeGTMwQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 08:52:16 -0400
+Received: by mail-yb0-f193.google.com with SMTP id h127-v6so4517771ybg.12;
+        Fri, 20 Jul 2018 05:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=6sEETIyfIWdZRxqCxHBW0J9SmgRvXDxvZJWaFQVYhbs=;
-        b=SoTwqdmEbMmonRN971Cup0y96sOq+fVjiBQwt8k5GQW3n/CY3/uphhAc+dbm0ZQHbC
-         WRvSknKlP5dMGiyUdna2lEg1NrNp369STOC6hvl0EjNFAdz0UCqezggg524ncXMC4R4o
-         O8CHWpfqaQUpje/dSk3IQf7z1vU3XhVwFntucnj5TAPxJItXnBeC63IqvR+fbxqdaeGn
-         ZgsLgpFeeWocjSdcNiPbyOJFE8RItgazlBaNJ04oTs8Ffu5BnKndtIjFDhOQsa3Zyb7K
-         7zjV6jLgnqoW2itWkpjHi7sDcKn7qIaEnOmBpxCmnf79JoyTNcH1aVQDLhdVT0m1MoWf
-         7DUw==
+        bh=EE8DOX5ZIE3rtJp1zM5TJJep5oDH4cHuKZ9DE8KZmQI=;
+        b=OoTcvBb9/Pxtz93qbOBRPREr0gTpQu+qg8l1NQieCQL7aoaa9AdGaResGWg/E8BD4+
+         Ja8+/Q/uzzzh+hKvRb8C68OWXeYG6ymZjz+lx2IbcQqhgTrmJ7Nmo+f2QGYJbBrZTq5v
+         0Cu6zJLbBbaz+/L+usDwGAqocoMS8UpEzp9MiZ6jzIYx4V9a1KvItwIwZh5HJwo2uQxg
+         jysCdVepx29TMc8/03OrQDYKuG3RbiGfVumeZJ6MBrc21wZo39ajH+GUstd3mIn2CfV3
+         PEx4wggSHlid2yxGhakfWrrbk6u9RpMUHWnp4xLlwcSpxhsAatsAC6Ll+Mom2KRCqTXr
+         EJTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=6sEETIyfIWdZRxqCxHBW0J9SmgRvXDxvZJWaFQVYhbs=;
-        b=l2CbcaUi92IuR9bzQJofvNw9Xo6rkI2QUJ90EiRROAgHM25WEsVxr0oAtdquVd9sFA
-         mEb8pBhziq5zywPcRikYKHwn1XG2lB3xzYnux01Ihsu/FpIJ7KHn00NWGTJdNsSIM9c1
-         yx54t5Gbftf0aZwnDuKy6ieiqAo5nJRDpLtqQu05UaPVrS2FsCYiCvPvg9+7KS3SmkCu
-         W8Zkw9E2Bgjj9t1pnCdkRf1JYJm3bptY+UEasyAhCDZaRpM+SR/gS0pgiRWCoRa9BVwk
-         pLEsjvv7EFsrf7TQEHCPlSj/4h8opJGwojBII2KuH3Fd3oGOxp27B4x+wPDfZSWS0xKT
-         eqIA==
-X-Gm-Message-State: AOUpUlFloULn3EwClmCVgN81pMODfKcGUYtUqRg0SSnzYhrfnr4JH0+6
-        2nOIJrvE+XnyigenncvlIvs=
-X-Google-Smtp-Source: AAOMgpev4EXLS5twupEoWktG+YliRX/QAgf52IxrD6AxT2x1DSOZJ83Gr+NRsRmcKDzYtb40euMCGw==
-X-Received: by 2002:a25:63d6:: with SMTP id x205-v6mr789287ybb.248.1532087152044;
-        Fri, 20 Jul 2018 04:45:52 -0700 (PDT)
+        bh=EE8DOX5ZIE3rtJp1zM5TJJep5oDH4cHuKZ9DE8KZmQI=;
+        b=Fi/cp1FhW/rGCG287wR576pPnV1ROwEUnu5JW/doPXxIbM2bk5+JqIcIpXZh0ksqFt
+         ru5Mk3ooHTzh5aDPq5Dgs8UPjtiY/ZdCElg/B2fTchtmPkF4siFS9zZsgN8mVJawAqxu
+         L9m5SYiVm1d7nRijok7TkA3vjLjFgSuWkE9gYDqBVC8bjYCEJ/Cqi9rgzsg6y7myDehu
+         hEoyoj8Z3EENpQOd/xzfWH/oa3bnrxJZuRqsVAq693748D9Cg2dtQ4ZkiP8AnZppFl/B
+         RcrYv+y00nEC8qCW55Z3tIm1oKeyxDenILdQ9bT9YUNlteP8aO8cyJ5zCsbSejaFZhbR
+         ORfA==
+X-Gm-Message-State: AOUpUlFZqU3P11iF+djLtjFVUoYOHCw3ftjS3MlHjHa6oiWS5c224qzA
+        jYEVPGihwcqdPd98OkMpaeU=
+X-Google-Smtp-Source: AAOMgpc3m2WvQa11oTasLwdButJ3/ZBtiqI9qN6lPnCYPGa2qd6/hAY9L2TmqYu3ttxHXI7lmZK6JQ==
+X-Received: by 2002:a25:c641:: with SMTP id k62-v6mr829717ybf.384.1532088259189;
+        Fri, 20 Jul 2018 05:04:19 -0700 (PDT)
 Received: from localhost ([2620:10d:c091:180::1:5c80])
-        by smtp.gmail.com with ESMTPSA id 141-v6sm757374ywj.65.2018.07.20.04.45.50
+        by smtp.gmail.com with ESMTPSA id g203-v6sm811530ywb.69.2018.07.20.05.04.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Jul 2018 04:45:51 -0700 (PDT)
-Date:   Fri, 20 Jul 2018 04:45:49 -0700
+        Fri, 20 Jul 2018 05:04:18 -0700 (PDT)
+Date:   Fri, 20 Jul 2018 05:04:16 -0700
 From:   Tejun Heo <tj@kernel.org>
 To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Waiman Long <longman@redhat.com>, Li Zefan <lizefan@huawei.com>,
@@ -61,9 +61,8 @@ Cc:     Waiman Long <longman@redhat.com>, Li Zefan <lizefan@huawei.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
 Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
  on cgroup v2 root
-Message-ID: <20180720114549.GY72677@devbig577.frc2.facebook.com>
-References: <1529825440-9574-8-git-send-email-longman@redhat.com>
- <20180702165322.GI533219@devbig577.frc2.facebook.com>
+Message-ID: <20180720120416.GA1934745@devbig577.frc2.facebook.com>
+References: <20180702165322.GI533219@devbig577.frc2.facebook.com>
  <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
  <20180703155823.GS533219@devbig577.frc2.facebook.com>
  <20180719135224.GE2494@hirez.programming.kicks-ass.net>
@@ -72,10 +71,11 @@ References: <1529825440-9574-8-git-send-email-longman@redhat.com>
  <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
  <20180719165201.GU72677@devbig577.frc2.facebook.com>
  <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
+ <20180720114549.GY72677@devbig577.frc2.facebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
+In-Reply-To: <20180720114549.GY72677@devbig577.frc2.facebook.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -84,36 +84,25 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hello,
 
-On Fri, Jul 20, 2018 at 01:31:21PM +0200, Peter Zijlstra wrote:
-> On Thu, Jul 19, 2018 at 09:52:01AM -0700, Tejun Heo wrote:
-> > On Thu, Jul 19, 2018 at 11:52:46AM -0400, Waiman Long wrote:
-> > > BTW, the way the partition is currently implemented right now is that a
-> > > child cannot be a partition root unless its parent is a partition root
-> > > itself. That is to avoid turning on partition to affect ancestors
-> > > further up the hierarchy than just the parent. So in the case of a
-> > > container, it cannot allocate sub-partitions underneath it unless it is
-> > > a partition itself. Will that solve your concern?
+On Fri, Jul 20, 2018 at 04:45:49AM -0700, Tejun Heo wrote:
+> > > 2. take away any given cpu from ist subtree.
 > > 
-> > Hmm... so a given ancestor must be able to both
-> > 
-> > 1. control which cpus are moved into a partition in all of its
-> >    subtree.
+> > I really hate this obsession of yours and doubly so for partitions. But
+> > why would this currently not be allowed?
 > 
-> By virtue of the partition file being owned by the parent, this is
-> already achived, no?
+> Well, sorry that you hate it.  It's a fundamental architectural
+> constraint.  If it can't satisfy that, it should't be in cgroup.
 
-The currently proposed implementation is somewhere in the middle.  It
-kinda gets there by restricting a partition to be a child of another
-partition, which may be okay but it does make the whole delegation
-mechanism less useful.
+Just in case it wasn't clear from previous the exchanges, basic
+architecture designs like this are what makes things like delegation
+actually useful across all controllers.  If we allow a descendant in
+the hierarchy to restrict waht its ancestors can do, it becomes really
+painful operationally.
 
-> > 2. take away any given cpu from ist subtree.
-> 
-> I really hate this obsession of yours and doubly so for partitions. But
-> why would this currently not be allowed?
-
-Well, sorry that you hate it.  It's a fundamental architectural
-constraint.  If it can't satisfy that, it should't be in cgroup.
+For now, I'd suggest just doing it at the first child level and move
+on unless there are clear use cases where nested partitions are
+useful, which I find unlikely given the nature of the operation -
+partitions don't really have anything to do with one another.
 
 Thanks.
 
