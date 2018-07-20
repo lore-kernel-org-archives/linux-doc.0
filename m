@@ -3,93 +3,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 83DA67D085
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 20:44:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B2C577D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 20:58:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728258AbeGTVdt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 17:33:49 -0400
-Received: from imap.thunk.org ([74.207.234.97]:39860 "EHLO imap.thunk.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727736AbeGTVdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Jul 2018 17:33:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
-         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=aBpIiEuf+EAeo/WY63YvLs5OyNSDKcW7QK2+8NFT1PY=; b=xgvSFt/jX6yTzD+++f9Vf2cUu2
-        CL3BbrMhQ2z4krLn3RaBz8VdTifdIIHYcN3cYczB4FOKndOnNY7bjvfn03P7tVsPudQd1Am1wEe5n
-        EsFeb5SSo/O+DXbWHWKqxrCU0ZCQ2kknFeFLQSURmcfInuVOMgeJhEudTPGmBFkFKGms=;
-Received: from root (helo=callcc.thunk.org)
-        by imap.thunk.org with local-esmtp (Exim 4.89)
-        (envelope-from <tytso@thunk.org>)
-        id 1fgcFg-00072h-Fn; Fri, 20 Jul 2018 20:43:48 +0000
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 8DD1C7A6419; Fri, 20 Jul 2018 16:43:43 -0400 (EDT)
-Date:   Fri, 20 Jul 2018 16:43:43 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Sphinx version dependencies?
-Message-ID: <20180720204343.GC27862@thunk.org>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20180719181556.GA21435@thunk.org>
- <20180719190400.GB4800@magnolia>
- <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
- <20180720131206.GM30706@thunk.org>
- <d064f468ab9fc60a02242331e0dddc185d6556ba.camel@darmarit.de>
- <20180720145235.GA27862@thunk.org>
- <cd31ba58ac24851698e06628ceebce4648345ff6.camel@darmarit.de>
- <20180720164421.GG4800@magnolia>
- <93aa59853a491a5ba3d5c3bcc0c991a1b815a67d.camel@darmarit.de>
- <20180720171020.GI4800@magnolia>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180720171020.GI4800@magnolia>
-User-Agent: Mutt/1.10.0 (2018-05-17)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: tytso@thunk.org
-X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
+        id S1728262AbeGTVso (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 17:48:44 -0400
+Received: from smtprelay.synopsys.com ([198.182.60.111]:38803 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727671AbeGTVso (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 17:48:44 -0400
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 7A19A10C1325;
+        Fri, 20 Jul 2018 13:58:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1532120325; bh=hZEIQQ380ZxseFXAlSDPeoXx4fT+GvDsIH9nmOWqcvU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Pw1HF7hgQ3niL7lCPfnmsCnvOwa2IThj5bREjZTdHr47OnfLVTMxd1QUqbML4RRza
+         nzbSdkld/OzBHlOd4KC0HnMULkej3MeNl7Bcn85UdA7N3j6KwDaibeqB4f6MJw/iSB
+         THxp9SkKcTXgHw7ItH8t72MluSTiLrXZq1lyFY2bFMvOigU1otiL5konO9U/4G+uWM
+         gjSMHwTIpVbtBluCE2AnkxvZuFgAPhqAGEElyWMiLpuF4ShtK5cR4vMv3622Dm9ZPV
+         nlumNbR9sWTRRDjEwAWaySfIxhSdQtESKfWh+SmoUaP7TtS0MkEb6rqNyI6GFZjQhV
+         /LspjgH57sWfw==
+Received: from vitor-VirtualBox.internal.synopsys.com (soares-e7470.internal.synopsys.com [10.107.25.76])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 3BD515B8A;
+        Fri, 20 Jul 2018 13:58:38 -0700 (PDT)
+From:   Vitor soares <Vitor.Soares@synopsys.com>
+To:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
+        linux-i2c@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de
+Cc:     psroka@cadence.com, agolec@cadence.com, adouglas@cadence.com,
+        bfolta@cadence.com, dkos@cadence.com, alicja@cadence.com,
+        cwronka@cadence.com, sureshp@cadence.com, rafalc@cadence.com,
+        thomas.petazzoni@bootlin.com, nm@ti.com, robh+dt@kernel.org,
+        pawel.moll@arm.com, mark.rutland@arm.com,
+        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        geert@linux-m68k.org, linus.walleij@linaro.org,
+        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
+        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
+        Joao.Pinto@synopsys.com, Vitor.Soares@synopsys.com
+Subject: [PATCH 0/3] Add driver for Synopsys DesignWare I3C master IP
+Date:   Fri, 20 Jul 2018 21:57:49 +0100
+Message-Id: <1532120272-17157-1-git-send-email-soares@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 20, 2018 at 10:10:20AM -0700, Darrick J. Wong wrote:
-> 
-> Well yes, but it's the virtualenv workflow that produced build errors
-> for Ted; that's what would seem to need fixing?
+This patch series is a proposal for the I3C master driver for Synopsys IP.
+This patch is to be applied on top of I3C subsystem RFC V6 submitted
+by Boris Brezillon.
 
-What would delight me if there was a fixed docutils and Sphinx version
-which is the **only** thing which subsystem maintainers need to test
-against.  If it fails for that version, then I reject the patch; and
-if it works on that version (say, 1.4.9), and it fails on some other
-version that a Distro wants to use for its hermetic build environment
-(say, 1.7.5), I can tell them, "not my problem, feel free to send me a
-patch that makes things work for 1.7.5, and doesn't break on 1.4.9 ---
-or package 1.4.9 for your distro build systems."
+Supported features:
+  Regular CCC commands.
+  I3C private transfers.
+  I2C transfers.
 
-I don't really care what the mandated version is --- although given
-that Fedora and Debian seem to be using 1.7.5, maybe that's the right
-answer, and too bad for the enterprise distro build systems --- that's
-why they get paid the big bucks.  I just want to know what I'm obliged
-to test against.
+Missing functionalities:
+  Hot-join.
+  IBI.
 
-So if Documentation/sphinx/requirements.txt is the only thing which is
-guaranteed to work, that's fine.  But it might be good to document
-that somewhere.
+Vitor soares (3):
+  i3c: master: Add driver for Synopsys DesignWare IP
+  dt-bindings: i3c: Document Synopsys DesignWare I3C master bindings
+  MAINTAINERS: Add myself as the dw-i3c-master module maintainer
 
-						- Ted
+ .../devicetree/bindings/i3c/snps,dw-i3c-master.txt |   43 +
+ MAINTAINERS                                        |    6 +
+ drivers/i3c/master/Kconfig                         |   10 +
+ drivers/i3c/master/Makefile                        |    1 +
+ drivers/i3c/master/dw-i3c-master.c                 | 1255 ++++++++++++++++++++
+ 5 files changed, 1315 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+ create mode 100644 drivers/i3c/master/dw-i3c-master.c
+
+-- 
+2.7.4
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
