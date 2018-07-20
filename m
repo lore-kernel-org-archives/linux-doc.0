@@ -3,75 +3,204 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A19337D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 16:37:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7F8CA7D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 16:44:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731792AbeGTR0i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 13:26:38 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:41730 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731583AbeGTR0i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 13:26:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=xAc+QZuJtG4zHD2LbKoFxMFVM9j39N2b5KvwLuHdD04=; b=GmGxolEYIkn8eJ7VfTqcOs/7+
-        FH/69wphSVLxIANNeCL7TUzgLPbxsuT2cD/16hpbcL5zbP4s0Tplpe9UdetvOPrZMjod5OGccjAqy
-        VUh5sEyI1SASotQXAT5iY9lX3bJtVMI+hR9ZbWJ4LLQhzOP0yXthjHKTmNf2kAXzjXz3criPPQu1i
-        vYPIFKIpeCU8EAC6PJH040Er1Qb46n1xAa6pLvX5HKD2yyWr522uTsCjdIfirwvufrYm5d0J9Bc/k
-        HLa38qCskeK5PjpGaQ5B/Vfw5TA453P3e2IyAKt5bO7716yS5/orErIAJ4Y8q210qSe+Ar4wTwGd6
-        lXTxn0Ocg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fgYP3-0006gs-Sd; Fri, 20 Jul 2018 16:37:14 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 110C520275F4C; Fri, 20 Jul 2018 18:37:12 +0200 (CEST)
-Date:   Fri, 20 Jul 2018 18:37:12 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-Message-ID: <20180720163712.GU2494@hirez.programming.kicks-ass.net>
-References: <20180719135224.GE2494@hirez.programming.kicks-ass.net>
- <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
- <20180719153045.GT72677@devbig577.frc2.facebook.com>
- <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
- <20180719165201.GU72677@devbig577.frc2.facebook.com>
- <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
- <20180720114549.GY72677@devbig577.frc2.facebook.com>
- <20180720154454.GR2494@hirez.programming.kicks-ass.net>
- <20180720155613.GB1934745@devbig577.frc2.facebook.com>
- <4857a9db-ebf5-24f8-c42d-d795f5c75854@redhat.com>
+        id S2387907AbeGTRdk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 13:33:40 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:36400 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387873AbeGTRdj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 13:33:39 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w6KGiOIY030323;
+        Fri, 20 Jul 2018 16:44:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=Y9yfEXihbSvAKsbMR1oZHkWzz2rLvLJVA/prT9yB6+o=;
+ b=yi5dZqwRlWtirPtqA+XDn8IaqiQRlYJHiy2Nli9xrCZSllJafhpUA0whmBjfQj+Cy0iy
+ 7zJhuS5GUgUKfCb5mnVbdL6ITxFeDWCn/1FEdg4O+ZRJJbIq0TLZE6WpudWRQchCBQq5
+ d8qoXtFaM4c0isOgEV47XT71/fSsExXpDGeGNTqDDihIu2ut7vxP2xn58Bpu3MQ7o+wc
+ 2ljx40UP2k1JFCdNFDQRU6kxGEkhqIor+5oAZCm7OHXDMyN8yuGLNxFbiEItFSUhJ9L9
+ KPPNZYfgG3mF/gZrtrNctkxPxPuPQfP9os6J8VHn2HyAbN2TNNTQd9z4HJ7OKLe7IE/Z lw== 
+Received: from aserv0021.oracle.com (aserv0021.oracle.com [141.146.126.233])
+        by aserp2130.oracle.com with ESMTP id 2k7a3tffxx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 20 Jul 2018 16:44:24 +0000
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w6KGiNxr001139
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 20 Jul 2018 16:44:23 GMT
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w6KGiMl4024711;
+        Fri, 20 Jul 2018 16:44:22 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 20 Jul 2018 09:44:22 -0700
+Date:   Fri, 20 Jul 2018 09:44:21 -0700
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Sphinx version dependencies?
+Message-ID: <20180720164421.GG4800@magnolia>
+References: <20180719181556.GA21435@thunk.org>
+ <20180719190400.GB4800@magnolia>
+ <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
+ <20180720131206.GM30706@thunk.org>
+ <d064f468ab9fc60a02242331e0dddc185d6556ba.camel@darmarit.de>
+ <20180720145235.GA27862@thunk.org>
+ <cd31ba58ac24851698e06628ceebce4648345ff6.camel@darmarit.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4857a9db-ebf5-24f8-c42d-d795f5c75854@redhat.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <cd31ba58ac24851698e06628ceebce4648345ff6.camel@darmarit.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8959 signatures=668706
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1806210000 definitions=main-1807200186
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 20, 2018 at 12:19:29PM -0400, Waiman Long wrote:
-> I am not against the idea of making it hierarchical eventually. I am
-> just hoping to get thing going by merging the patchset in its current
-> form and then we can make it hierarchical in a followup patch.
+On Fri, Jul 20, 2018 at 06:00:28PM +0200, Markus Heiser wrote:
+> Am Freitag, den 20.07.2018, 10:52 -0400 schrieb Theodore Y. Ts'o:
+> > On Fri, Jul 20, 2018 at 03:45:37PM +0200, Markus Heiser wrote:
+> > > Am Freitag, den 20.07.2018, 09:12 -0400 schrieb Theodore Y. Ts'o:
+> > > > I'm not entirely sure what's the best approach.  Right now I just want
+> > > > to understand --- do I have to make ext4.rst work against one, or many
+> > > > versions of Sphinx?  And which version(s) of Sphinx do I need to
+> > > > concern myself with?  If that turns out to be an onerous burden, I'm
+> > > > sure I won't be the only person complaining.  :-)
+> > > 
+> > > In that case ...
+> > > 
+> > > > But when I did that, Sphinx had heartburn over the ext4.rst file.
+> > > > 
+> > > >     ./include/linux/spi/spi.h:373: ERROR: Unexpected indentation.
+> > > >     /usr/projects/linux/ext4/Documentation/filesystems/ext4/ext4.rst:139: ERROR: Malformed table.
+> > > >     Column span alignment problem in table line 5.
+> > > 
+> > > ... its clear; the table was malformed. A markup error which is not detected
+> > > by older versions of docutils (very special case).
+> > 
+> > ... except that newer verions are A-OK with it.  Apparently 1.3.x was
+> > OK with it, and 1.6.x and 1.7.x were ok with it.  ***ONLY*** Sphinx
+> > 1.4.9 blew up on the "malformed table".
+> 
+> Are you sure that it was not due to the docutils version?
+> I can't reproduce it but the table parser is a part of docutils.
 
-Where's the rush? Why can't we do this right in one go?
+No idea.  With the virtualenv instructions I get:
+
+$ pip list | egrep -i '(sphinx|docutils)'
+docutils         0.12   
+Sphinx           1.4.9  
+sphinx-rtd-theme 0.4.0  
+
+With Ubuntu 18.04 I get:
+
+$ dpkg -l | egrep -i '(sphinx|docutils)' | awk '{print $2, $3}' | sort -k 2
+docutils-common 0.14+dfsg-3
+python3-docutils 0.14+dfsg-3
+python3-sphinx-rtd-theme 0.2.4-1
+sphinx-rtd-theme-common 0.2.4-1
+python3-alabaster 0.7.8-1
+libjs-sphinxdoc 1.6.7-1ubuntu1
+python3-sphinx 1.6.7-1ubuntu1
+sphinx-common 1.6.7-1ubuntu1
+
+Ok, newer docutils, maybe that's what it is?
+
+With Ubuntu 16.04 I get:
+
+$ dpkg -l | egrep -i '(sphinx|docutils)' | awk '{print $2, $3}' | sort -k 2
+docutils-common 0.12+dfsg-1
+python-docutils 0.12+dfsg-1
+python-sphinx-rtd-theme 0.1.9-1
+sphinx-rtd-theme-common 0.1.9-1
+python-alabaster 0.7.7-1
+libjs-sphinxdoc 1.3.6-2ubuntu1.1
+python-sphinx 1.3.6-2ubuntu1.1
+sphinx-common 1.3.6-2ubuntu1.1
+
+and now I'm just confused since 16.04 has the same version of docutils
+and an older sphinx and runs fine; but 18.04 has newer docutils and
+newer sphinx and runs fine.
+
+> > 
+> > So in this case, Darrick has come up with a patch that is makes it OK
+> > with 1.4.9 without breaking on 1.7.5 --- and obviously, doing
+> > something that makes it broadly portable is the right thing.
+> 
+> Right, fix it by the markup .. is what I recommend.
+> 
+> > I'm asking a larger question, which is moving forward, which is more
+> > important?  Make it work with Sphinx 1.4.9?  Or making it Sphinx work
+> > with Sphinx 1.7.5?
+> > 
+> > And should we change Documentation/sphinx/requirements.txt to require
+> > something newer, such as Sphinx 1.7.5?  And should we require that
+> > Ubuntu 18.04 which is using Sphinx 1.6.8 use a virtualenv and use
+> > download Sphinx 1.6.8?
+> 
+> The requirements.txt came from commit fb947f3f47 [1] (inital 24071ac1a6).
+> Where Jon and Mauro decided to tag explicit versions ...
+> 
+> docutils==0.12
+> Sphinx==1.4.9
+> sphinx_rtd_theme
+> 
+> Maybe it is time to switch to something like .. ?
+> 
+> Sphinx>=1.4.9
+> sphinx_rtd_theme
+> 
+> I don't know. Mauro has tested on many distros, he has more experience with
+> the wide range of distros then I.
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fb947f3f47
+> 
+> > 
+> > My understanding that the Sphinx developers make no guarantees that if
+> > we follow some external, version-indepedent spec, that it will work on
+> > Sphinx version N, as well as Sphinx version N+1.  (In the ideal world,
+> > if there was such an independent spec for .rst format files, and a
+> > compliant .rst file doesn't work for Sphinx version N, it's a bug, and
+> > we should expect somebody --- perhaps the Distro's --- to backport the
+> > fix from Sphinx version N+1 to Sphinx version N.)  E.g., is there an
+> > equivalent for ANSI C 1999 standard for .rst files?
+> 
+> The reST markup is specified here:
+> 
+>  http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
+> 
+> but the (last) example of the simple table does not match your "1.4.9"
+> experience.
+
+Yes.  This makes writing broadly portable markup difficult -- originally
+I did not take the '=' all the way to the right edge of the table
+because I saw that last example in the above document and assumed that
+it wasn't necessary to extend the '=' all the way to the right edge.
+Neither Ubuntu system choked on it, so is this a bug in upstream?  Some
+strange patch added by the distro?  Something that ended up in the
+python wheel?  Or a bug in the spec?
+
+--D
+
+> -- Markus --
+> 
+> 
+> > 
+> > 		       	      	   	    - Ted
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
