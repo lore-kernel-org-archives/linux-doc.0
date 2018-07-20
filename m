@@ -1,92 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E9E87D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 07:54:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCDA57D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 08:52:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727233AbeGTIlG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 04:41:06 -0400
-Received: from mout.perfora.net ([74.208.4.197]:43707 "EHLO mout.perfora.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727202AbeGTIlG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Jul 2018 04:41:06 -0400
-Received: from localhost.localdomain.ziswiler.net ([89.217.215.226]) by
- mrelay.perfora.net (mreueus003 [74.208.5.2]) with ESMTPA (Nemesis) id
- 0MdtW7-1fNVH73PXJ-00PgNi; Fri, 20 Jul 2018 09:53:41 +0200
-From:   Marcel Ziswiler <marcel@ziswiler.com>
-To:     linux-mtd@lists.infradead.org
-Cc:     Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Vladimir Zapolskiy <vz@mleia.com>
-Subject: [PATCH] mtd: nand: fix spelling in driver api documentation
-Date:   Fri, 20 Jul 2018 09:53:33 +0200
-Message-Id: <20180720075334.24254-1-marcel@ziswiler.com>
-X-Mailer: git-send-email 2.14.4
-X-Provags-ID: V03:K1:MFLqMv186UIH4Sp+rvdAI1MG1AcDNVN/jHsIX/L9T5cMB4oU1eV
- Bg21CeUQSwK+zfLFwhb+UhY6l19nefbLMITkKe/mWQto/Cy6D9nLTba2rExx3A6TI6hgZs9
- nVNFf2yox0J2mrmpPMragcx2UHNwjrJtfoNRqVx7mqLFxgorbIfyH9/WFpFgxCxBcfTWXvo
- 3tYvVtfR/TNICH5JroqYg==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:huIpSAjKbsc=:4iVIkC5mxEHvdU8BB7HZXA
- 86lzZZ21yYf6WjlTEQN2bkh/ukRFtN35IEVdR1TmWuEF89h5YwORfNAIPLg4sL3NVB403G9Tl
- j+swH0NZMhN9HAZ3f1hFPKMFYXlWSM6iaDefRlEsV21dNAQc9GMvAAF3Daw1TJOXq10KDP0Mb
- PnSDwaPqYkpJg9vi07J1+mwN7FP/WY1pKDh+BWOw8v0i8J0mpzvoD8cSGQnh3iOHuSqU+b775
- +TS3FZqfM4+dEKGtGA51j4yRN0y7AHkCxI5moZVe9ViHLBRd6jSdoluayehW8CBqfSBLgmX95
- qFukvqPJ1M6P6/EqPxyMPDr5EEYp0nEASjmo4dLcywHyAlCsFiKF2twM7BLIr90vF9Tmyn3ZC
- 7r5jc8QVaj4OFDzWmHsopRLysq2ryNf/eM56A0txBVSPrxRqI1LBAzx0PiYtS9FPubuia1LwB
- m+fB4VAX4QisTdU2YzzzQOqVcr9Bpojkg2aKiyD4e2Bcla8p1ae7o6ap0sOWWZRQFNO0ZiSwd
- sm7mDmqWlrA2HSGoLkgF6w95ms7Mgicf6qCpwA9dKWEQ7Tdh3HQigULI+JWpte4204GgaFJYL
- 78t1K8FWbQhjzvkHfQtt/ZdqYf6AU/2cr7KQM0LDN7w1wPkOxA9KgqllbcT6hbOHTqCRik/HX
- eJGALgzrwd8gordIqfnD3tU+2s02R4Oxa2BlwrIU9nljACGZvc8dRwIddWdFWVItlFxM=
+        id S1727578AbeGTJjp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 05:39:45 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:43090 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727216AbeGTJjp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 05:39:45 -0400
+Received: by mail-lf1-f65.google.com with SMTP id m12-v6so1277654lfc.10;
+        Fri, 20 Jul 2018 01:52:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=fVn/Xg5mb+rYScFixn59lm+lv54Hm+61z/aHP+S63UU=;
+        b=PnrWIY2Snte5fog4Z7OGaMy6uE7TPgrODyfuXOdgUnAFjyQvE8R8TOuXazLBwdZbgy
+         NBB4G7YMzdulcl3HFVtClV5ZTwxHD1GQNW7rGbABpia40RXxIwfOAsPJ2Vyx84GXPLZW
+         V2M50IGit44kp3psWleSFAcBq/DhqN5rfwramcxkfjRY0Ss06RIsSkL/iYgTbm1jWQw/
+         fBn5kdN72E9DxzA/JdQs0kjqcjUNjCSL1II8s4LsNwI2MJLmn8kA4LWQ/QevgqbGi+oY
+         o/hC0kTel/6/pZJK4HbnAp6KjhoZkQPz2GcO+QgoB7z+Y45UnX/2ZkeAy0MBDlFdccrG
+         tepg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=fVn/Xg5mb+rYScFixn59lm+lv54Hm+61z/aHP+S63UU=;
+        b=KSYkZKKu8TnAUnHJoc1McONqAOXjDqfNFHegQw3jU6I1VK9hzLlXIC3nI2U41Uknpx
+         j9KaMqEA05SVF0DJ3rFUw4Ixzk4+KH1Cpq1Z8g8bGvbGcLuOZHKEFKOPlCsSjKiPm2SP
+         TX3LPF1qJ28Nnq30fpGwF0lei4vE6rAkSSP6Qn46vm8BTmdWUlpJW+wxcn3hbAh7Dhlz
+         rezhPOXXxCKWs0vZRXjXeS4+jgZyHz0eCKM25JpK+1gHxqiKargvAwM/xiPOW5QtKfs3
+         7mNFy6ralqRSV5okh7u493IRnVgamCAefnWY1l0MIUGbdiXT9K+aGt3lthMP6xkVtzDZ
+         5t5w==
+X-Gm-Message-State: AOUpUlFlF2iRnHv5D/Yo+aeUbGu3IITKiAdfsyZy+yYhsuMCLrEbnZO0
+        khh57Li+0tmvKW8Wb5w7l7SxEL/M4rTkKSdIDwo=
+X-Google-Smtp-Source: AAOMgpd9WKXERcKfb9fbK+/rQZOyfUPBa/iib5u4UiYEGUeuf8Hpc2esH2kQvXqDdr9iRQMYRxlXiAniy48bhrmLNFI=
+X-Received: by 2002:a19:5c06:: with SMTP id q6-v6mr871534lfb.6.1532076748084;
+ Fri, 20 Jul 2018 01:52:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Fri, 20 Jul 2018 01:52:27
+ -0700 (PDT)
+In-Reply-To: <20180719152930.3715-1-boris.brezillon@bootlin.com>
+References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 20 Jul 2018 10:52:27 +0200
+X-Google-Sender-Auth: FN7o8MaSf4dMOgQOjtJDZ8cVdSM
+Message-ID: <CAK8P3a2MP5+oFz--e+BM24D8Ahw7H_RKgN1S6wY1nQE6JL0dmw@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] Add the I3C subsystem
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+On Thu, Jul 19, 2018 at 5:29 PM, Boris Brezillon
+<boris.brezillon@bootlin.com> wrote:
 
-This fixes some spelling mistakes.
+> - the bus element is a separate object and is not implicitly described
+>   by the master (as done in I2C). The reason is that I want to be able
+>   to handle multiple master connected to the same bus and visible to
+>   Linux.
+>   In this situation, we should only have one instance of the device and
+>   not one per master, and sharing the bus object would be part of the
+>   solution to gracefully handle this case.
+>   I'm not sure if we will ever need to deal with multiple masters
+>   controlling the same bus and exposed under Linux, but separating the
+>   bus and master concept is pretty easy, hence the decision to do it
+>   now, just in case we need it some day.
+>   The other benefit of separating the bus and master concepts is that
+>   master devices appear under the bus directory in sysfs.
+>
+>   Discussion around the bus/master/dev representation is still ongoing,
+>   with Arnd opting for a simple approach where
+>   * the bus is implicitly represented by the master device
+>   * the master is not represented as a device under the I3C bus
+>   * only remote I3C devices are exposed and possibly duplicated if
+>     several masters controlling the same bus are exposed to the same
+>     Linux instance
+>   and Peter preferring the representation where the bus is a separate
+>   object. IIRC, Wolfram was in favor of the "bus is a separate object"
+>   too.
+>
+>   If possible, I'd like to close this discussion soon, no matter which
+>   solution is chosen.
+...
+> Missing features in this preliminary version:
+...
+> - no support for multi-master and the associated concepts (mastership
+>   handover, support for secondary masters, ...)
 
-Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+Let's try to come to a conclusion to this discussion, this is the main
+show-stopper for inclusion that I see, as changing the fundamental
+design would be hard to do once we do it one way or the other,
+and the structure is exposed to user space.
 
----
+Peter and Wolfram, could you explain what scenario you can see that
+would require handing over ownership of a device from one i3c master
+to another i3c master when both are controlled by the same Linux
+instance?
 
- Documentation/driver-api/mtdnand.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+To me this seems like a rather odd scenario, and supporting it
+properly requires significant complexity once we try to support the
+dynamic handover of the bus between two of our own masters.
 
-diff --git a/Documentation/driver-api/mtdnand.rst b/Documentation/driver-api/mtdnand.rst
-index dcd63599f700..c55a6034c397 100644
---- a/Documentation/driver-api/mtdnand.rst
-+++ b/Documentation/driver-api/mtdnand.rst
-@@ -374,7 +374,7 @@ The nand driver supports three different types of hardware ECC.
- 
- -  NAND_ECC_HW8_512
- 
--   Hardware ECC generator providing 6 bytes ECC per 512 byte.
-+   Hardware ECC generator providing 8 bytes ECC per 512 byte.
- 
- If your hardware generator has a different functionality add it at the
- appropriate place in nand_base.c
-@@ -889,7 +889,7 @@ Use these constants to select the ECC algorithm::
-     #define NAND_ECC_HW3_512    3
-     /* Hardware ECC 6 byte ECC per 512 Byte data */
-     #define NAND_ECC_HW6_512    4
--    /* Hardware ECC 6 byte ECC per 512 Byte data */
-+    /* Hardware ECC 8 byte ECC per 512 Byte data */
-     #define NAND_ECC_HW8_512    6
- 
- 
--- 
-2.14.4
+It seems more likely to me that we could deal with this case by
+requiring either that each bus is controlled by at most one master
+device in Linux, or at least that when we have two masters on
+the same bus that they each control a non-overlapping set of
+slave devices. Either way we'd be able to represent the structure
+as a normal tree in the firmware (DT or ACPI) as well as in
+sysfs.
 
+       Arnd
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
