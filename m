@@ -1,120 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 464597D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 17:10:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D85C07D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 17:41:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387915AbeGTR7k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 13:59:40 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:52430 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387989AbeGTR7k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 13:59:40 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w6KHANIi021673;
-        Fri, 20 Jul 2018 17:10:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=VW3eyL7VOjae76jaBzJHeNtb2cwVmVP3u57kQ4jgfJg=;
- b=G6q8mcFlqnxsB2ylKcDUYV0PCiGSTN2J036dHfArO2+kjnZVvvG9JEAniV+n2J0dZpdb
- CREV6AlTHNMohdQtdoPx1itQIhbbDGBaVYdZjAl6M2Ok7ZSvrTXcOOwl7TBbsHlsa+2H
- XQdsQXGLl30cSIZbaX/JW446/GdKnejk2nJr3ZKNOyv8YhAnOvhgiASAanV/MrKwBD2+
- FTIxJgPj5zCFaJx88ilEJfKGj1xlu6l9u5OSLF5ZspV6mS8xLl0Y/Vrl0awDS9CO28Y6
- aWrzDm1w7zic0ReSrWTkJmvINJ1v13Mgx1lDXAzCmZIjN0ZKlF0I4fV/d6zzcVm/kcuO yQ== 
-Received: from aserv0021.oracle.com (aserv0021.oracle.com [141.146.126.233])
-        by userp2120.oracle.com with ESMTP id 2k9yjxc4h1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 20 Jul 2018 17:10:23 +0000
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w6KHAMOi020686
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 20 Jul 2018 17:10:22 GMT
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w6KHALVI021165;
-        Fri, 20 Jul 2018 17:10:22 GMT
-Received: from localhost (/67.169.218.210)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 20 Jul 2018 10:10:21 -0700
-Date:   Fri, 20 Jul 2018 10:10:20 -0700
-From:   "Darrick J. Wong" <darrick.wong@oracle.com>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Sphinx version dependencies?
-Message-ID: <20180720171020.GI4800@magnolia>
-References: <20180719181556.GA21435@thunk.org>
- <20180719190400.GB4800@magnolia>
- <44d73cd9926f58976a1269ff3cd3afb845ec84fa.camel@darmarit.de>
- <20180720131206.GM30706@thunk.org>
- <d064f468ab9fc60a02242331e0dddc185d6556ba.camel@darmarit.de>
- <20180720145235.GA27862@thunk.org>
- <cd31ba58ac24851698e06628ceebce4648345ff6.camel@darmarit.de>
- <20180720164421.GG4800@magnolia>
- <93aa59853a491a5ba3d5c3bcc0c991a1b815a67d.camel@darmarit.de>
+        id S2387989AbeGTSaV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 14:30:21 -0400
+Received: from mail-yw0-f196.google.com ([209.85.161.196]:37430 "EHLO
+        mail-yw0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731305AbeGTSaV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 14:30:21 -0400
+Received: by mail-yw0-f196.google.com with SMTP id w76-v6so4631198ywg.4;
+        Fri, 20 Jul 2018 10:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=cwFuLmY72f0ORSsZ9OAumVPGmBV/AQlH7QKLVGd2oNA=;
+        b=Pl5o/+18GRH9i/WZPjrEHnH3xfrmbYm7BON6a7jmSq5sF3+GRLSTqbeeqtYn+3iXLE
+         IlYlR8zTN1r4vyBHxlYGZSNvFBykG51Bnj1Sn+O0+K8r86OBfJYnEOqVAdidxjwLaSF7
+         /O+pkY8WVMC+jLpTh/8Rlpb5/1cXey/xMa7tdqZkZdF4BBlFtBeVSxecbxl+N5vgsF0/
+         Sd7Wctlehg/wrpySRhUo8TFRdgFM77UjoUIN9/gCh/EC4fNpb1s7IBFC3B0Rfd3G8pV9
+         OPQ4D1rrhh1DsyY5Bp+fe1ZZzXLgBSUx4h/Ztm2QxNWIGbG8+lkxT70JSSJXJH+UvYWf
+         sMvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=cwFuLmY72f0ORSsZ9OAumVPGmBV/AQlH7QKLVGd2oNA=;
+        b=PNhsYo19rcTCOiJF3ftKr08PRnAEaRzk2ZtToeW4TN47PzBk+AjW7NDNmrk3uADdoF
+         fOlHl8gPqyJjhkM97M5InJWD16vHwpQezxmZepOWav1GZwtur+0cj318kGi8kX+2L1y7
+         nKe7SXGI+Xnk1EXmeOCQHebPnpnbajEt1Z1lyc5Vk3t5DtEC75ViKBLz2b9StoD0hh0r
+         s0rniSn+Q6qFz/KH6T06GdFXXt/WY9EVZXcbcmmxHVpvZvgRZyPN3/5R7DZiTmJ43iQd
+         3WewqgRsiXKv08Mbwv+kUBhdBqu+V9kwBfFYLz92LItfToqmF1yddahzsrXf4WONMOAV
+         cBSA==
+X-Gm-Message-State: AOUpUlHRo0zXnplmOjUzaBLzoKoAuN5AciCbTU5lPGz6Q2RCRfc3xriN
+        NkNNAoD5xuJ9mJr1MlXSezs=
+X-Google-Smtp-Source: AAOMgpd7HeKVK5z9xo3iYYL1DI1ScsG9/UjoUEIkcyEGmefRU3FJ/PPqhO54/eeO8dQRmM9nK7nzfA==
+X-Received: by 2002:a0d:ddc8:: with SMTP id g191-v6mr1549773ywe.145.1532108463068;
+        Fri, 20 Jul 2018 10:41:03 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:180::1:b56b])
+        by smtp.gmail.com with ESMTPSA id x69-v6sm2384166ywx.105.2018.07.20.10.41.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 20 Jul 2018 10:41:02 -0700 (PDT)
+Date:   Fri, 20 Jul 2018 10:41:00 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
+ on cgroup v2 root
+Message-ID: <20180720174100.GC1934745@devbig577.frc2.facebook.com>
+References: <20180719153045.GT72677@devbig577.frc2.facebook.com>
+ <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
+ <20180719165201.GU72677@devbig577.frc2.facebook.com>
+ <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
+ <20180720114549.GY72677@devbig577.frc2.facebook.com>
+ <20180720154454.GR2494@hirez.programming.kicks-ass.net>
+ <20180720155613.GB1934745@devbig577.frc2.facebook.com>
+ <4857a9db-ebf5-24f8-c42d-d795f5c75854@redhat.com>
+ <20180720163712.GU2494@hirez.programming.kicks-ass.net>
+ <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <93aa59853a491a5ba3d5c3bcc0c991a1b815a67d.camel@darmarit.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8960 signatures=668706
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1806210000 definitions=main-1807200190
+In-Reply-To: <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 20, 2018 at 06:58:57PM +0200, Markus Heiser wrote:
-> Am Freitag, den 20.07.2018, 09:44 -0700 schrieb Darrick J. Wong:
-> > and now I'm just confused since 16.04 has the same version of docutils
-> > and an older sphinx and runs fine; but 18.04 has newer docutils and
-> > newer sphinx and runs fine.
-> 
-> Same here .. I'am completely confused by distros etc. .. I will never be able to
-> control that. Thats why I recommend the virtualenv workflow (as I wrote Christoph):
+Hello,
 
-Well yes, but it's the virtualenv workflow that produced build errors
-for Ted; that's what would seem to need fixing?
+On Fri, Jul 20, 2018 at 01:09:23PM -0400, Waiman Long wrote:
+> On 07/20/2018 12:37 PM, Peter Zijlstra wrote:
+> > On Fri, Jul 20, 2018 at 12:19:29PM -0400, Waiman Long wrote:
+> >> I am not against the idea of making it hierarchical eventually. I am
+> >> just hoping to get thing going by merging the patchset in its current
+> >> form and then we can make it hierarchical in a followup patch.
+> > Where's the rush? Why can't we do this right in one go?
+> 
+> For me, the rush comes from RHEL8 as it is a goal to have a fully
+> functioning cgroup v2 in that release.
+> 
+> I also believe that most of the use cases of partition can be satisfied
+> with partitions at the first level children. Getting hierarchical
+> partition right may drag on for half a year, maybe, giving our history
+> with cpu v2 controller. No matter what we do to enable hierarchical
+> partition in the future, the current model of using a partition flag is
+> intuitive enough that it won't be changed at least for the first level
+> children.
 
---D
+I'm fully with Waiman here.  There are people wanting to use it and
+the part most people isn't controversial at all.  I don't see what'd
+be gained by further delaying the whole thing.  If the first level
+partition thing isn't acceptable to everyone, we can even strip down
+further.  We can get .cpus and .mems merged first, which is what most
+people want anyway.
 
-> $ sudo apt install python3-virtualenv
-> 
-> To setup up a environment for building htmldocs:
-> 
-> $ python3 -m virtualenv py3env
-> $ ./py3env/bin/pip install -r ./Documentation/sphinx/requirements.txt
-> 
-> To build htmldocs with:
-> 
->  $ SPHINXBUILD=./py3env/bin/sphinx-build make htmldocs
-> 
-> If the env is no longer needed:
-> 
->  $ rm -r py3env
-> 
-> Am Freitag, den 20.07.2018, 09:44 -0700 schrieb Darrick J. Wong:
-> > Yes.  This makes writing broadly portable markup difficult -- originally
-> > I did not take the '=' all the way to the right edge of the table
-> > because I saw that last example in the above document and assumed that
-> > it wasn't necessary to extend the '=' all the way to the right edge.
-> > Neither Ubuntu system choked on it, so is this a bug in upstream?  Some
-> > strange patch added by the distro?  Something that ended up in the
-> > python wheel?  Or a bug in the spec?
-> 
-> I guess in the version history of docutils ;) .. use workflow above to escape
-> from distro chaos. Even missing '=' will be OK.
-> 
-> -- Markus --
+Thanks.
+
+-- 
+tejun
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
