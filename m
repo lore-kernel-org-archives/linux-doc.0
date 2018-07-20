@@ -1,39 +1,55 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DFFAF7D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 15:45:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 402007D085
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Jul 2018 15:56:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731892AbeGTQeG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Jul 2018 12:34:06 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:40102 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731583AbeGTQeG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 12:34:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=CTrgbzCEKwqwIlnAuzvzAfy7hiCeZtkIp3hlVKFAupY=; b=ZDkXng6iPrf7HgV0QmP6nbYJZ
-        iepEUF6kOnr6mFNCo5Rd5SuQb2txNi/aPqt3Al2wttST8EAwOA/ClV6akx5jFIfu3qp/1RejfCf+u
-        jjMq2z7TQQOQG05F47AQQtLOc71uyHpEdV7AitHRuCCx0U8jnBEBNRwGvC0XUc0g/OCMXe2pgFALw
-        ZKsWMEpmR8nXpDCyaq6mJ4cvAMzJxzmjMzGIhgNmHziQfbOMPL7OUPTopKK1uSaJh8H/2RDIVzNp3
-        jh273DMC6davrkmmBvfNAgZ4L4JIfKXEO8qXnG6ddf5NrXzwrtHsJfWu7+r39njbXElf/5oJU2LDk
-        6Q5x2bmiQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fgXaS-0006CY-SX; Fri, 20 Jul 2018 15:44:57 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 0C9DE20275F37; Fri, 20 Jul 2018 17:44:54 +0200 (CEST)
-Date:   Fri, 20 Jul 2018 17:44:54 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Tejun Heo <tj@kernel.org>
+        id S1731608AbeGTQpL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Jul 2018 12:45:11 -0400
+Received: from mail-yw0-f195.google.com ([209.85.161.195]:41280 "EHLO
+        mail-yw0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731203AbeGTQpL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jul 2018 12:45:11 -0400
+Received: by mail-yw0-f195.google.com with SMTP id q129-v6so4510714ywg.8;
+        Fri, 20 Jul 2018 08:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=K2eMCmaQOK7Kd62z2r1yCYs9jaqhAA7oLspxsoU77Gg=;
+        b=ZVOgsdahfHcd3U74MwqjB/eRBcdxTKYmZiH5e23UjiJeMhkDTNUH+O56imkGcg1GIJ
+         mi6SOh7LrYKQxMSVCzxogwzvvpmDA/NRtV8JQRMaF8n2bli69zUPPoNBrDWan/dmNsc1
+         vipZrh/31yWBvR8n7/hCia5NxbRF2HbIwEVEn9kQ8NSoV3wVExa1602tbLuxc6WtLMrl
+         txMk7mOuhk2F+PmD0xAkY1bZc/zZ7KOcG/XOMdeqvYyieMtj2l7KyjcsZV3/9+MN28Xt
+         Sk/x0UJcLoLYIcKfUX/Jr4bjY5mL31jj42f6gmwoZC8igZrzv6XrAhthel5BcvoZu+L9
+         9NLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=K2eMCmaQOK7Kd62z2r1yCYs9jaqhAA7oLspxsoU77Gg=;
+        b=Ipnve2Yb84XeVxDqddM8ZC3yqKZXLELrOTfohrRHPpw6XGlkZkmq4Lf/jHRQhZ7xEn
+         5qsXiptz8JY41MSOHeI7kPfZqFdXxz1IwDDxOxNhCOCRJT1vkGGHwmVpJy54SRzqtl7c
+         jaD54lGh3ngv8XY4tgnjYARiwU7J9kEIajjDBbq2KG3EBuaoEyDfaqIWlLK8kCEWdxJz
+         8txD6PwmwTP4pHMIFJoLxBWR+wFLd0wsxRoGLnhWZoKkiUp/8+3ImAGYhZ7E/mV4iOi2
+         kHCIZ6hfUQYFMBF7q3luwC+I/+hKX36g8WVWXPRQEqNla/ep87VEcexTZz6mHtUG1JGs
+         yWOA==
+X-Gm-Message-State: AOUpUlHsOK/CgQovTeFMA5ArcjhdZ0DPFYWQcyPPP5aqthYqUnNDCVnV
+        hqS/eHYGLvHp8MIqB0YVJpg=
+X-Google-Smtp-Source: AAOMgpfRtmx0BWSVyqj9VVxqyVsuK3BHSpnupNH+/0sxAdPX8PjE4C/l0vkQSyrZPPiZ/htt9SsA/A==
+X-Received: by 2002:a81:82c7:: with SMTP id s190-v6mr1315350ywf.329.1532102176030;
+        Fri, 20 Jul 2018 08:56:16 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:180::1:e55b])
+        by smtp.gmail.com with ESMTPSA id r3-v6sm2569621ywr.80.2018.07.20.08.56.14
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 20 Jul 2018 08:56:14 -0700 (PDT)
+Date:   Fri, 20 Jul 2018 08:56:13 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Waiman Long <longman@redhat.com>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
@@ -45,9 +61,8 @@ Cc:     Waiman Long <longman@redhat.com>, Li Zefan <lizefan@huawei.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
 Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
  on cgroup v2 root
-Message-ID: <20180720154454.GR2494@hirez.programming.kicks-ass.net>
-References: <20180702165322.GI533219@devbig577.frc2.facebook.com>
- <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
+Message-ID: <20180720155613.GB1934745@devbig577.frc2.facebook.com>
+References: <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
  <20180703155823.GS533219@devbig577.frc2.facebook.com>
  <20180719135224.GE2494@hirez.programming.kicks-ass.net>
  <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
@@ -56,48 +71,61 @@ References: <20180702165322.GI533219@devbig577.frc2.facebook.com>
  <20180719165201.GU72677@devbig577.frc2.facebook.com>
  <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
  <20180720114549.GY72677@devbig577.frc2.facebook.com>
+ <20180720154454.GR2494@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180720114549.GY72677@devbig577.frc2.facebook.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <20180720154454.GR2494@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 20, 2018 at 04:45:49AM -0700, Tejun Heo wrote:
+Hello, Peter.
 
-> > > Hmm... so a given ancestor must be able to both
+On Fri, Jul 20, 2018 at 05:44:54PM +0200, Peter Zijlstra wrote:
+> > The currently proposed implementation is somewhere in the middle.  It
+> > kinda gets there by restricting a partition to be a child of another
+> > partition, which may be okay but it does make the whole delegation
+> > mechanism less useful.
+> 
+> So the implementation does not set ownership of the 'partition' file to
+> that of the parent directory? Because _that_ is what I understood from
+> Waiman (many versions ago). And that _does_ allow delegation to work
+> nicely.
+
+So, that part isn't the problem.  The problem is that if we allow
+partitioning nested further away from ancestor, the descendant would
+be able to take away reources from the removed ancestor.  Waiman
+avoids this problem by only allowing partitions to nest but then it's
+kinda weird cuz it's just a separate tree.
+
+> > > > 2. take away any given cpu from ist subtree.
 > > > 
-> > > 1. control which cpus are moved into a partition in all of its
-> > >    subtree.
+> > > I really hate this obsession of yours and doubly so for partitions. But
+> > > why would this currently not be allowed?
 > > 
-> > By virtue of the partition file being owned by the parent, this is
-> > already achived, no?
+> > Well, sorry that you hate it.  It's a fundamental architectural
+> > constraint.  If it can't satisfy that, it should't be in cgroup.
 > 
-> The currently proposed implementation is somewhere in the middle.  It
-> kinda gets there by restricting a partition to be a child of another
-> partition, which may be okay but it does make the whole delegation
-> mechanism less useful.
+> So is hierarchical behaviour; but you seem willing to forgo that.
 
-So the implementation does not set ownership of the 'partition' file to
-that of the parent directory? Because _that_ is what I understood from
-Waiman (many versions ago). And that _does_ allow delegation to work
-nicely.
+Well, we do have root or first-level only things.  Things just need to
+be properly delegatable when they're hierarchical (and things should
+be hierarchical only when that actually means something).  While not
+desirable, considering the history, accomodating this specific usage
+that way seems acceptable to me.
 
-> > > 2. take away any given cpu from ist subtree.
-> > 
-> > I really hate this obsession of yours and doubly so for partitions. But
-> > why would this currently not be allowed?
-> 
-> Well, sorry that you hate it.  It's a fundamental architectural
-> constraint.  If it can't satisfy that, it should't be in cgroup.
+> Still, the question was, how is this (dispicable or not) behaviour not
+> allowed by the current implementation?
 
-So is hierarchical behaviour; but you seem willing to forgo that.
+I'm not quite sure what you're trying to ask.  Can you elaborate?
 
-Still, the question was, how is this (dispicable or not) behaviour not
-allowed by the current implementation?
+Thanks.
+
+-- 
+tejun
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
