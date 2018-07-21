@@ -5,45 +5,44 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 55BB27D072
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Jul 2018 11:59:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 41CBE7D072
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Jul 2018 11:59:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727518AbeGUMwD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 21 Jul 2018 08:52:03 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:40150 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727755AbeGUMwD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jul 2018 08:52:03 -0400
-Received: by mail-lf1-f65.google.com with SMTP id y200-v6so3474327lfd.7
-        for <linux-doc@vger.kernel.org>; Sat, 21 Jul 2018 04:59:33 -0700 (PDT)
+        id S1727781AbeGUMwG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 21 Jul 2018 08:52:06 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:39704 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727952AbeGUMwG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jul 2018 08:52:06 -0400
+Received: by mail-lf1-f66.google.com with SMTP id a134-v6so3478494lfe.6
+        for <linux-doc@vger.kernel.org>; Sat, 21 Jul 2018 04:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7xFHfTlcMNT5Yw+vTSDeNN9RPAjbKc7TWlhRbw8hE4s=;
-        b=hHi6CIIYgNQamZJchmy56Nh4dkiEk9kxkzCSquwpGi4TIBtzUYfTISLdmGDCzlVoQn
-         ZmhNu+tQnJWrSTa6qgUwGmtP/oB7jsqWtelusJCQQ9soJr+nFY5fOuB8kscIK9szCOHp
-         d5ezRAfeRKSMq8wEXLO3crpSZ1I4m3R9XEkNY=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=J0gNx+HMMc7tXkTsJONncvK4d9iP3vDtXPedoLleIHE=;
+        b=bWsVoDnyCcM+fPbyUSRxA86ssLvb4p+TrvXBvjbLSRf6x+gnRdEADpWM7h4HhBURXv
+         cH6nyQ2DLggqslRXB3arPdAf0GNmb0TRYOzscgVbKbT/R46KOvwqyCHXzQ92qzH2xWvn
+         RSxfNPxFFr2ia0Au4YgkbvfL8e28JwbIbL0AQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7xFHfTlcMNT5Yw+vTSDeNN9RPAjbKc7TWlhRbw8hE4s=;
-        b=k0EuIfenwOJktclIGi+J3dpxOU0uTu7Bo3IytGkIN/l5fTTCAmA4oEzbDDGSZg5qup
-         wHBN4F8biGS0IfAX641Fe2LqjNDOqr14/zjbIbJprXs7+0dji1/5Ut4QyS9kIdnj5W9c
-         CRW5C6cwompU6iQ01vtRAYbIX8JF3chcu22ZIEEOkdtk+rEHRFU+FNfqAnp7uY9bIrEp
-         TWILqLVQDrR8jg2oYWyGxG13kfvqNMBw1fatwZoVNE+eEBrGurwx9xzxexh40ydQXmmV
-         jtFnR4ltTlkT59Lzff8F3J2rVX/leP+ZIs2jnMd80yemFebyNsKtiPBGO0FnsRMghsfR
-         XG+w==
-X-Gm-Message-State: AOUpUlGZryoN5HsPxixaucxjfET0IYiq9maMCLe6Ku8ABI1xPGqfyRJo
-        ClZWW1P93DO+WhemVxUhI7cupA==
-X-Google-Smtp-Source: AAOMgpdoswSoGhqVpoxEkC4z7MJS8tyfT7OjiySXiif99rY6SH3r5/mVKpur/5dwPvAzgyySRmTZ5A==
-X-Received: by 2002:a19:1863:: with SMTP id o96-v6mr3582504lfi.134.1532174372682;
-        Sat, 21 Jul 2018 04:59:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=J0gNx+HMMc7tXkTsJONncvK4d9iP3vDtXPedoLleIHE=;
+        b=T79Do2hufbGEbvqdsJ1RMLb/LUgmp+gCUYdsKjo/pq7sP6GLw8cEGl6fd3wgr3y0Xh
+         DQ1r8h9g7Z2UDDJ5Urk8WL1oKqjx2D6Bf/u0RntsNqm29u0RD15sqtC9M6kMfowsIRsj
+         02pNW1RlSQl+Vvt5/AaO+L7+/UYqOJQGaSeXI/hGs1oYExaCT6f3dTRzxHOlTSsX+dmU
+         WJYekd57F/ePNeFyqlQaGG2Rs+TAgQtaWHjpHE9t1oAAYQyoInUnmsBAiLk0dl3kBYiN
+         5jcI7Jz52LyvHC2K2l9yvyxgPs+E0xIna8cEnqwIN3aJqyI5dMduxKdeWN4NKBNYkU2C
+         Ik1w==
+X-Gm-Message-State: AOUpUlGpMIGg0PNegdLubKZg0WW85xK/a4pl0PgIcv9Eq0Qe/32z15Vo
+        47eb3tF3UOeHBCTJ1vBLHqf4rw==
+X-Google-Smtp-Source: AAOMgpesw5hgFAkptlq0c+qBKS33IMyjRYtMJUoKCvcIbX2gPG36B8GfIF/JDdbzNr/Fhe/4N7Bryg==
+X-Received: by 2002:a19:a111:: with SMTP id k17-v6mr3261804lfe.131.1532174375716;
+        Sat, 21 Jul 2018 04:59:35 -0700 (PDT)
 Received: from localhost.localdomain (59-201-94-178.pool.ukrtel.net. [178.94.201.59])
-        by smtp.gmail.com with ESMTPSA id 73-v6sm664260lfs.44.2018.07.21.04.59.31
+        by smtp.gmail.com with ESMTPSA id 73-v6sm664260lfs.44.2018.07.21.04.59.34
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 21 Jul 2018 04:59:31 -0700 (PDT)
+        Sat, 21 Jul 2018 04:59:35 -0700 (PDT)
 From:   Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
 To:     davem@davemloft.net, grygorii.strashko@ti.com
 Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
@@ -53,54 +52,83 @@ Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
         ilias.apalodimas@linaro.org, p-varis@ti.com, spatton@ti.com,
         francois.ozog@linaro.org, yogeshs@ti.com, nsekhar@ti.com,
         andrew@lunn.ch, Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Subject: [PATCH v4 net-next 0/6] net: ethernet: ti: cpsw: add MQPRIO and CBS Qdisc offload
-Date:   Sat, 21 Jul 2018 14:59:17 +0300
-Message-Id: <20180721115923.1389-1-ivan.khoronzhuk@linaro.org>
+Subject: [PATCH v4 net-next 2/6] net: ethernet: ti: cpdma: fit rated channels in backward order
+Date:   Sat, 21 Jul 2018 14:59:19 +0300
+Message-Id: <20180721115923.1389-3-ivan.khoronzhuk@linaro.org>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180721115923.1389-1-ivan.khoronzhuk@linaro.org>
+References: <20180721115923.1389-1-ivan.khoronzhuk@linaro.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series adds MQPRIO and CBS Qdisc offload for TI cpsw driver.
-It potentially can be used in audio video bridging (AVB) and time
-sensitive networking (TSN).
+According to TRM tx rated channels should be in 7..0 order,
+so correct it.
 
-Patchset was tested on AM572x EVM and BBB boards. Last patch from this
-series adds detailed description of configuration with examples. For
-consistency reasons, in role of talker and listener, tools from
-patchset "TSN: Add qdisc based config interface for CBS" were used and
-can be seen here: https://www.spinics.net/lists/netdev/msg460869.html
+Reviewed-by: Grygorii Strashko <grygorii.strashko@ti.com>
+Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
+---
+ drivers/net/ethernet/ti/davinci_cpdma.c | 31 ++++++++++++-------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-Based on net-next/master
-
-v4..v3:
- - nothing, just rebase
-
-v3..v2:
- - corrected typo of "shaper" word, any functional changes
-
-v2..v1:
- - changed name cpsw.txt on ti-cpsw.txt
- - changed name cpsw_set_tc() on cpsw_set_mqprio()
-
-Ivan Khoronzhuk (6):
-  net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
-  net: ethernet: ti: cpdma: fit rated channels in backward order
-  net: ethernet: ti: cpsw: add MQPRIO Qdisc offload
-  net: ethernet: ti: cpsw: add CBS Qdisc offload
-  net: ethernet: ti: cpsw: restore shaper configuration while down/up
-  Documentation: networking: cpsw: add MQPRIO & CBS offload examples
-
- Documentation/networking/ti-cpsw.txt    | 540 ++++++++++++++++++++++++
- drivers/net/ethernet/ti/cpsw.c          | 364 +++++++++++++++-
- drivers/net/ethernet/ti/davinci_cpdma.c |  31 +-
- 3 files changed, 913 insertions(+), 22 deletions(-)
- create mode 100644 Documentation/networking/ti-cpsw.txt
-
+diff --git a/drivers/net/ethernet/ti/davinci_cpdma.c b/drivers/net/ethernet/ti/davinci_cpdma.c
+index 4f1267477aa4..4236dcdd5634 100644
+--- a/drivers/net/ethernet/ti/davinci_cpdma.c
++++ b/drivers/net/ethernet/ti/davinci_cpdma.c
+@@ -406,37 +406,36 @@ static int cpdma_chan_fit_rate(struct cpdma_chan *ch, u32 rate,
+ 	struct cpdma_chan *chan;
+ 	u32 old_rate = ch->rate;
+ 	u32 new_rmask = 0;
+-	int rlim = 1;
++	int rlim = 0;
+ 	int i;
+ 
+-	*prio_mode = 0;
+ 	for (i = tx_chan_num(0); i < tx_chan_num(CPDMA_MAX_CHANNELS); i++) {
+ 		chan = ctlr->channels[i];
+-		if (!chan) {
+-			rlim = 0;
++		if (!chan)
+ 			continue;
+-		}
+ 
+ 		if (chan == ch)
+ 			chan->rate = rate;
+ 
+ 		if (chan->rate) {
+-			if (rlim) {
+-				new_rmask |= chan->mask;
+-			} else {
+-				ch->rate = old_rate;
+-				dev_err(ctlr->dev, "Prev channel of %dch is not rate limited\n",
+-					chan->chan_num);
+-				return -EINVAL;
+-			}
+-		} else {
+-			*prio_mode = 1;
+-			rlim = 0;
++			rlim = 1;
++			new_rmask |= chan->mask;
++			continue;
+ 		}
++
++		if (rlim)
++			goto err;
+ 	}
+ 
+ 	*rmask = new_rmask;
++	*prio_mode = rlim;
+ 	return 0;
++
++err:
++	ch->rate = old_rate;
++	dev_err(ctlr->dev, "Upper cpdma ch%d is not rate limited\n",
++		chan->chan_num);
++	return -EINVAL;
+ }
+ 
+ static u32 cpdma_chan_set_factors(struct cpdma_ctlr *ctlr,
 -- 
 2.17.1
 
