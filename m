@@ -1,95 +1,665 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_NAME_FM_MR_MRS,HK_SCAM_S7,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SUBJ_ALL_CAPS,T_DKIM_INVALID autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B2AED7D085
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Jul 2018 15:44:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 006237D071
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Jul 2018 16:47:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728372AbeGUQhR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 21 Jul 2018 12:37:17 -0400
-Received: from mail-oi0-f65.google.com ([209.85.218.65]:45187 "EHLO
-        mail-oi0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728130AbeGUQhQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jul 2018 12:37:16 -0400
-Received: by mail-oi0-f65.google.com with SMTP id q11-v6so26378790oic.12
-        for <linux-doc@vger.kernel.org>; Sat, 21 Jul 2018 08:44:06 -0700 (PDT)
+        id S1728142AbeGURkU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 21 Jul 2018 13:40:20 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42394 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728137AbeGURkQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jul 2018 13:40:16 -0400
+Received: by mail-lj1-f196.google.com with SMTP id f1-v6so11901813ljc.9
+        for <linux-doc@vger.kernel.org>; Sat, 21 Jul 2018 09:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=ETE038mpY/ZU2UuQkHZFPYDnUIIw6ulZ237z46RJ0pM=;
-        b=TQCORFT0X//lxJZIcws9qVzX1Oq/rm58kaxYV634KzlSEr5Pz7fA2LUCd/KLGDZ7dM
-         qOoHrc5L1vyvPNBEfHsossQlxSh+9ebfdDsknQoAMljNWFT2+ViKfnrkBuR/2OzAmNIf
-         DXO9HHcn20Y9Mc93PqVzOkJwZFwUdRK+Hm8MGjHuo9S++ehRG3u+5fc0orNerxWWkEuK
-         5OZM5/HYteoFIINCw03LpETzwfiYKZ7Y8NgP3wJmnv2NE76dGc3rg2Kbr0AN6nYvNKUn
-         cRg0GshmaJgtYnDwE0mHS/waVm89gsdqAllQCw5A/bEweF5dpZdRcbU2rkfAZAfWkNUC
-         Af1Q==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SKOqPeGd7byZTD94PyPQS9ShDJefWknVGO/mPKn0QeA=;
+        b=W4hL0IE2w+y1GHSYkCxZnoBCnRgrioviy/Mjk//D2w1Z70Bdp5QZmKj5pPZHW//N3U
+         RrpI9AEaujOkkF3kEZRFAJ6sEZjNZt+FSs+NRdx2FqMEp0qG+dDcvp0YUAd80PgNKQ+l
+         TSDP5cpPk6EQf9aKzgz2yTiE1wSZxduW5RB58=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=ETE038mpY/ZU2UuQkHZFPYDnUIIw6ulZ237z46RJ0pM=;
-        b=K2EYt3KdLFib/P/h8jJihakyc7jI7UEhGXdpmLQIjFHDusHe7tDVWDOAu0Wr6K5yKy
-         eMSpVbCG8bpfttvpF9K95yWcAytcFD1n54/qj8PbGOSlBE6KsTZleHue+tEAX5PWRDrr
-         ionY8qlmvPfIpAQjCH95FxaH3e+JYen6oqBwkSnqh9NKo2FHYFzfBu/1NKtFDhCPcIZf
-         2qKA2pQrJc38EFINRXFktZIG0o4fXxvhhlLJrCnYfR9/Vy8vSJ2/k5tkXd1O46de9mdr
-         mWCNGIn3ugd1AmHtNDmbR9n8JTsEhbtGOA1R2D9NVZfWpU3EC29ibKBAowZf9qK1S4Ne
-         CKkQ==
-X-Gm-Message-State: AOUpUlFgmqz29n79yJHn/ecwNK7LGRqcRuT+S8KeU8BTdates/55j5mT
-        9h8S7SL7wQ8oMJpkqOKzYQEyRnfiURiLn0gqmEo=
-X-Google-Smtp-Source: AAOMgpczLPkg1C8bgzgLkYUws5NSB5EiiPqoAlXYIgwOEl9pHXZmVBtdAHmw4yuFh16ZcVUCW4BjE8h+Uhr0Lq2X2ng=
-X-Received: by 2002:aca:2dca:: with SMTP id t193-v6mr2253680oit.253.1532187845738;
- Sat, 21 Jul 2018 08:44:05 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=SKOqPeGd7byZTD94PyPQS9ShDJefWknVGO/mPKn0QeA=;
+        b=So17p7iwsUgpoPLFQSRqk62jES/uef+6kZDObgWjJKEDbP9Fp8/dVWn1Qpdyw/N/QI
+         Mb5W83sV/4E3BJbHUN3glY1sySLHDME5Xm/8PV2a/TgR5WrASpWcREV7ZGfmcOqFFufs
+         L7gBirGIUNthPrqSgBhClsknAnBBBA7YAGyyMhacSJTaE0OkY6lMbQVroYadz+mO2XGJ
+         oOjI229TLdIJ4vDs4h+cqM7aA6Sj7rpZ7mOz/eFI8sAUlWinR+aIgdxfZn3amNRc/O04
+         zOWOma5cj4iKVKhH9AKrNTUSJUos6lMvp9iyGHIrXV/R0TUWc9mfzw38a4iE6YQG3AUr
+         v4TQ==
+X-Gm-Message-State: AOUpUlGo24S19vwKVyaS7VxGc44H+9hhnPpL2D1qiY6bom+aeq3qkf41
+        byotup9ByuEcROe12ws1lDELuA==
+X-Google-Smtp-Source: AAOMgpeh2ArEEbbXaXQE3XP6DSgCyEa842Tu4s3IcyZFDVLohKz27zPmBXdmZU/wrmAXyw45rCG/1A==
+X-Received: by 2002:a2e:9c0f:: with SMTP id s15-v6mr4796975lji.97.1532191612160;
+        Sat, 21 Jul 2018 09:46:52 -0700 (PDT)
+Received: from khorivan (59-201-94-178.pool.ukrtel.net. [178.94.201.59])
+        by smtp.gmail.com with ESMTPSA id f129-v6sm725388lff.37.2018.07.21.09.46.50
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 21 Jul 2018 09:46:51 -0700 (PDT)
+Date:   Sat, 21 Jul 2018 19:46:49 +0300
+From:   Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
+To:     Richard Cochran <richardcochran@gmail.com>
+Cc:     davem@davemloft.net, grygorii.strashko@ti.com, corbet@lwn.net,
+        akpm@linux-foundation.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
+        henrik@austad.us, jesus.sanchez-palencia@intel.com,
+        ilias.apalodimas@linaro.org, p-varis@ti.com, spatton@ti.com,
+        francois.ozog@linaro.org, yogeshs@ti.com, nsekhar@ti.com,
+        andrew@lunn.ch
+Subject: Re: [PATCH v4 net-next 6/6] Documentation: networking: cpsw: add
+ MQPRIO & CBS offload examples
+Message-ID: <20180721164643.GB2209@khorivan>
+Mail-Followup-To: Richard Cochran <richardcochran@gmail.com>,
+        davem@davemloft.net, grygorii.strashko@ti.com, corbet@lwn.net,
+        akpm@linux-foundation.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
+        henrik@austad.us, jesus.sanchez-palencia@intel.com,
+        ilias.apalodimas@linaro.org, p-varis@ti.com, spatton@ti.com,
+        francois.ozog@linaro.org, yogeshs@ti.com, nsekhar@ti.com,
+        andrew@lunn.ch
+References: <20180721115923.1389-1-ivan.khoronzhuk@linaro.org>
+ <20180721115923.1389-7-ivan.khoronzhuk@linaro.org>
+ <20180721151028.fxjlxordxpsiohwo@localhost>
 MIME-Version: 1.0
-Received: by 2002:ac9:609b:0:0:0:0:0 with HTTP; Sat, 21 Jul 2018 08:44:04
- -0700 (PDT)
-Reply-To: yostinbellamohammad@hotmail.com
-From:   Mrs Bella Yostin Mohammad <henryonyejekwe@gmail.com>
-Date:   Sat, 21 Jul 2018 08:44:04 -0700
-Message-ID: <CAGdq2yYH8-ODw_mENA=y62ZmhoCCsn9WEQYwih96o+6OHm6_=g@mail.gmail.com>
-Subject: RE: MY NAME IS MRS BELLA YOSTIN MOHAMMAD
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20180721151028.fxjlxordxpsiohwo@localhost>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Dear.
-My Name is Mrs. Bella Yostin Mohammad, I got your contact from a
-business directory search and I decided to contact you directly. well
-am originally from South Africa, but based in London, i am searching
-for a reliable and honest and understanding person to go into
-partnership in investing or to guide me in setting up a lucrative
-business in the Middle east countries or the Arab countries,UAE or
-OMAN and Kuwait, my plan is for my Son to fly to your country to meet
-with you for the discussion and process of the investment.
+On Sat, Jul 21, 2018 at 08:10:29AM -0700, Richard Cochran wrote:
+>On Sat, Jul 21, 2018 at 02:59:23PM +0300, Ivan Khoronzhuk wrote:
+>> This document describes MQPRIO and CBS Qdisc offload configuration
+>> for cpsw driver based on examples. It potentially can be used in
+>> audio video bridging (AVB) and time sensitive networking (TSN).
+>>
+>> Reviewed-by: Grygorii Strashko <grygorii.strashko@ti.com>
+>> Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
+>> ---
+>>  Documentation/networking/ti-cpsw.txt | 540 +++++++++++++++++++++++++++
+>>  1 file changed, 540 insertions(+)
+>>  create mode 100644 Documentation/networking/ti-cpsw.txt
+>>
+>> diff --git a/Documentation/networking/ti-cpsw.txt b/Documentation/networking/ti-cpsw.txt
+>> new file mode 100644
+>> index 000000000000..1e840346cae1
+>> --- /dev/null
+>> +++ b/Documentation/networking/ti-cpsw.txt
+>> @@ -0,0 +1,540 @@
+>> +* Texas Instruments CPSW ethernet driver
+>> +
+>> +Multiqueue & CBS & MQPRIO
+>> +=====================================================================
+>> +=====================================================================
+>> +
+>> +The cpsw has 3 CBS shapers for each external ports. This document
+>> +describes MQPRIO and CBS Qdisc offload configuration for cpsw driver
+>> +based on examples. It potentially can be used in audio video bridging
+>> +(AVB) and time sensitive networking (TSN).
+>> +
+>> +The following examples was tested on AM572x EVM and BBB boards.
+>> +
+>> +Test setup
+>> +==========
+>> +
+>> +Under consideration two examples with AM52xx EVM running cpsw driver
+>> +in dual_emac mode.
+>
+>s/AM52xx/AM572x ?
+yes, AM572x
 
-So am only soliciting for your guidance for partnership or to help me
-in investing in any lucrative business if you are interested.
+>
+>Also, there are more mentions of AM52xx, below.
+I'll correct.
 
-My Idea of business is to invest into Tourism business or Medical
-business or Real Estates business, this is my plan and i will be happy
-if you will help in explaining more of either of this business which
-is better for me to invest into in your country.all i want is to
-invest into a good business that will bring higher profit.
+>
+>Thanks,
+>Richard
+>
+>
+>> +
+>> +Several prerequisites:
+>> +- TX queues must be rated starting from txq0 that has highest priority
+>> +- Traffic classes are used starting from 0, that has highest priority
+>> +- CBS shapers should be used with rated queues
+>> +- The bandwidth for CBS shapers has to be set a little bit more then
+>> +  potential incoming rate, thus, rate of all incoming tx queues has
+>> +  to be a little less
+>> +- Real rates can differ, due to discreetness
+>> +- Map skb-priority to txq is not enough, also skb-priority to l2 prio
+>> +  map has to be created with ip or vconfig tool
+>> +- Any l2/socket prio (0 - 7) for classes can be used, but for
+>> +  simplicity default values are used: 3 and 2
+>> +- only 2 classes tested: A and B, but checked and can work with more,
+>> +  maximum allowed 4, but only for 3 rate can be set.
+>> +
+>> +Test setup for examples
+>> +=======================
+>> +                                    +-------------------------------+
+>> +                                    |--+                            |
+>> +                                    |  |      Workstation0          |
+>> +                                    |E |  MAC 18:03:73:66:87:42     |
+>> ++-----------------------------+  +--|t |                            |
+>> +|                    | 1  | E |  |  |h |./tsn_listener -d \         |
+>> +|  Target board:     | 0  | t |--+  |0 | 18:03:73:66:87:42 -i eth0 \|
+>> +|  AM572x EVM        | 0  | h |     |  | -s 1500                    |
+>> +|                    | 0  | 0 |     |--+                            |
+>> +|  Only 2 classes:   |Mb  +---|     +-------------------------------+
+>> +|  class A, class B  |        |
+>> +|                    |    +---|     +-------------------------------+
+>> +|                    | 1  | E |     |--+                            |
+>> +|                    | 0  | t |     |  |      Workstation1          |
+>> +|                    | 0  | h |--+  |E |  MAC 20:cf:30:85:7d:fd     |
+>> +|                    |Mb  | 1 |  +--|t |                            |
+>> ++-----------------------------+     |h |./tsn_listener -d \         |
+>> +                                    |0 | 20:cf:30:85:7d:fd -i eth0 \|
+>> +                                    |  | -s 1500                    |
+>> +                                    |--+                            |
+>> +                                    +-------------------------------+
+>> +
+>> +*********************************************************************
+>> +*********************************************************************
+>> +*********************************************************************
+>> +Example 1: One port tx AVB configuration scheme for target board
+>> +----------------------------------------------------------------------
+>> +(prints and scheme for AM52xx evm, applicable for single port boards)
+>> +
+>> +tc - traffic class
+>> +txq - transmit queue
+>> +p - priority
+>> +f - fifo (cpsw fifo)
+>> +S - shaper configured
+>> +
+>> ++------------------------------------------------------------------+ u
+>> +| +---------------+  +---------------+  +------+ +------+          | s
+>> +| |               |  |               |  |      | |      |          | e
+>> +| | App 1         |  | App 2         |  | Apps | | Apps |          | r
+>> +| | Class A       |  | Class B       |  | Rest | | Rest |          |
+>> +| | Eth0          |  | Eth0          |  | Eth0 | | Eth1 |          | s
+>> +| | VLAN100       |  | VLAN100       |  |   |  | |   |  |          | p
+>> +| | 40 Mb/s       |  | 20 Mb/s       |  |   |  | |   |  |          | a
+>> +| | SO_PRIORITY=3 |  | SO_PRIORITY=2 |  |   |  | |   |  |          | c
+>> +| |   |           |  |   |           |  |   |  | |   |  |          | e
+>> +| +---|-----------+  +---|-----------+  +---|--+ +---|--+          |
+>> ++-----|------------------|------------------|--------|-------------+
+>> +    +-+     +------------+                  |        |
+>> +    |       |             +-----------------+     +--+
+>> +    |       |             |                       |
+>> ++---|-------|-------------|-----------------------|----------------+
+>> +| +----+ +----+ +----+ +----+                   +----+             |
+>> +| | p3 | | p2 | | p1 | | p0 |                   | p0 |             | k
+>> +| \    / \    / \    / \    /                   \    /             | e
+>> +|  \  /   \  /   \  /   \  /                     \  /              | r
+>> +|   \/     \/     \/     \/                       \/               | n
+>> +|    |     |             |                        |                | e
+>> +|    |     |       +-----+                        |                | l
+>> +|    |     |       |                              |                |
+>> +| +----+ +----+ +----+                          +----+             | s
+>> +| |tc0 | |tc1 | |tc2 |                          |tc0 |             | p
+>> +| \    / \    / \    /                          \    /             | a
+>> +|  \  /   \  /   \  /                            \  /              | c
+>> +|   \/     \/     \/                              \/               | e
+>> +|   |      |       +-----+                        |                |
+>> +|   |      |       |     |                        |                |
+>> +|   |      |       |     |                        |                |
+>> +|   |      |       |     |                        |                |
+>> +| +----+ +----+ +----+ +----+                   +----+             |
+>> +| |txq0| |txq1| |txq2| |txq3|                   |txq4|             |
+>> +| \    / \    / \    / \    /                   \    /             |
+>> +|  \  /   \  /   \  /   \  /                     \  /              |
+>> +|   \/     \/     \/     \/                       \/               |
+>> +| +-|------|------|------|--+                  +--|--------------+ |
+>> +| | |      |      |      |  | Eth0.100         |  |     Eth1     | |
+>> ++---|------|------|------|------------------------|----------------+
+>> +    |      |      |      |                        |
+>> +    p      p      p      p                        |
+>> +    3      2      0-1, 4-7  <- L2 priority        |
+>> +    |      |      |      |                        |
+>> +    |      |      |      |                        |
+>> ++---|------|------|------|------------------------|----------------+
+>> +|   |      |      |      |             |----------+                |
+>> +| +----+ +----+ +----+ +----+       +----+                         |
+>> +| |dma7| |dma6| |dma5| |dma4|       |dma3|                         |
+>> +| \    / \    / \    / \    /       \    /                         | c
+>> +|  \S /   \S /   \  /   \  /         \  /                          | p
+>> +|   \/     \/     \/     \/           \/                           | s
+>> +|   |      |      | +-----            |                            | w
+>> +|   |      |      | |                 |                            |
+>> +|   |      |      | |                 |                            | d
+>> +| +----+ +----+ +----+p            p+----+                         | r
+>> +| |    | |    | |    |o            o|    |                         | i
+>> +| | f3 | | f2 | | f0 |r            r| f0 |                         | v
+>> +| |tc0 | |tc1 | |tc2 |t            t|tc0 |                         | e
+>> +| \CBS / \CBS / \CBS /1            2\CBS /                         | r
+>> +|  \S /   \S /   \  /                \  /                          |
+>> +|   \/     \/     \/                  \/                           |
+>> ++------------------------------------------------------------------+
+>> +========================================Eth==========================>
+>> +
+>> +1)
+>> +// Add 4 tx queues, for interface Eth0, and 1 tx queue for Eth1
+>> +$ ethtool -L eth0 rx 1 tx 5
+>> +rx unmodified, ignoring
+>> +
+>> +2)
+>> +// Check if num of queues is set correctly:
+>> +$ ethtool -l eth0
+>> +Channel parameters for eth0:
+>> +Pre-set maximums:
+>> +RX:             8
+>> +TX:             8
+>> +Other:          0
+>> +Combined:       0
+>> +Current hardware settings:
+>> +RX:             1
+>> +TX:             5
+>> +Other:          0
+>> +Combined:       0
+>> +
+>> +3)
+>> +// TX queues must be rated starting from 0, so set bws for tx0 and tx1
+>> +// Set rates 40 and 20 Mb/s appropriately.
+>> +// Pay attention, real speed can differ a bit due to discreetness.
+>> +// Leave last 2 tx queues not rated.
+>> +$ echo 40 > /sys/class/net/eth0/queues/tx-0/tx_maxrate
+>> +$ echo 20 > /sys/class/net/eth0/queues/tx-1/tx_maxrate
+>> +
+>> +4)
+>> +// Check maximum rate of tx (cpdma) queues:
+>> +$ cat /sys/class/net/eth0/queues/tx-*/tx_maxrate
+>> +40
+>> +20
+>> +0
+>> +0
+>> +0
+>> +
+>> +5)
+>> +// Map skb->priority to traffic class:
+>> +// 3pri -> tc0, 2pri -> tc1, (0,1,4-7)pri -> tc2
+>> +// Map traffic class to transmit queue:
+>> +// tc0 -> txq0, tc1 -> txq1, tc2 -> (txq2, txq3)
+>> +$ tc qdisc replace dev eth0 handle 100: parent root mqprio num_tc 3 \
+>> +map 2 2 1 0 2 2 2 2 2 2 2 2 2 2 2 2 queues 1@0 1@1 2@2 hw 1
+>> +
+>> +5a)
+>> +// As two interface sharing same set of tx queues, assign all traffic
+>> +// coming to interface Eth1 to separate queue in order to not mix it
+>> +// with traffic from interface Eth0, so use separate txq to send
+>> +// packets to Eth1, so all prio -> tc0 and tc0 -> txq4
+>> +// Here hw 0, so here still default configuration for eth1 in hw
+>> +$ tc qdisc replace dev eth1 handle 100: parent root mqprio num_tc 1 \
+>> +map 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 queues 1@4 hw 0
+>> +
+>> +6)
+>> +// Check classes settings
+>> +$ tc -g class show dev eth0
+>> ++---(100:ffe2) mqprio
+>> +|    +---(100:3) mqprio
+>> +|    +---(100:4) mqprio
+>> +|
+>> ++---(100:ffe1) mqprio
+>> +|    +---(100:2) mqprio
+>> +|
+>> ++---(100:ffe0) mqprio
+>> +     +---(100:1) mqprio
+>> +
+>> +$ tc -g class show dev eth1
+>> ++---(100:ffe0) mqprio
+>> +     +---(100:5) mqprio
+>> +
+>> +7)
+>> +// Set rate for class A - 41 Mbit (tc0, txq0) using CBS Qdisc
+>> +// Set it +1 Mb for reserve (important!)
+>> +// here only idle slope is important, others arg are ignored
+>> +// Pay attention, real speed can differ a bit due to discreetness
+>> +$ tc qdisc add dev eth0 parent 100:1 cbs locredit -1438 \
+>> +hicredit 62 sendslope -959000 idleslope 41000 offload 1
+>> +net eth0: set FIFO3 bw = 50
+>> +
+>> +8)
+>> +// Set rate for class B - 21 Mbit (tc1, txq1) using CBS Qdisc:
+>> +// Set it +1 Mb for reserve (important!)
+>> +$ tc qdisc add dev eth0 parent 100:2 cbs locredit -1468 \
+>> +hicredit 65 sendslope -979000 idleslope 21000 offload 1
+>> +net eth0: set FIFO2 bw = 30
+>> +
+>> +9)
+>> +// Create vlan 100 to map sk->priority to vlan qos
+>> +$ ip link add link eth0 name eth0.100 type vlan id 100
+>> +8021q: 802.1Q VLAN Support v1.8
+>> +8021q: adding VLAN 0 to HW filter on device eth0
+>> +8021q: adding VLAN 0 to HW filter on device eth1
+>> +net eth0: Adding vlanid 100 to vlan filter
+>> +
+>> +10)
+>> +// Map skb->priority to L2 prio, 1 to 1
+>> +$ ip link set eth0.100 type vlan \
+>> +egress 0:0 1:1 2:2 3:3 4:4 5:5 6:6 7:7
+>> +
+>> +11)
+>> +// Check egress map for vlan 100
+>> +$ cat /proc/net/vlan/eth0.100
+>> +[...]
+>> +INGRESS priority mappings: 0:0  1:0  2:0  3:0  4:0  5:0  6:0 7:0
+>> +EGRESS priority mappings: 0:0 1:1 2:2 3:3 4:4 5:5 6:6 7:7
+>> +
+>> +12)
+>> +// Run your appropriate tools with socket option "SO_PRIORITY"
+>> +// to 3 for class A and/or to 2 for class B
+>> +// (I took at https://www.spinics.net/lists/netdev/msg460869.html)
+>> +./tsn_talker -d 18:03:73:66:87:42 -i eth0.100 -p3 -s 1500&
+>> +./tsn_talker -d 18:03:73:66:87:42 -i eth0.100 -p2 -s 1500&
+>> +
+>> +13)
+>> +// run your listener on workstation (should be in same vlan)
+>> +// (I took at https://www.spinics.net/lists/netdev/msg460869.html)
+>> +./tsn_listener -d 18:03:73:66:87:42 -i enp5s0 -s 1500
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39000 kbps
+>> +
+>> +14)
+>> +// Restore default configuration if needed
+>> +$ ip link del eth0.100
+>> +$ tc qdisc del dev eth1 root
+>> +$ tc qdisc del dev eth0 root
+>> +net eth0: Prev FIFO2 is shaped
+>> +net eth0: set FIFO3 bw = 0
+>> +net eth0: set FIFO2 bw = 0
+>> +$ ethtool -L eth0 rx 1 tx 1
+>> +
+>> +*********************************************************************
+>> +*********************************************************************
+>> +*********************************************************************
+>> +Example 2: Two port tx AVB configuration scheme for target board
+>> +----------------------------------------------------------------------
+>> +(prints and scheme for AM52xx evm, for dual emac boards only)
+>> +
+>> ++------------------------------------------------------------------+ u
+>> +| +----------+  +----------+  +------+  +----------+  +----------+ | s
+>> +| |          |  |          |  |      |  |          |  |          | | e
+>> +| | App 1    |  | App 2    |  | Apps |  | App 3    |  | App 4    | | r
+>> +| | Class A  |  | Class B  |  | Rest |  | Class B  |  | Class A  | |
+>> +| | Eth0     |  | Eth0     |  |   |  |  | Eth1     |  | Eth1     | | s
+>> +| | VLAN100  |  | VLAN100  |  |   |  |  | VLAN100  |  | VLAN100  | | p
+>> +| | 40 Mb/s  |  | 20 Mb/s  |  |   |  |  | 10 Mb/s  |  | 30 Mb/s  | | a
+>> +| | SO_PRI=3 |  | SO_PRI=2 |  |   |  |  | SO_PRI=3 |  | SO_PRI=2 | | c
+>> +| |   |      |  |   |      |  |   |  |  |   |      |  |   |      | | e
+>> +| +---|------+  +---|------+  +---|--+  +---|------+  +---|------+ |
+>> ++-----|-------------|-------------|---------|-------------|--------+
+>> +    +-+     +-------+             |         +----------+  +----+
+>> +    |       |             +-------+------+             |       |
+>> +    |       |             |              |             |       |
+>> ++---|-------|-------------|--------------|-------------|-------|---+
+>> +| +----+ +----+ +----+ +----+          +----+ +----+ +----+ +----+ |
+>> +| | p3 | | p2 | | p1 | | p0 |          | p0 | | p1 | | p2 | | p3 | | k
+>> +| \    / \    / \    / \    /          \    / \    / \    / \    / | e
+>> +|  \  /   \  /   \  /   \  /            \  /   \  /   \  /   \  /  | r
+>> +|   \/     \/     \/     \/              \/     \/     \/     \/   | n
+>> +|   |      |             |                |             |      |   | e
+>> +|   |      |        +----+                +----+        |      |   | l
+>> +|   |      |        |                          |        |      |   |
+>> +| +----+ +----+ +----+                        +----+ +----+ +----+ | s
+>> +| |tc0 | |tc1 | |tc2 |                        |tc2 | |tc1 | |tc0 | | p
+>> +| \    / \    / \    /                        \    / \    / \    / | a
+>> +|  \  /   \  /   \  /                          \  /   \  /   \  /  | c
+>> +|   \/     \/     \/                            \/     \/     \/   | e
+>> +|   |      |       +-----+                +-----+      |       |   |
+>> +|   |      |       |     |                |     |      |       |   |
+>> +|   |      |       |     |                |     |      |       |   |
+>> +|   |      |       |     |    E      E    |     |      |       |   |
+>> +| +----+ +----+ +----+ +----+ t      t +----+ +----+ +----+ +----+ |
+>> +| |txq0| |txq1| |txq4| |txq5| h      h |txq6| |txq7| |txq3| |txq2| |
+>> +| \    / \    / \    / \    / 0      1 \    / \    / \    / \    / |
+>> +|  \  /   \  /   \  /   \  /  .      .  \  /   \  /   \  /   \  /  |
+>> +|   \/     \/     \/     \/   1      1   \/     \/     \/     \/   |
+>> +| +-|------|------|------|--+ 0      0 +-|------|------|------|--+ |
+>> +| | |      |      |      |  | 0      0 | |      |      |      |  | |
+>> ++---|------|------|------|---------------|------|------|------|----+
+>> +    |      |      |      |               |      |      |      |
+>> +    p      p      p      p               p      p      p      p
+>> +    3      2      0-1, 4-7   <-L2 pri->  0-1, 4-7      2      3
+>> +    |      |      |      |               |      |      |      |
+>> +    |      |      |      |               |      |      |      |
+>> ++---|------|------|------|---------------|------|------|------|----+
+>> +|   |      |      |      |               |      |      |      |    |
+>> +| +----+ +----+ +----+ +----+          +----+ +----+ +----+ +----+ |
+>> +| |dma7| |dma6| |dma3| |dma2|          |dma1| |dma0| |dma4| |dma5| |
+>> +| \    / \    / \    / \    /          \    / \    / \    / \    / | c
+>> +|  \S /   \S /   \  /   \  /            \  /   \  /   \S /   \S /  | p
+>> +|   \/     \/     \/     \/              \/     \/     \/     \/   | s
+>> +|   |      |      | +-----                |      |      |      |   | w
+>> +|   |      |      | |                     +----+ |      |      |   |
+>> +|   |      |      | |                          | |      |      |   | d
+>> +| +----+ +----+ +----+p                      p+----+ +----+ +----+ | r
+>> +| |    | |    | |    |o                      o|    | |    | |    | | i
+>> +| | f3 | | f2 | | f0 |r        CPSW          r| f3 | | f2 | | f0 | | v
+>> +| |tc0 | |tc1 | |tc2 |t                      t|tc0 | |tc1 | |tc2 | | e
+>> +| \CBS / \CBS / \CBS /1                      2\CBS / \CBS / \CBS / | r
+>> +|  \S /   \S /   \  /                          \S /   \S /   \  /  |
+>> +|   \/     \/     \/                            \/     \/     \/   |
+>> ++------------------------------------------------------------------+
+>> +========================================Eth==========================>
+>> +
+>> +1)
+>> +// Add 8 tx queues, for interface Eth0, but they are common, so are accessed
+>> +// by two interfaces Eth0 and Eth1.
+>> +$ ethtool -L eth1 rx 1 tx 8
+>> +rx unmodified, ignoring
+>> +
+>> +2)
+>> +// Check if num of queues is set correctly:
+>> +$ ethtool -l eth0
+>> +Channel parameters for eth0:
+>> +Pre-set maximums:
+>> +RX:             8
+>> +TX:             8
+>> +Other:          0
+>> +Combined:       0
+>> +Current hardware settings:
+>> +RX:             1
+>> +TX:             8
+>> +Other:          0
+>> +Combined:       0
+>> +
+>> +3)
+>> +// TX queues must be rated starting from 0, so set bws for tx0 and tx1 for Eth0
+>> +// and for tx2 and tx3 for Eth1. That is, rates 40 and 20 Mb/s appropriately
+>> +// for Eth0 and 30 and 10 Mb/s for Eth1.
+>> +// Real speed can differ a bit due to discreetness
+>> +// Leave last 4 tx queues as not rated
+>> +$ echo 40 > /sys/class/net/eth0/queues/tx-0/tx_maxrate
+>> +$ echo 20 > /sys/class/net/eth0/queues/tx-1/tx_maxrate
+>> +$ echo 30 > /sys/class/net/eth1/queues/tx-2/tx_maxrate
+>> +$ echo 10 > /sys/class/net/eth1/queues/tx-3/tx_maxrate
+>> +
+>> +4)
+>> +// Check maximum rate of tx (cpdma) queues:
+>> +$ cat /sys/class/net/eth0/queues/tx-*/tx_maxrate
+>> +40
+>> +20
+>> +30
+>> +10
+>> +0
+>> +0
+>> +0
+>> +0
+>> +
+>> +5)
+>> +// Map skb->priority to traffic class for Eth0:
+>> +// 3pri -> tc0, 2pri -> tc1, (0,1,4-7)pri -> tc2
+>> +// Map traffic class to transmit queue:
+>> +// tc0 -> txq0, tc1 -> txq1, tc2 -> (txq4, txq5)
+>> +$ tc qdisc replace dev eth0 handle 100: parent root mqprio num_tc 3 \
+>> +map 2 2 1 0 2 2 2 2 2 2 2 2 2 2 2 2 queues 1@0 1@1 2@4 hw 1
+>> +
+>> +6)
+>> +// Check classes settings
+>> +$ tc -g class show dev eth0
+>> ++---(100:ffe2) mqprio
+>> +|    +---(100:5) mqprio
+>> +|    +---(100:6) mqprio
+>> +|
+>> ++---(100:ffe1) mqprio
+>> +|    +---(100:2) mqprio
+>> +|
+>> ++---(100:ffe0) mqprio
+>> +     +---(100:1) mqprio
+>> +
+>> +7)
+>> +// Set rate for class A - 41 Mbit (tc0, txq0) using CBS Qdisc for Eth0
+>> +// here only idle slope is important, others ignored
+>> +// Real speed can differ a bit due to discreetness
+>> +$ tc qdisc add dev eth0 parent 100:1 cbs locredit -1470 \
+>> +hicredit 62 sendslope -959000 idleslope 41000 offload 1
+>> +net eth0: set FIFO3 bw = 50
+>> +
+>> +8)
+>> +// Set rate for class B - 21 Mbit (tc1, txq1) using CBS Qdisc for Eth0
+>> +$ tc qdisc add dev eth0 parent 100:2 cbs locredit -1470 \
+>> +hicredit 65 sendslope -979000 idleslope 21000 offload 1
+>> +net eth0: set FIFO2 bw = 30
+>> +
+>> +9)
+>> +// Create vlan 100 to map sk->priority to vlan qos for Eth0
+>> +$ ip link add link eth0 name eth0.100 type vlan id 100
+>> +net eth0: Adding vlanid 100 to vlan filter
+>> +
+>> +10)
+>> +// Map skb->priority to L2 prio for Eth0.100, one to one
+>> +$ ip link set eth0.100 type vlan \
+>> +egress 0:0 1:1 2:2 3:3 4:4 5:5 6:6 7:7
+>> +
+>> +11)
+>> +// Check egress map for vlan 100
+>> +$ cat /proc/net/vlan/eth0.100
+>> +[...]
+>> +INGRESS priority mappings: 0:0  1:0  2:0  3:0  4:0  5:0  6:0 7:0
+>> +EGRESS priority mappings: 0:0 1:1 2:2 3:3 4:4 5:5 6:6 7:7
+>> +
+>> +12)
+>> +// Map skb->priority to traffic class for Eth1:
+>> +// 3pri -> tc0, 2pri -> tc1, (0,1,4-7)pri -> tc2
+>> +// Map traffic class to transmit queue:
+>> +// tc0 -> txq2, tc1 -> txq3, tc2 -> (txq6, txq7)
+>> +$ tc qdisc replace dev eth1 handle 100: parent root mqprio num_tc 3 \
+>> +map 2 2 1 0 2 2 2 2 2 2 2 2 2 2 2 2 queues 1@2 1@3 2@6 hw 1
+>> +
+>> +13)
+>> +// Check classes settings
+>> +$ tc -g class show dev eth1
+>> ++---(100:ffe2) mqprio
+>> +|    +---(100:7) mqprio
+>> +|    +---(100:8) mqprio
+>> +|
+>> ++---(100:ffe1) mqprio
+>> +|    +---(100:4) mqprio
+>> +|
+>> ++---(100:ffe0) mqprio
+>> +     +---(100:3) mqprio
+>> +
+>> +14)
+>> +// Set rate for class A - 31 Mbit (tc0, txq2) using CBS Qdisc for Eth1
+>> +// here only idle slope is important, others ignored
+>> +// Set it +1 Mb for reserve (important!)
+>> +$ tc qdisc add dev eth1 parent 100:3 cbs locredit -1453 \
+>> +hicredit 47 sendslope -969000 idleslope 31000 offload 1
+>> +net eth1: set FIFO3 bw = 31
+>> +
+>> +15)
+>> +// Set rate for class B - 11 Mbit (tc1, txq3) using CBS Qdisc for Eth1
+>> +// Set it +1 Mb for reserve (important!)
+>> +$ tc qdisc add dev eth1 parent 100:4 cbs locredit -1483 \
+>> +hicredit 34 sendslope -989000 idleslope 11000 offload 1
+>> +net eth1: set FIFO2 bw = 11
+>> +
+>> +16)
+>> +// Create vlan 100 to map sk->priority to vlan qos for Eth1
+>> +$ ip link add link eth1 name eth1.100 type vlan id 100
+>> +net eth1: Adding vlanid 100 to vlan filter
+>> +
+>> +17)
+>> +// Map skb->priority to L2 prio for Eth1.100, one to one
+>> +$ ip link set eth1.100 type vlan \
+>> +egress 0:0 1:1 2:2 3:3 4:4 5:5 6:6 7:7
+>> +
+>> +18)
+>> +// Check egress map for vlan 100
+>> +$ cat /proc/net/vlan/eth1.100
+>> +[...]
+>> +INGRESS priority mappings: 0:0  1:0  2:0  3:0  4:0  5:0  6:0 7:0
+>> +EGRESS priority mappings: 0:0 1:1 2:2 3:3 4:4 5:5 6:6 7:7
+>> +
+>> +19)
+>> +// Run appropriate tools with socket option "SO_PRIORITY" to 3
+>> +// for class A and to 2 for class B. For both interfaces
+>> +./tsn_talker -d 18:03:73:66:87:42 -i eth0.100 -p2 -s 1500&
+>> +./tsn_talker -d 18:03:73:66:87:42 -i eth0.100 -p3 -s 1500&
+>> +./tsn_talker -d 20:cf:30:85:7d:fd -i eth1.100 -p2 -s 1500&
+>> +./tsn_talker -d 20:cf:30:85:7d:fd -i eth1.100 -p3 -s 1500&
+>> +
+>> +20)
+>> +// run your listener on workstation (should be in same vlan)
+>> +// (I took at https://www.spinics.net/lists/netdev/msg460869.html)
+>> +./tsn_listener -d 18:03:73:66:87:42 -i enp5s0 -s 1500
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39012 kbps
+>> +Receiving data rate: 39000 kbps
+>> +
+>> +21)
+>> +// Restore default configuration if needed
+>> +$ ip link del eth1.100
+>> +$ ip link del eth0.100
+>> +$ tc qdisc del dev eth1 root
+>> +net eth1: Prev FIFO2 is shaped
+>> +net eth1: set FIFO3 bw = 0
+>> +net eth1: set FIFO2 bw = 0
+>> +$ tc qdisc del dev eth0 root
+>> +net eth0: Prev FIFO2 is shaped
+>> +net eth0: set FIFO3 bw = 0
+>> +net eth0: set FIFO2 bw = 0
+>> +$ ethtool -L eth0 rx 1 tx 1
+>> --
+>> 2.17.1
+>>
 
-like i explained above my plan is to send my Son down to meet with you
-so both of you will meet face to face and discuss more so we will know
-how to go about the process for the investment..
-
-If you are willing to assist you will never regret assisting i and my son.
-mean why if you are interested reply back to me with your mobile
-number so that you and my son can discuss more in details.
-And also for my Son to make his arrangement to fly down to your
-country to meet with you over discussing about the investment.
-I look forward for your reply.
-Thanks with regards
-Mrs. Bella Yostin Mohammad
+-- 
+Regards,
+Ivan Khoronzhuk
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
