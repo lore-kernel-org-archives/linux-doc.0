@@ -1,89 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E9B077D072
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Jul 2018 20:15:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 924777D071
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Jul 2018 22:59:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727952AbeGUVI5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 21 Jul 2018 17:08:57 -0400
-Received: from imap.thunk.org ([74.207.234.97]:41854 "EHLO imap.thunk.org"
+        id S1728225AbeGUXxd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 21 Jul 2018 19:53:33 -0400
+Received: from www.zeus03.de ([194.117.254.33]:46584 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727854AbeGUVI5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 21 Jul 2018 17:08:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
-         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=Z4dPHiVqYkg79t5hXJTZWz+tWBNKxQgeiSqKcx8Ss6A=; b=XaOmADXyVB/10f/0zN8KbyngMJ
-        TU/+JmCY3+wpPCbjBmSdNSOFZ9dWrV+tMiB1gD37VLmFenezhBqZcgKGzavKlFSedO4n4G+L86p5L
-        Gtp7Aa/I3YdgDqSQ67K9rHCacyIFMnH7KMdGFvDB+55NWbigTaK0dqs82Wd2Q66ozL6A=;
-Received: from root (helo=callcc.thunk.org)
-        by imap.thunk.org with local-esmtp (Exim 4.89)
-        (envelope-from <tytso@thunk.org>)
-        id 1fgyHL-0005E8-Qn; Sat, 21 Jul 2018 20:14:59 +0000
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id A25C67A6454; Sat, 21 Jul 2018 16:14:53 -0400 (EDT)
-Date:   Sat, 21 Jul 2018 16:14:53 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc:     linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 00/13] ext4: major documentation surgery
-Message-ID: <20180721201453.GC31851@thunk.org>
-References: <153124300257.17949.1127788286714678589.stgit@magnolia>
- <20180721141946.GA31851@thunk.org>
- <20180721181954.GJ4800@magnolia>
+        id S1728220AbeGUXxd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 21 Jul 2018 19:53:33 -0400
+Received: (qmail 6970 invoked from network); 22 Jul 2018 00:59:06 +0200
+Received: by mail.zeus03.de with ESMTPSA (ECDHE-RSA-AES256-GCM-SHA384 encrypted, authenticated); 22 Jul 2018 00:59:06 +0200
+X-UD-Smtp-Session: l3s3148p1@fpMDXIpxlq4gAwDPW+PTAAId4P/+oMhl
+Date:   Sun, 22 Jul 2018 00:59:06 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Vitor soares <Vitor.Soares@synopsys.com>,
+        linux-i2c@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
+        adouglas@cadence.com, bfolta@cadence.com, dkos@cadence.com,
+        alicja@cadence.com, cwronka@cadence.com, sureshp@cadence.com,
+        rafalc@cadence.com, thomas.petazzoni@bootlin.com, nm@ti.com,
+        robh+dt@kernel.org, pawel.moll@arm.com, mark.rutland@arm.com,
+        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        geert@linux-m68k.org, linus.walleij@linaro.org,
+        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
+        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
+        Joao.Pinto@synopsys.com
+Subject: Re: [PATCH 0/3] Add driver for Synopsys DesignWare I3C master IP
+Message-ID: <20180721225906.krcmed35ylnspl2h@katana>
+References: <1532120272-17157-1-git-send-email-soares@synopsys.com>
+ <20180720215801.dmklhwxsgakj4exd@ninjato>
+ <20180721191515.6b20d23b@bbrezillon>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="yhk2v2hz3qojdbpu"
 Content-Disposition: inline
-In-Reply-To: <20180721181954.GJ4800@magnolia>
-User-Agent: Mutt/1.10.0 (2018-05-17)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: tytso@thunk.org
-X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
+In-Reply-To: <20180721191515.6b20d23b@bbrezillon>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 21, 2018 at 11:19:54AM -0700, Darrick J. Wong wrote:
-> 
-> I pondered that -- maybe leave all the ext4 stuff clustered together,
-> but link to it from the actual user/admin guide section?
->
 
-Yeah, I think it makes keep the ext4 (and in the future, xfs, btrfs,
-f2fs, etc.) files clustered together.  Is it considered OK for
-individual .rst files to be linked from multiple places?
+--yhk2v2hz3qojdbpu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I could also see us wanting to change up the pdf boundaries.  I doubt
-someone would want a single pdf with details of the VFS layer, ext4
-mount options, ext4 on-disk format, xfs mount options, xfs on-disk
-format, btrfs mount options, etc., all in a single "book".
+Boris,
 
-> > I'm not sure what the best way to do that might be, but maybe some of
-> > the folks on the linux-doc list will have some suggestions.
-> 
-> I was thinking about having a separate top-level Filesystems section
-> where we could put user/admin guides, on-disk documentation, etc. and
-> leave the FS API section alone.
+> I was waiting for the I3C framework to be merged before creating the ML
+> and the git repo, but if you think we should do that now I can create
+> them.
 
-I wonder if part of the problem is calling it "the API section".
-Maybe we should be calling it Kernel Internals, or something like
-that?
+I'd think so. It will already be beneficial to have a central discussing
+point and a location to pull stuff from.
 
-					- Ted
+Thanks,
 
-P.S.  Oh, and we probably want to move "The Linux Journalling API" out
-of index.rst, and into a separate jbd2.rst file, and give some context
-that it is the journalling layer used by ext4 and ocfs2, but it's
-certainly not the only Journalling API in the kernel.
+   Wolfram
 
+--yhk2v2hz3qojdbpu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAltTurUACgkQFA3kzBSg
+KbZBURAAn8RzMrsBu9CGwSgFBGUBDK17R0eEpYdGwUDDCrMDGp2uWsiLXHtQK+IU
+aC4VrjT3QVq2iHj143dC3LVGHccFemZp8KymZLNEhjrsiEfpmeukLvoUYIHfdDFv
+41C8d9B0RHvBuxLWMlj8qRfOhHU0dxNKUeejl5L9lgbziZKAj6ynNzguH7V1noJX
+fJ2eOW4IxobwA1bDieZn2fIgDJ30+SCFI+KLlKOpzr5KnArA2PFjRIQEIaYxQovC
+n3rpOVcR67/wDpB9pniHW6t1Rdy019J1h8/fxAH1uUwBvoNraC5LgDmMBefrypgx
+lE1g4K9HUf942sreZJdgcOZcRyg0TPBHym/OTojOvPSvDGDOE65KjXNK82WyIab3
+syjsKSMCQYfzkLYYSsnk0rywAiuGZbR7aQs8Wduonj0iAjSCwzAdJ/S7IuHdaKdL
+6/pLw5WoS+jgMfsC1Xi8zYo2NfWqdGthGvR9PzmXA+fcmYjvct74YRqchMaY1vCB
+gF1ZcSNa8aK+l80HqyXWcLsKN98BukGmSynJKAC0pmuJHf2ZFTOd+Q6flFdvd+Zs
+qs7htijB3B0h6yyGIsAXfp8QeXf6F7NZXuh9jB4gZh7w1vvsD3Ikfdl4/Nubo0Ze
+f3tCjI8XjppYySAZfF2TtIeqtO/2GwC0t8ffzgiNWgbrqczES48=
+=K2aK
+-----END PGP SIGNATURE-----
+
+--yhk2v2hz3qojdbpu--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
