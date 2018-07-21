@@ -3,139 +3,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B58FF7D072
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Jul 2018 12:00:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 814317D072
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Jul 2018 14:19:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727964AbeGUMwF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 21 Jul 2018 08:52:05 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:36515 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727787AbeGUMwF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jul 2018 08:52:05 -0400
-Received: by mail-lf1-f65.google.com with SMTP id b22-v6so3474667lfa.3
-        for <linux-doc@vger.kernel.org>; Sat, 21 Jul 2018 04:59:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=cafp2N5/pCFZNE4LiyMSXZb3eQNaxHPcEoMdkA3oO3Y=;
-        b=SUm+EKoG+uABvx2ouH3GAwsJB7jH9LxMkOyvxgqxi3AEXJxbPW0sM96HAOwCV7aAc8
-         /hB2S+BLCCBiyclUuNIkqrercbJGoosmuDRIQ14mdO2EymaUR/LM9o2QsGFHmYlv9IC7
-         NnwMZfweTeZ88FiIK0R/CbIxLTc9aidqd3k3M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=cafp2N5/pCFZNE4LiyMSXZb3eQNaxHPcEoMdkA3oO3Y=;
-        b=bkCaUrMQt4Z/wpD4UmFsyZIxgDtb7rLT3QCogYz8o7E5Y0NIU+ZZno+7gtIP81w1fY
-         dIASkRdpXmwSwkVd/NKEPwZgUNwcw9YEWn+FyhY7g7rYnBv+9tq2kVD009vczls5cfhU
-         epTgWQvWp8rRXphsc6Wj28SloIY4T+5lM8vfMy5PWjc0QvIXVM5x/7vYSAVCShg5HvDl
-         Ge2J7M1c6+HtB9IiEXg8Shr/YBqecG93HYReIBGJ2xQbHWnt0v+vxZ/bloHvZO1egA6h
-         fPV8R4MOFWi139D1RqoQjIJ/hwcrhzrYTh7p/nPs9axpJJQSudtT8GhgMRx+Z2MRBnMd
-         WPHA==
-X-Gm-Message-State: AOUpUlFVQ4A/989oVfvHSKNbrpCGeUIPdzdoMwReArF3Ot6cJ7Murxox
-        KSR9ojt8izalrXBlu9bnfaelCg==
-X-Google-Smtp-Source: AAOMgpep3OQI8fn3+BW+V72/89C59Exl59NW2h1nzyS5HImnUZszV4A8qXGIWRYVeWjzNYVeH5rzYQ==
-X-Received: by 2002:a19:e955:: with SMTP id g82-v6mr3585281lfh.44.1532174374222;
-        Sat, 21 Jul 2018 04:59:34 -0700 (PDT)
-Received: from localhost.localdomain (59-201-94-178.pool.ukrtel.net. [178.94.201.59])
-        by smtp.gmail.com with ESMTPSA id 73-v6sm664260lfs.44.2018.07.21.04.59.32
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 21 Jul 2018 04:59:33 -0700 (PDT)
-From:   Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-To:     davem@davemloft.net, grygorii.strashko@ti.com
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
-        henrik@austad.us, jesus.sanchez-palencia@intel.com,
-        ilias.apalodimas@linaro.org, p-varis@ti.com, spatton@ti.com,
-        francois.ozog@linaro.org, yogeshs@ti.com, nsekhar@ti.com,
-        andrew@lunn.ch, Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Subject: [PATCH v4 net-next 1/6] net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
-Date:   Sat, 21 Jul 2018 14:59:18 +0300
-Message-Id: <20180721115923.1389-2-ivan.khoronzhuk@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180721115923.1389-1-ivan.khoronzhuk@linaro.org>
-References: <20180721115923.1389-1-ivan.khoronzhuk@linaro.org>
+        id S1727633AbeGUPMs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 21 Jul 2018 11:12:48 -0400
+Received: from imap.thunk.org ([74.207.234.97]:41274 "EHLO imap.thunk.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727598AbeGUPMs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 21 Jul 2018 11:12:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
+         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=cipI/CXFloW3VGUv9Rl9FEHs9Nihp+gFL4UT4f6Y1ZE=; b=wCsI37LYO92mjYJJeKSeqeezhL
+        tsu//MRq0n8Ob3Rr3QHTLW1Gpt7m6+aNEZ5uRzffnqUDV4/EB9PVzugWTJe4+4E+hKja0hSgk6M22
+        kvxfE0SZ4zmfKZriKWqlknlokpzDZ6mlie5akVHMoo7ghZ2WSTRPvXS79sDiKnwfqZP8=;
+Received: from root (helo=callcc.thunk.org)
+        by imap.thunk.org with local-esmtp (Exim 4.89)
+        (envelope-from <tytso@thunk.org>)
+        id 1fgsjg-0002k7-Ih; Sat, 21 Jul 2018 14:19:52 +0000
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 651E57A644D; Sat, 21 Jul 2018 10:19:46 -0400 (EDT)
+Date:   Sat, 21 Jul 2018 10:19:46 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 00/13] ext4: major documentation surgery
+Message-ID: <20180721141946.GA31851@thunk.org>
+References: <153124300257.17949.1127788286714678589.stgit@magnolia>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <153124300257.17949.1127788286714678589.stgit@magnolia>
+User-Agent: Mutt/1.10.0 (2018-05-17)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: tytso@thunk.org
+X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The cpdma channel highest priority is from hi to lo number.
-The driver has limited number of descriptors that are shared between
-number of cpdma channels. Number of queues can be tuned with ethtool,
-that allows to not spend descriptors on not needed cpdma channels.
-In AVB usually only 2 tx queues can be enough with rate limitation.
-The rate limitation can be used only for hi priority queues. Thus, to
-use only 2 queues the 8 has to be created. It's wasteful.
+On Tue, Jul 10, 2018 at 10:16:42AM -0700, Darrick J. Wong wrote:
+> Hi all,
+> 
+> This series converts the existing in-kernel ext4 documentation to rst
+> format, links it in with the rest of the kernel's rst documetation, and
+> then begins pulling in the contents of the on-disk layout page in the
+> wiki.  No changes are made to the text during the import process except
+> to flatten the nested tables in the old wiki page, which were very
+> difficult to maintain.
+> 
+> I've built the docs and put them here, in case you hate reading rst:
+> https://djwong.org/docs/kdoc/filesystems/ext4/index.html
 
-So, in order to allow using only needed number of rate limited
-tx queues, save resources, and be able to set rate limitation for
-them, let assign tx cpdma channels in backward order to queues.
+I've applied these patches, but I think we still need to do some work
+figuring out how to integrate the ext4 documentation into the
+Linux-doc tree as a whole.
 
-Reviewed-by: Grygorii Strashko <grygorii.strashko@ti.com>
-Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
----
- drivers/net/ethernet/ti/cpsw.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+At the moment they are dropped in the middle of the "Kernel API
+Documentation", by virtue of where the files are located.  Most of the
+ext4.rst file probably should be moved into the user's and
+administrator's guide.
 
-diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
-index 00761fe59848..4425b537b9dd 100644
---- a/drivers/net/ethernet/ti/cpsw.c
-+++ b/drivers/net/ethernet/ti/cpsw.c
-@@ -968,8 +968,8 @@ static int cpsw_tx_mq_poll(struct napi_struct *napi_tx, int budget)
- 
- 	/* process every unprocessed channel */
- 	ch_map = cpdma_ctrl_txchs_state(cpsw->dma);
--	for (ch = 0, num_tx = 0; ch_map; ch_map >>= 1, ch++) {
--		if (!(ch_map & 0x01))
-+	for (ch = 0, num_tx = 0; ch_map & 0xff; ch_map <<= 1, ch++) {
-+		if (!(ch_map & 0x80))
- 			continue;
- 
- 		txv = &cpsw->txv[ch];
-@@ -2432,7 +2432,7 @@ static int cpsw_update_channels_res(struct cpsw_priv *priv, int ch_num, int rx)
- 	void (*handler)(void *, int, int);
- 	struct netdev_queue *queue;
- 	struct cpsw_vector *vec;
--	int ret, *ch;
-+	int ret, *ch, vch;
- 
- 	if (rx) {
- 		ch = &cpsw->rx_ch_num;
-@@ -2445,7 +2445,8 @@ static int cpsw_update_channels_res(struct cpsw_priv *priv, int ch_num, int rx)
- 	}
- 
- 	while (*ch < ch_num) {
--		vec[*ch].ch = cpdma_chan_create(cpsw->dma, *ch, handler, rx);
-+		vch = rx ? *ch : 7 - *ch;
-+		vec[*ch].ch = cpdma_chan_create(cpsw->dma, vch, handler, rx);
- 		queue = netdev_get_tx_queue(priv->ndev, *ch);
- 		queue->tx_maxrate = 0;
- 
-@@ -2982,7 +2983,7 @@ static int cpsw_probe(struct platform_device *pdev)
- 	u32 slave_offset, sliver_offset, slave_size;
- 	const struct soc_device_attribute *soc;
- 	struct cpsw_common		*cpsw;
--	int ret = 0, i;
-+	int ret = 0, i, ch;
- 	int irq;
- 
- 	cpsw = devm_kzalloc(&pdev->dev, sizeof(struct cpsw_common), GFP_KERNEL);
-@@ -3157,7 +3158,8 @@ static int cpsw_probe(struct platform_device *pdev)
- 	if (soc)
- 		cpsw->quirk_irq = 1;
- 
--	cpsw->txv[0].ch = cpdma_chan_create(cpsw->dma, 0, cpsw_tx_handler, 0);
-+	ch = cpsw->quirk_irq ? 0 : 7;
-+	cpsw->txv[0].ch = cpdma_chan_create(cpsw->dma, ch, cpsw_tx_handler, 0);
- 	if (IS_ERR(cpsw->txv[0].ch)) {
- 		dev_err(priv->dev, "error initializing tx dma channel\n");
- 		ret = PTR_ERR(cpsw->txv[0].ch);
--- 
-2.17.1
+I'm not sure where the best place to put the ondisk documentation.
+It's probably not the user's and administrator's guide, but the Kernel
+API Documentation doesn't seem like the right place.
+
+But it should also make sense when people are browing the
+Documentation source directories, too.
+
+I'm not sure what the best way to do that might be, but maybe some of
+the folks on the linux-doc list will have some suggestions.
+
+Cheers,
+
+					- Ted
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
