@@ -1,94 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 924777D071
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 21 Jul 2018 22:59:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8CC587D071
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 22 Jul 2018 12:58:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728225AbeGUXxd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 21 Jul 2018 19:53:33 -0400
-Received: from www.zeus03.de ([194.117.254.33]:46584 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728220AbeGUXxd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 21 Jul 2018 19:53:33 -0400
-Received: (qmail 6970 invoked from network); 22 Jul 2018 00:59:06 +0200
-Received: by mail.zeus03.de with ESMTPSA (ECDHE-RSA-AES256-GCM-SHA384 encrypted, authenticated); 22 Jul 2018 00:59:06 +0200
-X-UD-Smtp-Session: l3s3148p1@fpMDXIpxlq4gAwDPW+PTAAId4P/+oMhl
-Date:   Sun, 22 Jul 2018 00:59:06 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Vitor soares <Vitor.Soares@synopsys.com>,
-        linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
-        adouglas@cadence.com, bfolta@cadence.com, dkos@cadence.com,
-        alicja@cadence.com, cwronka@cadence.com, sureshp@cadence.com,
-        rafalc@cadence.com, thomas.petazzoni@bootlin.com, nm@ti.com,
-        robh+dt@kernel.org, pawel.moll@arm.com, mark.rutland@arm.com,
-        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        geert@linux-m68k.org, linus.walleij@linaro.org,
-        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
-        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
-        Joao.Pinto@synopsys.com
-Subject: Re: [PATCH 0/3] Add driver for Synopsys DesignWare I3C master IP
-Message-ID: <20180721225906.krcmed35ylnspl2h@katana>
-References: <1532120272-17157-1-git-send-email-soares@synopsys.com>
- <20180720215801.dmklhwxsgakj4exd@ninjato>
- <20180721191515.6b20d23b@bbrezillon>
+        id S1728459AbeGVNzb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 22 Jul 2018 09:55:31 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:38158 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728438AbeGVNza (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jul 2018 09:55:30 -0400
+Received: by mail-pg1-f194.google.com with SMTP id k3-v6so10285710pgq.5;
+        Sun, 22 Jul 2018 05:58:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=aBYC/tIKEetmeW/Dn/s50aQwVeDIFD8XqHy3dyztV/M=;
+        b=PCf1rMXvo2A76lbJn+l14LwbYTbeUkRNKAqgMERMtCIAKZLtGb8flV17KtT6bRbfQG
+         v7UtRxoHiSXA3xrKLrRfO27VMIv+xhfBUEiUeu/oICtGLZSX+7r6JDQXDqUPZTyDKuDn
+         EnogDBcCMNVMcPHivkDEOceqwy/pYuVUtWKtACDFsZsiS5zGMZEGtiDMkWNRytyJ9KqN
+         DWlOoheH8XlvNEogu+h82UaSNUXlKfgCgENeCMB5JTK72W/1yOCgPiFnbAr2uL7I8k4g
+         r06SOKhIOYXlxAJq6GlkInGNbv9WVxh0+4JXYHntWFOXNphXprwppfd7GYAu8W2Q11jZ
+         tegw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=aBYC/tIKEetmeW/Dn/s50aQwVeDIFD8XqHy3dyztV/M=;
+        b=A9chzttAqgbb7CCpBta/+U0w7sR0sDW894QPH1wr0cJheeJS6vzaAXoefuJ8ApFaYD
+         aSN2ZUaGDaUViee+KL0YOtbBH9C4X5Y/kgMBBb0RPxfxGstZL8MEa6Ut5Y80wWC+fK8l
+         6E41bfz8EdC+71khaTi6Wy3FyuE9FI4w5qYqcMX/sSbO8RabrHHelozgaxi/FR2PD/A9
+         CrWYor9ag2gCNOTcNBcJO78YUEGe5mNBZ6YtjZc4kOequehYfML5SHqqCgwhfg7bvg/C
+         OGYwpQl6gQsIezx2P79qsDXT2MbLMsr3ucNO1nxh0ygxCIxqZH7Ir+6fxWHw92WDuPGa
+         hllA==
+X-Gm-Message-State: AOUpUlG7kMRmIDAjAELx0hqKcf3b+zFa/5NmwdnyiqkvqLWzQgosYz+e
+        bb+k8Y2NXGiRV/6/IApt4N8=
+X-Google-Smtp-Source: AAOMgpdk60WZHsS6lqZOQLILIN2Xegb9+9zGqi5DJtIFTi7r7JJchh2CgvSOwgVDVcVGWiVAfm5qzA==
+X-Received: by 2002:a63:ae02:: with SMTP id q2-v6mr8456247pgf.189.1532264334244;
+        Sun, 22 Jul 2018 05:58:54 -0700 (PDT)
+Received: from jordon-HP-15-Notebook-PC ([49.205.216.185])
+        by smtp.gmail.com with ESMTPSA id b73-v6sm12976004pfl.152.2018.07.22.05.58.52
+        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sun, 22 Jul 2018 05:58:52 -0700 (PDT)
+Date:   Sun, 22 Jul 2018 18:31:34 +0530
+From:   Souptick Joarder <jrdr.linux@gmail.com>
+To:     willy@infradead.org, corbet@lwn.net, darrick.wong@oracle.com,
+        gregkh@linuxfoundation.org, mszeredi@redhat.com,
+        viro@zeniv.linux.org.uk, seanga2@gmail.com, jrdr.linux@gmail.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ajitn.linux@gmail.com, brajeswar.linux@gmail.com,
+        sabyasachi.linux@gmail.com
+Subject: [PATCH] mm: Introduce new type vm_fault_t
+Message-ID: <20180722130134.GA31321@jordon-HP-15-Notebook-PC>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="yhk2v2hz3qojdbpu"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180721191515.6b20d23b@bbrezillon>
-User-Agent: NeoMutt/20170113 (1.7.2)
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+We have introduce a new return type vm_fault_t for
+fault, page_mkwrite and pfn_mkwrite handlers. Update
+the document for the same
 
---yhk2v2hz3qojdbpu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+---
+ Documentation/filesystems/Locking | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Boris,
+diff --git a/Documentation/filesystems/Locking b/Documentation/filesystems/Locking
+index 2c39133..233413b 100644
+--- a/Documentation/filesystems/Locking
++++ b/Documentation/filesystems/Locking
+@@ -537,9 +537,9 @@ More details about quota locking can be found in fs/dquot.c.
+ prototypes:
+ 	void (*open)(struct vm_area_struct*);
+ 	void (*close)(struct vm_area_struct*);
+-	int (*fault)(struct vm_area_struct*, struct vm_fault *);
+-	int (*page_mkwrite)(struct vm_area_struct *, struct vm_fault *);
+-	int (*pfn_mkwrite)(struct vm_area_struct *, struct vm_fault *);
++	vm_fault_t (*fault)(struct vm_area_struct*, struct vm_fault *);
++	vm_fault_t (*page_mkwrite)(struct vm_area_struct *, struct vm_fault *);
++	vm_fault_t (*pfn_mkwrite)(struct vm_area_struct *, struct vm_fault *);
+ 	int (*access)(struct vm_area_struct *, unsigned long, void*, int, int);
+ 
+ locking rules:
+-- 
+1.9.1
 
-> I was waiting for the I3C framework to be merged before creating the ML
-> and the git repo, but if you think we should do that now I can create
-> them.
-
-I'd think so. It will already be beneficial to have a central discussing
-point and a location to pull stuff from.
-
-Thanks,
-
-   Wolfram
-
---yhk2v2hz3qojdbpu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAltTurUACgkQFA3kzBSg
-KbZBURAAn8RzMrsBu9CGwSgFBGUBDK17R0eEpYdGwUDDCrMDGp2uWsiLXHtQK+IU
-aC4VrjT3QVq2iHj143dC3LVGHccFemZp8KymZLNEhjrsiEfpmeukLvoUYIHfdDFv
-41C8d9B0RHvBuxLWMlj8qRfOhHU0dxNKUeejl5L9lgbziZKAj6ynNzguH7V1noJX
-fJ2eOW4IxobwA1bDieZn2fIgDJ30+SCFI+KLlKOpzr5KnArA2PFjRIQEIaYxQovC
-n3rpOVcR67/wDpB9pniHW6t1Rdy019J1h8/fxAH1uUwBvoNraC5LgDmMBefrypgx
-lE1g4K9HUf942sreZJdgcOZcRyg0TPBHym/OTojOvPSvDGDOE65KjXNK82WyIab3
-syjsKSMCQYfzkLYYSsnk0rywAiuGZbR7aQs8Wduonj0iAjSCwzAdJ/S7IuHdaKdL
-6/pLw5WoS+jgMfsC1Xi8zYo2NfWqdGthGvR9PzmXA+fcmYjvct74YRqchMaY1vCB
-gF1ZcSNa8aK+l80HqyXWcLsKN98BukGmSynJKAC0pmuJHf2ZFTOd+Q6flFdvd+Zs
-qs7htijB3B0h6yyGIsAXfp8QeXf6F7NZXuh9jB4gZh7w1vvsD3Ikfdl4/Nubo0Ze
-f3tCjI8XjppYySAZfF2TtIeqtO/2GwC0t8ffzgiNWgbrqczES48=
-=K2aK
------END PGP SIGNATURE-----
-
---yhk2v2hz3qojdbpu--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
