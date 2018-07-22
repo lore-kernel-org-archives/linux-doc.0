@@ -1,101 +1,52 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8CC587D071
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 22 Jul 2018 12:58:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47C297D071
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 22 Jul 2018 18:29:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728459AbeGVNzb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 22 Jul 2018 09:55:31 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:38158 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728438AbeGVNza (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jul 2018 09:55:30 -0400
-Received: by mail-pg1-f194.google.com with SMTP id k3-v6so10285710pgq.5;
-        Sun, 22 Jul 2018 05:58:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=aBYC/tIKEetmeW/Dn/s50aQwVeDIFD8XqHy3dyztV/M=;
-        b=PCf1rMXvo2A76lbJn+l14LwbYTbeUkRNKAqgMERMtCIAKZLtGb8flV17KtT6bRbfQG
-         v7UtRxoHiSXA3xrKLrRfO27VMIv+xhfBUEiUeu/oICtGLZSX+7r6JDQXDqUPZTyDKuDn
-         EnogDBcCMNVMcPHivkDEOceqwy/pYuVUtWKtACDFsZsiS5zGMZEGtiDMkWNRytyJ9KqN
-         DWlOoheH8XlvNEogu+h82UaSNUXlKfgCgENeCMB5JTK72W/1yOCgPiFnbAr2uL7I8k4g
-         r06SOKhIOYXlxAJq6GlkInGNbv9WVxh0+4JXYHntWFOXNphXprwppfd7GYAu8W2Q11jZ
-         tegw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=aBYC/tIKEetmeW/Dn/s50aQwVeDIFD8XqHy3dyztV/M=;
-        b=A9chzttAqgbb7CCpBta/+U0w7sR0sDW894QPH1wr0cJheeJS6vzaAXoefuJ8ApFaYD
-         aSN2ZUaGDaUViee+KL0YOtbBH9C4X5Y/kgMBBb0RPxfxGstZL8MEa6Ut5Y80wWC+fK8l
-         6E41bfz8EdC+71khaTi6Wy3FyuE9FI4w5qYqcMX/sSbO8RabrHHelozgaxi/FR2PD/A9
-         CrWYor9ag2gCNOTcNBcJO78YUEGe5mNBZ6YtjZc4kOequehYfML5SHqqCgwhfg7bvg/C
-         OGYwpQl6gQsIezx2P79qsDXT2MbLMsr3ucNO1nxh0ygxCIxqZH7Ir+6fxWHw92WDuPGa
-         hllA==
-X-Gm-Message-State: AOUpUlG7kMRmIDAjAELx0hqKcf3b+zFa/5NmwdnyiqkvqLWzQgosYz+e
-        bb+k8Y2NXGiRV/6/IApt4N8=
-X-Google-Smtp-Source: AAOMgpdk60WZHsS6lqZOQLILIN2Xegb9+9zGqi5DJtIFTi7r7JJchh2CgvSOwgVDVcVGWiVAfm5qzA==
-X-Received: by 2002:a63:ae02:: with SMTP id q2-v6mr8456247pgf.189.1532264334244;
-        Sun, 22 Jul 2018 05:58:54 -0700 (PDT)
-Received: from jordon-HP-15-Notebook-PC ([49.205.216.185])
-        by smtp.gmail.com with ESMTPSA id b73-v6sm12976004pfl.152.2018.07.22.05.58.52
-        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sun, 22 Jul 2018 05:58:52 -0700 (PDT)
-Date:   Sun, 22 Jul 2018 18:31:34 +0530
-From:   Souptick Joarder <jrdr.linux@gmail.com>
-To:     willy@infradead.org, corbet@lwn.net, darrick.wong@oracle.com,
-        gregkh@linuxfoundation.org, mszeredi@redhat.com,
-        viro@zeniv.linux.org.uk, seanga2@gmail.com, jrdr.linux@gmail.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ajitn.linux@gmail.com, brajeswar.linux@gmail.com,
-        sabyasachi.linux@gmail.com
-Subject: [PATCH] mm: Introduce new type vm_fault_t
-Message-ID: <20180722130134.GA31321@jordon-HP-15-Notebook-PC>
+        id S1730712AbeGVT0k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 22 Jul 2018 15:26:40 -0400
+Received: from smtp-rj-7.mundivox.com ([177.124.223.166]:58536 "EHLO
+        smtp-rj-7.mundivox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730573AbeGVT0k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jul 2018 15:26:40 -0400
+X-Greylist: delayed 1960 seconds by postgrey-1.27 at vger.kernel.org; Sun, 22 Jul 2018 15:26:37 EDT
+Received: from mail-rj-1.mundivox.com (unknown [200.196.48.65])
+        by smtp-rj-7.mundivox.com (Postfix) with ESMTP id 731231E2C13;
+        Sun, 22 Jul 2018 14:29:04 -0300 (-03)
+Received: from localhost (localhost.locadomain [127.0.0.1])
+        by mail-rj-1.mundivox.com (Postfix) with ESMTP id B52EEE6D8005;
+        Sun, 22 Jul 2018 14:29:04 -0300 (BRT)
+Received: from mail-rj-1.mundivox.com ([127.0.0.1])
+        by localhost (mail-rj-1.mundivox.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id EABvV+DUnwVk; Sun, 22 Jul 2018 14:29:04 -0300 (BRT)
+Received: from mail-rj-1.mundivox.com (localhost.locadomain [127.0.0.1])
+        by mail-rj-1.mundivox.com (Postfix) with ESMTP id 26CA51F08007;
+        Sun, 22 Jul 2018 14:29:03 -0300 (BRT)
+Date:   Sun, 22 Jul 2018 14:29:03 -0300 (GMT-03:00)
+From:   Jack <rfuschini@mundivox.com>
+Reply-To: Jack <2936410069@qq.com>
+Message-ID: <863922912.117171045.1532280543076.JavaMail.root@mundivox.com>
+Subject: Hello Beautiful
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 7.2.7_GA_2942 (zclient/7.2.7_GA_2942)
+To:     undisclosed-recipients:;
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We have introduce a new return type vm_fault_t for
-fault, page_mkwrite and pfn_mkwrite handlers. Update
-the document for the same
+Hi Dear, my name is Jack and i am seeking for a relationship in which i will feel loved after a series of failed relationships. 
 
-Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
----
- Documentation/filesystems/Locking | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I am hoping that you would be interested and we could possibly get to know each other more if you do not mind. I am open to answering questions from you as i think my approach is a little inappropriate. Hope to hear back from you.
 
-diff --git a/Documentation/filesystems/Locking b/Documentation/filesystems/Locking
-index 2c39133..233413b 100644
---- a/Documentation/filesystems/Locking
-+++ b/Documentation/filesystems/Locking
-@@ -537,9 +537,9 @@ More details about quota locking can be found in fs/dquot.c.
- prototypes:
- 	void (*open)(struct vm_area_struct*);
- 	void (*close)(struct vm_area_struct*);
--	int (*fault)(struct vm_area_struct*, struct vm_fault *);
--	int (*page_mkwrite)(struct vm_area_struct *, struct vm_fault *);
--	int (*pfn_mkwrite)(struct vm_area_struct *, struct vm_fault *);
-+	vm_fault_t (*fault)(struct vm_area_struct*, struct vm_fault *);
-+	vm_fault_t (*page_mkwrite)(struct vm_area_struct *, struct vm_fault *);
-+	vm_fault_t (*pfn_mkwrite)(struct vm_area_struct *, struct vm_fault *);
- 	int (*access)(struct vm_area_struct *, unsigned long, void*, int, int);
- 
- locking rules:
--- 
-1.9.1
-
+Jack.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
