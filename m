@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0A4897DE80
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Jul 2018 21:50:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 53D187D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Jul 2018 21:50:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388187AbeGWWv7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Jul 2018 18:51:59 -0400
+        id S2388227AbeGWWvr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 23 Jul 2018 18:51:47 -0400
 Received: from mga09.intel.com ([134.134.136.24]:8908 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388134AbeGWWv6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 23 Jul 2018 18:51:58 -0400
+        id S2388137AbeGWWvq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Jul 2018 18:51:46 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Jul 2018 14:48:47 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Jul 2018 14:48:35 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,394,1526367600"; 
-   d="scan'208";a="66923120"
+   d="scan'208";a="66923099"
 Received: from maru.jf.intel.com ([10.54.51.80])
-  by FMSMGA003.fm.intel.com with ESMTP; 23 Jul 2018 14:48:45 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Jul 2018 14:48:33 -0700
 From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 To:     Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
@@ -60,12 +60,10 @@ Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
         openbmc@lists.ozlabs.org,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: [PATCH v7 05/12] ARM: dts: aspeed: peci: Add PECI node
-Date:   Mon, 23 Jul 2018 14:47:44 -0700
-Message-Id: <20180723214751.1733-6-jae.hyun.yoo@linux.intel.com>
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Subject: [PATCH v7 01/12] dt-bindings: Add a document of PECI subsystem
+Date:   Mon, 23 Jul 2018 14:47:40 -0700
+Message-Id: <20180723214751.1733-2-jae.hyun.yoo@linux.intel.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180723214751.1733-1-jae.hyun.yoo@linux.intel.com>
 References: <20180723214751.1733-1-jae.hyun.yoo@linux.intel.com>
@@ -74,8 +72,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds PECI bus/adapter node of AST24xx/AST25xx into
-aspeed-g4 and aspeed-g5.
+This commit adds a document of generic PECI bus, adapter and client
+driver.
 
 Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
@@ -83,117 +81,62 @@ Reviewed-by: James Feist <james.feist@linux.intel.com>
 Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
 Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Joel Stanley <joel@jms.id.au>
 Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: Jason M Biils <jason.m.bills@linux.intel.com>
-Cc: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Joel Stanley <joel@jms.id.au>
 ---
- arch/arm/boot/dts/aspeed-g4.dtsi | 26 ++++++++++++++++++++++++++
- arch/arm/boot/dts/aspeed-g5.dtsi | 26 ++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+ .../devicetree/bindings/peci/peci.txt         | 43 +++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/peci/peci.txt
 
-diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed-g4.dtsi
-index 680336ac06f8..1177c76a8a9d 100644
---- a/arch/arm/boot/dts/aspeed-g4.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g4.dtsi
-@@ -29,6 +29,7 @@
- 		serial3 = &uart4;
- 		serial4 = &uart5;
- 		serial5 = &vuart;
-+		peci0 = &peci0;
- 	};
- 
- 	cpus {
-@@ -311,6 +312,13 @@
- 				};
- 			};
- 
-+			peci: peci@1e78b000 {
-+				compatible = "simple-bus";
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0x0 0x1e78b000 0x60>;
-+			};
+diff --git a/Documentation/devicetree/bindings/peci/peci.txt b/Documentation/devicetree/bindings/peci/peci.txt
+new file mode 100644
+index 000000000000..864b7ab4e9fa
+--- /dev/null
++++ b/Documentation/devicetree/bindings/peci/peci.txt
+@@ -0,0 +1,43 @@
++Generic device tree configuration for PECI adapters
++===================================================
 +
- 			uart2: serial@1e78d000 {
- 				compatible = "ns16550a";
- 				reg = <0x1e78d000 0x20>;
-@@ -354,6 +362,24 @@
- 	};
- };
- 
-+&peci {
++Required properties:
++- #address-cells : Should be <1>. Read more about client addresses below.
++- #size-cells    : Should be <0>. Read more about client addresses below.
++
++The cells properties above define that an address of CPU clients of a PECI bus
++are described by a single value.
++
++Example:
 +	peci0: peci-bus@0 {
-+		compatible = "aspeed,ast2400-peci";
-+		reg = <0x0 0x60>;
++		compatible = "vendor,soc-peci";
++		reg = <0x0 0x1000>;
 +		#address-cells = <1>;
 +		#size-cells = <0>;
-+		interrupts = <15>;
-+		clocks = <&syscon ASPEED_CLK_GATE_REFCLK>;
-+		resets = <&syscon ASPEED_RESET_PECI>;
-+		clock-frequency = <24000000>;
-+		msg-timing = <1>;
-+		addr-timing = <1>;
-+		rd-sampling-point = <8>;
-+		cmd-timeout-ms = <1000>;
-+		status = "disabled";
 +	};
-+};
 +
- &i2c {
- 	i2c_ic: interrupt-controller@0 {
- 		#interrupt-cells = <1>;
-diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-index 02e70ad3ab70..f93f174bc149 100644
---- a/arch/arm/boot/dts/aspeed-g5.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-@@ -29,6 +29,7 @@
- 		serial3 = &uart4;
- 		serial4 = &uart5;
- 		serial5 = &vuart;
-+		peci0 = &peci0;
- 	};
- 
- 	cpus {
-@@ -370,6 +371,13 @@
- 				};
- 			};
- 
-+			peci: peci@1e78b000 {
-+				compatible = "simple-bus";
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0x0 0x1e78b000 0x60>;
-+			};
++Generic device tree configuration for PECI clients
++==================================================
 +
- 			uart2: serial@1e78d000 {
- 				compatible = "ns16550a";
- 				reg = <0x1e78d000 0x20>;
-@@ -413,6 +421,24 @@
- 	};
- };
- 
-+&peci {
-+	peci0: peci-bus@0 {
-+		compatible = "aspeed,ast2500-peci";
-+		reg = <0x0 0x60>;
++Required properties:
++- compatible : Should contain name of PECI client.
++- reg        : Should contain address of a client CPU. Address range of CPU
++	       clients starts from 0x30 based on PECI specification.
++
++Example:
++	peci-bus@0 {
++		compatible = "vendor,soc-peci";
++		reg = <0x0 0x1000>;
 +		#address-cells = <1>;
 +		#size-cells = <0>;
-+		interrupts = <15>;
-+		clocks = <&syscon ASPEED_CLK_GATE_REFCLK>;
-+		resets = <&syscon ASPEED_RESET_PECI>;
-+		clock-frequency = <24000000>;
-+		msg-timing = <1>;
-+		addr-timing = <1>;
-+		rd-sampling-point = <8>;
-+		cmd-timeout-ms = <1000>;
-+		status = "disabled";
-+	};
-+};
 +
- &i2c {
- 	i2c_ic: interrupt-controller@0 {
- 		#interrupt-cells = <1>;
++		peci-client@30 {
++			compatible = "intel,peci-client";
++			reg = <0x30>;
++		};
++
++		peci-client@31 {
++			compatible = "intel,peci-client";
++			reg = <0x31>;
++		};
++	};
 -- 
 2.18.0
 
