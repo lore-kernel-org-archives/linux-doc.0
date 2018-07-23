@@ -5,54 +5,75 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E33B7D071
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Jul 2018 15:36:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 298827D071
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Jul 2018 15:39:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387970AbeGWQik (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Jul 2018 12:38:40 -0400
-Received: from ms.lwn.net ([45.79.88.28]:34848 "EHLO ms.lwn.net"
+        id S2388228AbeGWQlN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 23 Jul 2018 12:41:13 -0400
+Received: from ms.lwn.net ([45.79.88.28]:34858 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387968AbeGWQik (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 23 Jul 2018 12:38:40 -0400
+        id S2387831AbeGWQlN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Jul 2018 12:41:13 -0400
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 52A349B0;
-        Mon, 23 Jul 2018 15:36:53 +0000 (UTC)
-Date:   Mon, 23 Jul 2018 09:36:45 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id D3160A75;
+        Mon, 23 Jul 2018 15:39:25 +0000 (UTC)
+Date:   Mon, 23 Jul 2018 09:39:24 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Norman <norman.kern@gmx.com>
-Cc:     linux-doc@vger.kernel.org, harryxiyou@gmail.com,
-        linux-kernel@zh-kernel.org
-Subject: Re: [PATCH] zh_CN:translation for block queue into Chinese
-Message-ID: <20180723093645.7efb20e0@lwn.net>
-In-Reply-To: <c10695de-d6aa-bb5a-2635-efd0f6f78269@gmx.com>
-References: <c10695de-d6aa-bb5a-2635-efd0f6f78269@gmx.com>
+To:     Marcel Ziswiler <marcel@ziswiler.com>
+Cc:     linux-mtd@lists.infradead.org,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Gregory CLEMENT <gregory.clement@bootlin.com>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Vladimir Zapolskiy <vz@mleia.com>
+Subject: Re: [PATCH] mtd: nand: fix spelling in driver api documentation
+Message-ID: <20180723093924.04af0e2f@lwn.net>
+In-Reply-To: <20180720075334.24254-1-marcel@ziswiler.com>
+References: <20180720075334.24254-1-marcel@ziswiler.com>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 20 Jul 2018 10:27:06 +0800
-Norman <norman.kern@gmx.com> wrote:
+On Fri, 20 Jul 2018 09:53:33 +0200
+Marcel Ziswiler <marcel@ziswiler.com> wrote:
 
-> Translate block/queue-sysfs.txt into Chinese
+> From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 > 
-> Signed-off-by: Norman Kern <norman.kern@gmx.com>
-> ---
->   .../translations/zh_CN/block/queue-sysfs.md        | 205 
-> +++++++++++++++++++++
+> This fixes some spelling mistakes.
 
-So...are you translating this into markdown format?  Please don't do
-that, we don't need another documentation format in the kernel.  If you
-want to convert this document to structured markup, the ideal approach
-would be to convert the source document to RST first, then translate the
-result.
+So I hate to complain about a documentation improvement, but...
+
+> 
+> Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+> 
+> ---
+> 
+>  Documentation/driver-api/mtdnand.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/mtdnand.rst b/Documentation/driver-api/mtdnand.rst
+> index dcd63599f700..c55a6034c397 100644
+> --- a/Documentation/driver-api/mtdnand.rst
+> +++ b/Documentation/driver-api/mtdnand.rst
+> @@ -374,7 +374,7 @@ The nand driver supports three different types of hardware ECC.
+>  
+>  -  NAND_ECC_HW8_512
+>  
+> -   Hardware ECC generator providing 6 bytes ECC per 512 byte.
+> +   Hardware ECC generator providing 8 bytes ECC per 512 byte.
+
+That's not a spelling mistake, that's a factual change.  I'll apply the
+patch since it appears to be correct, but will be tweaking the changelog.
 
 Thanks,
 
