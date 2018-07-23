@@ -5,35 +5,33 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 298827D071
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Jul 2018 15:39:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71C7B7D071
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Jul 2018 15:42:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388228AbeGWQlN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Jul 2018 12:41:13 -0400
-Received: from ms.lwn.net ([45.79.88.28]:34858 "EHLO ms.lwn.net"
+        id S2388039AbeGWQoM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 23 Jul 2018 12:44:12 -0400
+Received: from ms.lwn.net ([45.79.88.28]:34892 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387831AbeGWQlN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 23 Jul 2018 12:41:13 -0400
+        id S2388029AbeGWQoM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Jul 2018 12:44:12 -0400
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D3160A75;
-        Mon, 23 Jul 2018 15:39:25 +0000 (UTC)
-Date:   Mon, 23 Jul 2018 09:39:24 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id E63A030A;
+        Mon, 23 Jul 2018 15:42:23 +0000 (UTC)
+Date:   Mon, 23 Jul 2018 09:42:22 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Marcel Ziswiler <marcel@ziswiler.com>
-Cc:     linux-mtd@lists.infradead.org,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
+To:     Souptick Joarder <jrdr.linux@gmail.com>
+Cc:     willy@infradead.org, darrick.wong@oracle.com,
+        gregkh@linuxfoundation.org, mszeredi@redhat.com,
+        viro@zeniv.linux.org.uk, seanga2@gmail.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Vladimir Zapolskiy <vz@mleia.com>
-Subject: Re: [PATCH] mtd: nand: fix spelling in driver api documentation
-Message-ID: <20180723093924.04af0e2f@lwn.net>
-In-Reply-To: <20180720075334.24254-1-marcel@ziswiler.com>
-References: <20180720075334.24254-1-marcel@ziswiler.com>
+        ajitn.linux@gmail.com, brajeswar.linux@gmail.com,
+        sabyasachi.linux@gmail.com
+Subject: Re: [PATCH] mm: Introduce new type vm_fault_t
+Message-ID: <20180723094222.42fc5a33@lwn.net>
+In-Reply-To: <20180722130134.GA31321@jordon-HP-15-Notebook-PC>
+References: <20180722130134.GA31321@jordon-HP-15-Notebook-PC>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -44,38 +42,16 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 20 Jul 2018 09:53:33 +0200
-Marcel Ziswiler <marcel@ziswiler.com> wrote:
+On Sun, 22 Jul 2018 18:31:34 +0530
+Souptick Joarder <jrdr.linux@gmail.com> wrote:
 
-> From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+> We have introduce a new return type vm_fault_t for
+> fault, page_mkwrite and pfn_mkwrite handlers. Update
+> the document for the same
 > 
-> This fixes some spelling mistakes.
+> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
 
-So I hate to complain about a documentation improvement, but...
-
-> 
-> Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-> 
-> ---
-> 
->  Documentation/driver-api/mtdnand.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/mtdnand.rst b/Documentation/driver-api/mtdnand.rst
-> index dcd63599f700..c55a6034c397 100644
-> --- a/Documentation/driver-api/mtdnand.rst
-> +++ b/Documentation/driver-api/mtdnand.rst
-> @@ -374,7 +374,7 @@ The nand driver supports three different types of hardware ECC.
->  
->  -  NAND_ECC_HW8_512
->  
-> -   Hardware ECC generator providing 6 bytes ECC per 512 byte.
-> +   Hardware ECC generator providing 8 bytes ECC per 512 byte.
-
-That's not a spelling mistake, that's a factual change.  I'll apply the
-patch since it appears to be correct, but will be tweaking the changelog.
-
-Thanks,
+Applied, thanks.
 
 jon
 --
