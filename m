@@ -1,155 +1,211 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.0 required=5.0 tests=DKIM_SIGNED,
+	FORGED_MUA_MOZILLA,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A1DB77D071
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Jul 2018 03:01:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 746CB7D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Jul 2018 14:25:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725767AbeGWEA2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Jul 2018 00:00:28 -0400
-Received: from mail-pl0-f67.google.com ([209.85.160.67]:44921 "EHLO
-        mail-pl0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725746AbeGWEA2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jul 2018 00:00:28 -0400
-Received: by mail-pl0-f67.google.com with SMTP id m16-v6so7597596pls.11
-        for <linux-doc@vger.kernel.org>; Sun, 22 Jul 2018 20:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GbcTQteZutnrrp0ElE4r3n5F20XUyMblfKc3J+fOsFo=;
-        b=Da85itihHX5wgStCUxWD2nFl6v7xTDNODyLsDgjWOnfk9KYPaDfc5QGTlLOyxtFiFu
-         qIOTEo2NxDizfWggWhwtmAthjLV5uWNrQZti0K506txKy2Cl7s3e2kUxGr51OgV22NDS
-         b9OCCIQUVEHT4d/5yivFHkeMhUf3eX/009Sjk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GbcTQteZutnrrp0ElE4r3n5F20XUyMblfKc3J+fOsFo=;
-        b=BI1aChvXWMowjC/Z5ey+PzFRilbhpwRJdC0+EwDWQYDrXkjj3afqx8hzqqxOiEvPZt
-         Ure5E1HdB/9bwOiHUms2A3K5MwR+5AkIZdmH56gfxiHJnE90XTfK715/zEW+CktmTh6O
-         U5I+GFEcQ7fsOIOiJ15DLluSzWmT//CfD9Ky/ycAEgcy27efrWFCkYAV7RO4lDJgoou6
-         psp9q48x1rRQeifFY/yLiuLgtOCQjQqYjcA3zJKujt4JMvLQJTmHuFLiDg2SafemC6yZ
-         a1E8LwRMx7q/EWm2LMpJPqgy/mvudZjRI4IWyDnoxqDOcXQMtAbIf0qena5paf6+e4CO
-         kD1g==
-X-Gm-Message-State: AOUpUlE8BEahsxDzlo338UzE+GK9AzpkyBsr5/oRCVDwIqlbM/+l0zUi
-        gfyX3w4Z8Pz+Ur87wPDMcLnHDA==
-X-Google-Smtp-Source: AAOMgpc2yePkGXoXPxwz/uyALuVFjZ08QhVcY7xCuad/ohWOOnHqU4SQND0r1cZcdY5DnKnpb/RuHQ==
-X-Received: by 2002:a17:902:8c88:: with SMTP id t8-v6mr11087554plo.117.1532314889916;
-        Sun, 22 Jul 2018 20:01:29 -0700 (PDT)
-Received: from localhost ([122.172.26.112])
-        by smtp.gmail.com with ESMTPSA id o27-v6sm15152698pfj.35.2018.07.22.20.01.28
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 22 Jul 2018 20:01:29 -0700 (PDT)
-Date:   Mon, 23 Jul 2018 08:31:27 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Ruchi Kandoi <kandoiruchi@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v2] cpufreq: trace frequency limits change
-Message-ID: <20180723030127.7v5aymf246gfsf5x@vireshk-i7>
-References: <20180720222114.200311-1-joel@joelfernandes.org>
+        id S2388127AbeGWP0h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 23 Jul 2018 11:26:37 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:37482 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388090AbeGWP0h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jul 2018 11:26:37 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20180723142505euoutp0114cc40f79d70078d09629f96e2549a63~EBZPKMeTc0198701987euoutp01h
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jul 2018 14:25:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20180723142505euoutp0114cc40f79d70078d09629f96e2549a63~EBZPKMeTc0198701987euoutp01h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1532355905;
+        bh=LE1lCUmNpEv2T/BQ2ZNR2LNlGFfdM9x/wcixnD/gT+g=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=ukYBDa7oMr9PM+S12XMpQaM+bJYPBNnJNp9x6/XeBCqvIKojlwwIQ0ohDyA+ffpdt
+         cVq+St8oL5WXuXZNUag68svz/cvV7dhbDS7Vr9dhU7LftsF/z8suiBHwjcvS5M00oV
+         +CZdd3ofOiTfoLO1TemZSs01erOPJQYfJPKYp8OA=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20180723142504eucas1p21861a869f2c31775f5ccf1078f4727b2~EBZOV1UPO1751717517eucas1p2y;
+        Mon, 23 Jul 2018 14:25:04 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 05.70.04627.045E55B5; Mon, 23
+        Jul 2018 15:25:04 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20180723142503eucas1p24f8d96f8c4ec25dbdb80e27e2f1444c2~EBZNDRgPc2952429524eucas1p2C;
+        Mon, 23 Jul 2018 14:25:03 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20180723142503eusmtrp235c19235c2befeb3b58b9513a7a7772a~EBZM0cHub0601506015eusmtrp2O;
+        Mon, 23 Jul 2018 14:25:03 +0000 (GMT)
+X-AuditID: cbfec7f2-0edff70000021213-25-5b55e5402439
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 1E.33.04178.E35E55B5; Mon, 23
+        Jul 2018 15:25:02 +0100 (BST)
+Received: from [106.116.147.30] (unknown [106.116.147.30]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20180723142502eusmtip19e9ed96e93adfc16f6d1667585e282fa~EBZMK7Oh81634616346eusmtip1S;
+        Mon, 23 Jul 2018 14:25:02 +0000 (GMT)
+Subject: Re: [RFC] ARM: exynos: Fix imprecise abort during Exynos5422
+ suspend to RAM
+To:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Pankaj Dubey <pankaj.dubey@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Date:   Mon, 23 Jul 2018 16:24:53 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+        Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180720222114.200311-1-joel@joelfernandes.org>
-User-Agent: NeoMutt/20180323-120-3dd1ac
+In-Reply-To: <20180718195929.5852-1-krzk@kernel.org>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUhTYRjl3b27u1Nn16n4oKE06BP8gpALhhn4Y0FIUGpoOKdeVNRpm5oK
+        1ULQWlpmSnNISxlplqlTlw38aIZjVn6G5iwSbQaG+DXBSjO3m+W/c85znvc8B14SE/ZxfckM
+        WR4jl0mzRIQLbhj8MRwYaYtJCBnvJenZRwaCble3cukp+zcufW/+O0aPjLTxaP38JJeuL9Xh
+        9ISxjqDVI70c2lTTg+iGLjsv0lU8MTmGifXNtwlxh+6G+G5nMxKv6/3Pc+NdTqUyWRkFjDw4
+        Iskl3TjahnK1/oU9Nh1SojEfFeKTQJ0Ey/IoR4VcSCHVhGDB3shliR3B5zIbwZJ1BDWbG9y9
+        lcq6LcQOGhHMdNj+kmUEE1tawuHypGJBu6J3rntR9RywtFY7XRhVtptibnG6CCoUVEsqJ8ap
+        w/C+f3Y3gyS9qcvwyxjukAWUB1hqv+IOzN+NNkxXOzFGBcDLpTqMxT5g/ap1tgBqiAe6FSvP
+        8Y6AKoDhXm/27CioqppHLPaERXMnj8UHYefV3m4JgjK1hseScgRddd0E6wqHAfOY8ziMOg6t
+        xmBWPgNDZd24QwbKHT4uebD3uEOV4SHGygK4VSpk3UdAY37xL/b16DhWiUSafS01+5pp9jXT
+        /M99jPBm5MPkK7LTGEWojLkapJBmK/JlaUEpOdl6tPut3v42r3WjjfFkE6JIJHITbC5dTBBy
+        pQWKomwTAhITeQnGiZgEoSBVWlTMyHMk8vwsRmFCfiQu8hEkHrseL6TSpHlMJsPkMvK9KYfk
+        +ypR13xVwOpNySfXKX05P+zOT3VpnLsoeWvu0GD/dObCM+bCpdynFpVhZwCUs6ZQYcuT1g9t
+        3tFH/WWFX8rz7W6bizsD5xq22yJXlOT2taYrtYFJcc+LT8fPlRjbQx6su60dGItIefPu7Mx9
+        sIatFkdsS+olFTN+sVHRxYnxFfw+qwhXpEtDT2ByhfQPzFcfo1IDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrEIsWRmVeSWpSXmKPExsVy+t/xu7p2T0OjDTYctbZ4MG8bm8XGGetZ
+        La5/ec5q0f/4NbPF+fMb2C02Pb7GarGwbQmLxeVdc9gsZpzfx2RxaOpeRotFW7+wO3B7XL52
+        kdlj06pONo/NS+o9+rasYvT4vEkugDVKz6Yov7QkVSEjv7jEVina0MJIz9DSQs/IxFLP0Ng8
+        1srIVEnfziYlNSezLLVI3y5BL2PXhQ2MBfPlKvY+XcLYwHhRvIuRk0NCwERiwpw/jF2MXBxC
+        AksZJf5/b2WESMhInJzWwAphC0v8udbFBmILCbxllFg2XwjEFhYIk7j28wwbSLOIwEImie3t
+        i1hAHGaBdkaJjpX/2CDGAjkrfz0BG8smYCjR9RZiFK+AncTsY7/A4iwCqhJnDzwAWycqECNx
+        dHILVI2gxMmZT1hAbE6gW7fdnAJmMwuYSczb/JAZwpaX2P52DpQtLnHryXymCYxCs5C0z0LS
+        MgtJyywkLQsYWVYxiqSWFuem5xYb6hUn5haX5qXrJefnbmIExue2Yz8372C8tDH4EKMAB6MS
+        D++PtyHRQqyJZcWVuYcYJTiYlUR4L7GFRgvxpiRWVqUW5ccXleakFh9iNAV6biKzlGhyPjB1
+        5JXEG5oamltYGpobmxubWSiJ8543qIwSEkhPLEnNTk0tSC2C6WPi4JRqYJR7tjO2hS0v48+y
+        VOdm5+zCo8+MajnzbwdOsRKuv+hfGuNhVbfO6oDUvpbry6IUSrY3nX3itM5Q9q2J3eoDrs0/
+        Ey7e57nG2negrUKV88rT5/tTwtYEcyVVW2+pybf3TrVzlk6K2FtUqifHItoq/uR7p3zSp1dZ
+        BU5lKm3fX33hfNzTKHRUiaU4I9FQi7moOBEANrako+UCAAA=
+Message-Id: <20180723142503eucas1p24f8d96f8c4ec25dbdb80e27e2f1444c2~EBZNDRgPc2952429524eucas1p2C@eucas1p2.samsung.com>
+X-CMS-MailID: 20180723142503eucas1p24f8d96f8c4ec25dbdb80e27e2f1444c2
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20180718200005epcas1p1cb2568c593276849c066b3a53f1e971b
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20180718200005epcas1p1cb2568c593276849c066b3a53f1e971b
+References: <CGME20180718200005epcas1p1cb2568c593276849c066b3a53f1e971b@epcas1p1.samsung.com>
+        <20180718195929.5852-1-krzk@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20-07-18, 15:21, Joel Fernandes wrote:
-> From: Ruchi Kandoi <kandoiruchi@google.com>
-> 
-> systrace used for tracing for Android systems has carried a patch for
-> many years in the Android tree that traces when the cpufreq limits
-> change.  With the help of this information, systrace can know when the
-> policy limits change and can visually display the data. Lets add
-> upstream support for the same.
-> 
-> Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Hi Krzysztof,
+
+On 2018-07-18 21:59, Krzysztof Kozlowski wrote:
+> Suspend to RAM on Odroid XU3/XU4/HC1 family (Exynos5422) causes
+> imprecise abort:
+>
+> 	PM: Syncing filesystems ... done.
+> 	Freezing user space processes ... (elapsed 0.003 seconds) done.
+> 	OOM killer disabled.
+> 	Freezing remaining freezable tasks ... (elapsed 0.003 seconds) done.
+> 	wake enabled for irq 139
+> 	Disabling non-boot CPUs ...
+> 	IRQ51 no longer affine to CPU1
+> 	IRQ52 no longer affine to CPU2
+> 	IRQ53 no longer affine to CPU3
+> 	IRQ54 no longer affine to CPU4
+> 	IRQ55 no longer affine to CPU5
+> 	IRQ56 no longer affine to CPU6
+> 	cpu cpu4: Dropping the link to regulator.40
+> 	IRQ57 no longer affine to CPU7
+> 	Unhandled fault: external abort on non-linefetch (0x1008) at 0xf081a028
+> 	Internal error: : 1008 [#1] PREEMPT SMP ARM
+>
+> with last call trace in exynos_suspend_enter().
+>
+> The abort is caused by writing to register in secure part of sysram.
+> All Exynos5422 devices, including Hardkernel Odroid boards, boot with
+> TrustZone in non-secure mode therefore they should access non-secure
+> sysram.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+>
 > ---
-> v1->v2: Minor changes suggested by Viresh
-> 
->  Documentation/trace/events-power.rst |  1 +
->  drivers/cpufreq/cpufreq.c            |  1 +
->  include/trace/events/power.h         | 25 +++++++++++++++++++++++++
->  3 files changed, 27 insertions(+)
-> 
-> diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
-> index a77daca75e30..2ef318962e29 100644
-> --- a/Documentation/trace/events-power.rst
-> +++ b/Documentation/trace/events-power.rst
-> @@ -27,6 +27,7 @@ cpufreq.
->  
->    cpu_idle		"state=%lu cpu_id=%lu"
->    cpu_frequency		"state=%lu cpu_id=%lu"
-> +  cpu_frequency_limits	"min=%lu max=%lu cpu_id=%lu"
->  
->  A suspend event is used to indicate the system going in and out of the
->  suspend mode:
-> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> index b0dfd3222013..4fd935df101e 100644
-> --- a/drivers/cpufreq/cpufreq.c
-> +++ b/drivers/cpufreq/cpufreq.c
-> @@ -2236,6 +2236,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
->  
->  	policy->min = new_policy->min;
->  	policy->max = new_policy->max;
-> +	trace_cpu_frequency_limits(policy->min, policy->max, policy->cpu);
->  
->  	policy->cached_target_freq = UINT_MAX;
->  
-> diff --git a/include/trace/events/power.h b/include/trace/events/power.h
-> index 908977d69783..f5bec45108b6 100644
-> --- a/include/trace/events/power.h
-> +++ b/include/trace/events/power.h
-> @@ -148,6 +148,31 @@ DEFINE_EVENT(cpu, cpu_frequency,
->  	TP_ARGS(frequency, cpu_id)
->  );
->  
-> +TRACE_EVENT(cpu_frequency_limits,
-> +
-> +	TP_PROTO(unsigned int min_freq, unsigned int max_freq,
-> +		unsigned int cpu_id),
-> +
-> +	TP_ARGS(min_freq, max_freq, cpu_id),
-> +
-> +	TP_STRUCT__entry(
-> +		__field(u32, min_freq)
-> +		__field(u32, max_freq)
-> +		__field(u32, cpu_id)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__entry->min_freq = min_freq;
-> +		__entry->max_freq = max_freq;
-> +		__entry->cpu_id = cpu_id;
-> +	),
-> +
-> +	TP_printk("min=%lu max=%lu cpu_id=%lu",
-> +		  (unsigned long)__entry->min_freq,
-> +		  (unsigned long)__entry->max_freq,
-> +		  (unsigned long)__entry->cpu_id)
-> +);
-> +
->  TRACE_EVENT(device_pm_callback_start,
->  
->  	TP_PROTO(struct device *dev, const char *pm_ops, int event),
+>
+> Comments, whether my understanding is correct, are welcomed!
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+The decision, weather to use secure or non-secure sysram depends on the
+enabled TrustZone interface IMHO. Exynos5420 PeachPIT and Exynos5800 PeachPI
+don't use TrustZone and don't have 'firmware' node in dts, thus they should
+keep existing code.
 
+> ---
+>   Documentation/arm/Samsung/Bootloader-interface.txt | 1 +
+>   arch/arm/mach-exynos/suspend.c                     | 6 +++---
+>   2 files changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/arm/Samsung/Bootloader-interface.txt b/Documentation/arm/Samsung/Bootloader-interface.txt
+> index ed494ac0beb2..d17ed518a7ea 100644
+> --- a/Documentation/arm/Samsung/Bootloader-interface.txt
+> +++ b/Documentation/arm/Samsung/Bootloader-interface.txt
+> @@ -26,6 +26,7 @@ Offset        Value                                        Purpose
+>   0x20          0xfcba0d10 (Magic cookie)                    AFTR
+>   0x24          exynos_cpu_resume_ns                         AFTR
+>   0x28 + 4*cpu  0x8 (Magic cookie, Exynos3250)               AFTR
+> +0x28          0x0 or last value during resume (Exynos542x) System suspend
+>   
+>   
+>   2. Secure mode
+> diff --git a/arch/arm/mach-exynos/suspend.c b/arch/arm/mach-exynos/suspend.c
+> index d3db306a5a70..0ec52f442b97 100644
+> --- a/arch/arm/mach-exynos/suspend.c
+> +++ b/arch/arm/mach-exynos/suspend.c
+> @@ -256,7 +256,7 @@ static int exynos5420_cpu_suspend(unsigned long arg)
+>   	unsigned int cluster = MPIDR_AFFINITY_LEVEL(mpidr, 1);
+>   	unsigned int cpu = MPIDR_AFFINITY_LEVEL(mpidr, 0);
+>   
+> -	writel_relaxed(0x0, sysram_base_addr + EXYNOS5420_CPU_STATE);
+> +	writel_relaxed(0x0, sysram_ns_base_addr + EXYNOS5420_CPU_STATE);
+>   
+>   	if (IS_ENABLED(CONFIG_EXYNOS5420_MCPM)) {
+>   		mcpm_set_entry_vector(cpu, cluster, exynos_cpu_resume);
+> @@ -328,7 +328,7 @@ static void exynos5420_pm_prepare(void)
+>   	 * needs to restore it back in case, the primary cpu fails to
+>   	 * suspend for any reason.
+>   	 */
+> -	exynos5420_cpu_state = readl_relaxed(sysram_base_addr +
+> +	exynos5420_cpu_state = readl_relaxed(sysram_ns_base_addr +
+>   					     EXYNOS5420_CPU_STATE);
+>   
+>   	exynos_pm_enter_sleep_mode();
+> @@ -448,7 +448,7 @@ static void exynos5420_pm_resume(void)
+>   
+>   	/* Restore the sysram cpu state register */
+>   	writel_relaxed(exynos5420_cpu_state,
+> -		       sysram_base_addr + EXYNOS5420_CPU_STATE);
+> +		       sysram_ns_base_addr + EXYNOS5420_CPU_STATE);
+>   
+>   	pmu_raw_writel(EXYNOS5420_USE_STANDBY_WFI_ALL,
+>   			S5P_CENTRAL_SEQ_OPTION);
+
+Best regards
 -- 
-viresh
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
