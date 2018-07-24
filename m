@@ -1,210 +1,159 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F00087DF75
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 16:51:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0D8F37D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 16:54:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388863AbeGXR5y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 13:57:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41172 "EHLO mail.kernel.org"
+        id S2388431AbeGXSBm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 14:01:42 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:41270 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388524AbeGXR5x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Jul 2018 13:57:53 -0400
-Received: from localhost.localdomain (xdsl-188-155-58-14.adslplus.ch [188.155.58.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 99AE220875;
-        Tue, 24 Jul 2018 16:50:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1532451031;
-        bh=G+pdJvrgoJEK2XNhPD0u8suzxiJVUnjVAuFJX0SUmLg=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=xOn+Clyce6m/73qzM30hIYfdKy2CLjIMO7PHqLd+eYdM2WbNeLdxrgYkxOB5iaM6v
-         /5g5L1AzY8wMNuncQ9g/0aJeRaONvos+gntLyoqcOSANXeAOVZPrZ80Q7EhLpLqxF4
-         vTJJdfwbZrPXIi8nTQo7m9EgC5PP9/VuHxiSkpNs=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Pankaj Dubey <pankaj.dubey@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] ARM: exynos: Fix imprecise abort during Exynos5422 suspend to RAM
-Date:   Tue, 24 Jul 2018 18:49:46 +0200
-Message-Id: <20180724164946.6274-4-krzk@kernel.org>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20180724164946.6274-1-krzk@kernel.org>
-References: <20180724164946.6274-1-krzk@kernel.org>
+        id S2388322AbeGXSBl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Jul 2018 14:01:41 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id E1B8D2072C; Tue, 24 Jul 2018 18:54:16 +0200 (CEST)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 20107206A6;
+        Tue, 24 Jul 2018 18:54:16 +0200 (CEST)
+Date:   Tue, 24 Jul 2018 18:54:15 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Peter Rosin <peda@axentia.se>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>, Przemyslaw Gaj <pgaj@cadence.com>
+Subject: Re: [PATCH v6 00/10] Add the I3C subsystem
+Message-ID: <20180724185415.6126751e@bbrezillon>
+In-Reply-To: <CAK8P3a0wcmeFKvRf7=FTNvePayc2AxniHoNkLOuzQQCt=MiLjQ@mail.gmail.com>
+References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
+        <2ab0ab75-2df0-2714-f007-c33b25481016@axentia.se>
+        <20180720101206.tv7nsoanwo5ftnia@ninjato>
+        <CAK8P3a2Pqo5DuYBb09+w4nGWGOw+e_tZPxnA06qjNO_6Hw6NvQ@mail.gmail.com>
+        <21b269c5-a3a7-c5de-c81e-c9c9301ae13e@axentia.se>
+        <CAK8P3a1t2fhdw7HwxNkOs9o2pBECZ0ZdOysA=r2SPTWEvx76kw@mail.gmail.com>
+        <20180720151751.242d4809@bbrezillon>
+        <CAK8P3a14_6uf9VLYU0YnmFp0Q=DZBKc0cAesBh0opanGDZMFRA@mail.gmail.com>
+        <20180724162806.318a92c6@bbrezillon>
+        <CAK8P3a3YQbiiJMTHTVh63fOvtA1sa0J5Eb4z7xbnpBPwUDkqxg@mail.gmail.com>
+        <CAMuHMdXif_iufXx0Y+UJjKs9TNLfrTONoFvUSyrpkfaT0=ydRQ@mail.gmail.com>
+        <CAK8P3a0jc1k9weTNbqSJXkCSFefus9OPyU5_v5=mTFxiDd0q5Q@mail.gmail.com>
+        <CAMuHMdXJ_FGXXwNx8h0ZfskJGRWES1xLuTQpD59Vw1Smp6FTRg@mail.gmail.com>
+        <CAK8P3a17t=_o04GsowS2RnTwKKVxt8KuJtT36N=Ea-SOq7fTow@mail.gmail.com>
+        <20180724181437.1d1b27a8@bbrezillon>
+        <CAK8P3a0wcmeFKvRf7=FTNvePayc2AxniHoNkLOuzQQCt=MiLjQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Suspend to RAM on Odroid XU3/XU4/HC1 family (Exynos5422) causes
-imprecise abort:
+On Tue, 24 Jul 2018 18:25:22 +0200
+Arnd Bergmann <arnd@arndb.de> wrote:
 
-	PM: Syncing filesystems ... done.
-	Freezing user space processes ... (elapsed 0.003 seconds) done.
-	OOM killer disabled.
-	Freezing remaining freezable tasks ... (elapsed 0.003 seconds) done.
-	wake enabled for irq 139
-	Disabling non-boot CPUs ...
-	IRQ51 no longer affine to CPU1
-	IRQ52 no longer affine to CPU2
-	IRQ53 no longer affine to CPU3
-	IRQ54 no longer affine to CPU4
-	IRQ55 no longer affine to CPU5
-	IRQ56 no longer affine to CPU6
-	cpu cpu4: Dropping the link to regulator.40
-	IRQ57 no longer affine to CPU7
-	Unhandled fault: external abort on non-linefetch (0x1008) at 0xf081a028
-	Internal error: : 1008 [#1] PREEMPT SMP ARM
+> On Tue, Jul 24, 2018 at 6:14 PM, Boris Brezillon
+> <boris.brezillon@bootlin.com> wrote:
+> > On Tue, 24 Jul 2018 17:58:29 +0200
+> > Arnd Bergmann <arnd@arndb.de> wrote:
+> >  
+> >> On Tue, Jul 24, 2018 at 5:46 PM, Geert Uytterhoeven
+> >> <geert@linux-m68k.org> wrote:  
+> >> > On Tue, Jul 24, 2018 at 5:40 PM Arnd Bergmann <arnd@arndb.de> wrote:  
+> >> >> On Tue, Jul 24, 2018 at 5:15 PM, Geert Uytterhoeven
+> >> >> <geert@linux-m68k.org> wrote:  
+> >> >> > On Tue, Jul 24, 2018 at 5:05 PM Arnd Bergmann <arnd@arndb.de> wrote:  
+> >> The second case is the one that started the discussion, and
+> >> this is where I said I'd prefer to associate each slave with at
+> >> most one master at boot time, while the current v6 patch
+> >> is prepared for having one slave be accessed alternatingly
+> >> by multiple masters using the master handover, though so
+> >> far nobody has been able to describe exactly how we'd pick
+> >> which master is active at what point,  
+> >
+> > Even if it's not yet implemented, I have everything in place to figure
+> > this out (see the ->cur_master field in the i3c_bus object). Now,
+> > what's missing is a list of possible masters attached to an i3c device
+> > so that the framework can pick the most appropriate one at runtime and
+> > initiate mastership handover if required (if the selected master is not
+> > the currently active one).
+> >
+> > The selection logic should look like this:
+> >
+> >         if (active_master supports requested feature)
+> >                 use active master
+> >         else
+> >                 pick an inactive one that has relevant caps and initiate
+> >                 mastership handover (+ update bus->cur_master)  
+> 
+> How would you deal with soft requirements like performance?
+> E.g. if you have one master that can do large transfers faster
+> through a special DMA engine, and other master that can
+> be faster for small transfers, but both support all capabilities
+> for that device, won't you need some complex logic to avoid
+> being stuck with a slow master indefinitely?
 
-with last call trace in exynos_suspend_enter().
+True.
 
-The abort is caused by writing to register in secure part of sysram.
-Boards booted under secure firmware (e.g. Hardkernel Odroid boards)
-should access non-secure sysram.
+> 
+> >> or what specific scenario
+> >> would require it.  
+> >
+> > I think I described a scenario (masters having different
+> > capabilities all connected to the same bus), though I don't know how
+> > likely this use case is :-/.  
+> 
+> I was looking for something more specific here. What (lack of)
+> capabilities could two i3c controllers have that require you to
+> use both of them for the same device, rather than picking
+> a master for each slave with the right feature set?
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Hehe, if I had a clear answer to this question we wouldn't have this
+discussion :-). I gave you an example:
 
----
+- master A supporting IBIs but not HDR transactions
+- master B supporting HDR modes but not IBIs
 
-Changes since v1:
-1. Use non-secure sysram only if secure-firmware node is present in DT
-   (pointed by Marek).
----
- Documentation/arm/Samsung/Bootloader-interface.txt |  1 +
- arch/arm/mach-exynos/common.h                      |  1 +
- arch/arm/mach-exynos/firmware.c                    | 14 +++++++++++---
- arch/arm/mach-exynos/suspend.c                     | 16 +++++++++++++---
- 4 files changed, 26 insertions(+), 6 deletions(-)
+but as I said, I'm not sure how likely this example is...
 
-diff --git a/Documentation/arm/Samsung/Bootloader-interface.txt b/Documentation/arm/Samsung/Bootloader-interface.txt
-index ed494ac0beb2..d17ed518a7ea 100644
---- a/Documentation/arm/Samsung/Bootloader-interface.txt
-+++ b/Documentation/arm/Samsung/Bootloader-interface.txt
-@@ -26,6 +26,7 @@ Offset        Value                                        Purpose
- 0x20          0xfcba0d10 (Magic cookie)                    AFTR
- 0x24          exynos_cpu_resume_ns                         AFTR
- 0x28 + 4*cpu  0x8 (Magic cookie, Exynos3250)               AFTR
-+0x28          0x0 or last value during resume (Exynos542x) System suspend
- 
- 
- 2. Secure mode
-diff --git a/arch/arm/mach-exynos/common.h b/arch/arm/mach-exynos/common.h
-index dcd21bb95e3b..f96730cce6e8 100644
---- a/arch/arm/mach-exynos/common.h
-+++ b/arch/arm/mach-exynos/common.h
-@@ -110,6 +110,7 @@ void exynos_firmware_init(void);
- #define EXYNOS_SLEEP_MAGIC	0x00000bad
- #define EXYNOS_AFTR_MAGIC	0xfcba0d10
- 
-+bool __init exynos_secure_firmware_available(void);
- void exynos_set_boot_flag(unsigned int cpu, unsigned int mode);
- void exynos_clear_boot_flag(unsigned int cpu, unsigned int mode);
- 
-diff --git a/arch/arm/mach-exynos/firmware.c b/arch/arm/mach-exynos/firmware.c
-index be1f20fe28f4..d602e3bf3f96 100644
---- a/arch/arm/mach-exynos/firmware.c
-+++ b/arch/arm/mach-exynos/firmware.c
-@@ -185,7 +185,7 @@ static void exynos_l2_configure(const struct l2x0_regs *regs)
- 	exynos_smc(SMC_CMD_L2X0SETUP2, regs->pwr_ctrl, regs->aux_ctrl, 0);
- }
- 
--void __init exynos_firmware_init(void)
-+bool __init exynos_secure_firmware_available(void)
- {
- 	struct device_node *nd;
- 	const __be32 *addr;
-@@ -193,14 +193,22 @@ void __init exynos_firmware_init(void)
- 	nd = of_find_compatible_node(NULL, NULL,
- 					"samsung,secure-firmware");
- 	if (!nd)
--		return;
-+		return false;
- 
- 	addr = of_get_address(nd, 0, NULL, NULL);
- 	if (!addr) {
- 		pr_err("%s: No address specified.\n", __func__);
--		return;
-+		return false;
- 	}
- 
-+	return true;
-+}
-+
-+void __init exynos_firmware_init(void)
-+{
-+	if (!exynos_secure_firmware_available())
-+		return;
-+
- 	pr_info("Running under secure firmware.\n");
- 
- 	register_firmware_ops(&exynos_firmware_ops);
-diff --git a/arch/arm/mach-exynos/suspend.c b/arch/arm/mach-exynos/suspend.c
-index d42ef1be2c70..ed0248b25060 100644
---- a/arch/arm/mach-exynos/suspend.c
-+++ b/arch/arm/mach-exynos/suspend.c
-@@ -63,6 +63,7 @@ struct exynos_pm_data {
- struct exynos_pm_state {
- 	int cpu_state;
- 	unsigned int pmu_spare3;
-+	void __iomem *sysram_base;
- };
- 
- static const struct exynos_pm_data *pm_data __ro_after_init;
-@@ -261,7 +262,7 @@ static int exynos5420_cpu_suspend(unsigned long arg)
- 	unsigned int cluster = MPIDR_AFFINITY_LEVEL(mpidr, 1);
- 	unsigned int cpu = MPIDR_AFFINITY_LEVEL(mpidr, 0);
- 
--	writel_relaxed(0x0, sysram_base_addr + EXYNOS5420_CPU_STATE);
-+	writel_relaxed(0x0, pm_state.sysram_base + EXYNOS5420_CPU_STATE);
- 
- 	if (IS_ENABLED(CONFIG_EXYNOS5420_MCPM)) {
- 		mcpm_set_entry_vector(cpu, cluster, exynos_cpu_resume);
-@@ -333,7 +334,7 @@ static void exynos5420_pm_prepare(void)
- 	 * needs to restore it back in case, the primary cpu fails to
- 	 * suspend for any reason.
- 	 */
--	pm_state.cpu_state = readl_relaxed(sysram_base_addr +
-+	pm_state.cpu_state = readl_relaxed(pm_state.sysram_base +
- 					   EXYNOS5420_CPU_STATE);
- 
- 	exynos_pm_enter_sleep_mode();
-@@ -453,7 +454,7 @@ static void exynos5420_pm_resume(void)
- 
- 	/* Restore the sysram cpu state register */
- 	writel_relaxed(pm_state.cpu_state,
--		       sysram_base_addr + EXYNOS5420_CPU_STATE);
-+		       pm_state.sysram_base + EXYNOS5420_CPU_STATE);
- 
- 	pmu_raw_writel(EXYNOS5420_USE_STANDBY_WFI_ALL,
- 			S5P_CENTRAL_SEQ_OPTION);
-@@ -658,4 +659,13 @@ void __init exynos_pm_init(void)
- 
- 	register_syscore_ops(&exynos_pm_syscore_ops);
- 	suspend_set_ops(&exynos_suspend_ops);
-+
-+	/*
-+	 * Applicable as of now only to Exynos542x. If booted under secure
-+	 * firmware, the non-secure region of sysram should be used.
-+	 */
-+	if (exynos_secure_firmware_available())
-+		pm_state.sysram_base = sysram_ns_base_addr;
-+	else
-+		pm_state.sysram_base = sysram_base_addr;
- }
--- 
-2.14.1
+The question is more, should we design things so that we can at some
+point implement a solution to support those funky setups, or should we
+just ignore it and risk breaking sysfs/DT ABI when/if we have to support
+that?
 
+This is really an open question. I initially went for the former, but
+have no objection switching to the latter.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
