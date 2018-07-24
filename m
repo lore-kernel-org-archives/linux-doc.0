@@ -1,115 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9EE0B7D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 06:33:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 600437D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 13:26:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388247AbeGXHie (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 03:38:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52388 "EHLO mail.kernel.org"
+        id S2388325AbeGXOc6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 10:32:58 -0400
+Received: from mout.gmx.net ([212.227.15.18]:53637 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388241AbeGXHie (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Jul 2018 03:38:34 -0400
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D5C7A20881;
-        Tue, 24 Jul 2018 06:33:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1532414021;
-        bh=35c/fzYC/Wtw9RxH17Dg7SJ8wBlK/ZRXQ97HRqICH1w=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=Z58zmPeq3bdGzJtIDerdKXC/OO2t4hYweR2dx3BIV4TTCgoJg+Qc2HdueKYQ1XWnk
-         8NVbmOmsbXF4+4yoJFTC2Aj3T1C8bBMYup/2MhoYQHx+gglk+USd9KiJygRVT3q9S/
-         SoZGchX7r/LG2L+hHkPnpg3nrMTrxdlXvoc/GR4s=
-Received: by mail-wm0-f42.google.com with SMTP id l2-v6so11401417wme.1;
-        Mon, 23 Jul 2018 23:33:40 -0700 (PDT)
-X-Gm-Message-State: AOUpUlGuyvZu4qwxL/pkOeio8Q74F9yJi7A2FQTHvUsNPBkxiDbKcELl
-        2fFri90p0ZgSacWcw947Mjv9opT2/5P0tPs5xUQ=
-X-Google-Smtp-Source: AAOMgpcJU2pr04YC3kWGV1buttngkUSqx9uZZUEIEaGpi0Zm77a2udXC/Dw7KgCJxEgjUh7+eSA8rlyyXFSVXyd3lpQ=
-X-Received: by 2002:a1c:3a8f:: with SMTP id h137-v6mr1129257wma.72.1532414019340;
- Mon, 23 Jul 2018 23:33:39 -0700 (PDT)
+        id S2388172AbeGXOc5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Jul 2018 10:32:57 -0400
+Received: from [10.10.19.26] ([202.153.91.80]) by mail.gmx.com (mrgmx001
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 0MJjOu-1fgrOs42TM-001DGP; Tue, 24
+ Jul 2018 15:26:23 +0200
+Subject: Re: [PATCH] zh_CN:translation for block queue into Chinese
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, harryxiyou@gmail.com,
+        linux-kernel@zh-kernel.org
+References: <c10695de-d6aa-bb5a-2635-efd0f6f78269@gmx.com>
+ <20180723093645.7efb20e0@lwn.net>
+From:   Norman <norman.kern@gmx.com>
+Message-ID: <079d0dcc-c93f-9914-ad6a-83e4ca602858@gmx.com>
+Date:   Tue, 24 Jul 2018 21:26:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Received: by 2002:adf:9141:0:0:0:0:0 with HTTP; Mon, 23 Jul 2018 23:33:38
- -0700 (PDT)
-In-Reply-To: <20180723142503eucas1p24f8d96f8c4ec25dbdb80e27e2f1444c2~EBZNDRgPc2952429524eucas1p2C@eucas1p2.samsung.com>
-References: <CGME20180718200005epcas1p1cb2568c593276849c066b3a53f1e971b@epcas1p1.samsung.com>
- <20180718195929.5852-1-krzk@kernel.org> <20180723142503eucas1p24f8d96f8c4ec25dbdb80e27e2f1444c2~EBZNDRgPc2952429524eucas1p2C@eucas1p2.samsung.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Tue, 24 Jul 2018 08:33:38 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPc=3-q4CXDqcHXgXfhMKvKLJWBzuH1JvXiV5m04TW_qig@mail.gmail.com>
-Message-ID: <CAJKOXPc=3-q4CXDqcHXgXfhMKvKLJWBzuH1JvXiV5m04TW_qig@mail.gmail.com>
-Subject: Re: [RFC] ARM: exynos: Fix imprecise abort during Exynos5422 suspend
- to RAM
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Kukjin Kim <kgene@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Pankaj Dubey <pankaj.dubey@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180723093645.7efb20e0@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Provags-ID: V03:K1:0yGPD8q/M0lvDiBNruSHfBBZor6Felbp0dOSlk9/ph2rR1OX5RZ
+ KGpX7E6+Y+Agofa+CIRmVCIxT1E2tz3aFKyTI7fZEfrOMMQyAIYzSuIOj1kT0Tpgu6r+zJ2
+ r9QEkIhWXj5qzX9wXeeD4hpy+5cC/iHz6xkElofwlfGZtXUNFS7J+p0od72kgOTOJTwR70M
+ /TO29LqAbH43YmJfbc1Kw==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:76BE0wKMNrg=:M/srggJ3o5L5uOw/KygQ4U
+ mC6K7NdynjOzvqXZ4wg85jb6U1MkFnkeHu8y2+cLXBnOqGKQeOrKyKgXe8NfDr9iik83WFJ+8
+ 7zAozVHL08ynGaj5C9CdUjVrQO5aizIJP6cjXoImExK9cPco7KQySQCDUm4NwPRTUzdrVypYM
+ wfNSaTCptRsNRvlIxEBhLq4yI61kNXufCjHXxcv5nie61COUUvyotwYYZqmz7Wqw1ky582zot
+ 8Zhn/Xe/RMzJLZnHzhDfcFG6LaKNmNsKsePZ42wPUpIoh8eUl1JCOgLTt+tji4xN/Rn2Ba5Pl
+ qnubEmZnHCODZWTyZubiQrFA8A8sWEvwlRw+DDjgjAaByBj26BW0iW2W1OtIHH1qN3lmK27Yy
+ Og6FDwBdSsTKZz1UjgdpbDCWtTlj+np+RYCwMOkO3lMDZiGuC1VA0vPJ73o8RyVcgNLRiIWNZ
+ nZwMbxOcTX7rAgsQW4XIbKTnmBbOmGutJVScX2+ytPq3/FTrpDvl9mrAd58Srf98oa52gmlGc
+ V0JwV3GqCNxtX6a7LZmEZCaxIER9qf7ZNnhfgPczJju8yoIwQ0XstvoyJVxF91BtQ58sWQppE
+ B1/meHeRRRHJxj8sSha9Vx2Sga4KHAHymTJBe+K+D9o6WSOvZ2GCHuIp1V1KcGCJVR+r7Ufoh
+ lT+8zBwlhgryKpGpxC7y1OF//NCy/vLTB4dsoYRu0GVLOKSl1K4PTvUHEO/Ns1w3FnyV3bewe
+ fdFwhP1wAdlxFxaUmOPBbEswMRpGJ0Ueqe4pkUaswen5xq6sAV4c6SYBBR7YP9jftUXxOCw0x
+ haSCzOV
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23 July 2018 at 16:24, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> Hi Krzysztof,
+Hi, Jonathan
+I didn't mean to translate it into markdown, I just feel it looks better
+in markdown. I pay more attention on the contents but not the format and
+I just want to translate all block module docs into Chinese.
+I'll convert the format into plain text format and resend.
+
+Thanks for your advice,
+
+Norman
+
+
+On 2018/7/23 23:36, Jonathan Corbet wrote:
+> On Fri, 20 Jul 2018 10:27:06 +0800
+> Norman <norman.kern@gmx.com> wrote:
 >
-> On 2018-07-18 21:59, Krzysztof Kozlowski wrote:
->> Suspend to RAM on Odroid XU3/XU4/HC1 family (Exynos5422) causes
->> imprecise abort:
+>> Translate block/queue-sysfs.txt into Chinese
 >>
->>       PM: Syncing filesystems ... done.
->>       Freezing user space processes ... (elapsed 0.003 seconds) done.
->>       OOM killer disabled.
->>       Freezing remaining freezable tasks ... (elapsed 0.003 seconds) done.
->>       wake enabled for irq 139
->>       Disabling non-boot CPUs ...
->>       IRQ51 no longer affine to CPU1
->>       IRQ52 no longer affine to CPU2
->>       IRQ53 no longer affine to CPU3
->>       IRQ54 no longer affine to CPU4
->>       IRQ55 no longer affine to CPU5
->>       IRQ56 no longer affine to CPU6
->>       cpu cpu4: Dropping the link to regulator.40
->>       IRQ57 no longer affine to CPU7
->>       Unhandled fault: external abort on non-linefetch (0x1008) at 0xf081a028
->>       Internal error: : 1008 [#1] PREEMPT SMP ARM
->>
->> with last call trace in exynos_suspend_enter().
->>
->> The abort is caused by writing to register in secure part of sysram.
->> All Exynos5422 devices, including Hardkernel Odroid boards, boot with
->> TrustZone in non-secure mode therefore they should access non-secure
->> sysram.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
->>
+>> Signed-off-by: Norman Kern <norman.kern@gmx.com>
 >> ---
->>
->> Comments, whether my understanding is correct, are welcomed!
+>>    .../translations/zh_CN/block/queue-sysfs.md        | 205
+>> +++++++++++++++++++++
+> So...are you translating this into markdown format?  Please don't do
+> that, we don't need another documentation format in the kernel.  If you
+> want to convert this document to structured markup, the ideal approach
+> would be to convert the source document to RST first, then translate the
+> result.
 >
-> The decision, weather to use secure or non-secure sysram depends on the
-> enabled TrustZone interface IMHO. Exynos5420 PeachPIT and Exynos5800 PeachPI
-> don't use TrustZone and don't have 'firmware' node in dts, thus they should
-> keep existing code.
+> Thanks,
+>
+> jon
 
-Ah, you are right. SMDK5420 also would be affected. I'll fix the patch.
-
-Thanks for feedback!
-
-Best regards,
-Krzysztof
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
