@@ -1,159 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D8F37D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 16:54:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B6127D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 17:24:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388431AbeGXSBm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 14:01:42 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:41270 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388322AbeGXSBl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Jul 2018 14:01:41 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id E1B8D2072C; Tue, 24 Jul 2018 18:54:16 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 20107206A6;
-        Tue, 24 Jul 2018 18:54:16 +0200 (CEST)
-Date:   Tue, 24 Jul 2018 18:54:15 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Peter Rosin <peda@axentia.se>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, Przemyslaw Gaj <pgaj@cadence.com>
-Subject: Re: [PATCH v6 00/10] Add the I3C subsystem
-Message-ID: <20180724185415.6126751e@bbrezillon>
-In-Reply-To: <CAK8P3a0wcmeFKvRf7=FTNvePayc2AxniHoNkLOuzQQCt=MiLjQ@mail.gmail.com>
-References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
-        <2ab0ab75-2df0-2714-f007-c33b25481016@axentia.se>
-        <20180720101206.tv7nsoanwo5ftnia@ninjato>
-        <CAK8P3a2Pqo5DuYBb09+w4nGWGOw+e_tZPxnA06qjNO_6Hw6NvQ@mail.gmail.com>
-        <21b269c5-a3a7-c5de-c81e-c9c9301ae13e@axentia.se>
-        <CAK8P3a1t2fhdw7HwxNkOs9o2pBECZ0ZdOysA=r2SPTWEvx76kw@mail.gmail.com>
-        <20180720151751.242d4809@bbrezillon>
-        <CAK8P3a14_6uf9VLYU0YnmFp0Q=DZBKc0cAesBh0opanGDZMFRA@mail.gmail.com>
-        <20180724162806.318a92c6@bbrezillon>
-        <CAK8P3a3YQbiiJMTHTVh63fOvtA1sa0J5Eb4z7xbnpBPwUDkqxg@mail.gmail.com>
-        <CAMuHMdXif_iufXx0Y+UJjKs9TNLfrTONoFvUSyrpkfaT0=ydRQ@mail.gmail.com>
-        <CAK8P3a0jc1k9weTNbqSJXkCSFefus9OPyU5_v5=mTFxiDd0q5Q@mail.gmail.com>
-        <CAMuHMdXJ_FGXXwNx8h0ZfskJGRWES1xLuTQpD59Vw1Smp6FTRg@mail.gmail.com>
-        <CAK8P3a17t=_o04GsowS2RnTwKKVxt8KuJtT36N=Ea-SOq7fTow@mail.gmail.com>
-        <20180724181437.1d1b27a8@bbrezillon>
-        <CAK8P3a0wcmeFKvRf7=FTNvePayc2AxniHoNkLOuzQQCt=MiLjQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S2388481AbeGXSbg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 14:31:36 -0400
+Received: from mail-pl0-f68.google.com ([209.85.160.68]:36712 "EHLO
+        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388382AbeGXSbg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 14:31:36 -0400
+Received: by mail-pl0-f68.google.com with SMTP id e11-v6so2063064plb.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jul 2018 10:24:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=toxk+IXZeNr5JmdgFIwY4a/V6xKEg9X97pyxPK/3kCo=;
+        b=G9Feiah7WFmqxB/rnB5qOGhj4xArhsT0Yd7mQZJroSNWqoXogYDddp4Frmoezy0js8
+         pXjdkkddxrqDp6/E5g0NeqxpBFkKDdzr3giKQlsWcOgXniDp6I9g9O8b+3DjHi75xRWN
+         6t7sSD79gu1I/tuICvW9T8LMqWEVQuMHZzbpI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=toxk+IXZeNr5JmdgFIwY4a/V6xKEg9X97pyxPK/3kCo=;
+        b=lJdXJIT2/xo5YktCdrMHTBa39LZ9bpPCDluXMyrcNBhNK16Yag1uEC6Xa19G85GNTV
+         o/aJuPZ/y2CEyEEjtW9aOLq9PR3IxZbNMBpu4kjkJjFLNUjNtqJ2a4HCw5uhVE0+yx4z
+         9d96fhhuMtU3TZuKtpoXaIs6HQBRMCG27N9542w5qYTdoBDj8WL3+0N/9FGt0tfxV7dx
+         tocPPM9LLTgwz9xDAcWrxS3Xet//TJaehzaHKWHq/St6iB7H8mSQoEIXvyoF0wmtZP7w
+         6jKi92HmBb1I2X0pQXsFi5AkMTnQ2xs6zATpxmQZplp1fw4n/YugUTm4geoCjn3KC12j
+         7iuA==
+X-Gm-Message-State: AOUpUlFNZsSt6xuME6sEj/V0OTHgIf6r2DxgNRRSjkSfgAmUemyVzq1A
+        WWEGSE3cdKed4IUSGu2Rtk58bA==
+X-Google-Smtp-Source: AAOMgpcVp9A9cmonCixRLRuB14B2bFAwiGqYA0yRr1DUmwz8rMWU+Fg4NPOVCSwpi9PyN6t3qGK0Rg==
+X-Received: by 2002:a17:902:a40b:: with SMTP id p11-v6mr17950827plq.228.1532453046184;
+        Tue, 24 Jul 2018 10:24:06 -0700 (PDT)
+Received: from localhost ([2620:0:1000:1600:3122:ea9c:d178:eb])
+        by smtp.gmail.com with ESMTPSA id p64-v6sm19522303pfa.47.2018.07.24.10.24.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 24 Jul 2018 10:24:05 -0700 (PDT)
+Date:   Tue, 24 Jul 2018 10:24:05 -0700
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Ruchi Kandoi <kandoiruchi@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Subject: Re: [PATCH v2] cpufreq: trace frequency limits change
+Message-ID: <20180724172405.GA257870@joelaf.mtv.corp.google.com>
+References: <20180720222114.200311-1-joel@joelfernandes.org>
+ <20180724094932.11e10452@gandalf.local.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180724094932.11e10452@gandalf.local.home>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 Jul 2018 18:25:22 +0200
-Arnd Bergmann <arnd@arndb.de> wrote:
-
-> On Tue, Jul 24, 2018 at 6:14 PM, Boris Brezillon
-> <boris.brezillon@bootlin.com> wrote:
-> > On Tue, 24 Jul 2018 17:58:29 +0200
-> > Arnd Bergmann <arnd@arndb.de> wrote:
+On Tue, Jul 24, 2018 at 09:49:32AM -0400, Steven Rostedt wrote:
+> On Fri, 20 Jul 2018 15:21:14 -0700
+> Joel Fernandes <joel@joelfernandes.org> wrote:
+> 
+> > From: Ruchi Kandoi <kandoiruchi@google.com>
+> > 
+> > systrace used for tracing for Android systems has carried a patch for
+> > many years in the Android tree that traces when the cpufreq limits
+> > change.  With the help of this information, systrace can know when the
+> > policy limits change and can visually display the data. Lets add
+> > upstream support for the same.
+> > 
+> > Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > ---
+> > v1->v2: Minor changes suggested by Viresh
+> > 
+> >  Documentation/trace/events-power.rst |  1 +
+> >  drivers/cpufreq/cpufreq.c            |  1 +
+> >  include/trace/events/power.h         | 25 +++++++++++++++++++++++++
+> >  3 files changed, 27 insertions(+)
+> > 
+> > diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
+> > index a77daca75e30..2ef318962e29 100644
+> > --- a/Documentation/trace/events-power.rst
+> > +++ b/Documentation/trace/events-power.rst
+> > @@ -27,6 +27,7 @@ cpufreq.
 > >  
-> >> On Tue, Jul 24, 2018 at 5:46 PM, Geert Uytterhoeven
-> >> <geert@linux-m68k.org> wrote:  
-> >> > On Tue, Jul 24, 2018 at 5:40 PM Arnd Bergmann <arnd@arndb.de> wrote:  
-> >> >> On Tue, Jul 24, 2018 at 5:15 PM, Geert Uytterhoeven
-> >> >> <geert@linux-m68k.org> wrote:  
-> >> >> > On Tue, Jul 24, 2018 at 5:05 PM Arnd Bergmann <arnd@arndb.de> wrote:  
-> >> The second case is the one that started the discussion, and
-> >> this is where I said I'd prefer to associate each slave with at
-> >> most one master at boot time, while the current v6 patch
-> >> is prepared for having one slave be accessed alternatingly
-> >> by multiple masters using the master handover, though so
-> >> far nobody has been able to describe exactly how we'd pick
-> >> which master is active at what point,  
-> >
-> > Even if it's not yet implemented, I have everything in place to figure
-> > this out (see the ->cur_master field in the i3c_bus object). Now,
-> > what's missing is a list of possible masters attached to an i3c device
-> > so that the framework can pick the most appropriate one at runtime and
-> > initiate mastership handover if required (if the selected master is not
-> > the currently active one).
-> >
-> > The selection logic should look like this:
-> >
-> >         if (active_master supports requested feature)
-> >                 use active master
-> >         else
-> >                 pick an inactive one that has relevant caps and initiate
-> >                 mastership handover (+ update bus->cur_master)  
+> >    cpu_idle		"state=%lu cpu_id=%lu"
+> >    cpu_frequency		"state=%lu cpu_id=%lu"
+> > +  cpu_frequency_limits	"min=%lu max=%lu cpu_id=%lu"
+> >  
+> >  A suspend event is used to indicate the system going in and out of the
+> >  suspend mode:
+> > diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> > index b0dfd3222013..4fd935df101e 100644
+> > --- a/drivers/cpufreq/cpufreq.c
+> > +++ b/drivers/cpufreq/cpufreq.c
+> > @@ -2236,6 +2236,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
+> >  
+> >  	policy->min = new_policy->min;
+> >  	policy->max = new_policy->max;
+> > +	trace_cpu_frequency_limits(policy->min, policy->max, policy->cpu);
 > 
-> How would you deal with soft requirements like performance?
-> E.g. if you have one master that can do large transfers faster
-> through a special DMA engine, and other master that can
-> be faster for small transfers, but both support all capabilities
-> for that device, won't you need some complex logic to avoid
-> being stuck with a slow master indefinitely?
+> Wouldn't it make more sense just to pass in "policy"?
 
-True.
+Yes I agree, good idea.
 
+> >  
+> >  	policy->cached_target_freq = UINT_MAX;
+> >  
+> > diff --git a/include/trace/events/power.h b/include/trace/events/power.h
+> > index 908977d69783..f5bec45108b6 100644
+> > --- a/include/trace/events/power.h
+> > +++ b/include/trace/events/power.h
+> > @@ -148,6 +148,31 @@ DEFINE_EVENT(cpu, cpu_frequency,
+> >  	TP_ARGS(frequency, cpu_id)
+> >  );
+> >  
+> > +TRACE_EVENT(cpu_frequency_limits,
+> > +
+> > +	TP_PROTO(unsigned int min_freq, unsigned int max_freq,
+> > +		unsigned int cpu_id),
+> > +
+> > +	TP_ARGS(min_freq, max_freq, cpu_id),
+> > +
+> > +	TP_STRUCT__entry(
+> > +		__field(u32, min_freq)
+> > +		__field(u32, max_freq)
+> > +		__field(u32, cpu_id)
+> > +	),
+> > +
+> > +	TP_fast_assign(
+> > +		__entry->min_freq = min_freq;
+> > +		__entry->max_freq = max_freq;
+> > +		__entry->cpu_id = cpu_id;
 > 
-> >> or what specific scenario
-> >> would require it.  
-> >
-> > I think I described a scenario (masters having different
-> > capabilities all connected to the same bus), though I don't know how
-> > likely this use case is :-/.  
+> Then have here:
 > 
-> I was looking for something more specific here. What (lack of)
-> capabilities could two i3c controllers have that require you to
-> use both of them for the same device, rather than picking
-> a master for each slave with the right feature set?
+> 		__entry->min_freq = policy->min;
+> 		__entry->max_freq = policy->max;
+> 		__entry->puc_id = policy->cpu;
+> 
+> It would also make the footprint of the tracepoint in the code smaller
+> as it would pass fewer parameters to the trace event.
 
-Hehe, if I had a clear answer to this question we wouldn't have this
-discussion :-). I gave you an example:
+Yes, that's a great idea. I'll make the change and post v3.
 
-- master A supporting IBIs but not HDR transactions
-- master B supporting HDR modes but not IBIs
-
-but as I said, I'm not sure how likely this example is...
-
-The question is more, should we design things so that we can at some
-point implement a solution to support those funky setups, or should we
-just ignore it and risk breaking sysfs/DT ABI when/if we have to support
-that?
-
-This is really an open question. I initially went for the former, but
-have no objection switching to the latter.
+-Joel
+ 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
