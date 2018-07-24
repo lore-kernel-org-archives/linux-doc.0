@@ -5,15 +5,15 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 860C17DE80
+	by archive.lwn.net (Postfix) with ESMTP id A65577DF74
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 23:27:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388509AbeGYAgj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 20:36:39 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:56368 "EHLO
+        id S2388528AbeGYAgk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 20:36:40 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:56374 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388446AbeGYAgi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 20:36:38 -0400
+        with ESMTP id S2388496AbeGYAgj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 20:36:39 -0400
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -32,45 +32,39 @@ Cc:     Paul Cercueil <paul@crapouillou.net>, linux-pwm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-watchdog@vger.kernel.org, linux-mips@linux-mips.org,
         linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH v5 09/21] watchdog: jz4740: Drop dependency on MACH_JZ47xx, use COMPILE_TEST
-Date:   Wed, 25 Jul 2018 01:19:46 +0200
-Message-Id: <20180724231958.20659-10-paul@crapouillou.net>
+Subject: [PATCH v5 20/21] MIPS: CI20: defconfig: enable OST driver
+Date:   Wed, 25 Jul 2018 01:19:57 +0200
+Message-Id: <20180724231958.20659-21-paul@crapouillou.net>
 In-Reply-To: <20180724231958.20659-1-paul@crapouillou.net>
 References: <20180724231958.20659-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1532474424; bh=KAqrFhCz6w3r3XNgx/Up+XSJRVQTI6W8SDGdOTKDVzw=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=cueCmrwuSqHqAqrXG1tbDM1e5y3UfgtQaaAdJEvQtnv62qVV77WaTI2SJcs/CQW8xUeHqyZQwDgJ0pAfYKS5s2po+TV0KRpnLfBjjwdWNKrcS3acqrJ07iWWJAekuqLO6CTuJZw+uJ0lK4cMbyGa9XQ/LODRzmnmsWe/6Fk1AGo=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1532474445; bh=eMar+wTGsGXHxw8aBujswzMNTp1sEYYsBh4cks8KBKk=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=dHpZFenM+2X5SC/Ka3k8Dirj20mlYpYJ6YJmUeSs9w6gCbDr+o6PW/WmdiV0vgajAb9W4aklKE31AIxXct/CfplsxEXEbPDpLNO1rD+kP0yDjf3fJrWnJIAiExdT6a34AUrwHIcAd0TgRW4l0YL86DsRNIZgls6Lp9l0ugnIQYA=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Depending on MACH_JZ47xx prevent us from creating a generic kernel that
-works on more than one MIPS board. Instead, we just depend on MIPS being
-set.
-
-On other architectures, this driver can still be built, thanks to
-COMPILE_TEST. This is used by automated tools to find bugs, for
-instance.
+The OST driver provides a clocksource and sched_clock that are much more
+accurate than the default ones.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/watchdog/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/mips/configs/ci20_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
  v5: New patch
 
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index 834222abbbdb..13a46cfa69b0 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -1475,7 +1475,7 @@ config INDYDOG
- 
- config JZ4740_WDT
- 	tristate "Ingenic jz4740 SoC hardware watchdog"
--	depends on MACH_JZ4740 || MACH_JZ4780
-+	depends on MIPS || COMPILE_TEST
- 	depends on COMMON_CLK
- 	select WATCHDOG_CORE
- 	select INGENIC_TIMER
+diff --git a/arch/mips/configs/ci20_defconfig b/arch/mips/configs/ci20_defconfig
+index be23fd25eeaa..e56dc5c024b9 100644
+--- a/arch/mips/configs/ci20_defconfig
++++ b/arch/mips/configs/ci20_defconfig
+@@ -109,6 +109,7 @@ CONFIG_RTC_CLASS=y
+ CONFIG_RTC_DRV_JZ4740=y
+ CONFIG_DMADEVICES=y
+ CONFIG_DMA_JZ4780=y
++CONFIG_INGENIC_OST=y
+ # CONFIG_IOMMU_SUPPORT is not set
+ CONFIG_MEMORY=y
+ CONFIG_EXT4_FS=y
 -- 
 2.11.0
 
