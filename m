@@ -1,90 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 600437D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 13:26:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 722647D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 13:49:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388325AbeGXOc6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 10:32:58 -0400
-Received: from mout.gmx.net ([212.227.15.18]:53637 "EHLO mout.gmx.net"
+        id S2388419AbeGXO4K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 10:56:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58734 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388172AbeGXOc5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Jul 2018 10:32:57 -0400
-Received: from [10.10.19.26] ([202.153.91.80]) by mail.gmx.com (mrgmx001
- [212.227.17.184]) with ESMTPSA (Nemesis) id 0MJjOu-1fgrOs42TM-001DGP; Tue, 24
- Jul 2018 15:26:23 +0200
-Subject: Re: [PATCH] zh_CN:translation for block queue into Chinese
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, harryxiyou@gmail.com,
-        linux-kernel@zh-kernel.org
-References: <c10695de-d6aa-bb5a-2635-efd0f6f78269@gmx.com>
- <20180723093645.7efb20e0@lwn.net>
-From:   Norman <norman.kern@gmx.com>
-Message-ID: <079d0dcc-c93f-9914-ad6a-83e4ca602858@gmx.com>
-Date:   Tue, 24 Jul 2018 21:26:19 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S2388315AbeGXO4K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Jul 2018 10:56:10 -0400
+Received: from gandalf.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E596120874;
+        Tue, 24 Jul 2018 13:49:33 +0000 (UTC)
+Date:   Tue, 24 Jul 2018 09:49:32 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Ruchi Kandoi <kandoiruchi@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Subject: Re: [PATCH v2] cpufreq: trace frequency limits change
+Message-ID: <20180724094932.11e10452@gandalf.local.home>
+In-Reply-To: <20180720222114.200311-1-joel@joelfernandes.org>
+References: <20180720222114.200311-1-joel@joelfernandes.org>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20180723093645.7efb20e0@lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Provags-ID: V03:K1:0yGPD8q/M0lvDiBNruSHfBBZor6Felbp0dOSlk9/ph2rR1OX5RZ
- KGpX7E6+Y+Agofa+CIRmVCIxT1E2tz3aFKyTI7fZEfrOMMQyAIYzSuIOj1kT0Tpgu6r+zJ2
- r9QEkIhWXj5qzX9wXeeD4hpy+5cC/iHz6xkElofwlfGZtXUNFS7J+p0od72kgOTOJTwR70M
- /TO29LqAbH43YmJfbc1Kw==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:76BE0wKMNrg=:M/srggJ3o5L5uOw/KygQ4U
- mC6K7NdynjOzvqXZ4wg85jb6U1MkFnkeHu8y2+cLXBnOqGKQeOrKyKgXe8NfDr9iik83WFJ+8
- 7zAozVHL08ynGaj5C9CdUjVrQO5aizIJP6cjXoImExK9cPco7KQySQCDUm4NwPRTUzdrVypYM
- wfNSaTCptRsNRvlIxEBhLq4yI61kNXufCjHXxcv5nie61COUUvyotwYYZqmz7Wqw1ky582zot
- 8Zhn/Xe/RMzJLZnHzhDfcFG6LaKNmNsKsePZ42wPUpIoh8eUl1JCOgLTt+tji4xN/Rn2Ba5Pl
- qnubEmZnHCODZWTyZubiQrFA8A8sWEvwlRw+DDjgjAaByBj26BW0iW2W1OtIHH1qN3lmK27Yy
- Og6FDwBdSsTKZz1UjgdpbDCWtTlj+np+RYCwMOkO3lMDZiGuC1VA0vPJ73o8RyVcgNLRiIWNZ
- nZwMbxOcTX7rAgsQW4XIbKTnmBbOmGutJVScX2+ytPq3/FTrpDvl9mrAd58Srf98oa52gmlGc
- V0JwV3GqCNxtX6a7LZmEZCaxIER9qf7ZNnhfgPczJju8yoIwQ0XstvoyJVxF91BtQ58sWQppE
- B1/meHeRRRHJxj8sSha9Vx2Sga4KHAHymTJBe+K+D9o6WSOvZ2GCHuIp1V1KcGCJVR+r7Ufoh
- lT+8zBwlhgryKpGpxC7y1OF//NCy/vLTB4dsoYRu0GVLOKSl1K4PTvUHEO/Ns1w3FnyV3bewe
- fdFwhP1wAdlxFxaUmOPBbEswMRpGJ0Ueqe4pkUaswen5xq6sAV4c6SYBBR7YP9jftUXxOCw0x
- haSCzOV
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Jonathan
-I didn't mean to translate it into markdown, I just feel it looks better
-in markdown. I pay more attention on the contents but not the format and
-I just want to translate all block module docs into Chinese.
-I'll convert the format into plain text format and resend.
+On Fri, 20 Jul 2018 15:21:14 -0700
+Joel Fernandes <joel@joelfernandes.org> wrote:
 
-Thanks for your advice,
+> From: Ruchi Kandoi <kandoiruchi@google.com>
+> 
+> systrace used for tracing for Android systems has carried a patch for
+> many years in the Android tree that traces when the cpufreq limits
+> change.  With the help of this information, systrace can know when the
+> policy limits change and can visually display the data. Lets add
+> upstream support for the same.
+> 
+> Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> ---
+> v1->v2: Minor changes suggested by Viresh
+> 
+>  Documentation/trace/events-power.rst |  1 +
+>  drivers/cpufreq/cpufreq.c            |  1 +
+>  include/trace/events/power.h         | 25 +++++++++++++++++++++++++
+>  3 files changed, 27 insertions(+)
+> 
+> diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
+> index a77daca75e30..2ef318962e29 100644
+> --- a/Documentation/trace/events-power.rst
+> +++ b/Documentation/trace/events-power.rst
+> @@ -27,6 +27,7 @@ cpufreq.
+>  
+>    cpu_idle		"state=%lu cpu_id=%lu"
+>    cpu_frequency		"state=%lu cpu_id=%lu"
+> +  cpu_frequency_limits	"min=%lu max=%lu cpu_id=%lu"
+>  
+>  A suspend event is used to indicate the system going in and out of the
+>  suspend mode:
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index b0dfd3222013..4fd935df101e 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -2236,6 +2236,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
+>  
+>  	policy->min = new_policy->min;
+>  	policy->max = new_policy->max;
+> +	trace_cpu_frequency_limits(policy->min, policy->max, policy->cpu);
 
-Norman
+Wouldn't it make more sense just to pass in "policy"?
 
+>  
+>  	policy->cached_target_freq = UINT_MAX;
+>  
+> diff --git a/include/trace/events/power.h b/include/trace/events/power.h
+> index 908977d69783..f5bec45108b6 100644
+> --- a/include/trace/events/power.h
+> +++ b/include/trace/events/power.h
+> @@ -148,6 +148,31 @@ DEFINE_EVENT(cpu, cpu_frequency,
+>  	TP_ARGS(frequency, cpu_id)
+>  );
+>  
+> +TRACE_EVENT(cpu_frequency_limits,
+> +
+> +	TP_PROTO(unsigned int min_freq, unsigned int max_freq,
+> +		unsigned int cpu_id),
+> +
+> +	TP_ARGS(min_freq, max_freq, cpu_id),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(u32, min_freq)
+> +		__field(u32, max_freq)
+> +		__field(u32, cpu_id)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->min_freq = min_freq;
+> +		__entry->max_freq = max_freq;
+> +		__entry->cpu_id = cpu_id;
 
-On 2018/7/23 23:36, Jonathan Corbet wrote:
-> On Fri, 20 Jul 2018 10:27:06 +0800
-> Norman <norman.kern@gmx.com> wrote:
->
->> Translate block/queue-sysfs.txt into Chinese
->>
->> Signed-off-by: Norman Kern <norman.kern@gmx.com>
->> ---
->>    .../translations/zh_CN/block/queue-sysfs.md        | 205
->> +++++++++++++++++++++
-> So...are you translating this into markdown format?  Please don't do
-> that, we don't need another documentation format in the kernel.  If you
-> want to convert this document to structured markup, the ideal approach
-> would be to convert the source document to RST first, then translate the
-> result.
->
-> Thanks,
->
-> jon
+Then have here:
+
+		__entry->min_freq = policy->min;
+		__entry->max_freq = policy->max;
+		__entry->puc_id = policy->cpu;
+
+It would also make the footprint of the tracepoint in the code smaller
+as it would pass fewer parameters to the trace event.
+
+-- Steve
+
+> +	),
+> +
+> +	TP_printk("min=%lu max=%lu cpu_id=%lu",
+> +		  (unsigned long)__entry->min_freq,
+> +		  (unsigned long)__entry->max_freq,
+> +		  (unsigned long)__entry->cpu_id)
+> +);
+> +
+>  TRACE_EVENT(device_pm_callback_start,
+>  
+>  	TP_PROTO(struct device *dev, const char *pm_ops, int event),
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
