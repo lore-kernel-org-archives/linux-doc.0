@@ -1,52 +1,38 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B152E7D085
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 15:40:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A13F27D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 15:46:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388365AbeGXQrl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 12:47:41 -0400
-Received: from mail-qt0-f194.google.com ([209.85.216.194]:35473 "EHLO
-        mail-qt0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388319AbeGXQrl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 12:47:41 -0400
-Received: by mail-qt0-f194.google.com with SMTP id a5-v6so4540907qtp.2;
-        Tue, 24 Jul 2018 08:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=r2NvQ32/3TJuGxWnhIYaXT4o02GHAX5lhdRpMkKwc80=;
-        b=N2a95CH0eoPNLflk2ooDnAJhpZIMrDpocEfljiMENUgOAQ8t0CMmS1aXTy6nL+d+Ly
-         6ODDjau7J9yNCRAVyvnsEUkolSrcZF7JsHAToUmprzzg/g0bZNKBz1S5CUN0A8sGIDeN
-         RYst73sJzlcc1kVWEAlkcaTPvMmaks13C27ev8HpsGY08XkSNg9aYwFJle9wrSIYU3H2
-         Y4BaSrspSMKfEepdHPZp4I7NvELNVOpc5TnhUJd196Ct4BfsJHhGRqcASGyoHKQQPOA/
-         srAkOSH4odqatzWQCv+NyCwTLDSNE67DmuLZTyqg5YwHL4NTSSHFO7XLjW0x+ICT6DCc
-         qBfg==
+        id S2388402AbeGXQx2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 12:53:28 -0400
+Received: from mail-vk0-f67.google.com ([209.85.213.67]:43278 "EHLO
+        mail-vk0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388300AbeGXQx2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 12:53:28 -0400
+Received: by mail-vk0-f67.google.com with SMTP id s17-v6so2261671vke.10;
+        Tue, 24 Jul 2018 08:46:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=r2NvQ32/3TJuGxWnhIYaXT4o02GHAX5lhdRpMkKwc80=;
-        b=Z7IB3Iw/A/P3gc8qqfeBxH9fOW+dDtBbZLpz7Y+XtFn02OVyjzC9yZwmfJ1C7aha//
-         zMgf+ge1wTvjfjf1aksxOk5c0W1xiLBHzzMgzYgp+1UOCBbS2VujdImsM5G0p+dXdEFn
-         q9s4o74NaZElayK3kjjBAfbnawNWw081L7R1FqND5998CybfgQJkGTZNCH4zGU+Low4F
-         T0fdqJQlxZjJI2m0XPXhpekgJDCKEgf5NlXXSMDUaua/422DBRzXJLmu3iBiacV3jOkE
-         O5h6l/Z6Ex/EGusACyrJBxTxw4XYrEmOd00DhJJmWHZegq15L/uEqdicWCiQnCgD17C6
-         7MPw==
-X-Gm-Message-State: AOUpUlGRO4ou6ySfGJiuPSQoqIcNi3IesyzWC8nJFiOmsufFxQyQzJ3E
-        JbgQp2kj0JpkeO/URUe8M9VCI01eCk2pFwQE/+w=
-X-Google-Smtp-Source: AAOMgpcaM/1AV1TLuxpTt/HG/5ZAuIqdYl0XqDI3gJlFUJSAxnPKYxdEIiRQfyOaJuLpfikgWa8o1n0ZkqZYSVqlN8k=
-X-Received: by 2002:ac8:3676:: with SMTP id n51-v6mr16826868qtb.163.1532446837337;
- Tue, 24 Jul 2018 08:40:37 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oa7UlTiloXoc6U/EcthojwxasXcOuDWL7biSXvLmbsM=;
+        b=WtAqTPQfUXQ91k0phXSxk3yV/V4TOTpOK1TmqZPn/W6T6qCmH3WeMWqqWttaBbmMsR
+         vzlySAzAeTdy4+wVMldnQRH/evW7kd4KjNAcqXn3vhBZO/jAYMxn/c5XFwlSpVYbAHAV
+         Ji40kI4bkrLcdFs7KYo/eRGTYQojmkn+htuYwyysHF+mZfwLODtT/eDJvr4uXxCrcsN4
+         2SzjSw/ENkjhtaDmWYR7TPWV2ekFGnVS72Rub1nOXNGr0sO2XAYxQm0ikRbuJTwZ23Zn
+         33QlHPtx3ZW7v79PYMJxw2tBKv1Iipx2tQcKTKw5v//P+bSjxGclIELnkM8zJJL430aH
+         enSg==
+X-Gm-Message-State: AOUpUlGB0PL7hp2ittyiHuoH8ywaweSE/wVePF8NAb2io/8Alu3ZImDQ
+        oqTDWUA9FQZErcvbzYNw+CiMMZv0s2wBoUXLMg8=
+X-Google-Smtp-Source: AAOMgpcU60zKK0qSYG0cTym8Png/z7Ymcjt9IAF/gltFoVGGagMcKNO5pc9zoawf8PGQRMGuLaL1cBW36dAdM14BVPY=
+X-Received: by 2002:a1f:8948:: with SMTP id l69-v6mr11025960vkd.132.1532447182109;
+ Tue, 24 Jul 2018 08:46:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a0c:967d:0:0:0:0:0 with HTTP; Tue, 24 Jul 2018 08:40:36
- -0700 (PDT)
-In-Reply-To: <CAMuHMdXif_iufXx0Y+UJjKs9TNLfrTONoFvUSyrpkfaT0=ydRQ@mail.gmail.com>
 References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
  <CAK8P3a2MP5+oFz--e+BM24D8Ahw7H_RKgN1S6wY1nQE6JL0dmw@mail.gmail.com>
  <2ab0ab75-2df0-2714-f007-c33b25481016@axentia.se> <20180720101206.tv7nsoanwo5ftnia@ninjato>
@@ -54,13 +40,13 @@ References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
  <21b269c5-a3a7-c5de-c81e-c9c9301ae13e@axentia.se> <CAK8P3a1t2fhdw7HwxNkOs9o2pBECZ0ZdOysA=r2SPTWEvx76kw@mail.gmail.com>
  <20180720151751.242d4809@bbrezillon> <CAK8P3a14_6uf9VLYU0YnmFp0Q=DZBKc0cAesBh0opanGDZMFRA@mail.gmail.com>
  <20180724162806.318a92c6@bbrezillon> <CAK8P3a3YQbiiJMTHTVh63fOvtA1sa0J5Eb4z7xbnpBPwUDkqxg@mail.gmail.com>
- <CAMuHMdXif_iufXx0Y+UJjKs9TNLfrTONoFvUSyrpkfaT0=ydRQ@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 24 Jul 2018 17:40:36 +0200
-X-Google-Sender-Auth: idNgmZlYSLkoITfn-DGB6S3RKT8
-Message-ID: <CAK8P3a0jc1k9weTNbqSJXkCSFefus9OPyU5_v5=mTFxiDd0q5Q@mail.gmail.com>
+ <CAMuHMdXif_iufXx0Y+UJjKs9TNLfrTONoFvUSyrpkfaT0=ydRQ@mail.gmail.com> <CAK8P3a0jc1k9weTNbqSJXkCSFefus9OPyU5_v5=mTFxiDd0q5Q@mail.gmail.com>
+In-Reply-To: <CAK8P3a0jc1k9weTNbqSJXkCSFefus9OPyU5_v5=mTFxiDd0q5Q@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 24 Jul 2018 17:46:09 +0200
+Message-ID: <CAMuHMdXJ_FGXXwNx8h0ZfskJGRWES1xLuTQpD59Vw1Smp6FTRg@mail.gmail.com>
 Subject: Re: [PATCH v6 00/10] Add the I3C subsystem
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Peter Rosin <peda@axentia.se>,
         Wolfram Sang <wsa@the-dreams.de>,
@@ -90,37 +76,51 @@ Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, Przemyslaw Gaj <pgaj@cadence.com>
+        Sekhar Nori <nsekhar@ti.com>, pgaj@cadence.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 24, 2018 at 5:15 PM, Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Tue, Jul 24, 2018 at 5:05 PM Arnd Bergmann <arnd@arndb.de> wrote:
+Hi Arnd,
 
->> That's not the case I was describing here, I was thinking of what
->> Wolfram described with the Renesas SoC that has two i2c masters
->> multiplexed through the pinmux layer. I would assume that we
->> can still do the same thing in i3c by shutting down the current
->> master without a handover, and reprobing everything from scratch.
+On Tue, Jul 24, 2018 at 5:40 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> On Tue, Jul 24, 2018 at 5:15 PM, Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Tue, Jul 24, 2018 at 5:05 PM Arnd Bergmann <arnd@arndb.de> wrote:
 >
-> The major disadvantage of reprobing is that it may cause visual disturbances
-> when i2c slaves are involved with e.g. the display pipeline (think HDMI encoders
-> etc.).
+> >> That's not the case I was describing here, I was thinking of what
+> >> Wolfram described with the Renesas SoC that has two i2c masters
+> >> multiplexed through the pinmux layer. I would assume that we
+> >> can still do the same thing in i3c by shutting down the current
+> >> master without a handover, and reprobing everything from scratch.
+> >
+> > The major disadvantage of reprobing is that it may cause visual disturbances
+> > when i2c slaves are involved with e.g. the display pipeline (think HDMI encoders
+> > etc.).
+>
+> Do you mean we should reuse the device pointer and association with
+> the driver even when we switch out the i3c master using the pinmux?
+>
+> Or do you mean we need to be prepared for driving a single
+> slave through multiple masters over the lifetime of that device,
+> but using the i3c master handover protocol?
+> In the second case, how do we decide which master to use
+> for accessing a device for a given request?
 
-Do you mean we should reuse the device pointer and association with
-the driver even when we switch out the i3c master using the pinmux?
+I'll have to defer to Wolfram. He's the i2c and muxing expert.
 
-Or do you mean we need to be prepared for driving a single
-slave through multiple masters over the lifetime of that device,
-but using the i3c master handover protocol?
-In the second case, how do we decide which master to use
-for accessing a device for a given request?
+Gr{oetje,eeting}s,
 
-       Arnd
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
