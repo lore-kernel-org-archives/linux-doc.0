@@ -3,16 +3,16 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A0AF47D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 23:27:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4814E7D085
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 23:27:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388490AbeGYAgi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 20:36:38 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:56374 "EHLO
+        id S2388510AbeGYAgj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 20:36:39 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:56370 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388469AbeGYAgi (ORCPT
+        with ESMTP id S2388468AbeGYAgi (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 20:36:38 -0400
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
@@ -32,45 +32,56 @@ Cc:     Paul Cercueil <paul@crapouillou.net>, linux-pwm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-watchdog@vger.kernel.org, linux-mips@linux-mips.org,
         linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH v5 11/21] pwm: jz4740: Drop dependency on MACH_INGENIC, use COMPILE_TEST
-Date:   Wed, 25 Jul 2018 01:19:48 +0200
-Message-Id: <20180724231958.20659-12-paul@crapouillou.net>
+Subject: [PATCH v5 14/21] clk: jz4740: Add TCU clock
+Date:   Wed, 25 Jul 2018 01:19:51 +0200
+Message-Id: <20180724231958.20659-15-paul@crapouillou.net>
 In-Reply-To: <20180724231958.20659-1-paul@crapouillou.net>
 References: <20180724231958.20659-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1532474428; bh=UxIbpmUCvuPqzasYtZD+Mm3SNWndzCwvbGCkrkn1Qeg=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=aMj10L0Q1YD88T1mN9zO86VdufjCeYHuToEgQkIHhiqmQceR9ixPnU3eCxLP4ymIcfq3MAkEaTqVv84b1duZPWocUZT3IBOng3pqFzPhp1EM/0E1HgDfh/lDFYZJmc5U28YXdeKHC/biIx/vkR/rs+ZCtOGcDa1SDw8iSeAK6Sk=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1532474434; bh=fNnVkqqSivIRkToDRIlol9WnwMrUoa+2zKexHDWmHmg=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=l0QEBxoUszxb+9GBkJUkNIOCHWHFxdAMRMet3P3Bg0NeTdIuiakucPbQraxvZo6XPJgNpHCUuxo3cQGJ0xCRAFp9pxJLAGASKH8Md9P5/jJH9pyT4WoLhlfnpZFXiQzcbfJG9OYNGpV9nr77SNaD3g9UIUuW7r0AQPi49QxrDgA=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Depending on MACH_INGENIC prevent us from creating a generic kernel that
-works on more than one MIPS board. Instead, we just depend on MIPS being
-set.
-
-On other architectures, this driver can still be built, thanks to
-COMPILE_TEST. This is used by automated tools to find bugs, for
-instance.
+Add the missing TCU clock to the list of clocks supplied by the CGU for
+the JZ4740 SoC.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/pwm/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/clk/ingenic/jz4740-cgu.c       | 6 ++++++
+ include/dt-bindings/clock/jz4740-cgu.h | 1 +
+ 2 files changed, 7 insertions(+)
 
  v5: New patch
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index 58359bf22b96..e53ad662ef87 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -201,7 +201,7 @@ config PWM_IMX
+diff --git a/drivers/clk/ingenic/jz4740-cgu.c b/drivers/clk/ingenic/jz4740-cgu.c
+index 32fcc75f6f77..216ba051e743 100644
+--- a/drivers/clk/ingenic/jz4740-cgu.c
++++ b/drivers/clk/ingenic/jz4740-cgu.c
+@@ -211,6 +211,12 @@ static const struct ingenic_cgu_clk_info jz4740_cgu_clocks[] = {
+ 		.parents = { JZ4740_CLK_EXT, -1, -1, -1 },
+ 		.gate = { CGU_REG_CLKGR, 5 },
+ 	},
++
++	[JZ4740_CLK_TCU] = {
++		"tcu", CGU_CLK_GATE,
++		.parents = { JZ4740_CLK_EXT, -1, -1, -1 },
++		.gate = { CGU_REG_CLKGR, 1 },
++	},
+ };
  
- config PWM_JZ4740
- 	tristate "Ingenic JZ47xx PWM support"
--	depends on MACH_INGENIC
-+	depends on MIPS || COMPILE_TEST
- 	depends on COMMON_CLK
- 	select INGENIC_TIMER
- 	help
+ static void __init jz4740_cgu_init(struct device_node *np)
+diff --git a/include/dt-bindings/clock/jz4740-cgu.h b/include/dt-bindings/clock/jz4740-cgu.h
+index 6ed83f926ae7..e82d77028581 100644
+--- a/include/dt-bindings/clock/jz4740-cgu.h
++++ b/include/dt-bindings/clock/jz4740-cgu.h
+@@ -34,5 +34,6 @@
+ #define JZ4740_CLK_ADC		19
+ #define JZ4740_CLK_I2C		20
+ #define JZ4740_CLK_AIC		21
++#define JZ4740_CLK_TCU		22
+ 
+ #endif /* __DT_BINDINGS_CLOCK_JZ4740_CGU_H__ */
 -- 
 2.11.0
 
