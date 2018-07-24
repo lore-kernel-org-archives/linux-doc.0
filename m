@@ -1,67 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6FBD17D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 03:39:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9EE0B7D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 06:33:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388183AbeGXEnU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 00:43:20 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:52894 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388151AbeGXEnU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 00:43:20 -0400
-Received: from localhost (unknown [172.58.43.75])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 3B73F108CBDC7;
-        Mon, 23 Jul 2018 20:38:57 -0700 (PDT)
-Date:   Mon, 23 Jul 2018 20:38:56 -0700 (PDT)
-Message-Id: <20180723.203856.565513635273795922.davem@davemloft.net>
-To:     ivan.khoronzhuk@linaro.org
-Cc:     grygorii.strashko@ti.com, corbet@lwn.net,
-        akpm@linux-foundation.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
-        henrik@austad.us, jesus.sanchez-palencia@intel.com,
-        ilias.apalodimas@linaro.org, p-varis@ti.com, spatton@ti.com,
-        francois.ozog@linaro.org, yogeshs@ti.com, nsekhar@ti.com,
-        andrew@lunn.ch
-Subject: Re: [PATCH v5 net-next 0/6] net: ethernet: ti: cpsw: add MQPRIO
- and CBS Qdisc offload
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20180723212634.3219-1-ivan.khoronzhuk@linaro.org>
-References: <20180723212634.3219-1-ivan.khoronzhuk@linaro.org>
-X-Mailer: Mew version 6.7 on Emacs 26 / Mule 6.0 (HANACHIRUSATO)
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 23 Jul 2018 20:38:59 -0700 (PDT)
+        id S2388247AbeGXHie (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 03:38:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52388 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388241AbeGXHie (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Jul 2018 03:38:34 -0400
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D5C7A20881;
+        Tue, 24 Jul 2018 06:33:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1532414021;
+        bh=35c/fzYC/Wtw9RxH17Dg7SJ8wBlK/ZRXQ97HRqICH1w=;
+        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+        b=Z58zmPeq3bdGzJtIDerdKXC/OO2t4hYweR2dx3BIV4TTCgoJg+Qc2HdueKYQ1XWnk
+         8NVbmOmsbXF4+4yoJFTC2Aj3T1C8bBMYup/2MhoYQHx+gglk+USd9KiJygRVT3q9S/
+         SoZGchX7r/LG2L+hHkPnpg3nrMTrxdlXvoc/GR4s=
+Received: by mail-wm0-f42.google.com with SMTP id l2-v6so11401417wme.1;
+        Mon, 23 Jul 2018 23:33:40 -0700 (PDT)
+X-Gm-Message-State: AOUpUlGuyvZu4qwxL/pkOeio8Q74F9yJi7A2FQTHvUsNPBkxiDbKcELl
+        2fFri90p0ZgSacWcw947Mjv9opT2/5P0tPs5xUQ=
+X-Google-Smtp-Source: AAOMgpcJU2pr04YC3kWGV1buttngkUSqx9uZZUEIEaGpi0Zm77a2udXC/Dw7KgCJxEgjUh7+eSA8rlyyXFSVXyd3lpQ=
+X-Received: by 2002:a1c:3a8f:: with SMTP id h137-v6mr1129257wma.72.1532414019340;
+ Mon, 23 Jul 2018 23:33:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:adf:9141:0:0:0:0:0 with HTTP; Mon, 23 Jul 2018 23:33:38
+ -0700 (PDT)
+In-Reply-To: <20180723142503eucas1p24f8d96f8c4ec25dbdb80e27e2f1444c2~EBZNDRgPc2952429524eucas1p2C@eucas1p2.samsung.com>
+References: <CGME20180718200005epcas1p1cb2568c593276849c066b3a53f1e971b@epcas1p1.samsung.com>
+ <20180718195929.5852-1-krzk@kernel.org> <20180723142503eucas1p24f8d96f8c4ec25dbdb80e27e2f1444c2~EBZNDRgPc2952429524eucas1p2C@eucas1p2.samsung.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Tue, 24 Jul 2018 08:33:38 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPc=3-q4CXDqcHXgXfhMKvKLJWBzuH1JvXiV5m04TW_qig@mail.gmail.com>
+Message-ID: <CAJKOXPc=3-q4CXDqcHXgXfhMKvKLJWBzuH1JvXiV5m04TW_qig@mail.gmail.com>
+Subject: Re: [RFC] ARM: exynos: Fix imprecise abort during Exynos5422 suspend
+ to RAM
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Kukjin Kim <kgene@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Pankaj Dubey <pankaj.dubey@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Date: Tue, 24 Jul 2018 00:26:28 +0300
+On 23 July 2018 at 16:24, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+> Hi Krzysztof,
+>
+> On 2018-07-18 21:59, Krzysztof Kozlowski wrote:
+>> Suspend to RAM on Odroid XU3/XU4/HC1 family (Exynos5422) causes
+>> imprecise abort:
+>>
+>>       PM: Syncing filesystems ... done.
+>>       Freezing user space processes ... (elapsed 0.003 seconds) done.
+>>       OOM killer disabled.
+>>       Freezing remaining freezable tasks ... (elapsed 0.003 seconds) done.
+>>       wake enabled for irq 139
+>>       Disabling non-boot CPUs ...
+>>       IRQ51 no longer affine to CPU1
+>>       IRQ52 no longer affine to CPU2
+>>       IRQ53 no longer affine to CPU3
+>>       IRQ54 no longer affine to CPU4
+>>       IRQ55 no longer affine to CPU5
+>>       IRQ56 no longer affine to CPU6
+>>       cpu cpu4: Dropping the link to regulator.40
+>>       IRQ57 no longer affine to CPU7
+>>       Unhandled fault: external abort on non-linefetch (0x1008) at 0xf081a028
+>>       Internal error: : 1008 [#1] PREEMPT SMP ARM
+>>
+>> with last call trace in exynos_suspend_enter().
+>>
+>> The abort is caused by writing to register in secure part of sysram.
+>> All Exynos5422 devices, including Hardkernel Odroid boards, boot with
+>> TrustZone in non-secure mode therefore they should access non-secure
+>> sysram.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+>>
+>> ---
+>>
+>> Comments, whether my understanding is correct, are welcomed!
+>
+> The decision, weather to use secure or non-secure sysram depends on the
+> enabled TrustZone interface IMHO. Exynos5420 PeachPIT and Exynos5800 PeachPI
+> don't use TrustZone and don't have 'firmware' node in dts, thus they should
+> keep existing code.
 
-> This series adds MQPRIO and CBS Qdisc offload for TI cpsw driver.
-> It potentially can be used in audio video bridging (AVB) and time
-> sensitive networking (TSN).
-> 
-> Patchset was tested on AM572x EVM and BBB boards. Last patch from this
-> series adds detailed description of configuration with examples. For
-> consistency reasons, in role of talker and listener, tools from
-> patchset "TSN: Add qdisc based config interface for CBS" were used and
-> can be seen here: https://www.spinics.net/lists/netdev/msg460869.html
-> 
-> Based on net-next/master
+Ah, you are right. SMDK5420 also would be affected. I'll fix the patch.
 
-Series applied, thanks Ivan.
+Thanks for feedback!
+
+Best regards,
+Krzysztof
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
