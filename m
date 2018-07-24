@@ -1,38 +1,52 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8F0C57D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 15:16:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B152E7D085
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 15:40:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388376AbeGXQXF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 12:23:05 -0400
-Received: from mail-vk0-f67.google.com ([209.85.213.67]:36961 "EHLO
-        mail-vk0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388298AbeGXQXE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 12:23:04 -0400
-Received: by mail-vk0-f67.google.com with SMTP id v72-v6so2211424vkd.4;
-        Tue, 24 Jul 2018 08:16:06 -0700 (PDT)
+        id S2388365AbeGXQrl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 12:47:41 -0400
+Received: from mail-qt0-f194.google.com ([209.85.216.194]:35473 "EHLO
+        mail-qt0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388319AbeGXQrl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 12:47:41 -0400
+Received: by mail-qt0-f194.google.com with SMTP id a5-v6so4540907qtp.2;
+        Tue, 24 Jul 2018 08:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=r2NvQ32/3TJuGxWnhIYaXT4o02GHAX5lhdRpMkKwc80=;
+        b=N2a95CH0eoPNLflk2ooDnAJhpZIMrDpocEfljiMENUgOAQ8t0CMmS1aXTy6nL+d+Ly
+         6ODDjau7J9yNCRAVyvnsEUkolSrcZF7JsHAToUmprzzg/g0bZNKBz1S5CUN0A8sGIDeN
+         RYst73sJzlcc1kVWEAlkcaTPvMmaks13C27ev8HpsGY08XkSNg9aYwFJle9wrSIYU3H2
+         Y4BaSrspSMKfEepdHPZp4I7NvELNVOpc5TnhUJd196Ct4BfsJHhGRqcASGyoHKQQPOA/
+         srAkOSH4odqatzWQCv+NyCwTLDSNE67DmuLZTyqg5YwHL4NTSSHFO7XLjW0x+ICT6DCc
+         qBfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=k/XpYZ9gPWMhLH10ZDNqCIR0cUhfKNwuqICAPldKfQc=;
-        b=CZ/T/GghEH/XmsuNedu4bapwu3UXIrCMtQ6vOJV7/YigbA0QNluv3knc72/som9iiB
-         kxU2cV13BSO96tRsYCttZet3lzd7q2BEG8XXW9W//3J3QF0teOi29w+8oXrqS/uvSzIg
-         0C2a/yD9tzboRQDLj44wwseXOxvicX5HLHk2RfE+JjpAm7blMaU1tLIwAAKMj/KW+DR6
-         lD+wFbdBh4ZJ30f1lGyP+/6QV1FNapkBtms/ZwE6lhGZd4aYbxCZMA0OuJENkTTMXXu0
-         lg0sFt/liTWfjcqWO3wIK96RNVcBv0AMKLq/Os1zFTsFHG38sj0jW7rR2YwQypjhdnde
-         JtmQ==
-X-Gm-Message-State: AOUpUlHmoLRvTemxTlizyegSlq8oW68lInykt4ZHlzEExX7Cc7tJ5K4d
-        oLRhH6KR1uNMW68jwE3vYDtoOGEG66owNIMCsJZd6g==
-X-Google-Smtp-Source: AAOMgpdzt4LUPOI6OKrE2FznymXpfBLRxNe8CqMzsld+sdnDoultkVTLoSj5SSFoLZbXHWYB+nyoaLrhe4oS22app4w=
-X-Received: by 2002:a1f:420d:: with SMTP id p13-v6mr10715856vka.10.1532445366167;
- Tue, 24 Jul 2018 08:16:06 -0700 (PDT)
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=r2NvQ32/3TJuGxWnhIYaXT4o02GHAX5lhdRpMkKwc80=;
+        b=Z7IB3Iw/A/P3gc8qqfeBxH9fOW+dDtBbZLpz7Y+XtFn02OVyjzC9yZwmfJ1C7aha//
+         zMgf+ge1wTvjfjf1aksxOk5c0W1xiLBHzzMgzYgp+1UOCBbS2VujdImsM5G0p+dXdEFn
+         q9s4o74NaZElayK3kjjBAfbnawNWw081L7R1FqND5998CybfgQJkGTZNCH4zGU+Low4F
+         T0fdqJQlxZjJI2m0XPXhpekgJDCKEgf5NlXXSMDUaua/422DBRzXJLmu3iBiacV3jOkE
+         O5h6l/Z6Ex/EGusACyrJBxTxw4XYrEmOd00DhJJmWHZegq15L/uEqdicWCiQnCgD17C6
+         7MPw==
+X-Gm-Message-State: AOUpUlGRO4ou6ySfGJiuPSQoqIcNi3IesyzWC8nJFiOmsufFxQyQzJ3E
+        JbgQp2kj0JpkeO/URUe8M9VCI01eCk2pFwQE/+w=
+X-Google-Smtp-Source: AAOMgpcaM/1AV1TLuxpTt/HG/5ZAuIqdYl0XqDI3gJlFUJSAxnPKYxdEIiRQfyOaJuLpfikgWa8o1n0ZkqZYSVqlN8k=
+X-Received: by 2002:ac8:3676:: with SMTP id n51-v6mr16826868qtb.163.1532446837337;
+ Tue, 24 Jul 2018 08:40:37 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:a0c:967d:0:0:0:0:0 with HTTP; Tue, 24 Jul 2018 08:40:36
+ -0700 (PDT)
+In-Reply-To: <CAMuHMdXif_iufXx0Y+UJjKs9TNLfrTONoFvUSyrpkfaT0=ydRQ@mail.gmail.com>
 References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
  <CAK8P3a2MP5+oFz--e+BM24D8Ahw7H_RKgN1S6wY1nQE6JL0dmw@mail.gmail.com>
  <2ab0ab75-2df0-2714-f007-c33b25481016@axentia.se> <20180720101206.tv7nsoanwo5ftnia@ninjato>
@@ -40,12 +54,13 @@ References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
  <21b269c5-a3a7-c5de-c81e-c9c9301ae13e@axentia.se> <CAK8P3a1t2fhdw7HwxNkOs9o2pBECZ0ZdOysA=r2SPTWEvx76kw@mail.gmail.com>
  <20180720151751.242d4809@bbrezillon> <CAK8P3a14_6uf9VLYU0YnmFp0Q=DZBKc0cAesBh0opanGDZMFRA@mail.gmail.com>
  <20180724162806.318a92c6@bbrezillon> <CAK8P3a3YQbiiJMTHTVh63fOvtA1sa0J5Eb4z7xbnpBPwUDkqxg@mail.gmail.com>
-In-Reply-To: <CAK8P3a3YQbiiJMTHTVh63fOvtA1sa0J5Eb4z7xbnpBPwUDkqxg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 24 Jul 2018 17:15:53 +0200
-Message-ID: <CAMuHMdXif_iufXx0Y+UJjKs9TNLfrTONoFvUSyrpkfaT0=ydRQ@mail.gmail.com>
+ <CAMuHMdXif_iufXx0Y+UJjKs9TNLfrTONoFvUSyrpkfaT0=ydRQ@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 24 Jul 2018 17:40:36 +0200
+X-Google-Sender-Auth: idNgmZlYSLkoITfn-DGB6S3RKT8
+Message-ID: <CAK8P3a0jc1k9weTNbqSJXkCSFefus9OPyU5_v5=mTFxiDd0q5Q@mail.gmail.com>
 Subject: Re: [PATCH v6 00/10] Add the I3C subsystem
-To:     Arnd Bergmann <arnd@arndb.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Peter Rosin <peda@axentia.se>,
         Wolfram Sang <wsa@the-dreams.de>,
@@ -75,105 +90,37 @@ Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, pgaj@cadence.com
+        Sekhar Nori <nsekhar@ti.com>, Przemyslaw Gaj <pgaj@cadence.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Arnd,
+On Tue, Jul 24, 2018 at 5:15 PM, Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> On Tue, Jul 24, 2018 at 5:05 PM Arnd Bergmann <arnd@arndb.de> wrote:
 
-On Tue, Jul 24, 2018 at 5:05 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Tue, Jul 24, 2018 at 4:28 PM, Boris Brezillon
-> <boris.brezillon@bootlin.com> wrote:
-> > On Tue, 24 Jul 2018 16:03:38 +0200
-> > Arnd Bergmann <arnd@arndb.de> wrote:
-> >> On Fri, Jul 20, 2018 at 3:17 PM, Boris Brezillon
-> >> <boris.brezillon@bootlin.com> wrote:
-> >> > On Fri, 20 Jul 2018 13:28:10 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
-> >> >> On Fri, Jul 20, 2018 at 1:13 PM, Peter Rosin <peda@axentia.se> wrote:
-> >> >> > On 2018-07-20 12:57, Arnd Bergmann wrote:
-> >> >> >> * What I understand from reading i2c-demux-pinctrl.c, a slave device
-> >> >> >>   will only ever be observable from one master at a time, when you
-> >> >> >>   switch over, all children get removed on one master and added to
-> >> >> >>   the other one, to be probed again by their respective drivers.
-> >> >> >>   I can see this as a useful feature on i3c as well, in particular to
-> >> >> >>   deal with the situation where we have i2c slaves connected to a
-> >> >> >>   pinmux that can switch them between an i3c master and an
-> >> >> >>   i2c-only master (possibly a gpio based one). That particular use
-> >> >> >>   case however doesn't seem to fix well in the current code, which
-> >> >> >>   is structure around i3c buses.
-> >> >> >
-> >> >> > It's pretty easy to come up with examples where this reprobing is
-> >> >> > not desirable at all. E.g. if one of the involved I2C devices is
-> >> >> > a HDMI encoder (I have a TDA19988 here) sitting in the middle of the
-> >> >> > graphics pipeline. Blink-blink on the screen because some *other*
-> >> >> > unrelated device needed to be accessed by an alternative master. Not
-> >> >> > pretty.
-> >> >>
-> >> >> Agreed, we definitely don't want to reprobe all devices during normal
-> >> >> operation for i3c master handover.
-> >> >>
-> >> >
-> >> > Re-probing would not happen, no matter the solution we choose. It's
-> >> > that, in one case, you would have X virtual/linux devices representing
-> >> > the same physical device and in the other case, you would just have
-> >> > one, and everytime a transfer is requested by the driver, the core
-> >> > would pick the appropriate master to do it (most likely the one in
-> >> > control of the bus at that time)
-> >>
-> >> I think this is one of the cases I'd want to avoid: controlling multiple
-> >> masters that are active at the same time without going through
-> >> the handover.
-> >
-> > That's simply not possible, the I3C protocol forbids it. There can only
-> > be one active master on the bus at any point in time.
+>> That's not the case I was describing here, I was thinking of what
+>> Wolfram described with the Renesas SoC that has two i2c masters
+>> multiplexed through the pinmux layer. I would assume that we
+>> can still do the same thing in i3c by shutting down the current
+>> master without a handover, and reprobing everything from scratch.
 >
-> Ok, it sounded like that's what you wanted to do here.
->
-> >> If we have an actual pinmux between two masters and only one
-> >> of them can even see the bus, I think we should go through a
-> >> complete remove/probe cycle the way that the i2c-demux-pinctrl
-> >> does today. If OTOH we a primary/secondary master pair with
-> >> handover capability, I would prefer to not see one slave on
-> >> both devices at the same time, or (ideally) only use one of the
-> >> two masters and disable the other one completely.
-> >
-> > Again, you don't have a choice because it's part of the protocol. At
-> > any time, you only have one active master on the bus, and other masters
-> > are acting as slaves until they gain bus ownership (if they ever do).
-> > Say that device A wants to do an HDR transfer on the bus, and HDR is
-> > only supported by master X, but master Y is currently owning the bus.
-> > Master X will first have to request bus ownership before doing the
-> > transfer requested by device A.
-> >
-> > Now, imagine that device A wants to do an SDR transfer which is
-> > supported by both master X and master Y, and master Y is in control.
-> > Instead of requesting a bus handover, the framework would just
-> > automatically decide to do the transfer through master Y. That's the
-> > sort of things this separate bus/master representation allows.
->
-> That's not the case I was describing here, I was thinking of what
-> Wolfram described with the Renesas SoC that has two i2c masters
-> multiplexed through the pinmux layer. I would assume that we
-> can still do the same thing in i3c by shutting down the current
-> master without a handover, and reprobing everything from scratch.
+> The major disadvantage of reprobing is that it may cause visual disturbances
+> when i2c slaves are involved with e.g. the display pipeline (think HDMI encoders
+> etc.).
 
-The major disadvantage of reprobing is that it may cause visual disturbances
-when i2c slaves are involved with e.g. the display pipeline (think HDMI encoders
-etc.).
+Do you mean we should reuse the device pointer and association with
+the driver even when we switch out the i3c master using the pinmux?
 
-Gr{oetje,eeting}s,
+Or do you mean we need to be prepared for driving a single
+slave through multiple masters over the lifetime of that device,
+but using the i3c master handover protocol?
+In the second case, how do we decide which master to use
+for accessing a device for a given request?
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+       Arnd
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
