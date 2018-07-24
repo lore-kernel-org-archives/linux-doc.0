@@ -5,15 +5,15 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 051587DF80
+	by archive.lwn.net (Postfix) with ESMTP id 1A3A67DF81
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Jul 2018 23:27:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388485AbeGYAgk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 20:36:40 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:56378 "EHLO
+        id S2388536AbeGYAgl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 20:36:41 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:56412 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388441AbeGYAgj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 20:36:39 -0400
+        with ESMTP id S2388517AbeGYAgl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 20:36:41 -0400
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -32,118 +32,246 @@ Cc:     Paul Cercueil <paul@crapouillou.net>, linux-pwm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-watchdog@vger.kernel.org, linux-mips@linux-mips.org,
         linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH v5 17/21] MIPS: qi_lb60: Move PWM devices to devicetree
-Date:   Wed, 25 Jul 2018 01:19:54 +0200
-Message-Id: <20180724231958.20659-18-paul@crapouillou.net>
+Subject: [PATCH v5 04/21] dt-bindings: Add doc for the Ingenic TCU drivers
+Date:   Wed, 25 Jul 2018 01:19:41 +0200
+Message-Id: <20180724231958.20659-5-paul@crapouillou.net>
 In-Reply-To: <20180724231958.20659-1-paul@crapouillou.net>
 References: <20180724231958.20659-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1532474439; bh=YutvKB+w93jLUd3BwfFESYHHvQrYcj3b8D5UAcehw+I=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=ccls00j9SHsqG+Xc1caHcf9kPkYWdu4RHBzP8dLiGt+trES16I+EjNzLk0N5HJwpNe+VA8Li0e8FmHyXWl4zsFC/lbJqninqiTyYm6QWw2LG9YR/qS2MkKUTqgoP7r+5D4Io105P2CqH2HeQFMINL0XKVZ6dWGLJOV2C52ftr2k=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1532474414; bh=2t2k3yBFNk4NiYGIjOoBw7+8o3ETNFVPzed3M5x87u0=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=wdeiU7/P2t8lAMtMGez9o6G8GL43EaFPE5EktMRImLG3YReL+Ai4YJyW+yQtZRATAprmrhETeDOHC/zmfBhJpzCqmzrbn+k5Eu2g7pPsFLocO2hZDbfk6CbvbX8mcVMNiEw8We++tHrBNM5ysqkAUgAsM9SN6z8+ua0XBtKVyaI=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Probe the few drivers using PWMs from devicetree, now that we have a
-devicetree node for the PWM driver.
+Add documentation about how to properly use the Ingenic TCU
+(Timer/Counter Unit) drivers from devicetree.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- arch/mips/boot/dts/ingenic/qi_lb60.dts | 14 ++++++++++++++
- arch/mips/jz4740/board-qi_lb60.c       | 19 -------------------
- 2 files changed, 14 insertions(+), 19 deletions(-)
+ .../devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt |  24 +---
+ .../devicetree/bindings/timer/ingenic,tcu.txt      | 147 +++++++++++++++++++++
+ .../bindings/watchdog/ingenic,jz4740-wdt.txt       |  17 +--
+ 3 files changed, 151 insertions(+), 37 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/timer/ingenic,tcu.txt
 
- v5: New patch
+ v4: New patch in this series. Corresponds to V2 patches 3-4-5 with
+     added content.
 
-diff --git a/arch/mips/boot/dts/ingenic/qi_lb60.dts b/arch/mips/boot/dts/ingenic/qi_lb60.dts
-index 76aaf8982554..85529a142409 100644
---- a/arch/mips/boot/dts/ingenic/qi_lb60.dts
-+++ b/arch/mips/boot/dts/ingenic/qi_lb60.dts
-@@ -9,6 +9,14 @@
- 	chosen {
- 		stdout-path = &uart0;
- 	};
+ v5: - Edited PWM/watchdog DT bindings documentation to point to the new
+       document.
+     - Moved main document to
+       Documentation/devicetree/bindings/timer/ingenic,tcu.txt
+     - Updated documentation to reflect the new devicetree bindings.
+
+diff --git a/Documentation/devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt b/Documentation/devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt
+index 7d9d3f90641b..a722cdde3aa7 100644
+--- a/Documentation/devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt
++++ b/Documentation/devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt
+@@ -1,25 +1,5 @@
+ Ingenic JZ47xx PWM Controller
+ =============================
+ 
+-Required properties:
+-- compatible: One of:
+-  * "ingenic,jz4740-pwm"
+-  * "ingenic,jz4770-pwm"
+-  * "ingenic,jz4780-pwm"
+-- #pwm-cells: Should be 3. See pwm.txt in this directory for a description
+-  of the cells format.
+-- clocks : phandle to the external clock.
+-- clock-names : Should be "ext".
+-
+-
+-Example:
+-
+-	pwm: pwm@10002000 {
+-		compatible = "ingenic,jz4740-pwm";
+-		reg = <0x10002000 0x1000>;
+-
+-		#pwm-cells = <3>;
+-
+-		clocks = <&ext>;
+-		clock-names = "ext";
+-	};
++This documentation has moved; for a description of the devicetree bindings of
++this driver, please refer to ../timer/ingenic,tcu.txt.
+diff --git a/Documentation/devicetree/bindings/timer/ingenic,tcu.txt b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
+new file mode 100644
+index 000000000000..65d125b460aa
+--- /dev/null
++++ b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
+@@ -0,0 +1,147 @@
++Ingenic JZ47xx SoCs Timer/Counter Unit devicetree bindings
++==========================================================
 +
-+	beeper {
-+		compatible = "pwm-beeper";
-+		pwms = <&pwm 4 0 0>;
++For a description of the TCU hardware and drivers, have a look at
++Documentation/mips/ingenic-tcu.txt.
 +
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pins_pwm4>;
++Required properties:
++
++- compatible: Must be one of:
++  * ingenic,jz4740-tcu
++  * ingenic,jz4725b-tcu
++  * ingenic,jz4770-tcu
++- reg: Should be the offset/length value corresponding to the TCU registers
++- #address-cells: Should be <1>;
++- #size-cells: Should be <1>;
++- ranges: Should be one range for the full TCU registers area
++- clocks: List of phandle & clock specifiers for clocks external to the TCU.
++  The "pclk", "rtc", "ext" and "tcu" clocks should be provided.
++- clock-names: List of name strings for the external clocks.
++- #clock-cells: Should be <1>;
++  Clock consumers specify this argument to identify a clock. The valid values
++  may be found in <dt-bindings/clock/ingenic,tcu.h>.
++- interrupt-controller : Identifies the node as an interrupt controller
++- #interrupt-cells : Specifies the number of cells needed to encode an
++  interrupt source. The value should be 1.
++- interrupt-parent : phandle of the interrupt controller.
++- interrupts : Specifies the interrupt the controller is connected to.
++
++Optional properties:
++
++- ingenic,timer-channel: Specifies the TCU channel that should be used as
++  system timer. If not provided, the TCU channel 0 is used for the system timer.
++
++- ingenic,clocksource-channel: Specifies the TCU channel that should be used
++  as clocksource and sched_clock. It must be a different channel than the one
++  used as system timer. If not provided, neither a clocksource nor a
++  sched_clock is instantiated.
++
++
++Children nodes
++==========================================================
++
++
++PWM node:
++---------
++
++Required properties:
++
++- compatible: Must be one of:
++  * ingenic,jz4740-pwm
++  * ingenic,jz4725b-pwm
++- #pwm-cells: Should be 3. See ../pwm/pwm.txt for a description of the cell
++  format.
++- clocks: List of phandle & clock specifiers for the TCU clocks.
++- clock-names: List of name strings for the TCU clocks.
++
++
++Watchdog node:
++--------------
++
++Required properties:
++
++- compatible: Must be one of:
++  * ingenic,jz4740-watchdog
++  * ingenic,jz4780-watchdog
++- clocks: phandle to the RTC clock
++- clock-names: should be "rtc"
++
++
++OST node:
++---------
++
++Required properties:
++
++- compatible: Must be one of:
++  * ingenic,jz4725b-ost
++  * ingenic,jz4770-ost
++- clocks: phandle to the OST clock
++- clock-names: should be "ost"
++- interrupts : Specifies the interrupt the OST is connected to.
++
++
++Example
++==========================================================
++
++#include <dt-bindings/clock/jz4770-cgu.h>
++#include <dt-bindings/clock/ingenic,tcu.h>
++
++/ {
++	tcu: timer@10002000 {
++		compatible = "ingenic,jz4770-tcu";
++		reg = <0x10002000 0x1000>;
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges = <0x0 0x10002000 0x1000>;
++
++		#clock-cells = <1>;
++
++		clocks = <&cgu JZ4770_CLK_RTC
++			  &cgu JZ4770_CLK_EXT
++			  &cgu JZ4770_CLK_PCLK
++			  &cgu JZ4770_CLK_EXT>;
++		clock-names = "rtc", "ext", "pclk", "tcu";
++
++		interrupt-controller;
++		#interrupt-cells = <1>;
++
++		interrupt-parent = <&intc>;
++		interrupts = <27 26 25>;
++
++		watchdog: watchdog@0 {
++			compatible = "ingenic,jz4740-watchdog";
++			reg = <0x0 0x10>;
++
++			clocks = <&tcu TCU_CLK_WDT>;
++			clock-names = "wdt";
++		};
++
++		pwm: pwm@10 {
++			compatible = "ingenic,jz4740-pwm";
++			reg = <0x10 0xff0>;
++
++			#pwm-cells = <3>;
++
++			clocks = <&tcu TCU_CLK_TIMER0
++				  &tcu TCU_CLK_TIMER1
++				  &tcu TCU_CLK_TIMER2
++				  &tcu TCU_CLK_TIMER3
++				  &tcu TCU_CLK_TIMER4
++				  &tcu TCU_CLK_TIMER5
++				  &tcu TCU_CLK_TIMER6
++				  &tcu TCU_CLK_TIMER7>;
++			clock-names = "timer0", "timer1", "timer2", "timer3",
++				      "timer4", "timer5", "timer6", "timer7";
++		};
++
++		ost: timer@e0 {
++			compatible = "ingenic,jz4770-ost";
++			reg = <0xe0 0x20>;
++
++			clocks = <&tcu TCU_CLK_OST>;
++			clock-names = "ost";
++
++			interrupts = <15>;
++		};
 +	};
- };
++};
+diff --git a/Documentation/devicetree/bindings/watchdog/ingenic,jz4740-wdt.txt b/Documentation/devicetree/bindings/watchdog/ingenic,jz4740-wdt.txt
+index ce1cb72d5345..b12ddc0c2b00 100644
+--- a/Documentation/devicetree/bindings/watchdog/ingenic,jz4740-wdt.txt
++++ b/Documentation/devicetree/bindings/watchdog/ingenic,jz4740-wdt.txt
+@@ -1,17 +1,4 @@
+ Ingenic Watchdog Timer (WDT) Controller for JZ4740 & JZ4780
  
- &ext {
-@@ -30,4 +38,10 @@
- 		groups = "uart0-data";
- 		bias-disable;
- 	};
-+
-+	pins_pwm4: pwm4 {
-+		function = "pwm4";
-+		groups = "pwm4";
-+		bias-disable;
-+	};
- };
-diff --git a/arch/mips/jz4740/board-qi_lb60.c b/arch/mips/jz4740/board-qi_lb60.c
-index 60f0767507c6..2db32cb9ed47 100644
---- a/arch/mips/jz4740/board-qi_lb60.c
-+++ b/arch/mips/jz4740/board-qi_lb60.c
-@@ -27,7 +27,6 @@
- #include <linux/power_supply.h>
- #include <linux/power/jz4740-battery.h>
- #include <linux/power/gpio-charger.h>
--#include <linux/pwm.h>
- 
- #include <asm/mach-jz4740/gpio.h>
- #include <asm/mach-jz4740/jz4740_fb.h>
-@@ -391,17 +390,6 @@ static struct jz4740_mmc_platform_data qi_lb60_mmc_pdata = {
- 	.power_active_low	= 1,
- };
- 
--/* beeper */
--static struct pwm_lookup qi_lb60_pwm_lookup[] = {
--	PWM_LOOKUP("jz4740-pwm", 4, "pwm-beeper", NULL, 0,
--		   PWM_POLARITY_NORMAL),
+-Required properties:
+-compatible: "ingenic,jz4740-watchdog" or "ingenic,jz4780-watchdog"
+-reg: Register address and length for watchdog registers
+-clocks: phandle to the RTC clock
+-clock-names: should be "rtc"
+-
+-Example:
+-
+-watchdog: jz4740-watchdog@10002000 {
+-	compatible = "ingenic,jz4740-watchdog";
+-	reg = <0x10002000 0x10>;
+-
+-	clocks = <&cgu JZ4740_CLK_RTC>;
+-	clock-names = "rtc";
 -};
--
--static struct platform_device qi_lb60_pwm_beeper = {
--	.name = "pwm-beeper",
--	.id = -1,
--};
--
- /* charger */
- static char *qi_lb60_batteries[] = {
- 	"battery",
-@@ -450,10 +438,8 @@ static struct platform_device *jz_platform_devices[] __initdata = {
- 	&jz4740_i2s_device,
- 	&jz4740_codec_device,
- 	&jz4740_adc_device,
--	&jz4740_pwm_device,
- 	&jz4740_dma_device,
- 	&qi_lb60_gpio_keys,
--	&qi_lb60_pwm_beeper,
- 	&qi_lb60_charger_device,
- 	&qi_lb60_audio_device,
- };
-@@ -482,10 +468,6 @@ static struct pinctrl_map pin_map[] __initdata = {
- 			"10010000.jz4740-pinctrl", "PD0", pin_cfg_bias_disable),
- 	PIN_MAP_CONFIGS_PIN_DEFAULT("jz4740-mmc.0",
- 			"10010000.jz4740-pinctrl", "PD2", pin_cfg_bias_disable),
--
--	/* PWM pin configuration */
--	PIN_MAP_MUX_GROUP_DEFAULT("jz4740-pwm",
--			"10010000.jz4740-pinctrl", "pwm4", "pwm4"),
- };
- 
- 
-@@ -503,7 +485,6 @@ static int __init qi_lb60_init_platform_devices(void)
- 	spi_register_board_info(qi_lb60_spi_board_info,
- 				ARRAY_SIZE(qi_lb60_spi_board_info));
- 
--	pwm_add_table(qi_lb60_pwm_lookup, ARRAY_SIZE(qi_lb60_pwm_lookup));
- 	pinctrl_register_mappings(pin_map, ARRAY_SIZE(pin_map));
- 
- 	return platform_add_devices(jz_platform_devices,
++This documentation has moved; for a description of the devicetree bindings of
++this driver, please refer to ../timer/ingenic,tcu.txt.
 -- 
 2.11.0
 
