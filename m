@@ -2,590 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIM_INVALID,T_TVD_MIME_EPI autolearn=unavailable
-	autolearn_force=no version=3.4.1
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B3DEB7D085
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 08:44:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6CEFC7D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 09:29:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728357AbeGYJyj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 05:54:39 -0400
-Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:53766 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728222AbeGYJyi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 05:54:38 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id A169C10C0F00;
-        Wed, 25 Jul 2018 01:43:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1532508238; bh=zRex2I7G+BUDfqQjn3xv+mysdbo1m0+RAwiIcmNxdsY=;
-        h=From:Subject:To:CC:References:Date:In-Reply-To:From;
-        b=hWdWClznbbQ8DcTxRIjf+64XJt7Jvel7FP7NvDKkTqRm4luzvIMvYDsecUg0vcyjs
-         FvAaYSf3kYz66joFMazhEt5YMKmHnBcmTXFC4RrOcXZdGXv3oOP8feZBsJ2g8xsrYZ
-         2yMHGiYDvgKwWmlaE3MIqwi5Ac8SF30kB0rokErE1LXjBNMnjAavxrczzl7L57D1vl
-         Wt6KXJ6Z1JqBWuqdgg5CbSvU/1mhnJyFJYWWsCCzxHdwDmjuVXPJnWAh/QbSWUNo4O
-         6nW/dNvMKsWmJpLCiKMwc+UpkDqgiR7g99HMDKM5/Z2ynJ9sQqPRGIJloJRjysgmq2
-         A8MlZy8o9Q0Tg==
-Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
-        by mailhost.synopsys.com (Postfix) with ESMTP id E6F1A55A7;
-        Wed, 25 Jul 2018 01:43:54 -0700 (PDT)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 25 Jul 2018 01:43:53 -0700
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 25 Jul 2018 10:43:52 +0200
-Received: from [10.225.2.53] (10.225.2.53) by DE02WEHTCA.internal.synopsys.com
- (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.361.1; Wed, 25 Jul
- 2018 10:43:51 +0200
-From:   Vitor Soares <Vitor.Soares@synopsys.com>
-Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Vitor soares <Vitor.Soares@synopsys.com>
-CC:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        ijc+devicetree <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Joao Pinto <Joao.Pinto@synopsys.com>
-References: <1532120272-17157-1-git-send-email-soares@synopsys.com>
- <1532120272-17157-2-git-send-email-soares@synopsys.com>
- <CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com>
-Message-ID: <9fdfaf4e-5a20-af81-82ef-0d9e327f9133@synopsys.com>
-Date:   Wed, 25 Jul 2018 09:43:48 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+        id S1728222AbeGYKkD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 06:40:03 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:37518 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728649AbeGYKkD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 06:40:03 -0400
+Received: by mail-lj1-f194.google.com with SMTP id v9-v6so6070391ljk.4
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 02:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=me9fM+mmxyRJ6Ojgqt6pQB6EEtcm3+xP9T9w3oeLyzc=;
+        b=deSWtuG8AtHBs3AeUFKChm0Fu1SA9moEe9eO2ldewd7s4EVu7GVRpozLFbrRLvY7jP
+         TRmRLtiwTfuQ1qmc/m8N2qMNYpGwaB7xAtu08pX5RoIEpyNdshDlpYJazfywCJld+Z1s
+         LKLzc59Qo8RRdlvHqDcJKK38a1ZHaSls2CwjMQwTzLl0Rs/ZUIH2homyv3IzDZDoEbIQ
+         JS5c6RRvE5VEIOq07AC88IqWmiA4u1wU8PnL83N6BQYcSsWLNtOerQlI49esqQXWtY4f
+         LpAcqF8yk2vNsDrOcJf7J08QNg8Bs4MK/v7/znyvwI88cmpuGQaciFQ+MR4vORwhY+lw
+         I5eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=me9fM+mmxyRJ6Ojgqt6pQB6EEtcm3+xP9T9w3oeLyzc=;
+        b=WQ3dbDXgntRiTTqb9hX4HGC+s5AsbjgeQcIxXwCKVvF9gZuFcggqUSNioba8kfnfeo
+         EZewFjizu5Y8PO3cL34X4vara21Z9qWU7ZhtDSdxlKKddVD8HiCZqPgIewKLfHPNQvT3
+         4Q5jRjsNJ0VmaZnFsBYTt9QuE6FZxAUcYtBePqrPSYAyWLMs/ngaUAuR41UK42Erv9UP
+         h8VD6y8vuqUeTeYkRAXfaXT82eLYx0CYsztsGV5gO6wvjFHL4X5FkmxGPot9Y6QtSJQG
+         FxSHDT2dT//C5u1q/Slsu1/Ayz47XQgoGSQ8JwIxLF9jvQfwiItEa6qQG0yoTkeRAXfS
+         xOag==
+X-Gm-Message-State: AOUpUlGy7uQCmG75uV0vkwdEwci7HmOX0rcCojToPAhN/5ZWZ3gabFab
+        joaF8u3V1KQyhSEV/eNg2xTGAQ==
+X-Google-Smtp-Source: AAOMgpfncEKunmP6XkBZ593ZGec10pNNyuxeGQPl3NXvoBat6zJBtujP01C2KPDNNq40cuyTqTx4DA==
+X-Received: by 2002:a2e:4186:: with SMTP id d6-v6mr14319831ljf.36.1532510951879;
+        Wed, 25 Jul 2018 02:29:11 -0700 (PDT)
+Received: from [192.168.0.126] ([31.173.87.217])
+        by smtp.gmail.com with ESMTPSA id m8-v6sm2710895ljj.10.2018.07.25.02.29.10
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 25 Jul 2018 02:29:11 -0700 (PDT)
+Subject: Re: [PATCH 1/4] docs: bpf: Rename README.rst to index.rst
+To:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20180725022926.8993-1-me@tobin.cc>
+ <20180725022926.8993-2-me@tobin.cc>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <0141716c-e909-1429-68fe-6da71d4c6677@cogentembedded.com>
+Date:   Wed, 25 Jul 2018 12:29:10 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com>
-Content-Type: multipart/alternative;
-        boundary="------------99CD8D8374B6CE31411AECC4"
-Content-Language: pt-PT
-X-Originating-IP: [10.225.2.53]
+In-Reply-To: <20180725022926.8993-2-me@tobin.cc>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---------------99CD8D8374B6CE31411AECC4
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Hello!
 
-Hi Andy,
+On 7/25/2018 5:29 AM, Tobin C. Harding wrote:
 
+> Recently bpf/ docs were converted to us RST format.  'README.rst' was
 
-Às 4:35 PM de 7/21/2018, Andy Shevchenko escreveu:
-> On Fri, Jul 20, 2018 at 11:57 PM, Vitor soares
-> <Vitor.Soares@synopsys.com> wrote:
->> This patch add driver for Synopsys DesignWare IP on top of
->> I3C subsystem patchset proposal V6
-> Some of comments below related to style.
-> But unaligned helpers I think is good to use.
->
->> +#include <linux/bitops.h>
+    s/us/use/?
 
-Bit operations API eg: GENMASK...
+> created but in order to fit in with the Sphinx build system this file
+> should be named 'index.rst'.  Rename file, fixes to integrate into Sphinx
+> build system in following patches.
+> 
+> docs: Rename Documentation/bpf/README.rst to Documentation/bpf/index.rst
+> 
+> Signed-off-by: Tobin C. Harding <me@tobin.cc>
+[...]
 
->> +#include <linux/clk.h>
+MBR, Sergei
 
-Clock API eg: master->core_clk = devm_clk_get(&pdev->dev, "core_clk");
-
->> +#include <linux/completion.h>
-
-Completion API eg: struct completion
-
->> +#include <linux/err.h>
-
-Check kernel pointer eg: return PTR_ERR(master->regs);
-
->> +#include <linux/errno.h>
-
-Error codes eg: return -ENOTSUPP;
-
->> +#include <linux/i3c/master.h>
-
-I3C Master API eg: i3c_master_register()
-
->> +#include <linux/init.h>
-
-Not needed.
-
->> +#include <linux/interrupt.h>
-
-Interrupt API eg: devm_request_irq().
-
->> +#include <linux/io.h>
->> +#include <linux/ioport.h>
-
-Used to get io resource.
-
->> +#include <linux/iopoll.h>
- this function: readl_poll_timeout_atomic().
-
->> +#include <linux/module.h>
-
-Module API.
-
->> +#include <linux/platform_device.h>
-
-Platform driver API.
-
->> +#include <linux/reset.h>
-
-Reset API.
-
-> All of them required? Why?
-
-There is some header files that are already included by others header files.
-Should I add them too? it there any rule for that?
-Thank for the advice.
-
->> +       default:
-> Just return false here?
-
-Yes, it makes more sense.
-
->> +               break;
->> +       }
->> +
->> +       return false;
->> +       for (i = 0; i < nbytes; i += 4) {
->> +               u32 data = 0;
->> +
->> +               for (j = 0; j < 4 && (i + j) < nbytes; j++)
->> +                       data |= (u32)bytes[i + j] << (j * 8);
-> NIH of get_unaligned_le32()
->
->> +
->> +               writel(data, master->regs + RX_TX_DATA_PORT);
->> +       }
->> +}
->> +
->> +static void dw_i3c_master_read_rx_fifo(struct dw_i3c_master *master,
->> +                                      u8 *bytes, int nbytes)
->> +{
->> +       int i, j;
->> +
->> +       for (i = 0; i < nbytes; i += 4) {
->> +               u32 data;
->> +
->> +               data = readl(master->regs + RX_TX_DATA_PORT);
->> +
->> +               for (j = 0; j < 4 && (i + j) < nbytes; j++)
->> +                       bytes[i + j] = data >> (j * 8);
-> Ditto put_unaligned_le32() ?
->
->> +       }
->> +}
-> I'm wondering what else you open coded instead of using helpers we already have.
-
-I will see how it works to implement.
-
->> +               writel(cmd->cmd_hi, master->regs + COMMAND_QUEUE_PORT);
->> +               writel(cmd->cmd_lo, master->regs + COMMAND_QUEUE_PORT);
-> hmm... writesl()?
-
-Is there any advantage here?
-
-Probably I can use it to fill the TX buffer with this.
-
->> +       info->pid = (u64)readl(master->regs + SLV_PID_VALUE);
-> Why explicit casting?
-
-info->pid is u64 size.
-
->
->> +       u32 r;
->> +
->> +
->> +       core_rate = clk_get_rate(master->core_clk);
-> Too many blank lines in between.
-
-For me in that way it's better to filter code parts. Do you think that is not
-readable?
-
->> +
->> +
-> Ditto.
->
->> +       /* Prepare DAT before launching DAA. */
->> +       for (pos = 0; pos < master->maxdevs; pos++) {
->> +               if (olddevs & BIT(pos))
->> +                       continue;
->> +
->> +               ret = i3c_master_get_free_addr(m, last_addr + 1);
->> +               if (ret < 0)
->> +                       return -ENOSPC;
->> +               master->addrs[pos] = ret;
->> +               p = (ret >> 6) ^ (ret >> 5) ^ (ret >> 4) ^ (ret >> 3) ^
->> +                   (ret >> 2) ^ (ret >> 1) ^ ret ^ 1;
->> +               p = p & 1;
-> Is it parity calculus? Do we have something implemented in kernel already?
->
-> Btw, https://urldefense.proofpoint.com/v2/url?u=https-3A__graphics.stanford.edu_-7Eseander_bithacks.html-23ParityNaive&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=qVuU64u9x77Y0Kd0PhDK_lpxFgg6PK9PateHwjb_DY0&m=5FpGHBbT8tYA6PB4RT_9O6PJk3v-wYcy1MV59xoqK4I&s=FSJ3EcuoxPtRJWmsk9Yt4s_UH9kxFBam01Xvas2ZFdo&e=
-> offered this
->
-> v ^= v >> 4;
-> v &= 0xf;
-> v = (0x6996 >> v) & 1;
-
-I search into the kernel and I didn't find any function for that. In your
-opinion what shoud I use?
-
-
-Thanks for your feedback.
-
-Regards,
-Vitor Soares
-
-
---------------99CD8D8374B6CE31411AECC4
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>Hi Andy,<br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">Às 4:35 PM de 7/21/2018, Andy
-      Shevchenko escreveu:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <pre wrap="">On Fri, Jul 20, 2018 at 11:57 PM, Vitor soares
-<a class="moz-txt-link-rfc2396E" href="mailto:Vitor.Soares@synopsys.com">&lt;Vitor.Soares@synopsys.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">This patch add driver for Synopsys DesignWare IP on top of
-I3C subsystem patchset proposal V6
-</pre>
-      </blockquote>
-      <pre wrap="">Some of comments below related to style.
-But unaligned helpers I think is good to use.
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/bitops.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Bit operations API eg: GENMASK...<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/clk.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Clock API eg: master-&gt;core_clk = devm_clk_get(&amp;pdev-&gt;dev,
-    "core_clk");<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/completion.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Completion API eg: struct completion<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/err.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Check kernel pointer eg: return PTR_ERR(master-&gt;regs);<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/errno.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Error codes eg: return -ENOTSUPP;<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/i3c/master.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    I3C Master API eg: i3c_master_register()<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/init.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Not needed.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/interrupt.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Interrupt API eg: devm_request_irq().<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/io.h&gt;
-+#include &lt;linux/ioport.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Used to get io resource.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/iopoll.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-     this function: readl_poll_timeout_atomic().<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/module.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Module API.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/platform_device.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Platform driver API.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+#include &lt;linux/reset.h&gt;</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-    Reset API.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite"> </blockquote>
-      <pre wrap="">All of them required? Why?</pre>
-    </blockquote>
-    <br>
-    There is some header files that are already included by others
-    header files. Should I add them too? it there any rule for that?<br>
-    Thank for the advice.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+       default:
-</pre>
-      </blockquote>
-      <pre wrap="">Just return false here?</pre>
-    </blockquote>
-    <br>
-    Yes, it makes more sense.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+               break;
-+       }
-+
-+       return false;
-</pre>
-      </blockquote>
-      <blockquote type="cite">
-        <pre wrap="">+       for (i = 0; i &lt; nbytes; i += 4) {
-+               u32 data = 0;
-+
-</pre>
-      </blockquote>
-      <blockquote type="cite">
-        <pre wrap="">+               for (j = 0; j &lt; 4 &amp;&amp; (i + j) &lt; nbytes; j++)
-+                       data |= (u32)bytes[i + j] &lt;&lt; (j * 8);
-</pre>
-      </blockquote>
-      <pre wrap="">NIH of get_unaligned_le32()
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">+
-+               writel(data, master-&gt;regs + RX_TX_DATA_PORT);
-+       }
-+}
-+
-+static void dw_i3c_master_read_rx_fifo(struct dw_i3c_master *master,
-+                                      u8 *bytes, int nbytes)
-+{
-+       int i, j;
-+
-+       for (i = 0; i &lt; nbytes; i += 4) {
-+               u32 data;
-+
-+               data = readl(master-&gt;regs + RX_TX_DATA_PORT);
-+
-</pre>
-      </blockquote>
-      <blockquote type="cite">
-        <pre wrap="">+               for (j = 0; j &lt; 4 &amp;&amp; (i + j) &lt; nbytes; j++)
-+                       bytes[i + j] = data &gt;&gt; (j * 8);
-</pre>
-      </blockquote>
-      <pre wrap="">Ditto put_unaligned_le32() ?
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">+       }
-+}
-</pre>
-      </blockquote>
-      <pre wrap="">I'm wondering what else you open coded instead of using helpers we already have.</pre>
-    </blockquote>
-    <br>
-    I will see how it works to implement.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+               writel(cmd-&gt;cmd_hi, master-&gt;regs + COMMAND_QUEUE_PORT);
-+               writel(cmd-&gt;cmd_lo, master-&gt;regs + COMMAND_QUEUE_PORT);
-</pre>
-      </blockquote>
-      <pre wrap="">hmm... writesl()?</pre>
-    </blockquote>
-    <br>
-    Is there any advantage here?<br>
-    <br>
-    Probably I can use it to fill the TX buffer with this.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <blockquote type="cite">
-        <pre wrap="">+       info-&gt;pid = (u64)readl(master-&gt;regs + SLV_PID_VALUE);
-</pre>
-      </blockquote>
-      <pre wrap="">Why explicit casting?</pre>
-    </blockquote>
-    <br>
-    info-&gt;pid is u64 size.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <pre wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">+       u32 r;
-+
-+
-+       core_rate = clk_get_rate(master-&gt;core_clk);
-</pre>
-      </blockquote>
-      <pre wrap="">Too many blank lines in between.</pre>
-    </blockquote>
-    <br>
-    For me in that way it's better to filter code parts. Do you think
-    that is not readable? <br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com">
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">+
-+
-</pre>
-      </blockquote>
-      <pre wrap="">Ditto.
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">+       /* Prepare DAT before launching DAA. */
-+       for (pos = 0; pos &lt; master-&gt;maxdevs; pos++) {
-+               if (olddevs &amp; BIT(pos))
-+                       continue;
-+
-+               ret = i3c_master_get_free_addr(m, last_addr + 1);
-+               if (ret &lt; 0)
-+                       return -ENOSPC;
-+               master-&gt;addrs[pos] = ret;
-</pre>
-      </blockquote>
-      <blockquote type="cite">
-        <pre wrap="">+               p = (ret &gt;&gt; 6) ^ (ret &gt;&gt; 5) ^ (ret &gt;&gt; 4) ^ (ret &gt;&gt; 3) ^
-+                   (ret &gt;&gt; 2) ^ (ret &gt;&gt; 1) ^ ret ^ 1;
-+               p = p &amp; 1;
-</pre>
-      </blockquote>
-      <pre wrap="">Is it parity calculus? Do we have something implemented in kernel already?
-
-Btw, <a class="moz-txt-link-freetext" href="https://urldefense.proofpoint.com/v2/url?u=https-3A__graphics.stanford.edu_-7Eseander_bithacks.html-23ParityNaive&amp;d=DwIBaQ&amp;c=DPL6_X_6JkXFx7AXWqB0tg&amp;r=qVuU64u9x77Y0Kd0PhDK_lpxFgg6PK9PateHwjb_DY0&amp;m=5FpGHBbT8tYA6PB4RT_9O6PJk3v-wYcy1MV59xoqK4I&amp;s=FSJ3EcuoxPtRJWmsk9Yt4s_UH9kxFBam01Xvas2ZFdo&amp;e=">https://urldefense.proofpoint.com/v2/url?u=https-3A__graphics.stanford.edu_-7Eseander_bithacks.html-23ParityNaive&amp;d=DwIBaQ&amp;c=DPL6_X_6JkXFx7AXWqB0tg&amp;r=qVuU64u9x77Y0Kd0PhDK_lpxFgg6PK9PateHwjb_DY0&amp;m=5FpGHBbT8tYA6PB4RT_9O6PJk3v-wYcy1MV59xoqK4I&amp;s=FSJ3EcuoxPtRJWmsk9Yt4s_UH9kxFBam01Xvas2ZFdo&amp;e=</a>
-offered this
-
-v ^= v &gt;&gt; 4;
-v &amp;= 0xf;
-v = (0x6996 &gt;&gt; v) &amp; 1;</pre>
-    </blockquote>
-    <br>
-    I search into the kernel and I didn't find any function for that. In
-    your opinion what shoud I use?<br>
-    <br>
-    <br>
-    Thanks for your feedback.<br>
-    <br>
-    Regards,<br>
-    Vitor Soares<br>
-    <br>
-  </body>
-</html>
-
---------------99CD8D8374B6CE31411AECC4--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
