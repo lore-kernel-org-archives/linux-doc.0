@@ -5,100 +5,89 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 13C4F7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 03:28:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 005C27D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 03:50:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725904AbeGYEhw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 00:37:52 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:57851 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725752AbeGYEhw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 00:37:52 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id B9249219FE;
-        Tue, 24 Jul 2018 23:28:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 24 Jul 2018 23:28:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=fA19wY/Bi1lAq28NUl0ZR0o9ezUpg4WvJiOXsCGzz8Q=; b=GQ6WFuhZ
-        Is9mnaRxPYiVrt4nfdUoHuDwj+9Ifbc2VGejXT8i8/Fyda7/Khsp6RxFEys7h0zy
-        C7tSqmjDNSAvrY4Ufizqd5YGulU+Cv1ZE6R74svv4txcViEQu8ASi7J0LLzqGAaQ
-        P8bOPjgx1wb+2ZNMYGGIsZjm96lr7eMDflF0FOOxYSlr0P4ZMbWVClU+92sClDP5
-        fRvGSxXDz6O3WPaqXWk2U+6rdUvn0WdH4VYBKn8gIP5tpyCD9hDN4RnL7spDnFb3
-        JrrpzShm8TN1WmDVQ8TtJ4M1eKmp4ml246XmpxaFNZO/6kCP2GIKcqya3EukYzt7
-        taWFR8BCHl7L5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=fA19wY/Bi1lAq28NUl0ZR0o9ezUpg
-        4WvJiOXsCGzz8Q=; b=HWc6eVGfaJwbIxuhNfztFC93HgZElt73H16Ex2VbYnCYU
-        UOS8eFF2etJ2nMlTFNasYvb5gBn63zKS/U3E4/6U7ZrDZ78lcXzZmM83stNCcV0P
-        YK+Eb08lZ7uNn55dKhdqHqgPL1o3VkadTQnolzREwiX1WOq0+iDjBXXQXKPN8zHN
-        VICaic/61WXasik2BeawcRT3Ea9W9/D8W3pngTdGMLr2D3cFskh3Wb+N8D+LtzOo
-        qGuGg+sAgV79pdUWHEwIwMY/M3TtDu7GoKWn3mimpCj73x68uQLmtpuiH95Mihdk
-        Nf4vKxLGiVPXcWck9034u1JauD3Ccv67/edLhJD8A==
-X-ME-Proxy: <xmx:Tu5XWyMdmqn8fJpAI-Oyiet2yIROT_eIAGn83euWqlDWqJP4Hl-Kng>
-    <xmx:Tu5XW7Dk-Xvvzs2zoGMMTBh5_s1FOuE3FwofK1UBLf8ieD8uiuiV2g>
-    <xmx:Tu5XW-PKxsyJkMEnTQoCUnESzm2IDCEK6UhygM-ZDlcB_qZB1DvkWw>
-    <xmx:Tu5XW6c3Hig17tjXp7dTgJq65gcbI1ndvQHvjdKjyQDz-eYEL0vX5A>
-    <xmx:Tu5XW36vl_jIpDqVqXvog2RiAIZN1ilxHxMvVZne8uVL1xK8B4EXmg>
-    <xmx:Tu5XWyEguxmXsDY3h8rYr966u9eINDbiZ7WNoF0_i5HVAFc1X-wu7Q>
-X-ME-Sender: <xms:Tu5XW48vbwEAc2-2xJbxdH_SrA_0ZM_ti6a9hb_F7ssVB9nF1NZqsA>
-Received: from localhost (ppp121-44-239-245.bras2.syd2.internode.on.net [121.44.239.245])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A2F5BE4519;
-        Tue, 24 Jul 2018 23:28:13 -0400 (EDT)
-Date:   Wed, 25 Jul 2018 13:28:10 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 0/2] docs: net: Convert netdev-FAQ to RST
-Message-ID: <20180725032810.GA6067@eros>
-References: <20180725025005.14332-1-me@tobin.cc>
+        id S1727012AbeGYFA1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 01:00:27 -0400
+Received: from mail-it0-f68.google.com ([209.85.214.68]:34649 "EHLO
+        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726878AbeGYFA1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 01:00:27 -0400
+Received: by mail-it0-f68.google.com with SMTP id d70-v6so16572977ith.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jul 2018 20:50:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=Rr3MHkYSW9aiKM7ASTwIA8/2DdgLrYSk+6ohTH7Vjjs=;
+        b=QRmUWsX8d/WBHFEZF+CZoB2OXAV1NCDQbcQ5RFe3WiPw/N9UqyoHzoaWCKgegs6oAD
+         IzUk1EX5WEJ84e5B144Ra2zg9NZp/K8NGx3tGcp8hBucqWdv/d/FXe/3vFVHIGuSucmI
+         QPL01A94/Hzu0A8v10Y2KEaYfPwAwfENnuRZo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=Rr3MHkYSW9aiKM7ASTwIA8/2DdgLrYSk+6ohTH7Vjjs=;
+        b=UEH+6kR40FBvPvjLaMXe9wc2cDGVPjD8p1PhpVDZCOESGNhKeMERhN/DkK8yyYf0SQ
+         XHbZsBEP28xtWQYWsEcc1YwPH9B1Er5mmyF/BEnQ2CqSnHyeVdyrL8O6AwpaeksaYVbs
+         uTuWwUG/Lf0zdv6graqcoOIRqtB4tlcyvg4thf/X/TgBFAD1MAHWFv5xh/sy7ZzGtzmV
+         c7dv3TzkB6LFje5GCYCv3qv+93ZfRlxjR+Mnl3gD5+0aTa7pS07vfoDLYWOB7CJ9aWIR
+         BM4UuOe/ytnNH/Z0ymVk2ZA8pJLhm8r6uqfJsDLzEzO+43z8gfEVwaLnmZYcUNTvaxHv
+         a81Q==
+X-Gm-Message-State: AOUpUlH41jt6di0V9N/BrLsFLh++mwPbvScbA4dj1nyC2j2mGQU91KFN
+        OHSqYpjDt7GsFrv96PVx6L+YMllFlePhZJZC6QbefA==
+X-Google-Smtp-Source: AAOMgpchu2zeA03XUyMwuNMi326GxcjALejxPYxON/d/ZF63bwuzUFPvEsxsacLxxcKn7lo3c6Ku7GpO60zT2H3JVfQ=
+X-Received: by 2002:a24:62d0:: with SMTP id d199-v6mr4612162itc.91.1532490645589;
+ Tue, 24 Jul 2018 20:50:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180725025005.14332-1-me@tobin.cc>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Received: by 2002:a02:4441:0:0:0:0:0 with HTTP; Tue, 24 Jul 2018 20:50:45
+ -0700 (PDT)
+In-Reply-To: <20180724173544.18876-1-joel@joelfernandes.org>
+References: <20180724173544.18876-1-joel@joelfernandes.org>
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+Date:   Wed, 25 Jul 2018 09:20:45 +0530
+Message-ID: <CAKohponm0CbBNLY19B-9ccfe3d3jreSJLDePEROR+w1=1JZEWw@mail.gmail.com>
+Subject: Re: [PATCH v3] cpufreq: trace frequency limits change
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Ruchi Kandoi <kandoiruchi@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Steven Rostedt <rostedt@goodmis.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 25, 2018 at 12:50:03PM +1000, Tobin C. Harding wrote:
+On 24 July 2018 at 23:05, Joel Fernandes <joel@joelfernandes.org> wrote:
+> From: Ruchi Kandoi <kandoiruchi@google.com>
+>
+> systrace used for tracing for Android systems has carried a patch for
+> many years in the Android tree that traces when the cpufreq limits
+> change.  With the help of this information, systrace can know when the
+> policy limits change and can visually display the data. Lets add
+> upstream support for the same.
+>
+> Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> ---
+> Viresh since I changed the patch, could you Ack it again?
+>
+> v2->v3: reduce parameters to tracepoint call (Steve)
+> v1->v2: correct ordering of min/max (Viresh)
+>
+>  Documentation/trace/events-power.rst |  1 +
+>  drivers/cpufreq/cpufreq.c            |  1 +
+>  include/trace/events/power.h         | 25 +++++++++++++++++++++++++
+>  3 files changed, 27 insertions(+)
 
-Please drop this.  I've forgotten to deal with the links from
-Documentation/*.rst to Documentation/networking/netdev-FAQ.txt
-
-
-Since I've already botched it can I ask for guidance here.  The problem
-is updating the links means making changes that will cause merge
-conflicts if they go through net-dev tree (since most references are in
-Documentation/*.rst).  But we can't go through docs tree either since
-that could lead to merge conflicts later as well.
-
-My idea was to leave netdev-FAQ.txt in place but with all content
-removed except
-
-  'This file has moved to netdev-FAQ.rst. This file will be removed once
-  netdev RST conversion is complete'
-
-And then do the same for each file conversion under
-Documentation/networking/.  Once all the files are converted a single
-patch set updating all references into Documentation/networking/*.rst
-could be posted to the docs tree.
-
-One other idea was to leave a symlink netdev-FAQ.txt -> netdev-FAQ.rst
-but I don't know how that would play with the build system (docs or
-otherwise).
-
-
-thanks,
-Tobin.
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
