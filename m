@@ -5,49 +5,49 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0C60F7DF74
+	by archive.lwn.net (Postfix) with ESMTP id 4BEEB7DF80
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 02:30:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388524AbeGYDjb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Jul 2018 23:39:31 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:34445 "EHLO
+        id S2388577AbeGYDji (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Jul 2018 23:39:38 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:53285 "EHLO
         out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388446AbeGYDjb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 23:39:31 -0400
+        by vger.kernel.org with ESMTP id S2388446AbeGYDjh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jul 2018 23:39:37 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0967321CEC;
-        Tue, 24 Jul 2018 22:30:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Tue, 24 Jul 2018 22:30:06 -0400
+        by mailout.nyi.internal (Postfix) with ESMTP id D540421BF4;
+        Tue, 24 Jul 2018 22:30:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 24 Jul 2018 22:30:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
         :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Pdqg+bsNhCBjTZG1X
-        ZolszNuUd1LmLWnXJntJhJgE4U=; b=IWObyHm3nYf92kE/cmLCSpbRBHtTI0xfD
-        ACB5RG97McuURnOvmX55WqafyE0f5vpa9WK/LShd7ekTr1tUCbz6z2dhtaKK8Q3y
-        E8hXHoqAHg1hG6hb2bHyrARlv1IhB4e/+e5CyTWU8LHli8BzkdbFVnOoCun4F5o/
-        f1K5GbGfvEMhEiTncvNSA7bZV1wfORZ+Wvmq/GXWphUXeIekpUMCQfnKMfL3mRyI
-        711ZBHGP2zyfmXVFyHm27RZ2Va+tLVpQtQizgC8b+GF87b+O6zYy3po5aaq1bGeS
-        jgM4IqaU9BD/M30EgrQvpq80nSOqVzXjmXMsGBBflkentbNarG0wA==
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=r5bh0PHJe3rhT0Dlp
+        GtTL2v0AdRo0Kq4/FgSdnx8QsQ=; b=HL6Y3JTETvH+hnho3U2VLDYbq57lGvOqs
+        Ar/TNNMv4RAhwAUXKshproF8LKx7jA3gk0RUJOH4LtxDB7jcskPgB4Xz4wAaz9dI
+        0kQN87Zi7kzuDn/PX+ZUtIMD1tqgEFjAUG1j3ibpQM0e29S4i4ADkD6FMhLiXKq2
+        IvJbRpXy0egU6jdmgeWadSwyVYywmKWJN6Md8qfa2XpM6OVusUjH6toE9O5hlQQh
+        pOEHOLb1fHBc8QlKGjon9Ws5q060vJOMODubIeqjkpOy24yMlIS2JvGpzivQAUtZ
+        cT7DlYSVifWgIvKPct7N65DLJ7cmdTtJkw2VvktRneu7lBCPh9FQQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:date:from:in-reply-to:message-id
         :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=Pdqg+bsNhCBjTZG1XZolszNuUd1LmLWnXJntJhJgE4U=; b=W03Zt8de
-        0wsbq3KZ0d1CbHrmw9hZpzyGmFFLpSzhdxImKXMWGc83q46yJyG7uVtsNS0ahVgy
-        tHowlz2c5RUZiCjtjzQqvZ9pns53A4TrfLl41jWaYL4MKHy3jCK+N9d238rEuJGt
-        5iAYztcPCHhGJBEOS131bxPS40gnHeWAb+y7EMvj3Ds3G7vtvrIvOXvOuNcZK7HT
-        Y4553BrAvKFZYhma5v/GehZNLc070/qdJ8YQLufhtUrbY9ve4JN151zMBvhz5I2H
-        pTrqKyvDGMmpKYLnOUpEL2fa63SbxP5Q76Ym3vtsxT2YDjhBjOiVv97TPAjzts9b
-        ZqswpFmh3G5syA==
-X-ME-Proxy: <xmx:reBXWzpO0tsL5mqD04Oc-iE-UQrmZLGJssjeKX_vEt0a_SxkcZvOTQ>
-    <xmx:reBXW6ko2Id8bkbSnCD3uAA6AWc6GR84iuXrOn-_dmXwqu9ZfBGHwg>
-    <xmx:reBXW71DRorlNXuwLJa2x14DVhvgloM0Sl_bTJEqGk_bhXERu7GbHw>
-    <xmx:reBXW_QzQYEcG9_mHGaIo1dL0untwv09cZBhHk_VVA2non98iYlJ2g>
-    <xmx:reBXW8xUGPuf9ub1fnzkK1E6K-hIi_QWru2kR9am9bOn_kePq5h_VA>
-    <xmx:reBXW6U-sFsy-f-yzWh3nebtXq-bPX1T6IRuNLoq2UEiKfgWOW7xnw>
-X-ME-Sender: <xms:reBXW31lBU96RC6xqEQABQ2bB3jtFAPjgl4wIBhu5GKs_suKoOYeLw>
+        fm3; bh=r5bh0PHJe3rhT0DlpGtTL2v0AdRo0Kq4/FgSdnx8QsQ=; b=OXVEcKxL
+        87qAZQ8WuijRUAmV+zDM5LjS4tLa3+xRTGRq6/vX8I+/ji//t0Q0Cxt+NAeJs5+B
+        c1KmN6YDnh1LvNI9UvIaX+6ebXDVz3Ys7pELYm6fcHTACIOC6ijPnPOIJqaXFQNs
+        E3Uhwf06sE0PtODDnl6ExNta2mioJNIgK3AaTH1K03Gsj10HtAUGKyR28bs0TKbJ
+        sjBONUHrhUq9sQbaq0LmO33Wvi15tESXlBZBghYLNjTRzkYOM0SD8Vs0YezjCT3s
+        +qBoavyRWxo9I3fZZae6EtBAgzpkjVM5cX3+BXMriy31ex0Axnb+bbOnuTNJL84G
+        joZXlXC40cqxOg==
+X-ME-Proxy: <xmx:tOBXW3gb6NnCBQtpuyGQn72z8IUYfjD_HO1jzNQc0pTMEGqlz-aMcQ>
+    <xmx:tOBXW6KGUE4U-SkfQwzeowYQ2hETkrxHdZQgpkBHBc_DWpHzTkD1-A>
+    <xmx:tOBXW8qGUvWnyhVe7rSqQdUR2EKM-NqQgh4jGEDweqJcMBAn5AmZHA>
+    <xmx:tOBXW3p9mk3VesYURDGWzHigOlGaG7bssqPqNElzmfjlRuEEc7LFdQ>
+    <xmx:tOBXWyHQZ2tWJkNHSd4De2_kL91Iw74sFOJdV9NKCvE2i7ddCJZHOg>
+    <xmx:tOBXW0MwKUQCSa2Mcx9vSLIiq4i1j1-SEnMwE5MIV-L5VVrYV8O6IA>
+X-ME-Sender: <xms:tOBXWyEM4osijjnJBXl5J8qiTzbWz68sk5yQJsr6oQSWS1F-YvzzAw>
 Received: from localhost (ppp121-44-239-245.bras2.syd2.internode.on.net [121.44.239.245])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 952701026A;
-        Tue, 24 Jul 2018 22:30:04 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 0C48AE454E;
+        Tue, 24 Jul 2018 22:30:11 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     "Tobin C. Harding" <me@tobin.cc>,
@@ -55,9 +55,9 @@ Cc:     "Tobin C. Harding" <me@tobin.cc>,
         Daniel Borkmann <daniel@iogearbox.net>,
         linux-doc@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] docs: bpf: Add toctree to index
-Date:   Wed, 25 Jul 2018 12:29:24 +1000
-Message-Id: <20180725022926.8993-3-me@tobin.cc>
+Subject: [PATCH 4/4] docs: bpf: Capitalise document heading
+Date:   Wed, 25 Jul 2018 12:29:26 +1000
+Message-Id: <20180725022926.8993-5-me@tobin.cc>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180725022926.8993-1-me@tobin.cc>
 References: <20180725022926.8993-1-me@tobin.cc>
@@ -66,40 +66,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Recently bpf/ docs were converted to us RST format.  bp/index.rst was
-created out of README but toctree was not added to include files within
-Documentation/bpf/
+The majority of files in the kernel documentation index use
+capitalisation for all words, especially the shorter ones.  BPF docs
+better fit in with the rest of the documentation if the heading is all
+capitalised.
 
-Add toctree to Documentation/bpf/index.rst
+Capitalise document heading.
 
 Signed-off-by: Tobin C. Harding <me@tobin.cc>
 ---
- Documentation/bpf/index.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/bpf/index.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-index b9a80c9e9392..ab2ff13a809b 100644
+index ab2ff13a809b..00a8450a602f 100644
 --- a/Documentation/bpf/index.rst
 +++ b/Documentation/bpf/index.rst
-@@ -22,14 +22,14 @@ Frequently asked questions (FAQ)
+@@ -1,5 +1,5 @@
+ =================
+-BPF documentation
++BPF Documentation
+ =================
  
- Two sets of Questions and Answers (Q&A) are maintained.
- 
--* QA for common questions about BPF see: bpf_design_QA_
-+.. toctree::
-+   :maxdepth: 1
- 
--* QA for developers interacting with BPF subsystem: bpf_devel_QA_
-+   bpf_design_QA
-+   bpf_devel_QA
- 
- 
- .. Links:
--.. _bpf_design_QA: bpf_design_QA.rst
--.. _bpf_devel_QA:  bpf_devel_QA.rst
- .. _Documentation/networking/filter.txt: ../networking/filter.txt
- .. _man-pages: https://www.kernel.org/doc/man-pages/
- .. _bpf(2): http://man7.org/linux/man-pages/man2/bpf.2.html
+ This directory contains documentation for the BPF (Berkeley Packet
 -- 
 2.17.1
 
