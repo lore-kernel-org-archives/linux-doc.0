@@ -5,67 +5,64 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 51ADB7D085
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 22:28:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D6E667D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 22:31:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731358AbeGYXmO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 19:42:14 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:34475 "EHLO
+        id S1731503AbeGYXpZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 19:45:25 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:45793 "EHLO
         wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731174AbeGYXmO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 19:42:14 -0400
+        by vger.kernel.org with ESMTP id S1731174AbeGYXpY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 19:45:24 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 0EE7A2AF;
-        Wed, 25 Jul 2018 18:28:27 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 25 Jul 2018 18:28:28 -0400
+        by mailout.west.internal (Postfix) with ESMTP id 532D12A6;
+        Wed, 25 Jul 2018 18:31:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 25 Jul 2018 18:31:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
         :content-type:date:from:in-reply-to:message-id:mime-version
         :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=DHpOAX0LkWOMs1WvzcdbLUQdxf3lKncdRF1j0JE14g0=; b=L5yJ9/Q0
-        77sWAFHPzSHV+Jkl/UaRUU54WGX2+3PzplV1i+12Nn0uiRYcnorQEh45jzIbDnVm
-        HqMxH0iyQKpidIhTr+OZg//EXEg54CdGRsSVNN2VNRubErlJgXCldYPJJ2lRpJg6
-        HlMYYYdn1VvlO/Mcjnz+rVdDYE7jW3fMgUVsNQeb82QLEvaVoVBliWthF9OtOikC
-        ehmiDCHu7rTw5Gp/rHRQyeN7v5GSBDiyzx8CZFk4GdJYHFJrjY85z8AFkf4p0ib2
-        5C6EHAZm2nRV8EKJrp1kfY7UvBhUGfl86lWQ6gV7yIVZDrBzrSS9f8dyYvWyG0/h
-        8nf5vho6hV4KKg==
+        fm3; bh=YSVJe6pHvZOo02PXOPyxpWSpCeK8JSyEq9/wvgIZOeg=; b=OJkhnxqN
+        SqK+DX8PLgEMFFu2IcfqduRICoWbp8j6B/EpIbSsBzxki5MXJKO5S0U34O7toOQ3
+        9v3v1RoRm5dwlG3bju87YnkrZmmvujXZu3dBaCiEQhQY9UaIYAVPOkXQKcWSSJ1m
+        IYQVMAy7hPUCjdLeDqJG7oDy3vONO48jYDOe4SyK+g1b+G2AcVqkDQCRWNyGxZ+H
+        42VPbUYAiJLJHGnrQbv1ocjvLqGCN/P2ddB+7heUPogfC8TKjCEJULaVIZ946lfN
+        XG4B0tUyYCzYPpaoAHN1Sbl4ORZazlW94L5Mx+JZBdYnnRrQsHXKKxAe6QgMY5xH
+        MV3m69J9QYbF7w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=DHpOAX0LkWOMs1WvzcdbLUQdxf3lK
-        ncdRF1j0JE14g0=; b=Tpsjm2g3d80gsLnRV4EIY5ReLH7ykGJgP3mwwF99SkplT
-        82NQeyuJ3FM2K7FhLDPIQSM+q9u+foWrwAzOW3zXlYaZ104BSLoN7MNkgA+X6WOr
-        2U1Fp4r2hdmQdPC7jMjOjQQakdYNh55O4SGdmKhFWpAxx5fL6eUwfY/wLloKK35x
-        X9Z7NIRMP0neTn3DCvKodf2kfn9E6YKh1wPBKAiIcWnyLfL/3TUYcKfbl4YDuMVh
-        dbrJMVo+BYD55LbOiSyFzG6ReuNypJo0oV9ajIt769bIFXpjaNcTwGhmm7rryASb
-        UsuPoQLsBD29IDJu2/N3gXYlSc0MSmMOnOcz6ch6w==
-X-ME-Proxy: <xmx:i_lYW4upJXtpmK6uM-Ih3X6syRCyHs4Q1XKO0kPw3b9mPWAOvTJ4zQ>
-    <xmx:i_lYW9tc_YnmWUdkanRTfFBuiWNK6iUcSAlLI0ZcBTzUTJQgVKx6Hw>
-    <xmx:i_lYW5qbDuSNaxdXgBKII9p3K8GgXZpoGnO94AXZaAJybV1zmvQPMA>
-    <xmx:i_lYW864VrM5O0pVOzkLkWq2aKUWl7n5AXzcG5UfLbicv8NX7qNsug>
-    <xmx:i_lYW-rHpco0yTFA0h1f6uqRpYzrUFolm2jz9K4qfFrRN9A9AHeECg>
-    <xmx:i_lYW5QZSC1pjVgiNpT1d6qVwAMqxzVS0lYDiWLVv2K8bUnPH4CA1A>
-X-ME-Sender: <xms:i_lYW4QyOvxDsoLUXN8hjA-o6SN4tjktQGzaoPNJNnWMFfBvqLEkcg>
+        :x-me-sender:x-sasl-enc; s=fm3; bh=YSVJe6pHvZOo02PXOPyxpWSpCeK8J
+        SyEq9/wvgIZOeg=; b=OBxg95sjR2d0uqrFFBb5jA9Kz6U8/0tMHn3dCcjCEXb4f
+        SIrizL3q6HFBOyphH6L40azHzBaaO0r43Fe0J+LJhMX3A1leUjCsV2+DBgUXizHy
+        if6nyD0uNR59ZTf//yZ1QAN4WKXufvNi1soprpY0xKd5iNNW7qvbw3HW893adRVs
+        Z6nsJwBRbnTJVouuz5Fu5coNxJ+JmLxW5QwdbbIze5iQqkK7uFCfeqnFKO+grsd/
+        ZnUqB934bkG+saOuHpr+h8d+kIyT2/kZpSiNu0GScJ1C8XzR9EamU9QcbU7zqqKf
+        QxOf5iUXkJFmtJ7vo4n6NtyjXSmEjurY73HGyjysA==
+X-ME-Proxy: <xmx:SfpYW_r8OZRngVZZgBq_DsA9LzD9PaQR8OkOfH4ZEhghBYZMOdeyfg>
+    <xmx:SfpYWxm42W1oMsCEV4PVHOq3Bt5I1CWn3GRVe9QfPg4AspZZtAK_9Q>
+    <xmx:SfpYWygggIN6t9uuspfz1UOPnUMZXfhpHpq3G3eHjmeTeSKiTNH9rg>
+    <xmx:SfpYW7Y9XfMsBBwus7MPf97zQaBW3144fKJxI_2SXTe7KqqF6FytBQ>
+    <xmx:SfpYW4sM25836KeQXIqe5DbqmJJ37Oqz-UxBRTddFnDZb7-tc5e9VA>
+    <xmx:SfpYW7VSdpPxNbXLchWnNyUpwCyB8WfIvuDKbc9rlz0Lfi72KWFW9A>
+X-ME-Sender: <xms:SfpYW3TOuBcox7k2Np9e4X1MnNZrapZhlGEMGElvRdQellnFH-N_QQ>
 Received: from localhost (ppp121-44-239-245.bras2.syd2.internode.on.net [121.44.239.245])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 85374E450E;
-        Wed, 25 Jul 2018 18:28:26 -0400 (EDT)
-Date:   Thu, 26 Jul 2018 08:28:23 +1000
+        by mail.messagingengine.com (Postfix) with ESMTPA id 8E0B010261;
+        Wed, 25 Jul 2018 18:31:36 -0400 (EDT)
+Date:   Thu, 26 Jul 2018 08:31:33 +1000
 From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] docs: bpf: Rename README.rst to index.rst
-Message-ID: <20180725222823.GD6067@eros>
-References: <20180725022926.8993-1-me@tobin.cc>
- <20180725022926.8993-2-me@tobin.cc>
- <0141716c-e909-1429-68fe-6da71d4c6677@cogentembedded.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 0/2] docs: net: Convert netdev-FAQ to RST
+Message-ID: <20180725223133.GE6067@eros>
+References: <20180725025005.14332-1-me@tobin.cc>
+ <20180725032810.GA6067@eros>
+ <20180725081415.373bde37@lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0141716c-e909-1429-68fe-6da71d4c6677@cogentembedded.com>
+In-Reply-To: <20180725081415.373bde37@lwn.net>
 X-Mailer: Mutt 1.9.4 (2018-02-28)
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
@@ -73,32 +70,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 25, 2018 at 12:29:10PM +0300, Sergei Shtylyov wrote:
-> Hello!
+On Wed, Jul 25, 2018 at 08:14:15AM -0600, Jonathan Corbet wrote:
+> On Wed, 25 Jul 2018 13:28:10 +1000
+> "Tobin C. Harding" <me@tobin.cc> wrote:
 > 
-> On 7/25/2018 5:29 AM, Tobin C. Harding wrote:
+> > Since I've already botched it can I ask for guidance here.  The problem
+> > is updating the links means making changes that will cause merge
+> > conflicts if they go through net-dev tree (since most references are in
+> > Documentation/*.rst).  But we can't go through docs tree either since
+> > that could lead to merge conflicts later as well.
 > 
-> > Recently bpf/ docs were converted to us RST format.  'README.rst' was
+> Merge conflicts are a way of life in Documentation/ - everybody messes
+> with it.  They are usually pretty easy to resolve.
 > 
->    s/us/use/?
+> I only see a handful of references to netdev-FAQ.txt in the tree; I would
+> suggest just making the change and being done with it.  There shouldn't be
+> any need to do a more complicated dance than that.
 
-Thanks for the review Sergei, will fix and re-spin.
+Ok, I'll re-spin with all references fixed.
 
-> > created but in order to fit in with the Sphinx build system this file
-> > should be named 'index.rst'.  Rename file, fixes to integrate into Sphinx
-> > build system in following patches.
-> > 
-> > docs: Rename Documentation/bpf/README.rst to Documentation/bpf/index.rst
-> > 
-> > Signed-off-by: Tobin C. Harding <me@tobin.cc>
-> [...]
-> 
-> MBR, Sergei
+> And to answer your other question, yes of course it's fine (and expected)
+> for this to go through Dave's tree.
 
-What does MBR stand for please (not master boot record I'm guessing)?
+And accept abuse for all merge conflicts in person at Plumbers in November :)
 
-
-	Tobin
+Thanks,
+Tobin.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
