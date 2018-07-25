@@ -5,110 +5,94 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF34E7DF82
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 11:26:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0856D7D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 11:27:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728986AbeGYMht (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 08:37:49 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58282 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728970AbeGYMhs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 08:37:48 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6PBPGub086195
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:34 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2keqphhbch-1
+        id S1728690AbeGYMhi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 08:37:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41894 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728786AbeGYMhh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 08:37:37 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6PBORtS052791
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:22 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2keq7j2r1m-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:33 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:22 -0400
 Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 25 Jul 2018 12:26:31 +0100
+        Wed, 25 Jul 2018 12:26:20 +0100
 Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 25 Jul 2018 12:26:29 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6PBQS1w36831476
+        Wed, 25 Jul 2018 12:26:17 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6PBQGLV31391960
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 25 Jul 2018 11:26:28 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D2ED011C04A;
-        Wed, 25 Jul 2018 14:26:42 +0100 (BST)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5C1F111C050;
-        Wed, 25 Jul 2018 14:26:41 +0100 (BST)
+        Wed, 25 Jul 2018 11:26:16 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E8E8D42041;
+        Wed, 25 Jul 2018 14:26:30 +0100 (BST)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7314F42049;
+        Wed, 25 Jul 2018 14:26:29 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.8.110])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 25 Jul 2018 14:26:41 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 25 Jul 2018 14:26:26 +0300
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 25 Jul 2018 14:26:29 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 25 Jul 2018 14:26:13 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>
 Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 7/7] docs/core-api: mm-api: add section about GFP flags
-Date:   Wed, 25 Jul 2018 14:26:10 +0300
+Subject: [PATCH 1/7] mm/util: make strndup_user description a kernel-doc comment
+Date:   Wed, 25 Jul 2018 14:26:04 +0300
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1532517970-16409-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1532517970-16409-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18072511-0020-0000-0000-000002AAF0BB
+x-cbid: 18072511-0012-0000-0000-0000028E948B
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18072511-0021-0000-0000-000020F789FF
-Message-Id: <1532517970-16409-8-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18072511-0013-0000-0000-000020C07B88
+Message-Id: <1532517970-16409-2-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-25_03:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=985 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=788 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1806210000 definitions=main-1807250124
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The description of the strndup_user function misses '*' character at the
+beginning of the comment to be proper kernel-doc. Add the missing
+character.
+
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- Documentation/core-api/mm-api.rst | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ mm/util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
-index 65a8ef09..1e8c011 100644
---- a/Documentation/core-api/mm-api.rst
-+++ b/Documentation/core-api/mm-api.rst
-@@ -11,6 +11,28 @@ User Space Memory Access
- .. kernel-doc:: arch/x86/lib/usercopy_32.c
-    :export:
+diff --git a/mm/util.c b/mm/util.c
+index 3351659..6809014 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -196,7 +196,7 @@ void *vmemdup_user(const void __user *src, size_t len)
+ }
+ EXPORT_SYMBOL(vmemdup_user);
  
-+Memory Allocation Controls
-+==========================
-+
-+Linux provides a variety of APIs for memory allocation from direct
-+calls to page allocator through slab caches and vmalloc to allocators
-+of compressed memory. Although these allocators have different
-+semantics and are used in different circumstances, they all share the
-+GFP (get free page) flags that control behavior of each allocation
-+request.
-+
-+.. kernel-doc:: include/linux/gfp.h
-+   :doc: Page mobility and placement hints
-+
-+.. kernel-doc:: include/linux/gfp.h
-+   :doc: Watermark modifiers
-+
-+.. kernel-doc:: include/linux/gfp.h
-+   :doc: Reclaim modifiers
-+
-+.. kernel-doc:: include/linux/gfp.h
-+   :doc: Common combinations
-+
- The Slab Cache
- ==============
- 
+-/*
++/**
+  * strndup_user - duplicate an existing string from user space
+  * @s: The string to duplicate
+  * @n: Maximum number of bytes to copy, including the trailing NUL.
 -- 
 2.7.4
 
