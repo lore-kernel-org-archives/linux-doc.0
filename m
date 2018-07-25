@@ -1,219 +1,191 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D1BDE7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 16:36:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DEC0E7D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 16:56:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728653AbeGYRse (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 13:48:34 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:37889 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728633AbeGYRse (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 13:48:34 -0400
-Received: by mail-pg1-f194.google.com with SMTP id k3-v6so5665750pgq.5;
-        Wed, 25 Jul 2018 09:36:07 -0700 (PDT)
+        id S1729174AbeGYSJJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 14:09:09 -0400
+Received: from mail-ua0-f193.google.com ([209.85.217.193]:35902 "EHLO
+        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728644AbeGYSJI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 14:09:08 -0400
+Received: by mail-ua0-f193.google.com with SMTP id c12-v6so5121766uan.3;
+        Wed, 25 Jul 2018 09:56:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=uRW9tXOESlyDOols04phrpGyAxDfY+aDQxt9u7DKkN4=;
-        b=HDb8+8qxQEUa66llF4VFYoo1h1dIfOe5KvwL8sG//6lQJaQz4lzrqvn5PFBULam425
-         lnfzC4ugm/9MGKgmOxLrytEwhcffIpV3j7dAsYcUvWnPcsLYusdJCxJhULTKoXV0JoxB
-         9VTuUKaQM4cR18OzgEdD+UWBhdfvNj0PYp8Ct5sxBTkthEpixZ54V1NTow4dffDz+Lqg
-         ZuNImc4OrjuOeX3mxFC9OuiPxa8PYZE3AC551gqBJMD/JtWJ6wz7372/JqLW5jiXDZ1l
-         CEzEtK4ZAsSGmlPMGLqxr1JSE/0zEgiFA6cSQdQpXWQfP7Xpzm1isFAfg8zL/dVGqMWf
-         O45A==
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qrbahrooGYdwtkT7VaZyxsvS5yUXMzjuLcAEmUC8hz0=;
+        b=V9kqLEcNexlsJgRjORLQMxugJRIjMBxnCRnHu3WX2XwxC7wF6yHs+NqPFw7Dgn4BI1
+         Ok7itKY1sBM5YFJMFCWNHP74JPKIyYibNL5LNwQ4Z4X/aHFITIJa1aM84LvQfLWvBgmT
+         aGlFZ82eDzAAyMnO6tlLsX3TkQuF2cMeESJz0JibKHL6g29OKltMX9ag1y/ddkSdhH3l
+         miPkvg36ga1QgpuIfou2quJv4DCt6qpD4sBciFJgM7eVHNrSFjGvQgvSXBvQ0wJFjI5v
+         8RINpcrylJuMajCMMv6n6t829k8Cxbi+k2AzBPrHrEBlLgAKUF0DV/02nVT7vdVEs72c
+         4hmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=uRW9tXOESlyDOols04phrpGyAxDfY+aDQxt9u7DKkN4=;
-        b=GnhdaDlXomyRCXeeu/4rFrR4WVCcDn4E5ety8WZ9oNGESNcj22iCaHWVJ0qs5wHTEl
-         O/tI3ZzRFAKUEkuSLoGTyZGoMaMRDnKlTNTLIGig1olj28Hz+ltbWEjDjyMeI/WHaa6d
-         ULwu76Pch7BhqdVvBFuc1iJyDaoiVQ+o/lmCIqfPwbOVs6IV81e85Jbrd0uUfsw85Me+
-         GF5wYfsgRzpVme16spbxIh8eGtyE8xYDgARwFszkz8T/MkLZoxafznnQHnKqcBLKu6Gk
-         ppgWocijYmL4O1LLUxCcsFyoRPckE89oFgUPmPNxgcFOKzKGkynIBvzUdwI/ehwlchCs
-         W/tg==
-X-Gm-Message-State: AOUpUlGR9PaPMRwb50QcxMty+3K8fLOuH5OP5Utuao+SHrdaq4j1zwYC
-        vgJ96REwTyr1kfgP/2x9yk8=
-X-Google-Smtp-Source: AAOMgpcM/zq5gWgt7oQfXSkJCdCOnABQWw7mdpZ6pOp7DvLkEHb2AgsWfREjqzVm7OXQfIuaL4T12A==
-X-Received: by 2002:a63:a919:: with SMTP id u25-v6mr21843546pge.211.1532536566873;
-        Wed, 25 Jul 2018 09:36:06 -0700 (PDT)
-Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id u2-v6sm20675668pfn.59.2018.07.25.09.36.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Jul 2018 09:36:06 -0700 (PDT)
-Date:   Wed, 25 Jul 2018 09:36:04 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Eddie James <eajames@linux.vnet.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        gregkh@linuxfoundation.org, benh@kernel.crashing.org,
-        jdelvare@suse.com, mark.rutland@arm.com, openbmc@lists.ozlabs.org,
-        robh+dt@kernel.org, joel@jms.id.au
-Subject: Re: [PATCH v4 2/9] Documentation: hwmon: Add OCC documentation
-Message-ID: <20180725163604.GA21332@roeck-us.net>
-References: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
- <1531342898-15790-3-git-send-email-eajames@linux.vnet.ibm.com>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qrbahrooGYdwtkT7VaZyxsvS5yUXMzjuLcAEmUC8hz0=;
+        b=LgauvyERB+onv6AtpO+HCQcS6MbvuzcrffH4D1pICzjOMrKg531kM7GMlZSP1cOeny
+         poDztUmR3FdMXb+TNJZ+gAWzIGiW/QkVuQgzTpt0EBOuPuM4hXG7Z/QUOhRavJLNhp0k
+         N2HmqQUlFYiTTOtFPDUSemUJ5o3JFTc3XLv00o1uOaXvnI+ARR+PI6gZOn25DOO0j8GC
+         aojDNcgOfhk8skjmC8jMldPUD3mR4djvCPVE1ouN+kCoDT8ITYTonfEkiU36BrufTPeB
+         0eu2eN8n0pdM3rLte1REYsMtPdI8BA3Q9REvz04qd6LXTK1Izvfut1edMJBrvWTIBRtB
+         D6Ig==
+X-Gm-Message-State: AOUpUlEP9LQqnXbcQPSArngVbrLmQ6HwDstLFXB/vOAhuA9zgOqKp+7s
+        8d1GN9EpLNNmxYuA2NhKsYNwFSyn69hePF/lY7k=
+X-Google-Smtp-Source: AAOMgpeOkhm/0MNM8rP7kBUwhYsRaP9nf4+/Gy/+It2qnToCY2GZGmE0Sd2+7bF15ElNpNzDMJ9iFD/YTlNmhNqYLnc=
+X-Received: by 2002:a9f:2187:: with SMTP id 7-v6mr16295363uac.49.1532537796550;
+ Wed, 25 Jul 2018 09:56:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1531342898-15790-3-git-send-email-eajames@linux.vnet.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 25 Jul 2018 09:56:35
+ -0700 (PDT)
+In-Reply-To: <9fdfaf4e-5a20-af81-82ef-0d9e327f9133@synopsys.com>
+References: <1532120272-17157-1-git-send-email-soares@synopsys.com>
+ <1532120272-17157-2-git-send-email-soares@synopsys.com> <CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com>
+ <9fdfaf4e-5a20-af81-82ef-0d9e327f9133@synopsys.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 25 Jul 2018 19:56:35 +0300
+Message-ID: <CAHp75Vd6Ok6i3wQjT=jd3mtFAC2na1vwUs2cr-xhStQ_OjKjAg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
+To:     Vitor Soares <Vitor.Soares@synopsys.com>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "ijc+devicetree" <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>,
+        Joao Pinto <Joao.Pinto@synopsys.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 11, 2018 at 04:01:31PM -0500, Eddie James wrote:
-> Document the hwmon interface for the OCC.
-> 
-> Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
-> ---
->  Documentation/hwmon/occ | 73 +++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/hwmon/occ
-> 
-> diff --git a/Documentation/hwmon/occ b/Documentation/hwmon/occ
-> new file mode 100644
-> index 0000000..465fa1a
-> --- /dev/null
-> +++ b/Documentation/hwmon/occ
-> @@ -0,0 +1,73 @@
-> +Kernel driver occ-hwmon
-> +=======================
+On Wed, Jul 25, 2018 at 11:43 AM, Vitor Soares
+<Vitor.Soares@synopsys.com> wrote:
+> On Fri, Jul 20, 2018 at 11:57 PM, Vitor soares
+> <Vitor.Soares@synopsys.com> wrote:
+>
+
+Thanks for answers, my comments below.
+
+> This patch add driver for Synopsys DesignWare IP on top of
+> I3C subsystem patchset proposal V6
+
+...
+
+> +#include <linux/reset.h>
+> Reset API.
+>
+> All of them required? Why?
+
+Thanks, got it.
+
+> There is some header files that are already included by others header fil=
+es.
+> Should I add them too? it there any rule for that?
+
+No need.
+Usually we drop some "wired" headers (when we sure that one will
+always include the other one, like module.h vs. init.h)
+
+> +               writel(cmd->cmd_hi, master->regs + COMMAND_QUEUE_PORT);
+> +               writel(cmd->cmd_lo, master->regs + COMMAND_QUEUE_PORT);
+>
+> hmm... writesl()?
+
+> Is there any advantage here?
+
+Here maybe not. Just a material to think about. If you can refactor
+code to utilize them, good.
+
+> +       info->pid =3D (u64)readl(master->regs + SLV_PID_VALUE);
+>
+> Why explicit casting?
+
+> info->pid is u64 size.
+
+In C standard there is an integer promotion which allows you not to
+use explicit casting in such cases.
+
+> +       u32 r;
 > +
-> +Supported chips:
-> +  * POWER8
-> +  * POWER9
 > +
-> +Author: Eddie James <eajames@linux.vnet.ibm.com>
-> +
-> +Description
-> +-----------
-> +
-> +This driver supports hardware monitoring for the On-Chip Controller (OCC)
-> +embedded on POWER processors. The OCC is a device that collects and aggregates
-> +sensor data from the processor and the system. The OCC can provide the raw
-> +sensor data as well as perform thermal and power management on the system.
-> +
-> +The P8 version of this driver is a client driver of I2C. It may be probed
-> +manually if an "ibm,p8-occ-hwmon" compatible device is found under the
-> +appropriate I2C bus node in the device-tree.
-> +
-> +The P9 version of this driver is a client driver of the FSI-based OCC driver.
-> +It will be probed automatically by the FSI-based OCC driver.
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +The following attributes are supported. All attributes are read-only unless
-> +specified.
-> +
-> +temp[1-n]_label		OCC sensor id.
-> +temp[1-n]_input		Measured temperature in millidegrees C.
-> +[with temperature sensor version 2+]
-> +    temp[1-n]_fru_type		Given FRU (Field Replaceable Unit) type.
+> +       core_rate =3D clk_get_rate(master->core_clk);
+>
+> Too many blank lines in between.
+>
+>
+> For me in that way it's better to filter code parts. Do you think that is
+> not readable?
 
-What is this ? An integer ? A string ?
+The point is it's useless.
+On the other hand, you have a lot of inconsistency with that style.
 
-> +    temp[1-n]_fault		Temperature sensor fault.
-> +
-> +freq[1-n]_label		OCC sensor id.
-> +freq[1-n]_input		Measured frequency.
+> +               p =3D (ret >> 6) ^ (ret >> 5) ^ (ret >> 4) ^ (ret >> 3) ^
+> +                   (ret >> 2) ^ (ret >> 1) ^ ret ^ 1;
+> +               p =3D p & 1;
+>
+> Is it parity calculus? Do we have something implemented in kernel already=
+?
+>
+> Btw,
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__graphics.stanford.=
+edu_-7Eseander_bithacks.html-23ParityNaive&d=3DDwIBaQ&c=3DDPL6_X_6JkXFx7AXW=
+qB0tg&r=3DqVuU64u9x77Y0Kd0PhDK_lpxFgg6PK9PateHwjb_DY0&m=3D5FpGHBbT8tYA6PB4R=
+T_9O6PJk3v-wYcy1MV59xoqK4I&s=3DFSJ3EcuoxPtRJWmsk9Yt4s_UH9kxFBam01Xvas2ZFdo&=
+e=3D
+> offered this
+>
+> v ^=3D v >> 4;
+> v &=3D 0xf;
+> v =3D (0x6996 >> v) & 1;
+>
+>
+> I search into the kernel and I didn't find any function for that. In your
+> opinion what shoud I use?
 
-What does that have to do with hardware monitoring, and what exactly does it
-measure ? AC voltage frequency ? Frequency of rainstorms in the surrounding
-area ?
+If license of the piece above is okay to use in kernel, then
+definitely it would be better (even we might create a helper out of
+it).
 
-> +
-> +power[1-n]_label	OCC sensor id.
-> +power[1-n]_input	Measured power in microwatts.
-> +power[1-n]_update_tag	Number of 250us samples represented in accumulator.
-
-update_tag to represent number of samples ? Odd choice for
-an attribute name. Why not "_samples" ? Also, if each sample
-represents a specific amount of time, why not report a time ?
-
-> +power[1-n]_accumulator	Accumulation of 250us power readings.
-
-There is no explanation of "accumulation". Is this the energy ?
-If so, why not use energy attributes ? And what is the unit of
-this measurement ?
-
-> +[with power sensor version 2+]
-> +    power[1-n]_function_id	Identifies what the power reading is for.
-
-String ? Number ? Slot index ?  Bitmap ? And why isn't that reported
-in the label ? After all, that is what the label is supposed to be
-used for.
-
-> +    power[1-n]_apss_channel	Indicates APSS channel.
-> +
-
-Does that provide any value to the user ?
-
-> +[power version 0xa0 only]
-> +power1_id			OCC sensor id.
-
-This is inconsistent with the other attributes and even with itself.
-
-> +power[1-n]_label		Sensor type, "system", "proc", "vdd", or "vdn".
-> +power[1-n]_input		Most recent power reading in microwatts.
-
-Overall I am left with no idea what
-	_id
-	_label
-	_function_id
-	_apps_channel
-are and how they relate to each other, except that it all looks quite
-inconsistent. You might want to consider merging all those attributes into
-the label in some consistent way.
-
-> +power[1-n]_update_tag		Number of samples in the accumulator.
-> +power[1-n]_accumulator		Accumulation of power readings.
-
-Same as above.
-
-> +[with sensor type "system" and "proc" only]
-> +    power[1-n]_update_time	Time in us that the power value is read.
-> +
-> +caps1_current		Current OCC power cap in watts.
-> +caps1_reading		Current system output power in watts.
-> +caps1_norm		Power cap without redundant power.
-> +caps1_max		Maximum power cap.
-
-Why do those have to be non-standard attributes ? Please explain why you can not
-use power[1-n]_cap attributes.
-
-> +[caps version 1 and 2 only]
-> +    caps1_min		Minimum power cap.
-> +[caps version 3+]
-> +    caps1_min_hard		Hard minimum cap that can be set and held.
-> +    caps1_min_soft		Soft minimum cap below hard, not guaranteed.
-> +caps1_user		The powercap specified by the user. Will be 0 if no
-> +			user powercap exists. This attribute is read-write.
-> +[caps version 1+]
-> +    caps1_user_source	Indicates how the user power limit was set.
-> +
-> +extn[1-n]_label		ASCII id or sensor id.
-> +extn[1-n]_flags		Indicates type of label attribute.
-> +extn[1-n]_input		Data.
-
-Great non-explanation.
-
-Not reviewing the series further. I am sure I asked that each non-standard
-attribute is explained. There is neither an explanation why the attributes
-are needed nor, in many cases, why non-standard attributes were chosen
-instead of standard ones. On top of that, the non-standard attributes are
-not even documented properly, leaving the reader wondering not only why
-they are needed, but what they are used for in the first place.
-
-Guenter
+--=20
+With Best Regards,
+Andy Shevchenko
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
