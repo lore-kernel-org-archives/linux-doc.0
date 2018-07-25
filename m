@@ -5,66 +5,67 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 84DA17D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 22:26:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 51ADB7D085
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 22:28:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731437AbeGYXj5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 19:39:57 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:50663 "EHLO
+        id S1731358AbeGYXmO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 19:42:14 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:34475 "EHLO
         wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731259AbeGYXj5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 19:39:57 -0400
+        by vger.kernel.org with ESMTP id S1731174AbeGYXmO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 19:42:14 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id BDFCF2CC;
-        Wed, 25 Jul 2018 18:26:11 -0400 (EDT)
+        by mailout.west.internal (Postfix) with ESMTP id 0EE7A2AF;
+        Wed, 25 Jul 2018 18:28:27 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 25 Jul 2018 18:26:12 -0400
+  by compute5.internal (MEProxy); Wed, 25 Jul 2018 18:28:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
         :content-type:date:from:in-reply-to:message-id:mime-version
         :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=+lMdV8H3tQ7auYXMW9MELMiLoDZDBwTyRcMpBamdNYs=; b=VdgxIfo8
-        hl8wZ3awmlTgdwQUDfGg8F5WF58YtWe6KQoKWolKmr+AeRI3RSWeGi9hivb17lJ5
-        +QsZUwvomGIUlaRiSz0elNmnqWnzZoeoi6c16VNOR+FmHVzKi02nhgiJo7USVqFE
-        YSzqNmt6vmWyVADqzZ+ScxsXkZPaYlQw6PL8oKRnZc9Jo1ZVnWggnch83WxyTe84
-        V3w3xfNWlkuuybpayZf57Bh6LcPfkDpXiv7UbTciV9bWQv4ncNev2p9xgRrfyROx
-        UqlSiV9A3/oKzuh7li0GmBg6Y2Hj9pQXfQjpcKrrh32xDCbVH2d4gScnqKTKYWPH
-        v5F8jh9G2qKopw==
+        fm3; bh=DHpOAX0LkWOMs1WvzcdbLUQdxf3lKncdRF1j0JE14g0=; b=L5yJ9/Q0
+        77sWAFHPzSHV+Jkl/UaRUU54WGX2+3PzplV1i+12Nn0uiRYcnorQEh45jzIbDnVm
+        HqMxH0iyQKpidIhTr+OZg//EXEg54CdGRsSVNN2VNRubErlJgXCldYPJJ2lRpJg6
+        HlMYYYdn1VvlO/Mcjnz+rVdDYE7jW3fMgUVsNQeb82QLEvaVoVBliWthF9OtOikC
+        ehmiDCHu7rTw5Gp/rHRQyeN7v5GSBDiyzx8CZFk4GdJYHFJrjY85z8AFkf4p0ib2
+        5C6EHAZm2nRV8EKJrp1kfY7UvBhUGfl86lWQ6gV7yIVZDrBzrSS9f8dyYvWyG0/h
+        8nf5vho6hV4KKg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=+lMdV8H3tQ7auYXMW9MELMiLoDZDB
-        wTyRcMpBamdNYs=; b=Xha4IkyRbWY3i7q64AJ4CxGcgFGXMFSuF41pvPH98Sn/8
-        DkSJzTNrl00FdTbXAjK63lcF7P1vwTa82lmnR2k1Ds9HQhPEGzRiHl9NontCXJom
-        YLxf3qR1iPswnYpyW00Y1l71BEN0MRYKZx/WOhPWje4SXOnOajnIydVjGuFL1t20
-        H17w8y2mgQRLlxi46zQRN6a5WVFDUKXetgQ4+Yz8scYLb/gFPLpQ5G7AGO5rkWim
-        j15nrLHA7Z7dW34Fzo02WxrZHNppSxEwKOsC8CBOEjNkFYmifBZaRhBbPXd2IkdE
-        qFReUVuQ+ezKs4RanpOHl+GL8VdrowG5W3QXuV19g==
-X-ME-Proxy: <xmx:AvlYW7NGVcsptIPrKp4eX3xv_qowu00wcppFRyD6f4bIQ720SkCrPQ>
-    <xmx:AvlYWzg4Gh1FK1zG_T0dXwFGGgGpPJBdzMkeG0wkhCoaQTSP-LbSzw>
-    <xmx:AvlYWzxR4e0HMWObk6G2K_qaJElq5_y8DJNioOruHbCPvLRvd9Fncw>
-    <xmx:AvlYW4qKCkpDM-gpy_ZrTaojwb0muylMKRy8nNzrhkoDtTM4zUkaeQ>
-    <xmx:AvlYWy8mGwz9xCOlA5Jlxg-AX0o8BJZphiIHnwkNw67QdsW8KwJyow>
-    <xmx:A_lYWwPNg4DTcVpClY33K5Q86bep7esHt9EzuA2qUBWikpNgK5ZXiQ>
-X-ME-Sender: <xms:AvlYW-ftLBQvV-DeKskblLm86bUS5E4waC18bmxsQ2CTz8UPwxg2bQ>
+        :x-me-sender:x-sasl-enc; s=fm3; bh=DHpOAX0LkWOMs1WvzcdbLUQdxf3lK
+        ncdRF1j0JE14g0=; b=Tpsjm2g3d80gsLnRV4EIY5ReLH7ykGJgP3mwwF99SkplT
+        82NQeyuJ3FM2K7FhLDPIQSM+q9u+foWrwAzOW3zXlYaZ104BSLoN7MNkgA+X6WOr
+        2U1Fp4r2hdmQdPC7jMjOjQQakdYNh55O4SGdmKhFWpAxx5fL6eUwfY/wLloKK35x
+        X9Z7NIRMP0neTn3DCvKodf2kfn9E6YKh1wPBKAiIcWnyLfL/3TUYcKfbl4YDuMVh
+        dbrJMVo+BYD55LbOiSyFzG6ReuNypJo0oV9ajIt769bIFXpjaNcTwGhmm7rryASb
+        UsuPoQLsBD29IDJu2/N3gXYlSc0MSmMOnOcz6ch6w==
+X-ME-Proxy: <xmx:i_lYW4upJXtpmK6uM-Ih3X6syRCyHs4Q1XKO0kPw3b9mPWAOvTJ4zQ>
+    <xmx:i_lYW9tc_YnmWUdkanRTfFBuiWNK6iUcSAlLI0ZcBTzUTJQgVKx6Hw>
+    <xmx:i_lYW5qbDuSNaxdXgBKII9p3K8GgXZpoGnO94AXZaAJybV1zmvQPMA>
+    <xmx:i_lYW864VrM5O0pVOzkLkWq2aKUWl7n5AXzcG5UfLbicv8NX7qNsug>
+    <xmx:i_lYW-rHpco0yTFA0h1f6uqRpYzrUFolm2jz9K4qfFrRN9A9AHeECg>
+    <xmx:i_lYW5QZSC1pjVgiNpT1d6qVwAMqxzVS0lYDiWLVv2K8bUnPH4CA1A>
+X-ME-Sender: <xms:i_lYW4QyOvxDsoLUXN8hjA-o6SN4tjktQGzaoPNJNnWMFfBvqLEkcg>
 Received: from localhost (ppp121-44-239-245.bras2.syd2.internode.on.net [121.44.239.245])
-        by mail.messagingengine.com (Postfix) with ESMTPA id DE36CE435C;
-        Wed, 25 Jul 2018 18:26:09 -0400 (EDT)
-Date:   Thu, 26 Jul 2018 08:26:06 +1000
+        by mail.messagingengine.com (Postfix) with ESMTPA id 85374E450E;
+        Wed, 25 Jul 2018 18:28:26 -0400 (EDT)
+Date:   Thu, 26 Jul 2018 08:28:23 +1000
 From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Edward Cree <ecree@solarflare.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 1/2] docs: Add rest label
- the_canonical_path_format
-Message-ID: <20180725222606.GC6067@eros>
-References: <20180725025005.14332-1-me@tobin.cc>
- <20180725025005.14332-2-me@tobin.cc>
- <010bd587-6e4d-549e-e613-cb785f614463@solarflare.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] docs: bpf: Rename README.rst to index.rst
+Message-ID: <20180725222823.GD6067@eros>
+References: <20180725022926.8993-1-me@tobin.cc>
+ <20180725022926.8993-2-me@tobin.cc>
+ <0141716c-e909-1429-68fe-6da71d4c6677@cogentembedded.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <010bd587-6e4d-549e-e613-cb785f614463@solarflare.com>
+In-Reply-To: <0141716c-e909-1429-68fe-6da71d4c6677@cogentembedded.com>
 X-Mailer: Mutt 1.9.4 (2018-02-28)
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
@@ -72,17 +73,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 25, 2018 at 03:36:55PM +0100, Edward Cree wrote:
-> On 25/07/18 03:50, Tobin C. Harding wrote:
-> > In preparation to convert Documentation/network/netdev-FAQ.rst to
-> > restructured text format we would like to be able to reference 'the
-> > canonical patch format' section.
-> >
-> > Add rest label: 'the_canonical_path_format'.
-> Here and in the Subject, 'patch' is typoed as 'path'.
+On Wed, Jul 25, 2018 at 12:29:10PM +0300, Sergei Shtylyov wrote:
+> Hello!
+> 
+> On 7/25/2018 5:29 AM, Tobin C. Harding wrote:
+> 
+> > Recently bpf/ docs were converted to us RST format.  'README.rst' was
+> 
+>    s/us/use/?
 
+Thanks for the review Sergei, will fix and re-spin.
 
-Thanks for the review Edward, will fix for next spin.
+> > created but in order to fit in with the Sphinx build system this file
+> > should be named 'index.rst'.  Rename file, fixes to integrate into Sphinx
+> > build system in following patches.
+> > 
+> > docs: Rename Documentation/bpf/README.rst to Documentation/bpf/index.rst
+> > 
+> > Signed-off-by: Tobin C. Harding <me@tobin.cc>
+> [...]
+> 
+> MBR, Sergei
+
+What does MBR stand for please (not master boot record I'm guessing)?
 
 
 	Tobin
