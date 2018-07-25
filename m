@@ -2,90 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F1E87D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 09:48:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 032D17D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 11:26:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728658AbeGYK7d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 06:59:33 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55618 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728651AbeGYK7d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Jul 2018 06:59:33 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 156C3AE3F;
-        Wed, 25 Jul 2018 09:48:36 +0000 (UTC)
-From:   Andreas Schwab <schwab@suse.de>
-To:     Yury Norov <ynorov@caviumnetworks.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Wookey <wookey@wookware.org>
-Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
-        <20180724173957.GA22106@yury-thinkpad>
-X-Yow:  Do I hear th' SPINNING of various WHIRRING, ROUND, and WARM
- WHIRLOMATICS?!
-Date:   Wed, 25 Jul 2018 11:48:29 +0200
-In-Reply-To: <20180724173957.GA22106@yury-thinkpad> (Yury Norov's message of
-        "Tue, 24 Jul 2018 20:39:57 +0300")
-Message-ID: <mvm4lgnzlw2.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S1728739AbeGYMhe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 08:37:34 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48178 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728688AbeGYMhe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 08:37:34 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6PBP5pH108750
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:19 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2kepdcn30y-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:18 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Wed, 25 Jul 2018 12:26:17 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 25 Jul 2018 12:26:14 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6PBQD8w45809806
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 25 Jul 2018 11:26:14 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 095E8A4053;
+        Wed, 25 Jul 2018 14:26:28 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8886DA4051;
+        Wed, 25 Jul 2018 14:26:26 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.8.110])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 25 Jul 2018 14:26:26 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 25 Jul 2018 14:26:11 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: [PATCH 0/7] memory management documentation updates
+Date:   Wed, 25 Jul 2018 14:26:03 +0300
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 18072511-4275-0000-0000-0000029D6951
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18072511-4276-0000-0000-000037A5A5F8
+Message-Id: <1532517970-16409-1-git-send-email-rppt@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-25_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807250124
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Jul 24 2018, Yury Norov <ynorov@caviumnetworks.com> wrote:
+Hi,
 
-> This is the update of the series based on 4.17 kernel
-> https://github.com/norov/linux/tree/ilp32-4.17
+Here are several updates to the mm documentation.
 
-Note that commit 947bd8e7cd (arm64: ilp32: add
-is_ilp32_compat_{task,thread} and TIF_32BIT_AARCH64) conflicts with
-commit 9dd9614f54 (arm64: ssbd: Introduce thread flag to control
-userspace mitigation) (which has been backported to stable).
+Aside from really minor changes in the first three patches, the updates
+are:
 
-Andreas.
+* move the documentation of kstrdup and friends to "String Manipulation"
+  section
+* split memory management API into a separate .rst file
+* adjust formating of the GFP flags description and include it in the
+  reference documentation.
+
+Mike Rapoport (7):
+  mm/util: make strndup_user description a kernel-doc comment
+  mm/util: add kernel-doc for kvfree
+  docs/core-api: kill trailing whitespace in kernel-api.rst
+  docs/core-api: move *{str,mem}dup* to "String Manipulation"
+  docs/core-api: split memory management API to a separate file
+  docs/mm: make GFP flags descriptions usable as kernel-doc
+  docs/core-api: mm-api: add section about GFP flags
+
+ Documentation/core-api/index.rst      |   1 +
+ Documentation/core-api/kernel-api.rst |  59 +------
+ Documentation/core-api/mm-api.rst     |  76 +++++++++
+ include/linux/gfp.h                   | 291 ++++++++++++++++++----------------
+ mm/util.c                             |   9 +-
+ 5 files changed, 243 insertions(+), 193 deletions(-)
+ create mode 100644 Documentation/core-api/mm-api.rst
 
 -- 
-Andreas Schwab, SUSE Labs, schwab@suse.de
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
