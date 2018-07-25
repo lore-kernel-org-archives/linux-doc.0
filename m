@@ -1,142 +1,145 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ABE1C7D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 12:38:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C88EC7D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 13:18:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728927AbeGYNuG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 09:50:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57382 "EHLO mail.kernel.org"
+        id S1729043AbeGYO3o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 10:29:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35694 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728863AbeGYNuG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Jul 2018 09:50:06 -0400
-Received: from localhost (unknown [122.178.229.117])
+        id S1728824AbeGYO3o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Jul 2018 10:29:44 -0400
+Received: from gandalf.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C16B620894;
-        Wed, 25 Jul 2018 12:38:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1532522314;
-        bh=fBXOginqq4qlGAfn+SPO2ngJXbLyvIH4JFJF+Fq3t0I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pZ8nn61j3gnO6fhT3fduefxZEkgRRx8YGXQPp/QX99OtZiMUrozS8J8uCKipwkhFK
-         Nucf/NBJGO4HPu1S0YBfe2dmJk+14xi1IegNFiUIjjaGTs4VlLdv8HDSS2lgJCdg2q
-         w73Var4rEhHL+HTF2mK/9crrkuseOiYvTKC1trQY=
-Date:   Wed, 25 Jul 2018 18:08:26 +0530
-From:   Vinod <vkoul@kernel.org>
-To:     Huang Shijie <sjhuang@iluvatar.ai>
-Cc:     corbet@lwn.net, dan.j.williams@intel.com, robh@kernel.org,
-        linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dmaengine: add a new helper dmam_async_device_register
-Message-ID: <20180725123826.GT3661@vkoul-mobl>
-References: <20180725054645.9723-1-sjhuang@iluvatar.ai>
+        by mail.kernel.org (Postfix) with ESMTPSA id BC41B20843;
+        Wed, 25 Jul 2018 13:18:03 +0000 (UTC)
+Date:   Wed, 25 Jul 2018 09:18:02 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Ruchi Kandoi <kandoiruchi@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Subject: Re: [PATCH v3] cpufreq: trace frequency limits change
+Message-ID: <20180725091802.74400a81@gandalf.local.home>
+In-Reply-To: <20180724173544.18876-1-joel@joelfernandes.org>
+References: <20180724173544.18876-1-joel@joelfernandes.org>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180725054645.9723-1-sjhuang@iluvatar.ai>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25-07-18, 13:46, Huang Shijie wrote:
-> This patch adds the dmam_async_device_register for DMA code.
-> Use the Devres to call the release for the DMA engine driver.
+On Tue, 24 Jul 2018 10:35:44 -0700
+Joel Fernandes <joel@joelfernandes.org> wrote:
 
-no users?
-
+> From: Ruchi Kandoi <kandoiruchi@google.com>
 > 
-> Signed-off-by: Huang Shijie <sjhuang@iluvatar.ai>
+> systrace used for tracing for Android systems has carried a patch for
+> many years in the Android tree that traces when the cpufreq limits
+> change.  With the help of this information, systrace can know when the
+> policy limits change and can visually display the data. Lets add
+> upstream support for the same.
+> 
+> Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+Better ;-)
+
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+
+-- Steve
+
 > ---
->  Documentation/driver-model/devres.txt |  1 +
->  drivers/dma/dmaengine.c               | 35 +++++++++++++++++++++++++++
->  include/linux/dmaengine.h             |  1 +
->  3 files changed, 37 insertions(+)
+> Viresh since I changed the patch, could you Ack it again?
 > 
-> diff --git a/Documentation/driver-model/devres.txt b/Documentation/driver-model/devres.txt
-> index a3e8bceb5f19..26c6de621446 100644
-> --- a/Documentation/driver-model/devres.txt
-> +++ b/Documentation/driver-model/devres.txt
-> @@ -240,6 +240,7 @@ CLOCK
->    devm_of_clk_add_hw_provider()
+> v2->v3: reduce parameters to tracepoint call (Steve)
+> v1->v2: correct ordering of min/max (Viresh)
+> 
+>  Documentation/trace/events-power.rst |  1 +
+>  drivers/cpufreq/cpufreq.c            |  1 +
+>  include/trace/events/power.h         | 25 +++++++++++++++++++++++++
+>  3 files changed, 27 insertions(+)
+> 
+> diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
+> index a77daca75e30..2ef318962e29 100644
+> --- a/Documentation/trace/events-power.rst
+> +++ b/Documentation/trace/events-power.rst
+> @@ -27,6 +27,7 @@ cpufreq.
 >  
->  DMA
-> +  dmam_async_device_register()
-
-can we name it dmaengine_async_device_register, not to confuse with dma APIs
-
->    dmam_alloc_coherent()
->    dmam_alloc_attrs()
->    dmam_declare_coherent_memory()
-> diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
-> index 84ac38dbdb65..2477af0bdfc7 100644
-> --- a/drivers/dma/dmaengine.c
-> +++ b/drivers/dma/dmaengine.c
-> @@ -1135,6 +1135,41 @@ void dma_async_device_unregister(struct dma_device *device)
->  }
->  EXPORT_SYMBOL(dma_async_device_unregister);
+>    cpu_idle		"state=%lu cpu_id=%lu"
+>    cpu_frequency		"state=%lu cpu_id=%lu"
+> +  cpu_frequency_limits	"min=%lu max=%lu cpu_id=%lu"
 >  
-> +static void dmam_device_release(struct device *dev, void *res)
-> +{
-> +	struct dma_device *device;
-> +
-> +	device = *(struct dma_device **)res;
-> +	dma_async_device_unregister(device);
-> +}
-> +
-> +/**
-> + * dmam_async_device_register - registers DMA devices found
-> + * @device: &dma_device
-> + *
-> + * The operation is managed and will be undone on driver detach.
-> + */
-> +int dmam_async_device_register(struct dma_device *device)
-> +{
-> +	void *p;
-> +	int ret;
-> +
-> +	p = devres_alloc(dmam_device_release, sizeof(void *), GFP_KERNEL);
-> +	if (!p)
-> +		return -ENOMEM;
-> +
-> +	ret = dma_async_device_register(device);
-> +	if (!ret) {
-> +		*(struct dma_device **)p = device;
-> +		devres_add(device->dev, p);
-> +	} else {
-> +		devres_free(p);
-> +	}
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(dmam_async_device_register);
-> +
->  struct dmaengine_unmap_pool {
->  	struct kmem_cache *cache;
->  	const char *name;
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index c8c3a7a93802..b98bced0b98e 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -1406,6 +1406,7 @@ static inline int dmaengine_desc_free(struct dma_async_tx_descriptor *desc)
->  /* --- DMA device --- */
+>  A suspend event is used to indicate the system going in and out of the
+>  suspend mode:
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index b0dfd3222013..52566f1f1050 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -2236,6 +2236,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
 >  
->  int dma_async_device_register(struct dma_device *device);
-> +int dmam_async_device_register(struct dma_device *device);
->  void dma_async_device_unregister(struct dma_device *device);
->  void dma_run_dependencies(struct dma_async_tx_descriptor *tx);
->  struct dma_chan *dma_get_slave_channel(struct dma_chan *chan);
-> -- 
-> 2.17.1
+>  	policy->min = new_policy->min;
+>  	policy->max = new_policy->max;
+> +	trace_cpu_frequency_limits(policy);
+>  
+>  	policy->cached_target_freq = UINT_MAX;
+>  
+> diff --git a/include/trace/events/power.h b/include/trace/events/power.h
+> index 908977d69783..f7aece721aed 100644
+> --- a/include/trace/events/power.h
+> +++ b/include/trace/events/power.h
+> @@ -5,6 +5,7 @@
+>  #if !defined(_TRACE_POWER_H) || defined(TRACE_HEADER_MULTI_READ)
+>  #define _TRACE_POWER_H
+>  
+> +#include <linux/cpufreq.h>
+>  #include <linux/ktime.h>
+>  #include <linux/pm_qos.h>
+>  #include <linux/tracepoint.h>
+> @@ -148,6 +149,30 @@ DEFINE_EVENT(cpu, cpu_frequency,
+>  	TP_ARGS(frequency, cpu_id)
+>  );
+>  
+> +TRACE_EVENT(cpu_frequency_limits,
+> +
+> +	TP_PROTO(struct cpufreq_policy *policy),
+> +
+> +	TP_ARGS(policy),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(u32, min_freq)
+> +		__field(u32, max_freq)
+> +		__field(u32, cpu_id)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->min_freq = policy->min;
+> +		__entry->max_freq = policy->max;
+> +		__entry->cpu_id = policy->cpu;
+> +	),
+> +
+> +	TP_printk("min=%lu max=%lu cpu_id=%lu",
+> +		  (unsigned long)__entry->min_freq,
+> +		  (unsigned long)__entry->max_freq,
+> +		  (unsigned long)__entry->cpu_id)
+> +);
+> +
+>  TRACE_EVENT(device_pm_callback_start,
+>  
+>  	TP_PROTO(struct device *dev, const char *pm_ops, int event),
 
--- 
-~Vinod
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
