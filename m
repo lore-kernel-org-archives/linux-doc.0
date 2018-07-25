@@ -1,141 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A000C7D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 05:52:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8673C7D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 07:29:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728295AbeGYHDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 03:03:01 -0400
-Received: from mail.iluvatar.ai ([58.213.90.100]:54187 "EHLO mail.iluvatar.ai"
+        id S1728480AbeGYIjz convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 04:39:55 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:53976 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727735AbeGYHDB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Jul 2018 03:03:01 -0400
-X-Greylist: delayed 348 seconds by postgrey-1.27 at vger.kernel.org; Wed, 25 Jul 2018 03:02:57 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.iluvatar.ai (Postfix) with ESMTP id A703813DD7058;
-        Wed, 25 Jul 2018 13:50:43 +0800 (CST)
-Received: from mail.iluvatar.ai ([127.0.0.1])
-        by localhost (mail.iluvatar.ai [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id bO7Uxzy5EBRM; Wed, 25 Jul 2018 13:50:43 +0800 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.iluvatar.ai (Postfix) with ESMTP id E987913DD7057;
-        Wed, 25 Jul 2018 13:50:42 +0800 (CST)
-DKIM-Filter: OpenDKIM Filter v2.9.2 mail.iluvatar.ai E987913DD7057
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iluvatar.ai;
-        s=809B2F8E-810B-11E8-86FD-A0A654EEFFEB; t=1532497843;
-        bh=I7qxXPMh0Ztmk69OPZfQOO+RfUlKhwCtU08BPafJrQw=;
-        h=From:To:Subject:Date:Message-Id;
-        b=GL3J1QqO29bHG4BwTmPtA86NlLIH5PESJSPnlIEK8k3WyaICArBN0blYYoChIYdeP
-         1utk4/xII8R+wI8TahPPzZz8u2FIqeYLVS0jOneK8N55fiGSqTd95tR7+g3KspswNh
-         TfMLbk6u2k9BwxMQ1Bgi+Vb2WD8GSizl/OC5FUqs=
-X-Virus-Scanned: amavisd-new at iluvatar.ai
-Received: from mail.iluvatar.ai ([127.0.0.1])
-        by localhost (mail.iluvatar.ai [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id snZ_IPtrycN9; Wed, 25 Jul 2018 13:50:42 +0800 (CST)
-Received: from localhost.localdomain (unknown [180.166.124.10])
-        by mail.iluvatar.ai (Postfix) with ESMTPSA id 5645613DD7052;
-        Wed, 25 Jul 2018 13:50:42 +0800 (CST)
-From:   Huang Shijie <sjhuang@iluvatar.ai>
-To:     vkoul@kernel.org
-Cc:     corbet@lwn.net, dan.j.williams@intel.com, robh@kernel.org,
-        linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Huang Shijie <sjhuang@iluvatar.ai>
-Subject: [PATCH] dmaengine: add a new helper dmam_async_device_register
-Date:   Wed, 25 Jul 2018 13:46:45 +0800
-Message-Id: <20180725054645.9723-1-sjhuang@iluvatar.ai>
-X-Mailer: git-send-email 2.17.1
+        id S1728454AbeGYIjy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Jul 2018 04:39:54 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 39B35207A8; Wed, 25 Jul 2018 09:29:29 +0200 (CEST)
+Received: from xps13 (AAubervilliers-681-1-78-122.w90-88.abo.wanadoo.fr [90.88.20.122])
+        by mail.bootlin.com (Postfix) with ESMTPSA id D9F5D20618;
+        Wed, 25 Jul 2018 09:29:28 +0200 (CEST)
+Date:   Wed, 25 Jul 2018 09:29:28 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Marcel Ziswiler <marcel@ziswiler.com>,
+        linux-mtd@lists.infradead.org,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Gregory CLEMENT <gregory.clement@bootlin.com>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Vladimir Zapolskiy <vz@mleia.com>
+Subject: Re: [PATCH] mtd: nand: fix spelling in driver api documentation
+Message-ID: <20180725092928.243bf07f@xps13>
+In-Reply-To: <20180723181915.5f35f668@bbrezillon>
+References: <20180720075334.24254-1-marcel@ziswiler.com>
+        <20180723093924.04af0e2f@lwn.net>
+        <20180723181915.5f35f668@bbrezillon>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds the dmam_async_device_register for DMA code.
-Use the Devres to call the release for the DMA engine driver.
+Hi Jonathan,
 
-Signed-off-by: Huang Shijie <sjhuang@iluvatar.ai>
----
- Documentation/driver-model/devres.txt |  1 +
- drivers/dma/dmaengine.c               | 35 +++++++++++++++++++++++++++
- include/linux/dmaengine.h             |  1 +
- 3 files changed, 37 insertions(+)
+Boris Brezillon <boris.brezillon@bootlin.com> wrote on Mon, 23 Jul 2018
+18:19:15 +0200:
 
-diff --git a/Documentation/driver-model/devres.txt b/Documentation/driver-model/devres.txt
-index a3e8bceb5f19..26c6de621446 100644
---- a/Documentation/driver-model/devres.txt
-+++ b/Documentation/driver-model/devres.txt
-@@ -240,6 +240,7 @@ CLOCK
-   devm_of_clk_add_hw_provider()
- 
- DMA
-+  dmam_async_device_register()
-   dmam_alloc_coherent()
-   dmam_alloc_attrs()
-   dmam_declare_coherent_memory()
-diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
-index 84ac38dbdb65..2477af0bdfc7 100644
---- a/drivers/dma/dmaengine.c
-+++ b/drivers/dma/dmaengine.c
-@@ -1135,6 +1135,41 @@ void dma_async_device_unregister(struct dma_device *device)
- }
- EXPORT_SYMBOL(dma_async_device_unregister);
- 
-+static void dmam_device_release(struct device *dev, void *res)
-+{
-+	struct dma_device *device;
-+
-+	device = *(struct dma_device **)res;
-+	dma_async_device_unregister(device);
-+}
-+
-+/**
-+ * dmam_async_device_register - registers DMA devices found
-+ * @device: &dma_device
-+ *
-+ * The operation is managed and will be undone on driver detach.
-+ */
-+int dmam_async_device_register(struct dma_device *device)
-+{
-+	void *p;
-+	int ret;
-+
-+	p = devres_alloc(dmam_device_release, sizeof(void *), GFP_KERNEL);
-+	if (!p)
-+		return -ENOMEM;
-+
-+	ret = dma_async_device_register(device);
-+	if (!ret) {
-+		*(struct dma_device **)p = device;
-+		devres_add(device->dev, p);
-+	} else {
-+		devres_free(p);
-+	}
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(dmam_async_device_register);
-+
- struct dmaengine_unmap_pool {
- 	struct kmem_cache *cache;
- 	const char *name;
-diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-index c8c3a7a93802..b98bced0b98e 100644
---- a/include/linux/dmaengine.h
-+++ b/include/linux/dmaengine.h
-@@ -1406,6 +1406,7 @@ static inline int dmaengine_desc_free(struct dma_async_tx_descriptor *desc)
- /* --- DMA device --- */
- 
- int dma_async_device_register(struct dma_device *device);
-+int dmam_async_device_register(struct dma_device *device);
- void dma_async_device_unregister(struct dma_device *device);
- void dma_run_dependencies(struct dma_async_tx_descriptor *tx);
- struct dma_chan *dma_get_slave_channel(struct dma_chan *chan);
--- 
-2.17.1
+> Hi Jonathan,
+> 
+> On Mon, 23 Jul 2018 09:39:24 -0600
+> Jonathan Corbet <corbet@lwn.net> wrote:
+> 
+> > On Fri, 20 Jul 2018 09:53:33 +0200
+> > Marcel Ziswiler <marcel@ziswiler.com> wrote:
+> >   
+> > > From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+> > > 
+> > > This fixes some spelling mistakes.    
+> > 
+> > So I hate to complain about a documentation improvement, but...
+> >   
+> > > 
+> > > Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+> > > 
+> > > ---
+> > > 
+> > >  Documentation/driver-api/mtdnand.rst | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/Documentation/driver-api/mtdnand.rst b/Documentation/driver-api/mtdnand.rst
+> > > index dcd63599f700..c55a6034c397 100644
+> > > --- a/Documentation/driver-api/mtdnand.rst
+> > > +++ b/Documentation/driver-api/mtdnand.rst
+> > > @@ -374,7 +374,7 @@ The nand driver supports three different types of hardware ECC.
+> > >  
+> > >  -  NAND_ECC_HW8_512
+> > >  
+> > > -   Hardware ECC generator providing 6 bytes ECC per 512 byte.
+> > > +   Hardware ECC generator providing 8 bytes ECC per 512 byte.    
+> > 
+> > That's not a spelling mistake, that's a factual change.  I'll apply the
+> > patch since it appears to be correct, but will be tweaking the changelog.  
+> 
+> I think Miquel had planned to apply this patch to the NAND tree, but we
+> don't seem to have conflicting changes on this file, so feel free to
+> take it in the doc tree.
+> 
+> Acked-by: Boris Brezillon <boris.brezillon@bootlin.com>
 
+Can you confirm you will take this patch?
+
+Thanks,
+Miquèl
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
