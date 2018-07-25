@@ -2,143 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C88EC7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 13:18:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E4E657D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 13:30:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729043AbeGYO3o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 10:29:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35694 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728824AbeGYO3o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Jul 2018 10:29:44 -0400
-Received: from gandalf.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BC41B20843;
-        Wed, 25 Jul 2018 13:18:03 +0000 (UTC)
-Date:   Wed, 25 Jul 2018 09:18:02 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Ruchi Kandoi <kandoiruchi@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH v3] cpufreq: trace frequency limits change
-Message-ID: <20180725091802.74400a81@gandalf.local.home>
-In-Reply-To: <20180724173544.18876-1-joel@joelfernandes.org>
-References: <20180724173544.18876-1-joel@joelfernandes.org>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1728547AbeGYOmA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 10:42:00 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37798 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728529AbeGYOmA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 10:42:00 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6PDSllx023296
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 09:30:18 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2kersqwkbf-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 09:30:17 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Wed, 25 Jul 2018 14:30:14 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 25 Jul 2018 14:30:11 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6PDUAwm42401924
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 25 Jul 2018 13:30:10 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AC6E0A4040;
+        Wed, 25 Jul 2018 16:30:24 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 32A44A4051;
+        Wed, 25 Jul 2018 16:30:24 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.8.110])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 25 Jul 2018 16:30:24 +0100 (BST)
+Date:   Wed, 25 Jul 2018 16:30:08 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/7] docs/core-api: split memory management API to a
+ separate file
+References: <1532517970-16409-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <1532517970-16409-6-git-send-email-rppt@linux.vnet.ibm.com>
+ <20180725120500.GA9352@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180725120500.GA9352@bombadil.infradead.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 18072513-0028-0000-0000-000002E010BC
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18072513-0029-0000-0000-00002397FCEE
+Message-Id: <20180725133007.GB25188@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-25_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=922 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807250146
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 Jul 2018 10:35:44 -0700
-Joel Fernandes <joel@joelfernandes.org> wrote:
-
-> From: Ruchi Kandoi <kandoiruchi@google.com>
+On Wed, Jul 25, 2018 at 05:05:00AM -0700, Matthew Wilcox wrote:
+> On Wed, Jul 25, 2018 at 02:26:08PM +0300, Mike Rapoport wrote:
+> > +User Space Memory Access
+> > +========================
+> > +
+> > +.. kernel-doc:: arch/x86/include/asm/uaccess.h
+> > +   :internal:
+> > +
+> > +.. kernel-doc:: arch/x86/lib/usercopy_32.c
+> > +   :export:
+> > +
+> > +The Slab Cache
+> > +==============
+> > +
+> > +.. kernel-doc:: include/linux/slab.h
+> > +   :internal:
+> > +
+> > +.. kernel-doc:: mm/slab.c
+> > +   :export:
+> > +
+> > +.. kernel-doc:: mm/util.c
+> > +   :functions: kfree_const kvmalloc_node kvfree get_user_pages_fast
 > 
-> systrace used for tracing for Android systems has carried a patch for
-> many years in the Android tree that traces when the cpufreq limits
-> change.  With the help of this information, systrace can know when the
-> policy limits change and can visually display the data. Lets add
-> upstream support for the same.
-> 
-> Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> get_user_pages_fast would fit better in the previous 'User Space Memory
+> Access' section.
 
-Better ;-)
+Yeah, it's somewhat "backward compatible" version :)
 
-Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
-
--- Steve
-
-> ---
-> Viresh since I changed the patch, could you Ack it again?
-> 
-> v2->v3: reduce parameters to tracepoint call (Steve)
-> v1->v2: correct ordering of min/max (Viresh)
-> 
->  Documentation/trace/events-power.rst |  1 +
->  drivers/cpufreq/cpufreq.c            |  1 +
->  include/trace/events/power.h         | 25 +++++++++++++++++++++++++
->  3 files changed, 27 insertions(+)
-> 
-> diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
-> index a77daca75e30..2ef318962e29 100644
-> --- a/Documentation/trace/events-power.rst
-> +++ b/Documentation/trace/events-power.rst
-> @@ -27,6 +27,7 @@ cpufreq.
->  
->    cpu_idle		"state=%lu cpu_id=%lu"
->    cpu_frequency		"state=%lu cpu_id=%lu"
-> +  cpu_frequency_limits	"min=%lu max=%lu cpu_id=%lu"
->  
->  A suspend event is used to indicate the system going in and out of the
->  suspend mode:
-> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> index b0dfd3222013..52566f1f1050 100644
-> --- a/drivers/cpufreq/cpufreq.c
-> +++ b/drivers/cpufreq/cpufreq.c
-> @@ -2236,6 +2236,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
->  
->  	policy->min = new_policy->min;
->  	policy->max = new_policy->max;
-> +	trace_cpu_frequency_limits(policy);
->  
->  	policy->cached_target_freq = UINT_MAX;
->  
-> diff --git a/include/trace/events/power.h b/include/trace/events/power.h
-> index 908977d69783..f7aece721aed 100644
-> --- a/include/trace/events/power.h
-> +++ b/include/trace/events/power.h
-> @@ -5,6 +5,7 @@
->  #if !defined(_TRACE_POWER_H) || defined(TRACE_HEADER_MULTI_READ)
->  #define _TRACE_POWER_H
->  
-> +#include <linux/cpufreq.h>
->  #include <linux/ktime.h>
->  #include <linux/pm_qos.h>
->  #include <linux/tracepoint.h>
-> @@ -148,6 +149,30 @@ DEFINE_EVENT(cpu, cpu_frequency,
->  	TP_ARGS(frequency, cpu_id)
->  );
->  
-> +TRACE_EVENT(cpu_frequency_limits,
-> +
-> +	TP_PROTO(struct cpufreq_policy *policy),
-> +
-> +	TP_ARGS(policy),
-> +
-> +	TP_STRUCT__entry(
-> +		__field(u32, min_freq)
-> +		__field(u32, max_freq)
-> +		__field(u32, cpu_id)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__entry->min_freq = policy->min;
-> +		__entry->max_freq = policy->max;
-> +		__entry->cpu_id = policy->cpu;
-> +	),
-> +
-> +	TP_printk("min=%lu max=%lu cpu_id=%lu",
-> +		  (unsigned long)__entry->min_freq,
-> +		  (unsigned long)__entry->max_freq,
-> +		  (unsigned long)__entry->cpu_id)
-> +);
-> +
->  TRACE_EVENT(device_pm_callback_start,
->  
->  	TP_PROTO(struct device *dev, const char *pm_ops, int event),
+Will fix.
+ 
+-- 
+Sincerely yours,
+Mike.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
