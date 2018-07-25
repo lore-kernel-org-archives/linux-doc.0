@@ -5,100 +5,95 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 032D17D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 11:26:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EE4607D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Jul 2018 11:26:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728739AbeGYMhe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Jul 2018 08:37:34 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48178 "EHLO
+        id S1728474AbeGYMhi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Jul 2018 08:37:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56808 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728688AbeGYMhe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 08:37:34 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6PBP5pH108750
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:19 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2kepdcn30y-1
+        by vger.kernel.org with ESMTP id S1728827AbeGYMhh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jul 2018 08:37:37 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6PBPEvb026493
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:23 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2ker0tgsf1-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:18 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jul 2018 07:26:22 -0400
 Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 25 Jul 2018 12:26:17 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 25 Jul 2018 12:26:21 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 25 Jul 2018 12:26:14 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6PBQD8w45809806
+        Wed, 25 Jul 2018 12:26:19 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6PBQI5a42074250
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 25 Jul 2018 11:26:14 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 095E8A4053;
-        Wed, 25 Jul 2018 14:26:28 +0100 (BST)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8886DA4051;
-        Wed, 25 Jul 2018 14:26:26 +0100 (BST)
+        Wed, 25 Jul 2018 11:26:18 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2BC7E11C058;
+        Wed, 25 Jul 2018 14:26:32 +0100 (BST)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AAEE411C04C;
+        Wed, 25 Jul 2018 14:26:30 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.8.110])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 25 Jul 2018 14:26:26 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 25 Jul 2018 14:26:11 +0300
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 25 Jul 2018 14:26:30 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 25 Jul 2018 14:26:16 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>
 Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 0/7] memory management documentation updates
-Date:   Wed, 25 Jul 2018 14:26:03 +0300
+Subject: [PATCH 2/7] mm/util: add kernel-doc for kvfree
+Date:   Wed, 25 Jul 2018 14:26:05 +0300
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1532517970-16409-1-git-send-email-rppt@linux.vnet.ibm.com>
+References: <1532517970-16409-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18072511-4275-0000-0000-0000029D6951
+x-cbid: 18072511-0020-0000-0000-000002AAF0A7
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18072511-4276-0000-0000-000037A5A5F8
-Message-Id: <1532517970-16409-1-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18072511-0021-0000-0000-000020F789E9
+Message-Id: <1532517970-16409-3-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-25_03:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=858 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1806210000 definitions=main-1807250124
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+---
+ mm/util.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Here are several updates to the mm documentation.
-
-Aside from really minor changes in the first three patches, the updates
-are:
-
-* move the documentation of kstrdup and friends to "String Manipulation"
-  section
-* split memory management API into a separate .rst file
-* adjust formating of the GFP flags description and include it in the
-  reference documentation.
-
-Mike Rapoport (7):
-  mm/util: make strndup_user description a kernel-doc comment
-  mm/util: add kernel-doc for kvfree
-  docs/core-api: kill trailing whitespace in kernel-api.rst
-  docs/core-api: move *{str,mem}dup* to "String Manipulation"
-  docs/core-api: split memory management API to a separate file
-  docs/mm: make GFP flags descriptions usable as kernel-doc
-  docs/core-api: mm-api: add section about GFP flags
-
- Documentation/core-api/index.rst      |   1 +
- Documentation/core-api/kernel-api.rst |  59 +------
- Documentation/core-api/mm-api.rst     |  76 +++++++++
- include/linux/gfp.h                   | 291 ++++++++++++++++++----------------
- mm/util.c                             |   9 +-
- 5 files changed, 243 insertions(+), 193 deletions(-)
- create mode 100644 Documentation/core-api/mm-api.rst
-
+diff --git a/mm/util.c b/mm/util.c
+index 6809014..d2890a4 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -434,6 +434,13 @@ void *kvmalloc_node(size_t size, gfp_t flags, int node)
+ }
+ EXPORT_SYMBOL(kvmalloc_node);
+ 
++/**
++ * kvfree - free memory allocated with kvmalloc
++ * @addr: pointer returned by kvmalloc
++ *
++ * If the memory is allocated from vmalloc area it is freed with vfree().
++ * Otherwise kfree() is used.
++ */
+ void kvfree(const void *addr)
+ {
+ 	if (is_vmalloc_addr(addr))
 -- 
 2.7.4
 
