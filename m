@@ -1,68 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E452C7D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 04:10:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BDC7F7D085
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 05:01:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727798AbeGZFZh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Jul 2018 01:25:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33984 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726980AbeGZFZh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Jul 2018 01:25:37 -0400
-Received: from localhost (unknown [122.178.199.194])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 196452083F;
-        Thu, 26 Jul 2018 04:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1532578246;
-        bh=rIPWl1+keZODLsibjOltTI32bA3R9rpg/d7wWSTNENM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fygDve5GnqIk9wYWFcG82Mu1Y6yOQ57N2bLkGxbi+Ahw845PDUomv7kgsvWsqBr8c
-         ZPj2FaIu/b9dEC6iO4OwyWlDxDt93+ZfUhTA7b2Ut1PqA7Qj/tWSjZZHvy+zHAMbd1
-         /CkMAVoN5UYdMe12pl+fVKrqSGYau3h5TOcyuLsg=
-Date:   Thu, 26 Jul 2018 09:40:38 +0530
-From:   Vinod <vkoul@kernel.org>
-To:     Huang Shijie <sjhuang@iluvatar.ai>
-Cc:     corbet@lwn.net, dan.j.williams@intel.com, robh@kernel.org,
-        linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
+        id S1728115AbeGZGP7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Jul 2018 02:15:59 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:41121 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725903AbeGZGP7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jul 2018 02:15:59 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 78BCE21FE4;
+        Thu, 26 Jul 2018 01:00:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 26 Jul 2018 01:00:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :date:from:message-id:subject:to:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=YgNhRQCahx4NZfLqWiZpaVMOBiS+IZpdByUxgEHqy
+        L8=; b=a3h4VEQKrQkck1id+3iIb8UjtIPxLH5twbfsGi802CVxIcvD3raxcEW1X
+        0dfyfVU6e70JPxHcjeAusJ1SZA+sDHEr//RPl4fo8DX3pYLsTqbMl/I2jNqiwytz
+        smGOUID+VGSsd5QF5ygNxB/Tgg8uu9pe7hkHtyA0blO3yUOOJeymw+VdIpiQk3Y5
+        xBnT2ru5z65sH0wIgLtK+Lg39ELRjjPRIVArZXYH7scx/kI4v9KN+WZrMVekYKY1
+        uIHcedJrbcLCSEyyr4h3YF/v6kroyn0W80ZUF02esInGwzt27Ayz1JuCEmqRRRxw
+        O2Qw68w0wchLRfiLeukoq53qkDXOw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:date:from:message-id:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=YgNhRQCahx4NZfLqW
+        iZpaVMOBiS+IZpdByUxgEHqyL8=; b=tZBQKqijQpXy2hBUTg4PEuAlG7/DXeV3H
+        peht+aVvZXi0xjk6s3bpdb/vmRBvt+MAN9Ew8au3AI9S/+cloN08kkyTLnEfsbjk
+        nHetsbHOzMNZBr6PQln2idGkcKQUEvNSVsvb2xto7UC1VAiFzWSfq0DMsjzUoos5
+        fQf0wl72lRk4KBIkXPQgjGxXL3eVWjq5v6pJJQNCSNgG98i1n2PTai/FTQnze3iE
+        jhPx89znaGRK/dGD9g8PCnt4R3eIyuhoFFA5E2xXAg/urxdsiiE5n2sfpDbsbE8V
+        fiRFKYztnhSOPeOfCPRIkqLeii3/zo7yoEVDBR04YOqMYfpn+mPqg==
+X-ME-Proxy: <xmx:h1VZWxYdGlVXqcZegE5n2A_NvNm9bXBCyG94DJ0ZNcLHBUF5IbfMQw>
+    <xmx:h1VZW9XbFKRZRBKdxRXTPNEUndYojk3LssFrHaHiEctKBKGkSjsXTg>
+    <xmx:iFVZW4MnP3ri8Kvgvjr85_qFRMxfv4VZr_QF4s6aP_88xlSeaPt1Vg>
+    <xmx:iFVZW_Y6yeKYgahj7PrQwzL8bdQYli4-jHwxtqjGJPwo9OEzLfZYgg>
+    <xmx:iFVZW_8adtJab9sbiQiDMelAWfGxjuGs2Gnom6CPIF0m_jHHhONjWQ>
+    <xmx:iFVZW-EWIxqaT9Jl78k1JivmUEmbyBtCKag0HPEDozx03r28nERp8w>
+X-ME-Sender: <xms:h1VZW3eF79H2JWSmpYlTkwRx4KLWGsLYtH_vA6UFVtCfXGR9GIjNhg>
+Received: from localhost (ppp121-44-239-245.bras2.syd2.internode.on.net [121.44.239.245])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 4E7D21026B;
+        Thu, 26 Jul 2018 01:00:55 -0400 (EDT)
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     "David S. Miller" <davem@davemloft.net>
+Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
+        Edward Cree <ecree@solarflare.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dmaengine: add a new helper dmam_async_device_register
-Message-ID: <20180726041038.GY3661@vkoul-mobl>
-References: <20180725054645.9723-1-sjhuang@iluvatar.ai>
- <20180725123826.GT3661@vkoul-mobl>
- <452f2991-241b-1f0f-efad-9c7e37814c5e@iluvatar.ai>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <452f2991-241b-1f0f-efad-9c7e37814c5e@iluvatar.ai>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Subject: [PATCH v2 net-next 0/3] docs: net: Convert netdev-FAQ to RST
+Date:   Thu, 26 Jul 2018 15:00:28 +1000
+Message-Id: <20180726050031.1697-1-me@tobin.cc>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26-07-18, 09:21, Huang Shijie wrote:
-> > > @@ -240,6 +240,7 @@ CLOCK
-> > >     devm_of_clk_add_hw_provider()
-> > >   DMA
-> > > +  dmam_async_device_register()
-> > can we name it dmaengine_async_device_register, not to confuse with dma APIs
-> ok.
-> If no one objects the dmaengine_async_device_register().
-> I will use it in the next version.
+Hi Dave,
 
-Relooking at it, we also need to suggest that it is devm api, so:
+Jon answered all the tree questions on v1 so if you will please take
+this through your tree that would be awesome.
 
-dmaenginem_async_device_register() would be better IMO
+v2:
+ - Fix typo 'canonical_path_format' (thanks Edward) 
+ - Add patch fixing references netdev-FAQ
+
+thanks,
+Tobin.
+
+
+Tobin C. Harding (3):
+  docs: Add rest label the_canonical_patch_format
+  docs: net: Convert netdev-FAQ to restructured text
+  docs: Update references to netdev-FAQ
+
+ Documentation/bpf/bpf_devel_QA.rst            |  21 +-
+ Documentation/networking/00-INDEX             |   2 -
+ Documentation/networking/index.rst            |   1 +
+ Documentation/networking/netdev-FAQ.rst       | 259 ++++++++++++++++++
+ Documentation/networking/netdev-FAQ.txt       | 244 -----------------
+ Documentation/process/stable-kernel-rules.rst |   2 +-
+ Documentation/process/submitting-patches.rst  |   1 +
+ 7 files changed, 271 insertions(+), 259 deletions(-)
+ create mode 100644 Documentation/networking/netdev-FAQ.rst
+ delete mode 100644 Documentation/networking/netdev-FAQ.txt
 
 -- 
-~Vinod
+2.17.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
