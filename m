@@ -1,106 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A85B7D085
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 06:46:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F5D87D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 07:10:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728497AbeGZICA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Jul 2018 04:02:00 -0400
-Received: from mail.iluvatar.ai ([58.213.90.100]:40310 "EHLO mail.iluvatar.ai"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728509AbeGZICA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Jul 2018 04:02:00 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.iluvatar.ai (Postfix) with ESMTP id 3631713F10AA2;
-        Thu, 26 Jul 2018 14:49:55 +0800 (CST)
-Received: from mail.iluvatar.ai ([127.0.0.1])
-        by localhost (mail.iluvatar.ai [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id GlD__Xpd6ZEb; Thu, 26 Jul 2018 14:49:53 +0800 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.iluvatar.ai (Postfix) with ESMTP id 3019613F10A9A;
-        Thu, 26 Jul 2018 14:49:53 +0800 (CST)
-DKIM-Filter: OpenDKIM Filter v2.9.2 mail.iluvatar.ai 3019613F10A9A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iluvatar.ai;
-        s=809B2F8E-810B-11E8-86FD-A0A654EEFFEB; t=1532587793;
-        bh=D2exeT7BZ05pwWgEQQPRYgG26cRqCBnVhiH72cfH67o=;
-        h=From:To:Subject:Date:Message-Id;
-        b=RosgOxkcooGQogOIvCq4qnMyKNggAgkrYnBPldXqq0/6CrNn6IJE1+MhTHQ8dLtcu
-         k+45RvbePjUw91HZNo+cWNUb8VELdHgekNj01Nof1iyGQ89rHKAZYqaBKTvZIB7uQn
-         kbGn8mEoneWnGGfSsR3XTCKKawJFwceUtkfCTuA8=
-X-Virus-Scanned: amavisd-new at iluvatar.ai
-Received: from mail.iluvatar.ai ([127.0.0.1])
-        by localhost (mail.iluvatar.ai [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 2WONsjbwb8sa; Thu, 26 Jul 2018 14:49:53 +0800 (CST)
-Received: from localhost.localdomain (unknown [180.166.124.10])
-        by mail.iluvatar.ai (Postfix) with ESMTPSA id AE8F113F10A9B;
-        Thu, 26 Jul 2018 14:49:52 +0800 (CST)
-From:   Huang Shijie <sjhuang@iluvatar.ai>
-To:     vkoul@kernel.org
-Cc:     corbet@lwn.net, dan.j.williams@intel.com, robh@kernel.org,
-        linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ashutosh.dixit@intel.com,
-        Huang Shijie <sjhuang@iluvatar.ai>
-Subject: [PATCH v2 2/2] dmaengine: mic_x100_dma: use the new helper to simplify the code
-Date:   Thu, 26 Jul 2018 14:45:54 +0800
-Message-Id: <20180726064554.24975-2-sjhuang@iluvatar.ai>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180726064554.24975-1-sjhuang@iluvatar.ai>
-References: <20180726064554.24975-1-sjhuang@iluvatar.ai>
+        id S1729023AbeGZIZr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Jul 2018 04:25:47 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:37737 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728310AbeGZIZq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jul 2018 04:25:46 -0400
+Received: by mail-oi0-f66.google.com with SMTP id k81-v6so1192368oib.4;
+        Thu, 26 Jul 2018 00:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=gkiVH0VLeH1j/I2g5Qytpx0pEzRUsYjHuez1P/sr6iM=;
+        b=kt1M3mqX77bTZTsntXrqBOboZGd8GikOVJcJeeQdvI3AVXDhcpFvwS1rqdEgj0hacw
+         shiPuaCRXB1/RmJ+IencdsX3RVeOmtHn5yiwEut4S4lYQHb7RC6xuDcmWS7fVsD3zKS9
+         v52WhSnlprfjGaVoSblPJ9rpL3YIu2klQOwqRo7t7tRlIVDnh79hk3z3S6IWNblI0YOq
+         SSHyNaGlCuce6rsagekIrZTXhl4zm+zb46w6ONCt1L35wJ2Bm9CZ7DRVLj1o79r7M2F/
+         wBWVcZQKwguLNx25VlJwIwn5z6Mzskr8D2gdy614bHUevwsjpdk3e5bw5XDb1YdnhzLG
+         qLNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=gkiVH0VLeH1j/I2g5Qytpx0pEzRUsYjHuez1P/sr6iM=;
+        b=nawpSb97BmQDAH0U8HcKATqMy2NY4pNnCVNf+6pCoQhC3VlaM1eHmJq8wvls8iEP2x
+         qdqpgqvB3cd5neJjm3VyXI9lbfhnS6TPkg/qNVlGE9Py68Ma4+IWqbgpxc+kuOdrfd6J
+         jmFfpHU7QHmHkmwdgGmflLi6la9Rmp0cl/YqDCyLEAT9e+vKy83YmBGJybbqHKUA/apv
+         +8KvLYCEnMNxdzvqzNLYbvl3dWrfC5aw0zCGsfrJ2hC6RAFoDxbxn9CNBH0lilNoCYBU
+         h2tJArVwz6ynpqCRzNMspUOaLaq7bWz/yFjonTZ4RGaTFX5Q9vvjTWBWt7LSh558aef2
+         wRug==
+X-Gm-Message-State: AOUpUlFfG46P4KCMfXJMIEy1iso813JUJGTwtq3L7yyKGnedC3w+7+7z
+        q5/ZalVuZcaxWz9R9hDTtlv5z+aqoTWqIsRuA/U=
+X-Google-Smtp-Source: AAOMgpfqBk69BcKvLcWXkWEWs5TKuNUfYH4qHFyzaU7XcaTncVdRolKl7YUlHV4P0Hpq+3bCheM/ftPAfut9M7/hEx8=
+X-Received: by 2002:aca:3805:: with SMTP id f5-v6mr710912oia.310.1532589020256;
+ Thu, 26 Jul 2018 00:10:20 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a9d:5b33:0:0:0:0:0 with HTTP; Thu, 26 Jul 2018 00:09:59
+ -0700 (PDT)
+In-Reply-To: <CAJKOXPc1csipQsmtJ77uZOwUgchPwGoA_+xxzmCjx97dLU5cyg@mail.gmail.com>
+References: <20180724164946.6274-1-krzk@kernel.org> <20180724164946.6274-4-krzk@kernel.org>
+ <CANAwSgSChhEzDf5oSqZ2Srt62n16Z+ppFnupT=0pGkaSCv90vw@mail.gmail.com> <CAJKOXPc1csipQsmtJ77uZOwUgchPwGoA_+xxzmCjx97dLU5cyg@mail.gmail.com>
+From:   Anand Moon <linux.amoon@gmail.com>
+Date:   Thu, 26 Jul 2018 12:39:59 +0530
+Message-ID: <CANAwSgS+JNAbiX3=c+OtDBMXgrKcwgC4uRukHG90oCiJcrOxwQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] ARM: exynos: Fix imprecise abort during Exynos5422
+ suspend to RAM
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Kukjin Kim <kgene@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Pankaj Dubey <pankaj.dubey@samsung.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use dmaenginem_async_device_register() to simplify the code:
-    remove the mic_dma_unregister_dma_device()
+Hi Krzysztof,
 
-Signed-off-by: Huang Shijie <sjhuang@iluvatar.ai>
----
-    Just add a user for the new helper.
----
- drivers/dma/mic_x100_dma.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+On 26 July 2018 at 12:10, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 26 July 2018 at 08:22, Anand Moon <linux.amoon@gmail.com> wrote:
+>> Hi Krzysztof,
+>>
+>> On 24 July 2018 at 22:19, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>> Suspend to RAM on Odroid XU3/XU4/HC1 family (Exynos5422) causes
+>>> imprecise abort:
+>>>
+>>>         PM: Syncing filesystems ... done.
+>>>         Freezing user space processes ... (elapsed 0.003 seconds) done.
+>>>         OOM killer disabled.
+>>>         Freezing remaining freezable tasks ... (elapsed 0.003 seconds) done.
+>>>         wake enabled for irq 139
+>>>         Disabling non-boot CPUs ...
+>>>         IRQ51 no longer affine to CPU1
+>>>         IRQ52 no longer affine to CPU2
+>>>         IRQ53 no longer affine to CPU3
+>>>         IRQ54 no longer affine to CPU4
+>>>         IRQ55 no longer affine to CPU5
+>>>         IRQ56 no longer affine to CPU6
+>>>         cpu cpu4: Dropping the link to regulator.40
+>>>         IRQ57 no longer affine to CPU7
+>>>         Unhandled fault: external abort on non-linefetch (0x1008) at 0xf081a028
+>>>         Internal error: : 1008 [#1] PREEMPT SMP ARM
+>>>
+>>> with last call trace in exynos_suspend_enter().
+>>>
+>>> The abort is caused by writing to register in secure part of sysram.
+>>> Boards booted under secure firmware (e.g. Hardkernel Odroid boards)
+>>> should access non-secure sysram.
+>>>
+>>> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+>>>
+>>
+>> I could not get the suspend to ram working on my Odroid-XU4.
+>
+> Correct, resuming from suspend to RAM does not work on Exynos5422
+> (yet). The patch does not add support for it. I did not write that it
+> works. The only thing patch does, is fixing the imprecise abort during
+> suspend.
+>
+> Best regards,
+> Krzysztof
 
-diff --git a/drivers/dma/mic_x100_dma.c b/drivers/dma/mic_x100_dma.c
-index 68dd79783b54..b76cb17d879c 100644
---- a/drivers/dma/mic_x100_dma.c
-+++ b/drivers/dma/mic_x100_dma.c
-@@ -470,11 +470,6 @@ static void mic_dma_chan_destroy(struct mic_dma_chan *ch)
- 	mic_dma_chan_mask_intr(ch);
- }
- 
--static void mic_dma_unregister_dma_device(struct mic_dma_device *mic_dma_dev)
--{
--	dma_async_device_unregister(&mic_dma_dev->dma_dev);
--}
--
- static int mic_dma_setup_irq(struct mic_dma_chan *ch)
- {
- 	ch->cookie =
-@@ -630,7 +625,7 @@ static int mic_dma_register_dma_device(struct mic_dma_device *mic_dma_dev,
- 		list_add_tail(&mic_dma_dev->mic_ch[i].api_ch.device_node,
- 			      &mic_dma_dev->dma_dev.channels);
- 	}
--	return dma_async_device_register(&mic_dma_dev->dma_dev);
-+	return dmaenginem_async_device_register(&mic_dma_dev->dma_dev);
- }
- 
- /*
-@@ -678,7 +673,6 @@ static struct mic_dma_device *mic_dma_dev_reg(struct mbus_device *mbdev,
- 
- static void mic_dma_dev_unreg(struct mic_dma_device *mic_dma_dev)
- {
--	mic_dma_unregister_dma_device(mic_dma_dev);
- 	mic_dma_uninit(mic_dma_dev);
- 	kfree(mic_dma_dev);
- }
--- 
-2.17.1
+Ok thanks for the input.
 
+Best Regards
+-Anand
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
