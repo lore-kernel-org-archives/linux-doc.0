@@ -1,94 +1,153 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=FROM_EXCESS_BASE64,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 527BC7D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 08:22:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D3F9A7D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 08:34:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728989AbeGZJht (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Jul 2018 05:37:49 -0400
-Received: from mail-oi0-f65.google.com ([209.85.218.65]:42205 "EHLO
-        mail-oi0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728956AbeGZJht (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jul 2018 05:37:49 -0400
-Received: by mail-oi0-f65.google.com with SMTP id n84-v6so1492141oib.9;
-        Thu, 26 Jul 2018 01:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=GndRCQMau3PydFhw8kq1nYnMCcmKMqyUbqUtAZLhF3M=;
-        b=agOldFa8qwdRlVZW61U8HgUjoUjYGSsvdbzHtfz423OoRLjaY/1vgpTRoLVpJI9YIL
-         eX9/TZtMSf3bbXYmwgGK4VvpzxIznp8NJI8C2vfbF2MlCaCudco2QTSQL7luiAENG8EF
-         YYGuYduRgnii6IJiNgLabjnTiPq5j19UGS7fOUKaB9RO++i9P41cHwWqmJoeyf1LivAI
-         WrvjQe2/Npbk/BMVUUoHTRSAaE64YhP4TepqiaAQH91Awsaxy++TF5XY8Sgvt/gY27ZS
-         zNf5FbdNIqWeSKvpaCijyDANDSN2XSjypD9BZTl7pZG2zxGyQnrGYDwJDfqXTRj0PTIX
-         JrbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=GndRCQMau3PydFhw8kq1nYnMCcmKMqyUbqUtAZLhF3M=;
-        b=ps2cKUj0MtJFqdK6Bjc0uvTvXcjk02co3byO7qa32E9xS5ktYvTzSHV4nSr5MxsUer
-         jRkYDkDttIVi+D4TgwkBMvugO28TeuqQjFod8E6U/FHD8M8j7W4SaS/o2SGN77ePGhyP
-         vjLvIqbXzalWw5vNjQsl0X3P3Wdv4AjqFiwaTymSYdlYz2n/io5MSFMCYprFkSQwNBTW
-         idekf/BZ6zU5VVGHGtuftjaNfdOZN86HElGWoPyW5ktHGXTiyWaoO/9LkuFN88p+nWLZ
-         EEZzRKmGTu+6Yck2aU7QLFTRKFUo799yQL6mdA2i61SAXugOlgmIN/wL4tntHtpSBhB7
-         rpAQ==
-X-Gm-Message-State: AOUpUlG0JezaUyHBW/dL7nTHqAvHABLoXJFnKWJ+TgqGq5AX1vaNHNcW
-        klNUTPE6pNZj0Ryq1ko/Cq7LAUmB+DuAXZbw03s=
-X-Google-Smtp-Source: AAOMgpcM6zgioOsOkADpIu+FsjVe2boaJaIlsx7rQUVdAFygfUCU5ALWBEJLNNtuBZ8eQ09wtG2ciQMJCbuDjk5JN80=
-X-Received: by 2002:aca:42:: with SMTP id 63-v6mr882495oia.154.1532593325889;
- Thu, 26 Jul 2018 01:22:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:63d2:0:0:0:0:0 with HTTP; Thu, 26 Jul 2018 01:22:05
- -0700 (PDT)
-In-Reply-To: <20180725091802.74400a81@gandalf.local.home>
-References: <20180724173544.18876-1-joel@joelfernandes.org> <20180725091802.74400a81@gandalf.local.home>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 26 Jul 2018 10:22:05 +0200
-X-Google-Sender-Auth: 7fphIQA3LKMYHtk3nB4oTD-8dLI
-Message-ID: <CAJZ5v0hzdLpFaZuMVPP1oWOExsp5BBStpkg_C1ZekCEnDQjdgA@mail.gmail.com>
-Subject: Re: [PATCH v3] cpufreq: trace frequency limits change
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>
+        id S1728871AbeGZJtr convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Jul 2018 05:49:47 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33326 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727847AbeGZJtr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Jul 2018 05:49:47 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 9DC05AEB1;
+        Thu, 26 Jul 2018 08:33:58 +0000 (UTC)
+Date:   Thu, 26 Jul 2018 10:33:54 +0200
+From:   Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel-team@android.com, Ruchi Kandoi <kandoiruchi@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
+        Takashi Iwai <tiwai@suse.de>, Andreas Schwab <schwab@suse.de>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Michal Marek <michal.lkml@markovi.net>,
         Jonathan Corbet <corbet@lwn.net>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Jeff Mahoney <jeffm@suse.com>,
+        "Peter Zijlstra," <peterz@infradead.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-um@lists.infradead.org, jslaby@suse.com
+Subject: Re: due to kconfig changes kernel config file is no longer
+ sufficient for configuring the kernel
+Message-ID: <20180726103354.111f2d61@naga.suse.cz>
+In-Reply-To: <20180628111623.3807fe9b@naga.suse.cz>
+References: <20180627143705.5a1fed1c@kitsune.suse.cz>
+        <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
+        <20180628111623.3807fe9b@naga.suse.cz>
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 25, 2018 at 3:18 PM, Steven Rostedt <rostedt@goodmis.org> wrote:
-> On Tue, 24 Jul 2018 10:35:44 -0700
-> Joel Fernandes <joel@joelfernandes.org> wrote:
->
->> From: Ruchi Kandoi <kandoiruchi@google.com>
->>
->> systrace used for tracing for Android systems has carried a patch for
->> many years in the Android tree that traces when the cpufreq limits
->> change.  With the help of this information, systrace can know when the
->> policy limits change and can visually display the data. Lets add
->> upstream support for the same.
->>
->> Signed-off-by: Ruchi Kandoi <kandoiruchi@google.com>
->> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->
-> Better ;-)
->
-> Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+On Thu, 28 Jun 2018 11:16:23 +0200
+Michal Suchánek <msuchanek@suse.de> wrote:
 
-Patch applied, thanks!
+> On Wed, 27 Jun 2018 23:07:21 +0900
+> Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+> 
+> > Hi.
+> > 
+> > 
+> > 2018-06-27 21:37 GMT+09:00 Michal Suchánek <msuchanek@suse.de>:  
+> > > Hello,
+> > >
+> > > in the x86 Kconfig we have this:
+> > >
+> > > # Select 32 or 64 bit
+> > > config 64BIT
+> > >         bool "64-bit kernel" if "$(ARCH)" = "x86"
+> > >         default "$(ARCH)" != "i386"
+> > >         ---help---
+> > >           Say yes to build a 64-bit kernel - formerly known as
+> > > x86_64 Say no to build a 32-bit kernel - formerly known as i386
+> > >
+> > > Since commit 104daea149c4 ("kconfig: reference environment
+> > > variables directly and remove 'option env='") the value of ARCH
+> > > is not saved in the kernel config.    
+> > 
+> > I think this commit is unrelated.  It was just a syntax change.  
+> 
+> This does not look like syntax only change to me:
+> 
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 15aae32e0719..1217fc62ca61 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1,20 +1,12 @@
+> -config ARCH
+> -       string
+> -       option env="ARCH"
+> -
+> -config KERNELVERSION
+> -       string
+> -       option env="KERNELVERSION"
+> -
+> 
+> > 
+> > Unless I am missing something,
+> > we have never saved ARCH in the .config in the past.  
+> 
+> There was a config symbol defined for it before the commit removed it.
+
+nonetheless its value was not saved anyway.
+> 
+> > 
+> >   
+> > > Since commit f467c5640c29 ("kconfig: only write '#
+> > > CONFIG_FOO is not set' for visible symbols") the value of 64BIT is
+> > > not saved if the ARCH is set i386 or x86_64 because the symbol is
+> > > not visible.    
+> > 
+> > This is correct.
+> > 
+> > It was discussed a few weeks ago.
+> > 
+> > https://lkml.org/lkml/2018/6/5/847
+
+And it went nowhere.
+
+Anyway, the observed issue with CONFIG_64BIT on x86 is the tip of a
+larger problem which was unnoticed for ages. The .config simply does
+not contain the whole kernel configuration. ie. make oldconfig (and
+make syncconfig) is *not* expected to just work. It used to work just by
+luck until f467c5640c29 ("kconfig: only write '# CONFIG_FOO is not set'
+for visible symbols") finally exposed the problem.
+
+So is .config supposed to contain the kernel configuration or is it
+just some byproduct of the kernel build which is meaningless outside of
+your build environment (the object tree, shell environment, etc).
+
+Thanks
+
+Michal
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
