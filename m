@@ -1,90 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0A0C07D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 12:44:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6AD667D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 13:01:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730030AbeGZOAk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Jul 2018 10:00:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39778 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729882AbeGZOAk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Jul 2018 10:00:40 -0400
-Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2FE52083F;
-        Thu, 26 Jul 2018 12:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1532609039;
-        bh=X66FmPTPYJDPEKW52jWzhIo9km+WW/w2YsrxfmLx4O0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tzfWBx3byqxn3pjQwqp8A9g9DKFrrOYcSKYcS8CxNrMwtNS4gKrthvDTyJXVToNEv
-         dl+a1S27wLfKWD+KnlFNkRKMqX7fs6Q5GURUBRoYa02T/2QQ/7DGZdsQdCXts/OS+U
-         H3UMdxwzT2ijU0O5EbYBQ/9KrfHKFISjZSo9KqtI=
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 1/3] doc: tracing: Fix a typo of trace_stat
-Date:   Thu, 26 Jul 2018 21:43:36 +0900
-Message-Id: <153260901588.12474.13361141902967649729.stgit@devbox>
-X-Mailer: git-send-email 2.13.6
-In-Reply-To: <153260898648.12474.8316095450186108842.stgit@devbox>
-References: <153260898648.12474.8316095450186108842.stgit@devbox>
-User-Agent: StGit/0.17.1-dirty
+        id S1729894AbeGZORy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Jul 2018 10:17:54 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50274 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729852AbeGZORy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jul 2018 10:17:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=zXASJV1B8w6TWTclebE+L67zvG3MwPJohKc8D5awSUQ=; b=X3+63UBaeaMvPK++p/cHQHAiW
+        Anbemo/zFWVPZn/xxrybQacASkIxDf8Wjq1wmUZo0cMJaa0b7pFX0tEbY1rVb/z/rm2yg+LFcQ176
+        tRJ+nR2tLSZOnYvnixUqYt3llgF1fFqvj6iE2Cqax8jeOhaZHz4avEWBZ3pBRc0tfKoqqHRKcWAzI
+        8ioHwZZxl6h4NgLB4xA+7nZIENHd2QIiTQAQ1RGa342TNVZ/YM/5PWLstnLSzeBs1sl0x8MS1x4H1
+        XIY8UfCsbdji/bETtNhOlLaKfvB1UQ5RA2ZsrsG/VvG2MCOXGRMwandfQjTOggm7F3rvbxJjCdjVB
+        bwilizJFg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fiftD-00006o-4m; Thu, 26 Jul 2018 13:01:07 +0000
+Date:   Thu, 26 Jul 2018 06:01:06 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 7/7] docs/core-api: mm-api: add section about GFP flags
+Message-ID: <20180726130106.GC3504@bombadil.infradead.org>
+References: <1532607722-17079-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <1532607722-17079-8-git-send-email-rppt@linux.vnet.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1532607722-17079-8-git-send-email-rppt@linux.vnet.ibm.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The name of the directory for per-cpu function statistics
-is trace_stat, not trace_stats.
+On Thu, Jul 26, 2018 at 03:22:02PM +0300, Mike Rapoport wrote:
+> +Memory Allocation Controls
+> +==========================
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- 0 files changed
+Perhaps call this section "Memory Allocation Flags" instead?
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index a20d34955333..7ea16a0ceffc 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -329,9 +329,9 @@ of ftrace. Here is a list of some of the key files:
- 	track of the time spent in those functions. The histogram
- 	content can be displayed in the files:
- 
--	trace_stats/function<cpu> ( function0, function1, etc).
-+	trace_stat/function<cpu> ( function0, function1, etc).
- 
--  trace_stats:
-+  trace_stat:
- 
- 	A directory that holds different tracing stats.
- 
-diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
-index dcc0166d1997..a47f77d27673 100644
---- a/kernel/trace/Kconfig
-+++ b/kernel/trace/Kconfig
-@@ -521,7 +521,7 @@ config FUNCTION_PROFILER
- 	  in debugfs called function_profile_enabled which defaults to zero.
- 	  When a 1 is echoed into this file profiling begins, and when a
- 	  zero is entered, profiling stops. A "functions" file is created in
--	  the trace_stats directory; this file shows the list of functions that
-+	  the trace_stat directory; this file shows the list of functions that
- 	  have been hit and their counters.
- 
- 	  If in doubt, say N.
+> +Linux provides a variety of APIs for memory allocation from direct
+> +calls to page allocator through slab caches and vmalloc to allocators
+> +of compressed memory. Although these allocators have different
+> +semantics and are used in different circumstances, they all share the
+> +GFP (get free page) flags that control behavior of each allocation
+> +request.
+
+While this isn't /wrong/, I think it might not be the most useful way
+of explaining what the GFP flags are to someone who's just come across
+them in some remote part of the kernel.  How about this paragraph instead?
+
+  Functions which need to allocate memory often use GFP flags to express
+  how that memory should be allocated.  The GFP acronym stands for "get
+  free pages", the underlying memory allocation function.  Not every GFP
+  flag is allowed to every function which may allocate memory.  Most
+  users will want to use a plain ``GFP_KERNEL`` or ``GFP_ATOMIC``.
+
+> +.. kernel-doc:: include/linux/gfp.h
+> +   :doc: Page mobility and placement hints
+> +
+> +.. kernel-doc:: include/linux/gfp.h
+> +   :doc: Watermark modifiers
+> +
+> +.. kernel-doc:: include/linux/gfp.h
+> +   :doc: Reclaim modifiers
+> +
+> +.. kernel-doc:: include/linux/gfp.h
+> +   :doc: Common combinations
+
+Would it make more sense to put 'common combinations' first?
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
