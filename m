@@ -1,153 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=FROM_EXCESS_BASE64,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D3F9A7D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 08:34:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4BF637D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 10:57:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728871AbeGZJtr convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Jul 2018 05:49:47 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33326 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727847AbeGZJtr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Jul 2018 05:49:47 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 9DC05AEB1;
-        Thu, 26 Jul 2018 08:33:58 +0000 (UTC)
-Date:   Thu, 26 Jul 2018 10:33:54 +0200
-From:   Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Takashi Iwai <tiwai@suse.de>, Andreas Schwab <schwab@suse.de>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
+        id S1729342AbeGZMNV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Jul 2018 08:13:21 -0400
+Received: from mga17.intel.com ([192.55.52.151]:26618 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729097AbeGZMNV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Jul 2018 08:13:21 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Jul 2018 03:57:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,404,1526367600"; 
+   d="asc'?scan'208";a="243482752"
+Received: from pipin.fi.intel.com (HELO localhost) ([10.237.68.37])
+  by orsmga005.jf.intel.com with ESMTP; 26 Jul 2018 03:56:48 -0700
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Jeff Mahoney <jeffm@suse.com>,
-        "Peter Zijlstra," <peterz@infradead.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, davem@davemloft.net,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-um@lists.infradead.org, jslaby@suse.com
-Subject: Re: due to kconfig changes kernel config file is no longer
- sufficient for configuring the kernel
-Message-ID: <20180726103354.111f2d61@naga.suse.cz>
-In-Reply-To: <20180628111623.3807fe9b@naga.suse.cz>
-References: <20180627143705.5a1fed1c@kitsune.suse.cz>
-        <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
-        <20180628111623.3807fe9b@naga.suse.cz>
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Marcus Folkesson <marcus.folkesson@gmail.com>
+Subject: Re: [PATCH v4 1/3] usb: gadget: ccid: add support for USB CCID Gadget Device
+In-Reply-To: <20180626081422.19237-1-marcus.folkesson@gmail.com>
+References: <20180626081422.19237-1-marcus.folkesson@gmail.com>
+Date:   Thu, 26 Jul 2018 13:53:30 +0300
+Message-ID: <87woti1d5h.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 28 Jun 2018 11:16:23 +0200
-Michal Suchánek <msuchanek@suse.de> wrote:
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-> On Wed, 27 Jun 2018 23:07:21 +0900
-> Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
-> 
-> > Hi.
-> > 
-> > 
-> > 2018-06-27 21:37 GMT+09:00 Michal Suchánek <msuchanek@suse.de>:  
-> > > Hello,
-> > >
-> > > in the x86 Kconfig we have this:
-> > >
-> > > # Select 32 or 64 bit
-> > > config 64BIT
-> > >         bool "64-bit kernel" if "$(ARCH)" = "x86"
-> > >         default "$(ARCH)" != "i386"
-> > >         ---help---
-> > >           Say yes to build a 64-bit kernel - formerly known as
-> > > x86_64 Say no to build a 32-bit kernel - formerly known as i386
-> > >
-> > > Since commit 104daea149c4 ("kconfig: reference environment
-> > > variables directly and remove 'option env='") the value of ARCH
-> > > is not saved in the kernel config.    
-> > 
-> > I think this commit is unrelated.  It was just a syntax change.  
-> 
-> This does not look like syntax only change to me:
-> 
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 15aae32e0719..1217fc62ca61 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -1,20 +1,12 @@
-> -config ARCH
-> -       string
-> -       option env="ARCH"
-> -
-> -config KERNELVERSION
-> -       string
-> -       option env="KERNELVERSION"
-> -
-> 
-> > 
-> > Unless I am missing something,
-> > we have never saved ARCH in the .config in the past.  
-> 
-> There was a config symbol defined for it before the commit removed it.
+Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
-nonetheless its value was not saved anyway.
-> 
-> > 
-> >   
-> > > Since commit f467c5640c29 ("kconfig: only write '#
-> > > CONFIG_FOO is not set' for visible symbols") the value of 64BIT is
-> > > not saved if the ARCH is set i386 or x86_64 because the symbol is
-> > > not visible.    
-> > 
-> > This is correct.
-> > 
-> > It was discussed a few weeks ago.
-> > 
-> > https://lkml.org/lkml/2018/6/5/847
+> Chip Card Interface Device (CCID) protocol is a USB protocol that
+> allows a smartcard device to be connected to a computer via a card
+> reader using a standard USB interface, without the need for each manufact=
+urer
+> of smartcards to provide its own reader or protocol.
+>
+> This gadget driver makes Linux show up as a CCID device to the host and l=
+et a
+> userspace daemon act as the smartcard.
+>
+> This is useful when the Linux gadget itself should act as a cryptographic
+> device or forward APDUs to an embedded smartcard device.
+>
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 
-And it went nowhere.
+I still don't see the benefit of having this in the kernel when
+functionfs would do just fine.
 
-Anyway, the observed issue with CONFIG_64BIT on x86 is the tip of a
-larger problem which was unnoticed for ages. The .config simply does
-not contain the whole kernel configuration. ie. make oldconfig (and
-make syncconfig) is *not* expected to just work. It used to work just by
-luck until f467c5640c29 ("kconfig: only write '# CONFIG_FOO is not set'
-for visible symbols") finally exposed the problem.
+=2D-=20
+balbi
 
-So is .config supposed to contain the kernel configuration or is it
-just some byproduct of the kernel build which is meaningless outside of
-your build environment (the object tree, shell environment, etc).
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks
+-----BEGIN PGP SIGNATURE-----
 
-Michal
+iQIzBAEBCgAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAltZqCoACgkQzL64meEa
+mQZz8xAA2b1nuzvzDA/qKsjrHCHNpVqFsA2h/LEQyb6jEaQL3E7Ycw1SQTqT28iB
+TE8VglTkgvVDNFEPiy49uqBwO3Ey50PESaBSeERlXqubdVndv/wMH0CdglwzMc9n
+K/LOnVlLNg18vF3BJoU5dyGnjPlBH5ry1umwJ0HxCgd0VdBmmiy0TH1OdGabuo4u
+ywEH6iYqBKaBzSSeRO0kn1nWGLThSVCuWQGb+Ilejr2n1bDoykJA+OPQ/1sr/o72
+gfmQkp9xcZ1ixTaZQCsTswAZKLntdkpb/f2YgmCrLfsXbtRedQQO4RNdR5E2br1r
+vMXrJsHKd/EJI7E+wHIZ1YSvgYFnWhPZf9MbAjK81tTIuPPx6lBr/MWJuFMULsDf
+dZmDpOpYUW7BTy2vFuwdPRzM+zoo8gg7CKwJJd41paE4UD+tL3i8KumsI3EFxoFz
+X2WcCB23fJ9Vb23AP8qFSPYqmqyWshHWFD9gi67tJqMbIVy7h84zgKTYhtDAx48x
+Tn7pegO71A3HyXLwJpMroBLPhQ90K01SIsOrGuxNdUQzZdUJxTzpE4VASqiOQzKT
+FvAPhgY8EYWkJRwATs+fDGH7ghMtpwEUeuZMrTQ/v95nSlAFfF6WqZA/iMIE23hs
+drfYLwCU708gpl5W/F5AixyHAZjxwaF8Yybfzeqi+hIW3nfl+qA=
+=PHQA
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
