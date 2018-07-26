@@ -1,85 +1,349 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 32EE27D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 05:06:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C2C77D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 06:22:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726648AbeGZGVd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Jul 2018 02:21:33 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:54585 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726600AbeGZGVd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jul 2018 02:21:33 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 7AD3C20A41;
-        Thu, 26 Jul 2018 01:06:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 26 Jul 2018 01:06:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=+FI3F7WZ5MKe9cXjHVybxTtNmWnkrlyWzTxeO0+pIec=; b=pO0h2rhU
-        lsu28biq1nCFdkHDo72y8AlnEL4ER5ouQasZBxdx8SqZcdPJ44oK1UYfZWV1vtk5
-        mv7eA4INVs82C6OejVBl/5hDrFPExvT4vr1XAy3c3Vypt+kSh5IZoeFQJ/GpyHJh
-        /mdQHz8FjKIWKO+DVm+8eccSGMEjx4FEGfaFPaWQ82mAU43h40CVb2y+nPBRFQhK
-        4AKMubNe2bBuYn0g3h8GIIAR4fjmEdOSP4+gVTG0H6WQPOU2RLyXFripHVUbu43J
-        Fr0g7rAuNfK6nOBLTWv/rWasJi2BiXQPob7kfV+S8fR88EG5mE8/vxIPLRw1UpsC
-        P5iuXzPphDToog==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=+FI3F7WZ5MKe9cXjHVybxTtNmWnkr
-        lyWzTxeO0+pIec=; b=d3JOG2ccAVdDK1ZzcvFWIMQFU7v1ei7g3Zt8IV4fB6ZDJ
-        RrXbKn3M4rnb0ZRk7pfOjQcErTv+7OF7/MLX5oYm5YtV111rcC5bklJ89sJ4j5QD
-        W01xpzR6kOpr3aSm+eTu0QTjAr9tNVR5pZZhTPkX+rSpcKOakVLnl8pIVETtWuf1
-        EZK0VMhzLCoNYNkbGyi7a4Kcr3HftXKGLKIo05dTtQlzs6mIj2Ge1gD84IBAEHws
-        ikb+OTJgizwdD0xTIDZiPYmqYkWOvI3pLZNMEtKUyHakANe1usw5aSNJV67dEUUp
-        +GwTRuurbsX/vZr6VQx8/j8lZ8oVpO8F0JsVdZ4jQ==
-X-ME-Proxy: <xmx:11ZZW0vtMTOU0MnyeIVYaePMMXGBwExjegiU_MJu6tjbrok6jy6rKA>
-    <xmx:11ZZW21-gvp-yiuR1Q47JX-qmRpTe-nsyYqkAh2XoNQvylx0ttUD1A>
-    <xmx:11ZZW_-ozhQoHckxAG9LegUD3nB2X_f4BNVPF2dwN7sGE1JnPZVIFg>
-    <xmx:11ZZW3Oh-RfzqwC6XklsWxAzzqwOh8-eJglcn0u-6SEJokVls0D7xA>
-    <xmx:11ZZWzc6_JHATVbrLVMS2RzbtkiUMN-E2XUwzWcMmzf2sF9GbYs_oA>
-    <xmx:11ZZWxCWwKa3F6SKvXvyjXOCewKQrIX09ynmWyHvIpd1ER5MZhHuwA>
-X-ME-Sender: <xms:11ZZW9eBUyKvUBM4bdDIGOGHGnYSKZc7CAIVHiWVVGWzUzRp2ApDXw>
-Received: from localhost (ppp121-44-239-245.bras2.syd2.internode.on.net [121.44.239.245])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 3C18B1025D;
-        Thu, 26 Jul 2018 01:06:29 -0400 (EDT)
-Date:   Thu, 26 Jul 2018 15:06:27 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     "David S. Miller" <davem@davemloft.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Edward Cree <ecree@solarflare.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 net-next 0/3] docs: net: Convert netdev-FAQ to RST
-Message-ID: <20180726050627.GH6067@eros>
-References: <20180726050226.1980-1-me@tobin.cc>
+        id S1728750AbeGZHiG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Jul 2018 03:38:06 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:32942 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726430AbeGZHiG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jul 2018 03:38:06 -0400
+Received: by mail-oi0-f66.google.com with SMTP id l10-v6so1021742oii.0;
+        Wed, 25 Jul 2018 23:22:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=h5JnXN/kWbjaFkVDjc/SzmRvFMuqBJpLcdmcR6PvKvo=;
+        b=lrZqJGCYEn4XkdyRr3+wAFs7u/RxTqS0IErDFz6hWZvwCpZ6htyordtC6smBfT0kaA
+         sJS3l0hoOhUOaB4iUVZsbEkqvNAcsa3lMInRR3ulRhnEAKLnoZ690n22N1ZQTzPvZhMl
+         QB9IQVC3Y5/Kwe4voq9gYqUbkfs98X8+DnzUknkeHG4OBFbKTXB2SxUllJQxGDFGA0LH
+         gWbDSx5UEFWrHvi7Rsz7i0temEzfECg59kbXmmePAI3F6cFyCx6sOsnTBIaGqgr+m77n
+         qj3EOPIjdxnfvK+C8AaXkW6nxQ9gdL07lvakWOA2ZRsSRzjfP7UeFaVELdusWgPFWd4a
+         +5ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=h5JnXN/kWbjaFkVDjc/SzmRvFMuqBJpLcdmcR6PvKvo=;
+        b=gcAmfi42zPsTYqCrTHk5x1ftBUCa+YgtczY7bo7tKenQbgs6Wog3XwT46gUe0Vo9wm
+         UIz7fLs4yAGpWEkFzOYfD1LBj/urIYvmUWp4CXYIqVNRjNRu2rf3VcDA+kCKBaN+O2ZS
+         A7Cq8fxTnI90E2nL+NVGhHLb9lQCELYa9k8Z/o8Z8IRbwfYlZT6EhvBznFNfKUmMRLxb
+         CCeBajoU7JCx1I9nWjbjjBWEJ28LFicGatCs77/cZCPcFz3KfqGqqaCnyjBfFvPpWDNO
+         W1yCBylUbuAlQKGQQiWklSKo5tZ+kqVaI76tSZNnVmxNs/VOoDcKMWt9gY+pdZgLL+tE
+         zr6w==
+X-Gm-Message-State: AOUpUlEqyL5++pR6flK18b0YMVPzBcLVoS9SjHJVdT0H4tFA+AbdiwQg
+        lxKwFb70w/x1bWultv7nKIC2X1OcTYkDC9/t6aw=
+X-Google-Smtp-Source: AAOMgpdUlpHpFKjQUv5t2TtNy2LpaZ9DHVr3wjMgVGnl2GDj0NW1v1kEgxBcEdc3AGGuaHkrJH9DbxJ2/K/FC34xcp8=
+X-Received: by 2002:aca:f401:: with SMTP id s1-v6mr677513oih.269.1532586168888;
+ Wed, 25 Jul 2018 23:22:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180726050226.1980-1-me@tobin.cc>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Received: by 2002:a9d:5b33:0:0:0:0:0 with HTTP; Wed, 25 Jul 2018 23:22:28
+ -0700 (PDT)
+In-Reply-To: <20180724164946.6274-4-krzk@kernel.org>
+References: <20180724164946.6274-1-krzk@kernel.org> <20180724164946.6274-4-krzk@kernel.org>
+From:   Anand Moon <linux.amoon@gmail.com>
+Date:   Thu, 26 Jul 2018 11:52:28 +0530
+Message-ID: <CANAwSgSChhEzDf5oSqZ2Srt62n16Z+ppFnupT=0pGkaSCv90vw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] ARM: exynos: Fix imprecise abort during Exynos5422
+ suspend to RAM
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Kukjin Kim <kgene@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Pankaj Dubey <pankaj.dubey@samsung.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 26, 2018 at 03:02:23PM +1000, Tobin C. Harding wrote:
-> Hi Dave,
+Hi Krzysztof,
 
-Sent set twice.  It is hard to get good help eh.
+On 24 July 2018 at 22:19, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> Suspend to RAM on Odroid XU3/XU4/HC1 family (Exynos5422) causes
+> imprecise abort:
+>
+>         PM: Syncing filesystems ... done.
+>         Freezing user space processes ... (elapsed 0.003 seconds) done.
+>         OOM killer disabled.
+>         Freezing remaining freezable tasks ... (elapsed 0.003 seconds) done.
+>         wake enabled for irq 139
+>         Disabling non-boot CPUs ...
+>         IRQ51 no longer affine to CPU1
+>         IRQ52 no longer affine to CPU2
+>         IRQ53 no longer affine to CPU3
+>         IRQ54 no longer affine to CPU4
+>         IRQ55 no longer affine to CPU5
+>         IRQ56 no longer affine to CPU6
+>         cpu cpu4: Dropping the link to regulator.40
+>         IRQ57 no longer affine to CPU7
+>         Unhandled fault: external abort on non-linefetch (0x1008) at 0xf081a028
+>         Internal error: : 1008 [#1] PREEMPT SMP ARM
+>
+> with last call trace in exynos_suspend_enter().
+>
+> The abort is caused by writing to register in secure part of sysram.
+> Boards booted under secure firmware (e.g. Hardkernel Odroid boards)
+> should access non-secure sysram.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+>
 
+I could not get the suspend to ram working on my Odroid-XU4.
 
-Thanks for your patience,
-Tobin.
+Current default time zone: 'Asia/Kolkata'
+Local time is now:      Thu Jul 26 11:34:50 IST 2018.
+Universal Time is now:  Thu Jul 26 06:04:50 UTC 2018.
+
+root@odroidxu4:~#
+root@odroidxu4:~#
+root@odroidxu4:~# rtcwake -d /dev/rtc0 -s 30 -m mem
+rtcwake: assuming RTC uses UTC ...
+rtcwake: wakeup from "mem" using /dev/rtc0 at Thu Jul 26 06:06:40 2018
+
+System freezes with no output in console. Any other way to test this feature.
+I have also tried below setting.
+
+/* Set the wakeup alarm for 30s */
+# echo +30 > /sys/class/rtc/rtc0/wakealarm
+/* Suspend system to RAM */
+# echo -n mem > /sys/power/state
+
+but result is the same.
+
+Well suspend to ram works well on Odroid-U3+
+----------------------------------------------------------------------
+root@odroidu3:~# rtcwake -d /dev/rtc0 -s 30 -m mem
+rtcwake: assuming RTC uses UTC ...
+rtcwake: wakeup from "mem" using /dev/rtc0 at Thu Jul 26 05:52:09 2018
+[   58.655171] dwc2 12480000.hsotg: dwc2_hsotg_ep_disable: called for ep0
+[   58.655186] dwc2 12480000.hsotg: dwc2_hsotg_ep_disable: called for ep0
+root@odroidu3:~#
+root@odroidu3:~#
+root@odroidu3:~#
+root@odroidu3:~#
+root@odroidu3:~# rtcwake -d /dev/rtc0 -s 30 -m mem
+rtcwake: assuming RTC uses UTC ...
+rtcwake: wakeup from "mem" using /dev/rtc0 at Thu Jul 26 05:55:36 2018
+[  235.633796] dwc2 12480000.hsotg: dwc2_hsotg_ep_disable: called for ep0
+[  235.633811] dwc2 12480000.hsotg: dwc2_hsotg_ep_disable: called for ep0
+root@odroidu3:~#
+root@odroidu3:~#
+
+But also observer following kernel crash on Odroid-U3+.
+
+root@odroidu3:~# rtcwake -d /dev/rtc0 -s 30 -m mem
+rtcwake: assuming RTC uses UTC ...
+rtcwake: wakeup from "mem" using /dev/rtc0 at Thu Jul 26 06:17:20 2018
+[   48.794091] smsc95xx 1-2:1.0 eth0: entering SUSPEND2 mode
+[   48.823822] wake enabled for irq 119
+[   48.838208] usb3503 0-0008: switched to STANDBY mode
+[   48.838883] wake enabled for irq 123
+[   48.844391] dwc2 12480000.hsotg: suspending usb gadget g_ether
+[   48.844743] dwc2 12480000.hsotg: dwc2_hsotg_ep_disable: called for ep0
+[   48.844758] dwc2 12480000.hsotg: dwc2_hsotg_ep_disable: called for ep0
+[   49.030155] samsung-pinctrl 11000000.pinctrl: Setting external
+wakeup interrupt wakeup mask: 0xfbfff7ff
+[   49.054626] Disabling non-boot CPUs ...
+[   49.172267]
+[   49.172889] =============================
+[   49.172895] WARNING: suspicious RCU usage
+[   49.172902] 4.18.0-rc1-xu3 #1 Not tainted
+[   49.172908] -----------------------------
+[   49.172917] kernel/sched/fair.c:6629 suspicious
+rcu_dereference_check() usage!
+[   49.172922]
+[   49.172922] other info that might help us debug this:
+[   49.172922]
+[   49.172930]
+[   49.172930] RCU used illegally from offline CPU!
+[   49.172930] rcu_scheduler_active = 2, debug_locks = 0
+[   49.172938] 3 locks held by swapper/2/0:
+[   49.172944]  #0: c108528f ((cpu_died).wait.lock){....}, at:
+complete+0x14/0x48
+[   49.172978]  #1: 5327b14b (&p->pi_lock){-.-.}, at: try_to_wake_up+0x38/0x620
+[   49.173008]  #2: cb644f0e (rcu_read_lock){....}, at:
+select_task_rq_fair+0x1b4/0x11a4
+[   49.173041]
+[   49.173041] stack backtrace:
+[   49.173050] CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.18.0-rc1-xu3 #1
+[   49.173056] Hardware name: SAMSUNG EXYNOS (Flattened Device Tree)
+[   49.173070] [<c01130f0>] (unwind_backtrace) from [<c010ed7c>]
+(show_stack+0x10/0x14)
+[   49.173084] [<c010ed7c>] (show_stack) from [<c0a3ad64>]
+(dump_stack+0x98/0xc4)
+[   49.173099] [<c0a3ad64>] (dump_stack) from [<c0166a48>]
+(select_task_rq_fair+0x5c8/0x11a4)
+[   49.173111] [<c0166a48>] (select_task_rq_fair) from [<c015aaac>]
+(try_to_wake_up+0x168/0x620)
+[   49.173123] [<c015aaac>] (try_to_wake_up) from [<c0176c60>]
+(__wake_up_common+0x8c/0x14c)
+[   49.173135] [<c0176c60>] (__wake_up_common) from [<c0176e24>]
+(__wake_up_locked+0x18/0x20)
+[   49.173146] [<c0176e24>] (__wake_up_locked) from [<c0177c18>]
+(complete+0x38/0x48)
+[   49.173159] [<c0177c18>] (complete) from [<c0111874>]
+(arch_cpu_idle_dead+0x24/0x84)
+[   49.173171] [<c0111874>] (arch_cpu_idle_dead) from [<c0160e8c>]
+(do_idle+0x1d0/0x2bc)
+[   49.173184] [<c0160e8c>] (do_idle) from [<c0161308>]
+(cpu_startup_entry+0x18/0x1c)
+[   49.173195] [<c0161308>] (cpu_startup_entry) from [<4010280c>] (0x4010280c)
+[   49.232931] Enabling non-boot CPUs ...
+[   49.237088] CPU1 is up
+[   49.238630] CPU2 is up
+[   49.242535] CPU3 is up
+[   49.243777] s3c-i2c 13860000.i2c: slave address 0x00
+[   49.243834] s3c-i2c 13860000.i2c: bus frequency set to 390 KHz
+[   49.243862] s3c-i2c 13870000.i2c: slave address 0x00
+[   49.243876] s3c-i2c 13870000.i2c: bus frequency set to 97 KHz
+[   49.243899] s3c-i2c 13880000.i2c: slave address 0x00
+[   49.243913] s3c-i2c 13880000.i2c: bus frequency set to 97 KHz
+[   49.243935] s3c-i2c 138e0000.i2c: slave address 0x00
+[   49.243948] s3c-i2c 138e0000.i2c: bus frequency set to 97 KHz
+[   49.255899] s3c-rtc 10070000.rtc: rtc disabled, re-enabling
+[   49.256413] dwc2 12480000.hsotg: resuming usb gadget g_ether
+[   49.260032] usb usb1: root hub lost power or was reset
+[   49.260889] s3c2410-wdt 10060000.watchdog: watchdog disabled
+[   49.261036] wake disabled for irq 123
+[   49.270297] usb3503 0-0008: switched to HUB mode
+[   49.359166] wake disabled for irq 119
+[   49.376207]
+[   49.376213] ======================================================
+[   49.376218] WARNING: possible circular locking dependency detected
+[   49.376221] 4.18.0-rc1-xu3 #1 Not tainted
+[   49.376225] ------------------------------------------------------
+[   49.376228] swapper/2/0 is trying to acquire lock:
+[   49.376233] 54f93603 ((console_sem).lock){-...}, at: down_trylock+0xc/0x2c
+[   49.376244]
+[   49.376247] but task is already holding lock:
+[   49.376250] 5327b14b (&p->pi_lock){-.-.}, at: try_to_wake_up+0x38/0x620
+[   49.376261]
+[   49.376264] which lock already depends on the new lock.
+[   49.376266]
+[   49.376268]
+[   49.376272] the existing dependency chain (in reverse order) is:
+[   49.376274]
+[   49.376276] -> #1 (&p->pi_lock){-.-.}:
+[   49.376287]        try_to_wake_up+0x38/0x620
+[   49.376290]        up+0x4c/0x60
+[   49.376293]        __up_console_sem+0x2c/0x58
+[   49.376295]        console_unlock+0x3b4/0x644
+[   49.376298]        con_set_unimap+0x140/0x22c
+[   49.376301]        vt_ioctl+0x1364/0x1710
+[   49.376304]        tty_ioctl+0xec/0xb54
+[   49.376307]        do_vfs_ioctl+0xb0/0x9f8
+[   49.376310]        ksys_ioctl+0x34/0x58
+[   49.376313]        ret_fast_syscall+0x0/0x28
+[   49.376315]        0xbefc02a4
+[   49.376317]
+[   49.376320] -> #0 ((console_sem).lock){-...}:
+[   49.376331]        _raw_spin_lock_irqsave+0x44/0x58
+[   49.376333]        down_trylock+0xc/0x2c
+[   49.376337]        __down_trylock_console_sem+0x24/0x88
+[   49.376340]        console_trylock+0x10/0x58
+[   49.376343]        vprintk_emit+0x224/0x420
+[   49.376346]        vprintk_default+0x20/0x28
+[   49.376349]        printk+0x30/0x54
+[   49.376352]        lockdep_rcu_suspicious+0x2c/0x108
+[   49.376355]        select_task_rq_fair+0x5c8/0x11a4
+[   49.376358]        try_to_wake_up+0x168/0x620
+[   49.376361]        __wake_up_common+0x8c/0x14c
+[   49.376364]        __wake_up_locked+0x18/0x20
+[   49.376367]        complete+0x38/0x48
+[   49.376370]        arch_cpu_idle_dead+0x24/0x84
+[   49.376372]        do_idle+0x1d0/0x2bc
+[   49.376375]        cpu_startup_entry+0x18/0x1c
+[   49.376378]        0x4010280c
+[   49.376380]
+[   49.376383] other info that might help us debug this:
+[   49.376385]
+[   49.376388]  Possible unsafe locking scenario:
+[   49.376391]
+[   49.376394]        CPU0                    CPU1
+[   49.376396]        ----                    ----
+[   49.376399]   lock(&p->pi_lock);
+[   49.376406]                                lock((console_sem).lock);
+[   49.376413]                                lock(&p->pi_lock);
+[   49.376419]   lock((console_sem).lock);
+[   49.376425]
+[   49.376428]  *** DEADLOCK ***
+[   49.376430]
+[   49.376434] 3 locks held by swapper/2/0:
+[   49.376436]  #0: c108528f ((cpu_died).wait.lock){....}, at:
+complete+0x14/0x48
+[   49.376449]  #1: 5327b14b (&p->pi_lock){-.-.}, at: try_to_wake_up+0x38/0x620
+[   49.376461]  #2: cb644f0e (rcu_read_lock){....}, at:
+select_task_rq_fair+0x1b4/0x11a4
+[   49.376473]
+[   49.376476] stack backtrace:
+[   49.376480] CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.18.0-rc1-xu3 #1
+[   49.376483] Hardware name: SAMSUNG EXYNOS (Flattened Device Tree)
+[   49.376487] [<c01130f0>] (unwind_backtrace) from [<c010ed7c>]
+(show_stack+0x10/0x14)
+[   49.376491] [<c010ed7c>] (show_stack) from [<c0a3ad64>]
+(dump_stack+0x98/0xc4)
+[   49.376495] [<c0a3ad64>] (dump_stack) from [<c0183a2c>]
+(print_circular_bug.constprop.15+0x210/0x32c)
+[   49.376500] [<c0183a2c>] (print_circular_bug.constprop.15) from
+[<c0186eac>] (__lock_acquire+0x155c/0x1ac8)
+[   49.376504] [<c0186eac>] (__lock_acquire) from [<c0187e38>]
+(lock_acquire+0xe0/0x2bc)
+[   49.376508] [<c0187e38>] (lock_acquire) from [<c0a58604>]
+(_raw_spin_lock_irqsave+0x44/0x58)
+[   49.376512] [<c0a58604>] (_raw_spin_lock_irqsave) from [<c0180390>]
+(down_trylock+0xc/0x2c)
+[   49.376516] [<c0180390>] (down_trylock) from [<c0192878>]
+(__down_trylock_console_sem+0x24/0x88)
+[   49.376521] [<c0192878>] (__down_trylock_console_sem) from
+[<c01928ec>] (console_trylock+0x10/0x58)
+[   49.376525] [<c01928ec>] (console_trylock) from [<c0194544>]
+(vprintk_emit+0x224/0x420)
+[   49.376529] [<c0194544>] (vprintk_emit) from [<c01948f0>]
+(vprintk_default+0x20/0x28)
+[   49.376532] [<c01948f0>] (vprintk_default) from [<c0194d54>]
+(printk+0x30/0x54)
+[   49.376536] [<c0194d54>] (printk) from [<c01836e8>]
+(lockdep_rcu_suspicious+0x2c/0x108)
+[   49.376541] [<c01836e8>] (lockdep_rcu_suspicious) from [<c0166a48>]
+(select_task_rq_fair+0x5c8/0x11a4)
+[   49.376545] [<c0166a48>] (select_task_rq_fair) from [<c015aaac>]
+(try_to_wake_up+0x168/0x620)
+[   49.376549] [<c015aaac>] (try_to_wake_up) from [<c0176c60>]
+(__wake_up_common+0x8c/0x14c)
+[   49.376553] [<c0176c60>] (__wake_up_common) from [<c0176e24>]
+(__wake_up_locked+0x18/0x20)
+[   49.376557] [<c0176e24>] (__wake_up_locked) from [<c0177c18>]
+(complete+0x38/0x48)
+[   49.376560] [<c0177c18>] (complete) from [<c0111874>]
+(arch_cpu_idle_dead+0x24/0x84)
+[   49.376565] [<c0111874>] (arch_cpu_idle_dead) from [<c0160e8c>]
+(do_idle+0x1d0/0x2bc)
+[   49.376569] [<c0160e8c>] (do_idle) from [<c0161308>]
+(cpu_startup_entry+0x18/0x1c)
+[   49.376572] [<c0161308>] (cpu_startup_entry) from [<4010280c>] (0x4010280c)
+[   49.659576] usb 1-2: reset high-speed USB device number 2 using exynos-ehci
+[   50.009654] usb 1-3: reset high-speed USB device number 3 using exynos-ehci
+[   51.113111] OOM killer enabled.
+[   51.116204] Restarting tasks ... done.
+[   51.147734] PM: suspend exit
+root@odroidu3:~# [   51.713940] smsc95xx 1-2:1.0 eth0: link up,
+100Mbps, full-duplex, lpa 0xC5E1
+
+Best Regards
+-Anand
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
