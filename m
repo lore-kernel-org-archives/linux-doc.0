@@ -1,108 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5DD5E7D071
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 06:40:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E3027D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 06:46:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728446AbeGZHzf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Jul 2018 03:55:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47234 "EHLO mail.kernel.org"
+        id S1728547AbeGZICA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Jul 2018 04:02:00 -0400
+Received: from mail.iluvatar.ai ([58.213.90.100]:40311 "EHLO mail.iluvatar.ai"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725941AbeGZHze (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Jul 2018 03:55:34 -0400
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CFBC620891;
-        Thu, 26 Jul 2018 06:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1532587215;
-        bh=qZGTXOa+cse2ED6dniCZppI/kL8ZjRwN2r3xcJnuTrU=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=bUhSzCLyp85UwnQledymVwuyJ/cGZBc/XpGzz4Jt/4bAMxhiC2rd1BIuDcGS+bJ5p
-         vC1B5bTUlnjgtOdwx5dhsRt4TF2sVkmb9Q1KDdJhc/16aNFyZ+4K1cvEM2azOdsH6p
-         AqE6oe+nZeGz0iTT/6AgjfXXEgGEqSvoLP7b8X7U=
-Received: by mail-wr1-f48.google.com with SMTP id r16-v6so501216wrt.11;
-        Wed, 25 Jul 2018 23:40:14 -0700 (PDT)
-X-Gm-Message-State: AOUpUlHwjDp8OZNqy7V2uiuGoBGuu49puGpzm3Dd0IndIqWdnOfrG25Y
-        EL8eJZ4od5SSz1pV4zX5FS7IihJREmCe+rNsJ/Q=
-X-Google-Smtp-Source: AAOMgpeMvZV4HP/vMFnTxLd+Z5d8FaJzgM+zHUG6aHjRLK5SNhQFYqLZJY54wGMq6j8cG12Q1RTwamEvuTSckgyRIMU=
-X-Received: by 2002:adf:9d81:: with SMTP id p1-v6mr520793wre.12.1532587213323;
- Wed, 25 Jul 2018 23:40:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:adf:9141:0:0:0:0:0 with HTTP; Wed, 25 Jul 2018 23:40:12
- -0700 (PDT)
-In-Reply-To: <CANAwSgSChhEzDf5oSqZ2Srt62n16Z+ppFnupT=0pGkaSCv90vw@mail.gmail.com>
-References: <20180724164946.6274-1-krzk@kernel.org> <20180724164946.6274-4-krzk@kernel.org>
- <CANAwSgSChhEzDf5oSqZ2Srt62n16Z+ppFnupT=0pGkaSCv90vw@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Thu, 26 Jul 2018 08:40:12 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPc1csipQsmtJ77uZOwUgchPwGoA_+xxzmCjx97dLU5cyg@mail.gmail.com>
-Message-ID: <CAJKOXPc1csipQsmtJ77uZOwUgchPwGoA_+xxzmCjx97dLU5cyg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] ARM: exynos: Fix imprecise abort during Exynos5422
- suspend to RAM
-To:     Anand Moon <linux.amoon@gmail.com>
-Cc:     Kukjin Kim <kgene@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Pankaj Dubey <pankaj.dubey@samsung.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1728497AbeGZICA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Jul 2018 04:02:00 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.iluvatar.ai (Postfix) with ESMTP id 36C4713F10AA3;
+        Thu, 26 Jul 2018 14:49:55 +0800 (CST)
+Received: from mail.iluvatar.ai ([127.0.0.1])
+        by localhost (mail.iluvatar.ai [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 8L0M31VXV11I; Thu, 26 Jul 2018 14:49:53 +0800 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.iluvatar.ai (Postfix) with ESMTP id D8C0513F10A9D;
+        Thu, 26 Jul 2018 14:49:52 +0800 (CST)
+DKIM-Filter: OpenDKIM Filter v2.9.2 mail.iluvatar.ai D8C0513F10A9D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iluvatar.ai;
+        s=809B2F8E-810B-11E8-86FD-A0A654EEFFEB; t=1532587792;
+        bh=9ncMXsNDtn2OVUN0nxtTUS8bQ7wSv8wIMBnkQsgkcSg=;
+        h=From:To:Subject:Date:Message-Id;
+        b=aJ3rGtpxTDSNnfB3jKZ1BrhLTXQXRdro/yHOWmaMXRcMqyhc8EIoMF9VyTQAyOrEh
+         OUDBgJjz4FhqRPLIUKeyO3QhSyKwWI1GnwrrXpil3OJ2J0ao4IAa3Cd9yATgCZl3k0
+         Z+uC/KXioeaiwBkb3YuQDFfrSoypsDNiuMcgvx9s=
+X-Virus-Scanned: amavisd-new at iluvatar.ai
+Received: from mail.iluvatar.ai ([127.0.0.1])
+        by localhost (mail.iluvatar.ai [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Ofndkpl4iUqi; Thu, 26 Jul 2018 14:49:52 +0800 (CST)
+Received: from localhost.localdomain (unknown [180.166.124.10])
+        by mail.iluvatar.ai (Postfix) with ESMTPSA id 4BF6113F10A9A;
+        Thu, 26 Jul 2018 14:49:52 +0800 (CST)
+From:   Huang Shijie <sjhuang@iluvatar.ai>
+To:     vkoul@kernel.org
+Cc:     corbet@lwn.net, dan.j.williams@intel.com, robh@kernel.org,
+        linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ashutosh.dixit@intel.com,
+        Huang Shijie <sjhuang@iluvatar.ai>
+Subject: [PATCH v2 1/2] dmaengine: add a new helper dmaenginem_async_device_register
+Date:   Thu, 26 Jul 2018 14:45:53 +0800
+Message-Id: <20180726064554.24975-1-sjhuang@iluvatar.ai>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26 July 2018 at 08:22, Anand Moon <linux.amoon@gmail.com> wrote:
-> Hi Krzysztof,
->
-> On 24 July 2018 at 22:19, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> Suspend to RAM on Odroid XU3/XU4/HC1 family (Exynos5422) causes
->> imprecise abort:
->>
->>         PM: Syncing filesystems ... done.
->>         Freezing user space processes ... (elapsed 0.003 seconds) done.
->>         OOM killer disabled.
->>         Freezing remaining freezable tasks ... (elapsed 0.003 seconds) done.
->>         wake enabled for irq 139
->>         Disabling non-boot CPUs ...
->>         IRQ51 no longer affine to CPU1
->>         IRQ52 no longer affine to CPU2
->>         IRQ53 no longer affine to CPU3
->>         IRQ54 no longer affine to CPU4
->>         IRQ55 no longer affine to CPU5
->>         IRQ56 no longer affine to CPU6
->>         cpu cpu4: Dropping the link to regulator.40
->>         IRQ57 no longer affine to CPU7
->>         Unhandled fault: external abort on non-linefetch (0x1008) at 0xf081a028
->>         Internal error: : 1008 [#1] PREEMPT SMP ARM
->>
->> with last call trace in exynos_suspend_enter().
->>
->> The abort is caused by writing to register in secure part of sysram.
->> Boards booted under secure firmware (e.g. Hardkernel Odroid boards)
->> should access non-secure sysram.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
->>
->
-> I could not get the suspend to ram working on my Odroid-XU4.
+This patch adds the dmaenginem_async_device_register for DMA code.
+Use the Devres to call the release for the DMA engine driver.
 
-Correct, resuming from suspend to RAM does not work on Exynos5422
-(yet). The patch does not add support for it. I did not write that it
-works. The only thing patch does, is fixing the imprecise abort during
-suspend.
+Signed-off-by: Huang Shijie <sjhuang@iluvatar.ai>
+---
+v1 --> v2:
+    change the name to dmaenginem_async_device_register().
+---
+ Documentation/driver-model/devres.txt |  1 +
+ drivers/dma/dmaengine.c               | 35 +++++++++++++++++++++++++++
+ include/linux/dmaengine.h             |  1 +
+ 3 files changed, 37 insertions(+)
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/driver-model/devres.txt b/Documentation/driver-model/devres.txt
+index a3e8bceb5f19..15720cd17958 100644
+--- a/Documentation/driver-model/devres.txt
++++ b/Documentation/driver-model/devres.txt
+@@ -240,6 +240,7 @@ CLOCK
+   devm_of_clk_add_hw_provider()
+ 
+ DMA
++  dmaenginem_async_device_register()
+   dmam_alloc_coherent()
+   dmam_alloc_attrs()
+   dmam_declare_coherent_memory()
+diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
+index 84ac38dbdb65..fa6fdc5f2a04 100644
+--- a/drivers/dma/dmaengine.c
++++ b/drivers/dma/dmaengine.c
+@@ -1135,6 +1135,41 @@ void dma_async_device_unregister(struct dma_device *device)
+ }
+ EXPORT_SYMBOL(dma_async_device_unregister);
+ 
++static void dmam_device_release(struct device *dev, void *res)
++{
++	struct dma_device *device;
++
++	device = *(struct dma_device **)res;
++	dma_async_device_unregister(device);
++}
++
++/**
++ * dmaenginem_async_device_register - registers DMA devices found
++ * @device: &dma_device
++ *
++ * The operation is managed and will be undone on driver detach.
++ */
++int dmaenginem_async_device_register(struct dma_device *device)
++{
++	void *p;
++	int ret;
++
++	p = devres_alloc(dmam_device_release, sizeof(void *), GFP_KERNEL);
++	if (!p)
++		return -ENOMEM;
++
++	ret = dma_async_device_register(device);
++	if (!ret) {
++		*(struct dma_device **)p = device;
++		devres_add(device->dev, p);
++	} else {
++		devres_free(p);
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL(dmaenginem_async_device_register);
++
+ struct dmaengine_unmap_pool {
+ 	struct kmem_cache *cache;
+ 	const char *name;
+diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+index c8c3a7a93802..d49ec5c31944 100644
+--- a/include/linux/dmaengine.h
++++ b/include/linux/dmaengine.h
+@@ -1406,6 +1406,7 @@ static inline int dmaengine_desc_free(struct dma_async_tx_descriptor *desc)
+ /* --- DMA device --- */
+ 
+ int dma_async_device_register(struct dma_device *device);
++int dmaenginem_async_device_register(struct dma_device *device);
+ void dma_async_device_unregister(struct dma_device *device);
+ void dma_run_dependencies(struct dma_async_tx_descriptor *tx);
+ struct dma_chan *dma_get_slave_channel(struct dma_chan *chan);
+-- 
+2.17.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
