@@ -1,101 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4BF637D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 10:57:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C82397D071
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Jul 2018 12:22:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729342AbeGZMNV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Jul 2018 08:13:21 -0400
-Received: from mga17.intel.com ([192.55.52.151]:26618 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729097AbeGZMNV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Jul 2018 08:13:21 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Jul 2018 03:57:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,404,1526367600"; 
-   d="asc'?scan'208";a="243482752"
-Received: from pipin.fi.intel.com (HELO localhost) ([10.237.68.37])
-  by orsmga005.jf.intel.com with ESMTP; 26 Jul 2018 03:56:48 -0700
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, davem@davemloft.net,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH v4 1/3] usb: gadget: ccid: add support for USB CCID Gadget Device
-In-Reply-To: <20180626081422.19237-1-marcus.folkesson@gmail.com>
-References: <20180626081422.19237-1-marcus.folkesson@gmail.com>
-Date:   Thu, 26 Jul 2018 13:53:30 +0300
-Message-ID: <87woti1d5h.fsf@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha512; protocol="application/pgp-signature"
+        id S1730175AbeGZNis (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Jul 2018 09:38:48 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57948 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729532AbeGZNir (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jul 2018 09:38:47 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6QCIpdi089169
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jul 2018 08:22:11 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2kfbndq9yg-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jul 2018 08:22:11 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Thu, 26 Jul 2018 13:22:09 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 26 Jul 2018 13:22:06 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6QCM5EW31195272
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 26 Jul 2018 12:22:05 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5C0B9A4040;
+        Thu, 26 Jul 2018 15:22:19 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CC14CA404D;
+        Thu, 26 Jul 2018 15:22:17 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.8.177])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Thu, 26 Jul 2018 15:22:17 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Thu, 26 Jul 2018 15:22:03 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Matthew Wilcox <willy@infradead.org>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: [PATCH v2 0/7] memory management documentation updates
+Date:   Thu, 26 Jul 2018 15:21:55 +0300
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 18072612-4275-0000-0000-0000029E4E96
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18072612-4276-0000-0000-000037A6514C
+Message-Id: <1532607722-17079-1-git-send-email-rppt@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-26_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=973 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807260129
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+Here are several updates to the mm documentation.
 
-> Chip Card Interface Device (CCID) protocol is a USB protocol that
-> allows a smartcard device to be connected to a computer via a card
-> reader using a standard USB interface, without the need for each manufact=
-urer
-> of smartcards to provide its own reader or protocol.
->
-> This gadget driver makes Linux show up as a CCID device to the host and l=
-et a
-> userspace daemon act as the smartcard.
->
-> This is useful when the Linux gadget itself should act as a cryptographic
-> device or forward APDUs to an embedded smartcard device.
->
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+Aside from really minor changes in the first three patches, the updates
+are:
 
-I still don't see the benefit of having this in the kernel when
-functionfs would do just fine.
+* move the documentation of kstrdup and friends to "String Manipulation"
+  section
+* split memory management API into a separate .rst file
+* adjust formating of the GFP flags description and include it in the
+  reference documentation.
 
-=2D-=20
-balbi
+v2 changes:
+* move get_user_pages_fast documentation to "User Space Memory Access" as
+  suggested by Matthew
+* more elaborate changelog for the fifth patch
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Mike Rapoport (7):
+  mm/util: make strndup_user description a kernel-doc comment
+  mm/util: add kernel-doc for kvfree
+  docs/core-api: kill trailing whitespace in kernel-api.rst
+  docs/core-api: move *{str,mem}dup* to "String Manipulation"
+  docs/core-api: split memory management API to a separate file
+  docs/mm: make GFP flags descriptions usable as kernel-doc
+  docs/core-api: mm-api: add section about GFP flags
 
------BEGIN PGP SIGNATURE-----
+ Documentation/core-api/index.rst      |   1 +
+ Documentation/core-api/kernel-api.rst |  59 +------
+ Documentation/core-api/mm-api.rst     |  79 +++++++++
+ include/linux/gfp.h                   | 291 ++++++++++++++++++----------------
+ mm/util.c                             |   9 +-
+ 5 files changed, 246 insertions(+), 193 deletions(-)
+ create mode 100644 Documentation/core-api/mm-api.rst
 
-iQIzBAEBCgAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAltZqCoACgkQzL64meEa
-mQZz8xAA2b1nuzvzDA/qKsjrHCHNpVqFsA2h/LEQyb6jEaQL3E7Ycw1SQTqT28iB
-TE8VglTkgvVDNFEPiy49uqBwO3Ey50PESaBSeERlXqubdVndv/wMH0CdglwzMc9n
-K/LOnVlLNg18vF3BJoU5dyGnjPlBH5ry1umwJ0HxCgd0VdBmmiy0TH1OdGabuo4u
-ywEH6iYqBKaBzSSeRO0kn1nWGLThSVCuWQGb+Ilejr2n1bDoykJA+OPQ/1sr/o72
-gfmQkp9xcZ1ixTaZQCsTswAZKLntdkpb/f2YgmCrLfsXbtRedQQO4RNdR5E2br1r
-vMXrJsHKd/EJI7E+wHIZ1YSvgYFnWhPZf9MbAjK81tTIuPPx6lBr/MWJuFMULsDf
-dZmDpOpYUW7BTy2vFuwdPRzM+zoo8gg7CKwJJd41paE4UD+tL3i8KumsI3EFxoFz
-X2WcCB23fJ9Vb23AP8qFSPYqmqyWshHWFD9gi67tJqMbIVy7h84zgKTYhtDAx48x
-Tn7pegO71A3HyXLwJpMroBLPhQ90K01SIsOrGuxNdUQzZdUJxTzpE4VASqiOQzKT
-FvAPhgY8EYWkJRwATs+fDGH7ghMtpwEUeuZMrTQ/v95nSlAFfF6WqZA/iMIE23hs
-drfYLwCU708gpl5W/F5AixyHAZjxwaF8Yybfzeqi+hIW3nfl+qA=
-=PHQA
------END PGP SIGNATURE-----
---=-=-=--
+-- 
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
