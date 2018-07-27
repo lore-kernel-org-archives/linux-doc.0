@@ -2,191 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9F91D7DE80
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Jul 2018 17:36:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28B347D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Jul 2018 21:21:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389447AbeG0S7M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Jul 2018 14:59:12 -0400
-Received: from mga04.intel.com ([192.55.52.120]:5150 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388666AbeG0S7L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Jul 2018 14:59:11 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jul 2018 10:36:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,410,1526367600"; 
-   d="scan'208";a="219675878"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.149]) ([10.7.153.149])
-  by orsmga004.jf.intel.com with ESMTP; 27 Jul 2018 10:36:16 -0700
-Subject: Re: [PATCH v7 08/12] mfd: intel-peci-client: Add PECI client MFD
- driver
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-References: <20180723214751.1733-1-jae.hyun.yoo@linux.intel.com>
- <20180723214751.1733-9-jae.hyun.yoo@linux.intel.com>
- <20180727082611.GE4628@dell>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <acffdfef-cb20-4208-5297-d94bac5ecb1b@linux.intel.com>
-Date:   Fri, 27 Jul 2018 10:36:15 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S2389211AbeG0WpZ convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Jul 2018 18:45:25 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:48658 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2389659AbeG0WpY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Jul 2018 18:45:24 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 3846B40216FB;
+        Fri, 27 Jul 2018 21:21:41 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CD55E2026D6D;
+        Fri, 27 Jul 2018 21:21:37 +0000 (UTC)
+Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
+ on cgroup v2 root
+From:   Waiman Long <longman@redhat.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+References: <20180719135224.GE2494@hirez.programming.kicks-ass.net>
+ <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
+ <20180719153045.GT72677@devbig577.frc2.facebook.com>
+ <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
+ <20180719165201.GU72677@devbig577.frc2.facebook.com>
+ <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
+ <20180720114549.GY72677@devbig577.frc2.facebook.com>
+ <20180720154454.GR2494@hirez.programming.kicks-ass.net>
+ <20180720155613.GB1934745@devbig577.frc2.facebook.com>
+ <4857a9db-ebf5-24f8-c42d-d795f5c75854@redhat.com>
+ <20180720163712.GU2494@hirez.programming.kicks-ass.net>
+ <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
+Organization: Red Hat
+Message-ID: <8a671f47-ff1d-b470-987f-0b38badc21cb@redhat.com>
+Date:   Fri, 27 Jul 2018 17:21:37 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-In-Reply-To: <20180727082611.GE4628@dell>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 27 Jul 2018 21:21:41 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 27 Jul 2018 21:21:41 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Lee,
+On 07/20/2018 01:09 PM, Waiman Long wrote:
+> On 07/20/2018 12:37 PM, Peter Zijlstra wrote:
+>> On Fri, Jul 20, 2018 at 12:19:29PM -0400, Waiman Long wrote:
+>>> I am not against the idea of making it hierarchical eventually. I am
+>>> just hoping to get thing going by merging the patchset in its current
+>>> form and then we can make it hierarchical in a followup patch.
+>> Where's the rush? Why can't we do this right in one go?
+> For me, the rush comes from RHEL8 as it is a goal to have a fully
+> functioning cgroup v2 in that release.
+>
+> I also believe that most of the use cases of partition can be satisfied
+> with partitions at the first level children. Getting hierarchical
+> partition right may drag on for half a year, maybe, giving our history
+> with cpu v2 controller. No matter what we do to enable hierarchical
+> partition in the future, the current model of using a partition flag is
+> intuitive enough that it won't be changed at least for the first level
+> children.
 
-On 7/27/2018 1:26 AM, Lee Jones wrote:
-> On Mon, 23 Jul 2018, Jae Hyun Yoo wrote:
-> 
->> This commit adds PECI client MFD driver.
->>
->> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> Cc: Lee Jones <lee.jones@linaro.org>
->> Cc: Rob Herring <robh+dt@kernel.org>
->> Cc: Andrew Jeffery <andrew@aj.id.au>
->> Cc: James Feist <james.feist@linux.intel.com>
->> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
->> Cc: Joel Stanley <joel@jms.id.au>
->> Cc: Vernon Mauery <vernon.mauery@linux.intel.com>
->> ---
->>   drivers/mfd/Kconfig                   |  14 ++
->>   drivers/mfd/Makefile                  |   1 +
->>   drivers/mfd/intel-peci-client.c       | 182 ++++++++++++++++++++++++++
->>   include/linux/mfd/intel-peci-client.h |  81 ++++++++++++
->>   4 files changed, 278 insertions(+)
->>   create mode 100644 drivers/mfd/intel-peci-client.c
->>   create mode 100644 include/linux/mfd/intel-peci-client.h
->>
->> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
->> index f3fa516011ec..e38b591479d4 100644
->> --- a/drivers/mfd/Kconfig
->> +++ b/drivers/mfd/Kconfig
->> @@ -595,6 +595,20 @@ config MFD_INTEL_MSIC
->>   	  Passage) chip. This chip embeds audio, battery, GPIO, etc.
->>   	  devices used in Intel Medfield platforms.
->>   
->> +config MFD_INTEL_PECI_CLIENT
->> +	bool "Intel PECI client"
->> +	depends on (PECI || COMPILE_TEST)
->> +	select MFD_CORE
->> +	help
->> +	  If you say yes to this option, support will be included for the
->> +	  multi-funtional Intel PECI (Platform Environment Control Interface)
->> +	  client. PECI is a one-wire bus interface that provides a communication
->> +	  channel from PECI clients in Intel processors and chipset components
->> +	  to external monitoring or control devices.
->> +
->> +	  Additional drivers must be enabled in order to use the functionality
->> +	  of the device.
->> +
->>   config MFD_IPAQ_MICRO
->>   	bool "Atmel Micro ASIC (iPAQ h3100/h3600/h3700) Support"
->>   	depends on SA1100_H3100 || SA1100_H3600
->> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
->> index 2852a6042ecf..29e2cacc58bd 100644
->> --- a/drivers/mfd/Makefile
->> +++ b/drivers/mfd/Makefile
->> @@ -203,6 +203,7 @@ obj-$(CONFIG_MFD_INTEL_LPSS)	+= intel-lpss.o
->>   obj-$(CONFIG_MFD_INTEL_LPSS_PCI)	+= intel-lpss-pci.o
->>   obj-$(CONFIG_MFD_INTEL_LPSS_ACPI)	+= intel-lpss-acpi.o
->>   obj-$(CONFIG_MFD_INTEL_MSIC)	+= intel_msic.o
->> +obj-$(CONFIG_MFD_INTEL_PECI_CLIENT)	+= intel-peci-client.o
->>   obj-$(CONFIG_MFD_PALMAS)	+= palmas.o
->>   obj-$(CONFIG_MFD_VIPERBOARD)    += viperboard.o
->>   obj-$(CONFIG_MFD_RC5T583)	+= rc5t583.o rc5t583-irq.o
->> diff --git a/drivers/mfd/intel-peci-client.c b/drivers/mfd/intel-peci-client.c
->> new file mode 100644
->> index 000000000000..d7702cf1ea50
->> --- /dev/null
->> +++ b/drivers/mfd/intel-peci-client.c
->> @@ -0,0 +1,182 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +// Copyright (c) 2018 Intel Corporation
->> +
->> +#include <linux/bitfield.h>
->> +#include <linux/mfd/core.h>
->> +#include <linux/mfd/intel-peci-client.h>
->> +#include <linux/module.h>
->> +#include <linux/peci.h>
->> +#include <linux/of_device.h>
->> +
->> +enum cpu_gens {
->> +	CPU_GEN_HSX = 0, /* Haswell Xeon */
->> +	CPU_GEN_BRX,     /* Broadwell Xeon */
->> +	CPU_GEN_SKX,     /* Skylake Xeon */
->> +};
->> +
->> +static struct mfd_cell peci_functions[] = {
->> +	{
->> +		.name = "peci-cputemp",
->> +		.of_compatible = "intel,peci-cputemp",
->> +	},
->> +	{
->> +		.name = "peci-dimmtemp",
->> +		.of_compatible = "intel,peci-dimmtemp",
->> +	},
->> +};
-> 
-> The more I look at this driver, the less I think it fits into MFD.
-> 
-> What's stopping you from registering these devices directly from DT?
-> 
-
-Because DT doesn't allow 2 nodes at the same address so Rob suggested
-MFD for this case.
+Peter, are you OK that or do you still want to have hierarchical
+partition done before submission?
 
 Thanks,
+Longman
 
-Jae
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
