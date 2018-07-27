@@ -5,90 +5,118 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 28B347D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Jul 2018 21:21:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5EBC67D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Jul 2018 21:27:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389211AbeG0WpZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Jul 2018 18:45:25 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:48658 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2389659AbeG0WpY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Jul 2018 18:45:24 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 3846B40216FB;
-        Fri, 27 Jul 2018 21:21:41 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CD55E2026D6D;
-        Fri, 27 Jul 2018 21:21:37 +0000 (UTC)
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-From:   Waiman Long <longman@redhat.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <20180719135224.GE2494@hirez.programming.kicks-ass.net>
- <1107494a-9667-df58-dcac-9366e969dc3a@redhat.com>
- <20180719153045.GT72677@devbig577.frc2.facebook.com>
- <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
- <20180719165201.GU72677@devbig577.frc2.facebook.com>
- <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
- <20180720114549.GY72677@devbig577.frc2.facebook.com>
- <20180720154454.GR2494@hirez.programming.kicks-ass.net>
- <20180720155613.GB1934745@devbig577.frc2.facebook.com>
- <4857a9db-ebf5-24f8-c42d-d795f5c75854@redhat.com>
- <20180720163712.GU2494@hirez.programming.kicks-ass.net>
- <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
-Organization: Red Hat
-Message-ID: <8a671f47-ff1d-b470-987f-0b38badc21cb@redhat.com>
-Date:   Fri, 27 Jul 2018 17:21:37 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S2389583AbeG0WvP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Jul 2018 18:51:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54746 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389717AbeG0WvP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jul 2018 18:51:15 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6RLIWKr139005
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jul 2018 17:27:30 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2kg72d1mfu-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jul 2018 17:27:29 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Fri, 27 Jul 2018 22:27:26 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 27 Jul 2018 22:27:24 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6RLRNu537093492
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 27 Jul 2018 21:27:23 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8A40CA4055;
+        Sat, 28 Jul 2018 00:27:36 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C4B3DA404D;
+        Sat, 28 Jul 2018 00:27:35 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.206.116])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sat, 28 Jul 2018 00:27:35 +0100 (BST)
+Date:   Sat, 28 Jul 2018 00:27:21 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@kernel.org>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 6/7] docs/mm: make GFP flags descriptions usable as
+ kernel-doc
+References: <1532626360-16650-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <1532626360-16650-7-git-send-email-rppt@linux.vnet.ibm.com>
+ <20180726160825.0667af9f@lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 27 Jul 2018 21:21:41 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 27 Jul 2018 21:21:41 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180726160825.0667af9f@lwn.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 18072721-0028-0000-0000-000002E149C5
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18072721-0029-0000-0000-000023994418
+Message-Id: <20180727212720.GD17745@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-27_08:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=774 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807270216
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/20/2018 01:09 PM, Waiman Long wrote:
-> On 07/20/2018 12:37 PM, Peter Zijlstra wrote:
->> On Fri, Jul 20, 2018 at 12:19:29PM -0400, Waiman Long wrote:
->>> I am not against the idea of making it hierarchical eventually. I am
->>> just hoping to get thing going by merging the patchset in its current
->>> form and then we can make it hierarchical in a followup patch.
->> Where's the rush? Why can't we do this right in one go?
-> For me, the rush comes from RHEL8 as it is a goal to have a fully
-> functioning cgroup v2 in that release.
->
-> I also believe that most of the use cases of partition can be satisfied
-> with partitions at the first level children. Getting hierarchical
-> partition right may drag on for half a year, maybe, giving our history
-> with cpu v2 controller. No matter what we do to enable hierarchical
-> partition in the future, the current model of using a partition flag is
-> intuitive enough that it won't be changed at least for the first level
-> children.
+On Thu, Jul 26, 2018 at 04:08:25PM -0600, Jonathan Corbet wrote:
+> On Thu, 26 Jul 2018 20:32:39 +0300
+> Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+> 
+> > This patch adds DOC: headings for GFP flag descriptions and adjusts the
+> > formatting to fit sphinx expectations of paragraphs.
+> 
+> So I think this is a great thing to do.  Adding cross references from
+> places where GFP flags are expected would be even better.  I do have one
+> little concern, though...
+> 
+> > - * __GFP_MOVABLE (also a zone modifier) indicates that the page can be
+> > - *   moved by page migration during memory compaction or can be reclaimed.
+> > + * %__GFP_MOVABLE (also a zone modifier) indicates that the page can be
+> > + * moved by page migration during memory compaction or can be reclaimed.
+> 
+> There are Certain Developers who get rather bent out of shape when they
+> feel that excessive markup is degrading the readability of the plain-text
+> documentation.  I have a suspicion that all of these % signs might turn
+> out to be one of those places.  People have been trained to expect them in
+> function documentation, but that's not quite what we have here.
+> 
+> I won't insist on this, but I would suggest that, in this particular case,
+> it might be better for that markup to come out.
 
-Peter, are you OK that or do you still want to have hierarchical
-partition done before submission?
+No problem with removing % signs, but the whitespace changes are necessary,
+otherwise the generated html gets weird.
+ 
+> Then we have the same old question of who applies these.  I'd love to have
+> an ack from somebody who can speak for mm - or a statement that these will
+> go through another tree.  Preferably quickly so that this stuff can get
+> in through the upcoming merge window.
 
-Thanks,
-Longman
+> Thanks,
+> 
+> jon
+> 
+
+-- 
+Sincerely yours,
+Mike.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
