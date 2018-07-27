@@ -1,208 +1,239 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 916327D085
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Jul 2018 08:26:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BF5CC7D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Jul 2018 13:39:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729431AbeG0JrF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Jul 2018 05:47:05 -0400
-Received: from mail-wm0-f65.google.com ([74.125.82.65]:50711 "EHLO
-        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729504AbeG0JrF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jul 2018 05:47:05 -0400
-Received: by mail-wm0-f65.google.com with SMTP id s12-v6so4428326wmc.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jul 2018 01:26:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=3V8ZQilmzIHQhm8F9NKK5C8c+ECxkoYffOpav1z8jqg=;
-        b=OClJkOy4s+lqyatfgcWs9mPSxxneQux0KUHZ3awrSInI7Zxiq3jW5i6x8I1hbE94hu
-         i/I/+mEfmpfomcMESbRndtGftDc6FTAKVWIRXIwIJvcs5sW3BJ4ncevJRsB0HSeXZmhf
-         7cAUAyqh5HM9hTScokjob/CmwqjSdm5VFj9oA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=3V8ZQilmzIHQhm8F9NKK5C8c+ECxkoYffOpav1z8jqg=;
-        b=cBq0CJa8OZhPFuhsdcDxiAE4sYvFzpbdg3mgU/Fs50brBr1IPKOelCm2rImD8SuSRd
-         VItxwVQtm/ouXTlNI36tMMGimqWNyRIk3IBN6515chfS7hAeW+vWJKwXGUPaQnay7j76
-         QnJpcX5Ts/T+2OziE1J2X+B9Qwib9cXH2zoGaTLppD7b4bH4nLSd3iYMJIhgr4Tj/1PS
-         5AzAgz07+RLHbntU3r7KKpU24462BIQBDtYvKEamzx0AS+HvslI2fb2MPs7/IOQPngfi
-         1WOaMAeMQPWB3/XJmxawX/oRcwERe3GpGf1787h/1FxVxt5DG6tBKbiVUoJnxWEKWM3H
-         1HeA==
-X-Gm-Message-State: AOUpUlHX6vNqnNGiU3bN0pdxqKBT7GgZe/Asqe4vLMyb9NKH+volHFQq
-        81gCjqGkwChUak5BESYJzvZgEw==
-X-Google-Smtp-Source: AAOMgpetApUB7IDIo1LveZI6Wa7U/0zO8ubILSK3jAkz8/5NyQArFajrrZTfzeLSwwzRIS20vFYFgQ==
-X-Received: by 2002:a1c:6fdd:: with SMTP id c90-v6mr3527689wmi.16.1532679975080;
-        Fri, 27 Jul 2018 01:26:15 -0700 (PDT)
-Received: from dell (host109-153-79-7.range109-153.btcentralplus.com. [109.153.79.7])
-        by smtp.gmail.com with ESMTPSA id d26-v6sm2683970wmb.15.2018.07.27.01.26.13
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 27 Jul 2018 01:26:13 -0700 (PDT)
-Date:   Fri, 27 Jul 2018 09:26:11 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-Subject: Re: [PATCH v7 08/12] mfd: intel-peci-client: Add PECI client MFD
- driver
-Message-ID: <20180727082611.GE4628@dell>
-References: <20180723214751.1733-1-jae.hyun.yoo@linux.intel.com>
- <20180723214751.1733-9-jae.hyun.yoo@linux.intel.com>
+        id S1730458AbeG0PBC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Jul 2018 11:01:02 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:37578 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730395AbeG0PBC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Jul 2018 11:01:02 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id A04192073D; Fri, 27 Jul 2018 15:39:00 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-89-120.w90-88.abo.wanadoo.fr [90.88.30.120])
+        by mail.bootlin.com (Postfix) with ESMTPSA id E646A20618;
+        Fri, 27 Jul 2018 15:38:49 +0200 (CEST)
+Date:   Fri, 27 Jul 2018 15:38:50 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Vitor soares <Vitor.Soares@synopsys.com>
+Cc:     wsa@the-dreams.de, linux-i2c@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
+        adouglas@cadence.com, bfolta@cadence.com, dkos@cadence.com,
+        alicja@cadence.com, cwronka@cadence.com, sureshp@cadence.com,
+        rafalc@cadence.com, thomas.petazzoni@bootlin.com, nm@ti.com,
+        robh+dt@kernel.org, pawel.moll@arm.com, mark.rutland@arm.com,
+        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        geert@linux-m68k.org, linus.walleij@linaro.org,
+        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
+        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
+        Joao.Pinto@synopsys.com
+Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
+Message-ID: <20180727153850.5a8ca75c@bbrezillon>
+In-Reply-To: <1532120272-17157-2-git-send-email-soares@synopsys.com>
+References: <1532120272-17157-1-git-send-email-soares@synopsys.com>
+        <1532120272-17157-2-git-send-email-soares@synopsys.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180723214751.1733-9-jae.hyun.yoo@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 23 Jul 2018, Jae Hyun Yoo wrote:
+Hi Victor,
 
-> This commit adds PECI client MFD driver.
+On Fri, 20 Jul 2018 21:57:50 +0100
+Vitor soares <Vitor.Soares@synopsys.com> wrote:
+
+> This patch add driver for Synopsys DesignWare IP on top of
+> I3C subsystem patchset proposal V6
+
+The fact that you based your work on v6 of the I3C patchset should be
+placed ....
+
 > 
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: James Feist <james.feist@linux.intel.com>
-> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Vernon Mauery <vernon.mauery@linux.intel.com>
+> Signed-off-by: Vitor soares <soares@synopsys.com>
 > ---
->  drivers/mfd/Kconfig                   |  14 ++
->  drivers/mfd/Makefile                  |   1 +
->  drivers/mfd/intel-peci-client.c       | 182 ++++++++++++++++++++++++++
->  include/linux/mfd/intel-peci-client.h |  81 ++++++++++++
->  4 files changed, 278 insertions(+)
->  create mode 100644 drivers/mfd/intel-peci-client.c
->  create mode 100644 include/linux/mfd/intel-peci-client.h
-> 
-> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> index f3fa516011ec..e38b591479d4 100644
-> --- a/drivers/mfd/Kconfig
-> +++ b/drivers/mfd/Kconfig
-> @@ -595,6 +595,20 @@ config MFD_INTEL_MSIC
->  	  Passage) chip. This chip embeds audio, battery, GPIO, etc.
->  	  devices used in Intel Medfield platforms.
->  
-> +config MFD_INTEL_PECI_CLIENT
-> +	bool "Intel PECI client"
-> +	depends on (PECI || COMPILE_TEST)
-> +	select MFD_CORE
-> +	help
-> +	  If you say yes to this option, support will be included for the
-> +	  multi-funtional Intel PECI (Platform Environment Control Interface)
-> +	  client. PECI is a one-wire bus interface that provides a communication
-> +	  channel from PECI clients in Intel processors and chipset components
-> +	  to external monitoring or control devices.
-> +
-> +	  Additional drivers must be enabled in order to use the functionality
-> +	  of the device.
-> +
->  config MFD_IPAQ_MICRO
->  	bool "Atmel Micro ASIC (iPAQ h3100/h3600/h3700) Support"
->  	depends on SA1100_H3100 || SA1100_H3600
-> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> index 2852a6042ecf..29e2cacc58bd 100644
-> --- a/drivers/mfd/Makefile
-> +++ b/drivers/mfd/Makefile
-> @@ -203,6 +203,7 @@ obj-$(CONFIG_MFD_INTEL_LPSS)	+= intel-lpss.o
->  obj-$(CONFIG_MFD_INTEL_LPSS_PCI)	+= intel-lpss-pci.o
->  obj-$(CONFIG_MFD_INTEL_LPSS_ACPI)	+= intel-lpss-acpi.o
->  obj-$(CONFIG_MFD_INTEL_MSIC)	+= intel_msic.o
-> +obj-$(CONFIG_MFD_INTEL_PECI_CLIENT)	+= intel-peci-client.o
->  obj-$(CONFIG_MFD_PALMAS)	+= palmas.o
->  obj-$(CONFIG_MFD_VIPERBOARD)    += viperboard.o
->  obj-$(CONFIG_MFD_RC5T583)	+= rc5t583.o rc5t583-irq.o
-> diff --git a/drivers/mfd/intel-peci-client.c b/drivers/mfd/intel-peci-client.c
-> new file mode 100644
-> index 000000000000..d7702cf1ea50
-> --- /dev/null
-> +++ b/drivers/mfd/intel-peci-client.c
-> @@ -0,0 +1,182 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2018 Intel Corporation
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/mfd/intel-peci-client.h>
-> +#include <linux/module.h>
-> +#include <linux/peci.h>
-> +#include <linux/of_device.h>
-> +
-> +enum cpu_gens {
-> +	CPU_GEN_HSX = 0, /* Haswell Xeon */
-> +	CPU_GEN_BRX,     /* Broadwell Xeon */
-> +	CPU_GEN_SKX,     /* Skylake Xeon */
-> +};
-> +
-> +static struct mfd_cell peci_functions[] = {
-> +	{
-> +		.name = "peci-cputemp",
-> +		.of_compatible = "intel,peci-cputemp",
-> +	},
-> +	{
-> +		.name = "peci-dimmtemp",
-> +		.of_compatible = "intel,peci-dimmtemp",
-> +	},
-> +};
 
-The more I look at this driver, the less I think it fits into MFD.
+... here, so that it does not appear in the final commit message.
 
-What's stopping you from registering these devices directly from DT?
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+[...]
+
+> +static int dw_i3c_master_get_free_pos(struct dw_i3c_master *master)
+> +{
+> +	if (!(master->free_pos & GENMASK(master->maxdevs - 1, 0)))
+> +		return -ENOSPC;
+> +
+> +	return ffs(master->free_pos) - 1;
+> +}
+
+Okay, maybe we can have a generic infrastructure for that part (I have
+the same logic in the Cadence driver), but let's keep that for later.
+
+> +
+> +static void dw_i3c_master_wr_tx_fifo(struct dw_i3c_master *master,
+> +				     const u8 *bytes, int nbytes)
+> +{
+> +	int i, j;
+> +
+> +	for (i = 0; i < nbytes; i += 4) {
+> +		u32 data = 0;
+> +
+> +		for (j = 0; j < 4 && (i + j) < nbytes; j++)
+> +			data |= (u32)bytes[i + j] << (j * 8);
+> +
+> +		writel(data, master->regs + RX_TX_DATA_PORT);
+
+Maybe you can use writesl() as suggested by Arnd in his review of the
+Cadence driver.
+
+> +	}
+> +}
+> +
+
+[...]
+
+> +
+> +static void dw_i3c_master_detach_i2c_dev(struct i2c_dev_desc *dev)
+> +{
+> +	struct dw_i3c_i2c_dev_data *data = i2c_dev_get_master_data(dev);
+> +	struct i3c_master_controller *m = i2c_dev_get_master(dev);
+> +	struct dw_i3c_master *master = to_dw_i3c_master(m);
+> +
+> +	writel(NULL,
+
+		^ 0 not NULL
+
+> +	       master->regs +
+> +	       DEV_ADDR_TABLE_LOC(master->datstartaddr, data->index));
+> +
+> +	i2c_dev_set_master_data(dev, NULL);
+> +	master->addrs[data->index] = 0;
+> +	master->free_pos |= BIT(data->index);
+> +	kfree(data);
+> +}
+> +
+
+> +static int dw_i3c_probe(struct platform_device *pdev)
+> +{
+> +	struct dw_i3c_master *master;
+> +	struct resource *res;
+> +	int ret, irq;
+> +
+> +	master = devm_kzalloc(&pdev->dev, sizeof(*master), GFP_KERNEL);
+> +	if (!master)
+> +		return -ENOMEM;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	master->regs = devm_ioremap_resource(&pdev->dev, res);
+> +	if (IS_ERR(master->regs))
+> +		return PTR_ERR(master->regs);
+> +
+> +	master->core_clk = devm_clk_get(&pdev->dev, "core_clk");
+> +	if (IS_ERR(master->core_clk))
+> +		return PTR_ERR(master->core_clk);
+> +
+> +	master->core_rst = devm_reset_control_get_optional_exclusive(&pdev->dev,
+> +								    "core_rst");
+> +	if (IS_ERR(master->core_rst))
+> +		return PTR_ERR(master->core_rst);
+> +
+> +	ret = clk_prepare_enable(master->core_clk);
+> +	if (ret)
+> +		goto err_disable_core_clk;
+> +
+> +	reset_control_deassert(master->core_rst);
+> +
+> +	spin_lock_init(&master->xferqueue.lock);
+> +	INIT_LIST_HEAD(&master->xferqueue.list);
+> +
+> +	writel(INTR_ALL, master->regs + INTR_STATUS);
+> +	irq = platform_get_irq(pdev, 0);
+> +	ret = devm_request_irq(&pdev->dev, irq,
+> +			       dw_i3c_master_irq_handler, 0,
+> +			       dev_name(&pdev->dev), master);
+> +	if (ret)
+> +		goto err_assert_rst;
+> +
+> +	platform_set_drvdata(pdev, master);
+> +
+> +	ret = readl(master->regs + QUEUE_STATUS_LEVEL);
+> +	master->caps.cmdfifodepth = QUEUE_STATUS_LEVEL_CMD(ret);
+> +
+> +	ret = readl(master->regs + DATA_BUFFER_STATUS_LEVEL);
+> +	master->caps.datafifodepth = DATA_BUFFER_STATUS_LEVEL_TX(ret);
+> +
+> +	ret = readl(master->regs + DEVICE_ADDR_TABLE_POINTER);
+> +	master->datstartaddr = ret;
+> +	master->maxdevs = ret >> 16;
+> +	master->free_pos = GENMASK(master->maxdevs - 1, 0);
+> +
+> +	/* read controller version */
+> +	ret = readl(master->regs + I3C_VER_ID);
+> +	master->version[0] = (char)(ret >> 24);
+> +	master->version[1] = '.';
+> +	master->version[2] = (char)(ret >> 16);
+> +	master->version[3] = (char)(ret >> 8);
+> +	master->version[4] = '\0';
+> +
+> +	/* read controller type */
+> +	ret = readl(master->regs + I3C_VER_TYPE);
+> +	master->type[0] = (char)(ret >> 24);
+> +	master->type[1] = (char)(ret >> 16);
+> +	master->type[2] = (char)(ret >> 8);
+> +	master->type[3] = (char) ret;
+> +	master->type[4] = '\0';
+
+Hm, do you really intend to read these as strings? If you do, maybe you
+can use sprintf() here:
+
+	sprintf(master->version, "%c.%c%c", ...)
+	sprintf(master->type, "%c%c%c%c", ...)
+
+
+> +
+> +	ret = i3c_master_register(&master->base, &pdev->dev,
+> +				  &dw_mipi_i3c_ops, false);
+> +	if (ret)
+> +		goto err_assert_rst;
+> +
+> +	dev_info(&pdev->dev, "Synopsys DW MIPI I3C Master: version %s-%s\n",
+> +		 master->version, master->type);
+> +
+> +	return 0;
+> +
+> +err_assert_rst:
+> +	reset_control_assert(master->core_rst);
+> +
+> +err_disable_core_clk:
+> +	clk_disable_unprepare(master->core_clk);
+> +
+> +	return ret;
+> +}
+
+The driver looks pretty good already, and I'm pleasantly surprised to
+see that the Synopsys IP works pretty much the same way the Cadence one
+does. I could find some of the logic I implemented in the Cadence
+driver almost directly applied to this one, so I think there's room for
+code factorization. Anyway, let's see what the next controller looks
+like before doing that.
+
+Thanks for sharing your work early and for reviewing the previous
+versions of the I3C patchset.
+
+Regards,
+
+Boris
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
