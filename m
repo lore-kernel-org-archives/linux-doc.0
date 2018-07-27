@@ -5,35 +5,32 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8956E7D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Jul 2018 21:29:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F33AB7D071
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Jul 2018 21:34:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389633AbeG0WxS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Jul 2018 18:53:18 -0400
-Received: from ms.lwn.net ([45.79.88.28]:40656 "EHLO ms.lwn.net"
+        id S2389583AbeG0W6L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Jul 2018 18:58:11 -0400
+Received: from ms.lwn.net ([45.79.88.28]:40674 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389583AbeG0WxS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Jul 2018 18:53:18 -0400
+        id S2389523AbeG0W6L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Jul 2018 18:58:11 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 601E630D;
-        Fri, 27 Jul 2018 21:29:33 +0000 (UTC)
-Date:   Fri, 27 Jul 2018 15:29:32 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id ED82330D;
+        Fri, 27 Jul 2018 21:34:25 +0000 (UTC)
+Date:   Fri, 27 Jul 2018 15:34:24 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@kernel.org>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 6/7] docs/mm: make GFP flags descriptions usable as
- kernel-doc
-Message-ID: <20180727152932.0ead76d1@lwn.net>
-In-Reply-To: <20180727212720.GD17745@rapoport-lnx>
-References: <1532626360-16650-1-git-send-email-rppt@linux.vnet.ibm.com>
-        <1532626360-16650-7-git-send-email-rppt@linux.vnet.ibm.com>
-        <20180726160825.0667af9f@lwn.net>
-        <20180727212720.GD17745@rapoport-lnx>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alessia Mantegazza <amantegazza@vaga.pv.it>
+Subject: Re: [PATCH 2/2] doc:it_IT: translation for kernel-hacking
+Message-ID: <20180727153424.7bba09ce@lwn.net>
+In-Reply-To: <1944849.qmSSJrysef@pcbe13614>
+References: <20180706220517.28623-1-federico.vaga@vaga.pv.it>
+        <20180706220517.28623-3-federico.vaga@vaga.pv.it>
+        <20180726162330.786826cf@lwn.net>
+        <1944849.qmSSJrysef@pcbe13614>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,19 +40,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 28 Jul 2018 00:27:21 +0300
-Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+On Fri, 27 Jul 2018 09:46:47 +0200
+Federico Vaga <federico.vaga@vaga.pv.it> wrote:
 
-> > I won't insist on this, but I would suggest that, in this particular case,
-> > it might be better for that markup to come out.  
-> 
-> No problem with removing % signs, but the whitespace changes are necessary,
-> otherwise the generated html gets weird.
+> Generally speaking, how readers can understand 
+> how old is a document or if it still correct (in the sense that the document 
+> and the correspondent code are in sync)? 
 
-The whitespace changes are fine - it's really just the % markup I was
-commenting on.
+We don't have a good answer to that, really.  Some of our docs are
+up-to-the-second current, and others still talk about how to find out
+which vacuum tube has gone bad in your system.  It's a trap for our
+readers, unfortunately.  My plan has been to try to bring some more order
+to Documentation/ first, hopefully cleaning things up a bit on the way.
 
-Thanks,
+
+> How this is handled? Just by enforcing people to update 
+> the documentation when they change, for example, an interface that has been 
+> documented?
+
+magari ... talk of such enforcement is a recurring thing, but nobody has
+the will to actually do that.  
 
 jon
 --
