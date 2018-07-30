@@ -1,114 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 497267D072
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Jul 2018 16:19:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A1547D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Jul 2018 16:42:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727447AbeG3Rz1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 30 Jul 2018 13:55:27 -0400
-Received: from mail-ua0-f193.google.com ([209.85.217.193]:38254 "EHLO
-        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727175AbeG3Rz0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jul 2018 13:55:26 -0400
-Received: by mail-ua0-f193.google.com with SMTP id o11-v6so8217087uak.5;
-        Mon, 30 Jul 2018 09:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=m7PhWWsCMr3LfMYRn2R6wNnfvgyjxDga/VgsO+HL+0E=;
-        b=oR9dlmno03HmCTIaDvEcPTrq0qwXRLsv0lP+u8rokfI1Qh2HQVETHIRYMFrZCKrxr/
-         roEhDCaW90dXmY4frlSPcbiy+yJZGtiJH8wyDY4n1+AMnpVfeEhHguwcLVD9pWE9laM3
-         ZnXpwZFM2sH7ByDFWpr7IMQl/HD62hnIUogGLJ5GOCheNSR9ZpI+Hgc7Pnm4Uyzzb30f
-         HszydAm9ZAitSEfztIvW57ghs8QP28WMoDGHYRFp9xZ31XScrEQe4g+SwDZkfDHLax7m
-         Aj0+R1ETqGHAqX4uay3cilvKAsY1HWdqG7vXHJxOtvvBzItW2rH5uPeBw04MdZqscguA
-         HyYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=m7PhWWsCMr3LfMYRn2R6wNnfvgyjxDga/VgsO+HL+0E=;
-        b=ZpmaXaMt75EQEiwqYoTeZnCfVa9gOTFnte56KAHSlnd5sZdkaeZJYGHO6O1gas8f2E
-         81ASayS4kyHsLcjqizVk7JcJgpOrsFFo2FS8un7kNJ4yvFj0Z7GoTinGUOBdZ05XWhuJ
-         mz9Eomh9EB+k43ziyiBuK9zAs7ZxwyVlWa5KreGBXIIFLCURpPoD/SLcwEeCylETlLau
-         4y7L/zPzyKrJaGiHzKB9oqJjy30qt+tciVOubrKTFNdJy16tjubSKsP+7d9dJ9eiqW8V
-         +X7hZDZhLMTDtVBREPs89hjK9DL8zf3HrE50hqB2m8lePLATLcEZ2mEoRxnwhZSSUdgO
-         nL7A==
-X-Gm-Message-State: AOUpUlHOczDfBnKZYhxyL3webicFoDnQawCzSug30Dir3O+c+ulbjx7C
-        dIXEg440IjRqPKGP68VCdOgISI4xwkx1Y02fAXo=
-X-Google-Smtp-Source: AAOMgpd3/op3dOa5HLFQd653G+bxhsDOfxUB/gtA8TKNIbEHvMw1LAjgC7ovbAQ9bXR/tZIcFISFS+Px4eQrhsEYbXg=
-X-Received: by 2002:a9f:3242:: with SMTP id y2-v6mr12565653uad.85.1532967583359;
- Mon, 30 Jul 2018 09:19:43 -0700 (PDT)
+        id S1730400AbeG3SSK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 30 Jul 2018 14:18:10 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:54966 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729331AbeG3SSK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 30 Jul 2018 14:18:10 -0400
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+        by ale.deltatee.com with esmtp (Exim 4.89)
+        (envelope-from <logang@deltatee.com>)
+        id 1fkBEy-0005mn-3t; Mon, 30 Jul 2018 10:41:48 -0600
+To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Matthew Wilcox <willy@infradead.org>
+References: <20180730161840.13733-1-logang@deltatee.com>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <1b911d4b-d8e4-d44d-af1b-8ec1a39983e6@deltatee.com>
+Date:   Mon, 30 Jul 2018 10:41:43 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Received: by 2002:a67:7cc8:0:0:0:0:0 with HTTP; Mon, 30 Jul 2018 09:19:22
- -0700 (PDT)
-In-Reply-To: <87effy9gfz.fsf@xmission.com>
-References: <1531935483-30784-1-git-send-email-s.mesoraca16@gmail.com>
- <CAGXu5jK4q6HLDZ6jokTeDABbzVasY85Jo0HFNKYeaKWZYPjPKg@mail.gmail.com> <87effy9gfz.fsf@xmission.com>
-From:   Salvatore Mesoraca <s.mesoraca16@gmail.com>
-Date:   Mon, 30 Jul 2018 18:19:22 +0200
-Message-ID: <CAJHCu1JkX+7bsh2c2GG1LbH4HW_tQ+kJAXzvWY-rVKBtpDL_4g@mail.gmail.com>
-Subject: Re: [RFC] kconfig: add hardened defconfig helpers
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Laura Abbott <labbott@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org, Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180730161840.13733-1-logang@deltatee.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: willy@infradead.org, christian.koenig@amd.com, alex.williamson@redhat.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v8 0/4] Add parameter for disabling ACS redirection for
+ P2P
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-07-20 15:37 GMT+02:00 Eric W. Biederman <ebiederm@xmission.com>:
-> Kees Cook <keescook@chromium.org> writes:
->
->>> +CONFIG_USER_NS=n
->>> +~~~~~~~~~~~~~~~~
->>> +
->>> +**Negative side effects level:** Medium
->>
->> Unfortunately I think this is High or Extreme. USER_NS gets a lot of use.
->>
->>> +**- Protection type:** Attack surface reduction
->>> +
->>> +This allows containers to use user namespaces to provide different
->>> +user info for different servers.
->>> +User namespaces have been abused in the past for privilege
->>> +escalation.
->
-> This is not a particularly good description.
+Hey,
 
-You are right, I've been a bit shallow...
-Thank you for pointing it out.
-I didn't mean to say that user namespaces are bad for security in general.
-I'll make this less ambiguous in the next revision.
+Oops, I missed finishing this up before sending it sorry:
 
-> User namespaces do indeed increase the attack surface of programs that
-> don't use them.
->
-> User namespaces when used to build ``unprivileged containers'' remove or
-> at least drastically reduce the need to run as root when setting up
-> containers.  Which is attack surface reduction.
->
-> User namespaces make available tools that are commonly used to build
-> sandboxes.  Chrome for example uses users namespaces if they are
-> available as part of setting up it's sandbox.
->
-> User namespaces are not limited to containers.
->
-> The bugs in the attack surface that user namespaces expose that have
-> been used for privilege escalation have to the best of my knowledge
-> closed.  So while there is some danger in the increased attack surface
-> we are looking at implementation defects rather than design defects.
->
-> Eric
+This is mostly a resend with Alex's tags collected. Bjorn, can you
+please consider merging this? All patches have been reviewed and
+accepted by Alex.
+
+Thanks,
+
+Logan
+
+--
+
+Changes since v7:
+* Collected Alex's Reviewed-by Tags
+* Rebased onto v4.18-rc7 (no conflicts)
+
+
+On 30/07/18 10:18 AM, Logan Gunthorpe wrote:
+> Changes since v6:
+> * Fixed order of operations for device specific disable function as
+>   noticed by Alex
+> * Rebased onto v4.18-rc5 (no conflicts)
+> 
+> Changes since v5:
+> * Add a quirk to handle the Intel SPT PCH case (as pointed out by Alex)
+> * Warn in the case that we try to disable ACS redirect on a device
+>   that doesn't have the ACS capability (also suggested by Alex)
+> * Collect reviewed-by tag from Alex
+> * Rebased onto v4.18-rc4 (no conflicts)
+> 
+> Changes since v4:
+> * Fixed a couple documentation mistakes spotted by Randy
+> 
+> Changes since v3:
+> * Removed some of the cruft that was copied from the resource_alignment
+>   paramater (per Alex)
+> * A number of docuemntation fixes as noticed by Alex and Willy
+> 
+> Changes since v2:
+> * Rebased onto v4.18-rc1 (no conflicts)
+> * Minor tweaks to the documentation per Andy
+> * Removed the "path:" prefix and use the path parsing code
+>   for simple devices (as it works the same). Per a suggestion from Alex
+> 
+> Changes since v1:
+> * Reworked pci_dev_str_match_path using strrchr as suggested by Alex
+> * Collected Christian's Acks
+> 
+> 
+> Logan Gunthorpe (4):
+>   PCI: Make specifying PCI devices in kernel parameters reusable
+>   PCI: Allow specifying devices using a base bus and path of devfns
+>   PCI: Introduce disable_acs_redir quirk
+>   PCI: Introduce the disable_acs_redir parameter
+> 
+>  Documentation/admin-guide/kernel-parameters.txt |  41 +++-
+>  drivers/pci/pci.c                               | 310 +++++++++++++++++++-----
+>  drivers/pci/quirks.c                            |  78 +++++-
+>  include/linux/pci.h                             |   5 +
+>  4 files changed, 361 insertions(+), 73 deletions(-)
+> 
+> --
+> 2.11.0
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
