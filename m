@@ -1,130 +1,250 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2A1547D072
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Jul 2018 16:42:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD5A97D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Jul 2018 17:00:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730400AbeG3SSK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 30 Jul 2018 14:18:10 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:54966 "EHLO ale.deltatee.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729331AbeG3SSK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 30 Jul 2018 14:18:10 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1fkBEy-0005mn-3t; Mon, 30 Jul 2018 10:41:48 -0600
-To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Matthew Wilcox <willy@infradead.org>
-References: <20180730161840.13733-1-logang@deltatee.com>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <1b911d4b-d8e4-d44d-af1b-8ec1a39983e6@deltatee.com>
-Date:   Mon, 30 Jul 2018 10:41:43 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726782AbeG3SgN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 30 Jul 2018 14:36:13 -0400
+Received: from mail-yw0-f193.google.com ([209.85.161.193]:37343 "EHLO
+        mail-yw0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726668AbeG3SgN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jul 2018 14:36:13 -0400
+Received: by mail-yw0-f193.google.com with SMTP id w76-v6so4626752ywg.4
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jul 2018 10:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=oFaRyuf4+qydY3RMx1mQ50w+ttRntvwrBUNMdd7cS1Y=;
+        b=TyndbDM3LeJyUpkRsEbnk0ESxESbpqtWhrR9gdTvNakWyK9GYONyUFIEwsfpNNlVZb
+         9MAcU3QNns0LVR/gnW3umwStgDugYwspmMqxWZENTnNAJILXslQroOBmU476Mw4vSn2c
+         T1w2ua0cl7lAYjvB6NX7I4waWUWHcyS7PdY02172FWCeyU44lsMKghLBInwMkcXe5f3K
+         WW6BiXJwHm9jr6lSPrxS8W1WpqqotAlDZ2sav7CLk78MfnCeLC3cb2ew+Y7wG2Ur8ajj
+         36EhR+nKW1vwV5cWkI3/9RiQwDuThe+1U/3B6iwmYN3YqMWpn6BIlXJsmjuzoP5Hag/j
+         QtaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=oFaRyuf4+qydY3RMx1mQ50w+ttRntvwrBUNMdd7cS1Y=;
+        b=BZOVqvM7XRf59aogjF8ghuYSiQnACFJzBWr2QhHYXg//bZyK/k1Zl4nHcPb1vzvw0W
+         4AUBQ0JjqYzuGtiXwDCj4LZFtslhcmH3lDxzvRydGvY4heOYgnnr5/Y39HSkAHNsJLSQ
+         9DYsq+qPLlwzpjCcWs2kdS+CILxBFYG9rgH4Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=oFaRyuf4+qydY3RMx1mQ50w+ttRntvwrBUNMdd7cS1Y=;
+        b=QfVHwgijHn1nnTM6QBQkeL+wc7BXoZzgCTDKhmfYDgqmk4EKdsQ29R+EN8EFxt2xF0
+         5d4xMI1l5DU/Z8Xjb5RY4pWSnYWCxSUH7Dal3QgBMPUmPzyAJOODmJvL4I196oFst21A
+         FcjqCxaTiPkq3ReXhmsiYc5XU9O56z4zR8CO6kbVoQnmo4qW9+zBqC7DLqMMmyX9cVs9
+         +u/tR0TaJDGsDS2kXaUVOv89SLReCDtC/3oibzNndbFF/7tbl+oevnesJTI1xMdsrIK3
+         5o/E0qVqbZZne0K95irLorFtpBBCHbGHjhOL4ckSLevUPoIlwHKRXkEmCfwguW6tm6qz
+         wGuw==
+X-Gm-Message-State: AOUpUlF7w9JHWkpn3xNFsBWjFL7pwPbm4xok+vDiQfQZ5H2JaS1agZZJ
+        nSO7nng8UlaujJKim7lWe34XdCzbkQAJza37fp41Yw==
+X-Google-Smtp-Source: AAOMgpeWcmSwbVgo0ODj/v9kpJ5mKpcG27HM2CHlouyd9j/mxiLDS+kWq18V63z/J0WDfZ0dPeG55MN4yFgWOM7jsAU=
+X-Received: by 2002:a81:39d7:: with SMTP id g206-v6mr9458192ywa.416.1532969670692;
+ Mon, 30 Jul 2018 09:54:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180730161840.13733-1-logang@deltatee.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: willy@infradead.org, christian.koenig@amd.com, alex.williamson@redhat.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v8 0/4] Add parameter for disabling ACS redirection for
- P2P
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Received: by 2002:a25:6602:0:0:0:0:0 with HTTP; Mon, 30 Jul 2018 09:54:29
+ -0700 (PDT)
+In-Reply-To: <CAJHCu1+S_tv8Ju4m_QuWPm5Ke6rmByxT7jVhSo2kfVoCO_wMFg@mail.gmail.com>
+References: <1531935483-30784-1-git-send-email-s.mesoraca16@gmail.com>
+ <CAGXu5jK4q6HLDZ6jokTeDABbzVasY85Jo0HFNKYeaKWZYPjPKg@mail.gmail.com> <CAJHCu1+S_tv8Ju4m_QuWPm5Ke6rmByxT7jVhSo2kfVoCO_wMFg@mail.gmail.com>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Mon, 30 Jul 2018 09:54:29 -0700
+X-Google-Sender-Auth: CyL59wOYuNvpxSEI_vOZ-62k8CM
+Message-ID: <CAGXu5jJCwAO1u4U0hAqAnd3ktgR-WcDzNUTpTeGoiUNVOzbYFg@mail.gmail.com>
+Subject: Re: [RFC] kconfig: add hardened defconfig helpers
+To:     Salvatore Mesoraca <s.mesoraca16@gmail.com>
+Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Laura Abbott <labbott@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hey,
+On Mon, Jul 30, 2018 at 9:11 AM, Salvatore Mesoraca
+<s.mesoraca16@gmail.com> wrote:
+> I'm sorry for the late response, I've been unexpectedly busy in the last week.
+>
+> 2018-07-20 7:15 GMT+02:00 Kees Cook <keescook@chromium.org>:
+>> +lkml, Masahiro, and linux-doc, just for wider review/thoughts.
+>>
+>> On Wed, Jul 18, 2018 at 10:38 AM, Salvatore Mesoraca
+>> <s.mesoraca16@gmail.com> wrote:
+>> [...]
+>>> +CONFIG_CC_STACKPROTECTOR_STRONG=y
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +**Negative side effects level:** Medium
+>>> +**- Protection type:** Self-protection
+>>> +
+>>> +Functions will have the stack-protector canary logic added in any
+>>> +of the following conditions:
+>>> +
+>>> +- local variable's address used as part of the right hand side of an
+>>> +assignment or function argument
+>>> +- local variable is an array (or union containing an array),
+>>> +regardless of array type or length
+>>> +- uses register local variables
+>>> +
+>>> +This feature requires gcc version 4.9 or above, or a distribution
+>>> +gcc with the feature backported ("-fstack-protector-strong").
+>>> +
+>>> +On an x86 "defconfig" build, this feature adds canary checks to
+>>> +about 20% of all kernel functions, which increases the kernel code
+>>> +size by about 2%.
+>>
+>> bikeshed: I think both stack protector items should be "Low", but
+>> that's just me.
+>
+> I tried to be cautious when selecting the levels, but if nobody is
+> against it, I can change the level.
 
-Oops, I missed finishing this up before sending it sorry:
+My thought about the "Low" stuff was: if a distro has it enabled by
+default, it must have been decided it was a sane default. So for
+things that distros have enabled, set it to "Low" here. (Which is why
+I cringed with KPTI: distros have it, but wow does it hurt...)
 
-This is mostly a resend with Alex's tags collected. Bjorn, can you
-please consider merging this? All patches have been reviewed and
-accepted by Alex.
+>>> [...]
+>>> +CONFIG_DEVMEM=n
+>>> +~~~~~~~~~~~~~~~
+>>> +
+>>> +**Negative side effects level:** Extreme
+>>
+>> Why is this extreme?
+>
+> I tried to be very cautious and I had the impression that this option
+> could break many programs,
+> isn't Xorg one of these?
 
-Thanks,
+These days, (almost?) all graphics drivers run without needing
+userspace access to these things (and I think they never needed _RAM_
+access, just IO space). Setting this to Medium or High seems better to
+me. (The STRICT_DEVMEM, though, should be Low, since that's been a
+distro setting forever.)
 
-Logan
+>> [...]
+>>> +CONFIG_GCC_PLUGIN_LATENT_ENTROPY=y
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +**Negative side effects level:** High
+>>> +**- Protection type:** Self-protection
+>>> +
+>>> +With this pluging, the kernel will instrument some kernel code to
+>>> +extract some entropy from both original and artificially created
+>>> +program state. This will help especially embedded systems where
+>>> +there is little 'natural' source of entropy normally.  The cost
+>>> +is some slowdown of the boot process (about 0.5%) and fork and
+>>
+>> This doesn't feel like "high" to me.
+>
+> Medium maybe?
 
---
+Sounds good.
 
-Changes since v7:
-* Collected Alex's Reviewed-by Tags
-* Rebased onto v4.18-rc7 (no conflicts)
+>> [...]
+>>> +CONFIG_PAGE_POISONING=y
+>>> +~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +**Negative side effects level:** High
+>>> +**- Protection type:** Self-protection
+>>> +
+>>> +Fill the pages with poison patterns after free_pages() and verify
+>>> +the patterns before alloc_pages. The filling of the memory helps
+>>> +reduce the risk of information leaks from freed data. This does
+>>> +have a potential performance impact.
+>>> +Needs "page_poison=1" command line.
+>>> +
+>>> +
+>>> +CONFIG_PAGE_POISONING_NO_SANITY=y
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +**Negative side effects level:** High
+>>> +**- Protection type:** Self-protection
+>>> +
+>>> +Skip the sanity checking on alloc, only fill the pages with
+>>> +poison on free. This reduces some of the overhead of the
+>>> +poisoning feature.
 
+So, I spent some time looking at these again for unrelated reasons and
+rediscovered that enable CONFIG_PAGE_POISONING has virtual zero
+overhead since the actual poisoning doesn't happen unless you turn it
+on with a command line argument. So I would classify both of these as
+"Low".
 
-On 30/07/18 10:18 AM, Logan Gunthorpe wrote:
-> Changes since v6:
-> * Fixed order of operations for device specific disable function as
->   noticed by Alex
-> * Rebased onto v4.18-rc5 (no conflicts)
-> 
-> Changes since v5:
-> * Add a quirk to handle the Intel SPT PCH case (as pointed out by Alex)
-> * Warn in the case that we try to disable ACS redirect on a device
->   that doesn't have the ACS capability (also suggested by Alex)
-> * Collect reviewed-by tag from Alex
-> * Rebased onto v4.18-rc4 (no conflicts)
-> 
-> Changes since v4:
-> * Fixed a couple documentation mistakes spotted by Randy
-> 
-> Changes since v3:
-> * Removed some of the cruft that was copied from the resource_alignment
->   paramater (per Alex)
-> * A number of docuemntation fixes as noticed by Alex and Willy
-> 
-> Changes since v2:
-> * Rebased onto v4.18-rc1 (no conflicts)
-> * Minor tweaks to the documentation per Andy
-> * Removed the "path:" prefix and use the path parsing code
->   for simple devices (as it works the same). Per a suggestion from Alex
-> 
-> Changes since v1:
-> * Reworked pci_dev_str_match_path using strrchr as suggested by Alex
-> * Collected Christian's Acks
-> 
-> 
-> Logan Gunthorpe (4):
->   PCI: Make specifying PCI devices in kernel parameters reusable
->   PCI: Allow specifying devices using a base bus and path of devfns
->   PCI: Introduce disable_acs_redir quirk
->   PCI: Introduce the disable_acs_redir parameter
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  41 +++-
->  drivers/pci/pci.c                               | 310 +++++++++++++++++++-----
->  drivers/pci/quirks.c                            |  78 +++++-
->  include/linux/pci.h                             |   5 +
->  4 files changed, 361 insertions(+), 73 deletions(-)
-> 
-> --
-> 2.11.0
-> 
+>>> +CONFIG_PAGE_POISONING_NO_SANITY=n
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +**Negative side effects level:** Extreme
+>>> +**- Protection type:** Self-protection
+>>> +
+>>> +Skip the sanity checking on alloc, only fill the pages with
+>>> +poison on free. This reduces some of the overhead of the
+>>> +poisoning feature.
+
+This one, though, yes, Extreme or High. It makes things much slower.
+
+>>> +CONFIG_PAGE_POISONING_ZERO=y
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +**Negative side effects level:** High
+>>> +**- Protection type:** Self-protection
+>>> +
+>>> +Instead of using the existing poison value, fill the pages with
+>>> +zeros. This makes it harder to detect when errors are occurring
+>>> +due to sanitization but the zeroing at free means that it is
+>>> +no longer necessary to write zeros when GFP_ZERO is used on
+>>> +allocation.
+
+This one is interesting: enabling it with poisoning means you gain
+back some of the performance hit (since now GFP_ZERO allocations don't
+need to do any work: the space was already freed), but you lose a bit
+of coverage since a write-after-free will not get zeroed at allocation
+time. So I think I would set this as:
+
+CONFIG_PAGE_POISONING_ZERO=y
+at Low
+
+CONFIG_PAGE_POISONING_ZERO=n
+at High (or Medium?)
+
+>> [...]
+>>> +CONFIG_STATIC_USERMODEHELPER=y
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +**Negative side effects level:** Extreme
+>>
+>> I mean, this SHOULD be Low but no distro has actually implemented a
+>> helper to do this yet.
+>
+> Infact I set it as extreme because I expect very few people to make an
+> use of it.
+> Maybe I could just drop it.
+
+Until it's actually usable, yeah, I'd say drop it.
+
+> [...]
+> Thank you very very much for taking the time to look at this very long patch!
+
+You're welcome! Thanks for _writing_ it. :)
+
+-Kees
+
+-- 
+Kees Cook
+Pixel Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
