@@ -1,279 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 160837D085
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Jul 2018 16:19:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 497267D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Jul 2018 16:19:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732000AbeG3Ryz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 30 Jul 2018 13:54:55 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:54558 "EHLO ale.deltatee.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731766AbeG3Ryg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 30 Jul 2018 13:54:36 -0400
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
-        by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1fkAsk-0005Yw-7y; Mon, 30 Jul 2018 10:18:52 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1fkAsc-0003aL-7L; Mon, 30 Jul 2018 10:18:42 -0600
-From:   Logan Gunthorpe <logang@deltatee.com>
-To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Logan Gunthorpe <logang@deltatee.com>
-Date:   Mon, 30 Jul 2018 10:18:38 -0600
-Message-Id: <20180730161840.13733-3-logang@deltatee.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180730161840.13733-1-logang@deltatee.com>
-References: <20180730161840.13733-1-logang@deltatee.com>
+        id S1727447AbeG3Rz1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 30 Jul 2018 13:55:27 -0400
+Received: from mail-ua0-f193.google.com ([209.85.217.193]:38254 "EHLO
+        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727175AbeG3Rz0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jul 2018 13:55:26 -0400
+Received: by mail-ua0-f193.google.com with SMTP id o11-v6so8217087uak.5;
+        Mon, 30 Jul 2018 09:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=m7PhWWsCMr3LfMYRn2R6wNnfvgyjxDga/VgsO+HL+0E=;
+        b=oR9dlmno03HmCTIaDvEcPTrq0qwXRLsv0lP+u8rokfI1Qh2HQVETHIRYMFrZCKrxr/
+         roEhDCaW90dXmY4frlSPcbiy+yJZGtiJH8wyDY4n1+AMnpVfeEhHguwcLVD9pWE9laM3
+         ZnXpwZFM2sH7ByDFWpr7IMQl/HD62hnIUogGLJ5GOCheNSR9ZpI+Hgc7Pnm4Uyzzb30f
+         HszydAm9ZAitSEfztIvW57ghs8QP28WMoDGHYRFp9xZ31XScrEQe4g+SwDZkfDHLax7m
+         Aj0+R1ETqGHAqX4uay3cilvKAsY1HWdqG7vXHJxOtvvBzItW2rH5uPeBw04MdZqscguA
+         HyYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=m7PhWWsCMr3LfMYRn2R6wNnfvgyjxDga/VgsO+HL+0E=;
+        b=ZpmaXaMt75EQEiwqYoTeZnCfVa9gOTFnte56KAHSlnd5sZdkaeZJYGHO6O1gas8f2E
+         81ASayS4kyHsLcjqizVk7JcJgpOrsFFo2FS8un7kNJ4yvFj0Z7GoTinGUOBdZ05XWhuJ
+         mz9Eomh9EB+k43ziyiBuK9zAs7ZxwyVlWa5KreGBXIIFLCURpPoD/SLcwEeCylETlLau
+         4y7L/zPzyKrJaGiHzKB9oqJjy30qt+tciVOubrKTFNdJy16tjubSKsP+7d9dJ9eiqW8V
+         +X7hZDZhLMTDtVBREPs89hjK9DL8zf3HrE50hqB2m8lePLATLcEZ2mEoRxnwhZSSUdgO
+         nL7A==
+X-Gm-Message-State: AOUpUlHOczDfBnKZYhxyL3webicFoDnQawCzSug30Dir3O+c+ulbjx7C
+        dIXEg440IjRqPKGP68VCdOgISI4xwkx1Y02fAXo=
+X-Google-Smtp-Source: AAOMgpd3/op3dOa5HLFQd653G+bxhsDOfxUB/gtA8TKNIbEHvMw1LAjgC7ovbAQ9bXR/tZIcFISFS+Px4eQrhsEYbXg=
+X-Received: by 2002:a9f:3242:: with SMTP id y2-v6mr12565653uad.85.1532967583359;
+ Mon, 30 Jul 2018 09:19:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, sbates@raithlin.com, hch@lst.de, bhelgaas@google.com, corbet@lwn.net, tglx@linutronix.de, paulmck@linux.vnet.ibm.com, marc.zyngier@arm.com, kai.heng.feng@canonical.com, mingo@kernel.org, frederic@kernel.org, dan.j.williams@intel.com, benh@kernel.crashing.org, jglisse@redhat.com, alex.williamson@redhat.com, christian.koenig@amd.com, willy@infradead.org, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v8 2/4] PCI: Allow specifying devices using a base bus and path of devfns
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Received: by 2002:a67:7cc8:0:0:0:0:0 with HTTP; Mon, 30 Jul 2018 09:19:22
+ -0700 (PDT)
+In-Reply-To: <87effy9gfz.fsf@xmission.com>
+References: <1531935483-30784-1-git-send-email-s.mesoraca16@gmail.com>
+ <CAGXu5jK4q6HLDZ6jokTeDABbzVasY85Jo0HFNKYeaKWZYPjPKg@mail.gmail.com> <87effy9gfz.fsf@xmission.com>
+From:   Salvatore Mesoraca <s.mesoraca16@gmail.com>
+Date:   Mon, 30 Jul 2018 18:19:22 +0200
+Message-ID: <CAJHCu1JkX+7bsh2c2GG1LbH4HW_tQ+kJAXzvWY-rVKBtpDL_4g@mail.gmail.com>
+Subject: Re: [RFC] kconfig: add hardened defconfig helpers
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Laura Abbott <labbott@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When specifying PCI devices on the kernel command line using a
-BDF, the bus numbers can change when adding or replacing a device,
-changing motherboard firmware, or applying kernel parameters like
-pci=assign-buses. When this happens, it is usually undesirable to
-apply whatever command line tweak to the wrong device.
+2018-07-20 15:37 GMT+02:00 Eric W. Biederman <ebiederm@xmission.com>:
+> Kees Cook <keescook@chromium.org> writes:
+>
+>>> +CONFIG_USER_NS=n
+>>> +~~~~~~~~~~~~~~~~
+>>> +
+>>> +**Negative side effects level:** Medium
+>>
+>> Unfortunately I think this is High or Extreme. USER_NS gets a lot of use.
+>>
+>>> +**- Protection type:** Attack surface reduction
+>>> +
+>>> +This allows containers to use user namespaces to provide different
+>>> +user info for different servers.
+>>> +User namespaces have been abused in the past for privilege
+>>> +escalation.
+>
+> This is not a particularly good description.
 
-Therefore, it is useful to be able to specify devices with a base
-bus number and the path of devfns needed to get to it. (Similar to
-the "device scope" structure in the Intel VT-d spec, Section 8.3.1.)
+You are right, I've been a bit shallow...
+Thank you for pointing it out.
+I didn't mean to say that user namespaces are bad for security in general.
+I'll make this less ambiguous in the next revision.
 
-Thus, we add an option to specify devices in the following format:
-
-[<domain>:]<bus>:<slot>.<func>[/<slot>.<func>]*
-
-The path can be any segment within the PCI hierarchy of any length and
-determined through the use of 'lspci -t'. When specified this way, it is
-less likely that a renumbered bus will result in a valid device specification
-and the tweak won't be applied to the wrong device.
-
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Stephen Bates <sbates@raithlin.com>
-Acked-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
----
- Documentation/admin-guide/kernel-parameters.txt |   8 +-
- drivers/pci/pci.c                               | 117 ++++++++++++++++++++----
- 2 files changed, 103 insertions(+), 22 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 5cc215870ee1..1fdd1ef03984 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3000,7 +3000,7 @@
- 				or a set of devices (<pci_dev>). These are
- 				specified in one of the following formats:
- 
--				[<domain>:]<bus>:<slot>.<func>
-+				[<domain>:]<bus>:<slot>.<func>[/<slot>.<func>]*
- 				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
- 
- 				Note: the first format specifies a PCI
-@@ -3009,7 +3009,11 @@
- 				firmware changes, or due to changes caused
- 				by other kernel parameters. If the
- 				domain is left unspecified, it is
--				taken to be zero. The second format
-+				taken to be zero. Optionally, a path
-+				to a device through multiple slot/function
-+				addresses can be specified after the base
-+				address (this is more robust against
-+				renumbering issues). The second format
- 				selects devices using IDs from the
- 				configuration space which may match multiple
- 				devices in the system.
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index a6e5d195cbac..7356039a1ae7 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -192,6 +192,89 @@ EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
- #endif
- 
- /**
-+ * pci_dev_str_match_path - test if a path string matches a device
-+ * @dev:    the PCI device to test
-+ * @p:      string to match the device against
-+ * @endptr: pointer to the string after the match
-+ *
-+ * Test if a string (typically from a kernel parameter) formatted as a
-+ * path of slot/function addresses matches a PCI device. The string must
-+ * be of the form:
-+ *
-+ *   [<domain>:]<bus>:<slot>.<func>[/<slot>.<func>]*
-+ *
-+ * A path for a device can be obtained using 'lspci -t'. Using a path
-+ * is more robust against bus renumbering than using only a single bus,
-+ * slot and function address.
-+ *
-+ * Returns 1 if the string matches the device, 0 if it does not and
-+ * a negative error code if it fails to parse the string.
-+ */
-+static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
-+				  const char **endptr)
-+{
-+	int ret;
-+	int seg, bus, slot, func;
-+	char *wpath, *p;
-+	char end;
-+
-+	*endptr = strchrnul(path, ';');
-+
-+	wpath = kmemdup_nul(path, *endptr - path, GFP_KERNEL);
-+	if (!wpath)
-+		return -ENOMEM;
-+
-+	while (1) {
-+		p = strrchr(wpath, '/');
-+		if (!p)
-+			break;
-+		ret = sscanf(p, "/%x.%x%c", &slot, &func, &end);
-+		if (ret != 2) {
-+			ret = -EINVAL;
-+			goto free_and_exit;
-+		}
-+
-+		if (dev->devfn != PCI_DEVFN(slot, func)) {
-+			ret = 0;
-+			goto free_and_exit;
-+		}
-+
-+		/*
-+		 * Note: we don't need to get a reference to the upstream
-+		 * bridge because we hold a reference to the top level
-+		 * device which should hold a reference to the bridge,
-+		 * and so on.
-+		 */
-+		dev = pci_upstream_bridge(dev);
-+		if (!dev) {
-+			ret = 0;
-+			goto free_and_exit;
-+		}
-+
-+		*p = 0;
-+	}
-+
-+	ret = sscanf(wpath, "%x:%x:%x.%x%c", &seg, &bus, &slot,
-+		     &func, &end);
-+	if (ret != 4) {
-+		seg = 0;
-+		ret = sscanf(wpath, "%x:%x.%x%c", &bus, &slot, &func, &end);
-+		if (ret != 3) {
-+			ret = -EINVAL;
-+			goto free_and_exit;
-+		}
-+	}
-+
-+	ret = (seg == pci_domain_nr(dev->bus) &&
-+	       bus == dev->bus->number &&
-+	       dev->devfn == PCI_DEVFN(slot, func));
-+
-+free_and_exit:
-+	kfree(wpath);
-+	return ret;
-+}
-+
-+/**
-  * pci_dev_str_match - test if a string matches a device
-  * @dev:    the PCI device to test
-  * @p:      string to match the device against
-@@ -200,13 +283,16 @@ EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
-  * Test if a string (typically from a kernel parameter) matches a specified
-  * PCI device. The string may be of one of the following formats:
-  *
-- *   [<domain>:]<bus>:<slot>.<func>
-+ *   [<domain>:]<bus>:<slot>.<func>[/<slot>.<func>]*
-  *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-  *
-  * The first format specifies a PCI bus/slot/function address which
-  * may change if new hardware is inserted, if motherboard firmware changes,
-  * or due to changes caused in kernel parameters. If the domain is
-- * left unspecified, it is taken to be 0.
-+ * left unspecified, it is taken to be 0. In order to be robust against
-+ * bus renumbering issues, a path of PCI slot/function numbers may be used
-+ * to address the specific device. The path for a device can be determined
-+ * through the use of 'lspci -t'.
-  *
-  * The second format matches devices using IDs in the configuration
-  * space which may match multiple devices in the system. A value of 0
-@@ -222,7 +308,7 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
- 			     const char **endptr)
- {
- 	int ret;
--	int seg, bus, slot, func, count;
-+	int count;
- 	unsigned short vendor, device, subsystem_vendor, subsystem_device;
- 
- 	if (strncmp(p, "pci:", 4) == 0) {
-@@ -248,25 +334,16 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
- 		    (!subsystem_device ||
- 			    subsystem_device == dev->subsystem_device))
- 			goto found;
--
- 	} else {
--		/* PCI Bus,Slot,Function ids are specified */
--		ret = sscanf(p, "%x:%x:%x.%x%n", &seg, &bus, &slot,
--			     &func, &count);
--		if (ret != 4) {
--			seg = 0;
--			ret = sscanf(p, "%x:%x.%x%n", &bus, &slot,
--				     &func, &count);
--			if (ret != 3)
--				return -EINVAL;
--		}
--
--		p += count;
-+		/*
-+		 * PCI Bus,Slot,Function ids are specified
-+		 *  (optionally, may include a path of devfns following it)
-+		 */
- 
--		if (seg == pci_domain_nr(dev->bus) &&
--		    bus == dev->bus->number &&
--		    slot == PCI_SLOT(dev->devfn) &&
--		    func == PCI_FUNC(dev->devfn))
-+		ret = pci_dev_str_match_path(dev, p, &p);
-+		if (ret < 0)
-+			return ret;
-+		else if (ret)
- 			goto found;
- 	}
- 
--- 
-2.11.0
-
+> User namespaces do indeed increase the attack surface of programs that
+> don't use them.
+>
+> User namespaces when used to build ``unprivileged containers'' remove or
+> at least drastically reduce the need to run as root when setting up
+> containers.  Which is attack surface reduction.
+>
+> User namespaces make available tools that are commonly used to build
+> sandboxes.  Chrome for example uses users namespaces if they are
+> available as part of setting up it's sandbox.
+>
+> User namespaces are not limited to containers.
+>
+> The bugs in the attack surface that user namespaces expose that have
+> been used for privilege escalation have to the best of my knowledge
+> closed.  So while there is some danger in the increased attack surface
+> we are looking at implementation defects rather than design defects.
+>
+> Eric
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
