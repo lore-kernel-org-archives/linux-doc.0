@@ -3,68 +3,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5C2887D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 13:06:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F09BF7D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 13:22:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732136AbeGaOqQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 31 Jul 2018 10:46:16 -0400
-Received: from mail-it0-f67.google.com ([209.85.214.67]:50823 "EHLO
-        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731961AbeGaOqQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 10:46:16 -0400
-Received: by mail-it0-f67.google.com with SMTP id g191-v6so4353578ita.0
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jul 2018 06:06:01 -0700 (PDT)
+        id S1732191AbeGaPCe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 31 Jul 2018 11:02:34 -0400
+Received: from mail-it0-f68.google.com ([209.85.214.68]:36992 "EHLO
+        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732159AbeGaPCe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 11:02:34 -0400
+Received: by mail-it0-f68.google.com with SMTP id h20-v6so4297694itf.2
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jul 2018 06:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=KDgx1wu0S4s/fsoNbAILQ44BQFWBJhQa9o5lBqBhbsA=;
-        b=QOQWySiUBOrjacnJ/0qrKicp9QAp0C7Zv8NRMdXSFPVOgRPlbrS8gNd7RgL6qlUlIj
-         6Edog2HkYgSwovUnsQr3R6tdcWaZ6CMZOERKw/bmb15/wFIaFCBcmj6z8jkHux9rq87W
-         AO6JyepCVfczcxK4BUkGChYkwGL58YRhMTG+GCY7pJ6Mjz2DlxjNL3eFfJ4sbUys8Pid
-         zWWu3yP+QTS79xD9lQ2WPYNGLpo7l0LCi07KWKX9D9Ha6LTnh2DoSh08tdRfYvYMjqmC
-         iOr2p9fMlVTF0Qu6djS0WqVPm5Dohd9sSqUco6niSssdghIxeO6QOgh2PUlh4M5UVEHI
-         vsQA==
+        bh=Cea+QR7vUGrYbV9TxX260FtXaToZOEPmUQN4XnVEkac=;
+        b=KipjezCBn97Bs0JcB/3ZkpKqnOyk+Mxcg0LZR9VjRvBpSGmrv7WaXIz+KfUr9E+ZSY
+         NHpyEuveDlYEUCM4oYlgcCUHoxpas1VE7wUv7WOd6NroUEWLJ75dQixuRMwA1owrnzDY
+         bbi0zzbitadrNP7Bkg4d9BiVoddhMbRt77tVgh19caUbYC906FLo1jy6XZfQCvxeH4Oo
+         dax56RdTglck+8l96reCfBSaTDyq1jnTf7ozbwOvEB8pMjdSVD2ezMd7U30dI5ttIpdm
+         cHj857t42Zq765ALth03QoB7cVIPw+IXloGMN+vGwstLVElndIrhno6lHmfaRCLKirxl
+         vRkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=KDgx1wu0S4s/fsoNbAILQ44BQFWBJhQa9o5lBqBhbsA=;
-        b=GgZzYB5/r3L2IZKGR+bnZlZZZDmTEsFHyEr/5MvOwgvZLA1WN51j9KpvYTOeXn3Jvd
-         UVA20q7EhHqHJyQmPTef8NsU5y0ZSgTVqKcCmrvXHUNrXfZgFt/TF7NQ/mCYvU/2OI6z
-         1vXpYMLfiKpYykzieNPUcZp1re4FUGzScowq4ocb+OGsShojHRhSYzcEdXn8ww4JjTes
-         /sNaqA0DamXBtVMBREWi26Uiv/buIAZQCgYPjhbz7yNioFzwMeunT0GAAWeRSqrq1rGZ
-         Vj4B/R/hlWXxsaANm9IXhKzWuQ4W4Exj55pys+1UI9Td8xhf/VHm8UHXoQBLH08OmZs9
-         JlwQ==
-X-Gm-Message-State: AOUpUlEC7a0lxsL626HB9ok3RTaKavkT7S6nE15DMNCWcxwPRa1pRGYz
-        e8RKc+lwR0BZcyZSZ24srj80bINKFldq6DhcTpXzuA==
-X-Google-Smtp-Source: AAOMgpeZr80M/FmFnLuElEuAGYI8x7OAsEcGWQDEiBDQKUU5ihxSenWvbznd9FPrqYswVUCn6u4AzvDQ097Hlxvkuqc=
-X-Received: by 2002:a24:db05:: with SMTP id c5-v6mr3119100itg.44.1533042360087;
- Tue, 31 Jul 2018 06:06:00 -0700 (PDT)
+        bh=Cea+QR7vUGrYbV9TxX260FtXaToZOEPmUQN4XnVEkac=;
+        b=lLA1gyMdFrQAel2kcdg2jSSC6RedwQpY3Wm4AVY62+eoomjne0ijEsSFuer3sk+mqW
+         Xuhxku2OORU0VGxmI8BRrHOpmRzbAIti3qVcoK2GffOWO2+hfJJ8DqHF77kua14VhNyP
+         QN7N4Z612e8dS/uDgjg0bC8UUbkOzyXc/moleuTbkeT2Ebj68WjciKtB3JoBjT0GpnDq
+         O8zHwWh7oVjtnNQEgcF0I3SGKfI9eseH6yE1+rYYcV5fuBLUCpEtB55TzpD+rQUzf/Ar
+         RX6AVUj6+/EtA9n9GiNTM0674FOnWz9JkCz8RDhRXAh+O+Ide7Hm6COPaONFxnwuYVGZ
+         RyuA==
+X-Gm-Message-State: AOUpUlHFyu5xj58FqPUrcn3FrGryUDPBMM2BFQGTaLJrJ1ra78gli3MN
+        /yqfIxJ+YOFNfgjRyDiqhOdeOByUVt32Kaoz209J5w==
+X-Google-Smtp-Source: AAOMgpcTqetMxXwG6tKGKsyOX3JweITjOUfA66vI84o5nQWcIwS/DS0jIKGs/SLuDUGpJh1Qs/i46/NRVXxQuEHJjV0=
+X-Received: by 2002:a02:9962:: with SMTP id d31-v6mr20393986jak.1.1533043334704;
+ Tue, 31 Jul 2018 06:22:14 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:918c:0:0:0:0:0 with HTTP; Tue, 31 Jul 2018 06:05:59
+Received: by 2002:a02:918c:0:0:0:0:0 with HTTP; Tue, 31 Jul 2018 06:22:13
  -0700 (PDT)
-In-Reply-To: <09cb5553-d84a-0e62-5174-315c14b88833@arm.com>
-References: <cover.1530018818.git.andreyknvl@google.com> <a2a93370d43ec85b02abaf8d007a15b464212221.1530018818.git.andreyknvl@google.com>
- <09cb5553-d84a-0e62-5174-315c14b88833@arm.com>
+In-Reply-To: <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
+References: <cover.1530018818.git.andreyknvl@google.com> <20180628105057.GA26019@e103592.cambridge.arm.com>
+ <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+ <20180629110709.GA17859@arm.com> <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
+ <20180703173608.GF27243@arm.com> <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 31 Jul 2018 15:05:59 +0200
-Message-ID: <CAAeHK+yC3XRPoTByhH1QPrX45pG3QY_2Q4gz=dfDgxfzu1Fyfw@mail.gmail.com>
-Subject: Re: [PATCH v4 13/17] khwasan: add hooks implementation
-To:     vincenzo.frascino@arm.com
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+Date:   Tue, 31 Jul 2018 15:22:13 +0200
+Message-ID: <CAAeHK+xc1E64tXEEHoXqOuUNZ7E_kVyho3_mNZTCc+LTGHYFdA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
         Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
         Ard Biesheuvel <ard.biesheuvel@linaro.org>,
         "Eric W . Biederman" <ebiederm@xmission.com>,
         Ingo Molnar <mingo@kernel.org>,
@@ -96,43 +97,75 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 25, 2018 at 3:44 PM, Vincenzo Frascino@Foss
-<vincenzo.frascino@arm.com> wrote:
-> On 06/26/2018 02:15 PM, Andrey Konovalov wrote:
+On Wed, Jul 18, 2018 at 7:16 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> On Tue, Jul 3, 2018 at 7:36 PM, Will Deacon <will.deacon@arm.com> wrote:
+>> Hmm, but elsewhere in this thread, Evgenii is motivating the need for this
+>> patch set precisely because the lower overhead means it's suitable for
+>> "near-production" use. So I don't think writing this off as a debugging
+>> feature is the right approach, and we instead need to put effort into
+>> analysing the impact of address tags on the kernel as a whole. Playing
+>> whack-a-mole with subtle tag issues sounds like the worst possible outcome
+>> for the long-term.
 >
->> @@ -325,18 +341,41 @@ void kasan_init_slab_obj(struct kmem_cache *cache,
->> const void *object)
->>     void *kasan_slab_alloc(struct kmem_cache *cache, void *object, gfp_t
->> flags)
->>   {
->> -       return kasan_kmalloc(cache, object, cache->object_size, flags);
->> +       object = kasan_kmalloc(cache, object, cache->object_size, flags);
->> +       if (IS_ENABLED(CONFIG_KASAN_HW) && unlikely(cache->ctor)) {
->> +               /*
->> +                * Cache constructor might use object's pointer value to
->> +                * initialize some of its fields.
->> +                */
->> +               cache->ctor(object);
->>
-> This seams breaking the kmem_cache_create() contract: "The @ctor is run when
-> new pages are allocated by the cache."
-> (https://elixir.bootlin.com/linux/v3.7/source/mm/slab_common.c#L83)
+> I don't see a way to find cases where pointer tags would matter
+> statically, so I've implemented the dynamic approach that I mentioned
+> above. I've instrumented all pointer comparisons/subtractions in an
+> LLVM compiler pass and used a kernel module that would print a bug
+> report whenever two pointers with different tags are being
+> compared/subtracted (ignoring comparisons with NULL pointers and with
+> pointers obtained by casting an error code to a pointer type). Then I
+> tried booting the kernel in QEMU and on an Odroid C2 board and I ran
+> syzkaller overnight.
 >
-> Since there might be preexisting code relying on it, this could lead to
-> global side effects. Did you verify that this is not the case?
+> This yielded the following results.
 >
-> Another concern is performance related if we consider this solution suitable
-> for "near-production", since with the current implementation you call the
-> ctor (where present) on an object multiple times and this ends up memsetting
-> and repopulating the memory every time (i.e. inode.c: inode_init_once). Do
-> you know what is the performance impact?
+> ======
+>
+> The two places that look interesting are:
+>
+> is_vmalloc_addr in include/linux/mm.h (already mentioned by Catalin)
+> is_kernel_rodata in mm/util.c
+>
+> Here we compare a pointer with some fixed untagged values to make sure
+> that the pointer lies in a particular part of the kernel address
+> space. Since KWHASAN doesn't add tags to pointers that belong to
+> rodata or vmalloc regions, this should work as is. To make sure I've
+> added debug checks to those two functions that check that the result
+> doesn't change whether we operate on pointers with or without
+> untagging.
+>
+> ======
+>
+> A few other cases that don't look that interesting:
+>
+> Comparing pointers to achieve unique sorting order of pointee objects
+> (e.g. sorting locks addresses before performing a double lock):
+>
+> tty_ldisc_lock_pair_timeout in drivers/tty/tty_ldisc.c
+> pipe_double_lock in fs/pipe.c
+> unix_state_double_lock in net/unix/af_unix.c
+> lock_two_nondirectories in fs/inode.c
+> mutex_lock_double in kernel/events/core.c
+>
+> ep_cmp_ffd in fs/eventpoll.c
+> fsnotify_compare_groups fs/notify/mark.c
+>
+> Nothing needs to be done here, since the tags embedded into pointers
+> don't change, so the sorting order would still be unique.
+>
+> Check that a pointer belongs to some particular allocation:
+>
+> is_sibling_entry lib/radix-tree.c
+> object_is_on_stack in include/linux/sched/task_stack.h
+>
+> Nothing needs to be here either, since two pointers can only belong to
+> the same allocation if they have the same tag.
+>
+> ======
+>
+> Will, Catalin, WDYT?
 
-We can assign tags to objects with constructors when a slab is
-allocated and call constructors once as usual. The downside is that
-such object would always have the same tag when it is reallocated, so
-we won't catch use-after-frees. But that is probably something we'll
-have to deal with if we're aiming for "near-production". I'll add this
-change to v5, thanks!
+ping
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
