@@ -1,121 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BEB517D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 15:48:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0B8BF7DF7E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 16:04:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732341AbeGaR3o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 31 Jul 2018 13:29:44 -0400
-Received: from mail-eopbgr50056.outbound.protection.outlook.com ([40.107.5.56]:49712
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726789AbeGaR3o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 31 Jul 2018 13:29:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IjnfoBOWlCoVcGlVUYKmfLp2DayiKssT7OQJPzukX6A=;
- b=Ta4+WMHGHnrfId1m/AJxP2nsYz2Q01zXqRSiYQrnfRO5ECtEXCsgSu9LYi1oraSAhuNmOHgkm9TVyIyfSWtUFXY7qlkWHxBd2yTZHPhYxivMxfrYTOjCZZszMKVe1SV2Cmm/7Wup4+qmpFYapmE51PvIr3sEa8slpW7lCJrEInU=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=ioana.ciornei@nxp.com; 
-Received: from rhuath.am.freescale.net (64.157.242.222) by
- HE1PR0401MB2361.eurprd04.prod.outlook.com (2603:10a6:3:25::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.995.19; Tue, 31 Jul 2018 15:47:02 +0000
-From:   Ioana Ciornei <ioana.ciornei@nxp.com>
-To:     davem@davemloft.net, corbet@lwn.net
-Cc:     laurentiu.tudor@nxp.com, stuyoder@gmail.com,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, Ioana Ciornei <ioana.ciornei@nxp.com>
-Subject: [PATCH] Documentation: dpaa2: Use correct heading adornment
-Date:   Tue, 31 Jul 2018 10:45:53 -0500
-Message-Id: <20180731154553.3648-1-ioana.ciornei@nxp.com>
-X-Mailer: git-send-email 2.8.3
+        id S1732408AbeGaRoi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 31 Jul 2018 13:44:38 -0400
+Received: from mail-pl0-f65.google.com ([209.85.160.65]:41313 "EHLO
+        mail-pl0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732425AbeGaRoh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 13:44:37 -0400
+Received: by mail-pl0-f65.google.com with SMTP id w8-v6so7361152ply.8
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jul 2018 09:03:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=MCCwJ+aQ3QluAcbv7Vnv7dpmLID9SHTC3R7LCcSvpZw=;
+        b=e4eqVFHpMWLgqb8r300mBWpvUhRfuPDu5cOG5bwFJNipHub1t1qRWQ8JNVjMh5ac4j
+         Ow/DQPSJyXC6M4IspXZlc0TFfveJE/is0rpnh45tkp+X5EzVny4DkUPK1JLIhuzXpglV
+         KruSmDEJsqezuHZAC0thQpHP68yX+sxfYDKgt89jw7KyuShaY1Mysv+7hU8A0PrQI6D4
+         PaS7w/xzCk+5S6qU6UWL76hH4RIxxc2lnuFW+jQ3ftUN9dwngrrUos0U/JGa/vD+JZLH
+         q2yo5N+OsgzSvgFWmpRnuhraEWBbt/aQ+aV8GDGorUf2n8SazudfWlnLRhXQtnt8l/xb
+         zWjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=MCCwJ+aQ3QluAcbv7Vnv7dpmLID9SHTC3R7LCcSvpZw=;
+        b=GU+cDrLjwwrXhCOoUBxYn+tSw9HLR65p6EwxjSBqBx6UYORwCG2nS96wSyqVT4uh3E
+         TzBa8NGVVrQc1emYh7iCEm77i2KXcGpGsllhBFeDrlZBrLg+1UVnkJtsfD+YkzgH+uja
+         pTxpyXS6TwWJ9IGVWtS16sbo7QwKaNL4Wp+Pyk9oAL6cdbB3nMCvyT0gpyYwNGljsJKI
+         z+VIiJ8dMwQxlnD/V78r6rz6KjQNnjDhl+8HaMK8mfAAQBd9/ia4N+UD3sxdU8ctcnf4
+         ZCvy+7RETlGu5L21SObkMr11vXdTaCHnpToTr13bV3G8Tj44U2XRyYUexRybqbIW7Yrn
+         6t7g==
+X-Gm-Message-State: AOUpUlFE7b24M+OStFCXTRozRRib8xhOBiYXd89m+jkvONF1HG0DyQRC
+        l91b4dfIz9aoIKO78tNlaEJ4jhMFlB/IeD2AKNeBww==
+X-Google-Smtp-Source: AAOMgpf2idFMvU35lou06YRyZn4DlX/1O2jUwcXHj78PgU/JoKGFofBFTp9Iux7o+TnYGVZyb4nqmZSbvTsKfpHNVI8=
+X-Received: by 2002:a17:902:740b:: with SMTP id g11-v6mr21160189pll.85.1533053017437;
+ Tue, 31 Jul 2018 09:03:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [64.157.242.222]
-X-ClientProxiedBy: SN4PR0201CA0009.namprd02.prod.outlook.com
- (2603:10b6:803:2b::19) To HE1PR0401MB2361.eurprd04.prod.outlook.com
- (2603:10a6:3:25::6)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fc4c04b1-6921-4b5c-78ba-08d5f6fcdd22
-X-MS-Office365-Filtering-HT: Tenant
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989117)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:HE1PR0401MB2361;
-X-Microsoft-Exchange-Diagnostics: 1;HE1PR0401MB2361;3:zVbscFmHrz6aD1Y+eeH417m9/ZPKc2BS+OHwheU3kC4Rcw5fWQl+XzqtWM0N4uouQ328V0PMUFimJ9bpKob4gGL4KE94fnea9R/nqKF37TwCh2wi4uPe0m5YCUNdFuC4b30PPs8c4eAtIKo4Jz4UmMwpF2+GMGWEAMChpX8+McH077Fj2NyriU7xciLYZKD15UUzsRC75CreVTyN3dGmg6Yp8zAtRuP5s8p/o4mEPjYjROFKbIZad04oIffEnO95;25:0TaXgcGSl2ATJQ5sSaUn5nm8eHXfzFfQzkzWRrbt6XG6jOaV/r5tE/pGhTReDMU9OO4pNG8Mh5xVNjncdjZHSRoVLWKw3Yw0PUH0u1q4UOXrAUwr4rmGvHKUJkwHz8GJ2ExdRq+pOEZ27GDXG1c9sm2gAo89sik8WO8rOz2t3QmEGpwFENaVKGG17GqnBBt3FZL4Ui6x6uucml5u6QPI4cmXtxekQIq9EEz3YqsXE0OhEJFbH7RJJNB52IDl9I8Du1heM6o+PK27KAemJwFrDQ5yyZNNHpTGmrUZKUXVZ36n+ref+90YI7kw8hLhMT8kHvtBB5s91AvEtnosw0hrMA==;31:9DFUptqRoCb0ORZsc+BefQFO2p2DN7OK2r0jwrCRlp5B8UNZZCAhNtqtEaxQeTdM9Wt8NM4fzbW2o/y2VXkdDw1HN/IK9KNOfy5fln8P1vQqbNKfZ2gE/60f6WrcJEkcQEzB3kPtWWf2Px2XTWGQYL2UkkYoGXga8zatWCB6gnpfSh+vkZ6h9iqRoUrQOrhg1C5QK3RBZKVctzmpEd7b4C1KIc0F1TQ3fOdqS2FntQo=
-X-MS-TrafficTypeDiagnostic: HE1PR0401MB2361:
-X-Microsoft-Exchange-Diagnostics: 1;HE1PR0401MB2361;20:GGHXNwtR/plb/tPBVioNi8VBbNbgz71JtEuADBZCvxCOiQPGppKYtoF/5CJLYsj8xC2EsfzCtGHNHUnDJm9T0sdtyixLEoGNRb8Ua7FyEeiYEXOKoIFV6WMxoTr9TB7yWw4VZM4V/pQ49ut3m1i2foxsdUbsftBIaKSWPAUonwKTRH0t4gzZnfpS/QnkfAWsEI0MNS3wMWDZrU4gCw2S4q52cQWqkW04ahDgPvN9PvOlxInBJLZf3jgGwjybydef//qbth9XjrmlZsZyw7JPPl8ibACh8lfzIaRg9LrVUUz8VkLDluTW8m3CURxGz7ksFISv2hJbo9Oa1vvqOC/J0SSiGZyxUM4QDMdWl/j92Eafn0AKnJR9J/dKGpzOqTztM/lpFv1R3xEcoGrJRAcER41PvD1UCFH7WBMtGdE6hxFhcIEk8D/CAVzvEuAufdA+PB6iohWL8dHGDXsA9yRGUcEdDrVC70R9F1O8j8AhBEecDNmqpoxTZFn74IHt6Qlu;4:/iyf7FciH7sni1zSlJTcq86rLT3my2ozkggb/Vo34UpJspzRwb8l/Mu7xDR4TrhVbpBYBnvxbpnb9OZ6KYtLsEHgCDzaSlM5R3oZoWm0a1RTYdLh5LjxaWSFM9Y2nSTXaERGvZ9J24Ql3eHddoMTGOTbLO4raIPZHhgCaPnNOSBa6erSWLa3YbaC9lelHito2x5e/PZ38JNmH7AamJZCJPKdYKXwlY8kG2naNuJv2AWuM89N/rEf2GfwCwzskHl98ey6GP2ygxEkPT38Hc4zk+0+toHtxPcbVMZYFT4TRjgACAM89bJRd6QfCmUgSZ/k
-X-Microsoft-Antispam-PRVS: <HE1PR0401MB2361C4BFD2A957C6129FACF6E02E0@HE1PR0401MB2361.eurprd04.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(185117386973197);
-X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(10201501046)(3231311)(944501410)(52105095)(3002001)(93006095)(93001095)(6055026)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123562045)(20161123558120)(6072148)(201708071742011)(7699016);SRVR:HE1PR0401MB2361;BCL:0;PCL:0;RULEID:;SRVR:HE1PR0401MB2361;
-X-Forefront-PRVS: 0750463DC9
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(396003)(346002)(136003)(39860400002)(366004)(376002)(189003)(199004)(2906002)(476003)(44832011)(50226002)(486006)(305945005)(6666003)(68736007)(47776003)(6486002)(66066001)(5660300001)(50466002)(81166006)(1076002)(8676002)(3846002)(6116002)(7736002)(478600001)(956004)(2616005)(86362001)(97736004)(52116002)(25786009)(51416003)(53936002)(106356001)(81156014)(186003)(14444005)(48376002)(386003)(105586002)(316002)(16586007)(39060400002)(16526019)(6506007)(4326008)(1857600001)(6512007)(8936002)(36756003)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:HE1PR0401MB2361;H:rhuath.am.freescale.net;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;HE1PR0401MB2361;23:ba4/brY/m1NGZB681UjsoEiey26pEMVsWKu94ne?=
- =?us-ascii?Q?gb5r046q/kZvU6FbYvF2MoACQ2cOK+vganzjxAccnaszUqVAkKkHzCzxSS/3?=
- =?us-ascii?Q?7Gq0Kho2N7rF6bYpAhRyOly4IH7yqkUTcKURYd58UR1N7gdpBf3saB6vPtr9?=
- =?us-ascii?Q?rU3IJ3Kg43hE4omYT4qaaIlcZ8nR6tKBJ4njfVvwQw6CH3CC80xr5gJMkaQR?=
- =?us-ascii?Q?rmvz0j31zx/4Ve4I9iH1jjSIw/FBSiVBzLIKurozgtixmMF2SacQwjPfyBU0?=
- =?us-ascii?Q?wwhpzHwfEjQ+jrssF4o6gEDtdT/A8xQBPGjWlBjo+PpqtUxX5fPcmXa4kLMQ?=
- =?us-ascii?Q?EWp9O0hU9svsZicx3zgQ/SXUuB22ecJkPibUAQIm2y/6CuWtaFau6aoPajNu?=
- =?us-ascii?Q?BGzA182ZqqeDXsz0E3KVvfFfNU5wDETV9KAWnUiQNJ4fLZ7To3zfPWSKlIUQ?=
- =?us-ascii?Q?KaEbwU8wSquoQsCqbVJ+7fMehFV/ax049+yC4jdnURjzp5easTp5cLL/G2bq?=
- =?us-ascii?Q?v+MdupxsJdPZyH7EjHtS9+HPPOeUjdMpoMqAkZxqbMbJXA+gwyAUYOzN9GMS?=
- =?us-ascii?Q?gEXQVdR1HSwdsY1XZZ0s5FaAx2jAvdAMIhwr/y1k5pUlea/8tQNOfrCq8tLD?=
- =?us-ascii?Q?FEg/V0yGePqsfwwFj2k/ln3TK1qPSoRA2PwXzhGdpmzEubDhUrMO5IZE5nK5?=
- =?us-ascii?Q?gAyKXnCfQpY/+OwyriccwCHXXMyjA14mc8C5S9YgTRRy4YhjFF4j+6RNWRi9?=
- =?us-ascii?Q?iq7eaFROfOW2AzI9dyVHwiIncZzoA1cRaaPK253S9k76FQ1YacJuRZb1qgnY?=
- =?us-ascii?Q?741tT/FvEgqn+LpjPOJtWOIaYwxnBgzvFXgkCo8sIMEIjvU9R6wHUQfxc8Fm?=
- =?us-ascii?Q?wq3bIxzh0iVWVsygRUQdn+H4urue3ZhIYgcvBKH5yJrhMhEbSaCgv8UEB3cf?=
- =?us-ascii?Q?mNlfR8JA1BmZPkJgYBjI+S5pWeFTZi4V3CcSwlSfbS9ZuHOgyIvFF0FzhnLf?=
- =?us-ascii?Q?t6AjuU3v7e01cwsLhGyARZ3dK63V0NJiuswG8TY2ZGEdzWwisSSKa1pEfEWB?=
- =?us-ascii?Q?cI5Kt2WauY6tfpoU3Fz7U51qstrLEN1AFhcvlVlcexi3LQSyxctEU3h7o0+r?=
- =?us-ascii?Q?I4a+92hAxLiZytKcoFbn0SzKM2GjwOVEvt5beL5Lskdck60U1s/WPsRaqWqb?=
- =?us-ascii?Q?qz/TkqDcuoKH67hvaP5PS0aWGDa/zT8bUkz9Z?=
-X-Microsoft-Antispam-Message-Info: QVWaWY0oYb1sPGHXmXXusB6eMXKBWXP0ocB3G5I+WRIdi/ERVbBMxo1Ba3MF55jKxWBCIBWS/N30xAJ4tMBxHdN5m3o5/FjS8PtfHdNSdJyorZTwzjXZN6zbOtLB+2ktynYNF3IoyFaIlyVQcwGTGxe3kozV2OQ6Z0a2vR3JBZLl4mhf2t3hFXNq3QkGSfMGp2TudWCE2/08SWVml8CUCnwJD14TIHWSh/55TW9eh2yfLjcZehkSXOR/wwgMjDuStQLJ9w/r08w5s+Y1wVQHhqYOMj26CxX9Nz9gc5Ug2zcyIWVlIxwfBCQ9RbQUhF+cQujszT7nshX8xoMxKLACZ4IQFpOolaZx9+gAxZ0vUKQ=
-X-Microsoft-Exchange-Diagnostics: 1;HE1PR0401MB2361;6:E7Qi/c1ihRmCz7lee2KzSF3TmYI0GcJahM3HZHoq1LyBrWs9Tnu6FTcEOy3PxrLgrEOaUHIvC3ynD38Pwd8aURL6dy2gcLrDH0WydWxj2svFwNNvCyX27QupoKBvcDb0/cm3jGVzL1WLcZ7T/OBUNeoz5WAWOuq36NkO2ypZNCfmbkPyRbHk5P4V0mTT+q8ROrzbBITG6ORwa9iGgSk80qyizv6zqw82jocK3orPxPUKtlke5kZBhNaat/XFmEiSKUY92afN56Wd4JZ2yWL1lkx7GpBebhvMNjYifsg5+N6/tkGcmpnKBqzcIE+/CPcVqoQeEhCn6+EiuCBCayE9Z7KWO392IPddoBs2aVxpW3YnnAyTUYJKYcFKCG8JALn2cD3yUSFR/Ky74h6nA77ua5taJrgUH0191NO+veQ8aC2bD02e3+dAIMHlVnFJBNMo6uc3FxINk2gpvT0xymEMJA==;5:g8SzlGdRFH9LJQaoVoMVfOvsPq9zMD+Ma/uVPpYPuZshKGO0Ei3/MlBw7KNA4A7+xrpsLjQhwEwSjPSWBF4CXPPkvZb1ljeiLDe3A7kkfIGAwvPoislRQL2GbWOPCPeefgKA10hOn0j7bzkrtH5BiJm+DHLOTPBmSmUIVtvjH0w=;7:cG7hCN/MxV8D7x0x+22MJ86E/DAVNKfQehqK1WoR/senvxnnD2YMjaeii+Vu0jBbyvc44b74nllT5Lusx3eaBqq/SKJSkozHg4Oo7rJ6ZgY2Kv55Ow0Oz5YKw2Wln3Vr4FG/0fJIaXCkIEUg/tYyEGDvj9KBXypqRuXtuUbaa6tsmiBsEW5EVb7s7OnA0lXRlEHPV8XSyfPxS3ZMFbwAQjvGqPFmEU5nFePyB4K9uy2Cg354X5mEzitLgwbcDYNE
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2018 15:47:02.7123
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc4c04b1-6921-4b5c-78ba-08d5f6fcdd22
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0401MB2361
+Received: by 2002:a17:90a:ac14:0:0:0:0 with HTTP; Tue, 31 Jul 2018 09:03:16
+ -0700 (PDT)
+In-Reply-To: <01000164f0fd5abc-df9ea911-9701-498c-adce-9f833e6df3ed-000000@email.amazonses.com>
+References: <cover.1530018818.git.andreyknvl@google.com> <a2a93370d43ec85b02abaf8d007a15b464212221.1530018818.git.andreyknvl@google.com>
+ <09cb5553-d84a-0e62-5174-315c14b88833@arm.com> <CAAeHK+yC3XRPoTByhH1QPrX45pG3QY_2Q4gz=dfDgxfzu1Fyfw@mail.gmail.com>
+ <8240d4f9-c8df-cfe9-119d-6e933f8b13df@virtuozzo.com> <CACT4Y+Y=61VwwETQP3FwAN16ompSNJOCyDCG6Ew1Bm5f_Fe1Lw@mail.gmail.com>
+ <01000164f0fd5abc-df9ea911-9701-498c-adce-9f833e6df3ed-000000@email.amazonses.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Tue, 31 Jul 2018 18:03:16 +0200
+Message-ID: <CACT4Y+b6_d6b5Q4oScXuoXhsnkJPG+UZ1QxqPPGuM4_aU3n4mA@mail.gmail.com>
+Subject: Re: [PATCH v4 13/17] khwasan: add hooks implementation
+To:     Christopher Lameter <cl@linux.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        vincenzo.frascino@arm.com, Alexander Potapenko <glider@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add overline heading adornment to document title in order to comply
-with kernel doc requirements.
+On Tue, Jul 31, 2018 at 5:38 PM, Christopher Lameter <cl@linux.com> wrote:
+> On Tue, 31 Jul 2018, Dmitry Vyukov wrote:
+>
+>> > Actually you should do this for SLAB_TYPESAFE_BY_RCU slabs. Usually they are with ->ctors but there
+>> > are few without constructors.
+>> > We can't reinitialize or even retag them. The latter will definitely cause false-positive use-after-free reports.
+>>
+>> Somewhat offtopic, but I can't understand how SLAB_TYPESAFE_BY_RCU
+>> slabs can be useful without ctors or at least memset(0). Objects in
+>> such slabs need to be type-stable, but I can't understand how it's
+>> possible to establish type stability without a ctor... Are these bugs?
+>> Or I am missing something subtle? What would be a canonical usage of
+>> SLAB_TYPESAFE_BY_RCU slab without a ctor?
+>
+> True that sounds fishy. Would someone post a list of SLAB_TYPESAFE_BY_RCU
+> slabs without ctors?
 
-Fixes: 60b9131 staging: fsl-mc: Convert documentation to rst format
+https://elixir.bootlin.com/linux/latest/source/fs/jbd2/journal.c#L2395
+https://elixir.bootlin.com/linux/latest/source/fs/kernfs/mount.c#L415
+https://elixir.bootlin.com/linux/latest/source/net/netfilter/nf_conntrack_core.c#L2065
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/i915_gem.c#L5501
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/selftests/mock_gem_device.c#L212
+https://elixir.bootlin.com/linux/latest/source/drivers/staging/lustre/lustre/ldlm/ldlm_lockd.c#L1131
 
-Signed-off-by: Ioana Ciornei <ioana.ciornei@nxp.com>
----
- Documentation/networking/dpaa2/overview.rst | 1 +
- 1 file changed, 1 insertion(+)
+Also these in proto structs:
+https://elixir.bootlin.com/linux/latest/source/net/dccp/ipv4.c#L959
+https://elixir.bootlin.com/linux/latest/source/net/dccp/ipv6.c#L1048
+https://elixir.bootlin.com/linux/latest/source/net/ipv4/tcp_ipv4.c#L2461
+https://elixir.bootlin.com/linux/latest/source/net/ipv6/tcp_ipv6.c#L1980
+https://elixir.bootlin.com/linux/latest/source/net/llc/af_llc.c#L145
+https://elixir.bootlin.com/linux/latest/source/net/smc/af_smc.c#L105
 
-diff --git a/Documentation/networking/dpaa2/overview.rst b/Documentation/networking/dpaa2/overview.rst
-index 79fede4..d638b5a 100644
---- a/Documentation/networking/dpaa2/overview.rst
-+++ b/Documentation/networking/dpaa2/overview.rst
-@@ -1,5 +1,6 @@
- .. include:: <isonum.txt>
- 
-+=========================================================
- DPAA2 (Data Path Acceleration Architecture Gen2) Overview
- =========================================================
- 
--- 
-1.9.1
-
+They later created in net/core/sock.c without ctor.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
