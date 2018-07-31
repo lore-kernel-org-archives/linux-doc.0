@@ -3,56 +3,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 62BC77D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 22:37:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C6B657D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 22:38:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732698AbeHAAUL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 31 Jul 2018 20:20:11 -0400
-Received: from mail-eopbgr20053.outbound.protection.outlook.com ([40.107.2.53]:10870
+        id S1732649AbeHAAUi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 31 Jul 2018 20:20:38 -0400
+Received: from mail-eopbgr20054.outbound.protection.outlook.com ([40.107.2.54]:2896
         "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732123AbeHAAUK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 31 Jul 2018 20:20:10 -0400
+        id S1732123AbeHAAUi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 31 Jul 2018 20:20:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=efwbVaSQFR5ERFmo1RdtxQiWHzsNe1jz5NOKb1E4snA=;
- b=NsUGwuLX4UkYDUVm+QzBcCQqqQ+INk8tQUUtSOHLEBB5CRyCDteS9H1Ee9HcpmJtvKwqsbpVeRarAEzjbGqHpgp4sM/pIJ4iDUVmoRnwxN7EIzn0zQgTCJvm0LpFOqQV12bEPkHRwD2tUGTJCfKqZq3BfkXusVB0GRSxIuK3yDU=
+ bh=Q+7zDaDa4aZRUfreGtDNo0gTDvjJg+wUkyXctYmIpRg=;
+ b=KEgL6hG4w4yr26oLhzpEb5673a/U59h61lRwGyVcjwIrqR4jUrSXpRM/M9Ptn3UBphBwkxOuBfzpNvJwW3USydN9Y1+YLgxwurOQU2yyj9vYyTVl45ARK3jvtZqACme2VeG7bJ0w5sBdayvz99jCFvRTygMFMCKoK/Y64fsbH4c=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=petrm@mellanox.com; 
 Received: from t540p (89.176.83.59) by VI1PR05MB4191.eurprd05.prod.outlook.com
  (2603:10a6:803:4e::17) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.995.21; Tue, 31 Jul
- 2018 22:37:34 +0000
+ 2018 22:38:02 +0000
 From:   Petr Machata <petrm@mellanox.com>
 To:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kselftest@vger.kernel.org
 Cc:     davem@davemloft.net, corbet@lwn.net, jiri@mellanox.com,
         idosch@mellanox.com, kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
         shuah@kernel.org, nikolay@cumulusnetworks.com, dsahern@gmail.com
-Subject: [PATCH net-next v2 2/7] net: ipv4: Notify about changes to
- ip_forward_update_priority
+Subject: [PATCH net-next v2 3/7] mlxsw: spectrum: Extract work-scheduling into
+ a new function
 In-Reply-To: <cover.1533076217.git.petrm@mellanox.com>
 References: <cover.1533076217.git.petrm@mellanox.com>
-Message-Id: <55313c0467f038b52be81b48c270747848c0ad21.1533076217.git.petrm@mellanox.com>
-Date:   Wed, 01 Aug 2018 00:36:42 +0200
+Message-Id: <81de49a9f677be1d741076e7f4aabb90bbc441cf.1533076217.git.petrm@mellanox.com>
+Date:   Wed, 01 Aug 2018 00:37:36 +0200
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [89.176.83.59]
-X-ClientProxiedBy: HE1PR05CA0227.eurprd05.prod.outlook.com
- (2603:10a6:3:fa::27) To VI1PR05MB4191.eurprd05.prod.outlook.com
- (2603:10a6:803:4e::17)
+X-ClientProxiedBy: AM4PR05CA0028.eurprd05.prod.outlook.com (2603:10a6:205::41)
+ To VI1PR05MB4191.eurprd05.prod.outlook.com (2603:10a6:803:4e::17)
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 78c3fac4-50f9-489d-de00-08d5f73636ca
+X-MS-Office365-Filtering-Correlation-Id: cc1aa5e7-3166-41cd-31f4-08d5f73646b5
 X-MS-Office365-Filtering-HT: Tenant
 X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989117)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:VI1PR05MB4191;
-X-Microsoft-Exchange-Diagnostics: 1;VI1PR05MB4191;3:cawH/sgwJDXNHCvtSGgvf8UmzNOseXSewUC/RISJ85L12ekrnCqI4IGDLPofJMtLQvi891/fSMtqW0/WqKiVDmBdUpawAMzUnvDR3SCQZMAQnQfR9TfWPrU/5PHYjVqJAuYNmPHJ5beMBx8CTT2XQaZCzeqDGohYmx3hdT5xlhaDIwEWXY8kQQlnUbQMLy+29vNo9cQ0478W6OOj/FbZcrSzzl7+c77VfPFJ+JC7JdCrWWS6bswfECK/nQr0ePXS;25:HkDE+xxW3anIAS9Q78kzmJpfr02xBiVQuYu8oXp6N+M6bHFMuoF0KPIQzBtzrZiUvJEj2j7lWL0APJ4hx/Og0r9vApUMthkAS84mUt9J4JRdR5dSY0EXqQ4VAxN1TQoCT7Ord6S4vTvUNzFaHpmPYC/H8pIcjpPGvxKg8dxWQEon30kglP+AdbdO06HH477MZ1/+ReNC0jmz9zW5RKfR+bnqdHZ9l2hjHAUGsp+eH0/QVlNIrm+5kMnViGbSb8/vIDlCVJaCTQL/mLG5Jp715YN/J68gKLVR6pJhE8zp/rB6m4z4/Z/N4NcDMBwjAOFxfRcf8IS8PoHRj/6QcZI8iw==;31:q0HNFRwmMA9ic3EwmFhh9q+hVO9XECfQg5d/YpRJsAa7VlO7FmNTULUvQEitl3EPMgwp/9fK3rW/fwL0Lb5drXs5wPw87NXUUNjuEyxdBhbOM1xBCQLGE5v8r+hKPM6xUf4dnZCExFVqr3VeYbDrQnKD5BIOF5j3VXBwX9PY6X0Jw1nPuraFbD7dxOqAgZTphMzoixVnNCKKpkYzFxG72N52Er8WRM0Kow/L0vQtZvY=
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR05MB4191;3:FLTG6pTwSORvhokK8N8DZT2iIUuoXvCdr4E8V5TIf0qGoDKCvAu2Di9o2Qb9GvxX4ah+k9dKV9g0/woiiJBvAhfUjMDJUrY/3docbSq5WaxfUWrxo0n+557J7Iy1sjtY0kbVwqh/QDvt789VSIsN9+UTpLKuS8nGNOdZds4BoAE1aqp7/KlO/dMnqS9WrdLQORlkC4p6KiU9lzxYVH/IlATyCpiNs2E77ALxCzKo9Qxa4WCoh09K37f/Tq+PSd8v;25:+scX64h2dVsAhfvDsfGS3yjkLFZXjJwtYjtI3pLzLTJBNVFMBzf6DlIb4A3BUIhvxdNrSk3IVOTdLh4sWZP2GLDtMLRggeMeuCMlcwzlfO+EG3vYav1dwA1ZjBcjIRA4a8ULOMywYQAYGXvfM+9IB6wzKwqmZMx2ECO1OJjpmHvOpLHIpMsr3mK8pFXuD3pqMuMCYcB0FfONuqecVJDmFshGqwlWJKzVuqfqQQ9+JYVVK+hoLTlHw3o9NU/C9DL0u2e5wqiCZr7jQ/OD4/KtIWh2Dub8+dGa1Q8fIrKJ4hNuQy/Gsc7SSuxV8NqSYDlVzDOg+kaYQCBwddGBAbrctg==;31:NHf2+DtkQPUMnxT9ujVTMD+tUMvXIFaY4ubmdSL+KfNo0vAUegyjKBnPvugYi2A5K5uwcRR7VLMwH4In6HpkH4khK96H6/agDJWeH8r+BCHDyZuRRzuJFj0vVGv57QCTG6yYVVgxomB++QQy84kiQI3oxeEehbjxge288uk2qG0sq3ovC0jZ5v3QCtW4nBP8RoaGctRBoxYJiFZp8dFQpqgfQ+R0ZcrcNyoili9uNhU=
 X-MS-TrafficTypeDiagnostic: VI1PR05MB4191:
-X-Microsoft-Exchange-Diagnostics: 1;VI1PR05MB4191;20:lNWKY6BEZxNUOA/Wld4V/wbPxSfNiveW34kg+v7/RyoaZ/XEEIjSHtWUiNoKjCUPu/v0KvG3YOFFxR/kifIRtRoH4LzM/ee5RQpcwW1v0XAVSkvHORrZXeI3VQIWtV0TV4YEF10iKuDrdyIhO++bhSGAIk60gNRABevQf6HX923DhJH/bbV/LuW3prhPRFaigkL8rdCvdZi8bAsbdu/7GT1sZkRx1YRozrUjYWL/yEa+lrRDavvY6DDNIGmbph/I5+zhk2hldTmKozmDJ/o5JKM/9WllsMXRLbgF+ZoSU2OLMD4IxVJbStQ9YoAlh7VTtTTYF735R77f4ULuKtUsRBaeSg8tTHxPwMiF3msVylAlresjvceHqTmVwr/Z6BP1uNHRiMszxTYBzml9iNAtsNnWQJd/20Zp/fQPaen8hvEw4vj8gLRY4u+1bc1/pNgjZQlFptcCZ5ihdrNXQocIIximkPSMpq5uzYFIAFUMZ1rG0M36vtu2svTnxVuW0xTw;4:+Un/J4TofGq17oBKqTfz5a2TsQVr/Ch56Ri8JWATMood7WURHeTDWDXh9BV1lBEcxOvvMA3vSI9bXk4w9o9Za4hs5cotZycVUSK+oabPhv/vn2n4Chli/a4S3bOIP44OsfYrSJZVq2vKW2SjNuXeln2NaZx6pTxSoRlEonm0k+m2PI82cAfNdJAf3oR2MaSp29yTXkRSZ0O9Srvwa2Mn5zDEtSu69yGLut4amcjUBXtWsSVwHwOHnXvDH5l3UwYi5zF8DCWuDwY60O/jNngnHg==
-X-Microsoft-Antispam-PRVS: <VI1PR05MB4191E3E30107F576A8A1080FDB2E0@VI1PR05MB4191.eurprd05.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR05MB4191;20:JG6HHkPx+VMdZhP0QWyJ799lQuDIyTP1Tk+4c3qZPfeQw/Yy7WYaPbeZe4Z9vhl3GHbu+KtLo5cd2Dh7d4r0qOtFzsejBH6UA6azTkeGltOnj3bMDGJ801nqcKlULlkSzZQVpqsxrlgQSso2zS8R9mlVmu8CvqG34YHnh3Qxhpjfs5rb47Ia4NVEihkyCoJW0U98Fzuo04yQkHtWgUKdNQiim28qUzkzRhqIIEjtu8A4OSyHiMMrrQNUodj53doDG2tzrwYyKUk267XHkGwcWNPGuuGdryjxNdqFmv3ey+/fv/rHagI2cg182cREvJGG/svE+mInqpi1oX75XRgHpxTcotd3l2Y6vuKi5to93P7vSrHkEd6VIGm7qavnNy1LB0EeWfZXPnEcFVRSnlrRUsm6lt1clExZ+0rHmiebeP4mFEeFwRilJAMs0FGZpO/DOdGUlGHR4llgbMFm+VYvgXC0tMn2nWwapmbwJSHZtD945AEEiQiXl3ncrUzJr9b1;4:k0mD891bF6o8X3lf5ueskaqak9HWi9CfV3HZnV6oAL1rEj1BBBT9ftLdROweIis4izpZ936cw9/soRF/WPzHubgzaVdZ8NCaH0LdzH74GdlFplMt2+DwYTIZXIvEz6EuYwKAqy44MEk1uKxZCQ74aZw/PYw5NsXCVJMQDbGdNNloWyRffy7HgB6ntrG/RmDvgvNposA7uCa6cuSqLmAnf40V8Z5FrTwQuq+1Zo5gJJYhzYTHIKAyo3HRJskZuwJCb9HApyEVa6DJ79efQQ/Wig==
+X-Microsoft-Antispam-PRVS: <VI1PR05MB4191DD5797C460CE7D82C778DB2E0@VI1PR05MB4191.eurprd05.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-MS-Exchange-SenderADCheck: 1
 X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231311)(944501410)(52105095)(3002001)(10201501046)(6055026)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123562045)(20161123558120)(6072148)(201708071742011)(7699016);SRVR:VI1PR05MB4191;BCL:0;PCL:0;RULEID:;SRVR:VI1PR05MB4191;
@@ -60,36 +59,36 @@ X-Forefront-PRVS: 0750463DC9
 X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(366004)(346002)(376002)(136003)(396003)(39860400002)(189003)(199004)(36756003)(2906002)(956004)(81166006)(486006)(81156014)(476003)(2616005)(8676002)(39060400002)(305945005)(8936002)(4326008)(6666003)(25786009)(50466002)(48376002)(118296001)(5660300001)(14444005)(7416002)(66066001)(446003)(52116002)(51416003)(478600001)(3846002)(16586007)(26005)(86362001)(6496006)(47776003)(52396003)(186003)(58126008)(6116002)(11346002)(6486002)(16526019)(53936002)(7736002)(76176011)(68736007)(105586002)(106356001)(97736004)(316002)(386003);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR05MB4191;H:t540p;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: mellanox.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;VI1PR05MB4191;23:PxFe5Vpg/3VzIOrtn1KNDX4ofFYb57nrMSHblWgBS?=
- =?us-ascii?Q?yR+YtZJXypWN2yPM77Wt0gJKPCOJIm4JiYYgHkl1HKRKpDkGbFXXL/rdgTNA?=
- =?us-ascii?Q?RNNRl8f+RcLaFnZ45dVHR3WXGuyujPRwGo9vfhaw8g8xHTk5aRZMi+OjQNbH?=
- =?us-ascii?Q?ezzXWV64DMPfMMjS7vCT8dsaetO8Nsq5EvZJpFww1LqMzh1t1bpmQlk0l49w?=
- =?us-ascii?Q?Lm8SVcd4KfeEJfn9+mDKA2z+sdXksDDrW86b2ICiZyJLJb3AE5b4L/VjBSq/?=
- =?us-ascii?Q?TqQbtngckoZ7FGyR0vbPC9QOWb3mXTcp2rDWYnx2sHCnroCCMQnwvG5Vy92V?=
- =?us-ascii?Q?q1kkCZZoDJKxt10rBbpeO2lEmZ6WSh91fPz6bm4LQsp7pmuCGiXAq15KetTc?=
- =?us-ascii?Q?iD2aMXCm9mfwK+8WLr5aBozu5AaPQt/UyYETPCUfqLW33+rP2SLAeBfzERtR?=
- =?us-ascii?Q?25DQr1LAB5OEyIRBTnV40x5moDSInZ3fi0XruUE/vMiTT2/avWdODnAPcOW/?=
- =?us-ascii?Q?5ciB1hKqgSQgAGM2UeCslMKzBBEJ5/zxin5fIZP9nttgr09/9ce8q5iM/Hfz?=
- =?us-ascii?Q?rGlPlrefgm9xusFBkHtu7bQmjzLjUemi5sNw3mlMv9uTP+NDqKts/giJ7ibp?=
- =?us-ascii?Q?tQhBsATUqL5GcQAyvZ3DEVV41xAswzau964fMh9uHfRJnpgi6hA17So31soX?=
- =?us-ascii?Q?Qi8LofW9503FE6wUtpuxcBd6PBsB9EIIX/0OZh3FelHEqpJ6juqZZaBM7biu?=
- =?us-ascii?Q?zpSCK+GNkzdnaR6cLqULoNWHI6NjK4LJPYZgTyOVQO+vLZKuLBpsRpAk1aLz?=
- =?us-ascii?Q?NWnN7OGzSJ18Q69WkbUtTPed2mITkNJpbNMzc5qXnrfx7YqyACYnPTJc/d20?=
- =?us-ascii?Q?929Qn45vGgzYydN1QfQIkp3okM4JhES/UT1TcT1vEjEpkoCiebfnnsoo5Rtl?=
- =?us-ascii?Q?BIgiumFKteRrXTwjHIpen4Byu0PQM0C92EoQLL4yJPEGXQTTpKp/nhgKNVpd?=
- =?us-ascii?Q?HyI7qaWuizm3JY4Y5fAMJwnuV2EQvWQWzu0v4St4npY0vsWrhlftCMWhIxXN?=
- =?us-ascii?Q?/mbbOrWR/rmKWaQQtRsB329VSW9O38IKfsSfFCfjKosTJ45UjmCo+XxF5XcE?=
- =?us-ascii?Q?SXXVsVwNEn80pPCRp8jtB4ZCe90L2Yz/+LWhR5SoPDEBzgWY/gsSLJG90bx7?=
- =?us-ascii?Q?CXkP3fKDaNZ3eaq56e20HyvR4vLUu2NVYvDCnrX1kllYy758xTjtOdHEw=3D?=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;VI1PR05MB4191;23:hNb1EHG0gsku0K6qoTlAttLcyq1pkqQUwvhSCymZI?=
+ =?us-ascii?Q?+qx4FnS3gKLNjAoNVZA2K0BqM+2eA8IoMzX6a/tB6UbKl+WSCk6JdMtn+T94?=
+ =?us-ascii?Q?OcFGRF+snooHyH7X4yMa+eufD0idrNNAuPWKQUE6XHweAJ7k6OMBqsvlHp6c?=
+ =?us-ascii?Q?CCTQQiGx7cDxMPopWXpl5UOJCGz6UwgjiD4NJLlQHNmVC3k/EkTZ71zoYGo5?=
+ =?us-ascii?Q?BGwZU9v9r8HD9WbaR2tTd8HI+bGXYoCZCThxFVn36xsKQ3QjepeBkZsoVFos?=
+ =?us-ascii?Q?9b+3mN3jlnvL7Z5EUSV2R818TQDhfL+1TEX0wE4mPF2NSLvubuCgx7IECG+c?=
+ =?us-ascii?Q?0hG2fKEtfFO3/QC/l07iiSTHuu0faG2zPeS1s/s2JRSJ37BQVZ/UxlKT5AJy?=
+ =?us-ascii?Q?0fncJhV1lHofQjRi6MLn1Xc+UVwmuGB89D1GsmoeieYuHQmnlz4IzxYoD9DK?=
+ =?us-ascii?Q?XW8RUg3TxIXYbaefLxewO4EiKnPl1eTX0Wp98As8VX3hbGdohsWwfdP9/SMn?=
+ =?us-ascii?Q?gi51NqOqFQR5FbHPP/INygMOffJ5WFkuEtBnz/BSf3zw5NWipNP8+VndTOrw?=
+ =?us-ascii?Q?TkgImxT1futMy7dBlZocsf8dE7cWHZDVZrP17s9zDelKKECpgZkCR4eN1U4H?=
+ =?us-ascii?Q?VUMSA7ovZhQOyGrzBiRAtX1iPQBRQMEWLp55zBZCrRfB/dJ8EoTgQDktnO66?=
+ =?us-ascii?Q?6q+IiwLNcdvQxpRJdUtvWEAi8GW6GrabG4X1BD3KZ3xC48wR6u65jJdbAXGk?=
+ =?us-ascii?Q?9KKvOdZ1CXnanEZmuIl+iFnnc9r6KtZBtMibZ4uhE6QSZZOdaXBudJrjb/91?=
+ =?us-ascii?Q?Q1BmJNrwpXj7V9OzDiLNWoesFCx2kjBelUZMPQSPc1b7baVmwt6zJkjp359k?=
+ =?us-ascii?Q?a0DFkWHd4az3xVWM16wtTTLLDDyd0ptw9cg8IoO3p1sarBAgp6AOlq4PTu5a?=
+ =?us-ascii?Q?1Q/Y1/MJq8HuzM4uRyQ4Nn8uq2+j1rLqPUmSe7Fv/BaXC4Nl8RU19/kG25QB?=
+ =?us-ascii?Q?Q18ml+pqmDYIDdrt/esZleFuI1m0KFD4D+6TYhZOs7FRD53Z4Q4E2QV4gBhw?=
+ =?us-ascii?Q?4ZHVvELrntk1vbrlVctOxTWgf6YpEr9bR6gXEWWHQ0jgrVfqqoyK7XTSNY0+?=
+ =?us-ascii?Q?gAoQDXLM3yPV+XhhrP+/H3gToNcyuY8pnzckhVk1n9IuJ0GM6ec0IgnTeDLQ?=
+ =?us-ascii?Q?wFVu/YugohY2D+ZeL1PBb/E/H3rV7fFlt31vkKSMOBoTvkXDkODw2xeDw=3D?=
  =?us-ascii?Q?=3D?=
-X-Microsoft-Antispam-Message-Info: bZtLqa1bSVeLceUN7av6HV246Cq+Hol4i/aKuiSI9e9EfgkrRZeE683OhBZeJmEFxeak5loIJ4QEqKVYu5+6liRO92LIlXL16YEDgKrDllZRId91WUJcuahIfDMK9VDyuheFbNFJcM9M5fwzpPIlum1zVIM11hwpUszwgwaQVC2yIaGWcKuBa4XFJxnqo9cKoUx8Hh/c9dWpxwTt/AEaRyerVDEKdGXcyzqoWSkLwkiP6MUMDnO6ZQdaJxOC2k5juMG40XyIhfOLVvXmj31YqKQBTRRO0CjBaZ8tCpYiwwdoocPvYcOrPhJoLqdJFLZB3fZWNePeBglRoz/JC/tsInuowaaprLDo0py50fXU5A8=
-X-Microsoft-Exchange-Diagnostics: 1;VI1PR05MB4191;6:VBYWyPGz0cuaehAV4Zn5GC1SSKDUyKyRYgaocZniZYe4WMRfdX0kScK8OSVEhAckWp5cj8pi+vZTVkD54hqElrWGGNRVRrmjMOA/VTp7HECBnf+6ZTtdgKpgr1FPFW1/vGi5jxIjbL/YcIZBz1iCiluFmj6ixDcXFeGDPAJxlcpsIauhY9ggHvPaI6vafywxvBTOwF2jgt4yqulYkJeXNq0on5DCUah7hxaawQZyGme7+YvxrURI6MLFPKdnoi5eEZTpWN35KMFmMpp1GCLp/+01I0MffX2/OnNIsPAEzZwnl7H0jHQ/OcIsBsvr1AwccgYXDlCoPvfKAJ/lbngtOwnOygW3mi7bA6tV2dYkGpZIT4WCoWhZGlPPtZJayY8vUzYsXpa6ee5qVtfyn+TJnx8eLr7uy3nqeQ0jVLeWnQ9yyUJCpPyeMz0LUcDAbU698zMbdJRakZ7SREeN2/x8NQ==;5:k7JrJcLQXh9VNV+Q8Sjp2iohYyxiQ/om2S5aGFyUb5xrByRU+iDOHg2peAo4PVk0DrUGO/R0pmRtG92xAYG/LL9lsn5n33tUOrL6kfPwIWnNTIsbt8yuJ6Wc6uboDi+NRtjLdcOuEhPhzeaoLb1MVushU3EBxxEPZy0iSf4ZOwM=;7:rVJ1ojm/jnaWeafyrMW7hLiplTCOvp5dAHJtkX27qua3aYUGO5wb/688LclHmaEvAI2WXFG4jhlQ6OAXi6Fo+lb5eZ0+fG1dhkd4+zqkoexUymVEIQaZL1GEIYJ1qwj605BFWF6/EYCJ66aUcRAg3/IgY1f2xJCBx5JoYAnHfSjOgxEtkOMk55v5NNjb6HW17TtKgspKGNfcIUVhAsLnRRmMCPT/xPsq/XA1FENuP9DJwFX60u33uXhZYZLjfe0d
+X-Microsoft-Antispam-Message-Info: sGt8NzZVxffXRZsonr3CgcDSXkAKpyuhhKkJ44Hr0G1/XKGutinTidoliOJH+uSLlX4C4UJkjCxKh5/oxE8Z9rmrFMjpzJtFNy04dsnA0JFjMI7LLju/1n/NbI12uT3cypyX6SvykfDUtXavBAPyaGdASu2h8fadvUOaxpW0NLao0AdvUmE+AW/HSCznsD+ijZmkHLGUr8sz9xVzD3/Dvge6CpRDH9WPZOyZnV6oBiT0zMGFRr/wNN1einLzVdwCGmbS+RY3CEScWYXECtAgTM1/dFSG5qBgIXe9gbDoeOUScMW54joTo8hFXnycSuPsOYCQUTo91dkEepMrhN38px0uf49OZB5mkvPem9ZPA/o=
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR05MB4191;6:z176vO97vyFcXUDMo0yu4rRuj+EpAQPIL2637ZYbAb8pXWeOfO0aq8Dc6MN4BYXwH79ou7lIF3C8YPPS9BagsEMOpj+NdIzxvGyQ6PB8EJu45dKY6vP4YBPGtDIjus2qaXmRproJYGaQiGY6JCt0DbAzZvTAuk7aKPaaj04T/gB4ror41cJRzjEL3RtfbUYsz1qXvloBtg7fBtYuiTiahE0JrUrxn8+zoL0e/jIGKMXYb2yUFRlK5+EM+7OZTJB6dzCQuPyqw06ygdT7Q/sh2SoDNJgF4O53ipiWyIr/6LzbKi8Zpt38nO5MwLXdOC58PIZtKH0D3eD7P5kqJbLzKtZ2++BOmhg5HovyyJLsLVgYhR3y0A+uenJEoU3xx8XpzNPuNZAsNWpDg3lR3on8CKYxSVUNQaKG18pLaf3lZCfP1bhwCeol8/hYuL2h6coKuVKLxOIYs89I1oFzqna8rg==;5:iOaVxplp03u+Q/0PJuWg71gfA+45CoThYoGNH4Q81uvARE9nPDOePgr7gVHOYPkPeB2u5N266DcNt8Ib9NKEGKvffXXd7PSiBMseOrB/zbAj4T+CDomj95J98vgzzKCcZEP4N9nMN2ewg6Z6tPHV3e9IDoI8FfWxsMMDge1+r7c=;7:q4wa7PODCAZpJoQFqSFwPR6BhhC8Dy1+xZojTQP/lTyN6WEW1zGBRTt9xE8Px27DK6JgxIc5GV9pNVX8SB0cANMLSLTOioBZgtV8H1wJroz5s/DoLJELp26PuVP8oPEwJ/z14oWMttgt9JL6VDDH2zlmx9/pYXe/DszlU96TF+GA2CcSbZv2azu+GEgf/lwQ1RI326S50h+b8dtQVKauo2KDoWae9Ul7LMUr+tSvUqXp6Xu37Avc5xks4TGSDcBL
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
 X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2018 22:37:34.8723
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2018 22:38:02.0221
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78c3fac4-50f9-489d-de00-08d5f73636ca
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc1aa5e7-3166-41cd-31f4-08d5f73646b5
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB4191
@@ -98,66 +97,85 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Drivers may make offloading decision based on whether
-ip_forward_update_priority is enabled or not. Therefore distribute
-netevent notifications to give them a chance to react to a change.
+The boilerplate to schedule NETEVENT_IPV4_MPATH_HASH_UPDATE and
+NETEVENT_IPV6_MPATH_HASH_UPDATE handling is almost equivalent to that of
+NETEVENT_IPV4_FWD_UPDATE_PRIORITY_UPDATE that's coming in the next
+patch. The only difference is which actual worker function should be
+called. Extract this boilerplate into a named function in order to allow
+reuse.
 
 Signed-off-by: Petr Machata <petrm@mellanox.com>
 Reviewed-by: Ido Schimmel <idosch@mellanox.com>
 ---
- include/net/netevent.h     |  1 +
- net/ipv4/sysctl_net_ipv4.c | 19 ++++++++++++++++++-
- 2 files changed, 19 insertions(+), 1 deletion(-)
+ .../net/ethernet/mellanox/mlxsw/spectrum_router.c  | 38 +++++++++++++---------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
 
-diff --git a/include/net/netevent.h b/include/net/netevent.h
-index d9918261701c..4107016c3bb4 100644
---- a/include/net/netevent.h
-+++ b/include/net/netevent.h
-@@ -28,6 +28,7 @@ enum netevent_notif_type {
- 	NETEVENT_DELAY_PROBE_TIME_UPDATE, /* arg is struct neigh_parms ptr */
- 	NETEVENT_IPV4_MPATH_HASH_UPDATE, /* arg is struct net ptr */
- 	NETEVENT_IPV6_MPATH_HASH_UPDATE, /* arg is struct net ptr */
-+	NETEVENT_IPV4_FWD_UPDATE_PRIORITY_UPDATE, /* arg is struct net ptr */
- };
- 
- int register_netevent_notifier(struct notifier_block *nb);
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index e21dda015513..b92f422f2fa8 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -201,6 +201,23 @@ static int ipv4_ping_group_range(struct ctl_table *table, int write,
- 	return ret;
+diff --git a/drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c b/drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c
+index 8d67f0123699..5ee927626567 100644
+--- a/drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c
++++ b/drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c
+@@ -2436,17 +2436,36 @@ static void mlxsw_sp_router_mp_hash_event_work(struct work_struct *work)
+ 	kfree(net_work);
  }
  
-+static int ipv4_fwd_update_priority(struct ctl_table *table, int write,
-+				    void __user *buffer,
-+				    size_t *lenp, loff_t *ppos)
++static int mlxsw_sp_router_schedule_work(struct net *net,
++					 struct notifier_block *nb,
++					 void (*cb)(struct work_struct *))
 +{
-+	struct net *net;
-+	int ret;
++	struct mlxsw_sp_netevent_work *net_work;
++	struct mlxsw_sp_router *router;
 +
-+	net = container_of(table->data, struct net,
-+			   ipv4.sysctl_ip_fwd_update_priority);
-+	ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-+	if (write && ret == 0)
-+		call_netevent_notifiers(NETEVENT_IPV4_FWD_UPDATE_PRIORITY_UPDATE,
-+					net);
++	if (!net_eq(net, &init_net))
++		return NOTIFY_DONE;
 +
-+	return ret;
++	net_work = kzalloc(sizeof(*net_work), GFP_ATOMIC);
++	if (!net_work)
++		return NOTIFY_BAD;
++
++	router = container_of(nb, struct mlxsw_sp_router, netevent_nb);
++	INIT_WORK(&net_work->work, cb);
++	net_work->mlxsw_sp = router->mlxsw_sp;
++	mlxsw_core_schedule_work(&net_work->work);
++	return NOTIFY_DONE;
 +}
 +
- static int proc_tcp_congestion_control(struct ctl_table *ctl, int write,
- 				       void __user *buffer, size_t *lenp, loff_t *ppos)
+ static int mlxsw_sp_router_netevent_event(struct notifier_block *nb,
+ 					  unsigned long event, void *ptr)
  {
-@@ -668,7 +685,7 @@ static struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_ip_fwd_update_priority,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.proc_handler   = proc_dointvec_minmax,
-+		.proc_handler   = ipv4_fwd_update_priority,
- 		.extra1		= &zero,
- 		.extra2		= &one,
- 	},
+ 	struct mlxsw_sp_netevent_work *net_work;
+ 	struct mlxsw_sp_port *mlxsw_sp_port;
+-	struct mlxsw_sp_router *router;
+ 	struct mlxsw_sp *mlxsw_sp;
+ 	unsigned long interval;
+ 	struct neigh_parms *p;
+ 	struct neighbour *n;
+-	struct net *net;
+ 
+ 	switch (event) {
+ 	case NETEVENT_DELAY_PROBE_TIME_UPDATE:
+@@ -2500,20 +2519,9 @@ static int mlxsw_sp_router_netevent_event(struct notifier_block *nb,
+ 		break;
+ 	case NETEVENT_IPV4_MPATH_HASH_UPDATE:
+ 	case NETEVENT_IPV6_MPATH_HASH_UPDATE:
+-		net = ptr;
++		return mlxsw_sp_router_schedule_work(ptr, nb,
++				mlxsw_sp_router_mp_hash_event_work);
+ 
+-		if (!net_eq(net, &init_net))
+-			return NOTIFY_DONE;
+-
+-		net_work = kzalloc(sizeof(*net_work), GFP_ATOMIC);
+-		if (!net_work)
+-			return NOTIFY_BAD;
+-
+-		router = container_of(nb, struct mlxsw_sp_router, netevent_nb);
+-		INIT_WORK(&net_work->work, mlxsw_sp_router_mp_hash_event_work);
+-		net_work->mlxsw_sp = router->mlxsw_sp;
+-		mlxsw_core_schedule_work(&net_work->work);
+-		break;
+ 	}
+ 
+ 	return NOTIFY_DONE;
 -- 
 2.4.11
 
