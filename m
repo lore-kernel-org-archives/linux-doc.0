@@ -1,163 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=FROM_EXCESS_BASE64,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,
-	MIME_HTML_MOSTLY,RCVD_IN_DNSWL_HI,TVD_SPACE_RATIO,T_TVD_MIME_EPI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1D1CE7D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 10:10:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D2B767D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 11:03:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727409AbeGaLtM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 31 Jul 2018 07:49:12 -0400
-Received: from mail4.tencent.com ([183.57.53.109]:51479 "EHLO
-        mail4.tencent.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732045AbeGaLtL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 07:49:11 -0400
-X-Greylist: delayed 405 seconds by postgrey-1.27 at vger.kernel.org; Tue, 31 Jul 2018 07:49:10 EDT
-Received: from EXHUB-SZMail01.tencent.com (unknown [10.14.6.21])
-        by mail4.tencent.com (Postfix) with ESMTP id EA3F08AA84;
-        Tue, 31 Jul 2018 18:02:50 +0800 (CST)
-Received: from EXMBX-SZMAIL013.tencent.com ([fe80::3013:8058:3145:a257]) by
- EXHUB-SZMail01.tencent.com ([::1]) with mapi id 14.03.0408.000; Tue, 31 Jul
- 2018 18:02:49 +0800
-From:   =?gb2312?B?anV2aWxpdSjB9bzSzsQp?= <juviliu@tencent.com>
-To:     "corbet@lwn.net" <corbet@lwn.net>
-CC:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        id S1731429AbeGaMmS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 31 Jul 2018 08:42:18 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56086 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731383AbeGaMmS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 08:42:18 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6VAwuY4089550
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jul 2018 07:02:31 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2kjm67e2mn-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jul 2018 07:02:30 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Tue, 31 Jul 2018 12:02:28 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 31 Jul 2018 12:02:24 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6VB2Nns35455086
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 31 Jul 2018 11:02:23 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 14239AE05F;
+        Tue, 31 Jul 2018 14:02:25 +0100 (BST)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4176EAE045;
+        Tue, 31 Jul 2018 14:02:24 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.8.176])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue, 31 Jul 2018 14:02:24 +0100 (BST)
+Date:   Tue, 31 Jul 2018 14:02:20 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     =?utf-8?B?anV2aWxpdSjliJjlrrbmlocp?= <juviliu@tencent.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
         "mhocko@suse.com" <mhocko@suse.com>,
         "vbabka@suse.cz" <vbabka@suse.cz>,
         "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
         "laoar.shao@gmail.com" <laoar.shao@gmail.com>,
         "kemi.wang@intel.com" <kemi.wang@intel.com>,
         "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: update document's __vm_enough_memory function path
-Thread-Topic: update document's __vm_enough_memory function path
-Thread-Index: AdQotYuUKp8oWjMARMWc9fgCAKy7vA==
-Date:   Tue, 31 Jul 2018 10:02:49 +0000
-Message-ID: <E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913@EXMBX-SZMAIL013.tencent.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.34.243.34]
-Content-Type: multipart/mixed;
-        boundary="_004_E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913EXMBXSZMAIL013t_"
+Subject: Re: update document's __vm_enough_memory function path
+References: <E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913@EXMBX-SZMAIL013.tencent.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913@EXMBX-SZMAIL013.tencent.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 18073111-0028-0000-0000-000002E2F2E8
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18073111-0029-0000-0000-0000239AFA58
+Message-Id: <20180731110220.GB23494@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-31_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=497 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807310117
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---_004_E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913EXMBXSZMAIL013t_
-Content-Type: multipart/alternative;
-	boundary="_000_E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913EXMBXSZMAIL013t_"
+Hello,
 
---_000_E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913EXMBXSZMAIL013t_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+On Tue, Jul 31, 2018 at 10:02:49AM +0000, juviliu(刘家文) wrote:
+>  
+> 
 
-DQo=
+Please send your patch inline as a plain text.
 
---_000_E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913EXMBXSZMAIL013t_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
+You can take a look at Documentation/process/submitting-patches.rst [1] for
+more detailed explanation
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:=B5=C8=CF=DF;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:"\@=B5=C8=CF=DF";
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:10.5pt;
-	font-family:=B5=C8=CF=DF;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:=B5=C8=CF=DF;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:=B5=C8=CF=DF;}
-/* Page Definitions */
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"ZH-CN" link=3D"#0563C1" vlink=3D"#954F72" style=3D"text-justi=
-fy-trim:punctuation">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-</div>
-</body>
-</html>
 
---_000_E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913EXMBXSZMAIL013t_--
+[1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html
 
---_004_E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913EXMBXSZMAIL013t_
-Content-Type: application/octet-stream;
-	name="0001-update-document-s-__vm_enough_memory-function-path.patch"
-Content-Description: 0001-update-document-s-__vm_enough_memory-function-path.patch
-Content-Disposition: attachment;
-	filename="0001-update-document-s-__vm_enough_memory-function-path.patch";
-	size=882; creation-date="Fri, 06 Jul 2018 18:20:09 GMT";
-	modification-date="Fri, 06 Jul 2018 18:20:09 GMT"
-Content-Transfer-Encoding: base64
 
-RnJvbSAxMmM0MmQ2ZTA4YWQyZTYzOGQxOWY4ZmZiYmUwNGI2OWFkNTlhYTU3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBqdXZpIDxqdXZpbGl1QHRlbmNlbnQuY29tPgpEYXRlOiBGcmks
-IDYgSnVsIDIwMTggMDk6MDM6NDIgLTA5MDAKU3ViamVjdDogW1BBVENIXSB1cGRhdGUgZG9jdW1l
-bnQncyBfX3ZtX2Vub3VnaF9tZW1vcnkgZnVuY3Rpb24gcGF0aAoKX192bV9lbm91Z2hfbWVtb3J5
-IGhhcyAgbW92ZWQgdG8gbW0vdXRpbC5jCgpTaWduZWQtb2ZmLWJ5OiBKdXZpIExpdSA8anV2aWxp
-dUB0ZW5jZW50LmNvbT4KLS0tCiBEb2N1bWVudGF0aW9uL3N5c2N0bC92bS50eHQgfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQg
-YS9Eb2N1bWVudGF0aW9uL3N5c2N0bC92bS50eHQgYi9Eb2N1bWVudGF0aW9uL3N5c2N0bC92bS50
-eHQKaW5kZXggNjk3ZWY4YzIyNWRmLi42YjcxMzg4ZWFkMjMgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50
-YXRpb24vc3lzY3RsL3ZtLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL3N5c2N0bC92bS50eHQKQEAg
-LTY2OCw3ICs2NjgsNyBAQCBhbmQgZG9uJ3QgdXNlIG11Y2ggb2YgaXQuCiBUaGUgZGVmYXVsdCB2
-YWx1ZSBpcyAwLgogCiBTZWUgRG9jdW1lbnRhdGlvbi92bS9vdmVyY29tbWl0LWFjY291bnRpbmcu
-cnN0IGFuZAotbW0vbW1hcC5jOjpfX3ZtX2Vub3VnaF9tZW1vcnkoKSBmb3IgbW9yZSBpbmZvcm1h
-dGlvbi4KK21tL3V0aWwuYzo6X192bV9lbm91Z2hfbWVtb3J5KCkgZm9yIG1vcmUgaW5mb3JtYXRp
-b24uCiAKID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09CiAKLS0gCjIuMTEuMAoK
+-- 
+Sincerely yours,
+Mike.
 
---_004_E18EDF4A4FA4A04BBFA824B6D7699E532A7E5913EXMBXSZMAIL013t_--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
