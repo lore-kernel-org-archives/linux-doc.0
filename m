@@ -1,65 +1,35 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B78D87D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 15:21:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EDF467D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 15:38:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732359AbeGaRC0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 31 Jul 2018 13:02:26 -0400
-Received: from mail-io0-f194.google.com ([209.85.223.194]:34600 "EHLO
-        mail-io0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732356AbeGaRC0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 13:02:26 -0400
-Received: by mail-io0-f194.google.com with SMTP id l7-v6so13368983ioj.1
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jul 2018 08:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=xWE2aF0pajdZAOP+uUcDJNx6SJt58NICxf0URo6mRNg=;
-        b=noBTi9HZ7q5dUt0wE4QBXNbrQbnss3heBqyxzdpzF+TPVi2rwXsilLdvg20pfrCav3
-         as8rNbf241vy4nhYz3sKea22yqKLdgt7pu9yymGgzsfE9W/wNLWugGsAZ5OqtDzTLgvo
-         zO8qphr3l98wjq8DGe0yV6URA6escglDwkPp5QlYvGseOszIWmYKumgyi9CwZQTLdDbK
-         SURuaGZPOoJJmpDaRmuu1g4cBL3h4eETEVG62NMzZdY7TW3mOuWU3sbkhW02jzCkSLW4
-         2pJ2i3ZEiUD5B5c2MlDLSWVhPn7ujiYzHoOx+pd1N3KNLQWlydLmb5uQCpRS+MXbU779
-         C+RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=xWE2aF0pajdZAOP+uUcDJNx6SJt58NICxf0URo6mRNg=;
-        b=rkVb1Vlk3FBjTUZEgCz9BpYRXHq8j73WOzzvC23/emEmOgICQTlrqTpDD+epr3STYo
-         ee8Cbi7yPivtt8cc4AjB9JPfhXsCooik2iOL4Nl3szXzLeacBVGqXc8cGKIb19Glh4M+
-         H4RMrR+ipPfhYZDiZUyInckB9eBezC43mbfjyBcWxLyFqPsQUZuohKmDDtMho1FkBkLn
-         COYj330aVG5zE8SdPLaFVDQKhaLQ5iIGwmAOX+91VXdAbRUCLmh+OUMdq3GNtllwrIxD
-         wQ7wiMMPeNuEFsCGoUwosppevy0meMiIL84IGwIW3GInpmgTpq3oOdmEydNy1bwAo6dT
-         MUQA==
-X-Gm-Message-State: AOUpUlEkn1hFIFtOCHYxI41XWx6JXtQygWUs+fgQDGSCGXiIOqUcZBPP
-        et2ERN2HhODyxPunIozFlrwdJsvVJuxsXbbXrpEzDw==
-X-Google-Smtp-Source: AAOMgpcpZrFsOVvbBmMU629/+ZWRiXxRhNc5nasNiD1kICxgjwP2EwDTeKPb8szTpcTCj+BtgR6TDley9hDPrpD0KZA=
-X-Received: by 2002:a6b:84c6:: with SMTP id o67-v6mr135135ioi.119.1533050496587;
- Tue, 31 Jul 2018 08:21:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:918c:0:0:0:0:0 with HTTP; Tue, 31 Jul 2018 08:21:35
- -0700 (PDT)
-In-Reply-To: <8240d4f9-c8df-cfe9-119d-6e933f8b13df@virtuozzo.com>
-References: <cover.1530018818.git.andreyknvl@google.com> <a2a93370d43ec85b02abaf8d007a15b464212221.1530018818.git.andreyknvl@google.com>
- <09cb5553-d84a-0e62-5174-315c14b88833@arm.com> <CAAeHK+yC3XRPoTByhH1QPrX45pG3QY_2Q4gz=dfDgxfzu1Fyfw@mail.gmail.com>
- <8240d4f9-c8df-cfe9-119d-6e933f8b13df@virtuozzo.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 31 Jul 2018 17:21:35 +0200
-Message-ID: <CAAeHK+wUu4c5MwknrJkw=22y5cWuZNsyd+-QJ3v0Z48Xj-Hqng@mail.gmail.com>
-Subject: Re: [PATCH v4 13/17] khwasan: add hooks implementation
-To:     Andrey Ryabinin <aryabinin@virtuozzo.com>
-Cc:     vincenzo.frascino@arm.com, Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        id S1732281AbeGaRTH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 31 Jul 2018 13:19:07 -0400
+Received: from a9-112.smtp-out.amazonses.com ([54.240.9.112]:34382 "EHLO
+        a9-112.smtp-out.amazonses.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732013AbeGaRTG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 13:19:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug; d=amazonses.com; t=1533051493;
+        h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type:Feedback-ID;
+        bh=BogwT2s0os/XINJIfIGe0l1J+D1a1gT94Kvu9lh++B4=;
+        b=NZr6aQPG9Oqh/hGxTbdIdeLqbPGDQn2DG2iCXGytmjGXQrGRLlWg/+w9OugVvqLE
+        bpT7Az9bvJjFml3WY1GnGPvc8qr1xKhhni3heMzSqQCrGRtRCb6MwhN1UE7wl9YOsn+
+        0ruAMwoKVP7LPDdQQRaLP1pQfM/wnpRN+VuP+ZTc=
+Date:   Tue, 31 Jul 2018 15:38:13 +0000
+From:   Christopher Lameter <cl@linux.com>
+X-X-Sender: cl@nuc-kabylake
+To:     Dmitry Vyukov <dvyukov@google.com>
+cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        vincenzo.frascino@arm.com, Alexander Potapenko <glider@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -90,32 +60,37 @@ Cc:     vincenzo.frascino@arm.com, Alexander Potapenko <glider@google.com>,
         Mark Brand <markbrand@google.com>,
         Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Evgeniy Stepanov <eugenis@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v4 13/17] khwasan: add hooks implementation
+In-Reply-To: <CACT4Y+Y=61VwwETQP3FwAN16ompSNJOCyDCG6Ew1Bm5f_Fe1Lw@mail.gmail.com>
+Message-ID: <01000164f0fd5abc-df9ea911-9701-498c-adce-9f833e6df3ed-000000@email.amazonses.com>
+References: <cover.1530018818.git.andreyknvl@google.com> <a2a93370d43ec85b02abaf8d007a15b464212221.1530018818.git.andreyknvl@google.com> <09cb5553-d84a-0e62-5174-315c14b88833@arm.com> <CAAeHK+yC3XRPoTByhH1QPrX45pG3QY_2Q4gz=dfDgxfzu1Fyfw@mail.gmail.com>
+ <8240d4f9-c8df-cfe9-119d-6e933f8b13df@virtuozzo.com> <CACT4Y+Y=61VwwETQP3FwAN16ompSNJOCyDCG6Ew1Bm5f_Fe1Lw@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-SES-Outgoing: 2018.07.31-54.240.9.112
+Feedback-ID: 1.us-east-1.fQZZZ0Xtj2+TD7V5apTT/NrT6QKuPgzCT/IC7XYgDKI=:AmazonSES
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 31, 2018 at 4:50 PM, Andrey Ryabinin
-<aryabinin@virtuozzo.com> wrote:
-> On 07/31/2018 04:05 PM, Andrey Konovalov wrote:
->> We can assign tags to objects with constructors when a slab is
->> allocated and call constructors once as usual. The downside is that
->> such object would always have the same tag when it is reallocated, so
->> we won't catch use-after-frees.
->
-> Actually you should do this for SLAB_TYPESAFE_BY_RCU slabs. Usually they are with ->ctors but there
-> are few without constructors.
-> We can't reinitialize or even retag them. The latter will definitely cause false-positive use-after-free reports.
->
-> As for non-SLAB_TYPESAFE_BY_RCU caches with constructors, it's probably ok to reinitialize and retag such objects.
-> I don't see how could any code rely on the current ->ctor() behavior in non-SLAB_TYPESAFE_BY_RCU case,
-> unless it does something extremely stupid or weird.
-> But let's not do it now. If you care, you cand do it later, with a separate patch, so we could just revert
-> it if anything goes wrong.
+On Tue, 31 Jul 2018, Dmitry Vyukov wrote:
 
-OK, will do it then when there's either a constructor or the slab is
-SLAB_TYPESAFE_BY_RCU.
+> > Actually you should do this for SLAB_TYPESAFE_BY_RCU slabs. Usually they are with ->ctors but there
+> > are few without constructors.
+> > We can't reinitialize or even retag them. The latter will definitely cause false-positive use-after-free reports.
+>
+> Somewhat offtopic, but I can't understand how SLAB_TYPESAFE_BY_RCU
+> slabs can be useful without ctors or at least memset(0). Objects in
+> such slabs need to be type-stable, but I can't understand how it's
+> possible to establish type stability without a ctor... Are these bugs?
+> Or I am missing something subtle? What would be a canonical usage of
+> SLAB_TYPESAFE_BY_RCU slab without a ctor?
+
+True that sounds fishy. Would someone post a list of SLAB_TYPESAFE_BY_RCU
+slabs without ctors?
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
