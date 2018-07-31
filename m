@@ -1,251 +1,252 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9A9D37D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 07:01:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 000337D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 07:43:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729774AbeGaIkN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 31 Jul 2018 04:40:13 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:54346 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729777AbeGaIkM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 04:40:12 -0400
-Received: by mail-wm0-f68.google.com with SMTP id c14-v6so1797270wmb.4
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jul 2018 00:01:21 -0700 (PDT)
+        id S1727482AbeGaJWt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 31 Jul 2018 05:22:49 -0400
+Received: from mail-vk0-f66.google.com ([209.85.213.66]:33540 "EHLO
+        mail-vk0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727015AbeGaJWs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 05:22:48 -0400
+Received: by mail-vk0-f66.google.com with SMTP id y70-v6so7033031vkc.0;
+        Tue, 31 Jul 2018 00:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=UNQctpEO9zEsfTCw2pV1Hyu9BvLz31x+cCDytQ/Dc4k=;
-        b=RqlcJKrmkgel/3KOoljSYnkH0LSsajM89V2Rc8kk/FKqFTPvg0TQvwQKvHzAjYAW63
-         Pqa+4mdkDm9SRekUpZZv55jOygEBm2sNE+vB4+jweY8HsqsXVNVEOy+6oKG+I7SWZWTL
-         8IuPksFDuF/2RYuhQBWRmWYMbsSeszCx4t06Q=
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=aKQiLLuW4DpWJnlD9EIEKvcLbFU/4kAI5GS0dKACVLM=;
+        b=kmoZxou1RO5etsGi8LUAcgU5U7a2L6Aq+NplItV6V/S8pnYrGfvCwETmcIlhVK7OGk
+         Zn2xdm88vSetgHtAwn8qM9cQRmkn2stZSwuWsAfmjd0lMZYHHJHAg9AlzlQGUaFeQLJQ
+         O8MgJTwuYynULPitoc/spniV6t2pFKhkN0vI5brucc96dAjB9KZo/QzxtOds6MPy59nH
+         RSXy0jml/uwF4Ll6NYwy3/fBSkzhDpxaA1xqk8aCtyosffFXvTdrq8DcEFf2iYsuBNRq
+         Sc1b2/BlkOOKr3Lp+8/sPTwmIbyNwqf0YMuZBfC3KOmbpqe5QXuQmf/V1U/G6tmYa5Mg
+         DRLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=UNQctpEO9zEsfTCw2pV1Hyu9BvLz31x+cCDytQ/Dc4k=;
-        b=USVITT0IBCw1JCVZKnRI0pczqhQ94oZIfk2N673NkEVCK2XGBnPDWnuXCAZLQLhi8N
-         ilIVSLEmRl30QMF7v+UDUeYkIW3aWpEljtsiTuneO368sqqITcWCQWIxTTImPJDW0nBx
-         ZgrnzDvPDELaM3mfUN9s7zQIk7Fr/c1CE15hqkjY/X6r9UYRWq2kSvho8iIsq0EA3kiB
-         aNqv6+wg7W2IlLAr8/o358kuhZdA9KVapLOFWlOSnx0j9o12Z7hA/2iG/z/+p+n+w6Ns
-         pLkKo868ztphQ7fDg7rZsizrfl2lZJjvGYsv+GDiIo8DxTCX1ecED3i/6Tgqf+kdqZMx
-         ZdLg==
-X-Gm-Message-State: AOUpUlGKQvHt4GQjNwzIGFQuXjzhM6xyNdj4ZJA3mbZfhcUgsEZQNy0R
-        gi1Dzhw/+WAxx9My4aFzdTiwHw==
-X-Google-Smtp-Source: AAOMgpc7xJWMXNsD+pF7fOiWBjaPuY/WmMLKvh72/GFKROWyCN+KAXWRZ8EdbHSeAp/TU4wj3TpSsQ==
-X-Received: by 2002:a1c:32c4:: with SMTP id y187-v6mr1319248wmy.31.1533020480964;
-        Tue, 31 Jul 2018 00:01:20 -0700 (PDT)
-Received: from dell ([95.149.160.4])
-        by smtp.gmail.com with ESMTPSA id r140-v6sm3393588wmd.7.2018.07.31.00.01.18
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 31 Jul 2018 00:01:20 -0700 (PDT)
-Date:   Tue, 31 Jul 2018 08:01:17 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        darrick.wong@oracle.com, sandeen@redhat.com,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        kusumi.tomohiro@gmail.com, bryantly@linux.vnet.ibm.com,
-        fbarrat@linux.vnet.ibm.com, David Miller <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod <vkoul@kernel.org>, Stephen Boyd <sboyd@codeaurora.org>,
-        david.kershner@unisys.com,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, jgross@suse.com,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        Linux HWMON List <linux-hwmon@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed@lists.ozlabs.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-Subject: Re: [PATCH v7 08/12] mfd: intel-peci-client: Add PECI client MFD
- driver
-Message-ID: <20180731070117.GE4662@dell>
-References: <20180723214751.1733-1-jae.hyun.yoo@linux.intel.com>
- <20180723214751.1733-9-jae.hyun.yoo@linux.intel.com>
- <20180727082611.GE4628@dell>
- <acffdfef-cb20-4208-5297-d94bac5ecb1b@linux.intel.com>
- <CAL_JsqL7WkDOaegwmBDqLkRh0JfCo7O2krONVstjWMUsLiJMrg@mail.gmail.com>
- <7ab43253-1154-6e2f-b216-69b0d44b470a@linux.intel.com>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=aKQiLLuW4DpWJnlD9EIEKvcLbFU/4kAI5GS0dKACVLM=;
+        b=iJKlS0Et0djU9R8ni6C3JStzWA0h0dkHnlj5b3NZsRYtR6eRFQ+4en7saBxWqWahEv
+         tem2IihzyiQU7ikL9tqCZLcxgHWWPxBceQOMM790Q23oXdSjWQIzDr67Ow7NJQtgnd+X
+         Eo/MbOD5gqHUPqpP6zjwaFG5zcEVvVLNDE7WE3e8QIj0DTrnKS2NGvb3lza1nQTPtQ1j
+         5DLC2f2Prhv1jTGpPlItnf70gFZQVtBDmem3IB8+sysyjnF43lTe/1Nn+1deiNuulODG
+         aoPjuicgw6R8R6iE8IgPKzzB5ItsEWX0e1HFX9t44/RAb/vOsjdzt0X0PpEPoKT/iFL0
+         y+QQ==
+X-Gm-Message-State: AOUpUlGWuKsOYmSeDT0+AfzYZ4vgV1/MtdffYpz8j+O8fBVBBShkpOz0
+        vd4UdsFOqjOH7t9cewZ8AcbXu3C88awxGllztDo=
+X-Google-Smtp-Source: AAOMgpeEM3aJuksX1MvFSPmMeO4dK6+B+X8nyIdMRebuoPfH/feZKF/cR2JMnD+wLZ4hdlR08QaRyXdWDOIDb0KtDgw=
+X-Received: by 2002:a1f:5981:: with SMTP id n123-v6mr13216185vkb.43.1533023026686;
+ Tue, 31 Jul 2018 00:43:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7ab43253-1154-6e2f-b216-69b0d44b470a@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Received: by 2002:a67:7cc8:0:0:0:0:0 with HTTP; Tue, 31 Jul 2018 00:43:26
+ -0700 (PDT)
+In-Reply-To: <CAGXu5jJCwAO1u4U0hAqAnd3ktgR-WcDzNUTpTeGoiUNVOzbYFg@mail.gmail.com>
+References: <1531935483-30784-1-git-send-email-s.mesoraca16@gmail.com>
+ <CAGXu5jK4q6HLDZ6jokTeDABbzVasY85Jo0HFNKYeaKWZYPjPKg@mail.gmail.com>
+ <CAJHCu1+S_tv8Ju4m_QuWPm5Ke6rmByxT7jVhSo2kfVoCO_wMFg@mail.gmail.com> <CAGXu5jJCwAO1u4U0hAqAnd3ktgR-WcDzNUTpTeGoiUNVOzbYFg@mail.gmail.com>
+From:   Salvatore Mesoraca <s.mesoraca16@gmail.com>
+Date:   Tue, 31 Jul 2018 09:43:26 +0200
+Message-ID: <CAJHCu1LN4YkLqqT6TBEDw8YoW81VCvKnQam+v0NTvu1kDLMvsQ@mail.gmail.com>
+Subject: Re: [RFC] kconfig: add hardened defconfig helpers
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Laura Abbott <labbott@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 30 Jul 2018, Jae Hyun Yoo wrote:
+2018-07-30 18:54 GMT+02:00 Kees Cook <keescook@chromium.org>:
+> On Mon, Jul 30, 2018 at 9:11 AM, Salvatore Mesoraca
+> <s.mesoraca16@gmail.com> wrote:
+>> I'm sorry for the late response, I've been unexpectedly busy in the last week.
+>>
+>> 2018-07-20 7:15 GMT+02:00 Kees Cook <keescook@chromium.org>:
+>>> +lkml, Masahiro, and linux-doc, just for wider review/thoughts.
+>>>
+>>> On Wed, Jul 18, 2018 at 10:38 AM, Salvatore Mesoraca
+>>> <s.mesoraca16@gmail.com> wrote:
+>>> [...]
+>>>> +CONFIG_CC_STACKPROTECTOR_STRONG=y
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +**Negative side effects level:** Medium
+>>>> +**- Protection type:** Self-protection
+>>>> +
+>>>> +Functions will have the stack-protector canary logic added in any
+>>>> +of the following conditions:
+>>>> +
+>>>> +- local variable's address used as part of the right hand side of an
+>>>> +assignment or function argument
+>>>> +- local variable is an array (or union containing an array),
+>>>> +regardless of array type or length
+>>>> +- uses register local variables
+>>>> +
+>>>> +This feature requires gcc version 4.9 or above, or a distribution
+>>>> +gcc with the feature backported ("-fstack-protector-strong").
+>>>> +
+>>>> +On an x86 "defconfig" build, this feature adds canary checks to
+>>>> +about 20% of all kernel functions, which increases the kernel code
+>>>> +size by about 2%.
+>>>
+>>> bikeshed: I think both stack protector items should be "Low", but
+>>> that's just me.
+>>
+>> I tried to be cautious when selecting the levels, but if nobody is
+>> against it, I can change the level.
+>
+> My thought about the "Low" stuff was: if a distro has it enabled by
+> default, it must have been decided it was a sane default. So for
+> things that distros have enabled, set it to "Low" here. (Which is why
+> I cringed with KPTI: distros have it, but wow does it hurt...)
 
-> Hi Rob,
-> 
-> On 7/30/2018 3:10 PM, Rob Herring wrote:
-> > On Fri, Jul 27, 2018 at 11:36 AM Jae Hyun Yoo
-> > <jae.hyun.yoo@linux.intel.com> wrote:
-> > > 
-> > > Hi Lee,
-> > > 
-> > > On 7/27/2018 1:26 AM, Lee Jones wrote:
-> > > > On Mon, 23 Jul 2018, Jae Hyun Yoo wrote:
-> > > > 
-> > > > > This commit adds PECI client MFD driver.
-> > > > > 
-> > > > > Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> > > > > Cc: Lee Jones <lee.jones@linaro.org>
-> > > > > Cc: Rob Herring <robh+dt@kernel.org>
-> > > > > Cc: Andrew Jeffery <andrew@aj.id.au>
-> > > > > Cc: James Feist <james.feist@linux.intel.com>
-> > > > > Cc: Jason M Biils <jason.m.bills@linux.intel.com>
-> > > > > Cc: Joel Stanley <joel@jms.id.au>
-> > > > > Cc: Vernon Mauery <vernon.mauery@linux.intel.com>
-> > > > > ---
-> > > > >    drivers/mfd/Kconfig                   |  14 ++
-> > > > >    drivers/mfd/Makefile                  |   1 +
-> > > > >    drivers/mfd/intel-peci-client.c       | 182 ++++++++++++++++++++++++++
-> > > > >    include/linux/mfd/intel-peci-client.h |  81 ++++++++++++
-> > > > >    4 files changed, 278 insertions(+)
-> > > > >    create mode 100644 drivers/mfd/intel-peci-client.c
-> > > > >    create mode 100644 include/linux/mfd/intel-peci-client.h
-> > > > > 
-> > > > > diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> > > > > index f3fa516011ec..e38b591479d4 100644
-> > > > > --- a/drivers/mfd/Kconfig
-> > > > > +++ b/drivers/mfd/Kconfig
-> > > > > @@ -595,6 +595,20 @@ config MFD_INTEL_MSIC
-> > > > >         Passage) chip. This chip embeds audio, battery, GPIO, etc.
-> > > > >         devices used in Intel Medfield platforms.
-> > > > > 
-> > > > > +config MFD_INTEL_PECI_CLIENT
-> > > > > +    bool "Intel PECI client"
-> > > > > +    depends on (PECI || COMPILE_TEST)
-> > > > > +    select MFD_CORE
-> > > > > +    help
-> > > > > +      If you say yes to this option, support will be included for the
-> > > > > +      multi-funtional Intel PECI (Platform Environment Control Interface)
-> > > > > +      client. PECI is a one-wire bus interface that provides a communication
-> > > > > +      channel from PECI clients in Intel processors and chipset components
-> > > > > +      to external monitoring or control devices.
-> > > > > +
-> > > > > +      Additional drivers must be enabled in order to use the functionality
-> > > > > +      of the device.
-> > > > > +
-> > > > >    config MFD_IPAQ_MICRO
-> > > > >       bool "Atmel Micro ASIC (iPAQ h3100/h3600/h3700) Support"
-> > > > >       depends on SA1100_H3100 || SA1100_H3600
-> > > > > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> > > > > index 2852a6042ecf..29e2cacc58bd 100644
-> > > > > --- a/drivers/mfd/Makefile
-> > > > > +++ b/drivers/mfd/Makefile
-> > > > > @@ -203,6 +203,7 @@ obj-$(CONFIG_MFD_INTEL_LPSS)     += intel-lpss.o
-> > > > >    obj-$(CONFIG_MFD_INTEL_LPSS_PCI)   += intel-lpss-pci.o
-> > > > >    obj-$(CONFIG_MFD_INTEL_LPSS_ACPI)  += intel-lpss-acpi.o
-> > > > >    obj-$(CONFIG_MFD_INTEL_MSIC)       += intel_msic.o
-> > > > > +obj-$(CONFIG_MFD_INTEL_PECI_CLIENT) += intel-peci-client.o
-> > > > >    obj-$(CONFIG_MFD_PALMAS)   += palmas.o
-> > > > >    obj-$(CONFIG_MFD_VIPERBOARD)    += viperboard.o
-> > > > >    obj-$(CONFIG_MFD_RC5T583)  += rc5t583.o rc5t583-irq.o
-> > > > > diff --git a/drivers/mfd/intel-peci-client.c b/drivers/mfd/intel-peci-client.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..d7702cf1ea50
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/mfd/intel-peci-client.c
-> > > > > @@ -0,0 +1,182 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > +// Copyright (c) 2018 Intel Corporation
-> > > > > +
-> > > > > +#include <linux/bitfield.h>
-> > > > > +#include <linux/mfd/core.h>
-> > > > > +#include <linux/mfd/intel-peci-client.h>
-> > > > > +#include <linux/module.h>
-> > > > > +#include <linux/peci.h>
-> > > > > +#include <linux/of_device.h>
-> > > > > +
-> > > > > +enum cpu_gens {
-> > > > > +    CPU_GEN_HSX = 0, /* Haswell Xeon */
-> > > > > +    CPU_GEN_BRX,     /* Broadwell Xeon */
-> > > > > +    CPU_GEN_SKX,     /* Skylake Xeon */
-> > > > > +};
-> > > > > +
-> > > > > +static struct mfd_cell peci_functions[] = {
-> > > > > +    {
-> > > > > +            .name = "peci-cputemp",
-> > > > > +            .of_compatible = "intel,peci-cputemp",
-> > > > > +    },
-> > > > > +    {
-> > > > > +            .name = "peci-dimmtemp",
-> > > > > +            .of_compatible = "intel,peci-dimmtemp",
-> > > > > +    },
-> > > > > +};
-> > > > 
-> > > > The more I look at this driver, the less I think it fits into MFD.
-> > > > 
-> > > > What's stopping you from registering these devices directly from DT?
-> > > > 
-> > > 
-> > > Because DT doesn't allow 2 nodes at the same address so Rob suggested
-> > > MFD for this case.
-> > 
-> > Only after I first suggested you create cpu and dimm sensors from a
-> > single hwmon driver. Perhaps you should figure out how to fix the
-> > problem with delayed registration. Perhaps you can register the
-> > sensor, but just delay returning actual data until it is ready.
-> > 
-> 
-> The actual reason why I divided the single hwmon driver into two is for
-> using recommended hwmon API set which doesn't allow incremental
-> creation of sysfs attributes at run time - using of
-> 'devm_hwmon_device_register_with_info' is suggested by Guenter instead
-> of using other deprecated APIs.
-> 
-> The reason why the delayed registration is needed is, BMC kernel cannot
-> know how many DIMM are installed in remote machine before the machine
-> completing memory training and testing in POST. So dimm temp driver
-> cannot create hwmon attributes in advance.
-> 
-> My thought is, this way is the best to address these requirements.
+mmm, I think you are right.
 
-As I've previously explained, I do not think this is a good fit for
-MFD.  Since this whole PECI piece is a bit, let's say 'niche', perhaps
-it's better to contain the client within the PECI subsystem too.  You
-can then use the platform_device_add() API to register devices as and
-when required.
+>>>> [...]
+>>>> +CONFIG_DEVMEM=n
+>>>> +~~~~~~~~~~~~~~~
+>>>> +
+>>>> +**Negative side effects level:** Extreme
+>>>
+>>> Why is this extreme?
+>>
+>> I tried to be very cautious and I had the impression that this option
+>> could break many programs,
+>> isn't Xorg one of these?
+>
+> These days, (almost?) all graphics drivers run without needing
+> userspace access to these things (and I think they never needed _RAM_
+> access, just IO space). Setting this to Medium or High seems better to
+> me. (The STRICT_DEVMEM, though, should be Low, since that's been a
+> distro setting forever.)
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Yes, agreed.
+
+>>> [...]
+>>>> +CONFIG_GCC_PLUGIN_LATENT_ENTROPY=y
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +**Negative side effects level:** High
+>>>> +**- Protection type:** Self-protection
+>>>> +
+>>>> +With this pluging, the kernel will instrument some kernel code to
+>>>> +extract some entropy from both original and artificially created
+>>>> +program state. This will help especially embedded systems where
+>>>> +there is little 'natural' source of entropy normally.  The cost
+>>>> +is some slowdown of the boot process (about 0.5%) and fork and
+>>>
+>>> This doesn't feel like "high" to me.
+>>
+>> Medium maybe?
+>
+> Sounds good.
+>
+>>> [...]
+>>>> +CONFIG_PAGE_POISONING=y
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +**Negative side effects level:** High
+>>>> +**- Protection type:** Self-protection
+>>>> +
+>>>> +Fill the pages with poison patterns after free_pages() and verify
+>>>> +the patterns before alloc_pages. The filling of the memory helps
+>>>> +reduce the risk of information leaks from freed data. This does
+>>>> +have a potential performance impact.
+>>>> +Needs "page_poison=1" command line.
+>>>> +
+>>>> +
+>>>> +CONFIG_PAGE_POISONING_NO_SANITY=y
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +**Negative side effects level:** High
+>>>> +**- Protection type:** Self-protection
+>>>> +
+>>>> +Skip the sanity checking on alloc, only fill the pages with
+>>>> +poison on free. This reduces some of the overhead of the
+>>>> +poisoning feature.
+>
+> So, I spent some time looking at these again for unrelated reasons and
+> rediscovered that enable CONFIG_PAGE_POISONING has virtual zero
+> overhead since the actual poisoning doesn't happen unless you turn it
+> on with a command line argument. So I would classify both of these as
+> "Low".
+
+Ah, OK.
+
+>>>> +CONFIG_PAGE_POISONING_NO_SANITY=n
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +**Negative side effects level:** Extreme
+>>>> +**- Protection type:** Self-protection
+>>>> +
+>>>> +Skip the sanity checking on alloc, only fill the pages with
+>>>> +poison on free. This reduces some of the overhead of the
+>>>> +poisoning feature.
+>
+> This one, though, yes, Extreme or High. It makes things much slower.
+>
+>>>> +CONFIG_PAGE_POISONING_ZERO=y
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +**Negative side effects level:** High
+>>>> +**- Protection type:** Self-protection
+>>>> +
+>>>> +Instead of using the existing poison value, fill the pages with
+>>>> +zeros. This makes it harder to detect when errors are occurring
+>>>> +due to sanitization but the zeroing at free means that it is
+>>>> +no longer necessary to write zeros when GFP_ZERO is used on
+>>>> +allocation.
+>
+> This one is interesting: enabling it with poisoning means you gain
+> back some of the performance hit (since now GFP_ZERO allocations don't
+> need to do any work: the space was already freed), but you lose a bit
+> of coverage since a write-after-free will not get zeroed at allocation
+> time. So I think I would set this as:
+>
+> CONFIG_PAGE_POISONING_ZERO=y
+> at Low
+>
+> CONFIG_PAGE_POISONING_ZERO=n
+> at High (or Medium?)
+
+Oh, I didn't think about this. OK.
+
+>>> [...]
+>>>> +CONFIG_STATIC_USERMODEHELPER=y
+>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>> +
+>>>> +**Negative side effects level:** Extreme
+>>>
+>>> I mean, this SHOULD be Low but no distro has actually implemented a
+>>> helper to do this yet.
+>>
+>> Infact I set it as extreme because I expect very few people to make an
+>> use of it.
+>> Maybe I could just drop it.
+>
+> Until it's actually usable, yeah, I'd say drop it.
+>
+>> [...]
+>> Thank you very very much for taking the time to look at this very long patch!
+>
+> You're welcome! Thanks for _writing_ it. :)
+>
+> -Kees
+>
+> --
+> Kees Cook
+> Pixel Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
