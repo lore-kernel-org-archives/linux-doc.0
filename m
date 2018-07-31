@@ -5,58 +5,58 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D780D7D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 15:04:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B78D87D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 31 Jul 2018 15:21:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732413AbeGaQoy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 31 Jul 2018 12:44:54 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:39041 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727454AbeGaQox (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 12:44:53 -0400
-Received: by mail-pf1-f195.google.com with SMTP id j8-v6so6244537pff.6
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jul 2018 08:04:09 -0700 (PDT)
+        id S1732359AbeGaRC0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 31 Jul 2018 13:02:26 -0400
+Received: from mail-io0-f194.google.com ([209.85.223.194]:34600 "EHLO
+        mail-io0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732356AbeGaRC0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jul 2018 13:02:26 -0400
+Received: by mail-io0-f194.google.com with SMTP id l7-v6so13368983ioj.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jul 2018 08:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=hxKwoqPx+1v6QE4Wii7+9bEFKhtnRYZZMZ0YRW09gbw=;
-        b=G0AnkvIlSl+p3X1Kd4p4zsGfzPma6opgB7tPaIPB/12olRSkjplGAua8uKPCCe6Yw1
-         jgFoJ4L2+gqX3N+qmRopgkfRzzxe9kWOgg4GcRGD7lLGfNjjoGEkpQnBaHvCN1H052l/
-         Q5Q/iL933M/AGNUbxGYo85kn4EtTpZLADYQpUXpZqXRzvUo8mdFBGPcOtfOGqTTuuJcj
-         L6jFczWCtRem96i4CYUJnjZPoVuzReLi9gYbpwiABPP2up717sqgF0h8utSoWf2SRKLo
-         I8CMD1EiOZ6n+AtzVuRIcxKgjwyRwxe2MwDddT1jhlfuEhL5jyr0htxEPQ/bqvQJG3in
-         +sKA==
+        bh=xWE2aF0pajdZAOP+uUcDJNx6SJt58NICxf0URo6mRNg=;
+        b=noBTi9HZ7q5dUt0wE4QBXNbrQbnss3heBqyxzdpzF+TPVi2rwXsilLdvg20pfrCav3
+         as8rNbf241vy4nhYz3sKea22yqKLdgt7pu9yymGgzsfE9W/wNLWugGsAZ5OqtDzTLgvo
+         zO8qphr3l98wjq8DGe0yV6URA6escglDwkPp5QlYvGseOszIWmYKumgyi9CwZQTLdDbK
+         SURuaGZPOoJJmpDaRmuu1g4cBL3h4eETEVG62NMzZdY7TW3mOuWU3sbkhW02jzCkSLW4
+         2pJ2i3ZEiUD5B5c2MlDLSWVhPn7ujiYzHoOx+pd1N3KNLQWlydLmb5uQCpRS+MXbU779
+         C+RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=hxKwoqPx+1v6QE4Wii7+9bEFKhtnRYZZMZ0YRW09gbw=;
-        b=G0RntxCdFK1q6bvLWrYVC1clqRBoGxjZEilsG5iJmvpcnetl7XJGP2loXAH3znqn6V
-         asRkT2RxOY1Nrishd3U4g17PveVIzBjsYN6yayPUOlEy3zxzSOOKQa3wPWt4WFJP7CTS
-         cQBFNkU1zqfePy0uVmk6rONNr9ARkezMG+Yqm8b5iGQWu9SxFNlGQB2JtSDlV4/87YOu
-         Az0ldW9oFxR1WV+qKRm88oGNYpx669DgPpGlWtBLL59++FSEALm7tKGAiIaj6wd2cfR/
-         tW/63Z1hjnKZqAM+fkPGOlq7nBftV0faP7ciiel15w7kG2VRiUUwdMQzWrN/uX2dryku
-         9A2Q==
-X-Gm-Message-State: AOUpUlHGvy2qVqWyvdC4NdfhZKaGo4ojKX8OdYPnlgWCMkcfe2Mp/1FB
-        0RwCCXukf+OY6A6oYUU82r7mJt5AlvCUZTCdiuCT2Q==
-X-Google-Smtp-Source: AAOMgpfX2rKg6qPDXuOihxkuXD/0MtFBCejAtISvp6kAyv1WiNpiBp6hkkWri1JqyfUluPUQCFADPSKwol7XdDeJckw=
-X-Received: by 2002:a63:743:: with SMTP id 64-v6mr21432509pgh.216.1533049448980;
- Tue, 31 Jul 2018 08:04:08 -0700 (PDT)
+        bh=xWE2aF0pajdZAOP+uUcDJNx6SJt58NICxf0URo6mRNg=;
+        b=rkVb1Vlk3FBjTUZEgCz9BpYRXHq8j73WOzzvC23/emEmOgICQTlrqTpDD+epr3STYo
+         ee8Cbi7yPivtt8cc4AjB9JPfhXsCooik2iOL4Nl3szXzLeacBVGqXc8cGKIb19Glh4M+
+         H4RMrR+ipPfhYZDiZUyInckB9eBezC43mbfjyBcWxLyFqPsQUZuohKmDDtMho1FkBkLn
+         COYj330aVG5zE8SdPLaFVDQKhaLQ5iIGwmAOX+91VXdAbRUCLmh+OUMdq3GNtllwrIxD
+         wQ7wiMMPeNuEFsCGoUwosppevy0meMiIL84IGwIW3GInpmgTpq3oOdmEydNy1bwAo6dT
+         MUQA==
+X-Gm-Message-State: AOUpUlEkn1hFIFtOCHYxI41XWx6JXtQygWUs+fgQDGSCGXiIOqUcZBPP
+        et2ERN2HhODyxPunIozFlrwdJsvVJuxsXbbXrpEzDw==
+X-Google-Smtp-Source: AAOMgpcpZrFsOVvbBmMU629/+ZWRiXxRhNc5nasNiD1kICxgjwP2EwDTeKPb8szTpcTCj+BtgR6TDley9hDPrpD0KZA=
+X-Received: by 2002:a6b:84c6:: with SMTP id o67-v6mr135135ioi.119.1533050496587;
+ Tue, 31 Jul 2018 08:21:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a17:90a:ac14:0:0:0:0 with HTTP; Tue, 31 Jul 2018 08:03:48
+Received: by 2002:a02:918c:0:0:0:0:0 with HTTP; Tue, 31 Jul 2018 08:21:35
  -0700 (PDT)
 In-Reply-To: <8240d4f9-c8df-cfe9-119d-6e933f8b13df@virtuozzo.com>
 References: <cover.1530018818.git.andreyknvl@google.com> <a2a93370d43ec85b02abaf8d007a15b464212221.1530018818.git.andreyknvl@google.com>
  <09cb5553-d84a-0e62-5174-315c14b88833@arm.com> <CAAeHK+yC3XRPoTByhH1QPrX45pG3QY_2Q4gz=dfDgxfzu1Fyfw@mail.gmail.com>
  <8240d4f9-c8df-cfe9-119d-6e933f8b13df@virtuozzo.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Tue, 31 Jul 2018 17:03:48 +0200
-Message-ID: <CACT4Y+Y=61VwwETQP3FwAN16ompSNJOCyDCG6Ew1Bm5f_Fe1Lw@mail.gmail.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 31 Jul 2018 17:21:35 +0200
+Message-ID: <CAAeHK+wUu4c5MwknrJkw=22y5cWuZNsyd+-QJ3v0Z48Xj-Hqng@mail.gmail.com>
 Subject: Re: [PATCH v4 13/17] khwasan: add hooks implementation
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        vincenzo.frascino@arm.com, Alexander Potapenko <glider@google.com>,
+Cc:     vincenzo.frascino@arm.com, Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
         Christoph Lameter <cl@linux.com>,
@@ -98,40 +98,7 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, Jul 31, 2018 at 4:50 PM, Andrey Ryabinin
 <aryabinin@virtuozzo.com> wrote:
->
->
 > On 07/31/2018 04:05 PM, Andrey Konovalov wrote:
->> On Wed, Jul 25, 2018 at 3:44 PM, Vincenzo Frascino@Foss
->> <vincenzo.frascino@arm.com> wrote:
->>> On 06/26/2018 02:15 PM, Andrey Konovalov wrote:
->>>
->>>> @@ -325,18 +341,41 @@ void kasan_init_slab_obj(struct kmem_cache *cache,
->>>> const void *object)
->>>>     void *kasan_slab_alloc(struct kmem_cache *cache, void *object, gfp_t
->>>> flags)
->>>>   {
->>>> -       return kasan_kmalloc(cache, object, cache->object_size, flags);
->>>> +       object = kasan_kmalloc(cache, object, cache->object_size, flags);
->>>> +       if (IS_ENABLED(CONFIG_KASAN_HW) && unlikely(cache->ctor)) {
->>>> +               /*
->>>> +                * Cache constructor might use object's pointer value to
->>>> +                * initialize some of its fields.
->>>> +                */
->>>> +               cache->ctor(object);
->>>>
->>> This seams breaking the kmem_cache_create() contract: "The @ctor is run when
->>> new pages are allocated by the cache."
->>> (https://elixir.bootlin.com/linux/v3.7/source/mm/slab_common.c#L83)
->>>
->>> Since there might be preexisting code relying on it, this could lead to
->>> global side effects. Did you verify that this is not the case?
->>>
->>> Another concern is performance related if we consider this solution suitable
->>> for "near-production", since with the current implementation you call the
->>> ctor (where present) on an object multiple times and this ends up memsetting
->>> and repopulating the memory every time (i.e. inode.c: inode_init_once). Do
->>> you know what is the performance impact?
->>
 >> We can assign tags to objects with constructors when a slab is
 >> allocated and call constructors once as usual. The downside is that
 >> such object would always have the same tag when it is reallocated, so
@@ -140,13 +107,15 @@ On Tue, Jul 31, 2018 at 4:50 PM, Andrey Ryabinin
 > Actually you should do this for SLAB_TYPESAFE_BY_RCU slabs. Usually they are with ->ctors but there
 > are few without constructors.
 > We can't reinitialize or even retag them. The latter will definitely cause false-positive use-after-free reports.
+>
+> As for non-SLAB_TYPESAFE_BY_RCU caches with constructors, it's probably ok to reinitialize and retag such objects.
+> I don't see how could any code rely on the current ->ctor() behavior in non-SLAB_TYPESAFE_BY_RCU case,
+> unless it does something extremely stupid or weird.
+> But let's not do it now. If you care, you cand do it later, with a separate patch, so we could just revert
+> it if anything goes wrong.
 
-Somewhat offtopic, but I can't understand how SLAB_TYPESAFE_BY_RCU
-slabs can be useful without ctors or at least memset(0). Objects in
-such slabs need to be type-stable, but I can't understand how it's
-possible to establish type stability without a ctor... Are these bugs?
-Or I am missing something subtle? What would be a canonical usage of
-SLAB_TYPESAFE_BY_RCU slab without a ctor?
+OK, will do it then when there's either a constructor or the slab is
+SLAB_TYPESAFE_BY_RCU.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
