@@ -3,129 +3,161 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 29CEE7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 05:09:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9BD477DE7F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 05:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733010AbeHAGxN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 Aug 2018 02:53:13 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:48651 "EHLO
+        id S1733001AbeHAGxS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 Aug 2018 02:53:18 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:36585 "EHLO
         wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732959AbeHAGxN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 02:53:13 -0400
+        by vger.kernel.org with ESMTP id S1731897AbeHAGxR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 02:53:17 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 8A656578;
-        Wed,  1 Aug 2018 01:09:26 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 01 Aug 2018 01:09:27 -0400
+        by mailout.west.internal (Postfix) with ESMTP id 6B34457E;
+        Wed,  1 Aug 2018 01:09:33 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 01 Aug 2018 01:09:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :date:from:message-id:subject:to:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=D+lfbyy0jxMvtFJI4j2O4hkLvJJLz6se8+bfYSiRo
-        Ys=; b=QYbYcKctkzbvJbHY4sAToURm6mSzsa5tO91D4gEAA7kdbhwkDHeSV9/KJ
-        8spwx2DoQiVNMd8nLSMZcn362fX9Q3Il5mns1hkpKHP2trAvkv5mGNPGDb9z556G
-        Jc51cfO28SAZE4LzVRvF6PM2oc4A+VPKTneOq5d9W77LBZpLD0hUOYR+g5bojQVT
-        LsB9g8/5FtJ4YDfoJ4LrwVurQr+cOsuHkNEcXCOm9bYh3rRVyRlw5MEuIbM1bgEB
-        p8XGeYxcPNUHnPeheuNBVycXjEMgqal3ed3j9JCq5n2cKYwb21246IlaCuSOX15G
-        DCVaD547J0xjBRzSWkLuqL8f6JGsg==
+        :date:from:in-reply-to:message-id:references:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=2wmxxDv2UY+esS3EU
+        JV2LGCmrVOUVjGbcEiL+i4pkDI=; b=g6jcI+Pj6sEBqBOS1Wzqy0oJi8V8g+w+l
+        tl2cZWu0j3GBKYzFIpijM2ltLzrtrEu5vzyLHXGwGPAsDnJyBJF5J2VkfZywPbxV
+        CGhw7AiwxprEDUjOxq5fFQ+Yi6Z7MsWCwW78OBqaQbhfa65/+/LiQlrau9pajhIL
+        7iDVlIrODhjfJEZ8h7cudQKn55jyNNkgwqBBJUYaseE6vX3Ri4jPjI3k33OHgK9j
+        QtuUCAnXEqRXIc3kD91JkvJQXts4dUJunx8N1CkjUt6oqnma0bT+PTpVFGuxZ5JU
+        s0I9M3EGBjJfxbIwjETdqcc6HEvzpgF4M5IEvv/npYcc4fEeLorQQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:date:from:message-id:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=D+lfbyy0jxMvtFJI4
-        j2O4hkLvJJLz6se8+bfYSiRoYs=; b=dTKnKYo9WolJa1nkAHa42ptsAjhzjerSP
-        3o7Guhk0ywv483ryXAjqLMFaZDSJ0B/VpHpX7Nm2NqybNCJS02PZkIT0rOgDDuD8
-        MNZ1gcBWPDh0PkiuxsHt0/CvBnvhkgt5ckpVwYrO4suQf4Vkjs0zjRMklneiPR7H
-        D5/Rg4TC0/yOX7bvt1yJvu+PIR9RNJ0SgJRCF2nrjKOvkmXQshoJVvkwIJgxaeUD
-        KH/t3g/irHGk/Wfedov0Hs6dBNJZuUjfkNTzb9KZCqKBohZzwhcj6cZYUIP7MM+B
-        Hqlg891TwuO+bi7lrw+Ym4T1Nrl33k8bwo98Ae5LDm1X0XEdJJVqg==
-X-ME-Proxy: <xmx:hUBhWzR7uR1stL82XOjWeC0m9mnlyDf92BOLQJTJhhOC32Uuqz0Pig>
-    <xmx:hUBhW5XAFdtW3R3I2Rh_CqPiwS3oBJQ0jjbcHK_CFQCMj7N-WpoWLQ>
-    <xmx:hUBhW19dhdNcZ-2e6-1mDQVCC0y6m-m8IUivQZzwAYsDsKNg87-KIQ>
-    <xmx:hUBhW52s-5ky-r2HsoyPzg9BBIYkuNzrg1SSfk0HgB4t618_hG7L7g>
-    <xmx:hUBhW6ehLnvJpgBiAjFzA5M2UW0vbZupP0yTl6q2asEl0p0m6U2uEA>
-    <xmx:hkBhW5zZ0X0IFLppJ8eyohW5_dzHY2hcbgeV-4IhrB-i1RjQ5P6Jbw>
-X-ME-Sender: <xms:hUBhW0ReiuRArlgSr9hq-9qZtwW3mMwLdGeXV4scLZdpcQd1TCy3aA>
+        messagingengine.com; h=cc:date:from:in-reply-to:message-id
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=2wmxxDv2UY+esS3EUJV2LGCmrVOUVjGbcEiL+i4pkDI=; b=PBcHNmWR
+        SeIigchJhWMVn3Ma2RSaIaHMpxdd3tvIbnUYbGJuiD/8mm+cDHWD9dW3nKCLxn0f
+        g2xBRYucOi57G25aGqkWL4LdrcGaBh2GhyXegLa8+gJdDhJeWWK2t1JWuuNAqYAS
+        bWIXjQT50CE4Cf5DJqBTpXenIWGgvHP42DL0BgGYinimLWhi1H3znngSb4uSrqZv
+        UiEWLaA+GgBFQgTGoKyzKuMKLygdlgtbslXi9aCzOXxE2Q4gnmowQjRE32s+s/DK
+        oUfiF7GTmZ/kgJlLsThl/yV2kq2SSpgLwMp/V1tT/4X3To+e+D9ig5xrJSx7DhZN
+        YjvMDIe49tDTBQ==
+X-ME-Proxy: <xmx:jEBhW1hE925iHNK4S7LbaDnHzTA8Hv4B8wMJSbm-95l9gdFRM4lQaw>
+    <xmx:jEBhW6bd3YE0yKaayQQqeUEtY9TEUksYjo3c8m9I7WZumYXS1OX-eg>
+    <xmx:jEBhW2ORXGh0svpBa_YaYdFottqZzVjDGL2Fxb3dogj3l9EAf8KDzA>
+    <xmx:jEBhW2SKHhk5WBiFdQByu4-7swDH5ZPesOcl6xj9Ky2rlNQfyrQ0IQ>
+    <xmx:jEBhWx7JtQmazKdXhrfrHN-mQD3rHCK4Nuj0syWu_ZRRGc7WQEIv1g>
+    <xmx:jUBhW_ofFa-X26BXKR9TrkJ8x3iMxr1GYTJ6LemEc2iI3y5f1FnP4A>
+X-ME-Sender: <xms:jEBhW1MXYGTl479wSal7_EJnELLxE6nQhO3_REpFWaIMKS_RLE6pVQ>
 Received: from localhost (124-169-17-12.dyn.iinet.net.au [124.169.17.12])
-        by mail.messagingengine.com (Postfix) with ESMTPA id B9889E4621;
-        Wed,  1 Aug 2018 01:09:24 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2A3141026B;
+        Wed,  1 Aug 2018 01:09:31 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Daniel Borkmann <daniel@iogearbox.net>,
         Alexei Starovoitov <ast@kernel.org>
 Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next 00/13] docs: Convert BPF filter.txt to RST
-Date:   Wed,  1 Aug 2018 15:08:55 +1000
-Message-Id: <20180801050908.29970-1-me@tobin.cc>
+Subject: [PATCH bpf-next 02/13] docs: Update references to filter.rst
+Date:   Wed,  1 Aug 2018 15:08:57 +1000
+Message-Id: <20180801050908.29970-3-me@tobin.cc>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180801050908.29970-1-me@tobin.cc>
+References: <20180801050908.29970-1-me@tobin.cc>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Documentation/networking/filter.rst was just renamed.  In order to use RST
+references we need to add a label to filter.rst
 
-Sending this to BPF maintainers.  Recent patch set to Documentation/bpf
-went through bpf tree so I'm guessing this one will too.  I rekon there
-will be less merge conflicts through your tree.  I do not know exactly
-the path for docs into the mainline or who fixes up merge conflicts
-though so if this is better done another way please say so.
+Add label and update references from filter.txt to filter.rst
 
-Patch set applies on top of bpf-next commit: ("2e96187b6967 Merge branch
-'bpf-docs-rst-improvements'")
+Signed-off-by: Tobin C. Harding <me@tobin.cc>
+---
+ Documentation/bpf/index.rst              | 9 ++++-----
+ Documentation/networking/filter.rst      | 2 ++
+ Documentation/networking/packet_mmap.txt | 2 +-
+ tools/bpf/bpf_asm.c                      | 2 +-
+ tools/bpf/bpf_dbg.c                      | 2 +-
+ 5 files changed, 9 insertions(+), 8 deletions(-)
 
-
-Use of --subject-prefix='PATCH bpf-next' was a guess.
-
-While doing the final read over of this set I realised that perhaps we
-should have just moved this file to Documentation/bpf?
-
-Anyways, here is the conversion of filter.txt to filter.rst split up
-into a bunch of patches to ease review.  I failed to fully grok the
-contents of this file so there may be mistakes in the 'Fix various
-minor tyos' patch.
-
-Also the diff looks like it contains spurious whitespace changes in
-places, I think this is when spaces have been replaced by tabs.  I'm
-guessing you guys are experienced at reading patches so can tell this
-already - it took me a bit of thinking :)
-
-Some of the formatting for code snippets is subjective, if you'd like me
-to change it please say so.  In particular I added a line of whitespace
-before error output in a bunch of the snippets.  Also indented slightly
-differently to the original so it looks okay in HTML.  I did not check
-any other rendered format.
-
-thanks,
-Tobin.
-
-
-Tobin C. Harding (13):
-  docs: net: Rename filter.txt to filter.rst
-  docs: Update references to filter.rst
-  docs: net: Add filter to index toctree
-  docs: net: Use correct heading adornments
-  docs: net: Fix indentation issues for code snippets
-  docs: net: Remove non-standard identifiers
-  docs: net: Use double ticks instead of single quote
-  docs: net: Use double ticks instead of single tick
-  docs: net: Use lowercase 'k' for kernel
-  docs: net: Embed reference to seccomp_filter
-  docs: net: Use correct RST list construct
-  docs: net: Fix various minor typos
-  docs: net: Fix authors list to render as a list
-
- Documentation/bpf/index.rst                   |    9 +-
- Documentation/networking/00-INDEX             |    2 -
- .../networking/{filter.txt => filter.rst}     | 1007 +++++++++--------
- Documentation/networking/index.rst            |    1 +
- Documentation/networking/packet_mmap.txt      |    2 +-
- .../userspace-api/seccomp_filter.rst          |    2 +
- MAINTAINERS                                   |    2 +-
- tools/bpf/bpf_asm.c                           |    2 +-
- tools/bpf/bpf_dbg.c                           |    2 +-
- 9 files changed, 545 insertions(+), 484 deletions(-)
- rename Documentation/networking/{filter.txt => filter.rst} (69%)
-
+diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+index 00a8450a602f..192393135c61 100644
+--- a/Documentation/bpf/index.rst
++++ b/Documentation/bpf/index.rst
+@@ -7,10 +7,10 @@ Filter) facility, with a focus on the extended BPF version (eBPF).
+ 
+ This kernel side documentation is still work in progress.  The main
+ textual documentation is (for historical reasons) described in
+-`Documentation/networking/filter.txt`_, which describe both classical
+-and extended BPF instruction-set.
+-The Cilium project also maintains a `BPF and XDP Reference Guide`_
+-that goes into great technical depth about the BPF Architecture.
++:ref:`Documentation/networking/filter.rst <bpf_filter>`, which describe
++both classical and extended BPF instruction-set.  The Cilium project also
++maintains a `BPF and XDP Reference Guide`_ that goes into great technical
++depth about the BPF Architecture.
+ 
+ The primary info for the bpf syscall is available in the `man-pages`_
+ for `bpf(2)`_.
+@@ -30,7 +30,6 @@ Two sets of Questions and Answers (Q&A) are maintained.
+ 
+ 
+ .. Links:
+-.. _Documentation/networking/filter.txt: ../networking/filter.txt
+ .. _man-pages: https://www.kernel.org/doc/man-pages/
+ .. _bpf(2): http://man7.org/linux/man-pages/man2/bpf.2.html
+ .. _BPF and XDP Reference Guide: http://cilium.readthedocs.io/en/latest/bpf/
+diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+index e6b4ebb2b243..14ce8901c245 100644
+--- a/Documentation/networking/filter.rst
++++ b/Documentation/networking/filter.rst
+@@ -1,6 +1,8 @@
+ Linux Socket Filtering aka Berkeley Packet Filter (BPF)
+ =======================================================
+ 
++.. _bpf_filter:
++
+ Introduction
+ ------------
+ 
+diff --git a/Documentation/networking/packet_mmap.txt b/Documentation/networking/packet_mmap.txt
+index 999eb41da81d..494614573c67 100644
+--- a/Documentation/networking/packet_mmap.txt
++++ b/Documentation/networking/packet_mmap.txt
+@@ -1051,7 +1051,7 @@ for more information on hardware timestamps.
+ -------------------------------------------------------------------------------
+ 
+ - Packet sockets work well together with Linux socket filters, thus you also
+-  might want to have a look at Documentation/networking/filter.txt
++  might want to have a look at Documentation/networking/filter.rst
+ 
+ --------------------------------------------------------------------------------
+ + THANKS
+diff --git a/tools/bpf/bpf_asm.c b/tools/bpf/bpf_asm.c
+index c15aef097b04..5040875735db 100644
+--- a/tools/bpf/bpf_asm.c
++++ b/tools/bpf/bpf_asm.c
+@@ -10,7 +10,7 @@
+  *
+  * How to get into it:
+  *
+- * 1) read Documentation/networking/filter.txt
++ * 1) read Documentation/networking/filter.rst
+  * 2) Run `bpf_asm [-c] <filter-prog file>` to translate into binary
+  *    blob that is loadable with xt_bpf, cls_bpf et al. Note: -c will
+  *    pretty print a C-like construct.
+diff --git a/tools/bpf/bpf_dbg.c b/tools/bpf/bpf_dbg.c
+index 61b9aa5d6415..d05d8df0ce3b 100644
+--- a/tools/bpf/bpf_dbg.c
++++ b/tools/bpf/bpf_dbg.c
+@@ -12,7 +12,7 @@
+  * for making a verdict when multiple simple BPF programs are combined
+  * into one in order to prevent parsing same headers multiple times.
+  *
+- * More on how to debug BPF opcodes see Documentation/networking/filter.txt
++ * More on how to debug BPF opcodes see Documentation/networking/filter.rst
+  * which is the main document on BPF. Mini howto for getting started:
+  *
+  *  1) `./bpf_dbg` to enter the shell (shell cmds denoted with '>'):
 -- 
 2.17.1
 
