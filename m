@@ -5,58 +5,58 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFFB17DF90
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 05:10:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 229F07D085
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 05:12:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387408AbeHAGyA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 Aug 2018 02:54:00 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:46101 "EHLO
+        id S1733077AbeHAGxO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 Aug 2018 02:53:14 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:37101 "EHLO
         wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733055AbeHAGyA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 02:54:00 -0400
+        by vger.kernel.org with ESMTP id S1733001AbeHAGxN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 02:53:13 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 9E1DA584;
-        Wed,  1 Aug 2018 01:10:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 01 Aug 2018 01:10:17 -0400
+        by mailout.west.internal (Postfix) with ESMTP id B3DA4441;
+        Wed,  1 Aug 2018 01:09:29 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 01 Aug 2018 01:09:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
         :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=vEoAdNED6P7p/ahY+
-        NikoYgfaHHcAOvlbDezmhyznBU=; b=V6BoSBOE2W9GXX4z1VtcQPQMZl8ItbthN
-        xVFFnTFrC0jZVy1Oy0dBL4hDtz/DEV/pL/5KUE5HZH0UK+LcwEchtWaXEDDnw3DW
-        fF72e8NlM9QNBJrOed8TG40qNSTIsIwWUp+2ZYNnLV/Wpl05r497GYGmyb5fVRKF
-        X2LRq1hE3rkWwRheKVx/Bnru/40O1utuLuPFrFvxXpXop4XIa8S565qbml7c4IGu
-        bMiVhb0XP1T9wBz5XPac+APZZ9tb6abPebu5q9OamMeOzN9g4qjivUSviYgJPBxs
-        iKkFaB3w7DL0pjm0O8jUl51Vr9M8j4vfcjvg2og9C4jyCZrF7JpNA==
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=wwKYmbWul3LpjtYHq
+        qe8vdzXC3qzlJeRL6ETnOpzEck=; b=IHkwkIfqCOHUQXKuRg3H+vTqWr2HT0Jrv
+        t1Cro8uC3qJ767JIwX5gFQhCZIihqr9CuveEoA2aBZLvJL9REA2MxUs0OPQHKFl3
+        VV4bzNOOsz15pxo8bQ+caRbQ6WLiWnkRz+VVxu2gMZ+Mb/iZqBnW+RaVHgsu1iD8
+        8qxNNNlYJyUa6ot1d7CZ6W98NzfGa0L7ETMjzuvnyt3G2EWz75SuHO2KCnCTBC0e
+        +4ZsgLnvOwoqjptMs1TTyuuCBH+zuIXH68YzB6JOLTrcg96WAf13OCWCYEAyPdxg
+        myNcF0SewxQ+EhvBEx22wrj8Ufq3pjSFTh3S2ajXLtbCxJ08rdmgg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:date:from:in-reply-to:message-id
         :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=vEoAdNED6P7p/ahY+NikoYgfaHHcAOvlbDezmhyznBU=; b=ASpbzro/
-        NxeinskNLL7K8Ds9svw7seDpcfU0xp52DVGcL/Dho2cuDR8fV70DTysX9DiqFRpY
-        GnkEz1zWbZ6jTXQRQAtR0861FqKrwukUeHA0UjED/FIX4kVp19jogEfn0lWVDHO9
-        yhI0L14DR0/m3vr2+jWX7gx2X4tsi3rVG20rJbwRLFxG6iclzcvkvtU9zbl/9Nax
-        rXcokt2rrBxwC7XRxnlYY83k4XZYo53Q3J/OQtdTapxtJu882v09qphBRjjrGcBe
-        XxNfR4DnXRxCAadFBzDBnEnoqc2Lw2wuWlDSt9N7zWk+7kgos9DMUqoHIOxZZQzw
-        KB4el0LmbIHJSA==
-X-ME-Proxy: <xmx:uEBhWzM2XgdorRbpYt3X_0UEMlIpXRlWLwAreK695uvHQh8o66sN7g>
-    <xmx:uEBhWx4PPJ48CvY707skUvk2UPbOkQqh9Vdf8RVLHJfRFUVA_1v7iA>
-    <xmx:uEBhW7ViAogUQbgvvAZbBGo26Ui02o2S0sVlloG18Z_-0HA_IfsWIw>
-    <xmx:uEBhWwMtNbuRoF6UbUw5o-s9ayyPWY18Ibv6pCmgRVgfyFQprtQw5w>
-    <xmx:uEBhW7A2HuGsCg6m5-4HbbPYN4Y_mQPS_r61hhPwIGaeg1h4rvLY5w>
-    <xmx:uEBhW1PEzT17_XzW4ymDM6kGX76VzSOHl4e4AiV4OKdgVdr_GFQ1DQ>
-X-ME-Sender: <xms:uEBhW7_ve7g8fJ99htHWu-rxNRYRptUBZmHrte_SlsDRcMod3ETBzA>
+        fm3; bh=wwKYmbWul3LpjtYHqqe8vdzXC3qzlJeRL6ETnOpzEck=; b=kGDctlFW
+        CmnMNvEgZH1jIhx+V5/DdUh330OaiFb54VoU9RXmVHuphoL/9Q6RLzARp2wLNlg1
+        ljQWa4lQXowrqXCq6s7Q+uOlzFIVcIVby8aMV/UUqfO9PQjrzxHYWsVNj3lKQADH
+        6FmL/HEkV5ukFKryhxyC5Q8TnHMukhVkGPPxEHcsLVKPBIpP4Lxc082uklxTrpfy
+        rvXtSvM4iARMZVh0xhoyRZ6WVAWWBDdzTNxq3gks3MLHjWRYibTQVwfEC7IDD9dx
+        e5VKjM+rDayrVgu40N81D61ja9z6gR1H1t6iISv6TqeliaZ7buRyWIL7uxRoV8mC
+        BVzN4czklDVhfQ==
+X-ME-Proxy: <xmx:iUBhW7UQByS_kbk3eFUeHeYFIJbjUVjnW7iOgJ4NyGGNYCVlG0CjIg>
+    <xmx:iUBhW4Sib3vca_ifhCF_bwIUh9rMmY7F5J_Ov41c5PfP_zBtm9fWxQ>
+    <xmx:iUBhW_Ssq18B0EnneG6Bx6fLcGVAveaQCi5NWYuztG-iVxSUa_BOtg>
+    <xmx:iUBhW6EIHzWxURk983KSSa4HA7eub8lriaXjMriz6mpp3O59Si76jQ>
+    <xmx:iUBhWzmd4IAf00cePdg8QdaZdBCzAQJPW3PF0-uSy2ThFfSbvo7a2A>
+    <xmx:iUBhWxxi8cFJsQmE-2k7qxDgLKbI1yPRZZAiuBorgZbwuMYtW2kFxw>
+X-ME-Sender: <xms:iUBhWxuikohNFGZ9aHkkt0ykyb3pbe2_oEqioQshD63xGfStTG1Yuw>
 Received: from localhost (124-169-17-12.dyn.iinet.net.au [124.169.17.12])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4DDE9E462B;
-        Wed,  1 Aug 2018 01:10:15 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 6DBF010269;
+        Wed,  1 Aug 2018 01:09:28 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Daniel Borkmann <daniel@iogearbox.net>,
         Alexei Starovoitov <ast@kernel.org>
 Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next 13/13] docs: net: Fix authors list to render as a list
-Date:   Wed,  1 Aug 2018 15:09:08 +1000
-Message-Id: <20180801050908.29970-14-me@tobin.cc>
+Subject: [PATCH bpf-next 01/13] docs: net: Rename filter.txt to filter.rst
+Date:   Wed,  1 Aug 2018 15:08:56 +1000
+Message-Id: <20180801050908.29970-2-me@tobin.cc>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180801050908.29970-1-me@tobin.cc>
 References: <20180801050908.29970-1-me@tobin.cc>
@@ -65,31 +65,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently authors list renders on a single line in HTML.  The text
-format implies that a list was meant.
+In preparation for conversion to RST format.  Rename file in a single
+commit to ease review.
 
-Use RST list construct to fix authors contact details to be rendered as
-a list.
+Rename Documentation/networking/filter.txt to
+Documentation/networking/filter.rst
 
 Signed-off-by: Tobin C. Harding <me@tobin.cc>
 ---
- Documentation/networking/filter.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/networking/00-INDEX                   | 2 --
+ Documentation/networking/{filter.txt => filter.rst} | 0
+ MAINTAINERS                                         | 2 +-
+ 3 files changed, 1 insertion(+), 3 deletions(-)
+ rename Documentation/networking/{filter.txt => filter.rst} (100%)
 
-diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index b989a6c882b8..1913718e3f2a 100644
---- a/Documentation/networking/filter.rst
-+++ b/Documentation/networking/filter.rst
-@@ -1532,6 +1532,6 @@ The document was written in the hope that it is found useful and in order
- to give potential BPF hackers or security auditors a better overview of
- the underlying architecture.
- 
--Jay Schulist <jschlst@samba.org>
--Daniel Borkmann <daniel@iogearbox.net>
--Alexei Starovoitov <ast@kernel.org>
-+- Jay Schulist <jschlst@samba.org>
-+- Daniel Borkmann <daniel@iogearbox.net>
-+- Alexei Starovoitov <ast@kernel.org>
+diff --git a/Documentation/networking/00-INDEX b/Documentation/networking/00-INDEX
+index 1e5153ed8990..37c65b3a90be 100644
+--- a/Documentation/networking/00-INDEX
++++ b/Documentation/networking/00-INDEX
+@@ -78,8 +78,6 @@ eql.txt
+ 	- serial IP load balancing
+ fib_trie.txt
+ 	- Level Compressed Trie (LC-trie) notes: a structure for routing.
+-filter.txt
+-	- Linux Socket Filtering
+ fore200e.txt
+ 	- FORE Systems PCA-200E/SBA-200E ATM NIC driver info.
+ framerelay.txt
+diff --git a/Documentation/networking/filter.txt b/Documentation/networking/filter.rst
+similarity index 100%
+rename from Documentation/networking/filter.txt
+rename to Documentation/networking/filter.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fce04d747a1a..a95431e90ab9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2746,7 +2746,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+ Q:	https://patchwork.ozlabs.org/project/netdev/list/?delegate=77147
+ S:	Supported
+ F:	arch/x86/net/bpf_jit*
+-F:	Documentation/networking/filter.txt
++F:	Documentation/networking/filter.rst
+ F:	Documentation/bpf/
+ F:	include/linux/bpf*
+ F:	include/linux/filter.h
 -- 
 2.17.1
 
