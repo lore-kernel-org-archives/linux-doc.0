@@ -5,58 +5,58 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF1567DF82
+	by archive.lwn.net (Postfix) with ESMTP id C38687DF81
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 05:12:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733262AbeHAGxt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 Aug 2018 02:53:49 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:48259 "EHLO
+        id S1733201AbeHAGxk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 Aug 2018 02:53:40 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:52085 "EHLO
         wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733055AbeHAGxs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 02:53:48 -0400
+        by vger.kernel.org with ESMTP id S1733057AbeHAGxk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 02:53:40 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 9FB653D4;
-        Wed,  1 Aug 2018 01:10:04 -0400 (EDT)
+        by mailout.west.internal (Postfix) with ESMTP id D7E2562F;
+        Wed,  1 Aug 2018 01:09:55 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 01 Aug 2018 01:10:05 -0400
+  by compute5.internal (MEProxy); Wed, 01 Aug 2018 01:09:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
         :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=BLhz9q5Br0APWXDfc
-        9o6H1xQibD1cp8+XYJD9ekkLUw=; b=hOM1vLZmuXVbfAgPVvdokhy1tHTPvovSn
-        cliTooTSK8TKKKQFEAYZ03UH9+a88egTTC0WuZ0RnAFxvLqY+nAltpQAN84KHdUX
-        E1793IcsmvDVgPcHCVvcRUW+fsnNfwGAStrVAXnH0olmMqFu5092iLGrIF00vhaZ
-        +W3jiTEX37MPbOogD156720KCWc3gJTL0DfkkhGeld+RMbIN26lWkjWcG7BQZeGX
-        gte1dbhwyJ3cQaWdqdpKAo5F5J7MyDW0tS6G5TWflvnf4qLzF8HWkvtvR/bMDXeX
-        H98NmK+OvJxo4zOgxrkoBna/6EtiniXb+zxbWOFf4ov8vgO2AEERQ==
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=3uLJA6MooOOL7a/1v
+        1Xk7G0pce3uXZf93kbLuAP1i2E=; b=XCt9uXLmQVhFe0VPsWGw2tyTepYG8ZbQ6
+        O/jW+U5IG5XbIUHJONE+4STTKbGChq6i3h2697/7GhEyUHY8RL9vGcrwGvsGzM1f
+        TLqFV3UkCPwvz2omy++ByUEXnxuYORBolRiOK68B2YxsRgicIaGQpq1eQOCvx3kP
+        vM+zTfqOcP1W/F4w5feO4qUJAh87/DTEYAc8vIk752zga9JN86ZZJqts/19XuAei
+        2kYVY2V9hpO4+XZ4iKEj0itDNpapwxiWAyLLbmE/owTvDvxdmzLINLsveiaBh1LG
+        gMQcd28U+2lEdixdc/DAUtAAW0ivh7mr1FSYQ3tXdAN9lHgzNIF3w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:date:from:in-reply-to:message-id
         :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=BLhz9q5Br0APWXDfc9o6H1xQibD1cp8+XYJD9ekkLUw=; b=aV0217+C
-        28tSLZ9TJq/UduOnnEma5kYLq2SDxrx1IewHDV5ZqzTVyxySf059eOz1XtlQGvH2
-        mfZw3ZFMcpm8uUJmCgqPfV1EHMay7PwhDm17kBbGE5ppCbCHvXBFiqo0Gwta+9Ad
-        uDCuZly6psiN3bdZ2/voCXun9evxi7vUQwyrMW/EedtoAzI1ynojeVnAcy88YVBT
-        xdt2usxqpbBUtRDonVBoVvRBjrpw0B6GYh6oQ51NSoPD9SbW69wV0a3VIzTPxP2x
-        I+RoczXFPXkQnfQw6g/C0Hl5sKCgyDBnwnMEsHjCiho2p4cC1fweWTS/9Fn78yJQ
-        hzqAamV0KSNDrw==
-X-ME-Proxy: <xmx:rEBhW_SSU5xAyXIOlRxT3WtP35S-3qKrQpmZCwugLxVxSPlnYZu5zQ>
-    <xmx:rEBhW4rkYQnME9MY8K5YgDswdVMO0AvYLn35nTBBGhzt8-5IAoJNXQ>
-    <xmx:rEBhWzq1TxookS4gfOfLVaqmWkRdGrCLgvQ_NSuIdq_UHhNA4Vp49A>
-    <xmx:rEBhW1GTEGvsyNEa0WpCvyMiwecbwJPnyf1f64KCgijbVDNyoKToCQ>
-    <xmx:rEBhW9vTGBS-vIlRevmYpYAmQVcu_iRKWGuTxO3eHYECGcrxdqkMKw>
-    <xmx:rEBhWztUEVqLBiGemnsgwqQIEo5LTjBMQy1lG9qS4YQOLNM5rl19oQ>
-X-ME-Sender: <xms:rEBhW2y0vZImkMJ9mpL49fspcmi2glSH90knqe_bIMrQNCzkjOtvcg>
+        fm3; bh=3uLJA6MooOOL7a/1v1Xk7G0pce3uXZf93kbLuAP1i2E=; b=kks7xD3D
+        yioEpN1ylHbCDADIkmlA8Bkpezf0o2Y4/5ioK50pk1uAUAIaEoCvd+hRg6Xa3/JX
+        5zBNATDTggTt4y0AUAFEiEDi6ANcZUgPa+xusStkGlpAl7C0p7/Rc0aqqoGK6hxV
+        udgaMqkH42bM52t7lwwJpk/i0J+gvSf0aYJ+JBAfkBc2gvYSpYYF5bW4LHSb+W9R
+        LMcUjPLJVWTU5SOpCoyEHXcbceuwoqp/a/zH8CQH4K5bb0upT81eRp1G+0iFYgga
+        WBYbkmD7EtQsPjBJG0OmZFOPyU2/YSDAsYHvlObSzJ3QHYoug5WANiPL8zkgE6Ja
+        Ld/0himhtvFqjQ==
+X-ME-Proxy: <xmx:o0BhW2BsQzsweCQDs40uBaooPH_KgJk0Zt6h9wInwCo60XiE1L5Ocw>
+    <xmx:o0BhW3vUTy4tPGEJFi5u40tX-6gSvr0wa-ynSISJsa_uGkv-VCg5dg>
+    <xmx:o0BhW4xalN6H-NWjQEgjRzx6Wk5ej8PLsOZf7TxzZ4VwBvtVDiVPOQ>
+    <xmx:o0BhW2N2YNmF5vhp-u3-vdSioFjSdgdaqkH2it1oKbrOIvV7P1DmwQ>
+    <xmx:o0BhWwqE3hNKKSewm-Hm25djjTGjnEGaOedeHnAgoKwS64ayh0tJtg>
+    <xmx:o0BhW1Rd0IwCk1fqKGM1Dtb4GwDX0Gdo1NEYL5mZe2tSjwDu1KWyzg>
+X-ME-Sender: <xms:o0BhWyTo8oBo2mB5Zr41rRfk3zgyw2D7Bo8Wy3O_HLHszHOp8tA4hA>
 Received: from localhost (124-169-17-12.dyn.iinet.net.au [124.169.17.12])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 161B7E405A;
-        Wed,  1 Aug 2018 01:10:01 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 97858E4621;
+        Wed,  1 Aug 2018 01:09:54 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Daniel Borkmann <daniel@iogearbox.net>,
         Alexei Starovoitov <ast@kernel.org>
 Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next 10/13] docs: net: Embed reference to seccomp_filter
-Date:   Wed,  1 Aug 2018 15:09:05 +1000
-Message-Id: <20180801050908.29970-11-me@tobin.cc>
+Subject: [PATCH bpf-next 08/13] docs: net: Use double ticks instead of single tick
+Date:   Wed,  1 Aug 2018 15:09:03 +1000
+Message-Id: <20180801050908.29970-9-me@tobin.cc>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180801050908.29970-1-me@tobin.cc>
 References: <20180801050908.29970-1-me@tobin.cc>
@@ -65,56 +65,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Typical RST documents embed the reference link straight in the text.
-Currently document uses a '[1]' with the reference below that
-paragraph.
+Single tick around a command should  be converted to a double
+tick for RST files (excluding ticks in a code snippet section).
 
-Use RST :ref:`path/to/file` <label>` format and embed the reference to
-seccomp_filter directly in the text.  Add a label to seccomp_filter.rst
-to enable the reference to function correctly.
+Use double ticks instead of single tick.
 
 Signed-off-by: Tobin C. Harding <me@tobin.cc>
 ---
- Documentation/networking/filter.rst            | 12 ++++++------
- Documentation/userspace-api/seccomp_filter.rst |  2 ++
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ Documentation/networking/filter.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index 10c4eab042df..1ed6972c3544 100644
+index f9ec58144ed3..dda1afdb5f26 100644
 --- a/Documentation/networking/filter.rst
 +++ b/Documentation/networking/filter.rst
-@@ -43,12 +43,12 @@ internal compiler that generates a structure that can eventually be loaded
- via SO_ATTACH_FILTER to the kernel. ``tcpdump -i em1 port 22 -ddd``
+@@ -38,9 +38,9 @@ setup a socket, attach a filter, lock it then drop privileges and be
+ assured that the filter will be kept until the socket is closed.
+ 
+ The biggest user of this construct might be libpcap. Issuing a high-level
+-filter command like `tcpdump -i em1 port 22` passes through the libpcap
++filter command like ``tcpdump -i em1 port 22`` passes through the libpcap
+ internal compiler that generates a structure that can eventually be loaded
+-via SO_ATTACH_FILTER to the kernel. `tcpdump -i em1 port 22 -ddd`
++via SO_ATTACH_FILTER to the kernel. ``tcpdump -i em1 port 22 -ddd``
  displays what is being placed into this structure.
  
--Although we were only speaking about sockets here, BPF in Linux is used
--in many more places. There's xt_bpf for netfilter, cls_bpf in the kernel
--qdisc layer, SECCOMP-BPF (SECure COMPuting [1]), and lots of other places
--such as team driver, PTP code, etc where BPF is being used.
--
-- [1] Documentation/userspace-api/seccomp_filter.rst
-+Although we were only speaking about sockets here, BPF in Linux is used in
-+many more places. There's xt_bpf for netfilter, cls_bpf in the kernel qdisc
-+layer, SECCOMP-BPF (SECure COMPuting
-+:ref:`Documentation/userspace-api/seccomp_filter.rst <seccomp_filter>`),
-+and lots of other places such as team driver, PTP code, etc where BPF is
-+being used.
+ Although we were only speaking about sockets here, BPF in Linux is used
+@@ -375,7 +375,7 @@ Starting bpf_dbg is trivial and just requires issuing::
  
- Original BPF paper:
+ In case input and output do not equal stdin/stdout, bpf_dbg takes an
+ alternative stdin source as a first argument, and an alternative stdout
+-sink as a second one, e.g. `./bpf_dbg test_in.txt test_out.txt`.
++sink as a second one, e.g. ``./bpf_dbg test_in.txt test_out.txt``.
  
-diff --git a/Documentation/userspace-api/seccomp_filter.rst b/Documentation/userspace-api/seccomp_filter.rst
-index 82a468bc7560..6c3eb4908818 100644
---- a/Documentation/userspace-api/seccomp_filter.rst
-+++ b/Documentation/userspace-api/seccomp_filter.rst
-@@ -2,6 +2,8 @@
- Seccomp BPF (SECure COMPuting with filters)
- ===========================================
+ Other than that, a particular libreadline configuration can be set via
+ file "~/.bpf_dbg_init" and the command history is stored in the file
+@@ -388,7 +388,7 @@ The usual workflow would be to ...
  
-+.. _seccomp_filter:
-+
- Introduction
- ============
+   > load bpf 6,40 0 0 12,21 0 3 2048,48 0 0 23,21 0 1 1,6 0 0 65535,6 0 0 0
+     Loads a BPF filter from standard output of bpf_asm, or transformed via
+-    e.g. `tcpdump -iem1 -ddd port 22 | tr '\n' ','`. Note that for JIT
++    e.g. tcpdump -iem1 -ddd port 22 | tr '\n' ','`. Note that for JIT
+     debugging (next section), this command creates a temporary socket and
+     loads the BPF code into the kernel. Thus, this will also be useful for
+     JIT developers.
+@@ -523,7 +523,7 @@ generating disassembly out of the kernel log's hexdump::
+     44:	leaveq
+     45:	retq
  
+-Issuing option `-o` will "annotate" opcodes to resulting assembler
++Issuing option ``-o`` will "annotate" opcodes to resulting assembler
+ instructions, which can be very useful for JIT developers::
+ 
+   # ./bpf_jit_disasm -o
 -- 
 2.17.1
 
