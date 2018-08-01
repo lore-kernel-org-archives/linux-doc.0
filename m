@@ -1,130 +1,175 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4FE097D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 16:24:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4FA9E7DE7F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 16:35:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390039AbeHASKo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 Aug 2018 14:10:44 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:46738 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389942AbeHASKo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 14:10:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=wdkQz0ZkLYt54fvU11F3mRcDZOTKFRUiJbAH3YozcIE=; b=Mmp+dtBUwwBuq6nh5PflLu/sXD
-        z+Wj5nSJovvLODUwOc3iSCkj25BzI/px2vfSkU2f5WMFfnFwkX+CQ6jJ9Zfe5MPiepfbEdOnuWq/0
-        F0frS1V8Wmwdw5ByVoLX3XfzRKs7onQPTASkIa1TfRrFpw8R17V/5DrhssHrotlpK1fVPGD34x21p
-        Z4u4RkhAojvszzAZMpATklIxrOHqmNFg7w8LC83phCbS+u+JfD+8NJqfIUhCmY5LZPdRqlYUTNjoS
-        9bwFN2D3oTPrAY/wGozZ4RXXzyJAazW2bf9KzlIxb+fYvZ2P4BmxEBSWE9g1WIXEyIzyIn+S5RqGy
-        Ndd4Oj4w==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fktun-0007JX-0n; Wed, 01 Aug 2018 16:23:57 +0000
-Subject: Re: [RFC PATCH 3/7] vfio: add spimdev support
-To:     Kenneth Lee <nek.in.cn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Joerg Roedel <joro@8bytes.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Kenneth Lee <liguozhu@hisilicon.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
+        id S2404112AbeHASWK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 Aug 2018 14:22:10 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:44908 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404111AbeHASWK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Aug 2018 14:22:10 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD9DD80D;
+        Wed,  1 Aug 2018 09:35:37 -0700 (PDT)
+Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7D5C43F5BA;
+        Wed,  1 Aug 2018 09:35:37 -0700 (PDT)
+Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
+        id B2BC81AE30FD; Wed,  1 Aug 2018 17:35:39 +0100 (BST)
+Date:   Wed, 1 Aug 2018 17:35:39 +0100
+From:   Will Deacon <will.deacon@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Sanjay Kumar <sanjay.k.kumar@intel.com>
-Cc:     linuxarm@huawei.com
-References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <20180801102221.5308-4-nek.in.cn@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <d11c7745-2f31-0f33-1bd8-78379dc66e6e@infradead.org>
-Date:   Wed, 1 Aug 2018 09:23:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
+ sanitizer
+Message-ID: <20180801163538.GA10800@arm.com>
+References: <cover.1530018818.git.andreyknvl@google.com>
+ <20180628105057.GA26019@e103592.cambridge.arm.com>
+ <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+ <20180629110709.GA17859@arm.com>
+ <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
+ <20180703173608.GF27243@arm.com>
+ <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
+ <CAAeHK+xc1E64tXEEHoXqOuUNZ7E_kVyho3_mNZTCc+LTGHYFdA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20180801102221.5308-4-nek.in.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+xc1E64tXEEHoXqOuUNZ7E_kVyho3_mNZTCc+LTGHYFdA@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/01/2018 03:22 AM, Kenneth Lee wrote:
-> From: Kenneth Lee <liguozhu@hisilicon.com>
+Hi Andrey,
+
+On Tue, Jul 31, 2018 at 03:22:13PM +0200, Andrey Konovalov wrote:
+> On Wed, Jul 18, 2018 at 7:16 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> > On Tue, Jul 3, 2018 at 7:36 PM, Will Deacon <will.deacon@arm.com> wrote:
+> >> Hmm, but elsewhere in this thread, Evgenii is motivating the need for this
+> >> patch set precisely because the lower overhead means it's suitable for
+> >> "near-production" use. So I don't think writing this off as a debugging
+> >> feature is the right approach, and we instead need to put effort into
+> >> analysing the impact of address tags on the kernel as a whole. Playing
+> >> whack-a-mole with subtle tag issues sounds like the worst possible outcome
+> >> for the long-term.
+> >
+> > I don't see a way to find cases where pointer tags would matter
+> > statically, so I've implemented the dynamic approach that I mentioned
+> > above. I've instrumented all pointer comparisons/subtractions in an
+> > LLVM compiler pass and used a kernel module that would print a bug
+> > report whenever two pointers with different tags are being
+> > compared/subtracted (ignoring comparisons with NULL pointers and with
+> > pointers obtained by casting an error code to a pointer type). Then I
+> > tried booting the kernel in QEMU and on an Odroid C2 board and I ran
+> > syzkaller overnight.
+> >
+> > This yielded the following results.
+> >
+> > ======
+> >
+> > The two places that look interesting are:
+> >
+> > is_vmalloc_addr in include/linux/mm.h (already mentioned by Catalin)
+> > is_kernel_rodata in mm/util.c
+> >
+> > Here we compare a pointer with some fixed untagged values to make sure
+> > that the pointer lies in a particular part of the kernel address
+> > space. Since KWHASAN doesn't add tags to pointers that belong to
+> > rodata or vmalloc regions, this should work as is. To make sure I've
+> > added debug checks to those two functions that check that the result
+> > doesn't change whether we operate on pointers with or without
+> > untagging.
+> >
+> > ======
+> >
+> > A few other cases that don't look that interesting:
+> >
+> > Comparing pointers to achieve unique sorting order of pointee objects
+> > (e.g. sorting locks addresses before performing a double lock):
+> >
+> > tty_ldisc_lock_pair_timeout in drivers/tty/tty_ldisc.c
+> > pipe_double_lock in fs/pipe.c
+> > unix_state_double_lock in net/unix/af_unix.c
+> > lock_two_nondirectories in fs/inode.c
+> > mutex_lock_double in kernel/events/core.c
+> >
+> > ep_cmp_ffd in fs/eventpoll.c
+> > fsnotify_compare_groups fs/notify/mark.c
+> >
+> > Nothing needs to be done here, since the tags embedded into pointers
+> > don't change, so the sorting order would still be unique.
+> >
+> > Check that a pointer belongs to some particular allocation:
+> >
+> > is_sibling_entry lib/radix-tree.c
+> > object_is_on_stack in include/linux/sched/task_stack.h
+> >
+> > Nothing needs to be here either, since two pointers can only belong to
+> > the same allocation if they have the same tag.
+> >
+> > ======
+> >
+> > Will, Catalin, WDYT?
 > 
-> SPIMDEV is "Share Parent IOMMU Mdev". It is a vfio-mdev. But differ from
-> the general vfio-mdev:
-> 
-> 1. It shares its parent's IOMMU.
-> 2. There is no hardware resource attached to the mdev is created. The
-> hardware resource (A `queue') is allocated only when the mdev is
-> opened.
-> 
-> Currently only the vfio type-1 driver is updated to make it to be aware
-> of.
-> 
-> Signed-off-by: Kenneth Lee <liguozhu@hisilicon.com>
-> Signed-off-by: Zaibo Xu <xuzaibo@huawei.com>
-> Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
-> ---
->  drivers/vfio/Kconfig                |   1 +
->  drivers/vfio/Makefile               |   1 +
->  drivers/vfio/spimdev/Kconfig        |  10 +
->  drivers/vfio/spimdev/Makefile       |   3 +
->  drivers/vfio/spimdev/vfio_spimdev.c | 421 ++++++++++++++++++++++++++++
->  drivers/vfio/vfio_iommu_type1.c     | 136 ++++++++-
->  include/linux/vfio_spimdev.h        |  95 +++++++
->  include/uapi/linux/vfio_spimdev.h   |  28 ++
->  8 files changed, 689 insertions(+), 6 deletions(-)
->  create mode 100644 drivers/vfio/spimdev/Kconfig
->  create mode 100644 drivers/vfio/spimdev/Makefile
->  create mode 100644 drivers/vfio/spimdev/vfio_spimdev.c
->  create mode 100644 include/linux/vfio_spimdev.h
->  create mode 100644 include/uapi/linux/vfio_spimdev.h
-> 
-> diff --git a/drivers/vfio/spimdev/Kconfig b/drivers/vfio/spimdev/Kconfig
-> new file mode 100644
-> index 000000000000..1226301f9d0e
-> --- /dev/null
-> +++ b/drivers/vfio/spimdev/Kconfig
-> @@ -0,0 +1,10 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +config VFIO_SPIMDEV
-> +	tristate "Support for Share Parent IOMMU MDEV"
-> +	depends on VFIO_MDEV_DEVICE
-> +	help
-> +	  Support for VFIO Share Parent IOMMU MDEV, which enable the kernel to
+> ping
 
-	                                                  enables
+Thanks for tracking these cases down and going through each of them. The
+obvious follow-up question is: how do we ensure that we keep on top of
+this in mainline? Are you going to repeat your experiment at every kernel
+release or every -rc or something else? I really can't see how we can
+maintain this in the long run, especially given that the coverage we have
+is only dynamic -- do you have an idea of how much coverage you're actually
+getting for, say, a defconfig+modules build?
 
-> +	  support for the light weight hardware accelerator framework, WrapDrive.
+I'd really like to enable pointer tagging in the kernel, I'm just still
+failing to see how we can do it in a controlled manner where we can reason
+about the semantic changes using something other than a best-effort,
+case-by-case basis which is likely to be fragile and error-prone.
+Unfortunately, if that's all we have, then this gets relegated to a
+debug feature, which sort of defeats the point in my opinion.
 
-	  support the lightweight hardware accelerator framework, WrapDrive.
-
-> +
-> +	  To compile this as a module, choose M here: the module will be called
-> +	  spimdev.
-
-
--- 
-~Randy
+Will
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
