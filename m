@@ -2,84 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 218C67DF75
+	by archive.lwn.net (Postfix) with ESMTP id A004B7D072
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 17:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407744AbeHATRM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 Aug 2018 15:17:12 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:49890 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407546AbeHATRL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 15:17:11 -0400
-Received: from localhost (c-24-20-22-31.hsd1.or.comcast.net [24.20.22.31])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 21ECA100A39AE;
-        Wed,  1 Aug 2018 09:52:55 -0700 (PDT)
-Date:   Wed, 01 Aug 2018 09:52:54 -0700 (PDT)
-Message-Id: <20180801.095254.162481197087516714.davem@davemloft.net>
-To:     petrm@mellanox.com
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, corbet@lwn.net, jiri@mellanox.com,
-        idosch@mellanox.com, kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
-        shuah@kernel.org, nikolay@cumulusnetworks.com, dsahern@gmail.com
-Subject: Re: [PATCH net-next v2 0/7] ipv4: Control SKB reprioritization
- after forwarding
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <cover.1533076217.git.petrm@mellanox.com>
-References: <cover.1533076217.git.petrm@mellanox.com>
-X-Mailer: Mew version 6.7 on Emacs 26 / Mule 6.0 (HANACHIRUSATO)
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Wed, 01 Aug 2018 09:52:55 -0700 (PDT)
+        id S2390390AbeHAT3v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 Aug 2018 15:29:51 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:46000 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389882AbeHAT3v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Aug 2018 15:29:51 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7BA9480D;
+        Wed,  1 Aug 2018 10:43:03 -0700 (PDT)
+Received: from armageddon.cambridge.arm.com (armageddon.emea.arm.com [10.4.13.16])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5A79E3F5BA;
+        Wed,  1 Aug 2018 10:42:59 -0700 (PDT)
+Date:   Wed, 1 Aug 2018 18:42:56 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        linux-kselftest@vger.kernel.org,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
+Message-ID: <20180801174256.5mbyf33eszml4nmu@armageddon.cambridge.arm.com>
+References: <cover.1529507994.git.andreyknvl@google.com>
+ <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
+ <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
+ <CAAeHK+yqWKTdTG+ymZ2-5XKiDANV+fmUjnQkRy-5tpgphuLJRA@mail.gmail.com>
+ <CAAeHK+wJbbCZd+-X=9oeJgsqQJiq8h+Aagz3SQMPaAzCD+pvFw@mail.gmail.com>
+ <CAAeHK+yWF05XoU+0iuJoXAL3cWgdtxbeLoBz169yP12W4LkcQw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+yWF05XoU+0iuJoXAL3cWgdtxbeLoBz169yP12W4LkcQw@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Petr Machata <petrm@mellanox.com>
-Date: Wed, 01 Aug 2018 00:35:53 +0200
+On Mon, Jul 16, 2018 at 01:25:59PM +0200, Andrey Konovalov wrote:
+> On Thu, Jun 28, 2018 at 9:30 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> > On Wed, Jun 27, 2018 at 5:05 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> >> On Tue, Jun 26, 2018 at 7:29 PM, Catalin Marinas
+> >> <catalin.marinas@arm.com> wrote:
+> >>> While I support this work, as a maintainer I'd like to understand
+> >>> whether we'd be in a continuous chase of ABI breaks with every kernel
+> >>> release or we have a better way to identify potential issues. Is there
+> >>> any way to statically analyse conversions from __user ptr to long for
+> >>> example? Or, could we get the compiler to do this for us?
+> >>
+> >> OK, got it, I'll try to figure out a way to find these conversions.
+> >
+> > I've prototyped a checker on top of clang static analyzer (initially
+> > looked at sparse, but couldn't find any documentation or examples).
+> > The results are here [1], search for "warning: user pointer cast".
+> > Sharing in case anybody wants to take a look, will look at them myself
+> > tomorrow.
+> >
+> > [1] https://gist.github.com/xairy/433edd5c86456a64026247cb2fef2115
+> 
+> So the checker reports ~100 different places where a __user pointer
+> being casted. I've looked through them and found 3 places where we
+> need to add untagging. Source code lines below come from 4.18-rc2+
+> (6f0d349d).
+[...]
+> I'll add the 3 patches with fixes to v5 of this patchset.
 
-> After IPv4 packets are forwarded, the priority of the corresponding SKB
-> is updated according to the TOS field of IPv4 header. This overrides any
-> prioritization done earlier by e.g. an skbedit action or ingress-qos-map
-> defined at a vlan device.
-> 
-> Such overriding may not always be desirable. Even if the packet ends up
-> being routed, which implies this is an L3 network node, an administrator
-> may wish to preserve whatever prioritization was done earlier on in the
-> pipeline.
-> 
-> Therefore this patch set introduces a sysctl that controls this
-> behavior, net.ipv4.ip_forward_update_priority. It's value is 1 by
-> default to preserve the current behavior.
-> 
-> All of the above is implemented in patch #1.
-> 
-> Value changes prompt a new NETEVENT_IPV4_FWD_UPDATE_PRIORITY_UPDATE
-> notification, so that the drivers can hook up whatever logic may depend
-> on this value. That is implemented in patch #2.
-> 
-> In patches #3 and #4, mlxsw is adapted to recognize the sysctl. On
-> initialization, the RGCR register that handles router configuration is
-> set in accordance with the sysctl. The new notification is listened to
-> and RGCR is reconfigured as necessary.
-> 
-> In patches #5 to #7, a selftest is added to verify that mlxsw reflects
-> the sysctl value as necessary. The test is expressed in terms of the
-> recently-introduced ieee_setapp support, and works by observing how DSCP
-> value gets rewritten depending on packet priority. For this reason, the
-> test is added to the subdirectory drivers/net/mlxsw. Even though it's
-> not particularly specific to mlxsw, it's not suitable for running on
-> soft devices (which don't support the ieee_setapp et.al.).
- ...
+Thanks for investigating. You can fix those three places in your code
+but I was rather looking for a way to check such casting in the future
+for newly added code. While for the khwasan we can assume it's a debug
+option, the tagged user pointers are ABI and we need to keep it stable.
 
-Series applied, thank you.
+We could we actually add some macros for explicit conversion between
+__user ptr and long and silence the warning there (I guess this would
+work better for sparse). We can then detect new ptr to long casts as
+they appear. I just hope that's not too intrusive.
+
+(I haven't tried the sparse patch yet, hopefully sometime this week)
+
+-- 
+Catalin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
