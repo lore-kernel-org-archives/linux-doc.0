@@ -1,72 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C04247D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 13:52:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4FE097D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 16:24:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389238AbeHAPiH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 Aug 2018 11:38:07 -0400
-Received: from ms.lwn.net ([45.79.88.28]:40106 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389226AbeHAPiH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 1 Aug 2018 11:38:07 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 285D5AB5;
-        Wed,  1 Aug 2018 13:52:15 +0000 (UTC)
-Date:   Wed, 1 Aug 2018 07:52:12 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Tobin C. Harding" <me@tobin.cc>
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next 03/13] docs: net: Add filter to index toctree
-Message-ID: <20180801075212.6e42fa0c@lwn.net>
-In-Reply-To: <20180801050908.29970-4-me@tobin.cc>
-References: <20180801050908.29970-1-me@tobin.cc>
-        <20180801050908.29970-4-me@tobin.cc>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2390039AbeHASKo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 Aug 2018 14:10:44 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:46738 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389942AbeHASKo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 14:10:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=wdkQz0ZkLYt54fvU11F3mRcDZOTKFRUiJbAH3YozcIE=; b=Mmp+dtBUwwBuq6nh5PflLu/sXD
+        z+Wj5nSJovvLODUwOc3iSCkj25BzI/px2vfSkU2f5WMFfnFwkX+CQ6jJ9Zfe5MPiepfbEdOnuWq/0
+        F0frS1V8Wmwdw5ByVoLX3XfzRKs7onQPTASkIa1TfRrFpw8R17V/5DrhssHrotlpK1fVPGD34x21p
+        Z4u4RkhAojvszzAZMpATklIxrOHqmNFg7w8LC83phCbS+u+JfD+8NJqfIUhCmY5LZPdRqlYUTNjoS
+        9bwFN2D3oTPrAY/wGozZ4RXXzyJAazW2bf9KzlIxb+fYvZ2P4BmxEBSWE9g1WIXEyIzyIn+S5RqGy
+        Ndd4Oj4w==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fktun-0007JX-0n; Wed, 01 Aug 2018 16:23:57 +0000
+Subject: Re: [RFC PATCH 3/7] vfio: add spimdev support
+To:     Kenneth Lee <nek.in.cn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Kenneth Lee <liguozhu@hisilicon.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Sanjay Kumar <sanjay.k.kumar@intel.com>
+Cc:     linuxarm@huawei.com
+References: <20180801102221.5308-1-nek.in.cn@gmail.com>
+ <20180801102221.5308-4-nek.in.cn@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <d11c7745-2f31-0f33-1bd8-78379dc66e6e@infradead.org>
+Date:   Wed, 1 Aug 2018 09:23:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180801102221.5308-4-nek.in.cn@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed,  1 Aug 2018 15:08:58 +1000
-"Tobin C. Harding" <me@tobin.cc> wrote:
-
-> filter.rst was just created (from filter.txt).  We should include it in
-> the networking docs toctree.
+On 08/01/2018 03:22 AM, Kenneth Lee wrote:
+> From: Kenneth Lee <liguozhu@hisilicon.com>
 > 
-> Add filter to Documentation/networking/index.rst toctree.
+> SPIMDEV is "Share Parent IOMMU Mdev". It is a vfio-mdev. But differ from
+> the general vfio-mdev:
+> 
+> 1. It shares its parent's IOMMU.
+> 2. There is no hardware resource attached to the mdev is created. The
+> hardware resource (A `queue') is allocated only when the mdev is
+> opened.
+> 
+> Currently only the vfio type-1 driver is updated to make it to be aware
+> of.
+> 
+> Signed-off-by: Kenneth Lee <liguozhu@hisilicon.com>
+> Signed-off-by: Zaibo Xu <xuzaibo@huawei.com>
+> Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
+> ---
+>  drivers/vfio/Kconfig                |   1 +
+>  drivers/vfio/Makefile               |   1 +
+>  drivers/vfio/spimdev/Kconfig        |  10 +
+>  drivers/vfio/spimdev/Makefile       |   3 +
+>  drivers/vfio/spimdev/vfio_spimdev.c | 421 ++++++++++++++++++++++++++++
+>  drivers/vfio/vfio_iommu_type1.c     | 136 ++++++++-
+>  include/linux/vfio_spimdev.h        |  95 +++++++
+>  include/uapi/linux/vfio_spimdev.h   |  28 ++
+>  8 files changed, 689 insertions(+), 6 deletions(-)
+>  create mode 100644 drivers/vfio/spimdev/Kconfig
+>  create mode 100644 drivers/vfio/spimdev/Makefile
+>  create mode 100644 drivers/vfio/spimdev/vfio_spimdev.c
+>  create mode 100644 include/linux/vfio_spimdev.h
+>  create mode 100644 include/uapi/linux/vfio_spimdev.h
+> 
+> diff --git a/drivers/vfio/spimdev/Kconfig b/drivers/vfio/spimdev/Kconfig
+> new file mode 100644
+> index 000000000000..1226301f9d0e
+> --- /dev/null
+> +++ b/drivers/vfio/spimdev/Kconfig
+> @@ -0,0 +1,10 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +config VFIO_SPIMDEV
+> +	tristate "Support for Share Parent IOMMU MDEV"
+> +	depends on VFIO_MDEV_DEVICE
+> +	help
+> +	  Support for VFIO Share Parent IOMMU MDEV, which enable the kernel to
 
-So...the minorest of nits just to prove that I actually looked at
-this...:)  Adding it to the toctree at this point is going to make the
-docs build messy (OK, even messier than it already is) because the RST
-conversion hasn't really been done yet.  I'd do this at the end of the
-series, just in case somebody, somewhere, is crazy enough to try to
-bisect a docs build.
+	                                                  enables
 
-Something that's a bit more relevant, perhaps: this document is a bit of
-a mishmash.  It starts by talking about how to use cBPF for socket
-filters, then includes a long discussion about the features of eBPF
-which, as I understand it, is still not accessible to user space for
-socket filters. That latter part certainly merits being in its own file
-where people will actually find it?  And if it were me, I would move that
-file into the core API guide, since it will be relevant beyond networking.
+> +	  support for the light weight hardware accelerator framework, WrapDrive.
 
-Thanks,
+	  support the lightweight hardware accelerator framework, WrapDrive.
 
-jon
+> +
+> +	  To compile this as a module, choose M here: the module will be called
+> +	  spimdev.
+
+
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
