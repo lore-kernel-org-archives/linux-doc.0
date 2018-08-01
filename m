@@ -5,58 +5,58 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C38687DF81
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 05:12:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FC8D7DF83
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 05:12:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733201AbeHAGxk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 Aug 2018 02:53:40 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:52085 "EHLO
+        id S1733281AbeHAGxx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 Aug 2018 02:53:53 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:35797 "EHLO
         wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733057AbeHAGxk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 02:53:40 -0400
+        by vger.kernel.org with ESMTP id S1733055AbeHAGxx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 02:53:53 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id D7E2562F;
-        Wed,  1 Aug 2018 01:09:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 01 Aug 2018 01:09:56 -0400
+        by mailout.west.internal (Postfix) with ESMTP id 31905578;
+        Wed,  1 Aug 2018 01:10:09 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 01 Aug 2018 01:10:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
         :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=3uLJA6MooOOL7a/1v
-        1Xk7G0pce3uXZf93kbLuAP1i2E=; b=XCt9uXLmQVhFe0VPsWGw2tyTepYG8ZbQ6
-        O/jW+U5IG5XbIUHJONE+4STTKbGChq6i3h2697/7GhEyUHY8RL9vGcrwGvsGzM1f
-        TLqFV3UkCPwvz2omy++ByUEXnxuYORBolRiOK68B2YxsRgicIaGQpq1eQOCvx3kP
-        vM+zTfqOcP1W/F4w5feO4qUJAh87/DTEYAc8vIk752zga9JN86ZZJqts/19XuAei
-        2kYVY2V9hpO4+XZ4iKEj0itDNpapwxiWAyLLbmE/owTvDvxdmzLINLsveiaBh1LG
-        gMQcd28U+2lEdixdc/DAUtAAW0ivh7mr1FSYQ3tXdAN9lHgzNIF3w==
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=k0TJi9DTpxYrr37Cz
+        vISLnppjSJNXrwK4zV65YKVAnk=; b=Sy1gryTfBoKDLPED3uqTI+LNj5ZBwWyXL
+        /bTLay1nTFYjOEHx2ywlvN2a8qSQu29+lm690wB9sjglxp2gFpOEs7sC8WcR53lU
+        OOv+DOzbn37HrytD0mjwDko7sGwNsw+ul+hA6WRCbiIgfiZ5vMFXbYTKLiwOvIug
+        c+JLeMccDYVIvQWpHY6JHQKdkOqODjLE79Jd1rCMb2wgjGSpV/StI+lAkCsBPRto
+        2c2yrexaxd1l2XVLAOylnTwkwM0itxLouaUyrc/+rQYXEvDoMbL5bIIiblzKTzBh
+        qiojL99fH5X3Bzw27pF32pyzimwYQTxexyAfUvNTCg+2iWogOoSbw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:date:from:in-reply-to:message-id
         :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=3uLJA6MooOOL7a/1v1Xk7G0pce3uXZf93kbLuAP1i2E=; b=kks7xD3D
-        yioEpN1ylHbCDADIkmlA8Bkpezf0o2Y4/5ioK50pk1uAUAIaEoCvd+hRg6Xa3/JX
-        5zBNATDTggTt4y0AUAFEiEDi6ANcZUgPa+xusStkGlpAl7C0p7/Rc0aqqoGK6hxV
-        udgaMqkH42bM52t7lwwJpk/i0J+gvSf0aYJ+JBAfkBc2gvYSpYYF5bW4LHSb+W9R
-        LMcUjPLJVWTU5SOpCoyEHXcbceuwoqp/a/zH8CQH4K5bb0upT81eRp1G+0iFYgga
-        WBYbkmD7EtQsPjBJG0OmZFOPyU2/YSDAsYHvlObSzJ3QHYoug5WANiPL8zkgE6Ja
-        Ld/0himhtvFqjQ==
-X-ME-Proxy: <xmx:o0BhW2BsQzsweCQDs40uBaooPH_KgJk0Zt6h9wInwCo60XiE1L5Ocw>
-    <xmx:o0BhW3vUTy4tPGEJFi5u40tX-6gSvr0wa-ynSISJsa_uGkv-VCg5dg>
-    <xmx:o0BhW4xalN6H-NWjQEgjRzx6Wk5ej8PLsOZf7TxzZ4VwBvtVDiVPOQ>
-    <xmx:o0BhW2N2YNmF5vhp-u3-vdSioFjSdgdaqkH2it1oKbrOIvV7P1DmwQ>
-    <xmx:o0BhWwqE3hNKKSewm-Hm25djjTGjnEGaOedeHnAgoKwS64ayh0tJtg>
-    <xmx:o0BhW1Rd0IwCk1fqKGM1Dtb4GwDX0Gdo1NEYL5mZe2tSjwDu1KWyzg>
-X-ME-Sender: <xms:o0BhWyTo8oBo2mB5Zr41rRfk3zgyw2D7Bo8Wy3O_HLHszHOp8tA4hA>
+        fm3; bh=k0TJi9DTpxYrr37CzvISLnppjSJNXrwK4zV65YKVAnk=; b=n3WUWVnx
+        sYn1tTLXQlqcm4Ne00e22KIEwMgNDpXoKXC1C2PCSIfry+HiJO41TMQKIRtavVO6
+        2+6sYPKYzTxETtvrfYHm56oORF1x1zFXiEDPKnwp8U1n23yuPlKXVqKcZznfXpoO
+        SxuXDPZ7h7697EhAGs14RA/zygYbBCrwLyd5QhajYTRSNSR+xW9w0/xrVp1LxSp8
+        XBXwnHUZHYKF57jpYF1fon2tenqyhYV3/c26UVOWL5c3wxQ+yOCE7+uaXwAumVve
+        tDC76D934qR2wEZEDRJcyOqo2+xOE783/5wunyFFrqXolVJU52EDC3urETFy34tE
+        +o+yLx10TKzEVA==
+X-ME-Proxy: <xmx:sEBhWzU47u1n6cLQcp5oYjhZLa3lcs6o-Se47XdY2vqKmwee11DlHg>
+    <xmx:sEBhW18RQBDpEx3DfYwBCCDRaIEp0YxNsCyPVflAnGpqWtoJ4rBWLg>
+    <xmx:sEBhWwL79yUt3OIXwvUvQ8CFGOqtyrJdyBKq-NUf06n55uFYhTOCrw>
+    <xmx:sEBhW72-iwIt3Lb1cmF3dEoTotPwpYxXwUUuPUJwksG9ukWh4OEaFw>
+    <xmx:sEBhW8XphWOiGxISH5KVeuMJ8ODHNjEHfjfRz9apjNJPBHMk2hea8A>
+    <xmx:sEBhW_J4XhVjaq6u5TsgEbB0gaJ7qOClWkn6zF9TvMtBPcQwsT39hQ>
+X-ME-Sender: <xms:sEBhW_5Z9rWCQpjCgdIn1lNlqm98bmslgoEc0sD3cZN5Yek3DjG8GA>
 Received: from localhost (124-169-17-12.dyn.iinet.net.au [124.169.17.12])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 97858E4621;
-        Wed,  1 Aug 2018 01:09:54 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2E72410255;
+        Wed,  1 Aug 2018 01:10:06 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Daniel Borkmann <daniel@iogearbox.net>,
         Alexei Starovoitov <ast@kernel.org>
 Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next 08/13] docs: net: Use double ticks instead of single tick
-Date:   Wed,  1 Aug 2018 15:09:03 +1000
-Message-Id: <20180801050908.29970-9-me@tobin.cc>
+Subject: [PATCH bpf-next 11/13] docs: net: Use correct RST list construct
+Date:   Wed,  1 Aug 2018 15:09:06 +1000
+Message-Id: <20180801050908.29970-12-me@tobin.cc>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180801050908.29970-1-me@tobin.cc>
 References: <20180801050908.29970-1-me@tobin.cc>
@@ -65,59 +65,68 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Single tick around a command should  be converted to a double
-tick for RST files (excluding ticks in a code snippet section).
+Currently we are using a custom list format.  We should use the correct
+standard list construct.  Also lists require a newline before and after
+the list items.
 
-Use double ticks instead of single tick.
+Use correct RST list construct.
 
 Signed-off-by: Tobin C. Harding <me@tobin.cc>
 ---
- Documentation/networking/filter.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ Documentation/networking/filter.rst | 30 ++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index f9ec58144ed3..dda1afdb5f26 100644
+index 1ed6972c3544..99dfa74fc4f7 100644
 --- a/Documentation/networking/filter.rst
 +++ b/Documentation/networking/filter.rst
-@@ -38,9 +38,9 @@ setup a socket, attach a filter, lock it then drop privileges and be
- assured that the filter will be kept until the socket is closed.
+@@ -1162,18 +1162,21 @@ arithmetic), and this is tracked in two parts: the 'fixed offset' and 'variable
+ offset'.  The former is used when an exactly-known value (e.g. an immediate
+ operand) is added to a pointer, while the latter is used for values which are
+ not exactly known.  The variable offset is also used in SCALAR_VALUEs, to track
+-the range of possible values in the register.
+-The verifier's knowledge about the variable offset consists of:
++the range of possible values in the register.  The verifier's knowledge
++about the variable offset consists of:
++
+ * minimum and maximum values as unsigned
+ * minimum and maximum values as signed
+ * knowledge of the values of individual bits, in the form of a 'tnum': a u64
+-'mask' and a u64 'value'.  1s in the mask represent bits whose value is unknown;
+-1s in the value represent bits known to be 1.  Bits known to be 0 have 0 in both
+-mask and value; no bit should ever be 1 in both.  For example, if a byte is read
+-into a register from memory, the register's top 56 bits are known zero, while
+-the low 8 are unknown - which is represented as the tnum (0x0; 0xff).  If we
+-then OR this with 0x40, we get (0x40; 0xbf), then if we add 1 we get (0x0;
+-0x1ff), because of potential carries.
++  'mask' and a u64 'value'
++
++1s in the mask represent bits whose value is unknown; 1s in the value
++represent bits known to be 1.  Bits known to be 0 have 0 in both mask and
++value; no bit should ever be 1 in both.  For example, if a byte is read
++into a register from memory, the register's top 56 bits are known zero,
++while the low 8 are unknown - which is represented as the tnum (0x0; 0xff).
++If we then OR this with 0x40, we get (0x40; 0xbf), then if we add 1 we get
++(0x0; 0x1ff), because of potential carries.
  
- The biggest user of this construct might be libpcap. Issuing a high-level
--filter command like `tcpdump -i em1 port 22` passes through the libpcap
-+filter command like ``tcpdump -i em1 port 22`` passes through the libpcap
- internal compiler that generates a structure that can eventually be loaded
--via SO_ATTACH_FILTER to the kernel. `tcpdump -i em1 port 22 -ddd`
-+via SO_ATTACH_FILTER to the kernel. ``tcpdump -i em1 port 22 -ddd``
- displays what is being placed into this structure.
+ Besides arithmetic, the register state can also be updated by conditional
+ branches.  For instance, if a SCALAR_VALUE is compared > 8, in the 'true' branch
+@@ -1329,10 +1332,11 @@ are concurrently updating.
+ maps can have different types: hash, array, bloom filter, radix-tree, etc.
  
- Although we were only speaking about sockets here, BPF in Linux is used
-@@ -375,7 +375,7 @@ Starting bpf_dbg is trivial and just requires issuing::
+ The map is defined by:
+-  . type
+-  . max number of elements
+-  . key size in bytes
+-  . value size in bytes
++
++- type
++- max number of elements
++- key size in bytes
++- value size in bytes
  
- In case input and output do not equal stdin/stdout, bpf_dbg takes an
- alternative stdin source as a first argument, and an alternative stdout
--sink as a second one, e.g. `./bpf_dbg test_in.txt test_out.txt`.
-+sink as a second one, e.g. ``./bpf_dbg test_in.txt test_out.txt``.
- 
- Other than that, a particular libreadline configuration can be set via
- file "~/.bpf_dbg_init" and the command history is stored in the file
-@@ -388,7 +388,7 @@ The usual workflow would be to ...
- 
-   > load bpf 6,40 0 0 12,21 0 3 2048,48 0 0 23,21 0 1 1,6 0 0 65535,6 0 0 0
-     Loads a BPF filter from standard output of bpf_asm, or transformed via
--    e.g. `tcpdump -iem1 -ddd port 22 | tr '\n' ','`. Note that for JIT
-+    e.g. tcpdump -iem1 -ddd port 22 | tr '\n' ','`. Note that for JIT
-     debugging (next section), this command creates a temporary socket and
-     loads the BPF code into the kernel. Thus, this will also be useful for
-     JIT developers.
-@@ -523,7 +523,7 @@ generating disassembly out of the kernel log's hexdump::
-     44:	leaveq
-     45:	retq
- 
--Issuing option `-o` will "annotate" opcodes to resulting assembler
-+Issuing option ``-o`` will "annotate" opcodes to resulting assembler
- instructions, which can be very useful for JIT developers::
- 
-   # ./bpf_jit_disasm -o
+ Pruning
+ =======
 -- 
 2.17.1
 
