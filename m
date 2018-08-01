@@ -1,104 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 81B027D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 22:01:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B07AB7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 Aug 2018 22:33:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732422AbeHAXts (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 Aug 2018 19:49:48 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:41328 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731991AbeHAXts (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 19:49:48 -0400
-Received: from fsav401.sakura.ne.jp (fsav401.sakura.ne.jp [133.242.250.100])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id w71M1b9j072563;
-        Thu, 2 Aug 2018 07:01:37 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav401.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav401.sakura.ne.jp);
- Thu, 02 Aug 2018 07:01:37 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav401.sakura.ne.jp)
-Received: from [192.168.1.8] (softbank126074194044.bbtec.net [126.74.194.44])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id w71M1Vf0072544
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Thu, 2 Aug 2018 07:01:37 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH v13 0/7] cgroup-aware OOM killer
-To:     Roman Gushchin <guro@fb.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     David Rientjes <rientjes@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tejun Heo <tj@kernel.org>, kernel-team@fb.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <0d018c7e-a3de-a23a-3996-bed8b28b1e4a@i-love.sakura.ne.jp>
- <20180716220918.GA3898@castle.DHCP.thefacebook.com>
- <201807170055.w6H0tHn5075670@www262.sakura.ne.jp>
- <ede70c6a-620b-f835-d66c-b4608fe0ef54@i-love.sakura.ne.jp>
- <20180801163718.GA23539@castle>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <de9a2bad-d80d-98a0-e155-613a34c0b7be@i-love.sakura.ne.jp>
-Date:   Thu, 2 Aug 2018 07:01:28 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726688AbeHBAVD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 Aug 2018 20:21:03 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:51187 "EHLO
+        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726534AbeHBAVD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Aug 2018 20:21:03 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id D59FA624;
+        Wed,  1 Aug 2018 18:33:01 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 01 Aug 2018 18:33:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :content-type:date:from:in-reply-to:message-id:mime-version
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=zF7uDRAgqIA2zrTjXON3FjrEdZb849X5ZC+2n9L9PTg=; b=o8hw+aSh
+        4ZN9I3r2sZ/dffeY16H0H/8vq8uyvVQDm5uzQ6o5F//BJgMl8koIxmwwlK6O6gvn
+        vOHRYwVEoBflzyprLJhWTPcm7MjOMPAop9xqGYsEpMwKqcJ9Cyrfi+WdR9xPA4/1
+        GrAKPM1eP5wuazj26ANcxP8Fd1xU7LWBc3gMddjQA465WM6PStljWgiFvKfgTdve
+        Ca1+2+gWaYFahDcrL94UqJTrU5NBKb4ntbqNtgFQYAfT0Tlk05UJqr53g7Swse4L
+        ZkVJW5ofKJX5CQLbf34nGhj0igCJIn9cBW3VWy0LAFUA7g8GEOSdRTwMHbxYZ765
+        uS/3d+JvUQ2bTA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=zF7uDRAgqIA2zrTjXON3FjrEdZb84
+        9X5ZC+2n9L9PTg=; b=fAhRhRBdGJXu8m4m0j1o+Dx1Vil+SMQSuPv6XEsAP7DOO
+        KToTFfHmW56UWFF1u98aU6KZz/GHTQ1NyE6Vor/wzf5ij2Q064EGABkDGw4Yx/uQ
+        BBFufptIUg5AGFx/TWy5wdS96eyBr5vN96aqZSTTurR9/6r47tWOJDj5zTkilOLv
+        e3PP2QfzzgerScIzpXKEUD3IiSZ0WEcW8qnNvWJVPxZNsLoKqHvdQNrxRmAxg5kc
+        N/M5fLUqXg4lD/CZRSFKNZSVSJK9w/GLNDkETKeQB3nGH0A8Al4ox+c8NKF3TsO5
+        r9mgqYtCn5UARadXN66DwMoyYv5TPv/e2LC9nOjGA==
+X-ME-Proxy: <xmx:HDViW37SgFon3ihArIFJG-vwkOuea2FB4jc9PrjeduvFRoIklcxRMA>
+    <xmx:HDViW2a2j9H6gEd4_mBNE-_qkDEMwYbis_wZ8-vQh8H1usb9xRHc-A>
+    <xmx:HDViWyt6yyTD4YrutjOs8hhAizB9t3qiWaFNhkmdjIgptDYWyCfGZQ>
+    <xmx:HDViW_vwhtLWIS4N1cAhgiobdRRpgEOxUipN6mCftM1GJRxvBmhhkg>
+    <xmx:HDViWzptN691nt-bKOj-pELp1pb0UKC-0pLFuRK__J4zv_jlU-NuVQ>
+    <xmx:HTViW-7QM9dhhNdLf3ZTlucYNAZinizY2qMExPq2FjwaEnNHOW8kMQ>
+X-ME-Sender: <xms:HDViW6ARcidN9ZAgxYJTK-xWv3BUboow0IEhG28CHQuO8rWRQioWag>
+Received: from localhost (124-169-17-12.dyn.iinet.net.au [124.169.17.12])
+        by mail.messagingengine.com (Postfix) with ESMTPA id D96C41027B;
+        Wed,  1 Aug 2018 18:32:59 -0400 (EDT)
+Date:   Thu, 2 Aug 2018 08:32:56 +1000
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next 03/13] docs: net: Add filter to index toctree
+Message-ID: <20180801223256.GB31267@eros>
+References: <20180801050908.29970-1-me@tobin.cc>
+ <20180801050908.29970-4-me@tobin.cc>
+ <20180801075212.6e42fa0c@lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20180801163718.GA23539@castle>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180801075212.6e42fa0c@lwn.net>
+X-Mailer: Mutt 1.9.4 (2018-02-28)
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2018/08/02 1:37, Roman Gushchin wrote:
-> On Tue, Jul 31, 2018 at 11:14:01PM +0900, Tetsuo Handa wrote:
->> Can we temporarily drop cgroup-aware OOM killer from linux-next.git and
->> apply my cleanup patch? Since the merge window is approaching, I really want to
->> see how next -rc1 would look like...
+On Wed, Aug 01, 2018 at 07:52:12AM -0600, Jonathan Corbet wrote:
+> On Wed,  1 Aug 2018 15:08:58 +1000
+> "Tobin C. Harding" <me@tobin.cc> wrote:
 > 
-> Hi Tetsuo!
+> > filter.rst was just created (from filter.txt).  We should include it in
+> > the networking docs toctree.
+> > 
+> > Add filter to Documentation/networking/index.rst toctree.
 > 
-> Has this cleanup patch been acked by somebody?
+> So...the minorest of nits just to prove that I actually looked at
+> this...:)
 
-Not yet. But since Michal considers this cleanup as "a nice shortcut"
-( https://marc.info/?i=20180607112836.GN32433@dhcp22.suse.cz ), I assume that
-I will get an ACK regarding this cleanup.
+Thanks for the feedback Jon, I like when I get feedback as apposed to
+just patches being applied - makes me feel like the work actually
+matters, thanks.
 
-> Which problem does it solve?
+> Adding it to the toctree at this point is going to make the
+> docs build messy (OK, even messier than it already is) because the RST
+> conversion hasn't really been done yet.  I'd do this at the end of the
+> series, just in case somebody, somewhere, is crazy enough to try to
+> bisect a docs build.
 
-It simplifies tricky out_of_memory() return value decision, and
-it also fixes a bug in your series which syzbot is pointing out.
+Will use this method for re-spin of this set and for future conversions.
 
-> Dropping patches for making a cleanup (if it's a cleanup) sounds a bit strange.
+> Something that's a bit more relevant, perhaps: this document is a bit of
+> a mishmash.  It starts by talking about how to use cBPF for socket
+> filters, then includes a long discussion about the features of eBPF
+> which, as I understand it, is still not accessible to user space for
+> socket filters. That latter part certainly merits being in its own file
+> where people will actually find it?  And if it were me, I would move that
+> file into the core API guide, since it will be relevant beyond networking.
 
-What I need is a git tree which I can use as a baseline for making this cleanup.
-linux.git is not suitable because it does not include Michal's fix, but
-linux-next.git is not suitable because Michal's fix is overwritten by your series.
-I want a git tree which includes Michal's fix and does not include your series.
+And we have Documentation/bpf as well?  I'll have a go at splitting this
+file up and/or moving it around.  The content is pretty heavy so I may
+need some comments/ideas from the original authors.
 
-> 
-> Anyway, there is a good chance that current cgroup-aware OOM killer
-> implementation will be replaced by a lightweight version (memory.oom.group).
-> Please, take a look at it, probably your cleanup will not conflict with it
-> at all.
+I'll spin up a V2 and we can see how it looks.
 
-Then, please drop current cgroup-aware OOM killer implementation from linux-next.git .
-I want to see how next -rc1 would look like (for testing purpose) and want to use
-linux-next.git as a baseline (for making this cleanup).
-
-> 
-> Thanks!
-> 
-> 
-
+thanks,
+Tobin.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
