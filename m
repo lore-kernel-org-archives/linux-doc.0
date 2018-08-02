@@ -5,54 +5,57 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1AD127E3B2
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 04:07:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1951A7E3B2
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 04:17:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725942AbeHBF4e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 Aug 2018 01:56:34 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:59105 "EHLO huawei.com"
+        id S1726021AbeHBGG1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 Aug 2018 02:06:27 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:10217 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725765AbeHBF4e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Aug 2018 01:56:34 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id A15245EE55BE4;
-        Thu,  2 Aug 2018 12:07:21 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server (TLS) id 14.3.399.0; Thu, 2 Aug 2018
- 12:07:15 +0800
-Date:   Thu, 2 Aug 2018 12:05:57 +0800
+        id S1725994AbeHBGG1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Aug 2018 02:06:27 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 43917A0F69DE6;
+        Thu,  2 Aug 2018 12:17:12 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server (TLS) id 14.3.399.0; Thu, 2 Aug 2018
+ 12:17:06 +0800
+Date:   Thu, 2 Aug 2018 12:15:47 +0800
 From:   Kenneth Lee <liguozhu@hisilicon.com>
 To:     "Tian, Kevin" <kevin.tian@intel.com>
-CC:     Jerome Glisse <jglisse@redhat.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        "Hao Fang" <fanghao11@huawei.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+CC:     Kenneth Lee <nek.in.cn@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
         "David S . Miller" <davem@davemloft.net>,
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
         "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180802040557.GL160746@Turing-Arch-b>
+        <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>
+Subject: Re: [RFC PATCH 2/7] iommu: Add share domain interface in iommu for
+ spimdev
+Message-ID: <20180802041547.GM160746@Turing-Arch-b>
 References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <20180801165644.GA3820@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+ <20180801102221.5308-3-nek.in.cn@gmail.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D191290F49@SHSMSX101.ccr.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D191290F49@SHSMSX101.ccr.corp.intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Originating-IP: [10.67.212.75]
 X-CFilter-Loop: Reflected
@@ -61,113 +64,152 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 02, 2018 at 02:33:12AM +0000, Tian, Kevin wrote:
-> Date: Thu, 2 Aug 2018 02:33:12 +0000
+On Thu, Aug 02, 2018 at 03:17:03AM +0000, Tian, Kevin wrote:
+> Date: Thu, 2 Aug 2018 03:17:03 +0000
 > From: "Tian, Kevin" <kevin.tian@intel.com>
-> To: Jerome Glisse <jglisse@redhat.com>, Kenneth Lee <nek.in.cn@gmail.com>
-> CC: Hao Fang <fanghao11@huawei.com>, Herbert Xu
->  <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
->  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
->  Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-doc@vger.kernel.org"
->  <linux-doc@vger.kernel.org>, "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
->  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
->  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
->  "linuxarm@huawei.com" <linuxarm@huawei.com>, Alex Williamson
->  <alex.williamson@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
->  "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Philippe
->  Ombredanne <pombredanne@nexb.com>, Zaibo Xu <xuzaibo@huawei.com>, Kenneth
->  Lee <liguozhu@hisilicon.com>, "David S . Miller" <davem@davemloft.net>,
->  "linux-accelerators@lists.ozlabs.org"
->  <linux-accelerators@lists.ozlabs.org>
-> Subject: RE: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-> Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+> To: Kenneth Lee <nek.in.cn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+>  Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
+>  <davem@davemloft.net>, Joerg Roedel <joro@8bytes.org>, Alex Williamson
+>  <alex.williamson@redhat.com>, Kenneth Lee <liguozhu@hisilicon.com>, Hao
+>  Fang <fanghao11@huawei.com>, Zhou Wang <wangzhou1@hisilicon.com>, Zaibo Xu
+>  <xuzaibo@huawei.com>, Philippe Ombredanne <pombredanne@nexb.com>, Greg
+>  Kroah-Hartman <gregkh@linuxfoundation.org>, Thomas Gleixner
+>  <tglx@linutronix.de>, "linux-doc@vger.kernel.org"
+>  <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+>  <linux-kernel@vger.kernel.org>, "linux-crypto@vger.kernel.org"
+>  <linux-crypto@vger.kernel.org>, "iommu@lists.linux-foundation.org"
+>  <iommu@lists.linux-foundation.org>, "kvm@vger.kernel.org"
+>  <kvm@vger.kernel.org>, "linux-accelerators@lists.ozlabs.org"
+>  <linux-accelerators@lists.ozlabs.org>, Lu Baolu
+>  <baolu.lu@linux.intel.com>, "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>
+> CC: "linuxarm@huawei.com" <linuxarm@huawei.com>
+> Subject: RE: [RFC PATCH 2/7] iommu: Add share domain interface in iommu for
+>  spimdev
+> Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D191290F49@SHSMSX101.ccr.corp.intel.com>
 > 
-> > From: Jerome Glisse
-> > Sent: Thursday, August 2, 2018 12:57 AM
+> > From: Kenneth Lee
+> > Sent: Wednesday, August 1, 2018 6:22 PM
 > > 
-> > On Wed, Aug 01, 2018 at 06:22:14PM +0800, Kenneth Lee wrote:
-> > > From: Kenneth Lee <liguozhu@hisilicon.com>
-> > >
-> > > WarpDrive is an accelerator framework to expose the hardware
-> > capabilities
-> > > directly to the user space. It makes use of the exist vfio and vfio-mdev
-> > > facilities. So the user application can send request and DMA to the
-> > > hardware without interaction with the kernel. This remove the latency
-> > > of syscall and context switch.
-> > >
-> > > The patchset contains documents for the detail. Please refer to it for
-> > more
-> > > information.
-> > >
-> > > This patchset is intended to be used with Jean Philippe Brucker's SVA
-> > > patch [1] (Which is also in RFC stage). But it is not mandatory. This
-> > > patchset is tested in the latest mainline kernel without the SVA patches.
-> > > So it support only one process for each accelerator.
-> > >
-> > > With SVA support, WarpDrive can support multi-process in the same
-> > > accelerator device.  We tested it in our SoC integrated Accelerator (board
-> > > ID: D06, Chip ID: HIP08). A reference work tree can be found here: [2].
+> > From: Kenneth Lee <liguozhu@hisilicon.com>
 > > 
-> > I have not fully inspected things nor do i know enough about
-> > this Hisilicon ZIP accelerator to ascertain, but from glimpsing
-> > at the code it seems that it is unsafe to use even with SVA due
-> > to the doorbell. There is a comment talking about safetyness
-> > in patch 7.
+> > This patch add sharing interface for a iommu_group. The new interface:
 > > 
-> > Exposing thing to userspace is always enticing, but if it is
-> > a security risk then it should clearly say so and maybe a
-> > kernel boot flag should be necessary to allow such device to
-> > be use.
+> > 	iommu_group_share_domain()
+> > 	iommu_group_unshare_domain()
 > > 
-
-But doorbell is just a notification. Except for DOS (to make hardware busy) it
-cannot actually take or change anything from the kernel space. And the DOS
-problem can be always taken as the problem that a group of processes share the
-same kernel entity.
-
-In the coming HIP09 hardware, the doorbell will come with a random number so
-only the process who allocated the queue can knock it correctly.
+> > can be used by some virtual iommu_group (such as iommu_group for
+> > spimdev)
+> > to share their parent's iommu_group.
 > > 
-> > My more general question is do we want to grow VFIO to become
-> > a more generic device driver API. This patchset adds a command
-> > queue concept to it (i don't think it exist today but i have
-> > not follow VFIO closely).
-> > 
-
-The thing is, VFIO is the only place to support DMA from user land. If we don't
-put it here, we have to create another similar facility to support the same.
-
-> > Why is that any better that existing driver model ? Where a
-> > device create a device file (can be character device, block
-> > device, ...). Such models also allow for direct hardware
-> > access from userspace. For instance see the AMD KFD driver
-> > inside drivers/gpu/drm/amd
+> > When the domain of the group is shared, it cannot be changed before
+> > unshared.  In the future, notification can be added if update is required.
 > 
-> One motivation I guess, is that most accelerators lack of a 
-> well-abstracted high level APIs similar to GPU side (e.g. OpenCL 
-> clearly defines Shared Virtual Memory models). VFIO mdev
-> might be an alternative common interface to enable SVA usages 
-> on various accelerators...
+> Is it necessary or just asking VFIO to use parent domain directly? 
 > 
-Yes.
+Even we add to VFIO, the iommu still need to be changed. We can move the type1
+part to VFIO if we have agreement in RFC stage.
 > > 
-> > So you can already do what you are doing with the Hisilicon
-> > driver today without this new infrastructure. This only need
-> > hardware that have command queue and doorbell like mechanisms.
+> > Signed-off-by: Kenneth Lee <liguozhu@hisilicon.com>
+> > ---
+> >  drivers/iommu/iommu.c | 28 +++++++++++++++++++++++++++-
+> >  include/linux/iommu.h |  2 ++
+> >  2 files changed, 29 insertions(+), 1 deletion(-)
 > > 
+> > diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> > index 63b37563db7e..a832aafe660d 100644
+> > --- a/drivers/iommu/iommu.c
+> > +++ b/drivers/iommu/iommu.c
+> > @@ -54,6 +54,9 @@ struct iommu_group {
+> >  	int id;
+> >  	struct iommu_domain *default_domain;
+> >  	struct iommu_domain *domain;
+> > +	atomic_t domain_shared_ref; /* Number of user of current domain.
+> > +				     * The domain cannot be modified if ref >
+> > 0
+> > +				     */
+> >  };
 > > 
-> > Unlike mdev which unify a very high level concept, it seems
-> > to me spimdev just introduce low level concept (namely command
-> > queue) and i don't see the intrinsic value here.
+> >  struct group_device {
+> > @@ -353,6 +356,7 @@ struct iommu_group *iommu_group_alloc(void)
+> >  		return ERR_PTR(ret);
+> >  	}
+> >  	group->id = ret;
+> > +	atomic_set(&group->domain_shared_ref, 0);
 > > 
-As I have said, VFIO is the only place support DMA from user space now.
+> >  	ret = kobject_init_and_add(&group->kobj, &iommu_group_ktype,
+> >  				   NULL, "%d", group->id);
+> > @@ -482,6 +486,25 @@ int iommu_group_set_name(struct iommu_group
+> > *group, const char *name)
+> >  }
+> >  EXPORT_SYMBOL_GPL(iommu_group_set_name);
 > > 
-> > Cheers,
-> > Jérôme
-> > _______________________________________________
-> > iommu mailing list
-> > iommu@lists.linux-foundation.org
-> > https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> > +struct iommu_domain *iommu_group_share_domain(struct
+> > iommu_group *group)
+> > +{
+> > +	/* the domain can be shared only when the default domain is used
+> > */
+> > +	/* todo: more shareable check */
+> > +	if (group->domain != group->default_domain)
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	atomic_inc(&group->domain_shared_ref);
+> > +	return group->domain;
+> > +}
+> > +EXPORT_SYMBOL_GPL(iommu_group_share_domain);
+> > +
+> > +void iommu_group_unshare_domain(struct iommu_group *group)
+> > +{
+> > +	atomic_dec(&group->domain_shared_ref);
+> > +	WARN_ON(atomic_read(&group->domain_shared_ref) < 0);
+> > +}
+> > +EXPORT_SYMBOL_GPL(iommu_group_unshare_domain);
+> > +
+> >  static int iommu_group_create_direct_mappings(struct iommu_group
+> > *group,
+> >  					      struct device *dev)
+> >  {
+> > @@ -1401,7 +1424,8 @@ static int __iommu_attach_group(struct
+> > iommu_domain *domain,
+> >  {
+> >  	int ret;
+> > 
+> > -	if (group->default_domain && group->domain != group-
+> > >default_domain)
+> > +	if ((group->default_domain && group->domain != group-
+> > >default_domain) ||
+> > +	     atomic_read(&group->domain_shared_ref) > 0)
+> >  		return -EBUSY;
+> > 
+> >  	ret = __iommu_group_for_each_dev(group, domain,
+> > @@ -1438,6 +1462,8 @@ static void __iommu_detach_group(struct
+> > iommu_domain *domain,
+> >  {
+> >  	int ret;
+> > 
+> > +	WARN_ON(atomic_read(&group->domain_shared_ref) > 0);
+> > +
+> >  	if (!group->default_domain) {
+> >  		__iommu_group_for_each_dev(group, domain,
+> >  					   iommu_group_do_detach_device);
+> > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> > index 19938ee6eb31..278d60e3ec39 100644
+> > --- a/include/linux/iommu.h
+> > +++ b/include/linux/iommu.h
+> > @@ -349,6 +349,8 @@ extern int iommu_domain_get_attr(struct
+> > iommu_domain *domain, enum iommu_attr,
+> >  				 void *data);
+> >  extern int iommu_domain_set_attr(struct iommu_domain *domain, enum
+> > iommu_attr,
+> >  				 void *data);
+> > +extern struct iommu_domain *iommu_group_share_domain(struct
+> > iommu_group *group);
+> > +extern void iommu_group_unshare_domain(struct iommu_group *group);
+> > 
+> >  /* Window handling function prototypes */
+> >  extern int iommu_domain_window_enable(struct iommu_domain
+> > *domain, u32 wnd_nr,
+> > --
+> > 2.17.1
 
 -- 
 			-Kenneth(Hisilicon)
