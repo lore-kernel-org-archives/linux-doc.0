@@ -1,255 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6907A7E3B2
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 11:36:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 561257D581
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 12:25:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732304AbeHBN1c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 Aug 2018 09:27:32 -0400
-Received: from mail-pl0-f67.google.com ([209.85.160.67]:45476 "EHLO
-        mail-pl0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728767AbeHBN1c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Aug 2018 09:27:32 -0400
-Received: by mail-pl0-f67.google.com with SMTP id j8-v6so887304pll.12
-        for <linux-doc@vger.kernel.org>; Thu, 02 Aug 2018 04:36:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=M/nXno3zqZg0+jrj7mzrw1FY0OHE76d4A7UBHPq0YaQ=;
-        b=JnPzbCsnnGmEqXt8jKrg3iPEnyNrd8g6sS4bf811nAs5iHzPlWG2qCB8MLDuB7nX4g
-         W74rpTQWJVnWD/z3kFnDoMhPHb7sQ7YTM+BJ9kv8TxjkmLXYE09KRxMCtUmqsqdRIDB9
-         oo3QD4jDRCGeB3xMsXTG9AnFWtZnHwu3DFTBNdPQs8AQsU0zZwqgdfjRuxPpCdCaboAo
-         jSbaW0jvH+9AujNk0MbRtrqwRv4qxvJ4KvykNP7RbrmBkcm+upEL9dpsTez1pefGE+n1
-         GmoTHjfm51CqExQ59SRMN8e6RuIgjqHEMaue+sLC7jW+W64ZX6qoOq0b5SyWqX6TPF2H
-         VBUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=M/nXno3zqZg0+jrj7mzrw1FY0OHE76d4A7UBHPq0YaQ=;
-        b=Tlx3IwwZCtAz8V1wFwZCxV4lsI8UwbiSKjSRpcWDy9YoMyqqKOEeblVVb91An2Uplk
-         DEy5HuJ4YmZdlD9Hhxz/Ip/U8RkH6UIQpGxWq7tvFXz2qMRwWrA66OFml4hG8eMyuuSc
-         0+iybVY4Yj7TFk1yZd8I8KBuWA6q8cgk4oELlCbt3ts61cA2HVbGKV7krP40YR4qHBgQ
-         zUT/6vzHU1LrUrs8E9mJJ9mOB/UybKKkRld55wpXWGX5U5nhwK8g+N3lPubNsySP7rHC
-         AH/h5oNiWAMeTj5zmLw01olWXdUCUhJrAhXZzuSTIiuBR+HAvMcM1fdXj2f4yI4gCEJb
-         Tn2g==
-X-Gm-Message-State: AOUpUlFlCZhcIRh0vLGgMAUvHuqwJPC3Cu+ATfFWs40KHOscx07b9tMF
-        zLKo1fOhZPb/4Ubt8ULTe7pVz1mZuJpy4N1s1tfPVPAyOq3wJw==
-X-Google-Smtp-Source: AAOMgpeqjgPAlDp3Bf5+YfG2bz2Bo6mkiJPU1mWwD8ZIg5c0ZPM+j8MHlbUwJJp8z2blVl6nDTJas9BNa0uV1zyu1fA=
-X-Received: by 2002:a17:902:4401:: with SMTP id k1-v6mr2023875pld.97.1533209806295;
- Thu, 02 Aug 2018 04:36:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a17:90a:ac14:0:0:0:0 with HTTP; Thu, 2 Aug 2018 04:36:25
- -0700 (PDT)
-In-Reply-To: <20180802111031.yx3x6y5d5q6drq52@armageddon.cambridge.arm.com>
-References: <cover.1530018818.git.andreyknvl@google.com> <20180628105057.GA26019@e103592.cambridge.arm.com>
- <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
- <20180629110709.GA17859@arm.com> <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
- <20180703173608.GF27243@arm.com> <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
- <CAAeHK+xc1E64tXEEHoXqOuUNZ7E_kVyho3_mNZTCc+LTGHYFdA@mail.gmail.com>
- <20180801163538.GA10800@arm.com> <CACT4Y+aZtph5qDsLzTDEgpQRz4_Vtg1DD-cB18qooi6D0bexDg@mail.gmail.com>
- <20180802111031.yx3x6y5d5q6drq52@armageddon.cambridge.arm.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 2 Aug 2018 13:36:25 +0200
-Message-ID: <CACT4Y+b0gkSQHUG67MbYZUTA_aZWs7EmJ2eUzOEPWdt9==ysdg@mail.gmail.com>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Paul Lawrence <paullawrence@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Alexander Potapenko <glider@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Christoph Lameter <cl@linux.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-sparse@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        id S1729787AbeHBOQK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 Aug 2018 10:16:10 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:41274 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728797AbeHBOQJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Aug 2018 10:16:09 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id F128194EAC467;
+        Thu,  2 Aug 2018 20:25:06 +0800 (CST)
+Received: from [127.0.0.1] (10.57.77.109) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.399.0; Thu, 2 Aug 2018
+ 20:24:59 +0800
+Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+To:     Alan Cox <gnomes@lxorguk.ukuu.org.uk>,
+        "Tian, Kevin" <kevin.tian@intel.com>
+References: <20180801102221.5308-1-nek.in.cn@gmail.com>
+ <20180801165644.GA3820@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+ <20180802111000.4649d9ed@alans-desktop>
+CC:     Jerome Glisse <jglisse@redhat.com>,
+        Kenneth Lee <nek.in.cn@gmail.com>,
+        "Hao Fang" <fanghao11@huawei.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kenneth Lee <liguozhu@hisilicon.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "\"linux-accelerators@lists.ozlabs.org\\\" " 
+        <linux-accelerators@lists.ozlabs.org>
+From:   Xu Zaibo <xuzaibo@huawei.com>
+Message-ID: <5B62F807.8030407@huawei.com>
+Date:   Thu, 2 Aug 2018 20:24:39 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.5.0
+MIME-Version: 1.0
+In-Reply-To: <20180802111000.4649d9ed@alans-desktop>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.57.77.109]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 2, 2018 at 1:10 PM, Catalin Marinas <catalin.marinas@arm.com> wrote:
-> On Wed, Aug 01, 2018 at 06:52:09PM +0200, Dmitry Vyukov wrote:
->> On Wed, Aug 1, 2018 at 6:35 PM, Will Deacon <will.deacon@arm.com> wrote:
->> > On Tue, Jul 31, 2018 at 03:22:13PM +0200, Andrey Konovalov wrote:
->> >> On Wed, Jul 18, 2018 at 7:16 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
->> >> > On Tue, Jul 3, 2018 at 7:36 PM, Will Deacon <will.deacon@arm.com> wrote:
->> >> >> Hmm, but elsewhere in this thread, Evgenii is motivating the need for this
->> >> >> patch set precisely because the lower overhead means it's suitable for
->> >> >> "near-production" use. So I don't think writing this off as a debugging
->> >> >> feature is the right approach, and we instead need to put effort into
->> >> >> analysing the impact of address tags on the kernel as a whole. Playing
->> >> >> whack-a-mole with subtle tag issues sounds like the worst possible outcome
->> >> >> for the long-term.
->> >> >
->> >> > I don't see a way to find cases where pointer tags would matter
->> >> > statically, so I've implemented the dynamic approach that I mentioned
->> >> > above. I've instrumented all pointer comparisons/subtractions in an
->> >> > LLVM compiler pass and used a kernel module that would print a bug
->> >> > report whenever two pointers with different tags are being
->> >> > compared/subtracted (ignoring comparisons with NULL pointers and with
->> >> > pointers obtained by casting an error code to a pointer type). Then I
->> >> > tried booting the kernel in QEMU and on an Odroid C2 board and I ran
->> >> > syzkaller overnight.
->> >> >
->> >> > This yielded the following results.
->> >> >
->> >> > ======
->> >> >
->> >> > The two places that look interesting are:
->> >> >
->> >> > is_vmalloc_addr in include/linux/mm.h (already mentioned by Catalin)
->> >> > is_kernel_rodata in mm/util.c
->> >> >
->> >> > Here we compare a pointer with some fixed untagged values to make sure
->> >> > that the pointer lies in a particular part of the kernel address
->> >> > space. Since KWHASAN doesn't add tags to pointers that belong to
->> >> > rodata or vmalloc regions, this should work as is. To make sure I've
->> >> > added debug checks to those two functions that check that the result
->> >> > doesn't change whether we operate on pointers with or without
->> >> > untagging.
->> >> >
->> >> > ======
->> >> >
->> >> > A few other cases that don't look that interesting:
->> >> >
->> >> > Comparing pointers to achieve unique sorting order of pointee objects
->> >> > (e.g. sorting locks addresses before performing a double lock):
->> >> >
->> >> > tty_ldisc_lock_pair_timeout in drivers/tty/tty_ldisc.c
->> >> > pipe_double_lock in fs/pipe.c
->> >> > unix_state_double_lock in net/unix/af_unix.c
->> >> > lock_two_nondirectories in fs/inode.c
->> >> > mutex_lock_double in kernel/events/core.c
->> >> >
->> >> > ep_cmp_ffd in fs/eventpoll.c
->> >> > fsnotify_compare_groups fs/notify/mark.c
->> >> >
->> >> > Nothing needs to be done here, since the tags embedded into pointers
->> >> > don't change, so the sorting order would still be unique.
->> >> >
->> >> > Check that a pointer belongs to some particular allocation:
->> >> >
->> >> > is_sibling_entry lib/radix-tree.c
->> >> > object_is_on_stack in include/linux/sched/task_stack.h
->> >> >
->> >> > Nothing needs to be here either, since two pointers can only belong to
->> >> > the same allocation if they have the same tag.
->> >> >
->> >> > ======
->> >> >
->> >> > Will, Catalin, WDYT?
->> >>
->> >> ping
->> >
->> > Thanks for tracking these cases down and going through each of them. The
->> > obvious follow-up question is: how do we ensure that we keep on top of
->> > this in mainline? Are you going to repeat your experiment at every kernel
->> > release or every -rc or something else? I really can't see how we can
->> > maintain this in the long run, especially given that the coverage we have
->> > is only dynamic -- do you have an idea of how much coverage you're actually
->> > getting for, say, a defconfig+modules build?
->> >
->> > I'd really like to enable pointer tagging in the kernel, I'm just still
->> > failing to see how we can do it in a controlled manner where we can reason
->> > about the semantic changes using something other than a best-effort,
->> > case-by-case basis which is likely to be fragile and error-prone.
->> > Unfortunately, if that's all we have, then this gets relegated to a
->> > debug feature, which sort of defeats the point in my opinion.
->>
->> Well, in some cases there is no other way as resorting to dynamic testing.
->> How do we ensure that kernel does not dereference NULL pointers, does
->> not access objects after free or out of bounds?
+Hi,
+
+On 2018/8/2 18:10, Alan Cox wrote:
+>> One motivation I guess, is that most accelerators lack of a
+>> well-abstracted high level APIs similar to GPU side (e.g. OpenCL
+>> clearly defines Shared Virtual Memory models). VFIO mdev
+>> might be an alternative common interface to enable SVA usages
+>> on various accelerators...
+> SVA is not IMHO the hard bit from a user level API perspective. The hard
+> bit is describing what you have and enumerating the contents of the device
+> especially when those can be quite dynamic and in the FPGA case can
+> change on the fly.
 >
-> We should not confuse software bugs (like NULL pointer dereference) with
-> unexpected software behaviour introduced by khwasan where pointers no
-> longer represent only an address range (e.g. calling find_vmap_area())
-> but rather an address and a tag.
-
-These are also software bugs, not different from NULL derefs that we
-do not detect statically.
-
-> Parts of the kernel rely on pointers
-> being just address ranges.
+> Right now we've got
+> - FPGA manager
+> - Google's recently posted ASIC patches
+> - WarpDrive
 >
-> It's the latter that we'd like to identify more easily and avoid subtle
-> bugs or change in behaviour when running correctly written code.
-
-You mean _previously_ correct code, now it's just incorrect code. Not
-different from any other types of incorrect code, and we do have
-thousands of types of incorrect code already, most of these types are
-not detectable statically.
-
->> And, yes, it's
->> constant maintenance burden resolved via dynamic testing.
->> In some sense HWASAN is better in this regard because it's like, say,
->> LOCKDEP in this regard. It's enabled only when one does dynamic
->> testing and collect, analyze and fix everything that pops up. Any
->> false positives will fail loudly (as opposed to, say, silent memory
->> corruptions due to use-after-frees), so any false positives will be
->> just first things to fix during the tool application.
+> all trying to be bits of the same thing, and really there needs to be a
+> single solution that handles all of this stuff properly.
 >
-> Again, you are talking about the bugs that khwasan would discover. We
-> don't deny its value and false positives are acceptable here.
+> If we are going to have any kind of general purpose accelerator API then
+> it has to be able to implement things like
+>
+> 	'find me an accelerator with function X that is nearest my memory'
+> 	'find me accelerator functions X and Y that share HBM'
+> 	'find me accelerator functions X and Y than can be chained'
+>
+> If instead we have three API's depending upon whose accelerator you are
+> using and whether it's FPGA or ASIC this is going to be a mess on a grand
+> scale.
+>
+Agree, at the beginning, we try to bring a notion of 'capability' which 
+describes 'algorithms, mem access methods .etc ',
+but then, we come to realize it is the first thing that we should come 
+to a single solution on these things such as
+memory/device access, IOMMU .etc.
 
-I am talking about the same thing you are talking about. New crashes
-of changes in behavior will also pop up and will need to be fixed.
+Thanks,
+Zaibo
 
-> However, not untagging a pointer when converting to long may have
-> side-effects in some cases and I consider these bugs introduced by the
-> khwasan support rather than bugs in the original kernel code. Ideally
-> we'd need some tooling on top of khwasan to detect such shortcomings but
-> I'm not sure we can do this statically, as Andrey already mentioned. For
-> __user pointers, things are slightly better as we can detect the
-> conversion either with sparse (modified) or some LLVM changes.
+>
+> .
+>
 
-I agree. Ideally we have strict static checking for this type of bugs.
-Ideally we have it for all types of bugs. NULL derefs,
-use-after-frees, or say confusion between a function returning 0/1 for
-ok/failure with a function returning true/false. How do we detect that
-statically? Nohow.
 
-For example, LOCKDEP has the same problem. Previously correct code can
-become incorrect and require finer-grained lock class annotations.
-KMEMLEAK has the same problem: previously correct code that hides a
-pointer may now need changes to unhide the pointer.
-
-If somebody has a practical idea how to detect these statically, let's
-do it. Otherwise let's go with the traditional solution to this --
-dynamic testing. The patch series show that the problem is not a
-disaster and we won't need to change just every line of kernel code.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
