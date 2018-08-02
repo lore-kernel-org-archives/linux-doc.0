@@ -2,152 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B51EF7D581
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 13:52:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BAB237D581
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 14:22:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732141AbeHBPn3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 Aug 2018 11:43:29 -0400
-Received: from foss.arm.com ([217.140.101.70]:58442 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732079AbeHBPn3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Aug 2018 11:43:29 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7F1237A9;
-        Thu,  2 Aug 2018 06:52:10 -0700 (PDT)
-Received: from armageddon.cambridge.arm.com (armageddon.emea.arm.com [10.4.13.16])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C1BBD3F5B3;
-        Thu,  2 Aug 2018 06:52:04 -0700 (PDT)
-Date:   Thu, 2 Aug 2018 14:52:02 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Paul Lawrence <paullawrence@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Alexander Potapenko <glider@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Christoph Lameter <cl@linux.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-sparse@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kostya Serebryany <kcc@google.com>,
+        id S1732283AbeHBQOO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 Aug 2018 12:14:14 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:56026 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1732202AbeHBQOO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Aug 2018 12:14:14 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 8DAE772627;
+        Thu,  2 Aug 2018 14:22:47 +0000 (UTC)
+Received: from redhat.com (unknown [10.20.6.215])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D65AF2026D69;
+        Thu,  2 Aug 2018 14:22:44 +0000 (UTC)
+Date:   Thu, 2 Aug 2018 10:22:43 -0400
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Kenneth Lee <liguozhu@hisilicon.com>
+Cc:     "Tian, Kevin" <kevin.tian@intel.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
- sanitizer
-Message-ID: <20180802135201.qjweapbskllthvhu@armageddon.cambridge.arm.com>
-References: <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
- <20180629110709.GA17859@arm.com>
- <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
- <20180703173608.GF27243@arm.com>
- <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
- <CAAeHK+xc1E64tXEEHoXqOuUNZ7E_kVyho3_mNZTCc+LTGHYFdA@mail.gmail.com>
- <20180801163538.GA10800@arm.com>
- <CACT4Y+aZtph5qDsLzTDEgpQRz4_Vtg1DD-cB18qooi6D0bexDg@mail.gmail.com>
- <20180802111031.yx3x6y5d5q6drq52@armageddon.cambridge.arm.com>
- <CACT4Y+b0gkSQHUG67MbYZUTA_aZWs7EmJ2eUzOEPWdt9==ysdg@mail.gmail.com>
+        Zaibo Xu <xuzaibo@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        Kenneth Lee <nek.in.cn@gmail.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        "linux-accelerators@lists.ozlabs.org" 
+        <linux-accelerators@lists.ozlabs.org>
+Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180802142243.GA3481@redhat.com>
+References: <20180801102221.5308-1-nek.in.cn@gmail.com>
+ <20180801165644.GA3820@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+ <20180802040557.GL160746@Turing-Arch-b>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CACT4Y+b0gkSQHUG67MbYZUTA_aZWs7EmJ2eUzOEPWdt9==ysdg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180802040557.GL160746@Turing-Arch-b>
+User-Agent: Mutt/1.10.0 (2018-05-17)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 02 Aug 2018 14:22:47 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 02 Aug 2018 14:22:47 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(trimming the quoted text a bit)
+On Thu, Aug 02, 2018 at 12:05:57PM +0800, Kenneth Lee wrote:
+> On Thu, Aug 02, 2018 at 02:33:12AM +0000, Tian, Kevin wrote:
+> > Date: Thu, 2 Aug 2018 02:33:12 +0000
+> > > From: Jerome Glisse
+> > > On Wed, Aug 01, 2018 at 06:22:14PM +0800, Kenneth Lee wrote:
+> > > > From: Kenneth Lee <liguozhu@hisilicon.com>
+> > > >
+> > > > WarpDrive is an accelerator framework to expose the hardware
+> > > capabilities
+> > > > directly to the user space. It makes use of the exist vfio and vfio-mdev
+> > > > facilities. So the user application can send request and DMA to the
+> > > > hardware without interaction with the kernel. This remove the latency
+> > > > of syscall and context switch.
+> > > >
+> > > > The patchset contains documents for the detail. Please refer to it for
+> > > more
+> > > > information.
+> > > >
+> > > > This patchset is intended to be used with Jean Philippe Brucker's SVA
+> > > > patch [1] (Which is also in RFC stage). But it is not mandatory. This
+> > > > patchset is tested in the latest mainline kernel without the SVA patches.
+> > > > So it support only one process for each accelerator.
+> > > >
+> > > > With SVA support, WarpDrive can support multi-process in the same
+> > > > accelerator device.  We tested it in our SoC integrated Accelerator (board
+> > > > ID: D06, Chip ID: HIP08). A reference work tree can be found here: [2].
+> > > 
+> > > I have not fully inspected things nor do i know enough about
+> > > this Hisilicon ZIP accelerator to ascertain, but from glimpsing
+> > > at the code it seems that it is unsafe to use even with SVA due
+> > > to the doorbell. There is a comment talking about safetyness
+> > > in patch 7.
+> > > 
+> > > Exposing thing to userspace is always enticing, but if it is
+> > > a security risk then it should clearly say so and maybe a
+> > > kernel boot flag should be necessary to allow such device to
+> > > be use.
+> > > 
+> 
+> But doorbell is just a notification. Except for DOS (to make hardware busy) it
+> cannot actually take or change anything from the kernel space. And the DOS
+> problem can be always taken as the problem that a group of processes share the
+> same kernel entity.
+> 
+> In the coming HIP09 hardware, the doorbell will come with a random number so
+> only the process who allocated the queue can knock it correctly.
 
-On Thu, Aug 02, 2018 at 01:36:25PM +0200, Dmitry Vyukov wrote:
-> On Thu, Aug 2, 2018 at 1:10 PM, Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > On Wed, Aug 01, 2018 at 06:52:09PM +0200, Dmitry Vyukov wrote:
-> >> On Wed, Aug 1, 2018 at 6:35 PM, Will Deacon <will.deacon@arm.com> wrote:
-> >> > I'd really like to enable pointer tagging in the kernel, I'm just still
-> >> > failing to see how we can do it in a controlled manner where we can reason
-> >> > about the semantic changes using something other than a best-effort,
-> >> > case-by-case basis which is likely to be fragile and error-prone.
-> >> > Unfortunately, if that's all we have, then this gets relegated to a
-> >> > debug feature, which sort of defeats the point in my opinion.
-> >>
-> >> Well, in some cases there is no other way as resorting to dynamic testing.
-> >> How do we ensure that kernel does not dereference NULL pointers, does
-> >> not access objects after free or out of bounds?
-> >
-> > We should not confuse software bugs (like NULL pointer dereference) with
-> > unexpected software behaviour introduced by khwasan where pointers no
-> > longer represent only an address range (e.g. calling find_vmap_area())
-> > but rather an address and a tag.
-[...]
-> > However, not untagging a pointer when converting to long may have
-> > side-effects in some cases and I consider these bugs introduced by the
-> > khwasan support rather than bugs in the original kernel code. Ideally
-> > we'd need some tooling on top of khwasan to detect such shortcomings but
-> > I'm not sure we can do this statically, as Andrey already mentioned. For
-> > __user pointers, things are slightly better as we can detect the
-> > conversion either with sparse (modified) or some LLVM changes.
-[...]
-> For example, LOCKDEP has the same problem. Previously correct code can
-> become incorrect and require finer-grained lock class annotations.
-> KMEMLEAK has the same problem: previously correct code that hides a
-> pointer may now need changes to unhide the pointer.
+When doorbell is ring the hardware start fetching commands from
+the queue and execute them ? If so than a rogue process B might
+ring the doorbell of process A which would starts execution of
+random commands (ie whatever random memory value there is left
+inside the command buffer memory, could be old commands i guess).
 
-It's not actually the same. Take the kmemleak example as I'm familiar
-with, previously correct code _continues_ to run correctly in the
-presence of kmemleak. The annotation or unhiding is only necessary to
-reduce the kmemleak false positives. With khwasan, OTOH, an explicit
-untagging is necessary so that the code functions correctly again.
+If this is not how this doorbell works then, yes it can only do
+a denial of service i guess. Issue i have with doorbell is that
+i have seen 10 differents implementations in 10 differents hw
+and each are different as to what ringing or value written to the
+doorbell does. It is painfull to track what is what for each hw.
 
-IOW, kmemleak only monitors the behaviour of the original code while
-khwasan changes such behaviour by tagging the pointers.
 
-> If somebody has a practical idea how to detect these statically, let's
-> do it. Otherwise let's go with the traditional solution to this --
-> dynamic testing. The patch series show that the problem is not a
-> disaster and we won't need to change just every line of kernel code.
+> > > My more general question is do we want to grow VFIO to become
+> > > a more generic device driver API. This patchset adds a command
+> > > queue concept to it (i don't think it exist today but i have
+> > > not follow VFIO closely).
+> > > 
+> 
+> The thing is, VFIO is the only place to support DMA from user land. If we don't
+> put it here, we have to create another similar facility to support the same.
 
-It's indeed not a disaster but we had to do this exercise to find out
-whether there are better ways of detecting where untagging is necessary.
+No it is not, network device, GPU, block device, ... they all do
+support DMA. The point i am trying to make here is that even in
+your mechanisms the userspace must have a specific userspace
+drivers for each hardware and thus there are virtually no
+differences between having this userspace driver open a device
+file in vfio or somewhere else in the device filesystem. This is
+just a different path.
 
-If you want to enable khwasan in "production" and since enabling it
-could potentially change the behaviour of existing code paths, the
-run-time validation space doubles as we'd need to get the same code
-coverage with and without the feature being enabled. I wouldn't say it's
-a blocker for khwasan, more like something to be aware of.
+So this is why i do not see any benefit to having all drivers with
+SVM (can we please use SVM and not SVA as SVM is what have been use
+in more places so far).
 
-The awareness is a bit of a problem as the normal programmer would have
-to pay more attention to conversions between pointer and long. Given
-that this is an arm64-only feature, we have a risk of khwasan-triggered
-bugs being introduced in generic code in the future (hence the
-suggestion of some static checker, if possible).
 
--- 
-Catalin
+Cheers,
+Jérôme
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
