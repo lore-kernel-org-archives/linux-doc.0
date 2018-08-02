@@ -1,117 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 720F87D581
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 15:00:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0ECEB7E3B3
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 18:31:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732527AbeHBQwA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 Aug 2018 12:52:00 -0400
-Received: from mail-it0-f68.google.com ([209.85.214.68]:39563 "EHLO
-        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732202AbeHBQv7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Aug 2018 12:51:59 -0400
-Received: by mail-it0-f68.google.com with SMTP id g141-v6so3655750ita.4
-        for <linux-doc@vger.kernel.org>; Thu, 02 Aug 2018 08:00:26 -0700 (PDT)
+        id S2387763AbeHBUXP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 Aug 2018 16:23:15 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45986 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387762AbeHBUXO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Aug 2018 16:23:14 -0400
+Received: by mail-pg1-f196.google.com with SMTP id f1-v6so1587150pgq.12
+        for <linux-doc@vger.kernel.org>; Thu, 02 Aug 2018 11:30:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=+6+ZVXBDS+MdjbGlZis5tLN4pZnRxLkrlq2TxOkZY64=;
-        b=rjloKgKxvf6gtZAosHUG/a2cex4b8sIGoe/SPjdisBLSa/1LTwU8Pp7PEL9DZF12nm
-         5HsF5EEs4v+bGTtkTHd5mQLu81g9jhdIG9oKcqsYZQUtSMVeWYSFAieEeRF23qm1OFN8
-         QRE3VyiS596B35XT31EV27ODwX/ymugFpHYzQAAidCuYSDnlKa4CHRhcOy71BTE3dGoO
-         pvbvt5NBAnJVRkPqkB40LvmSv5UutT7QSPREXPL2V9jR9vOZyTjVNuaNGiWj0DFFcFRw
-         lBHq4k/9EmEIUgmaJI5WjPuLFDpZFLKUuC0YBjFtTpqcxcZVS7ELm21h/GsEIOoyrLm7
-         2iPg==
+        d=sifive.com; s=google;
+        h=date:subject:in-reply-to:cc:from:to:message-id;
+        bh=cvEQXyPfaRgWVW4mwIGGXzyBUsZJw8cVJojplx3/jcg=;
+        b=U+JsPDr/ZNqAlimhcfN4voEVJi4MXHr2WdrTaNlM9wHTsSnxW9QWYwNVK0ZM9elmt0
+         WRQqEZQiPLDimwr1pLR1/LhZsTJko2gruCatWSPvrmKg/TVyD3v8IQL+/TsvzyI8oq8t
+         g0sV6Wv3T3DS9sXTu53qfSPUeXEfbklgEXjP6af4yaRoCPlxn9LIOLZbrr7EWx1tq9dd
+         bXmmTHxHrNm14L6777gdwppL38sGLGsEHYfWpQ0KFbnY9DwduK7m+kCfQbTa/6QM1O5t
+         U/AQe/SPExjXp6MXayIGL4sMsZpYbqbDQIJePD02Tpte+q4W6toQzKcyhKHVIpB0b1w+
+         W+Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=+6+ZVXBDS+MdjbGlZis5tLN4pZnRxLkrlq2TxOkZY64=;
-        b=Oc6seslqcNj3OJV2lMI0eWkh8IBcvVg4TjnbSvD0anktycrwRzVOKicWYryhnmHcCs
-         K27hibieHzewNwOl7/HILbBtAbqceGMfoMJOhRs5McBpYxBrbK5i4p5MU+91mmcTl8U0
-         VlcZRp4Pv92KWhHra3TrZ4n6w86ANGi15VlbmLKMvj9WVedSm5dA+LKvrMDKfdOU+Ucf
-         fD5xSGDxZksiDCHTTtiRaBMTyxR7QCcJem1dp2p+jhiQ9OjIKlf1AYapWhV6B64vF+fp
-         Ne/krIJjbkb2ZhVWSBUFfo8l4TAzwbm9Xl10VAtPPfHvALVtPrYtV+qeI0WXahC3sXQT
-         NYxA==
-X-Gm-Message-State: AOUpUlHuSw4evHLy8JJsf4GfGlxQPuKoBgUXpJezzitf7kaTXUBtHRW1
-        uAjjIdP2Pu7wW2K1+tXvSzGT3cQeDhJ1kFwUQMC/9A==
-X-Google-Smtp-Source: AAOMgpfVwDqyoEOewzkNDe3n/znU8SXglGI/4RhK+n/piEqUOJDiavwKUcdbki2OcbxRalg/vULNN+1Gwk4Hswp9IGU=
-X-Received: by 2002:a02:ac8f:: with SMTP id x15-v6mr2815342jan.132.1533222025880;
- Thu, 02 Aug 2018 08:00:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:918c:0:0:0:0:0 with HTTP; Thu, 2 Aug 2018 08:00:25 -0700 (PDT)
-In-Reply-To: <20180801174256.5mbyf33eszml4nmu@armageddon.cambridge.arm.com>
-References: <cover.1529507994.git.andreyknvl@google.com> <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
- <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
- <CAAeHK+yqWKTdTG+ymZ2-5XKiDANV+fmUjnQkRy-5tpgphuLJRA@mail.gmail.com>
- <CAAeHK+wJbbCZd+-X=9oeJgsqQJiq8h+Aagz3SQMPaAzCD+pvFw@mail.gmail.com>
- <CAAeHK+yWF05XoU+0iuJoXAL3cWgdtxbeLoBz169yP12W4LkcQw@mail.gmail.com> <20180801174256.5mbyf33eszml4nmu@armageddon.cambridge.arm.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 2 Aug 2018 17:00:25 +0200
-Message-ID: <CAAeHK+zb7vcehuX9=oxLUJVJr1ZcgmRTODQz7wsPy+rJb=3kbQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        linux-kselftest@vger.kernel.org,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id;
+        bh=cvEQXyPfaRgWVW4mwIGGXzyBUsZJw8cVJojplx3/jcg=;
+        b=CYtEwaxFtRZ+zkf1V3e2totqUIVDkSLxcr3YpDFD1Gojwgd28uXcI6ia3VXDE4ggwg
+         6qgqzmMglxVFpZqwto+utqE+5Ns7q6Q56kBKqnrkRpSB6mwzCoR4r7bHj8feZHQiwhBt
+         nj8SB18tEBNPSwuPA9PDhkLMQL9orLvhCjpmyCrUj4omoa45HHMA4w7XUZpfG7bzAOhT
+         XV/NteBdHn4F6Gnyzyr5/wpVMbg7WLv/lHBUpOV7GXsGohp1QxKuHI2G2xsLQAkMBcie
+         Ki+nVqsjVGOie49EkQDTT2gSFDavaRTSKv94mytVVv09DKsGIR0pJR2KtKvBpT2c89jg
+         Bdyg==
+X-Gm-Message-State: AOUpUlH8sgMveXr8nbBeFrRGGeYkWYiwPyZuDggZEyqjm16zyWnK5rDn
+        MWYbLW0W0qgBLGiNEMk8KJCfQ+sTW/aTkw==
+X-Google-Smtp-Source: AAOMgpeH7fURYHQAfb39YmY3/lJHH9P50P0KR4fkgYSobfvn6vHJfHB+5JxYixTTHKh9Q4/lH7ZAmg==
+X-Received: by 2002:a63:65c2:: with SMTP id z185-v6mr568803pgb.276.1533234656470;
+        Thu, 02 Aug 2018 11:30:56 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+        by smtp.gmail.com with ESMTPSA id y3-v6sm2570596pge.29.2018.08.02.11.30.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 02 Aug 2018 11:30:55 -0700 (PDT)
+Date:   Thu, 02 Aug 2018 11:30:55 -0700 (PDT)
+X-Google-Original-Date: Thu, 02 Aug 2018 11:30:28 PDT (-0700)
+Subject:     Re: [PATCH 04/24] 32-bit userspace ABI: introduce ARCH_32BIT_OFF_T config option
+In-Reply-To: <20180625061950.GB23998@yury-thinkpad>
+CC:     Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        szabolcs.nagy@arm.com, catalin.marinas@arm.com,
+        heiko.carstens@de.ibm.com, philipp.tomsich@theobroma-systems.com,
+        joseph@codesourcery.com, linux-arch@vger.kernel.org,
+        sellcey@caviumnetworks.com, Prasun.Kapoor@caviumnetworks.com,
+        schwab@suse.de, agraf@suse.de, geert@linux-m68k.org,
+        bamv2005@gmail.com, Dave.Martin@arm.com, kilobyte@angband.pl,
+        manuel.montezelo@gmail.com, james.hogan@imgtec.com,
+        cmetcalf@mellanox.com, pinskia@gmail.com, linyongting@huawei.com,
+        klimov.linux@gmail.com, broonie@kernel.org,
+        linux-arm-kernel@lists.infradead.org, maxim.kuvyrkov@linaro.org,
+        fweimer@redhat.com, linux-api@vger.kernel.org,
+        Nathan_Lynch@mentor.com, linux-kernel@vger.kernel.org,
+        james.morse@arm.com, ramana.gcc@googlemail.com,
+        schwidefsky@de.ibm.com, davem@davemloft.net,
+        christoph.muellner@theobroma-systems.com
+From:   Palmer Dabbelt <palmer@sifive.com>
+To:     ynorov@caviumnetworks.com
+Message-ID: <mhng-96b7425f-3358-4b26-bd80-2a8957100f9a@palmer-si-x1c4>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 1, 2018 at 7:42 PM, Catalin Marinas <catalin.marinas@arm.com> wrote:
-> On Mon, Jul 16, 2018 at 01:25:59PM +0200, Andrey Konovalov wrote:
->> On Thu, Jun 28, 2018 at 9:30 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
->> So the checker reports ~100 different places where a __user pointer
->> being casted. I've looked through them and found 3 places where we
->> need to add untagging. Source code lines below come from 4.18-rc2+
->> (6f0d349d).
-> [...]
->> I'll add the 3 patches with fixes to v5 of this patchset.
+On Sun, 24 Jun 2018 23:19:50 PDT (-0700), ynorov@caviumnetworks.com wrote:
+> On Mon, Jun 11, 2018 at 02:27:36PM +0300, Yury Norov wrote:
+>> On Mon, Jun 11, 2018 at 09:48:02AM +0200, Arnd Bergmann wrote:
+>> > On Sat, Jun 9, 2018 at 9:42 AM, Yury Norov <ynorov@caviumnetworks.com> wrote:
+>> > > On Fri, Jun 08, 2018 at 06:32:07PM +0100, Catalin Marinas wrote:
+>> > >> On Wed, May 16, 2018 at 11:18:49AM +0300, Yury Norov wrote:
+>> > >> > diff --git a/arch/Kconfig b/arch/Kconfig
+>> > >> > index 76c0b54443b1..ee079244dc3c 100644
+>> > >> > --- a/arch/Kconfig
+>> > >> > +++ b/arch/Kconfig
+>> > >> > @@ -264,6 +264,21 @@ config ARCH_THREAD_STACK_ALLOCATOR
+>> > >> >  config ARCH_WANTS_DYNAMIC_TASK_STRUCT
+>> > >> >     bool
+>> > >> >
+>> > >> > +config ARCH_32BIT_OFF_T
+>> > >> > +   bool
+>> > >> > +   depends on !64BIT
+>> > >> > +   help
+>> > >> > +     All new 32-bit architectures should have 64-bit off_t type on
+>> > >> > +     userspace side which corresponds to the loff_t kernel type. This
+>> > >> > +     is the requirement for modern ABIs. Some existing architectures
+>> > >> > +     already have 32-bit off_t. This option is enabled for all such
+>> > >> > +     architectures explicitly. Namely: arc, arm, blackfin, cris, frv,
+>> > >> > +     h8300, hexagon, m32r, m68k, metag, microblaze, mips32, mn10300,
+>> > >> > +     nios2, openrisc, parisc32, powerpc32, score, sh, sparc, tile32,
+>> > >> > +     unicore32, x86_32 and xtensa. This is the complete list. Any
+>> > >> > +     new 32-bit architecture should declare 64-bit off_t type on user
+>> > >> > +     side and so should not enable this option.
+>> > >>
+>> > >> Do you know if this is the case for riscv and nds32, merged in the
+>> > >> meantime? If not, I suggest you drop this patch altogether and just
+>> > >> define force_o_largefile() for arm64/ilp32 as we don't seem to stick to
+>> > >> "all new 32-bit architectures should have 64-bit off_t".
+>> > >
+>> > > I wrote this patch at request of Arnd Bergmann. This is actually his
+>> > > words that all new 32-bit architectures should have 64-bit off_t. So
+>> > > I was surprized when riscv was merged with 32-bit off_t (and I didn't
+>> > > follow nds32).
+>> > >
+>> > > If this rule is still in force, we'd better add new exceptions to this
+>> > > patch. Otherwise, we can drop it.
+>> > >
+>> > > Arnd, could you please comment it?
+>> >
+>> > I completely forgot about it and had assumed that it was merged long
+>> > ago, sorry about that.
+>>
+>> Hi Arnd,
+>>
+>> There are 3 patches like this in ILP32 series that change ABI for new
+>> targets. I've submitted them in separated series:
+>> https://lkml.org/lkml/2017/9/25/574
+>>
+>> They all seems to be acked by you. If you ready to upstream the
+>> series, I can rebase it and add riscv32 and nds32 exceptions.
+>>
+>> If Palmer and riscv people will decide to follow new rules, we can
+>> easily drop the exception.
 >
-> Thanks for investigating. You can fix those three places in your code
+> Ping?
 
-OK, will do.
-
-> but I was rather looking for a way to check such casting in the future
-> for newly added code. While for the khwasan we can assume it's a debug
-> option, the tagged user pointers are ABI and we need to keep it stable.
->
-> We could we actually add some macros for explicit conversion between
-> __user ptr and long and silence the warning there (I guess this would
-> work better for sparse). We can then detect new ptr to long casts as
-> they appear. I just hope that's not too intrusive.
->
-> (I haven't tried the sparse patch yet, hopefully sometime this week)
-
-Haven't look at that sparse patch yet myself, but sounds doable.
-Should these macros go into this patchset or should they go
-separately?
+Sorry to be a bit slow, but we just decided to skip this current glibc release 
+for rv32i and instead focus on getting the 32-bit ABI nice and clean for the 
+next release.  Thus we in RISC-V land are OK with taking these changes to the 
+32-bit kernel ABI.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
