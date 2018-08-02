@@ -2,78 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9A6057E3B2
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 02:33:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCAC47E3B2
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 02:59:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbeHBEWP convert rfc822-to-8bit (ORCPT
+        id S1725805AbeHBEsi convert rfc822-to-8bit (ORCPT
         <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 Aug 2018 00:22:15 -0400
-Received: from mga03.intel.com ([134.134.136.65]:1702 "EHLO mga03.intel.com"
+        Thu, 2 Aug 2018 00:48:38 -0400
+Received: from mga04.intel.com ([192.55.52.120]:28638 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725994AbeHBEWO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Aug 2018 00:22:14 -0400
+        id S1725765AbeHBEsi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Aug 2018 00:48:38 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Aug 2018 19:33:24 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Aug 2018 19:59:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,434,1526367600"; 
-   d="scan'208";a="78001840"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-  by orsmga001.jf.intel.com with ESMTP; 01 Aug 2018 19:33:15 -0700
-Received: from fmsmsx112.amr.corp.intel.com (10.18.116.6) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.319.2; Wed, 1 Aug 2018 19:33:15 -0700
-Received: from shsmsx152.ccr.corp.intel.com (10.239.6.52) by
- FMSMSX112.amr.corp.intel.com (10.18.116.6) with Microsoft SMTP Server (TLS)
- id 14.3.319.2; Wed, 1 Aug 2018 19:33:14 -0700
+   d="scan'208";a="71882317"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+  by orsmga003.jf.intel.com with ESMTP; 01 Aug 2018 19:59:42 -0700
+Received: from fmsmsx154.amr.corp.intel.com (10.18.116.70) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.319.2; Wed, 1 Aug 2018 19:59:36 -0700
+Received: from shsmsx102.ccr.corp.intel.com (10.239.4.154) by
+ FMSMSX154.amr.corp.intel.com (10.18.116.70) with Microsoft SMTP Server (TLS)
+ id 14.3.319.2; Wed, 1 Aug 2018 19:59:36 -0700
 Received: from shsmsx101.ccr.corp.intel.com ([169.254.1.57]) by
- SHSMSX152.ccr.corp.intel.com ([169.254.6.173]) with mapi id 14.03.0319.002;
- Thu, 2 Aug 2018 10:33:12 +0800
+ shsmsx102.ccr.corp.intel.com ([169.254.2.124]) with mapi id 14.03.0319.002;
+ Thu, 2 Aug 2018 10:59:33 +0800
 From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     Jerome Glisse <jglisse@redhat.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>
-CC:     Hao Fang <fanghao11@huawei.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+To:     Kenneth Lee <nek.in.cn@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        Kenneth Lee <liguozhu@hisilicon.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
         "David S . Miller" <davem@davemloft.net>,
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Kenneth Lee <liguozhu@hisilicon.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
         "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
+        <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>
+CC:     "linuxarm@huawei.com" <linuxarm@huawei.com>
 Subject: RE: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
 Thread-Topic: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Thread-Index: AQHUKYHSUTvc9I1u4EGviW0yiW9YHKSqmCAAgAElIaA=
-Date:   Thu, 2 Aug 2018 02:33:12 +0000
-Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+Thread-Index: AQHUKYHSUTvc9I1u4EGviW0yiW9YHKSrv1Ww
+Date:   Thu, 2 Aug 2018 02:59:33 +0000
+Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D191290EB3@SHSMSX101.ccr.corp.intel.com>
 References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <20180801165644.GA3820@redhat.com>
-In-Reply-To: <20180801165644.GA3820@redhat.com>
+In-Reply-To: <20180801102221.5308-1-nek.in.cn@gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYzgyNTFlMTUtNTFkNi00NjAyLWE0YTctMjZmNzIxMjQ3NmE3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiRFNmcW5FQ2t4eUxqSjZrOVlqOWxRdkMyK0R6RGtCZ29sM3VEYURrazh3M0xudkhOaXpEK3dSd3ZBcW9NSW43OSJ9
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYjZhMmE1MmItZDAyMS00NDRkLTllZTItNDIxOTNkZjRhNzJkIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiRmtrRWhDTG9GbVZOclNBbFE4U0NYeEd0aHE0VTQ4ODA4K3BkNnFHSVpueXZibXlxYXc1aVwvQTRQRitxY0JrRmkifQ==
 dlp-product: dlpe-windows
 dlp-version: 11.0.400.15
 dlp-reaction: no-action
 x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
@@ -81,78 +82,72 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Jerome Glisse
-> Sent: Thursday, August 2, 2018 12:57 AM
+> From: Kenneth Lee
+> Sent: Wednesday, August 1, 2018 6:22 PM
 > 
-> On Wed, Aug 01, 2018 at 06:22:14PM +0800, Kenneth Lee wrote:
-> > From: Kenneth Lee <liguozhu@hisilicon.com>
-> >
-> > WarpDrive is an accelerator framework to expose the hardware
-> capabilities
-> > directly to the user space. It makes use of the exist vfio and vfio-mdev
-> > facilities. So the user application can send request and DMA to the
-> > hardware without interaction with the kernel. This remove the latency
-> > of syscall and context switch.
-> >
-> > The patchset contains documents for the detail. Please refer to it for
-> more
-> > information.
-> >
-> > This patchset is intended to be used with Jean Philippe Brucker's SVA
-> > patch [1] (Which is also in RFC stage). But it is not mandatory. This
-> > patchset is tested in the latest mainline kernel without the SVA patches.
-> > So it support only one process for each accelerator.
-> >
-> > With SVA support, WarpDrive can support multi-process in the same
-> > accelerator device.  We tested it in our SoC integrated Accelerator (board
-> > ID: D06, Chip ID: HIP08). A reference work tree can be found here: [2].
+> From: Kenneth Lee <liguozhu@hisilicon.com>
 > 
-> I have not fully inspected things nor do i know enough about
-> this Hisilicon ZIP accelerator to ascertain, but from glimpsing
-> at the code it seems that it is unsafe to use even with SVA due
-> to the doorbell. There is a comment talking about safetyness
-> in patch 7.
+> WarpDrive is an accelerator framework to expose the hardware capabilities
+> directly to the user space. It makes use of the exist vfio and vfio-mdev
+> facilities. So the user application can send request and DMA to the
+> hardware without interaction with the kernel. This remove the latency
+> of syscall and context switch.
 > 
-> Exposing thing to userspace is always enticing, but if it is
-> a security risk then it should clearly say so and maybe a
-> kernel boot flag should be necessary to allow such device to
-> be use.
+> The patchset contains documents for the detail. Please refer to it for more
+> information.
 > 
-> 
-> My more general question is do we want to grow VFIO to become
-> a more generic device driver API. This patchset adds a command
-> queue concept to it (i don't think it exist today but i have
-> not follow VFIO closely).
-> 
-> Why is that any better that existing driver model ? Where a
-> device create a device file (can be character device, block
-> device, ...). Such models also allow for direct hardware
-> access from userspace. For instance see the AMD KFD driver
-> inside drivers/gpu/drm/amd
+> This patchset is intended to be used with Jean Philippe Brucker's SVA
+> patch [1] (Which is also in RFC stage). But it is not mandatory. This
+> patchset is tested in the latest mainline kernel without the SVA patches.
+> So it support only one process for each accelerator.
 
-One motivation I guess, is that most accelerators lack of a 
-well-abstracted high level APIs similar to GPU side (e.g. OpenCL 
-clearly defines Shared Virtual Memory models). VFIO mdev
-might be an alternative common interface to enable SVA usages 
-on various accelerators...
+If no sharing, then why not just assigning the whole parent device to
+the process? IMO if SVA usage is the clear goal of your series, it
+might be made clearly so then Jean's series is mandatory dependency...
 
 > 
-> So you can already do what you are doing with the Hisilicon
-> driver today without this new infrastructure. This only need
-> hardware that have command queue and doorbell like mechanisms.
+> With SVA support, WarpDrive can support multi-process in the same
+> accelerator device.  We tested it in our SoC integrated Accelerator (board
+> ID: D06, Chip ID: HIP08). A reference work tree can be found here: [2].
 > 
+> We have noticed the IOMMU aware mdev RFC announced recently [3].
 > 
-> Unlike mdev which unify a very high level concept, it seems
-> to me spimdev just introduce low level concept (namely command
-> queue) and i don't see the intrinsic value here.
+> The IOMMU aware mdev has similar idea but different intention comparing
+> to
+> WarpDrive. It intends to dedicate part of the hardware resource to a VM.
+
+Not just to VM, though I/O Virtualization is in the name. You can assign
+such mdev to either VMs, containers, or bare metal processes. It's just
+a fully-isolated device from user space p.o.v.
+
+> And the design is supposed to be used with Scalable I/O Virtualization.
+> While spimdev is intended to share the hardware resource with a big
+> amount
+> of processes.  It just requires the hardware supporting address
+> translation per process (PCIE's PASID or ARM SMMU's substream ID).
 > 
-> 
-> Cheers,
-> Jérôme
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> But we don't see serious confliction on both design. We believe they can be
+> normalized as one.
+
+yes there are something which can be shared, e.g. regarding to
+the interface to IOMMU.
+
+Conceptually I see them different mindset on device resource sharing:
+
+WarpDrive more aims to provide a generic framework to enable SVA
+usages on various accelerators, which lack of a well-abstracted user
+API like OpenCL. SVA is a hardware capability - sort of exposing resources
+composing ONE capability to user space through mdev framework. It is
+not like a VF which naturally carries most capabilities as PF.
+
+Intel Scalable I/O virtualization is a thorough design to partition the
+device into minimal sharable copies (queue, queue pair, context), 
+while each copy carries most PF capabilities (including SVA) similar to
+VF. Also with IOMMU scalable mode support, the copy can be 
+independently assigned to any client (process, container, VM, etc.)
+
+Thanks
+Kevin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
