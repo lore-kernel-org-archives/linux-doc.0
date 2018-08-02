@@ -1,157 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1E8C07E3B2
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 05:37:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E53557E3B2
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 06:29:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726137AbeHBH0y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 Aug 2018 03:26:54 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:42597 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725954AbeHBH0y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Aug 2018 03:26:54 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 354B3FD63C14B;
-        Thu,  2 Aug 2018 13:37:26 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server (TLS) id 14.3.399.0; Thu, 2 Aug 2018
- 13:37:17 +0800
-Date:   Thu, 2 Aug 2018 13:35:58 +0800
-From:   Kenneth Lee <liguozhu@hisilicon.com>
-To:     "Tian, Kevin" <kevin.tian@intel.com>
-CC:     Kenneth Lee <nek.in.cn@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180802053558.GO160746@Turing-Arch-b>
-References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D191290EB3@SHSMSX101.ccr.corp.intel.com>
- <20180802034006.GJ160746@Turing-Arch-b>
- <AADFC41AFE54684AB9EE6CBC0274A5D19129105A@SHSMSX101.ccr.corp.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19129105A@SHSMSX101.ccr.corp.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
+        id S1726246AbeHBISk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 Aug 2018 04:18:40 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36859 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726187AbeHBISj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Aug 2018 04:18:39 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 27D5321DE0;
+        Thu,  2 Aug 2018 02:29:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 02 Aug 2018 02:29:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :date:from:message-id:subject:to:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=n0dAtfn9iC6EO9Tq9hgZtvQ4/ij8r9gVDz4hoyCSE
+        T4=; b=aCZ7BX0bbUS6nAg2C5Mq6YzmOmIIycBjDw0UIbwY/ZliWemk6CJdBs25c
+        1Cn+qkfWWiuVj/9QN8jRczlbd3tc3YBNRlqMRTF5xSW7LUmxgXL4VetloZnrroc8
+        BNsvaOg4mdXprOgEj/Ok1wMGUMnm1bgkq/GUAKK81AFUSrF4GTKYOurc3mW/qV4G
+        5aj0G0V7VyMmx5dZzWjfTaZxd6yjSSu7by9/PMhMYvcEbck6AwhNSrvgZe5HqBzv
+        CwPoq8Fz2l8QjxAovOgUWBUzllo8JNLBsQLBKtxZjts4M7k99nypm7m+LJyurLfR
+        FEbqPR1jmGSnZLNNh+LnPt0HUI5Zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:date:from:message-id:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=n0dAtfn9iC6EO9Tq9
+        hgZtvQ4/ij8r9gVDz4hoyCSET4=; b=tG0fR33MF1ApGRFCWUnsJmc0P7YrNHze3
+        lmFzlMuJGKencsNFfUq5VqGf0hcfaIq8aAZ4UYPjGK6Ba9uRGAmaYqKKNUG/t/am
+        j3zi0hed2zwBWNY27Y4Y7arvbFnGNdfIf/YfAVES8+XDjwM/yK7VXlKFP7QTwkGl
+        TPJUcX5GR4aKOP3VX4DAw5vpHNlKLALg2RAPIyrlpigtnuMLJS4fjLrimNHUJaAc
+        lb2+UEpoGCpydhWY2cDxHjg/nXy7+OwF17GxEPUznWGHYnFVNMaeug0syK/hBVFr
+        mIT1Bj1aJ1PCDReLR//r5lE5/yerWym/lgs66n9DLGEaZAmZ5QnlA==
+X-ME-Proxy: <xmx:raRiWyeK5kX5EnlOEZB8DwQh1ervc8PkogbLUl1adbztFrZNbPWKPg>
+    <xmx:raRiW8py2lZqky7KkCMyz6fzlCb3Qo8vc6olUHDGjxrbdHyTQc8KoA>
+    <xmx:raRiW6aeLhc-oAo1gkpMY7uof3rNMR7pqwOc5OjBqwx46Czy0i7gdQ>
+    <xmx:raRiW2Mgfk3gGcoqf5X2qUeW0VNEdTswK0wl7sP_0XjNTqewvfxx2w>
+    <xmx:raRiW7525QYSkfrvCi-6tVXB23IAssaRJpsbfWMVtB6LXSxrRLCGxw>
+    <xmx:rqRiWxAU3N5ekcbjulkMCk37BtuRolwFEyX7Roh53ljSYb1x-j6h2w>
+X-ME-Sender: <xms:raRiW8Cn8RAWxczfh_NhGnKsqq9Ux0QV7pnwGvg4Wj50GLZD1HescA>
+Received: from localhost (124-169-17-12.dyn.iinet.net.au [124.169.17.12])
+        by mail.messagingengine.com (Postfix) with ESMTPA id B223CE4818;
+        Thu,  2 Aug 2018 02:29:00 -0400 (EDT)
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>
+Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jay Schulist <jschlst@samba.org>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC bpf-next 0/3] docs: Convert filter.txt to RST
+Date:   Thu,  2 Aug 2018 16:28:45 +1000
+Message-Id: <20180802062848.14332-1-me@tobin.cc>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 02, 2018 at 04:36:52AM +0000, Tian, Kevin wrote:
-> Date: Thu, 2 Aug 2018 04:36:52 +0000
-> From: "Tian, Kevin" <kevin.tian@intel.com>
-> To: Kenneth Lee <liguozhu@hisilicon.com>
-> CC: Kenneth Lee <nek.in.cn@gmail.com>, Herbert Xu
->  <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
->  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
->  Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-doc@vger.kernel.org"
->  <linux-doc@vger.kernel.org>, "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
->  Hao Fang <fanghao11@huawei.com>, "iommu@lists.linux-foundation.org"
->  <iommu@lists.linux-foundation.org>, "linux-kernel@vger.kernel.org"
->  <linux-kernel@vger.kernel.org>, "linuxarm@huawei.com"
->  <linuxarm@huawei.com>, Alex Williamson <alex.williamson@redhat.com>,
->  Thomas Gleixner <tglx@linutronix.de>, "linux-crypto@vger.kernel.org"
->  <linux-crypto@vger.kernel.org>, Philippe Ombredanne
->  <pombredanne@nexb.com>, Zaibo Xu <xuzaibo@huawei.com>, "David S . Miller"
->  <davem@davemloft.net>, "linux-accelerators@lists.ozlabs.org"
->  <linux-accelerators@lists.ozlabs.org>
-> Subject: RE: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-> Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19129105A@SHSMSX101.ccr.corp.intel.com>
-> 
-> > From: Kenneth Lee
-> > Sent: Thursday, August 2, 2018 11:40 AM
-> > 
-> > On Thu, Aug 02, 2018 at 02:59:33AM +0000, Tian, Kevin wrote:
-> > > > From: Kenneth Lee
-> > > > Sent: Wednesday, August 1, 2018 6:22 PM
-> > > >
-> > > > From: Kenneth Lee <liguozhu@hisilicon.com>
-> > > >
-> > > > WarpDrive is an accelerator framework to expose the hardware
-> > capabilities
-> > > > directly to the user space. It makes use of the exist vfio and vfio-mdev
-> > > > facilities. So the user application can send request and DMA to the
-> > > > hardware without interaction with the kernel. This remove the latency
-> > > > of syscall and context switch.
-> > > >
-> > > > The patchset contains documents for the detail. Please refer to it for
-> > more
-> > > > information.
-> > > >
-> > > > This patchset is intended to be used with Jean Philippe Brucker's SVA
-> > > > patch [1] (Which is also in RFC stage). But it is not mandatory. This
-> > > > patchset is tested in the latest mainline kernel without the SVA patches.
-> > > > So it support only one process for each accelerator.
-> > >
-> > > If no sharing, then why not just assigning the whole parent device to
-> > > the process? IMO if SVA usage is the clear goal of your series, it
-> > > might be made clearly so then Jean's series is mandatory dependency...
-> > >
-> > 
-> > We don't know how SVA will be finally. But the feature, "make use of
-> > per-PASID/substream ID IOMMU page table", should be able to be enabled
-> > in the
-> > kernel. So we don't want to enforce it here. After we have this serial ready,
-> > it
-> > can be hooked to any implementation.
-> 
-> "any" or "only queue-based" implementation? some devices may not
-> have queue concept, e.g. GPU.
+Hi,
 
-Here, "any implementation" refer to the "per PASID page table" implementatin:)
+This is a documentation RFC (come on now, serious faces please).   It is
+an RFC for two reasons
 
-> 
-> > 
-> > Further more, even without "per-PASID IOMMU page table", this series has
-> > its
-> > value. It is not simply dedicate the whole device to the process. It "shares"
-> > the device with the kernel driver. So you can support crypto and a user
-> > application at the same time.
-> 
-> OK.
-> 
-> Thanks
-> Kevin
+1. The content is heavy and I don't fully understand it all, original
+   authors are you ok with the document being split up like this?
+
+2. I'm only the conversion monkey, I'd like someone with a bigger view
+   of kernel docs in general to ok this please.
+
+This RFC came out of this patch set
+
+	[PATCH bpf-next 00/13] docs: Convert BPF filter.txt to RST
+
+As such the first two patches are the only ones I could salvage from
+that set.  Stating the obvious the mappings are:
+
+Patch 1 was [PATCH bpf-next 12/13] docs: net: Fix various minor typos
+Patch 2 was [PATCH bpf-next 09/13] docs: net: Use lowercase 'k' for kernel
+
+Patch 3 is the splitting of filter.txt into bpf/eBPF.rst and
+core-api/bpf.rst 
+
+Again, stating the obvious, if this RFC is ok I'll redo all the other
+patches from the original set on top of this.
+
+
+thanks,
+Tobin.
+
+Tobin C. Harding (3):
+  docs: net: Fix various minor typos
+  docs: net: Use lowercase 'k' for kernel
+  docs: Split filter.txt into separate documents.
+
+ Documentation/networking/filter.txt | 1476 ---------------------------
+ 1 file changed, 1476 deletions(-)
+ delete mode 100644 Documentation/networking/filter.txt
 
 -- 
-			-Kenneth(Hisilicon)
-
-================================================================================
-本邮件及其附件含有华为公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁
-止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中
-的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！
-This e-mail and its attachments contain confidential information from HUAWEI,
-which is intended only for the person or entity whose address is listed above.
-Any use of the 
-information contained herein in any way (including, but not limited to, total or
-partial disclosure, reproduction, or dissemination) by persons other than the
-intended 
-recipient(s) is prohibited. If you receive this e-mail in error, please notify
-the sender by phone or email immediately and delete it!
+2.17.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
