@@ -1,58 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9BD0F7D581
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 18:44:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5130C7E3B1
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 Aug 2018 22:31:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730730AbeHBUgm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 Aug 2018 16:36:42 -0400
-Received: from ms.lwn.net ([45.79.88.28]:56470 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730351AbeHBUgm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Aug 2018 16:36:42 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5252B6D9;
-        Thu,  2 Aug 2018 18:44:21 +0000 (UTC)
-Date:   Thu, 2 Aug 2018 12:44:19 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Norman <norman.kern@gmx.com>
-Cc:     linux-doc@vger.kernel.org, harryxiyou@gmail.com,
-        linux-kernel@zh-kernel.org
-Subject: Re: [PATCH v1] doc: translation for block queue into Chinese
-Message-ID: <20180802124419.3e85c0e3@lwn.net>
-In-Reply-To: <5924c47f-c329-83df-f758-296f28432b2a@gmx.com>
-References: <c10695de-d6aa-bb5a-2635-efd0f6f78269@gmx.com>
-        <5924c47f-c329-83df-f758-296f28432b2a@gmx.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1727053AbeHCAYZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 Aug 2018 20:24:25 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:39875 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726989AbeHCAYZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Aug 2018 20:24:25 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id D73D421785;
+        Thu,  2 Aug 2018 18:31:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 02 Aug 2018 18:31:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :date:from:message-id:subject:to:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=0/AztLt+OEDABGKoE4DLMeIZb8E4w1IHL8DhBIhmz
+        sE=; b=H+kxaYVfeA2JHNlTa/5xtgMtDKVB4QsDGYZ5JmsvJCaO4mIOSQWKy3ycy
+        jW3Aj5AbHTQd0SUvACmx2XA0+3OgNIr+bGVtO6KrFS2sDrVV6ubzVnKfimZeMH+2
+        N4TrSVV+KvBWwcnTJ2rSJvOJFO9idIAi8ycmPnxkjKavlxjdSRV8p4aSqsF/ApFw
+        7B27RJGv4QflyAlHnQtmVTZXC4ESiuRsvNk8c1NTnD4zhDpVfIlLlEqOigj0ahKa
+        qRac7g7bJz8VZuc8E7IqaYHzks1HtLeFur3/w/dHVuFOkoQEpwxJ8B4yGe6jHP3c
+        IBT4TNk7WRvRWG5IX94O0+NRMvCRw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:date:from:message-id:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0/AztLt+OEDABGKoE
+        4DLMeIZb8E4w1IHL8DhBIhmzsE=; b=XWpdjENPQXcAjBUmQxS8PoOeUhpMOByHX
+        9S5HLZEqXLH0NddAaQLuvlfoAZ9rsLK1ITRzjUYSvflJNq5YCqrV8Di/haMmwF1S
+        1XI8a/1iBhRkALwuDXhMDwhdrE/TNrA8ZSeuNEsv2E2jzOwpAV1QthAUXan6pHmD
+        UIwIjcmCBjsn8B08YNqHwKWiwM8/d71nP9j1d9zZvnfzLq5oPhYohLfQWQUkoIdy
+        cKfwaN+4aK7rksI15suz921AgRjkambDLUDFEi9N0UIUw2HFlfVatL/JM/Myqs2N
+        fUMax+R/gqjkuVsFa/9djdhGVyRoVzc2I2qEnqyezwEN05jY+tKpA==
+X-ME-Proxy: <xmx:LIZjW4WnmyFPSTPlU93n7KK-Pn7fqLw0CSjv9SDZ6mj1xqTR5QgUZA>
+    <xmx:LIZjW8zHrCBbup9cY-rwWmbuAYQJ3LLgMH6ryerqsbZ5sxQCkbe8rA>
+    <xmx:LIZjW-Oi_GStBr_ozE6OkeowadTh1g9AJsCFs_9pjNbrIg-Rv3TdZg>
+    <xmx:LIZjW17K8-aJGBnZ2qndMSR1ftGrCoUzvU8p6_drZxMKBnddiZxcfA>
+    <xmx:LIZjW3OJ3Q3DwbO5wxLG80dBy5nI0sMwetKU366ZMwUAMvdr8w_-CA>
+    <xmx:LYZjW2QY8QNat33r6ZRXt3Kkkkp3cvcujkH2BmWkaxkwwklOuOTK4Q>
+X-ME-Sender: <xms:LIZjW6AXSZPpzzMQb9_cwXpyhK0zQbAqeHcfWAfxbs1-jMKfMykBfA>
+Received: from localhost (ppp121-44-199-247.bras1.syd2.internode.on.net [121.44.199.247])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 04BD3E4074;
+        Thu,  2 Aug 2018 18:31:07 -0400 (EDT)
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>
+Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC bpf-next v2 0/3] docs: Convert filter.txt to RST
+Date:   Fri,  3 Aug 2018 08:30:57 +1000
+Message-Id: <20180802223100.26236-1-me@tobin.cc>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 27 Jul 2018 10:41:19 +0800
-Norman <norman.kern@gmx.com> wrote:
+Hi,
 
-> Translate block/queue-sysfs.txt into Chinese
-> 
-> Signed-off-by: Norman Kern <norman.kern@gmx.com>
+v2 new and improved (with the actual files committed).
 
-Unfortunately, this patch has been white-space mangled by your mailer.
-Please fix your mailer (Documentation/process/email-clients.rst has
-useful hints to that end) then resend.
+This is a documentation RFC for two reasons
 
-Thanks,
+1. The content is heavy and I don't fully understand it all, original
+   authors are you ok with the document being split up like this?
 
-jon
+2. I'm only the conversion monkey, I'd like someone with a bigger view
+   of kernel docs in general to ok this please.
+
+This RFC came out of this patch set
+
+	[PATCH bpf-next 00/13] docs: Convert BPF filter.txt to RST
+
+As such the first two patches are the only ones I could salvage from
+that set.  Stating the obvious the mappings are:
+
+Patch 1 was [PATCH bpf-next 12/13] docs: net: Fix various minor typos
+Patch 2 was [PATCH bpf-next 09/13] docs: net: Use lowercase 'k' for kernel
+
+Patch 3 is the splitting of filter.txt into bpf/eBPF.rst and
+core-api/bpf.rst 
+
+Again, stating the obvious, if this RFC is ok I'll redo all the other
+patches from the original set on top of this.
+
+
+thanks,
+Tobin.
+
+v2:
+ - Actually add the files to the commit
+ - Check the _whole_ patch before sending
+ - Use checkpatch like we are supposed to
+ - Add licences
+
+Tobin C. Harding (3):
+  docs: net: Fix various minor typos
+  docs: net: Use lowercase 'k' for kernel
+  docs: Split filter.txt into separate documents.
+
+ .../{networking/filter.txt => bpf/eBPF.rst}   | 648 ++----------------
+ Documentation/core-api/bpf.rst                | 599 ++++++++++++++++
+ 2 files changed, 643 insertions(+), 604 deletions(-)
+ rename Documentation/{networking/filter.txt => bpf/eBPF.rst} (60%)
+ create mode 100644 Documentation/core-api/bpf.rst
+
+-- 
+2.17.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
