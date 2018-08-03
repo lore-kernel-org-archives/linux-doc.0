@@ -1,30 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B82A47E3B1
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 Aug 2018 09:23:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A2FE7E3B1
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 Aug 2018 09:42:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732151AbeHCLSi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 3 Aug 2018 07:18:38 -0400
-Received: from foss.arm.com ([217.140.101.70]:40416 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728122AbeHCLSh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Aug 2018 07:18:37 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46D7980D;
-        Fri,  3 Aug 2018 02:23:11 -0700 (PDT)
-Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 143813F5BA;
-        Fri,  3 Aug 2018 02:23:11 -0700 (PDT)
-Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
-        id D1F171AE30FD; Fri,  3 Aug 2018 10:23:13 +0100 (BST)
-Date:   Fri, 3 Aug 2018 10:23:13 +0100
-From:   Will Deacon <will.deacon@arm.com>
-To:     Dmitry Vyukov <dvyukov@google.com>
+        id S1728450AbeHCLiY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 3 Aug 2018 07:38:24 -0400
+Received: from mail-pl0-f67.google.com ([209.85.160.67]:33189 "EHLO
+        mail-pl0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732251AbeHCLiY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Aug 2018 07:38:24 -0400
+Received: by mail-pl0-f67.google.com with SMTP id b90-v6so1559509plb.0
+        for <linux-doc@vger.kernel.org>; Fri, 03 Aug 2018 02:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=tYCS5wD6vAtxWT95Bpgkjd+Us7bJHFzRkwkufQg4uGQ=;
+        b=A7dPWiYbD56fAtxLzC3IjZMbfOLKHJM6UHF7tIxKGuhi/Xj5nMp/9XWf7f+KaOJHB0
+         KTD7WbgfdN1pJguLQlXz+OpgQSuvNwNpaXjEXF5Vx2ntsz4rtZCh5+DceZx8zAf72zad
+         slmBGob2z14IobF6ad5PbCkQnLFuyjcnm/d2HiNegIylVdMGY3FIDFlFBPDWK5CoRLJW
+         0tkb6TAy5S5FGAL14ig2Te/qIuGCvncYckQEtWCxQneXOXP3S3BN0SqqV8+DXtwardwn
+         55qeK6EmgDmYPklzJhCxLI2LxEn1KxagHgU59Ba37rwMqsy0pnuCU3qxGmPwR5n/LoaR
+         uxHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=tYCS5wD6vAtxWT95Bpgkjd+Us7bJHFzRkwkufQg4uGQ=;
+        b=jMtl4nLET8gOfEMHhpYKnnigOyqbtAhkNrMz/xSCo4mEUYOqid0SeusJ0mSYkE0x2A
+         GEvaTwGo3lQ9aDegbSES4i7rKEIj1FBy/XYsVYhBTP1foijjpU+gnp2rt5jhQ/8NkLu8
+         48d4Brpt6Ta4+Vdj/KygFRrNY4erj+J16bC6F2bKA5mleuCGiafagRuxqfK9NuzlZDOj
+         4l8SiOIoQvJKEjKI5IDRlEJm0lKGcY8tgI/MMwACJd6ZLlAyAQGUxAgWEyILHGD1ZxJ5
+         u1/vfQTY4dVEBUM0WKGwvzq9A9BWPCYaPwmaHeGgcar58uouk51Ts6OjouAIM47+sRSD
+         RLcQ==
+X-Gm-Message-State: AOUpUlEmWjvoiH5xGHLmhXFZ19z+ojI2pndexNXpFapch14m4VKG+8kc
+        BWhai7IAc493j+vDknjgexCUKW+A1PJCWbmAAoQ3dA==
+X-Google-Smtp-Source: AAOMgpdjI5mMdwC4CxAsKS7O2R8HcKUOrvYl14nmKC21/3PEoZo+ZrF/5HLo/HRbOUe81/y/r9XyF5zCbvltt5lz2wM=
+X-Received: by 2002:a17:902:d710:: with SMTP id w16-v6mr2849493ply.93.1533289373008;
+ Fri, 03 Aug 2018 02:42:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a17:90a:ac14:0:0:0:0 with HTTP; Fri, 3 Aug 2018 02:42:32
+ -0700 (PDT)
+In-Reply-To: <20180803092312.GA17798@arm.com>
+References: <cover.1530018818.git.andreyknvl@google.com> <20180628105057.GA26019@e103592.cambridge.arm.com>
+ <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+ <20180629110709.GA17859@arm.com> <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
+ <20180703173608.GF27243@arm.com> <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
+ <CAAeHK+xc1E64tXEEHoXqOuUNZ7E_kVyho3_mNZTCc+LTGHYFdA@mail.gmail.com>
+ <20180801163538.GA10800@arm.com> <CACT4Y+aZtph5qDsLzTDEgpQRz4_Vtg1DD-cB18qooi6D0bexDg@mail.gmail.com>
+ <20180803092312.GA17798@arm.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Fri, 3 Aug 2018 11:42:32 +0200
+Message-ID: <CACT4Y+bCen+ccU8awYyx_Tw14JNZhaP4D-jNq-WZy7itW+vpYg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
+To:     Will Deacon <will.deacon@arm.com>
 Cc:     Andrey Konovalov <andreyknvl@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -60,58 +94,58 @@ Cc:     Andrey Konovalov <andreyknvl@google.com>,
         Mark Brand <markbrand@google.com>,
         Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Evgeniy Stepanov <eugenis@google.com>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
- sanitizer
-Message-ID: <20180803092312.GA17798@arm.com>
-References: <cover.1530018818.git.andreyknvl@google.com>
- <20180628105057.GA26019@e103592.cambridge.arm.com>
- <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
- <20180629110709.GA17859@arm.com>
- <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
- <20180703173608.GF27243@arm.com>
- <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
- <CAAeHK+xc1E64tXEEHoXqOuUNZ7E_kVyho3_mNZTCc+LTGHYFdA@mail.gmail.com>
- <20180801163538.GA10800@arm.com>
- <CACT4Y+aZtph5qDsLzTDEgpQRz4_Vtg1DD-cB18qooi6D0bexDg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+aZtph5qDsLzTDEgpQRz4_Vtg1DD-cB18qooi6D0bexDg@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 01, 2018 at 06:52:09PM +0200, Dmitry Vyukov wrote:
-> On Wed, Aug 1, 2018 at 6:35 PM, Will Deacon <will.deacon@arm.com> wrote:
-> > Thanks for tracking these cases down and going through each of them. The
-> > obvious follow-up question is: how do we ensure that we keep on top of
-> > this in mainline? Are you going to repeat your experiment at every kernel
-> > release or every -rc or something else? I really can't see how we can
-> > maintain this in the long run, especially given that the coverage we have
-> > is only dynamic -- do you have an idea of how much coverage you're actually
-> > getting for, say, a defconfig+modules build?
-> >
-> > I'd really like to enable pointer tagging in the kernel, I'm just still
-> > failing to see how we can do it in a controlled manner where we can reason
-> > about the semantic changes using something other than a best-effort,
-> > case-by-case basis which is likely to be fragile and error-prone.
-> > Unfortunately, if that's all we have, then this gets relegated to a
-> > debug feature, which sort of defeats the point in my opinion.
-> 
-> Well, in some cases there is no other way as resorting to dynamic testing.
-> How do we ensure that kernel does not dereference NULL pointers, does
-> not access objects after free or out of bounds? Nohow. And, yes, it's
-> constant maintenance burden resolved via dynamic testing.
+On Fri, Aug 3, 2018 at 11:23 AM, Will Deacon <will.deacon@arm.com> wrote:
+> On Wed, Aug 01, 2018 at 06:52:09PM +0200, Dmitry Vyukov wrote:
+>> On Wed, Aug 1, 2018 at 6:35 PM, Will Deacon <will.deacon@arm.com> wrote:
+>> > Thanks for tracking these cases down and going through each of them. The
+>> > obvious follow-up question is: how do we ensure that we keep on top of
+>> > this in mainline? Are you going to repeat your experiment at every kernel
+>> > release or every -rc or something else? I really can't see how we can
+>> > maintain this in the long run, especially given that the coverage we have
+>> > is only dynamic -- do you have an idea of how much coverage you're actually
+>> > getting for, say, a defconfig+modules build?
+>> >
+>> > I'd really like to enable pointer tagging in the kernel, I'm just still
+>> > failing to see how we can do it in a controlled manner where we can reason
+>> > about the semantic changes using something other than a best-effort,
+>> > case-by-case basis which is likely to be fragile and error-prone.
+>> > Unfortunately, if that's all we have, then this gets relegated to a
+>> > debug feature, which sort of defeats the point in my opinion.
+>>
+>> Well, in some cases there is no other way as resorting to dynamic testing.
+>> How do we ensure that kernel does not dereference NULL pointers, does
+>> not access objects after free or out of bounds? Nohow. And, yes, it's
+>> constant maintenance burden resolved via dynamic testing.
+>
+> ... and the advantage of NULL pointer issues is that you're likely to see
+> them as a synchronous exception at runtime, regardless of architecture and
+> regardless of Kconfig options. With pointer tagging, that's certainly not
+> the case, and so I don't think we can just treat issues there like we do for
+> NULL pointers.
 
-... and the advantage of NULL pointer issues is that you're likely to see
-them as a synchronous exception at runtime, regardless of architecture and
-regardless of Kconfig options. With pointer tagging, that's certainly not
-the case, and so I don't think we can just treat issues there like we do for
-NULL pointers.
+Well, let's take use-after-frees, out-of-bounds, info leaks, data
+races is a good example, deadlocks and just logical bugs...
 
-Will
+> If you want to enable khwasan in "production" and since enabling it
+> could potentially change the behaviour of existing code paths, the
+> run-time validation space doubles as we'd need to get the same code
+> coverage with and without the feature being enabled.
+
+This is true for just any change in configs, sysctls or just a
+different workload. Any of this can enable new code, exiting code
+working differently, or just working with data in new states. And we
+have tens of thousands of bugs, so blindly deploying anything new to
+production without proper testing is a bad idea. It's not specific to
+HWASAN in any way. And when you enable HWASAN you actually do mean to
+retest everything as hard as possible.
+
+And in the end we do not seem to have any action points here, right?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
