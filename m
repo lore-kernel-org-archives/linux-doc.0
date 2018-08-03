@@ -1,26 +1,38 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 681CC7E3B1
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 Aug 2018 15:09:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5FC817E3B1
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 Aug 2018 16:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732312AbeHCRGf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 3 Aug 2018 13:06:35 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:32878 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726115AbeHCRGf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Aug 2018 13:06:35 -0400
-Received: from localhost (ip-213-127-46-170.ip.prioritytelecom.net [213.127.46.170])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 771C13EE;
-        Fri,  3 Aug 2018 15:09:49 +0000 (UTC)
-Date:   Fri, 3 Aug 2018 17:09:45 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        id S1728025AbeHCSkq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 3 Aug 2018 14:40:46 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:41214 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727339AbeHCSkq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Aug 2018 14:40:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=vqJvmSLvi7nAYcR/wjKk0KgIP5D4tOk69+zSwfsoGeM=; b=SN3FtizaEwn9018rJBofPEFsV
+        pGAO1YvOa7vNb2XUsURkIB/Hi6wZM2eG9V2m1wXXEDdkh5iOO8Rq8eP0kHE2Q714lIJIl8VgGUh6H
+        HQ5Rcj4JAa5abuXTDZ3vMWm/7j1YydJSnJDGjGMu2oFAWM9XCKtUT7t9CE+d68bugBmsuD/f5FfQW
+        6zJUM9/pin/a8Whiu6rdzn4VK2J00WMM95S8N+sgH/xOQfEa5KuTqqR8vJlLJke8LKdS32A33ra+B
+        +L6wJxC1PFRisoA/5z8cHtc2jLzPAyJgesGJaAVzd+KbTb9hc+rS/iEXumN+V82PR7Rf6VpXALhRl
+        VZhHP0tjg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fldAv-0001qP-Ut; Fri, 03 Aug 2018 16:43:37 +0000
+Date:   Fri, 3 Aug 2018 09:43:37 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Kate Stewart <kstewart@linuxfoundation.org>,
         linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
@@ -43,7 +55,7 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Robin Murphy <robin.murphy@arm.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
-Message-ID: <20180803150945.GC9297@kroah.com>
+Message-ID: <20180803164337.GB4718@bombadil.infradead.org>
 References: <cover.1529507994.git.andreyknvl@google.com>
  <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
  <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
@@ -53,55 +65,55 @@ References: <cover.1529507994.git.andreyknvl@google.com>
  <20180801174256.5mbyf33eszml4nmu@armageddon.cambridge.arm.com>
  <CAAeHK+zb7vcehuX9=oxLUJVJr1ZcgmRTODQz7wsPy+rJb=3kbQ@mail.gmail.com>
  <CAAeHK+xTxPhfbVTNxcbsx7VdwQ21Bt-vo2ZU1tEM1_JX7uKnng@mail.gmail.com>
+ <20180803150945.GC9297@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAeHK+xTxPhfbVTNxcbsx7VdwQ21Bt-vo2ZU1tEM1_JX7uKnng@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20180803150945.GC9297@kroah.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 03, 2018 at 04:59:18PM +0200, Andrey Konovalov wrote:
-> On Thu, Aug 2, 2018 at 5:00 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> > On Wed, Aug 1, 2018 at 7:42 PM, Catalin Marinas <catalin.marinas@arm.com> wrote:
-> >> On Mon, Jul 16, 2018 at 01:25:59PM +0200, Andrey Konovalov wrote:
-> >>> On Thu, Jun 28, 2018 at 9:30 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> >>> So the checker reports ~100 different places where a __user pointer
-> >>> being casted. I've looked through them and found 3 places where we
-> >>> need to add untagging. Source code lines below come from 4.18-rc2+
-> >>> (6f0d349d).
-> >> [...]
-> >>> I'll add the 3 patches with fixes to v5 of this patchset.
-> >>
-> >> Thanks for investigating. You can fix those three places in your code
-> >
-> > OK, will do.
-> >
-> >> but I was rather looking for a way to check such casting in the future
-> >> for newly added code. While for the khwasan we can assume it's a debug
-> >> option, the tagged user pointers are ABI and we need to keep it stable.
-> >>
-> >> We could we actually add some macros for explicit conversion between
-> >> __user ptr and long and silence the warning there (I guess this would
-> >> work better for sparse). We can then detect new ptr to long casts as
-> >> they appear. I just hope that's not too intrusive.
-> >>
-> >> (I haven't tried the sparse patch yet, hopefully sometime this week)
-> >
-> > Haven't look at that sparse patch yet myself, but sounds doable.
-> > Should these macros go into this patchset or should they go
-> > separately?
+On Fri, Aug 03, 2018 at 05:09:45PM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Aug 03, 2018 at 04:59:18PM +0200, Andrey Konovalov wrote:
+> > Started looking at this. When I run sparse with default checks enabled
+> > (make C=1) I get countless warnings. Does anybody actually use it?
 > 
-> Started looking at this. When I run sparse with default checks enabled
-> (make C=1) I get countless warnings. Does anybody actually use it?
+> Try using a more up-to-date version of sparse.  Odds are you are using
+> an old one, there is a newer version in a different branch on kernel.org
+> somewhere...
 
-Try using a more up-to-date version of sparse.  Odds are you are using
-an old one, there is a newer version in a different branch on kernel.org
-somewhere...
+That's not true.  Building the current version of sparse from
+git://git.kernel.org/pub/scm/devel/sparse/sparse.git leaves me with a
+thousand errors just building the mm/ directory.  A sample:
 
-greg k-h
+../mm/filemap.c:2353:21: warning: expression using sizeof(void)
+../mm/filemap.c:2618:35: warning: symbol 'generic_file_vm_ops' was not declared. Should it be static?
+../include/linux/slab.h:666:13: error: undefined identifier '__builtin_mul_overflow'
+../include/linux/slab.h:666:13: warning: call with no type!
+../include/linux/rcupdate.h:683:9: warning: context imbalance in 'find_lock_task_mm' - wrong count at exit
+../include/linux/sched/mm.h:141:37: warning: dereference of noderef expression
+../mm/page_alloc.c:886:1: error: directive in argument list
+../include/trace/events/vmscan.h:79:1: warning: cast from restricted gfp_t
+../include/trace/events/vmscan.h:196:1: warning: too many warnings (ahem!)
+../mm/mmap.c:137:9: warning: cast to non-scalar
+../mm/mmap.c:137:9: warning: cast from non-scalar
+../mm/page_vma_mapped.c:134:29: warning: Using plain integer as NULL pointer
+../include/linux/slab.h:631:13: warning: call with no type!
+
+Basically, nobody is fixing their shit.  The only way that sparse output
+is useful is to log the warnings before your changes, log them afterwards
+and run diff.  The worst offender (as in: fixing it would remove most of
+the warnings) is the new min()/max() macro:
+
+        ra->start = max_t(long, 0, offset - ra->ra_pages / 2);
+
+produces that first warning at line 2353 of filemap.c.  I have no idea if
+this is a sparse mistake or something it's genuinely warning us about,
+but the sparse warnings are pretty ineffectual because nobody's paying
+attention to them.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
