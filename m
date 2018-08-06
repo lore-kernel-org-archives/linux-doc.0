@@ -2,60 +2,65 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1CEC57E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 01:27:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2C0467E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 01:41:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727039AbeHFDec (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 5 Aug 2018 23:34:32 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:10632 "EHLO huawei.com"
+        id S1726971AbeHFDsS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 5 Aug 2018 23:48:18 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:49570 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726988AbeHFDeb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 5 Aug 2018 23:34:31 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 3D9CA9C30C387;
-        Mon,  6 Aug 2018 09:27:48 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server (TLS) id 14.3.399.0; Mon, 6 Aug 2018
- 09:27:43 +0800
-Date:   Mon, 6 Aug 2018 09:26:22 +0800
+        id S1726834AbeHFDsS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 5 Aug 2018 23:48:18 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 48E82887AA216;
+        Mon,  6 Aug 2018 09:41:33 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server (TLS) id 14.3.399.0; Mon, 6 Aug 2018
+ 09:41:26 +0800
+Date:   Mon, 6 Aug 2018 09:40:04 +0800
 From:   Kenneth Lee <liguozhu@hisilicon.com>
-To:     Alan Cox <gnomes@lxorguk.ukuu.org.uk>
-CC:     Jerome Glisse <jglisse@redhat.com>,
+To:     Alex Williamson <alex.williamson@redhat.com>
+CC:     Kenneth Lee <liguozhu@hisilicon.com>,
         "Tian, Kevin" <kevin.tian@intel.com>,
         Kenneth Lee <nek.in.cn@gmail.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        "Herbert Xu" <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "Philippe Ombredanne" <pombredanne@nexb.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
         "David S . Miller" <davem@davemloft.net>,
-        Ross Zwisler <ross.zwisler@linux.intel.com>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180806012622.GE91035@Turing-Arch-b>
+        Joerg Roedel <joro@8bytes.org>,
+        Hao Fang <fanghao11@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-accelerators@lists.ozlabs.org" 
+        <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        <sanjay.k.kumar@intel.com>, <linuxarm@huawei.com>,
+        Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC PATCH 3/7] vfio: add spimdev support
+Message-ID: <20180806014004.GF91035@Turing-Arch-b>
 References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <20180801165644.GA3820@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
- <20180802111000.4649d9ed@alans-desktop>
- <20180802144627.GB3481@redhat.com>
- <20180803152043.40f88947@alans-desktop>
+ <20180801102221.5308-4-nek.in.cn@gmail.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D191290F7B@SHSMSX101.ccr.corp.intel.com>
+ <20180802034727.GK160746@Turing-Arch-b>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19129102C@SHSMSX101.ccr.corp.intel.com>
+ <20180802073440.GA91035@Turing-Arch-b>
+ <20180802103528.0b863030.cohuck@redhat.com>
+ <20180802124327.403b10ab@t450s.home>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180803152043.40f88947@alans-desktop>
+In-Reply-To: <20180802124327.403b10ab@t450s.home>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Originating-IP: [10.67.212.75]
 X-CFilter-Loop: Reflected
@@ -64,87 +69,165 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 03, 2018 at 03:20:43PM +0100, Alan Cox wrote:
-> Date: Fri, 3 Aug 2018 15:20:43 +0100
-> From: Alan Cox <gnomes@lxorguk.ukuu.org.uk>
-> To: Jerome Glisse <jglisse@redhat.com>
-> CC: "Tian, Kevin" <kevin.tian@intel.com>, Kenneth Lee
->  <nek.in.cn@gmail.com>, Hao Fang <fanghao11@huawei.com>, Herbert Xu
->  <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
->  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
->  Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-doc@vger.kernel.org"
->  <linux-doc@vger.kernel.org>, "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
->  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
->  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
->  "linuxarm@huawei.com" <linuxarm@huawei.com>, Alex Williamson
->  <alex.williamson@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
->  "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Philippe
->  Ombredanne <pombredanne@nexb.com>, Zaibo Xu <xuzaibo@huawei.com>, Kenneth
->  Lee <liguozhu@hisilicon.com>, "David S . Miller" <davem@davemloft.net>,
->  Ross Zwisler <ross.zwisler@linux.intel.com>
-> Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-> Organization: Intel Corporation
-> X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-> Message-ID: <20180803152043.40f88947@alans-desktop>
+On Thu, Aug 02, 2018 at 12:43:27PM -0600, Alex Williamson wrote:
+> Date: Thu, 2 Aug 2018 12:43:27 -0600
+> From: Alex Williamson <alex.williamson@redhat.com>
+> To: Cornelia Huck <cohuck@redhat.com>
+> CC: Kenneth Lee <liguozhu@hisilicon.com>, "Tian, Kevin"
+>  <kevin.tian@intel.com>, Kenneth Lee <nek.in.cn@gmail.com>, Jonathan Corbet
+>  <corbet@lwn.net>, Herbert Xu <herbert@gondor.apana.org.au>, "David S .
+>  Miller" <davem@davemloft.net>, Joerg Roedel <joro@8bytes.org>, Hao Fang
+>  <fanghao11@huawei.com>, Zhou Wang <wangzhou1@hisilicon.com>, Zaibo Xu
+>  <xuzaibo@huawei.com>, Philippe Ombredanne <pombredanne@nexb.com>, "Greg
+>  Kroah-Hartman" <gregkh@linuxfoundation.org>, Thomas Gleixner
+>  <tglx@linutronix.de>, "linux-doc@vger.kernel.org"
+>  <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+>  <linux-kernel@vger.kernel.org>, "linux-crypto@vger.kernel.org"
+>  <linux-crypto@vger.kernel.org>, "iommu@lists.linux-foundation.org"
+>  <iommu@lists.linux-foundation.org>, "kvm@vger.kernel.org"
+>  <kvm@vger.kernel.org>, "linux-accelerators@lists.ozlabs.org\"
+>          <linux-accelerators@lists.ozlabs.org>, Lu Baolu
+>  <baolu.lu@linux.intel.com>,  Kumar", <Sanjay K "
+>  <sanjay.k.kumar@intel.com>, " linuxarm@huawei.com "
+>  <linuxarm@huawei.com>">
+> Subject: Re: [RFC PATCH 3/7] vfio: add spimdev support
+> Message-ID: <20180802124327.403b10ab@t450s.home>
 > 
-> > If we are going to have any kind of general purpose accelerator API then
-> > > it has to be able to implement things like  
+> On Thu, 2 Aug 2018 10:35:28 +0200
+> Cornelia Huck <cohuck@redhat.com> wrote:
+> 
+> > On Thu, 2 Aug 2018 15:34:40 +0800
+> > Kenneth Lee <liguozhu@hisilicon.com> wrote:
 > > 
-> > Why is the existing driver model not good enough ? So you want
-> > a device with function X you look into /dev/X (for instance
-> > for GPU you look in /dev/dri)
+> > > On Thu, Aug 02, 2018 at 04:24:22AM +0000, Tian, Kevin wrote:  
+> > 
+> > > > > From: Kenneth Lee [mailto:liguozhu@hisilicon.com]
+> > > > > Sent: Thursday, August 2, 2018 11:47 AM
+> > > > >     
+> > > > > >    
+> > > > > > > From: Kenneth Lee
+> > > > > > > Sent: Wednesday, August 1, 2018 6:22 PM
+> > > > > > >
+> > > > > > > From: Kenneth Lee <liguozhu@hisilicon.com>
+> > > > > > >
+> > > > > > > SPIMDEV is "Share Parent IOMMU Mdev". It is a vfio-mdev. But differ    
+> > > > > from    
+> > > > > > > the general vfio-mdev:
+> > > > > > >
+> > > > > > > 1. It shares its parent's IOMMU.
+> > > > > > > 2. There is no hardware resource attached to the mdev is created. The
+> > > > > > > hardware resource (A `queue') is allocated only when the mdev is
+> > > > > > > opened.    
+> > > > > >
+> > > > > > Alex has concern on doing so, as pointed out in:
+> > > > > >
+> > > > > > 	https://www.spinics.net/lists/kvm/msg172652.html
+> > > > > >
+> > > > > > resource allocation should be reserved at creation time.    
+> > > > > 
+> > > > > Yes. That is why I keep telling that SPIMDEV is not for "VM", it is for "many
+> > > > > processes", it is just an access point to the process. Not a device to VM. I
+> > > > > hope
+> > > > > Alex can accept it:)
+> > > > >     
+> > > > 
+> > > > VFIO is just about assigning device resource to user space. It doesn't care
+> > > > whether it's native processes or VM using the device so far. Along the direction
+> > > > which you described, looks VFIO needs to support the configuration that
+> > > > some mdevs are used for native process only, while others can be used
+> > > > for both native and VM. I'm not sure whether there is a clean way to
+> > > > enforce it...    
+> > > 
+> > > I had the same idea at the beginning. But finally I found that the life cycle
+> > > of the virtual device for VM and process were different. Consider you create
+> > > some mdevs for VM use, you will give all those mdevs to lib-virt, which
+> > > distribute those mdev to VMs or containers. If the VM or container exits, the
+> > > mdev is returned to the lib-virt and used for next allocation. It is the
+> > > administrator who controlled every mdev's allocation.
 > 
-> Except when my GPU is in an FPGA in which case it might be somewhere else
-> or it's a general purpose accelerator that happens to be usable as a GPU.
-> Unusual today in big computer space but you'll find it in
-> microcontrollers.
+> Libvirt currently does no management of mdev devices, so I believe
+> this example is fictitious.  The extent of libvirt's interaction with
+> mdev is that XML may specify an mdev UUID as the source for a hostdev
+> and set the permissions on the device files appropriately.  Whether
+> mdevs are created in advance and re-used or created and destroyed
+> around a VM instance (for example via qemu hooks scripts) is not a
+> policy that libvirt imposes.
+>  
+> > > But for process, it is different. There is no lib-virt in control. The
+> > > administrator's intension is to grant some type of application to access the
+> > > hardware. The application can get a handle of the hardware, send request and get
+> > > the result. That's all. He/She dose not care which mdev is allocated to that
+> > > application. If it crashes, it should be the kernel's responsibility to withdraw
+> > > the resource, the system administrator does not want to do it by hand.  
 > 
-> > Each of those device need a userspace driver and thus this
-> > user space driver can easily knows where to look. I do not
-> > expect that every application will reimplement those drivers
-> > but instead use some kind of library that provide a high
-> > level API for each of those devices.
+> Libvirt is also not a required component for VM lifecycles, it's an
+> optional management interface, but there are also VM lifecycles exactly
+> as you describe.  A VM may want a given type of vGPU, there might be
+> multiple sources of that type and any instance is fungible to any
+> other.  Such an mdev can be dynamically created, assigned to the VM,
+> and destroyed later.  Why do we need to support "empty" mdevs that do
+> not reserve reserve resources until opened?  The concept of available
+> instances is entirely lost with that approach and it creates an
+> environment that's difficult to support, resources may not be available
+> at the time the user attempts to access them.
+>  
+> > I don't think that you should distinguish the cases by the presence of
+> > a management application. How can the mdev driver know what the
+> > intention behind using the device is?
 > 
-> Think about it from the user level. You have a pipeline of things you
-> wish to execute, you need to get the right accelerator combinations and
-> they need to fit together to meet system constraints like number of
-> IOMMU ids the accelerator supports, where they are connected.
+> Absolutely, vfio is a userspace driver interface, it's not tailored to
+> VM usage and we cannot know the intentions of the user.
+>  
+> > Would it make more sense to use a different mechanism to enforce that
+> > applications only use those handles they are supposed to use? Maybe
+> > cgroups? I don't think it's a good idea to push usage policy into the
+> > kernel.
 > 
-> > Now you have a hierarchy of memory for the CPU (HBM, local
-> > node main memory aka you DDR dimm, persistent memory) each
+> I agree, this sounds like a userspace problem, mdev supports dynamic
+> creation and removal of mdev devices, if there's an issue with
+> maintaining a set of standby devices that a user has access to, this
+> sounds like a userspace broker problem.  It makes more sense to me to
+> have a model where a userspace application can make a request to a
+> broker and the broker can reply with "none available" rather than
+> having a set of devices on standby that may or may not work depending
+> on the system load and other users.  Thanks,
 > 
-> It's not a heirarchy, it's a graph. There's no fundamental reason two
-> accelerators can't be close to two different CPU cores but have shared
-> HBM that is far from each processor. There are physical reasons it tends
-> to look more like a heirarchy today.
-> 
-> > Anyway i think finding devices and finding relation between
-> > devices and memory is 2 separate problems and as such should
-> > be handled separatly.
-> 
-> At a certain level they are deeply intertwined because you need a common
-> API. It's not good if I want a particular accelerator and need to then
-> see which API its under on this machine and which interface I have to
-> use, and maybe have a mix of FPGA, WarpDrive and Google ASIC interfaces
-> all different.
-> 
-> The job of the kernel is to impose some kind of sanity and unity on this
-> lot.
-> 
-> All of it in the end comes down to
-> 
-> 'Somehow glue some chunk of memory into my address space and find any
-> supporting driver I need'
-> 
+> Alex
 
-Agree. This is also our intension on WarpDrive. And it looks VFIO is the best
-place to fulfill this requirement.
+I am sorry, I used a wrong mutt command when reply to Cornelia's last mail. The
+last reply dose not stay within this thread. So please let me repeat my point
+here.
 
-> plus virtualization of the above.
-> 
-> That bit's easy - but making it usable is a different story.
-> 
-> Alan
+I should not have use libvirt as the example. But WarpDrive works in such
+scenario:
+
+1. It supports thousands of processes. Take zip accelerator as an example, any
+application need data compression/decompression will need to interact with the
+accelerator. To support that, you have to create tens of thousands of mdev for
+their usage. I don't think it is a good idea to have so many devices in the
+system.
+
+2. The application does not want to own the mdev for long. It just need an
+access point for the hardware service. If it has to interact with an management
+agent for allocation and release, this makes the problem complex.
+
+3. The service is bound with the process. When the process exit, the resource
+should be released automatically. Kernel is the best place to monitor the state
+of the process.
+
+I agree this extending the concept of mdev. But again, it is cleaner than
+creating another facility for user land DMA. We just need to take mdev as an
+access point of the device: when it is open, the resource is given. It is not a
+device for a particular entity or instance. But it is still a device which can
+provide service of the hardware.
+
+Cornelia is worrying about resource starving. I think that can be solved by set
+restriction on the mdev itself. Mdev management agent dose not help much here.
+Management on the mdev itself can still lead to the status of running out of
+resource.
+
+Thanks
+
 
 -- 
 			-Kenneth(Hisilicon)
