@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 78A517E3E5
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 16:41:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 186647E3E5
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 16:41:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387544AbeHFSut (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 Aug 2018 14:50:49 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46295 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387520AbeHFSus (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 14:50:48 -0400
-Received: by mail-wr1-f66.google.com with SMTP id h14-v6so12954380wrw.13
-        for <linux-doc@vger.kernel.org>; Mon, 06 Aug 2018 09:40:53 -0700 (PDT)
+        id S2387726AbeHFSvB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 Aug 2018 14:51:01 -0400
+Received: from mail-wm0-f67.google.com ([74.125.82.67]:53266 "EHLO
+        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387715AbeHFSvB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 14:51:01 -0400
+Received: by mail-wm0-f67.google.com with SMTP id s9-v6so14481526wmh.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Aug 2018 09:41:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4JRXIJLBl4B77V9Zp1bHxiibsTuS9qYiG3W/7d2vbs4=;
-        b=R/QQR8lwOQTXtE/oXjwJAsQ6MM1WVm3FlazsgX/aoQPMCA3dcLUASxhKx4Pplf+yQ0
-         4V6ug1JKt6ziqBRwZwS6iAO/g/BNVmuE7M2z4Nff3l5qA5wV1pMDNQLQ1p0gtpBorb9e
-         NoeOSZTbjM0O1xmOde+LtERaVHKcYoHkCDQbmqESNjs2LQt8eekMRKU1W7qZSAW6qLVm
-         +Fx6xH5Mcstxa2SY1Bw3MH4BsO/uZ4RxFoG8EwEACbqq2dLYGgzO73m28tBdYs5VGwY6
-         F9xMgGSLTnvUPRGcD/MP48ffV2V5nBKIZ6NP4Oah6+pSKfI1QsVECqebnw0Pac8qDleP
-         BHSA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=MRLVSCH0Nl1kzAwRQQajvguDlRs+/L7hQOGZ466Yf5o=;
+        b=imLs9/aOpxfxymi3Jm6LL6Cl+HPgYBfHrn/Rg9Cv1bIX3BAGWdVj4LT09FPkG31amJ
+         2CoFZRgddIiWLsCzIWVXY1G1pFFxYVV8Mfp0qYuiZKiuMWN8Z0EzTMIHLKSlNuRG8u8T
+         xollaHvv6gm2kjD0sMtaDFY/wRtfr0zOBGh8hemHLeRmD0Zq4K/I636KJEl/+SUtHWlK
+         uPEVc4iPimcP9RTeAqVnlD6hx+VF6k8mnbMDmCCsv5pwcAQHCBhjwC3K4bOq0jwDBs8d
+         fWI2OUe+eqE4h6JB7APAHwjbDL+As93F2/61VDpaxx+VJF3TJmmPJ82EujRrL8QyfY81
+         0kXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4JRXIJLBl4B77V9Zp1bHxiibsTuS9qYiG3W/7d2vbs4=;
-        b=t7dewoUlZv5x0UtWLkJ27BwoEazGJUQHTe6OLy6jQv51N12y9Mgda2HdtfF2AoeDGD
-         TdEuWMJ7Kxb+QP3riZ1lgFpWvE+rUl61AytWfUFVxLbRqg8a6t3MeMbNASPD6WPpUdpi
-         Sq8YWxbkU5+ycd/bOwslrGisRYNRcITPO5091pqfZn2qIetmP7PWtsPZmrP/VrXOr/U+
-         kv5g1641lu8fRuIDHk4SBXFki19hTO+gq2v3HAbEuq0Wr5Lzt2s4CeUeCAxA1oL9WwN1
-         6uSrOf2say+T+xCOqKt6Mx0Kjz1cX0+rJpWgPqUuTp1Q/P7TUc2J8uRjEuNNLkggHRWN
-         a7UQ==
-X-Gm-Message-State: AOUpUlGnANCgilJAkkgZoM+ItBWPRzvbZfx/Nv9KSot4F7TSdkthJioV
-        l16wC7bvXJKaEtrYxkQjzViHzw==
-X-Google-Smtp-Source: AAOMgpevV7lqMLifigVw6GPYsm4a3KGutEKLiEuzKRNJ7bqKjYjYA3wEC5YWatl/Eu1t3nonlXKnTg==
-X-Received: by 2002:a5d:504d:: with SMTP id h13-v6mr9764161wrt.18.1533573652777;
-        Mon, 06 Aug 2018 09:40:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=MRLVSCH0Nl1kzAwRQQajvguDlRs+/L7hQOGZ466Yf5o=;
+        b=LS8ysFfyagsne2R6PXvTxNCoOSruD5dt38stABlYL8m5wv99zLtL8h6hwPd+vO8BVX
+         IaIsbxNPQteYYhHIT00HTDUIPsPS8PosyILG9sFf7k36k9MKXcqC0Rvl0GLZOXzSq6zI
+         CVxh2lKBr0voIfFYkSEihqggS+99hcBzeppWp5sfl677hT7rzJsPz1aiBDeQK3GcMhaB
+         IrACqYIT5VL3TvZvIMx61pz8xGi7lOETAnJCXg+QbBipuwJZrjB5p9W9iN8F7NqWjA75
+         gndSPzXAeuxHE5mlMUexsnIN1ZRR/PtKMUPQZEehoVA2faek32bl/BotxHNDbGdQsPMW
+         2HZQ==
+X-Gm-Message-State: AOUpUlH+0N57eXuViCY3Kwxr/zENYK0v4uTMhcmei6FKDijJoOsQm4/1
+        AVXgn0T+fAVYZVLzCnR08ZbdPw==
+X-Google-Smtp-Source: AAOMgpdwhViAs+BEk/dzpjpUJqfDn+Z0f2edpJCMumu9mOlf7GNNn7B6rxYD936ltUhmZIL38rBNtg==
+X-Received: by 2002:a1c:b756:: with SMTP id h83-v6mr13169480wmf.8.1533573665078;
+        Mon, 06 Aug 2018 09:41:05 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id 66-v6sm16385790wmw.34.2018.08.06.09.40.51
+        by smtp.gmail.com with ESMTPSA id 66-v6sm16385790wmw.34.2018.08.06.09.41.03
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 06 Aug 2018 09:40:52 -0700 (PDT)
+        Mon, 06 Aug 2018 09:41:04 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -72,10 +72,12 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v5 00/10] arm64: untag user pointers passed to the kernel
-Date:   Mon,  6 Aug 2018 18:40:35 +0200
-Message-Id: <cover.1533573460.git.andreyknvl@google.com>
+Subject: [PATCH v5 08/10] usb, arm64: untag user addresses in devio
+Date:   Mon,  6 Aug 2018 18:40:43 +0200
+Message-Id: <39bbae2c9d880bd3c27ac3ee03d4be72e161491c.1533573460.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.18.0.597.ga71716f1ad-goog
+In-Reply-To: <cover.1533573460.git.andreyknvl@google.com>
+References: <cover.1533573460.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -83,79 +85,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-tags into the top byte of each pointer. Userspace programs (such as
-HWASan, a memory debugging tool [1]) might use this feature and pass
-tagged user pointers to the kernel through syscalls or other interfaces.
+devio allows to mmap memory regions and keeps them in a list. It also
+accepts a user address through an ioctl call and searches the memory
+region list for the region that contains this address. Since the addresses
+provided to mmap must not be tagged, and the addresses provided to ioctl
+might be tagged, we might compare tagged and untagged addresses during the
+search.
 
-This patch makes a few of the kernel interfaces accept tagged user
-pointers. The kernel is already able to handle user faults with tagged
-pointers and has the untagged_addr macro, which this patchset reuses.
+Untag the provided addresses before searching.
 
-Thanks!
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ drivers/usb/core/devio.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-
-Changes in v5:
-- Added 3 new patches that add untagging to places found with static
-  analysis.
-- Rebased onto 44c929e1 (4.18-rc8).
-
-Changes in v4:
-- Added a selftest for checking that passing tagged pointers to the
-  kernel succeeds.
-- Rebased onto 81e97f013 (4.18-rc1+).
-
-Changes in v3:
-- Rebased onto e5c51f30 (4.17-rc6+).
-- Added linux-arch@ to the list of recipients.
-
-Changes in v2:
-- Rebased onto 2d618bdf (4.17-rc3+).
-- Removed excessive untagging in gup.c.
-- Removed untagging pointers returned from __uaccess_mask_ptr.
-
-Changes in v1:
-- Rebased onto 4.17-rc1.
-
-Changes in RFC v2:
-- Added "#ifndef untagged_addr..." fallback in linux/uaccess.h instead of
-  defining it for each arch individually.
-- Updated Documentation/arm64/tagged-pointers.txt.
-- Dropped "mm, arm64: untag user addresses in memory syscalls".
-- Rebased onto 3eb2ce82 (4.16-rc7).
-
-Andrey Konovalov (10):
-  arm64: add type casts to untagged_addr macro
-  uaccess: add untagged_addr definition for other arches
-  arm64: untag user addresses in access_ok and __uaccess_mask_ptr
-  mm, arm64: untag user addresses in mm/gup.c
-  lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
-  arm64: untag user address in __do_user_fault
-  fs, arm64: untag user address in copy_mount_options
-  usb, arm64: untag user addresses in devio
-  arm64: update Documentation/arm64/tagged-pointers.txt
-  selftests, arm64: add a selftest for passing tagged pointers to kernel
-
- Documentation/arm64/tagged-pointers.txt       |  5 +++--
- arch/arm64/include/asm/uaccess.h              | 14 +++++++++-----
- arch/arm64/mm/fault.c                         |  2 +-
- drivers/usb/core/devio.c                      |  8 +++++---
- fs/namespace.c                                |  2 +-
- include/linux/uaccess.h                       |  4 ++++
- lib/strncpy_from_user.c                       |  2 ++
- lib/strnlen_user.c                            |  2 ++
- mm/gup.c                                      |  4 ++++
- tools/testing/selftests/arm64/.gitignore      |  1 +
- tools/testing/selftests/arm64/Makefile        | 11 +++++++++++
- .../testing/selftests/arm64/run_tags_test.sh  | 12 ++++++++++++
- tools/testing/selftests/arm64/tags_test.c     | 19 +++++++++++++++++++
- 13 files changed, 74 insertions(+), 12 deletions(-)
- create mode 100644 tools/testing/selftests/arm64/.gitignore
- create mode 100644 tools/testing/selftests/arm64/Makefile
- create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
- create mode 100644 tools/testing/selftests/arm64/tags_test.c
-
+diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+index 476dcc5f2da3..357c2e7b87b8 100644
+--- a/drivers/usb/core/devio.c
++++ b/drivers/usb/core/devio.c
+@@ -1404,7 +1404,7 @@ find_memory_area(struct usb_dev_state *ps, const struct usbdevfs_urb *uurb)
+ {
+ 	struct usb_memory *usbm = NULL, *iter;
+ 	unsigned long flags;
+-	unsigned long uurb_start = (unsigned long)uurb->buffer;
++	unsigned long uurb_start = (unsigned long)untagged_addr(uurb->buffer);
+ 
+ 	spin_lock_irqsave(&ps->lock, flags);
+ 	list_for_each_entry(iter, &ps->memory_list, memlist) {
+@@ -1633,7 +1633,8 @@ static int proc_do_submiturb(struct usb_dev_state *ps, struct usbdevfs_urb *uurb
+ 		}
+ 	} else if (uurb->buffer_length > 0) {
+ 		if (as->usbm) {
+-			unsigned long uurb_start = (unsigned long)uurb->buffer;
++			unsigned long uurb_start =
++				(unsigned long)untagged_addr(uurb->buffer);
+ 
+ 			as->urb->transfer_buffer = as->usbm->mem +
+ 					(uurb_start - as->usbm->vm_start);
+@@ -1712,7 +1713,8 @@ static int proc_do_submiturb(struct usb_dev_state *ps, struct usbdevfs_urb *uurb
+ 	as->ps = ps;
+ 	as->userurb = arg;
+ 	if (as->usbm) {
+-		unsigned long uurb_start = (unsigned long)uurb->buffer;
++		unsigned long uurb_start =
++			(unsigned long)untagged_addr(uurb->buffer);
+ 
+ 		as->urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
+ 		as->urb->transfer_dma = as->usbm->dma_handle +
 -- 
 2.18.0.597.ga71716f1ad-goog
 
