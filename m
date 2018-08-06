@@ -1,112 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 844457E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 00:23:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1CEC57E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 01:27:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726897AbeHFC3r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 5 Aug 2018 22:29:47 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:36377 "EHLO
-        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726870AbeHFC3q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Aug 2018 22:29:46 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 5D7CE431;
-        Sun,  5 Aug 2018 20:23:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sun, 05 Aug 2018 20:23:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=IdpQbaQ32i5slcI8UnxKIN+itjJ0QGA9hP7Zha22vzo=; b=B4HT+ulL
-        nonvVSAVPQwhjFJm9j+pDQtFeWlHgtcyVN3Tit1ekjpnDBNwRWkcWsoWIxtdhY05
-        lB+j0YRlElQL3lxVIEImXmv8zaRwZPuHMKkwNJeFsMk6zAFI3ZcoKZpHNxsw51s/
-        GqgIE0HySQdCTLUUpO0fyIAUXIVSlomraNC0kxXvjNZRjJZxEW6cOSDObjZAo6TT
-        9PkbmfZUjhi6O0IHS1p6Fs2gFm/9QJGSqwc8/JoYMEzUidc3ozxYAAvyAOxuekLn
-        Dg95iCdOUuxdk+HfKhQHh8RNpMC6mpt4n4IVYF3OO3DDNVYRohS+LRUynL79pIvu
-        3iY6xe2b4QbmlQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=IdpQbaQ32i5slcI8UnxKIN+itjJ0Q
-        GA9hP7Zha22vzo=; b=HvcnF+HsESAJDSXr1jLierxAcrbHO7J0ssrS9iuqU8kCr
-        z9XLjZ1Kh7R36PmBDscbtqL4zSqR5yDpPaJvJzE8+vcIl7EEKNw+t7dQn+49UuKt
-        HNmETGDy5IwFVBjuIPi+P2gru4eCrT7djvck0HZDrBFcwyKEacUQYoGRAAVa/B58
-        nn08bPSpj4aJQQrX0e58fF6V6oH2SpNTh/6Cz+gMMXBGXDmunr1rmmNmQrJ7qSdT
-        X88WB0CLBS4hviJ8c2BmskLqdn94ygMLm/X0HAUnyvX4TzGarikdf8iC42tOENdc
-        q2rI+AKk9bVe4pliTIUalyYKAN0ijXPOZ2IzAwYuQ==
-X-ME-Proxy: <xmx:9ZRnW4XDzTZTt4GdgvVTyrwpf4gMHDoDfbllGH1Z4D5BnvlJ2XVlzA>
-    <xmx:9ZRnW1qzUCEpmANop0DYpz5iyg3XC69u3ie1wbIAf0oFwdK5fq9pYA>
-    <xmx:9ZRnW1eW4xfEpYvP1nciUiHYXfL4MfYsl8JE78doMST5Hh3bHH-4rw>
-    <xmx:9ZRnWzGsD9AAS48lps2pAuz_2biUouRKSF9bTrn72JoKFAJjU7xS2g>
-    <xmx:9ZRnW71dZD19uUjyWujiZX6zgWAuSK7wSmgxrLLoKMl7LnKN8YyviQ>
-    <xmx:9ZRnWwwhiD5esXMEQJMLfBJ8hoDBakw7gE-lKmRSwZaVqa3YIJbL0A>
-X-ME-Sender: <xms:9ZRnWz8WySkGXCJLSMGhyNLDoCDeNL0pxv3jR4on8oFUNGpMYxwMHA>
-Received: from localhost (ppp121-44-251-7.bras2.syd2.internode.on.net [121.44.251.7])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 1C0E5E455E;
-        Sun,  5 Aug 2018 20:23:16 -0400 (EDT)
-Date:   Mon, 6 Aug 2018 10:23:14 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Daniel Borkmann <daniel@iogearbox.net>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
+        id S1727039AbeHFDec (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 5 Aug 2018 23:34:32 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:10632 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726988AbeHFDeb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 5 Aug 2018 23:34:31 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 3D9CA9C30C387;
+        Mon,  6 Aug 2018 09:27:48 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server (TLS) id 14.3.399.0; Mon, 6 Aug 2018
+ 09:27:43 +0800
+Date:   Mon, 6 Aug 2018 09:26:22 +0800
+From:   Kenneth Lee <liguozhu@hisilicon.com>
+To:     Alan Cox <gnomes@lxorguk.ukuu.org.uk>
+CC:     Jerome Glisse <jglisse@redhat.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        Kenneth Lee <nek.in.cn@gmail.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        "Herbert Xu" <herbert@gondor.apana.org.au>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next 12/13] docs: net: Fix various minor typos
-Message-ID: <20180806002314.GK3088@eros>
-References: <20180801050908.29970-1-me@tobin.cc>
- <20180801050908.29970-13-me@tobin.cc>
- <76cf11bc-61b3-8068-5546-79d3ff3a58e9@iogearbox.net>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "Philippe Ombredanne" <pombredanne@nexb.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ross Zwisler <ross.zwisler@linux.intel.com>
+Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180806012622.GE91035@Turing-Arch-b>
+References: <20180801102221.5308-1-nek.in.cn@gmail.com>
+ <20180801165644.GA3820@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+ <20180802111000.4649d9ed@alans-desktop>
+ <20180802144627.GB3481@redhat.com>
+ <20180803152043.40f88947@alans-desktop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <76cf11bc-61b3-8068-5546-79d3ff3a58e9@iogearbox.net>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180803152043.40f88947@alans-desktop>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [10.67.212.75]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 03, 2018 at 10:41:12AM +0200, Daniel Borkmann wrote:
-> On 08/01/2018 07:09 AM, Tobin C. Harding wrote:
-> > There are a few minor typos and grammatical issues.  We should however
-> > try to keep the current flavour of the document.
-> > 
-> > Fix typos and grammar if glaringly required.
-> > 
-> > Signed-off-by: Tobin C. Harding <me@tobin.cc>
+On Fri, Aug 03, 2018 at 03:20:43PM +0100, Alan Cox wrote:
+> Date: Fri, 3 Aug 2018 15:20:43 +0100
+> From: Alan Cox <gnomes@lxorguk.ukuu.org.uk>
+> To: Jerome Glisse <jglisse@redhat.com>
+> CC: "Tian, Kevin" <kevin.tian@intel.com>, Kenneth Lee
+>  <nek.in.cn@gmail.com>, Hao Fang <fanghao11@huawei.com>, Herbert Xu
+>  <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
+>  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
+>  Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-doc@vger.kernel.org"
+>  <linux-doc@vger.kernel.org>, "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+>  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+>  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+>  "linuxarm@huawei.com" <linuxarm@huawei.com>, Alex Williamson
+>  <alex.williamson@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+>  "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Philippe
+>  Ombredanne <pombredanne@nexb.com>, Zaibo Xu <xuzaibo@huawei.com>, Kenneth
+>  Lee <liguozhu@hisilicon.com>, "David S . Miller" <davem@davemloft.net>,
+>  Ross Zwisler <ross.zwisler@linux.intel.com>
+> Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+> Organization: Intel Corporation
+> X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+> Message-ID: <20180803152043.40f88947@alans-desktop>
 > 
-> Overall looks good, just some minor nits:
-> 
-> >  Documentation/networking/filter.rst | 65 +++++++++++++++--------------
-> >  1 file changed, 33 insertions(+), 32 deletions(-)
+> > If we are going to have any kind of general purpose accelerator API then
+> > > it has to be able to implement things like  
 > > 
-> > diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-> > index 99dfa74fc4f7..b989a6c882b8 100644
-> > --- a/Documentation/networking/filter.rst
-> > +++ b/Documentation/networking/filter.rst
-> > @@ -32,10 +32,10 @@ removing the old one and placing your new one in its place, assuming your
-> >  filter has passed the checks, otherwise if it fails the old filter will
-> >  remain on that socket.
-> >  
-> > -SO_LOCK_FILTER option allows to lock the filter attached to a socket. Once
-> > -set, a filter cannot be removed or changed. This allows one process to
-> > +SO_LOCK_FILTER option allows locking of the filter attached to a socket.
-> > +Once set, a filter cannot be removed or changed. This allows one process to
-> >  setup a socket, attach a filter, lock it then drop privileges and be
-> > -assured that the filter will be kept until the socket is closed.
-> > +assured  that the filter will be kept until the socket is closed.
+> > Why is the existing driver model not good enough ? So you want
+> > a device with function X you look into /dev/X (for instance
+> > for GPU you look in /dev/dri)
 > 
->           ^-- looks like extra whitespace slipped in?
+> Except when my GPU is in an FPGA in which case it might be somewhere else
+> or it's a general purpose accelerator that happens to be usable as a GPU.
+> Unusual today in big computer space but you'll find it in
+> microcontrollers.
+> 
+> > Each of those device need a userspace driver and thus this
+> > user space driver can easily knows where to look. I do not
+> > expect that every application will reimplement those drivers
+> > but instead use some kind of library that provide a high
+> > level API for each of those devices.
+> 
+> Think about it from the user level. You have a pipeline of things you
+> wish to execute, you need to get the right accelerator combinations and
+> they need to fit together to meet system constraints like number of
+> IOMMU ids the accelerator supports, where they are connected.
+> 
+> > Now you have a hierarchy of memory for the CPU (HBM, local
+> > node main memory aka you DDR dimm, persistent memory) each
+> 
+> It's not a heirarchy, it's a graph. There's no fundamental reason two
+> accelerators can't be close to two different CPU cores but have shared
+> HBM that is far from each processor. There are physical reasons it tends
+> to look more like a heirarchy today.
+> 
+> > Anyway i think finding devices and finding relation between
+> > devices and memory is 2 separate problems and as such should
+> > be handled separatly.
+> 
+> At a certain level they are deeply intertwined because you need a common
+> API. It's not good if I want a particular accelerator and need to then
+> see which API its under on this machine and which interface I have to
+> use, and maybe have a mix of FPGA, WarpDrive and Google ASIC interfaces
+> all different.
+> 
+> The job of the kernel is to impose some kind of sanity and unity on this
+> lot.
+> 
+> All of it in the end comes down to
+> 
+> 'Somehow glue some chunk of memory into my address space and find any
+> supporting driver I need'
+> 
 
-Fixed in the RFC.  Thanks for taking the time review.
+Agree. This is also our intension on WarpDrive. And it looks VFIO is the best
+place to fulfill this requirement.
 
-	Tobin
+> plus virtualization of the above.
+> 
+> That bit's easy - but making it usable is a different story.
+> 
+> Alan
+
+-- 
+			-Kenneth(Hisilicon)
+
+================================================================================
+本邮件及其附件含有华为公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁
+止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中
+的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！
+This e-mail and its attachments contain confidential information from HUAWEI,
+which is intended only for the person or entity whose address is listed above.
+Any use of the 
+information contained herein in any way (including, but not limited to, total or
+partial disclosure, reproduction, or dissemination) by persons other than the
+intended 
+recipient(s) is prohibited. If you receive this e-mail in error, please notify
+the sender by phone or email immediately and delete it!
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
