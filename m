@@ -5,62 +5,58 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2C0467E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 01:41:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ED9E17E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 03:14:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726971AbeHFDsS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 5 Aug 2018 23:48:18 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:49570 "EHLO huawei.com"
+        id S1726704AbeHFFV0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 Aug 2018 01:21:26 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:10635 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726834AbeHFDsS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 5 Aug 2018 23:48:18 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 48E82887AA216;
-        Mon,  6 Aug 2018 09:41:33 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server (TLS) id 14.3.399.0; Mon, 6 Aug 2018
- 09:41:26 +0800
-Date:   Mon, 6 Aug 2018 09:40:04 +0800
+        id S1726338AbeHFFV0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Aug 2018 01:21:26 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 0079FD9167D66;
+        Mon,  6 Aug 2018 11:14:20 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server (TLS) id 14.3.399.0; Mon, 6 Aug 2018
+ 11:14:14 +0800
+Date:   Mon, 6 Aug 2018 11:12:52 +0800
 From:   Kenneth Lee <liguozhu@hisilicon.com>
-To:     Alex Williamson <alex.williamson@redhat.com>
-CC:     Kenneth Lee <liguozhu@hisilicon.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     Jerome Glisse <jglisse@redhat.com>
+CC:     "Tian, Kevin" <kevin.tian@intel.com>,
         Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Joerg Roedel <joro@8bytes.org>,
-        Hao Fang <fanghao11@huawei.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
         "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kenneth Lee <nek.in.cn@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
         "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        <sanjay.k.kumar@intel.com>, <linuxarm@huawei.com>,
-        Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [RFC PATCH 3/7] vfio: add spimdev support
-Message-ID: <20180806014004.GF91035@Turing-Arch-b>
+        <linux-accelerators@lists.ozlabs.org>
+Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180806031252.GG91035@Turing-Arch-b>
 References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <20180801102221.5308-4-nek.in.cn@gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D191290F7B@SHSMSX101.ccr.corp.intel.com>
- <20180802034727.GK160746@Turing-Arch-b>
- <AADFC41AFE54684AB9EE6CBC0274A5D19129102C@SHSMSX101.ccr.corp.intel.com>
- <20180802073440.GA91035@Turing-Arch-b>
- <20180802103528.0b863030.cohuck@redhat.com>
- <20180802124327.403b10ab@t450s.home>
+ <20180801165644.GA3820@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+ <20180802040557.GL160746@Turing-Arch-b>
+ <20180802142243.GA3481@redhat.com>
+ <20180803034721.GC91035@Turing-Arch-b>
+ <20180803143944.GA4079@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180802124327.403b10ab@t450s.home>
+In-Reply-To: <20180803143944.GA4079@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Originating-IP: [10.67.212.75]
 X-CFilter-Loop: Reflected
@@ -69,165 +65,232 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 02, 2018 at 12:43:27PM -0600, Alex Williamson wrote:
-> Date: Thu, 2 Aug 2018 12:43:27 -0600
-> From: Alex Williamson <alex.williamson@redhat.com>
-> To: Cornelia Huck <cohuck@redhat.com>
-> CC: Kenneth Lee <liguozhu@hisilicon.com>, "Tian, Kevin"
->  <kevin.tian@intel.com>, Kenneth Lee <nek.in.cn@gmail.com>, Jonathan Corbet
->  <corbet@lwn.net>, Herbert Xu <herbert@gondor.apana.org.au>, "David S .
->  Miller" <davem@davemloft.net>, Joerg Roedel <joro@8bytes.org>, Hao Fang
->  <fanghao11@huawei.com>, Zhou Wang <wangzhou1@hisilicon.com>, Zaibo Xu
->  <xuzaibo@huawei.com>, Philippe Ombredanne <pombredanne@nexb.com>, "Greg
->  Kroah-Hartman" <gregkh@linuxfoundation.org>, Thomas Gleixner
->  <tglx@linutronix.de>, "linux-doc@vger.kernel.org"
->  <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
->  <linux-kernel@vger.kernel.org>, "linux-crypto@vger.kernel.org"
->  <linux-crypto@vger.kernel.org>, "iommu@lists.linux-foundation.org"
->  <iommu@lists.linux-foundation.org>, "kvm@vger.kernel.org"
->  <kvm@vger.kernel.org>, "linux-accelerators@lists.ozlabs.org\"
->          <linux-accelerators@lists.ozlabs.org>, Lu Baolu
->  <baolu.lu@linux.intel.com>,  Kumar", <Sanjay K "
->  <sanjay.k.kumar@intel.com>, " linuxarm@huawei.com "
->  <linuxarm@huawei.com>">
-> Subject: Re: [RFC PATCH 3/7] vfio: add spimdev support
-> Message-ID: <20180802124327.403b10ab@t450s.home>
+On Fri, Aug 03, 2018 at 10:39:44AM -0400, Jerome Glisse wrote:
+> Date: Fri, 3 Aug 2018 10:39:44 -0400
+> From: Jerome Glisse <jglisse@redhat.com>
+> To: Kenneth Lee <liguozhu@hisilicon.com>
+> CC: "Tian, Kevin" <kevin.tian@intel.com>, Herbert Xu
+>  <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
+>  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
+>  Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo Xu <xuzaibo@huawei.com>,
+>  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Kumar, Sanjay K"
+>  <sanjay.k.kumar@intel.com>, Hao Fang <fanghao11@huawei.com>,
+>  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+>  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+>  "linuxarm@huawei.com" <linuxarm@huawei.com>, Alex Williamson
+>  <alex.williamson@redhat.com>, "linux-crypto@vger.kernel.org"
+>  <linux-crypto@vger.kernel.org>, Philippe Ombredanne
+>  <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>, Kenneth Lee
+>  <nek.in.cn@gmail.com>, "David S . Miller" <davem@davemloft.net>,
+>  "linux-accelerators@lists.ozlabs.org"
+>  <linux-accelerators@lists.ozlabs.org>
+> Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+> User-Agent: Mutt/1.10.0 (2018-05-17)
+> Message-ID: <20180803143944.GA4079@redhat.com>
 > 
-> On Thu, 2 Aug 2018 10:35:28 +0200
-> Cornelia Huck <cohuck@redhat.com> wrote:
-> 
-> > On Thu, 2 Aug 2018 15:34:40 +0800
-> > Kenneth Lee <liguozhu@hisilicon.com> wrote:
-> > 
-> > > On Thu, Aug 02, 2018 at 04:24:22AM +0000, Tian, Kevin wrote:  
-> > 
-> > > > > From: Kenneth Lee [mailto:liguozhu@hisilicon.com]
-> > > > > Sent: Thursday, August 2, 2018 11:47 AM
-> > > > >     
-> > > > > >    
-> > > > > > > From: Kenneth Lee
-> > > > > > > Sent: Wednesday, August 1, 2018 6:22 PM
-> > > > > > >
+> On Fri, Aug 03, 2018 at 11:47:21AM +0800, Kenneth Lee wrote:
+> > On Thu, Aug 02, 2018 at 10:22:43AM -0400, Jerome Glisse wrote:
+> > > Date: Thu, 2 Aug 2018 10:22:43 -0400
+> > > From: Jerome Glisse <jglisse@redhat.com>
+> > > To: Kenneth Lee <liguozhu@hisilicon.com>
+> > > CC: "Tian, Kevin" <kevin.tian@intel.com>, Hao Fang <fanghao11@huawei.com>,
+> > >  Alex Williamson <alex.williamson@redhat.com>, Herbert Xu
+> > >  <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
+> > >  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
+> > >  Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo Xu <xuzaibo@huawei.com>,
+> > >  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Kumar, Sanjay K"
+> > >  <sanjay.k.kumar@intel.com>, Kenneth Lee <nek.in.cn@gmail.com>,
+> > >  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+> > >  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+> > >  "linuxarm@huawei.com" <linuxarm@huawei.com>,
+> > >  "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Philippe
+> > >  Ombredanne <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>,
+> > >  "David S . Miller" <davem@davemloft.net>,
+> > >  "linux-accelerators@lists.ozlabs.org"
+> > >  <linux-accelerators@lists.ozlabs.org>
+> > > Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+> > > User-Agent: Mutt/1.10.0 (2018-05-17)
+> > > Message-ID: <20180802142243.GA3481@redhat.com>
+> > > 
+> > > On Thu, Aug 02, 2018 at 12:05:57PM +0800, Kenneth Lee wrote:
+> > > > On Thu, Aug 02, 2018 at 02:33:12AM +0000, Tian, Kevin wrote:
+> > > > > Date: Thu, 2 Aug 2018 02:33:12 +0000
+> > > > > > From: Jerome Glisse
+> > > > > > On Wed, Aug 01, 2018 at 06:22:14PM +0800, Kenneth Lee wrote:
 > > > > > > > From: Kenneth Lee <liguozhu@hisilicon.com>
 > > > > > > >
-> > > > > > > SPIMDEV is "Share Parent IOMMU Mdev". It is a vfio-mdev. But differ    
-> > > > > from    
-> > > > > > > the general vfio-mdev:
+> > > > > > > WarpDrive is an accelerator framework to expose the hardware
+> > > > > > capabilities
+> > > > > > > directly to the user space. It makes use of the exist vfio and vfio-mdev
+> > > > > > > facilities. So the user application can send request and DMA to the
+> > > > > > > hardware without interaction with the kernel. This remove the latency
+> > > > > > > of syscall and context switch.
 > > > > > > >
-> > > > > > > 1. It shares its parent's IOMMU.
-> > > > > > > 2. There is no hardware resource attached to the mdev is created. The
-> > > > > > > hardware resource (A `queue') is allocated only when the mdev is
-> > > > > > > opened.    
-> > > > > >
-> > > > > > Alex has concern on doing so, as pointed out in:
-> > > > > >
-> > > > > > 	https://www.spinics.net/lists/kvm/msg172652.html
-> > > > > >
-> > > > > > resource allocation should be reserved at creation time.    
-> > > > > 
-> > > > > Yes. That is why I keep telling that SPIMDEV is not for "VM", it is for "many
-> > > > > processes", it is just an access point to the process. Not a device to VM. I
-> > > > > hope
-> > > > > Alex can accept it:)
-> > > > >     
+> > > > > > > The patchset contains documents for the detail. Please refer to it for
+> > > > > > more
+> > > > > > > information.
+> > > > > > >
+> > > > > > > This patchset is intended to be used with Jean Philippe Brucker's SVA
+> > > > > > > patch [1] (Which is also in RFC stage). But it is not mandatory. This
+> > > > > > > patchset is tested in the latest mainline kernel without the SVA patches.
+> > > > > > > So it support only one process for each accelerator.
+> > > > > > >
+> > > > > > > With SVA support, WarpDrive can support multi-process in the same
+> > > > > > > accelerator device.  We tested it in our SoC integrated Accelerator (board
+> > > > > > > ID: D06, Chip ID: HIP08). A reference work tree can be found here: [2].
+> > > > > > 
+> > > > > > I have not fully inspected things nor do i know enough about
+> > > > > > this Hisilicon ZIP accelerator to ascertain, but from glimpsing
+> > > > > > at the code it seems that it is unsafe to use even with SVA due
+> > > > > > to the doorbell. There is a comment talking about safetyness
+> > > > > > in patch 7.
+> > > > > > 
+> > > > > > Exposing thing to userspace is always enticing, but if it is
+> > > > > > a security risk then it should clearly say so and maybe a
+> > > > > > kernel boot flag should be necessary to allow such device to
+> > > > > > be use.
+> > > > > > 
 > > > > 
-> > > > VFIO is just about assigning device resource to user space. It doesn't care
-> > > > whether it's native processes or VM using the device so far. Along the direction
-> > > > which you described, looks VFIO needs to support the configuration that
-> > > > some mdevs are used for native process only, while others can be used
-> > > > for both native and VM. I'm not sure whether there is a clean way to
-> > > > enforce it...    
+> > > > But doorbell is just a notification. Except for DOS (to make hardware busy) it
+> > > > cannot actually take or change anything from the kernel space. And the DOS
+> > > > problem can be always taken as the problem that a group of processes share the
+> > > > same kernel entity.
+> > > > 
+> > > > In the coming HIP09 hardware, the doorbell will come with a random number so
+> > > > only the process who allocated the queue can knock it correctly.
 > > > 
-> > > I had the same idea at the beginning. But finally I found that the life cycle
-> > > of the virtual device for VM and process were different. Consider you create
-> > > some mdevs for VM use, you will give all those mdevs to lib-virt, which
-> > > distribute those mdev to VMs or containers. If the VM or container exits, the
-> > > mdev is returned to the lib-virt and used for next allocation. It is the
-> > > administrator who controlled every mdev's allocation.
+> > > When doorbell is ring the hardware start fetching commands from
+> > > the queue and execute them ? If so than a rogue process B might
+> > > ring the doorbell of process A which would starts execution of
+> > > random commands (ie whatever random memory value there is left
+> > > inside the command buffer memory, could be old commands i guess).
+> > > 
+> > > If this is not how this doorbell works then, yes it can only do
+> > > a denial of service i guess. Issue i have with doorbell is that
+> > > i have seen 10 differents implementations in 10 differents hw
+> > > and each are different as to what ringing or value written to the
+> > > doorbell does. It is painfull to track what is what for each hw.
+> > > 
+> > 
+> > In our implementation, doorbell is simply a notification, just like an interrupt
+> > to the accelerator. The command is all about what's in the queue.
+> > 
+> > I agree that there is no simple and standard way to track the shared IO space.
+> > But I think we have to trust the driver in some way. If the driver is malicious,
+> > even a simple ioctl can become an attack.
 > 
-> Libvirt currently does no management of mdev devices, so I believe
-> this example is fictitious.  The extent of libvirt's interaction with
-> mdev is that XML may specify an mdev UUID as the source for a hostdev
-> and set the permissions on the device files appropriately.  Whether
-> mdevs are created in advance and re-used or created and destroyed
-> around a VM instance (for example via qemu hooks scripts) is not a
-> policy that libvirt imposes.
->  
-> > > But for process, it is different. There is no lib-virt in control. The
-> > > administrator's intension is to grant some type of application to access the
-> > > hardware. The application can get a handle of the hardware, send request and get
-> > > the result. That's all. He/She dose not care which mdev is allocated to that
-> > > application. If it crashes, it should be the kernel's responsibility to withdraw
-> > > the resource, the system administrator does not want to do it by hand.  
+> Trusting kernel space driver is fine, trusting user space driver is
+> not in my view. AFAICT every driver developer so far always made
+> sure that someone could not abuse its device to do harmfull thing to
+> other process.
 > 
-> Libvirt is also not a required component for VM lifecycles, it's an
-> optional management interface, but there are also VM lifecycles exactly
-> as you describe.  A VM may want a given type of vGPU, there might be
-> multiple sources of that type and any instance is fungible to any
-> other.  Such an mdev can be dynamically created, assigned to the VM,
-> and destroyed later.  Why do we need to support "empty" mdevs that do
-> not reserve reserve resources until opened?  The concept of available
-> instances is entirely lost with that approach and it creates an
-> environment that's difficult to support, resources may not be available
-> at the time the user attempts to access them.
->  
-> > I don't think that you should distinguish the cases by the presence of
-> > a management application. How can the mdev driver know what the
-> > intention behind using the device is?
+
+Fully agree. That is why this driver shares only the doorbell space. There is
+only the doorbell is shared in the whole page, nothing else.
+
+Maybe you are concerning the user driver will give malicious command to the
+hardware? But these commands cannot influence the other process. If we can trust
+the hardware design, the process cannot do any harm.
+
 > 
-> Absolutely, vfio is a userspace driver interface, it's not tailored to
-> VM usage and we cannot know the intentions of the user.
->  
-> > Would it make more sense to use a different mechanism to enforce that
-> > applications only use those handles they are supposed to use? Maybe
-> > cgroups? I don't think it's a good idea to push usage policy into the
-> > kernel.
+> > > > > > My more general question is do we want to grow VFIO to become
+> > > > > > a more generic device driver API. This patchset adds a command
+> > > > > > queue concept to it (i don't think it exist today but i have
+> > > > > > not follow VFIO closely).
+> > > > > > 
+> > > > 
+> > > > The thing is, VFIO is the only place to support DMA from user land. If we don't
+> > > > put it here, we have to create another similar facility to support the same.
+> > > 
+> > > No it is not, network device, GPU, block device, ... they all do
+> > > support DMA. The point i am trying to make here is that even in
+> > 
+> > Sorry, wait a minute, are we talking the same thing? I meant "DMA from user
+> > land", not "DMA from kernel driver". To do that we have to manipulate the
+> > IOMMU(Unit). I think it can only be done by default_domain or vfio domain. Or
+> > the user space have to directly access the IOMMU.
 > 
-> I agree, this sounds like a userspace problem, mdev supports dynamic
-> creation and removal of mdev devices, if there's an issue with
-> maintaining a set of standby devices that a user has access to, this
-> sounds like a userspace broker problem.  It makes more sense to me to
-> have a model where a userspace application can make a request to a
-> broker and the broker can reply with "none available" rather than
-> having a set of devices on standby that may or may not work depending
-> on the system load and other users.  Thanks,
+> GPU do DMA in the sense that you pass to the kernel a valid
+> virtual address (kernel driver do all the proper check) and
+> then you can use the GPU to copy from or to that range of
+> virtual address. Exactly how you want to use this compression
+> engine. It does not rely on SVM but SVM going forward would
+> still be the prefered option.
 > 
-> Alex
 
-I am sorry, I used a wrong mutt command when reply to Cornelia's last mail. The
-last reply dose not stay within this thread. So please let me repeat my point
-here.
+No, SVM is not the reason why we rely on Jean's SVM(SVA) series. We rely on
+Jean's series because of multi-process (PASID or substream ID) support.
 
-I should not have use libvirt as the example. But WarpDrive works in such
-scenario:
+But of couse, WarpDrive can still benefit from the SVM feature.
 
-1. It supports thousands of processes. Take zip accelerator as an example, any
-application need data compression/decompression will need to interact with the
-accelerator. To support that, you have to create tens of thousands of mdev for
-their usage. I don't think it is a good idea to have so many devices in the
-system.
+> 
+> > > your mechanisms the userspace must have a specific userspace
+> > > drivers for each hardware and thus there are virtually no
+> > > differences between having this userspace driver open a device
+> > > file in vfio or somewhere else in the device filesystem. This is
+> > > just a different path.
+> > > 
+> > 
+> > The basic problem WarpDrive want to solve it to avoid syscall. This is important
+> > to accelerators. We have some data here:
+> > https://www.slideshare.net/linaroorg/progress-and-demonstration-of-wrapdrive-a-accelerator-framework-sfo17317
+> > 
+> > (see page 3)
+> > 
+> > The performance is different on using kernel and user drivers.
+> 
+> Yes and example i point to is exactly that. You have a one time setup
+> cost (creating command buffer binding PASID with command buffer and
+> couple other setup steps). Then userspace no longer have to do any
+> ioctl to schedule work on the GPU. It is all down from userspace and
+> it use a doorbell to notify hardware when it should go look at command
+> buffer for new thing to execute.
+> 
+> My point stands on that. You have existing driver already doing so
+> with no new framework and in your scheme you need a userspace driver.
+> So i do not see the value add, using one path or the other in the
+> userspace driver is litteraly one line to change.
+> 
 
-2. The application does not want to own the mdev for long. It just need an
-access point for the hardware service. If it has to interact with an management
-agent for allocation and release, this makes the problem complex.
+Sorry, I'd got confuse here. I partially agree that the user driver is
+redundance of kernel driver. (But for WarpDrive, the kernel driver is a full
+driver include all preparation and setup stuff for the hardware, the user driver
+is simply to send request and receive answer). Yes, it is just a choice of path.
+But the user path is faster if the request come from use space. And to do that,
+we need user land DMA support. Then why is it invaluable to let VFIO involved?
 
-3. The service is bound with the process. When the process exit, the resource
-should be released automatically. Kernel is the best place to monitor the state
-of the process.
+> 
+> > And we also believe the hardware interface can become standard after sometime.
+> > Some companies have started to do this (such ARM's Revere). But before that, we
+> > should have a software channel for it.
+> 
+> I hope it does, but right now for every single piece of hardware you
+> will need a specific driver (i am ignoring backward compatible hardware
+> evolution as this is a thing that do exist).
+> 
+> Even if down the road for every class of hardware you can use the same
+> driver, i am not sure what the value add is to do it inside VFIO versus
+> a class of device driver (like USB, PCIE, DRM aka GPU, ...) ie you would
+> have a compression class (/dev/compress/*) a encryption one, ...
+> 
+>
+> > > So this is why i do not see any benefit to having all drivers with
+> > > SVM (can we please use SVM and not SVA as SVM is what have been use
+> > > in more places so far).
+> > > 
+> > 
+> > Personally, we don't care what name to be used. I used SVM when I start this
+> > work. And then Jean said SVM had been used by AMD as Secure Virtual Machine. So
+> > he called it SVA. And now... who should I follow? :)
+> 
+> I think Intel call it SVM too, i do not have any strong preference
+> beside have only one to remember :)
 
-I agree this extending the concept of mdev. But again, it is cleaner than
-creating another facility for user land DMA. We just need to take mdev as an
-access point of the device: when it is open, the resource is given. It is not a
-device for a particular entity or instance. But it is still a device which can
-provide service of the hardware.
+OK. Then let's call it SVM for now.
 
-Cornelia is worrying about resource starving. I think that can be solved by set
-restriction on the mdev itself. Mdev management agent dose not help much here.
-Management on the mdev itself can still lead to the status of running out of
-resource.
-
-Thanks
-
+> 
+> Cheers,
+> Jérôme
 
 -- 
 			-Kenneth(Hisilicon)
