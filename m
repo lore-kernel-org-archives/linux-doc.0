@@ -1,126 +1,339 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=FROM_EXCESS_BASE64,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 752847E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 17:05:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2601C7E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 18:07:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728349AbeHFTPY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 Aug 2018 15:15:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54658 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728071AbeHFTPY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Aug 2018 15:15:24 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BAF6B307D862;
-        Mon,  6 Aug 2018 17:05:23 +0000 (UTC)
-Received: from t450s.home (ovpn-116-35.phx2.redhat.com [10.3.116.35])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 24C5360BEC;
-        Mon,  6 Aug 2018 17:05:22 +0000 (UTC)
-Date:   Mon, 6 Aug 2018 11:05:21 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     "Raj, Ashok" <ashok.raj@intel.com>
-Cc:     Kenneth Lee <liguozhu@hisilicon.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Zaibo Xu <xuzaibo@huawei.com>, sanjay.k.kumar@intel.com,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
+        id S2387612AbeHFURq convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 Aug 2018 16:17:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39154 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730840AbeHFURq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Aug 2018 16:17:46 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 4B74AADDB;
+        Mon,  6 Aug 2018 18:07:28 +0000 (UTC)
+Date:   Mon, 6 Aug 2018 20:07:25 +0200
+From:   Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Takashi Iwai <tiwai@suse.de>, Andreas Schwab <schwab@suse.de>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Michal Marek <michal.lkml@markovi.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Joerg Roedel <joro@8bytes.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>, linuxarm@huawei.com,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Philippe Ombredanne <pombredanne@nexb.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [RFC PATCH 3/7] vfio: add spimdev support
-Message-ID: <20180806110521.0b708e0b@t450s.home>
-In-Reply-To: <20180806163428.GB32409@otc-nc-03>
-References: <20180801102221.5308-1-nek.in.cn@gmail.com>
-        <20180801102221.5308-4-nek.in.cn@gmail.com>
-        <AADFC41AFE54684AB9EE6CBC0274A5D191290F7B@SHSMSX101.ccr.corp.intel.com>
-        <20180802034727.GK160746@Turing-Arch-b>
-        <AADFC41AFE54684AB9EE6CBC0274A5D19129102C@SHSMSX101.ccr.corp.intel.com>
-        <20180802073440.GA91035@Turing-Arch-b>
-        <20180802103528.0b863030.cohuck@redhat.com>
-        <20180802124327.403b10ab@t450s.home>
-        <20180806014004.GF91035@Turing-Arch-b>
-        <20180806094940.47c70be9@t450s.home>
-        <20180806163428.GB32409@otc-nc-03>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Jeff Mahoney <jeffm@suse.com>,
+        "Peter Zijlstra," <peterz@infradead.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-um@lists.infradead.org
+Subject: Re: due to kconfig changes kernel config file is no longer
+ sufficient for configuring the kernel
+Message-ID: <20180806200725.4efa5d35@kitsune.suse.cz>
+In-Reply-To: <CAK7LNARRKU7Mfa8ZBu1qPFYFRr-5k69sjVyERM2bYcnWoBDN8g@mail.gmail.com>
+References: <20180627143705.5a1fed1c@kitsune.suse.cz>
+        <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
+        <20180628111623.3807fe9b@naga.suse.cz>
+        <CAK7LNARRKU7Mfa8ZBu1qPFYFRr-5k69sjVyERM2bYcnWoBDN8g@mail.gmail.com>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Mon, 06 Aug 2018 17:05:24 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 6 Aug 2018 09:34:28 -0700
-"Raj, Ashok" <ashok.raj@intel.com> wrote:
+On Mon, 30 Jul 2018 17:02:42 +0900
+Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
 
-> On Mon, Aug 06, 2018 at 09:49:40AM -0600, Alex Williamson wrote:
-> > On Mon, 6 Aug 2018 09:40:04 +0800
-> > Kenneth Lee <liguozhu@hisilicon.com> wrote:  
-> > > 
-> > > 1. It supports thousands of processes. Take zip accelerator as an example, any
-> > > application need data compression/decompression will need to interact with the
-> > > accelerator. To support that, you have to create tens of thousands of mdev for
-> > > their usage. I don't think it is a good idea to have so many devices in the
-> > > system.  
-> > 
-> > Each mdev is a device, regardless of whether there are hardware
-> > resources committed to the device, so I don't understand this argument.
-> >    
-> > > 2. The application does not want to own the mdev for long. It just need an
-> > > access point for the hardware service. If it has to interact with an management
-> > > agent for allocation and release, this makes the problem complex.  
-> > 
-> > I don't see how the length of the usage plays a role here either.  Are
-> > you concerned that the time it takes to create and remove an mdev is
-> > significant compared to the usage time?  Userspace is certainly welcome
-> > to create a pool of devices, but why should it be the kernel's
-> > responsibility to dynamically assign resources to an mdev?  What's the
-> > usage model when resources are unavailable?  It seems there's
-> > complexity in either case, but it's generally userspace's responsibility
-> > to impose a policy.
-> >   
+> 2018-06-28 18:16 GMT+09:00 Michal Suchánek <msuchanek@suse.de>:
+> > On Wed, 27 Jun 2018 23:07:21 +0900
+> > Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+> >  
+> >> Hi.
+> >>
+> >>
+> >> 2018-06-27 21:37 GMT+09:00 Michal Suchánek <msuchanek@suse.de>:  
+> >> > Hello,
+> >> >
+> >> > in the x86 Kconfig we have this:
+> >> >
+> >> > # Select 32 or 64 bit
+> >> > config 64BIT
+> >> >         bool "64-bit kernel" if "$(ARCH)" = "x86"
+> >> >         default "$(ARCH)" != "i386"
+> >> >         ---help---
+> >> >           Say yes to build a 64-bit kernel - formerly known as
+> >> > x86_64 Say no to build a 32-bit kernel - formerly known as i386
+> >> >
+> >> > Since commit 104daea149c4 ("kconfig: reference environment
+> >> > variables directly and remove 'option env='") the value of ARCH
+> >> > is not saved in the kernel config.  
+> >>
+> >> I think this commit is unrelated.  It was just a syntax change.  
+> >
+> > This does not look like syntax only change to me:
+> >
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index 15aae32e0719..1217fc62ca61 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -1,20 +1,12 @@
+> > -config ARCH
+> > -       string
+> > -       option env="ARCH"
+> > -
+> > -config KERNELVERSION
+> > -       string
+> > -       option env="KERNELVERSION"
+> > -  
 > 
-> Can vfio dev's created representing an mdev be shared between several 
-> processes?  It doesn't need to be exclusive.
+> This is just syntax change.
 > 
-> The path to hardware is established by the processes binding to SVM and
-> IOMMU ensuring that the PASID is plummed properly.  One can think the 
-> same hardware is shared between several processes, hardware knows the 
-> isolation is via the PASID. 
+> 'option env=' was used to reference an environment variable.
 > 
-> For these cases it isn't required to create a dev per process. 
+> Now, $(ARCH), $(KERNELVERSION) are simpler forms.
+> 
+> 
+> >>
+> >> Unless I am missing something,
+> >> we have never saved ARCH in the .config in the past.  
+> >
+> > There was a config symbol defined for it before the commit removed
+> > it.  
+> 
+> No.
+> 
+> CONFIG symbols with'option env='
+> are not written out to the .config file.
+> 
+> We have never had CONFIG_ARCH or CONFIG_KERNELVERSION.
+> 
+> 
+> 
+> 
+> >>
+> >>  
+> >> > Since commit f467c5640c29 ("kconfig: only write '#
+> >> > CONFIG_FOO is not set' for visible symbols") the value of 64BIT
+> >> > is not saved if the ARCH is set i386 or x86_64 because the
+> >> > symbol is not visible.  
+> >>
+> >> This is correct.
+> >>
+> >> It was discussed a few weeks ago.
+> >>
+> >> https://lkml.org/lkml/2018/6/5/847
+> >>
+> >>  
+> >> > There is a number of ways to hack this particular case to work.
+> >> >
+> >> > However, there is a more general problem with this. Some config
+> >> > options may depend on the environment, may not be saved, and the
+> >> > environment is not saved either.  
+> >>
+> >> Which environment variables in particular are in your mind?  
+> >
+> > Any that is used in Kconfig.  
+> 
+> They are provided from outside of Kconfig.
+> This is the behavior we keep since a long time ago.
+> 
+> ARCH is given by the environment variable or the command line.
+> KERNELVERSION is supplied by the top Makefile.
+> 
+> >>
+> >> As for ARCH, you need to pass the same ARCH as you used for
+> >> building the kernel. (For native building, you do not have to pass
+> >> ARCH explicitly, though.)  
+> >
+> > Except if you do pass it to make config you may need to pass it to
+> > to make later as well.  
+> 
+> Right.
+> 
+> For exmaple 'make ARCH=arm config' will create the config suitable
+> only for ARM architecture.
+> Then, you need to do 'make ARCH=arm' to build the kernel.
+> 
+> If it is tedious to give 'ARCH=arm' to every make command,
+> you can do 'export ARCH=arm' in your shell.
+> 
+> Again, this is the behavior we have for a long time.
 
-The iommu group is the unit of ownership, a vfio group mirrors an iommu
-group, therefore a vfio group only allows a single open(2).  A group
-also represents the minimum isolation set of devices, therefore devices
-within a group are not considered isolated and must share the same
-address space represented by the vfio container.  Beyond that, it is
-possible to share devices among processes, but (I think) it generally
-implies a hierarchical rather than peer relationship between
-processes.  Thanks,
+No, that's not what we had. The kernel build would fail instead of
+reconfiguring the kernel for the current arch. At least it used to work
+that way at some point.
 
-Alex
+> 
+> 
+> 
+> >>
+> >> As for CC, HOSTCC, etc.
+> >> yes, these are new 'unsaved' environments.
+> >>
+> >> CONFIG options now depend on the compiler.
+> >> This is the concept suggested by Linus Torvalds.
+> >>
+> >>  
+> >> > So in the end all the infrastructure with symlinks
+> >> > from module directory pointing to the kernel source and object
+> >> > directory is useless. To interpret the config stored there you
+> >> > need the environment and that is not saved anywhere. So if you
+> >> > try to build out-of-tree module it might end up reconfiguring
+> >> > your kernel and producing useless modules.  
+> >>
+> >> No. out-of-tree module building never ever re-configures the
+> >> kernel.  
+> >
+> > It does implicitly because the config values depend on environment
+> > that is not saved and the values themselves are not saved either.
+> > If that happens to expose a new variable it is even explicitly
+> > reconfigured.  
+> 
+> 
+> You should have a built kernel tree
+> before building external modules.
+> 
+> The .config is already there.
+> 
+> The .config works for external modules, given that
+> 
+>   - ARCH is the same
+>   - the compiler is the same
+
+ - the compiler additional plugins and/or external libraries used to
+   implement advanced features are the same
+
+> 
+> 
+> 
+> >>
+> >> out-of-tree modules are built with exactly the same configuration
+> >> as used for the kernel.  
+> >
+> > It is not true. And that is the problem. You need the config file
+> > and dump of the environment passed to the make command at
+> > configuration time to get the exact same configuration. The
+> > environment is not saved anywhere, though.  
+> 
+> 
+> Why dump of the environment?
+> 
+> 
+> If you are building external modules natively
+> your distribution provides /lib/modules/$(uname -r)/build,
+> which contains files enough for building external modules.
+> 
+> You can pass the directory path to M=... parameter.  That's it.
+
+No, that's not it. Since passing ARCH=i386 is the de-facto standard to
+configure a 32bit kernel and the result of passing that was not saved
+you need to pass it to make as well. And you need to patch a number of
+3rd party build scripts that build a kernel module as part of a bigger
+project.
+
+> 
+> 
+> 
+> If you are cross-building external modules,
+> you also need to
+> 
+>  - pass ARCH=
+>  - use the same compiler with CROSS_COMPILE=
+> 
+> You should know both
+> because you have built the kernel by your self.
+
+No, I am not cross-compiling. I am building 32bit modules and because
+the kconfig system did not save the information that the kernel is
+32bit I get 64bit modules instead.
+
+> 
+> You do not need any other information, do you?
+
+I need the information what ARCH was passed to the x86 kernel at
+configuration time when building on x86. This is new.
+
+To avoid this and similar surprises in the future I suggest to flag any
+option that depends on something dynamic (compiler option, environment
+variable) so that kconfig saves it even if it would not be saved
+otherwise.
+
+Then kconfig can do whatever seems sensible for oldconfig but
+syncconfig should not change any options based on dynamic input. It
+should verify that the option matches (ie compiler can accept -foobar
+if the option is on and defaults to cc-option -foobar) and fail if it
+does not.
+
+
+> 
+> > And it went nowhere.
+> >
+> > Anyway, the observed issue with CONFIG_64BIT on x86 is the tip of a
+> > larger problem which was unnoticed for ages. The .config simply does
+> > not contain the whole kernel configuration. ie. make oldconfig (and
+> > make syncconfig) is *not* expected to just work. It used to work
+> > just by luck until f467c5640c29 ("kconfig: only write '# CONFIG_FOO
+> > is not set' for visible symbols") finally exposed the problem.  
+> 
+> If you want to build the kernel for an architecture
+> other than the host machine architecture, you need to pass ARCH=.
+> 
+> Building the i386 kernel on a x86_64 machine, it is a _kind_ of
+> cross-compiling. So, passing ARCH=i386 is not so weird.
+> 
+> 
+> > So is .config supposed to contain the kernel configuration or is it
+> > just some byproduct of the kernel build which is meaningless
+> > outside of your build environment (the object tree, shell
+> > environment, etc).  
+> 
+> The .config is supposed to contain the kernel configuration,
+> 'ARCH' and the compiler are exceptions.
+> 
+> 'ARCH' must be passed separately.
+> 
+> The .config now depends on the compiler.  So, if you pass your .config
+> to somebody else, some symbols that depend on the compiler support
+> might be configured differently.
+> 
+> 'make syncconfig' will notice the compiler difference,
+> and show prompts for user input as needed.
+
+It should not prompt. I want to build the kernel non-interactively. I
+do not want kernel rpm build to wait for user input or silently
+change the kernel ABI just because I installed a new gcc plugin. 
+
+Thanks
+
+Michal
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
