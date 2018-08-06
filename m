@@ -1,111 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB8807E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 23:44:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D3997E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 23:58:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387614AbeHGBzh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 Aug 2018 21:55:37 -0400
-Received: from mail-it0-f65.google.com ([209.85.214.65]:53870 "EHLO
-        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387607AbeHGBzh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 21:55:37 -0400
-Received: by mail-it0-f65.google.com with SMTP id 72-v6so19740211itw.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Aug 2018 16:44:09 -0700 (PDT)
+        id S1732539AbeHGCKF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 Aug 2018 22:10:05 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:39382 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732394AbeHGCKF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 22:10:05 -0400
+Received: by mail-wm0-f68.google.com with SMTP id q8-v6so16121824wmq.4;
+        Mon, 06 Aug 2018 16:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=++aIMYHofQKiYz4ikdgVTDWQ3caOYUTmMuvbnRUAtAA=;
-        b=Ym/G8g80gCdozhE7OK/rwY2mYmsx5f7zkJ1KTQSrZUQvf/MXu3WEDWUmTH3O7lZjBe
-         z9VOThcX9srVfEJ22kZ5OrEoXLabU7A75RAQCAEVVdPqgGR++zfnjIgy2vAq1J7V8uSG
-         Lgt7tdMm3wKQ32n10q+nU41UyjJH5EE0rZHHQ=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=B3rsPEdb5Hpz4RchKdgBtO0OTELLFpI8qp1QdKfH8Dw=;
+        b=FRcYakCZOCTxAiVLjQCJFPRelCVxXLSPLpsmMYTxphb6hBg8xvkfzTe1CMeuzzC5cW
+         DOZzZIbUblIOw0ZDZQNX3TeFar72UzZWoZnlfN3vwXfFquUCK6EKJIQPDhvSXEohmHLu
+         sZQoqF4wnE7AlfFhbG19SSfOxJ7gN3lVw5pZTlv/A9dHODcRS7SpQ9DsxsEDdsaDzdgU
+         OLcXa/l7mao+OIwBXf0tNbLrWzJJUzUvhbn4etPZjprpSpBhjMYw7wmiAO26m6eUSvik
+         P4k4p2ipK86ThqaaXsxeSSqjw0kyYQIj65evkf9gFLQ33IpGHjpaH3aRPeOvN9RxHfkt
+         OyIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=++aIMYHofQKiYz4ikdgVTDWQ3caOYUTmMuvbnRUAtAA=;
-        b=IET9am9u93E7xBlJp6VDjuaB9yN3J891ct1NG+KHQiTjQUUR6cTQaTIzFgzV2nswGq
-         58H7Gczjm1dskmLm2CpA1CaYmT+P+NmkRxiVHEyQxxnAgPfHPKsbMmvATePfXApK+taZ
-         VWO5+q/UIFtkv8x+49qg/ApZCccZQlvQoEysiuLXH8Mo7QcoxA3oD+BlnazSerBN9xc+
-         +KdsIfhq5Y9eRecUyYoLVPczyWlXF5SDYQAiqxNLmL8QZoyaE71iBJWfovNEGsJBjHX3
-         tTOYXwLjTZ0erdE6zQDeLXhi9BCjsy4si9aIjWI23uobdunz4r0WieyW96g/SAq2sFKO
-         zp3A==
-X-Gm-Message-State: AOUpUlEy1R4CK0wsXrG3IewNuKuPwG8rnycoLwZlO1xeyyI10RcycKkM
-        EEvH81hgfyag37qK6+tiG6NKPsHyQTv0+gkGCgCUZA==
-X-Google-Smtp-Source: AA+uWPy2M4C4XfWz577qk970s50rGrmt8qFMBKjpo7TWD6qMyO3HuldXBZ2GMDbBw03rwO8jAkQj3Sx+n59pRGJq+3A=
-X-Received: by 2002:a24:5004:: with SMTP id m4-v6mr136215itb.38.1533599049517;
- Mon, 06 Aug 2018 16:44:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180718235710.18242-1-jmkrzyszt@gmail.com> <20180806222918.12644-1-jmkrzyszt@gmail.com>
- <20180806222918.12644-13-jmkrzyszt@gmail.com>
-In-Reply-To: <20180806222918.12644-13-jmkrzyszt@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 7 Aug 2018 01:43:56 +0200
-Message-ID: <CACRpkdYHqFOFSv-erCzx8_u-mVUgGPdDH0ts-+DNAvjP3Qxb9w@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 12/12] gpiolib: Add fast processing path to bitmap
- API functions
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=B3rsPEdb5Hpz4RchKdgBtO0OTELLFpI8qp1QdKfH8Dw=;
+        b=RVy9CJKzABvfSrLPLehWXuM8q6Q4VJOsJolmPM8NOPpNylSD9NP8H5gFpVuMQpMdVA
+         OHzY93MHwIgTC/59nRGVYVZ5529HoaNXjXov6pejaTeIlNPEBma6gbtPN3e7BFj8+dMm
+         o++H0cJGVFYK0mefF3LiOkt9idDPJlWUrBnVIn1Q0BmJAL91rxFYRnvflPKhj0ze9eab
+         yTq63sdV2Kb4naSmojcAJiyU550eKHJZsd/JN1frI+2MOa3C6biQc7q0LJgYd7nWf4um
+         1UkX5RIfsFL6FPFR1m+1+KNrnpEWrn/9Aop4y7Qga3kbCnb3I/PKUlP3SlQIB9Nzqa2e
+         q/XQ==
+X-Gm-Message-State: AOUpUlEaW3yMCEpSIR/iNYHJ20LZoqHOfR9slZ42XZJK2E9Uz7r+vaor
+        E2cWPxv3Wqvy2d06TQJVt9easRuY
+X-Google-Smtp-Source: AA+uWPzo4XeaebpwWb9rz0taaAF88ICfCDWEX9oogiu+iygdO7R4NemgFrpqRoTUdoAH6fFn1ITCsA==
+X-Received: by 2002:a1c:b6d6:: with SMTP id g205-v6mr115833wmf.17.1533599912335;
+        Mon, 06 Aug 2018 16:58:32 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-107-50.net.upcbroadband.cz. [86.49.107.50])
+        by smtp.gmail.com with ESMTPSA id i205-v6sm115325wmf.30.2018.08.06.16.58.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 Aug 2018 16:58:31 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 01/12] mtd: rawnand: ams-delta: Assign
+ mtd->dev.parent, not mtd->owner
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
         Richard Weinberger <richard@nod.at>,
         David Woodhouse <dwmw2@infradead.org>,
         Brian Norris <computersforpeace@gmail.com>,
-        Mark Vasut <marek.vasut@gmail.com>,
-        ext Tony Lindgren <tony@atomide.com>,
+        Tony Lindgren <tony@atomide.com>,
         Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-doc@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20180718235710.18242-1-jmkrzyszt@gmail.com>
+ <20180806222918.12644-1-jmkrzyszt@gmail.com>
+ <20180806222918.12644-2-jmkrzyszt@gmail.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <604ff0fb-07d5-9068-2f69-41198f3d9854@gmail.com>
+Date:   Tue, 7 Aug 2018 01:54:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20180806222918.12644-2-jmkrzyszt@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 7, 2018 at 12:29 AM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
+On 08/07/2018 12:29 AM, Janusz Krzysztofik wrote:
+> Fix missing mtd->dev.parent assignment and drop useless mtd->owner.
 
-Hi Janusz!
+You fail to explain why this fix is required.
 
-> Certain GPIO descriptor arrays returned by gpio_get_array() may contain
-> information on a single GPIO chip driving array member pins in hardware
-> order.  In such cases, bitmaps of values can be passed directly to the
-> chip callback functions without wasting time on iterations.
->
-> Add respective code to gpiod_get/set_array_bitmap_complex() functions.
->
 > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> ---
+>  drivers/mtd/nand/raw/ams-delta.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/mtd/nand/raw/ams-delta.c b/drivers/mtd/nand/raw/ams-delta.c
+> index 2a8872ebd14a..af313c620264 100644
+> --- a/drivers/mtd/nand/raw/ams-delta.c
+> +++ b/drivers/mtd/nand/raw/ams-delta.c
+> @@ -162,7 +162,7 @@ static int ams_delta_init(struct platform_device *pdev)
+>  	}
+>  
+>  	ams_delta_mtd = nand_to_mtd(this);
+> -	ams_delta_mtd->owner = THIS_MODULE;
+> +	ams_delta_mtd->dev.parent = &pdev->dev;
+>  
+>  	/*
+>  	 * Don't try to request the memory region from here,
+> 
 
-I think it would be disappointing to leave all the users of the old
-array API without the performance improvement. I think we need to
-deal with this in a way such that everyone can benefit from it.
 
-Also it is kludgy if users (consumers) would need to handle the case
-where all lines are on the same chip separately, through the bitmap
-API.
-
-What we need is an API that:
-
-- All drivers handling arrays can use (including current users).
-
-- Enables speed-up if the lines are all on the same chip/register.
-
-- Doesn't require consumers to know if they are all on the same
-  chip or not.
-
-This means a deep API with a small surface.
-
-How do we achieve this the best way?
-
-Yours,
-Linus Walleij
+-- 
+Best regards,
+Marek Vasut
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
