@@ -1,312 +1,150 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED9E17E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 03:14:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 599367E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 03:34:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726704AbeHFFV0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 Aug 2018 01:21:26 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:10635 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726338AbeHFFV0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Aug 2018 01:21:26 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 0079FD9167D66;
-        Mon,  6 Aug 2018 11:14:20 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server (TLS) id 14.3.399.0; Mon, 6 Aug 2018
- 11:14:14 +0800
-Date:   Mon, 6 Aug 2018 11:12:52 +0800
-From:   Kenneth Lee <liguozhu@hisilicon.com>
-To:     Jerome Glisse <jglisse@redhat.com>
-CC:     "Tian, Kevin" <kevin.tian@intel.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180806031252.GG91035@Turing-Arch-b>
-References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <20180801165644.GA3820@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
- <20180802040557.GL160746@Turing-Arch-b>
- <20180802142243.GA3481@redhat.com>
- <20180803034721.GC91035@Turing-Arch-b>
- <20180803143944.GA4079@redhat.com>
+        id S1726704AbeHFFlT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 Aug 2018 01:41:19 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:56804 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726554AbeHFFlT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 01:41:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=9XU9Tc+2s4Xjq++ogQe5Jx1yTr1jUpqprWLW371Rj1A=; b=eeEk48QLpaOujbZG9r2MbItchc
+        LqeX8pMKdNMFV1+PlD2L0OV/sVaViumHnC5Qcqn7C9vICSJhwTswB06PShRqcu65WijabfLLy7ZYk
+        qeM2pH6LrY3582dKxJG4uTmlHQ7XQO5rOYsma/Wg3/VJbBHMk9zjdTPVn5IJ3CzmZOL7ZDKq46oTd
+        n3Q0bP8JiwBKCKs6yNIkUTHfOUBnyWRruVXasmDzxguQg1pXuBfku6+gXJgwDuK/ILDprL61X14KH
+        iH8P3CHq5zxTLRa8E8yyPYYCIK3xX/eVAmLZAl+dLSoJdHN2ExFw5klZ3BGLG0YsDRH5dNRsokaT+
+        5BfCRiHw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fmWHb-0005fi-56; Mon, 06 Aug 2018 03:34:12 +0000
+To:     LKML <linux-kernel@vger.kernel.org>, X86 ML <x86@kernel.org>
+Cc:     Jason Wessel <jason.wessel@windriver.com>,
+        Yinghai Lu <yinghai@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] x86: corrections to Documentation/x86/earlyprintk.txt
+Message-ID: <d0c40ac3-7659-6374-dbda-23d3d2577f30@infradead.org>
+Date:   Sun, 5 Aug 2018 20:34:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180803143944.GA4079@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 03, 2018 at 10:39:44AM -0400, Jerome Glisse wrote:
-> Date: Fri, 3 Aug 2018 10:39:44 -0400
-> From: Jerome Glisse <jglisse@redhat.com>
-> To: Kenneth Lee <liguozhu@hisilicon.com>
-> CC: "Tian, Kevin" <kevin.tian@intel.com>, Herbert Xu
->  <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
->  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
->  Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo Xu <xuzaibo@huawei.com>,
->  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Kumar, Sanjay K"
->  <sanjay.k.kumar@intel.com>, Hao Fang <fanghao11@huawei.com>,
->  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
->  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
->  "linuxarm@huawei.com" <linuxarm@huawei.com>, Alex Williamson
->  <alex.williamson@redhat.com>, "linux-crypto@vger.kernel.org"
->  <linux-crypto@vger.kernel.org>, Philippe Ombredanne
->  <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>, Kenneth Lee
->  <nek.in.cn@gmail.com>, "David S . Miller" <davem@davemloft.net>,
->  "linux-accelerators@lists.ozlabs.org"
->  <linux-accelerators@lists.ozlabs.org>
-> Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-> User-Agent: Mutt/1.10.0 (2018-05-17)
-> Message-ID: <20180803143944.GA4079@redhat.com>
-> 
-> On Fri, Aug 03, 2018 at 11:47:21AM +0800, Kenneth Lee wrote:
-> > On Thu, Aug 02, 2018 at 10:22:43AM -0400, Jerome Glisse wrote:
-> > > Date: Thu, 2 Aug 2018 10:22:43 -0400
-> > > From: Jerome Glisse <jglisse@redhat.com>
-> > > To: Kenneth Lee <liguozhu@hisilicon.com>
-> > > CC: "Tian, Kevin" <kevin.tian@intel.com>, Hao Fang <fanghao11@huawei.com>,
-> > >  Alex Williamson <alex.williamson@redhat.com>, Herbert Xu
-> > >  <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
-> > >  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
-> > >  Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo Xu <xuzaibo@huawei.com>,
-> > >  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Kumar, Sanjay K"
-> > >  <sanjay.k.kumar@intel.com>, Kenneth Lee <nek.in.cn@gmail.com>,
-> > >  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-> > >  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-> > >  "linuxarm@huawei.com" <linuxarm@huawei.com>,
-> > >  "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Philippe
-> > >  Ombredanne <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>,
-> > >  "David S . Miller" <davem@davemloft.net>,
-> > >  "linux-accelerators@lists.ozlabs.org"
-> > >  <linux-accelerators@lists.ozlabs.org>
-> > > Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-> > > User-Agent: Mutt/1.10.0 (2018-05-17)
-> > > Message-ID: <20180802142243.GA3481@redhat.com>
-> > > 
-> > > On Thu, Aug 02, 2018 at 12:05:57PM +0800, Kenneth Lee wrote:
-> > > > On Thu, Aug 02, 2018 at 02:33:12AM +0000, Tian, Kevin wrote:
-> > > > > Date: Thu, 2 Aug 2018 02:33:12 +0000
-> > > > > > From: Jerome Glisse
-> > > > > > On Wed, Aug 01, 2018 at 06:22:14PM +0800, Kenneth Lee wrote:
-> > > > > > > From: Kenneth Lee <liguozhu@hisilicon.com>
-> > > > > > >
-> > > > > > > WarpDrive is an accelerator framework to expose the hardware
-> > > > > > capabilities
-> > > > > > > directly to the user space. It makes use of the exist vfio and vfio-mdev
-> > > > > > > facilities. So the user application can send request and DMA to the
-> > > > > > > hardware without interaction with the kernel. This remove the latency
-> > > > > > > of syscall and context switch.
-> > > > > > >
-> > > > > > > The patchset contains documents for the detail. Please refer to it for
-> > > > > > more
-> > > > > > > information.
-> > > > > > >
-> > > > > > > This patchset is intended to be used with Jean Philippe Brucker's SVA
-> > > > > > > patch [1] (Which is also in RFC stage). But it is not mandatory. This
-> > > > > > > patchset is tested in the latest mainline kernel without the SVA patches.
-> > > > > > > So it support only one process for each accelerator.
-> > > > > > >
-> > > > > > > With SVA support, WarpDrive can support multi-process in the same
-> > > > > > > accelerator device.  We tested it in our SoC integrated Accelerator (board
-> > > > > > > ID: D06, Chip ID: HIP08). A reference work tree can be found here: [2].
-> > > > > > 
-> > > > > > I have not fully inspected things nor do i know enough about
-> > > > > > this Hisilicon ZIP accelerator to ascertain, but from glimpsing
-> > > > > > at the code it seems that it is unsafe to use even with SVA due
-> > > > > > to the doorbell. There is a comment talking about safetyness
-> > > > > > in patch 7.
-> > > > > > 
-> > > > > > Exposing thing to userspace is always enticing, but if it is
-> > > > > > a security risk then it should clearly say so and maybe a
-> > > > > > kernel boot flag should be necessary to allow such device to
-> > > > > > be use.
-> > > > > > 
-> > > > 
-> > > > But doorbell is just a notification. Except for DOS (to make hardware busy) it
-> > > > cannot actually take or change anything from the kernel space. And the DOS
-> > > > problem can be always taken as the problem that a group of processes share the
-> > > > same kernel entity.
-> > > > 
-> > > > In the coming HIP09 hardware, the doorbell will come with a random number so
-> > > > only the process who allocated the queue can knock it correctly.
-> > > 
-> > > When doorbell is ring the hardware start fetching commands from
-> > > the queue and execute them ? If so than a rogue process B might
-> > > ring the doorbell of process A which would starts execution of
-> > > random commands (ie whatever random memory value there is left
-> > > inside the command buffer memory, could be old commands i guess).
-> > > 
-> > > If this is not how this doorbell works then, yes it can only do
-> > > a denial of service i guess. Issue i have with doorbell is that
-> > > i have seen 10 differents implementations in 10 differents hw
-> > > and each are different as to what ringing or value written to the
-> > > doorbell does. It is painfull to track what is what for each hw.
-> > > 
-> > 
-> > In our implementation, doorbell is simply a notification, just like an interrupt
-> > to the accelerator. The command is all about what's in the queue.
-> > 
-> > I agree that there is no simple and standard way to track the shared IO space.
-> > But I think we have to trust the driver in some way. If the driver is malicious,
-> > even a simple ioctl can become an attack.
-> 
-> Trusting kernel space driver is fine, trusting user space driver is
-> not in my view. AFAICT every driver developer so far always made
-> sure that someone could not abuse its device to do harmfull thing to
-> other process.
-> 
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Fully agree. That is why this driver shares only the doorbell space. There is
-only the doorbell is shared in the whole page, nothing else.
+Fix a few issues in Documentation/x86/earlyprintk.txt:
 
-Maybe you are concerning the user driver will give malicious command to the
-hardware? But these commands cannot influence the other process. If we can trust
-the hardware design, the process cannot do any harm.
+- correct typos, punctuation, missing word, wrong word
+- change product name from Netchip to NetChip
+- expand where to add "earlyprintk=dbg"
 
-> 
-> > > > > > My more general question is do we want to grow VFIO to become
-> > > > > > a more generic device driver API. This patchset adds a command
-> > > > > > queue concept to it (i don't think it exist today but i have
-> > > > > > not follow VFIO closely).
-> > > > > > 
-> > > > 
-> > > > The thing is, VFIO is the only place to support DMA from user land. If we don't
-> > > > put it here, we have to create another similar facility to support the same.
-> > > 
-> > > No it is not, network device, GPU, block device, ... they all do
-> > > support DMA. The point i am trying to make here is that even in
-> > 
-> > Sorry, wait a minute, are we talking the same thing? I meant "DMA from user
-> > land", not "DMA from kernel driver". To do that we have to manipulate the
-> > IOMMU(Unit). I think it can only be done by default_domain or vfio domain. Or
-> > the user space have to directly access the IOMMU.
-> 
-> GPU do DMA in the sense that you pass to the kernel a valid
-> virtual address (kernel driver do all the proper check) and
-> then you can use the GPU to copy from or to that range of
-> virtual address. Exactly how you want to use this compression
-> engine. It does not rely on SVM but SVM going forward would
-> still be the prefered option.
-> 
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jason Wessel <jason.wessel@windriver.com>
+Cc: Yinghai Lu <yinghai@kernel.org>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: x86@kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/x86/earlyprintk.txt |   25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-No, SVM is not the reason why we rely on Jean's SVM(SVA) series. We rely on
-Jean's series because of multi-process (PASID or substream ID) support.
+--- lnx-418-rc8.orig/Documentation/x86/earlyprintk.txt
++++ lnx-418-rc8/Documentation/x86/earlyprintk.txt
+@@ -35,25 +35,25 @@ and two USB cables, connected like this:
+ ( If your system does not list a debug port capability then you probably
+   won't be able to use the USB debug key. )
+ 
+- b.) You also need a Netchip USB debug cable/key:
++ b.) You also need a NetChip USB debug cable/key:
+ 
+         http://www.plxtech.com/products/NET2000/NET20DC/default.asp
+ 
+-     This is a small blue plastic connector with two USB connections,
++     This is a small blue plastic connector with two USB connections;
+      it draws power from its USB connections.
+ 
+  c.) You need a second client/console system with a high speed USB 2.0
+      port.
+ 
+- d.) The Netchip device must be plugged directly into the physical
++ d.) The NetChip device must be plugged directly into the physical
+      debug port on the "host/target" system.  You cannot use a USB hub in
+      between the physical debug port and the "host/target" system.
+ 
+      The EHCI debug controller is bound to a specific physical USB
+-     port and the Netchip device will only work as an early printk
++     port and the NetChip device will only work as an early printk
+      device in this port.  The EHCI host controllers are electrically
+      wired such that the EHCI debug controller is hooked up to the
+-     first physical and there is no way to change this via software.
++     first physical port and there is no way to change this via software.
+      You can find the physical port through experimentation by trying
+      each physical port on the system and rebooting.  Or you can try
+      and use lsusb or look at the kernel info messages emitted by the
+@@ -65,9 +65,9 @@ and two USB cables, connected like this:
+      to the hardware vendor, because there is no reason not to wire
+      this port into one of the physically accessible ports.
+ 
+- e.) It is also important to note, that many versions of the Netchip
++ e.) It is also important to note, that many versions of the NetChip
+      device require the "client/console" system to be plugged into the
+-     right and side of the device (with the product logo facing up and
++     right hand side of the device (with the product logo facing up and
+      readable left to right).  The reason being is that the 5 volt
+      power supply is taken from only one side of the device and it
+      must be the side that does not get rebooted.
+@@ -81,13 +81,18 @@ and two USB cables, connected like this:
+       CONFIG_EARLY_PRINTK_DBGP=y
+ 
+     And you need to add the boot command line: "earlyprintk=dbgp".
++
+     (If you are using Grub, append it to the 'kernel' line in
+-     /etc/grub.conf)
++     /etc/grub.conf.  If you are using Grub2 on a BIOS firmware system,
++     append it to the 'linux' line in /boot/grub2/grub.cfg. If you are
++     using Grub2 on an EFI firmware system, append it to the 'linux'
++     or 'linuxefi' line in /boot/grub2/grub.cfg or
++     /boot/efi/EFI/<distro>/grub.cfg.)
+ 
+     On systems with more than one EHCI debug controller you must
+     specify the correct EHCI debug controller number.  The ordering
+     comes from the PCI bus enumeration of the EHCI controllers.  The
+-    default with no number argument is "0" the first EHCI debug
++    default with no number argument is "0" or the first EHCI debug
+     controller.  To use the second EHCI debug controller, you would
+     use the command line: "earlyprintk=dbgp1"
+ 
+@@ -111,7 +116,7 @@ and two USB cables, connected like this:
+     see the raw output.
+ 
+  c.) On Nvidia Southbridge based systems: the kernel will try to probe
+-     and find out which port has debug device connected.
++     and find out which port has a debug device connected.
+ 
+ 3. Testing that it works fine:
+ 
 
-But of couse, WarpDrive can still benefit from the SVM feature.
-
-> 
-> > > your mechanisms the userspace must have a specific userspace
-> > > drivers for each hardware and thus there are virtually no
-> > > differences between having this userspace driver open a device
-> > > file in vfio or somewhere else in the device filesystem. This is
-> > > just a different path.
-> > > 
-> > 
-> > The basic problem WarpDrive want to solve it to avoid syscall. This is important
-> > to accelerators. We have some data here:
-> > https://www.slideshare.net/linaroorg/progress-and-demonstration-of-wrapdrive-a-accelerator-framework-sfo17317
-> > 
-> > (see page 3)
-> > 
-> > The performance is different on using kernel and user drivers.
-> 
-> Yes and example i point to is exactly that. You have a one time setup
-> cost (creating command buffer binding PASID with command buffer and
-> couple other setup steps). Then userspace no longer have to do any
-> ioctl to schedule work on the GPU. It is all down from userspace and
-> it use a doorbell to notify hardware when it should go look at command
-> buffer for new thing to execute.
-> 
-> My point stands on that. You have existing driver already doing so
-> with no new framework and in your scheme you need a userspace driver.
-> So i do not see the value add, using one path or the other in the
-> userspace driver is litteraly one line to change.
-> 
-
-Sorry, I'd got confuse here. I partially agree that the user driver is
-redundance of kernel driver. (But for WarpDrive, the kernel driver is a full
-driver include all preparation and setup stuff for the hardware, the user driver
-is simply to send request and receive answer). Yes, it is just a choice of path.
-But the user path is faster if the request come from use space. And to do that,
-we need user land DMA support. Then why is it invaluable to let VFIO involved?
-
-> 
-> > And we also believe the hardware interface can become standard after sometime.
-> > Some companies have started to do this (such ARM's Revere). But before that, we
-> > should have a software channel for it.
-> 
-> I hope it does, but right now for every single piece of hardware you
-> will need a specific driver (i am ignoring backward compatible hardware
-> evolution as this is a thing that do exist).
-> 
-> Even if down the road for every class of hardware you can use the same
-> driver, i am not sure what the value add is to do it inside VFIO versus
-> a class of device driver (like USB, PCIE, DRM aka GPU, ...) ie you would
-> have a compression class (/dev/compress/*) a encryption one, ...
-> 
->
-> > > So this is why i do not see any benefit to having all drivers with
-> > > SVM (can we please use SVM and not SVA as SVM is what have been use
-> > > in more places so far).
-> > > 
-> > 
-> > Personally, we don't care what name to be used. I used SVM when I start this
-> > work. And then Jean said SVM had been used by AMD as Secure Virtual Machine. So
-> > he called it SVA. And now... who should I follow? :)
-> 
-> I think Intel call it SVM too, i do not have any strong preference
-> beside have only one to remember :)
-
-OK. Then let's call it SVM for now.
-
-> 
-> Cheers,
-> Jérôme
-
--- 
-			-Kenneth(Hisilicon)
-
-================================================================================
-本邮件及其附件含有华为公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁
-止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中
-的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！
-This e-mail and its attachments contain confidential information from HUAWEI,
-which is intended only for the person or entity whose address is listed above.
-Any use of the 
-information contained herein in any way (including, but not limited to, total or
-partial disclosure, reproduction, or dissemination) by persons other than the
-intended 
-recipient(s) is prohibited. If you receive this e-mail in error, please notify
-the sender by phone or email immediately and delete it!
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
