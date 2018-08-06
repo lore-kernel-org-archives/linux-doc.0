@@ -3,120 +3,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 518DA7E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 23:24:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FAC67E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 23:29:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732433AbeHGBgU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 Aug 2018 21:36:20 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58542 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730444AbeHGBgU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 21:36:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=ixLSEUUtgzNI2qa50DSPg7M0zmkJltFp/B7667wu8q4=; b=BL6EdVRKRc9lO4xkAUHGwpsSA
-        rz9wMnVzjZfSgUWMPkof+5Sl8Qp13LBqWGXtin0XoUStJI4e63xU1RxnjpvVQDAY0YungGj2k55bF
-        Kxjk4gcpPxM7TLRdF+CnhZVsaCs5Rwe3koH76EYode5RSA9lp9JbQo22dYPDQj6XGvIuu9j1jrnGe
-        ZKY+s9RL5paflMvbRIVfDn5xMFFIqOcXU9t7nBb+wqhhc8Abyd9K2ZV/oU8rVjK9KtvEKTVnAoJP1
-        /OvdlE5LsAkDRNaUPnfttZLEx5Kt9Qh4FxOYcXKzGERBGDJd0ngdTp6UaVKHd4gIZPKDS3fkm3xFL
-        flCOzNiwg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fmorw-0006ux-I3; Mon, 06 Aug 2018 23:24:56 +0000
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        "Antonino A. Daplas" <adaplas@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: corrections to console/console.txt
-Message-ID: <933b90be-5fff-d0c7-a7a1-4e4362713846@infradead.org>
-Date:   Mon, 6 Aug 2018 16:24:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1732458AbeHGBlV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 Aug 2018 21:41:21 -0400
+Received: from mail-it0-f68.google.com ([209.85.214.68]:36410 "EHLO
+        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732619AbeHGBlV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 21:41:21 -0400
+Received: by mail-it0-f68.google.com with SMTP id p81-v6so20618824itp.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Aug 2018 16:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6QSii7YSnx8NPOsJMR5ybdW/HjUJ46dLVnPRZOr+9T0=;
+        b=c6rmcwB0f7fzQ1kCSjxQ+xhAqv+nu8uyasX2xk6eFrb2nbE8nyxOXSEKQUP4IplZo4
+         /+snH+4hTB0KkSxA+1zOW0dLWL2Y1JEwb6/Pzl/BmF/vBoiFZuFH1Aulduyi6H4sbgIZ
+         ZexdIiPDAWnn3mOobsUjMyt6r6AhkXWZKzPfU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6QSii7YSnx8NPOsJMR5ybdW/HjUJ46dLVnPRZOr+9T0=;
+        b=YAqs/Xg98CzuxNFH0LDI7VJH63kIbiH7j/UnAkzWL/IYNbAo+ggQmJY0KfjucbeQJv
+         EI2LSAaPdd7MOe2oNt7PbkV/tEIKRrmQceuKEwJi9ti76Xc34XzNcU0XisyqGjT854P9
+         wMfpMQQYoup9aT7hbn2ZWLb4W3jrpHIFyaIT5SC9EdlHfrrBT5VPPh99QJUzSLEA8+fI
+         0wzVhdvaBw6gCWESR/BOnvJUrZKwerYtgtO/7KCycsvQyOy9Yx51NJbC9cg5naz1uTpC
+         1QeWuRj9kle+BjO1OkDjXXM83CD9O8qXwi0OQqk3zVA0ZOx1hhQEF0WvrCw3NlReTduv
+         covw==
+X-Gm-Message-State: AOUpUlHqzOhjILk6wiY8amoJvbXf8bf841UGapLrBEmVW/WEcaPw9Pga
+        5IBYr8ndPMWOL09R4OEDPcbWXprt1rbod7YvIAF+AQ==
+X-Google-Smtp-Source: AAOMgpd6N773qynu0ZhlAHUh0ceANRmiVsu8oyyi3KMWgTki09J4cWW5NDDPJ79TGlNZoKaRxvxoYp0zSHT1tJZC/pc=
+X-Received: by 2002:a02:5916:: with SMTP id p22-v6mr3596365jab.113.1533598196155;
+ Mon, 06 Aug 2018 16:29:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20180718235710.18242-1-jmkrzyszt@gmail.com> <20180806222918.12644-1-jmkrzyszt@gmail.com>
+ <20180806222918.12644-10-jmkrzyszt@gmail.com>
+In-Reply-To: <20180806222918.12644-10-jmkrzyszt@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 7 Aug 2018 01:29:43 +0200
+Message-ID: <CACRpkdZtuU6zXBz6UqprE7-31vW9-1ZabFjyzHBgWaTgmqkbbQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 09/12] gpiolib: Identify GPIO descriptor arrays
+ with direct mapping
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Mark Vasut <marek.vasut@gmail.com>,
+        ext Tony Lindgren <tony@atomide.com>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-mtd@lists.infradead.org, linux-doc@vger.kernel.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Hi Janusz!
 
-Fix typos, line length, grammar, punctuation, and capitalization
-in console.txt.
+On Tue, Aug 7, 2018 at 12:29 AM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Antonino A. Daplas <adaplas@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/console/console.txt |   15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+> Certain GPIO array lookup results may map directly to GPIO pins of a
+> single GPIO chip in hardware order.  If that condition is recognized
+> and handled efficiently, significant performance gain of get/set array
+> functions may be possible.
+>
+> While processing a request for an array of GPIO descriptors, verify if
+> the descriptors just collected represent consecutive pins of a single
+> GPIO chip.  Pass that information with the array to the caller so it
+> can benefit from enhanced performance as soon as bitmap based get/set
+> array functions which can make efficient use of that are available.
+>
+> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+(...)
+>  This function returns a struct gpio_descs which contains an array of
+> -descriptors::
+> +descriptors.  It may also contain a valid descriptor of a single GPIO chip in
+> +case the array strictly matches pin hardware layout of the chip::
+>
+>         struct gpio_descs {
+>                 unsigned int ndescs;
+>                 struct gpio_desc *desc[];
+> +               struct gpio_chip *chip;
 
---- lnx-418-rc8.orig/Documentation/console/console.txt
-+++ lnx-418-rc8/Documentation/console/console.txt
-@@ -1,7 +1,7 @@
- Console Drivers
- ===============
- 
--The linux kernel has 2 general types of console drivers.  The first type is
-+The Linux kernel has 2 general types of console drivers.  The first type is
- assigned by the kernel to all the virtual consoles during the boot process.
- This type will be called 'system driver', and only one system driver is allowed
- to exist. The system driver is persistent and it can never be unloaded, though
-@@ -17,10 +17,11 @@ of driver occupying the consoles.) They
- occupied by the system driver. In the same token, if the modular driver is
- released by the console, the system driver will take over.
- 
--Modular drivers, from the programmer's point of view, has to call:
-+Modular drivers, from the programmer's point of view, have to call:
- 
- 	 do_take_over_console() - load and bind driver to console layer
--	 give_up_console() - unload driver, it will only work if driver is fully unbond
-+	 give_up_console() - unload driver; it will only work if driver
-+			     is fully unbound
- 
- In newer kernels, the following are also available:
- 
-@@ -56,7 +57,7 @@ What do these files signify?
- 	cat /sys/class/vtconsole/vtcon0/name
- 	(S) VGA+
- 
--	    '(S)' stands for a (S)ystem driver, ie, it cannot be directly
-+	    '(S)' stands for a (S)ystem driver, i.e., it cannot be directly
- 	    commanded to bind or unbind
- 
- 	    'VGA+' is the name of the driver
-@@ -89,7 +90,7 @@ driver, make changes, recompile, reload
- for rebooting the kernel. For regular users who may want to switch from
- framebuffer console to VGA console and vice versa, this feature also makes
- this possible. (NOTE NOTE NOTE: Please read fbcon.txt under Documentation/fb
--for more details).
-+for more details.)
- 
- Notes for developers:
- =====================
-@@ -110,8 +111,8 @@ In order for binding to and unbinding fr
- console drivers must follow these guidelines:
- 
- 1. All drivers, except system drivers, must call either do_register_con_driver()
--   or do_take_over_console(). do_register_con_driver() will just add the driver to
--   the console's internal list. It won't take over the
-+   or do_take_over_console(). do_register_con_driver() will just add the driver
-+   to the console's internal list. It won't take over the
-    console. do_take_over_console(), as it name implies, will also take over (or
-    bind to) the console.
- 
+This must be motivated: if the only purpose is to indicate to the consumer that
+all GPIOs are on the same chip, why not just have a
 
+bool all_on_same_chip;
 
+That you set to true if these are all on the same chip?
+
+Yours,
+Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
