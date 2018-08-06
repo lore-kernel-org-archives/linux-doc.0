@@ -1,101 +1,121 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3FB4C7E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 22:30:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 518DA7E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 23:24:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387515AbeHGAkl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 Aug 2018 20:40:41 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:36514 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387477AbeHGAkl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 20:40:41 -0400
-Received: by mail-lj1-f194.google.com with SMTP id u7-v6so11861174lji.3;
-        Mon, 06 Aug 2018 15:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Y+2LyEwByW4zxwwsLlaC1XUGA47kDs2qqVs9Rm/IVKw=;
-        b=VVRKU1FkDhRKCs/bp0gKnclYBzSXh+B6bnxWekrUKOTBVYmu0IRVRSNbSk39oBMtbX
-         chWoCByBdLQ6EH+iBbMrgv4mdt28IbSSr4Xbprbu1/rT5k7GkpZI27jYQ1NcFEF5jHPw
-         FlbKG+QOKca8kHcPqPtbLf7z+oxH766qCjcYF2H0mA/IBM270yEM2SXoicAVOr4+NV4A
-         +Ht2oWIzrwitqQXgSCoZD1Zk5iY6TEAb0pWVLC4FkD0YJrvb49NXo/eMl2dSCL/1hMVI
-         QI9B1X3A4X8WH1PIlrBqt2oCZjaV3rQsPbJWAPtoGjnoIJvBewGXctM9xz8tRyETC4h8
-         nuJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Y+2LyEwByW4zxwwsLlaC1XUGA47kDs2qqVs9Rm/IVKw=;
-        b=Bf98teYr8yXQHf+JNj5jlF6Yk0gieExwvrKrkZR7eH+4S0OcPeIwx79XItdMvmyXP4
-         cjOvYgegHlYY4UQ4yL21xeERcieC2E5Fk+ajQEHJdyf3A8GA9wezeRaB8RZLnUpECD5i
-         04WQ2QqZLwzFXllnh5KDTB6243LJRXo5ZXN4Iyl6uW3bZLAOtjac45BV4fOqCysFVIv3
-         y7MM+6COa2cXp3yFWccyfFQA2VACj3eS8FGmiATfbFTQ7u80oAg8FUmM9Fr9GwX0TFrC
-         /R/KFuAYp+oL88roW2G29z04ghkyPW9vr0TnDmD4lVsyc9Qd8J0aYXmOW5PDoWTcdVKU
-         5/hA==
-X-Gm-Message-State: AOUpUlGZJ+lcmSx6jzMF4HntGsQJkzJrm0xotHicI5aQm8CuJmGYbdTV
-        crVCY8X8r3qsQ/U56I2tuxs=
-X-Google-Smtp-Source: AAOMgpdFORBMvg9yWcrZM5IFEvZ3StNHD23q85ghgy1e+ZYuXriIDAmi9G3G2iV7WMKXEf0JQaoMIw==
-X-Received: by 2002:a2e:63c5:: with SMTP id s66-v6mr14441401lje.23.1533594568957;
-        Mon, 06 Aug 2018 15:29:28 -0700 (PDT)
-Received: from z50.lan (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id o4-v6sm2438561ljc.67.2018.08.06.15.29.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 06 Aug 2018 15:29:28 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [RFC PATCH v2 01/12] mtd: rawnand: ams-delta: Assign mtd->dev.parent, not mtd->owner
-Date:   Tue,  7 Aug 2018 00:29:07 +0200
-Message-Id: <20180806222918.12644-2-jmkrzyszt@gmail.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20180806222918.12644-1-jmkrzyszt@gmail.com>
-References: <20180718235710.18242-1-jmkrzyszt@gmail.com>
- <20180806222918.12644-1-jmkrzyszt@gmail.com>
+        id S1732433AbeHGBgU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 Aug 2018 21:36:20 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58542 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730444AbeHGBgU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 21:36:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ixLSEUUtgzNI2qa50DSPg7M0zmkJltFp/B7667wu8q4=; b=BL6EdVRKRc9lO4xkAUHGwpsSA
+        rz9wMnVzjZfSgUWMPkof+5Sl8Qp13LBqWGXtin0XoUStJI4e63xU1RxnjpvVQDAY0YungGj2k55bF
+        Kxjk4gcpPxM7TLRdF+CnhZVsaCs5Rwe3koH76EYode5RSA9lp9JbQo22dYPDQj6XGvIuu9j1jrnGe
+        ZKY+s9RL5paflMvbRIVfDn5xMFFIqOcXU9t7nBb+wqhhc8Abyd9K2ZV/oU8rVjK9KtvEKTVnAoJP1
+        /OvdlE5LsAkDRNaUPnfttZLEx5Kt9Qh4FxOYcXKzGERBGDJd0ngdTp6UaVKHd4gIZPKDS3fkm3xFL
+        flCOzNiwg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fmorw-0006ux-I3; Mon, 06 Aug 2018 23:24:56 +0000
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        "Antonino A. Daplas" <adaplas@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: corrections to console/console.txt
+Message-ID: <933b90be-5fff-d0c7-a7a1-4e4362713846@infradead.org>
+Date:   Mon, 6 Aug 2018 16:24:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix missing mtd->dev.parent assignment and drop useless mtd->owner.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Fix typos, line length, grammar, punctuation, and capitalization
+in console.txt.
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Antonino A. Daplas <adaplas@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/mtd/nand/raw/ams-delta.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/console/console.txt |   15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/mtd/nand/raw/ams-delta.c b/drivers/mtd/nand/raw/ams-delta.c
-index 2a8872ebd14a..af313c620264 100644
---- a/drivers/mtd/nand/raw/ams-delta.c
-+++ b/drivers/mtd/nand/raw/ams-delta.c
-@@ -162,7 +162,7 @@ static int ams_delta_init(struct platform_device *pdev)
- 	}
+--- lnx-418-rc8.orig/Documentation/console/console.txt
++++ lnx-418-rc8/Documentation/console/console.txt
+@@ -1,7 +1,7 @@
+ Console Drivers
+ ===============
  
- 	ams_delta_mtd = nand_to_mtd(this);
--	ams_delta_mtd->owner = THIS_MODULE;
-+	ams_delta_mtd->dev.parent = &pdev->dev;
+-The linux kernel has 2 general types of console drivers.  The first type is
++The Linux kernel has 2 general types of console drivers.  The first type is
+ assigned by the kernel to all the virtual consoles during the boot process.
+ This type will be called 'system driver', and only one system driver is allowed
+ to exist. The system driver is persistent and it can never be unloaded, though
+@@ -17,10 +17,11 @@ of driver occupying the consoles.) They
+ occupied by the system driver. In the same token, if the modular driver is
+ released by the console, the system driver will take over.
  
- 	/*
- 	 * Don't try to request the memory region from here,
--- 
-2.16.4
+-Modular drivers, from the programmer's point of view, has to call:
++Modular drivers, from the programmer's point of view, have to call:
+ 
+ 	 do_take_over_console() - load and bind driver to console layer
+-	 give_up_console() - unload driver, it will only work if driver is fully unbond
++	 give_up_console() - unload driver; it will only work if driver
++			     is fully unbound
+ 
+ In newer kernels, the following are also available:
+ 
+@@ -56,7 +57,7 @@ What do these files signify?
+ 	cat /sys/class/vtconsole/vtcon0/name
+ 	(S) VGA+
+ 
+-	    '(S)' stands for a (S)ystem driver, ie, it cannot be directly
++	    '(S)' stands for a (S)ystem driver, i.e., it cannot be directly
+ 	    commanded to bind or unbind
+ 
+ 	    'VGA+' is the name of the driver
+@@ -89,7 +90,7 @@ driver, make changes, recompile, reload
+ for rebooting the kernel. For regular users who may want to switch from
+ framebuffer console to VGA console and vice versa, this feature also makes
+ this possible. (NOTE NOTE NOTE: Please read fbcon.txt under Documentation/fb
+-for more details).
++for more details.)
+ 
+ Notes for developers:
+ =====================
+@@ -110,8 +111,8 @@ In order for binding to and unbinding fr
+ console drivers must follow these guidelines:
+ 
+ 1. All drivers, except system drivers, must call either do_register_con_driver()
+-   or do_take_over_console(). do_register_con_driver() will just add the driver to
+-   the console's internal list. It won't take over the
++   or do_take_over_console(). do_register_con_driver() will just add the driver
++   to the console's internal list. It won't take over the
+    console. do_take_over_console(), as it name implies, will also take over (or
+    bind to) the console.
+ 
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
