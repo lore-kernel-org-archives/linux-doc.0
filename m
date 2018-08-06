@@ -1,120 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC0067E3E3
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 16:43:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 752847E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 Aug 2018 17:05:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387519AbeHFSuw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 Aug 2018 14:50:52 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:37336 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387569AbeHFSuw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Aug 2018 14:50:52 -0400
-Received: by mail-wr1-f68.google.com with SMTP id u12-v6so12994656wrr.4
-        for <linux-doc@vger.kernel.org>; Mon, 06 Aug 2018 09:40:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YBeH5wb0hNzlivAoVU1htfthx3SJVx7ZblkVtJGW9ZA=;
-        b=ZfDD4//e+nKU3Jk48Adjac7R2nCCq1HmUAoIcnD0wQGnnbJdjWUlD2Aytat6evC4LS
-         VVCRE4GradGfF7mcdUatpkfkbS3oUExjCB/oJKRWeOgr7D4ns0ZdM/ecmR+rDEiJijY5
-         S5Sn5a3jb2HgFLP5cDZykHlUrABGLypRXZBcf03L4NF2mJDMuWsf2I0cBuuPGn4R+s/1
-         lH0SekuGSZvecQg1AancsSigJdj1Yu9rEv5ENqjlxw1iJ0P7zjekaIIfk0F3yh9DLnKi
-         TZpN0Zr9j707UzVmqzktL466xYpXyXTkduX6zmE7Ee23DujIeKOV8ZkSblww3yE0f9TH
-         8Z4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YBeH5wb0hNzlivAoVU1htfthx3SJVx7ZblkVtJGW9ZA=;
-        b=i8UiMZsOAmLpZtej7uvxtycO/Ue6xv5hPkjBuk0cZ4T8LaAdLy17Gp6YFJMzxyENH3
-         /WzQVmAWugtFeRLyoqM2pxQQGO6WCkHpRRQiUZK6s3EfSNg6+SJqFX9aYbz9kugCHWkX
-         XrSQ3PMPXCRhKQgADjk01zCS0xvc4fJ5l72ynpyX1qwv9nnngHCOFieVrcFoigEr2LX4
-         X9CzHca8vq4MlrdtS9u1Q/BXzob/bwyL1jjcF9G84iZ/ToOVayu8kBNJCiIaduEuPwMb
-         yg8/Hsa3ho03PhnnHdDQy8PRBbf4oauglJJ9/20da2GL01VnRq0nSko2y5LzutOgQDr8
-         HRWQ==
-X-Gm-Message-State: AOUpUlFkRYYgFKEqzW6ZRkduKtK4eJZoT/ovLJCZR0w9tUuXAdbzf7Aw
-        G8d/fWQ3FDocb4MJAGkc0AQYNQ==
-X-Google-Smtp-Source: AAOMgpcsiooZAsa7Co5DL90XZQSeO75lLqOzA0ZY/k14f/rzEmHb2gPZjF9ufPSZOUffbBSYdCeBEQ==
-X-Received: by 2002:adf:91e5:: with SMTP id 92-v6mr10363242wri.124.1533573656582;
-        Mon, 06 Aug 2018 09:40:56 -0700 (PDT)
-Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id 66-v6sm16385790wmw.34.2018.08.06.09.40.55
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 06 Aug 2018 09:40:55 -0700 (PDT)
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+        id S1728349AbeHFTPY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 Aug 2018 15:15:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54658 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728071AbeHFTPY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Aug 2018 15:15:24 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id BAF6B307D862;
+        Mon,  6 Aug 2018 17:05:23 +0000 (UTC)
+Received: from t450s.home (ovpn-116-35.phx2.redhat.com [10.3.116.35])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 24C5360BEC;
+        Mon,  6 Aug 2018 17:05:22 +0000 (UTC)
+Date:   Mon, 6 Aug 2018 11:05:21 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     "Raj, Ashok" <ashok.raj@intel.com>
+Cc:     Kenneth Lee <liguozhu@hisilicon.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Zaibo Xu <xuzaibo@huawei.com>, sanjay.k.kumar@intel.com,
+        Kenneth Lee <nek.in.cn@gmail.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joerg Roedel <joro@8bytes.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, linuxarm@huawei.com,
+        Thomas Gleixner <tglx@linutronix.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v5 02/10] uaccess: add untagged_addr definition for other arches
-Date:   Mon,  6 Aug 2018 18:40:37 +0200
-Message-Id: <d57a69a1174247d52b388564b26bfdfeaed727be.1533573460.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.18.0.597.ga71716f1ad-goog
-In-Reply-To: <cover.1533573460.git.andreyknvl@google.com>
-References: <cover.1533573460.git.andreyknvl@google.com>
+        Cornelia Huck <cohuck@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "linux-accelerators@lists.ozlabs.org" 
+        <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [RFC PATCH 3/7] vfio: add spimdev support
+Message-ID: <20180806110521.0b708e0b@t450s.home>
+In-Reply-To: <20180806163428.GB32409@otc-nc-03>
+References: <20180801102221.5308-1-nek.in.cn@gmail.com>
+        <20180801102221.5308-4-nek.in.cn@gmail.com>
+        <AADFC41AFE54684AB9EE6CBC0274A5D191290F7B@SHSMSX101.ccr.corp.intel.com>
+        <20180802034727.GK160746@Turing-Arch-b>
+        <AADFC41AFE54684AB9EE6CBC0274A5D19129102C@SHSMSX101.ccr.corp.intel.com>
+        <20180802073440.GA91035@Turing-Arch-b>
+        <20180802103528.0b863030.cohuck@redhat.com>
+        <20180802124327.403b10ab@t450s.home>
+        <20180806014004.GF91035@Turing-Arch-b>
+        <20180806094940.47c70be9@t450s.home>
+        <20180806163428.GB32409@otc-nc-03>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Mon, 06 Aug 2018 17:05:24 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To allow arm64 syscalls accept tagged pointers from userspace, we must
-untag them when they are passed to the kernel. Since untagging is done in
-generic parts of the kernel, the untagged_addr macro needs to be defined
-for all architectures.
+On Mon, 6 Aug 2018 09:34:28 -0700
+"Raj, Ashok" <ashok.raj@intel.com> wrote:
 
-Define it as a noop for other architectures besides arm64.
+> On Mon, Aug 06, 2018 at 09:49:40AM -0600, Alex Williamson wrote:
+> > On Mon, 6 Aug 2018 09:40:04 +0800
+> > Kenneth Lee <liguozhu@hisilicon.com> wrote:  
+> > > 
+> > > 1. It supports thousands of processes. Take zip accelerator as an example, any
+> > > application need data compression/decompression will need to interact with the
+> > > accelerator. To support that, you have to create tens of thousands of mdev for
+> > > their usage. I don't think it is a good idea to have so many devices in the
+> > > system.  
+> > 
+> > Each mdev is a device, regardless of whether there are hardware
+> > resources committed to the device, so I don't understand this argument.
+> >    
+> > > 2. The application does not want to own the mdev for long. It just need an
+> > > access point for the hardware service. If it has to interact with an management
+> > > agent for allocation and release, this makes the problem complex.  
+> > 
+> > I don't see how the length of the usage plays a role here either.  Are
+> > you concerned that the time it takes to create and remove an mdev is
+> > significant compared to the usage time?  Userspace is certainly welcome
+> > to create a pool of devices, but why should it be the kernel's
+> > responsibility to dynamically assign resources to an mdev?  What's the
+> > usage model when resources are unavailable?  It seems there's
+> > complexity in either case, but it's generally userspace's responsibility
+> > to impose a policy.
+> >   
+> 
+> Can vfio dev's created representing an mdev be shared between several 
+> processes?  It doesn't need to be exclusive.
+> 
+> The path to hardware is established by the processes binding to SVM and
+> IOMMU ensuring that the PASID is plummed properly.  One can think the 
+> same hardware is shared between several processes, hardware knows the 
+> isolation is via the PASID. 
+> 
+> For these cases it isn't required to create a dev per process. 
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- include/linux/uaccess.h | 4 ++++
- 1 file changed, 4 insertions(+)
+The iommu group is the unit of ownership, a vfio group mirrors an iommu
+group, therefore a vfio group only allows a single open(2).  A group
+also represents the minimum isolation set of devices, therefore devices
+within a group are not considered isolated and must share the same
+address space represented by the vfio container.  Beyond that, it is
+possible to share devices among processes, but (I think) it generally
+implies a hierarchical rather than peer relationship between
+processes.  Thanks,
 
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index efe79c1cdd47..c045b4eff95e 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -13,6 +13,10 @@
- 
- #include <asm/uaccess.h>
- 
-+#ifndef untagged_addr
-+#define untagged_addr(addr) addr
-+#endif
-+
- /*
-  * Architectures should provide two primitives (raw_copy_{to,from}_user())
-  * and get rid of their private instances of copy_{to,from}_user() and
--- 
-2.18.0.597.ga71716f1ad-goog
-
+Alex
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
