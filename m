@@ -4,70 +4,72 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 665E17E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 17:19:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 095A77E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 17:28:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390158AbeHGTeT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 7 Aug 2018 15:34:19 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:38978 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389339AbeHGTeT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Aug 2018 15:34:19 -0400
-Received: by mail-lj1-f194.google.com with SMTP id l15-v6so14048931lji.6;
-        Tue, 07 Aug 2018 10:18:58 -0700 (PDT)
+        id S2389126AbeHGToR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 7 Aug 2018 15:44:17 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41066 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732619AbeHGToR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Aug 2018 15:44:17 -0400
+Received: by mail-lf1-f68.google.com with SMTP id v22-v6so12211000lfe.8;
+        Tue, 07 Aug 2018 10:28:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3NN/M74K2wMWhEVDu0QmgduoWTZ9a+7qt+XXkaOMAOw=;
-        b=teWOGNtpUK59vsyepb15vzkSJQXBqAGa6lICOlyEBQ9XO57axlvYf1J4N6LrX6J/CM
-         y79LYP6U/7NMSQC7U8G2TJtiZkOFG/8Lmg3ZlSqF+ahXo4g5hP3m7A6g5PdlP55uhCbo
-         doRGTh6rA30Sog+iYtOt9GDma2RbZiNUHaNT1zMF0x0HWdiJIRLUeo9s6Tb8GDO8WaUo
-         UqbgIn2eH8zxJ0dwneHHjLECxxgVF4ty0W8hqqlBhXMxOCLfpOmPitCD3DFq/oYVidbP
-         bflfrNcsKs9nvFpOEynB2GDmThws+EyZQgQ228uqotWtKC/vju8rlXXBhl7ckRo6RXgc
-         WOzg==
+        bh=wQ+TL2Ch38Nf7XtlVYEKkAG6/IiKQiL1mHgYtceo7c4=;
+        b=LV6ZEvzH1YMU+h/VJBUFOxIjQwpDJ4WpjAyHioq0ZL7jk1Jpz6xXHRgbu1sN6BtI3L
+         Fm7Pk6Vq9MoNz+FWTMcqfh+ndPjlTNAIRlHvRTdELZtwtEZ6lvKCCfcQvOAwNgG2yC5E
+         rSeNVH+Jn7yb3V6LIBWXzpXAuedBr4SCErVOSEXxcp87aQl8Ev3hMlQ9KBiv1eD8850M
+         wFAcynmpZBD2BQwGP8/CS2gLnaZbbWpEGPZx3nZB279aN+Ma68GWALwzLlYkmmnsjKhj
+         P61cZCQRzXAxFR8ke8wUAXYLWgzP+RT3hc7/OJTaqyJK8x/jEUerSCwwBFuyl8PT1s6o
+         PbvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3NN/M74K2wMWhEVDu0QmgduoWTZ9a+7qt+XXkaOMAOw=;
-        b=VxbcJVJT/H52xzm/THXr7Q2JzW9FD69qcFlEnafMGdg/T+y0swN9EgXWq70bUolIpA
-         edW79EYlXo/DuSMYoCloA37IvqA+UIvgPLv0LAo0glbDOq3IArFvTh7a8gthIt+qVwjT
-         By5VTAHjglhBIJRvpU+PZoG8g+gmcRnMKcQO/iHn8iB87R6qZ+9of5/eHB8F25KnjsI0
-         dfdLpgosD+GCsJLDJsltyBjhs6No9r87+gfGrxridu5C6tIkl0CvxQWGNB2GohiAlwo9
-         P5c/pX6gJKt5ReHmwoiUwQFOmkwy+160dUTl+h3rzCGEFLXjviIrVAAu3NLTr/HOfkmL
-         l6pQ==
-X-Gm-Message-State: AOUpUlHYGgsUQZ16gnfGQXhDHmpEYrxkZLWhO0wsMxBc63sQj3tH+OvN
-        mNnysjr2C1I1mEglJgp38C0=
-X-Google-Smtp-Source: AAOMgpebl4wAMucs8jeYgaiWn3nISH2zJmWRt9YifwvatagwMocnomiw7CfZAzc5DSABJoGqObT5hw==
-X-Received: by 2002:a2e:40ca:: with SMTP id r71-v6mr15839486lje.41.1533662337939;
-        Tue, 07 Aug 2018 10:18:57 -0700 (PDT)
+        bh=wQ+TL2Ch38Nf7XtlVYEKkAG6/IiKQiL1mHgYtceo7c4=;
+        b=BCP1i3D74nypzpoIaniMpys5D0OEslWO43j2ewXlSlU3io9SPVcCp41yngPNCe1nNH
+         Z7OwYBjw2Dcm+FGXvvL/uBeYm4GhWFAutvrORgXGdafnTrXbAtzJ5vWIegdVxOzq7cx7
+         FsEduMC8y9oV7n0m2Pe4Whby8/GH7me3cs9KOKSkSppJwnP6QIm3EFZVh4NBF9a15Db5
+         6phSdIy2fqqB7FqwqMM/k7IxReOD6n9btBh1LjJWrzXODIOe8vtpV/2l/Dhi1PU5JgHd
+         LyIZ8y1RMgAIq59Qx99XrPiBTtE7qfmR7g+L8ewZjRajlqDTvkE893pq5wDE/X0Kzjpn
+         hc8g==
+X-Gm-Message-State: AOUpUlHvW46KI5Pkks/Hk0gpy8cZfLCpy0y3ZHWrWwkfrHfFNHDUEmDW
+        u72kjpJ3s1FuOELu1vlp/NQ=
+X-Google-Smtp-Source: AAOMgpdlmY/b4tPeOh2/meNrkmmczHF6PJIv2XiV9/u0PRxWhWVwC9mu+cqvu/gFhNlOFDoq0uTe8w==
+X-Received: by 2002:a19:26d2:: with SMTP id m201-v6mr14305454lfm.43.1533662934002;
+        Tue, 07 Aug 2018 10:28:54 -0700 (PDT)
 Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id r73-v6sm337213ljb.16.2018.08.07.10.18.56
+        by smtp.gmail.com with ESMTPSA id x23-v6sm326484ljj.86.2018.08.07.10.28.52
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 Aug 2018 10:18:57 -0700 (PDT)
+        Tue, 07 Aug 2018 10:28:53 -0700 (PDT)
 From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
+        =?ISO-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
         Richard Weinberger <richard@nod.at>,
         David Woodhouse <dwmw2@infradead.org>,
         Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
+        Mark Vasut <marek.vasut@gmail.com>,
+        ext Tony Lindgren <tony@atomide.com>,
         Aaro Koskinen <aaro.koskinen@iki.fi>,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
         linux-mtd@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [RFC PATCH v2 09/12] gpiolib: Identify GPIO descriptor arrays with direct mapping
-Date:   Tue, 07 Aug 2018 19:19:57 +0200
-Message-ID: <5726821.9hm6pNmUJb@z50>
-In-Reply-To: <20180807191420.04431e8e@bbrezillon>
-References: <20180718235710.18242-1-jmkrzyszt@gmail.com> <20180806222918.12644-10-jmkrzyszt@gmail.com> <20180807191420.04431e8e@bbrezillon>
+Subject: Re: [RFC PATCH v2 12/12] gpiolib: Add fast processing path to bitmap API functions
+Date:   Tue, 07 Aug 2018 19:29:53 +0200
+Message-ID: <11711552.OvaP4pOjBH@z50>
+In-Reply-To: <CACRpkdYHqFOFSv-erCzx8_u-mVUgGPdDH0ts-+DNAvjP3Qxb9w@mail.gmail.com>
+References: <20180718235710.18242-1-jmkrzyszt@gmail.com> <20180806222918.12644-13-jmkrzyszt@gmail.com> <CACRpkdYHqFOFSv-erCzx8_u-mVUgGPdDH0ts-+DNAvjP3Qxb9w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -76,51 +78,64 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, August 7, 2018 7:14:20 PM CEST Boris Brezillon wrote:
-> On Tue,  7 Aug 2018 00:29:15 +0200
-> Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
+On Tuesday, August 7, 2018 1:43:56 AM CEST Linus Walleij wrote:
+> On Tue, Aug 7, 2018 at 12:29 AM Janusz Krzysztofik <jmkrzyszt@gmail.com> 
+wrote:
 > 
-> > Certain GPIO array lookup results may map directly to GPIO pins of a
-> > single GPIO chip in hardware order.  If that condition is recognized
-> > and handled efficiently, significant performance gain of get/set array
-> > functions may be possible.
-> > 
-> > While processing a request for an array of GPIO descriptors, verify if
-> > the descriptors just collected represent consecutive pins of a single
-> > GPIO chip.  Pass that information with the array to the caller so it
-> > can benefit from enhanced performance as soon as bitmap based get/set
-> > array functions which can make efficient use of that are available.
-> > 
+> Hi Janusz!
+> 
+> > Certain GPIO descriptor arrays returned by gpio_get_array() may contain
+> > information on a single GPIO chip driving array member pins in hardware
+> > order.  In such cases, bitmaps of values can be passed directly to the
+> > chip callback functions without wasting time on iterations.
+> >
+> > Add respective code to gpiod_get/set_array_bitmap_complex() functions.
+> >
 > > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> > ---
-> >  Documentation/driver-api/gpio/consumer.rst |  4 +++-
-> >  drivers/gpio/gpiolib.c                     | 14 ++++++++++++++
-> >  include/linux/gpio/consumer.h              |  1 +
-> >  3 files changed, 18 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-> > index aa03f389d41d..38a990b5f3b6 100644
-> > --- a/Documentation/driver-api/gpio/consumer.rst
-> > +++ b/Documentation/driver-api/gpio/consumer.rst
-> > @@ -109,11 +109,13 @@ For a function using multiple GPIOs all of those can be obtained with one call::
-> >  					   enum gpiod_flags flags)
-> >  
-> >  This function returns a struct gpio_descs which contains an array of
-> > -descriptors::
-> > +descriptors.  It may also contain a valid descriptor of a single GPIO chip in
-> > +case the array strictly matches pin hardware layout of the chip::
-> >  
-> >  	struct gpio_descs {
-> >  		unsigned int ndescs;
-> >  		struct gpio_desc *desc[];
-> > +		struct gpio_chip *chip;
 > 
-> chip is placed at the beginning of the struct in the real code, which
-> is expected since putting it at the end won't work because of the
-> desc[] declaration.
+> I think it would be disappointing to leave all the users of the old
+> array API without the performance improvement. I think we need to
+> deal with this in a way such that everyone can benefit from it.
 
-Yes, I've already noticed that and will fix on next iteration, thanks.
+There are a few issues to be resolved:
 
+1) array size limited by bitmap size:
+    - are we ready to limit array size to a single bitmap for all users?
+    - if not, how can we pass a bitmap of an arbitrary size?
+    - if as an array of bitmaps, is that still clear enough and easy to use?
+    - other ideas?
+
+2) arbitrary array support:
+     - are we ready to drop that?
+     - if not, do we agree to require all users to pack their arbitrary arrays 
+        inside the gpio_descs structure?
+
+Maybe more.
+
+> Also it is kludgy if users (consumers) would need to handle the case
+> where all lines are on the same chip separately, through the bitmap
+> API.
+
+Not true as long as array size fits (arbitrary arrays can be packed by users), 
+but I see your point.
+
+> What we need is an API that:
+> 
+> - All drivers handling arrays can use (including current users).
+> 
+> - Enables speed-up if the lines are all on the same chip/register.
+> 
+> - Doesn't require consumers to know if they are all on the same
+>   chip or not.
+> 
+> This means a deep API with a small surface.
+> 
+> How do we achieve this the best way?
+
+I think widely accepted solutions to those two issues I've mentioned above can 
+give the answer.
+
+Thanks,
 Janusz
 
 
