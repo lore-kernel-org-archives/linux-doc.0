@@ -1,159 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6AD437E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 02:48:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 303F47E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 07:05:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726902AbeHGFAz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 7 Aug 2018 01:00:55 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:44903 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726579AbeHGFAz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Aug 2018 01:00:55 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0503D21DF2;
-        Mon,  6 Aug 2018 22:48:49 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 06 Aug 2018 22:48:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=ZDQtrhoqeBKbPd6CM2BKLbUDJhNwYwDyV2YZUZHwQMk=; b=WEnoNv1u
-        SWKsgsNvzZsYh4k9GxdnVQZ/LN7FzG85+Pxq0CpNrHxVnddmp+bggKSdPdNcWu7w
-        eDAahexdZbXim09tLpB69uiPkaz9ZkgTr8QJZrkpF/sjODv/wlbi0yHiidwcBkam
-        AXcjZj8xqwA5bPeDVeR/0c7vT+KlC3sni+tSgbhzrcBHHmMfuFZFd+wP6CKH/KUT
-        quWue1HT5uGlqo98ffmkVbYlQptaHuLTu7BNQfMHdf0gfiE+cM9pgqk1+Z+SEXUt
-        EFt5nhcTKzc+9MG1vRTK/bHsuBXwiiVrH4ii/KhbjXgnZC8qozOKXDCrBBpQjDNI
-        y81fDwn3EOkPDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=ZDQtrhoqeBKbPd6CM2BKLbUDJhNwY
-        wDyV2YZUZHwQMk=; b=VNfoS1sehY0s8/UW2BYNyq47Q2UfuJs0ezZBSrNtjtc50
-        gjCJOl/WDkOf9x7ZmlhN02i5LIIBxsg4jIEtJ4ZP1EBs60v4n5YLBSexAbDzVQ4Y
-        3lNlToY/QHCGvLeHeDDq82+FJNVSpfFrWLLRqXz8BAJpdcN6mNOS10csCEN+dQCS
-        MXH8aAtrVSwSVr1Hkd1a7jo3nfPj4wSEGYRMPJUw3eB3MrPF90e5ESVEtW34XHrM
-        y8Wtex4HpGQiXQAnb5Z51KQqf3iFhyvCms8Ptd49hnxlLrCCgl0ZwDoHKoztEfX1
-        v7JWvmSCZtj3cS8448Q8ooDRJlzgeBfNPG2etYfQw==
-X-ME-Proxy: <xmx:kAhpW5UVgVv7L02PNnmzuw0_l-Im_-NQPO19tvx-y4LVhMtqLcVCoQ>
-    <xmx:kAhpW3hXkDImM6uvMSom7_ZDCDTFCEh0AVYxmk64-DiuON2GH5qN7g>
-    <xmx:kAhpW8-LcdIjXiBjbvlKm6azVQdPDVDWXKuv5ha5Eu2c_utl7zS1cw>
-    <xmx:kAhpW5BsYKCHFqX44in21ElXMk348-0uAnfgBSOl-Mpzeoi6lQTv4A>
-    <xmx:kAhpWxJM7LqOQeThX0dnww0dY9IALC_HIMNL-o7jqpXOPUOzaccZ3g>
-    <xmx:kAhpW-m4h3i1H9-hwnY1CIa1FM2y-jx2XSHlvwQVzpjXKPdnMPdxXw>
-X-ME-Sender: <xms:kAhpW8W3VO44ypw_qqb3bztNCx0eUfCwPs1ZbgELljsro_IYxYhhXQ>
-Received: from localhost (ppp121-44-251-7.bras2.syd2.internode.on.net [121.44.251.7])
-        by mail.messagingengine.com (Postfix) with ESMTPA id AC9861026B;
-        Mon,  6 Aug 2018 22:48:47 -0400 (EDT)
-Date:   Tue, 7 Aug 2018 12:48:44 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC bpf-next v2 3/3] docs: Split filter.txt into separate
- documents.
-Message-ID: <20180807024844.GW3088@eros>
-References: <20180802223100.26236-1-me@tobin.cc>
- <20180802223100.26236-4-me@tobin.cc>
- <20180803070818.3d3e52e4@lwn.net>
+        id S2387942AbeHGJRz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 7 Aug 2018 05:17:55 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:35327 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727224AbeHGJRz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Aug 2018 05:17:55 -0400
+Received: by mail-ed1-f66.google.com with SMTP id e6-v6so6392300edr.2;
+        Tue, 07 Aug 2018 00:04:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=XmptHZRUj1HhbqLfOOMN9DS48U2tNv1riI7VZGWRZp8=;
+        b=nOkjMwLMrlWDnfwtjh2HSEFAgBxz3h0smCuudr4AYic4mKXTKfyfZKwQbnj3WahGab
+         KEPZwkfY8cdydSpkCSM1Lm9FhiZ3B6M47pyDLLRh2Jk/unIt136Xg1is0xBLBJBy877O
+         Y4QcAP8Ke7Bsle6sZsSFbBfsl++Y7W0OXp6ScdXpWHHNjvweubvD9ZBNF3RvNrQtHrBg
+         lOOqN/37+7Rd+cCvFUIT07MokVM2PzPK5EsyIO9IAfn5eSzEw2rAjKP7PfFZuHzDzax3
+         68icNTToZVfbvmjFmNKXLgsdi85raPb2em7+a68gDJdlBS/YvkB+ojFp8XXxglDGmVOs
+         1keg==
+X-Gm-Message-State: AOUpUlGNaVTGHf68WlmIK8Tlo4RiJyp6XcVElkGKLi7Yvg9Wx0L3Lbvw
+        ci8JRa6gXv0EW6SFEVc9lM+ElUcGmCtDyg==
+X-Google-Smtp-Source: AAOMgpcTryhUSOARJO8faFP8C5QjerLuhKmZZZWu+HZHK7CAnpkJeIXz/V/254Umn+YQ03p7YgdxYA==
+X-Received: by 2002:aa7:d588:: with SMTP id r8-v6mr21847196edq.130.1533625497926;
+        Tue, 07 Aug 2018 00:04:57 -0700 (PDT)
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com. [74.125.82.50])
+        by smtp.gmail.com with ESMTPSA id g9-v6sm362426edq.34.2018.08.07.00.04.56
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 Aug 2018 00:04:56 -0700 (PDT)
+Received: by mail-wm0-f50.google.com with SMTP id c14-v6so16194963wmb.4;
+        Tue, 07 Aug 2018 00:04:56 -0700 (PDT)
+X-Received: by 2002:a1c:3b54:: with SMTP id i81-v6mr795912wma.143.1533625495971;
+ Tue, 07 Aug 2018 00:04:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180803070818.3d3e52e4@lwn.net>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Received: by 2002:adf:a101:0:0:0:0:0 with HTTP; Tue, 7 Aug 2018 00:04:35 -0700 (PDT)
+In-Reply-To: <266e5f874b36aa83f3327879d85921fab52d5461.1529079120.git.mchehab+samsung@kernel.org>
+References: <cover.1529079119.git.mchehab+samsung@kernel.org> <266e5f874b36aa83f3327879d85921fab52d5461.1529079120.git.mchehab+samsung@kernel.org>
+From:   Chen-Yu Tsai <wens@csie.org>
+Date:   Tue, 7 Aug 2018 15:04:35 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65+6zV1E--KvD3Si=XNmDE3oaZ2hBxvm86KjTwUv9BnSw@mail.gmail.com>
+Message-ID: <CAGb2v65+6zV1E--KvD3Si=XNmDE3oaZ2hBxvm86KjTwUv9BnSw@mail.gmail.com>
+Subject: Re: [PATCH v4 23/26] devicetree: fix a series of wrong file references
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Xiaowei Song <songxiaowei@hisilicon.com>,
+        Binghui Wang <wangbinghui@hisilicon.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        linux-input@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-pci@vger.kernel.org, Linux-ALSA <alsa-devel@alsa-project.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 03, 2018 at 07:08:18AM -0600, Jonathan Corbet wrote:
-> On Fri,  3 Aug 2018 08:31:00 +1000
-> "Tobin C. Harding" <me@tobin.cc> wrote:
-> 
-> > In preparation for conversion of Documentation/networking/filter.txt it
-> > was noticed that the document contains a lot of information.  The
-> > document may be more accessible if it was split up.  Some parts pertain
-> > to everyone, let's put these bits in core-api/.  The more hard core bits
-> > about eBPF internals could be put with the other BPF docs in
-> > Documentation/bpf/.  There is a small bit of information on testing and
-> > miscellaneous matters that are useful for everyone (everyone does
-> > testing, right) so lets keep that info at the bottom of both new
-> > documents.  (This includes the original authors.)
-> > 
-> > Split Documentation/networking/filter.txt into
-> > Documentation/bpf/eBPF.rst and Documentation/core-api/bpf.rst
-> > 
-> > Signed-off-by: Tobin C. Harding <me@tobin.cc>
-> > ---
-> >  .../{networking/filter.txt => bpf/eBPF.rst}   | 590 +----------------
-> >  Documentation/core-api/bpf.rst                | 599 ++++++++++++++++++
-> 
-> Some overall thoughts...
-> 
->  - A good step in the right direction, and worthwhile work.  Thanks for
->    doing this!
+On Sat, Jun 16, 2018 at 12:30 AM, Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+> As files got renamed, their references broke.
+>
+> Manually fix a series of broken refs at the DT bindings.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  .../devicetree/bindings/input/rmi4/rmi_2d_sensor.txt |  2 +-
+>  Documentation/devicetree/bindings/mfd/sun6i-prcm.txt |  2 +-
 
-Thanks for you thoughts Jon.
+If still applicable,
 
->  - The new eBPF.rst file is not actually an RST file.  Giving it that
->    extension while not converting the contents will confuse Sphinx.  I'd
->    call it .txt at this point.
-
-I'm a bit stumped as the best way to structure a patch set that does
-
-	foo.txt -> foo.rst
-
-conversion.  FTR the conditions I'm trying to meet are:
-
-1. Each patch should be discreet and leave the kernel in a _correct_
-   state.
-2. One thing per patch.
-3. Maintainers should be able to take the first 'n' patches without
-   taking the whole set.
-
-How about these steps:
-
-	1. start with foo.txt
-	2. do typo and grammar fixes (any number of patches).
-	3. rename to foo.rst, do whitespace changes, code snippet
-	   indentation, heading adornments, update references to this file.
-	   (single patch).
-	4. Fix up references in the file text to use RST (i.e :ref: blah)
-	5. Fix up RST markers (backticks etc). (any number of patches)
-
-Any better ideas or further suggestions?  I like 4 and 5 separate since
-they can be done in multiple ways so may be controversial.
-
->  - The document now known as core-api/bpf.rst is still covering two
->    separate things.  One is the socket-filter API, while the other is
->    classic BPF.  Since cBPF is still used elsewhere (seccomp), it's of
->    wider interest.  Also, this is user-space API stuff, not kernel API
->    stuff, so I think that Documentation/userspace-api/ is the right place
->    for it.
-> 
-> I'm kind of thinking this through as I type it, but I guess I'm arguing
-> for the creation of three files, all in Documentation/userspace-api/:
-> 
->  - socket-filter.rst on how to write socket filters
->  - cBPF.rst describing classic BPF and its tools
->  - eBPF.rst describing extended BPF
-> 
-> Tying cBPF.rst into seccomp_filter.rst could also be helpful for our
-> readers.
-> 
-> Does this make sense?
-
-Yep, that all makes sense.  Patch set to come.
-
-thanks,
-Tobin.
+Acked-by: Chen-Yu Tsai <wens@csie.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
