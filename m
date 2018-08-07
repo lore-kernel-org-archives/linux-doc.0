@@ -1,102 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BEF5C7E3D1
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 17:10:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B04C7E3B8
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 17:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390062AbeHGTZl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 7 Aug 2018 15:25:41 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:42009 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390037AbeHGTZl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Aug 2018 15:25:41 -0400
-Received: by mail-lj1-f193.google.com with SMTP id f1-v6so14004052ljc.9;
-        Tue, 07 Aug 2018 10:10:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TEmzIpIJeMrr/tbenoFGx1EzF3o0ZISrz/y0iiZYYJc=;
-        b=E2j2hXEsNrz7WNhQbvmTnlaID86uTIVE7wC5KjXGn64d/DthsNiXGvoyDuVSTEWY+F
-         BPTxnlhaik2yYSOANh+oNBeh1WXAC3anJ/g0PAvoZzRM3WTGrfFnTTbctPtexddCAFcP
-         nSPfYpuz2FhYHZgDAW6Squ7zpw1q3MaEjIHeSggBZHx+EARbHEg5K2uvK4fUS9ttWTRq
-         c+OHw1ad8sDGSIP3Dq94rRLnftWvZKtNimoCJOscBB7BgXX0e0B3DLs6vJVaQh67zSWh
-         incW7WhrCH7/1cJxgfA4xlgB5XO1Mr4Y2xBJHeb/PO2HE8Gg2mo/aDaBcA/0yhhlYehb
-         SpEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TEmzIpIJeMrr/tbenoFGx1EzF3o0ZISrz/y0iiZYYJc=;
-        b=crrOxGUkNO1N1cnFNf3QUJEZgrWp4QOXp8DrDAvuhaKYy/gYGBXB7u53qVtWYel6rI
-         6fm75ZzewqKH2irsswMIw1yDITuheBmd5XcvHXTI9joS1k2cVDb2oHpKAVVHl9Hao+vL
-         77o9A80+PoOq0SBJf+ohN31dPUpYcTDanK03/b0gQrT4fXDTe4aJLaw7CfjTaphc0jPp
-         b4k2Ud78sSGGU2XAbydlNrCa5/zHv5aQR+txdW50SJRodtzXOJv+xiUgy9pjcDDTcS1p
-         lAFv7cxvJd//sNXKZNkpMuA7dwYI+/BbX/65LI6qr7puluiBACPxQyyqgtq1CFw10Czj
-         TvPQ==
-X-Gm-Message-State: AOUpUlE6Jj+ppyDiKbNYmvRe35Ur+Cy/1rUdFdM+snKTDfSarXfnhmWM
-        nUxm2Yg7Lf/8zKtnOIeOTSM=
-X-Google-Smtp-Source: AAOMgpenz6j3OSFJmb831uDvT6MeTmQEzURgrDRCHtzPs0fONdMRNGmviLWlAVjYTvsM4poY7IonrA==
-X-Received: by 2002:a2e:1301:: with SMTP id 1-v6mr15545786ljt.56.1533661822563;
-        Tue, 07 Aug 2018 10:10:22 -0700 (PDT)
-Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id f18-v6sm325264lja.85.2018.08.07.10.10.20
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 Aug 2018 10:10:21 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
+        id S2390107AbeHGT0Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 7 Aug 2018 15:26:25 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:36790 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388706AbeHGT0Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Aug 2018 15:26:25 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id CD33320789; Tue,  7 Aug 2018 19:11:04 +0200 (CEST)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 1C5A02093C;
+        Tue,  7 Aug 2018 19:10:42 +0200 (CEST)
+Date:   Tue, 7 Aug 2018 19:10:42 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
         Richard Weinberger <richard@nod.at>,
         David Woodhouse <dwmw2@infradead.org>,
         Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
+        Mark Vasut <marek.vasut@gmail.com>,
+        ext Tony Lindgren <tony@atomide.com>,
         Aaro Koskinen <aaro.koskinen@iki.fi>,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
         linux-mtd@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [RFC PATCH v2 05/12] mtd: rawnand: ams-delta: use GPIO API for data read/write
-Date:   Tue, 07 Aug 2018 19:11:22 +0200
-Message-ID: <1593487.Cmi0mten1c@z50>
-In-Reply-To: <20180807190627.4340aade@bbrezillon>
-References: <20180718235710.18242-1-jmkrzyszt@gmail.com> <20180806222918.12644-6-jmkrzyszt@gmail.com> <20180807190627.4340aade@bbrezillon>
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH v2 09/12] gpiolib: Identify GPIO descriptor arrays
+ with direct mapping
+Message-ID: <20180807191042.0204909a@bbrezillon>
+In-Reply-To: <1793769.2WP40jSPqy@z50>
+References: <20180718235710.18242-1-jmkrzyszt@gmail.com>
+        <20180806222918.12644-10-jmkrzyszt@gmail.com>
+        <CACRpkdZtuU6zXBz6UqprE7-31vW9-1ZabFjyzHBgWaTgmqkbbQ@mail.gmail.com>
+        <1793769.2WP40jSPqy@z50>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris,
+On Tue, 07 Aug 2018 18:50:22 +0200
+Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
 
-On Tuesday, August 7, 2018 7:06:27 PM CEST Boris Brezillon wrote:
-> On Tue,  7 Aug 2018 00:29:11 +0200
-> Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
+> Hi Linus,
 > 
-> > Don't readw()/writew() data directly from/to GPIO port which is under
-> > control of gpio-omap driver, use GPIO API instead.
+> On Tuesday, August 7, 2018 1:29:43 AM CEST Linus Walleij wrote:
+> > Hi Janusz!
 > > 
-> > Degrade of performance on Amstrad Delta is completely not acceptable.
+> > On Tue, Aug 7, 2018 at 12:29 AM Janusz Krzysztofik <jmkrzyszt@gmail.com>   
+> wrote:
+> >   
+> > > Certain GPIO array lookup results may map directly to GPIO pins of a
+> > > single GPIO chip in hardware order.  If that condition is recognized
+> > > and handled efficiently, significant performance gain of get/set array
+> > > functions may be possible.
+> > >
+> > > While processing a request for an array of GPIO descriptors, verify if
+> > > the descriptors just collected represent consecutive pins of a single
+> > > GPIO chip.  Pass that information with the array to the caller so it
+> > > can benefit from enhanced performance as soon as bitmap based get/set
+> > > array functions which can make efficient use of that are available.
+> > >
+> > > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>  
+> > (...)  
+> > >  This function returns a struct gpio_descs which contains an array of
+> > > -descriptors::
+> > > +descriptors.  It may also contain a valid descriptor of a single GPIO   
+> chip in
+> > > +case the array strictly matches pin hardware layout of the chip::
+> > >
+> > >         struct gpio_descs {
+> > >                 unsigned int ndescs;
+> > >                 struct gpio_desc *desc[];
+> > > +               struct gpio_chip *chip;  
+> > 
+> > This must be motivated: if the only purpose is to indicate to the consumer   
+> that
+> > all GPIOs are on the same chip, why not just have a
+> > 
+> > bool all_on_same_chip;
+> > 
+> > That you set to true if these are all on the same chip?  
 > 
-> Can we have numbers along with information about where the overhead is
-> when using gpiod_{get,set}_raw_array_value()?
+> My approach would probably save one or two instructions per get/set call, but 
+> I'm not stuck to it and will be happy to find a better solution.
+> 
+> How about folding the chip descriptor inside an additional structure, private 
+> to drivers, with internals not revealed to consumers?
 
-Yes, as soon as I get physical access to the device, probably this or next 
-weekend.
+Or just get the chip from gpio_descs->desc[0]->gdev->chip when
+->all_on_same_chip is true...
 
-Thanks,
-Janusz
-
-
+That adds 2 dereferencing though.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
