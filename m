@@ -1,58 +1,30 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 095A77E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 17:28:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 23E167E3E4
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 17:48:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389126AbeHGToR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 7 Aug 2018 15:44:17 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41066 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732619AbeHGToR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Aug 2018 15:44:17 -0400
-Received: by mail-lf1-f68.google.com with SMTP id v22-v6so12211000lfe.8;
-        Tue, 07 Aug 2018 10:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wQ+TL2Ch38Nf7XtlVYEKkAG6/IiKQiL1mHgYtceo7c4=;
-        b=LV6ZEvzH1YMU+h/VJBUFOxIjQwpDJ4WpjAyHioq0ZL7jk1Jpz6xXHRgbu1sN6BtI3L
-         Fm7Pk6Vq9MoNz+FWTMcqfh+ndPjlTNAIRlHvRTdELZtwtEZ6lvKCCfcQvOAwNgG2yC5E
-         rSeNVH+Jn7yb3V6LIBWXzpXAuedBr4SCErVOSEXxcp87aQl8Ev3hMlQ9KBiv1eD8850M
-         wFAcynmpZBD2BQwGP8/CS2gLnaZbbWpEGPZx3nZB279aN+Ma68GWALwzLlYkmmnsjKhj
-         P61cZCQRzXAxFR8ke8wUAXYLWgzP+RT3hc7/OJTaqyJK8x/jEUerSCwwBFuyl8PT1s6o
-         PbvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wQ+TL2Ch38Nf7XtlVYEKkAG6/IiKQiL1mHgYtceo7c4=;
-        b=BCP1i3D74nypzpoIaniMpys5D0OEslWO43j2ewXlSlU3io9SPVcCp41yngPNCe1nNH
-         Z7OwYBjw2Dcm+FGXvvL/uBeYm4GhWFAutvrORgXGdafnTrXbAtzJ5vWIegdVxOzq7cx7
-         FsEduMC8y9oV7n0m2Pe4Whby8/GH7me3cs9KOKSkSppJwnP6QIm3EFZVh4NBF9a15Db5
-         6phSdIy2fqqB7FqwqMM/k7IxReOD6n9btBh1LjJWrzXODIOe8vtpV/2l/Dhi1PU5JgHd
-         LyIZ8y1RMgAIq59Qx99XrPiBTtE7qfmR7g+L8ewZjRajlqDTvkE893pq5wDE/X0Kzjpn
-         hc8g==
-X-Gm-Message-State: AOUpUlHvW46KI5Pkks/Hk0gpy8cZfLCpy0y3ZHWrWwkfrHfFNHDUEmDW
-        u72kjpJ3s1FuOELu1vlp/NQ=
-X-Google-Smtp-Source: AAOMgpdlmY/b4tPeOh2/meNrkmmczHF6PJIv2XiV9/u0PRxWhWVwC9mu+cqvu/gFhNlOFDoq0uTe8w==
-X-Received: by 2002:a19:26d2:: with SMTP id m201-v6mr14305454lfm.43.1533662934002;
-        Tue, 07 Aug 2018 10:28:54 -0700 (PDT)
-Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id x23-v6sm326484ljj.86.2018.08.07.10.28.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 Aug 2018 10:28:53 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        id S2403802AbeHGUDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 7 Aug 2018 16:03:01 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:38027 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2403794AbeHGUDA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Aug 2018 16:03:00 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 09405207AB; Tue,  7 Aug 2018 19:47:32 +0200 (CEST)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 8ED7420737;
+        Tue,  7 Aug 2018 19:47:21 +0200 (CEST)
+Date:   Tue, 7 Aug 2018 19:47:22 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?ISO-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
         Richard Weinberger <richard@nod.at>,
         David Woodhouse <dwmw2@infradead.org>,
         Brian Norris <computersforpeace@gmail.com>,
@@ -63,82 +35,121 @@ Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Linux-OMAP <linux-omap@vger.kernel.org>,
         linux-mtd@lists.infradead.org, linux-doc@vger.kernel.org,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [RFC PATCH v2 12/12] gpiolib: Add fast processing path to bitmap API functions
-Date:   Tue, 07 Aug 2018 19:29:53 +0200
-Message-ID: <11711552.OvaP4pOjBH@z50>
-In-Reply-To: <CACRpkdYHqFOFSv-erCzx8_u-mVUgGPdDH0ts-+DNAvjP3Qxb9w@mail.gmail.com>
-References: <20180718235710.18242-1-jmkrzyszt@gmail.com> <20180806222918.12644-13-jmkrzyszt@gmail.com> <CACRpkdYHqFOFSv-erCzx8_u-mVUgGPdDH0ts-+DNAvjP3Qxb9w@mail.gmail.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH v2 12/12] gpiolib: Add fast processing path to
+ bitmap API functions
+Message-ID: <20180807194722.5aabb6da@bbrezillon>
+In-Reply-To: <11711552.OvaP4pOjBH@z50>
+References: <20180718235710.18242-1-jmkrzyszt@gmail.com>
+        <20180806222918.12644-13-jmkrzyszt@gmail.com>
+        <CACRpkdYHqFOFSv-erCzx8_u-mVUgGPdDH0ts-+DNAvjP3Qxb9w@mail.gmail.com>
+        <11711552.OvaP4pOjBH@z50>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, August 7, 2018 1:43:56 AM CEST Linus Walleij wrote:
-> On Tue, Aug 7, 2018 at 12:29 AM Janusz Krzysztofik <jmkrzyszt@gmail.com> 
-wrote:
+Hi Janusz,
+
+On Tue, 07 Aug 2018 19:29:53 +0200
+Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
+
+> On Tuesday, August 7, 2018 1:43:56 AM CEST Linus Walleij wrote:
+> > On Tue, Aug 7, 2018 at 12:29 AM Janusz Krzysztofik <jmkrzyszt@gmail.com>   
+> wrote:
+> > 
+> > Hi Janusz!
+> >   
+> > > Certain GPIO descriptor arrays returned by gpio_get_array() may contain
+> > > information on a single GPIO chip driving array member pins in hardware
+> > > order.  In such cases, bitmaps of values can be passed directly to the
+> > > chip callback functions without wasting time on iterations.
+> > >
+> > > Add respective code to gpiod_get/set_array_bitmap_complex() functions.
+> > >
+> > > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>  
+> > 
+> > I think it would be disappointing to leave all the users of the old
+> > array API without the performance improvement. I think we need to
+> > deal with this in a way such that everyone can benefit from it.  
+
+I agree with Linus on that one. When I initially proposed the gpio
+bitbanging API I had something more advanced in mind where the GPIO
+framework would be responsible for toggling the GPIOs on its own when
+it's given an array of bytes to transmit (this way you avoid going
+back and forth between the GPIO user and the GPIO framework). But this
+approach would clearly be more invasive than what you propose
+here (turning the int array into a bitmap and optimizing). So, if we go
+for the "int array -> bitmap" approach I think all users should be
+converted so that we end up with a single API.
+
 > 
-> Hi Janusz!
+> There are a few issues to be resolved:
 > 
-> > Certain GPIO descriptor arrays returned by gpio_get_array() may contain
-> > information on a single GPIO chip driving array member pins in hardware
-> > order.  In such cases, bitmaps of values can be passed directly to the
-> > chip callback functions without wasting time on iterations.
-> >
-> > Add respective code to gpiod_get/set_array_bitmap_complex() functions.
-> >
-> > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> 1) array size limited by bitmap size:
+>     - are we ready to limit array size to a single bitmap for all users?
+>     - if not, how can we pass a bitmap of an arbitrary size?
+>     - if as an array of bitmaps, is that still clear enough and easy to use?
+>     - other ideas?
+
+What we call a bitmap is an array of unsigned longs each entry
+containing NBITS_PER_LONG bits, so yes, it's an arbitrary size (see the
+bitmap API here [1]).
+
 > 
-> I think it would be disappointing to leave all the users of the old
-> array API without the performance improvement. I think we need to
-> deal with this in a way such that everyone can benefit from it.
+> 2) arbitrary array support:
+>      - are we ready to drop that?
+>      - if not, do we agree to require all users to pack their arbitrary arrays 
+>         inside the gpio_descs structure?
 
-There are a few issues to be resolved:
+I could only find one user, and it's the core itself (for the ioctl),
+so that shouldn't be too hard to convert all users. Did you find more.
 
-1) array size limited by bitmap size:
-    - are we ready to limit array size to a single bitmap for all users?
-    - if not, how can we pass a bitmap of an arbitrary size?
-    - if as an array of bitmaps, is that still clear enough and easy to use?
-    - other ideas?
-
-2) arbitrary array support:
-     - are we ready to drop that?
-     - if not, do we agree to require all users to pack their arbitrary arrays 
-        inside the gpio_descs structure?
-
-Maybe more.
-
-> Also it is kludgy if users (consumers) would need to handle the case
-> where all lines are on the same chip separately, through the bitmap
-> API.
-
-Not true as long as array size fits (arbitrary arrays can be packed by users), 
-but I see your point.
-
-> What we need is an API that:
 > 
-> - All drivers handling arrays can use (including current users).
+> Maybe more.
 > 
-> - Enables speed-up if the lines are all on the same chip/register.
+> > Also it is kludgy if users (consumers) would need to handle the case
+> > where all lines are on the same chip separately, through the bitmap
+> > API.  
 > 
-> - Doesn't require consumers to know if they are all on the same
->   chip or not.
+> Not true as long as array size fits (arbitrary arrays can be packed by users), 
+> but I see your point.
+
+I think the API should be the same and the framework should decide to
+take the fast path if all gpios belong to the same chip (which AFAICT
+is already the case, except it's putting the result in an int array
+instead of a bitmap)
+
 > 
-> This means a deep API with a small surface.
+> > What we need is an API that:
+> > 
+> > - All drivers handling arrays can use (including current users).
+> > 
+> > - Enables speed-up if the lines are all on the same chip/register.
+> > 
+> > - Doesn't require consumers to know if they are all on the same
+> >   chip or not.
+> > 
+> > This means a deep API with a small surface.
+> > 
+> > How do we achieve this the best way?  
 > 
-> How do we achieve this the best way?
+> I think widely accepted solutions to those two issues I've mentioned above can 
+> give the answer.
 
-I think widely accepted solutions to those two issues I've mentioned above can 
-give the answer.
+I'd still like to see how far we are from the initial perfs (the one
+poking the GPIO regs directly) with this approach, and what's the
+improvement compared to the int array solution we already have in place.
 
-Thanks,
-Janusz
+Regards,
 
+Boris
 
+[1]https://elixir.bootlin.com/linux/v4.18-rc8/source/include/linux/bitmap.h
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
