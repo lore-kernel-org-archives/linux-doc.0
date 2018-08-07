@@ -1,95 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 75E427E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 21:54:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 088E97E3D1
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 Aug 2018 23:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726625AbeHHAKn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 7 Aug 2018 20:10:43 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:35609 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726537AbeHHAKm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Aug 2018 20:10:42 -0400
-Received: by mail-lj1-f194.google.com with SMTP id p10-v6so142696ljg.2;
-        Tue, 07 Aug 2018 14:54:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jUecAHI8bo2ypf+i9KmY87E06pX+AsuIO9Ljicjvewk=;
-        b=Lz2Z6qa/yJPwrsFIRwAtjuJ09TPfqVB7JtursJXIHylF5S9rEX5s1nfgzk8/hIT6bk
-         fbM1kG5oM1QWv5ngaMp4VAMYtpXzcM0uDTGSQTKeXsoEireq48YF0JxbJjgp86z+MqDl
-         EpTVnW2iuM/U4uXnGcd5ABF2OL8Gp34UbR2v9a7Hkd4KqOuJvZWxrmwa9ifW0fDR7xm2
-         ROSKNzP6Q2qYle37Uq5KOHBqMPdu7XxQm0RyPzstbwMME91YIlJLKsrhx9qnZuTDeh6s
-         1guTbZJIWn6ws2m6+ZKGupAZ8HwkG+Da/RTWFKEpH2nq09lMzKoqJCldnRhVZbAyC/ug
-         9AIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jUecAHI8bo2ypf+i9KmY87E06pX+AsuIO9Ljicjvewk=;
-        b=iE/eIYMp+kVSnd1bJ2FYD8mk4T3AEyNIk5dhhLVUIM0i4qceP2OrriyFUNLUF/9Xok
-         hyz5XJ0K2ZUNB8eMk6ca5zWqVnXqvzjXqRKuf6iSPG3xonnn7z8pS3HwtJB2C96c2obh
-         PU5Cbum/361f9huUnvydQL6sk5WjvTmPdLPVebwxBBsq7RosR6hWXbauKcLlulnrgPBZ
-         jwXfpmGGKt5zjU3EBTgopxDKhW3IuDVrGctsAUBnDj/48NcLPKqAQZoJfaVyAYLQq6hG
-         rtT7ViJh3/5fETu209pQFz7dYZhaCRdhlKdmHBdfsnRqeH8XKY9J2aqj/KzFCamouz5S
-         yneQ==
-X-Gm-Message-State: AOUpUlG79ljVbnUK2/XiyP64uiT7zlOVJvCN0gNhTIZoHGF2XQ74GrVP
-        Q3ZU7zhib97u1PMuzrrywyQ=
-X-Google-Smtp-Source: AA+uWPx5G7cmTjf3v8NPjccgJMeOAaD6t96TrVB6ow8SY+qUb/s4zpNn0xVYagB4pH38wTX5ksnP9A==
-X-Received: by 2002:a2e:4103:: with SMTP id o3-v6mr106471lja.3.1533678855247;
-        Tue, 07 Aug 2018 14:54:15 -0700 (PDT)
-Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id t8-v6sm467863lfd.2.2018.08.07.14.54.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 Aug 2018 14:54:14 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [RFC PATCH v2 01/12] mtd: rawnand: ams-delta: Assign mtd->dev.parent, not mtd->owner
-Date:   Tue, 07 Aug 2018 23:55:14 +0200
-Message-ID: <5203112.3RHHgWL3HE@z50>
-In-Reply-To: <604ff0fb-07d5-9068-2f69-41198f3d9854@gmail.com>
-References: <20180718235710.18242-1-jmkrzyszt@gmail.com> <20180806222918.12644-2-jmkrzyszt@gmail.com> <604ff0fb-07d5-9068-2f69-41198f3d9854@gmail.com>
+        id S1727303AbeHHBgk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 7 Aug 2018 21:36:40 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:51017 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727083AbeHHBgj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Aug 2018 21:36:39 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 38141348;
+        Tue,  7 Aug 2018 19:19:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 07 Aug 2018 19:19:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :content-type:date:from:in-reply-to:message-id:mime-version
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=xBcc6xJEgvMpBSpXYuVSDJkfix+PvF40e/TcXWWlRjg=; b=egutRjhh
+        Dn8GjMT+qFeXNrYj43QLaNaWqNjfR5iC3aLFqOT5qSefvOu/EuJOSprgkZAOI59M
+        TcDxrVFzHSasf071RsZHTRR4i8gfYsqFJ6G4hUqngRxtUE0Ra9Gr0Y7bzCPWDrsS
+        pWwqY91WGTA+sUsBL5koSrvcDLZCk51QWymduM7liEsBAxz8ah24EQbEDPP3yO2N
+        Z6svm8IV5AF0zPSLL9c3Mir2oFHoeHrb+c4Zc6z7WGedujMpR9Rqqn3IyLug8BUS
+        4VdH+Q9qiLxN7JhZ6VWKwd1e11WsaNddMHv78HCU86qBHhiOPAsqXi71aHejb5uA
+        FImlW5yb5QJ7lQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=xBcc6xJEgvMpBSpXYuVSDJkfix+Pv
+        F40e/TcXWWlRjg=; b=S5zhCotRXZp7aO9jzzmTtLxEm9s+jTIKpxJTrNrb/htpg
+        GMWIZ+G8JuuXWM4twcIUXOFBSoy9GlzfJ0P1oV/G+90XrKVKeS1Z/V2Fyt3Guj22
+        KHFR06s6/Jy6JOM9CwA13Y1wKmmcA2r2hWsCK1w+f+vB0Yem0CrPY2lHo02LFAWG
+        SXj0yot2EOuYfsfKRO4/8dqE5+Jq5kx5CYWGvMpCAItcHlYgdHCZdPG/LnmL2Nmv
+        Lizl92UTqJQ1X3UqrV1rdtLQthHgLy+SL7vCjAkwN8nVWbS9a0jrT0JAx15rWqne
+        8ew0eg+OUCgwVxrnEIvEKGwMLd7XHLt98sMPbI+eg==
+X-ME-Proxy: <xmx:GylqW1r8CFnELQVAUHQ-2AR_aX_OKsOSc0xsvG_6U8-SF3huqD5FNQ>
+    <xmx:GylqW4N0dfqQpQJDTWreiEKuAw_18DMztkfABn4YEvtmR9ni7clUXQ>
+    <xmx:GylqW7F8FoboI8QEnqc21ufft9VvA5IH9N01NjghI0N69gZeyeBhtA>
+    <xmx:GylqW7FpEOWdbtSb1ftl5MKsp4HquIXc_3-6ksawQmPsNR162Gxt7w>
+    <xmx:GylqW6ChesdvmpwzcukC-UDi3mXpL4LAf9lLZYFnLjOUQawmHpCCRg>
+    <xmx:GylqW3FDOX6HHsuiB9oseZdiQ04GwfuPL_h0kq31JzoWL_lnqy-zpg>
+X-ME-Sender: <xms:GylqWxaMXEzoRGBZ8eNosjPbVuTf70eAGUI6FPrtYoqY-Yt4OeM4ug>
+Received: from localhost (ppp121-44-251-7.bras2.syd2.internode.on.net [121.44.251.7])
+        by mail.messagingengine.com (Postfix) with ESMTPA id E05B810276;
+        Tue,  7 Aug 2018 19:19:54 -0400 (EDT)
+Date:   Wed, 8 Aug 2018 09:19:52 +1000
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC bpf-next v2 3/3] docs: Split filter.txt into separate
+ documents.
+Message-ID: <20180807231951.GD11191@eros>
+References: <20180802223100.26236-1-me@tobin.cc>
+ <20180802223100.26236-4-me@tobin.cc>
+ <20180803070818.3d3e52e4@lwn.net>
+ <20180807024844.GW3088@eros>
+ <20180807071405.58d38277@lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180807071405.58d38277@lwn.net>
+X-Mailer: Mutt 1.9.4 (2018-02-28)
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Marek,
-
-On Tuesday, August 7, 2018 1:54:10 AM CEST Marek Vasut wrote:
-> On 08/07/2018 12:29 AM, Janusz Krzysztofik wrote:
-> > Fix missing mtd->dev.parent assignment and drop useless mtd->owner.
+On Tue, Aug 07, 2018 at 07:14:05AM -0600, Jonathan Corbet wrote:
+> On Tue, 7 Aug 2018 12:48:44 +1000
+> "Tobin C. Harding" <me@tobin.cc> wrote:
 > 
-> You fail to explain why this fix is required.
+> > How about these steps:
+> > 
+> > 	1. start with foo.txt
+> > 	2. do typo and grammar fixes (any number of patches).
+> > 	3. rename to foo.rst, do whitespace changes, code snippet
+> > 	   indentation, heading adornments, update references to this file.
+> > 	   (single patch).
+> > 	4. Fix up references in the file text to use RST (i.e :ref: blah)
+> > 	5. Fix up RST markers (backticks etc). (any number of patches)
+> 
+> That can certainly work; just don't call it foo.rst until it actually is a
+> valid RST file.
+> 
+> And, of course, go easy with the later steps and try to avoid the
+> temptation to mark up everything; we really want to preserve the
+> readability of the plain-text files.
 
-OK, I'll have a look at similar patches from the past and add an explanation.
+Yeah I get over zealous sometimes, I'll keep it in mind.
 
-Thanks,
-Janusz
+What is the current view on references embedded in the text versus a
+local label with the full reference at the bottom of the file.  I've
+seen both and do not know which is _more_ readable?
 
 
+1.	some random text referencing
+	:ref:`Documentation/path/to/file.rst <label>` and more text
+	
+
+2.	some random text referencing `file`_ and more text
+	...
+
+	.. Links
+	.. _file path/to/file.rst:
+
+
+Although the later form is found in Documentation/ it does not seem work
+for local build (since the path is relative) or am I doing something
+wrong with my local build?
+
+And for the first form I could not get the html link produced to work if
+the <label> was omitted - this label seems superfluous if it is to the
+top of the file (I've already added a couple of such labels).
+
+These are minor issues, answer only if and when you have time.
+
+
+thanks,
+Tobin.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
