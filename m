@@ -1,145 +1,200 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F34B7E3E1
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 16:52:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 49BBE7E3E1
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 16:54:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbeHHTMh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 15:12:37 -0400
-Received: from mail-it0-f67.google.com ([209.85.214.67]:39663 "EHLO
-        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728359AbeHHTMh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 15:12:37 -0400
-Received: by mail-it0-f67.google.com with SMTP id g141-v6so4456838ita.4
-        for <linux-doc@vger.kernel.org>; Wed, 08 Aug 2018 09:52:05 -0700 (PDT)
+        id S1727720AbeHHTOt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 15:14:49 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:43010 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727295AbeHHTOs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 15:14:48 -0400
+Received: by mail-pf1-f196.google.com with SMTP id j26-v6so1417494pfi.10
+        for <linux-doc@vger.kernel.org>; Wed, 08 Aug 2018 09:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=wO9b7oopa7y5h5ev1Fonk/EaaEw5uVfOuvyXm5rH2HM=;
-        b=x7uAGFLvUx+G3XyYBPAYexaS1Gx9XA4XZYCgxe9D6MnWPeeMw0/r/jMZ5VwDpjDi7w
-         +gG8/VS3Z8kLK0Dx+TRoFOcqEgucRqmNnEAnICRtAYrDdret78s/PkMQluo/JgLXnr5k
-         Fs6vMC+uuYQ0r9vj8D4q77xIhc6Ku2BZzxpWq8kdFwsjtJZRCjq9eXIwUrLO0Y5EmQ1u
-         EMH1W0ag+cor6nzHcMQii/racbvHO+fR1nr7TFXGgux5KJm1FgCa/oXEJBGFvc26xnYZ
-         P4p4NW+52/2yx3U9BO2ZUiRJ0Aetk61G4eXYTjyryhspJBKI0frIR6qZcP3gk+irh/xp
-         WApg==
+        bh=Glr5p75W8YssHNa8WJvH+WlPwlMeTuOlRWi4dk0hYXk=;
+        b=rx/RoNAQbzQmlqJ0KLcWX88VGrNhNWSYDfDyHJ3NriymrPjsJ3HgeBGFjw9XBMLVjl
+         B1batqiJMFSli1jGlrguJLXrTXR4dCFBVvvOYJ5BHl/n3B9csmT15Kx8uuwCp4efM4fq
+         bck2X7iNj+FstOKkr+CBhxKEuQfC16Z1DW6sJP5+KjaRrd1b2YKDO8szAky+2PDDzRng
+         DEK/4ZYrTo1/dAkGCEI3b1SPnIgTAUsj7zPS5r4zC3LOf6kxQlmkIcw2T/SAccIXalu/
+         8okU8MFe34QhedyCw6VyiutwDWsf9V/PQaQ+8ZXI6Atf7IRn9C1wie1z6gaaI0lFGFum
+         f/4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=wO9b7oopa7y5h5ev1Fonk/EaaEw5uVfOuvyXm5rH2HM=;
-        b=spe3OtsYDPxP5gkWq8gdjAtfvbMeSx0PB/BvXxS1OpsMXRE/9VORr+fYHjVKJKJIqs
-         A6g7zpUG2Nj9UQddj7XCnX9/J6ZvAk+xikFXVV3rQkovjgInwIhlRIRGq3LlZB6RkmvR
-         H/q6vLMPN5yTtYahdVdA+fmaPsfypY39nOp3PgaLamO6M5+MhF06QXB3hpDRJxt3tAHX
-         KoKA2hNGE0Y7xBp4CLfJzaop20IPtB9tSJK2J524Q1vkLefid42ndBP6fftX70KlClfk
-         +fjWggyHUkE2jgQkCmdQAwTszd/xkAEGeYl5NDZtOGabRAKVi9qK5lP9l33Jtsi9zAa8
-         77rg==
-X-Gm-Message-State: AOUpUlEOvgpDKmQYyrSDLvA5qUTN6YA6wENmR8cSrP9tyq+20B8z3oyO
-        7iicXaQLVRUI9mPzOVaZaocquRZN4f55m7ag4qfSyQ==
-X-Google-Smtp-Source: AA+uWPyaUdcvwYHlFj2Y7hgkQZwm1cE/2VK3Kj8+WAztDzHYzHc0kJUfkHLHnen5qubcxojJzaCE7mitDt4sDj7dLeY=
-X-Received: by 2002:a24:e48c:: with SMTP id o134-v6mr2982849ith.125.1533747124850;
- Wed, 08 Aug 2018 09:52:04 -0700 (PDT)
+        bh=Glr5p75W8YssHNa8WJvH+WlPwlMeTuOlRWi4dk0hYXk=;
+        b=mrczWdnjLhvAUDT6D4eC8edH390Y4uCpIg62v3DOaKSiTEeCA/aeycZ0Vjr4nutbCI
+         Z22IHH6X7104C4PEmbiHlyauwMMKDcj/jAeD2JQmTvyaK8z2RLHQxPLQAjSiUoPki4qi
+         dW4MAFRMKgVola4F7ZJ31XGvZyVy+wM46FsFz5A3OLID1yJXbdNJFp5UCdYT1H4pLZ/q
+         P5laH6tsGkpOf6MCXDdF4Lm6iCyaQsjUbhouM+A5T+sotbO0GBfiMaR7o5A16Whz9cRc
+         Fle+bEHZh31IVNkCX7rhhKX4ti7viidJYXgfULIO7XUpEJvVGh8GGuuWkx9zhuINjz1r
+         c3XQ==
+X-Gm-Message-State: AOUpUlEIg0uEadqZhoJXenewFlieAyD+W6XXQsgUOawB0pBtiE/u9PDX
+        gW5C87lYFj3gT1e1iEp16KrRHlOA6cdfrfroUCQD6w==
+X-Google-Smtp-Source: AA+uWPy7Ly//aV3at17SoIJxQgk1UjRM0nGKd1dx4YRn5gtfZZc1/z98/xR23K5VortykylSsi1YHhJGzRZsJ8f/jaw=
+X-Received: by 2002:a62:d113:: with SMTP id z19-v6mr3780291pfg.98.1533747255377;
+ Wed, 08 Aug 2018 09:54:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a5e:9403:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 09:52:04 -0700 (PDT)
-In-Reply-To: <20180808164402.GH7275@lunn.ch>
-References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808155548.s7p4xqsjywz3psrj@ninjato>
- <CAMpxmJXVNiyqF4qaYtNhPUG3mSZVdvBSGUqDYK-nh59BKeh=Gw@mail.gmail.com> <20180808164402.GH7275@lunn.ch>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Wed, 8 Aug 2018 18:52:04 +0200
-Message-ID: <CAMRc=McfSZQvdXgrKDagb_TE1g-WzEhSpst1z_o5Z994cv3MjA@mail.gmail.com>
-Subject: Re: [PATCH 00/28] at24: remove at24_platform_data
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+Received: by 2002:a17:90a:ac14:0:0:0:0 with HTTP; Wed, 8 Aug 2018 09:53:54
+ -0700 (PDT)
+In-Reply-To: <20180808162752.GA26592@arm.com>
+References: <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+ <20180629110709.GA17859@arm.com> <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
+ <20180703173608.GF27243@arm.com> <CAAeHK+wTcH+2hgm_BTkLLdn1GkjBtkhQ=vPWZCncJ6KenqgKpg@mail.gmail.com>
+ <CAAeHK+xc1E64tXEEHoXqOuUNZ7E_kVyho3_mNZTCc+LTGHYFdA@mail.gmail.com>
+ <20180801163538.GA10800@arm.com> <CACT4Y+aZtph5qDsLzTDEgpQRz4_Vtg1DD-cB18qooi6D0bexDg@mail.gmail.com>
+ <20180803092312.GA17798@arm.com> <CACT4Y+bCen+ccU8awYyx_Tw14JNZhaP4D-jNq-WZy7itW+vpYg@mail.gmail.com>
+ <20180808162752.GA26592@arm.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Wed, 8 Aug 2018 18:53:54 +0200
+Message-ID: <CACT4Y+bQxwz2fcuGqtQYkCCV75chtLvOAfM9W-HBSjkTS1q=-w@mail.gmail.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
+To:     Will Deacon <will.deacon@arm.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
-        Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        linux-mtd@lists.infradead.org,
-        Linux-OMAP <linux-omap@vger.kernel.org>, netdev@vger.kernel.org
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-08-08 18:44 GMT+02:00 Andrew Lunn <andrew@lunn.ch>:
-> On Wed, Aug 08, 2018 at 06:27:25PM +0200, Bartosz Golaszewski wrote:
->> 2018-08-08 17:55 GMT+02:00 Wolfram Sang <wsa@the-dreams.de>:
->> > On Wed, Aug 08, 2018 at 05:31:22PM +0200, Bartosz Golaszewski wrote:
->> >> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Wed, Aug 8, 2018 at 6:27 PM, Will Deacon <will.deacon@arm.com> wrote:
+>> >> > Thanks for tracking these cases down and going through each of them. The
+>> >> > obvious follow-up question is: how do we ensure that we keep on top of
+>> >> > this in mainline? Are you going to repeat your experiment at every kernel
+>> >> > release or every -rc or something else? I really can't see how we can
+>> >> > maintain this in the long run, especially given that the coverage we have
+>> >> > is only dynamic -- do you have an idea of how much coverage you're actually
+>> >> > getting for, say, a defconfig+modules build?
+>> >> >
+>> >> > I'd really like to enable pointer tagging in the kernel, I'm just still
+>> >> > failing to see how we can do it in a controlled manner where we can reason
+>> >> > about the semantic changes using something other than a best-effort,
+>> >> > case-by-case basis which is likely to be fragile and error-prone.
+>> >> > Unfortunately, if that's all we have, then this gets relegated to a
+>> >> > debug feature, which sort of defeats the point in my opinion.
 >> >>
->> >> This is a follow-up to the previously rejected series[1] which partially
->> >> removed the at24_platform_data structure. After further development and
->> >> taking reviews into account, this series finally removes that struct
->> >> completely but not without touching many different parts of the code
->> >> base.
->> >>
->> >> Since I took over maintainership of the at24 driver I've been working
->> >> towards removing at24_platform_data in favor for device properties.
+>> >> Well, in some cases there is no other way as resorting to dynamic testing.
+>> >> How do we ensure that kernel does not dereference NULL pointers, does
+>> >> not access objects after free or out of bounds? Nohow. And, yes, it's
+>> >> constant maintenance burden resolved via dynamic testing.
 >> >
->> > Wooha, nice work. I can't really comment on it but wondered how you want
->> > to upstream it (after reviews)? Pull request of an immutable branch for
->> > nvmem-tree sounds best to me. Then I could also pull it in if i2c needs
->> > it. Probably same situation for arm-soc...
->> >
+>> > ... and the advantage of NULL pointer issues is that you're likely to see
+>> > them as a synchronous exception at runtime, regardless of architecture and
+>> > regardless of Kconfig options. With pointer tagging, that's certainly not
+>> > the case, and so I don't think we can just treat issues there like we do for
+>> > NULL pointers.
 >>
->> I initially wanted to merge small parts of it starting with v4.18, but
->> there were some voices against merging APIs without users. I'm not
->> sure how it should go in. There'll be a need for multiple immutable
->> branches most probably...
+>> Well, let's take use-after-frees, out-of-bounds, info leaks, data
+>> races is a good example, deadlocks and just logical bugs...
 >
-> Hi Bartosz
->
-> What this series does is show all the different parts are now
-> available, and can be reviewed as a whole. Once that review is
-> completed, merging in parts then becomes possible.
->
-> It looks like you could probably merge the nvmem, mtd and net parts
-> independently via there maintainers for 4.20, since i don't think
-> there are any dependencies. The arm-soc changes in 4.21, and the
-> removal of the platform data in 4.22?
->
->      Andrew
+> Ok, but it was you that brought up NULL pointers, so there's some goalpost
+> moving here.
 
-We need the first batch of SoC changes for the net part and then the
-second batch depends on those net changes. Also: dragging the merge
-for this over a year is a bit overkill.
+I moved it only because our views on bugs seems to be somewhat
+different. I would put it all including NULL derefs into the same
+bucket of bugs. But the point I wanted to make holds if we take NULL
+derefs out of equation too, so I took them out so that we don't
+concentrate on "synchronous exceptions" only.
 
-Sekhar: I know you're usually provided with immutable branches from
-framework maintainers for the SoC changes - is it ok for you to
-provide the net maintainers with an immutable branch after applying
-the first part of davinci board file changes?
+> And as with NULL pointers, all of the issues you mention above
+> apply to other architectures and the majority of their configurations, so my
+> concerns about this feature remain.
+>
+>> > If you want to enable khwasan in "production" and since enabling it
+>> > could potentially change the behaviour of existing code paths, the
+>> > run-time validation space doubles as we'd need to get the same code
+>> > coverage with and without the feature being enabled.
+>>
+>> This is true for just any change in configs, sysctls or just a
+>> different workload. Any of this can enable new code, exiting code
+>> working differently, or just working with data in new states. And we
+>> have tens of thousands of bugs, so blindly deploying anything new to
+>> production without proper testing is a bad idea. It's not specific to
+>> HWASAN in any way. And when you enable HWASAN you actually do mean to
+>> retest everything as hard as possible.
+>
+> I suppose I'm trying to understand whether we have to resort to testing, or
+> whether we can do better. I'm really uncomfortable with testing as our only
+> means of getting this right because this is a non-standard, arm64-specific
+> option and I don't think it will get very much testing in mainline at all.
+> Rather, we'll get spurious bug reports from forks of -stable many releases
+> later and we'll actually be worse-off for it.
+>
+>> And in the end we do not seem to have any action points here, right?
+>
+> Right now, it feels like this series trades one set of bugs for another,
+> so I'd like to get to a position where this new set of bugs is genuinely
+> more manageable (i.e. detectable, fixable, preventable) than the old set.
+> Unfortunately, the only suggestion seems to be "testing", which I really
+> don't find convincing :(
+>
+> Could we do things like:
+>
+>   - Set up a dedicated arm64 test farm, running mainline and with a public
+>     frontend, aimed at getting maximum coverage of the kernel with KHWASAN
+>     enabled?
 
-Bart
+FWIW we could try to setup a syzbot instance with qemu/arm64
+emulation. We run such combination few times, but I am not sure how
+stable it will be wrt flaky timeouts/stalls/etc. If works, it will
+give instant coverage of about 1MLOC.
+
+>   - Have an implementation of KHWASAN for other architectures? (Is this even
+>     possible?)
+>
+>   - Have a compiler plugin to clear out the tag for pointer arithmetic?
+>     Could we WARN if two pointers are compared with different tags?
+>     Could we manipulate the tag on cast-to-pointer so that a mismatch would
+>     be qualifier to say that pointer was created via a cast?
+>
+>   - ...
+>
+> ?
+>
+> Will
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
