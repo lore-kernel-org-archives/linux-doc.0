@@ -1,228 +1,277 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3A2DE7E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 15:18:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 830977E3E6
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 15:33:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727191AbeHHRit (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 13:38:49 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36744 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727081AbeHHRit (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Aug 2018 13:38:49 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 4108E87A77;
-        Wed,  8 Aug 2018 15:18:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.20.6.215])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id EFCB520180F4;
-        Wed,  8 Aug 2018 15:18:36 +0000 (UTC)
-Date:   Wed, 8 Aug 2018 11:18:35 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Kenneth Lee <nek.in.cn@gmail.com>
-Cc:     Kenneth Lee <liguozhu@hisilicon.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1727081AbeHHRxl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 13:53:41 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39702 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727535AbeHHRxj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 13:53:39 -0400
+Received: by mail-wr1-f66.google.com with SMTP id h10-v6so2403241wre.6
+        for <linux-doc@vger.kernel.org>; Wed, 08 Aug 2018 08:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=C6+lAOCD7xYYjqAwsyLpdNynP10DYfCMxlDsoPITD5U=;
+        b=iykSHf10yMyrpl8DK+aj/cdwz2SbHXCRaXdZtNJe3p9PGb0iT0ftaNi1BzDboHGfvL
+         G3dWHCHn8XwpuDBz53tc9Uk2kF6ycWEx2FEYl4G717TBKqdwtAZqHBhv6uOVOsPiFJEt
+         mVFxZJ4VCikZF1nUhGerB1dWPWmufG/76nwSjUsAqsxbVYqPJaMc/BpaMiZkILRXCpxN
+         yu1OqSK0Fg9hQIYw9vajzfamUNX9DwCNwRit9wZ68R23C1HRR04gqcmclSxcjTzXRsy7
+         JSJGWwex37E0QsHA00GfTcbUp53L4Tl3mh7nggMqpO6SMW2tGtkN0kuea23oBM3t+4Gq
+         zeaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=C6+lAOCD7xYYjqAwsyLpdNynP10DYfCMxlDsoPITD5U=;
+        b=hqz9YxJOcuegltO4xXRSitk45iRKzgchR5jDSR5jGA233KDH1bSGURONai7Kyt/ObA
+         mWeebLSpxoSvMxPvRyPGox40moqBaD1zRrj9rcrioBYg4I2gDHmHileS7RF5PmdWg+je
+         WkAdeODSxDZecyYNyIUTtB/7UZcTJvBDuofJROM10MKGLeRuCCLl5YJ9iy6jvY1eSD84
+         zCfKxD0Y39yRbBBuqgGsYf75W21tVVOuVNZgHyXdr6BW8YG0dNyJAUP5gAQkXke2WKwz
+         8OYoFoPJ5T2e/XKNvoFcX/6xhDCQ6ttfrxN4nHXezqUZUdpXBMK8jJo7ZlJNeOIP8BKF
+         sjsg==
+X-Gm-Message-State: AOUpUlEoOGp+x//4csjRiMWDALxOpj+HLF+miBaHWDA/Tx5Cso2tZJtb
+        S1eMLL8BfKqMBMhosv6Q3Jn7KA==
+X-Google-Smtp-Source: AA+uWPz5Aatwx8UH6q7o1lWq/4CPfRcqcA4mDFTckUaPyDCUE913fsWSNL+wnTxCUDaZ2EtZk0r2rQ==
+X-Received: by 2002:a5d:5088:: with SMTP id a8-v6mr2289235wrt.37.1533742407252;
+        Wed, 08 Aug 2018 08:33:27 -0700 (PDT)
+Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
+        by smtp.gmail.com with ESMTPSA id s2-v6sm5240915wrw.52.2018.08.08.08.33.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 Aug 2018 08:33:26 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
         "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180808151835.GA3429@redhat.com>
-References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <20180801165644.GA3820@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
- <20180802040557.GL160746@Turing-Arch-b>
- <20180802142243.GA3481@redhat.com>
- <20180803034721.GC91035@Turing-Arch-b>
- <20180803143944.GA4079@redhat.com>
- <20180806031252.GG91035@Turing-Arch-b>
- <20180806153257.GB6002@redhat.com>
- <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Wed, 08 Aug 2018 15:18:40 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Wed, 08 Aug 2018 15:18:40 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
+        Rob Herring <robh@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
+        netdev@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH 01/28] nvmem: add support for cell lookups
+Date:   Wed,  8 Aug 2018 17:31:23 +0200
+Message-Id: <20180808153150.23444-2-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20180808153150.23444-1-brgl@bgdev.pl>
+References: <20180808153150.23444-1-brgl@bgdev.pl>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 08, 2018 at 09:08:42AM +0800, Kenneth Lee wrote:
-> 
-> 
-> 在 2018年08月06日 星期一 11:32 下午, Jerome Glisse 写道:
-> > On Mon, Aug 06, 2018 at 11:12:52AM +0800, Kenneth Lee wrote:
-> > > On Fri, Aug 03, 2018 at 10:39:44AM -0400, Jerome Glisse wrote:
-> > > > On Fri, Aug 03, 2018 at 11:47:21AM +0800, Kenneth Lee wrote:
-> > > > > On Thu, Aug 02, 2018 at 10:22:43AM -0400, Jerome Glisse wrote:
-> > > > > > On Thu, Aug 02, 2018 at 12:05:57PM +0800, Kenneth Lee wrote:
-> > > > > > > On Thu, Aug 02, 2018 at 02:33:12AM +0000, Tian, Kevin wrote:
-> > > > > > > > > On Wed, Aug 01, 2018 at 06:22:14PM +0800, Kenneth Lee wrote:
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-[...]
+We can currently only register nvmem cells from device tree or by
+manually calling nvmem_add_cells(). The latter options however forces
+users to make sure that the nvmem provider with which the cells are
+associated is registered before the call.
 
-> > > > > > > > > My more general question is do we want to grow VFIO to become
-> > > > > > > > > a more generic device driver API. This patchset adds a command
-> > > > > > > > > queue concept to it (i don't think it exist today but i have
-> > > > > > > > > not follow VFIO closely).
-> > > > > > > > > 
-> > > > > > > The thing is, VFIO is the only place to support DMA from user land. If we don't
-> > > > > > > put it here, we have to create another similar facility to support the same.
-> > > > > > No it is not, network device, GPU, block device, ... they all do
-> > > > > > support DMA. The point i am trying to make here is that even in
-> > > > > Sorry, wait a minute, are we talking the same thing? I meant "DMA from user
-> > > > > land", not "DMA from kernel driver". To do that we have to manipulate the
-> > > > > IOMMU(Unit). I think it can only be done by default_domain or vfio domain. Or
-> > > > > the user space have to directly access the IOMMU.
-> > > > GPU do DMA in the sense that you pass to the kernel a valid
-> > > > virtual address (kernel driver do all the proper check) and
-> > > > then you can use the GPU to copy from or to that range of
-> > > > virtual address. Exactly how you want to use this compression
-> > > > engine. It does not rely on SVM but SVM going forward would
-> > > > still be the prefered option.
-> > > > 
-> > > No, SVM is not the reason why we rely on Jean's SVM(SVA) series. We rely on
-> > > Jean's series because of multi-process (PASID or substream ID) support.
-> > > 
-> > > But of couse, WarpDrive can still benefit from the SVM feature.
-> > We are getting side tracked here. PASID/ID do not require VFIO.
-> > 
-> Yes, PASID itself do not require VFIO. But what if:
-> 
-> 1. Support DMA from user space.
-> 2. The hardware makes use of standard IOMMU/SMMU for IO address translation.
-> 3. The IOMMU facility is shared by both kernel and user drivers.
-> 4. Support PASID with the current IOMMU facility
+This patch proposes a new solution inspired by other frameworks that
+offer resource lookups (GPIO, PWM etc.). It adds functions that allow
+machine code to register nvmem lookup which are later lazily used to
+add corresponding nvmem cells and remove them if no longer needed.
 
-I do not see how any of this means it has to be in VFIO.
-Other devices do just that. GPUs driver for instance share
-DMA engine (that copy data around) between kernel and user
-space. Sometime kernel use it to move things around. Evict
-some memory to make room for a new process is the common
-example. Same DMA engines is often use by userspace itself
-during rendering or compute (program moving things on there
-own). So they are already kernel driver that do all 4 of
-the above and are not in VFIO.
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ drivers/nvmem/core.c           | 77 +++++++++++++++++++++++++++++++++-
+ include/linux/nvmem-consumer.h |  6 +++
+ include/linux/nvmem-provider.h | 10 +++++
+ 3 files changed, 92 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 514d1dfc5630..329ea5b8f809 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -62,6 +62,9 @@ static DEFINE_IDA(nvmem_ida);
+ static LIST_HEAD(nvmem_cells);
+ static DEFINE_MUTEX(nvmem_cells_mutex);
+ 
++static LIST_HEAD(nvmem_cell_lookups);
++static DEFINE_MUTEX(nvmem_lookup_mutex);
++
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ static struct lock_class_key eeprom_lock_key;
+ #endif
+@@ -247,6 +250,41 @@ static const struct attribute_group *nvmem_ro_root_dev_groups[] = {
+ 	NULL,
+ };
+ 
++/**
++ * nvmem_add_lookup_table() - register a number of nvmem cell lookup entries
++ *
++ * @lookup: array of nvmem cell lookup entries
++ * @nentries: number of lookup entries in the array
++ */
++void nvmem_add_lookup_table(struct nvmem_cell_lookup *lookup, size_t nentries)
++{
++	int i;
++
++	mutex_lock(&nvmem_lookup_mutex);
++	for (i = 0; i < nentries; i++)
++		list_add_tail(&lookup[i].list, &nvmem_cell_lookups);
++	mutex_unlock(&nvmem_lookup_mutex);
++}
++EXPORT_SYMBOL_GPL(nvmem_add_lookup_table);
++
++/**
++ * nvmem_del_lookup_table() - unregister a set of previously added nvmem cell
++ *                            lookup entries
++ *
++ * @lookup: array of nvmem cell lookup entries
++ * @nentries: number of lookup entries in the array
++ */
++void nvmem_del_lookup_table(struct nvmem_cell_lookup *lookup, size_t nentries)
++{
++	int i;
++
++	mutex_lock(&nvmem_lookup_mutex);
++	for (i = 0; i < nentries; i++)
++		list_del(&lookup[i].list);
++	mutex_unlock(&nvmem_lookup_mutex);
++}
++EXPORT_SYMBOL_GPL(nvmem_del_lookup_table);
++
+ static void nvmem_release(struct device *dev)
+ {
+ 	struct nvmem_device *nvmem = to_nvmem_device(dev);
+@@ -916,6 +954,39 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
+ EXPORT_SYMBOL_GPL(of_nvmem_cell_get);
+ #endif
+ 
++static struct nvmem_cell *nvmem_cell_from_lookup(const char *cell_id)
++{
++	struct nvmem_cell *cell = ERR_PTR(-ENOENT);
++	struct nvmem_cell_lookup *lookup;
++	struct nvmem_device *nvmem;
++	int rc;
++
++	mutex_lock(&nvmem_lookup_mutex);
++
++	list_for_each_entry(lookup, &nvmem_cell_lookups, list) {
++		if (strcmp(cell_id, lookup->info.name) == 0) {
++			nvmem = nvmem_find(lookup->nvmem_name);
++			if (!nvmem) {
++				cell = ERR_PTR(-EPROBE_DEFER);
++				goto out;
++			}
++
++			rc = nvmem_add_cells(nvmem, &lookup->info, 1);
++			if (rc) {
++				cell = ERR_PTR(rc);
++				goto out;
++			}
++
++			cell = nvmem_cell_get_from_list(cell_id);
++			break;
++		}
++	}
++
++out:
++	mutex_unlock(&nvmem_lookup_mutex);
++	return cell;
++}
++
+ /**
+  * nvmem_cell_get() - Get nvmem cell of device form a given cell name
+  *
+@@ -940,7 +1011,11 @@ struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *cell_id)
+ 	if (!cell_id)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	return nvmem_cell_get_from_list(cell_id);
++	cell = nvmem_cell_get_from_list(cell_id);
++	if (!IS_ERR(cell) || PTR_ERR(cell) == -EPROBE_DEFER)
++		return cell;
++
++	return nvmem_cell_from_lookup(cell_id);
+ }
+ EXPORT_SYMBOL_GPL(nvmem_cell_get);
+ 
+diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
+index 4e85447f7860..f4b5d3186e94 100644
+--- a/include/linux/nvmem-consumer.h
++++ b/include/linux/nvmem-consumer.h
+@@ -29,6 +29,12 @@ struct nvmem_cell_info {
+ 	unsigned int		nbits;
+ };
+ 
++struct nvmem_cell_lookup {
++	struct nvmem_cell_info	info;
++	struct list_head	list;
++	const char		*nvmem_name;
++};
++
+ #if IS_ENABLED(CONFIG_NVMEM)
+ 
+ /* Cell based interface */
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 24def6ad09bb..6a17d722062b 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -17,6 +17,7 @@
+ 
+ struct nvmem_device;
+ struct nvmem_cell_info;
++struct nvmem_cell_lookup;
+ typedef int (*nvmem_reg_read_t)(void *priv, unsigned int offset,
+ 				void *val, size_t bytes);
+ typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
+@@ -72,6 +73,9 @@ struct nvmem_config {
+ struct nvmem_device *nvmem_register(const struct nvmem_config *cfg);
+ int nvmem_unregister(struct nvmem_device *nvmem);
+ 
++void nvmem_add_lookup_table(struct nvmem_cell_lookup *lookup, size_t nentries);
++void nvmem_del_lookup_table(struct nvmem_cell_lookup *lookup, size_t nentries);
++
+ struct nvmem_device *devm_nvmem_register(struct device *dev,
+ 					 const struct nvmem_config *cfg);
+ 
+@@ -92,6 +96,12 @@ static inline int nvmem_unregister(struct nvmem_device *nvmem)
+ 	return -ENOSYS;
+ }
+ 
++static inline void
++nvmem_add_lookup_table(struct nvmem_cell_lookup *lookup, size_t nentries) {}
++
++static inline void
++nvmem_del_lookup_table(struct nvmem_cell_lookup *lookup, size_t nentries) {}
++
+ static inline struct nvmem_device *
+ devm_nvmem_register(struct device *dev, const struct nvmem_config *c)
+ {
+-- 
+2.18.0
 
-> > > > > > your mechanisms the userspace must have a specific userspace
-> > > > > > drivers for each hardware and thus there are virtually no
-> > > > > > differences between having this userspace driver open a device
-> > > > > > file in vfio or somewhere else in the device filesystem. This is
-> > > > > > just a different path.
-> > > > > > 
-> > > > > The basic problem WarpDrive want to solve it to avoid syscall. This is important
-> > > > > to accelerators. We have some data here:
-> > > > > https://www.slideshare.net/linaroorg/progress-and-demonstration-of-wrapdrive-a-accelerator-framework-sfo17317
-> > > > > 
-> > > > > (see page 3)
-> > > > > 
-> > > > > The performance is different on using kernel and user drivers.
-> > > > Yes and example i point to is exactly that. You have a one time setup
-> > > > cost (creating command buffer binding PASID with command buffer and
-> > > > couple other setup steps). Then userspace no longer have to do any
-> > > > ioctl to schedule work on the GPU. It is all down from userspace and
-> > > > it use a doorbell to notify hardware when it should go look at command
-> > > > buffer for new thing to execute.
-> > > > 
-> > > > My point stands on that. You have existing driver already doing so
-> > > > with no new framework and in your scheme you need a userspace driver.
-> > > > So i do not see the value add, using one path or the other in the
-> > > > userspace driver is litteraly one line to change.
-> > > > 
-> > > Sorry, I'd got confuse here. I partially agree that the user driver is
-> > > redundance of kernel driver. (But for WarpDrive, the kernel driver is a full
-> > > driver include all preparation and setup stuff for the hardware, the user driver
-> > > is simply to send request and receive answer). Yes, it is just a choice of path.
-> > > But the user path is faster if the request come from use space. And to do that,
-> > > we need user land DMA support. Then why is it invaluable to let VFIO involved?
-> > Some drivers in the kernel already do exactly what you said. The user
-> > space emit commands without ever going into kernel by directly scheduling
-> > commands and ringing a doorbell. They do not need VFIO either and they
-> > can map userspace address into the DMA address space of the device and
-> > again they do not need VFIO for that.
-> Could you please directly point out which driver you refer to here? Thank
-> you.
-
-drivers/gpu/drm/amd/
-
-Sub-directory of interest is amdkfd
-
-Because it is a big driver here is a highlevel overview of how it works
-(this is a simplification):
-  - Process can allocate GPUs buffer (through ioclt) and map them into
-    its address space (through mmap of device file at buffer object
-    specific offset).
-  - Process can map any valid range of virtual address space into device
-    address space (IOMMU mapping). This must be regular memory ie not an
-    mmap of a device file or any special file (this is the non PASID
-    path)
-  - Process can create a command queue and bind its process to it aka
-    PASID, this is done through an ioctl.
-  - Process can schedule commands onto queues it created from userspace
-    without ioctl. For that it just write command into a ring buffer
-    that it mapped during the command queue creation process and it
-    rings a doorbell when commands are ready to be consume by the
-    hardware.
-  - Commands can reference (access) all 3 types of object above ie
-    either full GPUs buffer, process regular memory maped as object
-    (non PASID) and PASID memory all at the same time ie you can
-    mix all of the above in same commands queue.
-  - Kernel can evict, unbind any process command queues, unbind commands
-    queue are still valid from process point of view but commands
-    process schedules on them will not be executed until kernel re-bind
-    the queue.
-  - Kernel can schedule commands itself onto its dedicated command
-    queues (kernel driver create its own command queues).
-  - Kernel can control priorities between all the queues ie it can
-    decides which queues should the hardware executed first next.
-
-I believe all of the above are the aspects that matters to you. The main
-reason i don't like creating a new driver infrastructure is that a lot
-of existing drivers will want to use some of the new features that are
-coming (memory topology, where to place process memory, pipeline devices,
-...) and thus existing drivers are big (GPU drivers are the biggest of
-all the kernel drivers).
-
-So rewritting those existing drivers into VFIO or into any new infra-
-structure so that they can leverage new features is a no go from my
-point of view.
-
-I would rather see a set of helpers so that each features can be use
-either by new drivers or existing drivers. For instance a new way to
-expose memory topology. A new way to expose how you can pipe devices
-from one to another ...
-
-
-Hence i do not see any value in a whole new infra-structure in which
-drivers must be part of to leverage new features.
-
-Cheers,
-Jérôme
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
