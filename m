@@ -6,52 +6,53 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5602F7E3DF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 17:51:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 787337E3DF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 17:54:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729686AbeHHULp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 16:11:45 -0400
-Received: from mail-ua0-f193.google.com ([209.85.217.193]:33099 "EHLO
+        id S1729709AbeHHUOz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 16:14:55 -0400
+Received: from mail-ua0-f193.google.com ([209.85.217.193]:37541 "EHLO
         mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727062AbeHHULp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 16:11:45 -0400
-Received: by mail-ua0-f193.google.com with SMTP id i4-v6so3355401uak.0;
-        Wed, 08 Aug 2018 10:50:59 -0700 (PDT)
+        with ESMTP id S1727062AbeHHUOz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 16:14:55 -0400
+Received: by mail-ua0-f193.google.com with SMTP id y10-v6so3343550uao.4;
+        Wed, 08 Aug 2018 10:54:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=ngxSF88L3UPmGJiFCLGrUmz76gNbLrC+CIojozODNoU=;
-        b=CHQcLzTfBE62taG8EKKEpED36TtIvBYBKcU7MxitLbwbaTTtOQ8iiyO1xc26oMHjMX
-         wlyxa3heJx44p6scDp1kglvY+Fkq/zM+NGMmH6JcRu1j5P7TwpaR1knNIiR3xKIfc+u2
-         4kUFY4jd82OGKNy+c1SKwTqdW5nou9bVpfQzLb816O79lPEQH8PRZO87jiCMSifJAJ/x
-         0uFWHnJ/NO7Zd2wPIzSRWe1iTGoCnhDfRAgW2GmkvuAiU0mjsHqDDJ7TZendYOZ3J61z
-         Irwzg7y6A+SlMQaHHVav74qL8jpeBayKTP3DToqVwiRwHtGXWLZ8mPyN8tQDSPF28eob
-         nUKQ==
+        bh=ptp2ZlwnEQ4oEXo2mWMG62LeI19gX7u/NAHavfAv9iA=;
+        b=MpTA+nnhg+t85j0107IQWi1A0FMMIXAnKIkk1XITbxFcU+2KQLce4d8YzQjrS7LQ++
+         sf0gYR0NMediqn8CJqE8KywL0gQ3t9eaI82v3uQwsUCZb2WHEFgvB1O1hg+GR9egP7jO
+         S3aZ+Ek5+Qp1u9dMxg2Ik5TEdsxAvWg1PhOYK5j2z/PglwgYsDF1htG9HyzEsor7tt1d
+         TGmo3hzhpXi1g/rVP2bIxzWVi6SpVVunM9ZQVkd7XWTdfGURJTeI34AEke+zffTg1MKo
+         hrX6/TZvpK/H/6ltXkfboLoxoJW4RTFRltlZz+y5U34tddGu7omQEisYTXzhJnh0EY33
+         nLkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=ngxSF88L3UPmGJiFCLGrUmz76gNbLrC+CIojozODNoU=;
-        b=bDzHMKEKrSU9lMTlLGwdCFySHQpV1L8gNVWpJNSrL2hnblUl5/vFt3S6mf7e0WEFiE
-         ofDpOjdCM5H6IjoawhKjUAQr6aCM8C3uPk6lufKrS2n6pF7B4AhVL86d69s7r+8hgQO4
-         zEadgWSNauGp7aF1sgcyCKgKdB2XBBmSeEJ9y+1bLYextjYm67QbGTwlJ6BdujHS5yeB
-         AfhCym7H1xnGQlpJoyosQq4eMVAlcGyo5j3G68FP3DULcGv6VpP23b/+aCe0MiQu3oRK
-         bMGlEcnw2njor/xrY5hoJFT2OPL6nFlhRA/ExQj25gX5+IqArm+Hb5UkwfgZjiC8UsE4
-         L2DQ==
-X-Gm-Message-State: AOUpUlFUxlru50cdOzzuaKm03SHs99l8niMny00xGTLwmL161qX9b+5y
-        huP193ZVnEWtURb7tQcH+OFtrfgJn0S+y35jv1E=
-X-Google-Smtp-Source: AA+uWPxVjZdd5z1dGYPEUDpn4NgSIsb6z7r/ftShyIM5joIWKbyezPSR30K/8geKZg5FORE026R9+tFMiVTwmkJEDfw=
-X-Received: by 2002:a1f:4c7:: with SMTP id 190-v6mr2488178vke.63.1533750659079;
- Wed, 08 Aug 2018 10:50:59 -0700 (PDT)
+        bh=ptp2ZlwnEQ4oEXo2mWMG62LeI19gX7u/NAHavfAv9iA=;
+        b=S0VWQlusUCnR7sa54UARvC3oX7l7+5AkXzRo/s3GbHGS9SxSOdbTyxefrFLU5vlYMl
+         p8qzyu6mSmJbkY6ka0iiKq8KlVAuAnASk5aTVJhIAFclkRppTgp2/Fpa1gh9x3v39sc9
+         HFmGkCQAQ7Av1kp9NI3LwVKCGK03zVXjQ9XgOiAAkp9a9hxjktOs2/x2Q+GW8eCLumSb
+         ++sIA8+C3VbUmV9SXJbBrNUNcD348js9q7Dyn5aLkLy4sAL84L9KwvQ8fUaSkQye9dPP
+         qbpgmF0nYr4pHoDzIRwIQd7It88blxfNZCyjE93EmtlEbHQMyFJhog6H0tJHDJ7lcVwE
+         Lnqw==
+X-Gm-Message-State: AOUpUlGsMinxvYQJ50WxnM2HGXWyT9MejPnZMDF3UpwbP3YTtm9+J2CX
+        wDgtq/4G6v5AjwdbXlCr/BB82b0mByk8ojAkuAk=
+X-Google-Smtp-Source: AA+uWPwgfnSutzNstLJMjqcH2pQZqgPF6HbPOaHvUPHnPYyOytmOgqE0OO2h5YIhTEjVz0Udna+03zwOwMtXatAh78M=
+X-Received: by 2002:a1f:25c8:: with SMTP id l191-v6mr2612054vkl.66.1533750848390;
+ Wed, 08 Aug 2018 10:54:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 10:50:58 -0700 (PDT)
-In-Reply-To: <20180808153150.23444-15-brgl@bgdev.pl>
-References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-15-brgl@bgdev.pl>
+Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 10:54:07 -0700 (PDT)
+In-Reply-To: <20180808153150.23444-20-brgl@bgdev.pl>
+References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-20-brgl@bgdev.pl>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Aug 2018 20:50:58 +0300
-Message-ID: <CAHp75VfxVOPzAtBgTe4RSax1Ki+323WDBTSmh=j7LV_c+vsXDA@mail.gmail.com>
-Subject: Re: [PATCH 14/28] net: split eth_platform_get_mac_address() into subroutines
+Date:   Wed, 8 Aug 2018 20:54:07 +0300
+Message-ID: <CAHp75VdKbXqd+pN7Ohyzy6_3SHf=reXZ2ZJ5wCkiAwekKSenew@mail.gmail.com>
+Subject: Re: [PATCH 19/28] ARM: davinci: dm365-evm: use device properties for
+ at24 eeprom
 To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -95,23 +96,67 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 >
-> We want do add more sources from which to read the MAC address. In
-> order to avoid bloating this function too much, start by splitting it
-> into subroutines, each of which takes care of reading the MAC from
-> one source.
-
-> +static int mac_address_from_of(struct device *dev, u8 *mac_addr)
->  {
->         const unsigned char *addr;
-> +       struct device_node *np;
+> We want to work towards phasing out the at24_platform_data structure.
+> There are few users and its contents can be represented using generic
+> device properties. Using device properties only will allow us to
+> significantly simplify the at24 configuration code.
+>
+> Remove the at24_platform_data structure and replace it with an array
+> of property entries. Drop the byte_len/size property, as the model name
+> already implies the EEPROM's size.
 >
 
-> +       np = dev_is_pci(dev) ? pci_device_to_OF_node(to_pci_dev(dev))
-> +                            : dev->of_node;
+Yes, that exactly how device properties should be used instead of
+legacy platform data!
 
-I didn't get these manipulations.
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-What the scenario when pci_dev->dev.of_node != dev->of_node?
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> ---
+>  arch/arm/mach-davinci/board-dm365-evm.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/arch/arm/mach-davinci/board-dm365-evm.c b/arch/arm/mach-davinci/board-dm365-evm.c
+> index cb0ac92a278e..b360d26e6caa 100644
+> --- a/arch/arm/mach-davinci/board-dm365-evm.c
+> +++ b/arch/arm/mach-davinci/board-dm365-evm.c
+> @@ -18,7 +18,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/io.h>
+>  #include <linux/clk.h>
+> -#include <linux/platform_data/at24.h>
+> +#include <linux/property.h>
+>  #include <linux/leds.h>
+>  #include <linux/mtd/mtd.h>
+>  #include <linux/mtd/partitions.h>
+> @@ -179,18 +179,15 @@ static struct nvmem_cell_lookup dm365evm_mac_address_cell = {
+>         .nvmem_name = "1-00500",
+>  };
+>
+> -static struct at24_platform_data eeprom_info = {
+> -       .byte_len       = (256*1024) / 8,
+> -       .page_size      = 64,
+> -       .flags          = AT24_FLAG_ADDR16,
+> -       .setup          = davinci_get_mac_addr,
+> -       .context        = (void *)0x7f00,
+> +static const struct property_entry eeprom_properties[] = {
+> +       PROPERTY_ENTRY_U32("pagesize", 64),
+> +       { }
+>  };
+>
+>  static struct i2c_board_info i2c_info[] = {
+>         {
+>                 I2C_BOARD_INFO("24c256", 0x50),
+> -               .platform_data  = &eeprom_info,
+> +               .properties = eeprom_properties,
+>         },
+>         {
+>                 I2C_BOARD_INFO("tlv320aic3x", 0x18),
+> --
+> 2.18.0
+>
+
+
 
 -- 
 With Best Regards,
