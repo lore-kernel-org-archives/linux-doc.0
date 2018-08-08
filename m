@@ -6,52 +6,52 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 99FE77E3DF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 17:42:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD9FE7E3DF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 17:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728012AbeHHUD1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 16:03:27 -0400
-Received: from mail-ua0-f194.google.com ([209.85.217.194]:34401 "EHLO
+        id S1729221AbeHHUEk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 16:04:40 -0400
+Received: from mail-ua0-f194.google.com ([209.85.217.194]:40397 "EHLO
         mail-ua0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727480AbeHHUD1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 16:03:27 -0400
-Received: by mail-ua0-f194.google.com with SMTP id r15-v6so3332525uao.1;
-        Wed, 08 Aug 2018 10:42:43 -0700 (PDT)
+        with ESMTP id S1728012AbeHHUEk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 16:04:40 -0400
+Received: by mail-ua0-f194.google.com with SMTP id m13-v6so3299293uaq.7;
+        Wed, 08 Aug 2018 10:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=uzUvgscPNw8M3trWj2cQxWMQo/CdhT1fRSE/rXdxwrQ=;
-        b=RZ1qlbPdGsoC5/3jTpYFz0SwEO1MWyHMHsZyqkAdvnfC3IOl7K4bcJcobr/Q2tqZyp
-         jy0/gwZU1xJnNZbvtm+8BdL+770fVvR1VoW5VakehVN1Xq3ePk2nl1htVevRS3tEx4A3
-         gGr5cN1GoQ0SXUfNe8P1vxMyiV4aJStUZmEz5NeZEdUDqvtKaQaaQUnFs11KXI05EfXq
-         FjAQOu1r6JX+2uUHkg9Z1xPfxrssKEKguZ9DK+7aAaWu12Qrke1hrvsemuS7wZOKsN6s
-         qLvaEbdAQdq/1z2mqx/gIxeGRWejgW83yUeOBDE2LF+ZcdO0VD06RjOf4cnu4b79zNN9
-         6/vw==
+        bh=fudOnXwiyicpJhQkavPEDADRlehvB8IQIeG6e043V2s=;
+        b=ugl6+L3tM9fD0k+gFVHnudzyBbjILu7fy6yCW0gy1owqYXIDlq1PxaWsUHjFIDnWJz
+         fWeZHouO9gdJBD5N7yLD2A7HR6PdSN3wV4m7wK2f1b9G9w+H46W34ckZvOZKHT6rVxAm
+         QRm07MB7K0d0hOpy5cf/MEqbA1AtXEweSK2YZmcgPYKYmoMkZT2I56eIi0wnuvFJkdMT
+         ad6T5eSTaST+mPcO961pmGf211fXPalT9QjVW9BMVubq6k7PVAkafgLYODHSgJ/38DdD
+         vWwnFQIZZowkdXAASrS90Nrf5stGKP3EY6cdpccrtLaxdwmv6Xxi5YF3KBJ/qzN9zkPL
+         agNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=uzUvgscPNw8M3trWj2cQxWMQo/CdhT1fRSE/rXdxwrQ=;
-        b=GW1gBt/TAScOs/xu4a+plk593cZ/ywCLv0Z4U2OdJErqyleWW1SL3kTrddnhhX4WyA
-         SUmLkE2qucY3XWQsSQUkPxhO6esH2fve8Y8WD7UTEsrrle4LqVnagYEaroTI2Du204cQ
-         rPOO8Enkj6hHDm9FP7lr26mMqAI+KvqvxGsrz6EcTx0ilf5ua+hXUKBjmFLD0rSrkEjG
-         dOhFrN/od9Bgx+8bB463xm2T0BwBVhOSahgRouBiYGDhvRSx+o3fCLu5zG28JAdMn1uR
-         +rKV+2yGmZLzsx4I3Ijy7PD+rFv4y+3gcqdJwf9JEo+Lv3IFmcUit0QsITxCdPjBnej4
-         KGNQ==
-X-Gm-Message-State: AOUpUlEIiX6FXrZkvpD8JSRl4KspDJRCpHab7n6rPJBnk4j79fdSX2UZ
-        YbSkbFSbg0WxatL1nYWXYMzAVfN2rj89/YsZ29g=
-X-Google-Smtp-Source: AA+uWPyeReVilhhxxKVMrMb07Day2cm7mMeS1fgh3CwJvvUzkokKc5kNs5LG8MGK3naGr5Rqk87oPPWwy4jDrlvEYFQ=
-X-Received: by 2002:ab0:4025:: with SMTP id h34-v6mr2688667uad.12.1533750162575;
- Wed, 08 Aug 2018 10:42:42 -0700 (PDT)
+        bh=fudOnXwiyicpJhQkavPEDADRlehvB8IQIeG6e043V2s=;
+        b=c5xxefFPUwgehLUkhwsL1/+mejmWMp68d+BxNczgGGVlK1hTt6+lVeL6keIYf8q/hK
+         znsDYZXH1b8pcOA1TSkN5Bgzy/gmkSC1CCeFvcC7IpShpppntWmr2Ui48SyG9EjUZfDp
+         58LaaU7dNU3Rg3jLfjaN20riYbYgyD2PFUnGhJk28GSrgXZo1vKXJbwqxRPO4H1h0zU3
+         u8yrmBYQQ7J6j6LeI0AiR3GoiX1DtIlWhjvNiNm8VjraFXbktMRenFfpkcOMCCrcvPew
+         /ntCtLdwonJF1CLo45SPVo4f/7/YNr91NTeoeTKbYJbDDurIu80deQFWmM+hQcf0Kohd
+         0l6g==
+X-Gm-Message-State: AOUpUlE+vu1ggwPb4EQeiARxTCIN0oWRnS8PvdYurk+Qc0GtH2BdCEIf
+        RIDci/yqPEBGxpXTKH1IJMuMhaY6TFTmaMIZjzA=
+X-Google-Smtp-Source: AA+uWPwKpXl3Be6QW0/t3sBAtnvBrCdS7YRpc6uENnoBjBfHeW+bZJqMrrfj+yyLjYG7sGnbuI9mdgC3J/ffSGTqHO8=
+X-Received: by 2002:a1f:920b:: with SMTP id u11-v6mr2483619vkd.58.1533750235483;
+ Wed, 08 Aug 2018 10:43:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 10:42:42 -0700 (PDT)
-In-Reply-To: <20180808153150.23444-5-brgl@bgdev.pl>
-References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-5-brgl@bgdev.pl>
+Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 10:43:54 -0700 (PDT)
+In-Reply-To: <20180808153150.23444-8-brgl@bgdev.pl>
+References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-8-brgl@bgdev.pl>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Aug 2018 20:42:42 +0300
-Message-ID: <CAHp75Ve6ugVGJ9JqCYri0_k93DgkPMua7g8dC5CMhT4uFHMgoA@mail.gmail.com>
-Subject: Re: [PATCH 04/28] nvmem: provide nvmem_device_name()
+Date:   Wed, 8 Aug 2018 20:43:54 +0300
+Message-ID: <CAHp75VdXTS9kg5PF-YrTbi8f1U9qSKU+1D43-p0PgphKeJdVNA@mail.gmail.com>
+Subject: Re: [PATCH 07/28] ARM: davinci: dm365-evm: use nvmem lookup for mac address
 To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -95,21 +95,17 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 >
-> Kernel users don't have any means of checking the names of nvmem
-> devices. Add a routine that returns the name of the nvmem provider.
->
-> This will be useful for nvmem notifier subscribers - otherwise they
-> can't check what device is being added/removed.
+> We now support nvmem lookups for machine code. Add a lookup for
+> mac-address.
 
-> +const char *nvmem_device_name(struct nvmem_device *nvmem)
-> +{
-> +       return dev_name(&nvmem->dev);
-> +}
-> +EXPORT_SYMBOL_GPL(nvmem_device_name);
+>  #include <linux/spi/spi.h>
+>  #include <linux/spi/eeprom.h>
+>  #include <linux/v4l2-dv-timings.h>
+> +#include <linux/nvmem-provider.h>
 
-Just wondering if *_dev_name() is more common pattern in the kernel
-(at least pci_dev_name() comes immediately to mind).
+It looks from this context that your patch broke the order.
 
+P.S. Can you verify all in the series for this?
 
 -- 
 With Best Regards,
