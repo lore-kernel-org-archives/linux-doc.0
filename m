@@ -1,166 +1,206 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 015DF7E3B8
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 01:33:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 05BE97E3D1
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 01:43:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726625AbeHHDuU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 7 Aug 2018 23:50:20 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:46302 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726245AbeHHDuT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Aug 2018 23:50:19 -0400
-Received: by mail-pg1-f196.google.com with SMTP id f14-v6so260511pgv.13;
-        Tue, 07 Aug 2018 18:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=UgW2MfTEnhx0gGNZjXhQwevRzaso8UJX2MpD4qDmm7Y=;
-        b=gCmE+EUY6d7eUSiwSTKBaUvmiYrMj/a3qtfPXD2vsT3A8CYXfbhD3zu/95uRHaPrR2
-         g+LNiDZd7D6J9r5zLtoy1oL9Qn+9fbDwAU/drsw8H2FF73zYbq7Y37/r1SV4NkdAyCv6
-         OSkRfnFMQZTuGnl8+detseg1+MO/iftbhm5O5PqWvAC9l/VCOAlM3pBku3W6HCu3Qkyo
-         bJoAqeRwE4HbejL6teHjXpAtvGyK0plAhqwqXvomJER74zECP8tDjzH2PgvyYH4tiuOF
-         ZJj3UWsXahoCN+odD4ha+PkaICgTU2MXpXKLuwCTGEjtPP/rBpTWOD3W0Xlau6nqQwPM
-         Obfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=UgW2MfTEnhx0gGNZjXhQwevRzaso8UJX2MpD4qDmm7Y=;
-        b=sv565sSAxSxBKUIbJCBkjYgtxk2dA4TlrSOHL3bntwFTbkNXL1dFJq4b6WC79gOXkW
-         9exi1OVZYJH1EilLrx8RAeKBrv78VHm7L85E0HPBKB9nmTvXQoBIgFOfAs9E1ROmmQTh
-         U03tdVUoRJytqPv5BBBX9P/La4s4VuWmH3SgQ3pvgXPGKp/HKLUP1f95OKpk7Mrt7br3
-         9tWAV63s9/8uFRypMTps0otZW4CMhvCsbvFKGWcn4chzg6psfIsFrPEIAptYykAauhf0
-         LzNtZlC26O0Qo0lp8meDy23+K/PqDQZpeOyOXVH/LF0oxRR6tg5rPjuyAyt21SqNTek2
-         cf7g==
-X-Gm-Message-State: AOUpUlES6H5DYAiDvVmiYW/GNMjJGknUYkJjtagZqoroN6tS7TU924Vr
-        uXqFvP7WEgv6KpoH3447J1s=
-X-Google-Smtp-Source: AA+uWPwLrBc0Ebng0kzo3pwpER+2HrXEiG6YIF7FG3CAWpU+srQgaDdFmvKLcTvju7RcHp6NQbOaxA==
-X-Received: by 2002:a63:1d5e:: with SMTP id d30-v6mr621833pgm.12.1533691990194;
-        Tue, 07 Aug 2018 18:33:10 -0700 (PDT)
-Received: from [10.66.0.122] ([104.207.83.31])
-        by smtp.gmail.com with ESMTPSA id k125-v6sm2983380pgk.41.2018.08.07.18.32.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 Aug 2018 18:33:09 -0700 (PDT)
-Subject: Re: [RFC PATCH 3/7] vfio: add spimdev support
-To:     Alex Williamson <alex.williamson@redhat.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>
-Cc:     Kenneth Lee <liguozhu@hisilicon.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Zaibo Xu <xuzaibo@huawei.com>, sanjay.k.kumar@intel.com,
-        Hao Fang <fanghao11@huawei.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
+        id S1725774AbeHHEAF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 00:00:05 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:58929 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725139AbeHHEAF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 00:00:05 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 24E54325;
+        Tue,  7 Aug 2018 21:42:53 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 07 Aug 2018 21:42:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :content-type:date:from:in-reply-to:message-id:mime-version
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=1kszUV1wGVGJOHuG6d2OY/WmOBLLhrCnMqGmWBDj4u0=; b=PBAC2y0I
+        CTenkTi+lv+jC5bKdqBzHJ4LLuxMzKLTwt13lf934yZdRh5fUTICiIaQAjd5joMs
+        J26G2JNrbTcldUgTt55ZE6iKLAwwvG9kIZn/rPJaH3B86BxGykbC7rBe5yjdigLO
+        WTTvVbWn2rKr3tnE6bBbF61cdXZWZsgGbWJMkYJy0eLN2QIg+79YbOWK8n4qGP4n
+        HWFr9Z/YgE3q4AIUi+ij0dJgjYKtWGkMMRiuqZQjez0vA3S23KZ4BKtif9J+nkKb
+        p8PRq3ilDAUj/EEsq5RMtYIRfSRnvpWNmf7IWUcxKW880PibdKOnyQbPx7oAd2OU
+        R1T7sXfzbvPNAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=1kszUV1wGVGJOHuG6d2OY/WmOBLLh
+        rCnMqGmWBDj4u0=; b=sCB2sy/9a01+jzwqbI7sVu3WasxDS5m6ztf5m8Z4wwJfE
+        D8abybv2bFtNb9TvcVyHZ8oMNlAa25TsyZCwhqrmXGRAZtHINDT20xiQQVfFtiBD
+        WOyHS167Q2HCeUyJyhMLlY6sbpJVfVSLBmyQtFAQs9eI2BlfAaR0StwCLmwBS11M
+        1RKqMlUeBswj8jk+0Cdi4BfOP6qBw6tPo9QyHdglYDZd4JvOnSQPmi7sHzzDnqrr
+        tqyafuFvs6GjW6Bp67318ohaEzI7upcMc5MfN5Z3/5PGw6dRRgkXcpWyMEmh2f7x
+        OHT80SAi+tQx9ndX8T8MQ2DIYlwc98PuW4o5LueFQ==
+X-ME-Proxy: <xmx:m0pqWwpxSLIUJ6uydmj-UDdmDWPrUvDSEvFtym8DWvOh9DEm-a-o1Q>
+    <xmx:m0pqW20T6BNOcokziz9iysOy8_ST3kMsz7pgxWH_eMP_GHo_AiMXeQ>
+    <xmx:m0pqW3B8mpGhfsVQ0QsO7kwIaCKZOrw-GO8t1zkz00Aj2OGyAuA7mw>
+    <xmx:m0pqW2cZmos3fXnr72eyGbxOU5rALGu05SaIr51U0xriAFHz4XSPwg>
+    <xmx:m0pqW0hG-z0WtQ6Meq0J-lZTdETXdfYndeUWA68w9lqj1KjOaSQseg>
+    <xmx:nEpqW0xul-VhxUKpzTB7QDgcogMu2og1lR59p5a54_DkMzwX6CdYfg>
+X-ME-Sender: <xms:m0pqW9WC-lGYPDIgO_xD2g-vd5HkB2RAl8xSsghIB8vAxm9ROJ_taw>
+Received: from localhost (ppp121-44-251-7.bras2.syd2.internode.on.net [121.44.251.7])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2920BE4563;
+        Tue,  7 Aug 2018 21:42:50 -0400 (EDT)
+Date:   Wed, 8 Aug 2018 11:42:48 +1000
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Daniel Borkmann <daniel@iogearbox.net>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Joerg Roedel <joro@8bytes.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>, linuxarm@huawei.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>
-References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <20180801102221.5308-4-nek.in.cn@gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D191290F7B@SHSMSX101.ccr.corp.intel.com>
- <20180802034727.GK160746@Turing-Arch-b>
- <AADFC41AFE54684AB9EE6CBC0274A5D19129102C@SHSMSX101.ccr.corp.intel.com>
- <20180802073440.GA91035@Turing-Arch-b>
- <20180802103528.0b863030.cohuck@redhat.com>
- <20180802124327.403b10ab@t450s.home> <20180806014004.GF91035@Turing-Arch-b>
- <20180806094940.47c70be9@t450s.home> <20180806163428.GB32409@otc-nc-03>
- <20180806110521.0b708e0b@t450s.home>
-From:   Kenneth Lee <nek.in.cn@gmail.com>
-Message-ID: <23740eea-4afd-26f6-7407-3cf5b850933e@gmail.com>
-Date:   Wed, 8 Aug 2018 09:32:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next 12/13] docs: net: Fix various minor typos
+Message-ID: <20180808014248.GF11191@eros>
+References: <20180801050908.29970-1-me@tobin.cc>
+ <20180801050908.29970-13-me@tobin.cc>
+ <76cf11bc-61b3-8068-5546-79d3ff3a58e9@iogearbox.net>
 MIME-Version: 1.0
-In-Reply-To: <20180806110521.0b708e0b@t450s.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76cf11bc-61b3-8068-5546-79d3ff3a58e9@iogearbox.net>
+X-Mailer: Mutt 1.9.4 (2018-02-28)
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Aug 03, 2018 at 10:41:12AM +0200, Daniel Borkmann wrote:
+> On 08/01/2018 07:09 AM, Tobin C. Harding wrote:
+> > There are a few minor typos and grammatical issues.  We should however
+> > try to keep the current flavour of the document.
+> > 
+> > Fix typos and grammar if glaringly required.
+> > 
+> > Signed-off-by: Tobin C. Harding <me@tobin.cc>
+> 
+> Overall looks good, just some minor nits:
+> 
+> >  Documentation/networking/filter.rst | 65 +++++++++++++++--------------
+> >  1 file changed, 33 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+> > index 99dfa74fc4f7..b989a6c882b8 100644
+> > --- a/Documentation/networking/filter.rst
+> > +++ b/Documentation/networking/filter.rst
+> > @@ -32,10 +32,10 @@ removing the old one and placing your new one in its place, assuming your
+> >  filter has passed the checks, otherwise if it fails the old filter will
+> >  remain on that socket.
+> >  
+> > -SO_LOCK_FILTER option allows to lock the filter attached to a socket. Once
+> > -set, a filter cannot be removed or changed. This allows one process to
+> > +SO_LOCK_FILTER option allows locking of the filter attached to a socket.
+> > +Once set, a filter cannot be removed or changed. This allows one process to
+> >  setup a socket, attach a filter, lock it then drop privileges and be
+> > -assured that the filter will be kept until the socket is closed.
+> > +assured  that the filter will be kept until the socket is closed.
+> 
+>           ^-- looks like extra whitespace slipped in?
+> 
+> >  The biggest user of this construct might be libpcap. Issuing a high-level
+> >  filter command like ``tcpdump -i em1 port 22`` passes through the libpcap
+> > @@ -470,7 +470,7 @@ JIT compiler
+> >  ============
+> >  
+> >  The Linux kernel has a built-in BPF JIT compiler for x86_64, SPARC, PowerPC,
+> > -ARM, ARM64, MIPS and s390 and can be enabled through CONFIG_BPF_JIT. The JIT
+> > +ARM, ARM64, MIPS and s390 which can be enabled through CONFIG_BPF_JIT. The JIT
+> >  compiler is transparently invoked for each attached filter from user space
+> >  or for internal kernel users if it has been previously enabled by root::
+> >  
+> > @@ -580,7 +580,7 @@ Internally, for the kernel interpreter, a different instruction set
+> >  format with similar underlying principles from BPF described in previous
+> >  paragraphs is being used. However, the instruction set format is modelled
+> >  closer to the underlying architecture to mimic native instruction sets, so
+> > -that a better performance can be achieved (more details later). This new
+> > +that better performance can be achieved (more details later). This new
+> >  ISA is called 'eBPF' or 'internal BPF' interchangeably. (Note: eBPF which
+> >  originates from [e]xtended BPF is not the same as BPF extensions! While
+> >  eBPF is an ISA, BPF extensions date back to classic BPF's 'overloading'
+> > @@ -655,12 +655,12 @@ Some core changes of the new internal format:
+> >  
+> >    32-bit architectures run 64-bit internal BPF programs via interpreter.
+> >    Their JITs may convert BPF programs that only use 32-bit subregisters into
+> > -  native instruction set and let the rest being interpreted.
+> > +  native instruction set and let the rest be interpreted.
+> >  
+> > -  Operation is 64-bit, because on 64-bit architectures, pointers are also
+> > -  64-bit wide, and we want to pass 64-bit values in/out of kernel functions,
+> > -  so 32-bit eBPF registers would otherwise require to define register-pair
+> > -  ABI, thus, there won't be able to use a direct eBPF register to HW register
+> > +  Operation is 64-bit since on 64-bit architectures pointers are also
+> > +  64-bit wide and we want to pass 64-bit values in/out of kernel functions.
+> > +  32-bit eBPF registers would otherwise require us to define a register-pair
+> > +  ABI, thus we would not be able to use a direct eBPF register to HW register
+> >    mapping and JIT would need to do combine/split/move operations for every
+> >    register in and out of the function, which is complex, bug prone and slow.
+> >    Another reason is the use of atomic 64-bit counters.
+> > @@ -694,7 +694,7 @@ Some core changes of the new internal format:
+> >    situations without performance penalty.
+> >  
+> >    After an in-kernel function call, R1 - R5 are reset to unreadable and R0 has
+> > -  a return value of the function. Since R6 - R9 are callee saved, their state
+> > +  the return value of the function. Since R6 - R9 are callee saved, their state
+> >    is preserved across the call.
+> >  
+> >    For example, consider three C functions::
+> > @@ -732,7 +732,7 @@ Some core changes of the new internal format:
+> >    are currently not supported, but these restrictions can be lifted if necessary
+> >    in the future.
+> >  
+> > -  On 64-bit architectures all register map to HW registers one to one. For
+> > +  On 64-bit architectures all registers map to HW registers one to one. For
+> >    example, x86_64 JIT compiler can map them as ... ::
+> >  
+> >      R0 - rax
+> > @@ -831,9 +831,10 @@ A program, that is translated internally consists of the following elements::
+> >  
+> >    op:16, jt:8, jf:8, k:32    ==>    op:8, dst_reg:4, src_reg:4, off:16, imm:32
+> >  
+> > -So far 87 internal BPF instructions were implemented. 8-bit ``op`` opcode field
+> > -has room for new instructions. Some of them may use 16/24/32 byte encoding. New
+> > -instructions must be multiple of 8 bytes to preserve backward compatibility.
+> > +So far 87 internal BPF instructions have been implemented. 8-bit ``op``
+> > +opcode field has room for new instructions. Some of them may use 16/24/32
+> > +byte encoding. New instructions must be a multiple of 8 bytes to preserve
+> > +backward compatibility.
+> >  
+> >  Internal BPF is a general purpose RISC instruction set. Not every register and
+> >  every instruction are used during translation from original BPF to new format.
+> > @@ -844,11 +845,11 @@ out of registers and would have to resort to spill/fill to stack.
+> >  
+> >  Internal BPF can used as generic assembler for last step performance
+> >  optimizations, socket filters and seccomp are using it as assembler. Tracing
+> > -filters may use it as assembler to generate code from kernel. In kernel usage
+> > +filters may use it as assembler to generate code from kernel.  In-kernel usage
+> 
+>                                                                 ^-- ditto
 
+Hi Daniel,
 
-在 2018年08月07日 星期二 01:05 上午, Alex Williamson 写道:
-> On Mon, 6 Aug 2018 09:34:28 -0700
-> "Raj, Ashok" <ashok.raj@intel.com> wrote:
->
->> On Mon, Aug 06, 2018 at 09:49:40AM -0600, Alex Williamson wrote:
->>> On Mon, 6 Aug 2018 09:40:04 +0800
->>> Kenneth Lee <liguozhu@hisilicon.com> wrote:
->>>> 1. It supports thousands of processes. Take zip accelerator as an example, any
->>>> application need data compression/decompression will need to interact with the
->>>> accelerator. To support that, you have to create tens of thousands of mdev for
->>>> their usage. I don't think it is a good idea to have so many devices in the
->>>> system.
->>> Each mdev is a device, regardless of whether there are hardware
->>> resources committed to the device, so I don't understand this argument.
->>>     
->>>> 2. The application does not want to own the mdev for long. It just need an
->>>> access point for the hardware service. If it has to interact with an management
->>>> agent for allocation and release, this makes the problem complex.
->>> I don't see how the length of the usage plays a role here either.  Are
->>> you concerned that the time it takes to create and remove an mdev is
->>> significant compared to the usage time?  Userspace is certainly welcome
->>> to create a pool of devices, but why should it be the kernel's
->>> responsibility to dynamically assign resources to an mdev?  What's the
->>> usage model when resources are unavailable?  It seems there's
->>> complexity in either case, but it's generally userspace's responsibility
->>> to impose a policy.
->>>    
->> Can vfio dev's created representing an mdev be shared between several
->> processes?  It doesn't need to be exclusive.
->>
->> The path to hardware is established by the processes binding to SVM and
->> IOMMU ensuring that the PASID is plummed properly.  One can think the
->> same hardware is shared between several processes, hardware knows the
->> isolation is via the PASID.
->>
->> For these cases it isn't required to create a dev per process.
-> The iommu group is the unit of ownership, a vfio group mirrors an iommu
-> group, therefore a vfio group only allows a single open(2).  A group
-> also represents the minimum isolation set of devices, therefore devices
-> within a group are not considered isolated and must share the same
-> address space represented by the vfio container.  Beyond that, it is
-> possible to share devices among processes, but (I think) it generally
-> implies a hierarchical rather than peer relationship between
-> processes.  Thanks,
-Actually, this is the key problem we concerned. Our logic was: The PASID 
-refer to the connection between the device and the process. So the 
-resource should be allocated only when the process "make use of" the 
-device. This strategy also bring another advantage that the kernel 
-driver can also make use of the resource if no user application open it.
+Thanks for doing such a careful review that you noticed this.  I'm
+working on this more ATM and I've moved the document to use double
+spaces between _all_ full stops.  Currently the document uses mostly
+single spaces but there are some sections with double space.  The
+internet tells me this is a 'style' issue not a rule.  And I've seen
+single and double spacing in tree and do not know if one is favoured.
 
-We do have another branch that allocate resource to mdev directly. It 
-looks not so nice (many mdevs and user agent is required for resource 
-management). If the conclusion here is to keep the mdev's original 
-semantics, we will send that branch for discussion in next RFC.
+Do you care?  If you do not care I'll just use double spaces.  If you do
+care and would prefer me to uniformly use a single space I can do that
+also.  Oh, and FTR filter.txt looks like its going into userspace-api/
+so you may care even less with that move.
 
-Cheers
-Kenneth
->
-> Alex
->
+If this is overly pedantic just tell me to go away :)
 
+thanks,
+Tobin.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
