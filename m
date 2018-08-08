@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C964E7E425
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 15:37:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0AEEA7E427
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 15:37:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727202AbeHHR5B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 13:57:01 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:34568 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728346AbeHHRx6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 13:53:58 -0400
-Received: by mail-wm0-f68.google.com with SMTP id l2-v6so958137wme.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Aug 2018 08:33:47 -0700 (PDT)
+        id S1728304AbeHHR5Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 13:57:16 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33867 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728233AbeHHRxx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 13:53:53 -0400
+Received: by mail-wr1-f66.google.com with SMTP id c13-v6so2425503wrt.1
+        for <linux-doc@vger.kernel.org>; Wed, 08 Aug 2018 08:33:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=UaMCnpUR2BVBntYfvCxdZ/Bq79Ac4uMXuz598bqXs7A=;
-        b=sX3LdCS9jckTwsFoDRZe2ahO/owvgdq6cCChJEa3aJ/Et9TzlvzCyrDD7WxkyMlRZ0
-         QlmREy2BfoqdyqUZeHX1IIi6UXlScQkArZuw+rSqneDpZTM+uXC/9EMA4XdNsOrEH63/
-         DEjqcfmns62vUHPQGv9DpafvUOgLrUIi5CkNVwgafZCRFEf6D2zT+L6fwHuCSvVP8w+z
-         Xyaia7fBe/EKYz+IMDXA3ALQ77NU56rAD+ydVE6EJaQHy3boTJgDNrjbL8f46DozzXZl
-         Q8BB0z7JQY9DwwAodb65jGQ0c2/htq8XqjQMofOnm+dUSg6yk7e1akmeQi+Z/eb8A9WN
-         uNUg==
+        bh=3wRKI0ad1H2vl0yNJFc7xc7E5f/unJTGeQQy+eD1Wno=;
+        b=aJkLKR3bbxHEvPsHktybDHMDjy8Or0i5AfpgguA+wvFfLA/nY9ls2YSzs1tEKn4V9x
+         P+o36ClWOqMj1Advaed1Z0ga5zZQdXXtWHsGQuqVnIkIvkVqyyeu/+/XyHHuaHHL+OZ2
+         rBcr2W0DMDRW8+D2HfoO06Zz6pnrDpvaZDQRRtuVPYXRx4/UE226U5DZnwqZG7LnaYAP
+         hlpfBbBXv64mPAfxxOQjiXcdCbTLYXJaja25aXaFuJnrATzXhFrRxOkpHhk1ET0dfXlv
+         h/LBjsVnENhIfMR+Ajx0LsK+BlrR/+YD5EJqHuouER3WZ0Z4UQWeUnssUSwycbROWtOC
+         zclg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=UaMCnpUR2BVBntYfvCxdZ/Bq79Ac4uMXuz598bqXs7A=;
-        b=M8rYNT8lsvSnUqLZ5b3EGlFwdEmTTF9fQiGpVQhhCGY3nNSCepuP/fi6PvCi2rrP3D
-         qP1Q0EnGpaxDk2T4xQ02yx3avz0DuAqvJyEdVS8hXNfPm7o6JP3h5386ynHlY6eRSItb
-         dfXffUpDMfCBfGKrqcEffGwqQo4sCl2Bt6gv3NaC8toNrYTSyPq5OJ7YaYLXF+nh/72C
-         49EojrLKfPnhSxJtmYwzftjBYovssSYiINIAkLZIDAewzlVlxAvbur2te0Fk+d3ePxj4
-         8VkU7RR6qoxvSdZcycIIGQO8S+tyDOOkOnflrVCTzPmlwutRQ91EbwXZZaV+8nW0QJrh
-         OY+A==
-X-Gm-Message-State: AOUpUlHOib0XD4TEVUjbfMcw6eLyU9Kw6zrqctvuD7n/W04Zhf6Ea6k8
-        WAOWSCiMqx1AQUQlsduCkKGVpw==
-X-Google-Smtp-Source: AA+uWPzQ9VeXMiG4JZ0oeQCVGPA/T8xSjsOuZm7kvb61zqx6AKdW4uGEdhiMynnKhDRO7KHKjTwLKg==
-X-Received: by 2002:a1c:c241:: with SMTP id s62-v6mr2326164wmf.146.1533742426569;
-        Wed, 08 Aug 2018 08:33:46 -0700 (PDT)
+        bh=3wRKI0ad1H2vl0yNJFc7xc7E5f/unJTGeQQy+eD1Wno=;
+        b=eJDYbZ/QBZOFkMA5jUOhRnj+fIagqihfd7+LbJ26dD+KOUPDSI7m1C8FsQwNk/9TgT
+         Y995oNn5VCiNUd3/I0PgZNr8EhDEUInbMVgZCSKFG+LPVUwlu1Kex2gLzqxcKvNC9rrS
+         71j4qBS77rP2UlOtmQBj6aYJ2vlTRfygItGrptCceQ4i+VRYFqR/ZST0HeEHqH8A/7zB
+         p3ADZQgPd4jCrRGu+xNhNbCJVuWmV6NM0xiBcH1FYh6wFOH4TdIcGhM8Yd6Zlp8tqYkC
+         0V7dWd94uVG348zyKYD5ZkoBw7rZj5JebsJziTa3Lmo7/9FGJEmgknspbsGtI/z4OnlU
+         AY8Q==
+X-Gm-Message-State: AOUpUlHGgQa0rnXn8XGRZy8uhoweKIzSKSq+V1Mt2BIaK0n5VgWR73/K
+        Jk0MdyfXw8QRDFSFlZDTSQhwjQ==
+X-Google-Smtp-Source: AA+uWPwJYWYegcNZbeKMBZMz2f9+sA8gZ70FgajA1DqoBnfzNa2LMBRAIYx1EGku1SjfhgcmiS3nlQ==
+X-Received: by 2002:adf:8362:: with SMTP id 89-v6mr2319554wrd.147.1533742421830;
+        Wed, 08 Aug 2018 08:33:41 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id s2-v6sm5240915wrw.52.2018.08.08.08.33.44
+        by smtp.gmail.com with ESMTPSA id s2-v6sm5240915wrw.52.2018.08.08.08.33.39
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 Aug 2018 08:33:45 -0700 (PDT)
+        Wed, 08 Aug 2018 08:33:41 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -77,9 +77,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
         netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 10/28] ARM: davinci: da830-evm: use nvmem lookup for mac address
-Date:   Wed,  8 Aug 2018 17:31:32 +0200
-Message-Id: <20180808153150.23444-11-brgl@bgdev.pl>
+Subject: [PATCH 08/28] ARM: davinci: dm644-evm: use nvmem lookup for mac address
+Date:   Wed,  8 Aug 2018 17:31:30 +0200
+Message-Id: <20180808153150.23444-9-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180808153150.23444-1-brgl@bgdev.pl>
 References: <20180808153150.23444-1-brgl@bgdev.pl>
@@ -95,26 +95,26 @@ mac-address.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- arch/arm/mach-davinci/board-da830-evm.c | 12 ++++++++++++
+ arch/arm/mach-davinci/board-dm644x-evm.c | 12 ++++++++++++
  1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm/mach-davinci/board-da830-evm.c b/arch/arm/mach-davinci/board-da830-evm.c
-index 14a6fc061744..4a2fe8142a2f 100644
---- a/arch/arm/mach-davinci/board-da830-evm.c
-+++ b/arch/arm/mach-davinci/board-da830-evm.c
-@@ -29,6 +29,7 @@
- #include <linux/platform_data/spi-davinci.h>
- #include <linux/platform_data/usb-davinci.h>
- #include <linux/regulator/machine.h>
+diff --git a/arch/arm/mach-davinci/board-dm644x-evm.c b/arch/arm/mach-davinci/board-dm644x-evm.c
+index 48436f74fd71..6d35c6e1b0bd 100644
+--- a/arch/arm/mach-davinci/board-dm644x-evm.c
++++ b/arch/arm/mach-davinci/board-dm644x-evm.c
+@@ -28,6 +28,7 @@
+ #include <linux/v4l2-dv-timings.h>
+ #include <linux/export.h>
+ #include <linux/leds.h>
 +#include <linux/nvmem-provider.h>
  
- #include <asm/mach-types.h>
- #include <asm/mach/arch.h>
-@@ -409,6 +410,15 @@ static inline void da830_evm_init_lcdc(int mux_mode)
- static inline void da830_evm_init_lcdc(int mux_mode) { }
- #endif
+ #include <media/i2c/tvp514x.h>
  
-+static struct nvmem_cell_lookup da830_evm_mac_address_cell = {
+@@ -476,6 +477,15 @@ static struct pcf857x_platform_data pcf_data_u35 = {
+  *  - ... newer boards may have more
+  */
+ 
++static struct nvmem_cell_lookup dm6446evm_mac_address_cell = {
 +	.info = {
 +		.name = "mac-address",
 +		.offset = 0x7f00,
@@ -123,18 +123,18 @@ index 14a6fc061744..4a2fe8142a2f 100644
 +	.nvmem_name = "1-00500",
 +};
 +
- static struct at24_platform_data da830_evm_i2c_eeprom_info = {
- 	.byte_len	= SZ_256K / 8,
+ static struct at24_platform_data eeprom_info = {
+ 	.byte_len	= (256*1024) / 8,
  	.page_size	= 64,
-@@ -618,6 +628,8 @@ static __init void da830_evm_init(void)
- 		pr_warn("%s: spi 0 registration failed: %d\n", __func__, ret);
- 
- 	regulator_has_full_constraints();
+@@ -828,6 +838,8 @@ static __init void davinci_evm_init(void)
+ 		phy_register_fixup_for_uid(LXT971_PHY_ID, LXT971_PHY_MASK,
+ 						davinci_phy_fixup);
+ 	}
 +
-+	nvmem_add_lookup_table(&da830_evm_mac_address_cell, 1);
++	nvmem_add_lookup_table(&dm6446evm_mac_address_cell, 1);
  }
  
- #ifdef CONFIG_SERIAL_8250_CONSOLE
+ MACHINE_START(DAVINCI_EVM, "DaVinci DM644x EVM")
 -- 
 2.18.0
 
