@@ -1,108 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5F28B7E41E
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 16:54:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E03F47E3E0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 16:59:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728133AbeHHTPK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 15:15:10 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:39175 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727472AbeHHTPK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 15:15:10 -0400
-Received: by mail-lj1-f193.google.com with SMTP id l15-v6so2258907lji.6;
-        Wed, 08 Aug 2018 09:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9sf4IL54k2KISelwdAKwtJAFLxQY1+92W3mD8o009Yo=;
-        b=iTycoUZ1emUQFNsTGZgpUQ1FH+HAnpe7NtMf0DidbkF+FAE8Gq57OH8DZjW6jCyy+S
-         EylQylHb+7UOINUHDbWCuxmrYYjeylu9IoL2SgRVFiCu6usP7hdCFAAf1SWWnJbY+sEO
-         2Nk/nvCudIIk8OQHVQnuU/VB0l7KUS1KY9nqNTjGwCg9cPk1v1FYErH2PShPMNtpUlZi
-         HQL+U+3r1ZyjoYImmOwoMOknO9ollfVDZuMXMozxZDo7osIrVtiJrCzRo91zBTGnhU12
-         2Sc83Xz5/1G13OOlrE6PMYLJXn4ZEtEomBmjyjKItS6de/vyIpnafJanz6gN0WtAKOlL
-         3V7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9sf4IL54k2KISelwdAKwtJAFLxQY1+92W3mD8o009Yo=;
-        b=WWxT0WH9t7NLbHiLwW+TZc7aq12O3jxoKrTX4UAAX5vqZJbJNVUSW8tN0GdDe9vGyi
-         dB7rCvgh/9WPVZG7luvI7BaojJKFoO59f2Ck+YMOkpTo0IoR9Gv6ATorLMYngNBr1SA+
-         pmG6R9a/tdXa9i+e//lcsLLdXdhTUsHWBxAfnUZ+kTERNOsPss6uN3sCAZGgTOsXEc0u
-         Bs5bpNplPdWkgMXdH7INtIJm+50Sy+c4VDrXfItw2hD7j6z1cxHKoWo4OeoyxI3ZDIwD
-         6VM9ST8yhk91R9fgw4WIklu2G12KmcN8p+tIbar1xIBZk8ZUmo0IivsOVML+YYnKccSz
-         vG6A==
-X-Gm-Message-State: AOUpUlG05d/8STRkw7BdIJD9C6IY9wT9Db+oIiSDWXcwxT8tR0QYk/uO
-        eYjbqBFczlDgD6i8zwgP82c=
-X-Google-Smtp-Source: AA+uWPxWmAKr2j5LFLcriuHZq5EeP+dfWxj3ibOXWeRQ83HApzZtnqGWqtj/uXcHnFztzn9wOSFQkw==
-X-Received: by 2002:a2e:2ac3:: with SMTP id q186-v6mr2489272ljq.123.1533747275321;
-        Wed, 08 Aug 2018 09:54:35 -0700 (PDT)
-Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id g3-v6sm896029lfk.72.2018.08.08.09.54.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 Aug 2018 09:54:34 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-omap@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Tony Lindgren <tony@atomide.com>,
-        Richard Weinberger <richard@nod.at>,
-        linux-gpio@vger.kernel.org, Aaro Koskinen <aaro.koskinen@iki.fi>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Marek Vasut <marek.vasut@gmail.com>,
-        linux-mtd@lists.infradead.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Brian Norris <computersforpeace@gmail.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [RFC PATCH v2 07/12] mtd: rawnand: ams-delta: Set port direction once per transfer
-Date:   Wed, 08 Aug 2018 18:55:35 +0200
-Message-ID: <3260564.acbQT1CZaz@z50>
-In-Reply-To: <20180807205752.32cd3e53@bbrezillon>
-References: <20180718235710.18242-1-jmkrzyszt@gmail.com> <20180806222918.12644-8-jmkrzyszt@gmail.com> <20180807205752.32cd3e53@bbrezillon>
+        id S1728711AbeHHTUJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 15:20:09 -0400
+Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:48014 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727062AbeHHTUJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 15:20:09 -0400
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id A162710C02C5;
+        Wed,  8 Aug 2018 09:59:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1533747575; bh=n5gQ39V0XTXwTQw5tpnzprJJqj77ym38+PsWFodYbV8=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=CecvTzrl1R4VePkEcR/LlcGrLr9hilskA5J5oUx5U80TVWwWEwY/7ENN77h28e617
+         Pi7oY5p0CETE8lgzIaxNITPDFmxA5eXtkWv/pLML/9eTejrw2SYX6gbBSRYHcGGJG6
+         RCHpO7rZoCgYs6aGN08gJg6+DwXotUn8Mg6IKLKpWcjlTa/FWHdAlpiElwmMkuDSU4
+         J9qCUGyz8JWJ2pmm1vtJGewbq8iB0mZBuX6PsluOv+mpY/mX1J6TLuyugp9uMy8icS
+         ZYRaagR97PeH8pp+ETdSWAF/MfoC6AQFDhQA7bMjCn8xx4IHYiAGQfdS1KPkp9C0Jj
+         t5b7HZ+RdBtow==
+Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
+        by mailhost.synopsys.com (Postfix) with ESMTP id C71633907;
+        Wed,  8 Aug 2018 09:59:30 -0700 (PDT)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 8 Aug 2018 09:59:30 -0700
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 8 Aug 2018 18:59:27 +0200
+Received: from [10.0.2.15] (10.107.25.93) by DE02WEHTCA.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.361.1; Wed, 8 Aug
+ 2018 18:59:26 +0200
+Subject: Re: [PATCH 2/3] dt-bindings: i3c: Document Synopsys DesignWare I3C
+ master bindings
+To:     Rob Herring <robh@kernel.org>,
+        Vitor soares <Vitor.Soares@synopsys.com>
+CC:     <boris.brezillon@bootlin.com>, <wsa@the-dreams.de>,
+        <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
+        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
+        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
+        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
+        <pawel.moll@arm.com>, <mark.rutland@arm.com>,
+        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
+        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
+        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
+        <Joao.Pinto@synopsys.com>
+References: <1532120272-17157-1-git-send-email-soares@synopsys.com>
+ <1532120272-17157-3-git-send-email-soares@synopsys.com>
+ <20180725195733.GA14450@rob-hp-laptop>
+From:   vitor <Vitor.Soares@synopsys.com>
+Message-ID: <c00cb815-ae82-312a-213b-145537a294bd@synopsys.com>
+Date:   Wed, 8 Aug 2018 17:59:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20180725195733.GA14450@rob-hp-laptop>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.107.25.93]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris,
-
-On Tuesday, August 7, 2018 8:57:52 PM CEST Boris Brezillon wrote:
-> On Tue,  7 Aug 2018 00:29:13 +0200
-> Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
-> 
-> > In its current shape, the driver sets data port direction before each
-> > byte read/write operation, even during multi-byte transfers.  Since
-> > performance of the driver is completely not acceptable on Amstrad Delta
-> > after it has been converted to GPIO bitbang, try to improve things a
-> > bit by setting the port direction only on first byte of each transfer.
-> ...
-> I'd suggest a slightly different approach where the data pins
-> direction state is stored in the the priv struct and only changed when
-> required. This way you just have to add a test in
-> ams_delta_read/write_byte().
-
-Good idea, I'm going to use it, thanks.
-
-Once done, may I also move that one earlier in the series so that it can be 
-applied while our discussion on GPIO bitmap changes still continues?
-
-Thanks,
-Janusz
+Hi Rob,
 
 
+On 25-07-2018 20:57, Rob Herring wrote:
+> On Fri, Jul 20, 2018 at 09:57:51PM +0100, Vitor soares wrote:
+>> This patch document Synopsys DesignWare I3C master DT bindings.
+>>
+>> Signed-off-by: Vitor soares <soares@synopsys.com>
+>> ---
+>>   .../devicetree/bindings/i3c/snps,dw-i3c-master.txt | 43 ++++++++++++++++++++++
+>>   1 file changed, 43 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+>> new file mode 100644
+>> index 0000000..7f5c8b0
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+>> @@ -0,0 +1,43 @@
+>> +Bindings for Synopsys DesignWare I3C master block
+>> +=================================================
+>> +
+>> +Required properties:
+>> +--------------------
+>> +- compatible: shall be "snps,dw-i3c-master"
+> Only one version and no version number?
+>
+> ... and an SoC specific compatible string.
 
+I'm not understanding. Can you explain?
 
+>
+>> +- clocks: shall reference the core_clk
+>> +- clock-names: shall contain "core_clk"
+> "_clk" is redundant and *-names with a single entry is kind of
+> pointless.
+
+I will fix it for next version.
+
+>
+>> +- interrupts: the interrupt line connected to this I3C master
+>> +- reg:  Offset and length of I3C master registers
+>> +
+>> +Mandatory properties defined by the generic binding (see
+>> +Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+>> +
+>> +- #address-cells: shall be set to 3
+>> +- #size-cells: shall be set to 0
+>> +
+>> +Optional properties defined by the generic binding (see
+>> +Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+>> +
+>> +- i2c-scl-hz
+>> +- i3c-scl-hz
+>> +
+>> +I3C device connected on the bus follow the generic description (see
+>> +Documentation/devicetree/bindings/i3c/i3c.txt for more details).
+>> +
+>> +Example:
+>> +
+>> +	i3c-master@0x2000 {
+> Drop the '0x'
+>
+>> +		compatible = "snps,dw-i3c-master";
+>> +		#address-cells = <3>;
+>> +		#size-cells = <0>;
+>> +		reg = <0x02000 0x1000>;
+>> +		interrupts = <0>;
+>> +		clocks = <&i3cclk>;
+>> +		clock-names = "core_clk";
+>> +
+>> +		eeprom@0x57{
+>> +			compatible = "atmel,24c01";
+>> +			reg = < 0x57 0x80000010 0x0>;
+>> +			pagesize = <0x8>;
+>> +		};
+>> +	};
+>> -- 
+>> 2.7.4
+>>
+>>
+
+Thanks for your feedback.
+
+Best regards,
+Vitor Soares
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
