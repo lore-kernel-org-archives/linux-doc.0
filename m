@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 13E8A7E41F
+	by archive.lwn.net (Postfix) with ESMTP id AFB6F7E3E6
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 15:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727867AbeHHRxq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 13:53:46 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33849 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727825AbeHHRxp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 13:53:45 -0400
-Received: by mail-wr1-f67.google.com with SMTP id c13-v6so2425097wrt.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Aug 2018 08:33:34 -0700 (PDT)
+        id S1727573AbeHHR6A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 13:58:00 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33842 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727541AbeHHRxk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 13:53:40 -0400
+Received: by mail-wr1-f68.google.com with SMTP id c13-v6so2424883wrt.1
+        for <linux-doc@vger.kernel.org>; Wed, 08 Aug 2018 08:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=C1ENfkoTLjW8E17DVw+md+9F6tiK3Z1VCNCm2wV2Sh0=;
-        b=jPZR1hu5zBkXG9rS/CQnTD+BZj8gpnkEM9pKhPLQz0sLHXzfppDAMqcLQFOncyiayL
-         rcgsB1mru/+1XB8kdyDRoOaZWdkJ9787WgUisZ3SwQu6vxr0DWYU+8s7bZfb3tPHnOfx
-         MN7FvU1aDT9UWADNBnCICEQRJeIjS9RXJ/vH0wJGuXyu3aG+C325BwmowNd64S6gSX3c
-         2KBqPJN/aZ4+c8BfDyWBd9RflXfeVcQcUEpO1Xk34IIirtmqfodmt/Q8onTCMOw43QZY
-         DSmzGCckG9dDMZ4Ao9YVf9JvLyk4SdAkJwe7Ey3AjTpN9PSjaLtO/jqq+QkIdAybK02N
-         Vq/Q==
+        bh=auDnQ2msgcUIg2cR1NJaWEIgp9qglPcIziHCsh4zH4c=;
+        b=i0TceG1lfus+3BKletcKWO3nK/kouvjNQ7m41aqTlvkDGShVKicbJizZHKDcw3Xqt+
+         HPr21z1eaCC7xAYrE6QY5AYgYSjdpdncEKSuTuYtGsJMlOxdr1Xs06f0jThoaM5E5FPt
+         RDoXE6k+MkI0htttCqe3Z533KoWRVj+IGT1KP/BBWIUee236jV5xzx3s/WuaxDl0jp05
+         XCNQAg3Rv3YvBaDXWZKo4rYHxI8zIBvMJI6UUfP5/mVir7hVqVimhQlrXmh2SFn1dkzK
+         6WoaZtFaMc8ktSCQafPsfjp+uQWjcGeBBFPjxiDX0PsUVROXEtmgSb5yWl9ElgSrCvZm
+         HUfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=C1ENfkoTLjW8E17DVw+md+9F6tiK3Z1VCNCm2wV2Sh0=;
-        b=f4EnuxiYoP5qvs0B/qO6zphRr8vUd3IIKeyVJYap5qz0FUWYUOXCjzP7EEp0e7gjKm
-         daYc3KWy6fe4DjkLvgnOcxDtJK16xOHYBVqfuKYwC/+LPCSOz6UeS47itG6BShBsHIKg
-         4iFxHZ8R9EfnuCoOW5gGkG1oHwFy7h6k/w9hoBAq+zFR2BKZYrGY1lDcSDGwzzwnKrvv
-         c1peYQKmXDHU+JJ0YwzkEuS18eDtrjZr+CFkOREJTgAlohomMFy2OyHgvOQGMyOcgp+t
-         eBaSQXkUdkH9dBXM7zAiuW8dZFIOQiEVy/652igaxrpkAixnv8T2jzNRXVCXwh0QGKjs
-         Y2CQ==
-X-Gm-Message-State: AOUpUlFdzUsbNut2AADyDSeHOrjDLIHBzJSWJy4Yoa3jDf6tVK8F0rg2
-        VPMPYrIhb/FnvIZzhBTuoaFnsg==
-X-Google-Smtp-Source: AA+uWPyeKUZkZ5lzpR7fQUL35EZxOiMcdK+l1BV3+kpdv59GQTqxqPRSG5Tzp1r0MeLy0jLVvWQO+A==
-X-Received: by 2002:adf:f091:: with SMTP id n17-v6mr2355042wro.49.1533742413825;
-        Wed, 08 Aug 2018 08:33:33 -0700 (PDT)
+        bh=auDnQ2msgcUIg2cR1NJaWEIgp9qglPcIziHCsh4zH4c=;
+        b=B+G0XE3GCLMuD3Sk7Tw0CUp8aV7DY8ROHwTZJxP3/xAlzQTiGPvqiTO47dH9CkZNGu
+         CQAs4hG6ztkQLhkTgR78DlYHxQbDSVDPU8Dt3cm5woI21FsaxMG39q+LpCKmzP8TvSW/
+         V+XRXzgXUM4WraUZJ3WuOJMzF2XhvZPTAXCi9iGiu6gt1Iu4/NQgwPI3xFo0CsvpU8v9
+         XFL3n/puwom+Iy3UY8ivVvCU7bfFHifsjyhsdIvoMASaEO6GyB1wIlANO0MK/yS683yy
+         nsrVK+Wz0P22SRQtrDtiUl1I8nA7rgnkWJwqc8RfIEg7xJySi6lQcjFE3sdX2U7hFiB8
+         7Xew==
+X-Gm-Message-State: AOUpUlENwnL4zBESDHjMIwTmM17uQTuNrqaC917V+w89fKmdOKC6gRzQ
+        0KmvDmbtB1ww0FO1U0efmLP4AQ==
+X-Google-Smtp-Source: AA+uWPzXSa//8V3H1avfMZTefmddl6h0FyaPd0yH7CY96wAZDwMdcsR62BaE3h96tK/j1eDfbq7FHA==
+X-Received: by 2002:adf:eec9:: with SMTP id a9-v6mr2368667wrp.21.1533742409371;
+        Wed, 08 Aug 2018 08:33:29 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id s2-v6sm5240915wrw.52.2018.08.08.08.33.31
+        by smtp.gmail.com with ESMTPSA id s2-v6sm5240915wrw.52.2018.08.08.08.33.27
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 Aug 2018 08:33:33 -0700 (PDT)
+        Wed, 08 Aug 2018 08:33:28 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -77,9 +77,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
         netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 04/28] nvmem: provide nvmem_device_name()
-Date:   Wed,  8 Aug 2018 17:31:26 +0200
-Message-Id: <20180808153150.23444-5-brgl@bgdev.pl>
+Subject: [PATCH 02/28] Documentation: nvmem: document lookup entries
+Date:   Wed,  8 Aug 2018 17:31:24 +0200
+Message-Id: <20180808153150.23444-3-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180808153150.23444-1-brgl@bgdev.pl>
 References: <20180808153150.23444-1-brgl@bgdev.pl>
@@ -90,60 +90,52 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Kernel users don't have any means of checking the names of nvmem
-devices. Add a routine that returns the name of the nvmem provider.
-
-This will be useful for nvmem notifier subscribers - otherwise they
-can't check what device is being added/removed.
+Describe the usage of nvmem cell lookup tables.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c           | 6 ++++++
- include/linux/nvmem-consumer.h | 7 +++++++
- 2 files changed, 13 insertions(+)
+ Documentation/nvmem/nvmem.txt | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 128c8e51bff2..b040370292a7 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -1440,6 +1440,12 @@ int nvmem_device_write(struct nvmem_device *nvmem,
- }
- EXPORT_SYMBOL_GPL(nvmem_device_write);
+diff --git a/Documentation/nvmem/nvmem.txt b/Documentation/nvmem/nvmem.txt
+index 8d8d8f58f96f..9d5e3ca2b4f3 100644
+--- a/Documentation/nvmem/nvmem.txt
++++ b/Documentation/nvmem/nvmem.txt
+@@ -58,6 +58,34 @@ static int qfprom_probe(struct platform_device *pdev)
+ It is mandatory that the NVMEM provider has a regmap associated with its
+ struct device. Failure to do would return error code from nvmem_register().
  
-+const char *nvmem_device_name(struct nvmem_device *nvmem)
++Additionally it is possible to create nvmem cell lookup entries and register
++them with the nvmem framework from machine code as shown in the example below:
++
++static struct nvmem_cell_lookup foobar_lookup = {
++	.info = {
++		.name = "mac-address",
++		.offset = 0xd000,
++		.bytes = ERH_ALEN,
++	},
++	.nvmem_name = "foobar",
++};
++
++static void foobar_register(void)
 +{
-+	return dev_name(&nvmem->dev);
++	...
++	nvmem_add_lookup_table(&foobar_lookup, 1);
++	...
 +}
-+EXPORT_SYMBOL_GPL(nvmem_device_name);
 +
- static int __init nvmem_init(void)
- {
- 	return bus_register(&nvmem_bus_type);
-diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-index ae4d30347602..c4000a218f67 100644
---- a/include/linux/nvmem-consumer.h
-+++ b/include/linux/nvmem-consumer.h
-@@ -69,6 +69,8 @@ int nvmem_device_cell_write(struct nvmem_device *nvmem,
- 
- int nvmem_register_notifier(struct notifier_block *nb);
- int nvmem_unregister_notifier(struct notifier_block *nb);
++A lookup entry table can be later removed if needed:
 +
-+const char *nvmem_device_name(struct nvmem_device *nvmem);
- #else
- 
- static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
-@@ -167,6 +169,11 @@ static inline int int nvmem_unregister_notifier(struct notifier_block *nb)
- {
- 	return -ENOSYS;
- }
-+
-+static inline const char *nvmem_device_name(struct nvmem_device *nvmem)
++static void foobar_fini(void)
 +{
-+	return ERR_PTR(-ENOSYS);
++	...
++	nvmem_del_lookup_table(&foobar_lookup, 1);
++	...
 +}
- #endif /* CONFIG_NVMEM */
++
+ NVMEM Consumers
+ +++++++++++++++
  
- #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
 -- 
 2.18.0
 
