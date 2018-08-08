@@ -1,440 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7CD837E3DF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 18:03:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D64D67D06B
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 22:23:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727748AbeHHUYW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 16:24:22 -0400
-Received: from mail-ua0-f193.google.com ([209.85.217.193]:34128 "EHLO
-        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727295AbeHHUYW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 16:24:22 -0400
-Received: by mail-ua0-f193.google.com with SMTP id r15-v6so3404612uao.1;
-        Wed, 08 Aug 2018 11:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=eOo+QUcJtaroQGjdkpBb4J33kYC02m0LXri9usillbg=;
-        b=k3J/OlvZRS6RLSvLnqnNNZUbMBQiUKWIkoyo+eA/eqXYpPpwdyVJz5x8IxoOhX5PtY
-         xSmO1AF/B3WQsyhWsx16EUqlIQ8z8yagiXVsiHYIOqn8o2k+ZDesLbG2oBiwIb9WYls6
-         TEpuodlbyZIh2ikqnV3Y5jyub3UBmNM+6bL7AeWw8NjCNrO7qK81MKnE1wrEFW3tp0uS
-         zx7rAleD3S2YvMVazUMXkOegv5gAevWs1QKaQ5+Hp51ya9Mzj0e6vfRYgoZb6XeFwRBK
-         W5m1fhUOmdrB+JWTkyoka83hlc6Abdu3/lbn4CYjJntE2TDxyiwYpWEwe5w69qzDujAM
-         bmTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=eOo+QUcJtaroQGjdkpBb4J33kYC02m0LXri9usillbg=;
-        b=rkVjAN8RocDsY/64DbR2R+/PH1yMNlak+AcrvZKEUOruGzr2MLZ5Ywk35lzeYg4qUc
-         6CkIssNspBLd0duWqUdSFsTRBf+JA7VCKT3o/SW9P27d2d5Ce/ywN0TVnchQdli1Q95+
-         hG/NQmdiRYhZ+ERKD1D+CKM0n07iEa6uB/xYnisI91I3AQyU9KCT/pq+XsghP3PvPjky
-         eEMzODPZxyRzIwsE4d0BbjsoJFsXobyaN5og/Vs0Wl+qnTyXZ+jgEZXenwruSVT4YS6v
-         Eyir3sWFRMYJQ9Er1kuR/v+CKTJiHld+NGM5m1L4js5Q8iCQ6Hw5+XgFXTijft/X5HAw
-         DFoQ==
-X-Gm-Message-State: AOUpUlG31rolJ79OX2gIM2Yi61KGZWCitdKkK6Zkeb6GADr8kwmgbcP8
-        GsDDsDa8I+D1AbMQ5cD1Yz6/IGq1B+8t2k4wh/Q=
-X-Google-Smtp-Source: AA+uWPxXIzPn9jL2RclcXAp1XQN98yhzMIjKz6l36gKWVq+XEXxg5wifSLqowNm1TYmxK44kJ5TBbqwJ562A+4TnPFI=
-X-Received: by 2002:a1f:5442:: with SMTP id i63-v6mr2483508vkb.153.1533751411681;
- Wed, 08 Aug 2018 11:03:31 -0700 (PDT)
+        id S1731308AbeHIAm5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 20:42:57 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:37815 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731564AbeHIAm5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 20:42:57 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 87A4920D9A;
+        Wed,  8 Aug 2018 18:21:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 08 Aug 2018 18:21:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :content-type:date:from:in-reply-to:message-id:mime-version
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=OX6tQx7ps+SZlK3fKMH1jWQJjkFGCJdebm5bDBLM71I=; b=pHDSipKW
+        wCoEKXvaOnBK2oeKx0ri8j2QPF1Upvg5sO740Yf70zPT+bp7bzRR2xYAc/YBC9L+
+        o+12Kvcql1WF7jVnCs2N6v1n2i1Zfmy2RMFhBWuEKbaLf0AumvkeA3j+xK1JB8qp
+        JwoYw0P7tdWS2f6PiYyMMLs/Amb5/L4FOffPwVjzQHh6INM+BZcG5GmL2KY5ItJl
+        s9kD+JizfDcDYEcF68pd2bCDfc2iym5E2PQbGwXlqMo1XOnBXKB3j1bKstDRqNEP
+        4jU+zcwCt/s1jKV04Jtth+/epi116Jg6x41HU319AkYf1nyauFzWfDJlm/OOLBY9
+        IWz9D3W7LfWpVw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=OX6tQx7ps+SZlK3fKMH1jWQJjkFGC
+        Jdebm5bDBLM71I=; b=CxGZVL/xfJqlhVy64Ui8Om6Ni9RScGBB/OyRIoyWDBJqC
+        jjmhDJ5potS2toRV8QOLadjZXQZFvuqOCDEkJXBNvPffJudUNEjaObf/ndIWMwD5
+        FBa1+U/aYN10iHsIP32XK9VUQikrBZbSsGiL9yKeaFKEh9LziZ6sPgUmyR+7KQkx
+        oHoTbIyyb677ap9ChWvwEaKBv0v1oajXyy201eAc5GDBjxAMi1bNiRX/OKQpKIfl
+        lRNsfYIYnYYzx6aohOgtSXqGDUh5kX3CyoovKmx95onMgBkq4ZbnFUw+PsnNYacz
+        1LK2I3cP64ScCDZJ/d6t1urxMym7kGNjUhXuIKxxg==
+X-ME-Proxy: <xmx:2mxrW1w8p9MR0LL82bg-EFG1f5UlN0t5XKDfJbG_zJd5nfHpIYRbng>
+    <xmx:2mxrWxcH5K1pZBx_JgxAEkSml6YQi1cLGnikfz_fj_KVZUvi60Fstw>
+    <xmx:2mxrW2cVemiHr7TC2R_D_2t6TgRg_k761X96o2Yo_cR_oBSVhlIkBg>
+    <xmx:2mxrWzEJtSavJf9e1K74H2LVdhcPtcuVM8ggnqu2Li3lnexC_d0HuA>
+    <xmx:2mxrW4WP9vn4APxgBkfoRyL7_-Ic_pESEnvTUie56dnX9rq00wWCKQ>
+    <xmx:22xrWzCH1BYMhohFP1RKfvPXjCQUyqU1m2N-hXbsuJySbRrwQlli_Q>
+X-ME-Sender: <xms:2mxrWwtY0Ck9ayvOV6jKuP1KeEaQMXS7Q8a9th68bRDj7Bb9lrw3WQ>
+Received: from localhost (ppp121-44-213-17.bras1.syd2.internode.on.net [121.44.213.17])
+        by mail.messagingengine.com (Postfix) with ESMTPA id DEE2610261;
+        Wed,  8 Aug 2018 18:21:13 -0400 (EDT)
+Date:   Thu, 9 Aug 2018 08:21:10 +1000
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     Daniel Borkmann <daniel@iogearbox.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next 12/13] docs: net: Fix various minor typos
+Message-ID: <20180808222110.GH11191@eros>
+References: <20180801050908.29970-1-me@tobin.cc>
+ <20180801050908.29970-13-me@tobin.cc>
+ <76cf11bc-61b3-8068-5546-79d3ff3a58e9@iogearbox.net>
+ <20180808014248.GF11191@eros>
+ <20180808072310.4695cea4@lwn.net>
+ <99c50323-601e-91ea-cac3-98c1f381f9ac@iogearbox.net>
+ <1cfb4fb3406621c1ffd98e8072f2cc38812107d8.camel@darmarit.de>
 MIME-Version: 1.0
-Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 11:03:31 -0700 (PDT)
-In-Reply-To: <20180808153150.23444-29-brgl@bgdev.pl>
-References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-29-brgl@bgdev.pl>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Aug 2018 21:03:31 +0300
-Message-ID: <CAHp75Veiop-0xAbs7MtdhOrX_vzDz7v=xAUSDnEhTYVfMovFQA@mail.gmail.com>
-Subject: Re: [PATCH 28/28] eeprom: at24: kill at24_platform_data
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
-        Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
-        Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1cfb4fb3406621c1ffd98e8072f2cc38812107d8.camel@darmarit.de>
+X-Mailer: Mutt 1.9.4 (2018-02-28)
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->
-> There are no more users of at24_platform_data. Remove the relevant
-> header and modify the driver code to not use it anymore.
->
+On Wed, Aug 08, 2018 at 06:26:50PM +0200, Markus Heiser wrote:
+> 
+> 
+> Am Mittwoch, den 08.08.2018, 15:45 +0200 schrieb Daniel Borkmann:
+> > On 08/08/2018 03:23 PM, Jonathan Corbet wrote:
+> > > On Wed, 8 Aug 2018 11:42:48 +1000
+> > > "Tobin C. Harding" <me@tobin.cc> wrote:
+> > > 
+> > > > Thanks for doing such a careful review that you noticed this.  I'm
+> > > > working on this more ATM and I've moved the document to use double
+> > > > spaces between _all_ full stops.  Currently the document uses mostly
+> > > > single spaces but there are some sections with double space.  The
+> > > > internet tells me this is a 'style' issue not a rule.  And I've seen
+> > > > single and double spacing in tree and do not know if one is favoured.
+> > > > 
+> > > > Do you care? 
+> > > 
+> > > I'm not Daniel, but let me just say that, for docs in general, I'm
+> > > absolutely uninterested in patches adjusting the number of spaces after
+> > > periods.  It really doesn't matter one way or the other, and I don't think
+> > > we benefit from that kind of churn.
+> > 
+> > Yep, agree.
+> 
+> FWIW: even if it is not a patch worth, 'fill-paragraph' within emacs benefit
+> from.
 
+That's why I originally started using double spaces :)
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-If you want me to test this on Intel Galileo Gen 2 board, give me a
-public tree from where I can pull.
-Thanks.
-
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  MAINTAINERS                        |   1 -
->  drivers/misc/eeprom/at24.c         | 127 +++++++++++++----------------
->  include/linux/platform_data/at24.h |  60 --------------
->  3 files changed, 57 insertions(+), 131 deletions(-)
->  delete mode 100644 include/linux/platform_data/at24.h
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7cebd5bba8a8..8eb87a3548f8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2328,7 +2328,6 @@ T:        git git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
->  S:     Maintained
->  F:     Documentation/devicetree/bindings/eeprom/at24.txt
->  F:     drivers/misc/eeprom/at24.c
-> -F:     include/linux/platform_data/at24.h
->
->  ATA OVER ETHERNET (AOE) DRIVER
->  M:     "Ed L. Cashin" <ed.cashin@acm.org>
-> diff --git a/drivers/misc/eeprom/at24.c b/drivers/misc/eeprom/at24.c
-> index f5cc517d1131..93642b4b47c5 100644
-> --- a/drivers/misc/eeprom/at24.c
-> +++ b/drivers/misc/eeprom/at24.c
-> @@ -22,10 +22,24 @@
->  #include <linux/i2c.h>
->  #include <linux/nvmem-provider.h>
->  #include <linux/regmap.h>
-> -#include <linux/platform_data/at24.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/gpio/consumer.h>
->
-> +/* Address pointer is 16 bit. */
-> +#define AT24_FLAG_ADDR16       BIT(7)
-> +/* sysfs-entry will be read-only. */
-> +#define AT24_FLAG_READONLY     BIT(6)
-> +/* sysfs-entry will be world-readable. */
-> +#define AT24_FLAG_IRUGO                BIT(5)
-> +/* Take always 8 addresses (24c00). */
-> +#define AT24_FLAG_TAKE8ADDR    BIT(4)
-> +/* Factory-programmed serial number. */
-> +#define AT24_FLAG_SERIAL       BIT(3)
-> +/* Factory-programmed mac address. */
-> +#define AT24_FLAG_MAC          BIT(2)
-> +/* Does not auto-rollover reads to the next slave address. */
-> +#define AT24_FLAG_NO_RDROL     BIT(1)
-> +
->  /*
->   * I2C EEPROMs from most vendors are inexpensive and mostly interchangeable.
->   * Differences between different vendor product lines (like Atmel AT24C or
-> @@ -124,10 +138,6 @@ MODULE_PARM_DESC(at24_write_timeout, "Time (in ms) to try writes (default 25)");
->              usleep_range(1000, 1500), op_time = jiffies)
->
->  struct at24_chip_data {
-> -       /*
-> -        * these fields mirror their equivalents in
-> -        * struct at24_platform_data
-> -        */
->         u32 byte_len;
->         u8 flags;
->  };
-> @@ -467,46 +477,11 @@ static int at24_write(void *priv, unsigned int off, void *val, size_t count)
->         return 0;
->  }
->
-> -static void at24_properties_to_pdata(struct device *dev,
-> -                                    struct at24_platform_data *chip)
-> -{
-> -       int err;
-> -       u32 val;
-> -
-> -       if (device_property_present(dev, "read-only"))
-> -               chip->flags |= AT24_FLAG_READONLY;
-> -       if (device_property_present(dev, "no-read-rollover"))
-> -               chip->flags |= AT24_FLAG_NO_RDROL;
-> -
-> -       err = device_property_read_u32(dev, "size", &val);
-> -       if (!err)
-> -               chip->byte_len = val;
-> -
-> -       err = device_property_read_u32(dev, "pagesize", &val);
-> -       if (!err) {
-> -               chip->page_size = val;
-> -       } else {
-> -               /*
-> -                * This is slow, but we can't know all eeproms, so we better
-> -                * play safe. Specifying custom eeprom-types via platform_data
-> -                * is recommended anyhow.
-> -                */
-> -               chip->page_size = 1;
-> -       }
-> -}
-> -
-> -static int at24_get_pdata(struct device *dev, struct at24_platform_data *pdata)
-> +static const struct at24_chip_data *at24_get_chip_data(struct device *dev)
->  {
->         struct device_node *of_node = dev->of_node;
->         const struct at24_chip_data *cdata;
->         const struct i2c_device_id *id;
-> -       struct at24_platform_data *pd;
-> -
-> -       pd = dev_get_platdata(dev);
-> -       if (pd) {
-> -               memcpy(pdata, pd, sizeof(*pdata));
-> -               return 0;
-> -       }
->
->         id = i2c_match_id(at24_ids, to_i2c_client(dev));
->
-> @@ -523,13 +498,9 @@ static int at24_get_pdata(struct device *dev, struct at24_platform_data *pdata)
->                 cdata = acpi_device_get_match_data(dev);
->
->         if (!cdata)
-> -               return -ENODEV;
-> +               return ERR_PTR(-ENODEV);
->
-> -       pdata->byte_len = cdata->byte_len;
-> -       pdata->flags = cdata->flags;
-> -       at24_properties_to_pdata(dev, pdata);
-> -
-> -       return 0;
-> +       return cdata;
->  }
->
->  static void at24_remove_dummy_clients(struct at24_data *at24)
-> @@ -598,8 +569,9 @@ static int at24_probe(struct i2c_client *client)
->  {
->         struct regmap_config regmap_config = { };
->         struct nvmem_config nvmem_config = { };
-> -       struct at24_platform_data pdata = { };
-> +       const struct at24_chip_data *cdata;
->         struct device *dev = &client->dev;
-> +       u32 byte_len, page_size, flags;
->         bool i2c_fn_i2c, i2c_fn_block;
->         unsigned int i, num_addresses;
->         struct at24_data *at24;
-> @@ -613,35 +585,54 @@ static int at24_probe(struct i2c_client *client)
->         i2c_fn_block = i2c_check_functionality(client->adapter,
->                                                I2C_FUNC_SMBUS_WRITE_I2C_BLOCK);
->
-> -       err = at24_get_pdata(dev, &pdata);
-> +       cdata = at24_get_chip_data(dev);
-> +       if (IS_ERR(cdata))
-> +               return PTR_ERR(cdata);
-> +
-> +       err = device_property_read_u32(dev, "pagesize", &page_size);
-> +       if (err)
-> +               /*
-> +                * This is slow, but we can't know all eeproms, so we better
-> +                * play safe. Specifying custom eeprom-types via platform_data
-> +                * is recommended anyhow.
-> +                */
-> +               page_size = 1;
-> +
-> +       flags = cdata->flags;
-> +       if (device_property_present(dev, "read-only"))
-> +               flags |= AT24_FLAG_READONLY;
-> +       if (device_property_present(dev, "no-read-rollover"))
-> +               flags |= AT24_FLAG_NO_RDROL;
-> +
-> +       err = device_property_read_u32(dev, "size", &byte_len);
->         if (err)
-> -               return err;
-> +               byte_len = cdata->byte_len;
->
->         if (!i2c_fn_i2c && !i2c_fn_block)
-> -               pdata.page_size = 1;
-> +               page_size = 1;
->
-> -       if (!pdata.page_size) {
-> +       if (!page_size) {
->                 dev_err(dev, "page_size must not be 0!\n");
->                 return -EINVAL;
->         }
->
-> -       if (!is_power_of_2(pdata.page_size))
-> +       if (!is_power_of_2(page_size))
->                 dev_warn(dev, "page_size looks suspicious (no power of 2)!\n");
->
-> -       if (pdata.flags & AT24_FLAG_TAKE8ADDR)
-> +       if (flags & AT24_FLAG_TAKE8ADDR)
->                 num_addresses = 8;
->         else
-> -               num_addresses = DIV_ROUND_UP(pdata.byte_len,
-> -                       (pdata.flags & AT24_FLAG_ADDR16) ? 65536 : 256);
-> +               num_addresses = DIV_ROUND_UP(byte_len,
-> +                       (flags & AT24_FLAG_ADDR16) ? 65536 : 256);
->
-> -       if ((pdata.flags & AT24_FLAG_SERIAL) && (pdata.flags & AT24_FLAG_MAC)) {
-> +       if ((flags & AT24_FLAG_SERIAL) && (flags & AT24_FLAG_MAC)) {
->                 dev_err(dev,
->                         "invalid device data - cannot have both AT24_FLAG_SERIAL & AT24_FLAG_MAC.");
->                 return -EINVAL;
->         }
->
->         regmap_config.val_bits = 8;
-> -       regmap_config.reg_bits = (pdata.flags & AT24_FLAG_ADDR16) ? 16 : 8;
-> +       regmap_config.reg_bits = (flags & AT24_FLAG_ADDR16) ? 16 : 8;
->         regmap_config.disable_locking = true;
->
->         regmap = devm_regmap_init_i2c(client, &regmap_config);
-> @@ -654,11 +645,11 @@ static int at24_probe(struct i2c_client *client)
->                 return -ENOMEM;
->
->         mutex_init(&at24->lock);
-> -       at24->byte_len = pdata.byte_len;
-> -       at24->page_size = pdata.page_size;
-> -       at24->flags = pdata.flags;
-> +       at24->byte_len = byte_len;
-> +       at24->page_size = page_size;
-> +       at24->flags = flags;
->         at24->num_addresses = num_addresses;
-> -       at24->offset_adj = at24_get_offset_adj(pdata.flags, pdata.byte_len);
-> +       at24->offset_adj = at24_get_offset_adj(flags, byte_len);
->         at24->client[0].client = client;
->         at24->client[0].regmap = regmap;
->
-> @@ -666,10 +657,10 @@ static int at24_probe(struct i2c_client *client)
->         if (IS_ERR(at24->wp_gpio))
->                 return PTR_ERR(at24->wp_gpio);
->
-> -       writable = !(pdata.flags & AT24_FLAG_READONLY);
-> +       writable = !(flags & AT24_FLAG_READONLY);
->         if (writable) {
->                 at24->write_max = min_t(unsigned int,
-> -                                       pdata.page_size, at24_io_limit);
-> +                                       page_size, at24_io_limit);
->                 if (!i2c_fn_i2c && at24->write_max > I2C_SMBUS_BLOCK_MAX)
->                         at24->write_max = I2C_SMBUS_BLOCK_MAX;
->         }
-> @@ -712,7 +703,7 @@ static int at24_probe(struct i2c_client *client)
->         nvmem_config.priv = at24;
->         nvmem_config.stride = 1;
->         nvmem_config.word_size = 1;
-> -       nvmem_config.size = pdata.byte_len;
-> +       nvmem_config.size = byte_len;
->
->         at24->nvmem = devm_nvmem_register(dev, &nvmem_config);
->         if (IS_ERR(at24->nvmem)) {
-> @@ -721,13 +712,9 @@ static int at24_probe(struct i2c_client *client)
->         }
->
->         dev_info(dev, "%u byte %s EEPROM, %s, %u bytes/write\n",
-> -                pdata.byte_len, client->name,
-> +                byte_len, client->name,
->                  writable ? "writable" : "read-only", at24->write_max);
->
-> -       /* export data to kernel code */
-> -       if (pdata.setup)
-> -               pdata.setup(at24->nvmem, pdata.context);
-> -
->         return 0;
->
->  err_clients:
-> diff --git a/include/linux/platform_data/at24.h b/include/linux/platform_data/at24.h
-> deleted file mode 100644
-> index 63507ff464ee..000000000000
-> --- a/include/linux/platform_data/at24.h
-> +++ /dev/null
-> @@ -1,60 +0,0 @@
-> -/*
-> - * at24.h - platform_data for the at24 (generic eeprom) driver
-> - * (C) Copyright 2008 by Pengutronix
-> - * (C) Copyright 2012 by Wolfram Sang
-> - * same license as the driver
-> - */
-> -
-> -#ifndef _LINUX_AT24_H
-> -#define _LINUX_AT24_H
-> -
-> -#include <linux/types.h>
-> -#include <linux/nvmem-consumer.h>
-> -#include <linux/bitops.h>
-> -
-> -/**
-> - * struct at24_platform_data - data to set up at24 (generic eeprom) driver
-> - * @byte_len: size of eeprom in byte
-> - * @page_size: number of byte which can be written in one go
-> - * @flags: tunable options, check AT24_FLAG_* defines
-> - * @setup: an optional callback invoked after eeprom is probed; enables kernel
-> -       code to access eeprom via nvmem, see example
-> - * @context: optional parameter passed to setup()
-> - *
-> - * If you set up a custom eeprom type, please double-check the parameters.
-> - * Especially page_size needs extra care, as you risk data loss if your value
-> - * is bigger than what the chip actually supports!
-> - *
-> - * An example in pseudo code for a setup() callback:
-> - *
-> - * void get_mac_addr(struct nvmem_device *nvmem, void *context)
-> - * {
-> - *     u8 *mac_addr = ethernet_pdata->mac_addr;
-> - *     off_t offset = context;
-> - *
-> - *     // Read MAC addr from EEPROM
-> - *     if (nvmem_device_read(nvmem, offset, ETH_ALEN, mac_addr) == ETH_ALEN)
-> - *             pr_info("Read MAC addr from EEPROM: %pM\n", mac_addr);
-> - * }
-> - *
-> - * This function pointer and context can now be set up in at24_platform_data.
-> - */
-> -
-> -struct at24_platform_data {
-> -       u32             byte_len;               /* size (sum of all addr) */
-> -       u16             page_size;              /* for writes */
-> -       u8              flags;
-> -#define AT24_FLAG_ADDR16       BIT(7)  /* address pointer is 16 bit */
-> -#define AT24_FLAG_READONLY     BIT(6)  /* sysfs-entry will be read-only */
-> -#define AT24_FLAG_IRUGO                BIT(5)  /* sysfs-entry will be world-readable */
-> -#define AT24_FLAG_TAKE8ADDR    BIT(4)  /* take always 8 addresses (24c00) */
-> -#define AT24_FLAG_SERIAL       BIT(3)  /* factory-programmed serial number */
-> -#define AT24_FLAG_MAC          BIT(2)  /* factory-programmed mac address */
-> -#define AT24_FLAG_NO_RDROL     BIT(1)  /* does not auto-rollover reads to */
-> -                                       /* the next slave address */
-> -
-> -       void            (*setup)(struct nvmem_device *nvmem, void *context);
-> -       void            *context;
-> -};
-> -
-> -#endif /* _LINUX_AT24_H */
-> --
-> 2.18.0
->
-
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+thanks,
+Tobin.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
