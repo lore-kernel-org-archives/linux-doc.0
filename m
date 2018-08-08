@@ -6,53 +6,54 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 314EE7E3DF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 17:58:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E7137E3DF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 17:59:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729625AbeHHUSx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 16:18:53 -0400
-Received: from mail-ua0-f193.google.com ([209.85.217.193]:37850 "EHLO
-        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727748AbeHHUSx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 16:18:53 -0400
-Received: by mail-ua0-f193.google.com with SMTP id y10-v6so3356733uao.4;
-        Wed, 08 Aug 2018 10:58:05 -0700 (PDT)
+        id S1728471AbeHHUUO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 16:20:14 -0400
+Received: from mail-ua0-f196.google.com ([209.85.217.196]:45874 "EHLO
+        mail-ua0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727748AbeHHUUN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 16:20:13 -0400
+Received: by mail-ua0-f196.google.com with SMTP id k8-v6so3313342uaq.12;
+        Wed, 08 Aug 2018 10:59:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=ruMmZ6ayWYll/SPsmZj99uG0U1nHL/FmOks8EaMER2E=;
-        b=di7hTdLFpmEpvnzyEApTGHJnSsbCoxciwm3KpotUf4NemDzpYQP2a3QPD+t3L/eO5g
-         UvUZR2YgErIB8UKworttEGK7kTijvrQENx3y1xQoScqdEcX6JT5s1XXp4IFHBI1CgHMy
-         cCYFRE4/PmGqpjGiQMxuAikinV24rWQl3L9nGZS+snle2UF57ofdCg4uwpG1/haHukFt
-         Hf5Z43+4IHXw+i2I5bMC6zzgEurhB20cIc5nypj6KryaTSCzE78Ggz1GgJzWpKhG7nWr
-         6b2ZprvTzTerqfBtkLiFaVu9Ntj3KpqB6oEIiFjBi//Gb6YgegJa3ppUgn9z0T5vxn/L
-         gCFg==
+        bh=F5Jn5ThbdGMN/ntBl9eM8Z1tLeSTGI/KD270MYviaFk=;
+        b=aE9VzCTT9EiZSsDzfT4P0A9eEEYgeV8t7gv/ETwz82iMTz3Ud9uljeXOtZW2Pv7FJw
+         Qw3toECwSIi9e7O963W2RxgyZlG/12fbhKI1msqBzV14msLWYRttGw8588CjzVLyXvqN
+         zSiWtvWLxXh9qDo2+m5mY6xe52tflui1KcblIiFP5w6zQ90k0ay7FTRnKIYzobYUMgS3
+         wsBM7RRzIr2Dga8vP7cGYz1p/tvyI0em/fbVtbgpbFDHcqjraP9UniO26Vd7uPRKi869
+         lKaXC4Hk4E1SVxFqskLnfUKaCrx7ANUVC2aJonfq9w40uZN4UoDQWeyGg7oSeM5yObXp
+         O64w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=ruMmZ6ayWYll/SPsmZj99uG0U1nHL/FmOks8EaMER2E=;
-        b=LW4PlehWrqn3iJvzUs5y+t66kN5xy4e/iJI37hOHUpJCxz6jVZwgLC2DqTZhGEuP/W
-         3PAizKXB2i4bDykvD9MSbvLbc0dB/4kkScFYHxgzIckxJVj/jHfJUEqmF5BL0AXTUQV1
-         JusDXNR8gRCn631+j5kVxZdBmwmSHeDIkxiaFFNf5OY2IQvf90lg5bhfE7jhBjotzhcn
-         L89iXR23MxIJFmKnzlFYIw0wYicYrDOeAgNYeUKO24G+9ivLWReq8CwihmvRCYYy9J4W
-         HPx8P2Fp987OFcLuD8LfBPJueAmBmMS4NOfZmhsvroNC+T/p5EQ2OwEQd3Inbn3Qwb/B
-         7fmQ==
-X-Gm-Message-State: AOUpUlHgg5+eJqULUu3y+n0GkJUveH5RgDnY33knJ01R+9t02cJJr4T2
-        rBDnim/BSAHNp8R0GXqqKUqdtJb2aSZi6N+43qA=
-X-Google-Smtp-Source: AA+uWPwMjZCo6U83sUH/dTJ8D6B3cy1JWaDhx0oT5FjzSxxED1XyUSfNJh+xcsYRTIU1FT5QXj5MoJHBGkHFNjjfG4U=
-X-Received: by 2002:a9f:2187:: with SMTP id 7-v6mr2864710uac.49.1533751085403;
- Wed, 08 Aug 2018 10:58:05 -0700 (PDT)
+        bh=F5Jn5ThbdGMN/ntBl9eM8Z1tLeSTGI/KD270MYviaFk=;
+        b=lJLjkxAXG2enlKOk5WFgcKyfuf822cu/akjudLip7mKWWlPvNVM/wPbs+2oyFGJgnL
+         q6rmdxzJo3tsF/vJESXxtM6aK4q08PA9LegxjbeLYqe4BKGXNdlj1s54Ei/O+ub21ujY
+         ok502nc091oM/oO8b+Gfvp58wmj1yE4lDKC6sqpqZbi6DttK8knxuUTybWzBXjs2SimG
+         Ittvp98T/ETKav3dQ8xY/frPC3Kh4JPMFreyJQ0rpx++a5eGcv2dJo0KezmlBccWpihh
+         3INJxRIg9516/3UDAXQwsRFW2X81sNi8EwZaCNmsBeCssKDzo6QmW5wqPm80Q31nwzq6
+         SjTg==
+X-Gm-Message-State: AOUpUlELobFDClRFtEpalqbaUedWH2VY/Jenc7jULiaUnj5NGFCB0JCG
+        U4lhZflxmwiqt/QXwlOOjPnFLv9H+ovtA1OQlkg=
+X-Google-Smtp-Source: AA+uWPxKYshhjBug0zprFFmuDV9srTClctPPxDQDGxOcsBmpSm6sbUxP6di9C7dZoGB+qzmsb3XkpMs66p3lWGsuk3s=
+X-Received: by 2002:ab0:13c7:: with SMTP id n7-v6mr2710329uae.47.1533751165264;
+ Wed, 08 Aug 2018 10:59:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 10:58:04 -0700 (PDT)
-In-Reply-To: <20180808153150.23444-28-brgl@bgdev.pl>
-References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-28-brgl@bgdev.pl>
+Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 10:59:24 -0700 (PDT)
+In-Reply-To: <CAHp75VewdvD2D2BpyKAptFecr+hrW5O5YUcSzu9X4wGgV-oJ3A@mail.gmail.com>
+References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-22-brgl@bgdev.pl>
+ <CAHp75VewdvD2D2BpyKAptFecr+hrW5O5YUcSzu9X4wGgV-oJ3A@mail.gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Aug 2018 20:58:04 +0300
-Message-ID: <CAHp75VdBkSHtqXkzRJgOHwaL5UhgV+TgySjEs57bisbKTpO4SQ@mail.gmail.com>
-Subject: Re: [PATCH 27/28] ARM: davinci: mityomapl138: use device properties
- for at24 eeprom
+Date:   Wed, 8 Aug 2018 20:59:24 +0300
+Message-ID: <CAHp75Vdh0qfyutF6stPe1=eREg5iEHeUfE6MZO-nwsuhcNFTrg@mail.gmail.com>
+Subject: Re: [PATCH 21/28] ARM: davinci: dm644x-evm: use device properties for
+ at24 eeprom
 To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -93,73 +94,82 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Wed, Aug 8, 2018 at 8:55 PM, Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>>
+>> We want to work towards phasing out the at24_platform_data structure.
+>> There are few users and its contents can be represented using generic
+>> device properties. Using device properties only will allow us to
+>> significantly simplify the at24 configuration code.
+>>
+>> Remove the at24_platform_data structure and replace it with an array
+>> of property entries. Drop the byte_len/size property, as the model name
+>> already implies the EEPROM's size.
+>>
 >
-> We want to work towards phasing out the at24_platform_data structure.
-> There are few users and its contents can be represented using generic
-> device properties. Using device properties only will allow us to
-> significantly simplify the at24 configuration code.
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 >
-> Remove the at24_platform_data structure and replace it with an array
-> of property entries. Drop the byte_len/size property, as the model name
-> already implies the EEPROM's size.
->
+>> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>> ---
+>>  arch/arm/mach-davinci/board-dm644x-evm.c | 12 ++++--------
+>>  1 file changed, 4 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/arch/arm/mach-davinci/board-dm644x-evm.c b/arch/arm/mach-davinci/board-dm644x-evm.c
+>> index 6d35c6e1b0bd..abfcf42da6fb 100644
+>> --- a/arch/arm/mach-davinci/board-dm644x-evm.c
+>> +++ b/arch/arm/mach-davinci/board-dm644x-evm.c
+>> @@ -16,8 +16,8 @@
+>>  #include <linux/gpio/machine.h>
+>>  #include <linux/i2c.h>
+>>  #include <linux/platform_data/pcf857x.h>
+>> -#include <linux/platform_data/at24.h>
+>>  #include <linux/platform_data/gpio-davinci.h>
+>> +#include <linux/property.h>
+>>  #include <linux/mtd/mtd.h>
+>>  #include <linux/mtd/rawnand.h>
+>>  #include <linux/mtd/partitions.h>
+>> @@ -486,12 +486,8 @@ static struct nvmem_cell_lookup dm6446evm_mac_address_cell = {
+>>         .nvmem_name = "1-00500",
+>>  };
+>>
+>> -static struct at24_platform_data eeprom_info = {
+>> -       .byte_len       = (256*1024) / 8,
+>> -       .page_size      = 64,
+>> -       .flags          = AT24_FLAG_ADDR16,
+>> -       .setup          = davinci_get_mac_addr,
+>> -       .context        = (void *)0x7f00,
+>> +static const struct property_entry eeprom_properties[] = {
+>> +       PROPERTY_ENTRY_U32("pagesize", 64),
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Missed terminator, though
 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  arch/arm/mach-davinci/board-mityomapl138.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+>>  };
+>>
+>>  /*
+>> @@ -601,7 +597,7 @@ static struct i2c_board_info __initdata i2c_info[] =  {
+>>         },
+>>         {
+>>                 I2C_BOARD_INFO("24c256", 0x50),
+>> -               .platform_data  = &eeprom_info,
+>> +               .properties = eeprom_properties,
+>>         },
+>>         {
+>>                 I2C_BOARD_INFO("tlv320aic33", 0x1b),
+>> --
+>> 2.18.0
+>>
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe linux-omap" in
+>> the body of a message to majordomo@vger.kernel.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 >
-> diff --git a/arch/arm/mach-davinci/board-mityomapl138.c b/arch/arm/mach-davinci/board-mityomapl138.c
-> index 17b67e26bc0e..be0fb7d17e25 100644
-> --- a/arch/arm/mach-davinci/board-mityomapl138.c
-> +++ b/arch/arm/mach-davinci/board-mityomapl138.c
-> @@ -14,11 +14,11 @@
->  #include <linux/init.h>
->  #include <linux/console.h>
->  #include <linux/platform_device.h>
-> +#include <linux/property.h>
->  #include <linux/mtd/partitions.h>
->  #include <linux/notifier.h>
->  #include <linux/regulator/machine.h>
->  #include <linux/i2c.h>
-> -#include <linux/platform_data/at24.h>
->  #include <linux/etherdevice.h>
->  #include <linux/spi/spi.h>
->  #include <linux/spi/flash.h>
-> @@ -185,10 +185,9 @@ static struct nvmem_cell_lookup mityomapl138_nvmem_cells[] = {
->         }
->  };
 >
-> -static struct at24_platform_data mityomapl138_fd_chip = {
-> -       .byte_len       = 256,
-> -       .page_size      = 8,
-> -       .flags          = AT24_FLAG_READONLY | AT24_FLAG_IRUGO,
-> +static const struct property_entry mityomapl138_fd_chip_properties[] = {
-> +       PROPERTY_ENTRY_U32("pagesize", 8),
-> +       PROPERTY_ENTRY_BOOL("read-only"),
->  };
->
->  static struct davinci_i2c_platform_data mityomap_i2c_0_pdata = {
-> @@ -317,7 +316,7 @@ static struct i2c_board_info __initdata mityomap_tps65023_info[] = {
->         },
->         {
->                 I2C_BOARD_INFO("24c02", 0x50),
-> -               .platform_data = &mityomapl138_fd_chip,
-> +               .properties = mityomapl138_fd_chip_properties,
->         },
->  };
 >
 > --
-> 2.18.0
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-omap" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> With Best Regards,
+> Andy Shevchenko
 
 
 
