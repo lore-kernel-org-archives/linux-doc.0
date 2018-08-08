@@ -3,69 +3,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E03F47E3E0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 16:59:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B18A27E3E0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 17:02:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728711AbeHHTUJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 15:20:09 -0400
-Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:48014 "EHLO
+        id S1729036AbeHHTWg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 15:22:36 -0400
+Received: from smtprelay2.synopsys.com ([198.182.60.111]:48123 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727062AbeHHTUJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 15:20:09 -0400
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id A162710C02C5;
-        Wed,  8 Aug 2018 09:59:32 -0700 (PDT)
+        with ESMTP id S1727412AbeHHTWf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 15:22:35 -0400
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 0344710C0443;
+        Wed,  8 Aug 2018 10:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1533747575; bh=n5gQ39V0XTXwTQw5tpnzprJJqj77ym38+PsWFodYbV8=;
+        t=1533747721; bh=B/EC3a255cb429Na0WNv1klMpKKEpZCEG6tpHdOzJ+w=;
         h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=CecvTzrl1R4VePkEcR/LlcGrLr9hilskA5J5oUx5U80TVWwWEwY/7ENN77h28e617
-         Pi7oY5p0CETE8lgzIaxNITPDFmxA5eXtkWv/pLML/9eTejrw2SYX6gbBSRYHcGGJG6
-         RCHpO7rZoCgYs6aGN08gJg6+DwXotUn8Mg6IKLKpWcjlTa/FWHdAlpiElwmMkuDSU4
-         J9qCUGyz8JWJ2pmm1vtJGewbq8iB0mZBuX6PsluOv+mpY/mX1J6TLuyugp9uMy8icS
-         ZYRaagR97PeH8pp+ETdSWAF/MfoC6AQFDhQA7bMjCn8xx4IHYiAGQfdS1KPkp9C0Jj
-         t5b7HZ+RdBtow==
-Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
-        by mailhost.synopsys.com (Postfix) with ESMTP id C71633907;
-        Wed,  8 Aug 2018 09:59:30 -0700 (PDT)
+        b=edcw6xr5PTuliaZiQHvOuMKEBKnmkeXt1+3+/rso4NyaW0A1T8Wg16HMDp5wU8KM4
+         3Rxjj5oJE7cBKbw+et+uS9Yo2opY57NtRx8t58cu5LOpCmHnhkfFUWuEtdJsFA4JEV
+         LPZwQGd/id4eMGHGScwM5IrGertu8DdV+GvuOVNyxye+gXXBgSWmyi1UBSnMzajwxt
+         pFY0BlyA79Tr6HaM/xyf7vHx54u0IYJeW2rbmnwAZ5yg0lJF+gKxOq97XIPmt8ai+D
+         qAvpaonau5bbhFGlZKaxacMOFXdQMJHc1yYWs8DYkZG3y9tszD5DO/8AwTkC8ZK3Qs
+         uuUyVjx0DWEyw==
+Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        by mailhost.synopsys.com (Postfix) with ESMTP id A875F5529;
+        Wed,  8 Aug 2018 10:02:00 -0700 (PDT)
 Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 8 Aug 2018 09:59:30 -0700
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 8 Aug 2018 10:02:00 -0700
 Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
  DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 8 Aug 2018 18:59:27 +0200
+ (TLS) id 14.3.361.1; Wed, 8 Aug 2018 19:01:58 +0200
 Received: from [10.0.2.15] (10.107.25.93) by DE02WEHTCA.internal.synopsys.com
  (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.361.1; Wed, 8 Aug
- 2018 18:59:26 +0200
-Subject: Re: [PATCH 2/3] dt-bindings: i3c: Document Synopsys DesignWare I3C
- master bindings
-To:     Rob Herring <robh@kernel.org>,
-        Vitor soares <Vitor.Soares@synopsys.com>
-CC:     <boris.brezillon@bootlin.com>, <wsa@the-dreams.de>,
-        <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
-        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
-        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
-        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
-        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
-        <pawel.moll@arm.com>, <mark.rutland@arm.com>,
-        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
-        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
-        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
-        <Joao.Pinto@synopsys.com>
+ 2018 19:01:58 +0200
+Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Vitor Soares <Vitor.Soares@synopsys.com>
+CC:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        ijc+devicetree <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>,
+        Joao Pinto <Joao.Pinto@synopsys.com>
 References: <1532120272-17157-1-git-send-email-soares@synopsys.com>
- <1532120272-17157-3-git-send-email-soares@synopsys.com>
- <20180725195733.GA14450@rob-hp-laptop>
+ <1532120272-17157-2-git-send-email-soares@synopsys.com>
+ <CAHp75VfYYmr7o6xkDbjaad3HxyzZgODzKfSNWdPXjM+YjTMANA@mail.gmail.com>
+ <9fdfaf4e-5a20-af81-82ef-0d9e327f9133@synopsys.com>
+ <CAHp75Vd6Ok6i3wQjT=jd3mtFAC2na1vwUs2cr-xhStQ_OjKjAg@mail.gmail.com>
 From:   vitor <Vitor.Soares@synopsys.com>
-Message-ID: <c00cb815-ae82-312a-213b-145537a294bd@synopsys.com>
-Date:   Wed, 8 Aug 2018 17:59:24 +0100
+Message-ID: <ce858157-8353-2c8f-53f2-dbf2339355e9@synopsys.com>
+Date:   Wed, 8 Aug 2018 18:01:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180725195733.GA14450@rob-hp-laptop>
+In-Reply-To: <CAHp75Vd6Ok6i3wQjT=jd3mtFAC2na1vwUs2cr-xhStQ_OjKjAg@mail.gmail.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -75,89 +94,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+Hi Andy,
 
 
-On 25-07-2018 20:57, Rob Herring wrote:
-> On Fri, Jul 20, 2018 at 09:57:51PM +0100, Vitor soares wrote:
->> This patch document Synopsys DesignWare I3C master DT bindings.
+On 25-07-2018 17:56, Andy Shevchenko wrote:
+> On Wed, Jul 25, 2018 at 11:43 AM, Vitor Soares
+> <Vitor.Soares@synopsys.com> wrote:
+>> On Fri, Jul 20, 2018 at 11:57 PM, Vitor soares
+>> <Vitor.Soares@synopsys.com> wrote:
 >>
->> Signed-off-by: Vitor soares <soares@synopsys.com>
->> ---
->>   .../devicetree/bindings/i3c/snps,dw-i3c-master.txt | 43 ++++++++++++++++++++++
->>   1 file changed, 43 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+> Thanks for answers, my comments below.
+>
+>> This patch add driver for Synopsys DesignWare IP on top of
+>> I3C subsystem patchset proposal V6
+> ...
+>
+>> +#include <linux/reset.h>
+>> Reset API.
 >>
->> diff --git a/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
->> new file mode 100644
->> index 0000000..7f5c8b0
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
->> @@ -0,0 +1,43 @@
->> +Bindings for Synopsys DesignWare I3C master block
->> +=================================================
->> +
->> +Required properties:
->> +--------------------
->> +- compatible: shall be "snps,dw-i3c-master"
-> Only one version and no version number?
+>> All of them required? Why?
+> Thanks, got it.
 >
-> ... and an SoC specific compatible string.
-
-I'm not understanding. Can you explain?
-
+>> There is some header files that are already included by others header files.
+>> Should I add them too? it there any rule for that?
+> No need.
+> Usually we drop some "wired" headers (when we sure that one will
+> always include the other one, like module.h vs. init.h)
 >
->> +- clocks: shall reference the core_clk
->> +- clock-names: shall contain "core_clk"
-> "_clk" is redundant and *-names with a single entry is kind of
-> pointless.
-
-I will fix it for next version.
-
+>> +               writel(cmd->cmd_hi, master->regs + COMMAND_QUEUE_PORT);
+>> +               writel(cmd->cmd_lo, master->regs + COMMAND_QUEUE_PORT);
+>>
+>> hmm... writesl()?
+>> Is there any advantage here?
+> Here maybe not. Just a material to think about. If you can refactor
+> code to utilize them, good.
 >
->> +- interrupts: the interrupt line connected to this I3C master
->> +- reg:  Offset and length of I3C master registers
->> +
->> +Mandatory properties defined by the generic binding (see
->> +Documentation/devicetree/bindings/i3c/i3c.txt for more details):
->> +
->> +- #address-cells: shall be set to 3
->> +- #size-cells: shall be set to 0
->> +
->> +Optional properties defined by the generic binding (see
->> +Documentation/devicetree/bindings/i3c/i3c.txt for more details):
->> +
->> +- i2c-scl-hz
->> +- i3c-scl-hz
->> +
->> +I3C device connected on the bus follow the generic description (see
->> +Documentation/devicetree/bindings/i3c/i3c.txt for more details).
->> +
->> +Example:
->> +
->> +	i3c-master@0x2000 {
-> Drop the '0x'
+>> +       info->pid = (u64)readl(master->regs + SLV_PID_VALUE);
+>>
+>> Why explicit casting?
+>> info->pid is u64 size.
+> In C standard there is an integer promotion which allows you not to
+> use explicit casting in such cases.
 >
->> +		compatible = "snps,dw-i3c-master";
->> +		#address-cells = <3>;
->> +		#size-cells = <0>;
->> +		reg = <0x02000 0x1000>;
->> +		interrupts = <0>;
->> +		clocks = <&i3cclk>;
->> +		clock-names = "core_clk";
+>> +       u32 r;
 >> +
->> +		eeprom@0x57{
->> +			compatible = "atmel,24c01";
->> +			reg = < 0x57 0x80000010 0x0>;
->> +			pagesize = <0x8>;
->> +		};
->> +	};
->> -- 
->> 2.7.4
+>> +
+>> +       core_rate = clk_get_rate(master->core_clk);
+>>
+>> Too many blank lines in between.
 >>
 >>
-
-Thanks for your feedback.
+>> For me in that way it's better to filter code parts. Do you think that is
+>> not readable?
+> The point is it's useless.
+> On the other hand, you have a lot of inconsistency with that style.
+>
+>> +               p = (ret >> 6) ^ (ret >> 5) ^ (ret >> 4) ^ (ret >> 3) ^
+>> +                   (ret >> 2) ^ (ret >> 1) ^ ret ^ 1;
+>> +               p = p & 1;
+>>
+>> Is it parity calculus? Do we have something implemented in kernel already?
+>>
+>> Btw,
+>> https://urldefense.proofpoint.com/v2/url?u=https-3A__graphics.stanford.edu_-7Eseander_bithacks.html-23ParityNaive&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=qVuU64u9x77Y0Kd0PhDK_lpxFgg6PK9PateHwjb_DY0&m=5FpGHBbT8tYA6PB4RT_9O6PJk3v-wYcy1MV59xoqK4I&s=FSJ3EcuoxPtRJWmsk9Yt4s_UH9kxFBam01Xvas2ZFdo&e=
+>> offered this
+>>
+>> v ^= v >> 4;
+>> v &= 0xf;
+>> v = (0x6996 >> v) & 1;
+>>
+>>
+>> I search into the kernel and I didn't find any function for that. In your
+>> opinion what shoud I use?
+> If license of the piece above is okay to use in kernel, then
+> definitely it would be better (even we might create a helper out of
+> it).
+>
+Thanks for your comments I will take them into account for the next version.
 
 Best regards,
 Vitor Soares
