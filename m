@@ -3,28 +3,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6FFEB7E3DF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 16:44:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4F34B7E3E1
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 16:52:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbeHHTFK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 15:05:10 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:58764 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727069AbeHHTFK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Aug 2018 15:05:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch; s=20171124;
-        h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date; bh=ZMAGAR5lfWa8Gmxy2bmMcvRwUzxvBj23x03HN3qcDPM=;
-        b=GvfBL0Ex7V+sKbiGf4ZT87j5qeSZEqyCrROguRMSBL4uhrt0E/AtfG9ugdc9v/sZNSFEVAOO/OXCGtH8B6al0eEeO2cLu5ix/Nxnqw6APRLMl7Ms/dnDUCwH5oTuw9du2yQczzyCdfuDu2oMDFnU+49HDfLg0pG/JyhLekfiQYo=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.84_2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1fnRZ4-0007YV-AU; Wed, 08 Aug 2018 18:44:02 +0200
-Date:   Wed, 8 Aug 2018 18:44:02 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
+        id S1727347AbeHHTMh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 15:12:37 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:39663 "EHLO
+        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728359AbeHHTMh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 15:12:37 -0400
+Received: by mail-it0-f67.google.com with SMTP id g141-v6so4456838ita.4
+        for <linux-doc@vger.kernel.org>; Wed, 08 Aug 2018 09:52:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=wO9b7oopa7y5h5ev1Fonk/EaaEw5uVfOuvyXm5rH2HM=;
+        b=x7uAGFLvUx+G3XyYBPAYexaS1Gx9XA4XZYCgxe9D6MnWPeeMw0/r/jMZ5VwDpjDi7w
+         +gG8/VS3Z8kLK0Dx+TRoFOcqEgucRqmNnEAnICRtAYrDdret78s/PkMQluo/JgLXnr5k
+         Fs6vMC+uuYQ0r9vj8D4q77xIhc6Ku2BZzxpWq8kdFwsjtJZRCjq9eXIwUrLO0Y5EmQ1u
+         EMH1W0ag+cor6nzHcMQii/racbvHO+fR1nr7TFXGgux5KJm1FgCa/oXEJBGFvc26xnYZ
+         P4p4NW+52/2yx3U9BO2ZUiRJ0Aetk61G4eXYTjyryhspJBKI0frIR6qZcP3gk+irh/xp
+         WApg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=wO9b7oopa7y5h5ev1Fonk/EaaEw5uVfOuvyXm5rH2HM=;
+        b=spe3OtsYDPxP5gkWq8gdjAtfvbMeSx0PB/BvXxS1OpsMXRE/9VORr+fYHjVKJKJIqs
+         A6g7zpUG2Nj9UQddj7XCnX9/J6ZvAk+xikFXVV3rQkovjgInwIhlRIRGq3LlZB6RkmvR
+         H/q6vLMPN5yTtYahdVdA+fmaPsfypY39nOp3PgaLamO6M5+MhF06QXB3hpDRJxt3tAHX
+         KoKA2hNGE0Y7xBp4CLfJzaop20IPtB9tSJK2J524Q1vkLefid42ndBP6fftX70KlClfk
+         +fjWggyHUkE2jgQkCmdQAwTszd/xkAEGeYl5NDZtOGabRAKVi9qK5lP9l33Jtsi9zAa8
+         77rg==
+X-Gm-Message-State: AOUpUlEOvgpDKmQYyrSDLvA5qUTN6YA6wENmR8cSrP9tyq+20B8z3oyO
+        7iicXaQLVRUI9mPzOVaZaocquRZN4f55m7ag4qfSyQ==
+X-Google-Smtp-Source: AA+uWPyaUdcvwYHlFj2Y7hgkQZwm1cE/2VK3Kj8+WAztDzHYzHc0kJUfkHLHnen5qubcxojJzaCE7mitDt4sDj7dLeY=
+X-Received: by 2002:a24:e48c:: with SMTP id o134-v6mr2982849ith.125.1533747124850;
+ Wed, 08 Aug 2018 09:52:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a5e:9403:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 09:52:04 -0700 (PDT)
+In-Reply-To: <20180808164402.GH7275@lunn.ch>
+References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808155548.s7p4xqsjywz3psrj@ninjato>
+ <CAMpxmJXVNiyqF4qaYtNhPUG3mSZVdvBSGUqDYK-nh59BKeh=Gw@mail.gmail.com> <20180808164402.GH7275@lunn.ch>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Wed, 8 Aug 2018 18:52:04 +0200
+Message-ID: <CAMRc=McfSZQvdXgrKDagb_TE1g-WzEhSpst1z_o5Z994cv3MjA@mail.gmail.com>
+Subject: Re: [PATCH 00/28] at24: remove at24_platform_data
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
         Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
@@ -55,58 +85,61 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>,
         linux-i2c <linux-i2c@vger.kernel.org>,
         linux-mtd@lists.infradead.org,
         Linux-OMAP <linux-omap@vger.kernel.org>, netdev@vger.kernel.org
-Subject: Re: [PATCH 00/28] at24: remove at24_platform_data
-Message-ID: <20180808164402.GH7275@lunn.ch>
-References: <20180808153150.23444-1-brgl@bgdev.pl>
- <20180808155548.s7p4xqsjywz3psrj@ninjato>
- <CAMpxmJXVNiyqF4qaYtNhPUG3mSZVdvBSGUqDYK-nh59BKeh=Gw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMpxmJXVNiyqF4qaYtNhPUG3mSZVdvBSGUqDYK-nh59BKeh=Gw@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 08, 2018 at 06:27:25PM +0200, Bartosz Golaszewski wrote:
-> 2018-08-08 17:55 GMT+02:00 Wolfram Sang <wsa@the-dreams.de>:
-> > On Wed, Aug 08, 2018 at 05:31:22PM +0200, Bartosz Golaszewski wrote:
-> >> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >>
-> >> This is a follow-up to the previously rejected series[1] which partially
-> >> removed the at24_platform_data structure. After further development and
-> >> taking reviews into account, this series finally removes that struct
-> >> completely but not without touching many different parts of the code
-> >> base.
-> >>
-> >> Since I took over maintainership of the at24 driver I've been working
-> >> towards removing at24_platform_data in favor for device properties.
-> >
-> > Wooha, nice work. I can't really comment on it but wondered how you want
-> > to upstream it (after reviews)? Pull request of an immutable branch for
-> > nvmem-tree sounds best to me. Then I could also pull it in if i2c needs
-> > it. Probably same situation for arm-soc...
-> >
-> 
-> I initially wanted to merge small parts of it starting with v4.18, but
-> there were some voices against merging APIs without users. I'm not
-> sure how it should go in. There'll be a need for multiple immutable
-> branches most probably...
+2018-08-08 18:44 GMT+02:00 Andrew Lunn <andrew@lunn.ch>:
+> On Wed, Aug 08, 2018 at 06:27:25PM +0200, Bartosz Golaszewski wrote:
+>> 2018-08-08 17:55 GMT+02:00 Wolfram Sang <wsa@the-dreams.de>:
+>> > On Wed, Aug 08, 2018 at 05:31:22PM +0200, Bartosz Golaszewski wrote:
+>> >> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>> >>
+>> >> This is a follow-up to the previously rejected series[1] which partially
+>> >> removed the at24_platform_data structure. After further development and
+>> >> taking reviews into account, this series finally removes that struct
+>> >> completely but not without touching many different parts of the code
+>> >> base.
+>> >>
+>> >> Since I took over maintainership of the at24 driver I've been working
+>> >> towards removing at24_platform_data in favor for device properties.
+>> >
+>> > Wooha, nice work. I can't really comment on it but wondered how you want
+>> > to upstream it (after reviews)? Pull request of an immutable branch for
+>> > nvmem-tree sounds best to me. Then I could also pull it in if i2c needs
+>> > it. Probably same situation for arm-soc...
+>> >
+>>
+>> I initially wanted to merge small parts of it starting with v4.18, but
+>> there were some voices against merging APIs without users. I'm not
+>> sure how it should go in. There'll be a need for multiple immutable
+>> branches most probably...
+>
+> Hi Bartosz
+>
+> What this series does is show all the different parts are now
+> available, and can be reviewed as a whole. Once that review is
+> completed, merging in parts then becomes possible.
+>
+> It looks like you could probably merge the nvmem, mtd and net parts
+> independently via there maintainers for 4.20, since i don't think
+> there are any dependencies. The arm-soc changes in 4.21, and the
+> removal of the platform data in 4.22?
+>
+>      Andrew
 
-Hi Bartosz
+We need the first batch of SoC changes for the net part and then the
+second batch depends on those net changes. Also: dragging the merge
+for this over a year is a bit overkill.
 
-What this series does is show all the different parts are now
-available, and can be reviewed as a whole. Once that review is
-completed, merging in parts then becomes possible.
+Sekhar: I know you're usually provided with immutable branches from
+framework maintainers for the SoC changes - is it ok for you to
+provide the net maintainers with an immutable branch after applying
+the first part of davinci board file changes?
 
-It looks like you could probably merge the nvmem, mtd and net parts
-independently via there maintainers for 4.20, since i don't think
-there are any dependencies. The arm-soc changes in 4.21, and the
-removal of the platform data in 4.22?
-
-     Andrew
+Bart
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
