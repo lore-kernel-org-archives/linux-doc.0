@@ -6,52 +6,52 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD9FE7E3DF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 17:43:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5602F7E3DF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 17:51:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729221AbeHHUEk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 16:04:40 -0400
-Received: from mail-ua0-f194.google.com ([209.85.217.194]:40397 "EHLO
-        mail-ua0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728012AbeHHUEk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 16:04:40 -0400
-Received: by mail-ua0-f194.google.com with SMTP id m13-v6so3299293uaq.7;
-        Wed, 08 Aug 2018 10:43:55 -0700 (PDT)
+        id S1729686AbeHHULp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 16:11:45 -0400
+Received: from mail-ua0-f193.google.com ([209.85.217.193]:33099 "EHLO
+        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727062AbeHHULp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 16:11:45 -0400
+Received: by mail-ua0-f193.google.com with SMTP id i4-v6so3355401uak.0;
+        Wed, 08 Aug 2018 10:50:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=fudOnXwiyicpJhQkavPEDADRlehvB8IQIeG6e043V2s=;
-        b=ugl6+L3tM9fD0k+gFVHnudzyBbjILu7fy6yCW0gy1owqYXIDlq1PxaWsUHjFIDnWJz
-         fWeZHouO9gdJBD5N7yLD2A7HR6PdSN3wV4m7wK2f1b9G9w+H46W34ckZvOZKHT6rVxAm
-         QRm07MB7K0d0hOpy5cf/MEqbA1AtXEweSK2YZmcgPYKYmoMkZT2I56eIi0wnuvFJkdMT
-         ad6T5eSTaST+mPcO961pmGf211fXPalT9QjVW9BMVubq6k7PVAkafgLYODHSgJ/38DdD
-         vWwnFQIZZowkdXAASrS90Nrf5stGKP3EY6cdpccrtLaxdwmv6Xxi5YF3KBJ/qzN9zkPL
-         agNw==
+        bh=ngxSF88L3UPmGJiFCLGrUmz76gNbLrC+CIojozODNoU=;
+        b=CHQcLzTfBE62taG8EKKEpED36TtIvBYBKcU7MxitLbwbaTTtOQ8iiyO1xc26oMHjMX
+         wlyxa3heJx44p6scDp1kglvY+Fkq/zM+NGMmH6JcRu1j5P7TwpaR1knNIiR3xKIfc+u2
+         4kUFY4jd82OGKNy+c1SKwTqdW5nou9bVpfQzLb816O79lPEQH8PRZO87jiCMSifJAJ/x
+         0uFWHnJ/NO7Zd2wPIzSRWe1iTGoCnhDfRAgW2GmkvuAiU0mjsHqDDJ7TZendYOZ3J61z
+         Irwzg7y6A+SlMQaHHVav74qL8jpeBayKTP3DToqVwiRwHtGXWLZ8mPyN8tQDSPF28eob
+         nUKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=fudOnXwiyicpJhQkavPEDADRlehvB8IQIeG6e043V2s=;
-        b=c5xxefFPUwgehLUkhwsL1/+mejmWMp68d+BxNczgGGVlK1hTt6+lVeL6keIYf8q/hK
-         znsDYZXH1b8pcOA1TSkN5Bgzy/gmkSC1CCeFvcC7IpShpppntWmr2Ui48SyG9EjUZfDp
-         58LaaU7dNU3Rg3jLfjaN20riYbYgyD2PFUnGhJk28GSrgXZo1vKXJbwqxRPO4H1h0zU3
-         u8yrmBYQQ7J6j6LeI0AiR3GoiX1DtIlWhjvNiNm8VjraFXbktMRenFfpkcOMCCrcvPew
-         /ntCtLdwonJF1CLo45SPVo4f/7/YNr91NTeoeTKbYJbDDurIu80deQFWmM+hQcf0Kohd
-         0l6g==
-X-Gm-Message-State: AOUpUlE+vu1ggwPb4EQeiARxTCIN0oWRnS8PvdYurk+Qc0GtH2BdCEIf
-        RIDci/yqPEBGxpXTKH1IJMuMhaY6TFTmaMIZjzA=
-X-Google-Smtp-Source: AA+uWPwKpXl3Be6QW0/t3sBAtnvBrCdS7YRpc6uENnoBjBfHeW+bZJqMrrfj+yyLjYG7sGnbuI9mdgC3J/ffSGTqHO8=
-X-Received: by 2002:a1f:920b:: with SMTP id u11-v6mr2483619vkd.58.1533750235483;
- Wed, 08 Aug 2018 10:43:55 -0700 (PDT)
+        bh=ngxSF88L3UPmGJiFCLGrUmz76gNbLrC+CIojozODNoU=;
+        b=bDzHMKEKrSU9lMTlLGwdCFySHQpV1L8gNVWpJNSrL2hnblUl5/vFt3S6mf7e0WEFiE
+         ofDpOjdCM5H6IjoawhKjUAQr6aCM8C3uPk6lufKrS2n6pF7B4AhVL86d69s7r+8hgQO4
+         zEadgWSNauGp7aF1sgcyCKgKdB2XBBmSeEJ9y+1bLYextjYm67QbGTwlJ6BdujHS5yeB
+         AfhCym7H1xnGQlpJoyosQq4eMVAlcGyo5j3G68FP3DULcGv6VpP23b/+aCe0MiQu3oRK
+         bMGlEcnw2njor/xrY5hoJFT2OPL6nFlhRA/ExQj25gX5+IqArm+Hb5UkwfgZjiC8UsE4
+         L2DQ==
+X-Gm-Message-State: AOUpUlFUxlru50cdOzzuaKm03SHs99l8niMny00xGTLwmL161qX9b+5y
+        huP193ZVnEWtURb7tQcH+OFtrfgJn0S+y35jv1E=
+X-Google-Smtp-Source: AA+uWPxVjZdd5z1dGYPEUDpn4NgSIsb6z7r/ftShyIM5joIWKbyezPSR30K/8geKZg5FORE026R9+tFMiVTwmkJEDfw=
+X-Received: by 2002:a1f:4c7:: with SMTP id 190-v6mr2488178vke.63.1533750659079;
+ Wed, 08 Aug 2018 10:50:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 10:43:54 -0700 (PDT)
-In-Reply-To: <20180808153150.23444-8-brgl@bgdev.pl>
-References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-8-brgl@bgdev.pl>
+Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Wed, 8 Aug 2018 10:50:58 -0700 (PDT)
+In-Reply-To: <20180808153150.23444-15-brgl@bgdev.pl>
+References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-15-brgl@bgdev.pl>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Aug 2018 20:43:54 +0300
-Message-ID: <CAHp75VdXTS9kg5PF-YrTbi8f1U9qSKU+1D43-p0PgphKeJdVNA@mail.gmail.com>
-Subject: Re: [PATCH 07/28] ARM: davinci: dm365-evm: use nvmem lookup for mac address
+Date:   Wed, 8 Aug 2018 20:50:58 +0300
+Message-ID: <CAHp75VfxVOPzAtBgTe4RSax1Ki+323WDBTSmh=j7LV_c+vsXDA@mail.gmail.com>
+Subject: Re: [PATCH 14/28] net: split eth_platform_get_mac_address() into subroutines
 To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -95,17 +95,23 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 >
-> We now support nvmem lookups for machine code. Add a lookup for
-> mac-address.
+> We want do add more sources from which to read the MAC address. In
+> order to avoid bloating this function too much, start by splitting it
+> into subroutines, each of which takes care of reading the MAC from
+> one source.
 
->  #include <linux/spi/spi.h>
->  #include <linux/spi/eeprom.h>
->  #include <linux/v4l2-dv-timings.h>
-> +#include <linux/nvmem-provider.h>
+> +static int mac_address_from_of(struct device *dev, u8 *mac_addr)
+>  {
+>         const unsigned char *addr;
+> +       struct device_node *np;
+>
 
-It looks from this context that your patch broke the order.
+> +       np = dev_is_pci(dev) ? pci_device_to_OF_node(to_pci_dev(dev))
+> +                            : dev->of_node;
 
-P.S. Can you verify all in the series for this?
+I didn't get these manipulations.
+
+What the scenario when pci_dev->dev.of_node != dev->of_node?
 
 -- 
 With Best Regards,
