@@ -5,55 +5,56 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 911DE7D00B
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 11:33:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 58F4B7D00A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 11:35:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731087AbeHIN5x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 09:57:53 -0400
-Received: from mail-io0-f194.google.com ([209.85.223.194]:39996 "EHLO
-        mail-io0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730573AbeHIN5x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 09:57:53 -0400
-Received: by mail-io0-f194.google.com with SMTP id l14-v6so4469993iob.7
-        for <linux-doc@vger.kernel.org>; Thu, 09 Aug 2018 04:33:26 -0700 (PDT)
+        id S1731028AbeHIN7l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 09:59:41 -0400
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:35633 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730849AbeHIN7l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 09:59:41 -0400
+Received: by mail-oi0-f67.google.com with SMTP id m11-v6so9261661oic.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 Aug 2018 04:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=J8JHFq+UU6UIieRkiFDI8mMAO4Ofyp8ATsnZqc7QZRQ=;
-        b=se2AlTRH0TXo+SNQzfXyBXIKUupdoGVe//2nIBwk4ozOi+U6Fm7smFj07cCq7SPk2r
-         /RaScafSqyNMVUI+G/tU60wu/HZx71WO8rriutdgmE094gQYNUjXXc5xlo22ubAc8nJn
-         4TnZhnFp1msdUo+vc/f/c5DNYHBoDIlCmFjVbG10IU/OkS8ahmgjirGwREq/CPP0WoQ4
-         p7/c9B+5QoTIbnww1WiP7aD5pR6oiZnFw2MeX2fwJP6VvafjWQ5yGCRH2ODYb7C13vmv
-         OAXBXW7aehOSN8JwP3nX8LR4F3qwVzKc2LfEhCE8UOJV76sWCgrdNCsUiDIML8xAmOBc
-         yByw==
+        bh=cBafueCHsJmipnJWAo3Im9OxRhjKYsdI+ng1bPqUiIs=;
+        b=GC25dIrtvYPeoesfojuZWrLW4bNxgvHcs60o+gya6qWXd2yunXhhOJaAXaSC2l5sCz
+         +p0tvTuQN2mZX4UGm7/R5dv8zw5HzZh+oviIY1NEwCYf+rttOayx+y+gAL6TIZtYa1Zw
+         7a8m/MFpdARxDQVHNPgr5qZ8JPrTdGWGTP7JqhuYM48wKzIXM01FuAEq4eam5an7cEst
+         8jz22uXcoJE1HzoCM83BmZAocxBB4NG+I04G1BdZFUhnyGb8QMxnyNMwbjNSnEVLJcUw
+         234XAePa0VYazDx7l0v6RdgXtEnCFb1LE0i0KZjqfqkvpfp3FD9cmeN84nYeVm/hA3MJ
+         5Q4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=J8JHFq+UU6UIieRkiFDI8mMAO4Ofyp8ATsnZqc7QZRQ=;
-        b=YqRXS55gWKPvfGSV1yHtwoyiQkhpqAKP8gXowHLby9eKXYNtMmegnJQ1DBjUAOCjaE
-         TqEEu5UnQN1OG+wNyRQa18NBoXAbaB3n/XsXJ6qggK6No9/PuNI0fB5Cr4Hwaen0o4uF
-         c2YHJoboprH+xblCvZCUbZxna1HKZmZYOQ2IPeM5uaqq8vzm7FVE0zKtVEXE6pB+qdJl
-         XmwLjhobHnAHE84bFnlNO2sqb+kqKGCvWm3arPpyHPRQ4DuFuQGUvbBs3OlMpdi0UAcq
-         JMo3eyQKn/QuMnvtjSL90weE15rYEMBQA9znCWz8GfSm0RxDlvYDqkiL7lnLkLM0jIa2
-         of+Q==
-X-Gm-Message-State: AOUpUlG7Lk5W7GZ6PB4CzUiCS15eKYV5pzPIHSn2tMlwqthcrMFJEPl+
-        Zx3feg0w1XLzEo6tHbdrkd3+K3gesj9pfJx5Oq6gVA==
-X-Google-Smtp-Source: AA+uWPzZqP16fm0hkmmu2Xtx38bSLKkq6Ys5W8MR8GD6/y5naNbhodoFxxZBBNndRDSRX00YOLc9/0xDLVl7MyCgULI=
-X-Received: by 2002:a6b:c844:: with SMTP id y65-v6mr1327163iof.187.1533814405900;
- Thu, 09 Aug 2018 04:33:25 -0700 (PDT)
+        bh=cBafueCHsJmipnJWAo3Im9OxRhjKYsdI+ng1bPqUiIs=;
+        b=C+2EtugTtrQudnlH0vcnXyXGF1MVmyvntYsf4AnZemsTYkUHbynnQDqQ4/aYZHDuhI
+         MsOdwIGgWke9AyPO0Zkh8EJmRU4lnLyC6mSteq3ca4AVtj+XLdjJq38yn2Pxk4TB3gWu
+         +lLjw1eZwZnABu0ajcttY5TrusKbBCknRb254kum8l6WpOpWkzwCsVJoxxJ2j+nhvv2s
+         42kOhdALlNsQsXqLFAR7VHNcNoeoVNDsME5q6CPvs6qVoF+wWxYWP0SMbEAUZr2MiMYH
+         mZepkiA4gM72FxiwGXz1uEx6qIS2qRjjlz4OoWjHQHLMCODzdLwA1zO0/m+eqbgT76OP
+         Dg+g==
+X-Gm-Message-State: AOUpUlFpNLCximDyXvgUYKOgF9tdzQJGP+5RHDLi8iap1Rtl2qTSLpKM
+        EFFhGE9EX4MvoKtRevOkhINfvV5d00vWxWhJ9u1Ubg==
+X-Google-Smtp-Source: AA+uWPysqNHJ4P+ZfoiHEyl64/H8IIRuDkafiTBxFtvuvwdp1ydX2sSxWzXvyMH6O6Lj6rQFNrNEKKVICxN82ZLQtO0=
+X-Received: by 2002:aca:cf0e:: with SMTP id f14-v6mr1825262oig.356.1533814513313;
+ Thu, 09 Aug 2018 04:35:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a5e:9403:0:0:0:0:0 with HTTP; Thu, 9 Aug 2018 04:33:25 -0700 (PDT)
-In-Reply-To: <CAHp75Veiop-0xAbs7MtdhOrX_vzDz7v=xAUSDnEhTYVfMovFQA@mail.gmail.com>
+Received: by 2002:ac9:2c03:0:0:0:0:0 with HTTP; Thu, 9 Aug 2018 04:35:12 -0700 (PDT)
+In-Reply-To: <CAMRc=MdTgr-CTia55cRS-Ob8eOVBQom-nXB670nxjf89U_ZEvg@mail.gmail.com>
 References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-29-brgl@bgdev.pl>
- <CAHp75Veiop-0xAbs7MtdhOrX_vzDz7v=xAUSDnEhTYVfMovFQA@mail.gmail.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Thu, 9 Aug 2018 13:33:25 +0200
-Message-ID: <CAMRc=MdTgr-CTia55cRS-Ob8eOVBQom-nXB670nxjf89U_ZEvg@mail.gmail.com>
+ <CAHp75Veiop-0xAbs7MtdhOrX_vzDz7v=xAUSDnEhTYVfMovFQA@mail.gmail.com> <CAMRc=MdTgr-CTia55cRS-Ob8eOVBQom-nXB670nxjf89U_ZEvg@mail.gmail.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Thu, 9 Aug 2018 13:35:12 +0200
+Message-ID: <CAMpxmJU83V_2m+_iipJXGFvj1wgjRp3KHQtZooUc4Ctu1Hw4MA@mail.gmail.com>
 Subject: Re: [PATCH 28/28] eeprom: at24: kill at24_platform_data
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -84,34 +85,37 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         linux-i2c <linux-i2c@vger.kernel.org>,
         "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
         Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+        netdev <netdev@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-08-08 20:03 GMT+02:00 Andy Shevchenko <andy.shevchenko@gmail.com>:
-> On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+2018-08-09 13:33 GMT+02:00 Bartosz Golaszewski <brgl@bgdev.pl>:
+> 2018-08-08 20:03 GMT+02:00 Andy Shevchenko <andy.shevchenko@gmail.com>:
+>> On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>>> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>>>
+>>> There are no more users of at24_platform_data. Remove the relevant
+>>> header and modify the driver code to not use it anymore.
+>>>
 >>
->> There are no more users of at24_platform_data. Remove the relevant
->> header and modify the driver code to not use it anymore.
+>>
+>> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+>>
+>> If you want me to test this on Intel Galileo Gen 2 board, give me a
+>> public tree from where I can pull.
+>> Thanks.
 >>
 >
->
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
->
-> If you want me to test this on Intel Galileo Gen 2 board, give me a
-> public tree from where I can pull.
-> Thanks.
+> Yes, you can pull from git@github.com:brgl/linux.git
+> davinci-remove-at24-platform-data
 >
 
-Yes, you can pull from git@github.com:brgl/linux.git
-davinci-remove-at24-platform-data
+The branch is topic/davinci-remove-at24-platform-data
 
-Bart
+> Bart
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
