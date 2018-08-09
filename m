@@ -1,130 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 36DCE7D06B
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 05:24:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E5257D00B
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 06:07:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728272AbeHIHqo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 03:46:44 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:55433 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727724AbeHIHqo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 03:46:44 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id F007721E0F;
-        Thu,  9 Aug 2018 01:23:40 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 09 Aug 2018 01:23:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :date:from:message-id:subject:to:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=c3okl1OWYU1jpoJrDgPHDwwRHKmwQCYuiQ73nS5k+
-        Qs=; b=LxCmTLASrTYKuu1zL6gBR6j1v2wnssJRVaxn+Jo3PZTArt8K8RTymhXGL
-        8Fw9mRjKih59owhJB7M7M5pOV6gZVh+tPhe79apMFhpjohSJg7rrNvUZVtff1T4m
-        xdj8XlmA3GaLoWf7tJ5fmVKZUeuVH6YHAvM876tuVUysVn7sI4mVj5iVmfdngJOK
-        +75E0RrDXgD5DbQgrTsuPorUwTqOm+Le4iMFc28DNptfwdhsiBU+fmlwQ1xjjgZ1
-        FtiyG8n5pXxhWaKvfuEFh5Tq0Gf9acq+uqRU+2aKPPaUejUERszA0PCqTcSHnx1z
-        CMfL1E/MujvScDmpYQ7PQ1S5BxmFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:date:from:message-id:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=c3okl1OWYU1jpoJrD
-        gPHDwwRHKmwQCYuiQ73nS5k+Qs=; b=YpNrVE9ApEZDu2ejtY7DesVUJCRc3LQ+t
-        QMtPOh7WxujvVed4ISRwq5kScOx5/+mC+XYXgHc/f6Aj8IQRecECkW8odwoy5CNt
-        uQXkI/fhb1YOqGeeKOgLaXqNwhqPj4kNup4Ndf5zVdpSApqwzBM7fdHxxXWbNEwB
-        5qaaCIlyCT9OfkbfYEspsp+Jgr222TWr9HLiXxjay7cU0g776eK95yiVYpa2p7hU
-        uiFtSF5Zn1DGc9mIWHSDRzeMJL2BVGiS2HwEwLKpLumzo9BU+OZU6Xcpoe73B07l
-        EVJqU5p1Jc8giF1ayif+UV7bIulKEKaa0LLZBbhXz8zcmPPEmexdg==
-X-ME-Proxy: <xmx:289rW_ogxiV5EGmh7cmYyLBYG3PvdStVYlz2r8J4jnO5ejohJPWgdA>
-    <xmx:289rW5GA9yTWgJRRyMy67MgLC_MTRNwKl5hosyIhvqn0DyRQm9XWvQ>
-    <xmx:289rW4nlmMpE4fJ03dltz0KJIoBCu4bFm9gL6lnc6ptZWpHL3N7rBw>
-    <xmx:289rW9L8Mywe1HZzwMs7eWxnbPrX0N3r4qYYNBExuuzPlmtAoY7uyg>
-    <xmx:289rWxyZ9MXWi7RNtfrh4m1yyWxqwK7uhiCvJGpg5l2bqM8zl8L6eQ>
-    <xmx:3M9rW-TUVAokM-NdyR0F2rCK3TZV55OsvwB8AbhIY6gWKrWCY-Zcnw>
-X-ME-Sender: <xms:289rW2NefRz0uoZoPdVWBipuHiLAG_h3erdtFE_F3qRusgfDu_BTTw>
-Received: from localhost (ppp121-44-213-17.bras1.syd2.internode.on.net [121.44.213.17])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 34FAC10261;
-        Thu,  9 Aug 2018 01:23:38 -0400 (EDT)
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>
-Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
+        id S1727614AbeHIIax (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 04:30:53 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:37738 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727417AbeHIIaw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 04:30:52 -0400
+Received: by mail-pg1-f195.google.com with SMTP id n7-v6so2233769pgq.4;
+        Wed, 08 Aug 2018 23:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=nAkJPNY6eBG7OZfGOUxGF+wkMFzGan/A7giKP5d7e14=;
+        b=YXDe88YIiSUpmcTjbyR09m7tvCb+03c+8X6OLCFOoII9f8MpIJQwxPYWeRs0cXaoOY
+         w0SxpSduTkp1mAGvQA7ZD/ltT+a+D0BEhKsF19xqG7zTfZQ5UgIgRwmws27CA548CXAd
+         eSb134fZT0wWIGlp6mUrxwtEMHxteijIwvYuRSa6JKSdPz+kiWh0+g0ag9KxXfyK2hhB
+         tVgKPoUS2OIYxlywnl2rIbiXb6hC5f6fxSqfwgl582VN72m2lV8We8Yts3ZnBnAHnmeX
+         nhtllbbCVv+WG2Gi1pkJBCLGQ4x2b0rF1g02E0+00Gl1lL/lKXv6eaHYd/0d5DeVeQjd
+         jeKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=nAkJPNY6eBG7OZfGOUxGF+wkMFzGan/A7giKP5d7e14=;
+        b=VPYqctRFicPwAvmoK0nqnf33y7luImrxXrPJLT0XvaEEDb1YB5y0Fv7T4kXyMlEW3q
+         TlU6t37OM5eT7RFtCMK1dT/rMF4BsfO50TptmT5Guy9/04UTJypPkvCjI2iYAajSP8w7
+         8z3/UY+fGppyVDTFyMDA1enWIqjk+FVyeYQIDDSD2ZbtYJs3mex4Gv8euDhaWxzmiDDy
+         op2bsXkT2LrH/oeg2ZjcjuoErhtn6c8abvPS4qVhRVLlEmY1Ve1T4W2vWYCSlI8pxELy
+         3L5WjMcXdqrKdeOQ90PxNLlz58RV5f4YoWLqxKYJ1gA5vlhZzGvLxnlD8pOtXvEd0esL
+         Y+TQ==
+X-Gm-Message-State: AOUpUlGMYiuK6DJcZ3Wm7RGuFkp9PteCa9UFfseWR5GoJDk8fS22Hl0R
+        PA5ZkptFanwigbgi06qBYL4=
+X-Google-Smtp-Source: AA+uWPzaGK7i+lozLp1miOIuOYTyW7fp1ODcWKoJDVcSs18sc57WJo4HHHV0slZTZrL26s4ZQagWhw==
+X-Received: by 2002:a62:571b:: with SMTP id l27-v6mr871606pfb.29.1533794858745;
+        Wed, 08 Aug 2018 23:07:38 -0700 (PDT)
+Received: from ast-mbp ([2620:10d:c090:180::1:ea8d])
+        by smtp.gmail.com with ESMTPSA id f65-v6sm18537854pfj.46.2018.08.08.23.07.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 Aug 2018 23:07:37 -0700 (PDT)
+Date:   Wed, 8 Aug 2018 23:07:35 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     "Tobin C. Harding" <me@tobin.cc>
+Cc:     Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Kees Cook <keescook@chromium.org>,
         Andy Lutomirski <luto@amacapital.net>,
         Will Drewry <wad@chromium.org>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next 0/4] Convert filter.txt to RST
-Date:   Thu,  9 Aug 2018 15:23:24 +1000
-Message-Id: <20180809052328.27942-1-me@tobin.cc>
-X-Mailer: git-send-email 2.17.1
+Subject: Re: [PATCH bpf-next 0/4] Convert filter.txt to RST
+Message-ID: <20180809060734.rtqqu4sexbwzuqmm@ast-mbp>
+References: <20180809052328.27942-1-me@tobin.cc>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180809052328.27942-1-me@tobin.cc>
+User-Agent: NeoMutt/20180223
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Thu, Aug 09, 2018 at 03:23:24PM +1000, Tobin C. Harding wrote:
+> 
+> Daniel and Alexei, can I please have permission to add GPLv2+ to the BPF
+> docs?
 
-This is my latest attempt at converting Documentation/filter.txt to RST
-format.  Added to the CC list because of additional changes to
-Documentation/userspace-api/seccomp_filter.rst
-
-For reference this set is a progression of the follow sets (in order of
-post date to LKML)
-
- 1. [PATCH bpf-next 00/13] docs: Convert BPF filter.txt to RST
- 2. [RFC bpf-next 0/3] docs: Convert filter.txt to RST
- 3. [RFC bpf-next v2 0/3] docs: Convert filter.txt to RST
-
-Sending this to BPF maintainers for hopeful inclusion in the bpf-next
-tree.  As discussed on LKML this set does all the conversion in a single
-patch.  This includes adding SPDX licence comments
-(inc. seccomp_filter), adding RST labels, and updating references.
-
-Please note this set adds three files to the MAINTAINERS file for the
-BPF maintainers.  Is this rude?
-
-Also this set adds a SPDX licence to all new files and also to
-seccomp_filter.rst  I did this because checkpatch asked me to but I am
-unsure on the protocol, is it acceptable to add a licence to
-documentation that someone else wrote?
-
-For the Record;
-
-Daniel and Alexei, can I please have permission to add GPLv2+ to the BPF
-docs?
-
-Kees, Andy, and Drewry, can I please have permission to add GPLv2+ to
-seccomp_filter.rst 
-
-(added Cc: tag to patch 2 that adds the licence identifiers)
-
-thanks,
-Tobin.
-
-Tobin C. Harding (4):
-  docs: net: Fix various minor typos
-  docs: Separate and convert filter.txt to RST
-  docs: Judiciously use double ticks
-  docs: Remove filter.txt from the tree
-
- Documentation/networking/filter.txt           | 1476 -----------------
- Documentation/userspace-api/cBPF.rst          |  432 +++++
- Documentation/userspace-api/eBPF.rst          | 1006 +++++++++++
- Documentation/userspace-api/index.rst         |    3 +
- .../userspace-api/seccomp_filter.rst          |   11 +
- Documentation/userspace-api/socket_filter.rst |  183 ++
- MAINTAINERS                                   |    4 +-
- 7 files changed, 1638 insertions(+), 1477 deletions(-)
- delete mode 100644 Documentation/networking/filter.txt
- create mode 100644 Documentation/userspace-api/cBPF.rst
- create mode 100644 Documentation/userspace-api/eBPF.rst
- create mode 100644 Documentation/userspace-api/socket_filter.rst
-
--- 
-2.17.1
+kernel licensing is GPLv2 without +
+every file (including docs) can potentially have a different
+compatible license, but since they were developed
+implicitly under v2 only you would need to get a buy-in from
+all contributors before making such change.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
