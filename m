@@ -1,231 +1,411 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 76D727DE59
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 14:46:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 630FB7D06C
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 19:21:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732511AbeHIRLd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 13:11:33 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:55336 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732072AbeHIRLc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Aug 2018 13:11:32 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 89A6C7B2B1;
-        Thu,  9 Aug 2018 14:46:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.20.6.215])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B8BB72314E;
-        Thu,  9 Aug 2018 14:46:14 +0000 (UTC)
-Date:   Thu, 9 Aug 2018 10:46:13 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Kenneth Lee <liguozhu@hisilicon.com>
-Cc:     Kenneth Lee <nek.in.cn@gmail.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1727312AbeHIVra (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 17:47:30 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:34772 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727124AbeHIVra (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 17:47:30 -0400
+Received: by mail-wr1-f67.google.com with SMTP id c13-v6so6116369wrt.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Aug 2018 12:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sYOtkPk+LjjrvrLFndeQZE28t2ttWE+vThtxXb9GtN4=;
+        b=JS/NJfp65mpiOOZn2qNDwefF0izCLijMlUwrNK3TOaz5XUOA9ol6D5Zv9YpYvKqk7X
+         kbl9ATdI2vsF66RpaF1PzSNQLgYkg4HwWjBBzKgG9EhkC8438H+ExPSGCf9Rt724MiQJ
+         T4DYiCojVtc3KK8+OgUDBYVqz6pyrA8eTsF/9v2OsQH2RPwwZ2p0HiIdqGLy3cOrOFEs
+         KJ6igU5HGedFcwjX3IqMVw0bVQDfovA3YvsTXJbYbPzKvMU4v6OklAHGHoGyCN90rzKu
+         5MrYArXQXf3LGZxLOLYWG2AOEb6A8iiNXYguDP+YN63r5ukfhvpKygphGZogMeBcxOcP
+         ygIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sYOtkPk+LjjrvrLFndeQZE28t2ttWE+vThtxXb9GtN4=;
+        b=cN9N5c+jKKsJcPvQoFzxYTq+zzxNvtwkA8QSGI7HBmBk8lJv3gyXwBsd/CUbJHaivM
+         fTz5OBTUBE4xIB+zWW9xei259R1nfcjpepHGgdEe2KnK0EfWLpeKb2hzfXuQq4UsdDbR
+         LRvCa7FTGVUqFKuFNWjF9g8TiuQwdT5cwXF6s6WMQpzEvLffoGBBZOw5vvVi8Mlo/KkQ
+         GzFdLwrBlV4qJ4hdA5bFoWc0cGRDI+rVYtMrfwLyoCMyOqhyuefvzkJoNJhBg/SYDu+4
+         G1jObibvQc0ntGrJXzQmF2e3iLlD8Ncgxpbi0c/qJ0Si+2/qENXE/lW1LfHWKvIjU2ZH
+         IiXQ==
+X-Gm-Message-State: AOUpUlEt4w9fJbtUIh0BrLoY2Fg1NTdKtF5tk5taCZRdNX/0XZtvhqq3
+        bkvlhqE4FBM3MiH+4a6TtK0QCg==
+X-Google-Smtp-Source: AA+uWPyQGRVKuxcJmJNMJ8NjyBKtSaKncBrPCI1026HMp+G9Ck5E3vhPEIJVG/bkkjQr++r9H54Tuw==
+X-Received: by 2002:a5d:63c1:: with SMTP id c1-v6mr2331295wrw.106.1533842474624;
+        Thu, 09 Aug 2018 12:21:14 -0700 (PDT)
+Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
+        by smtp.gmail.com with ESMTPSA id o14-v6sm14738797wmd.35.2018.08.09.12.21.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 Aug 2018 12:21:13 -0700 (PDT)
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180809144613.GB3386@redhat.com>
-References: <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
- <20180802040557.GL160746@Turing-Arch-b>
- <20180802142243.GA3481@redhat.com>
- <20180803034721.GC91035@Turing-Arch-b>
- <20180803143944.GA4079@redhat.com>
- <20180806031252.GG91035@Turing-Arch-b>
- <20180806153257.GB6002@redhat.com>
- <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
- <20180808151835.GA3429@redhat.com>
- <20180809080352.GI91035@Turing-Arch-b>
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Cc:     Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH v5 00/18] khwasan: kernel hardware assisted address sanitizer
+Date:   Thu,  9 Aug 2018 21:20:52 +0200
+Message-Id: <cover.1533842385.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.18.0.597.ga71716f1ad-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180809080352.GI91035@Turing-Arch-b>
-User-Agent: Mutt/1.10.0 (2018-05-17)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 09 Aug 2018 14:46:17 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 09 Aug 2018 14:46:17 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 09, 2018 at 04:03:52PM +0800, Kenneth Lee wrote:
-> On Wed, Aug 08, 2018 at 11:18:35AM -0400, Jerome Glisse wrote:
-> > On Wed, Aug 08, 2018 at 09:08:42AM +0800, Kenneth Lee wrote:
-> > > 在 2018年08月06日 星期一 11:32 下午, Jerome Glisse 写道:
-> > > > On Mon, Aug 06, 2018 at 11:12:52AM +0800, Kenneth Lee wrote:
-> > > > > On Fri, Aug 03, 2018 at 10:39:44AM -0400, Jerome Glisse wrote:
-> > > > > > On Fri, Aug 03, 2018 at 11:47:21AM +0800, Kenneth Lee wrote:
-> > > > > > > On Thu, Aug 02, 2018 at 10:22:43AM -0400, Jerome Glisse wrote:
-> > > > > > > > On Thu, Aug 02, 2018 at 12:05:57PM +0800, Kenneth Lee wrote:
+This patchset adds a new mode to KASAN [1], which is called KHWASAN
+(Kernel HardWare assisted Address SANitizer).
 
-[...]
+The plan is to implement HWASan [2] for the kernel with the incentive,
+that it's going to have comparable to KASAN performance, but in the same
+time consume much less memory, trading that off for somewhat imprecise
+bug detection and being supported only for arm64.
 
-> > > > > > > > your mechanisms the userspace must have a specific userspace
-> > > > > > > > drivers for each hardware and thus there are virtually no
-> > > > > > > > differences between having this userspace driver open a device
-> > > > > > > > file in vfio or somewhere else in the device filesystem. This is
-> > > > > > > > just a different path.
-> > > > > > > > 
-> > > > > > > The basic problem WarpDrive want to solve it to avoid syscall. This is important
-> > > > > > > to accelerators. We have some data here:
-> > > > > > > https://www.slideshare.net/linaroorg/progress-and-demonstration-of-wrapdrive-a-accelerator-framework-sfo17317
-> > > > > > > 
-> > > > > > > (see page 3)
-> > > > > > > 
-> > > > > > > The performance is different on using kernel and user drivers.
-> > > > > > Yes and example i point to is exactly that. You have a one time setup
-> > > > > > cost (creating command buffer binding PASID with command buffer and
-> > > > > > couple other setup steps). Then userspace no longer have to do any
-> > > > > > ioctl to schedule work on the GPU. It is all down from userspace and
-> > > > > > it use a doorbell to notify hardware when it should go look at command
-> > > > > > buffer for new thing to execute.
-> > > > > > 
-> > > > > > My point stands on that. You have existing driver already doing so
-> > > > > > with no new framework and in your scheme you need a userspace driver.
-> > > > > > So i do not see the value add, using one path or the other in the
-> > > > > > userspace driver is litteraly one line to change.
-> > > > > > 
-> > > > > Sorry, I'd got confuse here. I partially agree that the user driver is
-> > > > > redundance of kernel driver. (But for WarpDrive, the kernel driver is a full
-> > > > > driver include all preparation and setup stuff for the hardware, the user driver
-> > > > > is simply to send request and receive answer). Yes, it is just a choice of path.
-> > > > > But the user path is faster if the request come from use space. And to do that,
-> > > > > we need user land DMA support. Then why is it invaluable to let VFIO involved?
-> > > > Some drivers in the kernel already do exactly what you said. The user
-> > > > space emit commands without ever going into kernel by directly scheduling
-> > > > commands and ringing a doorbell. They do not need VFIO either and they
-> > > > can map userspace address into the DMA address space of the device and
-> > > > again they do not need VFIO for that.
-> > > Could you please directly point out which driver you refer to here? Thank
-> > > you.
-> > 
-> > drivers/gpu/drm/amd/
-> > 
-> > Sub-directory of interest is amdkfd
-> > 
-> > Because it is a big driver here is a highlevel overview of how it works
-> > (this is a simplification):
-> >   - Process can allocate GPUs buffer (through ioclt) and map them into
-> >     its address space (through mmap of device file at buffer object
-> >     specific offset).
-> >   - Process can map any valid range of virtual address space into device
-> >     address space (IOMMU mapping). This must be regular memory ie not an
-> >     mmap of a device file or any special file (this is the non PASID
-> >     path)
-> >   - Process can create a command queue and bind its process to it aka
-> >     PASID, this is done through an ioctl.
-> >   - Process can schedule commands onto queues it created from userspace
-> >     without ioctl. For that it just write command into a ring buffer
-> >     that it mapped during the command queue creation process and it
-> >     rings a doorbell when commands are ready to be consume by the
-> >     hardware.
-> >   - Commands can reference (access) all 3 types of object above ie
-> >     either full GPUs buffer, process regular memory maped as object
-> >     (non PASID) and PASID memory all at the same time ie you can
-> >     mix all of the above in same commands queue.
-> >   - Kernel can evict, unbind any process command queues, unbind commands
-> >     queue are still valid from process point of view but commands
-> >     process schedules on them will not be executed until kernel re-bind
-> >     the queue.
-> >   - Kernel can schedule commands itself onto its dedicated command
-> >     queues (kernel driver create its own command queues).
-> >   - Kernel can control priorities between all the queues ie it can
-> >     decides which queues should the hardware executed first next.
-> > 
-> 
-> Thank you. Now I think I understand the point. Indeed, I can see some drivers,
-> such GPU and IB, attach their own iommu_domain to their iommu_group and do their
-> own iommu_map().
-> 
-> But we have another requirement which is to combine some device together to
-> share the same address space. This is a little like these kinds of solution:
-> 
-> http://tce.technion.ac.il/wp-content/uploads/sites/8/2015/06/SC-7.2-M.-Silberstein.pdf
-> 
-> With that, the application can directly pass the NiC packet pointer to the
-> decryption accelerator, and get the bare data in place. This is the feature that
-> the VFIO container can provide.
+The overall idea of the approach used by KHWASAN is the following:
 
-Yes and GPU would very much like do the same. There is already out of
-tree solution that allow NiC to stream into GPU memory or GPU to stream
-its memory to a NiC. I am sure we will want to use more accelerator in
-conjunction with GPU in the future.
+1. By using the Top Byte Ignore arm64 CPU feature, we can store pointer
+   tags in the top byte of each kernel pointer.
 
-> 
-> > I believe all of the above are the aspects that matters to you. The main
-> > reason i don't like creating a new driver infrastructure is that a lot
-> > of existing drivers will want to use some of the new features that are
-> > coming (memory topology, where to place process memory, pipeline devices,
-> > ...) and thus existing drivers are big (GPU drivers are the biggest of
-> > all the kernel drivers).
-> > 
-> 
-> I think it is not necessarily to rewrite the GPU driver if they don't need to
-> share their space with others. But if they do, no matter how, they have to create
-> some facility similar to VFIO container. Then why not just create them in VFIO?
+2. Using shadow memory, we can store memory tags for each chunk of kernel
+   memory.
 
-No they do not, nor does anyone needs to. We already have that. If you want
-device to share memory object you have either:
-    - PASID and everything is just easy no need to create anything, as
-      all valid virtual address will work
-    - no PASID or one of the device does not support PASID then use the
-      existing kernel infrastructure aka dma buffer see Documentation/
-      driver-api/dma-buf.rst
+3. On each memory allocation, we can generate a random tag, embed it into
+   the returned pointer and set the memory tags that correspond to this
+   chunk of memory to the same value.
 
-Everything you want to do is already happening upstream and they are allready
-working example.
+4. By using compiler instrumentation, before each memory access we can add
+   a check that the pointer tag matches the tag of the memory that is being
+   accessed.
 
-> Actually, some GPUs have already used mdev to manage the resource by different
-> users, it is already part of VFIO.
+5. On a tag mismatch we report an error.
 
-The current use of mdev with GPU is to "emulate" the SR_IOV of PCIE in
-software so that a single device can be share between multiple guests.
-For this using VFIO make sense, as we want to expose device as a single
-entity that can be manage without the userspace (QEMU) having to know
-or learn about each individual devices.
+[1] https://www.kernel.org/doc/html/latest/dev-tools/kasan.html
 
-QEMU just has a well define API to probe and attach device to guest.
-It is the guest that have dedicated drivers for each of those mdev
-devices.
+[2] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
 
 
-What you are trying to do is recreate a whole driver API inside the
-VFIO subsystem and i do not see any valid reasons for that. Moreover
-you want to restrict future use to only drivers that are part of this
-new driver subsystem and again i do not see any good reasons to
-mandate any of the existing driver to be rewritten inside a new VFIO
-infrastructure.
+====== Rationale
+
+On mobile devices KASAN's memory usage is significant problem. One of the
+main reasons to have KWHASAN is to be able to perform a similar set of
+checks that KASAN does, but with lower memory requirements.
+
+Comment from Vishwath Mohan <vishwath@google.com>:
+
+I don't have data on-hand, but anecdotally both ASAN and KASAN have proven
+problematic to enable for environments that don't tolerate the increased
+memory pressure well. This includes,
+(a) Low-memory form factors - Wear, TV, Things, lower-tier phones like Go,
+(c) Connected components like Pixel's visual core [1].
+
+These are both places I'd love to have a low(er) memory footprint option at
+my disposal.
+
+Comment from Evgenii Stepanov <eugenis@google.com>:
+
+Looking at a live Android device under load, slab (according to
+/proc/meminfo) + kernel stack take 8-10% available RAM (~350MB). KASAN's
+overhead of 2x - 3x on top of it is not insignificant.
+
+Not having this overhead enables near-production use - ex. running
+KASAN/KHWASAN kernel on a personal, daily-use device to catch bugs that do
+not reproduce in test configuration. These are the ones that often cost
+the most engineering time to track down.
+
+CPU overhead is bad, but generally tolerable. RAM is critical, in our
+experience. Once it gets low enough, OOM-killer makes your life miserable.
+
+[1] https://www.blog.google/products/pixel/pixel-visual-core-image-processing-and-machine-learning-pixel-2/
 
 
-You can achieve everything you want to achieve with existing upstream
-solution. Re-inventing a whole new driver infrastructure should really
-be motivated with strong and obvious reasons.
+====== Technical details
 
-Cheers,
-Jérôme
+KHWASAN is implemented in a very similar way to KASAN. This patchset
+essentially does the following:
+
+1. TCR_TBI1 is set to enable Top Byte Ignore.
+
+2. Shadow memory is used (with a different scale, 1:16, so each shadow
+   byte corresponds to 16 bytes of kernel memory) to store memory tags.
+
+3. All slab objects are aligned to shadow scale, which is 16 bytes.
+
+4. All pointers returned from the slab allocator are tagged with a random
+   tag and the corresponding shadow memory is poisoned with the same value.
+
+5. Compiler instrumentation is used to insert tag checks. Either by
+   calling callbacks or by inlining them (CONFIG_KASAN_OUTLINE and
+   CONFIG_KASAN_INLINE flags are reused).
+
+6. When a tag mismatch is detected in callback instrumentation mode
+   KHWASAN simply prints a bug report. In case of inline instrumentation,
+   clang inserts a brk instruction, and KHWASAN has it's own brk handler,
+   which reports the bug.
+
+7. The memory in between slab objects is marked with a reserved tag, and
+   acts as a redzone.
+
+8. When a slab object is freed it's marked with a reserved tag.
+
+Bug detection is imprecise for two reasons:
+
+1. We won't catch some small out-of-bounds accesses, that fall into the
+   same shadow cell, as the last byte of a slab object.
+
+2. We only have 1 byte to store tags, which means we have a 1/256
+   probability of a tag match for an incorrect access (actually even
+   slightly less due to reserved tag values).
+
+Despite that there's a particular type of bugs that KHWASAN can detect
+compared to KASAN: use-after-free after the object has been allocated by
+someone else.
+
+
+====== Benchmarks
+
+The following numbers were collected on Odroid C2 board. Both KASAN and
+KHWASAN were used in inline instrumentation mode.
+
+Boot time [1]:
+* ~1.7 sec for clean kernel
+* ~5.0 sec for KASAN
+* ~5.0 sec for KHWASAN
+
+Network performance [2]:
+* 8.33 Gbits/sec for clean kernel
+* 3.17 Gbits/sec for KASAN
+* 2.85 Gbits/sec for KHWASAN
+
+Slab memory usage after boot [3]:
+* ~40 kb for clean kernel
+* ~105 kb (~260% overhead) for KASAN
+* ~47 kb (~20% overhead) for KHWASAN
+
+KASAN memory overhead consists of three main parts:
+1. Increased slab memory usage due to redzones.
+2. Shadow memory (the whole reserved once during boot).
+3. Quaratine (grows gradually until some preset limit; the more the limit,
+   the more the chance to detect a use-after-free).
+
+Comparing KWHASAN vs KASAN for each of these points:
+1. 20% vs 260% overhead.
+2. 1/16th vs 1/8th of physical memory.
+3. KHWASAN doesn't require quarantine.
+
+[1] Time before the ext4 driver is initialized.
+[2] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
+[3] Measured as `cat /proc/meminfo | grep Slab`.
+
+
+====== Some notes
+
+A few notes:
+
+1. The patchset can be found here:
+   https://github.com/xairy/kasan-prototype/tree/khwasan
+
+2. Building requires a recent LLVM version (r330044 or later).
+
+3. Stack instrumentation is not supported yet and will be added later.
+
+
+====== Changes
+
+Changes in v5:
+- Rebased onto 1ffaddd029 (4.18-rc8).
+- Preassign tags for objects from caches with constructors and
+  SLAB_TYPESAFE_BY_RCU caches.
+- Fix SLAB allocator support by untagging page->s_mem in
+  kasan_poison_slab().
+- Performed dynamic testing to find potential places where pointer tagging
+  might result in bugs [1].
+- Clarified and fixed memory usage benchmarks in the cover letter.
+- Added a rationale for having KHWASAN to the cover letter.
+
+Changes in v4:
+- Fixed SPDX comment style in mm/kasan/kasan.h.
+- Fixed mm/kasan/kasan.h changes being included in a wrong patch.
+- Swapped "khwasan, arm64: fix up fault handling logic" and "khwasan: add
+  tag related helper functions" patches order.
+- Rebased onto 6f0d349d (4.18-rc2+).
+
+Changes in v3:
+- Minor documentation fixes.
+- Fixed CFLAGS variable name in KASAN makefile.
+- Added a "SPDX-License-Identifier: GPL-2.0" line to all source files
+  under mm/kasan.
+- Rebased onto 81e97f013 (4.18-rc1+).
+
+Changes in v2:
+- Changed kmalloc_large_node_hook to return tagged pointer instead of
+  using an output argument.
+- Fix checking whether -fsanitize=hwaddress is supported by the compiler.
+- Removed duplication of -fno-builtin for KASAN and KHWASAN.
+- Removed {} block for one line for_each_possible_cpu loop.
+- Made set_track() static inline as it is used only in common.c.
+- Moved optimal_redzone() to common.c.
+- Fixed using tagged pointer for shadow calculation in
+  kasan_unpoison_shadow().
+- Restored setting cache->align in kasan_cache_create(), which was
+  accidentally lost.
+- Simplified __kasan_slab_free(), kasan_alloc_pages() and kasan_kmalloc().
+- Removed tagging from kasan_kmalloc_large().
+- Added page_kasan_tag_reset() to kasan_poison_slab() and removed
+  !PageSlab() check from page_to_virt.
+- Reset pointer tag in _virt_addr_is_linear.
+- Set page tag for each page when multiple pages are allocated or freed.
+- Added a comment as to why we ignore cma allocated pages.
+
+Changes in v1:
+- Rebased onto 4.17-rc4.
+- Updated benchmarking stats.
+- Documented compiler version requirements, memory usage and slowdown.
+- Dropped kvm patches, as clang + arm64 + kvm is completely broken [1].
+
+Changes in RFC v3:
+- Renamed CONFIG_KASAN_CLASSIC and CONFIG_KASAN_TAGS to
+  CONFIG_KASAN_GENERIC and CONFIG_KASAN_HW respectively.
+- Switch to -fsanitize=kernel-hwaddress instead of -fsanitize=hwaddress.
+- Removed unnecessary excessive shadow initialization.
+- Removed khwasan_enabled flag (it’s not needed since KHWASAN is
+  initialized before any slab caches are used).
+- Split out kasan_report.c and khwasan_report.c from report.c.
+- Moved more common KASAN and KHWASAN functions to common.c.
+- Added tagging to pagealloc.
+- Rebased onto 4.17-rc1.
+- Temporarily dropped patch that adds kvm support (arm64 + kvm + clang
+  combo is broken right now [2]).
+
+Changes in RFC v2:
+- Removed explicit casts to u8 * for kasan_mem_to_shadow() calls.
+- Introduced KASAN_TCR_FLAGS for setting the TCR_TBI1 flag.
+- Added a comment regarding the non-atomic RMW sequence in
+  khwasan_random_tag().
+- Made all tag related functions accept const void *.
+- Untagged pointers in __kimg_to_phys, which is used by virt_to_phys.
+- Untagged pointers in show_ptr in fault handling logic.
+- Untagged pointers passed to KVM.
+- Added two reserved tag values: 0xFF and 0xFE.
+- Used the reserved tag 0xFF to disable validity checking (to resolve the
+  issue with pointer tag being lost after page_address + kmap usage).
+- Used the reserved tag 0xFE to mark redzones and freed objects.
+- Added mnemonics for esr manipulation in KHWASAN brk handler.
+- Added a comment about the -recover flag.
+- Some minor cleanups and fixes.
+- Rebased onto 3215b9d5 (4.16-rc6+).
+- Tested on real hardware (Odroid C2 board).
+- Added better benchmarks.
+
+[1] https://lkml.org/lkml/2018/7/18/765
+[2] https://lkml.org/lkml/2018/4/19/775
+
+Andrey Konovalov (18):
+  khwasan, mm: change kasan hooks signatures
+  khwasan: move common kasan and khwasan code to common.c
+  khwasan: add CONFIG_KASAN_GENERIC and CONFIG_KASAN_HW
+  khwasan, arm64: adjust shadow size for CONFIG_KASAN_HW
+  khwasan: initialize shadow to 0xff
+  khwasan, arm64: untag virt address in __kimg_to_phys and
+    _virt_addr_is_linear
+  khwasan: add tag related helper functions
+  khwasan: preassign tags to objects with ctors or SLAB_TYPESAFE_BY_RCU
+  khwasan, arm64: fix up fault handling logic
+  khwasan, arm64: enable top byte ignore for the kernel
+  khwasan, mm: perform untagged pointers comparison in krealloc
+  khwasan: split out kasan_report.c from report.c
+  khwasan: add bug reporting routines
+  khwasan: add hooks implementation
+  khwasan, arm64: add brk handler for inline instrumentation
+  khwasan, mm, arm64: tag non slab memory allocated via pagealloc
+  khwasan: update kasan documentation
+  kasan: add SPDX-License-Identifier mark to source files
+
+ Documentation/dev-tools/kasan.rst      | 213 ++++----
+ arch/arm64/Kconfig                     |   1 +
+ arch/arm64/Makefile                    |   2 +-
+ arch/arm64/include/asm/brk-imm.h       |   2 +
+ arch/arm64/include/asm/memory.h        |  41 +-
+ arch/arm64/include/asm/pgtable-hwdef.h |   1 +
+ arch/arm64/kernel/traps.c              |  69 ++-
+ arch/arm64/mm/fault.c                  |   3 +
+ arch/arm64/mm/kasan_init.c             |  18 +-
+ arch/arm64/mm/proc.S                   |   8 +-
+ include/linux/compiler-clang.h         |   5 +-
+ include/linux/compiler-gcc.h           |   4 +
+ include/linux/compiler.h               |   3 +-
+ include/linux/kasan.h                  |  90 +++-
+ include/linux/mm.h                     |  29 ++
+ include/linux/page-flags-layout.h      |  10 +
+ lib/Kconfig.kasan                      |  77 ++-
+ mm/cma.c                               |  11 +
+ mm/kasan/Makefile                      |   9 +-
+ mm/kasan/common.c                      | 663 +++++++++++++++++++++++++
+ mm/kasan/kasan.c                       | 565 +--------------------
+ mm/kasan/kasan.h                       |  85 +++-
+ mm/kasan/kasan_init.c                  |   1 +
+ mm/kasan/kasan_report.c                | 156 ++++++
+ mm/kasan/khwasan.c                     | 181 +++++++
+ mm/kasan/khwasan_report.c              |  61 +++
+ mm/kasan/quarantine.c                  |   1 +
+ mm/kasan/report.c                      | 272 +++-------
+ mm/page_alloc.c                        |   1 +
+ mm/slab.c                              |  18 +-
+ mm/slab.h                              |   2 +-
+ mm/slab_common.c                       |   6 +-
+ mm/slub.c                              |  21 +-
+ scripts/Makefile.kasan                 |  27 +-
+ 34 files changed, 1736 insertions(+), 920 deletions(-)
+ create mode 100644 mm/kasan/common.c
+ create mode 100644 mm/kasan/kasan_report.c
+ create mode 100644 mm/kasan/khwasan.c
+ create mode 100644 mm/kasan/khwasan_report.c
+
+-- 
+2.18.0.597.ga71716f1ad-goog
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
