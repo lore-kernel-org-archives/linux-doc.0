@@ -1,126 +1,258 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AAF87D00A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 01:11:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6DC4D7D06B
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 05:23:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731063AbeHIDd2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 23:33:28 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:10646 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730262AbeHIDd2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Aug 2018 23:33:28 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 03EFDD5A49D14;
-        Thu,  9 Aug 2018 09:11:11 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server (TLS) id 14.3.399.0; Thu, 9 Aug 2018
- 09:11:02 +0800
-Date:   Thu, 9 Aug 2018 09:09:38 +0800
-From:   Kenneth Lee <liguozhu@hisilicon.com>
-To:     Joerg Roedel <joro@8bytes.org>
-CC:     Kenneth Lee <nek.in.cn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-crypto@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
-        <kvm@vger.kernel.org>, <linux-accelerators@lists.ozlabs.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Sanjay Kumar <sanjay.k.kumar@intel.com>, <linuxarm@huawei.com>
-Subject: Re: [RFC PATCH 2/7] iommu: Add share domain interface in iommu for
- spimdev
-Message-ID: <20180809010938.GH91035@Turing-Arch-b>
-References: <20180801102221.5308-1-nek.in.cn@gmail.com>
- <20180801102221.5308-3-nek.in.cn@gmail.com>
- <20180808091354.ppqgineql3pufwwr@8bytes.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20180808091354.ppqgineql3pufwwr@8bytes.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
+        id S1727724AbeHIHqq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 03:46:46 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:57029 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728056AbeHIHqq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 03:46:46 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 39A2121C79;
+        Thu,  9 Aug 2018 01:23:44 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 09 Aug 2018 01:23:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :date:from:in-reply-to:message-id:references:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=WKOth7QBss86ZrMg5
+        GM6HkWYE/OwRjg6vVwN4+VPv78=; b=blAK4WoSfyxXkhj2fQlElaw7IWpAcggCL
+        twaD7F6o2M6GGi4fe+sjDLQ7xhua2Ml77VqAcPmkh74aNrEoEgxhsVWlZ46DNBYc
+        5isRiaXq7d2nZI3nQSSKzXZzBZx2rXdZJdXqRbekGZCzDlfUKxEk6D5gFrny0q3+
+        mOIC2hzZyKbHGfri3LijOWPTuZh4yAMRnjDOiRgVJMCeEeK5An7in83XBrPF/aOI
+        6hmfEyJ45JB/jBLwZXFd94V5OR6RqqrY9mGLT8WLY7jXBiY0MH7tUqBNZL9dOU2P
+        ooORqmRMKhktoxC4M+JynmeDeO0JNp8NCkFY43C2bsjkAXT3PXMdA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:date:from:in-reply-to:message-id
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=WKOth7QBss86ZrMg5GM6HkWYE/OwRjg6vVwN4+VPv78=; b=hOcpKfxY
+        glLjUytjhT8xRoQIAhIJq6mePMS4irKIcMUCtPk+yTUtqMymJ38ARIR+wo9q5tYx
+        ZyqspzHCu+Ob4vvoURAtRJQC0ooo9LKv9IOQ84fsp2PvYI4jsWSXats5xc4j9icE
+        DSTlidD6RbB+UPj0WzlERLKeWzu1oDCu82L+4D1FnlbAZl1InB5Gcx7EXYSbvxcR
+        Q1BXXCU8/Y5zXW40T9nyS0ENCFmirepQscEhjFwg/edmL0DSEz1NClsUSYolumxm
+        nvY6j87p7QnTPQj84D6sVwGKa/RBalgao+LKhnb6xCL4UqZXh0wNLmEHjfNZpBg0
+        787Of8lq19iQwQ==
+X-ME-Proxy: <xmx:4M9rW0hGwh1_uLyQVhNizbN_JT4JAjK4hTD4rq7Nohdehv8WvivmSA>
+    <xmx:4M9rWzmm4oYJ1wcgG8lUlD3SmvV3tSlHrU3RKilHw88Cg51Iv9fhBg>
+    <xmx:4M9rW9xZR896yMqbc5mQbVTrccSmygCu6V-JvFS56fZeDcOkTS5fvA>
+    <xmx:4M9rW-s83KyZRVsL7jLArVY5IOqQ_8eePqrdKuj2sd0QsiuZVRokXA>
+    <xmx:4M9rWytK24_aIqykktOa1mV8wJbynuZ4I6K21kLNryQFbQCPeI54MQ>
+    <xmx:4M9rW8e_9MUwHzpir9qxuAa0NFX3N7dPDDe7CSMWukolF1ZGBoBYcA>
+X-ME-Sender: <xms:4M9rW1gv3aJIDjNCwAoooRn9AK2X5Kp955mhS_lTksJT9IRp3VKygA>
+Received: from localhost (ppp121-44-213-17.bras1.syd2.internode.on.net [121.44.213.17])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 4CD83E455E;
+        Thu,  9 Aug 2018 01:23:43 -0400 (EDT)
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>
+Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH bpf-next 1/4] docs: net: Fix various minor typos
+Date:   Thu,  9 Aug 2018 15:23:25 +1000
+Message-Id: <20180809052328.27942-2-me@tobin.cc>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180809052328.27942-1-me@tobin.cc>
+References: <20180809052328.27942-1-me@tobin.cc>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 08, 2018 at 11:13:54AM +0200, Joerg Roedel wrote:
-> Date: Wed, 8 Aug 2018 11:13:54 +0200
-> From: Joerg Roedel <joro@8bytes.org>
-> To: Kenneth Lee <nek.in.cn@gmail.com>
-> CC: Jonathan Corbet <corbet@lwn.net>, Herbert Xu
->  <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>,
->  Alex Williamson <alex.williamson@redhat.com>, Kenneth Lee
->  <liguozhu@hisilicon.com>, Hao Fang <fanghao11@huawei.com>, Zhou Wang
->  <wangzhou1@hisilicon.com>, Zaibo Xu <xuzaibo@huawei.com>, Philippe
->  Ombredanne <pombredanne@nexb.com>, Greg Kroah-Hartman
->  <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>,
->  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
->  linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
->  kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org, Lu Baolu
->  <baolu.lu@linux.intel.com>, Sanjay Kumar <sanjay.k.kumar@intel.com>,
->  linuxarm@huawei.com
-> Subject: Re: [RFC PATCH 2/7] iommu: Add share domain interface in iommu for
->  spimdev
-> User-Agent: NeoMutt/20170421 (1.8.2)
-> Message-ID: <20180808091354.ppqgineql3pufwwr@8bytes.org>
-> 
-> On Wed, Aug 01, 2018 at 06:22:16PM +0800, Kenneth Lee wrote:
-> > From: Kenneth Lee <liguozhu@hisilicon.com>
-> > 
-> > This patch add sharing interface for a iommu_group. The new interface:
-> > 
-> > 	iommu_group_share_domain()
-> > 	iommu_group_unshare_domain()
-> > 
-> > can be used by some virtual iommu_group (such as iommu_group for spimdev)
-> > to share their parent's iommu_group.
-> > 
-> > When the domain of the group is shared, it cannot be changed before
-> > unshared.  In the future, notification can be added if update is required.
-> 
-> >From the description or the patch I don't really get why this is needed.
-> Please update the description and make a case for this API addition.
-> 
+Document contains a few minor typos and grammatical issues.  We should
+however try to keep the current flavour of the document.
 
-Yes, I will add more description in next version.
+Fix typos and grammar if fix is _really_ an improvement.
 
-The idea here is:
+Signed-off-by: Tobin C. Harding <me@tobin.cc>
+---
+ Documentation/networking/filter.txt | 66 +++++++++++++++--------------
+ 1 file changed, 35 insertions(+), 31 deletions(-)
 
-1. iommu_domain is the setting of the IOMMU(the unit) of an iommu_group.
-
-2. The iommu_group originally uses a default domain or a created one (e.g. by vfio)
-   as its effective domain. There is only one user for a domain. If a device is
-   bound to vfio driver, it uses the new created domain. And if it is unbound from
-   vfio driver, it is switched back to the default domain.
-
-3. But for spimdev, we create an mdev which share it parent device's IOMMU. That
-   means, the parent device (along with its iommu group) will continue use its
-   iommu_domain, and the mdev will use the same at the same time.
-
-4. This API, is to tell the iommu_group that the domain is shared by the
-   spimdev. And it should be changed before it is unshared.
-
-Cheers
-
-> 
-> 	Joerg
-
+diff --git a/Documentation/networking/filter.txt b/Documentation/networking/filter.txt
+index e6b4ebb2b243..1fe4adf9c4c6 100644
+--- a/Documentation/networking/filter.txt
++++ b/Documentation/networking/filter.txt
+@@ -29,8 +29,8 @@ removing the old one and placing your new one in its place, assuming your
+ filter has passed the checks, otherwise if it fails the old filter will
+ remain on that socket.
+ 
+-SO_LOCK_FILTER option allows to lock the filter attached to a socket. Once
+-set, a filter cannot be removed or changed. This allows one process to
++SO_LOCK_FILTER option allows locking of the filter attached to a socket.
++Once set, a filter cannot be removed or changed. This allows one process to
+ setup a socket, attach a filter, lock it then drop privileges and be
+ assured that the filter will be kept until the socket is closed.
+ 
+@@ -463,7 +463,7 @@ JIT compiler
+ ------------
+ 
+ The Linux kernel has a built-in BPF JIT compiler for x86_64, SPARC, PowerPC,
+-ARM, ARM64, MIPS and s390 and can be enabled through CONFIG_BPF_JIT. The JIT
++ARM, ARM64, MIPS and s390 which can be enabled through CONFIG_BPF_JIT. The JIT
+ compiler is transparently invoked for each attached filter from user space
+ or for internal kernel users if it has been previously enabled by root:
+ 
+@@ -572,7 +572,7 @@ Internally, for the kernel interpreter, a different instruction set
+ format with similar underlying principles from BPF described in previous
+ paragraphs is being used. However, the instruction set format is modelled
+ closer to the underlying architecture to mimic native instruction sets, so
+-that a better performance can be achieved (more details later). This new
++that better performance can be achieved (more details later). This new
+ ISA is called 'eBPF' or 'internal BPF' interchangeably. (Note: eBPF which
+ originates from [e]xtended BPF is not the same as BPF extensions! While
+ eBPF is an ISA, BPF extensions date back to classic BPF's 'overloading'
+@@ -647,12 +647,12 @@ Some core changes of the new internal format:
+ 
+   32-bit architectures run 64-bit internal BPF programs via interpreter.
+   Their JITs may convert BPF programs that only use 32-bit subregisters into
+-  native instruction set and let the rest being interpreted.
++  native instruction set and let the rest be interpreted.
+ 
+-  Operation is 64-bit, because on 64-bit architectures, pointers are also
+-  64-bit wide, and we want to pass 64-bit values in/out of kernel functions,
+-  so 32-bit eBPF registers would otherwise require to define register-pair
+-  ABI, thus, there won't be able to use a direct eBPF register to HW register
++  Operation is 64-bit since on 64-bit architectures pointers are also
++  64-bit wide and we want to pass 64-bit values in/out of kernel functions.
++  32-bit eBPF registers would otherwise require us to define a register-pair
++  ABI, thus we would not be able to use a direct eBPF register to HW register
+   mapping and JIT would need to do combine/split/move operations for every
+   register in and out of the function, which is complex, bug prone and slow.
+   Another reason is the use of atomic 64-bit counters.
+@@ -677,7 +677,7 @@ Some core changes of the new internal format:
+   situations without performance penalty.
+ 
+   After an in-kernel function call, R1 - R5 are reset to unreadable and R0 has
+-  a return value of the function. Since R6 - R9 are callee saved, their state
++  the return value of the function. Since R6 - R9 are callee saved, their state
+   is preserved across the call.
+ 
+   For example, consider three C functions:
+@@ -715,7 +715,7 @@ Some core changes of the new internal format:
+   are currently not supported, but these restrictions can be lifted if necessary
+   in the future.
+ 
+-  On 64-bit architectures all register map to HW registers one to one. For
++  On 64-bit architectures all registers map to HW registers one to one. For
+   example, x86_64 JIT compiler can map them as ...
+ 
+     R0 - rax
+@@ -814,9 +814,10 @@ A program, that is translated internally consists of the following elements:
+ 
+   op:16, jt:8, jf:8, k:32    ==>    op:8, dst_reg:4, src_reg:4, off:16, imm:32
+ 
+-So far 87 internal BPF instructions were implemented. 8-bit 'op' opcode field
+-has room for new instructions. Some of them may use 16/24/32 byte encoding. New
+-instructions must be multiple of 8 bytes to preserve backward compatibility.
++So far 87 internal BPF instructions have been implemented. 8-bit 'op' opcode
++field has room for new instructions. Some of them may use 16/24/32 byte
++encoding. New instructions must be a multiple of 8 bytes to preserve backward
++compatibility.
+ 
+ Internal BPF is a general purpose RISC instruction set. Not every register and
+ every instruction are used during translation from original BPF to new format.
+@@ -827,11 +828,11 @@ out of registers and would have to resort to spill/fill to stack.
+ 
+ Internal BPF can used as generic assembler for last step performance
+ optimizations, socket filters and seccomp are using it as assembler. Tracing
+-filters may use it as assembler to generate code from kernel. In kernel usage
++filters may use it as assembler to generate code from kernel. In-kernel usage
+ may not be bounded by security considerations, since generated internal BPF code
+-may be optimizing internal code path and not being exposed to the user space.
+-Safety of internal BPF can come from a verifier (TBD). In such use cases as
+-described, it may be used as safe instruction set.
++may use an optimised internal code path and may not be being exposed to user
++space. Safety of internal BPF can come from a verifier (TBD). In such use cases
++as described, it may be used as safe as the instruction set.
+ 
+ Just like the original BPF, the new format runs within a controlled environment,
+ is deterministic and the kernel can easily prove that. The safety of the program
+@@ -927,7 +928,7 @@ Classic BPF is using BPF_MISC class to represent A = X and X = A moves.
+ eBPF is using BPF_MOV | BPF_X | BPF_ALU code instead. Since there are no
+ BPF_MISC operations in eBPF, the class 7 is used as BPF_ALU64 to mean
+ exactly the same operations as BPF_ALU, but with 64-bit wide operands
+-instead. So BPF_ADD | BPF_X | BPF_ALU64 means 64-bit addition, i.e.:
++instead. So BPF_ADD | BPF_X | BPF_ALU64 means 64-bit addition i.e.
+ dst_reg = dst_reg + src_reg
+ 
+ Classic BPF wastes the whole BPF_RET class to represent a single 'ret'
+@@ -1005,9 +1006,10 @@ BPF_XADD | BPF_DW | BPF_STX: lock xadd *(u64 *)(dst_reg + off16) += src_reg
+ Where size is one of: BPF_B or BPF_H or BPF_W or BPF_DW. Note that 1 and
+ 2 byte atomic increments are not supported.
+ 
+-eBPF has one 16-byte instruction: BPF_LD | BPF_DW | BPF_IMM which consists
+-of two consecutive 'struct bpf_insn' 8-byte blocks and interpreted as single
++eBPF has one 16-byte instruction: BPF_LD | BPF_DW | BPF_IMM which consists of
++two consecutive 'struct bpf_insn' 8-byte blocks and is interpreted as single
+ instruction that loads 64-bit immediate value into a dst_reg.
++
+ Classic BPF has similar instruction: BPF_LD | BPF_W | BPF_IMM which loads
+ 32-bit immediate value into a register.
+ 
+@@ -1016,8 +1018,8 @@ eBPF verifier
+ The safety of the eBPF program is determined in two steps.
+ 
+ First step does DAG check to disallow loops and other CFG validation.
+-In particular it will detect programs that have unreachable instructions.
+-(though classic BPF checker allows them)
++In particular it will detect programs that have unreachable instructions
++(though classic BPF checker allows them).
+ 
+ Second step starts from the first insn and descends all possible paths.
+ It simulates execution of every insn and observes the state change of
+@@ -1078,7 +1080,9 @@ Classic BPF verifier does similar check with M[0-15] memory slots.
+ For example:
+   bpf_ld R0 = *(u32 *)(R10 - 4)
+   bpf_exit
+-is invalid program.
++
++is an invalid program.
++
+ Though R10 is correct read-only register and has type PTR_TO_STACK
+ and R10 - 4 is within stack bounds, there were no stores into that location.
+ 
+@@ -1089,13 +1093,13 @@ Allowed function calls are customized with bpf_verifier_ops->get_func_proto()
+ The eBPF verifier will check that registers match argument constraints.
+ After the call register R0 will be set to return type of the function.
+ 
+-Function calls is a main mechanism to extend functionality of eBPF programs.
+-Socket filters may let programs to call one set of functions, whereas tracing
+-filters may allow completely different set.
++Function calls is an important mechanism to extend functionality of eBPF
++programs.  Socket filters may let programs call one set of functions,
++whereas tracing filters may allow a completely different set.
+ 
+-If a function made accessible to eBPF program, it needs to be thought through
+-from safety point of view. The verifier will guarantee that the function is
+-called with valid arguments.
++If a function is made accessible to eBPF program, it needs to be thought
++through from a safety point of view. The verifier will guarantee that the
++function is called with valid arguments.
+ 
+ seccomp vs socket filters have different security restrictions for classic BPF.
+ Seccomp solves this by two stage verifier: classic BPF verifier is followed
+@@ -1167,7 +1171,7 @@ checked and found to be non-NULL, all copies can become PTR_TO_MAP_VALUEs.
+ As well as range-checking, the tracked information is also used for enforcing
+ alignment of pointer accesses.  For instance, on most systems the packet pointer
+ is 2 bytes after a 4-byte alignment.  If a program adds 14 bytes to that to jump
+-over the Ethernet header, then reads IHL and addes (IHL * 4), the resulting
++over the Ethernet header, then reads IHL and adds (IHL * 4), the resulting
+ pointer will have a variable offset known to be 4n+2 for some n, so adding the 2
+ bytes (NET_IP_ALIGN) gives a 4-byte alignment and so word-sized accesses through
+ that pointer are safe.
 -- 
-			-Kenneth(Hisilicon)
+2.17.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
