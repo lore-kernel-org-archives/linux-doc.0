@@ -1,103 +1,291 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C7527D00A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 07:27:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9F5DB7D00A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 08:05:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727879AbeHIJv3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 05:51:29 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:45935 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727805AbeHIJv3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 05:51:29 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id B8BC821C6B;
-        Thu,  9 Aug 2018 03:27:57 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 09 Aug 2018 03:27:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=t2MB0DKI8xUhKAwYkxGVhUdl83vE38D6B3R8aAdiCt4=; b=ReFoAYDo
-        7nSSmKCv87Aztq2k+gVJ39f1gTfy59qoT5i+CwdAIff3U+esuKpw3EQy77CORMEP
-        r+gUVztKyVr4/Vs8sg/lYAPOOiu4Jtx6sYnRsbgOPcwtkQI1bUGYsmwaa2okulxw
-        ozeRNypvqHABWZXvE6zNLKyccl26PbSlloTYfOWIOdNR0HWAkxsR9/7CqfjOvEx7
-        6wRkFXCFdryGpw6nPFjVojWXuQ/PQNTUdj2SIdFXVXOgLcYbUVrXm/7gNa6rhmI4
-        Ui9Ws+m69gOhyQqtTaHEaQs11WpZNi/WBF60V/zv6pqSfb7bAEvNrLhvTBJxuXgr
-        x7xZqI0QqUyDHQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=t2MB0DKI8xUhKAwYkxGVhUdl83vE3
-        8D6B3R8aAdiCt4=; b=XFQumArbdvxvRN1CyqCKexUH6cGdl8BIta9FsxxR19D38
-        0ckCzJjD9aEI4AmBphy3WBNGX8reT4Z+jAuNS0bNivGp/7JonWOyuXY7ZcT8dvVd
-        sNoqZCYJvVM0H30OS+RnYu+bUyQMQOMSSB8n4quZgC3NLIOsWFCHq9zXdLVFcEK7
-        h02EMitRylQuNt34Clbhf/6jKAx8xKQlrj9KSww9djMu0NfPD5/H01sePjChai81
-        jAmBn8wY5Bw4fEWLPy0O4qvfZ0e20XUR7sH8J+YAIh1PIo04h/GOSyfXGD1yMktY
-        Trek6wipJDJ3qOT731VJ0eSMsT3YS0FrTb8mXAhbg==
-X-ME-Proxy: <xmx:_OxrWwtGmNFM3r_04EWngci-KT663d3vaJIgHlH41Of9DyIlKf8QWg>
-    <xmx:_OxrW5qqcEvVBOZqSTFzfyBntRr3KCa-XV66nSRcFbHKQdOrLsyl6g>
-    <xmx:_OxrW3qJKVfOnakNHBlgmMufl8YUlDayPj-glBWqOySZ47yQfJcl_w>
-    <xmx:_OxrW43oXhfLmt9mOd8rngPu4wCTOHmIJR1gKU3VRPHbr2qil8B7DQ>
-    <xmx:_OxrWzF6lRHhH-Hbl2xpEE8h0MgmhFYGALvApcQEhqg_ejJxF3L9nw>
-    <xmx:_exrW-ox0pYTsjo3_VcPiy8dLcg-7KbDmjCORhglNCvOQInGrGvsxA>
-X-ME-Sender: <xms:_OxrW1beei_v8bBilS2CHpIuWHaSrhJ0UiPUJp-iPchznouJjzliIQ>
-Received: from localhost (ppp121-44-213-17.bras1.syd2.internode.on.net [121.44.213.17])
-        by mail.messagingengine.com (Postfix) with ESMTPA id E0C391026B;
-        Thu,  9 Aug 2018 03:27:55 -0400 (EDT)
-Date:   Thu, 9 Aug 2018 17:27:53 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>,
+        id S1727579AbeHIK3K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 06:29:10 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:60735 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727237AbeHIK3J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Aug 2018 06:29:09 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id C3286D303E7AB;
+        Thu,  9 Aug 2018 16:05:24 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server (TLS) id 14.3.399.0; Thu, 9 Aug 2018
+ 16:05:16 +0800
+Date:   Thu, 9 Aug 2018 16:03:52 +0800
+From:   Kenneth Lee <liguozhu@hisilicon.com>
+To:     Jerome Glisse <jglisse@redhat.com>
+CC:     Kenneth Lee <nek.in.cn@gmail.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next 0/4] Convert filter.txt to RST
-Message-ID: <20180809072753.GF32374@eros>
-References: <20180809052328.27942-1-me@tobin.cc>
- <20180809060734.rtqqu4sexbwzuqmm@ast-mbp>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "Philippe Ombredanne" <pombredanne@nexb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        "linux-accelerators@lists.ozlabs.org" 
+        <linux-accelerators@lists.ozlabs.org>
+Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180809080352.GI91035@Turing-Arch-b>
+References: <20180801165644.GA3820@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+ <20180802040557.GL160746@Turing-Arch-b>
+ <20180802142243.GA3481@redhat.com>
+ <20180803034721.GC91035@Turing-Arch-b>
+ <20180803143944.GA4079@redhat.com>
+ <20180806031252.GG91035@Turing-Arch-b>
+ <20180806153257.GB6002@redhat.com>
+ <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
+ <20180808151835.GA3429@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20180809060734.rtqqu4sexbwzuqmm@ast-mbp>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180808151835.GA3429@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [10.67.212.75]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 08, 2018 at 11:07:35PM -0700, Alexei Starovoitov wrote:
-> On Thu, Aug 09, 2018 at 03:23:24PM +1000, Tobin C. Harding wrote:
-> > 
-> > Daniel and Alexei, can I please have permission to add GPLv2+ to the BPF
-> > docs?
+On Wed, Aug 08, 2018 at 11:18:35AM -0400, Jerome Glisse wrote:
+> Date: Wed, 8 Aug 2018 11:18:35 -0400
+> From: Jerome Glisse <jglisse@redhat.com>
+> To: Kenneth Lee <nek.in.cn@gmail.com>
+> CC: Kenneth Lee <liguozhu@hisilicon.com>, "Tian, Kevin"
+>  <kevin.tian@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
+>  Herbert Xu <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
+>  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
+>  Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo Xu <xuzaibo@huawei.com>,
+>  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Kumar, Sanjay K"
+>  <sanjay.k.kumar@intel.com>, Hao Fang <fanghao11@huawei.com>,
+>  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+>  "linuxarm@huawei.com" <linuxarm@huawei.com>,
+>  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+>  "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Philippe
+>  Ombredanne <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>,
+>  "David S . Miller" <davem@davemloft.net>,
+>  "linux-accelerators@lists.ozlabs.org"
+>  <linux-accelerators@lists.ozlabs.org>
+> Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+> User-Agent: Mutt/1.10.0 (2018-05-17)
+> Message-ID: <20180808151835.GA3429@redhat.com>
 > 
-> kernel licensing is GPLv2 without +
+> On Wed, Aug 08, 2018 at 09:08:42AM +0800, Kenneth Lee wrote:
+> > 
+> > 
+> > 在 2018年08月06日 星期一 11:32 下午, Jerome Glisse 写道:
+> > > On Mon, Aug 06, 2018 at 11:12:52AM +0800, Kenneth Lee wrote:
+> > > > On Fri, Aug 03, 2018 at 10:39:44AM -0400, Jerome Glisse wrote:
+> > > > > On Fri, Aug 03, 2018 at 11:47:21AM +0800, Kenneth Lee wrote:
+> > > > > > On Thu, Aug 02, 2018 at 10:22:43AM -0400, Jerome Glisse wrote:
+> > > > > > > On Thu, Aug 02, 2018 at 12:05:57PM +0800, Kenneth Lee wrote:
+> > > > > > > > On Thu, Aug 02, 2018 at 02:33:12AM +0000, Tian, Kevin wrote:
+> > > > > > > > > > On Wed, Aug 01, 2018 at 06:22:14PM +0800, Kenneth Lee wrote:
+> 
+> [...]
+> 
+> > > > > > > > > > My more general question is do we want to grow VFIO to become
+> > > > > > > > > > a more generic device driver API. This patchset adds a command
+> > > > > > > > > > queue concept to it (i don't think it exist today but i have
+> > > > > > > > > > not follow VFIO closely).
+> > > > > > > > > > 
+> > > > > > > > The thing is, VFIO is the only place to support DMA from user land. If we don't
+> > > > > > > > put it here, we have to create another similar facility to support the same.
+> > > > > > > No it is not, network device, GPU, block device, ... they all do
+> > > > > > > support DMA. The point i am trying to make here is that even in
+> > > > > > Sorry, wait a minute, are we talking the same thing? I meant "DMA from user
+> > > > > > land", not "DMA from kernel driver". To do that we have to manipulate the
+> > > > > > IOMMU(Unit). I think it can only be done by default_domain or vfio domain. Or
+> > > > > > the user space have to directly access the IOMMU.
+> > > > > GPU do DMA in the sense that you pass to the kernel a valid
+> > > > > virtual address (kernel driver do all the proper check) and
+> > > > > then you can use the GPU to copy from or to that range of
+> > > > > virtual address. Exactly how you want to use this compression
+> > > > > engine. It does not rely on SVM but SVM going forward would
+> > > > > still be the prefered option.
+> > > > > 
+> > > > No, SVM is not the reason why we rely on Jean's SVM(SVA) series. We rely on
+> > > > Jean's series because of multi-process (PASID or substream ID) support.
+> > > > 
+> > > > But of couse, WarpDrive can still benefit from the SVM feature.
+> > > We are getting side tracked here. PASID/ID do not require VFIO.
+> > > 
+> > Yes, PASID itself do not require VFIO. But what if:
+> > 
+> > 1. Support DMA from user space.
+> > 2. The hardware makes use of standard IOMMU/SMMU for IO address translation.
+> > 3. The IOMMU facility is shared by both kernel and user drivers.
+> > 4. Support PASID with the current IOMMU facility
+> 
+> I do not see how any of this means it has to be in VFIO.
+> Other devices do just that. GPUs driver for instance share
+> DMA engine (that copy data around) between kernel and user
+> space. Sometime kernel use it to move things around. Evict
+> some memory to make room for a new process is the common
+> example. Same DMA engines is often use by userspace itself
+> during rendering or compute (program moving things on there
+> own). So they are already kernel driver that do all 4 of
+> the above and are not in VFIO.
+> 
 
-According to process/license-rules.rst
+I think our divergence is on "it is common that some device drivers use IOMMU
+for user land DMA operation". Let us dive into this in the AMD case.
 
-	    GPL-2.0+  :  GNU General Public License v2.0 or later
+> 
+> > > > > > > your mechanisms the userspace must have a specific userspace
+> > > > > > > drivers for each hardware and thus there are virtually no
+> > > > > > > differences between having this userspace driver open a device
+> > > > > > > file in vfio or somewhere else in the device filesystem. This is
+> > > > > > > just a different path.
+> > > > > > > 
+> > > > > > The basic problem WarpDrive want to solve it to avoid syscall. This is important
+> > > > > > to accelerators. We have some data here:
+> > > > > > https://www.slideshare.net/linaroorg/progress-and-demonstration-of-wrapdrive-a-accelerator-framework-sfo17317
+> > > > > > 
+> > > > > > (see page 3)
+> > > > > > 
+> > > > > > The performance is different on using kernel and user drivers.
+> > > > > Yes and example i point to is exactly that. You have a one time setup
+> > > > > cost (creating command buffer binding PASID with command buffer and
+> > > > > couple other setup steps). Then userspace no longer have to do any
+> > > > > ioctl to schedule work on the GPU. It is all down from userspace and
+> > > > > it use a doorbell to notify hardware when it should go look at command
+> > > > > buffer for new thing to execute.
+> > > > > 
+> > > > > My point stands on that. You have existing driver already doing so
+> > > > > with no new framework and in your scheme you need a userspace driver.
+> > > > > So i do not see the value add, using one path or the other in the
+> > > > > userspace driver is litteraly one line to change.
+> > > > > 
+> > > > Sorry, I'd got confuse here. I partially agree that the user driver is
+> > > > redundance of kernel driver. (But for WarpDrive, the kernel driver is a full
+> > > > driver include all preparation and setup stuff for the hardware, the user driver
+> > > > is simply to send request and receive answer). Yes, it is just a choice of path.
+> > > > But the user path is faster if the request come from use space. And to do that,
+> > > > we need user land DMA support. Then why is it invaluable to let VFIO involved?
+> > > Some drivers in the kernel already do exactly what you said. The user
+> > > space emit commands without ever going into kernel by directly scheduling
+> > > commands and ringing a doorbell. They do not need VFIO either and they
+> > > can map userspace address into the DMA address space of the device and
+> > > again they do not need VFIO for that.
+> > Could you please directly point out which driver you refer to here? Thank
+> > you.
+> 
+> drivers/gpu/drm/amd/
+> 
+> Sub-directory of interest is amdkfd
+> 
+> Because it is a big driver here is a highlevel overview of how it works
+> (this is a simplification):
+>   - Process can allocate GPUs buffer (through ioclt) and map them into
+>     its address space (through mmap of device file at buffer object
+>     specific offset).
+>   - Process can map any valid range of virtual address space into device
+>     address space (IOMMU mapping). This must be regular memory ie not an
+>     mmap of a device file or any special file (this is the non PASID
+>     path)
+>   - Process can create a command queue and bind its process to it aka
+>     PASID, this is done through an ioctl.
+>   - Process can schedule commands onto queues it created from userspace
+>     without ioctl. For that it just write command into a ring buffer
+>     that it mapped during the command queue creation process and it
+>     rings a doorbell when commands are ready to be consume by the
+>     hardware.
+>   - Commands can reference (access) all 3 types of object above ie
+>     either full GPUs buffer, process regular memory maped as object
+>     (non PASID) and PASID memory all at the same time ie you can
+>     mix all of the above in same commands queue.
+>   - Kernel can evict, unbind any process command queues, unbind commands
+>     queue are still valid from process point of view but commands
+>     process schedules on them will not be executed until kernel re-bind
+>     the queue.
+>   - Kernel can schedule commands itself onto its dedicated command
+>     queues (kernel driver create its own command queues).
+>   - Kernel can control priorities between all the queues ie it can
+>     decides which queues should the hardware executed first next.
+> 
 
-> every file (including docs) can potentially have a different
-> compatible license, but since they were developed
-> implicitly under v2 only you would need to get a buy-in from
-> all contributors before making such change.
+Thank you. Now I think I understand the point. Indeed, I can see some drivers,
+such GPU and IB, attach their own iommu_domain to their iommu_group and do their
+own iommu_map().
 
-So if a file does not _explicitly_ state that it is under another
-licence it is ok to add GPLv2?
+But we have another requirement which is to combine some device together to
+share the same address space. This is a little like these kinds of solution:
 
+http://tce.technion.ac.il/wp-content/uploads/sites/8/2015/06/SC-7.2-M.-Silberstein.pdf
 
-thanks,
-Tobin.
+With that, the application can directly pass the NiC packet pointer to the
+decryption accelerator, and get the bare data in place. This is the feature that
+the VFIO container can provide.
+
+> I believe all of the above are the aspects that matters to you. The main
+> reason i don't like creating a new driver infrastructure is that a lot
+> of existing drivers will want to use some of the new features that are
+> coming (memory topology, where to place process memory, pipeline devices,
+> ...) and thus existing drivers are big (GPU drivers are the biggest of
+> all the kernel drivers).
+> 
+
+I think it is not necessarily to rewrite the GPU driver if they don't need to
+share their space with others. But if they do, no matter how, they have to create
+some facility similar to VFIO container. Then why not just create them in VFIO?
+
+Actually, some GPUs have already used mdev to manage the resource by different
+users, it is already part of VFIO.
+
+> So rewritting those existing drivers into VFIO or into any new infra-
+> structure so that they can leverage new features is a no go from my
+> point of view.
+> 
+> I would rather see a set of helpers so that each features can be use
+> either by new drivers or existing drivers. For instance a new way to
+> expose memory topology. A new way to expose how you can pipe devices
+> from one to another ...
+> 
+> 
+> Hence i do not see any value in a whole new infra-structure in which
+> drivers must be part of to leverage new features.
+> 
+> Cheers,
+> Jérôme
+
+-- 
+			-Kenneth(Hisilicon)
+
+================================================================================
+本邮件及其附件含有华为公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁
+止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中
+的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！
+This e-mail and its attachments contain confidential information from HUAWEI,
+which is intended only for the person or entity whose address is listed above.
+Any use of the 
+information contained herein in any way (including, but not limited to, total or
+partial disclosure, reproduction, or dissemination) by persons other than the
+intended 
+recipient(s) is prohibited. If you receive this e-mail in error, please notify
+the sender by phone or email immediately and delete it!
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
