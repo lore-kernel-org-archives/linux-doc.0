@@ -1,103 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 566537D00A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 08:32:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D8D27D00A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 11:12:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728376AbeHIKzT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 06:55:19 -0400
-Received: from mga14.intel.com ([192.55.52.115]:32423 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728170AbeHIKzT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Aug 2018 06:55:19 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Aug 2018 01:31:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,214,1531810800"; 
-   d="scan'208";a="79848101"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Aug 2018 01:31:33 -0700
-Received: from shsmsx102.ccr.corp.intel.com (10.239.4.154) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.319.2; Thu, 9 Aug 2018 01:31:33 -0700
-Received: from shsmsx101.ccr.corp.intel.com ([169.254.1.205]) by
- shsmsx102.ccr.corp.intel.com ([169.254.2.226]) with mapi id 14.03.0319.002;
- Thu, 9 Aug 2018 16:31:31 +0800
-From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     Kenneth Lee <liguozhu@hisilicon.com>,
-        Jerome Glisse <jglisse@redhat.com>
-CC:     Kenneth Lee <nek.in.cn@gmail.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "Philippe Ombredanne" <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: RE: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Thread-Topic: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Thread-Index: AQHUKYHSUTvc9I1u4EGviW0yiW9YHKSqmCAAgAElIaD//5XZgIAArFOAgADg0ICAALZGAIAD9xYAgADOyACAAjMwAIAA7XWAgAEY3wCAAIxngA==
-Date:   Thu, 9 Aug 2018 08:31:31 +0000
-Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D1912B39B3@SHSMSX101.ccr.corp.intel.com>
-References: <20180801165644.GA3820@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
- <20180802040557.GL160746@Turing-Arch-b> <20180802142243.GA3481@redhat.com>
- <20180803034721.GC91035@Turing-Arch-b> <20180803143944.GA4079@redhat.com>
- <20180806031252.GG91035@Turing-Arch-b> <20180806153257.GB6002@redhat.com>
- <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
- <20180808151835.GA3429@redhat.com> <20180809080352.GI91035@Turing-Arch-b>
-In-Reply-To: <20180809080352.GI91035@Turing-Arch-b>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiODBjMWY4N2EtNDljNC00MGFhLTk5ZmYtOTY0OWU3ZDVkZDRmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiSTNVSm9Mdmx6QnJVY2lBMW4xK3RtRjlNOU04VnV0VW0xaTdUMWVpN3hkdVB3eG9nUWxZU1lQRlVPWWM3dzllSCJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1730506AbeHINhL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 09:37:11 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:38094 "EHLO
+        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727768AbeHINhL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 09:37:11 -0400
+Received: by mail-it0-f67.google.com with SMTP id v71-v6so1999832itb.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Aug 2018 04:12:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=Lah9RiRar2mkn3FzoHAkaxdIBc+cCvpeSzfLtPuGlQY=;
+        b=gBf9msOmRSV2ZRLe2JtvoC1DyxEgyJ8L9JebfRd2GPp7HYnGqYhPi3/hp0+zcH4Q6g
+         vRx3dOyJbFY7QGqAYvr1OlF5mjLTH18RA2db5VJPo9vvcD3myJaqZ45qc48x/roVEnnr
+         JzF0xY335Ub2rAW+IiykLcBBWN7jikDbQpEVT77ocP3G/ja7vEjGB/16v89K4pQQy7Bo
+         8zeNuTq7Gy2DRvMM+fuqAw+e3Rhfx80n7UuRLfd1aQFiKwY2uQCTS1rZrS7xzsiBdBr8
+         jlIq1uD2mAk7DTRO8AzaZ7XHEeqO3JXzC7hn4LjVASe+j7hKFhC6ounQzIuRRK2tb+IX
+         oNKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=Lah9RiRar2mkn3FzoHAkaxdIBc+cCvpeSzfLtPuGlQY=;
+        b=OXPc559Tg2NT3dfRelyw89Essu9SoHP25QFP1Coxaq/pzpvX3nhcKP3n1nwcrgpgmS
+         V+HJfJbGfOln8I2aJI0AXXF4sWWHswbTi1D4NtKN7w+t6J9c/RI5MnwSOEKM3beMKiJl
+         F5q2S0nr9E/axK0sws5JXL4b/AAMZfITfGe5mM5AF8iCp40hrZG7N7nqHgJq3pvugszH
+         9BFfOQxGGH+tT2V88GIochEAwdLSY5nCVA5cXB/OTTxBwMh4ELFFRYIIrB3/N1Dn2xDB
+         R4GCblj2kgkzRGSRzK7rlCLdm/4WDquqGrLyvmzko9neOamGh886gJme60dSgOoygSGW
+         mF1Q==
+X-Gm-Message-State: AOUpUlHqc5O0GgAcnRWoL0JSlroCSLs3ChnmImpTYrKa+r3LU34pHGCM
+        cNrTmIgGAjemu7UJmwrLpqG+4lCU3MlDUtI4mf1C8A==
+X-Google-Smtp-Source: AA+uWPzb2UWAzUPh+nBGLNILzuc2MIdjEyoLJSFseezuV3dlT+OvkJi94LFxXHQCmGhQNwEaIwmM/Sd9tFJm8IQkY3Y=
+X-Received: by 2002:a02:b70b:: with SMTP id g11-v6mr1449345jam.34.1533813168441;
+ Thu, 09 Aug 2018 04:12:48 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:a5e:9403:0:0:0:0:0 with HTTP; Thu, 9 Aug 2018 04:12:47 -0700 (PDT)
+In-Reply-To: <CAHp75VfxVOPzAtBgTe4RSax1Ki+323WDBTSmh=j7LV_c+vsXDA@mail.gmail.com>
+References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-15-brgl@bgdev.pl>
+ <CAHp75VfxVOPzAtBgTe4RSax1Ki+323WDBTSmh=j7LV_c+vsXDA@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 9 Aug 2018 13:12:47 +0200
+Message-ID: <CAMRc=MfgoCt1BvRx1jJrYp_258_Z9NTNs7waEiOCvdTsK+KWFg@mail.gmail.com>
+Subject: Re: [PATCH 14/28] net: split eth_platform_get_mac_address() into subroutines
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
+        Rob Herring <robh@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+        Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBGcm9tOiBLZW5uZXRoIExlZSBbbWFpbHRvOmxpZ3Vvemh1QGhpc2lsaWNvbi5jb21dDQo+IFNl
-bnQ6IFRodXJzZGF5LCBBdWd1c3QgOSwgMjAxOCA0OjA0IFBNDQo+IA0KPiBCdXQgd2UgaGF2ZSBh
-bm90aGVyIHJlcXVpcmVtZW50IHdoaWNoIGlzIHRvIGNvbWJpbmUgc29tZSBkZXZpY2UNCj4gdG9n
-ZXRoZXIgdG8NCj4gc2hhcmUgdGhlIHNhbWUgYWRkcmVzcyBzcGFjZS4gVGhpcyBpcyBhIGxpdHRs
-ZSBsaWtlIHRoZXNlIGtpbmRzIG9mIHNvbHV0aW9uOg0KPiANCj4gaHR0cDovL3RjZS50ZWNobmlv
-bi5hYy5pbC93cC1jb250ZW50L3VwbG9hZHMvc2l0ZXMvOC8yMDE1LzA2L1NDLTcuMi1NLi0NCj4g
-U2lsYmVyc3RlaW4ucGRmDQo+IA0KPiBXaXRoIHRoYXQsIHRoZSBhcHBsaWNhdGlvbiBjYW4gZGly
-ZWN0bHkgcGFzcyB0aGUgTmlDIHBhY2tldCBwb2ludGVyIHRvIHRoZQ0KPiBkZWNyeXB0aW9uIGFj
-Y2VsZXJhdG9yLCBhbmQgZ2V0IHRoZSBiYXJlIGRhdGEgaW4gcGxhY2UuIFRoaXMgaXMgdGhlIGZl
-YXR1cmUNCj4gdGhhdA0KPiB0aGUgVkZJTyBjb250YWluZXIgY2FuIHByb3ZpZGUuDQoNCmFib3Zl
-IGlzIG5vdCBhIGdvb2QgYXJndW1lbnQsIGF0IGxlYXN0IGluIHRoZSBjb250ZXh0IG9mIHlvdXIg
-ZGlzY3Vzc2lvbi4NCklmIGVhY2ggZGV2aWNlIGhhcyB0aGVpciBvd24gaW50ZXJmYWNlIChzaW1p
-bGFyIHRvIEdQVSkgZm9yIHByb2Nlc3MgdG8gYmluZCANCndpdGgsIHRoZW4gaGF2aW5nIHRoZSBw
-cm9jZXNzIGJpbmRpbmcgdG8gbXVsdGlwbGUgZGV2aWNlcyBvbmUtYnktb25lIHRoZW4NCnlvdSBz
-dGlsbCBnZXQgc2FtZSBhZGRyZXNzIHNwYWNlIHNoYXJlZCBjcm9zcyB0aGVtLi4uDQoNClRoYW5r
-cw0KS2V2aW4NCg==
+2018-08-08 19:50 GMT+02:00 Andy Shevchenko <andy.shevchenko@gmail.com>:
+> On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>>
+>> We want do add more sources from which to read the MAC address. In
+>> order to avoid bloating this function too much, start by splitting it
+>> into subroutines, each of which takes care of reading the MAC from
+>> one source.
+>
+>> +static int mac_address_from_of(struct device *dev, u8 *mac_addr)
+>>  {
+>>         const unsigned char *addr;
+>> +       struct device_node *np;
+>>
+>
+>> +       np = dev_is_pci(dev) ? pci_device_to_OF_node(to_pci_dev(dev))
+>> +                            : dev->of_node;
+>
+> I didn't get these manipulations.
+>
+> What the scenario when pci_dev->dev.of_node != dev->of_node?
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+I'll add an additional patch that addresses it.
+
+Bart
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
