@@ -3,17 +3,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA0947DE59
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:45:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8FDD7D926
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:45:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727625AbeHJALv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 20:11:51 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:59874 "EHLO
+        id S1727821AbeHJAMP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 20:12:15 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:38784 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727601AbeHJALu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 20:11:50 -0400
+        with ESMTP id S1728028AbeHJAMO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 20:12:14 -0400
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -33,219 +33,120 @@ Cc:     linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v6 08/24] watchdog: jz4740: Use WDT clock provided by TCU driver
-Date:   Thu,  9 Aug 2018 23:43:58 +0200
-Message-Id: <20180809214414.20905-9-paul@crapouillou.net>
+Subject: [PATCH v6 20/24] MIPS: qi_lb60: Move PWM devices to devicetree
+Date:   Thu,  9 Aug 2018 23:44:10 +0200
+Message-Id: <20180809214414.20905-21-paul@crapouillou.net>
 In-Reply-To: <20180809214414.20905-1-paul@crapouillou.net>
 References: <20180809214414.20905-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1533851101; bh=hIy5cSWAS6P1ctW8+k/l89HhdWCU7zPoVRTMU02qJfo=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=q7KaSFec2KDsQpgK5U7XYtMMNSO6TQnxDnZkGYr0NiGDgKbuW+wGkmzPB5XOT4iS29TsGdWtic6qKzKApzST5qAiKZL7kr8OwcVzzSYW10mY+ZfEwfgP8IYg59VGoky7QrByHwbOW/ts5Z+5cnZS0hWsRIRIMKviJTWiWMDjE/k=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1533851126; bh=ud0udkoc/ygzPwD7ng+ltjpXM+BoA0DildI1rhzVmqw=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=fcV7veFy5jfeQ08cmUDv66XzaGaGIcv22S8vBxr3aToBXJUYmFaxelz6fl3jEnF7kDJyphYoyVebrT/t/vzfGrqu3twr2dyPL4v13s8zcfeWRosc6sh3lR1VmxWbiS2cCfyatUpEC64PmMtSkiaKmQsZGRcmh0RQlKkw8doHR5k=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of requesting the "ext" clock and handling the watchdog clock
-divider and gating in the watchdog driver, we now request and use the
-"wdt" clock that is supplied by the ingenic-timer "TCU" driver.
-
-The major benefit is that the watchdog's clock rate and parent can now
-be specified from within devicetree, instead of hardcoded in the driver.
-
-Also, this driver won't poke anymore into the TCU registers to
-enable/disable the clock, as this is now handled by the TCU driver.
-
-On the bad side, we break the ABI with devicetree - as we now request a
-different clock. In this very specific case it is still okay, as every
-Ingenic JZ47xx-based board out there compile the devicetree within the
-kernel; so it's still time to push breaking changes, in order to get a
-clean devicetree that won't break once it musn't.
+Probe the few drivers using PWMs from devicetree, now that we have a
+devicetree node for the PWM driver.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/watchdog/Kconfig      |  2 +
- drivers/watchdog/jz4740_wdt.c | 86 +++++++++++++++++--------------------------
- 2 files changed, 36 insertions(+), 52 deletions(-)
+ arch/mips/boot/dts/ingenic/qi_lb60.dts | 14 ++++++++++++++
+ arch/mips/jz4740/board-qi_lb60.c       | 19 -------------------
+ 2 files changed, 14 insertions(+), 19 deletions(-)
 
  v5: New patch
 
- v6: - Split regmap change to new patch 09/24
-     - The code now sets the WDT clock to the smallest rate possible and
-       calculates the maximum timeout from that
+ v6: No change
 
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index 9af07fd92763..834222abbbdb 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -1476,7 +1476,9 @@ config INDYDOG
- config JZ4740_WDT
- 	tristate "Ingenic jz4740 SoC hardware watchdog"
- 	depends on MACH_JZ4740 || MACH_JZ4780
-+	depends on COMMON_CLK
- 	select WATCHDOG_CORE
-+	select INGENIC_TIMER
- 	help
- 	  Hardware driver for the built-in watchdog timer on Ingenic jz4740 SoCs.
- 
-diff --git a/drivers/watchdog/jz4740_wdt.c b/drivers/watchdog/jz4740_wdt.c
-index ec4d99a830ba..1d504ecf45e1 100644
---- a/drivers/watchdog/jz4740_wdt.c
-+++ b/drivers/watchdog/jz4740_wdt.c
-@@ -26,25 +26,9 @@
- #include <linux/err.h>
- #include <linux/of.h>
- 
--#include <asm/mach-jz4740/timer.h>
--
- #define JZ_REG_WDT_TIMER_DATA     0x0
- #define JZ_REG_WDT_COUNTER_ENABLE 0x4
- #define JZ_REG_WDT_TIMER_COUNTER  0x8
--#define JZ_REG_WDT_TIMER_CONTROL  0xC
--
--#define JZ_WDT_CLOCK_PCLK 0x1
--#define JZ_WDT_CLOCK_RTC  0x2
--#define JZ_WDT_CLOCK_EXT  0x4
--
--#define JZ_WDT_CLOCK_DIV_SHIFT   3
--
--#define JZ_WDT_CLOCK_DIV_1    (0 << JZ_WDT_CLOCK_DIV_SHIFT)
--#define JZ_WDT_CLOCK_DIV_4    (1 << JZ_WDT_CLOCK_DIV_SHIFT)
--#define JZ_WDT_CLOCK_DIV_16   (2 << JZ_WDT_CLOCK_DIV_SHIFT)
--#define JZ_WDT_CLOCK_DIV_64   (3 << JZ_WDT_CLOCK_DIV_SHIFT)
--#define JZ_WDT_CLOCK_DIV_256  (4 << JZ_WDT_CLOCK_DIV_SHIFT)
--#define JZ_WDT_CLOCK_DIV_1024 (5 << JZ_WDT_CLOCK_DIV_SHIFT)
- 
- #define DEFAULT_HEARTBEAT 5
- #define MAX_HEARTBEAT     2048
-@@ -65,7 +49,8 @@ MODULE_PARM_DESC(heartbeat,
- struct jz4740_wdt_drvdata {
- 	struct watchdog_device wdt;
- 	void __iomem *base;
--	struct clk *rtc_clk;
-+	struct clk *clk;
-+	unsigned long clk_rate;
+diff --git a/arch/mips/boot/dts/ingenic/qi_lb60.dts b/arch/mips/boot/dts/ingenic/qi_lb60.dts
+index 76aaf8982554..85529a142409 100644
+--- a/arch/mips/boot/dts/ingenic/qi_lb60.dts
++++ b/arch/mips/boot/dts/ingenic/qi_lb60.dts
+@@ -9,6 +9,14 @@
+ 	chosen {
+ 		stdout-path = &uart0;
+ 	};
++
++	beeper {
++		compatible = "pwm-beeper";
++		pwms = <&pwm 4 0 0>;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&pins_pwm4>;
++	};
  };
  
- static int jz4740_wdt_ping(struct watchdog_device *wdt_dev)
-@@ -80,31 +65,12 @@ static int jz4740_wdt_set_timeout(struct watchdog_device *wdt_dev,
- 				    unsigned int new_timeout)
- {
- 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
--	unsigned int rtc_clk_rate;
--	unsigned int timeout_value;
--	unsigned short clock_div = JZ_WDT_CLOCK_DIV_1;
+ &ext {
+@@ -30,4 +38,10 @@
+ 		groups = "uart0-data";
+ 		bias-disable;
+ 	};
++
++	pins_pwm4: pwm4 {
++		function = "pwm4";
++		groups = "pwm4";
++		bias-disable;
++	};
+ };
+diff --git a/arch/mips/jz4740/board-qi_lb60.c b/arch/mips/jz4740/board-qi_lb60.c
+index 60f0767507c6..2db32cb9ed47 100644
+--- a/arch/mips/jz4740/board-qi_lb60.c
++++ b/arch/mips/jz4740/board-qi_lb60.c
+@@ -27,7 +27,6 @@
+ #include <linux/power_supply.h>
+ #include <linux/power/jz4740-battery.h>
+ #include <linux/power/gpio-charger.h>
+-#include <linux/pwm.h>
+ 
+ #include <asm/mach-jz4740/gpio.h>
+ #include <asm/mach-jz4740/jz4740_fb.h>
+@@ -391,17 +390,6 @@ static struct jz4740_mmc_platform_data qi_lb60_mmc_pdata = {
+ 	.power_active_low	= 1,
+ };
+ 
+-/* beeper */
+-static struct pwm_lookup qi_lb60_pwm_lookup[] = {
+-	PWM_LOOKUP("jz4740-pwm", 4, "pwm-beeper", NULL, 0,
+-		   PWM_POLARITY_NORMAL),
+-};
 -
--	rtc_clk_rate = clk_get_rate(drvdata->rtc_clk);
+-static struct platform_device qi_lb60_pwm_beeper = {
+-	.name = "pwm-beeper",
+-	.id = -1,
+-};
 -
--	timeout_value = rtc_clk_rate * new_timeout;
--	while (timeout_value > 0xffff) {
--		if (clock_div == JZ_WDT_CLOCK_DIV_1024) {
--			/* Requested timeout too high;
--			* use highest possible value. */
--			timeout_value = 0xffff;
--			break;
--		}
--		timeout_value >>= 2;
--		clock_div += (1 << JZ_WDT_CLOCK_DIV_SHIFT);
--	}
-+	u16 timeout_value = (u16)(drvdata->clk_rate * new_timeout);
- 
- 	writeb(0x0, drvdata->base + JZ_REG_WDT_COUNTER_ENABLE);
--	writew(clock_div, drvdata->base + JZ_REG_WDT_TIMER_CONTROL);
- 
- 	writew((u16)timeout_value, drvdata->base + JZ_REG_WDT_TIMER_DATA);
- 	writew(0x0, drvdata->base + JZ_REG_WDT_TIMER_COUNTER);
--	writew(clock_div | JZ_WDT_CLOCK_RTC,
--		drvdata->base + JZ_REG_WDT_TIMER_CONTROL);
- 
- 	writeb(0x1, drvdata->base + JZ_REG_WDT_COUNTER_ENABLE);
- 
-@@ -114,7 +80,13 @@ static int jz4740_wdt_set_timeout(struct watchdog_device *wdt_dev,
- 
- static int jz4740_wdt_start(struct watchdog_device *wdt_dev)
- {
--	jz4740_timer_enable_watchdog();
-+	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
-+	int ret;
-+
-+	ret = clk_prepare_enable(drvdata->clk);
-+	if (ret)
-+		return ret;
-+
- 	jz4740_wdt_set_timeout(wdt_dev, wdt_dev->timeout);
- 
- 	return 0;
-@@ -125,7 +97,7 @@ static int jz4740_wdt_stop(struct watchdog_device *wdt_dev)
- 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
- 
- 	writeb(0x0, drvdata->base + JZ_REG_WDT_COUNTER_ENABLE);
--	jz4740_timer_disable_watchdog();
-+	clk_disable_unprepare(drvdata->clk);
- 
- 	return 0;
- }
-@@ -163,26 +135,42 @@ MODULE_DEVICE_TABLE(of, jz4740_wdt_of_matches);
- 
- static int jz4740_wdt_probe(struct platform_device *pdev)
- {
-+	struct device *dev = &pdev->dev;
- 	struct jz4740_wdt_drvdata *drvdata;
- 	struct watchdog_device *jz4740_wdt;
- 	struct resource	*res;
-+	long rate;
- 	int ret;
- 
--	drvdata = devm_kzalloc(&pdev->dev, sizeof(struct jz4740_wdt_drvdata),
--			       GFP_KERNEL);
-+	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
- 	if (!drvdata)
- 		return -ENOMEM;
- 
--	if (heartbeat < 1 || heartbeat > MAX_HEARTBEAT)
--		heartbeat = DEFAULT_HEARTBEAT;
-+	drvdata->clk = devm_clk_get(&pdev->dev, "wdt");
-+	if (IS_ERR(drvdata->clk)) {
-+		dev_err(&pdev->dev, "cannot find WDT clock\n");
-+		return PTR_ERR(drvdata->clk);
-+	}
-+
-+	/* Set smallest clock possible */
-+	rate = clk_round_rate(drvdata->clk, 1);
-+	if (rate < 0)
-+		return rate;
- 
-+	ret = clk_set_rate(drvdata->clk, rate);
-+	if (ret)
-+		return ret;
-+
-+	drvdata->clk_rate = rate;
- 	jz4740_wdt = &drvdata->wdt;
- 	jz4740_wdt->info = &jz4740_wdt_info;
- 	jz4740_wdt->ops = &jz4740_wdt_ops;
--	jz4740_wdt->timeout = heartbeat;
- 	jz4740_wdt->min_timeout = 1;
--	jz4740_wdt->max_timeout = MAX_HEARTBEAT;
--	jz4740_wdt->parent = &pdev->dev;
-+	jz4740_wdt->max_timeout = 0xffff / rate;
-+	jz4740_wdt->timeout = clamp(heartbeat,
-+				    jz4740_wdt->min_timeout,
-+				    jz4740_wdt->max_timeout);
-+	jz4740_wdt->parent = dev;
- 	watchdog_set_nowayout(jz4740_wdt, nowayout);
- 	watchdog_set_drvdata(jz4740_wdt, drvdata);
- 
-@@ -191,12 +179,6 @@ static int jz4740_wdt_probe(struct platform_device *pdev)
- 	if (IS_ERR(drvdata->base))
- 		return PTR_ERR(drvdata->base);
- 
--	drvdata->rtc_clk = devm_clk_get(&pdev->dev, "rtc");
--	if (IS_ERR(drvdata->rtc_clk)) {
--		dev_err(&pdev->dev, "cannot find RTC clock\n");
--		return PTR_ERR(drvdata->rtc_clk);
--	}
+ /* charger */
+ static char *qi_lb60_batteries[] = {
+ 	"battery",
+@@ -450,10 +438,8 @@ static struct platform_device *jz_platform_devices[] __initdata = {
+ 	&jz4740_i2s_device,
+ 	&jz4740_codec_device,
+ 	&jz4740_adc_device,
+-	&jz4740_pwm_device,
+ 	&jz4740_dma_device,
+ 	&qi_lb60_gpio_keys,
+-	&qi_lb60_pwm_beeper,
+ 	&qi_lb60_charger_device,
+ 	&qi_lb60_audio_device,
+ };
+@@ -482,10 +468,6 @@ static struct pinctrl_map pin_map[] __initdata = {
+ 			"10010000.jz4740-pinctrl", "PD0", pin_cfg_bias_disable),
+ 	PIN_MAP_CONFIGS_PIN_DEFAULT("jz4740-mmc.0",
+ 			"10010000.jz4740-pinctrl", "PD2", pin_cfg_bias_disable),
 -
- 	ret = devm_watchdog_register_device(&pdev->dev, &drvdata->wdt);
- 	if (ret < 0)
- 		return ret;
+-	/* PWM pin configuration */
+-	PIN_MAP_MUX_GROUP_DEFAULT("jz4740-pwm",
+-			"10010000.jz4740-pinctrl", "pwm4", "pwm4"),
+ };
+ 
+ 
+@@ -503,7 +485,6 @@ static int __init qi_lb60_init_platform_devices(void)
+ 	spi_register_board_info(qi_lb60_spi_board_info,
+ 				ARRAY_SIZE(qi_lb60_spi_board_info));
+ 
+-	pwm_add_table(qi_lb60_pwm_lookup, ARRAY_SIZE(qi_lb60_pwm_lookup));
+ 	pinctrl_register_mappings(pin_map, ARRAY_SIZE(pin_map));
+ 
+ 	return platform_add_devices(jz_platform_devices,
 -- 
 2.11.0
 
