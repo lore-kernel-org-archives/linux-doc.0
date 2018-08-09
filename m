@@ -1,121 +1,231 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 58F4B7D00A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 11:35:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 76D727DE59
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 14:46:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731028AbeHIN7l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 09:59:41 -0400
-Received: from mail-oi0-f67.google.com ([209.85.218.67]:35633 "EHLO
-        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730849AbeHIN7l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 09:59:41 -0400
-Received: by mail-oi0-f67.google.com with SMTP id m11-v6so9261661oic.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Aug 2018 04:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=cBafueCHsJmipnJWAo3Im9OxRhjKYsdI+ng1bPqUiIs=;
-        b=GC25dIrtvYPeoesfojuZWrLW4bNxgvHcs60o+gya6qWXd2yunXhhOJaAXaSC2l5sCz
-         +p0tvTuQN2mZX4UGm7/R5dv8zw5HzZh+oviIY1NEwCYf+rttOayx+y+gAL6TIZtYa1Zw
-         7a8m/MFpdARxDQVHNPgr5qZ8JPrTdGWGTP7JqhuYM48wKzIXM01FuAEq4eam5an7cEst
-         8jz22uXcoJE1HzoCM83BmZAocxBB4NG+I04G1BdZFUhnyGb8QMxnyNMwbjNSnEVLJcUw
-         234XAePa0VYazDx7l0v6RdgXtEnCFb1LE0i0KZjqfqkvpfp3FD9cmeN84nYeVm/hA3MJ
-         5Q4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=cBafueCHsJmipnJWAo3Im9OxRhjKYsdI+ng1bPqUiIs=;
-        b=C+2EtugTtrQudnlH0vcnXyXGF1MVmyvntYsf4AnZemsTYkUHbynnQDqQ4/aYZHDuhI
-         MsOdwIGgWke9AyPO0Zkh8EJmRU4lnLyC6mSteq3ca4AVtj+XLdjJq38yn2Pxk4TB3gWu
-         +lLjw1eZwZnABu0ajcttY5TrusKbBCknRb254kum8l6WpOpWkzwCsVJoxxJ2j+nhvv2s
-         42kOhdALlNsQsXqLFAR7VHNcNoeoVNDsME5q6CPvs6qVoF+wWxYWP0SMbEAUZr2MiMYH
-         mZepkiA4gM72FxiwGXz1uEx6qIS2qRjjlz4OoWjHQHLMCODzdLwA1zO0/m+eqbgT76OP
-         Dg+g==
-X-Gm-Message-State: AOUpUlFpNLCximDyXvgUYKOgF9tdzQJGP+5RHDLi8iap1Rtl2qTSLpKM
-        EFFhGE9EX4MvoKtRevOkhINfvV5d00vWxWhJ9u1Ubg==
-X-Google-Smtp-Source: AA+uWPysqNHJ4P+ZfoiHEyl64/H8IIRuDkafiTBxFtvuvwdp1ydX2sSxWzXvyMH6O6Lj6rQFNrNEKKVICxN82ZLQtO0=
-X-Received: by 2002:aca:cf0e:: with SMTP id f14-v6mr1825262oig.356.1533814513313;
- Thu, 09 Aug 2018 04:35:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:2c03:0:0:0:0:0 with HTTP; Thu, 9 Aug 2018 04:35:12 -0700 (PDT)
-In-Reply-To: <CAMRc=MdTgr-CTia55cRS-Ob8eOVBQom-nXB670nxjf89U_ZEvg@mail.gmail.com>
-References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-29-brgl@bgdev.pl>
- <CAHp75Veiop-0xAbs7MtdhOrX_vzDz7v=xAUSDnEhTYVfMovFQA@mail.gmail.com> <CAMRc=MdTgr-CTia55cRS-Ob8eOVBQom-nXB670nxjf89U_ZEvg@mail.gmail.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Thu, 9 Aug 2018 13:35:12 +0200
-Message-ID: <CAMpxmJU83V_2m+_iipJXGFvj1wgjRp3KHQtZooUc4Ctu1Hw4MA@mail.gmail.com>
-Subject: Re: [PATCH 28/28] eeprom: at24: kill at24_platform_data
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1732511AbeHIRLd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 13:11:33 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:55336 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1732072AbeHIRLc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Aug 2018 13:11:32 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 89A6C7B2B1;
+        Thu,  9 Aug 2018 14:46:17 +0000 (UTC)
+Received: from redhat.com (unknown [10.20.6.215])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B8BB72314E;
+        Thu,  9 Aug 2018 14:46:14 +0000 (UTC)
+Date:   Thu, 9 Aug 2018 10:46:13 -0400
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Kenneth Lee <liguozhu@hisilicon.com>
+Cc:     Kenneth Lee <nek.in.cn@gmail.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         "David S . Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
-        Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
-        Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-accelerators@lists.ozlabs.org" 
+        <linux-accelerators@lists.ozlabs.org>
+Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180809144613.GB3386@redhat.com>
+References: <AADFC41AFE54684AB9EE6CBC0274A5D191290E1A@SHSMSX101.ccr.corp.intel.com>
+ <20180802040557.GL160746@Turing-Arch-b>
+ <20180802142243.GA3481@redhat.com>
+ <20180803034721.GC91035@Turing-Arch-b>
+ <20180803143944.GA4079@redhat.com>
+ <20180806031252.GG91035@Turing-Arch-b>
+ <20180806153257.GB6002@redhat.com>
+ <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
+ <20180808151835.GA3429@redhat.com>
+ <20180809080352.GI91035@Turing-Arch-b>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180809080352.GI91035@Turing-Arch-b>
+User-Agent: Mutt/1.10.0 (2018-05-17)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 09 Aug 2018 14:46:17 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 09 Aug 2018 14:46:17 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-08-09 13:33 GMT+02:00 Bartosz Golaszewski <brgl@bgdev.pl>:
-> 2018-08-08 20:03 GMT+02:00 Andy Shevchenko <andy.shevchenko@gmail.com>:
->> On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->>> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->>>
->>> There are no more users of at24_platform_data. Remove the relevant
->>> header and modify the driver code to not use it anymore.
->>>
->>
->>
->> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
->>
->> If you want me to test this on Intel Galileo Gen 2 board, give me a
->> public tree from where I can pull.
->> Thanks.
->>
->
-> Yes, you can pull from git@github.com:brgl/linux.git
-> davinci-remove-at24-platform-data
->
+On Thu, Aug 09, 2018 at 04:03:52PM +0800, Kenneth Lee wrote:
+> On Wed, Aug 08, 2018 at 11:18:35AM -0400, Jerome Glisse wrote:
+> > On Wed, Aug 08, 2018 at 09:08:42AM +0800, Kenneth Lee wrote:
+> > > 在 2018年08月06日 星期一 11:32 下午, Jerome Glisse 写道:
+> > > > On Mon, Aug 06, 2018 at 11:12:52AM +0800, Kenneth Lee wrote:
+> > > > > On Fri, Aug 03, 2018 at 10:39:44AM -0400, Jerome Glisse wrote:
+> > > > > > On Fri, Aug 03, 2018 at 11:47:21AM +0800, Kenneth Lee wrote:
+> > > > > > > On Thu, Aug 02, 2018 at 10:22:43AM -0400, Jerome Glisse wrote:
+> > > > > > > > On Thu, Aug 02, 2018 at 12:05:57PM +0800, Kenneth Lee wrote:
 
-The branch is topic/davinci-remove-at24-platform-data
+[...]
 
-> Bart
+> > > > > > > > your mechanisms the userspace must have a specific userspace
+> > > > > > > > drivers for each hardware and thus there are virtually no
+> > > > > > > > differences between having this userspace driver open a device
+> > > > > > > > file in vfio or somewhere else in the device filesystem. This is
+> > > > > > > > just a different path.
+> > > > > > > > 
+> > > > > > > The basic problem WarpDrive want to solve it to avoid syscall. This is important
+> > > > > > > to accelerators. We have some data here:
+> > > > > > > https://www.slideshare.net/linaroorg/progress-and-demonstration-of-wrapdrive-a-accelerator-framework-sfo17317
+> > > > > > > 
+> > > > > > > (see page 3)
+> > > > > > > 
+> > > > > > > The performance is different on using kernel and user drivers.
+> > > > > > Yes and example i point to is exactly that. You have a one time setup
+> > > > > > cost (creating command buffer binding PASID with command buffer and
+> > > > > > couple other setup steps). Then userspace no longer have to do any
+> > > > > > ioctl to schedule work on the GPU. It is all down from userspace and
+> > > > > > it use a doorbell to notify hardware when it should go look at command
+> > > > > > buffer for new thing to execute.
+> > > > > > 
+> > > > > > My point stands on that. You have existing driver already doing so
+> > > > > > with no new framework and in your scheme you need a userspace driver.
+> > > > > > So i do not see the value add, using one path or the other in the
+> > > > > > userspace driver is litteraly one line to change.
+> > > > > > 
+> > > > > Sorry, I'd got confuse here. I partially agree that the user driver is
+> > > > > redundance of kernel driver. (But for WarpDrive, the kernel driver is a full
+> > > > > driver include all preparation and setup stuff for the hardware, the user driver
+> > > > > is simply to send request and receive answer). Yes, it is just a choice of path.
+> > > > > But the user path is faster if the request come from use space. And to do that,
+> > > > > we need user land DMA support. Then why is it invaluable to let VFIO involved?
+> > > > Some drivers in the kernel already do exactly what you said. The user
+> > > > space emit commands without ever going into kernel by directly scheduling
+> > > > commands and ringing a doorbell. They do not need VFIO either and they
+> > > > can map userspace address into the DMA address space of the device and
+> > > > again they do not need VFIO for that.
+> > > Could you please directly point out which driver you refer to here? Thank
+> > > you.
+> > 
+> > drivers/gpu/drm/amd/
+> > 
+> > Sub-directory of interest is amdkfd
+> > 
+> > Because it is a big driver here is a highlevel overview of how it works
+> > (this is a simplification):
+> >   - Process can allocate GPUs buffer (through ioclt) and map them into
+> >     its address space (through mmap of device file at buffer object
+> >     specific offset).
+> >   - Process can map any valid range of virtual address space into device
+> >     address space (IOMMU mapping). This must be regular memory ie not an
+> >     mmap of a device file or any special file (this is the non PASID
+> >     path)
+> >   - Process can create a command queue and bind its process to it aka
+> >     PASID, this is done through an ioctl.
+> >   - Process can schedule commands onto queues it created from userspace
+> >     without ioctl. For that it just write command into a ring buffer
+> >     that it mapped during the command queue creation process and it
+> >     rings a doorbell when commands are ready to be consume by the
+> >     hardware.
+> >   - Commands can reference (access) all 3 types of object above ie
+> >     either full GPUs buffer, process regular memory maped as object
+> >     (non PASID) and PASID memory all at the same time ie you can
+> >     mix all of the above in same commands queue.
+> >   - Kernel can evict, unbind any process command queues, unbind commands
+> >     queue are still valid from process point of view but commands
+> >     process schedules on them will not be executed until kernel re-bind
+> >     the queue.
+> >   - Kernel can schedule commands itself onto its dedicated command
+> >     queues (kernel driver create its own command queues).
+> >   - Kernel can control priorities between all the queues ie it can
+> >     decides which queues should the hardware executed first next.
+> > 
+> 
+> Thank you. Now I think I understand the point. Indeed, I can see some drivers,
+> such GPU and IB, attach their own iommu_domain to their iommu_group and do their
+> own iommu_map().
+> 
+> But we have another requirement which is to combine some device together to
+> share the same address space. This is a little like these kinds of solution:
+> 
+> http://tce.technion.ac.il/wp-content/uploads/sites/8/2015/06/SC-7.2-M.-Silberstein.pdf
+> 
+> With that, the application can directly pass the NiC packet pointer to the
+> decryption accelerator, and get the bare data in place. This is the feature that
+> the VFIO container can provide.
+
+Yes and GPU would very much like do the same. There is already out of
+tree solution that allow NiC to stream into GPU memory or GPU to stream
+its memory to a NiC. I am sure we will want to use more accelerator in
+conjunction with GPU in the future.
+
+> 
+> > I believe all of the above are the aspects that matters to you. The main
+> > reason i don't like creating a new driver infrastructure is that a lot
+> > of existing drivers will want to use some of the new features that are
+> > coming (memory topology, where to place process memory, pipeline devices,
+> > ...) and thus existing drivers are big (GPU drivers are the biggest of
+> > all the kernel drivers).
+> > 
+> 
+> I think it is not necessarily to rewrite the GPU driver if they don't need to
+> share their space with others. But if they do, no matter how, they have to create
+> some facility similar to VFIO container. Then why not just create them in VFIO?
+
+No they do not, nor does anyone needs to. We already have that. If you want
+device to share memory object you have either:
+    - PASID and everything is just easy no need to create anything, as
+      all valid virtual address will work
+    - no PASID or one of the device does not support PASID then use the
+      existing kernel infrastructure aka dma buffer see Documentation/
+      driver-api/dma-buf.rst
+
+Everything you want to do is already happening upstream and they are allready
+working example.
+
+> Actually, some GPUs have already used mdev to manage the resource by different
+> users, it is already part of VFIO.
+
+The current use of mdev with GPU is to "emulate" the SR_IOV of PCIE in
+software so that a single device can be share between multiple guests.
+For this using VFIO make sense, as we want to expose device as a single
+entity that can be manage without the userspace (QEMU) having to know
+or learn about each individual devices.
+
+QEMU just has a well define API to probe and attach device to guest.
+It is the guest that have dedicated drivers for each of those mdev
+devices.
+
+
+What you are trying to do is recreate a whole driver API inside the
+VFIO subsystem and i do not see any valid reasons for that. Moreover
+you want to restrict future use to only drivers that are part of this
+new driver subsystem and again i do not see any good reasons to
+mandate any of the existing driver to be rewritten inside a new VFIO
+infrastructure.
+
+
+You can achieve everything you want to achieve with existing upstream
+solution. Re-inventing a whole new driver infrastructure should really
+be motivated with strong and obvious reasons.
+
+Cheers,
+Jérôme
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
