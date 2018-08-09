@@ -1,156 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 20F127DE7C
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 19:23:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7BE827D926
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:15:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727194AbeHIVt2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 17:49:28 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:37071 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727398AbeHIVrg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 17:47:36 -0400
-Received: by mail-wm0-f68.google.com with SMTP id n11-v6so1386170wmc.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Aug 2018 12:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=f8+p7PdvKfl3q/+F/IGkt+C18+eHZ9wVnzYkW+BehT8=;
-        b=D73aW0s551OGsYp9bn6Vo8ec1xt2vcZEVojeeg/hcq+xlUvedvfiPvD/l23Qztvnw+
-         wSLucQGfP6ySKLhpmhcRTW8CbF74oP4WdINOeTcHbe8nwxxrmgezabuzCNMGmUKm6fUK
-         SRj9TMDDJRTKOFBl1AmQZS70YMKa8CzKaO5su8SVksnZW2NJ35YRrsXLjntvy6CpThYw
-         jhc++KV7XImPnbR+UvilReSMks8aI8LJhZ/Q5JCfe3j8kwpu5Qt/uNXsGox6/MqM9h8v
-         iW/pdTxfHLAju6h9IZcYcNKAUs7ZpyPeqQ/LQ2kxHatkzBl2m2u48Bp8zbJoniIuPUlQ
-         Hegw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=f8+p7PdvKfl3q/+F/IGkt+C18+eHZ9wVnzYkW+BehT8=;
-        b=t+y3RnYXMEhOBvDIPMv/Roho2//nM2RiCWbwxuQf71ecPKEEEoXh/FtNMvhPSr47Jr
-         YyWtGX9lflQrbDAcvt0YR1sE07rtA7FogBlb0KY+hehp7Re7nLqEwVaeWe9TiBUY+ths
-         53c55wDMS3xha/RWhUWi/sbJnhh7AwTnkxSjKoMY8Bmj4fAUXzlVWrvFFxpGc6TeaBpc
-         /cAuPg9x3Q92AVbYsLVEzv6f0bNglk06hZBRxxcK6UQdIoU82uGRC1huWUUNLrV70fgN
-         5thJG8Yt+GznJdIFbK55eZbmzPBn0zmZKgStfNNBAjhc09LxrQGqQ/Nrg01Rm6NAp8y6
-         sE1A==
-X-Gm-Message-State: AOUpUlFUhTn/uv/Ev0PkoPFkrWIui2NN/eIwEdAglXEOciuHPHA0owu9
-        FLHdo8Hib5SOcXPyyHX8EwTl7Q==
-X-Google-Smtp-Source: AA+uWPw3BJp/Y8iB0ddeTjQn74oZlVoIzUW/ZVOeQxFtaBKLU75DdXP/0uzrW82eVwx7QU/jEbWVJw==
-X-Received: by 2002:a1c:1252:: with SMTP id 79-v6mr2356794wms.70.1533842481486;
-        Thu, 09 Aug 2018 12:21:21 -0700 (PDT)
-Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id o14-v6sm14738797wmd.35.2018.08.09.12.21.19
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 Aug 2018 12:21:20 -0700 (PDT)
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
+        id S1727182AbeHIXmX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 19:42:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37708 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727156AbeHIXmX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Aug 2018 19:42:23 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 517B021DEC;
+        Thu,  9 Aug 2018 21:15:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1533849344;
+        bh=ed81Oj3ZuxmDVDxhz/9129BLm9Hs+9Tkl7+lVzkDImI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IyTtyrc9+sTJVWVxHTBlTXh8Ef3UkXUBfZTe0cK4q41B81oe4xWuyBJaUcrYiT6fg
+         t3sT43VE+VfDEHOdd/9AetQGMB1NP3reaLtjlv4xfXZJRGgibygarLXdq+j6KHjcAv
+         OZnDvN/RJv+MythONVoolBQa04b6xVz2d/1Isi/w=
+Date:   Thu, 9 Aug 2018 16:15:41 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org
-Cc:     Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v5 04/18] khwasan, arm64: adjust shadow size for CONFIG_KASAN_HW
-Date:   Thu,  9 Aug 2018 21:20:56 +0200
-Message-Id: <ae060172d137e1f5b836c88b3c54f424ec90a78b.1533842385.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.18.0.597.ga71716f1ad-goog
-In-Reply-To: <cover.1533842385.git.andreyknvl@google.com>
-References: <cover.1533842385.git.andreyknvl@google.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v8 1/4] PCI: Make specifying PCI devices in kernel
+ parameters reusable
+Message-ID: <20180809211541.GF113140@bhelgaas-glaptop.roam.corp.google.com>
+References: <20180730161840.13733-1-logang@deltatee.com>
+ <20180730161840.13733-2-logang@deltatee.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180730161840.13733-2-logang@deltatee.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KWHASAN uses 1 shadow byte for 16 bytes of kernel memory, so it requires
-1/16th of the kernel virtual address space for the shadow memory.
+On Mon, Jul 30, 2018 at 10:18:37AM -0600, Logan Gunthorpe wrote:
+> Separate out the code to match a PCI device with a string (typically
+> originating from a kernel parameter) from the
+> pci_specified_resource_alignment() function into its own helper
+> function.
+> 
+> While we are at it, this change fixes the kernel style of the function
+> (fixing a number of long lines and extra parentheses).
+> 
+> Additionally, make the analogous change to the kernel parameter
+> documentation: Separating the description of how to specify a PCI device
+> into it's own section at the head of the pci= parameter.
+> 
+> This patch should have no functional alterations.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: Stephen Bates <sbates@raithlin.com>
+> Acked-by: Christian König <christian.koenig@amd.com>
+> Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  28 ++++-
+>  drivers/pci/pci.c                               | 157 ++++++++++++++++--------
+>  2 files changed, 126 insertions(+), 59 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 533ff5c68970..5cc215870ee1 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2994,7 +2994,26 @@
+>  			See header of drivers/block/paride/pcd.c.
+>  			See also Documentation/blockdev/paride.txt.
+>  
+> -	pci=option[,option...]	[PCI] various PCI subsystem options:
+> +	pci=option[,option...]	[PCI] various PCI subsystem options.
+> +
+> +				Some options herein operate on a specific device
+> +				or a set of devices (<pci_dev>). These are
+> +				specified in one of the following formats:
+> +
+> +				[<domain>:]<bus>:<slot>.<func>
+> +				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
+> +
+> +				Note: the first format specifies a PCI
+> +				bus/slot/function address which may change
 
-This commit sets KASAN_SHADOW_SCALE_SHIFT to 4 when KHWASAN is enabled.
+Unless you object, I'm going to change "slot" references like this to
+"device" so they match "BDF" and the language in the spec, which uses
+"slot" to refer to a physical slot and "device" when referring to
+geographical device addresses.  I can do this when I apply these, so
+no need for you to repost them.
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- arch/arm64/Makefile             |  2 +-
- arch/arm64/include/asm/memory.h | 13 +++++++++----
- 2 files changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index e7101b19d590..7c92dcbaf1a6 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -93,7 +93,7 @@ endif
- # KASAN_SHADOW_OFFSET = VA_START + (1 << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
- #				 - (1 << (64 - KASAN_SHADOW_SCALE_SHIFT))
- # in 32-bit arithmetic
--KASAN_SHADOW_SCALE_SHIFT := 3
-+KASAN_SHADOW_SCALE_SHIFT := $(if $(CONFIG_KASAN_HW), 4, 3)
- KASAN_SHADOW_OFFSET := $(shell printf "0x%08x00000000\n" $$(( \
- 	(0xffffffff & (-1 << ($(CONFIG_ARM64_VA_BITS) - 32))) \
- 	+ (1 << ($(CONFIG_ARM64_VA_BITS) - 32 - $(KASAN_SHADOW_SCALE_SHIFT))) \
-diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-index 49d99214f43c..6d084431b7f7 100644
---- a/arch/arm64/include/asm/memory.h
-+++ b/arch/arm64/include/asm/memory.h
-@@ -74,12 +74,17 @@
- #define KERNEL_END        _end
- 
- /*
-- * KASAN requires 1/8th of the kernel virtual address space for the shadow
-- * region. KASAN can bloat the stack significantly, so double the (minimum)
-- * stack size when KASAN is in use.
-+ * KASAN and KHWASAN require 1/8th and 1/16th of the kernel virtual address
-+ * space for the shadow region respectively. They can bloat the stack
-+ * significantly, so double the (minimum) stack size when they are in use.
-  */
--#ifdef CONFIG_KASAN
-+#ifdef CONFIG_KASAN_GENERIC
- #define KASAN_SHADOW_SCALE_SHIFT 3
-+#endif
-+#ifdef CONFIG_KASAN_HW
-+#define KASAN_SHADOW_SCALE_SHIFT 4
-+#endif
-+#ifdef CONFIG_KASAN
- #define KASAN_SHADOW_SIZE	(UL(1) << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
- #define KASAN_THREAD_SHIFT	1
- #else
--- 
-2.18.0.597.ga71716f1ad-goog
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-doc" in
-the body of a message to majordomo@vger.kernel.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Bjorn
