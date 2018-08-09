@@ -5,28 +5,28 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7BE827D926
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:15:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 185297D926
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:17:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727182AbeHIXmX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 19:42:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37708 "EHLO mail.kernel.org"
+        id S1727393AbeHIXn5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 19:43:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38374 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727156AbeHIXmX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Aug 2018 19:42:23 -0400
+        id S1727221AbeHIXn4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Aug 2018 19:43:56 -0400
 Received: from localhost (unknown [69.71.4.100])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 517B021DEC;
-        Thu,  9 Aug 2018 21:15:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C9F2922392;
+        Thu,  9 Aug 2018 21:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1533849344;
-        bh=ed81Oj3ZuxmDVDxhz/9129BLm9Hs+9Tkl7+lVzkDImI=;
+        s=default; t=1533849437;
+        bh=SCjrb7khR34Q6FqUL9WizJDiZe8T4dzx6gDIYuT2DUo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IyTtyrc9+sTJVWVxHTBlTXh8Ef3UkXUBfZTe0cK4q41B81oe4xWuyBJaUcrYiT6fg
-         t3sT43VE+VfDEHOdd/9AetQGMB1NP3reaLtjlv4xfXZJRGgibygarLXdq+j6KHjcAv
-         OZnDvN/RJv+MythONVoolBQa04b6xVz2d/1Isi/w=
-Date:   Thu, 9 Aug 2018 16:15:41 -0500
+        b=x2ynNGSqQkc2AWYILX3sT+RerEXEteJFCyR2gRrOAMvy1CB4DMs3qJtmMWMSLK0BX
+         aizGxGju+X57ogukzEhVsTS+jTbXKteiREJzs0U240cIgYqw2jI1Xr+Y+mgUuuXoNA
+         FVNxitVFfZHf+CpFScR2QYfY9qu6xdbaSDSBZzos=
+Date:   Thu, 9 Aug 2018 16:17:14 -0500
 From:   Bjorn Helgaas <helgaas@kernel.org>
 To:     Logan Gunthorpe <logang@deltatee.com>
 Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
@@ -46,71 +46,68 @@ Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         Alex Williamson <alex.williamson@redhat.com>,
         Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
         Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v8 1/4] PCI: Make specifying PCI devices in kernel
- parameters reusable
-Message-ID: <20180809211541.GF113140@bhelgaas-glaptop.roam.corp.google.com>
+Subject: Re: [PATCH v8 3/4] PCI: Introduce disable_acs_redir quirk
+Message-ID: <20180809211714.GG113140@bhelgaas-glaptop.roam.corp.google.com>
 References: <20180730161840.13733-1-logang@deltatee.com>
- <20180730161840.13733-2-logang@deltatee.com>
+ <20180730161840.13733-4-logang@deltatee.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180730161840.13733-2-logang@deltatee.com>
+In-Reply-To: <20180730161840.13733-4-logang@deltatee.com>
 User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 30, 2018 at 10:18:37AM -0600, Logan Gunthorpe wrote:
-> Separate out the code to match a PCI device with a string (typically
-> originating from a kernel parameter) from the
-> pci_specified_resource_alignment() function into its own helper
-> function.
+On Mon, Jul 30, 2018 at 10:18:39AM -0600, Logan Gunthorpe wrote:
+> Intel SPT PCH hardware has an implementation of the ACS bits that
+> does not comply with the PCI express standard. To deal with this
+> the existing code has an enable_acs() quirk for the hardware.
 > 
-> While we are at it, this change fixes the kernel style of the function
-> (fixing a number of long lines and extra parentheses).
+> In order to be able to correctly disable the ACS redirect bits for
+> all hardware we need an analagous quirk to disable those bits.
 > 
-> Additionally, make the analogous change to the kernel parameter
-> documentation: Separating the description of how to specify a PCI device
-> into it's own section at the head of the pci= parameter.
-> 
-> This patch should have no functional alterations.
+> This adds the function pci_dev_specific_disable_acs_redir() which
+> behaves similarly to pci_dev_specific_enable_acs() but uses a new
+> function pointer for quirks which disables the ACS redirect bits.
 > 
 > Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-> Reviewed-by: Stephen Bates <sbates@raithlin.com>
-> Acked-by: Christian König <christian.koenig@amd.com>
 > Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt |  28 ++++-
->  drivers/pci/pci.c                               | 157 ++++++++++++++++--------
->  2 files changed, 126 insertions(+), 59 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 533ff5c68970..5cc215870ee1 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2994,7 +2994,26 @@
->  			See header of drivers/block/paride/pcd.c.
->  			See also Documentation/blockdev/paride.txt.
+> ...
+
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index abd5d5e17aee..0a436ec4fef5 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1880,6 +1880,7 @@ enum pci_fixup_pass {
+>  void pci_fixup_device(enum pci_fixup_pass pass, struct pci_dev *dev);
+>  int pci_dev_specific_acs_enabled(struct pci_dev *dev, u16 acs_flags);
+>  int pci_dev_specific_enable_acs(struct pci_dev *dev);
+> +int pci_dev_specific_disable_acs_redir(struct pci_dev *dev);
+>  #else
+>  static inline void pci_fixup_device(enum pci_fixup_pass pass,
+>  				    struct pci_dev *dev) { }
+> @@ -1892,6 +1893,10 @@ static inline int pci_dev_specific_enable_acs(struct pci_dev *dev)
+>  {
+>  	return -ENOTTY;
+>  }
+> +static inline int pci_dev_specific_disable_acs_redir(struct pci_dev *dev)
+> +{
+> +	return -ENOTTY;
+> +}
+
+I assume these could go in drivers/pci/pci.h instead of
+include/linux/pci.h?
+
+I can do that (and add another patch to move the
+pci_dev_specific_acs_enabled() and pci_dev_specific_enable_acs()
+declarations, which also are only used inside drivers/pci) if you agree.
+
+>  #endif
 >  
-> -	pci=option[,option...]	[PCI] various PCI subsystem options:
-> +	pci=option[,option...]	[PCI] various PCI subsystem options.
-> +
-> +				Some options herein operate on a specific device
-> +				or a set of devices (<pci_dev>). These are
-> +				specified in one of the following formats:
-> +
-> +				[<domain>:]<bus>:<slot>.<func>
-> +				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-> +
-> +				Note: the first format specifies a PCI
-> +				bus/slot/function address which may change
-
-Unless you object, I'm going to change "slot" references like this to
-"device" so they match "BDF" and the language in the spec, which uses
-"slot" to refer to a physical slot and "device" when referring to
-geographical device addresses.  I can do this when I apply these, so
-no need for you to repost them.
-
-Bjorn
+>  void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned long maxlen);
+> -- 
+> 2.11.0
+> 
