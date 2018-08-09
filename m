@@ -5,53 +5,53 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3D8D27D00A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 11:12:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 911DE7D00B
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 11:33:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730506AbeHINhL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 09:37:11 -0400
-Received: from mail-it0-f67.google.com ([209.85.214.67]:38094 "EHLO
-        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727768AbeHINhL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 09:37:11 -0400
-Received: by mail-it0-f67.google.com with SMTP id v71-v6so1999832itb.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Aug 2018 04:12:48 -0700 (PDT)
+        id S1731087AbeHIN5x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 09:57:53 -0400
+Received: from mail-io0-f194.google.com ([209.85.223.194]:39996 "EHLO
+        mail-io0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730573AbeHIN5x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 09:57:53 -0400
+Received: by mail-io0-f194.google.com with SMTP id l14-v6so4469993iob.7
+        for <linux-doc@vger.kernel.org>; Thu, 09 Aug 2018 04:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=Lah9RiRar2mkn3FzoHAkaxdIBc+cCvpeSzfLtPuGlQY=;
-        b=gBf9msOmRSV2ZRLe2JtvoC1DyxEgyJ8L9JebfRd2GPp7HYnGqYhPi3/hp0+zcH4Q6g
-         vRx3dOyJbFY7QGqAYvr1OlF5mjLTH18RA2db5VJPo9vvcD3myJaqZ45qc48x/roVEnnr
-         JzF0xY335Ub2rAW+IiykLcBBWN7jikDbQpEVT77ocP3G/ja7vEjGB/16v89K4pQQy7Bo
-         8zeNuTq7Gy2DRvMM+fuqAw+e3Rhfx80n7UuRLfd1aQFiKwY2uQCTS1rZrS7xzsiBdBr8
-         jlIq1uD2mAk7DTRO8AzaZ7XHEeqO3JXzC7hn4LjVASe+j7hKFhC6ounQzIuRRK2tb+IX
-         oNKw==
+        bh=J8JHFq+UU6UIieRkiFDI8mMAO4Ofyp8ATsnZqc7QZRQ=;
+        b=se2AlTRH0TXo+SNQzfXyBXIKUupdoGVe//2nIBwk4ozOi+U6Fm7smFj07cCq7SPk2r
+         /RaScafSqyNMVUI+G/tU60wu/HZx71WO8rriutdgmE094gQYNUjXXc5xlo22ubAc8nJn
+         4TnZhnFp1msdUo+vc/f/c5DNYHBoDIlCmFjVbG10IU/OkS8ahmgjirGwREq/CPP0WoQ4
+         p7/c9B+5QoTIbnww1WiP7aD5pR6oiZnFw2MeX2fwJP6VvafjWQ5yGCRH2ODYb7C13vmv
+         OAXBXW7aehOSN8JwP3nX8LR4F3qwVzKc2LfEhCE8UOJV76sWCgrdNCsUiDIML8xAmOBc
+         yByw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=Lah9RiRar2mkn3FzoHAkaxdIBc+cCvpeSzfLtPuGlQY=;
-        b=OXPc559Tg2NT3dfRelyw89Essu9SoHP25QFP1Coxaq/pzpvX3nhcKP3n1nwcrgpgmS
-         V+HJfJbGfOln8I2aJI0AXXF4sWWHswbTi1D4NtKN7w+t6J9c/RI5MnwSOEKM3beMKiJl
-         F5q2S0nr9E/axK0sws5JXL4b/AAMZfITfGe5mM5AF8iCp40hrZG7N7nqHgJq3pvugszH
-         9BFfOQxGGH+tT2V88GIochEAwdLSY5nCVA5cXB/OTTxBwMh4ELFFRYIIrB3/N1Dn2xDB
-         R4GCblj2kgkzRGSRzK7rlCLdm/4WDquqGrLyvmzko9neOamGh886gJme60dSgOoygSGW
-         mF1Q==
-X-Gm-Message-State: AOUpUlHqc5O0GgAcnRWoL0JSlroCSLs3ChnmImpTYrKa+r3LU34pHGCM
-        cNrTmIgGAjemu7UJmwrLpqG+4lCU3MlDUtI4mf1C8A==
-X-Google-Smtp-Source: AA+uWPzb2UWAzUPh+nBGLNILzuc2MIdjEyoLJSFseezuV3dlT+OvkJi94LFxXHQCmGhQNwEaIwmM/Sd9tFJm8IQkY3Y=
-X-Received: by 2002:a02:b70b:: with SMTP id g11-v6mr1449345jam.34.1533813168441;
- Thu, 09 Aug 2018 04:12:48 -0700 (PDT)
+        bh=J8JHFq+UU6UIieRkiFDI8mMAO4Ofyp8ATsnZqc7QZRQ=;
+        b=YqRXS55gWKPvfGSV1yHtwoyiQkhpqAKP8gXowHLby9eKXYNtMmegnJQ1DBjUAOCjaE
+         TqEEu5UnQN1OG+wNyRQa18NBoXAbaB3n/XsXJ6qggK6No9/PuNI0fB5Cr4Hwaen0o4uF
+         c2YHJoboprH+xblCvZCUbZxna1HKZmZYOQ2IPeM5uaqq8vzm7FVE0zKtVEXE6pB+qdJl
+         XmwLjhobHnAHE84bFnlNO2sqb+kqKGCvWm3arPpyHPRQ4DuFuQGUvbBs3OlMpdi0UAcq
+         JMo3eyQKn/QuMnvtjSL90weE15rYEMBQA9znCWz8GfSm0RxDlvYDqkiL7lnLkLM0jIa2
+         of+Q==
+X-Gm-Message-State: AOUpUlG7Lk5W7GZ6PB4CzUiCS15eKYV5pzPIHSn2tMlwqthcrMFJEPl+
+        Zx3feg0w1XLzEo6tHbdrkd3+K3gesj9pfJx5Oq6gVA==
+X-Google-Smtp-Source: AA+uWPzZqP16fm0hkmmu2Xtx38bSLKkq6Ys5W8MR8GD6/y5naNbhodoFxxZBBNndRDSRX00YOLc9/0xDLVl7MyCgULI=
+X-Received: by 2002:a6b:c844:: with SMTP id y65-v6mr1327163iof.187.1533814405900;
+ Thu, 09 Aug 2018 04:33:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a5e:9403:0:0:0:0:0 with HTTP; Thu, 9 Aug 2018 04:12:47 -0700 (PDT)
-In-Reply-To: <CAHp75VfxVOPzAtBgTe4RSax1Ki+323WDBTSmh=j7LV_c+vsXDA@mail.gmail.com>
-References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-15-brgl@bgdev.pl>
- <CAHp75VfxVOPzAtBgTe4RSax1Ki+323WDBTSmh=j7LV_c+vsXDA@mail.gmail.com>
+Received: by 2002:a5e:9403:0:0:0:0:0 with HTTP; Thu, 9 Aug 2018 04:33:25 -0700 (PDT)
+In-Reply-To: <CAHp75Veiop-0xAbs7MtdhOrX_vzDz7v=xAUSDnEhTYVfMovFQA@mail.gmail.com>
+References: <20180808153150.23444-1-brgl@bgdev.pl> <20180808153150.23444-29-brgl@bgdev.pl>
+ <CAHp75Veiop-0xAbs7MtdhOrX_vzDz7v=xAUSDnEhTYVfMovFQA@mail.gmail.com>
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Thu, 9 Aug 2018 13:12:47 +0200
-Message-ID: <CAMRc=MfgoCt1BvRx1jJrYp_258_Z9NTNs7waEiOCvdTsK+KWFg@mail.gmail.com>
-Subject: Re: [PATCH 14/28] net: split eth_platform_get_mac_address() into subroutines
+Date:   Thu, 9 Aug 2018 13:33:25 +0200
+Message-ID: <CAMRc=MdTgr-CTia55cRS-Ob8eOVBQom-nXB670nxjf89U_ZEvg@mail.gmail.com>
+Subject: Re: [PATCH 28/28] eeprom: at24: kill at24_platform_data
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -92,33 +92,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-08-08 19:50 GMT+02:00 Andy Shevchenko <andy.shevchenko@gmail.com>:
+2018-08-08 20:03 GMT+02:00 Andy Shevchenko <andy.shevchenko@gmail.com>:
 > On Wed, Aug 8, 2018 at 6:31 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 >> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 >>
->> We want do add more sources from which to read the MAC address. In
->> order to avoid bloating this function too much, start by splitting it
->> into subroutines, each of which takes care of reading the MAC from
->> one source.
->
->> +static int mac_address_from_of(struct device *dev, u8 *mac_addr)
->>  {
->>         const unsigned char *addr;
->> +       struct device_node *np;
+>> There are no more users of at24_platform_data. Remove the relevant
+>> header and modify the driver code to not use it anymore.
 >>
 >
->> +       np = dev_is_pci(dev) ? pci_device_to_OF_node(to_pci_dev(dev))
->> +                            : dev->of_node;
 >
-> I didn't get these manipulations.
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 >
-> What the scenario when pci_dev->dev.of_node != dev->of_node?
+> If you want me to test this on Intel Galileo Gen 2 board, give me a
+> public tree from where I can pull.
+> Thanks.
 >
-> --
-> With Best Regards,
-> Andy Shevchenko
 
-I'll add an additional patch that addresses it.
+Yes, you can pull from git@github.com:brgl/linux.git
+davinci-remove-at24-platform-data
 
 Bart
 --
