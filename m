@@ -1,81 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 556647D926
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:22:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D81467D926
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:44:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727267AbeHIXsx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 19:48:53 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:40972 "EHLO ale.deltatee.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727245AbeHIXsx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Aug 2018 19:48:53 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1fnsNV-0008Fg-3U; Thu, 09 Aug 2018 15:21:53 -0600
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
+        id S1727327AbeHJALe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 20:11:34 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:55138 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727268AbeHJALe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 20:11:34 -0400
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Matthew Wilcox <willy@infradead.org>
-References: <20180730161840.13733-1-logang@deltatee.com>
- <20180730161840.13733-4-logang@deltatee.com>
- <20180809211714.GG113140@bhelgaas-glaptop.roam.corp.google.com>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <16da0310-f369-4d44-291e-dce4c77b06ab@deltatee.com>
-Date:   Thu, 9 Aug 2018 15:21:52 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180809211714.GG113140@bhelgaas-glaptop.roam.corp.google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: willy@infradead.org, christian.koenig@amd.com, alex.williamson@redhat.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, helgaas@kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v8 3/4] PCI: Introduce disable_acs_redir quirk
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mathieu Malaterre <malat@debian.org>,
+        Ezequiel Garcia <ezequiel@collabora.co.uk>
+Cc:     linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH v6 00/24] Ingenic TCU patchset v6
+Date:   Thu,  9 Aug 2018 23:43:50 +0200
+Message-Id: <20180809214414.20905-1-paul@crapouillou.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1533851085; bh=3JuVblcCRV9q6BAHQO0TVg2MSFYg18n+QUkAOiJzjaw=; h=From:To:Cc:Subject:Date:Message-Id; b=qTNJ6qHnSGirEeuHSOt1QfAmBB8T8PJjBtAUQUA26rpWXI0SKDxX50QqYo95x1nLyGhWETm9VjrU73beTjetkG36oa56UsC9D/b7kIkQFbkG8kd8UIHJecKDsuLvpNpgfbFt+FHn2vDE743MMPqZoFoIqsgsFu23ZhxLEaMSd7A=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
+This is the V6 of my Ingenic Timer/Counter Unit (TCU) patchset.
 
-On 09/08/18 03:17 PM, Bjorn Helgaas wrote:
-> I assume these could go in drivers/pci/pci.h instead of
-> include/linux/pci.h?
+Major changes since V5:
 
-Yeah, I agree they'd be better suited in the local file. I just followed
-what had already existed.
+- ingenic,timer-channel / ingenic,clocksource-channel devicetree
+  properties for the ingenic-timer driver are gone. The system timer
+  will default to use TCU channel #0, the clocksource will default to
+  use TCU channel #1. When a client driver requests one of these TCU
+  channels (e.g. the PWM driver), the ingenic-timer driver will
+  dynamically switch the system timer or clocksource to a new TCU
+  channel.
 
-> I can do that (and add another patch to move the
-> pci_dev_specific_acs_enabled() and pci_dev_specific_enable_acs()
-> declarations, which also are only used inside drivers/pci) if you agree.
+- The big watchdog commit in v5 was split into multiple smaller commits.
 
-Sounds good to me.
+- The watchdog driver now just sets its clock to the lowest rate
+  possible, and calculate the maximum timeout from that.
 
-Thanks,
+- The PWM driver now requests the TCU channels it wants to use using the
+  API functions provided by ingenic-timer. Channels 0 and 1 can now be
+  used.
 
-Logan
+- The register lengths in the pwm/watchdog nodes were fixed. They no
+  longer overlap.
+
+- Small fixes here and there, see each patch's changelog for more info.
+
+Regards,
+-Paul Cercueil
 
