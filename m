@@ -1,113 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D64D67D06B
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 Aug 2018 22:23:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5AAF87D00A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 01:11:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731308AbeHIAm5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 Aug 2018 20:42:57 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:37815 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731564AbeHIAm5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Aug 2018 20:42:57 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 87A4920D9A;
-        Wed,  8 Aug 2018 18:21:15 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 08 Aug 2018 18:21:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=OX6tQx7ps+SZlK3fKMH1jWQJjkFGCJdebm5bDBLM71I=; b=pHDSipKW
-        wCoEKXvaOnBK2oeKx0ri8j2QPF1Upvg5sO740Yf70zPT+bp7bzRR2xYAc/YBC9L+
-        o+12Kvcql1WF7jVnCs2N6v1n2i1Zfmy2RMFhBWuEKbaLf0AumvkeA3j+xK1JB8qp
-        JwoYw0P7tdWS2f6PiYyMMLs/Amb5/L4FOffPwVjzQHh6INM+BZcG5GmL2KY5ItJl
-        s9kD+JizfDcDYEcF68pd2bCDfc2iym5E2PQbGwXlqMo1XOnBXKB3j1bKstDRqNEP
-        4jU+zcwCt/s1jKV04Jtth+/epi116Jg6x41HU319AkYf1nyauFzWfDJlm/OOLBY9
-        IWz9D3W7LfWpVw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=OX6tQx7ps+SZlK3fKMH1jWQJjkFGC
-        Jdebm5bDBLM71I=; b=CxGZVL/xfJqlhVy64Ui8Om6Ni9RScGBB/OyRIoyWDBJqC
-        jjmhDJ5potS2toRV8QOLadjZXQZFvuqOCDEkJXBNvPffJudUNEjaObf/ndIWMwD5
-        FBa1+U/aYN10iHsIP32XK9VUQikrBZbSsGiL9yKeaFKEh9LziZ6sPgUmyR+7KQkx
-        oHoTbIyyb677ap9ChWvwEaKBv0v1oajXyy201eAc5GDBjxAMi1bNiRX/OKQpKIfl
-        lRNsfYIYnYYzx6aohOgtSXqGDUh5kX3CyoovKmx95onMgBkq4ZbnFUw+PsnNYacz
-        1LK2I3cP64ScCDZJ/d6t1urxMym7kGNjUhXuIKxxg==
-X-ME-Proxy: <xmx:2mxrW1w8p9MR0LL82bg-EFG1f5UlN0t5XKDfJbG_zJd5nfHpIYRbng>
-    <xmx:2mxrWxcH5K1pZBx_JgxAEkSml6YQi1cLGnikfz_fj_KVZUvi60Fstw>
-    <xmx:2mxrW2cVemiHr7TC2R_D_2t6TgRg_k761X96o2Yo_cR_oBSVhlIkBg>
-    <xmx:2mxrWzEJtSavJf9e1K74H2LVdhcPtcuVM8ggnqu2Li3lnexC_d0HuA>
-    <xmx:2mxrW4WP9vn4APxgBkfoRyL7_-Ic_pESEnvTUie56dnX9rq00wWCKQ>
-    <xmx:22xrWzCH1BYMhohFP1RKfvPXjCQUyqU1m2N-hXbsuJySbRrwQlli_Q>
-X-ME-Sender: <xms:2mxrWwtY0Ck9ayvOV6jKuP1KeEaQMXS7Q8a9th68bRDj7Bb9lrw3WQ>
-Received: from localhost (ppp121-44-213-17.bras1.syd2.internode.on.net [121.44.213.17])
-        by mail.messagingengine.com (Postfix) with ESMTPA id DEE2610261;
-        Wed,  8 Aug 2018 18:21:13 -0400 (EDT)
-Date:   Thu, 9 Aug 2018 08:21:10 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
+        id S1731063AbeHIDd2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 Aug 2018 23:33:28 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:10646 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730262AbeHIDd2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Aug 2018 23:33:28 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 03EFDD5A49D14;
+        Thu,  9 Aug 2018 09:11:11 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server (TLS) id 14.3.399.0; Thu, 9 Aug 2018
+ 09:11:02 +0800
+Date:   Thu, 9 Aug 2018 09:09:38 +0800
+From:   Kenneth Lee <liguozhu@hisilicon.com>
+To:     Joerg Roedel <joro@8bytes.org>
+CC:     Kenneth Lee <nek.in.cn@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next 12/13] docs: net: Fix various minor typos
-Message-ID: <20180808222110.GH11191@eros>
-References: <20180801050908.29970-1-me@tobin.cc>
- <20180801050908.29970-13-me@tobin.cc>
- <76cf11bc-61b3-8068-5546-79d3ff3a58e9@iogearbox.net>
- <20180808014248.GF11191@eros>
- <20180808072310.4695cea4@lwn.net>
- <99c50323-601e-91ea-cac3-98c1f381f9ac@iogearbox.net>
- <1cfb4fb3406621c1ffd98e8072f2cc38812107d8.camel@darmarit.de>
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-crypto@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <kvm@vger.kernel.org>, <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Sanjay Kumar <sanjay.k.kumar@intel.com>, <linuxarm@huawei.com>
+Subject: Re: [RFC PATCH 2/7] iommu: Add share domain interface in iommu for
+ spimdev
+Message-ID: <20180809010938.GH91035@Turing-Arch-b>
+References: <20180801102221.5308-1-nek.in.cn@gmail.com>
+ <20180801102221.5308-3-nek.in.cn@gmail.com>
+ <20180808091354.ppqgineql3pufwwr@8bytes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <1cfb4fb3406621c1ffd98e8072f2cc38812107d8.camel@darmarit.de>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20180808091354.ppqgineql3pufwwr@8bytes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [10.67.212.75]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 08, 2018 at 06:26:50PM +0200, Markus Heiser wrote:
+On Wed, Aug 08, 2018 at 11:13:54AM +0200, Joerg Roedel wrote:
+> Date: Wed, 8 Aug 2018 11:13:54 +0200
+> From: Joerg Roedel <joro@8bytes.org>
+> To: Kenneth Lee <nek.in.cn@gmail.com>
+> CC: Jonathan Corbet <corbet@lwn.net>, Herbert Xu
+>  <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>,
+>  Alex Williamson <alex.williamson@redhat.com>, Kenneth Lee
+>  <liguozhu@hisilicon.com>, Hao Fang <fanghao11@huawei.com>, Zhou Wang
+>  <wangzhou1@hisilicon.com>, Zaibo Xu <xuzaibo@huawei.com>, Philippe
+>  Ombredanne <pombredanne@nexb.com>, Greg Kroah-Hartman
+>  <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>,
+>  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+>  linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+>  kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org, Lu Baolu
+>  <baolu.lu@linux.intel.com>, Sanjay Kumar <sanjay.k.kumar@intel.com>,
+>  linuxarm@huawei.com
+> Subject: Re: [RFC PATCH 2/7] iommu: Add share domain interface in iommu for
+>  spimdev
+> User-Agent: NeoMutt/20170421 (1.8.2)
+> Message-ID: <20180808091354.ppqgineql3pufwwr@8bytes.org>
 > 
-> 
-> Am Mittwoch, den 08.08.2018, 15:45 +0200 schrieb Daniel Borkmann:
-> > On 08/08/2018 03:23 PM, Jonathan Corbet wrote:
-> > > On Wed, 8 Aug 2018 11:42:48 +1000
-> > > "Tobin C. Harding" <me@tobin.cc> wrote:
-> > > 
-> > > > Thanks for doing such a careful review that you noticed this.  I'm
-> > > > working on this more ATM and I've moved the document to use double
-> > > > spaces between _all_ full stops.  Currently the document uses mostly
-> > > > single spaces but there are some sections with double space.  The
-> > > > internet tells me this is a 'style' issue not a rule.  And I've seen
-> > > > single and double spacing in tree and do not know if one is favoured.
-> > > > 
-> > > > Do you care? 
-> > > 
-> > > I'm not Daniel, but let me just say that, for docs in general, I'm
-> > > absolutely uninterested in patches adjusting the number of spaces after
-> > > periods.  It really doesn't matter one way or the other, and I don't think
-> > > we benefit from that kind of churn.
+> On Wed, Aug 01, 2018 at 06:22:16PM +0800, Kenneth Lee wrote:
+> > From: Kenneth Lee <liguozhu@hisilicon.com>
 > > 
-> > Yep, agree.
+> > This patch add sharing interface for a iommu_group. The new interface:
+> > 
+> > 	iommu_group_share_domain()
+> > 	iommu_group_unshare_domain()
+> > 
+> > can be used by some virtual iommu_group (such as iommu_group for spimdev)
+> > to share their parent's iommu_group.
+> > 
+> > When the domain of the group is shared, it cannot be changed before
+> > unshared.  In the future, notification can be added if update is required.
 > 
-> FWIW: even if it is not a patch worth, 'fill-paragraph' within emacs benefit
-> from.
+> >From the description or the patch I don't really get why this is needed.
+> Please update the description and make a case for this API addition.
+> 
 
-That's why I originally started using double spaces :)
+Yes, I will add more description in next version.
 
-thanks,
-Tobin.
+The idea here is:
+
+1. iommu_domain is the setting of the IOMMU(the unit) of an iommu_group.
+
+2. The iommu_group originally uses a default domain or a created one (e.g. by vfio)
+   as its effective domain. There is only one user for a domain. If a device is
+   bound to vfio driver, it uses the new created domain. And if it is unbound from
+   vfio driver, it is switched back to the default domain.
+
+3. But for spimdev, we create an mdev which share it parent device's IOMMU. That
+   means, the parent device (along with its iommu group) will continue use its
+   iommu_domain, and the mdev will use the same at the same time.
+
+4. This API, is to tell the iommu_group that the domain is shared by the
+   spimdev. And it should be changed before it is unshared.
+
+Cheers
+
+> 
+> 	Joerg
+
+-- 
+			-Kenneth(Hisilicon)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
