@@ -3,17 +3,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7A9177D926
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:46:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C9A27D926
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:46:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728138AbeHJAMt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 20:12:49 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:60464 "EHLO
+        id S1727683AbeHJALx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 20:11:53 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:32804 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727730AbeHJAL6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 20:11:58 -0400
+        with ESMTP id S1727628AbeHJALw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 20:11:52 -0400
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -33,86 +33,59 @@ Cc:     linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v6 13/24] pwm: jz4740: Allow selection of PWM channels 0 and 1
-Date:   Thu,  9 Aug 2018 23:44:03 +0200
-Message-Id: <20180809214414.20905-14-paul@crapouillou.net>
+Subject: [PATCH v6 10/24] watchdog: jz4740: Avoid starting watchdog in set_timeout
+Date:   Thu,  9 Aug 2018 23:44:00 +0200
+Message-Id: <20180809214414.20905-11-paul@crapouillou.net>
 In-Reply-To: <20180809214414.20905-1-paul@crapouillou.net>
 References: <20180809214414.20905-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1533851112; bh=3vYNuHpyzRB2JnMMYKKnCUgTu6dUaN7N0Z2NkSwih2Y=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=LoNbRO4t8Y0JJcj9t7D3JDROjdHMpOnVYNTjLI0+48RyAMIa1jFFIAet2l4/jo37zTmPXRqwycSOx5m896QGsOXN9uu2idxjNoJFTzFU4YqRb4tBmdML4B75hbAx8xb8GJrscg6MWreB038nZM9b+OnNj596VYtWE5W4fOH94Bc=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1533851106; bh=XMJB0o3ARAXBmfldCEPDdZOf4qYA3M3nQzxvgnxrgmA=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=aPUn+wcL9d0+TCCTxw6HcKX+wuZmS4afX0Uy4H8pGu5VWzBr3lY2DL1rm8IT061OfEby14Y22tlPV4H2pAcL37kSnS2C2n6YCQzkGWUwlF3HySlL+W1t3xs2sSJkImKWoHuk+Voy0a52R6P1Jp5SI1/7yRxxMjmNVsx1yu8Fj/8=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The TCU channels 0 and 1 were previously reserved for system tasks, and
-thus unavailable for PWM.
+Previously the jz4740_wdt_set_timeout() function was starting the timer
+unconditionally, even if it was stopped when that function was entered.
 
-This commit uses the newly introduced API functions of the ingenic-timer
-driver to request/release the TCU channels that should be used as PWM.
-This allows all the TCU channels to be used as PWM.
+Now, the timer will be restarted only if it was already running before
+this function is called.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/pwm/pwm-jz4740.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ drivers/watchdog/jz4740_wdt.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
  v6: New patch
 
-diff --git a/drivers/pwm/pwm-jz4740.c b/drivers/pwm/pwm-jz4740.c
-index 1bda8d8e9865..d08274ec007f 100644
---- a/drivers/pwm/pwm-jz4740.c
-+++ b/drivers/pwm/pwm-jz4740.c
-@@ -43,27 +43,30 @@ static int jz4740_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
- 	char clk_name[16];
- 	int ret;
+diff --git a/drivers/watchdog/jz4740_wdt.c b/drivers/watchdog/jz4740_wdt.c
+index 0f54306aee25..45d9495170e5 100644
+--- a/drivers/watchdog/jz4740_wdt.c
++++ b/drivers/watchdog/jz4740_wdt.c
+@@ -64,13 +64,15 @@ static int jz4740_wdt_set_timeout(struct watchdog_device *wdt_dev,
+ {
+ 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
+ 	u16 timeout_value = (u16)(drvdata->clk_rate * new_timeout);
++	u32 tcer;
  
--	/*
--	 * Timers 0 and 1 are used for system tasks, so they are unavailable
--	 * for use as PWMs.
--	 */
--	if (pwm->hwpwm < 2)
--		return -EBUSY;
-+	ret = ingenic_tcu_request_channel(pwm->hwpwm);
-+	if (ret)
-+		return ret;
++	regmap_read(drvdata->map, TCU_REG_WDT_TCER, &tcer);
+ 	regmap_write(drvdata->map, TCU_REG_WDT_TCER, 0);
  
- 	snprintf(clk_name, sizeof(clk_name), "timer%u", pwm->hwpwm);
+ 	regmap_write(drvdata->map, TCU_REG_WDT_TDR, timeout_value);
+ 	regmap_write(drvdata->map, TCU_REG_WDT_TCNT, 0);
  
- 	clk = clk_get(chip->dev, clk_name);
--	if (IS_ERR(clk))
--		return PTR_ERR(clk);
-+	if (IS_ERR(clk)) {
-+		ret = PTR_ERR(clk);
-+		goto err_free_channel;
-+	}
+-	regmap_write(drvdata->map, TCU_REG_WDT_TCER, TCU_WDT_TCER_TCEN);
++	regmap_write(drvdata->map, TCU_REG_WDT_TCER, tcer & TCU_WDT_TCER_TCEN);
  
- 	ret = clk_prepare_enable(clk);
--	if (ret) {
--		clk_put(clk);
--		return ret;
--	}
-+	if (ret)
-+		goto err_clk_put;
- 
- 	jz->clks[pwm->hwpwm] = clk;
+ 	wdt_dev->timeout = new_timeout;
  	return 0;
-+
-+err_clk_put:
-+	clk_put(clk);
-+err_free_channel:
-+	ingenic_tcu_release_channel(pwm->hwpwm);
-+	return ret;
+@@ -86,6 +88,7 @@ static int jz4740_wdt_start(struct watchdog_device *wdt_dev)
+ 		return ret;
+ 
+ 	jz4740_wdt_set_timeout(wdt_dev, wdt_dev->timeout);
++	regmap_write(drvdata->map, TCU_REG_WDT_TCER, TCU_WDT_TCER_TCEN);
+ 
+ 	return 0;
  }
- 
- static void jz4740_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
-@@ -73,6 +76,7 @@ static void jz4740_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
- 
- 	clk_disable_unprepare(clk);
- 	clk_put(clk);
-+	ingenic_tcu_release_channel(pwm->hwpwm);
- }
- 
- static int jz4740_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
 -- 
 2.11.0
 
