@@ -5,15 +5,15 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CBE127D927
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:46:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E8C557D926
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 Aug 2018 21:46:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727649AbeHJALw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 Aug 2018 20:11:52 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:60464 "EHLO
+        id S1727598AbeHJALr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 Aug 2018 20:11:47 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:56874 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727268AbeHJALw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 20:11:52 -0400
+        with ESMTP id S1727268AbeHJALq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Aug 2018 20:11:46 -0400
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -33,119 +33,54 @@ Cc:     linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v6 09/24] watchdog: jz4740: Use regmap provided by TCU driver
-Date:   Thu,  9 Aug 2018 23:43:59 +0200
-Message-Id: <20180809214414.20905-10-paul@crapouillou.net>
+Subject: [PATCH v6 07/24] MAINTAINERS: Add myself as maintainer for Ingenic TCU drivers
+Date:   Thu,  9 Aug 2018 23:43:57 +0200
+Message-Id: <20180809214414.20905-8-paul@crapouillou.net>
 In-Reply-To: <20180809214414.20905-1-paul@crapouillou.net>
 References: <20180809214414.20905-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1533851104; bh=87ziouG9OPvJJj8X32FDe4hrWYE2Ha95FkDCkgxH2qE=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=jN4KungcSnXbjCw+EwjsmxZuoZ8XgSWKjtdtCt/eKPMyWxC+l6aEdOesaOGs9OVz6BzQMXiKNxqXMMtg9aU3ex2Xs6IdNXqgfz0XbMmDzRV5gjK/ZYTBRo+WovDTg1T9a6i5UmbfNDaMDOpF6RJqsWFFwDpPPbTD+sdeyZKl1h0=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1533851100; bh=goxloWdJiufd4X35I/bfU0Y+3eR614nT6RaSOmoZJcI=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=bwz6rZMeYh30dZ5FYmU0fffLPkPWB8fqtof84Whh0dT3R4PAHZINTUazGhvsvDmHykkTV6YI78EyceQK0YnqJd9+GQkDKxGBZkoKlrfhUfdzOSWfybrjEYR8MmxTm0KGtebdFksX5jyWbgj+TvdKzgH/mNZV9wYZf45ZKNN7uo4=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since we broke the ABI by changing the clock, the driver was also
-updated to use the regmap provided by the TCU driver.
+Add myself as maintainer for the ingenic-timer and ingenic-ost drivers.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/watchdog/jz4740_wdt.c | 30 ++++++++++++++----------------
- 1 file changed, 14 insertions(+), 16 deletions(-)
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
- v6: New patch
+ v2: No change
 
-diff --git a/drivers/watchdog/jz4740_wdt.c b/drivers/watchdog/jz4740_wdt.c
-index 1d504ecf45e1..0f54306aee25 100644
---- a/drivers/watchdog/jz4740_wdt.c
-+++ b/drivers/watchdog/jz4740_wdt.c
-@@ -13,6 +13,7 @@
-  *
-  */
+ v3: No change
+
+ v4: No change
+
+ v5: Update with new files
+
+ v6: No change
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7cebd5bba8a8..cf5fbc777bb6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7074,6 +7074,15 @@ L:	linux-mtd@lists.infradead.org
+ S:	Maintained
+ F:	drivers/mtd/nand/raw/jz4780_*
  
-+#include <linux/mfd/ingenic-tcu.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/types.h>
-@@ -25,10 +26,7 @@
- #include <linux/slab.h>
- #include <linux/err.h>
- #include <linux/of.h>
--
--#define JZ_REG_WDT_TIMER_DATA     0x0
--#define JZ_REG_WDT_COUNTER_ENABLE 0x4
--#define JZ_REG_WDT_TIMER_COUNTER  0x8
-+#include <linux/regmap.h>
- 
- #define DEFAULT_HEARTBEAT 5
- #define MAX_HEARTBEAT     2048
-@@ -48,7 +46,7 @@ MODULE_PARM_DESC(heartbeat,
- 
- struct jz4740_wdt_drvdata {
- 	struct watchdog_device wdt;
--	void __iomem *base;
-+	struct regmap *map;
- 	struct clk *clk;
- 	unsigned long clk_rate;
- };
-@@ -57,7 +55,7 @@ static int jz4740_wdt_ping(struct watchdog_device *wdt_dev)
- {
- 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
- 
--	writew(0x0, drvdata->base + JZ_REG_WDT_TIMER_COUNTER);
-+	regmap_write(drvdata->map, TCU_REG_WDT_TCNT, 0);
- 	return 0;
- }
- 
-@@ -67,12 +65,12 @@ static int jz4740_wdt_set_timeout(struct watchdog_device *wdt_dev,
- 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
- 	u16 timeout_value = (u16)(drvdata->clk_rate * new_timeout);
- 
--	writeb(0x0, drvdata->base + JZ_REG_WDT_COUNTER_ENABLE);
-+	regmap_write(drvdata->map, TCU_REG_WDT_TCER, 0);
- 
--	writew((u16)timeout_value, drvdata->base + JZ_REG_WDT_TIMER_DATA);
--	writew(0x0, drvdata->base + JZ_REG_WDT_TIMER_COUNTER);
-+	regmap_write(drvdata->map, TCU_REG_WDT_TDR, timeout_value);
-+	regmap_write(drvdata->map, TCU_REG_WDT_TCNT, 0);
- 
--	writeb(0x1, drvdata->base + JZ_REG_WDT_COUNTER_ENABLE);
-+	regmap_write(drvdata->map, TCU_REG_WDT_TCER, TCU_WDT_TCER_TCEN);
- 
- 	wdt_dev->timeout = new_timeout;
- 	return 0;
-@@ -96,7 +94,7 @@ static int jz4740_wdt_stop(struct watchdog_device *wdt_dev)
- {
- 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
- 
--	writeb(0x0, drvdata->base + JZ_REG_WDT_COUNTER_ENABLE);
-+	regmap_write(drvdata->map, TCU_REG_WDT_TCER, 0);
- 	clk_disable_unprepare(drvdata->clk);
- 
- 	return 0;
-@@ -138,7 +136,6 @@ static int jz4740_wdt_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct jz4740_wdt_drvdata *drvdata;
- 	struct watchdog_device *jz4740_wdt;
--	struct resource	*res;
- 	long rate;
- 	int ret;
- 
-@@ -174,10 +171,11 @@ static int jz4740_wdt_probe(struct platform_device *pdev)
- 	watchdog_set_nowayout(jz4740_wdt, nowayout);
- 	watchdog_set_drvdata(jz4740_wdt, drvdata);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	drvdata->base = devm_ioremap_resource(&pdev->dev, res);
--	if (IS_ERR(drvdata->base))
--		return PTR_ERR(drvdata->base);
-+	drvdata->map = dev_get_regmap(dev->parent, NULL);
-+	if (!drvdata->map) {
-+		dev_err(dev, "regmap not found\n");
-+		return -EINVAL;
-+	}
- 
- 	ret = devm_watchdog_register_device(&pdev->dev, &drvdata->wdt);
- 	if (ret < 0)
++INGENIC TCU driver
++M:	Paul Cercueil <paul@crapouillou.net>
++S:	Maintained
++F:	drivers/clocksource/ingenic-ost.c
++F:	drivers/clocksource/ingenic-timer.c
++F:	drivers/clocksource/ingenic-timer.h
++F:	include/linux/mfd/ingenic-tcu.h
++F:	include/dt-bindings/clock/ingenic,tcu.h
++
+ INOTIFY
+ M:	Jan Kara <jack@suse.cz>
+ R:	Amir Goldstein <amir73il@gmail.com>
 -- 
 2.11.0
 
