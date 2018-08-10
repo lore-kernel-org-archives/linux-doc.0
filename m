@@ -1,103 +1,50 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2A7F37D00A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 21:54:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7EA337D00A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 22:07:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726708AbeHKA0B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 20:26:01 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:35137 "EHLO
-        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725754AbeHKA0A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 20:26:00 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id A9FA821E;
-        Fri, 10 Aug 2018 17:54:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Fri, 10 Aug 2018 17:54:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=Z0fwvBjK/vhko80D9qlRnuU1JQwHLv8owOQaQ+OaGR0=; b=WWOOEBwo
-        jJ3B13KJlW5m8640j4/jS/Rf8zZivhKz5ImrRtFZPQLY0H2Jsa7+kK0K9dQZ5RoU
-        IHh5CAJNbBfN+A86bu3WvXXxiqzViVR2g/T+auqqaP+DUUVhqs7209+T9J/+XLaF
-        e6aUIYFjvqAQWAyTtb2FSCiGc/i+vVuNPk65Iymdu3BPEc/lrcjwAcna59QHAGI1
-        p2/wgTDHs8nlctJZbL55/pkkacM+WAzWn/lk4uqvbUveH2sMChu8dqaORHzhN5VW
-        kOYtjplit8/EnmKDGv2kjqS/y3wwAxpf91rt5JJub+lgIllK97hOFUc/mHIY9KFi
-        bi0PCWNsiq4u7Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=Z0fwvBjK/vhko80D9qlRnuU1JQwHL
-        v8owOQaQ+OaGR0=; b=GyXc+eTGVMro56QyC3fk5Nhzm6UtuNPKx9jmi6Q5uvqXR
-        XixFsipoWjUjFhcdL5My6J3bm8k7IC1RFe8uBbxdisLnhnQwzz+c9K44BiBUXCaO
-        g2sxLeTfdpbjC/ke8oTIIslZTPcEKkUhyQClsEsCXK+YTD6F2WygdmkJaVb28SZF
-        NyhIBKW6pZK+vVxat0XXrv0hUfpnj7mVttk8ytJjvUByLfkZ7iub9tY68Sd6Yemj
-        NAthvc+tbQBJ08td3kMkiXVbKnfZTknDpoR5gtoFFcbJ7gufEOjulOfcYQ3roCaf
-        t4Zz8GdO7FY/7uXpwwtKnLCrI3RloWc5xA0eKL02g==
-X-ME-Proxy: <xmx:iAluWzRqbSnsP24f1QBJlhIYopVGXadmKQ9dhjb4Z6GBxq5NUFBfdA>
-    <xmx:iAluWwcpl2SAsUHaGmQ-o6KyRNdnOIBBW4BxWSwmvg6C8ejqDDCkXQ>
-    <xmx:iAluW1TDIbjfCULNS8F6o2BnaS5R7BNbyGNQ77C-T7AY5eBeLEDFqA>
-    <xmx:iAluW8J6awEidpaxWG4b8Rrc4DZMsc_t9CycisMnLZ6kz2Xyq6hFhg>
-    <xmx:iAluWyII6Goy1R0ecldqQM2NoiVnAuNHGg2CtbEil_IrPwbFoalNtQ>
-    <xmx:iQluW07oQO6ICOoM3qEEbwVeL0KzB0EKcJQ26Oe27s8Xp0dXCb-0kw>
-X-ME-Sender: <xms:iAluW4V7Kz-0I0YvVPeiEZSx8rfatLpW-ojkdqags2ncy5ulWiv8Kg>
-Received: from localhost (124-169-145-41.dyn.iinet.net.au [124.169.145.41])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 6955BE455F;
-        Fri, 10 Aug 2018 17:54:15 -0400 (EDT)
-Date:   Sat, 11 Aug 2018 07:54:12 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next 0/4] Convert filter.txt to RST
-Message-ID: <20180810215412.GM32374@eros>
-References: <20180809052328.27942-1-me@tobin.cc>
- <20180809060734.rtqqu4sexbwzuqmm@ast-mbp>
- <20180809072753.GF32374@eros>
- <80bdc251-9f57-602f-6536-b34651684bb7@iogearbox.net>
- <20180810014636.GJ32374@eros>
- <20180810065752.2ab5473d@lwn.net>
+        id S1727042AbeHKAjB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 20:39:01 -0400
+Received: from ms.lwn.net ([45.79.88.28]:33380 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727000AbeHKAjB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 10 Aug 2018 20:39:01 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 78C229B0;
+        Fri, 10 Aug 2018 22:07:17 +0000 (UTC)
+Date:   Fri, 10 Aug 2018 16:07:16 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Fox Foster <fox@tardis.ed.ac.uk>
+Cc:     linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] Remove gendered language from management style
+ documentation
+Message-ID: <20180810160716.7ae944d4@lwn.net>
+In-Reply-To: <20180807184751.28039-1-fox@tardis.ed.ac.uk>
+References: <20180807184751.28039-1-fox@tardis.ed.ac.uk>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180810065752.2ab5473d@lwn.net>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 10, 2018 at 06:57:52AM -0600, Jonathan Corbet wrote:
-> On Fri, 10 Aug 2018 11:46:36 +1000
-> "Tobin C. Harding" <me@tobin.cc> wrote:
+On Tue,  7 Aug 2018 19:47:51 +0100
+Fox Foster <fox@tardis.ed.ac.uk> wrote:
+
+> This small commit replaces gendered pronouns for neutral ones.
 > 
-> > Thanks for clarifying.  My understanding is now; this is a case where
-> > checkpatch is too verbose and we do not actually need to add a specific
-> > license identifier to the documentation files (new or otherwise).  They
-> > get an implicit GPLv2.
-> 
-> The objective actually is to have SPDX tags in all files in the kernel.
-> That includes documentation, even though people, as always, care less
-> about the docs than they do the code.
->
-> As I understood it, the complaint with the tags you put in wasn't their
-> existence, it was your putting GPLv2+ rather than straight GPLv2.  In the
-> absence of information to the contrary, you really have to assume the
-> latter, since that's the overall license for the kernel.
+> Signed-off-by: Fox Foster <fox@tardis.ed.ac.uk>
 
-Righto, thanks Jon.  GPLv0 tags going in for v3
+Applied, thanks.
 
-
-	Tobin
+jon
