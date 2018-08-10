@@ -3,49 +3,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3ECD07E3E4
+	by archive.lwn.net (Postfix) with ESMTP id 5927E7D099
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:07:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728307AbeHJKew (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 06:34:52 -0400
-Received: from mail-wm0-f48.google.com ([74.125.82.48]:53311 "EHLO
-        mail-wm0-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728364AbeHJKew (ORCPT
+        id S1728404AbeHJKex (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 06:34:53 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41085 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728300AbeHJKew (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:52 -0400
-Received: by mail-wm0-f48.google.com with SMTP id s9-v6so927994wmh.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:06:07 -0700 (PDT)
+Received: by mail-wr1-f67.google.com with SMTP id j5-v6so7455973wrr.8
+        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:06:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=r2kUHt8xOX/X/PnpUK/Av4k3yjo3y+RVMVX0DZ8RBXo=;
-        b=1IezMsPvfeCSNwxz/W7g8guUWIj1MlKn1Y/XH0QHuzFMya6wnUXorRPiYypsD6lbLg
-         gFHq/HzljmuSs7G/4V66s0jCYV/eX55xvrzDQFbLzXBfTSQ6bx5akAyYMzK2+rSdgnLE
-         2syRCvvfjtYgr5FSpZG1euQg55osIUDpajdFLgLu/9GA+6uHpzcADzpxeeAaECNPVjMd
-         8qLN2ZTufzsNa6IsRDTCd3tFKm2w6zazU6l2lxEVxVHmht4uK4hu/cK6H2bbp8X1/lxg
-         RxxwhI+KPGkpj8IqzGLlOI4lpgpM8XpHXOHFKFGkjO6nTIAPM7UqMhWaNBOudfwVLM2K
-         SuqA==
+        bh=EjOQubnQTroWVxsDBUM1JXSo0fAS57WaAUjmLBb4Sws=;
+        b=slxAavyRYIQAKAyGAcvJcsdh4bzGKFYXvueiQKixAAkrgMWIfSf1b7VJfMW8yml9CP
+         OlkK3rH0fn7Cp+JOjH+OwKI3DlTgq14HaQgshBSfsWcCVIxRtuP1Tb8j4e1sh3PgBane
+         I5druFmkEsk+6QWmtgkkzuNEX3y6ct8hPvQl+trAkKGjltR0bN4am01ohGLiYfWiIVHf
+         mP1hXPsUie4ZzSKNpP0Ba5pHkzO08Gz7ktUz2eV5J29se9aqmHvVO7Z3qIYUxrUcfOlz
+         BmrOC1ajt2D1hEHzj3h5Omy4PBimrql7pMsm5V3KdV2T1VuHIvws9axLTyMd2zvu0LW2
+         Lhkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=r2kUHt8xOX/X/PnpUK/Av4k3yjo3y+RVMVX0DZ8RBXo=;
-        b=bBJ97MqzmKe6K7oEwhcL7zk4lKIfwfWh5mzZwrG1gjzBSY52u9mkhaAgmxiC5nfwz6
-         +NUNi6fPvFLHsZa3jxzVTc+cRub2dxPioZKo4aYhzIm+WJ88k+EL+8yKX12iydotW+ip
-         A8aROCr8CNpJIv3ZlK/LEqHKjSeIzPI2XvvD2kHB+k9H+MU89u+zR7nsqU6DvBef0B6j
-         paJCzZNFeMFV95jOmIiB5OK727pIFvz009+lTvzg7ZjtgoNa/D6DKfNCCfjfWEnuo5r6
-         rOb+2/W+2FU4Wpwe1OScklKmK5qdYIyJFQUbk1knxyfjyPzacjz46fWy9Xp4VV+FKiTr
-         DsJg==
-X-Gm-Message-State: AOUpUlGnBMCPhkY6pJzdiBK50c2QJTuyTtYrz+31A/krz7ARxqvflH2P
-        ll3NUUU0w/M0IgTEN/xYV2fR0Q==
-X-Google-Smtp-Source: AA+uWPxWBZF891XRgjDhENshzdI9BBPFzNgjARcveCg1grLiyw8JKPh+e10lACy6aZz5pXAQkYfpjw==
-X-Received: by 2002:a1c:af53:: with SMTP id y80-v6mr746588wme.55.1533888366699;
-        Fri, 10 Aug 2018 01:06:06 -0700 (PDT)
+        bh=EjOQubnQTroWVxsDBUM1JXSo0fAS57WaAUjmLBb4Sws=;
+        b=pTFiOLRKEIDNhUJ3y7JLPkwGXagVlxgxWHr4cMwYGki6PiFAr1pn3K4pq15dLGYrUc
+         CAe4xYWLhj37j7EivbV/G1aWyEMBH5wmjSLrKIc2fceLu/U18XV/KLqN+frE+cP6Uxbp
+         zT6fpGZhSDIRJr9mpC7Ncb9pXPqHUBE1EMCo6LTW/QZI8MchHsbdVGzt5ma8OqZ/4DLl
+         xTeVVKFtZYXwJiZEGds/l4vrvq7VaFy/5ZYiJpqkCwcmODNFz8KV/Po19PWgOZ+AdO47
+         desWfzEy1Z8DAnunyDNmdfNA4u+OMnYQ5ztebjilwtPmnLvbrF4WB6+ElNx2VtvMxIye
+         70aQ==
+X-Gm-Message-State: AOUpUlG8K8kgewlqczuBCSXtw8jvCW1exr78bi/gVkifcM1HShDIPJaj
+        pT0iEwXidplvLE0CvFV6AjmJ1Q==
+X-Google-Smtp-Source: AA+uWPy4GNYeh2WzvM+2T0Bc7L9+oHxywgRRtH1zE1aqpVG7uIW5FR9RKpaa87lEDy5+MnJSrszRTQ==
+X-Received: by 2002:adf:8385:: with SMTP id 5-v6mr3547900wre.13.1533888361189;
+        Fri, 10 Aug 2018 01:06:01 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.06.04
+        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.05.59
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Aug 2018 01:06:06 -0700 (PDT)
+        Fri, 10 Aug 2018 01:06:00 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -77,9 +77,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
         netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 18/29] ARM: davinci: da850-evm: remove dead MTD code
-Date:   Fri, 10 Aug 2018 10:05:15 +0200
-Message-Id: <20180810080526.27207-19-brgl@bgdev.pl>
+Subject: [PATCH v2 15/29] net: split eth_platform_get_mac_address() into subroutines
+Date:   Fri, 10 Aug 2018 10:05:12 +0200
+Message-Id: <20180810080526.27207-16-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180810080526.27207-1-brgl@bgdev.pl>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
@@ -90,60 +90,79 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-We no longer need to register the MTD notifier to read the MAC address
-as it's now being done in the emac driver.
+We want do add more sources from which to read the MAC address. In
+order to avoid bloating this function too much, start by splitting it
+into subroutines, each of which takes care of reading the MAC from
+one source.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- arch/arm/mach-davinci/board-da850-evm.c | 28 -------------------------
- 1 file changed, 28 deletions(-)
+ net/ethernet/eth.c | 44 ++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 36 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm/mach-davinci/board-da850-evm.c b/arch/arm/mach-davinci/board-da850-evm.c
-index 521a26b5c20d..1df796b67b82 100644
---- a/arch/arm/mach-davinci/board-da850-evm.c
-+++ b/arch/arm/mach-davinci/board-da850-evm.c
-@@ -137,32 +137,6 @@ static struct spi_board_info da850evm_spi_info[] = {
- 	},
- };
+diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
+index 7f08105402c8..d01dd55de037 100644
+--- a/net/ethernet/eth.c
++++ b/net/ethernet/eth.c
+@@ -525,22 +525,50 @@ unsigned char * __weak arch_get_platform_mac_address(void)
+ 	return NULL;
+ }
  
--#ifdef CONFIG_MTD
--static void da850_evm_m25p80_notify_add(struct mtd_info *mtd)
--{
--	char *mac_addr = davinci_soc_info.emac_pdata->mac_addr;
--	size_t retlen;
--
--	if (!strcmp(mtd->name, "MAC-Address")) {
--		mtd_read(mtd, 0, ETH_ALEN, &retlen, mac_addr);
--		if (retlen == ETH_ALEN)
--			pr_info("Read MAC addr from SPI Flash: %pM\n",
--				mac_addr);
--	}
--}
--
--static struct mtd_notifier da850evm_spi_notifier = {
--	.add	= da850_evm_m25p80_notify_add,
--};
--
--static void da850_evm_setup_mac_addr(void)
--{
--	register_mtd_user(&da850evm_spi_notifier);
--}
--#else
--static void da850_evm_setup_mac_addr(void) { }
--#endif
--
- static struct mtd_partition da850_evm_norflash_partition[] = {
- 	{
- 		.name           = "bootloaders + env",
-@@ -1470,8 +1444,6 @@ static __init void da850_evm_init(void)
- 	if (ret)
- 		pr_warn("%s: SATA registration failed: %d\n", __func__, ret);
+-int eth_platform_get_mac_address(struct device *dev, u8 *mac_addr)
++static int mac_address_from_of(struct device *dev, u8 *mac_addr)
+ {
+ 	const unsigned char *addr;
+-	struct device_node *dp;
++	struct device_node *np;
  
--	da850_evm_setup_mac_addr();
--
- 	ret = da8xx_register_rproc();
- 	if (ret)
- 		pr_warn("%s: dsp/rproc registration failed: %d\n",
+-	dp = dev->of_node;
+-	addr = NULL;
+-	if (dp)
+-		addr = of_get_mac_address(dp);
+-	if (!addr)
+-		addr = arch_get_platform_mac_address();
++	np = dev->of_node;
++	if (!np)
++		return -ENODEV;
+ 
++	addr = of_get_mac_address(np);
+ 	if (!addr)
+ 		return -ENODEV;
+ 
++	if (!addr || !is_valid_ether_addr(addr))
++		return -ENODEV;
++
+ 	ether_addr_copy(mac_addr, addr);
+ 	return 0;
+ }
++
++static int mac_address_from_arch(u8 *mac_addr)
++{
++	const unsigned char *addr;
++
++	addr = arch_get_platform_mac_address();
++	if (!addr || !is_valid_ether_addr(addr))
++		return -ENODEV;
++
++	ether_addr_copy(mac_addr, addr);
++	return 0;
++}
++
++int eth_platform_get_mac_address(struct device *dev, u8 *mac_addr)
++{
++	int rv;
++
++	rv = mac_address_from_of(dev, mac_addr);
++	if (!rv)
++		return 0;
++
++	rv = mac_address_from_arch(mac_addr);
++	if (!rv)
++		return 0;
++
++	return -ENODEV;
++}
+ EXPORT_SYMBOL(eth_platform_get_mac_address);
 -- 
 2.18.0
 
