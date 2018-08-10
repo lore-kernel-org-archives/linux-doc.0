@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 29C067E3E4
+	by archive.lwn.net (Postfix) with ESMTP id DACF77E41D
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:09:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727074AbeHJKg1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 06:36:27 -0400
-Received: from mail-wr1-f50.google.com ([209.85.221.50]:36655 "EHLO
-        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728400AbeHJKey (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:54 -0400
-Received: by mail-wr1-f50.google.com with SMTP id h9-v6so7488150wro.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:06:09 -0700 (PDT)
+        id S1727562AbeHJKh3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 06:37:29 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33172 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728152AbeHJKek (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:40 -0400
+Received: by mail-wr1-f67.google.com with SMTP id g6-v6so7494450wrp.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=7hGAs3eonwoCQnALsYwyOyrZG60JWD61CbSNH1Ct6wM=;
-        b=TW52wLxb6U1S+RUIaPLZ6sLVh1ll5ayu4Tyxowh2V1yuOjo6qbPK8H0aTaBmRKlnFv
-         SrS0jHot3Dwd6t0U6JIwAFAPBdoVjIW3SPmji9a8Z+EJSOIkCSrFS8F/K8Ezh9vI/ctZ
-         +mxkzFJR65rNeIiq7Jt3JG7QLORDmLsbuCCSQsUycS+22h5v7szEm1I+E/GOE+mX7MV1
-         p7o5JN8tFkOE7r7rfpNe4BR73GiWTKa9GRuBICd8/bOwByErKcAD7r31paEBNHbtkySl
-         DrGTWalChwpg2xfIzRYexE470R+mlhJWo+GinWS31pX0rx5vZMqe4s06IE73hLzu+CQw
-         ii1A==
+        bh=bxzAHxBZXjRxHAL9jtG/FK0HAvx9UzeP0h5va0TWUB0=;
+        b=L1fUj1hxtvDEdmNJU7oSl9Zu87psQ9mN+BYuQMmV9OdAN1nOBQ+AEFM9fFW5ry0wTQ
+         QZHF7LAtJ8oBD7VzPOPwcOkALe5JGmaB94B5fBCyNAFd6J/D0/+brCg1r98mH1ty5zPH
+         wr4DdkYYDJGOIM7oIGesWQDssRhswq6aeudoxfAN8OJTcgMpLNTRPZt1fm8gRAOFdH1P
+         mogJFjE9ERXOPDa7N+QSQvQqROs0B9xCPyOAikWsYsD3zYGoZi9n9zhhvSlZfWrXBToh
+         8+CBFf6IUu+Jap6RecJw+TnTmAoRqAV/unfwokpnk85Cd2U+OKVesvbOfoqh02sOP8+M
+         xEIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=7hGAs3eonwoCQnALsYwyOyrZG60JWD61CbSNH1Ct6wM=;
-        b=HZayLCzq+c1IPw/CaxVPn3Ixmol0aeotxNjgavfP9gihbnJ38VGgjBIqnJM22ybWPQ
-         KRpD5rVtElhnNHSzZSy5RzkPqs00ohhbw/dgyVf8dGveDxZkaACi5nm2/F/CAJm+vpJj
-         ICULTHWcbanJWEvdCuaIe1eKQkemoMNDX55ewpgbpYWstf1Z8Cj8tFOYlxLYpPDZ/HpU
-         maM9Vi/KKr33sGP1HBT1t+M9lsK93ibE7fiEkXcosdVfkwsUqT8+TcU0iURigiYOQoYt
-         lQEU4t9RxhTXjRihzcPyoqTTglSIG61INNr2z0bOgiu7+0XD497rWTgOLQMgPcwHFSF7
-         xz/A==
-X-Gm-Message-State: AOUpUlG+gSz4cxXTpa/86qPX5CDR3XRJzicAC2XUNAkDj5awtuy5OCDz
-        lW29wXrvtpKkFeCZgyP01nlX8A==
-X-Google-Smtp-Source: AA+uWPzG5KCSYEWGj/jUKsuWmN+eyaYzGxbxySiyML7PJw6E/g88i9QHvKbm+0DWADIM/WiOi2mQOQ==
-X-Received: by 2002:a5d:41c1:: with SMTP id e1-v6mr3517699wrq.25.1533888368546;
-        Fri, 10 Aug 2018 01:06:08 -0700 (PDT)
+        bh=bxzAHxBZXjRxHAL9jtG/FK0HAvx9UzeP0h5va0TWUB0=;
+        b=ciTkOVSqfEWD+SFacgfgO2oRX36/msCDuC5SBNoWoj6mnC+ac7nu9INdaDaT2KuAba
+         uYTeFL1USA1sawuzhcSfC7mU4t1vn1RjQKrh2Ozd/q8V5n1bzQhBi13BEMY5MTlY8LmG
+         JkB8/tmAKVftlCZGngCd1xDtQ7XrjxUDDqiz8Mzd4dKD9vYXJkh28uZE1lCDLY09beGu
+         OsOGLobd0mBF3cwFCUh2MyejxJnRbYBh/P4CX68YphE8bRiYAZjT+VSUw4l8Mv6z1UW2
+         WKE5LmyGO0KZktMJuZZg61+3RPFyyLb2dTs/cutrq1Z78JtWh2vW8QIaKEfYrgL5WIdV
+         0vDg==
+X-Gm-Message-State: AOUpUlHc+oVf/3+6HokDGPwin817dmeNPvm54AnsctqA732tp9BxpFrg
+        PdRQi0wD24kf/WQABqmv4V4v9w==
+X-Google-Smtp-Source: AA+uWPwf+1APZ1HtxQTawxEl+j6zYLbTuPRDiWpH5+JVRRKXzlzHEriNln/XMJiahiFWrLevZ538Uw==
+X-Received: by 2002:adf:9304:: with SMTP id 4-v6mr442888wro.48.1533888353574;
+        Fri, 10 Aug 2018 01:05:53 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.06.06
+        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.05.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Aug 2018 01:06:07 -0700 (PDT)
+        Fri, 10 Aug 2018 01:05:52 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -77,9 +77,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
         netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 19/29] ARM: davinci: mityomapl138: don't read the MAC address from machine code
-Date:   Fri, 10 Aug 2018 10:05:16 +0200
-Message-Id: <20180810080526.27207-20-brgl@bgdev.pl>
+Subject: [PATCH v2 11/29] ARM: davinci: mityomapl138: add nvmem cells lookup entries
+Date:   Fri, 10 Aug 2018 10:05:08 +0200
+Message-Id: <20180810080526.27207-12-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180810080526.27207-1-brgl@bgdev.pl>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
@@ -90,39 +90,61 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-This is now done by the emac driver using a registered nvmem cell.
+We now support nvmem lookups for machine code. Add a lookup for
+mac-address.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- arch/arm/mach-davinci/board-mityomapl138.c | 8 --------
- 1 file changed, 8 deletions(-)
+ arch/arm/mach-davinci/board-mityomapl138.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/arch/arm/mach-davinci/board-mityomapl138.c b/arch/arm/mach-davinci/board-mityomapl138.c
-index 48a9bae76e4a..35b2b6068a7a 100644
+index 37b3e48a21d1..48a9bae76e4a 100644
 --- a/arch/arm/mach-davinci/board-mityomapl138.c
 +++ b/arch/arm/mach-davinci/board-mityomapl138.c
-@@ -120,7 +120,6 @@ static void read_factory_config(struct nvmem_device *nvmem, void *context)
- {
- 	int ret;
- 	const char *partnum = NULL;
--	struct davinci_soc_info *soc_info = &davinci_soc_info;
+@@ -15,6 +15,7 @@
+ #include <linux/console.h>
+ #include <linux/platform_device.h>
+ #include <linux/mtd/partitions.h>
++#include <linux/nvmem-provider.h>
+ #include <linux/regulator/machine.h>
+ #include <linux/i2c.h>
+ #include <linux/platform_data/at24.h>
+@@ -160,6 +161,25 @@ static void read_factory_config(struct nvmem_device *nvmem, void *context)
+ 	mityomapl138_cpufreq_init(partnum);
+ }
  
- 	if (!IS_BUILTIN(CONFIG_NVMEM)) {
- 		pr_warn("Factory Config not available without CONFIG_NVMEM\n");
-@@ -146,13 +145,6 @@ static void read_factory_config(struct nvmem_device *nvmem, void *context)
- 		goto bad_config;
- 	}
++static struct nvmem_cell_lookup mityomapl138_nvmem_cells[] = {
++	{
++		.info = {
++			.name = "factory-config",
++			.offset = 0x0,
++			.bytes = sizeof(struct factory_config),
++		},
++		.nvmem_name = "1-00500",
++	},
++	{
++		.info = {
++			.name = "mac-address",
++			.offset = 0x64,
++			.bytes = ETH_ALEN,
++		},
++		.nvmem_name = "1-00500",
++	}
++};
++
+ static struct at24_platform_data mityomapl138_fd_chip = {
+ 	.byte_len	= 256,
+ 	.page_size	= 8,
+@@ -534,6 +554,8 @@ static void __init mityomapl138_init(void)
+ 	if (ret)
+ 		pr_warn("spi 1 registration failed: %d\n", ret);
  
--	pr_info("Found MAC = %pM\n", factory_config.mac);
--	if (is_valid_ether_addr(factory_config.mac))
--		memcpy(soc_info->emac_pdata->mac_addr,
--			factory_config.mac, ETH_ALEN);
--	else
--		pr_warn("Invalid MAC found in factory config block\n");
--
- 	partnum = factory_config.partnum;
- 	pr_info("Part Number = %s\n", partnum);
++	nvmem_add_lookup_table(mityomapl138_nvmem_cells,
++			       ARRAY_SIZE(mityomapl138_nvmem_cells));
+ 	mityomapl138_config_emac();
  
+ 	ret = da8xx_register_rtc();
 -- 
 2.18.0
 
