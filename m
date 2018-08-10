@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E699F7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:09:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1D5F67DE7B
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:09:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728199AbeHJKem (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 06:34:42 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:55896 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728177AbeHJKel (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:41 -0400
-Received: by mail-wm0-f66.google.com with SMTP id f21-v6so917771wmc.5
-        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:05:56 -0700 (PDT)
+        id S1728233AbeHJKeo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 06:34:44 -0400
+Received: from mail-wm0-f48.google.com ([74.125.82.48]:34000 "EHLO
+        mail-wm0-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728192AbeHJKen (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:43 -0400
+Received: by mail-wm0-f48.google.com with SMTP id l2-v6so776209wme.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=sGOzUdYoefHsqeEVpETOZKTrsiIrdDWkhYzQ4MVNoLM=;
-        b=yjBx+zayQEOO94lbibSVMCOe8LuflnszJtTjXhxHxnNAfEX0Xojae3oYWgqq5tkr4d
-         g3vCgx5kKCd3HlMGta/hSDM4hlMZeDKGze9JbxPuf/PDDu8UUkis04ZdQelg1yVeUtFi
-         vk4sUINL4U61Sk9zgsAXBTlIpBRDXknHB8QEQ/fI8sd89ekAa34atOrHYtNajWFOdEH9
-         HmU/tx9YSxn0rar21U6iq197pLsU+1iYvjlJ9u0elZR2Cq543/JKhyfrkrda/dCICIM4
-         yE69m7ez2k7oT2VXpmM5FwqHfzFhc9rJkrK9OMEWcJGq6d8d++Po3ma+Qw27WEGDjbkg
-         bVNQ==
+        bh=Vbd/0hAQ6eCPDyxiTiuvrAkBoIff8s2ba/U1T9sJXTg=;
+        b=WXTaSryWR9CEYrjcNIo3UE5DtLYVKzLIWsj+6TZ2+rPbEG/Yh5qafUI1htgP0u5l5M
+         8CL9+bQBZT1ilBuuK+swWtl13ZX4Z6gOJz9Elduk/Q2SDVrS7IhQBp7/qAbPVaprWw+E
+         qnuyZVLHRlSl96tEGph9PAvUv/tYPBsSe8xFsVLr6PiQDRIKDNYLRYtfBnqVqVeeBLUu
+         WZe6k76TwxoChB83iOgCkPg2lJ7w951xHcPU3lAk1ccOIQFMZ+MZBVRN7Xl6MPbrJdFL
+         FA9BLxZp8nf/vLEhYrrgY2IHv2KlkYuCMkEkC0SQ2T5n26mkbWlELxvvu5MDON2LDCZP
+         Hxig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=sGOzUdYoefHsqeEVpETOZKTrsiIrdDWkhYzQ4MVNoLM=;
-        b=C0qRWtuD4nJBqbcsJ9KYgUwEWOaMdJKNNW5C/t5qnprXuJYpEPNTtVCsUeUprX6VES
-         vjqscA3Wk0O5L9tHBUudiO2cgGqVyhU+U1BnB63H0h6gMpcdgkR861G5WtAudzCOdHM4
-         FbHiB8tZfB4QBNjnFfgDuJiqEWZHKyb/BHu9O17iEW90nl1bx3QKiBWKRoctyb9l2Guz
-         FIb450G3Q7tZbC3ra1Nu8e6KfeasB4oCEItnYvaBei1B32MwFAG77yqlE8g87u/5tPur
-         PjpYdzeYBiZS43NGuVI/Vl5ljdk64D/PzQsBbW7Kkl043r9FVnEFfw2gS+dAmnW8oGgw
-         aSJA==
-X-Gm-Message-State: AOUpUlEkcMFm2m2V3dzIWvbHQ3a55BpRikIJjRIEk+nokThxCdvY1O4N
-        QchlX/wKFr6JKjh8sP/NBKSf9A==
-X-Google-Smtp-Source: AA+uWPx1+GuHuc4EM7u+V6MsXntd+upjbsWfUo0og6CvAQZLwTMMwUiM1O9oh1yLd3hN3xNEEzy9Jg==
-X-Received: by 2002:a1c:2094:: with SMTP id g142-v6mr731584wmg.144.1533888355605;
-        Fri, 10 Aug 2018 01:05:55 -0700 (PDT)
+        bh=Vbd/0hAQ6eCPDyxiTiuvrAkBoIff8s2ba/U1T9sJXTg=;
+        b=OjKiwV2bS2murMszAunX0+avOmmuBn18mkFV13L/rDQ6Wt8xnOiQqCW3sCSVoilTb/
+         eu0gZVD8Ee5JuMHvQAKTj97ncdIOWlaHp2/q/MOFfOcNOQvJHulrTSI3oi1KVKk+0dO3
+         aKEWxQZA+d2OQEBlgmhPdwtnu34w0arAsBtDXkDmzaVlVkmCCuMMfTfB+anGXdf7omDx
+         JrodEGsPsBmmi09IO3moTITHxIgpCeLwoDO31qX4NewEVqJBjw5i2+YkoJcv9tZb7F4h
+         PtCjbHUmwW0l7w1KlBkQ/ftCj8Jd530Qs0JmrtD8xpcwm4QlpMVx3cOPG3WPcFW+FCeg
+         I+Hg==
+X-Gm-Message-State: AOUpUlGXspOaxAV/qVH5jITvgzkGmwTFcLc4YJ2hOK3lfQKE3m0rW8/a
+        fMGnRx5FZbl7spD0Off93+Tlow==
+X-Google-Smtp-Source: AA+uWPwevt7H+4psNa6nNW0sB6RMqRzZSdo/PB1RqE6sIHuds28NM2mVCOs48EMlZ/vnaPtG0JWFww==
+X-Received: by 2002:a1c:8b0d:: with SMTP id n13-v6mr730206wmd.46.1533888357383;
+        Fri, 10 Aug 2018 01:05:57 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.05.53
+        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.05.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Aug 2018 01:05:54 -0700 (PDT)
+        Fri, 10 Aug 2018 01:05:56 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -77,9 +77,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
         netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 12/29] ARM: davinci: da850-evm: use nvmem lookup for mac address
-Date:   Fri, 10 Aug 2018 10:05:09 +0200
-Message-Id: <20180810080526.27207-13-brgl@bgdev.pl>
+Subject: [PATCH v2 13/29] ARM: davinci: da850-evm: remove unnecessary include
+Date:   Fri, 10 Aug 2018 10:05:10 +0200
+Message-Id: <20180810080526.27207-14-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180810080526.27207-1-brgl@bgdev.pl>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
@@ -90,55 +90,25 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-We now support nvmem lookups for machine code. Add a lookup for
-mac-address.
+The include file for at24_platform_data is not needed in this file.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- arch/arm/mach-davinci/board-da850-evm.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ arch/arm/mach-davinci/board-da850-evm.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/arch/arm/mach-davinci/board-da850-evm.c b/arch/arm/mach-davinci/board-da850-evm.c
-index 6d5beb11bd96..5a634a04ec69 100644
+index 5a634a04ec69..521a26b5c20d 100644
 --- a/arch/arm/mach-davinci/board-da850-evm.c
 +++ b/arch/arm/mach-davinci/board-da850-evm.c
-@@ -29,6 +29,7 @@
- #include <linux/mtd/rawnand.h>
- #include <linux/mtd/partitions.h>
- #include <linux/mtd/physmap.h>
-+#include <linux/nvmem-provider.h>
- #include <linux/platform_device.h>
- #include <linux/platform_data/gpio-davinci.h>
- #include <linux/platform_data/mtd-davinci.h>
-@@ -99,6 +100,19 @@ static struct mtd_partition da850evm_spiflash_part[] = {
- 	},
- };
- 
-+static struct nvmem_cell_lookup da850evm_mac_address_cell = {
-+	.info = {
-+		.name = "mac-address",
-+		.offset = 0x0,
-+		.bytes = ETH_ALEN,
-+	},
-+	/*
-+	 * The nvmem name differs from the partition name because of the
-+	 * internal works of the nvmem framework.
-+	 */
-+	.nvmem_name = "MAC-Address0",
-+};
-+
- static struct flash_platform_data da850evm_spiflash_data = {
- 	.name		= "m25p80",
- 	.parts		= da850evm_spiflash_part,
-@@ -1447,6 +1461,8 @@ static __init void da850_evm_init(void)
- 		pr_warn("%s: spi info registration failed: %d\n", __func__,
- 			ret);
- 
-+	nvmem_add_lookup_table(&da850evm_mac_address_cell, 1);
-+
- 	ret = da8xx_register_spi_bus(1, ARRAY_SIZE(da850evm_spi_info));
- 	if (ret)
- 		pr_warn("%s: SPI 1 registration failed: %d\n", __func__, ret);
+@@ -20,7 +20,6 @@
+ #include <linux/kernel.h>
+ #include <linux/leds.h>
+ #include <linux/i2c.h>
+-#include <linux/platform_data/at24.h>
+ #include <linux/platform_data/pca953x.h>
+ #include <linux/input.h>
+ #include <linux/input/tps6507x-ts.h>
 -- 
 2.18.0
 
