@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1D5F67DE7B
+	by archive.lwn.net (Postfix) with ESMTP id 5F07B7D923
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:09:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728233AbeHJKeo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 06:34:44 -0400
-Received: from mail-wm0-f48.google.com ([74.125.82.48]:34000 "EHLO
-        mail-wm0-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728192AbeHJKen (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:43 -0400
-Received: by mail-wm0-f48.google.com with SMTP id l2-v6so776209wme.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:05:58 -0700 (PDT)
+        id S1728211AbeHJKep (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 06:34:45 -0400
+Received: from mail-wr1-f51.google.com ([209.85.221.51]:33262 "EHLO
+        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728208AbeHJKep (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:45 -0400
+Received: by mail-wr1-f51.google.com with SMTP id g6-v6so7494705wrp.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Vbd/0hAQ6eCPDyxiTiuvrAkBoIff8s2ba/U1T9sJXTg=;
-        b=WXTaSryWR9CEYrjcNIo3UE5DtLYVKzLIWsj+6TZ2+rPbEG/Yh5qafUI1htgP0u5l5M
-         8CL9+bQBZT1ilBuuK+swWtl13ZX4Z6gOJz9Elduk/Q2SDVrS7IhQBp7/qAbPVaprWw+E
-         qnuyZVLHRlSl96tEGph9PAvUv/tYPBsSe8xFsVLr6PiQDRIKDNYLRYtfBnqVqVeeBLUu
-         WZe6k76TwxoChB83iOgCkPg2lJ7w951xHcPU3lAk1ccOIQFMZ+MZBVRN7Xl6MPbrJdFL
-         FA9BLxZp8nf/vLEhYrrgY2IHv2KlkYuCMkEkC0SQ2T5n26mkbWlELxvvu5MDON2LDCZP
-         Hxig==
+        bh=HVcV+D9oE5OwLHTLo/qKvbgd6WX5oO3G+bmGYBBY+LM=;
+        b=bhFAgZ5hHjjTrwrl1iOBbafXfBDZiTPhqPFI3NNgnioBKDQ9cc/2d9WiTpA060hA31
+         dvp9PdgR/uW2GaC/OfRLieKDN2frM/haHRGaGTfW61Gb9dqlssGutnim8Wr0rUiK2KWH
+         xHoM/SWqCl0FxIazn4IPWAC1uvLuPN/QbBUwVgXVuI6CbZvMWJRcAqYn2UJMZ+Jrg41p
+         ZIuLV4F6xKtofc6znzidBFHaUZ458NXJnukAgkkbkI82sWb5xlYEMW2o0b58czd1clnl
+         j+Drc3J+KuvjnViTb2VpM2V0LP2JjL+1wK7CiLodtIYRrBzFwebqEbHStVGZF/kmONeF
+         POlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Vbd/0hAQ6eCPDyxiTiuvrAkBoIff8s2ba/U1T9sJXTg=;
-        b=OjKiwV2bS2murMszAunX0+avOmmuBn18mkFV13L/rDQ6Wt8xnOiQqCW3sCSVoilTb/
-         eu0gZVD8Ee5JuMHvQAKTj97ncdIOWlaHp2/q/MOFfOcNOQvJHulrTSI3oi1KVKk+0dO3
-         aKEWxQZA+d2OQEBlgmhPdwtnu34w0arAsBtDXkDmzaVlVkmCCuMMfTfB+anGXdf7omDx
-         JrodEGsPsBmmi09IO3moTITHxIgpCeLwoDO31qX4NewEVqJBjw5i2+YkoJcv9tZb7F4h
-         PtCjbHUmwW0l7w1KlBkQ/ftCj8Jd530Qs0JmrtD8xpcwm4QlpMVx3cOPG3WPcFW+FCeg
-         I+Hg==
-X-Gm-Message-State: AOUpUlGXspOaxAV/qVH5jITvgzkGmwTFcLc4YJ2hOK3lfQKE3m0rW8/a
-        fMGnRx5FZbl7spD0Off93+Tlow==
-X-Google-Smtp-Source: AA+uWPwevt7H+4psNa6nNW0sB6RMqRzZSdo/PB1RqE6sIHuds28NM2mVCOs48EMlZ/vnaPtG0JWFww==
-X-Received: by 2002:a1c:8b0d:: with SMTP id n13-v6mr730206wmd.46.1533888357383;
-        Fri, 10 Aug 2018 01:05:57 -0700 (PDT)
+        bh=HVcV+D9oE5OwLHTLo/qKvbgd6WX5oO3G+bmGYBBY+LM=;
+        b=qLxF8Z4aB1M6AzFhMkHJnDKO40oiZWTSDmPGk3gWMOCJdkSWhxgzpWpFwXFSmf0P59
+         r2iYTN2udZAux7ZV7eGeA6qlmruARWmrIGjZvwIUmXl3vX3n+nbyoKiv+sQ8LrAtNuJ3
+         t8+88fX2xY4fAh8b1T74ESxWHB/bXh71+rH/tP4sERG+irXvsf7JOHmRosvX1+QFKTT2
+         iub3yY2/Ij64TgtTJ5sBbcq/EHhWUEft6u1B2hTy88dsmJ8HetnmBUsip9HGo2lLB9xC
+         GiOXuaZrcZ1bRzQ9LxNi5JV8EWS9gXpp5LirejGdjrikqSj71rXk2Xl9vrovEVDYFQSx
+         FeOw==
+X-Gm-Message-State: AOUpUlE8EXkF91YWkpBfM50NJjvmiZOER+m36IdIzaAk/Djo2FXBbrRf
+        tY3+X0Q7oniwW24EBoucsdu6UA==
+X-Google-Smtp-Source: AA+uWPyBdjVAqNR/3A8sojlKFsQmP5DkUM6AEbLZ9dYbBKm/fehxDFZKubc2KMb2IL1kO7W4wKMBJA==
+X-Received: by 2002:a5d:458b:: with SMTP id p11-v6mr3508671wrq.122.1533888359309;
+        Fri, 10 Aug 2018 01:05:59 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.05.55
+        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.05.57
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Aug 2018 01:05:56 -0700 (PDT)
+        Fri, 10 Aug 2018 01:05:58 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -77,9 +77,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
         netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 13/29] ARM: davinci: da850-evm: remove unnecessary include
-Date:   Fri, 10 Aug 2018 10:05:10 +0200
-Message-Id: <20180810080526.27207-14-brgl@bgdev.pl>
+Subject: [PATCH v2 14/29] net: simplify eth_platform_get_mac_address()
+Date:   Fri, 10 Aug 2018 10:05:11 +0200
+Message-Id: <20180810080526.27207-15-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180810080526.27207-1-brgl@bgdev.pl>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
@@ -90,25 +90,32 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-The include file for at24_platform_data is not needed in this file.
+We don't need to use pci_device_to_OF_node() - we can retrieve
+dev->of_node directly even for pci devices.
 
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- arch/arm/mach-davinci/board-da850-evm.c | 1 -
- 1 file changed, 1 deletion(-)
+ net/ethernet/eth.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/arch/arm/mach-davinci/board-da850-evm.c b/arch/arm/mach-davinci/board-da850-evm.c
-index 5a634a04ec69..521a26b5c20d 100644
---- a/arch/arm/mach-davinci/board-da850-evm.c
-+++ b/arch/arm/mach-davinci/board-da850-evm.c
-@@ -20,7 +20,6 @@
- #include <linux/kernel.h>
- #include <linux/leds.h>
- #include <linux/i2c.h>
--#include <linux/platform_data/at24.h>
- #include <linux/platform_data/pca953x.h>
- #include <linux/input.h>
- #include <linux/input/tps6507x-ts.h>
+diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
+index ee28440f57c5..7f08105402c8 100644
+--- a/net/ethernet/eth.c
++++ b/net/ethernet/eth.c
+@@ -530,11 +530,7 @@ int eth_platform_get_mac_address(struct device *dev, u8 *mac_addr)
+ 	const unsigned char *addr;
+ 	struct device_node *dp;
+ 
+-	if (dev_is_pci(dev))
+-		dp = pci_device_to_OF_node(to_pci_dev(dev));
+-	else
+-		dp = dev->of_node;
+-
++	dp = dev->of_node;
+ 	addr = NULL;
+ 	if (dp)
+ 		addr = of_get_mac_address(dp);
 -- 
 2.18.0
 
