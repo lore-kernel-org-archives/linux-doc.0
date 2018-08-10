@@ -2,183 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A0C27D00A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 10:55:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E9AE77D00A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 11:06:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727270AbeHJNY7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 09:24:59 -0400
-Received: from mail-it0-f65.google.com ([209.85.214.65]:38895 "EHLO
-        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727422AbeHJNY7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 09:24:59 -0400
-Received: by mail-it0-f65.google.com with SMTP id v71-v6so2063530itb.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 03:55:35 -0700 (PDT)
+        id S1727236AbeHJNgQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 09:36:16 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:51610 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726963AbeHJNgP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 09:36:15 -0400
+Received: by mail-wm0-f66.google.com with SMTP id y2-v6so1476310wma.1;
+        Fri, 10 Aug 2018 04:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=crTen5KtIiDHqe+SK5UwT4YMhgKjSFxGKpkmJOya2oQ=;
-        b=hDK9R/7GqzcqWXeDW2vLYlHtu9mkny2+bkApW3EOA3DYcwWqK2CCViBfuBj/4V6P1H
-         RPTYFn7YQL6jyKB3fRGxUmISPjZJYftJ5REFdWuJSKlTQxvu7Ej1an5auT8Emi+M4qa2
-         jOa+7IxaIzjY+TaSDcb8/CM9tEkXDCR5rBGJE=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=61prLLx8PBSC9bOuhiAat6924f5tgMdVSPOj58tWLO4=;
+        b=Gy2qSBmQs8f0W1MTBW50bhstxld0RM1iEhzEKrSg2gXD83EiUIpHIFonEAGAa12c0Q
+         8QpBA8z332JTBnY9pFNS/J/XifSbYGUrPE1GQadS6qTiY6F1mNmlbnrctNFbtSye66kv
+         81S5xXLjreDTMoep3u5QzH2uISDGp5FixvV2HvMBpgYV86tDzSSW73Wv7VUoW5DW8W94
+         OvT2motkBNXETCiCIgsouiiQ6us7rnEZNrTa3lHBj1kNvzDCXtxzGspnzVJqYJfznPjy
+         PAoomeYgtSrZCvXtVfH61OSU7PobBbAwG3kbqirosiVju7kBFRbN6df1DfVRVAw/IqLQ
+         AYug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=crTen5KtIiDHqe+SK5UwT4YMhgKjSFxGKpkmJOya2oQ=;
-        b=FPEZB1fksFkyQtQeZuM4DTKDwjtbR8T0mpqcTfB2ycoC0Y2wNTRDyIGFm8fuDWrjfN
-         lQK5ctdcfJqHGrdW8L/apBwJwGRb/LIyWCue6/dKBu6JX4THafkLewf3YL/7ELowCKb6
-         60hIMH74qJ05C99Kpask7hPlVATJaPCvaUThCEJXnAiznQkkm0lZuF+OVKV5JXv1XhPz
-         JpqZ5gZby5h1o+5DpMjOvqwFWG9r+KqX1JMr3HJQkUqUmKm5Rrz4GaY7Hr4ZxjDpfRDx
-         4GSkUWD1K5vBdPkiT63zJwRmye8jGxj8hVJRvar8FF0Emp3KTeWN2JF6XwTEAUMO8DV9
-         S+Xw==
-X-Gm-Message-State: AOUpUlFQUKPiX5RSWEaFVDRtzx8QqaqJnVahjpa0+S+F6HqzVMBskmT/
-        o4frmePiPceKQNF4J1e1wbi4QDF2nQdxsZojkDKDRvlwlgQ=
-X-Google-Smtp-Source: AA+uWPzpYKqjhDE6ezJCSWGM6VQ0uRal69MXN8+GcjQaLCyU6oDwAncxIaQcdFxBUyQsDODu/uN4KB7wd9r3J3zPVw4=
-X-Received: by 2002:a24:2c49:: with SMTP id i70-v6mr1684651iti.135.1533898535334;
- Fri, 10 Aug 2018 03:55:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180718235710.18242-1-jmkrzyszt@gmail.com> <20180806222918.12644-13-jmkrzyszt@gmail.com>
- <CACRpkdYHqFOFSv-erCzx8_u-mVUgGPdDH0ts-+DNAvjP3Qxb9w@mail.gmail.com>
- <11711552.OvaP4pOjBH@z50> <20180807194722.5aabb6da@bbrezillon>
-In-Reply-To: <20180807194722.5aabb6da@bbrezillon>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 10 Aug 2018 12:55:22 +0200
-Message-ID: <CACRpkdbxSd+3jzFrs0+Ty-F4xHaDbPQOAR3TjRc0QChK=VsKxw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 12/12] gpiolib: Add fast processing path to bitmap
- API functions
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=61prLLx8PBSC9bOuhiAat6924f5tgMdVSPOj58tWLO4=;
+        b=cJsETdh/Qt/a3qC/1cqyPdQXYevzpK3hOrSqakq0FbBnf7PJqn7oZKGt1oxnCQXhcs
+         uvfHqqVbH2g2O1ASdOIX8n911V+Cy2XvCA8llPcWSW4FepLjWoQNjpoczo4cqn4PBaq0
+         jChOsRx1CKvBoBEIhK4LqdnbOBwPu6wDRtgdF0yceOEKbRe6jDc0XYHAYlTNEGXkSbGq
+         g5+Hir/u9tcTjeRjgBlGhnMHRrQ4UPvdLASu6WJ3lVXd+q03vaCHqRRS/AGDIi1szBy5
+         T8h//KTsn09YWkyJhFKol3AOdPF/JZNfE7aA4tuuypRcFUHMGOHqbYSbGfCTGjLG8ihz
+         1CMQ==
+X-Gm-Message-State: AOUpUlG9saE7jz0hlVWljZI0AueWy7HAgodr3I75ZN3yFy09E4fXET7h
+        hN1WD67zTCRGsq9SMrvO8Hjq41colWU=
+X-Google-Smtp-Source: AA+uWPz2pd7sn4+6eZ1Rs/Th32Fqy+kmpF3qecxbVGu93fRmvWWp+taHiqeSpLN3AkCX6wNMK1igGw==
+X-Received: by 2002:a1c:4004:: with SMTP id n4-v6mr1157594wma.83.1533899207273;
+        Fri, 10 Aug 2018 04:06:47 -0700 (PDT)
+Received: from ecklm-lapos.sch.bme.hu (ecklapos.sch.bme.hu. [152.66.179.161])
+        by smtp.gmail.com with ESMTPSA id s10-v6sm2487815wmd.22.2018.08.10.04.06.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 10 Aug 2018 04:06:46 -0700 (PDT)
+From:   =?UTF-8?q?M=C3=A1t=C3=A9=20Eckl?= <ecklm94@gmail.com>
+To:     netfilter-devel@vger.kernel.org
+Cc:     "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Mark Vasut <marek.vasut@gmail.com>,
-        ext Tony Lindgren <tony@atomide.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        linux-mtd@lists.infradead.org, linux-doc@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Florian Westphal <fw@strlen.de>,
+        KOVACS Krisztian <hidden@sch.bme.hu>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH nf-next] doc: net: Add nf_tables part in tproxy.txt
+Date:   Fri, 10 Aug 2018 12:58:39 +0200
+Message-Id: <20180810105834.17653-1-ecklm94@gmail.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 7, 2018 at 7:47 PM Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
-> Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
->
-> > On Tuesday, August 7, 2018 1:43:56 AM CEST Linus Walleij wrote:
-> > > On Tue, Aug 7, 2018 at 12:29 AM Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> > wrote:
-> > >
-> > > Hi Janusz!
-> > >
-> > > > Certain GPIO descriptor arrays returned by gpio_get_array() may contain
-> > > > information on a single GPIO chip driving array member pins in hardware
-> > > > order.  In such cases, bitmaps of values can be passed directly to the
-> > > > chip callback functions without wasting time on iterations.
-> > > >
-> > > > Add respective code to gpiod_get/set_array_bitmap_complex() functions.
-> > > >
-> > > > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> > >
-> > > I think it would be disappointing to leave all the users of the old
-> > > array API without the performance improvement. I think we need to
-> > > deal with this in a way such that everyone can benefit from it.
->
-> I agree with Linus on that one. When I initially proposed the gpio
-> bitbanging API I had something more advanced in mind where the GPIO
-> framework would be responsible for toggling the GPIOs on its own when
-> it's given an array of bytes to transmit (this way you avoid going
-> back and forth between the GPIO user and the GPIO framework). But this
-> approach would clearly be more invasive than what you propose
-> here (turning the int array into a bitmap and optimizing). So, if we go
-> for the "int array -> bitmap" approach I think all users should be
-> converted so that we end up with a single API.
+Recently, transparent proxy support has been added to nf_tables so that
+this document should be updated with the new information.
 
-I thought about this the recent days and something must have gone
-wrong in the development process of the array API because this
-was the (mine atleast) intention all the time.
+- Nft commands are added as alternatives to iptables ones.
+- The link for a patched iptables is removed as it is already part of
+  the mainline iptables implementation (and the link is dead).
+- tcprdr is added as an example implementation of a transparent proxy
 
-If we look at the GPIOchip driver API it looks like this:
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Florian Westphal <fw@strlen.de>
+Cc: KOVACS Krisztian <hidden@sch.bme.hu>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Máté Eckl <ecklm94@gmail.com>
+---
+The patches that introduced the mentioned support are the following in the
+linux-next tree:
+ - 554ced0a6e29 netfilter: nf_tables: add support for native socket matching
+ - 4ed8eb6570a4 netfilter: nf_tables: Add native tproxy support
 
-        int                     (*get_multiple)(struct gpio_chip *chip,
-                                                unsigned long *mask,
-                                                unsigned long *bits);
-        void                    (*set_multiple)(struct gpio_chip *chip,
-                                                unsigned long *mask,
-                                                unsigned long *bits);
 
-So there is nothing hindering the drivers from optimizing a call
-here into a single register write, which is what e.g. the gpio-mmio.c
-driver does: if the hardware has a dedicated register for clearing
-and setting lines, it will simply just write the register with
-whatever is passed in, also cache the current value so it doesn't
-need to read back the register every time.
+ Documentation/networking/tproxy.txt | 34 +++++++++++++++++++++++------
+ 1 file changed, 27 insertions(+), 7 deletions(-)
 
-When an array comes down to gpiod_set_array_value_complex()
-it loops over the descriptors in order to handle e.g. open drain
-settings separately. Then the remainder (lines that should just
-be set 1/0) is pushed to the .set_multiple() callback if they
-are on the same chip.
+diff --git a/Documentation/networking/tproxy.txt b/Documentation/networking/tproxy.txt
+index ec11429e1d42..b9a188823d9f 100644
+--- a/Documentation/networking/tproxy.txt
++++ b/Documentation/networking/tproxy.txt
+@@ -5,19 +5,28 @@ This feature adds Linux 2.2-like transparent proxy support to current kernels.
+ To use it, enable the socket match and the TPROXY target in your kernel config.
+ You will need policy routing too, so be sure to enable that as well.
+ 
++From Linux 4.18 transparent proxy support is also available in nf_tables.
+ 
+ 1. Making non-local sockets work
+ ================================
+ 
+ The idea is that you identify packets with destination address matching a local
+-socket on your box, set the packet mark to a certain value, and then match on that
+-value using policy routing to have those packets delivered locally:
++socket on your box, set the packet mark to a certain value:
+ 
+ # iptables -t mangle -N DIVERT
+ # iptables -t mangle -A PREROUTING -p tcp -m socket -j DIVERT
+ # iptables -t mangle -A DIVERT -j MARK --set-mark 1
+ # iptables -t mangle -A DIVERT -j ACCEPT
+ 
++Alternatively you can do this in nft with the following commands:
++
++# nft add table filter
++# nft add chain filter divert "{ type filter hook prerouting priority -150; }"
++# nft add rule filter divert meta l4proto tcp socket transparent 1 meta mark set 1 accept
++
++And then match on that value using policy routing to have those packets
++delivered locally:
++
+ # ip rule add fwmark 1 lookup 100
+ # ip route add local 0.0.0.0/0 dev lo table 100
+ 
+@@ -57,17 +66,28 @@ add rules like this to the iptables ruleset above:
+ # iptables -t mangle -A PREROUTING -p tcp --dport 80 -j TPROXY \
+   --tproxy-mark 0x1/0x1 --on-port 50080
+ 
++Or the following rule to nft:
++
++# nft add rule filter divert tcp dport 80 tproxy to :50080 meta mark set 1 accept
++
+ Note that for this to work you'll have to modify the proxy to enable (SOL_IP,
+ IP_TRANSPARENT) for the listening socket.
+ 
++As an example implementation, tcprdr is available here:
++https://git.breakpoint.cc/cgit/fw/tcprdr.git/
++This tool is written by Florian Westphal and it was used for testing during the
++nf_tables implementation.
+ 
+-3. Iptables extensions
+-======================
++3. Iptables and nf_tables extensions
++====================================
+ 
+-To use tproxy you'll need to have the 'socket' and 'TPROXY' modules
+-compiled for iptables. A patched version of iptables is available
+-here: http://git.balabit.hu/?p=bazsi/iptables-tproxy.git
++To use tproxy you'll need to have the following modules compiled for iptables:
++ - NETFILTER_XT_MATCH_SOCKET
++ - NETFILTER_XT_TARGET_TPROXY
+ 
++Or the floowing modules for nf_tables:
++ - NFT_SOCKET
++ - NFT_TPROXY
+ 
+ 4. Application support
+ ======================
+-- 
+ecklm
 
-This is assuming:
-
-1. The CPU is not the bottleneck so we can do a bit
-  of complex looping over structs etc in each write.
-
-2. We want to perform as much in a single register write
-  as possible to avoid I/O and glitches as all lines (e.g.
-  clock and data) get written at the same time, if possible.
-  (No skew.)
-
-It seems Janusz has problems with assumption (1) and therefore
-is trying to optimize the read/write path. This can be done if all
-descs are on the same chip and none of them is using open drain
-or open source.
-
-To keep track of "quick path" the array needs to have a state.
-So a magic "cookie" or something like that needs to be passed
-to the array API.
-
-I would suggest that struct gpiod_descs contain a magic cookie
-returned from [devm_]gpiod_get_array[_optional]()  that can be
-passed along to get/set array operations or left as NULL to just
-fall back to the default:
-
-void gpiod_set_array_value(unsigned int array_size,
-                           struct gpio_desc **desc_array, int *value_array,
-                           struct gpiod_array_cookie *cookie);
-
-Cookie is just a dummy name, I don't know what makes most
-sense. It reflects a state for the entire array.
-
-If this cookie exist in some struct gpio_chip state variable, it
-informs gpiolib that this array:
-
-- Has all descriptors in the same gpiochip
-- Has no open drain or open source-flagged lines
-
-It can thenbypass the complex check and just write the values
-directly by calling down into .set_multiple().
-
-Maybe this cookie could just be a bool that is true when the above
-is fulfilled. But it's best if that is hidden from the consumers
-I guess, they shouldn't try to half-guess if the criteria is true,
-gpiolib should do that.
-
-The current users would have to be augmented to store the
-cookie and pass it along when getting/setting arrays, but it would
-be pretty simple and straight-forward compared to adding a new
-API.
-
-Yours,
-Linus Walleij
