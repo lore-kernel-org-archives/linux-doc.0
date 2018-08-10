@@ -3,52 +3,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.1 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,URIBL_SBL,URIBL_SBL_A autolearn=ham autolearn_force=no
+	T_DKIM_INVALID,URIBL_SBL,URIBL_SBL_A autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5A897D00A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 13:37:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 95BB97D00A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 13:39:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728488AbeHJQHe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 12:07:34 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:39258 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728104AbeHJQHe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 12:07:34 -0400
-Received: by mail-pg1-f193.google.com with SMTP id a11-v6so4424531pgw.6;
-        Fri, 10 Aug 2018 06:37:37 -0700 (PDT)
+        id S1728004AbeHJQIt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 12:08:49 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:33402 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727767AbeHJQIt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 12:08:49 -0400
+Received: by mail-pg1-f195.google.com with SMTP id r5-v6so4436701pgv.0;
+        Fri, 10 Aug 2018 06:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=WtxEI4l3KMgN+mKQ13uzMgZlocJDJEpYaCFOClNnnEU=;
-        b=fHdEWPGqISYB+gPXIuF9SGHcP6XZfCvxW6OiyCSDIPTEEYcfA3cXNegMFb4KTDw2Ah
-         tzS1xpzyO3r4r4Vzjn5qoO9xf7n5zFx5pwrc8h2dAteNPl9f1wJOKAMTUYdFDXUVkedR
-         iIAxxfbPRrqXZOQqwvH2GUbTFi76AXiIc3XXc1ojfqx0/aVoBLzziwHHusOnJnC7XNjh
-         /KZoYPVTbdV73LrpjWB6Sh8u30ZD1LhlA4QxeREaLJRpXoiPh18HAlBQ2qb1YFi+0WAz
-         XS74FSaNCKPMWbBdB33Uoder6Wb1rLbEU0CP4VwivWFLMI7Oj1JKboB7bDAK4f/1zozk
-         LJGQ==
+        bh=CJAtOyICmfBVF+2b9xRivOif51fkG1+/sq3UV/VsgYE=;
+        b=mMHzJvwxGB7AXDylGbZuMBslUOOZwXnRPH4dwRAq8tQkwgvxTEPK6h06oqtlLTad4X
+         maT4gqaWAuSgx98NdIZ+OJr35SXBhATGpw2Yp9jVHidRFzQHy07AcOIzdj6vwNCzWV//
+         qk8TX3FeHAf26HEPRaakcU8tNAyustf98nEWgfhfpJS1FgB6tB65kdd1e3jQKKEytkOg
+         MOPewg+AOns5thxhTCRchrkCCCYuS4EDKN1ocMTLz1GZIP10BNMSMpTLgH4mREbTF3zO
+         ZrE/PR7LTYqbFGrRB4MOctUJ+7qsryZZJM7K4Zf/0bqhhUw8/+vV7HMVkZP/ZO+UWHRU
+         F8MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WtxEI4l3KMgN+mKQ13uzMgZlocJDJEpYaCFOClNnnEU=;
-        b=FoZQAbrN7xwGo91MP2L1ceHWb00rxe2qY2NO/eSR8lGCFlWYYvE8UM8dyGQ6zp3gEL
-         y9IUMR9VO3YAsOoOPqJ/4PVs8+zk1VuVRk90IMAjQD5HngGyqefIAS6mjBfBLdV/X+e0
-         rBEW8acNlHQsuPYC124q568QhR2DZkecpzEeEZOrvNhuCKQ/ELanVG4pGtNYcZRYd7l7
-         lZPRTGsKYJ1UWDOdfmak7sVMfEv8ZZBSPfe/uI+HajWpkBVgtM+Ne0+DZwu0+XetLFho
-         Rsq6Mdj3bOBlPCcmMh+giPWyIqJaMuR+e/VazmYUyqBZ3n9aNCPqkymddYmIZKwoeC73
-         IkiQ==
-X-Gm-Message-State: AOUpUlEkDK2BdOR/WswNc5SpU2xfVl7+2YnXe5YgEdktLQTrKWZYRZEJ
-        CBgAUcpSX6JCd3tTATN/cFI=
-X-Google-Smtp-Source: AA+uWPyWlyfhKhrqHdFUIHs4pe24NmmOWzHcj5W9qXr6EyufSqUHZg3wKFgzuezZYM5vzdm4jrVKTA==
-X-Received: by 2002:a63:a042:: with SMTP id u2-v6mr6429924pgn.80.1533908257018;
-        Fri, 10 Aug 2018 06:37:37 -0700 (PDT)
+        bh=CJAtOyICmfBVF+2b9xRivOif51fkG1+/sq3UV/VsgYE=;
+        b=UzMI++1fZOvSI/SFv0UgedC/n4rWuCflRAxDr+efZqHBHsQ699k3HpuTmL5qf5htwU
+         +WFVN9zo3XQt6jzIw1NDWMDgY/zMsRlB5x7d+4Dk38rWl0/u59xXdvPgJgcRVMqmwqnw
+         1eTe7uqHqJnrWX6kXxYhLu9/fE0Iy9yOwctP/TvvnI5g2U9M7S0MPB19oSjD6LOjXAgl
+         wgnMTsYsBE+UmSh7Rw6p9roNP/rUrv45dMfgrTRktpY9GRGKNXrktGU98Y0yWlW24iH8
+         qJvw/VILeNA8MVx+O8iW3WEGFzJsCWtTdRFpRaWlH+8G+mEHATjjyX4Vh0uhVWPHktcK
+         0xPg==
+X-Gm-Message-State: AOUpUlF+UayMZhNUD/ePHfSFqRBiFNiDgNdGgMpVzSEEISNJnD8JmC55
+        Tld+MfbTtWX0N3YBdR/rAgcBn3qz
+X-Google-Smtp-Source: AA+uWPwqAfy+TcZ7ruvNU2CyF7IpyyCeJNEH1u2AOxkwgF2kTC1HvHrCAAIgIsRALm2sSsFFrVOSEg==
+X-Received: by 2002:a65:6243:: with SMTP id q3-v6mr6357017pgv.273.1533908331762;
+        Fri, 10 Aug 2018 06:38:51 -0700 (PDT)
 Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id j15-v6sm12160378pfn.52.2018.08.10.06.37.36
+        by smtp.gmail.com with ESMTPSA id a20-v6sm19279646pfc.14.2018.08.10.06.38.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Aug 2018 06:37:36 -0700 (PDT)
-Date:   Fri, 10 Aug 2018 06:37:35 -0700
+        Fri, 10 Aug 2018 06:38:51 -0700 (PDT)
+Date:   Fri, 10 Aug 2018 06:38:50 -0700
 From:   Guenter Roeck <linux@roeck-us.net>
 To:     Paul Cercueil <paul@crapouillou.net>
 Cc:     Rob Herring <robh+dt@kernel.org>,
@@ -68,67 +68,55 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: Re: [PATCH v6 10/24] watchdog: jz4740: Avoid starting watchdog in
- set_timeout
-Message-ID: <20180810133735.GC29028@roeck-us.net>
+Subject: Re: [PATCH v6 11/24] watchdog: jz4740: Drop dependency on
+ MACH_JZ47xx, use COMPILE_TEST
+Message-ID: <20180810133850.GD29028@roeck-us.net>
 References: <20180809214414.20905-1-paul@crapouillou.net>
- <20180809214414.20905-11-paul@crapouillou.net>
+ <20180809214414.20905-12-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180809214414.20905-11-paul@crapouillou.net>
+In-Reply-To: <20180809214414.20905-12-paul@crapouillou.net>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 09, 2018 at 11:44:00PM +0200, Paul Cercueil wrote:
-> Previously the jz4740_wdt_set_timeout() function was starting the timer
-> unconditionally, even if it was stopped when that function was entered.
+On Thu, Aug 09, 2018 at 11:44:01PM +0200, Paul Cercueil wrote:
+> Depending on MACH_JZ47xx prevent us from creating a generic kernel that
+> works on more than one MIPS board. Instead, we just depend on MIPS being
+> set.
 > 
-> Now, the timer will be restarted only if it was already running before
-> this function is called.
+> On other architectures, this driver can still be built, thanks to
+> COMPILE_TEST. This is used by automated tools to find bugs, for
+> instance.
 > 
 > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
->  drivers/watchdog/jz4740_wdt.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/watchdog/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  v6: New patch
+>  v5: New patch
 > 
-> diff --git a/drivers/watchdog/jz4740_wdt.c b/drivers/watchdog/jz4740_wdt.c
-> index 0f54306aee25..45d9495170e5 100644
-> --- a/drivers/watchdog/jz4740_wdt.c
-> +++ b/drivers/watchdog/jz4740_wdt.c
-> @@ -64,13 +64,15 @@ static int jz4740_wdt_set_timeout(struct watchdog_device *wdt_dev,
->  {
->  	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
->  	u16 timeout_value = (u16)(drvdata->clk_rate * new_timeout);
-> +	u32 tcer;
+>  v6: No change
+> 
+> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+> index 834222abbbdb..13a46cfa69b0 100644
+> --- a/drivers/watchdog/Kconfig
+> +++ b/drivers/watchdog/Kconfig
+> @@ -1475,7 +1475,7 @@ config INDYDOG
 >  
-> +	regmap_read(drvdata->map, TCU_REG_WDT_TCER, &tcer);
->  	regmap_write(drvdata->map, TCU_REG_WDT_TCER, 0);
->  
->  	regmap_write(drvdata->map, TCU_REG_WDT_TDR, timeout_value);
->  	regmap_write(drvdata->map, TCU_REG_WDT_TCNT, 0);
->  
-> -	regmap_write(drvdata->map, TCU_REG_WDT_TCER, TCU_WDT_TCER_TCEN);
-> +	regmap_write(drvdata->map, TCU_REG_WDT_TCER, tcer & TCU_WDT_TCER_TCEN);
->  
->  	wdt_dev->timeout = new_timeout;
->  	return 0;
-> @@ -86,6 +88,7 @@ static int jz4740_wdt_start(struct watchdog_device *wdt_dev)
->  		return ret;
->  
->  	jz4740_wdt_set_timeout(wdt_dev, wdt_dev->timeout);
-> +	regmap_write(drvdata->map, TCU_REG_WDT_TCER, TCU_WDT_TCER_TCEN);
->  
->  	return 0;
->  }
+>  config JZ4740_WDT
+>  	tristate "Ingenic jz4740 SoC hardware watchdog"
+> -	depends on MACH_JZ4740 || MACH_JZ4780
+> +	depends on MIPS || COMPILE_TEST
+>  	depends on COMMON_CLK
+>  	select WATCHDOG_CORE
+>  	select INGENIC_TIMER
 > -- 
 > 2.11.0
 > 
