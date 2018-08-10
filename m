@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 144407E3E1
+	by archive.lwn.net (Postfix) with ESMTP id 29C067E3E4
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:09:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbeHJKgT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 06:36:19 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:53392 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728513AbeHJKe5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:57 -0400
-Received: by mail-wm0-f68.google.com with SMTP id s9-v6so928161wmh.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:06:11 -0700 (PDT)
+        id S1727074AbeHJKg1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 06:36:27 -0400
+Received: from mail-wr1-f50.google.com ([209.85.221.50]:36655 "EHLO
+        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728400AbeHJKey (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:54 -0400
+Received: by mail-wr1-f50.google.com with SMTP id h9-v6so7488150wro.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=HPXa1j+zFmSDAVh2jGMcP3wD/npPGnLx7r1kNiFN+9Y=;
-        b=O+OECH4nC1bg5wtlSFpOGT9gHilp0o7Nlfityg//si0KFiuNYA0OwATePITmZCM4PC
-         blWQAKqRmehTaQnZkumesFl/qcoEjM5nFW8kFursazipXQlAfP02T8lsI4ZaA66KMY+G
-         pWqfiU7os8y3GFa9Xm2lZocwn8SouFVV7qtnRn24oyISNd6zXxMBsmBy0OYwAJqFkJ1e
-         WB3tB1JokligLEXKuSYyskmLiZE+0pE0xX/Z3DUBkmrPUtFyCeKQK5/13Rsqs7sAwB4c
-         99bV+y+gVHxXXS94l8dx9yFX+ItRGrMV+YHv60Mf2T+df+l5vi2XQd+A3VZTsLLz00Cc
-         9/5A==
+        bh=7hGAs3eonwoCQnALsYwyOyrZG60JWD61CbSNH1Ct6wM=;
+        b=TW52wLxb6U1S+RUIaPLZ6sLVh1ll5ayu4Tyxowh2V1yuOjo6qbPK8H0aTaBmRKlnFv
+         SrS0jHot3Dwd6t0U6JIwAFAPBdoVjIW3SPmji9a8Z+EJSOIkCSrFS8F/K8Ezh9vI/ctZ
+         +mxkzFJR65rNeIiq7Jt3JG7QLORDmLsbuCCSQsUycS+22h5v7szEm1I+E/GOE+mX7MV1
+         p7o5JN8tFkOE7r7rfpNe4BR73GiWTKa9GRuBICd8/bOwByErKcAD7r31paEBNHbtkySl
+         DrGTWalChwpg2xfIzRYexE470R+mlhJWo+GinWS31pX0rx5vZMqe4s06IE73hLzu+CQw
+         ii1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=HPXa1j+zFmSDAVh2jGMcP3wD/npPGnLx7r1kNiFN+9Y=;
-        b=QqdptQmbiF346Uk9W9gTOYYAW8uty2bM4e6e814+R87J9llhwy38JQWd7HBJSxIOsc
-         nN3AryYaNXr2dyDDtko2JHqG5xXF6q+3D+ezzNukyrx5iFfQHLcLg4LGxASPmNdk+P1T
-         WdzLqQpGtg33Y76ItpKZZdiuXFtDcanXqkHs6vTXHVCWRVy1TgAN9ZroYYIl1tnQLSAS
-         1TxuDt+VqyVBNbLzYitFDnmQQilhutmbzPdg3H2f18sSQ1UC0V3ybWysj6WH0yiW3wib
-         2yhTIDEsPe3aKKGfTRqsA7s5Ejvsj68Q9sZNfG43M76sUdXOrwAYWBo/QX6QCUab0HVR
-         iYmg==
-X-Gm-Message-State: AOUpUlGNbxGUhhtOvmbRXf3FGTPoB8NmL2AQtGYil6KJCcPrr8t6Agil
-        FCJ842Qn1PVlX+UeuR2rmmmh9A==
-X-Google-Smtp-Source: AA+uWPzbqN+AvO/5M/oQG93TVlVH8teA2PAB2BfHk7uXDyI0S3yEV3Zr3HSzXM3lV5M/EDJiJplu7Q==
-X-Received: by 2002:a1c:8b0d:: with SMTP id n13-v6mr730702wmd.46.1533888370458;
-        Fri, 10 Aug 2018 01:06:10 -0700 (PDT)
+        bh=7hGAs3eonwoCQnALsYwyOyrZG60JWD61CbSNH1Ct6wM=;
+        b=HZayLCzq+c1IPw/CaxVPn3Ixmol0aeotxNjgavfP9gihbnJ38VGgjBIqnJM22ybWPQ
+         KRpD5rVtElhnNHSzZSy5RzkPqs00ohhbw/dgyVf8dGveDxZkaACi5nm2/F/CAJm+vpJj
+         ICULTHWcbanJWEvdCuaIe1eKQkemoMNDX55ewpgbpYWstf1Z8Cj8tFOYlxLYpPDZ/HpU
+         maM9Vi/KKr33sGP1HBT1t+M9lsK93ibE7fiEkXcosdVfkwsUqT8+TcU0iURigiYOQoYt
+         lQEU4t9RxhTXjRihzcPyoqTTglSIG61INNr2z0bOgiu7+0XD497rWTgOLQMgPcwHFSF7
+         xz/A==
+X-Gm-Message-State: AOUpUlG+gSz4cxXTpa/86qPX5CDR3XRJzicAC2XUNAkDj5awtuy5OCDz
+        lW29wXrvtpKkFeCZgyP01nlX8A==
+X-Google-Smtp-Source: AA+uWPzG5KCSYEWGj/jUKsuWmN+eyaYzGxbxySiyML7PJw6E/g88i9QHvKbm+0DWADIM/WiOi2mQOQ==
+X-Received: by 2002:a5d:41c1:: with SMTP id e1-v6mr3517699wrq.25.1533888368546;
+        Fri, 10 Aug 2018 01:06:08 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.06.08
+        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.06.06
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Aug 2018 01:06:09 -0700 (PDT)
+        Fri, 10 Aug 2018 01:06:07 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -77,9 +77,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
         netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 20/29] ARM: davinci: dm365-evm: use device properties for at24 eeprom
-Date:   Fri, 10 Aug 2018 10:05:17 +0200
-Message-Id: <20180810080526.27207-21-brgl@bgdev.pl>
+Subject: [PATCH v2 19/29] ARM: davinci: mityomapl138: don't read the MAC address from machine code
+Date:   Fri, 10 Aug 2018 10:05:16 +0200
+Message-Id: <20180810080526.27207-20-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180810080526.27207-1-brgl@bgdev.pl>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
@@ -90,57 +90,39 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-We want to work towards phasing out the at24_platform_data structure.
-There are few users and its contents can be represented using generic
-device properties. Using device properties only will allow us to
-significantly simplify the at24 configuration code.
-
-Remove the at24_platform_data structure and replace it with an array
-of property entries. Drop the byte_len/size property, as the model name
-already implies the EEPROM's size.
+This is now done by the emac driver using a registered nvmem cell.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- arch/arm/mach-davinci/board-dm365-evm.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ arch/arm/mach-davinci/board-mityomapl138.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/arch/arm/mach-davinci/board-dm365-evm.c b/arch/arm/mach-davinci/board-dm365-evm.c
-index cf3f2e611228..2447e08dd68d 100644
---- a/arch/arm/mach-davinci/board-dm365-evm.c
-+++ b/arch/arm/mach-davinci/board-dm365-evm.c
-@@ -18,7 +18,7 @@
- #include <linux/i2c.h>
- #include <linux/io.h>
- #include <linux/clk.h>
--#include <linux/platform_data/at24.h>
-+#include <linux/property.h>
- #include <linux/leds.h>
- #include <linux/mtd/mtd.h>
- #include <linux/mtd/partitions.h>
-@@ -179,18 +179,15 @@ static struct nvmem_cell_lookup dm365evm_mac_address_cell = {
- 	.nvmem_name = "1-00500",
- };
+diff --git a/arch/arm/mach-davinci/board-mityomapl138.c b/arch/arm/mach-davinci/board-mityomapl138.c
+index 48a9bae76e4a..35b2b6068a7a 100644
+--- a/arch/arm/mach-davinci/board-mityomapl138.c
++++ b/arch/arm/mach-davinci/board-mityomapl138.c
+@@ -120,7 +120,6 @@ static void read_factory_config(struct nvmem_device *nvmem, void *context)
+ {
+ 	int ret;
+ 	const char *partnum = NULL;
+-	struct davinci_soc_info *soc_info = &davinci_soc_info;
  
--static struct at24_platform_data eeprom_info = {
--	.byte_len       = (256*1024) / 8,
--	.page_size      = 64,
--	.flags          = AT24_FLAG_ADDR16,
--	.setup          = davinci_get_mac_addr,
--	.context	= (void *)0x7f00,
-+static const struct property_entry eeprom_properties[] = {
-+	PROPERTY_ENTRY_U32("pagesize", 64),
-+	{ }
- };
+ 	if (!IS_BUILTIN(CONFIG_NVMEM)) {
+ 		pr_warn("Factory Config not available without CONFIG_NVMEM\n");
+@@ -146,13 +145,6 @@ static void read_factory_config(struct nvmem_device *nvmem, void *context)
+ 		goto bad_config;
+ 	}
  
- static struct i2c_board_info i2c_info[] = {
- 	{
- 		I2C_BOARD_INFO("24c256", 0x50),
--		.platform_data	= &eeprom_info,
-+		.properties = eeprom_properties,
- 	},
- 	{
- 		I2C_BOARD_INFO("tlv320aic3x", 0x18),
+-	pr_info("Found MAC = %pM\n", factory_config.mac);
+-	if (is_valid_ether_addr(factory_config.mac))
+-		memcpy(soc_info->emac_pdata->mac_addr,
+-			factory_config.mac, ETH_ALEN);
+-	else
+-		pr_warn("Invalid MAC found in factory config block\n");
+-
+ 	partnum = factory_config.partnum;
+ 	pr_info("Part Number = %s\n", partnum);
+ 
 -- 
 2.18.0
 
