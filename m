@@ -5,103 +5,122 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D5C47D099
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 01:46:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8BAFC7D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 02:25:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725724AbeHJEOR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 00:14:17 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:55827 "EHLO
+        id S1725744AbeHJEwl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 00:52:41 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36719 "EHLO
         out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725198AbeHJEOR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 00:14:17 -0400
+        by vger.kernel.org with ESMTP id S1725724AbeHJEwl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 00:52:41 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 135E421D23;
-        Thu,  9 Aug 2018 21:46:40 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id 08D5821E72;
+        Thu,  9 Aug 2018 22:24:59 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 09 Aug 2018 21:46:41 -0400
+  by compute5.internal (MEProxy); Thu, 09 Aug 2018 22:24:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=cL+WQ92uM6WkajZ8nC95EVWt/OP9dM/mErMbMwTqynU=; b=VPZ56/qq
-        TAjfqmZvAlt6lm+50u6t2f03DrZZVfH3y0mfmc7qoUHWgSEGqnpS6aYBr8cknnfl
-        JJVWO2H5y3X7RhY9psqU+DtHrA6e/GaWYwWytjRs+r6yZHZLd1IrqwHDrbGejbFI
-        SuOAXz6RbmwawdiAmk1iiATraSd7VS3H+7FoQ412CwouRII0c0kXv+4CnnhxZyO2
-        +arwIzf9zz7+t9T5iwlYqsgR58qO11sGo/ioa6WudOfPW57Aze/qmWZSxB8VssFL
-        Mfp3VC+KymV3js/n4Z1jeNpgqxKIM6dF3iM1xHRnBG88VS0yrMUY/VOTwtfZ4zti
-        HuvaG+5d82400A==
+        :date:from:message-id:subject:to:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=lCMHG/j4cmAj28uIDcx7ix7FFgOPzX7RkPDTQoqeN
+        gA=; b=CJefqNpph0HFIQ4bqTHK1NjswL187gc8C3P0vvo7iFyceKSHishtTLhme
+        gYkzWOPl8d1QdNVgktqMDqkGAfU8LC5ThU4wqC9gDfkp6zG4/2UvnKIRXO2YLtky
+        E6Z+NeXOucXxKbhIGx0bIjw7pPxeC4Gt5Pusa6aMzFtu2JQGKpT7zMhslZsuPQ/E
+        ShWySOGeLHPlsORTWTNdgPndm5pwtJZ0aWr2sM5n9V9wVAXFal23qLzH7N3ME2vP
+        rLGTRguoSA2LZ5YA7vnTLlbnipu7UHAhM6PvXwXYUtTpsJwhL8iyUsv9MrCwcQsV
+        RjynbEypKjxhTw8DUaHyRQ9Oeuygg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=cL+WQ92uM6WkajZ8nC95EVWt/OP9d
-        M/mErMbMwTqynU=; b=OGKyjJNxKI5e2FJhHg6lIGk3LXfpctdTUxthQU0D26RMV
-        jPVtsmQNlTmkFeAlPAey/hdX59p4rE1dkeEMliguuCeiSDbnrXyDyaHGVaUvCAii
-        vtdIlTJxJ49WlZhOhRNutDqujP8tNCl4CO5W5s7S3T6HhhM2hUx24xbLNLmjG5qi
-        TB4EQK7QJQbQSjJSt39l11vrQCNwFBBbD2UZfN1u4ixKhUtrDEGB/fIyGExrsEkE
-        VnhoCpYpcOnkMJ8eEFtjGIQWFNgUMqP4xBkZNx+xr59Erm1J6XNNvkbNrzNOAJtY
-        fXh4Z6NPxlPLaKLGmL6GeGpra2ZOn1hRc1wcmiuiQ==
-X-ME-Proxy: <xmx:gO5sW6lbJfgMU0yShDjOxTWFoDWyNCVouTpQ4L9WMwpCzzXN26jN1w>
-    <xmx:gO5sW9aGRVRhcBE5zCtUYrT5z8iaoWTJh_kFOQr2VOJLONyWjTEMfQ>
-    <xmx:gO5sW_721W6-JdlZ7BHUK5-CyJFogbh1_epUBqPGeS0CObEF6dya-Q>
-    <xmx:gO5sW2-h_rLiorXbA9-yxr_IUxPN7oHaf9oo1rtq5L48_EFO5zL3WA>
-    <xmx:gO5sW0l8nYiKGAcc-UKXDpWTOOrf8BQk0Y22xtUoJeTMJBbhKAP2Xw>
-    <xmx:gO5sWw5bxUR7sur7quICTWcWyztCqrR2e_LvXHRlig6Xox4jUjs9HA>
-X-ME-Sender: <xms:gO5sW91ntSEst4kB57fJvFFSgaspDuDs3ZIQYffg4Q3Ys8rCvfwcgg>
+        messagingengine.com; h=cc:date:from:message-id:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=lCMHG/j4cmAj28uID
+        cx7ix7FFgOPzX7RkPDTQoqeNgA=; b=IIMb3DsmUJ3oHEktCf/JS5HmYEMzt9P/A
+        tjGJgqOWrxbevBFJAiXT8qiPPZf+ecjelS70TNd4OGplfQYHG69lLCFdZJj1ahWl
+        hO2+IFtXjxQCo6s/gyGWvUeDZ8GrOz76eBirbovuWLmH6LNGHiJM54cOKgShYboq
+        0c6NA4PMPutS+JdmUz3wV1WMfir+lsSAGLtYayZExoNSXu0A/ZOj+VDoY6/NBDbv
+        orcS7EbxA6lDw8hNRJc2PdZIj6hLDoBJG0EcTbAJB++X7QVXREhFvNM4dIjF0POu
+        H8RzvP672HHx9tIK08W7NJRQkZQoBgNBqfSnhG86UBghTw8QgaPJA==
+X-ME-Proxy: <xmx:evdsW-Phsl31uD34UqFwi9irE7XuihngzUx_DTMIMcwSLriBtZ8U2A>
+    <xmx:evdsW7kTECRaU7S8lW7QeR7WEMovpx7FznviT4i6yx8BLOcfWYR3Jw>
+    <xmx:evdsW04r163k7WqOiNIGU48iLCsTfubgXfvXOyDWyBsAh-ZMyGR_Dw>
+    <xmx:evdsW07l9mUNWt6UYeteR70ObRjn_KrFmLm548pZNADukBla04XWBQ>
+    <xmx:evdsW7tNsnNcccSZZJTx2FrrJgYsoSMCtuvPn2hLkV2r6YgVIRPlqQ>
+    <xmx:evdsW7bWirRqBI53yQLtPUviXZyoFmSQZZGBuEdGbx_B4srFGWhOBQ>
+X-ME-Sender: <xms:evdsW1j6iHAQPIh0qUkujScQuzYRjxYWvbsYGG2fymmMvFo5Vck0Xg>
 Received: from localhost (ppp121-44-213-17.bras1.syd2.internode.on.net [121.44.213.17])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 846971025C;
-        Thu,  9 Aug 2018 21:46:39 -0400 (EDT)
-Date:   Fri, 10 Aug 2018 11:46:36 +1000
+        by mail.messagingengine.com (Postfix) with ESMTPA id 1209B10273;
+        Thu,  9 Aug 2018 22:24:57 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Daniel Borkmann <daniel@iogearbox.net>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>
+Cc:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Kees Cook <keescook@chromium.org>,
         Andy Lutomirski <luto@amacapital.net>,
         Will Drewry <wad@chromium.org>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next 0/4] Convert filter.txt to RST
-Message-ID: <20180810014636.GJ32374@eros>
-References: <20180809052328.27942-1-me@tobin.cc>
- <20180809060734.rtqqu4sexbwzuqmm@ast-mbp>
- <20180809072753.GF32374@eros>
- <80bdc251-9f57-602f-6536-b34651684bb7@iogearbox.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <80bdc251-9f57-602f-6536-b34651684bb7@iogearbox.net>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Subject: [PATCH bpf-next v2 0/4] Convert filter.txt to RST
+Date:   Fri, 10 Aug 2018 12:24:46 +1000
+Message-Id: <20180810022450.1237-1-me@tobin.cc>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 09, 2018 at 10:24:54AM +0200, Daniel Borkmann wrote:
-> On 08/09/2018 09:27 AM, Tobin C. Harding wrote:
-> > On Wed, Aug 08, 2018 at 11:07:35PM -0700, Alexei Starovoitov wrote:
-> >> On Thu, Aug 09, 2018 at 03:23:24PM +1000, Tobin C. Harding wrote:
-> >>>
-> >>> Daniel and Alexei, can I please have permission to add GPLv2+ to the BPF
-> >>> docs?
-> >>
-> >> kernel licensing is GPLv2 without +
-> > 
-> > According to process/license-rules.rst
-> > 
-> > 	    GPL-2.0+  :  GNU General Public License v2.0 or later
-> 
-> Not really, please see the first three paragraphs of process/license-rules.rst.
-> The COPYING file of the kernel says that it's 'v2' and not 'v2 or later',
-> unless otherwise _explicitly_ noted. Given that and given there is no other
-> specific note in filter.txt, it would mean it's v2-only due to that rule.
+seccomp_filter.rst change removed from set, leaving CC list same as v1
+for continuity.
 
-Thanks for clarifying.  My understanding is now; this is a case where
-checkpatch is too verbose and we do not actually need to add a specific
-license identifier to the documentation files (new or otherwise).  They
-get an implicit GPLv2.
+Hi,
 
-I'll remove the licences identifiers and re-spin.
+This is my latest attempt at converting Documentation/filter.txt to RST
+format.  This version removes the SPDX licence identifiers added in the
+previous version.
+
+This work has gotten a bit mixed up; for reference this set is a
+progression of the follow sets (newest set last)
+
+ 1. [PATCH bpf-next 00/13] docs: Convert BPF filter.txt to RST
+ 2. [RFC bpf-next 0/3] docs: Convert filter.txt to RST
+ 3. [RFC bpf-next v2 0/3] docs: Convert filter.txt to RST
+ 4. [PATCH bpf-next 0/4] Convert filter.txt to RST
+
+As discussed on LKML this set does all the conversion in a single
+patch.
+
+Please note this set adds three files to the MAINTAINERS file for the
+BPF maintainers.
+
 
 thanks,
 Tobin.
+
+v2:
+ - Remove SPDX licence identifiers
+ - Update old intree references to filter.txt
+
+
+Tobin C. Harding (4):
+  docs: net: Fix various minor typos
+  docs: Separate and convert filter.txt to RST
+  docs: Judiciously use double ticks
+  docs: Remove filter.txt from the tree
+
+ Documentation/bpf/index.rst                   |   15 +-
+ Documentation/networking/00-INDEX             |    2 -
+ Documentation/networking/filter.txt           | 1476 -----------------
+ Documentation/networking/packet_mmap.txt      |    2 +-
+ Documentation/userspace-api/cBPF.rst          |  430 +++++
+ Documentation/userspace-api/eBPF.rst          | 1004 +++++++++++
+ Documentation/userspace-api/index.rst         |    3 +
+ .../userspace-api/seccomp_filter.rst          |    9 +
+ Documentation/userspace-api/socket_filter.rst |  181 ++
+ MAINTAINERS                                   |    4 +-
+ tools/bpf/bpf_asm.c                           |    6 +-
+ tools/bpf/bpf_dbg.c                           |    9 +-
+ 12 files changed, 1653 insertions(+), 1488 deletions(-)
+ delete mode 100644 Documentation/networking/filter.txt
+ create mode 100644 Documentation/userspace-api/cBPF.rst
+ create mode 100644 Documentation/userspace-api/eBPF.rst
+ create mode 100644 Documentation/userspace-api/socket_filter.rst
+
+-- 
+2.17.1
+
