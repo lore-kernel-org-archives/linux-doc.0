@@ -1,141 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9AFAA7D099
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 01:39:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D5C47D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 01:46:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727043AbeHJEGv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 00:06:51 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:10694 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725754AbeHJEGv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Aug 2018 00:06:51 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 42A08B325640A;
-        Fri, 10 Aug 2018 09:39:14 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server (TLS) id 14.3.399.0; Fri, 10 Aug
- 2018 09:39:05 +0800
-Date:   Fri, 10 Aug 2018 09:37:40 +0800
-From:   Kenneth Lee <liguozhu@hisilicon.com>
-To:     "Tian, Kevin" <kevin.tian@intel.com>
-CC:     Jerome Glisse <jglisse@redhat.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        id S1725724AbeHJEOR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 00:14:17 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:55827 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725198AbeHJEOR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 00:14:17 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 135E421D23;
+        Thu,  9 Aug 2018 21:46:40 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 09 Aug 2018 21:46:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :content-type:date:from:in-reply-to:message-id:mime-version
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=cL+WQ92uM6WkajZ8nC95EVWt/OP9dM/mErMbMwTqynU=; b=VPZ56/qq
+        TAjfqmZvAlt6lm+50u6t2f03DrZZVfH3y0mfmc7qoUHWgSEGqnpS6aYBr8cknnfl
+        JJVWO2H5y3X7RhY9psqU+DtHrA6e/GaWYwWytjRs+r6yZHZLd1IrqwHDrbGejbFI
+        SuOAXz6RbmwawdiAmk1iiATraSd7VS3H+7FoQ412CwouRII0c0kXv+4CnnhxZyO2
+        +arwIzf9zz7+t9T5iwlYqsgR58qO11sGo/ioa6WudOfPW57Aze/qmWZSxB8VssFL
+        Mfp3VC+KymV3js/n4Z1jeNpgqxKIM6dF3iM1xHRnBG88VS0yrMUY/VOTwtfZ4zti
+        HuvaG+5d82400A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=cL+WQ92uM6WkajZ8nC95EVWt/OP9d
+        M/mErMbMwTqynU=; b=OGKyjJNxKI5e2FJhHg6lIGk3LXfpctdTUxthQU0D26RMV
+        jPVtsmQNlTmkFeAlPAey/hdX59p4rE1dkeEMliguuCeiSDbnrXyDyaHGVaUvCAii
+        vtdIlTJxJ49WlZhOhRNutDqujP8tNCl4CO5W5s7S3T6HhhM2hUx24xbLNLmjG5qi
+        TB4EQK7QJQbQSjJSt39l11vrQCNwFBBbD2UZfN1u4ixKhUtrDEGB/fIyGExrsEkE
+        VnhoCpYpcOnkMJ8eEFtjGIQWFNgUMqP4xBkZNx+xr59Erm1J6XNNvkbNrzNOAJtY
+        fXh4Z6NPxlPLaKLGmL6GeGpra2ZOn1hRc1wcmiuiQ==
+X-ME-Proxy: <xmx:gO5sW6lbJfgMU0yShDjOxTWFoDWyNCVouTpQ4L9WMwpCzzXN26jN1w>
+    <xmx:gO5sW9aGRVRhcBE5zCtUYrT5z8iaoWTJh_kFOQr2VOJLONyWjTEMfQ>
+    <xmx:gO5sW_721W6-JdlZ7BHUK5-CyJFogbh1_epUBqPGeS0CObEF6dya-Q>
+    <xmx:gO5sW2-h_rLiorXbA9-yxr_IUxPN7oHaf9oo1rtq5L48_EFO5zL3WA>
+    <xmx:gO5sW0l8nYiKGAcc-UKXDpWTOOrf8BQk0Y22xtUoJeTMJBbhKAP2Xw>
+    <xmx:gO5sWw5bxUR7sur7quICTWcWyztCqrR2e_LvXHRlig6Xox4jUjs9HA>
+X-ME-Sender: <xms:gO5sW91ntSEst4kB57fJvFFSgaspDuDs3ZIQYffg4Q3Ys8rCvfwcgg>
+Received: from localhost (ppp121-44-213-17.bras1.syd2.internode.on.net [121.44.213.17])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 846971025C;
+        Thu,  9 Aug 2018 21:46:39 -0400 (EDT)
+Date:   Fri, 10 Aug 2018 11:46:36 +1000
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Daniel Borkmann <daniel@iogearbox.net>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "Philippe Ombredanne" <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180810013740.GJ91035@Turing-Arch-b>
-References: <20180802040557.GL160746@Turing-Arch-b>
- <20180802142243.GA3481@redhat.com>
- <20180803034721.GC91035@Turing-Arch-b>
- <20180803143944.GA4079@redhat.com>
- <20180806031252.GG91035@Turing-Arch-b>
- <20180806153257.GB6002@redhat.com>
- <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
- <20180808151835.GA3429@redhat.com>
- <20180809080352.GI91035@Turing-Arch-b>
- <AADFC41AFE54684AB9EE6CBC0274A5D1912B39B3@SHSMSX101.ccr.corp.intel.com>
+        "David S. Miller" <davem@davemloft.net>,
+        Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next 0/4] Convert filter.txt to RST
+Message-ID: <20180810014636.GJ32374@eros>
+References: <20180809052328.27942-1-me@tobin.cc>
+ <20180809060734.rtqqu4sexbwzuqmm@ast-mbp>
+ <20180809072753.GF32374@eros>
+ <80bdc251-9f57-602f-6536-b34651684bb7@iogearbox.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D1912B39B3@SHSMSX101.ccr.corp.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
+In-Reply-To: <80bdc251-9f57-602f-6536-b34651684bb7@iogearbox.net>
+X-Mailer: Mutt 1.9.4 (2018-02-28)
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 09, 2018 at 08:31:31AM +0000, Tian, Kevin wrote:
-> Date: Thu, 9 Aug 2018 08:31:31 +0000
-> From: "Tian, Kevin" <kevin.tian@intel.com>
-> To: Kenneth Lee <liguozhu@hisilicon.com>, Jerome Glisse <jglisse@redhat.com>
-> CC: Kenneth Lee <nek.in.cn@gmail.com>, Alex Williamson
->  <alex.williamson@redhat.com>, Herbert Xu <herbert@gondor.apana.org.au>,
->  "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Jonathan Corbet
->  <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo
->  Xu <xuzaibo@huawei.com>, "linux-doc@vger.kernel.org"
->  <linux-doc@vger.kernel.org>, "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
->  Hao Fang <fanghao11@huawei.com>, "linux-kernel@vger.kernel.org"
->  <linux-kernel@vger.kernel.org>, "linuxarm@huawei.com"
->  <linuxarm@huawei.com>, "iommu@lists.linux-foundation.org"
->  <iommu@lists.linux-foundation.org>, "linux-crypto@vger.kernel.org"
->  <linux-crypto@vger.kernel.org>, Philippe Ombredanne
->  <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>, "David S .
->  Miller" <davem@davemloft.net>, "linux-accelerators@lists.ozlabs.org"
->  <linux-accelerators@lists.ozlabs.org>
-> Subject: RE: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-> Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D1912B39B3@SHSMSX101.ccr.corp.intel.com>
-> 
-> > From: Kenneth Lee [mailto:liguozhu@hisilicon.com]
-> > Sent: Thursday, August 9, 2018 4:04 PM
+On Thu, Aug 09, 2018 at 10:24:54AM +0200, Daniel Borkmann wrote:
+> On 08/09/2018 09:27 AM, Tobin C. Harding wrote:
+> > On Wed, Aug 08, 2018 at 11:07:35PM -0700, Alexei Starovoitov wrote:
+> >> On Thu, Aug 09, 2018 at 03:23:24PM +1000, Tobin C. Harding wrote:
+> >>>
+> >>> Daniel and Alexei, can I please have permission to add GPLv2+ to the BPF
+> >>> docs?
+> >>
+> >> kernel licensing is GPLv2 without +
 > > 
-> > But we have another requirement which is to combine some device
-> > together to
-> > share the same address space. This is a little like these kinds of solution:
+> > According to process/license-rules.rst
 > > 
-> > http://tce.technion.ac.il/wp-content/uploads/sites/8/2015/06/SC-7.2-M.-
-> > Silberstein.pdf
-> > 
-> > With that, the application can directly pass the NiC packet pointer to the
-> > decryption accelerator, and get the bare data in place. This is the feature
-> > that
-> > the VFIO container can provide.
+> > 	    GPL-2.0+  :  GNU General Public License v2.0 or later
 > 
-> above is not a good argument, at least in the context of your discussion.
-> If each device has their own interface (similar to GPU) for process to bind 
-> with, then having the process binding to multiple devices one-by-one then
-> you still get same address space shared cross them...
+> Not really, please see the first three paragraphs of process/license-rules.rst.
+> The COPYING file of the kernel says that it's 'v2' and not 'v2 or later',
+> unless otherwise _explicitly_ noted. Given that and given there is no other
+> specific note in filter.txt, it would mean it's v2-only due to that rule.
 
-If we consider this from the VFIO container perspective, with a container, you
-can do DMA to the container applying it to all devices, even the device is added
-after the DMA operation.  
+Thanks for clarifying.  My understanding is now; this is a case where
+checkpatch is too verbose and we do not actually need to add a specific
+license identifier to the documentation files (new or otherwise).  They
+get an implicit GPLv2.
 
-So your argument remains true only when SVM is enabled and the whole process space
-is devoted to the devices. 
+I'll remove the licences identifiers and re-spin.
 
-Yes, the process can do the same all by itself. But if we agree with that, it
-makes no sense to keep the container concept in VFIO;)
-
-> 
-> Thanks
-> Kevin
-
--- 
-			-Kenneth(Hisilicon)
-
-================================================================================
-本邮件及其附件含有华为公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁
-止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中
-的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！
-This e-mail and its attachments contain confidential information from HUAWEI,
-which is intended only for the person or entity whose address is listed above.
-Any use of the 
-information contained herein in any way (including, but not limited to, total or
-partial disclosure, reproduction, or dissemination) by persons other than the
-intended 
-recipient(s) is prohibited. If you receive this e-mail in error, please notify
-the sender by phone or email immediately and delete it!
-
+thanks,
+Tobin.
