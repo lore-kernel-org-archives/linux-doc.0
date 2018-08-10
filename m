@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57B617E430
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:07:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D60A7D00A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:09:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728720AbeHJKfE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 06:35:04 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:38905 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728738AbeHJKfC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:35:02 -0400
-Received: by mail-wm0-f67.google.com with SMTP id t25-v6so933396wmi.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:06:17 -0700 (PDT)
+        id S1727316AbeHJKe3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 06:34:29 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:55875 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728011AbeHJKe3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:29 -0400
+Received: by mail-wm0-f66.google.com with SMTP id f21-v6so917182wmc.5
+        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=lM+xHiYLR4UYi5F2NXWnALiFOQcF0j1BgcM3dz4IWYQ=;
-        b=vHThuMMI0Qcou5hHH/sIA6W37T74NlFtZcOLijBnjUCv/af63PSw94DC2iZbHRck+a
-         OKAxCZ0VIUJQJZTaAhkMHTOyCng95OSorHUwVQe5VwTFdpTJfu0q2cYi3CLuWh+DajIz
-         tEpyAChEzphKPqWdHoIg4BLHZ/xcHaHwmoTyZnfQ3qgB/m5x6Dw4CbgsqFEi0aHODZZZ
-         IOUZJT/zzB0Ai5G9/ZgEiiweyo9/ZNh5Xut0MdO5TjJe85Kel9GxjUw5JnWOHjqo/Jzb
-         S2gFxEjFA9c0JKUVH4trc2MLNBXxMl87mpa46sutK0Ji5BuEOzWvbuI9yfObUvKaewk9
-         Qf9A==
+        bh=K/YhS535+x3roX9HgmgmHSzJ3fTxTwkZzhUtcXxc/ek=;
+        b=0rE8hF2VRFrmynJ0XeHXlsLYkdyEBPWuOydh8hVQx1c39gXULu892TW61of1eC10vZ
+         Ph9riIPat2gBlsn1VUWYqGvl62epG/4dPg4WRyvOO32GTfqVNoLdSyvUSNUpfy6Odcax
+         9sVmRdOcQg6I+csUbmaF9jVEUr2rN1adUP8aExfRZ46GtI9U3baAFwWN4JFZW8GYHuAi
+         oMmJ5GoqE7J0QyPkelrsO7AOTZOV1XXuPm7jem3RH1DGxOFZ68RqKoYhd+9czuSSZVdR
+         8orqsCDB59w2sK9I0h9spv7NT0l3qXx6eUpS329fBTrlUFW1sw7sRIHja330Qb86CUYo
+         kKJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=lM+xHiYLR4UYi5F2NXWnALiFOQcF0j1BgcM3dz4IWYQ=;
-        b=qKVyQJKBEZXHE22jk4Dl0DlRR634/nYpnOJT13sK0sQD4tc5YuoxZhv4/3dsB0SuQH
-         wro98kI7ZPQZx5VEHKMLhy2OfvxRLjKojI76wdAps4CZ84ixJ+HLNfbWna2MNDnH4VwW
-         U9y2nj0jk29+rGtF9mZljs1ClftXnelIMSTvIFs9OC/tRj00Jw4KiK+B3U/KG76qisLf
-         c3u3N3k496PVIIMRael17f51JSLlbeBuuU1JevpCeaT5TlgdOmF0xlDu+bLUrdNa/2Pw
-         0d5EVZPn/Uy0+rqFDp0JhJx9MdVssFozfihs6i8Jh1/pwbY+X+ylTCfMpp2IKKll9fts
-         CEAg==
-X-Gm-Message-State: AOUpUlGkC9f0xJk4IemfypSkyCOOKawf4DollJmRPNdAAmaedjRPbX/i
-        cr3rhctUEOasRu+ELGqskQHQGw==
-X-Google-Smtp-Source: AA+uWPyZ6dhQY5ntZh4vggV3EizWJfYtC6h8L98pOBZkCq81N6X+VzofNeO5r8hSzMubAr6CF7D/IQ==
-X-Received: by 2002:a1c:a691:: with SMTP id p139-v6mr781536wme.42.1533888376791;
-        Fri, 10 Aug 2018 01:06:16 -0700 (PDT)
+        bh=K/YhS535+x3roX9HgmgmHSzJ3fTxTwkZzhUtcXxc/ek=;
+        b=Q1dFhjQgXOBPVtiGUt24wilQgwzBfBLths0np7xGg/gCp4Jd4C1KZf7/2jYOsQlUp3
+         qmp9pRnTbLu4xLJ4Uw7M4VG84Q759Qk5/fICKSMRjkDW9fWASOP2t8qppCiLAeO6fQxM
+         rhYgqfY3FOiFUN6xRfH9huZAov/pfQVil4LR3s8TTDGDL+bGyhLMUDLOzUgShVSuzQLF
+         4Hhvuj2mWSK1g1HggFGdUOxz5snnoVll5YM4P+CrOcNQYcQ3+iOs5Jyp1Nw0QknYl79n
+         Y6cjjmGv8EsXHU3wQHPjjceTvoE3tp2kv9MOEq+IzwGVu1jzOpY+WgNQKt+58cjuf4ts
+         tUWw==
+X-Gm-Message-State: AOUpUlEgTx4wK3VKDcEd3yAMuVfY5vpIMiz1pLJ6qmwABBueytaFs8AK
+        Ni+80SaKFNVi4QwlTgnxcxmBLA==
+X-Google-Smtp-Source: AA+uWPwsxqQbk4KADBd35F8Q1fUTcCgtM0Qk6bisvhFHq8d2nLhuDSZa+S3/rb4nLhfgY2tMkeoIRg==
+X-Received: by 2002:a1c:8952:: with SMTP id l79-v6mr742323wmd.7.1533888343181;
+        Fri, 10 Aug 2018 01:05:43 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.06.14
+        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.05.41
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Aug 2018 01:06:16 -0700 (PDT)
+        Fri, 10 Aug 2018 01:05:42 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -77,9 +77,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
         netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 23/29] ARM: davinci: dm646x-evm: use device properties for at24 eeprom
-Date:   Fri, 10 Aug 2018 10:05:20 +0200
-Message-Id: <20180810080526.27207-24-brgl@bgdev.pl>
+Subject: [PATCH v2 06/29] mtd: Add support for reading MTD devices via the nvmem API
+Date:   Fri, 10 Aug 2018 10:05:03 +0200
+Message-Id: <20180810080526.27207-7-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180810080526.27207-1-brgl@bgdev.pl>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
@@ -88,61 +88,128 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+From: Alban Bedel <albeu@free.fr>
 
-We want to work towards phasing out the at24_platform_data structure.
-There are few users and its contents can be represented using generic
-device properties. Using device properties only will allow us to
-significantly simplify the at24 configuration code.
+Allow drivers that use the nvmem API to read data stored on MTD devices.
+For this the mtd devices are registered as read-only NVMEM providers.
 
-Remove the at24_platform_data structure and replace it with an array
-of property entries. Drop the byte_len/size property, as the model name
-already implies the EEPROM's size.
-
+Signed-off-by: Alban Bedel <albeu@free.fr>
+[Bartosz:
+  - use the managed variant of nvmem_register(),
+  - set the nvmem name]
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- arch/arm/mach-davinci/board-dm646x-evm.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/mtd/Kconfig     |  1 +
+ drivers/mtd/mtdcore.c   | 50 +++++++++++++++++++++++++++++++++++++++++
+ include/linux/mtd/mtd.h |  2 ++
+ 3 files changed, 53 insertions(+)
 
-diff --git a/arch/arm/mach-davinci/board-dm646x-evm.c b/arch/arm/mach-davinci/board-dm646x-evm.c
-index 943ab0ca6db8..04d293096962 100644
---- a/arch/arm/mach-davinci/board-dm646x-evm.c
-+++ b/arch/arm/mach-davinci/board-dm646x-evm.c
-@@ -22,7 +22,7 @@
- #include <linux/gpio.h>
- #include <linux/platform_device.h>
- #include <linux/i2c.h>
--#include <linux/platform_data/at24.h>
-+#include <linux/property.h>
- #include <linux/platform_data/pcf857x.h>
+diff --git a/drivers/mtd/Kconfig b/drivers/mtd/Kconfig
+index 46ab7feec6b6..f5549482d0df 100644
+--- a/drivers/mtd/Kconfig
++++ b/drivers/mtd/Kconfig
+@@ -1,5 +1,6 @@
+ menuconfig MTD
+ 	tristate "Memory Technology Device (MTD) support"
++	imply NVMEM
+ 	help
+ 	  Memory Technology Devices are flash, RAM and similar chips, often
+ 	  used for solid state file systems on embedded devices. This option
+diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+index 42395df06be9..a57302eaceb5 100644
+--- a/drivers/mtd/mtdcore.c
++++ b/drivers/mtd/mtdcore.c
+@@ -488,6 +488,49 @@ int mtd_pairing_groups(struct mtd_info *mtd)
+ }
+ EXPORT_SYMBOL_GPL(mtd_pairing_groups);
  
- #include <media/i2c/tvp514x.h>
-@@ -320,12 +320,9 @@ static struct nvmem_cell_lookup dm646x_evm_mac_address_cell = {
- 	.nvmem_name = "1-00500",
++static int mtd_nvmem_reg_read(void *priv, unsigned int offset,
++			      void *val, size_t bytes)
++{
++	struct mtd_info *mtd = priv;
++	size_t retlen;
++	int err;
++
++	err = mtd_read(mtd, offset, bytes, &retlen, val);
++	if (err && err != -EUCLEAN)
++		return err;
++
++	return retlen == bytes ? 0 : -EIO;
++}
++
++static int mtd_nvmem_add(struct mtd_info *mtd)
++{
++	struct nvmem_config config = { };
++
++	config.dev = &mtd->dev;
++	config.owner = THIS_MODULE;
++	config.name = mtd->name;
++	config.reg_read = mtd_nvmem_reg_read;
++	config.size = mtd->size;
++	config.word_size = 1;
++	config.stride = 1;
++	config.read_only = true;
++	config.root_only = true;
++	config.priv = mtd;
++
++	mtd->nvmem = devm_nvmem_register(&mtd->dev, &config);
++	if (IS_ERR(mtd->nvmem)) {
++		/* Just ignore if there is no NVMEM support in the kernel */
++		if (PTR_ERR(mtd->nvmem) == -ENOSYS) {
++			mtd->nvmem = NULL;
++		} else {
++			dev_err(&mtd->dev, "Failed to register NVMEM device\n");
++			return PTR_ERR(mtd->nvmem);
++		}
++	}
++
++	return 0;
++}
++
+ static struct dentry *dfs_dir_mtd;
+ 
+ /**
+@@ -570,6 +613,11 @@ int add_mtd_device(struct mtd_info *mtd)
+ 	if (error)
+ 		goto fail_added;
+ 
++	/* Add the nvmem provider */
++	error = mtd_nvmem_add(mtd);
++	if (error)
++		goto fail_nvmem_add;
++
+ 	if (!IS_ERR_OR_NULL(dfs_dir_mtd)) {
+ 		mtd->dbg.dfs_dir = debugfs_create_dir(dev_name(&mtd->dev), dfs_dir_mtd);
+ 		if (IS_ERR_OR_NULL(mtd->dbg.dfs_dir)) {
+@@ -595,6 +643,8 @@ int add_mtd_device(struct mtd_info *mtd)
+ 	__module_get(THIS_MODULE);
+ 	return 0;
+ 
++fail_nvmem_add:
++	device_unregister(&mtd->dev);
+ fail_added:
+ 	of_node_put(mtd_get_of_node(mtd));
+ 	idr_remove(&mtd_idr, i);
+diff --git a/include/linux/mtd/mtd.h b/include/linux/mtd/mtd.h
+index a86c4fa93115..8121c6582285 100644
+--- a/include/linux/mtd/mtd.h
++++ b/include/linux/mtd/mtd.h
+@@ -25,6 +25,7 @@
+ #include <linux/notifier.h>
+ #include <linux/device.h>
+ #include <linux/of.h>
++#include <linux/nvmem-provider.h>
+ 
+ #include <mtd/mtd-abi.h>
+ 
+@@ -339,6 +340,7 @@ struct mtd_info {
+ 	struct device dev;
+ 	int usecount;
+ 	struct mtd_debug_info dbg;
++	struct nvmem_device *nvmem;
  };
  
--static struct at24_platform_data eeprom_info = {
--	.byte_len       = (256*1024) / 8,
--	.page_size      = 64,
--	.flags          = AT24_FLAG_ADDR16,
--	.setup          = davinci_get_mac_addr,
--	.context	= (void *)0x7f00,
-+static const struct property_entry eeprom_properties[] = {
-+	PROPERTY_ENTRY_U32("pagesize", 64),
-+	{ }
- };
- #endif
- 
-@@ -396,7 +393,7 @@ static void evm_init_cpld(void)
- static struct i2c_board_info __initdata i2c_info[] =  {
- 	{
- 		I2C_BOARD_INFO("24c256", 0x50),
--		.platform_data  = &eeprom_info,
-+		.properties  = eeprom_properties,
- 	},
- 	{
- 		I2C_BOARD_INFO("pcf8574a", 0x38),
+ int mtd_ooblayout_ecc(struct mtd_info *mtd, int section,
 -- 
 2.18.0
 
