@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9D60A7D00A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:09:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B7497DE59
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:09:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727316AbeHJKe3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 06:34:29 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:55875 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728011AbeHJKe3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:29 -0400
-Received: by mail-wm0-f66.google.com with SMTP id f21-v6so917182wmc.5
-        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:05:43 -0700 (PDT)
+        id S1728053AbeHJKee (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 06:34:34 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36501 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728046AbeHJKed (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:34:33 -0400
+Received: by mail-wr1-f65.google.com with SMTP id h9-v6so7487167wro.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:05:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=K/YhS535+x3roX9HgmgmHSzJ3fTxTwkZzhUtcXxc/ek=;
-        b=0rE8hF2VRFrmynJ0XeHXlsLYkdyEBPWuOydh8hVQx1c39gXULu892TW61of1eC10vZ
-         Ph9riIPat2gBlsn1VUWYqGvl62epG/4dPg4WRyvOO32GTfqVNoLdSyvUSNUpfy6Odcax
-         9sVmRdOcQg6I+csUbmaF9jVEUr2rN1adUP8aExfRZ46GtI9U3baAFwWN4JFZW8GYHuAi
-         oMmJ5GoqE7J0QyPkelrsO7AOTZOV1XXuPm7jem3RH1DGxOFZ68RqKoYhd+9czuSSZVdR
-         8orqsCDB59w2sK9I0h9spv7NT0l3qXx6eUpS329fBTrlUFW1sw7sRIHja330Qb86CUYo
-         kKJw==
+        bh=XaPQ4DQ6E4mkvE8/vjM2arlDkF10+DPHDgPAjo5lV1o=;
+        b=d8jmMSS0r7+bNNo9YTWkd0N3UUg9gNZCUwkFuspa7Gad0bgKdmW/SeArVPVrICkkua
+         FQqpNjEcVPxQySfOunIGiXl6cz7TL6ZiMji570BUqzEEsKx5rA4G0H6bN4HQgEDubpfj
+         3zWoapKg2/vI+/i/ahfY/KQmexgSBloSnXPmIHK5zcelobeGazNfZqbb+frzVRqE5pbS
+         8vB8HQt41QuBYNax/SCdrX0x2nl6TKXU80Z+3iyHk18vtYyVDbuI2bOlNAvNBQypGXbt
+         Om6P0IJxqvIHvT2a+7TsLHhZxOkdHD3smm7hy7Ft9aJtqmHUvQj7C43je8QxC9mH4p+r
+         9qlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=K/YhS535+x3roX9HgmgmHSzJ3fTxTwkZzhUtcXxc/ek=;
-        b=Q1dFhjQgXOBPVtiGUt24wilQgwzBfBLths0np7xGg/gCp4Jd4C1KZf7/2jYOsQlUp3
-         qmp9pRnTbLu4xLJ4Uw7M4VG84Q759Qk5/fICKSMRjkDW9fWASOP2t8qppCiLAeO6fQxM
-         rhYgqfY3FOiFUN6xRfH9huZAov/pfQVil4LR3s8TTDGDL+bGyhLMUDLOzUgShVSuzQLF
-         4Hhvuj2mWSK1g1HggFGdUOxz5snnoVll5YM4P+CrOcNQYcQ3+iOs5Jyp1Nw0QknYl79n
-         Y6cjjmGv8EsXHU3wQHPjjceTvoE3tp2kv9MOEq+IzwGVu1jzOpY+WgNQKt+58cjuf4ts
-         tUWw==
-X-Gm-Message-State: AOUpUlEgTx4wK3VKDcEd3yAMuVfY5vpIMiz1pLJ6qmwABBueytaFs8AK
-        Ni+80SaKFNVi4QwlTgnxcxmBLA==
-X-Google-Smtp-Source: AA+uWPwsxqQbk4KADBd35F8Q1fUTcCgtM0Qk6bisvhFHq8d2nLhuDSZa+S3/rb4nLhfgY2tMkeoIRg==
-X-Received: by 2002:a1c:8952:: with SMTP id l79-v6mr742323wmd.7.1533888343181;
-        Fri, 10 Aug 2018 01:05:43 -0700 (PDT)
+        bh=XaPQ4DQ6E4mkvE8/vjM2arlDkF10+DPHDgPAjo5lV1o=;
+        b=WOASHgC5Q46Q2cQF7kZO8CPqVxTSOxp9BKQ1VfPUdY/EkpbleUJqzkyPlxTzy5f/nc
+         i99rfAW7lU0Gap1MPyQAig07ffkxw1OUM8vycSkhMykVNkFSoTbQQ5MMh+aHqpOd1Ecb
+         GgeFIQMwQigolfObXo6FlGdNNy5wgjFs4Bt8rLtn+bTG6vCxRr0B1j3k5hMwQSZPEJO9
+         axaTnxBkM0VG+SfFHA/6Ywg96jEAeO6bzsAymuMaraFo/Mq/do1IKkvCmRl3iMkGvKN0
+         W7f5iADSnh31GZw+Ut21Lz7Ia3wo1SEnzI19sN3P1xUiS32TrLh3lZrsAFcwvTaeqtTe
+         uVvg==
+X-Gm-Message-State: AOUpUlEMKafh64eAxdD2QJsN0RcSW1ZwoKdwJpvHYK+mCsC4RZ127DVb
+        g7DiOwaDoJ8W8unOtTCijyAVJA==
+X-Google-Smtp-Source: AA+uWPwQ3qUFHPIEb7YNFm4XR8ZZUcQKNFNhNJMaN7NNGTv93XBpAeecOSbYW+Y3pEJI32GxaQ0evg==
+X-Received: by 2002:adf:ecc6:: with SMTP id s6-v6mr3665670wro.160.1533888348097;
+        Fri, 10 Aug 2018 01:05:48 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.05.41
+        by smtp.gmail.com with ESMTPSA id h7-v6sm9546405wrs.8.2018.08.10.01.05.45
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Aug 2018 01:05:42 -0700 (PDT)
+        Fri, 10 Aug 2018 01:05:47 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -77,9 +77,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
         netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 06/29] mtd: Add support for reading MTD devices via the nvmem API
-Date:   Fri, 10 Aug 2018 10:05:03 +0200
-Message-Id: <20180810080526.27207-7-brgl@bgdev.pl>
+Subject: [PATCH v2 08/29] ARM: davinci: dm644-evm: use nvmem lookup for mac address
+Date:   Fri, 10 Aug 2018 10:05:05 +0200
+Message-Id: <20180810080526.27207-9-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180810080526.27207-1-brgl@bgdev.pl>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
@@ -88,128 +88,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alban Bedel <albeu@free.fr>
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Allow drivers that use the nvmem API to read data stored on MTD devices.
-For this the mtd devices are registered as read-only NVMEM providers.
+We now support nvmem lookups for machine code. Add a lookup for
+mac-address.
 
-Signed-off-by: Alban Bedel <albeu@free.fr>
-[Bartosz:
-  - use the managed variant of nvmem_register(),
-  - set the nvmem name]
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/mtd/Kconfig     |  1 +
- drivers/mtd/mtdcore.c   | 50 +++++++++++++++++++++++++++++++++++++++++
- include/linux/mtd/mtd.h |  2 ++
- 3 files changed, 53 insertions(+)
+ arch/arm/mach-davinci/board-dm644x-evm.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/mtd/Kconfig b/drivers/mtd/Kconfig
-index 46ab7feec6b6..f5549482d0df 100644
---- a/drivers/mtd/Kconfig
-+++ b/drivers/mtd/Kconfig
-@@ -1,5 +1,6 @@
- menuconfig MTD
- 	tristate "Memory Technology Device (MTD) support"
-+	imply NVMEM
- 	help
- 	  Memory Technology Devices are flash, RAM and similar chips, often
- 	  used for solid state file systems on embedded devices. This option
-diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
-index 42395df06be9..a57302eaceb5 100644
---- a/drivers/mtd/mtdcore.c
-+++ b/drivers/mtd/mtdcore.c
-@@ -488,6 +488,49 @@ int mtd_pairing_groups(struct mtd_info *mtd)
- }
- EXPORT_SYMBOL_GPL(mtd_pairing_groups);
- 
-+static int mtd_nvmem_reg_read(void *priv, unsigned int offset,
-+			      void *val, size_t bytes)
-+{
-+	struct mtd_info *mtd = priv;
-+	size_t retlen;
-+	int err;
-+
-+	err = mtd_read(mtd, offset, bytes, &retlen, val);
-+	if (err && err != -EUCLEAN)
-+		return err;
-+
-+	return retlen == bytes ? 0 : -EIO;
-+}
-+
-+static int mtd_nvmem_add(struct mtd_info *mtd)
-+{
-+	struct nvmem_config config = { };
-+
-+	config.dev = &mtd->dev;
-+	config.owner = THIS_MODULE;
-+	config.name = mtd->name;
-+	config.reg_read = mtd_nvmem_reg_read;
-+	config.size = mtd->size;
-+	config.word_size = 1;
-+	config.stride = 1;
-+	config.read_only = true;
-+	config.root_only = true;
-+	config.priv = mtd;
-+
-+	mtd->nvmem = devm_nvmem_register(&mtd->dev, &config);
-+	if (IS_ERR(mtd->nvmem)) {
-+		/* Just ignore if there is no NVMEM support in the kernel */
-+		if (PTR_ERR(mtd->nvmem) == -ENOSYS) {
-+			mtd->nvmem = NULL;
-+		} else {
-+			dev_err(&mtd->dev, "Failed to register NVMEM device\n");
-+			return PTR_ERR(mtd->nvmem);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static struct dentry *dfs_dir_mtd;
- 
- /**
-@@ -570,6 +613,11 @@ int add_mtd_device(struct mtd_info *mtd)
- 	if (error)
- 		goto fail_added;
- 
-+	/* Add the nvmem provider */
-+	error = mtd_nvmem_add(mtd);
-+	if (error)
-+		goto fail_nvmem_add;
-+
- 	if (!IS_ERR_OR_NULL(dfs_dir_mtd)) {
- 		mtd->dbg.dfs_dir = debugfs_create_dir(dev_name(&mtd->dev), dfs_dir_mtd);
- 		if (IS_ERR_OR_NULL(mtd->dbg.dfs_dir)) {
-@@ -595,6 +643,8 @@ int add_mtd_device(struct mtd_info *mtd)
- 	__module_get(THIS_MODULE);
- 	return 0;
- 
-+fail_nvmem_add:
-+	device_unregister(&mtd->dev);
- fail_added:
- 	of_node_put(mtd_get_of_node(mtd));
- 	idr_remove(&mtd_idr, i);
-diff --git a/include/linux/mtd/mtd.h b/include/linux/mtd/mtd.h
-index a86c4fa93115..8121c6582285 100644
---- a/include/linux/mtd/mtd.h
-+++ b/include/linux/mtd/mtd.h
-@@ -25,6 +25,7 @@
- #include <linux/notifier.h>
- #include <linux/device.h>
- #include <linux/of.h>
+diff --git a/arch/arm/mach-davinci/board-dm644x-evm.c b/arch/arm/mach-davinci/board-dm644x-evm.c
+index 48436f74fd71..829fa1c8d0b4 100644
+--- a/arch/arm/mach-davinci/board-dm644x-evm.c
++++ b/arch/arm/mach-davinci/board-dm644x-evm.c
+@@ -22,6 +22,7 @@
+ #include <linux/mtd/rawnand.h>
+ #include <linux/mtd/partitions.h>
+ #include <linux/mtd/physmap.h>
 +#include <linux/nvmem-provider.h>
+ #include <linux/phy.h>
+ #include <linux/clk.h>
+ #include <linux/videodev2.h>
+@@ -476,6 +477,15 @@ static struct pcf857x_platform_data pcf_data_u35 = {
+  *  - ... newer boards may have more
+  */
  
- #include <mtd/mtd-abi.h>
++static struct nvmem_cell_lookup dm6446evm_mac_address_cell = {
++	.info = {
++		.name = "mac-address",
++		.offset = 0x7f00,
++		.bytes = ETH_ALEN,
++	},
++	.nvmem_name = "1-00500",
++};
++
+ static struct at24_platform_data eeprom_info = {
+ 	.byte_len	= (256*1024) / 8,
+ 	.page_size	= 64,
+@@ -828,6 +838,8 @@ static __init void davinci_evm_init(void)
+ 		phy_register_fixup_for_uid(LXT971_PHY_ID, LXT971_PHY_MASK,
+ 						davinci_phy_fixup);
+ 	}
++
++	nvmem_add_lookup_table(&dm6446evm_mac_address_cell, 1);
+ }
  
-@@ -339,6 +340,7 @@ struct mtd_info {
- 	struct device dev;
- 	int usecount;
- 	struct mtd_debug_info dbg;
-+	struct nvmem_device *nvmem;
- };
- 
- int mtd_ooblayout_ecc(struct mtd_info *mtd, int section,
+ MACHINE_START(DAVINCI_EVM, "DaVinci DM644x EVM")
 -- 
 2.18.0
 
