@@ -1,293 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 810497D00A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 14:32:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 733117D00A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 14:39:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727738AbeHJRCr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 13:02:47 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:45502 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727432AbeHJRCq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Aug 2018 13:02:46 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 7571787AA9;
-        Fri, 10 Aug 2018 14:32:36 +0000 (UTC)
-Received: from redhat.com (ovpn-123-67.rdu2.redhat.com [10.10.123.67])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B6632026D65;
-        Fri, 10 Aug 2018 14:32:33 +0000 (UTC)
-Date:   Fri, 10 Aug 2018 10:32:31 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Kenneth Lee <liguozhu@hisilicon.com>
-Cc:     Kenneth Lee <nek.in.cn@gmail.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180810143231.GA7253@redhat.com>
-References: <20180802142243.GA3481@redhat.com>
- <20180803034721.GC91035@Turing-Arch-b>
- <20180803143944.GA4079@redhat.com>
- <20180806031252.GG91035@Turing-Arch-b>
- <20180806153257.GB6002@redhat.com>
- <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
- <20180808151835.GA3429@redhat.com>
- <20180809080352.GI91035@Turing-Arch-b>
- <20180809144613.GB3386@redhat.com>
- <20180810033913.GK91035@Turing-Arch-b>
+        id S1727520AbeHJRJb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 13:09:31 -0400
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:34200 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727519AbeHJRJb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 13:09:31 -0400
+Received: by mail-ua1-f65.google.com with SMTP id r15-v6so2076684uao.1;
+        Fri, 10 Aug 2018 07:39:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=My/dG6rVWDQZhO6jex8h3m0BrUhvSJlqED5P1zQEhPI=;
+        b=CkvyuyAn/IvEkyOfyQNJCGXYdFaz/573Y2n/oE3HynlUveaioUy7eSY+eO79r6/qvI
+         PWG8lCpqv1cV6JsSdufd68jZ0JPllLZzlaZMPg42742XoTooBIe2yhEgwvtDWly8fvt4
+         STZ5k8Q8rdf+QfLDj167PkQfqB38tJzRkitKS6bbR9HtG2eGAxC4QmTqfdqd5EIx+wGS
+         /tR73NqsbIxVamPiAvWu+MycRvk3Z5wQ+4a8zB375h7hlGnOzeqTsyrLV3kpO/dvuGsr
+         p51fYJLEJvREVtZGhK6CbKS1/ZTempzOyHU1NUBv4RLPOCLz0S7YM1rSOSFOWvoRtII9
+         CG7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=My/dG6rVWDQZhO6jex8h3m0BrUhvSJlqED5P1zQEhPI=;
+        b=boelu90iMG/7FgcDGsaEpIKzf8vAYws6mCZaqtXgITsP+hZ/9A/ya5TsiIl9RFe4jM
+         BZ1xZYsBmXRtTedTk/63oVshuIqiYHjaIHeWVHywIC40OyMJ6lavv8nHeIlx7U+dC+69
+         nl8NvyZsF5erkYPX613ffNVYvx7uatO6f+exdRTEXXanGm+bcBizPmYblxEbhiqgsiXL
+         8s1VLlbf3x1sXP8Arq5b+kO7ybz3gMNfDZQRu4tfvuTHiJy/bqjKd/HWew55eG3kmpUV
+         h02D2tTZegWOTbbc/e0ahdXmIahAR0K3wtO2o2KLJsEjeM7+AEKeCl60Z282sfvbhBI/
+         U3EQ==
+X-Gm-Message-State: AOUpUlGusMobR+wtpLtmmYxnjKl4Y2eRoJBpiXZvuR2WZPOGY0bo4Flj
+        +YZVsfXVGfS1Yc9517ftYxAK5SSShRUWwHUGe2M=
+X-Google-Smtp-Source: AA+uWPw7npaJth81OsgUAnPtWm2CQNdU7mXBF6xljaL5Y+szAOoVbL7m3rlILgOUtmh3sHnxTC/hLgMTOD7PPuid/Jc=
+X-Received: by 2002:a1f:c884:: with SMTP id y126-v6mr4146396vkf.76.1533911959062;
+ Fri, 10 Aug 2018 07:39:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180810033913.GK91035@Turing-Arch-b>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 10 Aug 2018 14:32:36 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 10 Aug 2018 14:32:36 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
+Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Fri, 10 Aug 2018 07:39:17
+ -0700 (PDT)
+In-Reply-To: <20180810080526.27207-15-brgl@bgdev.pl>
+References: <20180810080526.27207-1-brgl@bgdev.pl> <20180810080526.27207-15-brgl@bgdev.pl>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 10 Aug 2018 17:39:17 +0300
+Message-ID: <CAHp75Ve28aNe+FCK3p4OLsDf7dNo-iJ1VR=pyx+Y9OUn3sjYBw@mail.gmail.com>
+Subject: Re: [PATCH v2 14/29] net: simplify eth_platform_get_mac_address()
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
+        Rob Herring <robh@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+        Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 10, 2018 at 11:39:13AM +0800, Kenneth Lee wrote:
-> On Thu, Aug 09, 2018 at 10:46:13AM -0400, Jerome Glisse wrote:
-> > Date: Thu, 9 Aug 2018 10:46:13 -0400
-> > From: Jerome Glisse <jglisse@redhat.com>
-> > To: Kenneth Lee <liguozhu@hisilicon.com>
-> > CC: Kenneth Lee <nek.in.cn@gmail.com>, "Tian, Kevin"
-> >  <kevin.tian@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
-> >  Herbert Xu <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
-> >  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
-> >  Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo Xu <xuzaibo@huawei.com>,
-> >  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Kumar, Sanjay K"
-> >  <sanjay.k.kumar@intel.com>, Hao Fang <fanghao11@huawei.com>,
-> >  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-> >  "linuxarm@huawei.com" <linuxarm@huawei.com>,
-> >  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-> >  "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Philippe
-> >  Ombredanne <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>,
-> >  "David S . Miller" <davem@davemloft.net>,
-> >  "linux-accelerators@lists.ozlabs.org"
-> >  <linux-accelerators@lists.ozlabs.org>
-> > Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-> > User-Agent: Mutt/1.10.0 (2018-05-17)
-> > Message-ID: <20180809144613.GB3386@redhat.com>
-> > 
-> > On Thu, Aug 09, 2018 at 04:03:52PM +0800, Kenneth Lee wrote:
-> > > On Wed, Aug 08, 2018 at 11:18:35AM -0400, Jerome Glisse wrote:
-> > > > On Wed, Aug 08, 2018 at 09:08:42AM +0800, Kenneth Lee wrote:
-> > > > > 在 2018年08月06日 星期一 11:32 下午, Jerome Glisse 写道:
-> > > > > > On Mon, Aug 06, 2018 at 11:12:52AM +0800, Kenneth Lee wrote:
-> > > > > > > On Fri, Aug 03, 2018 at 10:39:44AM -0400, Jerome Glisse wrote:
-> > > > > > > > On Fri, Aug 03, 2018 at 11:47:21AM +0800, Kenneth Lee wrote:
-> > > > > > > > > On Thu, Aug 02, 2018 at 10:22:43AM -0400, Jerome Glisse wrote:
-> > > > > > > > > > On Thu, Aug 02, 2018 at 12:05:57PM +0800, Kenneth Lee wrote:
-> > 
-> > [...]
-> > 
-> > > > > > > > > > your mechanisms the userspace must have a specific userspace
-> > > > > > > > > > drivers for each hardware and thus there are virtually no
-> > > > > > > > > > differences between having this userspace driver open a device
-> > > > > > > > > > file in vfio or somewhere else in the device filesystem. This is
-> > > > > > > > > > just a different path.
-> > > > > > > > > > 
-> > > > > > > > > The basic problem WarpDrive want to solve it to avoid syscall. This is important
-> > > > > > > > > to accelerators. We have some data here:
-> > > > > > > > > https://www.slideshare.net/linaroorg/progress-and-demonstration-of-wrapdrive-a-accelerator-framework-sfo17317
-> > > > > > > > > 
-> > > > > > > > > (see page 3)
-> > > > > > > > > 
-> > > > > > > > > The performance is different on using kernel and user drivers.
-> > > > > > > > Yes and example i point to is exactly that. You have a one time setup
-> > > > > > > > cost (creating command buffer binding PASID with command buffer and
-> > > > > > > > couple other setup steps). Then userspace no longer have to do any
-> > > > > > > > ioctl to schedule work on the GPU. It is all down from userspace and
-> > > > > > > > it use a doorbell to notify hardware when it should go look at command
-> > > > > > > > buffer for new thing to execute.
-> > > > > > > > 
-> > > > > > > > My point stands on that. You have existing driver already doing so
-> > > > > > > > with no new framework and in your scheme you need a userspace driver.
-> > > > > > > > So i do not see the value add, using one path or the other in the
-> > > > > > > > userspace driver is litteraly one line to change.
-> > > > > > > > 
-> > > > > > > Sorry, I'd got confuse here. I partially agree that the user driver is
-> > > > > > > redundance of kernel driver. (But for WarpDrive, the kernel driver is a full
-> > > > > > > driver include all preparation and setup stuff for the hardware, the user driver
-> > > > > > > is simply to send request and receive answer). Yes, it is just a choice of path.
-> > > > > > > But the user path is faster if the request come from use space. And to do that,
-> > > > > > > we need user land DMA support. Then why is it invaluable to let VFIO involved?
-> > > > > > Some drivers in the kernel already do exactly what you said. The user
-> > > > > > space emit commands without ever going into kernel by directly scheduling
-> > > > > > commands and ringing a doorbell. They do not need VFIO either and they
-> > > > > > can map userspace address into the DMA address space of the device and
-> > > > > > again they do not need VFIO for that.
-> > > > > Could you please directly point out which driver you refer to here? Thank
-> > > > > you.
-> > > > 
-> > > > drivers/gpu/drm/amd/
-> > > > 
-> > > > Sub-directory of interest is amdkfd
-> > > > 
-> > > > Because it is a big driver here is a highlevel overview of how it works
-> > > > (this is a simplification):
-> > > >   - Process can allocate GPUs buffer (through ioclt) and map them into
-> > > >     its address space (through mmap of device file at buffer object
-> > > >     specific offset).
-> > > >   - Process can map any valid range of virtual address space into device
-> > > >     address space (IOMMU mapping). This must be regular memory ie not an
-> > > >     mmap of a device file or any special file (this is the non PASID
-> > > >     path)
-> > > >   - Process can create a command queue and bind its process to it aka
-> > > >     PASID, this is done through an ioctl.
-> > > >   - Process can schedule commands onto queues it created from userspace
-> > > >     without ioctl. For that it just write command into a ring buffer
-> > > >     that it mapped during the command queue creation process and it
-> > > >     rings a doorbell when commands are ready to be consume by the
-> > > >     hardware.
-> > > >   - Commands can reference (access) all 3 types of object above ie
-> > > >     either full GPUs buffer, process regular memory maped as object
-> > > >     (non PASID) and PASID memory all at the same time ie you can
-> > > >     mix all of the above in same commands queue.
-> > > >   - Kernel can evict, unbind any process command queues, unbind commands
-> > > >     queue are still valid from process point of view but commands
-> > > >     process schedules on them will not be executed until kernel re-bind
-> > > >     the queue.
-> > > >   - Kernel can schedule commands itself onto its dedicated command
-> > > >     queues (kernel driver create its own command queues).
-> > > >   - Kernel can control priorities between all the queues ie it can
-> > > >     decides which queues should the hardware executed first next.
-> > > > 
-> > > 
-> > > Thank you. Now I think I understand the point. Indeed, I can see some drivers,
-> > > such GPU and IB, attach their own iommu_domain to their iommu_group and do their
-> > > own iommu_map().
-> > > 
-> > > But we have another requirement which is to combine some device together to
-> > > share the same address space. This is a little like these kinds of solution:
-> > > 
-> > > http://tce.technion.ac.il/wp-content/uploads/sites/8/2015/06/SC-7.2-M.-Silberstein.pdf
-> > > 
-> > > With that, the application can directly pass the NiC packet pointer to the
-> > > decryption accelerator, and get the bare data in place. This is the feature that
-> > > the VFIO container can provide.
-> > 
-> > Yes and GPU would very much like do the same. There is already out of
-> > tree solution that allow NiC to stream into GPU memory or GPU to stream
-> > its memory to a NiC. I am sure we will want to use more accelerator in
-> > conjunction with GPU in the future.
-> > 
-> > > 
-> > > > I believe all of the above are the aspects that matters to you. The main
-> > > > reason i don't like creating a new driver infrastructure is that a lot
-> > > > of existing drivers will want to use some of the new features that are
-> > > > coming (memory topology, where to place process memory, pipeline devices,
-> > > > ...) and thus existing drivers are big (GPU drivers are the biggest of
-> > > > all the kernel drivers).
-> > > > 
-> > > 
-> > > I think it is not necessarily to rewrite the GPU driver if they don't need to
-> > > share their space with others. But if they do, no matter how, they have to create
-> > > some facility similar to VFIO container. Then why not just create them in VFIO?
-> > 
-> > No they do not, nor does anyone needs to. We already have that. If you want
-> > device to share memory object you have either:
-> >     - PASID and everything is just easy no need to create anything, as
-> >       all valid virtual address will work
-> >     - no PASID or one of the device does not support PASID then use the
-> >       existing kernel infrastructure aka dma buffer see Documentation/
-> >       driver-api/dma-buf.rst
-> > 
-> > Everything you want to do is already happening upstream and they are allready
-> > working example.
-> 
-> OK, I accept it.
-> 
-> > 
-> > > Actually, some GPUs have already used mdev to manage the resource by different
-> > > users, it is already part of VFIO.
-> > 
-> > The current use of mdev with GPU is to "emulate" the SR_IOV of PCIE in
-> > software so that a single device can be share between multiple guests.
-> > For this using VFIO make sense, as we want to expose device as a single
-> > entity that can be manage without the userspace (QEMU) having to know
-> > or learn about each individual devices.
-> > 
-> > QEMU just has a well define API to probe and attach device to guest.
-> > It is the guest that have dedicated drivers for each of those mdev
-> > devices.
-> > 
-> 
-> Agree
-> 
-> > 
-> > What you are trying to do is recreate a whole driver API inside the
-> > VFIO subsystem and i do not see any valid reasons for that. Moreover
-> > you want to restrict future use to only drivers that are part of this
-> > new driver subsystem and again i do not see any good reasons to
-> > mandate any of the existing driver to be rewritten inside a new VFIO
-> > infrastructure.
-> > 
-> 
-> I think you have persuaded me now. I thought VFIO was the only unified place to do
-> user land DMA operations. So I tried to make use of it even there was facility I
-> needed not.
-> 
-> Thank you very much for the help.
-> 
-> > 
-> > You can achieve everything you want to achieve with existing upstream
-> > solution. Re-inventing a whole new driver infrastructure should really
-> > be motivated with strong and obvious reasons.
-> 
-> I want to understand better of your idea. If I create some unified helper
-> APIs in drivers/iommu/, say:
-> 
-> 	wd_create_dev(parent_dev, wd_dev)
-> 	wd_release_dev(wd_dev)
-> 
-> The API create chrdev to take request from user space for open(resource
-> allocation), iomap, epoll (irq), and dma_map(with pasid automatically).
-> 
-> Do you think it is acceptable?
-> 
-> I agree that these all can be done with the driver itself. But without a unified
-> interface, it is hard to create a user land ecosystem for accelerator to
-> cooperate.
+On Fri, Aug 10, 2018 at 11:05 AM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>
+> We don't need to use pci_device_to_OF_node() - we can retrieve
+> dev->of_node directly even for pci devices.
+>
 
-I am fine with creating a new sub-system for pipelining devices (ie some
-place where it is easy for userspace to get list of all devices that can
-fit in such model). I am not sure if we want to have everything part of
-it (ie DMA mapping of memory and pipelining as same thing) i tend to be
-more unix oriented one tool for one job. But maybe it makes sense, this
-would likely avoid having each device driver have their own code to
-create dma buffer or track SVM pointer.
+>         struct device_node *dp;
+>
+> -       if (dev_is_pci(dev))
+> -               dp = pci_device_to_OF_node(to_pci_dev(dev));
+> -       else
+> -               dp = dev->of_node;
+> -
+> +       dp = dev->of_node;
+>         addr = NULL;
+>         if (dp)
+>                 addr = of_get_mac_address(dp);
 
-In any case for the non SVM case i would suggest to use dma buffer, it
-has been widely use, it is well tested in many scenarios. Moreover it
-would allow many existing device driver to register themself in this
-new framework with minimal changes (couple hundred lines).
+Looking more at this I could even propose to change all above by
 
-Cheers,
-Jérôme
+addr = device_get_mac_address(dev, mac_addr, ETH_ALEN);
+
+Thoughts?
+
+-- 
+With Best Regards,
+Andy Shevchenko
