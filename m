@@ -1,123 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 733117D00A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 14:39:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A36357D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 14:57:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727520AbeHJRJb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 13:09:31 -0400
-Received: from mail-ua1-f65.google.com ([209.85.222.65]:34200 "EHLO
-        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727519AbeHJRJb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 13:09:31 -0400
-Received: by mail-ua1-f65.google.com with SMTP id r15-v6so2076684uao.1;
-        Fri, 10 Aug 2018 07:39:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=My/dG6rVWDQZhO6jex8h3m0BrUhvSJlqED5P1zQEhPI=;
-        b=CkvyuyAn/IvEkyOfyQNJCGXYdFaz/573Y2n/oE3HynlUveaioUy7eSY+eO79r6/qvI
-         PWG8lCpqv1cV6JsSdufd68jZ0JPllLZzlaZMPg42742XoTooBIe2yhEgwvtDWly8fvt4
-         STZ5k8Q8rdf+QfLDj167PkQfqB38tJzRkitKS6bbR9HtG2eGAxC4QmTqfdqd5EIx+wGS
-         /tR73NqsbIxVamPiAvWu+MycRvk3Z5wQ+4a8zB375h7hlGnOzeqTsyrLV3kpO/dvuGsr
-         p51fYJLEJvREVtZGhK6CbKS1/ZTempzOyHU1NUBv4RLPOCLz0S7YM1rSOSFOWvoRtII9
-         CG7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=My/dG6rVWDQZhO6jex8h3m0BrUhvSJlqED5P1zQEhPI=;
-        b=boelu90iMG/7FgcDGsaEpIKzf8vAYws6mCZaqtXgITsP+hZ/9A/ya5TsiIl9RFe4jM
-         BZ1xZYsBmXRtTedTk/63oVshuIqiYHjaIHeWVHywIC40OyMJ6lavv8nHeIlx7U+dC+69
-         nl8NvyZsF5erkYPX613ffNVYvx7uatO6f+exdRTEXXanGm+bcBizPmYblxEbhiqgsiXL
-         8s1VLlbf3x1sXP8Arq5b+kO7ybz3gMNfDZQRu4tfvuTHiJy/bqjKd/HWew55eG3kmpUV
-         h02D2tTZegWOTbbc/e0ahdXmIahAR0K3wtO2o2KLJsEjeM7+AEKeCl60Z282sfvbhBI/
-         U3EQ==
-X-Gm-Message-State: AOUpUlGusMobR+wtpLtmmYxnjKl4Y2eRoJBpiXZvuR2WZPOGY0bo4Flj
-        +YZVsfXVGfS1Yc9517ftYxAK5SSShRUWwHUGe2M=
-X-Google-Smtp-Source: AA+uWPw7npaJth81OsgUAnPtWm2CQNdU7mXBF6xljaL5Y+szAOoVbL7m3rlILgOUtmh3sHnxTC/hLgMTOD7PPuid/Jc=
-X-Received: by 2002:a1f:c884:: with SMTP id y126-v6mr4146396vkf.76.1533911959062;
- Fri, 10 Aug 2018 07:39:19 -0700 (PDT)
+        id S1727956AbeHJR1O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 13:27:14 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43796 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727763AbeHJR1O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 13:27:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=/4HvGf7vv7o1239N3xCs1FG890dHpoi/7nvK0RB4occ=; b=HVcJF9NV7gDMNIHetrBxsKkyD
+        I25JiCiHoLM+wMX//rwRdyMwCc+IVVjoK4a/rhLYgw2CvOL2YJEdBrs0tIO/u3C8BMiFOlC0IdqNi
+        frZy5yBBfE13KFkK7pkokowOqCa2Zq2R/B8ZmgApNQN9uIfpBtncFxyUquR3e07STYyKg+EFDw/P4
+        xDhFHwZMUNVctTW1uuycbGO6xJAFL8Z/tR8pDiVNfzN5cleJ//LhViUer47oikuJ+bnGCcBq4W97U
+        FlC7fMS6mMRUMlQ14ro3MAhks4gwGsVL+P8fmi6NDdliePVBU26sBhHaxK4FC++Fu9YYafFgiXHYI
+        jqxWxBiBQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fo8qW-0003P5-1H; Fri, 10 Aug 2018 14:56:56 +0000
+Date:   Fri, 10 Aug 2018 07:56:55 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Martin Mares <mj@ucw.cz>
+Cc:     Logan Gunthorpe <logang@deltatee.com>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: lspci: Display path to device
+Message-ID: <20180810145655.GA16533@bombadil.infradead.org>
+References: <20180717170204.30470-1-logang@deltatee.com>
+ <20180717203900.GA1771@bombadil.infradead.org>
+ <mj+md-20180810.091549.51451.nikam@ucw.cz>
+ <mj+md-20180810.103017.64385.nikam@ucw.cz>
 MIME-Version: 1.0
-Received: by 2002:a67:2149:0:0:0:0:0 with HTTP; Fri, 10 Aug 2018 07:39:17
- -0700 (PDT)
-In-Reply-To: <20180810080526.27207-15-brgl@bgdev.pl>
-References: <20180810080526.27207-1-brgl@bgdev.pl> <20180810080526.27207-15-brgl@bgdev.pl>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 10 Aug 2018 17:39:17 +0300
-Message-ID: <CAHp75Ve28aNe+FCK3p4OLsDf7dNo-iJ1VR=pyx+Y9OUn3sjYBw@mail.gmail.com>
-Subject: Re: [PATCH v2 14/29] net: simplify eth_platform_get_mac_address()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
-        Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
-        Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed; boundary="6TrnltStXW4iwmi0"
+Content-Disposition: inline
+In-Reply-To: <mj+md-20180810.103017.64385.nikam@ucw.cz>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 10, 2018 at 11:05 AM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->
-> We don't need to use pci_device_to_OF_node() - we can retrieve
-> dev->of_node directly even for pci devices.
->
 
->         struct device_node *dp;
->
-> -       if (dev_is_pci(dev))
-> -               dp = pci_device_to_OF_node(to_pci_dev(dev));
-> -       else
-> -               dp = dev->of_node;
-> -
-> +       dp = dev->of_node;
->         addr = NULL;
->         if (dp)
->                 addr = of_get_mac_address(dp);
+--6TrnltStXW4iwmi0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Looking more at this I could even propose to change all above by
+On Fri, Aug 10, 2018 at 12:30:35PM +0200, Martin Mares wrote:
+> Hello!
+> 
+> > ... the more I think about it, the more I am convinced that we want to
+> > re-use the bus topology builder from ls-tree.c. I will give it a try,
+> > stay tuned.
+> 
+> Please see the "topology" branch in pciutils.git.
 
-addr = device_get_mac_address(dev, mac_addr, ETH_ALEN);
+Thanks.  I found two problems so far.
 
-Thoughts?
+One is that using -P and -s together doesn't work because we haven't
+scanned the entire topology.
 
--- 
-With Best Regards,
-Andy Shevchenko
+$ ./lspci-mw -PF tests/fujitsu-p8010.lspci -s 1d:00.0
+00:1e.0/03.0/00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
+$ ./lspci-mm -PF tests/fujitsu-p8010.lspci -s 1d:00.0
+1d:00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
+
+The other is that even when not using -s, the topology isn't fully represented:
+
+$ ./lspci-mm -PF tests/fujitsu-p8010.lspci |grep 3com
+00:1e.0/00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
+
+I've attached a compressed form of the fujitsu-p8010.lspci dump for your
+testing.
+
+--6TrnltStXW4iwmi0
+Content-Type: application/x-xz
+Content-Disposition: attachment; filename="fujitsu-p8010.lspci.xz"
+Content-Transfer-Encoding: base64
+
+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
+GW0AAbUV1/MFAAX2JFCxxGf7AgAAAAAEWVo=
+
+--6TrnltStXW4iwmi0--
