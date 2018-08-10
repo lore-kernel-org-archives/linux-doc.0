@@ -3,51 +3,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4EBE77DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:10:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2396F7DE6E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 Aug 2018 08:17:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728178AbeHJKjQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 Aug 2018 06:39:16 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:53899 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728004AbeHJKjQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:39:16 -0400
-Received: by mail-wm0-f68.google.com with SMTP id s9-v6so941649wmh.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Aug 2018 01:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZtOSkkpLyY5oymSlHooxe8Vnv7GsO+riwpQ/wHD/2F8=;
-        b=LUDf24knO+1vWyA2ur2S5lYNdL9KlsK7wn4v3RDHEbBps4SCcAk+A0mnrux5pobdIV
-         p6vcyNS8de125CmAX3sCJ5JGymjEpmpja6DonFIAUVUikHc/7dsn6JDcg3L7hF6abcbU
-         I0QxegJJENMeBAb/xyDxuvK7icoLZz7b14qw0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZtOSkkpLyY5oymSlHooxe8Vnv7GsO+riwpQ/wHD/2F8=;
-        b=mrWW5tmSoDjG2vJL3+uRIfW566WZKSYaXYsPHlV3UwCEkCXvqzAIITKsk2VU9rzPgE
-         fKNSpnFku5KCGC+x6gsDCC9E8Oej9qtuIyWu4FqvfLolkydkPwHgZxuf68shO2KK7/lV
-         XjWBgh57TOQ85lUWDwITRn6sFRLtxRnP69SVmHB/gwg2QSv7WrcX8j7h8a8K820KQzNK
-         T8ZN2E9Tye3fk5hbEW/2Ia8Z2ytCGWTYUXZ9OFC0WerYBxmTj7wcACKorcuruAZc7zsa
-         tK5s5+e24jLPkxl9KK0zwzRRPg1XWbUV9ktXlzShGZdjlZabTnLVU4dxxIx9HMXRWJVu
-         onuA==
-X-Gm-Message-State: AOUpUlHwSEZ3kpk7/wBGVya579eLyefB20HaJ5091noAnKN/egc9dytS
-        ZKmXUFgAkTzHED3JrA2FemwQBg==
-X-Google-Smtp-Source: AA+uWPxL7VoYF4X68ToGzIJt1yZszvND6TKyIKv8Cp6cUC67Aq7IF5c73OuUzXXFjffjK6/Yr5EDfQ==
-X-Received: by 2002:a1c:8a04:: with SMTP id m4-v6mr765489wmd.137.1533888628593;
-        Fri, 10 Aug 2018 01:10:28 -0700 (PDT)
-Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
-        by smtp.googlemail.com with ESMTPSA id s2-v6sm7940515wrn.83.2018.08.10.01.10.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Aug 2018 01:10:28 -0700 (PDT)
-Subject: Re: [PATCH v2 04/29] nvmem: provide nvmem_dev_name()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        id S1727513AbeHJKou (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 Aug 2018 06:44:50 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:58768 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726610AbeHJKou (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Aug 2018 06:44:50 -0400
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id w7A8CcV0053278;
+        Fri, 10 Aug 2018 03:12:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1533888758;
+        bh=/VBXEJ7Bd+LqYj6f6c/SJkqqcpYT+glZgN7Apv9qC98=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=BV3h+zr9F3SXY+dHvLvwg6dAPDDAS1bypstMiRgm+BUkcngVAPnVRHvPkfvvAhwor
+         W5kSSjKMc8rlF7zIS7CsMwQHhgc05FdBRFFd6kG6hu8Rs9EedHc7xMPgM4ogAZ3x4T
+         +jPzx2WTJnIpWwRnJqeJtKhAXMsXlM2Po63Z5Tf4=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w7A8Ccdb006979;
+        Fri, 10 Aug 2018 03:12:38 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Fri, 10
+ Aug 2018 03:12:37 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Fri, 10 Aug 2018 03:12:37 -0500
+Received: from [172.24.190.172] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w7A8CRPN001830;
+        Fri, 10 Aug 2018 03:12:28 -0500
+Subject: Re: [PATCH 00/28] at24: remove at24_platform_data
+To:     Bartosz Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>
+CC:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kevin Hilman <khilman@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -59,6 +55,7 @@ To:     Bartosz Golaszewski <brgl@bgdev.pl>,
         Richard Weinberger <richard@nod.at>,
         Grygorii Strashko <grygorii.strashko@ti.com>,
         "David S . Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Naren <naren.kernel@gmail.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -70,40 +67,86 @@ To:     Bartosz Golaszewski <brgl@bgdev.pl>,
         Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
         Rob Herring <robh@kernel.org>,
         David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
-        netdev@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
- <20180810080526.27207-5-brgl@bgdev.pl>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <45fda8c0-aa09-3c4b-69ee-9a61265f1120@linaro.org>
-Date:   Fri, 10 Aug 2018 09:10:26 +0100
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        <linux-mtd@lists.infradead.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>, <netdev@vger.kernel.org>
+References: <20180808153150.23444-1-brgl@bgdev.pl>
+ <20180808155548.s7p4xqsjywz3psrj@ninjato>
+ <CAMpxmJXVNiyqF4qaYtNhPUG3mSZVdvBSGUqDYK-nh59BKeh=Gw@mail.gmail.com>
+ <20180808164402.GH7275@lunn.ch>
+ <CAMRc=McfSZQvdXgrKDagb_TE1g-WzEhSpst1z_o5Z994cv3MjA@mail.gmail.com>
+From:   Sekhar Nori <nsekhar@ti.com>
+Message-ID: <78917b7c-fb9b-2f88-1813-8cf951e60677@ti.com>
+Date:   Fri, 10 Aug 2018 13:42:26 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180810080526.27207-5-brgl@bgdev.pl>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAMRc=McfSZQvdXgrKDagb_TE1g-WzEhSpst1z_o5Z994cv3MjA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Bart,
 
+On Wednesday 08 August 2018 10:22 PM, Bartosz Golaszewski wrote:
+> 2018-08-08 18:44 GMT+02:00 Andrew Lunn <andrew@lunn.ch>:
+>> On Wed, Aug 08, 2018 at 06:27:25PM +0200, Bartosz Golaszewski wrote:
+>>> 2018-08-08 17:55 GMT+02:00 Wolfram Sang <wsa@the-dreams.de>:
+>>>> On Wed, Aug 08, 2018 at 05:31:22PM +0200, Bartosz Golaszewski wrote:
+>>>>> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>>>>>
+>>>>> This is a follow-up to the previously rejected series[1] which partially
+>>>>> removed the at24_platform_data structure. After further development and
+>>>>> taking reviews into account, this series finally removes that struct
+>>>>> completely but not without touching many different parts of the code
+>>>>> base.
+>>>>>
+>>>>> Since I took over maintainership of the at24 driver I've been working
+>>>>> towards removing at24_platform_data in favor for device properties.
+>>>>
+>>>> Wooha, nice work. I can't really comment on it but wondered how you want
+>>>> to upstream it (after reviews)? Pull request of an immutable branch for
+>>>> nvmem-tree sounds best to me. Then I could also pull it in if i2c needs
+>>>> it. Probably same situation for arm-soc...
+>>>>
+>>>
+>>> I initially wanted to merge small parts of it starting with v4.18, but
+>>> there were some voices against merging APIs without users. I'm not
+>>> sure how it should go in. There'll be a need for multiple immutable
+>>> branches most probably...
+>>
+>> Hi Bartosz
+>>
+>> What this series does is show all the different parts are now
+>> available, and can be reviewed as a whole. Once that review is
+>> completed, merging in parts then becomes possible.
+>>
+>> It looks like you could probably merge the nvmem, mtd and net parts
+>> independently via there maintainers for 4.20, since i don't think
+>> there are any dependencies. The arm-soc changes in 4.21, and the
+>> removal of the platform data in 4.22?
+>>
+>>      Andrew
+> 
+> We need the first batch of SoC changes for the net part and then the
+> second batch depends on those net changes. Also: dragging the merge
+> for this over a year is a bit overkill.
+> 
+> Sekhar: I know you're usually provided with immutable branches from
+> framework maintainers for the SoC changes - is it ok for you to
+> provide the net maintainers with an immutable branch after applying
+> the first part of davinci board file changes?
 
-On 10/08/18 09:05, Bartosz Golaszewski wrote:
->   
-> +const char *nvmem_dev_name(struct nvmem_device *nvmem)
-> +{
-> +	return dev_name(&nvmem->dev);
-> +}
-> +EXPORT_SYMBOL_GPL(nvmem_dev_name);
-> +
-Kernel doc for this is missing!
-Other than that it looks good to me!
+Yeah, sure. I will be happy to do that to speed merging. Will take a
+look at v2 you posted.
 
---srini
+Thanks,
+Sekhar
