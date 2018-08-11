@@ -1,81 +1,54 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-0.5 required=5.0 tests=ADVANCE_FEE_4_NEW,
+	DKIM_ADSP_CUSTOM_MED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_SCAM_N2,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SBL,SUBJ_ALL_CAPS,T_HK_NAME_FM_DR autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BAAE47D581
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 Aug 2018 09:28:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7D697D099
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 Aug 2018 09:39:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727801AbeHLMGD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 12 Aug 2018 08:06:03 -0400
-Received: from nikam.ms.mff.cuni.cz ([195.113.20.16]:44434 "EHLO
-        nikam.ms.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727707AbeHLMGC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Aug 2018 08:06:02 -0400
-Received: by nikam.ms.mff.cuni.cz (Postfix, from userid 2587)
-        id 5BCCD540945; Sun, 12 Aug 2018 11:28:37 +0200 (CEST)
-Date:   Sun, 12 Aug 2018 11:28:37 +0200
-From:   Martin Mares <mj@ucw.cz>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Logan Gunthorpe <logang@deltatee.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: lspci: Display path to device
-Message-ID: <mj+md-20180812.092635.39872.nikam@ucw.cz>
-References: <20180717170204.30470-1-logang@deltatee.com>
- <20180717203900.GA1771@bombadil.infradead.org>
- <mj+md-20180810.091549.51451.nikam@ucw.cz>
- <mj+md-20180810.103017.64385.nikam@ucw.cz>
- <20180810145655.GA16533@bombadil.infradead.org>
+        id S1727815AbeHLMQ4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 12 Aug 2018 08:16:56 -0400
+Received: from mail.inea.gob.ve ([201.248.92.145]:46590 "EHLO mail.inea.gob.ve"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727275AbeHLMQ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 12 Aug 2018 08:16:56 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.inea.gob.ve (Postfix) with ESMTP id 3EDA217E4F75;
+        Sun, 12 Aug 2018 03:22:16 -0400 (-04)
+Received: from mail.inea.gob.ve ([127.0.0.1])
+        by localhost (mail.inea.gob.ve [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id c9R80AidP0A7; Sun, 12 Aug 2018 03:22:16 -0400 (-04)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.inea.gob.ve (Postfix) with ESMTP id 312EF1C06A03;
+        Sat, 11 Aug 2018 22:50:15 -0400 (-04)
+X-Virus-Scanned: amavisd-new at inea.gob.ve
+Received: from mail.inea.gob.ve ([127.0.0.1])
+        by localhost (mail.inea.gob.ve [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id E0trIhSd-2Pc; Sat, 11 Aug 2018 22:50:15 -0400 (-04)
+Received: from DESKTOP-OMGO89G.default (unknown [2.29.143.57])
+        by mail.inea.gob.ve (Postfix) with ESMTPSA id 9938A1BB3AB2;
+        Sat, 11 Aug 2018 18:49:42 -0400 (-04)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180810145655.GA16533@bombadil.infradead.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: REPLY AS SOON AS POSSIBLE
+To:     Recipients <mariadanieltg@gmail.com>
+From:   "Dr Chien Direktor von Hang Seng" <mariadanieltg@gmail.com>
+Date:   Sat, 11 Aug 2018 23:49:30 +0100
+Reply-To: draymndch@yahoo.co.jp
+Message-Id: <20180811224943.9938A1BB3AB2@mail.inea.gob.ve>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello!
+I am Vice Chairman of Hang Seng Bank, I have Important Matter to Discuss with you concerning my late client. Died without a NEXT OF KIN. Send me your private email for full details information. email me at E-Mail: draymdm@gmail.com
 
-> One is that using -P and -s together doesn't work because we haven't
-> scanned the entire topology.
-> 
-> $ ./lspci-mw -PF tests/fujitsu-p8010.lspci -s 1d:00.0
-> 00:1e.0/03.0/00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
-> $ ./lspci-mm -PF tests/fujitsu-p8010.lspci -s 1d:00.0
-> 1d:00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
-
-Fixed. When topology is required, we now scan all devices and apply the
-filters later.
-
-> The other is that even when not using -s, the topology isn't fully represented:
-> 
-> $ ./lspci-mm -PF tests/fujitsu-p8010.lspci |grep 3com
-> 00:1e.0/00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
-
-Ah well, it seems that the tree mode never worked with CardBus bridges. Fixed.
-
-After some pondering, I changed the format of the paths to include bus numbers
-in all steps. I think it is more intuitive.
-
-Please give it a try. If it works, I will merge the branch to master.
-
-					Martin
+Regards 
+Mr.Fung
