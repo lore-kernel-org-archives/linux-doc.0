@@ -1,36 +1,24 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 236787D099
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 Aug 2018 10:32:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C5A3D7D099
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 Aug 2018 10:51:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727881AbeHLNJe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 12 Aug 2018 09:09:34 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59698 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727549AbeHLNJe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Aug 2018 09:09:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=guxkt9C5JZnE8ExIp37Ab4vE9GUxxYJQPmkNQfvg21o=; b=Jri0mRsSasUVxrK4cRW5P24hO
-        XM4MHhpaMguPgcavYTVN0yGucGiuc37wN96+KeTaSBut5k4K0Yby45E5s0x0xyfVZJ/2vO83udXkT
-        I/oFqbmCutF+PCT+rYNSFyPoDSqbTBsyc10pr2/6z2ePCE76GFK4DSfnw1PN/mj/BuX/kqf8SQ2AS
-        KevdiixXnBjOxezXdnlVdOoS6FpSfdwvzOWejsxF49DNHUsoJtLYP08D/G89IFhzIyzw7yoCWW8Nv
-        bhipFwWznXLORJ5ziYVdgKvcqRRiurw0BFaNeutHK+iHA1enKpUHkw1i32qQNs2bzVQiGwh2pa8GC
-        TwFhgOSSg==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fonen-0001Sb-Un; Sun, 12 Aug 2018 10:31:33 +0000
-Date:   Sun, 12 Aug 2018 03:31:33 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Martin Mares <mj@ucw.cz>
+        id S1728072AbeHLN3Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 12 Aug 2018 09:29:25 -0400
+Received: from nikam.ms.mff.cuni.cz ([195.113.20.16]:49722 "EHLO
+        nikam.ms.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728021AbeHLN3Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Aug 2018 09:29:25 -0400
+Received: by nikam.ms.mff.cuni.cz (Postfix, from userid 2587)
+        id 4CF5F540ACF; Sun, 12 Aug 2018 12:51:46 +0200 (CEST)
+Date:   Sun, 12 Aug 2018 12:51:46 +0200
+From:   Martin Mares <mj@ucw.cz>
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     Logan Gunthorpe <logang@deltatee.com>,
         linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
@@ -44,106 +32,42 @@ Cc:     Logan Gunthorpe <logang@deltatee.com>,
         Kai-Heng Feng <kai.heng.feng@canonical.com>,
         Frederic Weisbecker <frederic@kernel.org>,
         Dan Williams <dan.j.williams@intel.com>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Alex Williamson <alex.williamson@redhat.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Subject: Re: lspci: Display path to device
-Message-ID: <20180812103133.GB2984@bombadil.infradead.org>
+Message-ID: <mj+md-20180812.105055.30846.nikam@ucw.cz>
 References: <20180717170204.30470-1-logang@deltatee.com>
  <20180717203900.GA1771@bombadil.infradead.org>
  <mj+md-20180810.091549.51451.nikam@ucw.cz>
  <mj+md-20180810.103017.64385.nikam@ucw.cz>
  <20180810145655.GA16533@bombadil.infradead.org>
  <mj+md-20180812.092635.39872.nikam@ucw.cz>
+ <20180812103133.GB2984@bombadil.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <mj+md-20180812.092635.39872.nikam@ucw.cz>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <20180812103133.GB2984@bombadil.infradead.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 12, 2018 at 11:28:37AM +0200, Martin Mares wrote:
-> Hello!
+Hello!
+
+> I agree it's more intuitive, but it's not the format that Logan's code
+> is expecting, so it's not as useful for my purposes.  How about this?
 > 
-> > One is that using -P and -s together doesn't work because we haven't
-> > scanned the entire topology.
-> 
-> Fixed. When topology is required, we now scan all devices and apply the
-> filters later.
+> $ ./lspci -PF tests/fujitsu-p8010.lspci -s 1d:00.0
+> 00:1e.0/03.0/00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
+> $ ./lspci -PPF tests/fujitsu-p8010.lspci -s 1d:00.0
+> 00:1e.0/1c:03.0/1d:00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
 
-Thanks!
+Yes, this looks fine.
 
-> > The other is that even when not using -s, the topology isn't fully represented:
-> > 
-> > $ ./lspci-mm -PF tests/fujitsu-p8010.lspci |grep 3com
-> > 00:1e.0/00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
-> 
-> Ah well, it seems that the tree mode never worked with CardBus bridges. Fixed.
+It is merged to master now and I will push a new release out of the door soon.
 
-Haha!  I can't believe we never noticed that in the last twenty years!
-And we're fixing it even though PCI CardBus bridges are now completely
-obsolete (my current laptop has no slots of that form factor; my previous
-laptop has an ExpressCard slot; I had to go back to my previous-previous
-laptop from 2008 to find sample hardware to test CardBus).
-
-> After some pondering, I changed the format of the paths to include bus numbers
-> in all steps. I think it is more intuitive.
-
-I agree it's more intuitive, but it's not the format that Logan's code
-is expecting, so it's not as useful for my purposes.  How about this?
-
-$ ./lspci -PF tests/fujitsu-p8010.lspci -s 1d:00.0
-00:1e.0/03.0/00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
-$ ./lspci -PPF tests/fujitsu-p8010.lspci -s 1d:00.0
-00:1e.0/1c:03.0/1d:00.0 Network controller: 3Com Corporation 3com 3CRWE154G72 [Office Connect Wireless LAN Adapter] (rev 01)
-
-I pondered asking Logan to change his parser to include the bus number
-as a solution, but then I remembered the entire point of this is to make
-specifying a device robust against bus number assignmnet changes.  I suppose
-we could have the parser accept and ignore the bus number ...
-
-diff --git a/lspci.c b/lspci.c
-index 75cb5b9..3dabbde 100644
---- a/lspci.c
-+++ b/lspci.c
-@@ -50,7 +50,8 @@ static char help_msg[] =
- "-xxxx\t\tShow hex-dump of the 4096-byte extended config space (root only)\n"
- "-b\t\tBus-centric view (addresses and IRQ's as seen by the bus)\n"
- "-D\t\tAlways show domain numbers\n"
--"-P\t\tDisplay bus path in addition to bus and device number\n"
-+"-P\t\tDisplay bridge path in addition to bus and device number\n"
-+"-PP\t\tDisplay bus path in addition to bus and device number\n"
- "\n"
- "Resolving of device ID's to names:\n"
- "-n\t\tShow numeric ID's\n"
-@@ -264,7 +265,10 @@ show_slot_path(struct device *d)
-       if (br && br->br_dev)
- 	{
- 	  show_slot_path(br->br_dev);
--	  printf("/%02x:%02x.%d", p->bus, p->dev, p->func);
-+	  if (opt_path > 1)
-+	    printf("/%02x:%02x.%d", p->bus, p->dev, p->func);
-+	  else
-+	    printf("/%02x.%d", p->dev, p->func);
- 	  return;
- 	}
-     }
-diff --git a/lspci.man b/lspci.man
-index 78b5c96..55fadb1 100644
---- a/lspci.man
-+++ b/lspci.man
-@@ -98,6 +98,10 @@ have only domain 0.
- .TP
- .B -P
- Identify PCI devices by path through each bridge, instead of by bus number.
-+.TP
-+.B -PP
-+Identify PCI devices by path through each bridge, showing the bus number as
-+well as the device number.
- 
- .SS Options to control resolving ID's to names
- .TP
+			Thanks!
+					Martin
