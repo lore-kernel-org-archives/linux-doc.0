@@ -1,58 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5034E7D00B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 15:06:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 226137D00B
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 15:24:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729070AbeHMRsr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 13 Aug 2018 13:48:47 -0400
-Received: from ms.lwn.net ([45.79.88.28]:47150 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729025AbeHMRsr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Aug 2018 13:48:47 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 08A447DC;
-        Mon, 13 Aug 2018 15:06:08 +0000 (UTC)
-Date:   Mon, 13 Aug 2018 09:06:07 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [GIT PULL] docs for 4.19
-Message-ID: <20180813090607.1f1bb27a@lwn.net>
-In-Reply-To: <20180813083309.69575f4c@lwn.net>
-References: <20180813083309.69575f4c@lwn.net>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730093AbeHMSHH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 13 Aug 2018 14:07:07 -0400
+Received: from mail-it0-f66.google.com ([209.85.214.66]:52207 "EHLO
+        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728293AbeHMSHG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Aug 2018 14:07:06 -0400
+Received: by mail-it0-f66.google.com with SMTP id e14-v6so13627897itf.1;
+        Mon, 13 Aug 2018 08:24:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ocbgtEahqKRjgPeqHg39tIUlKOf/rjKNIllWuWkaAmY=;
+        b=FpaP8Ib1FE79/MFsLI6Y3WbhcObxt7aq7Fje2V4KKTGJmTzjxMW18dN4kG1gt68mM+
+         JpWDeGVZDImhRhxq4ed3JktAHMQ1NMaSkrT9nOlHS86JsO+CmrJ9WeLsIgQMlNe0mfus
+         HM/G2wv/kZeDk63NzPeJooiTiqBGqVXok7y6o8FoqOUJ+45xjgFf2oYVhCHvW8r77aFe
+         XSuQRrNbyP6YDzyeAx+bWukhEOYsWAiAZyeO93wQlChwUZmolN1AU+DBkysG0LfV/b74
+         PKVNPg53pus6Sw3MTDozDCJCPUptmR3u5ndmS9hgVoBlO+mxwQ6qnkmvhW1miMB5fX6T
+         hUhA==
+X-Gm-Message-State: AOUpUlFUQdmBohsZspsDrn95z+mrEFMV5gRvVBCpq7AwXIGBHM+h+AOh
+        2ITkDLxuvFxHkpuVg7p5K9ZRBMY=
+X-Google-Smtp-Source: AA+uWPxlHcQyHznD8zmn8GUxPhyBYhVH9xhP3V9ni/lNHx4qJsgcE1xoMZ39djlSqaEeC6Qejlx7pQ==
+X-Received: by 2002:a24:3c53:: with SMTP id m80-v6mr11034591ita.86.1534173864245;
+        Mon, 13 Aug 2018 08:24:24 -0700 (PDT)
+Received: from localhost ([24.51.61.72])
+        by smtp.gmail.com with ESMTPSA id 14-v6sm5839462itu.20.2018.08.13.08.24.23
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 13 Aug 2018 08:24:23 -0700 (PDT)
+Date:   Mon, 13 Aug 2018 09:24:22 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mathieu Malaterre <malat@debian.org>,
+        Ezequiel Garcia <ezequiel@collabora.co.uk>,
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v6 04/24] dt-bindings: Add doc for the Ingenic TCU drivers
+Message-ID: <20180813152422.GA18650@rob-hp-laptop>
+References: <20180809214414.20905-1-paul@crapouillou.net>
+ <20180809214414.20905-5-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180809214414.20905-5-paul@crapouillou.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 13 Aug 2018 08:33:09 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
-
-> This was a moderately busy cycle for docs, with the usual collection of
-> small fixes and updates.  We also have new ktime_get_*() docs from Arnd,
-> some kernel-doc fixes, a new set of Italian translations (non so se vale la
-> pena, ma non fa male - speriamo bene), and some extensive early
-> memory-management documentation improvements from Mike Rapoport.
+On Thu, Aug 09, 2018 at 11:43:54PM +0200, Paul Cercueil wrote:
+> Add documentation about how to properly use the Ingenic TCU
+> (Timer/Counter Unit) drivers from devicetree.
 > 
-> There's a certain amount of reaching outside of Documentation/, all fixing
-> kerneldoc comments elsewhere.  I tried a few times to get acks for the 
-> mm/ ones in particular (from Mike's work) but no such luck; nobody could
-> be bothered to complain either so that was good enough for me.
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  .../devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt |  25 ----
+>  .../devicetree/bindings/timer/ingenic,tcu.txt      | 134 +++++++++++++++++++++
+>  .../bindings/watchdog/ingenic,jz4740-wdt.txt       |  17 ---
+>  3 files changed, 134 insertions(+), 42 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/ingenic,tcu.txt
+>  delete mode 100644 Documentation/devicetree/bindings/watchdog/ingenic,jz4740-wdt.txt
 
-I forgot to add that you'll see a small conflict with the ext4 tree on
-Documentation/index.rst.  The linux-next resolution (just poke in the new
-section that ext4 wants to add) is good.
-
-jon
+Reviewed-by: Rob Herring <robh@kernel.org>
