@@ -2,112 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35BB07D00B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 16:43:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F2077D00B
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 16:53:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729928AbeHMT0T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 13 Aug 2018 15:26:19 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:45864 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728540AbeHMT0T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Aug 2018 15:26:19 -0400
-Received: by mail-lf1-f68.google.com with SMTP id j143-v6so11698743lfj.12;
-        Mon, 13 Aug 2018 09:43:18 -0700 (PDT)
+        id S1730078AbeHMTgg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 13 Aug 2018 15:36:36 -0400
+Received: from mail-it0-f65.google.com ([209.85.214.65]:40739 "EHLO
+        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729335AbeHMTgg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Aug 2018 15:36:36 -0400
+Received: by mail-it0-f65.google.com with SMTP id h23-v6so15037187ita.5
+        for <linux-doc@vger.kernel.org>; Mon, 13 Aug 2018 09:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6saDLgMA0drvxYeBdxL3b9/qzhMZg6AozgQqYEsVFrg=;
-        b=cAvhOMvtA5Yhlrc2Y0f6BNeDeA1W9QHb+0XVfCC4MEx8u3VtjWP6+lFheJ1sLcWD4/
-         xPtWNYr324sFo0NhLwvAQ5WIlf/8KpAiXTtmUW5NXb9i+qqFYc8/430C0MD/qsb39r9X
-         OkLYDwNGEQOZTNWxETk2ElahbZZQ/WGgrDxtzL0MA4k514rl/xjg8ryS+2k6J80t5P2l
-         019QPqLk2r6jtyeS96bDXg3zO7aTHeuDdaNDX0CdjlTH0xT3bQA3r7cp+NtOWgBpXcFv
-         rZykpL+hOAf2ObBeEeGYEIq7iLWvS/cKN2156UNnD+9aeXRC9chij7vM1a7H/unrkjzC
-         ochA==
+        d=linaro.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=866J3lLfoola58rTZKvXrT+ZuJoNtsFOlVCq0Eq9G6I=;
+        b=DWHyVKtQIJYtnWeYD5fcYWMOJstCP0EJE1FIXVmr8Pi8BiR8NDi7y9wMZWIWT3V6Az
+         8n1yZW8W3hNjoiRcSmuFVyOlrr6dl9OKRoCZ9p4YNaI1AWzQW4aFiF8jClwHDRlKrHqj
+         a7RbiKQu0MT8txvv0fIPD4M6XzldPDMx6nbbc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6saDLgMA0drvxYeBdxL3b9/qzhMZg6AozgQqYEsVFrg=;
-        b=ACCqA/BICbDuYeof/mq+EjUp9rvjLFhGglOluchpf1OkppMDqruSLvOfL2lkTaTYGX
-         5LyxMWlItUX04WOcvYniMaI44KAhEMG7LE1gT9OAWIqIYdMd7EIBtAZchxRUhc/e2K4M
-         t3ohXYtHtYWVH+V7J84gGy3Zg5mvvutcGzgiP1fRq30PqYhf0DMIir0O1OQeOViwn9AR
-         yf5i6pP1pQbZte/OKWATy6yTmQbBn5CxxLMOOnaPC6NZHM9gydF96belIFq/QzBKtkYQ
-         dGn4qYWnU+Hhvj5HDZ4qma3MKHZjFVMcs3VuLb/pe+Mext2uDVaaDwUJIToVa9uWRGtf
-         SBbg==
-X-Gm-Message-State: AOUpUlEdsJtmGj0jdjH1ST5ktcxTqk2g6sGGIPlohaygnMUd3OpwYTj8
-        UIvt/oohsd13nvR+QfpGyKA=
-X-Google-Smtp-Source: AA+uWPxIWJjcBUtxod1PW+/byuN2AZQO7NPSvx3v1Lqode8gBcy2avIC4MjbdxdEuawTghpijUK54g==
-X-Received: by 2002:a19:7403:: with SMTP id v3-v6mr11533919lfe.97.1534178598294;
-        Mon, 13 Aug 2018 09:43:18 -0700 (PDT)
-Received: from dimapc.localnet (109-252-90-13.nat.spd-mgts.ru. [109.252.90.13])
-        by smtp.gmail.com with ESMTPSA id f129-v6sm3418407lff.37.2018.08.13.09.43.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Aug 2018 09:43:17 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=866J3lLfoola58rTZKvXrT+ZuJoNtsFOlVCq0Eq9G6I=;
+        b=msXv6E2RZWhMr3rdhjDZUdvOAFxwap3SGEHHQVJmwCOuNOm+JJ1PLjVoYDV1HW6VMl
+         nmeBBj3Ktlba7/TUvkC+Tk1m6ApxUBshwZhkHXVmIemD0hvze4XT3ghRJ//0LiqayWsQ
+         9jEYtKD2BfzrnLN3tsqRNhj3nNkQn6gRxwMPG1dJv43oWq4JtIwpWBFBYL30ycSfi0bu
+         Xlrfz+3fCFaeBTUJKh3SmOc5HhQehp/OvWYYzbCB/m37/XbjDyBjnmUo+kzbM6AgiRZC
+         CFlE0wz2c346xae3Mdg92i13FvAWH309G16hmDTo/K9sGFKfPcSKqje/wVaKWK5COBpc
+         +UYw==
+X-Gm-Message-State: AOUpUlHgUXFryqUhqeKrxFAjrnonKySLDX/G+RYtVRQW/87NS4upMSbI
+        652WGtN1WI8kQ5ala8ng2OEXsKnacZ8fMOfmcuFYcQ==
+X-Google-Smtp-Source: AA+uWPySqsGowbbDab3PBn89k5vtdyYA6jd5RZCa/OAs+GGbaWiWMWXWn0LoMYIKUiFr67phpGtZh4XGHf93TikbezU=
+X-Received: by 2002:a24:4cd1:: with SMTP id a200-v6mr12369861itb.36.1534179213637;
+ Mon, 13 Aug 2018 09:53:33 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a02:4441:0:0:0:0:0 with HTTP; Mon, 13 Aug 2018 09:53:33
+ -0700 (PDT)
+In-Reply-To: <3394204.qE6hlQGZ2Z@dimapc>
+References: <bab196f91cbddca175c725ae6159c0af639bfe07.1522666398.git.viresh.kumar@linaro.org>
+ <d78a41e0-6602-e0f2-c00c-30b4766bb82c@gmail.com> <CAKohpomCns5EepTGdqbpxcpE3sSj=TqZHy0Hf29nP7vWk0tfYg@mail.gmail.com>
+ <3394204.qE6hlQGZ2Z@dimapc>
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+Date:   Mon, 13 Aug 2018 22:23:33 +0530
+Message-ID: <CAKohpo=BnVJ5uO5+6p6ONhucHkxS893t6d1gtHJZW1kKB0EXOw@mail.gmail.com>
+Subject: Re: [PATCH V5] thermal: Add cooling device's statistics in sysfs
+To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Zhang Rui <rui.zhang@intel.com>,
         Eduardo Valentin <edubezval@gmail.com>,
         Vincent Guittot <vincent.guittot@linaro.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH V5] thermal: Add cooling device's statistics in sysfs
-Date:   Mon, 13 Aug 2018 19:43:15 +0300
-Message-ID: <3394204.qE6hlQGZ2Z@dimapc>
-In-Reply-To: <CAKohpomCns5EepTGdqbpxcpE3sSj=TqZHy0Hf29nP7vWk0tfYg@mail.gmail.com>
-References: <bab196f91cbddca175c725ae6159c0af639bfe07.1522666398.git.viresh.kumar@linaro.org> <d78a41e0-6602-e0f2-c00c-30b4766bb82c@gmail.com> <CAKohpomCns5EepTGdqbpxcpE3sSj=TqZHy0Hf29nP7vWk0tfYg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, 13 August 2018 19:21:43 MSK Viresh Kumar wrote:
-> On 13 August 2018 at 21:36, Dmitry Osipenko <digetx@gmail.com> wrote:
-> > I'm working on adding support of OPP and cooling for NVIDIA Tegra20/30
-> > CPUFreq driver and stumbled upon a bug that is introduced by this patch.
-> > It is triggered on the driver module unload.
-> The problem is that device_unregister() will end up freeing the cdev as
-> well, so the current sequence is surely wrong.
-> 
-> > diff --git a/drivers/thermal/thermal_core.c
-> > b/drivers/thermal/thermal_core.c index 6ab982309e6a..de53c821a282 100644
-> > --- a/drivers/thermal/thermal_core.c
-> > +++ b/drivers/thermal/thermal_core.c
-> > @@ -1102,8 +1102,8 @@ void thermal_cooling_device_unregister(struct
-> > thermal_cooling_device *cdev)> 
-> >         mutex_unlock(&thermal_list_lock);
-> >         
-> >         ida_simple_remove(&thermal_cdev_ida, cdev->id);
-> > 
-> > -       device_unregister(&cdev->device);
-> > 
-> >         thermal_cooling_device_destroy_sysfs(cdev);
-> > 
-> > +       device_unregister(&cdev->device);
-> 
-> But this looks wrong as well, as the device is still around while
-> memory of its sysfs data is gone.
+On 13 August 2018 at 22:13, Dmitry Osipenko <digetx@gmail.com> wrote:
+> On Monday, 13 August 2018 19:21:43 MSK Viresh Kumar wrote:
+>> On 13 August 2018 at 21:36, Dmitry Osipenko <digetx@gmail.com> wrote:
+>> > I'm working on adding support of OPP and cooling for NVIDIA Tegra20/30
+>> > CPUFreq driver and stumbled upon a bug that is introduced by this patch.
+>> > It is triggered on the driver module unload.
+>> The problem is that device_unregister() will end up freeing the cdev as
+>> well, so the current sequence is surely wrong.
+>>
+>> > diff --git a/drivers/thermal/thermal_core.c
+>> > b/drivers/thermal/thermal_core.c index 6ab982309e6a..de53c821a282 100644
+>> > --- a/drivers/thermal/thermal_core.c
+>> > +++ b/drivers/thermal/thermal_core.c
+>> > @@ -1102,8 +1102,8 @@ void thermal_cooling_device_unregister(struct
+>> > thermal_cooling_device *cdev)>
+>> >         mutex_unlock(&thermal_list_lock);
+>> >
+>> >         ida_simple_remove(&thermal_cdev_ida, cdev->id);
+>> >
+>> > -       device_unregister(&cdev->device);
+>> >
+>> >         thermal_cooling_device_destroy_sysfs(cdev);
+>> >
+>> > +       device_unregister(&cdev->device);
+>>
+>> But this looks wrong as well, as the device is still around while
+>> memory of its sysfs data is gone.
+>
+> Indeed.
+>
+>> Maybe something like this is what we need:
+>>
+>> device_del();
+>> thermal_cooling_device_destroy_sysfs();
+>> device_put();
+>
+> [I just realized that thermal_zone and cooling_device are not interrelated.
+> I'm not familiar with the thermal/ code]
+>
+> Thank you Viresh, your proposal looks good to me and works fine. Will you make
+> a proper patch?
 
-Indeed.
-
-> Maybe something like this is what we need:
-> 
-> device_del();
-> thermal_cooling_device_destroy_sysfs();
-> device_put();
-
-[I just realized that thermal_zone and cooling_device are not interrelated. 
-I'm not familiar with the thermal/ code]
-
-Thank you Viresh, your proposal looks good to me and works fine. Will you make 
-a proper patch?
-
-
+Maybe you send a patch for this and take the credit as well :)
