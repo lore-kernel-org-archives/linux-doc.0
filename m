@@ -1,86 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 226137D00B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 15:24:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D4F67D00B
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 15:55:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730093AbeHMSHH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 13 Aug 2018 14:07:07 -0400
-Received: from mail-it0-f66.google.com ([209.85.214.66]:52207 "EHLO
-        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728293AbeHMSHG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Aug 2018 14:07:06 -0400
-Received: by mail-it0-f66.google.com with SMTP id e14-v6so13627897itf.1;
-        Mon, 13 Aug 2018 08:24:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ocbgtEahqKRjgPeqHg39tIUlKOf/rjKNIllWuWkaAmY=;
-        b=FpaP8Ib1FE79/MFsLI6Y3WbhcObxt7aq7Fje2V4KKTGJmTzjxMW18dN4kG1gt68mM+
-         JpWDeGVZDImhRhxq4ed3JktAHMQ1NMaSkrT9nOlHS86JsO+CmrJ9WeLsIgQMlNe0mfus
-         HM/G2wv/kZeDk63NzPeJooiTiqBGqVXok7y6o8FoqOUJ+45xjgFf2oYVhCHvW8r77aFe
-         XSuQRrNbyP6YDzyeAx+bWukhEOYsWAiAZyeO93wQlChwUZmolN1AU+DBkysG0LfV/b74
-         PKVNPg53pus6Sw3MTDozDCJCPUptmR3u5ndmS9hgVoBlO+mxwQ6qnkmvhW1miMB5fX6T
-         hUhA==
-X-Gm-Message-State: AOUpUlFUQdmBohsZspsDrn95z+mrEFMV5gRvVBCpq7AwXIGBHM+h+AOh
-        2ITkDLxuvFxHkpuVg7p5K9ZRBMY=
-X-Google-Smtp-Source: AA+uWPxlHcQyHznD8zmn8GUxPhyBYhVH9xhP3V9ni/lNHx4qJsgcE1xoMZ39djlSqaEeC6Qejlx7pQ==
-X-Received: by 2002:a24:3c53:: with SMTP id m80-v6mr11034591ita.86.1534173864245;
-        Mon, 13 Aug 2018 08:24:24 -0700 (PDT)
-Received: from localhost ([24.51.61.72])
-        by smtp.gmail.com with ESMTPSA id 14-v6sm5839462itu.20.2018.08.13.08.24.23
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 13 Aug 2018 08:24:23 -0700 (PDT)
-Date:   Mon, 13 Aug 2018 09:24:22 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
+        id S1729835AbeHMSiq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 13 Aug 2018 14:38:46 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:35126 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728509AbeHMSiq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Aug 2018 14:38:46 -0400
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+        by ale.deltatee.com with esmtp (Exim 4.89)
+        (envelope-from <logang@deltatee.com>)
+        id 1fpFBj-00016x-O5; Mon, 13 Aug 2018 09:55:24 -0600
+To:     Matthew Wilcox <willy@infradead.org>, Martin Mares <mj@ucw.cz>
+Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mathieu Malaterre <malat@debian.org>,
-        Ezequiel Garcia <ezequiel@collabora.co.uk>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v6 04/24] dt-bindings: Add doc for the Ingenic TCU drivers
-Message-ID: <20180813152422.GA18650@rob-hp-laptop>
-References: <20180809214414.20905-1-paul@crapouillou.net>
- <20180809214414.20905-5-paul@crapouillou.net>
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20180717170204.30470-1-logang@deltatee.com>
+ <20180717203900.GA1771@bombadil.infradead.org>
+ <mj+md-20180810.091549.51451.nikam@ucw.cz>
+ <mj+md-20180810.103017.64385.nikam@ucw.cz>
+ <20180810145655.GA16533@bombadil.infradead.org>
+ <mj+md-20180812.092635.39872.nikam@ucw.cz>
+ <20180812103133.GB2984@bombadil.infradead.org>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <98953063-2fa8-fe2b-afc5-801d0a341051@deltatee.com>
+Date:   Mon, 13 Aug 2018 09:55:17 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180809214414.20905-5-paul@crapouillou.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20180812103133.GB2984@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: christian.koenig@amd.com, alex.williamson@redhat.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, mj@ucw.cz, willy@infradead.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: lspci: Display path to device
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 09, 2018 at 11:43:54PM +0200, Paul Cercueil wrote:
-> Add documentation about how to properly use the Ingenic TCU
-> (Timer/Counter Unit) drivers from devicetree.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  .../devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt |  25 ----
->  .../devicetree/bindings/timer/ingenic,tcu.txt      | 134 +++++++++++++++++++++
->  .../bindings/watchdog/ingenic,jz4740-wdt.txt       |  17 ---
->  3 files changed, 134 insertions(+), 42 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt
->  create mode 100644 Documentation/devicetree/bindings/timer/ingenic,tcu.txt
->  delete mode 100644 Documentation/devicetree/bindings/watchdog/ingenic,jz4740-wdt.txt
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+
+On 12/08/18 04:31 AM, Matthew Wilcox wrote:
+> I pondered asking Logan to change his parser to include the bus number
+> as a solution, but then I remembered the entire point of this is to make
+> specifying a device robust against bus number assignmnet changes.  I suppose
+> we could have the parser accept and ignore the bus number ...
+
+Yes, exactly. Bjorn's already accepted the series but we could add
+support for ignored bus letters in another patch if we want. I just
+think that might be confusing when you end up in a situation where the
+path includes numbers that no longer actually match the actual addresses
+after the bus numbers change.
+
+Thanks,
+
+Logan
