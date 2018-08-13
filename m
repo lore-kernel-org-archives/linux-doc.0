@@ -1,125 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 00DFE7D00B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 17:03:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BAB4E7D00B
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 17:56:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730319AbeHMTp5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 13 Aug 2018 15:45:57 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45686 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729029AbeHMTp5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Aug 2018 15:45:57 -0400
-Received: by mail-lj1-f196.google.com with SMTP id w16-v6so13123811ljh.12;
-        Mon, 13 Aug 2018 10:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=m1sYTE1JFqOmAsuOarEhHma7dxZeGoetvJlo90mO0pw=;
-        b=I+u2H6J+dL5sKVasWiSQWwUSnIpP4W4HC1J8hj9caIBtH6qTuKZ3HArwaklxdrHLul
-         RLK1ZQT5AjMCoujj0q/rXHyYqthkk77TusZ9W7dMhXmDKOw4Pl15zO4KSW9ApSCAlpsT
-         VGfgRTckAZuYSTJCTq4jwV30I6AEOQX4D6UZIg1gfwwclcIdQYXUBM0U1R5KdwcguZWy
-         IQc21+xMDDkErWDXfERsjQxIHSk+PpqbdT3XLjDr+CAQI4dWL0I8a4ILzWhhK1eqZAQF
-         xQEwB0uJUB7degqOYraYwopl7nXSoBWeBY2fNYeLHnEniBidPjtpbDFXbMrSMxae/0QB
-         /p6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=m1sYTE1JFqOmAsuOarEhHma7dxZeGoetvJlo90mO0pw=;
-        b=hGYBDSKv3RGxUHuNRhpc/5wULJkxRk14BJUSr2ZYpJBu8yhXCNKzY8MEvbAOcSCcZX
-         gt5qX0KfB2VS5P8aOXwJ6HKrjHbcWn7YDb+NJ7BHUXSgindHio78Ygwy/loAeG8aEFWu
-         zAgNBcCzmo0cbSWe9adjV1X6Y5pRYlk+mEqqWFQvsIv/dxbIFORm47oZuZ3xM1rQ2PaC
-         u3VI6WAKiothwUWwq3G3fuWTy4RFtCf0S25j7MQeegC2/LXmnk7Qc1m1vEflAee9cpYF
-         AuyAyh75Knx3Y9a6mGF8pnpa8H/2pHNNnC3Gfm/t2CDJFQXtNBj8xzircNwyo8lLGgVR
-         LvOg==
-X-Gm-Message-State: AOUpUlFH6E44+fpPGu86rWyYqN5O9ZLlx/VyYGklrmYnSkQSxg/ybH2Z
-        JOuYv49uF1lDiOR9APKksDM=
-X-Google-Smtp-Source: AA+uWPzWUX2UF3pUbOwoy5OHnmeHHb5XurWKNqIHyU193DK81PIUcsMgtmBQrMTG8QJ68WHDacF9mw==
-X-Received: by 2002:a2e:9ec9:: with SMTP id h9-v6mr11239465ljk.133.1534179772327;
-        Mon, 13 Aug 2018 10:02:52 -0700 (PDT)
-Received: from dimapc.localnet (109-252-90-13.nat.spd-mgts.ru. [109.252.90.13])
-        by smtp.gmail.com with ESMTPSA id m66-v6sm3438345lfi.17.2018.08.13.10.02.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Aug 2018 10:02:51 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Zhang Rui <rui.zhang@intel.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH V5] thermal: Add cooling device's statistics in sysfs
-Date:   Mon, 13 Aug 2018 20:02:50 +0300
-Message-ID: <18709513.zahsa7p5Fo@dimapc>
-In-Reply-To: <CAKohpo=BnVJ5uO5+6p6ONhucHkxS893t6d1gtHJZW1kKB0EXOw@mail.gmail.com>
-References: <bab196f91cbddca175c725ae6159c0af639bfe07.1522666398.git.viresh.kumar@linaro.org> <3394204.qE6hlQGZ2Z@dimapc> <CAKohpo=BnVJ5uO5+6p6ONhucHkxS893t6d1gtHJZW1kKB0EXOw@mail.gmail.com>
+        id S1728821AbeHMUjc convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 13 Aug 2018 16:39:32 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44564 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728661AbeHMUjc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Aug 2018 16:39:32 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id B9EF04219DC7;
+        Mon, 13 Aug 2018 17:56:16 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-66.bos.redhat.com [10.18.17.66])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 95B572166BA0;
+        Mon, 13 Aug 2018 17:56:15 +0000 (UTC)
+Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
+ on cgroup v2 root
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+References: <20180719153045.GT72677@devbig577.frc2.facebook.com>
+ <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
+ <20180719165201.GU72677@devbig577.frc2.facebook.com>
+ <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
+ <20180720114549.GY72677@devbig577.frc2.facebook.com>
+ <20180720154454.GR2494@hirez.programming.kicks-ass.net>
+ <20180720155613.GB1934745@devbig577.frc2.facebook.com>
+ <4857a9db-ebf5-24f8-c42d-d795f5c75854@redhat.com>
+ <20180720163712.GU2494@hirez.programming.kicks-ass.net>
+ <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
+ <20180720174100.GC1934745@devbig577.frc2.facebook.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <446ab203-85cd-32ff-40a9-0ba22d5a2534@redhat.com>
+Date:   Mon, 13 Aug 2018 13:56:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20180720174100.GC1934745@devbig577.frc2.facebook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 13 Aug 2018 17:56:16 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 13 Aug 2018 17:56:16 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, 13 August 2018 19:53:33 MSK Viresh Kumar wrote:
-> On 13 August 2018 at 22:13, Dmitry Osipenko <digetx@gmail.com> wrote:
-> > On Monday, 13 August 2018 19:21:43 MSK Viresh Kumar wrote:
-> >> On 13 August 2018 at 21:36, Dmitry Osipenko <digetx@gmail.com> wrote:
-> >> > I'm working on adding support of OPP and cooling for NVIDIA Tegra20/30
-> >> > CPUFreq driver and stumbled upon a bug that is introduced by this
-> >> > patch.
-> >> > It is triggered on the driver module unload.
-> >> 
-> >> The problem is that device_unregister() will end up freeing the cdev as
-> >> well, so the current sequence is surely wrong.
-> >> 
-> >> > diff --git a/drivers/thermal/thermal_core.c
-> >> > b/drivers/thermal/thermal_core.c index 6ab982309e6a..de53c821a282
-> >> > 100644
-> >> > --- a/drivers/thermal/thermal_core.c
-> >> > +++ b/drivers/thermal/thermal_core.c
-> >> > @@ -1102,8 +1102,8 @@ void thermal_cooling_device_unregister(struct
-> >> > thermal_cooling_device *cdev)>
-> >> > 
-> >> >         mutex_unlock(&thermal_list_lock);
-> >> >         
-> >> >         ida_simple_remove(&thermal_cdev_ida, cdev->id);
-> >> > 
-> >> > -       device_unregister(&cdev->device);
-> >> > 
-> >> >         thermal_cooling_device_destroy_sysfs(cdev);
-> >> > 
-> >> > +       device_unregister(&cdev->device);
-> >> 
-> >> But this looks wrong as well, as the device is still around while
-> >> memory of its sysfs data is gone.
-> > 
-> > Indeed.
-> > 
-> >> Maybe something like this is what we need:
-> >> 
-> >> device_del();
-> >> thermal_cooling_device_destroy_sysfs();
-> >> device_put();
-> > 
-> > [I just realized that thermal_zone and cooling_device are not
-> > interrelated.
-> > I'm not familiar with the thermal/ code]
-> > 
-> > Thank you Viresh, your proposal looks good to me and works fine. Will you
-> > make a proper patch?
-> 
-> Maybe you send a patch for this and take the credit as well :)
+On 07/20/2018 01:41 PM, Tejun Heo wrote:
+> Hello,
+>
+> On Fri, Jul 20, 2018 at 01:09:23PM -0400, Waiman Long wrote:
+>> On 07/20/2018 12:37 PM, Peter Zijlstra wrote:
+>>> On Fri, Jul 20, 2018 at 12:19:29PM -0400, Waiman Long wrote:
+>>>> I am not against the idea of making it hierarchical eventually. I am
+>>>> just hoping to get thing going by merging the patchset in its current
+>>>> form and then we can make it hierarchical in a followup patch.
+>>> Where's the rush? Why can't we do this right in one go?
+>> For me, the rush comes from RHEL8 as it is a goal to have a fully
+>> functioning cgroup v2 in that release.
+>>
+>> I also believe that most of the use cases of partition can be satisfied
+>> with partitions at the first level children. Getting hierarchical
+>> partition right may drag on for half a year, maybe, giving our history
+>> with cpu v2 controller. No matter what we do to enable hierarchical
+>> partition in the future, the current model of using a partition flag is
+>> intuitive enough that it won't be changed at least for the first level
+>> children.
+> I'm fully with Waiman here.  There are people wanting to use it and
+> the part most people isn't controversial at all.  I don't see what'd
+> be gained by further delaying the whole thing.  If the first level
+> partition thing isn't acceptable to everyone, we can even strip down
+> further.  We can get .cpus and .mems merged first, which is what most
+> people want anyway.
 
-Okay, I'll make the patch. Thank you for the help.
+BTW, I am trying to support hierarchical partition. The first thing that
+I want to support is to allow removing CPUs from partition root freely.
+It turns out that the following existing code in validate_change() will
+prevent the removal from happening when it touches any CPUs that are
+used in child cpusets:
 
+        /* Each of our child cpusets must be a subset of us */
+        ret = -EBUSY;
+        cpuset_for_each_child(c, css, cur)
+                if (!is_cpuset_subset(c, trial))
+                        goto out;
 
+So this is not a new restriction after all.
+
+The following restrictions are still imposed on a partition root wrt
+allowable changes in cpuset.cpus:
+1) cpuset.cpus cannot be set to "". There must be at least 1 cpu there.
+2) Adding cpus that are not in parent's cpuset.cpus (as well as
+cpuset.cpus.effective) or that will take all the parent's effective cpus
+away is not allowed.
+
+So are these limitations acceptable?
+
+The easiest way to remove those restrictions is to forcefully turn off
+the cpuset.sched.partition flag in the cpuset as well as any
+sub-partitions when the user try to do that. With that change, there
+will be no more new restriction on what you can do on cpuset.cpus.
+
+What is your opinion on the best way forward wrt supporting hierarchical
+partitioning?
+
+Thanks,
+Longman
 
