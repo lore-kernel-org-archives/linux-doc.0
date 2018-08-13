@@ -1,215 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SORBS_WEB autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5CC757D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 09:31:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9A3C67D584
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 10:37:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728847AbeHMMMf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 13 Aug 2018 08:12:35 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:59659 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728192AbeHMMMf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Aug 2018 08:12:35 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 360E03E8D4AD6;
-        Mon, 13 Aug 2018 17:31:06 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server (TLS) id 14.3.399.0; Mon, 13 Aug
- 2018 17:30:59 +0800
-Date:   Mon, 13 Aug 2018 17:29:31 +0800
-From:   Kenneth Lee <liguozhu@hisilicon.com>
-To:     Kenneth Lee <nek.in.cn@gmail.com>
-CC:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Hao Fang <fanghao11@huawei.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180813092931.GL91035@Turing-Arch-b>
-References: <20180803143944.GA4079@redhat.com>
- <20180806031252.GG91035@Turing-Arch-b>
- <20180806153257.GB6002@redhat.com>
- <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
- <20180808151835.GA3429@redhat.com>
- <20180809080352.GI91035@Turing-Arch-b>
- <20180809144613.GB3386@redhat.com>
- <20180810033913.GK91035@Turing-Arch-b>
- <0f6bac9b-8381-1874-9367-46b5f4cef56e@arm.com>
- <6ea4dcfd-d539-93e4-acf1-d09ea35f0ddc@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6ea4dcfd-d539-93e4-acf1-d09ea35f0ddc@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
+        id S1728338AbeHMNSP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 13 Aug 2018 09:18:15 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34233 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728356AbeHMNSP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Aug 2018 09:18:15 -0400
+Received: by mail-pf1-f193.google.com with SMTP id k19-v6so7485671pfi.1;
+        Mon, 13 Aug 2018 03:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=X6tnlzWmvmM7bWn29Pd8dVyTWGdFhWAbU1/++8slXrY=;
+        b=Hk6dy53SrP4K8IbSDWB4XkgmnfrEqTqdQ8j1xiJuPt8eqWAGYdyma2c53V82p9CMJf
+         S0zhwkl3JhoIKKJlJrJKm4Qd924dgRGnZMXNBSIcf1ak4W70l7+Ev48PRLBLcC9eB2Hy
+         KwSZd4ZlRYDNmWG9sgeYoab5c9O4f6DY9/8OThGK6cBxRvmEUg7iijN7ny5MOaX1mwI0
+         V76OESvLxTmBB35Wt6NrcHkFAjeHQB3yAKJ3DydPjAe7Sn1O+csSZEziTQ+qsJpQoM7Y
+         AYOfgHfi0SsuI2cCNFofX65xoAsXr9enye8z73JWABzouaUInVdD07xzfJ0Cl3/WOmio
+         iY+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=X6tnlzWmvmM7bWn29Pd8dVyTWGdFhWAbU1/++8slXrY=;
+        b=TLUTbNcjqwaEYA22xfh0rXx4wrzU/qvwIQef/2LxkwiypgcHUXmOx3gVckEs8FHXs4
+         xU5cdLE2qQYoQNennEHcZ6X4Ssuy4J0G6fEJAPyXAlFSRRQvyejzYYG7xwNlLUiMkLeG
+         ycRL+yuAk5BpOBVcNh6u5zp10bIxTE+CH/QVqyLlarPLWInv+A5xQfFI2zWPXxKBCSvp
+         Y0rCvgghg3xMG1MebXVOMRd5hTg03McYEkReZHNQN5YaJnbFJSP1+ZHfFaOlZn8UuVjc
+         oG+2jNVxQiDvhIBSHT5VygtKrSh0CMBmKNeIQa2qn1yv4tQ8dDqGiaPgncbqORvGHBoe
+         G1xg==
+X-Gm-Message-State: AOUpUlG+U9RqPla/uup2cvv3XHSul0WkZgzcjtzyzBl8LJmhT58lyS6M
+        +YwUnUikUF9rFoA2tP7zcQ6Dp1rP
+X-Google-Smtp-Source: AA+uWPz1ecQhCasJFbo1fJoOYDPMlxj7opV8Myj7B+bzzj1S7I8oon3/YJRy4T4yjRck8PH2NL+GhA==
+X-Received: by 2002:a63:ea0c:: with SMTP id c12-v6mr16685334pgi.158.1534156594240;
+        Mon, 13 Aug 2018 03:36:34 -0700 (PDT)
+Received: from localhost.localdomain ([103.233.116.134])
+        by smtp.gmail.com with ESMTPSA id u2-v6sm20933686pfn.59.2018.08.13.03.36.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 13 Aug 2018 03:36:33 -0700 (PDT)
+From:   Himanshu Jha <himanshujha199640@gmail.com>
+To:     corbet@lwn.net
+Cc:     Julia.Lawall@lip6.fr, Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
+        cocci@systeme.lip6.fr, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Himanshu Jha <himanshujha199640@gmail.com>
+Subject: [PATCH] docs: dev-tools: coccinelle: Update documentation
+Date:   Mon, 13 Aug 2018 16:06:14 +0530
+Message-Id: <20180813103614.7495-1-himanshujha199640@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 11, 2018 at 11:26:48PM +0800, Kenneth Lee wrote:
-> Date: Sat, 11 Aug 2018 23:26:48 +0800
-> From: Kenneth Lee <nek.in.cn@gmail.com>
-> To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, Kenneth Lee
->  <liguozhu@hisilicon.com>, Jerome Glisse <jglisse@redhat.com>
-> CC: Herbert Xu <herbert@gondor.apana.org.au>, "kvm@vger.kernel.org"
->  <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg
->  Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo Xu <xuzaibo@huawei.com>,
->  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Kumar, Sanjay K"
->  <sanjay.k.kumar@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
->  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
->  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
->  "linuxarm@huawei.com" <linuxarm@huawei.com>, Alex Williamson
->  <alex.williamson@redhat.com>, "linux-crypto@vger.kernel.org"
->  <linux-crypto@vger.kernel.org>, Philippe Ombredanne
->  <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>, Hao Fang
->  <fanghao11@huawei.com>, "David S . Miller" <davem@davemloft.net>,
->  "linux-accelerators@lists.ozlabs.org"
->  <linux-accelerators@lists.ozlabs.org>
-> Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-> User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
->  Thunderbird/52.9.1
-> Message-ID: <6ea4dcfd-d539-93e4-acf1-d09ea35f0ddc@gmail.com>
-> 
-> 
-> 
-> 在 2018年08月10日 星期五 09:12 下午, Jean-Philippe Brucker 写道:
-> >Hi Kenneth,
-> >
-> >On 10/08/18 04:39, Kenneth Lee wrote:
-> >>>You can achieve everything you want to achieve with existing upstream
-> >>>solution. Re-inventing a whole new driver infrastructure should really
-> >>>be motivated with strong and obvious reasons.
-> >>I want to understand better of your idea. If I create some unified helper
-> >>APIs in drivers/iommu/, say:
-> >>
-> >>	wd_create_dev(parent_dev, wd_dev)
-> >>	wd_release_dev(wd_dev)
-> >>
-> >>The API create chrdev to take request from user space for open(resource
-> >>allocation), iomap, epoll (irq), and dma_map(with pasid automatically).
-> >>
-> >>Do you think it is acceptable?
-> >Maybe not drivers/iommu/ :) That subsystem only contains tools for
-> >dealing with DMA, I don't think epoll, resource enumeration or iomap fit
-> >in there.
-> Yes. I should consider where to put it carefully.
-> >
-> >Creating new helpers seems to be precisely what we're trying to avoid in
-> >this thread, and vfio-mdev does provide the components that you
-> >describe, so I wouldn't discard it right away. When the GPU, net, block
-> >or another subsystem doesn't fit your needs, either because your
-> >accelerator provides some specialized function, or because for
-> >performance reasons your client wants direct MMIO access, you can at
-> >least build your driver and library on top of those existing VFIO
-> >components:
-> >
-> >* open allocates a partition of an accelerator.
-> >* vfio_device_info, vfio_region_info and vfio_irq_info enumerates
-> >available resources.
-> >* vfio_irq_set deals with epoll.
-> >* mmap gives you a private MMIO doorbell.
-> >* vfio_iommu_type1 provides the DMA operations.
-> >
-> >Currently missing:
-> >
-> >* Sharing the parent IOMMU between mdev, which is also what the "IOMMU
-> >aware mediated device" series tackles, and seems like a logical addition
-> >to VFIO. I'd argue that the existing IOMMU ops (or ones implemented by
-> >the SVA series) can be used to deal with this
-> >
-> >* The interface to discover an accelerator near your memory node, or one
-> >that you can chain with other devices. If I understood correctly the
-> >conclusion was that the API (a topology description in sysfs?) should be
-> >common to various subsystems, in which case vfio-mdev (or the mediating
-> >driver) could also use it.
-> >
-> >* The queue abstraction discussed on patch 3/7. Perhaps the current vfio
-> >resource description of MMIO and IRQ is sufficient here as well, since
-> >vendors tend to each implement their own queue schemes. If you need
-> >additional features, read/write fops give the mediating driver a lot of
-> >freedom. To support features that are too specific for drivers/vfio/ you
-> >can implement a config space with capabilities and registers of your
-> >choice. If you're versioning the capabilities, the code to handle them
-> >could even be shared between different accelerator drivers and libraries.
-> Thank you, Jean,
-> 
-> The major reason that I want to remove dependency to VFIO is: I
-> accepted that the whole logic of VFIO was built on the idea of
-> creating virtual device.
-> 
-> Let's consider it in this way: We have hardware with IOMMU support.
-> So we create a default_domain to the particular IOMMU (unit) in the
-> group for the kernel driver to use it. Now the device is going to be
-> used by a VM or a Container. So we unbind it from the original
-> driver, and put the default_domain away,  create a new domain for
-> this particular use case.  So now the device shows up as a platform
-> or pci device to the user space. This is what VFIO try to provide.
-> Mdev extends the scenario but dose not change the intention. And I
-> think that is why Alex emphasis pre-allocating resource to the mdev.
-> 
-> But what WarpDrive need is to get service from the hardware itself
-> and set mapping to its current domain, aka defaut_domain. If we do
-> it in VFIO-mdev, it looks like the VFIO framework takes all the
-> effort to put the default_domain away and create a new one and be
-> ready for user space to use. But I tell him stop using the new
-> domain and try the original one...
-> 
-> It is not reasonable, isn't it:)
-> 
-> So why don't I just take the request and set it into the
-> default_domain directly? The true requirement of WarpDrive is to let
-> process set the page table for particular pasid or substream id, so
-> it can accept command with address in the process space. It needs no
-> device.
-> 
-> From this perspective, it seems there is no reason to keep it in VFIO.
-> 
+* Fix install instruction by adding `./autogen` command
+  before `./configure`.
+* Add link to a more detailed installation instruction.
+* Add link to SmPL grammar documentation.
+* Add single space after ',' to slightly improve readability.
 
-I made a quick change basing on the RFCv1 here: 
+Signed-off-by: Himanshu Jha <himanshujha199640@gmail.com>
+---
+ Documentation/dev-tools/coccinelle.rst | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-https://github.com/Kenneth-Lee/linux-kernel-warpdrive/commits/warpdrive-v0.6
-
-I just made it compilable and not test it yet. But it shows how the idea is
-going to be.
-
-The Pros is: most of the virtual device stuff can be removed. Resource
-management is on the openned files only.
-
-The Cons is: as Jean said, we have to redo something that has been done by VFIO.
-These mainly are:
-
-1. Track the dma operation and remove them on resource releasing
-2. Pin the memory with gup and do accounting
-
-It not going to be easy to make a decision...
-
-> Thanks
-> Kenneth
-> >
-> >Thanks,
-> >Jean
-> >
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index 94f41c290bfc..f8305cd55186 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -30,18 +30,29 @@ of many distributions, e.g. :
+  - NetBSD
+  - FreeBSD
+ 
+-You can get the latest version released from the Coccinelle homepage at
++Some distribution packages are obsolete and it is recommended
++to use the latest version released from the Coccinelle homepage at
+ http://coccinelle.lip6.fr/
+ 
+-Once you have it, run the following command::
++Or Github at:
+ 
+-     	./configure
++https://github.com/coccinelle/coccinelle
++
++Once you have it, run the following commands::
++
++        ./autogen
++        ./configure
+         make
+ 
+ as a regular user, and install it with::
+ 
+         sudo make install
+ 
++More detailed installation instruction to build from source can be
++found at:
++
++https://github.com/coccinelle/coccinelle/blob/master/install.txt
++
+ Supplemental documentation
+ ---------------------------
+ 
+@@ -51,6 +62,10 @@ https://bottest.wiki.kernel.org/coccicheck
+ 
+ The wiki documentation always refers to the linux-next version of the script.
+ 
++For Semantic Patch Language(SmPL) grammar documentation refer to:
++
++http://coccinelle.lip6.fr/documentation.php
++
+ Using Coccinelle on the Linux kernel
+ ------------------------------------
+ 
+@@ -223,7 +238,7 @@ Since coccicheck runs through make, it naturally runs from the kernel
+ proper dir, as such the second rule above would be implied for picking up a
+ .cocciconfig when using ``make coccicheck``.
+ 
+-``make coccicheck`` also supports using M= targets.If you do not supply
++``make coccicheck`` also supports using M= targets. If you do not supply
+ any M= target, it is assumed you want to target the entire kernel.
+ The kernel coccicheck script has::
+ 
+-- 
+2.17.1
 
