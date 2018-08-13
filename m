@@ -5,125 +5,143 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BAB4E7D00B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 17:56:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CCBFE7D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 19:23:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728821AbeHMUjc convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 13 Aug 2018 16:39:32 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44564 "EHLO mx1.redhat.com"
+        id S1730634AbeHMWGl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 13 Aug 2018 18:06:41 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:32996 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728661AbeHMUjc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Aug 2018 16:39:32 -0400
+        id S1729245AbeHMWGl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Aug 2018 18:06:41 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B9EF04219DC7;
-        Mon, 13 Aug 2018 17:56:16 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-66.bos.redhat.com [10.18.17.66])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 95B572166BA0;
-        Mon, 13 Aug 2018 17:56:15 +0000 (UTC)
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <20180719153045.GT72677@devbig577.frc2.facebook.com>
- <de6f931d-613a-3e6a-2a4d-0e49b3bfe2e5@redhat.com>
- <20180719165201.GU72677@devbig577.frc2.facebook.com>
- <20180720113121.GJ2476@hirez.programming.kicks-ass.net>
- <20180720114549.GY72677@devbig577.frc2.facebook.com>
- <20180720154454.GR2494@hirez.programming.kicks-ass.net>
- <20180720155613.GB1934745@devbig577.frc2.facebook.com>
- <4857a9db-ebf5-24f8-c42d-d795f5c75854@redhat.com>
- <20180720163712.GU2494@hirez.programming.kicks-ass.net>
- <8c655adc-6d9e-b767-1024-5d6941c995a9@redhat.com>
- <20180720174100.GC1934745@devbig577.frc2.facebook.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <446ab203-85cd-32ff-40a9-0ba22d5a2534@redhat.com>
-Date:   Mon, 13 Aug 2018 13:56:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        by mx1.redhat.com (Postfix) with ESMTPS id 4D0A14023461;
+        Mon, 13 Aug 2018 19:23:05 +0000 (UTC)
+Received: from redhat.com (unknown [10.20.6.215])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 20D072156712;
+        Mon, 13 Aug 2018 19:23:03 +0000 (UTC)
+Date:   Mon, 13 Aug 2018 15:23:01 -0400
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Kenneth Lee <liguozhu@hisilicon.com>
+Cc:     Kenneth Lee <nek.in.cn@gmail.com>,
+        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Hao Fang <fanghao11@huawei.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "linux-accelerators@lists.ozlabs.org" 
+        <linux-accelerators@lists.ozlabs.org>
+Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180813192301.GC3451@redhat.com>
+References: <20180806031252.GG91035@Turing-Arch-b>
+ <20180806153257.GB6002@redhat.com>
+ <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
+ <20180808151835.GA3429@redhat.com>
+ <20180809080352.GI91035@Turing-Arch-b>
+ <20180809144613.GB3386@redhat.com>
+ <20180810033913.GK91035@Turing-Arch-b>
+ <0f6bac9b-8381-1874-9367-46b5f4cef56e@arm.com>
+ <6ea4dcfd-d539-93e4-acf1-d09ea35f0ddc@gmail.com>
+ <20180813092931.GL91035@Turing-Arch-b>
 MIME-Version: 1.0
-In-Reply-To: <20180720174100.GC1934745@devbig577.frc2.facebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180813092931.GL91035@Turing-Arch-b>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 13 Aug 2018 17:56:16 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 13 Aug 2018 17:56:16 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Mon, 13 Aug 2018 19:23:05 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Mon, 13 Aug 2018 19:23:05 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/20/2018 01:41 PM, Tejun Heo wrote:
-> Hello,
->
-> On Fri, Jul 20, 2018 at 01:09:23PM -0400, Waiman Long wrote:
->> On 07/20/2018 12:37 PM, Peter Zijlstra wrote:
->>> On Fri, Jul 20, 2018 at 12:19:29PM -0400, Waiman Long wrote:
->>>> I am not against the idea of making it hierarchical eventually. I am
->>>> just hoping to get thing going by merging the patchset in its current
->>>> form and then we can make it hierarchical in a followup patch.
->>> Where's the rush? Why can't we do this right in one go?
->> For me, the rush comes from RHEL8 as it is a goal to have a fully
->> functioning cgroup v2 in that release.
->>
->> I also believe that most of the use cases of partition can be satisfied
->> with partitions at the first level children. Getting hierarchical
->> partition right may drag on for half a year, maybe, giving our history
->> with cpu v2 controller. No matter what we do to enable hierarchical
->> partition in the future, the current model of using a partition flag is
->> intuitive enough that it won't be changed at least for the first level
->> children.
-> I'm fully with Waiman here.  There are people wanting to use it and
-> the part most people isn't controversial at all.  I don't see what'd
-> be gained by further delaying the whole thing.  If the first level
-> partition thing isn't acceptable to everyone, we can even strip down
-> further.  We can get .cpus and .mems merged first, which is what most
-> people want anyway.
+On Mon, Aug 13, 2018 at 05:29:31PM +0800, Kenneth Lee wrote:
+> 
+> I made a quick change basing on the RFCv1 here: 
+> 
+> https://github.com/Kenneth-Lee/linux-kernel-warpdrive/commits/warpdrive-v0.6
+> 
+> I just made it compilable and not test it yet. But it shows how the idea is
+> going to be.
+> 
+> The Pros is: most of the virtual device stuff can be removed. Resource
+> management is on the openned files only.
+> 
+> The Cons is: as Jean said, we have to redo something that has been done by VFIO.
+> These mainly are:
+> 
+> 1. Track the dma operation and remove them on resource releasing
+> 2. Pin the memory with gup and do accounting
+> 
+> It not going to be easy to make a decision...
+> 
 
-BTW, I am trying to support hierarchical partition. The first thing that
-I want to support is to allow removing CPUs from partition root freely.
-It turns out that the following existing code in validate_change() will
-prevent the removal from happening when it touches any CPUs that are
-used in child cpusets:
+Maybe it would be good to list things you want do. Looking at your tree
+it seems you are re-inventing what dma-buf is already doing.
 
-        /* Each of our child cpusets must be a subset of us */
-        ret = -EBUSY;
-        cpuset_for_each_child(c, css, cur)
-                if (!is_cpuset_subset(c, trial))
-                        goto out;
+So here is what i understand for SVM/SVA:
+    (1) allow userspace to create a command buffer for a device and bind
+        it to its address space (PASID)
+    (2) allow userspace to directly schedule commands on its command buffer
 
-So this is not a new restriction after all.
+No need to do tracking here as SVM/SVA which rely on PASID and something
+like PCIE ATS (address translation service). Userspace can shoot itself
+in the foot but nothing harmful can happen.
 
-The following restrictions are still imposed on a partition root wrt
-allowable changes in cpuset.cpus:
-1) cpuset.cpus cannot be set to "". There must be at least 1 cpu there.
-2) Adding cpus that are not in parent's cpuset.cpus (as well as
-cpuset.cpus.effective) or that will take all the parent's effective cpus
-away is not allowed.
 
-So are these limitations acceptable?
+Non SVM/SVA:
+    (3) allow userspace to wrap a region of its memory into an object so
+        that it can be DMA map (ie GUP + dma_map_page())
+    (4) Have userspace schedule command referencing object created in (3)
+        using an ioctl.
 
-The easiest way to remove those restrictions is to forcefully turn off
-the cpuset.sched.partition flag in the cpuset as well as any
-sub-partitions when the user try to do that. With that change, there
-will be no more new restriction on what you can do on cpuset.cpus.
+We need to keep track of object usage by the hardware so that we know
+when it is safe to release resources (dma_unmap_page()). The dma-buf
+provides everything you want for (3) and (4). With dma-buf you create
+object and each time it is use by a device you associate a fence with
+it. When fence is signaled it means that the hardware is done using
+that object. Fence also allow proper synchronization between multiple
+devices. For instance making sure that the second device wait for the
+first device before starting doing its thing. dma-buf documentations is
+much more thorough explaining all this.
 
-What is your opinion on the best way forward wrt supporting hierarchical
-partitioning?
 
-Thanks,
-Longman
+Now from implementation point of view, maybe it would be a good idea
+to create something like the virtual gem driver. It is a virtual device
+that allow to create GEM object. So maybe we want a virtual device that
+allow to create dma-buf object from process memory and allow sharing of
+those dma-buf between multiple devices.
 
+Userspace would only have to talk to this virtual device to create
+object and wrap its memory around, then it could use this object against
+many actual devices.
+
+
+This decouples the memory management, that can be share between all
+devices, from the actual device driver, which is obviously specific to
+every single device.
+
+
+Note that dma-buf use file so that once all file reference are gone the
+resource can be free and cleanup can happen (dma_unmap_page() ...). This
+properly handle the resource lifetime issue you seem to worried about.
+
+Cheers,
+Jérôme
