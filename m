@@ -1,147 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CCBFE7D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 19:23:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 706407D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 Aug 2018 19:37:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730634AbeHMWGl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 13 Aug 2018 18:06:41 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:32996 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729245AbeHMWGl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Aug 2018 18:06:41 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 4D0A14023461;
-        Mon, 13 Aug 2018 19:23:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.20.6.215])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 20D072156712;
-        Mon, 13 Aug 2018 19:23:03 +0000 (UTC)
-Date:   Mon, 13 Aug 2018 15:23:01 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Kenneth Lee <liguozhu@hisilicon.com>
-Cc:     Kenneth Lee <nek.in.cn@gmail.com>,
-        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Hao Fang <fanghao11@huawei.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180813192301.GC3451@redhat.com>
-References: <20180806031252.GG91035@Turing-Arch-b>
- <20180806153257.GB6002@redhat.com>
- <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
- <20180808151835.GA3429@redhat.com>
- <20180809080352.GI91035@Turing-Arch-b>
- <20180809144613.GB3386@redhat.com>
- <20180810033913.GK91035@Turing-Arch-b>
- <0f6bac9b-8381-1874-9367-46b5f4cef56e@arm.com>
- <6ea4dcfd-d539-93e4-acf1-d09ea35f0ddc@gmail.com>
- <20180813092931.GL91035@Turing-Arch-b>
+        id S1730505AbeHMWVV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 13 Aug 2018 18:21:21 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:38852 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730016AbeHMWVU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Aug 2018 18:21:20 -0400
+Received: by mail-pg1-f194.google.com with SMTP id k3-v6so7986358pgq.5;
+        Mon, 13 Aug 2018 12:37:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=oKz8/gmPrXrpmm/bWENiCqQQdiRVmhnGcR/mYjc8to8=;
+        b=jqfVxsbdlFg6JzQqiUPRvjxiW5fu3AOdSs44ravFNweP8lI6T2FzZ6jm1c8uQMK6UF
+         BFKHDydiN91Y4g2R+cjyLmZDjK+rEoXRpvnGm3LMIJlFjQs6tE9WAQxtGInm0eJ0txVW
+         MB9dBv2T2L4yUerEEnH8wP/wE7ZTXbjm/BneYsC1ngCiWD5duByvYpYgM1EorU8ZPX0A
+         TgnOiDzDawV3AgsEC77Pc7vYNrBYLDajq4GBBHzj8kdMzvU625uCKtiDSwjVzd1+csOT
+         YXSI+f9CzpPMgbB4nTO/jYsKlKJvIXuhR28xmjX94q0K3GvP1qQ7IkUBNql1B6YNEr2f
+         cAkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oKz8/gmPrXrpmm/bWENiCqQQdiRVmhnGcR/mYjc8to8=;
+        b=bzOmlkkfpLx97lg7EhWZFp+8sl29eQrfctPAb3L093djmXGf3GlfgMgPNLiLmXO8mn
+         QgZ5g8djvjhBYRdDayBqfie+D0QUK0jET2M/yQZQN4tWI1GeRcMIyp/OYgtUo0NrLmux
+         xwrAWj71xBHBRYg8FLWYUGkruEBraSaJ6ol5Eu1H4bwhvefiZXLkmck6z+4F+dDi2awj
+         qQ7tjW0wKYfXD73+rD7ITOX55q4bsdmqjM8UaQ/tstgBub3y8QTWEygMSucvDtdj8HWU
+         RwnlAA96vWHu/2ZF0Y00AlgXX85yOhowvTVr7ul1jeeUe4uk1uh91CzD+tK5EY027DyE
+         3wPw==
+X-Gm-Message-State: AOUpUlE7vI4udK6iIRyIH7fJq7Nkg+dCpyWEYlf5IW0voFsjLG7eBrPq
+        kfwFLZqIpY6P4j+ST/IjZZo=
+X-Google-Smtp-Source: AA+uWPzNm44bdeBBtPTJj//KwWVIEMK+Z5RQFnRaZvK9vQUX0iNuj8etxMamAt/KJuHWfmV5vIqxiQ==
+X-Received: by 2002:a62:1756:: with SMTP id 83-v6mr20492348pfx.217.1534189062787;
+        Mon, 13 Aug 2018 12:37:42 -0700 (PDT)
+Received: from ast-mbp ([2620:10d:c090:200::7:6f2])
+        by smtp.gmail.com with ESMTPSA id s14-v6sm49123529pfj.105.2018.08.13.12.37.41
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 13 Aug 2018 12:37:41 -0700 (PDT)
+Date:   Mon, 13 Aug 2018 12:37:40 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     "Tobin C. Harding" <me@tobin.cc>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, linux-doc@vger.kernel.org,
+        Network Development <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH bpf-next 0/4] Convert filter.txt to RST
+Message-ID: <20180813193738.od5k2wwc7dtrxyqp@ast-mbp>
+References: <20180809052328.27942-1-me@tobin.cc>
+ <20180809060734.rtqqu4sexbwzuqmm@ast-mbp>
+ <20180809072753.GF32374@eros>
+ <80bdc251-9f57-602f-6536-b34651684bb7@iogearbox.net>
+ <20180810014636.GJ32374@eros>
+ <20180810065752.2ab5473d@lwn.net>
+ <CAADnVQL-ekJXQoP+Peuh1uBJ1RGxMJ0G0DVp-UoGcWOY9BATeQ@mail.gmail.com>
+ <20180811115058.GN32374@eros>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180813092931.GL91035@Turing-Arch-b>
-User-Agent: Mutt/1.10.0 (2018-05-17)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Mon, 13 Aug 2018 19:23:05 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Mon, 13 Aug 2018 19:23:05 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
+In-Reply-To: <20180811115058.GN32374@eros>
+User-Agent: NeoMutt/20180223
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 13, 2018 at 05:29:31PM +0800, Kenneth Lee wrote:
+On Sat, Aug 11, 2018 at 09:50:58PM +1000, Tobin C. Harding wrote:
+> On Fri, Aug 10, 2018 at 10:51:28AM -0700, Alexei Starovoitov wrote:
+> > On Fri, Aug 10, 2018 at 5:57 AM Jonathan Corbet <corbet@lwn.net> wrote:
+> > >
+> > > The objective actually is to have SPDX tags in all files in the kernel.
+> > > That includes documentation, even though people, as always, care less
+> > > about the docs than they do the code.
+> > 
+> > right, but let's do that as a separate patch set.
+> > In the current set I'd focus on reviewing the actual doc changes.
+> > In particular completely removing
+> > Documentation/networking/filter.txt
+> > feels wrong, since lots of websites point directly there.
+> > Can we have at least few words there pointing to new location?
 > 
-> I made a quick change basing on the RFCv1 here: 
+> Something like ...
 > 
-> https://github.com/Kenneth-Lee/linux-kernel-warpdrive/commits/warpdrive-v0.6
 > 
-> I just made it compilable and not test it yet. But it shows how the idea is
-> going to be.
+> ------------ filter.txt
 > 
-> The Pros is: most of the virtual device stuff can be removed. Resource
-> management is on the openned files only.
+> BPF documentation can now be found in the following places:
 > 
-> The Cons is: as Jean said, we have to redo something that has been done by VFIO.
-> These mainly are:
-> 
-> 1. Track the dma operation and remove them on resource releasing
-> 2. Pin the memory with gup and do accounting
-> 
-> It not going to be easy to make a decision...
-> 
+> - Introduction to BPF (Linux Socket Filter) - Documentation/userspace-api/socket-filter.rst
+> - Classic BPF (cBPF) - Documentation/userspace-api/cBPF.rst
+> - Internal BPF (eBPF) - Documentation/userspace-api/eBPF.rst
 
-Maybe it would be good to list things you want do. Looking at your tree
-it seems you are re-inventing what dma-buf is already doing.
+Internal ?
+that was the name we used for may be a month many years ago.
+Please use 'extended BPF' in new filter.txt and all other places.
 
-So here is what i understand for SVM/SVA:
-    (1) allow userspace to create a command buffer for a device and bind
-        it to its address space (PASID)
-    (2) allow userspace to directly schedule commands on its command buffer
+since merge window is open the patches would need to wait until
+bpf-next opens up in few weeks.
 
-No need to do tracking here as SVM/SVA which rely on PASID and something
-like PCIE ATS (address translation service). Userspace can shoot itself
-in the foot but nothing harmful can happen.
+Thanks
 
-
-Non SVM/SVA:
-    (3) allow userspace to wrap a region of its memory into an object so
-        that it can be DMA map (ie GUP + dma_map_page())
-    (4) Have userspace schedule command referencing object created in (3)
-        using an ioctl.
-
-We need to keep track of object usage by the hardware so that we know
-when it is safe to release resources (dma_unmap_page()). The dma-buf
-provides everything you want for (3) and (4). With dma-buf you create
-object and each time it is use by a device you associate a fence with
-it. When fence is signaled it means that the hardware is done using
-that object. Fence also allow proper synchronization between multiple
-devices. For instance making sure that the second device wait for the
-first device before starting doing its thing. dma-buf documentations is
-much more thorough explaining all this.
-
-
-Now from implementation point of view, maybe it would be a good idea
-to create something like the virtual gem driver. It is a virtual device
-that allow to create GEM object. So maybe we want a virtual device that
-allow to create dma-buf object from process memory and allow sharing of
-those dma-buf between multiple devices.
-
-Userspace would only have to talk to this virtual device to create
-object and wrap its memory around, then it could use this object against
-many actual devices.
-
-
-This decouples the memory management, that can be share between all
-devices, from the actual device driver, which is obviously specific to
-every single device.
-
-
-Note that dma-buf use file so that once all file reference are gone the
-resource can be free and cleanup can happen (dma_unmap_page() ...). This
-properly handle the resource lifetime issue you seem to worried about.
-
-Cheers,
-Jérôme
