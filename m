@@ -1,98 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 818BD7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 Aug 2018 19:16:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B57827D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 Aug 2018 21:29:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728622AbeHNWEJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 Aug 2018 18:04:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50480 "EHLO mail.kernel.org"
+        id S1730883AbeHOASU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 Aug 2018 20:18:20 -0400
+Received: from mga05.intel.com ([192.55.52.43]:10599 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727755AbeHNWEJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Aug 2018 18:04:09 -0400
-Received: from localhost.localdomain (unknown [192.55.54.59])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 92BFB21728;
-        Tue, 14 Aug 2018 19:15:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1534274132;
-        bh=Rxg8jjDPFGr/FWvE2notugq1IlsYKbV2wefZKAKXDq0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Oqb7+WuLfZIvRFT1pAS8WiytXT/CAYzZLSXqDzJa6/zr0T//Su7p5L2ZjPnXL6cRQ
-         6LZr9tjvw4g8QYYmVB93mc5ZBBltftrWe4CsGZGJhloZugWfjrtgKaSzqMrw/7IB0f
-         QK8MI4CDieA8sfnyaV9CZzHQdp4heI38JGMpAtnM=
-From:   Alan Tull <atull@kernel.org>
-To:     Moritz Fischer <mdf@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alan Tull <atull@kernel.org>
-Subject: [PATCH 0/8] fpga: Add managed create in FPGA API
-Date:   Tue, 14 Aug 2018 14:15:18 -0500
-Message-Id: <20180814191526.3247-1-atull@kernel.org>
-X-Mailer: git-send-email 2.16.2
+        id S1725877AbeHOAST (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Aug 2018 20:18:19 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Aug 2018 14:29:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,240,1531810800"; 
+   d="scan'208";a="80299382"
+Received: from 2b52.sc.intel.com ([143.183.136.51])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Aug 2018 14:29:15 -0700
+Message-ID: <1534282125.24160.9.camel@intel.com>
+Subject: Re: [RFC PATCH v2 13/27] mm: Handle shadow stack page fault
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Tue, 14 Aug 2018 14:28:45 -0700
+In-Reply-To: <20180711090656.GS2476@hirez.programming.kicks-ass.net>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+         <20180710222639.8241-14-yu-cheng.yu@intel.com>
+         <2f3ff321-c629-3e00-59f6-8bca510650d4@linux.intel.com>
+         <20180711090656.GS2476@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix one functional FPGA bug.
+On Wed, 2018-07-11 at 11:06 +0200, Peter Zijlstra wrote:
+> On Tue, Jul 10, 2018 at 04:06:25PM -0700, Dave Hansen wrote:
+> > 
+> > On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
+> > > 
+> > > +	if (is_shstk_mapping(vma->vm_flags))
+> > > +		entry = pte_mkdirty_shstk(entry);
+> > > +	else
+> > > +		entry = pte_mkdirty(entry);
+> > > +
+> > > +	entry = maybe_mkwrite(entry, vma);
+> > >  	if (ptep_set_access_flags(vma, vmf->address, vmf->pte,
+> > > entry, 1))
+> > >  		update_mmu_cache(vma, vmf->address, vmf->pte);
+> > >  	pte_unmap_unlock(vmf->pte, vmf->ptl);
+> > > @@ -2526,7 +2532,11 @@ static int wp_page_copy(struct vm_fault
+> > > *vmf)
+> > >  		}
+> > >  		flush_cache_page(vma, vmf->address,
+> > > pte_pfn(vmf->orig_pte));
+> > >  		entry = mk_pte(new_page, vma->vm_page_prot);
+> > > -		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> > > +		if (is_shstk_mapping(vma->vm_flags))
+> > > +			entry = pte_mkdirty_shstk(entry);
+> > > +		else
+> > > +			entry = pte_mkdirty(entry);
+> > > +		entry = maybe_mkwrite(entry, vma);
+> > Do we want to lift this hunk of code and put it elsewhere?  Maybe:
+> > 
+> > 	entry = pte_set_vma_features(entry, vma);
+> > 
+> > and then:
+> > 
+> > pte_t pte_set_vma_features(pte_t entry, struct vm_area_struct)
+> > {
+> > 		/*
+> > 		 * Shadow stack PTEs are always dirty and always
+> > 		 * writable.  They have a different encoding for
+> > 		 * this than normal PTEs, though.
+> > 		 */
+> > 		if (is_shstk_mapping(vma->vm_flags))
+> > 			entry = pte_mkdirty_shstk(entry);
+> > 		else
+> > 			entry = pte_mkdirty(entry);
+> > 
+> > 		entry = maybe_mkwrite(entry, vma);
+> > 
+> > 	return entry;
+> > }
+> Yes, that wants a helper like that. Not sold on the name, but
+> whatever.
+> 
+> Is there any way we can hide all the shadow stack magic in arch
+> code?
 
-Implement managed devm_fpga_(mgr|bridge|region)_create() functions.
+We use is_shstk_mapping() only to determine PAGE_DIRTY_SW or
+PAGE_DIRTY_HW should be set in a PTE.  One way to remove this shadow
+stack code from generic code is changing pte_mkdirty(pte) to
+pte_mkdirty(pte, vma), and in the arch code we handle shadow stack.
+Is this acceptable?
 
-More documentation cleanup to make the documentation more helpful
-and to emphasize the use of FPGA regions for FPGA programming.
-
-Fix a few minor documentation corrections.
-
-Alan Tull (8):
-  fpga: do not access region struct after fpga_region_unregister
-  fpga: mgr: add devm_fpga_mgr_create
-  fpga: bridge: add devm_fpga_bridge_create
-  fpga: add devm_fpga_region_create
-  dt-bindings: fpga: fix freeze controller compatible in region doc
-  fpga: bridge: fix obvious function documentation error
-  docs: fpga: document fpga manager flags
-  docs: fpga: document programming fpgas using regions
-
- .../devicetree/bindings/fpga/fpga-region.txt       |   4 +-
- Documentation/driver-api/fpga/fpga-bridge.rst      |  37 ++-----
- Documentation/driver-api/fpga/fpga-mgr.rst         | 121 +++------------------
- Documentation/driver-api/fpga/fpga-programming.rst | 103 ++++++++++++++++++
- Documentation/driver-api/fpga/fpga-region.rst      |  91 ++++++++--------
- Documentation/driver-api/fpga/index.rst            |   2 +
- drivers/fpga/altera-cvp.c                          |   8 +-
- drivers/fpga/altera-fpga2sdram.c                   |   8 +-
- drivers/fpga/altera-freeze-bridge.c                |  13 +--
- drivers/fpga/altera-hps2fpga.c                     |   7 +-
- drivers/fpga/altera-pr-ip-core.c                   |   9 +-
- drivers/fpga/altera-ps-spi.c                       |  11 +-
- drivers/fpga/dfl-fme-br.c                          |  11 +-
- drivers/fpga/dfl-fme-mgr.c                         |  11 +-
- drivers/fpga/dfl-fme-region.c                      |  10 +-
- drivers/fpga/dfl.c                                 |   6 +-
- drivers/fpga/fpga-bridge.c                         |  74 +++++++++++--
- drivers/fpga/fpga-mgr.c                            |  67 ++++++++++--
- drivers/fpga/fpga-region.c                         |  68 ++++++++++--
- drivers/fpga/ice40-spi.c                           |  10 +-
- drivers/fpga/machxo2-spi.c                         |  11 +-
- drivers/fpga/of-fpga-region.c                      |   9 +-
- drivers/fpga/socfpga-a10.c                         |   5 +-
- drivers/fpga/socfpga.c                             |  10 +-
- drivers/fpga/ts73xx-fpga.c                         |  11 +-
- drivers/fpga/xilinx-pr-decoupler.c                 |   4 +-
- drivers/fpga/xilinx-spi.c                          |  12 +-
- drivers/fpga/zynq-fpga.c                           |   5 +-
- include/linux/fpga/fpga-bridge.h                   |   4 +
- include/linux/fpga/fpga-mgr.h                      |  22 +++-
- include/linux/fpga/fpga-region.h                   |   4 +
- 31 files changed, 437 insertions(+), 331 deletions(-)
- create mode 100644 Documentation/driver-api/fpga/fpga-programming.rst
-
--- 
-2.7.4
+Thanks,
+Yu-cheng
 
