@@ -5,260 +5,359 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2CAB07D00B
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 Aug 2018 03:48:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 670E77D00B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 Aug 2018 09:43:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730458AbeHNGdU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 Aug 2018 02:33:20 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:55881 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725999AbeHNGdU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Aug 2018 02:33:20 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 96F939CAF8D3F;
-        Tue, 14 Aug 2018 11:48:03 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server (TLS) id 14.3.399.0; Tue, 14 Aug
- 2018 11:47:58 +0800
-Date:   Tue, 14 Aug 2018 11:46:29 +0800
-From:   Kenneth Lee <liguozhu@hisilicon.com>
-To:     Jerome Glisse <jglisse@redhat.com>
-CC:     Kenneth Lee <nek.in.cn@gmail.com>,
-        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Hao Fang <fanghao11@huawei.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180814034629.GM91035@Turing-Arch-b>
-References: <20180806153257.GB6002@redhat.com>
- <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
- <20180808151835.GA3429@redhat.com>
- <20180809080352.GI91035@Turing-Arch-b>
- <20180809144613.GB3386@redhat.com>
- <20180810033913.GK91035@Turing-Arch-b>
- <0f6bac9b-8381-1874-9367-46b5f4cef56e@arm.com>
- <6ea4dcfd-d539-93e4-acf1-d09ea35f0ddc@gmail.com>
- <20180813092931.GL91035@Turing-Arch-b>
- <20180813192301.GC3451@redhat.com>
+        id S1731234AbeHNM3X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 Aug 2018 08:29:23 -0400
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:37326 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728541AbeHNM3X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Aug 2018 08:29:23 -0400
+Received: by mail-oi0-f67.google.com with SMTP id j205-v6so32463997oib.4;
+        Tue, 14 Aug 2018 02:42:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CpiL4JBHlXCdHQAVuFQ7NZPTdP+xH9SeHmCUtcPHV9g=;
+        b=hw+evJRgqLO33piRFzJ4keVK5wODL8Y4kviL+t/huIxAIlcLo0i5fhdeUFm6hgVGk7
+         seqlZhPR1vYU3pXV/L/Ltm9ieYIjcbQFaourBkOS5CvNPysRGdevEIoc30ulsxs/ZsuN
+         9k76h34mJlqquc4FHvcL0Wx4BpJqcOvWC/UQ8QqS68MnAfastSFGFyJI0wYAuOIx35es
+         3tTQ1HM10StCp4/URCC/fY1zYxbMkDcmiTjjLKQ1bsvSgaHipqD23YmoBrU3mLw52jCR
+         YiUTIPje35m0zzskzDbVLhXwVmI1XiD3aZJq9spAjRDE6NXgXdzdtIRESPyDwYmGEBqi
+         hvrg==
+X-Gm-Message-State: AOUpUlHjSLAebzpCvW9OJN9IwI7RpjMkpY+KHwoHTD/rZ7g77KwfWxG3
+        NkNfcm3H+AsNDN82QZo/EqljIXyyLxedk9/kNXs=
+X-Google-Smtp-Source: AA+uWPy/7IQCwd2mHrNLiM1n/LD61YdpYkNAuz6ffBRJ6iP16PiU5ffScn0GZDSye+bLPxWvefcmkzx6W5M+r6Nnx6w=
+X-Received: by 2002:aca:45c3:: with SMTP id s186-v6mr20522189oia.289.1534239778373;
+ Tue, 14 Aug 2018 02:42:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180813192301.GC3451@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
+References: <20180809214414.20905-1-paul@crapouillou.net> <20180809214414.20905-7-paul@crapouillou.net>
+In-Reply-To: <20180809214414.20905-7-paul@crapouillou.net>
+From:   Mathieu Malaterre <malat@debian.org>
+Date:   Tue, 14 Aug 2018 11:42:47 +0200
+Message-ID: <CA+7wUsxKtiJZD35dvT7UrmWYXcDdpmRq3NVM25=dX=4qQ_ewuw@mail.gmail.com>
+Subject: Re: [PATCH v6 06/24] clocksource: Add driver for the Ingenic JZ47xx OST
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, thierry.reding@gmail.com,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>, wim@linux-watchdog.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ezequiel Garcia <ezequiel@collabora.co.uk>,
+        linux-pwm@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        linux-watchdog@vger.kernel.org,
+        Linux-MIPS <linux-mips@linux-mips.org>,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Maarten ter Huurne <maarten@treewalker.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 13, 2018 at 03:23:01PM -0400, Jerome Glisse wrote:
-> Received: from popscn.huawei.com [10.3.17.45] by Turing-Arch-b with POP3
->  (fetchmail-6.3.26) for <kenny@localhost> (single-drop); Tue, 14 Aug 2018
->  03:30:02 +0800 (CST)
-> Received: from DGGEMM401-HUB.china.huawei.com (10.3.20.209) by
->  DGGEML402-HUB.china.huawei.com (10.3.17.38) with Microsoft SMTP Server
->  (TLS) id 14.3.399.0; Tue, 14 Aug 2018 03:23:25 +0800
-> Received: from dggwg01-in.huawei.com (172.30.65.34) by
->  DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server id
->  14.3.399.0; Tue, 14 Aug 2018 03:23:21 +0800
-> Received: from mx1.redhat.com (unknown [66.187.233.73])	by Forcepoint
->  Email with ESMTPS id 301B5D4F60895	for <liguozhu@hisilicon.com>; Tue, 14
->  Aug 2018 03:23:16 +0800 (CST)
-> Received: from smtp.corp.redhat.com
->  (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])	(using
->  TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))	(No client
->  certificate requested)	by mx1.redhat.com (Postfix) with ESMTPS id
->  4D0A14023461;	Mon, 13 Aug 2018 19:23:05 +0000 (UTC)
-> Received: from redhat.com (unknown [10.20.6.215])	by
->  smtp.corp.redhat.com (Postfix) with ESMTPS id 20D072156712;	Mon, 13 Aug
->  2018 19:23:03 +0000 (UTC)
-> Date: Mon, 13 Aug 2018 15:23:01 -0400
-> From: Jerome Glisse <jglisse@redhat.com>
-> To: Kenneth Lee <liguozhu@hisilicon.com>
-> CC: Kenneth Lee <nek.in.cn@gmail.com>, Jean-Philippe Brucker
->  <jean-philippe.brucker@arm.com>, Herbert Xu <herbert@gondor.apana.org.au>,
->  "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Jonathan Corbet
->  <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo
->  Xu <xuzaibo@huawei.com>, "linux-doc@vger.kernel.org"
->  <linux-doc@vger.kernel.org>, "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
->  "Tian, Kevin" <kevin.tian@intel.com>, "iommu@lists.linux-foundation.org"
->  <iommu@lists.linux-foundation.org>, "linux-kernel@vger.kernel.org"
->  <linux-kernel@vger.kernel.org>, "linuxarm@huawei.com"
->  <linuxarm@huawei.com>, Alex Williamson <alex.williamson@redhat.com>,
->  "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Philippe
->  Ombredanne <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>,
->  Hao Fang <fanghao11@huawei.com>, "David S . Miller" <davem@davemloft.net>,
->  "linux-accelerators@lists.ozlabs.org"
->  <linux-accelerators@lists.ozlabs.org>
-> Subject: Re: [RFC PATCH 0/7] A General Accelerator Framework, WarpDrive
-> Message-ID: <20180813192301.GC3451@redhat.com>
-> References: <20180806031252.GG91035@Turing-Arch-b>
->  <20180806153257.GB6002@redhat.com>
->  <11bace0e-dc14-5d2c-f65c-25b852f4e9ca@gmail.com>
->  <20180808151835.GA3429@redhat.com> <20180809080352.GI91035@Turing-Arch-b>
->  <20180809144613.GB3386@redhat.com> <20180810033913.GK91035@Turing-Arch-b>
->  <0f6bac9b-8381-1874-9367-46b5f4cef56e@arm.com>
->  <6ea4dcfd-d539-93e4-acf1-d09ea35f0ddc@gmail.com>
->  <20180813092931.GL91035@Turing-Arch-b>
-> Content-Type: text/plain; charset="iso-8859-1"
-> Content-Disposition: inline
-> Content-Transfer-Encoding: 8bit
-> In-Reply-To: <20180813092931.GL91035@Turing-Arch-b>
-> User-Agent: Mutt/1.10.0 (2018-05-17)
-> X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-> X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
->  (mx1.redhat.com [10.11.55.6]); Mon, 13 Aug 2018 19:23:05 +0000 (UTC)
-> X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com
->  [10.11.55.6]); Mon, 13 Aug 2018 19:23:05 +0000 (UTC) for IP:'10.11.54.6'
->  DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com'
->  HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
-> Return-Path: jglisse@redhat.com
-> X-MS-Exchange-Organization-AuthSource: DGGEMM401-HUB.china.huawei.com
-> X-MS-Exchange-Organization-AuthAs: Anonymous
-> MIME-Version: 1.0
-> 
-> On Mon, Aug 13, 2018 at 05:29:31PM +0800, Kenneth Lee wrote:
-> > 
-> > I made a quick change basing on the RFCv1 here: 
-> > 
-> > https://github.com/Kenneth-Lee/linux-kernel-warpdrive/commits/warpdrive-v0.6
-> > 
-> > I just made it compilable and not test it yet. But it shows how the idea is
-> > going to be.
-> > 
-> > The Pros is: most of the virtual device stuff can be removed. Resource
-> > management is on the openned files only.
-> > 
-> > The Cons is: as Jean said, we have to redo something that has been done by VFIO.
-> > These mainly are:
-> > 
-> > 1. Track the dma operation and remove them on resource releasing
-> > 2. Pin the memory with gup and do accounting
-> > 
-> > It not going to be easy to make a decision...
-> > 
-> 
-> Maybe it would be good to list things you want do. Looking at your tree
-> it seems you are re-inventing what dma-buf is already doing.
+On Thu, Aug 9, 2018 at 11:44 PM Paul Cercueil <paul@crapouillou.net> wrote:
+>
+> From: Maarten ter Huurne <maarten@treewalker.org>
+>
+> OST is the OS Timer, a 64-bit timer/counter with buffered reading.
+>
+> SoCs before the JZ4770 had (if any) a 32-bit OST; the JZ4770 and
+> JZ4780 have a 64-bit OST.
+>
+> This driver will register both a clocksource and a sched_clock to the
+> system.
 
-My English is quite limited;). I think I did not explain it well in the WrapDrive
-document. Please let me try again here:
+With CONFIG_DEBUG_SECTION_MISMATCH=y here is what I see:
 
-The requirement of WrapDrive is simple. Many acceleration requirements are from
-user space, such as OpenSSL, AI, and so on. We want to provide a framework for
-the user land application to summon the accelerator easily.
+  MODPOST vmlinux.o
+WARNING: vmlinux.o(.data+0x26600): Section mismatch in reference from
+the variable ingenic_ost_driver to the function
+.init.text:ingenic_ost_probe()
+The variable ingenic_ost_driver references
+the function __init ingenic_ost_probe()
+If the reference is valid then annotate the
+variable with __init* or __refdata (see linux/init.h) or name the variable:
+*_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
 
-So the scenario is simple: The application is doing its job and faces a tough
-and boring task, say compression. Then it drops the data pointer to the command
-queue and let the accelerator do it at its bidding, and continue its job until
-the task is done, or its other task synchronously
+WARNING: vmlinux.o(.data+0x26660): Section mismatch in reference from
+the variable ingenic_tcu_driver to the function
+.init.text:ingenic_tcu_probe()
+The variable ingenic_tcu_driver references
+the function __init ingenic_tcu_probe()
+If the reference is valid then annotate the
+variable with __init* or __refdata (see linux/init.h) or name the variable:
+*_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
 
-My understanding to the dma-buf is driver oriented. The buffer is created by one
-driver and exported as fd to user space, then the user space can share it with
-some attached devices.
+Thanks
 
-But our scenario is that the whole buffer is from the user space. The
-application will directly assign the pointer to the command queue. The hardware
-will directly use this address.  The kernel should set this particular virtual
-memory or the whole process space to the IOMMU with its pasid. So the hardware
-can use the process' address, which may not only be the address assigning in the
-command queue, it can also be an address inside the memory itself.
-
-To let this work, we have to pin the memory or set a page fault handler when the
-memory is shared (to the hardware). And... the big work of pinning memory is not
-gup (get user page), but rlimit accounting:)
-
-> 
-> So here is what i understand for SVM/SVA:
->     (1) allow userspace to create a command buffer for a device and bind
->         it to its address space (PASID)
->     (2) allow userspace to directly schedule commands on its command buffer
-> 
-> No need to do tracking here as SVM/SVA which rely on PASID and something
-> like PCIE ATS (address translation service). Userspace can shoot itself
-> in the foot but nothing harmful can happen.
-> 
-
-Yes, we can release the whole page table based on PASID (It also need Jean to
-provide this interface;)). But the gup part still need to be tracked. (This is
-what is done in VFIO)
-
-> 
-> Non SVM/SVA:
->     (3) allow userspace to wrap a region of its memory into an object so
->         that it can be DMA map (ie GUP + dma_map_page())
->     (4) Have userspace schedule command referencing object created in (3)
->         using an ioctl.
-
-Yes, this is going to be something like NOIOMMU mode in VFIO. The hardware have
-to accept DMA/physical address. But anyway, this not the major intension of
-WrapDrive.
-
-> 
-> We need to keep track of object usage by the hardware so that we know
-> when it is safe to release resources (dma_unmap_page()). The dma-buf
-> provides everything you want for (3) and (4). With dma-buf you create
-> object and each time it is use by a device you associate a fence with
-> it. When fence is signaled it means that the hardware is done using
-> that object. Fence also allow proper synchronization between multiple
-> devices. For instance making sure that the second device wait for the
-> first device before starting doing its thing. dma-buf documentations is
-> much more thorough explaining all this.
-> 
-
-Your idea hints me that the dma_buf design is based on sharing memory from the
-driver, not from the user space. That's why the signal is based on the buffer
-itself, because the buffer can be used again and again.
-
-This is good for performance. The cost is high if remap the data every time. But
-if consider we can devote the whole application space with SVM/SVA support. This
-can become acceptable.
-
-> 
-> Now from implementation point of view, maybe it would be a good idea
-> to create something like the virtual gem driver. It is a virtual device
-> that allow to create GEM object. So maybe we want a virtual device that
-> allow to create dma-buf object from process memory and allow sharing of
-> those dma-buf between multiple devices.
-> 
-> Userspace would only have to talk to this virtual device to create
-> object and wrap its memory around, then it could use this object against
-> many actual devices.
-> 
-> 
-> This decouples the memory management, that can be share between all
-> devices, from the actual device driver, which is obviously specific to
-> every single device.
-> 
-
-Forcing the application to use the device allocate memory is an alluring choice,
-it makes thing simple. Let us consider it for a while...
-
-> 
-> Note that dma-buf use file so that once all file reference are gone the
-> resource can be free and cleanup can happen (dma_unmap_page() ...). This
-> properly handle the resource lifetime issue you seem to worried about.
-> 
-> Cheers,
-> Jérôme
-
--- 
-			-Kenneth(Hisilicon)
+> Signed-off-by: Maarten ter Huurne <maarten@treewalker.org>
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  drivers/clocksource/Kconfig       |   8 ++
+>  drivers/clocksource/Makefile      |   1 +
+>  drivers/clocksource/ingenic-ost.c | 208 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 217 insertions(+)
+>  create mode 100644 drivers/clocksource/ingenic-ost.c
+>
+>  v5: New patch
+>
+>  v6: - Get rid of SoC IDs; pass pointer to ingenic_ost_soc_info as
+>        devicetree match data instead.
+>      - Use device_get_match_data() instead of the of_* variant
+>      - Handle error of dev_get_regmap() properly
+>
+> diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
+> index 98f708208a8d..e855938c69f1 100644
+> --- a/drivers/clocksource/Kconfig
+> +++ b/drivers/clocksource/Kconfig
+> @@ -619,4 +619,12 @@ config INGENIC_TIMER
+>         help
+>           Support for the timer/counter unit of the Ingenic JZ SoCs.
+>
+> +config INGENIC_OST
+> +       bool "Ingenic JZ47xx Operating System Timer"
+> +       depends on MIPS || COMPILE_TEST
+> +       depends on COMMON_CLK
+> +       select INGENIC_TIMER
+> +       help
+> +         Support for the OS Timer of the Ingenic JZ4770 or similar SoC.
+> +
+>  endmenu
+> diff --git a/drivers/clocksource/Makefile b/drivers/clocksource/Makefile
+> index 26877505d400..56ce37252944 100644
+> --- a/drivers/clocksource/Makefile
+> +++ b/drivers/clocksource/Makefile
+> @@ -75,6 +75,7 @@ obj-$(CONFIG_ASM9260_TIMER)           += asm9260_timer.o
+>  obj-$(CONFIG_H8300_TMR8)               += h8300_timer8.o
+>  obj-$(CONFIG_H8300_TMR16)              += h8300_timer16.o
+>  obj-$(CONFIG_H8300_TPU)                        += h8300_tpu.o
+> +obj-$(CONFIG_INGENIC_OST)              += ingenic-ost.o
+>  obj-$(CONFIG_INGENIC_TIMER)            += ingenic-timer.o
+>  obj-$(CONFIG_CLKSRC_ST_LPC)            += clksrc_st_lpc.o
+>  obj-$(CONFIG_X86_NUMACHIP)             += numachip.o
+> diff --git a/drivers/clocksource/ingenic-ost.c b/drivers/clocksource/ingenic-ost.c
+> new file mode 100644
+> index 000000000000..400d30656790
+> --- /dev/null
+> +++ b/drivers/clocksource/ingenic-ost.c
+> @@ -0,0 +1,208 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * JZ47xx SoCs TCU Operating System Timer driver
+> + *
+> + * Copyright (C) 2016 Maarten ter Huurne <maarten@treewalker.org>
+> + * Copyright (C) 2018 Paul Cercueil <paul@crapouillou.net>
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/clocksource.h>
+> +#include <linux/mfd/ingenic-tcu.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm.h>
+> +#include <linux/regmap.h>
+> +#include <linux/sched_clock.h>
+> +
+> +#include "ingenic-timer.h"
+> +
+> +#define TCU_OST_TCSR_MASK      0xc0
+> +#define TCU_OST_TCSR_CNT_MD    BIT(15)
+> +
+> +#define TCU_OST_CHANNEL                15
+> +
+> +struct ingenic_ost_soc_info {
+> +       bool is64bit;
+> +};
+> +
+> +struct ingenic_ost {
+> +       struct regmap *map;
+> +       struct clk *clk;
+> +
+> +       struct clocksource cs;
+> +};
+> +
+> +static u64 notrace ingenic_ost_read_cntl(void)
+> +{
+> +       /* Bypass the regmap here as we must return as soon as possible */
+> +       return readl(ingenic_tcu_base + TCU_REG_OST_CNTL);
+> +}
+> +
+> +static u64 notrace ingenic_ost_read_cnth(void)
+> +{
+> +       /* Bypass the regmap here as we must return as soon as possible */
+> +       return readl(ingenic_tcu_base + TCU_REG_OST_CNTH);
+> +}
+> +
+> +static u64 notrace ingenic_ost_clocksource_read(struct clocksource *cs)
+> +{
+> +       u32 val1, val2;
+> +       u64 count, recount;
+> +       s64 diff;
+> +
+> +       /*
+> +        * The buffering of the upper 32 bits of the timer prevents wrong
+> +        * results from the bottom 32 bits overflowing due to the timer ticking
+> +        * along. However, it does not prevent wrong results from simultaneous
+> +        * reads of the timer, which could reset the buffer mid-read.
+> +        * Since this kind of wrong read can happen only when the bottom bits
+> +        * overflow, there will be minutes between wrong reads, so if we read
+> +        * twice in succession, at least one of the reads will be correct.
+> +        */
+> +
+> +       /* Bypass the regmap here as we must return as soon as possible */
+> +       val1 = readl(ingenic_tcu_base + TCU_REG_OST_CNTL);
+> +       val2 = readl(ingenic_tcu_base + TCU_REG_OST_CNTHBUF);
+> +       count = (u64)val1 | (u64)val2 << 32;
+> +
+> +       val1 = readl(ingenic_tcu_base + TCU_REG_OST_CNTL);
+> +       val2 = readl(ingenic_tcu_base + TCU_REG_OST_CNTHBUF);
+> +       recount = (u64)val1 | (u64)val2 << 32;
+> +
+> +       /*
+> +        * A wrong read will produce a result that is 1<<32 too high: the bottom
+> +        * part from before overflow and the upper part from after overflow.
+> +        * Therefore, the lower value of the two reads is the correct value.
+> +        */
+> +
+> +       diff = (s64)(recount - count);
+> +       if (unlikely(diff < 0))
+> +               count = recount;
+> +
+> +       return count;
+> +}
+> +
+> +static int __init ingenic_ost_probe(struct platform_device *pdev)
+> +{
+> +       const struct ingenic_ost_soc_info *soc_info;
+> +       struct device *dev = &pdev->dev;
+> +       struct ingenic_ost *ost;
+> +       struct clocksource *cs;
+> +       unsigned long rate, flags;
+> +       int err;
+> +
+> +       soc_info = device_get_match_data(dev);
+> +       if (!soc_info)
+> +               return -EINVAL;
+> +
+> +       ost = devm_kzalloc(dev, sizeof(*ost), GFP_KERNEL);
+> +       if (!ost)
+> +               return -ENOMEM;
+> +
+> +       ost->map = dev_get_regmap(dev->parent, NULL);
+> +       if (!ost->map) {
+> +               dev_err(dev, "regmap not found\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       ost->clk = devm_clk_get(dev, "ost");
+> +       if (IS_ERR(ost->clk))
+> +               return PTR_ERR(ost->clk);
+> +
+> +       err = clk_prepare_enable(ost->clk);
+> +       if (err)
+> +               return err;
+> +
+> +       /* Clear counter high/low registers */
+> +       if (soc_info->is64bit)
+> +               regmap_write(ost->map, TCU_REG_OST_CNTL, 0);
+> +       regmap_write(ost->map, TCU_REG_OST_CNTH, 0);
+> +
+> +       /* Don't reset counter at compare value. */
+> +       regmap_update_bits(ost->map, TCU_REG_OST_TCSR,
+> +                          TCU_OST_TCSR_MASK, TCU_OST_TCSR_CNT_MD);
+> +
+> +       rate = clk_get_rate(ost->clk);
+> +
+> +       /* Enable OST TCU channel */
+> +       regmap_write(ost->map, TCU_REG_TESR, BIT(TCU_OST_CHANNEL));
+> +
+> +       cs = &ost->cs;
+> +       cs->name        = "ingenic-ost";
+> +       cs->rating      = 320;
+> +       cs->flags       = CLOCK_SOURCE_IS_CONTINUOUS;
+> +
+> +       if (soc_info->is64bit) {
+> +               cs->mask = CLOCKSOURCE_MASK(64);
+> +               cs->read = ingenic_ost_clocksource_read;
+> +       } else {
+> +               cs->mask = CLOCKSOURCE_MASK(32);
+> +               cs->read = (u64 (*)(struct clocksource *))ingenic_ost_read_cnth;
+> +       }
+> +
+> +       err = clocksource_register_hz(cs, rate);
+> +       if (err) {
+> +               dev_err(dev, "clocksource registration failed: %d\n", err);
+> +               clk_disable_unprepare(ost->clk);
+> +               return err;
+> +       }
+> +
+> +       /* Cannot register a sched_clock with interrupts on */
+> +       local_irq_save(flags);
+> +       if (soc_info->is64bit)
+> +               sched_clock_register(ingenic_ost_read_cntl, 32, rate);
+> +       else
+> +               sched_clock_register(ingenic_ost_read_cnth, 32, rate);
+> +       local_irq_restore(flags);
+> +
+> +       return 0;
+> +}
+> +
+> +#ifdef CONFIG_PM_SLEEP
+> +static int ingenic_ost_suspend(struct device *dev)
+> +{
+> +       struct ingenic_ost *ost = dev_get_drvdata(dev);
+> +
+> +       clk_disable(ost->clk);
+> +       return 0;
+> +}
+> +
+> +static int ingenic_ost_resume(struct device *dev)
+> +{
+> +       struct ingenic_ost *ost = dev_get_drvdata(dev);
+> +
+> +       return clk_enable(ost->clk);
+> +}
+> +
+> +static SIMPLE_DEV_PM_OPS(ingenic_ost_pm_ops, ingenic_ost_suspend,
+> +                        ingenic_ost_resume);
+> +#define INGENIC_OST_PM_OPS (&ingenic_ost_pm_ops)
+> +#else
+> +#define INGENIC_OST_PM_OPS NULL
+> +#endif /* CONFIG_PM_SUSPEND */
+> +
+> +static const struct ingenic_ost_soc_info jz4725b_ost_soc_info = {
+> +       .is64bit = false,
+> +};
+> +
+> +static const struct ingenic_ost_soc_info jz4770_ost_soc_info = {
+> +       .is64bit = true,
+> +};
+> +
+> +static const struct of_device_id ingenic_ost_of_match[] = {
+> +       { .compatible = "ingenic,jz4725b-ost", .data = &jz4725b_ost_soc_info, },
+> +       { .compatible = "ingenic,jz4770-ost",  .data = &jz4770_ost_soc_info,  },
+> +       { }
+> +};
+> +MODULE_DEVICE_TABLE(of, ingenic_ost_of_match);
+> +
+> +static struct platform_driver ingenic_ost_driver = {
+> +       .probe = ingenic_ost_probe,
+> +       .driver = {
+> +               .name   = "ingenic-ost",
+> +               .pm     = INGENIC_OST_PM_OPS,
+> +               .of_match_table = ingenic_ost_of_match,
+> +       },
+> +};
+> +module_platform_driver(ingenic_ost_driver);
+> --
+> 2.11.0
+>
