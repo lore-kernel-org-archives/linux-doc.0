@@ -5,35 +5,35 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 820BF7D581
+	by archive.lwn.net (Postfix) with ESMTP id C0EC57DE6E
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 Aug 2018 19:16:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729940AbeHNWEP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 Aug 2018 18:04:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50788 "EHLO mail.kernel.org"
+        id S1730223AbeHNWEd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 Aug 2018 18:04:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50882 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729192AbeHNWEO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Aug 2018 18:04:14 -0400
+        id S1727755AbeHNWEP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Aug 2018 18:04:15 -0400
 Received: from localhost.localdomain (unknown [192.55.54.59])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 04F2921734;
-        Tue, 14 Aug 2018 19:15:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DA5352173C;
+        Tue, 14 Aug 2018 19:15:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1534274136;
-        bh=dBCuIXE4xs1mW3JZhGhjdSMHk/0FeWMRlB7hXsyshyQ=;
+        s=default; t=1534274137;
+        bh=gBzOo3ogiY/r/7JY6KAxiPceAodQw57DHJ7nma32vlY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pvkJoTGTAvGhr4fniYOSuBzdOc9wCktFYWRUbZSz1PZP6bSxM246mZhpy9croWOLr
-         iAtordoFjYp/sQYP5cW5WZcn3BhG+nyLgVPQIJHqRIqtcFE+V2UE4nKOc72O2y+Sxn
-         WJ/1wXTmInQGxxgJrM2wwBUxL9PKqTuzazPz1GaU=
+        b=ELDHvOLJ2CCD2YLZmpq2WBOZKHwUkuBjW1D5adMKrF2a4bAv1do4UMWeNCaQqRe03
+         cCmziUJFb9BcZX5q1vetIaMCwRlFNdhgxvAMukOIkbdLz/+C8z11fpG6cfOA8yep99
+         g8nK5zw0XS05IuiQOJn908z/yGH1T2qOVd0wyVAE=
 From:   Alan Tull <atull@kernel.org>
 To:     Moritz Fischer <mdf@kernel.org>, Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
         linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
         Alan Tull <atull@kernel.org>
-Subject: [PATCH 5/8] dt-bindings: fpga: fix freeze controller compatible in region doc
-Date:   Tue, 14 Aug 2018 14:15:23 -0500
-Message-Id: <20180814191526.3247-6-atull@kernel.org>
+Subject: [PATCH 6/8] fpga: bridge: fix obvious function documentation error
+Date:   Tue, 14 Aug 2018 14:15:24 -0500
+Message-Id: <20180814191526.3247-7-atull@kernel.org>
 X-Mailer: git-send-email 2.16.2
 In-Reply-To: <20180814191526.3247-1-atull@kernel.org>
 References: <20180814191526.3247-1-atull@kernel.org>
@@ -42,42 +42,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation/devicetree/bindings/fpga/fpga-region.txt has an error
-regarding the freeze controller bridge, secifically:
-
- compatible = "altr,freeze-bridge";
-
-The compatibility string should be "altr,freeze-bridge-controller"
-as set forth in altera-freeze-bridge.txt.
+fpga_bridge_dev_match() returns a FPGA bridge struct, not a
+FPGA manager struct so s/manager/bridge/.
 
 Signed-off-by: Alan Tull <atull@kernel.org>
-Reported-by: Dalon Westergreen <dalon.westergreen@intel.com>
 ---
- Documentation/devicetree/bindings/fpga/fpga-region.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/fpga/fpga-bridge.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/fpga/fpga-region.txt b/Documentation/devicetree/bindings/fpga/fpga-region.txt
-index 6db8aed..90c4469 100644
---- a/Documentation/devicetree/bindings/fpga/fpga-region.txt
-+++ b/Documentation/devicetree/bindings/fpga/fpga-region.txt
-@@ -415,7 +415,7 @@ DT Overlay contains:
- 			firmware-name = "base.rbf";
- 
- 			fpga-bridge@4400 {
--				compatible = "altr,freeze-bridge";
-+				compatible = "altr,freeze-bridge-controller";
- 				reg = <0x4400 0x10>;
- 
- 				fpga_region1: fpga-region1 {
-@@ -427,7 +427,7 @@ DT Overlay contains:
- 			};
- 
- 			fpga-bridge@4420 {
--				compatible = "altr,freeze-bridge";
-+				compatible = "altr,freeze-bridge-controller";
- 				reg = <0x4420 0x10>;
- 
- 				fpga_region2: fpga-region2 {
+diff --git a/drivers/fpga/fpga-bridge.c b/drivers/fpga/fpga-bridge.c
+index c39d35f..7b0071a 100644
+--- a/drivers/fpga/fpga-bridge.c
++++ b/drivers/fpga/fpga-bridge.c
+@@ -125,7 +125,7 @@ static int fpga_bridge_dev_match(struct device *dev, const void *data)
+  *
+  * Given a device, get an exclusive reference to a fpga bridge.
+  *
+- * Return: fpga manager struct or IS_ERR() condition containing error code.
++ * Return: fpga bridge struct or IS_ERR() condition containing error code.
+  */
+ struct fpga_bridge *fpga_bridge_get(struct device *dev,
+ 				    struct fpga_image_info *info)
 -- 
 2.7.4
 
