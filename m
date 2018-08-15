@@ -1,69 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 74E127DE59
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 15 Aug 2018 21:30:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7880D7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 15 Aug 2018 22:10:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727790AbeHPAYN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 15 Aug 2018 20:24:13 -0400
-Received: from mga14.intel.com ([192.55.52.115]:64245 "EHLO mga14.intel.com"
+        id S1727777AbeHPBEG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 15 Aug 2018 21:04:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45084 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727500AbeHPAYN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Aug 2018 20:24:13 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Aug 2018 14:30:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,244,1531810800"; 
-   d="scan'208";a="65480874"
-Received: from unknown (HELO localhost.lm.intel.com) ([10.232.117.195])
-  by orsmga008.jf.intel.com with ESMTP; 15 Aug 2018 14:29:48 -0700
-From:   Jon Derrick <jonathan.derrick@intel.com>
-To:     <linux-pci@vger.kernel.org>
-Cc:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Sinan Kaya <okaya@kernel.org>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Dongdong Liu <liudongdong3@huawei.com>,
-        Jon Derrick <jonathan.derrick@intel.com>
-Subject: [PATCH 2/2] Documentation: Document pci=nodpc
-Date:   Wed, 15 Aug 2018 15:26:40 -0600
-Message-Id: <1534368400-2807-2-git-send-email-jonathan.derrick@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1534368400-2807-1-git-send-email-jonathan.derrick@intel.com>
-References: <1534368400-2807-1-git-send-email-jonathan.derrick@intel.com>
+        id S1727126AbeHPBEG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Aug 2018 21:04:06 -0400
+Received: from localhost.localdomain (user-0ccsrjt.cable.mindspring.com [24.206.110.125])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 14C6F21528;
+        Wed, 15 Aug 2018 22:10:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1534371003;
+        bh=AOdrRv4SDDzCjjCwU/NAUQu75U9uVNCFoHfEXlKErX4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Fn8xdt1eEMn916aSoBPzb+xrPM7MVlRLY3OldxBnk4gkz7/God4p/tRz9t4okJ47h
+         ap/OCzEgMZLxgsRKwSTFLRaoP29/NnKOdD9CaEejRBjbvPFBf9b//R23vtfCnQVGuL
+         bbGkNyNq591Jha+70dfHwi6PVTEa72JigBhUnCkM=
+From:   Alan Tull <atull@kernel.org>
+To:     Moritz Fischer <mdf@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dinh Nguyen <dinguyen@kernel.org>
+Cc:     Appana Durga Kedareswara Rao <appanad@xilinx.com>,
+        linux-kernel@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, Alan Tull <atull@kernel.org>,
+        Alan Tull <atull@opensource.altera.com>,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: [PATCH 1/2] fpga: doc: documentation for FPGA debugfs
+Date:   Wed, 15 Aug 2018 17:09:57 -0500
+Message-Id: <20180815220958.3606-1-atull@kernel.org>
+X-Mailer: git-send-email 2.16.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document disabling downstream port containment through pci parameter
+From: Alan Tull <atull@opensource.altera.com>
 
-Signed-off-by: Jon Derrick <jonathan.derrick@intel.com>
+This patch depends on my recently submitted documentation changes
+("docs: fpga: document programming fpgas using regions")
+
+Document the DebugFS interface for the core FPGA Manager
+framework.
+
+Signed-off-by: Alan Tull <atull@kernel.org>
+Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/driver-api/fpga/fpga-mgr.rst | 38 ++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index e372208..1a2fd78 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3041,6 +3041,9 @@
- 		noaer		[PCIE] If the PCIEAER kernel config parameter is
- 				enabled, this kernel boot option can be used to
- 				disable the use of PCIE advanced error reporting.
-+		nodpc		[PCIE] If the PCIE_DPC kernel config parameter is
-+				enabled, this kernel boot option can be used to
-+				disable the use of PCIE downstream port containment
- 		nodomains	[PCI] Disable support for multiple PCI
- 				root domains (aka PCI segments, in ACPI-speak).
- 		nommconf	[X86] Disable use of MMCONFIG for PCI
+diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
+index 576f194..d7ca320 100644
+--- a/Documentation/driver-api/fpga/fpga-mgr.rst
++++ b/Documentation/driver-api/fpga/fpga-mgr.rst
+@@ -125,3 +125,41 @@ API for implementing a new FPGA Manager driver
+ 
+ .. kernel-doc:: drivers/fpga/fpga-mgr.c
+    :functions: fpga_mgr_unregister
++
++FPGA Manager DebugFS
++--------------------
++
++This interface allows the user to program an FPGA from userspace.  However,
++bridges and soft IP device driver loading/unloading are not handled.  This makes
++it really easy to mess things up by doing things like reprogramming the hardware
++out from under a driver or reprogramming while a bridge is enabled, causing gunk
++to go out on a CPU bus.  It should go without saying that this interface is for
++debug and development only.  Not intended for production use.
++
++Each FPGA gets its own directory such as <debugfs>/fpga_manager/fpga0 and the
++files described below.  To program the FPGA, write the ``flags`` and/or
++``config_complete_timeout_us`` files (as needed), then use either the
++``firmware_name`` or ``image`` file to program.
++
++* ``flags`` - [RW] flags as defined in fpga-mgr.h.  For example::
++
++   $ echo 1 > /sys/kernel/debug/fpga_manager/fpga0/flags
++
++* ``config_complete_timeout_us`` - [RW] time out in microseconds to wait for the
++  FPGA to go to operating state after region has been programmed.  Not all
++  low level drivers use this.  For example::
++
++   $ echo 4 > /sys/kernel/debug/fpga_manager/fpga0/config_complete_timeout_us
++
++* ``firmware_name`` - [RW] Name of an FPGA image firmware file.  Writing
++  initiates an FPGA programming cycle.  Note that the image file must be in a
++  directory on the firmware search path such as /lib/firmware::
++
++   $ echo image.rbf > /sys/kernel/debug/fpga_manager/fpga0/firmware_name
++
++* ``image`` - [WO] Raw FPGA image data.  Writing the FPGA image data will
++  initiate an FPGA programming cycle.  Data must be written in one chunk, for
++  example::
++
++   $ dd bs=10M if=./image.rbf of=/sys/kernel/debug/fpga_manager/fpga0/image
++    (where image.rbf < 10M)
 -- 
-1.8.3.1
+2.7.4
 
