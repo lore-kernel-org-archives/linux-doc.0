@@ -1,99 +1,243 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B76F97D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 15 Aug 2018 05:46:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0C67E7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 15 Aug 2018 06:01:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725993AbeHOIhN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 15 Aug 2018 04:37:13 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:52078 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725914AbeHOIhN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Aug 2018 04:37:13 -0400
-Received: by mail-wm0-f67.google.com with SMTP id y2-v6so351865wma.1;
-        Tue, 14 Aug 2018 22:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id;
-        bh=7iat0ktaBOWwjtBUt7x2aQfPfuUy19h2lhAIj61y1/o=;
-        b=IW3+9xcP8yvILjpd9vyv4fNGNG8mUUT9+pWtcDub/pJAlnL04eekoq8g3W6Y1h9B3B
-         AZ9tBDXKssFqXdSriekvqN5EiGm7Vq609aMDmNbZQJRSTx0RnmyssKseyF99nkfZFlYf
-         NDSlLg+xP+WLfHRGTjI+rSTd9oVR1gtElNH3hk9dTXn/exyaZlkonAyF2cn+nBUm6Mk/
-         yF4eqyKBn/nx1XWIydOOp2gmzdlFxFxoHCeLpVQWLYpn85N7lItotU1zQ5tjgpzFSUtE
-         TKA64C/i2j0DMT7tazRnjft02CV+tqQmsTwndtDCw+Be8fh1QTkBoeDEuQ+GUhQdnHAo
-         tH6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-        bh=7iat0ktaBOWwjtBUt7x2aQfPfuUy19h2lhAIj61y1/o=;
-        b=pReufBGimO5Iop+ZuHHExpx07sipmP1VTdBlalP+SV2xI/ZTM0rbyFWWa4g3/ixGU7
-         pgZzvMmQoxVxi7D+53AfLM2v2BGwqmnyIxeYPnFkhPUe6AeYMIp9+6xIyXYrVNLBF+JK
-         2BV3vPA6G2Vfz8chxXaa7c4A9tcqK7p5Sqb1ciuDemSDht9pmAARLh+m5nD1z7fU5RSw
-         DQ2kr0iq/09EjtUC8KZ873kbZREwafwFtEkFBLEAb7a3Fpe8wOUFU436mexqOH+VOnwM
-         iBQ0oEFG2CaDxmi2xbjBlCipqpkzcU5rKHZY3k0N4+MiyA8+IxUUm6ErI0khuKVZC3D9
-         ZLiA==
-X-Gm-Message-State: AOUpUlG7FuOXrFfnLu3ltYsTI1reTi69f40aO06F2ih3NdWABoF9jCd8
-        BnnU4+JnBmlmF8aXLGwIjJo=
-X-Google-Smtp-Source: AA+uWPzokLL+hN55stYA1ngsIiKQtWTtCNwHxvzDUrVXzelcbeD4oQJtbrih7885RzJ/ZCnko0WCqg==
-X-Received: by 2002:a1c:6d94:: with SMTP id b20-v6mr12800831wmi.28.1534311989488;
-        Tue, 14 Aug 2018 22:46:29 -0700 (PDT)
-Received: from lorien (lorien.valinor.li. [2a01:4f8:192:61d5::2])
-        by smtp.gmail.com with ESMTPSA id w204-v6sm1179680wmw.5.2018.08.14.22.46.28
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 Aug 2018 22:46:28 -0700 (PDT)
-From:   Salvatore Bonaccorso <carnil@debian.org>
-Cc:     Salvatore Bonaccorso <carnil@debian.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tony Luck <tony.luck@intel.com>, linux-doc@vger.kernel.org,
-        trivial@kernel.org
-Subject: [PATCH] Documentation/l1tf: Fix small spelling typo
-Date:   Wed, 15 Aug 2018 07:46:04 +0200
-Message-Id: <20180815054604.27895-1-carnil@debian.org>
-X-Mailer: git-send-email 2.18.0
-To:     unlisted-recipients:; (no To-header on input)
+        id S1725949AbeHOIwR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 15 Aug 2018 04:52:17 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:54244 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbeHOIwQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Aug 2018 04:52:16 -0400
+Received: from grover.tkatk1.zaq.ne.jp (zaqdadce369.zaq.ne.jp [218.220.227.105]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id w7F5xsZj013655;
+        Wed, 15 Aug 2018 14:59:55 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com w7F5xsZj013655
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1534312795;
+        bh=+YSDxX8uowPXcN9orKBzvmOcHcB7atfWoNjn8pQB4Pw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=jM6b56aaaBV3K6yr+G8FwYLHiHo2rFytD0qWo5dcfOVvUEoecQ/pH8l+HxTWn+3Df
+         rn2eEcy/bmp+sJ5z2OUovQBdOe80pYJNz1Xb2S12B8bXfkCQXiyYvx+kvJR6Q0NXO5
+         DhzmwUfz0eb7I/R87gpUPepnP39CBmvulwztFxVAQiZdI2xWyl4oqJ+ogoXPJtjYJI
+         XHyZjji44oCDakEHUWc6FXC5NMKe94TuEj5dYEW7Xhd2o9xJQNVi0xtv4YJxykv56x
+         PtQNO4RuRPpNgAUrjlbDl2X1SmBbF4NzhyEzQsnpFHDoHtZv4+EsqFcXSW3ydNvWU2
+         nY2t0A2AgD58w==
+X-Nifty-SrcIP: [218.220.227.105]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Dirk Gouders <dirk@gouders.net>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/3] kconfig: report recursive dependency involving 'imply'
+Date:   Wed, 15 Aug 2018 14:59:44 +0900
+Message-Id: <1534312785-28434-2-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1534312785-28434-1-git-send-email-yamada.masahiro@socionext.com>
+References: <1534312785-28434-1-git-send-email-yamada.masahiro@socionext.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix small typo (wiil -> will) in the "3.4. Nested virtual machines"
-section.
+Currently, Kconfig does not complain about the recursive dependency
+where 'imply' keywords are involved.
 
-Fixes: 5b76a3cff011 ("KVM: VMX: Tell the nested hypervisor to skip L1D flush on vmentry")
-Cc: linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: linux-doc@vger.kernel.org
-Cc: trivial@kernel.org
+[Test Code]
 
-Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+  config A
+          bool "a"
+
+  config B
+          bool "b"
+          imply A
+          depends on A
+
+In the code above, Kconfig cannot calculate the symbol values correctly
+due to the circular dependency.  For example, allyesconfig followed by
+syncconfig results in an odd behavior because CONFIG_B becomes visible
+in syncconfig.
+
+  $ make allyesconfig
+  scripts/kconfig/conf  --allyesconfig Kconfig
+  #
+  # configuration written to .config
+  #
+  $ cat .config
+  #
+  # Automatically generated file; DO NOT EDIT.
+  # Main menu
+  #
+  CONFIG_A=y
+  $ make syncconfig
+  scripts/kconfig/conf  --syncconfig Kconfig
+  *
+  * Restart config...
+  *
+  *
+  * Main menu
+  *
+  a (A) [Y/n/?] y
+    b (B) [N/y/?] (NEW)
+
+To detect this correctly, sym_check_expr_deps() should recurse to
+not only sym->rev_dep.expr but also sym->implied.expr .
+
+At this moment, sym_check_print_recursive() cannot distinguish
+'select' and 'imply' since it does not know the precise context
+where the recursive dependency has been hit.  This will be solved
+by the next commit.
+
+In fact, even the document and the unit-test are confused.  Using
+'imply' does not solve recursive dependency since 'imply' addresses
+the unmet direct dependency, which 'select' could cause.
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
- Documentation/admin-guide/l1tf.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/l1tf.rst b/Documentation/admin-guide/l1tf.rst
-index bae52b845de0..b85dd80510b0 100644
---- a/Documentation/admin-guide/l1tf.rst
-+++ b/Documentation/admin-guide/l1tf.rst
-@@ -553,7 +553,7 @@ When nested virtualization is in use, three operating systems are involved:
- the bare metal hypervisor, the nested hypervisor and the nested virtual
- machine.  VMENTER operations from the nested hypervisor into the nested
- guest will always be processed by the bare metal hypervisor. If KVM is the
--bare metal hypervisor it wiil:
-+bare metal hypervisor it will:
+Changes in v2:
+ - Fix documentation and unit-test
+
+ Documentation/kbuild/kconfig-language.txt          |  3 +-
+ scripts/kconfig/symbol.c                           |  9 +++--
+ scripts/kconfig/tests/err_recursive_dep/Kconfig    |  3 +-
+ .../tests/err_recursive_dep/expected_stderr        | 38 +++++++++++++---------
+ 4 files changed, 33 insertions(+), 20 deletions(-)
+
+diff --git a/Documentation/kbuild/kconfig-language.txt b/Documentation/kbuild/kconfig-language.txt
+index c54cb7c..864e740 100644
+--- a/Documentation/kbuild/kconfig-language.txt
++++ b/Documentation/kbuild/kconfig-language.txt
+@@ -545,7 +545,7 @@ make KBUILD_KCONFIG=Documentation/kbuild/Kconfig.recursion-issue-02 allnoconfig
+ Practical solutions to kconfig recursive issue
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-  - Flush the L1D cache on every switch from the nested hypervisor to the
-    nested virtual machine, so that the nested hypervisor's secrets are not
+-Developers who run into the recursive Kconfig issue have three options
++Developers who run into the recursive Kconfig issue have two options
+ at their disposal. We document them below and also provide a list of
+ historical issues resolved through these different solutions.
+ 
+@@ -553,7 +553,6 @@ historical issues resolved through these different solutions.
+   b) Match dependency semantics:
+ 	b1) Swap all "select FOO" to "depends on FOO" or,
+ 	b2) Swap all "depends on FOO" to "select FOO"
+-  c) Consider the use of "imply" instead of "select"
+ 
+ The resolution to a) can be tested with the sample Kconfig file
+ Documentation/kbuild/Kconfig.recursion-issue-01 through the removal
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index 688f487..90e70609 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -1098,7 +1098,7 @@ static void sym_check_print_recursive(struct symbol *last_sym)
+ 				sym->name ? sym->name : "<choice>",
+ 				next_sym->name ? next_sym->name : "<choice>");
+ 		} else {
+-			fprintf(stderr, "%s:%d:\tsymbol %s is selected by %s\n",
++			fprintf(stderr, "%s:%d:\tsymbol %s is selected or implied by %s\n",
+ 				prop->file->name, prop->lineno,
+ 				sym->name ? sym->name : "<choice>",
+ 				next_sym->name ? next_sym->name : "<choice>");
+@@ -1161,8 +1161,13 @@ static struct symbol *sym_check_sym_deps(struct symbol *sym)
+ 	if (sym2)
+ 		goto out;
+ 
++	sym2 = sym_check_expr_deps(sym->implied.expr);
++	if (sym2)
++		goto out;
++
+ 	for (prop = sym->prop; prop; prop = prop->next) {
+-		if (prop->type == P_CHOICE || prop->type == P_SELECT)
++		if (prop->type == P_CHOICE || prop->type == P_SELECT ||
++		    prop->type == P_IMPLY)
+ 			continue;
+ 		stack.prop = prop;
+ 		sym2 = sym_check_expr_deps(prop->visible.expr);
+diff --git a/scripts/kconfig/tests/err_recursive_dep/Kconfig b/scripts/kconfig/tests/err_recursive_dep/Kconfig
+index a65bfcb..ebdb3ff 100644
+--- a/scripts/kconfig/tests/err_recursive_dep/Kconfig
++++ b/scripts/kconfig/tests/err_recursive_dep/Kconfig
+@@ -1,3 +1,5 @@
++# SPDX-License-Identifier: GPL-2.0
++
+ # depends on itself
+ 
+ config A
+@@ -31,7 +33,6 @@ config D2
+ 	bool
+ 
+ # depends on and imply
+-# This is not recursive dependency
+ 
+ config E1
+ 	bool "E1"
+diff --git a/scripts/kconfig/tests/err_recursive_dep/expected_stderr b/scripts/kconfig/tests/err_recursive_dep/expected_stderr
+index 3de807d..2eb2528 100644
+--- a/scripts/kconfig/tests/err_recursive_dep/expected_stderr
++++ b/scripts/kconfig/tests/err_recursive_dep/expected_stderr
+@@ -1,30 +1,38 @@
+-Kconfig:9:error: recursive dependency detected!
+-Kconfig:9:	symbol B is selected by B
++Kconfig:11:error: recursive dependency detected!
++Kconfig:11:	symbol B is selected or implied by B
+ For a resolution refer to Documentation/kbuild/kconfig-language.txt
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:3:error: recursive dependency detected!
+-Kconfig:3:	symbol A depends on A
++Kconfig:5:error: recursive dependency detected!
++Kconfig:5:	symbol A depends on A
+ For a resolution refer to Documentation/kbuild/kconfig-language.txt
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:15:error: recursive dependency detected!
+-Kconfig:15:	symbol C1 depends on C2
+-Kconfig:19:	symbol C2 depends on C1
++Kconfig:17:error: recursive dependency detected!
++Kconfig:17:	symbol C1 depends on C2
++Kconfig:21:	symbol C2 depends on C1
+ For a resolution refer to Documentation/kbuild/kconfig-language.txt
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:30:error: recursive dependency detected!
+-Kconfig:30:	symbol D2 is selected by D1
+-Kconfig:25:	symbol D1 depends on D2
++Kconfig:32:error: recursive dependency detected!
++Kconfig:32:	symbol D2 is selected or implied by D1
++Kconfig:27:	symbol D1 depends on D2
+ For a resolution refer to Documentation/kbuild/kconfig-language.txt
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:59:error: recursive dependency detected!
+-Kconfig:59:	symbol G depends on G
++Kconfig:37:error: recursive dependency detected!
++Kconfig:37:	symbol E1 depends on E2
++Kconfig:42:	symbol E2 is selected or implied by E1
+ For a resolution refer to Documentation/kbuild/kconfig-language.txt
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:50:error: recursive dependency detected!
+-Kconfig:50:	symbol F2 depends on F1
+-Kconfig:48:	symbol F1 default value contains F2
++Kconfig:60:error: recursive dependency detected!
++Kconfig:60:	symbol G depends on G
++For a resolution refer to Documentation/kbuild/kconfig-language.txt
++subsection "Kconfig recursive dependency limitations"
++
++Kconfig:51:error: recursive dependency detected!
++Kconfig:51:	symbol F2 depends on F1
++Kconfig:49:	symbol F1 default value contains F2
++For a resolution refer to Documentation/kbuild/kconfig-language.txt
++subsection "Kconfig recursive dependency limitations"
 -- 
-2.18.0
+2.7.4
 
