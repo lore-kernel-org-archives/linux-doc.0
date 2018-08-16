@@ -2,214 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 874A67D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 Aug 2018 09:27:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 297537D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 Aug 2018 09:51:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390463AbeHPMYY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 16 Aug 2018 08:24:24 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:37842 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727206AbeHPMYY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Aug 2018 08:24:24 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id C7ADE61FEF; Thu, 16 Aug 2018 09:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1534411629;
-        bh=lBsyIqx49GNZCowyi0v2m1UVdmX7/pzVBPsRzmvjBnY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=fdcPkr6ZgNCfiYzhM+e4AyNz6acwyGCH8kavctjdBxOYKFJ5TVWZ7GnB17Tkvta/I
-         JJxRC3+BbQgAUt2m+Y2cukhFI2S1CqDMU1OsZjlVdF8RzaADX9VtS3taIoPqlAod7C
-         kyr6uf/M5w3p+UTmuGOy78jb8f3FWqUJbf787rko=
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by smtp.codeaurora.org (Postfix) with ESMTP id E110B62198;
-        Thu, 16 Aug 2018 09:27:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1534411629;
-        bh=lBsyIqx49GNZCowyi0v2m1UVdmX7/pzVBPsRzmvjBnY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=fdcPkr6ZgNCfiYzhM+e4AyNz6acwyGCH8kavctjdBxOYKFJ5TVWZ7GnB17Tkvta/I
-         JJxRC3+BbQgAUt2m+Y2cukhFI2S1CqDMU1OsZjlVdF8RzaADX9VtS3taIoPqlAod7C
-         kyr6uf/M5w3p+UTmuGOy78jb8f3FWqUJbf787rko=
+        id S1729069AbeHPMsd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 16 Aug 2018 08:48:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49608 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727206AbeHPMsd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Aug 2018 08:48:33 -0400
+Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 20986208A5;
+        Thu, 16 Aug 2018 09:51:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1534413070;
+        bh=I9YH7P2MWzZ9PmRaT+k1qt1cVxdwhStczAnG2jrJy14=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=e68UEfOAs5fRXcqK2PZZ0JIOyt78hsI4fHxoi716VagDAU4uHK8ZGAGjAfKOB5dES
+         si2HOpKL01jQ9oeSOlemg1lhkDvt3wZRrC9mUw4h7QFkZCkdYk2Vx7JyP/sd9Ieq7E
+         w9sdicC82fxgq0bkNQdA1T9b/fDO/5JjnS/ZBk/I=
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 1/2] docs: tracing: Add stacktrace filter command
+Date:   Thu, 16 Aug 2018 18:50:47 +0900
+Message-Id: <153441304709.6024.553337906391633027.stgit@devbox>
+X-Mailer: git-send-email 2.13.6
+In-Reply-To: <153441301698.6024.1680500212551396320.stgit@devbox>
+References: <153441301698.6024.1680500212551396320.stgit@devbox>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Date:   Thu, 16 Aug 2018 14:57:08 +0530
-From:   poza@codeaurora.org
-To:     Jon Derrick <jonathan.derrick@intel.com>
-Cc:     linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Sinan Kaya <okaya@kernel.org>,
-        Dongdong Liu <liudongdong3@huawei.com>
-Subject: Re: [PATCH 1/2] PCI/DPC: Add 'nodpc' parameter
-In-Reply-To: <1534368400-2807-1-git-send-email-jonathan.derrick@intel.com>
-References: <1534368400-2807-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <f11c06374a90650e862cb68206ad2fdb@codeaurora.org>
-X-Sender: poza@codeaurora.org
-User-Agent: Roundcube Webmail/1.2.5
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2018-08-16 02:56, Jon Derrick wrote:
-> Some users may want to disable downstream port containment (DPC), so
-> give them this option
-> 
-> Signed-off-by: Jon Derrick <jonathan.derrick@intel.com>
-> ---
->  drivers/pci/pci.c      |  2 ++
->  drivers/pci/pci.h      |  6 ++++++
->  drivers/pci/pcie/dpc.c | 48 
-> ++++++++++++++++++++++++++++++++++++++----------
->  include/linux/pci.h    |  6 ++++++
->  4 files changed, 52 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 80da484..4e629c2 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -6062,6 +6062,8 @@ static int __init pci_setup(char *str)
->  				pcie_ats_disabled = true;
->  			} else if (!strcmp(str, "noaer")) {
->  				pci_no_aer();
-> +			} else if (!strcmp(str, "nodpc")) {
-> +				pci_no_dpc();
->  			} else if (!strcmp(str, "earlydump")) {
->  				pci_early_dump = true;
->  			} else if (!strncmp(str, "realloc=", 8)) {
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index 6e0d152..f73f29e 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -536,4 +536,10 @@ static inline void
-> pci_aer_clear_fatal_status(struct pci_dev *dev) { }
->  static inline void pci_aer_clear_device_status(struct pci_dev *dev) { 
-> }
->  #endif
-> 
-> +#ifdef CONFIG_PCIE_DPC
-> +void pci_no_dpc(void);
-> +#else
-> +static inline void pci_no_dpc(void) { }
-> +#endif
-> +
->  #endif /* DRIVERS_PCI_H */
-> diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
-> index f03279f..068fca0 100644
-> --- a/drivers/pci/pcie/dpc.c
-> +++ b/drivers/pci/pcie/dpc.c
-> @@ -44,6 +44,18 @@ struct dpc_dev {
->  	"Memory Request Completion Timeout",		 /* Bit Position 18 */
->  };
-> 
-> +static int pcie_dpc_disable;
-> +
-> +void pci_no_dpc(void)
-> +{
-> +	pcie_dpc_disable = 1;
-> +}
-> +
-> +bool pci_dpc_available(void)
-> +{
-> +	return !pcie_dpc_disable && pci_aer_available() && pci_msi_enabled();
+Add a description of stacktrace filter command.
 
-1) why do you check pci_aer_available() ?
-2) and pci_aer_available() already internally checks pci_msi_enabled();
+Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/trace/ftrace.rst |    3 +++
+ 1 file changed, 3 insertions(+)
 
-> +}
-> +
->  static int dpc_wait_rp_inactive(struct dpc_dev *dpc)
->  {
->  	unsigned long timeout = jiffies + HZ;
-> @@ -209,6 +221,17 @@ static irqreturn_t dpc_irq(int irq, void *context)
->  	return IRQ_HANDLED;
->  }
-> 
-> +static void dpc_disable(struct pci_dev *pdev)
-> +{
-> +	u16 cap_pos, ctl;
-> +
-> +	cap_pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_DPC);
-> +	pci_read_config_word(pdev, cap_pos + PCI_EXP_DPC_CTL, &ctl);
-> +	ctl &= ~(PCI_EXP_DPC_CTL_EN_FATAL | PCI_EXP_DPC_CTL_EN_NONFATAL |
-> +		 PCI_EXP_DPC_CTL_INT_EN);
-> +	pci_write_config_word(pdev, cap_pos + PCI_EXP_DPC_CTL, ctl);
-> +}
-> +
->  #define FLAG(x, y) (((x) & (y)) ? '+' : '-')
->  static int dpc_probe(struct pcie_device *dev)
->  {
-> @@ -221,9 +244,16 @@ static int dpc_probe(struct pcie_device *dev)
->  	if (pcie_aer_get_firmware_first(pdev))
->  		return -ENOTSUPP;
-> 
-> +	if (!pci_dpc_available()) {
-> +		status = -ENOTSUPP;
-> +		goto disable_dpc;
-> +	}
-> +
->  	dpc = devm_kzalloc(device, sizeof(*dpc), GFP_KERNEL);
-> -	if (!dpc)
-> -		return -ENOMEM;
-> +	if (!dpc) {
-> +		status = -ENOMEM;
-> +		goto disable_dpc;
-> +	}
-> 
->  	dpc->cap_pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_DPC);
->  	dpc->dev = dev;
-> @@ -235,7 +265,7 @@ static int dpc_probe(struct pcie_device *dev)
->  	if (status) {
->  		dev_warn(device, "request IRQ%d failed: %d\n", dev->irq,
->  			 status);
-> -		return status;
-> +		goto disable_dpc;
->  	}
-> 
->  	pci_read_config_word(pdev, dpc->cap_pos + PCI_EXP_DPC_CAP, &cap);
-> @@ -260,17 +290,15 @@ static int dpc_probe(struct pcie_device *dev)
->  		FLAG(cap, PCI_EXP_DPC_CAP_SW_TRIGGER), dpc->rp_log_size,
->  		FLAG(cap, PCI_EXP_DPC_CAP_DL_ACTIVE));
->  	return status;
-> +
-> +disable_dpc:
-> +	dpc_disable(pdev);
-> +	return status;
->  }
-> 
->  static void dpc_remove(struct pcie_device *dev)
->  {
-> -	struct dpc_dev *dpc = get_service_data(dev);
-> -	struct pci_dev *pdev = dev->port;
-> -	u16 ctl;
-> -
-> -	pci_read_config_word(pdev, dpc->cap_pos + PCI_EXP_DPC_CTL, &ctl);
-> -	ctl &= ~(PCI_EXP_DPC_CTL_EN_FATAL | PCI_EXP_DPC_CTL_INT_EN);
-> -	pci_write_config_word(pdev, dpc->cap_pos + PCI_EXP_DPC_CTL, ctl);
-> +	dpc_disable(dev->port);
->  }
-> 
->  static struct pcie_port_service_driver dpcdriver = {
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 5454e6b..559b792 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -1473,6 +1473,12 @@ static inline int pci_irqd_intx_xlate(struct
-> irq_domain *d,
->  static inline bool pci_aer_available(void) { return false; }
->  #endif
-> 
-> +#ifdef CONFIG_PCIE_DPC
-> +bool pci_dpc_available(void);
-> +#else
-> +static inline bool pci_dpc_available(void) { return false; }
-> +#endif
-> +
->  #ifdef CONFIG_PCIE_ECRC
->  void pcie_set_ecrc_checking(struct pci_dev *dev);
->  void pcie_ecrc_get_policy(char *str);
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index a20d34955333..81378a8b631e 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -2987,6 +2987,9 @@ The following commands are supported:
+   command, it only prints out the contents of the ring buffer for the
+   CPU that executed the function that triggered the dump.
+ 
++- stacktrace:
++  When the function is hit, a stack trace is recorded.
++
+ trace_pipe
+ ----------
+ 
+
