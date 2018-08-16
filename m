@@ -1,309 +1,470 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EDB957D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 Aug 2018 18:32:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 276847D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 Aug 2018 18:59:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727709AbeHPVcj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 16 Aug 2018 17:32:39 -0400
-Received: from smtprelay0221.hostedemail.com ([216.40.44.221]:59174 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726470AbeHPVcj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Aug 2018 17:32:39 -0400
-X-Greylist: delayed 387 seconds by postgrey-1.27 at vger.kernel.org; Thu, 16 Aug 2018 17:32:38 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave06.hostedemail.com (Postfix) with ESMTP id 13CA28024669
-        for <linux-doc@vger.kernel.org>; Thu, 16 Aug 2018 18:26:12 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 64F05837F242;
-        Thu, 16 Aug 2018 18:26:08 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: nest27_8c9423c30c95f
-X-Filterd-Recvd-Size: 12627
-Received: from joe-laptop.perches.com (unknown [47.151.153.53])
-        (Authenticated sender: joe@perches.com)
-        by omf06.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 16 Aug 2018 18:26:05 +0000 (UTC)
-From:   Joe Perches <joe@perches.com>
-To:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Rob Herring <rob.herring@linaro.org>,
-        Jonas Oberg <jonas@fsfe.org>,
-        Andrew Morton <akpm@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] license-rules.rst and LICENSES: Use only spdx version 3 with -only and -or-later
-Date:   Thu, 16 Aug 2018 11:26:03 -0700
-Message-Id: <f9a4cd2b1c1cd7938a4e0b8aa9489a0ad96669ca.1534443693.git.joe@perches.com>
-X-Mailer: git-send-email 2.15.0
+        id S1726311AbeHPWAI convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 16 Aug 2018 18:00:08 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:35576 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726304AbeHPWAH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Aug 2018 18:00:07 -0400
+Received: by mail-pf1-f193.google.com with SMTP id p12-v6so2433046pfh.2
+        for <linux-doc@vger.kernel.org>; Thu, 16 Aug 2018 11:59:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=a6ij+bf7DST9/Xq6u9FGxT57TJzPh/2P04GETxyy5hA=;
+        b=htJjKrGxP3lI+xYXiXrtufaQCb8mfU3uWNfxkfPsD8dyje3I8ZtEgMFz5eauUGJdNm
+         5mBd/sy1PI+X87t00E4ot3NZWykn9VMraPECV5NHg3asCxYyOAFCmkoRYwXHtnp1eCz1
+         nSHr0tq+LnZIVvu/e5enr4gFOfP4cBcAnfC5cODH87Bwz0ckUJBXu+H7gaMe2DlS6iJW
+         PZqeZZxrZk2AQ2zTBfLAZjPz1ybD/IE+BMvwodjpE9XI7EKz9y6SCMaJBNK8ovqUj1b7
+         9QpwXnW6tgqOwSN+bN6GnfT5qNPjt73W3qDoEOTZWlkfOngxs7VARjMbVH/6BojAKSuz
+         swNA==
+X-Gm-Message-State: AOUpUlGRuFiPi+b4Ah3HEB8a4UXVuICSNBW0EHaw/zXbX0o1oIqXWw8C
+        wRTKzgKVgo/R6U1sU6lV/4TVsA==
+X-Google-Smtp-Source: AA+uWPziBlVFkGYGb8UuD5BPvr3IkOQhI463rqknOOWrUOerFUcr0xvugbb2yGisBd25DCkMMA+1Ew==
+X-Received: by 2002:a63:cf10:: with SMTP id j16-v6mr30069722pgg.238.1534445994338;
+        Thu, 16 Aug 2018 11:59:54 -0700 (PDT)
+Received: from localhost ([207.114.172.147])
+        by smtp.gmail.com with ESMTPSA id x1-v6sm37965pgr.59.2018.08.16.11.59.53
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 16 Aug 2018 11:59:53 -0700 (PDT)
+Date:   Thu, 16 Aug 2018 11:59:52 -0700
+From:   Moritz Fischer <mdf@kernel.org>
+To:     Alan Tull <atull@kernel.org>
+Cc:     Moritz Fischer <mdf@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Appana Durga Kedareswara Rao <appanad@xilinx.com>,
+        linux-kernel@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, Alan Tull <atull@opensource.altera.com>,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: Re: [PATCH 2/2] fpga: add FPGA manager debugfs
+Message-ID: <20180816185952.GA3932@archbook>
+References: <20180815220958.3606-1-atull@kernel.org>
+ <20180815220958.3606-2-atull@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20180815220958.3606-2-atull@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current linux-kernel source git tree has a mixture of the deprecated
-spdx version 2 and the newer version 3 uses.
+Hi Alan,
 
-Update the process/license-rules.rst file to show only the version 3 style
-and use only the version 3 styles in LICENSES.
+comments inline. While I see how this is useful, I have the
+suspicion that from the moment this gets merged vendor kernels
+will just default to use this ...
 
-Add a script to update all old versions in the tree as well.
+On Wed, Aug 15, 2018 at 05:09:58PM -0500, Alan Tull wrote:
+> From: Alan Tull <atull@opensource.altera.com>
+> 
+> Implement DebugFS for the FPGA Manager Framework for
+> debugging and developmental use.
+> 
+> Enabled by CONFIG_FPGA_MGR_DEBUG_FS
+> 
+> Each FPGA gets its own directory such as
+>  <debugfs>/fpga_manager/fpga0 and three files:
+> 
+>  * [RW] flags          = flags as defined in fpga-mgr.h
+>  * [RW] firmware_name  = write/read back name of FPGA image
+>                          firmware file to program
+>  * [WO] image          = write-only file for directly writing
+>                          fpga image w/o firmware layer
+>  * [RW] config_complete_timeout_us = maximum for the FPGA to
+>                          go to the operating state after
+> 			 programming
+> 
+> The debugfs is implemented in a separate fpga_mgr_debugfs.c
+> file, but the FPGA manager core is still built as one
+> module.  Note the name change from fpga-mgr.ko to fpga_mgr.ko.
+> 
+> Signed-off-by: Alan Tull <atull@kernel.org>
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> ---
+>  drivers/fpga/Kconfig            |   7 ++
+>  drivers/fpga/Makefile           |   4 +-
+>  drivers/fpga/fpga-mgr-debugfs.c | 221 ++++++++++++++++++++++++++++++++++++++++
+>  drivers/fpga/fpga-mgr-debugfs.h |  22 ++++
+>  drivers/fpga/fpga-mgr.c         |   8 ++
+>  include/linux/fpga/fpga-mgr.h   |   3 +
+>  6 files changed, 264 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/fpga/fpga-mgr-debugfs.c
+>  create mode 100644 drivers/fpga/fpga-mgr-debugfs.h
+> 
+> diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
+> index 1ebcef4..600924d 100644
+> --- a/drivers/fpga/Kconfig
+> +++ b/drivers/fpga/Kconfig
+> @@ -9,6 +9,13 @@ menuconfig FPGA
+>  	  kernel.  The FPGA framework adds a FPGA manager class and FPGA
+>  	  manager drivers.
+>  
+> +config FPGA_MGR_DEBUG_FS
+> +       bool "FPGA Manager DebugFS"
+> +       depends on FPGA && DEBUG_FS
+> +       help
+> +         Say Y here if you want to expose a DebugFS interface for the
+> +	 FPGA Manager Framework.
+> +
+>  if FPGA
+>  
+>  config FPGA_MGR_SOCFPGA
+> diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
+> index 7a2d73b..62910cc 100644
+> --- a/drivers/fpga/Makefile
+> +++ b/drivers/fpga/Makefile
+> @@ -4,7 +4,9 @@
+>  #
+>  
+>  # Core FPGA Manager Framework
+> -obj-$(CONFIG_FPGA)			+= fpga-mgr.o
+> +obj-$(CONFIG_FPGA)			+= fpga_mgr.o
+> +fpga_mgr-y				:= fpga-mgr.o
+> +fpga_mgr-$(CONFIG_FPGA_MGR_DEBUG_FS)	+= fpga-mgr-debugfs.o
+>  
+>  # FPGA Manager Drivers
+>  obj-$(CONFIG_FPGA_MGR_ALTERA_CVP)	+= altera-cvp.o
+> diff --git a/drivers/fpga/fpga-mgr-debugfs.c b/drivers/fpga/fpga-mgr-debugfs.c
+> new file mode 100644
+> index 0000000..f2fdf58
+> --- /dev/null
+> +++ b/drivers/fpga/fpga-mgr-debugfs.c
+> @@ -0,0 +1,221 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * FPGA Manager DebugFS
+> + *
+> + *  Copyright (C) 2016-2018 Intel Corporation.  All rights reserved.
+> + */
+> +#include <linux/debugfs.h>
+> +#include <linux/fpga/fpga-mgr.h>
+> +#include <linux/slab.h>
+> +#include <linux/uaccess.h>
+> +
+> +static struct dentry *fpga_mgr_debugfs_root;
+> +
+> +struct fpga_mgr_debugfs {
+> +	struct dentry *debugfs_dir;
+> +	struct fpga_image_info *info;
+> +};
+> +
+> +static ssize_t fpga_mgr_firmware_write_file(struct file *file,
+> +					    const char __user *user_buf,
+> +					    size_t count, loff_t *ppos)
+> +{
+> +	struct fpga_manager *mgr = file->private_data;
+> +	struct fpga_mgr_debugfs *debugfs = mgr->debugfs;
+> +	struct device *dev = &mgr->dev;
+> +	char *buf;
+> +	int ret;
+> +
+> +	ret = fpga_mgr_lock(mgr);
+> +	if (ret) {
+> +		dev_err(dev, "FPGA manager is busy\n");
+> +		return -EBUSY;
+> +	}
+> +
+> +	buf = devm_kzalloc(dev, count, GFP_KERNEL);
+> +	if (!buf) {
+> +		fpga_mgr_unlock(mgr);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	if (copy_from_user(buf, user_buf, count)) {
+> +		fpga_mgr_unlock(mgr);
+> +		devm_kfree(dev, buf);
+> +		return -EFAULT;
+> +	}
+> +
+> +	buf[count] = 0;
+> +	if (buf[count - 1] == '\n')
+> +		buf[count - 1] = 0;
+> +
+> +	/* Release previous firmware name (if any). Save current one. */
+> +	if (debugfs->info->firmware_name)
+> +		devm_kfree(dev, debugfs->info->firmware_name);
+> +	debugfs->info->firmware_name = buf;
+> +
+> +	ret = fpga_mgr_load(mgr, debugfs->info);
+> +	if (ret)
+> +		dev_err(dev, "fpga_mgr_load returned with value %d\n", ret);
+> +
+> +	fpga_mgr_unlock(mgr);
+> +
+> +	return count;
+> +}
+> +
+> +static ssize_t fpga_mgr_firmware_read_file(struct file *file,
+> +					   char __user *user_buf,
+> +					   size_t count, loff_t *ppos)
+> +{
+> +	struct fpga_manager *mgr = file->private_data;
+> +	struct fpga_mgr_debugfs *debugfs = mgr->debugfs;
+> +	char *buf;
+> +	int ret;
+> +
+> +	if (!debugfs->info->firmware_name)
+> +		return 0;
+> +
+> +	buf = kzalloc(PAGE_SIZE, GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	ret = snprintf(buf, PAGE_SIZE, "%s\n", debugfs->info->firmware_name);
+snip:
+---->8->8->8-----
+> +	if (ret < 0) {
+> +		kfree(buf);
+> +		return ret;
+> +	}
+---->8->8->8-----
+just replace with:
+	if (ret < 0)
+		goto out;
+> +
+> +	ret = simple_read_from_buffer(user_buf, count, ppos, buf, ret);
 
-I suggest this be applied and the script be run and applied immediately
-after an -rc1.  The script could also be used at any time after the initial
-use to update any other deprecated spdx license uses.
+out:
+> +	kfree(buf);
+> +	return ret;
+> +}
+> +
+> +static const struct file_operations fpga_mgr_firmware_fops = {
+> +	.open = simple_open,
+> +	.read = fpga_mgr_firmware_read_file,
+> +	.write = fpga_mgr_firmware_write_file,
+> +	.llseek = default_llseek,
+> +};
+> +
+> +static ssize_t fpga_mgr_image_write_file(struct file *file,
+> +					 const char __user *user_buf,
+> +					 size_t count, loff_t *ppos)
+> +{
+> +	struct fpga_manager *mgr = file->private_data;
+> +	struct fpga_mgr_debugfs *debugfs = mgr->debugfs;
+> +	struct device *dev = &mgr->dev;
+> +	char *buf;
+> +	int ret;
+> +
+> +	dev_info(dev, "writing %zu bytes to %s\n", count, mgr->name);
+> +
+> +	ret = fpga_mgr_lock(mgr);
+> +	if (ret) {
+> +		dev_err(dev, "FPGA manager is busy\n");
+> +		return -EBUSY;
+> +	}
+> +
+> +	buf = kzalloc(count, GFP_KERNEL);
+> +	if (!buf) {
+> +		fpga_mgr_unlock(mgr);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	if (copy_from_user(buf, user_buf, count)) {
+> +		fpga_mgr_unlock(mgr);
+> +		kfree(buf);
+> +		return -EFAULT;
+> +	}
+> +
+> +	/* If firmware interface was previously used, forget it. */
+> +	if (debugfs->info->firmware_name)
+> +		devm_kfree(dev, debugfs->info->firmware_name);
+> +	debugfs->info->firmware_name = NULL;
+> +
+> +	debugfs->info->buf = buf;
+> +	debugfs->info->count = count;
+> +
+> +	ret = fpga_mgr_load(mgr, debugfs->info);
+> +	if (ret)
+> +		dev_err(dev, "fpga_mgr_load returned with value %d\n", ret);
+> +
+> +	fpga_mgr_unlock(mgr);
+> +
+> +	debugfs->info->buf = NULL;
+> +	debugfs->info->count = 0;
 
-Signed-off-by: Joe Perches <joe@perches.com>
----
- Documentation/process/license-rules.rst | 60 ++++++++++++++++-----------------
- LICENSES/preferred/GPL-2.0              |  6 ----
- LICENSES/preferred/LGPL-2.0             |  8 ++---
- LICENSES/preferred/LGPL-2.1             |  8 ++---
- scripts/update_spdx_v2_licenses.sh      | 15 +++++++++
- 5 files changed, 53 insertions(+), 44 deletions(-)
- create mode 100755 scripts/update_spdx_v2_licenses.sh
+Is that ordering between unlock() and setting those correct?
+> +
+> +	kfree(buf);
+> +
+> +	return count;
+> +}
+> +
+> +static const struct file_operations fpga_mgr_image_fops = {
+> +	.open = simple_open,
+> +	.write = fpga_mgr_image_write_file,
+> +	.llseek = default_llseek,
+> +};
+> +
+> +void fpga_mgr_debugfs_add(struct fpga_manager *mgr)
+> +{
+> +	struct device *dev = &mgr->dev;
+> +	struct fpga_mgr_debugfs *debugfs;
+> +	struct fpga_image_info *info;
+> +
+> +	if (!fpga_mgr_debugfs_root)
+> +		return;
+> +
+> +	debugfs = kzalloc(sizeof(*debugfs), GFP_KERNEL);
+> +	if (!debugfs)
+> +		return;
+> +
+> +	info = fpga_image_info_alloc(dev);
+> +	if (!info) {
+> +		kfree(debugfs);
+> +		return;
+> +	}
+> +	debugfs->info = info;
+> +
+> +	debugfs->debugfs_dir = debugfs_create_dir(dev_name(dev),
+> +						  fpga_mgr_debugfs_root);
+> +
+> +	debugfs_create_file("firmware_name", 0600, debugfs->debugfs_dir, mgr,
+> +			    &fpga_mgr_firmware_fops);
+> +
+> +	debugfs_create_file("image", 0200, debugfs->debugfs_dir, mgr,
+> +			    &fpga_mgr_image_fops);
+> +
+> +	debugfs_create_u32("flags", 0600, debugfs->debugfs_dir, &info->flags);
+> +
+> +	debugfs_create_u32("config_complete_timeout_us", 0600,
+> +			   debugfs->debugfs_dir,
+> +			   &info->config_complete_timeout_us);
+> +
+> +	mgr->debugfs = debugfs;
+> +}
+> +
+> +void fpga_mgr_debugfs_remove(struct fpga_manager *mgr)
+> +{
+> +	struct fpga_mgr_debugfs *debugfs = mgr->debugfs;
+> +
+> +	if (!fpga_mgr_debugfs_root)
+> +		return;
+> +
+> +	debugfs_remove_recursive(debugfs->debugfs_dir);
+> +
+> +	/* this function also frees debugfs->info->firmware_name */
+> +	fpga_image_info_free(debugfs->info);
+> +
+> +	kfree(debugfs);
+> +}
+> +
+> +void fpga_mgr_debugfs_init(void)
+> +{
+> +	fpga_mgr_debugfs_root = debugfs_create_dir("fpga_manager", NULL);
+> +	if (!fpga_mgr_debugfs_root)
+> +		pr_warn("fpga_mgr: Failed to create debugfs root\n");
+> +}
+> +
+> +void fpga_mgr_debugfs_uninit(void)
+> +{
+> +	debugfs_remove_recursive(fpga_mgr_debugfs_root);
+> +}
+> diff --git a/drivers/fpga/fpga-mgr-debugfs.h b/drivers/fpga/fpga-mgr-debugfs.h
+> new file mode 100644
+> index 0000000..17cd3eb
+> --- /dev/null
+> +++ b/drivers/fpga/fpga-mgr-debugfs.h
+> @@ -0,0 +1,22 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#ifndef _LINUX_FPGA_MGR_DEBUGFS_H
+> +#define _LINUX_FPGA_MGR_DEBUGFS_H
+> +
+> +#if IS_ENABLED(CONFIG_FPGA_MGR_DEBUG_FS)
+> +
+> +void fpga_mgr_debugfs_add(struct fpga_manager *mgr);
+> +void fpga_mgr_debugfs_remove(struct fpga_manager *mgr);
+> +void fpga_mgr_debugfs_init(void);
+> +void fpga_mgr_debugfs_uninit(void);
+> +
+> +#else
+> +
+> +void fpga_mgr_debugfs_add(struct fpga_manager *mgr) {}
+> +void fpga_mgr_debugfs_remove(struct fpga_manager *mgr) {}
+> +void fpga_mgr_debugfs_init(void) {}
+> +void fpga_mgr_debugfs_uninit(void) {}
+> +
+> +#endif /* CONFIG_FPGA_MGR_DEBUG_FS */
+> +
+> +#endif /*_LINUX_FPGA_MGR_DEBUGFS_H */
+> diff --git a/drivers/fpga/fpga-mgr.c b/drivers/fpga/fpga-mgr.c
+> index c8684bc..66eb6f6 100644
+> --- a/drivers/fpga/fpga-mgr.c
+> +++ b/drivers/fpga/fpga-mgr.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/highmem.h>
+> +#include "fpga-mgr-debugfs.h"
+>  
+>  static DEFINE_IDA(fpga_mgr_ida);
+>  static struct class *fpga_mgr_class;
+> @@ -698,6 +699,8 @@ int fpga_mgr_register(struct fpga_manager *mgr)
+>  	if (ret)
+>  		goto error_device;
+>  
+> +	fpga_mgr_debugfs_add(mgr);
+> +
+>  	dev_info(&mgr->dev, "%s registered\n", mgr->name);
+>  
+>  	return 0;
+> @@ -722,6 +725,8 @@ void fpga_mgr_unregister(struct fpga_manager *mgr)
+>  {
+>  	dev_info(&mgr->dev, "%s %s\n", __func__, mgr->name);
+>  
+> +	fpga_mgr_debugfs_remove(mgr);
+> +
+>  	/*
+>  	 * If the low level driver provides a method for putting fpga into
+>  	 * a desired state upon unregister, do it.
+> @@ -748,11 +753,14 @@ static int __init fpga_mgr_class_init(void)
+>  	fpga_mgr_class->dev_groups = fpga_mgr_groups;
+>  	fpga_mgr_class->dev_release = fpga_mgr_dev_release;
+>  
+> +	fpga_mgr_debugfs_init();
+> +
+>  	return 0;
+>  }
+>  
+>  static void __exit fpga_mgr_class_exit(void)
+>  {
+> +	fpga_mgr_debugfs_uninit();
+>  	class_destroy(fpga_mgr_class);
+>  	ida_destroy(&fpga_mgr_ida);
+>  }
+> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
+> index 777c502..e8f2159 100644
+> --- a/include/linux/fpga/fpga-mgr.h
+> +++ b/include/linux/fpga/fpga-mgr.h
+> @@ -170,6 +170,9 @@ struct fpga_manager {
+>  	struct fpga_compat_id *compat_id;
+>  	const struct fpga_manager_ops *mops;
+>  	void *priv;
+> +#if IS_ENABLED(CONFIG_FPGA_MGR_DEBUG_FS)
+> +	void *debugfs;
+> +#endif
+>  };
+>  
+>  #define to_fpga_manager(d) container_of(d, struct fpga_manager, dev)
+> -- 
+> 2.7.4
+> 
 
-diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
-index 8ea26325fe3f..2b294611b6c1 100644
---- a/Documentation/process/license-rules.rst
-+++ b/Documentation/process/license-rules.rst
-@@ -16,12 +16,12 @@ The license described in the COPYING file applies to the kernel source
- as a whole, though individual source files can have a different license
- which is required to be compatible with the GPL-2.0::
- 
--    GPL-1.0+  :  GNU General Public License v1.0 or later
--    GPL-2.0+  :  GNU General Public License v2.0 or later
--    LGPL-2.0  :  GNU Library General Public License v2 only
--    LGPL-2.0+ :  GNU Library General Public License v2 or later
--    LGPL-2.1  :  GNU Lesser General Public License v2.1 only
--    LGPL-2.1+ :  GNU Lesser General Public License v2.1 or later
-+    GPL-1.0-or-later  :  GNU General Public License v1.0 or later
-+    GPL-2.0-or-later  :  GNU General Public License v2.0 or later
-+    LGPL-2.0-only     :  GNU Library General Public License v2 only
-+    LGPL-2.0-or-later :  GNU Library General Public License v2 or later
-+    LGPL-2.1-only     :  GNU Lesser General Public License v2.1 only
-+    LGPL-2.1-or-later :  GNU Lesser General Public License v2.1 or later
- 
- Aside from that, individual files can be provided under a dual license,
- e.g. one of the compatible GPL variants and alternatively under a
-@@ -98,21 +98,21 @@ License identifier syntax
-    "(", ")" .
- 
-    License identifiers for licenses like [L]GPL with the 'or later' option
--   are constructed by using a "+" for indicating the 'or later' option.::
-+   are constructed by using the '-or-later' option.::
- 
--      // SPDX-License-Identifier: GPL-2.0+
--      // SPDX-License-Identifier: LGPL-2.1+
-+      // SPDX-License-Identifier: GPL-2.0-or-later
-+      // SPDX-License-Identifier: LGPL-2.1-or-later
- 
-    WITH should be used when there is a modifier to a license needed.
-    For example, the linux kernel UAPI files use the expression::
- 
--      // SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note
--      // SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note
-+      // SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note
-+      // SPDX-License-Identifier: GPL-2.0-or-later WITH Linux-syscall-note
- 
-    Other examples using WITH exceptions found in the kernel are::
- 
--      // SPDX-License-Identifier: GPL-2.0 WITH mif-exception
--      // SPDX-License-Identifier: GPL-2.0+ WITH GCC-exception-2.0
-+      // SPDX-License-Identifier: GPL-2.0-only WITH mif-exception
-+      // SPDX-License-Identifier: GPL-2.0-or-later WITH GCC-exception-2.0
- 
-    Exceptions can only be used with particular License identifiers. The
-    valid License identifiers are listed in the tags of the exception text
-@@ -123,28 +123,28 @@ License identifier syntax
-    to be selected.  For example, some dtsi files are available under dual
-    licenses::
- 
--      // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+      // SPDX-License-Identifier: GPL-2.0-only OR BSD-3-Clause
- 
-    Examples from the kernel for license expressions in dual licensed files::
- 
--      // SPDX-License-Identifier: GPL-2.0 OR MIT
--      // SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
--      // SPDX-License-Identifier: GPL-2.0 OR Apache-2.0
--      // SPDX-License-Identifier: GPL-2.0 OR MPL-1.1
--      // SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) OR MIT
--      // SPDX-License-Identifier: GPL-1.0+ OR BSD-3-Clause OR OpenSSL
-+      // SPDX-License-Identifier: GPL-2.0-only OR MIT
-+      // SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+      // SPDX-License-Identifier: GPL-2.0-only OR Apache-2.0
-+      // SPDX-License-Identifier: GPL-2.0-only OR MPL-1.1
-+      // SPDX-License-Identifier: (GPL-2.0-only WITH Linux-syscall-note) OR MIT
-+      // SPDX-License-Identifier: GPL-1.0-or-later OR BSD-3-Clause OR OpenSSL
- 
-    AND should be used if the file has multiple licenses whose terms all
-    apply to use the file. For example, if code is inherited from another
-    project and permission has been given to put it in the kernel, but the
-    original license terms need to remain in effect::
- 
--      // SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) AND MIT
-+      // SPDX-License-Identifier: (GPL-2.0-only WITH Linux-syscall-note) AND MIT
- 
-    Another other example where both sets of license terms need to be
-    adhered to is::
- 
--      // SPDX-License-Identifier: GPL-1.0+ AND LGPL-2.1+
-+      // SPDX-License-Identifier: GPL-1.0-or-later AND LGPL-2.1-or-later
- 
- License identifiers
- -------------------
-@@ -168,7 +168,7 @@ kernel, can be broken down into:
- 
-    Examples::
- 
--      LICENSES/preferred/GPL-2.0
-+      LICENSES/preferred/GPL-2.0-only
- 
-    Contains the GPL version 2 license text and the required metatags::
- 
-@@ -204,17 +204,17 @@ kernel, can be broken down into:
- 
-    File format examples::
- 
--      Valid-License-Identifier: GPL-2.0
--      Valid-License-Identifier: GPL-2.0+
--      SPDX-URL: https://spdx.org/licenses/GPL-2.0.html
-+      Valid-License-Identifier: GPL-2.0-only
-+      Valid-License-Identifier: GPL-2.0-or-later
-+      SPDX-URL: https://spdx.org/licenses/GPL-2.0-only.html
-       Usage-Guide:
-         To use this license in source code, put one of the following SPDX
- 	tag/value pairs into a comment according to the placement
- 	guidelines in the licensing rules documentation.
- 	For 'GNU General Public License (GPL) version 2 only' use:
--	  SPDX-License-Identifier: GPL-2.0
-+	  SPDX-License-Identifier: GPL-2.0-only
- 	For 'GNU General Public License (GPL) version 2 or any later version' use:
--	  SPDX-License-Identifier: GPL-2.0+
-+	  SPDX-License-Identifier: GPL-2.0-or-later
-       License-Text:
-         Full license text
- 
-@@ -338,7 +338,7 @@ kernel, can be broken down into:
- 
-       SPDX-Exception-Identifier: Linux-syscall-note
-       SPDX-URL: https://spdx.org/licenses/Linux-syscall-note.html
--      SPDX-Licenses: GPL-2.0, GPL-2.0+, GPL-1.0+, LGPL-2.0, LGPL-2.0+, LGPL-2.1, LGPL-2.1+
-+      SPDX-Licenses: GPL-2.0-only, GPL-2.0-or-later, GPL-1.0-or-later, LGPL-2.0-only, LGPL-2.0-or-later, LGPL-2.1-only, LGPL-2.1-or-later
-       Usage-Guidance:
-         This exception is used together with one of the above SPDX-Licenses
- 	to mark user-space API (uapi) header files so they can be included
-@@ -353,7 +353,7 @@ kernel, can be broken down into:
- 
-       SPDX-Exception-Identifier: GCC-exception-2.0
-       SPDX-URL: https://spdx.org/licenses/GCC-exception-2.0.html
--      SPDX-Licenses: GPL-2.0, GPL-2.0+
-+      SPDX-Licenses: GPL-2.0-only, GPL-2.0-or-later
-       Usage-Guidance:
-         The "GCC Runtime Library exception 2.0" is used together with one
- 	of the above SPDX-Licenses for code imported from the GCC runtime
-diff --git a/LICENSES/preferred/GPL-2.0 b/LICENSES/preferred/GPL-2.0
-index ff0812fd89cc..cabbb1779d45 100644
---- a/LICENSES/preferred/GPL-2.0
-+++ b/LICENSES/preferred/GPL-2.0
-@@ -1,6 +1,4 @@
--Valid-License-Identifier: GPL-2.0
- Valid-License-Identifier: GPL-2.0-only
--Valid-License-Identifier: GPL-2.0+
- Valid-License-Identifier: GPL-2.0-or-later
- SPDX-URL: https://spdx.org/licenses/GPL-2.0.html
- Usage-Guide:
-@@ -8,12 +6,8 @@ Usage-Guide:
-   tag/value pairs into a comment according to the placement
-   guidelines in the licensing rules documentation.
-   For 'GNU General Public License (GPL) version 2 only' use:
--    SPDX-License-Identifier: GPL-2.0
--  or
-     SPDX-License-Identifier: GPL-2.0-only
-   For 'GNU General Public License (GPL) version 2 or any later version' use:
--    SPDX-License-Identifier: GPL-2.0+
--  or
-     SPDX-License-Identifier: GPL-2.0-or-later
- License-Text:
- 
-diff --git a/LICENSES/preferred/LGPL-2.0 b/LICENSES/preferred/LGPL-2.0
-index 957d798fe037..443c5569c4f5 100644
---- a/LICENSES/preferred/LGPL-2.0
-+++ b/LICENSES/preferred/LGPL-2.0
-@@ -1,15 +1,15 @@
--Valid-License-Identifier: LGPL-2.0
--Valid-License-Identifier: LGPL-2.0+
-+Valid-License-Identifier: LGPL-2.0-only
-+Valid-License-Identifier: LGPL-2.0-or-later
- SPDX-URL: https://spdx.org/licenses/LGPL-2.0.html
- Usage-Guide:
-   To use this license in source code, put one of the following SPDX
-   tag/value pairs into a comment according to the placement
-   guidelines in the licensing rules documentation.
-   For 'GNU Library General Public License (LGPL) version 2.0 only' use:
--    SPDX-License-Identifier: LGPL-2.0
-+    SPDX-License-Identifier: LGPL-2.0-only
-   For 'GNU Library General Public License (LGPL) version 2.0 or any later
-   version' use:
--    SPDX-License-Identifier: LGPL-2.0+
-+    SPDX-License-Identifier: LGPL-2.0-or-later
- License-Text:
- 
- GNU LIBRARY GENERAL PUBLIC LICENSE
-diff --git a/LICENSES/preferred/LGPL-2.1 b/LICENSES/preferred/LGPL-2.1
-index 27bb4342a3e8..8738a8d578fa 100644
---- a/LICENSES/preferred/LGPL-2.1
-+++ b/LICENSES/preferred/LGPL-2.1
-@@ -1,15 +1,15 @@
--Valid-License-Identifier: LGPL-2.1
--Valid-License-Identifier: LGPL-2.1+
-+Valid-License-Identifier: LGPL-2.1-only
-+Valid-License-Identifier: LGPL-2.1-or-later
- SPDX-URL: https://spdx.org/licenses/LGPL-2.1.html
- Usage-Guide:
-   To use this license in source code, put one of the following SPDX
-   tag/value pairs into a comment according to the placement
-   guidelines in the licensing rules documentation.
-   For 'GNU Lesser General Public License (LGPL) version 2.1 only' use:
--    SPDX-License-Identifier: LGPL-2.1
-+    SPDX-License-Identifier: LGPL-2.1-only
-   For 'GNU Lesser General Public License (LGPL) version 2.1 or any later
-   version' use:
--    SPDX-License-Identifier: LGPL-2.1+
-+    SPDX-License-Identifier: LGPL-2.1-or-later
- License-Text:
- 
- GNU LESSER GENERAL PUBLIC LICENSE
-diff --git a/scripts/update_spdx_v2_licenses.sh b/scripts/update_spdx_v2_licenses.sh
-new file mode 100755
-index 000000000000..4d422cab600a
---- /dev/null
-+++ b/scripts/update_spdx_v2_licenses.sh
-@@ -0,0 +1,15 @@
-+#!/bin/bash
-+
-+# GPL variants without \+ that should use -only
-+
-+spdx_find='(SPDX-License-Identifier:\s[\s\(]*.*\bL?GPL-[12].[01])(\s|\)|$)'
-+spdx_replace='\1-only\2'
-+git grep -P --name-only "$spdx_find" -- './*' ':(exclude)LICENSES/' | \
-+    xargs -r perl -p -i -e "s/$spdx_find/$spdx_replace/"
-+
-+# GPL variants with \+ that should use -or-later
-+
-+spdx_find='(SPDX-License-Identifier:\s[\s\(]*.*\bL?GPL-[12].[01])\+(\s|\)|$)'
-+spdx_replace='\1-or-later\2'
-+git grep -P --name-only "$spdx_find" -- './*' ':(exclude)LICENSES/' | \
-+    xargs -r perl -p -i -e "s/$spdx_find/$spdx_replace/"
--- 
-2.15.0
+Thanks,
 
+Moritz
