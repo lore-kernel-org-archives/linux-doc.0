@@ -5,136 +5,82 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C33917D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 Aug 2018 20:20:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A61BC7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 Aug 2018 20:31:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725828AbeHPXV0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 16 Aug 2018 19:21:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47272 "EHLO mail.kernel.org"
+        id S1725943AbeHPXbq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 16 Aug 2018 19:31:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49964 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725783AbeHPXV0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Aug 2018 19:21:26 -0400
-Received: from mail-yb0-f180.google.com (mail-yb0-f180.google.com [209.85.213.180])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1725903AbeHPXbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Aug 2018 19:31:46 -0400
+Received: from localhost (unknown [64.22.249.253])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0F962213A2;
-        Thu, 16 Aug 2018 20:20:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4596E214C2;
+        Thu, 16 Aug 2018 20:31:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1534450854;
-        bh=9J4lOxCNrfVUtXPcyGryaJQZcO1MjI6GpUIdCya5PJI=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=c3ODO9aWB/6FkG26/m0I6Uerb7mFlBFeP1ADCQZIkLe3Yzf228NjeIj4XYMCUONFW
-         jhu/YFZ10Yrwd3YnePjx3667TRVu7gwbLZs6Pzci56lLj+3e+CIHHEbQyXcYIERdbI
-         5XiPqyG1pTYEUneSE1LY5snm/zv4P9boCf5AzY/k=
-Received: by mail-yb0-f180.google.com with SMTP id e9-v6so1121998ybq.1;
-        Thu, 16 Aug 2018 13:20:54 -0700 (PDT)
-X-Gm-Message-State: AOUpUlGjMbv7/y5loaKj6vjDjdkrZY5WhDuLlxsXYhdW05dIqDL9jm6O
-        /d+oVvNYLiYOLtPmRMXU7FvCurHOawc2vUCf/B8=
-X-Google-Smtp-Source: AA+uWPyL978DlUdfVHMF2n6LWVYxJQM7z0dA4t5VZ1lCQ1wYURwR9QskJkeNaq8z8fKctYjhDm/1KCMoIk0U5Ap/NKo=
-X-Received: by 2002:a5b:52:: with SMTP id e18-v6mr17303177ybp.88.1534450853337;
- Thu, 16 Aug 2018 13:20:53 -0700 (PDT)
+        s=default; t=1534451472;
+        bh=24eVCuKRBIrQbJRgg5TWyGAJzKw+vH/lOmeUBq9YNm4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ns5uExzpfFWECnUMHuGSmZhoBVOE/JM/RFm/dXUsQuNurofwZO6+Xm6Gr6Y4LRQ//
+         39TROPT7JNC6FMgcoDcExN38p+TutWJ9CtlZy2nGXOip0q4rny8KlxEFbFC83tfVtW
+         CCn4Ns7VXOZJBaRpBmi00oyGrTsP/BeoZy7Ed+js=
+Date:   Thu, 16 Aug 2018 15:31:11 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     "Derrick, Jonathan" <jonathan.derrick@intel.com>
+Cc:     "willy@infradead.org" <willy@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "okaya@kernel.org" <okaya@kernel.org>,
+        "liudongdong3@huawei.com" <liudongdong3@huawei.com>,
+        "poza@codeaurora.org" <poza@codeaurora.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "Busch, Keith" <keith.busch@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 1/2] PCI/DPC: Add 'nodpc' parameter
+Message-ID: <20180816203111.GB10316@bhelgaas-glaptop.roam.corp.google.com>
+References: <1534368400-2807-1-git-send-email-jonathan.derrick@intel.com>
+ <20180816154940.GD5762@bombadil.infradead.org>
+ <1534434641.17819.27.camel@intel.com>
 MIME-Version: 1.0
-Received: by 2002:a25:81c8:0:0:0:0:0 with HTTP; Thu, 16 Aug 2018 13:20:12
- -0700 (PDT)
-In-Reply-To: <20180816190252.GB3932@archbook>
-References: <20180814191526.3247-1-atull@kernel.org> <20180814191526.3247-8-atull@kernel.org>
- <20180816190252.GB3932@archbook>
-From:   Alan Tull <atull@kernel.org>
-Date:   Thu, 16 Aug 2018 15:20:12 -0500
-X-Gmail-Original-Message-ID: <CANk1AXR3gAc6YiC-WARrgnFbJWQVWv2Nuz49u7qyobJdKdNotg@mail.gmail.com>
-Message-ID: <CANk1AXR3gAc6YiC-WARrgnFbJWQVWv2Nuz49u7qyobJdKdNotg@mail.gmail.com>
-Subject: Re: [PATCH 7/8] docs: fpga: document fpga manager flags
-To:     Moritz Fischer <mdf@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fpga@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1534434641.17819.27.camel@intel.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 16, 2018 at 2:02 PM, Moritz Fischer <mdf@kernel.org> wrote:
-Hi Moritz,
+On Thu, Aug 16, 2018 at 03:50:47PM +0000, Derrick, Jonathan wrote:
+> On Thu, 2018-08-16 at 08:49 -0700, Matthew Wilcox wrote:
+> > On Wed, Aug 15, 2018 at 03:26:39PM -0600, Jon Derrick wrote:
+> > > Some users may want to disable downstream port containment (DPC),
+> > > so
+> > > give them this option
+> > 
+> > Is it possible they might only want to disable DPC on a subset of the
+> > hierarchy rather than globally?
+> 
+> Absolutely. I was hoping Logan's pci dev_str would land because I have
+> a few others I want to convert to that api for granular tuning
 
-> Hi Alan,
->
-> On Tue, Aug 14, 2018 at 02:15:25PM -0500, Alan Tull wrote:
->> Add flags #defines to kerneldoc documentation in a
->> useful place.
->>
->> Signed-off-by: Alan Tull <atull@kernel.org>
->> ---
->>  Documentation/driver-api/fpga/fpga-mgr.rst |  5 +++++
->>  include/linux/fpga/fpga-mgr.h              | 18 ++++++++++++------
->>  2 files changed, 17 insertions(+), 6 deletions(-)
->>
->> diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
->> index 431556d..db8885e 100644
->> --- a/Documentation/driver-api/fpga/fpga-mgr.rst
->> +++ b/Documentation/driver-api/fpga/fpga-mgr.rst
->> @@ -183,6 +183,11 @@ API for implementing a new FPGA Manager driver
->>  API for programming an FPGA
->>  ---------------------------
->>
->> +FPGA Manager flags
->> +
->> +.. kernel-doc:: include/linux/fpga/fpga-mgr.h
->> +   :doc: FPGA Manager flags
->> +
->>  .. kernel-doc:: include/linux/fpga/fpga-mgr.h
->>     :functions: fpga_image_info
->>
->> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
->> index 1ca02ce..777c502 100644
->> --- a/include/linux/fpga/fpga-mgr.h
->> +++ b/include/linux/fpga/fpga-mgr.h
->> @@ -53,12 +53,18 @@ enum fpga_mgr_states {
->>       FPGA_MGR_STATE_OPERATING,
->>  };
->>
->> -/*
->> - * FPGA Manager flags
->> - * FPGA_MGR_PARTIAL_RECONFIG: do partial reconfiguration if supported
->> - * FPGA_MGR_EXTERNAL_CONFIG: FPGA has been configured prior to Linux booting
->> - * FPGA_MGR_BITSTREAM_LSB_FIRST: SPI bitstream bit order is LSB first
->
-> We are actually missing the ENCRYPTED flag here, can you add that while
-> we're at it? I must've forgotten to add that back then ... derp.
+What's the use case here?  I acknowledge there are cases where we need
+them, but I'm not a fan of kernel parameters in general because
+they're a real hassle for users.
 
-Sure!
+Is there something wrong with DPC?  Is there some way we can make it
+smarter so it does the right thing automatically?
 
->
->> - * FPGA_MGR_COMPRESSED_BITSTREAM: FPGA bitstream is compressed
->> +/**
->> + * DOC: FPGA Manager flags
->> + *
->> + * Flags used in the &fpga_image_info->flags field
->> + *
->> + * %FPGA_MGR_PARTIAL_RECONFIG: do partial reconfiguration if supported
->> + *
->> + * %FPGA_MGR_EXTERNAL_CONFIG: FPGA has been configured prior to Linux booting
+I'm more OK with a blanket "nodpc" switch intended for debugging.
+If we add the complexity of subsets of the hierarchy it starts
+sounding like an administrative thing that makes me more hesitant. 
 
-How about this description?
+Could this be done via a sysfs switch instead?  That potentially could
+work for hot-added things where a kernel parameter doesn't work so
+well.
 
-+ *
-+ * %FPGA_MGR_ENCRYPTED_BITSTREAM: indicates bitstream is encrypted
+Please squash the doc patch and the code change so it's easier to keep
+them together.
 
->> + *
->> + * %FPGA_MGR_BITSTREAM_LSB_FIRST: SPI bitstream bit order is LSB first
->> + *
->> + * %FPGA_MGR_COMPRESSED_BITSTREAM: FPGA bitstream is compressed
->>   */
->>  #define FPGA_MGR_PARTIAL_RECONFIG    BIT(0)
->>  #define FPGA_MGR_EXTERNAL_CONFIG     BIT(1)
->> --
->> 2.7.4
->>
->
-> Thanks,
-> Moritz
-
-Thanks,
-Alan
+Bjorn
