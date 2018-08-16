@@ -1,107 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 033137D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 Aug 2018 13:04:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 96A387D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 Aug 2018 14:26:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391541AbeHPQCV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 16 Aug 2018 12:02:21 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51498 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2391513AbeHPQCV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Aug 2018 12:02:21 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w7GD0vww122233
-        for <linux-doc@vger.kernel.org>; Thu, 16 Aug 2018 09:03:50 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2kw6p4fqk4-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 16 Aug 2018 09:03:50 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Thu, 16 Aug 2018 14:03:47 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 16 Aug 2018 14:03:43 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w7GD3gYX37945558
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 16 Aug 2018 13:03:42 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9E250AE064;
-        Thu, 16 Aug 2018 16:03:26 +0100 (BST)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0647AAE057;
-        Thu, 16 Aug 2018 16:03:25 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.148])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu, 16 Aug 2018 16:03:24 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Thu, 16 Aug 2018 16:03:39 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH v2 0/3] docs/core-api: add memory allocation guide
-Date:   Thu, 16 Aug 2018 16:03:35 +0300
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 18081613-0016-0000-0000-000001F7B1C3
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18081613-0017-0000-0000-0000324DE84B
-Message-Id: <1534424618-24713-1-git-send-email-rppt@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-08-16_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=783 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1808160137
+        id S1727853AbeHPRZN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 16 Aug 2018 13:25:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57086 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726384AbeHPRZN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Aug 2018 13:25:13 -0400
+Received: from mail-yb0-f178.google.com (mail-yb0-f178.google.com [209.85.213.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C814021486;
+        Thu, 16 Aug 2018 14:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1534429576;
+        bh=WfPNLG8dyjSTrlQhF9xLCSDuAbW7b07/OcokzulIxrs=;
+        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+        b=c+jI0km8m/845TG+FVmeq1gIUc4+y86N0QY0iWkgB3vjtLvHCe11LL0J55kx4+/pS
+         AKdqbbxjR1QS6iX/RwXyFUYlVxmxWDiZF0MUn1uYyNTTmc/PlyGBL0vnQuLZcPPa0m
+         snbyjTILKkvIcfagm6ICBU3pWv9i+8XepLgYfWOw=
+Received: by mail-yb0-f178.google.com with SMTP id d34-v6so674856yba.3;
+        Thu, 16 Aug 2018 07:26:16 -0700 (PDT)
+X-Gm-Message-State: AOUpUlEsJJRV4QN8S+2hQ8AgTsadekOvEgVUuNzPm48pJTbFO2KyNWAn
+        hM7+1xSrWxwfEUR0aTQrlQ788Sc2U5lHa0AayBc=
+X-Google-Smtp-Source: AA+uWPw3okflg09NRb2oUVq9G48V5AyXAvO5WE3GbVCX8TkZHCbZXKYFNOkx8+f32JG+odEnuL6p/fPdBF/x3M7Q6k0=
+X-Received: by 2002:a25:d84e:: with SMTP id p75-v6mr16319903ybg.315.1534429575996;
+ Thu, 16 Aug 2018 07:26:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a25:81c8:0:0:0:0:0 with HTTP; Thu, 16 Aug 2018 07:25:35
+ -0700 (PDT)
+In-Reply-To: <9043a69f-47d8-0ffe-ca15-77c9c73c085f@infradead.org>
+References: <20180815220958.3606-1-atull@kernel.org> <20180815220958.3606-2-atull@kernel.org>
+ <9043a69f-47d8-0ffe-ca15-77c9c73c085f@infradead.org>
+From:   Alan Tull <atull@kernel.org>
+Date:   Thu, 16 Aug 2018 09:25:35 -0500
+X-Gmail-Original-Message-ID: <CANk1AXTOKKVdVDEkQ5d73F3nzgDDK9jgm2gRPpXbNM5A4aNS1w@mail.gmail.com>
+Message-ID: <CANk1AXTOKKVdVDEkQ5d73F3nzgDDK9jgm2gRPpXbNM5A4aNS1w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] fpga: add FPGA manager debugfs
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Moritz Fischer <mdf@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Appana Durga Kedareswara Rao <appanad@xilinx.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fpga@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Alan Tull <atull@opensource.altera.com>,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Wed, Aug 15, 2018 at 5:34 PM, Randy Dunlap <rdunlap@infradead.org> wrote:
 
-As Vlastimil mentioned at [1], it would be nice to have some guide about
-memory allocation. This set adds such guide that summarizes the "best
-practices". 
+Hi Randy,
 
-The changes from the RFC include additions and corrections from Michal and
-Randy. I've also added markup to cross-reference the kernel-doc
-documentation.
+> On 08/15/2018 03:09 PM, Alan Tull wrote:
+>> From: Alan Tull <atull@opensource.altera.com>
+>>
+>> Implement DebugFS for the FPGA Manager Framework for
+>> debugging and developmental use.
+>>
+>> Enabled by CONFIG_FPGA_MGR_DEBUG_FS
+>
+> Hi Alan,
+>
+> for your v2 changes:
+>
+>> Each FPGA gets its own directory such as
+>>  <debugfs>/fpga_manager/fpga0 and three files:
+>
+> s/three/four/
 
-I've split the patch into three to separate labels addition to the exiting
-files from the new contents.
+Yes
 
-Note that the second patch depends on the mm docs update [2] that Andrew
-took to the -mm tree.
+>
+>>
+>>  * [RW] flags          = flags as defined in fpga-mgr.h
+>>  * [RW] firmware_name  = write/read back name of FPGA image
+>>                          firmware file to program
+>>  * [WO] image          = write-only file for directly writing
+>>                          fpga image w/o firmware layer
+>>  * [RW] config_complete_timeout_us = maximum for the FPGA to
+>>                          go to the operating state after
+>>                        programming
+>>
+>> The debugfs is implemented in a separate fpga_mgr_debugfs.c
+>
+>       debugfs interface is
 
-[1] https://www.spinics.net/lists/netfilter-devel/msg55542.html
-[2] https://lkml.org/lkml/2018/7/26/684
+Yes
 
-Mike Rapoport (3):
-  docs: core-api/gfp_mask-from-fs-io: add a label for cross-referencing
-  docs: core-api/mm-api: add a lable for GFP flags section
-  docs: core-api: add memory allocation guide
+>
+>> file, but the FPGA manager core is still built as one
+>> module.  Note the name change from fpga-mgr.ko to fpga_mgr.ko.
+>>
+>> Signed-off-by: Alan Tull <atull@kernel.org>
+>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> ---
+>>  drivers/fpga/Kconfig            |   7 ++
+>>  drivers/fpga/Makefile           |   4 +-
+>>  drivers/fpga/fpga-mgr-debugfs.c | 221 ++++++++++++++++++++++++++++++++++++++++
+>>  drivers/fpga/fpga-mgr-debugfs.h |  22 ++++
+>>  drivers/fpga/fpga-mgr.c         |   8 ++
+>>  include/linux/fpga/fpga-mgr.h   |   3 +
+>>  6 files changed, 264 insertions(+), 1 deletion(-)
+>>  create mode 100644 drivers/fpga/fpga-mgr-debugfs.c
+>>  create mode 100644 drivers/fpga/fpga-mgr-debugfs.h
+>>
+>> diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
+>> index 1ebcef4..600924d 100644
+>> --- a/drivers/fpga/Kconfig
+>> +++ b/drivers/fpga/Kconfig
+>> @@ -9,6 +9,13 @@ menuconfig FPGA
+>>         kernel.  The FPGA framework adds a FPGA manager class and FPGA
+>>         manager drivers.
+>>
+>> +config FPGA_MGR_DEBUG_FS
+>> +       bool "FPGA Manager DebugFS"
+>> +       depends on FPGA && DEBUG_FS
+>> +       help
+>> +         Say Y here if you want to expose a DebugFS interface for the
+>> +      FPGA Manager Framework.
+>
+> Use tab indentation for bool, depends, and help lines.
+>
+> Use tab +2 spaces for help text.
 
- Documentation/core-api/gfp_mask-from-fs-io.rst |   2 +
- Documentation/core-api/index.rst               |   1 +
- Documentation/core-api/memory-allocation.rst   | 124 +++++++++++++++++++++++++
- Documentation/core-api/mm-api.rst              |   2 +
- 4 files changed, 129 insertions(+)
- create mode 100644 Documentation/core-api/memory-allocation.rst
+Yes, thanks for catching that.  I'll fix these in v2.
 
--- 
-2.7.4
+Thanks for the review!
 
+Alan
+
+>
+>> +
+>>  if FPGA
+>>
+>>  config FPGA_MGR_SOCFPGA
+>
+> thanks,
+> --
+> ~Randy
