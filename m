@@ -1,125 +1,399 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8F75C7D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 Aug 2018 15:22:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0D7127D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 Aug 2018 15:46:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727398AbeHQS0p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 17 Aug 2018 14:26:45 -0400
-Received: from mail-qk0-f194.google.com ([209.85.220.194]:34138 "EHLO
-        mail-qk0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727037AbeHQS0p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Aug 2018 14:26:45 -0400
-Received: by mail-qk0-f194.google.com with SMTP id b66-v6so6479583qkj.1;
-        Fri, 17 Aug 2018 08:22:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=Gtw8U6M1YN6hJovMedXkOYQAN7cTCpNydzYPiCT5XgM=;
-        b=WQcRXKm7gzhm2OU2KL11I2t7QG7zbpndEvH6MY6sisTefgiP98SnIWTjKZv64l+ALN
-         w49G/o47pZDOXpoBg9HAv5uuI9wd0WsEDMUsrsNqk13bO+0nxs/2LN0mZeBd+gZ8pFuH
-         ANp5vDCm6/JZOZUUMfDSS3tvLA4CekqNCideZTWrLcHXEIT/qrb//xy99ENHFDr3FFe6
-         CuJ8xuDRG9MiqSmdfsqxG0+5CAzoYww0tWvgxuh+LMRVm+ejMtcUssSKb+B4XoR1Log+
-         x5JA4Saf+GvCrZqvicUVfr4vDBjI1ozvi3OBdmJ48PcBEnTV7UoAnHGckjc79/hxXLv9
-         xZ7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=Gtw8U6M1YN6hJovMedXkOYQAN7cTCpNydzYPiCT5XgM=;
-        b=DBbSx4sXYWYLOs81ImCmFzbP5gXwk4jp+REGjJhXegZAfSNPDqR3CsW/TW8w12fD8T
-         DaDl//AuQwOFxwjme0qFiSiVEZ8J9knwvLgbGiJE11KUPOpZwGPJOqbXi/2ZQ0Zxl2Ft
-         bo2a5MM9AvprH+9nKldtxP8m+XYspmvXMYPd8/vJc04rzRjlvskFeGLS1oRaKr64c0AR
-         5GF7SAXV/WBR7sv1UEUNYmuAlAKFYHF+GcSej4vEFE8EKy2zBZlgNo3vtCkqNdVyxAU5
-         PEXTbwE+LmbGkY0C8kxfAkU+tDr9ayH5m01CqoAEGK+6MYvL1VzzI7LD1gRdfJINL/8k
-         NYlg==
-X-Gm-Message-State: AOUpUlFmm7QS8q4QNSRTJdRXFqxdjnqDxC/vDGQ+c/G/YyVvx1Z5Y0sq
-        Akn+U5wh46j8SXq3jidqNVH+xw/mXkG+f+yZ/JRa2JYc
-X-Google-Smtp-Source: AA+uWPwXZM8b4YkNbKYhUyeyOoRSjyP0Xp2NioELprlF+5pUq0JUehgL1dLgR7kmNtc/4Qm5J/SvqCazmnl4maNegeg=
-X-Received: by 2002:a37:3752:: with SMTP id e79-v6mr33571387qka.131.1534519377366;
- Fri, 17 Aug 2018 08:22:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a0c:949c:0:0:0:0:0 with HTTP; Fri, 17 Aug 2018 08:22:56
- -0700 (PDT)
-In-Reply-To: <CANk1AXTUYTEJgWneS1n2WwaqyOAmohYFFoXOU51XX6j02=q9xw@mail.gmail.com>
-References: <20180815220958.3606-1-atull@kernel.org> <1841468.1pWPcT6Du7@harkonnen>
- <20180816220034.GA4431@archbook> <2759044.uKe7sI2ItL@pcbe13614> <CANk1AXTUYTEJgWneS1n2WwaqyOAmohYFFoXOU51XX6j02=q9xw@mail.gmail.com>
-From:   Moritz Fischer <moritz.fischer.private@gmail.com>
-Date:   Fri, 17 Aug 2018 08:22:56 -0700
-Message-ID: <CAJYdmeNJwkr3dLpdDDL-ER=X+TJgB+7Kf2U0VVQbhUjQE8TBMQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] fpga: add FPGA manager debugfs
-To:     Alan Tull <atull@kernel.org>
-Cc:     Federico Vaga <federico.vaga@cern.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Appana Durga Kedareswara Rao <appanad@xilinx.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fpga@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Alan Tull <atull@opensource.altera.com>,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727333AbeHQSt7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 17 Aug 2018 14:49:59 -0400
+Received: from smtprelay0186.hostedemail.com ([216.40.44.186]:39114 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727213AbeHQSt6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Aug 2018 14:49:58 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id C85E2181D341C;
+        Fri, 17 Aug 2018 15:46:04 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: pump47_6ef20ada02a5e
+X-Filterd-Recvd-Size: 16570
+Received: from joe-laptop.perches.com (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf04.hostedemail.com (Postfix) with ESMTPA;
+        Fri, 17 Aug 2018 15:46:02 +0000 (UTC)
+From:   Joe Perches <joe@perches.com>
+To:     Linus Torvalds <torvalds@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Rob Herring <rob.herring@linaro.org>,
+        Jonas Oberg <jonas@fsfe.org>,
+        Andrew Morton <akpm@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH V2] license-rules.rst and LICENSES: Use only spdx version 3 with -only and -or-later
+Date:   Fri, 17 Aug 2018 08:45:59 -0700
+Message-Id: <9f90ed3678d32bdde88d63e877880dcb08a97e15.1534519501.git.joe@perches.com>
+X-Mailer: git-send-email 2.15.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alan, Federico,
+The current linux-kernel source git tree has a mixture of the deprecated
+spdx version 2 and the newer version 3 uses.
 
-On Fri, Aug 17, 2018 at 6:19 AM, Alan Tull <atull@kernel.org> wrote:
-> On Fri, Aug 17, 2018, 2:00 AM Federico Vaga <federico.vaga@cern.ch> wrote:
->>
->> Hi Mortiz,
->>
->> I'm not 100% into the problem to understand all cases. I'm putting on the
->> table the point of view, mainly, of an user. If you say there are problems
->> here or there I believe you. At the beginning, you did not say that this
->> interface may introduce problems (and I'm interested in those problems
->> since I
->> implemented one and we are using it), but that you fear that it becomes
->> the
->> default (usually, being a default is a good thing).
->>
->> Since you and Alan are working on this for a long time, you can read each
->> other mind, but I need a more verbose email to understand ^_^'
->>
->> Of course the interface must be safe, I totally agree. In order to make me
->> understand what are the issues, can you list some of them?
+Update the process/license-rules.rst file to show only the version 3 style.
+Use only the version 3 styles in LICENSES.
 
-Say you have kernel drivers (a network driver in the FPGA, or an I2C controller)
-for example bound to hardware on a MMIO bus in the the FPGA.
-You reprogram the FPGA using the debugfs interface, and the drivers don't get
-unloaded correctly, the driver will try to access the registers and depending
-on your system / bus either give you bad values or lock up.
-Now userland locked up your system. Bad.
+Add a script to update all old versions in the tree as well.
+Update scripts/spdxcheck.py to ignore this new script file.
 
-I'm not saying it isn't possible to do this if you're careful, of
-course you could
-first unload the drivers using rrmod and it would work just fine.
+I suggest this be applied and the script be run and applied immediately
+after an -rc1.
 
-I just feel an interface like this might make it easier to create the
-wrong design.
-I've seen plenty of Application notes from vendors where they literally did
-"cat foo.bin > /dev/fpga" followed by mmap(/dev/mem...).
+The script could also be used at any time after the initial use to update
+any other now deprecated spdx license use added afterwards.
 
->
->
-> Before we repeat what the doc l posted says, could you look at it and
-> comment on what I'm not saying there?
->
-> https://lkml.org/lkml/2018/8/15/525
+Signed-off-by: Joe Perches <joe@perches.com>
+---
 
-Alan, maybe I didn't express myself well. I'm fine with the debugfs interface
-as a debug interface, just not for general usage ;-) I think your document is
-clear on that.
+V2:
 
-Thanks,
+o Use the correct SPDX-URLs in LICENSES files
+o Use the correct exceptions in exceptions/Linux-syscall-note
+o Add comments to update_spdx_v2_licenses.sh script
+o Update scripts/spdxcheck.py to ignore the added script
 
-Moritz
+Now the output of scripts/spdxcheck.py is unchanged before and after
+this patch is applied and the script is run.
+
+After the update_spdx_v2_licenses.sh script is run but not applied:
+
+$ git diff --name-only | wc -l
+17783
+
+ Documentation/process/license-rules.rst | 60 ++++++++++++++++-----------------
+ LICENSES/exceptions/Linux-syscall-note  |  2 +-
+ LICENSES/other/GPL-1.0                  |  6 ++--
+ LICENSES/preferred/GPL-2.0              |  9 ++---
+ LICENSES/preferred/LGPL-2.0             | 11 +++---
+ LICENSES/preferred/LGPL-2.1             | 11 +++---
+ scripts/spdxcheck.py                    |  4 ++-
+ scripts/update_spdx_v2_licenses.sh      | 28 +++++++++++++++
+ 8 files changed, 79 insertions(+), 52 deletions(-)
+ create mode 100755 scripts/update_spdx_v2_licenses.sh
+
+diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
+index 8ea26325fe3f..2b294611b6c1 100644
+--- a/Documentation/process/license-rules.rst
++++ b/Documentation/process/license-rules.rst
+@@ -16,12 +16,12 @@ The license described in the COPYING file applies to the kernel source
+ as a whole, though individual source files can have a different license
+ which is required to be compatible with the GPL-2.0::
+ 
+-    GPL-1.0+  :  GNU General Public License v1.0 or later
+-    GPL-2.0+  :  GNU General Public License v2.0 or later
+-    LGPL-2.0  :  GNU Library General Public License v2 only
+-    LGPL-2.0+ :  GNU Library General Public License v2 or later
+-    LGPL-2.1  :  GNU Lesser General Public License v2.1 only
+-    LGPL-2.1+ :  GNU Lesser General Public License v2.1 or later
++    GPL-1.0-or-later  :  GNU General Public License v1.0 or later
++    GPL-2.0-or-later  :  GNU General Public License v2.0 or later
++    LGPL-2.0-only     :  GNU Library General Public License v2 only
++    LGPL-2.0-or-later :  GNU Library General Public License v2 or later
++    LGPL-2.1-only     :  GNU Lesser General Public License v2.1 only
++    LGPL-2.1-or-later :  GNU Lesser General Public License v2.1 or later
+ 
+ Aside from that, individual files can be provided under a dual license,
+ e.g. one of the compatible GPL variants and alternatively under a
+@@ -98,21 +98,21 @@ License identifier syntax
+    "(", ")" .
+ 
+    License identifiers for licenses like [L]GPL with the 'or later' option
+-   are constructed by using a "+" for indicating the 'or later' option.::
++   are constructed by using the '-or-later' option.::
+ 
+-      // SPDX-License-Identifier: GPL-2.0+
+-      // SPDX-License-Identifier: LGPL-2.1+
++      // SPDX-License-Identifier: GPL-2.0-or-later
++      // SPDX-License-Identifier: LGPL-2.1-or-later
+ 
+    WITH should be used when there is a modifier to a license needed.
+    For example, the linux kernel UAPI files use the expression::
+ 
+-      // SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note
+-      // SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note
++      // SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note
++      // SPDX-License-Identifier: GPL-2.0-or-later WITH Linux-syscall-note
+ 
+    Other examples using WITH exceptions found in the kernel are::
+ 
+-      // SPDX-License-Identifier: GPL-2.0 WITH mif-exception
+-      // SPDX-License-Identifier: GPL-2.0+ WITH GCC-exception-2.0
++      // SPDX-License-Identifier: GPL-2.0-only WITH mif-exception
++      // SPDX-License-Identifier: GPL-2.0-or-later WITH GCC-exception-2.0
+ 
+    Exceptions can only be used with particular License identifiers. The
+    valid License identifiers are listed in the tags of the exception text
+@@ -123,28 +123,28 @@ License identifier syntax
+    to be selected.  For example, some dtsi files are available under dual
+    licenses::
+ 
+-      // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
++      // SPDX-License-Identifier: GPL-2.0-only OR BSD-3-Clause
+ 
+    Examples from the kernel for license expressions in dual licensed files::
+ 
+-      // SPDX-License-Identifier: GPL-2.0 OR MIT
+-      // SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+-      // SPDX-License-Identifier: GPL-2.0 OR Apache-2.0
+-      // SPDX-License-Identifier: GPL-2.0 OR MPL-1.1
+-      // SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) OR MIT
+-      // SPDX-License-Identifier: GPL-1.0+ OR BSD-3-Clause OR OpenSSL
++      // SPDX-License-Identifier: GPL-2.0-only OR MIT
++      // SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++      // SPDX-License-Identifier: GPL-2.0-only OR Apache-2.0
++      // SPDX-License-Identifier: GPL-2.0-only OR MPL-1.1
++      // SPDX-License-Identifier: (GPL-2.0-only WITH Linux-syscall-note) OR MIT
++      // SPDX-License-Identifier: GPL-1.0-or-later OR BSD-3-Clause OR OpenSSL
+ 
+    AND should be used if the file has multiple licenses whose terms all
+    apply to use the file. For example, if code is inherited from another
+    project and permission has been given to put it in the kernel, but the
+    original license terms need to remain in effect::
+ 
+-      // SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) AND MIT
++      // SPDX-License-Identifier: (GPL-2.0-only WITH Linux-syscall-note) AND MIT
+ 
+    Another other example where both sets of license terms need to be
+    adhered to is::
+ 
+-      // SPDX-License-Identifier: GPL-1.0+ AND LGPL-2.1+
++      // SPDX-License-Identifier: GPL-1.0-or-later AND LGPL-2.1-or-later
+ 
+ License identifiers
+ -------------------
+@@ -168,7 +168,7 @@ kernel, can be broken down into:
+ 
+    Examples::
+ 
+-      LICENSES/preferred/GPL-2.0
++      LICENSES/preferred/GPL-2.0-only
+ 
+    Contains the GPL version 2 license text and the required metatags::
+ 
+@@ -204,17 +204,17 @@ kernel, can be broken down into:
+ 
+    File format examples::
+ 
+-      Valid-License-Identifier: GPL-2.0
+-      Valid-License-Identifier: GPL-2.0+
+-      SPDX-URL: https://spdx.org/licenses/GPL-2.0.html
++      Valid-License-Identifier: GPL-2.0-only
++      Valid-License-Identifier: GPL-2.0-or-later
++      SPDX-URL: https://spdx.org/licenses/GPL-2.0-only.html
+       Usage-Guide:
+         To use this license in source code, put one of the following SPDX
+ 	tag/value pairs into a comment according to the placement
+ 	guidelines in the licensing rules documentation.
+ 	For 'GNU General Public License (GPL) version 2 only' use:
+-	  SPDX-License-Identifier: GPL-2.0
++	  SPDX-License-Identifier: GPL-2.0-only
+ 	For 'GNU General Public License (GPL) version 2 or any later version' use:
+-	  SPDX-License-Identifier: GPL-2.0+
++	  SPDX-License-Identifier: GPL-2.0-or-later
+       License-Text:
+         Full license text
+ 
+@@ -338,7 +338,7 @@ kernel, can be broken down into:
+ 
+       SPDX-Exception-Identifier: Linux-syscall-note
+       SPDX-URL: https://spdx.org/licenses/Linux-syscall-note.html
+-      SPDX-Licenses: GPL-2.0, GPL-2.0+, GPL-1.0+, LGPL-2.0, LGPL-2.0+, LGPL-2.1, LGPL-2.1+
++      SPDX-Licenses: GPL-2.0-only, GPL-2.0-or-later, GPL-1.0-or-later, LGPL-2.0-only, LGPL-2.0-or-later, LGPL-2.1-only, LGPL-2.1-or-later
+       Usage-Guidance:
+         This exception is used together with one of the above SPDX-Licenses
+ 	to mark user-space API (uapi) header files so they can be included
+@@ -353,7 +353,7 @@ kernel, can be broken down into:
+ 
+       SPDX-Exception-Identifier: GCC-exception-2.0
+       SPDX-URL: https://spdx.org/licenses/GCC-exception-2.0.html
+-      SPDX-Licenses: GPL-2.0, GPL-2.0+
++      SPDX-Licenses: GPL-2.0-only, GPL-2.0-or-later
+       Usage-Guidance:
+         The "GCC Runtime Library exception 2.0" is used together with one
+ 	of the above SPDX-Licenses for code imported from the GCC runtime
+diff --git a/LICENSES/exceptions/Linux-syscall-note b/LICENSES/exceptions/Linux-syscall-note
+index 9abdad71fafd..859df5079d72 100644
+--- a/LICENSES/exceptions/Linux-syscall-note
++++ b/LICENSES/exceptions/Linux-syscall-note
+@@ -1,6 +1,6 @@
+ SPDX-Exception-Identifier: Linux-syscall-note
+ SPDX-URL: https://spdx.org/licenses/Linux-syscall-note.html
+-SPDX-Licenses: GPL-2.0, GPL-2.0+, GPL-1.0+, LGPL-2.0, LGPL-2.0+, LGPL-2.1, LGPL-2.1+, GPL-2.0-only, GPL-2.0-or-later
++SPDX-Licenses: GPL-2.0-only, GPL-2.0-or-later, GPL-1.0-or-later, LGPL-2.0-only, LGPL-2.0-or-later, LGPL-2.1-only, LGPL-2.1-or-later, GPL-2.0-only, GPL-2.0-or-later
+ Usage-Guide:
+   This exception is used together with one of the above SPDX-Licenses
+   to mark user space API (uapi) header files so they can be included
+diff --git a/LICENSES/other/GPL-1.0 b/LICENSES/other/GPL-1.0
+index 3a4fa969e4c2..c92d37cf1e55 100644
+--- a/LICENSES/other/GPL-1.0
++++ b/LICENSES/other/GPL-1.0
+@@ -1,5 +1,5 @@
+-Valid-License-Identifier: GPL-1.0+
+-SPDX-URL: https://spdx.org/licenses/GPL-1.0.html
++Valid-License-Identifier: GPL-1.0-or-later
++SPDX-URL: https://spdx.org/licenses/GPL-1.0-or-later.html
+ Usage-Guide:
+   The GNU General Public License (GPL) version 1 should not be used in new
+   code. For existing kernel code the 'or any later version' option is
+@@ -7,7 +7,7 @@ Usage-Guide:
+   To use the license in source code, put the following SPDX tag/value pair
+   into a comment according to the placement guidelines in the licensing
+   rules documentation:
+-    SPDX-License-Identifier: GPL-1.0+
++    SPDX-License-Identifier: GPL-1.0-or-later
+ License-Text:
+ 
+ 	    GNU GENERAL PUBLIC LICENSE
+diff --git a/LICENSES/preferred/GPL-2.0 b/LICENSES/preferred/GPL-2.0
+index ff0812fd89cc..cf93fa34a000 100644
+--- a/LICENSES/preferred/GPL-2.0
++++ b/LICENSES/preferred/GPL-2.0
+@@ -1,19 +1,14 @@
+-Valid-License-Identifier: GPL-2.0
+ Valid-License-Identifier: GPL-2.0-only
+-Valid-License-Identifier: GPL-2.0+
+ Valid-License-Identifier: GPL-2.0-or-later
+-SPDX-URL: https://spdx.org/licenses/GPL-2.0.html
++SPDX-URL: https://spdx.org/licenses/GPL-2.0-only.html
++SPDX-URL: https://spdx.org/licenses/GPL-2.0-or-later.html
+ Usage-Guide:
+   To use this license in source code, put one of the following SPDX
+   tag/value pairs into a comment according to the placement
+   guidelines in the licensing rules documentation.
+   For 'GNU General Public License (GPL) version 2 only' use:
+-    SPDX-License-Identifier: GPL-2.0
+-  or
+     SPDX-License-Identifier: GPL-2.0-only
+   For 'GNU General Public License (GPL) version 2 or any later version' use:
+-    SPDX-License-Identifier: GPL-2.0+
+-  or
+     SPDX-License-Identifier: GPL-2.0-or-later
+ License-Text:
+ 
+diff --git a/LICENSES/preferred/LGPL-2.0 b/LICENSES/preferred/LGPL-2.0
+index 957d798fe037..3d378dd44928 100644
+--- a/LICENSES/preferred/LGPL-2.0
++++ b/LICENSES/preferred/LGPL-2.0
+@@ -1,15 +1,16 @@
+-Valid-License-Identifier: LGPL-2.0
+-Valid-License-Identifier: LGPL-2.0+
+-SPDX-URL: https://spdx.org/licenses/LGPL-2.0.html
++Valid-License-Identifier: LGPL-2.0-only
++Valid-License-Identifier: LGPL-2.0-or-later
++SPDX-URL: https://spdx.org/licenses/LGPL-2.0-only.html
++SPDX-URL: https://spdx.org/licenses/LGPL-2.0-or-later.html
+ Usage-Guide:
+   To use this license in source code, put one of the following SPDX
+   tag/value pairs into a comment according to the placement
+   guidelines in the licensing rules documentation.
+   For 'GNU Library General Public License (LGPL) version 2.0 only' use:
+-    SPDX-License-Identifier: LGPL-2.0
++    SPDX-License-Identifier: LGPL-2.0-only
+   For 'GNU Library General Public License (LGPL) version 2.0 or any later
+   version' use:
+-    SPDX-License-Identifier: LGPL-2.0+
++    SPDX-License-Identifier: LGPL-2.0-or-later
+ License-Text:
+ 
+ GNU LIBRARY GENERAL PUBLIC LICENSE
+diff --git a/LICENSES/preferred/LGPL-2.1 b/LICENSES/preferred/LGPL-2.1
+index 27bb4342a3e8..5cfb7bc02a15 100644
+--- a/LICENSES/preferred/LGPL-2.1
++++ b/LICENSES/preferred/LGPL-2.1
+@@ -1,15 +1,16 @@
+-Valid-License-Identifier: LGPL-2.1
+-Valid-License-Identifier: LGPL-2.1+
+-SPDX-URL: https://spdx.org/licenses/LGPL-2.1.html
++Valid-License-Identifier: LGPL-2.1-only
++Valid-License-Identifier: LGPL-2.1-or-later
++SPDX-URL: https://spdx.org/licenses/LGPL-2.1-only.html
++SPDX-URL: https://spdx.org/licenses/LGPL-2.1-or-later.html
+ Usage-Guide:
+   To use this license in source code, put one of the following SPDX
+   tag/value pairs into a comment according to the placement
+   guidelines in the licensing rules documentation.
+   For 'GNU Lesser General Public License (LGPL) version 2.1 only' use:
+-    SPDX-License-Identifier: LGPL-2.1
++    SPDX-License-Identifier: LGPL-2.1-only
+   For 'GNU Lesser General Public License (LGPL) version 2.1 or any later
+   version' use:
+-    SPDX-License-Identifier: LGPL-2.1+
++    SPDX-License-Identifier: LGPL-2.1-or-later
+ License-Text:
+ 
+ GNU LESSER GENERAL PUBLIC LICENSE
+diff --git a/scripts/spdxcheck.py b/scripts/spdxcheck.py
+index 7deaef297f52..6f1b353d7e4a 100755
+--- a/scripts/spdxcheck.py
++++ b/scripts/spdxcheck.py
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python
+-# SPDX-License-Identifier: GPL-2.0
++# SPDX-License-Identifier: GPL-2.0-only
+ # Copyright Thomas Gleixner <tglx@linutronix.de>
+ 
+ from argparse import ArgumentParser
+@@ -201,6 +201,8 @@ def scan_git_tree(tree):
+             continue
+         if el.path == 'scripts/checkpatch.pl':
+             continue
++        if el.path == 'scripts/update_spdx_v2_licenses.sh':
++            continue
+         if not os.path.isfile(el.path):
+             continue
+         parser.parse_lines(open(el.path), args.maxlines, el.path)
+diff --git a/scripts/update_spdx_v2_licenses.sh b/scripts/update_spdx_v2_licenses.sh
+new file mode 100755
+index 000000000000..afcec4cc92cc
+--- /dev/null
++++ b/scripts/update_spdx_v2_licenses.sh
+@@ -0,0 +1,28 @@
++#!/bin/bash
++
++# This script should update all files in a git tree that use deprecated
++# v2 SPDX license identifiers to use v3 styles with -only and -or-later.
++
++# The following styles are intended to be converted
++
++# GPL-1.0+	->	GPL-1.0-or-later
++# GPL-2.0	->	GPL-2.0-only
++# GPL-2.0+	->	GPL-2.0-or-later
++# LGPL-2.0	->	LGPL-2.0-only
++# LGPL-2.0+	->	LGPL-2.0-or-later
++# LGPL-2.1	->	LGPL-2.1-only
++# LGPL-2.1+	->	LGPL-2.1-or-later
++
++# GPL variants without \+ that should use -only
++
++spdx_find='(SPDX-License-Identifier:\s[\s\(]*.*\bL?GPL-[12].[01])(\s|\)|$)'
++spdx_replace='\1-only\2'
++git grep -P --name-only "$spdx_find" -- './*' ':(exclude)LICENSES/' | \
++    xargs -r perl -p -i -e "s/$spdx_find/$spdx_replace/"
++
++# GPL variants with \+ that should use -or-later
++
++spdx_find='(SPDX-License-Identifier:\s[\s\(]*.*\bL?GPL-[12].[01])\+(\s|\)|$)'
++spdx_replace='\1-or-later\2'
++git grep -P --name-only "$spdx_find" -- './*' ':(exclude)LICENSES/' | \
++    xargs -r perl -p -i -e "s/$spdx_find/$spdx_replace/"
+-- 
+2.15.0
+
