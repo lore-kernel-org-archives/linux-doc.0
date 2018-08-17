@@ -1,146 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 495127D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 Aug 2018 22:01:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AFA597D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 Aug 2018 01:54:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725903AbeHQBCS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 16 Aug 2018 21:02:18 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:38160 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725927AbeHQBCR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Aug 2018 21:02:17 -0400
-Received: by mail-pg1-f193.google.com with SMTP id k3-v6so2657600pgq.5
-        for <linux-doc@vger.kernel.org>; Thu, 16 Aug 2018 15:01:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vY2vAjXXpKGhI+EAjkttBWanAVSOhrzsn8CK9ogg6Fc=;
-        b=ZD5me6oGL+56UuqOUtDA8uR+0evVND1fgyEzcZmwrmSBNxoh8kmhms5VJpOVJxwomJ
-         bZG5a1uCIWQieTQ92ve2EgVW4VYiy/Pj4EUbXuWga5/Zbdz8XqFyrx4YZ1THCzwV0Mws
-         1YhbPClL2q0SuZnKDXyZsyAh5mrpr+HpUg9+LOVM+3e8QI85M9NhoPlwC3XAJEym7Bpj
-         WX7jYgB5O+/EdrD5XKklXcsYyZup3mPJkyBHTbTcVFqp+Ohe8To1dP/W1eGhH9r9r7uZ
-         el8BdoHP6SGPZ3SV6Ylfm7gWmT0bmQ1rmSrTrmDNEhi328JppTZ7gYXFtIh0mKi85J5U
-         PA2Q==
-X-Gm-Message-State: AOUpUlEnGULxpsxd4IRjVgJoL174snUilFUlL4ssw/XV1HBauZa+O5n7
-        7h5fLhKjrUYiDD9p5QkEUCR5nQ==
-X-Google-Smtp-Source: AA+uWPxcz2N2iqh9yDdWNMvyLyRAfKlHJs1tENDtPhPv+nOpPX0yB4noViXpgWaFGyvF5ZLJhZ4e7A==
-X-Received: by 2002:a63:4d06:: with SMTP id a6-v6mr30215848pgb.408.1534456887173;
-        Thu, 16 Aug 2018 15:01:27 -0700 (PDT)
-Received: from localhost ([207.114.172.147])
-        by smtp.gmail.com with ESMTPSA id x7-v6sm274306pgk.9.2018.08.16.15.01.26
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 16 Aug 2018 15:01:26 -0700 (PDT)
-Date:   Thu, 16 Aug 2018 15:01:23 -0700
-From:   Moritz Fischer <mdf@kernel.org>
-To:     Alan Tull <atull@kernel.org>
-Cc:     Moritz Fischer <mdf@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fpga@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 7/8] docs: fpga: document fpga manager flags
-Message-ID: <20180816220123.GB4431@archbook>
-References: <20180814191526.3247-1-atull@kernel.org>
- <20180814191526.3247-8-atull@kernel.org>
- <20180816190252.GB3932@archbook>
- <CANk1AXR3gAc6YiC-WARrgnFbJWQVWv2Nuz49u7qyobJdKdNotg@mail.gmail.com>
+        id S1725769AbeHQEz4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 17 Aug 2018 00:55:56 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:27015 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725756AbeHQEz4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Aug 2018 00:55:56 -0400
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id w7H1sTxO014098;
+        Fri, 17 Aug 2018 10:54:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com w7H1sTxO014098
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1534470870;
+        bh=nZDgf0quRi0OAx/b0M3EJVFPiEZ5MyUzyvt46QwlaEA=;
+        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+        b=jyD5jy2RwqmPJ8XQgkXMKMFcbk7rU8shiG4ogsH+x8/G/PfpYd252eFep76psyLFB
+         M1RpGt129r4qaXoWO9gdKbsuv5KLAP6YSpd6/jXVz9wCUIYOlDGcuto469vikfOLrE
+         oW/YxjdM1nQSi96k/Zn8NEOWDtP2cXrTeb22unkrUqEXdS1HrEvFiPNubG/9tvlsQd
+         raeLGNLzqkmz8qsDW5O8aGAa8dezOsNX8uk+4Kp9EzvotQk1gwHbEKqkfQXNKiLVIA
+         2InaNeuIFQ+HkSq0O9X2ohb/tugGYnCqdob2MP3DNTAOTrf9/M8bsNtotIqdBGjLe/
+         X/Bgs+0YVpJxg==
+X-Nifty-SrcIP: [209.85.222.44]
+Received: by mail-ua1-f44.google.com with SMTP id h1-v6so4840990uao.8;
+        Thu, 16 Aug 2018 18:54:30 -0700 (PDT)
+X-Gm-Message-State: AOUpUlH81wQ/VH5eblp9lmRhHwf19++3vqFG9EU97Xnc0jHrAic0+5Ld
+        psyLN2Z6Gk4aczFKpWNY5O0hUdLi5GHfSJPjTrI=
+X-Google-Smtp-Source: AA+uWPz3kyuDY15PJYlrXFEzD6SowrLIacFtxiNtFKzxbHQLoCSkkGNmtvy/jR7scRxtnFEbkkQ6RNAZgo/2mIgN5P4=
+X-Received: by 2002:ab0:1163:: with SMTP id g35-v6mr21349330uac.135.1534470869273;
+ Thu, 16 Aug 2018 18:54:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANk1AXR3gAc6YiC-WARrgnFbJWQVWv2Nuz49u7qyobJdKdNotg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:ab0:2642:0:0:0:0:0 with HTTP; Thu, 16 Aug 2018 18:53:48
+ -0700 (PDT)
+In-Reply-To: <4f6673db-5b59-c3b1-042c-b36057c31c13@redhat.com>
+References: <20180816170555.21623-1-msuchanek@suse.de> <4f6673db-5b59-c3b1-042c-b36057c31c13@redhat.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Fri, 17 Aug 2018 10:53:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASy_SEORuAE-mbS6MXCFhxGbzjahpYrWRkLS8zT7ax_Kg@mail.gmail.com>
+Message-ID: <CAK7LNASy_SEORuAE-mbS6MXCFhxGbzjahpYrWRkLS8zT7ax_Kg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Fix LOADLIBES rename in Documentation/kbuild/makefiles.txt
+To:     Laura Abbott <labbott@redhat.com>,
+        Michal Suchanek <msuchanek@suse.de>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 16, 2018 at 03:20:12PM -0500, Alan Tull wrote:
-> On Thu, Aug 16, 2018 at 2:02 PM, Moritz Fischer <mdf@kernel.org> wrote:
-> Hi Moritz,
-> 
-> > Hi Alan,
-> >
-> > On Tue, Aug 14, 2018 at 02:15:25PM -0500, Alan Tull wrote:
-> >> Add flags #defines to kerneldoc documentation in a
-> >> useful place.
-> >>
-> >> Signed-off-by: Alan Tull <atull@kernel.org>
-> >> ---
-> >>  Documentation/driver-api/fpga/fpga-mgr.rst |  5 +++++
-> >>  include/linux/fpga/fpga-mgr.h              | 18 ++++++++++++------
-> >>  2 files changed, 17 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
-> >> index 431556d..db8885e 100644
-> >> --- a/Documentation/driver-api/fpga/fpga-mgr.rst
-> >> +++ b/Documentation/driver-api/fpga/fpga-mgr.rst
-> >> @@ -183,6 +183,11 @@ API for implementing a new FPGA Manager driver
-> >>  API for programming an FPGA
-> >>  ---------------------------
-> >>
-> >> +FPGA Manager flags
-> >> +
-> >> +.. kernel-doc:: include/linux/fpga/fpga-mgr.h
-> >> +   :doc: FPGA Manager flags
-> >> +
-> >>  .. kernel-doc:: include/linux/fpga/fpga-mgr.h
-> >>     :functions: fpga_image_info
-> >>
-> >> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
-> >> index 1ca02ce..777c502 100644
-> >> --- a/include/linux/fpga/fpga-mgr.h
-> >> +++ b/include/linux/fpga/fpga-mgr.h
-> >> @@ -53,12 +53,18 @@ enum fpga_mgr_states {
-> >>       FPGA_MGR_STATE_OPERATING,
-> >>  };
-> >>
-> >> -/*
-> >> - * FPGA Manager flags
-> >> - * FPGA_MGR_PARTIAL_RECONFIG: do partial reconfiguration if supported
-> >> - * FPGA_MGR_EXTERNAL_CONFIG: FPGA has been configured prior to Linux booting
-> >> - * FPGA_MGR_BITSTREAM_LSB_FIRST: SPI bitstream bit order is LSB first
-> >
-> > We are actually missing the ENCRYPTED flag here, can you add that while
-> > we're at it? I must've forgotten to add that back then ... derp.
-> 
-> Sure!
-> 
-> >
-> >> - * FPGA_MGR_COMPRESSED_BITSTREAM: FPGA bitstream is compressed
-> >> +/**
-> >> + * DOC: FPGA Manager flags
-> >> + *
-> >> + * Flags used in the &fpga_image_info->flags field
-> >> + *
-> >> + * %FPGA_MGR_PARTIAL_RECONFIG: do partial reconfiguration if supported
-> >> + *
-> >> + * %FPGA_MGR_EXTERNAL_CONFIG: FPGA has been configured prior to Linux booting
-> 
-> How about this description?
-> 
-> + *
-> + * %FPGA_MGR_ENCRYPTED_BITSTREAM: indicates bitstream is encrypted
+2018-08-17 4:23 GMT+09:00 Laura Abbott <labbott@redhat.com>:
+> On 08/16/2018 10:05 AM, Michal Suchanek wrote:
+>>
+>> Fixes: 8377bd2b9ee1 ("kbuild: Rename HOST_LOADLIBES to
+>>                 KBUILD_HOSTLDLIBS")
+>>
+>> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+>
+>
+> Acked-by: Laura Abbott <labbott@redhat.com>
 
-Works for me :)
-> 
-> >> + *
-> >> + * %FPGA_MGR_BITSTREAM_LSB_FIRST: SPI bitstream bit order is LSB first
-> >> + *
-> >> + * %FPGA_MGR_COMPRESSED_BITSTREAM: FPGA bitstream is compressed
-> >>   */
-> >>  #define FPGA_MGR_PARTIAL_RECONFIG    BIT(0)
-> >>  #define FPGA_MGR_EXTERNAL_CONFIG     BIT(1)
-> >> --
-> >> 2.7.4
-> >>
-> >
-> > Thanks,
-> > Moritz
-> 
-> Thanks,
-> Alan
+
+Applied to linux-kbuild. Thanks!
+
+
+>
+>> ---
+>>   Documentation/kbuild/makefiles.txt | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/kbuild/makefiles.txt
+>> b/Documentation/kbuild/makefiles.txt
+>> index 766355b1d221..7b6a2b2bdc98 100644
+>> --- a/Documentation/kbuild/makefiles.txt
+>> +++ b/Documentation/kbuild/makefiles.txt
+>> @@ -680,7 +680,7 @@ Both possibilities are described in the following.
+>>         Example:
+>>                 #scripts/kconfig/Makefile
+>> -               HOSTLOADLIBES_qconf := -L$(QTDIR)/lib
+>> +               HOSTLDLIBS_qconf := -L$(QTDIR)/lib
+>>         When linking qconf, it will be passed the extra option
+>>         "-L$(QTDIR)/lib".
+>>
+>
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
