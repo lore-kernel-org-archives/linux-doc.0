@@ -5,70 +5,104 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EAA897D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 Aug 2018 11:37:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B4AAF7D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 Aug 2018 14:19:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726478AbeHQOkW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 17 Aug 2018 10:40:22 -0400
-Received: from ms.lwn.net ([45.79.88.28]:52438 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726436AbeHQOkW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Aug 2018 10:40:22 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B6F8E2EF;
-        Fri, 17 Aug 2018 11:37:13 +0000 (UTC)
-Date:   Fri, 17 Aug 2018 05:37:11 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joe Perches <joe@perches.com>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Rob Herring <rob.herring@linaro.org>,
-        Jonas Oberg <jonas@fsfe.org>,
-        Andrew Morton <akpm@linuxfoundation.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] license-rules.rst and LICENSES: Use only spdx version 3
- with -only and -or-later
-Message-ID: <20180817053711.1f7ef05b@lwn.net>
-In-Reply-To: <f9a4cd2b1c1cd7938a4e0b8aa9489a0ad96669ca.1534443693.git.joe@perches.com>
-References: <f9a4cd2b1c1cd7938a4e0b8aa9489a0ad96669ca.1534443693.git.joe@perches.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726437AbeHQRWx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 17 Aug 2018 13:22:53 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:60926 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725879AbeHQRWx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Aug 2018 13:22:53 -0400
+Received: (qmail 1614 invoked by uid 2102); 17 Aug 2018 10:19:19 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 17 Aug 2018 10:19:19 -0400
+Date:   Fri, 17 Aug 2018 10:19:19 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Zeng Tao <prime.zeng@hisilicon.com>
+cc:     gregkh@linuxfoundation.org, <mathias.nyman@linux.intel.com>,
+        <drinkcat@chromium.org>, <felipe.balbi@linux.intel.com>,
+        <drake@endlessm.com>, <mike.looijmans@topic.nl>, <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        David Rientjes <rientjes@google.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH v2] usb: hub: try old enumeration scheme first for high
+ speed devices
+In-Reply-To: <1534503120-1226-1-git-send-email-prime.zeng@hisilicon.com>
+Message-ID: <Pine.LNX.4.44L0.1808171018220.1451-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Aug 2018 11:26:03 -0700
-Joe Perches <joe@perches.com> wrote:
+On Fri, 17 Aug 2018, Zeng Tao wrote:
 
-> The current linux-kernel source git tree has a mixture of the deprecated
-> spdx version 2 and the newer version 3 uses.
+> The new scheme is required just to support legacy low and full-speed
+> devices. For high speed devices, it will slower the enumeration speed.
+> So in this patch we try the "old" enumeration scheme first for high speed
+> devices, and this is what Windows does since Windows 8.
 > 
-> Update the process/license-rules.rst file to show only the version 3 style
-> and use only the version 3 styles in LICENSES.
+> Signed-off-by: Zeng Tao <prime.zeng@hisilicon.com>
+> ---
+> Changes in v2:
+> 1. As suggested by Alan, mention in the commit log that this change is
+> follow what the Window does.
+> 2. As suggested by Roger, update the kernel-parameter description.
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 3 ++-
+>  drivers/usb/core/hub.c                          | 5 ++++-
+>  2 files changed, 6 insertions(+), 2 deletions(-)
 > 
-> Add a script to update all old versions in the tree as well.
-> 
-> I suggest this be applied and the script be run and applied immediately
-> after an -rc1.  The script could also be used at any time after the initial
-> use to update any other deprecated spdx license uses.
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 533ff5c..95db23c 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4453,7 +4453,8 @@
+>  
+>  	usbcore.old_scheme_first=
+>  			[USB] Start with the old device initialization
+> -			scheme (default 0 = off).
+> +			scheme,  applies only to low and full-speed devices
+> +			 (default 0 = off).
+>  
+>  	usbcore.usbfs_memory_mb=
+>  			[USB] Memory limit (in MB) for buffers allocated by
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 1fb2668..d265b19 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -2661,10 +2661,13 @@ static bool use_new_scheme(struct usb_device *udev, int retry,
+>  	int old_scheme_first_port =
+>  		port_dev->quirks & USB_PORT_QUIRK_OLD_SCHEME;
+>  
+> +	int quick_enumeration = (udev->speed == USB_SPEED_HIGH);
 
-All seems OK to me, with one question: if we're going to run the script
-and fix everything up, do we really need to add that script to the tree
-as well?  It seems like something we shouldn't need again.
+Minor style point: the preceding blank line should be eliminated.
 
-If we *do* keep it for some reason, it needs a comment saying what it
-does and why it exists.
+> +
+>  	if (udev->speed >= USB_SPEED_SUPER)
+>  		return false;
+>  
+> -	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first);
+> +	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first
+> +			      || quick_enumeration);
+>  }
+>  
+>  /* Is a USB 3.0 port in the Inactive or Compliance Mode state?
 
-Thanks,
+Aside from that:
 
-jon
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+
