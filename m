@@ -5,202 +5,253 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B05347DE6E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 Aug 2018 16:27:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2188C7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 Aug 2018 16:46:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727707AbeHQTbe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 17 Aug 2018 15:31:34 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:56373 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727160AbeHQTbe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Aug 2018 15:31:34 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 8DE61215D9; Fri, 17 Aug 2018 18:27:31 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id B7AAD215D6;
-        Fri, 17 Aug 2018 18:27:20 +0200 (CEST)
-Date:   Fri, 17 Aug 2018 18:27:20 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1727560AbeHQTuJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 17 Aug 2018 15:50:09 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49886 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727218AbeHQTuI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Aug 2018 15:50:08 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 7E227AD98;
+        Fri, 17 Aug 2018 16:46:01 +0000 (UTC)
+Date:   Fri, 17 Aug 2018 09:45:48 -0700
+From:   Davidlohr Bueso <dave@stgolabs.net>
+To:     Waiman Long <longman@redhat.com>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
-        Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180817182720.6a6e5e8e@bbrezillon>
-In-Reply-To: <20180810080526.27207-7-brgl@bgdev.pl>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        manfred@colorfullife.com
+Subject: Re: [PATCH v8 3/5] ipc: Allow boot time extension of IPCMNI from 32k
+ to 2M
+Message-ID: <20180817164548.GA32382@linux-r8p5>
+References: <1529317698-16575-1-git-send-email-longman@redhat.com>
+ <1529317698-16575-4-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <1529317698-16575-4-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bartosz,
+Cc'ing Manfred.
 
-On Fri, 10 Aug 2018 10:05:03 +0200
-Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+On Mon, 18 Jun 2018, Waiman Long wrote:
 
-> From: Alban Bedel <albeu@free.fr>
-> 
-> Allow drivers that use the nvmem API to read data stored on MTD devices.
-> For this the mtd devices are registered as read-only NVMEM providers.
-> 
-> Signed-off-by: Alban Bedel <albeu@free.fr>
-> [Bartosz:
->   - use the managed variant of nvmem_register(),
->   - set the nvmem name]
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>The maximum number of unique System V IPC identifiers was limited to
+>32k.  That limit should be big enough for most use cases.
+>
+>However, there are some users out there requesting for more. To satisfy
+>the need of those users, a new boot time kernel option "ipcmni_extend"
+>is added to extend the IPCMNI value to 2M. This is a 64X increase which
+>hopefully is big enough for them.
 
-What happened to the 2 other patches of Alban's series? I'd really like
-the DT case to be handled/agreed on in the same patchset, but IIRC,
-Alban and Srinivas disagreed on how this should be represented. I
-hope this time we'll come to an agreement, because the MTD <-> NVMEM
-glue has been floating around for quite some time...
+Could you please provide more info on the need of these users and how
+you came up with this new value (which just seems quite arbitrary)?
 
-Regards,
+Thanks,
+Davidlohr
 
-Boris
-
-> ---
->  drivers/mtd/Kconfig     |  1 +
->  drivers/mtd/mtdcore.c   | 50 +++++++++++++++++++++++++++++++++++++++++
->  include/linux/mtd/mtd.h |  2 ++
->  3 files changed, 53 insertions(+)
-> 
-> diff --git a/drivers/mtd/Kconfig b/drivers/mtd/Kconfig
-> index 46ab7feec6b6..f5549482d0df 100644
-> --- a/drivers/mtd/Kconfig
-> +++ b/drivers/mtd/Kconfig
-> @@ -1,5 +1,6 @@
->  menuconfig MTD
->  	tristate "Memory Technology Device (MTD) support"
-> +	imply NVMEM
->  	help
->  	  Memory Technology Devices are flash, RAM and similar chips, often
->  	  used for solid state file systems on embedded devices. This option
-> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
-> index 42395df06be9..a57302eaceb5 100644
-> --- a/drivers/mtd/mtdcore.c
-> +++ b/drivers/mtd/mtdcore.c
-> @@ -488,6 +488,49 @@ int mtd_pairing_groups(struct mtd_info *mtd)
->  }
->  EXPORT_SYMBOL_GPL(mtd_pairing_groups);
->  
-> +static int mtd_nvmem_reg_read(void *priv, unsigned int offset,
-> +			      void *val, size_t bytes)
-> +{
-> +	struct mtd_info *mtd = priv;
-> +	size_t retlen;
-> +	int err;
-> +
-> +	err = mtd_read(mtd, offset, bytes, &retlen, val);
-> +	if (err && err != -EUCLEAN)
-> +		return err;
-> +
-> +	return retlen == bytes ? 0 : -EIO;
-> +}
-> +
-> +static int mtd_nvmem_add(struct mtd_info *mtd)
-> +{
-> +	struct nvmem_config config = { };
-> +
-> +	config.dev = &mtd->dev;
-> +	config.owner = THIS_MODULE;
-> +	config.name = mtd->name;
-> +	config.reg_read = mtd_nvmem_reg_read;
-> +	config.size = mtd->size;
-> +	config.word_size = 1;
-> +	config.stride = 1;
-> +	config.read_only = true;
-> +	config.root_only = true;
-> +	config.priv = mtd;
-> +
-> +	mtd->nvmem = devm_nvmem_register(&mtd->dev, &config);
-> +	if (IS_ERR(mtd->nvmem)) {
-> +		/* Just ignore if there is no NVMEM support in the kernel */
-> +		if (PTR_ERR(mtd->nvmem) == -ENOSYS) {
-> +			mtd->nvmem = NULL;
-> +		} else {
-> +			dev_err(&mtd->dev, "Failed to register NVMEM device\n");
-> +			return PTR_ERR(mtd->nvmem);
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static struct dentry *dfs_dir_mtd;
->  
->  /**
-> @@ -570,6 +613,11 @@ int add_mtd_device(struct mtd_info *mtd)
->  	if (error)
->  		goto fail_added;
->  
-> +	/* Add the nvmem provider */
-> +	error = mtd_nvmem_add(mtd);
-> +	if (error)
-> +		goto fail_nvmem_add;
-> +
->  	if (!IS_ERR_OR_NULL(dfs_dir_mtd)) {
->  		mtd->dbg.dfs_dir = debugfs_create_dir(dev_name(&mtd->dev), dfs_dir_mtd);
->  		if (IS_ERR_OR_NULL(mtd->dbg.dfs_dir)) {
-> @@ -595,6 +643,8 @@ int add_mtd_device(struct mtd_info *mtd)
->  	__module_get(THIS_MODULE);
->  	return 0;
->  
-> +fail_nvmem_add:
-> +	device_unregister(&mtd->dev);
->  fail_added:
->  	of_node_put(mtd_get_of_node(mtd));
->  	idr_remove(&mtd_idr, i);
-> diff --git a/include/linux/mtd/mtd.h b/include/linux/mtd/mtd.h
-> index a86c4fa93115..8121c6582285 100644
-> --- a/include/linux/mtd/mtd.h
-> +++ b/include/linux/mtd/mtd.h
-> @@ -25,6 +25,7 @@
->  #include <linux/notifier.h>
->  #include <linux/device.h>
->  #include <linux/of.h>
-> +#include <linux/nvmem-provider.h>
->  
->  #include <mtd/mtd-abi.h>
->  
-> @@ -339,6 +340,7 @@ struct mtd_info {
->  	struct device dev;
->  	int usecount;
->  	struct mtd_debug_info dbg;
-> +	struct nvmem_device *nvmem;
->  };
->  
->  int mtd_ooblayout_ecc(struct mtd_info *mtd, int section,
-
+>
+>This new option does have the side effect of reducing the maximum
+>number of unique sequence numbers from 64k down to 1k. So it is
+>a trade-off.
+>
+>Signed-off-by: Waiman Long <longman@redhat.com>
+>---
+> Documentation/admin-guide/kernel-parameters.txt |  3 ++
+> ipc/ipc_sysctl.c                                | 12 ++++++-
+> ipc/util.c                                      | 12 +++----
+> ipc/util.h                                      | 42 +++++++++++++++++++------
+> 4 files changed, 52 insertions(+), 17 deletions(-)
+>
+>diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>index efc7aa7..6712a42 100644
+>--- a/Documentation/admin-guide/kernel-parameters.txt
+>+++ b/Documentation/admin-guide/kernel-parameters.txt
+>@@ -1744,6 +1744,9 @@
+> 	ip=		[IP_PNP]
+> 			See Documentation/filesystems/nfs/nfsroot.txt.
+>
+>+	ipcmni_extend	[KNL] Extend the maximum number of unique System V
+>+			IPC identifiers from 32768 to 2097152.
+>+
+> 	irqaffinity=	[SMP] Set the default irq affinity mask
+> 			The argument is a cpu list, as described above.
+>
+>diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
+>index 49f9bf4..73b7782 100644
+>--- a/ipc/ipc_sysctl.c
+>+++ b/ipc/ipc_sysctl.c
+>@@ -120,7 +120,8 @@ static int proc_ipc_sem_dointvec(struct ctl_table *table, int write,
+> static int zero;
+> static int one = 1;
+> static int int_max = INT_MAX;
+>-static int ipc_mni = IPCMNI;
+>+int ipc_mni = IPCMNI;
+>+int ipc_mni_shift = IPCMNI_SHIFT;
+>
+> static struct ctl_table ipc_kern_table[] = {
+> 	{
+>@@ -246,3 +247,12 @@ static int __init ipc_sysctl_init(void)
+> }
+>
+> device_initcall(ipc_sysctl_init);
+>+
+>+static int __init ipc_mni_extend(char *str)
+>+{
+>+	ipc_mni = IPCMNI_EXTEND;
+>+	ipc_mni_shift = IPCMNI_EXTEND_SHIFT;
+>+	pr_info("IPCMNI extended to %d.\n", ipc_mni);
+>+	return 0;
+>+}
+>+early_param("ipcmni_extend", ipc_mni_extend);
+>diff --git a/ipc/util.c b/ipc/util.c
+>index 4e81182..782a8d0 100644
+>--- a/ipc/util.c
+>+++ b/ipc/util.c
+>@@ -113,7 +113,7 @@ static int __init ipc_init(void)
+>  * @ids: ipc identifier set
+>  *
+>  * Set up the sequence range to use for the ipc identifier range (limited
+>- * below IPCMNI) then initialise the keys hashtable and ids idr.
+>+ * below ipc_mni) then initialise the keys hashtable and ids idr.
+>  */
+> int ipc_init_ids(struct ipc_ids *ids)
+> {
+>@@ -214,7 +214,7 @@ static inline int ipc_buildid(int id, struct ipc_ids *ids,
+> 		ids->next_id = -1;
+> 	}
+>
+>-	return SEQ_MULTIPLIER * new->seq + id;
+>+	return (new->seq << SEQ_SHIFT) + id;
+> }
+>
+> #else
+>@@ -228,7 +228,7 @@ static inline int ipc_buildid(int id, struct ipc_ids *ids,
+> 	if (ids->seq > IPCID_SEQ_MAX)
+> 		ids->seq = 0;
+>
+>-	return SEQ_MULTIPLIER * new->seq + id;
+>+	return (new->seq << SEQ_SHIFT) + id;
+> }
+>
+> #endif /* CONFIG_CHECKPOINT_RESTORE */
+>@@ -252,8 +252,8 @@ int ipc_addid(struct ipc_ids *ids, struct kern_ipc_perm *new, int limit)
+> 	kgid_t egid;
+> 	int id, err;
+>
+>-	if (limit > IPCMNI)
+>-		limit = IPCMNI;
+>+	if (limit > ipc_mni)
+>+		limit = ipc_mni;
+>
+> 	if (!ids->tables_initialized || ids->in_use >= limit)
+> 		return -ENOSPC;
+>@@ -777,7 +777,7 @@ static struct kern_ipc_perm *sysvipc_find_ipc(struct ipc_ids *ids, loff_t pos,
+> 	if (total >= ids->in_use)
+> 		return NULL;
+>
+>-	for (; pos < IPCMNI; pos++) {
+>+	for (; pos < ipc_mni; pos++) {
+> 		ipc = idr_find(&ids->ipcs_idr, pos);
+> 		if (ipc != NULL) {
+> 			*new_pos = pos + 1;
+>diff --git a/ipc/util.h b/ipc/util.h
+>index 8e9c52c..d103630 100644
+>--- a/ipc/util.h
+>+++ b/ipc/util.h
+>@@ -15,8 +15,30 @@
+> #include <linux/err.h>
+> #include <linux/ipc_namespace.h>
+>
+>-#define IPCMNI 32768  /* <= MAX_INT limit for ipc arrays (including sysctl changes) */
+>-#define SEQ_MULTIPLIER	(IPCMNI)
+>+/*
+>+ * By default, the ipc arrays can have up to 32k (15 bits) entries.
+>+ * When IPCMNI extension mode is turned on, the ipc arrays can have up
+>+ * to 2M (21 bits) entries. However, the space for sequence number will
+>+ * be shrunk from 16 bits to 10 bits.
+>+ */
+>+#define IPCMNI_SHIFT		15
+>+#define IPCMNI_EXTEND_SHIFT	21
+>+#define IPCMNI			(1 << IPCMNI_SHIFT)
+>+#define IPCMNI_EXTEND		(1 << IPCMNI_EXTEND_SHIFT)
+>+
+>+#ifdef CONFIG_SYSVIPC_SYSCTL
+>+extern int ipc_mni;
+>+extern int ipc_mni_shift;
+>+
+>+#define SEQ_SHIFT		ipc_mni_shift
+>+#define SEQ_MASK		((1 << ipc_mni_shift) - 1)
+>+
+>+#else /* CONFIG_SYSVIPC_SYSCTL */
+>+
+>+#define ipc_mni 		IPCMNI
+>+#define SEQ_SHIFT		IPCMNI_SHIFT
+>+#define SEQ_MASK		((1 << IPCMNI_SHIFT) - 1)
+>+#endif /* CONFIG_SYSVIPC_SYSCTL */
+>
+> int sem_init(void);
+> int msg_init(void);
+>@@ -96,9 +118,9 @@ void __init ipc_init_proc_interface(const char *path, const char *header,
+> #define IPC_MSG_IDS	1
+> #define IPC_SHM_IDS	2
+>
+>-#define ipcid_to_idx(id) ((id) % SEQ_MULTIPLIER)
+>-#define ipcid_to_seqx(id) ((id) / SEQ_MULTIPLIER)
+>-#define IPCID_SEQ_MAX min_t(int, INT_MAX/SEQ_MULTIPLIER, USHRT_MAX)
+>+#define ipcid_to_idx(id)  ((id) & SEQ_MASK)
+>+#define ipcid_to_seqx(id) ((id) >> SEQ_SHIFT)
+>+#define IPCID_SEQ_MAX	  (INT_MAX >> SEQ_SHIFT)
+>
+> /* must be called with ids->rwsem acquired for writing */
+> int ipc_addid(struct ipc_ids *, struct kern_ipc_perm *, int);
+>@@ -123,8 +145,8 @@ static inline int ipc_get_maxid(struct ipc_ids *ids)
+> 	if (ids->in_use == 0)
+> 		return -1;
+>
+>-	if (ids->in_use == IPCMNI)
+>-		return IPCMNI - 1;
+>+	if (ids->in_use == ipc_mni)
+>+		return ipc_mni - 1;
+>
+> 	return ids->max_id;
+> }
+>@@ -175,7 +197,7 @@ static inline void ipc_update_pid(struct pid **pos, struct pid *pid)
+>
+> static inline int ipc_checkid(struct kern_ipc_perm *ipcp, int uid)
+> {
+>-	return uid / SEQ_MULTIPLIER != ipcp->seq;
+>+	return (uid >> SEQ_SHIFT) != ipcp->seq;
+> }
+>
+> static inline void ipc_lock_object(struct kern_ipc_perm *perm)
+>@@ -220,10 +242,10 @@ void free_ipcs(struct ipc_namespace *ns, struct ipc_ids *ids,
+>
+> static inline int sem_check_semmni(struct ipc_namespace *ns) {
+> 	/*
+>-	 * Check semmni range [0, IPCMNI]
+>+	 * Check semmni range [0, ipc_mni]
+> 	 * semmni is the last element of sem_ctls[4] array
+> 	 */
+>-	return ((ns->sem_ctls[3] < 0) || (ns->sem_ctls[3] > IPCMNI))
+>+	return ((ns->sem_ctls[3] < 0) || (ns->sem_ctls[3] > ipc_mni))
+> 		? -ERANGE : 0;
+> }
+>
+>-- 
+>1.8.3.1
+>
