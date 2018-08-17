@@ -1,101 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-3.6 required=5.0 tests=DATE_IN_FUTURE_03_06,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFA597D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 Aug 2018 01:54:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3E927D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 Aug 2018 02:54:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725769AbeHQEz4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 17 Aug 2018 00:55:56 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:27015 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725756AbeHQEz4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Aug 2018 00:55:56 -0400
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id w7H1sTxO014098;
-        Fri, 17 Aug 2018 10:54:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com w7H1sTxO014098
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1534470870;
-        bh=nZDgf0quRi0OAx/b0M3EJVFPiEZ5MyUzyvt46QwlaEA=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=jyD5jy2RwqmPJ8XQgkXMKMFcbk7rU8shiG4ogsH+x8/G/PfpYd252eFep76psyLFB
-         M1RpGt129r4qaXoWO9gdKbsuv5KLAP6YSpd6/jXVz9wCUIYOlDGcuto469vikfOLrE
-         oW/YxjdM1nQSi96k/Zn8NEOWDtP2cXrTeb22unkrUqEXdS1HrEvFiPNubG/9tvlsQd
-         raeLGNLzqkmz8qsDW5O8aGAa8dezOsNX8uk+4Kp9EzvotQk1gwHbEKqkfQXNKiLVIA
-         2InaNeuIFQ+HkSq0O9X2ohb/tugGYnCqdob2MP3DNTAOTrf9/M8bsNtotIqdBGjLe/
-         X/Bgs+0YVpJxg==
-X-Nifty-SrcIP: [209.85.222.44]
-Received: by mail-ua1-f44.google.com with SMTP id h1-v6so4840990uao.8;
-        Thu, 16 Aug 2018 18:54:30 -0700 (PDT)
-X-Gm-Message-State: AOUpUlH81wQ/VH5eblp9lmRhHwf19++3vqFG9EU97Xnc0jHrAic0+5Ld
-        psyLN2Z6Gk4aczFKpWNY5O0hUdLi5GHfSJPjTrI=
-X-Google-Smtp-Source: AA+uWPz3kyuDY15PJYlrXFEzD6SowrLIacFtxiNtFKzxbHQLoCSkkGNmtvy/jR7scRxtnFEbkkQ6RNAZgo/2mIgN5P4=
-X-Received: by 2002:ab0:1163:: with SMTP id g35-v6mr21349330uac.135.1534470869273;
- Thu, 16 Aug 2018 18:54:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:2642:0:0:0:0:0 with HTTP; Thu, 16 Aug 2018 18:53:48
- -0700 (PDT)
-In-Reply-To: <4f6673db-5b59-c3b1-042c-b36057c31c13@redhat.com>
-References: <20180816170555.21623-1-msuchanek@suse.de> <4f6673db-5b59-c3b1-042c-b36057c31c13@redhat.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 17 Aug 2018 10:53:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASy_SEORuAE-mbS6MXCFhxGbzjahpYrWRkLS8zT7ax_Kg@mail.gmail.com>
-Message-ID: <CAK7LNASy_SEORuAE-mbS6MXCFhxGbzjahpYrWRkLS8zT7ax_Kg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Fix LOADLIBES rename in Documentation/kbuild/makefiles.txt
-To:     Laura Abbott <labbott@redhat.com>,
-        Michal Suchanek <msuchanek@suse.de>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+        id S1726213AbeHQF43 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 17 Aug 2018 01:56:29 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:57262 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726097AbeHQF43 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Aug 2018 01:56:29 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 4833167BF75F7;
+        Fri, 17 Aug 2018 10:54:51 +0800 (CST)
+Received: from dessert.huawei.com (10.69.192.158) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.399.0; Fri, 17 Aug 2018 10:54:43 +0800
+From:   Zeng Tao <prime.zeng@hisilicon.com>
+To:     <gregkh@linuxfoundation.org>, <stern@rowland.harvard.edu>,
+        <mathias.nyman@linux.intel.com>, <drinkcat@chromium.org>,
+        <felipe.balbi@linux.intel.com>, <drake@endlessm.com>,
+        <mike.looijmans@topic.nl>, <joe@perches.com>
+CC:     Zeng Tao <prime.zeng@hisilicon.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        "Thymo van Beers" <thymovanbeers@gmail.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        "David Rientjes" <rientjes@google.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+Subject: [PATCH v2] usb: hub: try old enumeration scheme first for high speed devices
+Date:   Fri, 17 Aug 2018 18:51:52 +0800
+Message-ID: <1534503120-1226-1-git-send-email-prime.zeng@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.158]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-08-17 4:23 GMT+09:00 Laura Abbott <labbott@redhat.com>:
-> On 08/16/2018 10:05 AM, Michal Suchanek wrote:
->>
->> Fixes: 8377bd2b9ee1 ("kbuild: Rename HOST_LOADLIBES to
->>                 KBUILD_HOSTLDLIBS")
->>
->> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
->
->
-> Acked-by: Laura Abbott <labbott@redhat.com>
+The new scheme is required just to support legacy low and full-speed
+devices. For high speed devices, it will slower the enumeration speed.
+So in this patch we try the "old" enumeration scheme first for high speed
+devices, and this is what Windows does since Windows 8.
 
+Signed-off-by: Zeng Tao <prime.zeng@hisilicon.com>
+---
+Changes in v2:
+1. As suggested by Alan, mention in the commit log that this change is
+follow what the Window does.
+2. As suggested by Roger, update the kernel-parameter description.
+---
+ Documentation/admin-guide/kernel-parameters.txt | 3 ++-
+ drivers/usb/core/hub.c                          | 5 ++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-Applied to linux-kbuild. Thanks!
-
-
->
->> ---
->>   Documentation/kbuild/makefiles.txt | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/kbuild/makefiles.txt
->> b/Documentation/kbuild/makefiles.txt
->> index 766355b1d221..7b6a2b2bdc98 100644
->> --- a/Documentation/kbuild/makefiles.txt
->> +++ b/Documentation/kbuild/makefiles.txt
->> @@ -680,7 +680,7 @@ Both possibilities are described in the following.
->>         Example:
->>                 #scripts/kconfig/Makefile
->> -               HOSTLOADLIBES_qconf := -L$(QTDIR)/lib
->> +               HOSTLDLIBS_qconf := -L$(QTDIR)/lib
->>         When linking qconf, it will be passed the extra option
->>         "-L$(QTDIR)/lib".
->>
->
-
-
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 533ff5c..95db23c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4453,7 +4453,8 @@
+ 
+ 	usbcore.old_scheme_first=
+ 			[USB] Start with the old device initialization
+-			scheme (default 0 = off).
++			scheme,  applies only to low and full-speed devices
++			 (default 0 = off).
+ 
+ 	usbcore.usbfs_memory_mb=
+ 			[USB] Memory limit (in MB) for buffers allocated by
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 1fb2668..d265b19 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -2661,10 +2661,13 @@ static bool use_new_scheme(struct usb_device *udev, int retry,
+ 	int old_scheme_first_port =
+ 		port_dev->quirks & USB_PORT_QUIRK_OLD_SCHEME;
+ 
++	int quick_enumeration = (udev->speed == USB_SPEED_HIGH);
++
+ 	if (udev->speed >= USB_SPEED_SUPER)
+ 		return false;
+ 
+-	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first);
++	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first
++			      || quick_enumeration);
+ }
+ 
+ /* Is a USB 3.0 port in the Inactive or Compliance Mode state?
 -- 
-Best Regards
-Masahiro Yamada
+2.7.4
+
