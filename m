@@ -1,177 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 07BAA7D87C
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 18 Aug 2018 13:25:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5EE5F7D581
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 19 Aug 2018 03:48:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726266AbeHRQc2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 18 Aug 2018 12:32:28 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:34441 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726202AbeHRQc1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Aug 2018 12:32:27 -0400
-Received: by mail-ed1-f67.google.com with SMTP id h1-v6so5988399eds.1
-        for <linux-doc@vger.kernel.org>; Sat, 18 Aug 2018 06:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=FV0dNHdRcB4ZhsnEc2fPA731UxnGGox6WwKOreslgto=;
-        b=cSWf8I5iIpCx97/UujKEH5f4Pm0C7XXGUtPWnFGZU9GSyRcVBp2qOKaGIboDU+Sl+w
-         5ECYG43t986TYdBu/urRth/3/g7/TSTesCmV5AWASVMFPs0tNgZuB3pS7wYbpTrXeoee
-         nE2uxnbQSt4yhH3oxCefGIJk83OnLq+7Pa8Zw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=FV0dNHdRcB4ZhsnEc2fPA731UxnGGox6WwKOreslgto=;
-        b=nz8Xail/5qVi5OCVxfgMe46nptahSqIUvuABkQTbMnf0hVAbdhSdV4IoUqeoqFADIH
-         27f95qn6qRKJI1/OZ0M7EsuCzI4BTWCr2M+DavW9PPhA/gClw/1ck0AfvT7Sl5/APEfj
-         20ShKRkNEFlTEgoP/+zz5LJkhhdu/2MzcOXeCCTHg550NOQPuvRb3h3JkTe3xyzYLXpH
-         gQvWfvwXCBZZDS76Uxt6RnE80I+2Xgqk5vm3eDAaGQdGR5g1WSDXl7vbu9pCBFApKUH6
-         Gsji/l+bM4PnQilPuH2ZQMnEDQoKr0gtAttW6VP5/4Q1kBSnY9JGZt3zXox9XC5qXP6Q
-         O5jw==
-X-Gm-Message-State: AOUpUlHFIebpzJYWm0MN/4iWg5EcCR6kmU15szlQswuDgWA02UNcTYpV
-        PUn2iJjhz9mK+0tAYTM/GAjHkw==
-X-Google-Smtp-Source: AA+uWPw+UKhHcsh5t3gZC8ty9gStC7DIEPFZMt8/J29uy22Ne6sIfHjTNhfp3IGa4AJ3alXFKM/0QQ==
-X-Received: by 2002:aa7:c68b:: with SMTP id n11-v6mr47564358edq.122.1534598683408;
-        Sat, 18 Aug 2018 06:24:43 -0700 (PDT)
-Received: from prevas-ravi.waoo.dk (dhcp-5-186-114-212.cgn.ip.fibianet.dk. [5.186.114.212])
-        by smtp.gmail.com with ESMTPSA id a11-v6sm2739032edn.95.2018.08.18.06.24.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 18 Aug 2018 06:24:42 -0700 (PDT)
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Cc:     linux-kernel@vger.kernel.org,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Andreas Dilger <adilger@dilger.ca>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        linux-nfs@vger.kernel.org, cluster-devel@redhat.com,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev@lists.ozlabs.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Subject: [PATCH v2 1/8] seq_file: introduce seq_open_data helper
-Date:   Sat, 18 Aug 2018 15:24:27 +0200
-Message-Id: <20180818132434.9515-1-linux@rasmusvillemoes.dk>
-X-Mailer: git-send-email 2.16.4
+        id S1725919AbeHSG6h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 19 Aug 2018 02:58:37 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60236 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725913AbeHSG6h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Aug 2018 02:58:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=J3zuL5C3nH/a1CinNE4+kAMHFsC512IxHG5TkAnz474=; b=K6CZh5b13T6Sn5B0GnsNbB+sH
+        giKNS8ADpeDlinXwkZw/ttpW9UFZHxKSHVI+DF/rmKhIrorYWQoiTPEXjIiHFHFaBnrkJWr764Cuq
+        QrNmAu3QZM7+ayADOgs5pEGW/CBkN5YKt8lzBEeJbjlA+gYzzKVEgxbmL9W6IzKTwNzjcflhe0jk0
+        pCBqWY01kmbcLbtzMpAVLGA9Zz9wUDe+5dhL1m0GM2xY3WVLYDd+kG18+DI9N9+8ZLUgrQEfkc4Ad
+        TRZ18y2HO/n+AYZeWF5JbQuo9DKu5k+X65+Mhjim3wc5BxOQevV1JPUvn36IANBm/KhYMRd5cf0Ed
+        3M22ElivQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1frEhd-0007W6-FT; Sun, 19 Aug 2018 03:48:33 +0000
+Subject: Re: [PATCH v2 0/5] FireWire: clean up kernel-doc, add Documentation
+ chapter
+To:     Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+        Randy Dunlap <rd.dunlab@gmail.com>,
+        linux1394-devel@lists.sourceforge.net
+Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux-doc@vger.kernel.org
+References: <20180414012722.17420-1-rd.dunlab@gmail.com>
+ <52b34674-f1bd-311f-8bc4-9eb0ceb88c97@sakamocchi.jp>
+ <ed4b0f15-a875-4273-696a-65006c5f0364@infradead.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <1fc2069d-88eb-306b-a187-610324e02f1c@infradead.org>
+Date:   Sat, 18 Aug 2018 20:48:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <ed4b0f15-a875-4273-696a-65006c5f0364@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are quite a few callers of seq_open that could be simplified by
-setting the ->private member via the seq_open call instead of fetching
-file->private_data afterwards.
+On 06/16/2018 04:55 PM, Randy Dunlap wrote:
+> On 04/15/2018 07:10 PM, Takashi Sakamoto wrote:
+>> Hi,
+>>
+>> On Apr 14 2018 10:27, Randy Dunlap wrote:
+>>> This patch series cleans up kernel-doc warnings in several
+>>> FireWire source files and then adds a Documentation driver-api
+>>> chapter for FireWire.
+>>>
+>>> [PATCH v3 1/5] FireWire: clean up firewire-cdev.h kernel-doc
+>>> [PATCH v3 2/5] FireWire: clean up core-iso.c kernel-doc
+>>> [PATCH v3 3/5] FireWire: clean up core-transaction.c kernel-doc
+>>> [PATCH v3 4/5] FireWire: add a Documentation driver-api chapter
+>>> [PATCH v3 5/5] FireWire: add driver-api Introduction section
+>>>
+>>>   Documentation/driver-api/firewire.rst |   50 +++++++++++++++++++++++-
+>>>   Documentation/driver-api/index.rst    |    1
+>>>   drivers/firewire/core-iso.c           |    7 +++
+>>>   drivers/firewire/core-transaction.c   |   10 ++++
+>>>   include/uapi/linux/firewire-cdev.h    |   22 ++++++----
+>>>   5 files changed, 81 insertions(+), 9 deletions(-)
+>>
+>> I reviewed all of the five patches.
+>>
+>> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+>>
+>> We're on development cycle for v4.18. Your patchset will be merged into
+>> mainline in next merge window by pull request from Stefan.
+> 
 
-Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
----
-v2:
-- Fix some copy-pastos spotted by Andreas.
-- Ensure everybody hit by an example patch also gets this cover letter/introducing patch.
-- Include a few fs/ examples.
+Hi Stefan,
 
-I've just included a few examples of possible users of this helper,
-there are many more similar cases. As a bonus, 7/8 fix a potential
-NULL deref (if one believes that seq_open can actually fail).
+Do you plan to merge these Firewire documentation patches in the
+current merge window?
 
-seq_open_private would have been a better name, but that one is
-already taken...
-
-Documentation/filesystems/seq_file.txt |  9 +++++----
- fs/seq_file.c                          | 16 ++++++++++++----
- include/linux/seq_file.h               |  1 +
- 3 files changed, 18 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/filesystems/seq_file.txt b/Documentation/filesystems/seq_file.txt
-index 9de4303201e1..68571b8275d8 100644
---- a/Documentation/filesystems/seq_file.txt
-+++ b/Documentation/filesystems/seq_file.txt
-@@ -234,10 +234,11 @@ Here, the call to seq_open() takes the seq_operations structure we created
- before, and gets set up to iterate through the virtual file.
- 
- On a successful open, seq_open() stores the struct seq_file pointer in
--file->private_data. If you have an application where the same iterator can
--be used for more than one file, you can store an arbitrary pointer in the
--private field of the seq_file structure; that value can then be retrieved
--by the iterator functions.
-+file->private_data. If you have an application where the same iterator
-+can be used for more than one file, you can store an arbitrary pointer
-+in the private field of the seq_file structure; that value can then be
-+retrieved by the iterator functions. Using the wrapper seq_open_data()
-+allows you to set the initial value for that field.
- 
- There is also a wrapper function to seq_open() called seq_open_private(). It
- kmallocs a zero filled block of memory and stores a pointer to it in the
-diff --git a/fs/seq_file.c b/fs/seq_file.c
-index 4cc090b50cc5..c8c86660f6db 100644
---- a/fs/seq_file.c
-+++ b/fs/seq_file.c
-@@ -33,11 +33,12 @@ static void *seq_buf_alloc(unsigned long size)
- }
- 
- /**
-- *	seq_open -	initialize sequential file
-+ *	seq_open_data -	initialize sequential file
-  *	@file: file we initialize
-  *	@op: method table describing the sequence
-+ *	@data: initial value for ->private field
-  *
-- *	seq_open() sets @file, associating it with a sequence described
-+ *	seq_open_data() sets @file, associating it with a sequence described
-  *	by @op.  @op->start() sets the iterator up and returns the first
-  *	element of sequence. @op->stop() shuts it down.  @op->next()
-  *	returns the next element of sequence.  @op->show() prints element
-@@ -45,10 +46,10 @@ static void *seq_buf_alloc(unsigned long size)
-  *	ERR_PTR(error).  In the end of sequence they return %NULL. ->show()
-  *	returns 0 in case of success and negative number in case of error.
-  *	Returning SEQ_SKIP means "discard this element and move on".
-- *	Note: seq_open() will allocate a struct seq_file and store its
-+ *	Note: seq_open_data() will allocate a struct seq_file and store its
-  *	pointer in @file->private_data. This pointer should not be modified.
-  */
--int seq_open(struct file *file, const struct seq_operations *op)
-+int seq_open_data(struct file *file, const struct seq_operations *op, void *data)
- {
- 	struct seq_file *p;
- 
-@@ -62,6 +63,7 @@ int seq_open(struct file *file, const struct seq_operations *op)
- 
- 	mutex_init(&p->lock);
- 	p->op = op;
-+	p->private = data;
- 
- 	// No refcounting: the lifetime of 'p' is constrained
- 	// to the lifetime of the file.
-@@ -86,6 +88,12 @@ int seq_open(struct file *file, const struct seq_operations *op)
- 	file->f_mode &= ~FMODE_PWRITE;
- 	return 0;
- }
-+EXPORT_SYMBOL(seq_open_data);
-+
-+int seq_open(struct file *file, const struct seq_operations *op)
-+{
-+	return seq_open_data(file, op, NULL);
-+}
- EXPORT_SYMBOL(seq_open);
- 
- static int traverse(struct seq_file *m, loff_t offset)
-diff --git a/include/linux/seq_file.h b/include/linux/seq_file.h
-index a121982af0f5..1142e39bfad2 100644
---- a/include/linux/seq_file.h
-+++ b/include/linux/seq_file.h
-@@ -107,6 +107,7 @@ void seq_pad(struct seq_file *m, char c);
- 
- char *mangle_path(char *s, const char *p, const char *esc);
- int seq_open(struct file *, const struct seq_operations *);
-+int seq_open_data(struct file *, const struct seq_operations *, void *);
- ssize_t seq_read(struct file *, char __user *, size_t, loff_t *);
- loff_t seq_lseek(struct file *, loff_t, int);
- int seq_release(struct inode *, struct file *);
+thanks,
 -- 
-2.16.4
-
+~Randy
