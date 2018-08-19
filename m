@@ -1,131 +1,198 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8319F7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 19 Aug 2018 11:32:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 58E587D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 19 Aug 2018 12:21:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725956AbeHSOnj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 19 Aug 2018 10:43:39 -0400
-Received: from smtp5-g21.free.fr ([212.27.42.5]:41244 "EHLO smtp5-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725885AbeHSOnj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 19 Aug 2018 10:43:39 -0400
-Received: from tock (unknown [88.130.57.217])
-        (Authenticated sender: albeu)
-        by smtp5-g21.free.fr (Postfix) with ESMTPSA id 541C25FFAC;
-        Sun, 19 Aug 2018 13:31:09 +0200 (CEST)
-Date:   Sun, 19 Aug 2018 13:31:06 +0200
-From:   Alban <albeu@free.fr>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Aban Bedel <albeu@free.fr>, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180819133106.0420df5f@tock>
-In-Reply-To: <20180817182720.6a6e5e8e@bbrezillon>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+        id S1726393AbeHSPdG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 19 Aug 2018 11:33:06 -0400
+Received: from mail-qk0-f194.google.com ([209.85.220.194]:33353 "EHLO
+        mail-qk0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725940AbeHSPdG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Aug 2018 11:33:06 -0400
+Received: by mail-qk0-f194.google.com with SMTP id z78-v6so6944812qka.0;
+        Sun, 19 Aug 2018 05:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XwHNzhx1/pTKUif7jz1ufvFvm9xDq0jCzDBEvv4ce+Q=;
+        b=k9mVn/fquOwgIqoEPYzET1F3fKGlRMSX6EITYyFAtZsDtc97w3wdMk3eq6fKAcOChz
+         KJjvfYhlJOU/w5wNAU0QipTqqYGFW8h1dami4+dZRjcK8S/13B+ur03Pdpf2oOcCfEZu
+         vGsOjWWJ7cyymYumlJmH78FsLfR0PZOSz1JLo2MCcx0AcJz3pS79LVVC7QGjdtO4m/D8
+         bsnXn9bPOT+YdC679gIUiqjv48nJ1TDks4QTFpljAOek5lDTeP32/ifDH9oZJFtL5Nsm
+         3eJr56rk5AUljtY9COP+7uL40Qbo40QUQWboSrPfdoUE53gOuJ6pufpgTaJMsRGzxSF2
+         s24w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XwHNzhx1/pTKUif7jz1ufvFvm9xDq0jCzDBEvv4ce+Q=;
+        b=QcyDt269tniCohSZYnQ/Dy36K5v83JHDk3IofjUwrSsYsirOwOliOc3UZ292hgM+oK
+         7aR33zC5g2se7ffTyE82bb24XYBZhlBMNCuWwh0l4dCspZilb/sb2LhzpDX/7wvWtGlg
+         3UmwAdav5yshkrYrbZzjwgRZNJwl6lAiGr0nVZmMjUtI5wwfzLdTAkhXsEgNFrVA1fsO
+         tTiKTySl8bLtlQMR9HyNvEZ21KLqk5BGgAbglzXhFgq9sukKychyj0W8SffxyM3tAN/v
+         VuyRV6FFN9gC4GsVWRda/5IWW7ESbI4sd1X/5JaiVOTIbj89JnUyPs1Ajh2OxtkeAewX
+         MxHA==
+X-Gm-Message-State: AOUpUlFtRUYFIMrfGxDa1EGgTc4Ho00WKPqmS2WgVa4tCWjzLyRSHq2h
+        lFR/X6UsDCZMOHKA9448xIj0a37MdBFxcc+v154=
+X-Google-Smtp-Source: AA+uWPxHI169dBLfGDTYtGN1PF5Rk0j5uDYtM3wJfQHR5vdEmI1YL3MFRzjPwDcJmP25MHKPcNUNMA+B91ls1QaI2As=
+X-Received: by 2002:a37:2be2:: with SMTP id r95-v6mr4046194qkr.3.1534681307716;
+ Sun, 19 Aug 2018 05:21:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/TQqb4/k1M=FtYu85dR=ch4z"; protocol="application/pgp-signature"
+References: <20180818132434.9515-1-linux@rasmusvillemoes.dk>
+In-Reply-To: <20180818132434.9515-1-linux@rasmusvillemoes.dk>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 19 Aug 2018 15:21:36 +0300
+Message-ID: <CAHp75Ve21BhYsXQHsr285VArqALi0Rt4BXudfmTXU+E+xr+5NQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] seq_file: introduce seq_open_data helper
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        adilger@dilger.ca,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        linux-nfs@vger.kernel.org, cluster-devel@redhat.com,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "open list:LINUX FOR POWERPC PA SEMI PWRFICIENT" 
+        <linuxppc-dev@lists.ozlabs.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/TQqb4/k1M=FtYu85dR=ch4z
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Sat, Aug 18, 2018 at 4:26 PM Rasmus Villemoes
+<linux@rasmusvillemoes.dk> wrote:
+>
+> There are quite a few callers of seq_open that could be simplified by
+> setting the ->private member via the seq_open call instead of fetching
+> file->private_data afterwards.
+>
 
-On Fri, 17 Aug 2018 18:27:20 +0200
-Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+I like this series,
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-> Hi Bartosz,
->=20
-> On Fri, 10 Aug 2018 10:05:03 +0200
-> Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->=20
-> > From: Alban Bedel <albeu@free.fr>
-> >=20
-> > Allow drivers that use the nvmem API to read data stored on MTD devices.
-> > For this the mtd devices are registered as read-only NVMEM providers.
-> >=20
-> > Signed-off-by: Alban Bedel <albeu@free.fr>
-> > [Bartosz:
-> >   - use the managed variant of nvmem_register(),
-> >   - set the nvmem name]
-> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com> =20
->=20
-> What happened to the 2 other patches of Alban's series? I'd really
-> like the DT case to be handled/agreed on in the same patchset, but
-> IIRC, Alban and Srinivas disagreed on how this should be represented.
-> I hope this time we'll come to an agreement, because the MTD <-> NVMEM
-> glue has been floating around for quite some time...
+P.S. ...though it seems patch 3 missed a commit message.
 
-These other patches were to fix what I consider a fundamental flaw in
-the generic NVMEM bindings, however we couldn't agree on this point.
-Bartosz later contacted me to take over this series and I suggested to
-just change the MTD NVMEM binding to use a compatible string on the
-NVMEM cells as an alternative solution to fix the clash with the old
-style MTD partition.
+> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> ---
+> v2:
+> - Fix some copy-pastos spotted by Andreas.
+> - Ensure everybody hit by an example patch also gets this cover letter/introducing patch.
+> - Include a few fs/ examples.
+>
+> I've just included a few examples of possible users of this helper,
+> there are many more similar cases. As a bonus, 7/8 fix a potential
+> NULL deref (if one believes that seq_open can actually fail).
+>
+> seq_open_private would have been a better name, but that one is
+> already taken...
+>
+> Documentation/filesystems/seq_file.txt |  9 +++++----
+>  fs/seq_file.c                          | 16 ++++++++++++----
+>  include/linux/seq_file.h               |  1 +
+>  3 files changed, 18 insertions(+), 8 deletions(-)
+>
+> diff --git a/Documentation/filesystems/seq_file.txt b/Documentation/filesystems/seq_file.txt
+> index 9de4303201e1..68571b8275d8 100644
+> --- a/Documentation/filesystems/seq_file.txt
+> +++ b/Documentation/filesystems/seq_file.txt
+> @@ -234,10 +234,11 @@ Here, the call to seq_open() takes the seq_operations structure we created
+>  before, and gets set up to iterate through the virtual file.
+>
+>  On a successful open, seq_open() stores the struct seq_file pointer in
+> -file->private_data. If you have an application where the same iterator can
+> -be used for more than one file, you can store an arbitrary pointer in the
+> -private field of the seq_file structure; that value can then be retrieved
+> -by the iterator functions.
+> +file->private_data. If you have an application where the same iterator
+> +can be used for more than one file, you can store an arbitrary pointer
+> +in the private field of the seq_file structure; that value can then be
+> +retrieved by the iterator functions. Using the wrapper seq_open_data()
+> +allows you to set the initial value for that field.
+>
+>  There is also a wrapper function to seq_open() called seq_open_private(). It
+>  kmallocs a zero filled block of memory and stores a pointer to it in the
+> diff --git a/fs/seq_file.c b/fs/seq_file.c
+> index 4cc090b50cc5..c8c86660f6db 100644
+> --- a/fs/seq_file.c
+> +++ b/fs/seq_file.c
+> @@ -33,11 +33,12 @@ static void *seq_buf_alloc(unsigned long size)
+>  }
+>
+>  /**
+> - *     seq_open -      initialize sequential file
+> + *     seq_open_data - initialize sequential file
+>   *     @file: file we initialize
+>   *     @op: method table describing the sequence
+> + *     @data: initial value for ->private field
+>   *
+> - *     seq_open() sets @file, associating it with a sequence described
+> + *     seq_open_data() sets @file, associating it with a sequence described
+>   *     by @op.  @op->start() sets the iterator up and returns the first
+>   *     element of sequence. @op->stop() shuts it down.  @op->next()
+>   *     returns the next element of sequence.  @op->show() prints element
+> @@ -45,10 +46,10 @@ static void *seq_buf_alloc(unsigned long size)
+>   *     ERR_PTR(error).  In the end of sequence they return %NULL. ->show()
+>   *     returns 0 in case of success and negative number in case of error.
+>   *     Returning SEQ_SKIP means "discard this element and move on".
+> - *     Note: seq_open() will allocate a struct seq_file and store its
+> + *     Note: seq_open_data() will allocate a struct seq_file and store its
+>   *     pointer in @file->private_data. This pointer should not be modified.
+>   */
+> -int seq_open(struct file *file, const struct seq_operations *op)
+> +int seq_open_data(struct file *file, const struct seq_operations *op, void *data)
+>  {
+>         struct seq_file *p;
+>
+> @@ -62,6 +63,7 @@ int seq_open(struct file *file, const struct seq_operations *op)
+>
+>         mutex_init(&p->lock);
+>         p->op = op;
+> +       p->private = data;
+>
+>         // No refcounting: the lifetime of 'p' is constrained
+>         // to the lifetime of the file.
+> @@ -86,6 +88,12 @@ int seq_open(struct file *file, const struct seq_operations *op)
+>         file->f_mode &= ~FMODE_PWRITE;
+>         return 0;
+>  }
+> +EXPORT_SYMBOL(seq_open_data);
+> +
+> +int seq_open(struct file *file, const struct seq_operations *op)
+> +{
+> +       return seq_open_data(file, op, NULL);
+> +}
+>  EXPORT_SYMBOL(seq_open);
+>
+>  static int traverse(struct seq_file *m, loff_t offset)
+> diff --git a/include/linux/seq_file.h b/include/linux/seq_file.h
+> index a121982af0f5..1142e39bfad2 100644
+> --- a/include/linux/seq_file.h
+> +++ b/include/linux/seq_file.h
+> @@ -107,6 +107,7 @@ void seq_pad(struct seq_file *m, char c);
+>
+>  char *mangle_path(char *s, const char *p, const char *esc);
+>  int seq_open(struct file *, const struct seq_operations *);
+> +int seq_open_data(struct file *, const struct seq_operations *, void *);
+>  ssize_t seq_read(struct file *, char __user *, size_t, loff_t *);
+>  loff_t seq_lseek(struct file *, loff_t, int);
+>  int seq_release(struct inode *, struct file *);
+> --
+> 2.16.4
+>
 
-However all this has no impact on the code needed to add NVMEM support
-to MTD, so the above patch didn't change at all.
 
-Alban
-
---Sig_/TQqb4/k1M=FtYu85dR=ch4z
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJbeVT7AAoJEHSUmkuduC28SdMP/3+kDayzSjsABxnvDQU4p5lQ
-NA13kysUhSl4DlckghrBsgoq9/Jwg+jFjOWflojpHLDKAWpQyzZQU/pd+M99JorF
-StfVexTlBJqB0gz0wOktfK2XCspxhXSlUa5oWKPDdvVPPNNdVDhfNaQXo6m1SWPg
-DH4Dqmc58UUX0VtLVjPscQLECINAbhvb0T6axgnyev7GXhoV8BJGZs9D+Ap3MAUW
-afsXgaAOaQ8W8W14m8KJ3FsJnj78vXVKoZSbWDvhAt67gt8nN/7SMtEx/vT1ceYD
-vlaWHNMi/6Vsx4SsrdfP2OD9mjj17J61UFjtdXgJDLMgX+Xligr+/uGJSYSCXCwD
-skxKnfs9B391RVeH76q1fIFE1sTBNTO7/3uwl9zF5vDKoPrLtVEu8RpN0SDxZMHJ
-qQy05vA8FoG33IeUAUQ0URiDHH9BaYOmMT735CCtsJD2lujQWU93MXIgb7/5lb0u
-FzYH5lpWnqeP8NJnLplr9g2LG7ucE4IjUoKjp5OHEwv798HWUILmCK4TZRWDwrGx
-cV7a7p0jXiRgkw5haBA7zs3bjYo0p7k46F+6CZFznQEndOKReOsiYT9kdr53V2qK
-sjleNX8U24LXgPeTibUkCfDsk2o9vbB0qd07Afc4div8Blm3pUbd/g1XxTdJsv4a
-zX3GoEXnpt5VB6qK13EN
-=kqAD
------END PGP SIGNATURE-----
-
---Sig_/TQqb4/k1M=FtYu85dR=ch4z--
+-- 
+With Best Regards,
+Andy Shevchenko
