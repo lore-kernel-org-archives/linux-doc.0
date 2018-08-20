@@ -1,84 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA6DC7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 20:25:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB2187D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 20:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726099AbeHTXmr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 19:42:47 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:43644 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbeHTXmn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 19:42:43 -0400
-Received: by mail-pg1-f194.google.com with SMTP id v66-v6so5997837pgb.10
-        for <linux-doc@vger.kernel.org>; Mon, 20 Aug 2018 13:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s+ZAQzVfVhWeLceyKWn+FK+VYYwausDp5pofcIxzenc=;
-        b=bBbOvdTKxeRm20RfobfEHZyzp+3MTkk4yyKUaXM4P0EvrAJ/q6GtuV/lja2iy4kQin
-         hXE4giAH7oOFd/AYMiKN/mMh5ovO41gNSFl/xk2XvY+Wb63i/YbBXWfskbWyQ18pAKug
-         +O1MisPzUKDDLkAQH+85AYPpI+gHgJVCZGP9uyyRB1fOIYDG36ou6RY5VwQQZOsEl6wq
-         EArjjQ5aK0ZJCnIstxzkQ8ITfc+EqCzbbCotY91PSEXLfyDnTSlVOhIlJasQgMWIv9U3
-         foaDtYAl0C9Mzk3EiYjtN+Vi586XZFTsp4Vg+DA1BrelA4px5t9Cw5C6gpMLh30pY0HO
-         7DUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s+ZAQzVfVhWeLceyKWn+FK+VYYwausDp5pofcIxzenc=;
-        b=VRiSNbUBz0iY36KAwpbFggen368WqhBUJqs2QibGRVHM3uOk5Z6ruoGLSCMH1FZpQn
-         O/d/M29YKwFYMWZKZ3nJEnOOHEgKRH6hAs/nEak3M+6I7NaKapKZi3uYJGZ9EGR1dBPX
-         Dcn/A1j2rgjW2L3FoU7QNACcVdtCCC/n2wvfMB0WmyJbTZMHMGsa5sLChSmns8VOkO3g
-         GC/cy8m9M4Aal7TdXXbpjXblsJhGPhMZhanYy5RoXSrZ+wO+6BBtPc9mb7ys06ekq/nz
-         YzxBYtdDGkdtTkHs06v0KvL6RWir1aZVSecjby/k2pplNQYrRRggj2KBMdj1polluc2J
-         Qvzg==
-X-Gm-Message-State: AOUpUlGJcyh2I7+WntiL7sEiu4NYb3GR97CnoJ/sBpmTP43rlOgvaq2H
-        9MPP8v3Y3hXf9I7yoDIWRZtsWxB2lfa4jU4u7ItvUA==
-X-Google-Smtp-Source: AA+uWPxIQKC1fD4/GS3B9eOEDeHHBnT6YKIYdZrX/UG+F1LIWhdyhet4889Z6NzO2K/E1f+NzQeVjjrCZ8mkqOSzgBc=
-X-Received: by 2002:a63:190e:: with SMTP id z14-v6mr8188048pgl.302.1534796739959;
- Mon, 20 Aug 2018 13:25:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
-In-Reply-To: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 20 Aug 2018 13:25:28 -0700
-Message-ID: <CAKwvOdmaABwZhZ0YCPBhuiq+hMrSF=Ad_sOD04d8+ab5QLLXhA@mail.gmail.com>
-Subject: Re: [PATCH] Raise the minimum required gcc version to 4.6
-To:     joe@perches.com
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        dave.hansen@intel.com, efault@gmx.de,
-        Guenter Roeck <linux@roeck-us.net>, riel@surriel.com,
-        Kees Cook <keescook@chromium.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1726499AbeHTXrA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 19:47:00 -0400
+Received: from mga06.intel.com ([134.134.136.31]:53541 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726333AbeHTXrA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Aug 2018 19:47:00 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2018 13:29:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,266,1531810800"; 
+   d="asc'?scan'208";a="78532573"
+Received: from jtkirshe-desk1.jf.intel.com ([134.134.177.59])
+  by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2018 13:29:53 -0700
+Message-ID: <933f909db5ae9bc96c5be2bb503081eb5714adbc.camel@intel.com>
+Subject: Re: Checkpatch False positive
+From:   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Reply-To: jeffrey.t.kirsher@intel.com
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+        netdev <netdev@vger.kernel.org>,
+        Linux Docs <linux-doc@vger.kernel.org>
+Date:   Mon, 20 Aug 2018 13:32:33 -0700
+In-Reply-To: <20180820202250.GA6345@bombadil.infradead.org>
+References: <8cf91e5fb848eecd98a2f9493387906b3a5f1506.camel@intel.com>
+         <20180820202250.GA6345@bombadil.infradead.org>
+Organization: Intel
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-XgcmMa4YPwKUbiydiA20"
+X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
+Mime-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 20, 2018 at 1:15 PM Joe Perches <joe@perches.com> wrote:
->
-> Various architectures fail to build properly with older versions
-> of the gcc compiler.
 
-Just curious if certain arch's require older versions of gcc?  Surely
-that's not the case, but hopefully this patch wont surprise anyone.
+--=-XgcmMa4YPwKUbiydiA20
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It might be worthwhile to see where else in the kernel has
-/gcc\s+[0-9]/g as I'm sure there's other old-gcc workarounds that can
-go too (in follow up patches).
+On Mon, 2018-08-20 at 13:22 -0700, Matthew Wilcox wrote:
+> On Mon, Aug 20, 2018 at 01:21:30PM -0700, Jeff Kirsher wrote:
+> > Checkpatch.pl should probably exclude *.rst files from the SPDX
+> > License
+> > Identifier check, since they are documentational files, like
+> > *.txt.=20
+>=20
+> They're still copyrighted work, so they should still have SPDX tags
+> to identify their license.
+>=20
+> checkpatch has:
+>=20
+>                                 } elsif ($realfile =3D~ /\.rst$/) {
+>                                         $comment =3D '..';
+>=20
+> so we're explicitly including rst files in the checking for now.
 
-Thanks for sending.  This helps us ship newer compiler features for
-which older compiler support is difficult/impossible.
--- 
-Thanks,
-~Nick Desaulniers
+Ah, sorry.  I did not catch that they started to include SPDX-License-
+Identifiers for RST files, thanks Matthew.
+
+--=-XgcmMa4YPwKUbiydiA20
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAlt7JWEACgkQ5W/vlVpL
+7c78XQ/8D2fNNd1OEzfizlb9OiWOq4v149lCWTbm4Bnpwo0yY+SKoQpvYlVT4FWR
+0w0KGPQDSb/7MWsZl6hC3eFVp2D/0YCki5pfwv7Ep33QErtAHh2bK6DyTPC7DQ/h
+HxbujapZD9V1CD2Ks1oLNqUdn2bLwJp0U+dql9KCRoO7qhnv+lvjRXnofXvw49kS
+MdadseH2K8ej36nQBOu+ge1i9Gh2OhwoOI5f7p35nOGOsDIUS4PYWW7DaslvtKna
+WwutyBR4aMpE0w8C6aXL4BBUUvvn+XSIEMD3Cprwnr6Gn67N57OaQqKWi4IPXJTe
+BMwwoXWpwl6qdcMnrUj6erg/QHVqUeYlefbmWW6U7kCHgzzj5q5cpMHkoGveO1BF
+Iik0HGJ0YL51lRejDI/aEl/VNf5bfCMmTEOK2AK9GeOiN80q7mDRF8jTXJ/O6Wyq
+wUMKvnOZA1tl1/0acCoYfCPMHB07z3eGPWxAhna2H+L/7ixBD+zd/0CgHMapxtJi
+tgk5gDwHEJA7UryU4cu4k1pE54VDznYjvoBoxrlcn8cB0NSFqYP8VbXWUhXcqjJE
+gU791hLOR1YOMsTbEifla1Isc67jLNOxp1fOHi+NgtxnXv/b0S4JGXlhyeZDXhrK
+EVkuSYunDqFcZws6YCN8KEqkJxjZZCri4s2DYZG7Y9LHY7a//cQ=
+=U0ww
+-----END PGP SIGNATURE-----
+
+--=-XgcmMa4YPwKUbiydiA20--
+
