@@ -1,231 +1,287 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF58A7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 22:54:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D8867DE6F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 23:43:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726717AbeHUCMW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 22:12:22 -0400
-Received: from smtp1-g21.free.fr ([212.27.42.1]:60459 "EHLO smtp1-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726631AbeHUCMW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Aug 2018 22:12:22 -0400
-Received: from tock (unknown [89.247.124.122])
-        (Authenticated sender: albeu)
-        by smtp1-g21.free.fr (Postfix) with ESMTPSA id 2E6F6B004D5;
-        Tue, 21 Aug 2018 00:53:29 +0200 (CEST)
-Date:   Tue, 21 Aug 2018 00:53:27 +0200
-From:   Alban <albeu@free.fr>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Aban Bedel <albeu@free.fr>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
+        id S1726993AbeHUDAm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 23:00:42 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:51496 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726896AbeHUDAl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 23:00:41 -0400
+Received: by mail-wm0-f68.google.com with SMTP id y2-v6so1176377wma.1;
+        Mon, 20 Aug 2018 16:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=sLEz5YDk/S+SzRglbAXUAYm/+jPKdI6d73xLAxFOXQ8=;
+        b=hVtXp4GFLLFT9I3VRLGWUj9kJFMJji9s0UGL1lpONZIAfid2+O4831/KI8Nkmh/LRA
+         Zw9Oe1dfa7Q4Q5+f5rlmPXIJsOihVzIkSYBgNMe4ORhupvnsiItL9sOsUqphk10gsOsF
+         9y401Z7/AM8fQBFcNuCfmSgUYqPZo71k+KXzg5ntPuhbCAmp5cb4XdWZDMfCr5z7EjNZ
+         QXwJ91KLnkyirYHaGkEn9kcTBcIive97X1Ara7UDoq68L1QaKZVbz+dtFPdkvDoKurX3
+         noe+/znsSFyUW3pGKPkFLnYmyTWFlJULji+tSd6MroExgYFDkFwlLwGYt7Bnz8Ho7VTY
+         6rYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=sLEz5YDk/S+SzRglbAXUAYm/+jPKdI6d73xLAxFOXQ8=;
+        b=JnN1T6jJVclrvoJvffg4kydTFZHi0z9WK0GNJvCX5Eu76GxF8K+UaQf1hHfpRh4VbF
+         Qk2/Ll+scJhFdwk2I1/03zCVmkDIlNotEgPpin7Dv2i35RVfcKF3E2A0V3XRi4o9FyMv
+         J3aufaiSQVyl+nZvrIFD24/mIIINqD3Es1NUZ9XGDvLNj/uv/0vq3nuar5RiIMDH4Kmr
+         WUvBZ4JbRiBRYJnYdaE8NY9zlQ3GcYpQddiG5f2vo0qYuN/KIoZqtn8l9tHyujLA2vkS
+         mHDLaeC5gmk/zFFGFrnc+NTeR/guws6/P92zUiNuUIlML5Hr0Rp+9NRt7QZM7ZCBN7qJ
+         u4xQ==
+X-Gm-Message-State: AOUpUlE/WHcnQtxzDBG6pCx1ApVMdm5gtX/fMC/XqpAfQyV2Fw3lVhnP
+        LeeiZbOxktCeDjBMUKI8PB8=
+X-Google-Smtp-Source: AA+uWPwg8/ZOsR2NntA7dQNcvgZ3LEbs+isp9NK9Yfai7zS399EYCXKaN61/ng3Rygw7RFh8N6XrXg==
+X-Received: by 2002:a1c:8955:: with SMTP id l82-v6mr25896313wmd.110.1534808577778;
+        Mon, 20 Aug 2018 16:42:57 -0700 (PDT)
+Received: from z50.lan (93-181-165-181.internetia.net.pl. [93.181.165.181])
+        by smtp.gmail.com with ESMTPSA id y206-v6sm1197634wmg.45.2018.08.20.16.42.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Aug 2018 16:42:57 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Peter Rosin <peda@axentia.se>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
         Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180821005327.0d312a85@tock>
-In-Reply-To: <20180819184609.6dcdbb9a@bbrezillon>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-        <20180819133106.0420df5f@tock>
-        <20180819184609.6dcdbb9a@bbrezillon>
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/fTOdtudVp=.496+uJLgFm7d"; protocol="application/pgp-signature"
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: [RFC RFT PATCH v4 4/4] gpiolib: Implement fast processing path in get/set array
+Date:   Tue, 21 Aug 2018 01:43:41 +0200
+Message-Id: <20180820234341.5271-5-jmkrzyszt@gmail.com>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20180820234341.5271-1-jmkrzyszt@gmail.com>
+References: <20180813223448.21316-1-jmkrzyszt@gmail.com>
+ <20180820234341.5271-1-jmkrzyszt@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/fTOdtudVp=.496+uJLgFm7d
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Certain GPIO descriptor arrays returned by gpio_get_array() may contain
+information on direct mapping of array members to pins of a single GPIO
+chip in hardware order.  In such cases, bitmaps of values can be passed
+directly from/to the chip's .get/set_multiple() callbacks without
+wasting time on iterations.
 
-On Sun, 19 Aug 2018 18:46:09 +0200
-Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+Add respective code to gpiod_get/set_array_bitmap_complex() functions.
+Pins not applicable for fast path are processed as before, skipping
+over the 'fast' ones.
 
-> On Sun, 19 Aug 2018 13:31:06 +0200
-> Alban <albeu@free.fr> wrote:
->=20
-> > On Fri, 17 Aug 2018 18:27:20 +0200
-> > Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> >  =20
-> > > Hi Bartosz,
-> > >=20
-> > > On Fri, 10 Aug 2018 10:05:03 +0200
-> > > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> > >    =20
-> > > > From: Alban Bedel <albeu@free.fr>
-> > > >=20
-> > > > Allow drivers that use the nvmem API to read data stored on MTD dev=
-ices.
-> > > > For this the mtd devices are registered as read-only NVMEM provider=
-s.
-> > > >=20
-> > > > Signed-off-by: Alban Bedel <albeu@free.fr>
-> > > > [Bartosz:
-> > > >   - use the managed variant of nvmem_register(),
-> > > >   - set the nvmem name]
-> > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>     =
-=20
-> > >=20
-> > > What happened to the 2 other patches of Alban's series? I'd really
-> > > like the DT case to be handled/agreed on in the same patchset, but
-> > > IIRC, Alban and Srinivas disagreed on how this should be represented.
-> > > I hope this time we'll come to an agreement, because the MTD <-> NVMEM
-> > > glue has been floating around for quite some time...   =20
-> >=20
-> > These other patches were to fix what I consider a fundamental flaw in
-> > the generic NVMEM bindings, however we couldn't agree on this point.
-> > Bartosz later contacted me to take over this series and I suggested to
-> > just change the MTD NVMEM binding to use a compatible string on the
-> > NVMEM cells as an alternative solution to fix the clash with the old
-> > style MTD partition.
-> >=20
-> > However all this has no impact on the code needed to add NVMEM support
-> > to MTD, so the above patch didn't change at all. =20
->=20
-> It does have an impact on the supported binding though.
-> nvmem->dev.of_node is automatically assigned to mtd->dev.of_node, which
-> means people will be able to define their NVMEM cells directly under
-> the MTD device and reference them from other nodes (even if it's not
-> documented), and as you said, it conflict with the old MTD partition
-> bindings. So we'd better agree on this binding before merging this
-> patch.
+Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+---
+ Documentation/driver-api/gpio/board.rst    | 15 ++++++
+ Documentation/driver-api/gpio/consumer.rst |  8 +++
+ drivers/gpio/gpiolib.c                     | 87 ++++++++++++++++++++++++++++--
+ 3 files changed, 105 insertions(+), 5 deletions(-)
 
-Unless the nvmem cell node has a compatible string, then it won't be
-considered as a partition by the MTD code. That is were the clash is,
-both bindings allow free named child nodes without a compatible string.
+diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
+index 2c112553df84..c66821e033c2 100644
+--- a/Documentation/driver-api/gpio/board.rst
++++ b/Documentation/driver-api/gpio/board.rst
+@@ -193,3 +193,18 @@ And the table can be added to the board code as follows::
+ 
+ The line will be hogged as soon as the gpiochip is created or - in case the
+ chip was created earlier - when the hog table is registered.
++
++Arrays of pins
++--------------
++In addition to requesting pins belonging to a function one by one, a device may
++also request an array of pins assigned to the function.  The way those pins are
++mapped to the device determines if the array qualifies for fast bitmap
++processing.  If yes, a bitmap is passed over get/set array functions directly
++between a caller and a respective .get/set_multiple() callback of a GPIO chip.
++
++In order to qualify for fast bitmap processing, the pin mapping must meet the
++following requirements:
++- it must belong to the same chip as other 'fast' pins of the function,
++- its index within the function must match its hardware number within the chip.
++
++Open drain and open source pins are excluded from fast bitmap output processing.
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index 0afd95a12b10..cf992e5ab976 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -388,6 +388,14 @@ array_info should be set to NULL.
+ Note that for optimal performance GPIOs belonging to the same chip should be
+ contiguous within the array of descriptors.
+ 
++Still better performance may be achieved if array indexes of the descriptors
++match hardware pin numbers of a single chip.  If an array passed to a get/set
++array function matches the one obtained from gpiod_get_array() and array_info
++associated with the array is also passed, the function may take a fast bitmap
++processing path, passing the value_bitmap argument directly to the respective
++.get/set_multiple() callback of the chip.  That allows for utilization of GPIO
++banks as data I/O ports without much loss of performance.
++
+ The return value of gpiod_get_array_value() and its variants is 0 on success
+ or negative on error. Note the difference to gpiod_get_value(), which returns
+ 0 or 1 on success to convey the GPIO value. With the array functions, the GPIO
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index 4d26cdbdb7cf..b799a89c4c17 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -2787,7 +2787,36 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
+ 				  struct gpio_array *array_info,
+ 				  unsigned long *value_bitmap)
+ {
+-	int i = 0;
++	int err, i = 0;
++
++	/*
++	 * Validate array_info against desc_array and its size.
++	 * It should immediately follow desc_array if both
++	 * have been obtained from the same gpiod_get_array() call.
++	 */
++	if (array_info && array_info->desc == desc_array &&
++	    array_size <= array_info->size &&
++	    (void *)array_info == desc_array + array_info->size) {
++		if (!can_sleep)
++			WARN_ON(array_info->chip->can_sleep);
++
++		err = gpio_chip_get_multiple(array_info->chip,
++					     array_info->get_mask,
++					     value_bitmap);
++		if (err)
++			return err;
++
++		if (!raw && !bitmap_empty(array_info->invert_mask, array_size))
++			bitmap_xor(value_bitmap, value_bitmap,
++				   array_info->invert_mask, array_size);
++
++		if (bitmap_full(array_info->get_mask, array_size))
++			return 0;
++
++		i = find_first_zero_bit(array_info->get_mask, array_size);
++	} else {
++		array_info = NULL;
++	}
+ 
+ 	while (i < array_size) {
+ 		struct gpio_chip *chip = desc_array[i]->gdev->chip;
+@@ -2818,7 +2847,12 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
+ 			int hwgpio = gpio_chip_hwgpio(desc);
+ 
+ 			__set_bit(hwgpio, mask);
+-			i++;
++
++			if (array_info)
++				find_next_zero_bit(array_info->get_mask,
++						   array_size, i);
++			else
++				i++;
+ 		} while ((i < array_size) &&
+ 			 (desc_array[i]->gdev->chip == chip));
+ 
+@@ -2829,7 +2863,7 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
+ 			return ret;
+ 		}
+ 
+-		for (j = first; j < i; j++) {
++		for (j = first; j < i; ) {
+ 			const struct gpio_desc *desc = desc_array[j];
+ 			int hwgpio = gpio_chip_hwgpio(desc);
+ 			int value = test_bit(hwgpio, bits);
+@@ -2838,6 +2872,11 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
+ 				value = !value;
+ 			__assign_bit(j, value_bitmap, value);
+ 			trace_gpio_value(desc_to_gpio(desc), 1, value);
++
++			if (array_info)
++				find_next_zero_bit(array_info->get_mask, i, j);
++			else
++				j++;
+ 		}
+ 
+ 		if (mask != fastpath)
+@@ -3039,6 +3078,32 @@ int gpiod_set_array_value_complex(bool raw, bool can_sleep,
+ {
+ 	int i = 0;
+ 
++	/*
++	 * Validate array_info against desc_array and its size.
++	 * It should immediately follow desc_array if both
++	 * have been obtained from the same gpiod_get_array() call.
++	 */
++	if (array_info && array_info->desc == desc_array &&
++	    array_size <= array_info->size &&
++	    (void *)array_info == desc_array + array_info->size) {
++		if (!can_sleep)
++			WARN_ON(array_info->chip->can_sleep);
++
++		if (!raw && !bitmap_empty(array_info->invert_mask, array_size))
++			bitmap_xor(value_bitmap, value_bitmap,
++				   array_info->invert_mask, array_size);
++
++		gpio_chip_set_multiple(array_info->chip, array_info->set_mask,
++				       value_bitmap);
++
++		if (bitmap_full(array_info->set_mask, array_size))
++			return 0;
++
++		i = find_first_zero_bit(array_info->set_mask, array_size);
++	} else {
++		array_info = NULL;
++	}
++
+ 	while (i < array_size) {
+ 		struct gpio_chip *chip = desc_array[i]->gdev->chip;
+ 		unsigned long fastpath[2 * BITS_TO_LONGS(FASTPATH_NGPIO)];
+@@ -3066,7 +3131,14 @@ int gpiod_set_array_value_complex(bool raw, bool can_sleep,
+ 			int hwgpio = gpio_chip_hwgpio(desc);
+ 			int value = test_bit(i, value_bitmap);
+ 
+-			if (!raw && test_bit(FLAG_ACTIVE_LOW, &desc->flags))
++			/*
++			 * Pins applicable for fast input but not for
++			 * fast output processing may have been already
++			 * inverted inside the fast path, skip them.
++			 */
++			if (!raw && !(array_info &&
++			    test_bit(i, array_info->invert_mask)) &&
++			    test_bit(FLAG_ACTIVE_LOW, &desc->flags))
+ 				value = !value;
+ 			trace_gpio_value(desc_to_gpio(desc), 0, value);
+ 			/*
+@@ -3085,7 +3157,12 @@ int gpiod_set_array_value_complex(bool raw, bool can_sleep,
+ 					__clear_bit(hwgpio, bits);
+ 				count++;
+ 			}
+-			i++;
++
++			if (array_info)
++				find_next_zero_bit(array_info->set_mask,
++						   array_size, i);
++			else
++				i++;
+ 		} while ((i < array_size) &&
+ 			 (desc_array[i]->gdev->chip == chip));
+ 		/* push collected bits to outputs */
+-- 
+2.16.4
 
-> I see several options:
->=20
-> 1/ provide a way to tell the NVMEM framework not to use parent->of_node
->    even if it's !=3D NULL. This way we really don't support defining
->    NVMEM cells in the DT, and also don't support referencing the nvmem
->    device using a phandle.
-
-I really don't get what the point of this would be. Make the whole API
-useless?
-
-> 2/ define a new binding where all nvmem-cells are placed in an
->    "nvmem" subnode (just like we have this "partitions" subnode for
->    partitions), and then add a config->of_node field so that the
->    nvmem provider can explicitly specify the DT node representing the
->    nvmem device. We'll also need to set this field to ERR_PTR(-ENOENT)
->    in case this node does not exist so that the nvmem framework knows
->    that it should not assign nvmem->dev.of_node to parent->of_node
-
-This is not good. First the NVMEM device is only a virtual concept of
-the Linux kernel, it has no place in the DT. Secondly the NVMEM
-provider (here the MTD device) then has to manually parse its DT node to
-find this subnode, pass it to the NVMEM framework to later again
-resolve it back to the MTD device. Not very complex but still a lot of
-useless code, just registering the MTD device is a lot simpler and much
-more inline with most other kernel API that register a "service"
-available from a device.
-
-> 3/ only declare partitions as nvmem providers. This would solve the
->    problem we have with partitions defined in the DT since
->    defining sub-partitions in the DT is not (yet?) supported and
->    partition nodes are supposed to be leaf nodes. Still, I'm not a big
->    fan of this solution because it will prevent us from supporting
->    sub-partitions if we ever want/need to.
-
-That sound like a poor workaround. Remember that this problem could
-appear with any device that has a binding that use child nodes.
-
-> 4/ Add a ->of_xlate() hook that would be called if present by the
->    framework instead of using the default parsing we have right now.
-
-That is a bit cleaner, but I don't think it would be worse the
-complexity. Furthermore xlate functions are more about converting
-from hardware parameters to internal kernel representation than to hide
-extra DT parsing.
-
-> 5/ Tell the nvmem framework the name of the subnode containing nvmem
->    cell definitions (if NULL that means cells are directly defined
->    under the nvmem provider node). We would set it to "nvmem-cells" (or
->    whatever you like) for the MTD case.
-
-If so please match on compatible and not on the node name.
-
-6/ Extend the current NVMEM cell lookup to check if the parent node of
-the cell has a compatible string set to "nvmem-cells". If it doesn't it
-mean we have the current binding and this node is the NVMEM device. If
-it does the device node is just the next parent. This is trivial to
-implement (literally 2 lines of code) and cover all the cases currently
-known.
-
-7/ Just add a compatible string to the nvmem cell. No code change is
-needed, however as the nvmem cells have an address space (the offset in
-byte in the storage) it might still clash with another address space
-used by the main device biding (for example a number of child
-functions).
-
-> There are probably other options (some were proposed by Alban and
-> Srinivas already), but I'd like to get this sorted out before we merge
-> this patch.
->=20
-> Alban, Srinivas, any opinion?
-
-My preference goes to 6/ as it is trivial to implement, solves all
-known shortcomings and is backward compatible with the current binding.
-All other solutions have limitations and/or require too complex
-implementations compared to what they try to solve.
-
-Alban
-
---Sig_/fTOdtudVp=.496+uJLgFm7d
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJbe0ZnAAoJEHSUmkuduC289scQAOXFzKlPD8+XMV3afPc7azN0
-mN8Gl+uZod6rFdLhNG5SKe1KV3sUULyNNbZq+NfS559CK0SG7NWrslLLmLZK2YL/
-ivPFXppo8rLCvk6U7u4LCUVbCk0X1DDgnvgt0vtvF/7QzQOxOT6Wh6DHeKQmI7pP
-x9/8Cncga2H8NFkZuBsVU91OExsLNDSBg+igIH/uat4MFBblFE42ZvBu5TPfnB4b
-8bJ663P0T0C+WcQGJzOxO82146tusPdstAZgY05TyBLoomhU6sJzmv3ouAOswOyo
-l/MYd5fVgXekGXpQOrw5VHFWRgcErfg0gdFrHlYByMiu08fc8cvARiYEjwT05M39
-rxFP/1fjoVleqdZ5WSAxme1fygbIP5LjHaJcKeNIRusYPZuz7WVid0Ht4GXA7ure
-2yr7DCrB3/HQAMBeGS7WJ3Xw+HphqPtKjZin2vSbWk6webtfUaxvwBVJRcqCGVjD
-/hFyQhtP44NxpWSRQClRrQ5+wH1kz7S1jfNrgtv7T0A8RaNJ4xZDYUliwLVM9uD2
-xrU9++6s4atq5vX93V3Iq5tXxZ5GThHY8z4kG9GX9sVIYfWEVKl64P3tB+ycjc0N
-ecJmDO/LhI9s5HzoaY0XJ2Oq1cvqO09Mc0DdADs17UlQ5HQRTKjrLq0Nd5BkUu1+
-fVmGaEuVW8MyxWMFWgs8
-=9TLP
------END PGP SIGNATURE-----
-
---Sig_/fTOdtudVp=.496+uJLgFm7d--
