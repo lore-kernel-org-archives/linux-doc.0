@@ -6,47 +6,47 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CCCAD7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 23:43:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 02C687D87A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 23:43:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbeHUDAe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 23:00:34 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37453 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726585AbeHUDAd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 23:00:33 -0400
-Received: by mail-wr1-f66.google.com with SMTP id u12-v6so14315029wrr.4;
-        Mon, 20 Aug 2018 16:42:50 -0700 (PDT)
+        id S1726826AbeHUDBJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 23:01:09 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:33192 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726585AbeHUDAi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 23:00:38 -0400
+Received: by mail-wm0-f68.google.com with SMTP id i134-v6so8232307wmf.0;
+        Mon, 20 Aug 2018 16:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=z232VfbLRmE5HjKCQ97d98g/77/batkRj+02M7hpQb0=;
-        b=fOEkX2INJujA2IlBUu5MZTEZffmi7d6K1Yxwwp51JpLZah9ms7OYKk0ABRsYUFJwx6
-         h0kX+58UwQC96+1ZjTi0/oEfOzLPYMisdD9XgIR0w27tUuMRlOcIDnYIjk+lGtah+c3Q
-         LItffFPbembUcrAc6BjJclPiLSl1sTbWV4872gHif4UtBC3TkY8Y2aZyRsl4zT0QNyxV
-         4SEk0d/w1tHx/JxU9O/P0EJI8LqkIQwCaf9dV7CgHK05trMlCZMBAc7kE/guJ7vkeqgL
-         ZhYXz7+XMmPvj1nig4BhcmPkK+pD910r478C9bjawhSFMhtN1pw+pasa7d/OlS3/zB2/
-         Xh8A==
+        bh=StURJd4arYEsJf1LOMGESRiF33V5550vQlBFGtzuka8=;
+        b=fuSi++rtwMMEIaO4rAQkbneP3J77Ig0A6TGuR0QJWtMBAf2qVB1jfb9lul78h0a1WP
+         cNA/5IZQU8Q4xe0+k/OrQQVVGTs8VSPceP/hx4sYwKMdCpzeOhowb2yBEznTwj37rKPH
+         AFtt9BNahHcGYTkEFfKL+ey5VXbgz6DlixjIRavWX3mKiRRHd4mVTX8Al6uT7G34xGrf
+         W3EtgOj/h2uf7SS9MuUkDXxFbKfOFr/h5ypMviVFA+TW5Z7V6nJBGzdCpUQ6hxNz/H23
+         20mY/oPOTvW5xL8irz4yXKds1RVpPICtedkB1Gqvx+y0RUlq+211H4JDqMOx44qrkm5g
+         puqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=z232VfbLRmE5HjKCQ97d98g/77/batkRj+02M7hpQb0=;
-        b=RQhtku1Vfp4Z70P5G8p4UYIMnI5SwSx+nN0LAI26Dq+2DLegjPxP6xJGWlicGdtq7N
-         oPhjqb9wjRl+XX+FG6+Z/i5V9xF+VJ9i2Q3PvuM1b3xlRLmI/DaXGe6++F94GdicWJSX
-         RGKKUlUGd8O2tvvvo5VSFvr1MC3I7JLEIuEnP0hymiEeElwRUrDWF14kpZvcibalS9sQ
-         KCE1jZaoVcXgaL7R7ZicUg5UT+eropGB4ggbpGWUw4n1QOr0h6zjwXvcuZD72a8d9uJ8
-         JYRPXaxPf2VgnlqEf3TuQBSA2s6vBeEBcuGPgQM3YsSv6jzcJI3ePHVle/sqLLon8WgZ
-         BYaQ==
-X-Gm-Message-State: APzg51Bgi5mPP0xpzbXmZgnbNwdqDkBEk0Y0qFz4heSomAd0lQnpKsPE
-        ApX1ipNhKFo3xqNvrjMG484=
-X-Google-Smtp-Source: ANB0VdbL19B0KRKludGiuST4eMe0NsLP0iedp1SZZT28AyxfQ9p/I3FTysrwIqS/wFzVmmeDPMK/Lg==
-X-Received: by 2002:a5d:4fc3:: with SMTP id h3-v6mr1471369wrw.261.1534808570275;
-        Mon, 20 Aug 2018 16:42:50 -0700 (PDT)
+        bh=StURJd4arYEsJf1LOMGESRiF33V5550vQlBFGtzuka8=;
+        b=FfIMcopIDei4wUdIJMhyzie2sd+C3Nj68NYkn6fWkWa2xipPTAI5x3D5Nr87UuEqsy
+         hPVCHZBmdqjnaUxBzZXJCvJVIBqWwhWGY1/mN2dJec0qdmTqHuUTTjb+6t9NmeR1+7Iw
+         iffUW+d68i6i4l7o4tMhcbegv1FyoNime+YQrhRnZAoejE5IEs164BWbodP2WJlgWmuY
+         6GHos4/uVacmP8J0Gptu5uhgcPqzCvmIRyjXFrQ0SeICacnbGOzlAKlLfGj5tJbpZCk6
+         62UfLRXyJglVvTuRXiAbh6C5So2CaHKm5DvqKBtt1M3YKC480iZSon6shKGx2aR8cLYl
+         Scpw==
+X-Gm-Message-State: AOUpUlHRpaVQ3urnyq4zQnLilKn0MFvl6aJZfZQfYAIhxTK0htWAWYQo
+        6RSZhN6FyrOIvyqH3LI1JSQ=
+X-Google-Smtp-Source: AA+uWPwwDz/gJ4P6x6v75KZsn3vUcq+3+rqbDiVXIZkOoQktbE9lndr/IbguOLa8awlvfk4ofeeSIg==
+X-Received: by 2002:a1c:55c8:: with SMTP id j191-v6mr26675017wmb.67.1534808574079;
+        Mon, 20 Aug 2018 16:42:54 -0700 (PDT)
 Received: from z50.lan (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id y206-v6sm1197634wmg.45.2018.08.20.16.42.48
+        by smtp.gmail.com with ESMTPSA id y206-v6sm1197634wmg.45.2018.08.20.16.42.52
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Aug 2018 16:42:49 -0700 (PDT)
+        Mon, 20 Aug 2018 16:42:53 -0700 (PDT)
 From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -71,58 +71,194 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [RFC RFT PATCH 0/4] gpiolib: speed up GPIO array processing
-Date:   Tue, 21 Aug 2018 01:43:37 +0200
-Message-Id: <20180820234341.5271-1-jmkrzyszt@gmail.com>
+Subject: [RFC RFT PATCH v4 2/4] gpiolib: Identify arrays matching GPIO hardware
+Date:   Tue, 21 Aug 2018 01:43:39 +0200
+Message-Id: <20180820234341.5271-3-jmkrzyszt@gmail.com>
 X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20180813223448.21316-1-jmkrzyszt@gmail.com>
+In-Reply-To: <20180820234341.5271-1-jmkrzyszt@gmail.com>
 References: <20180813223448.21316-1-jmkrzyszt@gmail.com>
+ <20180820234341.5271-1-jmkrzyszt@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Certain GPIO array lookup results may map directly to GPIO pins of a
+single GPIO chip in hardware order.  If that condition is recognized
+and handled efficiently, significant performance gain of get/set array
+functions may be possible.
 
-This series is a follow up of the former "mtd: rawnand: ams-delta: Use
-gpio-omap accessors for data I/O" which already contained some changes
-to gpiolib.  Those previous attempts were commented by Borris Brezillon
-who suggested using GPIO API modified to accept bitmaps, and by Linus
-Walleij who suggested still more great ideas for further immprovement
-of the proposed API changes - thanks!
+While processing a request for an array of GPIO descriptors, identify
+those which represent corresponding pins of a single GPIO chip.  Skip
+over pins which require open source or open drain special processing.
+Moreover, identify pins which require inversion.  Pass a pointer to
+that information with the array to the caller so it can benefit from
+enhanced performance as soon as get/set array functions can accept and
+make efficient use of it.
 
-The goal is to boost performans of get/set array functions while
-processing GPIO arrays which represent pins of a signle chip in
-hardware order.  If resulting performance is close to PIO, GPIO API
-can be used for data I/O without much loss of speed.
+Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+---
+ Documentation/driver-api/gpio/consumer.rst |  4 +-
+ drivers/gpio/gpiolib.c                     | 72 +++++++++++++++++++++++++++++-
+ drivers/gpio/gpiolib.h                     |  9 ++++
+ include/linux/gpio/consumer.h              |  9 ++++
+ 4 files changed, 92 insertions(+), 2 deletions(-)
 
-Created and tested on a low end Amstrad Delta board with NAND driver
-updated to use GPIO API for data I/O.  Performance degrade compared to
-PIO is much better than before the optimization but still not quite
-satisfactory.
-
-
-Janusz Krzysztofik (4):
-      gpiolib: Pass bitmaps, not integer arrays, to get/set array
-      gpiolib: Identify arrays matching GPIO hardware
-      gpiolib: Pass array info to get/set array functions
-      gpiolib: Implement fast processing path in get/set array
-
-
- Documentation/driver-api/gpio/board.rst     |   15 +
- Documentation/driver-api/gpio/consumer.rst  |   48 +++-
- drivers/auxdisplay/hd44780.c                |   64 +++---
- drivers/bus/ts-nbus.c                       |   25 --
- drivers/gpio/gpio-max3191x.c                |   23 +-
- drivers/gpio/gpiolib.c                      |  279 ++++++++++++++++++++++------
- drivers/gpio/gpiolib.h                      |   15 +
- drivers/i2c/muxes/i2c-mux-gpio.c            |    5 
- drivers/mmc/core/pwrseq_simple.c            |   15 -
- drivers/mux/gpio.c                          |    7 
- drivers/net/phy/mdio-mux-gpio.c             |    5 
- drivers/pcmcia/soc_common.c                 |   14 -
- drivers/phy/motorola/phy-mapphone-mdm6600.c |   21 +-
- drivers/staging/iio/adc/ad7606.c            |   12 -
- drivers/tty/serial/serial_mctrl_gpio.c      |    9 
- include/linux/gpio/consumer.h               |   35 ++-
- 16 files changed, 410 insertions(+), 182 deletions(-)
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index ed68042ddccf..7e0298b9a7b9 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -109,9 +109,11 @@ For a function using multiple GPIOs all of those can be obtained with one call::
+ 					   enum gpiod_flags flags)
+ 
+ This function returns a struct gpio_descs which contains an array of
+-descriptors::
++descriptors.  It also contains a pointer to a gpiolib private structure which,
++if passed back to get/set array functions, may speed up I/O proocessing::
+ 
+ 	struct gpio_descs {
++		struct gpio_array *info;
+ 		unsigned int ndescs;
+ 		struct gpio_desc *desc[];
+ 	}
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index f0e9ffa8cab6..c1ed1c759345 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -4174,7 +4174,9 @@ struct gpio_descs *__must_check gpiod_get_array(struct device *dev,
+ {
+ 	struct gpio_desc *desc;
+ 	struct gpio_descs *descs;
+-	int count;
++	struct gpio_array *array_info = NULL;
++	struct gpio_chip *chip;
++	int count, bitmap_size;
+ 
+ 	count = gpiod_count(dev, con_id);
+ 	if (count < 0)
+@@ -4190,9 +4192,77 @@ struct gpio_descs *__must_check gpiod_get_array(struct device *dev,
+ 			gpiod_put_array(descs);
+ 			return ERR_CAST(desc);
+ 		}
++
+ 		descs->desc[descs->ndescs] = desc;
++
++		chip = gpiod_to_chip(desc);
++		/*
++		 * Select a chip of first array member
++		 * whose index matches its pin hardware number
++		 * as a candidate for fast bitmap processing.
++		 */
++		if (!array_info && gpio_chip_hwgpio(desc) == descs->ndescs) {
++			struct gpio_descs *array;
++
++			bitmap_size = BITS_TO_LONGS(chip->ngpio > count ?
++						    chip->ngpio : count);
++
++			array = kzalloc(struct_size(descs, desc, count) +
++					struct_size(array_info, invert_mask,
++					3 * bitmap_size), GFP_KERNEL);
++			if (!array) {
++				gpiod_put_array(descs);
++				return ERR_PTR(-ENOMEM);
++			}
++
++			memcpy(array, descs,
++			       struct_size(descs, desc, descs->ndescs + 1));
++			kfree(descs);
++
++			descs = array;
++			array_info = (void *)(descs->desc + count);
++			array_info->get_mask = array_info->invert_mask +
++						  bitmap_size;
++			array_info->set_mask = array_info->get_mask +
++						  bitmap_size;
++
++			array_info->desc = descs->desc;
++			array_info->size = count;
++			array_info->chip = chip;
++			bitmap_set(array_info->get_mask, descs->ndescs,
++				   count - descs->ndescs);
++			bitmap_set(array_info->set_mask, descs->ndescs,
++				   count - descs->ndescs);
++			descs->info = array_info;
++		}
++		/*
++		 * Unmark members which don't qualify for fast bitmap
++		 * processing (different chip, not in hardware order)
++		 */
++		if (array_info && (chip != array_info->chip ||
++		    gpio_chip_hwgpio(desc) != descs->ndescs)) {
++			__clear_bit(descs->ndescs, array_info->get_mask);
++			__clear_bit(descs->ndescs, array_info->set_mask);
++		} else if (array_info) {
++			/* Exclude open drain or open source from fast output */
++			if (gpiochip_line_is_open_drain(chip, descs->ndescs) ||
++			    gpiochip_line_is_open_source(chip, descs->ndescs))
++				__clear_bit(descs->ndescs,
++					    array_info->set_mask);
++			/* Identify 'fast' pins which require invertion */
++			if (gpiod_is_active_low(desc))
++				__set_bit(descs->ndescs,
++					  array_info->invert_mask);
++		}
++
+ 		descs->ndescs++;
+ 	}
++	if (array_info)
++		dev_dbg(dev,
++			"GPIO array info: chip=%s, size=%d, get_mask=%lx, set_mask=%lx, invert_mask=%lx\n",
++			array_info->chip->label, array_info->size,
++			*array_info->get_mask, *array_info->set_mask,
++			*array_info->invert_mask);
+ 	return descs;
+ }
+ EXPORT_SYMBOL_GPL(gpiod_get_array);
+diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
+index 11e83d2eef89..b60905d558b1 100644
+--- a/drivers/gpio/gpiolib.h
++++ b/drivers/gpio/gpiolib.h
+@@ -183,6 +183,15 @@ static inline bool acpi_can_fallback_to_crs(struct acpi_device *adev,
+ }
+ #endif
+ 
++struct gpio_array {
++	struct gpio_desc	**desc;
++	unsigned int		size;
++	struct gpio_chip	*chip;
++	unsigned long		*get_mask;
++	unsigned long		*set_mask;
++	unsigned long		invert_mask[];
++};
++
+ struct gpio_desc *gpiochip_get_desc(struct gpio_chip *chip, u16 hwnum);
+ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
+ 				  unsigned int array_size,
+diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
+index 1b21dc7b0fad..8dede3e886af 100644
+--- a/include/linux/gpio/consumer.h
++++ b/include/linux/gpio/consumer.h
+@@ -17,11 +17,20 @@ struct device;
+  */
+ struct gpio_desc;
+ 
++/**
++ * Opaque descriptor for a structure of GPIO array attributes.  This structure
++ * is attached to struct gpiod_descs obtained from gpiod_get_array() and can be
++ * passed back to get/set array functions in order to activate fast processing
++ * path if applicable.
++ */
++struct gpio_array;
++
+ /**
+  * Struct containing an array of descriptors that can be obtained using
+  * gpiod_get_array().
+  */
+ struct gpio_descs {
++	struct gpio_array *info;
+ 	unsigned int ndescs;
+ 	struct gpio_desc *desc[];
+ };
+-- 
+2.16.4
 
