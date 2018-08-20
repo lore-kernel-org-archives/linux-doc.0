@@ -2,95 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AB2187D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 20:29:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C56587D87A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 20:37:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726499AbeHTXrA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 19:47:00 -0400
-Received: from mga06.intel.com ([134.134.136.31]:53541 "EHLO mga06.intel.com"
+        id S1726658AbeHTXy1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 19:54:27 -0400
+Received: from mga09.intel.com ([134.134.136.24]:51009 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726333AbeHTXrA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Aug 2018 19:47:00 -0400
-X-Amp-Result: UNSCANNABLE
+        id S1726450AbeHTXy1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Aug 2018 19:54:27 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2018 13:29:56 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2018 13:37:21 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.53,266,1531810800"; 
-   d="asc'?scan'208";a="78532573"
-Received: from jtkirshe-desk1.jf.intel.com ([134.134.177.59])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2018 13:29:53 -0700
-Message-ID: <933f909db5ae9bc96c5be2bb503081eb5714adbc.camel@intel.com>
-Subject: Re: Checkpatch False positive
-From:   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Reply-To: jeffrey.t.kirsher@intel.com
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-        netdev <netdev@vger.kernel.org>,
-        Linux Docs <linux-doc@vger.kernel.org>
-Date:   Mon, 20 Aug 2018 13:32:33 -0700
-In-Reply-To: <20180820202250.GA6345@bombadil.infradead.org>
-References: <8cf91e5fb848eecd98a2f9493387906b3a5f1506.camel@intel.com>
-         <20180820202250.GA6345@bombadil.infradead.org>
-Organization: Intel
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-XgcmMa4YPwKUbiydiA20"
-X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
-Mime-Version: 1.0
+   d="scan'208";a="83409056"
+Received: from tassilo.jf.intel.com (HELO tassilo.localdomain) ([10.7.201.126])
+  by orsmga001.jf.intel.com with ESMTP; 20 Aug 2018 13:37:21 -0700
+Received: by tassilo.localdomain (Postfix, from userid 1000)
+        id BBA6E30105D; Mon, 20 Aug 2018 13:37:21 -0700 (PDT)
+From:   Andi Kleen <andi@firstfloor.org>
+To:     stable@vger.kernel.org
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Dave Young <dyoung@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matt Fleming <matt@codeblueprint.co.uk>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+        Rik van Riel <riel@redhat.com>,
+        Toshimitsu Kani <toshi.kani@hpe.com>,
+        kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-mm@kvack.org,
+        Ingo Molnar <mingo@kernel.org>
+Subject: [PATCH] x86/mm: Simplify p[g4um]d_page() macros
+Date:   Mon, 20 Aug 2018 13:37:05 -0700
+Message-Id: <20180820203705.16212-2-andi@firstfloor.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180820203705.16212-1-andi@firstfloor.org>
+References: <20180820203705.16212-1-andi@firstfloor.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Andi Kleen <ak@linux.intel.com>
 
---=-XgcmMa4YPwKUbiydiA20
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Create a pgd_pfn() macro similar to the p[4um]d_pfn() macros and then
+use the p[g4um]d_pfn() macros in the p[g4um]d_page() macros instead of
+duplicating the code.
 
-On Mon, 2018-08-20 at 13:22 -0700, Matthew Wilcox wrote:
-> On Mon, Aug 20, 2018 at 01:21:30PM -0700, Jeff Kirsher wrote:
-> > Checkpatch.pl should probably exclude *.rst files from the SPDX
-> > License
-> > Identifier check, since they are documentational files, like
-> > *.txt.=20
->=20
-> They're still copyrighted work, so they should still have SPDX tags
-> to identify their license.
->=20
-> checkpatch has:
->=20
->                                 } elsif ($realfile =3D~ /\.rst$/) {
->                                         $comment =3D '..';
->=20
-> so we're explicitly including rst files in the checking for now.
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Borislav Petkov <bp@suse.de>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Brijesh Singh <brijesh.singh@amd.com>
+Cc: Dave Young <dyoung@redhat.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: Larry Woodman <lwoodman@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Matt Fleming <matt@codeblueprint.co.uk>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Radim Krčmář <rkrcmar@redhat.com>
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Toshimitsu Kani <toshi.kani@hpe.com>
+Cc: kasan-dev@googlegroups.com
+Cc: kvm@vger.kernel.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-efi@vger.kernel.org
+Cc: linux-mm@kvack.org
+Link: http://lkml.kernel.org/r/e61eb533a6d0aac941db2723d8aa63ef6b882dee.1500319216.git.thomas.lendacky@amd.com
+[Backported to 4.9 stable by AK, suggested by Michael Hocko]
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+---
+ arch/x86/include/asm/pgtable.h | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-Ah, sorry.  I did not catch that they started to include SPDX-License-
-Identifiers for RST files, thanks Matthew.
-
---=-XgcmMa4YPwKUbiydiA20
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAlt7JWEACgkQ5W/vlVpL
-7c78XQ/8D2fNNd1OEzfizlb9OiWOq4v149lCWTbm4Bnpwo0yY+SKoQpvYlVT4FWR
-0w0KGPQDSb/7MWsZl6hC3eFVp2D/0YCki5pfwv7Ep33QErtAHh2bK6DyTPC7DQ/h
-HxbujapZD9V1CD2Ks1oLNqUdn2bLwJp0U+dql9KCRoO7qhnv+lvjRXnofXvw49kS
-MdadseH2K8ej36nQBOu+ge1i9Gh2OhwoOI5f7p35nOGOsDIUS4PYWW7DaslvtKna
-WwutyBR4aMpE0w8C6aXL4BBUUvvn+XSIEMD3Cprwnr6Gn67N57OaQqKWi4IPXJTe
-BMwwoXWpwl6qdcMnrUj6erg/QHVqUeYlefbmWW6U7kCHgzzj5q5cpMHkoGveO1BF
-Iik0HGJ0YL51lRejDI/aEl/VNf5bfCMmTEOK2AK9GeOiN80q7mDRF8jTXJ/O6Wyq
-wUMKvnOZA1tl1/0acCoYfCPMHB07z3eGPWxAhna2H+L/7ixBD+zd/0CgHMapxtJi
-tgk5gDwHEJA7UryU4cu4k1pE54VDznYjvoBoxrlcn8cB0NSFqYP8VbXWUhXcqjJE
-gU791hLOR1YOMsTbEifla1Isc67jLNOxp1fOHi+NgtxnXv/b0S4JGXlhyeZDXhrK
-EVkuSYunDqFcZws6YCN8KEqkJxjZZCri4s2DYZG7Y9LHY7a//cQ=
-=U0ww
------END PGP SIGNATURE-----
-
---=-XgcmMa4YPwKUbiydiA20--
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index 4de6c282c02a..68a55273ce0f 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -173,6 +173,11 @@ static inline unsigned long pud_pfn(pud_t pud)
+ 	return (pfn & pud_pfn_mask(pud)) >> PAGE_SHIFT;
+ }
+ 
++static inline unsigned long pgd_pfn(pgd_t pgd)
++{
++	return (pgd_val(pgd) & PTE_PFN_MASK) >> PAGE_SHIFT;
++}
++
+ #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
+ 
+ static inline int pmd_large(pmd_t pte)
+@@ -578,8 +583,7 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
+  * Currently stuck as a macro due to indirect forward reference to
+  * linux/mmzone.h's __section_mem_map_addr() definition:
+  */
+-#define pmd_page(pmd)		\
+-	pfn_to_page((pmd_val(pmd) & pmd_pfn_mask(pmd)) >> PAGE_SHIFT)
++#define pmd_page(pmd)	pfn_to_page(pmd_pfn(pmd))
+ 
+ /*
+  * the pmd page can be thought of an array like this: pmd_t[PTRS_PER_PMD]
+@@ -647,8 +651,7 @@ static inline unsigned long pud_page_vaddr(pud_t pud)
+  * Currently stuck as a macro due to indirect forward reference to
+  * linux/mmzone.h's __section_mem_map_addr() definition:
+  */
+-#define pud_page(pud)		\
+-	pfn_to_page((pud_val(pud) & pud_pfn_mask(pud)) >> PAGE_SHIFT)
++#define pud_page(pud)	pfn_to_page(pud_pfn(pud))
+ 
+ /* Find an entry in the second-level page table.. */
+ static inline pmd_t *pmd_offset(pud_t *pud, unsigned long address)
+@@ -688,7 +691,7 @@ static inline unsigned long pgd_page_vaddr(pgd_t pgd)
+  * Currently stuck as a macro due to indirect forward reference to
+  * linux/mmzone.h's __section_mem_map_addr() definition:
+  */
+-#define pgd_page(pgd)		pfn_to_page(pgd_val(pgd) >> PAGE_SHIFT)
++#define pgd_page(pgd)		pfn_to_page(pgd_pfn(pgd))
+ 
+ /* to find an entry in a page-table-directory. */
+ static inline unsigned long pud_index(unsigned long address)
+-- 
+2.17.1
 
