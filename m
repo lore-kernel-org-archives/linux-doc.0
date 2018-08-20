@@ -1,215 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 516D87D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 10:43:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0BC227D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 15:48:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726032AbeHTN6p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 09:58:45 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:35026 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726024AbeHTN6o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 09:58:44 -0400
-Received: by mail-wm0-f66.google.com with SMTP id o18-v6so13439918wmc.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Aug 2018 03:43:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KVb/MNWJbuLQEZxBLsMD4p9CGoOEJHQSRenTWlAg+YU=;
-        b=Cl8jw3UZuYsSv5KvjZpcc4HmDDuw9/fBv+5N6ufrTlu1DCnP7GIN5/xV+o3JXSbIAg
-         oPrk+oPiO6bEb/LnRu+pZwyrPHNZoyA1hCGrMZ18Vjj+KqdTzLFE09mknhiiM0Pm15fb
-         IpyA5WeYMsGbzTTPaBsd05Ry15fOZKPOl3yoc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KVb/MNWJbuLQEZxBLsMD4p9CGoOEJHQSRenTWlAg+YU=;
-        b=mJsrbVvep/AD/gnih4WXHrMGa/t9IUeCnFU+VfoNPWVjnewqmAOaKlKcvTI0JROrT+
-         BD8Nug3u3J+i496BeTZXkSdLAcBY1wWjhcLcTRpJZUHINJmjk6fLn2k5olJK1eHzBg9n
-         0buIZZ+ezY3bpFWZqbVMkYJlNFaj6Zhz0qdvXR3srPfwlEkrbaR8hp6ZXyvTQjc6YDML
-         mC7e/YusGqSKpWAVRnBdzgttq4J0TvpcvtLxaEYgUnX1sekDNXZfoyRWw1+r7gX1lBOD
-         WYu1ar41TlAUHw4jiz4V7tcJS1zflUruUhB9Ei2D95RSGrC0eCW/oGAUrxp5mW4FCBwP
-         yTrg==
-X-Gm-Message-State: AOUpUlELxPzLQy2KUrJsLdSVpoKhWAbQST9gp+TaCqHPtDi/IXMIU6tK
-        6otI/Rqmzk9aO3uP965NOAOggg==
-X-Google-Smtp-Source: AA+uWPxafpCw85uZ8XYyI/dz6+gbcVM1ifhT7G7c++3ftOpaBeSQRZeovecnvqvd2d06zimxMG4Gjg==
-X-Received: by 2002:a1c:1943:: with SMTP id 64-v6mr24403033wmz.89.1534761816835;
-        Mon, 20 Aug 2018 03:43:36 -0700 (PDT)
-Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
-        by smtp.googlemail.com with ESMTPSA id i205-v6sm12251357wmf.30.2018.08.20.03.43.35
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Aug 2018 03:43:36 -0700 (PDT)
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via the
- nvmem API
-To:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Alban <albeu@free.fr>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
+        id S1726547AbeHTTE4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 15:04:56 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:31339 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726024AbeHTTE4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 15:04:56 -0400
+Received: from grover.tkatk1.zaq.ne.jp (zaqdadce369.zaq.ne.jp [218.220.227.105]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id w7KFlQR4005997;
+        Tue, 21 Aug 2018 00:47:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com w7KFlQR4005997
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1534780047;
+        bh=AssB2o4PwhUYh/pQhv8ezhCwShZXiJMfQFGSMqFsRf8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Ij1wXBsI7hM+odlggzOKSo8NsHIJEotSMwhZzuaxKRTezsOUejPsdhPih14svUbgB
+         nNaxot0UwW3GaGq1Rmtw70npT27XT9TFSTU6VNRYZLdUI5/mdihlTJ/zr1dVV/3yYT
+         rtoUdmV9C0dWJL0tGvKcFZmI+cO/ZGBUPi/+1bZruhwQpQ9hYiVQzZ/D28O5ee74tk
+         1LwLzS2T8fIegOyL9Oxxx5fIxUaHtVbAOvXkZqsqM2eYoOMyvZxopFLK015QacVEEi
+         3erzRePaX+d08/i4Ou1khnh+X6/IeUj/NGEh1kMdKe+Yuz/uyJL7RyI1+0me4s+qt/
+         H2ODzlCoUDcCw==
+X-Nifty-SrcIP: [218.220.227.105]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Andrzej Pietrasiewicz <andrzej.p@samsung.com>,
+        =?UTF-8?q?Bj=8F=A9=CCrn=20Forsman?= <bjorn.forsman@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, Michael Forney <forney@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
- <20180810080526.27207-7-brgl@bgdev.pl> <20180817182720.6a6e5e8e@bbrezillon>
- <20180819133106.0420df5f@tock> <20180819184609.6dcdbb9a@bbrezillon>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
-Date:   Mon, 20 Aug 2018 11:43:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <20180819184609.6dcdbb9a@bbrezillon>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] initramfs: move gen_initramfs_list.sh from scripts/ to usr/
+Date:   Tue, 21 Aug 2018 00:47:07 +0900
+Message-Id: <1534780028-6479-1-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks Boris, for looking into this in more detail.
+scripts/gen_initramfs_list.sh is only invoked from usr/Makefile.
+Move it so that all tools to create initramfs are self-contained
+in the usr/ directory.
 
-On 19/08/18 17:46, Boris Brezillon wrote:
-> On Sun, 19 Aug 2018 13:31:06 +0200
-> Alban <albeu@free.fr> wrote:
-> 
->> On Fri, 17 Aug 2018 18:27:20 +0200
->> Boris Brezillon <boris.brezillon@bootlin.com> wrote:
->>
->>> Hi Bartosz,
->>>
->>> On Fri, 10 Aug 2018 10:05:03 +0200
->>> Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->>>    
->>>> From: Alban Bedel <albeu@free.fr>
->>>>
->>>> Allow drivers that use the nvmem API to read data stored on MTD devices.
->>>> For this the mtd devices are registered as read-only NVMEM providers.
->>>>
->>>> Signed-off-by: Alban Bedel <albeu@free.fr>
->>>> [Bartosz:
->>>>    - use the managed variant of nvmem_register(),
->>>>    - set the nvmem name]
->>>> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->>>
->>> What happened to the 2 other patches of Alban's series? I'd really
->>> like the DT case to be handled/agreed on in the same patchset, but
->>> IIRC, Alban and Srinivas disagreed on how this should be represented.
->>> I hope this time we'll come to an agreement, because the MTD <-> NVMEM
->>> glue has been floating around for quite some time...
->>
->> These other patches were to fix what I consider a fundamental flaw in
->> the generic NVMEM bindings, however we couldn't agree on this point.
->> Bartosz later contacted me to take over this series and I suggested to
->> just change the MTD NVMEM binding to use a compatible string on the
->> NVMEM cells as an alternative solution to fix the clash with the old
->> style MTD partition.
->>
->> However all this has no impact on the code needed to add NVMEM support
->> to MTD, so the above patch didn't change at all.
-> 
-> It does have an impact on the supported binding though.
-> nvmem->dev.of_node is automatically assigned to mtd->dev.of_node, which
-> means people will be able to define their NVMEM cells directly under
-> the MTD device and reference them from other nodes (even if it's not
-> documented), and as you said, it conflict with the old MTD partition
-> bindings. So we'd better agree on this binding before merging this
-> patch.
-> 
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Yes, I agree with you!
+ Documentation/early-userspace/README                 | 6 +++---
+ Documentation/filesystems/ramfs-rootfs-initramfs.txt | 2 +-
+ usr/Makefile                                         | 2 +-
+ {scripts => usr}/gen_initramfs_list.sh               | 0
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename {scripts => usr}/gen_initramfs_list.sh (100%)
 
-> I see several options:
-> 
-> 1/ provide a way to tell the NVMEM framework not to use parent->of_node
->     even if it's != NULL. This way we really don't support defining
->     NVMEM cells in the DT, and also don't support referencing the nvmem
->     device using a phandle.
-> 
-Other options look much better than this one!
+diff --git a/Documentation/early-userspace/README b/Documentation/early-userspace/README
+index 2c00b07..1e10579 100644
+--- a/Documentation/early-userspace/README
++++ b/Documentation/early-userspace/README
+@@ -66,17 +66,17 @@ early userspace image can be built by an unprivileged user.
+ 
+ As a technical note, when directories and files are specified, the
+ entire CONFIG_INITRAMFS_SOURCE is passed to
+-scripts/gen_initramfs_list.sh.  This means that CONFIG_INITRAMFS_SOURCE
++usr/gen_initramfs_list.sh.  This means that CONFIG_INITRAMFS_SOURCE
+ can really be interpreted as any legal argument to
+ gen_initramfs_list.sh.  If a directory is specified as an argument then
+ the contents are scanned, uid/gid translation is performed, and
+ usr/gen_init_cpio file directives are output.  If a directory is
+-specified as an argument to scripts/gen_initramfs_list.sh then the
++specified as an argument to usr/gen_initramfs_list.sh then the
+ contents of the file are simply copied to the output.  All of the output
+ directives from directory scanning and file contents copying are
+ processed by usr/gen_init_cpio.
+ 
+-See also 'scripts/gen_initramfs_list.sh -h'.
++See also 'usr/gen_initramfs_list.sh -h'.
+ 
+ Where's this all leading?
+ =========================
+diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.txt b/Documentation/filesystems/ramfs-rootfs-initramfs.txt
+index b176928..79637d2 100644
+--- a/Documentation/filesystems/ramfs-rootfs-initramfs.txt
++++ b/Documentation/filesystems/ramfs-rootfs-initramfs.txt
+@@ -164,7 +164,7 @@ Documentation/early-userspace/README for more details.)
+ The kernel does not depend on external cpio tools.  If you specify a
+ directory instead of a configuration file, the kernel's build infrastructure
+ creates a configuration file from that directory (usr/Makefile calls
+-scripts/gen_initramfs_list.sh), and proceeds to package up that directory
++usr/gen_initramfs_list.sh), and proceeds to package up that directory
+ using the config file (by feeding it to usr/gen_init_cpio, which is created
+ from usr/gen_init_cpio.c).  The kernel's build-time cpio creation code is
+ entirely self-contained, and the kernel's boot-time extractor is also
+diff --git a/usr/Makefile b/usr/Makefile
+index 237a028..748f6a6 100644
+--- a/usr/Makefile
++++ b/usr/Makefile
+@@ -24,7 +24,7 @@ $(obj)/initramfs_data.o: $(obj)/$(datafile_y) FORCE
+ # Generate the initramfs cpio archive
+ 
+ hostprogs-y := gen_init_cpio
+-initramfs   := $(CONFIG_SHELL) $(srctree)/scripts/gen_initramfs_list.sh
++initramfs   := $(CONFIG_SHELL) $(srctree)/$(src)/gen_initramfs_list.sh
+ ramfs-input := $(if $(filter-out "",$(CONFIG_INITRAMFS_SOURCE)), \
+ 			$(shell echo $(CONFIG_INITRAMFS_SOURCE)),-d)
+ ramfs-args  := \
+diff --git a/scripts/gen_initramfs_list.sh b/usr/gen_initramfs_list.sh
+similarity index 100%
+rename from scripts/gen_initramfs_list.sh
+rename to usr/gen_initramfs_list.sh
+-- 
+2.7.4
 
-> 2/ define a new binding where all nvmem-cells are placed in an
->     "nvmem" subnode (just like we have this "partitions" subnode for
->     partitions), and then add a config->of_node field so that the
->     nvmem provider can explicitly specify the DT node representing the
->     nvmem device. We'll also need to set this field to ERR_PTR(-ENOENT)
->     in case this node does not exist so that the nvmem framework knows
->     that it should not assign nvmem->dev.of_node to parent->of_node
-> 
-This one looks promising, One Question though..
-
-Do we expect that there would be nvmem cells in any of the partitions?
-or
-nvmem cell are only valid for unpartioned area?
-
-Am sure that the nvmem cells would be in multiple partitions, Is it okay 
-to have some parts of partition to be in a separate subnode?
-
-I would like this case to be considered too.
-
-> 3/ only declare partitions as nvmem providers. This would solve the
->     problem we have with partitions defined in the DT since
->     defining sub-partitions in the DT is not (yet?) supported and
->     partition nodes are supposed to be leaf nodes. Still, I'm not a big
->     fan of this solution because it will prevent us from supporting
->     sub-partitions if we ever want/need to.
-> 
-This one is going to come back so, its better we
-
-> 4/ Add a ->of_xlate() hook that would be called if present by the
->     framework instead of using the default parsing we have right now.
-This looks much cleaner! We could hook that up under 
-__nvmem_device_get() to do that translation.
-
-> 
-> 5/ Tell the nvmem framework the name of the subnode containing nvmem
->     cell definitions (if NULL that means cells are directly defined
->     under the nvmem provider node). We would set it to "nvmem-cells" (or
->     whatever you like) for the MTD case.
-Option 2 looks better than this.
-
-> 
-> There are probably other options (some were proposed by Alban and
-> Srinivas already), but I'd like to get this sorted out before we merge
-> this patch.
-> 
-> Alban, Srinivas, any opinion?
-
-Overall am still not able to clear visualize on how MTD bindings with 
-nvmem cells would look in both partition and un-partition usecases?
-An example DT would be nice here!!
-
-Option 4 looks like much generic solution to me, may be we should try 
-this once bindings on MTD side w.r.t nvmem cells are decided.
-
-Thanks,
-Srini
-
-> 
