@@ -3,122 +3,444 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0BC227D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 15:48:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 55FA37D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 18:16:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726547AbeHTTE4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 15:04:56 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:31339 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726024AbeHTTE4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 15:04:56 -0400
-Received: from grover.tkatk1.zaq.ne.jp (zaqdadce369.zaq.ne.jp [218.220.227.105]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id w7KFlQR4005997;
-        Tue, 21 Aug 2018 00:47:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com w7KFlQR4005997
+        id S1726504AbeHTVco (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 17:32:44 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:39930 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726156AbeHTVcn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 17:32:43 -0400
+X-Greylist: delayed 3999 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 Aug 2018 17:32:40 EDT
+Received: from mail-vk0-f52.google.com (mail-vk0-f52.google.com [209.85.213.52]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id w7KIFrVQ027645;
+        Tue, 21 Aug 2018 03:15:54 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com w7KIFrVQ027645
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1534780047;
-        bh=AssB2o4PwhUYh/pQhv8ezhCwShZXiJMfQFGSMqFsRf8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Ij1wXBsI7hM+odlggzOKSo8NsHIJEotSMwhZzuaxKRTezsOUejPsdhPih14svUbgB
-         nNaxot0UwW3GaGq1Rmtw70npT27XT9TFSTU6VNRYZLdUI5/mdihlTJ/zr1dVV/3yYT
-         rtoUdmV9C0dWJL0tGvKcFZmI+cO/ZGBUPi/+1bZruhwQpQ9hYiVQzZ/D28O5ee74tk
-         1LwLzS2T8fIegOyL9Oxxx5fIxUaHtVbAOvXkZqsqM2eYoOMyvZxopFLK015QacVEEi
-         3erzRePaX+d08/i4Ou1khnh+X6/IeUj/NGEh1kMdKe+Yuz/uyJL7RyI1+0me4s+qt/
-         H2ODzlCoUDcCw==
-X-Nifty-SrcIP: [218.220.227.105]
+        s=dec2015msa; t=1534788955;
+        bh=kgrNRe0i5ib8EmiwjZE9gOlxm957SnPGHHl+bS6ZRLU=;
+        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+        b=uIYFTlm52jrY7EMR/g2EKO6cS2GLC4uVk/1k9P0lri5FzdlwLsy+8ASDIbb4f5dJq
+         5u5U/ZTZgU4HFyHEdwkneTOOWr67p0beypx5Vz1uUIotYfTBxSTCgQ83k7asAGfMSx
+         SEoPL/f/0UMlOzT65l3+qIsE8XzSgpGcnUAut6oz8c9fGVjlGgzmAqMEZk76PA3RzA
+         Zf6l7inPkP3OpABdqpZT0WK3ASrqEBzfzPRPJaSor1l2cD/YEQTGnsv83Xsxj2ckkI
+         ZFIFD6zAD95euu5ZUkyXbgJvWdnV4/ttFcpIl6IuskGS4OiZ186FcUyE7PGL376a6Q
+         uth2dB2Tflcvw==
+X-Nifty-SrcIP: [209.85.213.52]
+Received: by mail-vk0-f52.google.com with SMTP id b14-v6so6965117vke.13;
+        Mon, 20 Aug 2018 11:15:54 -0700 (PDT)
+X-Gm-Message-State: APzg51De0v2nxkVZriH/ZLdmEiO7kya2EunsBvCd8fBN/+dpcrNltL5s
+        QmxnMIhsWsV9MnlOWnYUK1/+LOYHJzE9BeOs/x8=
+X-Google-Smtp-Source: ANB0Vda67cafu4QAdwpgLuDoebFYd2C90xSdAQOx17LiNQ2z0QTVpqslHt8W4d28PnoUpVgv9DaRM69/yBN+WVysoL0=
+X-Received: by 2002:a1f:f8c2:: with SMTP id w185-v6mr88675vkh.135.1534788953000;
+ Mon, 20 Aug 2018 11:15:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2642:0:0:0:0:0 with HTTP; Mon, 20 Aug 2018 11:15:12
+ -0700 (PDT)
+In-Reply-To: <20180806200725.4efa5d35@kitsune.suse.cz>
+References: <20180627143705.5a1fed1c@kitsune.suse.cz> <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
+ <20180628111623.3807fe9b@naga.suse.cz> <CAK7LNARRKU7Mfa8ZBu1qPFYFRr-5k69sjVyERM2bYcnWoBDN8g@mail.gmail.com>
+ <20180806200725.4efa5d35@kitsune.suse.cz>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Andrzej Pietrasiewicz <andrzej.p@samsung.com>,
-        =?UTF-8?q?Bj=8F=A9=CCrn=20Forsman?= <bjorn.forsman@gmail.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org, Michael Forney <forney@google.com>,
+Date:   Tue, 21 Aug 2018 03:15:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATCktToMui4NYxoUXV8ZbuDK8F0JCp_CysEWaSBPUP7NQ@mail.gmail.com>
+Message-ID: <CAK7LNATCktToMui4NYxoUXV8ZbuDK8F0JCp_CysEWaSBPUP7NQ@mail.gmail.com>
+Subject: Re: due to kconfig changes kernel config file is no longer sufficient
+ for configuring the kernel
+To:     =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Takashi Iwai <tiwai@suse.de>, Andreas Schwab <schwab@suse.de>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Michal Marek <michal.lkml@markovi.net>,
         Jonathan Corbet <corbet@lwn.net>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] initramfs: move gen_initramfs_list.sh from scripts/ to usr/
-Date:   Tue, 21 Aug 2018 00:47:07 +0900
-Message-Id: <1534780028-6479-1-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Jeff Mahoney <jeffm@suse.com>,
+        "Peter Zijlstra," <peterz@infradead.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-um@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-scripts/gen_initramfs_list.sh is only invoked from usr/Makefile.
-Move it so that all tools to create initramfs are self-contained
-in the usr/ directory.
+2018-08-07 3:07 GMT+09:00 Michal Such=C3=A1nek <msuchanek@suse.de>:
+> On Mon, 30 Jul 2018 17:02:42 +0900
+> Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+>
+>> 2018-06-28 18:16 GMT+09:00 Michal Such=C3=A1nek <msuchanek@suse.de>:
+>> > On Wed, 27 Jun 2018 23:07:21 +0900
+>> > Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+>> >
+>> >> Hi.
+>> >>
+>> >>
+>> >> 2018-06-27 21:37 GMT+09:00 Michal Such=C3=A1nek <msuchanek@suse.de>:
+>> >> > Hello,
+>> >> >
+>> >> > in the x86 Kconfig we have this:
+>> >> >
+>> >> > # Select 32 or 64 bit
+>> >> > config 64BIT
+>> >> >         bool "64-bit kernel" if "$(ARCH)" =3D "x86"
+>> >> >         default "$(ARCH)" !=3D "i386"
+>> >> >         ---help---
+>> >> >           Say yes to build a 64-bit kernel - formerly known as
+>> >> > x86_64 Say no to build a 32-bit kernel - formerly known as i386
+>> >> >
+>> >> > Since commit 104daea149c4 ("kconfig: reference environment
+>> >> > variables directly and remove 'option env=3D'") the value of ARCH
+>> >> > is not saved in the kernel config.
+>> >>
+>> >> I think this commit is unrelated.  It was just a syntax change.
+>> >
+>> > This does not look like syntax only change to me:
+>> >
+>> > diff --git a/init/Kconfig b/init/Kconfig
+>> > index 15aae32e0719..1217fc62ca61 100644
+>> > --- a/init/Kconfig
+>> > +++ b/init/Kconfig
+>> > @@ -1,20 +1,12 @@
+>> > -config ARCH
+>> > -       string
+>> > -       option env=3D"ARCH"
+>> > -
+>> > -config KERNELVERSION
+>> > -       string
+>> > -       option env=3D"KERNELVERSION"
+>> > -
+>>
+>> This is just syntax change.
+>>
+>> 'option env=3D' was used to reference an environment variable.
+>>
+>> Now, $(ARCH), $(KERNELVERSION) are simpler forms.
+>>
+>>
+>> >>
+>> >> Unless I am missing something,
+>> >> we have never saved ARCH in the .config in the past.
+>> >
+>> > There was a config symbol defined for it before the commit removed
+>> > it.
+>>
+>> No.
+>>
+>> CONFIG symbols with'option env=3D'
+>> are not written out to the .config file.
+>>
+>> We have never had CONFIG_ARCH or CONFIG_KERNELVERSION.
+>>
+>>
+>>
+>>
+>> >>
+>> >>
+>> >> > Since commit f467c5640c29 ("kconfig: only write '#
+>> >> > CONFIG_FOO is not set' for visible symbols") the value of 64BIT
+>> >> > is not saved if the ARCH is set i386 or x86_64 because the
+>> >> > symbol is not visible.
+>> >>
+>> >> This is correct.
+>> >>
+>> >> It was discussed a few weeks ago.
+>> >>
+>> >> https://lkml.org/lkml/2018/6/5/847
+>> >>
+>> >>
+>> >> > There is a number of ways to hack this particular case to work.
+>> >> >
+>> >> > However, there is a more general problem with this. Some config
+>> >> > options may depend on the environment, may not be saved, and the
+>> >> > environment is not saved either.
+>> >>
+>> >> Which environment variables in particular are in your mind?
+>> >
+>> > Any that is used in Kconfig.
+>>
+>> They are provided from outside of Kconfig.
+>> This is the behavior we keep since a long time ago.
+>>
+>> ARCH is given by the environment variable or the command line.
+>> KERNELVERSION is supplied by the top Makefile.
+>>
+>> >>
+>> >> As for ARCH, you need to pass the same ARCH as you used for
+>> >> building the kernel. (For native building, you do not have to pass
+>> >> ARCH explicitly, though.)
+>> >
+>> > Except if you do pass it to make config you may need to pass it to
+>> > to make later as well.
+>>
+>> Right.
+>>
+>> For exmaple 'make ARCH=3Darm config' will create the config suitable
+>> only for ARM architecture.
+>> Then, you need to do 'make ARCH=3Darm' to build the kernel.
+>>
+>> If it is tedious to give 'ARCH=3Darm' to every make command,
+>> you can do 'export ARCH=3Darm' in your shell.
+>>
+>> Again, this is the behavior we have for a long time.
+>
+> No, that's not what we had. The kernel build would fail instead of
+> reconfiguring the kernel for the current arch. At least it used to work
+> that way at some point.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+This is not true for most architectures.
 
- Documentation/early-userspace/README                 | 6 +++---
- Documentation/filesystems/ramfs-rootfs-initramfs.txt | 2 +-
- usr/Makefile                                         | 2 +-
- {scripts => usr}/gen_initramfs_list.sh               | 0
- 4 files changed, 5 insertions(+), 5 deletions(-)
- rename {scripts => usr}/gen_initramfs_list.sh (100%)
+It worked for i386 prior to commit f467c5640c29 ("kconfig: only write '#
+CONFIG_FOO is not set' for visible symbols").
 
-diff --git a/Documentation/early-userspace/README b/Documentation/early-userspace/README
-index 2c00b07..1e10579 100644
---- a/Documentation/early-userspace/README
-+++ b/Documentation/early-userspace/README
-@@ -66,17 +66,17 @@ early userspace image can be built by an unprivileged user.
- 
- As a technical note, when directories and files are specified, the
- entire CONFIG_INITRAMFS_SOURCE is passed to
--scripts/gen_initramfs_list.sh.  This means that CONFIG_INITRAMFS_SOURCE
-+usr/gen_initramfs_list.sh.  This means that CONFIG_INITRAMFS_SOURCE
- can really be interpreted as any legal argument to
- gen_initramfs_list.sh.  If a directory is specified as an argument then
- the contents are scanned, uid/gid translation is performed, and
- usr/gen_init_cpio file directives are output.  If a directory is
--specified as an argument to scripts/gen_initramfs_list.sh then the
-+specified as an argument to usr/gen_initramfs_list.sh then the
- contents of the file are simply copied to the output.  All of the output
- directives from directory scanning and file contents copying are
- processed by usr/gen_init_cpio.
- 
--See also 'scripts/gen_initramfs_list.sh -h'.
-+See also 'usr/gen_initramfs_list.sh -h'.
- 
- Where's this all leading?
- =========================
-diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.txt b/Documentation/filesystems/ramfs-rootfs-initramfs.txt
-index b176928..79637d2 100644
---- a/Documentation/filesystems/ramfs-rootfs-initramfs.txt
-+++ b/Documentation/filesystems/ramfs-rootfs-initramfs.txt
-@@ -164,7 +164,7 @@ Documentation/early-userspace/README for more details.)
- The kernel does not depend on external cpio tools.  If you specify a
- directory instead of a configuration file, the kernel's build infrastructure
- creates a configuration file from that directory (usr/Makefile calls
--scripts/gen_initramfs_list.sh), and proceeds to package up that directory
-+usr/gen_initramfs_list.sh), and proceeds to package up that directory
- using the config file (by feeding it to usr/gen_init_cpio, which is created
- from usr/gen_init_cpio.c).  The kernel's build-time cpio creation code is
- entirely self-contained, and the kernel's boot-time extractor is also
-diff --git a/usr/Makefile b/usr/Makefile
-index 237a028..748f6a6 100644
---- a/usr/Makefile
-+++ b/usr/Makefile
-@@ -24,7 +24,7 @@ $(obj)/initramfs_data.o: $(obj)/$(datafile_y) FORCE
- # Generate the initramfs cpio archive
- 
- hostprogs-y := gen_init_cpio
--initramfs   := $(CONFIG_SHELL) $(srctree)/scripts/gen_initramfs_list.sh
-+initramfs   := $(CONFIG_SHELL) $(srctree)/$(src)/gen_initramfs_list.sh
- ramfs-input := $(if $(filter-out "",$(CONFIG_INITRAMFS_SOURCE)), \
- 			$(shell echo $(CONFIG_INITRAMFS_SOURCE)),-d)
- ramfs-args  := \
-diff --git a/scripts/gen_initramfs_list.sh b/usr/gen_initramfs_list.sh
-similarity index 100%
-rename from scripts/gen_initramfs_list.sh
-rename to usr/gen_initramfs_list.sh
--- 
-2.7.4
 
+This was already discussed, and this can be solved by setting ARCH=3Di386.
+
+https://lkml.org/lkml/2018/6/7/1119
+https://lkml.org/lkml/2018/6/8/149
+
+
+You complaint about commit 104daea149c4 ("kconfig: reference
+environment variables
+directly and remove 'option env=3D'"), but it is unrelated.
+
+
+>>
+>>
+>>
+>> >>
+>> >> As for CC, HOSTCC, etc.
+>> >> yes, these are new 'unsaved' environments.
+>> >>
+>> >> CONFIG options now depend on the compiler.
+>> >> This is the concept suggested by Linus Torvalds.
+>> >>
+>> >>
+>> >> > So in the end all the infrastructure with symlinks
+>> >> > from module directory pointing to the kernel source and object
+>> >> > directory is useless. To interpret the config stored there you
+>> >> > need the environment and that is not saved anywhere. So if you
+>> >> > try to build out-of-tree module it might end up reconfiguring
+>> >> > your kernel and producing useless modules.
+>> >>
+>> >> No. out-of-tree module building never ever re-configures the
+>> >> kernel.
+>> >
+>> > It does implicitly because the config values depend on environment
+>> > that is not saved and the values themselves are not saved either.
+>> > If that happens to expose a new variable it is even explicitly
+>> > reconfigured.
+>>
+>>
+>> You should have a built kernel tree
+>> before building external modules.
+>>
+>> The .config is already there.
+>>
+>> The .config works for external modules, given that
+>>
+>>   - ARCH is the same
+>>   - the compiler is the same
+>
+>  - the compiler additional plugins and/or external libraries used to
+>    implement advanced features are the same
+>
+>>
+>>
+>>
+>> >>
+>> >> out-of-tree modules are built with exactly the same configuration
+>> >> as used for the kernel.
+>> >
+>> > It is not true. And that is the problem. You need the config file
+>> > and dump of the environment passed to the make command at
+>> > configuration time to get the exact same configuration. The
+>> > environment is not saved anywhere, though.
+>>
+>>
+>> Why dump of the environment?
+>>
+>>
+>> If you are building external modules natively
+>> your distribution provides /lib/modules/$(uname -r)/build,
+>> which contains files enough for building external modules.
+>>
+>> You can pass the directory path to M=3D... parameter.  That's it.
+>
+> No, that's not it. Since passing ARCH=3Di386 is the de-facto standard to
+> configure a 32bit kernel and the result of passing that was not saved
+> you need to pass it to make as well.
+
+
+If you pass ARCH=3D for the configuration phase,
+you need to pass the same ARCH=3D in the build phase.
+
+
+
+
+What I can suggest for you is:
+
+
+$ make ARCH=3Di386 defconfig
+$ make ARCH=3Di386
+
+   OR
+
+$ make i386_defconfig
+$ make
+
+
+
+
+
+
+
+> And you need to patch a number of
+> 3rd party build scripts that build a kernel module as part of a bigger
+> project.
+
+
+You do not need to patch a number of scripts.
+
+Just one liner fix.
+Add 'export ARCH=3Di386' in the top level script.
+
+
+
+>>
+>>
+>>
+>> If you are cross-building external modules,
+>> you also need to
+>>
+>>  - pass ARCH=3D
+>>  - use the same compiler with CROSS_COMPILE=3D
+>>
+>> You should know both
+>> because you have built the kernel by your self.
+>
+> No, I am not cross-compiling. I am building 32bit modules and because
+> the kconfig system did not save the information that the kernel is
+> 32bit I get 64bit modules instead.
+
+
+You are semi-cross-compiling
+if you build 32-bit modules on a 64-bit host machine.
+
+
+
+
+
+>>
+>> You do not need any other information, do you?
+>
+> I need the information what ARCH was passed to the x86 kernel at
+> configuration time when building on x86. This is new.
+>
+> To avoid this and similar surprises in the future I suggest to flag any
+> option that depends on something dynamic (compiler option, environment
+> variable) so that kconfig saves it even if it would not be saved
+> otherwise.
+
+It is saved in include/config/auto.conf.cmd
+
+
+> Then kconfig can do whatever seems sensible for oldconfig but
+> syncconfig should not change any options based on dynamic input. It
+> should verify that the option matches (ie compiler can accept -foobar
+> if the option is on and defaults to cc-option -foobar) and fail if it
+> does not.
+
+
+Kconfig already supports this.
+
+Try KCONFIG_NOSILENTUPDATE=3D1
+
+
+
+>
+>>
+>> > And it went nowhere.
+>> >
+>> > Anyway, the observed issue with CONFIG_64BIT on x86 is the tip of a
+>> > larger problem which was unnoticed for ages. The .config simply does
+>> > not contain the whole kernel configuration. ie. make oldconfig (and
+>> > make syncconfig) is *not* expected to just work. It used to work
+>> > just by luck until f467c5640c29 ("kconfig: only write '# CONFIG_FOO
+>> > is not set' for visible symbols") finally exposed the problem.
+>>
+>> If you want to build the kernel for an architecture
+>> other than the host machine architecture, you need to pass ARCH=3D.
+>>
+>> Building the i386 kernel on a x86_64 machine, it is a _kind_ of
+>> cross-compiling. So, passing ARCH=3Di386 is not so weird.
+>>
+>>
+>> > So is .config supposed to contain the kernel configuration or is it
+>> > just some byproduct of the kernel build which is meaningless
+>> > outside of your build environment (the object tree, shell
+>> > environment, etc).
+>>
+>> The .config is supposed to contain the kernel configuration,
+>> 'ARCH' and the compiler are exceptions.
+>>
+>> 'ARCH' must be passed separately.
+>>
+>> The .config now depends on the compiler.  So, if you pass your .config
+>> to somebody else, some symbols that depend on the compiler support
+>> might be configured differently.
+>>
+>> 'make syncconfig' will notice the compiler difference,
+>> and show prompts for user input as needed.
+>
+> It should not prompt. I want to build the kernel non-interactively. I
+> do not want kernel rpm build to wait for user input or silently
+> change the kernel ABI just because I installed a new gcc plugin.
+
+'make syncconfig' shows prompt.
+This is the behavior since a long time ago.
+I cannot change it to meet your requirement.
+
+
+If you really want to avoid prompt,
+run "make olddefconfig" beforehand in your script.
+
+
+
+
+> Thanks
+>
+> Michal
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kbuild" i=
+n
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
