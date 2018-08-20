@@ -2,26 +2,32 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8165D7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 20:42:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8342C7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 20:48:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726734AbeHTX7P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 19:59:15 -0400
-Received: from ms.lwn.net ([45.79.88.28]:44664 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726237AbeHTX7O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Aug 2018 19:59:14 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 151792D3;
-        Mon, 20 Aug 2018 20:42:07 +0000 (UTC)
-Date:   Mon, 20 Aug 2018 14:42:06 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joe Perches <joe@perches.com>
+        id S1726634AbeHUAF2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 20:05:28 -0400
+Received: from smtprelay0074.hostedemail.com ([216.40.44.74]:52564 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726511AbeHUAF2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 20:05:28 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 458A2837F243;
+        Mon, 20 Aug 2018 20:48:20 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: place26_e5314867fc01
+X-Filterd-Recvd-Size: 2181
+Received: from XPS-9350.home (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf01.hostedemail.com (Postfix) with ESMTPA;
+        Mon, 20 Aug 2018 20:48:18 +0000 (UTC)
+Message-ID: <744af111abe22c4dfda58b4a0759609bcd2eb8f2.camel@perches.com>
+Subject: Re: [PATCH] Raise the minimum required gcc version to 4.6
+From:   Joe Perches <joe@perches.com>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         linux-kernel@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -32,28 +38,49 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Raise the minimum required gcc version to 4.6
-Message-ID: <20180820144206.4e42c9fc@lwn.net>
-In-Reply-To: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
+Date:   Mon, 20 Aug 2018 13:48:17 -0700
+In-Reply-To: <20180820144206.4e42c9fc@lwn.net>
 References: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+         <20180820144206.4e42c9fc@lwn.net>
+Content-Type: text/plain; charset="ISO-8859-1"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 20 Aug 2018 13:15:26 -0700
-Joe Perches <joe@perches.com> wrote:
+On Mon, 2018-08-20 at 14:42 -0600, Jonathan Corbet wrote:
+> On Mon, 20 Aug 2018 13:15:26 -0700
+> Joe Perches <joe@perches.com> wrote:
+> 
+> > +#if GCC_VERSION < 40600
+> > +# error Sorry, your compiler is too old - please upgrade it.
+> > +#endif
+> 
+> It seems we could be a little friendlier here?  "Kernel compilation
+> requires GCC >= v4.6, please upgrade" ?
 
-> +#if GCC_VERSION < 40600
-> +# error Sorry, your compiler is too old - please upgrade it.
-> +#endif
+This is unchanged text, it's just moved around, but sure, trivial...
 
-It seems we could be a little friendlier here?  "Kernel compilation
-requires GCC >= v4.6, please upgrade" ?
+Wordsmithing should likely be a separate patch though.
+---
+ include/linux/compiler-gcc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-jon
+diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+index 250b9b7cfd60..5d95cabd13b3 100644
+--- a/include/linux/compiler-gcc.h
++++ b/include/linux/compiler-gcc.h
+@@ -11,7 +11,7 @@
+ 		     + __GNUC_PATCHLEVEL__)
+ 
+ #if GCC_VERSION < 40600
+-# error Sorry, your compiler is too old - please upgrade it.
++# error Kernel compilation requires GCC >= v4.6, please upgrade your compiler
+ #endif
+ 
+ /* Optimization barrier */
+
+
