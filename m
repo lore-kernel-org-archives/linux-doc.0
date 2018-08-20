@@ -5,153 +5,55 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C56587D87A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 20:37:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8165D7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 20:42:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbeHTXy1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 19:54:27 -0400
-Received: from mga09.intel.com ([134.134.136.24]:51009 "EHLO mga09.intel.com"
+        id S1726734AbeHTX7P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 19:59:15 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44664 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726450AbeHTXy1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Aug 2018 19:54:27 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2018 13:37:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,266,1531810800"; 
-   d="scan'208";a="83409056"
-Received: from tassilo.jf.intel.com (HELO tassilo.localdomain) ([10.7.201.126])
-  by orsmga001.jf.intel.com with ESMTP; 20 Aug 2018 13:37:21 -0700
-Received: by tassilo.localdomain (Postfix, from userid 1000)
-        id BBA6E30105D; Mon, 20 Aug 2018 13:37:21 -0700 (PDT)
-From:   Andi Kleen <andi@firstfloor.org>
-To:     stable@vger.kernel.org
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Young <dyoung@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matt Fleming <matt@codeblueprint.co.uk>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
-        Rik van Riel <riel@redhat.com>,
-        Toshimitsu Kani <toshi.kani@hpe.com>,
-        kasan-dev@googlegroups.com, kvm@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-mm@kvack.org,
-        Ingo Molnar <mingo@kernel.org>
-Subject: [PATCH] x86/mm: Simplify p[g4um]d_page() macros
-Date:   Mon, 20 Aug 2018 13:37:05 -0700
-Message-Id: <20180820203705.16212-2-andi@firstfloor.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180820203705.16212-1-andi@firstfloor.org>
-References: <20180820203705.16212-1-andi@firstfloor.org>
+        id S1726237AbeHTX7O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Aug 2018 19:59:14 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 151792D3;
+        Mon, 20 Aug 2018 20:42:07 +0000 (UTC)
+Date:   Mon, 20 Aug 2018 14:42:06 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Joe Perches <joe@perches.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Mike Galbraith <efault@gmx.de>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rik van Riel <riel@surriel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Raise the minimum required gcc version to 4.6
+Message-ID: <20180820144206.4e42c9fc@lwn.net>
+In-Reply-To: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
+References: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Andi Kleen <ak@linux.intel.com>
+On Mon, 20 Aug 2018 13:15:26 -0700
+Joe Perches <joe@perches.com> wrote:
 
-Create a pgd_pfn() macro similar to the p[4um]d_pfn() macros and then
-use the p[g4um]d_pfn() macros in the p[g4um]d_page() macros instead of
-duplicating the code.
+> +#if GCC_VERSION < 40600
+> +# error Sorry, your compiler is too old - please upgrade it.
+> +#endif
 
-Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Borislav Petkov <bp@suse.de>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Brijesh Singh <brijesh.singh@amd.com>
-Cc: Dave Young <dyoung@redhat.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Cc: Larry Woodman <lwoodman@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Matt Fleming <matt@codeblueprint.co.uk>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Radim Krčmář <rkrcmar@redhat.com>
-Cc: Rik van Riel <riel@redhat.com>
-Cc: Toshimitsu Kani <toshi.kani@hpe.com>
-Cc: kasan-dev@googlegroups.com
-Cc: kvm@vger.kernel.org
-Cc: linux-arch@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-efi@vger.kernel.org
-Cc: linux-mm@kvack.org
-Link: http://lkml.kernel.org/r/e61eb533a6d0aac941db2723d8aa63ef6b882dee.1500319216.git.thomas.lendacky@amd.com
-[Backported to 4.9 stable by AK, suggested by Michael Hocko]
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Andi Kleen <ak@linux.intel.com>
----
- arch/x86/include/asm/pgtable.h | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+It seems we could be a little friendlier here?  "Kernel compilation
+requires GCC >= v4.6, please upgrade" ?
 
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index 4de6c282c02a..68a55273ce0f 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -173,6 +173,11 @@ static inline unsigned long pud_pfn(pud_t pud)
- 	return (pfn & pud_pfn_mask(pud)) >> PAGE_SHIFT;
- }
- 
-+static inline unsigned long pgd_pfn(pgd_t pgd)
-+{
-+	return (pgd_val(pgd) & PTE_PFN_MASK) >> PAGE_SHIFT;
-+}
-+
- #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
- 
- static inline int pmd_large(pmd_t pte)
-@@ -578,8 +583,7 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
-  * Currently stuck as a macro due to indirect forward reference to
-  * linux/mmzone.h's __section_mem_map_addr() definition:
-  */
--#define pmd_page(pmd)		\
--	pfn_to_page((pmd_val(pmd) & pmd_pfn_mask(pmd)) >> PAGE_SHIFT)
-+#define pmd_page(pmd)	pfn_to_page(pmd_pfn(pmd))
- 
- /*
-  * the pmd page can be thought of an array like this: pmd_t[PTRS_PER_PMD]
-@@ -647,8 +651,7 @@ static inline unsigned long pud_page_vaddr(pud_t pud)
-  * Currently stuck as a macro due to indirect forward reference to
-  * linux/mmzone.h's __section_mem_map_addr() definition:
-  */
--#define pud_page(pud)		\
--	pfn_to_page((pud_val(pud) & pud_pfn_mask(pud)) >> PAGE_SHIFT)
-+#define pud_page(pud)	pfn_to_page(pud_pfn(pud))
- 
- /* Find an entry in the second-level page table.. */
- static inline pmd_t *pmd_offset(pud_t *pud, unsigned long address)
-@@ -688,7 +691,7 @@ static inline unsigned long pgd_page_vaddr(pgd_t pgd)
-  * Currently stuck as a macro due to indirect forward reference to
-  * linux/mmzone.h's __section_mem_map_addr() definition:
-  */
--#define pgd_page(pgd)		pfn_to_page(pgd_val(pgd) >> PAGE_SHIFT)
-+#define pgd_page(pgd)		pfn_to_page(pgd_pfn(pgd))
- 
- /* to find an entry in a page-table-directory. */
- static inline unsigned long pud_index(unsigned long address)
--- 
-2.17.1
-
+jon
