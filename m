@@ -6,47 +6,47 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C8C777DE70
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 23:43:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CCCAD7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 23:43:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbeHUDAl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 23:00:41 -0400
-Received: from mail-wm0-f65.google.com ([74.125.82.65]:40479 "EHLO
-        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726844AbeHUDAl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 23:00:41 -0400
-Received: by mail-wm0-f65.google.com with SMTP id y9-v6so1126449wma.5;
-        Mon, 20 Aug 2018 16:42:56 -0700 (PDT)
+        id S1726755AbeHUDAe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 23:00:34 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37453 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726585AbeHUDAd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 23:00:33 -0400
+Received: by mail-wr1-f66.google.com with SMTP id u12-v6so14315029wrr.4;
+        Mon, 20 Aug 2018 16:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=QbDTw8bNQ9KW4OCp4xkmN9Exn84FlKsfNVsi1QsxaRE=;
-        b=MENoK+j9qfMWIeRHtlMgGDk2HFOe6LWIryewpsyMVAwmzryGCsFn1FcddHkuMdolmA
-         ZIkClOjF7Z7zkna2KdWlJ8s2ZVuRsZdbaO/2ZUV8ayUVn6TkG9xtXnXfd+1p1Kt/n17U
-         L3F8lpYr16BCFybVy6DjT8+G3kVrBn262usSufQ5HOA38CjQjSrV4WUm9VbQy+wBIX3h
-         6kLaundIp8mdWJ52SpZX4RHxtI9XNGC8IgbKw44DvnKgehjIiEXeWLOiKav7VMsXvRCG
-         0S7EWHu754LmJb+C8NR6zrJ8uEVrXUM4oX1O60MGiDnVgLdR2Z3gpu9+abcxCev/Jiq2
-         g6dQ==
+        bh=z232VfbLRmE5HjKCQ97d98g/77/batkRj+02M7hpQb0=;
+        b=fOEkX2INJujA2IlBUu5MZTEZffmi7d6K1Yxwwp51JpLZah9ms7OYKk0ABRsYUFJwx6
+         h0kX+58UwQC96+1ZjTi0/oEfOzLPYMisdD9XgIR0w27tUuMRlOcIDnYIjk+lGtah+c3Q
+         LItffFPbembUcrAc6BjJclPiLSl1sTbWV4872gHif4UtBC3TkY8Y2aZyRsl4zT0QNyxV
+         4SEk0d/w1tHx/JxU9O/P0EJI8LqkIQwCaf9dV7CgHK05trMlCZMBAc7kE/guJ7vkeqgL
+         ZhYXz7+XMmPvj1nig4BhcmPkK+pD910r478C9bjawhSFMhtN1pw+pasa7d/OlS3/zB2/
+         Xh8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=QbDTw8bNQ9KW4OCp4xkmN9Exn84FlKsfNVsi1QsxaRE=;
-        b=E6VpKBxA91qlzV9H9cWjYliLX4q8gyYFXganBOpv3OJYPjwsZ1pjxjCxGQLXe2p82T
-         srAKrAzZqg2DpapT3r7IZ0DBkP3yBhhpvgkEKUsEkqYExwm2BkeHL+4LpCb4Xp1UmiIY
-         sC8OYbkHrwxcMzCs7+oWu6Pft+ALEdTqExaDoSlQZk6esJRsKZ0t7ngKDx12FWdgi1qs
-         oVN17oVM+pGT5kmTONynga5rQhZfJ7hml9z+OoyQZryTv9hi4IITJxxtQX9BC4o7VBts
-         J+2DLRbqn1N9+qhCYPrZr/RtPy0xd+ceql98kvJrfWnAUz3hgD84F8FU5zbcivM0vz1C
-         0LKg==
-X-Gm-Message-State: APzg51DKmTaKhPZXrFhjdTPP71/OMX+QR61xwX/l0dyfb/KAbxJguEYB
-        B7HSLBgOMnJLINJJkraVzsU=
-X-Google-Smtp-Source: ANB0VdbgSDaW3Oau6zSXkBCiCIJwry2aDu9w0Ehvvp0i9ocfgu155rwPV+q1cCz7txHexw+6/nWrHw==
-X-Received: by 2002:a1c:dc8b:: with SMTP id t133-v6mr48642wmg.50.1534808575947;
-        Mon, 20 Aug 2018 16:42:55 -0700 (PDT)
+        bh=z232VfbLRmE5HjKCQ97d98g/77/batkRj+02M7hpQb0=;
+        b=RQhtku1Vfp4Z70P5G8p4UYIMnI5SwSx+nN0LAI26Dq+2DLegjPxP6xJGWlicGdtq7N
+         oPhjqb9wjRl+XX+FG6+Z/i5V9xF+VJ9i2Q3PvuM1b3xlRLmI/DaXGe6++F94GdicWJSX
+         RGKKUlUGd8O2tvvvo5VSFvr1MC3I7JLEIuEnP0hymiEeElwRUrDWF14kpZvcibalS9sQ
+         KCE1jZaoVcXgaL7R7ZicUg5UT+eropGB4ggbpGWUw4n1QOr0h6zjwXvcuZD72a8d9uJ8
+         JYRPXaxPf2VgnlqEf3TuQBSA2s6vBeEBcuGPgQM3YsSv6jzcJI3ePHVle/sqLLon8WgZ
+         BYaQ==
+X-Gm-Message-State: APzg51Bgi5mPP0xpzbXmZgnbNwdqDkBEk0Y0qFz4heSomAd0lQnpKsPE
+        ApX1ipNhKFo3xqNvrjMG484=
+X-Google-Smtp-Source: ANB0VdbL19B0KRKludGiuST4eMe0NsLP0iedp1SZZT28AyxfQ9p/I3FTysrwIqS/wFzVmmeDPMK/Lg==
+X-Received: by 2002:a5d:4fc3:: with SMTP id h3-v6mr1471369wrw.261.1534808570275;
+        Mon, 20 Aug 2018 16:42:50 -0700 (PDT)
 Received: from z50.lan (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id y206-v6sm1197634wmg.45.2018.08.20.16.42.54
+        by smtp.gmail.com with ESMTPSA id y206-v6sm1197634wmg.45.2018.08.20.16.42.48
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Aug 2018 16:42:55 -0700 (PDT)
+        Mon, 20 Aug 2018 16:42:49 -0700 (PDT)
 From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -71,555 +71,58 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [RFC RFT PATCH v4 3/4] gpiolib: Pass array info to get/set array functions
-Date:   Tue, 21 Aug 2018 01:43:40 +0200
-Message-Id: <20180820234341.5271-4-jmkrzyszt@gmail.com>
+Subject: [RFC RFT PATCH 0/4] gpiolib: speed up GPIO array processing
+Date:   Tue, 21 Aug 2018 01:43:37 +0200
+Message-Id: <20180820234341.5271-1-jmkrzyszt@gmail.com>
 X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20180820234341.5271-1-jmkrzyszt@gmail.com>
+In-Reply-To: <20180813223448.21316-1-jmkrzyszt@gmail.com>
 References: <20180813223448.21316-1-jmkrzyszt@gmail.com>
- <20180820234341.5271-1-jmkrzyszt@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to make use of array info obtained from gpiod_get_array() and
-speed up processing of arrays matching single GPIO chip layout, that
-information must be passed to get/set array functions.  Extend the
-functions' API with that additional parameter and update all users.
-Pass NULL if a user bulids an array itself from single GPIOs.
 
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
----
- Documentation/driver-api/gpio/consumer.rst  | 14 ++++++++++--
- drivers/auxdisplay/hd44780.c                | 12 ++++++----
- drivers/bus/ts-nbus.c                       |  6 +++--
- drivers/gpio/gpio-max3191x.c                |  6 +++--
- drivers/gpio/gpiolib.c                      | 34 ++++++++++++++++++++---------
- drivers/gpio/gpiolib.h                      |  2 ++
- drivers/i2c/muxes/i2c-mux-gpio.c            |  2 +-
- drivers/mmc/core/pwrseq_simple.c            |  2 +-
- drivers/mux/gpio.c                          |  3 ++-
- drivers/net/phy/mdio-mux-gpio.c             |  2 +-
- drivers/pcmcia/soc_common.c                 |  3 ++-
- drivers/phy/motorola/phy-mapphone-mdm6600.c |  4 +++-
- drivers/staging/iio/adc/ad7606.c            |  3 ++-
- drivers/tty/serial/serial_mctrl_gpio.c      |  2 +-
- include/linux/gpio/consumer.h               |  8 +++++++
- 15 files changed, 75 insertions(+), 28 deletions(-)
+This series is a follow up of the former "mtd: rawnand: ams-delta: Use
+gpio-omap accessors for data I/O" which already contained some changes
+to gpiolib.  Those previous attempts were commented by Borris Brezillon
+who suggested using GPIO API modified to accept bitmaps, and by Linus
+Walleij who suggested still more great ideas for further immprovement
+of the proposed API changes - thanks!
 
-diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-index 7e0298b9a7b9..0afd95a12b10 100644
---- a/Documentation/driver-api/gpio/consumer.rst
-+++ b/Documentation/driver-api/gpio/consumer.rst
-@@ -325,28 +325,36 @@ The following functions get or set the values of an array of GPIOs::
- 
- 	int gpiod_get_array_value(unsigned int array_size,
- 				  struct gpio_desc **desc_array,
-+				  struct gpio_array *array_info,
- 				  unsigned long *value_bitmap);
- 	int gpiod_get_raw_array_value(unsigned int array_size,
- 				      struct gpio_desc **desc_array,
-+				      struct gpio_array *array_info,
- 				      unsigned long *value_bitmap);
- 	int gpiod_get_array_value_cansleep(unsigned int array_size,
- 					   struct gpio_desc **desc_array,
-+					   struct gpio_array *array_info,
- 					   unsigned long *value_bitmap);
- 	int gpiod_get_raw_array_value_cansleep(unsigned int array_size,
- 					   struct gpio_desc **desc_array,
-+					   struct gpio_array *array_info,
- 					   unsigned long *value_bitmap);
- 
- 	void gpiod_set_array_value(unsigned int array_size,
- 				   struct gpio_desc **desc_array,
-+				   struct gpio_array *array_info,
- 				   unsigned long *value_bitmap)
- 	void gpiod_set_raw_array_value(unsigned int array_size,
- 				       struct gpio_desc **desc_array,
-+				       struct gpio_array *array_info,
- 				       unsigned long *value_bitmap)
- 	void gpiod_set_array_value_cansleep(unsigned int array_size,
- 					    struct gpio_desc **desc_array,
-+					    struct gpio_array *array_info,
- 					    unsigned long *value_bitmap)
- 	void gpiod_set_raw_array_value_cansleep(unsigned int array_size,
- 						struct gpio_desc **desc_array,
-+						struct gpio_array *array_info,
- 						unsigned long *value_bitmap)
- 
- The array can be an arbitrary set of GPIOs. The functions will try to access
-@@ -358,6 +366,7 @@ accessed sequentially.
- The functions take three arguments:
- 	* array_size	- the number of array elements
- 	* desc_array	- an array of GPIO descriptors
-+	* array_info	- optional information obtained from gpiod_array_get()
- 	* value_bitmap	- a bitmap to store the GPIOs' values (get) or
- 			  a bitmap of values to assign to the GPIOs (set)
- 
-@@ -368,12 +377,13 @@ the struct gpio_descs returned by gpiod_get_array()::
- 
- 	struct gpio_descs *my_gpio_descs = gpiod_get_array(...);
- 	gpiod_set_array_value(my_gpio_descs->ndescs, my_gpio_descs->desc,
--			      my_gpio_value_bitmap);
-+			      my_gpio_descs->info, my_gpio_value_bitmap);
- 
- It is also possible to access a completely arbitrary array of descriptors. The
- descriptors may be obtained using any combination of gpiod_get() and
- gpiod_get_array(). Afterwards the array of descriptors has to be setup
--manually before it can be passed to one of the above functions.
-+manually before it can be passed to one of the above functions.  In that case,
-+array_info should be set to NULL.
- 
- Note that for optimal performance GPIOs belonging to the same chip should be
- contiguous within the array of descriptors.
-diff --git a/drivers/auxdisplay/hd44780.c b/drivers/auxdisplay/hd44780.c
-index d340473aa142..6ae81632bc44 100644
---- a/drivers/auxdisplay/hd44780.c
-+++ b/drivers/auxdisplay/hd44780.c
-@@ -74,7 +74,8 @@ static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
- 	}
- 
- 	/* Present the data to the port */
--	gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA0], value_bitmap);
-+	gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA0], NULL,
-+				       value_bitmap);
- 
- 	hd44780_strobe_gpio(hd);
- }
-@@ -97,7 +98,8 @@ static void hd44780_write_gpio4(struct hd44780 *hd, u8 val, unsigned int rs)
- 	value_bitmap[0] = value_bitmap[0] >> PIN_DATA4;
- 
- 	/* Present the data to the port */
--	gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], value_bitmap);
-+	gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], NULL,
-+				       value_bitmap);
- 
- 	hd44780_strobe_gpio(hd);
- 
-@@ -106,7 +108,8 @@ static void hd44780_write_gpio4(struct hd44780 *hd, u8 val, unsigned int rs)
- 	value_bitmap[0] |= val & ~((1 << PIN_DATA4) - 1);
- 
- 	/* Present the data to the port */
--	gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], value_bitmap);
-+	gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], NULL,
-+				       value_bitmap);
- 
- 	hd44780_strobe_gpio(hd);
- }
-@@ -169,7 +172,8 @@ static void hd44780_write_cmd_raw_gpio4(struct charlcd *lcd, int cmd)
- 	value_bitmap[0] = value_bitmap[0] >> PIN_DATA4;
- 
- 	/* Present the data to the port */
--	gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], value_bitmap);
-+	gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], NULL,
-+				       value_bitmap);
- 
- 	hd44780_strobe_gpio(hd);
- }
-diff --git a/drivers/bus/ts-nbus.c b/drivers/bus/ts-nbus.c
-index ce6c1e89236d..000d756eb42c 100644
---- a/drivers/bus/ts-nbus.c
-+++ b/drivers/bus/ts-nbus.c
-@@ -112,7 +112,8 @@ static void ts_nbus_reset_bus(struct ts_nbus *ts_nbus)
- {
- 	unsigned long value_bitmap[1] = { 0, };
- 
--	gpiod_set_array_value_cansleep(8, ts_nbus->data->desc, value_bitmap);
-+	gpiod_set_array_value_cansleep(8, ts_nbus->data->desc,
-+				       ts_nbus->data->info, value_bitmap);
- 	gpiod_set_value_cansleep(ts_nbus->csn, 0);
- 	gpiod_set_value_cansleep(ts_nbus->strobe, 0);
- 	gpiod_set_value_cansleep(ts_nbus->ale, 0);
-@@ -155,7 +156,8 @@ static void ts_nbus_write_byte(struct ts_nbus *ts_nbus, u8 byte)
- 	struct gpio_descs *gpios = ts_nbus->data;
- 	unsigned long value_bitmap[1] = { byte, };
- 
--	gpiod_set_array_value_cansleep(8, gpios->desc, value_bitmap);
-+	gpiod_set_array_value_cansleep(8, gpios->desc, gpios->info,
-+				       value_bitmap);
- }
- 
- /*
-diff --git a/drivers/gpio/gpio-max3191x.c b/drivers/gpio/gpio-max3191x.c
-index c4ec1c82af27..4b43b5dabfd2 100644
---- a/drivers/gpio/gpio-max3191x.c
-+++ b/drivers/gpio/gpio-max3191x.c
-@@ -313,6 +313,7 @@ static int max3191x_set_config(struct gpio_chip *gpio, unsigned int offset,
- 
- static void gpiod_set_array_single_value_cansleep(unsigned int ndescs,
- 						  struct gpio_desc **desc,
-+						  struct gpio_array *info,
- 						  int value)
- {
- 	unsigned long *value_bitmap;
-@@ -327,7 +328,7 @@ static void gpiod_set_array_single_value_cansleep(unsigned int ndescs,
- 	else
- 		bitmap_zero(value_bitmap, ndescs);
- 
--	gpiod_set_array_value_cansleep(ndescs, desc, value_bitmap);
-+	gpiod_set_array_value_cansleep(ndescs, desc, info, value_bitmap);
- 	kfree(value_bitmap);
- }
- 
-@@ -400,7 +401,8 @@ static int max3191x_probe(struct spi_device *spi)
- 	if (max3191x->modesel_pins)
- 		gpiod_set_array_single_value_cansleep(
- 				 max3191x->modesel_pins->ndescs,
--				 max3191x->modesel_pins->desc, max3191x->mode);
-+				 max3191x->modesel_pins->desc,
-+				 max3191x->modesel_pins->info, max3191x->mode);
- 
- 	max3191x->ignore_uv = device_property_read_bool(dev,
- 						  "maxim,ignore-undervoltage");
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index c1ed1c759345..4d26cdbdb7cf 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -435,7 +435,7 @@ static long linehandle_ioctl(struct file *filep, unsigned int cmd,
- 		int ret = gpiod_get_array_value_complex(false,
- 							true,
- 							lh->numdescs,
--							lh->descs,
-+							lh->descs, NULL,
- 							value_bitmap);
- 		if (ret)
- 			return ret;
-@@ -467,7 +467,7 @@ static long linehandle_ioctl(struct file *filep, unsigned int cmd,
- 		return gpiod_set_array_value_complex(false,
- 					      true,
- 					      lh->numdescs,
--					      lh->descs,
-+					      lh->descs, NULL,
- 					      value_bitmap);
- 	}
- 	return -EINVAL;
-@@ -2784,6 +2784,7 @@ static int gpio_chip_get_multiple(struct gpio_chip *chip,
- int gpiod_get_array_value_complex(bool raw, bool can_sleep,
- 				  unsigned int array_size,
- 				  struct gpio_desc **desc_array,
-+				  struct gpio_array *array_info,
- 				  unsigned long *value_bitmap)
- {
- 	int i = 0;
-@@ -2908,12 +2909,14 @@ EXPORT_SYMBOL_GPL(gpiod_get_value);
-  */
- int gpiod_get_raw_array_value(unsigned int array_size,
- 			      struct gpio_desc **desc_array,
-+			      struct gpio_array *array_info,
- 			      unsigned long *value_bitmap)
- {
- 	if (!desc_array)
- 		return -EINVAL;
- 	return gpiod_get_array_value_complex(true, false, array_size,
--					     desc_array, value_bitmap);
-+					     desc_array, array_info,
-+					     value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_get_raw_array_value);
- 
-@@ -2931,12 +2934,14 @@ EXPORT_SYMBOL_GPL(gpiod_get_raw_array_value);
-  */
- int gpiod_get_array_value(unsigned int array_size,
- 			  struct gpio_desc **desc_array,
-+			  struct gpio_array *array_info,
- 			  unsigned long *value_bitmap)
- {
- 	if (!desc_array)
- 		return -EINVAL;
- 	return gpiod_get_array_value_complex(false, false, array_size,
--					     desc_array, value_bitmap);
-+					     desc_array, array_info,
-+					     value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_get_array_value);
- 
-@@ -3029,6 +3034,7 @@ static void gpio_chip_set_multiple(struct gpio_chip *chip,
- int gpiod_set_array_value_complex(bool raw, bool can_sleep,
- 				   unsigned int array_size,
- 				   struct gpio_desc **desc_array,
-+				   struct gpio_array *array_info,
- 				   unsigned long *value_bitmap)
- {
- 	int i = 0;
-@@ -3166,12 +3172,13 @@ EXPORT_SYMBOL_GPL(gpiod_set_value);
-  */
- int gpiod_set_raw_array_value(unsigned int array_size,
- 			 struct gpio_desc **desc_array,
-+			 struct gpio_array *array_info,
- 			 unsigned long *value_bitmap)
- {
- 	if (!desc_array)
- 		return -EINVAL;
- 	return gpiod_set_array_value_complex(true, false, array_size,
--					desc_array, value_bitmap);
-+					desc_array, array_info, value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_set_raw_array_value);
- 
-@@ -3189,12 +3196,13 @@ EXPORT_SYMBOL_GPL(gpiod_set_raw_array_value);
-  */
- void gpiod_set_array_value(unsigned int array_size,
- 			   struct gpio_desc **desc_array,
-+			   struct gpio_array *array_info,
- 			   unsigned long *value_bitmap)
- {
- 	if (!desc_array)
- 		return;
- 	gpiod_set_array_value_complex(false, false, array_size, desc_array,
--				      value_bitmap);
-+				      array_info, value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_set_array_value);
- 
-@@ -3426,13 +3434,15 @@ EXPORT_SYMBOL_GPL(gpiod_get_value_cansleep);
-  */
- int gpiod_get_raw_array_value_cansleep(unsigned int array_size,
- 				       struct gpio_desc **desc_array,
-+				       struct gpio_array *array_info,
- 				       unsigned long *value_bitmap)
- {
- 	might_sleep_if(extra_checks);
- 	if (!desc_array)
- 		return -EINVAL;
- 	return gpiod_get_array_value_complex(true, true, array_size,
--					     desc_array, value_bitmap);
-+					     desc_array, array_info,
-+					     value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_get_raw_array_value_cansleep);
- 
-@@ -3449,13 +3459,15 @@ EXPORT_SYMBOL_GPL(gpiod_get_raw_array_value_cansleep);
-  */
- int gpiod_get_array_value_cansleep(unsigned int array_size,
- 				   struct gpio_desc **desc_array,
-+				   struct gpio_array *array_info,
- 				   unsigned long *value_bitmap)
- {
- 	might_sleep_if(extra_checks);
- 	if (!desc_array)
- 		return -EINVAL;
- 	return gpiod_get_array_value_complex(false, true, array_size,
--					     desc_array, value_bitmap);
-+					     desc_array, array_info,
-+					     value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_get_array_value_cansleep);
- 
-@@ -3508,13 +3520,14 @@ EXPORT_SYMBOL_GPL(gpiod_set_value_cansleep);
-  */
- int gpiod_set_raw_array_value_cansleep(unsigned int array_size,
- 					struct gpio_desc **desc_array,
-+					struct gpio_array *array_info,
- 					unsigned long *value_bitmap)
- {
- 	might_sleep_if(extra_checks);
- 	if (!desc_array)
- 		return -EINVAL;
- 	return gpiod_set_array_value_complex(true, true, array_size, desc_array,
--				      value_bitmap);
-+				      array_info, value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_set_raw_array_value_cansleep);
- 
-@@ -3548,13 +3561,14 @@ void gpiod_add_lookup_tables(struct gpiod_lookup_table **tables, size_t n)
-  */
- void gpiod_set_array_value_cansleep(unsigned int array_size,
- 				    struct gpio_desc **desc_array,
-+				    struct gpio_array *array_info,
- 				    unsigned long *value_bitmap)
- {
- 	might_sleep_if(extra_checks);
- 	if (!desc_array)
- 		return;
- 	gpiod_set_array_value_complex(false, true, array_size, desc_array,
--				      value_bitmap);
-+				      array_info, value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_set_array_value_cansleep);
- 
-diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
-index b60905d558b1..b65ca896b24d 100644
---- a/drivers/gpio/gpiolib.h
-+++ b/drivers/gpio/gpiolib.h
-@@ -196,10 +196,12 @@ struct gpio_desc *gpiochip_get_desc(struct gpio_chip *chip, u16 hwnum);
- int gpiod_get_array_value_complex(bool raw, bool can_sleep,
- 				  unsigned int array_size,
- 				  struct gpio_desc **desc_array,
-+				  struct gpio_array *array_info,
- 				  unsigned long *value_bitmap);
- int gpiod_set_array_value_complex(bool raw, bool can_sleep,
- 				   unsigned int array_size,
- 				   struct gpio_desc **desc_array,
-+				   struct gpio_array *array_info,
- 				   unsigned long *value_bitmap);
- 
- /* This is just passed between gpiolib and devres */
-diff --git a/drivers/i2c/muxes/i2c-mux-gpio.c b/drivers/i2c/muxes/i2c-mux-gpio.c
-index d675e0ca2fa4..aa3857ab42b5 100644
---- a/drivers/i2c/muxes/i2c-mux-gpio.c
-+++ b/drivers/i2c/muxes/i2c-mux-gpio.c
-@@ -34,7 +34,7 @@ static void i2c_mux_gpio_set(const struct gpiomux *mux, unsigned val)
- 		mux->values[i] = (val >> i) & 1;
- 
- 	gpiod_set_array_value_cansleep(mux->data.n_gpios,
--				       mux->gpios, value_bitmap);
-+				       mux->gpios, NULL, value_bitmap);
- }
- 
- static int i2c_mux_gpio_select(struct i2c_mux_core *muxc, u32 chan)
-diff --git a/drivers/mmc/core/pwrseq_simple.c b/drivers/mmc/core/pwrseq_simple.c
-index 0d6e3a5be3ba..5cf7eda8f68f 100644
---- a/drivers/mmc/core/pwrseq_simple.c
-+++ b/drivers/mmc/core/pwrseq_simple.c
-@@ -46,7 +46,7 @@ static void mmc_pwrseq_simple_set_gpios_value(struct mmc_pwrseq_simple *pwrseq,
- 		value_bitmap[0] = value;
- 
- 		gpiod_set_array_value_cansleep(nvalues, reset_gpios->desc,
--					       value_bitmap);
-+					       reset_gpios->info, value_bitmap);
- 	}
- }
- 
-diff --git a/drivers/mux/gpio.c b/drivers/mux/gpio.c
-index cc2d5f50472a..879f9f3f45dd 100644
---- a/drivers/mux/gpio.c
-+++ b/drivers/mux/gpio.c
-@@ -30,7 +30,8 @@ static int mux_gpio_set(struct mux_control *mux, int state)
- 		mux_gpio->val[i] = (state >> i) & 1;
- 
- 	gpiod_set_array_value_cansleep(mux_gpio->gpios->ndescs,
--				       mux_gpio->gpios->desc, value_bitmap);
-+				       mux_gpio->gpios->desc,
-+				       mux_gpio->gpios->info, value_bitmap);
- 
- 	return 0;
- }
-diff --git a/drivers/net/phy/mdio-mux-gpio.c b/drivers/net/phy/mdio-mux-gpio.c
-index 8e1ec750277e..c0ffa03c916b 100644
---- a/drivers/net/phy/mdio-mux-gpio.c
-+++ b/drivers/net/phy/mdio-mux-gpio.c
-@@ -37,7 +37,7 @@ static int mdio_mux_gpio_switch_fn(int current_child, int desired_child,
- 		s->values[n] = (desired_child >> n) & 1;
- 
- 	gpiod_set_array_value_cansleep(s->gpios->ndescs, s->gpios->desc,
--				       value_bitmap);
-+				       s->gpios->info, value_bitmap);
- 
- 	return 0;
- }
-diff --git a/drivers/pcmcia/soc_common.c b/drivers/pcmcia/soc_common.c
-index e0f89155c474..55978198cd2b 100644
---- a/drivers/pcmcia/soc_common.c
-+++ b/drivers/pcmcia/soc_common.c
-@@ -366,7 +366,8 @@ static int soc_common_pcmcia_config_skt(
- 		}
- 
- 		if (n)
--			gpiod_set_array_value_cansleep(n, descs, value_bitmap);
-+			gpiod_set_array_value_cansleep(n, descs, NULL,
-+						       value_bitmap);
- 
- 		/*
- 		 * This really needs a better solution.  The IRQ
-diff --git a/drivers/phy/motorola/phy-mapphone-mdm6600.c b/drivers/phy/motorola/phy-mapphone-mdm6600.c
-index b6477c3599c4..8f508338ec56 100644
---- a/drivers/phy/motorola/phy-mapphone-mdm6600.c
-+++ b/drivers/phy/motorola/phy-mapphone-mdm6600.c
-@@ -162,7 +162,8 @@ static void phy_mdm6600_cmd(struct phy_mdm6600 *ddata, int val)
- 	value_bitmap[0] = val & ((1 << PHY_MDM6600_NR_CMD_LINES) - 1);
- 
- 	gpiod_set_array_value_cansleep(PHY_MDM6600_NR_CMD_LINES,
--				       ddata->cmd_gpios->desc, value_bitmap);
-+				       ddata->cmd_gpios->desc,
-+				       ddata->cmd_gpios->info, value_bitmap);
- }
- 
- /**
-@@ -181,6 +182,7 @@ static void phy_mdm6600_status(struct work_struct *work)
- 
- 	error = gpiod_get_array_value_cansleep(PHY_MDM6600_NR_STATUS_LINES,
- 					       ddata->status_gpios->desc,
-+					       ddata->status_gpios->info,
- 					       value_bitmap);
- 	if (error)
- 		return;
-diff --git a/drivers/staging/iio/adc/ad7606.c b/drivers/staging/iio/adc/ad7606.c
-index 0eca047bc1cc..eb779d825724 100644
---- a/drivers/staging/iio/adc/ad7606.c
-+++ b/drivers/staging/iio/adc/ad7606.c
-@@ -230,7 +230,8 @@ static int ad7606_write_raw(struct iio_dev *indio_dev,
- 		value_bitmap[0] = ret;
- 
- 		mutex_lock(&st->lock);
--		gpiod_set_array_value(3, st->gpio_os->desc, value_bitmap);
-+		gpiod_set_array_value(3, st->gpio_os->desc, st->gpio_os->info,
-+				      value_bitmap);
- 		st->oversampling = val;
- 		mutex_unlock(&st->lock);
- 
-diff --git a/drivers/tty/serial/serial_mctrl_gpio.c b/drivers/tty/serial/serial_mctrl_gpio.c
-index bb8b4756d72d..8a04e3be5419 100644
---- a/drivers/tty/serial/serial_mctrl_gpio.c
-+++ b/drivers/tty/serial/serial_mctrl_gpio.c
-@@ -53,7 +53,7 @@ void mctrl_gpio_set(struct mctrl_gpios *gpios, unsigned int mctrl)
- 				     !!(mctrl & mctrl_gpios_desc[i].mctrl));
- 			count++;
- 		}
--	gpiod_set_array_value(count, desc_array, value_bitmap);
-+	gpiod_set_array_value(count, desc_array, NULL, value_bitmap);
- }
- EXPORT_SYMBOL_GPL(mctrl_gpio_set);
- 
-diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
-index 8dede3e886af..bf037ebe2ed8 100644
---- a/include/linux/gpio/consumer.h
-+++ b/include/linux/gpio/consumer.h
-@@ -114,36 +114,44 @@ int gpiod_direction_output_raw(struct gpio_desc *desc, int value);
- int gpiod_get_value(const struct gpio_desc *desc);
- int gpiod_get_array_value(unsigned int array_size,
- 			  struct gpio_desc **desc_array,
-+			  struct gpio_array *array_info,
- 			  unsigned long *value_bitmap);
- void gpiod_set_value(struct gpio_desc *desc, int value);
- void gpiod_set_array_value(unsigned int array_size,
- 			   struct gpio_desc **desc_array,
-+			   struct gpio_array *array_info,
- 			   unsigned long *value_bitmap);
- int gpiod_get_raw_value(const struct gpio_desc *desc);
- int gpiod_get_raw_array_value(unsigned int array_size,
- 			      struct gpio_desc **desc_array,
-+			      struct gpio_array *array_info,
- 			      unsigned long *value_bitmap);
- void gpiod_set_raw_value(struct gpio_desc *desc, int value);
- int gpiod_set_raw_array_value(unsigned int array_size,
- 			       struct gpio_desc **desc_array,
-+			       struct gpio_array *array_info,
- 			       unsigned long *value_bitmap);
- 
- /* Value get/set from sleeping context */
- int gpiod_get_value_cansleep(const struct gpio_desc *desc);
- int gpiod_get_array_value_cansleep(unsigned int array_size,
- 				   struct gpio_desc **desc_array,
-+				   struct gpio_array *array_info,
- 				   unsigned long *value_bitmap);
- void gpiod_set_value_cansleep(struct gpio_desc *desc, int value);
- void gpiod_set_array_value_cansleep(unsigned int array_size,
- 				    struct gpio_desc **desc_array,
-+				    struct gpio_array *array_info,
- 				    unsigned long *value_bitmap);
- int gpiod_get_raw_value_cansleep(const struct gpio_desc *desc);
- int gpiod_get_raw_array_value_cansleep(unsigned int array_size,
- 				       struct gpio_desc **desc_array,
-+				       struct gpio_array *array_info,
- 				       unsigned long *value_bitmap);
- void gpiod_set_raw_value_cansleep(struct gpio_desc *desc, int value);
- int gpiod_set_raw_array_value_cansleep(unsigned int array_size,
- 					struct gpio_desc **desc_array,
-+					struct gpio_array *array_info,
- 					unsigned long *value_bitmap);
- 
- int gpiod_set_debounce(struct gpio_desc *desc, unsigned debounce);
--- 
-2.16.4
+The goal is to boost performans of get/set array functions while
+processing GPIO arrays which represent pins of a signle chip in
+hardware order.  If resulting performance is close to PIO, GPIO API
+can be used for data I/O without much loss of speed.
+
+Created and tested on a low end Amstrad Delta board with NAND driver
+updated to use GPIO API for data I/O.  Performance degrade compared to
+PIO is much better than before the optimization but still not quite
+satisfactory.
+
+
+Janusz Krzysztofik (4):
+      gpiolib: Pass bitmaps, not integer arrays, to get/set array
+      gpiolib: Identify arrays matching GPIO hardware
+      gpiolib: Pass array info to get/set array functions
+      gpiolib: Implement fast processing path in get/set array
+
+
+ Documentation/driver-api/gpio/board.rst     |   15 +
+ Documentation/driver-api/gpio/consumer.rst  |   48 +++-
+ drivers/auxdisplay/hd44780.c                |   64 +++---
+ drivers/bus/ts-nbus.c                       |   25 --
+ drivers/gpio/gpio-max3191x.c                |   23 +-
+ drivers/gpio/gpiolib.c                      |  279 ++++++++++++++++++++++------
+ drivers/gpio/gpiolib.h                      |   15 +
+ drivers/i2c/muxes/i2c-mux-gpio.c            |    5 
+ drivers/mmc/core/pwrseq_simple.c            |   15 -
+ drivers/mux/gpio.c                          |    7 
+ drivers/net/phy/mdio-mux-gpio.c             |    5 
+ drivers/pcmcia/soc_common.c                 |   14 -
+ drivers/phy/motorola/phy-mapphone-mdm6600.c |   21 +-
+ drivers/staging/iio/adc/ad7606.c            |   12 -
+ drivers/tty/serial/serial_mctrl_gpio.c      |    9 
+ include/linux/gpio/consumer.h               |   35 ++-
+ 16 files changed, 410 insertions(+), 182 deletions(-)
 
