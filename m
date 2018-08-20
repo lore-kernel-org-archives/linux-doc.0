@@ -2,145 +2,283 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD6697D87A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 19:06:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E7E947D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 20:15:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726623AbeHTWXN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 18:23:13 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:50444 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726293AbeHTWXN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Aug 2018 18:23:13 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id A905420737; Mon, 20 Aug 2018 21:06:22 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D62342072F;
-        Mon, 20 Aug 2018 21:06:21 +0200 (CEST)
-Date:   Mon, 20 Aug 2018 21:06:21 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alban <albeu@free.fr>, Jonathan Corbet <corbet@lwn.net>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180820210621.5ffe3866@bbrezillon>
-In-Reply-To: <CAMRc=McwEjofZKP93DxPa8vJLE6NceLLGfcbcK9-Pfk-dav_Zg@mail.gmail.com>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-        <20180819133106.0420df5f@tock>
-        <20180819184609.6dcdbb9a@bbrezillon>
-        <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
-        <20180820202038.5d3dc195@bbrezillon>
-        <CAMRc=McwEjofZKP93DxPa8vJLE6NceLLGfcbcK9-Pfk-dav_Zg@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726119AbeHTXcc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 19:32:32 -0400
+Received: from smtprelay0121.hostedemail.com ([216.40.44.121]:37383 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726089AbeHTXcc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Aug 2018 19:32:32 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 805FE18041932;
+        Mon, 20 Aug 2018 20:15:30 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: scent81_12b0c73fb3f00
+X-Filterd-Recvd-Size: 8568
+Received: from joe-laptop.perches.com (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf02.hostedemail.com (Postfix) with ESMTPA;
+        Mon, 20 Aug 2018 20:15:28 +0000 (UTC)
+From:   Joe Perches <joe@perches.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Mike Galbraith <efault@gmx.de>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rik van Riel <riel@surriel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] Raise the minimum required gcc version to 4.6
+Date:   Mon, 20 Aug 2018 13:15:26 -0700
+Message-Id: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
+X-Mailer: git-send-email 2.15.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 20 Aug 2018 20:50:55 +0200
-Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+Various architectures fail to build properly with older versions
+of the gcc compiler.
 
-> 2018-08-20 20:20 GMT+02:00 Boris Brezillon <boris.brezillon@bootlin.com>:
-> > On Mon, 20 Aug 2018 11:43:34 +0100
-> > Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
-> >  
-> >>
-> >> Overall am still not able to clear visualize on how MTD bindings with
-> >> nvmem cells would look in both partition and un-partition usecases?
-> >> An example DT would be nice here!!  
-> >
-> > Something along those lines:
-> >
-> >         mtdnode {
-> >                 nvmem-cells {
-> >                         #address-cells = <1>;
-> >                         #size-cells = <1>;
-> >
-> >                         cell@0 {
-> >                                 reg = <0x0 0x14>;
-> >                         };
-> >                 };
-> >
-> >                 partitions {
-> >                         compatible = "fixed-partitions";
-> >                         #address-cells = <1>;
-> >                         #size-cells = <1>;
-> >
-> >                         partition@0 {
-> >                                 reg = <0x0 0x20000>;
-> >
-> >                                 nvmem-cells {
-> >                                         #address-cells = <1>;
-> >                                         #size-cells = <1>;
-> >
-> >                                         cell@0 {
-> >                                                 reg = <0x0 0x10>;
-> >                                         };
-> >                                 };
-> >                         };
-> >                 };
-> >         };  
-> 
-> If there'll be an agreement on the bindings: will you be willing to
-> merge Alban's patch even without support in the code for the above
-> (with the assumption that it will be added later)?
+An example from Guenter Roeck via this thread:
+https://lore.kernel.org/lkml/20180814170904.GA12768@roeck-us.net/
 
-No, because Alban's patch actually allows people to define and
-reference nvmem cells in a DT, but without documenting it (see my first
-reply).
+----------------------
+In file included from ./include/linux/mm.h:17:0,
+                 from ./include/linux/pid_namespace.h:7,
+                 from ./include/linux/ptrace.h:10,
+                 from arch/openrisc/kernel/asm-offsets.c:32:
+./include/linux/mm_types.h:497:16: error: flexible array member in otherwise empty struct
 
-> My use-case is on
-> non-DT systems and creating nvmem devices corresponding to MTD
-> partitions if fine by me.
+This is just an example with gcc 4.5.1 for or32. I have seen the problem
+with gcc 4.4 (for unicore32) as well.
+----------------------
 
-What you propose is option #1 in my list of proposals, and it requires
-some changes to avoid automatically assigning nvmem->dev.of_node to
-parent->of_node (which will be != NULL when the MTD device has been
-instantiated from a DT node).
+So update the minimum required version of gcc to 4.6.
 
-> I also don't have the means to test the
-> support for these bindings if I were to actually write them myself.
+Miscellanea:
 
-And that's the very reason I proposed #1. I don't want to block this
-stuff, but in its current state, I'm not willing to accept it either.
-Either we agree on the binding and patch the nvmem framework to support
-this new binding, or we find a way to hide the fact that the mtd
-device (the nvmem parent) has a DT node attached to it.
+o Update Documentation/process/changes.rst
+o Remove and consolidate version test blocks in compiler-gcc.h
+  for versions lower than 4.6
+
+Signed-off-by: Joe Perches <joe@perches.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ Documentation/process/changes.rst |  2 +-
+ include/linux/compiler-gcc.h      | 86 ++++++++-------------------------------
+ 2 files changed, 19 insertions(+), 69 deletions(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 7a92a06f90de..61f918b10a0c 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -29,7 +29,7 @@ you probably needn't concern yourself with isdn4k-utils.
+ ====================== ===============  ========================================
+         Program        Minimal version       Command to check the version
+ ====================== ===============  ========================================
+-GNU C                  3.2              gcc --version
++GNU C                  4.6              gcc --version
+ GNU make               3.81             make --version
+ binutils               2.20             ld -v
+ flex                   2.5.35           flex --version
+diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+index 3e70b7d4e9ed..250b9b7cfd60 100644
+--- a/include/linux/compiler-gcc.h
++++ b/include/linux/compiler-gcc.h
+@@ -10,6 +10,10 @@
+ 		     + __GNUC_MINOR__ * 100	\
+ 		     + __GNUC_PATCHLEVEL__)
+ 
++#if GCC_VERSION < 40600
++# error Sorry, your compiler is too old - please upgrade it.
++#endif
++
+ /* Optimization barrier */
+ 
+ /* The "volatile" is due to gcc bugs */
+@@ -58,6 +62,12 @@
+ #define OPTIMIZER_HIDE_VAR(var)						\
+ 	__asm__ ("" : "=r" (var) : "0" (var))
+ 
++/*
++ * A trick to suppress uninitialized variable warning without generating any
++ * code
++ */
++#define uninitialized_var(x) x = x
++
+ #ifdef __CHECKER__
+ #define __must_be_array(a)	0
+ #else
+@@ -91,7 +101,7 @@
+  * A lot of inline functions can cause havoc with function tracing.
+  */
+ #if !defined(CONFIG_ARCH_SUPPORTS_OPTIMIZED_INLINING) ||		\
+-    !defined(CONFIG_OPTIMIZE_INLINING) || (__GNUC__ < 4)
++    !defined(CONFIG_OPTIMIZE_INLINING)
+ #define inline \
+ 	inline __attribute__((always_inline, unused)) notrace __gnu_inline
+ #else
+@@ -147,47 +157,13 @@
+ #define __always_unused		__attribute__((unused))
+ #define __mode(x)               __attribute__((mode(x)))
+ 
+-/* gcc version specific checks */
+-
+-#if GCC_VERSION < 30200
+-# error Sorry, your compiler is too old - please upgrade it.
+-#endif
+-
+-#if GCC_VERSION < 30300
+-# define __used			__attribute__((__unused__))
+-#else
+-# define __used			__attribute__((__used__))
+-#endif
+-
+-#ifdef CONFIG_GCOV_KERNEL
+-# if GCC_VERSION < 30400
+-#   error "GCOV profiling support for gcc versions below 3.4 not included"
+-# endif /* __GNUC_MINOR__ */
+-#endif /* CONFIG_GCOV_KERNEL */
+-
+-#if GCC_VERSION >= 30400
+ #define __must_check		__attribute__((warn_unused_result))
+ #define __malloc		__attribute__((__malloc__))
+-#endif
+-
+-#if GCC_VERSION >= 40000
+-
+-/* GCC 4.1.[01] miscompiles __weak */
+-#ifdef __KERNEL__
+-# if GCC_VERSION >= 40100 &&  GCC_VERSION <= 40101
+-#  error Your version of gcc miscompiles the __weak directive
+-# endif
+-#endif
+ 
+ #define __used			__attribute__((__used__))
+ #define __compiler_offsetof(a, b)					\
+ 	__builtin_offsetof(a, b)
+ 
+-#if GCC_VERSION >= 40100
+-# define __compiletime_object_size(obj) __builtin_object_size(obj, 0)
+-#endif
+-
+-#if GCC_VERSION >= 40300
+ /* Mark functions as cold. gcc will assume any path leading to a call
+  * to them will be unlikely.  This means a lot of manual unlikely()s
+  * are unnecessary now for any paths leading to the usual suspects
+@@ -206,24 +182,19 @@
+ 
+ #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+ 
+-#ifndef __CHECKER__
+-# define __compiletime_warning(message) __attribute__((warning(message)))
+-# define __compiletime_error(message) __attribute__((error(message)))
+-#endif /* __CHECKER__ */
+-#endif /* GCC_VERSION >= 40300 */
+-
+-#if GCC_VERSION >= 40400
+ #define __optimize(level)	__attribute__((__optimize__(level)))
+ #define __nostackprotector	__optimize("no-stack-protector")
+-#endif /* GCC_VERSION >= 40400 */
+ 
+-#if GCC_VERSION >= 40500
++#define __compiletime_object_size(obj) __builtin_object_size(obj, 0)
+ 
+ #ifndef __CHECKER__
++#define __compiletime_warning(message) __attribute__((warning(message)))
++#define __compiletime_error(message) __attribute__((error(message)))
++
+ #ifdef LATENT_ENTROPY_PLUGIN
+ #define __latent_entropy __attribute__((latent_entropy))
+ #endif
+-#endif
++#endif /* __CHECKER__ */
+ 
+ /*
+  * calling noreturn functions, __builtin_unreachable() and __builtin_trap()
+@@ -261,10 +232,6 @@
+ #define randomized_struct_fields_end	} __randomize_layout;
+ #endif
+ 
+-#endif /* GCC_VERSION >= 40500 */
+-
+-#if GCC_VERSION >= 40600
+-
+ /*
+  * When used with Link Time Optimization, gcc can optimize away C functions or
+  * variables which are referenced only from assembly code.  __visible tells the
+@@ -273,8 +240,7 @@
+  */
+ #define __visible	__attribute__((externally_visible))
+ 
+-#endif /* GCC_VERSION >= 40600 */
+-
++/* gcc version specific checks */
+ 
+ #if GCC_VERSION >= 40900 && !defined(__CHECKER__)
+ /*
+@@ -308,10 +274,8 @@
+  * folding in __builtin_bswap*() (yet), so don't set these for it.
+  */
+ #if defined(CONFIG_ARCH_USE_BUILTIN_BSWAP) && !defined(__CHECKER__)
+-#if GCC_VERSION >= 40400
+ #define __HAVE_BUILTIN_BSWAP32__
+ #define __HAVE_BUILTIN_BSWAP64__
+-#endif
+ #if GCC_VERSION >= 40800
+ #define __HAVE_BUILTIN_BSWAP16__
+ #endif
+@@ -340,10 +304,9 @@
+  * https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html
+  */
+ #define __designated_init __attribute__((designated_init))
++#define COMPILER_HAS_GENERIC_BUILTIN_OVERFLOW 1
+ #endif
+ 
+-#endif	/* gcc version >= 40000 specific checks */
+-
+ #if !defined(__noclone)
+ #define __noclone	/* not needed */
+ #endif
+@@ -352,16 +315,6 @@
+ #define __no_sanitize_address
+ #endif
+ 
+-/*
+- * A trick to suppress uninitialized variable warning without generating any
+- * code
+- */
+-#define uninitialized_var(x) x = x
+-
+-#if GCC_VERSION >= 50100
+-#define COMPILER_HAS_GENERIC_BUILTIN_OVERFLOW 1
+-#endif
+-
+ /*
+  * Turn individual warnings and errors on and off locally, depending
+  * on version.
+@@ -374,12 +327,9 @@
+ #define __diag_GCC_warn		warning
+ #define __diag_GCC_error	error
+ 
+-/* Compilers before gcc-4.6 do not understand "#pragma GCC diagnostic push" */
+-#if GCC_VERSION >= 40600
+ #define __diag_str1(s)		#s
+ #define __diag_str(s)		__diag_str1(s)
+ #define __diag(s)		_Pragma(__diag_str(GCC diagnostic s))
+-#endif
+ 
+ #if GCC_VERSION >= 80000
+ #define __diag_GCC_8(s)		__diag(s)
+-- 
+2.15.0
+
