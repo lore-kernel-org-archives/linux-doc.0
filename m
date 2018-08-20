@@ -1,152 +1,160 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=FROM_EXCESS_BASE64,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 29CB57D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 21:29:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7162D7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 Aug 2018 21:33:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726563AbeHUAq3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 Aug 2018 20:46:29 -0400
-Received: from smtp1-g21.free.fr ([212.27.42.1]:50715 "EHLO smtp1-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726099AbeHUAq2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Aug 2018 20:46:28 -0400
-Received: from tock (unknown [89.247.124.122])
-        (Authenticated sender: albeu)
-        by smtp1-g21.free.fr (Postfix) with ESMTPSA id 01E87B00548;
-        Mon, 20 Aug 2018 23:27:51 +0200 (CEST)
-Date:   Mon, 20 Aug 2018 23:27:48 +0200
-From:   Alban <albeu@free.fr>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Aban Bedel <albeu@free.fr>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
+        id S1726667AbeHUAuy convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 Aug 2018 20:50:54 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52008 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726099AbeHUAuy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Aug 2018 20:50:54 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id E9907AED3;
+        Mon, 20 Aug 2018 21:33:34 +0000 (UTC)
+Date:   Mon, 20 Aug 2018 23:33:31 +0200
+From:   Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Takashi Iwai <tiwai@suse.de>, Andreas Schwab <schwab@suse.de>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jeff Dike <jdike@addtoit.com>,
         Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180820232748.608c3667@tock>
-In-Reply-To: <20180820202038.5d3dc195@bbrezillon>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-        <20180819133106.0420df5f@tock>
-        <20180819184609.6dcdbb9a@bbrezillon>
-        <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
-        <20180820202038.5d3dc195@bbrezillon>
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Jeff Mahoney <jeffm@suse.com>,
+        "Peter Zijlstra," <peterz@infradead.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-um@lists.infradead.org
+Subject: Re: due to kconfig changes kernel config file is no longer
+ sufficient for configuring the kernel
+Message-ID: <20180820233331.08dd2bfb@naga.suse.cz>
+In-Reply-To: <CAK7LNATCktToMui4NYxoUXV8ZbuDK8F0JCp_CysEWaSBPUP7NQ@mail.gmail.com>
+References: <20180627143705.5a1fed1c@kitsune.suse.cz>
+        <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
+        <20180628111623.3807fe9b@naga.suse.cz>
+        <CAK7LNARRKU7Mfa8ZBu1qPFYFRr-5k69sjVyERM2bYcnWoBDN8g@mail.gmail.com>
+        <20180806200725.4efa5d35@kitsune.suse.cz>
+        <CAK7LNATCktToMui4NYxoUXV8ZbuDK8F0JCp_CysEWaSBPUP7NQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/x7JZOIPlUQW1dRdErBSmNuH"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/x7JZOIPlUQW1dRdErBSmNuH
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Mon, 20 Aug 2018 20:20:38 +0200
-Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+On Tue, 21 Aug 2018 03:15:12 +0900
+Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
 
-> On Mon, 20 Aug 2018 11:43:34 +0100
-> Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
->=20
-> >=20
-> > Overall am still not able to clear visualize on how MTD bindings with=20
-> > nvmem cells would look in both partition and un-partition usecases?
-> > An example DT would be nice here!! =20
->=20
-> Something along those lines:
+> 2018-08-07 3:07 GMT+09:00 Michal Suchánek <msuchanek@suse.de>:
+> > On Mon, 30 Jul 2018 17:02:42 +0900
+> > Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+> >  
+> >> 2018-06-28 18:16 GMT+09:00 Michal Suchánek <msuchanek@suse.de>:  
+> >> > On Wed, 27 Jun 2018 23:07:21 +0900
+> >> > Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+> >> >  
 
-We must also have a compatible string on the nvmem-cells node to make
-sure we don't clash with the old style MTD partitions, or some other
-device specific binding.
+> >>
+> >>
+> >>  
+> >> >>
+> >> >> out-of-tree modules are built with exactly the same
+> >> >> configuration as used for the kernel.  
+> >> >
+> >> > It is not true. And that is the problem. You need the config file
+> >> > and dump of the environment passed to the make command at
+> >> > configuration time to get the exact same configuration. The
+> >> > environment is not saved anywhere, though.  
+> >>
+> >>
+> >> Why dump of the environment?
+> >>
+> >>
+> >> If you are building external modules natively
+> >> your distribution provides /lib/modules/$(uname -r)/build,
+> >> which contains files enough for building external modules.
+> >>
+> >> You can pass the directory path to M=... parameter.  That's it.  
+> >
+> > No, that's not it. Since passing ARCH=i386 is the de-facto standard
+> > to configure a 32bit kernel and the result of passing that was not
+> > saved you need to pass it to make as well.  
+> 
+> 
+> If you pass ARCH= for the configuration phase,
+> you need to pass the same ARCH= in the build phase.
+> 
+> 
+> 
+> 
+> What I can suggest for you is:
+> 
+> 
+> $ make ARCH=i386 defconfig
+> $ make ARCH=i386
+> 
+>    OR
+> 
+> $ make i386_defconfig
+> $ make
 
->=20
-> 	mtdnode {
-> 		nvmem-cells {
-                        compatible =3D "nvmem-cells";
-> 			#address-cells =3D <1>;
-> 			#size-cells =3D <1>;
->=20
-> 			cell@0 {
-> 				reg =3D <0x0 0x14>;
-> 			};
-> 		};
->=20
-> 		partitions {
-> 			compatible =3D "fixed-partitions";
-> 			#address-cells =3D <1>;
-> 			#size-cells =3D <1>;
->=20
-> 			partition@0 {
-> 				reg =3D <0x0 0x20000>;
->=20
-> 				nvmem-cells {
-                                        compatible =3D "nvmem-cells";
-> 					#address-cells =3D <1>;
-> 					#size-cells =3D <1>;
->=20
-> 					cell@0 {
-> 						reg =3D <0x0 0x10>;
-> 					};
-> 				};
-> 			};
-> 		};
-> 	};
+Maybe you missed that but I do not want to build the defconfig. I want
+to build a *particular* config which has been saved in a file
+beforehand.
+> 
+> > And you need to patch a number of
+> > 3rd party build scripts that build a kernel module as part of a
+> > bigger project.  
+> 
+> 
+> You do not need to patch a number of scripts.
+> 
+> Just one liner fix.
+> Add 'export ARCH=i386' in the top level script.
 
+And that does not work because there is no toplevel script. rpm has
+three toplevel scripts - prep, build and install.
 
-Alban
+Building out-of-tree module is another toplevel script.
 
---Sig_/x7JZOIPlUQW1dRdErBSmNuH
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+And it does not suffice to 'export ARCH=i386'. What if it was a 64bit
+config? How do I tell?
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+With more and more options left out of the config that depend on
+compiler features, environment variables, phase of the moon or whatnot
+you can't even tell what kind of kernel the user is running by looking
+at the config.
 
-iQIcBAEBCAAGBQJbezJVAAoJEHSUmkuduC28QU4P/3pQiuQbGP9YNsymN3BmbTvP
-lreiY+6pCAVvk66pR7GcuW4RurUzlj6FunpMY5XWQOkNDQcceLn6rmS51Ga7Xz+s
-c7hwUVgd4XByw2REWTAKNo7ygY8gndcMoQ8AzpPGBjGYSN5lp2hrdhvu6FW6DzWe
-8Erm3Xdue074z9ag7LMpQnV0ZURoQeUbEsBgaXbrMCmrYabG6Ahr5/YmyaGavM5H
-O5sM2yQa3b+MfVxFvAyrDmrPm/onIAZSs8Mh6Z33CJZHeZOfofYD74iJRB7mNnCJ
-oy+xu/BYJ2e7/AX595+T0uCG+5IwG99t6oFoqMkKeqKVkv8wzSlQfYJC8t8d5j4f
-IgBydMh+sXDvYGp4ftWFTNLbe6exnISxMSiN8VJUHZPj9sC1RDGA3JFs7oMCCsPv
-ctZ7jboJ0U0T1GP3R+67KX4qOh3jgcMvFwZvzCZEvXVaIbCaeNco4Q0MVtdRL3yi
-6gD2GC0iS/lYQji3HofodBhSfB9JH4GDwDgT8u2WQ4ZT3fDrp/53pvcHwcZ5rl7o
-bxofjh4BYDBNh3eJ8nb5KQeqPvuLZhXi9StmOasBu8IsYAHf/ryGmXhcZJuO21zZ
-ywcUVHIGvmNthSrs2gdmVO6FzpjQfP6Qz9T0lhd/RMxj5/BXYf8CtP84mNq+MUge
-x387wEAOzjA+iSFiQynX
-=RS6x
------END PGP SIGNATURE-----
+Thanks
 
---Sig_/x7JZOIPlUQW1dRdErBSmNuH--
+Michal
