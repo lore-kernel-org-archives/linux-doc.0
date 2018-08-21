@@ -1,19 +1,20 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI,URIBL_SBL,URIBL_SBL_A autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F41CF7E3AF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 17:17:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E3B287D581
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 17:18:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727002AbeHUUib (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 16:38:31 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:36442 "EHLO
+        id S1727120AbeHUUiH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 16:38:07 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:57628 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727044AbeHUUiY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 16:38:24 -0400
+        with ESMTP id S1728050AbeHUUiH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 16:38:07 -0400
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -28,124 +29,124 @@ Cc:     od@zcrc.me, Mathieu Malaterre <malat@debian.org>,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v7 20/24] MIPS: qi_lb60: Move PWM devices to devicetree
-Date:   Tue, 21 Aug 2018 19:16:31 +0200
-Message-Id: <20180821171635.22740-21-paul@crapouillou.net>
+Subject: [PATCH v7 09/24] watchdog: jz4740: Use regmap provided by TCU driver
+Date:   Tue, 21 Aug 2018 19:16:20 +0200
+Message-Id: <20180821171635.22740-10-paul@crapouillou.net>
 In-Reply-To: <20180821171635.22740-1-paul@crapouillou.net>
 References: <20180821171635.22740-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1534871842; bh=omgOqb/tQC/ptmqAgz3TKhKtCWHfV/mahlCiSBmpyw0=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=tossL+Z6hpd6CCOT4WzUVyOdy8gNGmnnr0cf9SKL+x7jhz2WeKJ1QwLcsvIPjvHqsZaU5tZV/LYPI0pZz6vMINicQOmZFg9qb84jPHuhYooIof0xPbOy0Y6dLCnQ9XWH8krQDhn5moIvjvPzx1eUFSWr3Rwhxvl2/lTkSZOG5eU=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1534871824; bh=fM3Kfrs201BnoBmqhC8GaYnqHG2NjHRAaBZsVsmcIMg=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=YyiCkrXYD4izhOEM90Fe3Pkdk74ZMWvwwI9qz1vfUVUroAHblbYatgELySBPe3dTThcLBaBws1v/akD69NUN8uR3SHQKoHNdxAgjCn7zb7kUR1KuSF7x2QqTOmH268SMXl3raCZHNSQKq0rBw2tGezWG9F94WhWmw+J4RuLdk/8=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Probe the few drivers using PWMs from devicetree, now that we have a
-devicetree node for the PWM driver.
+Since we broke the ABI by changing the clock, the driver was also
+updated to use the regmap provided by the TCU driver.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 ---
 
 Notes:
-     v5: New patch
-    
-     v6: No change
+     v6: New patch
     
      v7: No change
 
- arch/mips/boot/dts/ingenic/qi_lb60.dts | 14 ++++++++++++++
- arch/mips/jz4740/board-qi_lb60.c       | 19 -------------------
- 2 files changed, 14 insertions(+), 19 deletions(-)
+ drivers/watchdog/jz4740_wdt.c | 30 ++++++++++++++----------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
-diff --git a/arch/mips/boot/dts/ingenic/qi_lb60.dts b/arch/mips/boot/dts/ingenic/qi_lb60.dts
-index 76aaf8982554..85529a142409 100644
---- a/arch/mips/boot/dts/ingenic/qi_lb60.dts
-+++ b/arch/mips/boot/dts/ingenic/qi_lb60.dts
-@@ -9,6 +9,14 @@
- 	chosen {
- 		stdout-path = &uart0;
- 	};
-+
-+	beeper {
-+		compatible = "pwm-beeper";
-+		pwms = <&pwm 4 0 0>;
-+
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pins_pwm4>;
-+	};
- };
+diff --git a/drivers/watchdog/jz4740_wdt.c b/drivers/watchdog/jz4740_wdt.c
+index 1d504ecf45e1..0f54306aee25 100644
+--- a/drivers/watchdog/jz4740_wdt.c
++++ b/drivers/watchdog/jz4740_wdt.c
+@@ -13,6 +13,7 @@
+  *
+  */
  
- &ext {
-@@ -30,4 +38,10 @@
- 		groups = "uart0-data";
- 		bias-disable;
- 	};
-+
-+	pins_pwm4: pwm4 {
-+		function = "pwm4";
-+		groups = "pwm4";
-+		bias-disable;
-+	};
- };
-diff --git a/arch/mips/jz4740/board-qi_lb60.c b/arch/mips/jz4740/board-qi_lb60.c
-index 60f0767507c6..2db32cb9ed47 100644
---- a/arch/mips/jz4740/board-qi_lb60.c
-+++ b/arch/mips/jz4740/board-qi_lb60.c
-@@ -27,7 +27,6 @@
- #include <linux/power_supply.h>
- #include <linux/power/jz4740-battery.h>
- #include <linux/power/gpio-charger.h>
--#include <linux/pwm.h>
- 
- #include <asm/mach-jz4740/gpio.h>
- #include <asm/mach-jz4740/jz4740_fb.h>
-@@ -391,17 +390,6 @@ static struct jz4740_mmc_platform_data qi_lb60_mmc_pdata = {
- 	.power_active_low	= 1,
- };
- 
--/* beeper */
--static struct pwm_lookup qi_lb60_pwm_lookup[] = {
--	PWM_LOOKUP("jz4740-pwm", 4, "pwm-beeper", NULL, 0,
--		   PWM_POLARITY_NORMAL),
--};
++#include <linux/mfd/ingenic-tcu.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/types.h>
+@@ -25,10 +26,7 @@
+ #include <linux/slab.h>
+ #include <linux/err.h>
+ #include <linux/of.h>
 -
--static struct platform_device qi_lb60_pwm_beeper = {
--	.name = "pwm-beeper",
--	.id = -1,
--};
--
- /* charger */
- static char *qi_lb60_batteries[] = {
- 	"battery",
-@@ -450,10 +438,8 @@ static struct platform_device *jz_platform_devices[] __initdata = {
- 	&jz4740_i2s_device,
- 	&jz4740_codec_device,
- 	&jz4740_adc_device,
--	&jz4740_pwm_device,
- 	&jz4740_dma_device,
- 	&qi_lb60_gpio_keys,
--	&qi_lb60_pwm_beeper,
- 	&qi_lb60_charger_device,
- 	&qi_lb60_audio_device,
+-#define JZ_REG_WDT_TIMER_DATA     0x0
+-#define JZ_REG_WDT_COUNTER_ENABLE 0x4
+-#define JZ_REG_WDT_TIMER_COUNTER  0x8
++#include <linux/regmap.h>
+ 
+ #define DEFAULT_HEARTBEAT 5
+ #define MAX_HEARTBEAT     2048
+@@ -48,7 +46,7 @@ MODULE_PARM_DESC(heartbeat,
+ 
+ struct jz4740_wdt_drvdata {
+ 	struct watchdog_device wdt;
+-	void __iomem *base;
++	struct regmap *map;
+ 	struct clk *clk;
+ 	unsigned long clk_rate;
  };
-@@ -482,10 +468,6 @@ static struct pinctrl_map pin_map[] __initdata = {
- 			"10010000.jz4740-pinctrl", "PD0", pin_cfg_bias_disable),
- 	PIN_MAP_CONFIGS_PIN_DEFAULT("jz4740-mmc.0",
- 			"10010000.jz4740-pinctrl", "PD2", pin_cfg_bias_disable),
--
--	/* PWM pin configuration */
--	PIN_MAP_MUX_GROUP_DEFAULT("jz4740-pwm",
--			"10010000.jz4740-pinctrl", "pwm4", "pwm4"),
- };
+@@ -57,7 +55,7 @@ static int jz4740_wdt_ping(struct watchdog_device *wdt_dev)
+ {
+ 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
  
+-	writew(0x0, drvdata->base + JZ_REG_WDT_TIMER_COUNTER);
++	regmap_write(drvdata->map, TCU_REG_WDT_TCNT, 0);
+ 	return 0;
+ }
  
-@@ -503,7 +485,6 @@ static int __init qi_lb60_init_platform_devices(void)
- 	spi_register_board_info(qi_lb60_spi_board_info,
- 				ARRAY_SIZE(qi_lb60_spi_board_info));
+@@ -67,12 +65,12 @@ static int jz4740_wdt_set_timeout(struct watchdog_device *wdt_dev,
+ 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
+ 	u16 timeout_value = (u16)(drvdata->clk_rate * new_timeout);
  
--	pwm_add_table(qi_lb60_pwm_lookup, ARRAY_SIZE(qi_lb60_pwm_lookup));
- 	pinctrl_register_mappings(pin_map, ARRAY_SIZE(pin_map));
+-	writeb(0x0, drvdata->base + JZ_REG_WDT_COUNTER_ENABLE);
++	regmap_write(drvdata->map, TCU_REG_WDT_TCER, 0);
  
- 	return platform_add_devices(jz_platform_devices,
+-	writew((u16)timeout_value, drvdata->base + JZ_REG_WDT_TIMER_DATA);
+-	writew(0x0, drvdata->base + JZ_REG_WDT_TIMER_COUNTER);
++	regmap_write(drvdata->map, TCU_REG_WDT_TDR, timeout_value);
++	regmap_write(drvdata->map, TCU_REG_WDT_TCNT, 0);
+ 
+-	writeb(0x1, drvdata->base + JZ_REG_WDT_COUNTER_ENABLE);
++	regmap_write(drvdata->map, TCU_REG_WDT_TCER, TCU_WDT_TCER_TCEN);
+ 
+ 	wdt_dev->timeout = new_timeout;
+ 	return 0;
+@@ -96,7 +94,7 @@ static int jz4740_wdt_stop(struct watchdog_device *wdt_dev)
+ {
+ 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
+ 
+-	writeb(0x0, drvdata->base + JZ_REG_WDT_COUNTER_ENABLE);
++	regmap_write(drvdata->map, TCU_REG_WDT_TCER, 0);
+ 	clk_disable_unprepare(drvdata->clk);
+ 
+ 	return 0;
+@@ -138,7 +136,6 @@ static int jz4740_wdt_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct jz4740_wdt_drvdata *drvdata;
+ 	struct watchdog_device *jz4740_wdt;
+-	struct resource	*res;
+ 	long rate;
+ 	int ret;
+ 
+@@ -174,10 +171,11 @@ static int jz4740_wdt_probe(struct platform_device *pdev)
+ 	watchdog_set_nowayout(jz4740_wdt, nowayout);
+ 	watchdog_set_drvdata(jz4740_wdt, drvdata);
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	drvdata->base = devm_ioremap_resource(&pdev->dev, res);
+-	if (IS_ERR(drvdata->base))
+-		return PTR_ERR(drvdata->base);
++	drvdata->map = dev_get_regmap(dev->parent, NULL);
++	if (!drvdata->map) {
++		dev_err(dev, "regmap not found\n");
++		return -EINVAL;
++	}
+ 
+ 	ret = devm_watchdog_register_device(&pdev->dev, &drvdata->wdt);
+ 	if (ret < 0)
 -- 
 2.11.0
 
