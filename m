@@ -1,27 +1,53 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7DFFA7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 13:01:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C08C47D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 13:35:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727153AbeHUQV2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 12:21:28 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:41601 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727043AbeHUQV2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Aug 2018 12:21:28 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id D99DF20763; Tue, 21 Aug 2018 15:01:21 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 21F73204AE;
-        Tue, 21 Aug 2018 15:01:21 +0200 (CEST)
-Date:   Tue, 21 Aug 2018 15:01:21 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+        id S1727161AbeHUQy7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 12:54:59 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:53651 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727076AbeHUQy6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 12:54:58 -0400
+Received: by mail-wm0-f66.google.com with SMTP id s9-v6so2954810wmh.3
+        for <linux-doc@vger.kernel.org>; Tue, 21 Aug 2018 06:34:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=C42zPFqmvCGsNDPIk7JUlF/7n5UyUyS88HsCgICvxvg=;
+        b=bY2rTmFF9G1ammigFMLmiOyaNxHV8691tBH7pYyD+4zvo4hQBxh/FDv226KyLXpXU8
+         qeYwjeozwJIUmx4wLxrD/9Qg9l1/E3Id1lqQVWcojlcBXzIUWsAsPWA0+UBJmVVlTBCg
+         0M1se0y84kClr+BkDfJ852LCGU+KGNU+CdqKI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=C42zPFqmvCGsNDPIk7JUlF/7n5UyUyS88HsCgICvxvg=;
+        b=SgWWOriEL/GSkew84Csew2OhX+FVvF27Ih4GEEwK+FT5ELg5E38K2wela71oPpI6iy
+         m5JIxb+gRplHrpUUKXmK5Dim5ow1n3dt2d/a6t4GmCqHj2l9ucFloKC+Yog1LPMSEWcI
+         fKL8uaHZ1cGOMRLr2Ey+wtzNWGMYzhNwWBRKEgINjRILcitspq7JkJFKGcARFK3kkYKB
+         ER4xFN7uVo6tjftrHvOboDHrsUNb5x1G3z3Wy21wATP88g6Qgo5NsWSbbtd0oCMpi8EV
+         PG45vybRRnfWqdeBFQ/L79UfuLAf4v1J8Fo5wvGityqxNny+SAT1RGAauMyLU1xmvzva
+         FG7g==
+X-Gm-Message-State: AOUpUlE0xYUSQWnioXpEO1c0rA68wvqc5A2zpLgoeNLy5/CLeC8RAC2Q
+        p4hDNHSyFA08NPlTc4uXca2a2g==
+X-Google-Smtp-Source: AA+uWPySzM3XFkhE6yc2CuSosUeS+vax2L+m8s9RExPCaEmWOdw99DBffCE/uiwwJcwyADqemu5/EA==
+X-Received: by 2002:a1c:e043:: with SMTP id x64-v6mr29016440wmg.58.1534858486848;
+        Tue, 21 Aug 2018 06:34:46 -0700 (PDT)
+Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
+        by smtp.googlemail.com with ESMTPSA id z141-v6sm3305479wmc.3.2018.08.21.06.34.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 Aug 2018 06:34:46 -0700 (PDT)
+Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via the
+ nvmem API
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
 Cc:     Alban <albeu@free.fr>, Bartosz Golaszewski <brgl@bgdev.pl>,
         Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -49,37 +75,60 @@ Cc:     Alban <albeu@free.fr>, Bartosz Golaszewski <brgl@bgdev.pl>,
         linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-omap@vger.kernel.org, netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180821150121.4408672f@bbrezillon>
-In-Reply-To: <6db14f9c-edd3-5e43-839c-953bb03097ff@linaro.org>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-        <20180819133106.0420df5f@tock>
-        <20180819184609.6dcdbb9a@bbrezillon>
-        <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
-        <20180820202038.5d3dc195@bbrezillon>
-        <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
-        <20180821133916.3a1c51b1@eos>
-        <6db14f9c-edd3-5e43-839c-953bb03097ff@linaro.org>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+ <20180810080526.27207-7-brgl@bgdev.pl> <20180817182720.6a6e5e8e@bbrezillon>
+ <20180819133106.0420df5f@tock> <20180819184609.6dcdbb9a@bbrezillon>
+ <20180821005327.0d312a85@tock> <20180821074404.23aaeb6b@bbrezillon>
+ <81407b4d-a02f-4085-f333-a96102bd96ce@linaro.org>
+ <20180821133136.1fada1b6@bbrezillon>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <6fb36da4-c985-6d6e-f9e1-572f5cd7609b@linaro.org>
+Date:   Tue, 21 Aug 2018 14:34:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20180821133136.1fada1b6@bbrezillon>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 21 Aug 2018 13:00:04 +0100
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
 
-> On 21/08/18 12:39, Alban wrote:
-> > However we still have the a potential address space clash between the
-> > nvmem cells and the main device binding.  
-> Can you elaborate?
-> 
 
-Yes, I'd be interested in having a real example too, cause I don't see
-what this address space clash is.
+On 21/08/18 12:31, Boris Brezillon wrote:
+>>     * struct nvmem_config - NVMEM device configuration
+>> @@ -58,6 +62,7 @@ struct nvmem_config {
+>>           bool                    root_only;
+>>           nvmem_reg_read_t        reg_read;
+>>           nvmem_reg_write_t       reg_write;
+>> +       nvmem_match_t           match;
+>>           int     size;
+>>           int     word_size;
+>>           int     stride;
+>>
+> That might work if nvmem cells are defined directly under the mtdnode.
+Layout should not matter! which is the purpose of this callback.
+
+The only purpose of this callback is to tell nvmem core that the 
+node(nvmem cell) belongs to that provider or not, if it is then we 
+successfully found the provider. Its up to the provider on which layout 
+it describes nvmem cells. Additionally the provider can add additional 
+sanity checks in this match function to ensure that cell is correctly 
+represented.
+
+
+> If we go for this approach, I'd recommend replacing this ->match() hook
+> by ->is_nvmem_cell() and pass it the cell node instead of the nvmem
+> node, because what we're really after here is knowing which subnode is
+> an nvmem cell and which subnode is not.
+
+I agree on passing cell node instead of its parent. Regarding basic 
+validating if its nvmem cell or not, we can check compatible string in 
+nvmem core if we decide to use "nvmem-cell" compatible.
+
+Also just in case if you missed this, nvmem would not iterate the
+
+--srini
