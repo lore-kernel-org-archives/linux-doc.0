@@ -2,181 +2,221 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 422AF7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 10:44:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A3B57D584
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 10:44:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727113AbeHUODo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 10:03:44 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:38580 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726784AbeHUODo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Aug 2018 10:03:44 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id AC367207C8; Tue, 21 Aug 2018 12:44:02 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D7BDB207BF;
-        Tue, 21 Aug 2018 12:43:51 +0200 (CEST)
-Date:   Tue, 21 Aug 2018 12:43:52 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc:     Alban <albeu@free.fr>, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1727276AbeHUOEQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 10:04:16 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34198 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727181AbeHUOEP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Aug 2018 10:04:15 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id AD4F340216F2;
+        Tue, 21 Aug 2018 10:44:35 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-117-96.ams2.redhat.com [10.36.117.96])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A5C5C94641;
+        Tue, 21 Aug 2018 10:44:31 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-mm@kvack.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
+        xen-devel@lists.xenproject.org, devel@linuxdriverproject.org,
+        David Hildenbrand <david@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Rashmica Gupta <rashmica.g@gmail.com>,
+        Michael Neuling <mikey@neuling.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Nathan Fontenot <nfont@linux.vnet.ibm.com>,
+        John Allen <jallen@linux.vnet.ibm.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180821124352.21340939@bbrezillon>
-In-Reply-To: <bd4dd892-3b6c-a77e-b2f3-386600c8c9bd@linaro.org>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-        <20180819133106.0420df5f@tock>
-        <20180819184609.6dcdbb9a@bbrezillon>
-        <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
-        <20180820202038.5d3dc195@bbrezillon>
-        <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
-        <20180821115639.4894c1c9@bbrezillon>
-        <bd4dd892-3b6c-a77e-b2f3-386600c8c9bd@linaro.org>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Michal Hocko <mhocko@suse.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Pavel Tatashin <pasha.tatashin@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>,
+        Mathieu Malaterre <malat@debian.org>
+Subject: [PATCH RFCv2 1/6] mm/memory_hotplug: make remove_memory() take the device_hotplug_lock
+Date:   Tue, 21 Aug 2018 12:44:13 +0200
+Message-Id: <20180821104418.12710-2-david@redhat.com>
+In-Reply-To: <20180821104418.12710-1-david@redhat.com>
+References: <20180821104418.12710-1-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Tue, 21 Aug 2018 10:44:35 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Tue, 21 Aug 2018 10:44:35 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'david@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 21 Aug 2018 11:11:58 +0100
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
+remove_memory() is exported right now but requires the
+device_hotplug_lock, which is not exported. So let's provide a variant
+that takes the lock and only export that one.
 
-> On 21/08/18 10:56, Boris Brezillon wrote:
-> > On Tue, 21 Aug 2018 10:50:07 +0100
-> > Srinivas Kandagatla<srinivas.kandagatla@linaro.org>  wrote:
-> >   
-> >> On 20/08/18 19:20, Boris Brezillon wrote:  
-> >>> On Mon, 20 Aug 2018 11:43:34 +0100
-> >>> Srinivas Kandagatla<srinivas.kandagatla@linaro.org>  wrote:
-> >>>      
-> >>>> Overall am still not able to clear visualize on how MTD bindings with
-> >>>> nvmem cells would look in both partition and un-partition usecases?
-> >>>> An example DT would be nice here!!  
-> >>> Something along those lines:
-> >>>      
-> >> This looks good to me.  
-> >>> 	mtdnode {
-> >>> 		nvmem-cells {
-> >>> 			#address-cells = <1>;
-> >>> 			#size-cells = <1>;
-> >>>
-> >>> 			cell@0 {
-> >>> 				reg = <0x0 0x14>;
-> >>> 			};
-> >>> 		};
-> >>>
-> >>> 		partitions {
-> >>> 			compatible = "fixed-partitions";
-> >>> 			#address-cells = <1>;
-> >>> 			#size-cells = <1>;
-> >>>
-> >>> 			partition@0 {
-> >>> 				reg = <0x0 0x20000>;
-> >>>
-> >>> 				nvmem-cells {
-> >>> 					#address-cells = <1>;
-> >>> 					#size-cells = <1>;
-> >>>
-> >>> 					cell@0 {
-> >>> 						reg = <0x0 0x10>;
-> >>> 					};
-> >>> 				};
-> >>> 			};
-> >>> 		};
-> >>> 	}; >  
-> >> Just curious...Is there a reason why we can't do it like this?:
-> >> Is this because of issue of #address-cells and #size-cells Or mtd
-> >> bindings always prefer subnodes?
-> >>
-> >> 	mtdnode {
-> >> 		reg = <0x0123000 0x40000>;
-> >> 		#address-cells = <1>;
-> >> 		#size-cells = <1>;
-> >> 		cell@0 {
-> >> 			compatible = "nvmem-cell";
-> >> 			reg = <0x0 0x14>;
-> >> 		};
-> >>
-> >> 		partitions {
-> >> 			compatible = "fixed-partitions";
-> >> 			#address-cells = <1>;
-> >> 			#size-cells = <1>;
-> >>
-> >> 			partition@0 {
-> >> 				reg = <0x0 0x20000>;
-> >> 				cell@0 {
-> >> 					compatible = "nvmem-cell";
-> >> 					reg = <0x0 0x10>;
-> >> 				};
-> >> 			};
-> >> 		};
-> >> 	};  
-> > It's because partitions were initially directly defined under the mtd
-> > node, so, if you have an old DT you might have something like:
-> > 
-> > 	mtdnode {
-> > 		reg = <0x0123000 0x40000>;
-> > 		#address-cells = <1>;
-> > 		#size-cells = <1>;
-> > 
-> > 		partition@0 {
-> > 			reg = <0x0 0x20000>;
-> > 			...
-> > 		};
-> > 		...
-> > 	};
-> > 
-> > If we use such a DT with this patch applied, the NVMEM framework will
-> > consider MTD partitions as nvmem cells, which is not what we want.  
-> Yep, I agree.
-> TBH, I wanted to add compatible string to nvmem-cell at some point in 
-> time and it seems more natural update too. One of the reason we 
-> discussed this in the past was parsers. Looks like mtd can make use of this.
-> 
-> We should be able to add this as an optional flag in nvmem_config to 
-> enforce this check in case providers wanted to.
-> 
-> Do you think that would help mtd nvmem case?
+The lock is already held in
+	arch/powerpc/platforms/pseries/hotplug-memory.c
+	drivers/acpi/acpi_memhotplug.c
+So, let's use the locked variant.
 
-Yes, it should work if nvmem cells are defined directly under the mtd
-node (or the partition they belong to).
+The lock is not held (but taken in)
+	arch/powerpc/platforms/powernv/memtrace.c
+So let's keep using the (now) locked variant.
 
-> Also I felt like nvmem-cells subnode seems to be a bit heavy!
+Apart from that, there are not other users in the tree.
 
-I still think grouping nvmem cells in a subnode is cleaner (just like
-we do for partitions), but I won't object if all parties (you, Alban
-and Rob) agree on this solution.
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: Len Brown <lenb@kernel.org>
+Cc: Rashmica Gupta <rashmica.g@gmail.com>
+Cc: Michael Neuling <mikey@neuling.org>
+Cc: Balbir Singh <bsingharora@gmail.com>
+Cc: Nathan Fontenot <nfont@linux.vnet.ibm.com>
+Cc: John Allen <jallen@linux.vnet.ibm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Pavel Tatashin <pasha.tatashin@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
+Cc: Mathieu Malaterre <malat@debian.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ arch/powerpc/platforms/powernv/memtrace.c       | 2 --
+ arch/powerpc/platforms/pseries/hotplug-memory.c | 6 +++---
+ drivers/acpi/acpi_memhotplug.c                  | 2 +-
+ include/linux/memory_hotplug.h                  | 3 ++-
+ mm/memory_hotplug.c                             | 9 ++++++++-
+ 5 files changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/arch/powerpc/platforms/powernv/memtrace.c b/arch/powerpc/platforms/powernv/memtrace.c
+index 51dc398ae3f7..8f1cd4f3bfd5 100644
+--- a/arch/powerpc/platforms/powernv/memtrace.c
++++ b/arch/powerpc/platforms/powernv/memtrace.c
+@@ -90,9 +90,7 @@ static bool memtrace_offline_pages(u32 nid, u64 start_pfn, u64 nr_pages)
+ 	walk_memory_range(start_pfn, end_pfn, (void *)MEM_OFFLINE,
+ 			  change_memblock_state);
+ 
+-	lock_device_hotplug();
+ 	remove_memory(nid, start_pfn << PAGE_SHIFT, nr_pages << PAGE_SHIFT);
+-	unlock_device_hotplug();
+ 
+ 	return true;
+ }
+diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
+index c1578f54c626..b3f54466e25f 100644
+--- a/arch/powerpc/platforms/pseries/hotplug-memory.c
++++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
+@@ -334,7 +334,7 @@ static int pseries_remove_memblock(unsigned long base, unsigned int memblock_siz
+ 	nid = memory_add_physaddr_to_nid(base);
+ 
+ 	for (i = 0; i < sections_per_block; i++) {
+-		remove_memory(nid, base, MIN_MEMORY_BLOCK_SIZE);
++		__remove_memory(nid, base, MIN_MEMORY_BLOCK_SIZE);
+ 		base += MIN_MEMORY_BLOCK_SIZE;
+ 	}
+ 
+@@ -423,7 +423,7 @@ static int dlpar_remove_lmb(struct drmem_lmb *lmb)
+ 	block_sz = pseries_memory_block_size();
+ 	nid = memory_add_physaddr_to_nid(lmb->base_addr);
+ 
+-	remove_memory(nid, lmb->base_addr, block_sz);
++	__remove_memory(nid, lmb->base_addr, block_sz);
+ 
+ 	/* Update memory regions for memory remove */
+ 	memblock_remove(lmb->base_addr, block_sz);
+@@ -710,7 +710,7 @@ static int dlpar_add_lmb(struct drmem_lmb *lmb)
+ 
+ 	rc = dlpar_online_lmb(lmb);
+ 	if (rc) {
+-		remove_memory(nid, lmb->base_addr, block_sz);
++		__remove_memory(nid, lmb->base_addr, block_sz);
+ 		dlpar_remove_device_tree_lmb(lmb);
+ 	} else {
+ 		lmb->flags |= DRCONF_MEM_ASSIGNED;
+diff --git a/drivers/acpi/acpi_memhotplug.c b/drivers/acpi/acpi_memhotplug.c
+index 6b0d3ef7309c..811148415993 100644
+--- a/drivers/acpi/acpi_memhotplug.c
++++ b/drivers/acpi/acpi_memhotplug.c
+@@ -282,7 +282,7 @@ static void acpi_memory_remove_memory(struct acpi_memory_device *mem_device)
+ 			nid = memory_add_physaddr_to_nid(info->start_addr);
+ 
+ 		acpi_unbind_memory_blocks(info);
+-		remove_memory(nid, info->start_addr, info->length);
++		__remove_memory(nid, info->start_addr, info->length);
+ 		list_del(&info->list);
+ 		kfree(info);
+ 	}
+diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+index 34a28227068d..1f096852f479 100644
+--- a/include/linux/memory_hotplug.h
++++ b/include/linux/memory_hotplug.h
+@@ -301,6 +301,7 @@ extern bool is_mem_section_removable(unsigned long pfn, unsigned long nr_pages);
+ extern void try_offline_node(int nid);
+ extern int offline_pages(unsigned long start_pfn, unsigned long nr_pages);
+ extern void remove_memory(int nid, u64 start, u64 size);
++extern void __remove_memory(int nid, u64 start, u64 size);
+ 
+ #else
+ static inline bool is_mem_section_removable(unsigned long pfn,
+@@ -317,6 +318,7 @@ static inline int offline_pages(unsigned long start_pfn, unsigned long nr_pages)
+ }
+ 
+ static inline void remove_memory(int nid, u64 start, u64 size) {}
++static inline void __remove_memory(int nid, u64 start, u64 size) {}
+ #endif /* CONFIG_MEMORY_HOTREMOVE */
+ 
+ extern void __ref free_area_init_core_hotplug(int nid);
+@@ -330,7 +332,6 @@ extern void move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
+ 		unsigned long nr_pages, struct vmem_altmap *altmap);
+ extern int offline_pages(unsigned long start_pfn, unsigned long nr_pages);
+ extern bool is_memblock_offlined(struct memory_block *mem);
+-extern void remove_memory(int nid, u64 start, u64 size);
+ extern int sparse_add_one_section(struct pglist_data *pgdat,
+ 		unsigned long start_pfn, struct vmem_altmap *altmap);
+ extern void sparse_remove_one_section(struct zone *zone, struct mem_section *ms,
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 9eea6e809a4e..898e13d4d87d 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1872,7 +1872,7 @@ EXPORT_SYMBOL(try_offline_node);
+  * and online/offline operations before this call, as required by
+  * try_offline_node().
+  */
+-void __ref remove_memory(int nid, u64 start, u64 size)
++void __ref __remove_memory(int nid, u64 start, u64 size)
+ {
+ 	int ret;
+ 
+@@ -1901,5 +1901,12 @@ void __ref remove_memory(int nid, u64 start, u64 size)
+ 
+ 	mem_hotplug_done();
+ }
++
++void __ref remove_memory(int nid, u64 start, u64 size)
++{
++	lock_device_hotplug();
++	__remove_memory(nid, start, size);
++	unlock_device_hotplug();
++}
+ EXPORT_SYMBOL_GPL(remove_memory);
+ #endif /* CONFIG_MEMORY_HOTREMOVE */
+-- 
+2.17.1
+
