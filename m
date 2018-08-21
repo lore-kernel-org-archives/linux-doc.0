@@ -1,29 +1,55 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71E357D584
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 14:26:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 959E87D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 14:33:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727276AbeHURrL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 13:47:11 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:43767 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726743AbeHURrL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Aug 2018 13:47:11 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 870D7207B3; Tue, 21 Aug 2018 16:26:46 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id BA54620787;
-        Tue, 21 Aug 2018 16:26:45 +0200 (CEST)
-Date:   Tue, 21 Aug 2018 16:26:44 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Alban <albeu@free.fr>
-Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
+        id S1727161AbeHURxu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 13:53:50 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:37114 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727167AbeHURxt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 13:53:49 -0400
+Received: by mail-wm0-f66.google.com with SMTP id n11-v6so3062282wmc.2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Aug 2018 07:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Un0w2l7Yz8T6CyGn0WzV6GbAnHWwvbXDyMP7AeR90UY=;
+        b=kDynzjNqnZqV0md5ttV4QDdm0w93XJr/VkOUMCR4dSVJ68VzLYtYjXLcRz/dqiRa/1
+         CmW4UaesVjLNQuZICnuhBegUiaOgBKHKWXV8ZPWRbKUGwNwIVQH/RcB10dY/y3/BsAUN
+         iZ0VrVemaUGebFdPpNIbn9avj56bv7+N226G0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Un0w2l7Yz8T6CyGn0WzV6GbAnHWwvbXDyMP7AeR90UY=;
+        b=ZE0p+YR7ZHsO5/hLCGo83FMxg/PwBPsP5aCMP9F/RTbs8HNy4yGuZmGbjXA44Qu4Yy
+         Nkv/bS/qf524b9d2FsMDoh3docYcTVEXr0whPBtCWZ09H4HyAMbqPsueUZiV6egVihfh
+         hZUhrvdbBXpYusYZLawABC+d+ATxS57cc/lW4ECDQddHzImlv5j7+vLzYN6hSsAdrSJ1
+         3uUoqsE9b3E+7C73o09Oa1HOXQnWUvLarCKqoI/43RJLKyUpxb+ruolZFpFyl3Bzzifx
+         bjwsYRqv/tD4XdWeQDbC2mS/zojLUkzh3LrUZhHm0FFmtkmzxbFpmfmwVrbMLEuoIMl7
+         fBLw==
+X-Gm-Message-State: APzg51DjQB4rmVfa9jviF/tv5BbfzJm/8GNlt6mO5IluWWYPof8o4ryW
+        jE1V+ZKSGV0AK/VWnFOF7yHj2g==
+X-Google-Smtp-Source: ANB0VdZYxg5SrQ3btL4IdeDF1brUb50wZSwWIFF/N+DARcii3DYrm1omOy8+220M6LzUn1HUMf7mMg==
+X-Received: by 2002:a1c:9744:: with SMTP id z65-v6mr1274632wmd.105.1534862005042;
+        Tue, 21 Aug 2018 07:33:25 -0700 (PDT)
+Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
+        by smtp.googlemail.com with ESMTPSA id g2-v6sm1880072wme.20.2018.08.21.07.33.23
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 Aug 2018 07:33:24 -0700 (PDT)
+Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via the
+ nvmem API
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Alban <albeu@free.fr>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
         Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
@@ -50,118 +76,38 @@ Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-omap@vger.kernel.org, netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180821162644.5a1d7799@bbrezillon>
-In-Reply-To: <20180821155706.2adf3b4c@eos>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-        <20180819133106.0420df5f@tock>
-        <20180819184609.6dcdbb9a@bbrezillon>
-        <20180821005327.0d312a85@tock>
-        <20180821074404.23aaeb6b@bbrezillon>
-        <20180821142716.0adcdd56@eos>
-        <20180821145725.3b385399@bbrezillon>
-        <20180821155706.2adf3b4c@eos>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+ <20180810080526.27207-7-brgl@bgdev.pl> <20180817182720.6a6e5e8e@bbrezillon>
+ <20180819133106.0420df5f@tock> <20180819184609.6dcdbb9a@bbrezillon>
+ <20180821005327.0d312a85@tock> <20180821074404.23aaeb6b@bbrezillon>
+ <20180821142716.0adcdd56@eos> <20180821145725.3b385399@bbrezillon>
+ <20180821155706.2adf3b4c@eos> <20180821162644.5a1d7799@bbrezillon>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <2d5761f4-2c27-5a23-a635-9205124c993a@linaro.org>
+Date:   Tue, 21 Aug 2018 15:33:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20180821162644.5a1d7799@bbrezillon>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 21 Aug 2018 15:57:06 +0200
-Alban <albeu@free.fr> wrote:
 
+
+On 21/08/18 15:26, Boris Brezillon wrote:
+>> This also has the side effect that nvmem cells defined in DT don't
+>> appear in sysfs, unlike those defined from board code.
+> Wow, that's not good. I guess we'll want to make that consistent at
+> some point.
 > 
-> That would only be needed if the NVMEM framework would do "forward"
-> parsing, creating data structure for each NVMEM cell found under an
-> NVMEM provider. However currently it doesn't do that and only goes
-> "backward", starting by resolving a phandle pointing to a cell, then
-> finding the provider that the cell belongs to.
+support for sysfs entries per cell is not available in nvmem. However 
+there is nvmem sysfs entry per provider which can be read by the user 
+space if required.
 
-Yes, I missed that when briefly looking at the code.
 
-> 
-> This also has the side effect that nvmem cells defined in DT don't
-> appear in sysfs, unlike those defined from board code.
-
-Wow, that's not good. I guess we'll want to make that consistent at
-some point.
-
- 
-> > > > > Furthermore xlate functions are more about converting
-> > > > > from hardware parameters to internal kernel representation than
-> > > > > to hide extra DT parsing.        
-> > > > 
-> > > > Hm, how is that different? ->of_xlate() is just a way for drivers
-> > > > to have their own DT representation, which is exactly what we
-> > > > want here.      
-> > > 
-> > > There is a big difference. DT represent the hardware and the
-> > > relationship between the devices in an OS independent format. We
-> > > don't add extra stuff in there just to map back internal Linux API
-> > > details.    
-> > 
-> > And I'm not talking about adding SW information in the DT, I'm talking
-> > about HW specific description. We have the same solution for pinctrl
-> > configs (it's HW/driver specific).  
-> 
-> For pinctrl I do understand, these beast can be very different from SoC
-> to SoC, having a single biding for all doesn't make much sense.
-> 
-> However here we are talking about a simple linear storage, nothing
-> special at all. I could see the need for an xlate to for example
-> support a device with several partitions, but not to just allow each
-> driver to have slightly incompatible bindings.
-
-Maybe, but I guess that's up to the subsystem maintainer to decide what
-he prefers.
-> > 
-> > No because partitions defined the old way (as direct subnodes of the
-> > MTD node) will be considered as NVMEM cells by the NVMEM framework,
-> > and I don't want that.  
-> 
-> As I explained above that is not currently the case. If the NVMEM,
-> framework is ever changed to explicitly parse NVMEM cells in advance
-> we can first update the few existing users to add the compatible string.
-
-We're supposed to be backward compatible (compatible with old DTs), so
-that's not an option, though we could add a way to check the compat
-string afterwards.
-
-> 
-> > Plus, I don't want people to start defining their NVMEM cells and
-> > forget the compat string (which would work just fine because the
-> > NVMEM framework doesn't care).  
-> 
-> A review of a new DTS should check that it use each binding correctly,
-> AFAIK the DT people do that. We could also add a warning when there is
-> no compatible string, that would also help pushing people to update
-> their DTS.
-
-Yes, but I'd still prefer if we were preventing people from referencing
-mtd-nvmem cells if the node does not have an "nvmem-cell" compat.
-
-> 
-> > >     
-> > > > What forces people to add this compatible in their
-> > > > DT? Nothing. I'll tell you what will happen: people will start
-> > > > defining their nvmem cells directly under the MTD node because
-> > > > that *works*, and even if the binding is not documented and we
-> > > > consider it invalid, we'll be stuck supporting it forever.      
-> > > 
-> > > Do note that undocumented bindings are not allowed. DTS that use
-> > > undocumented bindings (normally) just get rejected.    
-> > 
-> > Except that's just in theory. In practice, if people can do something
-> > wrong, they'll complain if you later fix the bug and break their
-> > setup. So no, if we go for the "nvmem cells have an 'nvmem-cell'
-> > compat", then I'd like the NVMEM framework to enforce that somehow.  
-> 
-> That should be trivial to implement.
-
-Exactly, and that's why I'm insisting on this point.
+--srini
