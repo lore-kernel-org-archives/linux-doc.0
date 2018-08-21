@@ -1,89 +1,121 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 128B37D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 16:10:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD1BD7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 16:16:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728225AbeHUTa4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 15:30:56 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:44500 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726730AbeHUTa4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 15:30:56 -0400
-Received: by mail-lj1-f196.google.com with SMTP id q127-v6so14742697ljq.11
-        for <linux-doc@vger.kernel.org>; Tue, 21 Aug 2018 09:10:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=DIvmzclGMOgA+W91vUjE27zddajZBvQC3lNlsIHZ01Q=;
-        b=Gr1exaOnk4zPSLxAeXvBqVfUUIY+aDezHEda7G5pPCKnN/zEu0qTQ//REJKiBamjzB
-         bRwz9lsPtTnEWesCivpTmuqT0NWk41/2KDcoOlR+m3rYaZ1t8CNmhRZyYlIcHXz+qEic
-         3KJLplsaX9JDwIlFI0fLJm4p4eTRCQzcuja2s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=DIvmzclGMOgA+W91vUjE27zddajZBvQC3lNlsIHZ01Q=;
-        b=pp6hRqUQWkPebrGHp2KD1hwtZ33fOt7Ue4eLbLRT04ycrCA1vhbcVj9TyTwv/KQF3+
-         OFEgKiPgoYCRKbICAZWokXXpLvmXVIZ5UBbtsZKGscNr88D/UsoUmh7IWIhsqiwQTF54
-         xFV1tQFzgIWaAWFzkeLyhOmvXL5innG+J+1YOcAXPXyo00EW9mzZQvb5elpdmaGfGITe
-         wbDRSBbxUx+zBJ/b6WUpJNySk4M+2ceq3hUGgY2P5T2KhYuH/EcxyXTSax03IQpq17WC
-         nMIZANHZmMJgvsTAryrhT5tnVVDju4M0VOG/nQyxpI1DCUofEl5UBSEcEC6jNluzDvXX
-         evIw==
-X-Gm-Message-State: AOUpUlHmQumRk/yfwzDyHZKkt34IY+oyVISKYktajqrjFso4VflY9Fsh
-        pUVDz1ocQBfLecUKXS5O/Q3R2Q==
-X-Google-Smtp-Source: AA+uWPzFIFR4+SCwLNVclXlLVAnd5UuXOWVW5/ei2KyQmXFql/A90QKcPW3ABtIUm2/nhh3a4Rs99g==
-X-Received: by 2002:a2e:9941:: with SMTP id r1-v6mr33366092ljj.53.1534867809764;
-        Tue, 21 Aug 2018 09:10:09 -0700 (PDT)
-Received: from localhost (c-2c3d70d5.07-21-73746f28.bbcust.telenor.se. [213.112.61.44])
-        by smtp.gmail.com with ESMTPSA id f18-v6sm2117285lja.85.2018.08.21.09.10.08
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 21 Aug 2018 09:10:09 -0700 (PDT)
-From:   Anders Roxell <anders.roxell@linaro.org>
-To:     shuah@kernel.org, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH] selftests: android: move config up a level
-Date:   Tue, 21 Aug 2018 18:10:03 +0200
-Message-Id: <20180821161003.16737-1-anders.roxell@linaro.org>
-X-Mailer: git-send-email 2.18.0
+        id S1727345AbeHUThG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 15:37:06 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:51754 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726935AbeHUThG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Aug 2018 15:37:06 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 338E87A9;
+        Tue, 21 Aug 2018 09:16:20 -0700 (PDT)
+Received: from e107564-lin.cambridge.arm.com (e107564-lin.cambridge.arm.com [10.2.131.9])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF6673F5BC;
+        Tue, 21 Aug 2018 09:16:17 -0700 (PDT)
+From:   Brian Starkey <brian.starkey@arm.com>
+To:     dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+        airlied@linux.ie, gustavo@padovan.org,
+        maarten.lankhorst@linux.intel.com, seanpaul@chromium.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, alexandru-cosmin.gheorghe@arm.com,
+        liviu.dudau@arm.com, ayan.halder@arm.com
+Subject: [PATCH] drm/fourcc: Add DOC: overview comment
+Date:   Tue, 21 Aug 2018 17:16:11 +0100
+Message-Id: <20180821161611.10424-1-brian.starkey@arm.com>
+X-Mailer: git-send-email 2.16.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-'make kselftest-merge' assumes that the config files for the tests are
-located under the 'main' test dir, like tools/testing/selftests/android/
-and not in a subdir to android.
+There's a number of things which haven't previously been documented
+around the usage of format modifiers. Capture the current
+understanding in an overview comment and add it to the rst
+documentation.
 
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+Ideally, the generated documentation would also include documentation
+of all of the #defines, but the kernel-doc system doesn't currently
+support kernel-doc comments on #define constants.
+
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Brian Starkey <brian.starkey@arm.com>
 ---
- Documentation/dev-tools/kselftest.rst            | 2 +-
- tools/testing/selftests/android/{ion => }/config | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename tools/testing/selftests/android/{ion => }/config (100%)
+ Documentation/gpu/drm-kms.rst |  6 ++++++
+ include/uapi/drm/drm_fourcc.h | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+)
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index 6f653acea248..dad1bb8711e2 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -159,7 +159,7 @@ Contributing new tests (details)
-  * If a test needs specific kernel config options enabled, add a config file in
-    the test directory to enable them.
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index 1dffd1ac4cd4..1dd9f4824d3b 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -322,6 +322,12 @@ Frame Buffer Functions Reference
+ DRM Format Handling
+ ===================
  
--   e.g: tools/testing/selftests/android/ion/config
-+   e.g: tools/testing/selftests/android/config
++.. kernel-doc:: include/uapi/drm/drm_fourcc.h
++   :doc: overview
++
++Format Functions Reference
++--------------------------
++
+ .. kernel-doc:: include/drm/drm_fourcc.h
+    :internal:
  
- Test Harness
- ============
-diff --git a/tools/testing/selftests/android/ion/config b/tools/testing/selftests/android/config
-similarity index 100%
-rename from tools/testing/selftests/android/ion/config
-rename to tools/testing/selftests/android/config
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 894fa2da32fd..3f6c0b499323 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -30,6 +30,42 @@
+ extern "C" {
+ #endif
+ 
++/**
++ * DOC: overview
++ *
++ * In the DRM subsystem, framebuffer pixel formats are described using the
++ * fourcc codes defined in `include/uapi/drm/drm_fourcc.h`. In addition to the
++ * fourcc code, a Format Modifier may optionally be provided, in order to
++ * further describe the buffer's format - for example tiling or compression.
++ *
++ * Format Modifiers
++ * ----------------
++ *
++ * Format modifiers are used in conjunction with a fourcc code, forming a
++ * unique fourcc:modifier pair. This format:modifier pair must fully define the
++ * format and data layout of the buffer, and should be the only way to describe
++ * that particular buffer.
++ *
++ * Having multiple fourcc:modifier pairs which describe the same layout should
++ * be avoided, as such aliases run the risk of different drivers exposing
++ * different names for the same data format, forcing userspace to understand
++ * that they are aliases.
++ *
++ * Format modifiers may change any property of the buffer, including the number
++ * of planes and/or the required allocation size. Format modifiers are
++ * vendor-namespaced, and as such the relationship between a fourcc code and a
++ * modifier is specific to the modifer being used. For example, some modifiers
++ * may preserve meaning - such as number of planes - from the fourcc code,
++ * whereas others may not.
++ *
++ * Vendors are encouraged to document their modifier usage in as much detail as
++ * possible, to ensure maximum compatibility across devices, drivers and
++ * applications.
++ *
++ * The authoritative list of format modifier codes is found in
++ * `include/uapi/drm/drm_fourcc.h`
++ */
++
+ #define fourcc_code(a, b, c, d) ((__u32)(a) | ((__u32)(b) << 8) | \
+ 				 ((__u32)(c) << 16) | ((__u32)(d) << 24))
+ 
 -- 
-2.18.0
+2.16.1
 
