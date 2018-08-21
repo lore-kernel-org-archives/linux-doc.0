@@ -3,53 +3,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5253E7D581
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 09:38:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72C167D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 09:50:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726786AbeHUM5n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 08:57:43 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:37147 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726720AbeHUM5m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 08:57:42 -0400
-Received: by mail-wr1-f67.google.com with SMTP id u12-v6so15268260wrr.4
-        for <linux-doc@vger.kernel.org>; Tue, 21 Aug 2018 02:38:17 -0700 (PDT)
+        id S1726967AbeHUNJi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 09:09:38 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:44307 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726684AbeHUNJi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 09:09:38 -0400
+Received: by mail-wr1-f65.google.com with SMTP id v16-v6so866703wro.11
+        for <linux-doc@vger.kernel.org>; Tue, 21 Aug 2018 02:50:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7M4ayFm4nP/hcqkuO/2c6zn8cClN7eWqPOx4O+bxppA=;
-        b=ek3c0imiqsaqFeQ2lceSGCsMZs886/riWR+UlO47543KVtV/t0reBN9NL0qpIhc+cL
-         s45tFCjfAYqjack2bldkX4xkG9eImCiqY7uP1Kj0YAIcu5keN6KEHYw1dgGXfGKuJ7hA
-         agA11/DNoslMmxiWRwt5qwkxZJgI9o8WThRLU=
+        bh=8vP5tQjueaKebpIG8lvKOk7rcE8hPPPF+Bwwq5gcPvA=;
+        b=OJ4ek/S9uY4HWTlb42V92J7x5lvZeAJmKnAolKVf/jf0M34K4JAVMJiDBJO6PTi4Vi
+         d4QyI/d/VhXnYvWyNPFlQdWLZF/cabYbMz+Nh1pltAoQ4+RYj9Ub9F3nEef7Bz++nYlZ
+         UVT1uXjvbmUtjod0AKKK0nUTLih2Rmfzqsyfc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=7M4ayFm4nP/hcqkuO/2c6zn8cClN7eWqPOx4O+bxppA=;
-        b=siBmFs9A9EVz96gLFsXEgDZtaRGbaC7ac9KXhPORfgA5uxGc6TyNteSe54zzfYsbKf
-         +rkojEWWgJSY7K2UwoyUKlZomtHE77+ak7fuzNU5mK/7HNcsrR8fdlAMFOrG0gBIdlfy
-         sD14wLKaU5VUw609xbhbuHfWPnjE0chYhwu3dCgIkQYtLtJwx8YyNDTEVy3Injphz0HY
-         +xg/W9/1TpF1jY6230pTrz7ftK9e29SB3lOnliptB2KssdEDKLSPV6IIV8KtF7Ur2bh+
-         Hi23LvoFjKFsDp+AyO+2CsDhMJ5v+4QVi3vH4T9KAIefQUlE5aX2TlSD/fGMVq6z5YbE
-         pigg==
-X-Gm-Message-State: APzg51BgD3YmMBg8QT7QaBisGYRcahbUrNEFV0tG9tAa1sEVLPTkzvym
-        oIP6RQnS4Y50wvV/AoJNd8QuyQ==
-X-Google-Smtp-Source: ANB0VdaNR+/lzyWT6LuacXP3H82AL9zjxrU2+qYO+sDftrRSsp0ukyEFfu/i9n67FRLczCSOrWxDNQ==
-X-Received: by 2002:adf:b519:: with SMTP id a25-v6mr11472211wrd.273.1534844296284;
-        Tue, 21 Aug 2018 02:38:16 -0700 (PDT)
+        bh=8vP5tQjueaKebpIG8lvKOk7rcE8hPPPF+Bwwq5gcPvA=;
+        b=dcJ76osFsauHW7Vs/BhRX7oOiObfT1RAWnr25RmC0Akh3wd/Qzi2Cd66tYpkRUmJx6
+         3q/w+EZERwzXizsJo9r1XYLuHe7PA+9eiaEGkhB0h3d+kjp9n6sAsCJVYFgj69qchFJC
+         tCwVlimJLMhjQvIPPOdIT4S0aQfTRl35PbfkNYBbK+acuQighccDaPnzYfwdD2wY1wPi
+         mhGltG1U83o2r8F1KitbhCUC6L61Wh5cbTn8+dKS77NZxY9tqR/UWZGBTN3xfWj7kPz3
+         5LRlQkyEm7Twxn1kPJW9VG74LceAqp2kknS7AT7QC1dTYqdU8SKK5QgC99hLqdassU5q
+         o1ow==
+X-Gm-Message-State: APzg51BGrvwRQ8HpVM1H3NGKjb9h3Jvfs+hEGcgy2k1rbPzeEacFIefb
+        xWVB5hQ4V9BWH3U+3ZttMtB1UQ==
+X-Google-Smtp-Source: ANB0VdYmDkdLcMEkhhQjUjak1hfHDMYLTvonOBB4QbvJobyOJ0IeRDJbDsBuchJJNRp7OwL0EqGrZQ==
+X-Received: by 2002:adf:a964:: with SMTP id u91-v6mr3430691wrc.140.1534845009128;
+        Tue, 21 Aug 2018 02:50:09 -0700 (PDT)
 Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
-        by smtp.googlemail.com with ESMTPSA id s10-v6sm5025914wrw.35.2018.08.21.02.38.14
+        by smtp.googlemail.com with ESMTPSA id m68-v6sm3857097wmb.10.2018.08.21.02.50.07
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 Aug 2018 02:38:15 -0700 (PDT)
+        Tue, 21 Aug 2018 02:50:08 -0700 (PDT)
 Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via the
  nvmem API
-To:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Alban <albeu@free.fr>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Alban <albeu@free.fr>, Bartosz Golaszewski <brgl@bgdev.pl>,
         Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
@@ -79,14 +78,15 @@ Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
 References: <20180810080526.27207-1-brgl@bgdev.pl>
  <20180810080526.27207-7-brgl@bgdev.pl> <20180817182720.6a6e5e8e@bbrezillon>
  <20180819133106.0420df5f@tock> <20180819184609.6dcdbb9a@bbrezillon>
- <20180821005327.0d312a85@tock> <20180821074404.23aaeb6b@bbrezillon>
+ <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
+ <20180820202038.5d3dc195@bbrezillon>
 From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <81407b4d-a02f-4085-f333-a96102bd96ce@linaro.org>
-Date:   Tue, 21 Aug 2018 10:38:13 +0100
+Message-ID: <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
+Date:   Tue, 21 Aug 2018 10:50:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <20180821074404.23aaeb6b@bbrezillon>
+In-Reply-To: <20180820202038.5d3dc195@bbrezillon>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -95,154 +95,79 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris/Bartosz,
 
-On 21/08/18 06:44, Boris Brezillon wrote:
->>> 4/ Add a ->of_xlate() hook that would be called if present by the
->>>     framework instead of using the default parsing we have right now.
->> That is a bit cleaner, but I don't think it would be worse the
->> complexity.
-> But it's way more flexible than putting everything in the nvmem
-> framework. BTW, did you notice that nvmem-cells parsing does not work
-> with flashes bigger than 4GB, because the framework assumes
-> #address-cells and #size-cells are always 1. That's probably something
-> we'll have to fix for the MTD case.
+
+On 20/08/18 19:20, Boris Brezillon wrote:
+> On Mon, 20 Aug 2018 11:43:34 +0100
+> Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
 > 
+>>
+>> Overall am still not able to clear visualize on how MTD bindings with
+>> nvmem cells would look in both partition and un-partition usecases?
+>> An example DT would be nice here!!
+> 
+> Something along those lines:
+> 
+This looks good to me.
+> 	mtdnode {
+> 		nvmem-cells {
+> 			#address-cells = <1>;
+> 			#size-cells = <1>;
+> 
+> 			cell@0 {
+> 				reg = <0x0 0x14>;
+> 			};
+> 		};
+> 
+> 		partitions {
+> 			compatible = "fixed-partitions";
+> 			#address-cells = <1>;
+> 			#size-cells = <1>;
+> 
+> 			partition@0 {
+> 				reg = <0x0 0x20000>;
+> 
+> 				nvmem-cells {
+> 					#address-cells = <1>;
+> 					#size-cells = <1>;
+> 
+> 					cell@0 {
+> 						reg = <0x0 0x10>;
+> 					};
+> 				};
+> 			};
+> 		};
+> 	}; >
 
-I have hacked up some thing on these lines to add a custom match 
-function for nvmem provider and it looks like it can work for mtd case.
+Just curious...Is there a reason why we can't do it like this?:
+Is this because of issue of #address-cells and #size-cells Or mtd 
+bindings always prefer subnodes?
 
-This addresses concern #1 "to ignore of_node from dev pointer passed to 
-nvmem_config" also provides way to do some sanity checks on nvmem cell node.
-In this patch I have just added a simple mtd_nvmem_match() example which 
-will be always true, however we can add checks here to see if the np is 
-actually a nvmem-cells node or something on those lines to enforce the 
-bindings. Please fix and remove this from nvmem-core patch incase you 
-plan to use/test this.
+	mtdnode {
+		reg = <0x0123000 0x40000>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		cell@0 {
+			compatible = "nvmem-cell";
+			reg = <0x0 0x14>;
+		};
 
-We still have one open issue of supporting #address-cells and 
-#size-cells in nvmem, which I can look at if you are happy with this 
-approach!
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
------------------------------------>cut<---------------------------------
-Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Date:   Tue Aug 21 10:07:24 2018 +0100
+			partition@0 {
+				reg = <0x0 0x20000>;
+				cell@0 {
+					compatible = "nvmem-cell";
+					reg = <0x0 0x10>;
+				};
+			};
+		};
+	};
 
-     nvmem: core: add custom match function support
-
-     Some nvmem providers might not have a simple DT layout, nvmem cells
-     could be part of the unpartioned space or with-in partition or
-     even in sub partition of the provider.
-
-     Current matching function is expecting that the provider should be
-     immediate parent of the cell, which might not be true for the above
-     cases. So allow a custom match function for such devices which can
-     validate and match the cell as per the provider specific bindings.
-
-     Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
-diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
-index a57302eaceb5..33541b18ac30 100644
---- a/drivers/mtd/mtdcore.c
-+++ b/drivers/mtd/mtdcore.c
-@@ -502,6 +502,19 @@ static int mtd_nvmem_reg_read(void *priv, unsigned 
-int offset,
-         return retlen == bytes ? 0 : -EIO;
-  }
-
-+static int mtd_nvmem_match(void *priv, struct device *dev,
-+                          struct device_node *np)
-+{
-+       struct mtd_info *mtd = priv;
-+
-+       /*
-+        * Add more checks to make sure device node is inline with
-+        * binding if required
-+        */
-+
-+       return &mtd->dev == dev->parent;
-+}
-+
-  static int mtd_nvmem_add(struct mtd_info *mtd)
-  {
-         struct nvmem_config config = { };
-@@ -516,6 +529,7 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
-         config.read_only = true;
-         config.root_only = true;
-         config.priv = mtd;
-+       config.match = mtd_nvmem_match;
-
-         mtd->nvmem = devm_nvmem_register(&mtd->dev, &config);
-         if (IS_ERR(mtd->nvmem)) {
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 3a8bf832243d..32bc4e70522c 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -41,6 +41,7 @@ struct nvmem_device {
-         struct device           *base_dev;
-         nvmem_reg_read_t        reg_read;
-         nvmem_reg_write_t       reg_write;
-+       nvmem_match_t           match;
-         void *priv;
-  };
-
-@@ -265,6 +266,11 @@ static struct bus_type nvmem_bus_type = {
-
-  static int of_nvmem_match(struct device *dev, void *nvmem_np)
-  {
-+       struct nvmem_device *nvmem = to_nvmem_device(dev);
-+
-+       if (nvmem->match)
-+               return nvmem->match(nvmem->priv, dev, nvmem_np);
-+
-         return dev->of_node == nvmem_np;
-  }
-
-@@ -482,7 +488,9 @@ struct nvmem_device *nvmem_register(const struct 
-nvmem_config *config)
-         nvmem->priv = config->priv;
-         nvmem->reg_read = config->reg_read;
-         nvmem->reg_write = config->reg_write;
--       nvmem->dev.of_node = config->dev->of_node;
-+
-+       if (!config->match)
-+               nvmem->dev.of_node = config->dev->of_node;
-
-         if (config->id == -1 && config->name) {
-                 dev_set_name(&nvmem->dev, "%s", config->name);
-diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index 24def6ad09bb..b29059bb406e 100644
---- a/include/linux/nvmem-provider.h
-+++ b/include/linux/nvmem-provider.h
-@@ -14,6 +14,7 @@
-
-  #include <linux/err.h>
-  #include <linux/errno.h>
-+#include <linux/of.h>
-
-  struct nvmem_device;
-  struct nvmem_cell_info;
-@@ -21,6 +22,9 @@ typedef int (*nvmem_reg_read_t)(void *priv, unsigned 
-int offset,
-                                 void *val, size_t bytes);
-  typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
-                                  void *val, size_t bytes);
-+typedef int (*nvmem_match_t)(void *priv, struct device *dev,
-+                            struct device_node *np);
-+
-
-  /**
-   * struct nvmem_config - NVMEM device configuration
-@@ -58,6 +62,7 @@ struct nvmem_config {
-         bool                    root_only;
-         nvmem_reg_read_t        reg_read;
-         nvmem_reg_write_t       reg_write;
-+       nvmem_match_t           match;
-         int     size;
-         int     word_size;
-         int     stride;
-
------------------------------------>cut<---------------------------------
+Am okay either way!
 
 thanks,
 srini
