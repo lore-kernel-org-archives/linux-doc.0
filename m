@@ -5,146 +5,224 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5693C7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 10:45:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 95DAE7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 11:31:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727241AbeHUOEM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 10:04:12 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36130 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727181AbeHUOEL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Aug 2018 10:04:11 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 6268D402178A;
-        Tue, 21 Aug 2018 10:44:31 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-96.ams2.redhat.com [10.36.117.96])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8CE5094647;
-        Tue, 21 Aug 2018 10:44:19 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-mm@kvack.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
-        xen-devel@lists.xenproject.org, devel@linuxdriverproject.org,
-        David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
+        id S1726850AbeHUOv1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 10:51:27 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:39389 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726709AbeHUOv1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Aug 2018 10:51:27 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 44D9320737; Tue, 21 Aug 2018 13:31:37 +0200 (CEST)
+Received: from bbrezillon (unknown [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 712A22072D;
+        Tue, 21 Aug 2018 13:31:36 +0200 (CEST)
+Date:   Tue, 21 Aug 2018 13:31:36 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc:     Alban <albeu@free.fr>, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        John Allen <jallen@linux.vnet.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Juergen Gross <jgross@suse.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Len Brown <lenb@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Mathieu Malaterre <malat@debian.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Neuling <mikey@neuling.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Nathan Fontenot <nfont@linux.vnet.ibm.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Paul Mackerras <paulus@samba.org>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rashmica Gupta <rashmica.g@gmail.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
-Subject: [PATCH RFCv2 0/6] mm: online/offline_pages called w.o. mem_hotplug_lock
-Date:   Tue, 21 Aug 2018 12:44:12 +0200
-Message-Id: <20180821104418.12710-1-david@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 21 Aug 2018 10:44:31 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 21 Aug 2018 10:44:31 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'david@redhat.com' RCPT:''
+        David Woodhouse <dwmw2@infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
+ the nvmem API
+Message-ID: <20180821133136.1fada1b6@bbrezillon>
+In-Reply-To: <81407b4d-a02f-4085-f333-a96102bd96ce@linaro.org>
+References: <20180810080526.27207-1-brgl@bgdev.pl>
+        <20180810080526.27207-7-brgl@bgdev.pl>
+        <20180817182720.6a6e5e8e@bbrezillon>
+        <20180819133106.0420df5f@tock>
+        <20180819184609.6dcdbb9a@bbrezillon>
+        <20180821005327.0d312a85@tock>
+        <20180821074404.23aaeb6b@bbrezillon>
+        <81407b4d-a02f-4085-f333-a96102bd96ce@linaro.org>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is the same approach as in the first RFC, but this time without
-exporting device_hotplug_lock (requested by Greg) and with some more
-details and documentation regarding locking. Tested only on x86 so far.
+On Tue, 21 Aug 2018 10:38:13 +0100
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
 
---------------------------------------------------------------------------
+> Hi Boris/Bartosz,
+> 
+> On 21/08/18 06:44, Boris Brezillon wrote:
+> >>> 4/ Add a ->of_xlate() hook that would be called if present by the
+> >>>     framework instead of using the default parsing we have right now.  
+> >> That is a bit cleaner, but I don't think it would be worse the
+> >> complexity.  
+> > But it's way more flexible than putting everything in the nvmem
+> > framework. BTW, did you notice that nvmem-cells parsing does not work
+> > with flashes bigger than 4GB, because the framework assumes
+> > #address-cells and #size-cells are always 1. That's probably something
+> > we'll have to fix for the MTD case.
+> >   
+> 
+> I have hacked up some thing on these lines to add a custom match 
+> function for nvmem provider and it looks like it can work for mtd case.
+> 
+> This addresses concern #1 "to ignore of_node from dev pointer passed to 
+> nvmem_config" also provides way to do some sanity checks on nvmem cell node.
+> In this patch I have just added a simple mtd_nvmem_match() example which 
+> will be always true, however we can add checks here to see if the np is 
+> actually a nvmem-cells node or something on those lines to enforce the 
+> bindings. Please fix and remove this from nvmem-core patch incase you 
+> plan to use/test this.
+> 
+> We still have one open issue of supporting #address-cells and 
+> #size-cells in nvmem, which I can look at if you are happy with this 
+> approach!
+> 
+> ----------------------------------->cut<---------------------------------  
+> Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Date:   Tue Aug 21 10:07:24 2018 +0100
+> 
+>      nvmem: core: add custom match function support
+> 
+>      Some nvmem providers might not have a simple DT layout, nvmem cells
+>      could be part of the unpartioned space or with-in partition or
+>      even in sub partition of the provider.
+> 
+>      Current matching function is expecting that the provider should be
+>      immediate parent of the cell, which might not be true for the above
+>      cases. So allow a custom match function for such devices which can
+>      validate and match the cell as per the provider specific bindings.
+> 
+>      Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> 
+> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+> index a57302eaceb5..33541b18ac30 100644
+> --- a/drivers/mtd/mtdcore.c
+> +++ b/drivers/mtd/mtdcore.c
+> @@ -502,6 +502,19 @@ static int mtd_nvmem_reg_read(void *priv, unsigned 
+> int offset,
+>          return retlen == bytes ? 0 : -EIO;
+>   }
+> 
+> +static int mtd_nvmem_match(void *priv, struct device *dev,
+> +                          struct device_node *np)
+> +{
+> +       struct mtd_info *mtd = priv;
+> +
+> +       /*
+> +        * Add more checks to make sure device node is inline with
+> +        * binding if required
+> +        */
+> +
+> +       return &mtd->dev == dev->parent;
+> +}
+> +
+>   static int mtd_nvmem_add(struct mtd_info *mtd)
+>   {
+>          struct nvmem_config config = { };
+> @@ -516,6 +529,7 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
+>          config.read_only = true;
+>          config.root_only = true;
+>          config.priv = mtd;
+> +       config.match = mtd_nvmem_match;
+> 
+>          mtd->nvmem = devm_nvmem_register(&mtd->dev, &config);
+>          if (IS_ERR(mtd->nvmem)) {
+> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+> index 3a8bf832243d..32bc4e70522c 100644
+> --- a/drivers/nvmem/core.c
+> +++ b/drivers/nvmem/core.c
+> @@ -41,6 +41,7 @@ struct nvmem_device {
+>          struct device           *base_dev;
+>          nvmem_reg_read_t        reg_read;
+>          nvmem_reg_write_t       reg_write;
+> +       nvmem_match_t           match;
+>          void *priv;
+>   };
+> 
+> @@ -265,6 +266,11 @@ static struct bus_type nvmem_bus_type = {
+> 
+>   static int of_nvmem_match(struct device *dev, void *nvmem_np)
+>   {
+> +       struct nvmem_device *nvmem = to_nvmem_device(dev);
+> +
+> +       if (nvmem->match)
+> +               return nvmem->match(nvmem->priv, dev, nvmem_np);
+> +
+>          return dev->of_node == nvmem_np;
+>   }
+> 
+> @@ -482,7 +488,9 @@ struct nvmem_device *nvmem_register(const struct 
+> nvmem_config *config)
+>          nvmem->priv = config->priv;
+>          nvmem->reg_read = config->reg_read;
+>          nvmem->reg_write = config->reg_write;
+> -       nvmem->dev.of_node = config->dev->of_node;
+> +
+> +       if (!config->match)
+> +               nvmem->dev.of_node = config->dev->of_node;
+> 
+>          if (config->id == -1 && config->name) {
+>                  dev_set_name(&nvmem->dev, "%s", config->name);
+> diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+> index 24def6ad09bb..b29059bb406e 100644
+> --- a/include/linux/nvmem-provider.h
+> +++ b/include/linux/nvmem-provider.h
+> @@ -14,6 +14,7 @@
+> 
+>   #include <linux/err.h>
+>   #include <linux/errno.h>
+> +#include <linux/of.h>
+> 
+>   struct nvmem_device;
+>   struct nvmem_cell_info;
+> @@ -21,6 +22,9 @@ typedef int (*nvmem_reg_read_t)(void *priv, unsigned 
+> int offset,
+>                                  void *val, size_t bytes);
+>   typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
+>                                   void *val, size_t bytes);
+> +typedef int (*nvmem_match_t)(void *priv, struct device *dev,
+> +                            struct device_node *np);
+> +
+> 
+>   /**
+>    * struct nvmem_config - NVMEM device configuration
+> @@ -58,6 +62,7 @@ struct nvmem_config {
+>          bool                    root_only;
+>          nvmem_reg_read_t        reg_read;
+>          nvmem_reg_write_t       reg_write;
+> +       nvmem_match_t           match;
+>          int     size;
+>          int     word_size;
+>          int     stride;
+> 
 
-Reading through the code and studying how mem_hotplug_lock is to be used,
-I noticed that there are two places where we can end up calling
-device_online()/device_offline() - online_pages()/offline_pages() without
-the mem_hotplug_lock. And there are other places where we call
-device_online()/device_offline() without the device_hotplug_lock.
-
-While e.g.
-	echo "online" > /sys/devices/system/memory/memory9/state
-is fine, e.g.
-	echo 1 > /sys/devices/system/memory/memory9/online
-Will not take the mem_hotplug_lock. However the device_lock() and
-device_hotplug_lock.
-
-E.g. via memory_probe_store(), we can end up calling
-add_memory()->online_pages() without the device_hotplug_lock. So we can
-have concurrent callers in online_pages(). We e.g. touch in online_pages()
-basically unprotected zone->present_pages then.
-
-Looks like there is a longer history to that (see Patch #2 for details),
-and fixing it to work the way it was intended is not really possible. We
-would e.g. have to take the mem_hotplug_lock in device/base/core.c, which
-sounds wrong.
-
-Summary: We had a lock inversion on mem_hotplug_lock and device_lock().
-More details can be found in patch 3 and patch 6.
-
-I propose the general rules (documentation added in patch 6):
-
-1. add_memory/add_memory_resource() must only be called with
-   device_hotplug_lock.
-2. remove_memory() must only be called with device_hotplug_lock. This is
-   already documented and holds for all callers.
-3. device_online()/device_offline() must only be called with
-   device_hotplug_lock. This is already documented and true for now in core
-   code. Other callers (related to memory hotplug) have to be fixed up.
-4. mem_hotplug_lock is taken inside of add_memory/remove_memory/
-   online_pages/offline_pages.
-
-To me, this looks way cleaner than what we have right now (and easier to
-verify). And looking at the documentation of remove_memory, using
-lock_device_hotplug also for add_memory() feels natural.
-
-
-RFC -> RFCv2:
-- Don't export device_hotplug_lock, provide proper remove_memory/add_memory
-  wrappers.
-- Split up the patches a bit.
-- Try to improve powernv memtrace locking
-- Add some documentation for locking that matches my knowledge
-
-David Hildenbrand (6):
-  mm/memory_hotplug: make remove_memory() take the device_hotplug_lock
-  mm/memory_hotplug: make add_memory() take the device_hotplug_lock
-  mm/memory_hotplug: fix online/offline_pages called w.o.
-    mem_hotplug_lock
-  powerpc/powernv: hold device_hotplug_lock when calling device_online()
-  powerpc/powernv: hold device_hotplug_lock in memtrace_offline_pages()
-  memory-hotplug.txt: Add some details about locking internals
-
- Documentation/memory-hotplug.txt              | 39 +++++++++++-
- arch/powerpc/platforms/powernv/memtrace.c     | 14 +++--
- .../platforms/pseries/hotplug-memory.c        |  8 +--
- drivers/acpi/acpi_memhotplug.c                |  4 +-
- drivers/base/memory.c                         | 22 +++----
- drivers/xen/balloon.c                         |  3 +
- include/linux/memory_hotplug.h                |  4 +-
- mm/memory_hotplug.c                           | 59 +++++++++++++++----
- 8 files changed, 115 insertions(+), 38 deletions(-)
-
--- 
-2.17.1
-
+That might work if nvmem cells are defined directly under the mtdnode.
+If we go for this approach, I'd recommend replacing this ->match() hook
+by ->is_nvmem_cell() and pass it the cell node instead of the nvmem
+node, because what we're really after here is knowing which subnode is
+an nvmem cell and which subnode is not.
