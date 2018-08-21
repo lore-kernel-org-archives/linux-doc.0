@@ -1,28 +1,54 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6262F7D584
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 11:40:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0BC4A7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 12:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbeHUPAa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 11:00:30 -0400
-Received: from smtp5-g21.free.fr ([212.27.42.5]:3334 "EHLO smtp5-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726679AbeHUPAa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Aug 2018 11:00:30 -0400
-Received: from eos (unknown [80.242.164.60])
-        (Authenticated sender: albeu)
-        by smtp5-g21.free.fr (Postfix) with ESMTPSA id CFEEB5FFBA;
-        Tue, 21 Aug 2018 13:39:21 +0200 (CEST)
-Date:   Tue, 21 Aug 2018 13:39:16 +0200
-From:   Alban <albeu@free.fr>
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc:     Alban Bedel <albeu@free.fr>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
+        id S1727015AbeHUPUB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 11:20:01 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:39349 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726924AbeHUPUB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 11:20:01 -0400
+Received: by mail-wm0-f68.google.com with SMTP id q8-v6so2607310wmq.4
+        for <linux-doc@vger.kernel.org>; Tue, 21 Aug 2018 05:00:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/uzisgm4VaO5+87MaaLuCja+daGuU9gaxmTfS6V8PoM=;
+        b=Z2ktATHUAU3WtrEtoTyQpRtRolKNJ4Ti1dTgNsO2gVRmC5PILVHrX19gRuN2HF9dFp
+         G1tUid4M9SmMS5aPiKcz+yd6mO6SmvnRJWPdMJ7pU2pjwWHCa0Ct/gyR5q5zFetAXqFn
+         KLK62TyLrFq+h5Y+x+BfUPzYjxaB0l4ksqLWU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/uzisgm4VaO5+87MaaLuCja+daGuU9gaxmTfS6V8PoM=;
+        b=NtEL6hasGXFzD8BcYz2HTgxSsrXuVwger1x51t3mgMY8s5tDrAxcpIRuq74uFvv6AK
+         l/9G+Md8RAljcwpN2EcsKu8utpTQz6KxJueTj+etWbCsUsqXWja9cZNMlXBPZ5XBHC2y
+         StkLFA0P9uQp0Hans7FPFzj/7JW0Wb8WWELbwJEz2x0/Ii61WVbKxubK4pseH2UmQ2l1
+         N8xOhShEuthVLr0LPxB3c2Mb4uPM9pAN4KZaQCJVNrxSBriUrCXOEsuVdwXlJSO03sNW
+         MaJeey7YOIViYZVZqjMIq0Xobo4x1W8QWGxs9X5srnSkybagRNLGUQcdYtdR8IwlUJKl
+         BLPg==
+X-Gm-Message-State: AOUpUlE9G5Ew0VgZkTKWDAQSyojwcG8H4nXUej87SJsv/Rsi/nUoFbRk
+        TzA94lZJMjE8vKaxNUJcaQ0U5g==
+X-Google-Smtp-Source: AA+uWPxbpYJKszl17lqsb2oBSGmliaORK8u/ZAFJ/bohdNbIsRehH1sxJIpy1bujnz1X4vVvczxgDg==
+X-Received: by 2002:a1c:1802:: with SMTP id 2-v6mr27435377wmy.81.1534852807272;
+        Tue, 21 Aug 2018 05:00:07 -0700 (PDT)
+Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
+        by smtp.googlemail.com with ESMTPSA id 139-v6sm4040277wmp.4.2018.08.21.05.00.05
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 Aug 2018 05:00:06 -0700 (PDT)
+Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via the
+ nvmem API
+To:     Alban <albeu@free.fr>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
         Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -50,90 +76,33 @@ Cc:     Alban Bedel <albeu@free.fr>,
         linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-omap@vger.kernel.org, netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180821133916.3a1c51b1@eos>
-In-Reply-To: <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-        <20180819133106.0420df5f@tock>
-        <20180819184609.6dcdbb9a@bbrezillon>
-        <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
-        <20180820202038.5d3dc195@bbrezillon>
-        <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ <20180810080526.27207-7-brgl@bgdev.pl> <20180817182720.6a6e5e8e@bbrezillon>
+ <20180819133106.0420df5f@tock> <20180819184609.6dcdbb9a@bbrezillon>
+ <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
+ <20180820202038.5d3dc195@bbrezillon>
+ <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
+ <20180821133916.3a1c51b1@eos>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <6db14f9c-edd3-5e43-839c-953bb03097ff@linaro.org>
+Date:   Tue, 21 Aug 2018 13:00:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/H3emaZsLss0.QG=/IEiqnC1"; protocol="application/pgp-signature"
+In-Reply-To: <20180821133916.3a1c51b1@eos>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/H3emaZsLss0.QG=/IEiqnC1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 21 Aug 2018 10:50:07 +0100
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
 
-> Just curious...Is there a reason why we can't do it like this?:
-> Is this because of issue of #address-cells and #size-cells Or mtd=20
-> bindings always prefer subnodes?
->=20
-> 	mtdnode {
-> 		reg =3D <0x0123000 0x40000>;
-> 		#address-cells =3D <1>;
-> 		#size-cells =3D <1>;
-> 		cell@0 {
-> 			compatible =3D "nvmem-cell";
-> 			reg =3D <0x0 0x14>;
-> 		};
->=20
-> 		partitions {
-> 			compatible =3D "fixed-partitions";
-> 			#address-cells =3D <1>;
-> 			#size-cells =3D <1>;
->=20
-> 			partition@0 {
-> 				reg =3D <0x0 0x20000>;
-> 				cell@0 {
-> 					compatible =3D "nvmem-cell";
-> 					reg =3D <0x0 0x10>;
-> 				};
-> 			};
-> 		};
-> 	};
+On 21/08/18 12:39, Alban wrote:
+> However we still have the a potential address space clash between the
+> nvmem cells and the main device binding.
+Can you elaborate?
 
-That would work, the MTD partitions parser ignore child nodes with a
-compatible string when looking for "old style" partitions, see [1].
-However we still have the a potential address space clash between the
-nvmem cells and the main device binding.
-
-Alban
-
-[1]: https://elixir.bootlin.com/linux/latest/source/drivers/mtd/ofpart.c#L28
-
---Sig_/H3emaZsLss0.QG=/IEiqnC1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE0W61GceYqNjiMSkodJSaS524LbwFAlt7+eQACgkQdJSaS524
-Lbw8Eg/+LksOLDz4/cK1Hv2Osee6M3szNFj3GJYOMAb+35h4qvp3QUEQDLsGQ3Kd
-XDdsoRPCc0iuMkN+CWH1mC8/02oufsP1e55OhYcIyMxdCi4PORyCzlkjuWZBBdsU
-tw7NP2/zWTaboRVe8nWCRd8gVEDxyfPqlLJXrk+N4ZBuB35LOOOHHH8GbGCay5cp
-uZgRZDpS7QgHQbDQU7lHH6yKT6oYx/GTY3BKZU5Q3FoFrQ9vEne9ZO/xJf2JNhjY
-5vS8hhhsHbFhfo9CwUOQuisWsdvZEyB0EKtmeF7Wq6NuvFv7VE/hrIjklZY3d1Kx
-bNy12FyRvIgX43q9arV8FTNOOGJkyJbiBUm9B4FnBFzmpWqg6QmY4AmIqhuIDZi3
-TiOHBp9gARLX+lJNZeqEY46hZoHJp/eWAqHtdlTfVGxAecApwMH/gZw5Ad62N8qB
-K0dVL0JVUWR15TfnqOkaPWGsnpRdEf9hvqbPWroND+FKppBH+weVzC/H2aalmQyQ
-Td9OVH0wyLI5SoyCptcw/12g5icNhsxmcIGxQfidbsric9lpFJH/D/jm0BPDAoVo
-E8rAEARYGaaBG3+FXXRD8pHVJIX0JmqgHAp/9qmnyBYM/F9CaiGt/7oc89fFKO7h
-mYUKeBXbMfNEalg1UuyN5mMvDaFFp/uFBmvq/LXKyeJW94RCwJA=
-=Ecun
------END PGP SIGNATURE-----
-
---Sig_/H3emaZsLss0.QG=/IEiqnC1--
+--srini
