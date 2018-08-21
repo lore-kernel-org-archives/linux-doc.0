@@ -1,20 +1,19 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,URIBL_SBL,URIBL_SBL_A autolearn=unavailable
-	autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7B2EE7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 17:17:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A45C7E39F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 17:17:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728202AbeHUUiJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 16:38:09 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:58200 "EHLO
+        id S1726627AbeHUUiV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 16:38:21 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:36442 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727948AbeHUUiI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 16:38:08 -0400
+        with ESMTP id S1727167AbeHUUiV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 16:38:21 -0400
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -29,64 +28,46 @@ Cc:     od@zcrc.me, Mathieu Malaterre <malat@debian.org>,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v7 10/24] watchdog: jz4740: Avoid starting watchdog in set_timeout
-Date:   Tue, 21 Aug 2018 19:16:21 +0200
-Message-Id: <20180821171635.22740-11-paul@crapouillou.net>
+Subject: [PATCH v7 18/24] MIPS: Kconfig: Select TCU timer driver when MACH_INGENIC is set
+Date:   Tue, 21 Aug 2018 19:16:29 +0200
+Message-Id: <20180821171635.22740-19-paul@crapouillou.net>
 In-Reply-To: <20180821171635.22740-1-paul@crapouillou.net>
 References: <20180821171635.22740-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1534871826; bh=tBIxg5wGqomJKe9TZsyGLBfl5Hk6jZE8QDCNVIndQ3s=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=nC5RlNo3b+tcMvfjXb4jCFGETVw4/9gJboBH04Hel9NQUgAJbSyOYrulpbh/kDJ/yB+pumsX5pxl+e8HmdnEieZ6h20x45YItuUhDl4iq6V3aexBvLH2BBMru9PfwQg428W1nzm1NF3w31VDnYwVYBBb36mvwwF0ciXn3DE4A/g=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1534871839; bh=mH6Ga8pJ369sJD9i63HQs4H1wCgEo3CLbvYB7ehcR6E=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=r91Ayg3hVWSgy5rtsR82vgl5HoTkHyN2AP1IhkUItHN8Z5BV1MFB1l1Ukd0c04QP8Vd81jtA+ayVs7HBBU/DiI0eh9IGIr/58TlfE3f90pBhU3C3wwQrNy6uOvyPXd1WDVXpltxUOm2X9zqNzqwUbgoB1vUv5QdSobAqOBop7hc=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Previously the jz4740_wdt_set_timeout() function was starting the timer
-unconditionally, even if it was stopped when that function was entered.
-
-Now, the timer will be restarted only if it was already running before
-this function is called.
+We cannot boot to userspace (not even initramfs) if the timer driver is
+not present; so it makes sense to enable it unconditionally when
+MACH_INGENIC is set.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 ---
 
 Notes:
-     v6: New patch
+     v5: New patch
+    
+     v6: No change
     
      v7: No change
 
- drivers/watchdog/jz4740_wdt.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ arch/mips/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/watchdog/jz4740_wdt.c b/drivers/watchdog/jz4740_wdt.c
-index 0f54306aee25..45d9495170e5 100644
---- a/drivers/watchdog/jz4740_wdt.c
-+++ b/drivers/watchdog/jz4740_wdt.c
-@@ -64,13 +64,15 @@ static int jz4740_wdt_set_timeout(struct watchdog_device *wdt_dev,
- {
- 	struct jz4740_wdt_drvdata *drvdata = watchdog_get_drvdata(wdt_dev);
- 	u16 timeout_value = (u16)(drvdata->clk_rate * new_timeout);
-+	u32 tcer;
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index 08c10c518f83..254dbf69a4ad 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -384,6 +384,7 @@ config MACH_INGENIC
+ 	select BUILTIN_DTB
+ 	select USE_OF
+ 	select LIBFDT
++	select INGENIC_TIMER
  
-+	regmap_read(drvdata->map, TCU_REG_WDT_TCER, &tcer);
- 	regmap_write(drvdata->map, TCU_REG_WDT_TCER, 0);
- 
- 	regmap_write(drvdata->map, TCU_REG_WDT_TDR, timeout_value);
- 	regmap_write(drvdata->map, TCU_REG_WDT_TCNT, 0);
- 
--	regmap_write(drvdata->map, TCU_REG_WDT_TCER, TCU_WDT_TCER_TCEN);
-+	regmap_write(drvdata->map, TCU_REG_WDT_TCER, tcer & TCU_WDT_TCER_TCEN);
- 
- 	wdt_dev->timeout = new_timeout;
- 	return 0;
-@@ -86,6 +88,7 @@ static int jz4740_wdt_start(struct watchdog_device *wdt_dev)
- 		return ret;
- 
- 	jz4740_wdt_set_timeout(wdt_dev, wdt_dev->timeout);
-+	regmap_write(drvdata->map, TCU_REG_WDT_TCER, TCU_WDT_TCER_TCEN);
- 
- 	return 0;
- }
+ config LANTIQ
+ 	bool "Lantiq based platforms"
 -- 
 2.11.0
 
