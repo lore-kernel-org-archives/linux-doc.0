@@ -1,280 +1,224 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD12B7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 05:44:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 718297D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 06:49:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbeHUJCr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 05:02:47 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:58348 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726115AbeHUJCq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Aug 2018 05:02:46 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id C1826207AD; Tue, 21 Aug 2018 07:44:04 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D3E03204AE;
-        Tue, 21 Aug 2018 07:44:03 +0200 (CEST)
-Date:   Tue, 21 Aug 2018 07:44:04 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Alban <albeu@free.fr>
-Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
+        id S1726253AbeHUKIg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 06:08:36 -0400
+Received: from mail-eopbgr20112.outbound.protection.outlook.com ([40.107.2.112]:8731
+        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726175AbeHUKIf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Aug 2018 06:08:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4E1Gww2EHl2QSmK2lArdPIHlQx5vQl/zcFjP/U8HyW8=;
+ b=udYus3aux9fyUWOOzNe98/x9MUI4WJBh76rb0OQzgWPydi8UYe5yn+ingNxIReXe/MTSYuL1JGVM0iPmYnAq/U4yOXhCBp5KgpT5SDQKt8Tbmg9gX7tJnrjkniSwrk252CrD3giW8qiyb4RhhyD6dJwqWfL+0b/r4a2XHopoDiU=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=peda@axentia.se; 
+Received: from [192.168.13.3] (85.226.244.23) by
+ HE1PR0201MB2459.eurprd02.prod.outlook.com (2603:10a6:3:82::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1059.21; Tue, 21 Aug 2018 06:49:30 +0000
+Subject: Re: [RFC RFT PATCH v4 1/4] gpiolib: Pass bitmaps, not integer arrays,
+ to get/set array
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
         Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180821074404.23aaeb6b@bbrezillon>
-In-Reply-To: <20180821005327.0d312a85@tock>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-        <20180819133106.0420df5f@tock>
-        <20180819184609.6dcdbb9a@bbrezillon>
-        <20180821005327.0d312a85@tock>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20180813223448.21316-1-jmkrzyszt@gmail.com>
+ <20180820234341.5271-1-jmkrzyszt@gmail.com>
+ <20180820234341.5271-2-jmkrzyszt@gmail.com>
+From:   Peter Rosin <peda@axentia.se>
+Organization: Axentia Technologies AB
+Message-ID: <0e79bdc3-ca20-6823-c86f-5e9da7dafbc9@axentia.se>
+Date:   Tue, 21 Aug 2018 08:49:24 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20180820234341.5271-2-jmkrzyszt@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [85.226.244.23]
+X-ClientProxiedBy: HE1P195CA0006.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::16)
+ To HE1PR0201MB2459.eurprd02.prod.outlook.com (2603:10a6:3:82::7)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e5a14a19-4e03-439b-348f-08d607323f64
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(7021125)(8989137)(4534165)(7022125)(4603075)(4627221)(201702281549075)(8990107)(7048125)(7024125)(7027125)(7028125)(7023125)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:HE1PR0201MB2459;
+X-Microsoft-Exchange-Diagnostics: 1;HE1PR0201MB2459;3:rxgkx3kkIWIecjoZtMdHHJ3mmIOP0dzS6ezlafKcwBYOVRI/Ke4BqlhqT4po7UR7VSt8o7uUfcAhJrhM0pH7J2ZUBmo9jq0/v6UD0v5U/KYQ7yP6c8yWQeIa2gb6a8n0XDVVdpjRceSuSs2oNE9XY9nujVk6TV5xnDpTqh2f/AVugbm9ENMAG03+oOUFuDwQ+mxQ+rqj0Ek0PVjpcGK8+VhDh/nrcKdKpAz3RQjwSydchLmQt1tztTa9ZN9//0Qi;25:pW8oMbK61E+gHruPjgKxney5QwPgvHX/JcFDITryy6DH10vNzL4bCz1za7/FTGEwUmz5acPkOIoW/CkVnhMlR2a2ZWCPjeNhctOVYRwFipuY4Q1c8TULjGkV72x3/VvEI27SEfWAgbIUfoLWC4fZzRRnpW3vMAU3OOyaS4pvooH8LtlydBRGjrFIgDcILPiGsjFyxAxw5P3WPZz3HliGyTGyKe17da5o6rGp3uWytIS4j5HSWuWcC3e0kFUOKNMBg3Bluabf1oG9NmAkhkutN3sngIZfg0Y34Uctbx7AeMgGptasuJ3gZClJQ3FSj/ih2X2BQ1lehiSXtXHpcw1kmA==;31:+t/qd6MqqvWYr2syqEv7A4T5DBdvNYPdLD2ewrzSXDQY6cgnzX1aExQ2ZObkM4T72KrSXq2xScqwH6dhNZjHQTFGHP6uvwzhMyPkpHEXD7M9DikORjRfSWWboIusD3oeYRyidH1247sjMY8Inpr8/7+TuRePiMLfenywkUub36uK+Jr9FOTbd2byDIvcqiO/dpWdncRbQjxTpSh5//2fMfyNDWyte9aIjAQ3+tQJYTs=
+X-MS-TrafficTypeDiagnostic: HE1PR0201MB2459:
+X-Microsoft-Antispam-PRVS: <HE1PR0201MB245925144C36BF48E9165ACFBC310@HE1PR0201MB2459.eurprd02.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(85827821059158);
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(3231311)(944501410)(52105095)(93006095)(93001095)(149027)(150027)(6041310)(20161123558120)(2016111802025)(20161123562045)(20161123564045)(20161123560045)(6043046)(201708071742011)(7699016);SRVR:HE1PR0201MB2459;BCL:0;PCL:0;RULEID:;SRVR:HE1PR0201MB2459;
+X-Microsoft-Exchange-Diagnostics: 1;HE1PR0201MB2459;4:+xt5zfdXrYS3HxNHGDdqoTpWmP1Jekgc4Y/jvZVlXktgOZCpj0hs1oCiZPMg9AftoUaoXxFvzDwZ2InDtLXDtaCDPnU2k6DMRZwt4Lk4m4a9o70E4y3o7et05XyFL5jFPMFgDN7OflDJtkIn5zid8dZAchB8g35u4MEHhDQ1+wU0wLnAqDcGm+Kk2lIO5ubSkFIUzNzrZ3oxsR+JUVSACIAqUKg1HxN0ZXr2QCB/DZU8WsAtrAyG+zWpSU8OKNPwW+I/q37ke4DzprbFpum0DIrRCmbfTVbiR8Co42osFhU/y/ojn7qM9MeAUfxwlXBi
+X-Forefront-PRVS: 0771670921
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(6049001)(396003)(136003)(376002)(366004)(39830400003)(346002)(199004)(189003)(50466002)(5660300001)(97736004)(68736007)(230700001)(65826007)(86362001)(316002)(106356001)(7416002)(478600001)(58126008)(110136005)(31686004)(16576012)(66066001)(47776003)(65806001)(186003)(65956001)(105586002)(54906003)(16526019)(8676002)(74482002)(6486002)(486006)(229853002)(36756003)(26005)(3260700006)(25786009)(6246003)(77096007)(575784001)(2616005)(53936002)(31696002)(11346002)(7736002)(81156014)(476003)(4326008)(64126003)(305945005)(36916002)(81166006)(217873002)(6116002)(23676004)(76176011)(53546011)(2486003)(39060400002)(6666003)(386003)(2906002)(52146003)(3846002)(446003)(956004)(8936002)(52116002)(117156002)(42262002);DIR:OUT;SFP:1102;SCL:1;SRVR:HE1PR0201MB2459;H:[192.168.13.3];FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+Received-SPF: None (protection.outlook.com: axentia.se does not designate
+ permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtIRTFQUjAyMDFNQjI0NTk7MjM6Y29pRFRjZTRpRW45ZEdVb25udWZjemZ0?=
+ =?utf-8?B?NWNvcG1jU1FyWHdHNjdUNWNMbHZOVGhsbWFDRnNRRzd3Y0dpdDNXRVp3L3Uv?=
+ =?utf-8?B?UWZHdHBiSi9KOHNPUVJxWXJRQmF3YUN4VTRHS1JJWkNaUUtJNFozT3cxOU40?=
+ =?utf-8?B?QjI5QVhhVmxSZFZDdzNLUlFoMWNMdVk3VTdGSjVqbkhVS2JUU0lFL1M4enZF?=
+ =?utf-8?B?QkhIV3ZkQWpqL2UwOHpybks0VXhGaW41b1dqQ0ZJakpQUkt2endpL2N6Q0pV?=
+ =?utf-8?B?UXVFN28xdTh3Z2gxYW4vN1pJVk9xeDFEWTFIZHpZZlNwdjhuREpPV1ZzOFlm?=
+ =?utf-8?B?RVc3R1gwSlZyR1FjODFPL1VIclVtVU4vM1FzUEdsck5LaEJIV0dHd0g1Mlk1?=
+ =?utf-8?B?eXhMbU5RZyt4NFVhUGQrNTZLczFHR2E1S1FzSDlEV3grUWIzM3lLdjUybWNQ?=
+ =?utf-8?B?ZjlvOG9rRXpMVStHSzV6UXZIYktZZFpXOUlOZEN3cUFBLzM0NG1ISmpHNmN2?=
+ =?utf-8?B?bnpRUE9GSm9YcHp4KzVDelQ3MlJJbVNBRXptMzZHWUNtaXR6UlFtdk9QZnBw?=
+ =?utf-8?B?cmpPY0VJQmRWeW0vWnVsTTdUUVlLbVB0UHpaM0FOTXR5NzN4TW8wTmtwbFln?=
+ =?utf-8?B?ZFNtWDhlU1lLVGg0Nk4rK2tDMXgrYnovMk4zNy9UMlUvWm1SeFJZanFvWkVq?=
+ =?utf-8?B?eEVFU3FoR2NIMENkOXFjS214NVp2V1QvWkd5U2R0NCsrMHZNWUlRVUNTTDVp?=
+ =?utf-8?B?TW5BQ1dQK0xOdW1uSmM2ekcwMlZyNjVPdHRXeGZGMFFlbGJkNERkb0QzTkty?=
+ =?utf-8?B?Qzl1RHI3Q29ITzF5bFFXeVl6UHJ3enREbXJRVzJWclFsNW93YS95SkQwVndS?=
+ =?utf-8?B?dHhkY3kxaVJjNExsUlhjOU9RYUdYc1htZzhMTThXZ1FsUC83aVJ6Sk8xZWZi?=
+ =?utf-8?B?NUhIWXJ0NXVadFFmMUpyYmZrc01sUkNhQWRvWDdzZWUyZmVubkRuMXhNcitL?=
+ =?utf-8?B?blFuV1JsVkxHcXlZREpyaXFGRXYzRWpHc0N0c2N1ME1RM0tPYnIreHhTbk1G?=
+ =?utf-8?B?am5XVE5rNzZZYXZsalpwR3BSeVYrRXRhcTNZRlpXUzRycUVadDk0SHVLaEk1?=
+ =?utf-8?B?eTAwUTdSSDQxbVExU0NtVDgxSXNTL3I2YThKK2Q5RGdObzFrNHJ1MGFLZGRX?=
+ =?utf-8?B?OGdQY0xZM1pHMnlpa2NQdEJXUlNzYW90ZWY3UkVNcWRFVU5rR0ZxR1JSaUdr?=
+ =?utf-8?B?blNpSUp5V3cyYlBmd1Fobm9tME40bURnT0JpZXVNMGIyR3hQRWpTRkh4dmJr?=
+ =?utf-8?B?cFdYVzhublpsaUhKTlR1cTRDMW9BVXJ5MlhRaUtGcVhreDdyaTdhNDlDOXlo?=
+ =?utf-8?B?QW1EUDBaWDFsS1M4SWJPN1dZRjVsL3BpNmQ3TkhsT0F5ZkxWUURNWEZKVHVs?=
+ =?utf-8?B?SS9RaXJWelVqMC94bWhIK0JUMEIxL3QzVmMraGVGcFFzcnlzb2cwcnUrejZp?=
+ =?utf-8?B?ZVdjVWtKbGVFZk5Jc2xqeUo3MWhoazNuMm8ybUk2MXFQeUErYnpMTE5CNURi?=
+ =?utf-8?B?NnV3NTd4ell5WDIyL3NGeC9mQUJtMFpxNkZiYTZRd2hTYjJKQkVhQmlZU3Qv?=
+ =?utf-8?B?b2pvR1dGSFM0SFUwQ2RCSnBqMDVTNFliWVRWUURta3Q3SXBudmJRaUdTUTR0?=
+ =?utf-8?B?cFVJWEdSVkNSL0RXR3c5UzRMU1QvSGl4NzRCYXFvWktGR3BiREhwQjRKcmEx?=
+ =?utf-8?B?TXRWL054K0JxaGR3UUxDbGpXc0M3WFZrOTFjUGJia0hnK3UvbWRrWHRCN0Y5?=
+ =?utf-8?B?cDBoaXNTeDRCKzNuZGY3YTZYY3I5TXNZSFJsUkhkbjl1d1ZiRDhYMGVsSHlJ?=
+ =?utf-8?B?TStHc2I0Nzd1RUswRlJDTVNBK24yQzdreStGZm51alVTNEJSaG5DbDlQN2ZS?=
+ =?utf-8?B?a08vRUQyVTVLYU54VVZyVExtS2tvYUxlMVAyZGRzdVUyMEhzRkNaN1owSmwy?=
+ =?utf-8?B?NGZKNVJrcmVUWllmRU1CL2NLbGN5NkpnMitvTyt1dGhBOGlGb0VXaUdsWkhL?=
+ =?utf-8?B?NXdGZm42dUkxRlRZOFpuT3VuYmgvejdkNkxDS0QvcjFJNVNqcWRYZFA4VFhi?=
+ =?utf-8?B?MzBxWXZ1cEYwUmNudmN5NzNLL0RReEU0ZzNSTTBPd2szWUlhY3ZycFN3TXFw?=
+ =?utf-8?Q?IN4YgnvAWYdn67D8mIb4GPN4CekMvGmcLxFj20Hrf95c=3D?=
+X-Microsoft-Antispam-Message-Info: HDVCSEoADxpzaFT/s4rIGuNEavZC25Y/1fQ4pvI5Z3fudCXVmnGIbJZNiv74XrhCNTPs7rsIUePYsQk0LHSnnB2qEAH5Ql93CkaGWtLU3cLkjpTcOyd05qod1eZNTlKI/6Vs0RsXvDVgpJ2Njlf14mgWDum2uMyqmpNw3qar994vh7JCoHgRugQXSXansMYkhKUgkFk3jyuAnWxUSPWWPTKa0C91WzpeqstBxI5kZnSwblLN1kLzhURFIZEGSajj07bS9neWiN7USX51Ul8tFNarNQwu2ETkPkmbwzenxdoQpq8TdgjXWdX3O7JsX9DJ1v14cOL8ccOWgOPLtuUFixlfMUJKdw1LZ6NYCiBKl4M=
+X-Microsoft-Exchange-Diagnostics: 1;HE1PR0201MB2459;6:fStb6OnH3aQ3v3Anotl7ToNEOZXA1IQ0PGvGiFSlG+N44XOeKsTsf1pSvRfeyZyxYNE8tr3dBmjeTkJjx60CoSi2SH9BUxtsReStUGBN9BFmYuJFnkWMqP0BB1kCRFxf76S4spApIkb0WrPIa/WEdZTeRef7JAaLf++aDIdUUFRSPDozRkfHFZwWlKsotCYUAqn6l2VmKO0kJDfLIo5ICkI/nyOoqS399gKoNtA67KqjCZy1sjl7zkEhhCrAwyr8rjuJZYzX3njgEI7Pcq4ytE3kA92ctgYYGFeLWlgIRWzJuYt+z73g4qYfxuJnzjGiUWkcasXNzmKiCTL3UI24XK0Kwba9Cd4JVqCQMFBV1ru/E73b0jzNzTfND0YBgLGUqNAXxQyKOKrIk7KdfRWE8WfvazELGIoo3Bx0meaEDmKUUwBDia/7TO1UWiOYmt1chWmOfklL8wPBUZBlvi6Hxg==;5:RZDSVWm3WeOZkzl2lBUaSfR2B28wMxoaKz7WGmocP8P4qwbr8vHG2DRLSFKYUatE8UYLWsN7GFwKMBXg0tKU+CeICmTpdFIwh7x7364yN/2/Xv67H6fKcY2iZJveFt0+wmkThq9DRgVz4dwWjbcTYWwv/oG5pF29OnKBQdC07cI=;7:qoCYddMWEQkwmmN4IIPP+meaB8tV+XYJy+KxEsxDL05pZiqw7s/7MFe9W66KdTRVwCZYOb1k73BEVkGTtPFsZhyyTOy4g21LwhKqRqLpCJE5xTdM85/mNlFpTb/EXJSisHPjGs7mjJy+RVk80J5Yumisvul7Piu6YhbCxU3iysJpdXfyKkenHbbSZUAIdFXD6Ray5koaUGCxxV1FEoV2oceVd25OQbtmhkRnFMjjVQwB+MUoO4PQ7+UYHqoaLCKJ
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: axentia.se
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2018 06:49:30.6069 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5a14a19-4e03-439b-348f-08d607323f64
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0201MB2459
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 21 Aug 2018 00:53:27 +0200
-Alban <albeu@free.fr> wrote:
-
-> On Sun, 19 Aug 2018 18:46:09 +0200
-> Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+On 2018-08-21 01:43, Janusz Krzysztofik wrote:
+> Most users of get/set array functions iterate consecutive bits of data,
+> usually a single integer, while or processing array of results obtained
+> from or building an array of values to be passed to those functions.
+> Save time wasted on those iterations by changing the functions' API to
+> accept bitmaps.
 > 
-> > On Sun, 19 Aug 2018 13:31:06 +0200
-> > Alban <albeu@free.fr> wrote:
-> >   
-> > > On Fri, 17 Aug 2018 18:27:20 +0200
-> > > Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> > >     
-> > > > Hi Bartosz,
-> > > > 
-> > > > On Fri, 10 Aug 2018 10:05:03 +0200
-> > > > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> > > >       
-> > > > > From: Alban Bedel <albeu@free.fr>
-> > > > > 
-> > > > > Allow drivers that use the nvmem API to read data stored on MTD devices.
-> > > > > For this the mtd devices are registered as read-only NVMEM providers.
-> > > > > 
-> > > > > Signed-off-by: Alban Bedel <albeu@free.fr>
-> > > > > [Bartosz:
-> > > > >   - use the managed variant of nvmem_register(),
-> > > > >   - set the nvmem name]
-> > > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>        
-> > > > 
-> > > > What happened to the 2 other patches of Alban's series? I'd really
-> > > > like the DT case to be handled/agreed on in the same patchset, but
-> > > > IIRC, Alban and Srinivas disagreed on how this should be represented.
-> > > > I hope this time we'll come to an agreement, because the MTD <-> NVMEM
-> > > > glue has been floating around for quite some time...      
-> > > 
-> > > These other patches were to fix what I consider a fundamental flaw in
-> > > the generic NVMEM bindings, however we couldn't agree on this point.
-> > > Bartosz later contacted me to take over this series and I suggested to
-> > > just change the MTD NVMEM binding to use a compatible string on the
-> > > NVMEM cells as an alternative solution to fix the clash with the old
-> > > style MTD partition.
-> > > 
-> > > However all this has no impact on the code needed to add NVMEM support
-> > > to MTD, so the above patch didn't change at all.    
-> > 
-> > It does have an impact on the supported binding though.
-> > nvmem->dev.of_node is automatically assigned to mtd->dev.of_node, which
-> > means people will be able to define their NVMEM cells directly under
-> > the MTD device and reference them from other nodes (even if it's not
-> > documented), and as you said, it conflict with the old MTD partition
-> > bindings. So we'd better agree on this binding before merging this
-> > patch.  
+> All current users are updated as well.
 > 
-> Unless the nvmem cell node has a compatible string, then it won't be
-> considered as a partition by the MTD code. That is were the clash is,
-> both bindings allow free named child nodes without a compatible string.
-
-Except the current nvmem cells parsing code does not enforce that, and
-existing DTs rely on this behavior, so we're screwed. Or are you
-suggesting to add a new "bool check_cells_compat;" field to
-nvmem_config?
-
+> More benefits from the change are expected as soon as planned support
+> for accepting/passing those bitmaps directly from/to respective GPIO
+> chip callbacks if applicable is implemented.
 > 
-> > I see several options:
-> > 
-> > 1/ provide a way to tell the NVMEM framework not to use parent->of_node
-> >    even if it's != NULL. This way we really don't support defining
-> >    NVMEM cells in the DT, and also don't support referencing the nvmem
-> >    device using a phandle.  
+> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> ---
+>  Documentation/driver-api/gpio/consumer.rst  | 22 ++++----
+>  drivers/auxdisplay/hd44780.c                | 52 +++++++++--------
+>  drivers/bus/ts-nbus.c                       | 19 ++-----
+>  drivers/gpio/gpio-max3191x.c                | 17 +++---
+>  drivers/gpio/gpiolib.c                      | 86 +++++++++++++++--------------
+>  drivers/gpio/gpiolib.h                      |  4 +-
+>  drivers/i2c/muxes/i2c-mux-gpio.c            |  3 +-
+>  drivers/mmc/core/pwrseq_simple.c            | 13 ++---
+>  drivers/mux/gpio.c                          |  4 +-
+>  drivers/net/phy/mdio-mux-gpio.c             |  3 +-
+>  drivers/pcmcia/soc_common.c                 | 11 ++--
+>  drivers/phy/motorola/phy-mapphone-mdm6600.c | 17 +++---
+>  drivers/staging/iio/adc/ad7606.c            |  9 +--
+>  drivers/tty/serial/serial_mctrl_gpio.c      |  7 ++-
+>  include/linux/gpio/consumer.h               | 18 +++---
+>  15 files changed, 138 insertions(+), 147 deletions(-)
 > 
-> I really don't get what the point of this would be. Make the whole API
-> useless?
 
-No, just allow Bartosz to get his changes merged without waiting for you
-and Srinivas to agree on how to handle the new binding. As I said
-earlier, this mtd <-> nvmem stuff has been around for quite some time,
-and instead of trying to find an approach that makes everyone happy, you
-decided to let the patchset die.
+*snip*
 
-> 
-> > 2/ define a new binding where all nvmem-cells are placed in an
-> >    "nvmem" subnode (just like we have this "partitions" subnode for
-> >    partitions), and then add a config->of_node field so that the
-> >    nvmem provider can explicitly specify the DT node representing the
-> >    nvmem device. We'll also need to set this field to ERR_PTR(-ENOENT)
-> >    in case this node does not exist so that the nvmem framework knows
-> >    that it should not assign nvmem->dev.of_node to parent->of_node  
-> 
-> This is not good. First the NVMEM device is only a virtual concept of
-> the Linux kernel, it has no place in the DT.
+> diff --git a/drivers/i2c/muxes/i2c-mux-gpio.c b/drivers/i2c/muxes/i2c-mux-gpio.c
+> index 401308e3d036..d675e0ca2fa4 100644
+> --- a/drivers/i2c/muxes/i2c-mux-gpio.c
+> +++ b/drivers/i2c/muxes/i2c-mux-gpio.c
+> @@ -27,13 +27,14 @@ struct gpiomux {
+>  
+>  static void i2c_mux_gpio_set(const struct gpiomux *mux, unsigned val)
+>  {
+> +	unsigned long value_bitmap[1] = { val, };
+>  	int i;
+>  
+>  	for (i = 0; i < mux->data.n_gpios; i++)
+>  		mux->values[i] = (val >> i) & 1;
+>  
+>  	gpiod_set_array_value_cansleep(mux->data.n_gpios,
+> -				       mux->gpios, mux->values);
+> +				       mux->gpios, value_bitmap);
+>  }
+>  
+>  static int i2c_mux_gpio_select(struct i2c_mux_core *muxc, u32 chan)
 
-nvmem-cells is a virtual concept too, still, you define them in the DT.
+Please take the opportunity to completely get rid of the values member
+in struct mux_gpio. It no longer serves any purpose.
 
-> Secondly the NVMEM
-> provider (here the MTD device) then has to manually parse its DT node to
-> find this subnode, pass it to the NVMEM framework to later again
-> resolve it back to the MTD device.
+*snip*
 
-We don't resolve it back to the MTD device, because the MTD device is
-just the parent of the nvmem device.
+> diff --git a/drivers/mux/gpio.c b/drivers/mux/gpio.c
+> index 6fdd9316db8b..cc2d5f50472a 100644
+> --- a/drivers/mux/gpio.c
+> +++ b/drivers/mux/gpio.c
+> @@ -23,14 +23,14 @@ struct mux_gpio {
+>  static int mux_gpio_set(struct mux_control *mux, int state)
+>  {
+>  	struct mux_gpio *mux_gpio = mux_chip_priv(mux->chip);
+> +	unsigned long value_bitmap[1] = { state, };
+>  	int i;
+>  
+>  	for (i = 0; i < mux_gpio->gpios->ndescs; i++)
+>  		mux_gpio->val[i] = (state >> i) & 1;
+>  
+>  	gpiod_set_array_value_cansleep(mux_gpio->gpios->ndescs,
+> -				       mux_gpio->gpios->desc,
+> -				       mux_gpio->val);
+> +				       mux_gpio->gpios->desc, value_bitmap);
+>  
+>  	return 0;
+>  }
 
-> Not very complex but still a lot of
-> useless code, just registering the MTD device is a lot simpler and much
-> more inline with most other kernel API that register a "service"
-> available from a device.
+Dito (but the member name is val).
 
-I'm not a big fan of this option either, but I thought I had to propose
-it.
+*snip*
 
-> 
-> > 3/ only declare partitions as nvmem providers. This would solve the
-> >    problem we have with partitions defined in the DT since
-> >    defining sub-partitions in the DT is not (yet?) supported and
-> >    partition nodes are supposed to be leaf nodes. Still, I'm not a big
-> >    fan of this solution because it will prevent us from supporting
-> >    sub-partitions if we ever want/need to.  
-> 
-> That sound like a poor workaround.
-
-Yes, that's a workaround. And the reason I propose it, is, again,
-because I don't want to block Bartosz.
-
-> Remember that this problem could
-> appear with any device that has a binding that use child nodes.
-
-I'm talking about partitions, and you're talking about mtd devices.
-Right now partitions don't have subnodes, and if we define that
-partition subnodes should describe nvmem-cells, then it becomes part of
-the official binding. So, no, the problem you mention does not (yet)
-exist.
-
-> 
-> > 4/ Add a ->of_xlate() hook that would be called if present by the
-> >    framework instead of using the default parsing we have right now.  
-> 
-> That is a bit cleaner, but I don't think it would be worse the
-> complexity.
-
-But it's way more flexible than putting everything in the nvmem
-framework. BTW, did you notice that nvmem-cells parsing does not work
-with flashes bigger than 4GB, because the framework assumes
-#address-cells and #size-cells are always 1. That's probably something
-we'll have to fix for the MTD case.
-
-> Furthermore xlate functions are more about converting
-> from hardware parameters to internal kernel representation than to hide
-> extra DT parsing.
-
-Hm, how is that different? ->of_xlate() is just a way for drivers to
-have their own DT representation, which is exactly what we want here.
-
-> 
-> > 5/ Tell the nvmem framework the name of the subnode containing nvmem
-> >    cell definitions (if NULL that means cells are directly defined
-> >    under the nvmem provider node). We would set it to "nvmem-cells" (or
-> >    whatever you like) for the MTD case.  
-> 
-> If so please match on compatible and not on the node name.
-
-If you like.
-
-> 
-> 6/ Extend the current NVMEM cell lookup to check if the parent node of
-> the cell has a compatible string set to "nvmem-cells". If it doesn't it
-> mean we have the current binding and this node is the NVMEM device. If
-> it does the device node is just the next parent. This is trivial to
-> implement (literally 2 lines of code) and cover all the cases currently
-> known.
-
-Except Srinivas was not happy with this solution, and this stalled the
-discussion. I'm trying to find other options and you keep rejecting all
-of them to come back to this one.
-
-> 
-> 7/ Just add a compatible string to the nvmem cell. No code change is
-> needed,
-
-That's not true!!! What forces people to add this compatible in their
-DT? Nothing. I'll tell you what will happen: people will start defining
-their nvmem cells directly under the MTD node because that *works*, and
-even if the binding is not documented and we consider it invalid, we'll
-be stuck supporting it forever. As said above, the very reason for
-option #1 to exist is to give you and Srinivas some more time to sort
-this out, while unblocking Bartosz in the meantime.
-
-> however as the nvmem cells have an address space (the offset in
-> byte in the storage) it might still clash with another address space
-> used by the main device biding (for example a number of child
-> functions).
-> 
-> > There are probably other options (some were proposed by Alban and
-> > Srinivas already), but I'd like to get this sorted out before we merge
-> > this patch.
-> > 
-> > Alban, Srinivas, any opinion?  
-> 
-> My preference goes to 6/ as it is trivial to implement, solves all
-> known shortcomings and is backward compatible with the current binding.
-> All other solutions have limitations and/or require too complex
-> implementations compared to what they try to solve.
-
-So we're back to square 1, and you're again blocking everything because
-you refuse to consider other options.
-
-There's obviously nothing more I can do to help, and that's unfortunate
-because other people are waiting for this feature.
-
-Regards,
-
-Boris
+Cheers,
+Peter
