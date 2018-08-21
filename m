@@ -1,53 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 72C167D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 09:50:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 51DAC7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 09:56:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726967AbeHUNJi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 09:09:38 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44307 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726684AbeHUNJi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 09:09:38 -0400
-Received: by mail-wr1-f65.google.com with SMTP id v16-v6so866703wro.11
-        for <linux-doc@vger.kernel.org>; Tue, 21 Aug 2018 02:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8vP5tQjueaKebpIG8lvKOk7rcE8hPPPF+Bwwq5gcPvA=;
-        b=OJ4ek/S9uY4HWTlb42V92J7x5lvZeAJmKnAolKVf/jf0M34K4JAVMJiDBJO6PTi4Vi
-         d4QyI/d/VhXnYvWyNPFlQdWLZF/cabYbMz+Nh1pltAoQ4+RYj9Ub9F3nEef7Bz++nYlZ
-         UVT1uXjvbmUtjod0AKKK0nUTLih2Rmfzqsyfc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8vP5tQjueaKebpIG8lvKOk7rcE8hPPPF+Bwwq5gcPvA=;
-        b=dcJ76osFsauHW7Vs/BhRX7oOiObfT1RAWnr25RmC0Akh3wd/Qzi2Cd66tYpkRUmJx6
-         3q/w+EZERwzXizsJo9r1XYLuHe7PA+9eiaEGkhB0h3d+kjp9n6sAsCJVYFgj69qchFJC
-         tCwVlimJLMhjQvIPPOdIT4S0aQfTRl35PbfkNYBbK+acuQighccDaPnzYfwdD2wY1wPi
-         mhGltG1U83o2r8F1KitbhCUC6L61Wh5cbTn8+dKS77NZxY9tqR/UWZGBTN3xfWj7kPz3
-         5LRlQkyEm7Twxn1kPJW9VG74LceAqp2kknS7AT7QC1dTYqdU8SKK5QgC99hLqdassU5q
-         o1ow==
-X-Gm-Message-State: APzg51BGrvwRQ8HpVM1H3NGKjb9h3Jvfs+hEGcgy2k1rbPzeEacFIefb
-        xWVB5hQ4V9BWH3U+3ZttMtB1UQ==
-X-Google-Smtp-Source: ANB0VdYmDkdLcMEkhhQjUjak1hfHDMYLTvonOBB4QbvJobyOJ0IeRDJbDsBuchJJNRp7OwL0EqGrZQ==
-X-Received: by 2002:adf:a964:: with SMTP id u91-v6mr3430691wrc.140.1534845009128;
-        Tue, 21 Aug 2018 02:50:09 -0700 (PDT)
-Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
-        by smtp.googlemail.com with ESMTPSA id m68-v6sm3857097wmb.10.2018.08.21.02.50.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 Aug 2018 02:50:08 -0700 (PDT)
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via the
- nvmem API
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
+        id S1726898AbeHUNQN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 09:16:13 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:37457 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726709AbeHUNQN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Aug 2018 09:16:13 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 37DB820799; Tue, 21 Aug 2018 11:56:41 +0200 (CEST)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 68FD120618;
+        Tue, 21 Aug 2018 11:56:40 +0200 (CEST)
+Date:   Tue, 21 Aug 2018 11:56:39 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Cc:     Alban <albeu@free.fr>, Bartosz Golaszewski <brgl@bgdev.pl>,
         Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
@@ -75,48 +49,83 @@ Cc:     Alban <albeu@free.fr>, Bartosz Golaszewski <brgl@bgdev.pl>,
         linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-omap@vger.kernel.org, netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
+ the nvmem API
+Message-ID: <20180821115639.4894c1c9@bbrezillon>
+In-Reply-To: <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
- <20180810080526.27207-7-brgl@bgdev.pl> <20180817182720.6a6e5e8e@bbrezillon>
- <20180819133106.0420df5f@tock> <20180819184609.6dcdbb9a@bbrezillon>
- <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
- <20180820202038.5d3dc195@bbrezillon>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
-Date:   Tue, 21 Aug 2018 10:50:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        <20180810080526.27207-7-brgl@bgdev.pl>
+        <20180817182720.6a6e5e8e@bbrezillon>
+        <20180819133106.0420df5f@tock>
+        <20180819184609.6dcdbb9a@bbrezillon>
+        <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
+        <20180820202038.5d3dc195@bbrezillon>
+        <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20180820202038.5d3dc195@bbrezillon>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 21 Aug 2018 10:50:07 +0100
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
 
-
-On 20/08/18 19:20, Boris Brezillon wrote:
-> On Mon, 20 Aug 2018 11:43:34 +0100
-> Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
+> On 20/08/18 19:20, Boris Brezillon wrote:
+> > On Mon, 20 Aug 2018 11:43:34 +0100
+> > Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
+> >   
+> >>
+> >> Overall am still not able to clear visualize on how MTD bindings with
+> >> nvmem cells would look in both partition and un-partition usecases?
+> >> An example DT would be nice here!!  
+> > 
+> > Something along those lines:
+> >   
+> This looks good to me.
+> > 	mtdnode {
+> > 		nvmem-cells {
+> > 			#address-cells = <1>;
+> > 			#size-cells = <1>;
+> > 
+> > 			cell@0 {
+> > 				reg = <0x0 0x14>;
+> > 			};
+> > 		};
+> > 
+> > 		partitions {
+> > 			compatible = "fixed-partitions";
+> > 			#address-cells = <1>;
+> > 			#size-cells = <1>;
+> > 
+> > 			partition@0 {
+> > 				reg = <0x0 0x20000>;
+> > 
+> > 				nvmem-cells {
+> > 					#address-cells = <1>;
+> > 					#size-cells = <1>;
+> > 
+> > 					cell@0 {
+> > 						reg = <0x0 0x10>;
+> > 					};
+> > 				};
+> > 			};
+> > 		};
+> > 	}; >  
 > 
->>
->> Overall am still not able to clear visualize on how MTD bindings with
->> nvmem cells would look in both partition and un-partition usecases?
->> An example DT would be nice here!!
+> Just curious...Is there a reason why we can't do it like this?:
+> Is this because of issue of #address-cells and #size-cells Or mtd 
+> bindings always prefer subnodes?
 > 
-> Something along those lines:
-> 
-This looks good to me.
 > 	mtdnode {
-> 		nvmem-cells {
-> 			#address-cells = <1>;
-> 			#size-cells = <1>;
-> 
-> 			cell@0 {
-> 				reg = <0x0 0x14>;
-> 			};
+> 		reg = <0x0123000 0x40000>;
+> 		#address-cells = <1>;
+> 		#size-cells = <1>;
+> 		cell@0 {
+> 			compatible = "nvmem-cell";
+> 			reg = <0x0 0x14>;
 > 		};
 > 
 > 		partitions {
@@ -126,48 +135,28 @@ This looks good to me.
 > 
 > 			partition@0 {
 > 				reg = <0x0 0x20000>;
-> 
-> 				nvmem-cells {
-> 					#address-cells = <1>;
-> 					#size-cells = <1>;
-> 
-> 					cell@0 {
-> 						reg = <0x0 0x10>;
-> 					};
+> 				cell@0 {
+> 					compatible = "nvmem-cell";
+> 					reg = <0x0 0x10>;
 > 				};
 > 			};
 > 		};
-> 	}; >
+> 	};
 
-Just curious...Is there a reason why we can't do it like this?:
-Is this because of issue of #address-cells and #size-cells Or mtd 
-bindings always prefer subnodes?
+It's because partitions were initially directly defined under the mtd
+node, so, if you have an old DT you might have something like:
 
 	mtdnode {
 		reg = <0x0123000 0x40000>;
 		#address-cells = <1>;
 		#size-cells = <1>;
-		cell@0 {
-			compatible = "nvmem-cell";
-			reg = <0x0 0x14>;
-		};
 
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			partition@0 {
-				reg = <0x0 0x20000>;
-				cell@0 {
-					compatible = "nvmem-cell";
-					reg = <0x0 0x10>;
-				};
-			};
+		partition@0 {
+			reg = <0x0 0x20000>;
+			...
 		};
+		...
 	};
 
-Am okay either way!
-
-thanks,
-srini
+If we use such a DT with this patch applied, the NVMEM framework will
+consider MTD partitions as nvmem cells, which is not what we want.
