@@ -1,141 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 677DC7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 05:07:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A6A2E7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 05:20:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726390AbeHUI0L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 04:26:11 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:57725 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726346AbeHUI0L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Aug 2018 04:26:11 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 0E35D20717; Tue, 21 Aug 2018 07:07:35 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 4190720703;
-        Tue, 21 Aug 2018 07:07:34 +0200 (CEST)
-Date:   Tue, 21 Aug 2018 07:07:34 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Alban <albeu@free.fr>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180821070734.6dd1734d@bbrezillon>
-In-Reply-To: <20180820232748.608c3667@tock>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-7-brgl@bgdev.pl>
-        <20180817182720.6a6e5e8e@bbrezillon>
-        <20180819133106.0420df5f@tock>
-        <20180819184609.6dcdbb9a@bbrezillon>
-        <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
-        <20180820202038.5d3dc195@bbrezillon>
-        <20180820232748.608c3667@tock>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S1726413AbeHUIir (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 04:38:47 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:48351 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726175AbeHUIir (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 04:38:47 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 646162201E;
+        Tue, 21 Aug 2018 01:20:11 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Tue, 21 Aug 2018 01:20:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+        :content-type:date:from:in-reply-to:message-id:mime-version
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; bh=i1aQU6XCDoLlpyev6bF/32X5wqj1ViEBwNg/r7ev864=; b=xAFqQcyl
+        XxBLL2s7cl15xk8lNOCploHv5q+QT0lITUS412HlJsBAkAgsZUSShKDZV7OPxTGj
+        QGqGkGBSz337X74sa8Mc2YNhHvxTHuuQSaze01ImzzIwKz4TbtYkCV2cVUtYxafA
+        tWAI7o6Vhg+NMbssnXK0DgRbxsOW8HuyWE2hfh8zr19GlYNQn+PK3GliBacBkBLw
+        LbqaPpTY5/gZH+PUE4Z3qicrajPucNtbaIccSaAkJHmcpH4SD03lhNa9NWvUhChJ
+        q1RCL6kWeywC1nex40lu/InAAF9QCQ9OpF4aTWqyNJRlXMMLw+/nwsyYZwaRhrbZ
+        Z5rdtkJEsOmGCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=i1aQU6XCDoLlpyev6bF/32X5wqj1V
+        iEBwNg/r7ev864=; b=QCts/NBOTy4JI8Ozq4gNr9/CJW/dHPujpssYqHAmiQv00
+        vBoM+sOAZ6S5xZvaSPNqcWxV9IKs9zKugp20gyvdpztrJ5E81+R/QNwGdEDQ+O9H
+        Hj0xHd8Z+bsE0z3eUeC0G2PQdVy5cDRNTIl9JV5XKlsDZr0seHbFcqP71p7IZs4d
+        iKby/muwaA/mRVg4oOOaZI85HTMvIhrPu2aw0Clf1VX/UucJBO+B8yhgcqqbpZIh
+        g8wV3VXbM2Wjss6NsjYK1FNcMW1a7fMr5/VWidSV+IyITMCP/NkgZwsx3FQVehzN
+        Leb9EWXLfc6LDWMJPnws0CTKvI5P/L2YBRt/+2+Nw==
+X-ME-Proxy: <xmx:B6F7Wy92pmRXbxfbzKQqJqp9qTCgeZHNRNLC0hdgjf2uQ741pzCzWw>
+    <xmx:B6F7W93uzKU9yiD8X8Md42nJ-xLEGnDemijbWkm8svvDFk4fZi3t0w>
+    <xmx:B6F7W3aGceURFZTurPXj2rEhiVk_CELpQjIgSLdsA-OFGaqGO8UNZQ>
+    <xmx:B6F7W5syfu_qSXz2U_IrweoFXcSZkltaw5kJ0QXEM0qdiqEWfC_lGQ>
+    <xmx:B6F7W-B3TnmDEJxgyyUnQFCLruB24xGJKNc62ElnZhms3tSxUg_b_w>
+    <xmx:C6F7WyxSdBG0OQ2A3_ONa0UtO5E0P8LpMXeOdnlUxznxUQWY9m53Zw>
+X-ME-Sender: <xms:B6F7W3Ak6mgTMC5rOOjsES5g-abpO4A3w-21lYdQ3zR02VCFNUUOzA>
+Received: from localhost (5355525a.cm-6-6b.dynamic.ziggo.nl [83.85.82.90])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 6D2DCE4626;
+        Tue, 21 Aug 2018 01:20:05 -0400 (EDT)
+Date:   Tue, 21 Aug 2018 07:20:00 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Andi Kleen <andi@firstfloor.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        stable <stable@vger.kernel.org>, Andi Kleen <ak@linux.intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andrew Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Dave Young <dyoung@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        Matt Fleming <matt@codeblueprint.co.uk>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Rik van Riel <riel@redhat.com>,
+        Toshi Kani <toshi.kani@hpe.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        KVM list <kvm@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, Ingo Molnar <mingo@kernel.org>
+Subject: Re: [PATCH] x86/mm: Simplify p[g4um]d_page() macros
+Message-ID: <20180821052000.GB23615@kroah.com>
+References: <20180820203705.16212-1-andi@firstfloor.org>
+ <20180820203705.16212-2-andi@firstfloor.org>
+ <CA+55aFyo_MFz2Qg3pEbLMf3zhvAQbpZf3mQf98bTRJx28drbeQ@mail.gmail.com>
+ <20180820220422.7qrayn7wivmejr24@two.firstfloor.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180820220422.7qrayn7wivmejr24@two.firstfloor.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 20 Aug 2018 23:27:48 +0200
-Alban <albeu@free.fr> wrote:
-
-> On Mon, 20 Aug 2018 20:20:38 +0200
-> Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> 
-> > On Mon, 20 Aug 2018 11:43:34 +0100
-> > Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
-> >   
-> > > 
-> > > Overall am still not able to clear visualize on how MTD bindings with 
-> > > nvmem cells would look in both partition and un-partition usecases?
-> > > An example DT would be nice here!!    
+On Mon, Aug 20, 2018 at 03:04:23PM -0700, Andi Kleen wrote:
+> On Mon, Aug 20, 2018 at 02:57:39PM -0700, Linus Torvalds wrote:
+> > On Mon, Aug 20, 2018 at 1:37 PM Andi Kleen <andi@firstfloor.org> wrote:
+> > >
+> > > From: Andi Kleen <ak@linux.intel.com>
+> > >
+> > > Create a pgd_pfn() macro similar to the p[4um]d_pfn() macros and then
+> > > use the p[g4um]d_pfn() macros in the p[g4um]d_page() macros instead of
+> > > duplicating the code.
 > > 
-> > Something along those lines:  
+> > When doing backports, _please_ explicitly specify which commit this is
+> > upstream too.
 > 
-> We must also have a compatible string on the nvmem-cells node to make
-> sure we don't clash with the old style MTD partitions,
-
-That's not possible, because we don't have a reg prop in the
-nvmem-cells node.
-
-> or some other
-> device specific binding.
-
-This one might happen.
-
-Was Rob okay with this compatible? If he was, I guess we can go for
-this binding. Srinivas, any objection?
-
+> Ok.
 > 
 > > 
-> > 	mtdnode {
-> > 		nvmem-cells {  
->                         compatible = "nvmem-cells";
-> > 			#address-cells = <1>;
-> > 			#size-cells = <1>;
-> > 
-> > 			cell@0 {
-> > 				reg = <0x0 0x14>;
-> > 			};
-> > 		};
-> > 
-> > 		partitions {
-> > 			compatible = "fixed-partitions";
-> > 			#address-cells = <1>;
-> > 			#size-cells = <1>;
-> > 
-> > 			partition@0 {
-> > 				reg = <0x0 0x20000>;
-> > 
-> > 				nvmem-cells {  
->                                         compatible = "nvmem-cells";
-> > 					#address-cells = <1>;
-> > 					#size-cells = <1>;
-> > 
-> > 					cell@0 {
-> > 						reg = <0x0 0x10>;
-> > 					};
-> > 				};
-> > 			};
-> > 		};
-> > 	};  
+> > Also, the original upstream patch is credited to Tom Lendacky.
 > 
+> Okay.
 > 
-> Alban
+> > 
+> > Or is there something I'm not seeing, and this is different from
+> > commit fd7e315988b7 ("x86/mm: Simplify p[g4um]d_page() macros")?
+> 
+> No it's Tom's patch just ported to the older tree with some minor
+> changes. I just fat fingered it while doing the commit
 
+Ok, I've fixed this up by hand now, please be more careful next time.
+
+greg k-h
