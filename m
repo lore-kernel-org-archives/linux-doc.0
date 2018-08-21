@@ -1,126 +1,280 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A6A2E7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 05:20:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD12B7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 05:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726413AbeHUIir (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 04:38:47 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:48351 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726175AbeHUIir (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 04:38:47 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 646162201E;
-        Tue, 21 Aug 2018 01:20:11 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 21 Aug 2018 01:20:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=i1aQU6XCDoLlpyev6bF/32X5wqj1ViEBwNg/r7ev864=; b=xAFqQcyl
-        XxBLL2s7cl15xk8lNOCploHv5q+QT0lITUS412HlJsBAkAgsZUSShKDZV7OPxTGj
-        QGqGkGBSz337X74sa8Mc2YNhHvxTHuuQSaze01ImzzIwKz4TbtYkCV2cVUtYxafA
-        tWAI7o6Vhg+NMbssnXK0DgRbxsOW8HuyWE2hfh8zr19GlYNQn+PK3GliBacBkBLw
-        LbqaPpTY5/gZH+PUE4Z3qicrajPucNtbaIccSaAkJHmcpH4SD03lhNa9NWvUhChJ
-        q1RCL6kWeywC1nex40lu/InAAF9QCQ9OpF4aTWqyNJRlXMMLw+/nwsyYZwaRhrbZ
-        Z5rdtkJEsOmGCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=i1aQU6XCDoLlpyev6bF/32X5wqj1V
-        iEBwNg/r7ev864=; b=QCts/NBOTy4JI8Ozq4gNr9/CJW/dHPujpssYqHAmiQv00
-        vBoM+sOAZ6S5xZvaSPNqcWxV9IKs9zKugp20gyvdpztrJ5E81+R/QNwGdEDQ+O9H
-        Hj0xHd8Z+bsE0z3eUeC0G2PQdVy5cDRNTIl9JV5XKlsDZr0seHbFcqP71p7IZs4d
-        iKby/muwaA/mRVg4oOOaZI85HTMvIhrPu2aw0Clf1VX/UucJBO+B8yhgcqqbpZIh
-        g8wV3VXbM2Wjss6NsjYK1FNcMW1a7fMr5/VWidSV+IyITMCP/NkgZwsx3FQVehzN
-        Leb9EWXLfc6LDWMJPnws0CTKvI5P/L2YBRt/+2+Nw==
-X-ME-Proxy: <xmx:B6F7Wy92pmRXbxfbzKQqJqp9qTCgeZHNRNLC0hdgjf2uQ741pzCzWw>
-    <xmx:B6F7W93uzKU9yiD8X8Md42nJ-xLEGnDemijbWkm8svvDFk4fZi3t0w>
-    <xmx:B6F7W3aGceURFZTurPXj2rEhiVk_CELpQjIgSLdsA-OFGaqGO8UNZQ>
-    <xmx:B6F7W5syfu_qSXz2U_IrweoFXcSZkltaw5kJ0QXEM0qdiqEWfC_lGQ>
-    <xmx:B6F7W-B3TnmDEJxgyyUnQFCLruB24xGJKNc62ElnZhms3tSxUg_b_w>
-    <xmx:C6F7WyxSdBG0OQ2A3_ONa0UtO5E0P8LpMXeOdnlUxznxUQWY9m53Zw>
-X-ME-Sender: <xms:B6F7W3Ak6mgTMC5rOOjsES5g-abpO4A3w-21lYdQ3zR02VCFNUUOzA>
-Received: from localhost (5355525a.cm-6-6b.dynamic.ziggo.nl [83.85.82.90])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 6D2DCE4626;
-        Tue, 21 Aug 2018 01:20:05 -0400 (EDT)
-Date:   Tue, 21 Aug 2018 07:20:00 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Andi Kleen <andi@firstfloor.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        stable <stable@vger.kernel.org>, Andi Kleen <ak@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andrew Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Young <dyoung@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        Matt Fleming <matt@codeblueprint.co.uk>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Rik van Riel <riel@redhat.com>,
-        Toshi Kani <toshi.kani@hpe.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        KVM list <kvm@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, Ingo Molnar <mingo@kernel.org>
-Subject: Re: [PATCH] x86/mm: Simplify p[g4um]d_page() macros
-Message-ID: <20180821052000.GB23615@kroah.com>
-References: <20180820203705.16212-1-andi@firstfloor.org>
- <20180820203705.16212-2-andi@firstfloor.org>
- <CA+55aFyo_MFz2Qg3pEbLMf3zhvAQbpZf3mQf98bTRJx28drbeQ@mail.gmail.com>
- <20180820220422.7qrayn7wivmejr24@two.firstfloor.org>
+        id S1726175AbeHUJCr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 05:02:47 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:58348 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726115AbeHUJCq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Aug 2018 05:02:46 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id C1826207AD; Tue, 21 Aug 2018 07:44:04 +0200 (CEST)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id D3E03204AE;
+        Tue, 21 Aug 2018 07:44:03 +0200 (CEST)
+Date:   Tue, 21 Aug 2018 07:44:04 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Alban <albeu@free.fr>
+Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
+ the nvmem API
+Message-ID: <20180821074404.23aaeb6b@bbrezillon>
+In-Reply-To: <20180821005327.0d312a85@tock>
+References: <20180810080526.27207-1-brgl@bgdev.pl>
+        <20180810080526.27207-7-brgl@bgdev.pl>
+        <20180817182720.6a6e5e8e@bbrezillon>
+        <20180819133106.0420df5f@tock>
+        <20180819184609.6dcdbb9a@bbrezillon>
+        <20180821005327.0d312a85@tock>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180820220422.7qrayn7wivmejr24@two.firstfloor.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 20, 2018 at 03:04:23PM -0700, Andi Kleen wrote:
-> On Mon, Aug 20, 2018 at 02:57:39PM -0700, Linus Torvalds wrote:
-> > On Mon, Aug 20, 2018 at 1:37 PM Andi Kleen <andi@firstfloor.org> wrote:
-> > >
-> > > From: Andi Kleen <ak@linux.intel.com>
-> > >
-> > > Create a pgd_pfn() macro similar to the p[4um]d_pfn() macros and then
-> > > use the p[g4um]d_pfn() macros in the p[g4um]d_page() macros instead of
-> > > duplicating the code.
-> > 
-> > When doing backports, _please_ explicitly specify which commit this is
-> > upstream too.
-> 
-> Ok.
-> 
-> > 
-> > Also, the original upstream patch is credited to Tom Lendacky.
-> 
-> Okay.
-> 
-> > 
-> > Or is there something I'm not seeing, and this is different from
-> > commit fd7e315988b7 ("x86/mm: Simplify p[g4um]d_page() macros")?
-> 
-> No it's Tom's patch just ported to the older tree with some minor
-> changes. I just fat fingered it while doing the commit
+On Tue, 21 Aug 2018 00:53:27 +0200
+Alban <albeu@free.fr> wrote:
 
-Ok, I've fixed this up by hand now, please be more careful next time.
+> On Sun, 19 Aug 2018 18:46:09 +0200
+> Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+> 
+> > On Sun, 19 Aug 2018 13:31:06 +0200
+> > Alban <albeu@free.fr> wrote:
+> >   
+> > > On Fri, 17 Aug 2018 18:27:20 +0200
+> > > Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+> > >     
+> > > > Hi Bartosz,
+> > > > 
+> > > > On Fri, 10 Aug 2018 10:05:03 +0200
+> > > > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> > > >       
+> > > > > From: Alban Bedel <albeu@free.fr>
+> > > > > 
+> > > > > Allow drivers that use the nvmem API to read data stored on MTD devices.
+> > > > > For this the mtd devices are registered as read-only NVMEM providers.
+> > > > > 
+> > > > > Signed-off-by: Alban Bedel <albeu@free.fr>
+> > > > > [Bartosz:
+> > > > >   - use the managed variant of nvmem_register(),
+> > > > >   - set the nvmem name]
+> > > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>        
+> > > > 
+> > > > What happened to the 2 other patches of Alban's series? I'd really
+> > > > like the DT case to be handled/agreed on in the same patchset, but
+> > > > IIRC, Alban and Srinivas disagreed on how this should be represented.
+> > > > I hope this time we'll come to an agreement, because the MTD <-> NVMEM
+> > > > glue has been floating around for quite some time...      
+> > > 
+> > > These other patches were to fix what I consider a fundamental flaw in
+> > > the generic NVMEM bindings, however we couldn't agree on this point.
+> > > Bartosz later contacted me to take over this series and I suggested to
+> > > just change the MTD NVMEM binding to use a compatible string on the
+> > > NVMEM cells as an alternative solution to fix the clash with the old
+> > > style MTD partition.
+> > > 
+> > > However all this has no impact on the code needed to add NVMEM support
+> > > to MTD, so the above patch didn't change at all.    
+> > 
+> > It does have an impact on the supported binding though.
+> > nvmem->dev.of_node is automatically assigned to mtd->dev.of_node, which
+> > means people will be able to define their NVMEM cells directly under
+> > the MTD device and reference them from other nodes (even if it's not
+> > documented), and as you said, it conflict with the old MTD partition
+> > bindings. So we'd better agree on this binding before merging this
+> > patch.  
+> 
+> Unless the nvmem cell node has a compatible string, then it won't be
+> considered as a partition by the MTD code. That is were the clash is,
+> both bindings allow free named child nodes without a compatible string.
 
-greg k-h
+Except the current nvmem cells parsing code does not enforce that, and
+existing DTs rely on this behavior, so we're screwed. Or are you
+suggesting to add a new "bool check_cells_compat;" field to
+nvmem_config?
+
+> 
+> > I see several options:
+> > 
+> > 1/ provide a way to tell the NVMEM framework not to use parent->of_node
+> >    even if it's != NULL. This way we really don't support defining
+> >    NVMEM cells in the DT, and also don't support referencing the nvmem
+> >    device using a phandle.  
+> 
+> I really don't get what the point of this would be. Make the whole API
+> useless?
+
+No, just allow Bartosz to get his changes merged without waiting for you
+and Srinivas to agree on how to handle the new binding. As I said
+earlier, this mtd <-> nvmem stuff has been around for quite some time,
+and instead of trying to find an approach that makes everyone happy, you
+decided to let the patchset die.
+
+> 
+> > 2/ define a new binding where all nvmem-cells are placed in an
+> >    "nvmem" subnode (just like we have this "partitions" subnode for
+> >    partitions), and then add a config->of_node field so that the
+> >    nvmem provider can explicitly specify the DT node representing the
+> >    nvmem device. We'll also need to set this field to ERR_PTR(-ENOENT)
+> >    in case this node does not exist so that the nvmem framework knows
+> >    that it should not assign nvmem->dev.of_node to parent->of_node  
+> 
+> This is not good. First the NVMEM device is only a virtual concept of
+> the Linux kernel, it has no place in the DT.
+
+nvmem-cells is a virtual concept too, still, you define them in the DT.
+
+> Secondly the NVMEM
+> provider (here the MTD device) then has to manually parse its DT node to
+> find this subnode, pass it to the NVMEM framework to later again
+> resolve it back to the MTD device.
+
+We don't resolve it back to the MTD device, because the MTD device is
+just the parent of the nvmem device.
+
+> Not very complex but still a lot of
+> useless code, just registering the MTD device is a lot simpler and much
+> more inline with most other kernel API that register a "service"
+> available from a device.
+
+I'm not a big fan of this option either, but I thought I had to propose
+it.
+
+> 
+> > 3/ only declare partitions as nvmem providers. This would solve the
+> >    problem we have with partitions defined in the DT since
+> >    defining sub-partitions in the DT is not (yet?) supported and
+> >    partition nodes are supposed to be leaf nodes. Still, I'm not a big
+> >    fan of this solution because it will prevent us from supporting
+> >    sub-partitions if we ever want/need to.  
+> 
+> That sound like a poor workaround.
+
+Yes, that's a workaround. And the reason I propose it, is, again,
+because I don't want to block Bartosz.
+
+> Remember that this problem could
+> appear with any device that has a binding that use child nodes.
+
+I'm talking about partitions, and you're talking about mtd devices.
+Right now partitions don't have subnodes, and if we define that
+partition subnodes should describe nvmem-cells, then it becomes part of
+the official binding. So, no, the problem you mention does not (yet)
+exist.
+
+> 
+> > 4/ Add a ->of_xlate() hook that would be called if present by the
+> >    framework instead of using the default parsing we have right now.  
+> 
+> That is a bit cleaner, but I don't think it would be worse the
+> complexity.
+
+But it's way more flexible than putting everything in the nvmem
+framework. BTW, did you notice that nvmem-cells parsing does not work
+with flashes bigger than 4GB, because the framework assumes
+#address-cells and #size-cells are always 1. That's probably something
+we'll have to fix for the MTD case.
+
+> Furthermore xlate functions are more about converting
+> from hardware parameters to internal kernel representation than to hide
+> extra DT parsing.
+
+Hm, how is that different? ->of_xlate() is just a way for drivers to
+have their own DT representation, which is exactly what we want here.
+
+> 
+> > 5/ Tell the nvmem framework the name of the subnode containing nvmem
+> >    cell definitions (if NULL that means cells are directly defined
+> >    under the nvmem provider node). We would set it to "nvmem-cells" (or
+> >    whatever you like) for the MTD case.  
+> 
+> If so please match on compatible and not on the node name.
+
+If you like.
+
+> 
+> 6/ Extend the current NVMEM cell lookup to check if the parent node of
+> the cell has a compatible string set to "nvmem-cells". If it doesn't it
+> mean we have the current binding and this node is the NVMEM device. If
+> it does the device node is just the next parent. This is trivial to
+> implement (literally 2 lines of code) and cover all the cases currently
+> known.
+
+Except Srinivas was not happy with this solution, and this stalled the
+discussion. I'm trying to find other options and you keep rejecting all
+of them to come back to this one.
+
+> 
+> 7/ Just add a compatible string to the nvmem cell. No code change is
+> needed,
+
+That's not true!!! What forces people to add this compatible in their
+DT? Nothing. I'll tell you what will happen: people will start defining
+their nvmem cells directly under the MTD node because that *works*, and
+even if the binding is not documented and we consider it invalid, we'll
+be stuck supporting it forever. As said above, the very reason for
+option #1 to exist is to give you and Srinivas some more time to sort
+this out, while unblocking Bartosz in the meantime.
+
+> however as the nvmem cells have an address space (the offset in
+> byte in the storage) it might still clash with another address space
+> used by the main device biding (for example a number of child
+> functions).
+> 
+> > There are probably other options (some were proposed by Alban and
+> > Srinivas already), but I'd like to get this sorted out before we merge
+> > this patch.
+> > 
+> > Alban, Srinivas, any opinion?  
+> 
+> My preference goes to 6/ as it is trivial to implement, solves all
+> known shortcomings and is backward compatible with the current binding.
+> All other solutions have limitations and/or require too complex
+> implementations compared to what they try to solve.
+
+So we're back to square 1, and you're again blocking everything because
+you refuse to consider other options.
+
+There's obviously nothing more I can do to help, and that's unfortunate
+because other people are waiting for this feature.
+
+Regards,
+
+Boris
