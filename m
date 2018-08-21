@@ -1,64 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	LOTS_OF_MONEY,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,RCVD_IN_SBL autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 81E4A7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 03:25:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 677DC7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 05:07:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725733AbeHUGoN convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 02:44:13 -0400
-Received: from mail.hmha.gob.ec ([190.11.21.43]:33946 "EHLO mail.hmha.gob.ec"
+        id S1726390AbeHUI0L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 Aug 2018 04:26:11 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:57725 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725732AbeHUGoN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Aug 2018 02:44:13 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.hmha.gob.ec (Postfix) with ESMTP id BE1C520A235E;
-        Mon, 20 Aug 2018 18:08:27 -0500 (-05)
-Received: from mail.hmha.gob.ec ([127.0.0.1])
-        by localhost (mail.hmha.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Vs01QYMo_rb2; Mon, 20 Aug 2018 18:08:27 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.hmha.gob.ec (Postfix) with ESMTP id A322C2104A3F;
-        Mon, 20 Aug 2018 17:24:45 -0500 (-05)
-X-Virus-Scanned: amavisd-new at hmha.gob.ec
-Received: from mail.hmha.gob.ec ([127.0.0.1])
-        by localhost (mail.hmha.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id P4HhCBCQ3pPg; Mon, 20 Aug 2018 17:24:45 -0500 (-05)
-Received: from [107.172.188.199] (unknown [107.172.188.199])
-        by mail.hmha.gob.ec (Postfix) with ESMTPSA id 5EF3F21014C3;
-        Mon, 20 Aug 2018 14:51:35 -0500 (-05)
-Content-Type: text/plain; charset="utf-8"
+        id S1726346AbeHUI0L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Aug 2018 04:26:11 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 0E35D20717; Tue, 21 Aug 2018 07:07:35 +0200 (CEST)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 4190720703;
+        Tue, 21 Aug 2018 07:07:34 +0200 (CEST)
+Date:   Tue, 21 Aug 2018 07:07:34 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Alban <albeu@free.fr>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-omap@vger.kernel.org, netdev@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
+ the nvmem API
+Message-ID: <20180821070734.6dd1734d@bbrezillon>
+In-Reply-To: <20180820232748.608c3667@tock>
+References: <20180810080526.27207-1-brgl@bgdev.pl>
+        <20180810080526.27207-7-brgl@bgdev.pl>
+        <20180817182720.6a6e5e8e@bbrezillon>
+        <20180819133106.0420df5f@tock>
+        <20180819184609.6dcdbb9a@bbrezillon>
+        <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
+        <20180820202038.5d3dc195@bbrezillon>
+        <20180820232748.608c3667@tock>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?b?V29obHTDpHRpZ2tlaXRzc3BlbmRlIGluIEjDtmhlIHZvbiDigqwgMi4wMDAu?=
- =?utf-8?q?000=2C00_EUR?=
-To:     Recipients <ines_valdiviezo@hmha.gob.ec>
-From:   ines_valdiviezo@hmha.gob.ec
-Date:   Mon, 20 Aug 2018 12:51:32 -0700
-Reply-To: attorney.ramanala@gmail.com
-Message-Id: <20180820195135.5EF3F21014C3@mail.hmha.gob.ec>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lieber Freund,
- 
-Ich bin Herr Richard Wahl der Mega-Gewinner von $ 533M In Mega Millions Jackpot spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt. Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt. Ich habe mich freiwillig dazu entschieden, Ihnen den Betrag von € 2.000.000,00 zu spenden
-eine der ausgewählten 5, um meine Gewinne zu überprüfen, finden Sie auf meiner You Tube Seite unten.
- 
-UHR MICH HIER: https://www.youtube.com/watch?v=tne02ExNDrw
- 
-Das ist dein Spendencode: [DF00430342018]
- 
-Antworten Sie mit dem Spendencode auf diese E-Mail: oceanicfinancialhome@gmail.com
- 
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
- 
-Grüße
-Herr Richard Wahl
+On Mon, 20 Aug 2018 23:27:48 +0200
+Alban <albeu@free.fr> wrote:
+
+> On Mon, 20 Aug 2018 20:20:38 +0200
+> Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+> 
+> > On Mon, 20 Aug 2018 11:43:34 +0100
+> > Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
+> >   
+> > > 
+> > > Overall am still not able to clear visualize on how MTD bindings with 
+> > > nvmem cells would look in both partition and un-partition usecases?
+> > > An example DT would be nice here!!    
+> > 
+> > Something along those lines:  
+> 
+> We must also have a compatible string on the nvmem-cells node to make
+> sure we don't clash with the old style MTD partitions,
+
+That's not possible, because we don't have a reg prop in the
+nvmem-cells node.
+
+> or some other
+> device specific binding.
+
+This one might happen.
+
+Was Rob okay with this compatible? If he was, I guess we can go for
+this binding. Srinivas, any objection?
+
+> 
+> > 
+> > 	mtdnode {
+> > 		nvmem-cells {  
+>                         compatible = "nvmem-cells";
+> > 			#address-cells = <1>;
+> > 			#size-cells = <1>;
+> > 
+> > 			cell@0 {
+> > 				reg = <0x0 0x14>;
+> > 			};
+> > 		};
+> > 
+> > 		partitions {
+> > 			compatible = "fixed-partitions";
+> > 			#address-cells = <1>;
+> > 			#size-cells = <1>;
+> > 
+> > 			partition@0 {
+> > 				reg = <0x0 0x20000>;
+> > 
+> > 				nvmem-cells {  
+>                                         compatible = "nvmem-cells";
+> > 					#address-cells = <1>;
+> > 					#size-cells = <1>;
+> > 
+> > 					cell@0 {
+> > 						reg = <0x0 0x10>;
+> > 					};
+> > 				};
+> > 			};
+> > 		};
+> > 	};  
+> 
+> 
+> Alban
+
