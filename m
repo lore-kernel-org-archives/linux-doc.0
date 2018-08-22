@@ -1,97 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C7C77D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 Aug 2018 23:41:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 85CF57D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 Aug 2018 14:59:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727027AbeHVDEN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 Aug 2018 23:04:13 -0400
-Received: from mail-pl0-f68.google.com ([209.85.160.68]:44251 "EHLO
-        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726814AbeHVDEN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Aug 2018 23:04:13 -0400
-Received: by mail-pl0-f68.google.com with SMTP id ba4-v6so43555plb.11
-        for <linux-doc@vger.kernel.org>; Tue, 21 Aug 2018 16:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E4ZqmY0V2BkFNNsCmwSimoVUnrZFDxF3zAg3MqxxYA0=;
-        b=bBjRgRc9VSOJk0ZBv6dSJ2Sfqm1NuYiIwdCRkBtd+coog8iivSz/ZEbXJksVFXw+48
-         8HhKI0uLLM92xeqZoWpf1ZJv1K8dc3IQ1fb7kaXIfk8KENrUSaNJe0dhtccqXRSBLzMu
-         Qd8QqExgLeHKYtWKWfUV6xmwWSr8scvbW2mhozQcYHO/tgpV+NhMmC3Yi0szhH4bsoIi
-         eHrxyv/+0tIY7GUdK+xePtPg81NOR4bhwT9utjry99pTCB9UYgRW4M7iuCgWraOfbrJ5
-         wVHjSOoJWHtCIU99gfAS5/Tpbqt721u6mLM7Bkd8QleXc4BgJIo4RUGB8n/W70dMoKeh
-         Pd7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E4ZqmY0V2BkFNNsCmwSimoVUnrZFDxF3zAg3MqxxYA0=;
-        b=GU6B1Ibu5C6c9SaVvu0BNoYZngL8mSYZIzfN/KbDjHbUXvXMDLbF6XU82hn+nD4dpT
-         Te5mZBf2uxMEgSrs9F00yTLtGJYhWop4Mh2FQTxnFYiyLJB8qBl0lWrKQBstXdPKXE/w
-         /z04jvEH+nim0mKTxDEfNMthWK0nj9rAiYza6Y6lDs5oyNG1n71o1hHZtNv3wPdHlss3
-         zz4dFvSQQCGMOrffyMkCZV/33JXBS7aIZDDyFaYeU2Mc9HvlIefieeI4VjdtklGcRqdi
-         ShrAAiF3Wv8xEvaGPKN9oySB0DhXkCO7aOf5dvf0PWBmqg9pPbvtO3jkyNc4nzQJFuIA
-         juUg==
-X-Gm-Message-State: AOUpUlFKU6yGHX2uSp8r2IXqZVQlUONd0H0pyq0RczWJBFj5WJcbFGfK
-        70c/EMUfccx6B76rvWOEFujdGYAgFoex8I3V6jPt2g==
-X-Google-Smtp-Source: AA+uWPxgk/HfdbuOfSinP/WGuAOOP1gwjbuFoRpJ9LbqQ33vJG2zn/8GYdYEQjKTTDfX8Rn8zeImLho2ls/ORvOMPrA=
-X-Received: by 2002:a17:902:b7c3:: with SMTP id v3-v6mr15959110plz.238.1534894917715;
- Tue, 21 Aug 2018 16:41:57 -0700 (PDT)
+        id S1729189AbeHVSYl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 Aug 2018 14:24:41 -0400
+Received: from mga02.intel.com ([134.134.136.20]:38319 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729158AbeHVSYl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Aug 2018 14:24:41 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Aug 2018 07:59:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,274,1531810800"; 
+   d="scan'208";a="226779895"
+Received: from eengestr-old.ld.intel.com (HELO intel.com) ([10.103.238.209])
+  by orsmga004.jf.intel.com with ESMTP; 22 Aug 2018 07:59:24 -0700
+Date:   Wed, 22 Aug 2018 15:59:24 +0100
+From:   Eric Engestrom <eric.engestrom@intel.com>
+To:     Brian Starkey <brian.starkey@arm.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        alexandru-cosmin.gheorghe@arm.com, corbet@lwn.net,
+        airlied@linux.ie, daniel.vetter@ffwll.ch,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+        liviu.dudau@arm.com, ayan.halder@arm.com
+Subject: Re: [PATCH] drm/fourcc: Add DOC: overview comment
+Message-ID: <20180822145924.GA13763@intel.com>
+References: <20180821161611.10424-1-brian.starkey@arm.com>
+ <20180821162639.GA21697@bombadil.infradead.org>
+ <20180821164416.GA11553@e107564-lin.cambridge.arm.com>
 MIME-Version: 1.0
-References: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
- <CAK7LNAStcQoi8oodq98dSGp+Jmgb1F0mowMephUY=OD2o4=2Mg@mail.gmail.com> <CA+55aFxU+cCxLsrTjKdni_xrJ=TvcYbHh0pv7Bk8ns4Gtq8rBA@mail.gmail.com>
-In-Reply-To: <CA+55aFxU+cCxLsrTjKdni_xrJ=TvcYbHh0pv7Bk8ns4Gtq8rBA@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 21 Aug 2018 16:41:46 -0700
-Message-ID: <CAKwvOdk3Ydp1KtJui3BH=M+wS-m0TywMNzn1BkifumTQWBLS3A@mail.gmail.com>
-Subject: Re: [PATCH] Raise the minimum required gcc version to 4.6
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>, joe@perches.com,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        dave.hansen@intel.com, efault@gmx.de,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rik van Riel <riel@surriel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20180821164416.GA11553@e107564-lin.cambridge.arm.com>
+Organization: Intel Corp UK
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 21, 2018 at 12:40 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Mon, Aug 20, 2018 at 11:56 PM Masahiro Yamada
-> <yamada.masahiro@socionext.com> wrote:
-> >
-> > This broke Clang build.
->
-> As mentioned elsewhere, I think the clang build was broken before anyway?
->
-> > I sent a patch.
-> >
-> > https://lore.kernel.org/patchwork/patch/976025/
->
-> Yeah, I'd rather just have the clang case have its own file, instead
-> of be back in the situation where clang depends on gcc and then has a
-> different versioning model so we need to have insane clang version
-> tests in the gcc file.
->
->                 Linus
+On Tuesday, 2018-08-21 17:44:17 +0100, Brian Starkey wrote:
+> Hi Matthew,
+> 
+> On Tue, Aug 21, 2018 at 09:26:39AM -0700, Matthew Wilcox wrote:
+> > On Tue, Aug 21, 2018 at 05:16:11PM +0100, Brian Starkey wrote:
+> > > There's a number of things which haven't previously been documented
+> > > around the usage of format modifiers. Capture the current
+> > > understanding in an overview comment and add it to the rst
+> > > documentation.
+> > > 
+> > > Ideally, the generated documentation would also include documentation
+> > > of all of the #defines, but the kernel-doc system doesn't currently
+> > > support kernel-doc comments on #define constants.
+> > 
+> > Can you turn them into enums?  This seems to work ok:
+> > 
+> > -/* color index */
+> > -#define DRM_FORMAT_C8          fourcc_code('C', '8', ' ', ' ') /* [7:0] C */
+> > -
+> > -/* 8 bpp Red */
+> > -#define DRM_FORMAT_R8          fourcc_code('R', '8', ' ', ' ') /* [7:0] R */
+> > +enum {
+> > +       /* color index */
+> > +       DRM_FORMAT_C8   = fourcc_code('C', '8', ' ', ' '), /* [7:0] C */
+> > +       /* 8 bpp Red */
+> > +       DRM_FORMAT_R8   = fourcc_code('R', '8', ' ', ' '), /* [7:0] R */
+> > +};
+> > 
+> > but I appreciate this is user API and maybe there's some code out there
+> > that does #ifndef DRM_FORMAT_C8 ...
+> 
+> Thanks for the suggestion, Daniel did mention the same. However,
+> unfortunately I don't think we can safely change the UAPI header in
+> this manner.
 
-WIP patch at: https://github.com/ClangBuiltLinux/linux/commit/1f89ae7622c26b8131f42f3a362d6ef41b88a595
-Would be happy to get early feedback.  Does anyone know who I should
-talk to about testing w/ ICC?
+You could get the best of both worlds by doing both:
 
--- 
-Thanks,
-~Nick Desaulniers
+  enum {
+    foo = fourcc(...),
+    bar = fourcc(...),
+  }
+  #define foo foo
+  #define bar bar
+
+It would mean a bit more code though, but that way these would now be
+enums (with all the advantages of enums vs plain literals) and still
+pass #ifdef checks :)
+
+(BTW, on the "maybe there's some code that does #ifdef": I can tell you
+there is indeed, having written this myself for an out-of-tree driver
+for customer-modified kernels that may contain additional formats)
+
+> 
+> Cheers,
+> -Brian
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
