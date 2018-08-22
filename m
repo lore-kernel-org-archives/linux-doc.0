@@ -1,143 +1,146 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 12C307D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 Aug 2018 15:57:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2CF87D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 Aug 2018 16:44:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729247AbeHVTXI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 Aug 2018 15:23:08 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:34982 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729153AbeHVTXI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Aug 2018 15:23:08 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9E5680D;
-        Wed, 22 Aug 2018 08:57:40 -0700 (PDT)
-Received: from e107564-lin.cambridge.arm.com (e107564-lin.cambridge.arm.com [10.2.131.9])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B82EA3F2EA;
-        Wed, 22 Aug 2018 08:57:38 -0700 (PDT)
-Date:   Wed, 22 Aug 2018 16:57:33 +0100
-From:   Brian Starkey <brian.starkey@arm.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Eric Engestrom <eric.engestrom@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Alexandru-Cosmin Gheorghe <alexandru-cosmin.gheorghe@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dave Airlie <airlied@linux.ie>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Sean Paul <seanpaul@chromium.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Ayan Kumar Halder <ayan.halder@arm.com>
-Subject: Re: [PATCH] drm/fourcc: Add DOC: overview comment
-Message-ID: <20180822155732.GA39066@e107564-lin.cambridge.arm.com>
-References: <20180821161611.10424-1-brian.starkey@arm.com>
- <20180821162639.GA21697@bombadil.infradead.org>
- <20180821164416.GA11553@e107564-lin.cambridge.arm.com>
- <20180822145924.GA13763@intel.com>
- <CAKMK7uHxPDfxJaA+1esSW8L2HAjMD6xgF0cMH-nkTjA=6S5+CA@mail.gmail.com>
+        id S1726786AbeHVUJU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 Aug 2018 16:09:20 -0400
+Received: from smtprelay2.synopsys.com ([198.182.60.111]:38834 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726550AbeHVUJU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Aug 2018 16:09:20 -0400
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id AEBF610C057E;
+        Wed, 22 Aug 2018 09:43:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1534956223; bh=tWSRTqS8IxJ8KDae8luItOFTlUlcRRPTxeQ4XZKzbHk=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=PJxQQmRD9N6Tet62HyphNmKurntZqR/cZErNhTMzBHKKdESPSpFnXSUXRCXd9geuG
+         86FBO6Qi8t2Bx6rEcHSwOfVgX8yRrJXNYc/mYNW1rISJpH+TuZ5OfCTk76RIdxcz87
+         +UDTZzgnNcPAzX4pLdJa/kGueLC89m/GVmuhWN6YCt7AVLIDM0pZB3k12yb5yLZ1Gt
+         FlwpGcpr/uXmKgrxBU2vXf/+0Uv54+v1Wfzyzt0wprjejmS/Kr5Xe7qDs7rzw/rp7o
+         +NYF2zSYtfXWaSCOP9Q5wBblHma2+/txzeO4c/D5djJ71XRqml8ZjZA5ZyWOheomb+
+         gvbBOYTXFlqXA==
+Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
+        by mailhost.synopsys.com (Postfix) with ESMTP id AB74C3343;
+        Wed, 22 Aug 2018 09:43:39 -0700 (PDT)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 22 Aug 2018 09:43:39 -0700
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 22 Aug 2018 18:43:37 +0200
+Received: from [10.0.2.15] (10.107.25.72) by DE02WEHTCB.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.361.1; Wed, 22 Aug
+ 2018 18:43:36 +0200
+Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>
+CC:     Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        <linux-gpio@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>
+References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
+ <20180719152930.3715-2-boris.brezillon@bootlin.com>
+From:   vitor <Vitor.Soares@synopsys.com>
+Message-ID: <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
+Date:   Wed, 22 Aug 2018 17:43:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uHxPDfxJaA+1esSW8L2HAjMD6xgF0cMH-nkTjA=6S5+CA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20180719152930.3715-2-boris.brezillon@bootlin.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.107.25.72]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Boris,
 
-On Wed, Aug 22, 2018 at 05:11:55PM +0200, Daniel Vetter wrote:
->On Wed, Aug 22, 2018 at 4:59 PM, Eric Engestrom
-><eric.engestrom@intel.com> wrote:
->> On Tuesday, 2018-08-21 17:44:17 +0100, Brian Starkey wrote:
->>> Hi Matthew,
->>>
->>> On Tue, Aug 21, 2018 at 09:26:39AM -0700, Matthew Wilcox wrote:
->>> > On Tue, Aug 21, 2018 at 05:16:11PM +0100, Brian Starkey wrote:
->>> > > There's a number of things which haven't previously been documented
->>> > > around the usage of format modifiers. Capture the current
->>> > > understanding in an overview comment and add it to the rst
->>> > > documentation.
->>> > >
->>> > > Ideally, the generated documentation would also include documentation
->>> > > of all of the #defines, but the kernel-doc system doesn't currently
->>> > > support kernel-doc comments on #define constants.
->>> >
->>> > Can you turn them into enums?  This seems to work ok:
->>> >
->>> > -/* color index */
->>> > -#define DRM_FORMAT_C8          fourcc_code('C', '8', ' ', ' ') /* [7:0] C */
->>> > -
->>> > -/* 8 bpp Red */
->>> > -#define DRM_FORMAT_R8          fourcc_code('R', '8', ' ', ' ') /* [7:0] R */
->>> > +enum {
->>> > +       /* color index */
->>> > +       DRM_FORMAT_C8   = fourcc_code('C', '8', ' ', ' '), /* [7:0] C */
->>> > +       /* 8 bpp Red */
->>> > +       DRM_FORMAT_R8   = fourcc_code('R', '8', ' ', ' '), /* [7:0] R */
->>> > +};
->>> >
->>> > but I appreciate this is user API and maybe there's some code out there
->>> > that does #ifndef DRM_FORMAT_C8 ...
->>>
->>> Thanks for the suggestion, Daniel did mention the same. However,
->>> unfortunately I don't think we can safely change the UAPI header in
->>> this manner.
->>
->> You could get the best of both worlds by doing both:
->>
->>   enum {
->>     foo = fourcc(...),
->>     bar = fourcc(...),
->>   }
->>   #define foo foo
->>   #define bar bar
->>
->> It would mean a bit more code though, but that way these would now be
->> enums (with all the advantages of enums vs plain literals) and still
->> pass #ifdef checks :)
->>
->> (BTW, on the "maybe there's some code that does #ifdef": I can tell you
->> there is indeed, having written this myself for an out-of-tree driver
->> for customer-modified kernels that may contain additional formats)
->
->Looks reasonable. I'd even put the #define right within each enum line
->(as a reminder so people don't forget to add them. Would happily ack a
->patch to mass-convert, if that ups the odds of good kerneldoc for all
->this.
->
->enum also should support the inline style of kerneldoc (otherwise I
->guess we'd need to fix that first, or it just makes no sense at all).
->-Daniel
 
-I'm not sure that swapping out explicit 32-bit unsigned integers for
-enums (unspecified width, signed integers) is necessarily a good idea,
-it seems like Bad Things could happen.
+On 19-07-2018 16:29, Boris Brezillon wrote:
+> +int i3c_bus_register(struct i3c_bus *i3cbus)
+> +{
+> +	struct i2c_dev_desc *desc;
+> +
+> +	i3c_bus_for_each_i2cdev(i3cbus, desc) {
+> +		switch (desc->boardinfo->lvr & I3C_LVR_I2C_INDEX_MASK) {
+> +		case I3C_LVR_I2C_INDEX(0):
+> +			if (i3cbus->mode < I3C_BUS_MODE_MIXED_FAST)
+> +				i3cbus->mode = I3C_BUS_MODE_MIXED_FAST;
+> +			break;
+> +
+> +		case I3C_LVR_I2C_INDEX(1):
+> +		case I3C_LVR_I2C_INDEX(2):
+> +			if (i3cbus->mode < I3C_BUS_MODE_MIXED_SLOW)
+> +				i3cbus->mode = I3C_BUS_MODE_MIXED_SLOW;
+> +			break;
+> +
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	if (!i3cbus->scl_rate.i3c)
+> +		i3cbus->scl_rate.i3c = I3C_BUS_TYP_I3C_SCL_RATE;
+> +
+> +	if (!i3cbus->scl_rate.i2c) {
+> +		if (i3cbus->mode == I3C_BUS_MODE_MIXED_SLOW)
+> +			i3cbus->scl_rate.i2c = I3C_BUS_I2C_FM_SCL_RATE;
+> +		else
+> +			i3cbus->scl_rate.i2c = I3C_BUS_I2C_FM_PLUS_SCL_RATE;
+> +	}
+> +
+> +	/*
+> +	 * I3C/I2C frequency may have been overridden, check that user-provided
+> +	 * values are not exceeding max possible frequency.
+> +	 */
+> +	if (i3cbus->scl_rate.i3c > I3C_BUS_MAX_I3C_SCL_RATE ||
+> +	    i3cbus->scl_rate.i2c > I3C_BUS_I2C_FM_PLUS_SCL_RATE) {
+> +		return -EINVAL;
+> +	}
+> +
+> +	dev_set_name(&i3cbus->dev, "i3c-%d", i3cbus->id);
+> +
+> +	return device_add(&i3cbus->dev);
+> +}
+During the tests of the bus with i2c devices I found the i2c_dev_desc 
+objects aren't allocated before this function. This cause i3cbus->mode = 
+I3C_BUS_MODE_PURE.
 
-The C spec says:
+I want to do something for the slave and secondary master, do you 
+already have infrastructure that you can share?
 
-   "the value of an enumeration constant shall be an integer constant
-   expression that has a value representable as an int"
 
-Which likely gives us 4 bytes to play with on all machines
-that run Linux, but if drm_fourcc.h is ever going to be some kind of
-standard reference, making it non-portable seems like a fail.
-
-And even if you do have 4 bytes in an enum, signed integers act
-differently from unsigned ones, and compilers do love to invoke the UB
-clause...
-
-Cheers,
--Brian
-
->-- 
->Daniel Vetter
->Software Engineer, Intel Corporation
->+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Best regards,
+Vitor Soares
