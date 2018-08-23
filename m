@@ -1,115 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C265F7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 15:40:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 579DC7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 17:05:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727958AbeHWTKm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 Aug 2018 15:10:42 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:48484 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727881AbeHWTKm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Aug 2018 15:10:42 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 85F327A9;
-        Thu, 23 Aug 2018 08:40:30 -0700 (PDT)
-Received: from e107564-lin.cambridge.arm.com (e107564-lin.cambridge.arm.com [10.2.131.9])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 755863F2EA;
-        Thu, 23 Aug 2018 08:40:28 -0700 (PDT)
-Date:   Thu, 23 Aug 2018 16:40:22 +0100
-From:   Brian Starkey <brian.starkey@arm.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Eric Engestrom <eric.engestrom@intel.com>,
-        Alexandru-Cosmin Gheorghe <alexandru-cosmin.gheorghe@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dave Airlie <airlied@linux.ie>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Sean Paul <seanpaul@chromium.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Ayan Kumar Halder <ayan.halder@arm.com>
-Subject: Re: [PATCH] drm/fourcc: Add DOC: overview comment
-Message-ID: <20180823154022.GA6535@e107564-lin.cambridge.arm.com>
-References: <20180821161611.10424-1-brian.starkey@arm.com>
- <20180821162639.GA21697@bombadil.infradead.org>
- <20180821164416.GA11553@e107564-lin.cambridge.arm.com>
- <20180822145924.GA13763@intel.com>
- <CAKMK7uHxPDfxJaA+1esSW8L2HAjMD6xgF0cMH-nkTjA=6S5+CA@mail.gmail.com>
- <20180822155732.GA39066@e107564-lin.cambridge.arm.com>
- <20180823143445.GA26109@bombadil.infradead.org>
+        id S1726285AbeHWUgB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 Aug 2018 16:36:01 -0400
+Received: from mailout.easymail.ca ([64.68.200.34]:33889 "EHLO
+        mailout.easymail.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726117AbeHWUgB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 16:36:01 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mailout.easymail.ca (Postfix) with ESMTP id 2C01F41481;
+        Thu, 23 Aug 2018 17:05:22 +0000 (UTC)
+Received: from mailout.easymail.ca ([127.0.0.1])
+        by localhost (emo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id uNscSbXlAe61; Thu, 23 Aug 2018 17:05:22 +0000 (UTC)
+Received: from [192.168.1.87] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mailout.easymail.ca (Postfix) with ESMTPSA id 6C2D240DA8;
+        Thu, 23 Aug 2018 17:05:13 +0000 (UTC)
+Subject: Re: [PATCH] selftests: android: move config up a level
+To:     Anders Roxell <anders.roxell@linaro.org>, corbet@lwn.net
+Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>
+References: <20180821161003.16737-1-anders.roxell@linaro.org>
+From:   Shuah Khan <shuah@kernel.org>
+Message-ID: <11b89e1a-1543-5774-13f8-e004c8fc46ef@kernel.org>
+Date:   Thu, 23 Aug 2018 11:05:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20180823143445.GA26109@bombadil.infradead.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20180821161003.16737-1-anders.roxell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Matthew,
+Hi Anders,
 
-On Thu, Aug 23, 2018 at 07:34:45AM -0700, Matthew Wilcox wrote:
->On Wed, Aug 22, 2018 at 04:57:33PM +0100, Brian Starkey wrote:
->> On Wed, Aug 22, 2018 at 05:11:55PM +0200, Daniel Vetter wrote:
->> > On Wed, Aug 22, 2018 at 4:59 PM, Eric Engestrom
->> > <eric.engestrom@intel.com> wrote:
->> > > On Tuesday, 2018-08-21 17:44:17 +0100, Brian Starkey wrote:
->> > > > On Tue, Aug 21, 2018 at 09:26:39AM -0700, Matthew Wilcox wrote:
->> > > > > Can you turn them into enums?  This seems to work ok:
->>
->> I'm not sure that swapping out explicit 32-bit unsigned integers for
->> enums (unspecified width, signed integers) is necessarily a good idea,
->> it seems like Bad Things could happen.
->>
->> The C spec says:
->>
->>   "the value of an enumeration constant shall be an integer constant
->>   expression that has a value representable as an int"
->>
->> Which likely gives us 4 bytes to play with on all machines
->> that run Linux, but if drm_fourcc.h is ever going to be some kind of
->> standard reference, making it non-portable seems like a fail.
->>
->> And even if you do have 4 bytes in an enum, signed integers act
->> differently from unsigned ones, and compilers do love to invoke the UB
->> clause...
->
->I think you're exaggerating how much latitude C compilers have here.
->Further down in 6.7.2.2, it says:
->
->  Each enumerated type shall be compatible with char, a signed
->  integer type, or an unsigned integer type.  The choice of type is
->  implementation-defined, but shall be capable of representing the values
->  of all the members of the enumeration.
->
->So if we include an integer which isn't representable in a plain int,
->then the compiler _must_ choose a larger type.
+On 08/21/2018 10:10 AM, Anders Roxell wrote:
+> 'make kselftest-merge' assumes that the config files for the tests are
+> located under the 'main' test dir, like tools/testing/selftests/android/
+> and not in a subdir to android.
+> 
+> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+> ---
+>  Documentation/dev-tools/kselftest.rst            | 2 +-
+>  tools/testing/selftests/android/{ion => }/config | 0
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename tools/testing/selftests/android/{ion => }/config (100%)
 
-I don't think so... the sentence I pasted says that including a value
-which isn't representable in a plain int would be illegal, and so the
-compiler doesn't _have_ to do anything (nasal demons, right?).
+Please split this patch into two with the Doc change into as a separate
+patch.
 
->It could choose a
->signed-64-bit type rather than an unsigned-32-bit type, but I can't
->imagine any compiler being quite so insane.
+> 
+> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+> index 6f653acea248..dad1bb8711e2 100644
+> --- a/Documentation/dev-tools/kselftest.rst
+> +++ b/Documentation/dev-tools/kselftest.rst
+> @@ -159,7 +159,7 @@ Contributing new tests (details)
+>   * If a test needs specific kernel config options enabled, add a config file in
+>     the test directory to enable them.
+>  
+> -   e.g: tools/testing/selftests/android/ion/config
+> +   e.g: tools/testing/selftests/android/config
+>  
+>  Test Harness
+>  ============
+> diff --git a/tools/testing/selftests/android/ion/config b/tools/testing/selftests/android/config
+> similarity index 100%
+> rename from tools/testing/selftests/android/ion/config
+> rename to tools/testing/selftests/android/config
+> 
 
-The paragraph about the implementation choosing a representation is
-separate from the valid range of values - the compiler can pick
-whatever storage it likes (smaller or even larger than an int), so
-long as that storage can fit all the defined values. However,
-providing a value in an enum definition which is not representable as
-an int would still be invalid (irrespective of how large the storage
-is) - it's a separate restriction.
-
-Anyhow, I'm not dying to replace all the current definitions with
-enums, so if someone else wants to pick that up, be my guest.
-
-Cheers,
--Brian
+thanks,
+-- Shuah
