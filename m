@@ -1,63 +1,44 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 500A57D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 18:42:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 952DD7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 18:57:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727292AbeHWWNW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 Aug 2018 18:13:22 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:43273 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726985AbeHWWNW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 18:13:22 -0400
-Received: by mail-pf1-f196.google.com with SMTP id j26-v6so3241089pfi.10;
-        Thu, 23 Aug 2018 11:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=cDt5PFNfvuWz1LrwCGziMpfmg02tuu/AeqOVna+lN7E=;
-        b=vXxFRIt6BiuS8VACYTuxTls5PgcBLwj8tbR2loLZ4tTmipyh63dyn7CcHttcZvckuo
-         ffyStoq2pWgwnTqgHloTsMJVJ3kZBcdceJm1DVLrfrxqT5O8GXvZvS4zaoX1zpsyYdgo
-         YH28dQRzo4jLDvophSPY7VJ1ZKRGMG+PrgjMrENOvUKPkJUG0vfyxd3lgRLDHIxqkH+4
-         MGyU6FGW4G0GS5WrpEMeMOF8EagDXQOceinH4u9Mgf1ZNgCM+sctK+Ql3NlabNpzlDwK
-         2mFYz1jUjiXeQlDrNMqySJ07vFQ6U85E7PETcKtiAsy1l56cVmzafxVEoKBPe72NjXJY
-         jzPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cDt5PFNfvuWz1LrwCGziMpfmg02tuu/AeqOVna+lN7E=;
-        b=YmETEbD9rKvLSOY3QKiWg7RIFlaj28/UReai3LA9T6rr92t2AkANEEkEer8pbBXOM1
-         cVO+HVvjOQ8TJnqa8Lv6NHPy58DjVQ39xzMHjLRp71xYCHH0P+bz8g07aiCTQC/prUau
-         5wFJhREdNTiufmi1xNAtXjPHODvjN9zY42wEpOrL2/QA+X6no1zpgqZrtdnniK5ASnZI
-         SgHooTbOXd4uCR3ZcXeTWFkiWlxBKUrXv5Xl44ERFnGpdLFfUxvTv4cdRzUjjd+dqoUZ
-         D1DRIeLz0Lx7q7nnL2p0HUvwmKfltpvCS2k/Rosw0kkGwSr56kfg6Si/udgENpsEJ8B/
-         +BCQ==
-X-Gm-Message-State: AOUpUlGLD3Us4//LaYQA8SnPHm9RxYGipJ/IDno22u0ibOClTV2H5AIV
-        k6U9RSbQNY0+PZdBdEcBR6Q=
-X-Google-Smtp-Source: AA+uWPzPxkwbQInGn6bkgrOM1q7FOnjmFW6sgbhbvS/JoZrIu5bPsp3xykzOiypBG5Y6AM2hFCIc6A==
-X-Received: by 2002:a63:1344:: with SMTP id 4-v6mr17658351pgt.423.1535049742530;
-        Thu, 23 Aug 2018 11:42:22 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id w72-v6sm12369970pfa.26.2018.08.23.11.42.20
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 Aug 2018 11:42:21 -0700 (PDT)
-Date:   Thu, 23 Aug 2018 11:42:19 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        id S1727162AbeHWW2Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 Aug 2018 18:28:24 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59764 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727058AbeHWW2Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 18:28:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ufRSi3ui1X0UDUEaPQ/Cas/w6NU4n4AllTvL1i0R1Pw=; b=E8nTP8xGuLt0XcZ4Q/hsiloxR
+        ljTE8Vohz6NbyGkT5RDvLLiJKIDtWHQHjPmkuk+U7UKQb5QMTVLVkgsMANOL6Q0UeiD/WZJXIIIfB
+        dNsI/Vf39Q3LrFGqQNDhjCdywsPCM9n7oXIUu2sAt6AkgXbXm5WI2QTawZW18nqUphWNQdtfUmxw6
+        vG8DK5HbOZt+yjrIsr45aHXaTKkRdmTEQxz3yHzpUnOSNIt8A1dLrYiJJ5LcNs2nfIYnv+K8t8Omw
+        YkJSJJlE/LOtqsfl5+CyOwe5tmWZNpoDbTP54sePJj21R44pDV/iZegA6Z0GSfR2EWTQkmX2UaOlC
+        rOSgGCm+Q==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fsunK-0002Zu-Jq; Thu, 23 Aug 2018 18:57:22 +0000
+Date:   Thu, 23 Aug 2018 11:57:22 -0700
+From:   Matthew Wilcox <willy@infradead.org>
 To:     Harry Cutts <hcutts@chromium.org>
 Cc:     linux-input <linux-input@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Jiri Kosina <jiri.kosina@suse.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 Subject: Re: [PATCH 1/3] Add the `REL_WHEEL_HI_RES` event code
-Message-ID: <20180823184219.GA53155@dtor-ws>
+Message-ID: <20180823185722.GA24777@bombadil.infradead.org>
 References: <20180823183057.247630-1-hcutts@chromium.org>
  <20180823183057.247630-2-hcutts@chromium.org>
 MIME-Version: 1.0
@@ -71,20 +52,8 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Aug 23, 2018 at 11:30:55AM -0700, Harry Cutts wrote:
-> This event code represents scroll reports from high-resolution wheels,
-> and will be used by future patches in this series. See the linux-input
-> "Reporting high-resolution scroll events" thread [0] for more details.
-> 
-> [0]: https://www.spinics.net/lists/linux-input/msg57380.html
-> 
-> Signed-off-by: Harry Cutts <hcutts@chromium.org>
+> +  - If a vertical scroll wheel supports high-resolution scrolling, this code
+> +    will be emitted in addition to REL_WHEEL. The value is the (approximate)
+> +    distance travelled by the user's finger, in 256ths of a millimeter.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Jiri, Benjamin, feel free to merge through HID tree if the rest is
-acceptable.
-
-Thanks.
-
--- 
-Dmitry
+Is it too late to change this to an actual unit like micrometres?
