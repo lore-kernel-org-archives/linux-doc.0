@@ -1,86 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A41587D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 19:01:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0906C7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 19:49:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727058AbeHWWcj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 Aug 2018 18:32:39 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:37841 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726670AbeHWWcj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 18:32:39 -0400
-Received: by mail-pf1-f195.google.com with SMTP id h69-v6so3274654pfd.4;
-        Thu, 23 Aug 2018 12:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fZbwdL+Qr3KphgCDmmOMwVoqlFpwtTWpE0Rq0Vhe+7U=;
-        b=W3k2vpDd2OA8g7lxevypINH4ZsfBeRysX7avByYGxp19rAKqn/RG3nAg50ZplaQvDN
-         8aed0xdc0WM04QvHb4aa+/dUEC+nMuHP+KJmMAE/QcQsN7U26WJcyd8bsptPKJnm274O
-         AWIv3azcx8JvuBhTW2n1QzGXDTHjOEJj7IvG8kpUR3AQenkcOrMIS7K+E2LF16znhZur
-         VAdq98ggvlo0xNipQjz4igAO6OZf/QZ2WGi6+dIPk/0k+q79B4tVQ6eLa8rB+mIl7iOW
-         lZKBsAjg1jV+Vw8ku/uf3rT7O42uoxSZbew3lGIPFHzXZLsu0huzvgWcfqt/TtzWz14q
-         u4xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fZbwdL+Qr3KphgCDmmOMwVoqlFpwtTWpE0Rq0Vhe+7U=;
-        b=o8bpHK247Whzykx+2bjehQnfPQixpinZIfqZjKRSFrHOqAP2tw8ghpcJUnQunOuwP+
-         QabprV7c+jmYh8Yb329yrMlaVfX/3bCE/qVRKjDE/AcwRGC05uXkJapXBl634wFLmDHr
-         Zhahcyl9/rIwA2d0zyjaSbPA0Al55dw7WGyiwQVbiEwOeX6K5+KM7qCMMcGvRL7ogJ8C
-         xR30M/xCHVWsF54O/ouHn3AdhGfQHzHLulzwhU+5io14oBJBFxKRztJZzTmzU5TtN3c2
-         g8VvJYOZep6IEt8SeHUWItTMJWNFKwU5k9YcJLv5k6LWd4WKfRNYwfwSJUGfLVGAD4kd
-         JOog==
-X-Gm-Message-State: AOUpUlHMj88KRfCacquGZDzCnllxnDhmUl1mWWxUAx6fMFRRXfdnN32l
-        PlM+YDexo7FCCSVK5LCdeXgdXdJF
-X-Google-Smtp-Source: AA+uWPw/SZiwpW776dNJ5X8Z5a/dSZeoRrQ/YX8s/6vZEe0ejONscTjmofnzEIaZtej/esAP0rkrWA==
-X-Received: by 2002:a63:fc5a:: with SMTP id r26-v6mr25617133pgk.377.1535050887633;
-        Thu, 23 Aug 2018 12:01:27 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id u17-v6sm11951421pfa.176.2018.08.23.12.01.26
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 Aug 2018 12:01:26 -0700 (PDT)
-Date:   Thu, 23 Aug 2018 12:01:24 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Harry Cutts <hcutts@chromium.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <jiri.kosina@suse.cz>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 1/3] Add the `REL_WHEEL_HI_RES` event code
-Message-ID: <20180823190124.GB53155@dtor-ws>
-References: <20180823183057.247630-1-hcutts@chromium.org>
- <20180823183057.247630-2-hcutts@chromium.org>
- <20180823185722.GA24777@bombadil.infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180823185722.GA24777@bombadil.infradead.org>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+        id S1726459AbeHWXUg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 Aug 2018 19:20:36 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:37778 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726277AbeHWXUg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Aug 2018 19:20:36 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 8E64340216E7;
+        Thu, 23 Aug 2018 19:49:23 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-120-97.rdu2.redhat.com [10.10.120.97])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EAEF1C672;
+        Thu, 23 Aug 2018 19:49:22 +0000 (UTC)
+From:   John Pittman <jpittman@redhat.com>
+To:     corbet@lwn.net
+Cc:     martin.petersen@oracle.com, linux-doc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, John Pittman <jpittman@redhat.com>
+Subject: [PATCH] scsi: documentation: add scsi_mod.use_blk_mq to scsi-parameters
+Date:   Thu, 23 Aug 2018 15:49:18 -0400
+Message-Id: <20180823194918.25708-1-jpittman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 23 Aug 2018 19:49:23 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 23 Aug 2018 19:49:23 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jpittman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 23, 2018 at 11:57:22AM -0700, Matthew Wilcox wrote:
-> On Thu, Aug 23, 2018 at 11:30:55AM -0700, Harry Cutts wrote:
-> > +  - If a vertical scroll wheel supports high-resolution scrolling, this code
-> > +    will be emitted in addition to REL_WHEEL. The value is the (approximate)
-> > +    distance travelled by the user's finger, in 256ths of a millimeter.
-> 
-> Is it too late to change this to an actual unit like micrometres?
+Kernel line argument scsi_mod.use_blk_mq is missing from file
+Documentation/scsi/scsi-parameters.txt.  Add this option,
+providing mention of config setting and format.
 
-No love for imperial roots? Sure, micrometers would work too I think.
+Signed-off-by: John Pittman <jpittman@redhat.com>
+---
+ Documentation/scsi/scsi-parameters.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/Documentation/scsi/scsi-parameters.txt b/Documentation/scsi/scsi-parameters.txt
+index 25a4b4cf04a6..8d11aaed33d3 100644
+--- a/Documentation/scsi/scsi-parameters.txt
++++ b/Documentation/scsi/scsi-parameters.txt
+@@ -97,6 +97,11 @@ parameters may be changed at runtime by the command
+ 			allowing boot to proceed.  none ignores them, expecting
+ 			user space to do the scan.
+ 
++	scsi_mod.use_blk_mq=
++			[SCSI] use blk-mq I/O path by default
++			See drivers/scsi/Kconfig for config setting.
++			Format: <y/n>
++
+ 	sim710=		[SCSI,HW]
+ 			See header of drivers/scsi/sim710.c.
+ 
 -- 
-Dmitry
+2.17.1
+
