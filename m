@@ -1,85 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 579DC7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 17:05:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 767657D87C
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 18:31:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbeHWUgB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 Aug 2018 16:36:01 -0400
-Received: from mailout.easymail.ca ([64.68.200.34]:33889 "EHLO
-        mailout.easymail.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726117AbeHWUgB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 16:36:01 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mailout.easymail.ca (Postfix) with ESMTP id 2C01F41481;
-        Thu, 23 Aug 2018 17:05:22 +0000 (UTC)
-Received: from mailout.easymail.ca ([127.0.0.1])
-        by localhost (emo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id uNscSbXlAe61; Thu, 23 Aug 2018 17:05:22 +0000 (UTC)
-Received: from [192.168.1.87] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailout.easymail.ca (Postfix) with ESMTPSA id 6C2D240DA8;
-        Thu, 23 Aug 2018 17:05:13 +0000 (UTC)
-Subject: Re: [PATCH] selftests: android: move config up a level
-To:     Anders Roxell <anders.roxell@linaro.org>, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>
-References: <20180821161003.16737-1-anders.roxell@linaro.org>
-From:   Shuah Khan <shuah@kernel.org>
-Message-ID: <11b89e1a-1543-5774-13f8-e004c8fc46ef@kernel.org>
-Date:   Thu, 23 Aug 2018 11:05:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1727415AbeHWWCI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 Aug 2018 18:02:08 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:37359 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726780AbeHWWCH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 18:02:07 -0400
+Received: by mail-pg1-f196.google.com with SMTP id h8-v6so3054518pgs.4
+        for <linux-doc@vger.kernel.org>; Thu, 23 Aug 2018 11:31:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3369VEYSstVH4+PoGpIQpAG6rFkOt9VHBqkwbcndrHw=;
+        b=IySI7V8LRhdZPqzlPAlFvIRQkfWeBSt8LB6cjNZxpZKg/aK93x5STVjxml2Is5yurt
+         nPQMmaN1p4OXLZZHVoozeBTl4ynnAc+LnRwxVOxUaopqwJEbhh9jOoxq78EU+TXf28KT
+         HIgHdoGXqkv4QeymrEICa7mDp2BH19x/wXu60=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3369VEYSstVH4+PoGpIQpAG6rFkOt9VHBqkwbcndrHw=;
+        b=MY/665zbFSSN8OmOtGSkXmXtbcaajfcc8geKBxcHCqsnlIRkvfjqKrNR6dX28MYyCP
+         N78fbbH6PqzxYb77Alu9rivMmP/TKCWRre/ymksFLkX9xccFRfB6HGOx9/ur0+5Y9lDn
+         NOVvTw2Gy1WHpgaTBUtfnec5LTUBD++0r40GH0Wk/jgVF+EWqtk5Wpza+zxO2PRLywBV
+         kf6TxoXsYAVO6h43HVF7J9l/HQqrPzxEMVqK64GDKFeHP7nnIShcw/EGoCuNu8/t+3s+
+         hKSZ9YYRafmTnJ4qCim3iQpHPmDb3KdqziLqt+DYrHZB6F1KioiqALmp0S80Crn97J96
+         oOdQ==
+X-Gm-Message-State: AOUpUlGiiIYbbtIe5C/dKY0p3gcCVo/2V3M1BNK0IeA/oLAnz5hCH9og
+        1S/cI42OFUOBoiOair/pYrVXxg==
+X-Google-Smtp-Source: AA+uWPxcS8aoUKhgD53T/OtT+P1qhXjoieaxxr9uW7gRy4av6jgCjubMwnPup30W7iYmwbRSePEt8A==
+X-Received: by 2002:a63:7d7:: with SMTP id 206-v6mr25951038pgh.17.1535049070673;
+        Thu, 23 Aug 2018 11:31:10 -0700 (PDT)
+Received: from kolhar.mtv.corp.google.com ([2620:15c:202:201:356a:9de2:526a:5bc])
+        by smtp.gmail.com with ESMTPSA id p11-v6sm9054225pfj.72.2018.08.23.11.31.09
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 23 Aug 2018 11:31:10 -0700 (PDT)
+From:   Harry Cutts <hcutts@chromium.org>
+To:     linux-input <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     Jiri Kosina <jiri.kosina@suse.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Harry Cutts <hcutts@chromium.org>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jiri Kosina <jikos@kernel.org>
+Subject: [PATCH 0/3] Add support for high-resolution scrolling on Logitech mice
+Date:   Thu, 23 Aug 2018 11:30:54 -0700
+Message-Id: <20180823183057.247630-1-hcutts@chromium.org>
+X-Mailer: git-send-email 2.18.0.1017.ga543ac7ca45-goog
 MIME-Version: 1.0
-In-Reply-To: <20180821161003.16737-1-anders.roxell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Anders,
+Hi everyone,
 
-On 08/21/2018 10:10 AM, Anders Roxell wrote:
-> 'make kselftest-merge' assumes that the config files for the tests are
-> located under the 'main' test dir, like tools/testing/selftests/android/
-> and not in a subdir to android.
-> 
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  Documentation/dev-tools/kselftest.rst            | 2 +-
->  tools/testing/selftests/android/{ion => }/config | 0
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename tools/testing/selftests/android/{ion => }/config (100%)
+This set of patches adds support for high-resolution scroll wheels on
+Logitech mice. See the linux-input "Reporting high-resolution scroll
+events" thread [0] for previous discussion of the evdev changes. I would
+love to hear your feedback.
 
-Please split this patch into two with the Doc change into as a separate
-patch.
+Thanks,
 
-> 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index 6f653acea248..dad1bb8711e2 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -159,7 +159,7 @@ Contributing new tests (details)
->   * If a test needs specific kernel config options enabled, add a config file in
->     the test directory to enable them.
->  
-> -   e.g: tools/testing/selftests/android/ion/config
-> +   e.g: tools/testing/selftests/android/config
->  
->  Test Harness
->  ============
-> diff --git a/tools/testing/selftests/android/ion/config b/tools/testing/selftests/android/config
-> similarity index 100%
-> rename from tools/testing/selftests/android/ion/config
-> rename to tools/testing/selftests/android/config
-> 
+Harry Cutts
+Chrome OS Touch/Input team
 
-thanks,
--- Shuah
+[0]: https://www.spinics.net/lists/linux-input/msg57380.html
+
+
+
+Harry Cutts (3):
+  Add the `REL_WHEEL_HI_RES` event code
+  Create a utility class for counting scroll events
+  Enable high-resolution scrolling on Logitech mice
+
+ Documentation/input/event-codes.rst    |  11 +-
+ drivers/hid/hid-ids.h                  |  15 ++
+ drivers/hid/hid-input.c                |  44 ++++
+ drivers/hid/hid-logitech-hidpp.c       | 341 +++++++++++++++++++++++--
+ drivers/hid/hid-quirks.c               |  11 +
+ include/linux/hid.h                    |  28 ++
+ include/uapi/linux/input-event-codes.h |   1 +
+ 7 files changed, 423 insertions(+), 28 deletions(-)
+
+-- 
+2.18.0.1017.ga543ac7ca45-goog
+
