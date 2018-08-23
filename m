@@ -1,145 +1,233 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 25C2C7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 10:30:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A9BB57D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 11:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726649AbeHWN7n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 Aug 2018 09:59:43 -0400
-Received: from smtp3-g21.free.fr ([212.27.42.3]:53687 "EHLO smtp3-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726353AbeHWN7n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Aug 2018 09:59:43 -0400
-Received: from tock (unknown [89.247.124.232])
-        (Authenticated sender: albeu)
-        by smtp3-g21.free.fr (Postfix) with ESMTPSA id AA3E613F87E;
-        Thu, 23 Aug 2018 12:29:23 +0200 (CEST)
-Date:   Thu, 23 Aug 2018 12:29:21 +0200
-From:   Alban <albeu@free.fr>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Alban Bedel <albeu@free.fr>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via
- the nvmem API
-Message-ID: <20180823122921.6857d917@tock>
-In-Reply-To: <20180821150121.4408672f@bbrezillon>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
- <20180810080526.27207-7-brgl@bgdev.pl>
- <20180817182720.6a6e5e8e@bbrezillon>
- <20180819133106.0420df5f@tock>
- <20180819184609.6dcdbb9a@bbrezillon>
- <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
- <20180820202038.5d3dc195@bbrezillon>
- <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
- <20180821133916.3a1c51b1@eos>
- <6db14f9c-edd3-5e43-839c-953bb03097ff@linaro.org>
- <20180821150121.4408672f@bbrezillon>
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/clJVj=KipsjMDyfNIMePBO1"; protocol="application/pgp-signature"
+        id S1727587AbeHWPYm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 Aug 2018 11:24:42 -0400
+Received: from smtprelay4.synopsys.com ([198.182.47.9]:60178 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727406AbeHWPYm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 11:24:42 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 86D8024E1F9D;
+        Thu, 23 Aug 2018 04:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1535025319; bh=+T5nke/ZRnOuqKt0LEhKQvOQyWBvTZiNvkY04p5nHuo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=G+AE8/I4EPvx2OuPUTryWengWzOCNH4txqp+wU2EtyFUz6Xclt6cSz7zefSVLPq5y
+         RNUARRSHg8NxD5UFW8PnC2LT6s33TYcO+XP3QG0eyZuj8lcoWo0wKNbVq5vlFPqbOV
+         m45XlDEWevTJgbLpr/9ICOV8LvcIkgcZ0lWvKdDrGmyIfBnB380TWLxkel2snMAkTo
+         +/f2CgUxBzxYAbKwkakUjOK/y8EHFF6xdw3LGg8l6L/vYuNmec5I8Xres26aplRWbs
+         2by1Zx7niazZRTdVYvdrFZG+zAle7sdgYD9r+whxsWPGdEKqPzIc0S1wCqwRopZXEQ
+         nRFUSRvqSEfqQ==
+Received: from de02.synopsys.com (germany.internal.synopsys.com [10.225.17.21])
+        by mailhost.synopsys.com (Postfix) with ESMTP id F2A1D39F0;
+        Thu, 23 Aug 2018 04:55:18 -0700 (PDT)
+Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
+        by de02.synopsys.com (Postfix) with ESMTP id 63CF73E8D8;
+        Thu, 23 Aug 2018 13:55:17 +0200 (CEST)
+From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com, kishon@ti.com,
+        corbet@lwn.net
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Subject: [PATCH] tools/pci: Change pcitest compiling process
+Date:   Thu, 23 Aug 2018 13:55:15 +0200
+Message-Id: <f543d460ccff7891aa08c744fb675eb2c11fb2e7.1535025221.git.gustavo.pimentel@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/clJVj=KipsjMDyfNIMePBO1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Change tool compiling process in order to be build using the same
+mechanism used in other linux tools (e.g. iio, perf, etc). This will
+allow in future the buildroot tool to build and integrate this tool in
+a more expeditious way.
 
-On Tue, 21 Aug 2018 15:01:21 +0200
-Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+Update documentation accordingly.
 
-> On Tue, 21 Aug 2018 13:00:04 +0100
-> Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
->=20
-> > On 21/08/18 12:39, Alban wrote: =20
-> > > However we still have the a potential address space clash between
-> > > the nvmem cells and the main device binding.   =20
-> > Can you elaborate?
-> >  =20
->=20
-> Yes, I'd be interested in having a real example too, cause I don't see
-> what this address space clash is.
+Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+---
+ Documentation/PCI/endpoint/pci-test-howto.txt | 19 ++++++----
+ tools/Makefile                                | 13 ++++---
+ tools/pci/Build                               |  1 +
+ tools/pci/Makefile                            | 53 +++++++++++++++++++++++++++
+ 4 files changed, 72 insertions(+), 14 deletions(-)
+ create mode 100644 tools/pci/Build
+ create mode 100644 tools/pci/Makefile
 
-Let say I have a device that use the following binding:
+diff --git a/Documentation/PCI/endpoint/pci-test-howto.txt b/Documentation/PCI/endpoint/pci-test-howto.txt
+index 75f48c3..16df733 100644
+--- a/Documentation/PCI/endpoint/pci-test-howto.txt
++++ b/Documentation/PCI/endpoint/pci-test-howto.txt
+@@ -98,17 +98,20 @@ Note that the devices listed here correspond to the value populated in 1.4 above
+ 2.2 Using Endpoint Test function Device
+ 
+ pcitest.sh added in tools/pci/ can be used to run all the default PCI endpoint
+-tests. Before pcitest.sh can be used pcitest.c should be compiled using the
+-following commands.
++tests. To compile this tool the following commands should be used:
+ 
+-	cd <kernel-dir>
+-	make headers_install ARCH=arm
+-	arm-linux-gnueabihf-gcc -Iusr/include tools/pci/pcitest.c -o pcitest
+-	cp pcitest  <rootfs>/usr/sbin/
+-	cp tools/pci/pcitest.sh <rootfs>
++	# cd <kernel-dir>
++	# make -C tools/pci
++
++or if you desire to compile and install in your system:
++
++	# cd <kernel-dir>
++	# make -C tools/pci install
++
++The tool and script will be located in <rootfs>/usr/bin/
+ 
+ 2.2.1 pcitest.sh Output
+-	# ./pcitest.sh
++	# pcitest.sh
+ 	BAR tests
+ 
+ 	BAR0:           OKAY
+diff --git a/tools/Makefile b/tools/Makefile
+index be02c8b..abb358a 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -21,6 +21,7 @@ help:
+ 	@echo '  leds                   - LEDs  tools'
+ 	@echo '  liblockdep             - user-space wrapper for kernel locking-validator'
+ 	@echo '  bpf                    - misc BPF tools'
++	@echo '  pci                    - PCI tools'
+ 	@echo '  perf                   - Linux performance measurement and analysis tool'
+ 	@echo '  selftests              - various kernel selftests'
+ 	@echo '  spi                    - spi tools'
+@@ -59,7 +60,7 @@ acpi: FORCE
+ cpupower: FORCE
+ 	$(call descend,power/$@)
+ 
+-cgroup firewire hv guest spi usb virtio vm bpf iio gpio objtool leds wmi: FORCE
++cgroup firewire hv guest spi usb virtio vm bpf iio gpio objtool leds wmi pci: FORCE
+ 	$(call descend,$@)
+ 
+ liblockdep: FORCE
+@@ -94,7 +95,7 @@ kvm_stat: FORCE
+ all: acpi cgroup cpupower gpio hv firewire liblockdep \
+ 		perf selftests spi turbostat usb \
+ 		virtio vm bpf x86_energy_perf_policy \
+-		tmon freefall iio objtool kvm_stat wmi
++		tmon freefall iio objtool kvm_stat wmi pci
+ 
+ acpi_install:
+ 	$(call descend,power/$(@:_install=),install)
+@@ -102,7 +103,7 @@ acpi_install:
+ cpupower_install:
+ 	$(call descend,power/$(@:_install=),install)
+ 
+-cgroup_install firewire_install gpio_install hv_install iio_install perf_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install:
++cgroup_install firewire_install gpio_install hv_install iio_install perf_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install pci_install:
+ 	$(call descend,$(@:_install=),install)
+ 
+ liblockdep_install:
+@@ -128,7 +129,7 @@ install: acpi_install cgroup_install cpupower_install gpio_install \
+ 		perf_install selftests_install turbostat_install usb_install \
+ 		virtio_install vm_install bpf_install x86_energy_perf_policy_install \
+ 		tmon_install freefall_install objtool_install kvm_stat_install \
+-		wmi_install
++		wmi_install pci_install
+ 
+ acpi_clean:
+ 	$(call descend,power/acpi,clean)
+@@ -136,7 +137,7 @@ acpi_clean:
+ cpupower_clean:
+ 	$(call descend,power/cpupower,clean)
+ 
+-cgroup_clean hv_clean firewire_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean:
++cgroup_clean hv_clean firewire_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean pci_clean:
+ 	$(call descend,$(@:_clean=),clean)
+ 
+ liblockdep_clean:
+@@ -174,6 +175,6 @@ clean: acpi_clean cgroup_clean cpupower_clean hv_clean firewire_clean \
+ 		perf_clean selftests_clean turbostat_clean spi_clean usb_clean virtio_clean \
+ 		vm_clean bpf_clean iio_clean x86_energy_perf_policy_clean tmon_clean \
+ 		freefall_clean build_clean libbpf_clean libsubcmd_clean liblockdep_clean \
+-		gpio_clean objtool_clean leds_clean wmi_clean
++		gpio_clean objtool_clean leds_clean wmi_clean pci_clean
+ 
+ .PHONY: FORCE
+diff --git a/tools/pci/Build b/tools/pci/Build
+new file mode 100644
+index 0000000..c375aea
+--- /dev/null
++++ b/tools/pci/Build
+@@ -0,0 +1 @@
++pcitest-y += pcitest.o
+diff --git a/tools/pci/Makefile b/tools/pci/Makefile
+new file mode 100644
+index 0000000..46e4c2f
+--- /dev/null
++++ b/tools/pci/Makefile
+@@ -0,0 +1,53 @@
++# SPDX-License-Identifier: GPL-2.0
++include ../scripts/Makefile.include
++
++bindir ?= /usr/bin
++
++ifeq ($(srctree),)
++srctree := $(patsubst %/,%,$(dir $(CURDIR)))
++srctree := $(patsubst %/,%,$(dir $(srctree)))
++endif
++
++# Do not use make's built-in rules
++# (this improves performance and avoids hard-to-debug behaviour);
++MAKEFLAGS += -r
++
++CFLAGS += -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
++
++ALL_TARGETS := pcitest pcitest.sh
++ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS))
++
++all: $(ALL_PROGRAMS)
++
++export srctree OUTPUT CC LD CFLAGS
++include $(srctree)/tools/build/Makefile.include
++
++#
++# We need the following to be outside of kernel tree
++#
++$(OUTPUT)include/linux/: ../../include/uapi/linux/
++	mkdir -p $(OUTPUT)include/linux/ 2>&1 || true
++	ln -sf $(CURDIR)/../../include/uapi/linux/pcitest.h $@
++
++prepare: $(OUTPUT)include/linux/
++
++PCITEST_IN := $(OUTPUT)pcitest-in.o
++$(PCITEST_IN): prepare FORCE
++	$(Q)$(MAKE) $(build)=pcitest
++$(OUTPUT)pcitest: $(PCITEST_IN)
++	$(QUIET_LINK)$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
++
++clean:
++	rm -f $(ALL_PROGRAMS)
++	rm -rf $(OUTPUT)include/
++	find $(if $(OUTPUT),$(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
++
++install: $(ALL_PROGRAMS)
++	install -d -m 755 $(DESTDIR)$(bindir);		\
++	for program in $(ALL_PROGRAMS); do		\
++		install $$program $(DESTDIR)$(bindir);	\
++	done
++
++FORCE:
++
++.PHONY: all install clean FORCE prepare
+-- 
+2.7.4
 
-device {
-    compatible =3D "example-device";
-    #address-cells =3D <2>;
-    #size-cells =3D <1>;
-
-    child@0,0 {
-        reg =3D <0x0 0x0>;
-        ...
-    };
-
-    child@1,2 {
-        reg =3D <0x1 0x2>;
-        ...
-    };
-
-};
-
-Now this binding already use the node address space for something,
-so putting a nvmem node as direct child would not work. Here it is
-quiet clear as we have 2 address cells, however even if the number of
-cells and the cells size would match it would still be conceptually
-wrong as both bindings then use the same address space for something
-different.
-
-Alban
-
---Sig_/clJVj=KipsjMDyfNIMePBO1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJbfoyCAAoJEHSUmkuduC2831EQANEODpUrKPBwoUPR5kK9+xS1
-1qpoYGYl6TM2lHAEP7nZP+eNv3rOyBncZoiuVAIAIqYi2cJ1eyury5lRDpgIpZaH
-hYDSyeBefkS/qFTH91x3+CYq5wK8uPKEFoDJcAmj0jDw+dEGk9xRohWF0rSR5AVv
-IKVtiDByjgCLlNBCmzOe9GAxEU9hSZVRck3u84NA9HlklZ+P3dbEotpRkt3c9qsZ
-3HlckafnYuWs3gFW+HP++oALuUa4X7iqHTNi2Wubj/G0K30vhOrSAgCpQty5TqWF
-iYiZq/zfZqDJlDkWOYkW9lSdF0tGlCgfsVOrxG5ByG5jMMtW5B7QREyZrBmQzcuz
-kIoerm0mjZYCfev2rkdtw0FZWXQdDGp9Rjy28B8RnnSMjR3cljid3wyWRZRhtnOY
-6QuHDQ7D5ncqn9LiZIAj4Th6RKgxxd4F7iNDLMY57+GmMVeqdgXJr/vWMXUy+KEu
-k9xO3xr+7l7wy23C35vGw+IK2Y9mrWyuchUNF+waa3gUL2L9ufugB8l6Yp+4OjRx
-ur16kOtTg4ZTYeRryImv8FLrjjm3FT81aKwZthoLL5W4Wxh5WPU0oMe2YWcE7g/G
-K6exE5qdZ285k3uHVgvqXH4SZTcjkqonJZ59Xjl5lb/NWhvMrAY3nXzUH1roM863
-jpGm3PZXS4uPr9TwgjAK
-=952h
------END PGP SIGNATURE-----
-
---Sig_/clJVj=KipsjMDyfNIMePBO1--
