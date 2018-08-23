@@ -1,118 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 63D7A7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 18:31:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 500A57D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 18:42:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727412AbeHWWCc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 Aug 2018 18:02:32 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:40624 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727414AbeHWWCc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 18:02:32 -0400
-Received: by mail-pf1-f194.google.com with SMTP id s13-v6so3077851pfi.7
-        for <linux-doc@vger.kernel.org>; Thu, 23 Aug 2018 11:31:35 -0700 (PDT)
+        id S1727292AbeHWWNW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 Aug 2018 18:13:22 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:43273 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726985AbeHWWNW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 18:13:22 -0400
+Received: by mail-pf1-f196.google.com with SMTP id j26-v6so3241089pfi.10;
+        Thu, 23 Aug 2018 11:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/3CjhislnGGqU2g8MmW8SwCvogvUhECLJdE3KndpOdQ=;
-        b=CUP0hyclBxjARnYZIqgC1rZExSxHVaRJ6nBohdn0WryRFx2dOKG4+LEUy+BorSCeWS
-         wWlwOeE043TYImeCxzPcvt91AOUviZJA0IhMwIakRH/hYxA9eqo5dceu5NwsaTLNAggt
-         clhjlutkPz95ooj0QXlPuYiwK+UM6XJyKODIo=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=cDt5PFNfvuWz1LrwCGziMpfmg02tuu/AeqOVna+lN7E=;
+        b=vXxFRIt6BiuS8VACYTuxTls5PgcBLwj8tbR2loLZ4tTmipyh63dyn7CcHttcZvckuo
+         ffyStoq2pWgwnTqgHloTsMJVJ3kZBcdceJm1DVLrfrxqT5O8GXvZvS4zaoX1zpsyYdgo
+         YH28dQRzo4jLDvophSPY7VJ1ZKRGMG+PrgjMrENOvUKPkJUG0vfyxd3lgRLDHIxqkH+4
+         MGyU6FGW4G0GS5WrpEMeMOF8EagDXQOceinH4u9Mgf1ZNgCM+sctK+Ql3NlabNpzlDwK
+         2mFYz1jUjiXeQlDrNMqySJ07vFQ6U85E7PETcKtiAsy1l56cVmzafxVEoKBPe72NjXJY
+         jzPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/3CjhislnGGqU2g8MmW8SwCvogvUhECLJdE3KndpOdQ=;
-        b=YUpVXeubOD/fgshMvWJQY7/84Jy8Rr9NYaY7IUW6GV/GMQHMNdDPTblObaJlhNhqZk
-         axdiRO4fPBku0xVXfAXhFobwsnFUR0MWcOTGjLY1jAmJ64KA5zsq/o/YzXPWbUnStXKt
-         Gh9rmHDw/Dvqy0sA1tbcMtc0PDtXRXgeBlp86/3anjDM99ib6JsjzxS/IvQcVhQcdDbv
-         Hfwk6TNh8YgTPPGjkRoVHuFDBfX8RTFXkrqopy/Ye9Gd6cq+8RVojaFJqehQKUHs0ER5
-         7rcBXoBxWNsrkEGQGEMY7PTJDG3e8goez/E+F+goKpPukC6wSg4y63qWaxgxT4A9M4O9
-         1Qnw==
-X-Gm-Message-State: APzg51D+qyzzZYoZOoV8XWetNyQkmDK+xTMypqgwnv+E/XX1+GzCGzZw
-        HjopLTppp4Ph6i7f+xWteW/qnA==
-X-Google-Smtp-Source: ANB0VdZHj3KxyeDaWF/JYIT1EXJYxyf6nl7xIC92Uw6WS9AEZxQdlX6W45BI+cKoEDajQY/5s4wOLA==
-X-Received: by 2002:a62:cc83:: with SMTP id j3-v6mr1231705pfk.255.1535049095292;
-        Thu, 23 Aug 2018 11:31:35 -0700 (PDT)
-Received: from kolhar.mtv.corp.google.com ([2620:15c:202:201:356a:9de2:526a:5bc])
-        by smtp.gmail.com with ESMTPSA id p11-v6sm9054225pfj.72.2018.08.23.11.31.34
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 23 Aug 2018 11:31:34 -0700 (PDT)
-From:   Harry Cutts <hcutts@chromium.org>
-To:     linux-input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     Jiri Kosina <jiri.kosina@suse.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=cDt5PFNfvuWz1LrwCGziMpfmg02tuu/AeqOVna+lN7E=;
+        b=YmETEbD9rKvLSOY3QKiWg7RIFlaj28/UReai3LA9T6rr92t2AkANEEkEer8pbBXOM1
+         cVO+HVvjOQ8TJnqa8Lv6NHPy58DjVQ39xzMHjLRp71xYCHH0P+bz8g07aiCTQC/prUau
+         5wFJhREdNTiufmi1xNAtXjPHODvjN9zY42wEpOrL2/QA+X6no1zpgqZrtdnniK5ASnZI
+         SgHooTbOXd4uCR3ZcXeTWFkiWlxBKUrXv5Xl44ERFnGpdLFfUxvTv4cdRzUjjd+dqoUZ
+         D1DRIeLz0Lx7q7nnL2p0HUvwmKfltpvCS2k/Rosw0kkGwSr56kfg6Si/udgENpsEJ8B/
+         +BCQ==
+X-Gm-Message-State: AOUpUlGLD3Us4//LaYQA8SnPHm9RxYGipJ/IDno22u0ibOClTV2H5AIV
+        k6U9RSbQNY0+PZdBdEcBR6Q=
+X-Google-Smtp-Source: AA+uWPzPxkwbQInGn6bkgrOM1q7FOnjmFW6sgbhbvS/JoZrIu5bPsp3xykzOiypBG5Y6AM2hFCIc6A==
+X-Received: by 2002:a63:1344:: with SMTP id 4-v6mr17658351pgt.423.1535049742530;
+        Thu, 23 Aug 2018 11:42:22 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id w72-v6sm12369970pfa.26.2018.08.23.11.42.20
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 23 Aug 2018 11:42:21 -0700 (PDT)
+Date:   Thu, 23 Aug 2018 11:42:19 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Harry Cutts <hcutts@chromium.org>
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <jiri.kosina@suse.cz>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Harry Cutts <hcutts@chromium.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 1/3] Add the `REL_WHEEL_HI_RES` event code
-Date:   Thu, 23 Aug 2018 11:30:55 -0700
-Message-Id: <20180823183057.247630-2-hcutts@chromium.org>
-X-Mailer: git-send-email 2.18.0.1017.ga543ac7ca45-goog
-In-Reply-To: <20180823183057.247630-1-hcutts@chromium.org>
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 1/3] Add the `REL_WHEEL_HI_RES` event code
+Message-ID: <20180823184219.GA53155@dtor-ws>
 References: <20180823183057.247630-1-hcutts@chromium.org>
+ <20180823183057.247630-2-hcutts@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180823183057.247630-2-hcutts@chromium.org>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This event code represents scroll reports from high-resolution wheels,
-and will be used by future patches in this series. See the linux-input
-"Reporting high-resolution scroll events" thread [0] for more details.
+On Thu, Aug 23, 2018 at 11:30:55AM -0700, Harry Cutts wrote:
+> This event code represents scroll reports from high-resolution wheels,
+> and will be used by future patches in this series. See the linux-input
+> "Reporting high-resolution scroll events" thread [0] for more details.
+> 
+> [0]: https://www.spinics.net/lists/linux-input/msg57380.html
+> 
+> Signed-off-by: Harry Cutts <hcutts@chromium.org>
 
-[0]: https://www.spinics.net/lists/linux-input/msg57380.html
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Signed-off-by: Harry Cutts <hcutts@chromium.org>
----
+Jiri, Benjamin, feel free to merge through HID tree if the rest is
+acceptable.
 
- Documentation/input/event-codes.rst    | 11 ++++++++++-
- include/uapi/linux/input-event-codes.h |  1 +
- 2 files changed, 11 insertions(+), 1 deletion(-)
+Thanks.
 
-diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-index a8c0873beb95..df024cb82829 100644
---- a/Documentation/input/event-codes.rst
-+++ b/Documentation/input/event-codes.rst
-@@ -190,7 +190,16 @@ A few EV_REL codes have special meanings:
- * REL_WHEEL, REL_HWHEEL:
- 
-   - These codes are used for vertical and horizontal scroll wheels,
--    respectively.
-+    respectively. The value is the number of "notches" moved on the wheel, the
-+    physical size of which varies by device. For high-resolution wheels (which
-+    report multiple events for each notch of movement, or do not have notches)
-+    this may be an approximation based on the high-resolution scroll events.
-+
-+* REL_WHEEL_HI_RES:
-+
-+  - If a vertical scroll wheel supports high-resolution scrolling, this code
-+    will be emitted in addition to REL_WHEEL. The value is the (approximate)
-+    distance travelled by the user's finger, in 256ths of a millimeter.
- 
- EV_ABS
- ------
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 53fbae27b280..dad8d3890a3a 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -708,6 +708,7 @@
- #define REL_DIAL		0x07
- #define REL_WHEEL		0x08
- #define REL_MISC		0x09
-+#define REL_WHEEL_HI_RES	0x0a
- #define REL_MAX			0x0f
- #define REL_CNT			(REL_MAX+1)
- 
 -- 
-2.18.0.1017.ga543ac7ca45-goog
-
+Dmitry
