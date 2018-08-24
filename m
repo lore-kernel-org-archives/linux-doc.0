@@ -5,132 +5,171 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 93A477D584
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 Aug 2018 15:28:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D4757D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 Aug 2018 17:53:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727628AbeHXTDn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 24 Aug 2018 15:03:43 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:42573 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726508AbeHXTDn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Aug 2018 15:03:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch; s=20171124;
-        h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date; bh=XBUbNpntrULBhFGJWf7YDKiLFfdXW3bZZMuLRebO2cI=;
-        b=hFkFMKWOdF8/2Bdyl3a9MBww+eEPuScMFd4kSbaXwfi6x10imc3RvSMw50gVqJ8dmCgR7DQQpER+h9k7f9BKqM0/hErYLdOPo8klYyFElXiXmPeZAtqSv0+QK5umpuNSX4BtRu65iJ+MDtP0RFPrreZCtn/+jPc99+P1bdptKCk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.84_2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1ftDzw-0001hI-2N; Fri, 24 Aug 2018 17:27:40 +0200
-Date:   Fri, 24 Aug 2018 17:27:40 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1726855AbeHXV2m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 24 Aug 2018 17:28:42 -0400
+Received: from smtprelay2.synopsys.com ([198.182.60.111]:38544 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726601AbeHXV2m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Aug 2018 17:28:42 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 571ED10C1BAC;
+        Fri, 24 Aug 2018 10:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1535133182; bh=pU6Vt7axWq5CX5naq7DXYQ1wFeapZtzLGaLvIpFHHmw=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=ibJAnnrvg8P17BDi0++Rgi4Z2v0FiZn9LFgtcmpozeiUw6RpBSBsfrlrSIUFN6FMd
+         9MdOQhFRDVw1Xp5aC72BwoIjjeEx7C8GPc/UmjJ4AyLW7lPqpxjw/WZo3GZzRqTSoI
+         pfrkVDGxVc1vJU60xoAIo+1TqB3lNkREqKI+P1yxe00TScEuLES7uyEuab3NF/4YYN
+         RMQdQnF64QRd05NfuANVbhq1FYxrPRtlhN8zlalPFiNOHgWmBnKNKmts7sMyCJTpfS
+         Q4se1IrEf0GhdoHdO7ep/Vv+d9mQ7pmY55VsQ2Cd5uPmni5zIXe5wRS08lUxUnBQLW
+         bCkl/IyCDl/KA==
+Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 5817B3CB3;
+        Fri, 24 Aug 2018 10:52:58 -0700 (PDT)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ us01wehtc1.internal.synopsys.com (10.12.239.231) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Fri, 24 Aug 2018 10:52:58 -0700
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Fri, 24 Aug 2018 19:52:56 +0200
+Received: from [10.0.2.15] (10.107.25.66) by DE02WEHTCA.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.361.1; Fri, 24 Aug
+ 2018 19:52:55 +0200
+Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        vitor <Vitor.Soares@synopsys.com>, <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>
+CC:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Naren <naren.kernel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
-        Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 01/29] nvmem: add support for cell lookups
-Message-ID: <20180824152740.GD27483@lunn.ch>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
- <20180810080526.27207-2-brgl@bgdev.pl>
- <20180824170848.29594318@bbrezillon>
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        "Cyprian Wronka" <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        "Rafal Ciepiela" <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>
+References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
+ <20180719152930.3715-2-boris.brezillon@bootlin.com>
+ <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
+ <20180824143934.6d6b6487@bbrezillon>
+From:   vitor <Vitor.Soares@synopsys.com>
+Message-ID: <bdb2924f-ecfa-1da3-41db-9ac77d4d933b@synopsys.com>
+Date:   Fri, 24 Aug 2018 18:52:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180824170848.29594318@bbrezillon>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20180824143934.6d6b6487@bbrezillon>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.107.25.66]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 24, 2018 at 05:08:48PM +0200, Boris Brezillon wrote:
-> Hi Bartosz,
-> 
-> On Fri, 10 Aug 2018 10:04:58 +0200
-> Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> 
-> > +struct nvmem_cell_lookup {
-> > +	struct nvmem_cell_info	info;
-> > +	struct list_head	list;
-> > +	const char		*nvmem_name;
-> > +};
-> 
-> Hm, maybe I don't get it right, but this looks suspicious. Usually the
-> consumer lookup table is here to attach device specific names to
-> external resources.
-> 
-> So what I'd expect here is:
-> 
-> struct nvmem_cell_lookup {
-> 	/* The nvmem device name. */
-> 	const char *nvmem_name;
-> 
-> 	/* The nvmem cell name */
-> 	const char *nvmem_cell_name;
-> 
-> 	/*
-> 	 * The local resource name. Basically what you have in the
-> 	 * nvmem-cell-names prop.
-> 	 */
-> 	const char *conid;
-> };
-> 
-> struct nvmem_cell_lookup_table {
-> 	struct list_head list;
-> 
-> 	/* ID of the consumer device. */
-> 	const char *devid;
-> 
-> 	/* Array of cell lookup entries. */
-> 	unsigned int ncells;
-> 	const struct nvmem_cell_lookup *cells;
-> };
-> 
-> Looks like your nvmem_cell_lookup is more something used to attach cells
-> to an nvmem device, which is NVMEM provider's responsibility not the
-> consumer one.
+Hi Boris,
 
-Hi Boris
 
-There are cases where there is not a clear providier/consumer split. I
-have an x86 platform, with a few at24 EEPROMs on it. It uses an off
-the shelf Komtron module, placed on a custom carrier board. One of the
-EEPROMs contains the hardware variant information. Once i know the
-variant, i need to instantiate other I2C, SPI, MDIO devices, all using
-platform devices, since this is x86, no DT available.
+On 24-08-2018 13:39, Boris Brezillon wrote:
+> Hi Vitor,
+>
+> On Wed, 22 Aug 2018 17:43:34 +0100
+> vitor <Vitor.Soares@synopsys.com> wrote:
+>
+>> Hi Boris,
+>>
+>>
+>> On 19-07-2018 16:29, Boris Brezillon wrote:
+>>> +int i3c_bus_register(struct i3c_bus *i3cbus)
+>>> +{
+>>> +	struct i2c_dev_desc *desc;
+>>> +
+>>> +	i3c_bus_for_each_i2cdev(i3cbus, desc) {
+>>> +		switch (desc->boardinfo->lvr & I3C_LVR_I2C_INDEX_MASK) {
+>>> +		case I3C_LVR_I2C_INDEX(0):
+>>> +			if (i3cbus->mode < I3C_BUS_MODE_MIXED_FAST)
+>>> +				i3cbus->mode = I3C_BUS_MODE_MIXED_FAST;
+>>> +			break;
+>>> +
+>>> +		case I3C_LVR_I2C_INDEX(1):
+>>> +		case I3C_LVR_I2C_INDEX(2):
+>>> +			if (i3cbus->mode < I3C_BUS_MODE_MIXED_SLOW)
+>>> +				i3cbus->mode = I3C_BUS_MODE_MIXED_SLOW;
+>>> +			break;
+>>> +
+>>> +		default:
+>>> +			return -EINVAL;
+>>> +		}
+>>> +	}
+>>> +
+>>> +	if (!i3cbus->scl_rate.i3c)
+>>> +		i3cbus->scl_rate.i3c = I3C_BUS_TYP_I3C_SCL_RATE;
+>>> +
+>>> +	if (!i3cbus->scl_rate.i2c) {
+>>> +		if (i3cbus->mode == I3C_BUS_MODE_MIXED_SLOW)
+>>> +			i3cbus->scl_rate.i2c = I3C_BUS_I2C_FM_SCL_RATE;
+>>> +		else
+>>> +			i3cbus->scl_rate.i2c = I3C_BUS_I2C_FM_PLUS_SCL_RATE;
+>>> +	}
+>>> +
+>>> +	/*
+>>> +	 * I3C/I2C frequency may have been overridden, check that user-provided
+>>> +	 * values are not exceeding max possible frequency.
+>>> +	 */
+>>> +	if (i3cbus->scl_rate.i3c > I3C_BUS_MAX_I3C_SCL_RATE ||
+>>> +	    i3cbus->scl_rate.i2c > I3C_BUS_I2C_FM_PLUS_SCL_RATE) {
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	dev_set_name(&i3cbus->dev, "i3c-%d", i3cbus->id);
+>>> +
+>>> +	return device_add(&i3cbus->dev);
+>>> +}
+>> During the tests of the bus with i2c devices I found the i2c_dev_desc
+>> objects aren't allocated before this function. This cause i3cbus->mode =
+>> I3C_BUS_MODE_PURE.
+> I just checked and DT parsing (+ I2C descs creation) is done before
+> i3c_bus_register() is called, so we should be good. How did you declare
+> your I2C devices (right now, only DT declaration is supported).
+During the DT parsing, you create the i2c_dev_boardinfo. the 
+i2c_dev_desc is created in i3c_master_bus_init() which is after the 
+i3c_mater_create_bus(). One possible way to fix this is to pass master 
+also to i3c_bus_register and iterate over i2c_dev_board_info list.
 
-So the first thing my x86 platform device does is instantiate the
-first i2c device for the AT24. Once the EEPROM pops into existence, i
-need to add nvmem cells onto it. So at that point, the x86 platform
-driver is playing the provider role. Once the cells are added, i can
-then use nvmem consumer interfaces to get the contents of the cell,
-run a checksum, and instantiate the other devices.
+>> I want to do something for the slave and secondary master, do you
+>> already have infrastructure that you can share?
+> What do you mean?
+>
+> Regards,
+>
+> Boris
 
-I wish the embedded world was all DT, but the reality is that it is
-not :-(
+I want start to add the secondary master functionality but it is also 
+necessary to add the infrastructure to the subsystem.
+So, to avoid duplicated work can you share your plans for the secondary 
+master?
 
-    Andrew
+Best regards,
+Vitor Soares
+
+
