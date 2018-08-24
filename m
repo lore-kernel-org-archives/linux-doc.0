@@ -1,73 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 615E17D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 Aug 2018 22:00:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 186FE7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 Aug 2018 01:51:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbeHXBcL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 Aug 2018 21:32:11 -0400
-Received: from smtprelay0162.hostedemail.com ([216.40.44.162]:47182 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727125AbeHXBcK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Aug 2018 21:32:10 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 60CD4182CF66A;
-        Thu, 23 Aug 2018 22:00:28 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: edge11_5b26f969f2642
-X-Filterd-Recvd-Size: 1950
-Received: from XPS-9350.home (unknown [47.151.153.53])
-        (Authenticated sender: joe@perches.com)
-        by omf12.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 23 Aug 2018 22:00:26 +0000 (UTC)
-Message-ID: <1996329d875e1ab5b9cd69db187b7037ad3a0d8d.camel@perches.com>
-Subject: Re: [PATCH] Raise the minimum required gcc version to 4.6
-From:   Joe Perches <joe@perches.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Galbraith <efault@gmx.de>,
-        Guenter Roeck <linux@roeck-us.net>, riel@surriel.com,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 23 Aug 2018 15:00:25 -0700
-In-Reply-To: <CAMuHMdXPFgp5sLR5-UExEvxNbKSR5H--dk7KMit_XFSFN+1uHw@mail.gmail.com>
-References: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
-         <CAMuHMdXPFgp5sLR5-UExEvxNbKSR5H--dk7KMit_XFSFN+1uHw@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1725945AbeHXFXc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 24 Aug 2018 01:23:32 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:45042 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725735AbeHXFXc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Aug 2018 01:23:32 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w7O1iiRY174377;
+        Fri, 24 Aug 2018 01:51:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2018-07-02;
+ bh=VDPICrBwfqHs5/mR+Wfl2tHE/I00m67dHtDzlcSXuM8=;
+ b=qhTG3tZPmPc0IwVxZtZeMQI/LfjZcZ4nang+Y5V+uHzWq1dAjyaB+kROoU4S7fdkh/ZJ
+ sSMixo6ldtdaViiCjSY3QTyK7xuK9mrWixGrRUG5UZJ/KwEGx04PiLWbEDy+BOJ6AJGs
+ jK3ZQWzF/a3P77zTWTVEuXm/7Hk1qclWsDpfM5rAxhHMJHBzVSgZwb6DIPjbbxxNkIuQ
+ vOHryaoRB/Xkud24Ha68vpmnMPNwXGrsws9qfBtrNvEJ7nZ4OSMeg0koJkKj/cnq14Ad
+ LOPUCl/GKxntJ1Zw2R/ImBJmiUh/RQaJSc6pfaYv4MD35Vbb3ZHnsuu6touJuhU+Ig14 5g== 
+Received: from userv0021.oracle.com (userv0021.oracle.com [156.151.31.71])
+        by aserp2120.oracle.com with ESMTP id 2kxbdqchb8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 24 Aug 2018 01:51:06 +0000
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w7O1p4T2020686
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 24 Aug 2018 01:51:05 GMT
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w7O1p4S4009458;
+        Fri, 24 Aug 2018 01:51:04 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 24 Aug 2018 01:51:03 +0000
+To:     John Pittman <jpittman@redhat.com>
+Cc:     corbet@lwn.net, martin.petersen@oracle.com,
+        linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org
+Subject: Re: [PATCH] scsi: documentation: add scsi_mod.use_blk_mq to scsi-parameters
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <20180823194918.25708-1-jpittman@redhat.com>
+Date:   Thu, 23 Aug 2018 21:51:01 -0400
+In-Reply-To: <20180823194918.25708-1-jpittman@redhat.com> (John Pittman's
+        message of "Thu, 23 Aug 2018 15:49:18 -0400")
+Message-ID: <yq1tvnka5x6.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8994 signatures=668707
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=808
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1807170000 definitions=main-1808240017
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-08-23 at 23:52 +0200, Geert Uytterhoeven wrote:
-> Hi Joe,
 
-Hi Geert.
+John,
 
-> Does gcc 8.x gives again the same warnings as my venerable old gcc 4.1.2,
-> that no one else seems to see? Or will the real bugs I detect this way stay
-> unfixed? Polyculture is a good thing, also in compilers.
+> Kernel line argument scsi_mod.use_blk_mq is missing from file
+> Documentation/scsi/scsi-parameters.txt.  Add this option,
+> providing mention of config setting and format.
 
-I'm not sure I understand what you mean.
-Patches that fix defects and patches that fix warnings
-both generally get applied.
+Applied to 4.19/scsi-fixes, thanks!
 
-> Reverted locally (incl. the follow-up), applied Andrew's fix, detected new
-> warnings in v4.18+, and sent patches where it makes sense...
-
-Thanks for that.
-
-cheers, Joe
+-- 
+Martin K. Petersen	Oracle Linux Engineering
