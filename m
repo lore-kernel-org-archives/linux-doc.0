@@ -1,136 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A39AE7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 Aug 2018 12:40:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 27A6E7D584
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 Aug 2018 12:48:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbeHXQOR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 24 Aug 2018 12:14:17 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:47757 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726504AbeHXQOR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Aug 2018 12:14:17 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id C8B7322A39; Fri, 24 Aug 2018 14:39:46 +0200 (CEST)
-Received: from bbrezillon (AAubervilliers-681-1-53-19.w90-88.abo.wanadoo.fr [90.88.170.19])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 1B60B206DE;
-        Fri, 24 Aug 2018 14:39:36 +0200 (CEST)
-Date:   Fri, 24 Aug 2018 14:39:34 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     vitor <Vitor.Soares@synopsys.com>, <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>
-Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-Message-ID: <20180824143934.6d6b6487@bbrezillon>
-In-Reply-To: <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
-References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
-        <20180719152930.3715-2-boris.brezillon@bootlin.com>
-        <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726848AbeHXQWz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 24 Aug 2018 12:22:55 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33187 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726768AbeHXQWy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Aug 2018 12:22:54 -0400
+Received: by mail-lf1-f68.google.com with SMTP id c7-v6so6621010lfe.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Aug 2018 05:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=2FHUghnZPnzW+Olj0z+RL1R23rMcP/IaxBNeVxcPJeo=;
+        b=an/dob+c5UePlzOnJ3RH1TjdMkTjpEP1xtFfO4nhLCQIxIExqyZeU3M6XIrl4hQouQ
+         BESzwmlxZ8bytCUxocpoMvBQULtnLGo2AXmkQy5cdR5CkQlBF8ykmZEzhKMg2Fi3MJEv
+         tgzM0h8wfwtujccfTz4C/svQYUwRqoa6cZuS8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=2FHUghnZPnzW+Olj0z+RL1R23rMcP/IaxBNeVxcPJeo=;
+        b=k9G4vQhb0NvRpAYLId7dOWMJ/i5ofNfXTb2+xpVIiU4RxllbjqDxjiWkqY4K9DwyJc
+         78vOcXh4UaAHAD6KgdMIe7yiRAUXs2jvz78vqHgc6kSpKzjQR+i/j9u7uinelriOBD8u
+         pMH2C7IvoNHAYljRsrJEcVWY+vXGq3EbmQuCtoTfu+HOKIjhPK/is822NOT7QC6Xb/6S
+         ZDkDO4ye+qCEHnnFDwt/WheXUusKAjcTISwESHz+OeIMJQO33lXzL8SWxDDE6CBgueIY
+         ZB/q/RKLlq8Y0A+IeY8ucx0uXwLMHcYHYFSHy7V3dNCV4kymOkJJN0ONs9lOHm+qqi18
+         et5Q==
+X-Gm-Message-State: APzg51Dr53rhJFtNt40JnZAIW1WPBFlHXzt6b+Wdn4aCr4Xe53ukGH9V
+        vzHUrZjRL9bxsOwnmrLYUAA59g==
+X-Google-Smtp-Source: ANB0Vdan0hg2dSNyOIng4AGXxUtWS8u+vA2eYGMxHWfejlKLKjYhcB48cu8Bsz/1mYakbAcOrxx+9g==
+X-Received: by 2002:a19:a685:: with SMTP id p127-v6mr1254558lfe.143.1535114901827;
+        Fri, 24 Aug 2018 05:48:21 -0700 (PDT)
+Received: from localhost (c-4c3770d5.07-21-73746f28.bbcust.telenor.se. [213.112.55.76])
+        by smtp.gmail.com with ESMTPSA id y85-v6sm1324298lfi.46.2018.08.24.05.48.21
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 24 Aug 2018 05:48:21 -0700 (PDT)
+From:   Anders Roxell <anders.roxell@linaro.org>
+To:     shuah@kernel.org, corbet@lwn.net
+Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Anders Roxell <anders.roxell@linaro.org>
+Subject: [PATCH] doc: dev-tools: kselftest.rst: update config file location
+Date:   Fri, 24 Aug 2018 14:47:44 +0200
+Message-Id: <20180824124744.9842-1-anders.roxell@linaro.org>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vitor,
+Config fragment files should be placed in
+tools/testing/selftests/<testdir>/config
 
-On Wed, 22 Aug 2018 17:43:34 +0100
-vitor <Vitor.Soares@synopsys.com> wrote:
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+---
+ Documentation/dev-tools/kselftest.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Hi Boris,
-> 
-> 
-> On 19-07-2018 16:29, Boris Brezillon wrote:
-> > +int i3c_bus_register(struct i3c_bus *i3cbus)
-> > +{
-> > +	struct i2c_dev_desc *desc;
-> > +
-> > +	i3c_bus_for_each_i2cdev(i3cbus, desc) {
-> > +		switch (desc->boardinfo->lvr & I3C_LVR_I2C_INDEX_MASK) {
-> > +		case I3C_LVR_I2C_INDEX(0):
-> > +			if (i3cbus->mode < I3C_BUS_MODE_MIXED_FAST)
-> > +				i3cbus->mode = I3C_BUS_MODE_MIXED_FAST;
-> > +			break;
-> > +
-> > +		case I3C_LVR_I2C_INDEX(1):
-> > +		case I3C_LVR_I2C_INDEX(2):
-> > +			if (i3cbus->mode < I3C_BUS_MODE_MIXED_SLOW)
-> > +				i3cbus->mode = I3C_BUS_MODE_MIXED_SLOW;
-> > +			break;
-> > +
-> > +		default:
-> > +			return -EINVAL;
-> > +		}
-> > +	}
-> > +
-> > +	if (!i3cbus->scl_rate.i3c)
-> > +		i3cbus->scl_rate.i3c = I3C_BUS_TYP_I3C_SCL_RATE;
-> > +
-> > +	if (!i3cbus->scl_rate.i2c) {
-> > +		if (i3cbus->mode == I3C_BUS_MODE_MIXED_SLOW)
-> > +			i3cbus->scl_rate.i2c = I3C_BUS_I2C_FM_SCL_RATE;
-> > +		else
-> > +			i3cbus->scl_rate.i2c = I3C_BUS_I2C_FM_PLUS_SCL_RATE;
-> > +	}
-> > +
-> > +	/*
-> > +	 * I3C/I2C frequency may have been overridden, check that user-provided
-> > +	 * values are not exceeding max possible frequency.
-> > +	 */
-> > +	if (i3cbus->scl_rate.i3c > I3C_BUS_MAX_I3C_SCL_RATE ||
-> > +	    i3cbus->scl_rate.i2c > I3C_BUS_I2C_FM_PLUS_SCL_RATE) {
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	dev_set_name(&i3cbus->dev, "i3c-%d", i3cbus->id);
-> > +
-> > +	return device_add(&i3cbus->dev);
-> > +}  
-> During the tests of the bus with i2c devices I found the i2c_dev_desc 
-> objects aren't allocated before this function. This cause i3cbus->mode = 
-> I3C_BUS_MODE_PURE.
+diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+index 6f653acea248..dad1bb8711e2 100644
+--- a/Documentation/dev-tools/kselftest.rst
++++ b/Documentation/dev-tools/kselftest.rst
+@@ -159,7 +159,7 @@ Contributing new tests (details)
+  * If a test needs specific kernel config options enabled, add a config file in
+    the test directory to enable them.
+ 
+-   e.g: tools/testing/selftests/android/ion/config
++   e.g: tools/testing/selftests/android/config
+ 
+ Test Harness
+ ============
+-- 
+2.11.0
 
-I just checked and DT parsing (+ I2C descs creation) is done before
-i3c_bus_register() is called, so we should be good. How did you declare
-your I2C devices (right now, only DT declaration is supported).
-
-> 
-> I want to do something for the slave and secondary master, do you 
-> already have infrastructure that you can share?
-
-What do you mean?
-
-Regards,
-
-Boris
