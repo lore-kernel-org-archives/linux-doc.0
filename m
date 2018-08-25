@@ -1,152 +1,69 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-2.6 required=5.0 tests=DEAR_SOMETHING,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SUBJ_ALL_CAPS autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D13527D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 25 Aug 2018 06:27:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AE2F27D581
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 25 Aug 2018 09:48:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbeHYKFW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 25 Aug 2018 06:05:22 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:38391 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726159AbeHYKFW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 25 Aug 2018 06:05:22 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id A98BB207B1; Sat, 25 Aug 2018 08:27:28 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D99E3206FF;
-        Sat, 25 Aug 2018 08:27:27 +0200 (CEST)
-Date:   Sat, 25 Aug 2018 08:27:22 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     linux-doc@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        linux-i2c@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Russell King <linux@armlinux.org.uk>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        David Lechner <david@lechnology.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        linux-mtd@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Lukas Wunner <lukas@wunner.de>, Naren <naren.kernel@gmail.com>,
-        netdev@vger.kernel.org, Alban Bedel <albeu@free.fr>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        "David S . Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v2 01/29] nvmem: add support for cell lookups
-Message-ID: <20180825082722.567e8c9a@bbrezillon>
-In-Reply-To: <20180824152740.GD27483@lunn.ch>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-2-brgl@bgdev.pl>
-        <20180824170848.29594318@bbrezillon>
-        <20180824152740.GD27483@lunn.ch>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S1726009AbeHYN0x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 25 Aug 2018 09:26:53 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:54282 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726533AbeHYN0x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Aug 2018 09:26:53 -0400
+Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id B68223AA094;
+        Sat, 25 Aug 2018 11:33:28 +0200 (CEST)
+Received: from webmail.gandi.net (webmail4.sd4.0x35.net [10.200.201.4])
+        (Authenticated sender: kellyalan@servicescourrier.club)
+        by relay10.mail.gandi.net (Postfix) with ESMTPA id 0E3F7240007;
+        Sat, 25 Aug 2018 09:33:18 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Sat, 25 Aug 2018 11:33:18 +0200
+From:   KELLY ALAN <kellyalan@servicescourrier.club>
+To:     kellyalan@servicescourrier.club
+Subject: TRADING  ACCOUNT
+Organization: CFM INTERNATIONAL
+Reply-To: kellyalan@cfmeareongines.com
+Mail-Reply-To: kellyalan@cfmeareongines.com
+Message-ID: <d630d0de392f73733762ce0ae2290e6f@servicescourrier.club>
+X-Sender: kellyalan@servicescourrier.club
+User-Agent: Roundcube Webmail/1.1.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Aug 2018 17:27:40 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
 
-> On Fri, Aug 24, 2018 at 05:08:48PM +0200, Boris Brezillon wrote:
-> > Hi Bartosz,
-> > 
-> > On Fri, 10 Aug 2018 10:04:58 +0200
-> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> >   
-> > > +struct nvmem_cell_lookup {
-> > > +	struct nvmem_cell_info	info;
-> > > +	struct list_head	list;
-> > > +	const char		*nvmem_name;
-> > > +};  
-> > 
-> > Hm, maybe I don't get it right, but this looks suspicious. Usually the
-> > consumer lookup table is here to attach device specific names to
-> > external resources.
-> > 
-> > So what I'd expect here is:
-> > 
-> > struct nvmem_cell_lookup {
-> > 	/* The nvmem device name. */
-> > 	const char *nvmem_name;
-> > 
-> > 	/* The nvmem cell name */
-> > 	const char *nvmem_cell_name;
-> > 
-> > 	/*
-> > 	 * The local resource name. Basically what you have in the
-> > 	 * nvmem-cell-names prop.
-> > 	 */
-> > 	const char *conid;
-> > };
-> > 
-> > struct nvmem_cell_lookup_table {
-> > 	struct list_head list;
-> > 
-> > 	/* ID of the consumer device. */
-> > 	const char *devid;
-> > 
-> > 	/* Array of cell lookup entries. */
-> > 	unsigned int ncells;
-> > 	const struct nvmem_cell_lookup *cells;
-> > };
-> > 
-> > Looks like your nvmem_cell_lookup is more something used to attach cells
-> > to an nvmem device, which is NVMEM provider's responsibility not the
-> > consumer one.  
-> 
-> Hi Boris
-> 
-> There are cases where there is not a clear providier/consumer split. I
-> have an x86 platform, with a few at24 EEPROMs on it. It uses an off
-> the shelf Komtron module, placed on a custom carrier board. One of the
-> EEPROMs contains the hardware variant information. Once i know the
-> variant, i need to instantiate other I2C, SPI, MDIO devices, all using
-> platform devices, since this is x86, no DT available.
-> 
-> So the first thing my x86 platform device does is instantiate the
-> first i2c device for the AT24. Once the EEPROM pops into existence, i
-> need to add nvmem cells onto it. So at that point, the x86 platform
-> driver is playing the provider role. Once the cells are added, i can
-> then use nvmem consumer interfaces to get the contents of the cell,
-> run a checksum, and instantiate the other devices.
-> 
-> I wish the embedded world was all DT, but the reality is that it is
-> not :-(
+Dear sir ,
 
-Actually, I'm not questioning the need for this feature (being able to
-attach NVMEM cells to an NVMEM device on a platform that does not use
-DT). What I'm saying is that this functionality is provider related,
-not consumer related. Also, I wonder if defining such NVMEM cells
-shouldn't go through the provider driver instead of being passed
-directly to the NVMEM layer, because nvmem_config already have a fields
-to pass cells at registration time, plus, the name of the NVMEM cell
-device is sometimes created dynamically and can be hard to guess at
-platform_device registration time.
+I KELLY ALAN  purchasing and sales manager of CFM INTERNATIONAL .Our 
+Company specialised in Supplying computer hardware and Electronic .We 
+want to extend our supplier list because of concurrency in prices on the 
+international market. We are seeking a supplier with whom we can to have 
+  partnered long-term in order to have competitive prices . we are 
+interested to buy the products you sell and want to place an order with 
+you in big quantities.
+Can you give us payment facilities ( 14 , 30 or 60 days payment terms ) 
+?
+What is the procedure for our account opening  and credit line 
+application ?
 
-I also think non-DT consumers will need a way to reference exiting
-NVMEM cells, but this consumer-oriented nvmem cell lookup table should
-look like the gpio or pwm lookup table (basically what I proposed in my
-previous email).
+Cordially
+
+  KELLY ALAN
+
+CFM INTERNATIONAL
+2 BOULEVARD DU GAL MARTIAL VALIN
+75015 PARIS
+REG N° 302 527 700
+VAT N° FR90 302527700
+TEL +33171025367
+FAX +33177759149
+https://www.cfmaeroengines.com
