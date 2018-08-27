@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C7D507DE6F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 14:42:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 904DC7D923
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 14:42:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727490AbeH0S2j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 27 Aug 2018 14:28:39 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:43282 "EHLO mx1.redhat.com"
+        id S1727868AbeH0S3E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 27 Aug 2018 14:29:04 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:43296 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727611AbeH0S2g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727720AbeH0S2g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Aug 2018 14:28:36 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2F67440241E8;
-        Mon, 27 Aug 2018 14:41:40 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 9617C40241EA;
+        Mon, 27 Aug 2018 14:41:41 +0000 (UTC)
 Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B84402027EA3;
-        Mon, 27 Aug 2018 14:41:39 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2BEB52027EA4;
+        Mon, 27 Aug 2018 14:41:41 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -34,202 +34,75 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v12 4/9] cpuset: Allow changes to cpus in a partition root
-Date:   Mon, 27 Aug 2018 10:41:19 -0400
-Message-Id: <1535380884-31308-5-git-send-email-longman@redhat.com>
+Subject: [PATCH v12 7/9] cpuset: Expose cpus.effective and mems.effective on cgroup v2 root
+Date:   Mon, 27 Aug 2018 10:41:22 -0400
+Message-Id: <1535380884-31308-8-git-send-email-longman@redhat.com>
 In-Reply-To: <1535380884-31308-1-git-send-email-longman@redhat.com>
 References: <1535380884-31308-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 27 Aug 2018 14:41:40 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 27 Aug 2018 14:41:40 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 27 Aug 2018 14:41:41 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 27 Aug 2018 14:41:41 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous patch introduces a new partition flag, but won't allow
-changes made to "cpuset.cpus" once the flag is on. That may be too
-restrictive in some use cases. So this restiction is now relaxed to
-allow changes made to the "cpuset.cpus" file with some constraints:
+Because of the fact that setting the "cpuset.sched.partition" in
+a direct child of root can remove CPUs from the root's effective CPU
+list, it makes sense to know what CPUs are left in the root cgroup for
+scheduling purpose. So the "cpuset.cpus.effective" control file is now
+exposed in the v2 cgroup root.
 
- 1) The new set of cpus must still be exclusive.
- 2) Newly added cpus must be a subset of the parent effective_cpus.
- 3) None of the deleted cpus can be one of those allocated to a child
-    partition roots, if present.
+For consistency, the "cpuset.mems.effective" control file is exposed
+as well.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst |  9 +++++
- kernel/cgroup/cpuset.c                  | 61 ++++++++++++++++++++++++++-------
- 2 files changed, 58 insertions(+), 12 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst | 4 ++--
+ kernel/cgroup/cpuset.c                  | 2 --
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 5e33d25..a5fc335 100644
+index 234fb18..655e54e 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1701,6 +1701,15 @@ Cpuset Interface Files
-         its child partition root cgroups.  There must be at least one cpu
-         left in the parent partition root cgroup.
+@@ -1613,7 +1613,7 @@ Cpuset Interface Files
+ 	and won't be affected by any CPU hotplug events.
  
-+	In a partition root, changes to "cpuset.cpus" is allowed as long
-+	as the first condition above as well as the following two
-+	additional conditions are true.
-+
-+	1) Any added CPUs must be a proper subset of the parent's
-+	   "cpuset.cpus.effective".
-+	2) No CPU that has been distributed to child partition roots is
-+	   is deleted.
-+
+   cpuset.cpus.effective
+-	A read-only multiple values file which exists on non-root
++	A read-only multiple values file which exists on all
+ 	cpuset-enabled cgroups.
  
- Device controller
- -----------------
+ 	It lists the onlined CPUs that are actually granted to this
+@@ -1653,7 +1653,7 @@ Cpuset Interface Files
+ 	and won't be affected by any memory nodes hotplug events.
+ 
+   cpuset.mems.effective
+-	A read-only multiple values file which exists on non-root
++	A read-only multiple values file which exists on all
+ 	cpuset-enabled cgroups.
+ 
+ 	It lists the onlined memory nodes that are actually granted to
 diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index d9e821c..56e0931 100644
+index 286b851..0e41b62 100644
 --- a/kernel/cgroup/cpuset.c
 +++ b/kernel/cgroup/cpuset.c
-@@ -957,6 +957,9 @@ static void update_cpumasks_hier(struct cpuset *cs, struct cpumask *new_cpus)
+@@ -2182,14 +2182,12 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 		.name = "cpus.effective",
+ 		.seq_show = cpuset_common_seq_show,
+ 		.private = FILE_EFFECTIVE_CPULIST,
+-		.flags = CFTYPE_NOT_ON_ROOT,
+ 	},
  
- 		spin_lock_irq(&callback_lock);
- 		cpumask_copy(cp->effective_cpus, new_cpus);
-+		if (cp->nr_reserved)
-+			cpumask_andnot(cp->effective_cpus, cp->effective_cpus,
-+				       cp->reserved_cpus);
- 		spin_unlock_irq(&callback_lock);
+ 	{
+ 		.name = "mems.effective",
+ 		.seq_show = cpuset_common_seq_show,
+ 		.private = FILE_EFFECTIVE_MEMLIST,
+-		.flags = CFTYPE_NOT_ON_ROOT,
+ 	},
  
- 		WARN_ON(!is_in_v2_mode() &&
-@@ -984,8 +987,8 @@ static void update_cpumasks_hier(struct cpuset *cs, struct cpumask *new_cpus)
- /**
-  * update_reserved_cpumask - update the reserved_cpus mask of parent cpuset
-  * @cpuset:  The cpuset that requests CPU reservation
-- * @delmask: The old reserved cpumask to be removed from the parent
-- * @addmask: The new reserved cpumask to be added to the parent
-+ * @oldmask: The old reserved cpumask to be removed from the parent
-+ * @newmask: The new reserved cpumask to be added to the parent
-  * Return: 0 if successful, an error code otherwise
-  *
-  * Removing CPUs from a partition root may not be allowed by the
-@@ -1001,15 +1004,17 @@ static void update_cpumasks_hier(struct cpuset *cs, struct cpumask *new_cpus)
-  * cpumask changes tht violates the cpu exclusivity rule will not be
-  * permitted.
-  *
-- * If the sched.partition flag changes, either the delmask (0=>1) or the
-- * addmask (1=>0) will be NULL.
-+ * If the sched.partition flag changes, either the oldmask (0=>1) or the
-+ * newmask (1=>0) will be NULL.
-  *
-  * Called with cpuset_mutex held.
-  */
- static int update_reserved_cpumask(struct cpuset *cpuset,
--	struct cpumask *delmask, struct cpumask *addmask)
-+	struct cpumask *oldmask, struct cpumask *newmask)
- {
- 	int retval;
-+	int adding, deleting;
-+	cpumask_var_t addmask, delmask;
- 	struct cpuset *parent = parent_cs(cpuset);
- 	int old_count = parent->nr_reserved;
- 
-@@ -1018,16 +1023,23 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 	 * The new cpumask, if present, must not be empty.
- 	 */
- 	if (!is_partition_root(parent) ||
--	   (addmask && cpumask_empty(addmask)))
-+	   (newmask && cpumask_empty(newmask)))
- 		return -EINVAL;
- 
- 	/*
- 	 * A sched.partition state change is not allowed if there are
- 	 * online children.
- 	 */
--	if (css_has_online_children(&cpuset->css))
-+	if ((!oldmask || !newmask) && css_has_online_children(&cpuset->css))
- 		return -EBUSY;
- 
-+	if (!zalloc_cpumask_var(&addmask, GFP_KERNEL))
-+		return -ENOMEM;
-+	if (!zalloc_cpumask_var(&delmask, GFP_KERNEL)) {
-+		free_cpumask_var(addmask);
-+		return -ENOMEM;
-+	}
-+
- 	if (!old_count) {
- 		if (!zalloc_cpumask_var(&parent->reserved_cpus, GFP_KERNEL)) {
- 			retval = -ENOMEM;
-@@ -1037,12 +1049,29 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 	}
- 
- 	retval = -EBUSY;
-+	adding = deleting = false;
-+	/*
-+	 * addmask = newmask & ~oldmask
-+	 * delmask = oldmask & ~newmask
-+	 */
-+	if (oldmask && newmask) {
-+		adding   = cpumask_andnot(addmask, newmask, oldmask);
-+		deleting = cpumask_andnot(delmask, oldmask, newmask);
-+		if (!adding && !deleting)
-+			goto out_ok;
-+	} else if (newmask) {
-+		adding = true;
-+		cpumask_copy(addmask, newmask);
-+	} else if (oldmask) {
-+		deleting = true;
-+		cpumask_copy(delmask, oldmask);
-+	}
- 
- 	/*
- 	 * The cpus to be added must be a proper subset of the parent's
- 	 * effective_cpus mask but not in the reserved_cpus mask.
- 	 */
--	if (addmask) {
-+	if (adding) {
- 		if (!cpumask_subset(addmask, parent->effective_cpus) ||
- 		     cpumask_equal(addmask, parent->effective_cpus))
- 			goto out;
-@@ -1057,13 +1086,13 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 	 * and newly deleted ones will be added back if they are online.
- 	 */
- 	spin_lock_irq(&callback_lock);
--	if (addmask) {
-+	if (adding) {
- 		cpumask_or(parent->reserved_cpus,
- 			   parent->reserved_cpus, addmask);
- 		cpumask_andnot(parent->effective_cpus,
- 			       parent->effective_cpus, addmask);
- 	}
--	if (delmask) {
-+	if (deleting) {
- 		cpumask_andnot(parent->reserved_cpus,
- 			       parent->reserved_cpus, delmask);
- 		cpumask_or(parent->effective_cpus,
-@@ -1072,8 +1101,12 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 
- 	parent->nr_reserved = cpumask_weight(parent->reserved_cpus);
- 	spin_unlock_irq(&callback_lock);
-+
-+out_ok:
- 	retval = 0;
- out:
-+	free_cpumask_var(addmask);
-+	free_cpumask_var(delmask);
- 	if (old_count && !parent->nr_reserved)
- 		free_cpumask_var(parent->reserved_cpus);
- 
-@@ -1121,8 +1154,12 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
- 	if (retval < 0)
- 		return retval;
- 
--	if (is_partition_root(cs))
--		return -EBUSY;
-+	if (is_partition_root(cs)) {
-+		retval = update_reserved_cpumask(cs, cs->cpus_allowed,
-+						 trialcs->cpus_allowed);
-+		if (retval < 0)
-+			return retval;
-+	}
- 
- 	spin_lock_irq(&callback_lock);
- 	cpumask_copy(cs->cpus_allowed, trialcs->cpus_allowed);
+ 	{
 -- 
 1.8.3.1
 
