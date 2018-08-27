@@ -1,61 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B97B77D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 13:37:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8726D7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 14:01:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727434AbeH0RYG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 27 Aug 2018 13:24:06 -0400
-Received: from mail-it0-f65.google.com ([209.85.214.65]:35453 "EHLO
-        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727420AbeH0RYG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Aug 2018 13:24:06 -0400
-Received: by mail-it0-f65.google.com with SMTP id 139-v6so10487183itf.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Aug 2018 06:37:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=CFFa2lvF5oaI3bU1emNkaZ6B/T2Hkocyox+4q5Cz66w=;
-        b=wBWhd2gT++Pd9qXQZd8NIB3xeAsZZY4Vq2ZHE1B9C7yt2LOzlRTeE/vx5ul50vgVVG
-         U0QsweS26VJT1lS6VxfiwlTxRdcWATPp72UbeAeHNiIJ+dejxQR/9NuKBLqRJbRgr5tq
-         qgpXwqGcjWYA1y/twRg8eHSDnDKfIthDp8pCEKPmukjhDTzGtHvPwk+ZpOvlajwYIqii
-         vkY4cqrLvdGAPFdQnMYTp5w2AtmOCJkhXaGq+CLorQ8GXl3pTCxTEsz/bIpryv7Tr4T0
-         M5cQP8S3mUn+MTV8doW/IypGMniRItB3sGb0BxkO2epL+MWh2BQ8/x6gLdgLpFP10vkQ
-         U6tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=CFFa2lvF5oaI3bU1emNkaZ6B/T2Hkocyox+4q5Cz66w=;
-        b=BbziFDuI6DMT24PMXoMOJh4XMkpPhcTMGwtv9AuT9mRTkVpxk0dQeUoHOXnDw7+MGj
-         K2m5KKy65ZS2UdTMY1v3FZ80w5lOKo2tPwAcKyiv28NcPMf8PBKs4SPKp22vAmKZXtEM
-         sNj2HqVU3OH7UmVEklK+EoCw4SpgT8yR31OMJWw4tlp8JhvRLvnW7aWXSn4h316K9ekE
-         CX6pDKw1jQ1e5g1wV9Aa+/u2PH0MbZMgwRiEqdLX6mpy2LahZ41V4ItfkT92VOwNV3B2
-         Z0AqGRkVLWfNu99v28xjMCcNHJy0zekV08H/bNkrVR0kemypi7tBk/9/oLXCx7+Z0aKq
-         UA/Q==
-X-Gm-Message-State: APzg51ARAGAfuu+Wx7z8H4E1eHfB13zThv3E9EjKsTwQdmwm/X2cloVI
-        lp3eUFaLvmWv13ZjwGnKTJJe2ajlIlldETqKr2sl4Q==
-X-Google-Smtp-Source: ANB0VdZGXi0S+dBaf+E9Qn4XNON4YH75TwI9tZGdmfudY03soYUqkN36KAxTBI8yQiiqqstCGCjTw9ubWEpfFduOJ1c=
-X-Received: by 2002:a24:3d02:: with SMTP id n2-v6mr7025530itn.111.1535377044370;
- Mon, 27 Aug 2018 06:37:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a5e:9402:0:0:0:0:0 with HTTP; Mon, 27 Aug 2018 06:37:23
- -0700 (PDT)
-In-Reply-To: <20180827110055.122988d0@bbrezillon>
-References: <20180810080526.27207-1-brgl@bgdev.pl> <20180810080526.27207-2-brgl@bgdev.pl>
- <20180824170848.29594318@bbrezillon> <20180824152740.GD27483@lunn.ch>
- <20180825082722.567e8c9a@bbrezillon> <CAMRc=Men-MPk5DGshWcVEc0v=gH2WSpx1j-CawOeydwp59tejw@mail.gmail.com>
- <20180827110055.122988d0@bbrezillon>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 27 Aug 2018 15:37:23 +0200
-Message-ID: <CAMRc=MfpZJUEAhM4OoLbmJcnX3rTJk8fvdiL6=9BjNkVcsf=SA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/29] nvmem: add support for cell lookups
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
+        id S1727079AbeH0RsW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 27 Aug 2018 13:48:22 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:42633 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726925AbeH0RsW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Aug 2018 13:48:22 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id C0917206F6; Mon, 27 Aug 2018 16:01:33 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-53-19.w90-88.abo.wanadoo.fr [90.88.170.19])
+        by mail.bootlin.com (Postfix) with ESMTPSA id F366E206A6;
+        Mon, 27 Aug 2018 16:01:32 +0200 (CEST)
+Date:   Mon, 27 Aug 2018 16:01:31 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
         linux-doc <linux-doc@vger.kernel.org>,
         Sekhar Nori <nsekhar@ti.com>,
@@ -88,144 +54,165 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Brian Norris <computersforpeace@gmail.com>,
         David Woodhouse <dwmw2@infradead.org>,
         "David S . Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 01/29] nvmem: add support for cell lookups
+Message-ID: <20180827160131.58143824@bbrezillon>
+In-Reply-To: <CAMRc=MfpZJUEAhM4OoLbmJcnX3rTJk8fvdiL6=9BjNkVcsf=SA@mail.gmail.com>
+References: <20180810080526.27207-1-brgl@bgdev.pl>
+        <20180810080526.27207-2-brgl@bgdev.pl>
+        <20180824170848.29594318@bbrezillon>
+        <20180824152740.GD27483@lunn.ch>
+        <20180825082722.567e8c9a@bbrezillon>
+        <CAMRc=Men-MPk5DGshWcVEc0v=gH2WSpx1j-CawOeydwp59tejw@mail.gmail.com>
+        <20180827110055.122988d0@bbrezillon>
+        <CAMRc=MfpZJUEAhM4OoLbmJcnX3rTJk8fvdiL6=9BjNkVcsf=SA@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-08-27 11:00 GMT+02:00 Boris Brezillon <boris.brezillon@bootlin.com>:
-> On Mon, 27 Aug 2018 10:56:29 +0200
-> Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->
->> 2018-08-25 8:27 GMT+02:00 Boris Brezillon <boris.brezillon@bootlin.com>:
->> > On Fri, 24 Aug 2018 17:27:40 +0200
->> > Andrew Lunn <andrew@lunn.ch> wrote:
->> >
->> >> On Fri, Aug 24, 2018 at 05:08:48PM +0200, Boris Brezillon wrote:
->> >> > Hi Bartosz,
->> >> >
->> >> > On Fri, 10 Aug 2018 10:04:58 +0200
->> >> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->> >> >
->> >> > > +struct nvmem_cell_lookup {
->> >> > > + struct nvmem_cell_info  info;
->> >> > > + struct list_head        list;
->> >> > > + const char              *nvmem_name;
->> >> > > +};
->> >> >
->> >> > Hm, maybe I don't get it right, but this looks suspicious. Usually the
->> >> > consumer lookup table is here to attach device specific names to
->> >> > external resources.
->> >> >
->> >> > So what I'd expect here is:
->> >> >
->> >> > struct nvmem_cell_lookup {
->> >> >     /* The nvmem device name. */
->> >> >     const char *nvmem_name;
->> >> >
->> >> >     /* The nvmem cell name */
->> >> >     const char *nvmem_cell_name;
->> >> >
->> >> >     /*
->> >> >      * The local resource name. Basically what you have in the
->> >> >      * nvmem-cell-names prop.
->> >> >      */
->> >> >     const char *conid;
->> >> > };
->> >> >
->> >> > struct nvmem_cell_lookup_table {
->> >> >     struct list_head list;
->> >> >
->> >> >     /* ID of the consumer device. */
->> >> >     const char *devid;
->> >> >
->> >> >     /* Array of cell lookup entries. */
->> >> >     unsigned int ncells;
->> >> >     const struct nvmem_cell_lookup *cells;
->> >> > };
->> >> >
->> >> > Looks like your nvmem_cell_lookup is more something used to attach cells
->> >> > to an nvmem device, which is NVMEM provider's responsibility not the
->> >> > consumer one.
->> >>
->> >> Hi Boris
->> >>
->> >> There are cases where there is not a clear providier/consumer split. I
->> >> have an x86 platform, with a few at24 EEPROMs on it. It uses an off
->> >> the shelf Komtron module, placed on a custom carrier board. One of the
->> >> EEPROMs contains the hardware variant information. Once i know the
->> >> variant, i need to instantiate other I2C, SPI, MDIO devices, all using
->> >> platform devices, since this is x86, no DT available.
->> >>
->> >> So the first thing my x86 platform device does is instantiate the
->> >> first i2c device for the AT24. Once the EEPROM pops into existence, i
->> >> need to add nvmem cells onto it. So at that point, the x86 platform
->> >> driver is playing the provider role. Once the cells are added, i can
->> >> then use nvmem consumer interfaces to get the contents of the cell,
->> >> run a checksum, and instantiate the other devices.
->> >>
->> >> I wish the embedded world was all DT, but the reality is that it is
->> >> not :-(
->> >
->> > Actually, I'm not questioning the need for this feature (being able to
->> > attach NVMEM cells to an NVMEM device on a platform that does not use
->> > DT). What I'm saying is that this functionality is provider related,
->> > not consumer related. Also, I wonder if defining such NVMEM cells
->> > shouldn't go through the provider driver instead of being passed
->> > directly to the NVMEM layer, because nvmem_config already have a fields
->> > to pass cells at registration time, plus, the name of the NVMEM cell
->> > device is sometimes created dynamically and can be hard to guess at
->> > platform_device registration time.
->> >
->>
->> In my use case the provider is at24 EEPROM driver. This is where the
->> nvmem_config lives but I can't image a correct and clean way of
->> passing this cell config to the driver from board files without using
->> new ugly fields in platform_data which this very series is trying to
->> remove. This is why this cell config should live in machine code.
->
-> Okay.
->
->>
->> > I also think non-DT consumers will need a way to reference exiting
->> > NVMEM cells, but this consumer-oriented nvmem cell lookup table should
->> > look like the gpio or pwm lookup table (basically what I proposed in my
->> > previous email).
->>
->> How about introducing two new interfaces to nvmem: one for defining
->> nvmem cells from machine code and the second for connecting these
->> cells with devices?
->
-> Yes, that's basically what I was suggesting: move what you've done in
-> nvmem-provider.h (maybe rename some of the structs to make it clear
-> that this is about defining cells not referencing existing ones), and
-> add a new consumer interface (based on what other subsystems do) in
-> nvmem-consumer.h.
->
-> This way you have both things clearly separated, and if a driver is
-> both a consumer and a provider you'll just have to include both headers.
->
-> Regards,
->
-> Boris
+On Mon, 27 Aug 2018 15:37:23 +0200
+Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 
-I didn't notice it before but there's a global list of nvmem cells
-with each cell referencing its owner nvmem device. I'm wondering if
-this isn't some kind of inversion of ownership. Shouldn't each nvmem
-device have a separate list of nvmem cells owned by it? What happens
-if we have two nvmem providers with the same names for cells? I'm
-asking because dev_id based lookup doesn't make sense if internally
-nvmem_cell_get_from_list() doesn't care about any device names (takes
-only the cell_id as argument).
+> 2018-08-27 11:00 GMT+02:00 Boris Brezillon <boris.brezillon@bootlin.com>:
+> > On Mon, 27 Aug 2018 10:56:29 +0200
+> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> >  
+> >> 2018-08-25 8:27 GMT+02:00 Boris Brezillon <boris.brezillon@bootlin.com>:  
+> >> > On Fri, 24 Aug 2018 17:27:40 +0200
+> >> > Andrew Lunn <andrew@lunn.ch> wrote:
+> >> >  
+> >> >> On Fri, Aug 24, 2018 at 05:08:48PM +0200, Boris Brezillon wrote:  
+> >> >> > Hi Bartosz,
+> >> >> >
+> >> >> > On Fri, 10 Aug 2018 10:04:58 +0200
+> >> >> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> >> >> >  
+> >> >> > > +struct nvmem_cell_lookup {
+> >> >> > > + struct nvmem_cell_info  info;
+> >> >> > > + struct list_head        list;
+> >> >> > > + const char              *nvmem_name;
+> >> >> > > +};  
+> >> >> >
+> >> >> > Hm, maybe I don't get it right, but this looks suspicious. Usually the
+> >> >> > consumer lookup table is here to attach device specific names to
+> >> >> > external resources.
+> >> >> >
+> >> >> > So what I'd expect here is:
+> >> >> >
+> >> >> > struct nvmem_cell_lookup {
+> >> >> >     /* The nvmem device name. */
+> >> >> >     const char *nvmem_name;
+> >> >> >
+> >> >> >     /* The nvmem cell name */
+> >> >> >     const char *nvmem_cell_name;
+> >> >> >
+> >> >> >     /*
+> >> >> >      * The local resource name. Basically what you have in the
+> >> >> >      * nvmem-cell-names prop.
+> >> >> >      */
+> >> >> >     const char *conid;
+> >> >> > };
+> >> >> >
+> >> >> > struct nvmem_cell_lookup_table {
+> >> >> >     struct list_head list;
+> >> >> >
+> >> >> >     /* ID of the consumer device. */
+> >> >> >     const char *devid;
+> >> >> >
+> >> >> >     /* Array of cell lookup entries. */
+> >> >> >     unsigned int ncells;
+> >> >> >     const struct nvmem_cell_lookup *cells;
+> >> >> > };
+> >> >> >
+> >> >> > Looks like your nvmem_cell_lookup is more something used to attach cells
+> >> >> > to an nvmem device, which is NVMEM provider's responsibility not the
+> >> >> > consumer one.  
+> >> >>
+> >> >> Hi Boris
+> >> >>
+> >> >> There are cases where there is not a clear providier/consumer split. I
+> >> >> have an x86 platform, with a few at24 EEPROMs on it. It uses an off
+> >> >> the shelf Komtron module, placed on a custom carrier board. One of the
+> >> >> EEPROMs contains the hardware variant information. Once i know the
+> >> >> variant, i need to instantiate other I2C, SPI, MDIO devices, all using
+> >> >> platform devices, since this is x86, no DT available.
+> >> >>
+> >> >> So the first thing my x86 platform device does is instantiate the
+> >> >> first i2c device for the AT24. Once the EEPROM pops into existence, i
+> >> >> need to add nvmem cells onto it. So at that point, the x86 platform
+> >> >> driver is playing the provider role. Once the cells are added, i can
+> >> >> then use nvmem consumer interfaces to get the contents of the cell,
+> >> >> run a checksum, and instantiate the other devices.
+> >> >>
+> >> >> I wish the embedded world was all DT, but the reality is that it is
+> >> >> not :-(  
+> >> >
+> >> > Actually, I'm not questioning the need for this feature (being able to
+> >> > attach NVMEM cells to an NVMEM device on a platform that does not use
+> >> > DT). What I'm saying is that this functionality is provider related,
+> >> > not consumer related. Also, I wonder if defining such NVMEM cells
+> >> > shouldn't go through the provider driver instead of being passed
+> >> > directly to the NVMEM layer, because nvmem_config already have a fields
+> >> > to pass cells at registration time, plus, the name of the NVMEM cell
+> >> > device is sometimes created dynamically and can be hard to guess at
+> >> > platform_device registration time.
+> >> >  
+> >>
+> >> In my use case the provider is at24 EEPROM driver. This is where the
+> >> nvmem_config lives but I can't image a correct and clean way of
+> >> passing this cell config to the driver from board files without using
+> >> new ugly fields in platform_data which this very series is trying to
+> >> remove. This is why this cell config should live in machine code.  
+> >
+> > Okay.
+> >  
+> >>  
+> >> > I also think non-DT consumers will need a way to reference exiting
+> >> > NVMEM cells, but this consumer-oriented nvmem cell lookup table should
+> >> > look like the gpio or pwm lookup table (basically what I proposed in my
+> >> > previous email).  
+> >>
+> >> How about introducing two new interfaces to nvmem: one for defining
+> >> nvmem cells from machine code and the second for connecting these
+> >> cells with devices?  
+> >
+> > Yes, that's basically what I was suggesting: move what you've done in
+> > nvmem-provider.h (maybe rename some of the structs to make it clear
+> > that this is about defining cells not referencing existing ones), and
+> > add a new consumer interface (based on what other subsystems do) in
+> > nvmem-consumer.h.
+> >
+> > This way you have both things clearly separated, and if a driver is
+> > both a consumer and a provider you'll just have to include both headers.
+> >
+> > Regards,
+> >
+> > Boris  
+> 
+> I didn't notice it before but there's a global list of nvmem cells
+> with each cell referencing its owner nvmem device. I'm wondering if
+> this isn't some kind of inversion of ownership. Shouldn't each nvmem
+> device have a separate list of nvmem cells owned by it? What happens
+> if we have two nvmem providers with the same names for cells? I'm
+> asking because dev_id based lookup doesn't make sense if internally
+> nvmem_cell_get_from_list() doesn't care about any device names (takes
+> only the cell_id as argument).
+> 
+> This doesn't cause any trouble now since there are no users defining
+> cells in nvmem_config - there are only DT users - but this must be
+> clarified before I can advance with correctly implementing nvmem
+> lookups.
+> 
+> BTW: of_nvmem_cell_get() seems to always allocate an nvmem_cell
+> instance even if the cell for this node was already added to the nvmem
+> device.
 
-This doesn't cause any trouble now since there are no users defining
-cells in nvmem_config - there are only DT users - but this must be
-clarified before I can advance with correctly implementing nvmem
-lookups.
+Yep, don't know if it's done on purpose or not, but it's weird. I'd
+expect cells to be instantiated at NVMEM registration time (and stored
+in a list attached to the device) and then, anytime someone calls
+nvmem_cell_get(), you would search in this list for a match.
 
-BTW: of_nvmem_cell_get() seems to always allocate an nvmem_cell
-instance even if the cell for this node was already added to the nvmem
-device.
-
-Bart
