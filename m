@@ -5,214 +5,166 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8726D7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 14:01:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 086037D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 14:41:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727079AbeH0RsW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 27 Aug 2018 13:48:22 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:42633 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726925AbeH0RsW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Aug 2018 13:48:22 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id C0917206F6; Mon, 27 Aug 2018 16:01:33 +0200 (CEST)
-Received: from bbrezillon (AAubervilliers-681-1-53-19.w90-88.abo.wanadoo.fr [90.88.170.19])
-        by mail.bootlin.com (Postfix) with ESMTPSA id F366E206A6;
-        Mon, 27 Aug 2018 16:01:32 +0200 (CEST)
-Date:   Mon, 27 Aug 2018 16:01:31 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        David Lechner <david@lechnology.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Lukas Wunner <lukas@wunner.de>, Naren <naren.kernel@gmail.com>,
-        netdev <netdev@vger.kernel.org>, Alban Bedel <albeu@free.fr>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        "David S . Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v2 01/29] nvmem: add support for cell lookups
-Message-ID: <20180827160131.58143824@bbrezillon>
-In-Reply-To: <CAMRc=MfpZJUEAhM4OoLbmJcnX3rTJk8fvdiL6=9BjNkVcsf=SA@mail.gmail.com>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
-        <20180810080526.27207-2-brgl@bgdev.pl>
-        <20180824170848.29594318@bbrezillon>
-        <20180824152740.GD27483@lunn.ch>
-        <20180825082722.567e8c9a@bbrezillon>
-        <CAMRc=Men-MPk5DGshWcVEc0v=gH2WSpx1j-CawOeydwp59tejw@mail.gmail.com>
-        <20180827110055.122988d0@bbrezillon>
-        <CAMRc=MfpZJUEAhM4OoLbmJcnX3rTJk8fvdiL6=9BjNkVcsf=SA@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1727613AbeH0S2e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 27 Aug 2018 14:28:34 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34436 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726953AbeH0S2e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Aug 2018 14:28:34 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 3D88683221;
+        Mon, 27 Aug 2018 14:41:38 +0000 (UTC)
+Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6E24E2026D6B;
+        Mon, 27 Aug 2018 14:41:33 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
+        luto@amacapital.net, Mike Galbraith <efault@gmx.de>,
+        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v12 0/9] cpuset: Enable cpuset controller in default hierarchy
+Date:   Mon, 27 Aug 2018 10:41:15 -0400
+Message-Id: <1535380884-31308-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Mon, 27 Aug 2018 14:41:38 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Mon, 27 Aug 2018 14:41:38 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 27 Aug 2018 15:37:23 +0200
-Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+v12:
+ - Take out the debugging patch to print partitions.
+ - Add a patch to force turning off partition flag if newly modified CPU
+   list doesn't meet the requirement of being a partition root.
+ - Remove some unneeded checking code in update_reserved_cpumask().
 
-> 2018-08-27 11:00 GMT+02:00 Boris Brezillon <boris.brezillon@bootlin.com>:
-> > On Mon, 27 Aug 2018 10:56:29 +0200
-> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> >  
-> >> 2018-08-25 8:27 GMT+02:00 Boris Brezillon <boris.brezillon@bootlin.com>:  
-> >> > On Fri, 24 Aug 2018 17:27:40 +0200
-> >> > Andrew Lunn <andrew@lunn.ch> wrote:
-> >> >  
-> >> >> On Fri, Aug 24, 2018 at 05:08:48PM +0200, Boris Brezillon wrote:  
-> >> >> > Hi Bartosz,
-> >> >> >
-> >> >> > On Fri, 10 Aug 2018 10:04:58 +0200
-> >> >> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> >> >> >  
-> >> >> > > +struct nvmem_cell_lookup {
-> >> >> > > + struct nvmem_cell_info  info;
-> >> >> > > + struct list_head        list;
-> >> >> > > + const char              *nvmem_name;
-> >> >> > > +};  
-> >> >> >
-> >> >> > Hm, maybe I don't get it right, but this looks suspicious. Usually the
-> >> >> > consumer lookup table is here to attach device specific names to
-> >> >> > external resources.
-> >> >> >
-> >> >> > So what I'd expect here is:
-> >> >> >
-> >> >> > struct nvmem_cell_lookup {
-> >> >> >     /* The nvmem device name. */
-> >> >> >     const char *nvmem_name;
-> >> >> >
-> >> >> >     /* The nvmem cell name */
-> >> >> >     const char *nvmem_cell_name;
-> >> >> >
-> >> >> >     /*
-> >> >> >      * The local resource name. Basically what you have in the
-> >> >> >      * nvmem-cell-names prop.
-> >> >> >      */
-> >> >> >     const char *conid;
-> >> >> > };
-> >> >> >
-> >> >> > struct nvmem_cell_lookup_table {
-> >> >> >     struct list_head list;
-> >> >> >
-> >> >> >     /* ID of the consumer device. */
-> >> >> >     const char *devid;
-> >> >> >
-> >> >> >     /* Array of cell lookup entries. */
-> >> >> >     unsigned int ncells;
-> >> >> >     const struct nvmem_cell_lookup *cells;
-> >> >> > };
-> >> >> >
-> >> >> > Looks like your nvmem_cell_lookup is more something used to attach cells
-> >> >> > to an nvmem device, which is NVMEM provider's responsibility not the
-> >> >> > consumer one.  
-> >> >>
-> >> >> Hi Boris
-> >> >>
-> >> >> There are cases where there is not a clear providier/consumer split. I
-> >> >> have an x86 platform, with a few at24 EEPROMs on it. It uses an off
-> >> >> the shelf Komtron module, placed on a custom carrier board. One of the
-> >> >> EEPROMs contains the hardware variant information. Once i know the
-> >> >> variant, i need to instantiate other I2C, SPI, MDIO devices, all using
-> >> >> platform devices, since this is x86, no DT available.
-> >> >>
-> >> >> So the first thing my x86 platform device does is instantiate the
-> >> >> first i2c device for the AT24. Once the EEPROM pops into existence, i
-> >> >> need to add nvmem cells onto it. So at that point, the x86 platform
-> >> >> driver is playing the provider role. Once the cells are added, i can
-> >> >> then use nvmem consumer interfaces to get the contents of the cell,
-> >> >> run a checksum, and instantiate the other devices.
-> >> >>
-> >> >> I wish the embedded world was all DT, but the reality is that it is
-> >> >> not :-(  
-> >> >
-> >> > Actually, I'm not questioning the need for this feature (being able to
-> >> > attach NVMEM cells to an NVMEM device on a platform that does not use
-> >> > DT). What I'm saying is that this functionality is provider related,
-> >> > not consumer related. Also, I wonder if defining such NVMEM cells
-> >> > shouldn't go through the provider driver instead of being passed
-> >> > directly to the NVMEM layer, because nvmem_config already have a fields
-> >> > to pass cells at registration time, plus, the name of the NVMEM cell
-> >> > device is sometimes created dynamically and can be hard to guess at
-> >> > platform_device registration time.
-> >> >  
-> >>
-> >> In my use case the provider is at24 EEPROM driver. This is where the
-> >> nvmem_config lives but I can't image a correct and clean way of
-> >> passing this cell config to the driver from board files without using
-> >> new ugly fields in platform_data which this very series is trying to
-> >> remove. This is why this cell config should live in machine code.  
-> >
-> > Okay.
-> >  
-> >>  
-> >> > I also think non-DT consumers will need a way to reference exiting
-> >> > NVMEM cells, but this consumer-oriented nvmem cell lookup table should
-> >> > look like the gpio or pwm lookup table (basically what I proposed in my
-> >> > previous email).  
-> >>
-> >> How about introducing two new interfaces to nvmem: one for defining
-> >> nvmem cells from machine code and the second for connecting these
-> >> cells with devices?  
-> >
-> > Yes, that's basically what I was suggesting: move what you've done in
-> > nvmem-provider.h (maybe rename some of the structs to make it clear
-> > that this is about defining cells not referencing existing ones), and
-> > add a new consumer interface (based on what other subsystems do) in
-> > nvmem-consumer.h.
-> >
-> > This way you have both things clearly separated, and if a driver is
-> > both a consumer and a provider you'll just have to include both headers.
-> >
-> > Regards,
-> >
-> > Boris  
-> 
-> I didn't notice it before but there's a global list of nvmem cells
-> with each cell referencing its owner nvmem device. I'm wondering if
-> this isn't some kind of inversion of ownership. Shouldn't each nvmem
-> device have a separate list of nvmem cells owned by it? What happens
-> if we have two nvmem providers with the same names for cells? I'm
-> asking because dev_id based lookup doesn't make sense if internally
-> nvmem_cell_get_from_list() doesn't care about any device names (takes
-> only the cell_id as argument).
-> 
-> This doesn't cause any trouble now since there are no users defining
-> cells in nvmem_config - there are only DT users - but this must be
-> clarified before I can advance with correctly implementing nvmem
-> lookups.
-> 
-> BTW: of_nvmem_cell_get() seems to always allocate an nvmem_cell
-> instance even if the cell for this node was already added to the nvmem
-> device.
+v11:
+ - Change the "domain_root" name to "partition" as suggested by Peter and
+   update the documentation and code accordingly.
+ - Remove the dying cgroup check in update_reserved_cpus() as the check
+   may not be needed after all.
+ - Document the effect of losing CPU affinity after offling all the cpus
+   in a partition.
+ - There is no other major code changes in this version.
 
-Yep, don't know if it's done on purpose or not, but it's weird. I'd
-expect cells to be instantiated at NVMEM registration time (and stored
-in a list attached to the device) and then, anytime someone calls
-nvmem_cell_get(), you would search in this list for a match.
+v10:
+ - Remove the cpuset.sched.load_balance patch for now as it may not
+   be that useful.
+ - Break the large patch 2 into smaller patches to make them a bit
+   easier to review.
+ - Test and fix issues related to changing "cpuset.cpus" and cpu
+   online/offline in a domain root.
+ - Rename isolated_cpus to reserved_cpus as this cpumask holds CPUs
+   reserved for child sched domains.
+ - Rework the scheduling domain debug printing code in the last patch.
+ - Document update to the newly moved
+   Documentation/admin-guide/cgroup-v2.rst.
+
+v9:
+ - Rename cpuset.sched.domain to cpuset.sched.domain_root to better
+   identify its purpose as the root of a new scheduling domain or
+   partition.
+ - Clarify in the document about the purpose of domain_root and
+   load_balance. Using domain_root is th only way to create new
+   partition.
+ - Fix a lockdep warning in update_isolated_cpumask() function.
+ - Add a new patch to eliminate call to generate_sched_domains() for
+   v2 when a change in cpu list does not touch a domain_root.
+
+ v9 patch: https://lkml.org/lkml/2018/5/29/507
+v10 patch: https://lkml.org/lkml/2018/6/18/3
+v11 patch: https://lkml.org/lkml/2018/6/24/30
+
+The purpose of this patchset is to provide a basic set of cpuset control
+files for cgroup v2. This basic set includes the non-root "cpus",
+"mems" and "sched.partition". The "cpus.effective" and "mems.effective"
+will appear in all cpuset-enabled cgroups.
+
+The new control file that is unique to v2 is "sched.partition". It
+is a boolean flag file that designates if a cgroup is the root of a
+new scheduling domain or partition with its own set of unique list of
+CPUs from scheduling perspective disjointed from other partitions. The
+root cgroup is always a partition root. Multiple levels of partitions
+are supported with some limitations. So a container partition root can
+behave like a real root.
+
+When a partition root cgroup is removed, its list of exclusive
+CPUs will be returned to the parent's cpus.effective automatically.
+
+A container root can be a partition root with sub-partitions
+created underneath it. One difference from the real root is that the
+"cpuset.sched.partition" flag isn't present in the real root, but is
+present in a container root. This is also true for other cpuset control
+files as well as those from the other controllers. This is a general
+issue that is not going to be addressed here in this patchset.
+
+This patchset does not exclude the possibility of adding more features
+in the future after careful consideration.
+
+Patch 1 enables cpuset in cgroup v2 with cpus, mems and their effective
+counterparts.
+
+Patch 2 adds a new "sched.partition" control file for setting up multiple
+scheduling domains or partitions. A partition root implies cpu_exclusive.
+
+Patch 3 handles the proper deletion of a partition root cgroup by turning
+off the partition flag automatically before deletion.
+
+Patch 4 allows "cpuset.cpus" of a partition root cgroup to be changed
+subject to certain constraints.
+
+Patch 5 makes the hotplug code deal with partition root properly.
+
+Patch 6 updates the scheduling domain genaration code to work with
+the new domain root feature.
+
+Patch 7 exposes cpus.effective and mems.effective to the root cgroup as
+enabling child scheduling domains will take CPUs away from the root cgroup.
+So it will be nice to monitor what CPUs are left there.
+
+Patch 8 eliminates the need to rebuild sched domains for v2 if cpu list
+changes occur to non-domain root cpusets only.
+
+Patch 9 enables the forced turnning off of partition flag if changes
+made to "cpuset.cpus" makes a partition root cpuset not qualified to
+be a partition root anymore. Forced clearing of the partition flag,
+though allowed, is not recommended and a warning will be printed.
+
+With the addition of forced turning off of partition flag, any changes
+made to the "cpuset.cpus" allowable on a non-partition root cpuset
+can be made to a parition root with the exception that the implied
+cpu_exclusive nature of a partition root will forbid adding cpus that
+have been allocated to its siblings.
+
+Waiman Long (9):
+  cpuset: Enable cpuset controller in default hierarchy
+  cpuset: Add new v2 cpuset.sched.partition flag
+  cpuset: Simulate auto-off of sched.partition at cgroup removal
+  cpuset: Allow changes to cpus in a partition root
+  cpuset: Make sure that partition flag work properly with CPU hotplug
+  cpuset: Make generate_sched_domains() recognize reserved_cpus
+  cpuset: Expose cpus.effective and mems.effective on cgroup v2 root
+  cpuset: Don't rebuild sched domains if cpu changes in non-partition
+    root
+  cpuset: Support forced turning off of partition flag
+
+ Documentation/admin-guide/cgroup-v2.rst | 174 ++++++++++++-
+ kernel/cgroup/cpuset.c                  | 441 ++++++++++++++++++++++++++++++--
+ 2 files changed, 593 insertions(+), 22 deletions(-)
+
+-- 
+1.8.3.1
 
