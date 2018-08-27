@@ -1,284 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 519C17D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 14:42:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3FA977D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 16:40:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727621AbeH0S2e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 27 Aug 2018 14:28:34 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:40228 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727094AbeH0S2e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Aug 2018 14:28:34 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id AFEA84021702;
-        Mon, 27 Aug 2018 14:41:38 +0000 (UTC)
-Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4373F2027EA4;
-        Mon, 27 Aug 2018 14:41:38 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        id S1727142AbeH0U12 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 27 Aug 2018 16:27:28 -0400
+Received: from mail-yb0-f195.google.com ([209.85.213.195]:39877 "EHLO
+        mail-yb0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726995AbeH0U12 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Aug 2018 16:27:28 -0400
+Received: by mail-yb0-f195.google.com with SMTP id c4-v6so6255087ybl.6;
+        Mon, 27 Aug 2018 09:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=UvrArh45BLr7dWBLMCweGOwgpp4+m2LYlxRRHm51Jzo=;
+        b=phuNN0F4ps2C5485v2LFVyv4QPgAcc44HNZUyH4veVibq87+zzQadCt9vn8UKN6j/A
+         OeyOWgOQpiXbHIW7L2BZKgWoJAyJk5rRk8LkWO+19ZcIVTM42n8b4if3hTHaDwN91/qD
+         zDFuyAeTJGV/SyfGym+mWhE//yaBjxFU+ochk6dWNwgWljA65lgKcfQ61FMCsVxTbHnc
+         YmxnxfyautknIUs+TKlNOA8CDByHcgR0FBfAeHD9yt5Yw8Adr9pAg36pFAg0RlstopCK
+         q/TzU5Kw+QwRLyahiKaE8dlz0kM3NPXbwqtEIWGqWzSBhpaTo5haNublN9L0L7/bls5A
+         7J9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UvrArh45BLr7dWBLMCweGOwgpp4+m2LYlxRRHm51Jzo=;
+        b=ew+TFc2oqusK0isa4HrPe0PnNdTPRul33HIraE4+DJQVG2MPqlCoA+IT8kHXfb6tYx
+         kLl7EDzuOWwGe1qBaXnqkDq7jNjSfAGFZecYR/m+Xl2+lX4yWoqGPaWYG+wIWwW8lKFX
+         3DAo7RysEwqYH4JR4t2DfH1IndnUDdSz7koGrYwImNhSgx7f6x0+FXO3WTCKcUU7RqNi
+         pdY3OtH4B7DlXL0CFYR2Sqe6ftHAshB7H3cp8kraUUY3eeKwFaDnNwQZkZEZfy7spADf
+         Fejwvt5b4rM3SEYo438igQWmcGHZzCelJVCixUoDfDuRG/7bs3tCCS9tX7FxlXoNApxd
+         QC1w==
+X-Gm-Message-State: APzg51DrmOJsluf5M41+t1lvazVgtjXRKkCutJ7EmPZXOABnm90/l+Re
+        TbGYAoKelXrNxg1/oh9ZibE=
+X-Google-Smtp-Source: ANB0VdbibjDDSiTJtPTXELmox5dMNF+0enhdXx07txC9yphFPfdP3E3aIZPs/3tt+A6wt80uNopuLg==
+X-Received: by 2002:a25:b4b:: with SMTP id 72-v6mr7341982ybl.415.1535388007399;
+        Mon, 27 Aug 2018 09:40:07 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:200::1:2a0f])
+        by smtp.gmail.com with ESMTPSA id 138-v6sm6697388ywj.30.2018.08.27.09.40.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 27 Aug 2018 09:40:06 -0700 (PDT)
+Date:   Mon, 27 Aug 2018 09:40:04 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
-        luto@amacapital.net, Mike Galbraith <efault@gmx.de>,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
         Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v12 1/9] cpuset: Enable cpuset controller in default hierarchy
-Date:   Mon, 27 Aug 2018 10:41:16 -0400
-Message-Id: <1535380884-31308-2-git-send-email-longman@redhat.com>
-In-Reply-To: <1535380884-31308-1-git-send-email-longman@redhat.com>
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v12 9/9] cpuset: Support forced turning off of partition
+ flag
+Message-ID: <20180827164004.GE3978217@devbig004.ftw2.facebook.com>
 References: <1535380884-31308-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 27 Aug 2018 14:41:38 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 27 Aug 2018 14:41:38 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+ <1535380884-31308-10-git-send-email-longman@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1535380884-31308-10-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Given the fact that thread mode had been merged into 4.14, it is now
-time to enable cpuset to be used in the default hierarchy (cgroup v2)
-as it is clearly threaded.
+Hello, Waiman.
 
-The cpuset controller had experienced feature creep since its
-introduction more than a decade ago. Besides the core cpus and mems
-control files to limit cpus and memory nodes, there are a bunch of
-additional features that can be controlled from the userspace. Some of
-the features are of doubtful usefulness and may not be actively used.
+On Mon, Aug 27, 2018 at 10:41:24AM -0400, Waiman Long wrote:
+> Cpuset allows arbitrary modification of cpu list in "cpuset.cpus"
+> even if the requested CPUs won't be granted in "cpuset.cpus.effective"
+> as restricted by its parent. However, the validate_change() function
+> will inhibit removal of CPUs that have been used in child cpusets.
+> 
+> Being a partition root, however, limits the kind of cpu list
+> modification that is allowed. Adding CPUs is not allowed if the new
+> CPUs are not in the parent's effective cpu list that can be put into
+> "cpuset.cpus.reserved". In addition, a child partition cannot exhaust
+> all the parent's effective CPUs.
+> 
+> Because of the implicit cpu exclusive nature of the partition root,
+> cpu changes that break that cpu exclusivity will not be allowed. Other
+> changes that break the conditions of being a partition root is generally
+> allowed. However, the partition flag of the cpuset as well those of
+> the descendant partitions will be forcefully turned off.
 
-This patch enables cpuset controller in the default hierarchy with
-a minimal set of features, namely just the cpus and mems and their
-effective_* counterparts.  We can certainly add more features to the
-default hierarchy in the future if there is a real user need for them
-later on.
+First of all, thanks a lot for your persistence.  I'm not necessarily
+against the flag being forced off but wonder whether the same
+config/effective approach can be used as in .cpus and .mems.  Can you
+elaborate a bit on the choice here?
 
-Alternatively, with the unified hiearachy, it may make more sense
-to move some of those additional cpuset features, if desired, to
-memory controller or may be to the cpu controller instead of staying
-with cpuset.
+Thank you.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 109 ++++++++++++++++++++++++++++++--
- kernel/cgroup/cpuset.c                  |  48 +++++++++++++-
- 2 files changed, 149 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 1746131..a09b7f7 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -56,11 +56,13 @@ v1 is available under Documentation/cgroup-v1/.
-          5-3-3-2. IO Latency Interface Files
-      5-4. PID
-        5-4-1. PID Interface Files
--     5-5. Device
--     5-6. RDMA
--       5-6-1. RDMA Interface Files
--     5-7. Misc
--       5-7-1. perf_event
-+     5-5. Cpuset
-+       5.5-1. Cpuset Interface Files
-+     5-6. Device
-+     5-7. RDMA
-+       5-7-1. RDMA Interface Files
-+     5-8. Misc
-+       5-8-1. perf_event
-      5-N. Non-normative information
-        5-N-1. CPU controller root cgroup process behaviour
-        5-N-2. IO controller root cgroup process behaviour
-@@ -1570,6 +1572,103 @@ through fork() or clone(). These will return -EAGAIN if the creation
- of a new process would cause a cgroup policy to be violated.
- 
- 
-+Cpuset
-+------
-+
-+The "cpuset" controller provides a mechanism for constraining
-+the CPU and memory node placement of tasks to only the resources
-+specified in the cpuset interface files in a task's current cgroup.
-+This is especially valuable on large NUMA systems where placing jobs
-+on properly sized subsets of the systems with careful processor and
-+memory placement to reduce cross-node memory access and contention
-+can improve overall system performance.
-+
-+The "cpuset" controller is hierarchical.  That means the controller
-+cannot use CPUs or memory nodes not allowed in its parent.
-+
-+
-+Cpuset Interface Files
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+  cpuset.cpus
-+	A read-write multiple values file which exists on non-root
-+	cpuset-enabled cgroups.
-+
-+	It lists the requested CPUs to be used by tasks within this
-+	cgroup.  The actual list of CPUs to be granted, however, is
-+	subjected to constraints imposed by its parent and can differ
-+	from the requested CPUs.
-+
-+	The CPU numbers are comma-separated numbers or ranges.
-+	For example:
-+
-+	  # cat cpuset.cpus
-+	  0-4,6,8-10
-+
-+	An empty value indicates that the cgroup is using the same
-+	setting as the nearest cgroup ancestor with a non-empty
-+	"cpuset.cpus" or all the available CPUs if none is found.
-+
-+	The value of "cpuset.cpus" stays constant until the next update
-+	and won't be affected by any CPU hotplug events.
-+
-+  cpuset.cpus.effective
-+	A read-only multiple values file which exists on non-root
-+	cpuset-enabled cgroups.
-+
-+	It lists the onlined CPUs that are actually granted to this
-+	cgroup by its parent.  These CPUs are allowed to be used by
-+	tasks within the current cgroup.
-+
-+	If "cpuset.cpus" is empty, the "cpuset.cpus.effective" file shows
-+	all the CPUs from the parent cgroup that can be available to
-+	be used by this cgroup.  Otherwise, it should be a subset of
-+	"cpuset.cpus" unless none of the CPUs listed in "cpuset.cpus"
-+	can be granted.  In this case, it will be treated just like an
-+	empty "cpuset.cpus".
-+
-+	Its value will be affected by CPU hotplug events.
-+
-+  cpuset.mems
-+	A read-write multiple values file which exists on non-root
-+	cpuset-enabled cgroups.
-+
-+	It lists the requested memory nodes to be used by tasks within
-+	this cgroup.  The actual list of memory nodes granted, however,
-+	is subjected to constraints imposed by its parent and can differ
-+	from the requested memory nodes.
-+
-+	The memory node numbers are comma-separated numbers or ranges.
-+	For example:
-+
-+	  # cat cpuset.mems
-+	  0-1,3
-+
-+	An empty value indicates that the cgroup is using the same
-+	setting as the nearest cgroup ancestor with a non-empty
-+	"cpuset.mems" or all the available memory nodes if none
-+	is found.
-+
-+	The value of "cpuset.mems" stays constant until the next update
-+	and won't be affected by any memory nodes hotplug events.
-+
-+  cpuset.mems.effective
-+	A read-only multiple values file which exists on non-root
-+	cpuset-enabled cgroups.
-+
-+	It lists the onlined memory nodes that are actually granted to
-+	this cgroup by its parent. These memory nodes are allowed to
-+	be used by tasks within the current cgroup.
-+
-+	If "cpuset.mems" is empty, it shows all the memory nodes from the
-+	parent cgroup that will be available to be used by this cgroup.
-+	Otherwise, it should be a subset of "cpuset.mems" unless none of
-+	the memory nodes listed in "cpuset.mems" can be granted.  In this
-+	case, it will be treated just like an empty "cpuset.mems".
-+
-+	Its value will be affected by memory nodes hotplug events.
-+
-+
- Device controller
- -----------------
- 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 266f10c..2b5c447 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -1824,12 +1824,11 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- 	return 0;
- }
- 
--
- /*
-  * for the common functions, 'private' gives the type of file
-  */
- 
--static struct cftype files[] = {
-+static struct cftype legacy_files[] = {
- 	{
- 		.name = "cpus",
- 		.seq_show = cpuset_common_seq_show,
-@@ -1932,6 +1931,47 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- };
- 
- /*
-+ * This is currently a minimal set for the default hierarchy. It can be
-+ * expanded later on by migrating more features and control files from v1.
-+ */
-+static struct cftype dfl_files[] = {
-+	{
-+		.name = "cpus",
-+		.seq_show = cpuset_common_seq_show,
-+		.write = cpuset_write_resmask,
-+		.max_write_len = (100U + 6 * NR_CPUS),
-+		.private = FILE_CPULIST,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+
-+	{
-+		.name = "mems",
-+		.seq_show = cpuset_common_seq_show,
-+		.write = cpuset_write_resmask,
-+		.max_write_len = (100U + 6 * MAX_NUMNODES),
-+		.private = FILE_MEMLIST,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+
-+	{
-+		.name = "cpus.effective",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_EFFECTIVE_CPULIST,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+
-+	{
-+		.name = "mems.effective",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_EFFECTIVE_MEMLIST,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+
-+	{ }	/* terminate */
-+};
-+
-+
-+/*
-  *	cpuset_css_alloc - allocate a cpuset css
-  *	cgrp:	control group that the new cpuset will be part of
-  */
-@@ -2105,8 +2145,10 @@ struct cgroup_subsys cpuset_cgrp_subsys = {
- 	.post_attach	= cpuset_post_attach,
- 	.bind		= cpuset_bind,
- 	.fork		= cpuset_fork,
--	.legacy_cftypes	= files,
-+	.legacy_cftypes	= legacy_files,
-+	.dfl_cftypes	= dfl_files,
- 	.early_init	= true,
-+	.threaded	= true,
- };
- 
- /**
 -- 
-1.8.3.1
-
+tejun
