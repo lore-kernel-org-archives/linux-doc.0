@@ -1,603 +1,231 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B6FC67D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 09:34:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B97B77D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 13:37:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727299AbeH0NUn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 27 Aug 2018 09:20:43 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:42538 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727098AbeH0NUn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Aug 2018 09:20:43 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 7A81C8010FDF;
-        Mon, 27 Aug 2018 09:34:48 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-138.ams2.redhat.com [10.36.117.138])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A5F9B2166B41;
-        Mon, 27 Aug 2018 09:34:45 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id C5A7416E29; Mon, 27 Aug 2018 11:34:44 +0200 (CEST)
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        id S1727434AbeH0RYG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 27 Aug 2018 13:24:06 -0400
+Received: from mail-it0-f65.google.com ([209.85.214.65]:35453 "EHLO
+        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727420AbeH0RYG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Aug 2018 13:24:06 -0400
+Received: by mail-it0-f65.google.com with SMTP id 139-v6so10487183itf.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Aug 2018 06:37:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=CFFa2lvF5oaI3bU1emNkaZ6B/T2Hkocyox+4q5Cz66w=;
+        b=wBWhd2gT++Pd9qXQZd8NIB3xeAsZZY4Vq2ZHE1B9C7yt2LOzlRTeE/vx5ul50vgVVG
+         U0QsweS26VJT1lS6VxfiwlTxRdcWATPp72UbeAeHNiIJ+dejxQR/9NuKBLqRJbRgr5tq
+         qgpXwqGcjWYA1y/twRg8eHSDnDKfIthDp8pCEKPmukjhDTzGtHvPwk+ZpOvlajwYIqii
+         vkY4cqrLvdGAPFdQnMYTp5w2AtmOCJkhXaGq+CLorQ8GXl3pTCxTEsz/bIpryv7Tr4T0
+         M5cQP8S3mUn+MTV8doW/IypGMniRItB3sGb0BxkO2epL+MWh2BQ8/x6gLdgLpFP10vkQ
+         U6tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=CFFa2lvF5oaI3bU1emNkaZ6B/T2Hkocyox+4q5Cz66w=;
+        b=BbziFDuI6DMT24PMXoMOJh4XMkpPhcTMGwtv9AuT9mRTkVpxk0dQeUoHOXnDw7+MGj
+         K2m5KKy65ZS2UdTMY1v3FZ80w5lOKo2tPwAcKyiv28NcPMf8PBKs4SPKp22vAmKZXtEM
+         sNj2HqVU3OH7UmVEklK+EoCw4SpgT8yR31OMJWw4tlp8JhvRLvnW7aWXSn4h316K9ekE
+         CX6pDKw1jQ1e5g1wV9Aa+/u2PH0MbZMgwRiEqdLX6mpy2LahZ41V4ItfkT92VOwNV3B2
+         Z0AqGRkVLWfNu99v28xjMCcNHJy0zekV08H/bNkrVR0kemypi7tBk/9/oLXCx7+Z0aKq
+         UA/Q==
+X-Gm-Message-State: APzg51ARAGAfuu+Wx7z8H4E1eHfB13zThv3E9EjKsTwQdmwm/X2cloVI
+        lp3eUFaLvmWv13ZjwGnKTJJe2ajlIlldETqKr2sl4Q==
+X-Google-Smtp-Source: ANB0VdZGXi0S+dBaf+E9Qn4XNON4YH75TwI9tZGdmfudY03soYUqkN36KAxTBI8yQiiqqstCGCjTw9ubWEpfFduOJ1c=
+X-Received: by 2002:a24:3d02:: with SMTP id n2-v6mr7025530itn.111.1535377044370;
+ Mon, 27 Aug 2018 06:37:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a5e:9402:0:0:0:0:0 with HTTP; Mon, 27 Aug 2018 06:37:23
+ -0700 (PDT)
+In-Reply-To: <20180827110055.122988d0@bbrezillon>
+References: <20180810080526.27207-1-brgl@bgdev.pl> <20180810080526.27207-2-brgl@bgdev.pl>
+ <20180824170848.29594318@bbrezillon> <20180824152740.GD27483@lunn.ch>
+ <20180825082722.567e8c9a@bbrezillon> <CAMRc=Men-MPk5DGshWcVEc0v=gH2WSpx1j-CawOeydwp59tejw@mail.gmail.com>
+ <20180827110055.122988d0@bbrezillon>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 27 Aug 2018 15:37:23 +0200
+Message-ID: <CAMRc=MfpZJUEAhM4OoLbmJcnX3rTJk8fvdiL6=9BjNkVcsf=SA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/29] nvmem: add support for cell lookups
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        David Lechner <david@lechnology.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK),
-        linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
-Subject: [PATCH v7] Add udmabuf misc device
-Date:   Mon, 27 Aug 2018 11:34:44 +0200
-Message-Id: <20180827093444.23623-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Mon, 27 Aug 2018 09:34:48 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Mon, 27 Aug 2018 09:34:48 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'kraxel@redhat.com' RCPT:''
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Lukas Wunner <lukas@wunner.de>, Naren <naren.kernel@gmail.com>,
+        netdev <netdev@vger.kernel.org>, Alban Bedel <albeu@free.fr>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        "David S . Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A driver to let userspace turn memfd regions into dma-bufs.
+2018-08-27 11:00 GMT+02:00 Boris Brezillon <boris.brezillon@bootlin.com>:
+> On Mon, 27 Aug 2018 10:56:29 +0200
+> Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>
+>> 2018-08-25 8:27 GMT+02:00 Boris Brezillon <boris.brezillon@bootlin.com>:
+>> > On Fri, 24 Aug 2018 17:27:40 +0200
+>> > Andrew Lunn <andrew@lunn.ch> wrote:
+>> >
+>> >> On Fri, Aug 24, 2018 at 05:08:48PM +0200, Boris Brezillon wrote:
+>> >> > Hi Bartosz,
+>> >> >
+>> >> > On Fri, 10 Aug 2018 10:04:58 +0200
+>> >> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>> >> >
+>> >> > > +struct nvmem_cell_lookup {
+>> >> > > + struct nvmem_cell_info  info;
+>> >> > > + struct list_head        list;
+>> >> > > + const char              *nvmem_name;
+>> >> > > +};
+>> >> >
+>> >> > Hm, maybe I don't get it right, but this looks suspicious. Usually the
+>> >> > consumer lookup table is here to attach device specific names to
+>> >> > external resources.
+>> >> >
+>> >> > So what I'd expect here is:
+>> >> >
+>> >> > struct nvmem_cell_lookup {
+>> >> >     /* The nvmem device name. */
+>> >> >     const char *nvmem_name;
+>> >> >
+>> >> >     /* The nvmem cell name */
+>> >> >     const char *nvmem_cell_name;
+>> >> >
+>> >> >     /*
+>> >> >      * The local resource name. Basically what you have in the
+>> >> >      * nvmem-cell-names prop.
+>> >> >      */
+>> >> >     const char *conid;
+>> >> > };
+>> >> >
+>> >> > struct nvmem_cell_lookup_table {
+>> >> >     struct list_head list;
+>> >> >
+>> >> >     /* ID of the consumer device. */
+>> >> >     const char *devid;
+>> >> >
+>> >> >     /* Array of cell lookup entries. */
+>> >> >     unsigned int ncells;
+>> >> >     const struct nvmem_cell_lookup *cells;
+>> >> > };
+>> >> >
+>> >> > Looks like your nvmem_cell_lookup is more something used to attach cells
+>> >> > to an nvmem device, which is NVMEM provider's responsibility not the
+>> >> > consumer one.
+>> >>
+>> >> Hi Boris
+>> >>
+>> >> There are cases where there is not a clear providier/consumer split. I
+>> >> have an x86 platform, with a few at24 EEPROMs on it. It uses an off
+>> >> the shelf Komtron module, placed on a custom carrier board. One of the
+>> >> EEPROMs contains the hardware variant information. Once i know the
+>> >> variant, i need to instantiate other I2C, SPI, MDIO devices, all using
+>> >> platform devices, since this is x86, no DT available.
+>> >>
+>> >> So the first thing my x86 platform device does is instantiate the
+>> >> first i2c device for the AT24. Once the EEPROM pops into existence, i
+>> >> need to add nvmem cells onto it. So at that point, the x86 platform
+>> >> driver is playing the provider role. Once the cells are added, i can
+>> >> then use nvmem consumer interfaces to get the contents of the cell,
+>> >> run a checksum, and instantiate the other devices.
+>> >>
+>> >> I wish the embedded world was all DT, but the reality is that it is
+>> >> not :-(
+>> >
+>> > Actually, I'm not questioning the need for this feature (being able to
+>> > attach NVMEM cells to an NVMEM device on a platform that does not use
+>> > DT). What I'm saying is that this functionality is provider related,
+>> > not consumer related. Also, I wonder if defining such NVMEM cells
+>> > shouldn't go through the provider driver instead of being passed
+>> > directly to the NVMEM layer, because nvmem_config already have a fields
+>> > to pass cells at registration time, plus, the name of the NVMEM cell
+>> > device is sometimes created dynamically and can be hard to guess at
+>> > platform_device registration time.
+>> >
+>>
+>> In my use case the provider is at24 EEPROM driver. This is where the
+>> nvmem_config lives but I can't image a correct and clean way of
+>> passing this cell config to the driver from board files without using
+>> new ugly fields in platform_data which this very series is trying to
+>> remove. This is why this cell config should live in machine code.
+>
+> Okay.
+>
+>>
+>> > I also think non-DT consumers will need a way to reference exiting
+>> > NVMEM cells, but this consumer-oriented nvmem cell lookup table should
+>> > look like the gpio or pwm lookup table (basically what I proposed in my
+>> > previous email).
+>>
+>> How about introducing two new interfaces to nvmem: one for defining
+>> nvmem cells from machine code and the second for connecting these
+>> cells with devices?
+>
+> Yes, that's basically what I was suggesting: move what you've done in
+> nvmem-provider.h (maybe rename some of the structs to make it clear
+> that this is about defining cells not referencing existing ones), and
+> add a new consumer interface (based on what other subsystems do) in
+> nvmem-consumer.h.
+>
+> This way you have both things clearly separated, and if a driver is
+> both a consumer and a provider you'll just have to include both headers.
+>
+> Regards,
+>
+> Boris
 
-Use case:  Allows qemu create dmabufs for the vga framebuffer or
-virtio-gpu ressources.  Then they can be passed around to display
-those guest things on the host.  To spice client for classic full
-framebuffer display, and hopefully some day to wayland server for
-seamless guest window display.
+I didn't notice it before but there's a global list of nvmem cells
+with each cell referencing its owner nvmem device. I'm wondering if
+this isn't some kind of inversion of ownership. Shouldn't each nvmem
+device have a separate list of nvmem cells owned by it? What happens
+if we have two nvmem providers with the same names for cells? I'm
+asking because dev_id based lookup doesn't make sense if internally
+nvmem_cell_get_from_list() doesn't care about any device names (takes
+only the cell_id as argument).
 
-qemu test branch:
-  https://git.kraxel.org/cgit/qemu/log/?h=sirius/udmabuf
+This doesn't cause any trouble now since there are no users defining
+cells in nvmem_config - there are only DT users - but this must be
+clarified before I can advance with correctly implementing nvmem
+lookups.
 
-Cc: David Airlie <airlied@linux.ie>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- Documentation/ioctl/ioctl-number.txt              |   1 +
- include/uapi/linux/udmabuf.h                      |  33 +++
- drivers/dma-buf/udmabuf.c                         | 287 ++++++++++++++++++++++
- tools/testing/selftests/drivers/dma-buf/udmabuf.c |  96 ++++++++
- MAINTAINERS                                       |  16 ++
- drivers/dma-buf/Kconfig                           |   8 +
- drivers/dma-buf/Makefile                          |   1 +
- tools/testing/selftests/drivers/dma-buf/Makefile  |   5 +
- 8 files changed, 447 insertions(+)
- create mode 100644 include/uapi/linux/udmabuf.h
- create mode 100644 drivers/dma-buf/udmabuf.c
- create mode 100644 tools/testing/selftests/drivers/dma-buf/udmabuf.c
- create mode 100644 tools/testing/selftests/drivers/dma-buf/Makefile
+BTW: of_nvmem_cell_get() seems to always allocate an nvmem_cell
+instance even if the cell for this node was already added to the nvmem
+device.
 
-diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
-index 13a7c999c0..f2ac672eb7 100644
---- a/Documentation/ioctl/ioctl-number.txt
-+++ b/Documentation/ioctl/ioctl-number.txt
-@@ -272,6 +272,7 @@ Code  Seq#(hex)	Include File		Comments
- 't'	90-91	linux/toshiba.h		toshiba and toshiba_acpi SMM
- 'u'	00-1F	linux/smb_fs.h		gone
- 'u'	20-3F	linux/uvcvideo.h	USB video class host driver
-+'u'	40-4f	linux/udmabuf.h		userspace dma-buf misc device
- 'v'	00-1F	linux/ext2_fs.h		conflict!
- 'v'	00-1F	linux/fs.h		conflict!
- 'v'	00-0F	linux/sonypi.h		conflict!
-diff --git a/include/uapi/linux/udmabuf.h b/include/uapi/linux/udmabuf.h
-new file mode 100644
-index 0000000000..46b6532ed8
---- /dev/null
-+++ b/include/uapi/linux/udmabuf.h
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _UAPI_LINUX_UDMABUF_H
-+#define _UAPI_LINUX_UDMABUF_H
-+
-+#include <linux/types.h>
-+#include <linux/ioctl.h>
-+
-+#define UDMABUF_FLAGS_CLOEXEC	0x01
-+
-+struct udmabuf_create {
-+	__u32 memfd;
-+	__u32 flags;
-+	__u64 offset;
-+	__u64 size;
-+};
-+
-+struct udmabuf_create_item {
-+	__u32 memfd;
-+	__u32 __pad;
-+	__u64 offset;
-+	__u64 size;
-+};
-+
-+struct udmabuf_create_list {
-+	__u32 flags;
-+	__u32 count;
-+	struct udmabuf_create_item list[];
-+};
-+
-+#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
-+#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
-+
-+#endif /* _UAPI_LINUX_UDMABUF_H */
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-new file mode 100644
-index 0000000000..8e24204526
---- /dev/null
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -0,0 +1,287 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/init.h>
-+#include <linux/module.h>
-+#include <linux/device.h>
-+#include <linux/kernel.h>
-+#include <linux/slab.h>
-+#include <linux/miscdevice.h>
-+#include <linux/dma-buf.h>
-+#include <linux/highmem.h>
-+#include <linux/cred.h>
-+#include <linux/shmem_fs.h>
-+#include <linux/memfd.h>
-+
-+#include <uapi/linux/udmabuf.h>
-+
-+struct udmabuf {
-+	u32 pagecount;
-+	struct page **pages;
-+};
-+
-+static int udmabuf_vm_fault(struct vm_fault *vmf)
-+{
-+	struct vm_area_struct *vma = vmf->vma;
-+	struct udmabuf *ubuf = vma->vm_private_data;
-+
-+	if (WARN_ON(vmf->pgoff >= ubuf->pagecount))
-+		return VM_FAULT_SIGBUS;
-+
-+	vmf->page = ubuf->pages[vmf->pgoff];
-+	get_page(vmf->page);
-+	return 0;
-+}
-+
-+static const struct vm_operations_struct udmabuf_vm_ops = {
-+	.fault = udmabuf_vm_fault,
-+};
-+
-+static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
-+{
-+	struct udmabuf *ubuf = buf->priv;
-+
-+	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
-+		return -EINVAL;
-+
-+	vma->vm_ops = &udmabuf_vm_ops;
-+	vma->vm_private_data = ubuf;
-+	return 0;
-+}
-+
-+static struct sg_table *map_udmabuf(struct dma_buf_attachment *at,
-+				    enum dma_data_direction direction)
-+{
-+	struct udmabuf *ubuf = at->dmabuf->priv;
-+	struct sg_table *sg;
-+
-+	sg = kzalloc(sizeof(*sg), GFP_KERNEL);
-+	if (!sg)
-+		goto err1;
-+	if (sg_alloc_table_from_pages(sg, ubuf->pages, ubuf->pagecount,
-+				      0, ubuf->pagecount << PAGE_SHIFT,
-+				      GFP_KERNEL) < 0)
-+		goto err2;
-+	if (!dma_map_sg(at->dev, sg->sgl, sg->nents, direction))
-+		goto err3;
-+
-+	return sg;
-+
-+err3:
-+	sg_free_table(sg);
-+err2:
-+	kfree(sg);
-+err1:
-+	return ERR_PTR(-ENOMEM);
-+}
-+
-+static void unmap_udmabuf(struct dma_buf_attachment *at,
-+			  struct sg_table *sg,
-+			  enum dma_data_direction direction)
-+{
-+	sg_free_table(sg);
-+	kfree(sg);
-+}
-+
-+static void release_udmabuf(struct dma_buf *buf)
-+{
-+	struct udmabuf *ubuf = buf->priv;
-+	pgoff_t pg;
-+
-+	for (pg = 0; pg < ubuf->pagecount; pg++)
-+		put_page(ubuf->pages[pg]);
-+	kfree(ubuf->pages);
-+	kfree(ubuf);
-+}
-+
-+static void *kmap_udmabuf(struct dma_buf *buf, unsigned long page_num)
-+{
-+	struct udmabuf *ubuf = buf->priv;
-+	struct page *page = ubuf->pages[page_num];
-+
-+	return kmap(page);
-+}
-+
-+static void kunmap_udmabuf(struct dma_buf *buf, unsigned long page_num,
-+			   void *vaddr)
-+{
-+	kunmap(vaddr);
-+}
-+
-+static struct dma_buf_ops udmabuf_ops = {
-+	.map_dma_buf	  = map_udmabuf,
-+	.unmap_dma_buf	  = unmap_udmabuf,
-+	.release	  = release_udmabuf,
-+	.map		  = kmap_udmabuf,
-+	.unmap		  = kunmap_udmabuf,
-+	.mmap		  = mmap_udmabuf,
-+};
-+
-+#define SEALS_WANTED (F_SEAL_SHRINK)
-+#define SEALS_DENIED (F_SEAL_WRITE)
-+
-+static long udmabuf_create(struct udmabuf_create_list *head,
-+			   struct udmabuf_create_item *list)
-+{
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	struct file *memfd = NULL;
-+	struct udmabuf *ubuf;
-+	struct dma_buf *buf;
-+	pgoff_t pgoff, pgcnt, pgidx, pgbuf;
-+	struct page *page;
-+	int seals, ret = -EINVAL;
-+	u32 i, flags;
-+
-+	ubuf = kzalloc(sizeof(struct udmabuf), GFP_KERNEL);
-+	if (!ubuf)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < head->count; i++) {
-+		if (!IS_ALIGNED(list[i].offset, PAGE_SIZE))
-+			goto err_free_ubuf;
-+		if (!IS_ALIGNED(list[i].size, PAGE_SIZE))
-+			goto err_free_ubuf;
-+		ubuf->pagecount += list[i].size >> PAGE_SHIFT;
-+	}
-+	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(struct page *),
-+				    GFP_KERNEL);
-+	if (!ubuf->pages) {
-+		ret = -ENOMEM;
-+		goto err_free_ubuf;
-+	}
-+
-+	pgbuf = 0;
-+	for (i = 0; i < head->count; i++) {
-+		memfd = fget(list[i].memfd);
-+		if (!memfd)
-+			goto err_put_pages;
-+		if (!shmem_mapping(file_inode(memfd)->i_mapping))
-+			goto err_put_pages;
-+		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
-+		if (seals == -EINVAL ||
-+		    (seals & SEALS_WANTED) != SEALS_WANTED ||
-+		    (seals & SEALS_DENIED) != 0)
-+			goto err_put_pages;
-+		pgoff = list[i].offset >> PAGE_SHIFT;
-+		pgcnt = list[i].size   >> PAGE_SHIFT;
-+		for (pgidx = 0; pgidx < pgcnt; pgidx++) {
-+			page = shmem_read_mapping_page(
-+				file_inode(memfd)->i_mapping, pgoff + pgidx);
-+			if (IS_ERR(page)) {
-+				ret = PTR_ERR(page);
-+				goto err_put_pages;
-+			}
-+			ubuf->pages[pgbuf++] = page;
-+		}
-+		fput(memfd);
-+	}
-+	memfd = NULL;
-+
-+	exp_info.ops  = &udmabuf_ops;
-+	exp_info.size = ubuf->pagecount << PAGE_SHIFT;
-+	exp_info.priv = ubuf;
-+
-+	buf = dma_buf_export(&exp_info);
-+	if (IS_ERR(buf)) {
-+		ret = PTR_ERR(buf);
-+		goto err_put_pages;
-+	}
-+
-+	flags = 0;
-+	if (head->flags & UDMABUF_FLAGS_CLOEXEC)
-+		flags |= O_CLOEXEC;
-+	return dma_buf_fd(buf, flags);
-+
-+err_put_pages:
-+	while (pgbuf > 0)
-+		put_page(ubuf->pages[--pgbuf]);
-+err_free_ubuf:
-+	fput(memfd);
-+	kfree(ubuf->pages);
-+	kfree(ubuf);
-+	return ret;
-+}
-+
-+static long udmabuf_ioctl_create(struct file *filp, unsigned long arg)
-+{
-+	struct udmabuf_create create;
-+	struct udmabuf_create_list head;
-+	struct udmabuf_create_item list;
-+
-+	if (copy_from_user(&create, (void __user *)arg,
-+			   sizeof(struct udmabuf_create)))
-+		return -EFAULT;
-+
-+	head.flags  = create.flags;
-+	head.count  = 1;
-+	list.memfd  = create.memfd;
-+	list.offset = create.offset;
-+	list.size   = create.size;
-+
-+	return udmabuf_create(&head, &list);
-+}
-+
-+static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
-+{
-+	struct udmabuf_create_list head;
-+	struct udmabuf_create_item *list;
-+	int ret = -EINVAL;
-+	u32 lsize;
-+
-+	if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
-+		return -EFAULT;
-+	if (head.count > 1024)
-+		return -EINVAL;
-+	lsize = sizeof(struct udmabuf_create_item) * head.count;
-+	list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
-+	if (IS_ERR(list))
-+		return PTR_ERR(list);
-+
-+	ret = udmabuf_create(&head, list);
-+	kfree(list);
-+	return ret;
-+}
-+
-+static long udmabuf_ioctl(struct file *filp, unsigned int ioctl,
-+			  unsigned long arg)
-+{
-+	long ret;
-+
-+	switch (ioctl) {
-+	case UDMABUF_CREATE:
-+		ret = udmabuf_ioctl_create(filp, arg);
-+		break;
-+	case UDMABUF_CREATE_LIST:
-+		ret = udmabuf_ioctl_create_list(filp, arg);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+	return ret;
-+}
-+
-+static const struct file_operations udmabuf_fops = {
-+	.owner		= THIS_MODULE,
-+	.unlocked_ioctl = udmabuf_ioctl,
-+};
-+
-+static struct miscdevice udmabuf_misc = {
-+	.minor          = MISC_DYNAMIC_MINOR,
-+	.name           = "udmabuf",
-+	.fops           = &udmabuf_fops,
-+};
-+
-+static int __init udmabuf_dev_init(void)
-+{
-+	return misc_register(&udmabuf_misc);
-+}
-+
-+static void __exit udmabuf_dev_exit(void)
-+{
-+	misc_deregister(&udmabuf_misc);
-+}
-+
-+module_init(udmabuf_dev_init)
-+module_exit(udmabuf_dev_exit)
-+
-+MODULE_AUTHOR("Gerd Hoffmann <kraxel@redhat.com>");
-+MODULE_LICENSE("GPL v2");
-diff --git a/tools/testing/selftests/drivers/dma-buf/udmabuf.c b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-new file mode 100644
-index 0000000000..376b1d6730
---- /dev/null
-+++ b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-@@ -0,0 +1,96 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <malloc.h>
-+
-+#include <sys/ioctl.h>
-+#include <sys/syscall.h>
-+#include <linux/memfd.h>
-+#include <linux/udmabuf.h>
-+
-+#define TEST_PREFIX	"drivers/dma-buf/udmabuf"
-+#define NUM_PAGES       4
-+
-+static int memfd_create(const char *name, unsigned int flags)
-+{
-+	return syscall(__NR_memfd_create, name, flags);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	struct udmabuf_create create;
-+	int devfd, memfd, buf, ret;
-+	off_t size;
-+	void *mem;
-+
-+	devfd = open("/dev/udmabuf", O_RDWR);
-+	if (devfd < 0) {
-+		printf("%s: [skip,no-udmabuf]\n", TEST_PREFIX);
-+		exit(77);
-+	}
-+
-+	memfd = memfd_create("udmabuf-test", MFD_CLOEXEC);
-+	if (memfd < 0) {
-+		printf("%s: [skip,no-memfd]\n", TEST_PREFIX);
-+		exit(77);
-+	}
-+
-+	size = getpagesize() * NUM_PAGES;
-+	ret = ftruncate(memfd, size);
-+	if (ret == -1) {
-+		printf("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	memset(&create, 0, sizeof(create));
-+
-+	/* should fail (offset not page aligned) */
-+	create.memfd  = memfd;
-+	create.offset = getpagesize()/2;
-+	create.size   = getpagesize();
-+	buf = ioctl(devfd, UDMABUF_CREATE, &create);
-+	if (buf >= 0) {
-+		printf("%s: [FAIL,test-1]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	/* should fail (size not multiple of page) */
-+	create.memfd  = memfd;
-+	create.offset = 0;
-+	create.size   = getpagesize()/2;
-+	buf = ioctl(devfd, UDMABUF_CREATE, &create);
-+	if (buf >= 0) {
-+		printf("%s: [FAIL,test-2]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	/* should fail (not memfd) */
-+	create.memfd  = 0; /* stdin */
-+	create.offset = 0;
-+	create.size   = size;
-+	buf = ioctl(devfd, UDMABUF_CREATE, &create);
-+	if (buf >= 0) {
-+		printf("%s: [FAIL,test-3]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	/* should work */
-+	create.memfd  = memfd;
-+	create.offset = 0;
-+	create.size   = size;
-+	buf = ioctl(devfd, UDMABUF_CREATE, &create);
-+	if (buf < 0) {
-+		printf("%s: [FAIL,test-4]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	fprintf(stderr, "%s: ok\n", TEST_PREFIX);
-+	close(buf);
-+	close(memfd);
-+	close(devfd);
-+	return 0;
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a5b256b259..11a9b04277 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14934,6 +14934,14 @@ S:	Maintained
- F:	Documentation/filesystems/udf.txt
- F:	fs/udf/
- 
-+UDMABUF DRIVER
-+M:	Gerd Hoffmann <kraxel@redhat.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	drivers/dma-buf/udmabuf.c
-+F:	include/uapi/linux/udmabuf.h
-+F:	tools/testing/selftests/drivers/dma-buf/udmabuf.c
-+
- UDRAW TABLET
- M:	Bastien Nocera <hadess@hadess.net>
- L:	linux-input@vger.kernel.org
-@@ -15343,6 +15351,14 @@ F:	arch/x86/um/
- F:	fs/hostfs/
- F:	fs/hppfs/
- 
-+USERSPACE DMA BUFFER DRIVER
-+M:	Gerd Hoffmann <kraxel@redhat.com>
-+S:	Maintained
-+L:	dri-devel@lists.freedesktop.org
-+F:	drivers/dma-buf/udmabuf.c
-+F:	include/uapi/linux/udmabuf.h
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+
- USERSPACE I/O (UIO)
- M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
- S:	Maintained
-diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-index ed3b785bae..338129eb12 100644
---- a/drivers/dma-buf/Kconfig
-+++ b/drivers/dma-buf/Kconfig
-@@ -30,4 +30,12 @@ config SW_SYNC
- 	  WARNING: improper use of this can result in deadlocking kernel
- 	  drivers from userspace. Intended for test and debug only.
- 
-+config UDMABUF
-+	bool "userspace dmabuf misc driver"
-+	default n
-+	depends on DMA_SHARED_BUFFER
-+	help
-+	  A driver to let userspace turn memfd regions into dma-bufs.
-+	  Qemu can use this to create host dmabufs for guest framebuffers.
-+
- endmenu
-diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-index c33bf88631..0913a6ccab 100644
---- a/drivers/dma-buf/Makefile
-+++ b/drivers/dma-buf/Makefile
-@@ -1,3 +1,4 @@
- obj-y := dma-buf.o dma-fence.o dma-fence-array.o reservation.o seqno-fence.o
- obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
- obj-$(CONFIG_SW_SYNC)		+= sw_sync.o sync_debug.o
-+obj-$(CONFIG_UDMABUF)		+= udmabuf.o
-diff --git a/tools/testing/selftests/drivers/dma-buf/Makefile b/tools/testing/selftests/drivers/dma-buf/Makefile
-new file mode 100644
-index 0000000000..4154c3d7aa
---- /dev/null
-+++ b/tools/testing/selftests/drivers/dma-buf/Makefile
-@@ -0,0 +1,5 @@
-+CFLAGS += -I../../../../../usr/include/
-+
-+TEST_GEN_PROGS := udmabuf
-+
-+include ../../lib.mk
--- 
-2.9.3
-
+Bart
