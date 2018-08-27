@@ -1,91 +1,146 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=0.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_BL_SPAMCOP_NET,
-	RCVD_IN_DNSWL_HI,RCVD_IN_SBL_CSS,SUBJ_ALL_CAPS,T_DKIM_INVALID autolearn=no
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2C53F7DE70
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 21:12:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E5EB77D581
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 21:51:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727530AbeH1BA2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 27 Aug 2018 21:00:28 -0400
-Received: from nuntiux.org ([104.168.144.117]:41232 "EHLO nuntiux.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727171AbeH1BA2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Aug 2018 21:00:28 -0400
-X-Greylist: delayed 14285 seconds by postgrey-1.27 at vger.kernel.org; Mon, 27 Aug 2018 21:00:26 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=nuntiux.org
-        ; s=default; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Reply-To:
-        From:Subject:Date:Message-ID:Sender:To:Cc:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=N8K6WzUXiVbJTryn43vNfeWDfqkTqHuZ1uancwSz7H8=; b=F2jDP4hVRSUWbxNOj2CpnIEKT9
-        uE64UXnTOkzo5owfvYFDsMONa63zC9dNeb7XwtQ2oHPoImroKJW7ainIUQXy5PAu8P2RCwv006SKo
-        Xr94huXCf8l7HtfpC6tQn78g/F+AdrwDKEGBeVXkRnN8Fx699+5gYSNYm6OI32NZTXyxMlqjXyZPF
-        GZpKntIc/d28sH7jLRlCeDKQg0XTT/rHjl4Zt8Cgn4ZvpNSoMf9yPfM5gK8vAJOb2z/A2JYRAI5/F
-        +XQUupo/1i/zR1Z6A7lthvPQDWfIpQOMaBahV/8+RahIKubHDtq6txB8zoQBXuggvm1ujbOyxCZl/
-        onbXn5hQ==;
-Received: from [::1] (port=45630 helo=nuntiux.org)
-        by cvps7735260964.hostwindsdns.com with esmtpa (Exim 4.91)
-        (envelope-from <test@nuntiux.org>)
-        id 1fuL59-0005yD-SG; Mon, 27 Aug 2018 13:13:39 -0400
-Received: from 95.170.220.59 ([95.170.220.59])
-        (SquirrelMail authenticated user test@nuntiux.org)
-        by nuntiux.org with HTTP;
-        Mon, 27 Aug 2018 13:13:39 -0400
-Message-ID: <4c1620ea55ec64da48f1f44a135675c0.squirrel@nuntiux.org>
-Date:   Mon, 27 Aug 2018 13:13:39 -0400
-Subject: YOUR PRODUCT
-From:   "Rafaa Esawi" <test@nuntiux.org>
-Reply-To: rafaa.esawi@gmail.com
-User-Agent: SquirrelMail/1.5.2 [SVN]
+        id S1727029AbeH1Bk0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 27 Aug 2018 21:40:26 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:45215 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727013AbeH1Bk0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Aug 2018 21:40:26 -0400
+Received: by mail-pg1-f195.google.com with SMTP id m4-v6so179945pgv.12
+        for <linux-doc@vger.kernel.org>; Mon, 27 Aug 2018 14:51:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=r8t6EW6n+jyjT8ZaGNQ5aTfLWWu/+xiiBp/7EvTHWXs=;
+        b=Ol5JKUF8Q8h9xQyYmyINCSKqNr7sYOxmAY9CHskvsLBP0c4rMn7YLSxldhO8hevre/
+         1Z4sAj7EBK/10yEE/DWn4t1y9G3nAdVks7FVNPaWx0blyddPht8pEmCDGi9imkWgupmV
+         JfxeeVEesAas9IGCPOry7JMU3eBCr/TPnZnIU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=r8t6EW6n+jyjT8ZaGNQ5aTfLWWu/+xiiBp/7EvTHWXs=;
+        b=Zn2nr7jJMgEnl3TPWF2EQ3LccPIdynQi3fgr7Rt4wVOwCvTCiN4HuyKAmBUoQgq35Q
+         M7mkcqrMOFNq3jPt37xHNbVSjiiMgw2YrpOZu6iBss6e7nWUJfgcLE82xAOCwqFCsf8q
+         iuT8+5ZHKS9ssZvzvzMn0SJGOlpgliICsTWifgq+0b9UthySkaQ4m3CHcfAQgk6TqNs0
+         ecTRN/plOlmvZ8R6eXMD5f47M08JNtoF98ziFB/v8WB+IEIC6JMdFBMu2dhoLVcS+l6C
+         ZYdDBL/3cJcHYGtHgqyDfVM5QzPiTp9kzVTdbj9cLZHbtbWSS0CIKyldkx3+OD62dGPQ
+         ja0A==
+X-Gm-Message-State: APzg51BLkZJqlo7Gpwq6pko5owkLr/1V2tNtMc6TG2R35o+4hfI2GRw3
+        V0D3nszpYpADq36objBG+DwFdQ==
+X-Google-Smtp-Source: ANB0VdZyeu+RWJAeMjbF5o58QdXvTz08xeDdv5MMxdJ81MO860O3ixUSiV72G/RxtJlRzkIG4lco7w==
+X-Received: by 2002:a65:594b:: with SMTP id g11-v6mr13797300pgu.260.1535406717156;
+        Mon, 27 Aug 2018 14:51:57 -0700 (PDT)
+Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
+        by smtp.gmail.com with ESMTPSA id u25-v6sm180258pfk.177.2018.08.27.14.51.55
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 27 Aug 2018 14:51:56 -0700 (PDT)
+Date:   Mon, 27 Aug 2018 14:51:54 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Theodore Ts'o <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org
+Subject: [PATCH] random: Make CPU trust a boot parameter
+Message-ID: <20180827215154.GA44225@beast>
 MIME-Version: 1.0
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cvps7735260964.hostwindsdns.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - nuntiux.org
-X-Get-Message-Sender-Via: cvps7735260964.hostwindsdns.com: authenticated_id: test@nuntiux.org
-X-Authenticated-Sender: cvps7735260964.hostwindsdns.com: test@nuntiux.org
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Instead of forcing a distro or other system builder to choose
+at build time whether the CPU is trusted for CRNG seeding via
+CONFIG_RANDOM_TRUST_CPU, provide a boot-time parameter for end users to
+control the choice. The CONFIG will set the default state instead.
+
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
+ drivers/char/Kconfig                            |  4 ++--
+ drivers/char/random.c                           | 11 ++++++++---
+ 3 files changed, 16 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 9871e649ffef..64a3bf54b974 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3523,6 +3523,12 @@
+ 	ramdisk_size=	[RAM] Sizes of RAM disks in kilobytes
+ 			See Documentation/blockdev/ramdisk.txt.
+ 
++	random.trust_cpu={on,off}
++			[KNL] Enable or disable trusting the use of the
++			CPU's random number generator (if available) to
++			fully seed the kernel's CRNG. Default is controlled
++			by CONFIG_RANDOM_TRUST_CPU.
++
+ 	ras=option[,option,...]	[KNL] RAS-specific options
+ 
+ 		cec_disable	[X86]
+diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
+index ce277ee0a28a..40728491f37b 100644
+--- a/drivers/char/Kconfig
++++ b/drivers/char/Kconfig
+@@ -566,5 +566,5 @@ config RANDOM_TRUST_CPU
+ 	that CPU manufacturer (perhaps with the insistence or mandate
+ 	of a Nation State's intelligence or law enforcement agencies)
+ 	has not installed a hidden back door to compromise the CPU's
+-	random number generation facilities.
+-
++	random number generation facilities. This can also be configured
++	at boot with "random.trust_cpu=on/off".
+diff --git a/drivers/char/random.c b/drivers/char/random.c
+index bf5f99fc36f1..c75b6cdf0053 100644
+--- a/drivers/char/random.c
++++ b/drivers/char/random.c
+@@ -779,6 +779,13 @@ static struct crng_state **crng_node_pool __read_mostly;
+ 
+ static void invalidate_batched_entropy(void);
+ 
++static bool trust_cpu __ro_after_init = IS_ENABLED(CONFIG_RANDOM_TRUST_CPU);
++static int __init parse_trust_cpu(char *arg)
++{
++	return kstrtobool(arg, &trust_cpu);
++}
++early_param("random.trust_cpu", parse_trust_cpu);
++
+ static void crng_initialize(struct crng_state *crng)
+ {
+ 	int		i;
+@@ -799,12 +806,10 @@ static void crng_initialize(struct crng_state *crng)
+ 		}
+ 		crng->state[i] ^= rv;
+ 	}
+-#ifdef CONFIG_RANDOM_TRUST_CPU
+-	if (arch_init) {
++	if (trust_cpu && arch_init) {
+ 		crng_init = 2;
+ 		pr_notice("random: crng done (trusting CPU's manufacturer)\n");
+ 	}
+-#endif
+ 	crng->init_time = jiffies - CRNG_RESEED_INTERVAL - 1;
+ }
+ 
+-- 
+2.17.1
 
 
-
-Greetings,
-
-We are rebuilding Iraq after years of conflicts and we are inviting you to
-take up contracts. We are determined to purchase your products in large
-quantities, for use in all over our 18 governorates(provinces) as the task
-of re-building Iraq covers every single sectormand facet of our society.
-We'll submit your products information to
-the Iraqi Project and Contracting Office. They will examine the propriety
-and necessity of your product and approve for bulk supply contracting
-relationship.
-
-I am currently on the board of the Iraqi Project and Contracting Office,
-With my connections in the corridors of power, we are quite confident of
-securing approval. Also of note is the issue of different financial
-regulations between my country Iraq and your country. As such you will be
-paid 100% through the Iraqi ministry of Finance
-before you commence supplies. When you've received payment, we would be
-expecting a monthly supply; as the sum budgeted for product may be quite
-enormous as to outstrip your capacity and capability to supply.
-
-A consideration also is that your quotation must be CIF Port of Umm Qasr.
-Please send response so that I will reveal more procedural information to
-you upon your re-confirmation.
-
-Thany You.
-
-Rafaa Esawi
-
+-- 
+Kees Cook
+Pixel Security
