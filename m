@@ -3,96 +3,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6353F7D00B
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 10:15:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D49D67DE59
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 10:20:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727547AbeH1OGM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 10:06:12 -0400
-Received: from mail-wm0-f53.google.com ([74.125.82.53]:51501 "EHLO
-        mail-wm0-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727519AbeH1OGM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 10:06:12 -0400
-Received: by mail-wm0-f53.google.com with SMTP id y2-v6so1321974wma.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Aug 2018 03:15:16 -0700 (PDT)
+        id S1726982AbeH1OLc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 10:11:32 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37743 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727124AbeH1OLb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 10:11:31 -0400
+Received: by mail-wr1-f67.google.com with SMTP id u12-v6so1041439wrr.4
+        for <linux-doc@vger.kernel.org>; Tue, 28 Aug 2018 03:20:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=eFEDCsp7W9hfDmCytTf7/IYHRAO9pUMzrBfL2aDncfU=;
-        b=JCDIhBNd79zTXl5L8alaXs6S+o12ZDrNjtJLGv6s8hnojMd1buaNYHGm053B07CGk0
-         gBUOBEnLmYfRLUhaVlfkj72nAXgm3LlUXFMdMpB9wy4eCOVg7UxeSZI/TDUh6u8tFe9Z
-         QlficPRWFDHvOrenk5EYFAixVDS5LxyEx4JgM=
+        bh=MbXFfW2nTQu/4MMUaxCUfzzNPsgOyF2P1ycpQDWIJA4=;
+        b=VFsQ/p7w4L9pVsK7j+GupT2+xXzzMx2E4pzCr01t5dNRwxQOiqG3tHr+Mia7yJSB8M
+         nKsrIB0XwMzvmVOaTn9MQwjoNwtR4jDVX329VnpaM2oHoian3k8yajxdlUwH5SYKxlqL
+         CJ3E0jTnDcat5Fj6XzAIg1RRT+/VfCq7KTevs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=eFEDCsp7W9hfDmCytTf7/IYHRAO9pUMzrBfL2aDncfU=;
-        b=pu+0uIZnVmDjoV6bGDCguKIRiauYKGodXgFIRTN5Pa9IVJS+E/DOnVu/ySVMRddNmu
-         lS5Kp2e2jFzA/Wr6x/mXgSFE6RzulK3MnnKsj9NOMwMhMZbN9zwcjAZJjvCbpJGw+9k9
-         nGuSeeQEC7jNl0tXXJYL4x+AAkhR1+/M2uzIAmhnMxHpQLX+JkFEIeN97wh0Bg9Rjc/K
-         dV3Mwkpmrz8qkMQ9U14RGFj7F+txZ+QEiVtnp0ldAoTxumVo1qsZJTmiTACsPsQx6vI9
-         KpA10kiJEW0PuiDr2ZV8J6ZIEm+vEsev1sD4FTiOsnod0BlG6oVX5teM/b9uWiFQKRDD
-         nfxw==
-X-Gm-Message-State: APzg51C3Ce0K8MgR+zoaMGjXWGqwMWDRlZXxQh7Iy2V8fGHP2W7QUdtV
-        sFTzLuwVRvsBMZkvD1DzCpBPZA==
-X-Google-Smtp-Source: ANB0VdbhZdSwmLNZTR4NuF3OdtieZ3D28Qy40kE5o7AiOdlwqrqVuo7ZKy9SDTzLkA5mEg62+PTrcw==
-X-Received: by 2002:a1c:9f41:: with SMTP id i62-v6mr832033wme.87.1535451315287;
-        Tue, 28 Aug 2018 03:15:15 -0700 (PDT)
+        bh=MbXFfW2nTQu/4MMUaxCUfzzNPsgOyF2P1ycpQDWIJA4=;
+        b=IYBCv6mA0Uoovzj4ZJ3aa6/lVO5iwfxxelEIbSBa6fsB6xqpbBzGmnNJWnaOcvM91j
+         qazwznmhfO3rI+CAUXljWtUGN4TIcznCXX8J+UR9dSDGgG/kva+6FSjwNgqMgsfG8emA
+         4luYXar6WasIGPCcLUHoC5DPIXu6fud/3jXbld030xd750wNAFA+Ss/Wfn4W9mQTXWvw
+         n92NZefb5mCx6S2Kj7xavPaW8EEuPLlT9kW1tRUR1hW1RknO+ZpGia+RaTtcHg1YJb9R
+         FTS5T63Yao13U/oCfznMwZfF+I8CaanmV7d/ieVn6zh2UfuEjIH7Zv3XZV5PI9gD1Cg+
+         RCEg==
+X-Gm-Message-State: APzg51Dww1Pf9/K7rf7oWCDkyiaGD8t6/S+H6LFzBE/Enl8FZWtIY4s2
+        n3EHmgh9RV2MD2eiVp/4Oymc5w==
+X-Google-Smtp-Source: ANB0VdZrpHX+c1dkObFCIQ2t/xtDeWwS107DoV6YxT7u+iqR1SMGLhxGjgU4Ut5TcfKHmRi5CPk0Iw==
+X-Received: by 2002:a5d:4b90:: with SMTP id b16-v6mr727578wrt.168.1535451633341;
+        Tue, 28 Aug 2018 03:20:33 -0700 (PDT)
 Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
-        by smtp.googlemail.com with ESMTPSA id u127-v6sm622722wmf.48.2018.08.28.03.15.13
+        by smtp.googlemail.com with ESMTPSA id p89-v6sm1345987wrc.97.2018.08.28.03.20.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Aug 2018 03:15:14 -0700 (PDT)
-Subject: Re: [PATCH v2 01/29] nvmem: add support for cell lookups
-To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Tue, 28 Aug 2018 03:20:32 -0700 (PDT)
+Subject: Re: [PATCH v2 06/29] mtd: Add support for reading MTD devices via the
+ nvmem API
+To:     Alban <albeu@free.fr>,
         Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
         Russell King <linux@armlinux.org.uk>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        David Lechner <david@lechnology.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Sven Van Asbroeck <svendev@arcx.com>,
-        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Lukas Wunner <lukas@wunner.de>, Naren <naren.kernel@gmail.com>,
-        netdev <netdev@vger.kernel.org>, Alban Bedel <albeu@free.fr>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brian Norris <computersforpeace@gmail.com>,
         David Woodhouse <dwmw2@infradead.org>,
-        "David S . Miller" <davem@davemloft.net>
+        Brian Norris <computersforpeace@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
- <20180810080526.27207-2-brgl@bgdev.pl> <20180824170848.29594318@bbrezillon>
- <20180824152740.GD27483@lunn.ch> <20180825082722.567e8c9a@bbrezillon>
- <CAMRc=Men-MPk5DGshWcVEc0v=gH2WSpx1j-CawOeydwp59tejw@mail.gmail.com>
- <20180827110055.122988d0@bbrezillon>
- <CAMRc=MfpZJUEAhM4OoLbmJcnX3rTJk8fvdiL6=9BjNkVcsf=SA@mail.gmail.com>
+ <20180810080526.27207-7-brgl@bgdev.pl> <20180817182720.6a6e5e8e@bbrezillon>
+ <20180819133106.0420df5f@tock> <20180819184609.6dcdbb9a@bbrezillon>
+ <5b8c30b8-41e1-d59e-542b-fef6c6469ff0@linaro.org>
+ <20180820202038.5d3dc195@bbrezillon>
+ <e0ec3194-fd3a-9b3d-fba8-f88447eb56e9@linaro.org>
+ <20180821133916.3a1c51b1@eos>
+ <6db14f9c-edd3-5e43-839c-953bb03097ff@linaro.org>
+ <20180821150121.4408672f@bbrezillon> <20180823122921.6857d917@tock>
 From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <8cb75723-dc87-f127-2aab-54dd0b08eee8@linaro.org>
-Date:   Tue, 28 Aug 2018 11:15:12 +0100
+Message-ID: <58fd7ab3-c115-1f26-6d6e-677af6351239@linaro.org>
+Date:   Tue, 28 Aug 2018 11:20:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <CAMRc=MfpZJUEAhM4OoLbmJcnX3rTJk8fvdiL6=9BjNkVcsf=SA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20180823122921.6857d917@tock>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -101,69 +100,41 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 27/08/18 14:37, Bartosz Golaszewski wrote:
-> I didn't notice it before but there's a global list of nvmem cells
 
-Bit of history here.
-
-The global list of nvmem_cell is to assist non device tree based cell 
-lookups. These cell entries come as part of the non-dt providers 
-nvmem_config.
-
-All the device tree based cell lookup happen dynamically on 
-request/demand, and all the cell definition comes from DT.
-
-As of today NVMEM supports both DT and non DT usecase, this is much simpler.
-
-Non dt cases have various consumer usecases.
-
-1> Consumer is aware of provider name and cell details.
-	This is probably simple usecase where it can just use device based apis.
-
-2> Consumer is not aware of provider name, its just aware of cell name.
-	This is the case where global list of cells are used.
-
-> with each cell referencing its owner nvmem device. I'm wondering if
-> this isn't some kind of inversion of ownership. Shouldn't each nvmem
-> device have a separate list of nvmem cells owned by it? What happens
-This is mainly done for use case where consumer does not have idea of 
-provider name or any details.
-
-First thing non dt user should do is use "NVMEM device based consumer APIs"
-
-ex: First get handle to nvmem device using its nvmem provider name by 
-calling nvmem_device_get(); and use nvmem_device_cell_read/write() apis.
-
-Also am not 100% sure how would maintaining cells list per nvmem 
-provider would help for the intended purpose of global list?
-
-> if we have two nvmem providers with the same names for cells? I'm
-Yes, it would return the first instance.. which is a known issue.
-Am not really sure this is a big problem as of today! but am open for 
-any better suggestions!
-
-
-> asking because dev_id based lookup doesn't make sense if internally
-> nvmem_cell_get_from_list() doesn't care about any device names (takes
-> only the cell_id as argument).
-
-As I said this is for non DT usecase where consumers are not aware of 
-provider details.
-
+On 23/08/18 11:29, Alban wrote:
+> Let say I have a device that use the following binding:
 > 
-> This doesn't cause any trouble now since there are no users defining
-> cells in nvmem_config - there are only DT users - but this must be
-> clarified before I can advance with correctly implementing nvmem
-> lookups.
-DT users should not be defining this to start with! It's redundant and 
-does not make sense!
-
+> device {
+>      compatible = "example-device";
+>      #address-cells = <2>;
+>      #size-cells = <1>;
 > 
-> BTW: of_nvmem_cell_get() seems to always allocate an nvmem_cell
-> instance even if the cell for this node was already added to the nvmem
-> device.
-I hope you got the reason why of_nvmem_cell_get() always allocates new 
-instance for every get!!
+>      child@0,0 {
+>          reg = <0x0 0x0>;
+>          ...
+>      };
+> 
+>      child@1,2 {
+>          reg = <0x1 0x2>;
+>          ...
+>      };
+> 
+> };
+> 
+> Now this binding already use the node address space for something,
+> so putting a nvmem node as direct child would not work.
 
-thanks,
-srini
+AFAIK, It should work but the we would get a DT warning this, as nvmem 
+does not use of_address based apis to parse this. Which should be 
+totally fixed!!
+
+As discussed before once we add support to #address-cells and 
+#size-cells in nvmem core this should not be a problem.
+
+
+--srini
+  Here it is
+> quiet clear as we have 2 address cells, however even if the number of
+> cells and the cells size would match it would still be conceptually
+> wrong as both bindings then use the same address space for something
+> different.
