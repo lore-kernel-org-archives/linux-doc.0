@@ -1,81 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D19737D87C
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 22:14:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1ED977D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 22:27:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727616AbeH2CHh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 22:07:37 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55850 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727225AbeH2CHh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 22:07:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=NfE2HGDwBxn5XzFSH1jyYLheTtzP5I0+o0JhVjH64vQ=; b=VE6X3CWmUY8OaKtJ7/CM4WF8+
-        neGiSExjwnpEMxQ8B2pWBU/43C8GcHrW7oqFH/FzGltVgzznjniwV1Ztb3RzFCkPaQbyukvpPP4+V
-        qPCi5QqQt1JJLcfjZezt8zYNxFDpEhI7CQeBBjSkEUlNttWi/8yRku9GREJ6FKLG6ftiB6OJST5oq
-        R92pmVOaPbhGdJCNZ4nzTNC4QF9UGFpCdD90UzjLhdwftzquErM39cJgchd8Qm/4rLLe/QRiMF/d0
-        ca/UU3ybwZv85BhxHHoBwigdWZ4Xt/piyeiTPlw3LWchzzds10YfT+pIISVEkyaHkvS1IBZ0mwG+G
-        U5bvEcQrQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fumFE-00018n-Qf; Tue, 28 Aug 2018 22:13:52 +0000
-Date:   Tue, 28 Aug 2018 15:13:52 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
-        Michal Hocko <mhocko@kernel.org>
-Subject: Re: [PATCH 2/2] fs/dcache: Make negative dentries easier to be
- reclaimed
-Message-ID: <20180828221352.GC11400@bombadil.infradead.org>
-References: <1535476780-5773-1-git-send-email-longman@redhat.com>
- <1535476780-5773-3-git-send-email-longman@redhat.com>
+        id S1727313AbeH2CUy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 22:20:54 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:39805 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727067AbeH2CUy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 22:20:54 -0400
+Received: by mail-oi0-f66.google.com with SMTP id c190-v6so5753336oig.6;
+        Tue, 28 Aug 2018 15:27:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4qvIFIYCiv0tkGwrmRXtPZsdJKevk1XWh8m9CE65U/o=;
+        b=Eb4LMuvss6uhys5pmV3s7Ij+7xn8zGs6twB9cCJGk75dmyxzTJrDEOHlZRje88f+Ss
+         t3pLRD68sDkVm9+2UFejQYdDRvGF/6lqNe8DxWl7TWyJ0ac4cGxY3Czrk+OLxtsEE7qU
+         4+DuDj9vKdh5TP/FbKTDGxrYoEs8CItQ9kRc5O11ZdMrYaUl38GTMvIh/IfvY2Gk27kX
+         UJWR7u2iiCRnLGc7IjGa+wwbjrGTkQ3Y8odNh8aa4ZNUzddbabFXQ+ds7bk2rBbaHXAN
+         T0ZWhapgkCRS3OaElHqGAxiwhGa03w8dDD5iuo7+9b7Pf5lbNd8WlHQ8sX0CEW0v2NFd
+         XFQg==
+X-Gm-Message-State: APzg51AQBaEwy/RD/cqilJMdtrde1EdGEHqV9OOegXSTPa6DmyYEvxRO
+        7JTlKk1PEOmTu+BGNcanJw==
+X-Google-Smtp-Source: ANB0VdZbvEWAorLtgIs1q5p/Ud2oUbTSd2eKyRvft0G3bNiZ8ni70V1/tyF+8+HQ/OJtYJdOVHGfGw==
+X-Received: by 2002:a54:4784:: with SMTP id o4-v6mr82959oic.101.1535495229803;
+        Tue, 28 Aug 2018 15:27:09 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id f144-v6sm2260656oib.39.2018.08.28.15.27.09
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 28 Aug 2018 15:27:09 -0700 (PDT)
+Date:   Tue, 28 Aug 2018 17:27:08 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc:     thierry.reding@gmail.com, shc_work@mail.ru, mark.rutland@arm.com,
+        corbet@lwn.net, nicolas.ferre@microchip.com,
+        alexandre.belloni@bootlin.com, linux-pwm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RESEND PATCH v5 5/9] pwm: add PWM modes
+Message-ID: <20180828222708.GA22527@bogus>
+References: <1535461286-12308-1-git-send-email-claudiu.beznea@microchip.com>
+ <1535461286-12308-6-git-send-email-claudiu.beznea@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1535476780-5773-3-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <1535461286-12308-6-git-send-email-claudiu.beznea@microchip.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 28, 2018 at 01:19:40PM -0400, Waiman Long wrote:
-> @@ -134,7 +135,7 @@ bool list_lru_add(struct list_lru *lru, struct list_head *item)
->  	spin_lock(&nlru->lock);
->  	if (list_empty(item)) {
->  		l = list_lru_from_kmem(nlru, item, &memcg);
-> -		list_add_tail(item, &l->list);
-> +		(add_tail ? list_add_tail : list_add)(item, &l->list);
->  		/* Set shrinker bit if the first element was added */
->  		if (!l->nr_items++)
->  			memcg_set_shrinker_bit(memcg, nid,
+On Tue, Aug 28, 2018 at 04:01:22PM +0300, Claudiu Beznea wrote:
+> Add PWM normal and complementary modes.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> ---
+>  Documentation/devicetree/bindings/pwm/pwm.txt |  9 +++++++--
 
-That's not OK.  Write it out properly, ie:
+Acked-by: Rob Herring <robh@kernel.org>
 
-		if (add_tail)
-			list_add_tail(item, &l->list);
-		else
-			list_add(item, &l->list);
-
+>  Documentation/pwm.txt                         | 26 +++++++++++++++++++++++---
+>  include/dt-bindings/pwm/pwm.h                 |  1 +
+>  3 files changed, 31 insertions(+), 5 deletions(-)
