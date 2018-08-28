@@ -2,129 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 82B087D87C
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 18:52:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D6C6D7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 21:20:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727067AbeH1WpA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 18:45:00 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:45107 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727193AbeH1Woz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 18:44:55 -0400
-Received: by mail-pf1-f196.google.com with SMTP id i26-v6so1098696pfo.12
-        for <linux-doc@vger.kernel.org>; Tue, 28 Aug 2018 11:51:57 -0700 (PDT)
+        id S1727086AbeH2BNt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 21:13:49 -0400
+Received: from mail-yb0-f193.google.com ([209.85.213.193]:33741 "EHLO
+        mail-yb0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbeH2BNt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 21:13:49 -0400
+Received: by mail-yb0-f193.google.com with SMTP id d4-v6so1199125ybl.0;
+        Tue, 28 Aug 2018 14:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=8B2ATl4y/uUk1SoMfkts1pM4K+TG5KkfoizaC4L+/aw=;
-        b=CfNzdGZe1ieXSXne+UO+o+xOAlX5aR5tyr0uKAT7e87+Qr90YzCIOSGM8XaWcEhsqB
-         fnKK0ZTl/V/ndF/Vb938CpChwq+I2kboaciqfDgWqTw6vyPN0eEZojW4r8AtgVGVnhD4
-         IOQwyjMXgmXhLmzpmSbeE9LiSJPlpXZKlHMtW00CceosDwQZvX3daM+LYwiZ/zq03nAD
-         OUOF3yb2Fvs/OujnjBrdnBX96bJqtrPVODqZjlJ/pF0v2Bc6S33c1+xxH4fp1DiG2aWk
-         K52h1QWtIT7LpEb0Wb9nsGzPnf7as9j93v1Bctz1oV2R/1aWoLRychJmoznC+vGXvcsS
-         hRXg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3i+Gc+ZMhFWjbnaxJBzhzEqRzTgiVvoqz22Cr+5S3tE=;
+        b=bO7jS46pRs3jZnRMJ85tTGAFPbV/w9lLAO7+E3pHaR6fQF4ZEBEBEfCU5P5bg6l6mh
+         +KhvChzsm9DNYeUOFdMQyLkGfdJVB4oq2GnBmH9zXSKm7hqpgs/2qHwQPCIQrUD/+nAv
+         F7MREe9TPU81sMyCd94WxEd8GV/bgBkNzx1jSmox7XX3ysVfE8zdsAZzcDZky9gIINIR
+         gqtzo61AVdvmFtqphUQD2mGF5Uci7RphBLi7CuoN10Pk542h9m/v1B6YXeiMrlSa2TOs
+         ubwRkhQ5qJzhP82tt2VA7zut72tzUrnUtuWhwowF9qX4ohVPJJpdty3zCWiGlvclcmC0
+         ji7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=8B2ATl4y/uUk1SoMfkts1pM4K+TG5KkfoizaC4L+/aw=;
-        b=hDcz/FM0R4iqpsEzQW3rtg4GQ+2P4xFr8xvoNmjuXvGJx2Vx4YDz4HoHaOavM/yOvC
-         a2yPKiZhjhgg2tRqOEZQotpH5Lid/CMFg5SeauGQXHFvTwnQkbrRmomQrEkhFE9B2MFL
-         fGnvNz+xNRZhpJrrAQ4PqLiRmi3FdfW5WFORg+mDRosjTmBQA9OQMaLPdTnJoVAL15wX
-         6jftVVQIeqqWHY7QazE8F9+o+EyGGkrvEdthiRdhlnJXKx1W/B8DzxtutoUc1cpHQYmG
-         wDeTq5SmQsjwZdI6I5xu8Rd6Z0qvi/W3MoN5whoj61KOXsqMiRILTECDmWQfHMIpO4nb
-         hJ7w==
-X-Gm-Message-State: APzg51Aun8imh91lOLLQox4w2IqKtygmX+eLMRLYORouTFExQTodOzL9
-        5MXjAsjPK3vEkue1iUGJM2N4ztS8tp2VVw==
-X-Google-Smtp-Source: ANB0VdaZY7j+nDoVu+MmuHd4pR7RX52G+991tylNBCRvV3CycVTb1VYZ+frPbY6a7dPrDtOHabkvXg==
-X-Received: by 2002:a62:5290:: with SMTP id g138-v6mr2749909pfb.46.1535482316667;
-        Tue, 28 Aug 2018 11:51:56 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1612:b4fb:6752:f21f:3502])
-        by smtp.googlemail.com with ESMTPSA id z17-v6sm3945943pfl.146.2018.08.28.11.51.55
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Aug 2018 11:51:56 -0700 (PDT)
-Subject: Re: [PATCH v5 2/3] overlayfs: check CAP_MKNOD before issuing
- vfs_whiteout
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3i+Gc+ZMhFWjbnaxJBzhzEqRzTgiVvoqz22Cr+5S3tE=;
+        b=MMCkG1asc3xSgFVWy/r2LUsR8pi4ry0T/bk4rSVp6FjwODwW7IT6ttvokmLwcTW1XU
+         Tmm4rqLG0rMkzcpjSAi9XX9s5nzp2Fwk+iHzcwbV3w1x6fjVdo6Jb6PD+bA9aAYqvMo6
+         ZpWWVu4jFL2HG58m1wtOlQg+vaMKIm1xRFg8PQVtvhDn2sP0/TzMzymFElkw7WPaEaQf
+         qwUBqazMzudNApI9AjEde2pNn+mcHqND6kcvLzCQnivYpK11YojIZA41/8rAnGMC74rW
+         mjP2+wnGCno3f7cV9mQ4oHQt2+W9RO2NLS+XPiRkvCrz2ZhK92QPWY9GhYQVL63BU3HM
+         V9cA==
+X-Gm-Message-State: APzg51A147ax8shTuL0HmkeGs9Ah5ml04F5Tws7SjxVI2jEyq3FEfwcW
+        WAso05BonMajFnxtJOBdnKk7fEQliZy2f1jj78Q=
+X-Google-Smtp-Source: ANB0VdbBbs6V0Pe3MAPkOWYQ8RKGuaKDY3vuPHHvXZIphJLtSmEFINOjzERUbSr8zYJejZRNVKk9BpIgoCuPFvyr0mY=
+X-Received: by 2002:a25:ea0e:: with SMTP id p14-v6mr1859068ybd.397.1535491218770;
+ Tue, 28 Aug 2018 14:20:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180828165336.211643-1-salyzyn@android.com> <a8dc66c4-4761-4876-abd3-6dc135692404@infradead.org>
+In-Reply-To: <a8dc66c4-4761-4876-abd3-6dc135692404@infradead.org>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 29 Aug 2018 00:20:06 +0300
+Message-ID: <CAOQ4uxg5chFxo5wM-qtBYW0TPcsemtdh4WdRrtJDW_VvsAbtAQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] overlayfs: override_creds=off option bypass creator_cred
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Mark Salyzyn <salyzyn@android.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
         Vivek Goyal <vgoyal@redhat.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
         Stephen Smalley <sds@tycho.nsa.gov>,
         overlayfs <linux-unionfs@vger.kernel.org>,
         linux-doc@vger.kernel.org
-References: <20180828165319.211563-1-salyzyn@android.com>
- <CAOQ4uxhRPOC_prhygrjndMMUrtU-S7FrLJ0tb4eJUV94GFj38w@mail.gmail.com>
- <CAOQ4uxg=maKZi=5Xet4mC1=uUXftyyKZagj0TBBm8emPDaLmtg@mail.gmail.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <004057f1-f0cd-5410-e4e3-a17287613f89@android.com>
-Date:   Tue, 28 Aug 2018 11:51:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAOQ4uxg=maKZi=5Xet4mC1=uUXftyyKZagj0TBBm8emPDaLmtg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/28/2018 11:42 AM, Amir Goldstein wrote:
-> On Tue, Aug 28, 2018 at 8:43 PM Amir Goldstein <amir73il@gmail.com> wrote:
->> On Tue, Aug 28, 2018 at 7:53 PM Mark Salyzyn <salyzyn@android.com> wrote:
->>> Assumption never checked, should fail if the mounter creds are not
->>> sufficient.
->>>
->>> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
->>> Cc: Miklos Szeredi <miklos@szeredi.hu>
->>> Cc: Jonathan Corbet <corbet@lwn.net>
->>> Cc: Vivek Goyal <vgoyal@redhat.com>
->>> Cc: Eric W. Biederman <ebiederm@xmission.com>
->>> Cc: Amir Goldstein <amir73il@gmail.com>
->>> Cc: Randy Dunlap <rdunlap@infradead.org>
->>> Cc: Stephen Smalley <sds@tycho.nsa.gov>
->>> Cc: linux-unionfs@vger.kernel.org
->>> Cc: linux-doc@vger.kernel.org
->>> Cc: linux-kernel@vger.kernel.org
->>>
->>> v5
->>> - dependency of "overlayfs: override_creds=off option bypass creator_cred"
->>> ---
->>>   fs/overlayfs/overlayfs.h | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
->>> index 7538b9b56237..bf3a80157d42 100644
->>> --- a/fs/overlayfs/overlayfs.h
->>> +++ b/fs/overlayfs/overlayfs.h
->>> @@ -176,7 +176,7 @@ static inline int ovl_do_rename(struct inode *olddir, struct dentry *olddentry,
->>>
->>>   static inline int ovl_do_whiteout(struct inode *dir, struct dentry *dentry)
->>>   {
->>> -       int err = vfs_whiteout(dir, dentry);
->>> +       int err = capable(CAP_MKNOD) ? vfs_whiteout(dir, dentry) : -EPERM;
->> Should that be ns_capable()? Should the test go into vfs_whiteout()?
->> I feel there is no convention at all.
->>
-> Nevermind, I don't think creating a whiteout poses any risk, so don't think
-> we need to worry about CAP_MKNOD.
+On Tue, Aug 28, 2018 at 9:09 PM Randy Dunlap <rdunlap@infradead.org> wrote:
 >
-> Thanks,
-> Amir.
+> On 08/28/2018 09:53 AM, Mark Salyzyn wrote:
+> > diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
+> > index 72615a2c0752..953e52971eb0 100644
+> > --- a/Documentation/filesystems/overlayfs.txt
+> > +++ b/Documentation/filesystems/overlayfs.txt
+> > @@ -106,6 +106,35 @@ Only the lists of names from directories are merged.  Other content
+> >  such as metadata and extended attributes are reported for the upper
+> >  directory only.  These attributes of the lower directory are hidden.
+> >
+> > +credentials
+> > +-----------
+> > +
+> > +By default, all access to the upper, lower and work directories is the
+> > +recorded mounter's MAC and DAC credentials.  The incoming accesses are
+> > +checked against the caller's credentials.
+> > +
+> > +If the principles of least privilege are applied, the mounter's
+> > +credentials might not overlap the credentials of the caller's when
+> > +accessing the overlayfs filesystem.  For example, a file that a lower
+> > +DAC privileged caller can execute, but is MAC denied to the
+> > +generally higher DAC privileged mounter, to prevent an attack vector
+> > +executing with the increased privileges of the mounter.  One option is
+> > +to turn off override_creds in the mount options; all subsequent
+> > +operations after mount on the filesystem will be only the caller's
+> > +credentials.  This option default is set in the CONFIG
+> > +OVERLAY_FS_OVERRIDE_CREDS or in the module option override_creds.
+> > +Fundamentally The mounter has privileges, its ability to execute,
+>
+>                  the
+>
+> but this entire sentence is jumbled and awkward and could use some work.
+> I tried to come up with something but I can't quite get what is intended here.
+>
 
-Ok, will discard from the set, we can address this later if it creates 
-concern (as in, not a dependency to my proposed feature flag). So we 
-feel that whiteout node in the writeable playground of workdir/upperdir 
-is not in itself a security concern. Other (more dangerous) mknod will 
-be checked against the caller's credentials coming in.
+I have a very similar feeling - I do not feel any more knowledgeable after
+reading the above.
+My 2 cents - don't try to explain your reasoning for using this feature
+the use case is too awkward. You may need to rationalize your use
+case to get the feature merged, but spare the poor user who reads the
+manual.
+Explaining what  override_creds=off does is simple - stick to that
+with a disclaimer about things that may not work well.
 
--- Mark
+>
+> > +for example, files and grant them these higher privileges is to be
+> > +blocked except to lower privileged and appropriate callers.  This
+> > +option turned off permits this kind of security policy.
+> > +
+> > +With override_creds turned off, several unintended side effects will
+> > +occur.  The caller with a lower privilege will not be able to delete
+> > +files or directories, create nodes, or search some directories.  The
+> > +uneven security model where upperdir and workdir are opened at
+> > +privilege, but accessed without, should only be used with strict
+> > +understanding of the side effects and of the security policies.
+> > +
+
+I like the ending ;-)
+Let's go with "The user may not be able to delete..."
+
+Thanks,
+Amir.
