@@ -6,52 +6,51 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DCE577D00B
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 17:32:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 872DF7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 17:41:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727040AbeH1VZg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 17:25:36 -0400
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:41903 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726998AbeH1VZg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 17:25:36 -0400
-Received: by mail-yw1-f65.google.com with SMTP id q129-v6so895262ywg.8;
-        Tue, 28 Aug 2018 10:32:54 -0700 (PDT)
+        id S1727020AbeH1VeS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 17:34:18 -0400
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:45559 "EHLO
+        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbeH1VeS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 17:34:18 -0400
+Received: by mail-yw1-f66.google.com with SMTP id p206-v6so899807ywg.12;
+        Tue, 28 Aug 2018 10:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=UbMdiRPKcp0rF63yXFtLNTFPritkic5ohSFwzfS2+Ns=;
-        b=ZAhwPWoDyjSRk9tSpwjeY6D9E8frfpU5hApihi3JjYbNZmsdKNY440qjalcjyRGM7a
-         IMyFpDcKUGisuISZSBcZayUQxukF97fGR9J3rhLjenNeWB6vOZDa/0M6/3cJmUM+ILI9
-         4F4qxnsLrAtR2qzUyJlbLuNUnDIcOl2IoiROOCILUUWzf2cFElJsI3aiUobD6PQjrjxs
-         4viHVNt/ZslU8ncBZSYJ2J/A839r2nf6LVwVvvkqzEXu2h66BUyEIe3GKHERPLhxGKrr
-         Nb9cs0DqIFSUH2C4P2KU5dem38DB8G8FQJlLVdg/qWYeuFXrR+knn9UnQjS+x5gZ+SJA
-         LM4w==
+        bh=GogHkebH8SfHDxdMiBVjtef2fAiB9yRDSAW8eCFewQ8=;
+        b=VjjSOOBPjzbU3yMD0azkhYiq3m3dbUoeLiAzmcV/StQxpKFkm+Z/iBZHZ531QUCo3L
+         jbtBFLEjCU8GvRCBNdxjTIRNfkdKDZQECFLfDhhEtGQxeS7nXBrtkDX+Y8qTTyOLCZFl
+         CNX2pvIAoUMZ5ji7LLfrMRRtgz9T3f80x0hciRk6Lc1S54RsfdnRD2JsWCW3H8botcxN
+         orsREPOO0yTLRgtFs6SqDznUJ0HYG+gcAMf1KcP9cUpylyxBeNvMa0Tq8LLtJX8DOIcQ
+         wfaTgMfh/7NCS9cIj87HZznysuDdaLzXPFen8SsI6F8cOVt6ZCn4YF2jTSS/t3gNOPqh
+         zE8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UbMdiRPKcp0rF63yXFtLNTFPritkic5ohSFwzfS2+Ns=;
-        b=AdTt/VLycbC7663Mam3vBm5/u/YbXT1DNUKUwwN2J8wHmjUbYWC4wOcnHhjl5yJn/u
-         f0gFw/9O2pbVnY9CbqoFph8Pv5o6At4BC9gPUU9J3mUfVL05ku/SL1PuzW7CIGd5A3rO
-         2xyHJLnuBSxHcPPvCz5rQ67dPfjNvw1a2G/BvzrRt9aS9Zes4kztLgOfDiYp1Ac+Jkgt
-         YlgCWZr8W2Z+P33DHhGU0l30OKOOmt+DiwLczdVrvsLAvGH4IDS6VQgmsUd8dFpe0Hyv
-         3ByI8vEqZGEbbwGP4x7nJm9i/SxYF+WBfJBR6HDLzPQLaYleiBrzs5tXVXOCdUliEK4g
-         WZpA==
-X-Gm-Message-State: APzg51BrqOzGReept5ZlGYEzQ0demMZOQA8b+NuwndDQXk2N2ht6IgKI
-        DR8u0UgwgksFdtH1y05EFPPwzvefacs9q6icO1P0eYjN
-X-Google-Smtp-Source: ANB0VdbiWO50dNOCujzz4O93H8dx+BQn4vqrRcgP/DwxDcSNL0jKJkVM39Ubpz8uzY9dS4p0Tj/KXf0PGSQR3nxGzqw=
-X-Received: by 2002:a81:2856:: with SMTP id o83-v6mr1370214ywo.211.1535477573693;
- Tue, 28 Aug 2018 10:32:53 -0700 (PDT)
+        bh=GogHkebH8SfHDxdMiBVjtef2fAiB9yRDSAW8eCFewQ8=;
+        b=twNWoW/vt5og/0I3QzZCTmEo+aMI25wio3nSl23ewgqIlk6bxWC3x53RsRQGE72+qi
+         y9XcMIC1dS2BB/r8aXjUp7B+XhpGgBL2LBibIQXNJesUkeRInxPwLl9HN9eJR7a9avTY
+         qNTrWWzf16etOoqSiqw4oNtKQ9FMPO6wwnXKKFTAfo6sK1p6tpLRpllug5hWm6huSLaa
+         12GXJj+QqwNkwshLJ422W5E2eZehUlx8QzZX+dHcHHFwACQ5GhIBmXIl8VQHMiU/N1vi
+         JVMKX9bexAtnkzIlhoE9JvzIvqv7tYo2ZMS1AT2lKySc0lu5Plagdxh+r6J0GEGScs9Z
+         rmuQ==
+X-Gm-Message-State: APzg51AoB1hen71KHq/H+aTrepA+W3Pnfp5qcSdgzBryts/gdINPBiYA
+        OodRe9dVOB4DTVedWwBjZYHSgw4d2lVYhlMpLWg=
+X-Google-Smtp-Source: ANB0Vdad/pV/g1zfWSd4bseIzlNDTW8ASd6zLbJ3UZ8hIwrKQkzr+5LwGR4QmwtyK75T6waa0a6nvhCHUTWCkZWQOls=
+X-Received: by 2002:a0d:c903:: with SMTP id l3-v6mr1420735ywd.404.1535478094653;
+ Tue, 28 Aug 2018 10:41:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180828165259.211474-1-salyzyn@android.com>
-In-Reply-To: <20180828165259.211474-1-salyzyn@android.com>
+References: <20180828165319.211563-1-salyzyn@android.com>
+In-Reply-To: <20180828165319.211563-1-salyzyn@android.com>
 From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 28 Aug 2018 20:34:40 +0300
-Message-ID: <CAOQ4uxgwKe7_QC7Rg=BTQ_WvnAm+-kSh0LXWGVOoHHAqJt3aXA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] overlayfs: check CAP_DAC_READ_SEARCH before
- issuing exportfs_decode_fh
+Date:   Tue, 28 Aug 2018 20:43:21 +0300
+Message-ID: <CAOQ4uxhRPOC_prhygrjndMMUrtU-S7FrLJ0tb4eJUV94GFj38w@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] overlayfs: check CAP_MKNOD before issuing vfs_whiteout
 To:     Mark Salyzyn <salyzyn@android.com>
 Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
         Miklos Szeredi <miklos@szeredi.hu>,
@@ -85,41 +84,25 @@ On Tue, Aug 28, 2018 at 7:53 PM Mark Salyzyn <salyzyn@android.com> wrote:
 > Cc: linux-doc@vger.kernel.org
 > Cc: linux-kernel@vger.kernel.org
 >
-> v5:
+> v5
 > - dependency of "overlayfs: override_creds=off option bypass creator_cred"
 > ---
->  fs/overlayfs/namei.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  fs/overlayfs/overlayfs.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
-> index c993dd8db739..84982b6525fb 100644
-> --- a/fs/overlayfs/namei.c
-> +++ b/fs/overlayfs/namei.c
-> @@ -193,6 +193,11 @@ struct dentry *ovl_decode_real_fh(struct ovl_fh *fh, struct vfsmount *mnt,
->         if (!uuid_equal(&fh->uuid, &mnt->mnt_sb->s_uuid))
->                 return NULL;
+> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+> index 7538b9b56237..bf3a80157d42 100644
+> --- a/fs/overlayfs/overlayfs.h
+> +++ b/fs/overlayfs/overlayfs.h
+> @@ -176,7 +176,7 @@ static inline int ovl_do_rename(struct inode *olddir, struct dentry *olddentry,
 >
-> +       if (!capable(CAP_DAC_READ_SEARCH)) {
-> +               origin = ERR_PTR(-EPERM);
-> +               goto out;
+>  static inline int ovl_do_whiteout(struct inode *dir, struct dentry *dentry)
+>  {
+> -       int err = vfs_whiteout(dir, dentry);
+> +       int err = capable(CAP_MKNOD) ? vfs_whiteout(dir, dentry) : -EPERM;
 
-Which branch is this works based on?
-I don't see any out label in current code.
-
-> +       }
-> +
->         bytes = (fh->len - offsetof(struct ovl_fh, fid));
->         real = exportfs_decode_fh(mnt, (struct fid *)fh->fid,
->                                   bytes >> 2, (int)fh->type,
-> --
-
-Please add same test in ovl_can_decode_fh().
-
-Problem: none of the ovl_export_operations functions override creds.
-I guess things are working now because nfsd is privileged enough.
-IOW, the capability check you added doesn't check mounter creds
-when coming from nfs export ops - I guess that is not what you want
-although you probably don'r enable nfs export.
+Should that be ns_capable()? Should the test go into vfs_whiteout()?
+I feel there is no convention at all.
 
 Thanks,
 Amir.
