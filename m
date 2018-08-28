@@ -2,56 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 095F77D87C
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 18:42:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 82B087D87C
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 18:52:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727185AbeH1WfQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 18:35:16 -0400
-Received: from mail-yb0-f194.google.com ([209.85.213.194]:35876 "EHLO
-        mail-yb0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726833AbeH1WfQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 18:35:16 -0400
-Received: by mail-yb0-f194.google.com with SMTP id d34-v6so1003259yba.3;
-        Tue, 28 Aug 2018 11:42:20 -0700 (PDT)
+        id S1727067AbeH1WpA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 18:45:00 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:45107 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727193AbeH1Woz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 18:44:55 -0400
+Received: by mail-pf1-f196.google.com with SMTP id i26-v6so1098696pfo.12
+        for <linux-doc@vger.kernel.org>; Tue, 28 Aug 2018 11:51:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=72jb2gGwS7x6y4GgUk8P2e2+GcHI7zxIQttp7hAKHtk=;
-        b=QxwQ4Xo8sQePdz+JtcB8uuwNnWdoV6TOxnHmxG60lJ8dsGYMY7zHxPrqrKK0NL6KWb
-         SrSrNJM28xkt4k2A5O+ptbC8pSJvbnqBYsJgLFDyNGBH82xr9yGHAeDokYCd3zd46ii0
-         Mff13u/MjYcgJn5Ws6QgYrhVp3rfR5PJMsvFa2nWVooKhQMDHhp5X4btWxhYwS87n0dQ
-         zMXvcJsCUwtNA03cWBAnRAJDpD4wrZNUgsESJiwYLVui5ztn4vdjh+r7fr1UYIY3l3po
-         bAK5MVRcX22XN4FYI/JeZqmVHiQ3Qvlg4bCNXN/HxyZnRScE2DDtLqxI9KDk+00a3c+q
-         NCyA==
+        d=android.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=8B2ATl4y/uUk1SoMfkts1pM4K+TG5KkfoizaC4L+/aw=;
+        b=CfNzdGZe1ieXSXne+UO+o+xOAlX5aR5tyr0uKAT7e87+Qr90YzCIOSGM8XaWcEhsqB
+         fnKK0ZTl/V/ndF/Vb938CpChwq+I2kboaciqfDgWqTw6vyPN0eEZojW4r8AtgVGVnhD4
+         IOQwyjMXgmXhLmzpmSbeE9LiSJPlpXZKlHMtW00CceosDwQZvX3daM+LYwiZ/zq03nAD
+         OUOF3yb2Fvs/OujnjBrdnBX96bJqtrPVODqZjlJ/pF0v2Bc6S33c1+xxH4fp1DiG2aWk
+         K52h1QWtIT7LpEb0Wb9nsGzPnf7as9j93v1Bctz1oV2R/1aWoLRychJmoznC+vGXvcsS
+         hRXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=72jb2gGwS7x6y4GgUk8P2e2+GcHI7zxIQttp7hAKHtk=;
-        b=EMckwudgZLPejGQ9PFYtll2+i64EDyQjY+Ow1gHNcRDSne2LOahjWY1gmxVzAYOQm3
-         6vAjMOq4NX5K5hihZZE02EXdRUr0HZPhbBZnefOHPTBwXyTZXpV1FSMS9H4zSO0J9twT
-         CNVDRdXa0LgUPLYLNtBemU6mGA5Q3xGhYO3V/g/pjHyPEMECQnhFgiXDUQGMkbKJ/SB9
-         26gUfylb9v/il5cJb0yQPiU5DCImuOeYSC1W6y5kQfPluxvo8fUsV8efNtbAbhc4qyDz
-         TSkXdnuT3bb9+/avTWO0LyaVs80RusUBbdxdnrkuif7HPJ7A16s0FdTqHLoREHioIDJ9
-         I33Q==
-X-Gm-Message-State: APzg51D87h+rdGLOWU4D32AO1EsztemwrzpLdw7ZWFUQjWecw9LMgR/P
-        boUuOqkabQ+plfUVHLbaS52ahNpYQY/COM556Hk=
-X-Google-Smtp-Source: ANB0VdZEsOv4ye//twx6zWHBxHcmvRX0uSkApGf1i+o3vGYbvTBiVHBNaGjrPLKIh/MrxgHbA+jo3I4t4qIDDkTh5UQ=
-X-Received: by 2002:a25:1a85:: with SMTP id a127-v6mr1555786yba.507.1535481740341;
- Tue, 28 Aug 2018 11:42:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180828165319.211563-1-salyzyn@android.com> <CAOQ4uxhRPOC_prhygrjndMMUrtU-S7FrLJ0tb4eJUV94GFj38w@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhRPOC_prhygrjndMMUrtU-S7FrLJ0tb4eJUV94GFj38w@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 28 Aug 2018 21:42:09 +0300
-Message-ID: <CAOQ4uxg=maKZi=5Xet4mC1=uUXftyyKZagj0TBBm8emPDaLmtg@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] overlayfs: check CAP_MKNOD before issuing vfs_whiteout
-To:     Mark Salyzyn <salyzyn@android.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=8B2ATl4y/uUk1SoMfkts1pM4K+TG5KkfoizaC4L+/aw=;
+        b=hDcz/FM0R4iqpsEzQW3rtg4GQ+2P4xFr8xvoNmjuXvGJx2Vx4YDz4HoHaOavM/yOvC
+         a2yPKiZhjhgg2tRqOEZQotpH5Lid/CMFg5SeauGQXHFvTwnQkbrRmomQrEkhFE9B2MFL
+         fGnvNz+xNRZhpJrrAQ4PqLiRmi3FdfW5WFORg+mDRosjTmBQA9OQMaLPdTnJoVAL15wX
+         6jftVVQIeqqWHY7QazE8F9+o+EyGGkrvEdthiRdhlnJXKx1W/B8DzxtutoUc1cpHQYmG
+         wDeTq5SmQsjwZdI6I5xu8Rd6Z0qvi/W3MoN5whoj61KOXsqMiRILTECDmWQfHMIpO4nb
+         hJ7w==
+X-Gm-Message-State: APzg51Aun8imh91lOLLQox4w2IqKtygmX+eLMRLYORouTFExQTodOzL9
+        5MXjAsjPK3vEkue1iUGJM2N4ztS8tp2VVw==
+X-Google-Smtp-Source: ANB0VdaZY7j+nDoVu+MmuHd4pR7RX52G+991tylNBCRvV3CycVTb1VYZ+frPbY6a7dPrDtOHabkvXg==
+X-Received: by 2002:a62:5290:: with SMTP id g138-v6mr2749909pfb.46.1535482316667;
+        Tue, 28 Aug 2018 11:51:56 -0700 (PDT)
+Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1612:b4fb:6752:f21f:3502])
+        by smtp.googlemail.com with ESMTPSA id z17-v6sm3945943pfl.146.2018.08.28.11.51.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 28 Aug 2018 11:51:56 -0700 (PDT)
+Subject: Re: [PATCH v5 2/3] overlayfs: check CAP_MKNOD before issuing
+ vfs_whiteout
+To:     Amir Goldstein <amir73il@gmail.com>
 Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -61,54 +60,71 @@ Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
         Stephen Smalley <sds@tycho.nsa.gov>,
         overlayfs <linux-unionfs@vger.kernel.org>,
         linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20180828165319.211563-1-salyzyn@android.com>
+ <CAOQ4uxhRPOC_prhygrjndMMUrtU-S7FrLJ0tb4eJUV94GFj38w@mail.gmail.com>
+ <CAOQ4uxg=maKZi=5Xet4mC1=uUXftyyKZagj0TBBm8emPDaLmtg@mail.gmail.com>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <004057f1-f0cd-5410-e4e3-a17287613f89@android.com>
+Date:   Tue, 28 Aug 2018 11:51:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAOQ4uxg=maKZi=5Xet4mC1=uUXftyyKZagj0TBBm8emPDaLmtg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 28, 2018 at 8:43 PM Amir Goldstein <amir73il@gmail.com> wrote:
+On 08/28/2018 11:42 AM, Amir Goldstein wrote:
+> On Tue, Aug 28, 2018 at 8:43 PM Amir Goldstein <amir73il@gmail.com> wrote:
+>> On Tue, Aug 28, 2018 at 7:53 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>>> Assumption never checked, should fail if the mounter creds are not
+>>> sufficient.
+>>>
+>>> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+>>> Cc: Miklos Szeredi <miklos@szeredi.hu>
+>>> Cc: Jonathan Corbet <corbet@lwn.net>
+>>> Cc: Vivek Goyal <vgoyal@redhat.com>
+>>> Cc: Eric W. Biederman <ebiederm@xmission.com>
+>>> Cc: Amir Goldstein <amir73il@gmail.com>
+>>> Cc: Randy Dunlap <rdunlap@infradead.org>
+>>> Cc: Stephen Smalley <sds@tycho.nsa.gov>
+>>> Cc: linux-unionfs@vger.kernel.org
+>>> Cc: linux-doc@vger.kernel.org
+>>> Cc: linux-kernel@vger.kernel.org
+>>>
+>>> v5
+>>> - dependency of "overlayfs: override_creds=off option bypass creator_cred"
+>>> ---
+>>>   fs/overlayfs/overlayfs.h | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+>>> index 7538b9b56237..bf3a80157d42 100644
+>>> --- a/fs/overlayfs/overlayfs.h
+>>> +++ b/fs/overlayfs/overlayfs.h
+>>> @@ -176,7 +176,7 @@ static inline int ovl_do_rename(struct inode *olddir, struct dentry *olddentry,
+>>>
+>>>   static inline int ovl_do_whiteout(struct inode *dir, struct dentry *dentry)
+>>>   {
+>>> -       int err = vfs_whiteout(dir, dentry);
+>>> +       int err = capable(CAP_MKNOD) ? vfs_whiteout(dir, dentry) : -EPERM;
+>> Should that be ns_capable()? Should the test go into vfs_whiteout()?
+>> I feel there is no convention at all.
+>>
+> Nevermind, I don't think creating a whiteout poses any risk, so don't think
+> we need to worry about CAP_MKNOD.
 >
-> On Tue, Aug 28, 2018 at 7:53 PM Mark Salyzyn <salyzyn@android.com> wrote:
-> >
-> > Assumption never checked, should fail if the mounter creds are not
-> > sufficient.
-> >
-> > Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> > Cc: Miklos Szeredi <miklos@szeredi.hu>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Vivek Goyal <vgoyal@redhat.com>
-> > Cc: Eric W. Biederman <ebiederm@xmission.com>
-> > Cc: Amir Goldstein <amir73il@gmail.com>
-> > Cc: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Stephen Smalley <sds@tycho.nsa.gov>
-> > Cc: linux-unionfs@vger.kernel.org
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> >
-> > v5
-> > - dependency of "overlayfs: override_creds=off option bypass creator_cred"
-> > ---
-> >  fs/overlayfs/overlayfs.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-> > index 7538b9b56237..bf3a80157d42 100644
-> > --- a/fs/overlayfs/overlayfs.h
-> > +++ b/fs/overlayfs/overlayfs.h
-> > @@ -176,7 +176,7 @@ static inline int ovl_do_rename(struct inode *olddir, struct dentry *olddentry,
-> >
-> >  static inline int ovl_do_whiteout(struct inode *dir, struct dentry *dentry)
-> >  {
-> > -       int err = vfs_whiteout(dir, dentry);
-> > +       int err = capable(CAP_MKNOD) ? vfs_whiteout(dir, dentry) : -EPERM;
->
-> Should that be ns_capable()? Should the test go into vfs_whiteout()?
-> I feel there is no convention at all.
->
+> Thanks,
+> Amir.
 
-Nevermind, I don't think creating a whiteout poses any risk, so don't think
-we need to worry about CAP_MKNOD.
+Ok, will discard from the set, we can address this later if it creates 
+concern (as in, not a dependency to my proposed feature flag). So we 
+feel that whiteout node in the writeable playground of workdir/upperdir 
+is not in itself a security concern. Other (more dangerous) mknod will 
+be checked against the caller's credentials coming in.
 
-Thanks,
-Amir.
+-- Mark
