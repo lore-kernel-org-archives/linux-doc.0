@@ -1,146 +1,63 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-3.2 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	LOTS_OF_MONEY,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,RCVD_IN_SBL autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E5EB77D581
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 Aug 2018 21:51:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 29BED7D00B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 04:12:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727029AbeH1Bk0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 27 Aug 2018 21:40:26 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:45215 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727013AbeH1Bk0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Aug 2018 21:40:26 -0400
-Received: by mail-pg1-f195.google.com with SMTP id m4-v6so179945pgv.12
-        for <linux-doc@vger.kernel.org>; Mon, 27 Aug 2018 14:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=r8t6EW6n+jyjT8ZaGNQ5aTfLWWu/+xiiBp/7EvTHWXs=;
-        b=Ol5JKUF8Q8h9xQyYmyINCSKqNr7sYOxmAY9CHskvsLBP0c4rMn7YLSxldhO8hevre/
-         1Z4sAj7EBK/10yEE/DWn4t1y9G3nAdVks7FVNPaWx0blyddPht8pEmCDGi9imkWgupmV
-         JfxeeVEesAas9IGCPOry7JMU3eBCr/TPnZnIU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=r8t6EW6n+jyjT8ZaGNQ5aTfLWWu/+xiiBp/7EvTHWXs=;
-        b=Zn2nr7jJMgEnl3TPWF2EQ3LccPIdynQi3fgr7Rt4wVOwCvTCiN4HuyKAmBUoQgq35Q
-         M7mkcqrMOFNq3jPt37xHNbVSjiiMgw2YrpOZu6iBss6e7nWUJfgcLE82xAOCwqFCsf8q
-         iuT8+5ZHKS9ssZvzvzMn0SJGOlpgliICsTWifgq+0b9UthySkaQ4m3CHcfAQgk6TqNs0
-         ecTRN/plOlmvZ8R6eXMD5f47M08JNtoF98ziFB/v8WB+IEIC6JMdFBMu2dhoLVcS+l6C
-         ZYdDBL/3cJcHYGtHgqyDfVM5QzPiTp9kzVTdbj9cLZHbtbWSS0CIKyldkx3+OD62dGPQ
-         ja0A==
-X-Gm-Message-State: APzg51BLkZJqlo7Gpwq6pko5owkLr/1V2tNtMc6TG2R35o+4hfI2GRw3
-        V0D3nszpYpADq36objBG+DwFdQ==
-X-Google-Smtp-Source: ANB0VdZyeu+RWJAeMjbF5o58QdXvTz08xeDdv5MMxdJ81MO860O3ixUSiV72G/RxtJlRzkIG4lco7w==
-X-Received: by 2002:a65:594b:: with SMTP id g11-v6mr13797300pgu.260.1535406717156;
-        Mon, 27 Aug 2018 14:51:57 -0700 (PDT)
-Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id u25-v6sm180258pfk.177.2018.08.27.14.51.55
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 27 Aug 2018 14:51:56 -0700 (PDT)
-Date:   Mon, 27 Aug 2018 14:51:54 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Theodore Ts'o <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org
-Subject: [PATCH] random: Make CPU trust a boot parameter
-Message-ID: <20180827215154.GA44225@beast>
+        id S1726216AbeH1ICa convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 04:02:30 -0400
+Received: from mail.hmha.gob.ec ([190.11.21.43]:53894 "EHLO mail.hmha.gob.ec"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726120AbeH1ICa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Aug 2018 04:02:30 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hmha.gob.ec (Postfix) with ESMTP id E82F7204ADCF;
+        Mon, 27 Aug 2018 22:19:45 -0500 (-05)
+Received: from mail.hmha.gob.ec ([127.0.0.1])
+        by localhost (mail.hmha.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id tudBpmGEPFHY; Mon, 27 Aug 2018 22:19:45 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hmha.gob.ec (Postfix) with ESMTP id 36A3E204A529;
+        Mon, 27 Aug 2018 22:16:06 -0500 (-05)
+X-Virus-Scanned: amavisd-new at hmha.gob.ec
+Received: from mail.hmha.gob.ec ([127.0.0.1])
+        by localhost (mail.hmha.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 6YMgBG8e_Ixx; Mon, 27 Aug 2018 22:16:06 -0500 (-05)
+Received: from [83.170.125.200] (unknown [83.170.125.200])
+        by mail.hmha.gob.ec (Postfix) with ESMTPSA id 74CC420499DA;
+        Mon, 27 Aug 2018 22:05:02 -0500 (-05)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?b?V29obHTDpHRpZ2tlaXRzc3BlbmRlIGluIEjDtmhlIHZvbiDigqwgMi4wMDAu?=
+ =?utf-8?q?000=2C00?=
+To:     Recipients <jose_mera@hmha.gob.ec>
+From:   jose_mera@hmha.gob.ec
+Date:   Tue, 28 Aug 2018 04:04:52 +0100
+Reply-To: wumt.claimservice@gmail.com
+Message-Id: <20180828030502.74CC420499DA@mail.hmha.gob.ec>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of forcing a distro or other system builder to choose
-at build time whether the CPU is trusted for CRNG seeding via
-CONFIG_RANDOM_TRUST_CPU, provide a boot-time parameter for end users to
-control the choice. The CONFIG will set the default state instead.
-
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
- drivers/char/Kconfig                            |  4 ++--
- drivers/char/random.c                           | 11 ++++++++---
- 3 files changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9871e649ffef..64a3bf54b974 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3523,6 +3523,12 @@
- 	ramdisk_size=	[RAM] Sizes of RAM disks in kilobytes
- 			See Documentation/blockdev/ramdisk.txt.
+Lieber Freund,
  
-+	random.trust_cpu={on,off}
-+			[KNL] Enable or disable trusting the use of the
-+			CPU's random number generator (if available) to
-+			fully seed the kernel's CRNG. Default is controlled
-+			by CONFIG_RANDOM_TRUST_CPU.
-+
- 	ras=option[,option,...]	[KNL] RAS-specific options
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
  
- 		cec_disable	[X86]
-diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
-index ce277ee0a28a..40728491f37b 100644
---- a/drivers/char/Kconfig
-+++ b/drivers/char/Kconfig
-@@ -566,5 +566,5 @@ config RANDOM_TRUST_CPU
- 	that CPU manufacturer (perhaps with the insistence or mandate
- 	of a Nation State's intelligence or law enforcement agencies)
- 	has not installed a hidden back door to compromise the CPU's
--	random number generation facilities.
--
-+	random number generation facilities. This can also be configured
-+	at boot with "random.trust_cpu=on/off".
-diff --git a/drivers/char/random.c b/drivers/char/random.c
-index bf5f99fc36f1..c75b6cdf0053 100644
---- a/drivers/char/random.c
-+++ b/drivers/char/random.c
-@@ -779,6 +779,13 @@ static struct crng_state **crng_node_pool __read_mostly;
+UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
  
- static void invalidate_batched_entropy(void);
+Das ist dein Spendencode: [DFC530342018]
  
-+static bool trust_cpu __ro_after_init = IS_ENABLED(CONFIG_RANDOM_TRUST_CPU);
-+static int __init parse_trust_cpu(char *arg)
-+{
-+	return kstrtobool(arg, &trust_cpu);
-+}
-+early_param("random.trust_cpu", parse_trust_cpu);
-+
- static void crng_initialize(struct crng_state *crng)
- {
- 	int		i;
-@@ -799,12 +806,10 @@ static void crng_initialize(struct crng_state *crng)
- 		}
- 		crng->state[i] ^= rv;
- 	}
--#ifdef CONFIG_RANDOM_TRUST_CPU
--	if (arch_init) {
-+	if (trust_cpu && arch_init) {
- 		crng_init = 2;
- 		pr_notice("random: crng done (trusting CPU's manufacturer)\n");
- 	}
--#endif
- 	crng->init_time = jiffies - CRNG_RESEED_INTERVAL - 1;
- }
+Antworten Sie mit dem SPENDE-CODE an diese E-Mail: financialfundingcompany09@gmail.com
  
--- 
-2.17.1
-
-
--- 
-Kees Cook
-Pixel Security
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+ 
+Grüße
+Herr Tayeb Souami
