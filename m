@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A34DC7DE71
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 17:20:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D9587D00B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 17:20:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727271AbeH1VMk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 17:12:40 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:55780 "EHLO mx1.redhat.com"
+        id S1727146AbeH1VMg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 17:12:36 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36118 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727261AbeH1VMk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Aug 2018 17:12:40 -0400
+        id S1726996AbeH1VMg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Aug 2018 17:12:36 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 39F1640241F0;
-        Tue, 28 Aug 2018 17:20:00 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 8FAB180823E3;
+        Tue, 28 Aug 2018 17:19:57 +0000 (UTC)
 Received: from llong.com (ovpn-123-12.rdu2.redhat.com [10.10.123.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 43FC89463D;
-        Tue, 28 Aug 2018 17:19:59 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2F69D7D4D9;
+        Tue, 28 Aug 2018 17:19:53 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>
@@ -41,180 +41,47 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>,
         Michal Hocko <mhocko@kernel.org>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH 2/2] fs/dcache: Make negative dentries easier to be reclaimed
-Date:   Tue, 28 Aug 2018 13:19:40 -0400
-Message-Id: <1535476780-5773-3-git-send-email-longman@redhat.com>
-In-Reply-To: <1535476780-5773-1-git-send-email-longman@redhat.com>
-References: <1535476780-5773-1-git-send-email-longman@redhat.com>
+Subject: [PATCH 0/2] fs/dcache: Track # of negative dentries
+Date:   Tue, 28 Aug 2018 13:19:38 -0400
+Message-Id: <1535476780-5773-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 28 Aug 2018 17:20:00 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 28 Aug 2018 17:20:00 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Tue, 28 Aug 2018 17:19:57 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Tue, 28 Aug 2018 17:19:57 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For negative dentries that are accessed once and never used again, they
-should be removed first before other dentries when shrinker is running.
-This is done by putting negative dentries at the head of the LRU list
-instead at the tail.
+This patchset is a reduced scope version of the
+patchset "fs/dcache: Track & limit # of negative dentries"
+(https://lkml.org/lkml/2018/7/12/586). Only the first 2 patches are
+included to track the number of negative dentries in the system as well
+as making negative dentries more easily reclaimed than positive ones.
 
-A new DCACHE_NEW_NEGATIVE flag is now added to a negative dentry when it
-is initially created. When such a dentry is added to the LRU, it will be
-added to the head so that it will be the first to go when a shrinker is
-running if it is never accessed again (DCACHE_REFERENCED bit not set).
-The flag is cleared after the LRU list addition.
+There are controversies on limiting number of negative dentries as it may
+make negative dentries special in term of how memory resources are to
+be managed in the kernel. However, I don't believe I heard any concern
+about tracking the number of negative dentries in the system. So it is
+better to separate that out and get it done with. We can deal with the
+controversial part later on.
 
-Suggested-by: Larry Woodman <lwoodman@redhat.com>
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- fs/dcache.c              | 25 +++++++++++++++++--------
- include/linux/dcache.h   |  1 +
- include/linux/list_lru.h | 17 +++++++++++++++++
- mm/list_lru.c            | 16 ++++++++++++++--
- 4 files changed, 49 insertions(+), 10 deletions(-)
+Patch 1 adds tracking to the number of negative dentries in the LRU list.
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 69f5541..ab6a4cf 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -242,12 +242,6 @@ static inline void __neg_dentry_inc(struct dentry *dentry)
- 	this_cpu_inc(nr_dentry_neg);
- }
- 
--static inline void neg_dentry_inc(struct dentry *dentry)
--{
--	if (unlikely(d_is_negative(dentry)))
--		__neg_dentry_inc(dentry);
--}
--
- static inline int dentry_cmp(const struct dentry *dentry, const unsigned char *ct, unsigned tcount)
- {
- 	/*
-@@ -353,7 +347,7 @@ static inline void __d_set_inode_and_type(struct dentry *dentry,
- 
- 	dentry->d_inode = inode;
- 	flags = READ_ONCE(dentry->d_flags);
--	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
-+	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU | DCACHE_NEW_NEGATIVE);
- 	flags |= type_flags;
- 	WRITE_ONCE(dentry->d_flags, flags);
- }
-@@ -430,8 +424,20 @@ static void d_lru_add(struct dentry *dentry)
- 	D_FLAG_VERIFY(dentry, 0);
- 	dentry->d_flags |= DCACHE_LRU_LIST;
- 	this_cpu_inc(nr_dentry_unused);
-+	if (d_is_negative(dentry)) {
-+		__neg_dentry_inc(dentry);
-+		if (dentry->d_flags & DCACHE_NEW_NEGATIVE) {
-+			/*
-+			 * Add the negative dentry to the head once, it
-+			 * will be added to the tail next time.
-+			 */
-+			WARN_ON_ONCE(!list_lru_add_head(
-+				&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
-+			dentry->d_flags &= ~DCACHE_NEW_NEGATIVE;
-+			return;
-+		}
-+	}
- 	WARN_ON_ONCE(!list_lru_add(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
--	neg_dentry_inc(dentry);
- }
- 
- static void d_lru_del(struct dentry *dentry)
-@@ -2620,6 +2626,9 @@ static inline void __d_add(struct dentry *dentry, struct inode *inode)
- 		__d_set_inode_and_type(dentry, inode, add_flags);
- 		raw_write_seqcount_end(&dentry->d_seq);
- 		fsnotify_update_flags(dentry);
-+	} else {
-+		/* It is a negative dentry, add it to LRU head initially. */
-+		dentry->d_flags |= DCACHE_NEW_NEGATIVE;
- 	}
- 	__d_rehash(dentry);
- 	if (dir)
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index df942e5..03a1918 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -214,6 +214,7 @@ struct dentry_operations {
- #define DCACHE_FALLTHRU			0x01000000 /* Fall through to lower layer */
- #define DCACHE_ENCRYPTED_WITH_KEY	0x02000000 /* dir is encrypted with a valid key */
- #define DCACHE_OP_REAL			0x04000000
-+#define DCACHE_NEW_NEGATIVE		0x08000000 /* New negative dentry */
- 
- #define DCACHE_PAR_LOOKUP		0x10000000 /* being looked up (with parent locked shared) */
- #define DCACHE_DENTRY_CURSOR		0x20000000
-diff --git a/include/linux/list_lru.h b/include/linux/list_lru.h
-index aa5efd9..bfac057 100644
---- a/include/linux/list_lru.h
-+++ b/include/linux/list_lru.h
-@@ -90,6 +90,23 @@ int __list_lru_init(struct list_lru *lru, bool memcg_aware,
- bool list_lru_add(struct list_lru *lru, struct list_head *item);
- 
- /**
-+ * list_lru_add_head: add an element to the lru list's head
-+ * @list_lru: the lru pointer
-+ * @item: the item to be added.
-+ *
-+ * This is similar to list_lru_add(). The only difference is the location
-+ * where the new item will be added. The list_lru_add() function will add
-+ * the new item to the tail as it is the most recently used one. The
-+ * list_lru_add_head() will add the new item into the head so that it
-+ * will the first to go if a shrinker is running. So this function should
-+ * only be used for less important item that can be the first to go if
-+ * the system is under memory pressure.
-+ *
-+ * Return value: true if the list was updated, false otherwise
-+ */
-+bool list_lru_add_head(struct list_lru *lru, struct list_head *item);
-+
-+/**
-  * list_lru_del: delete an element to the lru list
-  * @list_lru: the lru pointer
-  * @item: the item to be deleted.
-diff --git a/mm/list_lru.c b/mm/list_lru.c
-index 5b30625..133f41c 100644
---- a/mm/list_lru.c
-+++ b/mm/list_lru.c
-@@ -124,7 +124,8 @@ static inline bool list_lru_memcg_aware(struct list_lru *lru)
- }
- #endif /* CONFIG_MEMCG_KMEM */
- 
--bool list_lru_add(struct list_lru *lru, struct list_head *item)
-+static inline bool __list_lru_add(struct list_lru *lru, struct list_head *item,
-+				  const bool add_tail)
- {
- 	int nid = page_to_nid(virt_to_page(item));
- 	struct list_lru_node *nlru = &lru->node[nid];
-@@ -134,7 +135,7 @@ bool list_lru_add(struct list_lru *lru, struct list_head *item)
- 	spin_lock(&nlru->lock);
- 	if (list_empty(item)) {
- 		l = list_lru_from_kmem(nlru, item, &memcg);
--		list_add_tail(item, &l->list);
-+		(add_tail ? list_add_tail : list_add)(item, &l->list);
- 		/* Set shrinker bit if the first element was added */
- 		if (!l->nr_items++)
- 			memcg_set_shrinker_bit(memcg, nid,
-@@ -146,8 +147,19 @@ bool list_lru_add(struct list_lru *lru, struct list_head *item)
- 	spin_unlock(&nlru->lock);
- 	return false;
- }
-+
-+bool list_lru_add(struct list_lru *lru, struct list_head *item)
-+{
-+	return __list_lru_add(lru, item, true);
-+}
- EXPORT_SYMBOL_GPL(list_lru_add);
- 
-+bool list_lru_add_head(struct list_lru *lru, struct list_head *item)
-+{
-+	return __list_lru_add(lru, item, false);
-+}
-+EXPORT_SYMBOL_GPL(list_lru_add_head);
-+
- bool list_lru_del(struct list_lru *lru, struct list_head *item)
- {
- 	int nid = page_to_nid(virt_to_page(item));
+Patch 2 makes negative dentries to be added at the head end of the LRU
+list so that they are first to go when a shrinker is running if those
+negative dentries are never referenced again.
+
+Waiman Long (2):
+  fs/dcache: Track & report number of negative dentries
+  fs/dcache: Make negative dentries easier to be reclaimed
+
+ Documentation/sysctl/fs.txt | 19 ++++++++++-----
+ fs/dcache.c                 | 56 ++++++++++++++++++++++++++++++++++++++++++++-
+ include/linux/dcache.h      |  8 ++++---
+ include/linux/list_lru.h    | 17 ++++++++++++++
+ mm/list_lru.c               | 16 +++++++++++--
+ 5 files changed, 104 insertions(+), 12 deletions(-)
+
 -- 
 1.8.3.1
 
