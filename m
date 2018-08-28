@@ -1,221 +1,57 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 14DCD7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 21:33:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 672AF7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 22:06:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727298AbeH2B0e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 21:26:34 -0400
-Received: from mail-yb0-f194.google.com ([209.85.213.194]:43018 "EHLO
-        mail-yb0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727144AbeH2B0e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 21:26:34 -0400
-Received: by mail-yb0-f194.google.com with SMTP id k5-v6so1198517ybo.10;
-        Tue, 28 Aug 2018 14:33:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6uU+1czB0xcCLwe5eg+rEV09bRkW/K/kWC734SPQmAk=;
-        b=HujmMrFifjs7dGCQ22dCn2PrGxi4elwzSKjCDXCyh3SbWwuGaCv/gKzlAXi8l0lslQ
-         kMMEJRRvY8zxMLm62wvDrwFjxPYSlcJeHQT3d8YaHGDG8vINkuC7LsroCPCKX8lrZkOn
-         bxj3SD3+J/8+HS78xlvbWnjwQgqpmBaUMLJJ8ZNAZFDfN8C9Pzh97+POZ8Aea2nA6Fkz
-         hxubnJXxsoYTpajcQR98Kna73yJowuba9c5x483J0vJCqnEhZ0iW3xyDd1GG6mL1NvIb
-         hXIr2jE8FfhXaZXfb9uRnT+PgujYIsJlMShunsqE4vG/nEOCAp4WwH1t97AMaPA4/iWY
-         exww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6uU+1czB0xcCLwe5eg+rEV09bRkW/K/kWC734SPQmAk=;
-        b=WPLKCbfzI0342+MwBPDcRyNCM5qwofIQRAcgcUL5c8SIdUkeP7I1TgqO6RnLbqXcJ2
-         yWTcWeqgqS6fh/qG9lL0PUDVaeStJ71s0A/B87qCCz0c6e+IbU67Yd2ml43EyQDH+V59
-         jJlhJrtElir/Wrn+EgqPw60dpVSF5Nrb9u0FHcA7789yYYe2Kd/F70Vq7XOZIG7Pb6ab
-         lCdb5oCV9mXKYJVN27TNLEutawc0UuMXNwDoJk9Qr4+ZHB70FfAPJ1vMs0NerBbQ8Xh9
-         YN21JD7Mi+sSDjUN7x3NUCtfPMGQ2qWpK+bZ8gGGo3Wj0dszTdnth9tE1UyC1gItdoLJ
-         BhfQ==
-X-Gm-Message-State: APzg51BeHFsTteVVWyvJ6LBzslvm18FF3uhQXqCZXnLtU5wVYraygIY7
-        FHAkmQ7KlJItMntJWcKKbk3yM39peOADIxUsVhg=
-X-Google-Smtp-Source: ANB0VdaKY3ELD6H36ot52A9Isj85mYURrHHHuuNaPRQkphGfIgXhLPskLe3PwexozTv2z1zF4Ms8gs9Z9kCocp7aHuM=
-X-Received: by 2002:a25:1a85:: with SMTP id a127-v6mr1874400yba.507.1535491981072;
- Tue, 28 Aug 2018 14:33:01 -0700 (PDT)
+        id S1727125AbeH2CAC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 22:00:02 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:55606 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727067AbeH2CAC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 22:00:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ykauCEnmgHn9V7h6zt9X7VR9etLxJIaA2xor1W/yVZM=; b=fiEYVbYQcPWVE6emWOUdF1k4r
+        v41frzLJYBb34LdLPaO5ksq7x0f4T1styUXZeWORpqar3IT8lVjDO/lYmCIVmEe9+SjaM+ST7R9RX
+        T/+VHTiBjhb0/T1PkgpC7hMFPKmrE68MsJwSw6sOa7baJ22dFlAXxN8cBJYdjCVB9zm/fe6xtl+iB
+        QfMVrxcTCHoJVU1YB9KLCVVD2EIuClTm5on1wVEn1IThQX92fRCA7a6MxV/86tQGEhzd5ZH7AdU1+
+        wcdQk4o/SxiOjkgqhxBU5aBVcgztgrjSXlcQVG/7oKkJpFE1/xHhWW+TmeP4Qt67KP9JU9MftD0+e
+        3/0K+vw7Q==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fum7v-0007V6-7L; Tue, 28 Aug 2018 22:06:19 +0000
+Date:   Tue, 28 Aug 2018 15:06:18 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Souptick Joarder <jrdr.linux@gmail.com>
+Cc:     gustavo@padovan.org, maarten.lankhorst@linux.intel.com,
+        seanpaul@chromium.org, airlied@linux.ie, corbet@lwn.net,
+        akpm@linux-foundation.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Document/gpu: Use new vm_fault_t type
+Message-ID: <20180828220618.GB11400@bombadil.infradead.org>
+References: <20180828171443.GA3854@jordon-HP-15-Notebook-PC>
 MIME-Version: 1.0
-References: <20180828165336.211643-1-salyzyn@android.com>
-In-Reply-To: <20180828165336.211643-1-salyzyn@android.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 29 Aug 2018 00:32:49 +0300
-Message-ID: <CAOQ4uxihQvnMAJUCW2n6DgkVmKP3o84neL+5r4zM-35HKxxc9w@mail.gmail.com>
-Subject: Re: [PATCH v5 3/3] overlayfs: override_creds=off option bypass creator_cred
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180828171443.GA3854@jordon-HP-15-Notebook-PC>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 28, 2018 at 7:53 PM Mark Salyzyn <salyzyn@android.com> wrote:
->
-> By default, all access to the upper, lower and work directories is the
-> recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> checked against the caller's credentials.
->
-> If the principles of least privilege are applied, the mounter's
-> credentials might not overlap the credentials of the caller's when
-> accessing the overlayfs filesystem.  For example, a file that a lower
-> DAC privileged caller can execute, is MAC denied to the generally
-> higher DAC privileged mounter, to prevent an attack vector.
->
-> We add the option to turn off override_creds in the mount options; all
-> subsequent operations after mount on the filesystem will be only the
-> caller's credentials.  This option default is set in the CONFIG
-> OVERLAY_FS_OVERRIDE_CREDS or in the module option override_creds.
->
-> The module boolean parameter and mount option override_creds is also
-> added as a presence check for this "feature" by checking existence of
-> /sys/module/overlay/parameters/overlay_creds.  This will allow user
-> space to determine if the option can be supplied successfully to the
-> mount(2) operation.
->
-> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> Cc: Miklos Szeredi <miklos@szeredi.hu>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vivek Goyal <vgoyal@redhat.com>
-> Cc: Eric W. Biederman <ebiederm@xmission.com>
-> Cc: Amir Goldstein <amir73il@gmail.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Stephen Smalley <sds@tycho.nsa.gov>
-> Cc: linux-unionfs@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
->
-> v2:
-> - Forward port changed attr to stat, resulting in a build error.
-> - altered commit message.
->
-> v3:
-> - Change name from caller_credentials / creator_credentials to the
->   boolean override_creds.
-> - Changed from creator to mounter credentials.
-> - Updated and fortified the documentation.
-> - Added CONFIG_OVERLAY_FS_OVERRIDE_CREDS
->
-> v4:
-> - spelling and grammar errors in text
->
-> v5:
-> - beefed up the caveats in the Documentation
-> - Is dependent on
->   "overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh"
->   "overlayfs: check CAP_MKNOD before issuing vfs_whiteout"
-> - Added prwarn when override_creds=off
-> ---
->  Documentation/filesystems/overlayfs.txt | 29 +++++++++++++++++++++++++
->  fs/overlayfs/Kconfig                    | 22 +++++++++++++++++++
->  fs/overlayfs/copy_up.c                  |  2 +-
->  fs/overlayfs/dir.c                      |  9 ++++----
->  fs/overlayfs/inode.c                    | 16 +++++++-------
->  fs/overlayfs/namei.c                    |  6 ++---
->  fs/overlayfs/overlayfs.h                |  1 +
->  fs/overlayfs/ovl_entry.h                |  1 +
->  fs/overlayfs/readdir.c                  |  4 ++--
->  fs/overlayfs/super.c                    | 23 ++++++++++++++++++++
->  fs/overlayfs/util.c                     | 12 ++++++++--
->  11 files changed, 105 insertions(+), 20 deletions(-)
->
-> diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
-> index 72615a2c0752..953e52971eb0 100644
-> --- a/Documentation/filesystems/overlayfs.txt
-> +++ b/Documentation/filesystems/overlayfs.txt
-> @@ -106,6 +106,35 @@ Only the lists of names from directories are merged.  Other content
->  such as metadata and extended attributes are reported for the upper
->  directory only.  These attributes of the lower directory are hidden.
->
-> +credentials
-> +-----------
-> +
-> +By default, all access to the upper, lower and work directories is the
-> +recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> +checked against the caller's credentials.
-> +
-> +If the principles of least privilege are applied, the mounter's
-> +credentials might not overlap the credentials of the caller's when
-> +accessing the overlayfs filesystem.  For example, a file that a lower
-> +DAC privileged caller can execute, but is MAC denied to the
-> +generally higher DAC privileged mounter, to prevent an attack vector
-> +executing with the increased privileges of the mounter.  One option is
-> +to turn off override_creds in the mount options; all subsequent
-> +operations after mount on the filesystem will be only the caller's
-> +credentials.  This option default is set in the CONFIG
-> +OVERLAY_FS_OVERRIDE_CREDS or in the module option override_creds.
-> +Fundamentally The mounter has privileges, its ability to execute,
-> +for example, files and grant them these higher privileges is to be
-> +blocked except to lower privileged and appropriate callers.  This
-> +option turned off permits this kind of security policy.
-> +
-> +With override_creds turned off, several unintended side effects will
-> +occur.  The caller with a lower privilege will not be able to delete
-> +files or directories, create nodes, or search some directories.  The
-> +uneven security model where upperdir and workdir are opened at
-> +privilege, but accessed without, should only be used with strict
-> +understanding of the side effects and of the security policies.
-> +
->  whiteouts and opaque directories
->  --------------------------------
->
-> diff --git a/fs/overlayfs/Kconfig b/fs/overlayfs/Kconfig
-> index 9384164253ac..b55bb0d48415 100644
-> --- a/fs/overlayfs/Kconfig
-> +++ b/fs/overlayfs/Kconfig
-> @@ -103,3 +103,25 @@ config OVERLAY_FS_XINO_AUTO
->           For more information, see Documentation/filesystems/overlayfs.txt
->
->           If unsure, say N.
-> +
-> +config OVERLAY_FS_OVERRIDE_CREDS
-> +       bool "Overlay filesystem override credentials"
-> +       depends on OVERLAY_FS
-> +       default y
-> +       help
-> +         If set, all access to the upper, lower and work directories is the
-> +         recorded mounter's MAC and DAC credentials.  The incoming accesses
-> +         are checked against the caller's credentials.
-> +
-> +         If the principles of least privilege are applied, the mounter's
-> +         credentials might not overlap the credentials of the caller's when
-> +         accessing the overlayfs filesystem.  The mount option
-> +         "override_creds=off" drops the mounter's credential check, so that
-> +         all subsequent operations, after mount, on the filesystem will only
-> +         be the caller's credentials.  This option sets the default for the
-> +         module option override_creds, and thus the default for all mounts
-> +         that do not specify this option.
-> +
+On Tue, Aug 28, 2018 at 10:44:43PM +0530, Souptick Joarder wrote:
+> We have introduce a new return type vm_fault_t for
+> fault handler. Update the document for the same.
 
-Was it me that suggested a config option??
-because I can't thing of a reason to configure this as the default.
-...
+Have you built the documentation and checked the html looks better with
+the changed spacing?  rst can be a bit weird about some of these things.
 
->
->         sb->s_root = root_dentry;
-> +       if (!ofs->config.override_creds)
-> +               pr_warn("overlayfs: override_creds=off, uneven security model where mounter privileges do not overlap caller.\n");
->
-
-This is not what the user needs to be warned about IMO.
-User should be warned about consequences.
-
-Thanks,
-Amir.
