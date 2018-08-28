@@ -1,108 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D50727D87C
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 18:09:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 211187D87C
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 18:40:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727166AbeH1WCm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 18:02:42 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:45364 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727130AbeH1WCm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 18:02:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=REEDdhcsjfFTLS48PMY65npoDqqE8e6fTQGykuUYbXo=; b=p/uy/vUdi0Oqsz66KHCHmvsHpp
-        geT3MdCGVHs038pCh7a8uf7tsxlGVaGPkUVuBqjrU91+VBg6iICi4a9RsJUhfl51BMhXO7OhUPRlB
-        sVcMCBY7TteVgrtObcKEecYIvwiAwHA+pE5wOYqz3yU4FCf7QA5HywgDnzAMxyVBvU0e3Q6HodA5P
-        b1iBuv8Wwh9ohWmcFKoA1bWDsvriiUJfCUMhp/ygJB023J4HMB9I7Vu9PgxdaLCBuGxysbXILYj8A
-        iSJCEFHZDrpIqnBL8M+xV/BMTZaesQWSQe7iGtCgBnAGGL1OwoH87BP4ZDBHOEsuNbzoaRWqWqM4e
-        IQj7BFgg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fuiQv-0002Qh-Jn; Tue, 28 Aug 2018 18:09:44 +0000
-Subject: Re: [PATCH v5 3/3] overlayfs: override_creds=off option bypass
- creator_cred
-To:     Mark Salyzyn <salyzyn@android.com>, linux-kernel@vger.kernel.org
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        id S1727086AbeH1WdS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 18:33:18 -0400
+Received: from mail-yb0-f195.google.com ([209.85.213.195]:44518 "EHLO
+        mail-yb0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727054AbeH1WdS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 18:33:18 -0400
+Received: by mail-yb0-f195.google.com with SMTP id l16-v6so987475ybk.11;
+        Tue, 28 Aug 2018 11:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kssQ/fVX4Mt4Z/D8+giv1IASl4n+kflYnJDu+1iEhnI=;
+        b=jN8W1PAGslPJiaxWwjB82AfNyCVcpNiqUQrNoD4GzybgV/l86GpjlmTNrPcYTEdS+b
+         fNZOSpzdugiptAPOuEfktQJR8EsRmzunS9KD66s4Ey3ya/+hDa09KrsbMjiV1Ztcp7US
+         oPOF+D7SIcJj5MD8LvCtRXfFMqbWmUER8nOCE4OmUtQrSAwShrveBWrQ1x9WMIq/pJ4e
+         nsVtZWdPh56BPQ+4DhTbUp5LNR9DJHJhUl7Ll1VMWTFnmyfKUli1x8YsPiHwjlOUa8DX
+         b2ZpjHb51H+44m1+cZ952M2ae73oFk/lolkzlr/iaymziTVJmjnnkS4ltiZpV+OGT/vD
+         e3bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kssQ/fVX4Mt4Z/D8+giv1IASl4n+kflYnJDu+1iEhnI=;
+        b=eq9C4UmSc/TgiyZnvpnQyhwRB+FdZi9zGADT4niwoyhHWC9t4Q/N+bzAwZYhnaBuoC
+         f8E6uegprz26v+F9UT1fHD+wCl44K1xE/h+/+S7AJzZ6PZbN3OmMabkicWFkSnc0GNtI
+         Ip1miu0c31pTeJxtumC7jUbl0slJ5dNAcbED+WNm9f+293n320oYpfcxYHOmQPlc5fig
+         Fa251zeUjrCY6sewTqmu6ciEezjhUjos50ZplMEqr22/z1M8aPLpPioaUCxCoy6fEI5p
+         sdKqRHZsQKukJ/eP3v5sZ5M9LMeTI0CJT7Tf1qMe0MSgiv1pfAFsMWweZuPoHPFSiylC
+         dYWg==
+X-Gm-Message-State: APzg51DY2Kc6D6w5vb9kSUZz2PwhWOxJJPaK1Lz4/qJH+qIpo6hTjH0P
+        9rozLj7HgFcC/9Gyjy5FbIrVtjxZ367cxuGMlWY=
+X-Google-Smtp-Source: ANB0VdZ+oPykhCgcCt+oyu/JCHw1ZXTPnnJJqQ3lfSTJaSbabgWw5yZXhubkid4Sem4A4AI5ZaObVOI1PwstgBMab3E=
+X-Received: by 2002:a25:ddc5:: with SMTP id u188-v6mr1533733ybg.32.1535481622087;
+ Tue, 28 Aug 2018 11:40:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180828165259.211474-1-salyzyn@android.com> <CAOQ4uxgwKe7_QC7Rg=BTQ_WvnAm+-kSh0LXWGVOoHHAqJt3aXA@mail.gmail.com>
+ <7998ae36-662b-91f7-c42a-8a4d35d333c1@android.com>
+In-Reply-To: <7998ae36-662b-91f7-c42a-8a4d35d333c1@android.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 28 Aug 2018 21:40:10 +0300
+Message-ID: <CAOQ4uxjU3imdxZhOS_7qCM58tFGbcBs2y2t79_owy_w8oxnnzA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] overlayfs: check CAP_DAC_READ_SEARCH before
+ issuing exportfs_decode_fh
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
         Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Stephen Smalley <sds@tycho.nsa.gov>,
-        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20180828165336.211643-1-salyzyn@android.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <a8dc66c4-4761-4876-abd3-6dc135692404@infradead.org>
-Date:   Tue, 28 Aug 2018 11:09:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180828165336.211643-1-salyzyn@android.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/28/2018 09:53 AM, Mark Salyzyn wrote:
-> diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
-> index 72615a2c0752..953e52971eb0 100644
-> --- a/Documentation/filesystems/overlayfs.txt
-> +++ b/Documentation/filesystems/overlayfs.txt
-> @@ -106,6 +106,35 @@ Only the lists of names from directories are merged.  Other content
->  such as metadata and extended attributes are reported for the upper
->  directory only.  These attributes of the lower directory are hidden.
->  
-> +credentials
-> +-----------
-> +
-> +By default, all access to the upper, lower and work directories is the
-> +recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> +checked against the caller's credentials.
-> +
-> +If the principles of least privilege are applied, the mounter's
-> +credentials might not overlap the credentials of the caller's when
-> +accessing the overlayfs filesystem.  For example, a file that a lower
-> +DAC privileged caller can execute, but is MAC denied to the
-> +generally higher DAC privileged mounter, to prevent an attack vector
-> +executing with the increased privileges of the mounter.  One option is
-> +to turn off override_creds in the mount options; all subsequent
-> +operations after mount on the filesystem will be only the caller's
-> +credentials.  This option default is set in the CONFIG
-> +OVERLAY_FS_OVERRIDE_CREDS or in the module option override_creds.
-> +Fundamentally The mounter has privileges, its ability to execute,
+On Tue, Aug 28, 2018 at 8:44 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>
+> On 08/28/2018 10:34 AM, Amir Goldstein wrote:
+> > On Tue, Aug 28, 2018 at 7:53 PM Mark Salyzyn <salyzyn@android.com> wrote:
+> >> Assumption never checked, should fail if the mounter creds are not
+> >> sufficient.
+> >>
+> >> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> >> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> >> Cc: Jonathan Corbet <corbet@lwn.net>
+> >> Cc: Vivek Goyal <vgoyal@redhat.com>
+> >> Cc: Eric W. Biederman <ebiederm@xmission.com>
+> >> Cc: Amir Goldstein <amir73il@gmail.com>
+> >> Cc: Randy Dunlap <rdunlap@infradead.org>
+> >> Cc: Stephen Smalley <sds@tycho.nsa.gov>
+> >> Cc: linux-unionfs@vger.kernel.org
+> >> Cc: linux-doc@vger.kernel.org
+> >> Cc: linux-kernel@vger.kernel.org
+> >>
+> >> v5:
+> >> - dependency of "overlayfs: override_creds=off option bypass creator_cred"
+> >> ---
+> >>   fs/overlayfs/namei.c | 5 +++++
+> >>   1 file changed, 5 insertions(+)
+> >>
+> >> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+> >> index c993dd8db739..84982b6525fb 100644
+> >> --- a/fs/overlayfs/namei.c
+> >> +++ b/fs/overlayfs/namei.c
+> >> @@ -193,6 +193,11 @@ struct dentry *ovl_decode_real_fh(struct ovl_fh *fh, struct vfsmount *mnt,
+> >>          if (!uuid_equal(&fh->uuid, &mnt->mnt_sb->s_uuid))
+> >>                  return NULL;
+> >>
+> >> +       if (!capable(CAP_DAC_READ_SEARCH)) {
+> >> +               origin = ERR_PTR(-EPERM);
+> >> +               goto out;
+> > Which branch is this works based on?
+> > I don't see any out label in current code.
+>
+> <sigh> I can only truly test this on 4.14 (android's current top of
+> tree) and on Hikey with that. Lack of due diligence for Top of Linux.
 
-                 the
+Well, not sure how that review is going to work out.
+anyway, this case should not return an error.
+returning NULL should be just fine.
 
-but this entire sentence is jumbled and awkward and could use some work.
-I tried to come up with something but I can't quite get what is intended here.
-
-
-> +for example, files and grant them these higher privileges is to be
-> +blocked except to lower privileged and appropriate callers.  This
-> +option turned off permits this kind of security policy.
-> +
-> +With override_creds turned off, several unintended side effects will
-> +occur.  The caller with a lower privilege will not be able to delete
-> +files or directories, create nodes, or search some directories.  The
-> +uneven security model where upperdir and workdir are opened at
-> +privilege, but accessed without, should only be used with strict
-> +understanding of the side effects and of the security policies.
-> +
->  whiteouts and opaque directories
->  --------------------------------
-
-
--- 
-~Randy
+> >
+> >> +       }
+> >> +
+> >>          bytes = (fh->len - offsetof(struct ovl_fh, fid));
+> >>          real = exportfs_decode_fh(mnt, (struct fid *)fh->fid,
+> >>                                    bytes >> 2, (int)fh->type,
+> >> --
+> > Please add same test in ovl_can_decode_fh().
+>
+> Ahhhh
+> > Problem: none of the ovl_export_operations functions override creds.
+> > I guess things are working now because nfsd is privileged enough.
+> > IOW, the capability check you added doesn't check mounter creds
+> > when coming from nfs export ops - I guess that is not what you want
+> > although you probably don'r enable nfs export.
+> NFS export/import blocked on Android devices.
+> > Thanks,
+> > Amir.
+>
+>
