@@ -3,136 +3,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0CBD27D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 17:44:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C0487D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 17:49:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727469AbeH1Vg5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 17:36:57 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:46564 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727181AbeH1Vg5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 17:36:57 -0400
-Received: by mail-pf1-f196.google.com with SMTP id u24-v6so1018917pfn.13
-        for <linux-doc@vger.kernel.org>; Tue, 28 Aug 2018 10:44:13 -0700 (PDT)
+        id S1727451AbeH1Vmb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 Aug 2018 17:42:31 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:42388 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbeH1Vmb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 17:42:31 -0400
+Received: by mail-ed1-f67.google.com with SMTP id r10-v6so1990890edp.9
+        for <linux-doc@vger.kernel.org>; Tue, 28 Aug 2018 10:49:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=nDhr+vu6VrpKF/O/niWP0ALlmNa4+hqr7LQrPx0QKUc=;
-        b=vTy7YO+OzhyFLcSgFC+7Ioflzd0Ye2VGXrRKrnb59AEv1jGva72S7ITTXA4samPkQQ
-         cGLWo7NgL8ru71+tQn65dQcd0BIrHZvxTto6Rm2J3FflXtHbeetuJtYOrAUMQm2HFldu
-         yoaFe0V8kqGQvAozoSppRRC1JuIVM7V48ugzXUF3KTc0SEqzwRSHWDAQg4q9HmtGt0C/
-         y8ydSUHk+fMXsGyt2Z6ZYnCfkhAbWGBG52H/W4OlYwlq2szLP4WDSV9OcXJu1zbpfdAC
-         pmYMpFXY7C/NyB+kDCYyabP9tiyo5lv6u18vNCd+AmKsgH48q8pBn9pCZkDEw7NSwhF6
-         0RvQ==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dDHvISARzlXc6IUzVmxPNjn4u0Sjb5mi2PLIFKKEQhg=;
+        b=jSiUQMYgJB6pJyT7156Aa2xyZJ3k7eqOsXgA/jAydBhftWlQkSlhAxD6g27RjvnJkC
+         eIn5mqr1/zO2nCFSGPrQdIcUV5y2a9f0Um6hghAlIW7i8M2sT1nzr43AhhksmAtWG5Lt
+         0hTyEXzbPX5KldogFXw+pfU7/928jbSnvthk0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=nDhr+vu6VrpKF/O/niWP0ALlmNa4+hqr7LQrPx0QKUc=;
-        b=ASDKrOMB0eCJqdDHMnFx01SmE4hzW2/lCUe5Wtru7vbwA0TW9XWJQLwpBy6zXrnLvh
-         7XWKXAcho7OcYne1sQuN/cAyrcZA251VdB++g3FFPwENkwYM0UG77g6OHWF4i9QfXhO0
-         60tGLQro2ycWTun1oc4aIxlJZ7LwGgUVwcRz/2cA8Yf56ACuf9BkhZ6ezbZHjyFopsjo
-         FNNA88AI8raLHWwGEHnyboNEW6N6K0wmzX7aG4OhLsy4mnMBkxXmVaJUFFysI2JhKKTw
-         CuIFy6R8NQRUscNYgfiOUhGcesxYaGgFgSEDnkySsiTHvNOsaIzHkUXkeCQAOptpbkl5
-         wEkw==
-X-Gm-Message-State: APzg51AuDyMwHAjKZoruwIaylYzi3KZnJuOhXJ6cdjhhHydKWZPvsgZs
-        +M+9Tf+BK2sYbpGA99DmDr9hUDEGr4/7VQ==
-X-Google-Smtp-Source: ANB0VdZhq8zYCpitetRqGs9QLGklDvENzXFXZPHO+TsklgAo3te7J5w1VuPlDoQ8RIeQkvd8L5ehkg==
-X-Received: by 2002:a65:4384:: with SMTP id m4-v6mr2443239pgp.265.1535478252725;
-        Tue, 28 Aug 2018 10:44:12 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1612:b4fb:6752:f21f:3502])
-        by smtp.googlemail.com with ESMTPSA id u1-v6sm3226854pfl.187.2018.08.28.10.44.11
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dDHvISARzlXc6IUzVmxPNjn4u0Sjb5mi2PLIFKKEQhg=;
+        b=UeiGhzT0Z27jZWeT0RPRaK+jkcS9ydLL/z7sSu/cLayDSZIHuhoYCbev6GhwoYGZpv
+         9IrW/keMfVVGdLg1Ui1Zu+/L7LtAmr507sw82TYVuGRjG/kK09ZEWm2ZX+8qb2kZz1rS
+         1bFolO2+1Be7ekWiWYXHjF3PzcLW/uxbYNLNTdZMImWFmaoAqDUeiSlDvJsTAywO0ZRf
+         ODKOlIhdIiXAHU+4xpD/PWfvOPaigUGY8Ad8DzKugQzE9V6bZjAY+6lSvIYYa6ztm5yV
+         NJTFEtYoiSVpSUUsgxru0mR4hU/2qI2bvdypQFZBZqsOjShow+VSXeHpHXEdsN8GPPwY
+         y5Gg==
+X-Gm-Message-State: APzg51C2YzPdqLeQbD46mi3KIbYmHQXT/hGLukbFSC0ljO0CbcvCshk/
+        +trbbNlTEIazZAbihsw7VU0/lVclMYUSMA==
+X-Google-Smtp-Source: ANB0Vda8wyBqwj9jv1eMzs6yxO1sSMCSUt/0zWuXC0gEouaTjizGQxfppUj7G4ZDjr4zpUlXsrVtKQ==
+X-Received: by 2002:a50:8cd7:: with SMTP id r23-v6mr3674350edr.240.1535478585045;
+        Tue, 28 Aug 2018 10:49:45 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
+        by smtp.gmail.com with ESMTPSA id x44-v6sm811997edd.1.2018.08.28.10.49.44
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Aug 2018 10:44:12 -0700 (PDT)
-Subject: Re: [PATCH v5 1/3] overlayfs: check CAP_DAC_READ_SEARCH before
- issuing exportfs_decode_fh
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-References: <20180828165259.211474-1-salyzyn@android.com>
- <CAOQ4uxgwKe7_QC7Rg=BTQ_WvnAm+-kSh0LXWGVOoHHAqJt3aXA@mail.gmail.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <7998ae36-662b-91f7-c42a-8a4d35d333c1@android.com>
-Date:   Tue, 28 Aug 2018 10:44:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        Tue, 28 Aug 2018 10:49:44 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id a108-v6so2350702wrc.13
+        for <linux-doc@vger.kernel.org>; Tue, 28 Aug 2018 10:49:44 -0700 (PDT)
+X-Received: by 2002:adf:e505:: with SMTP id j5-v6mr1810402wrm.111.1535478583848;
+ Tue, 28 Aug 2018 10:49:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAOQ4uxgwKe7_QC7Rg=BTQ_WvnAm+-kSh0LXWGVOoHHAqJt3aXA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+References: <20180823183057.247630-1-hcutts@chromium.org> <20180823183057.247630-2-hcutts@chromium.org>
+ <20180823185722.GA24777@bombadil.infradead.org> <20180823190124.GB53155@dtor-ws>
+ <nycvar.YFH.7.76.1808281101500.25787@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.1808281101500.25787@cbobk.fhfr.pm>
+From:   Harry Cutts <hcutts@chromium.org>
+Date:   Tue, 28 Aug 2018 10:49:32 -0700
+X-Gmail-Original-Message-ID: <CA+jURcua9vc_L0AJG5cDuPYY=LH3TcHB+QA_J1+74b97QXXkFw@mail.gmail.com>
+Message-ID: <CA+jURcua9vc_L0AJG5cDuPYY=LH3TcHB+QA_J1+74b97QXXkFw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] Add the `REL_WHEEL_HI_RES` event code
+To:     jikos@kernel.org
+Cc:     dmitry.torokhov@gmail.com, willy@infradead.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jiri.kosina@suse.cz, benjamin.tissoires@redhat.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/28/2018 10:34 AM, Amir Goldstein wrote:
-> On Tue, Aug 28, 2018 at 7:53 PM Mark Salyzyn <salyzyn@android.com> wrote:
->> Assumption never checked, should fail if the mounter creds are not
->> sufficient.
->>
->> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
->> Cc: Miklos Szeredi <miklos@szeredi.hu>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Vivek Goyal <vgoyal@redhat.com>
->> Cc: Eric W. Biederman <ebiederm@xmission.com>
->> Cc: Amir Goldstein <amir73il@gmail.com>
->> Cc: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Stephen Smalley <sds@tycho.nsa.gov>
->> Cc: linux-unionfs@vger.kernel.org
->> Cc: linux-doc@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org
->>
->> v5:
->> - dependency of "overlayfs: override_creds=off option bypass creator_cred"
->> ---
->>   fs/overlayfs/namei.c | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
->> index c993dd8db739..84982b6525fb 100644
->> --- a/fs/overlayfs/namei.c
->> +++ b/fs/overlayfs/namei.c
->> @@ -193,6 +193,11 @@ struct dentry *ovl_decode_real_fh(struct ovl_fh *fh, struct vfsmount *mnt,
->>          if (!uuid_equal(&fh->uuid, &mnt->mnt_sb->s_uuid))
->>                  return NULL;
->>
->> +       if (!capable(CAP_DAC_READ_SEARCH)) {
->> +               origin = ERR_PTR(-EPERM);
->> +               goto out;
-> Which branch is this works based on?
-> I don't see any out label in current code.
+Benjamin says he prefers micrometres, and I think I do to now that I
+think about it (sticking with SI seems like a good idea), so I'll
+update it in a V2.
 
-<sigh> I can only truly test this on 4.14 (android's current top of 
-tree) and on Hikey with that. Lack of due diligence for Top of Linux.
+Harry Cutts
+Chrome OS Touch/Input team
+Harry Cutts
+Chrome OS Touch/Input team
+
+
+On Tue, 28 Aug 2018 at 02:02, Jiri Kosina <jikos@kernel.org> wrote:
 >
->> +       }
->> +
->>          bytes = (fh->len - offsetof(struct ovl_fh, fid));
->>          real = exportfs_decode_fh(mnt, (struct fid *)fh->fid,
->>                                    bytes >> 2, (int)fh->type,
->> --
-> Please add same test in ovl_can_decode_fh().
-
-Ahhhh
-> Problem: none of the ovl_export_operations functions override creds.
-> I guess things are working now because nfsd is privileged enough.
-> IOW, the capability check you added doesn't check mounter creds
-> when coming from nfs export ops - I guess that is not what you want
-> although you probably don'r enable nfs export.
-NFS export/import blocked on Android devices.
+> On Thu, 23 Aug 2018, Dmitry Torokhov wrote:
+>
+> > > > +  - If a vertical scroll wheel supports high-resolution scrolling, this code
+> > > > +    will be emitted in addition to REL_WHEEL. The value is the (approximate)
+> > > > +    distance travelled by the user's finger, in 256ths of a millimeter.
+> > >
+> > > Is it too late to change this to an actual unit like micrometres?
+> >
+> > No love for imperial roots? Sure, micrometers would work too I think.
+>
+> I don't really care strongly :) Is either of you going to update the
+> patch? Otherwise I'll just apply as-is.
+>
 > Thanks,
-> Amir.
-
-
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
