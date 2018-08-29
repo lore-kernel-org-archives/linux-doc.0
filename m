@@ -1,267 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DC4F17D87C
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 20:50:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8AECA7D87A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 21:04:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729004AbeH3Arh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 Aug 2018 20:47:37 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:34781 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727664AbeH3ArG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Aug 2018 20:47:06 -0400
-Received: by mail-lj1-f195.google.com with SMTP id f8-v6so5497485ljk.1;
-        Wed, 29 Aug 2018 13:48:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Ss6DAMy39ntUSy+xns54ZkDEt4V3I8DvbWAXkdjX6Cw=;
-        b=pBw95ZWmCh/zCe3F646sOePMgphT8gyVQJxYaXzxsIZVgZEtDpHAbdNsdczT6ITIZl
-         ZxBlnupZ4G/dgw+e/BQon3Izo+poYV2czPhxb4TW9KqPXN/PffuTy/XYKxccBm/GuJwP
-         fIKrjfowEO1UolbY6VUlrKmRpWDmODZSucpbTsAPxXjorMY3z0eflJiCbJcXcQyKrMNR
-         4+ZAEeAgUdOgXn0OPpFAOdQmIdB7Zs4vGy+gHGhNHFdAIwP/XHQxX3Vq8Es7tdzERr3/
-         m9fzo+gKws03zv5Txn2+ZI0yVPI1otcJkHT5D6MdgME+uNsV0oGRIpqNDGX2/tnNd/oF
-         9rcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Ss6DAMy39ntUSy+xns54ZkDEt4V3I8DvbWAXkdjX6Cw=;
-        b=K6jJSPtC39Zb81GKWxa/eDQf17R5VYtjq6uJMI1G7WCdbS4HOW01OmLLiBhPUggFH6
-         Mh6wiHQwMf0IbqQvSM0Rox06jKhzOv8QuRaL8YCn9rLjIf/JdcMvRybaVGPaE2v+iInA
-         Dw6vcRzXcgCnto+gcs/3ZOZmhPc0Ps1tT7adAVUXXbUyH0+w/7N/IDLi0DCVD6dd01Is
-         08zkv6dRINq5qmTpBT9Lqwe+6OYhQFjz63sceFziqeUzK9gwlOXvIzsWryqhDSA53jAV
-         Lm4e8P/8BmWOm6S2P1XCioztRl+T9sTbGZ9RiCn8poThHUUotKFg139nQTMJbthH2Ajc
-         UKPQ==
-X-Gm-Message-State: APzg51AB1/4RkzdGpm65LawiURBRg984S3ZFgshCPNSsZxEGZmhwk/kx
-        Wyew11RC2RRLWHWSA4N8BFM=
-X-Google-Smtp-Source: ANB0VdYtA4YSKB5xlPwOKiQWN9Vn5MGd7rsH+zVT2+Q1fg28h/jGHkjP4vgMMJcG9v7h3/NF4KaH4w==
-X-Received: by 2002:a2e:4557:: with SMTP id s84-v6mr5200071lja.47.1535575706812;
-        Wed, 29 Aug 2018 13:48:26 -0700 (PDT)
-Received: from z50.lan (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id f66-v6sm947619lji.23.2018.08.29.13.48.24
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 Aug 2018 13:48:26 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        Peter Rosin <peda@axentia.se>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-serial@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH v5 2/4] gpiolib: Identify arrays matching GPIO hardware
-Date:   Wed, 29 Aug 2018 22:48:58 +0200
-Message-Id: <20180829204900.19390-3-jmkrzyszt@gmail.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20180829204900.19390-1-jmkrzyszt@gmail.com>
-References: <20180820234341.5271-1-jmkrzyszt@gmail.com>
- <20180829204900.19390-1-jmkrzyszt@gmail.com>
+        id S1727859AbeH3BCt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 Aug 2018 21:02:49 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52256 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727595AbeH3BCt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Aug 2018 21:02:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=y55IHZkqBenWSxLAokBXoxwcPJCN7xaIs0bfOip9KEc=; b=iEUXVHqPHQDirspJnE1EHvlkp
+        hlNOZe3wV6Stupl5rGT1o5H6/L30hMwcqxQuuhHdaNHfoG+uX0OxefLxVe32FW2Q7Awg0UOVMMrvB
+        34iI9N2glxgPqqiGZq4C/1d/2IbTnQjjdXULqJLNkZXFtFFm0Xm4b3QLeyOmu7aPR88FbA08sPidu
+        DHLD1q/rXP0uOSPctS+7cHxNM3uQOH7sCu/PUE1nX49qpg34UPzEDDOh0SO0z1kMH4f4P8SMS7SnW
+        tGpALuz7N61/rAdZfJl9ocx1KH71ouJdKMJNbQYUFeLhGIULcj4B4v93iLzO0Hp574jy1u4TVxpfN
+        cSp5NDaSA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fv7dE-0002HI-RM; Wed, 29 Aug 2018 21:04:04 +0000
+Date:   Wed, 29 Aug 2018 14:04:04 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Waiman Long <longman@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>
+Subject: Re: [PATCH 2/2] fs/dcache: Make negative dentries easier to be
+ reclaimed
+Message-ID: <20180829210404.GA2925@bombadil.infradead.org>
+References: <1535476780-5773-1-git-send-email-longman@redhat.com>
+ <1535476780-5773-3-git-send-email-longman@redhat.com>
+ <20180828160150.9a45ee293c92708edb511eab@linux-foundation.org>
+ <20180829175405.GA17337@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180829175405.GA17337@linux.vnet.ibm.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Certain GPIO array lookup results may map directly to GPIO pins of a
-single GPIO chip in hardware order.  If that condition is recognized
-and handled efficiently, significant performance gain of get/set array
-functions may be possible.
+On Wed, Aug 29, 2018 at 10:54:05AM -0700, Paul E. McKenney wrote:
+> On Tue, Aug 28, 2018 at 04:01:50PM -0700, Andrew Morton wrote:
+> > People often use the term "the foo() function".  I don't know why -
+> > just say "foo()"!
+> 
+> For whatever it is worth...
+> 
+> I tend to use "The foo() function ..." instead of "foo() ..." in order
+> to properly capitalize the first word of the sentence.  So I might say
+> "The call_rcu() function enqueues an RCU callback." rather than something
+> like "call_rcu() enqueues an RCU callback."  Or I might use some other
+> trick to keep "call_rcu()" from being the first word of the sentence.
 
-While processing a request for an array of GPIO descriptors, identify
-those which represent corresponding pins of a single GPIO chip.  Skip
-over pins which require open source or open drain special processing.
-Moreover, identify pins which require inversion.  Pass a pointer to
-that information with the array to the caller so it can benefit from
-enhanced performance as soon as get/set array functions can accept and
-make efficient use of it.
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
----
- Documentation/driver-api/gpio/consumer.rst |  4 +-
- drivers/gpio/gpiolib.c                     | 72 +++++++++++++++++++++++++++++-
- drivers/gpio/gpiolib.h                     |  9 ++++
- include/linux/gpio/consumer.h              |  9 ++++
- 4 files changed, 92 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-index ed68042ddccf..7e0298b9a7b9 100644
---- a/Documentation/driver-api/gpio/consumer.rst
-+++ b/Documentation/driver-api/gpio/consumer.rst
-@@ -109,9 +109,11 @@ For a function using multiple GPIOs all of those can be obtained with one call::
- 					   enum gpiod_flags flags)
- 
- This function returns a struct gpio_descs which contains an array of
--descriptors::
-+descriptors.  It also contains a pointer to a gpiolib private structure which,
-+if passed back to get/set array functions, may speed up I/O proocessing::
- 
- 	struct gpio_descs {
-+		struct gpio_array *info;
- 		unsigned int ndescs;
- 		struct gpio_desc *desc[];
- 	}
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index f0e9ffa8cab6..c1ed1c759345 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -4174,7 +4174,9 @@ struct gpio_descs *__must_check gpiod_get_array(struct device *dev,
- {
- 	struct gpio_desc *desc;
- 	struct gpio_descs *descs;
--	int count;
-+	struct gpio_array *array_info = NULL;
-+	struct gpio_chip *chip;
-+	int count, bitmap_size;
- 
- 	count = gpiod_count(dev, con_id);
- 	if (count < 0)
-@@ -4190,9 +4192,77 @@ struct gpio_descs *__must_check gpiod_get_array(struct device *dev,
- 			gpiod_put_array(descs);
- 			return ERR_CAST(desc);
- 		}
-+
- 		descs->desc[descs->ndescs] = desc;
-+
-+		chip = gpiod_to_chip(desc);
-+		/*
-+		 * Select a chip of first array member
-+		 * whose index matches its pin hardware number
-+		 * as a candidate for fast bitmap processing.
-+		 */
-+		if (!array_info && gpio_chip_hwgpio(desc) == descs->ndescs) {
-+			struct gpio_descs *array;
-+
-+			bitmap_size = BITS_TO_LONGS(chip->ngpio > count ?
-+						    chip->ngpio : count);
-+
-+			array = kzalloc(struct_size(descs, desc, count) +
-+					struct_size(array_info, invert_mask,
-+					3 * bitmap_size), GFP_KERNEL);
-+			if (!array) {
-+				gpiod_put_array(descs);
-+				return ERR_PTR(-ENOMEM);
-+			}
-+
-+			memcpy(array, descs,
-+			       struct_size(descs, desc, descs->ndescs + 1));
-+			kfree(descs);
-+
-+			descs = array;
-+			array_info = (void *)(descs->desc + count);
-+			array_info->get_mask = array_info->invert_mask +
-+						  bitmap_size;
-+			array_info->set_mask = array_info->get_mask +
-+						  bitmap_size;
-+
-+			array_info->desc = descs->desc;
-+			array_info->size = count;
-+			array_info->chip = chip;
-+			bitmap_set(array_info->get_mask, descs->ndescs,
-+				   count - descs->ndescs);
-+			bitmap_set(array_info->set_mask, descs->ndescs,
-+				   count - descs->ndescs);
-+			descs->info = array_info;
-+		}
-+		/*
-+		 * Unmark members which don't qualify for fast bitmap
-+		 * processing (different chip, not in hardware order)
-+		 */
-+		if (array_info && (chip != array_info->chip ||
-+		    gpio_chip_hwgpio(desc) != descs->ndescs)) {
-+			__clear_bit(descs->ndescs, array_info->get_mask);
-+			__clear_bit(descs->ndescs, array_info->set_mask);
-+		} else if (array_info) {
-+			/* Exclude open drain or open source from fast output */
-+			if (gpiochip_line_is_open_drain(chip, descs->ndescs) ||
-+			    gpiochip_line_is_open_source(chip, descs->ndescs))
-+				__clear_bit(descs->ndescs,
-+					    array_info->set_mask);
-+			/* Identify 'fast' pins which require invertion */
-+			if (gpiod_is_active_low(desc))
-+				__set_bit(descs->ndescs,
-+					  array_info->invert_mask);
-+		}
-+
- 		descs->ndescs++;
- 	}
-+	if (array_info)
-+		dev_dbg(dev,
-+			"GPIO array info: chip=%s, size=%d, get_mask=%lx, set_mask=%lx, invert_mask=%lx\n",
-+			array_info->chip->label, array_info->size,
-+			*array_info->get_mask, *array_info->set_mask,
-+			*array_info->invert_mask);
- 	return descs;
- }
- EXPORT_SYMBOL_GPL(gpiod_get_array);
-diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
-index 11e83d2eef89..b60905d558b1 100644
---- a/drivers/gpio/gpiolib.h
-+++ b/drivers/gpio/gpiolib.h
-@@ -183,6 +183,15 @@ static inline bool acpi_can_fallback_to_crs(struct acpi_device *adev,
- }
- #endif
- 
-+struct gpio_array {
-+	struct gpio_desc	**desc;
-+	unsigned int		size;
-+	struct gpio_chip	*chip;
-+	unsigned long		*get_mask;
-+	unsigned long		*set_mask;
-+	unsigned long		invert_mask[];
-+};
-+
- struct gpio_desc *gpiochip_get_desc(struct gpio_chip *chip, u16 hwnum);
- int gpiod_get_array_value_complex(bool raw, bool can_sleep,
- 				  unsigned int array_size,
-diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
-index 1b21dc7b0fad..8dede3e886af 100644
---- a/include/linux/gpio/consumer.h
-+++ b/include/linux/gpio/consumer.h
-@@ -17,11 +17,20 @@ struct device;
-  */
- struct gpio_desc;
- 
-+/**
-+ * Opaque descriptor for a structure of GPIO array attributes.  This structure
-+ * is attached to struct gpiod_descs obtained from gpiod_get_array() and can be
-+ * passed back to get/set array functions in order to activate fast processing
-+ * path if applicable.
-+ */
-+struct gpio_array;
-+
- /**
-  * Struct containing an array of descriptors that can be obtained using
-  * gpiod_get_array().
-  */
- struct gpio_descs {
-+	struct gpio_array *info;
- 	unsigned int ndescs;
- 	struct gpio_desc *desc[];
- };
--- 
-2.16.4
+I tend to write 'Use call_rcu() to enqueue a callback." or "When
+call_rcu() returns, the callback will have been enqueued".
 
