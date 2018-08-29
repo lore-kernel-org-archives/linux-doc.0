@@ -2,81 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ABF887D00B
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 Aug 2018 23:22:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E823F7D09A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 00:17:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727185AbeH2DQF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 Aug 2018 23:16:05 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:35176 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727133AbeH2DQF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Aug 2018 23:16:05 -0400
-Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 29DCEC23;
-        Tue, 28 Aug 2018 23:22:08 +0000 (UTC)
-Date:   Tue, 28 Aug 2018 16:22:07 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Waiman Long <longman@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>, Jan Kara <jack@suse.cz>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        id S1725922AbeH2ELG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 Aug 2018 00:11:06 -0400
+Received: from ipmail01.adl2.internode.on.net ([150.101.137.133]:43542 "EHLO
+        ipmail01.adl2.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725871AbeH2ELG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Aug 2018 00:11:06 -0400
+X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Wed, 29 Aug 2018 00:11:05 EDT
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail01.adl2.internode.on.net with ESMTP; 29 Aug 2018 09:41:53 +0930
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1fuo5R-0001i6-3o; Wed, 29 Aug 2018 10:11:53 +1000
+Date:   Wed, 29 Aug 2018 10:11:53 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Ingo Molnar <mingo@kernel.org>,
         Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
         Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        "Wangkai (Kevin,C)" <wangkai86@huawei.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
         Michal Hocko <mhocko@kernel.org>
-Subject: Re: [PATCH 2/2] fs/dcache: Make negative dentries easier to be
- reclaimed
-Message-Id: <20180828162207.52240d3442fbe65166f9d604@linux-foundation.org>
-In-Reply-To: <CA+55aFxy1vH2CamZ_pdFohKgSJgi1i2MkeaY1qX8NdFK8Xu8Ww@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fs/dcache: Track & report number of negative dentries
+Message-ID: <20180829001153.GD1572@dastard>
 References: <1535476780-5773-1-git-send-email-longman@redhat.com>
-        <1535476780-5773-3-git-send-email-longman@redhat.com>
-        <20180828221352.GC11400@bombadil.infradead.org>
-        <6873378b-3202-e738-2366-5fb818b4a013@redhat.com>
-        <CA+55aFxy1vH2CamZ_pdFohKgSJgi1i2MkeaY1qX8NdFK8Xu8Ww@mail.gmail.com>
-X-Mailer: Sylpheed 3.6.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ <1535476780-5773-2-git-send-email-longman@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1535476780-5773-2-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 28 Aug 2018 16:10:24 -0700 Linus Torvalds <torvalds@linux-foundation.org> wrote:
+On Tue, Aug 28, 2018 at 01:19:39PM -0400, Waiman Long wrote:
+> The current dentry number tracking code doesn't distinguish between
+> positive & negative dentries. It just reports the total number of
+> dentries in the LRU lists.
+> 
+> As excessive number of negative dentries can have an impact on system
+> performance, it will be wise to track the number of positive and
+> negative dentries separately.
+> 
+> This patch adds tracking for the total number of negative dentries in
+> the system LRU lists and reports it in the /proc/sys/fs/dentry-state
+> file. The number, however, does not include negative dentries that are
+> in flight but not in the LRU yet.
+> 
+> The number of positive dentries in the LRU lists can be roughly found
+> by subtracting the number of negative dentries from the total.
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  Documentation/sysctl/fs.txt | 19 +++++++++++++------
+>  fs/dcache.c                 | 45 +++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/dcache.h      |  7 ++++---
+>  3 files changed, 62 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/sysctl/fs.txt b/Documentation/sysctl/fs.txt
+> index 819caf8..118bb93 100644
+> --- a/Documentation/sysctl/fs.txt
+> +++ b/Documentation/sysctl/fs.txt
+> @@ -63,19 +63,26 @@ struct {
+>          int nr_unused;
+>          int age_limit;         /* age in seconds */
+>          int want_pages;        /* pages requested by system */
+> -        int dummy[2];
+> +        int nr_negative;       /* # of unused negative dentries */
+> +        int dummy;
+>  } dentry_stat = {0, 0, 45, 0,};
 
-> On Tue, Aug 28, 2018 at 3:29 PM Waiman Long <longman@redhat.com> wrote:
-> >
-> > Yes, I can rewrite it. What is the problem with the abbreviated form?
-> 
-> Either gcc rewrites it for you, or you end up _actually_ using a
-> function pointer and calling through it.
-> 
-> The latter would be absolutely horribly bad for something like
-> "list_add()", which should expand to just a couple of instructions.
-> 
-> And the former would be ok, except for the "you wrote code the garbage
-> way, and then depended on the compiler fixing it up". Which we
-> generally try to avoid in the kernel.
-> 
-> (Don't get me wrong - we definitely depend on the compiler doing a
-> good job at CSE and dead code elimination etc, but generally we try to
-> avoid the whole "compiler has to rewrite code to be good" model).
-> 
+That's not a backwards compatible ABI change. Those dummy fields
+used to represent some metric we no longer calculate, and there are
+probably still monitoring apps out there that think they still have
+the old meaning. i.e. they are still visible to userspace:
 
-And the "abbreviated form" will surely explode if one or both of those
-"functions" happens to be implemented (or later reimplemented) as a macro.
-It's best not to unnecessarily make such assumptions.
+$ cat /proc/sys/fs/dentry-state 
+83090	67661	45	0	0	0
+$
 
+IOWs, you can add new fields for new metrics to the end of the
+structure, but you can't re-use existing fields even if they
+aren't calculated anymore.
+
+[....]
+
+> @@ -214,6 +226,28 @@ static inline int dentry_string_cmp(const unsigned char *cs, const unsigned char
+>  
+>  #endif
+>  
+> +static inline void __neg_dentry_dec(struct dentry *dentry)
+> +{
+> +	this_cpu_dec(nr_dentry_neg);
+> +}
+> +
+> +static inline void neg_dentry_dec(struct dentry *dentry)
+> +{
+> +	if (unlikely(d_is_negative(dentry)))
+> +		__neg_dentry_dec(dentry);
+
+unlikely() considered harmful.
+
+The workload you are trying to optimise is whe negative dentries are
+the common case. IOWs, static branch prediction hints like this will
+be wrong exactly when we want the branch to be predicted correctly
+by the hardware.
+
+> +}
+> +
+> +static inline void __neg_dentry_inc(struct dentry *dentry)
+> +{
+> +	this_cpu_inc(nr_dentry_neg);
+> +}
+> +
+> +static inline void neg_dentry_inc(struct dentry *dentry)
+> +{
+> +	if (unlikely(d_is_negative(dentry)))
+> +		__neg_dentry_inc(dentry);
+> +}
+
+These wrappers obfuscate the code - they do not do what the
+name suggests and instead are conditional on dentry state.
+
+I'd just open code this stuff - the code is much better without
+the wrappers.
+
+> +
+>  static inline int dentry_cmp(const struct dentry *dentry, const unsigned char *ct, unsigned tcount)
+>  {
+>  	/*
+> @@ -331,6 +365,8 @@ static inline void __d_clear_type_and_inode(struct dentry *dentry)
+>  	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
+>  	WRITE_ONCE(dentry->d_flags, flags);
+>  	dentry->d_inode = NULL;
+> +	if (dentry->d_flags & DCACHE_LRU_LIST)
+> +		__neg_dentry_inc(dentry);
+>  }
+>  
+>  static void dentry_free(struct dentry *dentry)
+> @@ -395,6 +431,7 @@ static void d_lru_add(struct dentry *dentry)
+>  	dentry->d_flags |= DCACHE_LRU_LIST;
+>  	this_cpu_inc(nr_dentry_unused);
+>  	WARN_ON_ONCE(!list_lru_add(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
+> +	neg_dentry_inc(dentry);
+
+Like this - why on earth would we increment the negative dentry
+count for every dentry that is added to LRU? Open coding
+
+ 	this_cpu_inc(nr_dentry_unused);
++	if (d_is_negative(dentry))
++		this_cpu_inc(nr_dentry_neg);
+ 	WARN_ON_ONCE(!list_lru_add(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
+
+That's obvious to the reader what we are doing, and it aggregates
+all the accounting in a single location. Same for the rest of the
+code.
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
