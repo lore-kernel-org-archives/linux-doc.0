@@ -5,107 +5,99 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA36F7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 19:58:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C01F87D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 20:03:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727657AbeH2X5W convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 Aug 2018 19:57:22 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:58114 "EHLO mx1.redhat.com"
+        id S1728405AbeH3ACB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 Aug 2018 20:02:01 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:41526 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727477AbeH2X5V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Aug 2018 19:57:21 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        id S1728402AbeH3ACB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Aug 2018 20:02:01 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id F2C9E40201C3;
-        Wed, 29 Aug 2018 19:58:53 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 323C640676C0;
+        Wed, 29 Aug 2018 20:03:33 +0000 (UTC)
 Received: from llong.remote.csb (dhcp-17-8.bos.redhat.com [10.18.17.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 254BF10073B3;
-        Wed, 29 Aug 2018 19:58:53 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 88DF52166B41;
+        Wed, 29 Aug 2018 20:03:32 +0000 (UTC)
 Subject: Re: [PATCH 2/2] fs/dcache: Make negative dentries easier to be
  reclaimed
-To:     Michal Hocko <mhocko@kernel.org>
+To:     paulmck@linux.vnet.ibm.com,
+        Andrew Morton <akpm@linux-foundation.org>
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
+        Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@kernel.org>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Matthew Wilcox <willy@infradead.org>,
         Larry Woodman <lwoodman@redhat.com>,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>
 References: <1535476780-5773-1-git-send-email-longman@redhat.com>
  <1535476780-5773-3-git-send-email-longman@redhat.com>
- <20180829075129.GU10223@dhcp22.suse.cz>
+ <20180828160150.9a45ee293c92708edb511eab@linux-foundation.org>
+ <20180829175405.GA17337@linux.vnet.ibm.com>
 From:   Waiman Long <longman@redhat.com>
 Organization: Red Hat
-Message-ID: <374c2c5c-cc9b-af03-a800-32f2cf8a3055@redhat.com>
-Date:   Wed, 29 Aug 2018 15:58:52 -0400
+Message-ID: <9d5a85f6-29fc-b33e-f0c5-d2b65d0f70de@redhat.com>
+Date:   Wed, 29 Aug 2018 16:03:32 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.0
 MIME-Version: 1.0
-In-Reply-To: <20180829075129.GU10223@dhcp22.suse.cz>
+In-Reply-To: <20180829175405.GA17337@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 29 Aug 2018 19:58:54 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 29 Aug 2018 19:58:54 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Wed, 29 Aug 2018 20:03:33 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Wed, 29 Aug 2018 20:03:33 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/29/2018 03:51 AM, Michal Hocko wrote:
-> On Tue 28-08-18 13:19:40, Waiman Long wrote:
->> For negative dentries that are accessed once and never used again, they
->> should be removed first before other dentries when shrinker is running.
->> This is done by putting negative dentries at the head of the LRU list
->> instead at the tail.
+On 08/29/2018 01:54 PM, Paul E. McKenney wrote:
+> On Tue, Aug 28, 2018 at 04:01:50PM -0700, Andrew Morton wrote:
+>> Another pet peeve ;)
 >>
->> A new DCACHE_NEW_NEGATIVE flag is now added to a negative dentry when it
->> is initially created. When such a dentry is added to the LRU, it will be
->> added to the head so that it will be the first to go when a shrinker is
->> running if it is never accessed again (DCACHE_REFERENCED bit not set).
->> The flag is cleared after the LRU list addition.
-> Placing object to the head of the LRU list can be really tricky as Dave
-> pointed out. I am not familiar with the dentry cache reclaim so my
-> comparison below might not apply. Let me try anyway.
+>> On Tue, 28 Aug 2018 13:19:40 -0400 Waiman Long <longman@redhat.com> wrote:
+>>
+>>>  /**
+>>> + * list_lru_add_head: add an element to the lru list's head
+>>> + * @list_lru: the lru pointer
+>>> + * @item: the item to be added.
+>>> + *
+>>> + * This is similar to list_lru_add(). The only difference is the location
+>>> + * where the new item will be added. The list_lru_add() function will add
+>> People often use the term "the foo() function".  I don't know why -
+>> just say "foo()"!
+> For whatever it is worth...
 >
-> Negative dentries sound very similar to MADV_FREE pages from the reclaim
-> POV. They are primary candidate for reclaim, yet you want to preserve
-> aging to other easily reclaimable objects (including other MADV_FREE
-> pages). What we do for those pages is to move them from the anonymous
-> LRU list to the inactive file LRU list. Now you obviously do not have
-> anon/file LRUs but something similar to active/inactive LRU lists might
-> be a reasonably good match. Have easily reclaimable dentries on the
-> inactive list including negative dentries. If negative entries are
-> heavily used then they can promote to the active list because there is
-> no reason to reclaim them soon.
+> I tend to use "The foo() function ..." instead of "foo() ..." in order
+> to properly capitalize the first word of the sentence.  So I might say
+> "The call_rcu() function enqueues an RCU callback." rather than something
+> like "call_rcu() enqueues an RCU callback."  Or I might use some other
+> trick to keep "call_rcu()" from being the first word of the sentence.
+> But if the end of the previous sentence introduced call_rcu(), you
+> usually want the next sentence's first use of "call_rcu()" to be very
+> early in the sentence, because otherwise the flow will seem choppy.
 >
-> Just my 2c
-
-As mentioned in my reply to Dave, I did considered using a 2 LRU list
-solution. However, that will add more complexity to the dcache LRU
-management code than my current approach and probably more potential for
-slowdown.
-
-One point that I forgot to mention is that the current dcache LRU list
-will only update the order of the dentries when the list is being
-shrinked. If a dentry was referenced again before (the DCACHE_REFERENCED
-bit set), it will rotated to the tail of the list via LRU rotation
-instead of being removed. This is not strictly LRU anyway. The way that
-my patch work will just make it move further away from true LRU behavior.
+> And no, I have no idea what I would do if I were writing in German,
+> where nouns are capitalized, given that function names tend to be used
+> as nouns.  Probably I would get yelled at a lot for capitalizing my
+> function names.  ;-)
+>
+> 							Thanx, Paul
+>
+Yes, doing proper capitalization of the first letter of a sentence is
+the main reason I used "The foo() function" in a sentence.
 
 Cheers,
 Longman
-
-
 
