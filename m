@@ -1,130 +1,233 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 187BC7D927
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 17:54:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 887257D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 17:59:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728014AbeH2VwO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 Aug 2018 17:52:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45776 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727399AbeH2VwO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Aug 2018 17:52:14 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w7THj1u4021578
-        for <linux-doc@vger.kernel.org>; Wed, 29 Aug 2018 13:54:12 -0400
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2m5ww9xaa0-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 29 Aug 2018 13:54:12 -0400
-Received: from localhost
-        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Wed, 29 Aug 2018 13:54:11 -0400
-Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
-        by e16.ny.us.ibm.com (146.89.104.203) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 29 Aug 2018 13:54:06 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w7THs5eg47120432
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 29 Aug 2018 17:54:05 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9A769B2064;
-        Wed, 29 Aug 2018 13:53:01 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7897FB205F;
-        Wed, 29 Aug 2018 13:53:01 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.159])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 29 Aug 2018 13:53:01 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 8570216C2EC5; Wed, 29 Aug 2018 10:54:05 -0700 (PDT)
-Date:   Wed, 29 Aug 2018 10:54:05 -0700
-From:   "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Waiman Long <longman@redhat.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
-        Michal Hocko <mhocko@kernel.org>
-Subject: Re: [PATCH 2/2] fs/dcache: Make negative dentries easier to be
- reclaimed
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1535476780-5773-1-git-send-email-longman@redhat.com>
- <1535476780-5773-3-git-send-email-longman@redhat.com>
- <20180828160150.9a45ee293c92708edb511eab@linux-foundation.org>
+        id S1727399AbeH2V5x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 Aug 2018 17:57:53 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45062 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726633AbeH2V5x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Aug 2018 17:57:53 -0400
+Received: by mail-lj1-f193.google.com with SMTP id u83-v6so5081648lje.12;
+        Wed, 29 Aug 2018 10:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=MYip9AbOVCQgzEPXolEh51dBtI4CiIkZBSQPky4ecn4=;
+        b=agigNKJjS8dB2aFfLGNADSTn+0JLzQYB07CkbSmeMBWx4BOPO8ybWk9tvjGQSRl9dH
+         ZfkWMOWjaNHs/ne+WEcxR3TmGvdx9G1qYZtnjdp5gPr0tajZDDM8zszWZDRaMUtjydod
+         6f6dJP37AJnKSnO64NBFETSvpwtfdNWi4tru1vKy4mDu72eliTxjjbLjPnuziGMtrs86
+         ad5wdnNty3vEAvyuvo68HtyjYVTGszZFgIVt7oFHCpgI2nddVWwDTYD98UcgdhHQTH60
+         JOfiRynYp5cr+CC9MpCqT2V5H0zCI4FdtfxBW9YH+ebXl/+tgnfDM5Ff4O395Ov8aLBh
+         vvyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=MYip9AbOVCQgzEPXolEh51dBtI4CiIkZBSQPky4ecn4=;
+        b=Rv9IfGAiy4rcePh6R8pjaOSu4/rqUDg+pQ7fEfOEYvu6eM27YzJ5Zu5/ZDxEandWnN
+         1qvlkflIt+XtG2KFy5ZP5m6SIasGH7pUl9qOjju9lbRbn2ni5G5WdnEbN6FxkxAfcPJd
+         5clbfLCUZRjCLx742pwkFzYOHOmo7mZOoGRR+YTtJw4TIx3xXiUH6pBg5nMslifyYwun
+         HmUlvtRFUQGskn/VeQWwgdijHmUnYorspW5tT4CYOK2KeHkuu2VEN+VNVczlfWH1922m
+         6YGkDqs/i+fL9EkU3EsjSeIJFJwr81aJDGGzixX48MxlzRhIsg2UqzbY394RM5FcluS9
+         aSCw==
+X-Gm-Message-State: APzg51C97F6aDd0UVmV5QfrMRFUQtkUMmd1Dr513yJAp5rmNJCfioCRZ
+        DHyLwauMQ9VGm0gjTQs/Oy0=
+X-Google-Smtp-Source: ANB0VdbupMqoF339jwiN7cehTpN+3p+1Lv3klNTnCV/qDkPvJb2gkHmzZMVvnJIXySfRnj4NDV8Y2w==
+X-Received: by 2002:a2e:1301:: with SMTP id 1-v6mr1094029ljt.56.1535565587710;
+        Wed, 29 Aug 2018 10:59:47 -0700 (PDT)
+Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
+        by smtp.gmail.com with ESMTPSA id j10-v6sm860262ljb.33.2018.08.29.10.59.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 Aug 2018 10:59:46 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Peter Rosin <peda@axentia.se>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-gpio@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
+        Network Development <netdev@vger.kernel.org>,
+        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-serial@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Willy Tarreau <w@1wt.eu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: Re: [RFC RFT PATCH v4 1/4] gpiolib: Pass bitmaps, not integer arrays, to get/set array
+Date:   Wed, 29 Aug 2018 20:01:01 +0200
+Message-ID: <21039309.e3MgZOjmZl@z50>
+In-Reply-To: <CANiq72kM9bYJ1Q+dbLumjfQLZW223ZTrYEFqfQ2Jv2SAjrD1NA@mail.gmail.com>
+References: <20180813223448.21316-1-jmkrzyszt@gmail.com> <20180820234341.5271-2-jmkrzyszt@gmail.com> <CANiq72kM9bYJ1Q+dbLumjfQLZW223ZTrYEFqfQ2Jv2SAjrD1NA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180828160150.9a45ee293c92708edb511eab@linux-foundation.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18082917-0072-0000-0000-000003994AB4
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009635; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000266; SDB=6.01080649; UDB=6.00557440; IPR=6.00860635;
- MB=3.00022999; MTD=3.00000008; XFM=3.00000015; UTC=2018-08-29 17:54:10
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18082917-0073-0000-0000-0000493E232D
-Message-Id: <20180829175405.GA17337@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-08-29_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=721 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1808290178
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 28, 2018 at 04:01:50PM -0700, Andrew Morton wrote:
+On Wednesday, August 29, 2018 2:03:18 PM CEST Miguel Ojeda wrote:
+> Hi Janusz,
 > 
-> Another pet peeve ;)
+> On Tue, Aug 21, 2018 at 1:43 AM, Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
+> > Most users of get/set array functions iterate consecutive bits of data,
+> > usually a single integer, while or processing array of results obtained
+> > from or building an array of values to be passed to those functions.
+> > Save time wasted on those iterations by changing the functions' API to
+> > accept bitmaps.
+> >
+> > All current users are updated as well.
+> >
+> > More benefits from the change are expected as soon as planned support
+> > for accepting/passing those bitmaps directly from/to respective GPIO
+> > chip callbacks if applicable is implemented.
+> >
+> > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> > ---
+> >  Documentation/driver-api/gpio/consumer.rst  | 22 ++++----
+> >  drivers/auxdisplay/hd44780.c                | 52 +++++++++--------
 > 
-> On Tue, 28 Aug 2018 13:19:40 -0400 Waiman Long <longman@redhat.com> wrote:
+> [CC'ing Willy and Geert for hd44780]
 > 
-> >  /**
-> > + * list_lru_add_head: add an element to the lru list's head
-> > + * @list_lru: the lru pointer
-> > + * @item: the item to be added.
-> > + *
-> > + * This is similar to list_lru_add(). The only difference is the location
-> > + * where the new item will be added. The list_lru_add() function will add
+> > diff --git a/drivers/auxdisplay/hd44780.c b/drivers/auxdisplay/hd44780.c
+> > index f1a42f0f1ded..d340473aa142 100644
+> > --- a/drivers/auxdisplay/hd44780.c
+> > +++ b/drivers/auxdisplay/hd44780.c
+> > @@ -62,20 +62,19 @@ static void hd44780_strobe_gpio(struct hd44780 *hd)
+> >  /* write to an LCD panel register in 8 bit GPIO mode */
+> >  static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
+> >  {
+> > -       int values[10]; /* for DATA[0-7], RS, RW */
+> > -       unsigned int i, n;
+> > +       unsigned long value_bitmap[1];  /* for DATA[0-7], RS, RW */
 > 
-> People often use the term "the foo() function".  I don't know why -
-> just say "foo()"!
+> Why [1]? I understand it is because in other cases it may be more than
+> one,
 
-For whatever it is worth...
+Yes, I tried to point out the fact the new API accepts a bitmap of an arbitrary 
+length, and I tried to use the same code pattern across changes to the API 
+users.
 
-I tend to use "The foo() function ..." instead of "foo() ..." in order
-to properly capitalize the first word of the sentence.  So I might say
-"The call_rcu() function enqueues an RCU callback." rather than something
-like "call_rcu() enqueues an RCU callback."  Or I might use some other
-trick to keep "call_rcu()" from being the first word of the sentence.
-But if the end of the previous sentence introduced call_rcu(), you
-usually want the next sentence's first use of "call_rcu()" to be very
-early in the sentence, because otherwise the flow will seem choppy.
+> but...
+> 
+> > +       unsigned int n;
+> >
+> > -       for (i = 0; i < 8; i++)
+> > -               values[PIN_DATA0 + i] = !!(val & BIT(i));
+> > -       values[PIN_CTRL_RS] = rs;
+> > +       value_bitmap[0] = val;
+> > +       __assign_bit(PIN_CTRL_RS, value_bitmap, rs);
+> >         n = 9;
+> >         if (hd->pins[PIN_CTRL_RW]) {
+> > -               values[PIN_CTRL_RW] = 0;
+> > +               __clear_bit(PIN_CTRL_RW, value_bitmap);
+> >                 n++;
+> >         }
+> >
+> >         /* Present the data to the port */
+> > -       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA0], values);
+> > +       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA0], value_bitmap);
+> >
+> >         hd44780_strobe_gpio(hd);
+> >  }
+> > @@ -83,32 +82,31 @@ static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
+> >  /* write to an LCD panel register in 4 bit GPIO mode */
+> >  static void hd44780_write_gpio4(struct hd44780 *hd, u8 val, unsigned int rs)
+> >  {
+> > -       int values[10]; /* for DATA[0-7], RS, RW, but DATA[0-3] is unused */
+> > -       unsigned int i, n;
+> > +       /* for DATA[0-7], RS, RW, but DATA[0-3] is unused */
+> > +       unsigned long value_bitmap[0];
+> 
+> This one is even more strange... :-)
 
-And no, I have no idea what I would do if I were writing in German,
-where nouns are capitalized, given that function names tend to be used
-as nouns.  Probably I would get yelled at a lot for capitalizing my
-function names.  ;-)
+This one is an error, should be 1 of course :-), thanks.
 
-							Thanx, Paul
+> > +       unsigned int n;
+> >
+> >         /* High nibble + RS, RW */
+> > -       for (i = 4; i < 8; i++)
+> > -               values[PIN_DATA0 + i] = !!(val & BIT(i));
+> > -       values[PIN_CTRL_RS] = rs;
+> > +       value_bitmap[0] = val;
+> > +       __assign_bit(PIN_CTRL_RS, value_bitmap, rs);
+> >         n = 5;
+> >         if (hd->pins[PIN_CTRL_RW]) {
+> > -               values[PIN_CTRL_RW] = 0;
+> > +               __clear_bit(PIN_CTRL_RW, value_bitmap);
+> >                 n++;
+> >         }
+> > +       value_bitmap[0] = value_bitmap[0] >> PIN_DATA4;
+> 
+> Maybe >>=?
+
+OK.
+
+Answering you question below:
+To make my changes as clear as I could imagine, I decided to use the same indexing as in the original code, i.e., assign high nibble of val to bits 4-7 and two other values - rs and an optional 0 - to bits 8 and 9, respectively.
+Unlike in case of array of integers, where for the high nibble part you could just pass a pointer to a sub-array starting at the 5th value (i.e., &values[PIN_DATA4]), it was not possible to do the same for and arbitrary bit of a bitmap, e.g., pass a pointer to the 5th bit of *value_bitmap as an argument pointing to bit 0 of a bitmap to be processed. That's why I shifted the bitmap right by 4 bits.
+Then, ...
+
+> >
+> >         /* Present the data to the port */
+> > -       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4],
+> > -                                      &values[PIN_DATA4]);
+> > +       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], value_bitmap);
+> >
+> >         hd44780_strobe_gpio(hd);
+> >
+> >         /* Low nibble */
+> > -       for (i = 0; i < 4; i++)
+> > -               values[PIN_DATA4 + i] = !!(val & BIT(i));
+> > +       value_bitmap[0] &= ~((1 << PIN_DATA4) - 1);
+> > +       value_bitmap[0] |= val & ~((1 << PIN_DATA4) - 1);
+> 
+> Are you sure this is correct? You are basically doing an or of
+> value_bitmap and val and clearing the low-nibble.
+
+having the rs and optional 0 already assigned to bits 4 and 5 of the bitmap, I just cleared bits 0-3 still containing the high nibble of val and assigned the low nibble of it to those bits, getting a result ready to be passed as an argument to gpiod_set_array_value_cansleep() below.
+
+I hope I didn't miss anything.
+
+Thanks,
+Janusz
+
+> >
+> >         /* Present the data to the port */
+> > -       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4],
+> > -                                      &values[PIN_DATA4]);
+> > +       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], value_bitmap);
+> >
+> >         hd44780_strobe_gpio(hd);
+> >  }
+> 
+> Cheers,
+> Miguel
+> 
+
+
+
 
