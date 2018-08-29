@@ -4,83 +4,80 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 887257D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 17:59:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CDB447D584
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 18:15:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727399AbeH2V5x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 Aug 2018 17:57:53 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:45062 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726633AbeH2V5x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Aug 2018 17:57:53 -0400
-Received: by mail-lj1-f193.google.com with SMTP id u83-v6so5081648lje.12;
-        Wed, 29 Aug 2018 10:59:48 -0700 (PDT)
+        id S1728054AbeH2WNO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 Aug 2018 18:13:14 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:36159 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727399AbeH2WNO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Aug 2018 18:13:14 -0400
+Received: by mail-lj1-f195.google.com with SMTP id v26-v6so5143794ljj.3;
+        Wed, 29 Aug 2018 11:15:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MYip9AbOVCQgzEPXolEh51dBtI4CiIkZBSQPky4ecn4=;
-        b=agigNKJjS8dB2aFfLGNADSTn+0JLzQYB07CkbSmeMBWx4BOPO8ybWk9tvjGQSRl9dH
-         ZfkWMOWjaNHs/ne+WEcxR3TmGvdx9G1qYZtnjdp5gPr0tajZDDM8zszWZDRaMUtjydod
-         6f6dJP37AJnKSnO64NBFETSvpwtfdNWi4tru1vKy4mDu72eliTxjjbLjPnuziGMtrs86
-         ad5wdnNty3vEAvyuvo68HtyjYVTGszZFgIVt7oFHCpgI2nddVWwDTYD98UcgdhHQTH60
-         JOfiRynYp5cr+CC9MpCqT2V5H0zCI4FdtfxBW9YH+ebXl/+tgnfDM5Ff4O395Ov8aLBh
-         vvyA==
+        bh=aCazvnBEpnm0Gyw6GCjF0KHSnNzsP+NrH/ddpIW4/7M=;
+        b=U0zIZOjse7NTlkw8aL1Xf79IgHi5J6GzaD7VdAcm5GcPzTlIfhqyAPHBu6dGbRAnKd
+         3oZrCFUXOn27H5zbcjg3e4vxdQEP9GQ2IQ5QbrgUiYYSOgFuFI9sKoQUSa5u45NqE4Q9
+         CpcWfQ/Zycm3FXRug6ou3jUZAvvjXqDGdGPU7d/zgDgBJRgCRrbllyZWzvL+MXDteDeG
+         f1JPhJOVcBAYf5fHUGBmZwhrbac62d1ZJJW613XeO2uvZaXGkrhq83yVVlNzqUfbr0oz
+         1RssNhfaCVr6z6O5wzyHWfaFo1QFdPvlRsFsUzwfWXmd0ao+6cS3FbrdfO5dUWkNFHGe
+         64Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MYip9AbOVCQgzEPXolEh51dBtI4CiIkZBSQPky4ecn4=;
-        b=Rv9IfGAiy4rcePh6R8pjaOSu4/rqUDg+pQ7fEfOEYvu6eM27YzJ5Zu5/ZDxEandWnN
-         1qvlkflIt+XtG2KFy5ZP5m6SIasGH7pUl9qOjju9lbRbn2ni5G5WdnEbN6FxkxAfcPJd
-         5clbfLCUZRjCLx742pwkFzYOHOmo7mZOoGRR+YTtJw4TIx3xXiUH6pBg5nMslifyYwun
-         HmUlvtRFUQGskn/VeQWwgdijHmUnYorspW5tT4CYOK2KeHkuu2VEN+VNVczlfWH1922m
-         6YGkDqs/i+fL9EkU3EsjSeIJFJwr81aJDGGzixX48MxlzRhIsg2UqzbY394RM5FcluS9
-         aSCw==
-X-Gm-Message-State: APzg51C97F6aDd0UVmV5QfrMRFUQtkUMmd1Dr513yJAp5rmNJCfioCRZ
-        DHyLwauMQ9VGm0gjTQs/Oy0=
-X-Google-Smtp-Source: ANB0VdbupMqoF339jwiN7cehTpN+3p+1Lv3klNTnCV/qDkPvJb2gkHmzZMVvnJIXySfRnj4NDV8Y2w==
-X-Received: by 2002:a2e:1301:: with SMTP id 1-v6mr1094029ljt.56.1535565587710;
-        Wed, 29 Aug 2018 10:59:47 -0700 (PDT)
+        bh=aCazvnBEpnm0Gyw6GCjF0KHSnNzsP+NrH/ddpIW4/7M=;
+        b=jG0AsTcaJvg2xjgGIMGR6kleJl2+ppRl+myZXqUQtahDs7NpG5yGKXO2Bl4ljVf4/Y
+         8kr66+m5c1QVy1fmxY8RthGSu8O7/9vRFx7m1Xsk9ALzrVDQVR3iJsLY3zO1phzcNDTq
+         48wMCaegU8HmENHWmTFXA4ofJA0u7iEyy0hn+PH4lndbXJ1moPtVTPWRTxXGxb8C187w
+         Uz6e6+y40cW/WfTc3b6/K8ujYSHma1vgFEBmxqTZCRSBQWz+mb3Q0YLxVoQg9NzM1UFW
+         ivXiMTUh8LDiXC2koE5R9GYQXkKV2XZ9HYDe/7h0LE7oukdVeX500InXRjXO9E86C18/
+         x6Ug==
+X-Gm-Message-State: APzg51Dqf2NNVzVBZ0kNMpsTFYICALcFaAWrue5g459YVSBZwgJI7yc3
+        QF1us+AnCaeveqH7w6FK0no=
+X-Google-Smtp-Source: ANB0VdYjHmuSri0MpxQ5WAvP8Nkj7cnPlw8jEXXy1dbEnl0A06ypglmgF1MmXL/s1/shdOzE2FEudg==
+X-Received: by 2002:a2e:9f4d:: with SMTP id v13-v6mr4896917ljk.42.1535566506354;
+        Wed, 29 Aug 2018 11:15:06 -0700 (PDT)
 Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id j10-v6sm860262ljb.33.2018.08.29.10.59.45
+        by smtp.gmail.com with ESMTPSA id n3-v6sm799786lji.96.2018.08.29.11.15.04
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 Aug 2018 10:59:46 -0700 (PDT)
+        Wed, 29 Aug 2018 11:15:05 -0700 (PDT)
 From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
         Peter Korsgaard <peter.korsgaard@barco.com>,
         Peter Rosin <peda@axentia.se>,
         Ulf Hansson <ulf.hansson@linaro.org>,
         Andrew Lunn <andrew@lunn.ch>,
         Florian Fainelli <f.fainelli@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>, kishon@ti.com,
         Lars-Peter Clausen <lars@metafoo.de>,
         Michael Hennerich <Michael.Hennerich@analog.com>,
         Jonathan Cameron <jic23@kernel.org>,
         Hartmut Knaack <knaack.h@gmx.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-gpio@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
-        Network Development <netdev@vger.kernel.org>,
-        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-serial@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Willy Tarreau <w@1wt.eu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Peter Meerwald <pmeerw@pmeerw.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>, linux-iio@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-serial@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [RFC RFT PATCH v4 1/4] gpiolib: Pass bitmaps, not integer arrays, to get/set array
-Date:   Wed, 29 Aug 2018 20:01:01 +0200
-Message-ID: <21039309.e3MgZOjmZl@z50>
-In-Reply-To: <CANiq72kM9bYJ1Q+dbLumjfQLZW223ZTrYEFqfQ2Jv2SAjrD1NA@mail.gmail.com>
-References: <20180813223448.21316-1-jmkrzyszt@gmail.com> <20180820234341.5271-2-jmkrzyszt@gmail.com> <CANiq72kM9bYJ1Q+dbLumjfQLZW223ZTrYEFqfQ2Jv2SAjrD1NA@mail.gmail.com>
+Subject: Re: [RFC RFT PATCH 0/4] gpiolib: speed up GPIO array processing
+Date:   Wed, 29 Aug 2018 20:16:20 +0200
+Message-ID: <1595423.PPW7Q1vFt0@z50>
+In-Reply-To: <CACRpkdbgY6VNP-K-c5ErQtmO7E83D6c=49TN5siF8VTNh_66Jg@mail.gmail.com>
+References: <20180813223448.21316-1-jmkrzyszt@gmail.com> <20180820234341.5271-1-jmkrzyszt@gmail.com> <CACRpkdbgY6VNP-K-c5ErQtmO7E83D6c=49TN5siF8VTNh_66Jg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -89,143 +86,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wednesday, August 29, 2018 2:03:18 PM CEST Miguel Ojeda wrote:
-> Hi Janusz,
+Hi Linus,
+
+On Wednesday, August 29, 2018 11:06:21 AM CEST Linus Walleij wrote:
+> On Tue, Aug 21, 2018 at 1:42 AM Janusz Krzysztofik <jmkrzyszt@gmail.com> 
+wrote:
 > 
-> On Tue, Aug 21, 2018 at 1:43 AM, Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
-> > Most users of get/set array functions iterate consecutive bits of data,
-> > usually a single integer, while or processing array of results obtained
-> > from or building an array of values to be passed to those functions.
-> > Save time wasted on those iterations by changing the functions' API to
-> > accept bitmaps.
+> > This series is a follow up of the former "mtd: rawnand: ams-delta: Use
+> > gpio-omap accessors for data I/O" which already contained some changes
+> > to gpiolib.  Those previous attempts were commented by Borris Brezillon
+> > who suggested using GPIO API modified to accept bitmaps, and by Linus
+> > Walleij who suggested still more great ideas for further immprovement
+> > of the proposed API changes - thanks!
 > >
-> > All current users are updated as well.
-> >
-> > More benefits from the change are expected as soon as planned support
-> > for accepting/passing those bitmaps directly from/to respective GPIO
-> > chip callbacks if applicable is implemented.
-> >
-> > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> > ---
-> >  Documentation/driver-api/gpio/consumer.rst  | 22 ++++----
-> >  drivers/auxdisplay/hd44780.c                | 52 +++++++++--------
+> > The goal is to boost performans of get/set array functions while
+> > processing GPIO arrays which represent pins of a signle chip in
+> > hardware order.  If resulting performance is close to PIO, GPIO API
+> > can be used for data I/O without much loss of speed.
 > 
-> [CC'ing Willy and Geert for hd44780]
+> Hands down, this is a very pretty patch set. I'm a big fan already.
 > 
-> > diff --git a/drivers/auxdisplay/hd44780.c b/drivers/auxdisplay/hd44780.c
-> > index f1a42f0f1ded..d340473aa142 100644
-> > --- a/drivers/auxdisplay/hd44780.c
-> > +++ b/drivers/auxdisplay/hd44780.c
-> > @@ -62,20 +62,19 @@ static void hd44780_strobe_gpio(struct hd44780 *hd)
-> >  /* write to an LCD panel register in 8 bit GPIO mode */
-> >  static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
-> >  {
-> > -       int values[10]; /* for DATA[0-7], RS, RW */
-> > -       unsigned int i, n;
-> > +       unsigned long value_bitmap[1];  /* for DATA[0-7], RS, RW */
+> This is mainly because it fulfills the requirement for libraries
+> to be narrow and deep, which is what we want.
+> This refers to John Ousterhouts software design philosophy,
+> here is a great lecture if you haven't seen it already:
+> https://www.youtube.com/watch?v=bmSAYlu0NcY
 > 
-> Why [1]? I understand it is because in other cases it may be more than
-> one,
+> Let's get this into v1 and get some testing and merge it for v4.20
+> ASAP
 
-Yes, I tried to point out the fact the new API accepts a bitmap of an arbitrary 
-length, and I tried to use the same code pattern across changes to the API 
-users.
-
-> but...
-> 
-> > +       unsigned int n;
-> >
-> > -       for (i = 0; i < 8; i++)
-> > -               values[PIN_DATA0 + i] = !!(val & BIT(i));
-> > -       values[PIN_CTRL_RS] = rs;
-> > +       value_bitmap[0] = val;
-> > +       __assign_bit(PIN_CTRL_RS, value_bitmap, rs);
-> >         n = 9;
-> >         if (hd->pins[PIN_CTRL_RW]) {
-> > -               values[PIN_CTRL_RW] = 0;
-> > +               __clear_bit(PIN_CTRL_RW, value_bitmap);
-> >                 n++;
-> >         }
-> >
-> >         /* Present the data to the port */
-> > -       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA0], values);
-> > +       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA0], value_bitmap);
-> >
-> >         hd44780_strobe_gpio(hd);
-> >  }
-> > @@ -83,32 +82,31 @@ static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
-> >  /* write to an LCD panel register in 4 bit GPIO mode */
-> >  static void hd44780_write_gpio4(struct hd44780 *hd, u8 val, unsigned int rs)
-> >  {
-> > -       int values[10]; /* for DATA[0-7], RS, RW, but DATA[0-3] is unused */
-> > -       unsigned int i, n;
-> > +       /* for DATA[0-7], RS, RW, but DATA[0-3] is unused */
-> > +       unsigned long value_bitmap[0];
-> 
-> This one is even more strange... :-)
-
-This one is an error, should be 1 of course :-), thanks.
-
-> > +       unsigned int n;
-> >
-> >         /* High nibble + RS, RW */
-> > -       for (i = 4; i < 8; i++)
-> > -               values[PIN_DATA0 + i] = !!(val & BIT(i));
-> > -       values[PIN_CTRL_RS] = rs;
-> > +       value_bitmap[0] = val;
-> > +       __assign_bit(PIN_CTRL_RS, value_bitmap, rs);
-> >         n = 5;
-> >         if (hd->pins[PIN_CTRL_RW]) {
-> > -               values[PIN_CTRL_RW] = 0;
-> > +               __clear_bit(PIN_CTRL_RW, value_bitmap);
-> >                 n++;
-> >         }
-> > +       value_bitmap[0] = value_bitmap[0] >> PIN_DATA4;
-> 
-> Maybe >>=?
-
-OK.
-
-Answering you question below:
-To make my changes as clear as I could imagine, I decided to use the same indexing as in the original code, i.e., assign high nibble of val to bits 4-7 and two other values - rs and an optional 0 - to bits 8 and 9, respectively.
-Unlike in case of array of integers, where for the high nibble part you could just pass a pointer to a sub-array starting at the 5th value (i.e., &values[PIN_DATA4]), it was not possible to do the same for and arbitrary bit of a bitmap, e.g., pass a pointer to the 5th bit of *value_bitmap as an argument pointing to bit 0 of a bitmap to be processed. That's why I shifted the bitmap right by 4 bits.
-Then, ...
-
-> >
-> >         /* Present the data to the port */
-> > -       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4],
-> > -                                      &values[PIN_DATA4]);
-> > +       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], value_bitmap);
-> >
-> >         hd44780_strobe_gpio(hd);
-> >
-> >         /* Low nibble */
-> > -       for (i = 0; i < 4; i++)
-> > -               values[PIN_DATA4 + i] = !!(val & BIT(i));
-> > +       value_bitmap[0] &= ~((1 << PIN_DATA4) - 1);
-> > +       value_bitmap[0] |= val & ~((1 << PIN_DATA4) - 1);
-> 
-> Are you sure this is correct? You are basically doing an or of
-> value_bitmap and val and clearing the low-nibble.
-
-having the rs and optional 0 already assigned to bits 4 and 5 of the bitmap, I just cleared bits 0-3 still containing the high nibble of val and assigned the low nibble of it to those bits, getting a result ready to be passed as an argument to gpiod_set_array_value_cansleep() below.
-
-I hope I didn't miss anything.
+Please hold on for a while, I'm going to resubmit soon, with the comment from 
+Peter Rosin on i2c-mux-gpio addressed and the error discovered by Miguel Ojeda 
+in hd44780 fixed.
 
 Thanks,
 Janusz
 
-> >
-> >         /* Present the data to the port */
-> > -       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4],
-> > -                                      &values[PIN_DATA4]);
-> > +       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], value_bitmap);
-> >
-> >         hd44780_strobe_gpio(hd);
-> >  }
+> so we get some proper testing before the v4.20 merge
+> window. It would be excellent if some of the current users of
+> the array API could provide tested-by's or at least ACKs.
 > 
-> Cheers,
-> Miguel
+> For example ts-nbus.c must be a big benefactor.
+> 
+> Yours,
+> Linus Walleij
 > 
 
 
