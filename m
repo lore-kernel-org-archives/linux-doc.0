@@ -1,170 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0BDCA7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 14:48:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7839A7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 15:17:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729224AbeH3SvI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 14:51:08 -0400
-Received: from mga01.intel.com ([192.55.52.88]:38417 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729048AbeH3SqP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Aug 2018 14:46:15 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 07:43:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,307,1531810800"; 
-   d="scan'208";a="67186660"
-Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2018 07:43:39 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1726878AbeH3TUR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 15:20:17 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37284 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725996AbeH3TUR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 15:20:17 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tomeu)
+        with ESMTPSA id 562F9263ABC
+Subject: Re: [PATCH v6] Add udmabuf misc device
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v3 00/24] Control Flow Enforcement: Shadow Stack
-Date:   Thu, 30 Aug 2018 07:38:40 -0700
-Message-Id: <20180830143904.3168-1-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.17.1
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, Zach Reizner <zachr@google.com>,
+        Daniel Stone <daniels@collabora.com>
+References: <20180703075359.30349-1-kraxel@redhat.com>
+ <20180703083757.GG7880@phenom.ffwll.local>
+ <20180704055338.n3b7oexltaejqmcd@sirius.home.kraxel.org>
+ <9818b301-9c9d-c703-d4fe-7c2d4d43ed66@collabora.com>
+ <20180704080005.juutrwri4kxm7yim@sirius.home.kraxel.org>
+From:   Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Message-ID: <06d8aa8d-5eac-64e2-f21e-43fe7ca96cc2@collabora.com>
+Date:   Thu, 30 Aug 2018 17:17:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20180704080005.juutrwri4kxm7yim@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous version of CET patches can be found in the following
-link.
+On 07/04/2018 10:00 AM, Gerd Hoffmann wrote:
+> On Wed, Jul 04, 2018 at 09:26:39AM +0200, Tomeu Vizoso wrote:
+>> On 07/04/2018 07:53 AM, Gerd Hoffmann wrote:
+>>> On Tue, Jul 03, 2018 at 10:37:57AM +0200, Daniel Vetter wrote:
+>>>> On Tue, Jul 03, 2018 at 09:53:58AM +0200, Gerd Hoffmann wrote:
+>>>>> A driver to let userspace turn memfd regions into dma-bufs.
+>>>>>
+>>>>> Use case:  Allows qemu create dmabufs for the vga framebuffer or
+>>>>> virtio-gpu ressources.  Then they can be passed around to display
+>>>>> those guest things on the host.  To spice client for classic full
+>>>>> framebuffer display, and hopefully some day to wayland server for
+>>>>> seamless guest window display.
+>>>>>
+>>>>> qemu test branch:
+>>>>>     https://git.kraxel.org/cgit/qemu/log/?h=sirius/udmabuf
+>>>>>
+>>>>> Cc: David Airlie <airlied@linux.ie>
+>>>>> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>>>>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>>>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>>>>
+>>>> I think some ack for a 2nd use-case, like virtio-wl or whatever would be
+>>>> really cool. To give us some assurance that this is generically useful.
+>>>
+>>> Tomeu?  Laurent?
+>>
+>> Sorry, but I think I will need some help to understand how this could help
+>> in the virtio-wl case [adding Zach Reizner to CC].
+>>
+>> Any graphics buffers that are allocated with memfd will be shared with the
+>> compositor via wl_shm, without need for dmabufs.
+> 
+> Within one machine, yes.  Once virtualization is added to the mix things
+> become more complicated ...
+> 
+> When using virtio-gpu the guest will allocate graphics buffers from
+> normal (guest) ram, then register these buffers (which are allowed to be
+> scattered) with the host as resource.
+> 
+> qemu can use memfd to allocate guest ram.  Now, with the help of
+> udmabuf, qemu can create a *host* dma-buf for the *guest* graphics
+> buffer.
 
-  https://lkml.org/lkml/2018/7/10/1031
+Guess each physical address in the iovec in 
+VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING can be passed as the offset in the 
+udmabuf_create_item struct?
 
-Summary of changes from v2:
+> That dma-buf can be used by qemu internally (mmap it to get a linear
+> mapping of the resource, to avoid copying).  It can be passed on to
+> spice-client, to display the guest framebuffer.
+> 
+> And I think it could also be quite useful to pass guest wayland windows
+> to the host compositor, without mapping host-allocated buffers into the
+> guest, so we don't have do deal with the "find some address space for
+> the mapping" issue in the first place.
 
-  Move Shadow Stack page fault handling logic to arch/x86.
-  Update can_follow_write_pte/pmd; move logic to arch/x86.
-  Fix problems in WRUSS in-line assembly.
-  Fix issues in ELF parser.
-  Split out IBT/PTRACE patches to a second set.
-  Other small fixes.
+Sounds good to me if the answer to the above is "yes".
 
-Yu-cheng Yu (24):
-  x86/cpufeatures: Add CPUIDs for Control-flow Enforcement Technology
-    (CET)
-  x86/fpu/xstate: Change some names to separate XSAVES system and user
-    states
-  x86/fpu/xstate: Enable XSAVES system states
-  x86/fpu/xstate: Add XSAVES system states for shadow stack
-  Documentation/x86: Add CET description
-  x86/cet: Control protection exception handler
-  x86/cet/shstk: Add Kconfig option for user-mode shadow stack
-  mm: Introduce VM_SHSTK for shadow stack memory
-  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
-  x86/mm: Introduce _PAGE_DIRTY_SW
-  drm/i915/gvt: Update _PAGE_DIRTY to _PAGE_DIRTY_BITS
-  x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for
-    _PAGE_DIRTY_SW
-  x86/mm: Shadow stack page fault error checking
-  mm: Handle shadow stack page fault
-  mm: Handle THP/HugeTLB shadow stack page fault
-  mm: Update can_follow_write_pte/pmd for shadow stack
-  mm: Introduce do_mmap_locked()
-  x86/cet/shstk: User-mode shadow stack support
-  x86/cet/shstk: Introduce WRUSS instruction
-  x86/cet/shstk: Signal handling for shadow stack
-  x86/cet/shstk: ELF header parsing of Shadow Stack
-  x86/cet/shstk: Handle thread shadow stack
-  x86/cet/shstk: Add arch_prctl functions for Shadow Stack
-  x86/cet/shstk: Add Shadow Stack instructions to opcode map
+> There are more things needed to
+> complete this of course, but it's a building block ...
 
- .../admin-guide/kernel-parameters.txt         |   6 +
- Documentation/index.rst                       |   1 +
- Documentation/x86/index.rst                   |  11 +
- Documentation/x86/intel_cet.rst               | 252 +++++++++++++
- arch/x86/Kconfig                              |  28 ++
- arch/x86/Makefile                             |   7 +
- arch/x86/entry/entry_64.S                     |   2 +-
- arch/x86/ia32/ia32_signal.c                   |  13 +
- arch/x86/include/asm/cet.h                    |  42 +++
- arch/x86/include/asm/cpufeatures.h            |   2 +
- arch/x86/include/asm/disabled-features.h      |   8 +-
- arch/x86/include/asm/elf.h                    |   5 +
- arch/x86/include/asm/fpu/internal.h           |   6 +-
- arch/x86/include/asm/fpu/types.h              |  22 ++
- arch/x86/include/asm/fpu/xstate.h             |  31 +-
- arch/x86/include/asm/mmu_context.h            |   3 +
- arch/x86/include/asm/msr-index.h              |  14 +
- arch/x86/include/asm/pgtable.h                | 175 +++++++--
- arch/x86/include/asm/pgtable_types.h          |  31 +-
- arch/x86/include/asm/processor.h              |   5 +
- arch/x86/include/asm/sighandling.h            |   5 +
- arch/x86/include/asm/special_insns.h          |  37 ++
- arch/x86/include/asm/traps.h                  |   5 +
- arch/x86/include/uapi/asm/elf_property.h      |  15 +
- arch/x86/include/uapi/asm/prctl.h             |   5 +
- arch/x86/include/uapi/asm/processor-flags.h   |   2 +
- arch/x86/include/uapi/asm/sigcontext.h        |  17 +
- arch/x86/kernel/Makefile                      |   4 +
- arch/x86/kernel/cet.c                         | 285 +++++++++++++++
- arch/x86/kernel/cet_prctl.c                   |  79 ++++
- arch/x86/kernel/cpu/common.c                  |  24 ++
- arch/x86/kernel/cpu/scattered.c               |   1 +
- arch/x86/kernel/elf.c                         | 338 ++++++++++++++++++
- arch/x86/kernel/fpu/core.c                    |  11 +-
- arch/x86/kernel/fpu/init.c                    |  10 -
- arch/x86/kernel/fpu/signal.c                  |   6 +-
- arch/x86/kernel/fpu/xstate.c                  | 152 +++++---
- arch/x86/kernel/idt.c                         |   4 +
- arch/x86/kernel/process.c                     |   8 +
- arch/x86/kernel/process_64.c                  |   7 +
- arch/x86/kernel/relocate_kernel_64.S          |   2 +-
- arch/x86/kernel/signal.c                      |  96 +++++
- arch/x86/kernel/traps.c                       |  58 +++
- arch/x86/kvm/vmx.c                            |   2 +-
- arch/x86/lib/x86-opcode-map.txt               |  26 +-
- arch/x86/mm/extable.c                         |  11 +
- arch/x86/mm/fault.c                           |  27 ++
- arch/x86/mm/pgtable.c                         |  36 ++
- drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
- fs/binfmt_elf.c                               |  15 +
- fs/proc/task_mmu.c                            |   3 +
- include/asm-generic/pgtable.h                 |  52 +++
- include/linux/mm.h                            |  26 ++
- include/uapi/linux/elf.h                      |   1 +
- mm/gup.c                                      |   8 +-
- mm/huge_memory.c                              |  12 +-
- mm/internal.h                                 |   8 +
- mm/memory.c                                   |   3 +
- tools/objtool/arch/x86/lib/x86-opcode-map.txt |  26 +-
- 59 files changed, 1943 insertions(+), 150 deletions(-)
- create mode 100644 Documentation/x86/index.rst
- create mode 100644 Documentation/x86/intel_cet.rst
- create mode 100644 arch/x86/include/asm/cet.h
- create mode 100644 arch/x86/include/uapi/asm/elf_property.h
- create mode 100644 arch/x86/kernel/cet.c
- create mode 100644 arch/x86/kernel/cet_prctl.c
- create mode 100644 arch/x86/kernel/elf.c
+Are you thinking of anything else besides passing the winsrv protocol 
+across the guest/host boundary? Just wondering if I'm missing something.
 
--- 
-2.17.1
+Thanks,
 
+Tomeu
