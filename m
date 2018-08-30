@@ -1,167 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 714667DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:56:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2378E7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:56:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727953AbeHaB7z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 21:59:55 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:49820 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727810AbeHaB7p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Aug 2018 21:59:45 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 80BB67DAC2;
-        Thu, 30 Aug 2018 21:55:29 +0000 (UTC)
-Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EAFEE2157F4A;
-        Thu, 30 Aug 2018 21:55:28 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v2 4/4] fs/dcache: Eliminate branches in nr_dentry_negative accounting
-Date:   Thu, 30 Aug 2018 17:55:07 -0400
-Message-Id: <1535666107-25699-5-git-send-email-longman@redhat.com>
-In-Reply-To: <1535666107-25699-1-git-send-email-longman@redhat.com>
-References: <1535666107-25699-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 30 Aug 2018 21:55:29 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 30 Aug 2018 21:55:29 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        id S1727629AbeHaCAn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 22:00:43 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:42157 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727539AbeHaCAn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 22:00:43 -0400
+Received: by mail-pg1-f195.google.com with SMTP id y4-v6so4481260pgp.9
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 14:56:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iWcmBCDwUKd4jj1L7AbvOTMWjbSc8v8zlrIjl+DjrBo=;
+        b=m+bVJqytTZZvcesHHVIeSiYlNTdxjaRCL4mNVOiGZHwV3ocDEbpbsRfQF647E8Tldu
+         FUgS4chkYthhEGlfnW1x5zlQXyIaExHi7D1vsg52oGSYBuRVLydEU0tu83KDGiuI7RoK
+         QG37cb+863gh6rVWwiInJ6GeZVopJCA0n4VNo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iWcmBCDwUKd4jj1L7AbvOTMWjbSc8v8zlrIjl+DjrBo=;
+        b=Q0xK2ovnbKJ0ipVVg/5+nUylqGRFWszWklb6nTQzh2GysO5frZihQbLuHDLqnvNvQT
+         1TpgVaHv3An+VXy2llG3/qfCcKkQqVKD63FwYFAPil2jmxmXesdCFMCQBHrrVH1GE252
+         gIAJJcraQODnVs6qKZ3AJH8X7T0CezmNuBHjB1lJk5NM8ePDlnSmzsfh0LV2ofNg0037
+         aXvNPTOhQcP+AeD/jhjZQL1H4mnigj5i/g3d2vKbrXvCY64IqNyqI7Atta4Oivy9VB53
+         5HXnK0tvhL3NaTSW3VmQ3tVCwopykJapXqpfP9juiPXeZZWnd7faiI+eG8Ngy0dgi7n4
+         COyQ==
+X-Gm-Message-State: APzg51AQ9jFwpjb5JLqK8zz4A6c6sjIomS7xkiV3SfmlApbmo+KDJ540
+        gEc9VsREufm6eTFn2pnrRC3kuA==
+X-Google-Smtp-Source: ANB0VdbGmWEE2EmQO6KH/JM1ykYqh4PwKfszwwS9XsJ1tip2BaTTdYVoIp1ABW44wsqK6xMjP9BHOA==
+X-Received: by 2002:a63:6fcf:: with SMTP id k198-v6mr8290767pgc.360.1535666187696;
+        Thu, 30 Aug 2018 14:56:27 -0700 (PDT)
+Received: from kolhar.mtv.corp.google.com ([2620:15c:202:201:356a:9de2:526a:5bc])
+        by smtp.gmail.com with ESMTPSA id h132-v6sm13516828pfc.100.2018.08.30.14.56.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 30 Aug 2018 14:56:27 -0700 (PDT)
+From:   Harry Cutts <hcutts@chromium.org>
+To:     linux-input <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     Jiri Kosina <jiri.kosina@suse.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Harry Cutts <hcutts@chromium.org>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jiri Kosina <jikos@kernel.org>
+Subject: [PATCH v2 0/5] Add support for high-resolution scrolling on Logitech mice
+Date:   Thu, 30 Aug 2018 14:56:17 -0700
+Message-Id: <20180830215622.47550-1-hcutts@chromium.org>
+X-Mailer: git-send-email 2.19.0.rc0.228.g281dcd1b4d0-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Because the accounting of nr_dentry_negative depends on whether a dentry
-is a negative one or not, branch instructions are introduced to handle
-the accounting conditionally. That may potentially slow down the task
-by a noticeable amount if that introduces sizeable amount of additional
-branch mispredictions.
+Hi everyone,
 
-To avoid that, the accounting code is now modified to use conditional
-move instructions instead, if supported by the architecture.
+This is v2 of the patch set adding support for high-resolution scroll
+wheels on Logitech mice. See the linux-input "Reporting high-resolution
+scroll events" thread [0] for previous discussion of the evdev changes.
+I would love to hear your feedback.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- fs/dcache.c | 41 +++++++++++++++++++++++++++++------------
- 1 file changed, 29 insertions(+), 12 deletions(-)
+Thanks,
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index c1cc956..dfd5628 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -171,6 +171,29 @@ int proc_nr_dentry(struct ctl_table *table, int write, void __user *buffer,
- 	dentry_stat.nr_negative = get_nr_dentry_negative();
- 	return proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
- }
-+
-+/*
-+ * Increment/Decrement nr_dentry_negative if the condition is true.
-+ * For architectures that support some kind of conditional move, compiler
-+ * should be able generate code to inc/dec negative dentry counter
-+ * without any branch instruction.
-+ */
-+static inline void cond_negative_dentry_inc(bool cond)
-+{
-+	int val = !!cond;
-+
-+	this_cpu_add(nr_dentry_negative, val);
-+}
-+
-+static inline void cond_negative_dentry_dec(bool cond)
-+{
-+	int val = !!cond;
-+
-+	this_cpu_sub(nr_dentry_negative, val);
-+}
-+#else
-+static inline void cond_negative_dentry_inc(bool cond) { }
-+static inline void cond_negative_dentry_dec(bool cond) { }
- #endif
- 
- /*
-@@ -343,8 +366,7 @@ static inline void __d_clear_type_and_inode(struct dentry *dentry)
- 	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
- 	WRITE_ONCE(dentry->d_flags, flags);
- 	dentry->d_inode = NULL;
--	if (dentry->d_flags & DCACHE_LRU_LIST)
--		this_cpu_inc(nr_dentry_negative);
-+	cond_negative_dentry_inc(dentry->d_flags & DCACHE_LRU_LIST);
- }
- 
- static void dentry_free(struct dentry *dentry)
-@@ -412,8 +434,7 @@ static void d_lru_add(struct dentry *dentry)
- 	D_FLAG_VERIFY(dentry, 0);
- 	dentry->d_flags |= DCACHE_LRU_LIST;
- 	this_cpu_inc(nr_dentry_unused);
--	if (d_is_negative(dentry))
--		this_cpu_inc(nr_dentry_negative);
-+	cond_negative_dentry_inc(d_is_negative(dentry));
- 	WARN_ON_ONCE(!list_lru_add(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
- }
- 
-@@ -422,8 +443,7 @@ static void d_lru_del(struct dentry *dentry)
- 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
- 	dentry->d_flags &= ~DCACHE_LRU_LIST;
- 	this_cpu_dec(nr_dentry_unused);
--	if (d_is_negative(dentry))
--		this_cpu_dec(nr_dentry_negative);
-+	cond_negative_dentry_dec(d_is_negative(dentry));
- 	WARN_ON_ONCE(!list_lru_del(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
- }
- 
-@@ -454,8 +474,7 @@ static void d_lru_isolate(struct list_lru_one *lru, struct dentry *dentry)
- 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
- 	dentry->d_flags &= ~DCACHE_LRU_LIST;
- 	this_cpu_dec(nr_dentry_unused);
--	if (d_is_negative(dentry))
--		this_cpu_dec(nr_dentry_negative);
-+	cond_negative_dentry_dec(d_is_negative(dentry));
- 	list_lru_isolate(lru, &dentry->d_lru);
- }
- 
-@@ -464,8 +483,7 @@ static void d_lru_shrink_move(struct list_lru_one *lru, struct dentry *dentry,
- {
- 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
- 	dentry->d_flags |= DCACHE_SHRINK_LIST;
--	if (d_is_negative(dentry))
--		this_cpu_dec(nr_dentry_negative);
-+	cond_negative_dentry_dec(d_is_negative(dentry));
- 	list_lru_isolate_move(lru, &dentry->d_lru, list);
- }
- 
-@@ -1865,8 +1883,7 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
- 	/*
- 	 * Decrement negative dentry count if it was in the LRU list.
- 	 */
--	if (dentry->d_flags & DCACHE_LRU_LIST)
--		this_cpu_dec(nr_dentry_negative);
-+	cond_negative_dentry_dec(dentry->d_flags & DCACHE_LRU_LIST);
- 	hlist_add_head(&dentry->d_u.d_alias, &inode->i_dentry);
- 	raw_write_seqcount_begin(&dentry->d_seq);
- 	__d_set_inode_and_type(dentry, inode, add_flags);
+Harry Cutts
+Chrome OS Touch/Input team
+
+[0]: https://www.spinics.net/lists/linux-input/msg57380.html
+
+
+Changes in v2:
+* Changed the REL_WHEEL_HI_RES code to use micrometres (a.k.a. microns)
+  as its units, instead of 256ths of a millimetre.
+* Removed support for mice connecting over Bluetooth, due to a bug where
+  the mouse's high-res mode and the driver's settings get out of sync
+  when the mouse is power cycled.
+* Moved the creation of the HID++ 1.0 function and the refactor to use
+  the LDJ_DEVICE macro into separate patches.
+* Added a couple of explanatory comments to the Logitech driver.
+
+Harry Cutts (5):
+  Add the `REL_WHEEL_HI_RES` event code
+  Create a utility class for counting scroll events
+  Add function to enable HID++ 1.0 "scrolling acceleration"
+  Enable high-resolution scrolling on Logitech mice
+  Use LDJ_DEVICE macro for existing Logitech mice
+
+ Documentation/input/event-codes.rst    |  11 +-
+ drivers/hid/hid-input.c                |  45 ++++
+ drivers/hid/hid-logitech-hidpp.c       | 311 ++++++++++++++++++++++---
+ include/linux/hid.h                    |  28 +++
+ include/uapi/linux/input-event-codes.h |   1 +
+ 5 files changed, 368 insertions(+), 28 deletions(-)
+
 -- 
-1.8.3.1
+2.19.0.rc0.228.g281dcd1b4d0-goog
 
