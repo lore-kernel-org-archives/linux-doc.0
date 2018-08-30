@@ -2,237 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD6B77D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:29:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7F6377D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:32:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727067AbeHaBdu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 21:33:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55936 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727585AbeHaBdu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 21:33:50 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w7ULNvKb113603
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:29:40 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2m6na8fkb6-1
+        id S1727232AbeHaBhC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 21:37:02 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33058 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727555AbeHaBhB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 21:37:01 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w7ULTSWi136319
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:32:52 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2m6qxjsbnw-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:29:24 -0400
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:32:51 -0400
 Received: from localhost
-        by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
-        Thu, 30 Aug 2018 15:29:23 -0600
-Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
-        by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Thu, 30 Aug 2018 17:32:50 -0400
+Received: from b01cxnp22033.gho.pok.ibm.com (9.57.198.23)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 30 Aug 2018 15:29:18 -0600
-Received: from b03ledav003.gho.boulder.ibm.com (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
-        by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w7ULTHk163635512
+        Thu, 30 Aug 2018 17:32:47 -0400
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
+        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w7ULWkLT46727178
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 30 Aug 2018 14:29:17 -0700
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6A5AC6A047;
-        Thu, 30 Aug 2018 15:29:17 -0600 (MDT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8F9936A058;
-        Thu, 30 Aug 2018 15:29:11 -0600 (MDT)
+        Thu, 30 Aug 2018 21:32:46 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B90B9124055;
+        Thu, 30 Aug 2018 18:33:23 -0400 (EDT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D135E124052;
+        Thu, 30 Aug 2018 18:33:22 -0400 (EDT)
 Received: from oc6728276242.ibm.com (unknown [9.85.221.248])
-        by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Thu, 30 Aug 2018 15:29:11 -0600 (MDT)
-Subject: Re: [PATCH v4 2/9] Documentation: hwmon: Add OCC documentation
-To:     Guenter Roeck <linux@roeck-us.net>
+        by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+        Thu, 30 Aug 2018 18:33:22 -0400 (EDT)
+From:   Eddie James <eajames@linux.vnet.ibm.com>
+To:     linux-kernel@vger.kernel.org
 Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         jdelvare@suse.com, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        robh+dt@kernel.org, gregkh@linuxfoundation.org,
-        mark.rutland@arm.com
-References: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
- <1531342898-15790-3-git-send-email-eajames@linux.vnet.ibm.com>
- <20180725163604.GA21332@roeck-us.net>
-From:   Eddie James <eajames@linux.vnet.ibm.com>
-Date:   Thu, 30 Aug 2018 16:29:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180725163604.GA21332@roeck-us.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        openbmc@lists.ozlabs.org, robh+dt@kernel.org,
+        gregkh@linuxfoundation.org, mark.rutland@arm.com,
+        linux@roeck-us.net, joel@jms.id.au, benh@kernel.crashing.org,
+        Eddie James <eajames@linux.vnet.ibm.com>
+Subject: [PATCH v5 01/10] dt-bindings: fsi: Add P9 OCC device documentation
+Date:   Thu, 30 Aug 2018 16:32:32 -0500
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
+References: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18083021-0036-0000-0000-00000A2E10C4
+x-cbid: 18083021-2213-0000-0000-000002E5BD8C
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00009640; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000266; SDB=6.01081200; UDB=6.00557771; IPR=6.00861185;
- MB=3.00023023; MTD=3.00000008; XFM=3.00000015; UTC=2018-08-30 21:29:21
+ PH=3.00000004; SC=3.00000266; SDB=6.01081201; UDB=6.00557772; IPR=6.00861186;
+ MB=3.00023023; MTD=3.00000008; XFM=3.00000015; UTC=2018-08-30 21:32:50
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18083021-0037-0000-0000-000048C5747D
-Message-Id: <aa1d5818-6b64-2088-ec59-dbe09d6a3902@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-08-30_07:,,
+x-cbparentid: 18083021-2214-0000-0000-00005B630C4D
+Message-Id: <1535664761-86018-2-git-send-email-eajames@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-08-30_08:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1808300215
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=920 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1808300216
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Document the bindings for the FSI-attached POWER9 On-Chip Controller.
 
+Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
+---
+ Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
 
-On 07/25/2018 11:36 AM, Guenter Roeck wrote:
-> On Wed, Jul 11, 2018 at 04:01:31PM -0500, Eddie James wrote:
->> Document the hwmon interface for the OCC.
->>
->> Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
->> ---
->>   Documentation/hwmon/occ | 73 +++++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 73 insertions(+)
->>   create mode 100644 Documentation/hwmon/occ
->>
->> diff --git a/Documentation/hwmon/occ b/Documentation/hwmon/occ
->> new file mode 100644
->> index 0000000..465fa1a
->> --- /dev/null
->> +++ b/Documentation/hwmon/occ
->> @@ -0,0 +1,73 @@
->> +Kernel driver occ-hwmon
->> +=======================
->> +
->> +Supported chips:
->> +  * POWER8
->> +  * POWER9
->> +
->> +Author: Eddie James <eajames@linux.vnet.ibm.com>
->> +
->> +Description
->> +-----------
->> +
->> +This driver supports hardware monitoring for the On-Chip Controller (OCC)
->> +embedded on POWER processors. The OCC is a device that collects and aggregates
->> +sensor data from the processor and the system. The OCC can provide the raw
->> +sensor data as well as perform thermal and power management on the system.
->> +
->> +The P8 version of this driver is a client driver of I2C. It may be probed
->> +manually if an "ibm,p8-occ-hwmon" compatible device is found under the
->> +appropriate I2C bus node in the device-tree.
->> +
->> +The P9 version of this driver is a client driver of the FSI-based OCC driver.
->> +It will be probed automatically by the FSI-based OCC driver.
->> +
->> +Sysfs entries
->> +-------------
->> +
->> +The following attributes are supported. All attributes are read-only unless
->> +specified.
->> +
->> +temp[1-n]_label		OCC sensor id.
->> +temp[1-n]_input		Measured temperature in millidegrees C.
->> +[with temperature sensor version 2+]
->> +    temp[1-n]_fru_type		Given FRU (Field Replaceable Unit) type.
-> What is this ? An integer ? A string ?
->
->> +    temp[1-n]_fault		Temperature sensor fault.
->> +
->> +freq[1-n]_label		OCC sensor id.
->> +freq[1-n]_input		Measured frequency.
-> What does that have to do with hardware monitoring, and what exactly does it
-> measure ? AC voltage frequency ? Frequency of rainstorms in the surrounding
-> area ?
->
->> +
->> +power[1-n]_label	OCC sensor id.
->> +power[1-n]_input	Measured power in microwatts.
->> +power[1-n]_update_tag	Number of 250us samples represented in accumulator.
-> update_tag to represent number of samples ? Odd choice for
-> an attribute name. Why not "_samples" ? Also, if each sample
-> represents a specific amount of time, why not report a time ?
->
->> +power[1-n]_accumulator	Accumulation of 250us power readings.
-> There is no explanation of "accumulation". Is this the energy ?
-> If so, why not use energy attributes ? And what is the unit of
-> this measurement ?
->
->> +[with power sensor version 2+]
->> +    power[1-n]_function_id	Identifies what the power reading is for.
-> String ? Number ? Slot index ?  Bitmap ? And why isn't that reported
-> in the label ? After all, that is what the label is supposed to be
-> used for.
->
->> +    power[1-n]_apss_channel	Indicates APSS channel.
->> +
-> Does that provide any value to the user ?
->
->> +[power version 0xa0 only]
->> +power1_id			OCC sensor id.
-> This is inconsistent with the other attributes and even with itself.
->
->> +power[1-n]_label		Sensor type, "system", "proc", "vdd", or "vdn".
->> +power[1-n]_input		Most recent power reading in microwatts.
-> Overall I am left with no idea what
-> 	_id
-> 	_label
-> 	_function_id
-> 	_apps_channel
-> are and how they relate to each other, except that it all looks quite
-> inconsistent. You might want to consider merging all those attributes into
-> the label in some consistent way.
->
->> +power[1-n]_update_tag		Number of samples in the accumulator.
->> +power[1-n]_accumulator		Accumulation of power readings.
-> Same as above.
->
->> +[with sensor type "system" and "proc" only]
->> +    power[1-n]_update_time	Time in us that the power value is read.
->> +
->> +caps1_current		Current OCC power cap in watts.
->> +caps1_reading		Current system output power in watts.
->> +caps1_norm		Power cap without redundant power.
->> +caps1_max		Maximum power cap.
-> Why do those have to be non-standard attributes ? Please explain why you can not
-> use power[1-n]_cap attributes.
->
->> +[caps version 1 and 2 only]
->> +    caps1_min		Minimum power cap.
->> +[caps version 3+]
->> +    caps1_min_hard		Hard minimum cap that can be set and held.
->> +    caps1_min_soft		Soft minimum cap below hard, not guaranteed.
->> +caps1_user		The powercap specified by the user. Will be 0 if no
->> +			user powercap exists. This attribute is read-write.
->> +[caps version 1+]
->> +    caps1_user_source	Indicates how the user power limit was set.
->> +
->> +extn[1-n]_label		ASCII id or sensor id.
->> +extn[1-n]_flags		Indicates type of label attribute.
->> +extn[1-n]_input		Data.
-> Great non-explanation.
->
-> Not reviewing the series further. I am sure I asked that each non-standard
-> attribute is explained. There is neither an explanation why the attributes
-> are needed nor, in many cases, why non-standard attributes were chosen
-> instead of standard ones. On top of that, the non-standard attributes are
-> not even documented properly, leaving the reader wondering not only why
-> they are needed, but what they are used for in the first place.
-
-Hi,
-
-Thanks for the feedback Guenter. I am about to put up a new patch set 
-with fixes for many of the issues you indicated and better descriptions. 
-Now all the attributes except two should conform to standard hwmon 
-attributes. The exceptions are for the user power cap and user power cap 
-source. These are needed in order to make decisions about power 
-management while controlling the system. Please look at their 
-documentation to see if they're acceptable.
-
-Let me know what you think!
-Thanks,
-Eddie
-
->
-> Guenter
->
+diff --git a/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+new file mode 100644
+index 0000000..46372f6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+@@ -0,0 +1,15 @@
++Device-tree bindings for FSI-attached POWER9 On-Chip Controller (OCC)
++---------------------------------------------------------------------
++
++This is the binding for the P9 On-Chip Controller accessed over FSI from a
++service processor. See fsi.txt for details on bindings for FSI slave and CFAM
++nodes.
++
++Required properties:
++ - compatible = "ibm,p9-occ"
++
++Examples:
++
++    occ {
++        compatible = "ibm,p9-occ";
++    };
+-- 
+1.8.3.1
 
