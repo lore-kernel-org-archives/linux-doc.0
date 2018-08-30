@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35CDD7DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 14:47:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C5BE7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 14:48:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729109AbeH3SuN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 14:50:13 -0400
-Received: from mga01.intel.com ([192.55.52.88]:38430 "EHLO mga01.intel.com"
+        id S1729172AbeH3SqQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 14:46:16 -0400
+Received: from mga17.intel.com ([192.55.52.151]:62771 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729510AbeH3SqR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Aug 2018 14:46:17 -0400
+        id S1729418AbeH3SqN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Aug 2018 14:46:13 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 07:43:43 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 07:43:44 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.53,307,1531810800"; 
-   d="scan'208";a="67186671"
+   d="scan'208";a="67186720"
 Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2018 07:43:40 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2018 07:43:42 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -45,9 +45,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v3 04/24] x86/fpu/xstate: Add XSAVES system states for shadow stack
-Date:   Thu, 30 Aug 2018 07:38:44 -0700
-Message-Id: <20180830143904.3168-5-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v3 16/24] mm: Update can_follow_write_pte/pmd for shadow stack
+Date:   Thu, 30 Aug 2018 07:38:56 -0700
+Message-Id: <20180830143904.3168-17-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180830143904.3168-1-yu-cheng.yu@intel.com>
 References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
@@ -56,140 +56,142 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Intel Control-flow Enforcement Technology (CET) introduces the
-following MSRs into the XSAVES system states.
+can_follow_write_pte/pmd look for the (RO & DIRTY) PTE/PMD to
+verify an exclusive RO page still exists after a broken COW.
 
-    IA32_U_CET (user-mode CET settings),
-    IA32_PL3_SSP (user-mode shadow stack),
-    IA32_PL0_SSP (kernel-mode shadow stack),
-    IA32_PL1_SSP (ring-1 shadow stack),
-    IA32_PL2_SSP (ring-2 shadow stack).
+A shadow stack PTE is RO & PAGE_DIRTY_SW when it is shared,
+otherwise RO & PAGE_DIRTY_HW.
+
+Introduce pte_exclusive() and pmd_exclusive() to also verify a
+shadow stack PTE is exclusive.
+
+Also rename can_follow_write_pte/pmd() to can_follow_write() to
+make their meaning clear; i.e. "Can we write to the page?", not
+"Is the PTE writable?"
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/fpu/types.h            | 22 +++++++++++++++++++++
- arch/x86/include/asm/fpu/xstate.h           |  4 +++-
- arch/x86/include/uapi/asm/processor-flags.h |  2 ++
- arch/x86/kernel/fpu/xstate.c                | 10 ++++++++++
- 4 files changed, 37 insertions(+), 1 deletion(-)
+ arch/x86/mm/pgtable.c         | 18 ++++++++++++++++++
+ include/asm-generic/pgtable.h | 18 ++++++++++++++++++
+ mm/gup.c                      |  8 +++++---
+ mm/huge_memory.c              |  8 +++++---
+ 4 files changed, 46 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
-index 202c53918ecf..e55d51d172f1 100644
---- a/arch/x86/include/asm/fpu/types.h
-+++ b/arch/x86/include/asm/fpu/types.h
-@@ -114,6 +114,9 @@ enum xfeature {
- 	XFEATURE_Hi16_ZMM,
- 	XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
- 	XFEATURE_PKRU,
-+	XFEATURE_RESERVED,
-+	XFEATURE_SHSTK_USER,
-+	XFEATURE_SHSTK_KERNEL,
- 
- 	XFEATURE_MAX,
- };
-@@ -128,6 +131,8 @@ enum xfeature {
- #define XFEATURE_MASK_Hi16_ZMM		(1 << XFEATURE_Hi16_ZMM)
- #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
- #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
-+#define XFEATURE_MASK_SHSTK_USER	(1 << XFEATURE_SHSTK_USER)
-+#define XFEATURE_MASK_SHSTK_KERNEL	(1 << XFEATURE_SHSTK_KERNEL)
- 
- #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
- #define XFEATURE_MASK_AVX512		(XFEATURE_MASK_OPMASK \
-@@ -229,6 +234,23 @@ struct pkru_state {
- 	u32				pad;
- } __packed;
- 
-+/*
-+ * State component 11 is Control flow Enforcement user states
-+ */
-+struct cet_user_state {
-+	u64 u_cet;	/* user control flow settings */
-+	u64 user_ssp;	/* user shadow stack pointer */
-+} __packed;
+diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+index 0ab38bfbedfc..13dd18ad6fd8 100644
+--- a/arch/x86/mm/pgtable.c
++++ b/arch/x86/mm/pgtable.c
+@@ -889,4 +889,22 @@ inline pmd_t pmd_set_vma_features(pmd_t pmd, struct vm_area_struct *vma)
+ 	else
+ 		return pmd;
+ }
 +
-+/*
-+ * State component 12 is Control flow Enforcement kernel states
-+ */
-+struct cet_kernel_state {
-+	u64 kernel_ssp;	/* kernel shadow stack */
-+	u64 pl1_ssp;	/* ring-1 shadow stack */
-+	u64 pl2_ssp;	/* ring-2 shadow stack */
-+} __packed;
++inline bool pte_exclusive(pte_t pte, struct vm_area_struct *vma)
++{
++	if (vma->vm_flags & VM_SHSTK)
++		return pte_dirty_hw(pte);
++	else
++		return pte_dirty(pte);
++}
 +
- struct xstate_header {
- 	u64				xfeatures;
- 	u64				xcomp_bv;
-diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
-index a32dc5f8c963..662562cbafe9 100644
---- a/arch/x86/include/asm/fpu/xstate.h
-+++ b/arch/x86/include/asm/fpu/xstate.h
-@@ -31,7 +31,9 @@
- 				  XFEATURE_MASK_Hi16_ZMM | \
- 				  XFEATURE_MASK_PKRU | \
- 				  XFEATURE_MASK_BNDREGS | \
--				  XFEATURE_MASK_BNDCSR)
-+				  XFEATURE_MASK_BNDCSR | \
-+				  XFEATURE_MASK_SHSTK_USER | \
-+				  XFEATURE_MASK_SHSTK_KERNEL)
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++inline bool pmd_exclusive(pmd_t pmd, struct vm_area_struct *vma)
++{
++	if (vma->vm_flags & VM_SHSTK)
++		return pmd_dirty_hw(pmd);
++	else
++		return pmd_dirty(pmd);
++}
++#endif
+ #endif /* CONFIG_X86_INTEL_SHADOW_STACK_USER */
+diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+index 0f25186cd38d..2e8e7fa4ab71 100644
+--- a/include/asm-generic/pgtable.h
++++ b/include/asm-generic/pgtable.h
+@@ -1156,9 +1156,27 @@ static inline pmd_t pmd_set_vma_features(pmd_t pmd, struct vm_area_struct *vma)
+ {
+ 	return pmd;
+ }
++
++#ifdef CONFIG_MMU
++static inline bool pte_exclusive(pte_t pte, struct vm_area_struct *vma)
++{
++	return pte_dirty(pte);
++}
++
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++static inline bool pmd_exclusive(pmd_t pmd, struct vm_area_struct *vma)
++{
++	return pmd_dirty(pmd);
++}
++#endif
++#endif /* CONFIG_MMU */
+ #else
+ pte_t pte_set_vma_features(pte_t pte, struct vm_area_struct *vma);
+ pmd_t pmd_set_vma_features(pmd_t pmd, struct vm_area_struct *vma);
++bool pte_exclusive(pte_t pte, struct vm_area_struct *vma);
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++bool pmd_exclusive(pmd_t pmd, struct vm_area_struct *vma);
++#endif
+ #endif
  
- #ifdef CONFIG_X86_64
- #define REX_PREFIX	"0x48, "
-diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
-index bcba3c643e63..25311ec4b731 100644
---- a/arch/x86/include/uapi/asm/processor-flags.h
-+++ b/arch/x86/include/uapi/asm/processor-flags.h
-@@ -130,6 +130,8 @@
- #define X86_CR4_SMAP		_BITUL(X86_CR4_SMAP_BIT)
- #define X86_CR4_PKE_BIT		22 /* enable Protection Keys support */
- #define X86_CR4_PKE		_BITUL(X86_CR4_PKE_BIT)
-+#define X86_CR4_CET_BIT		23 /* enable Control flow Enforcement */
-+#define X86_CR4_CET		_BITUL(X86_CR4_CET_BIT)
- 
- /*
-  * x86-64 Task Priority Register, CR8
-diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-index dd2c561c4544..91c0f665567b 100644
---- a/arch/x86/kernel/fpu/xstate.c
-+++ b/arch/x86/kernel/fpu/xstate.c
-@@ -35,6 +35,9 @@ static const char *xfeature_names[] =
- 	"Processor Trace (unused)"	,
- 	"Protection Keys User registers",
- 	"unknown xstate feature"	,
-+	"Control flow User registers"	,
-+	"Control flow Kernel registers"	,
-+	"unknown xstate feature"	,
- };
- 
- static short xsave_cpuid_features[] __initdata = {
-@@ -48,6 +51,9 @@ static short xsave_cpuid_features[] __initdata = {
- 	X86_FEATURE_AVX512F,
- 	X86_FEATURE_INTEL_PT,
- 	X86_FEATURE_PKU,
-+	0,		   /* Unused */
-+	X86_FEATURE_SHSTK, /* XFEATURE_SHSTK_USER */
-+	X86_FEATURE_SHSTK, /* XFEATURE_SHSTK_KERNEL */
- };
- 
- /*
-@@ -316,6 +322,8 @@ static void __init print_xstate_features(void)
- 	print_xstate_feature(XFEATURE_MASK_ZMM_Hi256);
- 	print_xstate_feature(XFEATURE_MASK_Hi16_ZMM);
- 	print_xstate_feature(XFEATURE_MASK_PKRU);
-+	print_xstate_feature(XFEATURE_MASK_SHSTK_USER);
-+	print_xstate_feature(XFEATURE_MASK_SHSTK_KERNEL);
+ #endif /* _ASM_GENERIC_PGTABLE_H */
+diff --git a/mm/gup.c b/mm/gup.c
+index 1abc8b4afff6..03cb2e331f80 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -64,10 +64,12 @@ static int follow_pfn_pte(struct vm_area_struct *vma, unsigned long address,
+  * FOLL_FORCE can write to even unwritable pte's, but only
+  * after we've gone through a COW cycle and they are dirty.
+  */
+-static inline bool can_follow_write_pte(pte_t pte, unsigned int flags)
++static inline bool can_follow_write(pte_t pte, unsigned int flags,
++				    struct vm_area_struct *vma)
+ {
+ 	return pte_write(pte) ||
+-		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte));
++		((flags & FOLL_FORCE) && (flags & FOLL_COW) &&
++		 pte_exclusive(pte, vma));
  }
  
- /*
-@@ -562,6 +570,8 @@ static void check_xstate_against_struct(int nr)
- 	XCHECK_SZ(sz, nr, XFEATURE_ZMM_Hi256, struct avx_512_zmm_uppers_state);
- 	XCHECK_SZ(sz, nr, XFEATURE_Hi16_ZMM,  struct avx_512_hi16_state);
- 	XCHECK_SZ(sz, nr, XFEATURE_PKRU,      struct pkru_state);
-+	XCHECK_SZ(sz, nr, XFEATURE_SHSTK_USER,   struct cet_user_state);
-+	XCHECK_SZ(sz, nr, XFEATURE_SHSTK_KERNEL, struct cet_kernel_state);
+ static struct page *follow_page_pte(struct vm_area_struct *vma,
+@@ -105,7 +107,7 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
+ 	}
+ 	if ((flags & FOLL_NUMA) && pte_protnone(pte))
+ 		goto no_page;
+-	if ((flags & FOLL_WRITE) && !can_follow_write_pte(pte, flags)) {
++	if ((flags & FOLL_WRITE) && !can_follow_write(pte, flags, vma)) {
+ 		pte_unmap_unlock(ptep, ptl);
+ 		return NULL;
+ 	}
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 5b4c8f2fb85e..702650eec0b2 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -1387,10 +1387,12 @@ vm_fault_t do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
+  * FOLL_FORCE can write to even unwritable pmd's, but only
+  * after we've gone through a COW cycle and they are dirty.
+  */
+-static inline bool can_follow_write_pmd(pmd_t pmd, unsigned int flags)
++static inline bool can_follow_write(pmd_t pmd, unsigned int flags,
++				    struct vm_area_struct *vma)
+ {
+ 	return pmd_write(pmd) ||
+-	       ((flags & FOLL_FORCE) && (flags & FOLL_COW) && pmd_dirty(pmd));
++	       ((flags & FOLL_FORCE) && (flags & FOLL_COW) &&
++		pmd_exclusive(pmd, vma));
+ }
  
- 	/*
- 	 * Make *SURE* to add any feature numbers in below if
+ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+@@ -1403,7 +1405,7 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+ 
+ 	assert_spin_locked(pmd_lockptr(mm, pmd));
+ 
+-	if (flags & FOLL_WRITE && !can_follow_write_pmd(*pmd, flags))
++	if (flags & FOLL_WRITE && !can_follow_write(*pmd, flags, vma))
+ 		goto out;
+ 
+ 	/* Avoid dumping huge zero page */
 -- 
 2.17.1
 
