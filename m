@@ -1,64 +1,40 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 205FA7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 18:00:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D35507E3AF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 18:56:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727536AbeH3WDS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 18:03:18 -0400
-Received: from mail-oi0-f66.google.com ([209.85.218.66]:44712 "EHLO
-        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727387AbeH3WDS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 18:03:18 -0400
-Received: by mail-oi0-f66.google.com with SMTP id l82-v6so16999962oih.11
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 10:59:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AhFK2aFvWPveEyK+LlBfYW09h2A3k7IjDUBtR3SoN2g=;
-        b=ao7IWi+PXEG69rKSDk02ftHLPTMga2Vc+XT3LXRfWiVePaNLFrsj1FXPx0s10r7h3X
-         UpLhIpVnO15PqNtFAF40nR4dJCS/CtAqlwntUMHt5SKOw31NTLRVvgpkOldbKtkmKi1h
-         LZDlmt4H+jChfE7tPPgaRM2WWogOBy8VCF4uSlRXcsI8QuH1i0XnX53ShpPNZX3X46Pu
-         0OLtiQUqOVrkslPZSbbPwv0gkwIaGcZucPyQeTu21uqoy17Zobrzk4gb0bSJNI/pOGCo
-         5LCy9dTDnLV7jOojJYLkAVfEwoxHrgHGYO1I8bBw3DwIJ8z+JfSGt1JWAfTOyPIsoj1Q
-         1M1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AhFK2aFvWPveEyK+LlBfYW09h2A3k7IjDUBtR3SoN2g=;
-        b=OGhBkn1jHeFTs7ZKO46QA0OopJuKRymitrYZcLN9R34t5Zay3aEYDuedCOkaJfTtxy
-         mSwIE3K4qPhbuxR1X+vnDqjl9m3sQwQCBg2l3B4VwZRZBJzQlSGY4Mz/td3d8l9XNxY0
-         Xn7suSXKiyUoIJUawFIbIY2SfmGtljRwFpPkKDSR9nj/CANMAlPmmHa9oNjlqq0EYKg7
-         o15KHuIRhqgEXlm02X9THn+W9uN9hbEhtEYumn73jfNuZfIK5hLDxVHDRrIy6pVttog2
-         KG7Ryno/0WFQC+aqi8IYfIU61Dv6fsJwxjUzUOMxd8bXMYFpBHdVNK4w2D/fB81zHArz
-         6kyQ==
-X-Gm-Message-State: APzg51Co6TUxK3JfXl18dLTpZ5cg9BcjzWix/A0GkEA3yArUe4ZZxvQp
-        tNX9am2ksBhf4X9mnQeHAW5vc/dkxJpDdwohQbo+Eg==
-X-Google-Smtp-Source: ANB0VdauerD2wyrOZxhWfskp0HKKdOE+1QXxPjRftG0xBuYfx8D4lGSd3ijm3jHVUuMIpYuvUe+s2iUJaaTrhCuskZ8=
-X-Received: by 2002:aca:b40a:: with SMTP id d10-v6mr3866636oif.190.1535651999272;
- Thu, 30 Aug 2018 10:59:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-13-yu-cheng.yu@intel.com>
- <CAG48ez0Rca0XsdXJZ07c+iGPyep0Gpxw+sxQuACP5gyPaBgDKA@mail.gmail.com>
- <079a55f2-4654-4adf-a6ef-6e480b594a2f@linux.intel.com> <CAG48ez2gHOD9hH4+0wek5vUOv9upj79XWoug2SXjdwfXWoQqxw@mail.gmail.com>
- <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com> <1535649960.26689.15.camel@intel.com>
- <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com> <1535651666.27823.6.camel@intel.com>
-In-Reply-To: <1535651666.27823.6.camel@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 30 Aug 2018 19:59:32 +0200
-Message-ID: <CAG48ez3ixWROuQc6WZze6qPL6q0e_gCnMU4XF11JUWziePsBJg@mail.gmail.com>
+        id S1728322AbeH3W7R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 18:59:17 -0400
+Received: from mga18.intel.com ([134.134.136.126]:54642 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728020AbeH3W7Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Aug 2018 18:59:16 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 11:55:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,307,1531810800"; 
+   d="scan'208";a="259446958"
+Received: from ray.jf.intel.com (HELO [10.54.74.179]) ([10.54.74.179])
+  by fmsmga006.fm.intel.com with ESMTP; 30 Aug 2018 11:55:14 -0700
 Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
  pmdp_set_wrprotect for _PAGE_DIRTY_SW
-To:     yu-cheng.yu@intel.com
-Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
+To:     Andy Lutomirski <luto@amacapital.net>
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
+ <20180830143904.3168-13-yu-cheng.yu@intel.com>
+ <CAG48ez0Rca0XsdXJZ07c+iGPyep0Gpxw+sxQuACP5gyPaBgDKA@mail.gmail.com>
+ <079a55f2-4654-4adf-a6ef-6e480b594a2f@linux.intel.com>
+ <CAG48ez2gHOD9hH4+0wek5vUOv9upj79XWoug2SXjdwfXWoQqxw@mail.gmail.com>
+ <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com>
+ <B2222C69-337B-44F2-9DA6-69E685AA469B@amacapital.net>
+Cc:     Jann Horn <jannh@google.com>, yu-cheng.yu@intel.com,
+        the arch/x86 maintainers <x86@kernel.org>,
         "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -67,7 +43,6 @@ Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
         linux-arch <linux-arch@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
@@ -77,31 +52,91 @@ Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
         ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
-Content-Type: text/plain; charset="UTF-8"
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <e164a320-25a4-a9fc-3256-901b778468f3@linux.intel.com>
+Date:   Thu, 30 Aug 2018 11:55:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <B2222C69-337B-44F2-9DA6-69E685AA469B@amacapital.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 30, 2018 at 7:58 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> On Thu, 2018-08-30 at 10:33 -0700, Dave Hansen wrote:
-> > On 08/30/2018 10:26 AM, Yu-cheng Yu wrote:
-> > >
-> > > We don't have the guard page now, but there is a shadow stack
-> > > token
-> > > there, which cannot be used as a return address.
-> > The overall concern is that we could overflow into a page that we
-> > did
-> > not intend.  Either another actual shadow stack or something that a
-> > page
-> > that the attacker constructed, like the transient scenario Jann
-> > described.
-> >
->
-> A task could go beyond the bottom of its shadow stack by doing either
-> 'ret' or 'incssp'.  If it is the 'ret' case, the token prevents it.
->  If it is the 'incssp' case, a guard page cannot prevent it entirely,
-> right?
+On 08/30/2018 10:34 AM, Andy Lutomirski wrote:
+>> But, to keep B's TLB from picking up the entry, I think we can just make
+>> it !Present for a moment.  No TLB can cache it, and I believe the same
+>> "don't set Dirty on a !Writable entry" logic also holds for !Present
+>> (modulo a weird erratum or two).
+> Can we get documentation?  Pretty please?
 
-I mean the other direction, on "call".
+The accessed bit description in the SDM looks pretty good to me today:
+
+> Whenever the processor uses a paging-structure entry as part of
+> linear-address translation, it sets the accessed flag in that entry
+> (if it is not already set).
+If it's !Present, it can't used as part of a translation so can't be
+set.  I think that covers the thing I was unsure about.
+
+But, Dirty is a bit, er, muddier, but mostly because it only gets set on
+leaf entries:
+
+> Whenever there is a write to a linear address, the processor sets the
+> dirty flag (if it is not already set) in the paging- structure entry
+> that identifies the final physical address for the linear address
+> (either a PTE or a paging-structure entry in which the PS flag is
+> 1).
+
+That little hunk will definitely need to get updated with something like:
+
+	On processors enumerating support for CET, the processor will on
+	set the dirty flag on paging structure entries in which the W
+	flag is 1.
