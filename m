@@ -1,94 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 81BA97D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 15:34:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 583D77DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 15:40:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727173AbeH3Tgy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 15:36:54 -0400
-Received: from eu-smtp-delivery-211.mimecast.com ([207.82.80.211]:20999 "EHLO
-        eu-smtp-delivery-211.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725836AbeH3Tgy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 15:36:54 -0400
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by eu-smtp-1.mimecast.com with ESMTP id
- uk-mta-50-d_oZkD_5Ny2tcsryVzKzZQ-1; Thu, 30 Aug 2018 16:34:00 +0100
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 30 Aug 2018 16:35:39 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Thu, 30 Aug 2018 16:35:39 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Miguel Ojeda' <miguel.ojeda.sandonis@gmail.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        Peter Rosin <peda@axentia.se>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        "Hartmut Knaack" <knaack.h@gmx.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        "Jiri Slaby" <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v5 1/4] gpiolib: Pass bitmaps, not integer arrays, to
- get/set array
-Thread-Topic: [PATCH v5 1/4] gpiolib: Pass bitmaps, not integer arrays, to
- get/set array
-Thread-Index: AQHUQFJsyE6G3E8Q/UO/0Ujg2pGZq6TYbMjw
-Date:   Thu, 30 Aug 2018 15:35:39 +0000
-Message-ID: <34ad57ec954c481d87ef6af58453ee9f@AcuMS.aculab.com>
-References: <20180820234341.5271-1-jmkrzyszt@gmail.com>
- <20180829204900.19390-1-jmkrzyszt@gmail.com>
- <20180829204900.19390-2-jmkrzyszt@gmail.com>
- <CANiq72kJT15ELkYr2U5r4-pvGunQFLmZ5dhdZLnjmM7NWBnkNQ@mail.gmail.com>
-In-Reply-To: <CANiq72kJT15ELkYr2U5r4-pvGunQFLmZ5dhdZLnjmM7NWBnkNQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.33]
+        id S1727406AbeH3Tmr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 15:42:47 -0400
+Received: from mail-oi0-f68.google.com ([209.85.218.68]:45626 "EHLO
+        mail-oi0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727399AbeH3Tmq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 15:42:46 -0400
+Received: by mail-oi0-f68.google.com with SMTP id t68-v6so16161923oie.12
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 08:40:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Kz8MQNPDzN7DpxJUSNa0x2jNVynzAGDge5M0MJqhY20=;
+        b=GahXkin85mYJmrx3gkxXQUSOqfxLsi/S3VnWOXUHAnhj2laosZYLnElcPMFU9jBlcM
+         MpeaAdrPAiq0cIZUu06yCjopY/3JAhnPiFzVo7CzX9/Sa5TBQMYgH5E48wCryCZXWoQY
+         K2OiwrfN+NapCxb6HlqTTc1S1mjkkyi7a5Y1+YRH2UkUpcNfqiAEUzj/oxCZ0TONKgJC
+         gUUYYiUnAmJl2qm99Uz/1rdppwThCn97f79155Vo2tuFLecwQk5drDbdd/fIItHv7RmF
+         xOQe14fJb+0XH2Vuu+UGJKsbhqgBI8qi3NuJ49joiSzqZFxBUQS3GHkn3Dkjps+yxMEf
+         3vlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Kz8MQNPDzN7DpxJUSNa0x2jNVynzAGDge5M0MJqhY20=;
+        b=aycADwxTgQiYi4n7QAcaCKBbkrYXHcUHUQezuWtns0TydFO38NCzLXRmZME+3JplkF
+         OAmbGEug3XQ7NvMr7uuoRiaf/a2cafopdeBotYPFW/I5Zg9t943mI4/DUiXXxGXYUS/N
+         oGApODFQSVAhWOlRNLM6f6mbCFc8hRcTW8LIXOI9T+Yz4f4Qvo3OgcdPpbm9wX+NagzG
+         //6x6VfKPID3c1aeaS6fW4H3Njdg6uxf3PsfHHP/WfQhk9eBWCNoLIwKDdQb5EstzGu1
+         zQC/+LJ5ke4mwM5Qy0+6tqgsfNQ8kNju+BK0wb/7hk49WC69cq/MYfTy69kP0eU1r7fd
+         AT/g==
+X-Gm-Message-State: APzg51D77b9Jtu61Pxv1HKVazL12RERQJcGxDXKkvGZn5B5YZrsFdmJL
+        JkXFOy4L67SnX1ou57msOeP8y+U31Knr0PYewS1ORw==
+X-Google-Smtp-Source: ANB0VdYaBXuBowN4ka7CRUckryC7LCadsYYfFF5hzkra4PeZDW+8Km3yy7+qQSyezootxpeVpbiOv87LI2ozFTl8JS4=
+X-Received: by 2002:aca:4204:: with SMTP id p4-v6mr2836500oia.242.1535643601937;
+ Thu, 30 Aug 2018 08:40:01 -0700 (PDT)
 MIME-Version: 1.0
-X-MC-Unique: d_oZkD_5Ny2tcsryVzKzZQ-1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-20-yu-cheng.yu@intel.com>
+In-Reply-To: <20180830143904.3168-20-yu-cheng.yu@intel.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 30 Aug 2018 17:39:35 +0200
+Message-ID: <CAG48ez3uZrC-9uJ0uMoVPTtxRXRN8D+3zs5FknZD2woTT6mazg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 19/24] x86/cet/shstk: Introduce WRUSS instruction
+To:     yu-cheng.yu@intel.com
+Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogTWlndWVsIE9qZWRhDQo+IFNlbnQ6IDMwIEF1Z3VzdCAyMDE4IDEyOjExDQouLi4NCj4g
-PiArICAgICAgIHVuc2lnbmVkIGxvbmcgdmFsdWVfYml0bWFwWzFdOyAgLyogZm9yIERBVEFbMC03
-XSwgUlMsIFJXICovDQo+IA0KPiAoSSByZWFkIHlvdXIgY29tbWVudHMgaW4gdGhlIG90aGVyIGVt
-YWlsKQ0KPiANCj4gSSBzdGlsbCBmaW5kIHRoaXMgb2RkLCBidXQgaWYgZXZlcnlvbmUgaXMgZ29p
-bmcgdG8gaGF2ZSB0aGlzIGNoYW5nZQ0KPiBkb25lIGxpa2UgdGhpcywgY29uc2lzdGVuY3kgaXMg
-YmV0dGVyLg0KDQpNYXliZSB0aGVyZSBvdWdodCB0byBiZSBhIGRlZmluZSBzbyB5b3UgY2FuIGRv
-Og0KCURFRklORV9CSVRNQVAodmFsdWVfYml0bWFwLCAzMik7DQoNCldoaWxlIGl0IG1pZ2h0IGp1
-c3QgZ2VuZXJhdGUgYW4gdW5zaWduZWQgbG9uZyBbXSB0aGVyZSBpcyBwcm9iYWJseQ0Kc2NvcGUg
-Zm9yIHN0cm9uZ2VyIHR5cGluZy4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBM
-YWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBU
-LCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+On Thu, Aug 30, 2018 at 4:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> WRUSS is a new kernel-mode instruction but writes directly
+> to user shadow stack memory.  This is used to construct
+> a return address on the shadow stack for the signal
+> handler.
+>
+> This instruction can fault if the user shadow stack is
+> invalid shadow stack memory.  In that case, the kernel does
+> fixup.
+>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+[...]
+> +static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
+> +{
+> +       int err = 0;
+> +
+> +       asm volatile("1: wrussq %1, (%0)\n"
+> +                    "2:\n"
+> +                    _ASM_EXTABLE_HANDLE(1b, 2b, ex_handler_wruss)
+> +                    :
+> +                    : "r" (addr), "r" (val));
+> +
+> +       return err;
+> +}
 
+What's up with "err"? You set it to zero, and then you return it, but
+nothing can ever set it to non-zero, right?
+
+> +__visible bool ex_handler_wruss(const struct exception_table_entry *fixup,
+> +                               struct pt_regs *regs, int trapnr)
+> +{
+> +       regs->ip = ex_fixup_addr(fixup);
+> +       regs->ax = -1;
+> +       return true;
+> +}
+
+And here you just write into regs->ax, but your "asm volatile" doesn't
+reserve that register. This looks wrong to me.
+
+I think you probably want to add something like an explicit
+`"+&a"(err)` output to the asm statements.
+
+> @@ -1305,6 +1305,15 @@ __do_page_fault(struct pt_regs *regs, unsigned long error_code,
+>                 error_code |= X86_PF_USER;
+>                 flags |= FAULT_FLAG_USER;
+>         } else {
+> +               /*
+> +                * WRUSS is a kernel instrcution and but writes
+
+Nits: typo ("instrcution"), weird grammar ("and but writes")
