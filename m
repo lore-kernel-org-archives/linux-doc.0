@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 36C9E7D87C
+	by archive.lwn.net (Postfix) with ESMTP id 764167DE78
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 11:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728047AbeH3PnK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 11:43:10 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42280 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728135AbeH3PnI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:43:08 -0400
-Received: by mail-wr1-f67.google.com with SMTP id v17-v6so7759236wrr.9
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 04:41:24 -0700 (PDT)
+        id S1728457AbeH3PnL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 11:43:11 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34706 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728391AbeH3PnL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:43:11 -0400
+Received: by mail-wr1-f65.google.com with SMTP id g33-v6so7778639wrd.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 04:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KfYH6Tzsb0z/vmKFOXCsrYnHaggF5QU419/lUUKCb/M=;
-        b=SlVrQke1WhZ6O7NRIVjFhSxayQWj+0CsRGKGIwkcT2jBX14NAIHkWVjXQWA2EUGecR
-         8YqeRKcb8aU1JvFpetpYruAgMrf4QvtMgcPKs2lMwrnQ6FIp+2emSvfGBtjXPmoanpE8
-         OgWrUG9Oc+AUrCcm5yUGPEAYrCSRnOYb1EPJRWzGK2ELv7RFjTJkVuUxlpj+FaR0K4Fm
-         T26n780JhZ9e07DlSfaMe4HZCX09HrgO6FY/a8g4OjQ2ZtelwTDFoRt5VxT22TP9pWpS
-         zR5Dfk+GoIfpdC6OSm47yVm6eaduuRwduGf5yZ7D1k8y8Qfc/Ij6G6VYWM9MeB801lDc
-         YfLQ==
+        bh=peFGwkj0AlthOK6WcLkPIvSBY/FDPlGLSABrTryAHcY=;
+        b=qutDpDCEJxZdQJGRz9onfIyHIbFL8b17YWKAy3SacXtKLfSDNYNiVlv1hK56myHKVG
+         TpyquPNOuTBxR6l698HxJDFXuGfJTfgvMYNFFkc9/TXqGxKm8UfZZF8EYjbSu9sRM6Sv
+         MeNf7eh1j8Y9rENXz6JmOCnaZ5acljWvTf1sWUnXx/3QzkRf3sWTGcV0uHPXYOL47Jwf
+         fQ+ZkBLNcijn0SXu94/W9cZckIe0NxQsbfFYrLBOM2UywIlnvrmBr/qpaYtLINQomi0w
+         NTY9nCRgU5N/y2QOVTs7v+xMJkt10JdgERM5cVwoecykkVi8kZaSlsRfS3mO1P/oW9A+
+         Kbbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KfYH6Tzsb0z/vmKFOXCsrYnHaggF5QU419/lUUKCb/M=;
-        b=Ocx6PuFOEygXDR9vcM6f9BUcwHtcYUVR/mR/yTNUW4BWac4zdSvTcJNysz0td69gMF
-         rsaulCFyyjnUXxbYYgyBOisLPsl5VFaLsXoXBsLk9/Vg8/cCEBrCLLabuS3A20NFM/ou
-         u2FQU99c/MRs80ONUntWlgG2n8pBS1JYC5pWhHtpjPivVr5ISv37OSSvXhwR0bd8usan
-         SY+nCnKuT7WfKuhTmO77c+104X+BMdB/woA+QhtHhWz2E/lMVBIMXbqfe9F94p4ltjR2
-         /ni48mZmXxUWYWZegiWcdLY96+N7Dm9+V+fPjcT3KQh/FvCDWITqAkMfi/g8IILuh6cD
-         X70Q==
-X-Gm-Message-State: APzg51Ao6FlYH/9DVznlylHp3U189xgG3XVyeagnElpudt3yj2RVWuz9
-        Q5GfhTLbUQW93NuFTRmiQM/WiA==
-X-Google-Smtp-Source: ANB0VdbfT2UavtupUozQmcxh4AV9vSkbNDCltsV+0dOIrgUtBjrUTRDGUHsynILgINfK356aYp5UZg==
-X-Received: by 2002:adf:add0:: with SMTP id w74-v6mr7745481wrc.73.1535629283942;
-        Thu, 30 Aug 2018 04:41:23 -0700 (PDT)
+        bh=peFGwkj0AlthOK6WcLkPIvSBY/FDPlGLSABrTryAHcY=;
+        b=JjQdApgra+5Nw7hNDp7MpDuUpKAiAZE1wExYziOs/lOWuFE2Ytc+U1JKdum99keRzD
+         /pUsvsCUvoUUqgtcjXethLMIqTehpHRvgijJNbmKvoV3YCDY8JgXBYfsW6KtU1kQjBSM
+         O855OnPvgpwR3sb08UwpBxdvypZQb+yhW234eVjBKR4jIu9Nk6DrDb6IoUCtXgjlatyr
+         HOyCAiYTqSurv9bPXUQgPkjU0TGCQZ9+gEJWmJSKyBci7YBbnDCUFvq36aBJLyWUJQCj
+         yWrfg0m1DAktXuB5srYHwV/bR2QryUdq6I3U4Ucg82cIASTOcEORS2pMgHWsTKrbbaac
+         6Kgg==
+X-Gm-Message-State: APzg51C9xunIjFH3lBNYaNrW75DKiIcjkIxnFOVX/tfhZWGarIOiC3vW
+        zmezdpURyVydW3lWzNtjJz7ENg==
+X-Google-Smtp-Source: ANB0VdbPh4x5K+d73YTy+PJV6jm5VPTOj5FyfmaIwEvpFsYUqWJo2UphtTMIpDCNqc7+l23bjsiZqQ==
+X-Received: by 2002:a5d:5009:: with SMTP id e9-v6mr7782028wrt.18.1535629286664;
+        Thu, 30 Aug 2018 04:41:26 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id z184-v6sm2175218wmz.0.2018.08.30.04.41.22
+        by smtp.gmail.com with ESMTPSA id z184-v6sm2175218wmz.0.2018.08.30.04.41.25
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 Aug 2018 04:41:23 -0700 (PDT)
+        Thu, 30 Aug 2018 04:41:26 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,9 +73,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v6 02/11] uaccess: add untagged_addr definition for other arches
-Date:   Thu, 30 Aug 2018 13:41:07 +0200
-Message-Id: <bf96f9150ad04fc8db64ddc02fd81ec7568f5c39.1535629099.git.andreyknvl@google.com>
+Subject: [PATCH v6 04/11] mm, arm64: untag user addresses in mm/gup.c
+Date:   Thu, 30 Aug 2018 13:41:09 +0200
+Message-Id: <163681302d7380fde6717daa26739965295f636a.1535629099.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.0.rc0.228.g281dcd1b4d0-goog
 In-Reply-To: <cover.1535629099.git.andreyknvl@google.com>
 References: <cover.1535629099.git.andreyknvl@google.com>
@@ -86,33 +86,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To allow arm64 syscalls accept tagged pointers from userspace, we must
-untag them when they are passed to the kernel. Since untagging is done in
-generic parts of the kernel, the untagged_addr macro needs to be defined
-for all architectures.
+mm/gup.c provides a kernel interface that accepts user addresses and
+manipulates user pages directly (for example get_user_pages, that is used
+by the futex syscall). Since a user can provided tagged addresses, we need
+to handle such case.
 
-Define it as a noop for other architectures besides arm64.
+Add untagging to gup.c functions that use user addresses for vma lookup.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- include/linux/uaccess.h | 4 ++++
+ mm/gup.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index efe79c1cdd47..c045b4eff95e 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -13,6 +13,10 @@
+diff --git a/mm/gup.c b/mm/gup.c
+index 1abc8b4afff6..6f09132c654e 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -666,6 +666,8 @@ static long __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+ 	if (!nr_pages)
+ 		return 0;
  
- #include <asm/uaccess.h>
- 
-+#ifndef untagged_addr
-+#define untagged_addr(addr) addr
-+#endif
++	start = untagged_addr(start);
 +
- /*
-  * Architectures should provide two primitives (raw_copy_{to,from}_user())
-  * and get rid of their private instances of copy_{to,from}_user() and
+ 	VM_BUG_ON(!!pages != !!(gup_flags & FOLL_GET));
+ 
+ 	/*
+@@ -820,6 +822,8 @@ int fixup_user_fault(struct task_struct *tsk, struct mm_struct *mm,
+ 	struct vm_area_struct *vma;
+ 	vm_fault_t ret, major = 0;
+ 
++	address = untagged_addr(address);
++
+ 	if (unlocked)
+ 		fault_flags |= FAULT_FLAG_ALLOW_RETRY;
+ 
 -- 
 2.19.0.rc0.228.g281dcd1b4d0-goog
 
