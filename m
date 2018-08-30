@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4E7E7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 14:45:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 34F7F7DE7D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 14:45:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729631AbeH3SqU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 14:46:20 -0400
+        id S1729661AbeH3SqV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 14:46:21 -0400
 Received: from mga01.intel.com ([192.55.52.88]:38433 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729545AbeH3SqU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Aug 2018 14:46:20 -0400
+        id S1729545AbeH3SqV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Aug 2018 14:46:21 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 07:43:44 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.53,307,1531810800"; 
-   d="scan'208";a="67186715"
+   d="scan'208";a="67186736"
 Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2018 07:43:41 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2018 07:43:43 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -45,9 +45,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v3 14/24] mm: Handle shadow stack page fault
-Date:   Thu, 30 Aug 2018 07:38:54 -0700
-Message-Id: <20180830143904.3168-15-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v3 23/24] x86/cet/shstk: Add arch_prctl functions for Shadow Stack
+Date:   Thu, 30 Aug 2018 07:39:03 -0700
+Message-Id: <20180830143904.3168-24-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180830143904.3168-1-yu-cheng.yu@intel.com>
 References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
@@ -56,90 +56,238 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When a task does fork(), its shadow stack must be duplicated for
-the child.  However, the child may not actually use all pages of
-of the copied shadow stack.  This patch implements a flow that
-is similar to copy-on-write of an anonymous page, but for shadow
-stack memory.  A shadow stack PTE needs to be RO and dirty.  We
-use this dirty bit requirement to effect the copying of shadow
-stack pages.
+arch_prctl(ARCH_CET_STATUS, unsigned long *addr)
+    Return CET feature status.
 
-In copy_one_pte(), we clear the dirty bit from the shadow stack
-PTE.  On the next shadow stack access to the PTE, a page fault
-occurs.  At that time, we then copy/re-use the page and fix the
-PTE.
+    The parameter 'addr' is a pointer to a user buffer.
+    On returning to the caller, the kernel fills the following
+    information:
 
+    *addr = SHSTK/IBT status
+    *(addr + 1) = SHSTK base address
+    *(addr + 2) = SHSTK size
+
+arch_prctl(ARCH_CET_DISABLE, unsigned long features)
+    Disable CET features specified in 'features'.  Return
+    -EPERM if CET is locked.
+
+arch_prctl(ARCH_CET_LOCK)
+    Lock in CET feature.
+
+arch_prctl(ARCH_CET_ALLOC_SHSTK, unsigned long *addr)
+    Allocate a new SHSTK.
+
+    The parameter 'addr' is a pointer to a user buffer and indicates
+    the desired SHSTK size to allocate.  On returning to the caller
+    the buffer contains the address of the new SHSTK.
+
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/mm/pgtable.c         | 10 ++++++++++
- include/asm-generic/pgtable.h |  7 +++++++
- mm/memory.c                   |  3 +++
- 3 files changed, 20 insertions(+)
+ arch/x86/include/asm/cet.h        |  5 ++
+ arch/x86/include/uapi/asm/prctl.h |  5 ++
+ arch/x86/kernel/Makefile          |  2 +-
+ arch/x86/kernel/cet.c             | 27 +++++++++++
+ arch/x86/kernel/cet_prctl.c       | 79 +++++++++++++++++++++++++++++++
+ arch/x86/kernel/process.c         |  5 ++
+ 6 files changed, 122 insertions(+), 1 deletion(-)
+ create mode 100644 arch/x86/kernel/cet_prctl.c
 
-diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
-index e848a4811785..c63261128ac3 100644
---- a/arch/x86/mm/pgtable.c
-+++ b/arch/x86/mm/pgtable.c
-@@ -872,3 +872,13 @@ int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
+diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
+index b7b33e1026bb..212bd68e31d3 100644
+--- a/arch/x86/include/asm/cet.h
++++ b/arch/x86/include/asm/cet.h
+@@ -12,19 +12,24 @@ struct task_struct;
+ struct cet_status {
+ 	unsigned long	shstk_base;
+ 	unsigned long	shstk_size;
++	unsigned int	locked:1;
+ 	unsigned int	shstk_enabled:1;
+ };
  
- #endif /* CONFIG_X86_64 */
- #endif	/* CONFIG_HAVE_ARCH_HUGE_VMAP */
+ #ifdef CONFIG_X86_INTEL_CET
++int prctl_cet(int option, unsigned long arg2);
+ int cet_setup_shstk(void);
+ int cet_setup_thread_shstk(struct task_struct *p);
++int cet_alloc_shstk(unsigned long *arg);
+ void cet_disable_shstk(void);
+ void cet_disable_free_shstk(struct task_struct *p);
+ int cet_restore_signal(unsigned long ssp);
+ int cet_setup_signal(bool ia32, unsigned long rstor, unsigned long *new_ssp);
+ #else
++static inline int prctl_cet(int option, unsigned long arg2) { return 0; }
+ static inline int cet_setup_shstk(void) { return 0; }
+ static inline int cet_setup_thread_shstk(struct task_struct *p) { return 0; }
++static inline int cet_alloc_shstk(unsigned long *arg) { return -EINVAL; }
+ static inline void cet_disable_shstk(void) {}
+ static inline void cet_disable_free_shstk(struct task_struct *p) {}
+ static inline int cet_restore_signal(unsigned long ssp) { return 0; }
+diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
+index 5a6aac9fa41f..3aec1088e01d 100644
+--- a/arch/x86/include/uapi/asm/prctl.h
++++ b/arch/x86/include/uapi/asm/prctl.h
+@@ -14,4 +14,9 @@
+ #define ARCH_MAP_VDSO_32	0x2002
+ #define ARCH_MAP_VDSO_64	0x2003
+ 
++#define ARCH_CET_STATUS		0x3001
++#define ARCH_CET_DISABLE	0x3002
++#define ARCH_CET_LOCK		0x3003
++#define ARCH_CET_ALLOC_SHSTK	0x3004
 +
-+#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-+inline pte_t pte_set_vma_features(pte_t pte, struct vm_area_struct *vma)
-+{
-+	if (vma->vm_flags & VM_SHSTK)
-+		return pte_mkdirty_shstk(pte);
-+	else
-+		return pte;
-+}
-+#endif /* CONFIG_X86_INTEL_SHADOW_STACK_USER */
-diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
-index aa5271717126..558a485617cd 100644
---- a/include/asm-generic/pgtable.h
-+++ b/include/asm-generic/pgtable.h
-@@ -1146,6 +1146,13 @@ static inline bool pmd_dirty_hw(pmd_t pmd)
- {
- 	return false;
+ #endif /* _ASM_X86_PRCTL_H */
+diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+index 36b14ef410c8..b9e6cdc6b4f7 100644
+--- a/arch/x86/kernel/Makefile
++++ b/arch/x86/kernel/Makefile
+@@ -139,7 +139,7 @@ obj-$(CONFIG_UNWINDER_ORC)		+= unwind_orc.o
+ obj-$(CONFIG_UNWINDER_FRAME_POINTER)	+= unwind_frame.o
+ obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
+ 
+-obj-$(CONFIG_X86_INTEL_CET)		+= cet.o
++obj-$(CONFIG_X86_INTEL_CET)		+= cet.o cet_prctl.o
+ 
+ obj-$(CONFIG_ARCH_HAS_PROGRAM_PROPERTIES) += elf.o
+ 
+diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+index ce0b3b7b1160..1c2689738604 100644
+--- a/arch/x86/kernel/cet.c
++++ b/arch/x86/kernel/cet.c
+@@ -110,6 +110,33 @@ static int create_rstor_token(bool ia32, unsigned long ssp,
+ 	return 0;
  }
-+
-+static inline pte_t pte_set_vma_features(pte_t pte, struct vm_area_struct *vma)
+ 
++int cet_alloc_shstk(unsigned long *arg)
 +{
-+	return pte;
++	unsigned long len = *arg;
++	unsigned long addr;
++	unsigned long token;
++	unsigned long ssp;
++
++	addr = do_mmap_locked(0, len, PROT_READ,
++			      MAP_ANONYMOUS | MAP_PRIVATE, VM_SHSTK);
++	if (addr >= TASK_SIZE_MAX)
++		return -ENOMEM;
++
++	/* Restore token is 8 bytes and aligned to 8 bytes */
++	ssp = addr + len;
++	token = ssp;
++
++	if (!in_ia32_syscall())
++		token |= 1;
++	ssp -= 8;
++
++	if (write_user_shstk_64(ssp, token))
++		return -EINVAL;
++
++	*arg = addr;
++	return 0;
 +}
-+#else
-+pte_t pte_set_vma_features(pte_t pte, struct vm_area_struct *vma);
- #endif
++
+ int cet_setup_shstk(void)
+ {
+ 	unsigned long addr, size;
+diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
+new file mode 100644
+index 000000000000..c4b7c19f5040
+--- /dev/null
++++ b/arch/x86/kernel/cet_prctl.c
+@@ -0,0 +1,79 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#include <linux/errno.h>
++#include <linux/uaccess.h>
++#include <linux/prctl.h>
++#include <linux/compat.h>
++#include <asm/processor.h>
++#include <asm/prctl.h>
++#include <asm/elf.h>
++#include <asm/elf_property.h>
++#include <asm/cet.h>
++
++/* See Documentation/x86/intel_cet.txt. */
++
++static int handle_get_status(unsigned long arg2)
++{
++	unsigned int features = 0;
++	unsigned long shstk_base, shstk_size;
++	unsigned long buf[3];
++
++	if (current->thread.cet.shstk_enabled)
++		features |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
++
++	shstk_base = current->thread.cet.shstk_base;
++	shstk_size = current->thread.cet.shstk_size;
++
++	buf[0] = (unsigned long)features;
++	buf[1] = shstk_base;
++	buf[2] = shstk_size;
++	return copy_to_user((unsigned long __user *)arg2, buf,
++			    sizeof(buf));
++}
++
++static int handle_alloc_shstk(unsigned long arg2)
++{
++	int err = 0;
++	unsigned long shstk_size = 0;
++
++	if (get_user(shstk_size, (unsigned long __user *)arg2))
++		return -EFAULT;
++
++	err = cet_alloc_shstk(&shstk_size);
++	if (err)
++		return err;
++
++	if (put_user(shstk_size, (unsigned long __user *)arg2))
++		return -EFAULT;
++
++	return 0;
++}
++
++int prctl_cet(int option, unsigned long arg2)
++{
++	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
++		return -EINVAL;
++
++	switch (option) {
++	case ARCH_CET_STATUS:
++		return handle_get_status(arg2);
++
++	case ARCH_CET_DISABLE:
++		if (current->thread.cet.locked)
++			return -EPERM;
++		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
++			cet_disable_free_shstk(current);
++
++		return 0;
++
++	case ARCH_CET_LOCK:
++		current->thread.cet.locked = 1;
++		return 0;
++
++	case ARCH_CET_ALLOC_SHSTK:
++		return handle_alloc_shstk(arg2);
++
++	default:
++		return -EINVAL;
++	}
++}
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index 440f012ef925..251b8714f9a3 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -792,6 +792,11 @@ long do_arch_prctl_common(struct task_struct *task, int option,
+ 		return get_cpuid_mode();
+ 	case ARCH_SET_CPUID:
+ 		return set_cpuid_mode(task, cpuid_enabled);
++	case ARCH_CET_STATUS:
++	case ARCH_CET_DISABLE:
++	case ARCH_CET_LOCK:
++	case ARCH_CET_ALLOC_SHSTK:
++		return prctl_cet(option, cpuid_enabled);
+ 	}
  
- #endif /* _ASM_GENERIC_PGTABLE_H */
-diff --git a/mm/memory.c b/mm/memory.c
-index c467102a5cbc..9b4e11944b5d 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -2462,6 +2462,7 @@ static inline void wp_page_reuse(struct vm_fault *vmf)
- 	flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
- 	entry = pte_mkyoung(vmf->orig_pte);
- 	entry = maybe_mkwrite(pte_mkdirty(entry), vma);
-+	entry = pte_set_vma_features(entry, vma);
- 	if (ptep_set_access_flags(vma, vmf->address, vmf->pte, entry, 1))
- 		update_mmu_cache(vma, vmf->address, vmf->pte);
- 	pte_unmap_unlock(vmf->pte, vmf->ptl);
-@@ -2535,6 +2536,7 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
- 		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
- 		entry = mk_pte(new_page, vma->vm_page_prot);
- 		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
-+		entry = pte_set_vma_features(entry, vma);
- 		/*
- 		 * Clear the pte entry and flush it first, before updating the
- 		 * pte with the new entry. This will avoid a race condition
-@@ -3187,6 +3189,7 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
- 	entry = mk_pte(page, vma->vm_page_prot);
- 	if (vma->vm_flags & VM_WRITE)
- 		entry = pte_mkwrite(pte_mkdirty(entry));
-+	entry = pte_set_vma_features(entry, vma);
- 
- 	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
- 			&vmf->ptl);
+ 	return -EINVAL;
 -- 
 2.17.1
 
