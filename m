@@ -1,123 +1,238 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C49377D584
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:01:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD6B77D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:29:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727181AbeHaBF6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 21:05:58 -0400
-Received: from mail-oi0-f67.google.com ([209.85.218.67]:42845 "EHLO
-        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726690AbeHaBF5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 21:05:57 -0400
-Received: by mail-oi0-f67.google.com with SMTP id k81-v6so11864436oib.9
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 14:01:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UQA+KgMn3gpfJEcYovqaXgqAQXkNc1MLBKsQYePtLSs=;
-        b=QBb9ZTwKUBSRg35H/rKhqXALOGcSuOSlf3jZl0sWpB/QUIlJQ3ycMB5FNuEZgAPTXO
-         C4254tQr8khDsxfyDgcOXHl85Rl3dITtJZ5hHYHrj1nFQBwYf/+fPcbNR8RWZ87I4z0Y
-         n4Z+kdfAfo6OQOLMDbbZk4MdV1A0XgGYRMAzZqhn7c03jmgFvNy5oZoTaasMH0eyr7jg
-         6rJkBgMHpyXD/D6x3Arl14aSEmXSwJzVaMax87+XED5ICx/4mQNaYQldfrZCjCRgE+CD
-         PK3RKg3SJCdjcs0o24ntI57D90hjA7c96z3fVnhQIReyrnER8dftL5Rh4FHbl/M855M1
-         tstw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UQA+KgMn3gpfJEcYovqaXgqAQXkNc1MLBKsQYePtLSs=;
-        b=N/pUf1JBAXZtv/yhczr2smBDtSrfm6osI3V0TMCn+BmOjrsjYRrY/GMb9JYBNKDkC7
-         q9A8SaHRhg5ju/mCnrfKmYbui24ymcv1rpNQ2XtE3mnoVbAEm5r8twyIo7bL67wUZnvG
-         hFvayzRcPneB6vqx4WHxTPWXpje8AFhjs8Ty7XAsCDu8jdwdB0jRfjhi1Uc8Lcj9WFDL
-         9gR4MSmWuvca5H5WXnw76rFJCKj+8XHvtBCDdvK4L+sUwRXNcTVhwixNMLudpDdDNzfz
-         jn1uTVSkdq19Vuxk2TK7w8PmFfDDv1vEC5EMhd8nCLj26NBdEggFP2U1v/fZzsdeA1iC
-         UUTA==
-X-Gm-Message-State: APzg51DgsSXE2p3drdbLiWN166byJoTHHMqdsATlbG02FsFN2NvOuqRe
-        HAAiILQUv+efe8gpWtfVmOtpq1+CMUngqMNmePUBNw==
-X-Google-Smtp-Source: ANB0VdaowIqqd9qSnfPcm7krWIR2VxOpNfTQQXqD6krNB/t7ORg+4bLvsoAUO7O+k0MbUWQjij+tXpLcqM9AQV5AYQI=
-X-Received: by 2002:aca:4784:: with SMTP id u126-v6mr4387018oia.229.1535662914424;
- Thu, 30 Aug 2018 14:01:54 -0700 (PDT)
+        id S1727067AbeHaBdu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 21:33:50 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55936 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727585AbeHaBdu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 21:33:50 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w7ULNvKb113603
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:29:40 -0400
+Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2m6na8fkb6-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:29:24 -0400
+Received: from localhost
+        by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
+        Thu, 30 Aug 2018 15:29:23 -0600
+Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
+        by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 30 Aug 2018 15:29:18 -0600
+Received: from b03ledav003.gho.boulder.ibm.com (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+        by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w7ULTHk163635512
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 30 Aug 2018 14:29:17 -0700
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6A5AC6A047;
+        Thu, 30 Aug 2018 15:29:17 -0600 (MDT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8F9936A058;
+        Thu, 30 Aug 2018 15:29:11 -0600 (MDT)
+Received: from oc6728276242.ibm.com (unknown [9.85.221.248])
+        by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Thu, 30 Aug 2018 15:29:11 -0600 (MDT)
+Subject: Re: [PATCH v4 2/9] Documentation: hwmon: Add OCC documentation
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        jdelvare@suse.com, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, gregkh@linuxfoundation.org,
+        mark.rutland@arm.com
+References: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
+ <1531342898-15790-3-git-send-email-eajames@linux.vnet.ibm.com>
+ <20180725163604.GA21332@roeck-us.net>
+From:   Eddie James <eajames@linux.vnet.ibm.com>
+Date:   Thu, 30 Aug 2018 16:29:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-13-yu-cheng.yu@intel.com>
- <CAG48ez0Rca0XsdXJZ07c+iGPyep0Gpxw+sxQuACP5gyPaBgDKA@mail.gmail.com>
- <079a55f2-4654-4adf-a6ef-6e480b594a2f@linux.intel.com> <CAG48ez2gHOD9hH4+0wek5vUOv9upj79XWoug2SXjdwfXWoQqxw@mail.gmail.com>
- <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com> <1535649960.26689.15.camel@intel.com>
- <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com> <1535651666.27823.6.camel@intel.com>
- <CAG48ez3ixWROuQc6WZze6qPL6q0e_gCnMU4XF11JUWziePsBJg@mail.gmail.com>
- <1535660494.28258.36.camel@intel.com> <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
- <1535662366.28781.6.camel@intel.com>
-In-Reply-To: <1535662366.28781.6.camel@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 30 Aug 2018 23:01:26 +0200
-Message-ID: <CAG48ez0mkr95_TbLQnDGuGUd6G+eJVLZ-fEjDkwA6dSrm+9tLw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
- pmdp_set_wrprotect for _PAGE_DIRTY_SW
-To:     yu-cheng.yu@intel.com
-Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
-        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180725163604.GA21332@roeck-us.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 18083021-0036-0000-0000-00000A2E10C4
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009640; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000266; SDB=6.01081200; UDB=6.00557771; IPR=6.00861185;
+ MB=3.00023023; MTD=3.00000008; XFM=3.00000015; UTC=2018-08-30 21:29:21
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18083021-0037-0000-0000-000048C5747D
+Message-Id: <aa1d5818-6b64-2088-ec59-dbe09d6a3902@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-08-30_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1808300215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 30, 2018 at 10:57 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> On Thu, 2018-08-30 at 22:44 +0200, Jann Horn wrote:
-> > On Thu, Aug 30, 2018 at 10:25 PM Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > wrote:
-> ...
-> > > In the flow you described, if C writes to the overflow page before
-> > > B
-> > > gets in with a 'call', the return address is still correct for
-> > > B.  To
-> > > make an attack, C needs to write again before the TLB flush.  I
-> > > agree
-> > > that is possible.
-> > >
-> > > Assume we have a guard page, can someone in the short window do
-> > > recursive calls in B, move ssp to the end of the guard page, and
-> > > trigger the same again?  He can simply take the incssp route.
-> > I don't understand what you're saying. If the shadow stack is
-> > between
-> > guard pages, you should never be able to move SSP past that area's
-> > guard pages without an appropriate shadow stack token (not even with
-> > INCSSP, since that has a maximum range of PAGE_SIZE/2), and
-> > therefore,
-> > it shouldn't matter whether memory outside that range is incorrectly
-> > marked as shadow stack. Am I missing something?
->
-> INCSSP has a range of 256, but we can do multiple of that.
-> But I realize the key is not to have the transient SHSTK page at all.
-> The guard page is !pte_write() and even we have flaws in
-> ptep_set_wrprotect(), there will not be any transient SHSTK pages. I
-> will add guard pages to both ends.
->
-> Still thinking how to fix ptep_set_wrprotect().
 
-cmpxchg loop? Or is that slow?
+
+On 07/25/2018 11:36 AM, Guenter Roeck wrote:
+> On Wed, Jul 11, 2018 at 04:01:31PM -0500, Eddie James wrote:
+>> Document the hwmon interface for the OCC.
+>>
+>> Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
+>> ---
+>>   Documentation/hwmon/occ | 73 +++++++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 73 insertions(+)
+>>   create mode 100644 Documentation/hwmon/occ
+>>
+>> diff --git a/Documentation/hwmon/occ b/Documentation/hwmon/occ
+>> new file mode 100644
+>> index 0000000..465fa1a
+>> --- /dev/null
+>> +++ b/Documentation/hwmon/occ
+>> @@ -0,0 +1,73 @@
+>> +Kernel driver occ-hwmon
+>> +=======================
+>> +
+>> +Supported chips:
+>> +  * POWER8
+>> +  * POWER9
+>> +
+>> +Author: Eddie James <eajames@linux.vnet.ibm.com>
+>> +
+>> +Description
+>> +-----------
+>> +
+>> +This driver supports hardware monitoring for the On-Chip Controller (OCC)
+>> +embedded on POWER processors. The OCC is a device that collects and aggregates
+>> +sensor data from the processor and the system. The OCC can provide the raw
+>> +sensor data as well as perform thermal and power management on the system.
+>> +
+>> +The P8 version of this driver is a client driver of I2C. It may be probed
+>> +manually if an "ibm,p8-occ-hwmon" compatible device is found under the
+>> +appropriate I2C bus node in the device-tree.
+>> +
+>> +The P9 version of this driver is a client driver of the FSI-based OCC driver.
+>> +It will be probed automatically by the FSI-based OCC driver.
+>> +
+>> +Sysfs entries
+>> +-------------
+>> +
+>> +The following attributes are supported. All attributes are read-only unless
+>> +specified.
+>> +
+>> +temp[1-n]_label		OCC sensor id.
+>> +temp[1-n]_input		Measured temperature in millidegrees C.
+>> +[with temperature sensor version 2+]
+>> +    temp[1-n]_fru_type		Given FRU (Field Replaceable Unit) type.
+> What is this ? An integer ? A string ?
+>
+>> +    temp[1-n]_fault		Temperature sensor fault.
+>> +
+>> +freq[1-n]_label		OCC sensor id.
+>> +freq[1-n]_input		Measured frequency.
+> What does that have to do with hardware monitoring, and what exactly does it
+> measure ? AC voltage frequency ? Frequency of rainstorms in the surrounding
+> area ?
+>
+>> +
+>> +power[1-n]_label	OCC sensor id.
+>> +power[1-n]_input	Measured power in microwatts.
+>> +power[1-n]_update_tag	Number of 250us samples represented in accumulator.
+> update_tag to represent number of samples ? Odd choice for
+> an attribute name. Why not "_samples" ? Also, if each sample
+> represents a specific amount of time, why not report a time ?
+>
+>> +power[1-n]_accumulator	Accumulation of 250us power readings.
+> There is no explanation of "accumulation". Is this the energy ?
+> If so, why not use energy attributes ? And what is the unit of
+> this measurement ?
+>
+>> +[with power sensor version 2+]
+>> +    power[1-n]_function_id	Identifies what the power reading is for.
+> String ? Number ? Slot index ?  Bitmap ? And why isn't that reported
+> in the label ? After all, that is what the label is supposed to be
+> used for.
+>
+>> +    power[1-n]_apss_channel	Indicates APSS channel.
+>> +
+> Does that provide any value to the user ?
+>
+>> +[power version 0xa0 only]
+>> +power1_id			OCC sensor id.
+> This is inconsistent with the other attributes and even with itself.
+>
+>> +power[1-n]_label		Sensor type, "system", "proc", "vdd", or "vdn".
+>> +power[1-n]_input		Most recent power reading in microwatts.
+> Overall I am left with no idea what
+> 	_id
+> 	_label
+> 	_function_id
+> 	_apps_channel
+> are and how they relate to each other, except that it all looks quite
+> inconsistent. You might want to consider merging all those attributes into
+> the label in some consistent way.
+>
+>> +power[1-n]_update_tag		Number of samples in the accumulator.
+>> +power[1-n]_accumulator		Accumulation of power readings.
+> Same as above.
+>
+>> +[with sensor type "system" and "proc" only]
+>> +    power[1-n]_update_time	Time in us that the power value is read.
+>> +
+>> +caps1_current		Current OCC power cap in watts.
+>> +caps1_reading		Current system output power in watts.
+>> +caps1_norm		Power cap without redundant power.
+>> +caps1_max		Maximum power cap.
+> Why do those have to be non-standard attributes ? Please explain why you can not
+> use power[1-n]_cap attributes.
+>
+>> +[caps version 1 and 2 only]
+>> +    caps1_min		Minimum power cap.
+>> +[caps version 3+]
+>> +    caps1_min_hard		Hard minimum cap that can be set and held.
+>> +    caps1_min_soft		Soft minimum cap below hard, not guaranteed.
+>> +caps1_user		The powercap specified by the user. Will be 0 if no
+>> +			user powercap exists. This attribute is read-write.
+>> +[caps version 1+]
+>> +    caps1_user_source	Indicates how the user power limit was set.
+>> +
+>> +extn[1-n]_label		ASCII id or sensor id.
+>> +extn[1-n]_flags		Indicates type of label attribute.
+>> +extn[1-n]_input		Data.
+> Great non-explanation.
+>
+> Not reviewing the series further. I am sure I asked that each non-standard
+> attribute is explained. There is neither an explanation why the attributes
+> are needed nor, in many cases, why non-standard attributes were chosen
+> instead of standard ones. On top of that, the non-standard attributes are
+> not even documented properly, leaving the reader wondering not only why
+> they are needed, but what they are used for in the first place.
+
+Hi,
+
+Thanks for the feedback Guenter. I am about to put up a new patch set 
+with fixes for many of the issues you indicated and better descriptions. 
+Now all the attributes except two should conform to standard hwmon 
+attributes. The exceptions are for the user power cap and user power cap 
+source. These are needed in order to make decisions about power 
+management while controlling the system. Please look at their 
+documentation to see if they're acceptable.
+
+Let me know what you think!
+Thanks,
+Eddie
+
+>
+> Guenter
+>
+
