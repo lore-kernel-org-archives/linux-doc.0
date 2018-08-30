@@ -1,80 +1,183 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8AECA7D87A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 Aug 2018 21:04:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD2B67D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 01:13:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727859AbeH3BCt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 Aug 2018 21:02:49 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52256 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727595AbeH3BCt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Aug 2018 21:02:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=y55IHZkqBenWSxLAokBXoxwcPJCN7xaIs0bfOip9KEc=; b=iEUXVHqPHQDirspJnE1EHvlkp
-        hlNOZe3wV6Stupl5rGT1o5H6/L30hMwcqxQuuhHdaNHfoG+uX0OxefLxVe32FW2Q7Awg0UOVMMrvB
-        34iI9N2glxgPqqiGZq4C/1d/2IbTnQjjdXULqJLNkZXFtFFm0Xm4b3QLeyOmu7aPR88FbA08sPidu
-        DHLD1q/rXP0uOSPctS+7cHxNM3uQOH7sCu/PUE1nX49qpg34UPzEDDOh0SO0z1kMH4f4P8SMS7SnW
-        tGpALuz7N61/rAdZfJl9ocx1KH71ouJdKMJNbQYUFeLhGIULcj4B4v93iLzO0Hp574jy1u4TVxpfN
-        cSp5NDaSA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fv7dE-0002HI-RM; Wed, 29 Aug 2018 21:04:04 +0000
-Date:   Wed, 29 Aug 2018 14:04:04 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Waiman Long <longman@redhat.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1727338AbeH3FM1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 01:12:27 -0400
+Received: from ipmail06.adl2.internode.on.net ([150.101.137.129]:43557 "EHLO
+        ipmail06.adl2.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725758AbeH3FM1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 01:12:27 -0400
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail06.adl2.internode.on.net with ESMTP; 30 Aug 2018 10:42:47 +0930
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1fvBVt-000370-UF; Thu, 30 Aug 2018 11:12:45 +1000
+Date:   Thu, 30 Aug 2018 11:12:45 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
         Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
         Larry Woodman <lwoodman@redhat.com>,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>,
         Michal Hocko <mhocko@kernel.org>
 Subject: Re: [PATCH 2/2] fs/dcache: Make negative dentries easier to be
  reclaimed
-Message-ID: <20180829210404.GA2925@bombadil.infradead.org>
+Message-ID: <20180830011245.GC5631@dastard>
 References: <1535476780-5773-1-git-send-email-longman@redhat.com>
  <1535476780-5773-3-git-send-email-longman@redhat.com>
- <20180828160150.9a45ee293c92708edb511eab@linux-foundation.org>
- <20180829175405.GA17337@linux.vnet.ibm.com>
+ <20180829010228.GE1572@dastard>
+ <6e2999b3-e93f-2138-6ceb-4f24712f419f@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180829175405.GA17337@linux.vnet.ibm.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <6e2999b3-e93f-2138-6ceb-4f24712f419f@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 29, 2018 at 10:54:05AM -0700, Paul E. McKenney wrote:
-> On Tue, Aug 28, 2018 at 04:01:50PM -0700, Andrew Morton wrote:
-> > People often use the term "the foo() function".  I don't know why -
-> > just say "foo()"!
+On Wed, Aug 29, 2018 at 03:34:05PM -0400, Waiman Long wrote:
+> On 08/28/2018 09:02 PM, Dave Chinner wrote:
+> > On Tue, Aug 28, 2018 at 01:19:40PM -0400, Waiman Long wrote:
+> > And then there's shrinker behaviour. What happens if the shrinker
+> > isolate callback returns LRU_ROTATE on a negative dentry? It gets
+> > moved to the most recent end of the list, so it won't have an
+> > attempt to reclaim it again until it's tried to reclaim all the real
+> > dentries. IOWs, it goes back to behaving like LRUs are supposed to
+> > behaving.
+> >
+> > IOWs, reclaim behaviour of negative dentries will be
+> > highly unpredictable, it will not easily retain a working set, nor
+> > will the working set it does retain be predictable or easy to eject
+> > from memory when the workload changes.
+> >
+> > Is this the behavour what we want for negative dentries?
 > 
-> For whatever it is worth...
+> I am aware that the behavior is not strictly LRU for negative dentries.
+> This is a compromise for using one LRU list for 2 different classes of
+> dentries.
+
+Thus demonstrating just enough knowledge to be dangerous.
+
+We already 3 different classes of dentries on the LRU list:
+
+	- in use dentries (because we use lazy removal to avoid
+	  lru list lock contention on cache hit lookups)
+	- unused, referenced dentries
+	- unused, unreferenced dentries.
+
+Each of these classes of dentries are treated differently by the
+shrinker, but the key point is that they are all aged the same way
+and so there's consistent maintenance of the working set under
+memory pressure. Putting negative dentries at the head of the list
+doesn't create a new "class" of object on the LRU, it just changes
+the ordering of the lru list. This will cause unpredictable
+behaviour because objects haven't had a chance to age gracefully
+before they are reclaimed.
+
+FYI, the inode cache has the same list_lru setup, object types and
+shrinker algorithm as the dentry cache, so this isn't a one-off.
+Indeed, the XFS buffer cache has a multi-reference heirarchy of 13
+different types of {unused, referenced} buffers in it's list_lru to
+implement a quasi aging-NFU reclaim algorithm in it's shrinker.
+
+i.e. the list_lru infrastructure has never provided or enforced a
+pure LRU algorithm. It is common infrastructure intended to provide
+a scalable, flexible and memcg-aware FIFO-like object tracking
+system that interates tightly with memory reclaim to allow
+subsystems to implement cache reclaim algorithms that are optimal
+for that subsystem.
+
+IOWs, the list_lru doesn't define the reclaim algorithm the
+subsystem uses and there's no reason why we can't extend the
+infrastructure to support more complex algorithms without impacting
+existing subsystem reclaim algorithms at all. Only the subsystems
+that use the new infrastructure and algorithms would need careful
+examination.  Of course, the overall system cache balancing
+behaviour under different and changing workloads would still need to
+be verified, but you have to do that for any cache reclaim algorithm
+change that is made....
+
+> The basic idea is that negative dentries that are used only
+> once will go first irrespective of their age.
+
+Using MRU for negative dentries, as I've previously explained, is a
+flawed concept. It might be expedient to solve your specific
+problem, but it's not a solution to the general problem of negative
+dentry management.
+
+> > Perhaps a second internal LRU list in the list_lru for "immediate
+> > reclaim" objects would be a better solution. i.e. similar to the
+> > active/inactive lists used for prioritising the working set iover
+> > single use pages in page reclaim. negative dentries go onto the
+> > immediate list, real dentries go on the existing list. Both are LRU,
+> > and the shrinker operates on the immediate list first. When we
+> > rotate referenced negative dentries on the immediate list, promote
+> > them to the active list with all the real dentries so they age out
+> > with the rest of the working set. That way single use negative
+> > dentries get removed in LRU order in preference to the working set
+> > of real dentries.
+> >
+> > Being able to make changes to the list implementation easily was one
+> > of the reasons I hid the implementation of the list_lru from the
+> > interface callers use....
+> >
+> > [...]
 > 
-> I tend to use "The foo() function ..." instead of "foo() ..." in order
-> to properly capitalize the first word of the sentence.  So I might say
-> "The call_rcu() function enqueues an RCU callback." rather than something
-> like "call_rcu() enqueues an RCU callback."  Or I might use some other
-> trick to keep "call_rcu()" from being the first word of the sentence.
+> I have thought about using 2 lists for dentries. That will require much
+> more extensive changes to the code and hence much more testing will be
+> needed to verify their correctness.  That is the main reason why I try to
+> avoid doing that.
 
-I tend to write 'Use call_rcu() to enqueue a callback." or "When
-call_rcu() returns, the callback will have been enqueued".
+i.e. expediency.
 
+However, you're changing the behaviour of core caching and memory
+reclaim algorithms. The amount and level of testing and verification
+you need to do is the same regardless of whether it's a small change
+or a large change.  Sure, you've shown that *one* artificial
+micro-benchmark improves, but what about everything else?
+
+> As you have suggested, we could implement this 2-level LRU list in the
+> list_lru API. But it is used by other subsystems as well. Extensive
+> change like that will have similar issue in term of testing and
+> verification effort.
+
+I know what changing reclaim algorithm involves, how difficult
+it is to balance the competing caches quickly and to the desired
+ratios for acceptable performance, how difficult it is to measure
+and control the system reacts to transient and impulse memory
+pressure events, etc.
+
+I also know that "simple" and/or "obviously correct" subsystem
+changes can cause very unexepected system level effects, and that
+it's almost never what you think it is that caused the unexpected
+behaviour.  IOWs, getting anything even slightly wrong in these
+algorithms will adversely affect system performance and balance
+significantly.  Hence the bar is /always/ set high for core caching
+algorithm changes like this.
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
