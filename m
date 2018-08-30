@@ -2,46 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1B7717D2EE
+	by archive.lwn.net (Postfix) with ESMTP id 6EEFC7DE71
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:33:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727691AbeHaBhQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 21:37:16 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55872 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727744AbeHaBhP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 21:37:15 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w7ULTT1o118397
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:33:05 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2m6r5tgwv1-1
+        id S1727794AbeHaBhT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 21:37:19 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48520 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727745AbeHaBhS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 21:37:18 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w7ULTbx2107361
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:33:08 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2m6n52fuws-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:33:05 -0400
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:33:07 -0400
 Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
-        Thu, 30 Aug 2018 17:33:04 -0400
-Received: from b01cxnp22033.gho.pok.ibm.com (9.57.198.23)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Thu, 30 Aug 2018 17:33:07 -0400
+Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 30 Aug 2018 17:32:59 -0400
+        Thu, 30 Aug 2018 17:33:04 -0400
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
-        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w7ULWw8n42270764
+        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w7ULX3Jh18284722
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 30 Aug 2018 21:32:58 GMT
+        Thu, 30 Aug 2018 21:33:03 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0515B124053;
-        Thu, 30 Aug 2018 18:33:36 -0400 (EDT)
+        by IMSVA (Postfix) with ESMTP id 24DC9124055;
+        Thu, 30 Aug 2018 18:33:40 -0400 (EDT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 21514124055;
-        Thu, 30 Aug 2018 18:33:35 -0400 (EDT)
+        by IMSVA (Postfix) with ESMTP id 37112124054;
+        Thu, 30 Aug 2018 18:33:39 -0400 (EDT)
 Received: from oc6728276242.ibm.com (unknown [9.85.221.248])
         by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 30 Aug 2018 18:33:35 -0400 (EDT)
+        Thu, 30 Aug 2018 18:33:39 -0400 (EDT)
 From:   Eddie James <eajames@linux.vnet.ibm.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
@@ -50,20 +50,20 @@ Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         gregkh@linuxfoundation.org, mark.rutland@arm.com,
         linux@roeck-us.net, joel@jms.id.au, benh@kernel.crashing.org,
         Eddie James <eajames@linux.vnet.ibm.com>
-Subject: [PATCH v5 07/10] hwmon (occ): Parse OCC poll response
-Date:   Thu, 30 Aug 2018 16:32:38 -0500
+Subject: [PATCH v5 09/10] hwmon (occ): Add sensor attributes and register hwmon device
+Date:   Thu, 30 Aug 2018 16:32:40 -0500
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
 References: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18083021-0068-0000-0000-0000033270C6
+x-cbid: 18083021-2213-0000-0000-000002E5BD93
 X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009641; HX=3.00000242; KW=3.00000007;
+X-IBM-SpamModules-Versions: BY=3.00009640; HX=3.00000242; KW=3.00000007;
  PH=3.00000004; SC=3.00000266; SDB=6.01081201; UDB=6.00557772; IPR=6.00861186;
- MB=3.00023023; MTD=3.00000008; XFM=3.00000015; UTC=2018-08-30 21:33:02
+ MB=3.00023023; MTD=3.00000008; XFM=3.00000015; UTC=2018-08-30 21:33:06
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18083021-0069-0000-0000-00004591F9DC
-Message-Id: <1535664761-86018-8-git-send-email-eajames@linux.vnet.ibm.com>
+x-cbparentid: 18083021-2214-0000-0000-00005B630C69
+Message-Id: <1535664761-86018-10-git-send-email-eajames@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-08-30_08:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -76,174 +76,430 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add method to parse the response from the OCC poll command. This only
-needs to be done during probe(), since the OCC shouldn't change the
-number or format of sensors while it's running. The parsed response
-allows quick access to sensor data, as well as information on the
-number and version of sensors, which we need to instantiate hwmon
-attributes.
+Setup the sensor attributes for every OCC sensor found by the first poll
+response. Register the attributes with hwmon.
 
 Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
 ---
- drivers/hwmon/occ/common.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++
- drivers/hwmon/occ/common.h | 55 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 116 insertions(+)
+ drivers/hwmon/occ/common.c | 337 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/hwmon/occ/common.h |  16 +++
+ 2 files changed, 353 insertions(+)
 
 diff --git a/drivers/hwmon/occ/common.c b/drivers/hwmon/occ/common.c
-index 81acd4b..a066509 100644
+index f7220132..c6c8161 100644
 --- a/drivers/hwmon/occ/common.c
 +++ b/drivers/hwmon/occ/common.c
-@@ -1,6 +1,7 @@
+@@ -1,11 +1,13 @@
  // SPDX-License-Identifier: GPL-2.0
  
  #include <linux/device.h>
-+#include <linux/kernel.h>
++#include <linux/hwmon.h>
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/jiffies.h>
+ #include <linux/kernel.h>
+ #include <linux/math64.h>
+ #include <linux/mutex.h>
++#include <linux/sysfs.h>
+ #include <asm/unaligned.h>
  
  #include "common.h"
- 
-@@ -22,6 +23,64 @@ static int occ_poll(struct occ *occ)
- 	return occ->send_cmd(occ, cmd);
+@@ -641,6 +643,324 @@ static ssize_t occ_show_extended(struct device *dev,
+ 	return rc;
  }
  
-+/* only need to do this once at startup, as OCC won't change sensors on us */
-+static void occ_parse_poll_response(struct occ *occ)
-+{
-+	unsigned int i, old_offset, offset = 0, size = 0;
-+	struct occ_sensor *sensor;
-+	struct occ_sensors *sensors = &occ->sensors;
-+	struct occ_response *resp = &occ->resp;
-+	struct occ_poll_response *poll =
-+		(struct occ_poll_response *)&resp->data[0];
-+	struct occ_poll_response_header *header = &poll->header;
-+	struct occ_sensor_data_block *block = &poll->block;
-+
-+	dev_info(occ->bus_dev, "OCC found, code level: %.16s\n",
-+		 header->occ_code_level);
-+
-+	for (i = 0; i < header->num_sensor_data_blocks; ++i) {
-+		block = (struct occ_sensor_data_block *)((u8 *)block + offset);
-+		old_offset = offset;
-+		offset = (block->header.num_sensors *
-+			  block->header.sensor_length) + sizeof(block->header);
-+		size += offset;
-+
-+		/* validate all the length/size fields */
-+		if ((size + sizeof(*header)) >= OCC_RESP_DATA_BYTES) {
-+			dev_warn(occ->bus_dev, "exceeded response buffer\n");
-+			return;
-+		}
-+
-+		dev_dbg(occ->bus_dev, " %04x..%04x: %.4s (%d sensors)\n",
-+			old_offset, offset - 1, block->header.eye_catcher,
-+			block->header.num_sensors);
-+
-+		/* match sensor block type */
-+		if (strncmp(block->header.eye_catcher, "TEMP", 4) == 0)
-+			sensor = &sensors->temp;
-+		else if (strncmp(block->header.eye_catcher, "FREQ", 4) == 0)
-+			sensor = &sensors->freq;
-+		else if (strncmp(block->header.eye_catcher, "POWR", 4) == 0)
-+			sensor = &sensors->power;
-+		else if (strncmp(block->header.eye_catcher, "CAPS", 4) == 0)
-+			sensor = &sensors->caps;
-+		else if (strncmp(block->header.eye_catcher, "EXTN", 4) == 0)
-+			sensor = &sensors->extended;
-+		else {
-+			dev_warn(occ->bus_dev, "sensor not supported %.4s\n",
-+				 block->header.eye_catcher);
-+			continue;
-+		}
-+
-+		sensor->num_sensors = block->header.num_sensors;
-+		sensor->version = block->header.sensor_format;
-+		sensor->data = &block->data;
-+	}
-+
-+	dev_dbg(occ->bus_dev, "Max resp size: %u+%zd=%zd\n", size,
-+		sizeof(*header), size + sizeof(*header));
++/*
++ * Some helper macros to make it easier to define an occ_attribute. Since these
++ * are dynamically allocated, we shouldn't use the existing kernel macros which
++ * stringify the name argument.
++ */
++#define ATTR_OCC(_name, _mode, _show, _store) {				\
++	.attr	= {							\
++		.name = _name,						\
++		.mode = VERIFY_OCTAL_PERMISSIONS(_mode),		\
++	},								\
++	.show	= _show,						\
++	.store	= _store,						\
 +}
 +
- int occ_setup(struct occ *occ, const char *name)
++#define SENSOR_ATTR_OCC(_name, _mode, _show, _store, _nr, _index) {	\
++	.dev_attr	= ATTR_OCC(_name, _mode, _show, _store),	\
++	.index		= _index,					\
++	.nr		= _nr,						\
++}
++
++#define OCC_INIT_ATTR(_name, _mode, _show, _store, _nr, _index)		\
++	((struct sensor_device_attribute_2)				\
++		SENSOR_ATTR_OCC(_name, _mode, _show, _store, _nr, _index))
++
++/*
++ * Allocate and instatiate sensor_device_attribute_2s. It's most efficient to
++ * use our own instead of the built-in hwmon attribute types.
++ */
++static int occ_setup_sensor_attrs(struct occ *occ)
++{
++	unsigned int i, s, num_attrs = 0;
++	struct device *dev = occ->bus_dev;
++	struct occ_sensors *sensors = &occ->sensors;
++	struct occ_attribute *attr;
++	struct temp_sensor_2 *temp;
++	ssize_t (*show_temp)(struct device *, struct device_attribute *,
++			     char *) = occ_show_temp_1;
++	ssize_t (*show_freq)(struct device *, struct device_attribute *,
++			     char *) = occ_show_freq_1;
++	ssize_t (*show_power)(struct device *, struct device_attribute *,
++			      char *) = occ_show_power_1;
++	ssize_t (*show_caps)(struct device *, struct device_attribute *,
++			     char *) = occ_show_caps_1_2;
++
++	switch (sensors->temp.version) {
++	case 1:
++		num_attrs += (sensors->temp.num_sensors * 2);
++		break;
++	case 2:
++		num_attrs += (sensors->temp.num_sensors * 4);
++		show_temp = occ_show_temp_2;
++		break;
++	default:
++		sensors->temp.num_sensors = 0;
++	}
++
++	switch (sensors->freq.version) {
++	case 2:
++		show_freq = occ_show_freq_2;
++		/* fall through */
++	case 1:
++		num_attrs += (sensors->freq.num_sensors * 2);
++		break;
++	default:
++		sensors->freq.num_sensors = 0;
++	}
++
++	switch (sensors->power.version) {
++	case 2:
++		show_power = occ_show_power_2;
++		/* fall through */
++	case 1:
++		num_attrs += (sensors->power.num_sensors * 4);
++		break;
++	case 0xA0:
++		num_attrs += (sensors->power.num_sensors * 16);
++		show_power = occ_show_power_a0;
++		break;
++	default:
++		sensors->power.num_sensors = 0;
++	}
++
++	switch (sensors->caps.version) {
++	case 1:
++		num_attrs += (sensors->caps.num_sensors * 7);
++		break;
++	case 3:
++		show_caps = occ_show_caps_3;
++		/* fall through */
++	case 2:
++		num_attrs += (sensors->caps.num_sensors * 8);
++		break;
++	default:
++		sensors->caps.num_sensors = 0;
++	}
++
++	switch (sensors->extended.version) {
++	case 1:
++		num_attrs += (sensors->extended.num_sensors * 3);
++		break;
++	default:
++		sensors->extended.num_sensors = 0;
++	}
++
++	occ->attrs = devm_kzalloc(dev, sizeof(*occ->attrs) * num_attrs,
++				  GFP_KERNEL);
++	if (!occ->attrs)
++		return -ENOMEM;
++
++	/* null-terminated list */
++	occ->group.attrs = devm_kzalloc(dev, sizeof(*occ->group.attrs) *
++					num_attrs + 1, GFP_KERNEL);
++	if (!occ->group.attrs)
++		return -ENOMEM;
++
++	attr = occ->attrs;
++
++	for (i = 0; i < sensors->temp.num_sensors; ++i) {
++		s = i + 1;
++		temp = ((struct temp_sensor_2 *)sensors->temp.data) + i;
++
++		snprintf(attr->name, sizeof(attr->name), "temp%d_label", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_temp, NULL,
++					     0, i);
++		attr++;
++
++		if (sensors->temp.version > 1 &&
++		    temp->fru_type == OCC_FRU_TYPE_VRM) {
++			snprintf(attr->name, sizeof(attr->name),
++				 "temp%d_alarm", s);
++		} else {
++			snprintf(attr->name, sizeof(attr->name),
++				 "temp%d_input", s);
++		}
++
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_temp, NULL,
++					     1, i);
++		attr++;
++
++		if (sensors->temp.version > 1) {
++			snprintf(attr->name, sizeof(attr->name),
++				 "temp%d_fru_type", s);
++			attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++						     show_temp, NULL, 2, i);
++			attr++;
++
++			snprintf(attr->name, sizeof(attr->name),
++				 "temp%d_fault", s);
++			attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++						     show_temp, NULL, 3, i);
++			attr++;
++		}
++	}
++
++	for (i = 0; i < sensors->freq.num_sensors; ++i) {
++		s = i + 1;
++
++		snprintf(attr->name, sizeof(attr->name), "freq%d_label", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_freq, NULL,
++					     0, i);
++		attr++;
++
++		snprintf(attr->name, sizeof(attr->name), "freq%d_input", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_freq, NULL,
++					     1, i);
++		attr++;
++	}
++
++	if (sensors->power.version == 0xA0) {
++		/*
++		 * Special case for many-attribute power sensor. Split it into
++		 * a sensor number per power type, emulating several sensors.
++		 */
++		for (i = 0; i < sensors->power.num_sensors; ++i) {
++			unsigned int j;
++			unsigned int nr = 0;
++
++			s = (i * 4) + 1;
++
++			for (j = 0; j < 4; ++j) {
++				snprintf(attr->name, sizeof(attr->name),
++					 "power%d_label", s);
++				attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++							     show_power, NULL,
++							     nr++, i);
++				attr++;
++
++				snprintf(attr->name, sizeof(attr->name),
++					 "power%d_average", s);
++				attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++							     show_power, NULL,
++							     nr++, i);
++				attr++;
++
++				snprintf(attr->name, sizeof(attr->name),
++					 "power%d_average_interval", s);
++				attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++							     show_power, NULL,
++							     nr++, i);
++				attr++;
++
++				snprintf(attr->name, sizeof(attr->name),
++					 "power%d_input", s);
++				attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++							     show_power, NULL,
++							     nr++, i);
++				attr++;
++
++				s++;
++			}
++		}
++	} else {
++		for (i = 0; i < sensors->power.num_sensors; ++i) {
++			s = i + 1;
++
++			snprintf(attr->name, sizeof(attr->name),
++				 "power%d_label", s);
++			attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++						     show_power, NULL, 0, i);
++			attr++;
++
++			snprintf(attr->name, sizeof(attr->name),
++				 "power%d_average", s);
++			attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++						     show_power, NULL, 1, i);
++			attr++;
++
++			snprintf(attr->name, sizeof(attr->name),
++				 "power%d_average_interval", s);
++			attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++						     show_power, NULL, 2, i);
++			attr++;
++
++			snprintf(attr->name, sizeof(attr->name),
++				 "power%d_input", s);
++			attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++						     show_power, NULL, 3, i);
++			attr++;
++		}
++	}
++
++	if (sensors->caps.num_sensors >= 1) {
++		s = sensors->power.num_sensors + 1;
++
++		snprintf(attr->name, sizeof(attr->name), "power%d_label", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_caps, NULL,
++					     0, 0);
++		attr++;
++
++		snprintf(attr->name, sizeof(attr->name), "power%d_cap", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_caps, NULL,
++					     1, 0);
++		attr++;
++
++		snprintf(attr->name, sizeof(attr->name), "power%d_input", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_caps, NULL,
++					     2, 0);
++		attr++;
++
++		snprintf(attr->name, sizeof(attr->name),
++			 "power%d_cap_not_redundant", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_caps, NULL,
++					     3, 0);
++		attr++;
++
++		snprintf(attr->name, sizeof(attr->name), "power%d_cap_max", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_caps, NULL,
++					     4, 0);
++		attr++;
++
++		snprintf(attr->name, sizeof(attr->name), "power%d_cap_min", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444, show_caps, NULL,
++					     5, 0);
++		attr++;
++
++		snprintf(attr->name, sizeof(attr->name), "power%d_cap_user",
++			 s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0644, show_caps,
++					     occ_store_caps_user, 6, 0);
++		attr++;
++
++		if (sensors->caps.version > 1) {
++			snprintf(attr->name, sizeof(attr->name),
++				 "power%d_cap_user_source", s);
++			attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++						     show_caps, NULL, 7, 0);
++			attr++;
++		}
++	}
++
++	for (i = 0; i < sensors->extended.num_sensors; ++i) {
++		s = i + 1;
++
++		snprintf(attr->name, sizeof(attr->name), "extn%d_label", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++					     occ_show_extended, NULL, 0, i);
++		attr++;
++
++		snprintf(attr->name, sizeof(attr->name), "extn%d_flags", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++					     occ_show_extended, NULL, 1, i);
++		attr++;
++
++		snprintf(attr->name, sizeof(attr->name), "extn%d_input", s);
++		attr->sensor = OCC_INIT_ATTR(attr->name, 0444,
++					     occ_show_extended, NULL, 2, i);
++		attr++;
++	}
++
++	/* put the sensors in the group */
++	for (i = 0; i < num_attrs; ++i) {
++		sysfs_attr_init(&occ->attrs[i].sensor.dev_attr.attr);
++		occ->group.attrs[i] = &occ->attrs[i].sensor.dev_attr.attr;
++	}
++
++	return 0;
++}
++
+ /* only need to do this once at startup, as OCC won't change sensors on us */
+ static void occ_parse_poll_response(struct occ *occ)
  {
+@@ -704,6 +1024,7 @@ int occ_setup(struct occ *occ, const char *name)
  	int rc;
-@@ -36,5 +95,7 @@ int occ_setup(struct occ *occ, const char *name)
- 		return rc;
- 	}
  
-+	occ_parse_poll_response(occ);
+ 	mutex_init(&occ->lock);
++	occ->groups[0] = &occ->group;
+ 
+ 	/* no need to lock */
+ 	rc = occ_poll(occ);
+@@ -718,5 +1039,21 @@ int occ_setup(struct occ *occ, const char *name)
+ 
+ 	occ_parse_poll_response(occ);
+ 
++	rc = occ_setup_sensor_attrs(occ);
++	if (rc) {
++		dev_err(occ->bus_dev, "failed to setup sensor attrs: %d\n",
++			rc);
++		return rc;
++	}
++
++	occ->hwmon = devm_hwmon_device_register_with_groups(occ->bus_dev, name,
++							    occ, occ->groups);
++	if (IS_ERR(occ->hwmon)) {
++		rc = PTR_ERR(occ->hwmon);
++		dev_err(occ->bus_dev, "failed to register hwmon device: %d\n",
++			rc);
++		return rc;
++	}
 +
  	return 0;
  }
 diff --git a/drivers/hwmon/occ/common.h b/drivers/hwmon/occ/common.h
-index b44fee2..0a7a107 100644
+index e074251..00ac101 100644
 --- a/drivers/hwmon/occ/common.h
 +++ b/drivers/hwmon/occ/common.h
-@@ -20,10 +20,65 @@ struct occ_response {
- 	__be16 checksum;
- } __packed;
+@@ -3,7 +3,9 @@
+ #ifndef OCC_COMMON_H
+ #define OCC_COMMON_H
  
-+struct occ_sensor_data_block_header {
-+	u8 eye_catcher[4];
-+	u8 reserved;
-+	u8 sensor_format;
-+	u8 sensor_length;
-+	u8 num_sensors;
-+} __packed;
-+
-+struct occ_sensor_data_block {
-+	struct occ_sensor_data_block_header header;
-+	u32 data;
-+} __packed;
-+
-+struct occ_poll_response_header {
-+	u8 status;
-+	u8 ext_status;
-+	u8 occs_present;
-+	u8 config_data;
-+	u8 occ_state;
-+	u8 mode;
-+	u8 ips_status;
-+	u8 error_log_id;
-+	__be32 error_log_start_address;
-+	__be16 error_log_length;
-+	u16 reserved;
-+	u8 occ_code_level[16];
-+	u8 eye_catcher[6];
-+	u8 num_sensor_data_blocks;
-+	u8 sensor_data_block_header_version;
-+} __packed;
-+
-+struct occ_poll_response {
-+	struct occ_poll_response_header header;
-+	struct occ_sensor_data_block block;
-+} __packed;
-+
-+struct occ_sensor {
-+	u8 num_sensors;
-+	u8 version;
-+	void *data;	/* pointer to sensor data start within response */
-+};
-+
++#include <linux/hwmon-sysfs.h>
+ #include <linux/mutex.h>
++#include <linux/sysfs.h>
+ 
+ struct device;
+ 
+@@ -76,6 +78,15 @@ struct occ_sensors {
+ 	struct occ_sensor extended;
+ };
+ 
 +/*
-+ * OCC only provides one sensor data block of each type, but any number of
-+ * sensors within that block.
++ * Use our own attribute struct so we can dynamically allocate space for the
++ * name.
 + */
-+struct occ_sensors {
-+	struct occ_sensor temp;
-+	struct occ_sensor freq;
-+	struct occ_sensor power;
-+	struct occ_sensor caps;
-+	struct occ_sensor extended;
++struct occ_attribute {
++	char name[32];
++	struct sensor_device_attribute_2 sensor;
 +};
 +
  struct occ {
  	struct device *bus_dev;
  
- 	struct occ_response resp;
-+	struct occ_sensors sensors;
+@@ -88,6 +99,11 @@ struct occ {
  
- 	u8 poll_cmd_data;		/* to perform OCC poll command */
- 	int (*send_cmd)(struct occ *occ, u8 *cmd);
+ 	unsigned long last_update;
+ 	struct mutex lock;		/* lock OCC access */
++
++	struct device *hwmon;
++	struct occ_attribute *attrs;
++	struct attribute_group group;
++	const struct attribute_group *groups[2];
+ };
+ 
+ int occ_setup(struct occ *occ, const char *name);
 -- 
 1.8.3.1
 
