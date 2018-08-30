@@ -1,180 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7DFF7DE71
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 13:58:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 54C227D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 14:03:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729136AbeH3SAD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 14:00:03 -0400
-Received: from smtprelay.synopsys.com ([198.182.60.111]:54956 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729083AbeH3SAC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 14:00:02 -0400
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 627D810C122B;
-        Thu, 30 Aug 2018 06:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1535637466; bh=6k1zoRLzZSG94an35JBtchiqePVUaxsoLDtDTl5MnTs=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=H5aVCmCWQKMf+/L3JB7Yh1asXZ3rbiJ6nj9boLOBOUP3IkiR2Bpz9ccOSgtbupnGn
-         HzesXCsT2smEq4dAI9fzj/MrI5Br3q/iN2aVhdo+IaObnAK4yW9j8KM59xHifMIRsX
-         fzrgp7vwHtosthDIBgEw3PDNRQvl7F8avo54OSHiyKgzmg4VDqJjwHmonCimG6QUzj
-         nl7w0bSlX2rZDYvujEBQ3wjCs1eXdN1uRvbMRbiYAtGHuXbIw8BdAtWJZ38qbtzQIr
-         yRSs5/+bpHWfpeIC1SCkGFVS3Yi0cq6CqoAMF9dNMgecKYOKP7BkSxRvFMNE5KNsv+
-         m/r2DsyzP1I4g==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        by mailhost.synopsys.com (Postfix) with ESMTP id D9BCA3ADF;
-        Thu, 30 Aug 2018 06:57:42 -0700 (PDT)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Thu, 30 Aug 2018 06:57:42 -0700
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Thu, 30 Aug 2018 15:57:40 +0200
-Received: from [10.0.2.15] (10.107.25.44) by DE02WEHTCA.internal.synopsys.com
- (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 30 Aug
- 2018 15:57:39 +0200
-Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-To:     Przemyslaw Gaj <pgaj@cadence.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        vitor <Vitor.Soares@synopsys.com>
-CC:     "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, Wolfram Sang <wsa@the-dreams.de>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        "Kumar Gala" <galak@codeaurora.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        Peter Rosin <peda@axentia.se>
-References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
- <20180719152930.3715-2-boris.brezillon@bootlin.com>
- <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
- <20180824143934.6d6b6487@bbrezillon>
- <bdb2924f-ecfa-1da3-41db-9ac77d4d933b@synopsys.com>
- <20180824201600.7d80bca9@bbrezillon>
- <fe839027-c4d7-4d6f-412b-5b315cbc7a39@synopsys.com>
- <20180828140209.29155d00@bbrezillon>
- <4DBE768F-3CDC-41BE-9CC8-E294E7277CB1@cadence.com>
-From:   vitor <Vitor.Soares@synopsys.com>
-Message-ID: <8abfb007-d755-36a4-5960-fddd61d04aa2@synopsys.com>
-Date:   Thu, 30 Aug 2018 14:57:36 +0100
+        id S1728991AbeH3SFk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 14:05:40 -0400
+Received: from mga01.intel.com ([192.55.52.88]:33760 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728962AbeH3SFk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Aug 2018 14:05:40 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 07:03:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,307,1531810800"; 
+   d="scan'208";a="66339860"
+Received: from marshy.an.intel.com (HELO [10.122.105.159]) ([10.122.105.159])
+  by fmsmga007.fm.intel.com with ESMTP; 30 Aug 2018 07:03:07 -0700
+Subject: Re: [PATCHv8 7/9] defconfig: enable fpga and service layer
+To:     Dinh Nguyen <dinguyen@kernel.org>, gregkh@linuxfoundation.org,
+        catalin.marinas@arm.com, will.deacon@arm.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, atull@kernel.org, mdf@kernel.org,
+        arnd@arndb.de, corbet@lwn.net
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, yves.vandervennet@linux.intel.com,
+        richard.gong@intel.com
+References: <1535464245-11638-1-git-send-email-richard.gong@linux.intel.com>
+ <1535464245-11638-8-git-send-email-richard.gong@linux.intel.com>
+ <54ccf9d5-1cf4-edf6-47c6-be7cc5badb3e@kernel.org>
+From:   Richard Gong <richard.gong@linux.intel.com>
+Message-ID: <18b2948c-07dc-dc23-6a36-04e8295705f3@linux.intel.com>
+Date:   Thu, 30 Aug 2018 09:05:55 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <4DBE768F-3CDC-41BE-9CC8-E294E7277CB1@cadence.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <54ccf9d5-1cf4-edf6-47c6-be7cc5badb3e@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Originating-IP: [10.107.25.44]
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Przemyslaw
 
 
-On 28-08-2018 13:55, Przemyslaw Gaj wrote:
-> Hi Vitor,
->
-> I have already implemented Mastership request/handover but we are waiting for Boris’s patch to be accepted and merged. Anyway, my comments below.
->
-> ﻿On 8/28/18, 2:02 PM, "Boris Brezillon" <boris.brezillon@bootlin.com> wrote:
->
->      EXTERNAL MAIL
->      
->      
->      Hi Vitor,
->      
->      On Tue, 28 Aug 2018 12:50:12 +0100
->      vitor <Vitor.Soares@synopsys.com> wrote:
->      
->      > Hi Boris,
->      >
->      > The DT Bindings say "The node describing an I3C bus should be named
->      > i3c-master.". Do you have a field for secondary master?
->
-> I think we don’t need separate field for secondary master. Main and secondary masters
-> support similar functionalities. It’s enough to have this state internally and do mastership it it's needed.
+On 08/28/2018 09:11 AM, Dinh Nguyen wrote:
+> 
+> 
+> On 08/28/2018 08:50 AM, richard.gong@linux.intel.com wrote:
+>> From: Richard Gong <richard.gong@intel.com>
+>>
+>> Enable fpga framework, Stratix 10 SoC FPGA manager and Stratix10
+>> Service Layer
+>>
+> 
+> Please update your commit header be "arm64: defconfig: enable fpga and
+> service layer"
 
-Yes, you are right.
+Ok, I will make update in the next submission.
 
->
->      >
->      > On 24-08-2018 19:16, Boris Brezillon wrote:
->      > > Well, before even considering supporting secondary master registration,
->      > > we need to handle mastership handover. As for the DAA operation, it's
->      > > likely to be host specific, so we'll have to add a new hook to the
->      > > i3c_master_controller_ops struct.
->      > Do you mean when master try to delegate the bus ownership through
->      > GETACCMST? or to get the bus ownership with IBI-MR?
->      
->      I think we need to support both.
->
-> I agree.
+> 
+> 
+>> Signed-off-by: Richard Gong <richard.gong@intel.com>
+>> Signed-off-by: Alan Tull <atull@kernel.org>
+>> ---
+>> v2: this patch is added in patch set version 2
+>> v3: no change
+>> v4: s/CONFIG_INTEL_SERVICE/CONFIG_STRATIX10_SERVICE/
+>>      add CONFIG_OF_FPGA_REGION=y
+>>      s/Intel/Stratix10/ in subject line
+>> v5: no change
+>> v6: no change
+>> v7: no change
+>> v8: no change
+>> ---
+>>   arch/arm64/configs/defconfig | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+>> index f67e8d5..2ad50a5 100644
+>> --- a/arch/arm64/configs/defconfig
+>> +++ b/arch/arm64/configs/defconfig
+>> @@ -185,6 +185,7 @@ CONFIG_BLK_DEV_LOOP=y
+>>   CONFIG_BLK_DEV_NBD=m
+>>   CONFIG_VIRTIO_BLK=y
+>>   CONFIG_BLK_DEV_NVME=m
+>> +CONFIG_STRATIX10_SERVICE=y
+> 
+> Can this be a module?
 
-That's ok to me.
+No, Service layer driver need be compiled as part of kernel image.
 
->      
->      >
->      > I think that could be useful to pass the ibi type on request_ibi(),
->      > there is some case where the master doesn't support IBI-MR.
->      
->      Actually, I was planning on making it completely separate from
->      regular slave IBIs. That is, the master controller driver would demux
->      the slave, MR and Hot Join IBIs, and if there's an MR request, queue a
->      mastership handover work to the workqueue (pretty much what we do for
->      Hot-Join already). Mastership handover is anyway likely to be IP
->      specific, so I don't think there's a need to make it look like a
->      regular IBI.
->
-> I think it's better to have separate function to do mastership request.
->      
->      Regarding whether IBI-MR support should be exposed to the I3C framework
->      or not depends on how much will be automated on the framework side. I
->      don't the answer yet, but that's probably something will figure out
->      along the road.
->
-> My current implementation is: when request_mastership field
-> of i3c_master_controller_ops structure is set, master driver supports mastership requests.
-> That's how I check if this is supported or not.
->      
->      Regards,
->      
->      Boris
->      
-> Regards,
-> Przemek
->
-when you say request_mastership, do you mean the current master do the 
-mastership hand-off or the secondary master request to be current master?
+Service layer driver provides services for service clients, it must be 
+loaded & initialized before service clients (FPGA manager and remote 
+status update drivers).
 
-So, per my understanding since the Main master support the hand-off of 
-the bus you accept all incoming MR, right? Or do you check all devices BCR?
+> 
+>>   CONFIG_SRAM=y
+>>   CONFIG_EEPROM_AT25=m
+>>   # CONFIG_SCSI_PROC_FS is not set
+>> @@ -642,6 +643,12 @@ CONFIG_PHY_TEGRA_XUSB=y
+>>   CONFIG_HISI_PMU=y
+>>   CONFIG_QCOM_L2_PMU=y
+>>   CONFIG_QCOM_L3_PMU=y
+>> +CONFIG_MESON_EFUSE=m
+> 
+> What does this change have to do with this patch?
 
-Best regards,
-Vitor Soares
+My mistake, I will fix in the next submission.
+
+> 
+>> +CONFIG_FPGA=y
+>> +CONFIG_FPGA_MGR_STRATIX10_SOC=y
+>> +CONFIG_FPGA_REGION=y
+>> +CONFIG_FPGA_BRIDGE=y
+>> +CONFIG_OF_FPGA_REGION=y
+> 
+> Can these be modules?
+
+CONFIG_FPGA_MGR_STRATIX10_SOC could be module, but the remaining 
+components need be compiled as part of kernel image.
+
+> 
+> Dinh
+> 
