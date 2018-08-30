@@ -1,457 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC0127DE79
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:33:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 20F727D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:47:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727523AbeHaBhV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 21:37:21 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53686 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727810AbeHaBhU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 21:37:20 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w7ULTThx089908
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:33:11 -0400
-Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2m6q22kkp6-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 17:33:11 -0400
-Received: from localhost
-        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
-        Thu, 30 Aug 2018 17:33:09 -0400
-Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
-        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 30 Aug 2018 17:33:06 -0400
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w7ULX5XG13959420
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 30 Aug 2018 21:33:05 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2E96B124058;
-        Thu, 30 Aug 2018 18:33:42 -0400 (EDT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 41DAD124054;
-        Thu, 30 Aug 2018 18:33:41 -0400 (EDT)
-Received: from oc6728276242.ibm.com (unknown [9.85.221.248])
-        by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 30 Aug 2018 18:33:41 -0400 (EDT)
-From:   Eddie James <eajames@linux.vnet.ibm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        jdelvare@suse.com, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org, robh+dt@kernel.org,
-        gregkh@linuxfoundation.org, mark.rutland@arm.com,
-        linux@roeck-us.net, joel@jms.id.au, benh@kernel.crashing.org,
-        Eddie James <eajames@linux.vnet.ibm.com>
-Subject: [PATCH v5 10/10] hwmon (occ): Add sysfs attributes for additional OCC data
-Date:   Thu, 30 Aug 2018 16:32:41 -0500
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
-References: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18083021-0060-0000-0000-000002A717F3
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009640; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000266; SDB=6.01081201; UDB=6.00557772; IPR=6.00861186;
- MB=3.00023023; MTD=3.00000008; XFM=3.00000015; UTC=2018-08-30 21:33:09
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18083021-0061-0000-0000-000046589649
-Message-Id: <1535664761-86018-11-git-send-email-eajames@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-08-30_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1808300216
+        id S1727734AbeHaBv5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 21:51:57 -0400
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:40816 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726674AbeHaBv5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 21:51:57 -0400
+Received: by mail-oi0-f67.google.com with SMTP id l202-v6so18176709oig.7
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 14:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iaT0h/QgNT8sE8GySblfJoYXW8enXi0AAre2vg3buV0=;
+        b=NBubt9wcw+/0s63cmiYLXoH9kAVRsfZt6IDpaCJpaLmDusgHk7Kw7ljeaRtbqrF5vS
+         rBn/eZ16sCt+nIYjnjnPpmQ5OVfp1qCM94qOsSUbPwj+oBfsBdHoBypTaSTK2i8yvmQH
+         ZmOvDWNQQvrP1Oox5HTX+ZZgbN/Mzb3AWKYH+Lc1GssGRS+R8Rr2K/XLZRHLRVoDKy5h
+         KGzkEamEqwKQ08J9A35nvMTTM/MxeKYZ2Cb+VYAu9lx+2NoPJEOBFg5hzpQ9Al96YZZ2
+         eMTmua7sBN2aaR4JGccyyxLxudwQGKX/gnL6Kh5oyI8d+h9qlgO8ImqZHeMKQSsLvs1S
+         tf/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iaT0h/QgNT8sE8GySblfJoYXW8enXi0AAre2vg3buV0=;
+        b=fY6VV5Z/UuHdEK+lwo8ly04pphyolRE3EO8gZUm5cTuaClTS6cZtRlYARRv+wxw3RK
+         Yewbboug8hjPOpKWhE/+O/aciLPDvz4Vbbmr8a7DN09KF4WZa+FE8MCmgkBzFUPTREy1
+         5pLYfABV19RXyyUjHudV3aU7lrkdvLctFhgGLF8KvsQLPFK1lTjyDm9wCxnepBXFyUwF
+         DDmXRU2J/OhnXV8a5v6N4MMIY/Onwc2hTwA95ND6z/Nh3qZnJ3CcnN1q549KwaZ954J6
+         8guUNVTyEWUiOpDEdNQLMiOL49ePHjuAb4W0nJFEc/9YMZNWN/Kb0IU3kIN0BOXsM3OP
+         UNiw==
+X-Gm-Message-State: APzg51BjPZPUSDk/DbYjRUNrdlWF9/I5MqonAtZNhdi7In7dr9We6xdK
+        DJ7j/s2J8W1fs2mNVp2BQRiAAEPZnj341C42GJJjRw==
+X-Google-Smtp-Source: ANB0Vdan0PD6Y6DNOP+WgoyJfrpQDFTXJe4T+//HSR164qwrG892AVmPFwIIG150TTzv613A+WXr2oh4ujV48PjLMy0=
+X-Received: by 2002:aca:c585:: with SMTP id v127-v6mr4610021oif.348.1535665663220;
+ Thu, 30 Aug 2018 14:47:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-13-yu-cheng.yu@intel.com>
+ <CAG48ez0Rca0XsdXJZ07c+iGPyep0Gpxw+sxQuACP5gyPaBgDKA@mail.gmail.com>
+ <079a55f2-4654-4adf-a6ef-6e480b594a2f@linux.intel.com> <CAG48ez2gHOD9hH4+0wek5vUOv9upj79XWoug2SXjdwfXWoQqxw@mail.gmail.com>
+ <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com> <1535649960.26689.15.camel@intel.com>
+ <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com> <1535651666.27823.6.camel@intel.com>
+ <CAG48ez3ixWROuQc6WZze6qPL6q0e_gCnMU4XF11JUWziePsBJg@mail.gmail.com>
+ <1535660494.28258.36.camel@intel.com> <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
+ <1535662366.28781.6.camel@intel.com> <CAG48ez0mkr95_TbLQnDGuGUd6G+eJVLZ-fEjDkwA6dSrm+9tLw@mail.gmail.com>
+In-Reply-To: <CAG48ez0mkr95_TbLQnDGuGUd6G+eJVLZ-fEjDkwA6dSrm+9tLw@mail.gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 30 Aug 2018 23:47:16 +0200
+Message-ID: <CAG48ez3S3+DzAyo_SnoUW1GO0Cpd_x0A83MOx2p_MkogoAatLQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
+ pmdp_set_wrprotect for _PAGE_DIRTY_SW
+To:     yu-cheng.yu@intel.com
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The OCC provides a variety of additional information about the state of
-the host processor, such as throttling, error conditions, and the number
-of OCCs detected in the system. This information is essential to service
-processor applications such as fan control and host management.
-Therefore, export this data in the form of sysfs attributes attached to
-the platform device (to which the hwmon device is also attached).
+On Thu, Aug 30, 2018 at 11:01 PM Jann Horn <jannh@google.com> wrote:
+>
+> On Thu, Aug 30, 2018 at 10:57 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> >
+> > On Thu, 2018-08-30 at 22:44 +0200, Jann Horn wrote:
+> > > On Thu, Aug 30, 2018 at 10:25 PM Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > wrote:
+> > ...
+> > > > In the flow you described, if C writes to the overflow page before
+> > > > B
+> > > > gets in with a 'call', the return address is still correct for
+> > > > B.  To
+> > > > make an attack, C needs to write again before the TLB flush.  I
+> > > > agree
+> > > > that is possible.
+> > > >
+> > > > Assume we have a guard page, can someone in the short window do
+> > > > recursive calls in B, move ssp to the end of the guard page, and
+> > > > trigger the same again?  He can simply take the incssp route.
+> > > I don't understand what you're saying. If the shadow stack is
+> > > between
+> > > guard pages, you should never be able to move SSP past that area's
+> > > guard pages without an appropriate shadow stack token (not even with
+> > > INCSSP, since that has a maximum range of PAGE_SIZE/2), and
+> > > therefore,
+> > > it shouldn't matter whether memory outside that range is incorrectly
+> > > marked as shadow stack. Am I missing something?
+> >
+> > INCSSP has a range of 256, but we can do multiple of that.
+> > But I realize the key is not to have the transient SHSTK page at all.
+> > The guard page is !pte_write() and even we have flaws in
+> > ptep_set_wrprotect(), there will not be any transient SHSTK pages. I
+> > will add guard pages to both ends.
+> >
+> > Still thinking how to fix ptep_set_wrprotect().
+>
+> cmpxchg loop? Or is that slow?
 
-Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
----
- drivers/hwmon/occ/Makefile |   2 +-
- drivers/hwmon/occ/common.c |  45 ++++++++++-
- drivers/hwmon/occ/common.h |  17 ++++
- drivers/hwmon/occ/p8_i2c.c |  10 +++
- drivers/hwmon/occ/p9_sbe.c |   1 +
- drivers/hwmon/occ/sysfs.c  | 188 +++++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 259 insertions(+), 4 deletions(-)
- create mode 100644 drivers/hwmon/occ/sysfs.c
+Something like this:
 
-diff --git a/drivers/hwmon/occ/Makefile b/drivers/hwmon/occ/Makefile
-index ab5c3e9..46a8636 100644
---- a/drivers/hwmon/occ/Makefile
-+++ b/drivers/hwmon/occ/Makefile
-@@ -1,4 +1,4 @@
--occ-hwmon-objs := common.o
-+occ-hwmon-objs := common.o sysfs.o
- 
- ifeq ($(CONFIG_SENSORS_OCC_P9_SBE), y)
- occ-hwmon-objs += p9_sbe.o
-diff --git a/drivers/hwmon/occ/common.c b/drivers/hwmon/occ/common.c
-index c6c8161..423903f 100644
---- a/drivers/hwmon/occ/common.c
-+++ b/drivers/hwmon/occ/common.c
-@@ -14,6 +14,11 @@
- 
- #define EXTN_FLAG_SENSOR_ID		BIT(7)
- 
-+#define OCC_ERROR_COUNT_THRESHOLD	2	/* required by OCC spec */
-+
-+#define OCC_STATE_SAFE			4
-+#define OCC_SAFE_TIMEOUT		msecs_to_jiffies(60000) /* 1 min */
-+
- #define OCC_UPDATE_FREQUENCY		msecs_to_jiffies(1000)
- 
- #define OCC_TEMP_SENSOR_FAULT		0xFF
-@@ -115,8 +120,10 @@ struct extended_sensor {
- 
- static int occ_poll(struct occ *occ)
- {
-+	int rc;
- 	u16 checksum = occ->poll_cmd_data + 1;
- 	u8 cmd[8];
-+	struct occ_poll_response_header *header;
- 
- 	/* big endian */
- 	cmd[0] = 0;			/* sequence number */
-@@ -129,7 +136,35 @@ static int occ_poll(struct occ *occ)
- 	cmd[7] = 0;
- 
- 	/* mutex should already be locked if necessary */
--	return occ->send_cmd(occ, cmd);
-+	rc = occ->send_cmd(occ, cmd);
-+	if (rc) {
-+		if (occ->error_count++ > OCC_ERROR_COUNT_THRESHOLD)
-+			occ->error = rc;
-+
-+		goto done;
-+	}
-+
-+	/* clear error since communication was successful */
-+	occ->error_count = 0;
-+	occ->error = 0;
-+
-+	/* check for safe state */
-+	header = (struct occ_poll_response_header *)occ->resp.data;
-+	if (header->occ_state == OCC_STATE_SAFE) {
-+		if (occ->last_safe) {
-+			if (time_after(jiffies,
-+				       occ->last_safe + OCC_SAFE_TIMEOUT))
-+				occ->error = -EHOSTDOWN;
-+		} else {
-+			occ->last_safe = jiffies;
-+		}
-+	} else {
-+		occ->last_safe = 0;
-+	}
-+
-+done:
-+	occ_sysfs_poll_done(occ);
-+	return rc;
- }
- 
- static int occ_set_user_power_cap(struct occ *occ, u16 user_power_cap)
-@@ -161,7 +196,7 @@ static int occ_set_user_power_cap(struct occ *occ, u16 user_power_cap)
- 	return rc;
- }
- 
--static int occ_update_response(struct occ *occ)
-+int occ_update_response(struct occ *occ)
- {
- 	int rc = mutex_lock_interruptible(&occ->lock);
- 
-@@ -1055,5 +1090,9 @@ int occ_setup(struct occ *occ, const char *name)
- 		return rc;
- 	}
- 
--	return 0;
-+	rc = occ_setup_sysfs(occ);
-+	if (rc)
-+		dev_err(occ->bus_dev, "failed to setup sysfs: %d\n", rc);
-+
-+	return rc;
- }
-diff --git a/drivers/hwmon/occ/common.h b/drivers/hwmon/occ/common.h
-index 00ac101..da80e65 100644
---- a/drivers/hwmon/occ/common.h
-+++ b/drivers/hwmon/occ/common.h
-@@ -104,8 +104,25 @@ struct occ {
- 	struct occ_attribute *attrs;
- 	struct attribute_group group;
- 	const struct attribute_group *groups[2];
-+
-+	int error;                      /* latest transfer error */
-+	unsigned int error_count;       /* number of xfr errors observed */
-+	unsigned long last_safe;        /* time OCC entered "safe" state */
-+
-+	/*
-+	 * Store the previous state data for comparison in order to notify
-+	 * sysfs readers of state changes.
-+	 */
-+	int prev_error;
-+	u8 prev_stat;
-+	u8 prev_ext_stat;
-+	u8 prev_occs_present;
- };
- 
- int occ_setup(struct occ *occ, const char *name);
-+int occ_setup_sysfs(struct occ *occ);
-+void occ_shutdown(struct occ *occ);
-+void occ_sysfs_poll_done(struct occ *occ);
-+int occ_update_response(struct occ *occ);
- 
- #endif /* OCC_COMMON_H */
-diff --git a/drivers/hwmon/occ/p8_i2c.c b/drivers/hwmon/occ/p8_i2c.c
-index a736220..0dc7fa3 100644
---- a/drivers/hwmon/occ/p8_i2c.c
-+++ b/drivers/hwmon/occ/p8_i2c.c
-@@ -223,6 +223,15 @@ static int p8_i2c_occ_probe(struct i2c_client *client,
- 	return occ_setup(occ, "p8_occ");
- }
- 
-+static int p8_i2c_occ_remove(struct i2c_client *client)
-+{
-+	struct occ *occ = dev_get_drvdata(&client->dev);
-+
-+	occ_shutdown(occ);
-+
-+	return 0;
-+}
-+
- static const struct of_device_id p8_i2c_occ_of_match[] = {
- 	{ .compatible = "ibm,p8-occ-hwmon" },
- 	{}
-@@ -236,6 +245,7 @@ static int p8_i2c_occ_probe(struct i2c_client *client,
- 		.of_match_table = p8_i2c_occ_of_match,
- 	},
- 	.probe = p8_i2c_occ_probe,
-+	.remove = p8_i2c_occ_remove,
- };
- 
- module_i2c_driver(p8_i2c_occ_driver);
-diff --git a/drivers/hwmon/occ/p9_sbe.c b/drivers/hwmon/occ/p9_sbe.c
-index d32f266..311bc59 100644
---- a/drivers/hwmon/occ/p9_sbe.c
-+++ b/drivers/hwmon/occ/p9_sbe.c
-@@ -86,6 +86,7 @@ static int p9_sbe_occ_remove(struct platform_device *pdev)
- 	struct p9_sbe_occ *ctx = to_p9_sbe_occ(occ);
- 
- 	ctx->sbe = NULL;
-+	occ_shutdown(occ);
- 
- 	return 0;
- }
-diff --git a/drivers/hwmon/occ/sysfs.c b/drivers/hwmon/occ/sysfs.c
-new file mode 100644
-index 0000000..743b26ec
---- /dev/null
-+++ b/drivers/hwmon/occ/sysfs.c
-@@ -0,0 +1,188 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * OCC hwmon driver sysfs interface
-+ *
-+ * Copyright (C) IBM Corporation 2018
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/device.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/kernel.h>
-+#include <linux/sysfs.h>
-+
-+#include "common.h"
-+
-+/* OCC status register */
-+#define OCC_STAT_MASTER			BIT(7)
-+#define OCC_STAT_ACTIVE			BIT(0)
-+
-+/* OCC extended status register */
-+#define OCC_EXT_STAT_DVFS_OT		BIT(7)
-+#define OCC_EXT_STAT_DVFS_POWER		BIT(6)
-+#define OCC_EXT_STAT_MEM_THROTTLE	BIT(5)
-+#define OCC_EXT_STAT_QUICK_DROP		BIT(4)
-+
-+static ssize_t occ_sysfs_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
-+{
-+	int rc;
-+	int val = 0;
-+	struct occ *occ = dev_get_drvdata(dev);
-+	struct occ_poll_response_header *header;
-+	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
-+
-+	rc = occ_update_response(occ);
-+	if (rc)
-+		return rc;
-+
-+	header = (struct occ_poll_response_header *)occ->resp.data;
-+
-+	switch (sattr->index) {
-+	case 0:
-+		val = !!(header->status & OCC_STAT_MASTER);
-+		break;
-+	case 1:
-+		val = !!(header->status & OCC_STAT_ACTIVE);
-+		break;
-+	case 2:
-+		val = !!(header->status & OCC_EXT_STAT_DVFS_OT);
-+		break;
-+	case 3:
-+		val = !!(header->status & OCC_EXT_STAT_DVFS_POWER);
-+		break;
-+	case 4:
-+		val = !!(header->status & OCC_EXT_STAT_MEM_THROTTLE);
-+		break;
-+	case 5:
-+		val = !!(header->status & OCC_EXT_STAT_QUICK_DROP);
-+		break;
-+	case 6:
-+		val = header->occ_state;
-+		break;
-+	case 7:
-+		if (header->status & OCC_STAT_MASTER)
-+			val = hweight8(header->occs_present);
-+		else
-+			val = 1;
-+		break;
-+	case 8:
-+		val = occ->error;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return snprintf(buf, PAGE_SIZE - 1, "%d\n", val);
-+}
-+
-+static SENSOR_DEVICE_ATTR(occ_master, 0444, occ_sysfs_show, NULL, 0);
-+static SENSOR_DEVICE_ATTR(occ_active, 0444, occ_sysfs_show, NULL, 1);
-+static SENSOR_DEVICE_ATTR(occ_dvfs_overtemp, 0444, occ_sysfs_show, NULL, 2);
-+static SENSOR_DEVICE_ATTR(occ_dvfs_power, 0444, occ_sysfs_show, NULL, 3);
-+static SENSOR_DEVICE_ATTR(occ_mem_throttle, 0444, occ_sysfs_show, NULL, 4);
-+static SENSOR_DEVICE_ATTR(occ_quick_pwr_drop, 0444, occ_sysfs_show, NULL, 5);
-+static SENSOR_DEVICE_ATTR(occ_state, 0444, occ_sysfs_show, NULL, 6);
-+static SENSOR_DEVICE_ATTR(occs_present, 0444, occ_sysfs_show, NULL, 7);
-+static SENSOR_DEVICE_ATTR(occ_error, 0444, occ_sysfs_show, NULL, 8);
-+
-+static struct attribute *occ_attributes[] = {
-+	&sensor_dev_attr_occ_master.dev_attr.attr,
-+	&sensor_dev_attr_occ_active.dev_attr.attr,
-+	&sensor_dev_attr_occ_dvfs_overtemp.dev_attr.attr,
-+	&sensor_dev_attr_occ_dvfs_power.dev_attr.attr,
-+	&sensor_dev_attr_occ_mem_throttle.dev_attr.attr,
-+	&sensor_dev_attr_occ_quick_pwr_drop.dev_attr.attr,
-+	&sensor_dev_attr_occ_state.dev_attr.attr,
-+	&sensor_dev_attr_occs_present.dev_attr.attr,
-+	&sensor_dev_attr_occ_error.dev_attr.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group occ_sysfs = {
-+	.attrs = occ_attributes,
-+};
-+
-+void occ_sysfs_poll_done(struct occ *occ)
-+{
-+	const char *name;
-+	struct occ_poll_response_header *header =
-+		(struct occ_poll_response_header *)occ->resp.data;
-+
-+	/*
-+	 * On the first poll response, we haven't yet created the sysfs
-+	 * attributes, so don't make any notify calls.
-+	 */
-+	if (!occ->hwmon)
-+		goto done;
-+
-+	if ((header->status & OCC_STAT_MASTER) !=
-+	    (occ->prev_stat & OCC_STAT_MASTER)) {
-+		name = sensor_dev_attr_occ_master.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->status & OCC_STAT_ACTIVE) !=
-+	    (occ->prev_stat & OCC_STAT_ACTIVE)) {
-+		name = sensor_dev_attr_occ_active.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->ext_status & OCC_EXT_STAT_DVFS_OT) !=
-+	    (occ->prev_ext_stat & OCC_EXT_STAT_DVFS_OT)) {
-+		name = sensor_dev_attr_occ_dvfs_overtemp.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->ext_status & OCC_EXT_STAT_DVFS_POWER) !=
-+	    (occ->prev_ext_stat & OCC_EXT_STAT_DVFS_POWER)) {
-+		name = sensor_dev_attr_occ_dvfs_power.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->ext_status & OCC_EXT_STAT_MEM_THROTTLE) !=
-+	    (occ->prev_ext_stat & OCC_EXT_STAT_MEM_THROTTLE)) {
-+		name = sensor_dev_attr_occ_mem_throttle.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->ext_status & OCC_EXT_STAT_QUICK_DROP) !=
-+	    (occ->prev_ext_stat & OCC_EXT_STAT_QUICK_DROP)) {
-+		name = sensor_dev_attr_occ_quick_pwr_drop.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->status & OCC_STAT_MASTER) &&
-+	    header->occs_present != occ->prev_occs_present) {
-+		name = sensor_dev_attr_occs_present.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if (occ->error && occ->error != occ->prev_error) {
-+		name = sensor_dev_attr_occ_error.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	/* no notifications for OCC state; doesn't indicate error condition */
-+
-+done:
-+	occ->prev_error = occ->error;
-+	occ->prev_stat = header->status;
-+	occ->prev_ext_stat = header->ext_status;
-+	occ->prev_occs_present = header->occs_present;
-+}
-+
-+int occ_setup_sysfs(struct occ *occ)
-+{
-+	return sysfs_create_group(&occ->bus_dev->kobj, &occ_sysfs);
-+}
-+
-+void occ_shutdown(struct occ *occ)
-+{
-+	sysfs_remove_group(&occ->bus_dev->kobj, &occ_sysfs);
-+}
--- 
-1.8.3.1
+static inline void ptep_set_wrprotect(struct mm_struct *mm,
+                                      unsigned long addr, pte_t *ptep)
+{
+        pte_t pte = READ_ONCE(*ptep), new_pte;
 
+        /* ... your comment about not needing a TLB shootdown here ... */
+        do {
+                pte = pte_wrprotect(pte);
+                /* note: relies on _PAGE_DIRTY_HW < _PAGE_DIRTY_SW */
+                /* dirty direct bit-twiddling; you can probably write
+this in a nicer way */
+                pte.pte |= (pte.pte & _PAGE_DIRTY_HW) >>
+_PAGE_BIT_DIRTY_HW << _PAGE_BIT_DIRTY_SW;
+                pte.pte &= ~_PAGE_DIRTY_HW;
+                pte = cmpxchg(ptep, pte, new_pte);
+        } while (pte != new_pte);
+}
+
+I think this has the advantage of not generating weird spurious pagefaults.
+It's not compatible with Xen PV, but I'm guessing that this whole
+feature isn't going to support Xen PV anyway? So you could switch
+between two implementations of ptep_set_wrprotect using the pvop
+mechanism or so - one for environments that support shadow stacks, one
+for all other environments.
+Or is there some arcane reason why cmpxchg doesn't work here the way I
+think it should?
