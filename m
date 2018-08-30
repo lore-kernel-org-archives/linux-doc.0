@@ -6,45 +6,45 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2378E7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:56:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C6E597D584
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:57:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727629AbeHaCAn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 22:00:43 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:42157 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727539AbeHaCAn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 22:00:43 -0400
-Received: by mail-pg1-f195.google.com with SMTP id y4-v6so4481260pgp.9
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 14:56:27 -0700 (PDT)
+        id S1727981AbeHaCAp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 22:00:45 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:40631 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727607AbeHaCAo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 22:00:44 -0400
+Received: by mail-pf1-f195.google.com with SMTP id s13-v6so4488692pfi.7
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 14:56:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iWcmBCDwUKd4jj1L7AbvOTMWjbSc8v8zlrIjl+DjrBo=;
-        b=m+bVJqytTZZvcesHHVIeSiYlNTdxjaRCL4mNVOiGZHwV3ocDEbpbsRfQF647E8Tldu
-         FUgS4chkYthhEGlfnW1x5zlQXyIaExHi7D1vsg52oGSYBuRVLydEU0tu83KDGiuI7RoK
-         QG37cb+863gh6rVWwiInJ6GeZVopJCA0n4VNo=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=bNkXjyd/TJwjJQq5sEuLkOphZyxbub4Zs7WyVtO+UM0=;
+        b=OO2p7d+CZgD4xu58qnmC/I+WtDMVinCv2sRX+QxYmOggLJ6HEFrSO5eq3Xwd8yOO3I
+         2YD0a33Qp016oqh0a0lciOhz2xY9q7NxcgvCrMbbaVJJineVysS91WrHY84ZLuoZyNMd
+         okn84jvHPZ4wzARZvMvhFwOwkyIgsDQHf/sKs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iWcmBCDwUKd4jj1L7AbvOTMWjbSc8v8zlrIjl+DjrBo=;
-        b=Q0xK2ovnbKJ0ipVVg/5+nUylqGRFWszWklb6nTQzh2GysO5frZihQbLuHDLqnvNvQT
-         1TpgVaHv3An+VXy2llG3/qfCcKkQqVKD63FwYFAPil2jmxmXesdCFMCQBHrrVH1GE252
-         gIAJJcraQODnVs6qKZ3AJH8X7T0CezmNuBHjB1lJk5NM8ePDlnSmzsfh0LV2ofNg0037
-         aXvNPTOhQcP+AeD/jhjZQL1H4mnigj5i/g3d2vKbrXvCY64IqNyqI7Atta4Oivy9VB53
-         5HXnK0tvhL3NaTSW3VmQ3tVCwopykJapXqpfP9juiPXeZZWnd7faiI+eG8Ngy0dgi7n4
-         COyQ==
-X-Gm-Message-State: APzg51AQ9jFwpjb5JLqK8zz4A6c6sjIomS7xkiV3SfmlApbmo+KDJ540
-        gEc9VsREufm6eTFn2pnrRC3kuA==
-X-Google-Smtp-Source: ANB0VdbGmWEE2EmQO6KH/JM1ykYqh4PwKfszwwS9XsJ1tip2BaTTdYVoIp1ABW44wsqK6xMjP9BHOA==
-X-Received: by 2002:a63:6fcf:: with SMTP id k198-v6mr8290767pgc.360.1535666187696;
-        Thu, 30 Aug 2018 14:56:27 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bNkXjyd/TJwjJQq5sEuLkOphZyxbub4Zs7WyVtO+UM0=;
+        b=H+IMQck0zdlq5OY42tQsCzzdcfko970gwNPsXys8BaRy826Q50f2WFcHFGeKmO8stG
+         7XdRzu+sBryoLmyV1bWqiflaBQvN8+IclTvf0vv59bPqWZFrPqgPN439V7lHlZimVlI1
+         aJTB8XW1SWobPf3tV96gSY6UZDSIyXEUWAOV0F15DIShR1cTMKzhvp8YedtY7nPnWfe1
+         ZFqCd8WyFkFqipxt0cuoZzcsNDq6a8gWDQ320XNd3feSbG43Hl/syf2JCw7AkOOh8Yh7
+         uqFFoE9n0LHf6cY3E49zC0KUa60EPMCA9pwc+zaGa9pWwyf7QssV2GQhaco14dR4yP5G
+         nigg==
+X-Gm-Message-State: APzg51BCD/i9xReTyef/cncwB00E46ySCiaSi6hadN9/DBFiyL/FniQF
+        eWv414c2Y1ujIDN2cC7aKEFvtQ==
+X-Google-Smtp-Source: ANB0VdbNkl8lbvHPMvyngVgpXh3ZSQLD2vCCYre8H6NFVp07Ua62TVik9DMEPfWU76DNHJGykuMSzA==
+X-Received: by 2002:a63:f501:: with SMTP id w1-v6mr6830908pgh.446.1535666188590;
+        Thu, 30 Aug 2018 14:56:28 -0700 (PDT)
 Received: from kolhar.mtv.corp.google.com ([2620:15c:202:201:356a:9de2:526a:5bc])
-        by smtp.gmail.com with ESMTPSA id h132-v6sm13516828pfc.100.2018.08.30.14.56.26
+        by smtp.gmail.com with ESMTPSA id h132-v6sm13516828pfc.100.2018.08.30.14.56.27
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 Aug 2018 14:56:27 -0700 (PDT)
+        Thu, 30 Aug 2018 14:56:28 -0700 (PDT)
 From:   Harry Cutts <hcutts@chromium.org>
 To:     linux-input <linux-input@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
@@ -52,12 +52,13 @@ Cc:     Jiri Kosina <jiri.kosina@suse.cz>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Harry Cutts <hcutts@chromium.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: [PATCH v2 0/5] Add support for high-resolution scrolling on Logitech mice
-Date:   Thu, 30 Aug 2018 14:56:17 -0700
-Message-Id: <20180830215622.47550-1-hcutts@chromium.org>
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 1/5] Add the `REL_WHEEL_HI_RES` event code
+Date:   Thu, 30 Aug 2018 14:56:18 -0700
+Message-Id: <20180830215622.47550-2-hcutts@chromium.org>
 X-Mailer: git-send-email 2.19.0.rc0.228.g281dcd1b4d0-goog
+In-Reply-To: <20180830215622.47550-1-hcutts@chromium.org>
+References: <20180830215622.47550-1-hcutts@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -65,45 +66,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi everyone,
-
-This is v2 of the patch set adding support for high-resolution scroll
-wheels on Logitech mice. See the linux-input "Reporting high-resolution
-scroll events" thread [0] for previous discussion of the evdev changes.
-I would love to hear your feedback.
-
-Thanks,
-
-Harry Cutts
-Chrome OS Touch/Input team
+This event code represents scroll reports from high-resolution wheels,
+and will be used by future patches in this series. See the linux-input
+"Reporting high-resolution scroll events" thread [0] for more details.
 
 [0]: https://www.spinics.net/lists/linux-input/msg57380.html
 
+Signed-off-by: Harry Cutts <hcutts@chromium.org>
+---
 
-Changes in v2:
-* Changed the REL_WHEEL_HI_RES code to use micrometres (a.k.a. microns)
-  as its units, instead of 256ths of a millimetre.
-* Removed support for mice connecting over Bluetooth, due to a bug where
-  the mouse's high-res mode and the driver's settings get out of sync
-  when the mouse is power cycled.
-* Moved the creation of the HID++ 1.0 function and the refactor to use
-  the LDJ_DEVICE macro into separate patches.
-* Added a couple of explanatory comments to the Logitech driver.
+Changes in v2: None
 
-Harry Cutts (5):
-  Add the `REL_WHEEL_HI_RES` event code
-  Create a utility class for counting scroll events
-  Add function to enable HID++ 1.0 "scrolling acceleration"
-  Enable high-resolution scrolling on Logitech mice
-  Use LDJ_DEVICE macro for existing Logitech mice
+ Documentation/input/event-codes.rst    | 11 ++++++++++-
+ include/uapi/linux/input-event-codes.h |  1 +
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
- Documentation/input/event-codes.rst    |  11 +-
- drivers/hid/hid-input.c                |  45 ++++
- drivers/hid/hid-logitech-hidpp.c       | 311 ++++++++++++++++++++++---
- include/linux/hid.h                    |  28 +++
- include/uapi/linux/input-event-codes.h |   1 +
- 5 files changed, 368 insertions(+), 28 deletions(-)
-
+diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+index a8c0873beb95..cef220c176a4 100644
+--- a/Documentation/input/event-codes.rst
++++ b/Documentation/input/event-codes.rst
+@@ -190,7 +190,16 @@ A few EV_REL codes have special meanings:
+ * REL_WHEEL, REL_HWHEEL:
+ 
+   - These codes are used for vertical and horizontal scroll wheels,
+-    respectively.
++    respectively. The value is the number of "notches" moved on the wheel, the
++    physical size of which varies by device. For high-resolution wheels (which
++    report multiple events for each notch of movement, or do not have notches)
++    this may be an approximation based on the high-resolution scroll events.
++
++* REL_WHEEL_HI_RES:
++
++  - If a vertical scroll wheel supports high-resolution scrolling, this code
++    will be emitted in addition to REL_WHEEL. The value is the (approximate)
++    distance travelled by the user's finger, in microns.
+ 
+ EV_ABS
+ ------
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 53fbae27b280..dad8d3890a3a 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -708,6 +708,7 @@
+ #define REL_DIAL		0x07
+ #define REL_WHEEL		0x08
+ #define REL_MISC		0x09
++#define REL_WHEEL_HI_RES	0x0a
+ #define REL_MAX			0x0f
+ #define REL_CNT			(REL_MAX+1)
+ 
 -- 
 2.19.0.rc0.228.g281dcd1b4d0-goog
 
