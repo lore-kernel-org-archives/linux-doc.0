@@ -1,65 +1,35 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 81CC67D584
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 20:45:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D404F7D584
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 20:57:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727232AbeHaAtK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 20:49:10 -0400
-Received: from mail-oi0-f68.google.com ([209.85.218.68]:33286 "EHLO
-        mail-oi0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726732AbeHaAtK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 20:49:10 -0400
-Received: by mail-oi0-f68.google.com with SMTP id 8-v6so17948263oip.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 13:45:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IP30Y1YhjynsIjlW5YIr2azX4Y9nlVjraWdcjhS3RFg=;
-        b=UEFAtDXbGd4VPyHxaw6oDLz0N3WEQBZHluX5MN9Wwt5OA/Xe80i5CCB5ZreWrEQnfT
-         KHIf5ZROXkN653XoB83aYym4VTCvpd9U5ywV/L8dWL3TZB4CK4VeR5yA6qAbt+A1EnJe
-         ZnvyvsReLBsmae7z3IRRKNYPoonLag6ua8MDc3qCCZ2u3KqhEMZVDAs6HeZocNTTxO9s
-         ZD/5pm+9vxRa/gxrheOcLitnUFac1M6pxa5l9hWt8pTy1ldnuMMBTDFkiftV6pdF+9HC
-         9qsmS/N7gYXZJSvox6hsx2UhQ5LYw3ggKxfqA1lcz+RdYO0CsKeFxTnvE52MbPjMUGkX
-         eYoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IP30Y1YhjynsIjlW5YIr2azX4Y9nlVjraWdcjhS3RFg=;
-        b=ptQGZ9V1y6hkROPYFJ58iBSQaD+dFHAOCn6gg3/ql8fyhyeC4BlsLT94kN+KvKx7b6
-         ym2b/sPHL9AnkX5Nq1U65uFrMqf4wJtliWOJK7Q2sOtlT1SiH4ZyVJ6mrxMHYJlqXn3g
-         q/XoZ68woISloXgK3dXzzzL4eSeK8zgDy9cypg/LR3AQcjxRAcHxAG65NpKDzujAzT1N
-         63Z8C1akuwlN46pDagHmcrDcKgjsXI26NPwfJNwIySh3VepTFof4bhzvgHFMJlEP9q/g
-         PrqrgnJGfufMg6I1mXZX38d5c9PYf7yZR/xtHOY0ICZfpn5tQWWh488a63DtcFi01rXr
-         ge6Q==
-X-Gm-Message-State: APzg51DGQ1hVTDnXCs8XUcTmlKDopOC01H8O5SuqBqX0egRhN8SWVfGp
-        QqDow/PzwVBOFEzXgtANdoPpJMWtJMzcm/9bd7upCg==
-X-Google-Smtp-Source: ANB0VdbZLx6RYiq0Zqll//pCr7nxeIqw4vzMDac+JG1YePUuGhFQAoWahxeo2AvE+PBsTjOYnlJvtRhx6U67GFxDy7k=
-X-Received: by 2002:aca:4784:: with SMTP id u126-v6mr4328731oia.229.1535661910290;
- Thu, 30 Aug 2018 13:45:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-13-yu-cheng.yu@intel.com>
- <CAG48ez0Rca0XsdXJZ07c+iGPyep0Gpxw+sxQuACP5gyPaBgDKA@mail.gmail.com>
- <079a55f2-4654-4adf-a6ef-6e480b594a2f@linux.intel.com> <CAG48ez2gHOD9hH4+0wek5vUOv9upj79XWoug2SXjdwfXWoQqxw@mail.gmail.com>
- <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com> <1535649960.26689.15.camel@intel.com>
- <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com> <1535651666.27823.6.camel@intel.com>
- <CAG48ez3ixWROuQc6WZze6qPL6q0e_gCnMU4XF11JUWziePsBJg@mail.gmail.com> <1535660494.28258.36.camel@intel.com>
-In-Reply-To: <1535660494.28258.36.camel@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 30 Aug 2018 22:44:43 +0200
-Message-ID: <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
+        id S1727504AbeHaBBD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 21:01:03 -0400
+Received: from mga18.intel.com ([134.134.136.126]:3121 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726690AbeHaBBD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Aug 2018 21:01:03 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 13:57:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,308,1531810800"; 
+   d="scan'208";a="253278023"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by orsmga005.jf.intel.com with ESMTP; 30 Aug 2018 13:57:00 -0700
+Message-ID: <1535662366.28781.6.camel@intel.com>
 Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
  pmdp_set_wrprotect for _PAGE_DIRTY_SW
-To:     yu-cheng.yu@intel.com
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Jann Horn <jannh@google.com>
 Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
         "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -78,57 +48,60 @@ Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
         ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
+Date:   Thu, 30 Aug 2018 13:52:46 -0700
+In-Reply-To: <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
+         <20180830143904.3168-13-yu-cheng.yu@intel.com>
+         <CAG48ez0Rca0XsdXJZ07c+iGPyep0Gpxw+sxQuACP5gyPaBgDKA@mail.gmail.com>
+         <079a55f2-4654-4adf-a6ef-6e480b594a2f@linux.intel.com>
+         <CAG48ez2gHOD9hH4+0wek5vUOv9upj79XWoug2SXjdwfXWoQqxw@mail.gmail.com>
+         <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com>
+         <1535649960.26689.15.camel@intel.com>
+         <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com>
+         <1535651666.27823.6.camel@intel.com>
+         <CAG48ez3ixWROuQc6WZze6qPL6q0e_gCnMU4XF11JUWziePsBJg@mail.gmail.com>
+         <1535660494.28258.36.camel@intel.com>
+         <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 30, 2018 at 10:25 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> On Thu, 2018-08-30 at 19:59 +0200, Jann Horn wrote:
-> > On Thu, Aug 30, 2018 at 7:58 PM Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > wrote:
-> > >
-> > >
-> > > On Thu, 2018-08-30 at 10:33 -0700, Dave Hansen wrote:
-> > > >
-> > > > On 08/30/2018 10:26 AM, Yu-cheng Yu wrote:
-> > > > >
-> > > > >
-> > > > > We don't have the guard page now, but there is a shadow stack
-> > > > > token
-> > > > > there, which cannot be used as a return address.
-> > > > The overall concern is that we could overflow into a page that
-> > > > we
-> > > > did
-> > > > not intend.  Either another actual shadow stack or something
-> > > > that a
-> > > > page
-> > > > that the attacker constructed, like the transient scenario Jann
-> > > > described.
-> > > >
-> > > A task could go beyond the bottom of its shadow stack by doing
-> > > either
-> > > 'ret' or 'incssp'.  If it is the 'ret' case, the token prevents
-> > > it.
-> > >  If it is the 'incssp' case, a guard page cannot prevent it
-> > > entirely,
-> > > right?
-> > I mean the other direction, on "call".
->
-> In the flow you described, if C writes to the overflow page before B
-> gets in with a 'call', the return address is still correct for B.  To
-> make an attack, C needs to write again before the TLB flush.  I agree
-> that is possible.
->
-> Assume we have a guard page, can someone in the short window do
-> recursive calls in B, move ssp to the end of the guard page, and
-> trigger the same again?  He can simply take the incssp route.
+On Thu, 2018-08-30 at 22:44 +0200, Jann Horn wrote:
+> On Thu, Aug 30, 2018 at 10:25 PM Yu-cheng Yu <yu-cheng.yu@intel.com>
+> wrote:
+...
+> > In the flow you described, if C writes to the overflow page before
+> > B
+> > gets in with a 'call', the return address is still correct for
+> > B.  To
+> > make an attack, C needs to write again before the TLB flush.  I
+> > agree
+> > that is possible.
+> > 
+> > Assume we have a guard page, can someone in the short window do
+> > recursive calls in B, move ssp to the end of the guard page, and
+> > trigger the same again?  He can simply take the incssp route.
+> I don't understand what you're saying. If the shadow stack is
+> between
+> guard pages, you should never be able to move SSP past that area's
+> guard pages without an appropriate shadow stack token (not even with
+> INCSSP, since that has a maximum range of PAGE_SIZE/2), and
+> therefore,
+> it shouldn't matter whether memory outside that range is incorrectly
+> marked as shadow stack. Am I missing something?
 
-I don't understand what you're saying. If the shadow stack is between
-guard pages, you should never be able to move SSP past that area's
-guard pages without an appropriate shadow stack token (not even with
-INCSSP, since that has a maximum range of PAGE_SIZE/2), and therefore,
-it shouldn't matter whether memory outside that range is incorrectly
-marked as shadow stack. Am I missing something?
+INCSSP has a range of 256, but we can do multiple of that.
+But I realize the key is not to have the transient SHSTK page at all.
+The guard page is !pte_write() and even we have flaws in
+ptep_set_wrprotect(), there will not be any transient SHSTK pages. I
+will add guard pages to both ends.
+
+Still thinking how to fix ptep_set_wrprotect().
+
+Yu-cheng
+
