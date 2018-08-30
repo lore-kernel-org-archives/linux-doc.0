@@ -1,162 +1,293 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DA1C77D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 11:06:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 531BD7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 11:11:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727505AbeH3PHm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 11:07:42 -0400
-Received: from zimbra.alphalink.fr ([217.15.80.77]:43863 "EHLO
-        zimbra.alphalink.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727451AbeH3PHm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:07:42 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail-2-cbv2.admin.alphalink.fr (Postfix) with ESMTP id BC5522B52129;
-        Thu, 30 Aug 2018 13:06:03 +0200 (CEST)
-Received: from zimbra.alphalink.fr ([127.0.0.1])
-        by localhost (mail-2-cbv2.admin.alphalink.fr [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id R1q98qXAr4Az; Thu, 30 Aug 2018 13:06:02 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail-2-cbv2.admin.alphalink.fr (Postfix) with ESMTP id F02F62B5212D;
-        Thu, 30 Aug 2018 13:06:01 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mail-2-cbv2.admin.alphalink.fr
-Received: from zimbra.alphalink.fr ([127.0.0.1])
-        by localhost (mail-2-cbv2.admin.alphalink.fr [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 3wSG4rywiIQR; Thu, 30 Aug 2018 13:06:01 +0200 (CEST)
-Received: from c-dev-0.admin.alphalink.fr (94-84-15-217.reverse.alphalink.fr [217.15.84.94])
-        by mail-2-cbv2.admin.alphalink.fr (Postfix) with ESMTP id AEC712B52129;
-        Thu, 30 Aug 2018 13:06:01 +0200 (CEST)
-Received: by c-dev-0.admin.alphalink.fr (Postfix, from userid 1000)
-        id 962DD60228; Thu, 30 Aug 2018 13:06:01 +0200 (CEST)
-Date:   Thu, 30 Aug 2018 13:06:01 +0200
-From:   Guillaume Nault <g.nault@alphalink.fr>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     paulus@samba.org, linux-ppp@vger.kernel.org,
-        netdev@vger.kernel.org, mitch@sfgoth.com, mostrows@earthlink.net,
-        jchapman@katalix.com, xeb@mail.ru, davem@davemloft.net,
-        viro@zeniv.linux.org.uk, y2038@lists.linaro.org,
-        linux-kernel@vger.kernel.org, Karsten Keil <isdn@linux-pingi.de>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 5/5] ppp: handle PPPIOCGIDLE for 64-bit time_t
-Message-ID: <20180830110601.GA19534@alphalink.fr>
-References: <20180829140409.833488-1-arnd@arndb.de>
- <20180829140409.833488-5-arnd@arndb.de>
+        id S1728404AbeH3PM6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 11:12:58 -0400
+Received: from mail-qk0-f196.google.com ([209.85.220.196]:40660 "EHLO
+        mail-qk0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728261AbeH3PM6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:12:58 -0400
+Received: by mail-qk0-f196.google.com with SMTP id c126-v6so5423456qkd.7;
+        Thu, 30 Aug 2018 04:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=QqMP2AgNUNF9Xqp4Y8iFAHR2fQLutX74w+JY89RdMS8=;
+        b=XTnoGAeRi2K79tI1NGY69H2PgZ+gAfOWrlVjHs51H6LH/Btr7XKat7Dd03fvWyxOtt
+         poxuUq+rgM4s2VQ9OKwSAvJI7kGNB4bJKsUcsMOFdSNARthKPY9tmxK/gBe8BmCzAWgm
+         apXwfd9gEem6P/c3PNm/AY3o8iL6yVylG9LYm9rBmDJhzZnIxNtH7RqtrFS3aDYWCy2F
+         Z09YRkQmQTDIa7Ve1w+JoAT+W3Zo9Fpjo7CFWPAu0K8m1QBMjmQtknML7or0+iq0ujug
+         v5d0WT4FVDbcUbhCA0J3Flh17afSygSqt4XUCkhwRBh8fAspeg+A4ZegYfnszqs9s50C
+         2pTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=QqMP2AgNUNF9Xqp4Y8iFAHR2fQLutX74w+JY89RdMS8=;
+        b=JlNSKHXl1MhMl/I6Ip8tIb+3Yv5cqUGB5WK8ICx7u5cjj+6Ck5zCregzODDsl2DAPS
+         OTj/2HE3Ex/VrKV1tdI67v6NU9V25avZl7nQMlws58JFHa+Dbq4lCFVweurRy9/F/RyG
+         gOBfJyPX3EwDVwRp8/0qlppKiqS8TvYLbN8SWUbCpgdhciQtBtF8ElZEPnrQYjj/7M/C
+         dnAL9Eea2CHz3anpLZ4DB37LmDe17xR8CUyqoFXl48il3UEBWJ96PX2gcSVYharf32bZ
+         awI3qByJvIJcjT9q1cBNzQOi+ayKyUaNca7hMByHyFpSwia10HdJuuovznERHYjHM8QX
+         9a3w==
+X-Gm-Message-State: APzg51CvJojHm+fiNxLSonEOYKRmq6GRok3IgRK98A1t/z9jS4IEbK01
+        3XEph00HT3gBHxZC14LyhqK2WTMBuRBtlBh9T81GQv0j
+X-Google-Smtp-Source: ANB0VdYhvjmXHn33TdJvXnR0yPuked4L0CwQ3JJDYot5N+dPpAseETvPROzNYxHQcYXefCr2XACYw5+uku+bV6cgmsw=
+X-Received: by 2002:a37:1204:: with SMTP id c4-v6mr10395060qkh.63.1535627479820;
+ Thu, 30 Aug 2018 04:11:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180829140409.833488-5-arnd@arndb.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:ac8:471a:0:0:0:0:0 with HTTP; Thu, 30 Aug 2018 04:10:59
+ -0700 (PDT)
+In-Reply-To: <20180829204900.19390-2-jmkrzyszt@gmail.com>
+References: <20180820234341.5271-1-jmkrzyszt@gmail.com> <20180829204900.19390-1-jmkrzyszt@gmail.com>
+ <20180829204900.19390-2-jmkrzyszt@gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 30 Aug 2018 13:10:59 +0200
+Message-ID: <CANiq72kJT15ELkYr2U5r4-pvGunQFLmZ5dhdZLnjmM7NWBnkNQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/4] gpiolib: Pass bitmaps, not integer arrays, to
+ get/set array
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Peter Rosin <peda@axentia.se>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
+        Network Development <netdev@vger.kernel.org>,
+        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-serial@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 29, 2018 at 04:03:30PM +0200, Arnd Bergmann wrote:
-> The ppp_idle structure is defined in terms of __kernel_time_t, which is
-> defined as 'long' on all architectures, and this usage is not affected
-> by the y2038 problem since it transports a time interval rather than an
-> absolute time.
-> 
-> However, the ppp user space defines the same structure as time_t, which
-> may be 64-bit wide on new libc versions even on 32-bit architectures.
-> 
-> It's easy enough to just handle both possible structure layouts on
-> all architectures, to deal with the possibility that a user space ppp
-> implementation comes with its own ppp_idle structure definition, as well
-> as to document the fact that the driver is y2038-safe.
-> 
-> Doing this also avoids the need for a special compat mode translation,
-> since 32-bit and 64-bit kernels now support the same interfaces.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  Documentation/networking/ppp_generic.txt |  2 ++
->  drivers/isdn/i4l/isdn_ppp.c              | 14 ++++++++---
->  drivers/net/ppp/ppp_generic.c            | 18 ++++++++++----
->  fs/compat_ioctl.c                        | 31 ------------------------
->  include/uapi/linux/ppp-ioctl.h           |  2 ++
->  include/uapi/linux/ppp_defs.h            | 14 +++++++++++
->  6 files changed, 42 insertions(+), 39 deletions(-)
-> 
-> diff --git a/Documentation/networking/ppp_generic.txt b/Documentation/networking/ppp_generic.txt
-> index 61daf4b39600..fd563aff5fc9 100644
-> --- a/Documentation/networking/ppp_generic.txt
-> +++ b/Documentation/networking/ppp_generic.txt
-> @@ -378,6 +378,8 @@ an interface unit are:
->    CONFIG_PPP_FILTER option is enabled, the set of packets which reset
->    the transmit and receive idle timers is restricted to those which
->    pass the `active' packet filter.
-> +  Two versions of this command exist, to deal with user space
-> +  expecting times as either 32-bit or 64-bit time_t seconds.
->  
->  * PPPIOCSMAXCID sets the maximum connection-ID parameter (and thus the
->    number of connection slots) for the TCP header compressor and
-> diff --git a/drivers/isdn/i4l/isdn_ppp.c b/drivers/isdn/i4l/isdn_ppp.c
-> index a7b275ea5de1..1f17126c5fa4 100644
-> --- a/drivers/isdn/i4l/isdn_ppp.c
-> +++ b/drivers/isdn/i4l/isdn_ppp.c
-> @@ -543,11 +543,19 @@ isdn_ppp_ioctl(int min, struct file *file, unsigned int cmd, unsigned long arg)
->  		}
->  		is->pppcfg = val;
->  		break;
-> -	case PPPIOCGIDLE:	/* get idle time information */
-> +	case PPPIOCGIDLE32:	/* get idle time information */
->  		if (lp) {
-> -			struct ppp_idle pidle;
-> +			struct ppp_idle32 pidle;
->  			pidle.xmit_idle = pidle.recv_idle = lp->huptimer;
-> -			if ((r = set_arg(argp, &pidle, sizeof(struct ppp_idle))))
-> +			if ((r = set_arg(argp, &pidle, sizeof(struct ppp_idle32))))
-> +				return r;
-> +		}
-> +		break;
-> +	case PPPIOCGIDLE64:	/* get idle time information */
-> +		if (lp) {
-> +			struct ppp_idle64 pidle;
-> +			pidle.xmit_idle = pidle.recv_idle = lp->huptimer;
-> +			if ((r = set_arg(argp, &pidle, sizeof(struct ppp_idle64))))
->  				return r;
->  		}
->  		break;
-> diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-> index 3a7aa2eed415..c8b8aa071140 100644
-> --- a/drivers/net/ppp/ppp_generic.c
-> +++ b/drivers/net/ppp/ppp_generic.c
-> @@ -619,7 +619,8 @@ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
->  	struct ppp_file *pf;
->  	struct ppp *ppp;
->  	int err = -EFAULT, val, val2, i;
-> -	struct ppp_idle idle;
-> +	struct ppp_idle32 idle32;
-> +	struct ppp_idle64 idle64;
->  	struct npioctl npi;
->  	int unit, cflags;
->  	struct slcompress *vj;
-> @@ -743,10 +744,17 @@ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
->  		err = 0;
->  		break;
->  
-> -	case PPPIOCGIDLE:
-> -		idle.xmit_idle = (jiffies - ppp->last_xmit) / HZ;
-> -		idle.recv_idle = (jiffies - ppp->last_recv) / HZ;
-> -		if (copy_to_user(argp, &idle, sizeof(idle)))
-> +	case PPPIOCGIDLE32:
-> +                idle32.xmit_idle = (jiffies - ppp->last_xmit) / HZ;
-> +                idle32.recv_idle = (jiffies - ppp->last_recv) / HZ;
-> +                if (copy_to_user(argp, &idle32, sizeof(idle32)))
-> 
-Missing 'break;'
+Hi Janusz,
 
-> +		err = 0;
-> +		break;
-> +
-> +	case PPPIOCGIDLE64:
-> +		idle64.xmit_idle = (jiffies - ppp->last_xmit) / HZ;
-> +		idle64.recv_idle = (jiffies - ppp->last_recv) / HZ;
-> +		if (copy_to_user(argp, &idle32, sizeof(idle32)))
-> 
-I guess you meant 'idle64' instead of 'idle32'.
+On Wed, Aug 29, 2018 at 10:48 PM, Janusz Krzysztofik
+<jmkrzyszt@gmail.com> wrote:
+> Most users of get/set array functions iterate consecutive bits of data,
+> usually a single integer, while processing array of results obtained
+> from, or building an array of values to be passed to those functions.
+> Save time wasted on those iterations by changing the functions' API to
+> accept bitmaps.
+>
+> All current users are updated as well.
+>
+> More benefits from the change are expected as soon as planned support
+> for accepting/passing those bitmaps directly from/to respective GPIO
+> chip callbacks if applicable is implemented.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
+> Cc: Peter Korsgaard <peter.korsgaard@barco.com>
+> Cc: Peter Rosin <peda@axentia.se>
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: Florian Fainelli <f.fainelli@gmail.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Michael Hennerich <Michael.Hennerich@analog.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Hartmut Knaack <knaack.h@gmx.de>
+> Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jiri Slaby <jslaby@suse.com>
+> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+> ---
+>  Documentation/driver-api/gpio/consumer.rst  | 22 ++++----
+>  drivers/auxdisplay/hd44780.c                | 52 +++++++++--------
+>  drivers/bus/ts-nbus.c                       | 19 ++-----
+>  drivers/gpio/gpio-max3191x.c                | 17 +++---
+>  drivers/gpio/gpiolib.c                      | 86 +++++++++++++++--------------
+>  drivers/gpio/gpiolib.h                      |  4 +-
+>  drivers/i2c/muxes/i2c-mux-gpio.c            |  8 +--
+>  drivers/mmc/core/pwrseq_simple.c            | 13 ++---
+>  drivers/mux/gpio.c                          |  9 +--
+>  drivers/net/phy/mdio-mux-gpio.c             |  3 +-
+>  drivers/pcmcia/soc_common.c                 | 11 ++--
+>  drivers/phy/motorola/phy-mapphone-mdm6600.c | 17 +++---
+>  drivers/staging/iio/adc/ad7606.c            |  9 +--
+>  drivers/tty/serial/serial_mctrl_gpio.c      |  7 ++-
+>  include/linux/gpio/consumer.h               | 18 +++---
+>  15 files changed, 140 insertions(+), 155 deletions(-)
+>
+> diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+> index aa03f389d41d..ed68042ddccf 100644
+> --- a/Documentation/driver-api/gpio/consumer.rst
+> +++ b/Documentation/driver-api/gpio/consumer.rst
+> @@ -323,29 +323,29 @@ The following functions get or set the values of an array of GPIOs::
+>
+>         int gpiod_get_array_value(unsigned int array_size,
+>                                   struct gpio_desc **desc_array,
+> -                                 int *value_array);
+> +                                 unsigned long *value_bitmap);
+>         int gpiod_get_raw_array_value(unsigned int array_size,
+>                                       struct gpio_desc **desc_array,
+> -                                     int *value_array);
+> +                                     unsigned long *value_bitmap);
+>         int gpiod_get_array_value_cansleep(unsigned int array_size,
+>                                            struct gpio_desc **desc_array,
+> -                                          int *value_array);
+> +                                          unsigned long *value_bitmap);
+>         int gpiod_get_raw_array_value_cansleep(unsigned int array_size,
+>                                            struct gpio_desc **desc_array,
+> -                                          int *value_array);
+> +                                          unsigned long *value_bitmap);
+>
+>         void gpiod_set_array_value(unsigned int array_size,
+>                                    struct gpio_desc **desc_array,
+> -                                  int *value_array)
+> +                                  unsigned long *value_bitmap)
+>         void gpiod_set_raw_array_value(unsigned int array_size,
+>                                        struct gpio_desc **desc_array,
+> -                                      int *value_array)
+> +                                      unsigned long *value_bitmap)
+>         void gpiod_set_array_value_cansleep(unsigned int array_size,
+>                                             struct gpio_desc **desc_array,
+> -                                           int *value_array)
+> +                                           unsigned long *value_bitmap)
+>         void gpiod_set_raw_array_value_cansleep(unsigned int array_size,
+>                                                 struct gpio_desc **desc_array,
+> -                                               int *value_array)
+> +                                               unsigned long *value_bitmap)
+>
+>  The array can be an arbitrary set of GPIOs. The functions will try to access
+>  GPIOs belonging to the same bank or chip simultaneously if supported by the
+> @@ -356,8 +356,8 @@ accessed sequentially.
+>  The functions take three arguments:
+>         * array_size    - the number of array elements
+>         * desc_array    - an array of GPIO descriptors
+> -       * value_array   - an array to store the GPIOs' values (get) or
+> -                         an array of values to assign to the GPIOs (set)
+> +       * value_bitmap  - a bitmap to store the GPIOs' values (get) or
+> +                         a bitmap of values to assign to the GPIOs (set)
+>
+>  The descriptor array can be obtained using the gpiod_get_array() function
+>  or one of its variants. If the group of descriptors returned by that function
+> @@ -366,7 +366,7 @@ the struct gpio_descs returned by gpiod_get_array()::
+>
+>         struct gpio_descs *my_gpio_descs = gpiod_get_array(...);
+>         gpiod_set_array_value(my_gpio_descs->ndescs, my_gpio_descs->desc,
+> -                             my_gpio_values);
+> +                             my_gpio_value_bitmap);
+>
+>  It is also possible to access a completely arbitrary array of descriptors. The
+>  descriptors may be obtained using any combination of gpiod_get() and
+> diff --git a/drivers/auxdisplay/hd44780.c b/drivers/auxdisplay/hd44780.c
+> index f1a42f0f1ded..bbbd6a29bf01 100644
+> --- a/drivers/auxdisplay/hd44780.c
+> +++ b/drivers/auxdisplay/hd44780.c
+> @@ -62,20 +62,19 @@ static void hd44780_strobe_gpio(struct hd44780 *hd)
+>  /* write to an LCD panel register in 8 bit GPIO mode */
+>  static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
+>  {
+> -       int values[10]; /* for DATA[0-7], RS, RW */
+> -       unsigned int i, n;
+> +       unsigned long value_bitmap[1];  /* for DATA[0-7], RS, RW */
+
+(I read your comments in the other email)
+
+I still find this odd, but if everyone is going to have this change
+done like this, consistency is better.
+
+> +       unsigned int n;
+>
+> -       for (i = 0; i < 8; i++)
+> -               values[PIN_DATA0 + i] = !!(val & BIT(i));
+> -       values[PIN_CTRL_RS] = rs;
+> +       value_bitmap[0] = val;
+> +       __assign_bit(PIN_CTRL_RS, value_bitmap, rs);
+>         n = 9;
+>         if (hd->pins[PIN_CTRL_RW]) {
+> -               values[PIN_CTRL_RW] = 0;
+> +               __clear_bit(PIN_CTRL_RW, value_bitmap);
+>                 n++;
+>         }
+>
+>         /* Present the data to the port */
+> -       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA0], values);
+> +       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA0], value_bitmap);
+>
+>         hd44780_strobe_gpio(hd);
+>  }
+> @@ -83,32 +82,31 @@ static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
+>  /* write to an LCD panel register in 4 bit GPIO mode */
+>  static void hd44780_write_gpio4(struct hd44780 *hd, u8 val, unsigned int rs)
+>  {
+> -       int values[10]; /* for DATA[0-7], RS, RW, but DATA[0-3] is unused */
+> -       unsigned int i, n;
+> +       /* for DATA[0-7], RS, RW, but DATA[0-3] is unused */
+> +       unsigned long value_bitmap[1];
+
+Ditto.
+
+> +       unsigned int n;
+>
+>         /* High nibble + RS, RW */
+> -       for (i = 4; i < 8; i++)
+> -               values[PIN_DATA0 + i] = !!(val & BIT(i));
+> -       values[PIN_CTRL_RS] = rs;
+> +       value_bitmap[0] = val;
+> +       __assign_bit(PIN_CTRL_RS, value_bitmap, rs);
+>         n = 5;
+>         if (hd->pins[PIN_CTRL_RW]) {
+> -               values[PIN_CTRL_RW] = 0;
+> +               __clear_bit(PIN_CTRL_RW, value_bitmap);
+>                 n++;
+>         }
+> +       value_bitmap[0] >>= PIN_DATA4;
+>
+>         /* Present the data to the port */
+> -       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4],
+> -                                      &values[PIN_DATA4]);
+> +       gpiod_set_array_value_cansleep(n, &hd->pins[PIN_DATA4], value_bitmap);
+>
+>         hd44780_strobe_gpio(hd);
+>
+>         /* Low nibble */
+> -       for (i = 0; i < 4; i++)
+> -               values[PIN_DATA4 + i] = !!(val & BIT(i));
+> +       value_bitmap[0] &= ~((1 << PIN_DATA4) - 1);
+> +       value_bitmap[0] |= val & ~((1 << PIN_DATA4) - 1);
+
+This is still wrong! What I originally meant in my v4 review is that
+there is an extra ~ in the second line.
+
+Also, a couple of general comments:
+
+ - Please review the list of CCs (I was not CC'd originally, so maybe
+there are other maintainers that aren't, either)
+ - In general, the new code seems harder to read than the original one
+(but that is my impression).
+
+Thanks for your effort! :-)
+
+Cheers,
+Miguel
