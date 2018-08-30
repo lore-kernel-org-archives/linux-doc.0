@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E9597D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 11:41:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 36C9E7D87C
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 11:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728054AbeH3PnG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 11:43:06 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:37118 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727388AbeH3PnG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:43:06 -0400
-Received: by mail-wm0-f67.google.com with SMTP id n11-v6so1668460wmc.2
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 04:41:21 -0700 (PDT)
+        id S1728047AbeH3PnK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 11:43:10 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:42280 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728135AbeH3PnI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:43:08 -0400
+Received: by mail-wr1-f67.google.com with SMTP id v17-v6so7759236wrr.9
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 04:41:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YmU2UyMtUBNWrj8mk4LYzQ193g4/d71hDCIWAiq7WI0=;
-        b=IfkjmFhoYEchL2Isulzy2HGRhwUAvap8gk4OyFAK0S+ltBBXHbvrenzzgK+qvOksep
-         rT9yKFfHZfQEV/a2ynV/OdX/nQGjRmi7he70z1eH6qrLQ3lwq4LuweIieHCRhK4Enyhv
-         Y/gq3YABwR6a0aXat6gq+Lyr8Eio3epXuS7ZQuLPUltrbA2hH36lxQ5P/tM2cGhNAW/m
-         EKAhVkg4m1MQR7TLAVQizX9UGMu7fl5t03okJs3F5vVf+fiG5emA5xD+U4Z9YlGmcW0B
-         +eTkHSvtA0rc7e598IGlPLS/QkOhICrwKPD9gy6G9xIi+jtUcHw7zIgHTM2WTQBPhKfc
-         xocw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=KfYH6Tzsb0z/vmKFOXCsrYnHaggF5QU419/lUUKCb/M=;
+        b=SlVrQke1WhZ6O7NRIVjFhSxayQWj+0CsRGKGIwkcT2jBX14NAIHkWVjXQWA2EUGecR
+         8YqeRKcb8aU1JvFpetpYruAgMrf4QvtMgcPKs2lMwrnQ6FIp+2emSvfGBtjXPmoanpE8
+         OgWrUG9Oc+AUrCcm5yUGPEAYrCSRnOYb1EPJRWzGK2ELv7RFjTJkVuUxlpj+FaR0K4Fm
+         T26n780JhZ9e07DlSfaMe4HZCX09HrgO6FY/a8g4OjQ2ZtelwTDFoRt5VxT22TP9pWpS
+         zR5Dfk+GoIfpdC6OSm47yVm6eaduuRwduGf5yZ7D1k8y8Qfc/Ij6G6VYWM9MeB801lDc
+         YfLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YmU2UyMtUBNWrj8mk4LYzQ193g4/d71hDCIWAiq7WI0=;
-        b=CKXbWBPMW5Re91ReiCg3hUjgVBReytDp17C1L3WPrRxk2OPUNu5Xkpvf1Yoboc9yPl
-         DLJxqrUKzLKIA8BP81aJNpOrQYw+ydXfQWpyIJfXhxyDRDVN/YJpfTp7C4Nx9SRSgW8k
-         BbXN22mQdJsxfNOCTx3scMYRYqGfC8ieHqt/bHheCiCjq0R2E8jfZcDKnZLf9Yvxkeb9
-         wAbowJHDRb4FAfbLgkqKuag9PQBLcD2WMwf5q/U3EHoo3mvzLDmcs7btdnqNPDQ97fp4
-         WzTIkXK9uuGspj8k3hZiS9bT2GChx43BoiJsGWSVgFKeSaCXxBG5owR/aaAITZvJjeUA
-         PFtw==
-X-Gm-Message-State: APzg51CW/gYRGWmUkpKj/Y7BbpLykLuLiu6eAY82OeHLD4Y55RGSF1KW
-        mZSFFOGMIutzsbF2ehLcKt/jFw==
-X-Google-Smtp-Source: ANB0VdZKEPoV77ehl9ywVOCWQ7xqiHdmHuPpuz7eJeQGWHYp02kmszcINUT2okmEOJZE3BRog9Lg5Q==
-X-Received: by 2002:a1c:b6d6:: with SMTP id g205-v6mr1662119wmf.17.1535629280841;
-        Thu, 30 Aug 2018 04:41:20 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=KfYH6Tzsb0z/vmKFOXCsrYnHaggF5QU419/lUUKCb/M=;
+        b=Ocx6PuFOEygXDR9vcM6f9BUcwHtcYUVR/mR/yTNUW4BWac4zdSvTcJNysz0td69gMF
+         rsaulCFyyjnUXxbYYgyBOisLPsl5VFaLsXoXBsLk9/Vg8/cCEBrCLLabuS3A20NFM/ou
+         u2FQU99c/MRs80ONUntWlgG2n8pBS1JYC5pWhHtpjPivVr5ISv37OSSvXhwR0bd8usan
+         SY+nCnKuT7WfKuhTmO77c+104X+BMdB/woA+QhtHhWz2E/lMVBIMXbqfe9F94p4ltjR2
+         /ni48mZmXxUWYWZegiWcdLY96+N7Dm9+V+fPjcT3KQh/FvCDWITqAkMfi/g8IILuh6cD
+         X70Q==
+X-Gm-Message-State: APzg51Ao6FlYH/9DVznlylHp3U189xgG3XVyeagnElpudt3yj2RVWuz9
+        Q5GfhTLbUQW93NuFTRmiQM/WiA==
+X-Google-Smtp-Source: ANB0VdbfT2UavtupUozQmcxh4AV9vSkbNDCltsV+0dOIrgUtBjrUTRDGUHsynILgINfK356aYp5UZg==
+X-Received: by 2002:adf:add0:: with SMTP id w74-v6mr7745481wrc.73.1535629283942;
+        Thu, 30 Aug 2018 04:41:23 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id z184-v6sm2175218wmz.0.2018.08.30.04.41.19
+        by smtp.gmail.com with ESMTPSA id z184-v6sm2175218wmz.0.2018.08.30.04.41.22
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 Aug 2018 04:41:19 -0700 (PDT)
+        Thu, 30 Aug 2018 04:41:23 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,10 +73,12 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v6 00/11] arm64: untag user pointers passed to the kernel
-Date:   Thu, 30 Aug 2018 13:41:05 +0200
-Message-Id: <cover.1535629099.git.andreyknvl@google.com>
+Subject: [PATCH v6 02/11] uaccess: add untagged_addr definition for other arches
+Date:   Thu, 30 Aug 2018 13:41:07 +0200
+Message-Id: <bf96f9150ad04fc8db64ddc02fd81ec7568f5c39.1535629099.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.0.rc0.228.g281dcd1b4d0-goog
+In-Reply-To: <cover.1535629099.git.andreyknvl@google.com>
+References: <cover.1535629099.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -84,136 +86,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-tags into the top byte of each pointer. Userspace programs (such as
-HWASan, a memory debugging tool [1]) might use this feature and pass
-tagged user pointers to the kernel through syscalls or other interfaces.
+To allow arm64 syscalls accept tagged pointers from userspace, we must
+untag them when they are passed to the kernel. Since untagging is done in
+generic parts of the kernel, the untagged_addr macro needs to be defined
+for all architectures.
 
-This patch makes a few of the kernel interfaces accept tagged user
-pointers. The kernel is already able to handle user faults with tagged
-pointers and has the untagged_addr macro, which this patchset reuses.
+Define it as a noop for other architectures besides arm64.
 
-Thanks!
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ include/linux/uaccess.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-
-Changes in v6:
-- Added annotations for user pointer casts found by sparse.
-- Rebased onto 050cdc6c (4.19-rc1+).
-
-Changes in v5:
-- Added 3 new patches that add untagging to places found with static
-  analysis.
-- Rebased onto 44c929e1 (4.18-rc8).
-
-Changes in v4:
-- Added a selftest for checking that passing tagged pointers to the
-  kernel succeeds.
-- Rebased onto 81e97f013 (4.18-rc1+).
-
-Changes in v3:
-- Rebased onto e5c51f30 (4.17-rc6+).
-- Added linux-arch@ to the list of recipients.
-
-Changes in v2:
-- Rebased onto 2d618bdf (4.17-rc3+).
-- Removed excessive untagging in gup.c.
-- Removed untagging pointers returned from __uaccess_mask_ptr.
-
-Changes in v1:
-- Rebased onto 4.17-rc1.
-
-Changes in RFC v2:
-- Added "#ifndef untagged_addr..." fallback in linux/uaccess.h instead of
-  defining it for each arch individually.
-- Updated Documentation/arm64/tagged-pointers.txt.
-- Dropped "mm, arm64: untag user addresses in memory syscalls".
-- Rebased onto 3eb2ce82 (4.16-rc7).
-
-Andrey Konovalov (11):
-  arm64: add type casts to untagged_addr macro
-  uaccess: add untagged_addr definition for other arches
-  arm64: untag user addresses in access_ok and __uaccess_mask_ptr
-  mm, arm64: untag user addresses in mm/gup.c
-  lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
-  arm64: untag user address in __do_user_fault
-  fs, arm64: untag user address in copy_mount_options
-  usb, arm64: untag user addresses in devio
-  arm64: update Documentation/arm64/tagged-pointers.txt
-  selftests, arm64: add a selftest for passing tagged pointers to kernel
-  arm64: annotate user pointers casts detected by sparse
-
- Documentation/arm64/tagged-pointers.txt       |  5 +--
- arch/arm64/include/asm/compat.h               |  2 +-
- arch/arm64/include/asm/uaccess.h              | 16 ++++++----
- arch/arm64/kernel/perf_callchain.c            |  4 +--
- arch/arm64/kernel/signal.c                    | 16 +++++-----
- arch/arm64/kernel/signal32.c                  |  6 ++--
- arch/arm64/mm/fault.c                         |  4 +--
- block/compat_ioctl.c                          | 15 +++++----
- drivers/ata/libata-scsi.c                     |  2 +-
- drivers/block/loop.c                          |  2 +-
- drivers/gpio/gpiolib.c                        |  8 +++--
- drivers/input/evdev.c                         |  2 +-
- drivers/media/dvb-core/dvb_frontend.c         |  3 +-
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c |  9 +++---
- drivers/mmc/core/block.c                      |  6 ++--
- drivers/mtd/mtdchar.c                         |  2 +-
- drivers/net/tap.c                             |  2 +-
- drivers/net/tun.c                             |  2 +-
- drivers/spi/spidev.c                          |  6 ++--
- drivers/tty/tty_ioctl.c                       |  3 +-
- drivers/tty/vt/vt_ioctl.c                     |  5 +--
- drivers/usb/core/devio.c                      | 10 ++++--
- drivers/vfio/vfio.c                           |  6 ++--
- drivers/video/fbdev/core/fbmem.c              |  4 +--
- drivers/xen/gntdev.c                          |  6 ++--
- drivers/xen/privcmd.c                         |  4 +--
- fs/aio.c                                      |  2 +-
- fs/autofs/dev-ioctl.c                         |  3 +-
- fs/autofs/root.c                              |  2 +-
- fs/binfmt_elf.c                               | 10 +++---
- fs/btrfs/ioctl.c                              |  2 +-
- fs/compat_ioctl.c                             | 32 ++++++++++---------
- fs/ext2/ioctl.c                               |  2 +-
- fs/ext4/ioctl.c                               |  2 +-
- fs/fat/file.c                                 |  3 +-
- fs/fuse/file.c                                |  2 +-
- fs/namespace.c                                |  2 +-
- fs/readdir.c                                  |  4 +--
- fs/signalfd.c                                 | 10 +++---
- include/linux/mm.h                            |  2 +-
- include/linux/pagemap.h                       |  8 ++---
- include/linux/socket.h                        |  2 +-
- include/linux/uaccess.h                       |  4 +++
- ipc/shm.c                                     |  4 +--
- kernel/futex.c                                |  6 ++--
- kernel/futex_compat.c                         |  2 +-
- kernel/power/user.c                           |  2 +-
- kernel/signal.c                               |  2 +-
- lib/iov_iter.c                                | 16 +++++-----
- lib/strncpy_from_user.c                       |  4 ++-
- lib/strnlen_user.c                            |  6 ++--
- lib/test_kasan.c                              |  2 +-
- mm/gup.c                                      |  4 +++
- mm/memory.c                                   |  2 +-
- mm/migrate.c                                  |  4 +--
- mm/process_vm_access.c                        | 13 ++++----
- net/bluetooth/hidp/sock.c                     |  2 +-
- net/compat.c                                  | 12 ++++---
- sound/core/control_compat.c                   |  5 +--
- sound/core/pcm_native.c                       |  5 +--
- sound/core/timer_compat.c                     |  3 +-
- tools/testing/selftests/arm64/.gitignore      |  1 +
- tools/testing/selftests/arm64/Makefile        | 11 +++++++
- .../testing/selftests/arm64/run_tags_test.sh  | 12 +++++++
- tools/testing/selftests/arm64/tags_test.c     | 19 +++++++++++
- 65 files changed, 232 insertions(+), 147 deletions(-)
- create mode 100644 tools/testing/selftests/arm64/.gitignore
- create mode 100644 tools/testing/selftests/arm64/Makefile
- create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
- create mode 100644 tools/testing/selftests/arm64/tags_test.c
-
+diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+index efe79c1cdd47..c045b4eff95e 100644
+--- a/include/linux/uaccess.h
++++ b/include/linux/uaccess.h
+@@ -13,6 +13,10 @@
+ 
+ #include <asm/uaccess.h>
+ 
++#ifndef untagged_addr
++#define untagged_addr(addr) addr
++#endif
++
+ /*
+  * Architectures should provide two primitives (raw_copy_{to,from}_user())
+  * and get rid of their private instances of copy_{to,from}_user() and
 -- 
 2.19.0.rc0.228.g281dcd1b4d0-goog
 
