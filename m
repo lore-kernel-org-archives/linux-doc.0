@@ -2,33 +2,24 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4EB767D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 20:28:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD29A7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 20:39:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727366AbeHaAbw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 20:31:52 -0400
-Received: from mga09.intel.com ([134.134.136.24]:58621 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727207AbeHaAbv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Aug 2018 20:31:51 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 13:27:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,308,1531810800"; 
-   d="scan'208";a="259468619"
-Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Aug 2018 13:27:50 -0700
-Message-ID: <1535660615.28258.37.camel@intel.com>
-Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
- pmdp_set_wrprotect for _PAGE_DIRTY_SW
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
+        id S1727417AbeHaAnv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 20:43:51 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:51818 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727258AbeHaAnu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 20:43:50 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 8BD6380552; Thu, 30 Aug 2018 22:39:49 +0200 (CEST)
+Date:   Thu, 30 Aug 2018 22:39:48 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
@@ -44,135 +35,113 @@ To:     Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
         Kees Cook <keescook@chromiun.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Oleg Nesterov <oleg@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Thu, 30 Aug 2018 13:23:35 -0700
-In-Reply-To: <9879c17a-24da-d84a-5a7c-30bcbb473914@infradead.org>
+Subject: Re: [RFC PATCH v3 05/24] Documentation/x86: Add CET description
+Message-ID: <20180830203948.GB1936@amd>
 References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
-         <20180830143904.3168-13-yu-cheng.yu@intel.com>
-         <9879c17a-24da-d84a-5a7c-30bcbb473914@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <20180830143904.3168-6-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="z6Eq5LdranGa6ru8"
+Content-Disposition: inline
+In-Reply-To: <20180830143904.3168-6-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-08-30 at 12:59 -0700, Randy Dunlap wrote:
-> On 08/30/2018 07:38 AM, Yu-cheng Yu wrote:
-> > 
-> > When Shadow Stack is enabled, the read-only and PAGE_DIRTY_HW PTE
-> > setting is reserved only for the Shadow Stack.  To track dirty of
-> > non-Shadow Stack read-only PTEs, we use PAGE_DIRTY_SW.
-> > 
-> > Update ptep_set_wrprotect() and pmdp_set_wrprotect().
-> > 
-> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > ---
-> >  arch/x86/include/asm/pgtable.h | 42
-> > ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 42 insertions(+)
-> > 
-> > diff --git a/arch/x86/include/asm/pgtable.h
-> > b/arch/x86/include/asm/pgtable.h
-> > index 4d50de77ea96..556ef258eeff 100644
-> > --- a/arch/x86/include/asm/pgtable.h
-> > +++ b/arch/x86/include/asm/pgtable.h
-> > @@ -1203,7 +1203,28 @@ static inline pte_t
-> > ptep_get_and_clear_full(struct mm_struct *mm,
-> >  static inline void ptep_set_wrprotect(struct mm_struct *mm,
-> >  				      unsigned long addr, pte_t
-> > *ptep)
-> >  {
-> > +	pte_t pte;
-> > +
-> >  	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
-> > +	pte = *ptep;
-> > +
-> > +	/*
-> > +	 * Some processors can start a write, but ending up
-> > seeing
-> 	                                      but end up seeing
-> 
-> > 
-> > +	 * a read-only PTE by the time they get to the Dirty bit.
-> > +	 * In this case, they will set the Dirty bit, leaving a
-> > +	 * read-only, Dirty PTE which looks like a Shadow Stack
-> > PTE.
-> > +	 *
-> > +	 * However, this behavior has been improved and will not
-> > occur
-> > +	 * on processors supporting Shadow Stacks.  Without this
-> > +	 * guarantee, a transition to a non-present PTE and flush
-> > the
-> > +	 * TLB would be needed.
-> > +	 *
-> > +	 * When change a writable PTE to read-only and if the PTE
-> > has
-> 	        changing
-> 
-> > 
-> > +	 * _PAGE_DIRTY_HW set, we move that bit to _PAGE_DIRTY_SW
-> > so
-> > +	 * that the PTE is not a valid Shadow Stack PTE.
-> > +	 */
-> > +	pte = pte_move_flags(pte, _PAGE_DIRTY_HW,
-> > _PAGE_DIRTY_SW);
-> > +	set_pte_at(mm, addr, ptep, pte);
-> >  }
-> >  
-> >  #define flush_tlb_fix_spurious_fault(vma, address) do { } while
-> > (0)
-> > @@ -1266,7 +1287,28 @@ static inline pud_t
-> > pudp_huge_get_and_clear(struct mm_struct *mm,
-> >  static inline void pmdp_set_wrprotect(struct mm_struct *mm,
-> >  				      unsigned long addr, pmd_t
-> > *pmdp)
-> >  {
-> > +	pmd_t pmd;
-> > +
-> >  	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
-> > +	pmd = *pmdp;
-> > +
-> > +	/*
-> > +	 * Some processors can start a write, but ending up
-> > seeing
-> 	                                      but end up seeing
-> 
-> > 
-> > +	 * a read-only PTE by the time they get to the Dirty bit.
-> > +	 * In this case, they will set the Dirty bit, leaving a
-> > +	 * read-only, Dirty PTE which looks like a Shadow Stack
-> > PTE.
-> > +	 *
-> > +	 * However, this behavior has been improved and will not
-> > occur
-> > +	 * on processors supporting Shadow Stacks.  Without this
-> > +	 * guarantee, a transition to a non-present PTE and flush
-> > the
-> > +	 * TLB would be needed.
-> > +	 *
-> > +	 * When change a writable PTE to read-only and if the PTE
-> > has
-> 	        changing
-> 
-> > 
-> > +	 * _PAGE_DIRTY_HW set, we move that bit to _PAGE_DIRTY_SW
-> > so
-> > +	 * that the PTE is not a valid Shadow Stack PTE.
-> > +	 */
-> > +	pmd = pmd_move_flags(pmd, _PAGE_DIRTY_HW,
-> > _PAGE_DIRTY_SW);
-> > +	set_pmd_at(mm, addr, pmdp, pmd);
-> >  }
-> >  
-> >  #define pud_write pud_write
-> > 
-> 
 
-Thanks, I will fix it!
+--z6Eq5LdranGa6ru8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi!
+
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index 9871e649ffef..b090787188b4 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2764,6 +2764,12 @@
+>  			noexec=3Don: enable non-executable mappings (default)
+>  			noexec=3Doff: disable non-executable mappings
+> =20
+> +	no_cet_ibt	[X86-64] Disable indirect branch tracking for user-mode
+> +			applications
+> +
+> +	no_cet_shstk	[X86-64] Disable shadow stack support for user-mode
+> +			applications
+
+Hmm, not too consistent with "nosmap" below. Would it make sense to
+have cet=3Don/off/ibt/shstk instead?
+
+> +++ b/Documentation/x86/intel_cet.rst
+> @@ -0,0 +1,252 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Control Flow Enforcement Technology (CET)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +[1] Overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Control Flow Enforcement Technology (CET) provides protection against
+> +return/jump-oriented programing (ROP) attacks.
+
+Can you add something like "It attempts to protect process from
+running arbitrary code even after attacker has control of its stack"
+-- for people that don't know what ROP is, and perhaps link to
+wikipedia explaining ROP or something...
+
+> It can be implemented
+> +to protect both the kernel and applications.  In the first phase,
+> +only the user-mode protection is implemented for the 64-bit kernel.
+> +Thirty-two bit applications are supported under the compatibility
+
+32-bit (for consistency).
+
+Ok, so CET stops execution of malicious code before architectural
+effects are visible, correct? Does it prevent micro-architectural
+effects of the malicious code? (cache content would be one example;
+see Spectre).
+
+> +[3] Application Enabling
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+"Enabling CET in applications" ?
+
+> +Signal
+> +------
+> +
+> +The main program and its signal handlers use the same SHSTK.  Because
+> +the SHSTK stores only return addresses, we can estimate a large
+> +enough SHSTK to cover the condition that both the program stack and
+> +the sigaltstack run out.
+
+English? Is it estimate or is it large enough? "a large" -- "a" should
+be deleted AFAICT.
+=20
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--z6Eq5LdranGa6ru8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAluIVhQACgkQMOfwapXb+vJ0KACgu6nabChmCkBFO6OaHfHWveVH
+9MgAn36uXjrnPChLkXN2JkbfiY+qF9bI
+=mbZW
+-----END PGP SIGNATURE-----
+
+--z6Eq5LdranGa6ru8--
