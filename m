@@ -1,123 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7839A7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 15:17:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 81BA97D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 15:34:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726878AbeH3TUR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 15:20:17 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37284 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725996AbeH3TUR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 15:20:17 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tomeu)
-        with ESMTPSA id 562F9263ABC
-Subject: Re: [PATCH v6] Add udmabuf misc device
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S1727173AbeH3Tgy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 15:36:54 -0400
+Received: from eu-smtp-delivery-211.mimecast.com ([207.82.80.211]:20999 "EHLO
+        eu-smtp-delivery-211.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725836AbeH3Tgy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 15:36:54 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by eu-smtp-1.mimecast.com with ESMTP id
+ uk-mta-50-d_oZkD_5Ny2tcsryVzKzZQ-1; Thu, 30 Aug 2018 16:34:00 +0100
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 30 Aug 2018 16:35:39 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Thu, 30 Aug 2018 16:35:39 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Miguel Ojeda' <miguel.ojeda.sandonis@gmail.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, Zach Reizner <zachr@google.com>,
-        Daniel Stone <daniels@collabora.com>
-References: <20180703075359.30349-1-kraxel@redhat.com>
- <20180703083757.GG7880@phenom.ffwll.local>
- <20180704055338.n3b7oexltaejqmcd@sirius.home.kraxel.org>
- <9818b301-9c9d-c703-d4fe-7c2d4d43ed66@collabora.com>
- <20180704080005.juutrwri4kxm7yim@sirius.home.kraxel.org>
-From:   Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Message-ID: <06d8aa8d-5eac-64e2-f21e-43fe7ca96cc2@collabora.com>
-Date:   Thu, 30 Aug 2018 17:17:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180704080005.juutrwri4kxm7yim@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Peter Rosin <peda@axentia.se>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        "Hartmut Knaack" <knaack.h@gmx.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        "Jiri Slaby" <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v5 1/4] gpiolib: Pass bitmaps, not integer arrays, to
+ get/set array
+Thread-Topic: [PATCH v5 1/4] gpiolib: Pass bitmaps, not integer arrays, to
+ get/set array
+Thread-Index: AQHUQFJsyE6G3E8Q/UO/0Ujg2pGZq6TYbMjw
+Date:   Thu, 30 Aug 2018 15:35:39 +0000
+Message-ID: <34ad57ec954c481d87ef6af58453ee9f@AcuMS.aculab.com>
+References: <20180820234341.5271-1-jmkrzyszt@gmail.com>
+ <20180829204900.19390-1-jmkrzyszt@gmail.com>
+ <20180829204900.19390-2-jmkrzyszt@gmail.com>
+ <CANiq72kJT15ELkYr2U5r4-pvGunQFLmZ5dhdZLnjmM7NWBnkNQ@mail.gmail.com>
+In-Reply-To: <CANiq72kJT15ELkYr2U5r4-pvGunQFLmZ5dhdZLnjmM7NWBnkNQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.33]
+MIME-Version: 1.0
+X-MC-Unique: d_oZkD_5Ny2tcsryVzKzZQ-1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/04/2018 10:00 AM, Gerd Hoffmann wrote:
-> On Wed, Jul 04, 2018 at 09:26:39AM +0200, Tomeu Vizoso wrote:
->> On 07/04/2018 07:53 AM, Gerd Hoffmann wrote:
->>> On Tue, Jul 03, 2018 at 10:37:57AM +0200, Daniel Vetter wrote:
->>>> On Tue, Jul 03, 2018 at 09:53:58AM +0200, Gerd Hoffmann wrote:
->>>>> A driver to let userspace turn memfd regions into dma-bufs.
->>>>>
->>>>> Use case:  Allows qemu create dmabufs for the vga framebuffer or
->>>>> virtio-gpu ressources.  Then they can be passed around to display
->>>>> those guest things on the host.  To spice client for classic full
->>>>> framebuffer display, and hopefully some day to wayland server for
->>>>> seamless guest window display.
->>>>>
->>>>> qemu test branch:
->>>>>     https://git.kraxel.org/cgit/qemu/log/?h=sirius/udmabuf
->>>>>
->>>>> Cc: David Airlie <airlied@linux.ie>
->>>>> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
->>>>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>>>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->>>>
->>>> I think some ack for a 2nd use-case, like virtio-wl or whatever would be
->>>> really cool. To give us some assurance that this is generically useful.
->>>
->>> Tomeu?  Laurent?
->>
->> Sorry, but I think I will need some help to understand how this could help
->> in the virtio-wl case [adding Zach Reizner to CC].
->>
->> Any graphics buffers that are allocated with memfd will be shared with the
->> compositor via wl_shm, without need for dmabufs.
-> 
-> Within one machine, yes.  Once virtualization is added to the mix things
-> become more complicated ...
-> 
-> When using virtio-gpu the guest will allocate graphics buffers from
-> normal (guest) ram, then register these buffers (which are allowed to be
-> scattered) with the host as resource.
-> 
-> qemu can use memfd to allocate guest ram.  Now, with the help of
-> udmabuf, qemu can create a *host* dma-buf for the *guest* graphics
-> buffer.
+RnJvbTogTWlndWVsIE9qZWRhDQo+IFNlbnQ6IDMwIEF1Z3VzdCAyMDE4IDEyOjExDQouLi4NCj4g
+PiArICAgICAgIHVuc2lnbmVkIGxvbmcgdmFsdWVfYml0bWFwWzFdOyAgLyogZm9yIERBVEFbMC03
+XSwgUlMsIFJXICovDQo+IA0KPiAoSSByZWFkIHlvdXIgY29tbWVudHMgaW4gdGhlIG90aGVyIGVt
+YWlsKQ0KPiANCj4gSSBzdGlsbCBmaW5kIHRoaXMgb2RkLCBidXQgaWYgZXZlcnlvbmUgaXMgZ29p
+bmcgdG8gaGF2ZSB0aGlzIGNoYW5nZQ0KPiBkb25lIGxpa2UgdGhpcywgY29uc2lzdGVuY3kgaXMg
+YmV0dGVyLg0KDQpNYXliZSB0aGVyZSBvdWdodCB0byBiZSBhIGRlZmluZSBzbyB5b3UgY2FuIGRv
+Og0KCURFRklORV9CSVRNQVAodmFsdWVfYml0bWFwLCAzMik7DQoNCldoaWxlIGl0IG1pZ2h0IGp1
+c3QgZ2VuZXJhdGUgYW4gdW5zaWduZWQgbG9uZyBbXSB0aGVyZSBpcyBwcm9iYWJseQ0Kc2NvcGUg
+Zm9yIHN0cm9uZ2VyIHR5cGluZy4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBM
+YWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBU
+LCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-Guess each physical address in the iovec in 
-VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING can be passed as the offset in the 
-udmabuf_create_item struct?
-
-> That dma-buf can be used by qemu internally (mmap it to get a linear
-> mapping of the resource, to avoid copying).  It can be passed on to
-> spice-client, to display the guest framebuffer.
-> 
-> And I think it could also be quite useful to pass guest wayland windows
-> to the host compositor, without mapping host-allocated buffers into the
-> guest, so we don't have do deal with the "find some address space for
-> the mapping" issue in the first place.
-
-Sounds good to me if the answer to the above is "yes".
-
-> There are more things needed to
-> complete this of course, but it's a building block ...
-
-Are you thinking of anything else besides passing the winsrv protocol 
-across the guest/host boundary? Just wondering if I'm missing something.
-
-Thanks,
-
-Tomeu
