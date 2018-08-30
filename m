@@ -1,62 +1,39 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BED1F7E3A6
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 17:36:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 890FC7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 17:37:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727701AbeH3Vhx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 17:37:53 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:45164 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727325AbeH3Vhw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 17:37:52 -0400
-Received: by mail-pl1-f193.google.com with SMTP id j8-v6so4130861pll.12
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 10:34:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=o6QdlW5hbMszqdwMzI9jFkDmdlFLAzwzs4WCxhif6Qg=;
-        b=o99UDCufXoVn48jbi6Z5ptGCA+kZMb6gAyJOFKyvcFTx51bP7EBXSepF48OyJWzlwE
-         5GzKHuqUGvMNjW5ZJ4iM882+5ycQKgtloNP7sj+O1904I7GRBi8v2DFhg5erxL0xxUeY
-         Ozj87Eyh4Nlj3xhFrfQy4a/E3vM/Uear2DnX8Ytk3bw9DCE4zEZD4MA7vUvsgeo8SBps
-         CE3oVG6fMBUNhq+7VR6uBqlUtY9jWf4cFsDf0oovDj8RFaqBZWMh9Yc6TwPY3DyctTPR
-         4JBEl6FZXb32HLdWhUdOw86XMufQZdO+2hzcs4d7kSLVnjCRDIV3TTWsPCcbdsCLXlo/
-         sw+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=o6QdlW5hbMszqdwMzI9jFkDmdlFLAzwzs4WCxhif6Qg=;
-        b=FFO2+zTNyCs0GY15GarX2/IAp1pmr9kwCCYVNb7FHWus6yAkEFgnLgTprhmgdnhfrZ
-         ltE4VnMYjFsTDQdj5PirWqpIpCvwY2ziDSH7E6EVEgLZqI6AddUd5fD56VbDUkwIIRqK
-         uOF0HomSMqvUNIy4V3xgAAPm2NgEIwM4PRLdCHCCcdypu3Ph0Iu2ZLhDWPOSRjZcY8Yo
-         o5+Upxtoea4+MDb2DTM/T9nQGmlS4peMqMlhJOdrZvpmaV1VxVOlKcwjhJMeR0ZJV3tG
-         66ntEq7n8LdByUFfXhGj1yKr8IEARUqx4bDdIip/Aq/uTfWaIDiEO3pDdSz38Rb90yFT
-         Vp7A==
-X-Gm-Message-State: APzg51AJ9naA8qJVqfalP6vzoKydLM7VmtaMJaERTFZXN/G4YB17nAGB
-        DkSQTn0966mSK7yo5TIm3mCkXA==
-X-Google-Smtp-Source: ANB0VdZf4F93D4oM0oyyea2UsL+45/ek5huX2rtJQEtVSOvLgIxjnyylaSZLVVutzOgdFW+5JT4oiA==
-X-Received: by 2002:a17:902:850c:: with SMTP id bj12-v6mr11403268plb.330.1535650480030;
-        Thu, 30 Aug 2018 10:34:40 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b05a:7d28:c160:33fb:c0e2:e5ad? ([2600:1010:b05a:7d28:c160:33fb:c0e2:e5ad])
-        by smtp.gmail.com with ESMTPSA id b21-v6sm21261248pfm.97.2018.08.30.10.34.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 Aug 2018 10:34:38 -0700 (PDT)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for _PAGE_DIRTY_SW
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (15G77)
-In-Reply-To: <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com>
-Date:   Thu, 30 Aug 2018 10:34:37 -0700
-Cc:     Jann Horn <jannh@google.com>, yu-cheng.yu@intel.com,
-        the arch/x86 maintainers <x86@kernel.org>,
+        id S1727421AbeH3Vj3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 17:39:29 -0400
+Received: from mga06.intel.com ([134.134.136.31]:43203 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727475AbeH3Vj3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Aug 2018 17:39:29 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 10:36:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,307,1531810800"; 
+   d="scan'208";a="76813875"
+Received: from ray.jf.intel.com (HELO [10.54.74.179]) ([10.54.74.179])
+  by FMSMGA003.fm.intel.com with ESMTP; 30 Aug 2018 10:33:34 -0700
+Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
+ pmdp_set_wrprotect for _PAGE_DIRTY_SW
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, Jann Horn <jannh@google.com>
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
+ <20180830143904.3168-13-yu-cheng.yu@intel.com>
+ <CAG48ez0Rca0XsdXJZ07c+iGPyep0Gpxw+sxQuACP5gyPaBgDKA@mail.gmail.com>
+ <079a55f2-4654-4adf-a6ef-6e480b594a2f@linux.intel.com>
+ <CAG48ez2gHOD9hH4+0wek5vUOv9upj79XWoug2SXjdwfXWoQqxw@mail.gmail.com>
+ <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com>
+ <1535649960.26689.15.camel@intel.com>
+Cc:     the arch/x86 maintainers <x86@kernel.org>,
         "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -65,6 +42,7 @@ Cc:     Jann Horn <jannh@google.com>, yu-cheng.yu@intel.com,
         linux-arch <linux-arch@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
@@ -74,48 +52,70 @@ Cc:     Jann Horn <jannh@google.com>, yu-cheng.yu@intel.com,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
         ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B2222C69-337B-44F2-9DA6-69E685AA469B@amacapital.net>
-References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-13-yu-cheng.yu@intel.com> <CAG48ez0Rca0XsdXJZ07c+iGPyep0Gpxw+sxQuACP5gyPaBgDKA@mail.gmail.com> <079a55f2-4654-4adf-a6ef-6e480b594a2f@linux.intel.com> <CAG48ez2gHOD9hH4+0wek5vUOv9upj79XWoug2SXjdwfXWoQqxw@mail.gmail.com> <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com>
-To:     Dave Hansen <dave.hansen@linux.intel.com>
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
+ xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
+ oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
+ 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
+ ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
+ VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
+ iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
+ c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
+ pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
+ ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
+ QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzShEYXZpZCBDaHJp
+ c3RvcGhlciBIYW5zZW4gPGRhdmVAc3I3MS5uZXQ+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJ
+ CgsEFgIDAQIeAQIXgAUCTo3k0QIZAQAKCRBoNZUwcMmSsMO2D/421Xg8pimb9mPzM5N7khT0
+ 2MCnaGssU1T59YPE25kYdx2HntwdO0JA27Wn9xx5zYijOe6B21ufrvsyv42auCO85+oFJWfE
+ K2R/IpLle09GDx5tcEmMAHX6KSxpHmGuJmUPibHVbfep2aCh9lKaDqQR07gXXWK5/yU1Dx0r
+ VVFRaHTasp9fZ9AmY4K9/BSA3VkQ8v3OrxNty3OdsrmTTzO91YszpdbjjEFZK53zXy6tUD2d
+ e1i0kBBS6NLAAsqEtneplz88T/v7MpLmpY30N9gQU3QyRC50jJ7LU9RazMjUQY1WohVsR56d
+ ORqFxS8ChhyJs7BI34vQusYHDTp6PnZHUppb9WIzjeWlC7Jc8lSBDlEWodmqQQgp5+6AfhTD
+ kDv1a+W5+ncq+Uo63WHRiCPuyt4di4/0zo28RVcjtzlGBZtmz2EIC3vUfmoZbO/Gn6EKbYAn
+ rzz3iU/JWV8DwQ+sZSGu0HmvYMt6t5SmqWQo/hyHtA7uF5Wxtu1lCgolSQw4t49ZuOyOnQi5
+ f8R3nE7lpVCSF1TT+h8kMvFPv3VG7KunyjHr3sEptYxQs4VRxqeirSuyBv1TyxT+LdTm6j4a
+ mulOWf+YtFRAgIYyyN5YOepDEBv4LUM8Tz98lZiNMlFyRMNrsLV6Pv6SxhrMxbT6TNVS5D+6
+ UorTLotDZKp5+M7BTQRUY85qARAAsgMW71BIXRgxjYNCYQ3Xs8k3TfAvQRbHccky50h99TUY
+ sqdULbsb3KhmY29raw1bgmyM0a4DGS1YKN7qazCDsdQlxIJp9t2YYdBKXVRzPCCsfWe1dK/q
+ 66UVhRPP8EGZ4CmFYuPTxqGY+dGRInxCeap/xzbKdvmPm01Iw3YFjAE4PQ4hTMr/H76KoDbD
+ cq62U50oKC83ca/PRRh2QqEqACvIH4BR7jueAZSPEDnzwxvVgzyeuhwqHY05QRK/wsKuhq7s
+ UuYtmN92Fasbxbw2tbVLZfoidklikvZAmotg0dwcFTjSRGEg0Gr3p/xBzJWNavFZZ95Rj7Et
+ db0lCt0HDSY5q4GMR+SrFbH+jzUY/ZqfGdZCBqo0cdPPp58krVgtIGR+ja2Mkva6ah94/oQN
+ lnCOw3udS+Eb/aRcM6detZr7XOngvxsWolBrhwTQFT9D2NH6ryAuvKd6yyAFt3/e7r+HHtkU
+ kOy27D7IpjngqP+b4EumELI/NxPgIqT69PQmo9IZaI/oRaKorYnDaZrMXViqDrFdD37XELwQ
+ gmLoSm2VfbOYY7fap/AhPOgOYOSqg3/Nxcapv71yoBzRRxOc4FxmZ65mn+q3rEM27yRztBW9
+ AnCKIc66T2i92HqXCw6AgoBJRjBkI3QnEkPgohQkZdAb8o9WGVKpfmZKbYBo4pEAEQEAAcLB
+ XwQYAQIACQUCVGPOagIbDAAKCRBoNZUwcMmSsJeCEACCh7P/aaOLKWQxcnw47p4phIVR6pVL
+ e4IEdR7Jf7ZL00s3vKSNT+nRqdl1ugJx9Ymsp8kXKMk9GSfmZpuMQB9c6io1qZc6nW/3TtvK
+ pNGz7KPPtaDzvKA4S5tfrWPnDr7n15AU5vsIZvgMjU42gkbemkjJwP0B1RkifIK60yQqAAlT
+ YZ14P0dIPdIPIlfEPiAWcg5BtLQU4Wg3cNQdpWrCJ1E3m/RIlXy/2Y3YOVVohfSy+4kvvYU3
+ lXUdPb04UPw4VWwjcVZPg7cgR7Izion61bGHqVqURgSALt2yvHl7cr68NYoFkzbNsGsye9ft
+ M9ozM23JSgMkRylPSXTeh5JIK9pz2+etco3AfLCKtaRVysjvpysukmWMTrx8QnI5Nn5MOlJj
+ 1Ov4/50JY9pXzgIDVSrgy6LYSMc4vKZ3QfCY7ipLRORyalFDF3j5AGCMRENJjHPD6O7bl3Xo
+ 4DzMID+8eucbXxKiNEbs21IqBZbbKdY1GkcEGTE7AnkA3Y6YB7I/j9mQ3hCgm5muJuhM/2Fr
+ OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
+ ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
+ z5cecg==
+Message-ID: <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com>
+Date:   Thu, 30 Aug 2018 10:33:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <1535649960.26689.15.camel@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 08/30/2018 10:26 AM, Yu-cheng Yu wrote:
+> We don't have the guard page now, but there is a shadow stack token
+> there, which cannot be used as a return address.
 
-
-> On Aug 30, 2018, at 10:19 AM, Dave Hansen <dave.hansen@linux.intel.com> wr=
-ote:
->=20
->> On 08/30/2018 09:23 AM, Jann Horn wrote:
->> Three threads (A, B, C) run with the same CR3.
->>=20
->> 1. a dirty+writable PTE is placed directly in front of B's shadow stack.
->>   (this can happen, right? or is there a guard page?)
->> 2. C's TLB caches the dirty+writable PTE.
->> 3. A performs some syscall that triggers ptep_set_wrprotect().
->> 4. A's syscall calls clear_bit().
->> 5. B's TLB caches the transient shadow stack.
->> [now C has write access to B's transiently-extended shadow stack]
->> 6. B recurses into the transiently-extended shadow stack
->> 7. C overwrites the transiently-extended shadow stack area.
->> 8. B returns through the transiently-extended shadow stack, giving
->>    the attacker instruction pointer control in B.
->> 9. A's syscall broadcasts a TLB flush.
->=20
-> Heh, that's a good point.  The shadow stack permissions are *not*
-> strictly reduced because a page getting marked as shadow-stack has
-> *increased* permissions when being used as a shadow stack.  Fun.
->=20
-> For general hardening, it seems like we want to ensure that there's a
-> guard page at the bottom of the shadow stack.  Yu-cheng, do we have a
-> guard page?
->=20
-> But, to keep B's TLB from picking up the entry, I think we can just make
-> it !Present for a moment.  No TLB can cache it, and I believe the same
-> "don't set Dirty on a !Writable entry" logic also holds for !Present
-> (modulo a weird erratum or two).
-
-Can we get documentation?  Pretty please?
+The overall concern is that we could overflow into a page that we did
+not intend.  Either another actual shadow stack or something that a page
+that the attacker constructed, like the transient scenario Jann described.
 
