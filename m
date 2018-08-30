@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 098E07D581
+	by archive.lwn.net (Postfix) with ESMTP id 3E64C7DE71
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 11:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728334AbeH3PnQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 11:43:16 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:55971 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728561AbeH3PnP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:43:15 -0400
-Received: by mail-wm0-f66.google.com with SMTP id f21-v6so1648275wmc.5
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 04:41:31 -0700 (PDT)
+        id S1728662AbeH3PnR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 11:43:17 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39661 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728621AbeH3PnQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:43:16 -0400
+Received: by mail-wr1-f66.google.com with SMTP id o37-v6so7757709wrf.6
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 04:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ppVHi2qDpVAko4oywEUyVH03nYNtDWMaAZh6pkh+TAI=;
-        b=vM2W1vbB7o60flHuNJ/bgTQROh+Zt2m1p0PT33/imyxEkZK1/Esv7iYw9LpWqbIh3m
-         hobo1vU1c+v0Sblwfgp+dimNnJPZy/F0NvOautf7atu0tq8HTohJpgdmmMrdl4AYk151
-         y1FKxABUZJiw/FShkiF4Vjx+avpapwRzC5R32XJn5fMZrR+LCeV7OWD7REcGraJpxEGx
-         pZQS5IbOZ+yijKZDr2ka3/sxT/vVG5mZpKvFVey/NkAxEkpyZY7MDNEqyN0Dv5ql+VJW
-         4UYj6K8/zcqE3BRWKLrn8aXymf+gcl3zDhnzQaYNb/VkQUlbBIQ8Zyx56geVgZccD9MO
-         FSxw==
+        bh=ZXrp1luYhJIP4n0GyXQgKnJADxNlE5pIywVcPCMS+cU=;
+        b=CQDTthRqqtcN1ufs2a01fqxdr/kNs6fWI4tuV05Bl51I45yCRaOhwJeuVLq2COoKxl
+         frBJ/N/y1s89YtLmD61lAycbLOLLTF0db8371mdV5CkrUHIB4OqvgwpMqa2HqEJ5erXV
+         cz73I1vf0Q3YRNllcJW9lajKpvoVIc6JFbWD0GQ32BBzzM/YZKvg69fdsbCB+jAY2CJ4
+         qa5p1DPRxkB3fubKdY5z69yjcIW9inj4czCTZ8Pk2Y9ND/FF3DeAxxNEolW//bI2AMaQ
+         R4nqHfd2pTi6R4MWd0G82haf4q4xC1vvoOFkFWodc62D052G9nhiMGMdvmjrksHp4cNx
+         yWyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ppVHi2qDpVAko4oywEUyVH03nYNtDWMaAZh6pkh+TAI=;
-        b=h2o2gOK5X5xnVmzbNTETgk6mxN6e+A/db6fmhxM7Yf4OQf46ijk6azqPKl8NI0Ux+R
-         Dejh1gqe/lGXtAiTW0R5tWFj9TXMHn5+Fr/r1JIKnDFxRjF5NJ05A5wcZ8883A5QU2Ea
-         zDlUi7YTfY93xOdCsL1KdTThVH5o+H6vPNFaDC+MJrGTl7LSk2sf6riztj2+4lE88z6x
-         C97WFL9EYD2GRYxt2/xhMFFragknqjK+ZNaz83k3gy1h7AYNN7HapSmDYCL4Rl9mAYgm
-         KAx8vRTf+1zjPNu4pQWOdZi+PIDzq77/llSPO0VQXJMDl/zFTygkN2L3R8gW1hZAKZ9s
-         8sRQ==
-X-Gm-Message-State: APzg51AwIzDS3oO/9dEO8EFxCS+HbOiwsskXajqZdOrsQEgCCJAv7KqV
-        7ePhPfhhx6nqUZkvFW3FItLnxA==
-X-Google-Smtp-Source: ANB0VdYOFoy1sxoEnv1Wgj/+prhG1/Y/jGlov/9lPGGe6D7gsNtu3J1gP5Nihdp90zj4LxikZG+9lw==
-X-Received: by 2002:a1c:4c0c:: with SMTP id z12-v6mr1615687wmf.57.1535629291034;
-        Thu, 30 Aug 2018 04:41:31 -0700 (PDT)
+        bh=ZXrp1luYhJIP4n0GyXQgKnJADxNlE5pIywVcPCMS+cU=;
+        b=ZtrSA2LBHt3vOEuKPhG5vJvHxMzFStfAIGh+jwjqRcj3fAHHDgiTYD3uJmaiBSg7fS
+         4SQIU77ojYT3OTKKhRe8jCbTLUm0ThLT5pJDfmDhUzL4Aw+VFgwB2eKjEkJdzTklmr1F
+         ve3UnSUlC6CXjocmgTLJRs4D96kO2sRODWnNFJYZyq7mUepqSniD2rqcPR1lHFdPxcbY
+         Uf5k+sfV39frY0skAdQEyd7C5eYjIjUUHsxnZ7qELsVuGLzlgVaY6DmSyKPzMIxtkXN6
+         sx1GeIi/QTX4fJpXDIiFwcH5HhWUyyCivcDWz8gnIWvt4jCvRtrHHRxu+18c5JbYrdIX
+         5XCw==
+X-Gm-Message-State: APzg51BFxiO/d+Vb7GySpjAsR8jfd0fybfiDMbcCNKXCorTEwKguh8cs
+        n0ROmVgM6lZl12SEl2SCIMj2PA==
+X-Google-Smtp-Source: ANB0VdZIxUKmp3XzvRVWDwkfAyMU2reSwM08s9a8no0z5/OE5Qno5M+2uM5JSbSFxxrvsRq8MTkiyA==
+X-Received: by 2002:adf:ff0b:: with SMTP id k11-v6mr7791832wrr.15.1535629292576;
+        Thu, 30 Aug 2018 04:41:32 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id z184-v6sm2175218wmz.0.2018.08.30.04.41.29
+        by smtp.gmail.com with ESMTPSA id z184-v6sm2175218wmz.0.2018.08.30.04.41.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 Aug 2018 04:41:30 -0700 (PDT)
+        Thu, 30 Aug 2018 04:41:31 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,9 +73,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v6 07/11] fs, arm64: untag user address in copy_mount_options
-Date:   Thu, 30 Aug 2018 13:41:12 +0200
-Message-Id: <89806bc1c1f85fa97c62887075cc2d46b8bdeee2.1535629099.git.andreyknvl@google.com>
+Subject: [PATCH v6 08/11] usb, arm64: untag user addresses in devio
+Date:   Thu, 30 Aug 2018 13:41:13 +0200
+Message-Id: <c0396442f9143244bdfdf0ea3bfab55b583a328f.1535629099.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.0.rc0.228.g281dcd1b4d0-goog
 In-Reply-To: <cover.1535629099.git.andreyknvl@google.com>
 References: <cover.1535629099.git.andreyknvl@google.com>
@@ -86,32 +86,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In copy_mount_options a user address is being subtracted from TASK_SIZE.
-If the address is lower than TASK_SIZE, the size is calculated to not
-allow the exact_copy_from_user() call to cross TASK_SIZE boundary.
-However if the address is tagged, then the size will be calculated
-incorrectly.
+devio allows to mmap memory regions and keeps them in a list. It also
+accepts a user address through an ioctl call and searches the memory
+region list for the region that contains this address. Since the addresses
+provided to mmap must not be tagged, and the addresses provided to ioctl
+might be tagged, we might compare tagged and untagged addresses during the
+search.
 
-Untag the address before subtracting.
+Untag the provided addresses before searching.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- fs/namespace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/core/devio.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 99186556f8d3..51f763fb9430 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -2672,7 +2672,7 @@ void *copy_mount_options(const void __user * data)
- 	 * the remainder of the page.
- 	 */
- 	/* copy_from_user cannot cross TASK_SIZE ! */
--	size = TASK_SIZE - (unsigned long)data;
-+	size = TASK_SIZE - (unsigned long)untagged_addr(data);
- 	if (size > PAGE_SIZE)
- 		size = PAGE_SIZE;
+diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+index 6ce77b33da61..ed5ab7c8100b 100644
+--- a/drivers/usb/core/devio.c
++++ b/drivers/usb/core/devio.c
+@@ -1405,7 +1405,7 @@ find_memory_area(struct usb_dev_state *ps, const struct usbdevfs_urb *uurb)
+ {
+ 	struct usb_memory *usbm = NULL, *iter;
+ 	unsigned long flags;
+-	unsigned long uurb_start = (unsigned long)uurb->buffer;
++	unsigned long uurb_start = (unsigned long)untagged_addr(uurb->buffer);
  
+ 	spin_lock_irqsave(&ps->lock, flags);
+ 	list_for_each_entry(iter, &ps->memory_list, memlist) {
+@@ -1634,7 +1634,8 @@ static int proc_do_submiturb(struct usb_dev_state *ps, struct usbdevfs_urb *uurb
+ 		}
+ 	} else if (uurb->buffer_length > 0) {
+ 		if (as->usbm) {
+-			unsigned long uurb_start = (unsigned long)uurb->buffer;
++			unsigned long uurb_start =
++				(unsigned long)untagged_addr(uurb->buffer);
+ 
+ 			as->urb->transfer_buffer = as->usbm->mem +
+ 					(uurb_start - as->usbm->vm_start);
+@@ -1713,7 +1714,8 @@ static int proc_do_submiturb(struct usb_dev_state *ps, struct usbdevfs_urb *uurb
+ 	as->ps = ps;
+ 	as->userurb = arg;
+ 	if (as->usbm) {
+-		unsigned long uurb_start = (unsigned long)uurb->buffer;
++		unsigned long uurb_start =
++			(unsigned long)untagged_addr(uurb->buffer);
+ 
+ 		as->urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
+ 		as->urb->transfer_dma = as->usbm->dma_handle +
 -- 
 2.19.0.rc0.228.g281dcd1b4d0-goog
 
