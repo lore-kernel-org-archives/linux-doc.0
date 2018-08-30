@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9D0477DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 11:42:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C3317D581
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 11:42:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728688AbeH3PnU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 11:43:20 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46790 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728623AbeH3PnT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:43:19 -0400
-Received: by mail-wr1-f68.google.com with SMTP id a108-v6so7728058wrc.13
-        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 04:41:36 -0700 (PDT)
+        id S1728615AbeH3Pny (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 11:43:54 -0400
+Received: from mail-wm0-f50.google.com ([74.125.82.50]:39533 "EHLO
+        mail-wm0-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728466AbeH3PnN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Aug 2018 11:43:13 -0400
+Received: by mail-wm0-f50.google.com with SMTP id q8-v6so1681265wmq.4
+        for <linux-doc@vger.kernel.org>; Thu, 30 Aug 2018 04:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7j7XmdTnSVmbmp015wk6qie+oiQQcCjLk4bzMit5h2s=;
-        b=BVW0OkFljrINNZdwpZG1fLFvC/nUNg+PNl5V7e4irtxMf/8ds5fOmDiRg0jiFxSrpC
-         AoYJuALMe+AwwNcfL+XFZr5OzegbBxhqq4zyR3efYXh1fkP+iudAXgQaGXgjA0W+3l/D
-         WukQPVBIbghbxssWNq1MCLUOyqolxuuPzS34fFrWgLDrwmu1SE0O2z3sdJMrXC1j3irA
-         q1hnmunuGfmDepy467DjEY/c1lMVlc9uRJcbBb/wHYMZetaFrAnnEbaGp+N/IU4nvYzN
-         ELf+B+wUUsGUHENjxGoO9fJ1uoV7CDg40dpQ2QR74jOyv51pz1LyZw4GDWYM8APpnIYu
-         zuMA==
+        bh=5dvluYXXhbs3bkFHe7bYXbDtGM4AV4lqI04lFKRyGa0=;
+        b=FrgdPh5TBPIr4rtMd7tklQtyRgar4ZAsFHKz1PwEj3+VC5jau9Dry3d3VxRWxcx9DN
+         aM7aeZudTWm7p/kNyIHKV/3zc+Y5VxHMcMOGT00Raehj8yCHK4qQRjbgPVV2KLJMxAqa
+         3Rgdu4UCrXM9AqoS+dFhMRoW3rJ0nq+cpf74SiEB/jzedt9fBg4Hfm/m/pENAIQSu++0
+         oMrCJovZb3IkPM50eWmd/9DzfAZugaZLcIZhmav9Cf0kn8UP4YxUMn9mjnercwABxtdG
+         oWWF4BHN5MPrFvo1HQRM1riSm10AId1VXqNCaVpDU0IN56koQpJ+E8OSG+nLyWo4zchm
+         X6TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7j7XmdTnSVmbmp015wk6qie+oiQQcCjLk4bzMit5h2s=;
-        b=eOQvaL/zpnA+DYiJC3QCksYDuME3ZVEBd+pCCLoacNLLW4cjFPQRezXX9vVtD8SNxi
-         R3yz8BDpp4DDgeUwPPY3slramC4DZ8RBBZxHLK2lrtjOhrunnF39pmmdae+H9y9BWIbW
-         l0moMliDlP6k3v2I9qx0G6sxldIq9M5+txmAmyci/LdwB+LMi0GuhPFDfVtmafjNSfRU
-         8R6bdehfJLD3ZSCHind2TpX2PIWVm4SI+x0qw6l3SpWIekL4Aa6sEGAyLasLYcj7uxp/
-         5VuQXlsL+Q4zeSHsgbV8dvTpMzF8xKQnX8C5pSoeJ6bHQKNuDTRiWkcFe4mEOLYFoFkN
-         Ncdg==
-X-Gm-Message-State: APzg51CSoJBCoAGirO4+2gnz55T5sccPe+8zhpW12pGV2hlJoLXiaS81
-        WXESeAPcWBQrASofhEMyqAs8uQ==
-X-Google-Smtp-Source: ANB0VdaasFCpPPAdrf+W+nL5HWuIz30Gs7DZp4dQAqVCpoXf0LEuYlfMYwsCQB2tjDdTqw5MKflljw==
-X-Received: by 2002:adf:ad8e:: with SMTP id w14-v6mr7818521wrc.178.1535629295169;
-        Thu, 30 Aug 2018 04:41:35 -0700 (PDT)
+        bh=5dvluYXXhbs3bkFHe7bYXbDtGM4AV4lqI04lFKRyGa0=;
+        b=lk1AvsFVlW6xsxBIDh6iZQSWIxkC5fCWRm1GgG9e9QBLyp7duOHOkXV4b//2Lc+V12
+         yWA4MdGJqxNEyg5Ov9f7x0xtMIGTM95wupjSOV60iGdIVmdaHOHo4eaiQghlZvXPCTUh
+         wUc5Dt636xsmpKz6OkhtwoiSu+b/bSYhbZu3/uG/ksVVWJ0z7WD9P97qZgUlpz/7/QX2
+         /H0Re3/AbEIhbZndDwqWrvvrUTQuZitlzNTfiKy2qj7Ordd26JyJJK9jmiAxMujGel69
+         ghegd7W0cn9FaO30R69HLk3WvJHQb80BL230yArA6CSTkOZUVY8uo4t8mrCoiOYvOf5S
+         enWA==
+X-Gm-Message-State: APzg51D3WFYrPbgQmBFbxDn0mW1+/RWZs6zLnCOiaSOBiMqMLT3csw7r
+        vAKd77iX4Bo1bz9rA5/GBIj9lQ==
+X-Google-Smtp-Source: ANB0VdaAurM5wWvTbuaKJB5Eic+D12Dz24+pkaychw8uSDgku8eMYRWKoLaud5DLPVltKXfKUxcYpw==
+X-Received: by 2002:a1c:b143:: with SMTP id a64-v6mr1645342wmf.114.1535629288159;
+        Thu, 30 Aug 2018 04:41:28 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id z184-v6sm2175218wmz.0.2018.08.30.04.41.34
+        by smtp.gmail.com with ESMTPSA id z184-v6sm2175218wmz.0.2018.08.30.04.41.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 Aug 2018 04:41:34 -0700 (PDT)
+        Thu, 30 Aug 2018 04:41:27 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,9 +73,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v6 10/11] selftests, arm64: add a selftest for passing tagged pointers to kernel
-Date:   Thu, 30 Aug 2018 13:41:15 +0200
-Message-Id: <087a7b141ae275a2ea2b53c9df96a1fbce9dc79a.1535629099.git.andreyknvl@google.com>
+Subject: [PATCH v6 05/11] lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
+Date:   Thu, 30 Aug 2018 13:41:10 +0200
+Message-Id: <a31c2ab78925e0df0a9164e7ee402141ca1b0d6b.1535629099.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.0.rc0.228.g281dcd1b4d0-goog
 In-Reply-To: <cover.1535629099.git.andreyknvl@google.com>
 References: <cover.1535629099.git.andreyknvl@google.com>
@@ -86,89 +86,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds a simple test, that calls the uname syscall with a
-tagged user pointer as an argument. Without the kernel accepting tagged
-user pointers the test fails with EFAULT.
+strncpy_from_user and strnlen_user accept user addresses as arguments, and
+do not go through the same path as copy_from_user and others, so here we
+need to handle the case of tagged user addresses separately.
+
+Untag user pointers passed to these functions.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- tools/testing/selftests/arm64/.gitignore      |  1 +
- tools/testing/selftests/arm64/Makefile        | 11 +++++++++++
- .../testing/selftests/arm64/run_tags_test.sh  | 12 ++++++++++++
- tools/testing/selftests/arm64/tags_test.c     | 19 +++++++++++++++++++
- 4 files changed, 43 insertions(+)
- create mode 100644 tools/testing/selftests/arm64/.gitignore
- create mode 100644 tools/testing/selftests/arm64/Makefile
- create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
- create mode 100644 tools/testing/selftests/arm64/tags_test.c
+ lib/strncpy_from_user.c | 2 ++
+ lib/strnlen_user.c      | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/tools/testing/selftests/arm64/.gitignore b/tools/testing/selftests/arm64/.gitignore
-new file mode 100644
-index 000000000000..e8fae8d61ed6
---- /dev/null
-+++ b/tools/testing/selftests/arm64/.gitignore
-@@ -0,0 +1 @@
-+tags_test
-diff --git a/tools/testing/selftests/arm64/Makefile b/tools/testing/selftests/arm64/Makefile
-new file mode 100644
-index 000000000000..a61b2e743e99
---- /dev/null
-+++ b/tools/testing/selftests/arm64/Makefile
-@@ -0,0 +1,11 @@
-+# SPDX-License-Identifier: GPL-2.0
+diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
+index b53e1b5d80f4..97467cd2bc59 100644
+--- a/lib/strncpy_from_user.c
++++ b/lib/strncpy_from_user.c
+@@ -106,6 +106,8 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
+ 	if (unlikely(count <= 0))
+ 		return 0;
+ 
++	src = untagged_addr(src);
 +
-+# ARCH can be overridden by the user for cross compiling
-+ARCH ?= $(shell uname -m 2>/dev/null || echo not)
+ 	max_addr = user_addr_max();
+ 	src_addr = (unsigned long)src;
+ 	if (likely(src_addr < max_addr)) {
+diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
+index 60d0bbda8f5e..8b5f56466e00 100644
+--- a/lib/strnlen_user.c
++++ b/lib/strnlen_user.c
+@@ -108,6 +108,8 @@ long strnlen_user(const char __user *str, long count)
+ 	if (unlikely(count <= 0))
+ 		return 0;
+ 
++	str = untagged_addr(str);
 +
-+ifneq (,$(filter $(ARCH),aarch64 arm64))
-+TEST_GEN_PROGS := tags_test
-+TEST_PROGS := run_tags_test.sh
-+endif
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/arm64/run_tags_test.sh b/tools/testing/selftests/arm64/run_tags_test.sh
-new file mode 100755
-index 000000000000..745f11379930
---- /dev/null
-+++ b/tools/testing/selftests/arm64/run_tags_test.sh
-@@ -0,0 +1,12 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+
-+echo "--------------------"
-+echo "running tags test"
-+echo "--------------------"
-+./tags_test
-+if [ $? -ne 0 ]; then
-+	echo "[FAIL]"
-+else
-+	echo "[PASS]"
-+fi
-diff --git a/tools/testing/selftests/arm64/tags_test.c b/tools/testing/selftests/arm64/tags_test.c
-new file mode 100644
-index 000000000000..1452ed7d33f9
---- /dev/null
-+++ b/tools/testing/selftests/arm64/tags_test.c
-@@ -0,0 +1,19 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <stdint.h>
-+#include <sys/utsname.h>
-+
-+#define SHIFT_TAG(tag)		((uint64_t)(tag) << 56)
-+#define SET_TAG(ptr, tag)	(((uint64_t)(ptr) & ~SHIFT_TAG(0xff)) | \
-+					SHIFT_TAG(tag))
-+
-+int main(void)
-+{
-+	struct utsname utsname;
-+	void *ptr = &utsname;
-+	void *tagged_ptr = (void *)SET_TAG(ptr, 0x42);
-+	int err = uname(tagged_ptr);
-+	return err;
-+}
+ 	max_addr = user_addr_max();
+ 	src_addr = (unsigned long)str;
+ 	if (likely(src_addr < max_addr)) {
 -- 
 2.19.0.rc0.228.g281dcd1b4d0-goog
 
