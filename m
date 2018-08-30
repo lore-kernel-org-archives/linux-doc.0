@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 46B517DE78
+	by archive.lwn.net (Postfix) with ESMTP id 714667DE7B
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 21:56:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727809AbeHaB7o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 21:59:44 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:52912 "EHLO mx1.redhat.com"
+        id S1727953AbeHaB7z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 21:59:55 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:49820 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727565AbeHaB7o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Aug 2018 21:59:44 -0400
+        id S1727810AbeHaB7p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Aug 2018 21:59:45 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5A91640216E7;
-        Thu, 30 Aug 2018 21:55:28 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 80BB67DAC2;
+        Thu, 30 Aug 2018 21:55:29 +0000 (UTC)
 Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BE6BD2157F4A;
-        Thu, 30 Aug 2018 21:55:27 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EAFEE2157F4A;
+        Thu, 30 Aug 2018 21:55:28 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>
@@ -41,53 +41,127 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>,
         Michal Hocko <mhocko@kernel.org>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v2 2/4] fs: Don't need to put list_lru into its own cacheline
-Date:   Thu, 30 Aug 2018 17:55:05 -0400
-Message-Id: <1535666107-25699-3-git-send-email-longman@redhat.com>
+Subject: [PATCH v2 4/4] fs/dcache: Eliminate branches in nr_dentry_negative accounting
+Date:   Thu, 30 Aug 2018 17:55:07 -0400
+Message-Id: <1535666107-25699-5-git-send-email-longman@redhat.com>
 In-Reply-To: <1535666107-25699-1-git-send-email-longman@redhat.com>
 References: <1535666107-25699-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 30 Aug 2018 21:55:28 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 30 Aug 2018 21:55:28 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 30 Aug 2018 21:55:29 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 30 Aug 2018 21:55:29 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The list_lru structure is essentially just a pointer to a table of
-per-node LRU lists. Even if CONFIG_MEMCG_KMEM is defined, the list
-field is just used for LRU list registration and shrinker_id is set
-at initialization. Those fields won't need to be touched that often.
+Because the accounting of nr_dentry_negative depends on whether a dentry
+is a negative one or not, branch instructions are introduced to handle
+the accounting conditionally. That may potentially slow down the task
+by a noticeable amount if that introduces sizeable amount of additional
+branch mispredictions.
 
-So there is no point to make the list_lru structures to sit in their
-own cachelines.
+To avoid that, the accounting code is now modified to use conditional
+move instructions instead, if supported by the architecture.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- include/linux/fs.h | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ fs/dcache.c | 41 +++++++++++++++++++++++++++++------------
+ 1 file changed, 29 insertions(+), 12 deletions(-)
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 3332270..fd4cd8a 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1443,11 +1443,12 @@ struct super_block {
- 	struct user_namespace *s_user_ns;
+diff --git a/fs/dcache.c b/fs/dcache.c
+index c1cc956..dfd5628 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -171,6 +171,29 @@ int proc_nr_dentry(struct ctl_table *table, int write, void __user *buffer,
+ 	dentry_stat.nr_negative = get_nr_dentry_negative();
+ 	return proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
+ }
++
++/*
++ * Increment/Decrement nr_dentry_negative if the condition is true.
++ * For architectures that support some kind of conditional move, compiler
++ * should be able generate code to inc/dec negative dentry counter
++ * without any branch instruction.
++ */
++static inline void cond_negative_dentry_inc(bool cond)
++{
++	int val = !!cond;
++
++	this_cpu_add(nr_dentry_negative, val);
++}
++
++static inline void cond_negative_dentry_dec(bool cond)
++{
++	int val = !!cond;
++
++	this_cpu_sub(nr_dentry_negative, val);
++}
++#else
++static inline void cond_negative_dentry_inc(bool cond) { }
++static inline void cond_negative_dentry_dec(bool cond) { }
+ #endif
  
+ /*
+@@ -343,8 +366,7 @@ static inline void __d_clear_type_and_inode(struct dentry *dentry)
+ 	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
+ 	WRITE_ONCE(dentry->d_flags, flags);
+ 	dentry->d_inode = NULL;
+-	if (dentry->d_flags & DCACHE_LRU_LIST)
+-		this_cpu_inc(nr_dentry_negative);
++	cond_negative_dentry_inc(dentry->d_flags & DCACHE_LRU_LIST);
+ }
+ 
+ static void dentry_free(struct dentry *dentry)
+@@ -412,8 +434,7 @@ static void d_lru_add(struct dentry *dentry)
+ 	D_FLAG_VERIFY(dentry, 0);
+ 	dentry->d_flags |= DCACHE_LRU_LIST;
+ 	this_cpu_inc(nr_dentry_unused);
+-	if (d_is_negative(dentry))
+-		this_cpu_inc(nr_dentry_negative);
++	cond_negative_dentry_inc(d_is_negative(dentry));
+ 	WARN_ON_ONCE(!list_lru_add(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
+ }
+ 
+@@ -422,8 +443,7 @@ static void d_lru_del(struct dentry *dentry)
+ 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
+ 	dentry->d_flags &= ~DCACHE_LRU_LIST;
+ 	this_cpu_dec(nr_dentry_unused);
+-	if (d_is_negative(dentry))
+-		this_cpu_dec(nr_dentry_negative);
++	cond_negative_dentry_dec(d_is_negative(dentry));
+ 	WARN_ON_ONCE(!list_lru_del(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
+ }
+ 
+@@ -454,8 +474,7 @@ static void d_lru_isolate(struct list_lru_one *lru, struct dentry *dentry)
+ 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
+ 	dentry->d_flags &= ~DCACHE_LRU_LIST;
+ 	this_cpu_dec(nr_dentry_unused);
+-	if (d_is_negative(dentry))
+-		this_cpu_dec(nr_dentry_negative);
++	cond_negative_dentry_dec(d_is_negative(dentry));
+ 	list_lru_isolate(lru, &dentry->d_lru);
+ }
+ 
+@@ -464,8 +483,7 @@ static void d_lru_shrink_move(struct list_lru_one *lru, struct dentry *dentry,
+ {
+ 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
+ 	dentry->d_flags |= DCACHE_SHRINK_LIST;
+-	if (d_is_negative(dentry))
+-		this_cpu_dec(nr_dentry_negative);
++	cond_negative_dentry_dec(d_is_negative(dentry));
+ 	list_lru_isolate_move(lru, &dentry->d_lru, list);
+ }
+ 
+@@ -1865,8 +1883,7 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
  	/*
--	 * Keep the lru lists last in the structure so they always sit on their
--	 * own individual cachelines.
-+	 * The list_lru structure is essentially just a pointer to a table
-+	 * of per-node lru lists, each of which has its own spinlock.
-+	 * There is no need to put them into separate cachelines.
+ 	 * Decrement negative dentry count if it was in the LRU list.
  	 */
--	struct list_lru		s_dentry_lru ____cacheline_aligned_in_smp;
--	struct list_lru		s_inode_lru ____cacheline_aligned_in_smp;
-+	struct list_lru		s_dentry_lru;
-+	struct list_lru		s_inode_lru;
- 	struct rcu_head		rcu;
- 	struct work_struct	destroy_work;
- 
+-	if (dentry->d_flags & DCACHE_LRU_LIST)
+-		this_cpu_dec(nr_dentry_negative);
++	cond_negative_dentry_dec(dentry->d_flags & DCACHE_LRU_LIST);
+ 	hlist_add_head(&dentry->d_u.d_alias, &inode->i_dentry);
+ 	raw_write_seqcount_begin(&dentry->d_seq);
+ 	__d_set_inode_and_type(dentry, inode, add_flags);
 -- 
 1.8.3.1
 
