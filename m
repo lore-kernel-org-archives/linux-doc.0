@@ -5,130 +5,229 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 54C227D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 14:03:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DA8C07DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 Aug 2018 14:44:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728991AbeH3SFk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 Aug 2018 14:05:40 -0400
-Received: from mga01.intel.com ([192.55.52.88]:33760 "EHLO mga01.intel.com"
+        id S1729513AbeH3SqQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 Aug 2018 14:46:16 -0400
+Received: from mga17.intel.com ([192.55.52.151]:62774 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728962AbeH3SFk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Aug 2018 14:05:40 -0400
+        id S1729473AbeH3SqQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Aug 2018 14:46:16 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 07:03:08 -0700
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2018 07:43:44 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.53,307,1531810800"; 
-   d="scan'208";a="66339860"
-Received: from marshy.an.intel.com (HELO [10.122.105.159]) ([10.122.105.159])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Aug 2018 07:03:07 -0700
-Subject: Re: [PATCHv8 7/9] defconfig: enable fpga and service layer
-To:     Dinh Nguyen <dinguyen@kernel.org>, gregkh@linuxfoundation.org,
-        catalin.marinas@arm.com, will.deacon@arm.com, robh+dt@kernel.org,
-        mark.rutland@arm.com, atull@kernel.org, mdf@kernel.org,
-        arnd@arndb.de, corbet@lwn.net
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, yves.vandervennet@linux.intel.com,
-        richard.gong@intel.com
-References: <1535464245-11638-1-git-send-email-richard.gong@linux.intel.com>
- <1535464245-11638-8-git-send-email-richard.gong@linux.intel.com>
- <54ccf9d5-1cf4-edf6-47c6-be7cc5badb3e@kernel.org>
-From:   Richard Gong <richard.gong@linux.intel.com>
-Message-ID: <18b2948c-07dc-dc23-6a36-04e8295705f3@linux.intel.com>
-Date:   Thu, 30 Aug 2018 09:05:55 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <54ccf9d5-1cf4-edf6-47c6-be7cc5badb3e@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+   d="scan'208";a="67186742"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2018 07:43:44 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v3 24/24] x86/cet/shstk: Add Shadow Stack instructions to opcode map
+Date:   Thu, 30 Aug 2018 07:39:04 -0700
+Message-Id: <20180830143904.3168-25-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180830143904.3168-1-yu-cheng.yu@intel.com>
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add the following shadow stack management instructions.
 
+INCSSP:
+    Increment shadow stack pointer by the steps specified.
 
-On 08/28/2018 09:11 AM, Dinh Nguyen wrote:
-> 
-> 
-> On 08/28/2018 08:50 AM, richard.gong@linux.intel.com wrote:
->> From: Richard Gong <richard.gong@intel.com>
->>
->> Enable fpga framework, Stratix 10 SoC FPGA manager and Stratix10
->> Service Layer
->>
-> 
-> Please update your commit header be "arm64: defconfig: enable fpga and
-> service layer"
+RDSSP:
+    Read SSP register into a GPR.
 
-Ok, I will make update in the next submission.
+SAVEPREVSSP:
+    Use "prev ssp" token at top of current shadow stack to
+    create a "restore token" on previous shadow stack.
 
-> 
-> 
->> Signed-off-by: Richard Gong <richard.gong@intel.com>
->> Signed-off-by: Alan Tull <atull@kernel.org>
->> ---
->> v2: this patch is added in patch set version 2
->> v3: no change
->> v4: s/CONFIG_INTEL_SERVICE/CONFIG_STRATIX10_SERVICE/
->>      add CONFIG_OF_FPGA_REGION=y
->>      s/Intel/Stratix10/ in subject line
->> v5: no change
->> v6: no change
->> v7: no change
->> v8: no change
->> ---
->>   arch/arm64/configs/defconfig | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
->> index f67e8d5..2ad50a5 100644
->> --- a/arch/arm64/configs/defconfig
->> +++ b/arch/arm64/configs/defconfig
->> @@ -185,6 +185,7 @@ CONFIG_BLK_DEV_LOOP=y
->>   CONFIG_BLK_DEV_NBD=m
->>   CONFIG_VIRTIO_BLK=y
->>   CONFIG_BLK_DEV_NVME=m
->> +CONFIG_STRATIX10_SERVICE=y
-> 
-> Can this be a module?
+RSTORSSP:
+    Restore from a "restore token" pointed by a GPR to SSP.
 
-No, Service layer driver need be compiled as part of kernel image.
+WRSS:
+    Write to kernel-mode shadow stack (kernel-mode instruction).
 
-Service layer driver provides services for service clients, it must be 
-loaded & initialized before service clients (FPGA manager and remote 
-status update drivers).
+WRUSS:
+    Write to user-mode shadow stack (kernel-mode instruction).
 
-> 
->>   CONFIG_SRAM=y
->>   CONFIG_EEPROM_AT25=m
->>   # CONFIG_SCSI_PROC_FS is not set
->> @@ -642,6 +643,12 @@ CONFIG_PHY_TEGRA_XUSB=y
->>   CONFIG_HISI_PMU=y
->>   CONFIG_QCOM_L2_PMU=y
->>   CONFIG_QCOM_L3_PMU=y
->> +CONFIG_MESON_EFUSE=m
-> 
-> What does this change have to do with this patch?
+SETSSBSY:
+    Verify the "supervisor token" pointed by IA32_PL0_SSP MSR,
+    if valid, set the token to busy, and set SSP to the value
+    of IA32_PL0_SSP MSR.
 
-My mistake, I will fix in the next submission.
+CLRSSBSY:
+    Verify the "supervisor token" pointed by a GPR, if valid,
+    clear the busy bit from the token.
 
-> 
->> +CONFIG_FPGA=y
->> +CONFIG_FPGA_MGR_STRATIX10_SOC=y
->> +CONFIG_FPGA_REGION=y
->> +CONFIG_FPGA_BRIDGE=y
->> +CONFIG_OF_FPGA_REGION=y
-> 
-> Can these be modules?
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+---
+ arch/x86/lib/x86-opcode-map.txt               | 26 +++++++++++++------
+ tools/objtool/arch/x86/lib/x86-opcode-map.txt | 26 +++++++++++++------
+ 2 files changed, 36 insertions(+), 16 deletions(-)
 
-CONFIG_FPGA_MGR_STRATIX10_SOC could be module, but the remaining 
-components need be compiled as part of kernel image.
+diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+index e0b85930dd77..c5e825d44766 100644
+--- a/arch/x86/lib/x86-opcode-map.txt
++++ b/arch/x86/lib/x86-opcode-map.txt
+@@ -366,7 +366,7 @@ AVXcode: 1
+ 1b: BNDCN Gv,Ev (F2) | BNDMOV Ev,Gv (66) | BNDMK Gv,Ev (F3) | BNDSTX Ev,Gv
+ 1c:
+ 1d:
+-1e:
++1e: RDSSP Rd (F3),REX.W
+ 1f: NOP Ev
+ # 0x0f 0x20-0x2f
+ 20: MOV Rd,Cd
+@@ -610,7 +610,17 @@ fe: paddd Pq,Qq | vpaddd Vx,Hx,Wx (66),(v1)
+ ff: UD0
+ EndTable
+ 
+-Table: 3-byte opcode 1 (0x0f 0x38)
++Table: 3-byte opcode 1 (0x0f 0x01)
++Referrer:
++AVXcode:
++# Skip 0x00-0xe7
++e8: SETSSBSY (f3)
++e9:
++ea: SAVEPREVSSP (f3)
++# Skip 0xeb-0xff
++EndTable
++
++Table: 3-byte opcode 2 (0x0f 0x38)
+ Referrer: 3-byte escape 1
+ AVXcode: 2
+ # 0x0f 0x38 0x00-0x0f
+@@ -789,12 +799,12 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
+ f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+ f2: ANDN Gy,By,Ey (v)
+ f3: Grp17 (1A)
+-f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
+-f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
++f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
++f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq (66),REX.W
+ f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+ EndTable
+ 
+-Table: 3-byte opcode 2 (0x0f 0x3a)
++Table: 3-byte opcode 3 (0x0f 0x3a)
+ Referrer: 3-byte escape 2
+ AVXcode: 3
+ # 0x0f 0x3a 0x00-0xff
+@@ -948,7 +958,7 @@ GrpTable: Grp7
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
+-5: rdpkru (110),(11B) | wrpkru (111),(11B)
++5: rdpkru (110),(11B) | wrpkru (111),(11B) | RSTORSSP Mq (F3)
+ 6: LMSW Ew
+ 7: INVLPG Mb | SWAPGS (o64),(000),(11B) | RDTSCP (001),(11B)
+ EndTable
+@@ -1019,8 +1029,8 @@ GrpTable: Grp15
+ 2: vldmxcsr Md (v1) | WRFSBASE Ry (F3),(11B)
+ 3: vstmxcsr Md (v1) | WRGSBASE Ry (F3),(11B)
+ 4: XSAVE | ptwrite Ey (F3),(11B)
+-5: XRSTOR | lfence (11B)
+-6: XSAVEOPT | clwb (66) | mfence (11B)
++5: XRSTOR | lfence (11B) | INCSSP Rd (F3),REX.W
++6: XSAVEOPT | clwb (66) | mfence (11B) | CLRSSBSY Mq (F3)
+ 7: clflush | clflushopt (66) | sfence (11B)
+ EndTable
+ 
+diff --git a/tools/objtool/arch/x86/lib/x86-opcode-map.txt b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+index e0b85930dd77..c5e825d44766 100644
+--- a/tools/objtool/arch/x86/lib/x86-opcode-map.txt
++++ b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+@@ -366,7 +366,7 @@ AVXcode: 1
+ 1b: BNDCN Gv,Ev (F2) | BNDMOV Ev,Gv (66) | BNDMK Gv,Ev (F3) | BNDSTX Ev,Gv
+ 1c:
+ 1d:
+-1e:
++1e: RDSSP Rd (F3),REX.W
+ 1f: NOP Ev
+ # 0x0f 0x20-0x2f
+ 20: MOV Rd,Cd
+@@ -610,7 +610,17 @@ fe: paddd Pq,Qq | vpaddd Vx,Hx,Wx (66),(v1)
+ ff: UD0
+ EndTable
+ 
+-Table: 3-byte opcode 1 (0x0f 0x38)
++Table: 3-byte opcode 1 (0x0f 0x01)
++Referrer:
++AVXcode:
++# Skip 0x00-0xe7
++e8: SETSSBSY (f3)
++e9:
++ea: SAVEPREVSSP (f3)
++# Skip 0xeb-0xff
++EndTable
++
++Table: 3-byte opcode 2 (0x0f 0x38)
+ Referrer: 3-byte escape 1
+ AVXcode: 2
+ # 0x0f 0x38 0x00-0x0f
+@@ -789,12 +799,12 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
+ f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+ f2: ANDN Gy,By,Ey (v)
+ f3: Grp17 (1A)
+-f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
+-f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
++f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
++f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq (66),REX.W
+ f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+ EndTable
+ 
+-Table: 3-byte opcode 2 (0x0f 0x3a)
++Table: 3-byte opcode 3 (0x0f 0x3a)
+ Referrer: 3-byte escape 2
+ AVXcode: 3
+ # 0x0f 0x3a 0x00-0xff
+@@ -948,7 +958,7 @@ GrpTable: Grp7
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
+-5: rdpkru (110),(11B) | wrpkru (111),(11B)
++5: rdpkru (110),(11B) | wrpkru (111),(11B) | RSTORSSP Mq (F3)
+ 6: LMSW Ew
+ 7: INVLPG Mb | SWAPGS (o64),(000),(11B) | RDTSCP (001),(11B)
+ EndTable
+@@ -1019,8 +1029,8 @@ GrpTable: Grp15
+ 2: vldmxcsr Md (v1) | WRFSBASE Ry (F3),(11B)
+ 3: vstmxcsr Md (v1) | WRGSBASE Ry (F3),(11B)
+ 4: XSAVE | ptwrite Ey (F3),(11B)
+-5: XRSTOR | lfence (11B)
+-6: XSAVEOPT | clwb (66) | mfence (11B)
++5: XRSTOR | lfence (11B) | INCSSP Rd (F3),REX.W
++6: XSAVEOPT | clwb (66) | mfence (11B) | CLRSSBSY Mq (F3)
+ 7: clflush | clflushopt (66) | sfence (11B)
+ EndTable
+ 
+-- 
+2.17.1
 
-> 
-> Dinh
-> 
