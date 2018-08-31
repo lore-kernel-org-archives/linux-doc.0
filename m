@@ -1,63 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 630737D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 08:01:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 445AB7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 08:12:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727486AbeHaMHi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 08:07:38 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:38968 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727233AbeHaMHi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Aug 2018 08:07:38 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2C9E87DAC2;
-        Fri, 31 Aug 2018 08:01:25 +0000 (UTC)
-Received: from 192.168.1.3 (ovpn-8-27.pek2.redhat.com [10.72.8.27])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9A2A710876A;
-        Fri, 31 Aug 2018 08:01:22 +0000 (UTC)
-From:   Baoquan He <bhe@redhat.com>
-To:     jglisse@redhat.com, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Baoquan He <bhe@redhat.com>
-Subject: [PATCH] docs/vm/hmm.rst: Add missed space
-Date:   Fri, 31 Aug 2018 16:01:19 +0800
-Message-Id: <20180831080119.6522-1-bhe@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 31 Aug 2018 08:01:25 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 31 Aug 2018 08:01:25 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'bhe@redhat.com' RCPT:''
+        id S1727512AbeHaMRo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 08:17:44 -0400
+Received: from mail-wm0-f67.google.com ([74.125.82.67]:50714 "EHLO
+        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727455AbeHaMRo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 08:17:44 -0400
+Received: by mail-wm0-f67.google.com with SMTP id s12-v6so4335780wmc.0;
+        Fri, 31 Aug 2018 01:11:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HWHotFyCbeXwo93md5yZJNBdp4L42J0NdqG+r75AZcw=;
+        b=i6c26jQWF0Iu5z1TComV5mWy06NhZ6Ued+k6DJhLYX8383U9La+ZYB/DedYYKTed/Q
+         CRFyNax2kZsUZhL5ZKr1myZ0itbCcnENl82I5FqUiuDBu4qXIyemN80ufQpxPjmKsB2P
+         jbJ72Edsc4PbXJrq8O3uBcs4V3tvHuQvgrdoaedjxbqUb3EIht1Rxp5YFQWGoaNobbyo
+         jcAklOWNYXNNq1xjaUa3YEMSdLp5jdQoO+83Q1memp4HP6vwtgZ9Td+MwP0Z7+ebcvsX
+         SVYxvFpaNhBPZ6NW6I7FeuaFub3PQCsWHxbnR2TgeIwtZhCiT0PVW80BxeySdHTUgpvl
+         H+lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HWHotFyCbeXwo93md5yZJNBdp4L42J0NdqG+r75AZcw=;
+        b=DDoe/3yfhPxmwXgk72nuJp91aoVNqPyUJGc3JlLf9oeAqqCxETEi/4Y7w/xExWuzs3
+         QDf5WM+31DmFeET6cyNFz2Liiyj1iafGxN9VQwh1QKsN+rCbxLrUeVlOgpTSZAlASs9D
+         /GEVhXKRGaClzbQBXZsic74iiJ2YdeKgpYJJr8zHUTWORFwNNN3CUXtLiQUsgcyXcbDu
+         58C8+U2Eaw2obUOmE3F8OjdfgSQZtMuAygZUFj5Bn+278jDf+sPPYZYGF+EmlJL5y39t
+         d9LaSneyRfKGBbFNrVjT5GJmJoLb9E7Pi+Ekcbth1hYMafL8u4HCE06dbnS23qk440TF
+         eGwg==
+X-Gm-Message-State: APzg51A8DR/YaShO7YxyidO2qeQGM7Et25LItQDayaReLLAkgpDMomSB
+        A8DiN9jaq26rgJDbUXJcJp8=
+X-Google-Smtp-Source: ANB0VdZyC0gkqfYbJfQc0tcE49aZjO+0//Xw4TP/LnxrazxM4lifPw/5F4k35a8sIajf8MkHUJcDUQ==
+X-Received: by 2002:a7b:c096:: with SMTP id r22-v6mr3508005wmh.118.1535703086966;
+        Fri, 31 Aug 2018 01:11:26 -0700 (PDT)
+Received: from ltop.local ([2a02:a03f:4006:df00:41c4:f3ec:dcc3:6a2f])
+        by smtp.gmail.com with ESMTPSA id l130-v6sm5093490wmd.16.2018.08.31.01.11.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 31 Aug 2018 01:11:26 -0700 (PDT)
+Date:   Fri, 31 Aug 2018 10:11:24 +0200
+From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
+ sparse
+Message-ID: <20180831081123.6mo62xnk54pvlxmc@ltop.local>
+References: <cover.1535629099.git.andreyknvl@google.com>
+ <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+User-Agent: NeoMutt/20180622
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This space missing caused the colour scheme in vim editor messy
-after that line. Add it to fix.
+On Thu, Aug 30, 2018 at 01:41:16PM +0200, Andrey Konovalov wrote:
+> This patch adds __force annotations for __user pointers casts detected by
+> sparse with the -Wcast-from-as flag enabled (added in [1]).
+> 
+> [1] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
 
-Signed-off-by: Baoquan He <bhe@redhat.com>
----
- Documentation/vm/hmm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
-index cdf3911582c8..63e8d44c4fba 100644
---- a/Documentation/vm/hmm.rst
-+++ b/Documentation/vm/hmm.rst
-@@ -194,7 +194,7 @@ use either::
-                       unsigned long start,
-                       unsigned long end,
-                       hmm_pfn_t *pfns);
-- int hmm_vma_fault(struct vm_area_struct *vma,
-+  int hmm_vma_fault(struct vm_area_struct *vma,
-                    struct hmm_range *range,
-                    unsigned long start,
-                    unsigned long end,
--- 
-2.13.6
+It would be nice to have some explanation for why these added __force
+are useful.
 
+-- Luc Van Oostenryck
