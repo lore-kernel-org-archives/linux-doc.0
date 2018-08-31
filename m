@@ -1,87 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC4917D87A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 13:43:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EBD677D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 14:31:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727950AbeHaRuf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 13:50:35 -0400
-Received: from zeniv.linux.org.uk ([195.92.253.2]:58766 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727475AbeHaRuf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 13:50:35 -0400
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.87 #1 (Red Hat Linux))
-        id 1fvjhF-00006h-0B; Fri, 31 Aug 2018 13:42:45 +0000
-Date:   Fri, 31 Aug 2018 14:42:44 +0100
-From:   Al Viro <viro@ZenIV.linux.org.uk>
-To:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
+        id S1727631AbeHaSiz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 14:38:55 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:46362 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727572AbeHaSiz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 14:38:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=fMCemegQnyuRXe3rpJk0Tz/7i5F8/97y2iTDT7TwqEI=; b=qrHL2/mtkVyQ5+fM3HimAU9Wh
+        zndRRMWqAPECe7OcJ12nNsLtpHIO+/241+5kUuNqmXxK4X/bOCJfwDlau9qe/s2DdkNc1In7J4YzU
+        zWpflyxN0VGGT/LK+8pAK0QAqPdeRBAsf7N4CpYevm5XvWSbrgT7YbdCe8JDZ7jeS2O7PnGuVKO6r
+        Qb8iVv7eiGtV/sNUiWyIYBFK9o19M/hXp+2YyRazhER01+qpmS8clz4ZrlExy+cs+y4l0JXRfQ6s6
+        lUUly45zZMAQC987BB+42B6R5DwlRJfjUsuBLkZlrCAMJ3WyJaYlWGcylIzoTaeymRwiE4OI8BkKF
+        iJwubyLUQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fvkRx-00050N-2U; Fri, 31 Aug 2018 14:31:01 +0000
+Date:   Fri, 31 Aug 2018 07:31:00 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     Waiman Long <longman@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
-Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
- sparse
-Message-ID: <20180831134244.GB19965@ZenIV.linux.org.uk>
-References: <cover.1535629099.git.andreyknvl@google.com>
- <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
- <20180831081123.6mo62xnk54pvlxmc@ltop.local>
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>
+Subject: Re: [PATCH 1/2] fs/dcache: Track & report number of negative dentries
+Message-ID: <20180831143100.GA6379@bombadil.infradead.org>
+References: <1535476780-5773-1-git-send-email-longman@redhat.com>
+ <1535476780-5773-2-git-send-email-longman@redhat.com>
+ <20180829001153.GD1572@dastard>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180831081123.6mo62xnk54pvlxmc@ltop.local>
-User-Agent: Mutt/1.9.1 (2017-09-22)
+In-Reply-To: <20180829001153.GD1572@dastard>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 31, 2018 at 10:11:24AM +0200, Luc Van Oostenryck wrote:
-> On Thu, Aug 30, 2018 at 01:41:16PM +0200, Andrey Konovalov wrote:
-> > This patch adds __force annotations for __user pointers casts detected by
-> > sparse with the -Wcast-from-as flag enabled (added in [1]).
-> > 
-> > [1] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
+On Wed, Aug 29, 2018 at 10:11:53AM +1000, Dave Chinner wrote:
+> > +++ b/Documentation/sysctl/fs.txt
+> > @@ -63,19 +63,26 @@ struct {
+> >          int nr_unused;
+> >          int age_limit;         /* age in seconds */
+> >          int want_pages;        /* pages requested by system */
+> > -        int dummy[2];
+> > +        int nr_negative;       /* # of unused negative dentries */
+> > +        int dummy;
+> >  } dentry_stat = {0, 0, 45, 0,};
 > 
-> Hi,
-> 
-> It would be nice to have some explanation for why these added __force
-> are useful.
+> That's not a backwards compatible ABI change. Those dummy fields
+> used to represent some metric we no longer calculate, and there are
+> probably still monitoring apps out there that think they still have
+> the old meaning. i.e. they are still visible to userspace:
 
-	It would be even more useful if that series would either deal with
-the noise for real ("that's what we intend here, that's what we intend there,
-here's a primitive for such-and-such kind of cases, here we actually
-ought to pass __user pointer instead of unsigned long", etc.) or left it
-unmasked.
+I believe you are incorrect.  dentry_stat was introduced in 2.1.60 with
+this hunk:
 
-	As it is, __force says only one thing: "I know the code is doing
-the right thing here".  That belongs in primitives, and I do *not* mean the
-#define cast_to_ulong(x) ((__force unsigned long)(x))
-kind.
++struct {
++       int nr_dentry;
++       int nr_unused;
++       int age_limit;          /* age in seconds */
++       int want_pages;         /* pages requested by system */
++       int dummy[2];
++} dentry_stat = {0, 0, 45, 0,};
++
 
-	Folks, if you don't want to deal with that - leave the warnings be.
-They do carry more information than "someone has slapped __force in that place".
-
-Al, very annoyed by that kind of information-hiding crap...
+Looking through the rest of the dentry_stat changes in the 2.1.60 release,
+it's not replacing anything, it's adding new information.
