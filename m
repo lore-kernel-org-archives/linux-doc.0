@@ -2,91 +2,63 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA9897D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 10:22:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C3997D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 10:26:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728247AbeHaO2V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 10:28:21 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:38483 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727191AbeHaO2V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 10:28:21 -0400
-Received: by mail-lj1-f193.google.com with SMTP id p6-v6so9674688ljc.5;
-        Fri, 31 Aug 2018 03:21:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TYD+xqOtnjhx+b8U7hMv98xh8dj8bFLCKPFwlBspsdk=;
-        b=FqzGzUvGAfXDjFqqpdGkoaY2p/iwh8WBNYVO6sBQ1S1CsYOtPOV0BsiN7AAJ0M5r9q
-         h9yQI4PrX71lTZxRyM28vdLvMdsTF5gJ7+gcPq3ofRVGkaFSjYVm6gPJgKmBAbGxkgyC
-         66/O/1dbPMssjGwbQlFArqU9gtIP8F9A0gg1znCghHP7ajZ1fwbhbMth5QzVfEyb/Un+
-         V4IMExDl2rQlyBrECil7bRAReFQ0XubESnLSLNlY6SBPttNjhOwcEzFRr6/vaH0C7qfu
-         VsMbJtseMxgpc8o0Q3JEafNtnUC/2C1YupkTSB7N1+qKulTWNN4A82mE2yw8Z1ZfPaNq
-         X8AQ==
-X-Gm-Message-State: APzg51BqAnwlvOsbVedR1RGzEqMoyJm8MtwU3djrxW4mTXG2rwz9XqSv
-        TCzgMsR1Qq1WPvwdJ3JcRXw=
-X-Google-Smtp-Source: ANB0VdZH4em3NU2cm7DnXj0eztJ5aC5TfQvZ2SKxTmOc2mtqRlrZPPWZVo8BVghzsSzF4QO5x2txug==
-X-Received: by 2002:a2e:9cd0:: with SMTP id g16-v6mr4972577ljj.110.1535710892177;
-        Fri, 31 Aug 2018 03:21:32 -0700 (PDT)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id t14-v6sm1698004ljg.17.2018.08.31.03.21.30
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 31 Aug 2018 03:21:31 -0700 (PDT)
-Date:   Fri, 31 Aug 2018 13:21:23 +0300
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     kbuild test robot <lkp@intel.com>
-Cc:     kbuild-all@01.org, corbet@lwn.net, mturquette@baylibre.com,
-        sboyd@kernel.org, linux@armlinux.org.uk, andrew.smirnov@gmail.com,
-        robh@kernel.org, sre@kernel.org, linux@roeck-us.net,
-        sjhuang@iluvatar.ai, mazziesaccount@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        heikki.haikola@fi.rohmeurope.com, mikko.mutanen@fi.rohmeurope.com
-Subject: Re: [PATCH 2/2] clk: bd718x7: Initial support for ROHM
- bd71837/bd71847 PMIC clock
-Message-ID: <20180831102123.GA2472@localhost.localdomain>
-References: <0e6f19f99a4321d37472635c9210f6c13ac53147.1535630942.git.matti.vaittinen@fi.rohmeurope.com>
- <201808310820.GfPfChXp%fengguang.wu@intel.com>
+        id S1727804AbeHaOc6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 10:32:58 -0400
+Received: from smtp2.it.da.ut.ee ([193.40.5.67]:49299 "EHLO smtp2.it.da.ut.ee"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727363AbeHaOc6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 Aug 2018 10:32:58 -0400
+Received: from math.ut.ee (unknown [IPv6:2001:bb8:2002:2400:5054:ff:fe3b:8db9])
+        by smtp2.it.da.ut.ee (Postfix) with ESMTP id 17DA290028;
+        Fri, 31 Aug 2018 13:26:07 +0300 (EEST)
+Received: by math.ut.ee (Postfix, from userid 1014)
+        id 0252A220A62; Fri, 31 Aug 2018 13:26:05 +0300 (EEST)
+Received: from localhost (localhost [127.0.0.1])
+        by math.ut.ee (Postfix) with ESMTP id 0B1842204AF;
+        Fri, 31 Aug 2018 13:26:05 +0300 (EEST)
+Date:   Fri, 31 Aug 2018 13:26:04 +0300 (EEST)
+From:   Meelis Roos <mroos@linux.ee>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] kconfig: do not require pkg-config on make
+ {menu,n}config
+In-Reply-To: <1535708095-15847-1-git-send-email-yamada.masahiro@socionext.com>
+Message-ID: <alpine.LRH.2.21.1808311325260.31140@math.ut.ee>
+References: <1535708095-15847-1-git-send-email-yamada.masahiro@socionext.com>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <201808310820.GfPfChXp%fengguang.wu@intel.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello All,
-
-Just wanted to point out for the reviewers that this patch depends on
-not yet accepted MFD/regulator patch. (struct/defines in
-include/linux/mfd/rohm-bd718x7.h were changed)
-https://lore.kernel.org/lkml/cover.1535545377.git.matti.vaittinen@fi.rohmeurope.com/
-
-On Fri, Aug 31, 2018 at 09:18:19AM +0800, kbuild test robot wrote:
-> Hi Matti,
+> Meelis Roos reported a {menu,n}config regression:
 > 
-> Thank you for the patch! Yet something to improve:
+>  "I have libncurses devel package installed in the default system
+>   location (as do 99%+ on actual developers probably) and in this
+>   case, pkg-config is useless.  pkg-config is needed only when
+>   libraries and headers are installed in non-default locations but
+>   it is bad to require installation of pkg-config on all the machines
+>   where make menuconfig would be possibly run."
 > 
-> [auto build test ERROR on clk/clk-next]
-> [also build test ERROR on v4.19-rc1 next-20180830]
-> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-
-Thus this error was expected. What is the generally best way to work
-when there is changes to more than one subsystem? With this approach
-the patch set here won't compile until MFD part gets applied. But if
-I use old definitions/structs here, then clk tree gets broken when
-MFD/regulator part changes defines. I see only bad and worse options =)
-Anyways, I guess sending this patch with new defines (and applying it
-only after MFD) is still better than applying this with old defines and
-breaking it when MFD changes. (Assuming all of the patches get applied
-at some point).
-
-Br,
-	Matti Vaittinen
+> For {menu,n}config, do not use pkg-config if it is not installed.
+> For {g,x}config, keep checking pkg-config since we really rely on it
+> for finding the installation paths of the required packages.
 > 
+> Fixes: 4ab3b80159d4 ("kconfig: check for pkg-config on make {menu,n,g,x}config")
+> Reported-by: Meelis Roos <mroos@linux.ee>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+
+Tested-by: Meelis Roos <mroos@linux.ee>
+
+-- 
+Meelis Roos (mroos@linux.ee)
