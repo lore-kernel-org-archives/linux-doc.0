@@ -1,230 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E81E7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 09:36:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F2B3F7D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 09:53:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727653AbeHaNmy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 09:42:54 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:25947 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726990AbeHaNmy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 09:42:54 -0400
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id w7V9Z69d031784;
-        Fri, 31 Aug 2018 18:35:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com w7V9Z69d031784
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1535708107;
-        bh=4MxuXEdI9XhywhZNAR1bVd8p1o/lMqCnhZzgnSe63ic=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qeBafyHAhDLgGS3V85Kh5N2L8JQ61nOBy259UzWLGjH8E/3b/DZC/zRICI1Vb//C7
-         KrZxFxVeizswbnAZZmdVyxWTPkM1QERoFd4L7OaPDqbb7ayJFHtGaEqd54XRH7NI9H
-         N9ZCCJCqPo3HxhiUr5AwqeMp81VSuNz6VXcEjLXrehamFKuBGXe04pYiryBdVZu7ql
-         tqQUgFgGdaNR01C4FyFfSujvdQNgUEnMiHjfr3ZgnXENGmzWokyQCp9tSet6R9Uynk
-         NqwInexNfWspLhwMYGhhdpEFjSjhJy9VpS8bh3msNzP+uIuS9qkDRvdihvXGy8LwwL
-         H3fS5DQW/z5vA==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Meelis Roos <mroos@linux.ee>, Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] kconfig: do not require pkg-config on make {menu,n}config
-Date:   Fri, 31 Aug 2018 18:34:55 +0900
-Message-Id: <1535708095-15847-1-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727417AbeHaOAa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 10:00:30 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:45760 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727268AbeHaOAa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 10:00:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=1Z9clxjW3U+Fz0CBnB0Xf1KD0++mL+Gum5NfWi0pfRE=; b=PP3cIKmP5FW8cPZQltFqraD5M
+        SBQU8PR7OlGE+W8n5eIueLjaMEnKjNuNFP5eZA5Cu37PMu73qny/kfL1O+HU7unmyruQH4XaPNO83
+        T8gQJ9kPmpC5NEhEyjfjK9y6L830NFfSOQ/hKGtXJPhJ5Yl9eUvr6+0G0cIAZmqn8Fo8wBXlwPKCU
+        q3elfpJ0qy6wFWOnkCFaNsttVrywd1grQSd1sy133xNymKAK37E6adqngjveQ+envgjiFkaY0IiWs
+        Ervf3MSWMFcWtiOhf4gqnbeUIsn7HKJKL4Q6PGyzHN9Ja+F75PhacrTMrhs6/rxhjLYbRdgTtcD3U
+        OJlOsVqjw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fvg6v-0006BR-7p; Fri, 31 Aug 2018 09:53:01 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 12B222024D700; Fri, 31 Aug 2018 11:53:00 +0200 (CEST)
+Date:   Fri, 31 Aug 2018 11:53:00 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Jann Horn <jannh@google.com>
+Cc:     yu-cheng.yu@intel.com, Dave Hansen <dave.hansen@linux.intel.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
+Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
+ pmdp_set_wrprotect for _PAGE_DIRTY_SW
+Message-ID: <20180831095300.GF24124@hirez.programming.kicks-ass.net>
+References: <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com>
+ <1535649960.26689.15.camel@intel.com>
+ <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com>
+ <1535651666.27823.6.camel@intel.com>
+ <CAG48ez3ixWROuQc6WZze6qPL6q0e_gCnMU4XF11JUWziePsBJg@mail.gmail.com>
+ <1535660494.28258.36.camel@intel.com>
+ <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
+ <1535662366.28781.6.camel@intel.com>
+ <CAG48ez0mkr95_TbLQnDGuGUd6G+eJVLZ-fEjDkwA6dSrm+9tLw@mail.gmail.com>
+ <CAG48ez3S3+DzAyo_SnoUW1GO0Cpd_x0A83MOx2p_MkogoAatLQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez3S3+DzAyo_SnoUW1GO0Cpd_x0A83MOx2p_MkogoAatLQ@mail.gmail.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Meelis Roos reported a {menu,n}config regression:
+On Thu, Aug 30, 2018 at 11:47:16PM +0200, Jann Horn wrote:
+>         do {
+>                 pte = pte_wrprotect(pte);
+>                 /* note: relies on _PAGE_DIRTY_HW < _PAGE_DIRTY_SW */
+>                 /* dirty direct bit-twiddling; you can probably write
+> this in a nicer way */
+>                 pte.pte |= (pte.pte & _PAGE_DIRTY_HW) >>
+> _PAGE_BIT_DIRTY_HW << _PAGE_BIT_DIRTY_SW;
+>                 pte.pte &= ~_PAGE_DIRTY_HW;
+>                 pte = cmpxchg(ptep, pte, new_pte);
+>         } while (pte != new_pte);
 
- "I have libncurses devel package installed in the default system
-  location (as do 99%+ on actual developers probably) and in this
-  case, pkg-config is useless.  pkg-config is needed only when
-  libraries and headers are installed in non-default locations but
-  it is bad to require installation of pkg-config on all the machines
-  where make menuconfig would be possibly run."
+Please use the form:
 
-For {menu,n}config, do not use pkg-config if it is not installed.
-For {g,x}config, keep checking pkg-config since we really rely on it
-for finding the installation paths of the required packages.
+	pte_t new_pte, pte = READ_ONCE(*ptep);
+	do {
+		new_pte = /* ... */;
+	} while (!try_cmpxchg(ptep, &pte, new_pte);
 
-Fixes: 4ab3b80159d4 ("kconfig: check for pkg-config on make {menu,n,g,x}config")
-Reported-by: Meelis Roos <mroos@linux.ee>
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
- Documentation/process/changes.rst  |  2 +-
- scripts/kconfig/Makefile           |  1 -
- scripts/kconfig/check-pkgconfig.sh |  8 --------
- scripts/kconfig/gconf-cfg.sh       |  7 +++++++
- scripts/kconfig/mconf-cfg.sh       | 25 ++++++++++++++-----------
- scripts/kconfig/nconf-cfg.sh       | 25 ++++++++++++++-----------
- scripts/kconfig/qconf-cfg.sh       |  7 +++++++
- 7 files changed, 43 insertions(+), 32 deletions(-)
- delete mode 100644 scripts/kconfig/check-pkgconfig.sh
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 61f918b..d1bf143 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -86,7 +86,7 @@ pkg-config
- 
- The build system, as of 4.18, requires pkg-config to check for installed
- kconfig tools and to determine flags settings for use in
--'make {menu,n,g,x}config'.  Previously pkg-config was being used but not
-+'make {g,x}config'.  Previously pkg-config was being used but not
- verified or documented.
- 
- Flex
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index 4a7bd21..67ed9f6 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -221,7 +221,6 @@ $(obj)/zconf.tab.o: $(obj)/zconf.lex.c
- 
- # check if necessary packages are available, and configure build flags
- define filechk_conf_cfg
--	$(CONFIG_SHELL) $(srctree)/scripts/kconfig/check-pkgconfig.sh; \
- 	$(CONFIG_SHELL) $<
- endef
- 
-diff --git a/scripts/kconfig/check-pkgconfig.sh b/scripts/kconfig/check-pkgconfig.sh
-deleted file mode 100644
-index 7a1c40b..0000000
---- a/scripts/kconfig/check-pkgconfig.sh
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--# Check for pkg-config presence
--
--if [ -z $(command -v pkg-config) ]; then
--	echo "'make *config' requires 'pkg-config'. Please install it." 1>&2
--	exit 1
--fi
-diff --git a/scripts/kconfig/gconf-cfg.sh b/scripts/kconfig/gconf-cfg.sh
-index 533b3d8..480ecd8 100755
---- a/scripts/kconfig/gconf-cfg.sh
-+++ b/scripts/kconfig/gconf-cfg.sh
-@@ -3,6 +3,13 @@
- 
- PKG="gtk+-2.0 gmodule-2.0 libglade-2.0"
- 
-+if [ -z "$(command -v pkg-config)" ]; then
-+	echo >&2 "*"
-+	echo >&2 "* 'make gconfig' requires 'pkg-config'. Please install it."
-+	echo >&2 "*"
-+	exit 1
-+fi
-+
- if ! pkg-config --exists $PKG; then
- 	echo >&2 "*"
- 	echo >&2 "* Unable to find the GTK+ installation. Please make sure that"
-diff --git a/scripts/kconfig/mconf-cfg.sh b/scripts/kconfig/mconf-cfg.sh
-index e6f9fac..c812872d 100755
---- a/scripts/kconfig/mconf-cfg.sh
-+++ b/scripts/kconfig/mconf-cfg.sh
-@@ -4,20 +4,23 @@
- PKG="ncursesw"
- PKG2="ncurses"
- 
--if pkg-config --exists $PKG; then
--	echo cflags=\"$(pkg-config --cflags $PKG)\"
--	echo libs=\"$(pkg-config --libs $PKG)\"
--	exit 0
--fi
-+if [ -n "$(command -v pkg-config)" ]; then
-+	if pkg-config --exists $PKG; then
-+		echo cflags=\"$(pkg-config --cflags $PKG)\"
-+		echo libs=\"$(pkg-config --libs $PKG)\"
-+		exit 0
-+	fi
- 
--if pkg-config --exists $PKG2; then
--	echo cflags=\"$(pkg-config --cflags $PKG2)\"
--	echo libs=\"$(pkg-config --libs $PKG2)\"
--	exit 0
-+	if pkg-config --exists $PKG2; then
-+		echo cflags=\"$(pkg-config --cflags $PKG2)\"
-+		echo libs=\"$(pkg-config --libs $PKG2)\"
-+		exit 0
-+	fi
- fi
- 
--# Unfortunately, some distributions (e.g. openSUSE) cannot find ncurses
--# by pkg-config.
-+# Check the default paths in case pkg-config is not installed.
-+# (Even if it is installed, some distributions such as openSUSE cannot
-+# find ncurses by pkg-config.)
- if [ -f /usr/include/ncursesw/ncurses.h ]; then
- 	echo cflags=\"-D_GNU_SOURCE -I/usr/include/ncursesw\"
- 	echo libs=\"-lncursesw\"
-diff --git a/scripts/kconfig/nconf-cfg.sh b/scripts/kconfig/nconf-cfg.sh
-index 42f5ac7..001559e 100644
---- a/scripts/kconfig/nconf-cfg.sh
-+++ b/scripts/kconfig/nconf-cfg.sh
-@@ -4,20 +4,23 @@
- PKG="ncursesw menuw panelw"
- PKG2="ncurses menu panel"
- 
--if pkg-config --exists $PKG; then
--	echo cflags=\"$(pkg-config --cflags $PKG)\"
--	echo libs=\"$(pkg-config --libs $PKG)\"
--	exit 0
--fi
-+if [ -n "$(command -v pkg-config)" ]; then
-+	if pkg-config --exists $PKG; then
-+		echo cflags=\"$(pkg-config --cflags $PKG)\"
-+		echo libs=\"$(pkg-config --libs $PKG)\"
-+		exit 0
-+	fi
- 
--if pkg-config --exists $PKG2; then
--	echo cflags=\"$(pkg-config --cflags $PKG2)\"
--	echo libs=\"$(pkg-config --libs $PKG2)\"
--	exit 0
-+	if pkg-config --exists $PKG2; then
-+		echo cflags=\"$(pkg-config --cflags $PKG2)\"
-+		echo libs=\"$(pkg-config --libs $PKG2)\"
-+		exit 0
-+	fi
- fi
- 
--# Unfortunately, some distributions (e.g. openSUSE) cannot find ncurses
--# by pkg-config.
-+# Check the default paths in case pkg-config is not installed.
-+# (Even if it is installed, some distributions such as openSUSE cannot
-+# find ncurses by pkg-config.)
- if [ -f /usr/include/ncursesw/ncurses.h ]; then
- 	echo cflags=\"-D_GNU_SOURCE -I/usr/include/ncursesw\"
- 	echo libs=\"-lncursesw -lmenuw -lpanelw\"
-diff --git a/scripts/kconfig/qconf-cfg.sh b/scripts/kconfig/qconf-cfg.sh
-index 0862e15..02ccc0a 100755
---- a/scripts/kconfig/qconf-cfg.sh
-+++ b/scripts/kconfig/qconf-cfg.sh
-@@ -4,6 +4,13 @@
- PKG="Qt5Core Qt5Gui Qt5Widgets"
- PKG2="QtCore QtGui"
- 
-+if [ -z "$(command -v pkg-config)" ]; then
-+	echo >&2 "*"
-+	echo >&2 "* 'make xconfig' requires 'pkg-config'. Please install it."
-+	echo >&2 "*"
-+	exit 1
-+fi
-+
- if pkg-config --exists $PKG; then
- 	echo cflags=\"-std=c++11 -fPIC $(pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets)\"
- 	echo libs=\"$(pkg-config --libs $PKG)\"
--- 
-2.7.4
-
+Also, this will fail to build on i386-PAE, but I suspect this code will
+be under some CONFIG option specific to x86_64 anyway.
