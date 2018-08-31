@@ -5,32 +5,32 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7E18F7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 22:37:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 918A77D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 22:50:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727334AbeIACrP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 22:47:15 -0400
-Received: from ms.lwn.net ([45.79.88.28]:33962 "EHLO ms.lwn.net"
+        id S1727273AbeIADAT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 23:00:19 -0400
+Received: from ms.lwn.net ([45.79.88.28]:34024 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727273AbeIACrP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Aug 2018 22:47:15 -0400
+        id S1726869AbeIADAS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 Aug 2018 23:00:18 -0400
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 941CE2B0;
-        Fri, 31 Aug 2018 22:37:30 +0000 (UTC)
-Date:   Fri, 31 Aug 2018 16:37:17 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 5D8052B0;
+        Fri, 31 Aug 2018 22:50:32 +0000 (UTC)
+Date:   Fri, 31 Aug 2018 16:50:15 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Salvatore Bonaccorso <carnil@debian.org>
-Cc:     linux-kernel@vger.kernel.org, Josh Poimboeuf <jpoimboe@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, Jonas Oberg <jonas@fsfe.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tony Luck <tony.luck@intel.com>, linux-doc@vger.kernel.org,
-        trivial@kernel.org
-Subject: Re: [PATCH] Documentation/l1tf: Fix small spelling typo
-Message-ID: <20180831163717.3729f5d2@lwn.net>
-In-Reply-To: <20180815054604.27895-1-carnil@debian.org>
-References: <20180815054604.27895-1-carnil@debian.org>
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: tidy up TOCs and refs to license-rules.rst
+Message-ID: <20180831165015.1461bdc7@lwn.net>
+In-Reply-To: <20180814114312.23201-1-markus.heiser@darmarit.de>
+References: <20180814114312.23201-1-markus.heiser@darmarit.de>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -41,24 +41,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 15 Aug 2018 07:46:04 +0200
-Salvatore Bonaccorso <carnil@debian.org> wrote:
+On Tue, 14 Aug 2018 13:43:12 +0200
+Markus Heiser <markus.heiser@darmarit.de> wrote:
 
-> Fix small typo (wiil -> will) in the "3.4. Nested virtual machines"
-> section.
+> The documentation and TOCs are organized in a manner of a tree. Adding a TOC to
+> the root, which refers to a file which is located in a subfolder forms a
+> grid. Those TOCs are a bit confusing and thats why we get additional error
+> messages while building partial documentation::
 > 
-> Fixes: 5b76a3cff011 ("KVM: VMX: Tell the nested hypervisor to skip L1D flush on vmentry")
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: trivial@kernel.org
+>   $ make SPHINXDIRS=process htmldocs
+>   ...
+>   checking consistency... Documentation/process/license-rules.rst: \
+>   WARNING: document isn't included in any toctree
 > 
-> Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+> To fix it, the *root-license-TOC* is replaced by a reference and the
+> 'license-roles.txt' is added to the Documentation/process/index.rst TOC.
+> 
+> BTW: there was an old licences remark in Documentation/process/howto.rst which
+> is also updated, mentioning SPDX and pointing to the license-rules.rst
 
-Applied, thanks.
+So those are two separate changes and should really have been in two
+different patches.  I guess we can let that slide just this
+once...applied.
+
+I do have to wonder if the licensing rules are *really* the most
+important thing in our docs - the thing that readers should encounter
+first, before anything else.  I think I'll revisit that at another time...
+
+Thanks,
 
 jon
