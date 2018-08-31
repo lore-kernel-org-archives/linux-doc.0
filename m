@@ -5,33 +5,32 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 905487D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 22:32:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A79BC7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 22:35:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727273AbeIACmX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 22:42:23 -0400
-Received: from ms.lwn.net ([45.79.88.28]:33906 "EHLO ms.lwn.net"
+        id S1727212AbeIACpZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 22:45:25 -0400
+Received: from ms.lwn.net ([45.79.88.28]:33938 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727201AbeIACmX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Aug 2018 22:42:23 -0400
+        id S1726915AbeIACpZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 Aug 2018 22:45:25 -0400
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4E834906;
-        Fri, 31 Aug 2018 22:32:42 +0000 (UTC)
-Date:   Fri, 31 Aug 2018 16:32:27 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 90A8B2B0;
+        Fri, 31 Aug 2018 22:35:44 +0000 (UTC)
+Date:   Fri, 31 Aug 2018 16:35:31 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Antonino Daplas <adaplas@gmail.com>
-Subject: Re: [PATCH] Documentation/fb/vesafb.txt: "inverse" option
- corrections
-Message-ID: <20180831163227.663c2c28@lwn.net>
-In-Reply-To: <b77dcfee-2cc2-adb0-645e-369fc032abd1@infradead.org>
-References: <b77dcfee-2cc2-adb0-645e-369fc032abd1@infradead.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: tracing: Add stacktrace filter command
+Message-ID: <20180831163531.4b1cf1e4@lwn.net>
+In-Reply-To: <20180816085031.531732d3@gandalf.local.home>
+References: <153441301698.6024.1680500212551396320.stgit@devbox>
+        <153441304709.6024.553337906391633027.stgit@devbox>
+        <20180816085031.531732d3@gandalf.local.home>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -42,14 +41,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Aug 2018 21:12:07 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Thu, 16 Aug 2018 08:50:31 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> From: Randy Dunlap <rdunlap@infradead.org>
+> On Thu, 16 Aug 2018 18:50:47 +0900
+> Masami Hiramatsu <mhiramat@kernel.org> wrote:
 > 
-> Spell the vesafb "inverse" option correctly and tell what it does.
+> > Add a description of stacktrace filter command.
+> > 
+> > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: linux-doc@vger.kernel.org  
 > 
-Applied, thanks.  This is the first nontrivial change to this file since
-2005...
+> Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+> 
+> Jon, want to pull this patch into your tree?
+
+Applied (finally), thanks.
 
 jon
