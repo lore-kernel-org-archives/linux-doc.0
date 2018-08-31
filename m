@@ -1,46 +1,58 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 83F9E7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 14:49:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B8CCA7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 15:02:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727599AbeHaS5n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 14:57:43 -0400
-Received: from mga18.intel.com ([134.134.136.126]:44044 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727430AbeHaS5n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Aug 2018 14:57:43 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 Aug 2018 07:49:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,311,1531810800"; 
-   d="scan'208";a="259682029"
-Received: from dde-mobl1.amr.corp.intel.com (HELO [10.254.69.89]) ([10.254.69.89])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Aug 2018 07:47:29 -0700
-Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
- pmdp_set_wrprotect for _PAGE_DIRTY_SW
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jann Horn <jannh@google.com>
-References: <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com>
- <1535649960.26689.15.camel@intel.com>
- <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com>
- <1535651666.27823.6.camel@intel.com>
- <CAG48ez3ixWROuQc6WZze6qPL6q0e_gCnMU4XF11JUWziePsBJg@mail.gmail.com>
- <1535660494.28258.36.camel@intel.com>
- <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
- <1535662366.28781.6.camel@intel.com>
- <CAG48ez0mkr95_TbLQnDGuGUd6G+eJVLZ-fEjDkwA6dSrm+9tLw@mail.gmail.com>
- <CAG48ez3S3+DzAyo_SnoUW1GO0Cpd_x0A83MOx2p_MkogoAatLQ@mail.gmail.com>
- <20180831095300.GF24124@hirez.programming.kicks-ass.net>
- <1535726032.32537.0.camel@intel.com>
-Cc:     the arch/x86 maintainers <x86@kernel.org>,
+        id S1728934AbeHaTKD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 15:10:03 -0400
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:41596 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728931AbeHaTKD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 15:10:03 -0400
+Received: by mail-oi0-f67.google.com with SMTP id k12-v6so22180379oiw.8
+        for <linux-doc@vger.kernel.org>; Fri, 31 Aug 2018 08:02:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VO1E65e+iHvRxpquck2xT3J8OTN9faM6zLPXFDpjCFE=;
+        b=KE0f1wy7aQu3+/DiQRcjwRuwoAi5YWJrZYNr3MFH6SHlkv+qioQfX3RRTGV3NHKGNV
+         ywYYDtYwPYcIuP3Ta8BdGFE/odkDMGmjurpeRXADQLak1AbZLbBFqkuz6+Itla2B3rYS
+         QWX4c0NhXkebRkKTivKDLJ54Re9besWKF0kVSB1Q5K9SU5UwsakeP3AgvTMe1j8i0ZAT
+         1FdYRHITy9tRZgRkseRHZcWD3dCcWvcsVuTlaq4IbLSZ82XL3DEcY/KkM8pXWUc0jGSC
+         iFKYTFzT4LUqdjssoXQsQ+I7Co0of3/WUo1tPMUynTMz/RH7LBnl+cNPOUy9K4Fpnm5c
+         iTLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VO1E65e+iHvRxpquck2xT3J8OTN9faM6zLPXFDpjCFE=;
+        b=dLrhIHoyDHQ14E8iCb8RVPa1lhqkJF3vGzHkAB15oyt44xB8GlFHx51hewlfJo4sYL
+         BBrK3+pjgMO5TYgtMqb4BPu9DeieJjp7vSicWkS4xt3Om7BD93/aRZDRuOVBcVhOkVcA
+         bgdpMxXg7+I0AdMyUTi9koN70IuA2MO4WG+NRJuYrbiQ8/k5RZ7l3MXFNHixcGrh2B2y
+         HRbDXWC5HaC/9GRqGVzyh68jezISBQDnFp2N89d+PKhc1U3jrU3Cx1fXcdW4NSm1ZdFd
+         1JylS+bg9JdkAzMqv6KnJdnnTgQ9b1j29cxulQi3C+tKd58i/wQZh77NWhZh+cN7bJtI
+         C53w==
+X-Gm-Message-State: APzg51Dw22FdnNf3rCPciZDfFihfmG5phlPPhhKdHNHpd+VTl7mJ7Jd4
+        mLeUTIZwBFmog/nxNgzVbjMGxHw3weTWjIXBkjWuIw==
+X-Google-Smtp-Source: ANB0Vdb1kP1C9qHD1EqBYR6Udetv/8kjc8hQgxiuv5REDY/mN+1HoCDAViwbzbvhZ79vZhl4MTnJVb01r8PyYDN9Gi8=
+X-Received: by 2002:aca:dc55:: with SMTP id t82-v6mr6919903oig.159.1535727729152;
+ Fri, 31 Aug 2018 08:02:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-7-yu-cheng.yu@intel.com>
+In-Reply-To: <20180830143904.3168-7-yu-cheng.yu@intel.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 31 Aug 2018 17:01:42 +0200
+Message-ID: <CAG48ez0jvsDw189=YoCCa8tmJUENeUd_ypcP5bYJ+eLMPCYCOQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 06/24] x86/cet: Control protection exception handler
+To:     yu-cheng.yu@intel.com
+Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
         "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -52,81 +64,164 @@ Cc:     the arch/x86 maintainers <x86@kernel.org>,
         Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
         Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <f5a36e32-7c5f-91fe-9e98-fb44867fda11@linux.intel.com>
-Date:   Fri, 31 Aug 2018 07:47:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <1535726032.32537.0.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/31/2018 07:33 AM, Yu-cheng Yu wrote:
-> Please use the form:
-> 
-> 	pte_t new_pte, pte = READ_ONCE(*ptep);
-> 	do {
-> 		new_pte = /* ... */;
-> 	} while (!try_cmpxchg(ptep, &pte, new_pte);
+On Thu, Aug 30, 2018 at 4:43 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> A control protection exception is triggered when a control flow transfer
+> attempt violated shadow stack or indirect branch tracking constraints.
+> For example, the return address for a RET instruction differs from the
+> safe copy on the shadow stack; or a JMP instruction arrives at a non-
+> ENDBR instruction.
+>
+> The control protection exception handler works in a similar way as the
+> general protection fault handler.
 
-It's probably also worth doing some testing to see if you can detect the
-cost of the cmpxchg.  It's definitely more than the old code.
+Is there a reason why all the code in this patch isn't #ifdef'ed away
+on builds that don't support CET? It looks like the CET handler is
+hooked up to the IDT conditionally, but the handler code is always
+built?
 
-A loop that does mprotect(PROT_READ) followed by
-mprotect(PROT_READ|PROT_WRITE) should do it.
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/entry/entry_64.S    |  2 +-
+>  arch/x86/include/asm/traps.h |  3 ++
+>  arch/x86/kernel/idt.c        |  4 +++
+>  arch/x86/kernel/traps.c      | 58 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 66 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+> index 957dfb693ecc..5f4914e988df 100644
+> --- a/arch/x86/entry/entry_64.S
+> +++ b/arch/x86/entry/entry_64.S
+> @@ -1000,7 +1000,7 @@ idtentry spurious_interrupt_bug           do_spurious_interrupt_bug       has_error_code=0
+>  idtentry coprocessor_error             do_coprocessor_error            has_error_code=0
+>  idtentry alignment_check               do_alignment_check              has_error_code=1
+>  idtentry simd_coprocessor_error                do_simd_coprocessor_error       has_error_code=0
+> -
+> +idtentry control_protection            do_control_protection           has_error_code=1
+>
+>         /*
+>          * Reload gs selector with exception handling
+> diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
+> index 3de69330e6c5..5196050ff3d5 100644
+> --- a/arch/x86/include/asm/traps.h
+> +++ b/arch/x86/include/asm/traps.h
+> @@ -26,6 +26,7 @@ asmlinkage void invalid_TSS(void);
+>  asmlinkage void segment_not_present(void);
+>  asmlinkage void stack_segment(void);
+>  asmlinkage void general_protection(void);
+> +asmlinkage void control_protection(void);
+>  asmlinkage void page_fault(void);
+>  asmlinkage void async_page_fault(void);
+>  asmlinkage void spurious_interrupt_bug(void);
+> @@ -77,6 +78,7 @@ dotraplinkage void do_stack_segment(struct pt_regs *, long);
+>  dotraplinkage void do_double_fault(struct pt_regs *, long);
+>  #endif
+>  dotraplinkage void do_general_protection(struct pt_regs *, long);
+> +dotraplinkage void do_control_protection(struct pt_regs *, long);
+>  dotraplinkage void do_page_fault(struct pt_regs *, unsigned long);
+>  dotraplinkage void do_spurious_interrupt_bug(struct pt_regs *, long);
+>  dotraplinkage void do_coprocessor_error(struct pt_regs *, long);
+> @@ -142,6 +144,7 @@ enum {
+>         X86_TRAP_AC,            /* 17, Alignment Check */
+>         X86_TRAP_MC,            /* 18, Machine Check */
+>         X86_TRAP_XF,            /* 19, SIMD Floating-Point Exception */
+> +       X86_TRAP_CP = 21,       /* 21 Control Protection Fault */
+>         X86_TRAP_IRET = 32,     /* 32, IRET Exception */
+>  };
+>
+> diff --git a/arch/x86/kernel/idt.c b/arch/x86/kernel/idt.c
+> index 01adea278a71..2d02fdd599a2 100644
+> --- a/arch/x86/kernel/idt.c
+> +++ b/arch/x86/kernel/idt.c
+> @@ -104,6 +104,10 @@ static const __initconst struct idt_data def_idts[] = {
+>  #elif defined(CONFIG_X86_32)
+>         SYSG(IA32_SYSCALL_VECTOR,       entry_INT80_32),
+>  #endif
+> +
+> +#ifdef CONFIG_X86_INTEL_CET
+> +       INTG(X86_TRAP_CP,               control_protection),
+> +#endif
+>  };
+>
+>  /*
+> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> index e6db475164ed..21a713b96148 100644
+> --- a/arch/x86/kernel/traps.c
+> +++ b/arch/x86/kernel/traps.c
+> @@ -578,6 +578,64 @@ do_general_protection(struct pt_regs *regs, long error_code)
+>  }
+>  NOKPROBE_SYMBOL(do_general_protection);
+>
+> +static const char *control_protection_err[] =
+> +{
+> +       "unknown",
+> +       "near-ret",
+> +       "far-ret/iret",
+> +       "endbranch",
+> +       "rstorssp",
+> +       "setssbsy",
+> +};
+> +
+> +/*
+> + * When a control protection exception occurs, send a signal
+> + * to the responsible application.  Currently, control
+> + * protection is only enabled for the user mode.  This
+> + * exception should not come from the kernel mode.
+> + */
+> +dotraplinkage void
+> +do_control_protection(struct pt_regs *regs, long error_code)
+> +{
+> +       struct task_struct *tsk;
+> +
+> +       RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
+> +       if (notify_die(DIE_TRAP, "control protection fault", regs,
+> +                      error_code, X86_TRAP_CP, SIGSEGV) == NOTIFY_STOP)
+> +               return;
+> +       cond_local_irq_enable(regs);
+> +
+> +       if (!user_mode(regs))
+> +               die("kernel control protection fault", regs, error_code);
+> +
+> +       if (!static_cpu_has(X86_FEATURE_SHSTK) &&
+> +           !static_cpu_has(X86_FEATURE_IBT))
+> +               WARN_ONCE(1, "CET is disabled but got control "
+> +                         "protection fault\n");
+> +
+> +       tsk = current;
+> +       tsk->thread.error_code = error_code;
+> +       tsk->thread.trap_nr = X86_TRAP_CP;
+> +
+> +       if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
+> +           printk_ratelimit()) {
+> +               unsigned int max_err;
+> +
+> +               max_err = ARRAY_SIZE(control_protection_err) - 1;
+> +               if ((error_code < 0) || (error_code > max_err))
+> +                       error_code = 0;
+> +               pr_info("%s[%d] control protection ip:%lx sp:%lx error:%lx(%s)",
+> +                       tsk->comm, task_pid_nr(tsk),
+> +                       regs->ip, regs->sp, error_code,
+> +                       control_protection_err[error_code]);
+> +               print_vma_addr(" in ", regs->ip);
+
+Shouldn't this be using KERN_CONT, like other callers of
+print_vma_addr(), to get the desired output?
+
+> +               pr_cont("\n");
+> +       }
+> +
+> +       force_sig_info(SIGSEGV, SEND_SIG_PRIV, tsk);
