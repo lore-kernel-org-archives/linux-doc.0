@@ -1,41 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A2097D584
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 16:30:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 124357D584
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 17:47:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728009AbeHaUiW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 16:38:22 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:49636 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727268AbeHaUiW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 16:38:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=aZaMyeYIzW94zNlfZHWpOYH8K8AlT31808LtMB8uB4I=; b=Yzf1GoE8pn56Kp3h24nmTfkc2
-        FfpOA1i+0P7EMZAHVN6pta/Nh4RdwtrnhsuSJsaH1wOB6lOYLOqwDe9i86wSJZbe3ZI7+NdO8zbqX
-        n20Hwl03bEUFIvFPbkmCzrg2OOYm4uLgYXaXwsh85HN0k0Z1H1v7CHHOZ+dpVDqzxDBWJUyHViLi8
-        VJ2r7mCdXaW6SXjoLq4mhAPOCx2QO72991pq7j/KGwy0oXTPYQpqOBhsRX4HGQiR4ZJ1eFDlrZ0E2
-        0X1YahIbkLV3arzj5i8BByaDXXXsD+3us2mcxUIOiGk+/lZraKdiyRKgG08OsiHm4BeMbHEaphsex
-        pJo1ljD+Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fvmIa-0008AA-0B; Fri, 31 Aug 2018 16:29:28 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id F232A2024D700; Fri, 31 Aug 2018 18:29:20 +0200 (CEST)
-Date:   Fri, 31 Aug 2018 18:29:20 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
+        id S1727232AbeHaVzt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 17:55:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32948 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726759AbeHaVzs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 Aug 2018 17:55:48 -0400
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 241B620846
+        for <linux-doc@vger.kernel.org>; Fri, 31 Aug 2018 17:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1535737634;
+        bh=vqu41/HKLxovzNFtRsiHtVyE8uf86TQAz6H509UnfNA=;
+        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+        b=ID6KDr3tfmvj+Qg7Pi1a7TQHomcjOHYvvD+w1vZSpbBQ1Kf061issDbpFkQ0uVulS
+         Eu/6jndqNORhL1hfwnqOHxH3cSWcRkV6veJqEFp4FYZq5wIkeqzfs9HR4VJFxvbnQ0
+         awPW8NeqCL1rhfKNl2oP/AUeYJQvDdwLR4FZhn5I=
+Received: by mail-wm0-f45.google.com with SMTP id y2-v6so5990632wma.1
+        for <linux-doc@vger.kernel.org>; Fri, 31 Aug 2018 10:47:14 -0700 (PDT)
+X-Gm-Message-State: APzg51CPbwRPlJLXUuqv0XspFdJKAqS3Yt6XZYvIGlGM1gEzAKiw0w0U
+        kYmtUuleMaHBzXLsCY4fqqYWYxHb+IDBysQWKwytiA==
+X-Google-Smtp-Source: ANB0VdZt82Kiru+Um+/nn44dB0Le4SuwcjMHldZDTEQaR8ua3G2+Qz4OduxdNzau7cZo/YArKAWFZRyu++hiu8g/q80=
+X-Received: by 2002:a1c:8313:: with SMTP id f19-v6mr4972068wmd.144.1535737632515;
+ Fri, 31 Aug 2018 10:47:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a1c:6008:0:0:0:0:0 with HTTP; Fri, 31 Aug 2018 10:46:51
+ -0700 (PDT)
+In-Reply-To: <e164a320-25a4-a9fc-3256-901b778468f3@linux.intel.com>
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-13-yu-cheng.yu@intel.com>
+ <CAG48ez0Rca0XsdXJZ07c+iGPyep0Gpxw+sxQuACP5gyPaBgDKA@mail.gmail.com>
+ <079a55f2-4654-4adf-a6ef-6e480b594a2f@linux.intel.com> <CAG48ez2gHOD9hH4+0wek5vUOv9upj79XWoug2SXjdwfXWoQqxw@mail.gmail.com>
+ <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com> <B2222C69-337B-44F2-9DA6-69E685AA469B@amacapital.net>
+ <e164a320-25a4-a9fc-3256-901b778468f3@linux.intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 31 Aug 2018 10:46:51 -0700
+X-Gmail-Original-Message-ID: <CALCETrUE6mY-+YCaJjGJuEqE_OBQc=QUR1XMnPW9VwTb8=HK4w@mail.gmail.com>
+Message-ID: <CALCETrUE6mY-+YCaJjGJuEqE_OBQc=QUR1XMnPW9VwTb8=HK4w@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
+ pmdp_set_wrprotect for _PAGE_DIRTY_SW
 To:     Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, Jann Horn <jannh@google.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
+Cc:     Jann Horn <jannh@google.com>, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
         "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -44,51 +59,68 @@ Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, Jann Horn <jannh@google.com>,
         linux-arch <linux-arch@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
-        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
+        Florian Weimer <fweimer@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
-Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
- pmdp_set_wrprotect for _PAGE_DIRTY_SW
-Message-ID: <20180831162920.GQ24124@hirez.programming.kicks-ass.net>
-References: <1535660494.28258.36.camel@intel.com>
- <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
- <1535662366.28781.6.camel@intel.com>
- <CAG48ez0mkr95_TbLQnDGuGUd6G+eJVLZ-fEjDkwA6dSrm+9tLw@mail.gmail.com>
- <CAG48ez3S3+DzAyo_SnoUW1GO0Cpd_x0A83MOx2p_MkogoAatLQ@mail.gmail.com>
- <20180831095300.GF24124@hirez.programming.kicks-ass.net>
- <1535726032.32537.0.camel@intel.com>
- <f5a36e32-7c5f-91fe-9e98-fb44867fda11@linux.intel.com>
- <1535730524.501.13.camel@intel.com>
- <6d31bd30-6d5b-bbde-1e97-1d8255eff76d@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6d31bd30-6d5b-bbde-1e97-1d8255eff76d@linux.intel.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 31, 2018 at 08:58:39AM -0700, Dave Hansen wrote:
-> On 08/31/2018 08:48 AM, Yu-cheng Yu wrote:
-> > To trigger a race in ptep_set_wrprotect(), we need to fork from one of
-> > three pthread siblings.
-> > 
-> > Or do we measure only how much this affects fork?
-> > If there is no racing, the effect should be minimal.
-> 
-> We don't need a race.
-> 
-> I think the cmpxchg will be slower, even without a race, than the code
-> that was there before.  The cmpxchg is a simple, straightforward
-> solution, but we're putting it in place of a plain memory write, which
-> is suboptimal.
+On Thu, Aug 30, 2018 at 11:55 AM, Dave Hansen
+<dave.hansen@linux.intel.com> wrote:
+> On 08/30/2018 10:34 AM, Andy Lutomirski wrote:
+>>> But, to keep B's TLB from picking up the entry, I think we can just make
+>>> it !Present for a moment.  No TLB can cache it, and I believe the same
+>>> "don't set Dirty on a !Writable entry" logic also holds for !Present
+>>> (modulo a weird erratum or two).
+>> Can we get documentation?  Pretty please?
+>
+> The accessed bit description in the SDM looks pretty good to me today:
+>
+>> Whenever the processor uses a paging-structure entry as part of
+>> linear-address translation, it sets the accessed flag in that entry
+>> (if it is not already set).
+> If it's !Present, it can't used as part of a translation so can't be
+> set.  I think that covers the thing I was unsure about.
+>
+> But, Dirty is a bit, er, muddier, but mostly because it only gets set on
+> leaf entries:
+>
+>> Whenever there is a write to a linear address, the processor sets the
+>> dirty flag (if it is not already set) in the paging- structure entry
+>> that identifies the final physical address for the linear address
+>> (either a PTE or a paging-structure entry in which the PS flag is
+>> 1).
+>
+> That little hunk will definitely need to get updated with something like:
+>
+>         On processors enumerating support for CET, the processor will on
+>         set the dirty flag on paging structure entries in which the W
+>         flag is 1.
 
-Note quite, the clear_bit() is LOCK prefixed.
+Can we get something much stronger, perhaps?  Like this:
+
+On processors enumerating support for CET, the processor will write to
+the accessed and/or dirty flags atomically, as if using the LOCK
+CMPXCHG instruction.  The memory access, any cached entries in any
+paging-structure caches, and the values in the paging-structure entry
+before and after writing the A and/or D bits will all be consistent.
+
+I'm sure this could be worded better.  The point is that the CPU
+should, atomically, load the PTE, check if it allows the access, set A
+and/or D appropriately, write the new value to the TLB, and use that
+value for the access.  This is clearly a little bit slower than what
+old CPUs could do when writing to an already-in-TLB writable non-dirty
+entry, but new CPUs are going to have to atomically check the W bit.
+(I assume that even old CPUs will *atomically* set the D bit as if by
+LOCK BTS, but this is all very vague in the SDM IIRC.)
