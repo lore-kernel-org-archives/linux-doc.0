@@ -1,55 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 339707D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 22:52:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 31C177D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 22:55:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727240AbeIADCe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 23:02:34 -0400
-Received: from ms.lwn.net ([45.79.88.28]:34050 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726869AbeIADCe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Aug 2018 23:02:34 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7BD3F9B4;
-        Fri, 31 Aug 2018 22:52:48 +0000 (UTC)
-Date:   Fri, 31 Aug 2018 16:52:35 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Himanshu Jha <himanshujha199640@gmail.com>
-Cc:     Julia.Lawall@lip6.fr, Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
-        cocci@systeme.lip6.fr, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: dev-tools: coccinelle: Update documentation
-Message-ID: <20180831165235.1c12e0b8@lwn.net>
-In-Reply-To: <20180813104638.7935-1-himanshujha199640@gmail.com>
-References: <20180813104638.7935-1-himanshujha199640@gmail.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1727679AbeIADFD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 23:05:03 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:35601 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727560AbeIADFD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 23:05:03 -0400
+Received: by mail-lf1-f68.google.com with SMTP id q13-v6so11159574lfc.2;
+        Fri, 31 Aug 2018 15:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=xZQjF2wUZU1Wu5F/h+ur4D4/urcXADQiqQlR+w8e6QA=;
+        b=Sdsw4efq5usJ7S64Sh+zhugjlc9XLh5d2obJMr8HGYpByiCxWh8dN6Jow32PBFrucT
+         5PGulZe6gXrA5lLFyvJ2P949AY853CNfezS9P9i6vKf8ijjWv+dELdoUsGinua9G59JF
+         s03wpkiP2OyiHfBxcPuIR8slvJsRH6p8wxK51Pl+XDR4svFuPn4J9mgDPhCltD2n3cp7
+         9ST2oNwuMmJ4mK2rsI7zKX9L5LrGszMLdOhNOmtv3zRu9fgOPwPhVt2bNka/qUpjMOwQ
+         EYrdyOGpgOXQX1O7yKYEAfUzre5tH//rrDeY/UTg5FdEWkrPk/qEM7Uyo3Xcr8yK1JU+
+         sIMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=xZQjF2wUZU1Wu5F/h+ur4D4/urcXADQiqQlR+w8e6QA=;
+        b=hZO7hTFOGvRYCiwjOvGsOrSUWVGRKb1gOerqTFNYPutwmJS3yJoYV3YqGfKn5dGdSm
+         nQVW8nWof3rNSfkfKfi4MR6I9wMrQrHB2cc4YvbhEy0YKh9pMKd+uBFewcsQEyn9JIxx
+         PO9O+r0xbuQL0ssgxzT2lC8CnPRfJYhCxVg7gQn8sjNEpHyGWnuVflXMNfMVnxPzVI/r
+         Vku+cNCjACzYBeTqZ5sT7/iI7opDFUAsrpFNeIK6CSRNxF0R+Z4Vf5MLsnOAn9nk4ZF0
+         KQ/YA9/shGzYOwwm31V/kZOWS6Dqfq1QSBr855sQn3fxXhUEk+H0lyYo9iVdNUbSEIbx
+         ni/w==
+X-Gm-Message-State: APzg51AVEIN+Qw66Iwjhesb1G8RSl+Z0i/zpG0jaf3K+eIKsJom2bN9v
+        xArsCEf4V8wX+DYGIJeUXmg=
+X-Google-Smtp-Source: ANB0VdY57FJ42BfVYAaeM+/vwZwB+6sD2j1EKR5m32Qf7HWDZYmjkBUg5SEdaL1Ts4h4BvwmezMvVw==
+X-Received: by 2002:a19:f802:: with SMTP id a2-v6mr11328129lff.33.1535756121275;
+        Fri, 31 Aug 2018 15:55:21 -0700 (PDT)
+Received: from localhost.localdomain (apn-37-248-212-140.dynamic.gprs.plus.pl. [37.248.212.140])
+        by smtp.gmail.com with ESMTPSA id v20-v6sm1969187ljc.94.2018.08.31.15.55.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 31 Aug 2018 15:55:20 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Peter Rosin <peda@axentia.se>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-serial@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: [PATH v6 0/4] gpiolib: speed up GPIO array processing
+Date:   Sat,  1 Sep 2018 00:56:12 +0200
+Message-Id: <20180831225616.29221-1-jmkrzyszt@gmail.com>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20180829204900.19390-1-jmkrzyszt@gmail.com>
+References: <20180829204900.19390-1-jmkrzyszt@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 13 Aug 2018 16:16:38 +0530
-Himanshu Jha <himanshujha199640@gmail.com> wrote:
 
-> * Fix install instruction by adding `./autogen` command
->   before `./configure`.
-> * Add link to a more detailed installation instruction.
-> * Add link to SmPL grammar documentation.
-> * Add single space after ',' to slightly improve readability.
-> 
-> Signed-off-by: Himanshu Jha <himanshujha199640@gmail.com>
+The goal is to boost performance of get/set array functions while
+processing GPIO arrays which represent pins of a signle chip in
+hardware order.  If resulting performance is close to PIO, GPIO API
+can be used for data I/O without much loss of speed.
 
-Applied, thanks,
+Created and tested on a low end Amstrad Delta board with NAND driver
+updated to use GPIO API for data I/O.  Performance degrade compared to
+PIO is much better than before the optimization but still not quite
+satisfactory.
 
-jon
+Janusz Krzysztofik (4):
+      gpiolib: Pass bitmaps, not integer arrays, to get/set array
+      gpiolib: Identify arrays matching GPIO hardware
+      gpiolib: Pass array info to get/set array functions
+      gpiolib: Implement fast processing path in get/set array
+
+Changelog:
+v6:
+[PATCH v6 1/4] gpiolib: Pass bitmaps, not integer arrays, to get/set
+- use DECLARE_BITMAP() macro for declaring value_bitmap - great idea by
+  David Laight, thanks!
+drivers/auxdisplay/hd44780.c:
+- simplify the code and adjust comments as recommended by Geert
+  Uytterhoeven - thanks!,
+drivers/i2c/muxes/i2c-mux-gpio.c:
+- drop .values member of struct gpiomux - details prvided by Peter
+  Rosin, thanks!, 
+drivers/mux/gpio.c:
+- drop .val member of struct mux_gpio - details prvided by Peter
+  Rosin, thanks!,
+drivers/net/phy/mdio-mux-gpio.c:
+- drop .values member of struct mdio_mux_gpio_state and is processsing.
+
+v5:
+[PATCH v5 1/4] gpiolib: Pass bitmaps, not integer arrays, to get/set
+- drivers/i2c/muxes/i2c-mux-gpio.c:
+  - drop assigment of values to struct gpiomux.values, as recommended
+    by Peter Rosin - thanks!,
+  - mark the .values member of the structure as obsolete,
+- drivers/mux/gpio.c:
+  - drop assigment of values to struct mux_gpio.val, also recommended
+    by Peter Rosin - thanks!,
+  - merk the .val member of the structure as obsolete,
+- drivers/auxdisplay/hd44780.c:
+  - fix incorrect bitmap size,
+  - use >>= operator to simplify notation,
+  both catched by Miguel Ojeda - thanks!,
+- add Cc: clauses as well as Acked-by: collected so far.
+[PATCH v5 2/4] gpiolib: Identify arrays matching GPIO hardware
+- add Cc: clause.
+[PATCH v5 3/4] gpiolib: Pass array info to get/set array functions
+- add Cc: clauses as well as Acked-by: collected so far.
+[PATCH v5 4/4] gpiolib: Implement fast processing path in get/set
+- add Cc: clause.
+
+v4:
+That series was a follow up of the former "mtd: rawnand: ams-delta: Use
+gpio-omap accessors for data I/O" which already contained some changes
+to gpiolib.  Those previous attempts were commented by Borris Brezillon
+who suggested using GPIO API modified to accept bitmaps, and by Linus
+Walleij who suggested still more great ideas for further immprovement
+of the proposed API changes - thanks!
+
+diffstat:
+ Documentation/driver-api/gpio/board.rst     |   15 +
+ Documentation/driver-api/gpio/consumer.rst  |   48 +++-
+ drivers/auxdisplay/hd44780.c                |   74 +++----
+ drivers/bus/ts-nbus.c                       |   27 +-
+ drivers/gpio/gpio-max3191x.c                |   23 +-
+ drivers/gpio/gpiolib.c                      |  279 ++++++++++++++++++++++------
+ drivers/gpio/gpiolib.h                      |   15 +
+ drivers/i2c/muxes/i2c-mux-gpio.c            |   16 -
+ drivers/mmc/core/pwrseq_simple.c            |   15 -
+ drivers/mux/gpio.c                          |   18 -
+ drivers/net/phy/mdio-mux-gpio.c             |   13 -
+ drivers/pcmcia/soc_common.c                 |   14 -
+ drivers/phy/motorola/phy-mapphone-mdm6600.c |   21 +-
+ drivers/staging/iio/adc/ad7606.c            |   12 -
+ drivers/tty/serial/serial_mctrl_gpio.c      |    9 
+ include/linux/gpio/consumer.h               |   35 ++-
+ 16 files changed, 417 insertions(+), 217 deletions(-)
+
