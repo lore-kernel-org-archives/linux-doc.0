@@ -1,227 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B8CCA7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 15:02:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8C6E7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 15:04:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728934AbeHaTKD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 15:10:03 -0400
-Received: from mail-oi0-f67.google.com ([209.85.218.67]:41596 "EHLO
-        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728931AbeHaTKD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 15:10:03 -0400
-Received: by mail-oi0-f67.google.com with SMTP id k12-v6so22180379oiw.8
-        for <linux-doc@vger.kernel.org>; Fri, 31 Aug 2018 08:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VO1E65e+iHvRxpquck2xT3J8OTN9faM6zLPXFDpjCFE=;
-        b=KE0f1wy7aQu3+/DiQRcjwRuwoAi5YWJrZYNr3MFH6SHlkv+qioQfX3RRTGV3NHKGNV
-         ywYYDtYwPYcIuP3Ta8BdGFE/odkDMGmjurpeRXADQLak1AbZLbBFqkuz6+Itla2B3rYS
-         QWX4c0NhXkebRkKTivKDLJ54Re9besWKF0kVSB1Q5K9SU5UwsakeP3AgvTMe1j8i0ZAT
-         1FdYRHITy9tRZgRkseRHZcWD3dCcWvcsVuTlaq4IbLSZ82XL3DEcY/KkM8pXWUc0jGSC
-         iFKYTFzT4LUqdjssoXQsQ+I7Co0of3/WUo1tPMUynTMz/RH7LBnl+cNPOUy9K4Fpnm5c
-         iTLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VO1E65e+iHvRxpquck2xT3J8OTN9faM6zLPXFDpjCFE=;
-        b=dLrhIHoyDHQ14E8iCb8RVPa1lhqkJF3vGzHkAB15oyt44xB8GlFHx51hewlfJo4sYL
-         BBrK3+pjgMO5TYgtMqb4BPu9DeieJjp7vSicWkS4xt3Om7BD93/aRZDRuOVBcVhOkVcA
-         bgdpMxXg7+I0AdMyUTi9koN70IuA2MO4WG+NRJuYrbiQ8/k5RZ7l3MXFNHixcGrh2B2y
-         HRbDXWC5HaC/9GRqGVzyh68jezISBQDnFp2N89d+PKhc1U3jrU3Cx1fXcdW4NSm1ZdFd
-         1JylS+bg9JdkAzMqv6KnJdnnTgQ9b1j29cxulQi3C+tKd58i/wQZh77NWhZh+cN7bJtI
-         C53w==
-X-Gm-Message-State: APzg51Dw22FdnNf3rCPciZDfFihfmG5phlPPhhKdHNHpd+VTl7mJ7Jd4
-        mLeUTIZwBFmog/nxNgzVbjMGxHw3weTWjIXBkjWuIw==
-X-Google-Smtp-Source: ANB0Vdb1kP1C9qHD1EqBYR6Udetv/8kjc8hQgxiuv5REDY/mN+1HoCDAViwbzbvhZ79vZhl4MTnJVb01r8PyYDN9Gi8=
-X-Received: by 2002:aca:dc55:: with SMTP id t82-v6mr6919903oig.159.1535727729152;
- Fri, 31 Aug 2018 08:02:09 -0700 (PDT)
+        id S1727614AbeHaTL2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 15:11:28 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:35390 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729029AbeHaTL1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 Aug 2018 15:11:27 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 080EA80C3C2D;
+        Fri, 31 Aug 2018 15:03:33 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-8.bos.redhat.com [10.18.17.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0E49563F3B;
+        Fri, 31 Aug 2018 15:03:32 +0000 (UTC)
+Subject: Re: [PATCH 1/2] fs/dcache: Track & report number of negative dentries
+To:     Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>
+References: <1535476780-5773-1-git-send-email-longman@redhat.com>
+ <1535476780-5773-2-git-send-email-longman@redhat.com>
+ <20180829001153.GD1572@dastard>
+ <20180831143100.GA6379@bombadil.infradead.org>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <2b1fcabb-ff53-7906-c4d3-dfe19f8449e6@redhat.com>
+Date:   Fri, 31 Aug 2018 11:03:31 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-7-yu-cheng.yu@intel.com>
-In-Reply-To: <20180830143904.3168-7-yu-cheng.yu@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 31 Aug 2018 17:01:42 +0200
-Message-ID: <CAG48ez0jvsDw189=YoCCa8tmJUENeUd_ypcP5bYJ+eLMPCYCOQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 06/24] x86/cet: Control protection exception handler
-To:     yu-cheng.yu@intel.com
-Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
-        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180831143100.GA6379@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 31 Aug 2018 15:03:33 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 31 Aug 2018 15:03:33 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 30, 2018 at 4:43 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+On 08/31/2018 10:31 AM, Matthew Wilcox wrote:
+> On Wed, Aug 29, 2018 at 10:11:53AM +1000, Dave Chinner wrote:
+>>> +++ b/Documentation/sysctl/fs.txt
+>>> @@ -63,19 +63,26 @@ struct {
+>>>          int nr_unused;
+>>>          int age_limit;         /* age in seconds */
+>>>          int want_pages;        /* pages requested by system */
+>>> -        int dummy[2];
+>>> +        int nr_negative;       /* # of unused negative dentries */
+>>> +        int dummy;
+>>>  } dentry_stat = {0, 0, 45, 0,};
+>> That's not a backwards compatible ABI change. Those dummy fields
+>> used to represent some metric we no longer calculate, and there are
+>> probably still monitoring apps out there that think they still have
+>> the old meaning. i.e. they are still visible to userspace:
+> I believe you are incorrect.  dentry_stat was introduced in 2.1.60 with
+> this hunk:
 >
-> A control protection exception is triggered when a control flow transfer
-> attempt violated shadow stack or indirect branch tracking constraints.
-> For example, the return address for a RET instruction differs from the
-> safe copy on the shadow stack; or a JMP instruction arrives at a non-
-> ENDBR instruction.
+> +struct {
+> +       int nr_dentry;
+> +       int nr_unused;
+> +       int age_limit;          /* age in seconds */
+> +       int want_pages;         /* pages requested by system */
+> +       int dummy[2];
+> +} dentry_stat = {0, 0, 45, 0,};
+> +
 >
-> The control protection exception handler works in a similar way as the
-> general protection fault handler.
+> Looking through the rest of the dentry_stat changes in the 2.1.60 release,
+> it's not replacing anything, it's adding new information.
 
-Is there a reason why all the code in this patch isn't #ifdef'ed away
-on builds that don't support CET? It looks like the CET handler is
-hooked up to the IDT conditionally, but the handler code is always
-built?
+Thanks for looking up earlier non-git source tree. If that is the case,
+the dummy[2] was there just for future extension purpose. It should be
+perfectly fine to reuse one of the dummy entry for negative dentry count
+then as no sane application would have checked the last 2 entries of
+dentry-state and do dummy things if they are non-zero.
 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/entry/entry_64.S    |  2 +-
->  arch/x86/include/asm/traps.h |  3 ++
->  arch/x86/kernel/idt.c        |  4 +++
->  arch/x86/kernel/traps.c      | 58 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 66 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-> index 957dfb693ecc..5f4914e988df 100644
-> --- a/arch/x86/entry/entry_64.S
-> +++ b/arch/x86/entry/entry_64.S
-> @@ -1000,7 +1000,7 @@ idtentry spurious_interrupt_bug           do_spurious_interrupt_bug       has_error_code=0
->  idtentry coprocessor_error             do_coprocessor_error            has_error_code=0
->  idtentry alignment_check               do_alignment_check              has_error_code=1
->  idtentry simd_coprocessor_error                do_simd_coprocessor_error       has_error_code=0
-> -
-> +idtentry control_protection            do_control_protection           has_error_code=1
->
->         /*
->          * Reload gs selector with exception handling
-> diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
-> index 3de69330e6c5..5196050ff3d5 100644
-> --- a/arch/x86/include/asm/traps.h
-> +++ b/arch/x86/include/asm/traps.h
-> @@ -26,6 +26,7 @@ asmlinkage void invalid_TSS(void);
->  asmlinkage void segment_not_present(void);
->  asmlinkage void stack_segment(void);
->  asmlinkage void general_protection(void);
-> +asmlinkage void control_protection(void);
->  asmlinkage void page_fault(void);
->  asmlinkage void async_page_fault(void);
->  asmlinkage void spurious_interrupt_bug(void);
-> @@ -77,6 +78,7 @@ dotraplinkage void do_stack_segment(struct pt_regs *, long);
->  dotraplinkage void do_double_fault(struct pt_regs *, long);
->  #endif
->  dotraplinkage void do_general_protection(struct pt_regs *, long);
-> +dotraplinkage void do_control_protection(struct pt_regs *, long);
->  dotraplinkage void do_page_fault(struct pt_regs *, unsigned long);
->  dotraplinkage void do_spurious_interrupt_bug(struct pt_regs *, long);
->  dotraplinkage void do_coprocessor_error(struct pt_regs *, long);
-> @@ -142,6 +144,7 @@ enum {
->         X86_TRAP_AC,            /* 17, Alignment Check */
->         X86_TRAP_MC,            /* 18, Machine Check */
->         X86_TRAP_XF,            /* 19, SIMD Floating-Point Exception */
-> +       X86_TRAP_CP = 21,       /* 21 Control Protection Fault */
->         X86_TRAP_IRET = 32,     /* 32, IRET Exception */
->  };
->
-> diff --git a/arch/x86/kernel/idt.c b/arch/x86/kernel/idt.c
-> index 01adea278a71..2d02fdd599a2 100644
-> --- a/arch/x86/kernel/idt.c
-> +++ b/arch/x86/kernel/idt.c
-> @@ -104,6 +104,10 @@ static const __initconst struct idt_data def_idts[] = {
->  #elif defined(CONFIG_X86_32)
->         SYSG(IA32_SYSCALL_VECTOR,       entry_INT80_32),
->  #endif
-> +
-> +#ifdef CONFIG_X86_INTEL_CET
-> +       INTG(X86_TRAP_CP,               control_protection),
-> +#endif
->  };
->
->  /*
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index e6db475164ed..21a713b96148 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -578,6 +578,64 @@ do_general_protection(struct pt_regs *regs, long error_code)
->  }
->  NOKPROBE_SYMBOL(do_general_protection);
->
-> +static const char *control_protection_err[] =
-> +{
-> +       "unknown",
-> +       "near-ret",
-> +       "far-ret/iret",
-> +       "endbranch",
-> +       "rstorssp",
-> +       "setssbsy",
-> +};
-> +
-> +/*
-> + * When a control protection exception occurs, send a signal
-> + * to the responsible application.  Currently, control
-> + * protection is only enabled for the user mode.  This
-> + * exception should not come from the kernel mode.
-> + */
-> +dotraplinkage void
-> +do_control_protection(struct pt_regs *regs, long error_code)
-> +{
-> +       struct task_struct *tsk;
-> +
-> +       RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
-> +       if (notify_die(DIE_TRAP, "control protection fault", regs,
-> +                      error_code, X86_TRAP_CP, SIGSEGV) == NOTIFY_STOP)
-> +               return;
-> +       cond_local_irq_enable(regs);
-> +
-> +       if (!user_mode(regs))
-> +               die("kernel control protection fault", regs, error_code);
-> +
-> +       if (!static_cpu_has(X86_FEATURE_SHSTK) &&
-> +           !static_cpu_has(X86_FEATURE_IBT))
-> +               WARN_ONCE(1, "CET is disabled but got control "
-> +                         "protection fault\n");
-> +
-> +       tsk = current;
-> +       tsk->thread.error_code = error_code;
-> +       tsk->thread.trap_nr = X86_TRAP_CP;
-> +
-> +       if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-> +           printk_ratelimit()) {
-> +               unsigned int max_err;
-> +
-> +               max_err = ARRAY_SIZE(control_protection_err) - 1;
-> +               if ((error_code < 0) || (error_code > max_err))
-> +                       error_code = 0;
-> +               pr_info("%s[%d] control protection ip:%lx sp:%lx error:%lx(%s)",
-> +                       tsk->comm, task_pid_nr(tsk),
-> +                       regs->ip, regs->sp, error_code,
-> +                       control_protection_err[error_code]);
-> +               print_vma_addr(" in ", regs->ip);
+Cheers,
+Longman
 
-Shouldn't this be using KERN_CONT, like other callers of
-print_vma_addr(), to get the desired output?
-
-> +               pr_cont("\n");
-> +       }
-> +
-> +       force_sig_info(SIGSEGV, SEND_SIG_PRIV, tsk);
