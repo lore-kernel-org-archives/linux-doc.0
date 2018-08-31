@@ -4,51 +4,51 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D200D7D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 19:54:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 797F27D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 20:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727331AbeIAADo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 20:03:44 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:36044 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726791AbeIAADo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 20:03:44 -0400
-Received: by mail-pl1-f193.google.com with SMTP id e11-v6so5930516plb.3;
-        Fri, 31 Aug 2018 12:54:43 -0700 (PDT)
+        id S1727298AbeIAAjl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 20:39:41 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:43422 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727234AbeIAAjl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 20:39:41 -0400
+Received: by mail-pg1-f194.google.com with SMTP id v66-v6so5920090pgb.10;
+        Fri, 31 Aug 2018 13:30:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=O2+RyoXwP1vFHEXqc+YrucjUc4oPR7efDkfHldZt5TM=;
-        b=lR9tMH7wpDejLio/+R0E9VZCb6BceDPmAiL8C7ZBwYnDsPLOEkZ8YdVCO0xBBkdipi
-         ckxh16xGx94g2qhF5oQbXhZVbqZIVrRy3hIs9ETp7V7Z2INxW7vvqnYUOymGstfQP7EI
-         AjLC9ctJyXbYZgT0iMufVJsv3IxOHN6rAXfOGqz6UOzs4AWtqbUMe1Isfpy6oT31igtk
-         IRnx3ceLnuXCPH9gyr86VDOJmvkXD5EaROIzAwcdf/k8xrIIZg9OQnLMh7x3bGlSuLLm
-         2bb/SVrf2RcAf25ce8M1LcentHObTio9MdPorAx5rPHdqYDyYV3WolhxJS/mlktnyiB0
-         I60w==
+        bh=ldiGGrYP80ooSTIetaruf2D6fGY92tqckOC8DqwUN08=;
+        b=JEtKg9kB7bV41FClt5P/q4PnQuTbfebEcZhsBq46sOHxzwQ877Bx/shxDOQU2SY3RR
+         KGCxFjBRPm5+xyfiu4pyNJv8kUAjR7U7Hkb9uZ9+c7gEoLwB6tEqduqjC1d7HpMHCRNM
+         GfctW4Qg/uqfqMwq3fCB515lqGAiyJu6XuBPk+2Yhc9HBeJWgdR1+PYmjvTrBuuGwTO9
+         PrGgGB/KgwHa/scCDqraAZsvrS1egDbNn/b6cJJWlt1tStze2TXWDQFkb4SPOKXf9zeD
+         FF8/Ogkasu4N1R3v4uJmOVVeUWiUeuUF0ksdhpsv06IcfEFOziY+VosMKjAtVdtYqCHU
+         gfzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=O2+RyoXwP1vFHEXqc+YrucjUc4oPR7efDkfHldZt5TM=;
-        b=ecl1BLBEFTJPmPRzEtOY/x2QaEukTwgi2OmUpzuuhpzZBYgEEHK+qXXNumKmnrcAGy
-         +FSbWv3w90c5CJf7zWNigJLVanD9RY34011zhZ5PC3v1pr6pTZp34kDHHCRHEfxKDsjR
-         k2qfCMPWA3qeTP18qru+p3ks+WrCxXr9wQ0U/TdZ5x1racKvPZtAhADKhcfaUg8Gn2GX
-         Tr09D6Ks702wWE1HlrskHREsZORrVpSFgxeciRb5+F00kaAZ72LsHYYkwzjXuo4U3IOR
-         rv71gsAMO4L3O9QzwBZ3yG14f+WPUxVojYsI4u3abxCYGa3UQAjvgPmfvWwV3BWX79gL
-         7Isw==
-X-Gm-Message-State: APzg51Df+nu5qlAeqxyzMyd7RRNl3zxPJqNcUsqUNwqNX6wslq6sVp4N
-        Zw5VpO1DoC5exCu7HXoS2oE=
-X-Google-Smtp-Source: ANB0VdZ6FqscmiFh+C7oNaRDSvl7ALQE1Y3zvDzHv1dFnm0a35gZTit2/SSreZiPXCc4SNdb6uFU7A==
-X-Received: by 2002:a17:902:ac8f:: with SMTP id h15-v6mr16850921plr.161.1535745283381;
-        Fri, 31 Aug 2018 12:54:43 -0700 (PDT)
+        bh=ldiGGrYP80ooSTIetaruf2D6fGY92tqckOC8DqwUN08=;
+        b=RllOsS4LiC0HcQjwWrC3xgLg7K9Z3I2mQniRY2JVq4DnqnfzT4ELeMDswf7kwFQefh
+         OJYDkycTP6L3HsAqBattrI0DLGh7tZLLzazTbDu78QA5mTxldMtLDBLBVVY9oyaBHfi2
+         cPf4UKzzMNaa3jr+CpabYtewn7OLHdzzVcZT+qKEunQYzhzQhUZx3tkLsr+mx6WSNhRi
+         yYZeJuIbZu0j1gcj03V5tQNonfzU/9vm4dmWN9YiIj9jBtXFhAYB4ongX0zh/ThFjF5P
+         OXZAnBjtznUVaLEiJcimy9R7JuV268LkZLEWv0yDoU11p3Sdznwjv0Q0HrNuLqfS7pD9
+         FZgQ==
+X-Gm-Message-State: APzg51C67BrSD1clPM2FWVJ/eSmLHQnujVOk2kErDE0yX1v7dOLMtprQ
+        a7GjFMcR1+gsh75PfqetiQw=
+X-Google-Smtp-Source: ANB0VdaBpA0EFX5loZ9VFQFCM3GsWKbFWaiwX7yOm+9I0MPpHdJ/Y/hnI2lX2Aek+ahvT7+BV1XH8Q==
+X-Received: by 2002:a65:5581:: with SMTP id j1-v6mr15623821pgs.203.1535747432704;
+        Fri, 31 Aug 2018 13:30:32 -0700 (PDT)
 Received: from ban.mtv.corp.google.com ([2620:15c:202:1:299d:6b87:5478:d28a])
-        by smtp.gmail.com with ESMTPSA id u13-v6sm14094929pfn.59.2018.08.31.12.54.41
+        by smtp.gmail.com with ESMTPSA id g5-v6sm26841702pgn.73.2018.08.31.13.30.30
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 31 Aug 2018 12:54:42 -0700 (PDT)
-Date:   Fri, 31 Aug 2018 12:54:39 -0700
+        Fri, 31 Aug 2018 13:30:31 -0700 (PDT)
+Date:   Fri, 31 Aug 2018 13:30:28 -0700
 From:   Brian Norris <computersforpeace@gmail.com>
 To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
@@ -80,110 +80,82 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         linux-omap@vger.kernel.org, netdev@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         briannorris@chromium.org
-Subject: Re: [PATCH v2 15/29] net: split eth_platform_get_mac_address() into
- subroutines
-Message-ID: <20180831195439.GB62862@ban.mtv.corp.google.com>
+Subject: Re: [PATCH v2 02/29] Documentation: nvmem: document lookup entries
+Message-ID: <20180831203028.GC62862@ban.mtv.corp.google.com>
 References: <20180810080526.27207-1-brgl@bgdev.pl>
- <20180810080526.27207-16-brgl@bgdev.pl>
+ <20180810080526.27207-3-brgl@bgdev.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180810080526.27207-16-brgl@bgdev.pl>
+In-Reply-To: <20180810080526.27207-3-brgl@bgdev.pl>
 User-Agent: Mutt/1.10.1+48 (1f3a9df87d11) (2018-07-22)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-I responded to the cover letter, but I'll put some notes here too.
-
-On Fri, Aug 10, 2018 at 10:05:12AM +0200, Bartosz Golaszewski wrote:
+On Fri, Aug 10, 2018 at 10:04:59AM +0200, Bartosz Golaszewski wrote:
 > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> We want do add more sources from which to read the MAC address. In
-> order to avoid bloating this function too much, start by splitting it
-> into subroutines, each of which takes care of reading the MAC from
-> one source.
+> Describe the usage of nvmem cell lookup tables.
 > 
 > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > ---
->  net/ethernet/eth.c | 44 ++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 36 insertions(+), 8 deletions(-)
+>  Documentation/nvmem/nvmem.txt | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
 > 
-> diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
-> index 7f08105402c8..d01dd55de037 100644
-> --- a/net/ethernet/eth.c
-> +++ b/net/ethernet/eth.c
-> @@ -525,22 +525,50 @@ unsigned char * __weak arch_get_platform_mac_address(void)
->  	return NULL;
->  }
+> diff --git a/Documentation/nvmem/nvmem.txt b/Documentation/nvmem/nvmem.txt
+> index 8d8d8f58f96f..9d5e3ca2b4f3 100644
+> --- a/Documentation/nvmem/nvmem.txt
+> +++ b/Documentation/nvmem/nvmem.txt
+> @@ -58,6 +58,34 @@ static int qfprom_probe(struct platform_device *pdev)
+>  It is mandatory that the NVMEM provider has a regmap associated with its
+>  struct device. Failure to do would return error code from nvmem_register().
 >  
-> -int eth_platform_get_mac_address(struct device *dev, u8 *mac_addr)
-> +static int mac_address_from_of(struct device *dev, u8 *mac_addr)
->  {
->  	const unsigned char *addr;
-> -	struct device_node *dp;
-> +	struct device_node *np;
->  
-> -	dp = dev->of_node;
-> -	addr = NULL;
-> -	if (dp)
-> -		addr = of_get_mac_address(dp);
-> -	if (!addr)
-> -		addr = arch_get_platform_mac_address();
-> +	np = dev->of_node;
-> +	if (!np)
-> +		return -ENODEV;
->  
-> +	addr = of_get_mac_address(np);
->  	if (!addr)
->  		return -ENODEV;
->  
-> +	if (!addr || !is_valid_ether_addr(addr))
-> +		return -ENODEV;
-> +
->  	ether_addr_copy(mac_addr, addr);
->  	return 0;
->  }
-> +
-> +static int mac_address_from_arch(u8 *mac_addr)
-> +{
-> +	const unsigned char *addr;
-> +
-> +	addr = arch_get_platform_mac_address();
-> +	if (!addr || !is_valid_ether_addr(addr))
-> +		return -ENODEV;
-> +
-> +	ether_addr_copy(mac_addr, addr);
-> +	return 0;
-> +}
-> +
-> +int eth_platform_get_mac_address(struct device *dev, u8 *mac_addr)
-> +{
-> +	int rv;
-> +
-> +	rv = mac_address_from_of(dev, mac_addr);
+> +Additionally it is possible to create nvmem cell lookup entries and register
+> +them with the nvmem framework from machine code as shown in the example below:
 
-This could just be replaced with device_get_mac_address(). Then you
-should be extending either fwnode_get_device_mac_address() or
-device_get_mac_addres() in the next patch, not
-eth_platform_get_mac_address().
+Maybe it's partially a lacking in the existing documentation, but what
+does the "name" and the "nvmem_name" mean here? AFAICT, "nvmem_name" is
+akin to a provider identifier; and "name" is a key to match with the
+consumer. It feels like this should be in either the header / kerneldoc
+or this file. Or maybe both.
 
-Regards,
+Does this mean there can only be a single "mac-address" cell in the
+system? I have systems where there are multiple MACs provided in flash
+storage, and we need to map them to ethernet0 and ethernet1. Is that
+supported here?
+
 Brian
 
-> +	if (!rv)
-> +		return 0;
+> +static struct nvmem_cell_lookup foobar_lookup = {
+> +	.info = {
+> +		.name = "mac-address",
+> +		.offset = 0xd000,
+> +		.bytes = ERH_ALEN,
+> +	},
+> +	.nvmem_name = "foobar",
+> +};
 > +
-> +	rv = mac_address_from_arch(mac_addr);
-> +	if (!rv)
-> +		return 0;
-> +
-> +	return -ENODEV;
+> +static void foobar_register(void)
+> +{
+> +	...
+> +	nvmem_add_lookup_table(&foobar_lookup, 1);
+> +	...
 > +}
->  EXPORT_SYMBOL(eth_platform_get_mac_address);
+> +
+> +A lookup entry table can be later removed if needed:
+> +
+> +static void foobar_fini(void)
+> +{
+> +	...
+> +	nvmem_del_lookup_table(&foobar_lookup, 1);
+> +	...
+> +}
+> +
+>  NVMEM Consumers
+>  +++++++++++++++
+>  
 > -- 
 > 2.18.0
 > 
