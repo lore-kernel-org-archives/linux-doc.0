@@ -1,166 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6EF1E7D87A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 22:16:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B63DE7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 22:21:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726915AbeIAC0J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 22:26:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33836 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727316AbeIAC0J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Aug 2018 22:26:09 -0400
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A9A2D20857
-        for <linux-doc@vger.kernel.org>; Fri, 31 Aug 2018 22:16:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1535753797;
-        bh=5JcqvgJ5R2KgZ6pLdpuoRLSxlhBC0jlWlwtyhAoCMfw=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=pvl7IpV5AUZiTt3vyYSjlrJWoJsqWUiEdUGm8xccEgTdoM+nwfhCyetuqDjIJvA1h
-         xpMfP4VJR7+DnyFB70dgiVdxqC3QPFCKcEtHAEzW9V3QQ1MmtnLD5Z+o7wokt78eok
-         A48PGweg2CKrat9rcHIa3tLshP6Zkb4flDA+/CGc=
-Received: by mail-wr1-f46.google.com with SMTP id n2-v6so12466819wrw.7
-        for <linux-doc@vger.kernel.org>; Fri, 31 Aug 2018 15:16:37 -0700 (PDT)
-X-Gm-Message-State: APzg51BMg82wmFo/oYq6C0yCnfJgTj3OeaSS8yFmJuEltAwT4SxB70hJ
-        ABBroK7Fe0+8Su5ASbXly1tZAZRTfvh3h4ykpmJtQg==
-X-Google-Smtp-Source: ANB0VdaIjZj/C6hV9CnxyEN2VP3iGTe1FmM03H/POMYeSNN+Eydx6s/Zotvlm88GYlF0PhZUBDxb/xscidE6ePGzJQc=
-X-Received: by 2002:adf:c98d:: with SMTP id f13-v6mr12543468wrh.148.1535753796032;
- Fri, 31 Aug 2018 15:16:36 -0700 (PDT)
+        id S1727278AbeIACbV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 22:31:21 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47446 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727247AbeIACbV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 22:31:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Wc68WdaMlE04hN3vECgN5sEUmVsEJXRkosxdzu2/8fA=; b=XqYm1NjkLvX6StmlNqi814hDi
+        P+sftpobEflR2RWqIjlRIBLwvlHRzsFV+ZIwzRR9Lv8L37HPnwAGRD+QQIte+VwluY3Q4Ed54yIxj
+        w5HkCL07xsb/VHA+InYfIH/ysRYkqm9j2MguOOMvVrWLcyxrNEofuCRZ0Y3hEnWr5npcSCSby25cv
+        MFW9atTLPnDlwHlCW1u9QElbjyxy2aOjNdphiVSQFZ+5fLnSWW70ee+NYbiJhpaD9OJKhLJZdi3Z3
+        O1Bxr8AloYELQpBS3POV5PNzRYkPC30O1/MYF6UDZnuSn+GGYdfRBasUOmSGzhcEOljJ7mBldboWY
+        g3AxkS0Cg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fvrnY-0000bz-LJ; Fri, 31 Aug 2018 22:21:48 +0000
+Subject: Re: [PATCH] kconfig: do not require pkg-config on make {menu,n}config
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org
+Cc:     Meelis Roos <mroos@linux.ee>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <1535708095-15847-1-git-send-email-yamada.masahiro@socionext.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <70ea8a20-fd5a-1a78-3fda-5d3b060ba389@infradead.org>
+Date:   Fri, 31 Aug 2018 15:21:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Received: by 2002:a1c:9045:0:0:0:0:0 with HTTP; Fri, 31 Aug 2018 15:16:15
- -0700 (PDT)
-In-Reply-To: <1535752180.31230.4.camel@intel.com>
-References: <20180830143904.3168-1-yu-cheng.yu@intel.com> <20180830143904.3168-20-yu-cheng.yu@intel.com>
- <CAG48ez3uZrC-9uJ0uMoVPTtxRXRN8D+3zs5FknZD2woTT6mazg@mail.gmail.com>
- <CALCETrW78UKt6AQJeN8GkhtxjuASnH1PV5QSpzQtDz9-2d3Asw@mail.gmail.com>
- <1535646146.26689.11.camel@intel.com> <1535752180.31230.4.camel@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 31 Aug 2018 15:16:15 -0700
-X-Gmail-Original-Message-ID: <CALCETrV_aDasfkd6LD1cT11Hs1dO064uHjROLQPyhQfy_iuS8w@mail.gmail.com>
-Message-ID: <CALCETrV_aDasfkd6LD1cT11Hs1dO064uHjROLQPyhQfy_iuS8w@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 19/24] x86/cet/shstk: Introduce WRUSS instruction
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Jann Horn <jannh@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1535708095-15847-1-git-send-email-yamada.masahiro@socionext.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 31, 2018 at 2:49 PM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> On Thu, 2018-08-30 at 09:22 -0700, Yu-cheng Yu wrote:
->> On Thu, 2018-08-30 at 08:55 -0700, Andy Lutomirski wrote:
->> >
->> > On Thu, Aug 30, 2018 at 8:39 AM, Jann Horn <jannh@google.com>
->> > wrote:
->> > >
->> > >
->> > > On Thu, Aug 30, 2018 at 4:44 PM Yu-cheng Yu <yu-cheng.yu@intel.c
->> > > om
->> > > >
->> > > > wrote:
->> > > >
->> > > >
->> > > > WRUSS is a new kernel-mode instruction but writes directly
->> > > > to user shadow stack memory.  This is used to construct
->> > > > a return address on the shadow stack for the signal
->> > > > handler.
->> > > >
->> > > > This instruction can fault if the user shadow stack is
->> > > > invalid shadow stack memory.  In that case, the kernel does
->> > > > fixup.
->> > > >
->> > > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> > > [...]
->> > > >
->> > > >
->> > > > +static inline int write_user_shstk_64(unsigned long addr,
->> > > > unsigned long val)
->> > > > +{
->> > > > +       int err = 0;
->> > > > +
->> > > > +       asm volatile("1: wrussq %1, (%0)\n"
->> > > > +                    "2:\n"
->> > > > +                    _ASM_EXTABLE_HANDLE(1b, 2b,
->> > > > ex_handler_wruss)
->> > > > +                    :
->> > > > +                    : "r" (addr), "r" (val));
->> > > > +
->> > > > +       return err;
->> > > > +}
->> > > What's up with "err"? You set it to zero, and then you return
->> > > it,
->> > > but
->> > > nothing can ever set it to non-zero, right?
->> > >
->> > > >
->> > > >
->> > > > +__visible bool ex_handler_wruss(const struct
->> > > > exception_table_entry *fixup,
->> > > > +                               struct pt_regs *regs, int
->> > > > trapnr)
->> > > > +{
->> > > > +       regs->ip = ex_fixup_addr(fixup);
->> > > > +       regs->ax = -1;
->> > > > +       return true;
->> > > > +}
->> > > And here you just write into regs->ax, but your "asm volatile"
->> > > doesn't
->> > > reserve that register. This looks wrong to me.
->> > >
->> > > I think you probably want to add something like an explicit
->> > > `"+&a"(err)` output to the asm statements.
->> > We require asm goto support these days.  How about using
->> > that?  You
->> > won't even need a special exception handler.
->
-> Maybe something like this?  It looks simple now.
->
-> static inline int write_user_shstk_64(unsigned long addr, unsigned
-> long val)
-> {
->         asm_volatile_goto("wrussq %1, (%0)\n"
->                      "jmp %l[ok]\n"
->                      ".section .fixup,\"ax\"n"
->                      "jmp %l[fail]\n"
->                      ".previous\n"
->                      :: "r" (addr), "r" (val)
->                      :: ok, fail);
-> ok:
->         return 0;
-> fail:
->         return -1;
-> }
->
+On 08/31/2018 02:34 AM, Masahiro Yamada wrote:
+> Meelis Roos reported a {menu,n}config regression:
+> 
+>  "I have libncurses devel package installed in the default system
+>   location (as do 99%+ on actual developers probably) and in this
+>   case, pkg-config is useless.  pkg-config is needed only when
+>   libraries and headers are installed in non-default locations but
+>   it is bad to require installation of pkg-config on all the machines
+>   where make menuconfig would be possibly run."
+> 
+> For {menu,n}config, do not use pkg-config if it is not installed.
+> For {g,x}config, keep checking pkg-config since we really rely on it
+> for finding the installation paths of the required packages.
+> 
+> Fixes: 4ab3b80159d4 ("kconfig: check for pkg-config on make {menu,n,g,x}config")
+> Reported-by: Meelis Roos <mroos@linux.ee>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-I think you can get rid of 'jmp %l[ok]' and the ok label and just fall
-through.  And you don't need an explicit jmp to fail -- just set the
-_EX_HANDLER entry to land on the fail label.
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thank you.
+
+> ---
+> 
+>  Documentation/process/changes.rst  |  2 +-
+>  scripts/kconfig/Makefile           |  1 -
+>  scripts/kconfig/check-pkgconfig.sh |  8 --------
+>  scripts/kconfig/gconf-cfg.sh       |  7 +++++++
+>  scripts/kconfig/mconf-cfg.sh       | 25 ++++++++++++++-----------
+>  scripts/kconfig/nconf-cfg.sh       | 25 ++++++++++++++-----------
+>  scripts/kconfig/qconf-cfg.sh       |  7 +++++++
+>  7 files changed, 43 insertions(+), 32 deletions(-)
+>  delete mode 100644 scripts/kconfig/check-pkgconfig.sh
+
+
+-- 
+~Randy
