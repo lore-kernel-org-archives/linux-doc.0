@@ -1,99 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F2B3F7D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 09:53:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA9897D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 10:22:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727417AbeHaOAa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 10:00:30 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:45760 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727268AbeHaOAa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 10:00:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=1Z9clxjW3U+Fz0CBnB0Xf1KD0++mL+Gum5NfWi0pfRE=; b=PP3cIKmP5FW8cPZQltFqraD5M
-        SBQU8PR7OlGE+W8n5eIueLjaMEnKjNuNFP5eZA5Cu37PMu73qny/kfL1O+HU7unmyruQH4XaPNO83
-        T8gQJ9kPmpC5NEhEyjfjK9y6L830NFfSOQ/hKGtXJPhJ5Yl9eUvr6+0G0cIAZmqn8Fo8wBXlwPKCU
-        q3elfpJ0qy6wFWOnkCFaNsttVrywd1grQSd1sy133xNymKAK37E6adqngjveQ+envgjiFkaY0IiWs
-        Ervf3MSWMFcWtiOhf4gqnbeUIsn7HKJKL4Q6PGyzHN9Ja+F75PhacrTMrhs6/rxhjLYbRdgTtcD3U
-        OJlOsVqjw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fvg6v-0006BR-7p; Fri, 31 Aug 2018 09:53:01 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 12B222024D700; Fri, 31 Aug 2018 11:53:00 +0200 (CEST)
-Date:   Fri, 31 Aug 2018 11:53:00 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Jann Horn <jannh@google.com>
-Cc:     yu-cheng.yu@intel.com, Dave Hansen <dave.hansen@linux.intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
-        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
-Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
- pmdp_set_wrprotect for _PAGE_DIRTY_SW
-Message-ID: <20180831095300.GF24124@hirez.programming.kicks-ass.net>
-References: <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com>
- <1535649960.26689.15.camel@intel.com>
- <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com>
- <1535651666.27823.6.camel@intel.com>
- <CAG48ez3ixWROuQc6WZze6qPL6q0e_gCnMU4XF11JUWziePsBJg@mail.gmail.com>
- <1535660494.28258.36.camel@intel.com>
- <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
- <1535662366.28781.6.camel@intel.com>
- <CAG48ez0mkr95_TbLQnDGuGUd6G+eJVLZ-fEjDkwA6dSrm+9tLw@mail.gmail.com>
- <CAG48ez3S3+DzAyo_SnoUW1GO0Cpd_x0A83MOx2p_MkogoAatLQ@mail.gmail.com>
+        id S1728247AbeHaO2V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 10:28:21 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:38483 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727191AbeHaO2V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 10:28:21 -0400
+Received: by mail-lj1-f193.google.com with SMTP id p6-v6so9674688ljc.5;
+        Fri, 31 Aug 2018 03:21:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TYD+xqOtnjhx+b8U7hMv98xh8dj8bFLCKPFwlBspsdk=;
+        b=FqzGzUvGAfXDjFqqpdGkoaY2p/iwh8WBNYVO6sBQ1S1CsYOtPOV0BsiN7AAJ0M5r9q
+         h9yQI4PrX71lTZxRyM28vdLvMdsTF5gJ7+gcPq3ofRVGkaFSjYVm6gPJgKmBAbGxkgyC
+         66/O/1dbPMssjGwbQlFArqU9gtIP8F9A0gg1znCghHP7ajZ1fwbhbMth5QzVfEyb/Un+
+         V4IMExDl2rQlyBrECil7bRAReFQ0XubESnLSLNlY6SBPttNjhOwcEzFRr6/vaH0C7qfu
+         VsMbJtseMxgpc8o0Q3JEafNtnUC/2C1YupkTSB7N1+qKulTWNN4A82mE2yw8Z1ZfPaNq
+         X8AQ==
+X-Gm-Message-State: APzg51BqAnwlvOsbVedR1RGzEqMoyJm8MtwU3djrxW4mTXG2rwz9XqSv
+        TCzgMsR1Qq1WPvwdJ3JcRXw=
+X-Google-Smtp-Source: ANB0VdZH4em3NU2cm7DnXj0eztJ5aC5TfQvZ2SKxTmOc2mtqRlrZPPWZVo8BVghzsSzF4QO5x2txug==
+X-Received: by 2002:a2e:9cd0:: with SMTP id g16-v6mr4972577ljj.110.1535710892177;
+        Fri, 31 Aug 2018 03:21:32 -0700 (PDT)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id t14-v6sm1698004ljg.17.2018.08.31.03.21.30
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 31 Aug 2018 03:21:31 -0700 (PDT)
+Date:   Fri, 31 Aug 2018 13:21:23 +0300
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@01.org, corbet@lwn.net, mturquette@baylibre.com,
+        sboyd@kernel.org, linux@armlinux.org.uk, andrew.smirnov@gmail.com,
+        robh@kernel.org, sre@kernel.org, linux@roeck-us.net,
+        sjhuang@iluvatar.ai, mazziesaccount@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        heikki.haikola@fi.rohmeurope.com, mikko.mutanen@fi.rohmeurope.com
+Subject: Re: [PATCH 2/2] clk: bd718x7: Initial support for ROHM
+ bd71837/bd71847 PMIC clock
+Message-ID: <20180831102123.GA2472@localhost.localdomain>
+References: <0e6f19f99a4321d37472635c9210f6c13ac53147.1535630942.git.matti.vaittinen@fi.rohmeurope.com>
+ <201808310820.GfPfChXp%fengguang.wu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG48ez3S3+DzAyo_SnoUW1GO0Cpd_x0A83MOx2p_MkogoAatLQ@mail.gmail.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <201808310820.GfPfChXp%fengguang.wu@intel.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 30, 2018 at 11:47:16PM +0200, Jann Horn wrote:
->         do {
->                 pte = pte_wrprotect(pte);
->                 /* note: relies on _PAGE_DIRTY_HW < _PAGE_DIRTY_SW */
->                 /* dirty direct bit-twiddling; you can probably write
-> this in a nicer way */
->                 pte.pte |= (pte.pte & _PAGE_DIRTY_HW) >>
-> _PAGE_BIT_DIRTY_HW << _PAGE_BIT_DIRTY_SW;
->                 pte.pte &= ~_PAGE_DIRTY_HW;
->                 pte = cmpxchg(ptep, pte, new_pte);
->         } while (pte != new_pte);
+Hello All,
 
-Please use the form:
+Just wanted to point out for the reviewers that this patch depends on
+not yet accepted MFD/regulator patch. (struct/defines in
+include/linux/mfd/rohm-bd718x7.h were changed)
+https://lore.kernel.org/lkml/cover.1535545377.git.matti.vaittinen@fi.rohmeurope.com/
 
-	pte_t new_pte, pte = READ_ONCE(*ptep);
-	do {
-		new_pte = /* ... */;
-	} while (!try_cmpxchg(ptep, &pte, new_pte);
+On Fri, Aug 31, 2018 at 09:18:19AM +0800, kbuild test robot wrote:
+> Hi Matti,
+> 
+> Thank you for the patch! Yet something to improve:
+> 
+> [auto build test ERROR on clk/clk-next]
+> [also build test ERROR on v4.19-rc1 next-20180830]
+> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-Also, this will fail to build on i386-PAE, but I suspect this code will
-be under some CONFIG option specific to x86_64 anyway.
+Thus this error was expected. What is the generally best way to work
+when there is changes to more than one subsystem? With this approach
+the patch set here won't compile until MFD part gets applied. But if
+I use old definitions/structs here, then clk tree gets broken when
+MFD/regulator part changes defines. I see only bad and worse options =)
+Anyways, I guess sending this patch with new defines (and applying it
+only after MFD) is still better than applying this with old defines and
+breaking it when MFD changes. (Assuming all of the patches get applied
+at some point).
+
+Br,
+	Matti Vaittinen
+> 
