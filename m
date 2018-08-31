@@ -1,94 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EBD677D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 14:31:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E7577D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 14:39:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727631AbeHaSiz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 14:38:55 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:46362 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727572AbeHaSiz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 14:38:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=fMCemegQnyuRXe3rpJk0Tz/7i5F8/97y2iTDT7TwqEI=; b=qrHL2/mtkVyQ5+fM3HimAU9Wh
-        zndRRMWqAPECe7OcJ12nNsLtpHIO+/241+5kUuNqmXxK4X/bOCJfwDlau9qe/s2DdkNc1In7J4YzU
-        zWpflyxN0VGGT/LK+8pAK0QAqPdeRBAsf7N4CpYevm5XvWSbrgT7YbdCe8JDZ7jeS2O7PnGuVKO6r
-        Qb8iVv7eiGtV/sNUiWyIYBFK9o19M/hXp+2YyRazhER01+qpmS8clz4ZrlExy+cs+y4l0JXRfQ6s6
-        lUUly45zZMAQC987BB+42B6R5DwlRJfjUsuBLkZlrCAMJ3WyJaYlWGcylIzoTaeymRwiE4OI8BkKF
-        iJwubyLUQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fvkRx-00050N-2U; Fri, 31 Aug 2018 14:31:01 +0000
-Date:   Fri, 31 Aug 2018 07:31:00 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Waiman Long <longman@redhat.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
-        Michal Hocko <mhocko@kernel.org>
-Subject: Re: [PATCH 1/2] fs/dcache: Track & report number of negative dentries
-Message-ID: <20180831143100.GA6379@bombadil.infradead.org>
-References: <1535476780-5773-1-git-send-email-longman@redhat.com>
- <1535476780-5773-2-git-send-email-longman@redhat.com>
- <20180829001153.GD1572@dastard>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180829001153.GD1572@dastard>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+        id S1728722AbeHaSp4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 14:45:56 -0400
+Received: from mga18.intel.com ([134.134.136.126]:42997 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728627AbeHaSp4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 Aug 2018 14:45:56 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 Aug 2018 07:38:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,311,1531810800"; 
+   d="scan'208";a="229217398"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by orsmga004.jf.intel.com with ESMTP; 31 Aug 2018 07:38:08 -0700
+Message-ID: <1535726032.32537.0.camel@intel.com>
+Subject: Re: [RFC PATCH v3 12/24] x86/mm: Modify ptep_set_wrprotect and
+ pmdp_set_wrprotect for _PAGE_DIRTY_SW
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
+Date:   Fri, 31 Aug 2018 07:33:52 -0700
+In-Reply-To: <20180831095300.GF24124@hirez.programming.kicks-ass.net>
+References: <ce051b5b-feef-376f-e085-11f65a5f2215@linux.intel.com>
+         <1535649960.26689.15.camel@intel.com>
+         <33d45a12-513c-eba2-a2de-3d6b630e928e@linux.intel.com>
+         <1535651666.27823.6.camel@intel.com>
+         <CAG48ez3ixWROuQc6WZze6qPL6q0e_gCnMU4XF11JUWziePsBJg@mail.gmail.com>
+         <1535660494.28258.36.camel@intel.com>
+         <CAG48ez0yOuDhqxB779aO3Kss3gQ3cZTJL1VphDXQm+_M9jFPvQ@mail.gmail.com>
+         <1535662366.28781.6.camel@intel.com>
+         <CAG48ez0mkr95_TbLQnDGuGUd6G+eJVLZ-fEjDkwA6dSrm+9tLw@mail.gmail.com>
+         <CAG48ez3S3+DzAyo_SnoUW1GO0Cpd_x0A83MOx2p_MkogoAatLQ@mail.gmail.com>
+         <20180831095300.GF24124@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 29, 2018 at 10:11:53AM +1000, Dave Chinner wrote:
-> > +++ b/Documentation/sysctl/fs.txt
-> > @@ -63,19 +63,26 @@ struct {
-> >          int nr_unused;
-> >          int age_limit;         /* age in seconds */
-> >          int want_pages;        /* pages requested by system */
-> > -        int dummy[2];
-> > +        int nr_negative;       /* # of unused negative dentries */
-> > +        int dummy;
-> >  } dentry_stat = {0, 0, 45, 0,};
+On Fri, 2018-08-31 at 11:53 +0200, Peter Zijlstra wrote:
+> On Thu, Aug 30, 2018 at 11:47:16PM +0200, Jann Horn wrote:
+> > 
+> >         do {
+> >                 pte = pte_wrprotect(pte);
+> >                 /* note: relies on _PAGE_DIRTY_HW < _PAGE_DIRTY_SW
+> > */
+> >                 /* dirty direct bit-twiddling; you can probably
+> > write
+> > this in a nicer way */
+> >                 pte.pte |= (pte.pte & _PAGE_DIRTY_HW) >>
+> > _PAGE_BIT_DIRTY_HW << _PAGE_BIT_DIRTY_SW;
+> >                 pte.pte &= ~_PAGE_DIRTY_HW;
+> >                 pte = cmpxchg(ptep, pte, new_pte);
+> >         } while (pte != new_pte);
+> Please use the form:
 > 
-> That's not a backwards compatible ABI change. Those dummy fields
-> used to represent some metric we no longer calculate, and there are
-> probably still monitoring apps out there that think they still have
-> the old meaning. i.e. they are still visible to userspace:
+> 	pte_t new_pte, pte = READ_ONCE(*ptep);
+> 	do {
+> 		new_pte = /* ... */;
+> 	} while (!try_cmpxchg(ptep, &pte, new_pte);
+> 
+> Also, this will fail to build on i386-PAE, but I suspect this code
+> will
+> be under some CONFIG option specific to x86_64 anyway.
 
-I believe you are incorrect.  dentry_stat was introduced in 2.1.60 with
-this hunk:
+Thanks!  I will work on it.
 
-+struct {
-+       int nr_dentry;
-+       int nr_unused;
-+       int age_limit;          /* age in seconds */
-+       int want_pages;         /* pages requested by system */
-+       int dummy[2];
-+} dentry_stat = {0, 0, 45, 0,};
-+
-
-Looking through the rest of the dentry_stat changes in the 2.1.60 release,
-it's not replacing anything, it's adding new information.
+Yu-cheng
