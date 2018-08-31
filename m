@@ -5,103 +5,146 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC1857D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 20:55:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD2A07D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 Aug 2018 21:54:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727518AbeIABEO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 Aug 2018 21:04:14 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37410 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726869AbeIABEN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Aug 2018 21:04:13 -0400
-Received: by mail-wr1-f66.google.com with SMTP id u12-v6so12318780wrr.4;
-        Fri, 31 Aug 2018 13:54:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=aqkK5DFo76IrnjE1iNa7ClWeJ8UvmBhqCpPx94luwiA=;
-        b=hWbOAEJrKrxiJSEaN2XSYQyhFHy7B60kx4+Q5CeEDa4OjJtqWKZNQVIvD3WqwolJ2+
-         /sbd2ZJ2crIJjMMPR+RHZh2b6kgAFehgGfaIPJcewR8JuOozGKO5bSxbVRCKiYzZdJ/7
-         3I6gdU9FvsRVE4twxfSLVb7RptStGVHbUD0A40VYbrT7CHchfsWB5yilgJkLHUCVyjWw
-         caqHY1NxoPeoMW+GSLhdeiU/iK2hr/7TqJSMk7J0sa6QWPliNvEq9N3fv9r0QEhR1q9v
-         TaeAF7vXDpH9ycF9DdVeQxhno5rKswbVxw/4QrveJD0yvNk5CQmqTxYPn1lw0b123+D4
-         5DWg==
-X-Gm-Message-State: APzg51Dkd0YRpUqWmCiP7wnelJPKNQqeQLBdgB6Mwz8msRYioL9t+IiP
-        0dOIfXYM814RGrHoq22YtMQ=
-X-Google-Smtp-Source: ANB0VdZmOO1JXpcYmBr14xDd/IwW0cfJZxgoswQp+qlEe4+3RFaLDognMT1eyZzJ8aer3IkizxOW+w==
-X-Received: by 2002:adf:9a46:: with SMTP id z64-v6mr11623267wrb.109.1535748898470;
-        Fri, 31 Aug 2018 13:54:58 -0700 (PDT)
-Received: from techadventures.net (techadventures.net. [62.201.165.239])
-        by smtp.gmail.com with ESMTPSA id k13-v6sm6720143wrq.7.2018.08.31.13.54.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 31 Aug 2018 13:54:57 -0700 (PDT)
-Received: by techadventures.net (Postfix, from userid 1000)
-        id 37D5D124D4E; Fri, 31 Aug 2018 22:54:57 +0200 (CEST)
-Date:   Fri, 31 Aug 2018 22:54:57 +0200
-From:   Oscar Salvador <osalvador@techadventures.net>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-acpi@vger.kernel.org, xen-devel@lists.xenproject.org,
-        devel@linuxdriverproject.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        John Allen <jallen@linux.vnet.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Juergen Gross <jgross@suse.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Len Brown <lenb@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Mathieu Malaterre <malat@debian.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Neuling <mikey@neuling.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Nathan Fontenot <nfont@linux.vnet.ibm.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Paul Mackerras <paulus@samba.org>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rashmica Gupta <rashmica.g@gmail.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
+        id S1727357AbeIACD0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 Aug 2018 22:03:26 -0400
+Received: from mga17.intel.com ([192.55.52.151]:36530 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727232AbeIACDZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 Aug 2018 22:03:25 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 Aug 2018 14:53:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,313,1531810800"; 
+   d="scan'208";a="81989050"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by fmsmga002.fm.intel.com with ESMTP; 31 Aug 2018 14:53:57 -0700
+Message-ID: <1535752180.31230.4.camel@intel.com>
+Subject: Re: [RFC PATCH v3 19/24] x86/cet/shstk: Introduce WRUSS instruction
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@amacapital.net>, Jann Horn <jannh@google.com>
+Cc:     the arch/x86 maintainers <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
-Subject: Re: [PATCH RFCv2 0/6] mm: online/offline_pages called w.o.
- mem_hotplug_lock
-Message-ID: <20180831205457.GB3945@techadventures.net>
-References: <20180821104418.12710-1-david@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180821104418.12710-1-david@redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
+Date:   Fri, 31 Aug 2018 14:49:40 -0700
+In-Reply-To: <1535646146.26689.11.camel@intel.com>
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
+         <20180830143904.3168-20-yu-cheng.yu@intel.com>
+         <CAG48ez3uZrC-9uJ0uMoVPTtxRXRN8D+3zs5FknZD2woTT6mazg@mail.gmail.com>
+         <CALCETrW78UKt6AQJeN8GkhtxjuASnH1PV5QSpzQtDz9-2d3Asw@mail.gmail.com>
+         <1535646146.26689.11.camel@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 21, 2018 at 12:44:12PM +0200, David Hildenbrand wrote:
-> This is the same approach as in the first RFC, but this time without
-> exporting device_hotplug_lock (requested by Greg) and with some more
-> details and documentation regarding locking. Tested only on x86 so far.
+On Thu, 2018-08-30 at 09:22 -0700, Yu-cheng Yu wrote:
+> On Thu, 2018-08-30 at 08:55 -0700, Andy Lutomirski wrote:
+> > 
+> > On Thu, Aug 30, 2018 at 8:39 AM, Jann Horn <jannh@google.com>
+> > wrote:
+> > > 
+> > > 
+> > > On Thu, Aug 30, 2018 at 4:44 PM Yu-cheng Yu <yu-cheng.yu@intel.c
+> > > om
+> > > > 
+> > > > wrote:
+> > > > 
+> > > > 
+> > > > WRUSS is a new kernel-mode instruction but writes directly
+> > > > to user shadow stack memory.  This is used to construct
+> > > > a return address on the shadow stack for the signal
+> > > > handler.
+> > > > 
+> > > > This instruction can fault if the user shadow stack is
+> > > > invalid shadow stack memory.  In that case, the kernel does
+> > > > fixup.
+> > > > 
+> > > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > [...]
+> > > > 
+> > > > 
+> > > > +static inline int write_user_shstk_64(unsigned long addr,
+> > > > unsigned long val)
+> > > > +{
+> > > > +       int err = 0;
+> > > > +
+> > > > +       asm volatile("1: wrussq %1, (%0)\n"
+> > > > +                    "2:\n"
+> > > > +                    _ASM_EXTABLE_HANDLE(1b, 2b,
+> > > > ex_handler_wruss)
+> > > > +                    :
+> > > > +                    : "r" (addr), "r" (val));
+> > > > +
+> > > > +       return err;
+> > > > +}
+> > > What's up with "err"? You set it to zero, and then you return
+> > > it,
+> > > but
+> > > nothing can ever set it to non-zero, right?
+> > > 
+> > > > 
+> > > > 
+> > > > +__visible bool ex_handler_wruss(const struct
+> > > > exception_table_entry *fixup,
+> > > > +                               struct pt_regs *regs, int
+> > > > trapnr)
+> > > > +{
+> > > > +       regs->ip = ex_fixup_addr(fixup);
+> > > > +       regs->ax = -1;
+> > > > +       return true;
+> > > > +}
+> > > And here you just write into regs->ax, but your "asm volatile"
+> > > doesn't
+> > > reserve that register. This looks wrong to me.
+> > > 
+> > > I think you probably want to add something like an explicit
+> > > `"+&a"(err)` output to the asm statements.
+> > We require asm goto support these days.  How about using
+> > that?  You
+> > won't even need a special exception handler.
 
-Hi David,
+Maybe something like this?  It looks simple now.
 
-I would like to review this but I am on vacation, so I will not be able to get to it
-soon.
-I plan to do it once I am back.
+static inline int write_user_shstk_64(unsigned long addr, unsigned
+long val)
+{
+	asm_volatile_goto("wrussq %1, (%0)\n"
+		     "jmp %l[ok]\n"
+		     ".section .fixup,\"ax\"n"
+		     "jmp %l[fail]\n"
+		     ".previous\n"
+		     :: "r" (addr), "r" (val)
+		     :: ok, fail);
+ok:
+	return 0;
+fail:
+	return -1;
+}
 
-Thanks
--- 
-Oscar Salvador
-SUSE L3
