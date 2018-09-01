@@ -1,98 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AFEA7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  1 Sep 2018 05:07:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4069E7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  1 Sep 2018 07:33:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726375AbeIAJSS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 1 Sep 2018 05:18:18 -0400
-Received: from imap.cs.msu.ru ([188.44.42.39]:55610 "EHLO mail.cs.msu.ru"
+        id S1726163AbeIALoF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 1 Sep 2018 07:44:05 -0400
+Received: from smtp3-1.goneo.de ([85.220.129.38]:40095 "EHLO smtp3-1.goneo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726158AbeIAJSR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 1 Sep 2018 05:18:17 -0400
-X-Greylist: delayed 962 seconds by postgrey-1.27 at vger.kernel.org; Sat, 01 Sep 2018 05:18:15 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=altlinux.org; s=dkim; h=Subject:Message-Id:Date:Cc:To:From:Sender:Reply-To:
-        MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=3wqEMQZHFNxKgmMGmkZAJq6pv5nWKKC1wNxx1OHLznI=; b=edrUCfWdSZ6vtKEYHbG6zwhEVX
-        NcyJae8BTrhUV0A6tKQMWvAc3zc1DJk/3gX8+iecSfSubqSid1oMjU+dLBhdbPrAQVGvuzXY1i5ok
-        QMwiuOeyEmIjNltasP5CUYV9xKyYzZbWA3Bus0HJBSnQ3+lNFf+YdDkqCvzY+vPKkf5S3XNUwasQ0
-        96bJIGjtQ0aDxORaaY3FzgEiz9ESeo4LzN6JVxHxAVh9cURCwKthgCa+qixqGIv1YYNGBT0kxObdd
-        F+6/1irxdTkNGkay4CkFIkD4AQjWHxnidDwKQ0QvEedGTqTPUY31r7QF+dbrJrVe4ADs7AKGU0/p8
-        15Wx4hSg==;
-Received: from [188.44.42.210] (port=57613 helo=localhost.cs.msu.ru)
-        by mail.cs.msu.ru with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.91 (FreeBSD))
-        (envelope-from <vseleznv@altlinux.org>)
-        id 1fvxsf-000NfZ-9i; Sat, 01 Sep 2018 07:51:29 +0300
-From:   "Vladimir D. Seleznev" <vseleznv@altlinux.org>
-To:     linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Vladimir D. Seleznev" <vseleznv@altlinux.org>
-Date:   Sat,  1 Sep 2018 07:51:15 +0300
-Message-Id: <20180901045115.18338-1-vseleznv@altlinux.org>
-X-Mailer: git-send-email 2.17.1
-X-SA-Exim-Connect-IP: 188.44.42.210
-X-SA-Exim-Mail-From: vseleznv@altlinux.org
-Subject: [PATCH] Documentation: fix image_size default value
-X-SA-Exim-Version: 4.2
-X-SA-Exim-Scanned: Yes (on mail.cs.msu.ru)
+        id S1725964AbeIALoF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 1 Sep 2018 07:44:05 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp3.goneo.de (Postfix) with ESMTP id 8C5DD23F9F9;
+        Sat,  1 Sep 2018 09:33:01 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp3.goneo.de ([127.0.0.1])
+        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 6mg080PzcGMG; Sat,  1 Sep 2018 09:33:00 +0200 (CEST)
+Received: from ryzen (dyndsl-037-138-238-035.ewe-ip-backbone.de [37.138.238.35])
+        by smtp3.goneo.de (Postfix) with ESMTPSA id 47DA023F428;
+        Sat,  1 Sep 2018 09:33:00 +0200 (CEST)
+Message-ID: <5a40b453e9a419c24af1e368711d504a9086c882.camel@darmarit.de>
+Subject: Re: [PATCH] docs: tidy up TOCs and refs to license-rules.rst
+From:   Markus Heiser <markus.heiser@darmarit.de>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, Jonas Oberg <jonas@fsfe.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Date:   Sat, 01 Sep 2018 09:32:59 +0200
+In-Reply-To: <20180831165015.1461bdc7@lwn.net>
+References: <20180814114312.23201-1-markus.heiser@darmarit.de>
+         <20180831165015.1461bdc7@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit updates the default value of /sys/power/image_size in
-the documentation.
+Am Freitag, den 31.08.2018, 16:50 -0600 schrieb Jonathan Corbet:
+> On Tue, 14 Aug 2018 13:43:12 +0200
+> Markus Heiser <markus.heiser@darmarit.de> wrote:
+> 
+> > The documentation and TOCs are organized in a manner of a tree. Adding a
+> > TOC to
+> > the root, which refers to a file which is located in a subfolder forms a
+> > grid. Those TOCs are a bit confusing and thats why we get additional error
+> > messages while building partial documentation::
+> > 
+> >   $ make SPHINXDIRS=process htmldocs
+> >   ...
+> >   checking consistency... Documentation/process/license-rules.rst: \
+> >   WARNING: document isn't included in any toctree
+> > 
+> > To fix it, the *root-license-TOC* is replaced by a reference and the
+> > 'license-roles.txt' is added to the Documentation/process/index.rst TOC.
+> > 
+> > BTW: there was an old licences remark in Documentation/process/howto.rst
+> > which
+> > is also updated, mentioning SPDX and pointing to the license-rules.rst
+> 
+> So those are two separate changes and should really have been in two
+> different patches.  I guess we can let that slide just this
+> once...applied.
 
-Since ac5c24ec1e983313ef0015258fba6f630e54e7cn the `image_size' value is
-set to about 2/5 of RAM, according to kernel/power/snapshot.c:
+Ah, OK .. thanks!
 
-	image_size = ((totalram_pages * 2) / 5) * PAGE_SIZE;
+> I do have to wonder if the licensing rules are *really* the most
+> important thing in our docs - the thing that readers should encounter
+> first, before anything else.  I think I'll revisit that at another time...
 
-but this change was not reflected everywhere in the documentation.
+OT: my patch was to fix the structural licensing mess. Feel free to change,
+what you have been applied with commit #aa19a176df95
 
-Signed-off-by: Vladimir D. Seleznev <vseleznv@altlinux.org>
----
- Documentation/ABI/testing/sysfs-power | 2 +-
- Documentation/power/swsusp.txt        | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-power b/Documentation/ABI/testing/sysfs-power
-index 2f813d644c69..18b7dc929234 100644
---- a/Documentation/ABI/testing/sysfs-power
-+++ b/Documentation/ABI/testing/sysfs-power
-@@ -99,7 +99,7 @@ Description:
- 		this file, the suspend image will be as small as possible.
- 
- 		Reading from this file will display the current image size
--		limit, which is set to 500 MB by default.
-+		limit, which is set to around 2/5 of available RAM by default.
- 
- What:		/sys/power/pm_trace
- Date:		August 2006
-diff --git a/Documentation/power/swsusp.txt b/Documentation/power/swsusp.txt
-index cc87adf44c0a..236d1fb13640 100644
---- a/Documentation/power/swsusp.txt
-+++ b/Documentation/power/swsusp.txt
-@@ -56,7 +56,7 @@ If you want to limit the suspend image size to N bytes, do
- 
- echo N > /sys/power/image_size
- 
--before suspend (it is limited to 500 MB by default).
-+before suspend (it is limited to around 2/5 of available RAM by default).
- 
- . The resume process checks for the presence of the resume device,
- if found, it then checks the contents for the hibernation image signature.
--- 
-2.17.1
+-- Markus --
 
