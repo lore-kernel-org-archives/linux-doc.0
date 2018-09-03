@@ -1,99 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A0A0C7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 13:43:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8D96E7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 13:49:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726157AbeICSDb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 14:03:31 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45342 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725982AbeICSDa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Sep 2018 14:03:30 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id CE834AE46;
-        Mon,  3 Sep 2018 13:43:14 +0000 (UTC)
-Date:   Mon, 3 Sep 2018 15:43:13 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Harry Cutts <hcutts@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-cc:     linux-input <linux-input@vger.kernel.org>,
+        id S1727485AbeICSKB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 14:10:01 -0400
+Received: from foss.arm.com ([217.140.101.70]:56418 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727057AbeICSKB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Sep 2018 14:10:01 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8168580D;
+        Mon,  3 Sep 2018 06:49:44 -0700 (PDT)
+Received: from [10.4.13.84] (e119884-lin.Emea.Arm.com [10.4.13.84])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D3EBF3F557;
+        Mon,  3 Sep 2018 06:49:39 -0700 (PDT)
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
+ sparse
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        linux-kselftest@vger.kernel.org,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <jiri.kosina@suse.cz>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 1/5] Add the `REL_WHEEL_HI_RES` event code
-In-Reply-To: <20180830215622.47550-2-hcutts@chromium.org>
-Message-ID: <nycvar.YFH.7.76.1809031542370.25787@cbobk.fhfr.pm>
-References: <20180830215622.47550-1-hcutts@chromium.org> <20180830215622.47550-2-hcutts@chromium.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <cover.1535629099.git.andreyknvl@google.com>
+ <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <20180831081123.6mo62xnk54pvlxmc@ltop.local>
+ <20180831134244.GB19965@ZenIV.linux.org.uk>
+ <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <01cadefd-c929-cb45-500d-7043cf3943f6@arm.com>
+Date:   Mon, 3 Sep 2018 14:49:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 Aug 2018, Harry Cutts wrote:
+On 03/09/18 13:34, Andrey Konovalov wrote:
+> On Fri, Aug 31, 2018 at 3:42 PM, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>> On Fri, Aug 31, 2018 at 10:11:24AM +0200, Luc Van Oostenryck wrote:
+>>> On Thu, Aug 30, 2018 at 01:41:16PM +0200, Andrey Konovalov wrote:
+>>>> This patch adds __force annotations for __user pointers casts detected by
+>>>> sparse with the -Wcast-from-as flag enabled (added in [1]).
+>>>>
+>>>> [1] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
+>>>
+>>> Hi,
+>>>
+>>> It would be nice to have some explanation for why these added __force
+>>> are useful.
+> 
+> I'll add this in the next version, thanks!
+> 
+>>         It would be even more useful if that series would either deal with
+>> the noise for real ("that's what we intend here, that's what we intend there,
+>> here's a primitive for such-and-such kind of cases, here we actually
+>> ought to pass __user pointer instead of unsigned long", etc.) or left it
+>> unmasked.
+>>
+>>         As it is, __force says only one thing: "I know the code is doing
+>> the right thing here".  That belongs in primitives, and I do *not* mean the
+>> #define cast_to_ulong(x) ((__force unsigned long)(x))
+>> kind.
+>>
+>>         Folks, if you don't want to deal with that - leave the warnings be.
+>> They do carry more information than "someone has slapped __force in that place".
+>>
+>> Al, very annoyed by that kind of information-hiding crap...
+> 
+> This patch only adds __force to hide the reports I've looked at and
+> decided that the code does the right thing. The cases where this is
+> not the case are handled by the previous patches in the patchset. I'll
+> this to the patch description as well. Is that OK?
+> 
+I think as well that we should make explicit the information that
+__force is hiding.
+A possible solution could be defining some new address spaces and use
+them where it is relevant in the kernel. Something like:
 
-> This event code represents scroll reports from high-resolution wheels,
-> and will be used by future patches in this series. See the linux-input
-> "Reporting high-resolution scroll events" thread [0] for more details.
-> 
-> [0]: https://www.spinics.net/lists/linux-input/msg57380.html
-> 
-> Signed-off-by: Harry Cutts <hcutts@chromium.org>
-> ---
-> 
-> Changes in v2: None
-> 
->  Documentation/input/event-codes.rst    | 11 ++++++++++-
->  include/uapi/linux/input-event-codes.h |  1 +
->  2 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-> index a8c0873beb95..cef220c176a4 100644
-> --- a/Documentation/input/event-codes.rst
-> +++ b/Documentation/input/event-codes.rst
-> @@ -190,7 +190,16 @@ A few EV_REL codes have special meanings:
->  * REL_WHEEL, REL_HWHEEL:
->  
->    - These codes are used for vertical and horizontal scroll wheels,
-> -    respectively.
-> +    respectively. The value is the number of "notches" moved on the wheel, the
-> +    physical size of which varies by device. For high-resolution wheels (which
-> +    report multiple events for each notch of movement, or do not have notches)
-> +    this may be an approximation based on the high-resolution scroll events.
-> +
-> +* REL_WHEEL_HI_RES:
-> +
-> +  - If a vertical scroll wheel supports high-resolution scrolling, this code
-> +    will be emitted in addition to REL_WHEEL. The value is the (approximate)
-> +    distance travelled by the user's finger, in microns.
->  
->  EV_ABS
->  ------
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 53fbae27b280..dad8d3890a3a 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -708,6 +708,7 @@
->  #define REL_DIAL		0x07
->  #define REL_WHEEL		0x08
->  #define REL_MISC		0x09
-> +#define REL_WHEEL_HI_RES	0x0a
->  #define REL_MAX			0x0f
->  #define REL_CNT			(REL_MAX+1)
+# define __compat_ptr __attribute__((noderef, address_space(5)))
+# define __tagged_ptr __attribute__((noderef, address_space(6)))
 
-Dmitry, is this OK with you?
+In this way sparse can still identify the casting and trigger a warning.
 
-Thanks,
+We could at that point modify sparse to ignore these conversions when a
+specific flag is passed (i.e. -Wignore-compat-ptr, -Wignore-tagged-ptr)
+to exclude from the generated warnings the ones we have already dealt
+with.
+
+What do you think about this approach?
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+Regards,
+Vincenzo
