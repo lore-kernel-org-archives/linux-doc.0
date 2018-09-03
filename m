@@ -1,182 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8DE8A7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 20:29:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 63BEE7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 20:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727552AbeIDAvA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 20:51:00 -0400
-Received: from mout.gmx.net ([212.227.17.20]:33901 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727510AbeIDAvA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Sep 2018 20:51:00 -0400
-Received: from [192.168.123.96] ([88.152.14.153]) by mail.gmx.com (mrgmx103
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0MIuft-1fuRQm2gMT-002YAz; Mon, 03
- Sep 2018 22:29:05 +0200
-Subject: Re: [PATCH 1/1] docs: kernel-doc: fix parsing of function pointers
+        id S1727627AbeIDAx5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 20:53:57 -0400
+Received: from mail-lj1-f179.google.com ([209.85.208.179]:36626 "EHLO
+        mail-lj1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727510AbeIDAx4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 20:53:56 -0400
+Received: by mail-lj1-f179.google.com with SMTP id v26-v6so1329038ljj.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Sep 2018 13:32:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=austad-us.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4Io1qT+qXXptYjpKmHi2VlaVG143Dv02mojjf1V+lOk=;
+        b=0zbvydU977VcCBDOVkIkzRGbJ10bGbisgbewkoUyIFlMvy9EZXrVN1HGXmf/B34J9z
+         rMrJ7acs4/rmLnkh1iMnN/HM077558C2EAsxO0SaKvFueI9M5eaQdapEgtuvAR4JAnpE
+         mWAINonTiaCt6He8QH/nc6wWNTNOodojvCI6QQiRZqv2/KDsmGoX92xk1uc0yEMnNjM3
+         BN0B0B6eIKCBtF9UidrwX6HbGqss1oa3k2NQHmC5cnymmZZgaTRqEQvQeoyKX0l7Y6x4
+         PHr+YQsikHwc6Vu1F5Qavk5KO0A1MX7U87JVo3cfOMH5qkB43ziJIwmXMQ1vuGZKXnYs
+         9QkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4Io1qT+qXXptYjpKmHi2VlaVG143Dv02mojjf1V+lOk=;
+        b=YuHRQsv/LLWNwdcUxhvsaAtEpht/LUlpnhNB8CDwK56uZ2Ln4WikmuHTJ57XvBwlHz
+         lWeKg6AXJsySDgtDc+O8ORJwuokW8sb/8n5aPnKWLnMU2DE/bT+cGTXwr0XaRpka4jYp
+         iloc6JS45O7K9WO+ir9hMrNuWLcHh/aVxtaq47hdYjt5yNw7cH1W5j7QlsO5DwGslRQ0
+         rXXrhzoHsuiwriD9NOsR0bxPbLXElodVg1463MULVNPgkK874XISL45elWct9JeMgaFH
+         4LPw8TtCH5Y3KE/PiMVnFMhda7VMPh2TLvtss0wl1PFSEplLSqobeZtyO0y4WhMQWwOp
+         1PIQ==
+X-Gm-Message-State: APzg51C+bW7cXCZ8QM7tSIb+XE4mWCmwZ0LGN3toanwFTR1VnLc7dpX1
+        gLt2AqeTXWrW+d8XL38eqGnxJQ==
+X-Google-Smtp-Source: ANB0VdZgMPuThSihRf8wpv9btB/sXA+GvCsuQ64EfN5YkeJOweYts3N5/gZXVPaQrOkBD0ID+9UllA==
+X-Received: by 2002:a2e:9b59:: with SMTP id o25-v6mr17858359ljj.132.1536006724605;
+        Mon, 03 Sep 2018 13:32:04 -0700 (PDT)
+Received: from sisyphus.home.austad.us (11.92-220-88.customer.lyse.net. [92.220.88.11])
+        by smtp.gmail.com with ESMTPSA id j135-v6sm3654460lfj.91.2018.09.03.13.32.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Sep 2018 13:32:03 -0700 (PDT)
+Date:   Mon, 3 Sep 2018 22:32:01 +0200
+From:   Henrik Austad <henrik@austad.us>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20180903184153.9368-1-xypron.glpk@gmx.de>
- <20180903130043.059b2e82@lwn.net>
-From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=xypron.glpk@gmx.de; prefer-encrypt=mutual; keydata=
- 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 Eg==
-Message-ID: <b0bff870-c3c1-20e8-6609-f93f59da8624@gmx.de>
-Date:   Mon, 3 Sep 2018 22:29:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+Cc:     Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [RFC] Drop all 00-INDEX files from Documentation/
+Message-ID: <20180903203201.GA11920@sisyphus.home.austad.us>
+References: <1535545728-8402-1-git-send-email-henrik@austad.us>
+ <58648986219ce0173ff45d34def0da9f9f34b55f.camel@perches.com>
+ <20180903105542.GA9485@sisyphus.home.austad.us>
+ <20180903124545.089ead51@lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20180903130043.059b2e82@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:X13lyA/edbuc6Aq8bMZSAkJ25suIOBcepQFfk1AA10rU5Sq07Ov
- jwBS5GBidWWeXdnHiEVHUX3ggv7Ac3Mkpb/t1oqA4haodln1VKID+DNMvlVAysqHUPUq5Xa
- fggh6hROzgL5RiXuB79XILwt/+XcdYVdKuKuZKH/Qh3S6h2AcZ2P25cWZvXYmVDp/7S2CXR
- R3QpXvBvHT0I687kkCcLg==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:xFv6B0w78q8=:pFNJSGyovPebXDHncW2Vnc
- WA68POVZdVG6kg02noXggKQvsdkA/J7EcWsCTc/jODgMFGSR+jZxGoLjYp+13WSTWOXEeCl3F
- GqFi/vPuoqQgMKj0HAergxv0tnHUg6Wz5DdkoacyfFRl1p14GEbayCtMjCgEK7XL3A/WY83LK
- n0Sb67uvU5pUGRDSfKGmjDwghuHfMWuAOoUD0TF7XKIAa2OljEL0DKOlJb/kNfafEJryu4JhI
- BISisJjLlzZdg5B4tWb7lmpGE5Uy/SAzJ6NAMy2B/laDN3mH8e6H0x0zN/Vmez3eO60DZLrup
- sXiZAOl/ou9OSn0Fz9i9TC30RgTGUI6XAW50qHbECzIZWwCgtddbU/0P8LlkLnRXrhT7iHrzF
- deptGLLMI4tTTCEElYdfgfvYqAlPsq7DRfXCI3VrZOezdkSt7l9hUieu43JWuGys0mw9xEylu
- Tde7fMGl2Mdw0sR6W3R/aHA2j8PIiCfbjta+YM8ny7T6A+LGneCrcXNZQ0U+WlaJfp4lDP5z1
- nO9k4YJbZ9KanQdm3ncFHSo7UA6JRBbxhG+HWFBECZ+zPwvBJT0Oh7U+fas1bb3zUyQO+iqAp
- rzXwjV648iEMQ/nwpwSSRhAgpOBsfFp4tpNek1ySFFljhJiPtuMY/8fARYFBKoGThhKPjkPVY
- 33aNLQA4BFr2FijYT5oVafBy4F53Jmdu/2al/ZwEgvaU89JVBXbPYuWVAgvnWy2mFBBK+rWgB
- FDRlRZcWB5mUDJ6db6KsTnDH/+SRf57KEfecP+QloXjUeiRqso0kseVdraMFj9ycRif/L8YmT
- lEuJEFw
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
+Content-Disposition: inline
+In-Reply-To: <20180903124545.089ead51@lwn.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/03/2018 09:00 PM, Jonathan Corbet wrote:
-> On Mon,  3 Sep 2018 20:41:53 +0200
-> Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
-> 
->> The same script kernel-doc is used by the U-Boot project.
-> 
-> Interesting, I didn't know that.  Please pass on my condolences :)
->>
->> kernel-doc fails to parse function definitions like the one below
->>
->> efi_status_t efi_create_event(uint32_t type, efi_uintn_t notify_tpl,
->> 			      void (EFIAPI *notify_function) (
->> 					struct efi_event *event,
->> 					void *context),
->> 			      void *notify_context, efi_guid_t *group,
->> 			      struct efi_event **event)
->> {
->>
->> due to the "EFIAPI" attribute preceding the function name.
-> 
-> This is a good description of the problem; a proper changelog should
-> really say what the patch *does* about the problem too.  Especially
-> since...
-> 
 
-Thanks for reviewing.
+--Dxnq1zWXvFF0Q93v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
->> ---
->>  scripts/kernel-doc | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
->> index 31a34ced55a3..597e3223b791 100755
->> --- a/scripts/kernel-doc
->> +++ b/scripts/kernel-doc
->> @@ -1381,7 +1381,7 @@ sub create_parameterlist($$$$) {
->>  	} elsif ($arg =~ m/\(.+\)\s*\(/) {
+On Mon, Sep 03, 2018 at 12:45:45PM -0600, Jonathan Corbet wrote:
+> On Mon, 3 Sep 2018 12:55:42 +0200
+> Henrik Austad <henrik@austad.us> wrote:
+>=20
+> > On Wed, Aug 29, 2018 at 09:20:30AM -0700, Joe Perches wrote:
+> > > On Wed, 2018-08-29 at 14:28 +0200, Henrik Austad wrote: =20
+> > > > The 00-INDEX files are supposed to give a summary of all files pres=
+ent
+> > > > in a directory, but these files are horribly out of date and their
+> > > > usefulness is brought into question.
+> > > >=20
+> > > > A few years back it was mentioned that these files were no longer
+> > > > needed, and they have since then grown further out of date, so perh=
+aps
+> > > > it is time to just throw them out. =20
+> > >=20
+> > > Good idea.
+> > >=20
+> > > .rst is becoming more common and these 00-INDEX files
+> > > are unnecessary and occasionally misleading. =20
+> >=20
+> > Ok, should I respin and clean up all the other files referencing 00-IND=
+EX=20
+> > and send to a wider audience?
+>=20
+> Wider audience might be good.  I've not yet decided whether I think this
+> is a good idea or not.  We certainly don't need those files for stuff
+> that's in the RST doctree, that's what the index.rst files are for.  But I
+> suspect some people might complain about losing them for the rest of the
+> content.  I do get patches from people updating them, so some folks do
+> indeed look at them...
 
-This matches anything that is not even remotely a function pointer, e.g.
-"( )(".
+Yes, hence the RFC. As I said, I'm happy to update the 00-INDEX-files, but=
+=20
+if we decide not to keep them, I rather not spend time on it.
 
->>  	    # pointer-to-function
->>  	    $arg =~ tr/#/,/;
->> -	    $arg =~ m/[^\(]+\(\*?\s*([\w\.]*)\s*\)/;
+Let me respin and add a few references to 00-INDEX from other files and see=
+=20
+if we can decide what color to paint this particular bikeshed in a wider=20
+audience :)
 
-m/[^\(]+\(\*?\s*([\w\.]*)\s*\)/;
-           ^
-Here we allow for 0..1 asterixes.
+--=20
+Henrik Austad
 
-If there is no asterix it is not a function pointer. Why should we care
-for this case?
+--Dxnq1zWXvFF0Q93v
+Content-Type: application/pgp-signature; name="signature.asc"
 
-We do not allow for a space preceding the asterix, though it is
-perfectly legal (though it is not the preferred formatting).
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-Probably we should start with collecting the different test cases that
-the regex have to encompass. I already see the following possible
-parameters:
+iEYEARECAAYFAluNmkEACgkQ6k5VT6v45ln0WwCgmKksT4bQj0By6L5voXaGo5Ds
+0kAAnAxYRqh+FL9uea9kygyTUz8Rz4mN
+=vC82
+-----END PGP SIGNATURE-----
 
-int (*f)(int a)
-int (* f)(int a)
-int ( *f)(int a)
-int ( * f)(int a)
-int (FOO *f)(int a)
-int (__attrib__((ms_abi)) *f)(int a)
-int (*f(int b))(int a)
-
-Which other cases do you see?
-
-Best regards
-
-Heinrich
-
->> +	    $arg =~ m/[^\(]+\([\w\s]*\*?\s*([\w\.]*)\s*\)/;
-> 
-> The meaning of this change doesn't just jump off the screen, even for
-> folks who are accustomed to reading regexes.  It would be nice to explain
-> what is actually being changed and what the expected new behavior is.  It
-> appears to be consuming any normal text/white space prior to the optional
-> "*".  Are you sure it doesn't overshoot and consume too much if the *
-> isn't there?
-
+--Dxnq1zWXvFF0Q93v--
