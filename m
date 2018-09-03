@@ -2,118 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C39217D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 13:56:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD8347D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 14:21:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727169AbeICSRG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 14:17:06 -0400
-Received: from zeniv.linux.org.uk ([195.92.253.2]:43324 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727049AbeICSRG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 14:17:06 -0400
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.87 #1 (Red Hat Linux))
-        id 1fwpLI-0005Ai-Uk; Mon, 03 Sep 2018 13:56:37 +0000
-Date:   Mon, 3 Sep 2018 14:56:36 +0100
-From:   Al Viro <viro@ZenIV.linux.org.uk>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-doc@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
-Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
- sparse
-Message-ID: <20180903135636.GL19965@ZenIV.linux.org.uk>
-References: <cover.1535629099.git.andreyknvl@google.com>
- <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
- <20180831081123.6mo62xnk54pvlxmc@ltop.local>
- <20180831134244.GB19965@ZenIV.linux.org.uk>
- <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
+        id S1725955AbeICSmK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 14:42:10 -0400
+Received: from mail-ua1-f67.google.com ([209.85.222.67]:39715 "EHLO
+        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725866AbeICSmK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 14:42:10 -0400
+Received: by mail-ua1-f67.google.com with SMTP id g18-v6so537762uam.6;
+        Mon, 03 Sep 2018 07:21:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=puTAeydjxn5dvYiCYLIwqdqVR43ON5sBctrZUAuiI9Y=;
+        b=UN3JaEKmk5rFHHth+j+KTXv7UcjfT2dVMsfvdmFPRlV5Q8vGdWk3BaWFkBCSGfmz5n
+         fATwj1ygFP6/UHsLKqfesGm/S9bZfbWpxrW7ukicDcX8hpndWi/+t0U1dwKlIMvRN8rm
+         URgpbBwnpE/3J6tjL9Yd1p8/PrFB2CtMmMGitzRrBfPWTGMxUNAPIYTvMbiueYGWBop0
+         1JwQsyiuVdfF4b3t1dVPQmqmGbU4Qg60cauGES8h0w+mK/sCJpn6UhUiMaqtGNI4ZeOl
+         ULxwdLimrlkiyKYqT2O1geRVla8dhfFw28i5ec4c4cgm31kLYOQodaWyecuKl0hy2+3O
+         nJUg==
+X-Gm-Message-State: APzg51ApCOrlQbl/f3+ilCgLDVmJwo8QJcQ/BLOz6ING1x6nmyRmo4Mt
+        Vm9marK9KBBRkXn5oS2/1XyASLXt5Gvi+TjnDaQ=
+X-Google-Smtp-Source: ANB0Vdb+4l/ufaXNKqkIWmmE2MwSIHB1LGSwWm/WaiQl6ADJw4OJiXQvj+JFFcNaSc/lZSe7kncLbY+qmqNff5YxmdM=
+X-Received: by 2002:a67:6908:: with SMTP id e8-v6mr8749136vsc.21.1535984505642;
+ Mon, 03 Sep 2018 07:21:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
-User-Agent: Mutt/1.9.1 (2017-09-22)
+References: <20180831225616.29221-1-jmkrzyszt@gmail.com> <20180902120144.6855-1-jmkrzyszt@gmail.com>
+ <20180902120144.6855-4-jmkrzyszt@gmail.com>
+In-Reply-To: <20180902120144.6855-4-jmkrzyszt@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 3 Sep 2018 16:21:33 +0200
+Message-ID: <CAMuHMdV66N_YAvvZjk7kEf_aLNNFo6HA8S4JjzkM2d3QC-ZS5A@mail.gmail.com>
+Subject: Re: [PATCH v7 3/4] gpiolib: Pass array info to get/set array functions
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        peter.korsgaard@barco.com, Peter Rosin <peda@axentia.se>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald <pmeerw@pmeerw.net>,
+        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>, linux-iio@vger.kernel.org,
+        driverdevel <devel@driverdev.osuosl.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        sebastien.bourdelin@savoirfairelinux.com,
+        Lukas Wunner <lukas@wunner.de>,
+        Rojhalat Ibrahim <imr@rtschenk.de>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        ext Tony Lindgren <tony@atomide.com>,
+        Yegor Yefremov <yegorslists@googlemail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 03, 2018 at 02:34:27PM +0200, Andrey Konovalov wrote:
+On Sun, Sep 2, 2018 at 2:01 PM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
+> In order to make use of array info obtained from gpiod_get_array() and
+> speed up processing of arrays matching single GPIO chip layout, that
+> information must be passed to get/set array functions.  Extend the
+> functions' API with that additional parameter and update all users.
+> Pass NULL if a user bulids an array itself from single GPIOs.
 
-> > Al, very annoyed by that kind of information-hiding crap...
-> 
-> This patch only adds __force to hide the reports I've looked at and
-> decided that the code does the right thing. The cases where this is
-> not the case are handled by the previous patches in the patchset. I'll
-> this to the patch description as well. Is that OK?
+builds
 
-I don't know about you, but personally I've run into "I've looked,
-I'm sure it's OK here" -> (a year or so later) "why is it OK, again?
-Oh, bugger..." quite a few times.  Some, but not all, hadn't been
-OK all along, some used to be but got quietly broken by subsequent
-changes by people who had no idea that some property of implementation
-was critical for correctness in the place in question, some (even
-more embarrassingly) were broken by a patch of my own.
+Gr{oetje,eeting}s,
 
-It happens.  "Looked in there, decided that the warning was bogus and
-quietly shut it up" has turned out to be a source of trouble down the
-road a lot of times.  If you are forcibly removing a warning (not by
-reorganizing the logics and annotations, that is - by force-cast, or
-something similar to it), leave behind something more useful than
-"On $DATE I've decided it was OK" (and even that - only accessible via
-git blame/git show).  As a hint for yourself, if nothing else - you
-might end up asking yourself the same question a year or two (or twenty,
-for that matter) later while looking for likely source of odd breakage
-and trying to narrow the search down.
+                        Geert
 
-Force-cast conflates a *lot* of situations together - it's pretty much
-"fuck off, I know what's going on here, it's OK" and no more than that;
-hell, even the warning it removes would've carried more information...
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-That kind of "these are false positives, let's turn them off to search for
-real problems" patches is fine when developing a branch like that; it's
-leaving them in for posterity that tends to cause PITA...
-
-I'm not attacking you, BTW - it's really a generic point re force-casts.
-There had been some really outrageous cases lately[1] and I think that
-this point does need to be made.  Unexplained force-cast is worse than
-leaving a warning in.
-
-[1] with, if my reading of the situation is correct,
-	newbie asking maintainers if dealing with endianness warnings in
-a certain driver would be useful
-	newbie getting told (perhaps by maintainers, perhaps by somebody else)
-that those were all noise, the driver's correct and the most useful thing to
-be done with them would be to make them STFU
-	force-cast-laden patch from said newbie doing just that picked by said
-maintainers, "cleaning up" the warnings.  And committed with authorship pinned
-to the newbie ;-/
-Not nice, seeing that the code in driver is *not* correct, despite the high-handed
-"shut that noise off, everything's fine there" commit - undoing that "cleanup" and
-trying to redo annotations properly starts to converge on absolutely real bugs on
-b-e hosts in about 10 minutes.  In PCIe driver, with devices existing as separate
-cards, not just something always embedded into x86 or arm motherboard...
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
