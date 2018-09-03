@@ -1,109 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AB797D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 10:55:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 502D27D581
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 12:34:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbeICPPY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 11:15:24 -0400
-Received: from mail-ed1-f47.google.com ([209.85.208.47]:43310 "EHLO
-        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725971AbeICPPY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 11:15:24 -0400
-Received: by mail-ed1-f47.google.com with SMTP id z27-v6so441362edb.10
-        for <linux-doc@vger.kernel.org>; Mon, 03 Sep 2018 03:55:46 -0700 (PDT)
+        id S1725920AbeICQy0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 12:54:26 -0400
+Received: from mail-io0-f195.google.com ([209.85.223.195]:35745 "EHLO
+        mail-io0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbeICQyZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 12:54:25 -0400
+Received: by mail-io0-f195.google.com with SMTP id w11-v6so319694iob.2
+        for <linux-doc@vger.kernel.org>; Mon, 03 Sep 2018 05:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=austad-us.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=p7KFU43OQrls4/QfxBbLdv5/PevcI01eV4kwDLmUkyw=;
-        b=T2SjQ29lARDFCmnpit85dUABMa8mgvXTaVMdLRK+89sFodMxB7QzFx8ng8muxtcnHo
-         pGXN72waxHwTdvLQrZryXpibxMLKCrSVhZ37j15qruieq9k2Velg8rjdZXF20Mfde6wo
-         XdN6ZA8GwokglGXfNndnw688W/uja0D9IRL+8x5WSUeKm0+6+6PZa0kOvEeiiKQ0cSPX
-         erxdyLK5bdDzN1NUxRztuyetq7/dH+v1BUP4hW98YHjuwYXO9UYxMvRrnrrRHGMuXhZR
-         +vAN5U3Qb/ruqL5nYgDdtZYn5/qpg/w/7Ry9etOBFUn08RIWLNu46CNNG7OAWOm6Pi0+
-         ZcLA==
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=Op5rprZXqxsDaY0yzNUnJilPlVxPCIJ7drovmWT86dQ=;
+        b=vApzQ0RZdg/YQ9Yyjr02onu1NyHkuDllZiAcnOpsvtd5pg6j+c0M+vPZgJsrkvd+gc
+         JFNf96JoPMdDNrqUdsbAmQ245rxM4Sul4PsD42hshb3u2NY/G0UCR7+hfsmmpHdfp+Ab
+         x4vFVG61XZurnusb1TWXs0Vn4waZi3gIT9p9GerW8kJhGB1Wbo6QyIyc9rQhkW3rcc2Y
+         EbpF1HQudQPtiiDIfqUltCPBdt8ZcEFjeWy2ohys0Sug2Ss99UJSLC4CQBBDHNVkXas7
+         2aEpAlbbRieBq+aIi5P+akSrD33iYpRxoa2jSsUdJMDawsUa+OJtagTssHDBM3NnqtaO
+         LJOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=p7KFU43OQrls4/QfxBbLdv5/PevcI01eV4kwDLmUkyw=;
-        b=CoRjZKKCf/caqtpHOPel+Pn55cPKeJ612MZD1Qo87E5FrBhHeHA9/ZrAdYTxNtW2WG
-         4iRcT1QbXfCneuWDiBo0JresSgSEgv9YhViHfZtwz9NS10OVbvOU0F6yoh6wkuVCZ3Op
-         AQPdTXiZ1y64HP3zVsJAPc+zVUiTZE7pQnM6i1zuutPjoI0p14YCglj++hIR/WknQW08
-         Xmkd25jubnZqVbT8Vsu25lKv66+2zZXHpF98e0Gj4dAHK0zZ9pp6dEpaWBMQ0dv1rzpm
-         jOLqavLQX+Cvdc6HEEWsDpTBDpkijPwASGsLhOOEZYBew3y4nSr4SVvo8BZ33WSs1W2t
-         v2Wg==
-X-Gm-Message-State: APzg51C0LLMbsV5WHF5W2rgZkuCB0TmWUSTjq+uo+h6sr/bL9M0zLnRF
-        gzvqHGMeajq6KNTzAe5JiPm+tQ==
-X-Google-Smtp-Source: ANB0VdYFAcsRoRqzECoTVtMyv+yeKhW47B9hp9g5oZfWir4b0Jen0m6LvoDoNCpnkvNZXVKC86NAMg==
-X-Received: by 2002:a50:8c06:: with SMTP id p6-v6mr16076771edp.282.1535972146032;
-        Mon, 03 Sep 2018 03:55:46 -0700 (PDT)
-Received: from sisyphus.home.austad.us (11.92-220-88.customer.lyse.net. [92.220.88.11])
-        by smtp.gmail.com with ESMTPSA id c15-v6sm11135751edm.21.2018.09.03.03.55.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Sep 2018 03:55:44 -0700 (PDT)
-Date:   Mon, 3 Sep 2018 12:55:42 +0200
-From:   Henrik Austad <henrik@austad.us>
-To:     Joe Perches <joe@perches.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [RFC] Drop all 00-INDEX files from Documentation/
-Message-ID: <20180903105542.GA9485@sisyphus.home.austad.us>
-References: <1535545728-8402-1-git-send-email-henrik@austad.us>
- <58648986219ce0173ff45d34def0da9f9f34b55f.camel@perches.com>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=Op5rprZXqxsDaY0yzNUnJilPlVxPCIJ7drovmWT86dQ=;
+        b=FrdofGMFh/9doANsd+khyDOQeMi9cbGXRCysUODA41ijPrA+lNN4DSQVPCwFyura0B
+         9NNott9TIzBhXi2enM+qbvGWJlwtsYWnOo5Vf7EcqR396YrvEiEIrn6VZcesDXTOewou
+         Hvk5lvPqQh4dP5a2qbK1AKN5RAOkflPpu6qplB0RznO+oOONN/orqspUJDCrkDimZq+o
+         GbGaN8pHemm4vkimsigEsQLpRQsDprXpMMkGygg9JBPKxjUqMGhoW6QO4WRDNJPJEOeC
+         E1Rz+BHAx4JyDqzczyKGdh4MXx00eFVUIMdLcK3WUP33UGFUiVukCQ0G1PO0K6kh7OU7
+         IxZw==
+X-Gm-Message-State: APzg51DsKgpMpR/lx9uuztURTM/qOXnvjELD7VYE4p2Rt3PYGx2AIqIC
+        +gK0GpKMoxKAp5xJvoZluD88RhyxkU88k3Um2ZsI2g==
+X-Google-Smtp-Source: ANB0VdZHMcXiWjaag0oWnNY7KCsAxfTjolYzoSRPrsmT9dn+jwUQ4z+0ygkn7h1gbqEACT4T1sIrT2mXpK20GzRNhQw=
+X-Received: by 2002:a6b:2147:: with SMTP id h68-v6mr18964210ioh.192.1535978068101;
+ Mon, 03 Sep 2018 05:34:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
-Content-Disposition: inline
-In-Reply-To: <58648986219ce0173ff45d34def0da9f9f34b55f.camel@perches.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Received: by 2002:a02:8482:0:0:0:0:0 with HTTP; Mon, 3 Sep 2018 05:34:27 -0700 (PDT)
+In-Reply-To: <20180831134244.GB19965@ZenIV.linux.org.uk>
+References: <cover.1535629099.git.andreyknvl@google.com> <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <20180831081123.6mo62xnk54pvlxmc@ltop.local> <20180831134244.GB19965@ZenIV.linux.org.uk>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Mon, 3 Sep 2018 14:34:27 +0200
+Message-ID: <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by sparse
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-doc@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Aug 31, 2018 at 3:42 PM, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> On Fri, Aug 31, 2018 at 10:11:24AM +0200, Luc Van Oostenryck wrote:
+>> On Thu, Aug 30, 2018 at 01:41:16PM +0200, Andrey Konovalov wrote:
+>> > This patch adds __force annotations for __user pointers casts detected by
+>> > sparse with the -Wcast-from-as flag enabled (added in [1]).
+>> >
+>> > [1] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
+>>
+>> Hi,
+>>
+>> It would be nice to have some explanation for why these added __force
+>> are useful.
 
---UlVJffcvxoiEqYs2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'll add this in the next version, thanks!
 
-On Wed, Aug 29, 2018 at 09:20:30AM -0700, Joe Perches wrote:
-> On Wed, 2018-08-29 at 14:28 +0200, Henrik Austad wrote:
-> > The 00-INDEX files are supposed to give a summary of all files present
-> > in a directory, but these files are horribly out of date and their
-> > usefulness is brought into question.
-> >=20
-> > A few years back it was mentioned that these files were no longer
-> > needed, and they have since then grown further out of date, so perhaps
-> > it is time to just throw them out.
->=20
-> Good idea.
->=20
-> .rst is becoming more common and these 00-INDEX files
-> are unnecessary and occasionally misleading.
+>         It would be even more useful if that series would either deal with
+> the noise for real ("that's what we intend here, that's what we intend there,
+> here's a primitive for such-and-such kind of cases, here we actually
+> ought to pass __user pointer instead of unsigned long", etc.) or left it
+> unmasked.
+>
+>         As it is, __force says only one thing: "I know the code is doing
+> the right thing here".  That belongs in primitives, and I do *not* mean the
+> #define cast_to_ulong(x) ((__force unsigned long)(x))
+> kind.
+>
+>         Folks, if you don't want to deal with that - leave the warnings be.
+> They do carry more information than "someone has slapped __force in that place".
+>
+> Al, very annoyed by that kind of information-hiding crap...
 
-Ok, should I respin and clean up all the other files referencing 00-INDEX=
-=20
-and send to a wider audience?
-
---=20
-Henrik Austad
-
---UlVJffcvxoiEqYs2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAluNEy4ACgkQ6k5VT6v45lm4xQCeIAlT+p1j4970HZd6G8qh0EOo
-qY4AoNPTDOKsaS7zRi81RZ7MqaLZEynh
-=+zV2
------END PGP SIGNATURE-----
-
---UlVJffcvxoiEqYs2--
+This patch only adds __force to hide the reports I've looked at and
+decided that the code does the right thing. The cases where this is
+not the case are handled by the previous patches in the patchset. I'll
+this to the patch description as well. Is that OK?
