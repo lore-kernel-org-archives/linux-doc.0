@@ -2,46 +2,48 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD8347D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 14:21:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6CA817D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 14:24:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725955AbeICSmK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 14:42:10 -0400
-Received: from mail-ua1-f67.google.com ([209.85.222.67]:39715 "EHLO
-        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbeICSmK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 14:42:10 -0400
-Received: by mail-ua1-f67.google.com with SMTP id g18-v6so537762uam.6;
-        Mon, 03 Sep 2018 07:21:46 -0700 (PDT)
+        id S1727320AbeICSoy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 14:44:54 -0400
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:33586 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725943AbeICSoy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 14:44:54 -0400
+Received: by mail-ua1-f65.google.com with SMTP id i4-v6so562951uak.0;
+        Mon, 03 Sep 2018 07:24:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=puTAeydjxn5dvYiCYLIwqdqVR43ON5sBctrZUAuiI9Y=;
-        b=UN3JaEKmk5rFHHth+j+KTXv7UcjfT2dVMsfvdmFPRlV5Q8vGdWk3BaWFkBCSGfmz5n
-         fATwj1ygFP6/UHsLKqfesGm/S9bZfbWpxrW7ukicDcX8hpndWi/+t0U1dwKlIMvRN8rm
-         URgpbBwnpE/3J6tjL9Yd1p8/PrFB2CtMmMGitzRrBfPWTGMxUNAPIYTvMbiueYGWBop0
-         1JwQsyiuVdfF4b3t1dVPQmqmGbU4Qg60cauGES8h0w+mK/sCJpn6UhUiMaqtGNI4ZeOl
-         ULxwdLimrlkiyKYqT2O1geRVla8dhfFw28i5ec4c4cgm31kLYOQodaWyecuKl0hy2+3O
-         nJUg==
-X-Gm-Message-State: APzg51ApCOrlQbl/f3+ilCgLDVmJwo8QJcQ/BLOz6ING1x6nmyRmo4Mt
-        Vm9marK9KBBRkXn5oS2/1XyASLXt5Gvi+TjnDaQ=
-X-Google-Smtp-Source: ANB0Vdb+4l/ufaXNKqkIWmmE2MwSIHB1LGSwWm/WaiQl6ADJw4OJiXQvj+JFFcNaSc/lZSe7kncLbY+qmqNff5YxmdM=
-X-Received: by 2002:a67:6908:: with SMTP id e8-v6mr8749136vsc.21.1535984505642;
- Mon, 03 Sep 2018 07:21:45 -0700 (PDT)
+        bh=ieJYxPIHnls2eLt2LBMcGhyRCnh9HRaFFFqYzIhSTtA=;
+        b=AxXaxI1zazlA0wM2fmhmVJLnZyNdVPd+NqDqeZ4EQ3Z+o3eRZ+ex+Luo53F1unBZwl
+         S/noQHcLLUW+fjakFixVGcGh8r0CsDXEBvP2B7Z95cWDoVX6IuDSjVFXuc6MbcD+EGvS
+         4WWzKveZKAN8qUX3+hfqK6fO9Q3lnmg2S+pDYvkQ4x6ffi/Ut6CcKOKlz/eSQbis/U3H
+         b5LKFppefROtNklGzi5+1p5UnQQ1PQwGlISr2dicIQGFwoo8iT82Zf6J6JG4Szg3tTJB
+         3BEHiqa1HAAnt511ZmM7kf5WoVw0YhgBgaEPxHrsmrtvgeQWeJItOtE42ED8SDsHdbVb
+         9vEw==
+X-Gm-Message-State: APzg51DBEvuhJdT2DETdn76YjQMRyP21lGZwGXh3IFQTdXX6cPDjbohF
+        XL/79XYca7psy3baIAUr+EjK1jm0ycvu362QrAg=
+X-Google-Smtp-Source: ANB0VdYc0uFhudAZYRI11k3s/6tF2r21oi2twj7zlYx95Pv2IaBYCu0e5XLEGGOQ+tFpIfbxNuTUJQcymqKAVxC/OSo=
+X-Received: by 2002:ab0:72ca:: with SMTP id g10-v6mr15954675uap.33.1535984668854;
+ Mon, 03 Sep 2018 07:24:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20180831225616.29221-1-jmkrzyszt@gmail.com> <20180902120144.6855-1-jmkrzyszt@gmail.com>
- <20180902120144.6855-4-jmkrzyszt@gmail.com>
-In-Reply-To: <20180902120144.6855-4-jmkrzyszt@gmail.com>
+ <20180902120144.6855-2-jmkrzyszt@gmail.com> <20180903043129.GA17856@bombadil.infradead.org>
+In-Reply-To: <20180903043129.GA17856@bombadil.infradead.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Sep 2018 16:21:33 +0200
-Message-ID: <CAMuHMdV66N_YAvvZjk7kEf_aLNNFo6HA8S4JjzkM2d3QC-ZS5A@mail.gmail.com>
-Subject: Re: [PATCH v7 3/4] gpiolib: Pass array info to get/set array functions
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+Date:   Mon, 3 Sep 2018 16:24:16 +0200
+Message-ID: <CAMuHMdXU394+E3Z3tR-6iRSiWVDWUpxPLZdxg8zdgWxW5+SOOg@mail.gmail.com>
+Subject: Re: [PATCH v7 1/4] gpiolib: Pass bitmaps, not integer arrays, to
+ get/set array
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
         peter.korsgaard@barco.com, Peter Rosin <peda@axentia.se>,
@@ -73,21 +75,67 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         ext Tony Lindgren <tony@atomide.com>,
         Yegor Yefremov <yegorslists@googlemail.com>,
         =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
+        <u.kleine-koenig@pengutronix.de>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 2, 2018 at 2:01 PM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
-> In order to make use of array info obtained from gpiod_get_array() and
-> speed up processing of arrays matching single GPIO chip layout, that
-> information must be passed to get/set array functions.  Extend the
-> functions' API with that additional parameter and update all users.
-> Pass NULL if a user bulids an array itself from single GPIOs.
+On Mon, Sep 3, 2018 at 6:31 AM Matthew Wilcox <willy@infradead.org> wrote:
+> > +++ b/drivers/auxdisplay/hd44780.c
+> > @@ -62,17 +62,12 @@ static void hd44780_strobe_gpio(struct hd44780 *hd)
+> >  /* write to an LCD panel register in 8 bit GPIO mode */
+> >  static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
+> >  {
+> > -     int values[10]; /* for DATA[0-7], RS, RW */
+> > -     unsigned int i, n;
+> > -
+> > -     for (i = 0; i < 8; i++)
+> > -             values[PIN_DATA0 + i] = !!(val & BIT(i));
+> > -     values[PIN_CTRL_RS] = rs;
+> > -     n = 9;
+> > -     if (hd->pins[PIN_CTRL_RW]) {
+> > -             values[PIN_CTRL_RW] = 0;
+> > -             n++;
+> > -     }
+> > +     DECLARE_BITMAP(values, 10); /* for DATA[0-7], RS, RW */
+> > +     unsigned int n;
+> > +
+> > +     *values = val;
+> > +     __assign_bit(8, values, rs);
+> > +     n = hd->pins[PIN_CTRL_RW] ? 10 : 9;
+>
+> Doesn't this assume little endian bitmaps?  Has anyone tested this on
+> big-endian machines?
 
-builds
+include/linux/bitops.h:
+
+static __always_inline void __assign_bit(long nr, volatile unsigned long *addr,
+                                         bool value)
+{
+        if (value)
+                __set_bit(nr, addr);
+        else
+                __clear_bit(nr, addr);
+}
+
+include/asm-generic/bitops/non-atomic.h:
+
+static inline void __set_bit(int nr, volatile unsigned long *addr)
+{
+        unsigned long mask = BIT_MASK(nr);
+        unsigned long *p = ((unsigned long *)addr) + BIT_WORD(nr);
+
+        *p  |= mask;
+}
+
+include/linux/bits.h:
+
+#define BIT_MASK(nr)            (1UL << ((nr) % BITS_PER_LONG))
+
+Looks like native endianness to me.
 
 Gr{oetje,eeting}s,
 
