@@ -1,216 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3EC117D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 15:10:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C9E67D581
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 18:42:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727441AbeICTbK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 15:31:10 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:54082 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725949AbeICTbK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 15:31:10 -0400
-Received: by mail-wm0-f67.google.com with SMTP id b19-v6so1535990wme.3;
-        Mon, 03 Sep 2018 08:10:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=QBXk9LfSk2rzR+02HunmKWC22g9u1K2qTiC55tmSV/U=;
-        b=Hx/m/PhQl2ObRiumf7sdeHhyGRuOCwOt++13PXUIs+KuspSimS4HFbw/veyR9+/vtf
-         d1iIA+8edBk9BdCNe7/N0pVjiSDvLQY1ENHEFKYqTwZ6QmwORGIV+b92hxmhp+ETWH2f
-         NOeKRIhBaUxsW+p+5qrU22PjCek95EO1cRkKyOyPaNVRwkdJGcaoYSsPXCI1XmMsVxn/
-         +elj1XhiPY29pC9CLGSqvvW67bUJ4UOSAY/QJIvpyPtlDjEi2rx+Yg4ktcdC9HR2NOMF
-         b/CvVtCQZ1VU2x4aqYVSGsnKZE4qCTPjzpWUAmCFUXPgl8jSPVCHEs5ba70vv7TNyKDA
-         EOiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=QBXk9LfSk2rzR+02HunmKWC22g9u1K2qTiC55tmSV/U=;
-        b=WNTl9WVsL1T+PZZXyNOpZPvuutXE8rgSHR3bIOTYynrM0dBel5LnyWGxeUf2DRFxih
-         lSNd5Kz/atH2pWCU38rYNZQ7z4uNBL81gneWO8DRqf58t/xNgn84gLsri7u35nIRVWIh
-         /09RJeSjWAT1ExjQ3AZmJvltdGdIqCM1+ct4KI1W/1eccgKgv3FRDuDjfOyhYVOpLxhe
-         ivmOn4CyLnGiuoHeUojKSkPuLQCFKSRn289UrZuMjQES6OHmXXyiJtebWswmvdMwPsgo
-         n0Stm33THFMmz8CVENE0yPXmde5GR1hUP+ki2A5ZNN4bP27ZHvH/CXc+iLMkRXY7ip6X
-         mivg==
-X-Gm-Message-State: APzg51AzBJ1eq1pDP3ocq8V/oukPOWImdKSIMaN6ep4DnPEecnxTFN5r
-        frmLuvCE2lFcWnkvZ1OUYuI=
-X-Google-Smtp-Source: ANB0VdYzzGu72Lwq9prC544xqTcfBUpv3OV9gn8QXk20TTwlWqgfwQxEJJBYhiB42UR926ZJEDcqQg==
-X-Received: by 2002:a1c:a401:: with SMTP id n1-v6mr5788614wme.125.1535987431534;
-        Mon, 03 Sep 2018 08:10:31 -0700 (PDT)
-Received: from ltop.local ([2a02:a03f:4006:df00:113f:adbd:9f65:1637])
-        by smtp.gmail.com with ESMTPSA id 204-v6sm17256494wmh.25.2018.09.03.08.10.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Sep 2018 08:10:30 -0700 (PDT)
-Date:   Mon, 3 Sep 2018 17:10:27 +0200
-From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        linux-kselftest@vger.kernel.org,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
- sparse
-Message-ID: <20180903151026.n2jak3e4yqusnogt@ltop.local>
-References: <cover.1535629099.git.andreyknvl@google.com>
- <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
- <20180831081123.6mo62xnk54pvlxmc@ltop.local>
- <20180831134244.GB19965@ZenIV.linux.org.uk>
- <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
- <01cadefd-c929-cb45-500d-7043cf3943f6@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <01cadefd-c929-cb45-500d-7043cf3943f6@arm.com>
-User-Agent: NeoMutt/20180622
+        id S1727472AbeICXDa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 19:03:30 -0400
+Received: from mout.gmx.net ([212.227.15.19]:53541 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727430AbeICXDa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Sep 2018 19:03:30 -0400
+Received: from LT02.fritz.box ([88.152.14.153]) by mail.gmx.com (mrgmx002
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 0MIu7d-1fuQxS2xHF-002UGa; Mon, 03
+ Sep 2018 20:41:59 +0200
+From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: [PATCH 1/1] docs: kernel-doc: fix parsing of function pointers
+Date:   Mon,  3 Sep 2018 20:41:53 +0200
+Message-Id: <20180903184153.9368-1-xypron.glpk@gmx.de>
+X-Mailer: git-send-email 2.18.0
+X-Provags-ID: V03:K1:57cWkZ2zjtKcPqe+4gPBbt/1hZgllh/wWr3+rQWnI0dcMOqg2HQ
+ bd+Run4udJFC6nMKE1H1frPQoVKI2GX0rV2nWO+TRKCRRv9OA66o+wMqvVVEFiHci1S8nIJ
+ padrK+LNu9qcv8rGWOhyGq4xuWukJTKZSDOSs3nt+IIjGFmHXCfSVNHXyd4zKtnB9f8oWtl
+ OnPd2n8pY6oAEo1zHYf8Q==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:sZldF3BiGJo=:apEClFNf2MqraO+cNZ7044
+ 38kUo1M4uUZuIqNcNQF2rT8lZYJAoHOEB3EjHCsccg6kyV5ROytKEZp1zuXlmC+fVaQpuJXFm
+ x14oazRRyTS0uf5Vivv98pWtlcey2iPtYi386WOrbuREsPZz+en4Gk4k65tmd2psTPgxGSJix
+ awcAQR9M4TiO9bRV/6i8t495upVRWeVyZSbMyx8q2K4F/MXSPYrH+6jjSxerRgTCocuyJOkds
+ HFmwQByw7crBW4jiu9AA0gyVC/+jQtIObHPinmO01hdHonJqOvVmqC4ZjgpyX4IUJeUKJ7mxj
+ POL5ccDcbWm9ln5DnYNgLTQ57dAA75ComxKfR1LbslyhvICIoFnzDN5N9n2/udKt6uUtUmNE7
+ DwG/k1/Tdff7693C4sQHhzd1hcvjvXHFnakAGmcqGF8Q5w56/e9DkAy48tmWVUaxPxaOt1uFl
+ 7R31kiYJifk6YiReQGNRJEa61y7r5Xu76u44GhgefQwDEbEsVYGgiM64nH9+C3H4eTO2z5n9I
+ 8uOXjowN2qmVQVxLhtXWCBKxPRFkhYotXaT2Iq7ahx53o963ABBUDdG75IpSFB09d99hEOicL
+ J4Ud9xnyst4GI8EIWpgmDxouThrAtypR9c/LlYusQe6DNjULo/SZkCR3k4lAkG+FJyufWyc15
+ IqfoaI52qPNwUrVeWMnTDChmNqAYIEJVkfxrPoSoH1ww/WK9/1xpopZmaE7g+k1uGN3bu99VC
+ afbjaCLJDjE3PB7aQKEUcrJJtEt/688VzuJLi285/11CryV+nnasVWxKYgQ=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 03, 2018 at 02:49:38PM +0100, Vincenzo Frascino wrote:
-> On 03/09/18 13:34, Andrey Konovalov wrote:
-> > On Fri, Aug 31, 2018 at 3:42 PM, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >> On Fri, Aug 31, 2018 at 10:11:24AM +0200, Luc Van Oostenryck wrote:
-> >>> On Thu, Aug 30, 2018 at 01:41:16PM +0200, Andrey Konovalov wrote:
-> >>>> This patch adds __force annotations for __user pointers casts detected by
-> >>>> sparse with the -Wcast-from-as flag enabled (added in [1]).
-> >>>>
-> >>>> [1] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
-> >>>
-> >>> Hi,
-> >>>
-> >>> It would be nice to have some explanation for why these added __force
-> >>> are useful.
-> > 
-> > I'll add this in the next version, thanks!
-> > 
-> >>         It would be even more useful if that series would either deal with
-> >> the noise for real ("that's what we intend here, that's what we intend there,
-> >> here's a primitive for such-and-such kind of cases, here we actually
-> >> ought to pass __user pointer instead of unsigned long", etc.) or left it
-> >> unmasked.
-> >>
-> >>         As it is, __force says only one thing: "I know the code is doing
-> >> the right thing here".  That belongs in primitives, and I do *not* mean the
-> >> #define cast_to_ulong(x) ((__force unsigned long)(x))
-> >> kind.
-> >>
-> >>         Folks, if you don't want to deal with that - leave the warnings be.
-> >> They do carry more information than "someone has slapped __force in that place".
-> >>
-> >> Al, very annoyed by that kind of information-hiding crap...
-> > 
-> > This patch only adds __force to hide the reports I've looked at and
-> > decided that the code does the right thing. The cases where this is
-> > not the case are handled by the previous patches in the patchset. I'll
-> > this to the patch description as well. Is that OK?
-> > 
-> I think as well that we should make explicit the information that
-> __force is hiding.
-> A possible solution could be defining some new address spaces and use
-> them where it is relevant in the kernel. Something like:
-> 
-> # define __compat_ptr __attribute__((noderef, address_space(5)))
-> # define __tagged_ptr __attribute__((noderef, address_space(6)))
-> 
-> In this way sparse can still identify the casting and trigger a warning.
-> 
-> We could at that point modify sparse to ignore these conversions when a
-> specific flag is passed (i.e. -Wignore-compat-ptr, -Wignore-tagged-ptr)
-> to exclude from the generated warnings the ones we have already dealt
-> with.
-> 
-> What do you think about this approach?
+The same script kernel-doc is used by the U-Boot project.
 
-I'll be happy to add such warnings to sparse if it is useful to detect
-(and correct!) problems. I'm also thinking to other possiblities, like
-having some weaker form of __force (maybe simply __force_as (which will
-'only' force the address space) or even __force_as(TO, FROM) (with TO
-and FROM being a mask of the address space allowed).
+kernel-doc fails to parse function definitions like the one below
 
-However, for the specific situation here, I'm not sure that using
-address spaces is the right choice because I suspect that the concept
-of tagged pointer is orthogonal to the one of (the usual) address space
-(it won't be possible for a pointer to be __tagged_ptr *and* __user).
+efi_status_t efi_create_event(uint32_t type, efi_uintn_t notify_tpl,
+			      void (EFIAPI *notify_function) (
+					struct efi_event *event,
+					void *context),
+			      void *notify_context, efi_guid_t *group,
+			      struct efi_event **event)
+{
 
-OTOH, when I see already the tons of warnings for concepts established
-since many years (I'm thinking especially at __bitwise, see [1]) I'm a
-bit affraid of adding new, more specialized ones that people will
-understand even less how/when they need to use them.
+due to the "EFIAPI" attribute preceding the function name.
 
+Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+---
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- Luc
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 31a34ced55a3..597e3223b791 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1381,7 +1381,7 @@ sub create_parameterlist($$$$) {
+ 	} elsif ($arg =~ m/\(.+\)\s*\(/) {
+ 	    # pointer-to-function
+ 	    $arg =~ tr/#/,/;
+-	    $arg =~ m/[^\(]+\(\*?\s*([\w\.]*)\s*\)/;
++	    $arg =~ m/[^\(]+\([\w\s]*\*?\s*([\w\.]*)\s*\)/;
+ 	    $param = $1;
+ 	    $type = $arg;
+ 	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
+-- 
+2.18.0
 
-[1] Here are the warnings reported on v18-rc1 x86-64 with defconfig:
-    469 symbol was not declared. Should it be static?
-    241 incorrect type in argument (different address spaces)
-    186 context imbalance - unexpected unlock
-    147 restricted type degrades to integer
-    122 incompatible types in comparison expression (different address spaces)
-    117 context imbalance - different lock contexts for basic block
-    102 incorrect type in assignment (different address spaces)
-    101 incorrect type in initializer (different address spaces)
-     82 dereference of noderef expression
-     79 cast to restricted type
-     74 incorrect type in argument (different base types)
-     72 bad integer constant expression
-     68 context imbalance - wrong count at exit
-     65 incorrect type in assignment (different base types)
-     44 cast removes address space of expression
-     38 Using plain integer as NULL pointer
-     20 Variable length array is used.
-     14 symbol redeclared with different type - different modifiers
-     14 cast from restricted type
-     13 function with external linkage has definition
-     12 subtraction of functions? Share your drugs
-     11 directive in argument list
-      8 incorrect type in return expression (different address spaces)
-      6 cast truncates bits from constant value
-      5 invalid assignement
-      5 incorrect type in return expression (different base types)
-      5 incorrect type in initializer (different base types)
-      4 "Sparse checking disabled for this file"
-      3 memset with byte count of ...
-      3 incorrect type in initializer (different modifiers)
-      2 Initializer entry defined twice
-      2 incorrect type in assignment (different modifiers)
-      2 incorrect type in argument (different modifiers)
-      2 arithmetics on pointers to functions
-      1 trying to concatenate long character string (8191 bytes max)
-      1 too long token expansion
-      1 symbol redeclared with different type - incompatible argument (different address spaces)
-      1 memcpy with byte count of ...
-      1 marked inline, but without a definition
-      1 invalid initializer
-      1 incorrect type in argument (incompatible argument (different signedness))
-      1 incompatible types in comparison expression (different base types)
-      1 dubious: !x | y
-      1 constant is so big it is ...
