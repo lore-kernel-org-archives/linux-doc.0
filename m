@@ -1,177 +1,216 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D031A7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 15:08:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3EC117D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 15:10:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbeICT2e convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 15:28:34 -0400
-Received: from mail-vk0-f67.google.com ([209.85.213.67]:46546 "EHLO
-        mail-vk0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725949AbeICT2d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 15:28:33 -0400
-Received: by mail-vk0-f67.google.com with SMTP id b14-v6so286939vke.13;
-        Mon, 03 Sep 2018 08:07:57 -0700 (PDT)
+        id S1727441AbeICTbK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 15:31:10 -0400
+Received: from mail-wm0-f67.google.com ([74.125.82.67]:54082 "EHLO
+        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725949AbeICTbK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 15:31:10 -0400
+Received: by mail-wm0-f67.google.com with SMTP id b19-v6so1535990wme.3;
+        Mon, 03 Sep 2018 08:10:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=QBXk9LfSk2rzR+02HunmKWC22g9u1K2qTiC55tmSV/U=;
+        b=Hx/m/PhQl2ObRiumf7sdeHhyGRuOCwOt++13PXUIs+KuspSimS4HFbw/veyR9+/vtf
+         d1iIA+8edBk9BdCNe7/N0pVjiSDvLQY1ENHEFKYqTwZ6QmwORGIV+b92hxmhp+ETWH2f
+         NOeKRIhBaUxsW+p+5qrU22PjCek95EO1cRkKyOyPaNVRwkdJGcaoYSsPXCI1XmMsVxn/
+         +elj1XhiPY29pC9CLGSqvvW67bUJ4UOSAY/QJIvpyPtlDjEi2rx+Yg4ktcdC9HR2NOMF
+         b/CvVtCQZ1VU2x4aqYVSGsnKZE4qCTPjzpWUAmCFUXPgl8jSPVCHEs5ba70vv7TNyKDA
+         EOiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=HPSp+Jn8jv1Vh1YsfpKRDgDd3bmQ8AAw73WdrmW3V5Y=;
-        b=Qw633aw4HPgFKjGwOfuMZ59qefIUkj8fUb5wpiDPEpMSRM6IqqwtbY6KPrs0DZloKK
-         GZwsA0CbxS/cpANq07YgSI4hFNNNbE7J63VNUtSBcV8GI50vOlzk6dcozzPAh09IsjNC
-         nVKhs5AvfxZdbQFWnJiDPon/qa1/SFsi4p8MySryOtbEhs9KP3QqWJ2tImJqxKYoyDPd
-         MgKNGK7pCoCkGrwq/hkjMlg6+RmXOuYWzC0gjdRCZHfhxf9YMAMk7+K8I140RtNMLlK/
-         UMU/n2pO8+uw3wNskYN5E+XBqDvTEX9veXattmK+LA9woWHXNEbdULCIs7Mb8XLq4PKP
-         8GFw==
-X-Gm-Message-State: APzg51CR08Yx4i4jcUSYCUjxTxCuk8J7Mu63IRro/UpEzBNbrxniCv1s
-        xpf2cs/xXg0R5nD/iwpluRQNFY3JUtcHp5tUCkQ=
-X-Google-Smtp-Source: ANB0VdZwrSGUbocz+e7hD7Hi/+8Gop2gS+ScDfXzu9LH8WFlEKRoZCp+/SVu/E4taR+o9fvA7dzr606ru+QiMIPz2zQ=
-X-Received: by 2002:a1f:6307:: with SMTP id x7-v6mr6412045vkb.111.1535987277086;
- Mon, 03 Sep 2018 08:07:57 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=QBXk9LfSk2rzR+02HunmKWC22g9u1K2qTiC55tmSV/U=;
+        b=WNTl9WVsL1T+PZZXyNOpZPvuutXE8rgSHR3bIOTYynrM0dBel5LnyWGxeUf2DRFxih
+         lSNd5Kz/atH2pWCU38rYNZQ7z4uNBL81gneWO8DRqf58t/xNgn84gLsri7u35nIRVWIh
+         /09RJeSjWAT1ExjQ3AZmJvltdGdIqCM1+ct4KI1W/1eccgKgv3FRDuDjfOyhYVOpLxhe
+         ivmOn4CyLnGiuoHeUojKSkPuLQCFKSRn289UrZuMjQES6OHmXXyiJtebWswmvdMwPsgo
+         n0Stm33THFMmz8CVENE0yPXmde5GR1hUP+ki2A5ZNN4bP27ZHvH/CXc+iLMkRXY7ip6X
+         mivg==
+X-Gm-Message-State: APzg51AzBJ1eq1pDP3ocq8V/oukPOWImdKSIMaN6ep4DnPEecnxTFN5r
+        frmLuvCE2lFcWnkvZ1OUYuI=
+X-Google-Smtp-Source: ANB0VdYzzGu72Lwq9prC544xqTcfBUpv3OV9gn8QXk20TTwlWqgfwQxEJJBYhiB42UR926ZJEDcqQg==
+X-Received: by 2002:a1c:a401:: with SMTP id n1-v6mr5788614wme.125.1535987431534;
+        Mon, 03 Sep 2018 08:10:31 -0700 (PDT)
+Received: from ltop.local ([2a02:a03f:4006:df00:113f:adbd:9f65:1637])
+        by smtp.gmail.com with ESMTPSA id 204-v6sm17256494wmh.25.2018.09.03.08.10.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Sep 2018 08:10:30 -0700 (PDT)
+Date:   Mon, 3 Sep 2018 17:10:27 +0200
+From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        linux-kselftest@vger.kernel.org,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
+ sparse
+Message-ID: <20180903151026.n2jak3e4yqusnogt@ltop.local>
+References: <cover.1535629099.git.andreyknvl@google.com>
+ <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <20180831081123.6mo62xnk54pvlxmc@ltop.local>
+ <20180831134244.GB19965@ZenIV.linux.org.uk>
+ <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
+ <01cadefd-c929-cb45-500d-7043cf3943f6@arm.com>
 MIME-Version: 1.0
-References: <20180831225616.29221-1-jmkrzyszt@gmail.com> <20180902120144.6855-1-jmkrzyszt@gmail.com>
- <20180902120144.6855-2-jmkrzyszt@gmail.com>
-In-Reply-To: <20180902120144.6855-2-jmkrzyszt@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Sep 2018 17:07:44 +0200
-Message-ID: <CAMuHMdXScsLg+LsQDn0dU8qSV30uWaeGQsNDPssm0H5y6UPAWw@mail.gmail.com>
-Subject: Re: [PATCH v7 1/4] gpiolib: Pass bitmaps, not integer arrays, to
- get/set array
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
-        peter.korsgaard@barco.com, Peter Rosin <peda@axentia.se>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Peter Meerwald <pmeerw@pmeerw.net>,
-        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, linux-iio@vger.kernel.org,
-        driverdevel <devel@driverdev.osuosl.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        sebastien.bourdelin@savoirfairelinux.com,
-        Lukas Wunner <lukas@wunner.de>,
-        Rojhalat Ibrahim <imr@rtschenk.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        ext Tony Lindgren <tony@atomide.com>,
-        Yegor Yefremov <yegorslists@googlemail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01cadefd-c929-cb45-500d-7043cf3943f6@arm.com>
+User-Agent: NeoMutt/20180622
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Janusz,
+On Mon, Sep 03, 2018 at 02:49:38PM +0100, Vincenzo Frascino wrote:
+> On 03/09/18 13:34, Andrey Konovalov wrote:
+> > On Fri, Aug 31, 2018 at 3:42 PM, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> >> On Fri, Aug 31, 2018 at 10:11:24AM +0200, Luc Van Oostenryck wrote:
+> >>> On Thu, Aug 30, 2018 at 01:41:16PM +0200, Andrey Konovalov wrote:
+> >>>> This patch adds __force annotations for __user pointers casts detected by
+> >>>> sparse with the -Wcast-from-as flag enabled (added in [1]).
+> >>>>
+> >>>> [1] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
+> >>>
+> >>> Hi,
+> >>>
+> >>> It would be nice to have some explanation for why these added __force
+> >>> are useful.
+> > 
+> > I'll add this in the next version, thanks!
+> > 
+> >>         It would be even more useful if that series would either deal with
+> >> the noise for real ("that's what we intend here, that's what we intend there,
+> >> here's a primitive for such-and-such kind of cases, here we actually
+> >> ought to pass __user pointer instead of unsigned long", etc.) or left it
+> >> unmasked.
+> >>
+> >>         As it is, __force says only one thing: "I know the code is doing
+> >> the right thing here".  That belongs in primitives, and I do *not* mean the
+> >> #define cast_to_ulong(x) ((__force unsigned long)(x))
+> >> kind.
+> >>
+> >>         Folks, if you don't want to deal with that - leave the warnings be.
+> >> They do carry more information than "someone has slapped __force in that place".
+> >>
+> >> Al, very annoyed by that kind of information-hiding crap...
+> > 
+> > This patch only adds __force to hide the reports I've looked at and
+> > decided that the code does the right thing. The cases where this is
+> > not the case are handled by the previous patches in the patchset. I'll
+> > this to the patch description as well. Is that OK?
+> > 
+> I think as well that we should make explicit the information that
+> __force is hiding.
+> A possible solution could be defining some new address spaces and use
+> them where it is relevant in the kernel. Something like:
+> 
+> # define __compat_ptr __attribute__((noderef, address_space(5)))
+> # define __tagged_ptr __attribute__((noderef, address_space(6)))
+> 
+> In this way sparse can still identify the casting and trigger a warning.
+> 
+> We could at that point modify sparse to ignore these conversions when a
+> specific flag is passed (i.e. -Wignore-compat-ptr, -Wignore-tagged-ptr)
+> to exclude from the generated warnings the ones we have already dealt
+> with.
+> 
+> What do you think about this approach?
 
-On Sun, Sep 2, 2018 at 2:01 PM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
-> Most users of get/set array functions iterate consecutive bits of data,
-> usually a single integer, while processing array of results obtained
-> from, or building an array of values to be passed to those functions.
-> Save time wasted on those iterations by changing the functions' API to
-> accept bitmaps.
->
-> All current users are updated as well.
->
-> More benefits from the change are expected as soon as planned support
-> for accepting/passing those bitmaps directly from/to respective GPIO
-> chip callbacks if applicable is implemented.
->
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>
-> Cc: Lukas Wunner <lukas@wunner.de>
-> Cc: Peter Korsgaard <peter.korsgaard@barco.com>
-> Cc: Peter Rosin <peda@axentia.se>
-> Cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: Florian Fainelli <f.fainelli@gmail.com>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Rojhalat Ibrahim <imr@rtschenk.de>
-> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-> Cc: Russell King <rmk+kernel@armlinux.org.uk>
-> Cc: Kishon Vijay Abraham I <kishon@ti.com>
-> Cc: Tony Lindgren <tony@atomide.com>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Michael Hennerich <Michael.Hennerich@analog.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Hartmut Knaack <knaack.h@gmx.de>
-> Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jiri Slaby <jslaby@suse.com>
-> Cc: Yegor Yefremov <yegorslists@googlemail.com>
-> Cc: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+I'll be happy to add such warnings to sparse if it is useful to detect
+(and correct!) problems. I'm also thinking to other possiblities, like
+having some weaker form of __force (maybe simply __force_as (which will
+'only' force the address space) or even __force_as(TO, FROM) (with TO
+and FROM being a mask of the address space allowed).
 
-> --- a/drivers/auxdisplay/hd44780.c
-> +++ b/drivers/auxdisplay/hd44780.c
-> @@ -62,17 +62,12 @@ static void hd44780_strobe_gpio(struct hd44780 *hd)
->  /* write to an LCD panel register in 8 bit GPIO mode */
->  static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
->  {
-> -       int values[10]; /* for DATA[0-7], RS, RW */
-> -       unsigned int i, n;
-> -
-> -       for (i = 0; i < 8; i++)
-> -               values[PIN_DATA0 + i] = !!(val & BIT(i));
-> -       values[PIN_CTRL_RS] = rs;
-> -       n = 9;
-> -       if (hd->pins[PIN_CTRL_RW]) {
-> -               values[PIN_CTRL_RW] = 0;
-> -               n++;
-> -       }
-> +       DECLARE_BITMAP(values, 10); /* for DATA[0-7], RS, RW */
-> +       unsigned int n;
-> +
-> +       *values = val;
+However, for the specific situation here, I'm not sure that using
+address spaces is the right choice because I suspect that the concept
+of tagged pointer is orthogonal to the one of (the usual) address space
+(it won't be possible for a pointer to be __tagged_ptr *and* __user).
 
-Given DECLARE_BITMAP() creates an array, the above line looks a bit funny now.
+OTOH, when I see already the tons of warnings for concepts established
+since many years (I'm thinking especially at __bitwise, see [1]) I'm a
+bit affraid of adding new, more specialized ones that people will
+understand even less how/when they need to use them.
 
-IMHO, either you use
 
-    unsigned long values;
-    values = val;
-    __assign_bit(8, &values, rs);
+-- Luc
 
-or
-
-    DECLARE_BITMAP(values, 10);
-    values[0] = val;
-    __assign_bit(8, values, rs);
-
-Nevertheless, for hd44780.c:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[1] Here are the warnings reported on v18-rc1 x86-64 with defconfig:
+    469 symbol was not declared. Should it be static?
+    241 incorrect type in argument (different address spaces)
+    186 context imbalance - unexpected unlock
+    147 restricted type degrades to integer
+    122 incompatible types in comparison expression (different address spaces)
+    117 context imbalance - different lock contexts for basic block
+    102 incorrect type in assignment (different address spaces)
+    101 incorrect type in initializer (different address spaces)
+     82 dereference of noderef expression
+     79 cast to restricted type
+     74 incorrect type in argument (different base types)
+     72 bad integer constant expression
+     68 context imbalance - wrong count at exit
+     65 incorrect type in assignment (different base types)
+     44 cast removes address space of expression
+     38 Using plain integer as NULL pointer
+     20 Variable length array is used.
+     14 symbol redeclared with different type - different modifiers
+     14 cast from restricted type
+     13 function with external linkage has definition
+     12 subtraction of functions? Share your drugs
+     11 directive in argument list
+      8 incorrect type in return expression (different address spaces)
+      6 cast truncates bits from constant value
+      5 invalid assignement
+      5 incorrect type in return expression (different base types)
+      5 incorrect type in initializer (different base types)
+      4 "Sparse checking disabled for this file"
+      3 memset with byte count of ...
+      3 incorrect type in initializer (different modifiers)
+      2 Initializer entry defined twice
+      2 incorrect type in assignment (different modifiers)
+      2 incorrect type in argument (different modifiers)
+      2 arithmetics on pointers to functions
+      1 trying to concatenate long character string (8191 bytes max)
+      1 too long token expansion
+      1 symbol redeclared with different type - incompatible argument (different address spaces)
+      1 memcpy with byte count of ...
+      1 marked inline, but without a definition
+      1 invalid initializer
+      1 incorrect type in argument (incompatible argument (different signedness))
+      1 incompatible types in comparison expression (different base types)
+      1 dubious: !x | y
+      1 constant is so big it is ...
