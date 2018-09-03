@@ -3,33 +3,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 42DE67D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 02:15:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 54CF97D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 02:19:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726011AbeICGdR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 02:33:17 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:33026 "EHLO
+        id S1726048AbeICGhM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 02:37:12 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:33074 "EHLO
         merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725949AbeICGdQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 02:33:16 -0400
+        with ESMTP id S1725866AbeICGhL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 02:37:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
         In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=i+5mXuYXD9hWkgy76c1KQuJ0ZsOWx6MeFQoK8XmOzJk=; b=O/4PrqEO8/c84SZ+Ws8VKDxNKE
-        tPXjhTFodYAmNqW6KjoElPWGdWpwydNWy6E9BUvdXxZG28CdP/0mkW7TOv5Ip3yPxomdiHmO49TlV
-        Io0ULzVqtSOllD5TU+jMDqzeGufno4Y78HbBubx/tJavodNhunfoi4d91BnWlIh15dJv66AtucSol
-        ttRodSVbPTGW88TFIE9c9YoULVajIa36tt3rNhFpbEd835b0LvCSiAbTJJF3j6e/3SK6MZmrdYhWg
-        CGzW2lqN4RPPmM6pJ4oTjW+luIJaYMo4bEM1H9h2r41AHL179i+28kGNKoJIyXZraA8rY0rnkuElj
-        nXiHbb6A==;
+        bh=fWyWepqHQBvMnBljLMyt03pm2wSivxNxBmNAWmNz42E=; b=aV4ViLZu/PjIyJzP8EkEQE8YAo
+        f88H5LdTJ93ZTuP0HZ0kGumyF68+hO5+XjvtvADz+Lx4eGF9PbpmVnq4XawPMO2ZHqXdzaVz/i6U4
+        YqFjXluq3IUEfI1UqHMHlXiGCxpUJRIKpkTb+uWviKj1unQFD2HajjFUzkz06y8gFcmpalQiE7wfq
+        eJ/YxVfVH7s3wTq26kdwYuOwU1QLwMBI1W0hHMnieHCoRem538zyoUWdNGiPfZ7Ou3YKebw905LmW
+        UA/4MxBPAp16dvJkvh84YyNxUtzd1Gv6rBPUuAVG0Ux8cbWRTNwCXFgO/hPbYz5/kaNMk1EmcaAQG
+        V8438kbw==;
 Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
         by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fweOV-0005Qc-OS; Mon, 03 Sep 2018 02:15:11 +0000
-Subject: Re: [PATCH 4/7] crypto: add hisilicon Queue Manager driver
+        id 1fweSJ-0005Rl-0N; Mon, 03 Sep 2018 02:19:07 +0000
+Subject: Re: [PATCH 6/7] crypto: add sdmdev support to Hisilicon QM
 To:     Kenneth Lee <nek.in.cn@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Herbert Xu <herbert@gondor.apana.org.au>,
@@ -50,14 +50,14 @@ To:     Kenneth Lee <nek.in.cn@gmail.com>,
         Sanjay Kumar <sanjay.k.kumar@intel.com>
 Cc:     linuxarm@huawei.com
 References: <20180903005204.26041-1-nek.in.cn@gmail.com>
- <20180903005204.26041-5-nek.in.cn@gmail.com>
+ <20180903005204.26041-7-nek.in.cn@gmail.com>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <4e46a451-d1cd-ac68-84b4-20792fdbc733@infradead.org>
-Date:   Sun, 2 Sep 2018 19:15:07 -0700
+Message-ID: <46e57b2b-756e-e256-5b3c-30749d865512@infradead.org>
+Date:   Sun, 2 Sep 2018 19:19:03 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180903005204.26041-5-nek.in.cn@gmail.com>
+In-Reply-To: <20180903005204.26041-7-nek.in.cn@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -68,17 +68,37 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On 09/02/2018 05:52 PM, Kenneth Lee wrote:
 > diff --git a/drivers/crypto/hisilicon/Kconfig b/drivers/crypto/hisilicon/Kconfig
-> index 8ca9c503bcb0..02a6eef84101 100644
+> index 1d155708cd69..b85fab48fdab 100644
 > --- a/drivers/crypto/hisilicon/Kconfig
 > +++ b/drivers/crypto/hisilicon/Kconfig
-> @@ -1,4 +1,8 @@
->  # SPDX-License-Identifier: GPL-2.0
-> +config CRYPTO_DEV_HISILICON
-> +	tristate "Support for HISILICON CRYPTO ACCELERATOR"
+> @@ -17,6 +17,16 @@ config CRYPTO_DEV_HISI_SEC
+>  	  To compile this as a module, choose M here: the module
+>  	  will be called hisi_sec.
+>  
+> +config CRYPTO_DEV_HISI_SDMDEV
+> +	bool "Enable SDMDEV interface"
+> +	depends on CRYPTO_DEV_HISILICON
+> +	select VFIO_SDMDEV
 > +	help
-> +	  Enable this to use Hisilicon Hardware Accelerators
+> +	  Enable this enable the SDMDEV, "shared IOMMU Domain Mediated Device"
 
-	                                        Accelerators.
+At a minimum:
+	  Enable this to enable the SDMDEV,
+
+although that could be done better.  Maybe just:
+	  Enable the SDMDEV "shared IOMMU Domain Mediated Device"
+
+	  
+> +	  interface for all Hisilicon accelerators if they can. The SDMDEV
+
+probably drop "if they can":          accelerators.  The SDMDEV interface
+
+> +	  enable the WarpDrive user space accelerator driver to access the
+
+	  enables
+
+> +	  hardware function directly.
+> +
 
 
 -- 
