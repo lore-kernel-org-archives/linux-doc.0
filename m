@@ -5,31 +5,28 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA6A37D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 18:45:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D14A7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 19:00:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727607AbeICXHN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 19:07:13 -0400
-Received: from ms.lwn.net ([45.79.88.28]:49732 "EHLO ms.lwn.net"
+        id S1727597AbeICXWP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 19:22:15 -0400
+Received: from ms.lwn.net ([45.79.88.28]:49780 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727472AbeICXHN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Sep 2018 19:07:13 -0400
+        id S1727493AbeICXWP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Sep 2018 19:22:15 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8B4674B7;
-        Mon,  3 Sep 2018 18:45:46 +0000 (UTC)
-Date:   Mon, 3 Sep 2018 12:45:45 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 57FE84B7;
+        Mon,  3 Sep 2018 19:00:44 +0000 (UTC)
+Date:   Mon, 3 Sep 2018 13:00:43 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Henrik Austad <henrik@austad.us>
-Cc:     Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [RFC] Drop all 00-INDEX files from Documentation/
-Message-ID: <20180903124545.089ead51@lwn.net>
-In-Reply-To: <20180903105542.GA9485@sisyphus.home.austad.us>
-References: <1535545728-8402-1-git-send-email-henrik@austad.us>
-        <58648986219ce0173ff45d34def0da9f9f34b55f.camel@perches.com>
-        <20180903105542.GA9485@sisyphus.home.austad.us>
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] docs: kernel-doc: fix parsing of function pointers
+Message-ID: <20180903130043.059b2e82@lwn.net>
+In-Reply-To: <20180903184153.9368-1-xypron.glpk@gmx.de>
+References: <20180903184153.9368-1-xypron.glpk@gmx.de>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,32 +36,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 3 Sep 2018 12:55:42 +0200
-Henrik Austad <henrik@austad.us> wrote:
+On Mon,  3 Sep 2018 20:41:53 +0200
+Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
 
-> On Wed, Aug 29, 2018 at 09:20:30AM -0700, Joe Perches wrote:
-> > On Wed, 2018-08-29 at 14:28 +0200, Henrik Austad wrote:  
-> > > The 00-INDEX files are supposed to give a summary of all files present
-> > > in a directory, but these files are horribly out of date and their
-> > > usefulness is brought into question.
-> > > 
-> > > A few years back it was mentioned that these files were no longer
-> > > needed, and they have since then grown further out of date, so perhaps
-> > > it is time to just throw them out.  
-> > 
-> > Good idea.
-> > 
-> > .rst is becoming more common and these 00-INDEX files
-> > are unnecessary and occasionally misleading.  
+> The same script kernel-doc is used by the U-Boot project.
+
+Interesting, I didn't know that.  Please pass on my condolences :)
 > 
-> Ok, should I respin and clean up all the other files referencing 00-INDEX 
-> and send to a wider audience?
+> kernel-doc fails to parse function definitions like the one below
+> 
+> efi_status_t efi_create_event(uint32_t type, efi_uintn_t notify_tpl,
+> 			      void (EFIAPI *notify_function) (
+> 					struct efi_event *event,
+> 					void *context),
+> 			      void *notify_context, efi_guid_t *group,
+> 			      struct efi_event **event)
+> {
+> 
+> due to the "EFIAPI" attribute preceding the function name.
 
-Wider audience might be good.  I've not yet decided whether I think this
-is a good idea or not.  We certainly don't need those files for stuff
-that's in the RST doctree, that's what the index.rst files are for.  But I
-suspect some people might complain about losing them for the rest of the
-content.  I do get patches from people updating them, so some folks do
-indeed look at them...
+This is a good description of the problem; a proper changelog should
+really say what the patch *does* about the problem too.  Especially
+since...
+
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> ---
+>  scripts/kernel-doc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 31a34ced55a3..597e3223b791 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -1381,7 +1381,7 @@ sub create_parameterlist($$$$) {
+>  	} elsif ($arg =~ m/\(.+\)\s*\(/) {
+>  	    # pointer-to-function
+>  	    $arg =~ tr/#/,/;
+> -	    $arg =~ m/[^\(]+\(\*?\s*([\w\.]*)\s*\)/;
+> +	    $arg =~ m/[^\(]+\([\w\s]*\*?\s*([\w\.]*)\s*\)/;
+
+The meaning of this change doesn't just jump off the screen, even for
+folks who are accustomed to reading regexes.  It would be nice to explain
+what is actually being changed and what the expected new behavior is.  It
+appears to be consuming any normal text/white space prior to the optional
+"*".  Are you sure it doesn't overshoot and consume too much if the *
+isn't there?
+
+Thanks,
 
 jon
