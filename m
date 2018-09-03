@@ -2,197 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0A6CC7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 10:24:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5AB797D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 10:55:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbeICOnW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 10:43:22 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:35918 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725949AbeICOnV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 10:43:21 -0400
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id w83ANkOL007761;
-        Mon, 3 Sep 2018 19:23:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com w83ANkOL007761
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1535970227;
-        bh=Y5TOG+LKnYD+uOxxlQ4UADrm7UwxsRgfYdEXrKFghh4=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=ap/iolQesENzZdKmHnTaOFDBgGK4Lo/vU7eyLrqmBXkHNa7WU2KvJFk7psPkZ80qV
-         iDsN2CBf+krw75NGsqG9xnj6SZrrJ6M+89meQl1IeQNJRtfTQXxQ7xHpRTCLUK+7DP
-         Pyp2SV2ZkJ6lhXKlASVfRstyq0AqmkxTuBCjw01LYzZ4qZmZryHH3KMc1QxEj4ZIDO
-         vgHTTelicCyS0e1AX5uN9EwgE71FUIUVjAV0VcDYuj90kpS4kytl/5kLTGFQQK96bJ
-         1sAqmPNKX9Wp5o9tRnSGOYHsDE3rvf6Eo12K43m8pfGc/boW5I/0I6BMmXMontdbcE
-         6aMC/grIMHkVA==
-X-Nifty-SrcIP: [209.85.222.53]
-Received: by mail-ua1-f53.google.com with SMTP id o11-v6so55164uak.5;
-        Mon, 03 Sep 2018 03:23:47 -0700 (PDT)
-X-Gm-Message-State: APzg51Bs37JUMIM7g5Cd1nd1txYWmaNPpQs3FD6J8UBBGEuP5qNhansB
-        n9DHfQwn4MrFhGO9+GpqkTiIAjicdgc1rMGy028=
-X-Google-Smtp-Source: ANB0VdbKxtfzWoGs47TjTsFURG5edKVju+hu63zSkw4CSTgdVK134oPz0gYpQ7tS8AzjzjgyX07+8Zxl+O07lkAOmlA=
-X-Received: by 2002:a67:4441:: with SMTP id r62-v6mr8176036vsa.38.1535970225680;
- Mon, 03 Sep 2018 03:23:45 -0700 (PDT)
+        id S1727064AbeICPPY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 11:15:24 -0400
+Received: from mail-ed1-f47.google.com ([209.85.208.47]:43310 "EHLO
+        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725971AbeICPPY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 11:15:24 -0400
+Received: by mail-ed1-f47.google.com with SMTP id z27-v6so441362edb.10
+        for <linux-doc@vger.kernel.org>; Mon, 03 Sep 2018 03:55:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=austad-us.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=p7KFU43OQrls4/QfxBbLdv5/PevcI01eV4kwDLmUkyw=;
+        b=T2SjQ29lARDFCmnpit85dUABMa8mgvXTaVMdLRK+89sFodMxB7QzFx8ng8muxtcnHo
+         pGXN72waxHwTdvLQrZryXpibxMLKCrSVhZ37j15qruieq9k2Velg8rjdZXF20Mfde6wo
+         XdN6ZA8GwokglGXfNndnw688W/uja0D9IRL+8x5WSUeKm0+6+6PZa0kOvEeiiKQ0cSPX
+         erxdyLK5bdDzN1NUxRztuyetq7/dH+v1BUP4hW98YHjuwYXO9UYxMvRrnrrRHGMuXhZR
+         +vAN5U3Qb/ruqL5nYgDdtZYn5/qpg/w/7Ry9etOBFUn08RIWLNu46CNNG7OAWOm6Pi0+
+         ZcLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=p7KFU43OQrls4/QfxBbLdv5/PevcI01eV4kwDLmUkyw=;
+        b=CoRjZKKCf/caqtpHOPel+Pn55cPKeJ612MZD1Qo87E5FrBhHeHA9/ZrAdYTxNtW2WG
+         4iRcT1QbXfCneuWDiBo0JresSgSEgv9YhViHfZtwz9NS10OVbvOU0F6yoh6wkuVCZ3Op
+         AQPdTXiZ1y64HP3zVsJAPc+zVUiTZE7pQnM6i1zuutPjoI0p14YCglj++hIR/WknQW08
+         Xmkd25jubnZqVbT8Vsu25lKv66+2zZXHpF98e0Gj4dAHK0zZ9pp6dEpaWBMQ0dv1rzpm
+         jOLqavLQX+Cvdc6HEEWsDpTBDpkijPwASGsLhOOEZYBew3y4nSr4SVvo8BZ33WSs1W2t
+         v2Wg==
+X-Gm-Message-State: APzg51C0LLMbsV5WHF5W2rgZkuCB0TmWUSTjq+uo+h6sr/bL9M0zLnRF
+        gzvqHGMeajq6KNTzAe5JiPm+tQ==
+X-Google-Smtp-Source: ANB0VdYFAcsRoRqzECoTVtMyv+yeKhW47B9hp9g5oZfWir4b0Jen0m6LvoDoNCpnkvNZXVKC86NAMg==
+X-Received: by 2002:a50:8c06:: with SMTP id p6-v6mr16076771edp.282.1535972146032;
+        Mon, 03 Sep 2018 03:55:46 -0700 (PDT)
+Received: from sisyphus.home.austad.us (11.92-220-88.customer.lyse.net. [92.220.88.11])
+        by smtp.gmail.com with ESMTPSA id c15-v6sm11135751edm.21.2018.09.03.03.55.44
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Sep 2018 03:55:44 -0700 (PDT)
+Date:   Mon, 3 Sep 2018 12:55:42 +0200
+From:   Henrik Austad <henrik@austad.us>
+To:     Joe Perches <joe@perches.com>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [RFC] Drop all 00-INDEX files from Documentation/
+Message-ID: <20180903105542.GA9485@sisyphus.home.austad.us>
+References: <1535545728-8402-1-git-send-email-henrik@austad.us>
+ <58648986219ce0173ff45d34def0da9f9f34b55f.camel@perches.com>
 MIME-Version: 1.0
-Received: by 2002:ab0:7103:0:0:0:0:0 with HTTP; Mon, 3 Sep 2018 03:23:05 -0700 (PDT)
-In-Reply-To: <s5h6004hokn.wl-tiwai@suse.de>
-References: <20180627143705.5a1fed1c@kitsune.suse.cz> <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
- <20180628111623.3807fe9b@naga.suse.cz> <CAK7LNARRKU7Mfa8ZBu1qPFYFRr-5k69sjVyERM2bYcnWoBDN8g@mail.gmail.com>
- <20180806200725.4efa5d35@kitsune.suse.cz> <CAK7LNATCktToMui4NYxoUXV8ZbuDK8F0JCp_CysEWaSBPUP7NQ@mail.gmail.com>
- <s5h6004hokn.wl-tiwai@suse.de>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 3 Sep 2018 19:23:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATwJsYAm_VLZKJryD2zB5OHr9qVBg2mD4hyu+ieNd+r0A@mail.gmail.com>
-Message-ID: <CAK7LNATwJsYAm_VLZKJryD2zB5OHr9qVBg2mD4hyu+ieNd+r0A@mail.gmail.com>
-Subject: Re: due to kconfig changes kernel config file is no longer sufficient
- for configuring the kernel
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andreas Schwab <schwab@suse.de>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Jeff Mahoney <jeffm@suse.com>,
-        "Peter Zijlstra," <peterz@infradead.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-um@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
+Content-Disposition: inline
+In-Reply-To: <58648986219ce0173ff45d34def0da9f9f34b55f.camel@perches.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi.
 
+--UlVJffcvxoiEqYs2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-2018-08-21 3:37 GMT+09:00 Takashi Iwai <tiwai@suse.de>:
-> On Mon, 20 Aug 2018 20:15:12 +0200,
-> Masahiro Yamada wrote:
->>
->> 2018-08-07 3:07 GMT+09:00 Michal Such=C3=A1nek <msuchanek@suse.de>:
->> > On Mon, 30 Jul 2018 17:02:42 +0900
->> > Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
->> >
->> >> 2018-06-28 18:16 GMT+09:00 Michal Such=C3=A1nek <msuchanek@suse.de>:
->> >> > On Wed, 27 Jun 2018 23:07:21 +0900
->> >> > Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
->> >> >
->> >> >> Hi.
->> >> >>
->> >> >>
->> >> >> 2018-06-27 21:37 GMT+09:00 Michal Such=C3=A1nek <msuchanek@suse.de=
->:
->> >> >> > Hello,
->> >> >> >
->> >> >> > in the x86 Kconfig we have this:
->> >> >> >
->> >> >> > # Select 32 or 64 bit
->> >> >> > config 64BIT
->> >> >> >         bool "64-bit kernel" if "$(ARCH)" =3D "x86"
->> >> >> >         default "$(ARCH)" !=3D "i386"
->> >> >> >         ---help---
->> >> >> >           Say yes to build a 64-bit kernel - formerly known as
->> >> >> > x86_64 Say no to build a 32-bit kernel - formerly known as i386
->> >> >> >
->> >> >> > Since commit 104daea149c4 ("kconfig: reference environment
->> >> >> > variables directly and remove 'option env=3D'") the value of ARC=
-H
->> >> >> > is not saved in the kernel config.
->> >> >>
->> >> >> I think this commit is unrelated.  It was just a syntax change.
->> >> >
->> >> > This does not look like syntax only change to me:
->> >> >
->> >> > diff --git a/init/Kconfig b/init/Kconfig
->> >> > index 15aae32e0719..1217fc62ca61 100644
->> >> > --- a/init/Kconfig
->> >> > +++ b/init/Kconfig
->> >> > @@ -1,20 +1,12 @@
->> >> > -config ARCH
->> >> > -       string
->> >> > -       option env=3D"ARCH"
->> >> > -
->> >> > -config KERNELVERSION
->> >> > -       string
->> >> > -       option env=3D"KERNELVERSION"
->> >> > -
->> >>
->> >> This is just syntax change.
->> >>
->> >> 'option env=3D' was used to reference an environment variable.
->> >>
->> >> Now, $(ARCH), $(KERNELVERSION) are simpler forms.
->> >>
->> >>
->> >> >>
->> >> >> Unless I am missing something,
->> >> >> we have never saved ARCH in the .config in the past.
->> >> >
->> >> > There was a config symbol defined for it before the commit removed
->> >> > it.
->> >>
->> >> No.
->> >>
->> >> CONFIG symbols with'option env=3D'
->> >> are not written out to the .config file.
->> >>
->> >> We have never had CONFIG_ARCH or CONFIG_KERNELVERSION.
->
-> Maybe it sounds like a stupid question, but...
-> if passing ARCH=3D is almost mandatory for distinguishing the bi-arch or
-> cross-compile cases, why don't we save it in .config?
+On Wed, Aug 29, 2018 at 09:20:30AM -0700, Joe Perches wrote:
+> On Wed, 2018-08-29 at 14:28 +0200, Henrik Austad wrote:
+> > The 00-INDEX files are supposed to give a summary of all files present
+> > in a directory, but these files are horribly out of date and their
+> > usefulness is brought into question.
+> >=20
+> > A few years back it was mentioned that these files were no longer
+> > needed, and they have since then grown further out of date, so perhaps
+> > it is time to just throw them out.
+>=20
+> Good idea.
+>=20
+> .rst is becoming more common and these 00-INDEX files
+> are unnecessary and occasionally misleading.
 
-
-The .config may not exist, may not be loaded.
-
-For "make help", "make headers_install" etc.
-ARCH needs be given from the command line anyway.
-
-I do not want to obscure "when to pass ARCH".
-
-
-> The whole "regression" we've seen can be worked around by passing
-> ARCH at each time.  So, by having it in .config, everything would work
-> more easily, no?
-
-
-Recording ARCH in .config does not solve the problem
-because the .config contents depend on the compiler.
-
-
->
->
-> thanks,
->
-> Takashi
-
-
+Ok, should I respin and clean up all the other files referencing 00-INDEX=
+=20
+and send to a wider audience?
 
 --=20
-Best Regards
-Masahiro Yamada
+Henrik Austad
+
+--UlVJffcvxoiEqYs2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAluNEy4ACgkQ6k5VT6v45lm4xQCeIAlT+p1j4970HZd6G8qh0EOo
+qY4AoNPTDOKsaS7zRi81RZ7MqaLZEynh
+=+zV2
+-----END PGP SIGNATURE-----
+
+--UlVJffcvxoiEqYs2--
