@@ -3,33 +3,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 027F87D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 02:11:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 42DE67D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 02:15:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726062AbeICG3f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 02:29:35 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:32982 "EHLO
+        id S1726011AbeICGdR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 02:33:17 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:33026 "EHLO
         merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725887AbeICG3f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 02:29:35 -0400
+        with ESMTP id S1725949AbeICGdQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 02:33:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
         In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=HHnRFUC0L8abTrCUjkGatbVXUgZ4Kz6CFvTAToAkmWc=; b=PvYjrnGQoUg6pTDEHowuBayMI6
-        yUNXGPHcFEH7CJmTA1BWgW5L11fTh4A1L6itMjE3VKAIMXOozQVR+S5mJaJD1mGERNjifHVbQZvTF
-        uy1+24OyI/opvfZySkUUfu0wh6spiuP0ELct3yBeqKioQL9hiOOf3QQ0gFEZU7xr5hL4quyAALuBD
-        67N9VqmC/gpYfPZjjPXjzO1raekj/dksrUzV6dllCYKrV3r9ziQYnu6j+SZnbUzQjdzQ/SNWG+d85
-        4t7ITcFiQdZ89JcezBqO3AI9QefyHNUtN1q0dspDYVYKW9MqYRcTZOHeOv2ZEY1toRztSAXGENWzI
-        gnSS1WqQ==;
+        bh=i+5mXuYXD9hWkgy76c1KQuJ0ZsOWx6MeFQoK8XmOzJk=; b=O/4PrqEO8/c84SZ+Ws8VKDxNKE
+        tPXjhTFodYAmNqW6KjoElPWGdWpwydNWy6E9BUvdXxZG28CdP/0mkW7TOv5Ip3yPxomdiHmO49TlV
+        Io0ULzVqtSOllD5TU+jMDqzeGufno4Y78HbBubx/tJavodNhunfoi4d91BnWlIh15dJv66AtucSol
+        ttRodSVbPTGW88TFIE9c9YoULVajIa36tt3rNhFpbEd835b0LvCSiAbTJJF3j6e/3SK6MZmrdYhWg
+        CGzW2lqN4RPPmM6pJ4oTjW+luIJaYMo4bEM1H9h2r41AHL179i+28kGNKoJIyXZraA8rY0rnkuElj
+        nXiHbb6A==;
 Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
         by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fweKk-0005Pv-KH; Mon, 03 Sep 2018 02:11:19 +0000
-Subject: Re: [PATCH 3/7] vfio: add sdmdev support
+        id 1fweOV-0005Qc-OS; Mon, 03 Sep 2018 02:15:11 +0000
+Subject: Re: [PATCH 4/7] crypto: add hisilicon Queue Manager driver
 To:     Kenneth Lee <nek.in.cn@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Herbert Xu <herbert@gondor.apana.org.au>,
@@ -50,14 +50,14 @@ To:     Kenneth Lee <nek.in.cn@gmail.com>,
         Sanjay Kumar <sanjay.k.kumar@intel.com>
 Cc:     linuxarm@huawei.com
 References: <20180903005204.26041-1-nek.in.cn@gmail.com>
- <20180903005204.26041-4-nek.in.cn@gmail.com>
+ <20180903005204.26041-5-nek.in.cn@gmail.com>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <0574e7dc-bed2-d2d0-3aa6-93590d54ce81@infradead.org>
-Date:   Sun, 2 Sep 2018 19:11:12 -0700
+Message-ID: <4e46a451-d1cd-ac68-84b4-20792fdbc733@infradead.org>
+Date:   Sun, 2 Sep 2018 19:15:07 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180903005204.26041-4-nek.in.cn@gmail.com>
+In-Reply-To: <20180903005204.26041-5-nek.in.cn@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -67,27 +67,19 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 09/02/2018 05:52 PM, Kenneth Lee wrote:
-> diff --git a/drivers/vfio/sdmdev/Kconfig b/drivers/vfio/sdmdev/Kconfig
-> new file mode 100644
-> index 000000000000..51474272870d
-> --- /dev/null
-> +++ b/drivers/vfio/sdmdev/Kconfig
-> @@ -0,0 +1,10 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +config VFIO_SDMDEV
-> +	tristate "Support for Share Domain MDEV"
-> +	depends on VFIO_MDEV_DEVICE
+> diff --git a/drivers/crypto/hisilicon/Kconfig b/drivers/crypto/hisilicon/Kconfig
+> index 8ca9c503bcb0..02a6eef84101 100644
+> --- a/drivers/crypto/hisilicon/Kconfig
+> +++ b/drivers/crypto/hisilicon/Kconfig
+> @@ -1,4 +1,8 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> +config CRYPTO_DEV_HISILICON
+> +	tristate "Support for HISILICON CRYPTO ACCELERATOR"
 > +	help
-> +	  Support for VFIO Share Domain MDEV, which enables the kernel to
-> +	  support light weight hardware accelerator framework, WarpDrive.
+> +	  Enable this to use Hisilicon Hardware Accelerators
 
-	          lightweight
-
-> +
-> +	  To compile this as a module, choose M here: the module will be called
-> +	  sdmdev.
+	                                        Accelerators.
 
 
-thanks,
 -- 
 ~Randy
