@@ -2,143 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 33ABF7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 06:38:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B0AE37D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 08:15:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbeICK5c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 06:57:32 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43448 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725794AbeICK5c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 06:57:32 -0400
-Received: by mail-lf1-f66.google.com with SMTP id h64-v6so14264132lfi.10;
-        Sun, 02 Sep 2018 23:38:47 -0700 (PDT)
+        id S1725898AbeICMeW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 08:34:22 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:46095 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbeICMeV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 08:34:21 -0400
+Received: by mail-qk1-f195.google.com with SMTP id j7-v6so5140802qkd.13
+        for <linux-doc@vger.kernel.org>; Mon, 03 Sep 2018 01:15:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=QtuX6b3HRK2OUAWekr+ubG66O4SYDpxAdJ56e70A00o=;
-        b=Y0xJcXcwTNmrDcyennVWdu8+W9GdE1PqGTHXre6ZlcllnRMwJtZqV9lg1woA+9t6l1
-         gdljM10zjqwGVOA3JEPJu1z2oj0np+mBMCMJtm+IHz05OQ0Of8z2Yv37v57hWFdOsaHX
-         PNHcbEtnTBIjqNujY93fzL1y4ulXwTNYFz8FU8U3fP1StOLioOEiDiysmpFgYxj0nCZE
-         pykcYGKOd4XTQYxZzbo3ZO5R4JKk5vXUNKAg8VuNWUXWm+K/yNoY+OHMCFqlUQc4FsWd
-         AkGnGFXQaWSIt8KBZuj8i/R0R5AXMSrxF+bbdQR98UUm1j6Gk5rTr9V8KpSEo+u/EnXL
-         UJ0Q==
-X-Gm-Message-State: APzg51DEgKfNnWEmMf8v8MgYIKLNaoUANvEJICBDmGgmiz7YnKb19l1q
-        VxC29es1n+2l/xMSK/t9O6I=
-X-Google-Smtp-Source: ANB0VdZ/IaqEExk06Fj1/MIt8r/r3TYIQT3eYki317ErGd8jq0RVK1VxjZSyFNlh5EHLTDhmth+wAw==
-X-Received: by 2002:a19:e44c:: with SMTP id b73-v6mr7040858lfh.117.1535956726951;
-        Sun, 02 Sep 2018 23:38:46 -0700 (PDT)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id d10-v6sm3212452lfk.63.2018.09.02.23.38.45
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 02 Sep 2018 23:38:46 -0700 (PDT)
-Date:   Mon, 3 Sep 2018 09:38:43 +0300
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     kbuild test robot <lkp@intel.com>, kbuild-all@01.org,
-        corbet@lwn.net, mturquette@baylibre.com, linux@armlinux.org.uk,
-        andrew.smirnov@gmail.com, robh@kernel.org, sre@kernel.org,
-        linux@roeck-us.net, sjhuang@iluvatar.ai, mazziesaccount@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        heikki.haikola@fi.rohmeurope.com, mikko.mutanen@fi.rohmeurope.com
-Subject: Re: [PATCH 2/2] clk: bd718x7: Initial support for ROHM
- bd71837/bd71847 PMIC clock
-Message-ID: <20180903063843.GD2472@localhost.localdomain>
-References: <0e6f19f99a4321d37472635c9210f6c13ac53147.1535630942.git.matti.vaittinen@fi.rohmeurope.com>
- <201808310820.GfPfChXp%fengguang.wu@intel.com>
- <20180831102123.GA2472@localhost.localdomain>
- <153582920636.19113.4389105687778850598@swboyd.mtv.corp.google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FHpT9Y1EBeN8VEZdAgYh5ux3KRdWLwuNH0x4RuHBggo=;
+        b=aYun6e/GSKrtEHNmMHrbKIS96gYx8IPk2xdmVxP9MbE6Losewwxmxd1Iv0BJ4k2UU5
+         1irAjjopXO4bE9UKiXYAtShI9bHhjXeBLM0xw4wSjXGaQvvQ58HO2QRjy7ZCVxPBqe5e
+         4t3AtQ4kj9R2vOj1ZOiDs2oebusZggCcsQQumLV3sI0WAAKnYnm0hlFnldoG6k1DmL03
+         6LAo2K1VmnAchiNyZYRB3ZjsFVXC+iC8MiguoNdu1W7HpQo9fKc4Qg7YLvlA1rmGVY1x
+         p0G11eK/t2YzH+zwz/20HdEKGkCpatlQIUWDwBUMUi5edil4jviB0I8JURNpBY1PiU79
+         US3w==
+X-Gm-Message-State: APzg51CzxEnnLiaqspGjBWa8mfzwJOQwWYZog+ATIJfyW7N2daTL4mlM
+        1irz/6t//1tFqgIqzS3+K5WN97xuI1jynl1HQYBp7A==
+X-Google-Smtp-Source: ANB0VdYmiV/Hg8wDJ+bMYNX2ocDludWxtjs4FxXLsFFJOQ6FW83ZU9hNLeqinb8/OHUVLZGb7oO07GXHPl48M0s8zlA=
+X-Received: by 2002:ae9:c30b:: with SMTP id n11-v6mr9792496qkg.194.1535962519391;
+ Mon, 03 Sep 2018 01:15:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <153582920636.19113.4389105687778850598@swboyd.mtv.corp.google.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+References: <20180830215622.47550-1-hcutts@chromium.org>
+In-Reply-To: <20180830215622.47550-1-hcutts@chromium.org>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 3 Sep 2018 10:15:08 +0200
+Message-ID: <CAO-hwJL6xz=b4wA5WnSeZw1PO+exVgs3isyPO6ZFWVemiJU9yA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] Add support for high-resolution scrolling on
+ Logitech mice
+To:     hcutts@chromium.org
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, jiri.kosina@suse.cz,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-doc@vger.kernel.org, corbet@lwn.net,
+        Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Stephen
+Hi Harry,
 
-On Sat, Sep 01, 2018 at 12:13:26PM -0700, Stephen Boyd wrote:
-> Quoting Matti Vaittinen (2018-08-31 03:21:23)
-> > Hello All,
-> > 
-> > Just wanted to point out for the reviewers that this patch depends on
-> > not yet accepted MFD/regulator patch. (struct/defines in
-> > include/linux/mfd/rohm-bd718x7.h were changed)
-> > https://lore.kernel.org/lkml/cover.1535545377.git.matti.vaittinen@fi.rohmeurope.com/
-> > 
-> > On Fri, Aug 31, 2018 at 09:18:19AM +0800, kbuild test robot wrote:
-> > > Hi Matti,
-> > > 
-> > > Thank you for the patch! Yet something to improve:
-> > > 
-> > > [auto build test ERROR on clk/clk-next]
-> > > [also build test ERROR on v4.19-rc1 next-20180830]
-> > > [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-> > 
-> > Thus this error was expected. What is the generally best way to work
-> > when there is changes to more than one subsystem? With this approach
-> > the patch set here won't compile until MFD part gets applied. But if
-> > I use old definitions/structs here, then clk tree gets broken when
-> > MFD/regulator part changes defines. I see only bad and worse options =)
-> > Anyways, I guess sending this patch with new defines (and applying it
-> > only after MFD) is still better than applying this with old defines and
-> > breaking it when MFD changes. (Assuming all of the patches get applied
-> > at some point).
-> > 
-> 
-> Does anything besides the clk driver need the defines that are in the
-> header which are used in this file?
+On Thu, Aug 30, 2018 at 11:56 PM Harry Cutts <hcutts@chromium.org> wrote:
+>
+> Hi everyone,
+>
+> This is v2 of the patch set adding support for high-resolution scroll
+> wheels on Logitech mice. See the linux-input "Reporting high-resolution
+> scroll events" thread [0] for previous discussion of the evdev changes.
+> I would love to hear your feedback.
 
-The register address for clk enable and bit mask are not used by any
-other driver. But I'd like to keep all the register addresses in one
-enum. That eases checking changes when new chips come.
+Series looks good. I just tested it on a regular Logitech mouse and a
+MX Master with high-res scrolling and everything works as expected.
 
-The private data for MFD (which contains for example the regmap and chip
-type) are required by other drivers too.
+Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-> If not, then it's better to put
-> those defines in the C file for the clk driver so we don't have to hop
-> between files and have merge dependencies. Also, the regmap could
-> possibly by grabbed from the dev->parent pointer instead of passing it
-> down through an mfd structure, allowing this driver to be more generic
-> assuming it is always a child of some mfd device that has a regmap.
+Cheers,
+Benjamin
 
-Currently clk only uses regmap directly from the struct bd718xx. But I
-would like to have the access to chip_type as well. And even if we forget
-the chip_type. Well, I only see two bad ways of omitting the struct
-bd718xx:
-
-1. Always keep the regmap as first member in parent device's driver_data.
-Then we can just get the driver data and do cast to regmap. I am not fan
-of this as it breaks as fast as someone changes the struct bd718xx - and
-as this is part of MFD - well, there is no guarantees the clk people are
-even reviewing such change. Also if we need the chip type we are back
-using the struct.
-
-2. Use some regmnap wrapper functions which would only take the parent
-dev pointer and dig out the regmap details. This would be doable but
-then we still have dependency to these wrappers (so dependency is not
-solved). Additionally these wrappers are something we decided to get rid
-of few patch versions ago.
-
-I don't expect much renamings to take place after the latest patch set
-to MFD/regulator tree has been applied. So maybe the clk patch set can
-just wait untill MFD/regulator stuff gets integrated. I would be
-gratefull if we could review the clk patch set already now though so I
-could do improvements/changes to clk side while waiting for
-MFD/regulator to get applied. Also, the devm_ functions (patch 1) are
-not depending on MFD - so maybe we can get them reviewed/applied? If I
-have the spare time I can look if I can clean up some of those not freed
-clkdev lookups.
-
-Br,
-	Matti Vaittinen
-> 
+>
+> Thanks,
+>
+> Harry Cutts
+> Chrome OS Touch/Input team
+>
+> [0]: https://www.spinics.net/lists/linux-input/msg57380.html
+>
+>
+> Changes in v2:
+> * Changed the REL_WHEEL_HI_RES code to use micrometres (a.k.a. microns)
+>   as its units, instead of 256ths of a millimetre.
+> * Removed support for mice connecting over Bluetooth, due to a bug where
+>   the mouse's high-res mode and the driver's settings get out of sync
+>   when the mouse is power cycled.
+> * Moved the creation of the HID++ 1.0 function and the refactor to use
+>   the LDJ_DEVICE macro into separate patches.
+> * Added a couple of explanatory comments to the Logitech driver.
+>
+> Harry Cutts (5):
+>   Add the `REL_WHEEL_HI_RES` event code
+>   Create a utility class for counting scroll events
+>   Add function to enable HID++ 1.0 "scrolling acceleration"
+>   Enable high-resolution scrolling on Logitech mice
+>   Use LDJ_DEVICE macro for existing Logitech mice
+>
+>  Documentation/input/event-codes.rst    |  11 +-
+>  drivers/hid/hid-input.c                |  45 ++++
+>  drivers/hid/hid-logitech-hidpp.c       | 311 ++++++++++++++++++++++---
+>  include/linux/hid.h                    |  28 +++
+>  include/uapi/linux/input-event-codes.h |   1 +
+>  5 files changed, 368 insertions(+), 28 deletions(-)
+>
+> --
+> 2.19.0.rc0.228.g281dcd1b4d0-goog
+>
