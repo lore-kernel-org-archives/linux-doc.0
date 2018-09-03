@@ -1,109 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B0AE37D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 08:15:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 44D337D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 09:33:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725898AbeICMeW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 08:34:22 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:46095 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725892AbeICMeV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 08:34:21 -0400
-Received: by mail-qk1-f195.google.com with SMTP id j7-v6so5140802qkd.13
-        for <linux-doc@vger.kernel.org>; Mon, 03 Sep 2018 01:15:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FHpT9Y1EBeN8VEZdAgYh5ux3KRdWLwuNH0x4RuHBggo=;
-        b=aYun6e/GSKrtEHNmMHrbKIS96gYx8IPk2xdmVxP9MbE6Losewwxmxd1Iv0BJ4k2UU5
-         1irAjjopXO4bE9UKiXYAtShI9bHhjXeBLM0xw4wSjXGaQvvQ58HO2QRjy7ZCVxPBqe5e
-         4t3AtQ4kj9R2vOj1ZOiDs2oebusZggCcsQQumLV3sI0WAAKnYnm0hlFnldoG6k1DmL03
-         6LAo2K1VmnAchiNyZYRB3ZjsFVXC+iC8MiguoNdu1W7HpQo9fKc4Qg7YLvlA1rmGVY1x
-         p0G11eK/t2YzH+zwz/20HdEKGkCpatlQIUWDwBUMUi5edil4jviB0I8JURNpBY1PiU79
-         US3w==
-X-Gm-Message-State: APzg51CzxEnnLiaqspGjBWa8mfzwJOQwWYZog+ATIJfyW7N2daTL4mlM
-        1irz/6t//1tFqgIqzS3+K5WN97xuI1jynl1HQYBp7A==
-X-Google-Smtp-Source: ANB0VdYmiV/Hg8wDJ+bMYNX2ocDludWxtjs4FxXLsFFJOQ6FW83ZU9hNLeqinb8/OHUVLZGb7oO07GXHPl48M0s8zlA=
-X-Received: by 2002:ae9:c30b:: with SMTP id n11-v6mr9792496qkg.194.1535962519391;
- Mon, 03 Sep 2018 01:15:19 -0700 (PDT)
+        id S1727374AbeICNwk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 09:52:40 -0400
+Received: from us01smtprelay-2.synopsys.com ([198.182.47.9]:35306 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725927AbeICNwj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 09:52:39 -0400
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id D2A0124E13D9;
+        Mon,  3 Sep 2018 02:33:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1535967201; bh=CXvOo8OOvgYTeq/p6AL/1Ptn6hjCWgPNL1Ug3XRSQWc=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=Up9J6N7wQ2Yjj+OJqWpRyUoBJ0Z7/xr+eY0RGrduTXUSyryqRLe6NgYdA9rzoWAxi
+         A09llc0EqmbHXZN4RAuljEpod43pTk77CqQZRq6/cnWGdyHG9HZfwRTfb5c8O/8nNZ
+         17k0d/nifyl3mlKRdDbMsvaGpjPfipnE/w/080NqXzjl2XhGeDQ7weRLYD9UY2pK/y
+         WmFgaT0p5s2q8h9gf9w7BYny2f/141lc9RhuxOCH8+V8QEqvAwdsxoA8TincNKl7O3
+         vZvqGiB8HlvDuNftaZwsaZAOyG/mAgYvf7+SCoRB5yxh3hc/ggK4/T213X+dGic2JW
+         TkXYqWUaM+38Q==
+Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2-vip.internal.synopsys.com [10.12.239.238])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 66DC85FEB;
+        Mon,  3 Sep 2018 02:33:17 -0700 (PDT)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Mon, 3 Sep 2018 02:33:16 -0700
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Mon, 3 Sep 2018 11:33:15 +0200
+Received: from [10.0.2.15] (10.225.2.157) by DE02WEHTCB.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.361.1; Mon, 3 Sep
+ 2018 11:33:14 +0200
+Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
+To:     Przemyslaw Gaj <pgaj@cadence.com>,
+        vitor <Vitor.Soares@synopsys.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>
+CC:     "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>, Wolfram Sang <wsa@the-dreams.de>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        "Kumar Gala" <galak@codeaurora.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        Peter Rosin <peda@axentia.se>
+References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
+ <20180719152930.3715-2-boris.brezillon@bootlin.com>
+ <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
+ <20180824143934.6d6b6487@bbrezillon>
+ <bdb2924f-ecfa-1da3-41db-9ac77d4d933b@synopsys.com>
+ <20180824201600.7d80bca9@bbrezillon>
+ <fe839027-c4d7-4d6f-412b-5b315cbc7a39@synopsys.com>
+ <20180828140209.29155d00@bbrezillon>
+ <4DBE768F-3CDC-41BE-9CC8-E294E7277CB1@cadence.com>
+ <8abfb007-d755-36a4-5960-fddd61d04aa2@synopsys.com>
+ <3D2681D9-1ACC-42FF-9FAB-D86B3C689003@cadence.com>
+From:   vitor <Vitor.Soares@synopsys.com>
+Message-ID: <9584757a-e7e2-5bfe-fc2c-e9bc14ad65a8@synopsys.com>
+Date:   Mon, 3 Sep 2018 10:33:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20180830215622.47550-1-hcutts@chromium.org>
-In-Reply-To: <20180830215622.47550-1-hcutts@chromium.org>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 3 Sep 2018 10:15:08 +0200
-Message-ID: <CAO-hwJL6xz=b4wA5WnSeZw1PO+exVgs3isyPO6ZFWVemiJU9yA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Add support for high-resolution scrolling on
- Logitech mice
-To:     hcutts@chromium.org
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, jiri.kosina@suse.cz,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        Jiri Kosina <jikos@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <3D2681D9-1ACC-42FF-9FAB-D86B3C689003@cadence.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.225.2.157]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Harry,
+Hi Przemek,
 
-On Thu, Aug 30, 2018 at 11:56 PM Harry Cutts <hcutts@chromium.org> wrote:
->
-> Hi everyone,
->
-> This is v2 of the patch set adding support for high-resolution scroll
-> wheels on Logitech mice. See the linux-input "Reporting high-resolution
-> scroll events" thread [0] for previous discussion of the evdev changes.
-> I would love to hear your feedback.
 
-Series looks good. I just tested it on a regular Logitech mouse and a
-MX Master with high-res scrolling and everything works as expected.
+On 30-08-2018 20:00, Przemyslaw Gaj wrote:
+>      So, per my understanding since the Main master support the hand-off of
+>      the bus you accept all incoming MR, right? Or do you check all devices BCR?
+>
+> I'm not sure what do you mean here. Mastership request(MR) is from secondary master
+> to current master. Current master can NACK this request if for example it comes from
+> wrong device. If it's ok, current master sends GETACCMST command and secondary master
+> may ACK or NACK this command. It it's acked, secondary master becomes current master.
+>      
+>      Best regards,
+>      Vitor Soares
+>
+> Please let me know if something is unclear.
+>
+> Regards,
+> Przemek
+>      
 
-Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Sorry, it s not clear yet.
 
-Cheers,
-Benjamin
+For instances there is a bus with several secondary master. If each of 
+them request the bus mastership (one at a time), will you accept all by 
+default? Because you can only accept only some of them.
 
->
-> Thanks,
->
-> Harry Cutts
-> Chrome OS Touch/Input team
->
-> [0]: https://www.spinics.net/lists/linux-input/msg57380.html
->
->
-> Changes in v2:
-> * Changed the REL_WHEEL_HI_RES code to use micrometres (a.k.a. microns)
->   as its units, instead of 256ths of a millimetre.
-> * Removed support for mice connecting over Bluetooth, due to a bug where
->   the mouse's high-res mode and the driver's settings get out of sync
->   when the mouse is power cycled.
-> * Moved the creation of the HID++ 1.0 function and the refactor to use
->   the LDJ_DEVICE macro into separate patches.
-> * Added a couple of explanatory comments to the Logitech driver.
->
-> Harry Cutts (5):
->   Add the `REL_WHEEL_HI_RES` event code
->   Create a utility class for counting scroll events
->   Add function to enable HID++ 1.0 "scrolling acceleration"
->   Enable high-resolution scrolling on Logitech mice
->   Use LDJ_DEVICE macro for existing Logitech mice
->
->  Documentation/input/event-codes.rst    |  11 +-
->  drivers/hid/hid-input.c                |  45 ++++
->  drivers/hid/hid-logitech-hidpp.c       | 311 ++++++++++++++++++++++---
->  include/linux/hid.h                    |  28 +++
->  include/uapi/linux/input-event-codes.h |   1 +
->  5 files changed, 368 insertions(+), 28 deletions(-)
->
-> --
-> 2.19.0.rc0.228.g281dcd1b4d0-goog
->
+Regards,
+Vitor Soares
