@@ -3,100 +3,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AE15E7D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 02:57:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 37C2B7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 04:31:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727401AbeICHPY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 03:15:24 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:33328 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725903AbeICHPY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 03:15:24 -0400
+        id S1725892AbeICIuR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 04:50:17 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51150 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbeICIuR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 04:50:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=uORBjb/0bYVbJo0Sy1dHc5vGcDBEAhWL5ocuYC2u9nY=; b=EUUzzQexb5mYBNLdGr9gbacO6n
-        G7Oj7LzfLFcOFvo+Kn2c7J4HoaiShvK2SPyH/H5cH+Z5VAs8BLxguxSOEEWiUseTTGukT+Orl0UL4
-        XI+Iqf2Dvde8kETNjz2uQAaI5p71+fQwfAJmbDh4gYPcWOvELqUaNLTc7lIU85XlhnveZfMrrvvnE
-        SolKRx+YZE7JkBILPFnr3uAeu9awkoHzoFLW4X8plr95A8ulFkjCUxav8RwQwj+XLkPl6nb1pS0/f
-        TTNm/GCCQMKWexsZo+4CM5NoO7ytO2Gs2DVIvLavF9K99lqa+nxVcYE48XG8NKK0+CkpID/zebxTm
-        w1RqETfQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fwf2x-0005ZH-Kj; Mon, 03 Sep 2018 02:56:59 +0000
-Subject: Re: [RFC PATCH v3 05/24] Documentation/x86: Add CET description
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ogoiR0/3aNqNVfLK4e66ESmPUII43RF0TuXmuQ4BhXQ=; b=m4H3d0+7HizxVv/kXOXq/0HGz
+        vxp9VLMeA+aCuLPFdJSsy9oXxHL6l0b3cEQHmxTWCJPp4LFvymq8W9IZoG5H8iz/ZBwsnrv5NNipL
+        vJ9/TeEC2hARx34r13WWhWws5BmMCmLst3cnysk7J/UEoaTrWcJmLz1WywGlhe7eM+MlyGPweATDs
+        QMknxPgLSKCxiVN+EAzo1H3BJfaDKAkgzqbjqgyMEwyWtubULU/I2Vd4SQw3tufSYqNLm+Hws8vE9
+        uolEGaEP7dw0Hihz+1JeeYHFjinAmNSaGgiv+M3aImG351ST1rKMgZ1uSFrcCeoe0viAHMYZPSnwa
+        Y2a6ckOXA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fwgWP-0007F5-K5; Mon, 03 Sep 2018 04:31:29 +0000
+Date:   Sun, 2 Sep 2018 21:31:29 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
- <20180830143904.3168-6-yu-cheng.yu@intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <709e5e6c-dab1-7a20-9641-b36a0867c006@infradead.org>
-Date:   Sun, 2 Sep 2018 19:56:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Peter Rosin <peda@axentia.se>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-serial@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Rojhalat Ibrahim <imr@rtschenk.de>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Tony Lindgren <tony@atomide.com>,
+        Yegor Yefremov <yegorslists@googlemail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v7 1/4] gpiolib: Pass bitmaps, not integer arrays, to
+ get/set array
+Message-ID: <20180903043129.GA17856@bombadil.infradead.org>
+References: <20180831225616.29221-1-jmkrzyszt@gmail.com>
+ <20180902120144.6855-1-jmkrzyszt@gmail.com>
+ <20180902120144.6855-2-jmkrzyszt@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20180830143904.3168-6-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180902120144.6855-2-jmkrzyszt@gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-One spello:
-
-On 08/30/2018 07:38 AM, Yu-cheng Yu wrote:
-
-> diff --git a/Documentation/x86/intel_cet.rst b/Documentation/x86/intel_cet.rst
-> new file mode 100644
-> index 000000000000..337baa1f6980
-> --- /dev/null
-> +++ b/Documentation/x86/intel_cet.rst
-> @@ -0,0 +1,252 @@
-> +=========================================
-> +Control Flow Enforcement Technology (CET)
-> +=========================================
+> +++ b/drivers/auxdisplay/hd44780.c
+> @@ -62,17 +62,12 @@ static void hd44780_strobe_gpio(struct hd44780 *hd)
+>  /* write to an LCD panel register in 8 bit GPIO mode */
+>  static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
+>  {
+> -	int values[10];	/* for DATA[0-7], RS, RW */
+> -	unsigned int i, n;
+> -
+> -	for (i = 0; i < 8; i++)
+> -		values[PIN_DATA0 + i] = !!(val & BIT(i));
+> -	values[PIN_CTRL_RS] = rs;
+> -	n = 9;
+> -	if (hd->pins[PIN_CTRL_RW]) {
+> -		values[PIN_CTRL_RW] = 0;
+> -		n++;
+> -	}
+> +	DECLARE_BITMAP(values, 10); /* for DATA[0-7], RS, RW */
+> +	unsigned int n;
 > +
-> +[1] Overview
-> +============
-> +
-> +Control Flow Enforcement Technology (CET) provides protection against
-> +return/jump-oriented programing (ROP) attacks.  It can be implemented
+> +	*values = val;
+> +	__assign_bit(8, values, rs);
+> +	n = hd->pins[PIN_CTRL_RW] ? 10 : 9;
 
-                        programming
-
-> +to protect both the kernel and applications.  In the first phase,
-> +only the user-mode protection is implemented for the 64-bit kernel.
-> +Thirty-two bit applications are supported under the compatibility
-> +mode.
-
-
--- 
-~Randy
+Doesn't this assume little endian bitmaps?  Has anyone tested this on
+big-endian machines?
