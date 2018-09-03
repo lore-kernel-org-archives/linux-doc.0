@@ -5,45 +5,45 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CA817D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 14:24:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D031A7D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 15:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727320AbeICSoy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Sep 2018 14:44:54 -0400
-Received: from mail-ua1-f65.google.com ([209.85.222.65]:33586 "EHLO
-        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725943AbeICSoy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 14:44:54 -0400
-Received: by mail-ua1-f65.google.com with SMTP id i4-v6so562951uak.0;
-        Mon, 03 Sep 2018 07:24:29 -0700 (PDT)
+        id S1727024AbeICT2e convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Sep 2018 15:28:34 -0400
+Received: from mail-vk0-f67.google.com ([209.85.213.67]:46546 "EHLO
+        mail-vk0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725949AbeICT2d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Sep 2018 15:28:33 -0400
+Received: by mail-vk0-f67.google.com with SMTP id b14-v6so286939vke.13;
+        Mon, 03 Sep 2018 08:07:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ieJYxPIHnls2eLt2LBMcGhyRCnh9HRaFFFqYzIhSTtA=;
-        b=AxXaxI1zazlA0wM2fmhmVJLnZyNdVPd+NqDqeZ4EQ3Z+o3eRZ+ex+Luo53F1unBZwl
-         S/noQHcLLUW+fjakFixVGcGh8r0CsDXEBvP2B7Z95cWDoVX6IuDSjVFXuc6MbcD+EGvS
-         4WWzKveZKAN8qUX3+hfqK6fO9Q3lnmg2S+pDYvkQ4x6ffi/Ut6CcKOKlz/eSQbis/U3H
-         b5LKFppefROtNklGzi5+1p5UnQQ1PQwGlISr2dicIQGFwoo8iT82Zf6J6JG4Szg3tTJB
-         3BEHiqa1HAAnt511ZmM7kf5WoVw0YhgBgaEPxHrsmrtvgeQWeJItOtE42ED8SDsHdbVb
-         9vEw==
-X-Gm-Message-State: APzg51DBEvuhJdT2DETdn76YjQMRyP21lGZwGXh3IFQTdXX6cPDjbohF
-        XL/79XYca7psy3baIAUr+EjK1jm0ycvu362QrAg=
-X-Google-Smtp-Source: ANB0VdYc0uFhudAZYRI11k3s/6tF2r21oi2twj7zlYx95Pv2IaBYCu0e5XLEGGOQ+tFpIfbxNuTUJQcymqKAVxC/OSo=
-X-Received: by 2002:ab0:72ca:: with SMTP id g10-v6mr15954675uap.33.1535984668854;
- Mon, 03 Sep 2018 07:24:28 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HPSp+Jn8jv1Vh1YsfpKRDgDd3bmQ8AAw73WdrmW3V5Y=;
+        b=Qw633aw4HPgFKjGwOfuMZ59qefIUkj8fUb5wpiDPEpMSRM6IqqwtbY6KPrs0DZloKK
+         GZwsA0CbxS/cpANq07YgSI4hFNNNbE7J63VNUtSBcV8GI50vOlzk6dcozzPAh09IsjNC
+         nVKhs5AvfxZdbQFWnJiDPon/qa1/SFsi4p8MySryOtbEhs9KP3QqWJ2tImJqxKYoyDPd
+         MgKNGK7pCoCkGrwq/hkjMlg6+RmXOuYWzC0gjdRCZHfhxf9YMAMk7+K8I140RtNMLlK/
+         UMU/n2pO8+uw3wNskYN5E+XBqDvTEX9veXattmK+LA9woWHXNEbdULCIs7Mb8XLq4PKP
+         8GFw==
+X-Gm-Message-State: APzg51CR08Yx4i4jcUSYCUjxTxCuk8J7Mu63IRro/UpEzBNbrxniCv1s
+        xpf2cs/xXg0R5nD/iwpluRQNFY3JUtcHp5tUCkQ=
+X-Google-Smtp-Source: ANB0VdZwrSGUbocz+e7hD7Hi/+8Gop2gS+ScDfXzu9LH8WFlEKRoZCp+/SVu/E4taR+o9fvA7dzr606ru+QiMIPz2zQ=
+X-Received: by 2002:a1f:6307:: with SMTP id x7-v6mr6412045vkb.111.1535987277086;
+ Mon, 03 Sep 2018 08:07:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20180831225616.29221-1-jmkrzyszt@gmail.com> <20180902120144.6855-1-jmkrzyszt@gmail.com>
- <20180902120144.6855-2-jmkrzyszt@gmail.com> <20180903043129.GA17856@bombadil.infradead.org>
-In-Reply-To: <20180903043129.GA17856@bombadil.infradead.org>
+ <20180902120144.6855-2-jmkrzyszt@gmail.com>
+In-Reply-To: <20180902120144.6855-2-jmkrzyszt@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Sep 2018 16:24:16 +0200
-Message-ID: <CAMuHMdXU394+E3Z3tR-6iRSiWVDWUpxPLZdxg8zdgWxW5+SOOg@mail.gmail.com>
+Date:   Mon, 3 Sep 2018 17:07:44 +0200
+Message-ID: <CAMuHMdXScsLg+LsQDn0dU8qSV30uWaeGQsNDPssm0H5y6UPAWw@mail.gmail.com>
 Subject: Re: [PATCH v7 1/4] gpiolib: Pass bitmaps, not integer arrays, to
  get/set array
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
         peter.korsgaard@barco.com, Peter Rosin <peda@axentia.se>,
@@ -75,67 +75,95 @@ Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
         ext Tony Lindgren <tony@atomide.com>,
         Yegor Yefremov <yegorslists@googlemail.com>,
         =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+        <u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 3, 2018 at 6:31 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > +++ b/drivers/auxdisplay/hd44780.c
-> > @@ -62,17 +62,12 @@ static void hd44780_strobe_gpio(struct hd44780 *hd)
-> >  /* write to an LCD panel register in 8 bit GPIO mode */
-> >  static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
-> >  {
-> > -     int values[10]; /* for DATA[0-7], RS, RW */
-> > -     unsigned int i, n;
-> > -
-> > -     for (i = 0; i < 8; i++)
-> > -             values[PIN_DATA0 + i] = !!(val & BIT(i));
-> > -     values[PIN_CTRL_RS] = rs;
-> > -     n = 9;
-> > -     if (hd->pins[PIN_CTRL_RW]) {
-> > -             values[PIN_CTRL_RW] = 0;
-> > -             n++;
-> > -     }
-> > +     DECLARE_BITMAP(values, 10); /* for DATA[0-7], RS, RW */
-> > +     unsigned int n;
-> > +
-> > +     *values = val;
-> > +     __assign_bit(8, values, rs);
-> > +     n = hd->pins[PIN_CTRL_RW] ? 10 : 9;
+Hi Janusz,
+
+On Sun, Sep 2, 2018 at 2:01 PM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
+> Most users of get/set array functions iterate consecutive bits of data,
+> usually a single integer, while processing array of results obtained
+> from, or building an array of values to be passed to those functions.
+> Save time wasted on those iterations by changing the functions' API to
+> accept bitmaps.
 >
-> Doesn't this assume little endian bitmaps?  Has anyone tested this on
-> big-endian machines?
+> All current users are updated as well.
+>
+> More benefits from the change are expected as soon as planned support
+> for accepting/passing those bitmaps directly from/to respective GPIO
+> chip callbacks if applicable is implemented.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>
+> Cc: Lukas Wunner <lukas@wunner.de>
+> Cc: Peter Korsgaard <peter.korsgaard@barco.com>
+> Cc: Peter Rosin <peda@axentia.se>
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: Florian Fainelli <f.fainelli@gmail.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Rojhalat Ibrahim <imr@rtschenk.de>
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Cc: Russell King <rmk+kernel@armlinux.org.uk>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Tony Lindgren <tony@atomide.com>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Michael Hennerich <Michael.Hennerich@analog.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Hartmut Knaack <knaack.h@gmx.de>
+> Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jiri Slaby <jslaby@suse.com>
+> Cc: Yegor Yefremov <yegorslists@googlemail.com>
+> Cc: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-include/linux/bitops.h:
+> --- a/drivers/auxdisplay/hd44780.c
+> +++ b/drivers/auxdisplay/hd44780.c
+> @@ -62,17 +62,12 @@ static void hd44780_strobe_gpio(struct hd44780 *hd)
+>  /* write to an LCD panel register in 8 bit GPIO mode */
+>  static void hd44780_write_gpio8(struct hd44780 *hd, u8 val, unsigned int rs)
+>  {
+> -       int values[10]; /* for DATA[0-7], RS, RW */
+> -       unsigned int i, n;
+> -
+> -       for (i = 0; i < 8; i++)
+> -               values[PIN_DATA0 + i] = !!(val & BIT(i));
+> -       values[PIN_CTRL_RS] = rs;
+> -       n = 9;
+> -       if (hd->pins[PIN_CTRL_RW]) {
+> -               values[PIN_CTRL_RW] = 0;
+> -               n++;
+> -       }
+> +       DECLARE_BITMAP(values, 10); /* for DATA[0-7], RS, RW */
+> +       unsigned int n;
+> +
+> +       *values = val;
 
-static __always_inline void __assign_bit(long nr, volatile unsigned long *addr,
-                                         bool value)
-{
-        if (value)
-                __set_bit(nr, addr);
-        else
-                __clear_bit(nr, addr);
-}
+Given DECLARE_BITMAP() creates an array, the above line looks a bit funny now.
 
-include/asm-generic/bitops/non-atomic.h:
+IMHO, either you use
 
-static inline void __set_bit(int nr, volatile unsigned long *addr)
-{
-        unsigned long mask = BIT_MASK(nr);
-        unsigned long *p = ((unsigned long *)addr) + BIT_WORD(nr);
+    unsigned long values;
+    values = val;
+    __assign_bit(8, &values, rs);
 
-        *p  |= mask;
-}
+or
 
-include/linux/bits.h:
+    DECLARE_BITMAP(values, 10);
+    values[0] = val;
+    __assign_bit(8, values, rs);
 
-#define BIT_MASK(nr)            (1UL << ((nr) % BITS_PER_LONG))
-
-Looks like native endianness to me.
+Nevertheless, for hd44780.c:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
