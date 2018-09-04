@@ -1,109 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A5247D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 13:07:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 420007D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 14:52:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727062AbeIDRcf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Sep 2018 13:32:35 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:36706 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726281AbeIDRcf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Sep 2018 13:32:35 -0400
-Received: by mail-ed1-f66.google.com with SMTP id f4-v6so3194341edq.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Sep 2018 06:07:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=eXYuAf+JCOuTyucs3DlR2NLG8nrxiiY1cqDAsD25atk=;
-        b=A6j2roN6/HJnLdDDLlIq1Nbn/F5hN5kh+cqfJpX1f2kGWc8rPwqXkZEg5c9GutX4yh
-         G6WH4/rcd7cF99Z8Gli6zT9TgKWw8dldAblKBoYH/IK+pS31THBZMBIil+dld6cZRzYL
-         f2Zvb3F79IuIpQLU3xUcDdyjbanH3egGfHEm0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=eXYuAf+JCOuTyucs3DlR2NLG8nrxiiY1cqDAsD25atk=;
-        b=QVEDZDyqoj4R4aAlEP1gZZqWq+whn/JupTntbdbIse5Sfm74ij70iavXJX2sH2HgKz
-         WCOEX6s1AeEesRSHzikz1K1f7Z6xUOu2QKE7Jg2G4g/E4zTWZa57dRtYUs22k0ILehWw
-         6q/lCU6MTvtDWfNRO/d7ktPGFvx5L/1TYKjwfMlbsGnCC6PrHUaWVyXxEEMBmzKxF2C2
-         Im3Gs0WQqYWmQZw6TCOCNWnR3RIeStXgWAfG+AAJx5xH5P70r4DQck4zTTnJNTwgTq/4
-         LG5Grs8ntRKWTY5IPkNMp4fPX2M93sHMZnZVxEnxin9QAkZ5pIz1pDZaBd6l4DBQMnom
-         iXgA==
-X-Gm-Message-State: APzg51CUm+Dp/zODQ4SrMDhCkNmZg6z1CG1wAcylOeOVpkU8Lq6IazKo
-        6AdfODguG2yVVOuKmwLKi5629Q==
-X-Google-Smtp-Source: ANB0VdZdRrju1pEqdFrDtwFGjCRHMip3VGg8ybttv8M2nr4djWrPVuhgbYc3EkNbkhZg5p4GUXuIHA==
-X-Received: by 2002:a50:c101:: with SMTP id l1-v6mr35537472edf.126.1536066450098;
-        Tue, 04 Sep 2018 06:07:30 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-109.fiber7.init7.net. [212.51.149.109])
-        by smtp.gmail.com with ESMTPSA id z56-v6sm15397043edz.54.2018.09.04.06.07.28
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 04 Sep 2018 06:07:28 -0700 (PDT)
-Date:   Tue, 4 Sep 2018 15:07:26 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Souptick Joarder <jrdr.linux@gmail.com>
-Cc:     willy@infradead.org, gustavo@padovan.org,
-        maarten.lankhorst@linux.intel.com, sean@poorly.run,
-        airlied@linux.ie, corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Document/gpu: Use new vm_fault_t type
-Message-ID: <20180904130726.GR21634@phenom.ffwll.local>
-Mail-Followup-To: Souptick Joarder <jrdr.linux@gmail.com>,
-        willy@infradead.org, gustavo@padovan.org,
-        maarten.lankhorst@linux.intel.com, sean@poorly.run,
-        airlied@linux.ie, corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20180904041505.GA2712@jordon-HP-15-Notebook-PC>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180904041505.GA2712@jordon-HP-15-Notebook-PC>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.0 (2018-05-17)
+        id S1726355AbeIDTRr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Sep 2018 15:17:47 -0400
+Received: from mga14.intel.com ([192.55.52.115]:41307 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726304AbeIDTRq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Sep 2018 15:17:46 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Sep 2018 07:52:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,329,1531810800"; 
+   d="scan'208";a="77873416"
+Received: from unknown (HELO [143.183.136.146]) ([143.183.136.146])
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Sep 2018 07:52:21 -0700
+Message-ID: <1536072478.12366.2.camel@intel.com>
+Subject: Re: [RFC PATCH v3 00/24] Control Flow Enforcement: Shadow Stack
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Balbir Singh <bsingharora@gmail.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Tue, 04 Sep 2018 07:47:58 -0700
+In-Reply-To: <20180902081350.GF28695@350D>
+References: <20180830143904.3168-1-yu-cheng.yu@intel.com>
+         <20180902081350.GF28695@350D>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 04, 2018 at 09:45:05AM +0530, Souptick Joarder wrote:
-> We have introduce new return type vm_fault_t for
-> fault handler. Update the document for the same.
+On Sun, 2018-09-02 at 18:13 +1000, Balbir Singh wrote:
+> On Thu, Aug 30, 2018 at 07:38:40AM -0700, Yu-cheng Yu wrote:
+> > 
+> > The previous version of CET patches can be found in the following
+> > link.
+> > 
+> >   https://lkml.org/lkml/2018/7/10/1031
+> > 
+> > Summary of changes from v2:
+> > 
+> >   Move Shadow Stack page fault handling logic to arch/x86.
+> >   Update can_follow_write_pte/pmd; move logic to arch/x86.
+> >   Fix problems in WRUSS in-line assembly.
+> >   Fix issues in ELF parser.
+> >   Split out IBT/PTRACE patches to a second set.
+> >   Other small fixes.
+> > 
+> Quick question -- is there a simulator or some other way you've
+> been testing this? Just curious, if it's possible to run these
+> patches or just a review and internal hardware/simulator where
+> they are run and posted
 > 
-> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
-> ---
-> v2: Revert spaces added in v1
+> Balbir Singh.
 
-Thanks, applied to drm-misc-next.
--Daniel
+Currently only for review.
 
-> 
->  Documentation/gpu/drm-mm.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index 21b6b72..c3ae888 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -297,7 +297,7 @@ made up of several fields, the more interesting ones being:
->  	struct vm_operations_struct {
->  		void (*open)(struct vm_area_struct * area);
->  		void (*close)(struct vm_area_struct * area);
-> -		int (*fault)(struct vm_fault *vmf);
-> +		vm_fault_t (*fault)(struct vm_fault *vmf);
->  	};
->  
->  
-> -- 
-> 1.9.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Yu-cheng
