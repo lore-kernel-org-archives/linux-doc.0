@@ -1,63 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2604C7DD50
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 02:48:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 265F47D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 04:12:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727500AbeIDHIf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Sep 2018 03:08:35 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:58133 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727499AbeIDHIe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Sep 2018 03:08:34 -0400
-X-Originating-IP: 50.39.174.102
-Received: from localhost (50-39-174-102.bvtn.or.frontiernet.net [50.39.174.102])
-        (Authenticated sender: josh@joshtriplett.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id AFC09E0002;
-        Tue,  4 Sep 2018 02:45:37 +0000 (UTC)
-Date:   Mon, 3 Sep 2018 19:45:35 -0700
-From:   Josh Triplett <josh@joshtriplett.org>
-To:     Henrik Austad <henrik@austad.us>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [RFC v2] Drop all 00-INDEX files from Documentation/
-Message-ID: <20180904024534.GA29802@localhost>
-References: <1536012923-16275-1-git-send-email-henrik@austad.us>
+        id S1726090AbeIDIfO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Sep 2018 04:35:14 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:36328 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725814AbeIDIfO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Sep 2018 04:35:14 -0400
+Received: by mail-pl1-f196.google.com with SMTP id e11-v6so986694plb.3;
+        Mon, 03 Sep 2018 21:12:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=8x2RgOxNUid/HmCMV/8mEDffJPA4KMaiIyr2BkIcWEk=;
+        b=VcfowLRRsa7OQB4GvUWGLCg8Yr6P3JxoI8TgiqEf8CGHEGNh05tBXvOxXQEXSOLeC/
+         qJClJlVz09C2UHbASdGgSnsfgxyzkKO7lzvv+EFYYSoPAvOKfXKfn0RNYrOmYHx1E4jt
+         rTm4znnCg4cSYhrLBuHIplY4LJ55m1swLtrS9qlybX61wVNlCxWqKi9tBPt778CeLlN2
+         am5GpOshvQRgvoyWQ+s1wCWyD+PnHjaOHOwYv80LGbx4in3M1RspUiulFeL15nMzLfWn
+         0raI0riK5FCWMbL3N7EUBjA94wzYr3x/KQ2z5FlBeC2sAUUcwDERY2lTnjavJ6dxvdWM
+         7Bcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=8x2RgOxNUid/HmCMV/8mEDffJPA4KMaiIyr2BkIcWEk=;
+        b=hnqzrFaC8VDgOEoUo8/mYUJeytRPMPos5vBR388qdrjeJ0il2MD8NYoVH6fiXKiuXh
+         GmhIH6S/eoYhXqmVZ++cnMci2WlsVTjhd3YRIFpLXApk/TNM7oK8Spugm8ZB3U5hmPFO
+         lIr4qohYLLvOOSkGpuABp7HYlLRFar0zHcEX26Es0I82kPcxoGdqlfyHwgk4DMHpj+Ww
+         y2K+dRg4oYEsUDTfo34gp3DPQ9PmUA1+T7+NUAAP7JgsBiwc4b2T2xwRtXUcU9F59apW
+         8XHyk0C7Cyu1WZElcahYIlkTNcfqhmp2c2qLxIhax0KyJIOyGutlB3P9lVelI0aXLsVD
+         vuHw==
+X-Gm-Message-State: APzg51B9wTDpt2WG+NtGbLMDbdTdO39n8jrn4VJ8TWdq0USrBXEV7FmZ
+        kGQ/G3VqLsrih5h9DOqQi+5uob7B
+X-Google-Smtp-Source: ANB0VdaKxeD6ilp2MsmXahTh9xxEQ0wZimhSk9uIWILu1oOxFGjOJBfSv03nSRoYaXDWorITLeAzNQ==
+X-Received: by 2002:a17:902:42a3:: with SMTP id h32-v6mr32138347pld.105.1536034322543;
+        Mon, 03 Sep 2018 21:12:02 -0700 (PDT)
+Received: from jordon-HP-15-Notebook-PC ([183.82.16.199])
+        by smtp.gmail.com with ESMTPSA id q62-v6sm30352120pfi.185.2018.09.03.21.12.00
+        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 03 Sep 2018 21:12:01 -0700 (PDT)
+Date:   Tue, 4 Sep 2018 09:45:05 +0530
+From:   Souptick Joarder <jrdr.linux@gmail.com>
+To:     willy@infradead.org, gustavo@padovan.org,
+        maarten.lankhorst@linux.intel.com, sean@poorly.run,
+        airlied@linux.ie, corbet@lwn.net
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Document/gpu: Use new vm_fault_t type
+Message-ID: <20180904041505.GA2712@jordon-HP-15-Notebook-PC>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1536012923-16275-1-git-send-email-henrik@austad.us>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Trimming to author, linux-doc, and LKML for response.]
+We have introduce new return type vm_fault_t for
+fault handler. Update the document for the same.
 
-On Tue, Sep 04, 2018 at 12:15:23AM +0200, Henrik Austad wrote:
-> The 00-INDEX files are supposed to give a summary of all files present
-> in a directory, but these files are horribly out of date and their
-> usefulness is brought into question. Often a simple "ls" would reveal
-> the same information as the filenames are generally quite descriptive as
-> a short introduction to what the file covers (it should not surprise
-> anyone what Documentation/sched/sched-design-CFS.txt covers)
-> 
-> A few years back it was mentioned that these files were no longer really
-> needed, and they have since then grown further out of date, so perhaps
-> it is time to just throw them out.
-[...]
-> As a starting point, remove all index-files and references to 00-INDEX and
-> see where the discussion is going.
+Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+---
+v2: Revert spaces added in v1
 
-Yes please.
+ Documentation/gpu/drm-mm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I was *briefly* tempted, reading through the files, to suggest ensuring
-that the one-line descriptions from the 00-INDEX files end up in the
-documents themselves, but the more I think about it, I don't think even
-that is worth anyone's time to do.
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index 21b6b72..c3ae888 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -297,7 +297,7 @@ made up of several fields, the more interesting ones being:
+ 	struct vm_operations_struct {
+ 		void (*open)(struct vm_area_struct * area);
+ 		void (*close)(struct vm_area_struct * area);
+-		int (*fault)(struct vm_fault *vmf);
++		vm_fault_t (*fault)(struct vm_fault *vmf);
+ 	};
+ 
+ 
+-- 
+1.9.1
 
-Reviewed-by: Josh Triplett <josh@joshtriplett.org>
