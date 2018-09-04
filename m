@@ -2,93 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 265F47D2EE
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 04:12:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 268A47D2EE
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 06:33:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbeIDIfO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Sep 2018 04:35:14 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:36328 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725814AbeIDIfO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Sep 2018 04:35:14 -0400
-Received: by mail-pl1-f196.google.com with SMTP id e11-v6so986694plb.3;
-        Mon, 03 Sep 2018 21:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=8x2RgOxNUid/HmCMV/8mEDffJPA4KMaiIyr2BkIcWEk=;
-        b=VcfowLRRsa7OQB4GvUWGLCg8Yr6P3JxoI8TgiqEf8CGHEGNh05tBXvOxXQEXSOLeC/
-         qJClJlVz09C2UHbASdGgSnsfgxyzkKO7lzvv+EFYYSoPAvOKfXKfn0RNYrOmYHx1E4jt
-         rTm4znnCg4cSYhrLBuHIplY4LJ55m1swLtrS9qlybX61wVNlCxWqKi9tBPt778CeLlN2
-         am5GpOshvQRgvoyWQ+s1wCWyD+PnHjaOHOwYv80LGbx4in3M1RspUiulFeL15nMzLfWn
-         0raI0riK5FCWMbL3N7EUBjA94wzYr3x/KQ2z5FlBeC2sAUUcwDERY2lTnjavJ6dxvdWM
-         7Bcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=8x2RgOxNUid/HmCMV/8mEDffJPA4KMaiIyr2BkIcWEk=;
-        b=hnqzrFaC8VDgOEoUo8/mYUJeytRPMPos5vBR388qdrjeJ0il2MD8NYoVH6fiXKiuXh
-         GmhIH6S/eoYhXqmVZ++cnMci2WlsVTjhd3YRIFpLXApk/TNM7oK8Spugm8ZB3U5hmPFO
-         lIr4qohYLLvOOSkGpuABp7HYlLRFar0zHcEX26Es0I82kPcxoGdqlfyHwgk4DMHpj+Ww
-         y2K+dRg4oYEsUDTfo34gp3DPQ9PmUA1+T7+NUAAP7JgsBiwc4b2T2xwRtXUcU9F59apW
-         8XHyk0C7Cyu1WZElcahYIlkTNcfqhmp2c2qLxIhax0KyJIOyGutlB3P9lVelI0aXLsVD
-         vuHw==
-X-Gm-Message-State: APzg51B9wTDpt2WG+NtGbLMDbdTdO39n8jrn4VJ8TWdq0USrBXEV7FmZ
-        kGQ/G3VqLsrih5h9DOqQi+5uob7B
-X-Google-Smtp-Source: ANB0VdaKxeD6ilp2MsmXahTh9xxEQ0wZimhSk9uIWILu1oOxFGjOJBfSv03nSRoYaXDWorITLeAzNQ==
-X-Received: by 2002:a17:902:42a3:: with SMTP id h32-v6mr32138347pld.105.1536034322543;
-        Mon, 03 Sep 2018 21:12:02 -0700 (PDT)
-Received: from jordon-HP-15-Notebook-PC ([183.82.16.199])
-        by smtp.gmail.com with ESMTPSA id q62-v6sm30352120pfi.185.2018.09.03.21.12.00
-        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 03 Sep 2018 21:12:01 -0700 (PDT)
-Date:   Tue, 4 Sep 2018 09:45:05 +0530
-From:   Souptick Joarder <jrdr.linux@gmail.com>
-To:     willy@infradead.org, gustavo@padovan.org,
-        maarten.lankhorst@linux.intel.com, sean@poorly.run,
-        airlied@linux.ie, corbet@lwn.net
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Document/gpu: Use new vm_fault_t type
-Message-ID: <20180904041505.GA2712@jordon-HP-15-Notebook-PC>
+        id S1727482AbeIDK5T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Sep 2018 06:57:19 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:60581 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726377AbeIDK5T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Sep 2018 06:57:19 -0400
+X-Greylist: delayed 307 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 Sep 2018 06:57:18 EDT
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id 8F10B4C1;
+        Tue,  4 Sep 2018 02:28:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Tue, 04 Sep 2018 02:28:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :content-type:date:from:in-reply-to:message-id:mime-version
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; bh=epQwX8VindIobxw6Xv2LIlc2IzE321uDHdIjShC88/s=; b=e0qqtDsY
+        ABsOQDTgfqnjaUsU7RRPPsfdZyDY5ltazJXkvpwNYKV0GFFPrx675OuJ0rTeQjWB
+        AzbsIkqPctxJ72WqgGlUr3XcxH5nVdu5W9pvc87PU278Z712OXa/EvdzRQqkCFfI
+        y+fj96n2wzY4BFyvlNIqQ9Hoe3svBO3bpKf6bvVoT0dRiD30VPNm/2r7o3dk8gw+
+        KS12wbprYmDLUyGPn8VklMtPWXKETqr4OVEUqLW495VPR/qC1mG1Ip/4EiGVBHRl
+        T+eOSAw3J8n8m88NLNAgpSAYH0/AkKffk4wAtdGQh4KmTIXCCN7Hrf3FBeQ1dWbK
+        uKNwf73iE3EZ4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=epQwX8VindIobxw6Xv2LIlc2IzE32
+        1uDHdIjShC88/s=; b=qgbRaSf/xU/wBtze4Vv0D8juIRSm/M6mOiasnBRUNAiTd
+        /V1o7tht7jvIbwWbaE0xLeC5aG5MC2WR1KXbQvWmN4loq0YrwN1lLz/XcpNtMzHf
+        LJUdQAXptK7BR8T/VrywXxfISEDcB84aN21DwA1I69INxLHM5xhvdBKAD6Ll2xlO
+        NNn5C2csBmIbBGasfOLAncwAH8sMRPeu/BYE0a7kxry+wQtk0fduz6Qo79sckA0t
+        lwzMhS9/ehCJ7DxCQhluXeI0ufMntezLFnYRDmegO4Fmfa79RkCxkZml5LcTjhC/
+        DNBR8bfQGDNOw4T6ql0HN/nKD38XsXp0GRyKm1K8A==
+X-ME-Proxy: <xmx:DSaOW--d_9ZgdhIyUFTk_ebuWVrW4RFxkuKva-MrQpqtytgQkrbTAg>
+    <xmx:DSaOWwUA2CLGD3PcEpp-RD-8psC1R6boSubc_Ymt7bxPTH8rFFnSHg>
+    <xmx:DSaOW4FlWqfU_jCsIvLs7EuFpA9XrRPgIRNh7Kq1202kpb6-CeselQ>
+    <xmx:DSaOW87ErK-9miUXVSt2tErq7PgPKHZfp4gsrS0sxjsmhSE4-2C6jw>
+    <xmx:DSaOWyJ8Q-XxpxlKCGrXo-ztK63DCe9lWjJfohp7Z9x5V_E_ZpUBiA>
+    <xmx:DyaOWyKEE30zdWAcSDL3ELMUUzwCjcKtz6wWnx3RP0x4s_k8Zd_TBK-wXDU>
+X-ME-Sender: <xms:DSaOW345tEBJTK0xqxOilwpgtsPXKbkdyzzxulHCD1dSNcLtT8nAAw>
+Received: from jelly (167-179-166-29.a7b3a6.bne.nbn.aussiebb.net [167.179.166.29])
+        by mail.messagingengine.com (Postfix) with ESMTPA id EB48510299;
+        Tue,  4 Sep 2018 02:28:26 -0400 (EDT)
+Date:   Tue, 4 Sep 2018 16:28:24 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Harry Cutts <hcutts@chromium.org>
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <jiri.kosina@suse.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 1/5] Add the `REL_WHEEL_HI_RES` event code
+Message-ID: <20180904062824.GB1086@jelly>
+References: <20180830215622.47550-1-hcutts@chromium.org>
+ <20180830215622.47550-2-hcutts@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20180830215622.47550-2-hcutts@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We have introduce new return type vm_fault_t for
-fault handler. Update the document for the same.
+On Thu, Aug 30, 2018 at 02:56:18PM -0700, Harry Cutts wrote:
+> This event code represents scroll reports from high-resolution wheels,
+> and will be used by future patches in this series. See the linux-input
+> "Reporting high-resolution scroll events" thread [0] for more details.
+> 
+> [0]: https://www.spinics.net/lists/linux-input/msg57380.html
+> 
+> Signed-off-by: Harry Cutts <hcutts@chromium.org>
 
-Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
----
-v2: Revert spaces added in v1
+looks good to me, thanks. For the archives, the libinput issue filed for
+this is here: https://gitlab.freedesktop.org/libinput/libinput/issues/130
 
- Documentation/gpu/drm-mm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
+   Peter
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 21b6b72..c3ae888 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -297,7 +297,7 @@ made up of several fields, the more interesting ones being:
- 	struct vm_operations_struct {
- 		void (*open)(struct vm_area_struct * area);
- 		void (*close)(struct vm_area_struct * area);
--		int (*fault)(struct vm_fault *vmf);
-+		vm_fault_t (*fault)(struct vm_fault *vmf);
- 	};
- 
- 
--- 
-1.9.1
-
+> ---
+> 
+> Changes in v2: None
+> 
+>  Documentation/input/event-codes.rst    | 11 ++++++++++-
+>  include/uapi/linux/input-event-codes.h |  1 +
+>  2 files changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+> index a8c0873beb95..cef220c176a4 100644
+> --- a/Documentation/input/event-codes.rst
+> +++ b/Documentation/input/event-codes.rst
+> @@ -190,7 +190,16 @@ A few EV_REL codes have special meanings:
+>  * REL_WHEEL, REL_HWHEEL:
+>  
+>    - These codes are used for vertical and horizontal scroll wheels,
+> -    respectively.
+> +    respectively. The value is the number of "notches" moved on the wheel, the
+> +    physical size of which varies by device. For high-resolution wheels (which
+> +    report multiple events for each notch of movement, or do not have notches)
+> +    this may be an approximation based on the high-resolution scroll events.
+> +
+> +* REL_WHEEL_HI_RES:
+> +
+> +  - If a vertical scroll wheel supports high-resolution scrolling, this code
+> +    will be emitted in addition to REL_WHEEL. The value is the (approximate)
+> +    distance travelled by the user's finger, in microns.
+>  
+>  EV_ABS
+>  ------
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index 53fbae27b280..dad8d3890a3a 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -708,6 +708,7 @@
+>  #define REL_DIAL		0x07
+>  #define REL_WHEEL		0x08
+>  #define REL_MISC		0x09
+> +#define REL_WHEEL_HI_RES	0x0a
+>  #define REL_MAX			0x0f
+>  #define REL_CNT			(REL_MAX+1)
+>  
+> -- 
+> 2.19.0.rc0.228.g281dcd1b4d0-goog
+> 
