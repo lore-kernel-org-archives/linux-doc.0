@@ -5,164 +5,59 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5F18A7D581
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Sep 2018 23:53:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2604C7DD50
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 02:48:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725770AbeIDEQW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Sep 2018 00:16:22 -0400
-Received: from esgaroth.petrovitsch.at ([78.47.184.11]:4081 "EHLO
-        esgaroth.tuxoid.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725766AbeIDEQW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Sep 2018 00:16:22 -0400
-X-Greylist: delayed 3524 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 Sep 2018 00:16:20 EDT
-Received: from thorin.petrovitsch.priv.at (80-110-72-12.cgn.dynamic.surfer.at [80.110.72.12])
-        (authenticated bits=0)
-        by esgaroth.tuxoid.at (8.15.2/8.15.2) with ESMTPSA id w83Msg7I015093
-        (version=TLSv1 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-        Tue, 4 Sep 2018 00:54:45 +0200
-Subject: Re: [PATCH 1/1] docs: kernel-doc: fix parsing of function pointers
-To:     Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>
+        id S1727500AbeIDHIf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Sep 2018 03:08:35 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:58133 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727499AbeIDHIe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Sep 2018 03:08:34 -0400
+X-Originating-IP: 50.39.174.102
+Received: from localhost (50-39-174-102.bvtn.or.frontiernet.net [50.39.174.102])
+        (Authenticated sender: josh@joshtriplett.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id AFC09E0002;
+        Tue,  4 Sep 2018 02:45:37 +0000 (UTC)
+Date:   Mon, 3 Sep 2018 19:45:35 -0700
+From:   Josh Triplett <josh@joshtriplett.org>
+To:     Henrik Austad <henrik@austad.us>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20180903184153.9368-1-xypron.glpk@gmx.de>
- <20180903130043.059b2e82@lwn.net>
- <b0bff870-c3c1-20e8-6609-f93f59da8624@gmx.de>
- <20180903153804.2b091448@lwn.net>
- <6cfb25aff666e58a376303ce02de8caa481a6599.camel@perches.com>
-From:   Bernd Petrovitsch <bernd@petrovitsch.priv.at>
-Message-ID: <9bd050f6-eba1-a15c-3d42-948975be484b@petrovitsch.priv.at>
-Date:   Tue, 4 Sep 2018 00:54:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+Subject: Re: [PATCH] [RFC v2] Drop all 00-INDEX files from Documentation/
+Message-ID: <20180904024534.GA29802@localhost>
+References: <1536012923-16275-1-git-send-email-henrik@austad.us>
 MIME-Version: 1.0
-In-Reply-To: <6cfb25aff666e58a376303ce02de8caa481a6599.camel@perches.com>
-Content-Type: multipart/mixed;
- boundary="------------F3433EB4A65D027C26E67B8D"
-Content-Language: en-US
-X-DCC-MGTINTERNET-Metrics: esgaroth.tuxoid.at 1170; Body=5 Fuz1=5 Fuz2=5
-X-Virus-Scanned: clamav-milter 0.97 at esgaroth.tuxoid.at
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1536012923-16275-1-git-send-email-henrik@austad.us>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------F3433EB4A65D027C26E67B8D
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+[Trimming to author, linux-doc, and LKML for response.]
 
-On 04/09/18 00:28, Joe Perches wrote:
-> On Mon, 2018-09-03 at 15:38 -0600, Jonathan Corbet wrote:
->> On Mon, 3 Sep 2018 22:29:00 +0200
->> Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
->>
->>>>>  	    # pointer-to-function
->>>>>  	    $arg =3D~ tr/#/,/;
->>>>> -	    $arg =3D~ m/[^\(]+\(\*?\s*([\w\.]*)\s*\)/; =20
->>>
->>> m/[^\(]+\(\*?\s*([\w\.]*)\s*\)/;
->>>            ^
->>> Here we allow for 0..1 asterixes.
+On Tue, Sep 04, 2018 at 12:15:23AM +0200, Henrik Austad wrote:
+> The 00-INDEX files are supposed to give a summary of all files present
+> in a directory, but these files are horribly out of date and their
+> usefulness is brought into question. Often a simple "ls" would reveal
+> the same information as the filenames are generally quite descriptive as
+> a short introduction to what the file covers (it should not surprise
+> anyone what Documentation/sched/sched-design-CFS.txt covers)
+> 
+> A few years back it was mentioned that these files were no longer really
+> needed, and they have since then grown further out of date, so perhaps
+> it is time to just throw them out.
+[...]
+> As a starting point, remove all index-files and references to 00-INDEX and
+> see where the discussion is going.
 
-What's with pointers to function pointers and/or function pointer
-arrays? ;-)
+Yes please.
 
->>> If there is no asterix it is not a function pointer. Why should we ca=
-re
->>> for this case?
->>
->> GCC seems to allow that asterisk (asterix is an indomitable Gaul :) to=
- be
+I was *briefly* tempted, reading through the files, to suggest ensuring
+that the one-line descriptions from the 00-INDEX files end up in the
+documents themselves, but the more I think about it, I don't think even
+that is worth anyone's time to do.
 
-*g*
-
->> missing; not sure if that's officially allowed by the language or not.=
-  I
->> also don't know if any code in the kernel elides it,
->=20
-> Many typedefs for function pointers do not use the *
-> Dunno if there are many others, I didn't look hard.
-
-----  snip  ----
-typedef void (*foo)(int);
-----  snip  ----
-is a function pointer type (and nothing else;-) and can be used to
-declare and/or define a pointer to a function as in
-----  snip ----
-foo ptr_to_func_with_int_param_and_no_result;
-----  snip ----
-
-----  snip  ----
-typedef void bar(int);
-----  snip  ----
-is a function type and can be used for function prototypes as in
-----  snip  ----
-bar func_with_int_param_and_no_result;
-----  snip  ----
-and/or function pointers as in
-----  snip  ----
-bar *also_ptr_to_func_with_int_param_and_no_result;
-----  snip  ----
-Both of work (in functions) as
-----  snip  ----
-ptr_to_func_with_int_param_and_no_result =3D
-        &func_with_int_param_and_no_result;
-ptr_to_func_with_int_param_and_no_result =3D
-        func_with_int_param_and_no_result;
-also_ptr_to_func_with_int_param_and_no_result =3D
-        &func_with_int_param_and_no_result;
-also_ptr_to_func_with_int_param_and_no_result =3D
-        func_with_int_param_and_no_result;
-----  snip  ----
-Note the missing "()" in both cases (otherwise it would be a function
-call - possibly returning the function pointers).
-
-I don't know if there is a preferred style in the kernel though.
-
-MfG,
-	Bernd
---=20
-Bernd Petrovitsch                  Email : bernd@petrovitsch.priv.at
-                     LUGA : http://www.luga.at
-
---------------F3433EB4A65D027C26E67B8D
-Content-Type: application/pgp-keys;
- name="pEpkey.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="pEpkey.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-mQENBFr26nABCAC94WhTqVPMksk/AErK3NqDKXE0sqO5umWIF3f4DYRidk8SIuNq
-Fk3Sc8hqE2HlbCB9lxV9q+eqDQ8bRjMF6ud7rjXortlwmoclRRMUuSJhluKo0C7o
-y2fJIwlQAcAKWNfOKqZBTTz81Mntb4j26MsSL7t7JIibst/G7EfoqyB9CkeoI8R2
-20WVKV7Cb70G5cYZkLrSdjhSZ8FJn0QTb+r/TTYHRCFvU2sv+wvG3LAdWfHVnyaC
-l9rPkglsYXFCtsdx3jW2zvWf+mGEjpANlVc/9M621C/uS7viLzalmFENpgM1UqFx
-TEEt8mwepc7dkiiKlslmDGUWSfc/BAcln8BjABEBAAG0LUJlcm5kIFBldHJvdml0
-c2NoIDxiZXJuZEBwZXRyb3ZpdHNjaC5wcml2LmF0PokBVAQTAQgAPhYhBBp+6uAd
-nwsL14MwOAUgtH2tYL69BQJa9upyAhsDBQkB4TOABQsJCAcCBhUKCQgLAgQWAgMB
-Ah4BAheAAAoJEAUgtH2tYL69e+EH/jL5uerVy/JnSTjM4f6UeWSXCT/RoIACccws
-gvr84g5mwYy23c6TxUNNLgeCSGFWCkGxiF07kWazSvMSaQJ7Jb0cIxgqAQfR4xm3
-g/O2bu8E0ZvMu1naMVdYrA6iXX40fylrEONF85+/93ccU60sa443ZxjzmQy8Hh4/
-Siu0tOPrfvBgdovUcIhJaAAStcPLVocYgQ6zu2A9CCHcBTjaCiRiT4s2IPsooEZU
-chKObAormMXJS2mdYHcH/a/6E6+NKnrvZ4yfhAkPF3K1M0Bc1Nvc0ADj62Ffpice
-Mnrd/ki31ct5yIUeViJzNNxApXFuThxm1Nmpgmn/eRG2eHnlvu25AQ0EWvbqcQEI
-AOnQvBVfytvhpeR96YtYTG2VW85Byv92T/FqG7rPHNm7fVxuJtFXZ8L82LKDTl7r
-WtwwbnWFpha3/OAhb4Hn4fWZveDNSPNN8BUMh5BbTV/EW/053F4pBX4uq4/L1t3M
-JQZH5QJrDRNAEL56JfK0yOOGJOvXBMSNAe1gXfLWiE6gGwtHxsoDZfPbSNYl703d
-f4UaSsG0AleVWw+BGGQuYoeD9/icoy673bca22LdcxcV70SWcNaYcutduwAQYZfe
-OTsDO0x/VpapLm7KsyQuNW2EYSPM8RjwuApet1TZxfU4opInQ7HbIusz/kWAWCr3
-q47TvuD9c0jG8cKM3UP4UdcAEQEAAYkBPAQYAQgAJhYhBBp+6uAdnwsL14MwOAUg
-tH2tYL69BQJa9upxAhsMBQkB4TOAAAoJEAUgtH2tYL69YS0H/21k3QUKHj/m3juD
-X3yIbebr+/SR7Db0yrZXLh0RvS9DN2u0E+V26lb9jq+PDHDOJlqgHoiNK5MeWKBA
-2yhpFvwx65P6DS3EXUhIT+1NN0CwtXcuSCt7DKHwmuSBZq+2FKr6niNllxKGWUhz
-EOYtHE71Xm95LPjVi+ETzONF9Xt1ibjFahioSgx8ld/OrsUKv2nVmWVrHErQ+Ed0
-m2fhBB0V9hhv7oCiKv0dfDeoPmeQWmiwMEqBYMgMMaJBUBs4pVwrHYVYYvWGLTfV
-uyqqdpcKo99ns7ALSI7PGCwM4J9ra77L8PQenc329eEREzhC0Ok/Qgk+rI832lD7
-bxT8MO4=3D
-=3DpFcw
------END PGP PUBLIC KEY BLOCK-----
-
---------------F3433EB4A65D027C26E67B8D--
+Reviewed-by: Josh Triplett <josh@joshtriplett.org>
