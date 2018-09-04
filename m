@@ -1,85 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D7B247DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 21:23:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B356F7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 23:41:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727389AbeIEBtm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Sep 2018 21:49:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56106 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727382AbeIEBtm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Sep 2018 21:49:42 -0400
-Received: from localhost.localdomain (unknown [136.62.81.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0796020869;
-        Tue,  4 Sep 2018 21:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1536096166;
-        bh=rPSFHXYRUOlgkKyDVCSn4RXFEm+10nWrwZJ950h0Mus=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=y6mNrnjjqdF17XAf/ftIzywf+Xg6SoHPctkB5PgFLkruagRtbfe41yec3Zdg04AkF
-         Qkj0S/+V0nNbsK5nZM6LhSa3XWi1Mfr3l1SeZSmUfTwe+PN1Bu89CoLwYkMuvRs5Vk
-         PDT5ZiSN7ZCLSCsLV2PjiZldJ7ube3SJHD/2EqVQ=
-From:   Alan Tull <atull@kernel.org>
-To:     Moritz Fischer <mdf@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alan Tull <atull@kernel.org>
-Subject: [PATCH v2 5/8] dt-bindings: fpga: fix freeze controller compatible in region doc
-Date:   Tue,  4 Sep 2018 16:22:34 -0500
-Message-Id: <20180904212237.3078-6-atull@kernel.org>
-X-Mailer: git-send-email 2.16.2
-In-Reply-To: <20180904212237.3078-1-atull@kernel.org>
-References: <20180904212237.3078-1-atull@kernel.org>
+        id S1725868AbeIEEIe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Sep 2018 00:08:34 -0400
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:35771 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725862AbeIEEIe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 00:08:34 -0400
+Received: by mail-yw1-f65.google.com with SMTP id 14-v6so1960765ywe.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Sep 2018 16:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ettus-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=l7cfVWEo+s72Cr+f/IYhNLNnmwH47pf9W7a9az82J0Y=;
+        b=dD9x0giIiUICFigz0dtpjAo0Z1+LJYljzzrINoo9BCg/Tlf/PzhqUnQIj05u+VDCM0
+         DtL5hm4yOKQ6KuUGCZxI9RKLvBh8GANRbCV4OZC92CSXwKCVykSMdW2Vh0bJfRzQ/4zj
+         UaTK+GqQXQcXiLmzqMPKbY8TyrR42oAMnTfMJmKFbvO5rpjh4SHccAAPPEHOgiW1/fKp
+         uVrzgvbw4jnnGmqY+DDvDGE0adFz5YdD2/R+2kN8ZuzBfVCQAoKsCWcfN3lfcPyTPZzW
+         qO+ZgKFAWbdxVkrrFcCudVYZd6CkCJl06FWyFHmgXXkDHzgC0rJVjeou+MtjoiXO6pVf
+         nBxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=l7cfVWEo+s72Cr+f/IYhNLNnmwH47pf9W7a9az82J0Y=;
+        b=t1Kh+Dh84xnQP0UkDHA/ZUfwcbkpJ3+JQhTdiu2Gz+ee0t/Y+LNB+8gkZwad7bR3l8
+         K30J0CzRUtBDamgWk6eKmbcU/eXMW12BVfEmqybe3f7XBMwuT3/C5necTRn8xmz0EVfb
+         8PhqyNcFISYCQfzzM8Lr0oDvsfP1kYD4OjifGQej5xQ66I1+VAyVxdN0oAkC4X25VBie
+         cs5gx3NYLb5coLr03sZNnVPMTDSfA2MFG5wHy+gOL3Wc5Lsnk19CPuvA7NzvjIm1HFS+
+         6QJPKq/G5YGUFC464SRPSP9Jsb6q5rXMukBfDk8Qu0QNH4gRfjJi1Rd+si+BIga7U+1H
+         ufbg==
+X-Gm-Message-State: APzg51DEPB1TXb5nA/DmeMlZVHIKqBBOzKZksaVImkyzhuOKr9MR7GJl
+        AnfsaX9VPhFI5RtXtatyawO61r4PFSZNZWjmPzJwKg==
+X-Google-Smtp-Source: ANB0VdbeR1oZCqfPA+qZ/SShGK7kcGEsAbFhwIOTWM3X1MmvdF0ooEzaUUZT7NLubgu3UAvHq6Nio4HKNpwwL90rJZ8=
+X-Received: by 2002:a0d:ef01:: with SMTP id y1-v6mr20209976ywe.498.1536104469894;
+ Tue, 04 Sep 2018 16:41:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a0d:e106:0:0:0:0:0 with HTTP; Tue, 4 Sep 2018 16:41:09 -0700 (PDT)
+In-Reply-To: <20180904212237.3078-2-atull@kernel.org>
+References: <20180904212237.3078-1-atull@kernel.org> <20180904212237.3078-2-atull@kernel.org>
+From:   Moritz Fischer <moritz.fischer@ettus.com>
+Date:   Tue, 4 Sep 2018 16:41:09 -0700
+Message-ID: <CAAtXAHfzhmdZ6SnheZ-DXD14dde7Ccm66jEM=Q3UWDukKsyGBA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] fpga: do not access region struct after fpga_region_unregister
+To:     Alan Tull <atull@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fpga@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation/devicetree/bindings/fpga/fpga-region.txt has an error
-regarding the freeze controller bridge, secifically:
+Hi Alan,
 
- compatible = "altr,freeze-bridge";
+On Tue, Sep 4, 2018 at 2:22 PM, Alan Tull <atull@kernel.org> wrote:
+> A couple drivers were accessing the region struct after it had been
+> freed.  Save off the pointer to the mgr before the region struct gets
+> freed.
+>
+> Signed-off-by: Alan Tull <atull@kernel.org>
+Acked-by: Moritz Fischer <mdf@kernel.org>
+> ---
+> v2: no change in v2 of patchset
+> ---
+>  drivers/fpga/dfl-fme-region.c | 4 +++-
+>  drivers/fpga/of-fpga-region.c | 3 ++-
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/fpga/dfl-fme-region.c b/drivers/fpga/dfl-fme-region.c
+> index 0b7e19c..51a5ac2 100644
+> --- a/drivers/fpga/dfl-fme-region.c
+> +++ b/drivers/fpga/dfl-fme-region.c
+> @@ -14,6 +14,7 @@
+>   */
+>
+>  #include <linux/module.h>
+> +#include <linux/fpga/fpga-mgr.h>
+>  #include <linux/fpga/fpga-region.h>
+>
+>  #include "dfl-fme-pr.h"
+> @@ -66,9 +67,10 @@ static int fme_region_probe(struct platform_device *pdev)
+>  static int fme_region_remove(struct platform_device *pdev)
+>  {
+>         struct fpga_region *region = dev_get_drvdata(&pdev->dev);
+> +       struct fpga_manager *mgr = region->mgr;
+>
+>         fpga_region_unregister(region);
+> -       fpga_mgr_put(region->mgr);
+> +       fpga_mgr_put(mgr);
+>
+>         return 0;
+>  }
+> diff --git a/drivers/fpga/of-fpga-region.c b/drivers/fpga/of-fpga-region.c
+> index 35fabb8..052a134 100644
+> --- a/drivers/fpga/of-fpga-region.c
+> +++ b/drivers/fpga/of-fpga-region.c
+> @@ -437,9 +437,10 @@ static int of_fpga_region_probe(struct platform_device *pdev)
+>  static int of_fpga_region_remove(struct platform_device *pdev)
+>  {
+>         struct fpga_region *region = platform_get_drvdata(pdev);
+> +       struct fpga_manager *mgr = region->mgr;
+>
+>         fpga_region_unregister(region);
+> -       fpga_mgr_put(region->mgr);
+> +       fpga_mgr_put(mgr);
+>
+>         return 0;
+>  }
+> --
+> 2.7.4
+>
 
-The compatibility string should be "altr,freeze-bridge-controller"
-as set forth in altera-freeze-bridge.txt.
-
-Signed-off-by: Alan Tull <atull@kernel.org>
-Reported-by: Dalon Westergreen <dalon.westergreen@intel.com>
----
-v2: no change in v2 of patchset
----
- Documentation/devicetree/bindings/fpga/fpga-region.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/fpga/fpga-region.txt b/Documentation/devicetree/bindings/fpga/fpga-region.txt
-index 6db8aed..90c4469 100644
---- a/Documentation/devicetree/bindings/fpga/fpga-region.txt
-+++ b/Documentation/devicetree/bindings/fpga/fpga-region.txt
-@@ -415,7 +415,7 @@ DT Overlay contains:
- 			firmware-name = "base.rbf";
- 
- 			fpga-bridge@4400 {
--				compatible = "altr,freeze-bridge";
-+				compatible = "altr,freeze-bridge-controller";
- 				reg = <0x4400 0x10>;
- 
- 				fpga_region1: fpga-region1 {
-@@ -427,7 +427,7 @@ DT Overlay contains:
- 			};
- 
- 			fpga-bridge@4420 {
--				compatible = "altr,freeze-bridge";
-+				compatible = "altr,freeze-bridge-controller";
- 				reg = <0x4420 0x10>;
- 
- 				fpga_region2: fpga-region2 {
--- 
-2.7.4
-
+Thanks,
+Moritz
