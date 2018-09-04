@@ -1,148 +1,306 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 96DA57D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 11:05:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A76DB7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 11:27:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbeIDP36 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Sep 2018 11:29:58 -0400
-Received: from mail-dm3nam03on0072.outbound.protection.outlook.com ([104.47.41.72]:12992
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727212AbeIDP36 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Sep 2018 11:29:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/yH4ACNokIJDFb3RHsTWwE+DuALrg50FVS6oNROGo0o=;
- b=T3IhmUIR+72vF/pFr9WYoyhRLtW3G119mPsK+RmIk03HAnKj/HYb1MWLHWqEx5io5QStzJtTPLtDn1E55AL1uTkabPThPohNqTDDq3VicKGzO7GEfQjPJbTXESJ83DMRH6KFw/D3pCmlgq9IQJTYEpDDQ1W2nFbeQpVtJlvHJ74=
-Received: from BYAPR07MB5144.namprd07.prod.outlook.com (20.176.254.209) by
- BYAPR07MB4183.namprd07.prod.outlook.com (52.135.222.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1080.17; Tue, 4 Sep 2018 11:03:36 +0000
-Received: from BYAPR07MB5144.namprd07.prod.outlook.com
- ([fe80::581:6eee:fab6:4c99]) by BYAPR07MB5144.namprd07.prod.outlook.com
- ([fe80::581:6eee:fab6:4c99%4]) with mapi id 15.20.1080.020; Tue, 4 Sep 2018
- 11:03:36 +0000
-From:   Przemyslaw Gaj <pgaj@cadence.com>
-To:     vitor <Vitor.Soares@synopsys.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>
-CC:     "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, Wolfram Sang <wsa@the-dreams.de>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
+        id S1726133AbeIDPwN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Sep 2018 11:52:13 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:41062 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726087AbeIDPwN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Sep 2018 11:52:13 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9BF1B7A9;
+        Tue,  4 Sep 2018 04:27:29 -0700 (PDT)
+Received: from [10.4.13.84] (e119884-lin.emea.arm.com [10.4.13.84])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5427E3F5BC;
+        Tue,  4 Sep 2018 04:27:25 -0700 (PDT)
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
+ sparse
+To:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        Peter Rosin <peda@axentia.se>
-Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-Thread-Topic: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-Thread-Index: AQHUH3VT99XuaYWr3kWHpjq9POOKYqTML50AgALgfQCAAFeJAIAABncAgAXdiQCAAANWgIAAMGEAgAMUiwCAAHYxAIAFiUGAgAHNHIA=
-Date:   Tue, 4 Sep 2018 11:03:35 +0000
-Message-ID: <E73421F5-DC9B-4000-B282-FF71D7E45866@cadence.com>
-References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
- <20180719152930.3715-2-boris.brezillon@bootlin.com>
- <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
- <20180824143934.6d6b6487@bbrezillon>
- <bdb2924f-ecfa-1da3-41db-9ac77d4d933b@synopsys.com>
- <20180824201600.7d80bca9@bbrezillon>
- <fe839027-c4d7-4d6f-412b-5b315cbc7a39@synopsys.com>
- <20180828140209.29155d00@bbrezillon>
- <4DBE768F-3CDC-41BE-9CC8-E294E7277CB1@cadence.com>
- <8abfb007-d755-36a4-5960-fddd61d04aa2@synopsys.com>
- <3D2681D9-1ACC-42FF-9FAB-D86B3C689003@cadence.com>
- <9584757a-e7e2-5bfe-fc2c-e9bc14ad65a8@synopsys.com>
-In-Reply-To: <9584757a-e7e2-5bfe-fc2c-e9bc14ad65a8@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [185.217.253.59]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;BYAPR07MB4183;20:g4dTR0iUWfRo+rkXIpdrXXoEGy1nw6BUp2hj4vrdMmyl7suEcqRivJYexfiKuzoQOOrgW2HBkSWY32bVe8yMSyE52O0nRUOoxOp8t4OySQUxcv/Hx316JWJDQ73mf/zlQieO0gheTvrCECrqAaoqqRBnjQRQFbW9Nmz4UOE2xz77iomwPmnf7Cq3Gtu9Gpc4OPu5N/y95vQJjBN24g18WstBRBiBOnSttNn0wPGbTwIzgl2MUH4sV85RtZ7pH9yD
-x-ms-office365-filtering-correlation-id: 29f4b01c-2380-4310-6f19-08d612560ff1
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989137)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB4183;
-x-ms-traffictypediagnostic: BYAPR07MB4183:
-x-microsoft-antispam-prvs: <BYAPR07MB4183855B12A8F58D7D0D0D67C2030@BYAPR07MB4183.namprd07.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(823301075)(93006095)(93001095)(3002001)(3231311)(944501410)(52105095)(10201501046)(149027)(150027)(6041310)(20161123558120)(20161123562045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(201708071742011)(7699016);SRVR:BYAPR07MB4183;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB4183;
-x-forefront-prvs: 0785459C39
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(39860400002)(346002)(136003)(376002)(366004)(199004)(189003)(36092001)(52164004)(6486002)(229853002)(81156014)(33656002)(106356001)(446003)(7736002)(5660300001)(305945005)(53936002)(54906003)(6246003)(6512007)(11346002)(81166006)(8676002)(105586002)(6436002)(486006)(8936002)(476003)(2906002)(2616005)(316002)(110136005)(7416002)(5250100002)(3846002)(6116002)(14454004)(68736007)(6506007)(53546011)(36756003)(76176011)(66066001)(86362001)(25786009)(186003)(256004)(26005)(478600001)(4326008)(97736004)(14444005)(93886005)(6346003)(102836004)(99286004)(82746002)(2900100001)(83716003);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB4183;H:BYAPR07MB5144.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: cadence.com does not designate
- permitted sender hosts)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=pgaj@cadence.com; 
-x-microsoft-antispam-message-info: drlMF+UOEsEePzh8PsRRGjxiiIZBhXMRcpZhiDm5rE88x7FQmccsm1L9O4zKemp5pqp2bkXJ7AsGnpG7FZf3vjeXK17NGwg7njUPxnYvjqFQ1nkxfZPc9U2jvtZ2VTPxIYQAOfVqlKx95tNBttZR2/n01xTZJCYybvPdS/vX/KARoFizSc68XvSz3ZSbW5JOUcZOamCgHx6bTgwjeBkbdUTPqRX4NYdvy6fYiXFqG7Zm+nMiaNrFgcOnpV92x0MikigHgTzZ7Gcv2Nx70r92ZLoIxwzsnG+kjIl41YzBE1P6+Xqao7LR5bnV0L2RIGkqEWc4x3GKukmc6QlYepUVejKwA0cnWv2pWAC1EuBvqUU=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <333A476A334B654787EAC7B600AFC919@namprd07.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        linux-kselftest@vger.kernel.org,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <cover.1535629099.git.andreyknvl@google.com>
+ <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <20180831081123.6mo62xnk54pvlxmc@ltop.local>
+ <20180831134244.GB19965@ZenIV.linux.org.uk>
+ <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
+ <01cadefd-c929-cb45-500d-7043cf3943f6@arm.com>
+ <20180903151026.n2jak3e4yqusnogt@ltop.local>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <a31d3400-4523-2bda-a429-f2a221e69ee8@arm.com>
+Date:   Tue, 4 Sep 2018 12:27:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29f4b01c-2380-4310-6f19-08d612560ff1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2018 11:03:36.0570
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4183
+In-Reply-To: <20180903151026.n2jak3e4yqusnogt@ltop.local>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgVml0b3IsDQoNCu+7v09uIDkvMy8xOCwgMTE6MzMgQU0sICJ2aXRvciIgPFZpdG9yLlNvYXJl
-c0BzeW5vcHN5cy5jb20+IHdyb3RlOg0KDQogICAgRVhURVJOQUwgTUFJTA0KICAgIA0KICAgIA0K
-ICAgIEhpIFByemVtZWssDQogICAgDQogICAgDQogICAgT24gMzAtMDgtMjAxOCAyMDowMCwgUHJ6
-ZW15c2xhdyBHYWogd3JvdGU6DQogICAgPiAgICAgIFNvLCBwZXIgbXkgdW5kZXJzdGFuZGluZyBz
-aW5jZSB0aGUgTWFpbiBtYXN0ZXIgc3VwcG9ydCB0aGUgaGFuZC1vZmYgb2YNCiAgICA+ICAgICAg
-dGhlIGJ1cyB5b3UgYWNjZXB0IGFsbCBpbmNvbWluZyBNUiwgcmlnaHQ/IE9yIGRvIHlvdSBjaGVj
-ayBhbGwgZGV2aWNlcyBCQ1I/DQogICAgPg0KICAgID4gSSdtIG5vdCBzdXJlIHdoYXQgZG8geW91
-IG1lYW4gaGVyZS4gTWFzdGVyc2hpcCByZXF1ZXN0KE1SKSBpcyBmcm9tIHNlY29uZGFyeSBtYXN0
-ZXINCiAgICA+IHRvIGN1cnJlbnQgbWFzdGVyLiBDdXJyZW50IG1hc3RlciBjYW4gTkFDSyB0aGlz
-IHJlcXVlc3QgaWYgZm9yIGV4YW1wbGUgaXQgY29tZXMgZnJvbQ0KICAgID4gd3JvbmcgZGV2aWNl
-LiBJZiBpdCdzIG9rLCBjdXJyZW50IG1hc3RlciBzZW5kcyBHRVRBQ0NNU1QgY29tbWFuZCBhbmQg
-c2Vjb25kYXJ5IG1hc3Rlcg0KICAgID4gbWF5IEFDSyBvciBOQUNLIHRoaXMgY29tbWFuZC4gSXQg
-aXQncyBhY2tlZCwgc2Vjb25kYXJ5IG1hc3RlciBiZWNvbWVzIGN1cnJlbnQgbWFzdGVyLg0KICAg
-ID4gICAgICANCiAgICA+ICAgICAgQmVzdCByZWdhcmRzLA0KICAgID4gICAgICBWaXRvciBTb2Fy
-ZXMNCiAgICA+DQogICAgPiBQbGVhc2UgbGV0IG1lIGtub3cgaWYgc29tZXRoaW5nIGlzIHVuY2xl
-YXIuDQogICAgPg0KICAgID4gUmVnYXJkcywNCiAgICA+IFByemVtZWsNCiAgICA+ICAgICAgDQog
-ICAgDQogICAgU29ycnksIGl0IHMgbm90IGNsZWFyIHlldC4NCiAgICANCiAgICBGb3IgaW5zdGFu
-Y2VzIHRoZXJlIGlzIGEgYnVzIHdpdGggc2V2ZXJhbCBzZWNvbmRhcnkgbWFzdGVyLiBJZiBlYWNo
-IG9mIA0KICAgIHRoZW0gcmVxdWVzdCB0aGUgYnVzIG1hc3RlcnNoaXAgKG9uZSBhdCBhIHRpbWUp
-LCB3aWxsIHlvdSBhY2NlcHQgYWxsIGJ5IA0KICAgIGRlZmF1bHQ/IEJlY2F1c2UgeW91IGNhbiBv
-bmx5IGFjY2VwdCBvbmx5IHNvbWUgb2YgdGhlbS4NCg0KRmlyc3Qgb2YgYWxsLCBvbmx5IGRldmlj
-ZXMgd2hpY2ggaGF2ZSBNYXN0ZXJzaGlwIHJlcXVlc3QgZXZlbnQgZW5hYmxlZCAoRU5NUiBzbGF2
-ZSBldmVudCkNCmNhbiByZXF1ZXN0IG1hc3RlcnNoaXAuIFNlY29uZCB0aGluZyBpcyB0aGF0IHRo
-aXMgZGV2aWNlIG5lZWRzIHRvIGhhdmUgSUJJIGVuYWJsZWQgaW4gDQpjdXJyZW50IG1hc3Rlci4g
-SSBhY2NlcHQgYWxsIHN1Y2ggZGV2aWNlcy4gVGhlcmUgaXMgbm8gYWRkaXRpb25hbCBsb2dpYyBm
-b3Igbm93LCB3ZSBjYW4gYWRkIGl0DQppbiB0aGUgZnV0dXJlLg0KDQpJIHdhcyB2ZXJ5IGJ1c3kg
-cmVjZW50bHkuIEknbSBhbG1vc3QgcmVhZHkgdG8gcHVibGlzaCBteSBjaGFuZ2VzIHJlbGF0ZWQg
-dG8gbWFzdGVyc2hpcCByZXF1ZXN0Lg0KSSdtIHNvcnJ5IGZvciB0aGUgZGVsYXkuDQogICAgDQog
-ICAgUmVnYXJkcywNCiAgICBWaXRvciBTb2FyZXMNCiAgICANClJlZ2FyZHMsDQpQcnplbWVrDQoN
-Cg==
+On 03/09/18 16:10, Luc Van Oostenryck wrote:
+> On Mon, Sep 03, 2018 at 02:49:38PM +0100, Vincenzo Frascino wrote:
+>> On 03/09/18 13:34, Andrey Konovalov wrote:
+>>> On Fri, Aug 31, 2018 at 3:42 PM, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>>>> On Fri, Aug 31, 2018 at 10:11:24AM +0200, Luc Van Oostenryck wrote:
+>>>>> On Thu, Aug 30, 2018 at 01:41:16PM +0200, Andrey Konovalov wrote:
+>>>>>> This patch adds __force annotations for __user pointers casts detected by
+>>>>>> sparse with the -Wcast-from-as flag enabled (added in [1]).
+>>>>>>
+>>>>>> [1] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> It would be nice to have some explanation for why these added __force
+>>>>> are useful.
+>>>
+>>> I'll add this in the next version, thanks!
+>>>
+>>>>         It would be even more useful if that series would either deal with
+>>>> the noise for real ("that's what we intend here, that's what we intend there,
+>>>> here's a primitive for such-and-such kind of cases, here we actually
+>>>> ought to pass __user pointer instead of unsigned long", etc.) or left it
+>>>> unmasked.
+>>>>
+>>>>         As it is, __force says only one thing: "I know the code is doing
+>>>> the right thing here".  That belongs in primitives, and I do *not* mean the
+>>>> #define cast_to_ulong(x) ((__force unsigned long)(x))
+>>>> kind.
+>>>>
+>>>>         Folks, if you don't want to deal with that - leave the warnings be.
+>>>> They do carry more information than "someone has slapped __force in that place".
+>>>>
+>>>> Al, very annoyed by that kind of information-hiding crap...
+>>>
+>>> This patch only adds __force to hide the reports I've looked at and
+>>> decided that the code does the right thing. The cases where this is
+>>> not the case are handled by the previous patches in the patchset. I'll
+>>> this to the patch description as well. Is that OK?
+>>>
+>> I think as well that we should make explicit the information that
+>> __force is hiding.
+>> A possible solution could be defining some new address spaces and use
+>> them where it is relevant in the kernel. Something like:
+>>
+>> # define __compat_ptr __attribute__((noderef, address_space(5)))
+>> # define __tagged_ptr __attribute__((noderef, address_space(6)))
+>>
+>> In this way sparse can still identify the casting and trigger a warning.
+>>
+>> We could at that point modify sparse to ignore these conversions when a
+>> specific flag is passed (i.e. -Wignore-compat-ptr, -Wignore-tagged-ptr)
+>> to exclude from the generated warnings the ones we have already dealt
+>> with.
+>>
+>> What do you think about this approach?
+> 
+> I'll be happy to add such warnings to sparse if it is useful to detect
+> (and correct!) problems. I'm also thinking to other possiblities, like
+> having some weaker form of __force (maybe simply __force_as (which will
+> 'only' force the address space) or even __force_as(TO, FROM) (with TO
+> and FROM being a mask of the address space allowed).I believe we need something here to address this type of problems and I like
+your proposal of adding a weaker force in the form of __force_as(TO, FROM)
+because I think it provides the right level information. 
+
+> However, for the specific situation here, I'm not sure that using
+> address spaces is the right choice because I suspect that the concept
+> of tagged pointer is orthogonal to the one of (the usual) address space
+> (it won't be possible for a pointer to be __tagged_ptr *and* __user).
+I was thinking to address spaces because the information seems easily accessible
+in sparse [1], but I am certainly open to any solution that can be semantically
+more correct.
+
+> 
+> OTOH, when I see already the tons of warnings for concepts established
+> since many years (I'm thinking especially at __bitwise, see [1]) I'm a
+> bit affraid of adding new, more specialized ones that people will
+> understand even less how/when they need to use them.
+Thanks for providing this statistic, it is very interesting. I understand your
+concern, but I think that in this case we need a more specialized option not only
+to find potential problems but even to provide the right amount of information
+to who reads the code. 
+
+A solution could be to let __force_as(TO, FROM) behave like __force and silence
+the warning by default, but have an option in sparse to re-enable it 
+(i.e. -Wshow-force-as). 
+
+[1]
+---
+commit ee7985f0c2b29c96aefe78df4139209eb4e719d8
+Author: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Date:   Wed Aug 15 10:55:44 2018 +0100
+
+    print address space number for explicit cast to ulong
+    
+    This patch build on top of commit b34880d ("stricter warning
+    for explicit cast to ulong") and prints the address space
+    number when a "warning: cast removes address space of expression"
+    is triggered.
+    
+    This makes easier to discriminate in between different address
+    spaces.
+    
+    A validation example is provided as well as part of this patch.
+    
+    Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+
+diff --git a/evaluate.c b/evaluate.c
+index 6d5d479..2fc0ebc 100644
+--- a/evaluate.c
++++ b/evaluate.c
+@@ -3017,8 +3017,12 @@ static struct symbol *evaluate_cast(struct expression *expr)
+ 		sas = stype->ctype.as;
+ 	}
+ 
+-	if (!tas && sas > 0)
+-		warning(expr->pos, "cast removes address space of expression");
++	if (!tas && sas > 0) {
++		if (Wcast_from_as)
++			warning(expr->pos, "cast removes address space of expression (<asn:%d>)", sas);
++		else
++			warning(expr->pos, "cast removes address space of expression");
++	}
+ 	if (tas > 0 && sas > 0 && tas != sas)
+ 		warning(expr->pos, "cast between address spaces (<asn:%d>-><asn:%d>)", sas, tas);
+ 	if (tas > 0 && !sas &&
+diff --git a/sparse.1 b/sparse.1
+index 3e13523..699d09f 100644
+--- a/sparse.1
++++ b/sparse.1
+@@ -84,6 +84,9 @@ This is similar to \fB\-Waddress\-space\fR but will also warn
+ on casts to \fBunsigned long\fR.
+ 
+ Sparse does not issues these warnings by default.
++
++When the option is activated the address space number is printed
++as part of the warning message.
+ .
+ .TP
+ .B \-Wcast\-to\-as
+diff --git a/validation/Waddress-space-all-attr.c b/validation/Waddress-space-all-attr.c
+new file mode 100644
+index 0000000..455ba68
+--- /dev/null
++++ b/validation/Waddress-space-all-attr.c
+@@ -0,0 +1,84 @@
++/* Resembles include/linux/compiler_types.h */
++#define __kernel __attribute__((address_space(0)))
++#define __user __attribute__((address_space(1)))
++#define __iomem __attribute__((address_space(2)))
++#define __percpu __attribute__((address_space(3)))
++#define __rcu __attribute__((address_space(4)))
++
++
++typedef unsigned long ulong;
++typedef long long llong;
++typedef struct s obj_t;
++
++static void expl(obj_t __kernel *k, obj_t __iomem *o,
++		 obj_t __user *p, obj_t __percpu *pc,
++		 obj_t __rcu *r)
++{
++	(int)(k);
++	(ulong)(k);
++	(llong)(k);
++	(void *)(k);
++	(obj_t*)(k);
++	(obj_t __kernel*)(k);
++
++	(int)(o);
++	(ulong)(o);
++	(llong)(o);
++	(void *)(o);
++	(obj_t*)(o);
++	(obj_t __iomem*)(o);
++
++	(int)(p);
++	(ulong)(p);
++	(llong)(p);
++	(void *)(p);
++	(obj_t*)(p);
++	(obj_t __user*)(p);
++
++	(int)(pc);
++	(ulong)(pc);
++	(llong)(pc);
++	(void *)(pc);
++	(obj_t*)(pc);
++	(obj_t __percpu*)(pc);
++
++	(int)(r);
++	(ulong)(r);
++	(llong)(r);
++	(void *)(r);
++	(obj_t*)(r);
++	(obj_t __rcu*)(r);
++}
++
++/*
++ * check-name: Waddress-space-all-attr
++ * check-command: sparse -Wcast-from-as -Wcast-to-as $file
++ *
++ * check-error-start
++Waddress-space-all-attr.c:24:10: warning: cast removes address space of expression (<asn:2>)
++Waddress-space-all-attr.c:25:10: warning: cast removes address space of expression (<asn:2>)
++Waddress-space-all-attr.c:26:10: warning: cast removes address space of expression (<asn:2>)
++Waddress-space-all-attr.c:27:10: warning: cast removes address space of expression (<asn:2>)
++Waddress-space-all-attr.c:28:10: warning: cast removes address space of expression (<asn:2>)
++Waddress-space-all-attr.c:31:10: warning: cast removes address space of expression (<asn:1>)
++Waddress-space-all-attr.c:32:10: warning: cast removes address space of expression (<asn:1>)
++Waddress-space-all-attr.c:33:10: warning: cast removes address space of expression (<asn:1>)
++Waddress-space-all-attr.c:34:10: warning: cast removes address space of expression (<asn:1>)
++Waddress-space-all-attr.c:35:10: warning: cast removes address space of expression (<asn:1>)
++Waddress-space-all-attr.c:38:10: warning: cast removes address space of expression (<asn:3>)
++Waddress-space-all-attr.c:39:10: warning: cast removes address space of expression (<asn:3>)
++Waddress-space-all-attr.c:40:10: warning: cast removes address space of expression (<asn:3>)
++Waddress-space-all-attr.c:41:10: warning: cast removes address space of expression (<asn:3>)
++Waddress-space-all-attr.c:42:10: warning: cast removes address space of expression (<asn:3>)
++Waddress-space-all-attr.c:45:10: warning: cast removes address space of expression (<asn:4>)
++Waddress-space-all-attr.c:46:10: warning: cast removes address space of expression (<asn:4>)
++Waddress-space-all-attr.c:47:10: warning: cast removes address space of expression (<asn:4>)
++Waddress-space-all-attr.c:48:10: warning: cast removes address space of expression (<asn:4>)
++Waddress-space-all-attr.c:49:10: warning: cast removes address space of expression (<asn:4>)
++Waddress-space-all-attr.c:17:10: warning: non size-preserving pointer to integer cast
++Waddress-space-all-attr.c:24:10: warning: non size-preserving pointer to integer cast
++Waddress-space-all-attr.c:31:10: warning: non size-preserving pointer to integer cast
++Waddress-space-all-attr.c:38:10: warning: non size-preserving pointer to integer cast
++Waddress-space-all-attr.c:45:10: warning: non size-preserving pointer to integer cast
++ * check-error-end
++ */
+
+
+-- 
+Regards,
+Vincenzo
