@@ -1,29 +1,30 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=FAKE_REPLY_C,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8985F7D581
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 15:19:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D5F47D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Sep 2018 15:19:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727515AbeIDToh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Sep 2018 15:44:37 -0400
-Received: from mga03.intel.com ([134.134.136.65]:57520 "EHLO mga03.intel.com"
+        id S1727357AbeIDTpF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Sep 2018 15:45:05 -0400
+Received: from mga01.intel.com ([192.55.52.88]:15042 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727453AbeIDToh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Sep 2018 15:44:37 -0400
-X-Amp-Result: UNSCANNABLE
+        id S1727142AbeIDTpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Sep 2018 15:45:05 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Sep 2018 08:19:04 -0700
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Sep 2018 08:19:32 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.53,329,1531810800"; 
-   d="scan'208";a="70484198"
+   d="scan'208";a="260602246"
 Received: from pl-dbox.sh.intel.com (HELO intel.com) ([10.239.13.138])
-  by orsmga008.jf.intel.com with ESMTP; 04 Sep 2018 08:19:00 -0700
-Date:   Tue, 4 Sep 2018 23:31:35 +0800
+  by fmsmga006.fm.intel.com with ESMTP; 04 Sep 2018 08:19:28 -0700
+Date:   Tue, 4 Sep 2018 23:32:04 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Kenneth Lee <nek.in.cn@gmail.com>
 Cc:     kbuild-all@01.org, Jonathan Corbet <corbet@lwn.net>,
@@ -43,8 +44,8 @@ Cc:     kbuild-all@01.org, Jonathan Corbet <corbet@lwn.net>,
         kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org,
         Lu Baolu <baolu.lu@linux.intel.com>,
         Sanjay Kumar <sanjay.k.kumar@intel.com>, linuxarm@huawei.com
-Subject: [RFC PATCH] vfio: vfio_sdmdev_groups[] can be static
-Message-ID: <20180904153135.GI17047@intel.com>
+Subject: Re: [PATCH 3/7] vfio: add sdmdev support
+Message-ID: <20180904153204.GJ17047@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -55,23 +56,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Kenneth,
 
-Fixes: 1e47d5e60865 ("vfio: add sdmdev support")
-Signed-off-by: kbuild test robot <fengguang.wu@intel.com>
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on cryptodev/master]
+[also build test WARNING on v4.19-rc2 next-20180831]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Kenneth-Lee/A-General-Accelerator-Framework-WarpDrive/20180903-162733
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+reproduce:
+        # apt-get install sparse
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF=-D__CHECK_ENDIAN__
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
+
+>> drivers/vfio/sdmdev/vfio_sdmdev.c:106:30: sparse: symbol 'vfio_sdmdev_groups' was not declared. Should it be static?
+   drivers/vfio/sdmdev/vfio_sdmdev.c: In function 'vfio_sdmdev_mdev_remove':
+   drivers/vfio/sdmdev/vfio_sdmdev.c:178:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+     if (sdmdev->ops->put_queue);
+     ^~
+   drivers/vfio/sdmdev/vfio_sdmdev.c:179:3: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+      sdmdev->ops->put_queue(q);
+      ^~~~~~
+
+Please review and possibly fold the followup patch.
+
 ---
- vfio_sdmdev.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/vfio/sdmdev/vfio_sdmdev.c b/drivers/vfio/sdmdev/vfio_sdmdev.c
-index c6eb5d4..e7d3c23 100644
---- a/drivers/vfio/sdmdev/vfio_sdmdev.c
-+++ b/drivers/vfio/sdmdev/vfio_sdmdev.c
-@@ -103,7 +103,7 @@ static const struct attribute_group vfio_sdmdev_group = {
- 	.name  = VFIO_SDMDEV_PDEV_ATTRS_GRP_NAME,
- 	.attrs = vfio_sdmdev_attrs,
- };
--const struct attribute_group *vfio_sdmdev_groups[] = {
-+static const struct attribute_group *vfio_sdmdev_groups[] = {
- 	&vfio_sdmdev_group,
- 	NULL,
- };
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
