@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 101BE7D57F
+	by archive.lwn.net (Postfix) with ESMTP id 411877D923
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 09:58:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728365AbeIEO1o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Sep 2018 10:27:44 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40917 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728267AbeIEO1n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 10:27:43 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n2-v6so6977040wrw.7
-        for <linux-doc@vger.kernel.org>; Wed, 05 Sep 2018 02:58:14 -0700 (PDT)
+        id S1728160AbeIEO1t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Sep 2018 10:27:49 -0400
+Received: from mail-wm0-f65.google.com ([74.125.82.65]:52581 "EHLO
+        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728192AbeIEO1s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 10:27:48 -0400
+Received: by mail-wm0-f65.google.com with SMTP id y139-v6so7259576wmc.2
+        for <linux-doc@vger.kernel.org>; Wed, 05 Sep 2018 02:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=UeYhe+JnD0uNBDQp6/YhRrQIb2W6vfY9+P4DJthK/8s=;
-        b=0W2pCf5DleBd0FBNJN1bcIBvpb5BVTXYOuZD1tnQKhxp1fq1x4fvCbM//mBkesLVso
-         a/LfdFucoiT9Vn5GwBGCu17zGlnV1tEU9Aa5x1olFv9f1rrksOcorGAy0GvXck3x+KfZ
-         yPhGZBviERIZNMkMSg2I5CM7/RDEGnmiP/A1eL6qptwOW9RCPIuXPK2nn0ArxsN9Z6bs
-         xwnnuwPZpiFh49ZJZxKX8yMiAVefgSGV0vNIwfz4EzjmJSzjCA91aigLQbSTApy4xMy9
-         HeEDxN0bZm9BWauq76BXwcfMuja3WACTRUC6TPsQi3BuKsCnO64wwqdXZlJPzKNm7hae
-         Y22Q==
+        bh=xbD+J6a0tMgk2zQN6erD8m4XuFwf23lXrCsSj/OMCpo=;
+        b=Quijgqu6LsCyqrF+TYT+95ciTxKfYuaH2X0+4Vkli6R8Ctv9FVr7xe82qw89NWjMUY
+         irLCseX7NMUdhxD9D+M5EebuK3+GbywbEXDqZuyj6dQsiAQzx7dISOeFin/oSjxqIa4F
+         FOaelEJ6jMe/M8EMwyKa0R/MznLoL+VpTMus63m9M/wKVkmZOj6oHg+tx4WnXN1EOmJy
+         HACmst39FtmMeYoCj+p5riLg1o2cHXnKelT/w0W9a/N0LaYx1Roq30f+Zm9aNp1soMfE
+         b9p9x41nSP2qPpnJqxpFh2QhOVsh1U0iXvsPS1H/neQPvBGhNN2ZjCQaArR5zpr1RWZo
+         3NlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=UeYhe+JnD0uNBDQp6/YhRrQIb2W6vfY9+P4DJthK/8s=;
-        b=Bx+SbgzY2xjF84Unj3ay8MNLer1YRQlkp/dXkCNuzJpTSP1kNN7ihoPCJuXqKN8Ilb
-         i6fPaRnbkFuBKxAvRZHWdBjP3t7uKT486Ttka7m2vhOS1JKdLdj6OzmmG13JEtWntu5/
-         lIiY/MLDcpZBYch6LiNBRKBT+EPpv/Wbmi9ArYE+z9TEqjy9PBRrxXdN4zimBj+rwtpN
-         Ctv6XiG1vCd97OZMWib6vQvA7OFDYNmOEkjAOQirOzrgMWMguA0ppOlK60hz8i5xHGOQ
-         3PF8NQZTYlXIVsyjzunVHV+ZIDYcDZm6rhq5ZryHS584ifG8dATkrFlTqQ4LK/+DX4Hb
-         QExQ==
-X-Gm-Message-State: APzg51B5Y21BmuwwH7chzpqopBMTlMh93WoyvN/DxrYNIsVUNYJdTHcR
-        HNXYeqYiQRDw7OoUotm3x1jSRw==
-X-Google-Smtp-Source: ANB0VdY61BW1wrNMkewSn0ibOSkerGRxAaBqd57uZ4bcBDs84qAbw86gBhQEYiFL7OmR3+QiQaJQkw==
-X-Received: by 2002:adf:e792:: with SMTP id n18-v6mr14381388wrm.136.1536141494220;
-        Wed, 05 Sep 2018 02:58:14 -0700 (PDT)
+        bh=xbD+J6a0tMgk2zQN6erD8m4XuFwf23lXrCsSj/OMCpo=;
+        b=CJdRSJEMADbEPye9nDKgw5XBTx3od53E943gGZoOh0Q/1PbH1m2EcIMAG/dnnDDFMz
+         6IseaUXOYwf7/+aPuhQyctghZvpu0w3Tjkje+Y/HvWqSc2YgW0DtFR/YxZLN8N1iUOKv
+         EwAY6USM5Qr3HKC48d5ZduO3bdQz8zjrO6QE+iJtx9s62OBHQ+67UEx71MTHxsNjVHzR
+         hRzYV4yefikGuc87p7WBcfDxJIx5ckuIiavjvC1LMAJU1oJGcthx1uMik+IhFJ3hm3IZ
+         NO0tsQ1LPMqbxfLrUu/u7llZAch3UuwB14xylADvq0dR4c8DGQuZU3DG2wqxzXW+NfzX
+         FnVQ==
+X-Gm-Message-State: APzg51ALqPHe8PXmYK5ix8eFbCoWaTkQ4OuOktsrXjAKYZJPxuRr4Hi6
+        JAhgaZ75B7dv34WSjRQWl2cJSg==
+X-Google-Smtp-Source: ANB0VdaXjuYzIRv51LPrh1B7E5DE8e61xA3hEQUwOfK+qryXe1JRsUOrhugZ39llPxLhTy1Tt5q4oA==
+X-Received: by 2002:a1c:7c18:: with SMTP id x24-v6mr10398920wmc.33.1536141497929;
+        Wed, 05 Sep 2018 02:58:17 -0700 (PDT)
 Received: from brgl-bgdev.baylibre.local (AStLambert-681-1-33-235.w90-86.abo.wanadoo.fr. [90.86.152.235])
-        by smtp.gmail.com with ESMTPSA id l12-v6sm2127815wrv.29.2018.09.05.02.58.13
+        by smtp.gmail.com with ESMTPSA id l12-v6sm2127815wrv.29.2018.09.05.02.58.16
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Sep 2018 02:58:13 -0700 (PDT)
+        Wed, 05 Sep 2018 02:58:17 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Joachim Eastwood <manabian@gmail.com>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 08/13] nvmem: add a notifier chain
-Date:   Wed,  5 Sep 2018 11:57:33 +0200
-Message-Id: <20180905095738.26406-9-brgl@bgdev.pl>
+Subject: [PATCH 11/13] nvmem: add support for cell lookups from machine code
+Date:   Wed,  5 Sep 2018 11:57:36 +0200
+Message-Id: <20180905095738.26406-12-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180905095738.26406-1-brgl@bgdev.pl>
 References: <20180905095738.26406-1-brgl@bgdev.pl>
@@ -76,140 +76,273 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Add a blocking notifier chain with two events (add and remove) so that
-users can get notified about the addition of nvmem devices they're
-waiting for.
-
-We'll use this instead of the at24 setup callback in the mityomapl138
-board file.
+Add a way for machine code users to associate devices with nvmem cells.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c           | 36 ++++++++++++++++++++++++++++++++++
- include/linux/nvmem-consumer.h | 19 ++++++++++++++++++
- 2 files changed, 55 insertions(+)
+ drivers/nvmem/core.c          | 142 +++++++++++++++++++++++++++-------
+ include/linux/nvmem-machine.h |  15 ++++
+ 2 files changed, 130 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index e456aaa6184a..17307015905a 100644
+index da7a9d5beb33..d7c609109cfd 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -58,6 +58,8 @@ struct nvmem_cell {
- static DEFINE_MUTEX(nvmem_mutex);
- static DEFINE_IDA(nvmem_ida);
+@@ -62,6 +62,9 @@ static DEFINE_IDA(nvmem_ida);
+ static DEFINE_MUTEX(nvmem_cell_mutex);
+ static LIST_HEAD(nvmem_cell_tables);
  
-+static BLOCKING_NOTIFIER_HEAD(nvmem_notifier);
++static DEFINE_MUTEX(nvmem_lookup_mutex);
++static LIST_HEAD(nvmem_lookup_list);
 +
+ static BLOCKING_NOTIFIER_HEAD(nvmem_notifier);
+ 
  #ifdef CONFIG_DEBUG_LOCK_ALLOC
- static struct lock_class_key eeprom_lock_key;
- #endif
-@@ -339,6 +341,32 @@ static int nvmem_setup_compat(struct nvmem_device *nvmem,
- 	return 0;
+@@ -285,6 +288,18 @@ static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
+ 	return to_nvmem_device(d);
  }
  
-+/**
-+ * nvmem_register_notifier() - Register a notifier block for nvmem events.
-+ *
-+ * @nb: notifier block to be called on nvmem events.
-+ *
-+ * Return: 0 on success, negative error number on failure.
-+ */
-+int nvmem_register_notifier(struct notifier_block *nb)
++static struct nvmem_device *nvmem_find(const char *name)
 +{
-+	return blocking_notifier_chain_register(&nvmem_notifier, nb);
-+}
-+EXPORT_SYMBOL_GPL(nvmem_register_notifier);
++	struct device *d;
 +
-+/**
-+ * nvmem_unregister_notifier() - Unregister a notifier block for nvmem events.
-+ *
-+ * @nb: notifier block to be unregistered.
-+ *
-+ * Return: 0 on success, negative error number on failure.
-+ */
-+int nvmem_unregister_notifier(struct notifier_block *nb)
-+{
-+	return blocking_notifier_chain_unregister(&nvmem_notifier, nb);
++	d = bus_find_device_by_name(&nvmem_bus_type, NULL, name);
++
++	if (!d)
++		return NULL;
++
++	return to_nvmem_device(d);
 +}
-+EXPORT_SYMBOL_GPL(nvmem_unregister_notifier);
++
+ static void nvmem_cell_drop(struct nvmem_cell *cell)
+ {
+ 	mutex_lock(&nvmem_mutex);
+@@ -421,6 +436,21 @@ nvmem_find_cell_by_index(struct nvmem_device *nvmem, int index)
+ 	return cell;
+ }
+ 
++static struct nvmem_cell *
++nvmem_find_cell_by_name(struct nvmem_device *nvmem, const char *cell_id)
++{
++	struct nvmem_cell *cell = NULL;
++
++	mutex_lock(&nvmem_mutex);
++	list_for_each_entry(cell, &nvmem->cells, node) {
++		if (strcmp(cell_id, cell->name) == 0)
++			break;
++	}
++	mutex_unlock(&nvmem_mutex);
++
++	return cell;
++}
++
+ static int nvmem_add_cells_from_of(struct nvmem_device *nvmem)
+ {
+ 	struct device_node *parent, *child;
+@@ -691,22 +721,16 @@ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
+ }
+ EXPORT_SYMBOL(devm_nvmem_unregister);
+ 
+-static struct nvmem_device *__nvmem_device_get(struct device_node *np)
++static struct nvmem_device *
++__nvmem_device_get(struct device_node *np, const char *name)
+ {
+ 	struct nvmem_device *nvmem = NULL;
+ 
+-	if (!np)
+-		return ERR_PTR(-EINVAL);
+-
+ 	mutex_lock(&nvmem_mutex);
+-
+-	nvmem = of_nvmem_find(np);
+-	if (!nvmem) {
+-		mutex_unlock(&nvmem_mutex);
+-		return ERR_PTR(-EPROBE_DEFER);
+-	}
+-
++	nvmem = np ? of_nvmem_find(np) : nvmem_find(name);
+ 	mutex_unlock(&nvmem_mutex);
++	if (!nvmem)
++		return ERR_PTR(-EPROBE_DEFER);
+ 
+ 	if (!try_module_get(nvmem->owner)) {
+ 		dev_err(&nvmem->dev,
+@@ -726,18 +750,6 @@ static void __nvmem_device_put(struct nvmem_device *nvmem)
+ 	kref_put(&nvmem->refcnt, nvmem_device_release);
+ }
+ 
+-static struct nvmem_device *nvmem_find(const char *name)
+-{
+-	struct device *d;
+-
+-	d = bus_find_device_by_name(&nvmem_bus_type, NULL, name);
+-
+-	if (!d)
+-		return NULL;
+-
+-	return to_nvmem_device(d);
+-}
+-
+ #if IS_ENABLED(CONFIG_OF)
+ /**
+  * of_nvmem_device_get() - Get nvmem device from a given id
+@@ -760,7 +772,7 @@ struct nvmem_device *of_nvmem_device_get(struct device_node *np, const char *id)
+ 	if (!nvmem_np)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	return __nvmem_device_get(nvmem_np);
++	return __nvmem_device_get(nvmem_np, NULL);
+ }
+ EXPORT_SYMBOL_GPL(of_nvmem_device_get);
+ #endif
+@@ -897,7 +909,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
+ 	if (!nvmem_np)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	nvmem = __nvmem_device_get(nvmem_np);
++	nvmem = __nvmem_device_get(nvmem_np, NULL);
+ 	of_node_put(nvmem_np);
+ 	if (IS_ERR(nvmem))
+ 		return ERR_CAST(nvmem);
+@@ -913,6 +925,43 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
+ EXPORT_SYMBOL_GPL(of_nvmem_cell_get);
+ #endif
+ 
++static struct nvmem_cell *
++nvmem_cell_get_from_lookup(struct device *dev, const char *cell_id)
++{
++	struct nvmem_cell *cell = ERR_PTR(-ENOENT);
++	struct nvmem_cell_lookup *lookup;
++	struct nvmem_device *nvmem;
++	const char *dev_id;
++
++	if (!dev)
++		return ERR_PTR(-EINVAL);
++
++	dev_id = dev_name(dev);
++
++	mutex_lock(&nvmem_lookup_mutex);
++
++	list_for_each_entry(lookup, &nvmem_lookup_list, node) {
++		if ((strcmp(lookup->dev_id, dev_id) == 0) &&
++		    (strcmp(lookup->cell_id, cell_id) == 0)) {
++			/* This is the right entry. */
++			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
++			if (!nvmem) {
++				/* Provider may not be registered yet. */
++				cell = ERR_PTR(-EPROBE_DEFER);
++				goto out;
++			}
++
++			cell = nvmem_find_cell_by_name(nvmem, cell_id);
++			if (!cell)
++				goto out;
++		}
++	}
++
++out:
++	mutex_unlock(&nvmem_lookup_mutex);
++	return cell;
++}
 +
  /**
-  * nvmem_register() - Register a nvmem device for given nvmem_config.
-  * Also creates an binary entry in /sys/bus/nvmem/devices/dev-name/nvmem
-@@ -420,8 +448,15 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
- 
- 	INIT_LIST_HEAD(&nvmem->cells);
- 
-+	rval = blocking_notifier_call_chain(&nvmem_notifier, NVMEM_ADD, nvmem);
-+	if (rval)
-+		goto err_teardown_compat;
+  * nvmem_cell_get() - Get nvmem cell of device form a given cell name
+  *
+@@ -925,10 +974,14 @@ EXPORT_SYMBOL_GPL(of_nvmem_cell_get);
+  */
+ struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *cell_id)
+ {
+-	if (!dev->of_node)
++	if (dev->of_node)
++		return of_nvmem_cell_get(dev->of_node, cell_id);
 +
- 	return nvmem;
++	/* Only allow empty cell_id for DT systems. */
++	if (!cell_id)
+ 		return ERR_PTR(-EINVAL);
  
-+err_teardown_compat:
-+	if (config->compat)
-+		device_remove_bin_file(nvmem->base_dev, &nvmem->eeprom);
- err_device_del:
- 	device_del(&nvmem->dev);
- err_put_device:
-@@ -436,6 +471,7 @@ static void nvmem_device_release(struct kref *kref)
- 	struct nvmem_device *nvmem;
+-	return of_nvmem_cell_get(dev->of_node, cell_id);
++	return nvmem_cell_get_from_lookup(dev, cell_id);
+ }
+ EXPORT_SYMBOL_GPL(nvmem_cell_get);
  
- 	nvmem = container_of(kref, struct nvmem_device, refcnt);
-+	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_REMOVE, nvmem);
+@@ -1300,6 +1353,41 @@ void nvmem_del_cell_table(struct nvmem_cell_table *table)
+ }
+ EXPORT_SYMBOL_GPL(nvmem_del_cell_table);
  
- 	if (nvmem->flags & FLAG_COMPAT)
- 		device_remove_bin_file(nvmem->base_dev, &nvmem->eeprom);
-diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-index 1313da6731ff..8a6405febc32 100644
---- a/include/linux/nvmem-consumer.h
-+++ b/include/linux/nvmem-consumer.h
-@@ -14,6 +14,7 @@
++/**
++ * nvmem_add_cell_lookups() - register a list of cell lookup entries
++ *
++ * @entries: array of cell lookup entries
++ * @nentries: number of cell lookup entries in the array
++ */
++void nvmem_add_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries)
++{
++	int i;
++
++	mutex_lock(&nvmem_lookup_mutex);
++	for (i = 0; i < nentries; i++)
++		list_add_tail(&entries[i].node, &nvmem_lookup_list);
++	mutex_unlock(&nvmem_lookup_mutex);
++}
++EXPORT_SYMBOL_GPL(nvmem_add_cell_lookups);
++
++/**
++ * nvmem_del_cell_lookups() - remove a list of previously added cell lookup
++ *                            entries
++ *
++ * @entries: array of cell lookup entries
++ * @nentries: number of cell lookup entries in the array
++ */
++void nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries)
++{
++	int i;
++
++	mutex_lock(&nvmem_lookup_mutex);
++	for (i = 0; i < nentries; i++)
++		list_del(&entries[i].node);
++	mutex_unlock(&nvmem_lookup_mutex);
++}
++EXPORT_SYMBOL_GPL(nvmem_del_cell_lookups);
++
+ /**
+  * nvmem_dev_name() - Get the name of a given nvmem device.
+  *
+diff --git a/include/linux/nvmem-machine.h b/include/linux/nvmem-machine.h
+index 1e199dfaacab..79421bbf9d13 100644
+--- a/include/linux/nvmem-machine.h
++++ b/include/linux/nvmem-machine.h
+@@ -26,16 +26,31 @@ struct nvmem_cell_table {
+ 	struct list_head	node;
+ };
  
- #include <linux/err.h>
- #include <linux/errno.h>
-+#include <linux/notifier.h>
- 
- struct device;
- struct device_node;
-@@ -21,6 +22,11 @@ struct device_node;
- struct nvmem_cell;
- struct nvmem_device;
- 
-+enum {
-+	NVMEM_ADD = 1,
-+	NVMEM_REMOVE,
++struct nvmem_cell_lookup {
++	const char		*nvmem_name;
++	const char		*dev_id;
++	const char		*cell_id;
++	struct list_head	node;
 +};
 +
  #if IS_ENABLED(CONFIG_NVMEM)
  
- /* Cell based interface */
-@@ -45,6 +51,9 @@ int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
+ void nvmem_add_cell_table(struct nvmem_cell_table *table);
+ void nvmem_del_cell_table(struct nvmem_cell_table *table);
  
- const char *nvmem_dev_name(struct nvmem_device *nvmem);
- 
-+int nvmem_register_notifier(struct notifier_block *nb);
-+int nvmem_unregister_notifier(struct notifier_block *nb);
++void nvmem_add_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries);
++void nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries);
 +
- #else
+ #else /* CONFIG_NVMEM */
  
- static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
-@@ -125,6 +134,16 @@ static inline const char *nvmem_dev_name(struct nvmem_device *nvmem)
- 	return NULL;
- }
+ static inline void nvmem_add_cell_table(struct nvmem_cell_table *table) {}
+ static inline void nvmem_del_cell_table(struct nvmem_cell_table *table) {}
  
-+static inline int nvmem_register_notifier(struct notifier_block *nb)
-+{
-+	return -ENOSYS;
-+}
-+
-+static inline int int nvmem_unregister_notifier(struct notifier_block *nb)
-+{
-+	return -ENOSYS;
-+}
++static inline void
++nvmem_add_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries) {}
++static inline void
++nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries) {}
 +
  #endif /* CONFIG_NVMEM */
  
- #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
+ #endif  /* ifndef _LINUX_NVMEM_MACHINE_H */
 -- 
 2.18.0
 
