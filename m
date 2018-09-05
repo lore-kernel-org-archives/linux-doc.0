@@ -1,365 +1,239 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 227607E3A2
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 15:42:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8491F7D87C
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 19:03:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727666AbeIEUMB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Sep 2018 16:12:01 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:54496 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727100AbeIEUMA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Sep 2018 16:12:00 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id EB56920787; Wed,  5 Sep 2018 17:41:14 +0200 (CEST)
-Received: from localhost.localdomain (AAubervilliers-681-1-92-107.w90-88.abo.wanadoo.fr [90.88.33.107])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 346B020734;
-        Wed,  5 Sep 2018 17:41:14 +0200 (CEST)
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
+        id S1727837AbeIEXew (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Sep 2018 19:34:52 -0400
+Received: from mail-wm0-f67.google.com ([74.125.82.67]:55489 "EHLO
+        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727575AbeIEXew (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 19:34:52 -0400
+Received: by mail-wm0-f67.google.com with SMTP id f21-v6so9034900wmc.5;
+        Wed, 05 Sep 2018 12:03:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VFY7E3dHS3UFMrgW9b/UxSDp+GnCVUPjBEXxQ27f+2k=;
+        b=F6JPN7tsyKp08uBWiGeP+ds904idWjEcjsGswnHtx93oobBuwvUXtGlFsq//EI0QAp
+         oJSTe+zDD8//Ni9G5lTwtuaWvhz5BumrqktH8cIbRWsQTk3WPGhsWMN71htPpG0Ozxl+
+         flcSs+w0G0Lseog1AanCkW0kTaAEYBO+N80q7cug3MEePLAwW8gx7XmN+IOCFITMTanx
+         QRq7SSiJBY9Dc5Y5/bXPuUFqfCuW5pD/4vrmvY3Y8lKnb+gsjM8+5gSfqRVIsRn9QLVl
+         fVdmDSsXcHa1IJztriCv1DbFveba17EGoL6iE4D9bkC3oCvgDnrslwN2A9J+yuXFxbd3
+         Xofg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VFY7E3dHS3UFMrgW9b/UxSDp+GnCVUPjBEXxQ27f+2k=;
+        b=XnLTXyd/+Z3yjpWON9855NmmVTdv1oCkdlYKGPknGmc62R0ap/1G0pfpUTVOmEncgn
+         uMy+X13aK4Y4CM+Jtb/+JSw/EsVxbZeNwyRkzWSttqiDsIRfcfi1q3c6PiZp0w8BB9sD
+         dgXY7QOkDUXcFRNWpyYTH/o66ikXqIO5A7lNtH7aTX97/pDkD7eolnC3DUsRNTkJ5CrE
+         7m5F6mumY0XpOYZU3nUOFQ4axZg4BGFZN41IPjCiXmCa2NDvnr7x2kCR/UEVZjJx8iDo
+         G2iAeM9VIQ7rlnD0MMGuWzRmmd7TOj844WWQTpu4OvQtktMsjmfqBEY7YXixccIJOOqz
+         wtaA==
+X-Gm-Message-State: APzg51AAaOJnt6nv8yDx5Dgr6XkNEFQTjO7T7Rxy+EjSZVtqIZkpoLGi
+        2hzIKrhXUO9jHaE/ZqnH9AU=
+X-Google-Smtp-Source: ANB0VdaUzIpRl5oCfkD5sf9772ftlwvhvSF+LUX7O12/HMC5D6o58AaO1WYFdnczNMmOrpTNEZLyiQ==
+X-Received: by 2002:a1c:1d87:: with SMTP id d129-v6mr1079561wmd.34.1536174200105;
+        Wed, 05 Sep 2018 12:03:20 -0700 (PDT)
+Received: from ltop.local ([2a02:a03f:4006:df00:b45a:4246:cb70:58f7])
+        by smtp.gmail.com with ESMTPSA id k5-v6sm6237975wrm.96.2018.09.05.12.03.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Sep 2018 12:03:19 -0700 (PDT)
+Date:   Wed, 5 Sep 2018 21:03:17 +0200
+From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Boris Brezillon <boris.brezillon@bootlin.com>
-Subject: [PATCH v7 02/10] docs: driver-api: Add I3C documentation
-Date:   Wed,  5 Sep 2018 17:41:00 +0200
-Message-Id: <20180905154108.20770-3-boris.brezillon@bootlin.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20180905154108.20770-1-boris.brezillon@bootlin.com>
-References: <20180905154108.20770-1-boris.brezillon@bootlin.com>
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        linux-kselftest@vger.kernel.org,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
+ sparse
+Message-ID: <20180905190316.a34yycthgbamx2t3@ltop.local>
+References: <cover.1535629099.git.andreyknvl@google.com>
+ <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <20180831081123.6mo62xnk54pvlxmc@ltop.local>
+ <20180831134244.GB19965@ZenIV.linux.org.uk>
+ <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
+ <01cadefd-c929-cb45-500d-7043cf3943f6@arm.com>
+ <20180903151026.n2jak3e4yqusnogt@ltop.local>
+ <a31d3400-4523-2bda-a429-f2a221e69ee8@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a31d3400-4523-2bda-a429-f2a221e69ee8@arm.com>
+User-Agent: NeoMutt/20180622
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the I3C documentation describing the protocol, the master driver API
-and the device driver API.
+On Tue, Sep 04, 2018 at 12:27:23PM +0100, Vincenzo Frascino wrote:
+> On 03/09/18 16:10, Luc Van Oostenryck wrote:
+> > On Mon, Sep 03, 2018 at 02:49:38PM +0100, Vincenzo Frascino wrote:
+> >> On 03/09/18 13:34, Andrey Konovalov wrote:
+> >>> On Fri, Aug 31, 2018 at 3:42 PM, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> >>>> On Fri, Aug 31, 2018 at 10:11:24AM +0200, Luc Van Oostenryck wrote:
+> >>>>> On Thu, Aug 30, 2018 at 01:41:16PM +0200, Andrey Konovalov wrote:
+> >>>>>> This patch adds __force annotations for __user pointers casts detected by
+> >>>>>> sparse with the -Wcast-from-as flag enabled (added in [1]).
+> >>>>>>
+> >>>>>> [1] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
+> >>>>>
+> >>>>> Hi,
+> >>>>>
+> >>>>> It would be nice to have some explanation for why these added __force
+> >>>>> are useful.
+> >>>
+> >>> I'll add this in the next version, thanks!
+> >>>
+> >>>>         It would be even more useful if that series would either deal with
+> >>>> the noise for real ("that's what we intend here, that's what we intend there,
+> >>>> here's a primitive for such-and-such kind of cases, here we actually
+> >>>> ought to pass __user pointer instead of unsigned long", etc.) or left it
+> >>>> unmasked.
+> >>>>
+> >>>>         As it is, __force says only one thing: "I know the code is doing
+> >>>> the right thing here".  That belongs in primitives, and I do *not* mean the
+> >>>> #define cast_to_ulong(x) ((__force unsigned long)(x))
+> >>>> kind.
+> >>>>
+> >>>>         Folks, if you don't want to deal with that - leave the warnings be.
+> >>>> They do carry more information than "someone has slapped __force in that place".
+> >>>>
+> >>>> Al, very annoyed by that kind of information-hiding crap...
+> >>>
+> >>> This patch only adds __force to hide the reports I've looked at and
+> >>> decided that the code does the right thing. The cases where this is
+> >>> not the case are handled by the previous patches in the patchset. I'll
+> >>> this to the patch description as well. Is that OK?
+> >>>
+> >> I think as well that we should make explicit the information that
+> >> __force is hiding.
+> >> A possible solution could be defining some new address spaces and use
+> >> them where it is relevant in the kernel. Something like:
+> >>
+> >> # define __compat_ptr __attribute__((noderef, address_space(5)))
+> >> # define __tagged_ptr __attribute__((noderef, address_space(6)))
+> >>
+> >> In this way sparse can still identify the casting and trigger a warning.
+> >>
+> >> We could at that point modify sparse to ignore these conversions when a
+> >> specific flag is passed (i.e. -Wignore-compat-ptr, -Wignore-tagged-ptr)
+> >> to exclude from the generated warnings the ones we have already dealt
+> >> with.
+> >>
+> >> What do you think about this approach?
+> > 
+> > I'll be happy to add such warnings to sparse if it is useful to detect
+> > (and correct!) problems. I'm also thinking to other possiblities, like
+> > having some weaker form of __force (maybe simply __force_as (which will
+> > 'only' force the address space) or even __force_as(TO, FROM) (with TO
+> > and FROM being a mask of the address space allowed).I believe we need something here to address this type of problems and I like
+> your proposal of adding a weaker force in the form of __force_as(TO, FROM)
+> because I think it provides the right level information. 
+> 
+> > However, for the specific situation here, I'm not sure that using
+> > address spaces is the right choice because I suspect that the concept
+> > of tagged pointer is orthogonal to the one of (the usual) address space
+> > (it won't be possible for a pointer to be __tagged_ptr *and* __user).
+> I was thinking to address spaces because the information seems easily accessible
+> in sparse [1], but I am certainly open to any solution that can be semantically
+> more correct.
 
-Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
----
-Changes in v6:
-- Fix typos reported by Randy
-- Add Randy's R-b
+Yes, adding a new address space is easy (and doesn't need any modification
+to sparse). Here, I think adding a new 'modifier' __tagged (much like
+__nocast, __noderef, ...) would be much more appropriate.
+I think that at this point, it would be nice to have a clear description
+of the problem and what sort of checks are wanted.
+ 
+> > 
+> > OTOH, when I see already the tons of warnings for concepts established
+> > since many years (I'm thinking especially at __bitwise, see [1]) I'm a
+> > bit affraid of adding new, more specialized ones that people will
+> > understand even less how/when they need to use them.
+> Thanks for providing this statistic, it is very interesting. I understand your
+> concern, but I think that in this case we need a more specialized option not only
+> to find potential problems but even to provide the right amount of information
+> to who reads the code. 
+> 
+> A solution could be to let __force_as(TO, FROM) behave like __force and silence
+> the warning by default, but have an option in sparse to re-enable it 
+> (i.e. -Wshow-force-as). 
 
-Changes in v5:
-- Remove useless conf.py file
-- Add SPDX headers
+That would be, indeed, a simple solution but IMO even more dangerous than
+__force itself (since by readingthe code with this annotation  people would 
+naturally think it only involves the AS will in fact it would be the same
+as __force). I prefer to directly implement a plain __force_as, forcing
+only the AS).
+ 
+> [1]
+> ---
+> commit ee7985f0c2b29c96aefe78df4139209eb4e719d8
+> Author: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Date:   Wed Aug 15 10:55:44 2018 +0100
+> 
+>     print address space number for explicit cast to ulong
+>     
+>     This patch build on top of commit b34880d ("stricter warning
+>     for explicit cast to ulong") and prints the address space
+>     number when a "warning: cast removes address space of expression"
+>     is triggered.
+>     
+>     This makes easier to discriminate in between different address
+>     spaces.
+>     
+>     A validation example is provided as well as part of this patch.
+>     
+>     Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> 
+> diff --git a/evaluate.c b/evaluate.c
+> index 6d5d479..2fc0ebc 100644
+> --- a/evaluate.c
+> +++ b/evaluate.c
+> @@ -3017,8 +3017,12 @@ static struct symbol *evaluate_cast(struct expression *expr)
+>  		sas = stype->ctype.as;
+>  	}
+>  
+> -	if (!tas && sas > 0)
+> -		warning(expr->pos, "cast removes address space of expression");
+> +	if (!tas && sas > 0) {
+> +		if (Wcast_from_as)
+> +			warning(expr->pos, "cast removes address space of expression (<asn:%d>)", sas);
+> +		else
+> +			warning(expr->pos, "cast removes address space of expression");
+> +	}
 
-Changes in v2:
-- Moved out of patch "i3c: Add core I3C infrastructure"
-- Add link to the I3C spec
-- Move rst files in Documentation/driver-api/i3c/
----
- Documentation/driver-api/i3c/device-driver-api.rst |   9 +
- Documentation/driver-api/i3c/index.rst             |  11 ++
- Documentation/driver-api/i3c/master-driver-api.rst |  10 +
- Documentation/driver-api/i3c/protocol.rst          | 203 +++++++++++++++++++++
- Documentation/driver-api/index.rst                 |   1 +
- 5 files changed, 234 insertions(+)
- create mode 100644 Documentation/driver-api/i3c/device-driver-api.rst
- create mode 100644 Documentation/driver-api/i3c/index.rst
- create mode 100644 Documentation/driver-api/i3c/master-driver-api.rst
- create mode 100644 Documentation/driver-api/i3c/protocol.rst
+I think that the if (Wcast_from_as) is unneeded, the <asn:%d> can be added
+even if Wcast_from_as is false. Woukd it be OK for you?
 
-diff --git a/Documentation/driver-api/i3c/device-driver-api.rst b/Documentation/driver-api/i3c/device-driver-api.rst
-new file mode 100644
-index 000000000000..85bc3381cd3e
---- /dev/null
-+++ b/Documentation/driver-api/i3c/device-driver-api.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================
-+I3C device driver API
-+=====================
-+
-+.. kernel-doc:: include/linux/i3c/device.h
-+
-+.. kernel-doc:: drivers/i3c/device.c
-diff --git a/Documentation/driver-api/i3c/index.rst b/Documentation/driver-api/i3c/index.rst
-new file mode 100644
-index 000000000000..783d6dad054b
---- /dev/null
-+++ b/Documentation/driver-api/i3c/index.rst
-@@ -0,0 +1,11 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============
-+I3C subsystem
-+=============
-+
-+.. toctree::
-+
-+   protocol
-+   device-driver-api
-+   master-driver-api
-diff --git a/Documentation/driver-api/i3c/master-driver-api.rst b/Documentation/driver-api/i3c/master-driver-api.rst
-new file mode 100644
-index 000000000000..bb19264aa239
---- /dev/null
-+++ b/Documentation/driver-api/i3c/master-driver-api.rst
-@@ -0,0 +1,10 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================================
-+I3C master controller driver API
-+================================
-+
-+.. kernel-doc:: drivers/i3c/master.c
-+
-+.. kernel-doc:: include/linux/i3c/master.h
-+
-diff --git a/Documentation/driver-api/i3c/protocol.rst b/Documentation/driver-api/i3c/protocol.rst
-new file mode 100644
-index 000000000000..dae3b6d32c6b
---- /dev/null
-+++ b/Documentation/driver-api/i3c/protocol.rst
-@@ -0,0 +1,203 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+I3C protocol
-+============
-+
-+Disclaimer
-+==========
-+
-+This chapter will focus on aspects that matter to software developers. For
-+everything hardware related (like how things are transmitted on the bus, how
-+collisions are prevented, ...) please have a look at the I3C specification.
-+
-+This document is just a brief introduction to the I3C protocol and the concepts
-+it brings to the table. If you need more information, please refer to the MIPI
-+I3C specification (can be downloaded here
-+http://resources.mipi.org/mipi-i3c-v1-download).
-+
-+Introduction
-+============
-+
-+The I3C (pronounced 'eye-three-see') is a MIPI standardized protocol designed
-+to overcome I2C limitations (limited speed, external signals needed for
-+interrupts, no automatic detection of the devices connected to the bus, ...)
-+while remaining power-efficient.
-+
-+I3C Bus
-+=======
-+
-+An I3C bus is made of several I3C devices and possibly some I2C devices as
-+well, but let's focus on I3C devices for now.
-+
-+An I3C device on the I3C bus can have one of the following roles:
-+
-+* Master: the device is driving the bus. It's the one in charge of initiating
-+  transactions or deciding who is allowed to talk on the bus (slave generated
-+  events are possible in I3C, see below).
-+* Slave: the device acts as a slave, and is not able to send frames to another
-+  slave on the bus. The device can still send events to the master on
-+  its own initiative if the master allowed it.
-+
-+I3C is a multi-master protocol, so there might be several masters on a bus,
-+though only one device can act as a master at a given time. In order to gain
-+bus ownership, a master has to follow a specific procedure.
-+
-+Each device on the I3C bus has to be assigned a dynamic address to be able to
-+communicate. Until this is done, the device should only respond to a limited
-+set of commands. If it has a static address (also called legacy I2C address),
-+the device can reply to I2C transfers.
-+
-+In addition to these per-device addresses, the protocol defines a broadcast
-+address in order to address all devices on the bus.
-+
-+Once a dynamic address has been assigned to a device, this address will be used
-+for any direct communication with the device. Note that even after being
-+assigned a dynamic address, the device should still process broadcast messages.
-+
-+I3C Device discovery
-+====================
-+
-+The I3C protocol defines a mechanism to automatically discover devices present
-+on the bus, their capabilities and the functionalities they provide. In this
-+regard I3C is closer to a discoverable bus like USB than it is to I2C or SPI.
-+
-+The discovery mechanism is called DAA (Dynamic Address Assignment), because it
-+not only discovers devices but also assigns them a dynamic address.
-+
-+During DAA, each I3C device reports 3 important things:
-+
-+* BCR: Bus Characteristic Register. This 8-bit register describes the device bus
-+  related capabilities
-+* DCR: Device Characteristic Register. This 8-bit register describes the
-+  functionalities provided by the device
-+* Provisional ID: A 48-bit unique identifier. On a given bus there should be no
-+  Provisional ID collision, otherwise the discovery mechanism may fail.
-+
-+I3C slave events
-+================
-+
-+The I3C protocol allows slaves to generate events on their own, and thus allows
-+them to take temporary control of the bus.
-+
-+This mechanism is called IBI for In Band Interrupts, and as stated in the name,
-+it allows devices to generate interrupts without requiring an external signal.
-+
-+During DAA, each device on the bus has been assigned an address, and this
-+address will serve as a priority identifier to determine who wins if 2 different
-+devices are generating an interrupt at the same moment on the bus (the lower the
-+dynamic address the higher the priority).
-+
-+Masters are allowed to inhibit interrupts if they want to. This inhibition
-+request can be broadcast (applies to all devices) or sent to a specific
-+device.
-+
-+I3C Hot-Join
-+============
-+
-+The Hot-Join mechanism is similar to USB hotplug. This mechanism allows
-+slaves to join the bus after it has been initialized by the master.
-+
-+This covers the following use cases:
-+
-+* the device is not powered when the bus is probed
-+* the device is hotplugged on the bus through an extension board
-+
-+This mechanism is relying on slave events to inform the master that a new
-+device joined the bus and is waiting for a dynamic address.
-+
-+The master is then free to address the request as it wishes: ignore it or
-+assign a dynamic address to the slave.
-+
-+I3C transfer types
-+==================
-+
-+If you omit SMBus (which is just a standardization on how to access registers
-+exposed by I2C devices), I2C has only one transfer type.
-+
-+I3C defines 3 different classes of transfer in addition to I2C transfers which
-+are here for backward compatibility with I2C devices.
-+
-+I3C CCC commands
-+----------------
-+
-+CCC (Common Command Code) commands are meant to be used for anything that is
-+related to bus management and all features that are common to a set of devices.
-+
-+CCC commands contain an 8-bit CCC ID describing the command that is executed.
-+The MSB of this ID specifies whether this is a broadcast command (bit7 = 0) or a
-+unicast one (bit7 = 1).
-+
-+The command ID can be followed by a payload. Depending on the command, this
-+payload is either sent by the master sending the command (write CCC command),
-+or sent by the slave receiving the command (read CCC command). Of course, read
-+accesses only apply to unicast commands.
-+Note that, when sending a CCC command to a specific device, the device address
-+is passed in the first byte of the payload.
-+
-+The payload length is not explicitly passed on the bus, and should be extracted
-+from the CCC ID.
-+
-+Note that vendors can use a dedicated range of CCC IDs for their own commands
-+(0x61-0x7f and 0xe0-0xef).
-+
-+I3C Private SDR transfers
-+-------------------------
-+
-+Private SDR (Single Data Rate) transfers should be used for anything that is
-+device specific and does not require high transfer speed.
-+
-+It is the equivalent of I2C transfers but in the I3C world. Each transfer is
-+passed the device address (dynamic address assigned during DAA), a payload
-+and a direction.
-+
-+The only difference with I2C is that the transfer is much faster (typical clock
-+frequency is 12.5MHz).
-+
-+I3C HDR commands
-+----------------
-+
-+HDR commands should be used for anything that is device specific and requires
-+high transfer speed.
-+
-+The first thing attached to an HDR command is the HDR mode. There are currently
-+3 different modes defined by the I3C specification (refer to the specification
-+for more details):
-+
-+* HDR-DDR: Double Data Rate mode
-+* HDR-TSP: Ternary Symbol Pure. Only usable on busses with no I2C devices
-+* HDR-TSL: Ternary Symbol Legacy. Usable on busses with I2C devices
-+
-+When sending an HDR command, the whole bus has to enter HDR mode, which is done
-+using a broadcast CCC command.
-+Once the bus has entered a specific HDR mode, the master sends the HDR command.
-+An HDR command is made of:
-+
-+* one 16-bits command word in big endian
-+* N 16-bits data words in big endian
-+
-+Those words may be wrapped with specific preambles/post-ambles which depend on
-+the chosen HDR mode and are detailed here (see the specification for more
-+details).
-+
-+The 16-bits command word is made of:
-+
-+* bit[15]: direction bit, read is 1, write is 0
-+* bit[14:8]: command code. Identifies the command being executed, the amount of
-+  data words and their meaning
-+* bit[7:1]: I3C address of the device this command is addressed to
-+* bit[0]: reserved/parity-bit
-+
-+Backward compatibility with I2C devices
-+=======================================
-+
-+The I3C protocol has been designed to be backward compatible with I2C devices.
-+This backward compatibility allows one to connect a mix of I2C and I3C devices
-+on the same bus, though, in order to be really efficient, I2C devices should
-+be equipped with 50 ns spike filters.
-+
-+I2C devices can't be discovered like I3C ones and have to be statically
-+declared. In order to let the master know what these devices are capable of
-+(both in terms of bus related limitations and functionalities), the software
-+has to provide some information, which is done through the LVR (Legacy I2C
-+Virtual Register).
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index 6d9f2f9fe20e..cc6a33f232ea 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -32,6 +32,7 @@ available subsections can be seen below.
-    pci
-    spi
-    i2c
-+   i3c/index
-    hsi
-    edac
-    scsi
--- 
-2.14.1
-
+-- Luc
