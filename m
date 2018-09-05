@@ -1,383 +1,225 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7A357D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 15:39:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ADEBF7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 15:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726487AbeIEUKP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Sep 2018 16:10:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57810 "EHLO mail.kernel.org"
+        id S1727494AbeIEUL7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Sep 2018 16:11:59 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:54451 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726046AbeIEUKP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Sep 2018 16:10:15 -0400
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3332D2086B;
-        Wed,  5 Sep 2018 15:39:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1536161971;
-        bh=PdQTXZOuguakbvy2dbxgeJbQk8b/VenGT+A4dgxBaio=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=p4BkQ0tALUFLaaP+Vn/DfPUBBFzylbJFnpqf83rM36QX+zLJAQH2Jh+HneMLtU+A/
-         bBqJSrFpNw8lHaNADmBW7Dja6tHDx3oJnFT/ZSlBOH8esCRAomdhq12LdgLK3kZqvP
-         fjSM4zE1yu5GPBz/raFU2JU6qao0na27wJUdKeJA=
-Received: by mail-yb1-f175.google.com with SMTP id u33-v6so2844698ybi.8;
-        Wed, 05 Sep 2018 08:39:31 -0700 (PDT)
-X-Gm-Message-State: APzg51BsncCrAjlHXIH/Jz0OBOg7KZCpcEbo0+Ly5/Fwa0MOF5T1Xcqf
-        IvJQpZieptvnrMUGSs3+s7MK7+RoJPziFVoDccs=
-X-Google-Smtp-Source: ANB0VdYN3MnsESCBvAHu2mYRJftYCSM/DsTo3eHACgTk7Z5u575cdemWJ9iybvjLHp1EY9OQ0AwnJs0xpQ9DSNIGpV8=
-X-Received: by 2002:a25:adc6:: with SMTP id d6-v6mr13660513ybe.475.1536161970345;
- Wed, 05 Sep 2018 08:39:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180904212237.3078-1-atull@kernel.org> <20180904212237.3078-4-atull@kernel.org>
- <CAJYdmeO0RegP4q1tVow1U0=Zc42GEHMuqsHsvHvMqp89zZ6Wpw@mail.gmail.com>
-In-Reply-To: <CAJYdmeO0RegP4q1tVow1U0=Zc42GEHMuqsHsvHvMqp89zZ6Wpw@mail.gmail.com>
-From:   Alan Tull <atull@kernel.org>
-Date:   Wed, 5 Sep 2018 10:38:53 -0500
-X-Gmail-Original-Message-ID: <CANk1AXQaSLziycCv4X50xufehu7AgV34pxydxs8H14uFREy4YQ@mail.gmail.com>
-Message-ID: <CANk1AXQaSLziycCv4X50xufehu7AgV34pxydxs8H14uFREy4YQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] fpga: bridge: add devm_fpga_bridge_create
-To:     Moritz Fischer <moritz.fischer.private@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fpga@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726487AbeIEUL7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Sep 2018 16:11:59 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 78C7D20741; Wed,  5 Sep 2018 17:41:13 +0200 (CEST)
+Received: from localhost.localdomain (AAubervilliers-681-1-92-107.w90-88.abo.wanadoo.fr [90.88.33.107])
+        by mail.bootlin.com (Postfix) with ESMTPSA id B040120734;
+        Wed,  5 Sep 2018 17:41:12 +0200 (CEST)
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>,
+        Mike Shettel <mshettel@codeaurora.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Boris Brezillon <boris.brezillon@bootlin.com>
+Subject: [PATCH v7 00/10] Add the I3C subsystem
+Date:   Wed,  5 Sep 2018 17:40:58 +0200
+Message-Id: <20180905154108.20770-1-boris.brezillon@bootlin.com>
+X-Mailer: git-send-email 2.14.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 5, 2018 at 10:22 AM Moritz Fischer
-<moritz.fischer.private@gmail.com> wrote:
->
-> Hi Alan,
->
-> looks good to me: Small nit inline. Not a showstopper.
-> On Tue, Sep 4, 2018 at 2:22 PM Alan Tull <atull@kernel.org> wrote:
-> >
-> > Add devm_fpga_bridge_create() which is the managed
-> > version of fpga_bridge_create().
-> >
-> > Change current bridge drivers to use
-> > devm_fpga_bridge_create().
-> >
-> > Signed-off-by: Alan Tull <atull@kernel.org>
-> Acked-by: Moritz Fischer <mdf@kernel.org>
-> > Suggested-by: Federico Vaga <federico.vaga@cern.ch>
-> > ---
-> > v2: add suggested-by
-> > ---
-> >  Documentation/driver-api/fpga/fpga-bridge.rst |  3 ++
-> >  drivers/fpga/altera-fpga2sdram.c              |  8 ++-
-> >  drivers/fpga/altera-freeze-bridge.c           | 13 ++---
-> >  drivers/fpga/altera-hps2fpga.c                |  7 ++-
-> >  drivers/fpga/dfl-fme-br.c                     | 11 ++--
-> >  drivers/fpga/fpga-bridge.c                    | 72 +++++++++++++++++++++++----
-> >  drivers/fpga/xilinx-pr-decoupler.c            |  4 +-
-> >  include/linux/fpga/fpga-bridge.h              |  4 ++
-> >  8 files changed, 84 insertions(+), 38 deletions(-)
-> >
-> > diff --git a/Documentation/driver-api/fpga/fpga-bridge.rst b/Documentation/driver-api/fpga/fpga-bridge.rst
-> > index 2c2aaca..ebbcbde 100644
-> > --- a/Documentation/driver-api/fpga/fpga-bridge.rst
-> > +++ b/Documentation/driver-api/fpga/fpga-bridge.rst
-> > @@ -11,6 +11,9 @@ API to implement a new FPGA bridge
-> >     :functions: fpga_bridge_ops
-> >
-> >  .. kernel-doc:: drivers/fpga/fpga-bridge.c
-> > +   :functions: devm_fpga_bridge_create
-> > +
-> > +.. kernel-doc:: drivers/fpga/fpga-bridge.c
-> >     :functions: fpga_bridge_create
-> >
-> >  .. kernel-doc:: drivers/fpga/fpga-bridge.c
-> > diff --git a/drivers/fpga/altera-fpga2sdram.c b/drivers/fpga/altera-fpga2sdram.c
-> > index 23660cc..a78e49c 100644
-> > --- a/drivers/fpga/altera-fpga2sdram.c
-> > +++ b/drivers/fpga/altera-fpga2sdram.c
-> > @@ -121,18 +121,16 @@ static int alt_fpga_bridge_probe(struct platform_device *pdev)
-> >         /* Get f2s bridge configuration saved in handoff register */
-> >         regmap_read(sysmgr, SYSMGR_ISWGRP_HANDOFF3, &priv->mask);
-> >
-> > -       br = fpga_bridge_create(dev, F2S_BRIDGE_NAME,
-> > -                               &altera_fpga2sdram_br_ops, priv);
-> > +       br = devm_fpga_bridge_create(dev, F2S_BRIDGE_NAME,
-> > +                                    &altera_fpga2sdram_br_ops, priv);
-> >         if (!br)
-> >                 return -ENOMEM;
-> >
-> >         platform_set_drvdata(pdev, br);
-> >
-> >         ret = fpga_bridge_register(br);
-> > -       if (ret) {
-> > -               fpga_bridge_free(br);
-> > +       if (ret)
-> >                 return ret;
-> > -       }
-> >
-> >         dev_info(dev, "driver initialized with handoff %08x\n", priv->mask);
-> >
-> > diff --git a/drivers/fpga/altera-freeze-bridge.c b/drivers/fpga/altera-freeze-bridge.c
-> > index ffd586c..dd58c4a 100644
-> > --- a/drivers/fpga/altera-freeze-bridge.c
-> > +++ b/drivers/fpga/altera-freeze-bridge.c
-> > @@ -213,7 +213,6 @@ static int altera_freeze_br_probe(struct platform_device *pdev)
-> >         struct fpga_bridge *br;
-> >         struct resource *res;
-> >         u32 status, revision;
-> > -       int ret;
-> >
-> >         if (!np)
-> >                 return -ENODEV;
-> > @@ -245,20 +244,14 @@ static int altera_freeze_br_probe(struct platform_device *pdev)
-> >
-> >         priv->base_addr = base_addr;
-> >
-> > -       br = fpga_bridge_create(dev, FREEZE_BRIDGE_NAME,
-> > -                               &altera_freeze_br_br_ops, priv);
-> > +       br = devm_fpga_bridge_create(dev, FREEZE_BRIDGE_NAME,
-> > +                                    &altera_freeze_br_br_ops, priv);
-> >         if (!br)
-> >                 return -ENOMEM;
-> >
-> >         platform_set_drvdata(pdev, br);
-> >
-> > -       ret = fpga_bridge_register(br);
-> > -       if (ret) {
-> > -               fpga_bridge_free(br);
-> > -               return ret;
-> > -       }
-> > -
-> > -       return 0;
-> > +       return fpga_bridge_register(br);
-> >  }
-> >
-> >  static int altera_freeze_br_remove(struct platform_device *pdev)
-> > diff --git a/drivers/fpga/altera-hps2fpga.c b/drivers/fpga/altera-hps2fpga.c
-> > index a974d3f..77b95f2 100644
-> > --- a/drivers/fpga/altera-hps2fpga.c
-> > +++ b/drivers/fpga/altera-hps2fpga.c
-> > @@ -180,7 +180,8 @@ static int alt_fpga_bridge_probe(struct platform_device *pdev)
-> >                 }
-> >         }
-> >
-> > -       br = fpga_bridge_create(dev, priv->name, &altera_hps2fpga_br_ops, priv);
-> > +       br = devm_fpga_bridge_create(dev, priv->name,
-> > +                                    &altera_hps2fpga_br_ops, priv);
-> >         if (!br) {
-> >                 ret = -ENOMEM;
-> >                 goto err;
-> > @@ -190,12 +191,10 @@ static int alt_fpga_bridge_probe(struct platform_device *pdev)
-> >
-> >         ret = fpga_bridge_register(br);
-> >         if (ret)
-> > -               goto err_free;
-> > +               goto err;
-> >
-> >         return 0;
-> >
-> > -err_free:
-> > -       fpga_bridge_free(br);
-> >  err:
-> >         clk_disable_unprepare(priv->clk);
-> >
-> > diff --git a/drivers/fpga/dfl-fme-br.c b/drivers/fpga/dfl-fme-br.c
-> > index 7cc041d..3ff9f3a 100644
-> > --- a/drivers/fpga/dfl-fme-br.c
-> > +++ b/drivers/fpga/dfl-fme-br.c
-> > @@ -61,7 +61,6 @@ static int fme_br_probe(struct platform_device *pdev)
-> >         struct device *dev = &pdev->dev;
-> >         struct fme_br_priv *priv;
-> >         struct fpga_bridge *br;
-> > -       int ret;
-> >
-> >         priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> >         if (!priv)
-> > @@ -69,18 +68,14 @@ static int fme_br_probe(struct platform_device *pdev)
-> >
-> >         priv->pdata = dev_get_platdata(dev);
-> >
-> > -       br = fpga_bridge_create(dev, "DFL FPGA FME Bridge",
-> > -                               &fme_bridge_ops, priv);
-> > +       br = devm_fpga_bridge_create(dev, "DFL FPGA FME Bridge",
-> > +                                    &fme_bridge_ops, priv);
-> >         if (!br)
-> >                 return -ENOMEM;
-> >
-> >         platform_set_drvdata(pdev, br);
-> >
-> > -       ret = fpga_bridge_register(br);
-> > -       if (ret)
-> > -               fpga_bridge_free(br);
-> > -
-> > -       return ret;
-> > +       return fpga_bridge_register(br);
-> >  }
-> >
-> >  static int fme_br_remove(struct platform_device *pdev)
-> > diff --git a/drivers/fpga/fpga-bridge.c b/drivers/fpga/fpga-bridge.c
-> > index 24b8f98..c39d35f 100644
-> > --- a/drivers/fpga/fpga-bridge.c
-> > +++ b/drivers/fpga/fpga-bridge.c
-> > @@ -324,6 +324,9 @@ ATTRIBUTE_GROUPS(fpga_bridge);
-> >   * @br_ops:    pointer to structure of fpga bridge ops
-> >   * @priv:      FPGA bridge private data
-> >   *
-> > + * The caller of this function is responsible for freeing the bridge with
-> > + * fpga_bridge_free().  Using devm_fpga_bridge_create() instead is recommended.
-> > + *
-> >   * Return: struct fpga_bridge or NULL
-> >   */
-> >  struct fpga_bridge *fpga_bridge_create(struct device *dev, const char *name,
-> > @@ -378,8 +381,8 @@ struct fpga_bridge *fpga_bridge_create(struct device *dev, const char *name,
-> >  EXPORT_SYMBOL_GPL(fpga_bridge_create);
-> >
-> >  /**
-> > - * fpga_bridge_free - free a fpga bridge and its id
-> > - * @bridge:    FPGA bridge struct created by fpga_bridge_create
-> > + * fpga_bridge_free - free a fpga bridge created by fpga_bridge_create()
-> > + * @bridge:    FPGA bridge struct
-> >   */
-> >  void fpga_bridge_free(struct fpga_bridge *bridge)
-> >  {
-> > @@ -388,9 +391,56 @@ void fpga_bridge_free(struct fpga_bridge *bridge)
-> >  }
-> >  EXPORT_SYMBOL_GPL(fpga_bridge_free);
-> >
-> > +static void devm_fpga_bridge_release(struct device *dev, void *res)
-> > +{
-> > +       struct fpga_bridge *bridge = *(struct fpga_bridge **)res;
-> > +
-> > +       fpga_bridge_free(bridge);
-> > +}
-> > +
-> >  /**
-> > - * fpga_bridge_register - register a fpga bridge
-> > - * @bridge:    FPGA bridge struct created by fpga_bridge_create
-> > + * devm_fpga_bridge_create - create and init a managed struct fpga_bridge
-> > + * @dev:       FPGA bridge device from pdev
-> > + * @name:      FPGA bridge name
-> > + * @br_ops:    pointer to structure of fpga bridge ops
-> > + * @priv:      FPGA bridge private data
-> > + *
-> > + * This function is intended for use in a FPGA bridge driver's probe function.
-> > + * After the bridge driver creates the struct with devm_fpga_bridge_create(), it
-> > + * should register the bridge with fpga_bridge_register().  The bridge driver's
-> > + * remove function should call fpga_bridge_unregister().  The bridge struct
-> > + * allocated with this function will be freed automatically on driver detach.
-> > + * This includes the case of a probe function returning error before calling
-> > + * fpga_bridge_register(), the struct will still get cleaned up.
-> > + *
-> > + *  Return: struct fpga_bridge or NULL
-> > + */
-> > +struct fpga_bridge
-> > +*devm_fpga_bridge_create(struct device *dev, const char *name,
-> > +                        const struct fpga_bridge_ops *br_ops, void *priv)
-> > +{
-> > +       struct fpga_bridge **ptr, *bridge;
-> > +
-> > +       ptr = devres_alloc(devm_fpga_bridge_release, sizeof(*ptr), GFP_KERNEL);
-> > +       if (!ptr)
-> > +               return NULL;
-> > +
-> > +       bridge = fpga_bridge_create(dev, name, br_ops, priv);
-> > +       if (!bridge) {
-> > +               devres_free(ptr);
-> > +       } else {
-> > +               *ptr = bridge;
-> > +               devres_add(dev, ptr);
-> > +       }
-> > +
-> > +       return bridge;
-> > +}
-> > +EXPORT_SYMBOL_GPL(devm_fpga_bridge_create);
-> > +
-> > +/**
-> > + * fpga_bridge_register - register a FPGA bridge
-> > + *
-> > + * @bridge: FPGA bridge struct
-> >   *
-> >   * Return: 0 for success, error code otherwise.
-> >   */
-> > @@ -412,8 +462,15 @@ int fpga_bridge_register(struct fpga_bridge *bridge)
-> >  EXPORT_SYMBOL_GPL(fpga_bridge_register);
-> >
-> >  /**
-> > - * fpga_bridge_unregister - unregister and free a fpga bridge
-> > - * @bridge:    FPGA bridge struct created by fpga_bridge_create
-> > + * fpga_bridge_unregister - unregister a FPGA bridge
-> > + *
-> > + * @bridge: FPGA bridge struct
-> > + *
-> > + * This function is intended for use in a FPGA bridge driver's remove function.
-> > + * If the bridge was created with devm_fpga_bridge_create(), the bridge struct
-> > + * will be automatically freed.  If the bridge was created with
-> > + * fpga_bridge_create(), the caller is responsible for freeing the bridge with
-> > + * fpga_bridge_free().
->
-> I find the formulation somewhat confusing, since it could be
-> interpreted as if you
-> used the devm_() functions you don't have to call unregister().
+This patch series is adding a new subsystem to support I3C devices.
 
-Yes I'm being too verbose and it's making things muddled.  How about
-if I take out the part that starts with "If bridge was created..."?
-That just leaves "This function is intended for use in a FPGA bridge
-driver's remove function."
+This is just adding basic features of the protocol, and new features
+will be added afterwards.
 
-Alan
+There are a few design choices that are worth mentioning because they
+impact the way I3C device drivers can interact with their devices:
 
-> >   */
-> >  void fpga_bridge_unregister(struct fpga_bridge *bridge)
-> >  {
-> > @@ -430,9 +487,6 @@ EXPORT_SYMBOL_GPL(fpga_bridge_unregister);
-> >
-> >  static void fpga_bridge_dev_release(struct device *dev)
-> >  {
-> > -       struct fpga_bridge *bridge = to_fpga_bridge(dev);
-> > -
-> > -       fpga_bridge_free(bridge);
-> >  }
-> >
-> >  static int __init fpga_bridge_dev_init(void)
-> > diff --git a/drivers/fpga/xilinx-pr-decoupler.c b/drivers/fpga/xilinx-pr-decoupler.c
-> > index 07ba153..6410361 100644
-> > --- a/drivers/fpga/xilinx-pr-decoupler.c
-> > +++ b/drivers/fpga/xilinx-pr-decoupler.c
-> > @@ -121,8 +121,8 @@ static int xlnx_pr_decoupler_probe(struct platform_device *pdev)
-> >
-> >         clk_disable(priv->clk);
-> >
-> > -       br = fpga_bridge_create(&pdev->dev, "Xilinx PR Decoupler",
-> > -                               &xlnx_pr_decoupler_br_ops, priv);
-> > +       br = devm_fpga_bridge_create(&pdev->dev, "Xilinx PR Decoupler",
-> > +                                    &xlnx_pr_decoupler_br_ops, priv);
-> >         if (!br) {
-> >                 err = -ENOMEM;
-> >                 goto err_clk;
-> > diff --git a/include/linux/fpga/fpga-bridge.h b/include/linux/fpga/fpga-bridge.h
-> > index ce550fc..817600a 100644
-> > --- a/include/linux/fpga/fpga-bridge.h
-> > +++ b/include/linux/fpga/fpga-bridge.h
-> > @@ -69,4 +69,8 @@ void fpga_bridge_free(struct fpga_bridge *br);
-> >  int fpga_bridge_register(struct fpga_bridge *br);
-> >  void fpga_bridge_unregister(struct fpga_bridge *br);
-> >
-> > +struct fpga_bridge
-> > +*devm_fpga_bridge_create(struct device *dev, const char *name,
-> > +                        const struct fpga_bridge_ops *br_ops, void *priv);
-> > +
-> >  #endif /* _LINUX_FPGA_BRIDGE_H */
-> > --
-> > 2.7.4
-> >
->
-> Thanks,
->
-> Moritz
+- all functions used to send I3C/I2C frames must be called in
+  non-atomic context. Mainly done this way to ease implementation, but
+  this is still open to discussion. Please let me know if you think it's
+  worth considering an asynchronous model here
+- the I3C bus and I3C master controller are now tightly coupled even
+  though they're still allocated separately. There's now a 1:1
+  relationship between these objects, and the I3C master is no longer
+  represented under the I3C bus object.
+  Arnd, let me know if you had something different in mind, and I'll
+  rework the implementation accordingly.
+
+- I2C backward compatibility has been designed to be transparent to I2C
+  drivers and the I2C subsystem. The I3C master just registers an I2C
+  adapter which creates a new I2C bus. I'd say that, from a
+  representation PoV it's not ideal because what should appear as a
+  single I3C bus exposing I3C and I2C devices here appears as 2
+  different busses connected to each other through the parenting (the
+  I3C master is the parent of the I2C and I3C busses).
+  On the other hand, I don't see a better solution if we want something
+  that is not invasive.
+
+Missing features (will be added in separate patch series after initial
+support has been accepted/merged):
+- support for HDR modes (has been removed because of lack of real users)
+- no support for multi-master and the associated concepts (mastership
+  handover, support for secondary masters, ...)
+- I2C devices can only be described using DT because this is the only
+  use case I have. However, the framework can easily be extended with
+  ACPI and board info support
+- I3C slave framework. This has been completely omitted, but shouldn't
+  have a huge impact on the I3C framework because I3C slaves don't see
+  the whole bus, it's only about handling master requests and generating
+  IBIs. Some of the struct, constant and enum definitions could be
+  shared, but most of the I3C slave framework logic will be different
+
+Note that this patchset is available on the linux-i3c repo[1].
+
+Main changes between v6 and v7:
+- I3C bus/master representations have been reworked to match what other
+  subsystems are doing (master implicitly represented by the bus
+  object)
+- I3C dev registration has been fixed
+- I3C bus mode selection has been fixed
+- Calls to readsl/writesl() in the Cadence I3C master driver have been
+  fixed
+
+Main changes between v5 and v6:
+- Introduce {i3c,i2c}_dev_desc structures to better match how I3C
+  master controllers (reservation of one HW slot for each device
+  attached to the bus). With this solution, the resource migration
+  that happens when a device lose its dynamic address and is
+  re-assigned a different address is simplified on the driver side,
+  because most of it is now handled in the core (reserve a new dev
+  slot, reserve IBI resources and free all resources attached to the
+  old slot)
+- Add I3C error codes (M0 to M2) so that the core and device drivers
+  can have fine grained information on what caused an EIO error.
+
+Only minor things happened between v3 and v5 (you can go check the
+changelog in each patch for more details).
+
+Main changes between v2 and v3 are:
+- Reworked the DT bindings as suggested by Rob
+- Reworked the bus initialization step as suggested by Vitor
+- Added a driver for an I3C GPIO expander
+
+Main changes between the initial RFC and this v2 are:
+- Add a generic infrastructure to support IBIs. It's worth mentioning
+  that I tried exposing IBIs as a regular IRQs, but after several
+  attempts and a discussion with Mark Zyngier, it appeared that it was
+  not really fitting in the Linux IRQ model (the fact that you have
+  payload attached to IBIs, the fact that most of the time an IBI will
+  generate a transfer on the bus which has to be done in an atomic
+  context, ...)
+  The counterpart of this decision is the latency induced by the
+  workqueue approach, but since I don't have real use cases, I don't
+  know if this can be a problem or not. 
+- Add helpers to support Hot Join
+- Add support for IBIs and Hot Join in Cadence I3C master driver
+- Address several issues in how I was using the device model
+
+Thanks,
+
+Boris
+
+[1]https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git/log/?h=i3c/next
+
+Boris Brezillon (10):
+  i3c: Add core I3C infrastructure
+  docs: driver-api: Add I3C documentation
+  i3c: Add sysfs ABI spec
+  dt-bindings: i3c: Document core bindings
+  dt-bindings: i3c: Add macros to help fill I3C/I2C device's reg
+    property
+  MAINTAINERS: Add myself as the I3C subsystem maintainer
+  i3c: master: Add driver for Cadence IP
+  dt-bindings: i3c: Document Cadence I3C master bindings
+  gpio: Add a driver for Cadence I3C GPIO expander
+  dt-bindings: gpio: Add bindings for Cadence I3C gpio expander
+
+ Documentation/ABI/testing/sysfs-bus-i3c            |  146 ++
+ .../devicetree/bindings/gpio/gpio-cdns-i3c.txt     |   39 +
+ .../devicetree/bindings/i3c/cdns,i3c-master.txt    |   44 +
+ Documentation/devicetree/bindings/i3c/i3c.txt      |  140 ++
+ Documentation/driver-api/i3c/device-driver-api.rst |    9 +
+ Documentation/driver-api/i3c/index.rst             |   11 +
+ Documentation/driver-api/i3c/master-driver-api.rst |   10 +
+ Documentation/driver-api/i3c/protocol.rst          |  203 ++
+ Documentation/driver-api/index.rst                 |    1 +
+ MAINTAINERS                                        |   12 +
+ drivers/Kconfig                                    |    2 +
+ drivers/Makefile                                   |    2 +-
+ drivers/gpio/Kconfig                               |   11 +
+ drivers/gpio/Makefile                              |    1 +
+ drivers/gpio/gpio-cdns-i3c.c                       |  411 ++++
+ drivers/i3c/Kconfig                                |   24 +
+ drivers/i3c/Makefile                               |    4 +
+ drivers/i3c/core.c                                 |  623 ++++++
+ drivers/i3c/device.c                               |  233 +++
+ drivers/i3c/internals.h                            |   36 +
+ drivers/i3c/master.c                               | 2074 ++++++++++++++++++++
+ drivers/i3c/master/Kconfig                         |    6 +
+ drivers/i3c/master/Makefile                        |    1 +
+ drivers/i3c/master/i3c-master-cdns.c               | 1668 ++++++++++++++++
+ include/dt-bindings/i3c/i3c.h                      |   28 +
+ include/linux/i3c/ccc.h                            |  385 ++++
+ include/linux/i3c/device.h                         |  331 ++++
+ include/linux/i3c/master.h                         |  653 ++++++
+ include/linux/mod_devicetable.h                    |   17 +
+ 29 files changed, 7124 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
+ create mode 100644 Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
+ create mode 100644 Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
+ create mode 100644 Documentation/devicetree/bindings/i3c/i3c.txt
+ create mode 100644 Documentation/driver-api/i3c/device-driver-api.rst
+ create mode 100644 Documentation/driver-api/i3c/index.rst
+ create mode 100644 Documentation/driver-api/i3c/master-driver-api.rst
+ create mode 100644 Documentation/driver-api/i3c/protocol.rst
+ create mode 100644 drivers/gpio/gpio-cdns-i3c.c
+ create mode 100644 drivers/i3c/Kconfig
+ create mode 100644 drivers/i3c/Makefile
+ create mode 100644 drivers/i3c/core.c
+ create mode 100644 drivers/i3c/device.c
+ create mode 100644 drivers/i3c/internals.h
+ create mode 100644 drivers/i3c/master.c
+ create mode 100644 drivers/i3c/master/Kconfig
+ create mode 100644 drivers/i3c/master/Makefile
+ create mode 100644 drivers/i3c/master/i3c-master-cdns.c
+ create mode 100644 include/dt-bindings/i3c/i3c.h
+ create mode 100644 include/linux/i3c/ccc.h
+ create mode 100644 include/linux/i3c/device.h
+ create mode 100644 include/linux/i3c/master.h
+
+-- 
+2.14.1
+
