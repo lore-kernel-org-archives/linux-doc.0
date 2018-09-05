@@ -5,20 +5,20 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 70BD57D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 15:42:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 76C2E7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 15:42:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727257AbeIEUMC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1727688AbeIEUMC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 5 Sep 2018 16:12:02 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:54513 "EHLO mail.bootlin.com"
+Received: from mail.bootlin.com ([62.4.15.54]:54524 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727234AbeIEUMB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727257AbeIEUMB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 5 Sep 2018 16:12:01 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 8D76120795; Wed,  5 Sep 2018 17:41:15 +0200 (CEST)
+        id 3052920799; Wed,  5 Sep 2018 17:41:16 +0200 (CEST)
 Received: from localhost.localdomain (AAubervilliers-681-1-92-107.w90-88.abo.wanadoo.fr [90.88.33.107])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D8DE82071E;
-        Wed,  5 Sep 2018 17:41:14 +0200 (CEST)
+        by mail.bootlin.com (Postfix) with ESMTPSA id 7C1EC20734;
+        Wed,  5 Sep 2018 17:41:15 +0200 (CEST)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -50,9 +50,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Mike Shettel <mshettel@codeaurora.org>,
         Stephen Boyd <swboyd@chromium.org>,
         Boris Brezillon <boris.brezillon@bootlin.com>
-Subject: [PATCH v7 03/10] i3c: Add sysfs ABI spec
-Date:   Wed,  5 Sep 2018 17:41:01 +0200
-Message-Id: <20180905154108.20770-4-boris.brezillon@bootlin.com>
+Subject: [PATCH v7 04/10] dt-bindings: i3c: Document core bindings
+Date:   Wed,  5 Sep 2018 17:41:02 +0200
+Message-Id: <20180905154108.20770-5-boris.brezillon@bootlin.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180905154108.20770-1-boris.brezillon@bootlin.com>
 References: <20180905154108.20770-1-boris.brezillon@bootlin.com>
@@ -61,188 +61,183 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document sysfs files/directories/symlinks exposed by the I3C subsystem.
+A new I3C subsystem has been added and a generic description has been
+created to represent the I3C bus and the devices connected on it.
+
+Document this generic representation.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
-Changes in v7:
-- Bump KernelVersion to 4.20
-- Add new entries under i3c-<bus-id> now that the master controller is
-  no longer represented as a device under this directory but implicitly
-  represented by the bus object
-
-Changes in v6:
-- none
-
 Changes in v5:
-- Fix the kernel version
-- Rename address into dynamic_address to match changes done in the code
+- Add Rob's R-b
 
 Changes in v4:
-- none
+- Clarify the fact that static address == I3C address and dynamic
+  address == I3C address
+- Use i2c-scl-hz in the example
 
 Changes in v3:
-- none
+- Rename {i2c,i3c}-scl-frequency DT prop into {i2c,i3c}-scl-hz
+- Rework the way we expose the provisional ID and LVR information
+- Rename dynamic-address into assigned-address
+- Enforce the I3C master node name
 
 Changes in v2:
-- new patch
+- Define how to describe I3C devices in the DT and when it should be
+  used. Note that the parsing of I3C devices is not yet implemented in
+  the framework. Will be added when someone really needs it.
 ---
- Documentation/ABI/testing/sysfs-bus-i3c | 146 ++++++++++++++++++++++++++++++++
- 1 file changed, 146 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
+ Documentation/devicetree/bindings/i3c/i3c.txt | 140 ++++++++++++++++++++++++++
+ 1 file changed, 140 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i3c/i3c.txt
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-i3c b/Documentation/ABI/testing/sysfs-bus-i3c
+diff --git a/Documentation/devicetree/bindings/i3c/i3c.txt b/Documentation/devicetree/bindings/i3c/i3c.txt
 new file mode 100644
-index 000000000000..d7c7485b0c17
+index 000000000000..13b719f1ef15
 --- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-i3c
-@@ -0,0 +1,146 @@
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		An I3C bus. This directory will contain one sub-directory per
-+		I3C device present on the bus.
++++ b/Documentation/devicetree/bindings/i3c/i3c.txt
+@@ -0,0 +1,140 @@
++Generic device tree bindings for I3C busses
++===========================================
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/current_master
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		Expose the master that owns the bus (<bus-id>-<master-pid>) at
-+		the time this file is read. Note that bus ownership can change
-+		overtime, so there's no guarantee that when the read() call
-+		returns, the value returned is still valid.
++This document describes generic bindings that should be used to describe I3C
++busses in a device tree.
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/mode
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		I3C bus mode. Can be "pure", "mixed-fast" or "mixed-slow". See
-+		the I3C specification for a detailed description of what each
-+		of these modes implies.
++Required properties
++-------------------
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/i3c_scl_frequency
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		The frequency (expressed in Hz) of the SCL signal when
-+		operating in I3C SDR mode.
++- #address-cells  - should be <3>. Read more about addresses below.
++- #size-cells     - should be <0>.
++- compatible      - name of the I3C master controller driving the I3C bus
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/i2c_scl_frequency
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		The frequency (expressed in Hz) of the SCL signal when
-+		operating in I2C mode.
++For other required properties e.g. to describe register sets,
++clocks, etc. check the binding documentation of the specific driver.
++The node describing an I3C bus should be named i3c-master.
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/dynamic_address
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		Dynamic address assigned to the master controller. This
-+		address may change if the bus is re-initialized.
++Optional properties
++-------------------
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/bcr
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		BCR stands for Bus Characteristics Register and express the
-+		device capabilities in term of speed, maximum read/write
-+		length, etc. See the I3C specification for more details.
-+		This entry describes the BCR of the master controller driving
-+		the bus.
++These properties may not be supported by all I3C master drivers. Each I3C
++master bindings should specify which of them are supported.
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/dcr
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		DCR stands for Device Characteristics Register and express the
-+		device capabilities in term of exposed features. See the I3C
-+		specification for more details.
-+		This entry describes the DCR of the master controller driving
-+		the bus.
++- i3c-scl-hz: frequency of the SCL signal used for I3C transfers.
++	      When undefined the core sets it to 12.5MHz.
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/pid
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		PID stands for Provisional ID and is used to uniquely identify
-+		a device on a bus. This PID contains information about the
-+		vendor, the part and an instance ID so that several devices of
-+		the same type can be connected on the same bus.
-+		See the I3C specification for more details.
-+		This entry describes the PID of the master controller driving
-+		the bus.
++- i2c-scl-hz: frequency of the SCL signal used for I2C transfers.
++	      When undefined, the core looks at LVR (Legacy Virtual Register)
++	      values of I2C devices described in the device tree to determine
++	      the maximum I2C frequency.
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/hdrcap
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		Expose the HDR (High Data Rate) capabilities of a device.
-+		Returns a list of supported HDR mode, each element is separated
-+		by space. Modes can be "hdr-ddr", "hdr-tsp" and "hdr-tsl".
-+		See the I3C specification for more details about these HDR
-+		modes.
-+		This entry describes the HDRCAP of the master controller
-+		driving the bus.
++I2C devices
++===========
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		An I3C device present on I3C bus identified by <bus-id>. Note
-+		that all devices are represented including the master driving
-+		the bus.
++Each I2C device connected to the bus should be described in a subnode. All
++properties described in Documentation/devicetree/bindings/i2c/i2c.txt are
++valid here, but several new properties have been added.
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/dynamic_address
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		Dynamic address assigned to device <bus-id>-<device-pid>. This
-+		address may change if the bus is re-initialized.
++New constraint on existing properties:
++--------------------------------------
++- reg: contains 3 cells
++  + first cell : still encoding the I2C address
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/bcr
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		BCR stands for Bus Characteristics Register and express the
-+		device capabilities in term of speed, maximum read/write
-+		length, etc. See the I3C specification for more details.
++  + second cell: should have bit 31 set to 1 to signify that this is an I2C
++		 device. Bits 0 to 7 encode the I3C LVR (Legacy Virtual
++		 Register):
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/dcr
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		DCR stands for Device Characteristics Register and express the
-+		device capabilities in term of exposed features. See the I3C
-+		specification for more details.
++	bit[7:5]: I2C device index. Possible values
++	* 0: I2C device has a 50 ns spike filter
++	* 1: I2C device does not have a 50 ns spike filter but supports high
++	     frequency on SCL
++	* 2: I2C device does not have a 50 ns spike filter and is not tolerant
++	     to high frequencies
++	* 3-7: reserved
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/pid
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		PID stands for Provisional ID and is used to uniquely identify
-+		a device on a bus. This PID contains information about the
-+		vendor, the part and an instance ID so that several devices of
-+		the same type can be connected on the same bus.
-+		See the I3C specification for more details.
++	bit[4]: tell whether the device operates in FM (Fast Mode) or FM+ mode
++	* 0: FM+ mode
++	* 1: FM mode
 +
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/hdrcap
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		Expose the HDR (High Data Rate) capabilities of a device.
-+		Returns a list of supported HDR mode, each element is separated
-+		by space. Modes can be "hdr-ddr", "hdr-tsp" and "hdr-tsl".
-+		See the I3C specification for more details about these HDR
-+		modes.
++	bit[3:0]: device type
++	* 0-15: reserved
 +
-+What:		/sys/bus/i3c/devices/<bus-id>-<device-pid>
-+KernelVersion:  4.20
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		These directories are just symbolic links to
-+		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>.
++  + third cell: should be 0
++
++I3C devices
++===========
++
++All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
++are thus discoverable. So, by default, I3C devices do not have to be described
++in the device tree.
++This being said, one might want to attach extra resources to these devices,
++and those resources may have to be described in the device tree, which in turn
++means we have to describe I3C devices.
++
++Another use case for describing an I3C device in the device tree is when this
++I3C device has a static I2C address and we want to assign it a specific I3C
++dynamic address before the DAA takes place (so that other devices on the bus
++can't take this dynamic address).
++
++The I3C device should be names <device-type>@<static-i2c-address>,<i3c-pid>,
++where device-type is describing the type of device connected on the bus
++(gpio-controller, sensor, ...).
++
++Required properties
++-------------------
++- reg: contains 3 cells
++  + first cell : encodes the static I2C address. Should be 0 if the device does
++		 not have one (0 is not a valid I2C address).
++
++  + second and third cells: should encode the ProvisionalID. The second cell
++			    contains the manufacturer ID left-shifted by 1.
++			    The third cell contains ORing of the part ID
++			    left-shifted by 16, the instance ID left-shifted
++			    by 12 and the extra information. This encoding is
++			    following the PID definition provided by the I3C
++			    specification.
++
++Optional properties
++-------------------
++- assigned-address: dynamic address to be assigned to this device. This
++		    property is only valid if the I3C device has a static
++		    address (first cell of the reg property != 0).
++
++
++Example:
++
++	i3c-master@d040000 {
++		compatible = "cdns,i3c-master";
++		clocks = <&coreclock>, <&i3csysclock>;
++		clock-names = "pclk", "sysclk";
++		interrupts = <3 0>;
++		reg = <0x0d040000 0x1000>;
++		#address-cells = <3>;
++		#size-cells = <0>;
++
++		status = "okay";
++		i2c-scl-hz = <100000>;
++
++		/* I2C device. */
++		nunchuk: nunchuk@52 {
++			compatible = "nintendo,nunchuk";
++			reg = <0x52 0x80000010 0x0>;
++		};
++
++		/* I3C device with a static I2C address. */
++		thermal_sensor: sensor@68,39200144004 {
++			reg = <0x68 0x392 0x144004>;
++			assigned-address = <0xa>;
++		};
++
++		/*
++		 * I3C device without a static I2C address but requiring
++		 * resources described in the DT.
++		 */
++		sensor@0,39200154004 {
++			reg = <0x0 0x392 0x154004>;
++			clocks = <&clock_provider 0>;
++		};
++	};
++
 -- 
 2.14.1
 
