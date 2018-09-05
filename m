@@ -3,49 +3,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CEBF97D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 09:59:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 796357D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 09:59:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728109AbeIEO1l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Sep 2018 10:27:41 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:38571 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728318AbeIEO1k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 10:27:40 -0400
-Received: by mail-wr1-f66.google.com with SMTP id w11-v6so6969210wrc.5
-        for <linux-doc@vger.kernel.org>; Wed, 05 Sep 2018 02:58:12 -0700 (PDT)
+        id S1728140AbeIEO1j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Sep 2018 10:27:39 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:35282 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728289AbeIEO1i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 10:27:38 -0400
+Received: by mail-wm0-f68.google.com with SMTP id o18-v6so7090997wmc.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Sep 2018 02:58:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=KZATZdgnPAoTpW/g3YD69XZQ2uG+BR5UrHmRyj2MT+4=;
-        b=olnzXgTH3/Ltt1LMC3672ncThv0/yug+JO4S7trU/KYDABVP0vhUpxYXDuvwP3sNBZ
-         ktplZBMkUoTbvNxwqhOv9/YX55QrlLFETdnfMNDwRXJaJgiD3AESGC1Up/3h7LUUrcSD
-         wZLt9eyQvvQbFuiPMKxmgvMQNFWjpeYNBpAOc5fEyOqA4EZKMNZZtuSUA/mm8edr7udK
-         GO5cpeM41Wh4Z7MA94GYwNMPA0Hyll7e+8k6KWHUb0pEwAJ+9Zps0D8FrD/CTt/9zpyN
-         Kfk+NvNuJsPaDHDyFdmdN1hNoIn03XcU6/N9acno505xC/GFi4CJOmtJq0y0WxCZpbqL
-         BfcQ==
+        bh=1PFkzde7HIbembuPSuldz/+wF0MJkUfGiNxQy31YmBk=;
+        b=uH2+9M1vAtnwku1Qa7KM2VgdAGrG0XLyYybPUYTA4fKQnCzh8i4nEBS3myuoDA12pY
+         lTCDRzkJIJvR0J9tNluzzXpp6xZtYIDeO+U1j8lacab7QYrOpiJrbvFRP7gVZf0eUOQs
+         v9nxKCAel0Nfn3nWryYtHcAICshAw0QLosvjAFMfdqKGaXdQS3SomqRoAR9ncyRkq/4I
+         kRjfapP/qsKxvX9izTIgyzQxZMZjTDdykvnLDW6wwTwBM/ZhM3tq41sUQYNRFgVUG7ID
+         oGUKD+WEl7ilca410ajmA78D+FkDQQOHmGtBsrC3iWoRqMaKK7sxE7FVWFPDG11nWFIu
+         YWGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=KZATZdgnPAoTpW/g3YD69XZQ2uG+BR5UrHmRyj2MT+4=;
-        b=HC+WtVI/mHXgQshbvxfiH7RQ1oiXmADo1Phcio8ONA5bCym3SP/UtPddat9/XedCYh
-         QAi8xM0wBkQumJ0FJ4pqORLe7LPxZ1lCGS9F/sZyJmcNG7l2EGSllRWA8wbqLY7MoN3o
-         M/pBSDeytUHcw7JyvrdRKaE7Q6Shq+0Fr4PhpQhK4fDfQsZkwV58otW01fDGXW+GltlT
-         IPaz8di5CN632kx3MX3hMTzIq4yUG9nmrJWgjQBuXoK+eI56tYx/29/zM5UQi3d+OjH7
-         qP/lJZFVMxcL51FK+5IgMBGDDaH/3P2kLQSKES2xSuXeat+IQ+xlxQ1Sj6eatuSpa6J8
-         35lA==
-X-Gm-Message-State: APzg51CYSKT1HGSqz1fKuhcaWQMvMLuftFYzCmVHPCm5HRVyS/We65Mu
-        Z+vFeiUl36c8reVwzkiVu6vmrA==
-X-Google-Smtp-Source: ANB0VdbMqkumKIpFHkyrlSMCbul69kVAIAiElW2PbvYQS6364VTCWpjIuorbqflVipqGPIfvmjBtpA==
-X-Received: by 2002:adf:f687:: with SMTP id v7-v6mr26018446wrp.201.1536141491703;
-        Wed, 05 Sep 2018 02:58:11 -0700 (PDT)
+        bh=1PFkzde7HIbembuPSuldz/+wF0MJkUfGiNxQy31YmBk=;
+        b=RmQFADPN6vy9d4raSGcBV8fMSi8BduLlmSmJMVN681lrkGvy2f0WxA/FCV9d5vabo9
+         2Bm2leNn2KSlM1ZLmRGal02uVzyLrcQkMLsrnwX/A3FgjlOYRtCOX5SAojtAu5YuyTmO
+         3T9SOgIBBJQkxWtgWE6sm0n3mkRvwyHuyBgJAvnViThloS0NI0deGoNpCiHxg6itvtfu
+         DM4BnSKZ4lsmbVD0Ga3t4Ws3oGv4RDCwU+1wsQw53Qk3N/e347VZjtXkQx4HWx9hGiIm
+         Z7P5kaI3TRDbNFaKtLkCAidAeJInlcrm2B/9pl/gFz0ciPIajAiuXRV+O5OEcXcuDkQo
+         4xNA==
+X-Gm-Message-State: APzg51DHCELVTgoH4115/VkmiHJqvNULYzscAi60A9aR8PzPgPSoWjkL
+        +ZB/ceK/HgtLvxH6j2yZ6Hc87g==
+X-Google-Smtp-Source: ANB0Vdbjycgs8VTG9HTFl1NgudxNUJQopymPyAJg8rzJUbjsM6UngJ4KzkdaBwotgzJ4H2Gn40hPvg==
+X-Received: by 2002:a1c:5e08:: with SMTP id s8-v6mr4925548wmb.88.1536141489278;
+        Wed, 05 Sep 2018 02:58:09 -0700 (PDT)
 Received: from brgl-bgdev.baylibre.local (AStLambert-681-1-33-235.w90-86.abo.wanadoo.fr. [90.86.152.235])
-        by smtp.gmail.com with ESMTPSA id l12-v6sm2127815wrv.29.2018.09.05.02.58.10
+        by smtp.gmail.com with ESMTPSA id l12-v6sm2127815wrv.29.2018.09.05.02.58.07
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Sep 2018 02:58:11 -0700 (PDT)
+        Wed, 05 Sep 2018 02:58:08 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Joachim Eastwood <manabian@gmail.com>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 06/13] nvmem: provide nvmem_dev_name()
-Date:   Wed,  5 Sep 2018 11:57:31 +0200
-Message-Id: <20180905095738.26406-7-brgl@bgdev.pl>
+Subject: [PATCH 04/13] nvmem: lpc18xx_eeprom: use devm_nvmem_register()
+Date:   Wed,  5 Sep 2018 11:57:29 +0200
+Message-Id: <20180905095738.26406-5-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180905095738.26406-1-brgl@bgdev.pl>
 References: <20180905095738.26406-1-brgl@bgdev.pl>
@@ -76,68 +76,37 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Kernel users don't have any means of checking the names of nvmem
-devices. Add a routine that returns the name of the nvmem provider.
-
-This will be useful for nvmem notifier subscribers - otherwise they
-can't check what device is being added/removed.
+Use the managed version of nvmem_register().
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c           | 13 +++++++++++++
- include/linux/nvmem-consumer.h |  8 ++++++++
- 2 files changed, 21 insertions(+)
+ drivers/nvmem/lpc18xx_eeprom.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 89b91f73d08a..364ee16e7d6a 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -1144,6 +1144,19 @@ int nvmem_device_write(struct nvmem_device *nvmem,
- }
- EXPORT_SYMBOL_GPL(nvmem_device_write);
+diff --git a/drivers/nvmem/lpc18xx_eeprom.c b/drivers/nvmem/lpc18xx_eeprom.c
+index a9534a6e8636..b42dbaddb419 100644
+--- a/drivers/nvmem/lpc18xx_eeprom.c
++++ b/drivers/nvmem/lpc18xx_eeprom.c
+@@ -236,7 +236,7 @@ static int lpc18xx_eeprom_probe(struct platform_device *pdev)
+ 	lpc18xx_nvmem_config.dev = dev;
+ 	lpc18xx_nvmem_config.priv = eeprom;
  
-+/**
-+ * nvmem_dev_name() - Get the name of a given nvmem device.
-+ *
-+ * @nvmem: nvmem device.
-+ *
-+ * Return: name of the nvmem device.
-+ */
-+const char *nvmem_dev_name(struct nvmem_device *nvmem)
-+{
-+	return dev_name(&nvmem->dev);
-+}
-+EXPORT_SYMBOL_GPL(nvmem_dev_name);
-+
- static int __init nvmem_init(void)
- {
- 	return bus_register(&nvmem_bus_type);
-diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-index 7e9fb5a19d91..1313da6731ff 100644
---- a/include/linux/nvmem-consumer.h
-+++ b/include/linux/nvmem-consumer.h
-@@ -43,6 +43,8 @@ int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
- int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
- 		       size_t bytes, void *buf);
+-	eeprom->nvmem = nvmem_register(&lpc18xx_nvmem_config);
++	eeprom->nvmem = devm_nvmem_register(dev, &lpc18xx_nvmem_config);
+ 	if (IS_ERR(eeprom->nvmem)) {
+ 		ret = PTR_ERR(eeprom->nvmem);
+ 		goto err_clk;
+@@ -257,10 +257,6 @@ static int lpc18xx_eeprom_remove(struct platform_device *pdev)
+ 	struct lpc18xx_eeprom_dev *eeprom = platform_get_drvdata(pdev);
+ 	int ret;
  
-+const char *nvmem_dev_name(struct nvmem_device *nvmem);
-+
- #else
+-	ret = nvmem_unregister(eeprom->nvmem);
+-	if (ret < 0)
+-		return ret;
+-
+ 	clk_disable_unprepare(eeprom->clk);
  
- static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
-@@ -117,6 +119,12 @@ static inline int nvmem_device_write(struct nvmem_device *nvmem,
- {
- 	return -ENOSYS;
- }
-+
-+static inline const char *nvmem_dev_name(struct nvmem_device *nvmem)
-+{
-+	return NULL;
-+}
-+
- #endif /* CONFIG_NVMEM */
- 
- #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
+ 	return 0;
 -- 
 2.18.0
 
