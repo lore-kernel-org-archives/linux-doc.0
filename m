@@ -3,122 +3,157 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 621C77D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 09:59:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C69927D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 11:42:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727586AbeIEO3C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Sep 2018 10:29:02 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34839 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726999AbeIEO1c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 10:27:32 -0400
-Received: by mail-wr1-f66.google.com with SMTP id j26-v6so6990671wre.2
-        for <linux-doc@vger.kernel.org>; Wed, 05 Sep 2018 02:58:04 -0700 (PDT)
+        id S1727527AbeIEQMK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Sep 2018 12:12:10 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:34461 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbeIEQMK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 12:12:10 -0400
+Received: by mail-lj1-f194.google.com with SMTP id f8-v6so5975800ljk.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Sep 2018 04:42:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=1esYnT12DAU+a8ymd1+Yc6yh/+Mab4WiQa0qKqtIV+E=;
-        b=qnjbugl7MMvhDYPxF/sEelqKaDMuic9dfK2P7ViI+r/OiUsOiXNKwI9rZbg1/tjsxL
-         KB7EGR+5673Ci4tIjuWn2Ssr5BuATBmsFAv8pyZsiOGVhMiSoOxC9SmPiqQoH2DaAhic
-         RAjeP0REzCufar081Hvo3oCWlOdo01IEVn2vwz/F/lpv/hOsNeTpIT6HXJAKxmZD9xIV
-         wTqoqPXirfRxOR8XZ3L+G99ulIWHSuusdgcrqTWZcT06XfvqIdtocYVl/GPXtfL3IqUd
-         I+t9dsh45rkSz7laEWBYIHW2vDJVV+oOt1GzZby/376yMRenhSfPp83gbd33myARh/TS
-         ycpQ==
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uICETPQSbfhNJtjwfuh9flj/2Me5hbTHSjQ2WxyhSrE=;
+        b=lsHfCx7FQDmZaWxwgJhS4iao6++sIN2dPgqS8fiznVmU3CyWf/Jm3y3QmPPHkVuaih
+         YP8TSH3k5NXON59TT+qGQwd94bIqasjIac4zD6G+WCfZxr/P/rqJxiLyQrH7bAOPL1S3
+         K88A3SVk7HiWSqG4qyWymcow3Qbc7NRtbFaP0l5oFcALllQuCAwmrbEd2fmArydVVZAf
+         qL9Bwzqt/4ai8jvljUeNIhVKsfwoniHvv0K7GvCKE1ibSEWg+83svDUPcvEVlEnwO86Q
+         yGoS0SVcmQ9MbeIajhcs9jYvqU6VTVnA5Qq7gnR0I2DJl8nrbB+Heo2/VXUJLIr6cT92
+         XF6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=1esYnT12DAU+a8ymd1+Yc6yh/+Mab4WiQa0qKqtIV+E=;
-        b=VG2ZP46A/A4M5NloBrDhN3WDb8qSfQJWJNkB1TEB6EPRQm1qVEGUmMoB2/eHh8YE8V
-         CLVXZ1PQEwjOQ5/NHNTab8BOyEjiPGrEEGAtOq3SY8e4drwdrcY38Q46H2N3WiJ/MjX1
-         KSfs4Z6BhyePT2FXqF3oMZry6A2m8RGnCrPlc0m2pHvnMjuSTV+R4Ycss2dmpJVMJJwA
-         sV9i83ruZRoU3gu2D/ltMUDr298GcDWwqWKmyatbMw0KW6G+eEzlhgOCckSXrr8j/vxE
-         p0jd0oCYsXqVAjvBtW66YaidlbaQzODHATQ86c2te7r2C+5Zo2NxyBrfGndYRiX84ZAw
-         LMIQ==
-X-Gm-Message-State: APzg51CojYnDNrP+r7soq8FAclCVZopfr9Lm8xmRXkcRRH4m5TJ2Opld
-        agkH9gnuDkJ09kF/lkm6+IY+sMdPvz8=
-X-Google-Smtp-Source: ANB0VdY7UKco99LyHRW27v7yYGThDDKfHNjeOSYUkhZKH2E38bIODrHKcE2jQ6P1sfR54fAwhS6aGA==
-X-Received: by 2002:a5d:434c:: with SMTP id u12-v6mr26052105wrr.189.1536141483834;
-        Wed, 05 Sep 2018 02:58:03 -0700 (PDT)
-Received: from brgl-bgdev.baylibre.local (AStLambert-681-1-33-235.w90-86.abo.wanadoo.fr. [90.86.152.235])
-        by smtp.gmail.com with ESMTPSA id l12-v6sm2127815wrv.29.2018.09.05.02.58.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Sep 2018 02:58:03 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Joachim Eastwood <manabian@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 00/13] nvmem: rework of the subsystem for non-DT users
-Date:   Wed,  5 Sep 2018 11:57:25 +0200
-Message-Id: <20180905095738.26406-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.18.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uICETPQSbfhNJtjwfuh9flj/2Me5hbTHSjQ2WxyhSrE=;
+        b=oP2QoU/U/X9y738iH/QMx/V9P77DjWi440ZAUvsztl9efWffSGiD2St6TD7PcvZIql
+         TCn4LBXxgBzAc2zNLlDBVHIh6UT6hZEjoQ520gHnAKZBlSw1c7junVYeaYT++SUsqTsv
+         eIRzu4RYmHRgVCYJRRiQ1YPTdilznN2CNo8yrdpQPyA/p09RfHfdu64SZ6tB/UYyCHBV
+         32V8vyjcrF7jeq5K+HXNBRMNh6q/nD9GJHtQvuzRB1AtajWWJW+U81F0OdubEy/YXhAH
+         m2qtxCSuXodq2PDzsbfeMC8wz2HSMbsoBxYOEPNlnlzvRXeNl2xe5p6YjcODqUvQCTII
+         Sjzg==
+X-Gm-Message-State: APzg51A2CHkA4qPQWoxKOdeDE04hr87aYJ43woJOwOt9HKsV5jZ1m1Fn
+        2PbtZ87eq1132seMVC7iHTACxn0FqEfB+M948hlj
+X-Google-Smtp-Source: ANB0VdavlWKBNXeJJyBdfH82008cZr9tDmHM/lKPXcFgrwy9Utl1qet2pSQA4qjjJvlExUP1oMKeu6jtw7GIB8IQ/U4=
+X-Received: by 2002:a2e:97c8:: with SMTP id m8-v6mr24653282ljj.52.1536147736058;
+ Wed, 05 Sep 2018 04:42:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <1536012923-16275-1-git-send-email-henrik@austad.us>
+In-Reply-To: <1536012923-16275-1-git-send-email-henrik@austad.us>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 5 Sep 2018 07:42:04 -0400
+Message-ID: <CAHC9VhR7Zana3xTEj2jUGXb+hBzyh69g0rBg_p_4tkbjtCUdpw@mail.gmail.com>
+Subject: Re: [PATCH] [RFC v2] Drop all 00-INDEX files from Documentation/
+To:     henrik@austad.us
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, bhelgaas@google.com,
+        paulmck@linux.vnet.ibm.com, josh@joshtriplett.org,
+        rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
+        jiangshanlai@gmail.com, axboe@kernel.dk, robh+dt@kernel.org,
+        mark.rutland@arm.com, b.zolnierkie@samsung.com,
+        linus.walleij@linaro.org, davem@davemloft.net, isdn@linux-pingi.de,
+        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
+        peterz@infradead.org, mingo@redhat.com, will.deacon@arm.com,
+        ralf@linux-mips.org, paul.burton@mips.com, jhogan@kernel.org,
+        jejb@parisc-linux.org, deller@gmx.de, rjw@rjwysocki.net,
+        len.brown@intel.com, pavel@ucw.cz, benh@kernel.crashing.org,
+        paulus@samba.org, mpe@ellerman.id.au, schwidefsky@de.ibm.com,
+        heiko.carstens@de.ibm.com, gregkh@linuxfoundation.org,
+        jslaby@suse.com, broonie@kernel.org, tglx@linutronix.de,
+        pbonzini@redhat.com, rkrcmar@redhat.com, zbr@ioremap.net,
+        hpa@zytor.com, x86@kernel.org, akpm@linux-foundation.org,
+        raven@themaw.net, jacek.anaszewski@gmail.com,
+        rppt@linux.vnet.ibm.com, jjj@gmx.de, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-mips@linux-mips.org, linux-security-module@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-spi@vger.kernel.org, kvm@vger.kernel.org, haustad@cisco.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Mon, Sep 3, 2018 at 6:15 PM Henrik Austad <henrik@austad.us> wrote:
+> This is a respin with a wider audience (all that get_maintainer returned)
+> and I know this spams a *lot* of people. Not sure what would be the correct
+> way, so my apologies for ruining your inbox.
+>
+> The 00-INDEX files are supposed to give a summary of all files present
+> in a directory, but these files are horribly out of date and their
+> usefulness is brought into question. Often a simple "ls" would reveal
+> the same information as the filenames are generally quite descriptive as
+> a short introduction to what the file covers (it should not surprise
+> anyone what Documentation/sched/sched-design-CFS.txt covers)
+>
+> A few years back it was mentioned that these files were no longer really
+> needed, and they have since then grown further out of date, so perhaps
+> it is time to just throw them out.
+>
+> A short status yields the following _outdated_ 00-INDEX files, first
+> counter is files listed in 00-INDEX but missing in the directory, last
+> is files present but not listed in 00-INDEX.
+>
+> List of outdated 00-INDEX:
+> Documentation: (4/10)
+> Documentation/sysctl: (0/1)
+> Documentation/timers: (1/0)
+> Documentation/blockdev: (3/1)
+> Documentation/w1/slaves: (0/1)
+> Documentation/locking: (0/1)
+> Documentation/devicetree: (0/5)
+> Documentation/power: (1/1)
+> Documentation/powerpc: (0/5)
+> Documentation/arm: (1/0)
+> Documentation/x86: (0/9)
+> Documentation/x86/x86_64: (1/1)
+> Documentation/scsi: (4/4)
+> Documentation/filesystems: (2/9)
+> Documentation/filesystems/nfs: (0/2)
+> Documentation/cgroup-v1: (0/2)
+> Documentation/kbuild: (0/4)
+> Documentation/spi: (1/0)
+> Documentation/virtual/kvm: (1/0)
+> Documentation/scheduler: (0/2)
+> Documentation/fb: (0/1)
+> Documentation/block: (0/1)
+> Documentation/networking: (6/37)
+> Documentation/vm: (1/3)
+>
+> Then there are 364 subdirectories in Documentation/ with several files that
+> are missing 00-INDEX alltogether (and another 120 with a single file and no
+> 00-INDEX).
+>
+> I don't really have an opinion to whether or not we /should/ have 00-INDEX,
+> but the above 00-INDEX should either be removed or be kept up to date. If
+> we should keep the files, I can try to keep them updated, but I rather not
+> if we just want to delete them anyway.
+>
+> As a starting point, remove all index-files and references to 00-INDEX and
+> see where the discussion is going.
+>
+> Again, sorry for the insanely wide distribution.
+>
+> Signed-off-by: Henrik Austad <henrik@austad.us>
+...
+> Signed-off-by: Henrik Austad <haustad@cisco.com>
+> ---
+>  Documentation/00-INDEX                  | 428 --------------------------------
+...
 
-This series contains nvmem framework changes prerequisite for further
-development of my previous series[1] that aims at removal of the
-platform data struct from at24 EEPROM driver.
+Looks reasonable to me, you can add my ACK for the NetLabel bits.
 
-First we remove unused APIs and the global cell list. We then switch
-to using kref instead of manual user counting. Next we simplify the
-provider unregistration by removing the return value from
-nvmem_unregister().
-
-Next three patches improve the framework by adding a notifier chain
-for future use and fixing the issue with nvmem device names.
-
-Finally we add support for cell definitions, cell lookups and make
-DT systems resolve the nvmem cells during provider's registration.
-
-Last patch just uses the SPDX license identifiers.
-
-Tested both DT and non-DT use cases.
-
-[1] https://lkml.org/lkml/2018/8/10/149
-
-Bartosz Golaszewski (13):
-  nvmem: remove unused APIs
-  nvmem: remove the global cell list
-  nvmem: use kref
-  nvmem: lpc18xx_eeprom: use devm_nvmem_register()
-  nvmem: change the signature of nvmem_unregister()
-  nvmem: provide nvmem_dev_name()
-  nvmem: remove the name field from struct nvmem_device
-  nvmem: add a notifier chain
-  nvmem: add support for cell info
-  nvmem: resolve cells from DT at registration time
-  nvmem: add support for cell lookups from machine code
-  Documentation: nvmem: document cell tables and lookup entries
-  nvmem: use SPDX license identifiers
-
- Documentation/nvmem/nvmem.txt  |  30 ++
- MAINTAINERS                    |   1 +
- drivers/nvmem/core.c           | 650 ++++++++++++++++++---------------
- drivers/nvmem/lpc18xx_eeprom.c |   6 +-
- include/linux/nvmem-consumer.h |  50 ++-
- include/linux/nvmem-machine.h  |  56 +++
- include/linux/nvmem-provider.h |  22 +-
- 7 files changed, 465 insertions(+), 350 deletions(-)
- create mode 100644 include/linux/nvmem-machine.h
+Acked-by: Paul Moore <paul@paul-moore.com>
 
 -- 
-2.18.0
-
+paul moore
+www.paul-moore.com
