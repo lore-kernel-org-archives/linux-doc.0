@@ -1,53 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 825857D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 08:13:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 579197D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 09:24:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbeIEMmU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Sep 2018 08:42:20 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51220 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727527AbeIEMmU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Sep 2018 08:42:20 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id F3F93AE9E;
-        Wed,  5 Sep 2018 08:13:16 +0000 (UTC)
-Date:   Wed, 5 Sep 2018 10:13:16 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Harry Cutts <hcutts@chromium.org>
-cc:     linux-input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 0/5] Add support for high-resolution scrolling on
- Logitech mice
-In-Reply-To: <20180830215622.47550-1-hcutts@chromium.org>
-Message-ID: <nycvar.YFH.7.76.1809051013000.15880@cbobk.fhfr.pm>
-References: <20180830215622.47550-1-hcutts@chromium.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1728170AbeIENwt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Sep 2018 09:52:49 -0400
+Received: from andre.telenet-ops.be ([195.130.132.53]:55130 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727735AbeIENwt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 09:52:49 -0400
+Received: from ramsan.of.borg ([84.194.111.163])
+        by andre.telenet-ops.be with bizsmtp
+        id XlPU1y00Q3XaVaC01lPUyw; Wed, 05 Sep 2018 11:23:28 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.86_2)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1fxU24-0006p3-II; Wed, 05 Sep 2018 11:23:28 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1fxTlB-0002aO-2d; Wed, 05 Sep 2018 11:06:01 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Laura Abbott <labbott@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/3] gpio: Fix VLA removal fallout
+Date:   Wed,  5 Sep 2018 11:05:52 +0200
+Message-Id: <20180905090555.9888-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 Aug 2018, Harry Cutts wrote:
+	Hi Linus,
 
-> This is v2 of the patch set adding support for high-resolution scroll 
-> wheels on Logitech mice. See the linux-input "Reporting high-resolution 
-> scroll events" thread [0] for previous discussion of the evdev changes. 
-> I would love to hear your feedback.
+This patch series fixes various (mostly harmless) issues introduced by
+commit 3027743f83f867d8 ("gpio: Remove VLA from gpiolib").
 
-Queued in for-4.20/logitech-highres. Thanks,
+As per the "one patch should fix one issue"-policy, this series contains 3
+patches, although they all have the same Fixes: tag.
+
+W.r.t. propagating errors: while gpiod_set_array_value_complex() and its
+callers can now return an error code, this is currently limited to -ENOMEM.
+Actual failures setting a GPIO output value cannot be propagated, as
+gpio_chip.set() still returns void.  Do you want to change that?
+E.g. gen_74x164_set_value() can fail.
+
+Feel free to fold patches if deemed appropriate.
+
+Thanks!
+
+Geert Uytterhoeven (3):
+  Documentation: gpio: Fix return type of gpiod_set_raw_array_value*()
+  gpio: Propagate errors from gpiod_set_array_value_complex()
+  gpio: Restore indentation of continued lines
+
+ Documentation/driver-api/gpio/consumer.rst | 24 +++++++--------
+ drivers/gpio/gpiolib.c                     | 34 +++++++++++-----------
+ drivers/gpio/gpiolib.h                     |  6 ++--
+ include/linux/gpio/consumer.h              | 31 ++++++++++----------
+ 4 files changed, 48 insertions(+), 47 deletions(-)
 
 -- 
-Jiri Kosina
-SUSE Labs
+2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
