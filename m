@@ -1,136 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5EEED7D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 00:25:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 362197D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 04:13:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725853AbeIEEwo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Sep 2018 00:52:44 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:35683 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbeIEEwo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 00:52:44 -0400
-Received: by mail-pg1-f194.google.com with SMTP id 7-v6so2483389pgf.2;
-        Tue, 04 Sep 2018 17:25:12 -0700 (PDT)
+        id S1727458AbeIEImK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Sep 2018 04:42:10 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:43589 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726211AbeIEImJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 04:42:09 -0400
+Received: by mail-pf1-f194.google.com with SMTP id j26-v6so2759176pfi.10;
+        Tue, 04 Sep 2018 21:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RmFKsKzNkj0/CRR7kqm7sdo22piWs4gj1gkay/MiDzo=;
-        b=iNEUAD2ipitdI5oLR/l72TqLgMlHcFbHvBStWRSBmmluiNWzE/SQckzIAqnXm2JJ3i
-         l8UzkLr0QJNlTfEZhiz9H4nnHOsrLw+ZQ8eajdj2gijczy0mTgrOHVah2tBnRciCRTYe
-         8WOBkPmx6pH7Mvz2dHrPfB+q4hlY14lglvL8Lp7aUuyoKXMApp1TwGTIMYb3MCmaxvp6
-         yMTPHWs1VtGvrBsxEELAju942mF6OVEL7JBYfH5tAOQdCxtWrSyMRwloiz+ZEogLdtkS
-         r/jIxhiP/tH+ufRbN2c27id8cD4WVQiwGOJrW26uvTsBt0zrFl015Qy3YxgbO1mGOC6u
-         xMKg==
+        h=from:to:cc:subject:date:message-id;
+        bh=GXIXt3ikpZ/xQYtNPxzYw4roewcXKc77FNT+mtyoPb0=;
+        b=ByX4XZdScHZsYpwkQSi8fYO/wwxw7GkSxW+ig0luGBjdixOO4HUCHTssz8W9RqL0gT
+         Cni91UAR5CinFvcSURxEu6NJblmgLVXIZDX7Zw3y8y3vFsZ3xYmdZEsuDloVUZBLa5Gl
+         cpPF6Peq9dttSas+dx/huTviZKcVn3Tvz55HDVJh8piLbzkPITBFtU4K3ACR/rmMPMMF
+         jjCwQJ7wrne094JNd2fd4MSgFLXDAS2gQKrlmO3QjbyKZZnav1hsEeEjospJ586OBFMN
+         dzOzaY8PRiKjR95+qxxf0g6T23mtQ6smSdTn65Q2hEMgKT/nhIEUWGyY3l5cDirn0t6k
+         wl6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RmFKsKzNkj0/CRR7kqm7sdo22piWs4gj1gkay/MiDzo=;
-        b=Msdw1JwC67QTtc8wgmvffHBcPshCtzxojSUpnvvQqHVRdsdcgYOwJHcTvVKXY28/04
-         rS6GKidmt3+G7dmfATS9vFLBnrxgscPKXyqIKIrtYhx3AQ9oqRd7rXQrOmZ9hijN8DOJ
-         0jKrLL0DVp04hkfKIflhvLXLOhi7N77m6ADSrbR7bFGbFSOynHL4vXoZjzBLc2Xvlb2M
-         PnObNyqV2yrGpVLCPazZPNfVjA7fUk0p4S05E+eB5pwAh+oxFN4m+7gUU2KY01ibtFC4
-         fvyoaEAVkAfgthvV3NvY/Fl7RhnFeAQEYMKciXkxLYUTVTXFNJ8MCg1NP0lMpQ8I98Ow
-         rb6Q==
-X-Gm-Message-State: APzg51CtEzW+LukZ+C99lY6EdgjvKMg/rrVSfB6gHR+BEALFn2L4hZOY
-        Akap+8WVswfsLhl5aq2h4eU=
-X-Google-Smtp-Source: ANB0VdZXtI39IGUNJD9Lr8KHsbR09AIwEMklJzbqM7hydZ4IwvvpPrx1szF1XPDREQ5aKs2z8FRO6A==
-X-Received: by 2002:a63:e841:: with SMTP id a1-v6mr18907154pgk.126.1536107111676;
-        Tue, 04 Sep 2018 17:25:11 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id c8-v6sm231109pfb.147.2018.09.04.17.25.10
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=GXIXt3ikpZ/xQYtNPxzYw4roewcXKc77FNT+mtyoPb0=;
+        b=dhFJFB2u+r1iTdReDWMz0hRWY8vKeK/Mi4ZCX1Lt+Dcq6eIXkHd9UldA8u8guvekUk
+         c5kkuJvb8CHFySoudyFD4Qy8qj5spI+4HPr9e3ysr/muz1QbBHDQZXN/NOah1ciNSgnw
+         Vu25fIrj552Qm9bbjrTVGzJ/YosU3JMYUxHTo3Ds6U6V/2cvc/laSZPpbwEMCbeGDpEW
+         JtMyuTX5uMv4LltE6jUEPaYryl4jf5pXqkeGq8PMRVyZ+61PPElmPcYFXgRjDpP0W3cp
+         0FFsLVzWQD8sK2fTp4CWMSBDMdjuLSgbVp4rekA0V/lBl0/Vy2F5Bz+uEE/mc1gN/Oi8
+         BzRg==
+X-Gm-Message-State: APzg51D9fZZ25Ghfc3EkpemDS83qtjuVyX4hAIX5P+HXd6TLffCaBw5u
+        8hSIPMQJFtmX+XEKFQVdebwSlueuLEI=
+X-Google-Smtp-Source: ANB0VdZUmSjUcNdFLJ/qk6xksZXM2I6F1ri+RBOIhDCWaXl2H27Z/HzQLNxJco083H0McFzqP9vqZg==
+X-Received: by 2002:a63:1b4e:: with SMTP id b14-v6mr34130840pgm.303.1536120834777;
+        Tue, 04 Sep 2018 21:13:54 -0700 (PDT)
+Received: from localhost (104.176.229.35.bc.googleusercontent.com. [35.229.176.104])
+        by smtp.gmail.com with ESMTPSA id 74-v6sm762641pfv.33.2018.09.04.21.13.53
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 04 Sep 2018 17:25:10 -0700 (PDT)
-Date:   Tue, 4 Sep 2018 17:25:08 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Harry Cutts <hcutts@chromium.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <jiri.kosina@suse.cz>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 1/5] Add the `REL_WHEEL_HI_RES` event code
-Message-ID: <20180905002508.GA72133@dtor-ws>
-References: <20180830215622.47550-1-hcutts@chromium.org>
- <20180830215622.47550-2-hcutts@chromium.org>
- <nycvar.YFH.7.76.1809031542370.25787@cbobk.fhfr.pm>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.1809031542370.25787@cbobk.fhfr.pm>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Tue, 04 Sep 2018 21:13:54 -0700 (PDT)
+From:   Song Qiang <songqiang1304521@gmail.com>
+X-Google-Original-From: Song Qiang <songqiang.1304521@gmail.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Song Qiang <songqiang.1304521@gmail.com>
+Subject: [PATCH] input: keyboard: gpio-keys: Fixed a documentation index issue.
+Date:   Wed,  5 Sep 2018 12:13:47 +0800
+Message-Id: <20180905041347.19986-1-songqiang.1304521@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 03, 2018 at 03:43:13PM +0200, Jiri Kosina wrote:
-> On Thu, 30 Aug 2018, Harry Cutts wrote:
-> 
-> > This event code represents scroll reports from high-resolution wheels,
-> > and will be used by future patches in this series. See the linux-input
-> > "Reporting high-resolution scroll events" thread [0] for more details.
-> > 
-> > [0]: https://www.spinics.net/lists/linux-input/msg57380.html
-> > 
-> > Signed-off-by: Harry Cutts <hcutts@chromium.org>
-> > ---
-> > 
-> > Changes in v2: None
-> > 
-> >  Documentation/input/event-codes.rst    | 11 ++++++++++-
-> >  include/uapi/linux/input-event-codes.h |  1 +
-> >  2 files changed, 11 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-> > index a8c0873beb95..cef220c176a4 100644
-> > --- a/Documentation/input/event-codes.rst
-> > +++ b/Documentation/input/event-codes.rst
-> > @@ -190,7 +190,16 @@ A few EV_REL codes have special meanings:
-> >  * REL_WHEEL, REL_HWHEEL:
-> >  
-> >    - These codes are used for vertical and horizontal scroll wheels,
-> > -    respectively.
-> > +    respectively. The value is the number of "notches" moved on the wheel, the
-> > +    physical size of which varies by device. For high-resolution wheels (which
-> > +    report multiple events for each notch of movement, or do not have notches)
-> > +    this may be an approximation based on the high-resolution scroll events.
-> > +
-> > +* REL_WHEEL_HI_RES:
-> > +
-> > +  - If a vertical scroll wheel supports high-resolution scrolling, this code
-> > +    will be emitted in addition to REL_WHEEL. The value is the (approximate)
-> > +    distance travelled by the user's finger, in microns.
-> >  
-> >  EV_ABS
-> >  ------
-> > diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> > index 53fbae27b280..dad8d3890a3a 100644
-> > --- a/include/uapi/linux/input-event-codes.h
-> > +++ b/include/uapi/linux/input-event-codes.h
-> > @@ -708,6 +708,7 @@
-> >  #define REL_DIAL		0x07
-> >  #define REL_WHEEL		0x08
-> >  #define REL_MISC		0x09
-> > +#define REL_WHEEL_HI_RES	0x0a
-> >  #define REL_MAX			0x0f
-> >  #define REL_CNT			(REL_MAX+1)
-> 
-> Dmitry, is this OK with you?
+gpio_keys.c now exists in the drivers/input/keyboard/ rather than
+drivers/input/.
 
-Yep, please feel free to merge through your tree.
+Signed-off-by: Song Qiang <songqiang.1304521@gmail.com>
+---
+ Documentation/devicetree/bindings/input/gpio-keys.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Thanks.
-
+diff --git a/Documentation/devicetree/bindings/input/gpio-keys.txt b/Documentation/devicetree/bindings/input/gpio-keys.txt
+index 996ce84352cb..7cccc49b6bea 100644
+--- a/Documentation/devicetree/bindings/input/gpio-keys.txt
++++ b/Documentation/devicetree/bindings/input/gpio-keys.txt
+@@ -1,4 +1,4 @@
+-Device-Tree bindings for input/gpio_keys.c keyboard driver
++Device-Tree bindings for input/keyboard/gpio_keys.c keyboard driver
+ 
+ Required properties:
+ 	- compatible = "gpio-keys";
 -- 
-Dmitry
+2.17.1
+
