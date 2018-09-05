@@ -2,82 +2,188 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 579197D57F
+	by archive.lwn.net (Postfix) with ESMTP id C0A117DE79
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Sep 2018 09:24:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728170AbeIENwt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Sep 2018 09:52:49 -0400
-Received: from andre.telenet-ops.be ([195.130.132.53]:55130 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727735AbeIENwt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 09:52:49 -0400
+        id S1728149AbeIENwv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Sep 2018 09:52:51 -0400
+Received: from xavier.telenet-ops.be ([195.130.132.52]:58216 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727577AbeIENwu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Sep 2018 09:52:50 -0400
 Received: from ramsan.of.borg ([84.194.111.163])
-        by andre.telenet-ops.be with bizsmtp
-        id XlPU1y00Q3XaVaC01lPUyw; Wed, 05 Sep 2018 11:23:28 +0200
+        by xavier.telenet-ops.be with bizsmtp
+        id XlPU1y00K3XaVaC01lPUyE; Wed, 05 Sep 2018 11:23:28 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.86_2)
         (envelope-from <geert@linux-m68k.org>)
-        id 1fxU24-0006p3-II; Wed, 05 Sep 2018 11:23:28 +0200
+        id 1fxU24-0006p3-EA; Wed, 05 Sep 2018 11:23:28 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1fxTlB-0002aO-2d; Wed, 05 Sep 2018 11:06:01 +0200
+        id 1fxTlB-0002aS-3x; Wed, 05 Sep 2018 11:06:01 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Laura Abbott <labbott@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/3] gpio: Fix VLA removal fallout
-Date:   Wed,  5 Sep 2018 11:05:52 +0200
-Message-Id: <20180905090555.9888-1-geert+renesas@glider.be>
+Subject: [PATCH 2/3] gpio: Propagate errors from gpiod_set_array_value_complex()
+Date:   Wed,  5 Sep 2018 11:05:54 +0200
+Message-Id: <20180905090555.9888-3-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180905090555.9888-1-geert+renesas@glider.be>
+References: <20180905090555.9888-1-geert+renesas@glider.be>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-	Hi Linus,
+Internal helper function gpiod_set_array_value_complex() was changed to
+return an error value, but not all gpiolib callers were updated to
+propagate the new error up.
 
-This patch series fixes various (mostly harmless) issues introduced by
-commit 3027743f83f867d8 ("gpio: Remove VLA from gpiolib").
+Fixes: 3027743f83f867d8 ("gpio: Remove VLA from gpiolib")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/driver-api/gpio/consumer.rst | 12 ++++++------
+ drivers/gpio/gpiolib.c                     | 22 +++++++++++-----------
+ include/linux/gpio/consumer.h              | 20 +++++++++++---------
+ 3 files changed, 28 insertions(+), 26 deletions(-)
 
-As per the "one patch should fix one issue"-policy, this series contains 3
-patches, although they all have the same Fixes: tag.
-
-W.r.t. propagating errors: while gpiod_set_array_value_complex() and its
-callers can now return an error code, this is currently limited to -ENOMEM.
-Actual failures setting a GPIO output value cannot be propagated, as
-gpio_chip.set() still returns void.  Do you want to change that?
-E.g. gen_74x164_set_value() can fail.
-
-Feel free to fold patches if deemed appropriate.
-
-Thanks!
-
-Geert Uytterhoeven (3):
-  Documentation: gpio: Fix return type of gpiod_set_raw_array_value*()
-  gpio: Propagate errors from gpiod_set_array_value_complex()
-  gpio: Restore indentation of continued lines
-
- Documentation/driver-api/gpio/consumer.rst | 24 +++++++--------
- drivers/gpio/gpiolib.c                     | 34 +++++++++++-----------
- drivers/gpio/gpiolib.h                     |  6 ++--
- include/linux/gpio/consumer.h              | 31 ++++++++++----------
- 4 files changed, 48 insertions(+), 47 deletions(-)
-
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index a4e340c1859439ad..c7302c7e0f858995 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -334,15 +334,15 @@ The following functions get or set the values of an array of GPIOs::
+ 					   struct gpio_desc **desc_array,
+ 					   int *value_array);
+ 
+-	void gpiod_set_array_value(unsigned int array_size,
+-				   struct gpio_desc **desc_array,
+-				   int *value_array)
++	int gpiod_set_array_value(unsigned int array_size,
++				  struct gpio_desc **desc_array,
++				  int *value_array)
+ 	int gpiod_set_raw_array_value(unsigned int array_size,
+ 				      struct gpio_desc **desc_array,
+ 				      int *value_array)
+-	void gpiod_set_array_value_cansleep(unsigned int array_size,
+-					    struct gpio_desc **desc_array,
+-					    int *value_array)
++	int gpiod_set_array_value_cansleep(unsigned int array_size,
++					   struct gpio_desc **desc_array,
++					   int *value_array)
+ 	int gpiod_set_raw_array_value_cansleep(unsigned int array_size,
+ 					       struct gpio_desc **desc_array,
+ 					       int *value_array)
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index e8f8a199939350a9..b8486e204b9e8c69 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -3184,13 +3184,13 @@ EXPORT_SYMBOL_GPL(gpiod_set_raw_array_value);
+  * This function should be called from contexts where we cannot sleep, and will
+  * complain if the GPIO chip functions potentially sleep.
+  */
+-void gpiod_set_array_value(unsigned int array_size,
+-			   struct gpio_desc **desc_array, int *value_array)
++int gpiod_set_array_value(unsigned int array_size,
++			  struct gpio_desc **desc_array, int *value_array)
+ {
+ 	if (!desc_array)
+-		return;
+-	gpiod_set_array_value_complex(false, false, array_size, desc_array,
+-				      value_array);
++		return -EINVAL;
++	return gpiod_set_array_value_complex(false, false, array_size,
++					     desc_array, value_array);
+ }
+ EXPORT_SYMBOL_GPL(gpiod_set_array_value);
+ 
+@@ -3542,15 +3542,15 @@ void gpiod_add_lookup_tables(struct gpiod_lookup_table **tables, size_t n)
+  *
+  * This function is to be called from contexts that can sleep.
+  */
+-void gpiod_set_array_value_cansleep(unsigned int array_size,
+-				    struct gpio_desc **desc_array,
+-				    int *value_array)
++int gpiod_set_array_value_cansleep(unsigned int array_size,
++				   struct gpio_desc **desc_array,
++				   int *value_array)
+ {
+ 	might_sleep_if(extra_checks);
+ 	if (!desc_array)
+-		return;
+-	gpiod_set_array_value_complex(false, true, array_size, desc_array,
+-				      value_array);
++		return -EINVAL;
++	return gpiod_set_array_value_complex(false, true, array_size,
++					     desc_array, value_array);
+ }
+ EXPORT_SYMBOL_GPL(gpiod_set_array_value_cansleep);
+ 
+diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
+index 21ddbe4400308ee5..54ca52f67e8cf38b 100644
+--- a/include/linux/gpio/consumer.h
++++ b/include/linux/gpio/consumer.h
+@@ -106,8 +106,8 @@ int gpiod_get_value(const struct gpio_desc *desc);
+ int gpiod_get_array_value(unsigned int array_size,
+ 			  struct gpio_desc **desc_array, int *value_array);
+ void gpiod_set_value(struct gpio_desc *desc, int value);
+-void gpiod_set_array_value(unsigned int array_size,
+-			   struct gpio_desc **desc_array, int *value_array);
++int gpiod_set_array_value(unsigned int array_size,
++			  struct gpio_desc **desc_array, int *value_array);
+ int gpiod_get_raw_value(const struct gpio_desc *desc);
+ int gpiod_get_raw_array_value(unsigned int array_size,
+ 			      struct gpio_desc **desc_array,
+@@ -123,9 +123,9 @@ int gpiod_get_array_value_cansleep(unsigned int array_size,
+ 				   struct gpio_desc **desc_array,
+ 				   int *value_array);
+ void gpiod_set_value_cansleep(struct gpio_desc *desc, int value);
+-void gpiod_set_array_value_cansleep(unsigned int array_size,
+-				    struct gpio_desc **desc_array,
+-				    int *value_array);
++int gpiod_set_array_value_cansleep(unsigned int array_size,
++				   struct gpio_desc **desc_array,
++				   int *value_array);
+ int gpiod_get_raw_value_cansleep(const struct gpio_desc *desc);
+ int gpiod_get_raw_array_value_cansleep(unsigned int array_size,
+ 				       struct gpio_desc **desc_array,
+@@ -341,12 +341,13 @@ static inline void gpiod_set_value(struct gpio_desc *desc, int value)
+ 	/* GPIO can never have been requested */
+ 	WARN_ON(1);
+ }
+-static inline void gpiod_set_array_value(unsigned int array_size,
+-					 struct gpio_desc **desc_array,
+-					 int *value_array)
++static inline int gpiod_set_array_value(unsigned int array_size,
++					struct gpio_desc **desc_array,
++					int *value_array)
+ {
+ 	/* GPIO can never have been requested */
+ 	WARN_ON(1);
++	return 0;
+ }
+ static inline int gpiod_get_raw_value(const struct gpio_desc *desc)
+ {
+@@ -395,12 +396,13 @@ static inline void gpiod_set_value_cansleep(struct gpio_desc *desc, int value)
+ 	/* GPIO can never have been requested */
+ 	WARN_ON(1);
+ }
+-static inline void gpiod_set_array_value_cansleep(unsigned int array_size,
++static inline int gpiod_set_array_value_cansleep(unsigned int array_size,
+ 					    struct gpio_desc **desc_array,
+ 					    int *value_array)
+ {
+ 	/* GPIO can never have been requested */
+ 	WARN_ON(1);
++	return 0;
+ }
+ static inline int gpiod_get_raw_value_cansleep(const struct gpio_desc *desc)
+ {
 -- 
 2.17.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
