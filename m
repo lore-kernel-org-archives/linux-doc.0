@@ -1,101 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 06DA27D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 13:00:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C80167D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 13:01:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727850AbeIFRf1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 13:35:27 -0400
-Received: from mail-qt0-f196.google.com ([209.85.216.196]:39151 "EHLO
-        mail-qt0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727700AbeIFRf1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Sep 2018 13:35:27 -0400
-Received: by mail-qt0-f196.google.com with SMTP id o15-v6so12057530qtk.6;
-        Thu, 06 Sep 2018 06:00:03 -0700 (PDT)
+        id S1728804AbeIFRgi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Sep 2018 13:36:38 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:53466 "EHLO
+        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727700AbeIFRgi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Sep 2018 13:36:38 -0400
+Received: by mail-it0-f67.google.com with SMTP id p79-v6so14587045itp.3
+        for <linux-doc@vger.kernel.org>; Thu, 06 Sep 2018 06:01:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xI4pb01POVYyYfifY/Nw/wjK5kaIjPidd8bHfuORLtA=;
+        b=QmIeab5UuE6tqApc/KxxwaRSRP/rBf4qRwrDW7j8rYakSoz2e0l5JCSHCfOjci5EPT
+         bYfk7FP20HVYvmabObbQHhvm8fisbnePjl06/OMfzQFBR6aaXfh9zFAZ7JvoVZht9XtH
+         pbzhqlGNR+qlF/j2OYfoe6QKI4ljJ3YTQ/Xuw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nd6B9hBGPfUlsRQzvASpzMPsRipPR27aNpPGe9G44r8=;
-        b=jQrJF5XJFlDmoZJFY+RMlkj7ioN9azsZTgp7TToPYp8B+el8oAVd+2mYn6Se9NH527
-         zE0BRL36cvUDZ5AT1yVSqZvyrl/WsNLoipnbY/6dFSDW1gheyoJlg4rZtHqJnP4PBBpk
-         Y9c91bAsUTMdgC0pe2WiMhWekLx9BYOtpH7rqdmj2T7XU/a6RqJwdlMZJsmKbGUM3iW/
-         XrVKE0Umt6AZjijjYM8CRzGixVWXMSUBkNa4YgE4uPSSC4P5jeCdrIMIY98Hxpb5CUAY
-         cYsGuJk5t3S119XgaabsmoMQnytvmUYTE9bkWV9MtnujRJZk6DGPlrkcfY8S0W9CIVp4
-         ljmw==
-X-Gm-Message-State: APzg51B7gKY3GzcIxPu5CxBVjBrOglKJkpFMOcDOrU5LS50SIYYrsCSw
-        0ecag46fi4+Y0vUMLOp465P7/Eh0LXzK4SquJsA=
-X-Google-Smtp-Source: ANB0VdaV/UxVhnkkk4omB/k59mW/8BLHGoqFEu4f0WRwZC5S1fIJeK/sRglGQdh6+IytbGSB0JOFTyHmmwfS+QaMqEk=
-X-Received: by 2002:ac8:c9:: with SMTP id d9-v6mr1916187qtg.213.1536238802725;
- Thu, 06 Sep 2018 06:00:02 -0700 (PDT)
+        bh=xI4pb01POVYyYfifY/Nw/wjK5kaIjPidd8bHfuORLtA=;
+        b=aj8OETwXLImJptLi7pNDsKFWsQQZYd8Bhrq4rLFVZyD3J1T1bMBAH0pMJxM/nls27A
+         U9F9QCOa4L0uNxmqSHeZovkrGH74Rp9NrPp02elORpMz9kbbSM0ll8568KCvgEOYgJ7y
+         VVGUTyfoL7W9RhODdoOudJzcDD44mR3HdVqCCY5ex4oKWFIVCLK3jWPiEH/rQq5OSaZw
+         oDFUwbsgS/3DONS8SVOxgF6s6lSba37yR3nojslgZ4D/Y+Ey5lkHuffMSd9NouhKafRq
+         N+3D5cTZ0tER17DtMJCEkAbLWK6vR+2P5Ld83fD+RHf9dlDlYOffp7kG+C8k2T25ACI+
+         OEHw==
+X-Gm-Message-State: APzg51BxP3PqsXkacqGy8fZVai+yPWOUMLZc7SFwQT290nVY1mYafaX+
+        2MIZuw4h0exhZbML7HlWXyqqWGb/dNa19MtJ+09Vrw==
+X-Google-Smtp-Source: ANB0VdY2RGG+wEONcGehZLuaHPzHDGohFL+3Y9vNlOkWnOl5haLvqc/EbaGEqn5v9f+kkBL60SHWNkNQJ1CDf5WIxZQ=
+X-Received: by 2002:a02:5916:: with SMTP id p22-v6mr1841916jab.113.1536238874472;
+ Thu, 06 Sep 2018 06:01:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
- <20180719152930.3715-2-boris.brezillon@bootlin.com> <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
- <20180824143934.6d6b6487@bbrezillon> <bdb2924f-ecfa-1da3-41db-9ac77d4d933b@synopsys.com>
- <20180824201600.7d80bca9@bbrezillon> <fe839027-c4d7-4d6f-412b-5b315cbc7a39@synopsys.com>
- <20180828140209.29155d00@bbrezillon> <4DBE768F-3CDC-41BE-9CC8-E294E7277CB1@cadence.com>
- <8abfb007-d755-36a4-5960-fddd61d04aa2@synopsys.com> <3D2681D9-1ACC-42FF-9FAB-D86B3C689003@cadence.com>
- <9584757a-e7e2-5bfe-fc2c-e9bc14ad65a8@synopsys.com> <25862F03-9823-42B0-87AC-AE36D7E9C780@cadence.com>
-In-Reply-To: <25862F03-9823-42B0-87AC-AE36D7E9C780@cadence.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 6 Sep 2018 14:59:46 +0200
-Message-ID: <CAK8P3a3pkddD9VnogYryQKoL9Z_5qVRBXd6yr1z6CqGU692rXg@mail.gmail.com>
-Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-To:     Przemyslaw Gaj <pgaj@cadence.com>
-Cc:     Vitor Soares <Vitor.Soares@synopsys.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
+References: <20180905090555.9888-1-geert+renesas@glider.be>
+In-Reply-To: <20180905090555.9888-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 6 Sep 2018 15:01:02 +0200
+Message-ID: <CACRpkdZMD-GJUtcSiP30Rb-XAR6OHXZvdmEgOY-CxgauDGvViQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] gpio: Fix VLA removal fallout
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Laura Abbott <labbott@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        Peter Rosin <peda@axentia.se>
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 6, 2018 at 2:43 PM Przemyslaw Gaj <pgaj@cadence.com> wrote:
->
-> Hi Boris, Vitor,
->
-> This repository does not contain full kernel sources, but it should be enough to discuss mastership request feature.
-> https://github.com/przemekgaj/i3c-linux/commit/d54fe68a9d3e573c0c454a2c6f1afafc20142ec5
->
-> Please keep in mind that this is initial version, but mastership works correctly. I added one property to DT to reflect relationship between masters.
-> It is possible to request mastership on demand (using sysfs. Useful in case when Linux machine is equipped only with secondary master controller) or automatically change operation mode when device driver wants to read/write something from/to device.
->
-> I'm sure I will have to rework something because this was implemented on sources from PATCH v4. I saw that Boris released v7 yesterday :)
+Hi Geert,
 
+Thanks for the patches!
 
-Can you explain the reason for having a user space interface and DT property?
-I thought we had concluded earlier that we wouldn't need that, but it's possible
-that I missed something in the discussion since then.
+On Wed, Sep 5, 2018 at 11:23 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-      Arnd
+> This patch series fixes various (mostly harmless) issues introduced by
+> commit 3027743f83f867d8 ("gpio: Remove VLA from gpiolib").
+>
+> As per the "one patch should fix one issue"-policy, this series contains 3
+> patches, although they all have the same Fixes: tag.
+>
+> W.r.t. propagating errors: while gpiod_set_array_value_complex() and its
+> callers can now return an error code, this is currently limited to -ENOMEM.
+> Actual failures setting a GPIO output value cannot be propagated, as
+> gpio_chip.set() still returns void.  Do you want to change that?
+> E.g. gen_74x164_set_value() can fail.
+>
+> Feel free to fold patches if deemed appropriate.
+
+What I want to know is if these patches drive a truck through Janusz patch
+set augmenting the array functions that I definately also plan to merge for
+this kernel cycle.
+
+Issues should be fixed of course, but if some of them already disappear
+if I apply Janusz patches, I'd rather postpone ... is it going to be hard
+to redo the cleanups on top of his patches?
+
+Yours,
+Linus Walleij
