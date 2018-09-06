@@ -5,28 +5,32 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B82807D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 14:01:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1D5877D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 14:10:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729938AbeIFSgp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 14:36:45 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:58570 "EHLO mail.bootlin.com"
+        id S1729632AbeIFSpp convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Sep 2018 14:45:45 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:58749 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729534AbeIFSgp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Sep 2018 14:36:45 -0400
+        id S1726837AbeIFSpo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Sep 2018 14:45:44 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 5C5112072B; Thu,  6 Sep 2018 16:01:02 +0200 (CEST)
+        id 7B1DF2072B; Thu,  6 Sep 2018 16:09:59 +0200 (CEST)
 Received: from bbrezillon (AAubervilliers-681-1-30-219.w90-88.abo.wanadoo.fr [90.88.15.219])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 95C9320701;
-        Thu,  6 Sep 2018 16:00:51 +0200 (CEST)
-Date:   Thu, 6 Sep 2018 16:00:48 +0200
+        by mail.bootlin.com (Postfix) with ESMTPSA id C4CE1206FF;
+        Thu,  6 Sep 2018 16:09:48 +0200 (CEST)
+Date:   Thu, 6 Sep 2018 16:09:47 +0200
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
+To:     Przemyslaw Gaj <pgaj@cadence.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>, Wolfram Sang <wsa@the-dreams.de>,
         Linux I2C <linux-i2c@vger.kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        gregkh <gregkh@linuxfoundation.org>,
         Przemyslaw Sroka <psroka@cadence.com>,
         Arkadiusz Golec <agolec@cadence.com>,
         Alan Douglas <adouglas@cadence.com>,
@@ -44,157 +48,98 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Kumar Gala <galak@codeaurora.org>,
         DTML <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>, mshettel@codeaurora.org,
-        swboyd@chromium.org
-Subject: Re: [PATCH v7 01/10] i3c: Add core I3C infrastructure
-Message-ID: <20180906160048.2f585e2b@bbrezillon>
-In-Reply-To: <CAK8P3a3EkwAXin=s1bak7V7xM7zqip_Q6GMpxB-b1BD931G6cA@mail.gmail.com>
-References: <20180905154108.20770-1-boris.brezillon@bootlin.com>
-        <20180905154108.20770-2-boris.brezillon@bootlin.com>
-        <CAK8P3a3EkwAXin=s1bak7V7xM7zqip_Q6GMpxB-b1BD931G6cA@mail.gmail.com>
+        Peter Rosin <peda@axentia.se>
+Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
+Message-ID: <20180906160947.3c80072f@bbrezillon>
+In-Reply-To: <5AD923AE-E86E-4414-A48F-CE7399E18431@cadence.com>
+References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
+        <20180719152930.3715-2-boris.brezillon@bootlin.com>
+        <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
+        <20180824143934.6d6b6487@bbrezillon>
+        <bdb2924f-ecfa-1da3-41db-9ac77d4d933b@synopsys.com>
+        <20180824201600.7d80bca9@bbrezillon>
+        <fe839027-c4d7-4d6f-412b-5b315cbc7a39@synopsys.com>
+        <20180828140209.29155d00@bbrezillon>
+        <4DBE768F-3CDC-41BE-9CC8-E294E7277CB1@cadence.com>
+        <8abfb007-d755-36a4-5960-fddd61d04aa2@synopsys.com>
+        <3D2681D9-1ACC-42FF-9FAB-D86B3C689003@cadence.com>
+        <9584757a-e7e2-5bfe-fc2c-e9bc14ad65a8@synopsys.com>
+        <25862F03-9823-42B0-87AC-AE36D7E9C780@cadence.com>
+        <CAK8P3a3pkddD9VnogYryQKoL9Z_5qVRBXd6yr1z6CqGU692rXg@mail.gmail.com>
+        <20180906151437.4259d6fc@bbrezillon>
+        <5AD923AE-E86E-4414-A48F-CE7399E18431@cadence.com>
 X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 6 Sep 2018 15:38:49 +0200
-Arnd Bergmann <arnd@arndb.de> wrote:
+On Thu, 6 Sep 2018 13:47:29 +0000
+Przemyslaw Gaj <pgaj@cadence.com> wrote:
 
-> On Wed, Sep 5, 2018 at 5:41 PM Boris Brezillon
-> <boris.brezillon@bootlin.com> wrote:
+> ﻿On 9/6/18, 3:14 PM, "Boris Brezillon" <boris.brezillon@bootlin.com> wrote:
 > 
-> > ---
-> > Changes in v7:
-> > - Stop representing the I3C master as a device under the I3C bus
-> > - Enforce a 1:1 relationship between i3c_bus and i3c_master_controller
-> >   objects  
+>     EXTERNAL MAIL
+>     
+>     
+>     On Thu, 6 Sep 2018 14:59:46 +0200
+>     Arnd Bergmann <arnd@arndb.de> wrote:
+>     
+>     > On Thu, Sep 6, 2018 at 2:43 PM Przemyslaw Gaj <pgaj@cadence.com> wrote:  
+>     > >
+>     > > Hi Boris, Vitor,
+>     > >
+>     > > This repository does not contain full kernel sources, but it should be enough to discuss mastership request feature.
+>     > > https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_przemekgaj_i3c-2Dlinux_commit_d54fe68a9d3e573c0c454a2c6f1afafc20142ec5&d=DwICAg&c=aUq983L2pue2FqKFoP6PGHMJQyoJ7kl3s3GZ-_haXqY&r=CMnAfM_OfpqcWZRfiqcRWw&m=OPSa25ENnrF0Qv70DG49ZngfdygJZubjo3TOgBA3pJ4&s=_C6i1KPplQGcWvQYPkrGx7V3TjKDJvqt3KG-vcdU2K4&e=
+>     > >
+>     > > Please keep in mind that this is initial version, but mastership works correctly. I added one property to DT to reflect relationship between masters.
+>     > > It is possible to request mastership on demand (using sysfs. Useful in case when Linux machine is equipped only with secondary master controller) or automatically change operation mode when device driver wants to read/write something from/to device.
+>     > >
+>     > > I'm sure I will have to rework something because this was implemented on sources from PATCH v4. I saw that Boris released v7 yesterday :)    
+>     > 
+>     > 
+>     > Can you explain the reason for having a user space interface and DT property?
+>     > I thought we had concluded earlier that we wouldn't need that, but it's possible
+>     > that I missed something in the discussion since then.  
+>     
+>     I don't think the sysfs knob is needed, this being said, after thinking
+>     a bit more about mastership handover and the secondary master case, I
+>     think we have something important to solve.
+>     
+>     When a master is not in control of the bus, it gets informed of devices
+>     present on the bus by monitoring DAA or DEFSLVS broadcast events. That
+>     means the secondary master should populate the bus with I3C/I2C devices
+>     on such events, but that's not enough, because DEFSLVS/DAA do not
+>     provide all device info. Some of them (like read/write/ibi limitations)
+>     require extra CCC commands, and, to send those CCC commands, the
+>     secondary master must claim the bus. We could add a case where we
+>     declare devices as partially discovered until the master acquires
+>     ownership of the bus, but that means part of the data returned by
+>     i3c_device_get_info() will be inaccurate, which might have an impact on
+>     some i3c driver ->probe() functions.
 > 
-> Thanks for implementing those changes. What is your feeling so far
-> about the difference? Has it gotten much simpler as I was hoping?
+> How do you want to handle cases when secondary master joins the bus after 
+> DEFSLVS? Of course we can send DEFSLVS after secondary master joins the bus.
 
-Hm, to be honest I don't see a big difference in term of simplicity,
-but that's probably because I kept the bus/master concepts separated
-(even if the 1:1 relationship is enforced).
+That's already the case ;-). Every time the current master discovers
+another master, it's sends a DEFSLVS at the end of the DAA procedure.
 
+>     
+>     We could also say that partially discovered devices should not be
+>     registered to the device model, but we then hit the problem of "who can
+>     force the secondary master to claim the bus if there's no users?".
 > 
-> I definitely like this version much better. I have found a couple of
-> things that I point out below that could be improved (or me being
-> proven wrong on them), but overall I think it looks great and I don't
-> see major issues.
-> 
-> Great work!
+> Now I feel like I missed something. Do you want to populate second instance
+> of the same physical bus? If yes, then we don't need to have reference 
+> between masters in DT.
 
-Thanks, I'm glad you think these changes go in the right direction. Will
-try to address your new comments.
-
-> 
-> > +struct i3c_bus *i3c_bus_create(struct i3c_master_controller *master)
-> > +{
-> > +       struct i3c_bus *i3cbus;
-> > +       int ret;
-> > +
-> > +       i3cbus = kzalloc(sizeof(*i3cbus), GFP_KERNEL);
-> > +       if (!i3cbus)
-> > +               return ERR_PTR(-ENOMEM);  
-> 
-> I find it a bit confusing to have separate i3c_master_controller
-> and i3c_bus structures with this version. Why not merge the
-> two structures into one now and move the bus management
-> into master.c?
-
-Yes, I considered this approach. Not sure it would make the whole code a
-lot simpler though, and it was definitely more work on my side, so I
-decided to delay that and wait for someone to explicitly request this
-change ;-).
-
-I also like the bus/master separation in that it allows one to clearly
-identify the properties that are bus (speed, mode, ...) related and
-those that are master controller oriented (PID, DCR, ...).
-
-> 
-> > +static int i3c_master_attach_i3c_dev(struct i3c_master_controller *master,
-> > +                                    struct i3c_dev_desc *dev)
-> > +{
-> > +       int ret;
-> > +
-> > +       /*
-> > +        * We don't attach devices to the controller until they are
-> > +        * addressable on the bus.
-> > +  
-> 
-> Apparently the new gmail version decided to cut off the second half of your
-> email after this line when I hit reply, which makes it much harder for me
-> to continue a proper review. I fear I'll have to get a real email client
-> again :(
-> 
-> > + * The I3C bus is represented with its own object and not implicitly described
-> > + * by the I3C master to cope with the multi-master functionality, where one bus
-> > + * can be shared amongst several masters, each of them requesting bus ownership
-> > + * when they need to.  
-> 
-> This comment is now stale, even without merging the structures, right?
-
-Yep, it is. I'll drop it.
-
-> 
-> > +struct i3c_master_controller {
-> > +       struct device *parent;
-> > +       struct i3c_dev_desc *this;
-> > +       struct i2c_adapter i2c;  
-> 
-> I think the 'parent' pointer is better omitted, it should always be
-> the same as master->dev->parent, right?
-
-Absolutely.
-
-> 
-> Since it contains an i2c_adapter, maybe a good name for the
-> combined i3c_master_controller+i3c_bus structure would
-> be 'i3c_adapter'?
-
-Hm, I'd really like to keep the name master and not adapter, just
-because that's how it's named in the spec.
-
-> 
-> +#define i3c_bus_for_each_i2cdev(bus, dev)                              \
-> +       list_for_each_entry(dev, &(bus)->devs.i2c, common.node)
-> +
-> +#define i3c_bus_for_each_i3cdev(bus, dev)                              \
-> +       list_for_each_entry(dev, &(bus)->devs.i3c, common.node)
-> 
-> I wonder if it would simplify things to drop the i2c and i3c
-> device lists and instead implement these for_each loops
-> based on device_for_each_child() with a check of the
-> bus_type==&i2c_bus/&i3c_bus.
-
-We don't store i3c/i3c_device objects in those lists, but
-i3c/i2c_dev_desc objects, so device_for_each_child() won't work.
-Remember that i3c devs can be present but not registered yet, and we
-need to have those representations somehow attached to the master/bus.
-
-Regarding the possibility of merging those 2 lists together, we could
-do it, but I find it simpler to have them separated.
-
-> That might help with locking
-> and keeping the two lists synchronized, which may or
-> may not be a problem here.
-
-Regarding the locking aspects. Anything touching those lists is either
-init code (which should be serialized) or DAA related, which requires
-the bus lock to be held in write mode (exclusive access mode). Do you
-see any other possible race?
-
-Thanks,
-
-Boris
+This is the discussion we've had about 1 month ago with Arnd, Wolfram
+and Peter, and the conclusion was that 2 different masters connected to
+the same physical bus should expose 2 different buses (which means
+having the same physical devices exposed 2 times in Linux).
