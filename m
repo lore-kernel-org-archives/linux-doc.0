@@ -1,183 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E5057D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 20:10:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 174BD7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 21:14:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728536AbeIGArN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 20:47:13 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40383 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727869AbeIGArN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Sep 2018 20:47:13 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n2-v6so12698206wrw.7;
-        Thu, 06 Sep 2018 13:10:07 -0700 (PDT)
+        id S1727678AbeIGBvL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Sep 2018 21:51:11 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:52655 "EHLO
+        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726308AbeIGBvL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Sep 2018 21:51:11 -0400
+Received: by mail-it0-f67.google.com with SMTP id h3-v6so17733468ita.2;
+        Thu, 06 Sep 2018 14:13:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=azRF1WvAQn/lvao9BXqVwgS0phzVglVTMRxN6ICDDVo=;
-        b=QgLl2OV8BJYRksZ4XbiXKSF3MSN1pOo8EfHkUhRxYuUAuFy4ccb5lSzEQY7/msp8WM
-         oobbrzDh/7hgHdJicjaHM/Esc5VLS4RsAbvmfECByJsPYiwHMzwMilRuCqJe2cuKaUM8
-         mfffJS+79f2esrh+zUNezhNXmCZAOZ1uyRZgI1rfNnIqIfU1HK5kFKI4cmP0fdJLiTUL
-         9nNIL5nep7jFUPmimYxOJn+Ypr0ZGEgVL4jODNHz39+P3u0VFTICzcGkyq3oDsbnlNUd
-         A40dvwSb5GjVkGa2MrCeEJ0NSHdMpdHLhOVzwjr4uHP69axSLAxh+69E48yRTPm4+1rp
-         BDhA==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EnYW6ky3ItoT2KivNLq/iXbl9f+ePTKUcOmgWI5+k2Y=;
+        b=ZbMUWEmprABY+YRbPRJdMPpOUhWglTIyxdTbNeRNb2iXmku8eVAULCaqOIpsTpEvNQ
+         DvTs9HGZl/GDigvQQYHVlapZj9YhV/WsFAu+7g2GayYhl4B5FTu3U1406MLZvi0fSG2U
+         myAbiofGAyhHA8F90mbI3KFwEiMKUmFQJQ030=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=azRF1WvAQn/lvao9BXqVwgS0phzVglVTMRxN6ICDDVo=;
-        b=QcvUtSqQLNPuX2o6EDGWO21765/NOcrrDKc0EG59YHUtckzbA4IeEZAYcIgw4dDKNU
-         UxFEEq9d7MS/91fmluoZWXjUflU/FyJcfVFh1+SvrMZWRMKHTozZeeLfP9CPAPtGm3Pm
-         iHZvVDmsVJ0j3Gyp0OS98ALw67EN25zlrsedWidmskY0+Cf9N4lfo11eoZ1PXO+X6C+G
-         vfwHFd78GoYowiMKA6195wSV3Yh0JYU+ZXCfvj++Dz0YsgoNVbmOfFdTXeiik3Bf9ppW
-         9zqbd7G2EPqcGBi1BuPXTEDZmDiCfYtVJCEpU1jYxbZr41/nbug8H6T1R/qRBnuamKk7
-         XcOQ==
-X-Gm-Message-State: APzg51Av6O9tbf+Yec7DdY+CYMo6OFJXYCpjY95784bhvXC4BCEb0JIB
-        m+5swUi2YNUq/S3rOUmtAWA=
-X-Google-Smtp-Source: ANB0VdY6IchvSUoqOF1vIASQQmQW+yBbCZUcq+EOZWzJPoehNOQRE1JXhV6qG7mH48xaRRVeSXDb8A==
-X-Received: by 2002:adf:e211:: with SMTP id j17-v6mr3951445wri.205.1536264607064;
-        Thu, 06 Sep 2018 13:10:07 -0700 (PDT)
-Received: from ltop.local ([2a02:a03f:4006:df00:f830:4b56:d713:5075])
-        by smtp.gmail.com with ESMTPSA id b144-v6sm7294198wmd.23.2018.09.06.13.10.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Sep 2018 13:10:06 -0700 (PDT)
-Date:   Thu, 6 Sep 2018 22:10:04 +0200
-From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        linux-kselftest@vger.kernel.org,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
- sparse
-Message-ID: <20180906201003.54bqs7sacynt5uyq@ltop.local>
-References: <cover.1535629099.git.andreyknvl@google.com>
- <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
- <20180831081123.6mo62xnk54pvlxmc@ltop.local>
- <20180831134244.GB19965@ZenIV.linux.org.uk>
- <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
- <01cadefd-c929-cb45-500d-7043cf3943f6@arm.com>
- <20180903151026.n2jak3e4yqusnogt@ltop.local>
- <a31d3400-4523-2bda-a429-f2a221e69ee8@arm.com>
- <20180905190316.a34yycthgbamx2t3@ltop.local>
- <5074b9b6-2b8d-c410-f908-b4c17dacbb2c@arm.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EnYW6ky3ItoT2KivNLq/iXbl9f+ePTKUcOmgWI5+k2Y=;
+        b=H7GhsNl8VxayFPe4lFXb6cq2wZTT0wyWqvpKyd43EbhJR2x5+r3Zj3pT+ebk1z57h6
+         WQYYlnDyPZuNlamHjQT/vm+pLmajewQxb4+ogjSTWaNTSW/SriDSkmbO5naP9PAdXWRl
+         qQw4iHVydw9O6ohPbtiRERv9YHFbMY0nM6Og7dzFYJ0PBwtivdMKxr8jDnxd2gYlJu59
+         IQTiPcc/TEzZS09NgFlAQ64pIqpio7F1us4n8am3xcK7WHgtPKxTXJwoN57xZ5XrRRbZ
+         L5X9hpCXZuwbqGW1L4EigSBlhsJhkPY0udZZML698ThIMA4YooXZs0h6ZNJHcKfgMGQZ
+         1tbg==
+X-Gm-Message-State: APzg51D3wTNys6PV4m4Gi+EpDbjHruEpz+YO/ug7M8qnV76CjiMaasME
+        LGGv86lrWWqrikdVvccCgq61gn2qG3aOneKzBTA=
+X-Google-Smtp-Source: ANB0VdZdNq0WBx5vFfZUu5v90Zk1b9LMwkztk3ipM1rc0mldeVBM6XgfathqdPs/Pj3iCABo9IuD+4LNJx+Ayv/qyk4=
+X-Received: by 2002:a24:61d2:: with SMTP id s201-v6mr4750602itc.22.1536268432238;
+ Thu, 06 Sep 2018 14:13:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5074b9b6-2b8d-c410-f908-b4c17dacbb2c@arm.com>
-User-Agent: NeoMutt/20180622
+References: <cover.1535629099.git.andreyknvl@google.com> <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+In-Reply-To: <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 6 Sep 2018 14:13:41 -0700
+Message-ID: <CA+55aFyW9N2tSb2bQvkthbVVyY6nt5yFeWQRLHp1zruBmb5ocw@mail.gmail.com>
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by sparse
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>, eugenis@google.com,
+        Lee.Smith@arm.com,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob.Bramley@arm.com, Ruben.Ayrapetyan@arm.com,
+        cpandya@codeaurora.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 06, 2018 at 03:13:16PM +0100, Vincenzo Frascino wrote:
-> On 05/09/18 20:03, Luc Van Oostenryck wrote:
-> > I think that at this point, it would be nice to have a clear description
-> > of the problem and what sort of checks are wanted.
-> >
-> 
-> 
-> The problem we are trying to address here is to identify when the user pointers
-> are cast to integer types and to sanitize (when required) the kernel, when this
-> happens.
-> 
-> The way on which we are trying to address this problem based on what Andrey
-> proposed in his patch-set is to use the Top Byte Ignore feature (which is a 64 bit
-> specific feature).
-> 
-> Based on what I said I think that we require 2 'modifiers':
-> - __compat (or __compat_ptr) used when the kernel is dealing with user compat 
-> pointers (32 bit, they can not be tagged). It should behave like force
-> (silence warnings), but having something separate IMO makes more clear the
-> intention of what we are trying to do.
-> - __tagged (or __tagged_ptr) used when the kernel is dealing with user normal
-> pointers (which can be tagged). In this case sparse should still be able to trigger
-> a warning (that can be disabled by default as I was proposing in my previous email).
-> When we put a tagged identifier we declare that we analyzed the code impacted by
-> the conversion and eventually sanitized it. Having the warning still there allows us
-> or whoever is looking at the code to always go back to the identified issue.  
+On Thu, Aug 30, 2018 at 4:41 AM Andrey Konovalov <andreyknvl@google.com> wrote:
+>
+> This patch adds __force annotations for __user pointers casts detected by
+> sparse with the -Wcast-from-as flag enabled (added in [1]).
 
-OK. Thanks for the explanation.
+No, several of these are wrong, and just silence a warning that shows a problem.
 
-So, the way I see things from a type checking perspective, is that
-'being (potentially) tagged' is a new property of values, othogonal
-the the concept of address space. Leaving the other address spaces
-(__iomem, __percpu & __rcu) aside, it should be possible to have
-__user & __kernel tagged pointers as well as tagged ulongs:
-	__user __tagged *
-	__kernel __tagged *
-	ulong __tagged
-in addition of the usuals:
-	__user *
-	__kernel *
-	ulong
-But some of them are banished or meaningless:
-	__user *            (all __user pointers are potentially tagged)
-	__kernel __tagged * (tags are only for user space)
-	ulong __tagged      (pointers need to be untagged during conversion)
-So, only the followings remain:
-	__user __tagged *
-	__kernel *
-	ulong
-and the property '__tagged' becomes equivalent to '__user'.
-Thus '__tagged' can be implicit and this would have the advantage
-of not needing to change any annotations.
+So for example:
 
-Since the conversion '__user *' to '__kernel *' is already covered
-by the default sparse warnings, only the conversion '__user' to
-'ulong' need to be covered (and this is already covered by the new
-option -Wcast-from-as) but that is only fine for detection. After
-detection and auditing, several solution are possible:
-1) simply add '__force' in the cast (this is very bad)
-2) moving this '__force' inside a macro '__untag_ptr(x)' would already
-   more acceptable but is fundamentaly the same as 1)
-3) a weaker form of '__force', '__force_as', will do the trick nicely
-   as long as __user is equated to __tagged (and could be useful on
-   its own but could also hide real AS conversion problems).
-4) a more specific solution would be to effectively add a new attribute,
-   '__tagged', to define '__user' like:
-	#define __user attribute((noderef,address_space(1),tagged))
-   and have something like '__untag', a weaker form of __force meaning:
-   "I know what I'm doing regarding conversion from 'tagged'". 
+>  static inline compat_uptr_t ptr_to_compat(void __user *uptr)
+>  {
+> -       return (u32)(unsigned long)uptr;
+> +       return (u32)(__force unsigned long)uptr;
+>  }
 
-Neither 3) nor 4) should be much work but while I firmly think that
-4) is the most correct solution, I'm not sure it's worth the added
-complexity, certainly if KHWASAN is not meant to be upstreamed.
+this actually looks correct.
 
-For the compat pointers, I'm less sure to understand the situation:
-even if they can't be tagged, treating them as the other __user
-pointers will still be OK (but I understand that it could be
-interesting to be able to track them, it's just that it's independent
-from the __tagged property).
+But:
 
+> --- a/arch/arm64/include/asm/uaccess.h
+> +++ b/arch/arm64/include/asm/uaccess.h
+> @@ -76,7 +76,7 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+>  {
+>         unsigned long ret, limit = current_thread_info()->addr_limit;
+>
+> -       __chk_user_ptr(addr);
+> +       __chk_user_ptr((void __force *)addr);
 
--- Luc
+This looks actively wrong. The whole - and only - point of
+"__chk_user_ptr()" is that it warns about a lack of a "__user *" type.
+
+So the above makes no sense at all.
+
+There are other similar "that makes no sense what-so-ever", like this one:
+
+> -               struct compat_group_req __user *gr32 = (void *)optval;
+> +               struct compat_group_req __user *gr32 = (__force void *)optval;
+
+no, the additionl of __force is not the right thing, the problem, is
+that a __user pointer is cast to a non-user 'void *' only to be
+assigned to another user type.
+
+The fix should have been to use (void __user *) as the cast instead,
+no __force needed.
+
+In general, I think the patch shows all the signs of "mindlessly just
+add casts", which is exactly the wrong thing to do to sparse warnings.
+
+                   Linus
