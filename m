@@ -5,20 +5,20 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 73A067D923
+	by archive.lwn.net (Postfix) with ESMTP id A74687D57F
 	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 22:39:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727815AbeIGDQu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728961AbeIGDQu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Thu, 6 Sep 2018 23:16:50 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:45506 "EHLO mail.bootlin.com"
+Received: from mail.bootlin.com ([62.4.15.54]:45554 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728941AbeIGDQu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727815AbeIGDQu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 6 Sep 2018 23:16:50 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id D5FDC208BE; Fri,  7 Sep 2018 00:39:09 +0200 (CEST)
+        id 4E197208B5; Fri,  7 Sep 2018 00:39:09 +0200 (CEST)
 Received: from localhost.localdomain (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 3FC8F20379;
-        Fri,  7 Sep 2018 00:39:09 +0200 (CEST)
+        by mail.bootlin.com (Postfix) with ESMTPSA id CA9602089C;
+        Fri,  7 Sep 2018 00:39:07 +0200 (CEST)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Richard Weinberger <richard@nod.at>,
@@ -51,9 +51,9 @@ Cc:     David Woodhouse <dwmw2@infradead.org>,
         Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         devel@driverdev.osuosl.org
-Subject: [PATCH 11/19] mtd: rawnand: Get rid of nand_flash_dev forward declation
-Date:   Fri,  7 Sep 2018 00:38:43 +0200
-Message-Id: <20180906223851.6964-12-boris.brezillon@bootlin.com>
+Subject: [PATCH 10/19] mtd: rawnand: Move function prototypes after struct declarations
+Date:   Fri,  7 Sep 2018 00:38:42 +0200
+Message-Id: <20180906223851.6964-11-boris.brezillon@bootlin.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180906223851.6964-1-boris.brezillon@bootlin.com>
 References: <20180906223851.6964-1-boris.brezillon@bootlin.com>
@@ -62,26 +62,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-nand_scan[with_ids]() have been moved at the end of the file. We can
-now get rid of of the nand_flash_dev forward declaration.
+Move nand_scan[_with_ids]() and nand_wait_ready() at the end of the
+file where all function prototype lies. This will also allow us to get
+rid of the nand_flash_dev forward declaration.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
 ---
- include/linux/mtd/rawnand.h | 1 -
- 1 file changed, 1 deletion(-)
+ include/linux/mtd/rawnand.h | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/include/linux/mtd/rawnand.h b/include/linux/mtd/rawnand.h
-index 15183b73fed2..768415ed1159 100644
+index 992d78d29674..15183b73fed2 100644
 --- a/include/linux/mtd/rawnand.h
 +++ b/include/linux/mtd/rawnand.h
-@@ -25,7 +25,6 @@
- #include <linux/types.h>
- 
+@@ -27,18 +27,6 @@
  struct nand_chip;
--struct nand_flash_dev;
+ struct nand_flash_dev;
  
+-/* Scan and identify a NAND device */
+-int nand_scan_with_ids(struct nand_chip *chip, unsigned int max_chips,
+-		       struct nand_flash_dev *ids);
+-
+-static inline int nand_scan(struct nand_chip *chip, unsigned int max_chips)
+-{
+-	return nand_scan_with_ids(chip, max_chips, NULL);
+-}
+-
+-/* Internal helper for board drivers which need to override command function */
+-void nand_wait_ready(struct nand_chip *chip);
+-
  /* The maximum number of NAND chips in an array */
  #define NAND_MAX_CHIPS		8
+ 
+@@ -1739,6 +1727,18 @@ int nand_read_data_op(struct nand_chip *chip, void *buf, unsigned int len,
+ int nand_write_data_op(struct nand_chip *chip, const void *buf,
+ 		       unsigned int len, bool force_8bit);
+ 
++/* Scan and identify a NAND device */
++int nand_scan_with_ids(struct nand_chip *chip, unsigned int max_chips,
++		       struct nand_flash_dev *ids);
++
++static inline int nand_scan(struct nand_chip *chip, unsigned int max_chips)
++{
++	return nand_scan_with_ids(chip, max_chips, NULL);
++}
++
++/* Internal helper for board drivers which need to override command function */
++void nand_wait_ready(struct nand_chip *chip);
++
+ /*
+  * Free resources held by the NAND device, must be called on error after a
+  * sucessful nand_scan().
 -- 
 2.14.1
 
