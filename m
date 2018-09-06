@@ -5,20 +5,20 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE31A7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 22:39:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0CCB67D923
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 22:39:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728975AbeIGDQs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728971AbeIGDQs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Thu, 6 Sep 2018 23:16:48 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:45506 "EHLO mail.bootlin.com"
+Received: from mail.bootlin.com ([62.4.15.54]:45554 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728018AbeIGDQs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728952AbeIGDQs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 6 Sep 2018 23:16:48 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 37103208AE; Fri,  7 Sep 2018 00:39:05 +0200 (CEST)
+        id 93D29208A4; Fri,  7 Sep 2018 00:39:06 +0200 (CEST)
 Received: from localhost.localdomain (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 5BC9A207AD;
-        Fri,  7 Sep 2018 00:39:04 +0200 (CEST)
+        by mail.bootlin.com (Postfix) with ESMTPSA id B6880207AD;
+        Fri,  7 Sep 2018 00:39:05 +0200 (CEST)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Richard Weinberger <richard@nod.at>,
@@ -51,9 +51,9 @@ Cc:     David Woodhouse <dwmw2@infradead.org>,
         Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         devel@driverdev.osuosl.org
-Subject: [PATCH 06/19] mtd: rawnand: Deprecate ->block_{bad,markbad}() hooks
-Date:   Fri,  7 Sep 2018 00:38:38 +0200
-Message-Id: <20180906223851.6964-7-boris.brezillon@bootlin.com>
+Subject: [PATCH 08/19] mtd: rawnand: Deprecate ->{set,get}_features() hooks
+Date:   Fri,  7 Sep 2018 00:38:40 +0200
+Message-Id: <20180906223851.6964-9-boris.brezillon@bootlin.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180906223851.6964-1-boris.brezillon@bootlin.com>
 References: <20180906223851.6964-1-boris.brezillon@bootlin.com>
@@ -62,242 +62,363 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those hooks have been overloaded by some drivers for bad reasons:
-either the driver was not fitting in the NAND framework and should
-have been an MTD driver (docg4), or it was not properly implementing
-the OOB read/write request or had a weird layout where BBM are trashed.
-In any case, we should discourage people from overloading those
-methods and encourage them to fix their driver instead.
-
-Move the ->block_{bad,markbad}() hooks to the nand_legacy struct to
-make it clear.
+Those hooks should be replaced by a proper ->exec_op() implementation.
+Move them to the nand_legacy struct to make it clear.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
 ---
- drivers/mtd/nand/raw/cafe_nand.c           |  2 +-
- drivers/mtd/nand/raw/diskonchip.c          |  2 +-
- drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c |  4 ++--
- drivers/mtd/nand/raw/nand_base.c           | 37 ++++++++++++++++++++++--------
- drivers/mtd/nand/raw/nand_bbt.c            |  2 +-
- drivers/mtd/nand/raw/qcom_nandc.c          |  4 ++--
- drivers/mtd/nand/raw/sm_common.c           |  2 +-
- include/linux/mtd/rawnand.h                |  9 ++++----
- 8 files changed, 40 insertions(+), 22 deletions(-)
+ drivers/mtd/nand/raw/bcm47xxnflash/ops_bcm4706.c |   4 +-
+ drivers/mtd/nand/raw/cafe_nand.c                 |   4 +-
+ drivers/mtd/nand/raw/fsl_elbc_nand.c             |   4 +-
+ drivers/mtd/nand/raw/fsl_ifc_nand.c              |   4 +-
+ drivers/mtd/nand/raw/hisi504_nand.c              |   4 +-
+ drivers/mtd/nand/raw/mpc5121_nfc.c               |   4 +-
+ drivers/mtd/nand/raw/mxc_nand.c                  |   4 +-
+ drivers/mtd/nand/raw/nand_base.c                 | 112 +++++++++--------------
+ drivers/mtd/nand/raw/qcom_nandc.c                |   4 +-
+ drivers/mtd/nand/raw/sh_flctl.c                  |   4 +-
+ drivers/staging/mt29f_spinand/mt29f_spinand.c    |   4 +-
+ include/linux/mtd/rawnand.h                      |  12 +--
+ 12 files changed, 70 insertions(+), 94 deletions(-)
 
+diff --git a/drivers/mtd/nand/raw/bcm47xxnflash/ops_bcm4706.c b/drivers/mtd/nand/raw/bcm47xxnflash/ops_bcm4706.c
+index 925d4cd4401e..357bc75948b0 100644
+--- a/drivers/mtd/nand/raw/bcm47xxnflash/ops_bcm4706.c
++++ b/drivers/mtd/nand/raw/bcm47xxnflash/ops_bcm4706.c
+@@ -390,8 +390,8 @@ int bcm47xxnflash_ops_bcm4706_init(struct bcm47xxnflash *b47n)
+ 	b47n->nand_chip.legacy.read_byte = bcm47xxnflash_ops_bcm4706_read_byte;
+ 	b47n->nand_chip.legacy.read_buf = bcm47xxnflash_ops_bcm4706_read_buf;
+ 	b47n->nand_chip.legacy.write_buf = bcm47xxnflash_ops_bcm4706_write_buf;
+-	b47n->nand_chip.set_features = nand_get_set_features_notsupp;
+-	b47n->nand_chip.get_features = nand_get_set_features_notsupp;
++	b47n->nand_chip.legacy.set_features = nand_get_set_features_notsupp;
++	b47n->nand_chip.legacy.get_features = nand_get_set_features_notsupp;
+ 
+ 	nand_chip->chip_delay = 50;
+ 	b47n->nand_chip.bbt_options = NAND_BBT_USE_FLASH;
 diff --git a/drivers/mtd/nand/raw/cafe_nand.c b/drivers/mtd/nand/raw/cafe_nand.c
-index 738af0f0a48d..db62b12800d3 100644
+index db62b12800d3..e3f702bef549 100644
 --- a/drivers/mtd/nand/raw/cafe_nand.c
 +++ b/drivers/mtd/nand/raw/cafe_nand.c
-@@ -719,7 +719,7 @@ static int cafe_nand_probe(struct pci_dev *pdev,
+@@ -709,8 +709,8 @@ static int cafe_nand_probe(struct pci_dev *pdev,
+ 	cafe->nand.legacy.read_buf = cafe_read_buf;
+ 	cafe->nand.legacy.write_buf = cafe_write_buf;
+ 	cafe->nand.select_chip = cafe_select_chip;
+-	cafe->nand.set_features = nand_get_set_features_notsupp;
+-	cafe->nand.get_features = nand_get_set_features_notsupp;
++	cafe->nand.legacy.set_features = nand_get_set_features_notsupp;
++	cafe->nand.legacy.get_features = nand_get_set_features_notsupp;
  
- 	if (skipbbt) {
- 		cafe->nand.options |= NAND_SKIP_BBTSCAN;
--		cafe->nand.block_bad = cafe_nand_block_bad;
-+		cafe->nand.legacy.block_bad = cafe_nand_block_bad;
- 	}
+ 	cafe->nand.chip_delay = 0;
  
- 	if (numtimings && numtimings != 3) {
-diff --git a/drivers/mtd/nand/raw/diskonchip.c b/drivers/mtd/nand/raw/diskonchip.c
-index c3a79369fbed..16fdfd06ef25 100644
---- a/drivers/mtd/nand/raw/diskonchip.c
-+++ b/drivers/mtd/nand/raw/diskonchip.c
-@@ -1572,7 +1572,7 @@ static int __init doc_probe(unsigned long physadr)
- 	nand->legacy.cmd_ctrl		= doc200x_hwcontrol;
- 	nand->legacy.dev_ready	= doc200x_dev_ready;
- 	nand->legacy.waitfunc	= doc200x_wait;
--	nand->block_bad		= doc200x_block_bad;
-+	nand->legacy.block_bad	= doc200x_block_bad;
- 	nand->ecc.hwctl		= doc200x_enable_hwecc;
- 	nand->ecc.calculate	= doc200x_calculate_ecc;
- 	nand->ecc.correct	= doc200x_correct_data;
-diff --git a/drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c b/drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c
-index dc6291902acf..94c2b7525c85 100644
---- a/drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c
-+++ b/drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c
-@@ -1774,7 +1774,7 @@ static int mx23_boot_init(struct gpmi_nand_data  *this)
- 		 */
- 		if (block_mark != 0xff) {
- 			dev_dbg(dev, "Transcribing mark in block %u\n", block);
--			ret = chip->block_markbad(chip, byte);
-+			ret = chip->legacy.block_markbad(chip, byte);
- 			if (ret)
- 				dev_err(dev,
- 					"Failed to mark block bad with ret %d\n",
-@@ -1908,7 +1908,7 @@ static int gpmi_nand_init(struct gpmi_nand_data *this)
- 	chip->legacy.read_buf	= gpmi_read_buf;
- 	chip->legacy.write_buf	= gpmi_write_buf;
- 	chip->badblock_pattern	= &gpmi_bbt_descr;
--	chip->block_markbad	= gpmi_block_markbad;
-+	chip->legacy.block_markbad = gpmi_block_markbad;
- 	chip->options		|= NAND_NO_SUBPAGE_WRITE;
+diff --git a/drivers/mtd/nand/raw/fsl_elbc_nand.c b/drivers/mtd/nand/raw/fsl_elbc_nand.c
+index 29f0832de39b..c5f3aa908416 100644
+--- a/drivers/mtd/nand/raw/fsl_elbc_nand.c
++++ b/drivers/mtd/nand/raw/fsl_elbc_nand.c
+@@ -782,8 +782,8 @@ static int fsl_elbc_chip_init(struct fsl_elbc_mtd *priv)
+ 	chip->select_chip = fsl_elbc_select_chip;
+ 	chip->legacy.cmdfunc = fsl_elbc_cmdfunc;
+ 	chip->legacy.waitfunc = fsl_elbc_wait;
+-	chip->set_features = nand_get_set_features_notsupp;
+-	chip->get_features = nand_get_set_features_notsupp;
++	chip->legacy.set_features = nand_get_set_features_notsupp;
++	chip->legacy.get_features = nand_get_set_features_notsupp;
  
- 	/* Set up swap_block_mark, must be set before the gpmi_set_geometry() */
+ 	chip->bbt_td = &bbt_main_descr;
+ 	chip->bbt_md = &bbt_mirror_descr;
+diff --git a/drivers/mtd/nand/raw/fsl_ifc_nand.c b/drivers/mtd/nand/raw/fsl_ifc_nand.c
+index 682ae383c3e9..a303d12079f0 100644
+--- a/drivers/mtd/nand/raw/fsl_ifc_nand.c
++++ b/drivers/mtd/nand/raw/fsl_ifc_nand.c
+@@ -867,8 +867,8 @@ static int fsl_ifc_chip_init(struct fsl_ifc_mtd *priv)
+ 	chip->select_chip = fsl_ifc_select_chip;
+ 	chip->legacy.cmdfunc = fsl_ifc_cmdfunc;
+ 	chip->legacy.waitfunc = fsl_ifc_wait;
+-	chip->set_features = nand_get_set_features_notsupp;
+-	chip->get_features = nand_get_set_features_notsupp;
++	chip->legacy.set_features = nand_get_set_features_notsupp;
++	chip->legacy.get_features = nand_get_set_features_notsupp;
+ 
+ 	chip->bbt_td = &bbt_main_descr;
+ 	chip->bbt_md = &bbt_mirror_descr;
+diff --git a/drivers/mtd/nand/raw/hisi504_nand.c b/drivers/mtd/nand/raw/hisi504_nand.c
+index 6e17239983db..fee7d63e8de8 100644
+--- a/drivers/mtd/nand/raw/hisi504_nand.c
++++ b/drivers/mtd/nand/raw/hisi504_nand.c
+@@ -788,8 +788,8 @@ static int hisi_nfc_probe(struct platform_device *pdev)
+ 	chip->legacy.write_buf	= hisi_nfc_write_buf;
+ 	chip->legacy.read_buf	= hisi_nfc_read_buf;
+ 	chip->chip_delay	= HINFC504_CHIP_DELAY;
+-	chip->set_features	= nand_get_set_features_notsupp;
+-	chip->get_features	= nand_get_set_features_notsupp;
++	chip->legacy.set_features	= nand_get_set_features_notsupp;
++	chip->legacy.get_features	= nand_get_set_features_notsupp;
+ 
+ 	hisi_nfc_host_init(host);
+ 
+diff --git a/drivers/mtd/nand/raw/mpc5121_nfc.c b/drivers/mtd/nand/raw/mpc5121_nfc.c
+index 9a6dc783689e..86a0aabe08df 100644
+--- a/drivers/mtd/nand/raw/mpc5121_nfc.c
++++ b/drivers/mtd/nand/raw/mpc5121_nfc.c
+@@ -698,8 +698,8 @@ static int mpc5121_nfc_probe(struct platform_device *op)
+ 	chip->legacy.read_buf = mpc5121_nfc_read_buf;
+ 	chip->legacy.write_buf = mpc5121_nfc_write_buf;
+ 	chip->select_chip = mpc5121_nfc_select_chip;
+-	chip->set_features	= nand_get_set_features_notsupp;
+-	chip->get_features	= nand_get_set_features_notsupp;
++	chip->legacy.set_features = nand_get_set_features_notsupp;
++	chip->legacy.get_features = nand_get_set_features_notsupp;
+ 	chip->bbt_options = NAND_BBT_USE_FLASH;
+ 	chip->ecc.mode = NAND_ECC_SOFT;
+ 	chip->ecc.algo = NAND_ECC_HAMMING;
+diff --git a/drivers/mtd/nand/raw/mxc_nand.c b/drivers/mtd/nand/raw/mxc_nand.c
+index ca074c955147..b8115100a0b8 100644
+--- a/drivers/mtd/nand/raw/mxc_nand.c
++++ b/drivers/mtd/nand/raw/mxc_nand.c
+@@ -1778,8 +1778,8 @@ static int mxcnd_probe(struct platform_device *pdev)
+ 	this->legacy.read_byte = mxc_nand_read_byte;
+ 	this->legacy.write_buf = mxc_nand_write_buf;
+ 	this->legacy.read_buf = mxc_nand_read_buf;
+-	this->set_features = mxc_nand_set_features;
+-	this->get_features = mxc_nand_get_features;
++	this->legacy.set_features = mxc_nand_set_features;
++	this->legacy.get_features = mxc_nand_get_features;
+ 
+ 	host->clk = devm_clk_get(&pdev->dev, NULL);
+ 	if (IS_ERR(host->clk))
 diff --git a/drivers/mtd/nand/raw/nand_base.c b/drivers/mtd/nand/raw/nand_base.c
-index 30b55a4677f9..d71a3d303903 100644
+index 57c89e275a3a..d4a84a871fc7 100644
 --- a/drivers/mtd/nand/raw/nand_base.c
 +++ b/drivers/mtd/nand/raw/nand_base.c
-@@ -475,6 +475,27 @@ static int nand_default_block_markbad(struct nand_chip *chip, loff_t ofs)
- 	return ret;
+@@ -1175,44 +1175,6 @@ static bool nand_supports_set_features(struct nand_chip *chip, int addr)
+ 		test_bit(addr, chip->parameters.set_feature_list));
  }
+ 
+-/**
+- * nand_get_features - wrapper to perform a GET_FEATURE
+- * @chip: NAND chip info structure
+- * @addr: feature address
+- * @subfeature_param: the subfeature parameters, a four bytes array
+- *
+- * Returns 0 for success, a negative error otherwise. Returns -ENOTSUPP if the
+- * operation cannot be handled.
+- */
+-int nand_get_features(struct nand_chip *chip, int addr,
+-		      u8 *subfeature_param)
+-{
+-	if (!nand_supports_get_features(chip, addr))
+-		return -ENOTSUPP;
+-
+-	return chip->get_features(chip, addr, subfeature_param);
+-}
+-EXPORT_SYMBOL_GPL(nand_get_features);
+-
+-/**
+- * nand_set_features - wrapper to perform a SET_FEATURE
+- * @chip: NAND chip info structure
+- * @addr: feature address
+- * @subfeature_param: the subfeature parameters, a four bytes array
+- *
+- * Returns 0 for success, a negative error otherwise. Returns -ENOTSUPP if the
+- * operation cannot be handled.
+- */
+-int nand_set_features(struct nand_chip *chip, int addr,
+-		      u8 *subfeature_param)
+-{
+-	if (!nand_supports_set_features(chip, addr))
+-		return -ENOTSUPP;
+-
+-	return chip->set_features(chip, addr, subfeature_param);
+-}
+-EXPORT_SYMBOL_GPL(nand_set_features);
+-
+ /**
+  * nand_reset_data_interface - Reset data interface and timings
+  * @chip: The NAND chip
+@@ -2833,6 +2795,50 @@ int nand_reset(struct nand_chip *chip, int chipnr)
+ }
+ EXPORT_SYMBOL_GPL(nand_reset);
  
 +/**
-+ * nand_markbad_bbm - mark a block by updating the BBM
-+ * @chip: NAND chip object
-+ * @ofs: offset of the block to mark bad
++ * nand_get_features - wrapper to perform a GET_FEATURE
++ * @chip: NAND chip info structure
++ * @addr: feature address
++ * @subfeature_param: the subfeature parameters, a four bytes array
++ *
++ * Returns 0 for success, a negative error otherwise. Returns -ENOTSUPP if the
++ * operation cannot be handled.
 + */
-+int nand_markbad_bbm(struct nand_chip *chip, loff_t ofs)
++int nand_get_features(struct nand_chip *chip, int addr,
++		      u8 *subfeature_param)
 +{
-+	if (chip->legacy.block_markbad)
-+		return chip->legacy.block_markbad(chip, ofs);
++	if (!nand_supports_get_features(chip, addr))
++		return -ENOTSUPP;
 +
-+	return nand_default_block_markbad(chip, ofs);
++	if (chip->legacy.get_features)
++		return chip->legacy.get_features(chip, addr, subfeature_param);
++
++	return nand_get_features_op(chip, addr, subfeature_param);
 +}
++EXPORT_SYMBOL_GPL(nand_get_features);
 +
-+static int nand_isbad_bbm(struct nand_chip *chip, loff_t ofs)
++/**
++ * nand_set_features - wrapper to perform a SET_FEATURE
++ * @chip: NAND chip info structure
++ * @addr: feature address
++ * @subfeature_param: the subfeature parameters, a four bytes array
++ *
++ * Returns 0 for success, a negative error otherwise. Returns -ENOTSUPP if the
++ * operation cannot be handled.
++ */
++int nand_set_features(struct nand_chip *chip, int addr,
++		      u8 *subfeature_param)
 +{
-+	if (chip->legacy.block_bad)
-+		return chip->legacy.block_bad(chip, ofs);
++	if (!nand_supports_set_features(chip, addr))
++		return -ENOTSUPP;
 +
-+	return nand_block_bad(chip, ofs);
++	if (chip->legacy.set_features)
++		return chip->legacy.set_features(chip, addr, subfeature_param);
++
++	return nand_set_features_op(chip, addr, subfeature_param);
 +}
++EXPORT_SYMBOL_GPL(nand_set_features);
 +
  /**
-  * nand_block_markbad_lowlevel - mark a block bad
-  * @mtd: MTD device structure
-@@ -482,7 +503,7 @@ static int nand_default_block_markbad(struct nand_chip *chip, loff_t ofs)
-  *
-  * This function performs the generic NAND bad block marking steps (i.e., bad
-  * block table(s) and/or marker(s)). We only allow the hardware driver to
-- * specify how to write bad block markers to OOB (chip->block_markbad).
-+ * specify how to write bad block markers to OOB (chip->legacy.block_markbad).
-  *
-  * We try operations in the following order:
-  *
-@@ -510,7 +531,7 @@ static int nand_block_markbad_lowlevel(struct mtd_info *mtd, loff_t ofs)
- 
- 		/* Write bad block marker to OOB */
- 		nand_get_device(mtd, FL_WRITING);
--		ret = chip->block_markbad(chip, ofs);
-+		ret = nand_markbad_bbm(chip, ofs);
- 		nand_release_device(mtd);
- 	}
- 
-@@ -582,11 +603,11 @@ static int nand_block_checkbad(struct mtd_info *mtd, loff_t ofs, int allowbbt)
- {
- 	struct nand_chip *chip = mtd_to_nand(mtd);
- 
--	if (!chip->bbt)
--		return chip->block_bad(chip, ofs);
--
- 	/* Return info from the table */
--	return nand_isbad_bbt(chip, ofs, allowbbt);
-+	if (chip->bbt)
-+		return nand_isbad_bbt(chip, ofs, allowbbt);
-+
-+	return nand_isbad_bbm(chip, ofs);
+  * nand_check_erased_buf - check if a buffer contains (almost) only 0xff data
+  * @buf: buffer to test
+@@ -4864,30 +4870,6 @@ static int nand_max_bad_blocks(struct mtd_info *mtd, loff_t ofs, size_t len)
+ 	return chip->max_bb_per_die * (part_end_die - part_start_die + 1);
  }
  
+-/**
+- * nand_default_set_features- [REPLACEABLE] set NAND chip features
+- * @chip: nand chip info structure
+- * @addr: feature address.
+- * @subfeature_param: the subfeature parameters, a four bytes array.
+- */
+-static int nand_default_set_features(struct nand_chip *chip, int addr,
+-				     uint8_t *subfeature_param)
+-{
+-	return nand_set_features_op(chip, addr, subfeature_param);
+-}
+-
+-/**
+- * nand_default_get_features- [REPLACEABLE] get NAND chip features
+- * @chip: nand chip info structure
+- * @addr: feature address.
+- * @subfeature_param: the subfeature parameters, a four bytes array.
+- */
+-static int nand_default_get_features(struct nand_chip *chip, int addr,
+-				     uint8_t *subfeature_param)
+-{
+-	return nand_get_features_op(chip, addr, subfeature_param);
+-}
+-
  /**
-@@ -4942,10 +4963,6 @@ static void nand_set_defaults(struct nand_chip *chip)
+  * nand_get_set_features_notsupp - set/get features stub returning -ENOTSUPP
+  * @chip: nand chip info structure
+@@ -4958,12 +4940,6 @@ static void nand_set_defaults(struct nand_chip *chip)
+ 	if (!chip->select_chip)
+ 		chip->select_chip = nand_select_chip;
+ 
+-	/* set for ONFI nand */
+-	if (!chip->set_features)
+-		chip->set_features = nand_default_set_features;
+-	if (!chip->get_features)
+-		chip->get_features = nand_default_get_features;
+-
  	/* If called twice, pointers that depend on busw may need to be reset */
  	if (!chip->legacy.read_byte || chip->legacy.read_byte == nand_read_byte)
  		chip->legacy.read_byte = busw ? nand_read_byte16 : nand_read_byte;
--	if (!chip->block_bad)
--		chip->block_bad = nand_block_bad;
--	if (!chip->block_markbad)
--		chip->block_markbad = nand_default_block_markbad;
- 	if (!chip->legacy.write_buf || chip->legacy.write_buf == nand_write_buf)
- 		chip->legacy.write_buf = busw ? nand_write_buf16 : nand_write_buf;
- 	if (!chip->legacy.write_byte || chip->legacy.write_byte == nand_write_byte)
-diff --git a/drivers/mtd/nand/raw/nand_bbt.c b/drivers/mtd/nand/raw/nand_bbt.c
-index 9d73e086c5de..b838ecdde8fb 100644
---- a/drivers/mtd/nand/raw/nand_bbt.c
-+++ b/drivers/mtd/nand/raw/nand_bbt.c
-@@ -689,7 +689,7 @@ static void mark_bbt_block_bad(struct nand_chip *this,
- 	bbt_mark_entry(this, block, BBT_BLOCK_WORN);
- 
- 	to = (loff_t)block << this->bbt_erase_shift;
--	res = this->block_markbad(this, to);
-+	res = nand_markbad_bbm(this, to);
- 	if (res)
- 		pr_warn("nand_bbt: error %d while marking block %d bad\n",
- 			res, block);
 diff --git a/drivers/mtd/nand/raw/qcom_nandc.c b/drivers/mtd/nand/raw/qcom_nandc.c
-index bd187139416f..79342e24ed81 100644
+index 79342e24ed81..ef75dfa62a4f 100644
 --- a/drivers/mtd/nand/raw/qcom_nandc.c
 +++ b/drivers/mtd/nand/raw/qcom_nandc.c
-@@ -2819,8 +2819,8 @@ static int qcom_nand_host_init_and_register(struct qcom_nand_controller *nandc,
- 	 * and block_markbad helpers until we permanently switch to using
- 	 * MTD_OPS_RAW for all drivers (with the help of badblockbits)
- 	 */
--	chip->block_bad		= qcom_nandc_block_bad;
--	chip->block_markbad	= qcom_nandc_block_markbad;
-+	chip->legacy.block_bad		= qcom_nandc_block_bad;
-+	chip->legacy.block_markbad	= qcom_nandc_block_markbad;
+@@ -2808,8 +2808,8 @@ static int qcom_nand_host_init_and_register(struct qcom_nand_controller *nandc,
+ 	chip->legacy.read_byte	= qcom_nandc_read_byte;
+ 	chip->legacy.read_buf	= qcom_nandc_read_buf;
+ 	chip->legacy.write_buf	= qcom_nandc_write_buf;
+-	chip->set_features	= nand_get_set_features_notsupp;
+-	chip->get_features	= nand_get_set_features_notsupp;
++	chip->legacy.set_features	= nand_get_set_features_notsupp;
++	chip->legacy.get_features	= nand_get_set_features_notsupp;
  
- 	chip->controller = &nandc->controller;
- 	chip->options |= NAND_NO_SUBPAGE_WRITE | NAND_USE_BOUNCE_BUFFER |
-diff --git a/drivers/mtd/nand/raw/sm_common.c b/drivers/mtd/nand/raw/sm_common.c
-index bf143e0db787..6f063ef57640 100644
---- a/drivers/mtd/nand/raw/sm_common.c
-+++ b/drivers/mtd/nand/raw/sm_common.c
-@@ -168,7 +168,7 @@ static int sm_attach_chip(struct nand_chip *chip)
- 	/* Bad block marker position */
- 	chip->badblockpos = 0x05;
- 	chip->badblockbits = 7;
--	chip->block_markbad = sm_block_markbad;
-+	chip->legacy.block_markbad = sm_block_markbad;
+ 	/*
+ 	 * the bad block marker is readable only when we read the last codeword
+diff --git a/drivers/mtd/nand/raw/sh_flctl.c b/drivers/mtd/nand/raw/sh_flctl.c
+index 71658fbd99a3..40a4159924a7 100644
+--- a/drivers/mtd/nand/raw/sh_flctl.c
++++ b/drivers/mtd/nand/raw/sh_flctl.c
+@@ -1185,8 +1185,8 @@ static int flctl_probe(struct platform_device *pdev)
+ 	nand->legacy.read_buf = flctl_read_buf;
+ 	nand->select_chip = flctl_select_chip;
+ 	nand->legacy.cmdfunc = flctl_cmdfunc;
+-	nand->set_features = nand_get_set_features_notsupp;
+-	nand->get_features = nand_get_set_features_notsupp;
++	nand->legacy.set_features = nand_get_set_features_notsupp;
++	nand->legacy.get_features = nand_get_set_features_notsupp;
  
- 	/* ECC layout */
- 	if (mtd->writesize == SM_SECTOR_SIZE)
+ 	if (pdata->flcmncr_val & SEL_16BIT)
+ 		nand->options |= NAND_BUSWIDTH_16;
+diff --git a/drivers/staging/mt29f_spinand/mt29f_spinand.c b/drivers/staging/mt29f_spinand/mt29f_spinand.c
+index fb28cc6331f2..def8a1f57d1c 100644
+--- a/drivers/staging/mt29f_spinand/mt29f_spinand.c
++++ b/drivers/staging/mt29f_spinand/mt29f_spinand.c
+@@ -922,8 +922,8 @@ static int spinand_probe(struct spi_device *spi_nand)
+ 	chip->legacy.waitfunc	= spinand_wait;
+ 	chip->options	|= NAND_CACHEPRG;
+ 	chip->select_chip = spinand_select_chip;
+-	chip->set_features = nand_get_set_features_notsupp;
+-	chip->get_features = nand_get_set_features_notsupp;
++	chip->legacy.set_features = nand_get_set_features_notsupp;
++	chip->legacy.get_features = nand_get_set_features_notsupp;
+ 
+ 	mtd = nand_to_mtd(chip);
+ 
 diff --git a/include/linux/mtd/rawnand.h b/include/linux/mtd/rawnand.h
-index 15642c028da2..aa3e931d0206 100644
+index 97c6ff7d127e..02ac70a30c63 100644
 --- a/include/linux/mtd/rawnand.h
 +++ b/include/linux/mtd/rawnand.h
-@@ -1187,6 +1187,8 @@ int nand_op_parser_exec_op(struct nand_chip *chip,
-  *	       If set to NULL no access to ready/busy is available and the
-  *	       ready/busy information is read from the chip status register.
-  * @waitfunc: hardware specific function for wait on ready.
-+ * @block_bad: check if a block is bad, using OOB markers
-+ * @block_markbad: mark a block bad
+@@ -1190,6 +1190,8 @@ int nand_op_parser_exec_op(struct nand_chip *chip,
+  * @block_bad: check if a block is bad, using OOB markers
+  * @block_markbad: mark a block bad
+  * @erase: erase function
++ * @set_features: set the NAND chip features
++ * @get_features: get the NAND chip features
   *
   * If you look at this structure you're already wrong. These fields/hooks are
   * all deprecated.
-@@ -1203,6 +1205,8 @@ struct nand_legacy {
- 			int page_addr);
- 	int (*dev_ready)(struct nand_chip *chip);
- 	int (*waitfunc)(struct nand_chip *chip);
-+	int (*block_bad)(struct nand_chip *chip, loff_t ofs);
-+	int (*block_markbad)(struct nand_chip *chip, loff_t ofs);
+@@ -1209,6 +1211,10 @@ struct nand_legacy {
+ 	int (*block_bad)(struct nand_chip *chip, loff_t ofs);
+ 	int (*block_markbad)(struct nand_chip *chip, loff_t ofs);
+ 	int (*erase)(struct nand_chip *chip, int page);
++	int (*set_features)(struct nand_chip *chip, int feature_addr,
++			    u8 *subfeature_para);
++	int (*get_features)(struct nand_chip *chip, int feature_addr,
++			    u8 *subfeature_para);
  };
  
  /**
-@@ -1214,8 +1218,6 @@ struct nand_legacy {
-  *			fields/hooks, you should consider reworking the driver
-  *			avoid using them.
-  * @select_chip:	[REPLACEABLE] select chip nr
-- * @block_bad:		[REPLACEABLE] check if a block is bad, using OOB markers
-- * @block_markbad:	[REPLACEABLE] mark a block bad
-  * @exec_op:		controller specific method to execute NAND operations.
-  *			This method replaces ->cmdfunc(),
-  *			->legacy.{read,write}_{buf,byte,word}(),
-@@ -1303,8 +1305,6 @@ struct nand_chip {
- 	struct nand_legacy legacy;
- 
- 	void (*select_chip)(struct nand_chip *chip, int cs);
--	int (*block_bad)(struct nand_chip *chip, loff_t ofs);
--	int (*block_markbad)(struct nand_chip *chip, loff_t ofs);
+@@ -1279,8 +1285,6 @@ struct nand_legacy {
+  * @blocks_per_die:	[INTERN] The number of PEBs in a die
+  * @data_interface:	[INTERN] NAND interface timing information
+  * @read_retries:	[INTERN] the number of read retry modes supported
+- * @set_features:	[REPLACEABLE] set the NAND chip features
+- * @get_features:	[REPLACEABLE] get the NAND chip features
+  * @setup_data_interface: [OPTIONAL] setup the data interface and timing. If
+  *			  chipnr is set to %NAND_DATA_IFACE_CHECK_ONLY this
+  *			  means the configuration should not be applied but
+@@ -1309,10 +1313,6 @@ struct nand_chip {
  	int (*exec_op)(struct nand_chip *chip,
  		       const struct nand_operation *op,
  		       bool check_only);
-@@ -1556,6 +1556,7 @@ extern const struct nand_manufacturer_ops macronix_nand_manuf_ops;
- 
- int nand_create_bbt(struct nand_chip *chip);
- int nand_markbad_bbt(struct nand_chip *chip, loff_t offs);
-+int nand_markbad_bbm(struct nand_chip *chip, loff_t ofs);
- int nand_isreserved_bbt(struct nand_chip *chip, loff_t offs);
- int nand_isbad_bbt(struct nand_chip *chip, loff_t offs, int allowbbt);
- int nand_erase_nand(struct nand_chip *chip, struct erase_info *instr,
+-	int (*set_features)(struct nand_chip *chip, int feature_addr,
+-			    uint8_t *subfeature_para);
+-	int (*get_features)(struct nand_chip *chip, int feature_addr,
+-			    uint8_t *subfeature_para);
+ 	int (*setup_read_retry)(struct nand_chip *chip, int retry_mode);
+ 	int (*setup_data_interface)(struct nand_chip *chip, int chipnr,
+ 				    const struct nand_data_interface *conf);
 -- 
 2.14.1
 
