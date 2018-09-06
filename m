@@ -2,122 +2,198 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 575527D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 13:21:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EB9F47D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 13:31:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728736AbeIFR4j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 13:56:39 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:57118 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728724AbeIFR4i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Sep 2018 13:56:38 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 3B386207AD; Thu,  6 Sep 2018 15:21:07 +0200 (CEST)
-Received: from bbrezillon (AAubervilliers-681-1-30-219.w90-88.abo.wanadoo.fr [90.88.15.219])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 7748B20763;
-        Thu,  6 Sep 2018 15:20:56 +0200 (CEST)
-Date:   Thu, 6 Sep 2018 15:20:55 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Przemyslaw Gaj <pgaj@cadence.com>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
+        id S1729132AbeIFSHQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Sep 2018 14:07:16 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:41642 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728776AbeIFSHQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Sep 2018 14:07:16 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 50FD340216F6;
+        Thu,  6 Sep 2018 13:31:41 +0000 (UTC)
+Received: from redhat.com (ovpn-123-203.rdu2.redhat.com [10.10.123.203])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D8132027EA0;
+        Thu,  6 Sep 2018 13:31:35 +0000 (UTC)
+Date:   Thu, 6 Sep 2018 09:31:33 -0400
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Kenneth Lee <liguozhu@hisilicon.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Kenneth Lee <nek.in.cn@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        Peter Rosin <peda@axentia.se>
-Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-Message-ID: <20180906152055.5618d235@bbrezillon>
-In-Reply-To: <20180906151437.4259d6fc@bbrezillon>
-References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
-        <20180719152930.3715-2-boris.brezillon@bootlin.com>
-        <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
-        <20180824143934.6d6b6487@bbrezillon>
-        <bdb2924f-ecfa-1da3-41db-9ac77d4d933b@synopsys.com>
-        <20180824201600.7d80bca9@bbrezillon>
-        <fe839027-c4d7-4d6f-412b-5b315cbc7a39@synopsys.com>
-        <20180828140209.29155d00@bbrezillon>
-        <4DBE768F-3CDC-41BE-9CC8-E294E7277CB1@cadence.com>
-        <8abfb007-d755-36a4-5960-fddd61d04aa2@synopsys.com>
-        <3D2681D9-1ACC-42FF-9FAB-D86B3C689003@cadence.com>
-        <9584757a-e7e2-5bfe-fc2c-e9bc14ad65a8@synopsys.com>
-        <25862F03-9823-42B0-87AC-AE36D7E9C780@cadence.com>
-        <CAK8P3a3pkddD9VnogYryQKoL9Z_5qVRBXd6yr1z6CqGU692rXg@mail.gmail.com>
-        <20180906151437.4259d6fc@bbrezillon>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Joerg Roedel <joro@8bytes.org>,
+        Hao Fang <fanghao11@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Sanjay Kumar <sanjay.k.kumar@intel.com>, linuxarm@huawei.com
+Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180906133133.GA3830@redhat.com>
+References: <20180903005204.26041-1-nek.in.cn@gmail.com>
+ <20180904150019.GA4024@redhat.com>
+ <20180904101509.62314b67@t450s.home>
+ <20180906094532.GG230707@Turing-Arch-b>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180906094532.GG230707@Turing-Arch-b>
+User-Agent: Mutt/1.10.0 (2018-05-17)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 06 Sep 2018 13:31:41 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 06 Sep 2018 13:31:41 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 6 Sep 2018 15:14:37 +0200
-Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-
-> On Thu, 6 Sep 2018 14:59:46 +0200
-> Arnd Bergmann <arnd@arndb.de> wrote:
-> 
-> > On Thu, Sep 6, 2018 at 2:43 PM Przemyslaw Gaj <pgaj@cadence.com> wrote:  
-> > >
-> > > Hi Boris, Vitor,
-> > >
-> > > This repository does not contain full kernel sources, but it should be enough to discuss mastership request feature.
-> > > https://github.com/przemekgaj/i3c-linux/commit/d54fe68a9d3e573c0c454a2c6f1afafc20142ec5
-> > >
-> > > Please keep in mind that this is initial version, but mastership works correctly. I added one property to DT to reflect relationship between masters.
-> > > It is possible to request mastership on demand (using sysfs. Useful in case when Linux machine is equipped only with secondary master controller) or automatically change operation mode when device driver wants to read/write something from/to device.
-> > >
-> > > I'm sure I will have to rework something because this was implemented on sources from PATCH v4. I saw that Boris released v7 yesterday :)    
+On Thu, Sep 06, 2018 at 05:45:32PM +0800, Kenneth Lee wrote:
+> On Tue, Sep 04, 2018 at 10:15:09AM -0600, Alex Williamson wrote:
+> > Date: Tue, 4 Sep 2018 10:15:09 -0600
+> > From: Alex Williamson <alex.williamson@redhat.com>
+> > To: Jerome Glisse <jglisse@redhat.com>
+> > CC: Kenneth Lee <nek.in.cn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+> >  Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
+> >  <davem@davemloft.net>, Joerg Roedel <joro@8bytes.org>, Kenneth Lee
+> >  <liguozhu@hisilicon.com>, Hao Fang <fanghao11@huawei.com>, Zhou Wang
+> >  <wangzhou1@hisilicon.com>, Zaibo Xu <xuzaibo@huawei.com>, Philippe
+> >  Ombredanne <pombredanne@nexb.com>, Greg Kroah-Hartman
+> >  <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>,
+> >  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+> >  linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+> >  kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org, Lu Baolu
+> >  <baolu.lu@linux.intel.com>, Sanjay Kumar <sanjay.k.kumar@intel.com>,
+> >  linuxarm@huawei.com
+> > Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+> > Message-ID: <20180904101509.62314b67@t450s.home>
 > > 
+> > On Tue, 4 Sep 2018 11:00:19 -0400
+> > Jerome Glisse <jglisse@redhat.com> wrote:
 > > 
-> > Can you explain the reason for having a user space interface and DT property?
-> > I thought we had concluded earlier that we wouldn't need that, but it's possible
-> > that I missed something in the discussion since then.  
+> > > On Mon, Sep 03, 2018 at 08:51:57AM +0800, Kenneth Lee wrote:
+> > > > From: Kenneth Lee <liguozhu@hisilicon.com>
+> > > > 
+> > > > WarpDrive is an accelerator framework to expose the hardware capabilities
+> > > > directly to the user space. It makes use of the exist vfio and vfio-mdev
+> > > > facilities. So the user application can send request and DMA to the
+> > > > hardware without interaction with the kernel. This removes the latency
+> > > > of syscall.
+> > > > 
+> > > > WarpDrive is the name for the whole framework. The component in kernel
+> > > > is called SDMDEV, Share Domain Mediated Device. Driver driver exposes its
+> > > > hardware resource by registering to SDMDEV as a VFIO-Mdev. So the user
+> > > > library of WarpDrive can access it via VFIO interface.
+> > > > 
+> > > > The patchset contains document for the detail. Please refer to it for more
+> > > > information.
+> > > > 
+> > > > This patchset is intended to be used with Jean Philippe Brucker's SVA
+> > > > patch [1], which enables not only IO side page fault, but also PASID
+> > > > support to IOMMU and VFIO.
+> > > > 
+> > > > With these features, WarpDrive can support non-pinned memory and
+> > > > multi-process in the same accelerator device.  We tested it in our SoC
+> > > > integrated Accelerator (board ID: D06, Chip ID: HIP08). A reference work
+> > > > tree can be found here: [2].
+> > > > 
+> > > > But it is not mandatory. This patchset is tested in the latest mainline
+> > > > kernel without the SVA patches.  So it supports only one process for each
+> > > > accelerator.
+> > > > 
+> > > > We have noticed the IOMMU aware mdev RFC announced recently [3].
+> > > > 
+> > > > The IOMMU aware mdev has similar idea but different intention comparing to
+> > > > WarpDrive. It intends to dedicate part of the hardware resource to a VM.
+> > > > And the design is supposed to be used with Scalable I/O Virtualization.
+> > > > While sdmdev is intended to share the hardware resource with a big amount
+> > > > of processes.  It just requires the hardware supporting address
+> > > > translation per process (PCIE's PASID or ARM SMMU's substream ID).
+> > > > 
+> > > > But we don't see serious confliction on both design. We believe they can be
+> > > > normalized as one.
+> > > >   
+> > > 
+> > > So once again i do not understand why you are trying to do things
+> > > this way. Kernel already have tons of example of everything you
+> > > want to do without a new framework. Moreover i believe you are
+> > > confuse by VFIO. To me VFIO is for VM not to create general device
+> > > driver frame work.
+> > 
+> > VFIO is a userspace driver framework, the VM use case just happens to
+> > be a rather prolific one.  VFIO was never intended to be solely a VM
+> > device interface and has several other userspace users, notably DPDK
+> > and SPDK, an NVMe backend in QEMU, a userspace NVMe driver, a ruby
+> > wrapper, and perhaps others that I'm not aware of.  Whether vfio is
+> > appropriate interface here might certainly still be a debatable topic,
+> > but I would strongly disagree with your last sentence above.  Thanks,
+> > 
+> > Alex
+> > 
 > 
-> I don't think the sysfs knob is needed, this being said, after thinking
-> a bit more about mastership handover and the secondary master case, I
-> think we have something important to solve.
+> Yes, that is also my standpoint here.
 > 
-> When a master is not in control of the bus, it gets informed of devices
-> present on the bus by monitoring DAA or DEFSLVS broadcast events. That
-> means the secondary master should populate the bus with I3C/I2C devices
-> on such events, but that's not enough, because DEFSLVS/DAA do not
-> provide all device info. Some of them (like read/write/ibi limitations)
-> require extra CCC commands, and, to send those CCC commands, the
-> secondary master must claim the bus. We could add a case where we
-> declare devices as partially discovered until the master acquires
-> ownership of the bus, but that means part of the data returned by
-> i3c_device_get_info() will be inaccurate, which might have an impact on
-> some i3c driver ->probe() functions.
+> > > So here is your use case as i understand it. You have a device
+> > > with a limited number of command queues (can be just one) and in
+> > > some case it can support SVA/SVM (when hardware support it and it
+> > > is not disabled). Final requirement is being able to schedule cmds
+> > > from userspace without ioctl. All of this exists already exists
+> > > upstream in few device drivers.
+> > > 
+> > > 
+> > > So here is how every body else is doing it. Please explain why
+> > > this does not work.
+> > > 
+> > > 1 Userspace open device file driver. Kernel device driver create
+> > >   a context and associate it with on open. This context can be
+> > >   uniq to the process and can bind hardware resources (like a
+> > >   command queue) to the process.
+> > > 2 Userspace bind/acquire a commands queue and initialize it with
+> > >   an ioctl on the device file. Through that ioctl userspace can
+> > >   be inform wether either SVA/SVM works for the device. If SVA/
+> > >   SVM works then kernel device driver bind the process to the
+> > >   device as part of this ioctl.
+> > > 3 If SVM/SVA does not work userspace do an ioctl to create dma
+> > >   buffer or something that does exactly the same thing.
+> > > 4 Userspace mmap the command queue (mmap of the device file by
+> > >   using informations gather at step 2)
+> > > 5 Userspace can write commands into the queue it mapped
+> > > 6 When userspace close the device file all resources are release
+> > >   just like any existing device drivers.
+> 
+> Hi, Jerome,
+> 
+> Just one thing, as I said in the cover letter, dma-buf requires the application
+> to use memory created by the driver for DMA. I did try the dma-buf way in
+> WrapDrive (refer to [4] in the cover letter), it is a good backup for NOIOMMU
+> mode or we cannot solve the problem in VFIO.
+> 
+> But, in many of my application scenario, the application already has some memory
+> in hand, maybe allocated by the framework or libraries. Anyway, they don't get
+> memory from my library, and they pass the poiter for data operation. And they
+> may also have pointer in the buffer. Those pointer may be used by the
+> accelerator. So I need hardware fully share the address space with the
+> application. That is what dmabuf cannot do.
 
-Hm, one possible solution would be to register partially discovered
-devices to the device model and let i3c_device_get_info() claim the bus
-and request missing data when needed. This way, if the driver needs to
-call i3c_device_get_info() in its probe path, it should work just fine.
+dmabuf can do that ... it is call uptr you can look at i915 for
+instance. Still this does not answer my question above, why do
+you need to be in VFIO to do any of the above thing ? Kernel has
+tons of examples that does all of the above and are not in VFIO
+(including usinng existing user pointer with device).
+
+Cheers,
+Jérôme
