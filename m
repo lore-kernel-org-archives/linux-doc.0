@@ -5,20 +5,20 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C0D967D57F
+	by archive.lwn.net (Postfix) with ESMTP id F24837DE78
 	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 22:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727693AbeIGDRL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1729036AbeIGDRL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Thu, 6 Sep 2018 23:17:11 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:45784 "EHLO mail.bootlin.com"
+Received: from mail.bootlin.com ([62.4.15.54]:45822 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727728AbeIGDRK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Sep 2018 23:17:10 -0400
+        id S1726334AbeIGDRL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Sep 2018 23:17:11 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 92C41208AE; Fri,  7 Sep 2018 00:39:28 +0200 (CEST)
+        id E01BD208A1; Fri,  7 Sep 2018 00:39:29 +0200 (CEST)
 Received: from localhost.localdomain (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D02BB207B0;
-        Fri,  7 Sep 2018 00:39:17 +0200 (CEST)
+        by mail.bootlin.com (Postfix) with ESMTPSA id 11C20208D6;
+        Fri,  7 Sep 2018 00:39:19 +0200 (CEST)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Richard Weinberger <richard@nod.at>,
@@ -51,568 +51,1084 @@ Cc:     David Woodhouse <dwmw2@infradead.org>,
         Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         devel@driverdev.osuosl.org
-Subject: [PATCH 16/19] mtd: rawnand: Keep all internal stuff private
-Date:   Fri,  7 Sep 2018 00:38:48 +0200
-Message-Id: <20180906223851.6964-17-boris.brezillon@bootlin.com>
+Subject: [PATCH 18/19] mtd: rawnand: Move ONFI code to nand_onfi.c
+Date:   Fri,  7 Sep 2018 00:38:50 +0200
+Message-Id: <20180906223851.6964-19-boris.brezillon@bootlin.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180906223851.6964-1-boris.brezillon@bootlin.com>
 References: <20180906223851.6964-1-boris.brezillon@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A lot of things defined in rawnand.h should not be exposed to NAND
-controller drivers and should only be shared by core files.
-
-Create the drivers/mtd/nand/rawn/internals.h header to store such
-definitions, and move all private defs to this header.
-
-Also remove EXPORT_SYMBOLS() on functions that are not supposed to be
-exposed.
+This moves ONFI related code to nand_onfi.c and ONFI related
+struct/macros to include/linux/mtd/onfi.h.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
 ---
- drivers/mtd/nand/raw/internals.h     | 98 ++++++++++++++++++++++++++++++++++++
- drivers/mtd/nand/raw/nand_amd.c      |  2 +-
- drivers/mtd/nand/raw/nand_base.c     | 21 ++++----
- drivers/mtd/nand/raw/nand_bbt.c      |  3 +-
- drivers/mtd/nand/raw/nand_hynix.c    |  3 +-
- drivers/mtd/nand/raw/nand_ids.c      |  4 +-
- drivers/mtd/nand/raw/nand_macronix.c |  2 +-
- drivers/mtd/nand/raw/nand_micron.c   |  3 +-
- drivers/mtd/nand/raw/nand_samsung.c  |  2 +-
- drivers/mtd/nand/raw/nand_timings.c  |  4 +-
- drivers/mtd/nand/raw/nand_toshiba.c  |  2 +-
- include/linux/mtd/rawnand.h          | 96 -----------------------------------
- 12 files changed, 123 insertions(+), 117 deletions(-)
- create mode 100644 drivers/mtd/nand/raw/internals.h
+ drivers/mtd/nand/raw/Makefile    |   1 +
+ drivers/mtd/nand/raw/internals.h |   7 +
+ drivers/mtd/nand/raw/nand_base.c | 296 +------------------------------------
+ drivers/mtd/nand/raw/nand_onfi.c | 305 +++++++++++++++++++++++++++++++++++++++
+ include/linux/mtd/onfi.h         | 178 +++++++++++++++++++++++
+ include/linux/mtd/rawnand.h      | 164 +--------------------
+ 6 files changed, 496 insertions(+), 455 deletions(-)
+ create mode 100644 drivers/mtd/nand/raw/nand_onfi.c
+ create mode 100644 include/linux/mtd/onfi.h
 
+diff --git a/drivers/mtd/nand/raw/Makefile b/drivers/mtd/nand/raw/Makefile
+index 78f67de2e60b..cc9f50f3ad1b 100644
+--- a/drivers/mtd/nand/raw/Makefile
++++ b/drivers/mtd/nand/raw/Makefile
+@@ -58,6 +58,7 @@ obj-$(CONFIG_MTD_NAND_MTK)		+= mtk_ecc.o mtk_nand.o
+ obj-$(CONFIG_MTD_NAND_TEGRA)		+= tegra_nand.o
+ 
+ nand-objs := nand_base.o nand_legacy.o nand_bbt.o nand_timings.o nand_ids.o
++nand-objs += nand_onfi.o
+ nand-objs += nand_amd.o
+ nand-objs += nand_hynix.o
+ nand-objs += nand_macronix.o
 diff --git a/drivers/mtd/nand/raw/internals.h b/drivers/mtd/nand/raw/internals.h
-new file mode 100644
-index 000000000000..1d2edddb6127
---- /dev/null
+index 289a4b8f7974..1ce720a8d756 100644
+--- a/drivers/mtd/nand/raw/internals.h
 +++ b/drivers/mtd/nand/raw/internals.h
-@@ -0,0 +1,98 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2018 - Bootlin
-+ *
-+ * Author: Boris Brezillon <boris.brezillon@bootlin.com>
-+ *
-+ * Header containing internal definitions to be used only by core files.
-+ * NAND controller drivers should not include this file.
-+ */
-+
-+#ifndef __LINUX_RAWNAND_INTERNALS
-+#define __LINUX_RAWNAND_INTERNALS
-+
-+#include <linux/mtd/rawnand.h>
-+
-+/*
-+ * NAND Flash Manufacturer ID Codes
-+ */
-+#define NAND_MFR_TOSHIBA	0x98
-+#define NAND_MFR_ESMT		0xc8
-+#define NAND_MFR_SAMSUNG	0xec
-+#define NAND_MFR_FUJITSU	0x04
-+#define NAND_MFR_NATIONAL	0x8f
-+#define NAND_MFR_RENESAS	0x07
-+#define NAND_MFR_STMICRO	0x20
-+#define NAND_MFR_HYNIX		0xad
-+#define NAND_MFR_MICRON		0x2c
-+#define NAND_MFR_AMD		0x01
-+#define NAND_MFR_MACRONIX	0xc2
-+#define NAND_MFR_EON		0x92
-+#define NAND_MFR_SANDISK	0x45
-+#define NAND_MFR_INTEL		0x89
-+#define NAND_MFR_ATO		0x9b
-+#define NAND_MFR_WINBOND	0xef
-+
-+/**
-+ * struct nand_manufacturer_ops - NAND Manufacturer operations
-+ * @detect: detect the NAND memory organization and capabilities
-+ * @init: initialize all vendor specific fields (like the ->read_retry()
-+ *	  implementation) if any.
-+ * @cleanup: the ->init() function may have allocated resources, ->cleanup()
-+ *	     is here to let vendor specific code release those resources.
-+ * @fixup_onfi_param_page: apply vendor specific fixups to the ONFI parameter
-+ *			   page. This is called after the checksum is verified.
-+ */
-+struct nand_manufacturer_ops {
-+	void (*detect)(struct nand_chip *chip);
-+	int (*init)(struct nand_chip *chip);
-+	void (*cleanup)(struct nand_chip *chip);
-+	void (*fixup_onfi_param_page)(struct nand_chip *chip,
-+				      struct nand_onfi_params *p);
-+};
-+
-+/**
-+ * struct nand_manufacturer - NAND Flash Manufacturer structure
-+ * @name: Manufacturer name
-+ * @id: manufacturer ID code of device.
-+ * @ops: manufacturer operations
-+ */
-+struct nand_manufacturer {
-+	int id;
-+	char *name;
-+	const struct nand_manufacturer_ops *ops;
-+};
-+
-+
-+extern struct nand_flash_dev nand_flash_ids[];
-+
-+extern const struct nand_manufacturer_ops toshiba_nand_manuf_ops;
-+extern const struct nand_manufacturer_ops samsung_nand_manuf_ops;
-+extern const struct nand_manufacturer_ops hynix_nand_manuf_ops;
-+extern const struct nand_manufacturer_ops micron_nand_manuf_ops;
-+extern const struct nand_manufacturer_ops amd_nand_manuf_ops;
-+extern const struct nand_manufacturer_ops macronix_nand_manuf_ops;
-+
-+/* Core functions */
-+const struct nand_manufacturer *nand_get_manufacturer(u8 id);
-+int nand_markbad_bbm(struct nand_chip *chip, loff_t ofs);
-+int nand_erase_nand(struct nand_chip *chip, struct erase_info *instr,
-+		    int allowbbt);
-+int onfi_fill_data_interface(struct nand_chip *chip,
-+			     enum nand_data_interface_type type,
-+			     int timing_mode);
-+int nand_get_features(struct nand_chip *chip, int addr, u8 *subfeature_param);
-+int nand_set_features(struct nand_chip *chip, int addr, u8 *subfeature_param);
-+int nand_read_page_raw_notsupp(struct nand_chip *chip, u8 *buf,
-+			       int oob_required, int page);
-+int nand_write_page_raw_notsupp(struct nand_chip *chip, const u8 *buf,
-+				int oob_required, int page);
-+int nand_exit_status_op(struct nand_chip *chip);
-+void nand_decode_ext_id(struct nand_chip *chip);
-+
-+/* BBT functions */
-+int nand_markbad_bbt(struct nand_chip *chip, loff_t offs);
-+int nand_isreserved_bbt(struct nand_chip *chip, loff_t offs);
-+int nand_isbad_bbt(struct nand_chip *chip, loff_t offs, int allowbbt);
-+
-+#endif /* __LINUX_RAWNAND_INTERNALS */
-diff --git a/drivers/mtd/nand/raw/nand_amd.c b/drivers/mtd/nand/raw/nand_amd.c
-index 22f060f38123..890c5b43e03c 100644
---- a/drivers/mtd/nand/raw/nand_amd.c
-+++ b/drivers/mtd/nand/raw/nand_amd.c
-@@ -15,7 +15,7 @@
-  * GNU General Public License for more details.
-  */
+@@ -88,8 +88,11 @@ int nand_read_page_raw_notsupp(struct nand_chip *chip, u8 *buf,
+ int nand_write_page_raw_notsupp(struct nand_chip *chip, const u8 *buf,
+ 				int oob_required, int page);
+ int nand_exit_status_op(struct nand_chip *chip);
++int nand_read_param_page_op(struct nand_chip *chip, u8 page, void *buf,
++			    unsigned int len);
+ void nand_decode_ext_id(struct nand_chip *chip);
+ void panic_nand_wait(struct nand_chip *chip, unsigned long timeo);
++void sanitize_string(uint8_t *s, size_t len);
  
--#include <linux/mtd/rawnand.h>
-+#include "internals.h"
+ /* BBT functions */
+ int nand_markbad_bbt(struct nand_chip *chip, loff_t offs);
+@@ -101,4 +104,8 @@ void nand_legacy_set_defaults(struct nand_chip *chip);
+ void nand_legacy_adjust_cmdfunc(struct nand_chip *chip);
+ int nand_legacy_check_hooks(struct nand_chip *chip);
  
- static void amd_nand_decode_id(struct nand_chip *chip)
- {
++/* ONFI functions */
++u16 onfi_crc16(u16 crc, u8 const *p, size_t len);
++int nand_onfi_detect(struct nand_chip *chip);
++
+ #endif /* __LINUX_RAWNAND_INTERNALS */
 diff --git a/drivers/mtd/nand/raw/nand_base.c b/drivers/mtd/nand/raw/nand_base.c
-index 136ccdc61a06..d48c588d1abe 100644
+index 4ef00cefd5da..812e8bd6ad82 100644
 --- a/drivers/mtd/nand/raw/nand_base.c
 +++ b/drivers/mtd/nand/raw/nand_base.c
-@@ -39,7 +39,6 @@
- #include <linux/nmi.h>
- #include <linux/types.h>
- #include <linux/mtd/mtd.h>
--#include <linux/mtd/rawnand.h>
- #include <linux/mtd/nand_ecc.h>
- #include <linux/mtd/nand_bch.h>
- #include <linux/interrupt.h>
-@@ -48,6 +47,8 @@
- #include <linux/mtd/partitions.h>
- #include <linux/of.h>
- 
-+#include "internals.h"
-+
- static int nand_get_device(struct mtd_info *mtd, int new_state);
- 
- static int nand_do_write_oob(struct mtd_info *mtd, loff_t to,
-@@ -1319,7 +1320,6 @@ static int nand_init_data_interface(struct nand_chip *chip)
- 		modes = GENMASK(chip->onfi_timing_mode_default, 0);
- 	}
- 
--
- 	for (mode = fls(modes) - 1; mode >= 0; mode--) {
- 		ret = onfi_fill_data_interface(chip, NAND_SDR_IFACE, mode);
- 		if (ret)
-@@ -2043,7 +2043,6 @@ int nand_exit_status_op(struct nand_chip *chip)
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(nand_exit_status_op);
- 
- /**
-  * nand_erase_op - Do an erase operation
-@@ -2816,7 +2815,6 @@ int nand_get_features(struct nand_chip *chip, int addr,
- 
- 	return nand_get_features_op(chip, addr, subfeature_param);
- }
--EXPORT_SYMBOL_GPL(nand_get_features);
- 
- /**
-  * nand_set_features - wrapper to perform a SET_FEATURE
-@@ -2838,7 +2836,6 @@ int nand_set_features(struct nand_chip *chip, int addr,
- 
- 	return nand_set_features_op(chip, addr, subfeature_param);
- }
--EXPORT_SYMBOL_GPL(nand_set_features);
- 
- /**
-  * nand_check_erased_buf - check if a buffer contains (almost) only 0xff data
-@@ -2985,7 +2982,6 @@ int nand_read_page_raw_notsupp(struct nand_chip *chip, u8 *buf,
- {
- 	return -ENOTSUPP;
- }
--EXPORT_SYMBOL(nand_read_page_raw_notsupp);
- 
- /**
-  * nand_read_page_raw - [INTERN] read raw page data without ecc
-@@ -3729,7 +3725,7 @@ EXPORT_SYMBOL(nand_read_oob_std);
-  * @chip: nand chip info structure
-  * @page: page number to read
-  */
--int nand_read_oob_syndrome(struct nand_chip *chip, int page)
-+static int nand_read_oob_syndrome(struct nand_chip *chip, int page)
- {
- 	struct mtd_info *mtd = nand_to_mtd(chip);
- 	int length = mtd->oobsize;
-@@ -3776,7 +3772,6 @@ int nand_read_oob_syndrome(struct nand_chip *chip, int page)
- 
- 	return 0;
- }
--EXPORT_SYMBOL(nand_read_oob_syndrome);
- 
- /**
-  * nand_write_oob_std - [REPLACEABLE] the most common OOB data write function
-@@ -3798,7 +3793,7 @@ EXPORT_SYMBOL(nand_write_oob_std);
-  * @chip: nand chip info structure
-  * @page: page number to write
-  */
--int nand_write_oob_syndrome(struct nand_chip *chip, int page)
-+static int nand_write_oob_syndrome(struct nand_chip *chip, int page)
- {
- 	struct mtd_info *mtd = nand_to_mtd(chip);
- 	int chunk = chip->ecc.bytes + chip->ecc.prepad + chip->ecc.postpad;
-@@ -3864,7 +3859,6 @@ int nand_write_oob_syndrome(struct nand_chip *chip, int page)
- 
- 	return nand_prog_page_end_op(chip);
- }
--EXPORT_SYMBOL(nand_write_oob_syndrome);
- 
- /**
-  * nand_do_read_oob - [INTERN] NAND read out-of-band
-@@ -3989,7 +3983,6 @@ int nand_write_page_raw_notsupp(struct nand_chip *chip, const u8 *buf,
- {
- 	return -ENOTSUPP;
- }
--EXPORT_SYMBOL(nand_write_page_raw_notsupp);
- 
- /**
-  * nand_write_page_raw - [INTERN] raw page write function
-@@ -5579,6 +5572,12 @@ static void nand_manufacturer_cleanup(struct nand_chip *chip)
- 		chip->manufacturer.desc->ops->cleanup(chip);
- }
- 
-+static const char *
-+nand_manufacturer_name(const struct nand_manufacturer *manufacturer)
-+{
-+	return manufacturer ? manufacturer->name : "Unknown";
-+}
-+
- /*
-  * Get the flash and manufacturer id and lookup if the type is supported.
-  */
-diff --git a/drivers/mtd/nand/raw/nand_bbt.c b/drivers/mtd/nand/raw/nand_bbt.c
-index b838ecdde8fb..98a826838b60 100644
---- a/drivers/mtd/nand/raw/nand_bbt.c
-+++ b/drivers/mtd/nand/raw/nand_bbt.c
-@@ -61,13 +61,14 @@
- #include <linux/types.h>
- #include <linux/mtd/mtd.h>
- #include <linux/mtd/bbm.h>
--#include <linux/mtd/rawnand.h>
- #include <linux/bitops.h>
- #include <linux/delay.h>
- #include <linux/vmalloc.h>
- #include <linux/export.h>
- #include <linux/string.h>
- 
-+#include "internals.h"
-+
- #define BBT_BLOCK_GOOD		0x00
- #define BBT_BLOCK_WORN		0x01
- #define BBT_BLOCK_RESERVED	0x02
-diff --git a/drivers/mtd/nand/raw/nand_hynix.c b/drivers/mtd/nand/raw/nand_hynix.c
-index 7eec0d96909a..ac1b5c103968 100644
---- a/drivers/mtd/nand/raw/nand_hynix.c
-+++ b/drivers/mtd/nand/raw/nand_hynix.c
-@@ -15,10 +15,11 @@
-  * GNU General Public License for more details.
-  */
- 
--#include <linux/mtd/rawnand.h>
- #include <linux/sizes.h>
- #include <linux/slab.h>
- 
-+#include "internals.h"
-+
- #define NAND_HYNIX_CMD_SET_PARAMS	0x36
- #define NAND_HYNIX_CMD_APPLY_PARAMS	0x16
- 
-diff --git a/drivers/mtd/nand/raw/nand_ids.c b/drivers/mtd/nand/raw/nand_ids.c
-index 5423c3bb388e..12d39ccd1cff 100644
---- a/drivers/mtd/nand/raw/nand_ids.c
-+++ b/drivers/mtd/nand/raw/nand_ids.c
-@@ -6,9 +6,11 @@
-  * published by the Free Software Foundation.
+@@ -986,8 +986,8 @@ EXPORT_SYMBOL_GPL(nand_read_page_op);
   *
+  * Returns 0 on success, a negative error code otherwise.
   */
--#include <linux/mtd/rawnand.h>
-+
- #include <linux/sizes.h>
- 
-+#include "internals.h"
-+
- #define LP_OPTIONS 0
- #define LP_OPTIONS16 (LP_OPTIONS | NAND_BUSWIDTH_16)
- 
-diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/nand_macronix.c
-index 49c546c97c6f..358dcc957bb2 100644
---- a/drivers/mtd/nand/raw/nand_macronix.c
-+++ b/drivers/mtd/nand/raw/nand_macronix.c
-@@ -15,7 +15,7 @@
-  * GNU General Public License for more details.
-  */
- 
--#include <linux/mtd/rawnand.h>
-+#include "internals.h"
- 
- /*
-  * Macronix AC series does not support using SET/GET_FEATURES to change
-diff --git a/drivers/mtd/nand/raw/nand_micron.c b/drivers/mtd/nand/raw/nand_micron.c
-index 1a5505ccbe54..b85e1c13b79e 100644
---- a/drivers/mtd/nand/raw/nand_micron.c
-+++ b/drivers/mtd/nand/raw/nand_micron.c
-@@ -15,9 +15,10 @@
-  * GNU General Public License for more details.
-  */
- 
--#include <linux/mtd/rawnand.h>
- #include <linux/slab.h>
- 
-+#include "internals.h"
-+
- /*
-  * Special Micron status bit 3 indicates that the block has been
-  * corrected by on-die ECC and should be rewritten.
-diff --git a/drivers/mtd/nand/raw/nand_samsung.c b/drivers/mtd/nand/raw/nand_samsung.c
-index ef022f62f74c..e46d4c492ad8 100644
---- a/drivers/mtd/nand/raw/nand_samsung.c
-+++ b/drivers/mtd/nand/raw/nand_samsung.c
-@@ -15,7 +15,7 @@
-  * GNU General Public License for more details.
-  */
- 
--#include <linux/mtd/rawnand.h>
-+#include "internals.h"
- 
- static void samsung_nand_decode_id(struct nand_chip *chip)
+-static int nand_read_param_page_op(struct nand_chip *chip, u8 page, void *buf,
+-				   unsigned int len)
++int nand_read_param_page_op(struct nand_chip *chip, u8 page, void *buf,
++			    unsigned int len)
  {
-diff --git a/drivers/mtd/nand/raw/nand_timings.c b/drivers/mtd/nand/raw/nand_timings.c
-index cb4f0007b65c..bea3062d71d6 100644
---- a/drivers/mtd/nand/raw/nand_timings.c
-+++ b/drivers/mtd/nand/raw/nand_timings.c
-@@ -11,7 +11,8 @@
- #include <linux/kernel.h>
- #include <linux/err.h>
- #include <linux/export.h>
--#include <linux/mtd/rawnand.h>
-+
-+#include "internals.h"
- 
- #define ONFI_DYN_TIMING_MAX U16_MAX
- 
-@@ -325,4 +326,3 @@ int onfi_fill_data_interface(struct nand_chip *chip,
- 
- 	return 0;
- }
--EXPORT_SYMBOL(onfi_fill_data_interface);
-diff --git a/drivers/mtd/nand/raw/nand_toshiba.c b/drivers/mtd/nand/raw/nand_toshiba.c
-index 952fe9e62ab4..941ddc615190 100644
---- a/drivers/mtd/nand/raw/nand_toshiba.c
-+++ b/drivers/mtd/nand/raw/nand_toshiba.c
-@@ -15,7 +15,7 @@
-  * GNU General Public License for more details.
-  */
- 
--#include <linux/mtd/rawnand.h>
-+#include "internals.h"
- 
- /* Bit for detecting BENAND */
- #define TOSHIBA_NAND_ID4_IS_BENAND		BIT(7)
-diff --git a/include/linux/mtd/rawnand.h b/include/linux/mtd/rawnand.h
-index 7f0e3dc222ed..fbe7686cfc59 100644
---- a/include/linux/mtd/rawnand.h
-+++ b/include/linux/mtd/rawnand.h
-@@ -775,24 +775,6 @@ nand_get_sdr_timings(const struct nand_data_interface *conf)
- 	return &conf->timings.sdr;
+ 	unsigned int i;
+ 	u8 *p = buf;
+@@ -4370,7 +4370,7 @@ static void nand_set_defaults(struct nand_chip *chip)
  }
  
--/**
-- * struct nand_manufacturer_ops - NAND Manufacturer operations
-- * @detect: detect the NAND memory organization and capabilities
-- * @init: initialize all vendor specific fields (like the ->read_retry()
-- *	  implementation) if any.
-- * @cleanup: the ->init() function may have allocated resources, ->cleanup()
-- *	     is here to let vendor specific code release those resources.
-- * @fixup_onfi_param_page: apply vendor specific fixups to the ONFI parameter
-- *			   page. This is called after the checksum is verified.
-- */
--struct nand_manufacturer_ops {
--	void (*detect)(struct nand_chip *chip);
--	int (*init)(struct nand_chip *chip);
--	void (*cleanup)(struct nand_chip *chip);
--	void (*fixup_onfi_param_page)(struct nand_chip *chip,
--				      struct nand_onfi_params *p);
--};
--
- /**
-  * struct nand_op_cmd_instr - Definition of a command instruction
-  * @opcode: the command to issue in one cycle
-@@ -1403,27 +1385,6 @@ static inline void *nand_get_manufacturer_data(struct nand_chip *chip)
- 	return chip->manufacturer.priv;
+ /* Sanitize ONFI strings so we can safely print them */
+-static void sanitize_string(uint8_t *s, size_t len)
++void sanitize_string(uint8_t *s, size_t len)
+ {
+ 	ssize_t i;
+ 
+@@ -4387,294 +4387,6 @@ static void sanitize_string(uint8_t *s, size_t len)
+ 	strim(s);
  }
  
--/*
-- * NAND Flash Manufacturer ID Codes
-- */
--#define NAND_MFR_TOSHIBA	0x98
--#define NAND_MFR_ESMT		0xc8
--#define NAND_MFR_SAMSUNG	0xec
--#define NAND_MFR_FUJITSU	0x04
--#define NAND_MFR_NATIONAL	0x8f
--#define NAND_MFR_RENESAS	0x07
--#define NAND_MFR_STMICRO	0x20
--#define NAND_MFR_HYNIX		0xad
--#define NAND_MFR_MICRON		0x2c
--#define NAND_MFR_AMD		0x01
--#define NAND_MFR_MACRONIX	0xc2
--#define NAND_MFR_EON		0x92
--#define NAND_MFR_SANDISK	0x45
--#define NAND_MFR_INTEL		0x89
--#define NAND_MFR_ATO		0x9b
--#define NAND_MFR_WINBOND	0xef
--
--
- /*
-  * A helper for defining older NAND chips where the second ID byte fully
-  * defined the chip, including the geometry (chip size, eraseblock size, page
-@@ -1503,46 +1464,7 @@ struct nand_flash_dev {
- 	int onfi_timing_mode_default;
- };
- 
--/**
-- * struct nand_manufacturer - NAND Flash Manufacturer structure
-- * @name:	Manufacturer name
-- * @id:		manufacturer ID code of device.
-- * @ops:	manufacturer operations
--*/
--struct nand_manufacturer {
--	int id;
--	char *name;
--	const struct nand_manufacturer_ops *ops;
--};
--
--const struct nand_manufacturer *nand_get_manufacturer(u8 id);
--
--static inline const char *
--nand_manufacturer_name(const struct nand_manufacturer *manufacturer)
+-static u16 onfi_crc16(u16 crc, u8 const *p, size_t len)
 -{
--	return manufacturer ? manufacturer->name : "Unknown";
+-	int i;
+-	while (len--) {
+-		crc ^= *p++ << 8;
+-		for (i = 0; i < 8; i++)
+-			crc = (crc << 1) ^ ((crc & 0x8000) ? 0x8005 : 0);
+-	}
+-
+-	return crc;
 -}
 -
--extern struct nand_flash_dev nand_flash_ids[];
+-/* Parse the Extended Parameter Page. */
+-static int nand_flash_detect_ext_param_page(struct nand_chip *chip,
+-					    struct nand_onfi_params *p)
+-{
+-	struct onfi_ext_param_page *ep;
+-	struct onfi_ext_section *s;
+-	struct onfi_ext_ecc_info *ecc;
+-	uint8_t *cursor;
+-	int ret;
+-	int len;
+-	int i;
 -
--extern const struct nand_manufacturer_ops toshiba_nand_manuf_ops;
--extern const struct nand_manufacturer_ops samsung_nand_manuf_ops;
--extern const struct nand_manufacturer_ops hynix_nand_manuf_ops;
--extern const struct nand_manufacturer_ops micron_nand_manuf_ops;
--extern const struct nand_manufacturer_ops amd_nand_manuf_ops;
--extern const struct nand_manufacturer_ops macronix_nand_manuf_ops;
+-	len = le16_to_cpu(p->ext_param_page_length) * 16;
+-	ep = kmalloc(len, GFP_KERNEL);
+-	if (!ep)
+-		return -ENOMEM;
 -
- int nand_create_bbt(struct nand_chip *chip);
--int nand_markbad_bbt(struct nand_chip *chip, loff_t offs);
--int nand_markbad_bbm(struct nand_chip *chip, loff_t ofs);
--int nand_isreserved_bbt(struct nand_chip *chip, loff_t offs);
--int nand_isbad_bbt(struct nand_chip *chip, loff_t offs, int allowbbt);
--int nand_erase_nand(struct nand_chip *chip, struct erase_info *instr,
--		    int allowbbt);
+-	/* Send our own NAND_CMD_PARAM. */
+-	ret = nand_read_param_page_op(chip, 0, NULL, 0);
+-	if (ret)
+-		goto ext_out;
 -
--int onfi_fill_data_interface(struct nand_chip *chip,
--			     enum nand_data_interface_type type,
--			     int timing_mode);
- 
+-	/* Use the Change Read Column command to skip the ONFI param pages. */
+-	ret = nand_change_read_column_op(chip,
+-					 sizeof(*p) * p->num_of_param_pages,
+-					 ep, len, true);
+-	if (ret)
+-		goto ext_out;
+-
+-	ret = -EINVAL;
+-	if ((onfi_crc16(ONFI_CRC_BASE, ((uint8_t *)ep) + 2, len - 2)
+-		!= le16_to_cpu(ep->crc))) {
+-		pr_debug("fail in the CRC.\n");
+-		goto ext_out;
+-	}
+-
+-	/*
+-	 * Check the signature.
+-	 * Do not strictly follow the ONFI spec, maybe changed in future.
+-	 */
+-	if (strncmp(ep->sig, "EPPS", 4)) {
+-		pr_debug("The signature is invalid.\n");
+-		goto ext_out;
+-	}
+-
+-	/* find the ECC section. */
+-	cursor = (uint8_t *)(ep + 1);
+-	for (i = 0; i < ONFI_EXT_SECTION_MAX; i++) {
+-		s = ep->sections + i;
+-		if (s->type == ONFI_SECTION_TYPE_2)
+-			break;
+-		cursor += s->length * 16;
+-	}
+-	if (i == ONFI_EXT_SECTION_MAX) {
+-		pr_debug("We can not find the ECC section.\n");
+-		goto ext_out;
+-	}
+-
+-	/* get the info we want. */
+-	ecc = (struct onfi_ext_ecc_info *)cursor;
+-
+-	if (!ecc->codeword_size) {
+-		pr_debug("Invalid codeword size\n");
+-		goto ext_out;
+-	}
+-
+-	chip->ecc_strength_ds = ecc->ecc_bits;
+-	chip->ecc_step_ds = 1 << ecc->codeword_size;
+-	ret = 0;
+-
+-ext_out:
+-	kfree(ep);
+-	return ret;
+-}
+-
+-/*
+- * Recover data with bit-wise majority
+- */
+-static void nand_bit_wise_majority(const void **srcbufs,
+-				   unsigned int nsrcbufs,
+-				   void *dstbuf,
+-				   unsigned int bufsize)
+-{
+-	int i, j, k;
+-
+-	for (i = 0; i < bufsize; i++) {
+-		u8 val = 0;
+-
+-		for (j = 0; j < 8; j++) {
+-			unsigned int cnt = 0;
+-
+-			for (k = 0; k < nsrcbufs; k++) {
+-				const u8 *srcbuf = srcbufs[k];
+-
+-				if (srcbuf[i] & BIT(j))
+-					cnt++;
+-			}
+-
+-			if (cnt > nsrcbufs / 2)
+-				val |= BIT(j);
+-		}
+-
+-		((u8 *)dstbuf)[i] = val;
+-	}
+-}
+-
+-/*
+- * Check if the NAND chip is ONFI compliant, returns 1 if it is, 0 otherwise.
+- */
+-static int nand_flash_detect_onfi(struct nand_chip *chip)
+-{
+-	struct mtd_info *mtd = nand_to_mtd(chip);
+-	struct nand_onfi_params *p;
+-	struct onfi_params *onfi;
+-	int onfi_version = 0;
+-	char id[4];
+-	int i, ret, val;
+-
+-	/* Try ONFI for unknown chip or LP */
+-	ret = nand_readid_op(chip, 0x20, id, sizeof(id));
+-	if (ret || strncmp(id, "ONFI", 4))
+-		return 0;
+-
+-	/* ONFI chip: allocate a buffer to hold its parameter page */
+-	p = kzalloc((sizeof(*p) * 3), GFP_KERNEL);
+-	if (!p)
+-		return -ENOMEM;
+-
+-	ret = nand_read_param_page_op(chip, 0, NULL, 0);
+-	if (ret) {
+-		ret = 0;
+-		goto free_onfi_param_page;
+-	}
+-
+-	for (i = 0; i < 3; i++) {
+-		ret = nand_read_data_op(chip, &p[i], sizeof(*p), true);
+-		if (ret) {
+-			ret = 0;
+-			goto free_onfi_param_page;
+-		}
+-
+-		if (onfi_crc16(ONFI_CRC_BASE, (u8 *)&p[i], 254) ==
+-				le16_to_cpu(p->crc)) {
+-			if (i)
+-				memcpy(p, &p[i], sizeof(*p));
+-			break;
+-		}
+-	}
+-
+-	if (i == 3) {
+-		const void *srcbufs[3] = {p, p + 1, p + 2};
+-
+-		pr_warn("Could not find a valid ONFI parameter page, trying bit-wise majority to recover it\n");
+-		nand_bit_wise_majority(srcbufs, ARRAY_SIZE(srcbufs), p,
+-				       sizeof(*p));
+-
+-		if (onfi_crc16(ONFI_CRC_BASE, (u8 *)p, 254) !=
+-				le16_to_cpu(p->crc)) {
+-			pr_err("ONFI parameter recovery failed, aborting\n");
+-			goto free_onfi_param_page;
+-		}
+-	}
+-
+-	if (chip->manufacturer.desc && chip->manufacturer.desc->ops &&
+-	    chip->manufacturer.desc->ops->fixup_onfi_param_page)
+-		chip->manufacturer.desc->ops->fixup_onfi_param_page(chip, p);
+-
+-	/* Check version */
+-	val = le16_to_cpu(p->revision);
+-	if (val & ONFI_VERSION_2_3)
+-		onfi_version = 23;
+-	else if (val & ONFI_VERSION_2_2)
+-		onfi_version = 22;
+-	else if (val & ONFI_VERSION_2_1)
+-		onfi_version = 21;
+-	else if (val & ONFI_VERSION_2_0)
+-		onfi_version = 20;
+-	else if (val & ONFI_VERSION_1_0)
+-		onfi_version = 10;
+-
+-	if (!onfi_version) {
+-		pr_info("unsupported ONFI version: %d\n", val);
+-		goto free_onfi_param_page;
+-	}
+-
+-	sanitize_string(p->manufacturer, sizeof(p->manufacturer));
+-	sanitize_string(p->model, sizeof(p->model));
+-	chip->parameters.model = kstrdup(p->model, GFP_KERNEL);
+-	if (!chip->parameters.model) {
+-		ret = -ENOMEM;
+-		goto free_onfi_param_page;
+-	}
+-
+-	mtd->writesize = le32_to_cpu(p->byte_per_page);
+-
+-	/*
+-	 * pages_per_block and blocks_per_lun may not be a power-of-2 size
+-	 * (don't ask me who thought of this...). MTD assumes that these
+-	 * dimensions will be power-of-2, so just truncate the remaining area.
+-	 */
+-	mtd->erasesize = 1 << (fls(le32_to_cpu(p->pages_per_block)) - 1);
+-	mtd->erasesize *= mtd->writesize;
+-
+-	mtd->oobsize = le16_to_cpu(p->spare_bytes_per_page);
+-
+-	/* See erasesize comment */
+-	chip->chipsize = 1 << (fls(le32_to_cpu(p->blocks_per_lun)) - 1);
+-	chip->chipsize *= (uint64_t)mtd->erasesize * p->lun_count;
+-	chip->bits_per_cell = p->bits_per_cell;
+-
+-	chip->max_bb_per_die = le16_to_cpu(p->bb_per_lun);
+-	chip->blocks_per_die = le32_to_cpu(p->blocks_per_lun);
+-
+-	if (le16_to_cpu(p->features) & ONFI_FEATURE_16_BIT_BUS)
+-		chip->options |= NAND_BUSWIDTH_16;
+-
+-	if (p->ecc_bits != 0xff) {
+-		chip->ecc_strength_ds = p->ecc_bits;
+-		chip->ecc_step_ds = 512;
+-	} else if (onfi_version >= 21 &&
+-		(le16_to_cpu(p->features) & ONFI_FEATURE_EXT_PARAM_PAGE)) {
+-
+-		/*
+-		 * The nand_flash_detect_ext_param_page() uses the
+-		 * Change Read Column command which maybe not supported
+-		 * by the chip->legacy.cmdfunc. So try to update the
+-		 * chip->legacy.cmdfunc now. We do not replace user supplied
+-		 * command function.
+-		 */
+-		nand_legacy_adjust_cmdfunc(chip);
+-
+-		/* The Extended Parameter Page is supported since ONFI 2.1. */
+-		if (nand_flash_detect_ext_param_page(chip, p))
+-			pr_warn("Failed to detect ONFI extended param page\n");
+-	} else {
+-		pr_warn("Could not retrieve ONFI ECC requirements\n");
+-	}
+-
+-	/* Save some parameters from the parameter page for future use */
+-	if (le16_to_cpu(p->opt_cmd) & ONFI_OPT_CMD_SET_GET_FEATURES) {
+-		chip->parameters.supports_set_get_features = true;
+-		bitmap_set(chip->parameters.get_feature_list,
+-			   ONFI_FEATURE_ADDR_TIMING_MODE, 1);
+-		bitmap_set(chip->parameters.set_feature_list,
+-			   ONFI_FEATURE_ADDR_TIMING_MODE, 1);
+-	}
+-
+-	onfi = kzalloc(sizeof(*onfi), GFP_KERNEL);
+-	if (!onfi) {
+-		ret = -ENOMEM;
+-		goto free_model;
+-	}
+-
+-	onfi->version = onfi_version;
+-	onfi->tPROG = le16_to_cpu(p->t_prog);
+-	onfi->tBERS = le16_to_cpu(p->t_bers);
+-	onfi->tR = le16_to_cpu(p->t_r);
+-	onfi->tCCS = le16_to_cpu(p->t_ccs);
+-	onfi->async_timing_mode = le16_to_cpu(p->async_timing_mode);
+-	onfi->vendor_revision = le16_to_cpu(p->vendor_revision);
+-	memcpy(onfi->vendor, p->vendor, sizeof(p->vendor));
+-	chip->parameters.onfi = onfi;
+-
+-	/* Identification done, free the full ONFI parameter page and exit */
+-	kfree(p);
+-
+-	return 1;
+-
+-free_model:
+-	kfree(chip->parameters.model);
+-free_onfi_param_page:
+-	kfree(p);
+-
+-	return ret;
+-}
+-
  /*
-  * Check if it is a SLC nand.
-@@ -1574,7 +1496,6 @@ static inline int nand_opcode_8bits(unsigned int command)
- 	return 0;
- }
+  * Check if the NAND chip is JEDEC compliant, returns 1 if it is, 0 otherwise.
+  */
+@@ -5076,7 +4788,7 @@ static int nand_detect(struct nand_chip *chip, struct nand_flash_dev *type)
  
+ 	if (!type->name || !type->pagesize) {
+ 		/* Check if the chip is ONFI compliant */
+-		ret = nand_flash_detect_onfi(chip);
++		ret = nand_onfi_detect(chip);
+ 		if (ret < 0)
+ 			return ret;
+ 		else if (ret)
+diff --git a/drivers/mtd/nand/raw/nand_onfi.c b/drivers/mtd/nand/raw/nand_onfi.c
+new file mode 100644
+index 000000000000..d8184cf591ad
+--- /dev/null
++++ b/drivers/mtd/nand/raw/nand_onfi.c
+@@ -0,0 +1,305 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ *  Copyright (C) 2000 Steven J. Hill (sjhill@realitydiluted.com)
++ *		  2002-2006 Thomas Gleixner (tglx@linutronix.de)
++ *
++ *  Credits:
++ *	David Woodhouse for adding multichip support
++ *
++ *	Aleph One Ltd. and Toby Churchill Ltd. for supporting the
++ *	rework for 2K page size chips
++ *
++ * This file contains all ONFI helpers.
++ */
++
++#include <linux/slab.h>
++
++#include "internals.h"
++
++u16 onfi_crc16(u16 crc, u8 const *p, size_t len)
++{
++	int i;
++	while (len--) {
++		crc ^= *p++ << 8;
++		for (i = 0; i < 8; i++)
++			crc = (crc << 1) ^ ((crc & 0x8000) ? 0x8005 : 0);
++	}
++
++	return crc;
++}
++
++/* Parse the Extended Parameter Page. */
++static int nand_flash_detect_ext_param_page(struct nand_chip *chip,
++					    struct nand_onfi_params *p)
++{
++	struct onfi_ext_param_page *ep;
++	struct onfi_ext_section *s;
++	struct onfi_ext_ecc_info *ecc;
++	uint8_t *cursor;
++	int ret;
++	int len;
++	int i;
++
++	len = le16_to_cpu(p->ext_param_page_length) * 16;
++	ep = kmalloc(len, GFP_KERNEL);
++	if (!ep)
++		return -ENOMEM;
++
++	/* Send our own NAND_CMD_PARAM. */
++	ret = nand_read_param_page_op(chip, 0, NULL, 0);
++	if (ret)
++		goto ext_out;
++
++	/* Use the Change Read Column command to skip the ONFI param pages. */
++	ret = nand_change_read_column_op(chip,
++					 sizeof(*p) * p->num_of_param_pages,
++					 ep, len, true);
++	if (ret)
++		goto ext_out;
++
++	ret = -EINVAL;
++	if ((onfi_crc16(ONFI_CRC_BASE, ((uint8_t *)ep) + 2, len - 2)
++		!= le16_to_cpu(ep->crc))) {
++		pr_debug("fail in the CRC.\n");
++		goto ext_out;
++	}
++
++	/*
++	 * Check the signature.
++	 * Do not strictly follow the ONFI spec, maybe changed in future.
++	 */
++	if (strncmp(ep->sig, "EPPS", 4)) {
++		pr_debug("The signature is invalid.\n");
++		goto ext_out;
++	}
++
++	/* find the ECC section. */
++	cursor = (uint8_t *)(ep + 1);
++	for (i = 0; i < ONFI_EXT_SECTION_MAX; i++) {
++		s = ep->sections + i;
++		if (s->type == ONFI_SECTION_TYPE_2)
++			break;
++		cursor += s->length * 16;
++	}
++	if (i == ONFI_EXT_SECTION_MAX) {
++		pr_debug("We can not find the ECC section.\n");
++		goto ext_out;
++	}
++
++	/* get the info we want. */
++	ecc = (struct onfi_ext_ecc_info *)cursor;
++
++	if (!ecc->codeword_size) {
++		pr_debug("Invalid codeword size\n");
++		goto ext_out;
++	}
++
++	chip->ecc_strength_ds = ecc->ecc_bits;
++	chip->ecc_step_ds = 1 << ecc->codeword_size;
++	ret = 0;
++
++ext_out:
++	kfree(ep);
++	return ret;
++}
++
++/*
++ * Recover data with bit-wise majority
++ */
++static void nand_bit_wise_majority(const void **srcbufs,
++				   unsigned int nsrcbufs,
++				   void *dstbuf,
++				   unsigned int bufsize)
++{
++	int i, j, k;
++
++	for (i = 0; i < bufsize; i++) {
++		u8 val = 0;
++
++		for (j = 0; j < 8; j++) {
++			unsigned int cnt = 0;
++
++			for (k = 0; k < nsrcbufs; k++) {
++				const u8 *srcbuf = srcbufs[k];
++
++				if (srcbuf[i] & BIT(j))
++					cnt++;
++			}
++
++			if (cnt > nsrcbufs / 2)
++				val |= BIT(j);
++		}
++
++		((u8 *)dstbuf)[i] = val;
++	}
++}
++
++/*
++ * Check if the NAND chip is ONFI compliant, returns 1 if it is, 0 otherwise.
++ */
++int nand_onfi_detect(struct nand_chip *chip)
++{
++	struct mtd_info *mtd = nand_to_mtd(chip);
++	struct nand_onfi_params *p;
++	struct onfi_params *onfi;
++	int onfi_version = 0;
++	char id[4];
++	int i, ret, val;
++
++	/* Try ONFI for unknown chip or LP */
++	ret = nand_readid_op(chip, 0x20, id, sizeof(id));
++	if (ret || strncmp(id, "ONFI", 4))
++		return 0;
++
++	/* ONFI chip: allocate a buffer to hold its parameter page */
++	p = kzalloc((sizeof(*p) * 3), GFP_KERNEL);
++	if (!p)
++		return -ENOMEM;
++
++	ret = nand_read_param_page_op(chip, 0, NULL, 0);
++	if (ret) {
++		ret = 0;
++		goto free_onfi_param_page;
++	}
++
++	for (i = 0; i < 3; i++) {
++		ret = nand_read_data_op(chip, &p[i], sizeof(*p), true);
++		if (ret) {
++			ret = 0;
++			goto free_onfi_param_page;
++		}
++
++		if (onfi_crc16(ONFI_CRC_BASE, (u8 *)&p[i], 254) ==
++				le16_to_cpu(p->crc)) {
++			if (i)
++				memcpy(p, &p[i], sizeof(*p));
++			break;
++		}
++	}
++
++	if (i == 3) {
++		const void *srcbufs[3] = {p, p + 1, p + 2};
++
++		pr_warn("Could not find a valid ONFI parameter page, trying bit-wise majority to recover it\n");
++		nand_bit_wise_majority(srcbufs, ARRAY_SIZE(srcbufs), p,
++				       sizeof(*p));
++
++		if (onfi_crc16(ONFI_CRC_BASE, (u8 *)p, 254) !=
++				le16_to_cpu(p->crc)) {
++			pr_err("ONFI parameter recovery failed, aborting\n");
++			goto free_onfi_param_page;
++		}
++	}
++
++	if (chip->manufacturer.desc && chip->manufacturer.desc->ops &&
++	    chip->manufacturer.desc->ops->fixup_onfi_param_page)
++		chip->manufacturer.desc->ops->fixup_onfi_param_page(chip, p);
++
++	/* Check version */
++	val = le16_to_cpu(p->revision);
++	if (val & ONFI_VERSION_2_3)
++		onfi_version = 23;
++	else if (val & ONFI_VERSION_2_2)
++		onfi_version = 22;
++	else if (val & ONFI_VERSION_2_1)
++		onfi_version = 21;
++	else if (val & ONFI_VERSION_2_0)
++		onfi_version = 20;
++	else if (val & ONFI_VERSION_1_0)
++		onfi_version = 10;
++
++	if (!onfi_version) {
++		pr_info("unsupported ONFI version: %d\n", val);
++		goto free_onfi_param_page;
++	}
++
++	sanitize_string(p->manufacturer, sizeof(p->manufacturer));
++	sanitize_string(p->model, sizeof(p->model));
++	chip->parameters.model = kstrdup(p->model, GFP_KERNEL);
++	if (!chip->parameters.model) {
++		ret = -ENOMEM;
++		goto free_onfi_param_page;
++	}
++
++	mtd->writesize = le32_to_cpu(p->byte_per_page);
++
++	/*
++	 * pages_per_block and blocks_per_lun may not be a power-of-2 size
++	 * (don't ask me who thought of this...). MTD assumes that these
++	 * dimensions will be power-of-2, so just truncate the remaining area.
++	 */
++	mtd->erasesize = 1 << (fls(le32_to_cpu(p->pages_per_block)) - 1);
++	mtd->erasesize *= mtd->writesize;
++
++	mtd->oobsize = le16_to_cpu(p->spare_bytes_per_page);
++
++	/* See erasesize comment */
++	chip->chipsize = 1 << (fls(le32_to_cpu(p->blocks_per_lun)) - 1);
++	chip->chipsize *= (uint64_t)mtd->erasesize * p->lun_count;
++	chip->bits_per_cell = p->bits_per_cell;
++
++	chip->max_bb_per_die = le16_to_cpu(p->bb_per_lun);
++	chip->blocks_per_die = le32_to_cpu(p->blocks_per_lun);
++
++	if (le16_to_cpu(p->features) & ONFI_FEATURE_16_BIT_BUS)
++		chip->options |= NAND_BUSWIDTH_16;
++
++	if (p->ecc_bits != 0xff) {
++		chip->ecc_strength_ds = p->ecc_bits;
++		chip->ecc_step_ds = 512;
++	} else if (onfi_version >= 21 &&
++		(le16_to_cpu(p->features) & ONFI_FEATURE_EXT_PARAM_PAGE)) {
++
++		/*
++		 * The nand_flash_detect_ext_param_page() uses the
++		 * Change Read Column command which maybe not supported
++		 * by the chip->legacy.cmdfunc. So try to update the
++		 * chip->legacy.cmdfunc now. We do not replace user supplied
++		 * command function.
++		 */
++		nand_legacy_adjust_cmdfunc(chip);
++
++		/* The Extended Parameter Page is supported since ONFI 2.1. */
++		if (nand_flash_detect_ext_param_page(chip, p))
++			pr_warn("Failed to detect ONFI extended param page\n");
++	} else {
++		pr_warn("Could not retrieve ONFI ECC requirements\n");
++	}
++
++	/* Save some parameters from the parameter page for future use */
++	if (le16_to_cpu(p->opt_cmd) & ONFI_OPT_CMD_SET_GET_FEATURES) {
++		chip->parameters.supports_set_get_features = true;
++		bitmap_set(chip->parameters.get_feature_list,
++			   ONFI_FEATURE_ADDR_TIMING_MODE, 1);
++		bitmap_set(chip->parameters.set_feature_list,
++			   ONFI_FEATURE_ADDR_TIMING_MODE, 1);
++	}
++
++	onfi = kzalloc(sizeof(*onfi), GFP_KERNEL);
++	if (!onfi) {
++		ret = -ENOMEM;
++		goto free_model;
++	}
++
++	onfi->version = onfi_version;
++	onfi->tPROG = le16_to_cpu(p->t_prog);
++	onfi->tBERS = le16_to_cpu(p->t_bers);
++	onfi->tR = le16_to_cpu(p->t_r);
++	onfi->tCCS = le16_to_cpu(p->t_ccs);
++	onfi->async_timing_mode = le16_to_cpu(p->async_timing_mode);
++	onfi->vendor_revision = le16_to_cpu(p->vendor_revision);
++	memcpy(onfi->vendor, p->vendor, sizeof(p->vendor));
++	chip->parameters.onfi = onfi;
++
++	/* Identification done, free the full ONFI parameter page and exit */
++	kfree(p);
++
++	return 1;
++
++free_model:
++	kfree(chip->parameters.model);
++free_onfi_param_page:
++	kfree(p);
++
++	return ret;
++}
+diff --git a/include/linux/mtd/onfi.h b/include/linux/mtd/onfi.h
+new file mode 100644
+index 000000000000..339ac798568e
+--- /dev/null
++++ b/include/linux/mtd/onfi.h
+@@ -0,0 +1,178 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright © 2000-2010 David Woodhouse <dwmw2@infradead.org>
++ *			 Steven J. Hill <sjhill@realitydiluted.com>
++ *			 Thomas Gleixner <tglx@linutronix.de>
++ *
++ * Contains all ONFI related definitions
++ */
++
++#ifndef __LINUX_MTD_ONFI_H
++#define __LINUX_MTD_ONFI_H
++
++#include <linux/types.h>
++
++/* ONFI version bits */
++#define ONFI_VERSION_1_0		BIT(1)
++#define ONFI_VERSION_2_0		BIT(2)
++#define ONFI_VERSION_2_1		BIT(3)
++#define ONFI_VERSION_2_2		BIT(4)
++#define ONFI_VERSION_2_3		BIT(5)
++#define ONFI_VERSION_3_0		BIT(6)
++#define ONFI_VERSION_3_1		BIT(7)
++#define ONFI_VERSION_3_2		BIT(8)
++#define ONFI_VERSION_4_0		BIT(9)
++
++/* ONFI features */
++#define ONFI_FEATURE_16_BIT_BUS		(1 << 0)
++#define ONFI_FEATURE_EXT_PARAM_PAGE	(1 << 7)
++
++/* ONFI timing mode, used in both asynchronous and synchronous mode */
++#define ONFI_TIMING_MODE_0		(1 << 0)
++#define ONFI_TIMING_MODE_1		(1 << 1)
++#define ONFI_TIMING_MODE_2		(1 << 2)
++#define ONFI_TIMING_MODE_3		(1 << 3)
++#define ONFI_TIMING_MODE_4		(1 << 4)
++#define ONFI_TIMING_MODE_5		(1 << 5)
++#define ONFI_TIMING_MODE_UNKNOWN	(1 << 6)
++
++/* ONFI feature number/address */
++#define ONFI_FEATURE_NUMBER		256
++#define ONFI_FEATURE_ADDR_TIMING_MODE	0x1
++
++/* Vendor-specific feature address (Micron) */
++#define ONFI_FEATURE_ADDR_READ_RETRY	0x89
++#define ONFI_FEATURE_ON_DIE_ECC		0x90
++#define   ONFI_FEATURE_ON_DIE_ECC_EN	BIT(3)
++
++/* ONFI subfeature parameters length */
++#define ONFI_SUBFEATURE_PARAM_LEN	4
++
++/* ONFI optional commands SET/GET FEATURES supported? */
++#define ONFI_OPT_CMD_SET_GET_FEATURES	(1 << 2)
++
++struct nand_onfi_params {
++	/* rev info and features block */
++	/* 'O' 'N' 'F' 'I'  */
++	u8 sig[4];
++	__le16 revision;
++	__le16 features;
++	__le16 opt_cmd;
++	u8 reserved0[2];
++	__le16 ext_param_page_length; /* since ONFI 2.1 */
++	u8 num_of_param_pages;        /* since ONFI 2.1 */
++	u8 reserved1[17];
++
++	/* manufacturer information block */
++	char manufacturer[12];
++	char model[20];
++	u8 jedec_id;
++	__le16 date_code;
++	u8 reserved2[13];
++
++	/* memory organization block */
++	__le32 byte_per_page;
++	__le16 spare_bytes_per_page;
++	__le32 data_bytes_per_ppage;
++	__le16 spare_bytes_per_ppage;
++	__le32 pages_per_block;
++	__le32 blocks_per_lun;
++	u8 lun_count;
++	u8 addr_cycles;
++	u8 bits_per_cell;
++	__le16 bb_per_lun;
++	__le16 block_endurance;
++	u8 guaranteed_good_blocks;
++	__le16 guaranteed_block_endurance;
++	u8 programs_per_page;
++	u8 ppage_attr;
++	u8 ecc_bits;
++	u8 interleaved_bits;
++	u8 interleaved_ops;
++	u8 reserved3[13];
++
++	/* electrical parameter block */
++	u8 io_pin_capacitance_max;
++	__le16 async_timing_mode;
++	__le16 program_cache_timing_mode;
++	__le16 t_prog;
++	__le16 t_bers;
++	__le16 t_r;
++	__le16 t_ccs;
++	__le16 src_sync_timing_mode;
++	u8 src_ssync_features;
++	__le16 clk_pin_capacitance_typ;
++	__le16 io_pin_capacitance_typ;
++	__le16 input_pin_capacitance_typ;
++	u8 input_pin_capacitance_max;
++	u8 driver_strength_support;
++	__le16 t_int_r;
++	__le16 t_adl;
++	u8 reserved4[8];
++
++	/* vendor */
++	__le16 vendor_revision;
++	u8 vendor[88];
++
++	__le16 crc;
++} __packed;
++
++#define ONFI_CRC_BASE	0x4F4E
++
++/* Extended ECC information Block Definition (since ONFI 2.1) */
++struct onfi_ext_ecc_info {
++	u8 ecc_bits;
++	u8 codeword_size;
++	__le16 bb_per_lun;
++	__le16 block_endurance;
++	u8 reserved[2];
++} __packed;
++
++#define ONFI_SECTION_TYPE_0	0	/* Unused section. */
++#define ONFI_SECTION_TYPE_1	1	/* for additional sections. */
++#define ONFI_SECTION_TYPE_2	2	/* for ECC information. */
++struct onfi_ext_section {
++	u8 type;
++	u8 length;
++} __packed;
++
++#define ONFI_EXT_SECTION_MAX 8
++
++/* Extended Parameter Page Definition (since ONFI 2.1) */
++struct onfi_ext_param_page {
++	__le16 crc;
++	u8 sig[4];             /* 'E' 'P' 'P' 'S' */
++	u8 reserved0[10];
++	struct onfi_ext_section sections[ONFI_EXT_SECTION_MAX];
++
++	/*
++	 * The actual size of the Extended Parameter Page is in
++	 * @ext_param_page_length of nand_onfi_params{}.
++	 * The following are the variable length sections.
++	 * So we do not add any fields below. Please see the ONFI spec.
++	 */
++} __packed;
++
++/**
++ * struct onfi_params - ONFI specific parameters that will be reused
++ * @version: ONFI version (BCD encoded), 0 if ONFI is not supported
++ * @tPROG: Page program time
++ * @tBERS: Block erase time
++ * @tR: Page read time
++ * @tCCS: Change column setup time
++ * @async_timing_mode: Supported asynchronous timing mode
++ * @vendor_revision: Vendor specific revision number
++ * @vendor: Vendor specific data
++ */
++struct onfi_params {
++	int version;
++	u16 tPROG;
++	u16 tBERS;
++	u16 tR;
++	u16 tCCS;
++	u16 async_timing_mode;
++	u16 vendor_revision;
++	u8 vendor[88];
++};
++
++#endif /* __LINUX_MTD_ONFI_H */
+diff --git a/include/linux/mtd/rawnand.h b/include/linux/mtd/rawnand.h
+index fbe7686cfc59..f4fc0cce7c55 100644
+--- a/include/linux/mtd/rawnand.h
++++ b/include/linux/mtd/rawnand.h
+@@ -21,6 +21,7 @@
+ #include <linux/mtd/mtd.h>
+ #include <linux/mtd/flashchip.h>
+ #include <linux/mtd/bbm.h>
++#include <linux/mtd/onfi.h>
+ #include <linux/of.h>
+ #include <linux/types.h>
+ 
+@@ -204,147 +205,6 @@ enum nand_ecc_algo {
+ #define NAND_CI_CELLTYPE_MSK	0x0C
+ #define NAND_CI_CELLTYPE_SHIFT	2
+ 
+-/* ONFI version bits */
+-#define ONFI_VERSION_1_0		BIT(1)
+-#define ONFI_VERSION_2_0		BIT(2)
+-#define ONFI_VERSION_2_1		BIT(3)
+-#define ONFI_VERSION_2_2		BIT(4)
+-#define ONFI_VERSION_2_3		BIT(5)
+-#define ONFI_VERSION_3_0		BIT(6)
+-#define ONFI_VERSION_3_1		BIT(7)
+-#define ONFI_VERSION_3_2		BIT(8)
+-#define ONFI_VERSION_4_0		BIT(9)
 -
- int nand_check_erased_ecc_chunk(void *data, int datalen,
- 				void *ecc, int ecclen,
- 				void *extraoob, int extraooblen,
-@@ -1586,18 +1507,9 @@ int nand_ecc_choose_conf(struct nand_chip *chip,
- /* Default write_oob implementation */
- int nand_write_oob_std(struct nand_chip *chip, int page);
- 
--/* Default write_oob syndrome implementation */
--int nand_write_oob_syndrome(struct nand_chip *chip, int page);
+-/* ONFI features */
+-#define ONFI_FEATURE_16_BIT_BUS		(1 << 0)
+-#define ONFI_FEATURE_EXT_PARAM_PAGE	(1 << 7)
 -
- /* Default read_oob implementation */
- int nand_read_oob_std(struct nand_chip *chip, int page);
- 
--/* Default read_oob syndrome implementation */
--int nand_read_oob_syndrome(struct nand_chip *chip, int page);
+-/* ONFI timing mode, used in both asynchronous and synchronous mode */
+-#define ONFI_TIMING_MODE_0		(1 << 0)
+-#define ONFI_TIMING_MODE_1		(1 << 1)
+-#define ONFI_TIMING_MODE_2		(1 << 2)
+-#define ONFI_TIMING_MODE_3		(1 << 3)
+-#define ONFI_TIMING_MODE_4		(1 << 4)
+-#define ONFI_TIMING_MODE_5		(1 << 5)
+-#define ONFI_TIMING_MODE_UNKNOWN	(1 << 6)
 -
--/* Wrapper to use in order for controllers/vendors to GET/SET FEATURES */
--int nand_get_features(struct nand_chip *chip, int addr, u8 *subfeature_param);
--int nand_set_features(struct nand_chip *chip, int addr, u8 *subfeature_param);
- /* Stub used by drivers that do not support GET/SET FEATURES operations */
- int nand_get_set_features_notsupp(struct nand_chip *chip, int addr,
- 				  u8 *subfeature_param);
-@@ -1605,14 +1517,10 @@ int nand_get_set_features_notsupp(struct nand_chip *chip, int addr,
- /* Default read_page_raw implementation */
- int nand_read_page_raw(struct nand_chip *chip, uint8_t *buf, int oob_required,
- 		       int page);
--int nand_read_page_raw_notsupp(struct nand_chip *chip, u8 *buf,
--			       int oob_required, int page);
- 
- /* Default write_page_raw implementation */
- int nand_write_page_raw(struct nand_chip *chip, const uint8_t *buf,
- 			int oob_required, int page);
--int nand_write_page_raw_notsupp(struct nand_chip *chip, const u8 *buf,
--				int oob_required, int page);
- 
- /* Reset and initialize a NAND device */
- int nand_reset(struct nand_chip *chip, int chipnr);
-@@ -1622,7 +1530,6 @@ int nand_reset_op(struct nand_chip *chip);
- int nand_readid_op(struct nand_chip *chip, u8 addr, void *buf,
- 		   unsigned int len);
- int nand_status_op(struct nand_chip *chip, u8 *status);
--int nand_exit_status_op(struct nand_chip *chip);
- int nand_erase_op(struct nand_chip *chip, unsigned int eraseblock);
- int nand_read_page_op(struct nand_chip *chip, unsigned int page,
- 		      unsigned int offset_in_page, void *buf, unsigned int len);
-@@ -1666,9 +1573,6 @@ void nand_cleanup(struct nand_chip *chip);
- /* Unregister the MTD device and calls nand_cleanup() */
- void nand_release(struct nand_chip *chip);
- 
--/* Default extended ID decoding function */
--void nand_decode_ext_id(struct nand_chip *chip);
+-/* ONFI feature number/address */
+-#define ONFI_FEATURE_NUMBER		256
+-#define ONFI_FEATURE_ADDR_TIMING_MODE	0x1
 -
- /*
-  * External helper for controller drivers that have to implement the WAITRDY
-  * instruction and have no physical pin to check it.
+-/* Vendor-specific feature address (Micron) */
+-#define ONFI_FEATURE_ADDR_READ_RETRY	0x89
+-#define ONFI_FEATURE_ON_DIE_ECC		0x90
+-#define   ONFI_FEATURE_ON_DIE_ECC_EN	BIT(3)
+-
+-/* ONFI subfeature parameters length */
+-#define ONFI_SUBFEATURE_PARAM_LEN	4
+-
+-/* ONFI optional commands SET/GET FEATURES supported? */
+-#define ONFI_OPT_CMD_SET_GET_FEATURES	(1 << 2)
+-
+-struct nand_onfi_params {
+-	/* rev info and features block */
+-	/* 'O' 'N' 'F' 'I'  */
+-	u8 sig[4];
+-	__le16 revision;
+-	__le16 features;
+-	__le16 opt_cmd;
+-	u8 reserved0[2];
+-	__le16 ext_param_page_length; /* since ONFI 2.1 */
+-	u8 num_of_param_pages;        /* since ONFI 2.1 */
+-	u8 reserved1[17];
+-
+-	/* manufacturer information block */
+-	char manufacturer[12];
+-	char model[20];
+-	u8 jedec_id;
+-	__le16 date_code;
+-	u8 reserved2[13];
+-
+-	/* memory organization block */
+-	__le32 byte_per_page;
+-	__le16 spare_bytes_per_page;
+-	__le32 data_bytes_per_ppage;
+-	__le16 spare_bytes_per_ppage;
+-	__le32 pages_per_block;
+-	__le32 blocks_per_lun;
+-	u8 lun_count;
+-	u8 addr_cycles;
+-	u8 bits_per_cell;
+-	__le16 bb_per_lun;
+-	__le16 block_endurance;
+-	u8 guaranteed_good_blocks;
+-	__le16 guaranteed_block_endurance;
+-	u8 programs_per_page;
+-	u8 ppage_attr;
+-	u8 ecc_bits;
+-	u8 interleaved_bits;
+-	u8 interleaved_ops;
+-	u8 reserved3[13];
+-
+-	/* electrical parameter block */
+-	u8 io_pin_capacitance_max;
+-	__le16 async_timing_mode;
+-	__le16 program_cache_timing_mode;
+-	__le16 t_prog;
+-	__le16 t_bers;
+-	__le16 t_r;
+-	__le16 t_ccs;
+-	__le16 src_sync_timing_mode;
+-	u8 src_ssync_features;
+-	__le16 clk_pin_capacitance_typ;
+-	__le16 io_pin_capacitance_typ;
+-	__le16 input_pin_capacitance_typ;
+-	u8 input_pin_capacitance_max;
+-	u8 driver_strength_support;
+-	__le16 t_int_r;
+-	__le16 t_adl;
+-	u8 reserved4[8];
+-
+-	/* vendor */
+-	__le16 vendor_revision;
+-	u8 vendor[88];
+-
+-	__le16 crc;
+-} __packed;
+-
+-#define ONFI_CRC_BASE	0x4F4E
+-
+-/* Extended ECC information Block Definition (since ONFI 2.1) */
+-struct onfi_ext_ecc_info {
+-	u8 ecc_bits;
+-	u8 codeword_size;
+-	__le16 bb_per_lun;
+-	__le16 block_endurance;
+-	u8 reserved[2];
+-} __packed;
+-
+-#define ONFI_SECTION_TYPE_0	0	/* Unused section. */
+-#define ONFI_SECTION_TYPE_1	1	/* for additional sections. */
+-#define ONFI_SECTION_TYPE_2	2	/* for ECC information. */
+-struct onfi_ext_section {
+-	u8 type;
+-	u8 length;
+-} __packed;
+-
+-#define ONFI_EXT_SECTION_MAX 8
+-
+-/* Extended Parameter Page Definition (since ONFI 2.1) */
+-struct onfi_ext_param_page {
+-	__le16 crc;
+-	u8 sig[4];             /* 'E' 'P' 'P' 'S' */
+-	u8 reserved0[10];
+-	struct onfi_ext_section sections[ONFI_EXT_SECTION_MAX];
+-
+-	/*
+-	 * The actual size of the Extended Parameter Page is in
+-	 * @ext_param_page_length of nand_onfi_params{}.
+-	 * The following are the variable length sections.
+-	 * So we do not add any fields below. Please see the ONFI spec.
+-	 */
+-} __packed;
+-
+ struct jedec_ecc_info {
+ 	u8 ecc_bits;
+ 	u8 codeword_size;
+@@ -423,28 +283,6 @@ struct nand_jedec_params {
+ 	__le16 crc;
+ } __packed;
+ 
+-/**
+- * struct onfi_params - ONFI specific parameters that will be reused
+- * @version: ONFI version (BCD encoded), 0 if ONFI is not supported
+- * @tPROG: Page program time
+- * @tBERS: Block erase time
+- * @tR: Page read time
+- * @tCCS: Change column setup time
+- * @async_timing_mode: Supported asynchronous timing mode
+- * @vendor_revision: Vendor specific revision number
+- * @vendor: Vendor specific data
+- */
+-struct onfi_params {
+-	int version;
+-	u16 tPROG;
+-	u16 tBERS;
+-	u16 tR;
+-	u16 tCCS;
+-	u16 async_timing_mode;
+-	u16 vendor_revision;
+-	u8 vendor[88];
+-};
+-
+ /**
+  * struct nand_parameters - NAND generic parameters from the parameter page
+  * @model: Model name
 -- 
 2.14.1
 
