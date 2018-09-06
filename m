@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 09E617D581
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 09:11:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D059A7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 09:12:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728382AbeIFNp5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 09:45:57 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:11666 "EHLO huawei.com"
+        id S1728273AbeIFNrB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Sep 2018 09:47:01 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:11646 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727817AbeIFNp5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Sep 2018 09:45:57 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id ECB658CFFD7F5;
-        Thu,  6 Sep 2018 17:11:23 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server (TLS) id 14.3.399.0; Thu, 6 Sep 2018
- 17:11:18 +0800
-Date:   Thu, 6 Sep 2018 17:09:31 +0800
+        id S1728262AbeIFNrB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Sep 2018 09:47:01 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id E36316073E78D;
+        Thu,  6 Sep 2018 17:12:28 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server (TLS) id 14.3.399.0; Thu, 6 Sep 2018
+ 17:12:20 +0800
+Date:   Thu, 6 Sep 2018 17:10:32 +0800
 From:   Kenneth Lee <liguozhu@hisilicon.com>
 To:     Randy Dunlap <rdunlap@infradead.org>
 CC:     Kenneth Lee <nek.in.cn@gmail.com>,
@@ -40,16 +40,16 @@ CC:     Kenneth Lee <nek.in.cn@gmail.com>,
         <kvm@vger.kernel.org>, <linux-accelerators@lists.ozlabs.org>,
         Lu Baolu <baolu.lu@linux.intel.com>,
         Sanjay Kumar <sanjay.k.kumar@intel.com>, <linuxarm@huawei.com>
-Subject: Re: [PATCH 6/7] crypto: add sdmdev support to Hisilicon QM
-Message-ID: <20180906090931.GD230707@Turing-Arch-b>
+Subject: Re: [PATCH 7/7] vfio/sdmdev: add user sample
+Message-ID: <20180906091032.GE230707@Turing-Arch-b>
 References: <20180903005204.26041-1-nek.in.cn@gmail.com>
- <20180903005204.26041-7-nek.in.cn@gmail.com>
- <46e57b2b-756e-e256-5b3c-30749d865512@infradead.org>
+ <20180903005204.26041-8-nek.in.cn@gmail.com>
+ <ff75ff6a-2cd8-b25e-8d19-52e8f57141da@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <46e57b2b-756e-e256-5b3c-30749d865512@infradead.org>
+In-Reply-To: <ff75ff6a-2cd8-b25e-8d19-52e8f57141da@infradead.org>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Originating-IP: [10.67.212.75]
 X-CFilter-Loop: Reflected
@@ -58,8 +58,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 02, 2018 at 07:19:03PM -0700, Randy Dunlap wrote:
-> Date: Sun, 2 Sep 2018 19:19:03 -0700
+On Sun, Sep 02, 2018 at 07:25:12PM -0700, Randy Dunlap wrote:
+> Date: Sun, 2 Sep 2018 19:25:12 -0700
 > From: Randy Dunlap <rdunlap@infradead.org>
 > To: Kenneth Lee <nek.in.cn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
 >  Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
@@ -74,51 +74,126 @@ On Sun, Sep 02, 2018 at 07:19:03PM -0700, Randy Dunlap wrote:
 >  linux-accelerators@lists.ozlabs.org, Lu Baolu <baolu.lu@linux.intel.com>,
 >  Sanjay Kumar <sanjay.k.kumar@intel.com>
 > CC: linuxarm@huawei.com
-> Subject: Re: [PATCH 6/7] crypto: add sdmdev support to Hisilicon QM
+> Subject: Re: [PATCH 7/7] vfio/sdmdev: add user sample
 > User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 >  Thunderbird/52.9.1
-> Message-ID: <46e57b2b-756e-e256-5b3c-30749d865512@infradead.org>
+> Message-ID: <ff75ff6a-2cd8-b25e-8d19-52e8f57141da@infradead.org>
 > 
 > On 09/02/2018 05:52 PM, Kenneth Lee wrote:
-> > diff --git a/drivers/crypto/hisilicon/Kconfig b/drivers/crypto/hisilicon/Kconfig
-> > index 1d155708cd69..b85fab48fdab 100644
-> > --- a/drivers/crypto/hisilicon/Kconfig
-> > +++ b/drivers/crypto/hisilicon/Kconfig
-> > @@ -17,6 +17,16 @@ config CRYPTO_DEV_HISI_SEC
-> >  	  To compile this as a module, choose M here: the module
-> >  	  will be called hisi_sec.
-> >  
-> > +config CRYPTO_DEV_HISI_SDMDEV
-> > +	bool "Enable SDMDEV interface"
-> > +	depends on CRYPTO_DEV_HISILICON
-> > +	select VFIO_SDMDEV
-> > +	help
-> > +	  Enable this enable the SDMDEV, "shared IOMMU Domain Mediated Device"
+> > From: Kenneth Lee <liguozhu@hisilicon.com>
+> > 
+> > This is the sample code to demostrate how WrapDrive user application
+> > should be.
+> > 
+> > It contains:
+> > 
+> > 1. wd.[ch], the common library to provide WrapDrive interface.
 > 
-> At a minimum:
-> 	  Enable this to enable the SDMDEV,
+>                                             WarpDrive
 > 
-> although that could be done better.  Maybe just:
-> 	  Enable the SDMDEV "shared IOMMU Domain Mediated Device"
+> > 2. drv/*, the user driver to access the hardware upon spimdev
+> > 3. test/*, the test application to use WrapDrive interface to access the
 > 
-> 	  
-> > +	  interface for all Hisilicon accelerators if they can. The SDMDEV
+>                                          WarpDrive
 > 
-> probably drop "if they can":          accelerators.  The SDMDEV interface
+> >    hardware queue(s) of the accelerator.
+> > 
+> > The Hisilicon HIP08 ZIP accelerator is used in this sample.
+> > 
+> > Signed-off-by: Zaibo Xu <xuzaibo@huawei.com>
+> > Signed-off-by: Kenneth Lee <liguozhu@hisilicon.com>
+> > Signed-off-by: Hao Fang <fanghao11@huawei.com>
+> > Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
+> > ---
+> >  samples/warpdrive/AUTHORS              |   2 +
+> >  samples/warpdrive/ChangeLog            |   1 +
+> >  samples/warpdrive/Makefile.am          |   9 +
+> >  samples/warpdrive/NEWS                 |   1 +
+> >  samples/warpdrive/README               |  32 +++
+> >  samples/warpdrive/autogen.sh           |   3 +
+> >  samples/warpdrive/cleanup.sh           |  13 ++
+> >  samples/warpdrive/configure.ac         |  52 +++++
+> >  samples/warpdrive/drv/hisi_qm_udrv.c   | 223 ++++++++++++++++++
+> >  samples/warpdrive/drv/hisi_qm_udrv.h   |  53 +++++
+> >  samples/warpdrive/test/Makefile.am     |   7 +
+> >  samples/warpdrive/test/comp_hw.h       |  23 ++
+> >  samples/warpdrive/test/test_hisi_zip.c | 206 +++++++++++++++++
+> >  samples/warpdrive/wd.c                 | 309 +++++++++++++++++++++++++
+> >  samples/warpdrive/wd.h                 | 154 ++++++++++++
+> >  samples/warpdrive/wd_adapter.c         |  74 ++++++
+> >  samples/warpdrive/wd_adapter.h         |  43 ++++
+> >  17 files changed, 1205 insertions(+)
+> >  create mode 100644 samples/warpdrive/AUTHORS
+> >  create mode 100644 samples/warpdrive/ChangeLog
+> >  create mode 100644 samples/warpdrive/Makefile.am
+> >  create mode 100644 samples/warpdrive/NEWS
+> >  create mode 100644 samples/warpdrive/README
+> >  create mode 100755 samples/warpdrive/autogen.sh
+> >  create mode 100755 samples/warpdrive/cleanup.sh
+> >  create mode 100644 samples/warpdrive/configure.ac
+> >  create mode 100644 samples/warpdrive/drv/hisi_qm_udrv.c
+> >  create mode 100644 samples/warpdrive/drv/hisi_qm_udrv.h
+> >  create mode 100644 samples/warpdrive/test/Makefile.am
+> >  create mode 100644 samples/warpdrive/test/comp_hw.h
+> >  create mode 100644 samples/warpdrive/test/test_hisi_zip.c
+> >  create mode 100644 samples/warpdrive/wd.c
+> >  create mode 100644 samples/warpdrive/wd.h
+> >  create mode 100644 samples/warpdrive/wd_adapter.c
+> >  create mode 100644 samples/warpdrive/wd_adapter.h
 > 
-> > +	  enable the WarpDrive user space accelerator driver to access the
-> 
-> 	  enables
-
-Thank you, will change them all in the coming version.
-
-> 
-> > +	  hardware function directly.
+> > diff --git a/samples/warpdrive/README b/samples/warpdrive/README
+> > new file mode 100644
+> > index 000000000000..3adf66b112fc
+> > --- /dev/null
+> > +++ b/samples/warpdrive/README
+> > @@ -0,0 +1,32 @@
+> > +WD User Land Demonstration
+> > +==========================
 > > +
+> > +This directory contains some applications and libraries to demonstrate how a
+> > +
+> > +WrapDrive application can be constructed.
 > 
+>    WarpDrive
+> 
+> > +
+> > +
+> > +As a demo, we try to make it simple and clear for understanding. It is not
+> > +
+> > +supposed to be used in business scenario.
+> > +
+> > +
+> > +The directory contains the following elements:
+> > +
+> > +wd.[ch]
+> > +	A demonstration WrapDrive fundamental library which wraps the basic
+> 
+> 	                WarpDrive
+> 
+> > +	operations to the WrapDrive-ed device.
+> 
+>                           WarpDrive
+> 
+> > +
+> > +wd_adapter.[ch]
+> > +	User driver adaptor for wd.[ch]
+> > +
+> > +wd_utils.[ch]
+> > +	Some utitlities function used by WD and its drivers
+> > +
+> > +drv/*
+> > +	User drivers. It helps to fulfill the semantic of wd.[ch] for
+> > +	particular hardware
+> > +
+> > +test/*
+> > +	Test applications to use the wrapdrive library
+> 
+> 	                             warpdrive
 > 
 > -- 
 > ~Randy
+
+Thank you, will change them all in the coming version.
 
 -- 
 			-Kenneth(Hisilicon)
