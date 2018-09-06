@@ -5,33 +5,44 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E3CF07D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 13:47:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 630667D87A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 13:50:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbeIFSXN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 14:23:13 -0400
-Received: from mail-by2nam03on0063.outbound.protection.outlook.com ([104.47.42.63]:21328
-        "EHLO NAM03-BY2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726837AbeIFSXN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Sep 2018 14:23:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uuJOXB0uOLOA97jyo6fg05iMv8oNbrpHRZLnwFpHGRU=;
- b=rzYf3q3fxUWsnLVGGZdIBzbGH+BWdX1r7dVDwuLoTA0c8u7VO998Yl9nwTP+jw3RpJ3TCUsyAQWByesFB5GFC7usDhem+y9EDEo8LzNLX9JYjCGEXdLEi7c82s36aErOaq1Ppqv46BidaDQJIo5130oK4LHBAJqRwV3ny9+WNC4=
-Received: from BYAPR07MB5144.namprd07.prod.outlook.com (20.176.254.209) by
- BYAPR07MB5367.namprd07.prod.outlook.com (20.177.125.20) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1080.17; Thu, 6 Sep 2018 13:47:29 +0000
-Received: from BYAPR07MB5144.namprd07.prod.outlook.com
- ([fe80::581:6eee:fab6:4c99]) by BYAPR07MB5144.namprd07.prod.outlook.com
- ([fe80::581:6eee:fab6:4c99%4]) with mapi id 15.20.1122.009; Thu, 6 Sep 2018
- 13:47:29 +0000
-From:   Przemyslaw Gaj <pgaj@cadence.com>
+        id S1730012AbeIFS0B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Sep 2018 14:26:01 -0400
+Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:47782 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726926AbeIFS0A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Sep 2018 14:26:00 -0400
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id A8E7D10C1317;
+        Thu,  6 Sep 2018 06:50:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1536241821; bh=5RAP9nqSKQ926+vpff6dok6KZ88dtvepvkeIiCG3YWs=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=RjDymW4Fu80i0kr/Pnjb0wbNUNsP1EnplgGWxTQaxHejdxmbxDGy0cEnZzgUKB6Tr
+         y6+a5RMY3bkCn21mkjhbc+ZEHybSO3dhDZqlu8KB79B61u4CsbCKxy2B5flTNwXyeb
+         7ZN7uV7uW5YBTYoMR/zwuUDja3GZv3qoeylF6kDqHDfJZuyhrdZVJlClkXGecXdFo4
+         LyJ7lhUCDPWQx1yOnJ6ts49HGtH9YMErAp34w2UfpooQzw9omMHYKXiPxLZ+Pl4ttA
+         M0yGbJBi7A2kHs+gMxxaipdTGA11DWCQfoA6xUY2p4qpKHJIa50/nlmRHZXskLaOY/
+         7mYrckTk1geMA==
+Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 90CE45465;
+        Thu,  6 Sep 2018 06:50:18 -0700 (PDT)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Thu, 6 Sep 2018 06:50:18 -0700
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Thu, 6 Sep 2018 15:50:12 +0200
+Received: from [10.0.2.15] (10.107.25.90) by DE02WEHTCA.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 6 Sep
+ 2018 15:50:11 +0200
+Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
 To:     Boris Brezillon <boris.brezillon@bootlin.com>,
         Arnd Bergmann <arnd@arndb.de>
-CC:     Vitor Soares <Vitor.Soares@synopsys.com>,
+CC:     Przemyslaw Gaj <pgaj@cadence.com>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Sekhar Nori <nsekhar@ti.com>, Wolfram Sang <wsa@the-dreams.de>,
         Linux I2C <linux-i2c@vger.kernel.org>,
@@ -43,14 +54,14 @@ CC:     Vitor Soares <Vitor.Soares@synopsys.com>,
         Alan Douglas <adouglas@cadence.com>,
         Bartosz Folta <bfolta@cadence.com>,
         Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        "Alicja Jurasik-Urbaniak" <alicja@cadence.com>,
         Cyprian Wronka <cwronka@cadence.com>,
         Suresh Punnoose <sureshp@cadence.com>,
         Rafal Ciepiela <rafalc@cadence.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
         Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
+        "Mark Rutland" <mark.rutland@arm.com>,
         Ian Campbell <ijc+devicetree@hellion.org.uk>,
         Kumar Gala <galak@codeaurora.org>,
         DTML <devicetree@vger.kernel.org>,
@@ -59,11 +70,6 @@ CC:     Vitor Soares <Vitor.Soares@synopsys.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         Peter Rosin <peda@axentia.se>
-Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-Thread-Topic: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-Thread-Index: AQHUH3VT99XuaYWr3kWHpjq9POOKYqTML50AgALgfQCAAFeJAIAABncAgAXdiQCAAANWgIAAMGEAgAMUiwCAAHYxAIAFiUGAgAUNtQD//+MCAIAABCaAgAAqtIA=
-Date:   Thu, 6 Sep 2018 13:47:29 +0000
-Message-ID: <5AD923AE-E86E-4414-A48F-CE7399E18431@cadence.com>
 References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
  <20180719152930.3715-2-boris.brezillon@bootlin.com>
  <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
@@ -78,100 +84,73 @@ References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
  <9584757a-e7e2-5bfe-fc2c-e9bc14ad65a8@synopsys.com>
  <25862F03-9823-42B0-87AC-AE36D7E9C780@cadence.com>
  <CAK8P3a3pkddD9VnogYryQKoL9Z_5qVRBXd6yr1z6CqGU692rXg@mail.gmail.com>
- <20180906151437.4259d6fc@bbrezillon>
-In-Reply-To: <20180906151437.4259d6fc@bbrezillon>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=pgaj@cadence.com; 
-x-originating-ip: [185.217.253.59]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;BYAPR07MB5367;20:Xh/+eSjaURb7AzbnLg/sXRDpnuu9OogjtRe2f8fFgyCPwRZGmUguhVNcbHk3C1Eh/VgdbFsNQrw/IQtlF93xOu/9zLqSB7cEcl+YSRIzeCq9gd3UIbK6QpLTdEvP1qjbL5MbSNpkAYpL83SnWXiMaAYRibykb0GmNxfnQw44p80jgfa64bBSrf1tJj9f1Lltd0QU9Sa+US4F+8hutfXmEl7tZBaicfNPTzWn2WtMXC1bbpLahsgoFhCpaTPvX21H
-x-ms-office365-filtering-correlation-id: ee557545-a75a-4aee-87ff-08d613ff49f3
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989137)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB5367;
-x-ms-traffictypediagnostic: BYAPR07MB5367:
-x-microsoft-antispam-prvs: <BYAPR07MB5367404CE779F77D3860F416C2010@BYAPR07MB5367.namprd07.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(60795455431006)(10436049006162)(72170088055959)(72806322054110);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231311)(944501410)(52105095)(93006095)(93001095)(10201501046)(3002001)(149027)(150027)(6041310)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123558120)(20161123560045)(201708071742011)(7699016);SRVR:BYAPR07MB5367;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB5367;
-x-forefront-prvs: 0787459938
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(136003)(346002)(376002)(39850400004)(396003)(199004)(189003)(54014002)(36092001)(36756003)(6436002)(76176011)(14444005)(3846002)(6486002)(6246003)(256004)(6116002)(4326008)(82746002)(68736007)(2906002)(83716003)(14454004)(966005)(66066001)(229853002)(8936002)(81156014)(81166006)(2900100001)(7736002)(54906003)(53546011)(25786009)(93886005)(102836004)(6506007)(5250100002)(110136005)(26005)(6512007)(316002)(11346002)(86362001)(186003)(446003)(33656002)(53936002)(97736004)(99286004)(478600001)(8676002)(486006)(575784001)(2616005)(476003)(105586002)(305945005)(6306002)(5660300001)(7416002)(106356001);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB5367;H:BYAPR07MB5144.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: cadence.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: zfm5Kja7VIigYdo6oOskOpRmx5z1CUdSX81zjvFyTWPmH0CTmG1bVfU6sm0dvEwm4hUt7B+OoIajZuCV0YgmT44WNp3Av5/eECS2z0+1/E22FV3okqDNL0s/Alc3hm74qR847doODZF3jVzIkPj4WD3IEHSPsYyHteCthYWRBFUKOJ4xCTGeclxipKbHEWOQtwkXAXTMZXqpUThRXRptzyCp+jjbvmeyeEecAopUCvaLs4iD2JbRTPhDrNLUAmscnbgAWoV191wmdKEacD/3mLJ5q8p5K8BsePRlxQMHeP2Mrjaw3uos48UPtTGr5aBopyRWlBe8Ott8oF6Em+wgJfFI5FsIq2WtFDu+TfdZ5Pw=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CA57048406789A41B36F37C802474033@namprd07.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <20180906151437.4259d6fc@bbrezillon> <20180906152055.5618d235@bbrezillon>
+From:   vitor <Vitor.Soares@synopsys.com>
+Message-ID: <a08a0f8b-395b-f956-47d1-e29e0de4aae9@synopsys.com>
+Date:   Thu, 6 Sep 2018 14:50:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee557545-a75a-4aee-87ff-08d613ff49f3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Sep 2018 13:47:29.5337
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB5367
+In-Reply-To: <20180906152055.5618d235@bbrezillon>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.107.25.90]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCu+7v09uIDkvNi8xOCwgMzoxNCBQTSwgIkJvcmlzIEJyZXppbGxvbiIgPGJvcmlzLmJyZXpp
-bGxvbkBib290bGluLmNvbT4gd3JvdGU6DQoNCiAgICBFWFRFUk5BTCBNQUlMDQogICAgDQogICAg
-DQogICAgT24gVGh1LCA2IFNlcCAyMDE4IDE0OjU5OjQ2ICswMjAwDQogICAgQXJuZCBCZXJnbWFu
-biA8YXJuZEBhcm5kYi5kZT4gd3JvdGU6DQogICAgDQogICAgPiBPbiBUaHUsIFNlcCA2LCAyMDE4
-IGF0IDI6NDMgUE0gUHJ6ZW15c2xhdyBHYWogPHBnYWpAY2FkZW5jZS5jb20+IHdyb3RlOg0KICAg
-ID4gPg0KICAgID4gPiBIaSBCb3JpcywgVml0b3IsDQogICAgPiA+DQogICAgPiA+IFRoaXMgcmVw
-b3NpdG9yeSBkb2VzIG5vdCBjb250YWluIGZ1bGwga2VybmVsIHNvdXJjZXMsIGJ1dCBpdCBzaG91
-bGQgYmUgZW5vdWdoIHRvIGRpc2N1c3MgbWFzdGVyc2hpcCByZXF1ZXN0IGZlYXR1cmUuDQogICAg
-PiA+IGh0dHBzOi8vdXJsZGVmZW5zZS5wcm9vZnBvaW50LmNvbS92Mi91cmw/dT1odHRwcy0zQV9f
-Z2l0aHViLmNvbV9wcnplbWVrZ2FqX2kzYy0yRGxpbnV4X2NvbW1pdF9kNTRmZTY4YTlkM2U1NzNj
-MGM0NTRhMmM2ZjFhZmFmYzIwMTQyZWM1JmQ9RHdJQ0FnJmM9YVVxOTgzTDJwdWUyRnFLRm9QNlBH
-SE1KUXlvSjdrbDNzM0daLV9oYVhxWSZyPUNNbkFmTV9PZnBxY1daUmZpcWNSV3cmbT1PUFNhMjVF
-Tm5yRjBRdjcwREc0OVpuZ2ZkeWdKWnViam8zVE9nQkEzcEo0JnM9X0M2aTFLUHBsUUdjV3ZRWVBr
-ckd4N1YzVGpLREp2cXQzS0ctdmNkVTJLNCZlPQ0KICAgID4gPg0KICAgID4gPiBQbGVhc2Uga2Vl
-cCBpbiBtaW5kIHRoYXQgdGhpcyBpcyBpbml0aWFsIHZlcnNpb24sIGJ1dCBtYXN0ZXJzaGlwIHdv
-cmtzIGNvcnJlY3RseS4gSSBhZGRlZCBvbmUgcHJvcGVydHkgdG8gRFQgdG8gcmVmbGVjdCByZWxh
-dGlvbnNoaXAgYmV0d2VlbiBtYXN0ZXJzLg0KICAgID4gPiBJdCBpcyBwb3NzaWJsZSB0byByZXF1
-ZXN0IG1hc3RlcnNoaXAgb24gZGVtYW5kICh1c2luZyBzeXNmcy4gVXNlZnVsIGluIGNhc2Ugd2hl
-biBMaW51eCBtYWNoaW5lIGlzIGVxdWlwcGVkIG9ubHkgd2l0aCBzZWNvbmRhcnkgbWFzdGVyIGNv
-bnRyb2xsZXIpIG9yIGF1dG9tYXRpY2FsbHkgY2hhbmdlIG9wZXJhdGlvbiBtb2RlIHdoZW4gZGV2
-aWNlIGRyaXZlciB3YW50cyB0byByZWFkL3dyaXRlIHNvbWV0aGluZyBmcm9tL3RvIGRldmljZS4N
-CiAgICA+ID4NCiAgICA+ID4gSSdtIHN1cmUgSSB3aWxsIGhhdmUgdG8gcmV3b3JrIHNvbWV0aGlu
-ZyBiZWNhdXNlIHRoaXMgd2FzIGltcGxlbWVudGVkIG9uIHNvdXJjZXMgZnJvbSBQQVRDSCB2NC4g
-SSBzYXcgdGhhdCBCb3JpcyByZWxlYXNlZCB2NyB5ZXN0ZXJkYXkgOikgIA0KICAgID4gDQogICAg
-PiANCiAgICA+IENhbiB5b3UgZXhwbGFpbiB0aGUgcmVhc29uIGZvciBoYXZpbmcgYSB1c2VyIHNw
-YWNlIGludGVyZmFjZSBhbmQgRFQgcHJvcGVydHk/DQogICAgPiBJIHRob3VnaHQgd2UgaGFkIGNv
-bmNsdWRlZCBlYXJsaWVyIHRoYXQgd2Ugd291bGRuJ3QgbmVlZCB0aGF0LCBidXQgaXQncyBwb3Nz
-aWJsZQ0KICAgID4gdGhhdCBJIG1pc3NlZCBzb21ldGhpbmcgaW4gdGhlIGRpc2N1c3Npb24gc2lu
-Y2UgdGhlbi4NCiAgICANCiAgICBJIGRvbid0IHRoaW5rIHRoZSBzeXNmcyBrbm9iIGlzIG5lZWRl
-ZCwgdGhpcyBiZWluZyBzYWlkLCBhZnRlciB0aGlua2luZw0KICAgIGEgYml0IG1vcmUgYWJvdXQg
-bWFzdGVyc2hpcCBoYW5kb3ZlciBhbmQgdGhlIHNlY29uZGFyeSBtYXN0ZXIgY2FzZSwgSQ0KICAg
-IHRoaW5rIHdlIGhhdmUgc29tZXRoaW5nIGltcG9ydGFudCB0byBzb2x2ZS4NCiAgICANCiAgICBX
-aGVuIGEgbWFzdGVyIGlzIG5vdCBpbiBjb250cm9sIG9mIHRoZSBidXMsIGl0IGdldHMgaW5mb3Jt
-ZWQgb2YgZGV2aWNlcw0KICAgIHByZXNlbnQgb24gdGhlIGJ1cyBieSBtb25pdG9yaW5nIERBQSBv
-ciBERUZTTFZTIGJyb2FkY2FzdCBldmVudHMuIFRoYXQNCiAgICBtZWFucyB0aGUgc2Vjb25kYXJ5
-IG1hc3RlciBzaG91bGQgcG9wdWxhdGUgdGhlIGJ1cyB3aXRoIEkzQy9JMkMgZGV2aWNlcw0KICAg
-IG9uIHN1Y2ggZXZlbnRzLCBidXQgdGhhdCdzIG5vdCBlbm91Z2gsIGJlY2F1c2UgREVGU0xWUy9E
-QUEgZG8gbm90DQogICAgcHJvdmlkZSBhbGwgZGV2aWNlIGluZm8uIFNvbWUgb2YgdGhlbSAobGlr
-ZSByZWFkL3dyaXRlL2liaSBsaW1pdGF0aW9ucykNCiAgICByZXF1aXJlIGV4dHJhIENDQyBjb21t
-YW5kcywgYW5kLCB0byBzZW5kIHRob3NlIENDQyBjb21tYW5kcywgdGhlDQogICAgc2Vjb25kYXJ5
-IG1hc3RlciBtdXN0IGNsYWltIHRoZSBidXMuIFdlIGNvdWxkIGFkZCBhIGNhc2Ugd2hlcmUgd2UN
-CiAgICBkZWNsYXJlIGRldmljZXMgYXMgcGFydGlhbGx5IGRpc2NvdmVyZWQgdW50aWwgdGhlIG1h
-c3RlciBhY3F1aXJlcw0KICAgIG93bmVyc2hpcCBvZiB0aGUgYnVzLCBidXQgdGhhdCBtZWFucyBw
-YXJ0IG9mIHRoZSBkYXRhIHJldHVybmVkIGJ5DQogICAgaTNjX2RldmljZV9nZXRfaW5mbygpIHdp
-bGwgYmUgaW5hY2N1cmF0ZSwgd2hpY2ggbWlnaHQgaGF2ZSBhbiBpbXBhY3Qgb24NCiAgICBzb21l
-IGkzYyBkcml2ZXIgLT5wcm9iZSgpIGZ1bmN0aW9ucy4NCg0KSG93IGRvIHlvdSB3YW50IHRvIGhh
-bmRsZSBjYXNlcyB3aGVuIHNlY29uZGFyeSBtYXN0ZXIgam9pbnMgdGhlIGJ1cyBhZnRlciANCkRF
-RlNMVlM/IE9mIGNvdXJzZSB3ZSBjYW4gc2VuZCBERUZTTFZTIGFmdGVyIHNlY29uZGFyeSBtYXN0
-ZXIgam9pbnMgdGhlIGJ1cy4NCiAgICANCiAgICBXZSBjb3VsZCBhbHNvIHNheSB0aGF0IHBhcnRp
-YWxseSBkaXNjb3ZlcmVkIGRldmljZXMgc2hvdWxkIG5vdCBiZQ0KICAgIHJlZ2lzdGVyZWQgdG8g
-dGhlIGRldmljZSBtb2RlbCwgYnV0IHdlIHRoZW4gaGl0IHRoZSBwcm9ibGVtIG9mICJ3aG8gY2Fu
-DQogICAgZm9yY2UgdGhlIHNlY29uZGFyeSBtYXN0ZXIgdG8gY2xhaW0gdGhlIGJ1cyBpZiB0aGVy
-ZSdzIG5vIHVzZXJzPyIuDQoNCk5vdyBJIGZlZWwgbGlrZSBJIG1pc3NlZCBzb21ldGhpbmcuIERv
-IHlvdSB3YW50IHRvIHBvcHVsYXRlIHNlY29uZCBpbnN0YW5jZQ0Kb2YgdGhlIHNhbWUgcGh5c2lj
-YWwgYnVzPyBJZiB5ZXMsIHRoZW4gd2UgZG9uJ3QgbmVlZCB0byBoYXZlIHJlZmVyZW5jZSANCmJl
-dHdlZW4gbWFzdGVycyBpbiBEVC4NCiAgICANCg0K
+Hi,
+
+
+On 06-09-2018 14:20, Boris Brezillon wrote:
+> On Thu, 6 Sep 2018 15:14:37 +0200
+> Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+>
+>> On Thu, 6 Sep 2018 14:59:46 +0200
+>> Arnd Bergmann <arnd@arndb.de> wrote:
+>>
+>>> On Thu, Sep 6, 2018 at 2:43 PM Przemyslaw Gaj <pgaj@cadence.com> wrote:
+>>>> Hi Boris, Vitor,
+>>>>
+>>>> This repository does not contain full kernel sources, but it should be enough to discuss mastership request feature.
+>>>> https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_przemekgaj_i3c-2Dlinux_commit_d54fe68a9d3e573c0c454a2c6f1afafc20142ec5&d=DwICAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=qVuU64u9x77Y0Kd0PhDK_lpxFgg6PK9PateHwjb_DY0&m=Q9DWw3KGmshGw0f5QTiffbpbESyUlPx6KmASuDBtX9Y&s=HHE_y1kyMszJvP_tSP9JkDlPYxDywBeHwkMGgCR11uI&e=
+>>>>
+>>>> Please keep in mind that this is initial version, but mastership works correctly. I added one property to DT to reflect relationship between masters.
+>>>> It is possible to request mastership on demand (using sysfs. Useful in case when Linux machine is equipped only with secondary master controller) or automatically change operation mode when device driver wants to read/write something from/to device.
+>>>>
+>>>> I'm sure I will have to rework something because this was implemented on sources from PATCH v4. I saw that Boris released v7 yesterday :)
+>>>
+>>> Can you explain the reason for having a user space interface and DT property?
+>>> I thought we had concluded earlier that we wouldn't need that, but it's possible
+>>> that I missed something in the discussion since then.
+>> I don't think the sysfs knob is needed, this being said, after thinking
+>> a bit more about mastership handover and the secondary master case, I
+>> think we have something important to solve.
+>>
+>> When a master is not in control of the bus, it gets informed of devices
+>> present on the bus by monitoring DAA or DEFSLVS broadcast events. That
+>> means the secondary master should populate the bus with I3C/I2C devices
+>> on such events, but that's not enough, because DEFSLVS/DAA do not
+>> provide all device info.Some of them (like read/write/ibi limitations)
+>> require extra CCC commands, and, to send those CCC commands, the
+>> secondary master must claim the bus. We could add a case where we
+>> declare devices as partially discovered until the master acquires
+>> ownership of the bus, but that means part of the data returned by
+>> i3c_device_get_info() will be inaccurate, which might have an impact on
+>> some i3c driver ->probe() functions.
+> Hm, one possible solution would be to register partially discovered
+> devices to the device model and let i3c_device_get_info() claim the bus
+> and request missing data when needed. This way, if the driver needs to
+> call i3c_device_get_info() in its probe path, it should work just fine.
+
+Why don't use the i3c_master_add_i3c_dev_locked that job? It create, 
+attach and retrieve the device info.
+This can be triggered after the secondary master receive ENEC MR until 
+them is keep in the driver memory.
+
+Best regards,
+Vitor Soares
+
+
