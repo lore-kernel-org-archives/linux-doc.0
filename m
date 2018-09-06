@@ -2,24 +2,24 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D07DC7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 13:15:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 575527D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 13:21:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729159AbeIFRuT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 13:50:19 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:56785 "EHLO mail.bootlin.com"
+        id S1728736AbeIFR4j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Sep 2018 13:56:39 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:57118 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729143AbeIFRuT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Sep 2018 13:50:19 -0400
+        id S1728724AbeIFR4i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Sep 2018 13:56:38 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id EA7AF20763; Thu,  6 Sep 2018 15:14:48 +0200 (CEST)
+        id 3B386207AD; Thu,  6 Sep 2018 15:21:07 +0200 (CEST)
 Received: from bbrezillon (AAubervilliers-681-1-30-219.w90-88.abo.wanadoo.fr [90.88.15.219])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 29E942072B;
-        Thu,  6 Sep 2018 15:14:38 +0200 (CEST)
-Date:   Thu, 6 Sep 2018 15:14:37 +0200
+        by mail.bootlin.com (Postfix) with ESMTPSA id 7748B20763;
+        Thu,  6 Sep 2018 15:20:56 +0200 (CEST)
+Date:   Thu, 6 Sep 2018 15:20:55 +0200
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Przemyslaw Gaj <pgaj@cadence.com>,
@@ -52,8 +52,8 @@ Cc:     Przemyslaw Gaj <pgaj@cadence.com>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         Peter Rosin <peda@axentia.se>
 Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-Message-ID: <20180906151437.4259d6fc@bbrezillon>
-In-Reply-To: <CAK8P3a3pkddD9VnogYryQKoL9Z_5qVRBXd6yr1z6CqGU692rXg@mail.gmail.com>
+Message-ID: <20180906152055.5618d235@bbrezillon>
+In-Reply-To: <20180906151437.4259d6fc@bbrezillon>
 References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
         <20180719152930.3715-2-boris.brezillon@bootlin.com>
         <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
@@ -68,6 +68,7 @@ References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
         <9584757a-e7e2-5bfe-fc2c-e9bc14ad65a8@synopsys.com>
         <25862F03-9823-42B0-87AC-AE36D7E9C780@cadence.com>
         <CAK8P3a3pkddD9VnogYryQKoL9Z_5qVRBXd6yr1z6CqGU692rXg@mail.gmail.com>
+        <20180906151437.4259d6fc@bbrezillon>
 X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -77,42 +78,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 6 Sep 2018 14:59:46 +0200
-Arnd Bergmann <arnd@arndb.de> wrote:
+On Thu, 6 Sep 2018 15:14:37 +0200
+Boris Brezillon <boris.brezillon@bootlin.com> wrote:
 
-> On Thu, Sep 6, 2018 at 2:43 PM Przemyslaw Gaj <pgaj@cadence.com> wrote:
-> >
-> > Hi Boris, Vitor,
-> >
-> > This repository does not contain full kernel sources, but it should be enough to discuss mastership request feature.
-> > https://github.com/przemekgaj/i3c-linux/commit/d54fe68a9d3e573c0c454a2c6f1afafc20142ec5
-> >
-> > Please keep in mind that this is initial version, but mastership works correctly. I added one property to DT to reflect relationship between masters.
-> > It is possible to request mastership on demand (using sysfs. Useful in case when Linux machine is equipped only with secondary master controller) or automatically change operation mode when device driver wants to read/write something from/to device.
-> >
-> > I'm sure I will have to rework something because this was implemented on sources from PATCH v4. I saw that Boris released v7 yesterday :)  
+> On Thu, 6 Sep 2018 14:59:46 +0200
+> Arnd Bergmann <arnd@arndb.de> wrote:
 > 
+> > On Thu, Sep 6, 2018 at 2:43 PM Przemyslaw Gaj <pgaj@cadence.com> wrote:  
+> > >
+> > > Hi Boris, Vitor,
+> > >
+> > > This repository does not contain full kernel sources, but it should be enough to discuss mastership request feature.
+> > > https://github.com/przemekgaj/i3c-linux/commit/d54fe68a9d3e573c0c454a2c6f1afafc20142ec5
+> > >
+> > > Please keep in mind that this is initial version, but mastership works correctly. I added one property to DT to reflect relationship between masters.
+> > > It is possible to request mastership on demand (using sysfs. Useful in case when Linux machine is equipped only with secondary master controller) or automatically change operation mode when device driver wants to read/write something from/to device.
+> > >
+> > > I'm sure I will have to rework something because this was implemented on sources from PATCH v4. I saw that Boris released v7 yesterday :)    
+> > 
+> > 
+> > Can you explain the reason for having a user space interface and DT property?
+> > I thought we had concluded earlier that we wouldn't need that, but it's possible
+> > that I missed something in the discussion since then.  
 > 
-> Can you explain the reason for having a user space interface and DT property?
-> I thought we had concluded earlier that we wouldn't need that, but it's possible
-> that I missed something in the discussion since then.
+> I don't think the sysfs knob is needed, this being said, after thinking
+> a bit more about mastership handover and the secondary master case, I
+> think we have something important to solve.
+> 
+> When a master is not in control of the bus, it gets informed of devices
+> present on the bus by monitoring DAA or DEFSLVS broadcast events. That
+> means the secondary master should populate the bus with I3C/I2C devices
+> on such events, but that's not enough, because DEFSLVS/DAA do not
+> provide all device info. Some of them (like read/write/ibi limitations)
+> require extra CCC commands, and, to send those CCC commands, the
+> secondary master must claim the bus. We could add a case where we
+> declare devices as partially discovered until the master acquires
+> ownership of the bus, but that means part of the data returned by
+> i3c_device_get_info() will be inaccurate, which might have an impact on
+> some i3c driver ->probe() functions.
 
-I don't think the sysfs knob is needed, this being said, after thinking
-a bit more about mastership handover and the secondary master case, I
-think we have something important to solve.
-
-When a master is not in control of the bus, it gets informed of devices
-present on the bus by monitoring DAA or DEFSLVS broadcast events. That
-means the secondary master should populate the bus with I3C/I2C devices
-on such events, but that's not enough, because DEFSLVS/DAA do not
-provide all device info. Some of them (like read/write/ibi limitations)
-require extra CCC commands, and, to send those CCC commands, the
-secondary master must claim the bus. We could add a case where we
-declare devices as partially discovered until the master acquires
-ownership of the bus, but that means part of the data returned by
-i3c_device_get_info() will be inaccurate, which might have an impact on
-some i3c driver ->probe() functions.
-
-We could also say that partially discovered devices should not be
-registered to the device model, but we then hit the problem of "who can
-force the secondary master to claim the bus if there's no users?".
+Hm, one possible solution would be to register partially discovered
+devices to the device model and let i3c_device_get_info() claim the bus
+and request missing data when needed. This way, if the driver needs to
+call i3c_device_get_info() in its probe path, it should work just fine.
