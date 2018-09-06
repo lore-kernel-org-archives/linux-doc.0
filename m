@@ -1,137 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D97627D584
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 16:40:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A8CF7D584
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 18:02:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726506AbeIFVQW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 17:16:22 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38295 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725978AbeIFVQW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Sep 2018 17:16:22 -0400
-Received: by mail-pl1-f196.google.com with SMTP id u11-v6so5239947plq.5
-        for <linux-doc@vger.kernel.org>; Thu, 06 Sep 2018 09:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Wlm/2akOmDOzhTREznTfzxeoJoyseVDGJ+1+AmvoRyY=;
-        b=RulWN5Ht+7LcJ8/lhC+x66AC1p2+Sdh9TRenJZU2RXb7Uz9sJH6056WB1FusLaeoua
-         yjVQojqBkMTRSyROlkNEzUJ1ojtfIPvV2Cc8YTzT+mSv78EX7KjS1gpuzcSCGdpNDlfn
-         npXdPjl+rOTmpyGeGFKZNkYSK/RyJjfQ9TUK72x5UvQJ1LkSZK4Q1a5V5eFCluVP/HWC
-         RVI948DNvInDhYAhX7+VTubyx2VETbuJE2pXHoDMIbtDERQcGN+BROqr9s3PtaSSOulI
-         r3QLcjCXuH6+R3W4VdUgqdq/csaEtqFOk4DL1KbiaJgMOhVjJdThC/1wMI3SmeLHbjVW
-         uxPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Wlm/2akOmDOzhTREznTfzxeoJoyseVDGJ+1+AmvoRyY=;
-        b=fA7gnn9ZjAlzqy6i7oQ/Kn3A5+lc4sT0L+D/KKNPSQT42R36pqr04gdowhaXJF4c8g
-         oGBoLuvg2d5S/Cy2FEypSjN4tDMBdhxds0I6PtVXCepRUzrpaBz+cHsff75PpRq619Dc
-         eNviPS3Kg8tMjvOYwW7V3ck6B+RUGfRdSac9WAdx2qFYygfKGLaD+ONCCayMaG0Ddync
-         MEYiQqcBIwa6xxl8H1TO2uoeEzDiuXeSWXwE8FP4d/9wWPKFhOAnQeJ3RxWWtnQVf59o
-         CZLbqgGd+CzI7ftD7tCNChb0zenYK1M+RvpWrg4pPqPUAaDMQ8katUBHqn6zx14BRxq4
-         97oQ==
-X-Gm-Message-State: APzg51CtBaV5/ZS3Tbhg6AUpX/p60PJ9p9qIaupE//7wvTy7+N8d98Dx
-        ZgN3IgUYGkoFz9qcyalcWRrXAvVLJDyZMPgo5JJWQQ==
-X-Google-Smtp-Source: ANB0VdZfoSUVlwPQDyCjVZaxSIoPBUA4dlbYZQxP3qJleOzOPzqe5h3IhO1JJfVZHedh3c69bFsJBjIijEmE+9ZRb0M=
-X-Received: by 2002:a17:902:7102:: with SMTP id a2-v6mr3534422pll.217.1536252003143;
- Thu, 06 Sep 2018 09:40:03 -0700 (PDT)
+        id S1729862AbeIFWi5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Sep 2018 18:38:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41036 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728768AbeIFWi5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Sep 2018 18:38:57 -0400
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 38A842086C;
+        Thu,  6 Sep 2018 18:02:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1536256940;
+        bh=g1ok7CjF4A9I5owlrp4BhWLbhOJWera5vZfKGtvp8ZM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=m6j8lBNXO18aSYlf+jqKh4ZowTY8IraNeYYeMlNCuwXKOnC3IcfEyMgf25xoWW9FX
+         aSOfKkN6dlO2sINMgfp7ReIOopnYi/UDusq7XFeQlkwHFDwpcrVEewhXFUWnNc2Xcw
+         DMTKwtc5hMKYC7100sUrJfQEDzXy35GOz08cGNRw=
+Received: by mail-yb1-f179.google.com with SMTP id m123-v6so4480043ybm.0;
+        Thu, 06 Sep 2018 11:02:20 -0700 (PDT)
+X-Gm-Message-State: APzg51CZa/yP//JvXhaTl4qPiG4+1pgEs8zJKFJWPLXDHVgkNPTrrA+O
+        3WXAWg9OdYwIZykKDmcqxwEUI6d0tY/DMU5UhFU=
+X-Google-Smtp-Source: ANB0VdafUXH484FSVUEjh31aVqtJNNTV0YOkL0/q1ZaZea5T8ZTUHWcrdib4STs/EWixHlQKh54oroWiAbO61fIxFDo=
+X-Received: by 2002:a25:8b86:: with SMTP id j6-v6mr2183664ybl.88.1536256939341;
+ Thu, 06 Sep 2018 11:02:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1535462971.git.andreyknvl@google.com> <20180905141032.b1ddaab53d1b2b3bada95415@linux-foundation.org>
- <20180906100543.GI3592@arm.com> <CAAeHK+wStsNwh2oKv-KCG4kx5538FuDMQ6Yw2X=sK5LPrw2DZg@mail.gmail.com>
-In-Reply-To: <CAAeHK+wStsNwh2oKv-KCG4kx5538FuDMQ6Yw2X=sK5LPrw2DZg@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 6 Sep 2018 09:39:51 -0700
-Message-ID: <CAKwvOdk=F=kja-ZznrifTO8EASmPF0CoTPWbFxpMqLk-_KGEEQ@mail.gmail.com>
-Subject: Re: [PATCH v6 00/18] khwasan: kernel hardware assisted address sanitizer
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Will Deacon <will.deacon@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
+References: <20180904212237.3078-1-atull@kernel.org> <20180904212237.3078-6-atull@kernel.org>
+In-Reply-To: <20180904212237.3078-6-atull@kernel.org>
+From:   Alan Tull <atull@kernel.org>
+Date:   Thu, 6 Sep 2018 13:01:42 -0500
+X-Gmail-Original-Message-ID: <CANk1AXTiHNV7ovn8nLsA9peCqeoa95Oytevijy1Eh2novAg=ZA@mail.gmail.com>
+Message-ID: <CANk1AXTiHNV7ovn8nLsA9peCqeoa95Oytevijy1Eh2novAg=ZA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/8] dt-bindings: fpga: fix freeze controller
+ compatible in region doc
+To:     Moritz Fischer <mdf@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fpga@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 6, 2018 at 4:06 AM Andrey Konovalov <andreyknvl@google.com> wrote:
->
-> On Thu, Sep 6, 2018 at 12:05 PM, Will Deacon <will.deacon@arm.com> wrote:
-> > On Wed, Sep 05, 2018 at 02:10:32PM -0700, Andrew Morton wrote:
-> >> On Wed, 29 Aug 2018 13:35:04 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
-> >>
-> >> > This patchset adds a new mode to KASAN [1], which is called KHWASAN
-> >> > (Kernel HardWare assisted Address SANitizer).
-> >>
-> >> We're at v6 and there are no reviewed-by's or acked-by's to be seen.
-> >> Is that a fair commentary on what has been happening, or have people
-> >> been remiss in sending and gathering such things?
-> >
-> > I still have concerns about the consequences of merging this as anything
-> > other than a debug option [1]. Unfortunately, merging it as a debug option
-> > defeats the whole point, so I think we need to spend more effort on developing
-> > tools that can help us to find and fix the subtle bugs which will arise from
-> > enabling tagged pointers in the kernel.
->
-> I totally don't mind calling it a debug option. Do I need to somehow
-> specify it somewhere?
->
-> Why does it defeat the point? The point is to ease KASAN-like testing
-> on devices with limited memory.
+On Tue, Sep 4, 2018 at 4:22 PM Alan Tull <atull@kernel.org> wrote:
 
-I don't disagree with using it strictly for debug.  When I say I want
-the series for Pixel phones, I should have been clearer that my intent
-is for a limited pool of internal testers to walk around with KHWASAN
-enabled devices; not general end users.  It's hard enough today to get
-anyone to test KASAN/ASAN on their "daily driver" due to the memory
-usage and resulting performance.
+OK I left off the DT folk.  I'll resend this one patch separately.
 
-We don't ship KASAN or KUBSAN on by default to end users (nor plan
-to); it's used strictly for fuzzing through syzkaller (or by brave
-"dogfooders" on the internal kernel teams).  KHWASAN would let these
-dogfooders go from being brave to fearless.
+Alan
 
--- 
-Thanks,
-~Nick Desaulniers
+>
+> Documentation/devicetree/bindings/fpga/fpga-region.txt has an error
+> regarding the freeze controller bridge, secifically:
+>
+>  compatible = "altr,freeze-bridge";
+>
+> The compatibility string should be "altr,freeze-bridge-controller"
+> as set forth in altera-freeze-bridge.txt.
+>
+> Signed-off-by: Alan Tull <atull@kernel.org>
+> Reported-by: Dalon Westergreen <dalon.westergreen@intel.com>
+> ---
+> v2: no change in v2 of patchset
+> ---
+>  Documentation/devicetree/bindings/fpga/fpga-region.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
