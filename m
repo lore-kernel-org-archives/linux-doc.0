@@ -5,141 +5,248 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1D5877D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 14:10:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 19C667D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 14:13:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729632AbeIFSpp convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 14:45:45 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:58749 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726837AbeIFSpo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Sep 2018 14:45:44 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 7B1DF2072B; Thu,  6 Sep 2018 16:09:59 +0200 (CEST)
-Received: from bbrezillon (AAubervilliers-681-1-30-219.w90-88.abo.wanadoo.fr [90.88.15.219])
-        by mail.bootlin.com (Postfix) with ESMTPSA id C4CE1206FF;
-        Thu,  6 Sep 2018 16:09:48 +0200 (CEST)
-Date:   Thu, 6 Sep 2018 16:09:47 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Przemyslaw Gaj <pgaj@cadence.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
+        id S1729685AbeIFStH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Sep 2018 14:49:07 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:46482 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728905AbeIFStH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Sep 2018 14:49:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E566980D;
+        Thu,  6 Sep 2018 07:13:22 -0700 (PDT)
+Received: from [10.4.13.84] (e119884-lin.emea.arm.com [10.4.13.84])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 83C793F614;
+        Thu,  6 Sep 2018 07:13:18 -0700 (PDT)
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
+ sparse
+To:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        Peter Rosin <peda@axentia.se>
-Subject: Re: [PATCH v6 01/10] i3c: Add core I3C infrastructure
-Message-ID: <20180906160947.3c80072f@bbrezillon>
-In-Reply-To: <5AD923AE-E86E-4414-A48F-CE7399E18431@cadence.com>
-References: <20180719152930.3715-1-boris.brezillon@bootlin.com>
-        <20180719152930.3715-2-boris.brezillon@bootlin.com>
-        <d2f40cc2-b344-69d1-4314-83524ad7b178@synopsys.com>
-        <20180824143934.6d6b6487@bbrezillon>
-        <bdb2924f-ecfa-1da3-41db-9ac77d4d933b@synopsys.com>
-        <20180824201600.7d80bca9@bbrezillon>
-        <fe839027-c4d7-4d6f-412b-5b315cbc7a39@synopsys.com>
-        <20180828140209.29155d00@bbrezillon>
-        <4DBE768F-3CDC-41BE-9CC8-E294E7277CB1@cadence.com>
-        <8abfb007-d755-36a4-5960-fddd61d04aa2@synopsys.com>
-        <3D2681D9-1ACC-42FF-9FAB-D86B3C689003@cadence.com>
-        <9584757a-e7e2-5bfe-fc2c-e9bc14ad65a8@synopsys.com>
-        <25862F03-9823-42B0-87AC-AE36D7E9C780@cadence.com>
-        <CAK8P3a3pkddD9VnogYryQKoL9Z_5qVRBXd6yr1z6CqGU692rXg@mail.gmail.com>
-        <20180906151437.4259d6fc@bbrezillon>
-        <5AD923AE-E86E-4414-A48F-CE7399E18431@cadence.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        linux-kselftest@vger.kernel.org,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <cover.1535629099.git.andreyknvl@google.com>
+ <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <20180831081123.6mo62xnk54pvlxmc@ltop.local>
+ <20180831134244.GB19965@ZenIV.linux.org.uk>
+ <CAAeHK+w86m6YztnTGhuZPKRczb-+znZ1hiJskPXeQok4SgcaOw@mail.gmail.com>
+ <01cadefd-c929-cb45-500d-7043cf3943f6@arm.com>
+ <20180903151026.n2jak3e4yqusnogt@ltop.local>
+ <a31d3400-4523-2bda-a429-f2a221e69ee8@arm.com>
+ <20180905190316.a34yycthgbamx2t3@ltop.local>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <5074b9b6-2b8d-c410-f908-b4c17dacbb2c@arm.com>
+Date:   Thu, 6 Sep 2018 15:13:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20180905190316.a34yycthgbamx2t3@ltop.local>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 6 Sep 2018 13:47:29 +0000
-Przemyslaw Gaj <pgaj@cadence.com> wrote:
 
-> ﻿On 9/6/18, 3:14 PM, "Boris Brezillon" <boris.brezillon@bootlin.com> wrote:
+On 05/09/18 20:03, Luc Van Oostenryck wrote:
+> On Tue, Sep 04, 2018 at 12:27:23PM +0100, Vincenzo Frascino wrote:
+>> On 03/09/18 16:10, Luc Van Oostenryck wrote:
+>>> On Mon, Sep 03, 2018 at 02:49:38PM +0100, Vincenzo Frascino wrote:
+>>>> On 03/09/18 13:34, Andrey Konovalov wrote:
+>>>>> On Fri, Aug 31, 2018 at 3:42 PM, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>>>>>> On Fri, Aug 31, 2018 at 10:11:24AM +0200, Luc Van Oostenryck wrote:
+>>>>>>> On Thu, Aug 30, 2018 at 01:41:16PM +0200, Andrey Konovalov wrote:
+>>>>>>>> This patch adds __force annotations for __user pointers casts detected by
+>>>>>>>> sparse with the -Wcast-from-as flag enabled (added in [1]).
+>>>>>>>>
+>>>>>>>> [1] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
+>>>>>>>
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> It would be nice to have some explanation for why these added __force
+>>>>>>> are useful.
+>>>>>
+>>>>> I'll add this in the next version, thanks!
+>>>>>
+>>>>>>         It would be even more useful if that series would either deal with
+>>>>>> the noise for real ("that's what we intend here, that's what we intend there,
+>>>>>> here's a primitive for such-and-such kind of cases, here we actually
+>>>>>> ought to pass __user pointer instead of unsigned long", etc.) or left it
+>>>>>> unmasked.
+>>>>>>
+>>>>>>         As it is, __force says only one thing: "I know the code is doing
+>>>>>> the right thing here".  That belongs in primitives, and I do *not* mean the
+>>>>>> #define cast_to_ulong(x) ((__force unsigned long)(x))
+>>>>>> kind.
+>>>>>>
+>>>>>>         Folks, if you don't want to deal with that - leave the warnings be.
+>>>>>> They do carry more information than "someone has slapped __force in that place".
+>>>>>>
+>>>>>> Al, very annoyed by that kind of information-hiding crap...
+>>>>>
+>>>>> This patch only adds __force to hide the reports I've looked at and
+>>>>> decided that the code does the right thing. The cases where this is
+>>>>> not the case are handled by the previous patches in the patchset. I'll
+>>>>> this to the patch description as well. Is that OK?
+>>>>>
+>>>> I think as well that we should make explicit the information that
+>>>> __force is hiding.
+>>>> A possible solution could be defining some new address spaces and use
+>>>> them where it is relevant in the kernel. Something like:
+>>>>
+>>>> # define __compat_ptr __attribute__((noderef, address_space(5)))
+>>>> # define __tagged_ptr __attribute__((noderef, address_space(6)))
+>>>>
+>>>> In this way sparse can still identify the casting and trigger a warning.
+>>>>
+>>>> We could at that point modify sparse to ignore these conversions when a
+>>>> specific flag is passed (i.e. -Wignore-compat-ptr, -Wignore-tagged-ptr)
+>>>> to exclude from the generated warnings the ones we have already dealt
+>>>> with.
+>>>>
+>>>> What do you think about this approach?
+>>>
+>>> I'll be happy to add such warnings to sparse if it is useful to detect
+>>> (and correct!) problems. I'm also thinking to other possiblities, like
+>>> having some weaker form of __force (maybe simply __force_as (which will
+>>> 'only' force the address space) or even __force_as(TO, FROM) (with TO
+>>> and FROM being a mask of the address space allowed).I believe we need something here to address this type of problems and I like
+>> your proposal of adding a weaker force in the form of __force_as(TO, FROM)
+>> because I think it provides the right level information. 
+>>
+>>> However, for the specific situation here, I'm not sure that using
+>>> address spaces is the right choice because I suspect that the concept
+>>> of tagged pointer is orthogonal to the one of (the usual) address space
+>>> (it won't be possible for a pointer to be __tagged_ptr *and* __user).
+>> I was thinking to address spaces because the information seems easily accessible
+>> in sparse [1], but I am certainly open to any solution that can be semantically
+>> more correct.
 > 
->     EXTERNAL MAIL
->     
->     
->     On Thu, 6 Sep 2018 14:59:46 +0200
->     Arnd Bergmann <arnd@arndb.de> wrote:
->     
->     > On Thu, Sep 6, 2018 at 2:43 PM Przemyslaw Gaj <pgaj@cadence.com> wrote:  
->     > >
->     > > Hi Boris, Vitor,
->     > >
->     > > This repository does not contain full kernel sources, but it should be enough to discuss mastership request feature.
->     > > https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_przemekgaj_i3c-2Dlinux_commit_d54fe68a9d3e573c0c454a2c6f1afafc20142ec5&d=DwICAg&c=aUq983L2pue2FqKFoP6PGHMJQyoJ7kl3s3GZ-_haXqY&r=CMnAfM_OfpqcWZRfiqcRWw&m=OPSa25ENnrF0Qv70DG49ZngfdygJZubjo3TOgBA3pJ4&s=_C6i1KPplQGcWvQYPkrGx7V3TjKDJvqt3KG-vcdU2K4&e=
->     > >
->     > > Please keep in mind that this is initial version, but mastership works correctly. I added one property to DT to reflect relationship between masters.
->     > > It is possible to request mastership on demand (using sysfs. Useful in case when Linux machine is equipped only with secondary master controller) or automatically change operation mode when device driver wants to read/write something from/to device.
->     > >
->     > > I'm sure I will have to rework something because this was implemented on sources from PATCH v4. I saw that Boris released v7 yesterday :)    
->     > 
->     > 
->     > Can you explain the reason for having a user space interface and DT property?
->     > I thought we had concluded earlier that we wouldn't need that, but it's possible
->     > that I missed something in the discussion since then.  
->     
->     I don't think the sysfs knob is needed, this being said, after thinking
->     a bit more about mastership handover and the secondary master case, I
->     think we have something important to solve.
->     
->     When a master is not in control of the bus, it gets informed of devices
->     present on the bus by monitoring DAA or DEFSLVS broadcast events. That
->     means the secondary master should populate the bus with I3C/I2C devices
->     on such events, but that's not enough, because DEFSLVS/DAA do not
->     provide all device info. Some of them (like read/write/ibi limitations)
->     require extra CCC commands, and, to send those CCC commands, the
->     secondary master must claim the bus. We could add a case where we
->     declare devices as partially discovered until the master acquires
->     ownership of the bus, but that means part of the data returned by
->     i3c_device_get_info() will be inaccurate, which might have an impact on
->     some i3c driver ->probe() functions.
+> Yes, adding a new address space is easy (and doesn't need any modification
+> to sparse). Here, I think adding a new 'modifier' __tagged (much like
+> __nocast, __noderef, ...) would be much more appropriate.
+> I think that at this point, it would be nice to have a clear description
+> of the problem and what sort of checks are wanted.
+>
+
+
+The problem we are trying to address here is to identify when the user pointers
+are cast to integer types and to sanitize (when required) the kernel, when this
+happens.
+
+The way on which we are trying to address this problem based on what Andrey
+proposed in his patch-set is to use the Top Byte Ignore feature (which is a 64 bit
+specific feature).
+
+Based on what I said I think that we require 2 'modifiers':
+- __compat (or __compat_ptr) used when the kernel is dealing with user compat 
+pointers (32 bit, they can not be tagged). It should behave like force
+(silence warnings), but having something separate IMO makes more clear the
+intention of what we are trying to do.
+- __tagged (or __tagged_ptr) used when the kernel is dealing with user normal
+pointers (which can be tagged). In this case sparse should still be able to trigger
+a warning (that can be disabled by default as I was proposing in my previous email).
+When we put a tagged identifier we declare that we analyzed the code impacted by
+the conversion and eventually sanitized it. Having the warning still there allows us
+or whoever is looking at the code to always go back to the identified issue.  
+  
+>>>
+>>> OTOH, when I see already the tons of warnings for concepts established
+>>> since many years (I'm thinking especially at __bitwise, see [1]) I'm a
+>>> bit affraid of adding new, more specialized ones that people will
+>>> understand even less how/when they need to use them.
+>> Thanks for providing this statistic, it is very interesting. I understand your
+>> concern, but I think that in this case we need a more specialized option not only
+>> to find potential problems but even to provide the right amount of information
+>> to who reads the code. 
+>>
+>> A solution could be to let __force_as(TO, FROM) behave like __force and silence
+>> the warning by default, but have an option in sparse to re-enable it 
+>> (i.e. -Wshow-force-as). 
 > 
-> How do you want to handle cases when secondary master joins the bus after 
-> DEFSLVS? Of course we can send DEFSLVS after secondary master joins the bus.
+> That would be, indeed, a simple solution but IMO even more dangerous than
+> __force itself (since by readingthe code with this annotation  people would 
+> naturally think it only involves the AS will in fact it would be the same
+> as __force). I prefer to directly implement a plain __force_as, forcing
+> only the AS).
+>  
 
-That's already the case ;-). Every time the current master discovers
-another master, it's sends a DEFSLVS at the end of the DAA procedure.
+Agreed, even if we can't stop people from overlooking at things, I believe that
+we will all benefit if they are clearer.
 
->     
->     We could also say that partially discovered devices should not be
->     registered to the device model, but we then hit the problem of "who can
->     force the secondary master to claim the bus if there's no users?".
+>> [1]
+>> ---
+>> commit ee7985f0c2b29c96aefe78df4139209eb4e719d8
+>> Author: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> Date:   Wed Aug 15 10:55:44 2018 +0100
+>>
+>>     print address space number for explicit cast to ulong
+>>     
+>>     This patch build on top of commit b34880d ("stricter warning
+>>     for explicit cast to ulong") and prints the address space
+>>     number when a "warning: cast removes address space of expression"
+>>     is triggered.
+>>     
+>>     This makes easier to discriminate in between different address
+>>     spaces.
+>>     
+>>     A validation example is provided as well as part of this patch.
+>>     
+>>     Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>>
+>> diff --git a/evaluate.c b/evaluate.c
+>> index 6d5d479..2fc0ebc 100644
+>> --- a/evaluate.c
+>> +++ b/evaluate.c
+>> @@ -3017,8 +3017,12 @@ static struct symbol *evaluate_cast(struct expression *expr)
+>>  		sas = stype->ctype.as;
+>>  	}
+>>  
+>> -	if (!tas && sas > 0)
+>> -		warning(expr->pos, "cast removes address space of expression");
+>> +	if (!tas && sas > 0) {
+>> +		if (Wcast_from_as)
+>> +			warning(expr->pos, "cast removes address space of expression (<asn:%d>)", sas);
+>> +		else
+>> +			warning(expr->pos, "cast removes address space of expression");
+>> +	}
 > 
-> Now I feel like I missed something. Do you want to populate second instance
-> of the same physical bus? If yes, then we don't need to have reference 
-> between masters in DT.
+> I think that the if (Wcast_from_as) is unneeded, the <asn:%d> can be added
+> even if Wcast_from_as is false. Woukd it be OK for you?
+> 
 
-This is the discussion we've had about 1 month ago with Arnd, Wolfram
-and Peter, and the conclusion was that 2 different masters connected to
-the same physical bus should expose 2 different buses (which means
-having the same physical devices exposed 2 times in Linux).
+Yes, it is OK for me (I put it there because I did not know if we wanted to preserve the
+original behavior). Feel free to hack my patch if you want to put it on your tree.
+Thanks.
+
+> -- Luc
+> 
+
+-- 
+Regards,
+Vincenzo
