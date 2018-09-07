@@ -2,241 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 89B107D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 15:32:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 487E37D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 16:06:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728153AbeIGUNp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Sep 2018 16:13:45 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:55207 "EHLO
-        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727993AbeIGUNo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Sep 2018 16:13:44 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 802903F2;
-        Fri,  7 Sep 2018 11:32:17 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Fri, 07 Sep 2018 11:32:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:message-id:mime-version:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=NMk6PXoQUKoQYta4lntG2iWYQxHrW
-        v0r3tp30o9uqpY=; b=pdYupuzsuC4pRdy9NxGFJ0JKRIMk0xSNZpUn4X8oupDvR
-        IQAd+KaPSFV1U0slHYXUMmImYfgSKSxUw0c1cD3FOtE3Dyqew/duSC6ElXjxOzMk
-        tZYvPvqgCO/PsbS/hqoS3sRrH6yhh/jkQHhQZhyRp/+8brpTJbIrMSIxj8cv7OE3
-        hyLOG4lBUUglNL1GUvPau7FH1cDZBsRoV5IuIGGlqdX6rUNkJY0Yl29vzfAXnY/J
-        kJKFLDuqNMjDse85HDgHph9x/adEN0pMA4ff/Ik4z3nSx2if4pakovx/i3jzSo2g
-        wBCvSNc6GoxKh4A8x2gY+SQ+/hdzlD41IV2hRYezA==
-X-ME-Proxy: <xmx:AJqSWxtRjC6IWYn7R5aFb-oSLSaSFNhk16Sn3nfL6SgT6mx7mH_utg>
-    <xmx:AJqSW_pYvzl4YDiyOURpd8vokEW9K05lK3HYCJWZzoM2pomqDY-rzw>
-    <xmx:AJqSW1p8mTOdm9r9s9dwgtf_JCVpTE_bl7MMcZl0bIwgleDiOE9PNA>
-    <xmx:AJqSW-Yezg_Xt8Zh4dWIUWuTi4Rnzkjjr6SciG4M1UKN-hUP48MrvQ>
-    <xmx:AJqSWz-sQQ0HLu8JqwCR9hddcnCBhymhlfXFdRyQK7dPzB2IKybjrA>
-    <xmx:AZqSW2OHC64A8qs0voD_EoUdXQkCO-rrnpFR-WTzmrtv9bzZqgayRg>
-X-ME-Sender: <xms:AJqSW40imRM4VyFj1lypubOUPmUSR566dmbP1WxkoFQ88mC1rMzv6Q>
-Received: from localhost.localdomain (ip5b40bfaa.dynamic.kabel-deutschland.de [91.64.191.170])
-        by mail.messagingengine.com (Postfix) with ESMTPA id D58BA10292;
-        Fri,  7 Sep 2018 11:32:13 -0400 (EDT)
-From:   =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= 
-        <marmarek@invisiblethingslab.com>
-To:     xen-devel@lists.xenproject.org
-Cc:     =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= 
-        <marmarek@invisiblethingslab.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        id S1726655AbeIGUsN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Sep 2018 16:48:13 -0400
+Received: from mail-ve1eur01on0097.outbound.protection.outlook.com ([104.47.1.97]:20505
+        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726591AbeIGUsN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Sep 2018 16:48:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EaEBeDjQZOba4/NHyltull3Sk8NV/KijF41UkOQki6A=;
+ b=GfZ+ITRRJSaXfG86JjM8tNxiGWj9/7neO1CQxlqGVMfPsRQcGQ2DjHle3nOG/15Hgl4jO9qErn9Jy25jU2lXUrk4QXr10YpCBYp2FRXQxJRk7YMgII22Yf0xuAx22/HPPx4r1HGLgjuTcbbpW+Q+1zxPG8H1e4XWtC9NVKY27Os=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=aryabinin@virtuozzo.com; 
+Received: from [172.16.25.12] (185.231.240.5) by
+ AM6PR08MB3254.eurprd08.prod.outlook.com (2603:10a6:209:47::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1101.18; Fri, 7 Sep 2018 16:06:25 +0000
+Subject: Re: [PATCH v6 16/18] khwasan, mm, arm64: tag non slab memory
+ allocated via pagealloc
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
         Ingo Molnar <mingo@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        linux-kernel@vger.kernel.org (open list),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH v2] xen/balloon: add runtime control for scrubbing ballooned out pages
-Date:   Fri,  7 Sep 2018 17:31:14 +0200
-Message-Id: <20180907153117.17258-1-marmarek@invisiblethingslab.com>
-X-Mailer: git-send-email 2.17.1
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Cc:     Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+References: <cover.1535462971.git.andreyknvl@google.com>
+ <db103bdc2109396af0c6007f1669ebbbb63b872b.1535462971.git.andreyknvl@google.com>
+From:   Andrey Ryabinin <aryabinin@virtuozzo.com>
+Message-ID: <3f2dee71-1615-4a34-d611-3ccaf407551e@virtuozzo.com>
+Date:   Fri, 7 Sep 2018 19:06:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Invisible Things Lab
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <db103bdc2109396af0c6007f1669ebbbb63b872b.1535462971.git.andreyknvl@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.231.240.5]
+X-ClientProxiedBy: HE1PR05CA0383.eurprd05.prod.outlook.com
+ (2603:10a6:7:94::42) To AM6PR08MB3254.eurprd08.prod.outlook.com
+ (2603:10a6:209:47::19)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 32b2f565-820c-48c6-96c7-08d614dbdeb2
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989137)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:AM6PR08MB3254;
+X-Microsoft-Exchange-Diagnostics: 1;AM6PR08MB3254;3:aNfE3ZETDp14xy4P8Xm1gzkvP11rvchDnQHZopBo4vGHs2K/geZz5x2xdhVjoDK+1TqzCvpdIWt6RNL711toDLgXTK1gHlB/9dHrMJ5UHIXIAa6dgY8YK92W1oJDA+jCbDQSknSdbRvja2pcdkmo7wt8IsEADCmMt8sSmqEB2+LvZptOmAVNwzBvsX3fGsuc+Twvr2mSpcVh5m21wBT9s3SQ08HSxFZ3ywBXmPj1Y8I/a4EtLAprJjH47nsvUYqV;25:NU30sj3kDSohLLYkTCsAZcSo8mfc27saR6K2Cmz0J7Lq5mbLHzaEsHk5pnZMte6RLSMzEeDXXwCJviCXdeNggPCyniTKVGHwRsyBDJ3IxLQCaD5SQG8SYvKWciKh6t9B2gGZuA9RlSZA02MH401FHmYjFurawwZJL17XPWUK0MemUKKHrXNZx+fY7PKNcE0bFzpAhC+xWDp0pR/YJir70QvWwXIEZ5e/PwLwv3KKxFELF4/4cd4x05F2Y2U+M6H0XCYbpzRb0alYL3RZmvTgn9dXQ97F6CE+PemPh4kB0iR5HS6Q7YLW33RXCcXY+1OmTie28cmtBPZMhAUyfqCPQg==;31:C8AdaCP55sDzxICKBMMJ5/uW+KDf/JxJwYmcZLaw6/Yeo6Vfxljg/sCAtf7QEUvBDptQ6Gj1DFz5fbqm+09TSTciSTDf88jNIOZ1urfBY34oBFcvwWmam9dgdthGpCc7AleJ38PAnzuwtizZZ3MZZjJd0hl1EtfvFZAPRpbmckXXVimwibo4UmIynGSHuB0KDiEhj2wl6+TBkM2pBXFW7vpOsuc5hTYaMKOxiejNunY=
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3254:
+X-Microsoft-Exchange-Diagnostics: 1;AM6PR08MB3254;20:uzEo2LDYvaBA6dnidnDA639ZSEQLapdzvEO2zG+BQmwWNH7lqS7q4gHyH0QrpAo+Sum4vrQPoYQu8VHrSlnMK76TEStbYMIVV2ID2inOJUuR7cfe9K/CLpxQIPLKWIb96Qsts3ROoP3kWaEM17s3N6IVvvmZXy7dUhOGrQHM2ZJP0ZsBUKe+qblQ5bt/WFR8jJzR47qu1eV+otSRUEVbkDale5znO/UFujeqLRD36dDkJhS88gj565Iv6EJoddKstQGhMazpvmbFffbLNRKOXM8kHu2fX0Q8IZy62s0zEppQzUUzToag1zoTXIOfchJ+kIOqKCahBWU2pmdrUpxyMZmMqXPG/pPFD8tLJbnYyBwFiRxgtR4CfjM2qOXqjCwCnLrUjCiACoSREdx3g4fUwocz4eHIoy+p8cJ45jiR/f7EovUaKEqLX2tFOCp2kpytyyiDhe7qKllqwgmCPfzev0r7UnVeSfboDCrpBltom2KTxiTmrXx8PvDkzd2HKr+H;4:TQIQQ3JBltOcoF1lZPphDQ39fr3Uxq2xmr/3mzKRS4IitJTZXL6QOPVaFHXN19MZ7xdh5c1r9rj/k1Jkle1zwjJG2I/dCLtb0sJlWliHOuXbFCB2IGrDUDLpkGQuXOnvRT/f4TfQnBevAQbq8E/LBa96uqyH2Gi6bkaAViwB3rgEUUOdjv2kuMX0GVOUS7l2TaWf+TDLgGS0jRoTfnkn0yjY+wxXHUY8LLsIFAw9J0qL8FKcDLoAOMaQf3HQihZn4BOkgCUv50vOnHMQMnD20w==
+X-Microsoft-Antispam-PRVS: <AM6PR08MB32546FADCEF6FBE24E75B36CB0000@AM6PR08MB3254.eurprd08.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3002001)(3231311)(944501410)(52105095)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(201708071742011)(7699050);SRVR:AM6PR08MB3254;BCL:0;PCL:0;RULEID:;SRVR:AM6PR08MB3254;
+X-Forefront-PRVS: 07880C4932
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(6049001)(39850400004)(396003)(366004)(136003)(376002)(346002)(189003)(199004)(7736002)(105586002)(8936002)(2906002)(16576012)(14444005)(64126003)(106356001)(316002)(186003)(77096007)(16526019)(7406005)(5660300001)(446003)(65956001)(66066001)(76176011)(47776003)(52116002)(31686004)(65806001)(52146003)(23676004)(8676002)(54906003)(97736004)(36756003)(65826007)(7416002)(31696002)(26005)(4326008)(6666003)(86362001)(486006)(6486002)(386003)(81156014)(81166006)(229853002)(53936002)(2486003)(25786009)(6246003)(11346002)(230700001)(6116002)(3846002)(50466002)(478600001)(476003)(68736007)(305945005)(58126008)(956004)(53546011)(110136005)(2616005)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:AM6PR08MB3254;H:[172.16.25.12];FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtBTTZQUjA4TUIzMjU0OzIzOnpwRDNtcUtrQitnNjkzUVJsWHNIclhLeW9U?=
+ =?utf-8?B?NUpDbDJvOVBMYzh5ZkI5dWN2MFVYcms1a0xlaXV2SDZYMXZjOFNCa2VKRlZt?=
+ =?utf-8?B?by9lQUk5MlpJM2VpU09QV2hibXJDVmZaenVqUXAwY1B3K3hXa0VlOGtBRTEw?=
+ =?utf-8?B?NmF2bitWRDQwODMxUzlENGdIN0E2cW9LNjNLYkhTREQ1TFNLdFlTRnZIU1RB?=
+ =?utf-8?B?U3NJcGFhN2pCS3AySnUyZ1RIbnZOcXg3Tk5hT1VSSms5bnhDM09MK216ZnV2?=
+ =?utf-8?B?TUswTzMrM3YyU1UySFJrem1sTnpzYTRVYWtHWjcvM3Bld1RUZXN3aVRyZ0pv?=
+ =?utf-8?B?SXBPeUZuUG9iWU5lTEhIWUtzV2lqWTZkKy9oL2t5cjdUbHNtVHNpZDA0VUh6?=
+ =?utf-8?B?VHhHdUFMdGVCUDNaczVjRnFnUENEU0lOWlk4ZWlST2RaYTk3OE9ORjRWSHFj?=
+ =?utf-8?B?V1FTcTgvVGRlL1M0R3lGcldZQmdhM25JZDV4VGdWdytBckxoVDArcDBaSC9L?=
+ =?utf-8?B?NWRGaFRVRlR0bXdDdjlPMVpQSXU0Q1VJemxVQWE4blp1czZTKzRCSzliWWVx?=
+ =?utf-8?B?YTdlQ2FzV3A3MG1GQTNZbzlua0dzT3g0TjBHL01kNFBKRjRGTCsvVnpFbmha?=
+ =?utf-8?B?b2w4TGJ5dFJnVkRad2t2S2FZaFFSN29vNjJoTXljUzBQZ2Y0MHUydnAvclpV?=
+ =?utf-8?B?cks1bzBOb2UvYjZ3Y2t5OFZYemNkaFNreE9mU29yV0xENklPdy9qb2hvbDlh?=
+ =?utf-8?B?TVN6L0dTeSsxMkEyR1BXYXBmNWNZbTUyRDA4cUVmVm45M29qR3JEcllFMzB0?=
+ =?utf-8?B?YmgvTElwQlNidCtOcWN2VWFEVTZhK3JBbmNkb24wVmN5VVBQWXZHQ1ZWQXF4?=
+ =?utf-8?B?ZDYxQW1wS1FrWVp6TnJGb1RTMDBVcWNzQ1JERUZVNWlxNEZ5Ky9ZeWFuajZm?=
+ =?utf-8?B?eUtpSnJ2UmpKc0hTVDNqckxSazhPS1Z0V2xyak5aaGZEeitMcm94MWR4bFBN?=
+ =?utf-8?B?TkhqKzk0MU1DOUgvOHJCVXlsQUVBSk1iaHVrMjg0aTFZZWZnZ3NKVmFyZ28z?=
+ =?utf-8?B?Q3VWRm1aNSs3QWM0TUJpOXFvRmpGb1lnWUlYMndpSnNGVFJtMUFoeW5YS09v?=
+ =?utf-8?B?cjhNbUtFYVBUZWx3c1FyaXRNaisyaUk4SW9wS0o2b3NvM3JKc2lYUDVQNGtI?=
+ =?utf-8?B?a0Zucmp5ajhTeGpValdUMVZVTTJBbW0yb05lNFNmcnhyakJ0aXRFZ2RxTmtD?=
+ =?utf-8?B?Wit1NUtFSkFjeXU3NmFoVDBtRFZXU3Z0Q0QxSitiT2V2bi9ZcVQ3VTl3Ukgx?=
+ =?utf-8?B?ZlF2NzErQzh5aE05VjRtam9rRUVaZ0FtUW1DTHZMOGhZS3JqK21GSVlrcDc4?=
+ =?utf-8?B?NVF1MjZlZEpLTGRmQXJad2NWaUZrYWhoS1JlMGlwVWJRdkRnRFFWWTdnSHBx?=
+ =?utf-8?B?bTYxT1ZmOUJOQmpvMWhteGVrQ0Y4b0xpaVR3dnA4SGgvRHJMVkd1MHFodnFx?=
+ =?utf-8?B?Z0JaSWtzVjhKZjlUMVpLZ1J5VmdzY2FvSmRwenJ6dmsxZGp5SS9lUW1ieXly?=
+ =?utf-8?B?YllGVUt2Q3JFUEVlbTM1Wk1IK0NrVjYzM2ZUK2ZDR1A1TFgrYUJNOGRQVmp2?=
+ =?utf-8?B?bGtqV0RwMFA1Z2hNTDhhKzZ3RzZnRDJ5T3E4RXpVby9QaGl5TU8xSnBsUmYv?=
+ =?utf-8?B?VTZ6OUpWUmZza3hzOVFkQXk1K1I1NFlyaHcrSXhRdDE1dzUwZVN0QzEvV2lW?=
+ =?utf-8?B?UEgvaERZL0xhSmpQaXloYjZtOWlMVUFQM0xCQVE5bVhxZnZIN2h1S05sMW13?=
+ =?utf-8?B?SStBWVdwNHF5YUpkMm9KRlV4bmp1VHd1aERXZW11VXhza2VQRjZnU0FveXRl?=
+ =?utf-8?B?QnBrV0dPNzMvUGpOTE9PdkZyWHI0bG5nQmFMTFlha0hra1ZCanh4L29hb0F2?=
+ =?utf-8?B?WXluakt1VXpDNkxMeEwxOVdBS3BVRllRM3kxcm9QVGdINU5DT0lpcHltL2l5?=
+ =?utf-8?B?Q3U1RTByVUlvT3d0VTVUc0FuTVFRMHpQb2F2L2pWeERNT0RtS3A2a0hSdlpp?=
+ =?utf-8?Q?99lM=3D?=
+X-Microsoft-Antispam-Message-Info: mG8g2R9NZGnrbCjQuCiHVzkhVxZn0cV54PwRHexu1Urk1lFYsvRYioLamRGAWzXiT6VflWwFLNzMbis0MCqxGAHOJtkfdglEz51OyrCw99dPsghcmQhT9geJoDrDlHPr60QnRn7PmEx08DOT7/24+D8AlF6mnPjyH/UJEccvoS+8/2W8AZknTRsFSRc8sROohZPtwQ8A81T/14/3vmENGrw2Emz0hQyzEaxSaSFnbB9xQ5zXumsdN6jh/a5XqeZySRn2D9AlLx5fxC6leNMXvNgbEpO1/uf84SpgzLyoY7yODu+afBEt147Bs/CgBUm0VZQS2qjASk+Pg+84Jf1Ka7wsjZjr6B0VL9MIkyAKy7U=
+X-Microsoft-Exchange-Diagnostics: 1;AM6PR08MB3254;6:8UlQ7rIq/WLOoKfpDXqbnuoi+rf0xt9NT3hy10+8AuAKKN+39ydfm/365Egp4fDNihxgKFq6V32vGUniqJGEjT/pMWuei69rMzaxJjVXBp+Zp6ikhjgtOxpypWHj2Ufr/dIve3n0dNf6mAp9rQJLHbZti463/N960K1wze9KFPMZDvFzq9iiNCRS0aQ8hQFlKoolFXHDWphosZdAG0YaXDiwpCALi0QgGsSDuY06pF91AwZMADOQcZoLmPnvUkw2X1YzGu6sJe+2zl/qXKHP553qnoHy6cEb/3WCb6o9ONt5YKx43g9YaA0m6VUGAc+EVk4zD8TJ1TTyFLYmTIGJBNjpDfl0souC63YDbZm0W30kcaYSg7hbqdI1CYVTSOQOEiQsQYyUeknK4GnzMHCfU55vAieSGdiisoj5HUOsojaJXgZmMFR2w5MUEXy1UVd81nQPmeG1MBeKfkAFdfc0xA==;5:LxJRQAZ0yb2xnUTihegbnQ6cyjZnv/EFIVg8J6irNcqUpuTZSUVz/YovRgPnsiHSFEPutaqK+CtKmbOMqT1uPcTE9TZ2Ap8GFWjcYRfbbRpXDHXmmE+SpRmKzZvipunhgc2WjCACI6Himpr4zBZ3zi88xBzq0XfkIVhXDCM+QKQ=;7:L1lCV1DfFPEyxnyegrpn8e8PM0vqxKlL+BUKJqe4NGabedMOoiHer3Ke08VQJU6SmYZiJj1geyNRvfMIcWBlNIEcjGNdpp5xr1Q7pWSqYpZE5FCflUaDUcdMDx2qwkGts65eAtVGAzBMvgQKM3Cf1fWNktGV9gw7gaGODWZK8SDdozQeVwvYO5Ns2SBeRFd5RzDZL98g1oiqMJYBoCH74qMhm40rAAkvR/4GsTcsiU41I3xjucZ/UWj+RF7Dxeo0
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1;AM6PR08MB3254;20:uDzqybRAmtqFUEapy8Re0cSf4ouh6aZ0PbA5sKk+dqfh2zXIaJUUT5Bwu4fNKeIZQpJ1R80g67bYCHhQEJBuUG6E5FHE85Zzo0ZK9C4FRyTXIbyQ8bCxHEgQxJI7c1dbCcYxKy9MTw+NuwqT3cnofAwc2CUIigeq2otZ2BTxpdA=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2018 16:06:25.3642 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32b2f565-820c-48c6-96c7-08d614dbdeb2
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3254
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Scrubbing pages on initial balloon down can take some time, especially
-in nested virtualization case (nested EPT is slow). When HVM/PVH guest is
-started with memory= significantly lower than maxmem=, all the extra
-pages will be scrubbed before returning to Xen. But since most of them
-weren't used at all at that point, Xen needs to populate them first
-(from populate-on-demand pool). In nested virt case (Xen inside KVM)
-this slows down the guest boot by 15-30s with just 1.5GB needed to be
-returned to Xen.
 
-Add runtime parameter to enable/disable it, to allow initially disabling
-scrubbing, then enable it back during boot (for example in initramfs).
-Such usage relies on assumption that a) most pages ballooned out during
-initial boot weren't used at all, and b) even if they were, very few
-secrets are in the guest at that time (before any serious userspace
-kicks in).
-Convert CONFIG_XEN_SCRUB_PAGES to CONFIG_XEN_SCRUB_PAGES_DEFAULT (also
-enabled by default), controlling default value for the new runtime
-switch.
 
-Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+On 08/29/2018 02:35 PM, Andrey Konovalov wrote:
 
----
-Changes in v2:
- - move sysfs control to /sys/devices/system/xen_memory
- - use core_param() to avoid confusing prefix for the option name
- - document option
- - change CONFIG_XEN_SCRUB_PAGES to CONFIG_XEN_SCRUB_PAGES_DEFAULT,
- controlling only the default value for the runtime option
----
- .../ABI/stable/sysfs-devices-system-xen_memory         |  9 +++++++++
- Documentation/admin-guide/kernel-parameters.txt        |  6 ++++++
- drivers/xen/Kconfig                                    | 10 +++++++---
- drivers/xen/mem-reservation.c                          |  8 ++++++++
- drivers/xen/xen-balloon.c                              |  3 +++
- include/xen/mem-reservation.h                          |  7 ++++---
- 6 files changed, 37 insertions(+), 6 deletions(-)
+>  void kasan_poison_slab(struct page *page)
+>  {
+> +	unsigned long i;
+> +
+> +	if (IS_ENABLED(CONFIG_SLAB))
+> +		page->s_mem = reset_tag(page->s_mem);
 
-diff --git a/Documentation/ABI/stable/sysfs-devices-system-xen_memory b/Documentation/ABI/stable/sysfs-devices-system-xen_memory
-index caa311d59ac1..6d83f95a8a8e 100644
---- a/Documentation/ABI/stable/sysfs-devices-system-xen_memory
-+++ b/Documentation/ABI/stable/sysfs-devices-system-xen_memory
-@@ -75,3 +75,12 @@ Contact:	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
- Description:
- 		Amount (in KiB) of low (or normal) memory in the
- 		balloon.
-+
-+What:		/sys/devices/system/xen_memory/xen_memory0/scrub_pages
-+Date:		September 2018
-+KernelVersion:	4.20
-+Contact:	xen-devel@lists.xenproject.org
-+Description:
-+		Control scrubbing pages before returning them to Xen for others domains
-+		use. Can be set with xen_scrub_pages cmdline
-+		parameter. Default value controlled with CONFIG_XEN_SCRUB_PAGES_DEFAULT.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9871e649ffef..0f20282629de 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4994,6 +4994,12 @@
- 			Disables the PV optimizations forcing the HVM guest to
- 			run as generic HVM guest with no PV drivers.
- 
-+	xen_scrub_pages=	[XEN]
-+			Boolean option to control scrubbing pages before giving them back
-+			to Xen, for use by other domains. Can be also changed at runtime
-+			with /sys/devices/system/xen_memory/xen_memory0/scrub_pages.
-+			Default value controlled with CONFIG_XEN_SCRUB_PAGES_DEFAULT.
-+
- 	xirc2ps_cs=	[NET,PCMCIA]
- 			Format:
- 			<irq>,<irq_mask>,<io>,<full_duplex>,<do_sound>,<lockup_hack>[,<irq2>[,<irq3>[,<irq4>]]]
-diff --git a/drivers/xen/Kconfig b/drivers/xen/Kconfig
-index b459edfacff3..90d387b50ab7 100644
---- a/drivers/xen/Kconfig
-+++ b/drivers/xen/Kconfig
-@@ -79,15 +79,19 @@ config XEN_BALLOON_MEMORY_HOTPLUG_LIMIT
- 	  This value is used to allocate enough space in internal
- 	  tables needed for physical memory administration.
- 
--config XEN_SCRUB_PAGES
--	bool "Scrub pages before returning them to system"
-+config XEN_SCRUB_PAGES_DEFAULT
-+	bool "Scrub pages before returning them to system by default"
- 	depends on XEN_BALLOON
- 	default y
- 	help
- 	  Scrub pages before returning them to the system for reuse by
- 	  other domains.  This makes sure that any confidential data
- 	  is not accidentally visible to other domains.  Is it more
--	  secure, but slightly less efficient.
-+	  secure, but slightly less efficient. This can be controlled with
-+	  xen_scrub_pages=0 parameter and
-+	  /sys/devices/system/xen_memory/xen_memory0/scrub_pages.
-+	  This option only sets the default value.
-+
- 	  If in doubt, say yes.
- 
- config XEN_DEV_EVTCHN
-diff --git a/drivers/xen/mem-reservation.c b/drivers/xen/mem-reservation.c
-index 084799c6180e..14276e2d76fe 100644
---- a/drivers/xen/mem-reservation.c
-+++ b/drivers/xen/mem-reservation.c
-@@ -14,6 +14,14 @@
- 
- #include <xen/interface/memory.h>
- #include <xen/mem-reservation.h>
-+#include <linux/moduleparam.h>
-+
-+#ifdef CONFIG_XEN_SCRUB_PAGES_DEFAULT
-+bool __read_mostly xen_scrub_pages = true;
-+#else
-+bool __read_mostly xen_scrub_pages = false;
-+#endif
-+core_param(xen_scrub_pages, xen_scrub_pages, bool, 0);
- 
- /*
-  * Use one extent per PAGE_SIZE to avoid to break down the page into
-diff --git a/drivers/xen/xen-balloon.c b/drivers/xen/xen-balloon.c
-index 294f35ce9e46..63c1494a8d73 100644
---- a/drivers/xen/xen-balloon.c
-+++ b/drivers/xen/xen-balloon.c
-@@ -44,6 +44,7 @@
- #include <xen/xenbus.h>
- #include <xen/features.h>
- #include <xen/page.h>
-+#include <xen/mem-reservation.h>
- 
- #define PAGES2KB(_p) ((_p)<<(PAGE_SHIFT-10))
- 
-@@ -137,6 +138,7 @@ static DEVICE_ULONG_ATTR(schedule_delay, 0444, balloon_stats.schedule_delay);
- static DEVICE_ULONG_ATTR(max_schedule_delay, 0644, balloon_stats.max_schedule_delay);
- static DEVICE_ULONG_ATTR(retry_count, 0444, balloon_stats.retry_count);
- static DEVICE_ULONG_ATTR(max_retry_count, 0644, balloon_stats.max_retry_count);
-+static DEVICE_BOOL_ATTR(scrub_pages, 0644, xen_scrub_pages);
- 
- static ssize_t show_target_kb(struct device *dev, struct device_attribute *attr,
- 			      char *buf)
-@@ -203,6 +205,7 @@ static struct attribute *balloon_attrs[] = {
- 	&dev_attr_max_schedule_delay.attr.attr,
- 	&dev_attr_retry_count.attr.attr,
- 	&dev_attr_max_retry_count.attr.attr,
-+	&dev_attr_scrub_pages.attr.attr,
- 	NULL
- };
- 
-diff --git a/include/xen/mem-reservation.h b/include/xen/mem-reservation.h
-index 80b52b4945e9..a2ab516fcd2c 100644
---- a/include/xen/mem-reservation.h
-+++ b/include/xen/mem-reservation.h
-@@ -17,11 +17,12 @@
- 
- #include <xen/page.h>
- 
-+extern bool xen_scrub_pages;
-+
- static inline void xenmem_reservation_scrub_page(struct page *page)
- {
--#ifdef CONFIG_XEN_SCRUB_PAGES
--	clear_highpage(page);
--#endif
-+	if (xen_scrub_pages)
-+		clear_highpage(page);
- }
- 
- #ifdef CONFIG_XEN_HAVE_PVMMU
--- 
-2.17.1
+Why reinitialize here, instead of single initialization in alloc_slabmgmt()?
 
+
+> +	for (i = 0; i < (1 << compound_order(page)); i++)
+> +		page_kasan_tag_reset(page + i);
+>  	kasan_poison_shadow(page_address(page),
+>  			PAGE_SIZE << compound_order(page),
+>  			KASAN_KMALLOC_REDZONE);
