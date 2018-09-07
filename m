@@ -1,71 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8294C7D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 16:18:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8E667D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 16:30:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbeIGVAM convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Sep 2018 17:00:12 -0400
-Received: from prv1-mh.provo.novell.com ([137.65.248.33]:51994 "EHLO
-        prv1-mh.provo.novell.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbeIGVAM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Sep 2018 17:00:12 -0400
-X-Greylist: delayed 1214 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Sep 2018 17:00:12 EDT
-Received: from INET-PRV1-MTA by prv1-mh.provo.novell.com
-        with Novell_GroupWise; Fri, 07 Sep 2018 09:58:23 -0600
-Message-Id: <5B92A01D02000078001E67CE@prv1-mh.provo.novell.com>
-X-Mailer: Novell GroupWise Internet Agent 18.0.2 
-Date:   Fri, 07 Sep 2018 09:58:21 -0600
-From:   "Jan Beulich" <JBeulich@suse.com>
-To:     "Marek Marczykowski" <marmarek@invisiblethingslab.com>
-Cc:     "Kai-Heng Feng" <kai.heng.feng@canonical.com>,
-        "Thymo van Beers" <thymovanbeers@gmail.com>,
-        "Bjorn Helgaas" <bhelgaas@google.com>,
-        "David Rientjes" <rientjes@google.com>,
-        "Frederic Weisbecker" <frederic@kernel.org>,
-        "Ingo Molnar" <mingo@kernel.org>, <tglx@linutronix.de>,
-        <gregkh@linuxfoundation.org>,
-        "xen-devel" <xen-devel@lists.xenproject.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Boris Ostrovsky" <boris.ostrovsky@oracle.com>,
-        "Konrad Rzeszutek Wilk" <konrad.wilk@oracle.com>,
-        "Juergen Gross" <jgross@suse.com>, "Jiri Kosina" <jkosina@suse.cz>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [Xen-devel] [PATCH v2] xen/balloon: add runtime control
- for scrubbing ballooned out pages
-References: <20180907153117.17258-1-marmarek@invisiblethingslab.com>
-In-Reply-To: <20180907153117.17258-1-marmarek@invisiblethingslab.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8BIT
-Content-Disposition: inline
+        id S1726043AbeIGVM2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Sep 2018 17:12:28 -0400
+Received: from mail-it0-f65.google.com ([209.85.214.65]:50514 "EHLO
+        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725999AbeIGVM2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Sep 2018 17:12:28 -0400
+Received: by mail-it0-f65.google.com with SMTP id j81-v6so21361901ite.0;
+        Fri, 07 Sep 2018 09:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cMRrohax2ph2KNSbc5xLDIW7fWy7SURlq3551ppnb3A=;
+        b=Jv9aMC6WMn+ZZbrW7T5olUwTPc5byE+tCYNoBPGCA0NPR6sqEy6yVycYd4/RQZGhSb
+         WRCQIX2VbhZ08uVnMOyKwJuSVXoJz0hM+49IjDvzuM9bDuKmWlP4Dnpq8WYJ41ODWYjE
+         v1bWgh+npuEuo8rXrFtyECtaVyjJ+2gDxPkp4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cMRrohax2ph2KNSbc5xLDIW7fWy7SURlq3551ppnb3A=;
+        b=pXRoN9Nb5stgGw+jqD+b9DgSTaX8crKIKayl1V9d+l8uHhtw7w8fKwnl519zFYz6tp
+         PuVNQ8CuS1YTwZafAzuCZIjUYsC3iBB9prJaQu/JyXabW+AUIRRcVhy/Fkmefe2IkVD2
+         aehIN93E4yOhLoRrZbFzWqO3qnNsnhE4n6DyA56baTqeLmPvhPKYgS92xUu11Nr4sq+m
+         FRX/iBTdHE8FDLmFLRGDTOzk2XJX5zT8WgG9YkX/SdfqKxShxjjxt/cZdDA7wObtP8gd
+         sM4XIXyvSzmcs1J0bBS71/4+aUPG0ZBA3tzw0FamggzFPDAGAEKqgnPEmTxV92hNcGJ+
+         MvmQ==
+X-Gm-Message-State: APzg51AEzcTinS3S2EcjO6UZH0sAf+iSNMwwPrbVjyPXuHi95P6PizHH
+        0lTsumSVVXGA/GeLQX1NfraVVzU20fMzdFdetzw=
+X-Google-Smtp-Source: ANB0VdboeNEPX1Kt8Zv6DTO1vTEjeOcdVJBpL/uIzgoWBVFY394ZNZx4Njr3smtjrBVZlkIFW4F2L9EJtc63vfjJcsI=
+X-Received: by 2002:a24:61d2:: with SMTP id s201-v6mr8597569itc.22.1536337846281;
+ Fri, 07 Sep 2018 09:30:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1535629099.git.andreyknvl@google.com> <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <CA+55aFyW9N2tSb2bQvkthbVVyY6nt5yFeWQRLHp1zruBmb5ocw@mail.gmail.com>
+ <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com> <20180907152600.myidisza5o4kdmvf@armageddon.cambridge.arm.com>
+In-Reply-To: <20180907152600.myidisza5o4kdmvf@armageddon.cambridge.arm.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 7 Sep 2018 09:30:35 -0700
+Message-ID: <CA+55aFzQ+ykLu10q3AdyaaKJx8SDWWL9Qiu6WH2jbN_ugRUTOg@mail.gmail.com>
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by sparse
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, cpandya@codeaurora.org,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>, Ruben.Ayrapetyan@arm.com,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        linux-mm <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->>> On 07.09.18 at 17:31, <marmarek@invisiblethingslab.com> wrote:
-> --- a/drivers/xen/mem-reservation.c
-> +++ b/drivers/xen/mem-reservation.c
-> @@ -14,6 +14,14 @@
->  
->  #include <xen/interface/memory.h>
->  #include <xen/mem-reservation.h>
-> +#include <linux/moduleparam.h>
-> +
-> +#ifdef CONFIG_XEN_SCRUB_PAGES_DEFAULT
-> +bool __read_mostly xen_scrub_pages = true;
-> +#else
-> +bool __read_mostly xen_scrub_pages = false;
-> +#endif
+On Fri, Sep 7, 2018 at 8:26 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> So it's not about casting to another pointer; it's rather about no
+> longer using the value as a user pointer but as an actual (untyped,
+> untagged) virtual address.
+>
+> There may be better options to address this but I haven't seen any
+> concrete proposal so far. Or we could simply consider that we've found
+> all places where it matters and not bother with any static analysis
+> tools (but for the time being it's still worth investigating whether we
+> can do better than this).
 
-Use IS_ENABLED() here instead of the #ifdef?
+I actually originally wanted to have sparse not just check types, but
+actually do transformations too, in order to check more.
 
-Jan
+For example, for just the user pointer case, we actually have two
+wildy different kinds of user pointers: "checked" user pointers and
+"wild" user pointers.
 
+Most of the time it doesn't matter, but it does for the unsafe ones:
+"__get_user()" and friends.
 
+So long long ago I wanted sparse to not just do the completely static
+type analysis, but also do actual "data flow" analysis where doing an
+"access_on()" on a pointer would turn it from "wild" to "checked", and
+then I could have warned about "hey, this function does __get_user(),
+but the flow analysis shows that you passed it a pointer that had
+never been checked".
+
+But sparse never ended up doing that kind of much smarter things. Some
+of the lock context stuff does it on a very small local level, and not
+very well there either.
+
+But it sounds like this is exactly what you guys would want for the
+tagged pointers. Some functions can take a "wild" pointer, because
+they deal with the tag part natively. And others need to be "checked"
+and have gone through the cleaning and verification.
+
+But sparse is sadly not the right tool for this, and having a single
+"__user" address space is not sufficient. I guess for the arm64 case,
+you really could make up a *new* address space: "__user_untagged", and
+then have functions that convert from "void __user *" to "void
+__user_untagged *", and then mark the functions that need the tag
+removed as taking that new kind of user pointer.
+
+And if you never mix types, that would actually work. But I'm guessing
+you can also pass "__user_untagged" pointers to the regular user
+access functions, and you do?
+
+                  Linus
