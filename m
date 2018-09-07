@@ -1,26 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 582557D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 08:53:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E13D7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 09:13:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727716AbeIGNdL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Sep 2018 09:33:11 -0400
-Received: from eddie.linux-mips.org ([148.251.95.138]:53146 "EHLO
-        cvs.linux-mips.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726354AbeIGNdK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Sep 2018 09:33:10 -0400
-Received: (from localhost user: 'ladis' uid#1021 fake: STDIN
-        (ladis@eddie.linux-mips.org)) by eddie.linux-mips.org
-        id S23993946AbeIGIkplYOuO (ORCPT <rfc822;linux-sh@vger.kernel.org>
-        + 2 others); Fri, 7 Sep 2018 10:40:45 +0200
-Date:   Fri, 7 Sep 2018 10:40:44 +0200
-From:   Ladislav Michl <ladis@linux-mips.org>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
+        id S1728243AbeIGNxi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Sep 2018 09:53:38 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:60264 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727069AbeIGNxi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Sep 2018 09:53:38 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 4B7F1208AE; Fri,  7 Sep 2018 11:13:36 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-30-219.w90-88.abo.wanadoo.fr [90.88.15.219])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 8C0CB207B4;
+        Fri,  7 Sep 2018 11:13:25 +0200 (CEST)
+Date:   Fri, 7 Sep 2018 11:13:24 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Ladislav Michl <ladis@linux-mips.org>
 Cc:     Richard Weinberger <richard@nod.at>,
         Miquel Raynal <miquel.raynal@bootlin.com>,
         linux-mtd@lists.infradead.org,
@@ -52,25 +53,38 @@ Cc:     Richard Weinberger <richard@nod.at>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         devel@driverdev.osuosl.org
 Subject: Re: [PATCH 19/19] mtd: rawnand: Move JEDEC code to nand_jedec.c
-Message-ID: <20180907084044.GA6361@lenoch>
+Message-ID: <20180907111324.691ba379@bbrezillon>
+In-Reply-To: <20180907084044.GA6361@lenoch>
 References: <20180906223851.6964-1-boris.brezillon@bootlin.com>
- <20180906223851.6964-20-boris.brezillon@bootlin.com>
+        <20180906223851.6964-20-boris.brezillon@bootlin.com>
+        <20180907084044.GA6361@lenoch>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180906223851.6964-20-boris.brezillon@bootlin.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris,
+On Fri, 7 Sep 2018 10:40:44 +0200
+Ladislav Michl <ladis@linux-mips.org> wrote:
 
-this patchseries is really amazing clean up. Thank you!
+> Hi Boris,
+> 
+> this patchseries is really amazing clean up. Thank you!
 
-On Fri, Sep 07, 2018 at 12:38:51AM +0200, Boris Brezillon wrote:
-> This moves ONFI related code to nand_onfi.c and ONFI related
-> struct/macros to include/linux/mtd/onfi.h.
+I'm glad I'm not the only one to find it useful :-).
 
-Seems above commit log comes from previous patch.
+> 
+> On Fri, Sep 07, 2018 at 12:38:51AM +0200, Boris Brezillon wrote:
+> > This moves ONFI related code to nand_onfi.c and ONFI related
+> > struct/macros to include/linux/mtd/onfi.h.  
+> 
+> Seems above commit log comes from previous patch.
+
+Oops, will fix that.
+
+Thanks,
+
+Boris
