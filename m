@@ -5,90 +5,84 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 611E37D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 18:04:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8BD57D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 20:29:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727589AbeIGWqY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Sep 2018 18:46:24 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:40598 "EHLO mx1.redhat.com"
+        id S1726187AbeIHBLr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Sep 2018 21:11:47 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:37300 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726365AbeIGWqY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Sep 2018 18:46:24 -0400
+        id S1726032AbeIHBLr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Sep 2018 21:11:47 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A9735C12D0;
-        Fri,  7 Sep 2018 18:04:18 +0000 (UTC)
-Received: from redhat.com (ovpn-123-145.rdu2.redhat.com [10.10.123.145])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A17E12027EA4;
-        Fri,  7 Sep 2018 18:04:14 +0000 (UTC)
-Date:   Fri, 7 Sep 2018 14:04:13 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-Cc:     Kenneth Lee <liguozhu@hisilicon.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>, kvm@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Sanjay Kumar <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        linuxarm@huawei.com, Alex Williamson <alex.williamson@redhat.com>,
-        linux-crypto@vger.kernel.org,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180907180412.GC3519@redhat.com>
-References: <20180903005204.26041-1-nek.in.cn@gmail.com>
- <20180904150019.GA4024@redhat.com>
- <20180904101509.62314b67@t450s.home>
- <20180906094532.GG230707@Turing-Arch-b>
- <20180906133133.GA3830@redhat.com>
- <20180907040138.GI230707@Turing-Arch-b>
- <20180907165303.GA3519@redhat.com>
- <404f0944-d514-b450-f743-89ae798ac694@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <404f0944-d514-b450-f743-89ae798ac694@arm.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+        by mx1.redhat.com (Postfix) with ESMTPS id 305F2401EF2C;
+        Fri,  7 Sep 2018 20:29:11 +0000 (UTC)
+Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6B7F42027EA4;
+        Fri,  7 Sep 2018 20:29:08 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v9 0/4] ipc: IPCMNI limit check for *mni & increase that limit
+Date:   Fri,  7 Sep 2018 16:28:53 -0400
+Message-Id: <1536352137-12003-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 07 Sep 2018 18:04:18 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 07 Sep 2018 18:04:18 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 07 Sep 2018 20:29:11 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 07 Sep 2018 20:29:11 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 07, 2018 at 06:55:45PM +0100, Jean-Philippe Brucker wrote:
-> On 07/09/2018 17:53, Jerome Glisse wrote:
-> > So there is no reasons to do that under VFIO. Especialy as in your example
-> > it is not a real user space device driver, the userspace portion only knows
-> > about writting command into command buffer AFAICT.
-> > 
-> > VFIO is for real userspace driver where interrupt, configurations, ... ie
-> > all the driver is handled in userspace. This means that the userspace have
-> > to be trusted as it could program the device to do DMA to anywhere (if
-> > IOMMU is disabled at boot which is still the default configuration in the
-> > kernel).
-> 
-> If the IOMMU is disabled (not exactly a kernel default by the way, I
-> think most IOMMU drivers enable it by default), your userspace driver
-> can't bypass DMA isolation by accident. It just won't be allowed to
-> access the device. VFIO requires an IOMMU unless the admin forces the
-> NOIOMMU mode with the "enable_unsafe_noiommu_mode" module parameter, and
-> the userspace explicitly asks for it with VFIO_NOIOMMU_IOMMU, which
-> taints the kernel. Not for production. A normal userspace driver that
-> uses VFIO can only do DMA to its own memory.
-> 
+v8->v9:
+ - Rebased to 4.19-rc2 (changes needed only in patches 3 & 4).
+ - Drop patch 5 "ipc: Add a new ipcmni_compat sysctl to fall back to
+   old behavior" as this patch may not really be needed.
+ - Move 1 byte from sequence number to index in extended mode leading
+   to 8M IPCMNI limit in extended mode.
+ - Change some macro names to avoid name collision.
 
-Didn't know about VFIO check, which is a sane thing. On Intel  IOMMU
-is disabled by default (see INTEL_IOMMU_DEFAULT_ON Kconfig option).
-I am pretty sure it use to be the same for AMD but maybe it is now
-enabled by default.
+v6 patch: https://lkml.org/lkml/2018/4/27/1094
+v7 patch: https://lkml.org/lkml/2018/5/7/666
+v8 patch: https://lkml.org/lkml/2018/6/18/706
 
-Cheers,
-Jérôme
+The sysctl parameters msgmni, shmmni and semmni have an inherent limit
+of IPC_MNI (32k). However, users may not be aware of that because they
+can write a value much higher than that without getting any error or
+notification. Reading the parameters back will show the newly written
+values which are not real.
+
+The real IPCMNI limit is now enforced to make sure that users won't
+put in an unrealistic value. The first 2 patches enforce the limits.
+
+There are also users out there requesting increase in the IPCMNI value.
+The last 2 patches attempt to do that by using a boot kernel parameter
+"ipcmni_extend" to increase the IPCMNI limit from 32k to 8M if the users
+really want the extended value.
+
+Waiman Long (4):
+  ipc: IPCMNI limit check for msgmni and shmmni
+  ipc: IPCMNI limit check for semmni
+  ipc: Allow boot time extension of IPCMNI from 32k to 8M
+  ipc: Conserve sequence numbers in extended IPCMNI mode
+
+ Documentation/admin-guide/kernel-parameters.txt |  3 ++
+ include/linux/ipc_namespace.h                   |  1 +
+ ipc/ipc_sysctl.c                                | 42 ++++++++++++++++++--
+ ipc/util.c                                      | 29 +++++++++-----
+ ipc/util.h                                      | 51 +++++++++++++++++++++----
+ 5 files changed, 107 insertions(+), 19 deletions(-)
+
+-- 
+1.8.3.1
+
