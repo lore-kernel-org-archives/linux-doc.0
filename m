@@ -1,133 +1,242 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2847E7D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 15:26:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 89B107D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 15:32:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728550AbeIGUHc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Sep 2018 16:07:32 -0400
-Received: from foss.arm.com ([217.140.101.70]:33542 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728248AbeIGUHc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Sep 2018 16:07:32 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A666718A;
-        Fri,  7 Sep 2018 08:26:07 -0700 (PDT)
-Received: from armageddon.cambridge.arm.com (armageddon.Emea.Arm.com [10.4.13.16])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 47D8D3F614;
-        Fri,  7 Sep 2018 08:26:03 -0700 (PDT)
-Date:   Fri, 7 Sep 2018 16:26:00 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, cpandya@codeaurora.org,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>, Jacob.Bramley@arm.com,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        eugenis@google.com, Kees Cook <keescook@chromium.org>,
-        Ruben.Ayrapetyan@arm.com,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        linux-mm <linux-mm@kvack.org>,
+        id S1728153AbeIGUNp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Sep 2018 16:13:45 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:55207 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727993AbeIGUNo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Sep 2018 16:13:44 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 802903F2;
+        Fri,  7 Sep 2018 11:32:17 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Fri, 07 Sep 2018 11:32:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:message-id:mime-version:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=NMk6PXoQUKoQYta4lntG2iWYQxHrW
+        v0r3tp30o9uqpY=; b=pdYupuzsuC4pRdy9NxGFJ0JKRIMk0xSNZpUn4X8oupDvR
+        IQAd+KaPSFV1U0slHYXUMmImYfgSKSxUw0c1cD3FOtE3Dyqew/duSC6ElXjxOzMk
+        tZYvPvqgCO/PsbS/hqoS3sRrH6yhh/jkQHhQZhyRp/+8brpTJbIrMSIxj8cv7OE3
+        hyLOG4lBUUglNL1GUvPau7FH1cDZBsRoV5IuIGGlqdX6rUNkJY0Yl29vzfAXnY/J
+        kJKFLDuqNMjDse85HDgHph9x/adEN0pMA4ff/Ik4z3nSx2if4pakovx/i3jzSo2g
+        wBCvSNc6GoxKh4A8x2gY+SQ+/hdzlD41IV2hRYezA==
+X-ME-Proxy: <xmx:AJqSWxtRjC6IWYn7R5aFb-oSLSaSFNhk16Sn3nfL6SgT6mx7mH_utg>
+    <xmx:AJqSW_pYvzl4YDiyOURpd8vokEW9K05lK3HYCJWZzoM2pomqDY-rzw>
+    <xmx:AJqSW1p8mTOdm9r9s9dwgtf_JCVpTE_bl7MMcZl0bIwgleDiOE9PNA>
+    <xmx:AJqSW-Yezg_Xt8Zh4dWIUWuTi4Rnzkjjr6SciG4M1UKN-hUP48MrvQ>
+    <xmx:AJqSWz-sQQ0HLu8JqwCR9hddcnCBhymhlfXFdRyQK7dPzB2IKybjrA>
+    <xmx:AZqSW2OHC64A8qs0voD_EoUdXQkCO-rrnpFR-WTzmrtv9bzZqgayRg>
+X-ME-Sender: <xms:AJqSW40imRM4VyFj1lypubOUPmUSR566dmbP1WxkoFQ88mC1rMzv6Q>
+Received: from localhost.localdomain (ip5b40bfaa.dynamic.kabel-deutschland.de [91.64.191.170])
+        by mail.messagingengine.com (Postfix) with ESMTPA id D58BA10292;
+        Fri,  7 Sep 2018 11:32:13 -0400 (EDT)
+From:   =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= 
+        <marmarek@invisiblethingslab.com>
+To:     xen-devel@lists.xenproject.org
+Cc:     =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= 
+        <marmarek@invisiblethingslab.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Lee.Smith@arm.com, Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
- sparse
-Message-ID: <20180907152600.myidisza5o4kdmvf@armageddon.cambridge.arm.com>
-References: <cover.1535629099.git.andreyknvl@google.com>
- <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
- <CA+55aFyW9N2tSb2bQvkthbVVyY6nt5yFeWQRLHp1zruBmb5ocw@mail.gmail.com>
- <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com>
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        linux-kernel@vger.kernel.org (open list),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH v2] xen/balloon: add runtime control for scrubbing ballooned out pages
+Date:   Fri,  7 Sep 2018 17:31:14 +0200
+Message-Id: <20180907153117.17258-1-marmarek@invisiblethingslab.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=UTF-8
+Organization: Invisible Things Lab
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 06, 2018 at 02:16:19PM -0700, Linus Torvalds wrote:
-> On Thu, Sep 6, 2018 at 2:13 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > So for example:
-> >
-> > >  static inline compat_uptr_t ptr_to_compat(void __user *uptr)
-> > >  {
-> > > -       return (u32)(unsigned long)uptr;
-> > > +       return (u32)(__force unsigned long)uptr;
-> > >  }
-> >
-> > this actually looks correct.
-> 
-> Side note: I do think that while the above is correct, the rest of the
-> patch shows that we might be better off simply not havign the warning
-> for address space changes at all for the "cast a pointer to an integer
-> type" case.
-> 
-> When you cast to a non-pointer type, the address space issue simply
-> doesn't exist at all, so the warning makes less sense.
+Scrubbing pages on initial balloon down can take some time, especially
+in nested virtualization case (nested EPT is slow). When HVM/PVH guest is
+started with memory= significantly lower than maxmem=, all the extra
+pages will be scrubbed before returning to Xen. But since most of them
+weren't used at all at that point, Xen needs to populate them first
+(from populate-on-demand pool). In nested virt case (Xen inside KVM)
+this slows down the guest boot by 15-30s with just 1.5GB needed to be
+returned to Xen.
 
-That's actually a new (potential) issue introduced by these patches. The
-arm64 architecture has a feature called Top Byte Ignore (TBI, a.k.a.
-tagged pointers) where the top 8-bit of a 64-bit pointer can be set to
-anything and the hardware automatically ignores it when dereferencing.
-The arm64 user/kernel ABI currently mandates that any pointer passed
-from user space to the kernel must have the top byte 0.
+Add runtime parameter to enable/disable it, to allow initially disabling
+scrubbing, then enable it back during boot (for example in initramfs).
+Such usage relies on assumption that a) most pages ballooned out during
+initial boot weren't used at all, and b) even if they were, very few
+secrets are in the guest at that time (before any serious userspace
+kicks in).
+Convert CONFIG_XEN_SCRUB_PAGES to CONFIG_XEN_SCRUB_PAGES_DEFAULT (also
+enabled by default), controlling default value for the new runtime
+switch.
 
-This patchset is proposing to relax the ABI so that user pointers with a
-non-zero top byte can be actually passed via kernel syscalls. It
-basically moves the responsibility to remove the pointer tag (where
-needed) from user to the kernel (and for some good reasons, user space
-can't always do it given the way hwasan is implemented in LLVM).
+Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
 
-The downside is that now a tagged user pointer may not represent just a
-virtual address but address|tag, so things like access_ok() or
-find_extended_vma() need to untag (clear the top byte of) the pointer
-before use. Note that copy_from_user() etc. can safely dereference a
-tagged user pointer as the tag is automatically ignored by the hardware.
+---
+Changes in v2:
+ - move sysfs control to /sys/devices/system/xen_memory
+ - use core_param() to avoid confusing prefix for the option name
+ - document option
+ - change CONFIG_XEN_SCRUB_PAGES to CONFIG_XEN_SCRUB_PAGES_DEFAULT,
+ controlling only the default value for the runtime option
+---
+ .../ABI/stable/sysfs-devices-system-xen_memory         |  9 +++++++++
+ Documentation/admin-guide/kernel-parameters.txt        |  6 ++++++
+ drivers/xen/Kconfig                                    | 10 +++++++---
+ drivers/xen/mem-reservation.c                          |  8 ++++++++
+ drivers/xen/xen-balloon.c                              |  3 +++
+ include/xen/mem-reservation.h                          |  7 ++++---
+ 6 files changed, 37 insertions(+), 6 deletions(-)
 
-The arm64 maintainers asked for a more reliable approach to identifying
-existing and new cases where such explicit untagging is required and one
-of the proposals was a sparse option. Based on some observations, it
-seems that untagging is needed when a pointer is cast to a long and the
-pointer tag information can be dropped. With the sparse patch, there are
-lots of warnings where we actually can preserve the tag (e.g. compat
-user pointers should be ignored since the top 32-bit are always 0), so
-Andrey is trying to mask such warnings out so that we can detect new
-potential issues as the kernel evolves.
-
-So it's not about casting to another pointer; it's rather about no
-longer using the value as a user pointer but as an actual (untyped,
-untagged) virtual address.
-
-There may be better options to address this but I haven't seen any
-concrete proposal so far. Or we could simply consider that we've found
-all places where it matters and not bother with any static analysis
-tools (but for the time being it's still worth investigating whether we
-can do better than this).
-
-> It's really just he "pointer to one address space" being cast to
-> "pointer to another address space" that should really warn, and that
-> might need that "__force" thing.
-
-I think sparse already warns if changing the address space of a pointer.
-
+diff --git a/Documentation/ABI/stable/sysfs-devices-system-xen_memory b/Documentation/ABI/stable/sysfs-devices-system-xen_memory
+index caa311d59ac1..6d83f95a8a8e 100644
+--- a/Documentation/ABI/stable/sysfs-devices-system-xen_memory
++++ b/Documentation/ABI/stable/sysfs-devices-system-xen_memory
+@@ -75,3 +75,12 @@ Contact:	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+ Description:
+ 		Amount (in KiB) of low (or normal) memory in the
+ 		balloon.
++
++What:		/sys/devices/system/xen_memory/xen_memory0/scrub_pages
++Date:		September 2018
++KernelVersion:	4.20
++Contact:	xen-devel@lists.xenproject.org
++Description:
++		Control scrubbing pages before returning them to Xen for others domains
++		use. Can be set with xen_scrub_pages cmdline
++		parameter. Default value controlled with CONFIG_XEN_SCRUB_PAGES_DEFAULT.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 9871e649ffef..0f20282629de 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4994,6 +4994,12 @@
+ 			Disables the PV optimizations forcing the HVM guest to
+ 			run as generic HVM guest with no PV drivers.
+ 
++	xen_scrub_pages=	[XEN]
++			Boolean option to control scrubbing pages before giving them back
++			to Xen, for use by other domains. Can be also changed at runtime
++			with /sys/devices/system/xen_memory/xen_memory0/scrub_pages.
++			Default value controlled with CONFIG_XEN_SCRUB_PAGES_DEFAULT.
++
+ 	xirc2ps_cs=	[NET,PCMCIA]
+ 			Format:
+ 			<irq>,<irq_mask>,<io>,<full_duplex>,<do_sound>,<lockup_hack>[,<irq2>[,<irq3>[,<irq4>]]]
+diff --git a/drivers/xen/Kconfig b/drivers/xen/Kconfig
+index b459edfacff3..90d387b50ab7 100644
+--- a/drivers/xen/Kconfig
++++ b/drivers/xen/Kconfig
+@@ -79,15 +79,19 @@ config XEN_BALLOON_MEMORY_HOTPLUG_LIMIT
+ 	  This value is used to allocate enough space in internal
+ 	  tables needed for physical memory administration.
+ 
+-config XEN_SCRUB_PAGES
+-	bool "Scrub pages before returning them to system"
++config XEN_SCRUB_PAGES_DEFAULT
++	bool "Scrub pages before returning them to system by default"
+ 	depends on XEN_BALLOON
+ 	default y
+ 	help
+ 	  Scrub pages before returning them to the system for reuse by
+ 	  other domains.  This makes sure that any confidential data
+ 	  is not accidentally visible to other domains.  Is it more
+-	  secure, but slightly less efficient.
++	  secure, but slightly less efficient. This can be controlled with
++	  xen_scrub_pages=0 parameter and
++	  /sys/devices/system/xen_memory/xen_memory0/scrub_pages.
++	  This option only sets the default value.
++
+ 	  If in doubt, say yes.
+ 
+ config XEN_DEV_EVTCHN
+diff --git a/drivers/xen/mem-reservation.c b/drivers/xen/mem-reservation.c
+index 084799c6180e..14276e2d76fe 100644
+--- a/drivers/xen/mem-reservation.c
++++ b/drivers/xen/mem-reservation.c
+@@ -14,6 +14,14 @@
+ 
+ #include <xen/interface/memory.h>
+ #include <xen/mem-reservation.h>
++#include <linux/moduleparam.h>
++
++#ifdef CONFIG_XEN_SCRUB_PAGES_DEFAULT
++bool __read_mostly xen_scrub_pages = true;
++#else
++bool __read_mostly xen_scrub_pages = false;
++#endif
++core_param(xen_scrub_pages, xen_scrub_pages, bool, 0);
+ 
+ /*
+  * Use one extent per PAGE_SIZE to avoid to break down the page into
+diff --git a/drivers/xen/xen-balloon.c b/drivers/xen/xen-balloon.c
+index 294f35ce9e46..63c1494a8d73 100644
+--- a/drivers/xen/xen-balloon.c
++++ b/drivers/xen/xen-balloon.c
+@@ -44,6 +44,7 @@
+ #include <xen/xenbus.h>
+ #include <xen/features.h>
+ #include <xen/page.h>
++#include <xen/mem-reservation.h>
+ 
+ #define PAGES2KB(_p) ((_p)<<(PAGE_SHIFT-10))
+ 
+@@ -137,6 +138,7 @@ static DEVICE_ULONG_ATTR(schedule_delay, 0444, balloon_stats.schedule_delay);
+ static DEVICE_ULONG_ATTR(max_schedule_delay, 0644, balloon_stats.max_schedule_delay);
+ static DEVICE_ULONG_ATTR(retry_count, 0444, balloon_stats.retry_count);
+ static DEVICE_ULONG_ATTR(max_retry_count, 0644, balloon_stats.max_retry_count);
++static DEVICE_BOOL_ATTR(scrub_pages, 0644, xen_scrub_pages);
+ 
+ static ssize_t show_target_kb(struct device *dev, struct device_attribute *attr,
+ 			      char *buf)
+@@ -203,6 +205,7 @@ static struct attribute *balloon_attrs[] = {
+ 	&dev_attr_max_schedule_delay.attr.attr,
+ 	&dev_attr_retry_count.attr.attr,
+ 	&dev_attr_max_retry_count.attr.attr,
++	&dev_attr_scrub_pages.attr.attr,
+ 	NULL
+ };
+ 
+diff --git a/include/xen/mem-reservation.h b/include/xen/mem-reservation.h
+index 80b52b4945e9..a2ab516fcd2c 100644
+--- a/include/xen/mem-reservation.h
++++ b/include/xen/mem-reservation.h
+@@ -17,11 +17,12 @@
+ 
+ #include <xen/page.h>
+ 
++extern bool xen_scrub_pages;
++
+ static inline void xenmem_reservation_scrub_page(struct page *page)
+ {
+-#ifdef CONFIG_XEN_SCRUB_PAGES
+-	clear_highpage(page);
+-#endif
++	if (xen_scrub_pages)
++		clear_highpage(page);
+ }
+ 
+ #ifdef CONFIG_XEN_HAVE_PVMMU
 -- 
-Catalin
+2.17.1
+
