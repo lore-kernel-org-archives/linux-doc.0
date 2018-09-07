@@ -1,243 +1,300 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E8517D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 16:49:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 905107D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 16:53:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbeIGVbM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Sep 2018 17:31:12 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:33381 "EHLO
-        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726032AbeIGVbM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Sep 2018 17:31:12 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 7D8B22C1;
-        Fri,  7 Sep 2018 12:49:24 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Fri, 07 Sep 2018 12:49:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=tYwBvL
-        9VQ10Ez5FgK+OrG/o+97YtIf4nmUYV83cKyuM=; b=lr2IzAoe8jSMGQJ0mFCXI6
-        32RZwt2p6fGqFwSDWM+kcwDqbJRzHmON8ZKPAkHUHsbeK22ZUHpS4LQPSXhsCwRe
-        v6n2TuUxfRe1qDpXwlsHTsRVM/UN5oCI26rkO9fOEahGLrHSTrcpCg86MCcjVDgN
-        j77nmUHAuMB6hStdfXba3w/bHoP1+j5HJXALnTxXLtt2BAkkYQU2n8PoddsrjFzj
-        R8mgmq6RNm888DreCrzXJ63qRURQxCBF/ITltG9eqK/2C0O5n8cMSHSz3MtE+dCM
-        jXEkDMMqcDvhh+MehTzTg17nuY2b1RzV/6t7RtsyoUUL48rK1L595EZJuAwIdnZQ
-        ==
-X-ME-Proxy: <xmx:EaySW2wEwU_-nXvN0inwDE9-yjOOlw_TKKG_PWKxcUGwhms-iNFQDA>
-    <xmx:EaySWz0nZk00REJAgLUd3ZmJiLFODscylKUnsFY19ItUtdQXKd3DXQ>
-    <xmx:EaySW3kZhhQRhuOi17pxjfUPagVkW1KQwHvoEP59KGllj6YmA1xM-A>
-    <xmx:EaySWy9ghszPY9ErNCk3mxsi7nrlc7jSajbqn0PJTEAPBRsbiHGjpg>
-    <xmx:EaySW9I7jgaVbuHOlN-F2f2R5U43BPt3K0hHTl6USG8zC8Xt-yHfaQ>
-    <xmx:FKySW2uTHJLHtAH5nkJiG3tdIPFlDaVAdU096EHtpFKPieOrPLHRFQ>
-X-ME-Sender: <xms:EaySWwx0jbnQGdW3ZWdbaaE5eZQ16VmXKl7kLzAFpAp8iQx62-hTjA>
-Received: from localhost.localdomain (ip5b40bfaa.dynamic.kabel-deutschland.de [91.64.191.170])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 12F6CE44DC;
-        Fri,  7 Sep 2018 12:49:18 -0400 (EDT)
-From:   =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= 
-        <marmarek@invisiblethingslab.com>
-To:     xen-devel@lists.xenproject.org
-Cc:     =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= 
-        <marmarek@invisiblethingslab.com>,
+        id S1726237AbeIGVfB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Sep 2018 17:35:01 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:47542 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726043AbeIGVfA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Sep 2018 17:35:00 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 974AA401D780;
+        Fri,  7 Sep 2018 16:53:12 +0000 (UTC)
+Received: from redhat.com (ovpn-123-145.rdu2.redhat.com [10.10.123.145])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EDD5FA99E;
+        Fri,  7 Sep 2018 16:53:07 +0000 (UTC)
+Date:   Fri, 7 Sep 2018 12:53:06 -0400
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Kenneth Lee <liguozhu@hisilicon.com>
+Cc:     Kenneth Lee <nek.in.cn@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>, kvm@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        linux-kernel@vger.kernel.org (open list),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH v3] xen/balloon: add runtime control for scrubbing ballooned out pages
-Date:   Fri,  7 Sep 2018 18:49:08 +0200
-Message-Id: <20180907164912.21075-1-marmarek@invisiblethingslab.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <5B92A01D02000078001E67CE@prv1-mh.provo.novell.com>
-References: <5B92A01D02000078001E67CE@prv1-mh.provo.novell.com>
+        Joerg Roedel <joro@8bytes.org>, linux-doc@vger.kernel.org,
+        Sanjay Kumar <sanjay.k.kumar@intel.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        linuxarm@huawei.com, Alex Williamson <alex.williamson@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-crypto@vger.kernel.org, Zhou Wang <wangzhou1@hisilicon.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        linux-accelerators@lists.ozlabs.org,
+        Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180907165303.GA3519@redhat.com>
+References: <20180903005204.26041-1-nek.in.cn@gmail.com>
+ <20180904150019.GA4024@redhat.com>
+ <20180904101509.62314b67@t450s.home>
+ <20180906094532.GG230707@Turing-Arch-b>
+ <20180906133133.GA3830@redhat.com>
+ <20180907040138.GI230707@Turing-Arch-b>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Invisible Things Lab
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180907040138.GI230707@Turing-Arch-b>
+User-Agent: Mutt/1.10.0 (2018-05-17)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 07 Sep 2018 16:53:12 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 07 Sep 2018 16:53:12 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Scrubbing pages on initial balloon down can take some time, especially
-in nested virtualization case (nested EPT is slow). When HVM/PVH guest is
-started with memory= significantly lower than maxmem=, all the extra
-pages will be scrubbed before returning to Xen. But since most of them
-weren't used at all at that point, Xen needs to populate them first
-(from populate-on-demand pool). In nested virt case (Xen inside KVM)
-this slows down the guest boot by 15-30s with just 1.5GB needed to be
-returned to Xen.
+On Fri, Sep 07, 2018 at 12:01:38PM +0800, Kenneth Lee wrote:
+> On Thu, Sep 06, 2018 at 09:31:33AM -0400, Jerome Glisse wrote:
+> > Date: Thu, 6 Sep 2018 09:31:33 -0400
+> > From: Jerome Glisse <jglisse@redhat.com>
+> > To: Kenneth Lee <liguozhu@hisilicon.com>
+> > CC: Alex Williamson <alex.williamson@redhat.com>, Kenneth Lee
+> >  <nek.in.cn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Herbert Xu
+> >  <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>,
+> >  Joerg Roedel <joro@8bytes.org>, Hao Fang <fanghao11@huawei.com>, Zhou Wang
+> >  <wangzhou1@hisilicon.com>, Zaibo Xu <xuzaibo@huawei.com>, Philippe
+> >  Ombredanne <pombredanne@nexb.com>, Greg Kroah-Hartman
+> >  <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>,
+> >  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+> >  linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+> >  kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org, Lu Baolu
+> >  <baolu.lu@linux.intel.com>, Sanjay Kumar <sanjay.k.kumar@intel.com>,
+> >  linuxarm@huawei.com
+> > Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+> > User-Agent: Mutt/1.10.0 (2018-05-17)
+> > Message-ID: <20180906133133.GA3830@redhat.com>
+> > 
+> > On Thu, Sep 06, 2018 at 05:45:32PM +0800, Kenneth Lee wrote:
+> > > On Tue, Sep 04, 2018 at 10:15:09AM -0600, Alex Williamson wrote:
+> > > > Date: Tue, 4 Sep 2018 10:15:09 -0600
+> > > > From: Alex Williamson <alex.williamson@redhat.com>
+> > > > To: Jerome Glisse <jglisse@redhat.com>
+> > > > CC: Kenneth Lee <nek.in.cn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+> > > >  Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
+> > > >  <davem@davemloft.net>, Joerg Roedel <joro@8bytes.org>, Kenneth Lee
+> > > >  <liguozhu@hisilicon.com>, Hao Fang <fanghao11@huawei.com>, Zhou Wang
+> > > >  <wangzhou1@hisilicon.com>, Zaibo Xu <xuzaibo@huawei.com>, Philippe
+> > > >  Ombredanne <pombredanne@nexb.com>, Greg Kroah-Hartman
+> > > >  <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>,
+> > > >  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+> > > >  linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+> > > >  kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org, Lu Baolu
+> > > >  <baolu.lu@linux.intel.com>, Sanjay Kumar <sanjay.k.kumar@intel.com>,
+> > > >  linuxarm@huawei.com
+> > > > Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+> > > > Message-ID: <20180904101509.62314b67@t450s.home>
+> > > > 
+> > > > On Tue, 4 Sep 2018 11:00:19 -0400
+> > > > Jerome Glisse <jglisse@redhat.com> wrote:
+> > > > 
+> > > > > On Mon, Sep 03, 2018 at 08:51:57AM +0800, Kenneth Lee wrote:
+> > > > > > From: Kenneth Lee <liguozhu@hisilicon.com>
+> > > > > > 
+> > > > > > WarpDrive is an accelerator framework to expose the hardware capabilities
+> > > > > > directly to the user space. It makes use of the exist vfio and vfio-mdev
+> > > > > > facilities. So the user application can send request and DMA to the
+> > > > > > hardware without interaction with the kernel. This removes the latency
+> > > > > > of syscall.
+> > > > > > 
+> > > > > > WarpDrive is the name for the whole framework. The component in kernel
+> > > > > > is called SDMDEV, Share Domain Mediated Device. Driver driver exposes its
+> > > > > > hardware resource by registering to SDMDEV as a VFIO-Mdev. So the user
+> > > > > > library of WarpDrive can access it via VFIO interface.
+> > > > > > 
+> > > > > > The patchset contains document for the detail. Please refer to it for more
+> > > > > > information.
+> > > > > > 
+> > > > > > This patchset is intended to be used with Jean Philippe Brucker's SVA
+> > > > > > patch [1], which enables not only IO side page fault, but also PASID
+> > > > > > support to IOMMU and VFIO.
+> > > > > > 
+> > > > > > With these features, WarpDrive can support non-pinned memory and
+> > > > > > multi-process in the same accelerator device.  We tested it in our SoC
+> > > > > > integrated Accelerator (board ID: D06, Chip ID: HIP08). A reference work
+> > > > > > tree can be found here: [2].
+> > > > > > 
+> > > > > > But it is not mandatory. This patchset is tested in the latest mainline
+> > > > > > kernel without the SVA patches.  So it supports only one process for each
+> > > > > > accelerator.
+> > > > > > 
+> > > > > > We have noticed the IOMMU aware mdev RFC announced recently [3].
+> > > > > > 
+> > > > > > The IOMMU aware mdev has similar idea but different intention comparing to
+> > > > > > WarpDrive. It intends to dedicate part of the hardware resource to a VM.
+> > > > > > And the design is supposed to be used with Scalable I/O Virtualization.
+> > > > > > While sdmdev is intended to share the hardware resource with a big amount
+> > > > > > of processes.  It just requires the hardware supporting address
+> > > > > > translation per process (PCIE's PASID or ARM SMMU's substream ID).
+> > > > > > 
+> > > > > > But we don't see serious confliction on both design. We believe they can be
+> > > > > > normalized as one.
+> > > > > >   
+> > > > > 
+> > > > > So once again i do not understand why you are trying to do things
+> > > > > this way. Kernel already have tons of example of everything you
+> > > > > want to do without a new framework. Moreover i believe you are
+> > > > > confuse by VFIO. To me VFIO is for VM not to create general device
+> > > > > driver frame work.
+> > > > 
+> > > > VFIO is a userspace driver framework, the VM use case just happens to
+> > > > be a rather prolific one.  VFIO was never intended to be solely a VM
+> > > > device interface and has several other userspace users, notably DPDK
+> > > > and SPDK, an NVMe backend in QEMU, a userspace NVMe driver, a ruby
+> > > > wrapper, and perhaps others that I'm not aware of.  Whether vfio is
+> > > > appropriate interface here might certainly still be a debatable topic,
+> > > > but I would strongly disagree with your last sentence above.  Thanks,
+> > > > 
+> > > > Alex
+> > > > 
+> > > 
+> > > Yes, that is also my standpoint here.
+> > > 
+> > > > > So here is your use case as i understand it. You have a device
+> > > > > with a limited number of command queues (can be just one) and in
+> > > > > some case it can support SVA/SVM (when hardware support it and it
+> > > > > is not disabled). Final requirement is being able to schedule cmds
+> > > > > from userspace without ioctl. All of this exists already exists
+> > > > > upstream in few device drivers.
+> > > > > 
+> > > > > 
+> > > > > So here is how every body else is doing it. Please explain why
+> > > > > this does not work.
+> > > > > 
+> > > > > 1 Userspace open device file driver. Kernel device driver create
+> > > > >   a context and associate it with on open. This context can be
+> > > > >   uniq to the process and can bind hardware resources (like a
+> > > > >   command queue) to the process.
+> > > > > 2 Userspace bind/acquire a commands queue and initialize it with
+> > > > >   an ioctl on the device file. Through that ioctl userspace can
+> > > > >   be inform wether either SVA/SVM works for the device. If SVA/
+> > > > >   SVM works then kernel device driver bind the process to the
+> > > > >   device as part of this ioctl.
+> > > > > 3 If SVM/SVA does not work userspace do an ioctl to create dma
+> > > > >   buffer or something that does exactly the same thing.
+> > > > > 4 Userspace mmap the command queue (mmap of the device file by
+> > > > >   using informations gather at step 2)
+> > > > > 5 Userspace can write commands into the queue it mapped
+> > > > > 6 When userspace close the device file all resources are release
+> > > > >   just like any existing device drivers.
+> > > 
+> > > Hi, Jerome,
+> > > 
+> > > Just one thing, as I said in the cover letter, dma-buf requires the application
+> > > to use memory created by the driver for DMA. I did try the dma-buf way in
+> > > WrapDrive (refer to [4] in the cover letter), it is a good backup for NOIOMMU
+> > > mode or we cannot solve the problem in VFIO.
+> > > 
+> > > But, in many of my application scenario, the application already has some memory
+> > > in hand, maybe allocated by the framework or libraries. Anyway, they don't get
+> > > memory from my library, and they pass the poiter for data operation. And they
+> > > may also have pointer in the buffer. Those pointer may be used by the
+> > > accelerator. So I need hardware fully share the address space with the
+> > > application. That is what dmabuf cannot do.
+> > 
+> > dmabuf can do that ... it is call uptr you can look at i915 for
+> > instance. Still this does not answer my question above, why do
+> > you need to be in VFIO to do any of the above thing ? Kernel has
+> > tons of examples that does all of the above and are not in VFIO
+> > (including usinng existing user pointer with device).
+> > 
+> > Cheers,
+> > Jérôme
+> 
+> I took a look at i915_gem_execbuffer_ioctl(). It seems it "copy_from_user" the
+> user memory to the kernel. That is not what we need. What we try to get is: the
+> user application do something on its data, and push it away to the accelerator,
+> and says: "I'm tied, it is your turn to do the job...". Then the accelerator has
+> the memory, referring any portion of it with the same VAs of the application,
+> even the VAs are stored inside the memory itself.
 
-Add runtime parameter to enable/disable it, to allow initially disabling
-scrubbing, then enable it back during boot (for example in initramfs).
-Such usage relies on assumption that a) most pages ballooned out during
-initial boot weren't used at all, and b) even if they were, very few
-secrets are in the guest at that time (before any serious userspace
-kicks in).
-Convert CONFIG_XEN_SCRUB_PAGES to CONFIG_XEN_SCRUB_PAGES_DEFAULT (also
-enabled by default), controlling default value for the new runtime
-switch.
+You were not looking at right place see drivers/gpu/drm/i915/i915_gem_userptr.c
+It does GUP and create GEM object AFAICR you can wrap that GEM object into a
+dma buffer object.
 
-Signed-off-by: Marek Marczykowski-GÃ³recki <marmarek@invisiblethingslab.com>
+> 
+> And I don't understand why I should avoid to use VFIO? As Alex said, VFIO is the
+> user driver framework. And I need exactly a user driver interface. Why should I
+> invent another wheel? It has most of stuff I need:
+> 
+> 1. Connecting multiple devices to the same application space
+> 2. Pinning and DMA from the application space to the whole set of device
+> 3. Managing hardware resource by device
+> 
+> We just need the last step: make sure multiple applications and the kernel can
+> share the same IOMMU. Then why shouldn't we use VFIO?
 
----
-Changes in v2:
- - move sysfs control to /sys/devices/system/xen_memory
- - use core_param() to avoid confusing prefix for the option name
- - document option
- - change CONFIG_XEN_SCRUB_PAGES to CONFIG_XEN_SCRUB_PAGES_DEFAULT,
- controlling only the default value for the runtime option
-Changes in v3:
- - use IS_ENABLED()
----
- .../ABI/stable/sysfs-devices-system-xen_memory         |  9 +++++++++
- Documentation/admin-guide/kernel-parameters.txt        |  6 ++++++
- drivers/xen/Kconfig                                    | 10 +++++++---
- drivers/xen/mem-reservation.c                          |  4 ++++
- drivers/xen/xen-balloon.c                              |  3 +++
- include/xen/mem-reservation.h                          |  7 ++++---
- 6 files changed, 33 insertions(+), 6 deletions(-)
+Because tons of other drivers already do all of the above outside VFIO. Many
+driver have a sizeable userspace side to them (anything with ioctl do) so they
+can be construded as userspace driver too.
 
-diff --git a/Documentation/ABI/stable/sysfs-devices-system-xen_memory b/Documentation/ABI/stable/sysfs-devices-system-xen_memory
-index caa311d59ac1..6d83f95a8a8e 100644
---- a/Documentation/ABI/stable/sysfs-devices-system-xen_memory
-+++ b/Documentation/ABI/stable/sysfs-devices-system-xen_memory
-@@ -75,3 +75,12 @@ Contact:	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
- Description:
- 		Amount (in KiB) of low (or normal) memory in the
- 		balloon.
-+
-+What:		/sys/devices/system/xen_memory/xen_memory0/scrub_pages
-+Date:		September 2018
-+KernelVersion:	4.20
-+Contact:	xen-devel@lists.xenproject.org
-+Description:
-+		Control scrubbing pages before returning them to Xen for others domains
-+		use. Can be set with xen_scrub_pages cmdline
-+		parameter. Default value controlled with CONFIG_XEN_SCRUB_PAGES_DEFAULT.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9871e649ffef..0f20282629de 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4994,6 +4994,12 @@
- 			Disables the PV optimizations forcing the HVM guest to
- 			run as generic HVM guest with no PV drivers.
- 
-+	xen_scrub_pages=	[XEN]
-+			Boolean option to control scrubbing pages before giving them back
-+			to Xen, for use by other domains. Can be also changed at runtime
-+			with /sys/devices/system/xen_memory/xen_memory0/scrub_pages.
-+			Default value controlled with CONFIG_XEN_SCRUB_PAGES_DEFAULT.
-+
- 	xirc2ps_cs=	[NET,PCMCIA]
- 			Format:
- 			<irq>,<irq_mask>,<io>,<full_duplex>,<do_sound>,<lockup_hack>[,<irq2>[,<irq3>[,<irq4>]]]
-diff --git a/drivers/xen/Kconfig b/drivers/xen/Kconfig
-index b459edfacff3..90d387b50ab7 100644
---- a/drivers/xen/Kconfig
-+++ b/drivers/xen/Kconfig
-@@ -79,15 +79,19 @@ config XEN_BALLOON_MEMORY_HOTPLUG_LIMIT
- 	  This value is used to allocate enough space in internal
- 	  tables needed for physical memory administration.
- 
--config XEN_SCRUB_PAGES
--	bool "Scrub pages before returning them to system"
-+config XEN_SCRUB_PAGES_DEFAULT
-+	bool "Scrub pages before returning them to system by default"
- 	depends on XEN_BALLOON
- 	default y
- 	help
- 	  Scrub pages before returning them to the system for reuse by
- 	  other domains.  This makes sure that any confidential data
- 	  is not accidentally visible to other domains.  Is it more
--	  secure, but slightly less efficient.
-+	  secure, but slightly less efficient. This can be controlled with
-+	  xen_scrub_pages=0 parameter and
-+	  /sys/devices/system/xen_memory/xen_memory0/scrub_pages.
-+	  This option only sets the default value.
-+
- 	  If in doubt, say yes.
- 
- config XEN_DEV_EVTCHN
-diff --git a/drivers/xen/mem-reservation.c b/drivers/xen/mem-reservation.c
-index 084799c6180e..3782cf070338 100644
---- a/drivers/xen/mem-reservation.c
-+++ b/drivers/xen/mem-reservation.c
-@@ -14,6 +14,10 @@
- 
- #include <xen/interface/memory.h>
- #include <xen/mem-reservation.h>
-+#include <linux/moduleparam.h>
-+
-+bool __read_mostly xen_scrub_pages = IS_ENABLED(CONFIG_XEN_SCRUB_PAGES_DEFAULT);
-+core_param(xen_scrub_pages, xen_scrub_pages, bool, 0);
- 
- /*
-  * Use one extent per PAGE_SIZE to avoid to break down the page into
-diff --git a/drivers/xen/xen-balloon.c b/drivers/xen/xen-balloon.c
-index 294f35ce9e46..63c1494a8d73 100644
---- a/drivers/xen/xen-balloon.c
-+++ b/drivers/xen/xen-balloon.c
-@@ -44,6 +44,7 @@
- #include <xen/xenbus.h>
- #include <xen/features.h>
- #include <xen/page.h>
-+#include <xen/mem-reservation.h>
- 
- #define PAGES2KB(_p) ((_p)<<(PAGE_SHIFT-10))
- 
-@@ -137,6 +138,7 @@ static DEVICE_ULONG_ATTR(schedule_delay, 0444, balloon_stats.schedule_delay);
- static DEVICE_ULONG_ATTR(max_schedule_delay, 0644, balloon_stats.max_schedule_delay);
- static DEVICE_ULONG_ATTR(retry_count, 0444, balloon_stats.retry_count);
- static DEVICE_ULONG_ATTR(max_retry_count, 0644, balloon_stats.max_retry_count);
-+static DEVICE_BOOL_ATTR(scrub_pages, 0644, xen_scrub_pages);
- 
- static ssize_t show_target_kb(struct device *dev, struct device_attribute *attr,
- 			      char *buf)
-@@ -203,6 +205,7 @@ static struct attribute *balloon_attrs[] = {
- 	&dev_attr_max_schedule_delay.attr.attr,
- 	&dev_attr_retry_count.attr.attr,
- 	&dev_attr_max_retry_count.attr.attr,
-+	&dev_attr_scrub_pages.attr.attr,
- 	NULL
- };
- 
-diff --git a/include/xen/mem-reservation.h b/include/xen/mem-reservation.h
-index 80b52b4945e9..a2ab516fcd2c 100644
---- a/include/xen/mem-reservation.h
-+++ b/include/xen/mem-reservation.h
-@@ -17,11 +17,12 @@
- 
- #include <xen/page.h>
- 
-+extern bool xen_scrub_pages;
-+
- static inline void xenmem_reservation_scrub_page(struct page *page)
- {
--#ifdef CONFIG_XEN_SCRUB_PAGES
--	clear_highpage(page);
--#endif
-+	if (xen_scrub_pages)
-+		clear_highpage(page);
- }
- 
- #ifdef CONFIG_XEN_HAVE_PVMMU
--- 
-2.17.1
+So there is no reasons to do that under VFIO. Especialy as in your example
+it is not a real user space device driver, the userspace portion only knows
+about writting command into command buffer AFAICT.
 
+VFIO is for real userspace driver where interrupt, configurations, ... ie
+all the driver is handled in userspace. This means that the userspace have
+to be trusted as it could program the device to do DMA to anywhere (if
+IOMMU is disabled at boot which is still the default configuration in the
+kernel).
+
+So i do not see any reasons to do anything you want inside VFIO. All you
+want to do can be done outside as easily. Moreover it would be better if
+you define clearly each scenario because from where i sit it looks like
+you are opening the door wide open to userspace to DMA anywhere when IOMMU
+is disabled.
+
+When IOMMU is disabled you can _not_ expose command queue to userspace
+unless your device has its own page table and all commands are relative
+to that page table and the device page table is populated by kernel driver
+in secure way (ie by checking that what is populated can be access).
+
+I do not believe your example device to have such page table nor do i see
+a fallback path when IOMMU is disabled that force user to do ioctl for
+each commands.
+
+Yes i understand that you target SVA/SVM but still you claim to support
+non SVA/SVM. The point is that userspace can not be trusted if you want
+to have random program use your device. I am pretty sure that all user
+of VFIO are trusted process (like QEMU).
+
+
+Finaly i am convince that the IOMMU grouping stuff related to VFIO is
+useless for your usecase. I really do not see the point of that, it
+does complicate things for you for no reasons AFAICT.
+
+
+> 
+> And personally, I believe the maturity and correctness of a framework are driven
+> by applications. Now the problem in accelerator world is that we don't have a
+> direction. If we believe the requirement is right, the method itself is not a
+> big problem in the end. We just need to let people have a unify platform to
+> share their work together.
+
+I am not against that but it seems to me that all you want to do is only
+a matter of simplifying discovery of such devices and sharing few common
+ioctl (DMA mapping, creating command queue, managing command queue, ...)
+and again for all this i do not see the point of doing this under VFIO.
+
+
+Cheers,
+Jérôme
