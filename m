@@ -1,141 +1,260 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 59F887D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Sep 2018 23:09:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 57A8B7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 02:23:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727657AbeIGDqv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Sep 2018 23:46:51 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44122 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbeIGDqv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Sep 2018 23:46:51 -0400
-Received: by mail-wr1-f67.google.com with SMTP id v16-v6so13023046wro.11;
-        Thu, 06 Sep 2018 16:09:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Dl23JlZFX2N7Sk84NoMV3OPQFJEMkQOyjltXomwmaAk=;
-        b=YAaynUjvKkyQfly30qkqyo2Dy1pfAavEQdQJi/KbXzv7XP/vd4xGwfeeBTdcG0e3gj
-         5df9MhwkzL2NlkCDOXl2kp5PSHoJdgjS0WKmpwmgAukGR3R6JxfDaHBH7vci/dj7y8R2
-         fCfFo2RkWSp1t53mHNkBQ6e4W2AtwGQxyv4ZCSMDjlVb98zKjNQUKvy7zAOqqBmdiVeT
-         28z6c9T0068WL+Ik7O5SqO/aIKruRhnHbTHzsoBjIftXznPyhCPzF/srLxzSv/2Lagb5
-         GY36rGiFjaxWp5dWee4MbZB835UOmJl9PmSjvn49+5F+iCfDeaq5vMEOIduC9jB54OpM
-         9hDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Dl23JlZFX2N7Sk84NoMV3OPQFJEMkQOyjltXomwmaAk=;
-        b=SMDxJBbKBF4A2o+lfr60DG67d2NARqshCNiPwAfmaq4YOKKE/Ca3v+LcueX+IrSkal
-         M/qLzZVyhDbWpxRrt2FzyKu2BBJuhr8owcM/V5ssUxDmsQXN4IMNlhxsJqawrfm9hRO5
-         KiZixrVcd6RmAKOFOO+yKzgYIf5DyhAfuQyiw7dwglrFcuP2WZstMeVckGmYD8mGBOXA
-         jAk1a1b/kXzVrk9zSnVBtIx3Jt5mQ9H+T0PdeijIenPdmEsupUvPhbEj0fmy+NE7mbcV
-         yfQ4JPPfJ1S8bmWLlP1MVUfEPBGZbkuQGliuXCBmdm5WEq+7ZaoC8qZwOd6E30tlXajZ
-         BSSA==
-X-Gm-Message-State: APzg51C5qdlvBdqvU7cRaOeR9hlY/VYC+i5RIiV29254vgibqbZV9ZON
-        RqLJbrbPS57rSQw7SLVudYE=
-X-Google-Smtp-Source: ANB0VdaFcNuNjPMgJNkhu9lpH7K05NCamFNd8soqY05+Vk7vbCcBPqhiko5L41dp8BfFKZqtJygciQ==
-X-Received: by 2002:adf:de85:: with SMTP id w5-v6mr4419021wrl.270.1536275342271;
-        Thu, 06 Sep 2018 16:09:02 -0700 (PDT)
-Received: from ltop.local ([2a02:a03f:4006:df00:f830:4b56:d713:5075])
-        by smtp.gmail.com with ESMTPSA id z21-v6sm3939460wmi.29.2018.09.06.16.09.00
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Sep 2018 16:09:01 -0700 (PDT)
-Date:   Fri, 7 Sep 2018 01:08:59 +0200
-From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+        id S1728969AbeIGHBn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Sep 2018 03:01:43 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:41321 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726293AbeIGHBn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Sep 2018 03:01:43 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 799F2EC87F2AA;
+        Fri,  7 Sep 2018 10:23:09 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server (TLS) id 14.3.399.0; Fri, 7 Sep 2018
+ 10:23:03 +0800
+Date:   Fri, 7 Sep 2018 10:21:15 +0800
+From:   Kenneth Lee <liguozhu@hisilicon.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+CC:     Kenneth Lee <nek.in.cn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>, eugenis@google.com,
-        Lee.Smith@arm.com,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob.Bramley@arm.com, Ruben.Ayrapetyan@arm.com,
-        cpandya@codeaurora.org
-Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
- sparse
-Message-ID: <20180906230858.psedqdai3dw2cvvl@ltop.local>
-References: <cover.1535629099.git.andreyknvl@google.com>
- <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
- <CA+55aFyW9N2tSb2bQvkthbVVyY6nt5yFeWQRLHp1zruBmb5ocw@mail.gmail.com>
- <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-crypto@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <kvm@vger.kernel.org>, <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Sanjay Kumar <sanjay.k.kumar@intel.com>, <linuxarm@huawei.com>
+Subject: Re: [PATCH 1/7] vfio/sdmdev: Add documents for WarpDrive framework
+Message-ID: <20180907022115.GH230707@Turing-Arch-b>
+References: <20180903005204.26041-1-nek.in.cn@gmail.com>
+ <20180903005204.26041-2-nek.in.cn@gmail.com>
+ <56f5f66d-f6d9-f4fa-40ca-e4a8bad170c1@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com>
-User-Agent: NeoMutt/20180622
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <56f5f66d-f6d9-f4fa-40ca-e4a8bad170c1@infradead.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [10.67.212.75]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 06, 2018 at 02:16:19PM -0700, Linus Torvalds wrote:
-> On Thu, Sep 6, 2018 at 2:13 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > So for example:
-> >
-> > >  static inline compat_uptr_t ptr_to_compat(void __user *uptr)
-> > >  {
-> > > -       return (u32)(unsigned long)uptr;
-> > > +       return (u32)(__force unsigned long)uptr;
-> > >  }
-> >
-> > this actually looks correct.
+On Thu, Sep 06, 2018 at 11:36:36AM -0700, Randy Dunlap wrote:
+> Date: Thu, 6 Sep 2018 11:36:36 -0700
+> From: Randy Dunlap <rdunlap@infradead.org>
+> To: Kenneth Lee <nek.in.cn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+>  Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
+>  <davem@davemloft.net>, Joerg Roedel <joro@8bytes.org>, Alex Williamson
+>  <alex.williamson@redhat.com>, Kenneth Lee <liguozhu@hisilicon.com>, Hao
+>  Fang <fanghao11@huawei.com>, Zhou Wang <wangzhou1@hisilicon.com>, Zaibo Xu
+>  <xuzaibo@huawei.com>, Philippe Ombredanne <pombredanne@nexb.com>, Greg
+>  Kroah-Hartman <gregkh@linuxfoundation.org>, Thomas Gleixner
+>  <tglx@linutronix.de>, linux-doc@vger.kernel.org,
+>  linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+>  iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+>  linux-accelerators@lists.ozlabs.org, Lu Baolu <baolu.lu@linux.intel.com>,
+>  Sanjay Kumar <sanjay.k.kumar@intel.com>
+> CC: linuxarm@huawei.com
+> Subject: Re: [PATCH 1/7] vfio/sdmdev: Add documents for WarpDrive framework
+> User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+>  Thunderbird/52.9.1
+> Message-ID: <56f5f66d-f6d9-f4fa-40ca-e4a8bad170c1@infradead.org>
 > 
-> Side note: I do think that while the above is correct, the rest of the
-> patch shows that we might be better off simply not havign the warning
-> for address space changes at all for the "cast a pointer to an integer
-> type" case.
+> Hi,
 > 
-> When you cast to a non-pointer type, the address space issue simply
-> doesn't exist at all, so the warning makes less sense.
+> On 09/02/2018 05:51 PM, Kenneth Lee wrote:
+> > From: Kenneth Lee <liguozhu@hisilicon.com>
+> > 
+> > WarpDrive is a common user space accelerator framework.  Its main component
+> > in Kernel is called sdmdev, Share Domain Mediated Device. It exposes
+> > the hardware capabilities to the user space via vfio-mdev. So processes in
+> > user land can obtain a "queue" by open the device and direct access the
+> > hardware MMIO space or do DMA operation via VFIO interface.
+> > 
+> > WarpDrive is intended to be used with Jean Philippe Brucker's SVA
+> > patchset to support multi-process. But This is not a must.  Without the
+> > SVA patches, WarpDrive can still work for one process for every hardware
+> > device.
+> > 
+> > This patch add detail documents for the framework.
+> > 
+> > Signed-off-by: Kenneth Lee <liguozhu@hisilicon.com>
+> > ---
+> >  Documentation/00-INDEX                |   2 +
+> >  Documentation/warpdrive/warpdrive.rst | 100 ++++
+> >  Documentation/warpdrive/wd-arch.svg   | 728 ++++++++++++++++++++++++++
+> >  3 files changed, 830 insertions(+)
+> >  create mode 100644 Documentation/warpdrive/warpdrive.rst
+> >  create mode 100644 Documentation/warpdrive/wd-arch.svg
 > 
-> It's really just he "pointer to one address space" being cast to
-> "pointer to another address space" that should really warn, and that
-> might need that "__force" thing.
+> > diff --git a/Documentation/warpdrive/warpdrive.rst b/Documentation/warpdrive/warpdrive.rst
+> > new file mode 100644
+> > index 000000000000..6d2a5d1e08c4
+> > --- /dev/null
+> > +++ b/Documentation/warpdrive/warpdrive.rst
+> > @@ -0,0 +1,100 @@
+> > +Introduction of WarpDrive
+> > +=========================
+> > +
+> > +*WarpDrive* is a general accelerator framework for user space. It intends to
+> > +provide interface for the user process to send request to hardware
+> > +accelerator without heavy user-kernel interaction cost.
+> > +
+> > +The *WarpDrive* user library is supposed to provide a pipe-based API, such as:
 > 
-> Hmm? So maybe a sparse change is better for most of that patch.
+> Do you say "is supposed to" because it doesn't do that (yet)?
+> Or you could just change that to say:
+> 
+>    The WarpDrive user library provides a pipe-based API, such as:
+> 
 
-Unless I'm misunderstanding something, I don't think there is
-anything to change for this specific point. Sparse don't warn
-(by default) on "cast from pointer with address space to integer",
-as it always been the case, I think. I think it's the good choice.
+Actually, I tried to say it can be defined like this. But people can choose
+other implementation with the same kernel API.
 
-It's just that recently, I've added a new flag -Wcast-from-as [1],
-defaulting to 'no', specifically to *detect* these cast because of
-these tagged pointers.
+I will say it explicitly in the future version. Thank you.
 
-Note: I tend to think more and more that __force is simply too
-      strong and weaker form, like __force_as and __force_bitwise
-      would be more appropriate.
+> 
+> > +        ::
+> > +        int wd_request_queue(struct wd_queue *q);
+> > +        void wd_release_queue(struct wd_queue *q);
+> > +
+> > +        int wd_send(struct wd_queue *q, void *req);
+> > +        int wd_recv(struct wd_queue *q, void **req);
+> > +        int wd_recv_sync(struct wd_queue *q, void **req);
+> > +        int wd_flush(struct wd_queue *q);
+> > +
+> > +*wd_request_queue* creates the pipe connection, *queue*, between the
+> > +application and the hardware. The application sends request and pulls the
+> > +answer back by asynchronized wd_send/wd_recv, which directly interact with the
+> > +hardware (by MMIO or share memory) without syscall.
+> > +
+> > +*WarpDrive* maintains a unified application address space among all involved
+> > +accelerators.  With the following APIs: ::
+> 
+> Seems like an extra '.' there.  How about:
+> 
+>   accelerators with the following APIs: ::
+> 
 
+Err, the "with..." clause belong to the following "The referred process
+space...".
 
--- Luc Van Oostenryck
+> > +
+> > +        int wd_mem_share(struct wd_queue *q, const void *addr,
+> > +                         size_t size, int flags);
+> > +        void wd_mem_unshare(struct wd_queue *q, const void *addr, size_t size);
+> > +
+> > +The referred process space shared by these APIs can be directly referred by the
+> > +hardware. The process can also dedicate its whole process space with flags,
+> > +*WD_SHARE_ALL* (not in this patch yet).
+> > +
+> > +The name *WarpDrive* is simply a cool and general name meaning the framework
+> > +makes the application faster. As it will be explained in this text later, the
+> > +facility in kernel is called *SDMDEV*, namely "Share Domain Mediated Device".
+> > +
+> > +
+> > +How does it work
+> > +================
+> > +
+> > +*WarpDrive* is built upon *VFIO-MDEV*. The queue is wrapped as *mdev* in VFIO.
+> > +So memory sharing can be done via standard VFIO standard DMA interface.
+> > +
+> > +The architecture is illustrated as follow figure:
+> > +
+> > +.. image:: wd-arch.svg
+> > +        :alt: WarpDrive Architecture
+> > +
+> > +Accelerator driver shares its capability via *SDMDEV* API: ::
+> > +
+> > +        vfio_sdmdev_register(struct vfio_sdmdev *sdmdev);
+> > +        vfio_sdmdev_unregister(struct vfio_sdmdev *sdmdev);
+> > +        vfio_sdmdev_wake_up(struct spimdev_queue *q);
+> > +
+> > +*vfio_sdmdev_register* is a helper function to register the hardware to the
+> > +*VFIO_MDEV* framework. The queue creation is done by *mdev* creation interface.
+> > +
+> > +*WarpDrive* User library mmap the mdev to access its mmio space and shared
+> 
+> s/mmio/MMIO/
+> 
+> > +memory. Request can be sent to, or receive from, hardware in this mmap-ed
+> > +space until the queue is full or empty.
+> > +
+> > +The user library can wait on the queue by ioctl(VFIO_SDMDEV_CMD_WAIT) the mdev
+> > +if the queue is full or empty. If the queue status is changed, the hardware
+> > +driver use *vfio_sdmdev_wake_up* to wake up the waiting process.
+> > +
+> > +
+> > +Multiple processes support
+> > +==========================
+> > +
+> > +In the latest mainline kernel (4.18) when this document is written,
+> > +multi-process is not supported in VFIO yet.
+> > +
+> > +Jean Philippe Brucker has a patchset to enable it[1]_. We have tested it
+> > +with our hardware (which is known as *D06*). It works well. *WarpDrive* rely
+> > +on them to support multiple processes. If it is not enabled, *WarpDrive* can
+> > +still work, but it support only one mdev for a process, which will share the
+> > +same io map table with kernel. (But it is not going to be a security problem,
+> > +since the user application cannot access the kernel address space)
+> > +
+> > +When multiprocess is support, mdev can be created based on how many
+> > +hardware resource (queue) is available. Because the VFIO framework accepts only
+> > +one open from one mdev iommu_group. Mdev become the smallest unit for process
+> > +to use queue. And the mdev will not be released if the user process exist. So
+> > +it will need a resource agent to manage the mdev allocation for the user
+> > +process. This is not in this document's range.
+> > +
+> > +
+> > +Legacy Mode Support
+> > +===================
+> > +For the hardware on which IOMMU is not support, WarpDrive can run on *NOIOMMU*
+> > +mode. That require some update to the mdev driver, which is not included in
+> > +this version yet.
+> > +
+> > +
+> > +References
+> > +==========
+> > +.. [1] https://patchwork.kernel.org/patch/10394851/
+> > +
+> > +.. vim: tw=78
+> 
+> thanks,
+> -- 
+> ~Randy
 
-[1] d96da358c ("stricter warning for explicit cast to ulong")
+-- 
+			-Kenneth(Hisilicon)
+
+================================================================================
+本邮件及其附件含有华为公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁
+止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中
+的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！
+This e-mail and its attachments contain confidential information from HUAWEI,
+which is intended only for the person or entity whose address is listed above.
+Any use of the 
+information contained herein in any way (including, but not limited to, total or
+partial disclosure, reproduction, or dissemination) by persons other than the
+intended 
+recipient(s) is prohibited. If you receive this e-mail in error, please notify
+the sender by phone or email immediately and delete it!
+
