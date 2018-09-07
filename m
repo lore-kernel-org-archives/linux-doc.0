@@ -2,62 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 67DAA7D923
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 10:30:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2847E7D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 15:26:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727651AbeIGPKs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Sep 2018 11:10:48 -0400
-Received: from sauhun.de ([88.99.104.3]:52734 "EHLO pokefinder.org"
+        id S1728550AbeIGUHc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Sep 2018 16:07:32 -0400
+Received: from foss.arm.com ([217.140.101.70]:33542 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727617AbeIGPKs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Sep 2018 11:10:48 -0400
-Received: from localhost (p54B3324C.dip0.t-ipconnect.de [84.179.50.76])
-        by pokefinder.org (Postfix) with ESMTPSA id 5E5BB2C27DA;
-        Fri,  7 Sep 2018 12:30:27 +0200 (CEST)
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Wolfram Sang <wsa@the-dreams.de>
-Subject: [PATCH 1/2] MAINTAINERS: sort excludes for Documentation
-Date:   Fri,  7 Sep 2018 12:30:21 +0200
-Message-Id: <20180907103022.2258-1-wsa@the-dreams.de>
-X-Mailer: git-send-email 2.18.0
+        id S1728248AbeIGUHc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Sep 2018 16:07:32 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A666718A;
+        Fri,  7 Sep 2018 08:26:07 -0700 (PDT)
+Received: from armageddon.cambridge.arm.com (armageddon.Emea.Arm.com [10.4.13.16])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 47D8D3F614;
+        Fri,  7 Sep 2018 08:26:03 -0700 (PDT)
+Date:   Fri, 7 Sep 2018 16:26:00 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, cpandya@codeaurora.org,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>, Jacob.Bramley@arm.com,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        eugenis@google.com, Kees Cook <keescook@chromium.org>,
+        Ruben.Ayrapetyan@arm.com,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        linux-mm <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Lee.Smith@arm.com, Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
+ sparse
+Message-ID: <20180907152600.myidisza5o4kdmvf@armageddon.cambridge.arm.com>
+References: <cover.1535629099.git.andreyknvl@google.com>
+ <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <CA+55aFyW9N2tSb2bQvkthbVVyY6nt5yFeWQRLHp1zruBmb5ocw@mail.gmail.com>
+ <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Helps reading and hopefully avoids duplicates. Also, consistently add
-the trailing '/' to make clear those are directories.
+On Thu, Sep 06, 2018 at 02:16:19PM -0700, Linus Torvalds wrote:
+> On Thu, Sep 6, 2018 at 2:13 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > So for example:
+> >
+> > >  static inline compat_uptr_t ptr_to_compat(void __user *uptr)
+> > >  {
+> > > -       return (u32)(unsigned long)uptr;
+> > > +       return (u32)(__force unsigned long)uptr;
+> > >  }
+> >
+> > this actually looks correct.
+> 
+> Side note: I do think that while the above is correct, the rest of the
+> patch shows that we might be better off simply not havign the warning
+> for address space changes at all for the "cast a pointer to an integer
+> type" case.
+> 
+> When you cast to a non-pointer type, the address space issue simply
+> doesn't exist at all, so the warning makes less sense.
 
-Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
----
- MAINTAINERS | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+That's actually a new (potential) issue introduced by these patches. The
+arm64 architecture has a feature called Top Byte Ignore (TBI, a.k.a.
+tagged pointers) where the top 8-bit of a 64-bit pointer can be set to
+anything and the hardware automatically ignores it when dereferencing.
+The arm64 user/kernel ABI currently mandates that any pointer passed
+from user space to the kernel must have the top byte 0.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9ad052aeac39..2698ee553008 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4485,11 +4485,11 @@ S:	Maintained
- F:	Documentation/
- F:	scripts/kernel-doc
- X:	Documentation/ABI/
-+X:	Documentation/acpi/
- X:	Documentation/devicetree/
--X:	Documentation/acpi
--X:	Documentation/power
--X:	Documentation/spi
--X:	Documentation/media
-+X:	Documentation/media/
-+X:	Documentation/power/
-+X:	Documentation/spi/
- T:	git git://git.lwn.net/linux.git docs-next
- 
- DOCUMENTATION/ITALIAN
+This patchset is proposing to relax the ABI so that user pointers with a
+non-zero top byte can be actually passed via kernel syscalls. It
+basically moves the responsibility to remove the pointer tag (where
+needed) from user to the kernel (and for some good reasons, user space
+can't always do it given the way hwasan is implemented in LLVM).
+
+The downside is that now a tagged user pointer may not represent just a
+virtual address but address|tag, so things like access_ok() or
+find_extended_vma() need to untag (clear the top byte of) the pointer
+before use. Note that copy_from_user() etc. can safely dereference a
+tagged user pointer as the tag is automatically ignored by the hardware.
+
+The arm64 maintainers asked for a more reliable approach to identifying
+existing and new cases where such explicit untagging is required and one
+of the proposals was a sparse option. Based on some observations, it
+seems that untagging is needed when a pointer is cast to a long and the
+pointer tag information can be dropped. With the sparse patch, there are
+lots of warnings where we actually can preserve the tag (e.g. compat
+user pointers should be ignored since the top 32-bit are always 0), so
+Andrey is trying to mask such warnings out so that we can detect new
+potential issues as the kernel evolves.
+
+So it's not about casting to another pointer; it's rather about no
+longer using the value as a user pointer but as an actual (untyped,
+untagged) virtual address.
+
+There may be better options to address this but I haven't seen any
+concrete proposal so far. Or we could simply consider that we've found
+all places where it matters and not bother with any static analysis
+tools (but for the time being it's still worth investigating whether we
+can do better than this).
+
+> It's really just he "pointer to one address space" being cast to
+> "pointer to another address space" that should really warn, and that
+> might need that "__force" thing.
+
+I think sparse already warns if changing the address space of a pointer.
+
 -- 
-2.18.0
-
+Catalin
