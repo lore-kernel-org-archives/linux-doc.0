@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D05957D57F
+	by archive.lwn.net (Postfix) with ESMTP id E61D77D581
 	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 10:08:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728372AbeIGOsf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728373AbeIGOsf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 7 Sep 2018 10:48:35 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:35311 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728371AbeIGOsf (ORCPT
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:39819 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726122AbeIGOsf (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Sep 2018 10:48:35 -0400
-Received: by mail-wr1-f68.google.com with SMTP id j26-v6so14395516wre.2
-        for <linux-doc@vger.kernel.org>; Fri, 07 Sep 2018 03:08:21 -0700 (PDT)
+Received: by mail-wm0-f66.google.com with SMTP id q8-v6so14099144wmq.4
+        for <linux-doc@vger.kernel.org>; Fri, 07 Sep 2018 03:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=OkoqiLjbJSODXJoiTP2mWCeOVuHWiRrCaV2oGASjKkw=;
-        b=Ql67q/cvaDNfqNAJLZ2meBMvoRpSakM4XzL+fx23NO9k4x8rlyCD9s3n5YGDwet4/2
-         iwdk4tqwtt4FCURfcLMyJFJwG6Q6kvQ+uOtEiaLai1wldC8Ulu6OmBujeN93eoKQ1z+B
-         K/jBklhrhuywVD6BztEtZjiZOWTwXjp/RfJhrtWWbgmLZ504+93EKiyBW990DdHipuKA
-         ZpJy0tvsvkVk4IX+7MpqkklIA7YmQ5JPfmtiZfNnkbubr9fH1w+vUe7jx/oFy/MyK1o0
-         eGZH0fXT1HoXSZ1HPwlUbQ/m6r9xvIq0/g1yjo72/4J1Qc5l95XljX1MV5npITdl2Gz6
-         yp2A==
+        bh=UKv5jlrCAyaYTLT/BZL/veEIJ+piaHWDiSNiFe36RjY=;
+        b=pPF/ueKgtFq9mKb3FaV7AAJ/RX0nSF64gZ5UNzEiTnsOUJHDrG9EByrW1ym3hSlqxJ
+         kA4HopQRE16LJRsda7eXq4JKZkeHtEwOjjoidFff627a5CLvwzabFmUouMufQnszsw2P
+         JVL/KBHK0I5Ll1ARWcFuXQmTdghTsBduW7XfnnYrP/gr8nTuROzcLr1rFuMtC5OfQg3g
+         dmlA2kuH43nDws0/9pa9ZnyIEXDt49CmGtjutMU6yaN9MX8KcAGzbJvrn6V7hQYaDjVb
+         1Ss04RRgfLkNiQdVTFwJI/6LvU5N2usEGYkKy9HO0lZC1g+6JtiBP1dd5aQifdoA7yBX
+         2ORw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=OkoqiLjbJSODXJoiTP2mWCeOVuHWiRrCaV2oGASjKkw=;
-        b=Z0L8Q9UfMMVhhnxfIO0rJZOlj+ZLRuxBLbUUP1ttw22Da/JhO6lPMfASLT2aIcFv+S
-         FS2J7PvmWRoa0A7qlRK2PI6PDJPD+JqK60vBW1NipfMa/iGJsh+FS1mFRVlWjcSZPsyq
-         a9k395f1I2OA3n/nqQqGyKKbaqjxdQz0WBLUtThz5sLTRxCg/D4bERfVFRPsL/rYpFUi
-         reQ6PGsN9zg4KPz5Q9baKeqP3T8NCZba13XX2G5Bjtcj8u2O8t/s3P8Ib2IVdMm5HUkE
-         rRyFuwS1XwAOdVSl+63SnoUmF1e4zl98IKrenzhHogAfNwG6JFiu068EEQVgxWzM1npv
-         qdCQ==
-X-Gm-Message-State: APzg51BNoajlbgAkRicgqTTwXEH2sIOpwdzzHPidsJmckTVqKdKg9LxP
-        XQEMua0cS0GVaemgC6gokkegZQ==
-X-Google-Smtp-Source: ANB0VdYrylm9/VwbLuJauYWuDUOk7RPP+KGu7xOSGEhxwmNnT4Jsl1L7HVUtvaGQhQLzXZcMdumofw==
-X-Received: by 2002:a5d:4a44:: with SMTP id v4-v6mr5551176wrs.278.1536314901286;
-        Fri, 07 Sep 2018 03:08:21 -0700 (PDT)
-Received: from brgl-bgdev.baylibre.local (AStLambert-681-1-83-232.w90-86.abo.wanadoo.fr. [90.86.25.232])
-        by smtp.gmail.com with ESMTPSA id 72-v6sm6631619wrb.48.2018.09.07.03.08.20
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        bh=UKv5jlrCAyaYTLT/BZL/veEIJ+piaHWDiSNiFe36RjY=;
+        b=I4YLiw7FBNIuvP3xUVPjv27q2VFqfGWAS4joQUj40lQ4oQcC8+Rv7jRGsQ6brSsMoi
+         OTR2T3pd05qDFG6OE98iApwFtNCZiXbBDD+8osrT9Pgptgwes6UONjSnc1sMrnFA0y2l
+         zVM2iDuFBZ7/aWQNxV+pFNl61/1Mi00ihEv1fDiAV88QGxYD60oKEtJXOJzDWeg3TY7F
+         4SwFAoFHPytH+BrxQFYLMDEqkZKzWwVLJoBAL9iEwTw0hGV5hDTMGs2QqQ0zNOpGpP3n
+         74nl5cIz7UNXUNS2YSgmRqLzWH5JbRhKqTVK6f4AgQC/LUhfNepScRc7IJHz6OF2N0rC
+         GmZg==
+X-Gm-Message-State: APzg51Dr81VL2GX/BP4P6nE+7Fm7y0Ih9ynlSxZDFOkOkN9oe3Gm94lQ
+        H8uuhfv4BgBph+turnsxyZPFoQ==
+X-Google-Smtp-Source: ANB0VdYj2O2qoO8Rp1wd+pft9Qu0VQP48i8MbQM1ELPF7qM2HYUTuDS1wrvTV4ec3sIu38mVVLQnfQ==
+X-Received: by 2002:a1c:a60e:: with SMTP id p14-v6mr5088588wme.64.1536314900049;
         Fri, 07 Sep 2018 03:08:20 -0700 (PDT)
+Received: from brgl-bgdev.baylibre.local (AStLambert-681-1-83-232.w90-86.abo.wanadoo.fr. [90.86.25.232])
+        by smtp.gmail.com with ESMTPSA id 72-v6sm6631619wrb.48.2018.09.07.03.08.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 07 Sep 2018 03:08:19 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 02/16] nvmem: remove the global cell list
-Date:   Fri,  7 Sep 2018 12:07:36 +0200
-Message-Id: <20180907100750.14564-3-brgl@bgdev.pl>
+Subject: [PATCH v2 01/16] nvmem: remove unused APIs
+Date:   Fri,  7 Sep 2018 12:07:35 +0200
+Message-Id: <20180907100750.14564-2-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180907100750.14564-1-brgl@bgdev.pl>
 References: <20180907100750.14564-1-brgl@bgdev.pl>
@@ -76,83 +76,399 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Make each nvmem device the owner of its nvmem cells.
+Remove all APIs dealing with nvmem_cell_info. There are no users and
+this part of the subsystem will be reworked.
+
+This patch temprarily disables support for non-DT users.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ drivers/nvmem/core.c           | 212 ++-------------------------------
+ include/linux/nvmem-consumer.h |  26 ----
+ include/linux/nvmem-provider.h |  13 --
+ 3 files changed, 12 insertions(+), 239 deletions(-)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index bb475c2688f9..86af62e2df47 100644
+index aa1657831b70..bb475c2688f9 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -38,6 +38,7 @@ struct nvmem_device {
- 	int			flags;
- 	struct bin_attribute	eeprom;
- 	struct device		*base_dev;
-+	struct list_head	cells;
- 	nvmem_reg_read_t	reg_read;
- 	nvmem_reg_write_t	reg_write;
- 	void *priv;
-@@ -58,9 +59,6 @@ struct nvmem_cell {
- static DEFINE_MUTEX(nvmem_mutex);
- static DEFINE_IDA(nvmem_ida);
+@@ -282,23 +282,6 @@ static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
+ 	return to_nvmem_device(d);
+ }
  
--static LIST_HEAD(nvmem_cells);
--static DEFINE_MUTEX(nvmem_cells_mutex);
+-static struct nvmem_cell *nvmem_find_cell(const char *cell_id)
+-{
+-	struct nvmem_cell *p;
 -
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- static struct lock_class_key eeprom_lock_key;
- #endif
-@@ -284,29 +282,25 @@ static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
- 
+-	mutex_lock(&nvmem_cells_mutex);
+-
+-	list_for_each_entry(p, &nvmem_cells, node)
+-		if (!strcmp(p->name, cell_id)) {
+-			mutex_unlock(&nvmem_cells_mutex);
+-			return p;
+-		}
+-
+-	mutex_unlock(&nvmem_cells_mutex);
+-
+-	return NULL;
+-}
+-
  static void nvmem_cell_drop(struct nvmem_cell *cell)
  {
--	mutex_lock(&nvmem_cells_mutex);
-+	mutex_lock(&nvmem_mutex);
- 	list_del(&cell->node);
--	mutex_unlock(&nvmem_cells_mutex);
-+	mutex_unlock(&nvmem_mutex);
- 	kfree(cell);
+ 	mutex_lock(&nvmem_cells_mutex);
+@@ -326,82 +309,6 @@ static void nvmem_cell_add(struct nvmem_cell *cell)
+ 	mutex_unlock(&nvmem_cells_mutex);
  }
  
--static void nvmem_device_remove_all_cells(const struct nvmem_device *nvmem)
-+static void nvmem_device_remove_all_cells(struct nvmem_device *nvmem)
- {
--	struct nvmem_cell *cell;
--	struct list_head *p, *n;
-+	struct nvmem_cell *cell, *p;
- 
--	list_for_each_safe(p, n, &nvmem_cells) {
--		cell = list_entry(p, struct nvmem_cell, node);
--		if (cell->nvmem == nvmem)
--			nvmem_cell_drop(cell);
+-static int nvmem_cell_info_to_nvmem_cell(struct nvmem_device *nvmem,
+-				   const struct nvmem_cell_info *info,
+-				   struct nvmem_cell *cell)
+-{
+-	cell->nvmem = nvmem;
+-	cell->offset = info->offset;
+-	cell->bytes = info->bytes;
+-	cell->name = info->name;
+-
+-	cell->bit_offset = info->bit_offset;
+-	cell->nbits = info->nbits;
+-
+-	if (cell->nbits)
+-		cell->bytes = DIV_ROUND_UP(cell->nbits + cell->bit_offset,
+-					   BITS_PER_BYTE);
+-
+-	if (!IS_ALIGNED(cell->offset, nvmem->stride)) {
+-		dev_err(&nvmem->dev,
+-			"cell %s unaligned to nvmem stride %d\n",
+-			cell->name, nvmem->stride);
+-		return -EINVAL;
 -	}
-+	list_for_each_entry_safe(cell, p, &nvmem->cells, node)
-+		nvmem_cell_drop(cell);
- }
- 
- static void nvmem_cell_add(struct nvmem_cell *cell)
- {
--	mutex_lock(&nvmem_cells_mutex);
--	list_add_tail(&cell->node, &nvmem_cells);
--	mutex_unlock(&nvmem_cells_mutex);
-+	mutex_lock(&nvmem_mutex);
-+	list_add_tail(&cell->node, &cell->nvmem->cells);
-+	mutex_unlock(&nvmem_mutex);
- }
- 
+-
+-	return 0;
+-}
+-
+-/**
+- * nvmem_add_cells() - Add cell information to an nvmem device
+- *
+- * @nvmem: nvmem device to add cells to.
+- * @info: nvmem cell info to add to the device
+- * @ncells: number of cells in info
+- *
+- * Return: 0 or negative error code on failure.
+- */
+-int nvmem_add_cells(struct nvmem_device *nvmem,
+-		    const struct nvmem_cell_info *info,
+-		    int ncells)
+-{
+-	struct nvmem_cell **cells;
+-	int i, rval;
+-
+-	cells = kcalloc(ncells, sizeof(*cells), GFP_KERNEL);
+-	if (!cells)
+-		return -ENOMEM;
+-
+-	for (i = 0; i < ncells; i++) {
+-		cells[i] = kzalloc(sizeof(**cells), GFP_KERNEL);
+-		if (!cells[i]) {
+-			rval = -ENOMEM;
+-			goto err;
+-		}
+-
+-		rval = nvmem_cell_info_to_nvmem_cell(nvmem, &info[i], cells[i]);
+-		if (rval) {
+-			kfree(cells[i]);
+-			goto err;
+-		}
+-
+-		nvmem_cell_add(cells[i]);
+-	}
+-
+-	/* remove tmp array */
+-	kfree(cells);
+-
+-	return 0;
+-err:
+-	while (i--)
+-		nvmem_cell_drop(cells[i]);
+-
+-	kfree(cells);
+-
+-	return rval;
+-}
+-EXPORT_SYMBOL_GPL(nvmem_add_cells);
+-
  /*
-@@ -423,6 +417,8 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+  * nvmem_setup_compat() - Create an additional binary entry in
+  * drivers sys directory, to be backwards compatible with the older
+@@ -516,9 +423,6 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
  			goto err_device_del;
  	}
  
-+	INIT_LIST_HEAD(&nvmem->cells);
-+
+-	if (config->cells)
+-		nvmem_add_cells(nvmem, config->cells, config->ncells);
+-
  	return nvmem;
  
  err_device_del:
+@@ -618,32 +522,19 @@ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
+ EXPORT_SYMBOL(devm_nvmem_unregister);
+ 
+ 
+-static struct nvmem_device *__nvmem_device_get(struct device_node *np,
+-					       struct nvmem_cell **cellp,
+-					       const char *cell_id)
++static struct nvmem_device *__nvmem_device_get(struct device_node *np)
+ {
+ 	struct nvmem_device *nvmem = NULL;
+ 
+-	mutex_lock(&nvmem_mutex);
+-
+-	if (np) {
+-		nvmem = of_nvmem_find(np);
+-		if (!nvmem) {
+-			mutex_unlock(&nvmem_mutex);
+-			return ERR_PTR(-EPROBE_DEFER);
+-		}
+-	} else {
+-		struct nvmem_cell *cell = nvmem_find_cell(cell_id);
++	if (!np)
++		return ERR_PTR(-EINVAL);
+ 
+-		if (cell) {
+-			nvmem = cell->nvmem;
+-			*cellp = cell;
+-		}
++	mutex_lock(&nvmem_mutex);
+ 
+-		if (!nvmem) {
+-			mutex_unlock(&nvmem_mutex);
+-			return ERR_PTR(-ENOENT);
+-		}
++	nvmem = of_nvmem_find(np);
++	if (!nvmem) {
++		mutex_unlock(&nvmem_mutex);
++		return ERR_PTR(-EPROBE_DEFER);
+ 	}
+ 
+ 	nvmem->users++;
+@@ -706,7 +597,7 @@ struct nvmem_device *of_nvmem_device_get(struct device_node *np, const char *id)
+ 	if (!nvmem_np)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	return __nvmem_device_get(nvmem_np, NULL, NULL);
++	return __nvmem_device_get(nvmem_np);
+ }
+ EXPORT_SYMBOL_GPL(of_nvmem_device_get);
+ #endif
+@@ -810,18 +701,6 @@ struct nvmem_device *devm_nvmem_device_get(struct device *dev, const char *id)
+ }
+ EXPORT_SYMBOL_GPL(devm_nvmem_device_get);
+ 
+-static struct nvmem_cell *nvmem_cell_get_from_list(const char *cell_id)
+-{
+-	struct nvmem_cell *cell = NULL;
+-	struct nvmem_device *nvmem;
+-
+-	nvmem = __nvmem_device_get(NULL, &cell, cell_id);
+-	if (IS_ERR(nvmem))
+-		return ERR_CAST(nvmem);
+-
+-	return cell;
+-}
+-
+ #if IS_ENABLED(CONFIG_OF)
+ /**
+  * of_nvmem_cell_get() - Get a nvmem cell from given device node and cell id
+@@ -857,7 +736,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
+ 	if (!nvmem_np)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	nvmem = __nvmem_device_get(nvmem_np, NULL, NULL);
++	nvmem = __nvmem_device_get(nvmem_np);
+ 	of_node_put(nvmem_np);
+ 	if (IS_ERR(nvmem))
+ 		return ERR_CAST(nvmem);
+@@ -926,19 +805,10 @@ EXPORT_SYMBOL_GPL(of_nvmem_cell_get);
+  */
+ struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *cell_id)
+ {
+-	struct nvmem_cell *cell;
+-
+-	if (dev->of_node) { /* try dt first */
+-		cell = of_nvmem_cell_get(dev->of_node, cell_id);
+-		if (!IS_ERR(cell) || PTR_ERR(cell) == -EPROBE_DEFER)
+-			return cell;
+-	}
+-
+-	/* NULL cell_id only allowed for device tree; invalid otherwise */
+-	if (!cell_id)
++	if (!dev->of_node)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	return nvmem_cell_get_from_list(cell_id);
++	return of_nvmem_cell_get(dev->of_node, cell_id);
+ }
+ EXPORT_SYMBOL_GPL(nvmem_cell_get);
+ 
+@@ -1227,64 +1097,6 @@ int nvmem_cell_read_u32(struct device *dev, const char *cell_id, u32 *val)
+ }
+ EXPORT_SYMBOL_GPL(nvmem_cell_read_u32);
+ 
+-/**
+- * nvmem_device_cell_read() - Read a given nvmem device and cell
+- *
+- * @nvmem: nvmem device to read from.
+- * @info: nvmem cell info to be read.
+- * @buf: buffer pointer which will be populated on successful read.
+- *
+- * Return: length of successful bytes read on success and negative
+- * error code on error.
+- */
+-ssize_t nvmem_device_cell_read(struct nvmem_device *nvmem,
+-			   struct nvmem_cell_info *info, void *buf)
+-{
+-	struct nvmem_cell cell;
+-	int rc;
+-	ssize_t len;
+-
+-	if (!nvmem)
+-		return -EINVAL;
+-
+-	rc = nvmem_cell_info_to_nvmem_cell(nvmem, info, &cell);
+-	if (rc)
+-		return rc;
+-
+-	rc = __nvmem_cell_read(nvmem, &cell, buf, &len);
+-	if (rc)
+-		return rc;
+-
+-	return len;
+-}
+-EXPORT_SYMBOL_GPL(nvmem_device_cell_read);
+-
+-/**
+- * nvmem_device_cell_write() - Write cell to a given nvmem device
+- *
+- * @nvmem: nvmem device to be written to.
+- * @info: nvmem cell info to be written.
+- * @buf: buffer to be written to cell.
+- *
+- * Return: length of bytes written or negative error code on failure.
+- * */
+-int nvmem_device_cell_write(struct nvmem_device *nvmem,
+-			    struct nvmem_cell_info *info, void *buf)
+-{
+-	struct nvmem_cell cell;
+-	int rc;
+-
+-	if (!nvmem)
+-		return -EINVAL;
+-
+-	rc = nvmem_cell_info_to_nvmem_cell(nvmem, info, &cell);
+-	if (rc)
+-		return rc;
+-
+-	return nvmem_cell_write(&cell, buf, cell.bytes);
+-}
+-EXPORT_SYMBOL_GPL(nvmem_device_cell_write);
+-
+ /**
+  * nvmem_device_read() - Read from a given nvmem device
+  *
+diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
+index 4e85447f7860..7e9fb5a19d91 100644
+--- a/include/linux/nvmem-consumer.h
++++ b/include/linux/nvmem-consumer.h
+@@ -21,14 +21,6 @@ struct device_node;
+ struct nvmem_cell;
+ struct nvmem_device;
+ 
+-struct nvmem_cell_info {
+-	const char		*name;
+-	unsigned int		offset;
+-	unsigned int		bytes;
+-	unsigned int		bit_offset;
+-	unsigned int		nbits;
+-};
+-
+ #if IS_ENABLED(CONFIG_NVMEM)
+ 
+ /* Cell based interface */
+@@ -50,10 +42,6 @@ int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
+ 		      size_t bytes, void *buf);
+ int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
+ 		       size_t bytes, void *buf);
+-ssize_t nvmem_device_cell_read(struct nvmem_device *nvmem,
+-			   struct nvmem_cell_info *info, void *buf);
+-int nvmem_device_cell_write(struct nvmem_device *nvmem,
+-			    struct nvmem_cell_info *info, void *buf);
+ 
+ #else
+ 
+@@ -116,20 +104,6 @@ static inline void devm_nvmem_device_put(struct device *dev,
+ {
+ }
+ 
+-static inline ssize_t nvmem_device_cell_read(struct nvmem_device *nvmem,
+-					 struct nvmem_cell_info *info,
+-					 void *buf)
+-{
+-	return -ENOSYS;
+-}
+-
+-static inline int nvmem_device_cell_write(struct nvmem_device *nvmem,
+-					  struct nvmem_cell_info *info,
+-					  void *buf)
+-{
+-	return -ENOSYS;
+-}
+-
+ static inline int nvmem_device_read(struct nvmem_device *nvmem,
+ 				    unsigned int offset, size_t bytes,
+ 				    void *buf)
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 24def6ad09bb..cc8556e3c825 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -16,7 +16,6 @@
+ #include <linux/errno.h>
+ 
+ struct nvmem_device;
+-struct nvmem_cell_info;
+ typedef int (*nvmem_reg_read_t)(void *priv, unsigned int offset,
+ 				void *val, size_t bytes);
+ typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
+@@ -52,8 +51,6 @@ struct nvmem_config {
+ 	const char		*name;
+ 	int			id;
+ 	struct module		*owner;
+-	const struct nvmem_cell_info	*cells;
+-	int			ncells;
+ 	bool			read_only;
+ 	bool			root_only;
+ 	nvmem_reg_read_t	reg_read;
+@@ -77,9 +74,6 @@ struct nvmem_device *devm_nvmem_register(struct device *dev,
+ 
+ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem);
+ 
+-int nvmem_add_cells(struct nvmem_device *nvmem,
+-		    const struct nvmem_cell_info *info,
+-		    int ncells);
+ #else
+ 
+ static inline struct nvmem_device *nvmem_register(const struct nvmem_config *c)
+@@ -105,12 +99,5 @@ devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
+ 
+ }
+ 
+-static inline int nvmem_add_cells(struct nvmem_device *nvmem,
+-				  const struct nvmem_cell_info *info,
+-				  int ncells)
+-{
+-	return -ENOSYS;
+-}
+-
+ #endif /* CONFIG_NVMEM */
+ #endif  /* ifndef _LINUX_NVMEM_PROVIDER_H */
 -- 
 2.18.0
 
