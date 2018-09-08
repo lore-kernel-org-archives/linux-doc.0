@@ -1,147 +1,199 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 41F9B7D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Sep 2018 22:05:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7AD867D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Sep 2018 21:25:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726307AbeIHCsd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Sep 2018 22:48:33 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33686 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726237AbeIHCsd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Sep 2018 22:48:33 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id ADACFAEF4;
-        Fri,  7 Sep 2018 22:05:28 +0000 (UTC)
-Subject: Re: [RFC PATCH 0/3] kbuild: support syncing .config non-interactively
- and record ARCH in spec file
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kbuild@vger.kernel.org
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Laura Abbott <labbott@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Ben Hutchings <ben.hutchings@codethink.co.uk>,
-        =?UTF-8?B?TWljaGFsIFN1Y2jvv73vv73vv71uZWs=?= <msuchanek@suse.de>,
-        Takashi Iwai <tiwai@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
-References: <1535968916-9159-1-git-send-email-yamada.masahiro@socionext.com>
-From:   Jeff Mahoney <jeffm@suse.com>
-Message-ID: <130981b1-436c-d3e3-d22b-c1cd8cba374c@suse.com>
-Date:   Fri, 7 Sep 2018 18:05:23 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:63.0)
- Gecko/20100101 Thunderbird/63.0a1
-MIME-Version: 1.0
-In-Reply-To: <1535968916-9159-1-git-send-email-yamada.masahiro@socionext.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="4h8woEc4Tu8MoRajYynmXFCksSXXoY89k"
+        id S1727703AbeIICMV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 8 Sep 2018 22:12:21 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33407 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727675AbeIICMV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Sep 2018 22:12:21 -0400
+Received: by mail-wr1-f67.google.com with SMTP id v90-v6so18168039wrc.0;
+        Sat, 08 Sep 2018 14:25:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=hQLziiB7cA1CETh/GxBQlUsMkk9RYUuPHaaaolDaah0=;
+        b=i86wFAKFgv+CeGVr1yvRHrQ4OtRj0qByEje4TrfNcIF/FPYmUEfNdxWTdqO7MGV65/
+         zZfMHb9w69ilqfao8gsvkzSH23RybdQCF5v4zE0xC1b9LuCLuRX+ODGy50DY11IA4QJ4
+         ZTWaz6eyBlaEslLLG/QzdLiPb3d/IeVEz67j0geqF/qmm9dY8qhHBH3eFhcJlsoLDYuF
+         qaX40d4hVtYrZgVStjXwxbfbzcxCI8O2P2an7MqEtgIooDxBawoOvlzRzOxkDUL546Wo
+         UK3j75GI6OV/3z4mIWd2TfInutx8cEUtLFjs+ECPUJywj8MVCdMm3OkcQUwMb0fB/Y4H
+         VbCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=hQLziiB7cA1CETh/GxBQlUsMkk9RYUuPHaaaolDaah0=;
+        b=gbRGaKEzlimlRR7U5KSyFtxGspEGoBjn6uUI70846JbRYqXWt4SmF0w+lKjFbC9alb
+         hPwJz/wsMElE3mAMD7b2jLFWW5nHKKdKWvT4WXjOaBOE2J/yWiWan20L+df61ORAskZd
+         3IGRo1UcBimFVF0auMTvOb8ONzxTBabyQP2fOaMkzf0wvzBPumwPh7fW5ioxmERWSX6p
+         gkt700ukvXpwi8Ezp68MGEpln/usaxurLxNsCPyM8l2Z0C2xDcsEaCP98lJkqDhcAEwh
+         ZIbsKEPtFWqcYwQqIMLz4h0iRaiXkS6gCMcnVj06gYgvRPakXbKVxNrVKZYWRQz1Qid1
+         z4Rg==
+X-Gm-Message-State: APzg51CQqH3q8dPDfQvLv4FnmxqC1bgoyeK9S5FLs/nBXjPmD5SHvElH
+        7obwhZ7sfhs2meNjhNQbi00=
+X-Google-Smtp-Source: ANB0VdaXe3+gMaVsAoLWE/idNk7r/vgHCs6JglZIPpBAhJrGiyDcVAk/FYQ6TgIpSLjUX88fz1j4yg==
+X-Received: by 2002:a5d:4605:: with SMTP id t5-v6mr9364555wrq.200.1536441911169;
+        Sat, 08 Sep 2018 14:25:11 -0700 (PDT)
+Received: from localhost.localdomain (62.83.35.8.dyn.user.ono.com. [62.83.35.8])
+        by smtp.gmail.com with ESMTPSA id u40-v6sm17340786wrc.43.2018.09.08.14.25.09
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 08 Sep 2018 14:25:10 -0700 (PDT)
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Eli Friedman <efriedma@codeaurora.org>,
+        Christopher Li <sparse@chrisli.org>,
+        Kees Cook <keescook@chromium.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Joe Perches <joe@perches.com>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-sparse@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v4 00/13] Compiler Attributes
+Date:   Sat,  8 Sep 2018 23:24:46 +0200
+Message-Id: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4h8woEc4Tu8MoRajYynmXFCksSXXoY89k
-Content-Type: multipart/mixed; boundary="7D1l3XnUHvhPuSEN52aaqgGqHVU9MDQZ9";
- protected-headers="v1"
-From: Jeff Mahoney <jeffm@suse.com>
-To: Masahiro Yamada <yamada.masahiro@socionext.com>,
- linux-kbuild@vger.kernel.org
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Laura Abbott <labbott@redhat.com>, Jiri Kosina <jkosina@suse.cz>,
- Ben Hutchings <ben.hutchings@codethink.co.uk>,
- =?UTF-8?B?TWljaGFsIFN1Y2jvv73vv73vv71uZWs=?= <msuchanek@suse.de>,
- Takashi Iwai <tiwai@suse.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Michal Marek <michal.lkml@markovi.net>
-Message-ID: <130981b1-436c-d3e3-d22b-c1cd8cba374c@suse.com>
-Subject: Re: [RFC PATCH 0/3] kbuild: support syncing .config non-interactively
- and record ARCH in spec file
-References: <1535968916-9159-1-git-send-email-yamada.masahiro@socionext.com>
-In-Reply-To: <1535968916-9159-1-git-send-email-yamada.masahiro@socionext.com>
+The Compiler Attributes series is an effort to disentangle
+the include/linux/compiler*.h headers and bring them up to date.
 
---7D1l3XnUHvhPuSEN52aaqgGqHVU9MDQZ9
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+The main idea behind the series is to use feature checking macros
+(i.e. __has_attribute) instead of compiler version checks (e.g. GCC_VERSION),
+which are compiler-agnostic (so they can be shared, reducing the size
+of compiler-specific headers) and version-agnostic.
 
-On 9/3/18 6:01 AM, Masahiro Yamada wrote:
-> This work was prompted by the criticism about the recent Kconfig change=
-:
-> https://lkml.org/lkml/2018/6/27/254
->=20
-> I may not fully understand his concern, though.
+Other related improvements have been performed in the headers as well,
+which on top of the use of __has_attribute it has amounted to a significant
+simplification of these headers (e.g. GCC_VERSION is now only guarding 4
+non-attribute macros).
 
-I don't think you do.
+This series should also help the efforts to support compiling the kernel
+with clang and icc. A fair amount of documentation and comments have also
+been added, clarified or removed; and the headers are now more readable,
+which should help kernel developers in general.
 
-Here's the use case for us and, I expect, most distro kernel maintainers
-out there.  We build kernels on 8 architectures, with 3 or more configs
-for each architecture.  Each product release uses a different build
-environment.  Between SLE and openSUSE we have 6 build environments at
-the moment.  Our update process for configs is to run a script that adds
-the change to every affected config and then run a script that does a
-'make oldconfig' on every architecture/config combination to sync them
-up and ensure options that may have been enabled by the change are
-synced up.  Those changes are also automatically propagated to other
-configs.  The config updates can be done on pretty much any linux system
-capable of building a kernel.  This is a process that has worked for us
-for at least 15 years.  It doesn't now with the GCC_VERSION changes.
-Today, I went to do a simple config change: disable an option on every
-arch/config combination for a single branch (that wasn't the one that
-matched the build environment of the running system) and instead of it
-running more or less silently as it has for years, it wanted to change
-all the compiler options.  Of course, those changes shouldn't be pushed
-to the repository because they'll be wrong for the build environment.
-In this simple example it was easy to just modify the option in-place,
-but it would've been painful if I was enabling an option that guarded
-other new options instead.
+The series was triggered due to the move to gcc >= 4.6. In turn, this series
+has also triggered Sparse to gain the ability to recognize __has_attribute
+on its own.
 
-Lastly, we fail our builds if there are unresolved config options.  A
-build that silently ignored them and accepted defaults isn't something
-we'd use.  Otherwise, we could start our builds with yes '' | make
-oldconfig and be done with it.
+You can also fetch it from:
 
-Requiring the config to be generated using the same environment that
-will ultimately build the kernel is a huge usability regression for us
-and, I would assume, others.
+  https://github.com/ojeda/linux/tree/compiler-attributes-v4
 
--Jeff
---=20
-Jeff Mahoney
-SUSE Labs
+Enjoy!
 
+Cheers,
+Miguel
 
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc: Eli Friedman <efriedma@codeaurora.org>
+Cc: Christopher Li <sparse@chrisli.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Joe Perches <joe@perches.com>
+Cc: Dominique Martinet <asmadeus@codewreck.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-sparse@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 
---7D1l3XnUHvhPuSEN52aaqgGqHVU9MDQZ9--
+v3 -> v4
 
---4h8woEc4Tu8MoRajYynmXFCksSXXoY89k
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+  This time it is an important fix I found while doing randconfigs, plus
+  the documentation sentence that Nick suggested and the MAINTAINERS file.
 
------BEGIN PGP SIGNATURE-----
+  Compile-tested for a while on (x86_64, gcc-7.3) on a few randconfs.
 
-iQIzBAEBCAAdFiEE8wzgbmZ74SnKPwtDHntLYyF55bIFAluS9iMACgkQHntLYyF5
-5bKU1A//RDi1hqWJ+0cqtWsJhWYxz2UV1tKAQWy/O5lMHfzuoVF7Su75+nAJuZSn
-E+qRRGpBIs94reX716zt+9eKEsOAH2DZ0bvGEuL+/TdnBuqMxT3BehFVHEXdW6pt
-wwirNm5L0wX9jPC0XXOxBr9z+wCw4uAizNTaqcQD/6BPOSIEKtlxTctnOip5F7BP
-OECzZj854Aiu48uRU84aLFrSYKcDbfA8yzDRHcdb31SBzhtYxYMs/+AwXqlJQTrj
-PTdB4LeZcnx/Y/8TR0t8j8wYsPYjHcx+u2k78mkn+zNN17sCFiHE9h6hHtVQIf6Q
-XoTEPWUOXOccekz/u4+7x6BgJRznNIBkd5FryeRrriALHKfAK0Lw9ROxItRlZdYC
-EZ3xwGFyr7mlr+dov6++4rj1kqwxfdzO+mUfGsD6G6DO3GojA0HciKT831cVJpE3
-pOExlQOWFwtMGzOG9W3Im0g6jxGG68acpjuZme8E8uFh7nnxwE6ZjoM6ND18m4vo
-YOKP9nkPX7xT0nPksPouFpQ6zPcjzwlIxJ9iUWy+rle4iPeHHCd+DmyJpnb+z4Pg
-iGMAxV5Ml/i+rRfL9CV37crM0grRJUH3MPVhgIIUZJHpz5B3GbFAtPmUORAr6lOR
-JCXsqb+2b5VNcQc+r7Zt6aTsYLcA3Fgj49GW3YMoLVOm6tezo78=
-=rG0d
------END PGP SIGNATURE-----
+  New:
 
---4h8woEc4Tu8MoRajYynmXFCksSXXoY89k--
+  * Add MAINTAINERS entry for the new file (compiler_attributes.h)
+    so that we try to maintain that one as clean as possible.
+    (if someone else wants to join, feel free!)
+
+  Modified:
+
+  * Fix inline macro
+
+    __always_inline cannot be used in the inline macro,
+    because people marking a function as __always_inline would
+    expand to inline which in turn would expand back to __always_inline
+    (under some configs), which would not be expanded again.
+    Added a comment about this in the inline macro.
+
+    Also added another comment about __always_inline in compiler_attributes.h
+    to note that users expect to not have to write inline (as well as
+    the attribute). We cannot simply remove "inline" there (which would
+    solve the problem described above) because using the attribute is
+    not enough for gcc. A function marked as always_inline seems to require
+    to be marked as inline itself so that the attribute is applied:
+
+      "warning: always_inline function might not be inlinable [-Wattributes]"
+
+    From the gcc docs:
+
+      "For functions declared inline, this attribute inlines the function
+       independent of any restrictions that otherwise apply to inlining."
+
+    See https://godbolt.org/z/LpzUPj for an example.
+
+  From reviews:
+
+  * Add sentence about feature-detection in Docs (Nick)
+
+Miguel Ojeda (13):
+  Compiler Attributes: remove unused attributes
+  Compiler Attributes: always use the extra-underscores syntax
+  Compiler Attributes: remove unneeded tests
+  Compiler Attributes: homogenize __must_be_array
+  Compiler Attributes: naked was fixed in gcc 4.6
+  Compiler Attributes: naked can be shared
+  Compiler Attributes: remove unneeded sparse (__CHECKER__) tests
+  Compiler Attributes: add missing SPDX ID in compiler_types.h
+  Compiler Attributes: use feature checks instead of version checks
+  Compiler Attributes: KENTRY used twice the "used" attribute
+  Compiler Attributes: remove uses of __attribute__ from compiler.h
+  Compiler Attributes: add Doc/process/programming-language.rst
+  Compiler Attributes: Add MAINTAINERS entry
+
+ Documentation/process/index.rst               |   1 +
+ .../process/programming-language.rst          |  45 ++++
+ MAINTAINERS                                   |   5 +
+ include/linux/compiler-clang.h                |   5 -
+ include/linux/compiler-gcc.h                  |  84 +-----
+ include/linux/compiler-intel.h                |   9 -
+ include/linux/compiler.h                      |  19 +-
+ include/linux/compiler_attributes.h           | 244 ++++++++++++++++++
+ include/linux/compiler_types.h                | 105 ++------
+ 9 files changed, 329 insertions(+), 188 deletions(-)
+ create mode 100644 Documentation/process/programming-language.rst
+ create mode 100644 include/linux/compiler_attributes.h
+
+-- 
+2.17.1
+
