@@ -6,46 +6,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7AD867D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Sep 2018 21:25:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D1EFC7DE7D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Sep 2018 21:25:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727703AbeIICMV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 8 Sep 2018 22:12:21 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33407 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727675AbeIICMV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Sep 2018 22:12:21 -0400
-Received: by mail-wr1-f67.google.com with SMTP id v90-v6so18168039wrc.0;
-        Sat, 08 Sep 2018 14:25:11 -0700 (PDT)
+        id S1728089AbeIICMj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 8 Sep 2018 22:12:39 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:42168 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727639AbeIICMi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Sep 2018 22:12:38 -0400
+Received: by mail-wr1-f65.google.com with SMTP id v17-v6so18096793wrr.9;
+        Sat, 08 Sep 2018 14:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=hQLziiB7cA1CETh/GxBQlUsMkk9RYUuPHaaaolDaah0=;
-        b=i86wFAKFgv+CeGVr1yvRHrQ4OtRj0qByEje4TrfNcIF/FPYmUEfNdxWTdqO7MGV65/
-         zZfMHb9w69ilqfao8gsvkzSH23RybdQCF5v4zE0xC1b9LuCLuRX+ODGy50DY11IA4QJ4
-         ZTWaz6eyBlaEslLLG/QzdLiPb3d/IeVEz67j0geqF/qmm9dY8qhHBH3eFhcJlsoLDYuF
-         qaX40d4hVtYrZgVStjXwxbfbzcxCI8O2P2an7MqEtgIooDxBawoOvlzRzOxkDUL546Wo
-         UK3j75GI6OV/3z4mIWd2TfInutx8cEUtLFjs+ECPUJywj8MVCdMm3OkcQUwMb0fB/Y4H
-         VbCQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=T5AM0lKpRA4nSd7QBTrQNLR7gE7jGERVXErV6YZkeSE=;
+        b=gMOnQEM1BbB/38PkXlmKXunDGZtgen0DiYEDZfC7jwZzMc//YjTRaStJ4oC/D6QYoX
+         IOt4/rdofucbKHE8j5f+zGA5Es98mGQFs+k8+qXlO6Tncnik1eElKeq8tGpiGtFuZMe+
+         yxAWCZj5Mm6A3Pdr00Y/zko/tf280fhDSFy72Thy9LX2eqiNvdYELithIr1zaleCqac5
+         znVdWB2OI3ZBrm+20lwQTED9kynbpN1/lrq7y2Prdo25WdTQEohDd9uQTnNC8UoeJZfk
+         i36qpIV9Qs3OXfnD4dvuujVqFkbmRppRMtn4Tvpenh045rqshYyTiUCVTvriguwjb1TU
+         i2IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=hQLziiB7cA1CETh/GxBQlUsMkk9RYUuPHaaaolDaah0=;
-        b=gbRGaKEzlimlRR7U5KSyFtxGspEGoBjn6uUI70846JbRYqXWt4SmF0w+lKjFbC9alb
-         hPwJz/wsMElE3mAMD7b2jLFWW5nHKKdKWvT4WXjOaBOE2J/yWiWan20L+df61ORAskZd
-         3IGRo1UcBimFVF0auMTvOb8ONzxTBabyQP2fOaMkzf0wvzBPumwPh7fW5ioxmERWSX6p
-         gkt700ukvXpwi8Ezp68MGEpln/usaxurLxNsCPyM8l2Z0C2xDcsEaCP98lJkqDhcAEwh
-         ZIbsKEPtFWqcYwQqIMLz4h0iRaiXkS6gCMcnVj06gYgvRPakXbKVxNrVKZYWRQz1Qid1
-         z4Rg==
-X-Gm-Message-State: APzg51CQqH3q8dPDfQvLv4FnmxqC1bgoyeK9S5FLs/nBXjPmD5SHvElH
-        7obwhZ7sfhs2meNjhNQbi00=
-X-Google-Smtp-Source: ANB0VdaXe3+gMaVsAoLWE/idNk7r/vgHCs6JglZIPpBAhJrGiyDcVAk/FYQ6TgIpSLjUX88fz1j4yg==
-X-Received: by 2002:a5d:4605:: with SMTP id t5-v6mr9364555wrq.200.1536441911169;
-        Sat, 08 Sep 2018 14:25:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=T5AM0lKpRA4nSd7QBTrQNLR7gE7jGERVXErV6YZkeSE=;
+        b=QAjkMsC8SPyqg0Krc5EMXKBc01+DeAIsGtCK8wZP9TUFLyYxDFC3BQmwRN3I337x3g
+         zjICu3691ezuHfnZgarwyHqyXWzsuOhgfgvqlcAI7R20pdDlS9PxycxkaMWf2lBJItiM
+         5aoYTkA9qk2PGe3Iev/o1ECnU42a9SkCqB67PEEhpfJV7NueAiLbHWTdWn4AdqTzcTNY
+         IbiGawhe5IhPyGr9Z35/HpiJ1AszNV5l+oc2GIBMNp/Vj11tHjHmEQMY5Parc2Iwzr3y
+         DhJ4CSmwG1WbWQudxj/EX/BCJmdJTN99QDhkdgggNAvHWQqdiUL3175pzfKpv1KthmrK
+         eefQ==
+X-Gm-Message-State: APzg51CmnNcACDrI8vy+Ksh8utEBydynyf8xAfgfjhEIgr1YZXBeqIzS
+        keQj8JsAE0bIJNQQ+BiXZ1Y=
+X-Google-Smtp-Source: ANB0Vdbg4v1i84w/gZWVoB0R8lRp8yE3QK7vN9aYkiUrKcFuGTptu88oMurN2tyd5lqzwx8nC06ILg==
+X-Received: by 2002:a05:6000:10d0:: with SMTP id b16mr10326996wrx.226.1536441927948;
+        Sat, 08 Sep 2018 14:25:27 -0700 (PDT)
 Received: from localhost.localdomain (62.83.35.8.dyn.user.ono.com. [62.83.35.8])
-        by smtp.gmail.com with ESMTPSA id u40-v6sm17340786wrc.43.2018.09.08.14.25.09
+        by smtp.gmail.com with ESMTPSA id u40-v6sm17340786wrc.43.2018.09.08.14.25.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 08 Sep 2018 14:25:10 -0700 (PDT)
+        Sat, 08 Sep 2018 14:25:27 -0700 (PDT)
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     linux-kernel@vger.kernel.org,
@@ -65,44 +66,15 @@ Cc:     linux-kernel@vger.kernel.org,
         Dominique Martinet <asmadeus@codewreck.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-sparse@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v4 00/13] Compiler Attributes
-Date:   Sat,  8 Sep 2018 23:24:46 +0200
-Message-Id: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
+Subject: [PATCH v4 12/13] Compiler Attributes: add Doc/process/programming-language.rst
+Date:   Sat,  8 Sep 2018 23:24:58 +0200
+Message-Id: <20180908212459.19736-13-miguel.ojeda.sandonis@gmail.com>
+In-Reply-To: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
+References: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-
-The Compiler Attributes series is an effort to disentangle
-the include/linux/compiler*.h headers and bring them up to date.
-
-The main idea behind the series is to use feature checking macros
-(i.e. __has_attribute) instead of compiler version checks (e.g. GCC_VERSION),
-which are compiler-agnostic (so they can be shared, reducing the size
-of compiler-specific headers) and version-agnostic.
-
-Other related improvements have been performed in the headers as well,
-which on top of the use of __has_attribute it has amounted to a significant
-simplification of these headers (e.g. GCC_VERSION is now only guarding 4
-non-attribute macros).
-
-This series should also help the efforts to support compiling the kernel
-with clang and icc. A fair amount of documentation and comments have also
-been added, clarified or removed; and the headers are now more readable,
-which should help kernel developers in general.
-
-The series was triggered due to the move to gcc >= 4.6. In turn, this series
-has also triggered Sparse to gain the ability to recognize __has_attribute
-on its own.
-
-You can also fetch it from:
-
-  https://github.com/ojeda/linux/tree/compiler-attributes-v4
-
-Enjoy!
-
-Cheers,
-Miguel
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
@@ -122,78 +94,75 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: linux-sparse@vger.kernel.org
 Cc: linux-doc@vger.kernel.org
 Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-
-v3 -> v4
-
-  This time it is an important fix I found while doing randconfigs, plus
-  the documentation sentence that Nick suggested and the MAINTAINERS file.
-
-  Compile-tested for a while on (x86_64, gcc-7.3) on a few randconfs.
-
-  New:
-
-  * Add MAINTAINERS entry for the new file (compiler_attributes.h)
-    so that we try to maintain that one as clean as possible.
-    (if someone else wants to join, feel free!)
-
-  Modified:
-
-  * Fix inline macro
-
-    __always_inline cannot be used in the inline macro,
-    because people marking a function as __always_inline would
-    expand to inline which in turn would expand back to __always_inline
-    (under some configs), which would not be expanded again.
-    Added a comment about this in the inline macro.
-
-    Also added another comment about __always_inline in compiler_attributes.h
-    to note that users expect to not have to write inline (as well as
-    the attribute). We cannot simply remove "inline" there (which would
-    solve the problem described above) because using the attribute is
-    not enough for gcc. A function marked as always_inline seems to require
-    to be marked as inline itself so that the attribute is applied:
-
-      "warning: always_inline function might not be inlinable [-Wattributes]"
-
-    From the gcc docs:
-
-      "For functions declared inline, this attribute inlines the function
-       independent of any restrictions that otherwise apply to inlining."
-
-    See https://godbolt.org/z/LpzUPj for an example.
-
-  From reviews:
-
-  * Add sentence about feature-detection in Docs (Nick)
-
-Miguel Ojeda (13):
-  Compiler Attributes: remove unused attributes
-  Compiler Attributes: always use the extra-underscores syntax
-  Compiler Attributes: remove unneeded tests
-  Compiler Attributes: homogenize __must_be_array
-  Compiler Attributes: naked was fixed in gcc 4.6
-  Compiler Attributes: naked can be shared
-  Compiler Attributes: remove unneeded sparse (__CHECKER__) tests
-  Compiler Attributes: add missing SPDX ID in compiler_types.h
-  Compiler Attributes: use feature checks instead of version checks
-  Compiler Attributes: KENTRY used twice the "used" attribute
-  Compiler Attributes: remove uses of __attribute__ from compiler.h
-  Compiler Attributes: add Doc/process/programming-language.rst
-  Compiler Attributes: Add MAINTAINERS entry
-
- Documentation/process/index.rst               |   1 +
- .../process/programming-language.rst          |  45 ++++
- MAINTAINERS                                   |   5 +
- include/linux/compiler-clang.h                |   5 -
- include/linux/compiler-gcc.h                  |  84 +-----
- include/linux/compiler-intel.h                |   9 -
- include/linux/compiler.h                      |  19 +-
- include/linux/compiler_attributes.h           | 244 ++++++++++++++++++
- include/linux/compiler_types.h                | 105 ++------
- 9 files changed, 329 insertions(+), 188 deletions(-)
+---
+ Documentation/process/index.rst               |  1 +
+ .../process/programming-language.rst          | 45 +++++++++++++++++++
+ 2 files changed, 46 insertions(+)
  create mode 100644 Documentation/process/programming-language.rst
- create mode 100644 include/linux/compiler_attributes.h
 
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index 37bd0628b6ee..c56f24a22d2a 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -23,6 +23,7 @@ Below are the essential guides that every developer should read.
+    code-of-conflict
+    development-process
+    submitting-patches
++   programming-language
+    coding-style
+    maintainer-pgp-guide
+    email-clients
+diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
+new file mode 100644
+index 000000000000..e5f5f065dc24
+--- /dev/null
++++ b/Documentation/process/programming-language.rst
+@@ -0,0 +1,45 @@
++.. _programming_language:
++
++Programming Language
++====================
++
++The kernel is written in the C programming language [c-language]_.
++More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
++under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
++(including some C99 features).
++
++This dialect contains many extensions to the language [gnu-extensions]_,
++and many of them are used within the kernel as a matter of course.
++
++There is some support for compiling the kernel with ``clang`` [clang]_
++and ``icc`` [icc]_ for several of the architectures, although at the time
++of writing it is not completed, requiring third-party patches.
++
++Attributes
++----------
++
++One of the common extensions used throughout the kernel are attributes
++[gcc-attribute-syntax]_. Attributes allow to introduce
++implementation-defined semantics to language entities (like variables,
++functions or types) without having to make significant syntactic changes
++to the language (e.g. adding a new keyword) [n2049]_.
++
++In some cases, attributes are optional (i.e. a compiler not supporting them
++should still produce proper code, even if it is slower or does not perform
++as many compile-time checks/diagnostics).
++
++The kernel defines pseudo-keywords (e.g. ``__pure``) instead of using
++directly the GNU attribute syntax (e.g. ``__attribute__((__pure__))``)
++in order to feature detect which ones can be used and/or to shorten the code.
++
++Please refer to ``include/linux/compiler_attributes.h`` for more information.
++
++.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
++.. [gcc] https://gcc.gnu.org
++.. [clang] https://clang.llvm.org
++.. [icc] https://software.intel.com/en-us/c-compilers
++.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
++.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
++.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
++.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
++
 -- 
 2.17.1
 
