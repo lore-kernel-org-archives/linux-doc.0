@@ -5,85 +5,110 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F92A7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Sep 2018 19:19:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 83FDC7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Sep 2018 20:27:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbeIJAJu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Sep 2018 20:09:50 -0400
-Received: from asavdk3.altibox.net ([109.247.116.14]:56225 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726599AbeIJAJu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Sep 2018 20:09:50 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726632AbeIJBSh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Sep 2018 21:18:37 -0400
+Received: from ms.lwn.net ([45.79.88.28]:38220 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726609AbeIJBSh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 9 Sep 2018 21:18:37 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id B08D020062;
-        Sun,  9 Sep 2018 21:19:04 +0200 (CEST)
-Date:   Sun, 9 Sep 2018 21:19:03 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id E05D16D9;
+        Sun,  9 Sep 2018 20:27:43 +0000 (UTC)
+Date:   Sun, 9 Sep 2018 14:27:41 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
 To:     Salvatore Mesoraca <s.mesoraca16@gmail.com>
 Cc:     kernel-hardening@lists.openwall.com, linux-doc@vger.kernel.org,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
         Laura Abbott <labbott@redhat.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         "Eric W. Biederman" <ebiederm@xmission.com>
 Subject: Re: [PATCH v2] kconfig: add hardened defconfig helpers
-Message-ID: <20180909191903.GA2344@ravnborg.org>
-References: <1536516257-30871-1-git-send-email-s.mesoraca16@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-ID: <20180909142741.3b87df76@lwn.net>
 In-Reply-To: <1536516257-30871-1-git-send-email-s.mesoraca16@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=kj9zAlcOel0A:10 a=HtJaMnaozw0hSPeDYtIA:9 a=CjuIK1q_8ugA:10
+References: <1536516257-30871-1-git-send-email-s.mesoraca16@gmail.com>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Salvatore.
+On Sun,  9 Sep 2018 20:04:17 +0200
+Salvatore Mesoraca <s.mesoraca16@gmail.com> wrote:
 
-On Sun, Sep 09, 2018 at 08:04:17PM +0200, Salvatore Mesoraca wrote:
-> Adds 4 new defconfig helpers (hardenedlowconfig, hardenedmediumconfig,
-> hardenedhighconfig, hardenedextremeconfig) to enable various hardening
-> features.
-> The list of config options to enable is based on KSPP's Recommended
-> Settings and on kconfig-hardened-check, with some modifications.
-> These options are divided into 4 levels (low, medium, high, extreme)
-> based on their negative side effects, not on their usefulness.
-> 'Low' level collects all those protections that have (almost) no
-> negative side effects.
-> 'Extreme' level collects those protections that may have so many
-> negative side effects that most people wouldn't want to enable them.
-> Every feature in each level is briefly documented in
-> Documentation/security/hardenedconfig.rst, this file also contain a
-> better explanation of what every level means.
-> To prevent this file from drifting from what the various defconfigs
-> actually do, it is used to dynamically generate the config fragments.
+> +===============================
+> +Hardening Configuration Options
+> +===============================
+> +
+> +This is a list of configuration options that are useful for hardening purposes.
+> +These options are divided in 4 levels based on the magnitude of their negative
+> +side effects, not on their importance or usefulness:
+> +
+> +	- **Low**: Negligible performance impact. No user-space breakage.
+> +	- **Medium**: Some performance impact and/or user-space breakage for
+> +	  few users.
+> +	- **High**: Notable performance impact and/or user-space breakage for
+> +	  many users.
+> +	- **Extreme**: Big performance impact and/or user-space breakage for
+> +	  most users.
+> +
+> +In other words: **Low** level contains protections that *everybody* can and
+> +should use; **Medium** level should be usable by *most people* without issues;
+> +**High** level may cause *some trouble*, especially from a *performance*
+> +perspective; **Extreme** level contains protections that *few people* may want
+> +to enable, some people will probably *cherry-pick* some options from here based
+> +on their needs.
+> +
+> +For further details about which option is included in each level, please read
+> +the description below, for more information on any particular option refer to
+> +their help page.
+> +
+> +The content of this list is automatically translated into *config fragments*
+> +that can be used to apply the suggested hardening options to your current
+> +configuration.
+> +To use them you just need to run ``make hardened$LEVELconfig`` (e.g.
+> +``make hardenedhighconfig``).
 
-In the above you nicely describes what is done.
-But there is nothing about the target group for this feature.
-Who will benefit from this?
+Some overall thoughts:
 
-With respect to the actual implmentation we now
-have two ways to handle config fragments.
-Current solution is to save the config fragments in kernel/configs.
-And the new solution is to parse the config fragments from an rst file.
-The changelog fails to mentions why we need a new way to handle
-the config fragments.
+- As Sam asked: who are the users of this feature?  Presumably you have
+  some real people out there in mind for each of these levels, or you would
+  not have created them?
 
-If we want to go the "parse from rst file" way - can it then
-be abstracted in a way so this is the only way to handle
-these in-kernel config fragments?
-And then move the current config fragment to the new way.
+- Who will maintain it?  The list of hardening-relevant configuration
+  options is always in high flux, as our understanding of the security
+  implications of each.  This feature will require some significant ongoing
+  attention or it will quickly become stale.  I think it needs a
+  MAINTAINERS entry.
 
-It most be possible with a little careful design to make this
-a general solution and not a hardening thing only.
+- It's a little strange to see an RST document used as the input for the
+  kernel configuration process.  Assuming this is really the best way to do
+  this (and I worry about things like duplicated descriptions of kernel
+  configuration options), you should, at a minimum, carefully document the
+  format of this file at the beginning.  Otherwise people will surely break
+  it.  In fact, they'll break it anyway, so more checking in the processing
+  script seems indicated.
 
-	Sam
+  Without having thought it through in great depth, I suspect that a better
+  approach might be to find a way to mark the hardening level in the
+  Kconfig entries.
+
+- You have ordered the options alphabetically, but that is, I would argue,
+  not the best way.  My guess is that people would read this file to answer
+  the question of "just how many bullets will hardening level H put into my
+  foot?"  So I would sort them by hardening level as the primary key.
+
+Thanks,
+
+jon
