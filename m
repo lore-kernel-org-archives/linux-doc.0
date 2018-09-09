@@ -6,54 +6,54 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D1EFC7DE7D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Sep 2018 21:25:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 18AFA7D584
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Sep 2018 08:02:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728089AbeIICMj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 8 Sep 2018 22:12:39 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42168 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727639AbeIICMi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Sep 2018 22:12:38 -0400
-Received: by mail-wr1-f65.google.com with SMTP id v17-v6so18096793wrr.9;
-        Sat, 08 Sep 2018 14:25:28 -0700 (PDT)
+        id S1726590AbeIIMux (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Sep 2018 08:50:53 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:43822 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726041AbeIIMux (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Sep 2018 08:50:53 -0400
+Received: by mail-wr1-f67.google.com with SMTP id k5-v6so18697561wre.10;
+        Sun, 09 Sep 2018 01:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=T5AM0lKpRA4nSd7QBTrQNLR7gE7jGERVXErV6YZkeSE=;
-        b=gMOnQEM1BbB/38PkXlmKXunDGZtgen0DiYEDZfC7jwZzMc//YjTRaStJ4oC/D6QYoX
-         IOt4/rdofucbKHE8j5f+zGA5Es98mGQFs+k8+qXlO6Tncnik1eElKeq8tGpiGtFuZMe+
-         yxAWCZj5Mm6A3Pdr00Y/zko/tf280fhDSFy72Thy9LX2eqiNvdYELithIr1zaleCqac5
-         znVdWB2OI3ZBrm+20lwQTED9kynbpN1/lrq7y2Prdo25WdTQEohDd9uQTnNC8UoeJZfk
-         i36qpIV9Qs3OXfnD4dvuujVqFkbmRppRMtn4Tvpenh045rqshYyTiUCVTvriguwjb1TU
-         i2IQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jDGlzm2jPs1aAcPeol3KAmuPuPOupgwwIlOtgvzbT7Y=;
+        b=Lo4OCL8rtZLkMoRPAnf7Y3xdghpdpzRnVk5ti1mAh/VwIc8x97LZH6E9JLSlgmRJF6
+         jhj052NTXyPret9ZkbHVk10m3VP/D4tfJnYK43hy72mq8a8vr/xNGwN6Igb0bB2b0wxn
+         hIm5LTt95cA/XBEIw6otXMfkDNgPnLw205VAMRDEL1S8TyJMLusmsUJmGd5q90CxYNWa
+         6lWvxGdbLFbGDvmfQDl8A2aBXtPhRi3Xg0ciNveOJ3HOW5LRXN3kjT38LRs+M2+z7Eie
+         HkOhVotGmcN3w5iLnQiQJ2utwu+I+Rn9x/1eaVd5E/UQGUPZAFeqj61CCnpbRDAtkC/U
+         DKIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=T5AM0lKpRA4nSd7QBTrQNLR7gE7jGERVXErV6YZkeSE=;
-        b=QAjkMsC8SPyqg0Krc5EMXKBc01+DeAIsGtCK8wZP9TUFLyYxDFC3BQmwRN3I337x3g
-         zjICu3691ezuHfnZgarwyHqyXWzsuOhgfgvqlcAI7R20pdDlS9PxycxkaMWf2lBJItiM
-         5aoYTkA9qk2PGe3Iev/o1ECnU42a9SkCqB67PEEhpfJV7NueAiLbHWTdWn4AdqTzcTNY
-         IbiGawhe5IhPyGr9Z35/HpiJ1AszNV5l+oc2GIBMNp/Vj11tHjHmEQMY5Parc2Iwzr3y
-         DhJ4CSmwG1WbWQudxj/EX/BCJmdJTN99QDhkdgggNAvHWQqdiUL3175pzfKpv1KthmrK
-         eefQ==
-X-Gm-Message-State: APzg51CmnNcACDrI8vy+Ksh8utEBydynyf8xAfgfjhEIgr1YZXBeqIzS
-        keQj8JsAE0bIJNQQ+BiXZ1Y=
-X-Google-Smtp-Source: ANB0Vdbg4v1i84w/gZWVoB0R8lRp8yE3QK7vN9aYkiUrKcFuGTptu88oMurN2tyd5lqzwx8nC06ILg==
-X-Received: by 2002:a05:6000:10d0:: with SMTP id b16mr10326996wrx.226.1536441927948;
-        Sat, 08 Sep 2018 14:25:27 -0700 (PDT)
-Received: from localhost.localdomain (62.83.35.8.dyn.user.ono.com. [62.83.35.8])
-        by smtp.gmail.com with ESMTPSA id u40-v6sm17340786wrc.43.2018.09.08.14.25.26
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jDGlzm2jPs1aAcPeol3KAmuPuPOupgwwIlOtgvzbT7Y=;
+        b=lgNpMpjYFRALJ6mxxSYG1y+VK6G/dyLqqftEy0YCN2kGB/k+0fmGIhhWSC+cpJfIYA
+         Sp43awvUcfvoeemJkG5YcIMnwYNiWPi3MucD58qQZUBx1zHiF3xUeWFHcXvHfS/BNkLp
+         ZiiUTxxMpqv7e3BJS3EYBTlYl/ETjNsNfFJclHbFYzsKuowq2qyG/7o5BEEW9Lvf+NbE
+         ed18tkWbuI++ajZ59E7q9eXBBcKMsp/9mnEe8m10/qOVq3TWV/uZqUbbm6PFOwCrocdh
+         fqRZW6HDWChZXmy7Ya8rf5XNp2/cSQrciUX3MYUEZMCENFPlG5UdUNyd4xLaqcYFOGc9
+         1OdQ==
+X-Gm-Message-State: APzg51Cj8Hc4H36+wtf6twqRR2FFT6nq3xH9hdK53Qmjh6BMRo3JrD0u
+        RcJt4lbsIVjT+0FtNj9Lcds=
+X-Google-Smtp-Source: ANB0VdYERSgT1PkgxoG46SCG9P0SotK6brlUmrwGP251POmAuROkBHX7NAwnXCKeW0QHqtj2mMslSA==
+X-Received: by 2002:adf:eb0d:: with SMTP id s13-v6mr10999058wrn.174.1536480123545;
+        Sun, 09 Sep 2018 01:02:03 -0700 (PDT)
+Received: from ltop.local ([2a02:a03f:4006:df00:469:6049:d9c:1c28])
+        by smtp.gmail.com with ESMTPSA id j20-v6sm8924583wmh.9.2018.09.09.01.02.02
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 08 Sep 2018 14:25:27 -0700 (PDT)
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Sun, 09 Sep 2018 01:02:02 -0700 (PDT)
+Date:   Sun, 9 Sep 2018 10:02:01 +0200
+From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Eli Friedman <efriedma@codeaurora.org>,
         Christopher Li <sparse@chrisli.org>,
         Kees Cook <keescook@chromium.org>,
@@ -66,103 +66,52 @@ Cc:     linux-kernel@vger.kernel.org,
         Dominique Martinet <asmadeus@codewreck.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-sparse@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v4 12/13] Compiler Attributes: add Doc/process/programming-language.rst
-Date:   Sat,  8 Sep 2018 23:24:58 +0200
-Message-Id: <20180908212459.19736-13-miguel.ojeda.sandonis@gmail.com>
-In-Reply-To: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
+Subject: Re: [PATCH v4 00/13] Compiler Attributes
+Message-ID: <20180909080200.xn7z4gctf2vrqzst@ltop.local>
 References: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
+User-Agent: NeoMutt/20180622
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc: Eli Friedman <efriedma@codeaurora.org>
-Cc: Christopher Li <sparse@chrisli.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Joe Perches <joe@perches.com>
-Cc: Dominique Martinet <asmadeus@codewreck.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-sparse@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
----
- Documentation/process/index.rst               |  1 +
- .../process/programming-language.rst          | 45 +++++++++++++++++++
- 2 files changed, 46 insertions(+)
- create mode 100644 Documentation/process/programming-language.rst
+On Sat, Sep 08, 2018 at 11:24:46PM +0200, Miguel Ojeda wrote:
+> The Compiler Attributes series is an effort to disentangle
+> the include/linux/compiler*.h headers and bring them up to date.
+> 
+> The main idea behind the series is to use feature checking macros
+> (i.e. __has_attribute) instead of compiler version checks (e.g. GCC_VERSION),
+> which are compiler-agnostic (so they can be shared, reducing the size
+> of compiler-specific headers) and version-agnostic.
+> 
+> Other related improvements have been performed in the headers as well,
+> which on top of the use of __has_attribute it has amounted to a significant
+> simplification of these headers (e.g. GCC_VERSION is now only guarding 4
+> non-attribute macros).
+> 
+> This series should also help the efforts to support compiling the kernel
+> with clang and icc. A fair amount of documentation and comments have also
+> been added, clarified or removed; and the headers are now more readable,
+> which should help kernel developers in general.
+> 
+> The series was triggered due to the move to gcc >= 4.6. In turn, this series
+> has also triggered Sparse to gain the ability to recognize __has_attribute
+> on its own.
+> 
+> You can also fetch it from:
+> 
+>   https://github.com/ojeda/linux/tree/compiler-attributes-v4
+> 
+> Enjoy!
 
-diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
-index 37bd0628b6ee..c56f24a22d2a 100644
---- a/Documentation/process/index.rst
-+++ b/Documentation/process/index.rst
-@@ -23,6 +23,7 @@ Below are the essential guides that every developer should read.
-    code-of-conflict
-    development-process
-    submitting-patches
-+   programming-language
-    coding-style
-    maintainer-pgp-guide
-    email-clients
-diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
-new file mode 100644
-index 000000000000..e5f5f065dc24
---- /dev/null
-+++ b/Documentation/process/programming-language.rst
-@@ -0,0 +1,45 @@
-+.. _programming_language:
-+
-+Programming Language
-+====================
-+
-+The kernel is written in the C programming language [c-language]_.
-+More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
-+under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
-+(including some C99 features).
-+
-+This dialect contains many extensions to the language [gnu-extensions]_,
-+and many of them are used within the kernel as a matter of course.
-+
-+There is some support for compiling the kernel with ``clang`` [clang]_
-+and ``icc`` [icc]_ for several of the architectures, although at the time
-+of writing it is not completed, requiring third-party patches.
-+
-+Attributes
-+----------
-+
-+One of the common extensions used throughout the kernel are attributes
-+[gcc-attribute-syntax]_. Attributes allow to introduce
-+implementation-defined semantics to language entities (like variables,
-+functions or types) without having to make significant syntactic changes
-+to the language (e.g. adding a new keyword) [n2049]_.
-+
-+In some cases, attributes are optional (i.e. a compiler not supporting them
-+should still produce proper code, even if it is slower or does not perform
-+as many compile-time checks/diagnostics).
-+
-+The kernel defines pseudo-keywords (e.g. ``__pure``) instead of using
-+directly the GNU attribute syntax (e.g. ``__attribute__((__pure__))``)
-+in order to feature detect which ones can be used and/or to shorten the code.
-+
-+Please refer to ``include/linux/compiler_attributes.h`` for more information.
-+
-+.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-+.. [gcc] https://gcc.gnu.org
-+.. [clang] https://clang.llvm.org
-+.. [icc] https://software.intel.com/en-us/c-compilers
-+.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
-+.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
-+.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
-+.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-+
--- 
-2.17.1
+It's a nice and welcomed cleanup!
+Everything look good to me, so feel free to add my
+    Reviewed-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 
+
+Cheers,
+-- Luc
