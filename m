@@ -6,96 +6,114 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 421667D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Sep 2018 13:55:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B1FE27D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Sep 2018 15:21:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727034AbeIISpJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Sep 2018 14:45:09 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:41739 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727008AbeIISpJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Sep 2018 14:45:09 -0400
-Received: by mail-pf1-f195.google.com with SMTP id h79-v6so9149605pfk.8;
-        Sun, 09 Sep 2018 06:55:23 -0700 (PDT)
+        id S1727625AbeIIUL0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Sep 2018 16:11:26 -0400
+Received: from mail-qt0-f195.google.com ([209.85.216.195]:41579 "EHLO
+        mail-qt0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727599AbeIIULZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Sep 2018 16:11:25 -0400
+Received: by mail-qt0-f195.google.com with SMTP id t39-v6so21437459qtc.8;
+        Sun, 09 Sep 2018 08:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2GcLjICpawdKjLsfLPHlHovMjN9S8wKtiVa3vm/KPbo=;
-        b=QkfDTMA0cZuzKTVNZjzoyhQJto1Vvmhh4CzivAqJVA4TrggsnP2UrWE4pkYpC9srfR
-         WKwvm3CGRxNn0p4paCpB6UHgvYCCDA1/o03J+kfO2D+cTD5+mWgYud8hHBSa8POQYYUz
-         viK2IbZagCwFzCdLnTj7IB0+EKGX0j4HeI3pQHXgOe3bGWHVEUkUzSnbAAjhrSCz3w3F
-         fgygBOAZ3fV1n4qKpBqp/RjrdTyKGLYGxX9Kc1U86mwiIu0nEqBmBBFtfoRwyfo3XoqE
-         B8cXCdkYuDAJ+DZY9hlA0T5M94Mce3IXpWa/4VxWkcEm8jPBUrklR+Fa/3fKfpO0nOqn
-         eykw==
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=+ImkJJcmZ+hi5BqYJfS7rFbonGiaWl+xRoz/DkdYVCc=;
+        b=tqlb7vZQYBYkK6r5MQoUhjowbS8uWN02otOfzi8bMpH2KXirJzr+Un2o2WpbtnmiE4
+         SIzHswWCxlJJgFewvfdMk3ztavCXhYgUJyKgcFpWsD/UPw3SorjP8OHbjerY3xYQP7cq
+         SVhWd/+EI7cPCDueQeljpAhu5X7pxT9DrIXEikCGRcN/nCanFsf4u2nb8UsYmrUaR9xI
+         wxOENNrB5C+7cUpBGbtiuLabiA5/SfGQNSCxBLoby6hUSP/UWfiZN/wIKMzE8YGSwn9H
+         ST7eqPahiktzdV+Xd9GNdeEjf6BGlzRG/vI9zgJMbQ83J0IZJ9FKb1kNz6/9Iu4+CMKd
+         K4rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2GcLjICpawdKjLsfLPHlHovMjN9S8wKtiVa3vm/KPbo=;
-        b=J4QEoJqIGgTVF0SjU5ToOOIacmRnMZXakC53U6yOhPMD8/NniD5GjXiSsbPxOwP+ra
-         +ICwzX1PESnPR9770lpKbZ6+HNK5TLO4QHWO8cZPlC/6WVbu/xGVg5aS/+YNuyGpHrVS
-         8CR1AIpeCogh4U11BgPZfWJMjFX3kx1CnX8ruCu9hHy52NLU2yXq7EaMBuiX3yFYSEGi
-         XxVzVGbCI9vevuEry5AntkCU+OteG0/f2ZZewW1IS7IFQylRi5Te7CUJ2NXlEJNv7Otv
-         jIzYUE/T+KigOFwFRH/CnTayzY3J1vgPnUQjdFY3UjKcdvUcVUi2adL6tSfM+8ws6+OR
-         ZjVg==
-X-Gm-Message-State: APzg51B5Hc3wA2vGrYy58ouWDI7Px0bzqfx5OSQ6yIsoblucPmB4R2IQ
-        Wr7ZT0L2JAGB0y9vH42z958=
-X-Google-Smtp-Source: ANB0Vdbw5XEujuQ+HwIA/a34pvMYDzkxyced1GcpT2IPGN8uou6I1fB+fYiVAhxIQqXa1uKa7d51bw==
-X-Received: by 2002:a63:be4a:: with SMTP id g10-v6mr17889541pgo.378.1536501322881;
-        Sun, 09 Sep 2018 06:55:22 -0700 (PDT)
-Received: from masabert (i118-21-156-233.s30.a048.ap.plala.or.jp. [118.21.156.233])
-        by smtp.gmail.com with ESMTPSA id y85-v6sm20633820pfa.170.2018.09.09.06.55.21
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 09 Sep 2018 06:55:21 -0700 (PDT)
-Received: by masabert (Postfix, from userid 1000)
-        id 8BFF9200700; Sun,  9 Sep 2018 22:55:19 +0900 (JST)
-From:   Masanari Iida <standby24x7@gmail.com>
-To:     davem@davemloft.net, linux-kernel@vger.kernel.org,
-        sgruszka@redhat.com, johannes.berg@intel.com,
-        netdev@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-Cc:     Masanari Iida <standby24x7@gmail.com>
-Subject: [PATCH] linux-next :cfg80211: Fix warnings while make xmldocs
-Date:   Sun,  9 Sep 2018 22:55:18 +0900
-Message-Id: <20180909135518.29527-1-standby24x7@gmail.com>
-X-Mailer: git-send-email 2.19.0.rc2
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=+ImkJJcmZ+hi5BqYJfS7rFbonGiaWl+xRoz/DkdYVCc=;
+        b=Thj2UQyceIYy51m1QGCVkC1LJUNUpz5PeQcoRSzP1q/7ighxQ+cJmNmxrhik1zysDO
+         f/xT567HvUdGRevgRGxcSRE2q3SITxObSzXzRNHBLAD2jyPgVYyvCu3O4t4KqvRAnGNJ
+         XSIrJ84KpCnGJ9O1UrYCGsTCRqx5ro26vDTklpD6Bhp/MC5+r50vo6FuYI3SnsTW26BK
+         aKrormgI82GRpEWZgj+XmiVHKffGD90zhSr0LBEC6lYEyObt/74CLa0YJbP8feaqtDJy
+         u3PxRjkrK3xudueISkfn9VvTIzNzJu0vqH8FjZb3vbmg6CU47HGY6+BWiEq/elJdT6Dt
+         eXGg==
+X-Gm-Message-State: APzg51C4o1/DlqAr1OJEvyFpi3PiblO7+vrAoJvVrvJtPQ6d3Oe/C4XH
+        2P/Yvd/QCxpM8BUXsi5BsC8MR4vqzqSNfYBklpk=
+X-Google-Smtp-Source: ANB0VdYa+KasX3XnZ8gJ5NBqMpcFQNDkFr1lPlSqw3iv5fR+0XYe0t3z7YePD6nzxalU60jk11UE5Gqfv8ZF0wQ7ERE=
+X-Received: by 2002:a0c:abca:: with SMTP id k10-v6mr11630107qvb.140.1536506484820;
+ Sun, 09 Sep 2018 08:21:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:ac8:7494:0:0:0:0:0 with HTTP; Sun, 9 Sep 2018 08:21:04 -0700 (PDT)
+In-Reply-To: <20180909080200.xn7z4gctf2vrqzst@ltop.local>
+References: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com> <20180909080200.xn7z4gctf2vrqzst@ltop.local>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sun, 9 Sep 2018 17:21:04 +0200
+Message-ID: <CANiq72kSvH-QgY7rf5VWt+NnmxX8E6h6dt2LEyz_xGO8cZ835Q@mail.gmail.com>
+Subject: Re: [PATCH v4 00/13] Compiler Attributes
+To:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Eli Friedman <efriedma@codeaurora.org>,
+        Christopher Li <sparse@chrisli.org>,
+        Kees Cook <keescook@chromium.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Joe Perches <joe@perches.com>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-sparse@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-During 4.19-rc1 merger period, 38cb87ee47fb8 was merged.
-In the patch, one of an argument "*ptr" was removed from
-the function. But in the comment of the function "@ptr"
-still exist. Which causes 109 lines of following warning
-during "make xmldocs"
+Hi Luc,
 
-./include/net/cfg80211.h:4869: warning: Excess function
- parameter 'ptr' description in 'reg_query_regdb_wmm'
+On Sun, Sep 9, 2018 at 10:02 AM, Luc Van Oostenryck
+<luc.vanoostenryck@gmail.com> wrote:
+> On Sat, Sep 08, 2018 at 11:24:46PM +0200, Miguel Ojeda wrote:
+>> The Compiler Attributes series is an effort to disentangle
+>> the include/linux/compiler*.h headers and bring them up to date.
+>>
+>> The main idea behind the series is to use feature checking macros
+>> (i.e. __has_attribute) instead of compiler version checks (e.g. GCC_VERSION),
+>> which are compiler-agnostic (so they can be shared, reducing the size
+>> of compiler-specific headers) and version-agnostic.
+>>
+>> Other related improvements have been performed in the headers as well,
+>> which on top of the use of __has_attribute it has amounted to a significant
+>> simplification of these headers (e.g. GCC_VERSION is now only guarding 4
+>> non-attribute macros).
+>>
+>> This series should also help the efforts to support compiling the kernel
+>> with clang and icc. A fair amount of documentation and comments have also
+>> been added, clarified or removed; and the headers are now more readable,
+>> which should help kernel developers in general.
+>>
+>> The series was triggered due to the move to gcc >= 4.6. In turn, this series
+>> has also triggered Sparse to gain the ability to recognize __has_attribute
+>> on its own.
+>>
+>> You can also fetch it from:
+>>
+>>   https://github.com/ojeda/linux/tree/compiler-attributes-v4
+>>
+>> Enjoy!
+>
+> It's a nice and welcomed cleanup!
+> Everything look good to me, so feel free to add my
+>     Reviewed-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 
-After apply this patch and make xmldocs does not show
-this message any more.
+Thanks a lot for the review! :-)
 
-Signed-off-by: Masanari Iida <standby24x7@gmail.com>
----
- include/net/cfg80211.h | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/include/net/cfg80211.h b/include/net/cfg80211.h
-index 8ebabc9873d1..4de121e24ce5 100644
---- a/include/net/cfg80211.h
-+++ b/include/net/cfg80211.h
-@@ -4852,8 +4852,6 @@ const char *reg_initiator_name(enum nl80211_reg_initiator initiator);
-  *
-  * @alpha2: the ISO/IEC 3166 alpha2 wmm rule to be queried.
-  * @freq: the freqency(in MHz) to be queried.
-- * @ptr: pointer where the regdb wmm data is to be stored (or %NULL if
-- *	irrelevant). This can be used later for deduplication.
-  * @rule: pointer to store the wmm rule from the regulatory db.
-  *
-  * Self-managed wireless drivers can use this function to  query
--- 
-2.19.0.rc2
-
+Cheers,
+Miguel
