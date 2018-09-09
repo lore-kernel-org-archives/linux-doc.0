@@ -6,57 +6,58 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B1FE27D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Sep 2018 15:21:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9FB1B7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Sep 2018 16:52:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727625AbeIIUL0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Sep 2018 16:11:26 -0400
-Received: from mail-qt0-f195.google.com ([209.85.216.195]:41579 "EHLO
-        mail-qt0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727599AbeIIULZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Sep 2018 16:11:25 -0400
-Received: by mail-qt0-f195.google.com with SMTP id t39-v6so21437459qtc.8;
-        Sun, 09 Sep 2018 08:21:25 -0700 (PDT)
+        id S1726667AbeIIVms (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Sep 2018 17:42:48 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:40599 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726654AbeIIVms (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Sep 2018 17:42:48 -0400
+Received: by mail-qk1-f194.google.com with SMTP id c126-v6so12864551qkd.7;
+        Sun, 09 Sep 2018 09:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=+ImkJJcmZ+hi5BqYJfS7rFbonGiaWl+xRoz/DkdYVCc=;
-        b=tqlb7vZQYBYkK6r5MQoUhjowbS8uWN02otOfzi8bMpH2KXirJzr+Un2o2WpbtnmiE4
-         SIzHswWCxlJJgFewvfdMk3ztavCXhYgUJyKgcFpWsD/UPw3SorjP8OHbjerY3xYQP7cq
-         SVhWd/+EI7cPCDueQeljpAhu5X7pxT9DrIXEikCGRcN/nCanFsf4u2nb8UsYmrUaR9xI
-         wxOENNrB5C+7cUpBGbtiuLabiA5/SfGQNSCxBLoby6hUSP/UWfiZN/wIKMzE8YGSwn9H
-         ST7eqPahiktzdV+Xd9GNdeEjf6BGlzRG/vI9zgJMbQ83J0IZJ9FKb1kNz6/9Iu4+CMKd
-         K4rw==
+        bh=T8LzPJhmcf5KV53qGoszAMU+i/P3qLvCOxapSpBB+BI=;
+        b=K7ECnImOuCYEzfi/4IG7Vs9ucUBFDXOSZavq5L7UL/7iAvfRHugJCjqGcTxAIm7JiN
+         joOgKgbRBEg5SycVgKSmJm961xrtbX5EIBtWgdcUAMY3BY58IS54vQfASEpFcIy+j/us
+         gMLRrHe2mtVuhrTOmrB1lmwNd3PGtPTgR4v0egQHrZYDECE0DqxM1ft6JfbuvpTr5iYZ
+         RI387OAO7s2oPllAX3gyZz7u8NyW0KBzaSg5ZYmVOQmm26hDTeVzwd01p0+FbvzuEIjV
+         EtwPd3ir3OdIIViorBTcoojg6XIpPIPCnb/WrxvUmIoF78D7g6W4hR9uHcr1akPtGlFH
+         awxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=+ImkJJcmZ+hi5BqYJfS7rFbonGiaWl+xRoz/DkdYVCc=;
-        b=Thj2UQyceIYy51m1QGCVkC1LJUNUpz5PeQcoRSzP1q/7ighxQ+cJmNmxrhik1zysDO
-         f/xT567HvUdGRevgRGxcSRE2q3SITxObSzXzRNHBLAD2jyPgVYyvCu3O4t4KqvRAnGNJ
-         XSIrJ84KpCnGJ9O1UrYCGsTCRqx5ro26vDTklpD6Bhp/MC5+r50vo6FuYI3SnsTW26BK
-         aKrormgI82GRpEWZgj+XmiVHKffGD90zhSr0LBEC6lYEyObt/74CLa0YJbP8feaqtDJy
-         u3PxRjkrK3xudueISkfn9VvTIzNzJu0vqH8FjZb3vbmg6CU47HGY6+BWiEq/elJdT6Dt
-         eXGg==
-X-Gm-Message-State: APzg51C4o1/DlqAr1OJEvyFpi3PiblO7+vrAoJvVrvJtPQ6d3Oe/C4XH
-        2P/Yvd/QCxpM8BUXsi5BsC8MR4vqzqSNfYBklpk=
-X-Google-Smtp-Source: ANB0VdYa+KasX3XnZ8gJ5NBqMpcFQNDkFr1lPlSqw3iv5fR+0XYe0t3z7YePD6nzxalU60jk11UE5Gqfv8ZF0wQ7ERE=
-X-Received: by 2002:a0c:abca:: with SMTP id k10-v6mr11630107qvb.140.1536506484820;
- Sun, 09 Sep 2018 08:21:24 -0700 (PDT)
+        bh=T8LzPJhmcf5KV53qGoszAMU+i/P3qLvCOxapSpBB+BI=;
+        b=HAGuYepPW5G3ghtzrfy6E143yrNc8msF+xHKNtDQ5Zg/KAELnvVcXLHrv7LChmmfTh
+         jyrX2dP6lsXGFqFNUjcJQek5fmC4SFGi0euLqfXBXyVt4BQXNEjFW3Ndt6F41nJkBS/G
+         RSjs6JjzpPsbSByL6qjd6zG76zkJR9l9eONWOsU/Dsku5DnKlbKwmAUuBzpw/ry79aN7
+         c6dDcrR7L2yNboB3JECULyt0mUm5oMXpo3k3jF4jNzZlAXjI6dd1DiRBhrxHFq6VgFaq
+         62y4X5v5/950LfLPMeIW+PDqHHxkSxD22GwZuN2MhG/KFbN9SPZM+OjLI5z7O3RfNDQh
+         tC0Q==
+X-Gm-Message-State: APzg51DDRj0XCGj9QNfCrx5icnNeL33++epzS6AHm8PmXC1pw8H8VnOc
+        u+u7Ke9cV1E8YmVOoD1AGWrNRAqD89RvfJs6kyw=
+X-Google-Smtp-Source: ANB0VdY0yrQ/SaPLgPz/VqH/k07WPOzxFvP1u00oP7RYL9arpcKPE+i2kbRIUuLnGKw0dI0TqHtLuj3RGV6ERZLzoJg=
+X-Received: by 2002:a37:6888:: with SMTP id d130-v6mr12406247qkc.192.1536511952913;
+ Sun, 09 Sep 2018 09:52:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac8:7494:0:0:0:0:0 with HTTP; Sun, 9 Sep 2018 08:21:04 -0700 (PDT)
-In-Reply-To: <20180909080200.xn7z4gctf2vrqzst@ltop.local>
-References: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com> <20180909080200.xn7z4gctf2vrqzst@ltop.local>
+Received: by 2002:ac8:7494:0:0:0:0:0 with HTTP; Sun, 9 Sep 2018 09:52:12 -0700 (PDT)
+In-Reply-To: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
+References: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 9 Sep 2018 17:21:04 +0200
-Message-ID: <CANiq72kSvH-QgY7rf5VWt+NnmxX8E6h6dt2LEyz_xGO8cZ835Q@mail.gmail.com>
+Date:   Sun, 9 Sep 2018 18:52:12 +0200
+Message-ID: <CANiq72k5GYk8x37mbWQQCLNyP82YcyzYOVunvL_2OO8ycqVTeg@mail.gmail.com>
 Subject: Re: [PATCH v4 00/13] Compiler Attributes
-To:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Eli Friedman <efriedma@codeaurora.org>,
         Christopher Li <sparse@chrisli.org>,
         Kees Cook <keescook@chromium.org>,
@@ -76,44 +77,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Luc,
+Hi all,
 
-On Sun, Sep 9, 2018 at 10:02 AM, Luc Van Oostenryck
-<luc.vanoostenryck@gmail.com> wrote:
-> On Sat, Sep 08, 2018 at 11:24:46PM +0200, Miguel Ojeda wrote:
->> The Compiler Attributes series is an effort to disentangle
->> the include/linux/compiler*.h headers and bring them up to date.
->>
->> The main idea behind the series is to use feature checking macros
->> (i.e. __has_attribute) instead of compiler version checks (e.g. GCC_VERSION),
->> which are compiler-agnostic (so they can be shared, reducing the size
->> of compiler-specific headers) and version-agnostic.
->>
->> Other related improvements have been performed in the headers as well,
->> which on top of the use of __has_attribute it has amounted to a significant
->> simplification of these headers (e.g. GCC_VERSION is now only guarding 4
->> non-attribute macros).
->>
->> This series should also help the efforts to support compiling the kernel
->> with clang and icc. A fair amount of documentation and comments have also
->> been added, clarified or removed; and the headers are now more readable,
->> which should help kernel developers in general.
->>
->> The series was triggered due to the move to gcc >= 4.6. In turn, this series
->> has also triggered Sparse to gain the ability to recognize __has_attribute
->> on its own.
->>
->> You can also fetch it from:
->>
->>   https://github.com/ojeda/linux/tree/compiler-attributes-v4
->>
->> Enjoy!
+On Sat, Sep 8, 2018 at 11:24 PM, Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> It's a nice and welcomed cleanup!
-> Everything look good to me, so feel free to add my
->     Reviewed-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+> You can also fetch it from:
+>
+>   https://github.com/ojeda/linux/tree/compiler-attributes-v4
 
-Thanks a lot for the review! :-)
+In case it helps, I have also rebased it onto next-20180907 at:
+
+  https://github.com/ojeda/linux/tree/compiler-attributes-for-next
+
+The only conflict was the removal of __aligned_largest in f3569fd613f6
+("crypto: shash - Remove VLA usage in unaligned hashing").
+
+(Luc's Reviewed-by is not included in that version)
 
 Cheers,
 Miguel
