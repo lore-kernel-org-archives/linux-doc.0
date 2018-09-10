@@ -1,61 +1,52 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_MED autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6ADAA7E3B0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 11:31:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB64E7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 11:47:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728478AbeIJQZQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Sep 2018 12:25:16 -0400
-Received: from mail-it0-f67.google.com ([209.85.214.67]:51647 "EHLO
-        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728190AbeIJQZP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 12:25:15 -0400
-Received: by mail-it0-f67.google.com with SMTP id e14-v6so28998785itf.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 04:31:38 -0700 (PDT)
+        id S1727871AbeIJQlE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Sep 2018 12:41:04 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:35846 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728015AbeIJQlE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 12:41:04 -0400
+Received: by mail-wm0-f68.google.com with SMTP id j192-v6so21164783wmj.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 04:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=5hzN2CbjlcVlmmDcho0jfhM4nc92z2Fa+lWUPpwRG0k=;
-        b=vAVw7K5/5aT19KgdSr1/5HleIJjSuXgeZuJkktYHDtFcwmexkUIEKmmukG6/H8RHrS
-         J86Fs8FHQJ6TkX4JXU99c0ptfpJrmuVPZlynwUuZkJuiAZm1fF1LEV/luiV9ZnMA6Bvh
-         PevMjKt361h77FWp6nmMhHVDlvU5SJxBcuDYzOro0nBAIT0vBRQLHaF4xfCn5PArsTNs
-         UhPng3qgHehzRBB02q1RGaPYvpaUL7YZJPdeDR4JBMkHzBicwsFrIJkqfw0w1We+6YgM
-         Bwc4HWGMOQL+m4jfzIsah/vaWiwcxQRIkl8pUyUfB2IvL7RyCuONtAyUMUBDMuXkce7p
-         jaIA==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ufAeW7MJCA82j6pshyChnwN4mX04NpJZKrfx1K2xeZs=;
+        b=NgJbQSyPDwM+9BVK/GWkCtGd4GmiI7GOA6IpAM9LGkemHijGv2RdM8Pj3hMRvC3/bP
+         vHLujbxv10bP5r+1r2APEHve71S4mjg5lauMKRuF9Pz5gL+0LnzMN03Rqr847IvzQzYT
+         tO+1Fx/j21GoR5diT8R+icMZMyyMuFnIJhZVI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=5hzN2CbjlcVlmmDcho0jfhM4nc92z2Fa+lWUPpwRG0k=;
-        b=XyKbJPKXu5t8QpG+vHVzDesz6+L0haWFnjnTn0qY0J17HfPFQfukmUlKP+L9Ku7PW4
-         YvbE5XBKcHDAEt0orbLXilrQMAJORQcLcIDVNxtIkIoCFXKCE51Lfc0GMGWncSlncRsj
-         F7dai/la8kMJb1QwTzx9vptyidwqO0CU4pYRWvGhsTALIEkQnd/r3xbfoLMZiLX+MObI
-         /GngUShvCr5kUnNKmwhzvUPhGab3VhbTLCgcG4plqYCiSvr/xXmOl4nJLCDwl1xPLjM6
-         SQ4OLVW4YsW/D044vgEh9IyRXwxbve85QNzVOCrtpOTBcoi5zn66zCUblYqZAJIhTq8t
-         rDmw==
-X-Gm-Message-State: APzg51C3cuWUtqoM6kbCLbZNBwfCrEwzW9wxViMqZHENpyVNwI4LHH2K
-        FRl/Aa04DRYnk+CYEOhYRXKN9R0HHz2CPHlqNQmXHg==
-X-Google-Smtp-Source: ANB0VdZ1/c3cqIPl+LUiPtrSE7gf92ijrPSqv2xGkN2vEuKuKmNh3QzXPJ8NRXed06fLjjRxW2OiUhSpsheOk6QCjt8=
-X-Received: by 2002:a02:5f44:: with SMTP id r65-v6mr18151637jab.34.1536579097944;
- Mon, 10 Sep 2018 04:31:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a6b:1905:0:0:0:0:0 with HTTP; Mon, 10 Sep 2018 04:31:37
- -0700 (PDT)
-In-Reply-To: <3dbd65e5-c948-a784-0362-930fc41b840e@linaro.org>
-References: <20180907100750.14564-1-brgl@bgdev.pl> <20180907100750.14564-2-brgl@bgdev.pl>
- <c0b0c411-65f6-62f9-6d6d-2884e5a17250@linaro.org> <CAMRc=MfO01EQAfY4Uu3UwzzvhVOMF7_BpCOPVz2yVXqDgpb0AA@mail.gmail.com>
- <7e138142-8161-3646-4daf-619995baf395@linaro.org> <CAMRc=Mduu4CmLX5DFtJd8NSbzs5g65U9AmM=rbscit0JyQKVAQ@mail.gmail.com>
- <3dbd65e5-c948-a784-0362-930fc41b840e@linaro.org>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 10 Sep 2018 13:31:37 +0200
-Message-ID: <CAMRc=Mck=rAJ6jbm57ZecJWNvOYR5pjLy0JnyxFzA8kFvoK7Ew@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ufAeW7MJCA82j6pshyChnwN4mX04NpJZKrfx1K2xeZs=;
+        b=sehaVmQhC7F1718v9nivNjxGvZCfjTeD3QE5/PviRDaYAs/nCKuLJH8DFJfU82hrw8
+         J2p3kQ17GfsUpfMyKpkVkGhI3CX4nkc2TmwzbHn+jlkPalntZvgNabygZBv0BK1Nih+B
+         gYWIQwXQP13jf2GbRBxj7kYi3L8HQjEAahCuiBuX+g7tbvg3SADs6rhKvgCGZGZ2hCrO
+         x6byCT398joWulZ3fObfv8RkESlKVu33JpHYsGc/zTNh/5SsXwSoEn/a4DykmT5Icw2M
+         z/+N9kH+O68tVL3H93L5eUw/8gneTqTcluHRYj5omE9eMOeFLtGu4LPrWkvE+zSrzZvi
+         h/zg==
+X-Gm-Message-State: APzg51Aj0FlFliC46aeVyGhZ3YMY7XCWqsFCWIT/fFeNW3cPSTkycjHs
+        /sQLC53hlec2QxwwrtL4ZG8Rsw==
+X-Google-Smtp-Source: ANB0VdYZ9gV81M3Q6+G3dyNtbf/7ljgSPkpCsHyg0YrPUWFwf76dyPABy6Uod9vbJXzkE4j608HF7A==
+X-Received: by 2002:a1c:2dc8:: with SMTP id t191-v6mr448744wmt.94.1536580041574;
+        Mon, 10 Sep 2018 04:47:21 -0700 (PDT)
+Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
+        by smtp.googlemail.com with ESMTPSA id 184-v6sm29031685wmv.6.2018.09.10.04.47.20
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Sep 2018 04:47:21 -0700 (PDT)
 Subject: Re: [PATCH v2 01/16] nvmem: remove unused APIs
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     "David S . Miller" <davem@davemloft.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -72,55 +63,42 @@ Cc:     "David S . Miller" <davem@davemloft.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20180907100750.14564-1-brgl@bgdev.pl>
+ <20180907100750.14564-2-brgl@bgdev.pl>
+ <c0b0c411-65f6-62f9-6d6d-2884e5a17250@linaro.org>
+ <CAMRc=MfO01EQAfY4Uu3UwzzvhVOMF7_BpCOPVz2yVXqDgpb0AA@mail.gmail.com>
+ <7e138142-8161-3646-4daf-619995baf395@linaro.org>
+ <CAMRc=Mduu4CmLX5DFtJd8NSbzs5g65U9AmM=rbscit0JyQKVAQ@mail.gmail.com>
+ <3dbd65e5-c948-a784-0362-930fc41b840e@linaro.org>
+ <CAMRc=Mck=rAJ6jbm57ZecJWNvOYR5pjLy0JnyxFzA8kFvoK7Ew@mail.gmail.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <ec2ba4af-46cf-2025-1670-cbed366d0f15@linaro.org>
+Date:   Mon, 10 Sep 2018 12:47:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAMRc=Mck=rAJ6jbm57ZecJWNvOYR5pjLy0JnyxFzA8kFvoK7Ew@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-09-10 11:55 GMT+02:00 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>:
->
->
-> On 10/09/18 09:43, Bartosz Golaszewski wrote:
->>>>
->>>> this series. Later patches are MUCH cleaner thanks to this removal and
->>>> I believe it makes them easier for review.
->>>
->>> Am not sure about that, it definitely did not help me!
->>>
->> Why exactly? Aren't clean patches resulting from this removal easier
->> to read then if they'd also have to take into account the burden of
->> existing code that will be changes anyway later? I really don't see
->> why you insist on removing this.
->
->
-> Here are few reasons:
->
-> 1> TBH, This cleanup patch removes more than one feature from nvmem
-> subsystem.
-> Ex: it remove ability to add static cell from nvmem config, secondly it
-> removed ability to read/write cells directly using nvmem_cell_info.
->
 
-About that: there are no users of nvmem_device_cell_read/write()
-currently and with the new API I'm not sure this is still needed. Are
-you alright with removing those two?
 
-Bart
+On 10/09/18 12:31, Bartosz Golaszewski wrote:
+> About that: there are no users of nvmem_device_cell_read/write()
+> currently and with the new API I'm not sure this is still needed. Are
+> you alright with removing those two?
 
-> 2> If you do changes as part of each patch, it will be much traceable on
-> what is changed exactly and will allow much better review, and understand
-> the reasoning.
->
-> Having a clean start and writing code on top of it is alway nice, but we
-> will definitely miss things in review in this particular instance.
->
->
-> thanks,
-> srini
->
->>
->> Best regards,
->> Bart
->>
->
+Why do you want to remove them? Other than reason of no users.
+
+All it boils down to if we support device based apis using cell info or 
+not?
+IMO, I see no harm in leaving these apis as it is, unless there is a 
+strong reason to do so.
+
+thanks,
+srini
