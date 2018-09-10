@@ -1,208 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BEFFE7DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 17:19:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C173D7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 18:16:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729007AbeIJWMh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Sep 2018 18:12:37 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:35246 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726657AbeIJWMh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 18:12:37 -0400
-Received: by mail-pf1-f196.google.com with SMTP id p12-v6so10811961pfh.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 10:17:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yuOIQZv6WjRvAbKrrWHpsdnwVgADihJ1PU5uAuXb3BU=;
-        b=FW95iO2qZ3Ex4T/a4AkaYhrtgxza99RtCOjp73h7nI08h9c3A56V0HSbuHpsDv3Fcf
-         TSBGrrH8rFiDndtU1QXuj70vmLpnyWZ+bZP+lo6EvsZ9+RCjY+C0A0WR748XaoV69QWh
-         zH+UpJWEEB+nKVH5Kl6JLHcOtFwdsAQZ5liZ6dSnc+/Wim86KCRtU4V2qaK9355XjDo/
-         tA7trYMmc/hKfViRtrtzKgTgmwyEozksyWVMwA7ykz2v4xJmqsxxPT7SqIPiwZdyCyQl
-         8+Ow+Y1Og+KM6E+6OdfBP9pnSpCpw7238zGZ4yz2wIqkI85vySCAHfBzPG/KOW+VWvoE
-         YOHA==
+        id S1727998AbeIJXLc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Sep 2018 19:11:32 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:35407 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726755AbeIJXLc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 19:11:32 -0400
+Received: by mail-oi0-f66.google.com with SMTP id m11-v6so42058187oic.2;
+        Mon, 10 Sep 2018 11:16:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yuOIQZv6WjRvAbKrrWHpsdnwVgADihJ1PU5uAuXb3BU=;
-        b=avniGLB6ZcNYKlIk+KG45+hzcxJv5P22NaW5EMd/HDP81G++Mn3VVoD2SUzw54MBz2
-         RPQFpCRjl8Gf7GWjz+U24BniHgF2tflPNBEE2b14r/MZs1qYO2cn/NtneLUz7wR2dSGH
-         KerfBemwaBx14+n+Ex9ZTIhtl8iyOzwvj4Ql292iymcLn4Uo5EkPypaOv07Eveytn7vy
-         6zAsoKuYU0PKUKdvwnbOGi5a+uIiZFmx9IJDbjLibX+8A1VKD3r4HcMNUns/vQQyzQqc
-         po0LsfwqaHFq6LNT0d2SDh3LXgPML2AB3IuNP/85BTPDDLWRb3x0kNov/Q7L19PKjSiO
-         GhDA==
-X-Gm-Message-State: APzg51AA8CtBbh3iLWIP4ZeAQ3uWUGJe2jZeDzFordA4vbtSX9TA8c9x
-        v4XmLy3d9AkzHmSkh4V0/WNzdJiABvG9PBkKRZrwMw==
-X-Google-Smtp-Source: ANB0VdaW3j13q2uNXpgiXSag3uKGq3nENeeV44OPcM+rOCjFxPRDewEMg3G68+rKrOd9X3xRxU6wESZikdECP6RkxRU=
-X-Received: by 2002:a62:4b14:: with SMTP id y20-v6mr24769222pfa.93.1536599851787;
- Mon, 10 Sep 2018 10:17:31 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DOtMaM82IZTVqmXs3l1GX72EOchfCwYYWv9WfsnCDJY=;
+        b=mQsAUZbqfB1Ecu5ACyi0c3ZYow+vHkQcMH/tRZmJYN2vKiIaxlUqB1KzAGqDB5788Z
+         bCaoojiP46vTaZIG1ktyJwnaTNIEPKv19RSyim4lmiuH8spbidOAHyX/hcf8e57ORSEb
+         LehRHE2Rutphu2EPB9DQrfcTbHbk2qOjJbrEw3eHUVWJlCoglrCaNxDwgLgW02cRfV60
+         W1d0XuPS8F8D1phr2GHcgvlvK83NJjNlDaIUw3dcHJKMGuKVrlj9Bn1ciPe/1tjGtklw
+         hHpZEeGN9c0mfboH1qaTec5BlUWjE9q4h4xGXv90JrUZWoTvO1hI7t35jaSyKIHJUOZL
+         YS3g==
+X-Gm-Message-State: APzg51CuQPKXGVOShBtyTE1HbkBGYjOEEAi3o2oTyB9goxrtuh7qvVIo
+        YFNk1uNeg+tyevbA+lKK4Q==
+X-Google-Smtp-Source: ANB0VdbCDZw7ooN+GHdDG5yYdDuT0ZrHtHvMVPzbGuQz58y8RfMzX7R9GM1cEsCdZrfHM742WcBlcw==
+X-Received: by 2002:aca:cf44:: with SMTP id f65-v6mr24430067oig.356.1536603372478;
+        Mon, 10 Sep 2018 11:16:12 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id s145-v6sm33180305oih.16.2018.09.10.11.16.10
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 10 Sep 2018 11:16:10 -0700 (PDT)
+Date:   Mon, 10 Sep 2018 13:16:10 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Eddie James <eajames@linux.vnet.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, jdelvare@suse.com,
+        linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org,
+        gregkh@linuxfoundation.org, mark.rutland@arm.com,
+        linux@roeck-us.net, joel@jms.id.au, benh@kernel.crashing.org
+Subject: Re: [PATCH v5 01/10] dt-bindings: fsi: Add P9 OCC device
+ documentation
+Message-ID: <20180910181610.GA5907@bogus>
+References: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
+ <1535664761-86018-2-git-send-email-eajames@linux.vnet.ibm.com>
 MIME-Version: 1.0
-References: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
-In-Reply-To: <20180908212459.19736-1-miguel.ojeda.sandonis@gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 10 Sep 2018 10:17:20 -0700
-Message-ID: <CAKwvOdnTxABJkQjdu6cv3e5zKB1z4n+rGkuzFxKvLAjUrqqCFA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/13] Compiler Attributes
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        efriedma@codeaurora.org, sparse@chrisli.org,
-        Kees Cook <keescook@chromium.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        joe@perches.com, asmadeus@codewreck.org,
-        linux-sparse@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1535664761-86018-2-git-send-email-eajames@linux.vnet.ibm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 8, 2018 at 2:25 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> The Compiler Attributes series is an effort to disentangle
-> the include/linux/compiler*.h headers and bring them up to date.
->
-> The main idea behind the series is to use feature checking macros
-> (i.e. __has_attribute) instead of compiler version checks (e.g. GCC_VERSION),
-> which are compiler-agnostic (so they can be shared, reducing the size
-> of compiler-specific headers) and version-agnostic.
->
-> Other related improvements have been performed in the headers as well,
-> which on top of the use of __has_attribute it has amounted to a significant
-> simplification of these headers (e.g. GCC_VERSION is now only guarding 4
-> non-attribute macros).
->
-> This series should also help the efforts to support compiling the kernel
-> with clang and icc. A fair amount of documentation and comments have also
-> been added, clarified or removed; and the headers are now more readable,
-> which should help kernel developers in general.
->
-> The series was triggered due to the move to gcc >= 4.6. In turn, this series
-> has also triggered Sparse to gain the ability to recognize __has_attribute
-> on its own.
->
-> You can also fetch it from:
->
->   https://github.com/ojeda/linux/tree/compiler-attributes-v4
->
-> Enjoy!
->
-> Cheers,
-> Miguel
->
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-> Cc: Eli Friedman <efriedma@codeaurora.org>
-> Cc: Christopher Li <sparse@chrisli.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Ingo Molnar <mingo@kernel.org>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Joe Perches <joe@perches.com>
-> Cc: Dominique Martinet <asmadeus@codewreck.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: linux-sparse@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
->
-> v3 -> v4
->
->   This time it is an important fix I found while doing randconfigs, plus
->   the documentation sentence that Nick suggested and the MAINTAINERS file.
->
->   Compile-tested for a while on (x86_64, gcc-7.3) on a few randconfs.
->
->   New:
->
->   * Add MAINTAINERS entry for the new file (compiler_attributes.h)
->     so that we try to maintain that one as clean as possible.
->     (if someone else wants to join, feel free!)
->
->   Modified:
->
->   * Fix inline macro
->
->     __always_inline cannot be used in the inline macro,
->     because people marking a function as __always_inline would
->     expand to inline which in turn would expand back to __always_inline
->     (under some configs), which would not be expanded again.
->     Added a comment about this in the inline macro.
->
->     Also added another comment about __always_inline in compiler_attributes.h
->     to note that users expect to not have to write inline (as well as
->     the attribute). We cannot simply remove "inline" there (which would
->     solve the problem described above) because using the attribute is
->     not enough for gcc. A function marked as always_inline seems to require
->     to be marked as inline itself so that the attribute is applied:
->
->       "warning: always_inline function might not be inlinable [-Wattributes]"
->
->     From the gcc docs:
->
->       "For functions declared inline, this attribute inlines the function
->        independent of any restrictions that otherwise apply to inlining."
->
->     See https://godbolt.org/z/LpzUPj for an example.
->
->   From reviews:
->
->   * Add sentence about feature-detection in Docs (Nick)
->
-> Miguel Ojeda (13):
->   Compiler Attributes: remove unused attributes
->   Compiler Attributes: always use the extra-underscores syntax
->   Compiler Attributes: remove unneeded tests
->   Compiler Attributes: homogenize __must_be_array
->   Compiler Attributes: naked was fixed in gcc 4.6
->   Compiler Attributes: naked can be shared
->   Compiler Attributes: remove unneeded sparse (__CHECKER__) tests
->   Compiler Attributes: add missing SPDX ID in compiler_types.h
->   Compiler Attributes: use feature checks instead of version checks
->   Compiler Attributes: KENTRY used twice the "used" attribute
->   Compiler Attributes: remove uses of __attribute__ from compiler.h
->   Compiler Attributes: add Doc/process/programming-language.rst
->   Compiler Attributes: Add MAINTAINERS entry
->
->  Documentation/process/index.rst               |   1 +
->  .../process/programming-language.rst          |  45 ++++
->  MAINTAINERS                                   |   5 +
->  include/linux/compiler-clang.h                |   5 -
->  include/linux/compiler-gcc.h                  |  84 +-----
->  include/linux/compiler-intel.h                |   9 -
->  include/linux/compiler.h                      |  19 +-
->  include/linux/compiler_attributes.h           | 244 ++++++++++++++++++
->  include/linux/compiler_types.h                | 105 ++------
->  9 files changed, 329 insertions(+), 188 deletions(-)
->  create mode 100644 Documentation/process/programming-language.rst
->  create mode 100644 include/linux/compiler_attributes.h
->
-> --
-> 2.17.1
->
+On Thu, Aug 30, 2018 at 04:32:32PM -0500, Eddie James wrote:
+> Document the bindings for the FSI-attached POWER9 On-Chip Controller.
+> 
+> Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
+> ---
+>  Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+> new file mode 100644
+> index 0000000..46372f6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+> @@ -0,0 +1,15 @@
+> +Device-tree bindings for FSI-attached POWER9 On-Chip Controller (OCC)
+> +---------------------------------------------------------------------
+> +
+> +This is the binding for the P9 On-Chip Controller accessed over FSI from a
+> +service processor. See fsi.txt for details on bindings for FSI slave and CFAM
+> +nodes.
+> +
+> +Required properties:
+> + - compatible = "ibm,p9-occ"
+> +
+> +Examples:
+> +
+> +    occ {
 
-For the ones I didn't already review:
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+FSI slave devices are supposed to have an address according to the 
+binding doc.
 
--- 
-Thanks,
-~Nick Desaulniers
+> +        compatible = "ibm,p9-occ";
+> +    };
+> -- 
+> 1.8.3.1
+> 
