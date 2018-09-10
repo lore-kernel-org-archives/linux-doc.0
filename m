@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 481887D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 09:55:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D4D317D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 10:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727639AbeIJOsk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Sep 2018 10:48:40 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:34663 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727635AbeIJOsk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 10:48:40 -0400
-Received: by mail-ed1-f68.google.com with SMTP id u1-v6so16041159eds.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 02:55:25 -0700 (PDT)
+        id S1726907AbeIJOzY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Sep 2018 10:55:24 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:38638 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726738AbeIJOzY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 10:55:24 -0400
+Received: by mail-wr1-f68.google.com with SMTP id w11-v6so21245129wrc.5
+        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 03:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=unYRDWjIMrkoqr4iNefiY8OtZceFXevztjbbjXtLjb0=;
-        b=ShsfoSHhp77Rj7KZkQ+MXq0T5m2KzkVPbJEalMPeiFJ83UQ3uaYyz4jwvwcIbkL4WM
-         Z9yqBwK2eo6kqjMLUMgbE/mj+qTCD94BL+UvFw3IMLTGLD9rSZsF2nbqeNkNDy59YCtX
-         07+1IO03qtKEm9D0Yhx//PCBoJl1pc4ludXl8=
+        bh=lIebOggwhmMubIlNRykvvJf2UmQO7I0eIn7QCn7KIt8=;
+        b=IMWtHTaFYvipt/pY3LmOM1fFkTQv4vgxYn0QWcN0RVLstLwt6tovPYuTwwfjIqG9z8
+         pZdkjV3n07nUGDB/SAzajbg21EyqRWQd82JIiRBJDXXpyUfQSzJUutc7/aICKv8lyRaa
+         7DNz3S137h+w9AhJ3xzfFOIJsqnbegGGIbPBo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=unYRDWjIMrkoqr4iNefiY8OtZceFXevztjbbjXtLjb0=;
-        b=VGsdmo8X+ffw5PXMSf5boM5bcl9RWWOrhXcN0o8csQjZt8LwPGHWiuKiBbsr7WlSXZ
-         rbtKuKmjIxWcArgai6t+BlxjB648MDGYGCnqkXvv60SmlSwzkojSdDjxrrKo+KG+/Hav
-         YgdQ25jX80iXaOqYCES731njByClfc9QmA/EU3yKSVRejEKAoeJzVhHRBDpByFozWEXm
-         4p3xf9/y/m5CJmv22pwfY7tMWEmCMZF1/u6BuIhjBhAKYbTFhZBKgjHE1bB/UyzJxvch
-         7AzDurryIkAffJqoxScBQ8PVFqaT3sbkXEZz3kEAyqG/VnLUFb0nNjbt6RPyQLGjwab0
-         nNYQ==
-X-Gm-Message-State: APzg51Durd++DX+MDKYieXIdXXcrWVebCOLRgHOcUhedXAw0vVEo+pG8
-        c8EITaQ7x2UcNro6YwIMZ+qjHQ==
-X-Google-Smtp-Source: ANB0VdbqhPcQg4Bb5X9z1rB7XnMRfq4Acg2AVQJyKZ9tiqpcXf9896pxANaaQwQWtsVGnw9kz/cYmg==
-X-Received: by 2002:a50:8646:: with SMTP id 6-v6mr21777171edt.259.1536573324837;
-        Mon, 10 Sep 2018 02:55:24 -0700 (PDT)
+        bh=lIebOggwhmMubIlNRykvvJf2UmQO7I0eIn7QCn7KIt8=;
+        b=mM3NdWrJmWBtVnqei0D+r2PDJF8JJvDsxw7cgDB2n39JM/aAR7X4cO8BWWLowWpvCO
+         wqY/BncWp88LuINS60if+YCJIxzeqQEeceomh/PzDtxtn9/EEIfkaMgon5SP8SapE1ZY
+         sc3MsPqLjy4avf91GqrnOzffhwEpoHWCmqaxt/l6GBjimkQk2SNyRtO+9XTbMVgN2TX/
+         fRsfQYsRc0v7eZ9WFkHiT7hgwwZH3ZGkCXRfm6GzBEU9MmMvnqjcr8sEDUHfgmeDpYq9
+         yBDKtQLRzj6sbk+U/HGDKpL5d3D1UPJyOE33Lp57kV3tVdWhituzvNwCvNOu549IoXiR
+         0TLA==
+X-Gm-Message-State: APzg51B9KxRnnli02i1yQaTezJYxKpuE3Gf891q0xzAPmBFwWNOUVVJ0
+        D/iSKjE2u3eLw+Pf9O6XtDPztE3HjE8=
+X-Google-Smtp-Source: ANB0VdbnhNEcKL2Io8wJ0tKn/c5HxHcyEVBTwDKywH0b/LGZuhoqVqaTpvSnjk8j9uwkzYbTQyRERQ==
+X-Received: by 2002:a5d:6984:: with SMTP id g4-v6mr14262846wru.232.1536573727239;
+        Mon, 10 Sep 2018 03:02:07 -0700 (PDT)
 Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
-        by smtp.googlemail.com with ESMTPSA id d56-v6sm8217584edb.7.2018.09.10.02.55.23
+        by smtp.googlemail.com with ESMTPSA id m68-v6sm30563645wmb.10.2018.09.10.03.02.05
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Sep 2018 02:55:24 -0700 (PDT)
-Subject: Re: [PATCH v2 01/16] nvmem: remove unused APIs
+        Mon, 10 Sep 2018 03:02:06 -0700 (PDT)
+Subject: Re: [PATCH v2 00/16] nvmem: rework of the subsystem for non-DT users
 To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     "David S . Miller" <davem@davemloft.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -64,18 +64,15 @@ Cc:     "David S . Miller" <davem@davemloft.net>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
 References: <20180907100750.14564-1-brgl@bgdev.pl>
- <20180907100750.14564-2-brgl@bgdev.pl>
- <c0b0c411-65f6-62f9-6d6d-2884e5a17250@linaro.org>
- <CAMRc=MfO01EQAfY4Uu3UwzzvhVOMF7_BpCOPVz2yVXqDgpb0AA@mail.gmail.com>
- <7e138142-8161-3646-4daf-619995baf395@linaro.org>
- <CAMRc=Mduu4CmLX5DFtJd8NSbzs5g65U9AmM=rbscit0JyQKVAQ@mail.gmail.com>
+ <da9556fd-0022-8e6a-12b4-cc3babbae5b0@linaro.org>
+ <CAMRc=MeT7UP57x+Q-a1ODRCvcGKKj_NSfkBLVQ9O5dhTC1DAYg@mail.gmail.com>
 From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <3dbd65e5-c948-a784-0362-930fc41b840e@linaro.org>
-Date:   Mon, 10 Sep 2018 10:55:23 +0100
+Message-ID: <dec727cf-486f-8126-34f8-1b1099cec3a1@linaro.org>
+Date:   Mon, 10 Sep 2018 11:02:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <CAMRc=Mduu4CmLX5DFtJd8NSbzs5g65U9AmM=rbscit0JyQKVAQ@mail.gmail.com>
+In-Reply-To: <CAMRc=MeT7UP57x+Q-a1ODRCvcGKKj_NSfkBLVQ9O5dhTC1DAYg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -86,35 +83,23 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 10/09/18 09:43, Bartosz Golaszewski wrote:
->>> this series. Later patches are MUCH cleaner thanks to this removal and
->>> I believe it makes them easier for review.
->> Am not sure about that, it definitely did not help me!
->>
-> Why exactly? Aren't clean patches resulting from this removal easier
-> to read then if they'd also have to take into account the burden of
-> existing code that will be changes anyway later? I really don't see
-> why you insist on removing this.
+On 10/09/18 09:24, Bartosz Golaszewski wrote:
+> The API changes change so many things, that these series would be
+> incompatible. I can send the series separately but they would be
+> co-dependent anyway. Does it sound good?
 
-Here are few reasons:
+What am asking is to reorder the patches in a such a way that its easy 
+to review.
+ex: Order can be :
+1> kref and update nvmem_unregister followed by the provider changes.
+2> Add support to cell tables, cell lookup, notifier
+3> general cleanup patches  followed by fixes
 
-1> TBH, This cleanup patch removes more than one feature from nvmem 
-subsystem.
-Ex: it remove ability to add static cell from nvmem config, secondly it 
-removed ability to read/write cells directly using nvmem_cell_info.
-
-2> If you do changes as part of each patch, it will be much traceable on 
-what is changed exactly and will allow much better review, and 
-understand the reasoning.
-
-Having a clean start and writing code on top of it is alway nice, but we 
-will definitely miss things in review in this particular instance.
+Current set seems to jump from one thing to other which makes it hard to 
+follow and time consuming while review!
 
 
-thanks,
-srini
+--srini
 
 > 
-> Best regards,
 > Bart
-> 
