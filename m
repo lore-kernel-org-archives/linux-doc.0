@@ -1,97 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C173D7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 18:16:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10D3D7D87A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 22:51:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727998AbeIJXLc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Sep 2018 19:11:32 -0400
-Received: from mail-oi0-f66.google.com ([209.85.218.66]:35407 "EHLO
-        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726755AbeIJXLc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 19:11:32 -0400
-Received: by mail-oi0-f66.google.com with SMTP id m11-v6so42058187oic.2;
-        Mon, 10 Sep 2018 11:16:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DOtMaM82IZTVqmXs3l1GX72EOchfCwYYWv9WfsnCDJY=;
-        b=mQsAUZbqfB1Ecu5ACyi0c3ZYow+vHkQcMH/tRZmJYN2vKiIaxlUqB1KzAGqDB5788Z
-         bCaoojiP46vTaZIG1ktyJwnaTNIEPKv19RSyim4lmiuH8spbidOAHyX/hcf8e57ORSEb
-         LehRHE2Rutphu2EPB9DQrfcTbHbk2qOjJbrEw3eHUVWJlCoglrCaNxDwgLgW02cRfV60
-         W1d0XuPS8F8D1phr2GHcgvlvK83NJjNlDaIUw3dcHJKMGuKVrlj9Bn1ciPe/1tjGtklw
-         hHpZEeGN9c0mfboH1qaTec5BlUWjE9q4h4xGXv90JrUZWoTvO1hI7t35jaSyKIHJUOZL
-         YS3g==
-X-Gm-Message-State: APzg51CuQPKXGVOShBtyTE1HbkBGYjOEEAi3o2oTyB9goxrtuh7qvVIo
-        YFNk1uNeg+tyevbA+lKK4Q==
-X-Google-Smtp-Source: ANB0VdbCDZw7ooN+GHdDG5yYdDuT0ZrHtHvMVPzbGuQz58y8RfMzX7R9GM1cEsCdZrfHM742WcBlcw==
-X-Received: by 2002:aca:cf44:: with SMTP id f65-v6mr24430067oig.356.1536603372478;
-        Mon, 10 Sep 2018 11:16:12 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id s145-v6sm33180305oih.16.2018.09.10.11.16.10
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 10 Sep 2018 11:16:10 -0700 (PDT)
-Date:   Mon, 10 Sep 2018 13:16:10 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Eddie James <eajames@linux.vnet.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, jdelvare@suse.com,
-        linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org,
-        gregkh@linuxfoundation.org, mark.rutland@arm.com,
-        linux@roeck-us.net, joel@jms.id.au, benh@kernel.crashing.org
-Subject: Re: [PATCH v5 01/10] dt-bindings: fsi: Add P9 OCC device
- documentation
-Message-ID: <20180910181610.GA5907@bogus>
-References: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
- <1535664761-86018-2-git-send-email-eajames@linux.vnet.ibm.com>
+        id S1726251AbeIKDrh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Sep 2018 23:47:37 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:40372 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726217AbeIKDrh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 23:47:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=hc4IlQhF3Phesq7k51FXQ9Jgbq3bdqp2K2rCftZKgIg=; b=D1K7I9zywkzP19OFOdtwf7Vvp
+        rpPFf4cUqLzSRLSyzdJ0ai0ff7ZEXeXR6mcbq2z9brtgAiatarQmLrx6UyUjaFfAkvl+sOJpKxKHI
+        0C7bNThRo+C3QDnaOJ1/E/oeuD5clrsPUpRMjl//GSSeR4/+9SZkHJo2qG00h9pUgVvW7Bkc7TeMh
+        5/hPayW3E6EPS7wQNwfYDanj6eKQAZy6mImERTp9d1PfpUcVIcc/S8DkczqWPfJSlCgn3Yg2856L7
+        nvOqCS1lsVah3bcqMb+qpAL8oAYq4WR3E+zopQGBLjOGly4gLd2Kxnzg/N+V84J4Zf4SAth7wfScV
+        HGEaSS/1Q==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fzV1d-0004WT-2d; Mon, 10 Sep 2018 22:51:21 +0000
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: nodocs in 4.19-rcX
+Message-ID: <ace3eeb9-0a15-a4ff-cf2d-af9335fd9810@infradead.org>
+Date:   Mon, 10 Sep 2018 15:51:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1535664761-86018-2-git-send-email-eajames@linux.vnet.ibm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 30, 2018 at 04:32:32PM -0500, Eddie James wrote:
-> Document the bindings for the FSI-attached POWER9 On-Chip Controller.
-> 
-> Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
-> ---
->  Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
-> new file mode 100644
-> index 0000000..46372f6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
-> @@ -0,0 +1,15 @@
-> +Device-tree bindings for FSI-attached POWER9 On-Chip Controller (OCC)
-> +---------------------------------------------------------------------
-> +
-> +This is the binding for the P9 On-Chip Controller accessed over FSI from a
-> +service processor. See fsi.txt for details on bindings for FSI slave and CFAM
-> +nodes.
-> +
-> +Required properties:
-> + - compatible = "ibm,p9-occ"
-> +
-> +Examples:
-> +
-> +    occ {
+Hi Jonathan,
 
-FSI slave devices are supposed to have an address according to the 
-binding doc.
+4.19-rc contains some users of :nodocs: but that is not recognized yet,
+so we get:
 
-> +        compatible = "ibm,p9-occ";
-> +    };
-> -- 
-> 1.8.3.1
-> 
+lnx-419-rc3/Documentation/core-api/boot-time-mm.rst:78: ERROR: Error in "kernel-doc" directive:
+unknown option: "nodocs".
+
+.. kernel-doc:: mm/bootmem.c
+   :nodocs:
+
+lnx-419-rc3/Documentation/core-api/boot-time-mm.rst:91: ERROR: Error in "kernel-doc" directive:
+unknown option: "nodocs".
+
+.. kernel-doc:: mm/memblock.c
+   :nodocs:
+
+
+Do you plan to merge the patch(es) for :nodocs: ?
+
+thanks,
+-- 
+~Randy
