@@ -1,106 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 122D67D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 11:27:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EF4847E3A4
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 11:31:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728116AbeIJQUY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Sep 2018 12:20:24 -0400
-Received: from mail-io0-f195.google.com ([209.85.223.195]:38057 "EHLO
-        mail-io0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727810AbeIJQUY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 12:20:24 -0400
-Received: by mail-io0-f195.google.com with SMTP id y3-v6so311621ioc.5
-        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 04:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=bJTojSwImwK8PVoQRxmnr5beTpJ4GQQKIKg4TB6gSs0=;
-        b=tL5z19yJvD681RFiehnQrUlHW9EiOvvwfQ0TRQ/bZMVTBEbvRj+jFIc7pErU6VEZBm
-         cALtr5oMg8YbzsJKcKU1Mrl0EvQU0/DMraz5RNfF557DdvXjRCCEBMdWJlAvDIHqAyaH
-         Ekl6oe2PceT1FgQbQvBFnRlglXmHIV8LbOV7Hqpy3qt1/NxUhSrO7cnTgGQt2X7NLxrb
-         kDS1zPbpcfVl4y1yQ2zsgSAB8j4+6zZhaV/vKCTrB1eDE0B+CYLfzzm/I//ZoCkvCt2b
-         5+OXxK+74lI1dgzDPJDfLNi4zvujbVHUZ5EDeE/FQWh+4qLTD6MWjv8PY5sAhSx4tR2h
-         SAYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=bJTojSwImwK8PVoQRxmnr5beTpJ4GQQKIKg4TB6gSs0=;
-        b=ry00QPUkTKdLsZke0s9Uw6Eh+IGfr8SRkag1w7xyRJzhuuNmtd9f5AHpX3Br9aqZ9q
-         aH4fZ92mfB3BRqJkBRddBBosX21phds6t+9Q9nld7dJ/K5XfYiOhhcM4/XeHJXsA9V2E
-         hOgf9vdkHqd+Ad6Zpv83omUOFAd+vj/lgDd8may/ekuVFKjLgOxgO8ZrdcAZGjSKa5/T
-         hsZCKbpQH3ChruwYyBBnSPz23IAPjyf8kun2UN9tTNtqc01DOzehD0wfWgFpvGdvHQjs
-         533uhB3wj0/dxPA3gVNLuOYl/1SzZ8Gq0b2nwVKacKSTl46P80PBvCz7wZAey8GVPt9j
-         HoDw==
-X-Gm-Message-State: APzg51Cz90NAPFU81eDgg0N6CvBz0X2vuSw+kTFgPR6yGFpjOG2xp0tt
-        EJe/lhNid5v89r8F47bemgJUx1Zvl0UwxIC+QX6zrQ==
-X-Google-Smtp-Source: ANB0VdbU041mT3aFPgQ01KNj5ph2Utz41VlsNbFDyAORkghYIeThOzHSAvH92JgCuYwtJ8zp/5LUwwgzXwGvjLPXMI8=
-X-Received: by 2002:a6b:9157:: with SMTP id t84-v6mr16331007iod.187.1536578808460;
- Mon, 10 Sep 2018 04:26:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a6b:1905:0:0:0:0:0 with HTTP; Mon, 10 Sep 2018 04:26:47
- -0700 (PDT)
-In-Reply-To: <f161f5fd-a651-eee1-78ee-63607021db7f@linaro.org>
-References: <20180907100750.14564-1-brgl@bgdev.pl> <20180907100750.14564-14-brgl@bgdev.pl>
- <484b6ec5-cd8e-e5c5-0c5c-2f11c504ea1c@linaro.org> <CAMRc=MdnSHY1ah4X3Bu55HvZcOQHxPHaFudidDA4mEOW9ZzeEg@mail.gmail.com>
- <20180910102324.52ecd8f7@bbrezillon> <c72866dd-1fb0-c765-5815-ba63d051a09b@linaro.org>
- <CAMRc=Me0bYjdmaqqxKqFkRRSNdoOgDf1A==dASz0dJAtx9BDqg@mail.gmail.com> <f161f5fd-a651-eee1-78ee-63607021db7f@linaro.org>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 10 Sep 2018 13:26:47 +0200
-Message-ID: <CAMRc=McUsDyAfSPAEdDBODQ9QubDPVU-C+j3mJLTC7GEriESfA@mail.gmail.com>
-Subject: Re: [PATCH v2 13/16] nvmem: add support for cell lookups from machine code
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1728400AbeIJQZM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Sep 2018 12:25:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60394 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728190AbeIJQZM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Sep 2018 12:25:12 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id C8D0BAFE2;
+        Mon, 10 Sep 2018 11:31:32 +0000 (UTC)
+Subject: Re: [PATCH v3] xen/balloon: add runtime control for scrubbing
+ ballooned out pages
+To:     =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= 
+        <marmarek@invisiblethingslab.com>, xen-devel@lists.xenproject.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <5B92A01D02000078001E67CE@prv1-mh.provo.novell.com>
+ <20180907164912.21075-1-marmarek@invisiblethingslab.com>
+From:   Juergen Gross <jgross@suse.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jgross@suse.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <36fd02b9-ba23-ddb6-787e-8dd30fca1319@suse.com>
+Date:   Mon, 10 Sep 2018 13:31:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20180907164912.21075-1-marmarek@invisiblethingslab.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-09-10 11:50 GMT+02:00 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>:
->
->
-> On 10/09/18 10:45, Bartosz Golaszewski wrote:
->>>
->>> Yes, this is how it should be!
->>>
->> Any actual reason for not putting these definitions into a separate
->> 'machine' header? This approach is currently used by gpio, pinctrl,
->> iio and regulator framework because most systems use either DT or ACPI
->> and don't need to pull in any stuff aimed at board files.
->
->
-> I don't want to create header files specific to usecase!
-> Lets keep it simple!
->
+On 07/09/18 18:49, Marek Marczykowski-Górecki wrote:
+> Scrubbing pages on initial balloon down can take some time, especially
+> in nested virtualization case (nested EPT is slow). When HVM/PVH guest is
+> started with memory= significantly lower than maxmem=, all the extra
+> pages will be scrubbed before returning to Xen. But since most of them
+> weren't used at all at that point, Xen needs to populate them first
+> (from populate-on-demand pool). In nested virt case (Xen inside KVM)
+> this slows down the guest boot by 15-30s with just 1.5GB needed to be
+> returned to Xen.
+> 
+> Add runtime parameter to enable/disable it, to allow initially disabling
+> scrubbing, then enable it back during boot (for example in initramfs).
+> Such usage relies on assumption that a) most pages ballooned out during
+> initial boot weren't used at all, and b) even if they were, very few
+> secrets are in the guest at that time (before any serious userspace
+> kicks in).
+> Convert CONFIG_XEN_SCRUB_PAGES to CONFIG_XEN_SCRUB_PAGES_DEFAULT (also
+> enabled by default), controlling default value for the new runtime
+> switch.
+> 
+> Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
 
-I won't argue this point anymore, but I disagree. This is not specific
-to a usecase but to a whole family of users that need to a) define
-nvmem cells without knowing the provider and b) associate them with
-consumers. Something normal providers and consumers are not bothered
-by, thus a new header file would be in order.
+Reviewed-by: Juergen Gross <jgross@suse.com>
 
-But as you wish...
 
-Bart
+Juergen
