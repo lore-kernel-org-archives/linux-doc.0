@@ -5,53 +5,55 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 169667D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 08:24:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 68C987D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 08:43:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727784AbeIJNQ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Sep 2018 09:16:57 -0400
-Received: from mail-it0-f65.google.com ([209.85.214.65]:35732 "EHLO
-        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727658AbeIJNQ5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 09:16:57 -0400
-Received: by mail-it0-f65.google.com with SMTP id 139-v6so27601411itf.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 01:24:05 -0700 (PDT)
+        id S1728050AbeIJNgy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Sep 2018 09:36:54 -0400
+Received: from mail-it0-f68.google.com ([209.85.214.68]:37292 "EHLO
+        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728049AbeIJNgy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 09:36:54 -0400
+Received: by mail-it0-f68.google.com with SMTP id h20-v6so27631803itf.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 01:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=LZsdE3pMK2CgErmhYhxeMl7wRFqp2pzZraX4jaC3V38=;
-        b=NFQ/FLY+p/dV9kbB5kmtizYjxFya5hkYTzVnUeRGMacpxIWO5+3d/QQXfYerV9Bl+O
-         aHM9o5B10GR0fqtWljy+CTA9lwczePp4yS5G1zNnBG1w1bnt4Ksv10DcTpKcx1+Pze++
-         2/3VMwRSv+LsBG0NsCuMY8Q+RxdKmIF+SDmzkGxxVVqO0uRY5ZwOGhLXDCmiF25/Awn2
-         HK0x6QyGvR+ErB7mZtivDS6uQIfpJd1zeRGN0hZBVpBudyep+f0AnUv8NcbntM8GX4+t
-         VuQUiFtv/c+U/k7eh5AKu/DkKn1iogCIzJB5Cz95yKbEiswFyoK/1nLCYqLp2KmJzvDZ
-         ebBg==
+        bh=vgB6GTrm+iJTbabFaj/clF7dRpCQRZyv/XEfU3sVYxQ=;
+        b=VjZ04faaAKpdMGrls6vDC/9Q9Oq2MxWbpMU/M9xL08k2Ly1l3bBguc1sg7mOoqijF6
+         wtLlZHj4vZhD5NE3w/Xtd8yj7hG60YixFatVR65KNhWPzOGZ3/2dkPi3yI1Y2+8v4ffC
+         Bt6CX4lRqSJgLveavvbHMi6R5cIXePDwRh4/qzC631FGvfKzHP+e0aE5ZLf7Atg4UZhB
+         RksDdFvPOoy/SbR5KME/hqdanIaf6rat5moQJFkLVBs+6ZtHBX+MJKxDQKi+iX6SHRaY
+         ODpbfs6bTE+m7ReoiiEDHzWVOYNtf+XWOFEd93hXYRxBwZOjK6wNqh5H9cdyp/WQNIv3
+         u6rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=LZsdE3pMK2CgErmhYhxeMl7wRFqp2pzZraX4jaC3V38=;
-        b=UTihb6W23ddzX97AMWm2pw5zV8LwjjEZ/ZPXBoYbdIsLw2w5XxdUed++xRtw5VU4Bc
-         m+PD7S8f2qWcNVprAJWD171Loa299OPLyAN+O8qxDpX6aMtwJpvGl236zWW1Xli7a+pN
-         WvD9As1EOtj1L5+m3v+/feNfVJ3CJNOqunfH0A72JUTPSyI+c9HeOuvvn4JnP1upzF95
-         Z0wK+amgcyy/k03PL+W/1nWgtI3xWWadYBYUqvH0qG5ApNqCNb5HSasXngfD/D1lUtKW
-         LniHCBnE3L1gupRK4u281JQwh/E6Od2ALpOeunsd5uDQIfEes0mkWm8nEj3Nf8iMHGRZ
-         lFUg==
-X-Gm-Message-State: APzg51Dm49wCNSWtVhY3T5GLmTLc/M7eJt7PLb/SZPIm1Y3hXwQeGP9b
-        GJGeleO/K1jifiP0TX5Kw7Z4mhRUmxEiCapT7SEEBQ==
-X-Google-Smtp-Source: ANB0Vdao5kQjGLxpp2ZzwOtVdhKwUmkjGbV0JpN4NH43yUOu0CJsJHOyYuX1FoTv5UGKSi1dP1QsngJQS5PeSFJaS9o=
-X-Received: by 2002:a24:41cd:: with SMTP id b74-v6mr16261634itd.85.1536567845368;
- Mon, 10 Sep 2018 01:24:05 -0700 (PDT)
+        bh=vgB6GTrm+iJTbabFaj/clF7dRpCQRZyv/XEfU3sVYxQ=;
+        b=HGuYK1ZLZhpZkn68eHhoS9ibDDeA8NjEGXKG4bzg+kM2ZDzrd6fq3PV7N9kXaW4B+B
+         Dyg5TgOjiEiNL2WIMGNL59oKSVJodsc4oIYx8bTuFVgtwUpEC6kwGT3zePQxJHc7XTL3
+         xLvPdrjbEVnMkRb6yP7xx89E9R3yOkUMln/ZIHYdFW5vpF7ojTTRUkXOfJZ2lkzIU7Z0
+         mGlMOSyKxKOok+VsWSguKop14CHjfJimjv8sLGW+4KMoiJeSL6lYp0oDJSJRX1ArjWbZ
+         OAEiAhbcWlcIk7zXw+SkDPgP2hBFf3Vu2ufcYHAWlj4BM/QAS15f7NK4UR25XBOiZwSz
+         6rsg==
+X-Gm-Message-State: APzg51B+QLjNUDO6MC8W7YruRA4201nWJhLhFdKflbACOIPFhPuDcE//
+        C+2yt2G7ipx4vdgClKwnZ1uL0WKclE9UcZQnsl8GQkwxZwo=
+X-Google-Smtp-Source: ANB0VdZXBHu+oRNFpUHom0fMedX1d/RubF6fgjV7MREL5S9z1piAV0NT7fZ2fhh6MHmsY3HZXxKPfA5Okqi0wZS7+XQ=
+X-Received: by 2002:a02:5f44:: with SMTP id r65-v6mr17662391jab.34.1536569036758;
+ Mon, 10 Sep 2018 01:43:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a6b:1905:0:0:0:0:0 with HTTP; Mon, 10 Sep 2018 01:24:04
+Received: by 2002:a6b:1905:0:0:0:0:0 with HTTP; Mon, 10 Sep 2018 01:43:56
  -0700 (PDT)
-In-Reply-To: <da9556fd-0022-8e6a-12b4-cc3babbae5b0@linaro.org>
-References: <20180907100750.14564-1-brgl@bgdev.pl> <da9556fd-0022-8e6a-12b4-cc3babbae5b0@linaro.org>
+In-Reply-To: <7e138142-8161-3646-4daf-619995baf395@linaro.org>
+References: <20180907100750.14564-1-brgl@bgdev.pl> <20180907100750.14564-2-brgl@bgdev.pl>
+ <c0b0c411-65f6-62f9-6d6d-2884e5a17250@linaro.org> <CAMRc=MfO01EQAfY4Uu3UwzzvhVOMF7_BpCOPVz2yVXqDgpb0AA@mail.gmail.com>
+ <7e138142-8161-3646-4daf-619995baf395@linaro.org>
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 10 Sep 2018 10:24:04 +0200
-Message-ID: <CAMRc=MeT7UP57x+Q-a1ODRCvcGKKj_NSfkBLVQ9O5dhTC1DAYg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/16] nvmem: rework of the subsystem for non-DT users
+Date:   Mon, 10 Sep 2018 10:43:56 +0200
+Message-ID: <CAMRc=Mduu4CmLX5DFtJd8NSbzs5g65U9AmM=rbscit0JyQKVAQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/16] nvmem: remove unused APIs
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Cc:     "David S . Miller" <davem@davemloft.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -75,33 +77,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-09-10 9:54 GMT+02:00 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>:
+2018-09-10 10:09 GMT+02:00 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>:
 >
 >
-> On 07/09/18 11:07, Bartosz Golaszewski wrote:
+> On 10/09/18 08:58, Bartosz Golaszewski wrote:
 >>
->> Next three patches improve the framework by adding a notifier chain
->> for future use and fixing the issue with nvmem device names.
+>> 2018-09-10 9:32 GMT+02:00 Srinivas Kandagatla
+>> <srinivas.kandagatla@linaro.org>:
+>>>
+>>>
+>>>
+>>> On 07/09/18 11:07, Bartosz Golaszewski wrote:
+>>>>
+>>>>
+>>>> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>>>>
+>>>> Remove all APIs dealing with nvmem_cell_info. There are no users and
+>>>> this part of the subsystem will be reworked.
+>>>>
+>>>> This patch temprarily disables support for non-DT users.
+>>>>
+>>>> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>>>> ---
+>>>>    drivers/nvmem/core.c           | 212
+>>>> ++-------------------------------
+>>>>    include/linux/nvmem-consumer.h |  26 ----
+>>>>    include/linux/nvmem-provider.h |  13 --
+>>>>    3 files changed, 12 insertions(+), 239 deletions(-)
+>>>
+>>>
+>>>
+>>> This looks totally un-necessary, Other patches in this series adds them
+>>> back.. Consider updating these in those respective patches.!
+>>>
 >>
->> Finally we add support for cell definitions, cell lookups and make
->> DT systems resolve the nvmem cells during provider's registration.
->>
->> Last patches just use the SPDX license identifiers and make the
->> naming convention for some arguments more consistent.
+>> While this may not be entirely necessary, it's very useful. There's
 >
-> Please send separate series for fixes and things that do not depend on this
-> new apis or Order/place them at the end of the series.
+> Yes, thats exactly what am saying if it not necessary please do not do it.
+>
+>> almost nothing common between this API and the new one added later in
+>
+> There is more than 60%-70% of the code reused in new patches, which is
+> unnecessary churn to me!
 >
 
-The API changes change so many things, that these series would be
-incompatible. I can send the series separately but they would be
-co-dependent anyway. Does it sound good?
+Pretty much the only thing that is reused are the contents of
+nvmem_cell_info_to_nvmem_cell() and even they are placed in a
+different function. Also: this change allows us to add new APIs
+without having to update users at each step only to change them
+afterwards with one of subsequent patches. I would really prefer that
+this stay this way. If there are no users, then there's no breakage
+that would make your point valid.
 
+>> this series. Later patches are MUCH cleaner thanks to this removal and
+>> I believe it makes them easier for review.
+>
+> Am not sure about that, it definitely did not help me!
+>
+
+Why exactly? Aren't clean patches resulting from this removal easier
+to read then if they'd also have to take into account the burden of
+existing code that will be changes anyway later? I really don't see
+why you insist on removing this.
+
+Best regards,
 Bart
 
-> This can help reviewer when there is large number of patches in series with
-> unrelated subject.
->
-> -s-rini
->
+> --srini
+>>
+>>
+>> Best regards,
+>> Bart
+>>
 >
