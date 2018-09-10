@@ -3,49 +3,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 390EE7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 07:32:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D48F7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 07:32:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727759AbeIJMZI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Sep 2018 08:25:08 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34033 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727749AbeIJMZI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 08:25:08 -0400
-Received: by mail-wr1-f65.google.com with SMTP id g33-v6so20763501wrd.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 00:32:28 -0700 (PDT)
+        id S1727969AbeIJMZN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Sep 2018 08:25:13 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:33774 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727695AbeIJMZM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 08:25:12 -0400
+Received: by mail-wm0-f66.google.com with SMTP id r1-v6so4650153wmh.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 00:32:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Nxg0K5Q3XUnA4xH4u9oFwd8IgN2CPwsl1i3H30Ri1CY=;
-        b=ZeZe7vRAOYa/ooqmA3fosbO2oRwlD1+j10xkimmMblacvd7OP4OZRSVKKOh6kbyqF0
-         qtQEIUu1cvhcHuHU59PZ0Pcb7jzP/vkSGov/436cjQYYwn6XxGxbSGt1tjoVODqUm9Dt
-         HBXNhuoglo8X2vtsqHcCcCCybHMrwbIbq9V9Y=
+        bh=ogDjTx0Tfu9DKOoIXA+5Uu8n53a4yKyiIn47VB9Grig=;
+        b=CwW2/7jSG3IRrDtJBtgEgciOHvuxBwmD39e3hsDnSPV5IyHKt2bJjElNg8sYw/qHHh
+         H9/S2Pdmu2Re1OLOZK4aPr75N6jaPwyB2f2sLLN/y64ecLM4HT7q7muIUQhmEGvTySf5
+         gIKTWPqFyNJvBGL1VJrDL0ZELsGeSaZVOGPqE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Nxg0K5Q3XUnA4xH4u9oFwd8IgN2CPwsl1i3H30Ri1CY=;
-        b=SXE++GYhXJ8pIUindgBNZyV6DaxhERWWB0gh/GNdknfJXQoLUGE6aB+XxI8RZTNxOP
-         K068YmCsSZfVCNqedBM3CJv+cqFpsFH4njCwL/cabs3hpvc+8Wc4lPUNFcMJNh9g83f4
-         S9Hx7blBs/5dtttc50VsGv5uKuRr+Hl2Nb7YEVf45IICpm7lBIMIm/FwRmh6lZb81qBX
-         AvPzkK/ocgTYIwuqhgVUx6TjVZ6R7GYX+Xp4hUIepKZfyUashOhBnWTMfCqqlfwRDsqJ
-         QJiWtPes22jb7HOBXteWjpFjA9ahTf9DQQZ1HAYBucAfwSZjXH5IdQPtxTST/323GuFK
-         AMag==
-X-Gm-Message-State: APzg51CHZLIv+zXVL0fhS3RG43PlyFMwgnnfON52koPGbCjo57lE1eCb
-        ZuNCZ7IOXrvW9WTUtk8xdzliEQ==
-X-Google-Smtp-Source: ANB0VdZdtB2fCPjKF1c2unVflAkgCzXgSYNVPHrZ1TJRS2Q35x0hQqp5I3DobAooxZXTuHGkSRxGRQ==
-X-Received: by 2002:adf:ce90:: with SMTP id r16-v6mr13326601wrn.112.1536564747664;
-        Mon, 10 Sep 2018 00:32:27 -0700 (PDT)
+        bh=ogDjTx0Tfu9DKOoIXA+5Uu8n53a4yKyiIn47VB9Grig=;
+        b=qT6ioy+M3lCeWxV5aRaTb4Bf8ev/eIhh+v1qPiqKWXqpt13g4c1Tbdtym8cC6a+lBA
+         oZsxAa89ZWogZe+HijZqxGNoSZx8smgdkov1S9IYAzMz4Sx4H7HkIRv7qX3pIRsFvKO2
+         ootyYD7U3zlBuWVKgXV3p9XX5YIJbY4aJuVU4DqYJYNPwRcLaMWUR9zpuWeNuHEa9LJd
+         1kmEB6pRjmWbodm1EM6iIM0HokglVdotry5URtYHkTK3L2ErHOmXrIDvGCpZ3UAmdGmz
+         1bY6lrY80Liu+bGbGjhkFnekVYrmw5ARA2KQsmx+0yRA77AaECKE1sQkxJzDZgPRyxYB
+         Eslg==
+X-Gm-Message-State: APzg51Bu2Nv/rdvX5ZrR3DGzt7f2HKu0Kko8Ns42NzDuyrcfPTU6lLZv
+        KpDZOP2GQ2kC4s6EbF8zxKCEJA==
+X-Google-Smtp-Source: ANB0VdZdQ9NdJq6/YrRBrkpodOwUgJ8XgoxAg8Mhk8jqNoi2mjythsBxydSqSwQe+jVVnvpPl9lnHw==
+X-Received: by 2002:a1c:46c4:: with SMTP id t187-v6mr10864045wma.158.1536564751459;
+        Mon, 10 Sep 2018 00:32:31 -0700 (PDT)
 Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
-        by smtp.googlemail.com with ESMTPSA id 200-v6sm27067640wmv.6.2018.09.10.00.32.21
+        by smtp.googlemail.com with ESMTPSA id d22-v6sm35467255wra.80.2018.09.10.00.32.30
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Sep 2018 00:32:27 -0700 (PDT)
-Subject: Re: [PATCH v2 11/16] nvmem: add support for cell info
+        Mon, 10 Sep 2018 00:32:30 -0700 (PDT)
+Subject: Re: [PATCH v2 13/16] nvmem: add support for cell lookups from machine
+ code
 To:     Bartosz Golaszewski <brgl@bgdev.pl>,
         "David S . Miller" <davem@davemloft.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -63,14 +64,14 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
 References: <20180907100750.14564-1-brgl@bgdev.pl>
- <20180907100750.14564-12-brgl@bgdev.pl>
+ <20180907100750.14564-14-brgl@bgdev.pl>
 From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <21ec4e6f-aa39-66cf-af32-d9e8e85f4961@linaro.org>
-Date:   Mon, 10 Sep 2018 08:32:21 +0100
+Message-ID: <484b6ec5-cd8e-e5c5-0c5c-2f11c504ea1c@linaro.org>
+Date:   Mon, 10 Sep 2018 08:32:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <20180907100750.14564-12-brgl@bgdev.pl>
+In-Reply-To: <20180907100750.14564-14-brgl@bgdev.pl>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -84,57 +85,136 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On 07/09/18 11:07, Bartosz Golaszewski wrote:
 > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> Add new structs and routines allowing users to define nvmem cells from
-> machine code. This global list of entries is parsed when a provider
-> is registered and cells are associated with the relevant nvmem_device
-> struct.
-> 
-> A possible improvement for the future is to allow users to register
-> cell tables after the nvmem provider has been registered by updating
-> the cell list at each call to nvmem_(add|del)_cell_table().
+> Add a way for machine code users to associate devices with nvmem cells.
 > 
 > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > ---
->   MAINTAINERS                   |  1 +
->   drivers/nvmem/core.c          | 97 ++++++++++++++++++++++++++++++++++-
-
-I see some of this code is removed in first patch and added back here, I 
-dont really see a value in doing this in a single series of patchset.
-
-I would recommend "[PATCH v2 01/16] nvmem: remove unused APIs" and this 
-patch to be merged.
-
->   include/linux/nvmem-machine.h | 41 +++++++++++++++
->   3 files changed, 138 insertions(+), 1 deletion(-)
->   create mode 100644 include/linux/nvmem-machine.h
+>   drivers/nvmem/core.c          | 143 +++++++++++++++++++++++++++-------
+>   include/linux/nvmem-machine.h |  16 ++++
+>   2 files changed, 132 insertions(+), 27 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9ad052aeac39..a520924bf0a9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10391,6 +10391,7 @@ F:	drivers/nvmem/
->   F:	Documentation/devicetree/bindings/nvmem/
->   F:	Documentation/ABI/stable/sysfs-bus-nvmem
->   F:	include/linux/nvmem-consumer.h
-> +F:	include/linux/nvmem-machine.h
->   F:	include/linux/nvmem-provider.h
->   
->   NXP SGTL5000 DRIVER
 > diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-> index 17307015905a..854baa0559a1 100644
+> index da7a9d5beb33..9e2f9c993a07 100644
 > --- a/drivers/nvmem/core.c
 > +++ b/drivers/nvmem/core.c
+> @@ -62,6 +62,9 @@ static DEFINE_IDA(nvmem_ida);
+>   static DEFINE_MUTEX(nvmem_cell_mutex);
+>   static LIST_HEAD(nvmem_cell_tables);
+>   
+> +static DEFINE_MUTEX(nvmem_lookup_mutex);
+> +static LIST_HEAD(nvmem_lookup_list);
+> +
+>   static BLOCKING_NOTIFIER_HEAD(nvmem_notifier);
+>   
+>   #ifdef CONFIG_DEBUG_LOCK_ALLOC
+> @@ -285,6 +288,18 @@ static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
+>   	return to_nvmem_device(d);
+>   }
+>   
+> +static struct nvmem_device *nvmem_find(const char *name)
+> +{
+> +	struct device *d;
+> +
+> +	d = bus_find_device_by_name(&nvmem_bus_type, NULL, name);
+> +
+> +	if (!d)
+> +		return NULL;
+> +
+> +	return to_nvmem_device(d);
+> +}
+> +
+This is removed and added back in same patch, you should consider 
+positioning the caller if possible to avoid any un-necessary changes.
+
+>   static void nvmem_cell_drop(struct nvmem_cell *cell)
+>   {
+>   	mutex_lock(&nvmem_mutex);
+> @@ -421,6 +436,21 @@ nvmem_find_cell_by_index(struct nvmem_device *nvmem, int index)
+>   	return cell;
+>   }
+>   
+> +static struct nvmem_cell *
+> +nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+> +{
+> +	struct nvmem_cell *cell = ERR_PTR(-ENOENT);
+> +	struct nvmem_cell_lookup *lookup;
+> +	struct nvmem_device *nvmem;
+> +	const char *dev_id;
+> +
+> +	if (!dev)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	dev_id = dev_name(dev);
+> +
+> +	mutex_lock(&nvmem_lookup_mutex);
+> +
+> +	list_for_each_entry(lookup, &nvmem_lookup_list, node) {
+> +		if ((strcmp(lookup->dev_id, dev_id) == 0) &&
+> +		    (strcmp(lookup->con_id, con_id) == 0)) {
+> +			/* This is the right entry. */
+> +			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
+> +			if (!nvmem) {
+> +				/* Provider may not be registered yet. */
+> +				cell = ERR_PTR(-EPROBE_DEFER);
+> +				goto out;
+> +			}
+> +
+> +			cell = nvmem_find_cell_by_name(nvmem,
+> +						       lookup->cell_name);
+> +			if (!cell)
+> +				goto out;
+Here nvmem refcount has already increased, you should probably fix this!
+> +		}
+> +	}
+> +
+> +out:
+> +	mutex_unlock(&nvmem_lookup_mutex);
+> +	return cell;
+> +}
+
 ...
->    *
+
 > diff --git a/include/linux/nvmem-machine.h b/include/linux/nvmem-machine.h
-> new file mode 100644
-> index 000000000000..1e199dfaacab
-> --- /dev/null
+
+Should be part of nvmem-consumer.h.
+
+> index 1e199dfaacab..7859c08934d5 100644
+> --- a/include/linux/nvmem-machine.h
 > +++ b/include/linux/nvmem-machine.h
+> @@ -26,16 +26,32 @@ struct nvmem_cell_table {
+>   	struct list_head	node;
+>   };
+>   
+> +struct nvmem_cell_lookup {
+> +	const char		*nvmem_name;
+> +	const char		*cell_name;
+> +	const char		*dev_id;
+> +	const char		*con_id;
+> +	struct list_head	node;
+> +};
 
-This should go in nvmem-consumer.h, I don't think we should add header 
-files for each usecase. These are nvmem consumers so lets put them in 
-correct header file.
+Consider adding kerneldoc to this structure.
 
-
---srini
+> +
+>   #if IS_ENABLED(CONFIG_NVMEM)
+>   
+>   void nvmem_add_cell_table(struct nvmem_cell_table *table);
+>   void nvmem_del_cell_table(struct nvmem_cell_table *table);
+>   
+> +void nvmem_add_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries);
+> +void nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries);
+> +
+>   #else /* CONFIG_NVMEM */
+>   
+>   static inline void nvmem_add_cell_table(struct nvmem_cell_table *table) {}
+>   static inline void nvmem_del_cell_table(struct nvmem_cell_table *table) {}
+>   
+> +static inline void
+> +nvmem_add_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries) {}
+> +static inline void
+> +nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries) {}
+> +
+>   #endif /* CONFIG_NVMEM */
+>   
+>   #endif  /* ifndef _LINUX_NVMEM_MACHINE_H */
+> 
