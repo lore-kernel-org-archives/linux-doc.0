@@ -1,53 +1,28 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5B6B57D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 07:33:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D607D7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 07:36:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727759AbeIJM0J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Sep 2018 08:26:09 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44753 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727735AbeIJM0J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 08:26:09 -0400
-Received: by mail-wr1-f65.google.com with SMTP id v16-v6so20704190wro.11
-        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 00:33:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LUUUoirvmHIU5XdGXsy7cHFNXt6qB4Azz4LVtzSeqKE=;
-        b=BxdF0cMN/Q4CZ3qMQvGbpkm7fdgFs75rY/tCWV6fkqHxYYmm9Z+RMSS4uD1zBOkLYt
-         VHsX5MuykQjkrv3uHyvXyvMgAL/21mD+M+LPvlDFsY/+E1tciuYB22Rajtw2lq2bhKEC
-         ke5wOhd17H2fKxMLbKXwR0dAzK9whCNRPln84=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=LUUUoirvmHIU5XdGXsy7cHFNXt6qB4Azz4LVtzSeqKE=;
-        b=FP0NRzUQkDurDKee6Qdydb0qTGTQTkMZC9d0WQ7wSHOpMXEbMuTtjtfnixFaoUlsb9
-         QrtQOREwi6QzM0/4xcKjMVxWTTpqeemTQHBLpAzjew1otwXqQ6sCBhaESyAgGGzq/594
-         DGO8cpewUX/w4xgNbf33xmi7tB8WsV/AqBzzwdxT2pryUzkeABQfDRP+GI2J6owFnori
-         RwbjTeHUNthz0U6IGTbVbQWKxNCFO1M612xHAzgfgnBDQNzJ4nENm2Dls1jOqSWTAqud
-         igAn8pRp7RriJWWoQBfxrt7fusUCHinymJksEzu7M+3q3ec7Sa4x4nhwmYdvP3cN4Ntb
-         NtIQ==
-X-Gm-Message-State: APzg51CtIB8hTeOTyvK3dFq1qn1D5OlLc62MflcnzsvFm3KSBjDTZ5YW
-        rDee+ikti0rF/SbTRC/NMl13iw==
-X-Google-Smtp-Source: ANB0VdaY2jEFiIXKaYAdkzwQcUk5dOIgrw/iO95d/T9H1/DSLE93iw5gx8zghLXycZ+XLibP+itgyw==
-X-Received: by 2002:a5d:428a:: with SMTP id k10-v6mr14748248wrq.225.1536564808107;
-        Mon, 10 Sep 2018 00:33:28 -0700 (PDT)
-Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
-        by smtp.googlemail.com with ESMTPSA id s13-v6sm19132068wrq.39.2018.09.10.00.33.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Sep 2018 00:33:27 -0700 (PDT)
-Subject: Re: [PATCH v2 07/16] nvmem: change the signature of
- nvmem_unregister()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        id S1727730AbeIJM3Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Sep 2018 08:29:25 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:55043 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727584AbeIJM3Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Sep 2018 08:29:25 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 25DD12071D; Mon, 10 Sep 2018 09:36:44 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-30-219.w90-88.abo.wanadoo.fr [90.88.15.219])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 94CF7204AE;
+        Mon, 10 Sep 2018 09:36:33 +0200 (CEST)
+Date:   Mon, 10 Sep 2018 09:36:32 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
         "David S . Miller" <davem@davemloft.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -56,45 +31,89 @@ To:     Bartosz Golaszewski <brgl@bgdev.pl>,
         Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
         David Lechner <david@lechnology.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
         Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        Chen-Yu Tsai <wens@csie.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v2 11/16] nvmem: add support for cell info
+Message-ID: <20180910093632.3a9337a9@bbrezillon>
+In-Reply-To: <21ec4e6f-aa39-66cf-af32-d9e8e85f4961@linaro.org>
 References: <20180907100750.14564-1-brgl@bgdev.pl>
- <20180907100750.14564-8-brgl@bgdev.pl>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <545e0e3a-7728-7179-2bc3-fbb813e3c39d@linaro.org>
-Date:   Mon, 10 Sep 2018 08:33:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        <20180907100750.14564-12-brgl@bgdev.pl>
+        <21ec4e6f-aa39-66cf-af32-d9e8e85f4961@linaro.org>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20180907100750.14564-8-brgl@bgdev.pl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Srinivas,
 
+On Mon, 10 Sep 2018 08:32:21 +0100
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org> wrote:
 
-On 07/09/18 11:07, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> On 07/09/18 11:07, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > 
+> > Add new structs and routines allowing users to define nvmem cells from
+> > machine code. This global list of entries is parsed when a provider
+> > is registered and cells are associated with the relevant nvmem_device
+> > struct.
+> > 
+> > A possible improvement for the future is to allow users to register
+> > cell tables after the nvmem provider has been registered by updating
+> > the cell list at each call to nvmem_(add|del)_cell_table().
+> > 
+> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > ---
+> >   MAINTAINERS                   |  1 +
+> >   drivers/nvmem/core.c          | 97 ++++++++++++++++++++++++++++++++++-  
 > 
-> This function can no longer fail and there are no more users that check
-> it return value. Change it to return void.
-
-This should be either part of Kref patch or it should state that 
-refcount handling is impoved in Kref patch so there is no need of 
-returning error code from unregister.
-
+> I see some of this code is removed in first patch and added back here, I 
+> dont really see a value in doing this in a single series of patchset.
 > 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->   drivers/nvmem/core.c           | 8 ++------
->   include/linux/nvmem-provider.h | 9 +++------
->   2 files changed, 5 insertions(+), 12 deletions(-)
+> I would recommend "[PATCH v2 01/16] nvmem: remove unused APIs" and this 
+> patch to be merged.
+> 
+> >   include/linux/nvmem-machine.h | 41 +++++++++++++++
+> >   3 files changed, 138 insertions(+), 1 deletion(-)
+> >   create mode 100644 include/linux/nvmem-machine.h
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 9ad052aeac39..a520924bf0a9 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -10391,6 +10391,7 @@ F:	drivers/nvmem/
+> >   F:	Documentation/devicetree/bindings/nvmem/
+> >   F:	Documentation/ABI/stable/sysfs-bus-nvmem
+> >   F:	include/linux/nvmem-consumer.h
+> > +F:	include/linux/nvmem-machine.h
+> >   F:	include/linux/nvmem-provider.h
+> >   
+> >   NXP SGTL5000 DRIVER
+> > diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+> > index 17307015905a..854baa0559a1 100644
+> > --- a/drivers/nvmem/core.c
+> > +++ b/drivers/nvmem/core.c  
+> ...
+> >    *
+> > diff --git a/include/linux/nvmem-machine.h b/include/linux/nvmem-machine.h
+> > new file mode 100644
+> > index 000000000000..1e199dfaacab
+> > --- /dev/null
+> > +++ b/include/linux/nvmem-machine.h  
+> 
+> This should go in nvmem-consumer.h, I don't think we should add header 
+> files for each usecase. These are nvmem consumers so lets put them in 
+> correct header file.
+
+Actually no, it should go in nvmem-provider.h. Consumer should not be
+allowed to define cells, only reference existing ones.
+
+Regards,
+
+Boris
