@@ -1,53 +1,63 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D4D317D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 10:02:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 122D67D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Sep 2018 11:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726907AbeIJOzY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Sep 2018 10:55:24 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:38638 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726738AbeIJOzY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 10:55:24 -0400
-Received: by mail-wr1-f68.google.com with SMTP id w11-v6so21245129wrc.5
-        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 03:02:07 -0700 (PDT)
+        id S1728116AbeIJQUY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Sep 2018 12:20:24 -0400
+Received: from mail-io0-f195.google.com ([209.85.223.195]:38057 "EHLO
+        mail-io0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727810AbeIJQUY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Sep 2018 12:20:24 -0400
+Received: by mail-io0-f195.google.com with SMTP id y3-v6so311621ioc.5
+        for <linux-doc@vger.kernel.org>; Mon, 10 Sep 2018 04:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lIebOggwhmMubIlNRykvvJf2UmQO7I0eIn7QCn7KIt8=;
-        b=IMWtHTaFYvipt/pY3LmOM1fFkTQv4vgxYn0QWcN0RVLstLwt6tovPYuTwwfjIqG9z8
-         pZdkjV3n07nUGDB/SAzajbg21EyqRWQd82JIiRBJDXXpyUfQSzJUutc7/aICKv8lyRaa
-         7DNz3S137h+w9AhJ3xzfFOIJsqnbegGGIbPBo=
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=bJTojSwImwK8PVoQRxmnr5beTpJ4GQQKIKg4TB6gSs0=;
+        b=tL5z19yJvD681RFiehnQrUlHW9EiOvvwfQ0TRQ/bZMVTBEbvRj+jFIc7pErU6VEZBm
+         cALtr5oMg8YbzsJKcKU1Mrl0EvQU0/DMraz5RNfF557DdvXjRCCEBMdWJlAvDIHqAyaH
+         Ekl6oe2PceT1FgQbQvBFnRlglXmHIV8LbOV7Hqpy3qt1/NxUhSrO7cnTgGQt2X7NLxrb
+         kDS1zPbpcfVl4y1yQ2zsgSAB8j4+6zZhaV/vKCTrB1eDE0B+CYLfzzm/I//ZoCkvCt2b
+         5+OXxK+74lI1dgzDPJDfLNi4zvujbVHUZ5EDeE/FQWh+4qLTD6MWjv8PY5sAhSx4tR2h
+         SAYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lIebOggwhmMubIlNRykvvJf2UmQO7I0eIn7QCn7KIt8=;
-        b=mM3NdWrJmWBtVnqei0D+r2PDJF8JJvDsxw7cgDB2n39JM/aAR7X4cO8BWWLowWpvCO
-         wqY/BncWp88LuINS60if+YCJIxzeqQEeceomh/PzDtxtn9/EEIfkaMgon5SP8SapE1ZY
-         sc3MsPqLjy4avf91GqrnOzffhwEpoHWCmqaxt/l6GBjimkQk2SNyRtO+9XTbMVgN2TX/
-         fRsfQYsRc0v7eZ9WFkHiT7hgwwZH3ZGkCXRfm6GzBEU9MmMvnqjcr8sEDUHfgmeDpYq9
-         yBDKtQLRzj6sbk+U/HGDKpL5d3D1UPJyOE33Lp57kV3tVdWhituzvNwCvNOu549IoXiR
-         0TLA==
-X-Gm-Message-State: APzg51B9KxRnnli02i1yQaTezJYxKpuE3Gf891q0xzAPmBFwWNOUVVJ0
-        D/iSKjE2u3eLw+Pf9O6XtDPztE3HjE8=
-X-Google-Smtp-Source: ANB0VdbnhNEcKL2Io8wJ0tKn/c5HxHcyEVBTwDKywH0b/LGZuhoqVqaTpvSnjk8j9uwkzYbTQyRERQ==
-X-Received: by 2002:a5d:6984:: with SMTP id g4-v6mr14262846wru.232.1536573727239;
-        Mon, 10 Sep 2018 03:02:07 -0700 (PDT)
-Received: from [192.168.0.18] (cpc90716-aztw32-2-0-cust92.18-1.cable.virginm.net. [86.26.100.93])
-        by smtp.googlemail.com with ESMTPSA id m68-v6sm30563645wmb.10.2018.09.10.03.02.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Sep 2018 03:02:06 -0700 (PDT)
-Subject: Re: [PATCH v2 00/16] nvmem: rework of the subsystem for non-DT users
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     "David S . Miller" <davem@davemloft.net>,
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=bJTojSwImwK8PVoQRxmnr5beTpJ4GQQKIKg4TB6gSs0=;
+        b=ry00QPUkTKdLsZke0s9Uw6Eh+IGfr8SRkag1w7xyRJzhuuNmtd9f5AHpX3Br9aqZ9q
+         aH4fZ92mfB3BRqJkBRddBBosX21phds6t+9Q9nld7dJ/K5XfYiOhhcM4/XeHJXsA9V2E
+         hOgf9vdkHqd+Ad6Zpv83omUOFAd+vj/lgDd8may/ekuVFKjLgOxgO8ZrdcAZGjSKa5/T
+         hsZCKbpQH3ChruwYyBBnSPz23IAPjyf8kun2UN9tTNtqc01DOzehD0wfWgFpvGdvHQjs
+         533uhB3wj0/dxPA3gVNLuOYl/1SzZ8Gq0b2nwVKacKSTl46P80PBvCz7wZAey8GVPt9j
+         HoDw==
+X-Gm-Message-State: APzg51Cz90NAPFU81eDgg0N6CvBz0X2vuSw+kTFgPR6yGFpjOG2xp0tt
+        EJe/lhNid5v89r8F47bemgJUx1Zvl0UwxIC+QX6zrQ==
+X-Google-Smtp-Source: ANB0VdbU041mT3aFPgQ01KNj5ph2Utz41VlsNbFDyAORkghYIeThOzHSAvH92JgCuYwtJ8zp/5LUwwgzXwGvjLPXMI8=
+X-Received: by 2002:a6b:9157:: with SMTP id t84-v6mr16331007iod.187.1536578808460;
+ Mon, 10 Sep 2018 04:26:48 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a6b:1905:0:0:0:0:0 with HTTP; Mon, 10 Sep 2018 04:26:47
+ -0700 (PDT)
+In-Reply-To: <f161f5fd-a651-eee1-78ee-63607021db7f@linaro.org>
+References: <20180907100750.14564-1-brgl@bgdev.pl> <20180907100750.14564-14-brgl@bgdev.pl>
+ <484b6ec5-cd8e-e5c5-0c5c-2f11c504ea1c@linaro.org> <CAMRc=MdnSHY1ah4X3Bu55HvZcOQHxPHaFudidDA4mEOW9ZzeEg@mail.gmail.com>
+ <20180910102324.52ecd8f7@bbrezillon> <c72866dd-1fb0-c765-5815-ba63d051a09b@linaro.org>
+ <CAMRc=Me0bYjdmaqqxKqFkRRSNdoOgDf1A==dASz0dJAtx9BDqg@mail.gmail.com> <f161f5fd-a651-eee1-78ee-63607021db7f@linaro.org>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 10 Sep 2018 13:26:47 +0200
+Message-ID: <CAMRc=McUsDyAfSPAEdDBODQ9QubDPVU-C+j3mJLTC7GEriESfA@mail.gmail.com>
+Subject: Re: [PATCH v2 13/16] nvmem: add support for cell lookups from machine code
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        "David S . Miller" <davem@davemloft.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -55,7 +65,6 @@ Cc:     "David S . Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
         Kevin Hilman <khilman@kernel.org>,
         David Lechner <david@lechnology.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
         Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
         Chen-Yu Tsai <wens@csie.org>,
@@ -63,43 +72,35 @@ Cc:     "David S . Miller" <davem@davemloft.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-References: <20180907100750.14564-1-brgl@bgdev.pl>
- <da9556fd-0022-8e6a-12b4-cc3babbae5b0@linaro.org>
- <CAMRc=MeT7UP57x+Q-a1ODRCvcGKKj_NSfkBLVQ9O5dhTC1DAYg@mail.gmail.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <dec727cf-486f-8126-34f8-1b1099cec3a1@linaro.org>
-Date:   Mon, 10 Sep 2018 11:02:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAMRc=MeT7UP57x+Q-a1ODRCvcGKKj_NSfkBLVQ9O5dhTC1DAYg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+2018-09-10 11:50 GMT+02:00 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>:
+>
+>
+> On 10/09/18 10:45, Bartosz Golaszewski wrote:
+>>>
+>>> Yes, this is how it should be!
+>>>
+>> Any actual reason for not putting these definitions into a separate
+>> 'machine' header? This approach is currently used by gpio, pinctrl,
+>> iio and regulator framework because most systems use either DT or ACPI
+>> and don't need to pull in any stuff aimed at board files.
+>
+>
+> I don't want to create header files specific to usecase!
+> Lets keep it simple!
+>
 
+I won't argue this point anymore, but I disagree. This is not specific
+to a usecase but to a whole family of users that need to a) define
+nvmem cells without knowing the provider and b) associate them with
+consumers. Something normal providers and consumers are not bothered
+by, thus a new header file would be in order.
 
-On 10/09/18 09:24, Bartosz Golaszewski wrote:
-> The API changes change so many things, that these series would be
-> incompatible. I can send the series separately but they would be
-> co-dependent anyway. Does it sound good?
+But as you wish...
 
-What am asking is to reorder the patches in a such a way that its easy 
-to review.
-ex: Order can be :
-1> kref and update nvmem_unregister followed by the provider changes.
-2> Add support to cell tables, cell lookup, notifier
-3> general cleanup patches  followed by fixes
-
-Current set seems to jump from one thing to other which makes it hard to 
-follow and time consuming while review!
-
-
---srini
-
-> 
-> Bart
+Bart
