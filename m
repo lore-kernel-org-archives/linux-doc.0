@@ -1,152 +1,246 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5C13F7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 19:36:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60A7E7DE7B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 21:13:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726800AbeILAhN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Sep 2018 20:37:13 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:51608 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726713AbeILAhM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Sep 2018 20:37:12 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w8BJYXuQ044987;
-        Tue, 11 Sep 2018 19:36:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=MiN6fZQABftP/Zfpz4YddAislRcHdJxQnnnMi9t/tyY=;
- b=R3dRCsSTa8yKHX/BHw+gMpoGvpsbTWvxQvbVlyLF8ComcofCEIrGFbuIO4uwbcKOLIA4
- ILEdPeiglGzCq8CQBhGrWQBvwCSWjNt6BI4niEjswH13YiE3DOUcp306WvVBNt8p9DGY
- G3+HB+Oj1PEY4ozoNNLVM/6P1j/xzj30+4NQ4IPxaPkqEf5j9tHSMlXAImEayrkQkL47
- 0F0ShMqOqDoo5ZfM7k0OfZhcMMyXxa3mAFN31HvKlbP37KP5n23k9C77ej8aMQAisz5+
- 4idZ/RJuGas6c9hGd6um95ykOAq3qJVHSR+CcnZQZ/dcJebdawh0gRksQ1ZUTdbkT4JQ Bw== 
-Received: from userv0021.oracle.com (userv0021.oracle.com [156.151.31.71])
-        by aserp2120.oracle.com with ESMTP id 2mc6cpp96p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 11 Sep 2018 19:36:00 +0000
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w8BJZw5E015645
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 11 Sep 2018 19:35:59 GMT
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w8BJZwb3010579;
-        Tue, 11 Sep 2018 19:35:58 GMT
-Received: from dhcp-burlington7-2nd-B-east-10-152-55-162.usdhcp.oraclecorp.com (/10.152.32.65)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 11 Sep 2018 12:35:57 -0700
-Subject: Re: [PATCH v3] xen/balloon: add runtime control for scrubbing
- ballooned out pages
-To:     =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= 
-        <marmarek@invisiblethingslab.com>, xen-devel@lists.xenproject.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        David Rientjes <rientjes@google.com>,
+        id S1727534AbeILCOm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Sep 2018 22:14:42 -0400
+Received: from ou.quest-ce.net ([195.154.187.82]:43360 "EHLO ou.quest-ce.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726909AbeILCOm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Sep 2018 22:14:42 -0400
+X-Greylist: delayed 1565 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Sep 2018 22:14:40 EDT
+Received: from [2a01:e35:2e9f:6cb0:857c:11e6:3194:d53d] (helo=test.quest-ce.net)
+        by ou.quest-ce.net with esmtpsa (TLS1.1:RSA_AES_256_CBC_SHA1:256)
+        (Exim 4.80)
+        (envelope-from <ydroneaud@opteya.com>)
+        id 1fzpZ8-000FMY-9v; Tue, 11 Sep 2018 22:47:21 +0200
+Message-ID: <e739a3e6de0e9d9c86ae98c6b5cc3710a1fcb40d.camel@opteya.com>
+From:   Yann Droneaud <ydroneaud@opteya.com>
+To:     Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <5B92A01D02000078001E67CE@prv1-mh.provo.novell.com>
- <20180907164912.21075-1-marmarek@invisiblethingslab.com>
-From:   Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=boris.ostrovsky@oracle.com; prefer-encrypt=mutual; keydata=
- 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
- Jg6OxFYd01z+a+oL
-Message-ID: <a7e4153b-4998-342f-af85-c84a5f4d9e0b@oracle.com>
-Date:   Tue, 11 Sep 2018 15:37:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
-MIME-Version: 1.0
-In-Reply-To: <20180907164912.21075-1-marmarek@invisiblethingslab.com>
-Content-Type: text/plain; charset=utf-8
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-api@vger.kernel.org
+Date:   Tue, 11 Sep 2018 22:47:17 +0200
+In-Reply-To: <20180827093444.23623-1-kraxel@redhat.com>
+References: <20180827093444.23623-1-kraxel@redhat.com>
+Organization: OPTEYA
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9013 signatures=668708
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1807170000 definitions=main-1809110192
+X-SA-Exim-Connect-IP: 2a01:e35:2e9f:6cb0:857c:11e6:3194:d53d
+X-SA-Exim-Mail-From: ydroneaud@opteya.com
+Subject: Re: [v7] Add udmabuf misc device
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+X-SA-Exim-Scanned: Yes (on ou.quest-ce.net)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/7/18 12:49 PM, Marek Marczykowski-Górecki wrote:
-> Scrubbing pages on initial balloon down can take some time, especially
-> in nested virtualization case (nested EPT is slow). When HVM/PVH guest is
-> started with memory= significantly lower than maxmem=, all the extra
-> pages will be scrubbed before returning to Xen. But since most of them
-> weren't used at all at that point, Xen needs to populate them first
-> (from populate-on-demand pool). In nested virt case (Xen inside KVM)
-> this slows down the guest boot by 15-30s with just 1.5GB needed to be
-> returned to Xen.
->
-> Add runtime parameter to enable/disable it, to allow initially disabling
-> scrubbing, then enable it back during boot (for example in initramfs).
-> Such usage relies on assumption that a) most pages ballooned out during
-> initial boot weren't used at all, and b) even if they were, very few
-> secrets are in the guest at that time (before any serious userspace
-> kicks in).
-> Convert CONFIG_XEN_SCRUB_PAGES to CONFIG_XEN_SCRUB_PAGES_DEFAULT (also
-> enabled by default), controlling default value for the new runtime
-> switch.
->
-> Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+Hi,
+
+Le lundi 27 août 2018 à 11:34 +0200, Gerd Hoffmann a écrit :
+> A driver to let userspace turn memfd regions into dma-bufs.
+> 
+> Use case:  Allows qemu create dmabufs for the vga framebuffer or
+> virtio-gpu ressources.  Then they can be passed around to display
+> those guest things on the host.  To spice client for classic full
+> framebuffer display, and hopefully some day to wayland server for
+> seamless guest window display.
+> 
+> qemu test branch:
+>   https://git.kraxel.org/cgit/qemu/log/?h=sirius/udmabuf
+> 
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  Documentation/ioctl/ioctl-number.txt              |   1 +
+>  include/uapi/linux/udmabuf.h                      |  33 +++
+>  drivers/dma-buf/udmabuf.c                         | 287
+> ++++++++++++++++++++++
+>  tools/testing/selftests/drivers/dma-buf/udmabuf.c |  96 ++++++++
+>  MAINTAINERS                                       |  16 ++
+>  drivers/dma-buf/Kconfig                           |   8 +
+>  drivers/dma-buf/Makefile                          |   1 +
+>  tools/testing/selftests/drivers/dma-buf/Makefile  |   5 +
+>  8 files changed, 447 insertions(+)
+>  create mode 100644 include/uapi/linux/udmabuf.h
+>  create mode 100644 drivers/dma-buf/udmabuf.c
+>  create mode 100644 tools/testing/selftests/drivers/dma-buf/udmabuf.c
+>  create mode 100644 tools/testing/selftests/drivers/dma-buf/Makefile
+> 
+> diff --git a/include/uapi/linux/udmabuf.h
+> b/include/uapi/linux/udmabuf.h
+> new file mode 100644
+> index 0000000000..46b6532ed8
+> --- /dev/null
+> +++ b/include/uapi/linux/udmabuf.h
+> @@ -0,0 +1,33 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_LINUX_UDMABUF_H
+> +#define _UAPI_LINUX_UDMABUF_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/ioctl.h>
+> +
+> +#define UDMABUF_FLAGS_CLOEXEC	0x01
+> +
+> +struct udmabuf_create {
+> +	__u32 memfd;
+> +	__u32 flags;
+> +	__u64 offset;
+> +	__u64 size;
+> +};
+> +
+> +struct udmabuf_create_item {
+> +	__u32 memfd;
+> +	__u32 __pad;
+> +	__u64 offset;
+> +	__u64 size;
+> +};
+> +
+> +struct udmabuf_create_list {
+> +	__u32 flags;
+> +	__u32 count;
+> +	struct udmabuf_create_item list[];
+> +};
+> +
+> +#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
+> +#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct
+> udmabuf_create_list)
+> +
+> +#endif /* _UAPI_LINUX_UDMABUF_H */
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> new file mode 100644
+> index 0000000000..8e24204526
+> --- /dev/null
+> +++ b/drivers/dma-buf/udmabuf.c
+> +static long udmabuf_create(struct udmabuf_create_list *head,
+> +			   struct udmabuf_create_item *list)
+> +{
+> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> +	struct file *memfd = NULL;
+> +	struct udmabuf *ubuf;
+> +	struct dma_buf *buf;
+> +	pgoff_t pgoff, pgcnt, pgidx, pgbuf;
+> +	struct page *page;
+> +	int seals, ret = -EINVAL;
+> +	u32 i, flags;
+> +
+> +	ubuf = kzalloc(sizeof(struct udmabuf), GFP_KERNEL);
+> +	if (!ubuf)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < head->count; i++) {
+
+You need to check .__pad for unsupported value:
+
+                if (list[i].__pad) {
+                        ret = -EINVAL;
+                        goto err_free_ubuf;
+                }
+
+> +		if (!IS_ALIGNED(list[i].offset, PAGE_SIZE))
+> +			goto err_free_ubuf;
+> +		if (!IS_ALIGNED(list[i].size, PAGE_SIZE))
+> +			goto err_free_ubuf;
+> +		ubuf->pagecount += list[i].size >> PAGE_SHIFT;
+> +	}
+> +	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(struct page
+> *),
+> +				    GFP_KERNEL);
+> +	if (!ubuf->pages) {
+> +		ret = -ENOMEM;
+> +		goto err_free_ubuf;
+> +	}
+> +
+> +	pgbuf = 0;
+> +	for (i = 0; i < head->count; i++) {
+> +		memfd = fget(list[i].memfd);
+> +		if (!memfd)
+> +			goto err_put_pages;
+> +		if (!shmem_mapping(file_inode(memfd)->i_mapping))
+> +			goto err_put_pages;
+> +		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
+> +		if (seals == -EINVAL ||
+> +		    (seals & SEALS_WANTED) != SEALS_WANTED ||
+> +		    (seals & SEALS_DENIED) != 0)
+> +			goto err_put_pages;
+> +		pgoff = list[i].offset >> PAGE_SHIFT;
+> +		pgcnt = list[i].size   >> PAGE_SHIFT;
+> +		for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+> +			page = shmem_read_mapping_page(
+> +				file_inode(memfd)->i_mapping, pgoff +
+> pgidx);
+> +			if (IS_ERR(page)) {
+> +				ret = PTR_ERR(page);
+> +				goto err_put_pages;
+> +			}
+> +			ubuf->pages[pgbuf++] = page;
+> +		}
+> +		fput(memfd);
+> +	}
+> +	memfd = NULL;
+> +
+> +	exp_info.ops  = &udmabuf_ops;
+> +	exp_info.size = ubuf->pagecount << PAGE_SHIFT;
+> +	exp_info.priv = ubuf;
+> +
+> +	buf = dma_buf_export(&exp_info);
+> +	if (IS_ERR(buf)) {
+> +		ret = PTR_ERR(buf);
+> +		goto err_put_pages;
+> +	}
+> +
+> +	flags = 0;
+
+You need to check .flags for unsupported value:
+
+        if (head->flags & ~UDMABUF_FLAGS_CLOEXEC)
+                 return -EINVAL;
+
+(at the beginning of the function, of course).
+
+> +	if (head->flags & UDMABUF_FLAGS_CLOEXEC)
+> +		flags |= O_CLOEXEC;
+> +	return dma_buf_fd(buf, flags);
+> +
+> +err_put_pages:
+> +	while (pgbuf > 0)
+> +		put_page(ubuf->pages[--pgbuf]);
+> +err_free_ubuf:
+> +	fput(memfd);
+> +	kfree(ubuf->pages);
+> +	kfree(ubuf);
+> +	return ret;
+> +}
+> +
+
+Regards
+
+-- 
+Yann Droneaud
+OPTEYA
 
 
-Applied to for-linux-4.19b.
-
--boris
