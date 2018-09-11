@@ -5,242 +5,73 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 60A7E7DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 21:13:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 864507D87C
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 22:02:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727534AbeILCOm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Sep 2018 22:14:42 -0400
-Received: from ou.quest-ce.net ([195.154.187.82]:43360 "EHLO ou.quest-ce.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726909AbeILCOm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Sep 2018 22:14:42 -0400
-X-Greylist: delayed 1565 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Sep 2018 22:14:40 EDT
-Received: from [2a01:e35:2e9f:6cb0:857c:11e6:3194:d53d] (helo=test.quest-ce.net)
-        by ou.quest-ce.net with esmtpsa (TLS1.1:RSA_AES_256_CBC_SHA1:256)
-        (Exim 4.80)
-        (envelope-from <ydroneaud@opteya.com>)
-        id 1fzpZ8-000FMY-9v; Tue, 11 Sep 2018 22:47:21 +0200
-Message-ID: <e739a3e6de0e9d9c86ae98c6b5cc3710a1fcb40d.camel@opteya.com>
-From:   Yann Droneaud <ydroneaud@opteya.com>
-To:     Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-api@vger.kernel.org
-Date:   Tue, 11 Sep 2018 22:47:17 +0200
-In-Reply-To: <20180827093444.23623-1-kraxel@redhat.com>
-References: <20180827093444.23623-1-kraxel@redhat.com>
-Organization: OPTEYA
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a01:e35:2e9f:6cb0:857c:11e6:3194:d53d
-X-SA-Exim-Mail-From: ydroneaud@opteya.com
-Subject: Re: [v7] Add udmabuf misc device
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on ou.quest-ce.net)
+        id S1727796AbeILDDs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Sep 2018 23:03:48 -0400
+Received: from ipmail01.adl6.internode.on.net ([150.101.137.136]:29112 "EHLO
+        ipmail01.adl6.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727762AbeILDDs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Sep 2018 23:03:48 -0400
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail01.adl6.internode.on.net with ESMTP; 12 Sep 2018 07:32:25 +0930
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1fzqjo-0003tX-6D; Wed, 12 Sep 2018 08:02:24 +1000
+Date:   Wed, 12 Sep 2018 08:02:24 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>
+Subject: Re: [PATCH v3 1/4] fs/dcache: Fix incorrect nr_dentry_unused
+ accounting in shrink_dcache_sb()
+Message-ID: <20180911220224.GE5631@dastard>
+References: <1536693506-11949-1-git-send-email-longman@redhat.com>
+ <1536693506-11949-2-git-send-email-longman@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1536693506-11949-2-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-Le lundi 27 août 2018 à 11:34 +0200, Gerd Hoffmann a écrit :
-> A driver to let userspace turn memfd regions into dma-bufs.
+On Tue, Sep 11, 2018 at 03:18:23PM -0400, Waiman Long wrote:
+> The nr_dentry_unused per-cpu counter tracks dentries in both the
+> LRU lists and the shrink lists where the DCACHE_LRU_LIST bit is set.
+> The shrink_dcache_sb() function moves dentries from the LRU list to a
+> shrink list and subtracts the dentry count from nr_dentry_unused. This
+> is incorrect as the nr_dentry_unused count Will also be decremented in
+> shrink_dentry_list() via d_shrink_del(). To fix this double decrement,
+> the decrement in the shrink_dcache_sb() function is taken out.
 > 
-> Use case:  Allows qemu create dmabufs for the vga framebuffer or
-> virtio-gpu ressources.  Then they can be passed around to display
-> those guest things on the host.  To spice client for classic full
-> framebuffer display, and hopefully some day to wayland server for
-> seamless guest window display.
+> Fixes: 4e717f5c1083 ("list_lru: remove special case function list_lru_dispose_all."
 > 
-> qemu test branch:
->   https://git.kraxel.org/cgit/qemu/log/?h=sirius/udmabuf
-> 
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->  Documentation/ioctl/ioctl-number.txt              |   1 +
->  include/uapi/linux/udmabuf.h                      |  33 +++
->  drivers/dma-buf/udmabuf.c                         | 287
-> ++++++++++++++++++++++
->  tools/testing/selftests/drivers/dma-buf/udmabuf.c |  96 ++++++++
->  MAINTAINERS                                       |  16 ++
->  drivers/dma-buf/Kconfig                           |   8 +
->  drivers/dma-buf/Makefile                          |   1 +
->  tools/testing/selftests/drivers/dma-buf/Makefile  |   5 +
->  8 files changed, 447 insertions(+)
->  create mode 100644 include/uapi/linux/udmabuf.h
->  create mode 100644 drivers/dma-buf/udmabuf.c
->  create mode 100644 tools/testing/selftests/drivers/dma-buf/udmabuf.c
->  create mode 100644 tools/testing/selftests/drivers/dma-buf/Makefile
-> 
-> diff --git a/include/uapi/linux/udmabuf.h
-> b/include/uapi/linux/udmabuf.h
-> new file mode 100644
-> index 0000000000..46b6532ed8
-> --- /dev/null
-> +++ b/include/uapi/linux/udmabuf.h
-> @@ -0,0 +1,33 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +#ifndef _UAPI_LINUX_UDMABUF_H
-> +#define _UAPI_LINUX_UDMABUF_H
-> +
-> +#include <linux/types.h>
-> +#include <linux/ioctl.h>
-> +
-> +#define UDMABUF_FLAGS_CLOEXEC	0x01
-> +
-> +struct udmabuf_create {
-> +	__u32 memfd;
-> +	__u32 flags;
-> +	__u64 offset;
-> +	__u64 size;
-> +};
-> +
-> +struct udmabuf_create_item {
-> +	__u32 memfd;
-> +	__u32 __pad;
-> +	__u64 offset;
-> +	__u64 size;
-> +};
-> +
-> +struct udmabuf_create_list {
-> +	__u32 flags;
-> +	__u32 count;
-> +	struct udmabuf_create_item list[];
-> +};
-> +
-> +#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
-> +#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct
-> udmabuf_create_list)
-> +
-> +#endif /* _UAPI_LINUX_UDMABUF_H */
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> new file mode 100644
-> index 0000000000..8e24204526
-> --- /dev/null
-> +++ b/drivers/dma-buf/udmabuf.c
-> +static long udmabuf_create(struct udmabuf_create_list *head,
-> +			   struct udmabuf_create_item *list)
-> +{
-> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> +	struct file *memfd = NULL;
-> +	struct udmabuf *ubuf;
-> +	struct dma_buf *buf;
-> +	pgoff_t pgoff, pgcnt, pgidx, pgbuf;
-> +	struct page *page;
-> +	int seals, ret = -EINVAL;
-> +	u32 i, flags;
-> +
-> +	ubuf = kzalloc(sizeof(struct udmabuf), GFP_KERNEL);
-> +	if (!ubuf)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < head->count; i++) {
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-You need to check .__pad for unsupported value:
+Please add a stable tag for this.
 
-                if (list[i].__pad) {
-                        ret = -EINVAL;
-                        goto err_free_ubuf;
-                }
+Otherwise looks fine.
 
-> +		if (!IS_ALIGNED(list[i].offset, PAGE_SIZE))
-> +			goto err_free_ubuf;
-> +		if (!IS_ALIGNED(list[i].size, PAGE_SIZE))
-> +			goto err_free_ubuf;
-> +		ubuf->pagecount += list[i].size >> PAGE_SHIFT;
-> +	}
-> +	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(struct page
-> *),
-> +				    GFP_KERNEL);
-> +	if (!ubuf->pages) {
-> +		ret = -ENOMEM;
-> +		goto err_free_ubuf;
-> +	}
-> +
-> +	pgbuf = 0;
-> +	for (i = 0; i < head->count; i++) {
-> +		memfd = fget(list[i].memfd);
-> +		if (!memfd)
-> +			goto err_put_pages;
-> +		if (!shmem_mapping(file_inode(memfd)->i_mapping))
-> +			goto err_put_pages;
-> +		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
-> +		if (seals == -EINVAL ||
-> +		    (seals & SEALS_WANTED) != SEALS_WANTED ||
-> +		    (seals & SEALS_DENIED) != 0)
-> +			goto err_put_pages;
-> +		pgoff = list[i].offset >> PAGE_SHIFT;
-> +		pgcnt = list[i].size   >> PAGE_SHIFT;
-> +		for (pgidx = 0; pgidx < pgcnt; pgidx++) {
-> +			page = shmem_read_mapping_page(
-> +				file_inode(memfd)->i_mapping, pgoff +
-> pgidx);
-> +			if (IS_ERR(page)) {
-> +				ret = PTR_ERR(page);
-> +				goto err_put_pages;
-> +			}
-> +			ubuf->pages[pgbuf++] = page;
-> +		}
-> +		fput(memfd);
-> +	}
-> +	memfd = NULL;
-> +
-> +	exp_info.ops  = &udmabuf_ops;
-> +	exp_info.size = ubuf->pagecount << PAGE_SHIFT;
-> +	exp_info.priv = ubuf;
-> +
-> +	buf = dma_buf_export(&exp_info);
-> +	if (IS_ERR(buf)) {
-> +		ret = PTR_ERR(buf);
-> +		goto err_put_pages;
-> +	}
-> +
-> +	flags = 0;
-
-You need to check .flags for unsupported value:
-
-        if (head->flags & ~UDMABUF_FLAGS_CLOEXEC)
-                 return -EINVAL;
-
-(at the beginning of the function, of course).
-
-> +	if (head->flags & UDMABUF_FLAGS_CLOEXEC)
-> +		flags |= O_CLOEXEC;
-> +	return dma_buf_fd(buf, flags);
-> +
-> +err_put_pages:
-> +	while (pgbuf > 0)
-> +		put_page(ubuf->pages[--pgbuf]);
-> +err_free_ubuf:
-> +	fput(memfd);
-> +	kfree(ubuf->pages);
-> +	kfree(ubuf);
-> +	return ret;
-> +}
-> +
-
-Regards
+Reviewed-by: Dave Chinner <dchinner@redhat.com>
 
 -- 
-Yann Droneaud
-OPTEYA
-
-
+Dave Chinner
+david@fromorbit.com
