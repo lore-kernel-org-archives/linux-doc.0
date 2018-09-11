@@ -2,65 +2,63 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C53E7D581
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 16:24:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B032E7D584
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 16:25:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726800AbeIKVYk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Sep 2018 17:24:40 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54462 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726782AbeIKVYk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Sep 2018 17:24:40 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8BGOWda052546
-        for <linux-doc@vger.kernel.org>; Tue, 11 Sep 2018 12:24:37 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2mef5xp2vk-1
+        id S1726622AbeIKVZR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Sep 2018 17:25:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58054 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726980AbeIKVZR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Sep 2018 17:25:17 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8BGOj1B008957
+        for <linux-doc@vger.kernel.org>; Tue, 11 Sep 2018 12:25:13 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2mee0h9jjd-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 11 Sep 2018 12:24:34 -0400
+        for <linux-doc@vger.kernel.org>; Tue, 11 Sep 2018 12:24:59 -0400
 Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Tue, 11 Sep 2018 17:24:17 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Tue, 11 Sep 2018 17:24:43 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 11 Sep 2018 17:24:14 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8BGOEu565863730
+        Tue, 11 Sep 2018 17:24:39 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8BGOcEs65601560
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 11 Sep 2018 16:24:14 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E6749AE045;
-        Tue, 11 Sep 2018 19:23:29 +0100 (BST)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 740CDAE053;
-        Tue, 11 Sep 2018 19:23:29 +0100 (BST)
+        Tue, 11 Sep 2018 16:24:38 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 82A1E5205F;
+        Tue, 11 Sep 2018 19:24:27 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.206.72])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Tue, 11 Sep 2018 19:23:29 +0100 (BST)
-Date:   Tue, 11 Sep 2018 19:24:11 +0300
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id A932D52057;
+        Tue, 11 Sep 2018 19:24:26 +0100 (BST)
+Date:   Tue, 11 Sep 2018 19:24:35 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: nodocs in 4.19-rcX
-References: <ace3eeb9-0a15-a4ff-cf2d-af9335fd9810@infradead.org>
- <20180911092522.7a335ce8@lwn.net>
- <e1ae3f3f-5cd0-6542-9f95-69ea7e5ecafa@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] docs/core-api: add memory allocation guide
+References: <1534517236-16762-1-git-send-email-rppt@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e1ae3f3f-5cd0-6542-9f95-69ea7e5ecafa@infradead.org>
+In-Reply-To: <1534517236-16762-1-git-send-email-rppt@linux.vnet.ibm.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-TM-AS-GCONF: 00
-x-cbid: 18091116-4275-0000-0000-000002B8C68E
+x-cbid: 18091116-0028-0000-0000-000002F7C68E
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18091116-4276-0000-0000-000037C1F7FC
-Message-Id: <20180911162410.GB30245@rapoport-lnx>
+x-cbparentid: 18091116-0029-0000-0000-000023B16206
+Message-Id: <20180911162435.GC30245@rapoport-lnx>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-11_08:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -73,96 +71,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 11, 2018 at 08:35:18AM -0700, Randy Dunlap wrote:
-> On 9/11/18 8:25 AM, Jonathan Corbet wrote:
-> > On Mon, 10 Sep 2018 15:51:20 -0700
-> > Randy Dunlap <rdunlap@infradead.org> wrote:
-> > 
-> >> 4.19-rc contains some users of :nodocs: but that is not recognized yet,
-> >> so we get:
-> >>
-> >> lnx-419-rc3/Documentation/core-api/boot-time-mm.rst:78: ERROR: Error in "kernel-doc" directive:
-> >> unknown option: "nodocs".
-> >>
-> >> .. kernel-doc:: mm/bootmem.c
-> >>    :nodocs:
-> >>
-> >> lnx-419-rc3/Documentation/core-api/boot-time-mm.rst:91: ERROR: Error in "kernel-doc" directive:
-> >> unknown option: "nodocs".
-> >>
-> >> .. kernel-doc:: mm/memblock.c
-> >>    :nodocs:
-> >>
-> >>
-> >> Do you plan to merge the patch(es) for :nodocs: ?
-> > 
-> > :nodocs" was v1 of the patch set:
-> > 
-> >   https://lwn.net/ml/linux-doc/1529328996-16247-1-git-send-email-rppt%40linux.vnet.ibm.com/
-> > 
-> > In the end, I merged v3, which changed things (and did not contain
-> > the :nodocs: directive:
-> > 
-> >   https://lwn.net/ml/linux-doc/1530306311-10510-1-git-send-email-rppt%40linux.vnet.ibm.com/
-> 
-> Yes, I found that later.
-> 
-> which uses (for the record)
->    :functions:
-> with an empty functions list -- to exclude "DOC:" sections.
-> 
-> > So I'm guessing that anything that snuck in with :nodocs: didn't get
-> > updated.  Somehow I missed that.  Adding CC: Mike, since his
-> > fingerprints are on all aspects of this...:)
+Ping?
 
-Yeah, right. I've also missed that back then.
-The fix is below.
-
-> thanks.
+On Fri, Aug 17, 2018 at 05:47:13PM +0300, Mike Rapoport wrote:
+> Hi,
+> 
+> As Vlastimil mentioned at [1], it would be nice to have some guide about
+> memory allocation. This set adds such guide that summarizes the "best
+> practices". 
+> 
+> The changes from the RFC include additions and corrections from Michal and
+> Randy. I've also added markup to cross-reference the kernel-doc
+> documentation.
+> 
+> I've split the patch into three to separate labels addition to the exiting
+> files from the new contents.
+> 
+> Note that the second patch depends on the mm docs update [2] that Andrew
+> took to the -mm tree.
+> 
+> v2 -> v3:
+>   * s/HW/hardware
+> 
+> [1] https://www.spinics.net/lists/netfilter-devel/msg55542.html
+> [2] https://lkml.org/lkml/2018/7/26/684
+> 
+> Mike Rapoport (3):
+>   docs: core-api/gfp_mask-from-fs-io: add a label for cross-referencing
+>   docs: core-api/mm-api: add a lable for GFP flags section
+>   docs: core-api: add memory allocation guide
+> 
+>  Documentation/core-api/gfp_mask-from-fs-io.rst |   2 +
+>  Documentation/core-api/index.rst               |   1 +
+>  Documentation/core-api/memory-allocation.rst   | 124 +++++++++++++++++++++++++
+>  Documentation/core-api/mm-api.rst              |   2 +
+>  4 files changed, 129 insertions(+)
+>  create mode 100644 Documentation/core-api/memory-allocation.rst
 > 
 > -- 
-> ~Randy
+> 2.7.4
 > 
-
-From 1d7ab80e5388d993b7b262b24da1f3e55f30f508 Mon Sep 17 00:00:00 2001
-From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Date: Tue, 11 Sep 2018 19:16:36 +0300
-Subject: [PATCH] docs/boot-time-mm: fix kernel-doc directive for including all
- but DOC:
-
-There were several rounds of the patches that enabled "functions" directive
-with no parameters in kerneldoc.py to allow including all the kernel-doc
-comments except the DOC: sections.
-
-Yet, the boot-time-mm.rst sneaked in with the older version of that
-directive and was not updated. Update it now.
-
-Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
----
- Documentation/core-api/boot-time-mm.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/core-api/boot-time-mm.rst b/Documentation/core-api/boot-time-mm.rst
-index 03cb164..6e12e89 100644
---- a/Documentation/core-api/boot-time-mm.rst
-+++ b/Documentation/core-api/boot-time-mm.rst
-@@ -76,7 +76,7 @@ These interfaces available only with bootmem, i.e when ``CONFIG_NO_BOOTMEM=n``
- 
- .. kernel-doc:: include/linux/bootmem.h
- .. kernel-doc:: mm/bootmem.c
--   :nodocs:
-+   :functions:
- 
- Memblock specific API
- ---------------------
-@@ -89,4 +89,4 @@ really happens under the hood.
- 
- .. kernel-doc:: include/linux/memblock.h
- .. kernel-doc:: mm/memblock.c
--   :nodocs:
-+   :functions:
--- 
-2.7.4
 
 -- 
 Sincerely yours,
