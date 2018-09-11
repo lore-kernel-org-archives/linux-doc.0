@@ -5,75 +5,104 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0344A7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 17:55:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5CE667D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 19:18:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727703AbeIKW4X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Sep 2018 18:56:23 -0400
-Received: from ms.lwn.net ([45.79.88.28]:51544 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727044AbeIKW4X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Sep 2018 18:56:23 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727044AbeILATS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Sep 2018 20:19:18 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:32902 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726775AbeILATS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Sep 2018 20:19:18 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4306772A;
-        Tue, 11 Sep 2018 17:55:57 +0000 (UTC)
-Date:   Tue, 11 Sep 2018 11:55:55 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        by mx1.redhat.com (Postfix) with ESMTPS id 398754023ECB;
+        Tue, 11 Sep 2018 19:18:34 +0000 (UTC)
+Received: from llong.com (ovpn-123-172.rdu2.redhat.com [10.10.123.172])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CE3EE2166BA3;
+        Tue, 11 Sep 2018 19:18:30 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
         Matthew Wilcox <willy@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] docs: core-api: add memory allocation guide
-Message-ID: <20180911115555.5fce5631@lwn.net>
-In-Reply-To: <1534517236-16762-4-git-send-email-rppt@linux.vnet.ibm.com>
-References: <1534517236-16762-1-git-send-email-rppt@linux.vnet.ibm.com>
-        <1534517236-16762-4-git-send-email-rppt@linux.vnet.ibm.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v3 0/4] fs/dcache: Track # of negative dentries
+Date:   Tue, 11 Sep 2018 15:18:22 -0400
+Message-Id: <1536693506-11949-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 11 Sep 2018 19:18:34 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 11 Sep 2018 19:18:34 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry for being so slow to get to this...it fell into a dark crack in my
-rickety email folder hierarchy.  I do have one question...
+ v2->v3:
+  - With confirmation that the dummy array in dentry_stat structure
+    was never a replacement of a previously used field, patch 3 is now
+    reverted back to use one of dummy field as the negative dentry count
+    instead of adding a new field.
 
-On Fri, 17 Aug 2018 17:47:16 +0300
-Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+ v1->v2:
+  - Clarify what the new nr_dentry_negative per-cpu counter is tracking
+    and open-code the increment and decrement as suggested by Dave Chinner.
+  - Append the new nr_dentry_negative count as the 7th element of dentry-state
+    instead of replacing one of the dummy entries.
+  - Remove patch "fs/dcache: Make negative dentries easier to be
+    reclaimed" for now as I need more time to think about what
+    to do with it.
+  - Add 2 more patches to address issues found while reviewing the
+    dentry code.
+  - Add another patch to change the conditional branch of
+    nr_dentry_negative accounting to conditional move so as to reduce
+    the performance impact of the accounting code.
 
-> +    ``GFP_HIGHUSER_MOVABLE`` does not require that allocated memory
-> +    will be directly accessible by the kernel or the hardware and
-> +    implies that the data is movable.
-> +
-> +    ``GFP_HIGHUSER`` means that the allocated memory is not movable,
-> +    but it is not required to be directly accessible by the kernel or
-> +    the hardware. An example may be a hardware allocation that maps
-> +    data directly into userspace but has no addressing limitations.
-> +
-> +    ``GFP_USER`` means that the allocated memory is not movable and it
-> +    must be directly accessible by the kernel or the hardware. It is
-> +    typically used by hardware for buffers that are mapped to
-> +    userspace (e.g. graphics) that hardware still must DMA to.
+This patchset addresses 2 issues found in the dentry code and adds a
+new nr_dentry_negative per-cpu counter to track the total number of
+negative dentries in all the LRU lists.
 
-I realize that this is copied from elsewhere, but still...as I understand
-it, the "HIGH" part means that the allocation can be satisfied from high
-memory, nothing more.  So...it's irrelevant on 64-bit machines to start
-with, right?  And it has nothing to do with DMA, I would think.  That would
-be handled by the DMA infrastructure and, perhaps, the DMA* zones.  Right?
+Patch 1 fixes a bug in the accounting of nr_dentry_unused in
+shrink_dcache_sb().
 
-I ask because high memory is an artifact of how things are laid out on
-32-bit systems; hardware can often DMA quite easily into memory that the
-kernel sees as "high".  So, to me, this description seems kind of
-confusing; I wouldn't mention hardware at all.  But maybe I'm missing
-something?
+Patch 2 removes the ____cacheline_aligned_in_smp tag from super_block
+LRU lists.
 
-Thanks,
+Patch 3 adds the new nr_dentry_negative per-cpu counter.
 
-jon
+Patch 4 removes conditional branches in nr_dentry_negative accounting
+code.
+
+Various filesystem related tests were run and no statistically
+significant changes in performance was observed.
+
+Waiman Long (4):
+  fs/dcache: Fix incorrect nr_dentry_unused accounting in
+    shrink_dcache_sb()
+  fs: Don't need to put list_lru into its own cacheline
+  fs/dcache: Track & report number of negative dentries
+  fs/dcache: Eliminate branches in nr_dentry_negative accounting
+
+ Documentation/sysctl/fs.txt | 26 +++++++++++++---------
+ fs/dcache.c                 | 54 ++++++++++++++++++++++++++++++++++++++++-----
+ include/linux/dcache.h      |  7 +++---
+ include/linux/fs.h          |  9 ++++----
+ 4 files changed, 74 insertions(+), 22 deletions(-)
+
+-- 
+1.8.3.1
+
