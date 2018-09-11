@@ -1,102 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BBF137D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 17:53:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0344A7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 17:55:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727034AbeIKWxb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Sep 2018 18:53:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55586 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726782AbeIKWxb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Sep 2018 18:53:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=5NX6wVqFgfcsO5bnuNT/M5hBLlzqx0yJ2dKiSUMMry0=; b=Gb5RbwGqBfiIArfmkhXqjf3Ho
-        SFnCD2Q06qTakvIH866pF2PnZdEJ/oYxcWYMhgcxg9gZglbgxgTuL0jvAwTAv1/bqqJXOWvDlkvy1
-        Zq8vRM2cHYU24KghyG1GK2oEpT43JybuHc7cA48hH1Z66YfRf93JMx4CugxZKuUtk/qK4iPierbRm
-        KmNHe9jcGmnoA/kWr5t4aKWsW4FIZuqT6hS/j9EAHyqbVXIDXzRWBVuD0whaAU4b8N6W1SyjF3Bct
-        s0Oyj5fcx+ermgMH/KyIc8HlE2VPzTjf1m5lcP6+QN3/T0cW1VWtG2h4cbE9hZDVCN4fX20Y5u5z/
-        lsvpjDwuA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fzmqY-0003Re-WC; Tue, 11 Sep 2018 17:53:07 +0000
-Subject: Re: nodocs in 4.19-rcX
+        id S1727703AbeIKW4X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Sep 2018 18:56:23 -0400
+Received: from ms.lwn.net ([45.79.88.28]:51544 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727044AbeIKW4X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Sep 2018 18:56:23 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 4306772A;
+        Tue, 11 Sep 2018 17:55:57 +0000 (UTC)
+Date:   Tue, 11 Sep 2018 11:55:55 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <ace3eeb9-0a15-a4ff-cf2d-af9335fd9810@infradead.org>
- <20180911092522.7a335ce8@lwn.net>
- <e1ae3f3f-5cd0-6542-9f95-69ea7e5ecafa@infradead.org>
- <20180911162410.GB30245@rapoport-lnx>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <34e83216-953f-600a-88e3-5e084f79b2be@infradead.org>
-Date:   Tue, 11 Sep 2018 10:53:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] docs: core-api: add memory allocation guide
+Message-ID: <20180911115555.5fce5631@lwn.net>
+In-Reply-To: <1534517236-16762-4-git-send-email-rppt@linux.vnet.ibm.com>
+References: <1534517236-16762-1-git-send-email-rppt@linux.vnet.ibm.com>
+        <1534517236-16762-4-git-send-email-rppt@linux.vnet.ibm.com>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20180911162410.GB30245@rapoport-lnx>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Sorry for being so slow to get to this...it fell into a dark crack in my
+rickety email folder hierarchy.  I do have one question...
 
-> From 1d7ab80e5388d993b7b262b24da1f3e55f30f508 Mon Sep 17 00:00:00 2001
-> From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-> Date: Tue, 11 Sep 2018 19:16:36 +0300
-> Subject: [PATCH] docs/boot-time-mm: fix kernel-doc directive for including all
->  but DOC:
-> 
-> There were several rounds of the patches that enabled "functions" directive
-> with no parameters in kerneldoc.py to allow including all the kernel-doc
-> comments except the DOC: sections.
-> 
-> Yet, the boot-time-mm.rst sneaked in with the older version of that
-> directive and was not updated. Update it now.
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+On Fri, 17 Aug 2018 17:47:16 +0300
+Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> +    ``GFP_HIGHUSER_MOVABLE`` does not require that allocated memory
+> +    will be directly accessible by the kernel or the hardware and
+> +    implies that the data is movable.
+> +
+> +    ``GFP_HIGHUSER`` means that the allocated memory is not movable,
+> +    but it is not required to be directly accessible by the kernel or
+> +    the hardware. An example may be a hardware allocation that maps
+> +    data directly into userspace but has no addressing limitations.
+> +
+> +    ``GFP_USER`` means that the allocated memory is not movable and it
+> +    must be directly accessible by the kernel or the hardware. It is
+> +    typically used by hardware for buffers that are mapped to
+> +    userspace (e.g. graphics) that hardware still must DMA to.
 
-Thanks.
+I realize that this is copied from elsewhere, but still...as I understand
+it, the "HIGH" part means that the allocation can be satisfied from high
+memory, nothing more.  So...it's irrelevant on 64-bit machines to start
+with, right?  And it has nothing to do with DMA, I would think.  That would
+be handled by the DMA infrastructure and, perhaps, the DMA* zones.  Right?
 
-> ---
->  Documentation/core-api/boot-time-mm.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/core-api/boot-time-mm.rst b/Documentation/core-api/boot-time-mm.rst
-> index 03cb164..6e12e89 100644
-> --- a/Documentation/core-api/boot-time-mm.rst
-> +++ b/Documentation/core-api/boot-time-mm.rst
-> @@ -76,7 +76,7 @@ These interfaces available only with bootmem, i.e when ``CONFIG_NO_BOOTMEM=n``
->  
->  .. kernel-doc:: include/linux/bootmem.h
->  .. kernel-doc:: mm/bootmem.c
-> -   :nodocs:
-> +   :functions:
->  
->  Memblock specific API
->  ---------------------
-> @@ -89,4 +89,4 @@ really happens under the hood.
->  
->  .. kernel-doc:: include/linux/memblock.h
->  .. kernel-doc:: mm/memblock.c
-> -   :nodocs:
-> +   :functions:
-> 
+I ask because high memory is an artifact of how things are laid out on
+32-bit systems; hardware can often DMA quite easily into memory that the
+kernel sees as "high".  So, to me, this description seems kind of
+confusing; I wouldn't mention hardware at all.  But maybe I'm missing
+something?
 
+Thanks,
 
--- 
-~Randy
+jon
