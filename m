@@ -5,114 +5,116 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B032E7D584
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 16:25:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 763A17DE7E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Sep 2018 16:43:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbeIKVZR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Sep 2018 17:25:17 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58054 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726980AbeIKVZR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Sep 2018 17:25:17 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8BGOj1B008957
-        for <linux-doc@vger.kernel.org>; Tue, 11 Sep 2018 12:25:13 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2mee0h9jjd-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 11 Sep 2018 12:24:59 -0400
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Tue, 11 Sep 2018 17:24:43 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 11 Sep 2018 17:24:39 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8BGOcEs65601560
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 11 Sep 2018 16:24:38 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 82A1E5205F;
-        Tue, 11 Sep 2018 19:24:27 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.206.72])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id A932D52057;
-        Tue, 11 Sep 2018 19:24:26 +0100 (BST)
-Date:   Tue, 11 Sep 2018 19:24:35 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] docs/core-api: add memory allocation guide
-References: <1534517236-16762-1-git-send-email-rppt@linux.vnet.ibm.com>
+        id S1728059AbeIKVmI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Sep 2018 17:42:08 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:46550 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726800AbeIKVmH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Sep 2018 17:42:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 44C227A9;
+        Tue, 11 Sep 2018 09:42:00 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.Emea.Arm.com [10.4.12.132])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D13A43F703;
+        Tue, 11 Sep 2018 09:41:55 -0700 (PDT)
+Date:   Tue, 11 Sep 2018 17:41:53 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mm <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, cpandya@codeaurora.org,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>, Ruben.Ayrapetyan@arm.com,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by
+ sparse
+Message-ID: <20180911164152.GA29166@arrakis.emea.arm.com>
+References: <cover.1535629099.git.andreyknvl@google.com>
+ <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <CA+55aFyW9N2tSb2bQvkthbVVyY6nt5yFeWQRLHp1zruBmb5ocw@mail.gmail.com>
+ <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com>
+ <20180907152600.myidisza5o4kdmvf@armageddon.cambridge.arm.com>
+ <CA+55aFzQ+ykLu10q3AdyaaKJx8SDWWL9Qiu6WH2jbN_ugRUTOg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1534517236-16762-1-git-send-email-rppt@linux.vnet.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18091116-0028-0000-0000-000002F7C68E
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18091116-0029-0000-0000-000023B16206
-Message-Id: <20180911162435.GC30245@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-11_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1809110163
+In-Reply-To: <CA+55aFzQ+ykLu10q3AdyaaKJx8SDWWL9Qiu6WH2jbN_ugRUTOg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ping?
+Hi Linus,
 
-On Fri, Aug 17, 2018 at 05:47:13PM +0300, Mike Rapoport wrote:
-> Hi,
+On Fri, Sep 07, 2018 at 09:30:35AM -0700, Linus Torvalds wrote:
+> On Fri, Sep 7, 2018 at 8:26 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > So it's not about casting to another pointer; it's rather about no
+> > longer using the value as a user pointer but as an actual (untyped,
+> > untagged) virtual address.
+[...]
+> I actually originally wanted to have sparse not just check types, but
+> actually do transformations too, in order to check more.
+[...]
+> But it sounds like this is exactly what you guys would want for the
+> tagged pointers. Some functions can take a "wild" pointer, because
+> they deal with the tag part natively. And others need to be "checked"
+> and have gone through the cleaning and verification.
 > 
-> As Vlastimil mentioned at [1], it would be nice to have some guide about
-> memory allocation. This set adds such guide that summarizes the "best
-> practices". 
-> 
-> The changes from the RFC include additions and corrections from Michal and
-> Randy. I've also added markup to cross-reference the kernel-doc
-> documentation.
-> 
-> I've split the patch into three to separate labels addition to the exiting
-> files from the new contents.
-> 
-> Note that the second patch depends on the mm docs update [2] that Andrew
-> took to the -mm tree.
-> 
-> v2 -> v3:
->   * s/HW/hardware
-> 
-> [1] https://www.spinics.net/lists/netfilter-devel/msg55542.html
-> [2] https://lkml.org/lkml/2018/7/26/684
-> 
-> Mike Rapoport (3):
->   docs: core-api/gfp_mask-from-fs-io: add a label for cross-referencing
->   docs: core-api/mm-api: add a lable for GFP flags section
->   docs: core-api: add memory allocation guide
-> 
->  Documentation/core-api/gfp_mask-from-fs-io.rst |   2 +
->  Documentation/core-api/index.rst               |   1 +
->  Documentation/core-api/memory-allocation.rst   | 124 +++++++++++++++++++++++++
->  Documentation/core-api/mm-api.rst              |   2 +
->  4 files changed, 129 insertions(+)
->  create mode 100644 Documentation/core-api/memory-allocation.rst
-> 
-> -- 
-> 2.7.4
-> 
+> But sparse is sadly not the right tool for this, and having a single
+> "__user" address space is not sufficient. I guess for the arm64 case,
+> you really could make up a *new* address space: "__user_untagged", and
+> then have functions that convert from "void __user *" to "void
+> __user_untagged *", and then mark the functions that need the tag
+> removed as taking that new kind of user pointer.
+
+Fortunately, most (all) functions taking a __user pointer can cope with
+tagged pointers since they never dereference the pointer directly but
+pass it through uaccess functions (which can access tagged pointers
+without untagging). The problem appears when the pointer is no longer
+used for access but converted to a long for other uses like rbtree
+look-up, so not actually dereferenced. Such conversion, in a few cases,
+needs to lose the tag.
+
+Of course, there are lots of void __user * conversions to long where
+removing the tag is not always the right thing or required (hence the
+__force annotations in this patchset).
+
+As Luc mentioned in this thread, we can consider that __user pointers
+are always tagged. What I think we'd need is a few annotations where
+ulong must be an __untagged address (and I guess in smaller numbers than
+the __force ones proposed here). For example we can allow
+get_user_pages() to get an (ulong)(void __user *) conversion but
+find_vma() would only take an (unsigned long __untagged) argument. Such
+attribute conversion would be handled by an untagged_addr() macro. So we
+move the detection problem from pointer conversion to an ulong (tagged
+by default) to ulong __untagged conversion (I'm not sure sparse can do
+this).
+
+That's slightly different than trying to identify all the __user ptr to
+long conversions but, as you said, it's probably not a complete solution
+anyway and with lots of __force annotations throughout the kernel.
 
 -- 
-Sincerely yours,
-Mike.
-
+Catalin
