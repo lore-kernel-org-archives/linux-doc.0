@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F83F7DE79
+	by archive.lwn.net (Postfix) with ESMTP id 94FF77E3E6
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:52:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728197AbeILMzj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 08:55:39 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:33462 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728054AbeILMzi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:38 -0400
-Received: by mail-wm0-f68.google.com with SMTP id r1-v6so9730292wmh.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:52:19 -0700 (PDT)
+        id S1727153AbeILMz5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 08:55:57 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:32967 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728227AbeILMzd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:33 -0400
+Received: by mail-wr1-f67.google.com with SMTP id v90-v6so940533wrc.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:52:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=OFySLdUXLR62cbw4pNAPVJeRRRSSn5qAUSTbLxQWiuk=;
-        b=DHyL/RiF5XgjsiKnEBzBYmh2kn/efYixJ5aUB8NNVONZRhbwU/th1otz6h4cEMpmmw
-         NRLLPbqVe4ZzVTQcH+MdXt8yqUjErDQDxCuINucnYGZOb3+h8776OcezvuJtqWlzp7Fq
-         Xse/g5vHWi8CcRK6V9p/VszR2ZK5TA9+mGsV5MiQRG2UugKLjGTD8sZjPqpODeOe3437
-         5oCoyyfNEEDqUE0jjGc7YxkMnQCPDrXcXO0Fn0/cr8zu1zDSWm1QyaLiV20mB4tzYUnV
-         dgwz3EFwdE3Qpgp4icQprp3DtFr2SYpoK9EDrpDkEKgzbgJd+SOQpQG+tXantDd9ukul
-         /wzw==
+        bh=Qf5F4zQiRY1sa80CZGwpbNfNFuNr+OQm/6a5BbgsJ/E=;
+        b=m3RXtFE3lF34IyYI/WJEStDcvX/dGKlbvFUtWyIa606CcNGS08LOhyItTD7Velw9ci
+         p7R9L3OrQT21PmmSmGqEp6PmX9R3JHTFxVHrkBNvQ4gIE0+ai3/TlyOD83+i7jKYlodt
+         0n6a954VKbOlAS91dA4LgSpo7UJmJkIK+K8RbkccFoqLkasn0HEmg9Fi9Ad4rFZ6Gl4v
+         bMVDaEb+Z138xZJD4qyiM0h0+jnOsRU89hjICaVe9/8wOOhPZcNHIm99AfSk/OcIWfRd
+         3Efp8ckcsqsapK5pdo/zety0tUOFLZ35Q6vtUNU51vNMY+f/ZpJCoaOYF/C+HfJY0Efa
+         v/kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=OFySLdUXLR62cbw4pNAPVJeRRRSSn5qAUSTbLxQWiuk=;
-        b=r/B2Su2Nb6sPabfPrNPNv07juOAtpVbFvwiIH/Mc7I6PITQIL1JaFqL/LQgt8QRyrD
-         sCzHs34v0meWCODtE3jS1FkxeamXeoJHqXLbN6otWPYeTTRHhvG10draIvhMuryp+pf5
-         GqrUexoMM/Z65Q4q+XEfF+baEOGnjAIAvLMt9Ls8boTimukgvxDgEk2ZrkpLOxj9Td6q
-         PFNFB7cFOY06wLbcTJZo17IHhqBQ8UPNrVmEu3nvR8ej41HfDQT3dH2fpHjGiciEVjXs
-         CuW7xrNZ0qwEKVhsQJ3mfvCKH/c6eHD261nHxm9lqFi2Yi1L1R0FSTi2ZUOBy5l+14o/
-         Vrew==
-X-Gm-Message-State: APzg51A90zliLeC6UySNfwKNfEDWb1GxdEG38qZ9oZp82xz4/aLSoHma
-        st+zykB9G6/nZ4NF2IMV6k6QhQ==
-X-Google-Smtp-Source: ANB0VdZMuP8hdw6W5jip+1KH/V4Aqq14DjXxtevrsObaZHBLqEVYB8iFK3vpO5IsY9t3EQCDpsURMg==
-X-Received: by 2002:a1c:c3:: with SMTP id 186-v6mr753953wma.126.1536738739034;
-        Wed, 12 Sep 2018 00:52:19 -0700 (PDT)
+        bh=Qf5F4zQiRY1sa80CZGwpbNfNFuNr+OQm/6a5BbgsJ/E=;
+        b=TGjX0Qm45wQ8LZhANYN79EpEuwcd9tlF3NYCPHc0TvTTaSKGoeZzIaF5EZhwA+m/+7
+         rLSNrNYowqgsO/0eQjZ+/rXG2ropBUrQpkDia54rX4YFmZ2C7Vw0wCqfmD0r5GOmFYKH
+         1JcNY2CD6VKFYz3ugT+rPx+pYgPmEEw9uiEGEtIPy9lyfCaXnCBVo1tFNqEl5PVbcmuU
+         rukEnNFz3X7AmnAtJtca1/+aArDmSrwoEY94bwddt8d49QACnpJHar/6gcwEW1bFsL6j
+         222yf46qGBVh3GSfY/JYkDusLlLiW0417h+CBOqpIIRWVj4zSZjVsQFMgYVqtIhJi+XT
+         9uSQ==
+X-Gm-Message-State: APzg51BvtRD6G51HsZ6Qa51FNMpsTZ6m6Hh/ahh3/VMDoPJtFHvTjVqD
+        tvkCuEAdE9Kb77sirgvq1t5ENQ==
+X-Google-Smtp-Source: ANB0VdZK1F/vtpw3CGekT+2tST3Z2ZYI2eZ6x/UkitKhkssbHd+ZVEq/bj4WDm03ZoCqVWJWv6P0Sw==
+X-Received: by 2002:adf:bd10:: with SMTP id j16-v6mr482270wrh.267.1536738733524;
+        Wed, 12 Sep 2018 00:52:13 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.52.17
+        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.52.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 12 Sep 2018 00:52:18 -0700 (PDT)
+        Wed, 12 Sep 2018 00:52:12 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 21/21] nvmem: use octal permissions instead of constants
-Date:   Wed, 12 Sep 2018 09:51:29 +0200
-Message-Id: <20180912075129.25185-22-brgl@bgdev.pl>
+Subject: [PATCH v3 18/21] nvmem: make the naming of arguments in nvmem_cell_get() consistent
+Date:   Wed, 12 Sep 2018 09:51:26 +0200
+Message-Id: <20180912075129.25185-19-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180912075129.25185-1-brgl@bgdev.pl>
 References: <20180912075129.25185-1-brgl@bgdev.pl>
@@ -76,54 +76,137 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Checkpatch emits a warning when using symbolic permissions. Use octal
-permissions instead.
+The argument representing the cell name in the nvmem_cell_get() family
+of functions is not consistend between function prototypes and
+definitions. Name it 'id' in all those routines. This is in line with
+other frameworks and can represent both the DT cell name from the
+nvmem-cell-names property as well as the con_id field from cell
+lookup entries.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvmem/core.c           | 27 ++++++++++++++-------------
+ include/linux/nvmem-consumer.h | 12 ++++++------
+ 2 files changed, 20 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index bc14ffd87ca3..e174b282cc1f 100644
+index 6cdf4f2678f6..f4930f605d4f 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -154,7 +154,7 @@ static ssize_t bin_attr_nvmem_write(struct file *filp, struct kobject *kobj,
- static struct bin_attribute bin_attr_rw_nvmem = {
- 	.attr	= {
- 		.name	= "nvmem",
--		.mode	= S_IWUSR | S_IRUGO,
-+		.mode	= 0644,
- 	},
- 	.read	= bin_attr_nvmem_read,
- 	.write	= bin_attr_nvmem_write,
-@@ -178,7 +178,7 @@ static const struct attribute_group *nvmem_rw_dev_groups[] = {
- static struct bin_attribute bin_attr_ro_nvmem = {
- 	.attr	= {
- 		.name	= "nvmem",
--		.mode	= S_IRUGO,
-+		.mode	= 0444,
- 	},
- 	.read	= bin_attr_nvmem_read,
- };
-@@ -201,7 +201,7 @@ static const struct attribute_group *nvmem_ro_dev_groups[] = {
- static struct bin_attribute bin_attr_rw_root_nvmem = {
- 	.attr	= {
- 		.name	= "nvmem",
--		.mode	= S_IWUSR | S_IRUSR,
-+		.mode	= 0600,
- 	},
- 	.read	= bin_attr_nvmem_read,
- 	.write	= bin_attr_nvmem_write,
-@@ -225,7 +225,7 @@ static const struct attribute_group *nvmem_rw_root_dev_groups[] = {
- static struct bin_attribute bin_attr_ro_root_nvmem = {
- 	.attr	= {
- 		.name	= "nvmem",
--		.mode	= S_IRUSR,
-+		.mode	= 0400,
- 	},
- 	.read	= bin_attr_nvmem_read,
- };
+@@ -977,16 +977,15 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+  * of_nvmem_cell_get() - Get a nvmem cell from given device node and cell id
+  *
+  * @np: Device tree node that uses the nvmem cell.
+- * @name: nvmem cell name from nvmem-cell-names property, or NULL
+- *	  for the cell at index 0 (the lone cell with no accompanying
+- *	  nvmem-cell-names property).
++ * @id: nvmem cell name from nvmem-cell-names property, or NULL
++ *      for the cell at index 0 (the lone cell with no accompanying
++ *      nvmem-cell-names property).
+  *
+  * Return: Will be an ERR_PTR() on error or a valid pointer
+  * to a struct nvmem_cell.  The nvmem_cell will be freed by the
+  * nvmem_cell_put().
+  */
+-struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
+-					    const char *name)
++struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
+ {
+ 	struct device_node *cell_np, *nvmem_np;
+ 	struct nvmem_device *nvmem;
+@@ -994,8 +993,8 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
+ 	int index = 0;
+ 
+ 	/* if cell name exists, find index to the name */
+-	if (name)
+-		index = of_property_match_string(np, "nvmem-cell-names", name);
++	if (id)
++		index = of_property_match_string(np, "nvmem-cell-names", id);
+ 
+ 	cell_np = of_parse_phandle(np, "nvmem-cells", index);
+ 	if (!cell_np)
+@@ -1025,27 +1024,29 @@ EXPORT_SYMBOL_GPL(of_nvmem_cell_get);
+  * nvmem_cell_get() - Get nvmem cell of device form a given cell name
+  *
+  * @dev: Device that requests the nvmem cell.
+- * @cell_id: nvmem cell name to get.
++ * @id: nvmem cell name to get (this corresponds with the name from the
++ *      nvmem-cell-names property for DT systems and with the con_id from
++ *      the lookup entry for non-DT systems).
+  *
+  * Return: Will be an ERR_PTR() on error or a valid pointer
+  * to a struct nvmem_cell.  The nvmem_cell will be freed by the
+  * nvmem_cell_put().
+  */
+-struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *cell_id)
++struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *id)
+ {
+ 	struct nvmem_cell *cell;
+ 
+ 	if (dev->of_node) { /* try dt first */
+-		cell = of_nvmem_cell_get(dev->of_node, cell_id);
++		cell = of_nvmem_cell_get(dev->of_node, id);
+ 		if (!IS_ERR(cell) || PTR_ERR(cell) == -EPROBE_DEFER)
+ 			return cell;
+ 	}
+ 
+-	/* NULL cell_id only allowed for device tree; invalid otherwise */
+-	if (!cell_id)
++	/* NULL cell id only allowed for device tree; invalid otherwise */
++	if (!id)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	return nvmem_cell_get_from_lookup(dev, cell_id);
++	return nvmem_cell_get_from_lookup(dev, id);
+ }
+ EXPORT_SYMBOL_GPL(nvmem_cell_get);
+ 
+diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
+index d18caae2f7ac..e17617fa034f 100644
+--- a/include/linux/nvmem-consumer.h
++++ b/include/linux/nvmem-consumer.h
+@@ -55,8 +55,8 @@ enum {
+ #if IS_ENABLED(CONFIG_NVMEM)
+ 
+ /* Cell based interface */
+-struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *name);
+-struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *name);
++struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *id);
++struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *id);
+ void nvmem_cell_put(struct nvmem_cell *cell);
+ void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
+ void *nvmem_cell_read(struct nvmem_cell *cell, size_t *len);
+@@ -91,13 +91,13 @@ int nvmem_unregister_notifier(struct notifier_block *nb);
+ #else
+ 
+ static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
+-						const char *name)
++						const char *id)
+ {
+ 	return ERR_PTR(-ENOSYS);
+ }
+ 
+ static inline struct nvmem_cell *devm_nvmem_cell_get(struct device *dev,
+-				       const char *name)
++						     const char *id)
+ {
+ 	return ERR_PTR(-ENOSYS);
+ }
+@@ -201,12 +201,12 @@ static inline int nvmem_unregister_notifier(struct notifier_block *nb)
+ 
+ #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
+ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
+-				     const char *name);
++				     const char *id);
+ struct nvmem_device *of_nvmem_device_get(struct device_node *np,
+ 					 const char *name);
+ #else
+ static inline struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
+-				     const char *name)
++						   const char *id)
+ {
+ 	return ERR_PTR(-ENOSYS);
+ }
 -- 
 2.18.0
 
