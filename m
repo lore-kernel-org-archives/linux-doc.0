@@ -1,358 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 44C8B7D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:51:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C37117D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727710AbeILMyo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 08:54:44 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:33311 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726358AbeILMyn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:54:43 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id F0E3A21C1C;
-        Wed, 12 Sep 2018 03:51:23 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 12 Sep 2018 03:51:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=wHfcbhCMsbt9mZBMH
-        6l/+jCbzzslRHmi0qaAVelXT0Y=; b=hEWI4KZBqSpdtXq7itoC8JwtY79zm1Xlt
-        g3I7y77XXS/xViEDByd8/Zxhvd44ilkEEsQX47lsfmN44nVv55erYWgI7WnE7vav
-        E1WI6S3VX5xUnqprgk+Rv/Fqu84oqMjWjj9f63tlNRxJh5lrBbeOAieIzFUUP7Lb
-        qZIs7rAgA+xO7hMFYu+vyBrya4zjwsjVoCR/lZmD0dn/tesAd9acYlQ86rKnuLp7
-        FGeajiRFMXEKJ288WjiKi33JfVzFneKBxI57ubFOp3BkHyehMQN2yesPTp0ylPH7
-        D/cFTTEVn8lWKRz3zzbwWWr+v1HrwRcySqnDt64fbpXAuxGgMvg+Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:date:from:in-reply-to:message-id
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=wHfcbhCMsbt9mZBMH6l/+jCbzzslRHmi0qaAVelXT0Y=; b=ilCSkDOF
-        YVFilIgX3vJEO77JRduOMVPhYnPtHUELSeSQ8OqLCD7QmHJdLHGAeZWgETuVnjhn
-        llmxGVTGl1As2HVBWb1wc5LLzf6SMqHBkpQ/J1cGSCZWOKGKH9FwygsawE6hMU19
-        lisS29uzf40VbogWZKyrxilJonTALFvkMYVYuA1HSzjBYRz01B+ha1TnJcjKKEWI
-        M26ToE/pWzMAssUi5uLKgMFdOyE7BpTGXXSOR3m29Y6YdWhHQ1GYj3xzQd3KNOYS
-        tmjBU8Egd9CA9ik2/F6IuvGI3bHKZymUc4Mo3qALKCV3kzYNKL9cp461ey3wDE8j
-        tym3v0XMoHiLVQ==
-X-ME-Proxy: <xmx:e8WYW1x0GIgurZIQHBH8rtaCs1LUukD9epMXuVaIdQjKMyCBA-lt7Q>
-    <xmx:e8WYWwQZ21DuUrcAgKHkurAMc4jyEfLgMpS6XHvEKR2P306eJMadoQ>
-    <xmx:e8WYW-XyI-BMUT0qWaBXkkcxjy48owYZr-GwpktfqBPuEf9wCjIDlQ>
-    <xmx:e8WYW5M8tqfzTFWiomhBb9TfmxaJ2dUWFWb-SpvPIhAdqOBPs8UeyQ>
-    <xmx:e8WYW2rpIbXV4JhGhxRdjQXkVxV6SggvRWRufEzHj0BRkQKxTeoHRA>
-    <xmx:e8WYW4mdNe291Jxcd_a0XwskSf7XQKIYgTlT7BP9yYwBxo6BsaNKMA>
-X-ME-Sender: <xms:e8WYW2OUvJhcNhdkpfSAtYuNJhp8-bqCUpLGY2cVZ2gAFE0cyLM5ew>
-Received: from localhost (ppp121-44-246-110.bras2.syd2.internode.on.net [121.44.246.110])
-        by mail.messagingengine.com (Postfix) with ESMTPA id C69E6102D9;
-        Wed, 12 Sep 2018 03:51:22 -0400 (EDT)
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>
-Cc:     "Tobin C. Harding" <me@tobin.cc>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 2/3] tty_port: Fix function name and brief desc
-Date:   Wed, 12 Sep 2018 17:50:43 +1000
-Message-Id: <20180912075044.8695-3-me@tobin.cc>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180912075044.8695-1-me@tobin.cc>
-References: <20180912075044.8695-1-me@tobin.cc>
+        id S1726970AbeILMzA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 08:55:00 -0400
+Received: from mail-wm0-f50.google.com ([74.125.82.50]:50557 "EHLO
+        mail-wm0-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726358AbeILMzA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:00 -0400
+Received: by mail-wm0-f50.google.com with SMTP id s12-v6so1260528wmc.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:51:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=TJZEkVnSvAIA3IqHAOBx/ownWju+/i0MtjAf6LSOEBE=;
+        b=biiWKRRv8fWa8di98ZGF+cGigmBkVpiLsK+oSDa44+53p68XevXsx8nWElVV8C9FeI
+         IKKq8lGfIhRfpBulV+tGwoLTS1jRql+TGkgDeZeKhoKvznXU6UG9ig1YdXBlGAm+grMh
+         z1iAfWC5jjDcZePN+MhbjfN07q69koyGqZSzkWNThlpsIT7B8FVdN2YgP1jSO5ClRiL6
+         I9IkAs1bFIKBAZNKDSI6IFyt4bVqtUx5LBqxzovXGw3VDoB1nwhax1HEHHOKJPCEG8N8
+         3od7xIAlkHRAKzOAvNs25LbbjtSstqDMBdlvHEMEbNyCzLEH8CgiVtpgV6DwgnkHYjGR
+         G0QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=TJZEkVnSvAIA3IqHAOBx/ownWju+/i0MtjAf6LSOEBE=;
+        b=aClUGctZoVqENw1dEZbOQKNB8TNaA2YYr0Bph5OCH96SAKRXdHpKs40t7MKLxJTQUN
+         KI4mJDDxOPMbTxsVA7k01aAiT1dXctmOski6otdo7hB6xJVIj+bP0bVhf8kJevBrRlZn
+         s5aJurxmJwV81L9xrvGj2WH3uv9d+bGRB7p9RNzv6vZseCou02zO0QtL2vI2ZvfJEsfw
+         WejQe8KFM78/XlDnshXfXYMmNFMIFDia80GbTJWia98W0Ms89oExQ8TUvB5U1rr9vDmq
+         xMxBowFmA8f9wMjZpvLdZLiEy6VGSiz1LjWaRrya2dKwn7wFulfvlVsTvjGRwtUdwgQn
+         pkFg==
+X-Gm-Message-State: APzg51ATxFBMuoZ8Fx3Vzjn7RvRgSossPI0+mHTbO4Fp3oGRx7NGdxKj
+        rS/YYuoRhiNcGvkjm01GG0g7DA==
+X-Google-Smtp-Source: ANB0VdY6TgOoTSMyBjRuWb2GQXY1JIKjUJf+ppPRKE36sKh9vNuW9k0yIeTRmf18Wr5lHOcjTMfsIQ==
+X-Received: by 2002:a1c:c44a:: with SMTP id u71-v6mr758518wmf.43.1536738699724;
+        Wed, 12 Sep 2018 00:51:39 -0700 (PDT)
+Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
+        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.51.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Sep 2018 00:51:39 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v3 00/21] nvmem: rework of the subsystem for non-DT users
+Date:   Wed, 12 Sep 2018 09:51:08 +0200
+Message-Id: <20180912075129.25185-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.18.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-File contains kernel-doc function comments that are not in the correct
-style.
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
- - Add '()' to function names
- - Capitalise brief description and append a full stop.
- - Use correct spacing for function name / brief description as per the
-   kernel docs (Documentation/doc-guide/kernel-doc.rst)
+This series contains nvmem framework changes prerequisite for further
+development of my previous series[1] that aims at removal of the
+platform data struct from at24 EEPROM driver.
 
-	/**
-	 * function_name() - Brief description of function.
-	 * @arg1: Describe the first argument.
+The patches are conceptually split into a couple groups.
 
- - Fix spacing for kernel-doc function comments (no tab space after '*').
+First five patches fix issues with existing issues.
 
-These changes all touch the same lines so do them in a single patch.
+Patch 6 switches the nvmem providers to using kref which is necessary
+for removal of the return value from nvmem_unregister(). This is an
+approach similar to the one used in the clock framework where the
+provider is only removed after the last reference to it is dropped.
 
-Signed-off-by: Tobin C. Harding <me@tobin.cc>
----
- drivers/tty/tty_port.c | 120 ++++++++++++++++++++---------------------
- 1 file changed, 59 insertions(+), 61 deletions(-)
+Patches 7-9 convert last remaining users of nvmem_unregister() who
+still check its return value to using devm_nvmem_unregister() and
+patch 10 changes its return value from int to void.
 
-diff --git a/drivers/tty/tty_port.c b/drivers/tty/tty_port.c
-index cb6075096a5b..382282013c9d 100644
---- a/drivers/tty/tty_port.c
-+++ b/drivers/tty/tty_port.c
-@@ -74,7 +74,7 @@ void tty_port_init(struct tty_port *port)
- EXPORT_SYMBOL(tty_port_init);
- 
- /**
-- * tty_port_link_device - link tty and tty_port
-+ * tty_port_link_device() - Link tty and tty_port.
-  * @port: tty_port of the device
-  * @driver: tty_driver for this device
-  * @index: index of the tty
-@@ -94,7 +94,7 @@ void tty_port_link_device(struct tty_port *port,
- EXPORT_SYMBOL_GPL(tty_port_link_device);
- 
- /**
-- * tty_port_register_device - register tty device
-+ * tty_port_register_device() - Register tty device.
-  * @port: tty_port of the device
-  * @driver: tty_driver for this device
-  * @index: index of the tty
-@@ -113,7 +113,7 @@ struct device *tty_port_register_device(struct tty_port *port,
- EXPORT_SYMBOL_GPL(tty_port_register_device);
- 
- /**
-- * tty_port_register_device_attr - register tty device
-+ * tty_port_register_device_attr() - Register tty device.
-  * @port: tty_port of the device
-  * @driver: tty_driver for this device
-  * @index: index of the tty
-@@ -137,7 +137,7 @@ struct device *tty_port_register_device_attr(struct tty_port *port,
- EXPORT_SYMBOL_GPL(tty_port_register_device_attr);
- 
- /**
-- * tty_port_register_device_attr_serdev - register tty or serdev device
-+ * tty_port_register_device_attr_serdev() - Register tty or serdev device.
-  * @port: tty_port of the device
-  * @driver: tty_driver for this device
-  * @index: index of the tty
-@@ -169,7 +169,7 @@ struct device *tty_port_register_device_attr_serdev(struct tty_port *port,
- EXPORT_SYMBOL_GPL(tty_port_register_device_attr_serdev);
- 
- /**
-- * tty_port_register_device_serdev - register tty or serdev device
-+ * tty_port_register_device_serdev() - Register tty or serdev device.
-  * @port: tty_port of the device
-  * @driver: tty_driver for this device
-  * @index: index of the tty
-@@ -188,7 +188,7 @@ struct device *tty_port_register_device_serdev(struct tty_port *port,
- EXPORT_SYMBOL_GPL(tty_port_register_device_serdev);
- 
- /**
-- * tty_port_unregister_device - deregister a tty or serdev device
-+ * tty_port_unregister_device() - Deregister a tty or serdev device.
-  * @port: tty_port of the device
-  * @driver: tty_driver for this device
-  * @index: index of the tty
-@@ -235,7 +235,7 @@ void tty_port_free_xmit_buf(struct tty_port *port)
- EXPORT_SYMBOL(tty_port_free_xmit_buf);
- 
- /**
-- * tty_port_destroy -- destroy inited port
-+ * tty_port_destroy() - Destroy inited port.
-  * @port: tty port to be destroyed
-  *
-  * When a port was initialized using tty_port_init, one has to destroy the
-@@ -273,11 +273,11 @@ void tty_port_put(struct tty_port *port)
- EXPORT_SYMBOL(tty_port_put);
- 
- /**
-- *	tty_port_tty_get	-	get a tty reference
-- *	@port: tty port
-+ * tty_port_tty_get() - Get a tty reference.
-+ * @port: tty port
-  *
-- *	Return a refcount protected tty instance or NULL if the port is not
-- *	associated with a tty (eg due to close or hangup)
-+ * Return a refcount protected tty instance or NULL if the port is not
-+ * associated with a tty (eg due to close or hangup)
-  */
- struct tty_struct *tty_port_tty_get(struct tty_port *port)
- {
-@@ -292,12 +292,12 @@ struct tty_struct *tty_port_tty_get(struct tty_port *port)
- EXPORT_SYMBOL(tty_port_tty_get);
- 
- /**
-- *	tty_port_tty_set	-	set the tty of a port
-- *	@port: tty port
-- *	@tty: the tty
-+ * tty_port_tty_set - Set the tty of a port.
-+ * @port: tty port
-+ * @tty: the tty
-  *
-- *	Associate the port and tty pair. Manages any internal refcounts.
-- *	Pass NULL to deassociate a port
-+ * Associate the port and tty pair. Manages any internal refcounts.
-+ * Pass NULL to deassociate a port
-  */
- void tty_port_tty_set(struct tty_port *port, struct tty_struct *tty)
- {
-@@ -333,13 +333,13 @@ static void tty_port_shutdown(struct tty_port *port, struct tty_struct *tty)
- }
- 
- /**
-- *	tty_port_hangup		-	hangup helper
-- *	@port: tty port
-+ * tty_port_hangup() - Hangup helper.
-+ * @port: tty port
-  *
-- *	Perform port level tty hangup flag and count changes. Drop the tty
-- *	reference.
-+ * Perform port level tty hangup flag and count changes. Drop the tty
-+ * reference.
-  *
-- *	Caller holds tty lock.
-+ * Caller holds tty lock.
-  */
- void tty_port_hangup(struct tty_port *port)
- {
-@@ -362,8 +362,7 @@ void tty_port_hangup(struct tty_port *port)
- EXPORT_SYMBOL(tty_port_hangup);
- 
- /**
-- * tty_port_tty_hangup - helper to hang up a tty
-- *
-+ * tty_port_tty_hangup() - Helper to hang up a tty.
-  * @port: tty port
-  * @check_clocal: hang only ttys with CLOCAL unset?
-  */
-@@ -378,8 +377,7 @@ void tty_port_tty_hangup(struct tty_port *port, bool check_clocal)
- EXPORT_SYMBOL_GPL(tty_port_tty_hangup);
- 
- /**
-- * tty_port_tty_wakeup - helper to wake up a tty
-- *
-+ * tty_port_tty_wakeup() - Helper to wake up a tty.
-  * @port: tty port
-  */
- void tty_port_tty_wakeup(struct tty_port *port)
-@@ -389,12 +387,12 @@ void tty_port_tty_wakeup(struct tty_port *port)
- EXPORT_SYMBOL_GPL(tty_port_tty_wakeup);
- 
- /**
-- *	tty_port_carrier_raised	-	carrier raised check
-- *	@port: tty port
-+ * tty_port_carrier_raised() - Carrier raised check.
-+ * @port: tty port
-  *
-- *	Wrapper for the carrier detect logic. For the moment this is used
-- *	to hide some internal details. This will eventually become entirely
-- *	internal to the tty port.
-+ * Wrapper for the carrier detect logic. For the moment this is used
-+ * to hide some internal details. This will eventually become entirely
-+ * internal to the tty port.
-  */
- int tty_port_carrier_raised(struct tty_port *port)
- {
-@@ -405,12 +403,12 @@ int tty_port_carrier_raised(struct tty_port *port)
- EXPORT_SYMBOL(tty_port_carrier_raised);
- 
- /**
-- *	tty_port_raise_dtr_rts	-	Raise DTR/RTS
-- *	@port: tty port
-+ * tty_port_raise_dtr_rts() - Raise DTR/RTS.
-+ * @port: tty port
-  *
-- *	Wrapper for the DTR/RTS raise logic. For the moment this is used
-- *	to hide some internal details. This will eventually become entirely
-- *	internal to the tty port.
-+ * Wrapper for the DTR/RTS raise logic. For the moment this is used
-+ * to hide some internal details. This will eventually become entirely
-+ * internal to the tty port.
-  */
- void tty_port_raise_dtr_rts(struct tty_port *port)
- {
-@@ -420,12 +418,12 @@ void tty_port_raise_dtr_rts(struct tty_port *port)
- EXPORT_SYMBOL(tty_port_raise_dtr_rts);
- 
- /**
-- *	tty_port_lower_dtr_rts	-	Lower DTR/RTS
-- *	@port: tty port
-+ * tty_port_lower_dtr_rts() - Lower DTR/RTS.
-+ * @port: tty port
-  *
-- *	Wrapper for the DTR/RTS raise logic. For the moment this is used
-- *	to hide some internal details. This will eventually become entirely
-- *	internal to the tty port.
-+ * Wrapper for the DTR/RTS raise logic. For the moment this is used
-+ * to hide some internal details. This will eventually become entirely
-+ * internal to the tty port.
-  */
- void tty_port_lower_dtr_rts(struct tty_port *port)
- {
-@@ -435,28 +433,28 @@ void tty_port_lower_dtr_rts(struct tty_port *port)
- EXPORT_SYMBOL(tty_port_lower_dtr_rts);
- 
- /**
-- *	tty_port_block_til_ready	-	Waiting logic for tty open
-- *	@port: the tty port being opened
-- *	@tty: the tty device being bound
-- *	@filp: the file pointer of the opener or NULL
-+ * tty_port_block_til_ready() -	Waiting logic for tty open.
-+ * @port: the tty port being opened
-+ * @tty: the tty device being bound
-+ * @filp: the file pointer of the opener or NULL
-  *
-- *	Implement the core POSIX/SuS tty behaviour when opening a tty device.
-- *	Handles:
-- *		- hangup (both before and during)
-- *		- non blocking open
-- *		- rts/dtr/dcd
-- *		- signals
-- *		- port flags and counts
-+ * Implement the core POSIX/SuS tty behaviour when opening a tty device.
-+ * Handles:
-+ *  - hangup (both before and during)
-+ *  - non blocking open
-+ *  - rts/dtr/dcd
-+ *  - signals
-+ *  - port flags and counts
-  *
-- *	The passed tty_port must implement the carrier_raised method if it can
-- *	do carrier detect and the dtr_rts method if it supports software
-- *	management of these lines. Note that the dtr/rts raise is done each
-- *	iteration as a hangup may have previously dropped them while we wait.
-+ * The passed tty_port must implement the carrier_raised method if it can
-+ * do carrier detect and the dtr_rts method if it supports software
-+ * management of these lines. Note that the dtr/rts raise is done each
-+ * iteration as a hangup may have previously dropped them while we wait.
-  *
-- *	Caller holds tty lock.
-+ * Caller holds tty lock.
-  *
-- *      NB: May drop and reacquire tty lock when blocking, so tty and tty_port
-- *      may have changed state (eg., may have been hung up).
-+ * NB: May drop and reacquire tty lock when blocking, so tty and tty_port
-+ * may have changed state (eg., may have been hung up).
-  */
- int tty_port_block_til_ready(struct tty_port *port,
- 				struct tty_struct *tty, struct file *filp)
-@@ -623,7 +621,7 @@ void tty_port_close_end(struct tty_port *port, struct tty_struct *tty)
- EXPORT_SYMBOL(tty_port_close_end);
- 
- /**
-- * tty_port_close
-+ * tty_port_close()
-  *
-  * Caller holds tty lock
-  */
-@@ -640,7 +638,7 @@ void tty_port_close(struct tty_port *port, struct tty_struct *tty,
- EXPORT_SYMBOL(tty_port_close);
- 
- /**
-- * tty_port_install - generic tty->ops->install handler
-+ * tty_port_install() - Generic tty->ops->install handler.
-  * @port: tty_port of the device
-  * @driver: tty_driver for this device
-  * @tty: tty to be installed
-@@ -658,7 +656,7 @@ int tty_port_install(struct tty_port *port, struct tty_driver *driver,
- EXPORT_SYMBOL_GPL(tty_port_install);
- 
- /**
-- * tty_port_open
-+ * tty_port_open()
-  *
-  * Caller holds tty lock.
-  *
+Patches 11-14 introduce the most significant changes of this series:
+we remove the global cell list, add support for static cell definitions
+external to the provider structure, change the way DT lookup works and
+allow to associate resources and consumers using lookup tables. The way
+nvmem_cell_get() for non-DT users is changed but there are no current
+users and it's currently broken anyway (cell being removed after a call
+to nvmem_cell_put()).
+
+Patch 15 updates the documentation.
+
+Patch 16 adds support for notifiers to nvmem so that users can
+subscribe for events such as device or cell registration or removal.
+
+Patches 17 & 18 add some minor improvements to the codebase.
+
+Last three patches contain fixes to warnings emitted by checkpatch.
+It's a good moment to add them if we're already touching a big part
+of the subsystem's code.
+
+Tested both DT and non-DT use cases.
+
+[1] https://lkml.org/lkml/2018/8/10/149
+
+v1 -> v2:
+- extended the lookup structure with a proper con_id independent from the
+  cell name defined in the cell definition table
+- added a patch that makes the naming convention for the cell name argument
+  in the nvmem_cell_get() family of functions consistent
+- there were two users of nvmem_unregister() that still checked the return
+  value, now switched to devm_nvmem_register()
+- fixed build failures reported by kbuild test robot
+
+v2 -> v3:
+- dropped the patch removing unused APIs and introduced changes on top of
+  existing code instead
+- fixed nvmem provider reference decreasing in error paths
+- added checkpatch fixes
+- removed nvmem-machine.h and distributed new definitions among existing
+  consumer and provider headers
+- reordered patches thematically
+- added more patches fixing issues in existing codebase
+
+Bartosz Golaszewski (21):
+  nvmem: provide nvmem_dev_name()
+  nvmem: remove the name field from struct nvmem_device
+  nvmem: use list_for_each_entry_safe in nvmem_device_remove_all_cells()
+  nvmem: remove a stray newline
+  nvmem: check the return value of nvmem_add_cells()
+  nvmem: use kref
+  nvmem: lpc18xx_eeprom: use devm_nvmem_register()
+  nvmem: sunxi_sid: use devm_nvmem_register()
+  nvmem: mxs-ocotp: use devm_nvmem_register()
+  nvmem: change the signature of nvmem_unregister()
+  nvmem: remove the global cell list
+  nvmem: add support for cell info
+  nvmem: resolve cells from DT at registration time
+  nvmem: add support for cell lookups from machine code
+  Documentation: nvmem: document cell tables and lookup entries
+  nvmem: add a notifier chain
+  nvmem: use SPDX license identifiers
+  nvmem: make the naming of arguments in nvmem_cell_get() consistent
+  nvmem: use EOPNOTSUPP instead of ENOSYS
+  nvmem: fix commenting style
+  nvmem: use octal permissions instead of constants
+
+ Documentation/nvmem/nvmem.txt  |  31 ++
+ drivers/nvmem/core.c           | 527 ++++++++++++++++++++++-----------
+ drivers/nvmem/lpc18xx_eeprom.c |   6 +-
+ drivers/nvmem/mxs-ocotp.c      |   4 +-
+ drivers/nvmem/sunxi_sid.c      |  20 +-
+ include/linux/nvmem-consumer.h | 100 +++++--
+ include/linux/nvmem-provider.h |  49 +--
+ 7 files changed, 497 insertions(+), 240 deletions(-)
+
 -- 
-2.17.1
+2.18.0
 
