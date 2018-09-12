@@ -1,161 +1,202 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 882A77DE7C
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 14:54:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7D137D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 15:41:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728088AbeILT7U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 15:59:20 -0400
-Received: from mail-it0-f65.google.com ([209.85.214.65]:32996 "EHLO
-        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727965AbeILT7U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 15:59:20 -0400
-Received: by mail-it0-f65.google.com with SMTP id j198-v6so12076069ita.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 07:54:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=k5V+92Mk2pae4B9LhuCcmaUy962Eq0PEXLKrQvbziRQ=;
-        b=fB9bKNXfRlaE18KWq8t4mOT6pqGKfk5oLJqvYdLfqUcdq7lXCTlvLyxGlAmpNsp4pD
-         PfbU25iwzQYrI5sIqKuvpkAIMIEOlPanPtUWSoz75y3JvqJovQLZogVF28q9Zj6i0yWU
-         myjJW5kX+RBb//5ZSI9GAb2My0OKnmekyofBSugnqJpJT7HUlYl7c/5xu9stONwowv+u
-         HzbB4nMxKQvhMI+ImS9mCQzKsvVgjD2/yJYknqSAcRxocJ+XCdtZjlgVc7shnlLWRbxy
-         L3oEonKRvCmm5V6qihTvB22ZdCJwwurT7yWHzcn9yD8LSchv8nTDxMB2MH5oIVyssPgl
-         3pRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=k5V+92Mk2pae4B9LhuCcmaUy962Eq0PEXLKrQvbziRQ=;
-        b=TIgQxbZGGtN3WnioqVllzPTOECu2UnyiUB7ZTUTKwcHNUrvV5Yc6/XnP5/PXhgtazf
-         Kry23lRXQ9Ky0CUC+I75goK1y6e2MlNRk/LP5nNCmA1pJnGnwn7Htnx8KAw9CyBJ2X8C
-         dRW8T07dRr8C18dYjggRF9rw2OZuK+dDk89U5C2hc3EFjT2apICc3yMLgbuc7VYu80Jn
-         Ok+8isMEprWw9Dd06qsvAMo05jFI3xVmrYQg7WsggYFpSWXIQxU4NTUkTh/glDzGYfKi
-         z6J7Cl63fiIA9xHIbAvczII8Mu5HwHnT+TjrJf/1mhZMRJosTgIQzAr3mmRq5nSADURJ
-         m2EA==
-X-Gm-Message-State: APzg51AqtliUo309LbHZ47IvmVppTft0RH5Ue+6bNvggDj3yv37W0CbK
-        rkj8CxBw83uCC2SJLwDG3ulR9EQG/olRc+dxjlzz6A==
-X-Google-Smtp-Source: ANB0VdYIgDfcH2L/IcfYXP9gKzej4kJkJoVqTXCBYPB7z8lI52qCiftuCmljLZS/HSupcsmnpCc+pmg3X+j6MGEVHOo=
-X-Received: by 2002:a02:c04e:: with SMTP id u14-v6mr2172320jam.110.1536764067365;
- Wed, 12 Sep 2018 07:54:27 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:5942:0:0:0:0:0 with HTTP; Wed, 12 Sep 2018 07:54:06
- -0700 (PDT)
-In-Reply-To: <b4ba65afa55f2fdfd2856fb03c5aba99c7a8bdd7.1535462971.git.andreyknvl@google.com>
-References: <cover.1535462971.git.andreyknvl@google.com> <b4ba65afa55f2fdfd2856fb03c5aba99c7a8bdd7.1535462971.git.andreyknvl@google.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 12 Sep 2018 16:54:06 +0200
-Message-ID: <CACT4Y+Z4zLSBdXGtk-6nH64UpOVA8s5TJZSpokAqEu4pE8LpCA@mail.gmail.com>
-Subject: Re: [PATCH v6 04/18] khwasan, arm64: adjust shadow size for CONFIG_KASAN_HW
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
+        id S1726642AbeILUqE convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 16:46:04 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:35084 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726640AbeILUqE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Sep 2018 16:46:04 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id EF408DFDD;
+        Wed, 12 Sep 2018 15:40:58 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2E9F610DCF46;
+        Wed, 12 Sep 2018 15:40:56 +0000 (UTC)
+Subject: Re: [PATCH v3 3/4] fs/dcache: Track & report number of negative
+ dentries
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
         Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>
+References: <1536693506-11949-1-git-send-email-longman@redhat.com>
+ <1536693506-11949-4-git-send-email-longman@redhat.com>
+ <20180911220857.GG5631@dastard>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <4fdce6b6-7f0a-cef6-8361-2d297702ac38@redhat.com>
+Date:   Wed, 12 Sep 2018 11:40:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
+MIME-Version: 1.0
+In-Reply-To: <20180911220857.GG5631@dastard>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Wed, 12 Sep 2018 15:40:59 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Wed, 12 Sep 2018 15:40:59 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> KWHASAN uses 1 shadow byte for 16 bytes of kernel memory, so it requires
-> 1/16th of the kernel virtual address space for the shadow memory.
+On 09/11/2018 06:08 PM, Dave Chinner wrote:
+> On Tue, Sep 11, 2018 at 03:18:25PM -0400, Waiman Long wrote:
+>> The current dentry number tracking code doesn't distinguish between
+>> positive & negative dentries. It just reports the total number of
+>> dentries in the LRU lists.
+>>
+>> As excessive number of negative dentries can have an impact on system
+>> performance, it will be wise to track the number of positive and
+>> negative dentries separately.
+>>
+>> This patch adds tracking for the total number of negative dentries
+>> in the system LRU lists and reports it in the 7th field in the
+> Not the 7th field anymore.
 >
-> This commit sets KASAN_SHADOW_SCALE_SHIFT to 4 when KHWASAN is enabled.
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  arch/arm64/Makefile             |  2 +-
->  arch/arm64/include/asm/memory.h | 13 +++++++++----
->  2 files changed, 10 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-> index 106039d25e2f..17047b8ab984 100644
-> --- a/arch/arm64/Makefile
-> +++ b/arch/arm64/Makefile
-> @@ -94,7 +94,7 @@ endif
->  # KASAN_SHADOW_OFFSET = VA_START + (1 << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
->  #                               - (1 << (64 - KASAN_SHADOW_SCALE_SHIFT))
->  # in 32-bit arithmetic
-> -KASAN_SHADOW_SCALE_SHIFT := 3
-> +KASAN_SHADOW_SCALE_SHIFT := $(if $(CONFIG_KASAN_HW), 4, 3)
->  KASAN_SHADOW_OFFSET := $(shell printf "0x%08x00000000\n" $$(( \
->         (0xffffffff & (-1 << ($(CONFIG_ARM64_VA_BITS) - 32))) \
->         + (1 << ($(CONFIG_ARM64_VA_BITS) - 32 - $(KASAN_SHADOW_SCALE_SHIFT))) \
-> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-> index b96442960aea..f5e262ee76c1 100644
-> --- a/arch/arm64/include/asm/memory.h
-> +++ b/arch/arm64/include/asm/memory.h
-> @@ -74,12 +74,17 @@
->  #define KERNEL_END        _end
->
->  /*
-> - * KASAN requires 1/8th of the kernel virtual address space for the shadow
-> - * region. KASAN can bloat the stack significantly, so double the (minimum)
-> - * stack size when KASAN is in use.
-> + * KASAN and KHWASAN require 1/8th and 1/16th of the kernel virtual address
 
+You are right. It is a left-behind from v2.
 
-I am somewhat confused by the terminology.
-"KASAN" is not actually "CONFIG_KASAN" below, it is actually
-"CONFIG_KASAN_GENERIC". While "KHWASAN" translates to "KASAN_HW" few
-lines later.
-I think we need some consistent terminology for comments and config
-names until it's too late.
+>> /proc/sys/fs/dentry-state file. The number, however, does not include
+>> negative dentries that are in flight but not in the LRU yet as well
+>> as those in the shrinker lists.
+>>
+>> The number of positive dentries in the LRU lists can be roughly found
+>> by subtracting the number of negative dentries from the unused count.
+>>
+>> Matthew Wilcox had confirmed that since the introduction of the
+>> dentry_stat structure in 2.1.60, the dummy array was there, probably for
+>> future extension. They were not replacements of pre-existing fields. So
+>> no sane applications that read the value of /proc/sys/fs/dentry-state
+>> will do dummy thing if the last 2 fields of the sysctl parameter are
+>> not zero. IOW, it will be safe to use one of the dummy array entry for
+>> negative dentry count.
+>>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+> ....
+>> ---
+>>  Documentation/sysctl/fs.txt | 26 ++++++++++++++++----------
+>>  fs/dcache.c                 | 31 +++++++++++++++++++++++++++++++
+>>  include/linux/dcache.h      |  7 ++++---
+>>  3 files changed, 51 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/Documentation/sysctl/fs.txt b/Documentation/sysctl/fs.txt
+>> index 819caf8..3b4f441 100644
+>> --- a/Documentation/sysctl/fs.txt
+>> +++ b/Documentation/sysctl/fs.txt
+>> @@ -56,26 +56,32 @@ of any kernel data structures.
+>>  
+>>  dentry-state:
+>>  
+>> -From linux/fs/dentry.c:
+>> +From linux/include/linux/dcache.h:
+>>  --------------------------------------------------------------
+>> -struct {
+>> +struct dentry_stat_t dentry_stat {
+>>          int nr_dentry;
+>>          int nr_unused;
+>>          int age_limit;         /* age in seconds */
+>>          int want_pages;        /* pages requested by system */
+>> -        int dummy[2];
+>> -} dentry_stat = {0, 0, 45, 0,};
+>> --------------------------------------------------------------- 
+>> -
+>> -Dentries are dynamically allocated and deallocated, and
+>> -nr_dentry seems to be 0 all the time. Hence it's safe to
+>> -assume that only nr_unused, age_limit and want_pages are
+>> -used. Nr_unused seems to be exactly what its name says.
+>> +        int nr_negative;       /* # of unused negative dentries */
+>> +        int dummy;	       /* Reserved */
+> /* reserved for future use */
 
+Will change that.
 
-> + * space for the shadow region respectively. They can bloat the stack
-> + * significantly, so double the (minimum) stack size when they are in use.
->   */
-> -#ifdef CONFIG_KASAN
-> +#ifdef CONFIG_KASAN_GENERIC
->  #define KASAN_SHADOW_SCALE_SHIFT 3
-> +#endif
-> +#ifdef CONFIG_KASAN_HW
-> +#define KASAN_SHADOW_SCALE_SHIFT 4
-> +#endif
-> +#ifdef CONFIG_KASAN
->  #define KASAN_SHADOW_SIZE      (UL(1) << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
->  #define KASAN_THREAD_SHIFT     1
->  #else
-> --
-> 2.19.0.rc0.228.g281dcd1b4d0-goog
->
+> ....
+>> @@ -331,6 +343,8 @@ static inline void __d_clear_type_and_inode(struct dentry *dentry)
+>>  	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
+>>  	WRITE_ONCE(dentry->d_flags, flags);
+>>  	dentry->d_inode = NULL;
+>> +	if (dentry->d_flags & DCACHE_LRU_LIST)
+>> +		this_cpu_inc(nr_dentry_negative);
+>>  }
+>>  
+>>  static void dentry_free(struct dentry *dentry)
+>> @@ -385,6 +399,10 @@ static void dentry_unlink_inode(struct dentry * dentry)
+>>   * The per-cpu "nr_dentry_unused" counters are updated with
+>>   * the DCACHE_LRU_LIST bit.
+>>   *
+>> + * The per-cpu "nr_dentry_negative" counters are only updated
+>> + * when deleted or added to the per-superblock LRU list, not
+>> + * on the shrink list.
+> This tells us what the code is doing, but it doesn't explain why
+> a different accounting method to nr_dentry_unused was chosen. What
+> constraints require the accounting to be done this way rather than
+> just mirror the unused dentry accounting?
+
+It is done to minimize the number of percpu count update as much as
+possible. There is one code path where the unused count is decremented
+when removing from the lru and then increment later on when added to the
+shrink list. So we are doing double inc/dec in this case.
+
+Besides, those in the shrink list are on the way out and its number
+isn't really that important. I will elaborate a bit more on the
+rationale behind this decision in the patch.
+
+>> @@ -1836,6 +1862,11 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
+>>  	WARN_ON(d_in_lookup(dentry));
+>>  
+>>  	spin_lock(&dentry->d_lock);
+>> +	/*
+>> +	 * Decrement negative dentry count if it was in the LRU list.
+>> +	 */
+>> +	if (dentry->d_flags & DCACHE_LRU_LIST)
+>> +		this_cpu_dec(nr_dentry_negative);
+>>  	hlist_add_head(&dentry->d_u.d_alias, &inode->i_dentry);
+>>  	raw_write_seqcount_begin(&dentry->d_seq);
+>>  	__d_set_inode_and_type(dentry, inode, add_flags);
+>> diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+>> index ef4b70f..73ff9f0 100644
+>> --- a/include/linux/dcache.h
+>> +++ b/include/linux/dcache.h
+>> @@ -62,9 +62,10 @@ struct qstr {
+>>  struct dentry_stat_t {
+>>  	long nr_dentry;
+>>  	long nr_unused;
+>> -	long age_limit;          /* age in seconds */
+>> -	long want_pages;         /* pages requested by system */
+>> -	long dummy[2];
+>> +	long age_limit;		/* age in seconds */
+>> +	long want_pages;	/* pages requested by system */
+>> +	long nr_negative;	/* # of unused negative dentries */
+>> +	long dummy;		/* Reserved */
+> /* reserved for future use */
+
+Will do.
+
+Cheers,
+Longman
+
