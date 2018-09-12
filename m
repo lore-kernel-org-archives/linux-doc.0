@@ -1,211 +1,172 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A8F137D584
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 08:15:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 66F1F7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 08:55:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726970AbeILNS0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 09:18:26 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:46933 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725948AbeILNS0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 09:18:26 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id D533820FAD;
-        Wed, 12 Sep 2018 04:15:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 12 Sep 2018 04:15:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :date:from:message-id:subject:to:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=XUPSE9qLHhade0YC+6tTZrS5gYod5rzOfb3DiE9WC
-        Sg=; b=NJMkGmZcA0bpI+qXeOVLjJ+XMOQKhZRXsC1lnQQyaqJZxI8juulLOXhUM
-        2Wdb0bAeOUwjFF8gjf2ShLIDu7RGSRHCsPTMHjU9yCJzyVKh65GlHNuHUXuk9NNQ
-        u0W2E+1sFUR65VyR3HoohgTBGOfqwE7LlLGeLDMrjh2XDu13jePn2HKCyJjy6ICY
-        sdVLr91ZshV5OXKOFK7upIOAZpfsy4RKGImcqiWAHJbUV9NvS/XSV5h0N9LCF/at
-        0vp5WfB5IJ60OKLXFgZwovJJVXQiCPZSVMn2Bnifz739cAiilf3+Q7PmZsqHMCFs
-        Dx5nX83C6akZsoSZch+f9k+Dlm2eA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:date:from:message-id:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=XUPSE9qLHhade0YC+
-        6tTZrS5gYod5rzOfb3DiE9WCSg=; b=N/Lj/5xFrRBTyQGNMpsQGB9edQcaBxYf2
-        XbnbmtcKZN2DYXbW6EfnUXFWpUxuABpJ7cGzE9JCUk5GXlNc5FBC1Q3HVM0zXWiE
-        C/7SKfx2o6swVMyUeFspJ+7OUn0WJuKpf32P+TLc+RiAMPdclE7S4Y+uqkDsgokk
-        NyXu+EJXGTa4l01On/LiJ1yvvHLtixqj2XK/5ZaWFaJKuNUmWXk5S7b0Idooaepq
-        0rBjxlruT5Gwe8LsaLqBhK/+1MLq9HXtRi9QBWg056r8GAB85IAwDwXHqOPYuE0N
-        THppZTvFoS7VOrMmNJbb2UdQm6UBI76YDYLwXDgl14V7BB44+h1GA==
-X-ME-Proxy: <xmx:BcuYWyCCrCdl1VuU8GOF0wJQmOB_oGGMP_gBjBB-6YrAh6IF5kKsrQ>
-    <xmx:BcuYW8sdJctR8XPjt3KSIVelvcK_aUlTf8h-dFu4gYYp_-BaNTVh5w>
-    <xmx:BcuYW3ZakIBj2sUmcZD2xvV_Mwe9mlbLm6EMHe_sfZUyog_UrW4o9w>
-    <xmx:BcuYW_UFSxFU3PEIxQAlG8l9dgel9uZE14VSpG5uZmAGJaf5KbjevA>
-    <xmx:BcuYW76Sv1XvXsfBaireVILHcjg7YSsCh7YyMBrz3GmiKK4JogLTlQ>
-    <xmx:BcuYW71W8qLpXE2mdCHusLZRzNr-gpUWuJUGiCS1JfQbnrsKJwsQnA>
-X-ME-Sender: <xms:BMuYW4tOEaO8PWLlM-Ellfqqgg4aJ9DThyzqruAgaad6i5Cnxg-5zQ>
-Received: from localhost (ppp121-44-246-110.bras2.syd2.internode.on.net [121.44.246.110])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 43CD8E455F;
-        Wed, 12 Sep 2018 04:15:00 -0400 (EDT)
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     "David S. Miller" <davem@davemloft.net>
-Cc:     "Tobin C. Harding" <me@tobin.cc>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: net: Remove TCP congestion document
-Date:   Wed, 12 Sep 2018 18:14:44 +1000
-Message-Id: <20180912081444.17258-1-me@tobin.cc>
-X-Mailer: git-send-email 2.17.1
+        id S1726860AbeILN6z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 09:58:55 -0400
+Received: from esa6.microchip.iphmx.com ([216.71.154.253]:15218 "EHLO
+        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726642AbeILN6z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 09:58:55 -0400
+X-IronPort-AV: E=Sophos;i="5.53,364,1531810800"; 
+   d="scan'208";a="17001343"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 12 Sep 2018 01:55:21 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.76.105) with Microsoft SMTP Server (TLS) id
+ 14.3.352.0; Wed, 12 Sep 2018 01:55:21 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector1-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7pC+gsHGXxi3W2ZaKOCxBUtYpvJCeACOcaKvZvj992o=;
+ b=FN1UcNF3gCpR5qAuM0ZQ45/ueCBdi6FJg0jAVtLd8pFwyNKqqlL6PNA+5O7iJ/4ozcmxJyoEuXt7jsIjdmg4B6ZUk/Rsffh+4zPuWxRjmJDdGpQUjBgcGq0CoVA10/8eQ20Xm1BIpKVIYnHt/+FkM+U+K/oZFEXgRu3ruwqFLpo=
+Received: from DM2PR11MB0105.namprd11.prod.outlook.com (10.160.26.155) by
+ DM2PR11MB0256.namprd11.prod.outlook.com (10.160.136.11) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1122.18; Wed, 12 Sep 2018 08:55:19 +0000
+Received: from DM2PR11MB0105.namprd11.prod.outlook.com
+ ([fe80::3438:f537:f7cc:363c]) by DM2PR11MB0105.namprd11.prod.outlook.com
+ ([fe80::3438:f537:f7cc:363c%6]) with mapi id 15.20.1101.020; Wed, 12 Sep 2018
+ 08:55:18 +0000
+From:   <Wesley.Sheng@microchip.com>
+To:     <kurt.schwemmer@microsemi.com>, <logang@deltatee.com>,
+        <bhelgaas@google.com>, <corbet@lwn.net>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <Wesley.Sheng@microchip.com>
+Subject: [PATCH] NTB: ntb_hw_switchtec: add pre-requisites for NTB driver and
+ misc updates
+Thread-Topic: [PATCH] NTB: ntb_hw_switchtec: add pre-requisites for NTB driver
+ and misc updates
+Thread-Index: AdRKdRhBgeV9LqbDSayrtpBFveKPpAAAHpPQ
+Date:   Wed, 12 Sep 2018 08:55:18 +0000
+Message-ID: <DM2PR11MB0105A882E34348BC85F8EE79951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
+References: <DM2PR11MB0105BF7DD2EFB7F3874EB457951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
+In-Reply-To: <DM2PR11MB0105BF7DD2EFB7F3874EB457951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Wesley.Sheng@microchip.com; 
+x-originating-ip: [211.144.195.220]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;DM2PR11MB0256;6:kgr9PcTB5UTBQJB/v+FfEwiQ8F+bBQqdQZo4OgLYjsaOvD/xtUWuUkr2EJuzBjKlvFBdI1NXENOodlbWWRw7v9uOIpmY2KZ5Ejpfv6Ax8WLumx5y8AVvUBN0OLpJ77sFEFhfPSlDSN1tzyTtmpaUOouH9k5P3Vu9UhobZRDZio2BlGgtpwOjYPUs0w5jVObdebFuQEg8zU5iXIiSWZ78xQ+9nRrlSTAqT7CuwDDalcFRKQsbgyZygLzUn6BL5byD7urGDCnH/+/rtsIvI1JZXJO2Ts1xY/cfSTNdWTbZUpaph91L3t+vt6W+GnvknG4GZUZi2QZBN3E8oBVi8pnKHISd6ni1hfk+oSwrLPbCFYMeAL5gZtrzVZeXCL2CRfDGQq+OeNxRdnRKktK4/lV9GYD+OPuzrl9hJjN0W4z21Agpx8aXUHyVDwhT5GSMhSVjc0CM9/aCXQh2BUC5Ft388A==;5:tvRhRh/5HCTCtU2RFIuHC0SM3wrUFTU0BBs15bb+n3+kLz0HdWKqTJFOXOI3fOaW1sKBGcyezi4849vJz6HYrTxFD7YoPFYmAKgiBPV8lbvAedZ23X1jAh/VBwtRMkUerPPMqbosCAyINC/ssX2yA/oGnJtWC6/wLvR8saZ4594=;7:1MbBwVQu+O0eiiJQIK1gdnYaIDixH3Y4EB3C4AxvKX3UMkE8NC5b2G9bX2gDD+EOe3rR5s6zlgoKdlbZbtrYIcn4gJ1HMwnQGC3jV8Sijst0SqRb3oRVosYFPthve1DhioFMywBJC7ovgt5/epHj8zzYI43WOAG8ywb/qxXhaP9KwdbG5/0nS7nsUoFNbZkhQk5QSBQFfCoB4E+RcZP3K8TEUnUECmw/kBYu1+6YtAliegDJEAchIAMNe74PTqey
+x-ms-exchange-antispam-srfa-diagnostics: SOS;SOR;
+x-forefront-antispam-report: SFV:SKI;SCL:-1;SFV:NSPM;SFS:(10009020)(136003)(396003)(376002)(366004)(346002)(39860400002)(199004)(189003)(6436002)(86362001)(81166006)(478600001)(8676002)(186003)(99286004)(7696005)(81156014)(102836004)(2906002)(8936002)(9686003)(14454004)(53936002)(2900100001)(446003)(11346002)(2201001)(6506007)(14444005)(72206003)(2501003)(256004)(5250100002)(55016002)(97736004)(26005)(486006)(476003)(110136005)(2940100002)(6116002)(54906003)(305945005)(7736002)(74316002)(1857600001)(76176011)(33656002)(66066001)(25786009)(316002)(107886003)(106356001)(93156006)(105586002)(4326008)(5660300001)(15650500001)(68736007)(3846002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM2PR11MB0256;H:DM2PR11MB0105.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-ms-office365-filtering-correlation-id: b37555a3-84db-4bd8-b328-08d6188d76fa
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989137)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:DM2PR11MB0256;
+x-ms-traffictypediagnostic: DM2PR11MB0256:
+x-microsoft-antispam-prvs: <DM2PR11MB02569FF3B7B49DDFFAD5B6B8951B0@DM2PR11MB0256.namprd11.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(278428928389397);
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231311)(944501410)(52105095)(10201501046)(3002001)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123560045)(20161123564045)(20161123562045)(201708071742011)(7699050);SRVR:DM2PR11MB0256;BCL:0;PCL:0;RULEID:;SRVR:DM2PR11MB0256;
+x-forefront-prvs: 07935ACF08
+received-spf: None (protection.outlook.com: microchip.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: QY3Tpee/5JEOt8NxVg8D0BqORAFQJoKVpIxzYaMVvBXLZzYRJUq+ubNI3bj9daT7e3Dla93kOLcFqHW7VhIGim4MYyEEfXuNM29b6jkynlvYKdLu9BDPBWPn4W27kRGqi0cH6GI99xLW/1dfuswVlFgfQ5qAv3ani0e0fP860ts6uV6JEXHbU2rtJmrblN4xNnHWO28/vXV9UthEBtedef7R5KqBOAv8M9+UF4jmrbdcvpdsURqbSj10VLaj6aGQ3L1UC45jqBsgOJ2LKInKck42//nRa3IopWukSIspBCJHa2EBAGGObueTHG9dmVVK0ztF32lwP2Yldx0kSWbBUpWoflRGohGFIdIX+2jajVQ=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: b37555a3-84db-4bd8-b328-08d6188d76fa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2018 08:55:18.4360
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR11MB0256
+X-OriginatorOrg: microchip.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document is stale, let's remove it.
+From: Wesley Sheng <Wesley.Sheng@microchip.com>
 
-Remove TCP congestion document.
+1.add pre-requisites for NTB driver
+2.misc updates
+  change ntb hardware driver name to ntb_hw_switchtec
+  update the description of 2 partitions limit
+  add reference to Linux Documentation/ntb.txt
+  add use of term 'Command ID'
+  add use of term 'Command Return Value'
+  add a missing ')'
 
-Signed-off-by: Tobin C. Harding <me@tobin.cc>
+Signed-off-by: Kelvin Cao <kelvin.cao@microchip.com>
+Signed-off-by: Wesley Yung <Wesley.Yung@microchip.com>
 ---
+ Documentation/switchtec.txt | 30 ++++++++++++++--------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
 
-Previous patch converted this file to rst.
-
- [PATCH RESEND net-next] docs: net: Convert tcp.txt to RST format
-
-Response to that patch on LKML by Eric:
-
- I dunno, this 'doc' is probably useless and should be deleted.
-
-Removing as suggested.
-
-thanks,
-Tobin.
-
- Documentation/networking/00-INDEX |   2 -
- Documentation/networking/tcp.txt  | 101 ------------------------------
- 2 files changed, 103 deletions(-)
- delete mode 100644 Documentation/networking/tcp.txt
-
-diff --git a/Documentation/networking/00-INDEX b/Documentation/networking/00-INDEX
-index 02a323c43261..dcbccae4043e 100644
---- a/Documentation/networking/00-INDEX
-+++ b/Documentation/networking/00-INDEX
-@@ -198,8 +198,6 @@ tc-actions-env-rules.txt
- 	- rules for traffic control (tc) actions.
- timestamping.txt
- 	- overview of network packet timestamping variants.
--tcp.txt
--	- short blurb on how TCP output takes place.
- tcp-thin.txt
- 	- kernel tuning options for low rate 'thin' TCP streams.
- team.txt
-diff --git a/Documentation/networking/tcp.txt b/Documentation/networking/tcp.txt
-deleted file mode 100644
-index 9c7139d57e57..000000000000
---- a/Documentation/networking/tcp.txt
-+++ /dev/null
-@@ -1,101 +0,0 @@
--TCP protocol
--============
--
--Last updated: 3 June 2017
--
--Contents
--========
--
--- Congestion control
--- How the new TCP output machine [nyi] works
--
--Congestion control
--==================
--
--The following variables are used in the tcp_sock for congestion control:
--snd_cwnd		The size of the congestion window
--snd_ssthresh		Slow start threshold. We are in slow start if
--			snd_cwnd is less than this.
--snd_cwnd_cnt		A counter used to slow down the rate of increase
--			once we exceed slow start threshold.
--snd_cwnd_clamp		This is the maximum size that snd_cwnd can grow to.
--snd_cwnd_stamp		Timestamp for when congestion window last validated.
--snd_cwnd_used		Used as a highwater mark for how much of the
--			congestion window is in use. It is used to adjust
--			snd_cwnd down when the link is limited by the
--			application rather than the network.
--
--As of 2.6.13, Linux supports pluggable congestion control algorithms.
--A congestion control mechanism can be registered through functions in
--tcp_cong.c. The functions used by the congestion control mechanism are
--registered via passing a tcp_congestion_ops struct to
--tcp_register_congestion_control. As a minimum, the congestion control
--mechanism must provide a valid name and must implement either ssthresh,
--cong_avoid and undo_cwnd hooks or the "omnipotent" cong_control hook.
--
--Private data for a congestion control mechanism is stored in tp->ca_priv.
--tcp_ca(tp) returns a pointer to this space.  This is preallocated space - it
--is important to check the size of your private data will fit this space, or
--alternatively, space could be allocated elsewhere and a pointer to it could
--be stored here.
--
--There are three kinds of congestion control algorithms currently: The
--simplest ones are derived from TCP reno (highspeed, scalable) and just
--provide an alternative congestion window calculation. More complex
--ones like BIC try to look at other events to provide better
--heuristics.  There are also round trip time based algorithms like
--Vegas and Westwood+.
--
--Good TCP congestion control is a complex problem because the algorithm
--needs to maintain fairness and performance. Please review current
--research and RFC's before developing new modules.
--
--The default congestion control mechanism is chosen based on the
--DEFAULT_TCP_CONG Kconfig parameter. If you really want a particular default
--value then you can set it using sysctl net.ipv4.tcp_congestion_control. The
--module will be autoloaded if needed and you will get the expected protocol. If
--you ask for an unknown congestion method, then the sysctl attempt will fail.
--
--If you remove a TCP congestion control module, then you will get the next
--available one. Since reno cannot be built as a module, and cannot be
--removed, it will always be available.
--
--How the new TCP output machine [nyi] works.
--===========================================
--
--Data is kept on a single queue. The skb->users flag tells us if the frame is
--one that has been queued already. To add a frame we throw it on the end. Ack
--walks down the list from the start.
--
--We keep a set of control flags
--
--
--	sk->tcp_pend_event
--
--		TCP_PEND_ACK			Ack needed
--		TCP_ACK_NOW			Needed now
--		TCP_WINDOW			Window update check
--		TCP_WINZERO			Zero probing
--
--
--	sk->transmit_queue		The transmission frame begin
--	sk->transmit_new		First new frame pointer
--	sk->transmit_end		Where to add frames
--
--	sk->tcp_last_tx_ack		Last ack seen
--	sk->tcp_dup_ack			Dup ack count for fast retransmit
--
--
--Frames are queued for output by tcp_write. We do our best to send the frames
--off immediately if possible, but otherwise queue and compute the body
--checksum in the copy. 
--
--When a write is done we try to clear any pending events and piggy back them.
--If the window is full we queue full sized frames. On the first timeout in
--zero window we split this.
--
--On a timer we walk the retransmit list to send any retransmits, update the
--backoff timers etc. A change of route table stamp causes a change of header
--and recompute. We add any new tcp level headers and refinish the checksum
--before sending. 
--
--- 
-2.17.1
-
+diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt inde=
+x f788264..40e839d 100644
+--- a/Documentation/switchtec.txt
++++ b/Documentation/switchtec.txt
+@@ -23,7 +23,7 @@ The primary means of communicating with the Switchtec man=
+agement firmware is  through the Memory-mapped Remote Procedure Call (MRPC)=
+ interface.
+ Commands are submitted to the interface with a 4-byte command  identifier =
+and up to 1KB of command specific data. The firmware will -respond with a 4=
+ bytes return code and up to 1KB of command specific
++respond with a 4-byte return code and up to 1KB of command specific
+ data. The interface only processes a single command at a time.
+=20
+=20
+@@ -36,8 +36,8 @@ device: /dev/switchtec#, one for each management endpoint=
+ in the system.
+ The char device has the following semantics:
+=20
+ * A write must consist of at least 4 bytes and no more than 1028 bytes.
+-  The first four bytes will be interpreted as the command to run and
+-  the remainder will be used as the input data. A write will send the
++  The first 4 bytes will be interpreted as the Command ID and the =20
++ remainder will be used as the input data. A write will send the
+   command to the firmware to begin processing.
+=20
+ * Each write must be followed by exactly one read. Any double write will @=
+@ -45,9 +45,9 @@ The char device has the following semantics:
+   produce an error.
+=20
+ * A read will block until the firmware completes the command and return
+-  the four bytes of status plus up to 1024 bytes of output data. (The
+-  length will be specified by the size parameter of the read call --
+-  reading less than 4 bytes will produce an error.
++  the 4-byte Command Return Value plus up to 1024 bytes of output =20
++ data. (The length will be specified by the size parameter of the read =20
++ call -- reading less than 4 bytes will produce an error.)
+=20
+ * The poll call will also be supported for userspace applications that
+   need to do other things while waiting for the command to complete.
+@@ -83,10 +83,20 @@ The following IOCTLs are also supported by the device:
+ Non-Transparent Bridge (NTB) Driver
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-An NTB driver is provided for the switchtec hardware in switchtec_ntb.
+-Currently, it only supports switches configured with exactly 2 -partitions=
+. It also requires the following configuration settings:
++An NTB hardware driver is provided for the switchtec hardware in=20
++ntb_hw_switchtec. Currently, it only supports switches configured with=20
++exactly 2 NT partitions and zero or more non-NT partitions. It also=20
++requires the following configuration settings:
+=20
+-* Both partitions must be able to access each other's GAS spaces.
++* Both NT partitions must be able to access each other's GAS spaces.
+   Thus, the bits in the GAS Access Vector under Management Settings
+   must be set to support this.
++* Kernel configuration MUST include support for NTB (CONFIG_NTB needs
++  to be set)
++
++NT EP BAR 2 will be dynamically configured as a Direct Window, and the=20
++configuration file does not need to configure it explicitly.
++
++Please refer to Documentation/ntb.txt in Linux source tree for an=20
++overall understanding of the Linux NTB stack. ntb_hw_switchtec works as=20
++an NTB Hardware Driver in this stack.
