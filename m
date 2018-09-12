@@ -1,253 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0AB177D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 17:16:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C6C77D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 17:35:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727796AbeILWVb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 18:21:31 -0400
-Received: from mail-it0-f67.google.com ([209.85.214.67]:54161 "EHLO
-        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726428AbeILWVa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 18:21:30 -0400
-Received: by mail-it0-f67.google.com with SMTP id p79-v6so4087403itp.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 10:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=1ZjM76NV7ESF+VTGcZ7Tpm2F/E1fintmYfOxWQ5uO0I=;
-        b=uIVus6HT4b6dNBFHLAtC2WTfS4Z3M9C4u7lXYaLdeCwW06CxdGHHa1zxbNQuSaHj7c
-         noeW1zy4AaNgE+E0+pWkdpGC95T6WhbzZOUyO2sqaD/mQRpsmclDT2lPDNvo3wc49Pgu
-         4SbMg9d+YRqlv+GP3EuNpEigcnrYUjTrnkAiCv3RkgjOVxXapRR7Jlutjz0dtb6VeycU
-         mIbZPYmNEgNPUSUq5oj8hJb5+cHf1CkSdKgtZaKJ32WS6PiA9BWj4kQv6SeVUyOHjv3w
-         mwul5tDAnnrfU/fHYvnzeIC7/U59sxmO2Gl322Dssvm0VsJrCvLTK8X44TSsqRog9cJV
-         IHzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=1ZjM76NV7ESF+VTGcZ7Tpm2F/E1fintmYfOxWQ5uO0I=;
-        b=fOeZ3Y6iurPPgIzjziRq0ANuW0XMqQMJRho69f7aks2us2/3J7T/ujf3s6/zIVwTGG
-         Qb+nwtiTQJNywqljEGzTI1JrEb7t8Ng6UqpNl7fmMPWHsVVWurDD7TCCpa0Y8KUOZ6w2
-         b/LWubF6x6FdtrgEvEV6RB39XyCUPWYrFT+8EEKOXXtiqe+tpIzAbO1QCQBOr124kHAC
-         paUromEXtnSrZQPcfgtInx+mgLiX8hCdsey82DEQrcVMo16k0kHSdLM8vrXHhqB4g0bR
-         fB3BJKOlbd3ElDscdaxfi+oyOYrTZjoztbSXIctf39U061HmcR8wwik5aXZp9+/qeZw0
-         s2wQ==
-X-Gm-Message-State: APzg51AWaL/VfmO4YTMUWQDeIo1XcD/8SMQ5aj8suvlz5UCogNS/oieU
-        4Jy/w1MNmpdmv4aM6Ms01vLtFq6uEbqTvvSzcWxqCA==
-X-Google-Smtp-Source: ANB0VdY/ut/QoHbm6LgUnLpRxOQDbT6U+Nc89oSYe/IV/Hr+g98Y5W9OovDqs91DhfqLeN+MpGZNg1kWRKM5gPt+2aU=
-X-Received: by 2002:a02:49cf:: with SMTP id p76-v6mr2888003jad.25.1536772560519;
- Wed, 12 Sep 2018 10:16:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:5942:0:0:0:0:0 with HTTP; Wed, 12 Sep 2018 10:15:39
- -0700 (PDT)
-In-Reply-To: <f5e73b5ead3355932ad8b5fc96b141c3f5b8c16c.1535462971.git.andreyknvl@google.com>
-References: <cover.1535462971.git.andreyknvl@google.com> <f5e73b5ead3355932ad8b5fc96b141c3f5b8c16c.1535462971.git.andreyknvl@google.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 12 Sep 2018 19:15:39 +0200
-Message-ID: <CACT4Y+aEwYiaVN--RH_0VBh0wbCcrf-Ndz+_eOaBNi6nKxrfQA@mail.gmail.com>
-Subject: Re: [PATCH v6 15/18] khwasan, arm64: add brk handler for inline instrumentation
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
+        id S1727762AbeILWl2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 18:41:28 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:51592 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727010AbeILWl2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Sep 2018 18:41:28 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id D63B2402243B;
+        Wed, 12 Sep 2018 17:35:53 +0000 (UTC)
+Received: from llong.com (dhcp-17-55.bos.redhat.com [10.18.17.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B994A2166BA2;
+        Wed, 12 Sep 2018 17:35:50 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
         Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v4 0/3] fs/dcache: Track # of negative dentries
+Date:   Wed, 12 Sep 2018 13:35:39 -0400
+Message-Id: <1536773742-32687-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 12 Sep 2018 17:35:54 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 12 Sep 2018 17:35:54 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> KHWASAN inline instrumentation mode (which embeds checks of shadow memory
-> into the generated code, instead of inserting a callback) generates a brk
-> instruction when a tag mismatch is detected.
->
-> This commit add a KHWASAN brk handler, that decodes the immediate value
-> passed to the brk instructions (to extract information about the memory
-> access that triggered the mismatch), reads the register values (x0 contains
-> the guilty address) and reports the bug.
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  arch/arm64/include/asm/brk-imm.h |  2 +
->  arch/arm64/kernel/traps.c        | 69 +++++++++++++++++++++++++++++++-
->  2 files changed, 69 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm64/include/asm/brk-imm.h b/arch/arm64/include/asm/brk-imm.h
-> index ed693c5bcec0..e4a7013321dc 100644
-> --- a/arch/arm64/include/asm/brk-imm.h
-> +++ b/arch/arm64/include/asm/brk-imm.h
-> @@ -16,10 +16,12 @@
->   * 0x400: for dynamic BRK instruction
->   * 0x401: for compile time BRK instruction
->   * 0x800: kernel-mode BUG() and WARN() traps
-> + * 0x9xx: KHWASAN trap (allowed values 0x900 - 0x9ff)
->   */
->  #define FAULT_BRK_IMM                  0x100
->  #define KGDB_DYN_DBG_BRK_IMM           0x400
->  #define KGDB_COMPILED_DBG_BRK_IMM      0x401
->  #define BUG_BRK_IMM                    0x800
-> +#define KHWASAN_BRK_IMM                        0x900
->
->  #endif
-> diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
-> index 039e9ff379cc..fd70347d1ce7 100644
-> --- a/arch/arm64/kernel/traps.c
-> +++ b/arch/arm64/kernel/traps.c
-> @@ -35,6 +35,7 @@
->  #include <linux/sizes.h>
->  #include <linux/syscalls.h>
->  #include <linux/mm_types.h>
-> +#include <linux/kasan.h>
->
->  #include <asm/atomic.h>
->  #include <asm/bug.h>
-> @@ -269,10 +270,14 @@ void arm64_notify_die(const char *str, struct pt_regs *regs,
->         }
->  }
->
-> -void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-> +void __arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
->  {
->         regs->pc += size;
-> +}
->
-> +void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-> +{
-> +       __arm64_skip_faulting_instruction(regs, size);
->         /*
->          * If we were single stepping, we want to get the step exception after
->          * we return from the trap.
-> @@ -775,7 +780,7 @@ static int bug_handler(struct pt_regs *regs, unsigned int esr)
->         }
->
->         /* If thread survives, skip over the BUG instruction and continue: */
-> -       arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
-> +       __arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
->         return DBG_HOOK_HANDLED;
->  }
->
-> @@ -785,6 +790,59 @@ static struct break_hook bug_break_hook = {
->         .fn = bug_handler,
->  };
->
-> +#ifdef CONFIG_KASAN_HW
-> +
-> +#define KHWASAN_ESR_RECOVER    0x20
-> +#define KHWASAN_ESR_WRITE      0x10
-> +#define KHWASAN_ESR_SIZE_MASK  0x0f
-> +#define KHWASAN_ESR_SIZE(esr)  (1 << ((esr) & KHWASAN_ESR_SIZE_MASK))
-> +
-> +static int khwasan_handler(struct pt_regs *regs, unsigned int esr)
-> +{
-> +       bool recover = esr & KHWASAN_ESR_RECOVER;
-> +       bool write = esr & KHWASAN_ESR_WRITE;
-> +       size_t size = KHWASAN_ESR_SIZE(esr);
-> +       u64 addr = regs->regs[0];
-> +       u64 pc = regs->pc;
-> +
-> +       if (user_mode(regs))
-> +               return DBG_HOOK_ERROR;
-> +
-> +       kasan_report(addr, size, write, pc);
-> +
-> +       /*
-> +        * The instrumentation allows to control whether we can proceed after
-> +        * a crash was detected. This is done by passing the -recover flag to
-> +        * the compiler. Disabling recovery allows to generate more compact
-> +        * code.
-> +        *
-> +        * Unfortunately disabling recovery doesn't work for the kernel right
-> +        * now. KHWASAN reporting is disabled in some contexts (for example when
-> +        * the allocator accesses slab object metadata; same is true for KASAN;
-> +        * this is controlled by current->kasan_depth). All these accesses are
-> +        * detected by the tool, even though the reports for them are not
-> +        * printed.
-> +        *
-> +        * This is something that might be fixed at some point in the future.
-> +        */
-> +       if (!recover)
-> +               die("Oops - KHWASAN", regs, 0);
+ v3->v4:
+  - Drop patch 4 as it is just a minor optimization.
+  - Add a cc:stable tag to patch 1.
+  - Clean up some comments in patch 3.
 
-Why die and not panic? Die seems to be much less used function, and it
-calls panic anyway, and we call panic in kasan_report if panic_on_warn
-is set.
+ v2->v3:
+  - With confirmation that the dummy array in dentry_stat structure
+    was never a replacement of a previously used field, patch 3 is now
+    reverted back to use one of dummy field as the negative dentry count
+    instead of adding a new field.
 
-> +       /* If thread survives, skip over the brk instruction and continue: */
-> +       __arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
-> +       return DBG_HOOK_HANDLED;
-> +}
-> +
-> +#define KHWASAN_ESR_VAL (0xf2000000 | KHWASAN_BRK_IMM)
-> +#define KHWASAN_ESR_MASK 0xffffff00
-> +
-> +static struct break_hook khwasan_break_hook = {
-> +       .esr_val = KHWASAN_ESR_VAL,
-> +       .esr_mask = KHWASAN_ESR_MASK,
-> +       .fn = khwasan_handler,
-> +};
-> +#endif
-> +
->  /*
->   * Initial handler for AArch64 BRK exceptions
->   * This handler only used until debug_traps_init().
-> @@ -792,6 +850,10 @@ static struct break_hook bug_break_hook = {
->  int __init early_brk64(unsigned long addr, unsigned int esr,
->                 struct pt_regs *regs)
->  {
-> +#ifdef CONFIG_KASAN_HW
-> +       if ((esr & KHWASAN_ESR_MASK) == KHWASAN_ESR_VAL)
-> +               return khwasan_handler(regs, esr) != DBG_HOOK_HANDLED;
-> +#endif
->         return bug_handler(regs, esr) != DBG_HOOK_HANDLED;
->  }
->
-> @@ -799,4 +861,7 @@ int __init early_brk64(unsigned long addr, unsigned int esr,
->  void __init trap_init(void)
->  {
->         register_break_hook(&bug_break_hook);
-> +#ifdef CONFIG_KASAN_HW
-> +       register_break_hook(&khwasan_break_hook);
-> +#endif
->  }
-> --
-> 2.19.0.rc0.228.g281dcd1b4d0-goog
->
+ v1->v2:
+  - Clarify what the new nr_dentry_negative per-cpu counter is tracking
+    and open-code the increment and decrement as suggested by Dave Chinner.
+  - Append the new nr_dentry_negative count as the 7th element of dentry-state
+    instead of replacing one of the dummy entries.
+  - Remove patch "fs/dcache: Make negative dentries easier to be
+    reclaimed" for now as I need more time to think about what
+    to do with it.
+  - Add 2 more patches to address issues found while reviewing the
+    dentry code.
+  - Add another patch to change the conditional branch of
+    nr_dentry_negative accounting to conditional move so as to reduce
+    the performance impact of the accounting code.
+
+This patchset addresses 2 issues found in the dentry code and adds a
+new nr_dentry_negative per-cpu counter to track the total number of
+negative dentries in all the LRU lists.
+
+Patch 1 fixes a bug in the accounting of nr_dentry_unused in
+shrink_dcache_sb().
+
+Patch 2 removes the ____cacheline_aligned_in_smp tag from super_block
+LRU lists.
+
+Patch 3 adds the new nr_dentry_negative per-cpu counter.
+
+Various filesystem related tests were run and no statistically
+significant changes in performance outside of the possible noise range
+was observed.
+
+Waiman Long (3):
+  fs/dcache: Fix incorrect nr_dentry_unused accounting in
+    shrink_dcache_sb()
+  fs: Don't need to put list_lru into its own cacheline
+  fs/dcache: Track & report number of negative dentries
+
+ Documentation/sysctl/fs.txt | 26 ++++++++++++++++----------
+ fs/dcache.c                 | 38 +++++++++++++++++++++++++++++++++-----
+ include/linux/dcache.h      |  7 ++++---
+ include/linux/fs.h          |  9 +++++----
+ 4 files changed, 58 insertions(+), 22 deletions(-)
+
+-- 
+1.8.3.1
+
