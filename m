@@ -3,55 +3,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5913F7D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 17:14:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0AB177D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 17:16:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727659AbeILWTZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 18:19:25 -0400
-Received: from mail-it0-f67.google.com ([209.85.214.67]:36253 "EHLO
+        id S1727796AbeILWVb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 18:21:31 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:54161 "EHLO
         mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726428AbeILWTW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 18:19:22 -0400
-Received: by mail-it0-f67.google.com with SMTP id u13-v6so4087162iti.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 10:13:52 -0700 (PDT)
+        with ESMTP id S1726428AbeILWVa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 18:21:30 -0400
+Received: by mail-it0-f67.google.com with SMTP id p79-v6so4087403itp.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 10:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=rdrbgc7pIQ80ZxMf3gcPuc0C1LML+l4t/bNpNee2KF0=;
-        b=XMai8gQ+xGXoj21B5aZCQTjgeUvRZZqwW+LKBzBnuTyH2acnLTsS6LlaBUXNOWcLJV
-         aYD4eAgd8k0vcFuMEsUE5PbL4gfEwrCHvxXKNCr+zy4jr4nuIoZnCdLGhjGDiHTqW+uI
-         yT82boPu8Xt7PZX65wosm8TeZXxaJf/EZZhNd51tyzR/PqmaHykTkVeQmAMrHIqwJ+CU
-         elxP/1GaOi+wzkyv65yp3f9maaSiJZw2qTTN8b8a6CzUnlbU+91niHfK2+2J+0i/YFTB
-         ttoN9Rc1ktyzcEkIfXsxLgGxWPzDxc+508Lg93R3Ln66hMihx8Rwu74A395r2aGOycFu
-         3brQ==
+        bh=1ZjM76NV7ESF+VTGcZ7Tpm2F/E1fintmYfOxWQ5uO0I=;
+        b=uIVus6HT4b6dNBFHLAtC2WTfS4Z3M9C4u7lXYaLdeCwW06CxdGHHa1zxbNQuSaHj7c
+         noeW1zy4AaNgE+E0+pWkdpGC95T6WhbzZOUyO2sqaD/mQRpsmclDT2lPDNvo3wc49Pgu
+         4SbMg9d+YRqlv+GP3EuNpEigcnrYUjTrnkAiCv3RkgjOVxXapRR7Jlutjz0dtb6VeycU
+         mIbZPYmNEgNPUSUq5oj8hJb5+cHf1CkSdKgtZaKJ32WS6PiA9BWj4kQv6SeVUyOHjv3w
+         mwul5tDAnnrfU/fHYvnzeIC7/U59sxmO2Gl322Dssvm0VsJrCvLTK8X44TSsqRog9cJV
+         IHzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=rdrbgc7pIQ80ZxMf3gcPuc0C1LML+l4t/bNpNee2KF0=;
-        b=Wb278huvdjfn/No6t3tGyMmNr5uWXv77GP/+LTHsiAGt58TZPYGMorubRIjvzz1XuL
-         rsOa8FMMYcSiNzaNGl1L6+orYFcngYLN+pNVXC6L8apUEfhuhThL6j/ARVYt8r3zlhb2
-         JdZSBunQ6mPnU/ozWOdoRrWp5p2tAwY+4Gpl+BkJgZISSIqzUFM7x+yiKjdTPfPDvsPh
-         S0UXTk67YVKnGp38wQBMFHuswr2uutK2AIohkwE8Y+QuS4Wtd0VMuc6s0xWr7zvrjp3p
-         0SZScBD6Ak+HL8yTuelYBNbnbCgNVr5GQmB4x1PAZHKlygBtYRiTfWkG5AxjjU+bAGoe
-         IpvQ==
-X-Gm-Message-State: APzg51CWhuUoBJuL9/0G2FAOseoHEaXn3VaHXpKdO88I5A4GlzUVf5Kj
-        qqNivwA3jBMVET9JItIUcjykQgVLEhjh48r6w03rwg==
-X-Google-Smtp-Source: ANB0VdaEY2j6m/CGznlyopI2za9bh5dh4RmG2udfCXyW7cX3AoF59pBtIIN7Sq1nqagdGdAKlMJ1JSxTSFPyyW36Zkw=
-X-Received: by 2002:a24:d286:: with SMTP id z128-v6mr1421657itf.14.1536772432096;
- Wed, 12 Sep 2018 10:13:52 -0700 (PDT)
+        bh=1ZjM76NV7ESF+VTGcZ7Tpm2F/E1fintmYfOxWQ5uO0I=;
+        b=fOeZ3Y6iurPPgIzjziRq0ANuW0XMqQMJRho69f7aks2us2/3J7T/ujf3s6/zIVwTGG
+         Qb+nwtiTQJNywqljEGzTI1JrEb7t8Ng6UqpNl7fmMPWHsVVWurDD7TCCpa0Y8KUOZ6w2
+         b/LWubF6x6FdtrgEvEV6RB39XyCUPWYrFT+8EEKOXXtiqe+tpIzAbO1QCQBOr124kHAC
+         paUromEXtnSrZQPcfgtInx+mgLiX8hCdsey82DEQrcVMo16k0kHSdLM8vrXHhqB4g0bR
+         fB3BJKOlbd3ElDscdaxfi+oyOYrTZjoztbSXIctf39U061HmcR8wwik5aXZp9+/qeZw0
+         s2wQ==
+X-Gm-Message-State: APzg51AWaL/VfmO4YTMUWQDeIo1XcD/8SMQ5aj8suvlz5UCogNS/oieU
+        4Jy/w1MNmpdmv4aM6Ms01vLtFq6uEbqTvvSzcWxqCA==
+X-Google-Smtp-Source: ANB0VdY/ut/QoHbm6LgUnLpRxOQDbT6U+Nc89oSYe/IV/Hr+g98Y5W9OovDqs91DhfqLeN+MpGZNg1kWRKM5gPt+2aU=
+X-Received: by 2002:a02:49cf:: with SMTP id p76-v6mr2888003jad.25.1536772560519;
+ Wed, 12 Sep 2018 10:16:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:5942:0:0:0:0:0 with HTTP; Wed, 12 Sep 2018 10:13:31
+Received: by 2002:a02:5942:0:0:0:0:0 with HTTP; Wed, 12 Sep 2018 10:15:39
  -0700 (PDT)
 In-Reply-To: <f5e73b5ead3355932ad8b5fc96b141c3f5b8c16c.1535462971.git.andreyknvl@google.com>
 References: <cover.1535462971.git.andreyknvl@google.com> <f5e73b5ead3355932ad8b5fc96b141c3f5b8c16c.1535462971.git.andreyknvl@google.com>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 12 Sep 2018 19:13:31 +0200
-Message-ID: <CACT4Y+ZwLnk7V1cY-EAHbrfXPBxs6qyynZPhxoSKZZDWSK8Fuw@mail.gmail.com>
+Date:   Wed, 12 Sep 2018 19:15:39 +0200
+Message-ID: <CACT4Y+aEwYiaVN--RH_0VBh0wbCcrf-Ndz+_eOaBNi6nKxrfQA@mail.gmail.com>
 Subject: Re: [PATCH v6 15/18] khwasan, arm64: add brk handler for inline instrumentation
 To:     Andrey Konovalov <andreyknvl@google.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
@@ -201,23 +201,16 @@ On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
 > +        * this is controlled by current->kasan_depth). All these accesses are
 > +        * detected by the tool, even though the reports for them are not
 > +        * printed.
-
-
-I am not following this part.
-Slab accesses metadata. OK.
-This is detected as bad access. OK.
-Report is not printed. OK.
-We skip BRK and resume execution.
-What is the problem?
-
-
-
 > +        *
 > +        * This is something that might be fixed at some point in the future.
 > +        */
 > +       if (!recover)
 > +               die("Oops - KHWASAN", regs, 0);
-> +
+
+Why die and not panic? Die seems to be much less used function, and it
+calls panic anyway, and we call panic in kasan_report if panic_on_warn
+is set.
+
 > +       /* If thread survives, skip over the brk instruction and continue: */
 > +       __arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
 > +       return DBG_HOOK_HANDLED;
