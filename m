@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 68F257D57F
+	by archive.lwn.net (Postfix) with ESMTP id 7DF1D7DE59
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:53:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728109AbeILMzU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 08:55:20 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:51744 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728030AbeILMzT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:19 -0400
-Received: by mail-wm0-f67.google.com with SMTP id y2-v6so1259687wma.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:52:00 -0700 (PDT)
+        id S1726555AbeILM4n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 08:56:43 -0400
+Received: from mail-wm0-f65.google.com ([74.125.82.65]:51747 "EHLO
+        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728082AbeILMzW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:22 -0400
+Received: by mail-wm0-f65.google.com with SMTP id y2-v6so1259831wma.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:52:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=k5yxIXhSHg7bpz4pLJ1Q0FLt3HidWjwucjgci+GeA8c=;
-        b=af5vzXGaR5Frlti+DQ3wvprPAl5RfialBE83+2/EZFV3YsyuSiGI5sqA38YmPcsD1/
-         svi1+uuGsL3QIFWX8Ske6Ws/GikTz9MKvCN0ucOZhnyPLU+zxpFGcRPgrw2tqiJq/ihM
-         jqe7cXPOgbdQEQPdj34wqtB7HAAa2ooc24nPACICJZzt1jjU0alpLcZL+6pSVZ4joAKU
-         Wj7ruNOIMGrFFoqasLZG/Q1oD8OJpCEaoRqcRxAij5D8zbHVRVtzY+nYHLmD9L+TF4gr
-         d1Y5GBr9Lux6lYZTM98nWDI403W1PwgDBs5Oi0d9WQoIbUUu4PMMzQGWN9gPF2cD6pmD
-         XMHw==
+        bh=OpjSmMMz3ZEAvxqGc8CNl11ld9hMLbfGr3rUWVD1yZE=;
+        b=p+guW6Ph7H5/z1LmsmfR7+rt5eVWhNfX7zkAjltQxYDtmjrDPiK91080DFjMHFIOUW
+         Q41FF0CauJa2mHGX4RpIe0l3ADi2YnfBCZWRGCfqOhn06lGwQkNopZbMWc6T1jb4qNTr
+         YY1ds4LAF9o3XkThLwHyQqnrtkLlME11Nsrmq7SrDSHfSKLAoWn9fZXsRFtoE7aPbDw4
+         Jwmn/u9plcou2f9XhnADQ9OlZhHWGZqOrWHYaKHRbJAQ4CwbgrNrmPN9aa6xS/fiomGm
+         OgLKZwMgFleYyXsU/JPGQ/V+xp3yIWrJG7fX3ngMLbealemPXQbYwU7Nrp1koX6Xpl9I
+         BfXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=k5yxIXhSHg7bpz4pLJ1Q0FLt3HidWjwucjgci+GeA8c=;
-        b=WAZVMnz19zxdJdhl0fkzapcoUiODN0JrNF6ZBG4cKvLtO+9WYwBWiMVes2e8YukW2u
-         DL5pe9T7H5BcE+jidZ8sOyUZORFtJNvXgdy1gEzkTPa6UUpaS1VRJBl4/Q0XR1P8pdOX
-         ooxnC7sqcdt3hye8M+EaJn7MxODjfedCMGi1vnfWCaaKqngzQLOhwip0/LWEPHtdY7jT
-         L57ObhEtB2jbP2uxjwaqYEdfYIOwgcD7BCZvBF6cd60KTYqyEJqHuPV43NqgJxOxTyNy
-         TnQRPjKJeYdr9/yEfxjGrRnF0ksXTfhxuPurgQNZaXc0yecB6/ddZ9569rVwyh0xqLQd
-         +qPw==
-X-Gm-Message-State: APzg51BB191J2hfWsTH4uUtZpWjY4QwPeHpYwfkair3WW8Ulv/HBmp/0
-        vtBg4Q91xPhA99JpeYhkeAiZBA==
-X-Google-Smtp-Source: ANB0VdYzD1Oqnd50HfQsossSncXp9AfGsuZx8m8Dn8JshEwtPYZovwPTJW5nRMo6u1rOru28lt2+hw==
-X-Received: by 2002:a1c:9215:: with SMTP id u21-v6mr703832wmd.106.1536738719900;
-        Wed, 12 Sep 2018 00:51:59 -0700 (PDT)
+        bh=OpjSmMMz3ZEAvxqGc8CNl11ld9hMLbfGr3rUWVD1yZE=;
+        b=LjYfG2TES71P6A4hdbXOPDk9Kr3CdcBW1knSztFwdUJu9tXjwL3hvcTzcHkE9wF5oi
+         e/woLHGw6YybZWiJtQonrL38HNv3Bow2u4SmhZsqLor4ifWLAX2h4PFZzx+03/Be2OeL
+         Jhb3RZCR7tiCPoV2wFhsbb+4OduLmBEgdLMhFIngz8+FknqRv3cOl2kZST657hxtk2wB
+         R3TWYV46GzwEiffQbX87LzFXi8F9zdzQ6r+DtUFJGAIMUixW1Dz1DLxiI9tNVUP5A4TZ
+         /lVyZPdf3byv2iqWyuUOAdes22iyA13FTkiKKDnfEMNMOQIh98NdA7GfUZh5qx4aQ/yj
+         Wgsg==
+X-Gm-Message-State: APzg51DUshQozgJby3d+vynUrKF03dMzWThobuKzEEz006eKHINVlnCf
+        F1pwnoyQQzzI36gkEIDRlAxEWg==
+X-Google-Smtp-Source: ANB0VdYlPbWb4N9mNeSypfc34l3UPHicco4bq8GiL1cnPYcWHsL2yehF8s/To7aWXCnqVo4SFbpFjw==
+X-Received: by 2002:a1c:e141:: with SMTP id y62-v6mr686433wmg.138.1536738722829;
+        Wed, 12 Sep 2018 00:52:02 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.51.58
+        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.52.01
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 12 Sep 2018 00:51:59 -0700 (PDT)
+        Wed, 12 Sep 2018 00:52:02 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 10/21] nvmem: change the signature of nvmem_unregister()
-Date:   Wed, 12 Sep 2018 09:51:18 +0200
-Message-Id: <20180912075129.25185-11-brgl@bgdev.pl>
+Subject: [PATCH v3 12/21] nvmem: add support for cell info
+Date:   Wed, 12 Sep 2018 09:51:20 +0200
+Message-Id: <20180912075129.25185-13-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180912075129.25185-1-brgl@bgdev.pl>
 References: <20180912075129.25185-1-brgl@bgdev.pl>
@@ -76,79 +76,185 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-We switched the nvmem framework to using kref instead of manually
-checking the current number of users in nvmem_unregister() so this
-function can no longer fail. We also converted all remaining users
-that still checked the return value of nvmem_unregister() to using
-devm_nvmem_register(). Make the routine return void.
+Add new structs and routines allowing users to define nvmem cells from
+machine code. This global list of entries is parsed when a provider
+is registered and cells are associated with the relevant nvmem_device
+struct.
+
+A possible improvement for the future is to allow users to register
+cell tables after the nvmem provider has been registered by updating
+the cell list at each call to nvmem_(add|del)_cell_table().
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c           | 8 ++------
- include/linux/nvmem-provider.h | 9 +++------
- 2 files changed, 5 insertions(+), 12 deletions(-)
+ drivers/nvmem/core.c           | 72 ++++++++++++++++++++++++++++++++++
+ include/linux/nvmem-provider.h | 33 +++++++++++-----
+ 2 files changed, 96 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 552ffedce38e..c950d54bb69d 100644
+index 585688ea2152..9329857f6137 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -553,20 +553,16 @@ static void nvmem_device_release(struct kref *kref)
-  * nvmem_unregister() - Unregister previously registered nvmem device
-  *
-  * @nvmem: Pointer to previously registered nvmem device.
-- *
-- * Return: Will be an negative on error or a zero on success.
-  */
--int nvmem_unregister(struct nvmem_device *nvmem)
-+void nvmem_unregister(struct nvmem_device *nvmem)
- {
- 	kref_put(&nvmem->refcnt, nvmem_device_release);
--
--	return 0;
- }
- EXPORT_SYMBOL_GPL(nvmem_unregister);
+@@ -59,6 +59,9 @@ struct nvmem_cell {
+ static DEFINE_MUTEX(nvmem_mutex);
+ static DEFINE_IDA(nvmem_ida);
  
- static void devm_nvmem_release(struct device *dev, void *res)
- {
--	WARN_ON(nvmem_unregister(*(struct nvmem_device **)res));
-+	nvmem_unregister(*(struct nvmem_device **)res);
++static DEFINE_MUTEX(nvmem_cell_mutex);
++static LIST_HEAD(nvmem_cell_tables);
++
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ static struct lock_class_key eeprom_lock_key;
+ #endif
+@@ -416,6 +419,43 @@ static int nvmem_setup_compat(struct nvmem_device *nvmem,
+ 	return 0;
  }
  
++static int nvmem_add_cells_from_table(struct nvmem_device *nvmem)
++{
++	const struct nvmem_cell_info *info;
++	struct nvmem_cell_table *table;
++	struct nvmem_cell *cell;
++	int rval = 0, i;
++
++	mutex_lock(&nvmem_cell_mutex);
++	list_for_each_entry(table, &nvmem_cell_tables, node) {
++		if (strcmp(nvmem_dev_name(nvmem), table->nvmem_name) == 0) {
++			for (i = 0; i < table->ncells; i++) {
++				info = &table->cells[i];
++
++				cell = kzalloc(sizeof(*cell), GFP_KERNEL);
++				if (!cell) {
++					rval = -ENOMEM;
++					goto out;
++				}
++
++				rval = nvmem_cell_info_to_nvmem_cell(nvmem,
++								     info,
++								     cell);
++				if (rval) {
++					kfree(cell);
++					goto out;
++				}
++
++				nvmem_cell_add(cell);
++			}
++		}
++	}
++
++out:
++	mutex_unlock(&nvmem_cell_mutex);
++	return rval;
++}
++
  /**
+  * nvmem_register() - Register a nvmem device for given nvmem_config.
+  * Also creates an binary entry in /sys/bus/nvmem/devices/dev-name/nvmem
+@@ -502,8 +542,14 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+ 			goto err_teardown_compat;
+ 	}
+ 
++	rval = nvmem_add_cells_from_table(nvmem);
++	if (rval)
++		goto err_remove_cells;
++
+ 	return nvmem;
+ 
++err_remove_cells:
++	nvmem_device_remove_all_cells(nvmem);
+ err_teardown_compat:
+ 	if (config->compat)
+ 		device_remove_bin_file(nvmem->base_dev, &nvmem->eeprom);
+@@ -1306,6 +1352,32 @@ int nvmem_device_write(struct nvmem_device *nvmem,
+ }
+ EXPORT_SYMBOL_GPL(nvmem_device_write);
+ 
++/**
++ * nvmem_add_cell_table() - register a table of cell info entries
++ *
++ * @table: table of cell info entries
++ */
++void nvmem_add_cell_table(struct nvmem_cell_table *table)
++{
++	mutex_lock(&nvmem_cell_mutex);
++	list_add_tail(&table->node, &nvmem_cell_tables);
++	mutex_unlock(&nvmem_cell_mutex);
++}
++EXPORT_SYMBOL_GPL(nvmem_add_cell_table);
++
++/**
++ * nvmem_del_cell_table() - remove a previously registered cell info table
++ *
++ * @table: table of cell info entries
++ */
++void nvmem_del_cell_table(struct nvmem_cell_table *table)
++{
++	mutex_lock(&nvmem_cell_mutex);
++	list_del(&table->node);
++	mutex_unlock(&nvmem_cell_mutex);
++}
++EXPORT_SYMBOL_GPL(nvmem_del_cell_table);
++
+ /**
+  * nvmem_dev_name() - Get the name of a given nvmem device.
+  *
 diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index 24def6ad09bb..033c9c3c80a6 100644
+index 033c9c3c80a6..df6c102b421e 100644
 --- a/include/linux/nvmem-provider.h
 +++ b/include/linux/nvmem-provider.h
-@@ -70,7 +70,7 @@ struct nvmem_config {
+@@ -67,6 +67,25 @@ struct nvmem_config {
+ 	struct device		*base_dev;
+ };
+ 
++/**
++ * struct nvmem_cell_table - NVMEM cell definitions for given provider
++ *
++ * @nvmem_name:		Provider name.
++ * @cells:		Array of cell definitions.
++ * @ncells:		Number of cell definitions in the array.
++ * @node:		List node.
++ *
++ * This structure together with related helper functions is provided for users
++ * that don't can't access the nvmem provided structure but wish to register
++ * cell definitions for it e.g. board files registering an EEPROM device.
++ */
++struct nvmem_cell_table {
++	const char		*nvmem_name;
++	const struct nvmem_cell_info	*cells;
++	size_t			ncells;
++	struct list_head	node;
++};
++
  #if IS_ENABLED(CONFIG_NVMEM)
  
  struct nvmem_device *nvmem_register(const struct nvmem_config *cfg);
--int nvmem_unregister(struct nvmem_device *nvmem);
-+void nvmem_unregister(struct nvmem_device *nvmem);
+@@ -77,9 +96,9 @@ struct nvmem_device *devm_nvmem_register(struct device *dev,
  
- struct nvmem_device *devm_nvmem_register(struct device *dev,
- 					 const struct nvmem_config *cfg);
-@@ -87,10 +87,7 @@ static inline struct nvmem_device *nvmem_register(const struct nvmem_config *c)
- 	return ERR_PTR(-ENOSYS);
+ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem);
+ 
+-int nvmem_add_cells(struct nvmem_device *nvmem,
+-		    const struct nvmem_cell_info *info,
+-		    int ncells);
++void nvmem_add_cell_table(struct nvmem_cell_table *table);
++void nvmem_del_cell_table(struct nvmem_cell_table *table);
++
+ #else
+ 
+ static inline struct nvmem_device *nvmem_register(const struct nvmem_config *c)
+@@ -102,12 +121,8 @@ devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
+ 
  }
  
--static inline int nvmem_unregister(struct nvmem_device *nvmem)
+-static inline int nvmem_add_cells(struct nvmem_device *nvmem,
+-				  const struct nvmem_cell_info *info,
+-				  int ncells)
 -{
 -	return -ENOSYS;
 -}
-+static inline void nvmem_unregister(struct nvmem_device *nvmem) {}
++static inline void nvmem_add_cell_table(struct nvmem_cell_table *table) {}
++static inline void nvmem_del_cell_table(struct nvmem_cell_table *table) {}
  
- static inline struct nvmem_device *
- devm_nvmem_register(struct device *dev, const struct nvmem_config *c)
-@@ -101,7 +98,7 @@ devm_nvmem_register(struct device *dev, const struct nvmem_config *c)
- static inline int
- devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
- {
--	return nvmem_unregister(nvmem);
-+	return ERR_PTR(-ENOSYS);
- 
- }
- 
+ #endif /* CONFIG_NVMEM */
+ #endif  /* ifndef _LINUX_NVMEM_PROVIDER_H */
 -- 
 2.18.0
 
