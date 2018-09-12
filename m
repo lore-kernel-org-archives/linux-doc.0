@@ -1,141 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7B7F7D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 10:33:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5098B7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 12:26:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727990AbeILPhM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 11:37:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54932 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726855AbeILPhL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 11:37:11 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8CAOT5M054855
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 06:33:16 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2meydbmtcv-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 06:33:15 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 12 Sep 2018 11:33:13 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 12 Sep 2018 11:33:09 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8CAX8YK51380464
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 12 Sep 2018 10:33:08 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B98104C05E;
-        Wed, 12 Sep 2018 13:32:59 +0100 (BST)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 162C04C046;
-        Wed, 12 Sep 2018 13:32:59 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.207])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 12 Sep 2018 13:32:58 +0100 (BST)
-Date:   Wed, 12 Sep 2018 13:33:06 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
+        id S1726792AbeILRaq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 13:30:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43814 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726491AbeILRaq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Sep 2018 13:30:46 -0400
+Received: from localhost (173-25-171-118.client.mchsi.com [173.25.171.118])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 032EE20866;
+        Wed, 12 Sep 2018 12:26:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1536755187;
+        bh=8vjHUP7PA4K77HDWZaX13FBIXYbImM2TVptfyoY60ac=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=as2/hFXlYC/doG+uWBTNPHHhYZWNHd1I0eI3FYoWXpL4zvMkybUOkqRaSeASeg2LM
+         4oe6RmAoPvwPiOF+jQd10mdfww8d0v0pEo/ZucNppzDNXxKQkkGyoRxyyYAnOo8RWr
+         JqQtFj2FwrTI0Ea8DPYTxiIa3UrHjxK1pXCdTt5k=
+Date:   Wed, 12 Sep 2018 07:26:25 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Wesley.Sheng@microchip.com
+Cc:     kurt.schwemmer@microsemi.com, logang@deltatee.com,
+        bhelgaas@google.com, corbet@lwn.net, linux-pci@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] docs: core-api: add memory allocation guide
-References: <1534517236-16762-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1534517236-16762-4-git-send-email-rppt@linux.vnet.ibm.com>
- <20180911115555.5fce5631@lwn.net>
+Subject: Re: [PATCH] NTB: ntb_hw_switchtec: add pre-requisites for NTB driver
+ and misc updates
+Message-ID: <20180912122625.GF118330@bhelgaas-glaptop.roam.corp.google.com>
+References: <DM2PR11MB0105BF7DD2EFB7F3874EB457951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
+ <DM2PR11MB0105A882E34348BC85F8EE79951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180911115555.5fce5631@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18091210-0008-0000-0000-000002702C14
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18091210-0009-0000-0000-000021D86827
-Message-Id: <20180912103305.GC6719@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-12_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=860 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1809120110
+In-Reply-To: <DM2PR11MB0105A882E34348BC85F8EE79951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 11, 2018 at 11:55:55AM -0600, Jonathan Corbet wrote:
-> Sorry for being so slow to get to this...it fell into a dark crack in my
-> rickety email folder hierarchy.  I do have one question...
+On Wed, Sep 12, 2018 at 08:55:18AM +0000, Wesley.Sheng@microchip.com wrote:
+> From: Wesley Sheng <Wesley.Sheng@microchip.com>
 > 
-> On Fri, 17 Aug 2018 17:47:16 +0300
-> Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+> 1.add pre-requisites for NTB driver
+> 2.misc updates
+>   change ntb hardware driver name to ntb_hw_switchtec
+
+s/ ntb / NTB /
+
+>   update the description of 2 partitions limit
+>   add reference to Linux Documentation/ntb.txt
+>   add use of term 'Command ID'
+>   add use of term 'Command Return Value'
+>   add a missing ')'
 > 
-> > +    ``GFP_HIGHUSER_MOVABLE`` does not require that allocated memory
-> > +    will be directly accessible by the kernel or the hardware and
-> > +    implies that the data is movable.
-> > +
-> > +    ``GFP_HIGHUSER`` means that the allocated memory is not movable,
-> > +    but it is not required to be directly accessible by the kernel or
-> > +    the hardware. An example may be a hardware allocation that maps
-> > +    data directly into userspace but has no addressing limitations.
-> > +
-> > +    ``GFP_USER`` means that the allocated memory is not movable and it
-> > +    must be directly accessible by the kernel or the hardware. It is
-> > +    typically used by hardware for buffers that are mapped to
-> > +    userspace (e.g. graphics) that hardware still must DMA to.
+> Signed-off-by: Kelvin Cao <kelvin.cao@microchip.com>
+> Signed-off-by: Wesley Yung <Wesley.Yung@microchip.com>
+
+I assume Kurt or Logan will take care of this.
+
+> ---
+>  Documentation/switchtec.txt | 30 ++++++++++++++--------
+>  1 file changed, 20 insertions(+), 10 deletions(-)
 > 
-> I realize that this is copied from elsewhere, but still...as I understand
-> it, the "HIGH" part means that the allocation can be satisfied from high
-> memory, nothing more.  So...it's irrelevant on 64-bit machines to start
-> with, right?  And it has nothing to do with DMA, I would think.  That would
-> be handled by the DMA infrastructure and, perhaps, the DMA* zones.  Right?
-> 
-> I ask because high memory is an artifact of how things are laid out on
-> 32-bit systems; hardware can often DMA quite easily into memory that the
-> kernel sees as "high".  So, to me, this description seems kind of
-> confusing; I wouldn't mention hardware at all.  But maybe I'm missing
-> something?
+> diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt index f788264..40e839d 100644
+> --- a/Documentation/switchtec.txt
+> +++ b/Documentation/switchtec.txt
+> @@ -23,7 +23,7 @@ The primary means of communicating with the Switchtec management firmware is  through the Memory-mapped Remote Procedure Call (MRPC) interface.
+>  Commands are submitted to the interface with a 4-byte command  identifier and up to 1KB of command specific data. The firmware will -respond with a 4 bytes return code and up to 1KB of command specific
+> +respond with a 4-byte return code and up to 1KB of command specific
 
-Well, I've amended the original text from gfp.h in attempt to make it more
-"user friendly". The GFP_HIGHUSER became really confusing :)
-I think that we can drop mentions of hardware from GFP_HIGHUSER_MOVABLE and
-GFP_USER, but it makes sense to leave the example in the GFP_HIGHUSER
-description.
+This hunk looks malformed ("-" buried in middle of line above).
+"Patch" complained that this patch was corrupted.
 
-How about:
+>  data. The interface only processes a single command at a time.
+>  
+>  
+> @@ -36,8 +36,8 @@ device: /dev/switchtec#, one for each management endpoint in the system.
+>  The char device has the following semantics:
+>  
+>  * A write must consist of at least 4 bytes and no more than 1028 bytes.
+> -  The first four bytes will be interpreted as the command to run and
+> -  the remainder will be used as the input data. A write will send the
+> +  The first 4 bytes will be interpreted as the Command ID and the  
+> + remainder will be used as the input data. A write will send the
 
-    ``GFP_HIGHUSER_MOVABLE`` does not require that allocated memory
-    will be directly accessible by the kernel and implies that the
-    data is movable.
+Looks like whitespace at beginning of line is wrong here.
 
-    ``GFP_HIGHUSER`` means that the allocated memory is not movable,
-    but it is not required to be directly accessible by the kernel. An
-    example may be a hardware allocation that maps data directly into
-    userspace but has no addressing limitations.
+>    command to the firmware to begin processing.
+>  
+>  * Each write must be followed by exactly one read. Any double write will @@ -45,9 +45,9 @@ The char device has the following semantics:
+>    produce an error.
+>  
+>  * A read will block until the firmware completes the command and return
+> -  the four bytes of status plus up to 1024 bytes of output data. (The
+> -  length will be specified by the size parameter of the read call --
+> -  reading less than 4 bytes will produce an error.
+> +  the 4-byte Command Return Value plus up to 1024 bytes of output  
+> + data. (The length will be specified by the size parameter of the read  
+> + call -- reading less than 4 bytes will produce an error.)
 
-    ``GFP_USER`` means that the allocated memory is not movable and it
-    must be directly accessible by the kernel
+Also here.
 
- 
-> Thanks,
-> 
-> jon
-> 
+>  * The poll call will also be supported for userspace applications that
+>    need to do other things while waiting for the command to complete.
+> @@ -83,10 +83,20 @@ The following IOCTLs are also supported by the device:
+>  Non-Transparent Bridge (NTB) Driver
+>  ===================================
+>  
+> -An NTB driver is provided for the switchtec hardware in switchtec_ntb.
+> -Currently, it only supports switches configured with exactly 2 -partitions. It also requires the following configuration settings:
+> +An NTB hardware driver is provided for the switchtec hardware in 
 
--- 
-Sincerely yours,
-Mike.
+"Switchtec" should be capitalized when used as a proper adjective like
+this.  When used as the name of the driver, the lower-case "switchtec"
+is appropriate.
 
+> +ntb_hw_switchtec. Currently, it only supports switches configured with 
+> +exactly 2 NT partitions and zero or more non-NT partitions. It also 
+> +requires the following configuration settings:
+>  
+> -* Both partitions must be able to access each other's GAS spaces.
+> +* Both NT partitions must be able to access each other's GAS spaces.
+>    Thus, the bits in the GAS Access Vector under Management Settings
+>    must be set to support this.
+> +* Kernel configuration MUST include support for NTB (CONFIG_NTB needs
+> +  to be set)
+> +
+> +NT EP BAR 2 will be dynamically configured as a Direct Window, and the 
+> +configuration file does not need to configure it explicitly.
+> +
+> +Please refer to Documentation/ntb.txt in Linux source tree for an 
+> +overall understanding of the Linux NTB stack. ntb_hw_switchtec works as 
+> +an NTB Hardware Driver in this stack.
