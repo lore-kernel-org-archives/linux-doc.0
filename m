@@ -1,79 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0568B7D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 15:54:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9CA1F7D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 15:56:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbeILU7O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 16:59:14 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:35136 "EHLO ale.deltatee.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726818AbeILU7O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Sep 2018 16:59:14 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1g07Sh-0000hl-2f; Wed, 12 Sep 2018 09:53:58 -0600
-To:     Wesley.Sheng@microchip.com, kurt.schwemmer@microsemi.com,
-        bhelgaas@google.com, corbet@lwn.net
-Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
-References: <DM2PR11MB0105BF7DD2EFB7F3874EB457951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
- <DM2PR11MB0105A882E34348BC85F8EE79951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <9a810527-1e71-cc6c-410c-da78faefee7d@deltatee.com>
-Date:   Wed, 12 Sep 2018 09:53:43 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1727365AbeILVBI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 17:01:08 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53604 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726673AbeILVBI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 17:01:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=PxfS/9f6yTpE9ZgTQ8/cv2PwqzOJ4nIbA2ojseAd9Ko=; b=aXSu+hXd0Wz0PgWFph0vSpPFP
+        lEspZmIVHEns4m5xBN5j3mzVBIpq7Ux0FOqt9ZYyKnheX2Ikdqme+nzdilNqksIvMN5bQlhX2avqn
+        30q4wuR6ZmaqPJ7eQengDnum7CX1TJJ8X4qZM7D4Bdczmmz1nxtqHdJuqtDPWwertNsEg3D2+GChA
+        Xxi7IEGEEGjB4K8RxDKfdVICGxQriAHNKm15GDKmVKsjeF8n2PC3H5ipNocpYCHoQB5VJuDtrnc4Z
+        sidkE4o4dhB01SC3ehaDWKa/RG4txaEZDHB+Fstn2ccBsy7le0dlH0d/0Z5h5noyoDWtSspnsFGvK
+        R0ih9M/KQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1g07Uj-0000uy-Pv; Wed, 12 Sep 2018 15:55:57 +0000
+Date:   Wed, 12 Sep 2018 08:55:57 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>
+Subject: Re: [PATCH v3 4/4] fs/dcache: Eliminate branches in
+ nr_dentry_negative accounting
+Message-ID: <20180912155557.GA18304@bombadil.infradead.org>
+References: <1536693506-11949-1-git-send-email-longman@redhat.com>
+ <1536693506-11949-5-git-send-email-longman@redhat.com>
+ <20180912023610.GB20056@bombadil.infradead.org>
+ <bf7592c3-dc1d-635e-8bb0-717f6e8a54d9@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <DM2PR11MB0105A882E34348BC85F8EE79951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: linux-ntb@googlegroups.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, corbet@lwn.net, bhelgaas@google.com, kurt.schwemmer@microsemi.com, Wesley.Sheng@microchip.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH] NTB: ntb_hw_switchtec: add pre-requisites for NTB driver
- and misc updates
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bf7592c3-dc1d-635e-8bb0-717f6e8a54d9@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks Wesley,
+On Wed, Sep 12, 2018 at 11:49:22AM -0400, Waiman Long wrote:
+> > unless our macrology has got too clever for the compilre to see through
+> > it.  In which case, the right answer is to simplify the percpu code,
+> > not to force the compiler to optimise the code in the way that makes
+> > sense for your current microarchitecture.
+> >
+> I had actually looked at the x86 object file generated to verify that it
+> did use cmove with the patch and use branch without. It is possible that
+> there are other twists to make that happen with the above expression. I
+> will need to run some experiments to figure it out. In the mean time, I
+> am fine with dropping this patch as it is a micro-optimization that
+> doesn't change the behavior at all.
 
-On 9/12/2018 2:55 AM, Wesley.Sheng@microchip.com wrote:
-> From: Wesley Sheng <Wesley.Sheng@microchip.com>
-> 
-> 1.add pre-requisites for NTB driver
-> 2.misc updates
->   change ntb hardware driver name to ntb_hw_switchtec
->   update the description of 2 partitions limit
->   add reference to Linux Documentation/ntb.txt
->   add use of term 'Command ID'
->   add use of term 'Command Return Value'
->   add a missing ')'
+I don't understand why you included it, to be honest.  But it did get
+me looking at the percpu code to see if it was too clever.  And that
+led to the resubmission of rth's patch from two years ago that I cc'd
+you on earlier.
 
-The commit message and patch title could use a bit of cleanup. It should
-at least say you're updating the documentation, it reads as though you
-are changing the driver.
+With that patch applied, gcc should be able to choose to use the
+cmov if it feels that would be a better optimisation.  It already
+makes one different decision in dcache.o, namely that it uses addq
+$0x1,%gs:0x0(%rip) instead of incq %gs:0x0(%rip).  Apparently this
+performs better on some CPUs.
 
-Also, especially given the NTB tag in the patch title, you probably
-should have CC'd the NTB List. (linux-ntb@googlegroups.com
-<linux-ntb@googlegroups.com>)
-
-> Signed-off-by: Kelvin Cao <kelvin.cao@microchip.com>
-> Signed-off-by: Wesley Yung <Wesley.Yung@microchip.com>
-
-Acked-by: Logan Gunthorpe <logang@deltatee.com>
-
-
-Logan
+So I wouldn't spend any more time on this patch.
