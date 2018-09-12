@@ -3,59 +3,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B079F7D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:51:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4FF247D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:51:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727651AbeILMyi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 08:54:38 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:44433 "EHLO
+        id S1726555AbeILMyq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 08:54:46 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:49783 "EHLO
         out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726358AbeILMyi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:54:38 -0400
+        by vger.kernel.org with ESMTP id S1726358AbeILMyq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:54:46 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 77FAA21B7C;
-        Wed, 12 Sep 2018 03:51:19 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 12 Sep 2018 03:51:19 -0400
+        by mailout.nyi.internal (Postfix) with ESMTP id 946142188F;
+        Wed, 12 Sep 2018 03:51:27 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 12 Sep 2018 03:51:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
         :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=pZElkUvQnheJKIWVj
-        tk3hIrE3k9NZm881jX4kTxJ8rE=; b=b7RKi2g3HOJI+SzfPb0l+tV8lkiOMnjWJ
-        oSJz3gN+bWQq1c6rWWVvBvBdu7P3gZSRFYzQLxUa4a2u2s0VlNf/YRSGv50VG3gL
-        Uxm/xh6E3gdzeTOpsEVROeM/HeFsrj30/7pabFC4HqsyHa4D3H2L1squ6srprWGt
-        PWgoSdRU2SST3O7yJwXicTZzEdenjZ+afF4nlcc7c4zr6KM42U31CmfNSO6swuUn
-        9gHnpzzeb6YF6mUG6+1FRRKOqAGFBmqOh7nklF09SgoaIEEEMIl8mDKGcKyjl/Uz
-        Q13xClOunHSvGz2oTgwT3qAMVm84uT2MBxQyrWBiYUwfjSVyih/Kw==
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=AcVCf0lBnriHAVWWO
+        yYxiat+4C/Pp7uCNQ34XJIHJYw=; b=enA/Gq5FY81aboqQ39svKzj6tCxhPaI17
+        gIzW/2s0YAKBbyEOMlCltJEpxVl0YzLievGqUvaDFCrGrUL7X1txO9/1Uifx6pIB
+        Hgqfq2JkXhSnWuvdwefVY10XFuHJ3cHDC4DQsA5NL2p2yym9PVWNa8Qy/3JoNFQZ
+        8Ui/+w91FA5jLKKjpv1KKbtbDxSFhnNLlrMI+NDGycfA+0uvFWKb46gT/4i5Nr3i
+        lkf/KTT8Ys555icRc8u89r9wKJNA8r0ihSg++sHBjJqOzeNgtfukHyL+ojrXHdIj
+        v3x/TUwk4Oa8WTHV2mieFP+DVv9mQ4Bna4wpt/A0sWaiSNhjPmgdg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:date:from:in-reply-to:message-id
         :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=pZElkUvQnheJKIWVjtk3hIrE3k9NZm881jX4kTxJ8rE=; b=Lq55aeiy
-        iTBx7PsGblEADpi2UiQaOy9nHZbeJKfx/P54jOVbOJvLtNT2N6GNRKm60zYhYOHt
-        qXroIVVgWHBW7W4MIzge7MMCApQbptCzUFDZ1a6ViHxfiitpqJjrGHDbtW3yXC5s
-        Rm8c1cI1rRW+f8iFE5qJOPlFkIEshC9Ajs6Vhq3pkIQS6H3+A2wwbQllR+d2CBGN
-        psAs88ZL35zAixZWDKMFFQa3rG4UNt0OTAZNL6Nv9OWdYtyI0GuoAnmixQUJ9gWj
-        PNBVtXQ5ElQDvw9f+zX6KC5gdaGLw4mE4GwJqhOWjr0CGA/O74Rzty+J5G2GUADq
-        cSEvF6Bqpc71Ig==
-X-ME-Proxy: <xmx:d8WYW4CgJnRNLIrp5_53lx6145ArFuxlhN_0yJ2GIf-HFPSMATPLLA>
-    <xmx:d8WYW6FAYAM5R8C_wD9s6R-gEznrT_P0QN9wf-QW7_KzEhYaBS7YLA>
-    <xmx:d8WYW0-uw5jGt-K0gWWqvJWb4XlK13kYYaU9WfXsp3n4V2RgR_RiNw>
-    <xmx:d8WYW3mZJTnKdrmy1KRCLLPRXf3vIEZxVDLKXVbMQvoE8rvYlk6bDw>
-    <xmx:d8WYW6_uePT_nmKAQ3LSsFTaAW1bXPrLGfJlWtHFPvj8aczZ_bjnqg>
-    <xmx:d8WYW9KkLOcPUPDbInr_0jaC_CcMcZMh8p4PsulY8EZab3luqkopnA>
-X-ME-Sender: <xms:d8WYW4TC13V83YuFQ1YbGHetsidsfdDtv9Lg7aAK0M7TjlLXGk37Yg>
+        fm3; bh=AcVCf0lBnriHAVWWOyYxiat+4C/Pp7uCNQ34XJIHJYw=; b=uZdE5s3v
+        CS9iSemIe38fTeoLx8h3TOBM8fSI65M+kb6ZOKqRNTuLVUj1ukVzSasCnO0be5bW
+        5hkp7PHT0iunab+L+fk5/sd+rBq53xEqiF7N1+cJFR/kAw/z5AJzziFi28xp9guJ
+        5xILYsZU5wGKqvG6vDYMKICWbejUH0JRXmi3r/QpkindYYLAV6HK3SDHaaRv5dCs
+        PeF3cnIqPXvA4uqPQE/aeuT6kBYF+bqe9TwLrwA/LnO2LuWyO+VsCv92sC3R7fqC
+        Ps9y0eGENRyL1QBVmO2TRx+l1Sayem2+Vb9aUyGV0hShnuZ9r1sRDcc6xLvhgp3/
+        63bw3Ml+O1R1mA==
+X-ME-Proxy: <xmx:f8WYW8woQMyH6XRmtPuzoKXoK2YWb8dsYoywsa4WzJcnS-cvKkFRGA>
+    <xmx:f8WYW31coGeSu6pDLm3QxZB8C1kuXQtwaGK9W9rFx7VAahNPuGB5LA>
+    <xmx:f8WYW7Bi5kWpEZoWMxwa63mroHBRzlrcTtyt4RYZ_pF5A4Gs1xgP4w>
+    <xmx:f8WYWxvc1_Y2qK8zUmDy5I4Hf3faZ7v56aKo727KowNHgt7xfDBuyw>
+    <xmx:f8WYW8WnmOUfBEDT_wroEhDdP-8bmplEhxzoxb6UBKksEAyCBnX59A>
+    <xmx:f8WYW9IsIALjANJfwmxar9-4Cr87ydUmpGNx4YOs8Yfd-KkImA1o3g>
+X-ME-Sender: <xms:f8WYW780HRhNDUr9_8w-GuVdE6TXxUmM7ir70d1YvSEWtnPjS_6KRA>
 Received: from localhost (ppp121-44-246-110.bras2.syd2.internode.on.net [121.44.246.110])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 8F355E46B6;
-        Wed, 12 Sep 2018 03:51:18 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id B76A4102D5;
+        Wed, 12 Sep 2018 03:51:26 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jiri Slaby <jslaby@suse.com>
 Cc:     "Tobin C. Harding" <me@tobin.cc>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 1/3] tty_port: Remove incorrect whitespace after comments
-Date:   Wed, 12 Sep 2018 17:50:42 +1000
-Message-Id: <20180912075044.8695-2-me@tobin.cc>
+Subject: [PATCH 3/3] tty_port: Fix kernel-docs warnings
+Date:   Wed, 12 Sep 2018 17:50:44 +1000
+Message-Id: <20180912075044.8695-4-me@tobin.cc>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180912075044.8695-1-me@tobin.cc>
 References: <20180912075044.8695-1-me@tobin.cc>
@@ -64,77 +64,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently there are a bunch of kernel-doc function comments that have a
-line of whitespace after the comment and before the function they
-comment - this is incorrect, there should be no whitespace here.
+Currently extracting the kernel-docs causes a six warnings of type
 
-Remove incorrect whitespace between comment and associated function.
+  warning: Function parameter or member 'foo' not described in 'bar'
+
+Add function parameter descriptions to the function kernel-docs.
 
 Signed-off-by: Tobin C. Harding <me@tobin.cc>
 ---
- drivers/tty/tty_port.c | 7 -------
- 1 file changed, 7 deletions(-)
+ drivers/tty/tty_port.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/tty/tty_port.c b/drivers/tty/tty_port.c
-index 25d736880013..cb6075096a5b 100644
+index 382282013c9d..2444ed90b93d 100644
 --- a/drivers/tty/tty_port.c
 +++ b/drivers/tty/tty_port.c
-@@ -279,7 +279,6 @@ EXPORT_SYMBOL(tty_port_put);
-  *	Return a refcount protected tty instance or NULL if the port is not
-  *	associated with a tty (eg due to close or hangup)
-  */
--
- struct tty_struct *tty_port_tty_get(struct tty_port *port)
- {
- 	unsigned long flags;
-@@ -300,7 +299,6 @@ EXPORT_SYMBOL(tty_port_tty_get);
-  *	Associate the port and tty pair. Manages any internal refcounts.
-  *	Pass NULL to deassociate a port
-  */
--
- void tty_port_tty_set(struct tty_port *port, struct tty_struct *tty)
- {
- 	unsigned long flags;
-@@ -343,7 +341,6 @@ static void tty_port_shutdown(struct tty_port *port, struct tty_struct *tty)
+@@ -622,6 +622,9 @@ EXPORT_SYMBOL(tty_port_close_end);
+ 
+ /**
+  * tty_port_close()
++ * @port: tty port
++ * @tty: the tty
++ * @filp: the file pointer
   *
-  *	Caller holds tty lock.
+  * Caller holds tty lock
   */
--
- void tty_port_hangup(struct tty_port *port)
- {
- 	struct tty_struct *tty;
-@@ -399,7 +396,6 @@ EXPORT_SYMBOL_GPL(tty_port_tty_wakeup);
-  *	to hide some internal details. This will eventually become entirely
-  *	internal to the tty port.
-  */
--
- int tty_port_carrier_raised(struct tty_port *port)
- {
- 	if (port->ops->carrier_raised == NULL)
-@@ -416,7 +412,6 @@ EXPORT_SYMBOL(tty_port_carrier_raised);
-  *	to hide some internal details. This will eventually become entirely
-  *	internal to the tty port.
-  */
--
- void tty_port_raise_dtr_rts(struct tty_port *port)
- {
- 	if (port->ops->dtr_rts)
-@@ -432,7 +427,6 @@ EXPORT_SYMBOL(tty_port_raise_dtr_rts);
-  *	to hide some internal details. This will eventually become entirely
-  *	internal to the tty port.
-  */
--
- void tty_port_lower_dtr_rts(struct tty_port *port)
- {
- 	if (port->ops->dtr_rts)
-@@ -464,7 +458,6 @@ EXPORT_SYMBOL(tty_port_lower_dtr_rts);
-  *      NB: May drop and reacquire tty lock when blocking, so tty and tty_port
-  *      may have changed state (eg., may have been hung up).
-  */
--
- int tty_port_block_til_ready(struct tty_port *port,
- 				struct tty_struct *tty, struct file *filp)
- {
+@@ -657,6 +660,9 @@ EXPORT_SYMBOL_GPL(tty_port_install);
+ 
+ /**
+  * tty_port_open()
++ * @port: tty port
++ * @tty: the tty
++ * @filp: the file pointer
+  *
+  * Caller holds tty lock.
+  *
 -- 
 2.17.1
 
