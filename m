@@ -5,92 +5,75 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3275E7D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 15:49:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0568B7D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 15:54:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727348AbeILUya (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 16:54:30 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44630 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727002AbeILUya (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Sep 2018 16:54:30 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 77E118011309;
-        Wed, 12 Sep 2018 15:49:23 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8F9664EC1;
-        Wed, 12 Sep 2018 15:49:22 +0000 (UTC)
-Subject: Re: [PATCH v3 4/4] fs/dcache: Eliminate branches in
- nr_dentry_negative accounting
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
-        Michal Hocko <mhocko@kernel.org>
-References: <1536693506-11949-1-git-send-email-longman@redhat.com>
- <1536693506-11949-5-git-send-email-longman@redhat.com>
- <20180912023610.GB20056@bombadil.infradead.org>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <bf7592c3-dc1d-635e-8bb0-717f6e8a54d9@redhat.com>
-Date:   Wed, 12 Sep 2018 11:49:22 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S1726810AbeILU7O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 16:59:14 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:35136 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726818AbeILU7O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Sep 2018 16:59:14 -0400
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+        by ale.deltatee.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <logang@deltatee.com>)
+        id 1g07Sh-0000hl-2f; Wed, 12 Sep 2018 09:53:58 -0600
+To:     Wesley.Sheng@microchip.com, kurt.schwemmer@microsemi.com,
+        bhelgaas@google.com, corbet@lwn.net
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
+References: <DM2PR11MB0105BF7DD2EFB7F3874EB457951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
+ <DM2PR11MB0105A882E34348BC85F8EE79951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <9a810527-1e71-cc6c-410c-da78faefee7d@deltatee.com>
+Date:   Wed, 12 Sep 2018 09:53:43 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180912023610.GB20056@bombadil.infradead.org>
+In-Reply-To: <DM2PR11MB0105A882E34348BC85F8EE79951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Wed, 12 Sep 2018 15:49:23 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Wed, 12 Sep 2018 15:49:23 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: linux-ntb@googlegroups.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, corbet@lwn.net, bhelgaas@google.com, kurt.schwemmer@microsemi.com, Wesley.Sheng@microchip.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH] NTB: ntb_hw_switchtec: add pre-requisites for NTB driver
+ and misc updates
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/11/2018 10:36 PM, Matthew Wilcox wrote:
-> On Tue, Sep 11, 2018 at 03:18:26PM -0400, Waiman Long wrote:
->> Because the accounting of nr_dentry_negative depends on whether a dentry
->> is a negative one or not, branch instructions are introduced to handle
->> the accounting conditionally. That may potentially slow down the task
->> by a noticeable amount if that introduces sizeable amount of additional
->> branch mispredictions.
->>
->> To avoid that, the accounting code is now modified to use conditional
->> move instructions instead, if supported by the architecture.
-> You're substituting your judgement here for the compiler's.  I don't
-> see a reason why the compiler couldn't choose to use a cmov in order
-> to do this:
->
-> 	if (dentry->d_flags & DCACHE_LRU_LIST)
-> 		this_cpu_inc(nr_dentry_negative);
->
-> unless our macrology has got too clever for the compilre to see through
-> it.  In which case, the right answer is to simplify the percpu code,
-> not to force the compiler to optimise the code in the way that makes
-> sense for your current microarchitecture.
->
-I had actually looked at the x86 object file generated to verify that it
-did use cmove with the patch and use branch without. It is possible that
-there are other twists to make that happen with the above expression. I
-will need to run some experiments to figure it out. In the mean time, I
-am fine with dropping this patch as it is a micro-optimization that
-doesn't change the behavior at all.
+Thanks Wesley,
 
-Cheers,
-Longman
+On 9/12/2018 2:55 AM, Wesley.Sheng@microchip.com wrote:
+> From: Wesley Sheng <Wesley.Sheng@microchip.com>
+> 
+> 1.add pre-requisites for NTB driver
+> 2.misc updates
+>   change ntb hardware driver name to ntb_hw_switchtec
+>   update the description of 2 partitions limit
+>   add reference to Linux Documentation/ntb.txt
+>   add use of term 'Command ID'
+>   add use of term 'Command Return Value'
+>   add a missing ')'
 
+The commit message and patch title could use a bit of cleanup. It should
+at least say you're updating the documentation, it reads as though you
+are changing the driver.
+
+Also, especially given the NTB tag in the patch title, you probably
+should have CC'd the NTB List. (linux-ntb@googlegroups.com
+<linux-ntb@googlegroups.com>)
+
+> Signed-off-by: Kelvin Cao <kelvin.cao@microchip.com>
+> Signed-off-by: Wesley Yung <Wesley.Yung@microchip.com>
+
+Acked-by: Logan Gunthorpe <logang@deltatee.com>
+
+
+Logan
