@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 26B757DE79
+	by archive.lwn.net (Postfix) with ESMTP id 50F7E7DE7C
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:52:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727939AbeILMzI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 08:55:08 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:52555 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727051AbeILMzH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:07 -0400
-Received: by mail-wm0-f66.google.com with SMTP id y139-v6so1242733wmc.2
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:51:48 -0700 (PDT)
+        id S1727985AbeILMzM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 08:55:12 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:35364 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726686AbeILMzL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:11 -0400
+Received: by mail-wr1-f65.google.com with SMTP id j26-v6so931748wre.2
+        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:51:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=LlD+NifSVaE3IfYdeYyWcCIMEiVmFR39vy4y8WN8rv8=;
-        b=OJ1gcqKUTo9i439LzMcwsF6etRJBBp4US94hluDxZHEXDWwFhKCv4ZcQD7q20Ed16D
-         ZWAfiAxGseknKWlw5zkrsDQBcwZ1rwPQuBjc047bnELgiOFUO0EOhmwmQIvcSxTvPBEB
-         szAnPmGwQO0YBKF/xFGJdEpuKXM3S9nLsrzjjWnHujj1+nRAingIb/97B+dXF8zwV//k
-         kmA2b7Y/pWm7Fj9XDOP4ey8U/3FJOdpMAcllYBvuUBW7+9MMQATrU4H4EuShkWTbJzAO
-         dZvZuTuE+lYJWU2KZnDIoKxr1u7Re/bB85lpgwsDRUhJWEd8JtCA2Pit9ZJTI79co3H9
-         0bCw==
+        bh=5hy1cImwFLaoJYAZMstJrgaN4xDvjcz+dii9EY6OQ8c=;
+        b=XXvG6u2gG7rNv/I/2LwPIM9cDaetie4JtmDL1OdR66w0yhrzL6pIPyL6qvO29pwmol
+         Ukimo+k1/7M+Z5B8sI6L97p2IIjILQq/0TTzp6QuqtX/3/R8E8L7cWJQsPVpCWV2ZGtk
+         psGickRtJKX+Gx5GaL7ato3kN3bfSyPQrNDgiDCANTLyz0AKxbcddu3M9mEmOm+UW+P3
+         PqT1mkuYoN3rLAb+2Bd7ezIzlKBzbLmSSk1JAaKt6tD+uu3m6Qz/Ah2invQUxQdH140N
+         7VU+LEyrvHJiODoauHLMbr9T1Xu61MLZf2vUUQSSC7THhsxFHwKsi4QBu3+nFJRMiz4O
+         Fvmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=LlD+NifSVaE3IfYdeYyWcCIMEiVmFR39vy4y8WN8rv8=;
-        b=J4TgNmiJP0CsIbLmyRMV1wahIO1BZiyISccYvZdcr4mRKQKWYqPmjqDuToN0kA74g1
-         +xHS6vkXe/PIft5soKMMO/W+zSsCViGKQ/FZSZDi0e04Qtr/NF75SYlzMcDHKjo1ggBc
-         wwhJPz6psZvFATDY8PAJLPtrhITzKJvKz9/9MkBgcWbRfgro6AsJqybVxzqmneQ9wBdB
-         bYxzwdGFQCBuHZfqyM3Q6mArReB8pwX9MXKtfGbvF9E5DPUspjPjFosqC/ocaWYcLGWN
-         fmz0Dw3FGFB6Qfp5W79jtzYeloy1SlRDJeVQMIzdrICZkwvo+aLgSho8Ibq2dSj2hFwh
-         a/WA==
-X-Gm-Message-State: APzg51DXWiF/DHapClPUa6rN4asjZWjI+NSEjUleJ7o33TRMAsVXDHPz
-        oe+m7/vARj6SbJJsv9sO+ZoWOw==
-X-Google-Smtp-Source: ANB0VdYzXxZCwxoeF0Ng8W5MFFsYuUnxyL1JI3gJ+sW6XcEdvJoNMGndDT5TueCa37rM6Xxt8S9FhQ==
-X-Received: by 2002:a1c:1a48:: with SMTP id a69-v6mr711877wma.43.1536738707218;
-        Wed, 12 Sep 2018 00:51:47 -0700 (PDT)
+        bh=5hy1cImwFLaoJYAZMstJrgaN4xDvjcz+dii9EY6OQ8c=;
+        b=dgbcmkcsc+wQ5Z3X1zqfo+PAL2ljQVsdJXrGz0hUjZomhLfVGnTzyMm97+ww7mmRzo
+         Wk42Ipiqm+kBXpd+pCv3BQY1xq5F9vaMj9LjDGx37ltk5L7HOpLH3Z08WNkRTry2BlY6
+         oYAHi5GAlBQq6B4KvwLc97f6zs/dcDkKkQ66XIZXdzNfLUohmeI22/1qZbkcnfpqJrUo
+         pV2nRzpeAlpCl0aLTnbkKHYKCnwcLX4kC5GRgAjS9Su+V+/dNq0ymatd4SgsW7KdyAC3
+         AnTGeSiQjTzgwWn5fC3MeVvYYQqhD+unEAD/OxqwXuMukwFmInsbUlkQ+IZhU+P0rM4S
+         k/rw==
+X-Gm-Message-State: APzg51CJOTYELvJyr05QHC5zGfC/BaqHOBW+/1k1S0boij6WCiFkckrN
+        axiufuA/tu0Hfz/3m60KGq3JnQ==
+X-Google-Smtp-Source: ANB0VdZQ31WUf+5NQRUNzqHvVsZvtEdKF3VvVrNP2ZlXhf1yxQQtvQhInfzTd2A5/hGMfg4XeepC4Q==
+X-Received: by 2002:a5d:490b:: with SMTP id x11-v6mr500134wrq.114.1536738712365;
+        Wed, 12 Sep 2018 00:51:52 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.51.45
+        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.51.47
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 12 Sep 2018 00:51:46 -0700 (PDT)
+        Wed, 12 Sep 2018 00:51:51 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 04/21] nvmem: remove a stray newline
-Date:   Wed, 12 Sep 2018 09:51:12 +0200
-Message-Id: <20180912075129.25185-5-brgl@bgdev.pl>
+Subject: [PATCH v3 05/21] nvmem: check the return value of nvmem_add_cells()
+Date:   Wed, 12 Sep 2018 09:51:13 +0200
+Message-Id: <20180912075129.25185-6-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180912075129.25185-1-brgl@bgdev.pl>
 References: <20180912075129.25185-1-brgl@bgdev.pl>
@@ -76,26 +76,38 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-There are two empty lines between devm_nvmem_unregister() and
-__nvmem_device_get(). Remove one.
+This function can fail so check its return value in nvmem_register()
+and act accordingly.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/nvmem/core.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index b69005367908..b469f700c699 100644
+index b469f700c699..ffed8fa16936 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -613,7 +613,6 @@ int devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
- }
- EXPORT_SYMBOL(devm_nvmem_unregister);
+@@ -512,11 +512,17 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+ 			goto err_device_del;
+ 	}
  
--
- static struct nvmem_device *__nvmem_device_get(struct device_node *np,
- 					       struct nvmem_cell **cellp,
- 					       const char *cell_id)
+-	if (config->cells)
+-		nvmem_add_cells(nvmem, config->cells, config->ncells);
++	if (config->cells) {
++		rval = nvmem_add_cells(nvmem, config->cells, config->ncells);
++		if (rval)
++			goto err_teardown_compat;
++	}
+ 
+ 	return nvmem;
+ 
++err_teardown_compat:
++	if (config->compat)
++		device_remove_bin_file(nvmem->base_dev, &nvmem->eeprom);
+ err_device_del:
+ 	device_del(&nvmem->dev);
+ err_put_device:
 -- 
 2.18.0
 
