@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 940CA7DE6E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:53:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 113D87D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:53:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726640AbeILM4u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 08:56:50 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:53270 "EHLO
+        id S1728061AbeILMzR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 08:55:17 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:39209 "EHLO
         mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728005AbeILMzS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:18 -0400
-Received: by mail-wm0-f68.google.com with SMTP id b19-v6so1244230wme.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:51:59 -0700 (PDT)
+        with ESMTP id S1726686AbeILMzQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:16 -0400
+Received: by mail-wm0-f68.google.com with SMTP id q8-v6so1234758wmq.4
+        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:51:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=enYwgS0Z/OX0ykxo6KT1YIz+qVBOPAuLng+TvhpgC2Q=;
-        b=wdLW1Tcw2CPABQPZEQhA4DxeaA1J71Qx4oJERKBJ5zwSWV8zhJXcXI/ra1B4w7/h8k
-         FAxhpXCRzpKAnlqIWtg95+eUsuPXntQ4DOdbhpF1f6CHHEdlqUNO8+28MOxleaCKjXL9
-         40rijCgtPdmtHKODn4w+o6qar5Re33d0y0E1babeWA6yJOJiGPpZMbqCDibonOru95Hh
-         W3ES6A9+wFr/GDHr8IFOeBHix5qlP0dgglHXzlruxJI5PxgJMwFFDxCQ14byniEWUSV1
-         R6v01dlVHyr9jL5YCbF6pffXXv5HDqc5UKOP9uO0md/DNcDP0Q6vNI26e7623tjgbNtK
-         +luQ==
+        bh=874CbkmyKCyBfTs9WgjHeXXK4p9vYZrCF79UGreNijg=;
+        b=0fcmkAdGGjX6PqCjtegwJhJeQhl48mWkz1eQv+8PZwAHo/5hd+j3atP4b/u0VjmmlA
+         MTal8Ku460qYWGwIeAL659rffFpPc7eez67ISXar9sEWrQzGRQ+54ICt+evGI/fpuxoj
+         2sHyzLW7feYy70LMaFSyjx3ca3A342/hAhIY4I8/ADzPFgPWouwsIon49aYIIAosIqTm
+         F1IbwFbcxmxIs+kphF3MDOu+2hk6YTTd1r5DaE/imjpQLs+XlZHrpHp5qJ8F4s0xRPLt
+         S4/PfwV7O1O0wwfNLqJ118AWdg9Ntyp6UIeZXn1w9+48I+FjfZ7lmpaxn52ylqhWjDKH
+         c7qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=enYwgS0Z/OX0ykxo6KT1YIz+qVBOPAuLng+TvhpgC2Q=;
-        b=oQy69RrRaWUlQjaApW5u6oYiMXCZT1m9j8IgYeOnvc9o5Z2mOx5roDmItRnt8SN/bQ
-         i9h+dIwFFgvW7FKxtNhvmsErRWshULvsEy9e0EGNNxd2z10wpVuulvHZr3MEUYfJ+4aw
-         zcRdSCRu0F6Mqx2vKfoCk0CCPfykjvEofxJeaKTmLlkwmqRBvUJLriVjli0M6jUy4avY
-         tWqyD4VODqTr4LU1SL8CLjlFUW14iCdbesxp0SQhm6SKP5kNt0QzIXL6di6juLp6PA8D
-         UqxJuqQu7qpDfTlcRNEzPPt5AsfoMTD/W7H4Vbbi2z0ng9VeySj1myo0rGBCS8RCjp9r
-         JTHA==
-X-Gm-Message-State: APzg51DGoRmq3GYwqddyvPiYsHEpNLwAimUkwQhjh1Ql08MDcmPPqhMn
-        56JwFXcuR7989p+eC1SQ4azqIQ==
-X-Google-Smtp-Source: ANB0VdZFFqyJaKSGzkYb3Y+wcOqFkd7zRny8K2kXHtqDE1Pz7BCT56tB2AAc2ku9D6MNPnpYKWD4KQ==
-X-Received: by 2002:a1c:3d07:: with SMTP id k7-v6mr749591wma.146.1536738718471;
-        Wed, 12 Sep 2018 00:51:58 -0700 (PDT)
+        bh=874CbkmyKCyBfTs9WgjHeXXK4p9vYZrCF79UGreNijg=;
+        b=bUnQgcm8Z4ioOjsaVjkXePOtpXW5r9W6BTilI/ifF1FsuhwYxCONFc7vJ3oFOLypTn
+         Y47TNWnWqBCirFs7yypmzHP7fMEd1ej6yKJ63e0Iwgeg+y26rufz7fLoAaucmzMy+rVg
+         gpAUMbyg07as+ajuq0ow4iVDFSm+G3SKwClSIPOu8zd5cQ39O1jJM27U3b3ByMinSGvY
+         4CA9TQQMGQQab0bQMPFTBch1iDtGDpG2itGeu7Rsuy7Zw6DnPX1Jgc5NKx/C2upLGdTB
+         L0QpaF0FRYks/Z0+a5HdQ0+ofwf4btesGWWj+2cU5g8NIrca55KylJFaDni7Xc57ioIK
+         jGAA==
+X-Gm-Message-State: APzg51DIqcjX6l2+9w00IQ5R1Sjw3X0BGTn/M1XYS51dOPxhmYyY0QbV
+        CZ0iuhuvRrA0l+xNrGBlmkzJpMGseio=
+X-Google-Smtp-Source: ANB0VdbYu2ZmSnEPzAYWqzN/NKyhQxTv34ot517c7yXNzw9NIn7TMv4uhlcVQQW2vZSLwxUgs7tkKg==
+X-Received: by 2002:a1c:9c56:: with SMTP id f83-v6mr662825wme.135.1536738716982;
+        Wed, 12 Sep 2018 00:51:56 -0700 (PDT)
 Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.51.57
+        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.51.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 12 Sep 2018 00:51:57 -0700 (PDT)
+        Wed, 12 Sep 2018 00:51:56 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 09/21] nvmem: mxs-ocotp: use devm_nvmem_register()
-Date:   Wed, 12 Sep 2018 09:51:17 +0200
-Message-Id: <20180912075129.25185-10-brgl@bgdev.pl>
+Subject: [PATCH v3 08/21] nvmem: sunxi_sid: use devm_nvmem_register()
+Date:   Wed, 12 Sep 2018 09:51:16 +0200
+Message-Id: <20180912075129.25185-9-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180912075129.25185-1-brgl@bgdev.pl>
 References: <20180912075129.25185-1-brgl@bgdev.pl>
@@ -76,35 +76,62 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Use the resource managed variant of nvmem_register();
+Use the resource managed variant of nvmem_register().
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/mxs-ocotp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvmem/sunxi_sid.c | 20 +++-----------------
+ 1 file changed, 3 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/nvmem/mxs-ocotp.c b/drivers/nvmem/mxs-ocotp.c
-index 7018e2ef5714..53122f59c4b2 100644
---- a/drivers/nvmem/mxs-ocotp.c
-+++ b/drivers/nvmem/mxs-ocotp.c
-@@ -177,7 +177,7 @@ static int mxs_ocotp_probe(struct platform_device *pdev)
- 	ocotp_config.size = data->size;
- 	ocotp_config.priv = otp;
- 	ocotp_config.dev = dev;
--	otp->nvmem = nvmem_register(&ocotp_config);
-+	otp->nvmem = devm_nvmem_register(dev, &ocotp_config);
- 	if (IS_ERR(otp->nvmem)) {
- 		ret = PTR_ERR(otp->nvmem);
- 		goto err_clk;
-@@ -199,7 +199,7 @@ static int mxs_ocotp_remove(struct platform_device *pdev)
+diff --git a/drivers/nvmem/sunxi_sid.c b/drivers/nvmem/sunxi_sid.c
+index d020f89248fd..0296c23db322 100644
+--- a/drivers/nvmem/sunxi_sid.c
++++ b/drivers/nvmem/sunxi_sid.c
+@@ -181,15 +181,13 @@ static int sunxi_sid_probe(struct platform_device *pdev)
+ 	else
+ 		econfig.reg_read = sunxi_sid_read;
+ 	econfig.priv = sid;
+-	nvmem = nvmem_register(&econfig);
++	nvmem = devm_nvmem_register(dev, &econfig);
+ 	if (IS_ERR(nvmem))
+ 		return PTR_ERR(nvmem);
  
- 	clk_unprepare(otp->clk);
+ 	randomness = kzalloc(size, GFP_KERNEL);
+-	if (!randomness) {
+-		ret = -EINVAL;
+-		goto err_unreg_nvmem;
+-	}
++	if (!randomness)
++		return PTR_ERR(-EINVAL);
  
--	return nvmem_unregister(otp->nvmem);
-+	return 0;
+ 	for (i = 0; i < size; i++)
+ 		econfig.reg_read(sid, i, &randomness[i], 1);
+@@ -200,17 +198,6 @@ static int sunxi_sid_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, nvmem);
+ 
+ 	return 0;
+-
+-err_unreg_nvmem:
+-	nvmem_unregister(nvmem);
+-	return ret;
+-}
+-
+-static int sunxi_sid_remove(struct platform_device *pdev)
+-{
+-	struct nvmem_device *nvmem = platform_get_drvdata(pdev);
+-
+-	return nvmem_unregister(nvmem);
  }
  
- static struct platform_driver mxs_ocotp_driver = {
+ static const struct sunxi_sid_cfg sun4i_a10_cfg = {
+@@ -243,7 +230,6 @@ MODULE_DEVICE_TABLE(of, sunxi_sid_of_match);
+ 
+ static struct platform_driver sunxi_sid_driver = {
+ 	.probe = sunxi_sid_probe,
+-	.remove = sunxi_sid_remove,
+ 	.driver = {
+ 		.name = "eeprom-sunxi-sid",
+ 		.of_match_table = sunxi_sid_of_match,
 -- 
 2.18.0
 
