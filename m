@@ -1,110 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C8A687D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:53:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 419047D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:57:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727805AbeILMzD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 08:55:03 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:38980 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726800AbeILMzD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:55:03 -0400
-Received: by mail-wr1-f68.google.com with SMTP id s14-v6so917777wrw.6
-        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 00:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=To/SQLBCgeq0lnY/26X7cnEpcdLcDIuj/UXMlG3uaxI=;
-        b=U5e4qxYZDq0sIHyWyZrFlnqVXVUPZTGpquDb26zZzLQdaJfq6Iw0UB2wJPzxl/BTy6
-         Fm2TOQabJk7wq7hk/whzNBenH4c8wybwsil1+pcqhCTVxVJVcp8VXblX5+iBl19NAobi
-         MQmiK9eThd1W3wIOePjJ81//0CDPIuOU2Qix+mljM87cUfTSrYOUNEw6hkdUEz0UuijI
-         lYiDG858c3/og51eoo+4l5WrI4GcdPMFTL900W01TLcO/uUwTG1MFrOsHk/fgeD+wEv5
-         /1etGhftAfq9sGHn0572rgOeyL4yFcyvQkMdZ+3geRc6XHEnqniwO1Q/wk0zbnrLgcAu
-         f4Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=To/SQLBCgeq0lnY/26X7cnEpcdLcDIuj/UXMlG3uaxI=;
-        b=LrqRB1gZzKpNJrLP/SLjyQF7Op+tGsIEh1UZtu2KzS4N7ck92saN0I0dnE1wMeXXEN
-         SGSili2RWcB6oOwejxn6ib4EIVEFLx+hbn+Bq5AFVSwI0w39W3oHucxnq+OAQh9g1UF5
-         PqG5gk+o123Dwf/1gUi+IyUEMG9v6cDi9IpiRWPAsl0VOzFnWnp7b5TCHyYCmlqD1y9V
-         D2fr6k/UM2yLwNVrsKEZu8GufGwJhnkBZTkJfvhDLS28FQ1DN5NuJV8HlM8NLTmH0vo+
-         A44XFjuzBlOZGaVk1ovDZ3q5ZUeR134ff9qYF49IMpbzavggSYG2BmJ4Q69QUv0BW3uZ
-         nFHA==
-X-Gm-Message-State: APzg51AbV+56PMb/pHz1lh2780HmwoJrrnuSeFRFb/HyvaXxGaMA5GEf
-        xGcvahVPQZDZSotimcQjm+uN2Dbc1sM=
-X-Google-Smtp-Source: ANB0VdarJ0J0MvgBUorYHhtJphzZzqcXqTMzumPQBhHlJDxLQ35awmtqkI4Bzje4oHRh7PPtDzc5DA==
-X-Received: by 2002:a5d:55ca:: with SMTP id i10-v6mr530270wrw.38.1536738703451;
-        Wed, 12 Sep 2018 00:51:43 -0700 (PDT)
-Received: from brgl-bgdev.lan (LFbn-MAR-1-609-89.w90-118.abo.wanadoo.fr. [90.118.185.89])
-        by smtp.gmail.com with ESMTPSA id l7-v6sm169341wrt.67.2018.09.12.00.51.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 12 Sep 2018 00:51:42 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 02/21] nvmem: remove the name field from struct nvmem_device
-Date:   Wed, 12 Sep 2018 09:51:10 +0200
-Message-Id: <20180912075129.25185-3-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180912075129.25185-1-brgl@bgdev.pl>
-References: <20180912075129.25185-1-brgl@bgdev.pl>
+        id S1727006AbeILNAl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 09:00:41 -0400
+Received: from gate.crashing.org ([63.228.1.57]:34476 "EHLO gate.crashing.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726358AbeILNAl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Sep 2018 09:00:41 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id w8C7uX1A028872;
+        Wed, 12 Sep 2018 02:56:34 -0500
+Message-ID: <c002018d3765280e135d673f7c731784a90a260d.camel@kernel.crashing.org>
+Subject: Re: [PATCH v5 01/10] dt-bindings: fsi: Add P9 OCC device
+ documentation
+From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To:     Rob Herring <robh@kernel.org>,
+        Eddie James <eajames@linux.vnet.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, jdelvare@suse.com,
+        linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org,
+        gregkh@linuxfoundation.org, mark.rutland@arm.com,
+        linux@roeck-us.net, joel@jms.id.au
+Date:   Wed, 12 Sep 2018 09:56:33 +0200
+In-Reply-To: <20180910181610.GA5907@bogus>
+References: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
+         <1535664761-86018-2-git-send-email-eajames@linux.vnet.ibm.com>
+         <20180910181610.GA5907@bogus>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Mon, 2018-09-10 at 13:16 -0500, Rob Herring wrote:
+> On Thu, Aug 30, 2018 at 04:32:32PM -0500, Eddie James wrote:
+> > Document the bindings for the FSI-attached POWER9 On-Chip Controller.
+> > 
+> > Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
+> > ---
+> >  Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+> > new file mode 100644
+> > index 0000000..46372f6
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+> > @@ -0,0 +1,15 @@
+> > +Device-tree bindings for FSI-attached POWER9 On-Chip Controller (OCC)
+> > +---------------------------------------------------------------------
+> > +
+> > +This is the binding for the P9 On-Chip Controller accessed over FSI from a
+> > +service processor. See fsi.txt for details on bindings for FSI slave and CFAM
+> > +nodes.
+> > +
+> > +Required properties:
+> > + - compatible = "ibm,p9-occ"
+> > +
+> > +Examples:
+> > +
+> > +    occ {
+> 
+> FSI slave devices are supposed to have an address according to the 
+> binding doc.
 
-This field is never set and is only used in a single error message.
-Remove the field and use nvmem_dev_name() instead.
+This isn't the FSI device per-se actually. This is a node below the
+"sbefifo" FSI device. The SBE fifo is the mechanism by which we
+communicate with the OCC. The sbefifo doesn't really define a "bus",
+it's mostly used from userspace directly via /dev/sbefifo* to perform
+various tasks in the chip, but it happens to also provide the in-kernel 
+transport for the OCC commands.
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
----
- drivers/nvmem/core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Cheers,
+Ben.
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index d96348ae0f37..8987da0f7456 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -26,7 +26,6 @@
- #include <linux/slab.h>
- 
- struct nvmem_device {
--	const char		*name;
- 	struct module		*owner;
- 	struct device		dev;
- 	int			stride;
-@@ -652,7 +651,7 @@ static struct nvmem_device *__nvmem_device_get(struct device_node *np,
- 	if (!try_module_get(nvmem->owner)) {
- 		dev_err(&nvmem->dev,
- 			"could not increase module refcount for cell %s\n",
--			nvmem->name);
-+			nvmem_dev_name(nvmem));
- 
- 		mutex_lock(&nvmem_mutex);
- 		nvmem->users--;
--- 
-2.18.0
+> > +        compatible = "ibm,p9-occ";
+> > +    };
+> > -- 
+> > 1.8.3.1
+> > 
 
