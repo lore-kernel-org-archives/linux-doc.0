@@ -1,172 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66F1F7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 08:55:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 48CAF7D584
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 09:31:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbeILN6z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 09:58:55 -0400
-Received: from esa6.microchip.iphmx.com ([216.71.154.253]:15218 "EHLO
-        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726642AbeILN6z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 09:58:55 -0400
-X-IronPort-AV: E=Sophos;i="5.53,364,1531810800"; 
-   d="scan'208";a="17001343"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 12 Sep 2018 01:55:21 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.76.105) with Microsoft SMTP Server (TLS) id
- 14.3.352.0; Wed, 12 Sep 2018 01:55:21 -0700
+        id S1727623AbeILOev (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 10:34:51 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35931 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727616AbeILOeu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 10:34:50 -0400
+Received: by mail-lj1-f195.google.com with SMTP id v26-v6so1028093ljj.3;
+        Wed, 12 Sep 2018 02:31:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector1-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7pC+gsHGXxi3W2ZaKOCxBUtYpvJCeACOcaKvZvj992o=;
- b=FN1UcNF3gCpR5qAuM0ZQ45/ueCBdi6FJg0jAVtLd8pFwyNKqqlL6PNA+5O7iJ/4ozcmxJyoEuXt7jsIjdmg4B6ZUk/Rsffh+4zPuWxRjmJDdGpQUjBgcGq0CoVA10/8eQ20Xm1BIpKVIYnHt/+FkM+U+K/oZFEXgRu3ruwqFLpo=
-Received: from DM2PR11MB0105.namprd11.prod.outlook.com (10.160.26.155) by
- DM2PR11MB0256.namprd11.prod.outlook.com (10.160.136.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1122.18; Wed, 12 Sep 2018 08:55:19 +0000
-Received: from DM2PR11MB0105.namprd11.prod.outlook.com
- ([fe80::3438:f537:f7cc:363c]) by DM2PR11MB0105.namprd11.prod.outlook.com
- ([fe80::3438:f537:f7cc:363c%6]) with mapi id 15.20.1101.020; Wed, 12 Sep 2018
- 08:55:18 +0000
-From:   <Wesley.Sheng@microchip.com>
-To:     <kurt.schwemmer@microsemi.com>, <logang@deltatee.com>,
-        <bhelgaas@google.com>, <corbet@lwn.net>
-CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <Wesley.Sheng@microchip.com>
-Subject: [PATCH] NTB: ntb_hw_switchtec: add pre-requisites for NTB driver and
- misc updates
-Thread-Topic: [PATCH] NTB: ntb_hw_switchtec: add pre-requisites for NTB driver
- and misc updates
-Thread-Index: AdRKdRhBgeV9LqbDSayrtpBFveKPpAAAHpPQ
-Date:   Wed, 12 Sep 2018 08:55:18 +0000
-Message-ID: <DM2PR11MB0105A882E34348BC85F8EE79951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
-References: <DM2PR11MB0105BF7DD2EFB7F3874EB457951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
-In-Reply-To: <DM2PR11MB0105BF7DD2EFB7F3874EB457951B0@DM2PR11MB0105.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Wesley.Sheng@microchip.com; 
-x-originating-ip: [211.144.195.220]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;DM2PR11MB0256;6:kgr9PcTB5UTBQJB/v+FfEwiQ8F+bBQqdQZo4OgLYjsaOvD/xtUWuUkr2EJuzBjKlvFBdI1NXENOodlbWWRw7v9uOIpmY2KZ5Ejpfv6Ax8WLumx5y8AVvUBN0OLpJ77sFEFhfPSlDSN1tzyTtmpaUOouH9k5P3Vu9UhobZRDZio2BlGgtpwOjYPUs0w5jVObdebFuQEg8zU5iXIiSWZ78xQ+9nRrlSTAqT7CuwDDalcFRKQsbgyZygLzUn6BL5byD7urGDCnH/+/rtsIvI1JZXJO2Ts1xY/cfSTNdWTbZUpaph91L3t+vt6W+GnvknG4GZUZi2QZBN3E8oBVi8pnKHISd6ni1hfk+oSwrLPbCFYMeAL5gZtrzVZeXCL2CRfDGQq+OeNxRdnRKktK4/lV9GYD+OPuzrl9hJjN0W4z21Agpx8aXUHyVDwhT5GSMhSVjc0CM9/aCXQh2BUC5Ft388A==;5:tvRhRh/5HCTCtU2RFIuHC0SM3wrUFTU0BBs15bb+n3+kLz0HdWKqTJFOXOI3fOaW1sKBGcyezi4849vJz6HYrTxFD7YoPFYmAKgiBPV8lbvAedZ23X1jAh/VBwtRMkUerPPMqbosCAyINC/ssX2yA/oGnJtWC6/wLvR8saZ4594=;7:1MbBwVQu+O0eiiJQIK1gdnYaIDixH3Y4EB3C4AxvKX3UMkE8NC5b2G9bX2gDD+EOe3rR5s6zlgoKdlbZbtrYIcn4gJ1HMwnQGC3jV8Sijst0SqRb3oRVosYFPthve1DhioFMywBJC7ovgt5/epHj8zzYI43WOAG8ywb/qxXhaP9KwdbG5/0nS7nsUoFNbZkhQk5QSBQFfCoB4E+RcZP3K8TEUnUECmw/kBYu1+6YtAliegDJEAchIAMNe74PTqey
-x-ms-exchange-antispam-srfa-diagnostics: SOS;SOR;
-x-forefront-antispam-report: SFV:SKI;SCL:-1;SFV:NSPM;SFS:(10009020)(136003)(396003)(376002)(366004)(346002)(39860400002)(199004)(189003)(6436002)(86362001)(81166006)(478600001)(8676002)(186003)(99286004)(7696005)(81156014)(102836004)(2906002)(8936002)(9686003)(14454004)(53936002)(2900100001)(446003)(11346002)(2201001)(6506007)(14444005)(72206003)(2501003)(256004)(5250100002)(55016002)(97736004)(26005)(486006)(476003)(110136005)(2940100002)(6116002)(54906003)(305945005)(7736002)(74316002)(1857600001)(76176011)(33656002)(66066001)(25786009)(316002)(107886003)(106356001)(93156006)(105586002)(4326008)(5660300001)(15650500001)(68736007)(3846002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM2PR11MB0256;H:DM2PR11MB0105.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-x-ms-office365-filtering-correlation-id: b37555a3-84db-4bd8-b328-08d6188d76fa
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989137)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:DM2PR11MB0256;
-x-ms-traffictypediagnostic: DM2PR11MB0256:
-x-microsoft-antispam-prvs: <DM2PR11MB02569FF3B7B49DDFFAD5B6B8951B0@DM2PR11MB0256.namprd11.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(278428928389397);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231311)(944501410)(52105095)(10201501046)(3002001)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123560045)(20161123564045)(20161123562045)(201708071742011)(7699050);SRVR:DM2PR11MB0256;BCL:0;PCL:0;RULEID:;SRVR:DM2PR11MB0256;
-x-forefront-prvs: 07935ACF08
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: QY3Tpee/5JEOt8NxVg8D0BqORAFQJoKVpIxzYaMVvBXLZzYRJUq+ubNI3bj9daT7e3Dla93kOLcFqHW7VhIGim4MYyEEfXuNM29b6jkynlvYKdLu9BDPBWPn4W27kRGqi0cH6GI99xLW/1dfuswVlFgfQ5qAv3ani0e0fP860ts6uV6JEXHbU2rtJmrblN4xNnHWO28/vXV9UthEBtedef7R5KqBOAv8M9+UF4jmrbdcvpdsURqbSj10VLaj6aGQ3L1UC45jqBsgOJ2LKInKck42//nRa3IopWukSIspBCJHa2EBAGGObueTHG9dmVVK0ztF32lwP2Yldx0kSWbBUpWoflRGohGFIdIX+2jajVQ=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=KLB3khADlyP1siS2rz9dz4kgqScpnDvvcUx3pFZNCek=;
+        b=eVe6mqDArrNAYHZ+4gLmgv/h9SZ7bzh0TPf90cw09+dgqpS3r082BoN4I7tERtiP/Z
+         0TpdvB3hP48nvdw0ehYC+KL4cOI3MIwj3oM0liJDuwhjZIVSAQ8Xu74rC8ouA9REDYGH
+         NOlMazMuEUWh7t1Fh7X/ofJcEFKGseZBsayhwoa32AhrhD3CryQVbba12i9STXktIbGr
+         9IXJkoG/CJBOCIl7GCqFld2/jbll5dU6F7Z3RZzmmo9kHkT8IWlI4Jp7XGweq6fNtid3
+         Mvb+Ojp6UP/fz+7OCUbWG0SjehBxnMTpCh/bd36z26OFqKuCHOA7kX7nHCdJOYapjqdH
+         lB2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=KLB3khADlyP1siS2rz9dz4kgqScpnDvvcUx3pFZNCek=;
+        b=pERSu7WWq3yAnMPxkVKzCa24YIrRG7bfJfBPP8xoXuV2BYsXpXf1wmuiEsvCIR6AkP
+         KipL8PSGQb14tuafOeBpIia7cy0dvIPWiCyiIOIPOOK9zB7UAkrV4NCb3A5b2BKl2Oi7
+         G6T72IOzCFI8kn/IywnGeSt8kk+0oMXscPeFDDtflBKQ9t9mLgpjK9Mc9Vg8C3cYecD6
+         pqRKVRokCoGrYFdmuvGb/1c2JKtMByseYES3y/lnHH4lBb8e9ILgAeWWtCCQ+JhR1otm
+         PI033uue2mix+yCL8I/OTGYmmBFw4LYax3PavXrNjPzaYUFkWgKvhcCXhSAsWtZqgU1Z
+         kD0w==
+X-Gm-Message-State: APzg51ACFjra9QUY9sI1tLBQ5kd9in23Z/8MGnVSTPNm6k54dxd2D/g1
+        g5AoYL8hD1U2tKJI4YeQVTg=
+X-Google-Smtp-Source: ANB0Vda4+4CcJ4KNwde29j80zmZ6w6J75R5VB46J5bWbqvsR/Kt7aWCNNrMPZ2+s1xNMcZHQfMyRig==
+X-Received: by 2002:a2e:934d:: with SMTP id m13-v6mr718939ljh.45.1536744667205;
+        Wed, 12 Sep 2018 02:31:07 -0700 (PDT)
+Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
+        by smtp.gmail.com with ESMTPSA id t18-v6sm88851lje.95.2018.09.12.02.31.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Sep 2018 02:31:06 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.91)
+        (envelope-from <johan@kernel.org>)
+        id 1g01US-0002Sd-6n; Wed, 12 Sep 2018 11:31:16 +0200
+Date:   Wed, 12 Sep 2018 11:31:16 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     "Tobin C. Harding" <me@tobin.cc>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/3] tty_port: Fix function name and brief desc
+Message-ID: <20180912093116.GC1089@localhost>
+References: <20180912075044.8695-1-me@tobin.cc>
+ <20180912075044.8695-3-me@tobin.cc>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: b37555a3-84db-4bd8-b328-08d6188d76fa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2018 08:55:18.4360
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR11MB0256
-X-OriginatorOrg: microchip.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180912075044.8695-3-me@tobin.cc>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Wesley Sheng <Wesley.Sheng@microchip.com>
+On Wed, Sep 12, 2018 at 05:50:43PM +1000, Tobin C. Harding wrote:
+> File contains kernel-doc function comments that are not in the correct
+> style.
+> 
+>  - Add '()' to function names
+>  - Capitalise brief description and append a full stop.
 
-1.add pre-requisites for NTB driver
-2.misc updates
-  change ntb hardware driver name to ntb_hw_switchtec
-  update the description of 2 partitions limit
-  add reference to Linux Documentation/ntb.txt
-  add use of term 'Command ID'
-  add use of term 'Command Return Value'
-  add a missing ')'
+Cleaning up these comments may not be a bad idea, but I have my doubts
+about this particular item. Many descriptions aren't full sentences and
+still won't be even if you capitalise and slap a full stop there, for
+example:
 
-Signed-off-by: Kelvin Cao <kelvin.cao@microchip.com>
-Signed-off-by: Wesley Yung <Wesley.Yung@microchip.com>
----
- Documentation/switchtec.txt | 30 ++++++++++++++--------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+> - *	tty_port_hangup		-	hangup helper
+> + * tty_port_hangup() - Hangup helper.
+	
+There's no requirement to use full sentences, and the old kernel-doc
+nano doc uses incomplete ones, as do most (?) kernel-doc comments
+throughout the kernel.
 
-diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt inde=
-x f788264..40e839d 100644
---- a/Documentation/switchtec.txt
-+++ b/Documentation/switchtec.txt
-@@ -23,7 +23,7 @@ The primary means of communicating with the Switchtec man=
-agement firmware is  through the Memory-mapped Remote Procedure Call (MRPC)=
- interface.
- Commands are submitted to the interface with a 4-byte command  identifier =
-and up to 1KB of command specific data. The firmware will -respond with a 4=
- bytes return code and up to 1KB of command specific
-+respond with a 4-byte return code and up to 1KB of command specific
- data. The interface only processes a single command at a time.
-=20
-=20
-@@ -36,8 +36,8 @@ device: /dev/switchtec#, one for each management endpoint=
- in the system.
- The char device has the following semantics:
-=20
- * A write must consist of at least 4 bytes and no more than 1028 bytes.
--  The first four bytes will be interpreted as the command to run and
--  the remainder will be used as the input data. A write will send the
-+  The first 4 bytes will be interpreted as the Command ID and the =20
-+ remainder will be used as the input data. A write will send the
-   command to the firmware to begin processing.
-=20
- * Each write must be followed by exactly one read. Any double write will @=
-@ -45,9 +45,9 @@ The char device has the following semantics:
-   produce an error.
-=20
- * A read will block until the firmware completes the command and return
--  the four bytes of status plus up to 1024 bytes of output data. (The
--  length will be specified by the size parameter of the read call --
--  reading less than 4 bytes will produce an error.
-+  the 4-byte Command Return Value plus up to 1024 bytes of output =20
-+ data. (The length will be specified by the size parameter of the read =20
-+ call -- reading less than 4 bytes will produce an error.)
-=20
- * The poll call will also be supported for userspace applications that
-   need to do other things while waiting for the command to complete.
-@@ -83,10 +83,20 @@ The following IOCTLs are also supported by the device:
- Non-Transparent Bridge (NTB) Driver
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--An NTB driver is provided for the switchtec hardware in switchtec_ntb.
--Currently, it only supports switches configured with exactly 2 -partitions=
-. It also requires the following configuration settings:
-+An NTB hardware driver is provided for the switchtec hardware in=20
-+ntb_hw_switchtec. Currently, it only supports switches configured with=20
-+exactly 2 NT partitions and zero or more non-NT partitions. It also=20
-+requires the following configuration settings:
-=20
--* Both partitions must be able to access each other's GAS spaces.
-+* Both NT partitions must be able to access each other's GAS spaces.
-   Thus, the bits in the GAS Access Vector under Management Settings
-   must be set to support this.
-+* Kernel configuration MUST include support for NTB (CONFIG_NTB needs
-+  to be set)
-+
-+NT EP BAR 2 will be dynamically configured as a Direct Window, and the=20
-+configuration file does not need to configure it explicitly.
-+
-+Please refer to Documentation/ntb.txt in Linux source tree for an=20
-+overall understanding of the Linux NTB stack. ntb_hw_switchtec works as=20
-+an NTB Hardware Driver in this stack.
+I'd just drop this part of the patch. 
+
+>  - Use correct spacing for function name / brief description as per the
+>    kernel docs (Documentation/doc-guide/kernel-doc.rst)
+> 
+> 	/**
+> 	 * function_name() - Brief description of function.
+> 	 * @arg1: Describe the first argument.
+> 
+>  - Fix spacing for kernel-doc function comments (no tab space after '*').
+> 
+> These changes all touch the same lines so do them in a single patch.
+> 
+> Signed-off-by: Tobin C. Harding <me@tobin.cc>
+
+Thanks,
+Johan
