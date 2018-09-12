@@ -1,153 +1,260 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 907797D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 16:40:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5913F7D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 17:14:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbeILVqB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 17:46:01 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59782 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726798AbeILVqB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 17:46:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=KiTQfn4Cjuzb84qR9Y4s0DWeekIzQkWZhFbYjA1J0I8=; b=R5NSpW305hSrUNs+0+Ckly2l3
-        282iVwUe99S0mhwfjZN7DvgVzAv+UJcS/i8rrcDlBV7VuRUhsOnbiW7SexpN4B/stS+kR1yRIjOIj
-        iZ1Zal6qs2QBcWrwZArFAl+LpufjUtBRqasHTv5TQARODXX0acsxQ3T3YvLvBqDx+PMXbHjUac2gt
-        xWBhVWpC69AErYNTSPiC3Pi+C59Byn0SB0W11bBNjYHpJjFJAF16trlqrQXsdLdUBfPQC3p5+HAmn
-        TgjXYV2uTtvGzRav4GHLwCWEJNgLd4TEdFUcekJJdlGwhbxu9tDC20DBXY3pATDnPErNs7pyZFhH3
-        L4KFAGH5Q==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1g08C0-0005cc-2f; Wed, 12 Sep 2018 16:40:40 +0000
-Subject: Re: [PATCH v3 1/3] udmabuf: add documentation
-To:     Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-Cc:     laurent.pinchart@ideasonboard.com, daniel@ffwll.ch,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20180912063316.21047-1-kraxel@redhat.com>
- <20180912063316.21047-2-kraxel@redhat.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <4d4ffe16-f46d-5dda-68b6-38f59e228214@infradead.org>
-Date:   Wed, 12 Sep 2018 09:40:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        id S1727659AbeILWTZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 18:19:25 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:36253 "EHLO
+        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726428AbeILWTW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 18:19:22 -0400
+Received: by mail-it0-f67.google.com with SMTP id u13-v6so4087162iti.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Sep 2018 10:13:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=rdrbgc7pIQ80ZxMf3gcPuc0C1LML+l4t/bNpNee2KF0=;
+        b=XMai8gQ+xGXoj21B5aZCQTjgeUvRZZqwW+LKBzBnuTyH2acnLTsS6LlaBUXNOWcLJV
+         aYD4eAgd8k0vcFuMEsUE5PbL4gfEwrCHvxXKNCr+zy4jr4nuIoZnCdLGhjGDiHTqW+uI
+         yT82boPu8Xt7PZX65wosm8TeZXxaJf/EZZhNd51tyzR/PqmaHykTkVeQmAMrHIqwJ+CU
+         elxP/1GaOi+wzkyv65yp3f9maaSiJZw2qTTN8b8a6CzUnlbU+91niHfK2+2J+0i/YFTB
+         ttoN9Rc1ktyzcEkIfXsxLgGxWPzDxc+508Lg93R3Ln66hMihx8Rwu74A395r2aGOycFu
+         3brQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=rdrbgc7pIQ80ZxMf3gcPuc0C1LML+l4t/bNpNee2KF0=;
+        b=Wb278huvdjfn/No6t3tGyMmNr5uWXv77GP/+LTHsiAGt58TZPYGMorubRIjvzz1XuL
+         rsOa8FMMYcSiNzaNGl1L6+orYFcngYLN+pNVXC6L8apUEfhuhThL6j/ARVYt8r3zlhb2
+         JdZSBunQ6mPnU/ozWOdoRrWp5p2tAwY+4Gpl+BkJgZISSIqzUFM7x+yiKjdTPfPDvsPh
+         S0UXTk67YVKnGp38wQBMFHuswr2uutK2AIohkwE8Y+QuS4Wtd0VMuc6s0xWr7zvrjp3p
+         0SZScBD6Ak+HL8yTuelYBNbnbCgNVr5GQmB4x1PAZHKlygBtYRiTfWkG5AxjjU+bAGoe
+         IpvQ==
+X-Gm-Message-State: APzg51CWhuUoBJuL9/0G2FAOseoHEaXn3VaHXpKdO88I5A4GlzUVf5Kj
+        qqNivwA3jBMVET9JItIUcjykQgVLEhjh48r6w03rwg==
+X-Google-Smtp-Source: ANB0VdaEY2j6m/CGznlyopI2za9bh5dh4RmG2udfCXyW7cX3AoF59pBtIIN7Sq1nqagdGdAKlMJ1JSxTSFPyyW36Zkw=
+X-Received: by 2002:a24:d286:: with SMTP id z128-v6mr1421657itf.14.1536772432096;
+ Wed, 12 Sep 2018 10:13:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180912063316.21047-2-kraxel@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a02:5942:0:0:0:0:0 with HTTP; Wed, 12 Sep 2018 10:13:31
+ -0700 (PDT)
+In-Reply-To: <f5e73b5ead3355932ad8b5fc96b141c3f5b8c16c.1535462971.git.andreyknvl@google.com>
+References: <cover.1535462971.git.andreyknvl@google.com> <f5e73b5ead3355932ad8b5fc96b141c3f5b8c16c.1535462971.git.andreyknvl@google.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Wed, 12 Sep 2018 19:13:31 +0200
+Message-ID: <CACT4Y+ZwLnk7V1cY-EAHbrfXPBxs6qyynZPhxoSKZZDWSK8Fuw@mail.gmail.com>
+Subject: Re: [PATCH v6 15/18] khwasan, arm64: add brk handler for inline instrumentation
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Gerd,
-
-Missed one from yesterday:
-
-On 9/11/18 11:33 PM, Gerd Hoffmann wrote:
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> KHWASAN inline instrumentation mode (which embeds checks of shadow memory
+> into the generated code, instead of inserting a callback) generates a brk
+> instruction when a tag mismatch is detected.
+>
+> This commit add a KHWASAN brk handler, that decodes the immediate value
+> passed to the brk instructions (to extract information about the memory
+> access that triggered the mismatch), reads the register values (x0 contains
+> the guilty address) and reports the bug.
+>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 > ---
->  include/uapi/linux/udmabuf.h         | 51 +++++++++++++++++++++++++++++++++---
->  Documentation/driver-api/dma-buf.rst |  8 ++++++
->  2 files changed, 56 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/uapi/linux/udmabuf.h b/include/uapi/linux/udmabuf.h
-> index 46b6532ed8..281e2c52f1 100644
-> --- a/include/uapi/linux/udmabuf.h
-> +++ b/include/uapi/linux/udmabuf.h
-> @@ -5,8 +5,39 @@
->  #include <linux/types.h>
->  #include <linux/ioctl.h>
->  
-> +/**
-> + * DOC: udmabuf
-> + *
-> + * udmabuf is a device driver which allows userspace to create
-> + * dmabufs.  The memory used for these dmabufs must be backed by
-> + * memfd.  The memfd must have F_SEAL_SHRINK and it must not have
-> + * F_SEAL_WRITE.
-> + *
-> + * The driver has two ioctls, one to create a dmabuf from a single
-> + * memory block and one to create a dmabuf from a list of memory
-> + * blocks.
-> + *
-> + * UDMABUF_CREATE - _IOW('u', 0x42, udmabuf_create)
-> + *
-> + * UDMABUF_CREATE_LIST - _IOW('u', 0x43, udmabuf_create_list)
-> + */
+>  arch/arm64/include/asm/brk-imm.h |  2 +
+>  arch/arm64/kernel/traps.c        | 69 +++++++++++++++++++++++++++++++-
+>  2 files changed, 69 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/arm64/include/asm/brk-imm.h b/arch/arm64/include/asm/brk-imm.h
+> index ed693c5bcec0..e4a7013321dc 100644
+> --- a/arch/arm64/include/asm/brk-imm.h
+> +++ b/arch/arm64/include/asm/brk-imm.h
+> @@ -16,10 +16,12 @@
+>   * 0x400: for dynamic BRK instruction
+>   * 0x401: for compile time BRK instruction
+>   * 0x800: kernel-mode BUG() and WARN() traps
+> + * 0x9xx: KHWASAN trap (allowed values 0x900 - 0x9ff)
+>   */
+>  #define FAULT_BRK_IMM                  0x100
+>  #define KGDB_DYN_DBG_BRK_IMM           0x400
+>  #define KGDB_COMPILED_DBG_BRK_IMM      0x401
+>  #define BUG_BRK_IMM                    0x800
+> +#define KHWASAN_BRK_IMM                        0x900
+>
+>  #endif
+> diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
+> index 039e9ff379cc..fd70347d1ce7 100644
+> --- a/arch/arm64/kernel/traps.c
+> +++ b/arch/arm64/kernel/traps.c
+> @@ -35,6 +35,7 @@
+>  #include <linux/sizes.h>
+>  #include <linux/syscalls.h>
+>  #include <linux/mm_types.h>
+> +#include <linux/kasan.h>
+>
+>  #include <asm/atomic.h>
+>  #include <asm/bug.h>
+> @@ -269,10 +270,14 @@ void arm64_notify_die(const char *str, struct pt_regs *regs,
+>         }
+>  }
+>
+> -void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
+> +void __arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
+>  {
+>         regs->pc += size;
+> +}
+>
+> +void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
+> +{
+> +       __arm64_skip_faulting_instruction(regs, size);
+>         /*
+>          * If we were single stepping, we want to get the step exception after
+>          * we return from the trap.
+> @@ -775,7 +780,7 @@ static int bug_handler(struct pt_regs *regs, unsigned int esr)
+>         }
+>
+>         /* If thread survives, skip over the BUG instruction and continue: */
+> -       arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
+> +       __arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
+>         return DBG_HOOK_HANDLED;
+>  }
+>
+> @@ -785,6 +790,59 @@ static struct break_hook bug_break_hook = {
+>         .fn = bug_handler,
+>  };
+>
+> +#ifdef CONFIG_KASAN_HW
 > +
-> +#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
-> +#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
+> +#define KHWASAN_ESR_RECOVER    0x20
+> +#define KHWASAN_ESR_WRITE      0x10
+> +#define KHWASAN_ESR_SIZE_MASK  0x0f
+> +#define KHWASAN_ESR_SIZE(esr)  (1 << ((esr) & KHWASAN_ESR_SIZE_MASK))
 > +
->  #define UDMABUF_FLAGS_CLOEXEC	0x01
->  
-> +/**
-> + * struct udmabuf_create - create a dmabuf from a single memory block.
-> + *
-> + * @memfd: The file handle.
-> + * @offset: Start of the buffer (from memfd start).
-> + * Must be page aligned.
-> + * @size: Size of the buffer.  Must be rounded to page size.
-> + *
-> + * @flags:
-> + * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
-> + */
->  struct udmabuf_create {
->  	__u32 memfd;
->  	__u32 flags;
-> @@ -14,6 +45,14 @@ struct udmabuf_create {
->  	__u64 size;
->  };
->  
-> +/**
-> + * struct udmabuf_create_item - one memory block list item.
-> + *
-> + * @memfd: The file handle.
-> + * @offset: Start of the buffer (from memfd start).
-> + * Must be page aligned.
-> + * @size: Size of the buffer.  Must be rounded to page size.
-> + */
->  struct udmabuf_create_item {
->  	__u32 memfd;
->  	__u32 __pad;
-> @@ -21,13 +60,19 @@ struct udmabuf_create_item {
->  	__u64 size;
->  };
->  
-> +/**
-> + * struct udmabuf_create_list - create a dmabuf from a memory block list.
-> + *
-> + * @count: The number of list elements.
-> + * @list: The memory block list
-> + *
-> + * flags:
+> +static int khwasan_handler(struct pt_regs *regs, unsigned int esr)
+> +{
+> +       bool recover = esr & KHWASAN_ESR_RECOVER;
+> +       bool write = esr & KHWASAN_ESR_WRITE;
+> +       size_t size = KHWASAN_ESR_SIZE(esr);
+> +       u64 addr = regs->regs[0];
+> +       u64 pc = regs->pc;
+> +
+> +       if (user_mode(regs))
+> +               return DBG_HOOK_ERROR;
+> +
+> +       kasan_report(addr, size, write, pc);
+> +
+> +       /*
+> +        * The instrumentation allows to control whether we can proceed after
+> +        * a crash was detected. This is done by passing the -recover flag to
+> +        * the compiler. Disabling recovery allows to generate more compact
+> +        * code.
+> +        *
+> +        * Unfortunately disabling recovery doesn't work for the kernel right
+> +        * now. KHWASAN reporting is disabled in some contexts (for example when
+> +        * the allocator accesses slab object metadata; same is true for KASAN;
+> +        * this is controlled by current->kasan_depth). All these accesses are
+> +        * detected by the tool, even though the reports for them are not
+> +        * printed.
 
-      @flags:
 
-> + * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
-> + */
->  struct udmabuf_create_list {
->  	__u32 flags;
->  	__u32 count;
->  	struct udmabuf_create_item list[];
->  };
+I am not following this part.
+Slab accesses metadata. OK.
+This is detected as bad access. OK.
+Report is not printed. OK.
+We skip BRK and resume execution.
+What is the problem?
 
--- 
-~Randy
+
+
+> +        *
+> +        * This is something that might be fixed at some point in the future.
+> +        */
+> +       if (!recover)
+> +               die("Oops - KHWASAN", regs, 0);
+> +
+> +       /* If thread survives, skip over the brk instruction and continue: */
+> +       __arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
+> +       return DBG_HOOK_HANDLED;
+> +}
+> +
+> +#define KHWASAN_ESR_VAL (0xf2000000 | KHWASAN_BRK_IMM)
+> +#define KHWASAN_ESR_MASK 0xffffff00
+> +
+> +static struct break_hook khwasan_break_hook = {
+> +       .esr_val = KHWASAN_ESR_VAL,
+> +       .esr_mask = KHWASAN_ESR_MASK,
+> +       .fn = khwasan_handler,
+> +};
+> +#endif
+> +
+>  /*
+>   * Initial handler for AArch64 BRK exceptions
+>   * This handler only used until debug_traps_init().
+> @@ -792,6 +850,10 @@ static struct break_hook bug_break_hook = {
+>  int __init early_brk64(unsigned long addr, unsigned int esr,
+>                 struct pt_regs *regs)
+>  {
+> +#ifdef CONFIG_KASAN_HW
+> +       if ((esr & KHWASAN_ESR_MASK) == KHWASAN_ESR_VAL)
+> +               return khwasan_handler(regs, esr) != DBG_HOOK_HANDLED;
+> +#endif
+>         return bug_handler(regs, esr) != DBG_HOOK_HANDLED;
+>  }
+>
+> @@ -799,4 +861,7 @@ int __init early_brk64(unsigned long addr, unsigned int esr,
+>  void __init trap_init(void)
+>  {
+>         register_break_hook(&bug_break_hook);
+> +#ifdef CONFIG_KASAN_HW
+> +       register_break_hook(&khwasan_break_hook);
+> +#endif
+>  }
+> --
+> 2.19.0.rc0.228.g281dcd1b4d0-goog
+>
