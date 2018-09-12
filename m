@@ -1,156 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE6BB7D584
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 06:33:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8294B7D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Sep 2018 07:51:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727670AbeILLgX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Sep 2018 07:36:23 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:46504 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726879AbeILLgW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Sep 2018 07:36:22 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 36EF77A7E5;
-        Wed, 12 Sep 2018 06:33:20 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-66.ams2.redhat.com [10.36.116.66])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 74D592156889;
-        Wed, 12 Sep 2018 06:33:17 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id BCEBD9B1A; Wed, 12 Sep 2018 08:33:16 +0200 (CEST)
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     laurent.pinchart@ideasonboard.com, daniel@ffwll.ch,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 1/3] udmabuf: add documentation
-Date:   Wed, 12 Sep 2018 08:33:14 +0200
-Message-Id: <20180912063316.21047-2-kraxel@redhat.com>
-In-Reply-To: <20180912063316.21047-1-kraxel@redhat.com>
-References: <20180912063316.21047-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Wed, 12 Sep 2018 06:33:20 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Wed, 12 Sep 2018 06:33:20 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'kraxel@redhat.com' RCPT:''
+        id S1726494AbeILMye (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Sep 2018 08:54:34 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:52353 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726358AbeILMye (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Sep 2018 08:54:34 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 0439521B7C;
+        Wed, 12 Sep 2018 03:51:16 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 12 Sep 2018 03:51:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :date:from:message-id:subject:to:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=EbFxh7QMr2SYeea3AEngV6vwWr+hhDemuLT9H1h/6
+        E8=; b=IkKwRXJkkA0sKY5Yo6Fn7ix/DKFUIEgU+kp4861vQDmedomT2fIsnNCjs
+        eIT0Ru+ei+GL8WphE6ZEJ8+YFFNgbvEMM0aKTkFca9sO/ADVT7x73CzZ1dgAht8m
+        5P88Pl/qHkzo/M790IuGwnGwaW27lpFqPk8d8KNS5FJ8QVDQhp7rmKHRjqly3N5Y
+        d9UJX1SDJxztLNf0tY0FX2z7G+pW2oPxpwSab6x2fMcMA6SZBnlMH+fO5T0lCyF5
+        l2tX8f/2+v3GvBZ78FYO8PF6GjaD+zcQMp2WrFXp/sReVKKMerZPo/SiOi6YoSot
+        2+bJQ4jrNNO1AzAEnTwXlp/4WXbcg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:date:from:message-id:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=EbFxh7QMr2SYeea3A
+        EngV6vwWr+hhDemuLT9H1h/6E8=; b=D1jMSsO83hADT8yNasgXS8ppIyOZeE5Az
+        Pgs8DbuPB7ih7254pV4eZGAqpQboTofGHn8fDSjBu7IGEZzNNGSuHJHbImD6JNQK
+        88KbHGoihiiPh9UFwD9OwCjNpMIs+X5CrVc0GwcxQP7F99giZQCt2SuVdi9/1w5Q
+        zBgD9PNGe1Wv7/9ezx/6bVVsm1HdSSUvVKpCElM2rMHh4lpsbgEhkDl0Smqe4pcs
+        VLNZqudN92nCXMqafrm1tYvtSvHIHjv/53kkV/B17mWl3Df5wVHBL1vjqW0wyGBf
+        2j5ETTwldRwXaBzkXamDPGx4vfOVd4K7cJL9Slr7eYQQIQXQCkLOw==
+X-ME-Proxy: <xmx:c8WYW4ehPRqo0jO0U3TgaEDwAVs0KJ3Mmfd8nFEwakYBhg_bqNvSsA>
+    <xmx:c8WYWx4pwuxGYe8RIDUNY7hMvJg-PcoqCdCo_s66xdNMgTcbLXNYRg>
+    <xmx:c8WYWztiVyetnhAKsKsqJl7RKajBkC5gfOpoAQRJH-0lIF6TxWra3A>
+    <xmx:c8WYW9LYZC3xZ2FECZ-t0lIS8DOU4SDEX7drOk5mn9mmGN8F1YovTA>
+    <xmx:c8WYWyBvuLdfx44GURJmujSpkTV9TX1Y4rSdDz94m8FCz91i9EnjIw>
+    <xmx:c8WYW5RAy5szt_lw9vtmF3dw_DximpscAvqfNBih2dVrhLP_voDBEg>
+X-ME-Sender: <xms:c8WYW4cKTlDOOBHp6Tccr7H9ukR9t4E9WXT_kgq-doVPS7fEtYM60Q>
+Received: from localhost (ppp121-44-246-110.bras2.syd2.internode.on.net [121.44.246.110])
+        by mail.messagingengine.com (Postfix) with ESMTPA id C4321E46B6;
+        Wed, 12 Sep 2018 03:51:14 -0400 (EDT)
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>
+Cc:     "Tobin C. Harding" <me@tobin.cc>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 0/3] ttp_port: Clean up kernel-docs
+Date:   Wed, 12 Sep 2018 17:50:41 +1000
+Message-Id: <20180912075044.8695-1-me@tobin.cc>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/uapi/linux/udmabuf.h         | 51 +++++++++++++++++++++++++++++++++---
- Documentation/driver-api/dma-buf.rst |  8 ++++++
- 2 files changed, 56 insertions(+), 3 deletions(-)
+Hi,
 
-diff --git a/include/uapi/linux/udmabuf.h b/include/uapi/linux/udmabuf.h
-index 46b6532ed8..281e2c52f1 100644
---- a/include/uapi/linux/udmabuf.h
-+++ b/include/uapi/linux/udmabuf.h
-@@ -5,8 +5,39 @@
- #include <linux/types.h>
- #include <linux/ioctl.h>
- 
-+/**
-+ * DOC: udmabuf
-+ *
-+ * udmabuf is a device driver which allows userspace to create
-+ * dmabufs.  The memory used for these dmabufs must be backed by
-+ * memfd.  The memfd must have F_SEAL_SHRINK and it must not have
-+ * F_SEAL_WRITE.
-+ *
-+ * The driver has two ioctls, one to create a dmabuf from a single
-+ * memory block and one to create a dmabuf from a list of memory
-+ * blocks.
-+ *
-+ * UDMABUF_CREATE - _IOW('u', 0x42, udmabuf_create)
-+ *
-+ * UDMABUF_CREATE_LIST - _IOW('u', 0x43, udmabuf_create_list)
-+ */
-+
-+#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
-+#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
-+
- #define UDMABUF_FLAGS_CLOEXEC	0x01
- 
-+/**
-+ * struct udmabuf_create - create a dmabuf from a single memory block.
-+ *
-+ * @memfd: The file handle.
-+ * @offset: Start of the buffer (from memfd start).
-+ * Must be page aligned.
-+ * @size: Size of the buffer.  Must be rounded to page size.
-+ *
-+ * @flags:
-+ * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
-+ */
- struct udmabuf_create {
- 	__u32 memfd;
- 	__u32 flags;
-@@ -14,6 +45,14 @@ struct udmabuf_create {
- 	__u64 size;
- };
- 
-+/**
-+ * struct udmabuf_create_item - one memory block list item.
-+ *
-+ * @memfd: The file handle.
-+ * @offset: Start of the buffer (from memfd start).
-+ * Must be page aligned.
-+ * @size: Size of the buffer.  Must be rounded to page size.
-+ */
- struct udmabuf_create_item {
- 	__u32 memfd;
- 	__u32 __pad;
-@@ -21,13 +60,19 @@ struct udmabuf_create_item {
- 	__u64 size;
- };
- 
-+/**
-+ * struct udmabuf_create_list - create a dmabuf from a memory block list.
-+ *
-+ * @count: The number of list elements.
-+ * @list: The memory block list
-+ *
-+ * flags:
-+ * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
-+ */
- struct udmabuf_create_list {
- 	__u32 flags;
- 	__u32 count;
- 	struct udmabuf_create_item list[];
- };
- 
--#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
--#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
--
- #endif /* _UAPI_LINUX_UDMABUF_H */
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index b541e97c7a..1f62c30a14 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -166,3 +166,11 @@ DMA Fence uABI/Sync File
- .. kernel-doc:: include/linux/sync_file.h
-    :internal:
- 
-+Userspace DMA Buffer driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/uapi/linux/udmabuf.h
-+   :doc: udmabuf
-+
-+.. kernel-doc:: include/uapi/linux/udmabuf.h
-+   :internal:
+This set is just putting a toe in the water to see if kernel-docs
+cleanup is wanted in drivers/tty/
+
+While chasing syzkaller bugs I opened up drivers/tty/tty_port.c and
+noticed that a bunch of the kernel-docs function comments were
+incorrectly styled.  This is the case for more files under drivers/tty/,
+if fixing this is deemed worthwhile I can add it to my list of jobs to
+do when my brain is too fried to do anything else.
+
+Changes comments that look like this:
+
+/**
+ *	ptmx_open		-	open a unix 98 pty master
+ *	@inode: inode of device file
+ *	@filp: file pointer to tty
+ *
+ *	Allocate a unix98 pty master device from the ptmx driver.
+ *
+ *	Locking: tty_mutex protects the init_dev work. tty->count should
+ *		protect the rest.
+ *		allocated_ptys_lock handles the list of free pty numbers
+ */
+
+static int ptmx_open(struct inode *inode, struct file *filp)
+
+To look like this:
+
+/**
+ * ptmx_open() - Open a unix 98 pty master.
+ * @inode: inode of device file
+ * @filp: file pointer to tty
+ *
+ * Allocate a unix98 pty master device from the ptmx driver.
+ *
+ * Locking: tty_mutex protects the init_dev work. tty->count should
+ * 	protect the rest.
+ * 	allocated_ptys_lock handles the list of free pty numbers
+ */
+static int ptmx_open(struct inode *inode, struct file *filp)
+
+This is super trivial clean up - I will not be offended if this is
+deemed code churn.
+
+thanks,
+Tobin.
+
+
+Tobin C. Harding (3):
+  tty_port: Remove incorrect whitespace after comments
+  tty_port: Fix function name and brief desc
+  tty_port: Fix kernel-docs warnings
+
+ drivers/tty/tty_port.c | 133 ++++++++++++++++++++---------------------
+ 1 file changed, 65 insertions(+), 68 deletions(-)
+
 -- 
-2.9.3
+2.17.1
 
