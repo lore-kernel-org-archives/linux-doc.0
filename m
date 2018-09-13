@@ -1,154 +1,179 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A68347D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Sep 2018 08:37:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF5067D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Sep 2018 08:39:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbeIMNps (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Sep 2018 09:45:48 -0400
-Received: from mail-it0-f68.google.com ([209.85.214.68]:36602 "EHLO
-        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726913AbeIMNps (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Sep 2018 09:45:48 -0400
-Received: by mail-it0-f68.google.com with SMTP id u13-v6so6758856iti.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Sep 2018 01:37:21 -0700 (PDT)
+        id S1726697AbeIMNsR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Sep 2018 09:48:17 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:39462 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726495AbeIMNsQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Sep 2018 09:48:16 -0400
+Received: by mail-io1-f65.google.com with SMTP id l7-v6so2495333iok.6
+        for <linux-doc@vger.kernel.org>; Thu, 13 Sep 2018 01:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=6Bb2A5n9HnIKxxiAYVSOIkWwld1KVWNHVDF2g+uXCCM=;
-        b=pDUeEFhdU3zyhg1x/HiI0W40JAo8WB6SaePlNyo8Q0n0V/q7tljZewVt2zTb4bq/xI
-         MeT4IY7fqyJhiSJ/gr44MUgCFAkCz/PWQuaE5JHdKHNfNZ0Y8wTo5s7okWcbHhdz6dVq
-         Niu7d2qmciT/wAlXFO3kbI9Q8JDMcWEL90exZVIruYcyGk/x6GuQOG6L4y7ZD0L7fgB9
-         IrhCzO38rx8QlFqc6Vz35yF7UO5w7bx3EKO69D99ARAyuEbRlmrFQMlJ6ekhVmQYywJM
-         6wlYnlASoI34Qk5Ptf+olmJ4ka7wfm/zD4tQ2iPbFzDPq/lav+saA1jtaPkswb1CbIKr
-         2T2g==
+        bh=kEMMaT9ShUuziYzELVGnyZvzVHrNgakyUOlmM59MbvQ=;
+        b=IcZfNnp+FQIGzU4id8zO+QuG9FUbgvzNWVqytltnqB+tUrQolW5c5wPoSlzLFEOYgn
+         A90pI5Mya25AgAuT8NskTRK9SEMfNeK2CNvz3A29HQfxLFhyfifj9EQ9lJ9Cz98uoZhH
+         rILAuD+QODK2DsqyUgxm3VPzEXbDJKNi9e+zp+t+1mJEe+AgRmtzxsgoPh6AXLZjqm9M
+         dPzfE6SYgcBbw9ZachDHfkcTl2No0McbplFJ4qpyr/vF0kxeT+1cUVazq/+dTnynwJ+2
+         LrvDmBmwvFTkKt8N0URICBNRdR/70JbOnk8Nj6RON1AMPaHqRDo7QBM7D4RCaMzwJYhF
+         /hAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=6Bb2A5n9HnIKxxiAYVSOIkWwld1KVWNHVDF2g+uXCCM=;
-        b=gESjydfDJil509bgzTLPYJ/c9a+GaJ+62OAexiQFSpkVKhdOwCqnaUuq+W93icgl0O
-         aT7EcTQfBrpQuirpqqRr1jMusezBcXfaw9RJdHtAmgQX7C0qXz+4k3u5DKi0vShi08ov
-         mXsNbtAqifnMczk9HlAsqE1DobScCHUk4DpdY0ipanxA8QvGx2d6uiia5lAQPENeDO29
-         jNjU8dxyxRaE+6FDlJ5FBhTwc36mhwuNg0gKiIpvHppiXjv5qmOSZMW4tNK58A58cUMG
-         Sr/VtfdgSCV/6c3wN+Zf+KskohyRJNqxuV72TwB7VEMBP5zBuZH1Qijw1L6+cE2FxLbU
-         qEyg==
-X-Gm-Message-State: APzg51AgpZqAVFG+O1pKiZmJsDpEYX/XbTLOrIN4bXhe9WeuskNeX3EV
-        Gg5StlfpLel9OOjWgTTCIZYEb5WBahYbel1HYdqXpg==
-X-Google-Smtp-Source: ANB0VdYcmxf7OZhQotgjLkFTdL4h4ljh5jDVkU/4X7vMHzZYyDFzjYTfm91uFkN3hCc9V3yXzXUXA9iH+sf/CAOba00=
-X-Received: by 2002:a02:4009:: with SMTP id n9-v6mr5701091jaa.19.1536827840777;
- Thu, 13 Sep 2018 01:37:20 -0700 (PDT)
+        bh=kEMMaT9ShUuziYzELVGnyZvzVHrNgakyUOlmM59MbvQ=;
+        b=uh5/Qehh8muTddITEBAM1oXthsFLJb1wI9GNhx4r2goBiJwSr30a1WUgczNbIrWD9N
+         DPPeBBdYi1gWp/tCA/iYxsXCQZHOvRRWY/VjtMos3k61Ue8dCBqbu7jt3C96ufz1nbFl
+         /9iO75zz1mP/nyUIgVGAXIJGVdZNZ6e7AdE7QfGV+7yR84Gi3q4nS06djljLHvdWQoDb
+         bpJC+mE3Gr/lt/Pgn332AaVjaW4ygSQQWa7baKRvMSMBFZeZXZm9eOU29ZFDRtXVUb9c
+         qKDM1lKu5FsqiYLskD2GsT2v2Khf5P02AAr9UuHyfdM4b0Qc/tnlMqMeASCZc+5+/drm
+         l9RA==
+X-Gm-Message-State: APzg51DoK3ojvNw+IftxPJrVzJT8LpTYWeH9ItXxIx0FdsWR5FNVE5ti
+        uoXIxk49eLdbjHr/+3rLOa54vvLLwJuUeGSRu0GpWQ==
+X-Google-Smtp-Source: ANB0VdY0EB02HRzOYuhI9AWugpZQ3NWPEXnnDHQDrtZXNKPEQfUTUWriJsfe82vxtIXxLkhar+Xej7KMgK68x0BoZM0=
+X-Received: by 2002:a5e:a901:: with SMTP id c1-v6mr4749030iod.187.1536827988879;
+ Thu, 13 Sep 2018 01:39:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:5942:0:0:0:0:0 with HTTP; Thu, 13 Sep 2018 01:37:00
+Received: by 2002:a6b:1905:0:0:0:0:0 with HTTP; Thu, 13 Sep 2018 01:39:48
  -0700 (PDT)
-In-Reply-To: <CAG48ez2oT1dtDcH8SfPLnoX5F8d6Pd=M-eOKHhYJ83EuL_j6wQ@mail.gmail.com>
-References: <cover.1535462971.git.andreyknvl@google.com> <f5e73b5ead3355932ad8b5fc96b141c3f5b8c16c.1535462971.git.andreyknvl@google.com>
- <CACT4Y+aEwYiaVN--RH_0VBh0wbCcrf-Ndz+_eOaBNi6nKxrfQA@mail.gmail.com> <CAG48ez2oT1dtDcH8SfPLnoX5F8d6Pd=M-eOKHhYJ83EuL_j6wQ@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 13 Sep 2018 10:37:00 +0200
-Message-ID: <CACT4Y+avu_68GoQcc32zpcOpAu-Pw7m71VmuKtEkOw=vKgxi7w@mail.gmail.com>
-Subject: Re: [PATCH v6 15/18] khwasan, arm64: add brk handler for inline instrumentation
-To:     Jann Horn <jannh@google.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+In-Reply-To: <201809130920.Bfc949m8%fengguang.wu@intel.com>
+References: <20180912075129.25185-9-brgl@bgdev.pl> <201809130920.Bfc949m8%fengguang.wu@intel.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 13 Sep 2018 10:39:48 +0200
+Message-ID: <CAMRc=Med1gSg_ALsb_J2G5QXQ=438CiqG4GT-NYQT-uDF_cPHA@mail.gmail.com>
+Subject: Re: [PATCH v3 08/21] nvmem: sunxi_sid: use devm_nvmem_register()
+To:     kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@01.org,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 12, 2018 at 7:39 PM, Jann Horn <jannh@google.com> wrote:
-> On Wed, Sep 12, 2018 at 7:16 PM Dmitry Vyukov <dvyukov@google.com> wrote:
->> On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> [...]
->> > +static int khwasan_handler(struct pt_regs *regs, unsigned int esr)
->> > +{
->> > +       bool recover = esr & KHWASAN_ESR_RECOVER;
->> > +       bool write = esr & KHWASAN_ESR_WRITE;
->> > +       size_t size = KHWASAN_ESR_SIZE(esr);
->> > +       u64 addr = regs->regs[0];
->> > +       u64 pc = regs->pc;
->> > +
->> > +       if (user_mode(regs))
->> > +               return DBG_HOOK_ERROR;
->> > +
->> > +       kasan_report(addr, size, write, pc);
->> > +
->> > +       /*
->> > +        * The instrumentation allows to control whether we can proceed after
->> > +        * a crash was detected. This is done by passing the -recover flag to
->> > +        * the compiler. Disabling recovery allows to generate more compact
->> > +        * code.
->> > +        *
->> > +        * Unfortunately disabling recovery doesn't work for the kernel right
->> > +        * now. KHWASAN reporting is disabled in some contexts (for example when
->> > +        * the allocator accesses slab object metadata; same is true for KASAN;
->> > +        * this is controlled by current->kasan_depth). All these accesses are
->> > +        * detected by the tool, even though the reports for them are not
->> > +        * printed.
->> > +        *
->> > +        * This is something that might be fixed at some point in the future.
->> > +        */
->> > +       if (!recover)
->> > +               die("Oops - KHWASAN", regs, 0);
->>
->> Why die and not panic? Die seems to be much less used function, and it
->> calls panic anyway, and we call panic in kasan_report if panic_on_warn
->> is set.
+2018-09-13 3:38 GMT+02:00 kbuild test robot <lkp@intel.com>:
+> Hi Bartosz,
 >
-> die() is vaguely equivalent to BUG(); die() and BUG() normally only
-> terminate the current process, which may or may not leave the system
-> somewhat usable, while panic() always brings down the whole system.
-> AFAIK panic() shouldn't be used unless you're in some very low-level
-> code where you know that trying to just kill the current process can't
-> work and the entire system is broken beyond repair.
+> I love your patch! Perhaps something to improve:
 >
-> If KASAN traps on some random memory access, there's a good chance
-> that just killing the current process will allow at least parts of the
-> system to continue. I'm not sure whether BUG() or die() is more
-> appropriate here, but I think it definitely should not be a panic().
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v4.19-rc3 next-20180912]
+> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+>
+> url:    https://github.com/0day-ci/linux/commits/Bartosz-Golaszewski/nvmem-rework-of-the-subsystem-for-non-DT-users/20180913-071053
+> config: arm-sunxi_defconfig (attached as .config)
+> compiler: arm-linux-gnueabi-gcc (Debian 7.2.0-11) 7.2.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # save the attached .config to linux build tree
+>         GCC_VERSION=7.2.0 make.cross ARCH=arm
+>
+> All warnings (new ones prefixed by >>):
+>
+>    drivers/nvmem/sunxi_sid.c: In function 'sunxi_sid_probe':
+>>> drivers/nvmem/sunxi_sid.c:190:18: warning: passing argument 1 of 'PTR_ERR' makes pointer from integer without a cast [-Wint-conversion]
+>       return PTR_ERR(-EINVAL);
+>                      ^
+>    In file included from include/linux/kernfs.h:11:0,
+>                     from include/linux/sysfs.h:16,
+>                     from include/linux/kobject.h:20,
+>                     from include/linux/device.h:16,
+>                     from drivers/nvmem/sunxi_sid.c:18:
+>    include/linux/err.h:29:33: note: expected 'const void *' but argument is of type 'int'
+>     static inline long __must_check PTR_ERR(__force const void *ptr)
+>                                     ^~~~~~~
+>    drivers/nvmem/sunxi_sid.c:157:6: warning: unused variable 'ret' [-Wunused-variable]
+>      int ret, i, size;
+>          ^~~
+>
+> vim +/PTR_ERR +190 drivers/nvmem/sunxi_sid.c
+>
+>    150
+>    151  static int sunxi_sid_probe(struct platform_device *pdev)
+>    152  {
+>    153          struct device *dev = &pdev->dev;
+>    154          struct resource *res;
+>    155          struct nvmem_device *nvmem;
+>    156          struct sunxi_sid *sid;
+>    157          int ret, i, size;
+>    158          char *randomness;
+>    159          const struct sunxi_sid_cfg *cfg;
+>    160
+>    161          sid = devm_kzalloc(dev, sizeof(*sid), GFP_KERNEL);
+>    162          if (!sid)
+>    163                  return -ENOMEM;
+>    164
+>    165          cfg = of_device_get_match_data(dev);
+>    166          if (!cfg)
+>    167                  return -EINVAL;
+>    168          sid->value_offset = cfg->value_offset;
+>    169
+>    170          res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>    171          sid->base = devm_ioremap_resource(dev, res);
+>    172          if (IS_ERR(sid->base))
+>    173                  return PTR_ERR(sid->base);
+>    174
+>    175          size = cfg->size;
+>    176
+>    177          econfig.size = size;
+>    178          econfig.dev = dev;
+>    179          if (cfg->need_register_readout)
+>    180                  econfig.reg_read = sun8i_sid_read_by_reg;
+>    181          else
+>    182                  econfig.reg_read = sunxi_sid_read;
+>    183          econfig.priv = sid;
+>    184          nvmem = devm_nvmem_register(dev, &econfig);
+>    185          if (IS_ERR(nvmem))
+>    186                  return PTR_ERR(nvmem);
+>    187
+>    188          randomness = kzalloc(size, GFP_KERNEL);
+>    189          if (!randomness)
+>  > 190                  return PTR_ERR(-EINVAL);
 
+Will fix in v4. I think this should also return -ENOMEM, not -EINVAL.
 
-Nick, do you know if die() will be enough to catch problems on Android
-phones? panic_on_warn would turn this into panic, but I guess one does
-not want panic_on_warn on a canary phone.
+Bart
+
+>    191
+>    192          for (i = 0; i < size; i++)
+>    193                  econfig.reg_read(sid, i, &randomness[i], 1);
+>    194
+>    195          add_device_randomness(randomness, size);
+>    196          kfree(randomness);
+>    197
+>    198          platform_set_drvdata(pdev, nvmem);
+>    199
+>    200          return 0;
+>    201  }
+>    202
+>
+> ---
+> 0-DAY kernel test infrastructure                Open Source Technology Center
+> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
