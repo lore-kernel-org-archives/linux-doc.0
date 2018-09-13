@@ -2,178 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_MED autolearn=ham autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CF5067D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Sep 2018 08:39:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 584B37D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Sep 2018 09:22:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbeIMNsR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Sep 2018 09:48:17 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:39462 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726495AbeIMNsQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Sep 2018 09:48:16 -0400
-Received: by mail-io1-f65.google.com with SMTP id l7-v6so2495333iok.6
-        for <linux-doc@vger.kernel.org>; Thu, 13 Sep 2018 01:39:49 -0700 (PDT)
+        id S1728012AbeIMOa4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Sep 2018 10:30:56 -0400
+Received: from mail-it0-f68.google.com ([209.85.214.68]:36853 "EHLO
+        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727757AbeIMOa4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Sep 2018 10:30:56 -0400
+Received: by mail-it0-f68.google.com with SMTP id u13-v6so6901763iti.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Sep 2018 02:22:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kEMMaT9ShUuziYzELVGnyZvzVHrNgakyUOlmM59MbvQ=;
-        b=IcZfNnp+FQIGzU4id8zO+QuG9FUbgvzNWVqytltnqB+tUrQolW5c5wPoSlzLFEOYgn
-         A90pI5Mya25AgAuT8NskTRK9SEMfNeK2CNvz3A29HQfxLFhyfifj9EQ9lJ9Cz98uoZhH
-         rILAuD+QODK2DsqyUgxm3VPzEXbDJKNi9e+zp+t+1mJEe+AgRmtzxsgoPh6AXLZjqm9M
-         dPzfE6SYgcBbw9ZachDHfkcTl2No0McbplFJ4qpyr/vF0kxeT+1cUVazq/+dTnynwJ+2
-         LrvDmBmwvFTkKt8N0URICBNRdR/70JbOnk8Nj6RON1AMPaHqRDo7QBM7D4RCaMzwJYhF
-         /hAA==
+        bh=NHB8ORIjoIhutvy9NcRm9NF71dAzGyNycr99x/StYXs=;
+        b=fzJpRGx4J216C4i4vGoBRLn4/7Sssdg/m2I+1Z8I0rC820/UR6sZc9n/aRqliX4SS1
+         QUt4S+tymsE5pI7p5b0frS9g4LT06SjnI/CqQXgr2MIT99IBCaKxPo3JI0cD+fXIUvEF
+         R27BSIkztMnxF2RCLl5Ay9y6VtG3OBQ3voKQ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kEMMaT9ShUuziYzELVGnyZvzVHrNgakyUOlmM59MbvQ=;
-        b=uh5/Qehh8muTddITEBAM1oXthsFLJb1wI9GNhx4r2goBiJwSr30a1WUgczNbIrWD9N
-         DPPeBBdYi1gWp/tCA/iYxsXCQZHOvRRWY/VjtMos3k61Ue8dCBqbu7jt3C96ufz1nbFl
-         /9iO75zz1mP/nyUIgVGAXIJGVdZNZ6e7AdE7QfGV+7yR84Gi3q4nS06djljLHvdWQoDb
-         bpJC+mE3Gr/lt/Pgn332AaVjaW4ygSQQWa7baKRvMSMBFZeZXZm9eOU29ZFDRtXVUb9c
-         qKDM1lKu5FsqiYLskD2GsT2v2Khf5P02AAr9UuHyfdM4b0Qc/tnlMqMeASCZc+5+/drm
-         l9RA==
-X-Gm-Message-State: APzg51DoK3ojvNw+IftxPJrVzJT8LpTYWeH9ItXxIx0FdsWR5FNVE5ti
-        uoXIxk49eLdbjHr/+3rLOa54vvLLwJuUeGSRu0GpWQ==
-X-Google-Smtp-Source: ANB0VdY0EB02HRzOYuhI9AWugpZQ3NWPEXnnDHQDrtZXNKPEQfUTUWriJsfe82vxtIXxLkhar+Xej7KMgK68x0BoZM0=
-X-Received: by 2002:a5e:a901:: with SMTP id c1-v6mr4749030iod.187.1536827988879;
- Thu, 13 Sep 2018 01:39:48 -0700 (PDT)
+        bh=NHB8ORIjoIhutvy9NcRm9NF71dAzGyNycr99x/StYXs=;
+        b=aq49i0M7/GTz+59x2p0FnJVezOoOciLLH3PyT+3cVq6zcX5GZsIi1J+gMfcfqlhjL6
+         UFmYeGYaq1vLbBMua7TKZ+csMoioBHnIwcmChzF3RbqAjKVnnJaMRqNuxSx09eZ8ePqO
+         1/qhqpXTlXh6UZU7qVO1wd/hmMhZf7NCA+LQaT05V/orLWNLx0F0bGHHYIPAJ3uVK8Ig
+         9dJyao7k5TyHHysmDRKxKVjdCA1HRI27vCEIfMfG0qXXL5tvF5P5aVuBuoGeYGudDb5g
+         S8VRejESgXVl6Or8o1GTpaMQkeKNaEyhyjpLKbH1IoPmLhi1omasA27u4ud+f3iBrOrA
+         6mkw==
+X-Gm-Message-State: APzg51CRxsx/Y/mvXQ49FvM1N9UnDtDwM3iyEijh8JuM9AigHF5PnZz8
+        4sU+pM/jrcWLOMFOC2Vg0iN4TyepujURXch28Xvdbg==
+X-Google-Smtp-Source: ANB0VdbR8RYtlqbDOZYb1OgeV4HxNnebgKxzGrmW9Z6ev4nDKpj73Duk+kF6F/3rVU9HMZid6AxqyD5sPtjzcxFeFpw=
+X-Received: by 2002:a24:9d84:: with SMTP id f126-v6mr5594349itd.130.1536830539719;
+ Thu, 13 Sep 2018 02:22:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a6b:1905:0:0:0:0:0 with HTTP; Thu, 13 Sep 2018 01:39:48
- -0700 (PDT)
-In-Reply-To: <201809130920.Bfc949m8%fengguang.wu@intel.com>
-References: <20180912075129.25185-9-brgl@bgdev.pl> <201809130920.Bfc949m8%fengguang.wu@intel.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Thu, 13 Sep 2018 10:39:48 +0200
-Message-ID: <CAMRc=Med1gSg_ALsb_J2G5QXQ=438CiqG4GT-NYQT-uDF_cPHA@mail.gmail.com>
-Subject: Re: [PATCH v3 08/21] nvmem: sunxi_sid: use devm_nvmem_register()
-To:     kbuild test robot <lkp@intel.com>
-Cc:     kbuild-all@01.org,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+References: <20180902120144.6855-1-jmkrzyszt@gmail.com> <20180905215008.1649-1-jmkrzyszt@gmail.com>
+In-Reply-To: <20180905215008.1649-1-jmkrzyszt@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 13 Sep 2018 11:22:06 +0200
+Message-ID: <CACRpkdbAG1N0v-BrXruf5088L0x3XwSHbFTWOFxjHQWx0LKz5g@mail.gmail.com>
+Subject: Re: [PATCH v8 0/4] gpiolib: speed up GPIO array processing
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Peter Rosin <peda@axentia.se>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Greg KH <gregkh@linuxfoundation.org>, kishon@ti.com,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald <pmeerw@pmeerw.net>,
+        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Rojhalat Ibrahim <imr@rtschenk.de>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        ext Tony Lindgren <tony@atomide.com>,
+        Yegor Yefremov <yegorslists@googlemail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>, linux-iio@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-serial@vger.kernel.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-09-13 3:38 GMT+02:00 kbuild test robot <lkp@intel.com>:
-> Hi Bartosz,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v4.19-rc3 next-20180912]
-> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
->
-> url:    https://github.com/0day-ci/linux/commits/Bartosz-Golaszewski/nvmem-rework-of-the-subsystem-for-non-DT-users/20180913-071053
-> config: arm-sunxi_defconfig (attached as .config)
-> compiler: arm-linux-gnueabi-gcc (Debian 7.2.0-11) 7.2.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # save the attached .config to linux build tree
->         GCC_VERSION=7.2.0 make.cross ARCH=arm
->
-> All warnings (new ones prefixed by >>):
->
->    drivers/nvmem/sunxi_sid.c: In function 'sunxi_sid_probe':
->>> drivers/nvmem/sunxi_sid.c:190:18: warning: passing argument 1 of 'PTR_ERR' makes pointer from integer without a cast [-Wint-conversion]
->       return PTR_ERR(-EINVAL);
->                      ^
->    In file included from include/linux/kernfs.h:11:0,
->                     from include/linux/sysfs.h:16,
->                     from include/linux/kobject.h:20,
->                     from include/linux/device.h:16,
->                     from drivers/nvmem/sunxi_sid.c:18:
->    include/linux/err.h:29:33: note: expected 'const void *' but argument is of type 'int'
->     static inline long __must_check PTR_ERR(__force const void *ptr)
->                                     ^~~~~~~
->    drivers/nvmem/sunxi_sid.c:157:6: warning: unused variable 'ret' [-Wunused-variable]
->      int ret, i, size;
->          ^~~
->
-> vim +/PTR_ERR +190 drivers/nvmem/sunxi_sid.c
->
->    150
->    151  static int sunxi_sid_probe(struct platform_device *pdev)
->    152  {
->    153          struct device *dev = &pdev->dev;
->    154          struct resource *res;
->    155          struct nvmem_device *nvmem;
->    156          struct sunxi_sid *sid;
->    157          int ret, i, size;
->    158          char *randomness;
->    159          const struct sunxi_sid_cfg *cfg;
->    160
->    161          sid = devm_kzalloc(dev, sizeof(*sid), GFP_KERNEL);
->    162          if (!sid)
->    163                  return -ENOMEM;
->    164
->    165          cfg = of_device_get_match_data(dev);
->    166          if (!cfg)
->    167                  return -EINVAL;
->    168          sid->value_offset = cfg->value_offset;
->    169
->    170          res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->    171          sid->base = devm_ioremap_resource(dev, res);
->    172          if (IS_ERR(sid->base))
->    173                  return PTR_ERR(sid->base);
->    174
->    175          size = cfg->size;
->    176
->    177          econfig.size = size;
->    178          econfig.dev = dev;
->    179          if (cfg->need_register_readout)
->    180                  econfig.reg_read = sun8i_sid_read_by_reg;
->    181          else
->    182                  econfig.reg_read = sunxi_sid_read;
->    183          econfig.priv = sid;
->    184          nvmem = devm_nvmem_register(dev, &econfig);
->    185          if (IS_ERR(nvmem))
->    186                  return PTR_ERR(nvmem);
->    187
->    188          randomness = kzalloc(size, GFP_KERNEL);
->    189          if (!randomness)
->  > 190                  return PTR_ERR(-EINVAL);
+On Wed, Sep 5, 2018 at 11:49 PM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
 
-Will fix in v4. I think this should also return -ENOMEM, not -EINVAL.
+> The goal is to boost performance of get/set array functions while
+> processing GPIO arrays which represent pins of a signle chip in
+> hardware order.  If resulting performance is close to PIO, GPIO API
+> can be used for data I/O without much loss of speed.
 
-Bart
+I applied the v8 to an immutable branch and pushed to kernelorg
+so the build servers can churn it a bit, and if it works fine
+then we can merge this into the devel branch and also set up
+that as something other subsystems can pull in if they need it.
 
->    191
->    192          for (i = 0; i < size; i++)
->    193                  econfig.reg_read(sid, i, &randomness[i], 1);
->    194
->    195          add_device_randomness(randomness, size);
->    196          kfree(randomness);
->    197
->    198          platform_set_drvdata(pdev, nvmem);
->    199
->    200          return 0;
->    201  }
->    202
->
-> ---
-> 0-DAY kernel test infrastructure                Open Source Technology Center
-> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+I'm really excited to merge this!
+
+Yours,
+Linus Walleij
