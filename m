@@ -1,51 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 029FD7D584
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Sep 2018 03:43:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AE01D7D584
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Sep 2018 06:23:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726500AbeIMIum (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Sep 2018 04:50:42 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:42448 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726080AbeIMIul (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Sep 2018 04:50:41 -0400
-Received: from localhost (74-93-104-98-Washington.hfc.comcastbusiness.net [74.93.104.98])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id D1E6912DE581F;
-        Wed, 12 Sep 2018 20:43:06 -0700 (PDT)
-Date:   Wed, 12 Sep 2018 20:43:06 -0700 (PDT)
-Message-Id: <20180912.204306.302431688795844335.davem@davemloft.net>
-To:     me@tobin.cc
-Cc:     edumazet@google.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: net: Remove TCP congestion document
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20180912081444.17258-1-me@tobin.cc>
-References: <20180912081444.17258-1-me@tobin.cc>
-X-Mailer: Mew version 6.7 on Emacs 25.3 / Mule 6.0 (HANACHIRUSATO)
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Wed, 12 Sep 2018 20:43:07 -0700 (PDT)
+        id S1726570AbeIMLby (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Sep 2018 07:31:54 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:40201 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726495AbeIMLbx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Sep 2018 07:31:53 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 32CE021F1C;
+        Thu, 13 Sep 2018 02:23:51 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 13 Sep 2018 02:23:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :date:from:message-id:subject:to:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=qcqNY9ny2fty+/0aaN6WF5xGm8VpWiFDvHvwRi2vX
+        oY=; b=HhX/1TvJ8qfLT/uBSgEj33E9eLCfepLpBXGe8ZWwoA1m4vhGa8ni30j06
+        2x/9wgfyZOslFpjhYwsBGnoVug/G+GOPP96J5tD1F+3y56goY/94JB6H+wBpRM9b
+        3wSBeawPFVb5ebvjXQuqW3WWXywPJVdip9RDIxdtEpE97VzgMLJlTCEkAZehmqJQ
+        yHM6p+KrACVe3v5HtMxqxp2K0EMuCFZSRAxV4lO75KRm3MVsqLyJjc03gAfhzQ83
+        9uvX+EYOTgZN73Ffn0ULf/DlJ+UexVp9/TUkKcyfawMj2rjudze7FfKbd+oh3Uw+
+        jZTK5XStwjdj9mAafWoPo404+m3Sw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:date:from:message-id:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qcqNY9ny2fty+/0aa
+        N6WF5xGm8VpWiFDvHvwRi2vXoY=; b=CFpePq5FxFBunU4P+1Josf304qc7gPkVR
+        3LqNtFyY/iloWfKEcCVGATrrdWw9p6GHdVrYrkKnFgmVTvXXEBgGRAA+k4XmNu0D
+        mXTubzRTQRtvacn+AssdEvmIf6BecBD+2L6rggkI6UhKzwmMyqVf7xDnTZj0v3lF
+        A8HJptNaZ1RBaxURaNaUgE3tMl0MFSTHcwqWUY75HeNk+HlNmlPQ9tu+w5dzCnnY
+        y2a0e8c2zKSdg1O1NJcKN4DrUObt9E9o/e6kcN+MYx9xBNHAQQYTi1nUn0UsHDFa
+        CTuCOdFzak9wQ9Xceo5HcHVpyQdjJrkOg6/eXrErO8CNd2OqPN94A==
+X-ME-Proxy: <xmx:dgKaW9K2HRF0JfSXbcfvRAdQH4OqjLv-w0bH0zZbrZJ-Oya__B68fQ>
+    <xmx:dgKaW5kZHufGRxLLbBMkTX1I32STIFVG7QUkqPBaJsLKmugSwegHew>
+    <xmx:dgKaW8merpR33p3UvBwM64Cs8fyJ2vKrA8FFB3O60AVE6Q-QlcEG_A>
+    <xmx:dgKaW0qhYTeLi2UKpkHY817m813v1_eqSa1HMmXJhaE1AT_50ZKuKw>
+    <xmx:dgKaWxnjhimNhxTOQZOHItRLNxEuG8_PdMx2JrQnwAIoYxYPd4M8Xw>
+    <xmx:dwKaW-52rwa5k7xVUcrBKqHZiEXhwlwCzou2WxLdxv1eQwSAVklb3w>
+X-ME-Sender: <xms:dgKaW7svRryqBD9TlckRzgQuOsRdXRYNanNZnlCF4tI6NVn5HDQVRQ>
+Received: from localhost (124-169-9-200.dyn.iinet.net.au [124.169.9.200])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 0866C102D2;
+        Thu, 13 Sep 2018 02:23:49 -0400 (EDT)
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     "Tobin C. Harding" <me@tobin.cc>, Jiri Slaby <jslaby@suse.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] docs: Fix filename for serial reference implementation
+Date:   Thu, 13 Sep 2018 16:23:38 +1000
+Message-Id: <20180913062338.27812-1-me@tobin.cc>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Tobin C. Harding" <me@tobin.cc>
-Date: Wed, 12 Sep 2018 18:14:44 +1000
+Currently documentation mentions a file but the filename has a typo in
+it, underscore instead of hyphen.  This makes grep'ing for the file
+hard.
 
-> Document is stale, let's remove it.
-> 
-> Remove TCP congestion document.
-> 
-> Signed-off-by: Tobin C. Harding <me@tobin.cc>
+Use correct filename for file amba-pl011.c
 
-Applied, thanks.
+Signed-off-by: Tobin C. Harding <me@tobin.cc>
+---
+ Documentation/serial/driver | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/serial/driver b/Documentation/serial/driver
+index da193e092fc3..86e47c19a924 100644
+--- a/Documentation/serial/driver
++++ b/Documentation/serial/driver
+@@ -7,7 +7,7 @@ This document is meant as a brief overview of some aspects of the new serial
+ driver.  It is not complete, any questions you have should be directed to
+ <rmk@arm.linux.org.uk>
+ 
+-The reference implementation is contained within amba_pl011.c.
++The reference implementation is contained within amba-pl011.c.
+ 
+ 
+ 
+-- 
+2.17.1
+
