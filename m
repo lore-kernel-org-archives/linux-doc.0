@@ -2,95 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C5F787D581
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 09:28:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9661A7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 13:07:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728268AbeINOmJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Sep 2018 10:42:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39066 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727670AbeINOlw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 10:41:52 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8E9O5ZV125641
-        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 05:28:14 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2mg8y9uy0t-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 05:28:13 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Fri, 14 Sep 2018 10:28:11 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 14 Sep 2018 10:28:09 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8E9S8CO58130640
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 14 Sep 2018 09:28:08 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id ED833A405B;
-        Fri, 14 Sep 2018 12:27:55 +0100 (BST)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 21526A4051;
-        Fri, 14 Sep 2018 12:27:54 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.207.116])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Fri, 14 Sep 2018 12:27:54 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Fri, 14 Sep 2018 12:28:05 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH v4 2/3] docs: core-api/mm-api: add a lable for GFP flags section
-Date:   Fri, 14 Sep 2018 12:27:57 +0300
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1536917278-31191-1-git-send-email-rppt@linux.vnet.ibm.com>
-References: <1536917278-31191-1-git-send-email-rppt@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18091409-4275-0000-0000-000002BA4973
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18091409-4276-0000-0000-000037C38626
-Message-Id: <1536917278-31191-3-git-send-email-rppt@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-14_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=756 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1809140101
+        id S1727972AbeINSWV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Sep 2018 14:22:21 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:12135 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727013AbeINSWV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Sep 2018 14:22:21 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 1460CF14D8EFD;
+        Fri, 14 Sep 2018 21:07:51 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server (TLS) id 14.3.399.0; Fri, 14 Sep
+ 2018 21:07:28 +0800
+Date:   Fri, 14 Sep 2018 21:05:35 +0800
+From:   Kenneth Lee <liguozhu@hisilicon.com>
+To:     "Tian, Kevin" <kevin.tian@intel.com>
+CC:     Jerome Glisse <jglisse@redhat.com>,
+        Kenneth Lee <nek.in.cn@gmail.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        "Philippe Ombredanne" <pombredanne@nexb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Joerg Roedel <joro@8bytes.org>,
+        "linux-accelerators@lists.ozlabs.org" 
+        <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180914130535.GD207969@Turing-Arch-b>
+References: <20180907165303.GA3519@redhat.com>
+ <20180910032809.GJ230707@Turing-Arch-b>
+ <20180910145423.GA3488@redhat.com>
+ <20180911024209.GK230707@Turing-Arch-b>
+ <20180911033358.GA4730@redhat.com>
+ <20180911064043.GA207969@Turing-Arch-b>
+ <20180911134013.GA3932@redhat.com>
+ <20180913083232.GB207969@Turing-Arch-b>
+ <20180913145149.GB3576@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D191303A7F@SHSMSX101.ccr.corp.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D191303A7F@SHSMSX101.ccr.corp.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [10.67.212.75]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
----
- Documentation/core-api/mm-api.rst | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, Sep 14, 2018 at 06:50:55AM +0000, Tian, Kevin wrote:
+> Date: Fri, 14 Sep 2018 06:50:55 +0000
+> From: "Tian, Kevin" <kevin.tian@intel.com>
+> To: Jerome Glisse <jglisse@redhat.com>, Kenneth Lee <liguozhu@hisilicon.com>
+> CC: Kenneth Lee <nek.in.cn@gmail.com>, Alex Williamson
+>  <alex.williamson@redhat.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+>  "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Jonathan Corbet
+>  <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Zaibo
+>  Xu <xuzaibo@huawei.com>, "linux-doc@vger.kernel.org"
+>  <linux-doc@vger.kernel.org>, "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+>  Hao Fang <fanghao11@huawei.com>, "linux-kernel@vger.kernel.org"
+>  <linux-kernel@vger.kernel.org>, "linuxarm@huawei.com"
+>  <linuxarm@huawei.com>, "iommu@lists.linux-foundation.org"
+>  <iommu@lists.linux-foundation.org>, "David S . Miller"
+>  <davem@davemloft.net>, "linux-crypto@vger.kernel.org"
+>  <linux-crypto@vger.kernel.org>, Zhou Wang <wangzhou1@hisilicon.com>,
+>  Philippe Ombredanne <pombredanne@nexb.com>, Thomas Gleixner
+>  <tglx@linutronix.de>, Joerg Roedel <joro@8bytes.org>,
+>  "linux-accelerators@lists.ozlabs.org"
+>  <linux-accelerators@lists.ozlabs.org>, Lu Baolu <baolu.lu@linux.intel.com>
+> Subject: RE: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+> Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D191303A7F@SHSMSX101.ccr.corp.intel.com>
+> 
+> > From: Jerome Glisse
+> > Sent: Thursday, September 13, 2018 10:52 PM
+> >
+> [...]
+>  > AFAIK, on x86 and PPC at least, all PCIE devices are in the same group
+> > by default at boot or at least all devices behind the same bridge.
+> 
+> the group thing reflects physical hierarchy limitation, not changed
+> cross boot. Please note iommu group defines the minimal isolation
+> boundary - all devices within same group must be attached to the
+> same iommu domain or address space, because physically IOMMU
+> cannot differentiate DMAs out of those devices. devices behind
+> legacy PCI-X bridge is one example. other examples include devices
+> behind a PCIe switch port which doesn't support ACS thus cannot
+> route p2p transaction to IOMMU. If talking about typical PCIe 
+> endpoint (with upstreaming ports all supporting ACS), you'll get
+> one device per group.
+> 
+> One iommu group today is attached to only one iommu domain.
+> In the future one group may attach to multiple domains, as the
+> aux domain concept being discussed in another thread.
+> 
+> > 
+> > Maybe they are kernel option to avoid that and userspace init program
+> > can definitly re-arrange that base on sysadmin policy).
+> 
+> I don't think there is such option, as it may break isolation model
+> enabled by IOMMU.
+> 
+> [...]
+> > > > That is why i am being pedantic :) on making sure there is good reasons
+> > > > to do what you do inside VFIO. I do believe that we want a common
+> > frame-
+> > > > work like the one you are proposing but i do not believe it should be
+> > > > part of VFIO given the baggages it comes with and that are not relevant
+> > > > to the use cases for this kind of devices.
+> > >
+> 
+> The purpose of VFIO is clear - the kernel portal for granting generic 
+> device resource (mmio, irq, etc.) to user space. VFIO doesn't care
+> what exactly a resource is used for (queue, cmd reg, etc.). If really
+> pursuing VFIO path is necessary, maybe such common framework
+> should lay down in user space, which gets all granted resource from
+> kernel driver thru VFIO and then provides accelerator services to 
+> other processes?
 
-diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
-index 46ae353..5ce1ec1 100644
---- a/Documentation/core-api/mm-api.rst
-+++ b/Documentation/core-api/mm-api.rst
-@@ -14,6 +14,8 @@ User Space Memory Access
- .. kernel-doc:: mm/util.c
-    :functions: get_user_pages_fast
- 
-+.. _mm-api-gfp-flags:
-+
- Memory Allocation Controls
- ==========================
- 
+Yes. I think this is exactly what WarpDrive is now doing. This patch is just let
+the type1 driver use parent IOMMU for mdev.
+
+> 
+> Thanks
+> Kevin
+
 -- 
-2.7.4
+			-Kenneth(Hisilicon)
+
+================================================================================
+本邮件及其附件含有华为公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁
+止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中
+的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！
+This e-mail and its attachments contain confidential information from HUAWEI,
+which is intended only for the person or entity whose address is listed above.
+Any use of the 
+information contained herein in any way (including, but not limited to, total or
+partial disclosure, reproduction, or dissemination) by persons other than the
+intended 
+recipient(s) is prohibited. If you receive this e-mail in error, please notify
+the sender by phone or email immediately and delete it!
 
