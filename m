@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B8CF97D584
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 14:42:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D8697D584
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 14:42:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728319AbeINTz1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728371AbeINTz1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 14 Sep 2018 15:55:27 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50708 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728343AbeINTzZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 15:55:25 -0400
-Received: by mail-wm1-f66.google.com with SMTP id s12-v6so2193243wmc.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 07:40:36 -0700 (PDT)
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53101 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728363AbeINTz0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 15:55:26 -0400
+Received: by mail-wm1-f67.google.com with SMTP id y139-v6so2174621wmc.2
+        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 07:40:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=1PFkzde7HIbembuPSuldz/+wF0MJkUfGiNxQy31YmBk=;
-        b=S7jbs5pPQ2x3wKmhl12WP8g1zp9JDwpVIt1QT49EXeR5DLKo2hy3aYJPrmap8/bue3
-         w9ldGm6jkuCKD47VfAVUwdnRu4tw+QAo/0nYhqtnUfgsutWPjzs5RpF/M8aSSXiXeA9n
-         3nY/g4LSs5XIOgYrvpKap6ONXJuzGMs/aGXx42ZBOXU57gMPeEk3UL7dcFw9arEwS6r0
-         Uv3AncCtRfQCoKdt8aiWQZbAylcyKZqRNddTD02zT0HoxMsZGVastn6agIKjmVlKsszX
-         tRGR5fg6X4gO1KjhVbUr9Yz9nSiWpRnI329lmZBmxE/XoCfaLvZ5wu8hnqABHuDPdi9S
-         aN7w==
+        bh=enYwgS0Z/OX0ykxo6KT1YIz+qVBOPAuLng+TvhpgC2Q=;
+        b=J0tuqWp78z/kLE8iKSFZ9qTLtR9ffUNnaPhG8bhPBRUa+c3nJcxft2O95gA8Ihugen
+         uC23jq4mGvPuJh0uI9e7tpfFNEgQyw5Xrtgg/MhnZpx2S38tc+aVx991nB8a182v3yz3
+         uoC5rZp9NGqGMzU1EWu7zxLKgpLotfVIXdPk/yJVEr0iRyBJvKCsR+KUVNFXA5Nd9UtX
+         q5sqR6oge4AoM3HjIo8YIWP642CRNNLBdKkFW+1ctOnug5huoJpjmSa1yWdU0BIBbLEy
+         SzUR0rpnR5lKp++KfieuQyrgtvORNpNayzO5VPERvyprWFbLl6WmaD7w/iYilKsjDWEu
+         b3fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=1PFkzde7HIbembuPSuldz/+wF0MJkUfGiNxQy31YmBk=;
-        b=Zjl11419n5M0+Ia6soExJnMwxcRanWjQJ/dl1GY+vOPNvogMoKliutX8+vYNqVj5PJ
-         8oODiELNLRx+pIm6j96mgiZS2xA18JbUBCP/2RX/DFtfOSi5tAkx6zfKAbOBrl3Or2mi
-         JH/2hGj/9nYfh0PGWKTtSObVIfhV0So+hVyX+OLYl0LSCXhxZ0YxZiXehB2kh3PmpwSp
-         nzvt+ZYskNojEAbN3CVvcrjV0prStHw7cUCbvs+WyelCKgPMy5FGKLHqal85qKMrof2I
-         FOjxCvPoJlz9C49F4uWzsHipRvQqXNmKiwS+tzTUrXCBeEi9StfGXf2jiM/n4Gk9nbMS
-         pRPw==
-X-Gm-Message-State: APzg51A9h0PhyFJx1wbYOZrboI5jY5GNSu50yE3vAYgkvkRa/elbHsG+
-        m2Qmw+pzqi1drFK69rGOwemX6g==
-X-Google-Smtp-Source: ANB0VdbiWxIsIrJKeRP4iH0O3gtnMPpYpzuvzvv/gKbNvuLJuiqaPtjl/n/DkJoHAUaZS7WkLor/xg==
-X-Received: by 2002:a1c:b709:: with SMTP id h9-v6mr2482752wmf.130.1536936035500;
-        Fri, 14 Sep 2018 07:40:35 -0700 (PDT)
+        bh=enYwgS0Z/OX0ykxo6KT1YIz+qVBOPAuLng+TvhpgC2Q=;
+        b=JpuKKcTQ9N4i6o1Sxvi8UdUGwNcUKxizJHgbq+/M7tm2UHYBloqfP5xfYUGPT83pVi
+         qnviupBBny5HbE4rNPg/GwLumtTXZ8xYqL9NyO1wb7h4rANm8zZ83YNgi6Yqj4/fbZcK
+         2X1Hwzb4CsDqG2KfZyVx4U36BephgP6GfAL/XZOaJO7ARUs7Pfhx5hY9FaZ1b21Ihr8V
+         Omaw79t551yanOM1ZADaQf8ZxcsP/5Y2D1EFlG9GvO9vLGtUcA0t78vg/0wesj14z8b5
+         noJE8nf1vS7IgeiFCVO3UbDVCgXittZ/Z4Dfi4l3yxmvA3hZNcY0qWpsxCOaFmMea2nf
+         YTfA==
+X-Gm-Message-State: APzg51DjdnT+xR7hWfRSpvovdvp4Cym1019cueDAMz0y84yCDVe2c4UE
+        zwkJznUjCyOPmTWRT9SBH1hoPA==
+X-Google-Smtp-Source: ANB0VdYSJoaq9YUkUfMrwDJmJ+UhshpcMNt1XhFoxdx3nGoTVcq/P5Nnu19eUdKBLyJ3Bp9dxiWEdQ==
+X-Received: by 2002:a1c:1745:: with SMTP id 66-v6mr2530682wmx.38.1536936036782;
+        Fri, 14 Sep 2018 07:40:36 -0700 (PDT)
 Received: from brgl-bgdev.home ([2a01:cb1d:af:5b00:e837:b8d5:48c1:571b])
-        by smtp.gmail.com with ESMTPSA id v46-v6sm10313526wrc.63.2018.09.14.07.40.34
+        by smtp.gmail.com with ESMTPSA id v46-v6sm10313526wrc.63.2018.09.14.07.40.35
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Sep 2018 07:40:35 -0700 (PDT)
+        Fri, 14 Sep 2018 07:40:36 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v4 09/22] nvmem: lpc18xx_eeprom: use devm_nvmem_register()
-Date:   Fri, 14 Sep 2018 16:39:58 +0200
-Message-Id: <20180914144011.27614-10-brgl@bgdev.pl>
+Subject: [PATCH v4 10/22] nvmem: mxs-ocotp: use devm_nvmem_register()
+Date:   Fri, 14 Sep 2018 16:39:59 +0200
+Message-Id: <20180914144011.27614-11-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180914144011.27614-1-brgl@bgdev.pl>
 References: <20180914144011.27614-1-brgl@bgdev.pl>
@@ -76,37 +76,35 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Use the managed version of nvmem_register().
+Use the resource managed variant of nvmem_register();
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/lpc18xx_eeprom.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/nvmem/mxs-ocotp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvmem/lpc18xx_eeprom.c b/drivers/nvmem/lpc18xx_eeprom.c
-index a9534a6e8636..b42dbaddb419 100644
---- a/drivers/nvmem/lpc18xx_eeprom.c
-+++ b/drivers/nvmem/lpc18xx_eeprom.c
-@@ -236,7 +236,7 @@ static int lpc18xx_eeprom_probe(struct platform_device *pdev)
- 	lpc18xx_nvmem_config.dev = dev;
- 	lpc18xx_nvmem_config.priv = eeprom;
- 
--	eeprom->nvmem = nvmem_register(&lpc18xx_nvmem_config);
-+	eeprom->nvmem = devm_nvmem_register(dev, &lpc18xx_nvmem_config);
- 	if (IS_ERR(eeprom->nvmem)) {
- 		ret = PTR_ERR(eeprom->nvmem);
+diff --git a/drivers/nvmem/mxs-ocotp.c b/drivers/nvmem/mxs-ocotp.c
+index 7018e2ef5714..53122f59c4b2 100644
+--- a/drivers/nvmem/mxs-ocotp.c
++++ b/drivers/nvmem/mxs-ocotp.c
+@@ -177,7 +177,7 @@ static int mxs_ocotp_probe(struct platform_device *pdev)
+ 	ocotp_config.size = data->size;
+ 	ocotp_config.priv = otp;
+ 	ocotp_config.dev = dev;
+-	otp->nvmem = nvmem_register(&ocotp_config);
++	otp->nvmem = devm_nvmem_register(dev, &ocotp_config);
+ 	if (IS_ERR(otp->nvmem)) {
+ 		ret = PTR_ERR(otp->nvmem);
  		goto err_clk;
-@@ -257,10 +257,6 @@ static int lpc18xx_eeprom_remove(struct platform_device *pdev)
- 	struct lpc18xx_eeprom_dev *eeprom = platform_get_drvdata(pdev);
- 	int ret;
+@@ -199,7 +199,7 @@ static int mxs_ocotp_remove(struct platform_device *pdev)
  
--	ret = nvmem_unregister(eeprom->nvmem);
--	if (ret < 0)
--		return ret;
--
- 	clk_disable_unprepare(eeprom->clk);
+ 	clk_unprepare(otp->clk);
  
- 	return 0;
+-	return nvmem_unregister(otp->nvmem);
++	return 0;
+ }
+ 
+ static struct platform_driver mxs_ocotp_driver = {
 -- 
 2.18.0
 
