@@ -1,141 +1,186 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 505DD7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 14:14:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E07AD7D584
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 14:40:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727013AbeINT2v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Sep 2018 15:28:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58328 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726925AbeINT2u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Sep 2018 15:28:50 -0400
-Received: from smtp.corp.redhat.com (int-mx12.intmail.prod.int.phx2.redhat.com [10.5.11.27])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id EE76930842AD;
-        Fri, 14 Sep 2018 14:14:08 +0000 (UTC)
-Received: from redhat.com (ovpn-125-82.rdu2.redhat.com [10.10.125.82])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id DE1F96BFE7;
-        Fri, 14 Sep 2018 14:13:45 +0000 (UTC)
-Date:   Fri, 14 Sep 2018 10:13:43 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     "Tian, Kevin" <kevin.tian@intel.com>
-Cc:     Kenneth Lee <liguozhu@hisilicon.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
+        id S1728127AbeINTzO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Sep 2018 15:55:14 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:38160 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728064AbeINTzO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 15:55:14 -0400
+Received: by mail-wm1-f65.google.com with SMTP id t25-v6so2183747wmi.3
+        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 07:40:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=C7YmUP7Ahf5v3p/iKKH5UAXvHZeq2ka+DLDLIyWbPL4=;
+        b=lAn3HCm2GDNkL0il7S9rSNAQghqC44FhgFZlupusRbwwrOEnu/2UCWta8LV4KU8GTb
+         mRafyifWEc4BCwZWPg5AqbTvTV8d1LAgistgu+6XB0YKK/QWbFiWyUFRhTHTMtDlDMJR
+         r+Aip/BrD5faR4aYhqzO0zxQTyoMEcliFvPxsfEy7eFqiDsqJlB9znoyeojWX+PYVxSj
+         ohhUI3qk8T/r+2nUIsLmR+g++GUNm3ybGRAYkjL1rkaX7Jp7fRFOCtrmV9SWlC9y8SmG
+         zJ+mgoPYFe1rfbCegMXJCziks9MWAyAYPwosNfvlI5Qo4KTQoacL9qIDAfCrSLnZQ15i
+         1jww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=C7YmUP7Ahf5v3p/iKKH5UAXvHZeq2ka+DLDLIyWbPL4=;
+        b=bLVbUiYY/oNA3jEHLWEJN7NZwQ4LmThDsMi1rApverF2iIWzJhTlydFgSgjKZcV5hA
+         +W+MCiVAK7Wk8CQuMCAO+mhZcwwxO68lSTOIH6rqwVhbm80jA71m6B7Bx8aQ8wqp6hqO
+         KbFjIqEIQomeQ6dFuD7ceamaT/um7nuSWH0BQ1vg3/C1qBzFSHnON1CYP+jaPfRiXXwk
+         FS9GWhnzeaDvF7VxaRRCdHR0FfIg+Ag7oZvciiLiMyY508RRbUS9NptVzjfLDRxUEUm/
+         u3+4RzCWkWvmBVU6mud6cKUofpnaS/pxOm0aXKMV+z3UpdyCoqioYRpi1AhynqQfwced
+         9WZg==
+X-Gm-Message-State: APzg51A6gmg0fkS1PG/q+wDRA70f0CKkNfEYMM2dCCqwDq31p4kaa2wE
+        F+MA6XIDTlUIn8ClWjoD89Cu8A==
+X-Google-Smtp-Source: ANB0VdYEO6bcD1lGmqRTqpsRb958+seos+wM7pVFx/DAoaSomJGJh0A7qtiBwrM/wPmph6xZfg1pfA==
+X-Received: by 2002:a1c:c5cc:: with SMTP id v195-v6mr2660444wmf.29.1536936023793;
+        Fri, 14 Sep 2018 07:40:23 -0700 (PDT)
+Received: from brgl-bgdev.home ([2a01:cb1d:af:5b00:e837:b8d5:48c1:571b])
+        by smtp.gmail.com with ESMTPSA id v46-v6sm10313526wrc.63.2018.09.14.07.40.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 14 Sep 2018 07:40:23 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>,
-        Joerg Roedel <joro@8bytes.org>
-Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180914141342.GB3826@redhat.com>
-References: <20180907165303.GA3519@redhat.com>
- <20180910032809.GJ230707@Turing-Arch-b>
- <20180910145423.GA3488@redhat.com>
- <20180911024209.GK230707@Turing-Arch-b>
- <20180911033358.GA4730@redhat.com>
- <20180911064043.GA207969@Turing-Arch-b>
- <20180911134013.GA3932@redhat.com>
- <20180913083232.GB207969@Turing-Arch-b>
- <20180913145149.GB3576@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D191303A7F@SHSMSX101.ccr.corp.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D191303A7F@SHSMSX101.ccr.corp.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.27
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Fri, 14 Sep 2018 14:14:09 +0000 (UTC)
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v4 00/22] nvmem: rework of the subsystem for non-DT users
+Date:   Fri, 14 Sep 2018 16:39:49 +0200
+Message-Id: <20180914144011.27614-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.18.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 14, 2018 at 06:50:55AM +0000, Tian, Kevin wrote:
-> > From: Jerome Glisse
-> > Sent: Thursday, September 13, 2018 10:52 PM
-> >
-> [...]
->  > AFAIK, on x86 and PPC at least, all PCIE devices are in the same group
-> > by default at boot or at least all devices behind the same bridge.
-> 
-> the group thing reflects physical hierarchy limitation, not changed
-> cross boot. Please note iommu group defines the minimal isolation
-> boundary - all devices within same group must be attached to the
-> same iommu domain or address space, because physically IOMMU
-> cannot differentiate DMAs out of those devices. devices behind
-> legacy PCI-X bridge is one example. other examples include devices
-> behind a PCIe switch port which doesn't support ACS thus cannot
-> route p2p transaction to IOMMU. If talking about typical PCIe 
-> endpoint (with upstreaming ports all supporting ACS), you'll get
-> one device per group.
-> 
-> One iommu group today is attached to only one iommu domain.
-> In the future one group may attach to multiple domains, as the
-> aux domain concept being discussed in another thread.
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Thanks for the info.
+NOTE: I decided to post v4 despite no new reviews from Srinivas as I'll
+be off next week. There were a couple issues reported by the kbuild bot
+and one bug I noticed after sending v3.
 
-> 
-> > 
-> > Maybe they are kernel option to avoid that and userspace init program
-> > can definitly re-arrange that base on sysadmin policy).
-> 
-> I don't think there is such option, as it may break isolation model
-> enabled by IOMMU.
-> 
-> [...]
-> > > > That is why i am being pedantic :) on making sure there is good reasons
-> > > > to do what you do inside VFIO. I do believe that we want a common
-> > frame-
-> > > > work like the one you are proposing but i do not believe it should be
-> > > > part of VFIO given the baggages it comes with and that are not relevant
-> > > > to the use cases for this kind of devices.
-> > >
-> 
-> The purpose of VFIO is clear - the kernel portal for granting generic 
-> device resource (mmio, irq, etc.) to user space. VFIO doesn't care
-> what exactly a resource is used for (queue, cmd reg, etc.). If really
-> pursuing VFIO path is necessary, maybe such common framework
-> should lay down in user space, which gets all granted resource from
-> kernel driver thru VFIO and then provides accelerator services to 
-> other processes?
+This series contains nvmem framework changes prerequisite for further
+development of my previous series[1] that aims at removal of the
+platform data struct from at24 EEPROM driver.
 
-Except that many existing device driver falls under that description
-(ie exposing mmio, command queues, ...) and are not under VFIO.
+The patches are conceptually split into a couple groups.
 
-Up to mdev VFIO was all about handling a full device to userspace AFAIK.
-With the introduction of mdev a host kernel driver can "slice" its
-device and share it through VFIO to userspace. Note that in that case
-it might never end over any mmio, irq, ... the host driver might just
-be handling over memory and would be polling from it to schedule on
-the real hardware.
+First five patches fix issues with existing issues.
 
+Patch 6 switches the nvmem providers to using kref which is necessary
+for removal of the return value from nvmem_unregister(). This is an
+approach similar to the one used in the clock framework where the
+provider is only removed after the last reference to it is dropped.
 
-The question i am asking about warpdrive is wether being in VFIO is
-necessary ? as i do not see the requirement myself.
+Patch 7 changes the errno returned from the driver after kzalloc()
+fails from -EINVAL to -ENOMEM which makes more sense.
 
-Cheers,
-Jérôme
+Patches 8-10 convert last remaining users of nvmem_unregister() who
+still check its return value to using devm_nvmem_unregister() and
+patch 11 changes its return value from int to void.
+
+Patches 12-15 introduce the most significant changes of this series:
+we remove the global cell list, add support for static cell definitions
+external to the provider structure, change the way DT lookup works and
+allow to associate resources and consumers using lookup tables. The way
+nvmem_cell_get() for non-DT users is changed but there are no current
+users and it's currently broken anyway (cell being removed after a call
+to nvmem_cell_put()).
+
+Patch 16 updates the documentation.
+
+Patch 17 adds support for notifiers to nvmem so that users can
+subscribe for events such as device or cell registration or removal.
+
+Patches 18 & 19 add some minor improvements to the codebase.
+
+Last three patches contain fixes to warnings emitted by checkpatch.
+It's a good moment to add them if we're already touching a big part
+of the subsystem's code.
+
+Tested both DT and non-DT use cases.
+
+[1] https://lkml.org/lkml/2018/8/10/149
+
+v1 -> v2:
+- extended the lookup structure with a proper con_id independent from the
+  cell name defined in the cell definition table
+- added a patch that makes the naming convention for the cell name argument
+  in the nvmem_cell_get() family of functions consistent
+- there were two users of nvmem_unregister() that still checked the return
+  value, now switched to devm_nvmem_register()
+- fixed build failures reported by kbuild test robot
+
+v2 -> v3:
+- dropped the patch removing unused APIs and introduced changes on top of
+  existing code instead
+- fixed nvmem provider reference decreasing in error paths
+- added checkpatch fixes
+- removed nvmem-machine.h and distributed new definitions among existing
+  consumer and provider headers
+- reordered patches thematically
+- added more patches fixing issues in existing codebase
+
+v3 -> v4:
+- fixed the notifier chain call when removing nvmem devices: call the
+  notifier chain for NVMEM_REMOVE before releasing any resources
+- added patch 7/22 ("sunxi_sid: return -ENOMEM if kzalloc() fails")
+- fixed the return value in error path for patch 8/22 ("sunxi_sid: use
+  devm_nvmem_register())"
+- fixed the return value of devm_nvmem_unregister() in
+  patch 11/22 ("change the signature of nvmem_unregister()")
+
+Bartosz Golaszewski (22):
+  nvmem: provide nvmem_dev_name()
+  nvmem: remove the name field from struct nvmem_device
+  nvmem: use list_for_each_entry_safe in nvmem_device_remove_all_cells()
+  nvmem: remove a stray newline
+  nvmem: check the return value of nvmem_add_cells()
+  nvmem: use kref
+  nvmem: sunxi_sid: return -ENOMEM if kzalloc() fails
+  nvmem: sunxi_sid: use devm_nvmem_register()
+  nvmem: lpc18xx_eeprom: use devm_nvmem_register()
+  nvmem: mxs-ocotp: use devm_nvmem_register()
+  nvmem: change the signature of nvmem_unregister()
+  nvmem: remove the global cell list
+  nvmem: add support for cell info
+  nvmem: resolve cells from DT at registration time
+  nvmem: add support for cell lookups from machine code
+  Documentation: nvmem: document cell tables and lookup entries
+  nvmem: add a notifier chain
+  nvmem: use SPDX license identifiers
+  nvmem: make the naming of arguments in nvmem_cell_get() consistent
+  nvmem: use EOPNOTSUPP instead of ENOSYS
+  nvmem: fix commenting style
+  nvmem: use octal permissions instead of constants
+
+ Documentation/nvmem/nvmem.txt  |  31 ++
+ drivers/nvmem/core.c           | 527 ++++++++++++++++++++++-----------
+ drivers/nvmem/lpc18xx_eeprom.c |   6 +-
+ drivers/nvmem/mxs-ocotp.c      |   4 +-
+ drivers/nvmem/sunxi_sid.c      |  20 +-
+ include/linux/nvmem-consumer.h | 100 +++++--
+ include/linux/nvmem-provider.h |  50 ++--
+ 7 files changed, 497 insertions(+), 241 deletions(-)
+
+-- 
+2.18.0
+
