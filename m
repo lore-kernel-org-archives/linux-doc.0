@@ -1,178 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD6CF7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 05:11:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 456187D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 06:51:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726911AbeINKYQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Sep 2018 06:24:16 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:46312 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726756AbeINKYQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 06:24:16 -0400
-Received: by mail-io1-f65.google.com with SMTP id y12-v6so5007448ioj.13
-        for <linux-doc@vger.kernel.org>; Thu, 13 Sep 2018 22:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=z8GCFH0M6vFEl146CEF1fEQMwIgNIxnWhtLqkDqmmpg=;
-        b=Zn8MVSUrRIQ/MHrF5CEp3DvRWCmZ9D/2c9c7QqZKC1Kv5O0rASg4w43yA6tQ/oRcrx
-         Lapre5NtVwF4+1KzCYbJx3SLliy0LQzBuuVs9crsiuwTfZCCtZTcQEBze55D6KDiIudu
-         qTaiMveEbLWQlw4hbbwjqE5F3//rY2enwjNR8ieSlduIkxOAgciB4rtCCGp+VdjlD6E6
-         VFruJAduhVtuGdETthDB4qntbTfBVWkqwi7O7usShruDjWp/xUG2Dkll2baHTPYBYef1
-         xjDSlAl25bCadn6gOK2dKmUNGxMZYttY4sdrG9mkqq9mL3i5p8u1O3D1+vECmDp2IwAx
-         ni0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=z8GCFH0M6vFEl146CEF1fEQMwIgNIxnWhtLqkDqmmpg=;
-        b=XToDqQ/aQcB3u4ANI3q08r0zC/26pquXJk7dlfqAA7FSbch3pKhYBfvPfGA6yGHRrp
-         dvvT5xT8URR5vpuy58sSgGZ0zSMBAcohuoZ0OFxSCIF9IfMQ8ZVt9mpyH8MxpxxmWZU9
-         2pSLVdsPgKn5AwgumLmzFfvtNtZ2dfCiQpZ3nImAbjXx5m/XYSt+NGbcLB3AA5DpK+uw
-         NZ0lH6XPlhlOmfk2NgXWJy0PurFmsNS1hURbkKfk9wDLkzGttBHUHvqUQ2ELP3Ttq/3r
-         Ob8mdD0OIe6Gu1FPk1tmwRUTedfsXhlLQivEu6YGSGZrHKjKiNKWSKGpHv0noykQ/BvX
-         lGpA==
-X-Gm-Message-State: APzg51CqTuh4u5N/VcCdd/qKb0agBABmhrKJuslo+TdPrnfa3l0bogUn
-        Txo2+7MmYLKmBh4j29kiuF6dB71JAEfcEjUjv5L67g==
-X-Google-Smtp-Source: ANB0VdaFtGV1S2AT63X8wnR3WVQkKY+22oMZbdtHvgS7afIavm0r4OdVET/sg6O9aFARIeKEMaUNAHLBtz5aa1sAEUA=
-X-Received: by 2002:a6b:f316:: with SMTP id m22-v6mr8402779ioh.271.1536901890364;
- Thu, 13 Sep 2018 22:11:30 -0700 (PDT)
+        id S1726883AbeINMEC convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Sep 2018 08:04:02 -0400
+Received: from mga06.intel.com ([134.134.136.31]:48783 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726822AbeINMEC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Sep 2018 08:04:02 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Sep 2018 23:50:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,372,1531810800"; 
+   d="scan'208";a="85948567"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+  by fmsmga002.fm.intel.com with ESMTP; 13 Sep 2018 23:50:58 -0700
+Received: from fmsmsx121.amr.corp.intel.com (10.18.125.36) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.319.2; Thu, 13 Sep 2018 23:50:58 -0700
+Received: from shsmsx104.ccr.corp.intel.com (10.239.4.70) by
+ fmsmsx121.amr.corp.intel.com (10.18.125.36) with Microsoft SMTP Server (TLS)
+ id 14.3.319.2; Thu, 13 Sep 2018 23:50:58 -0700
+Received: from shsmsx101.ccr.corp.intel.com ([169.254.1.205]) by
+ SHSMSX104.ccr.corp.intel.com ([169.254.5.143]) with mapi id 14.03.0319.002;
+ Fri, 14 Sep 2018 14:50:56 +0800
+From:   "Tian, Kevin" <kevin.tian@intel.com>
+To:     Jerome Glisse <jglisse@redhat.com>,
+        Kenneth Lee <liguozhu@hisilicon.com>
+CC:     Kenneth Lee <nek.in.cn@gmail.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Kumar, Sanjay K" <sanjay.k.kumar@intel.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        "Philippe Ombredanne" <pombredanne@nexb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Joerg Roedel <joro@8bytes.org>,
+        "linux-accelerators@lists.ozlabs.org" 
+        <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>
+Subject: RE: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+Thread-Topic: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+Thread-Index: AQHUQyBoMyXI/RBW1UKE39r7bd5lp6Tfs6CAgAAU6YCAArfOAIAAPyaAgADzGQCAANeMAIAD1hiAgAC/u4CAAMW/gIAADnyAgAA0LICAAHU2AIACzrEAgABp+gCAAYngAA==
+Date:   Fri, 14 Sep 2018 06:50:55 +0000
+Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D191303A7F@SHSMSX101.ccr.corp.intel.com>
+References: <20180906133133.GA3830@redhat.com>
+ <20180907040138.GI230707@Turing-Arch-b> <20180907165303.GA3519@redhat.com>
+ <20180910032809.GJ230707@Turing-Arch-b> <20180910145423.GA3488@redhat.com>
+ <20180911024209.GK230707@Turing-Arch-b> <20180911033358.GA4730@redhat.com>
+ <20180911064043.GA207969@Turing-Arch-b> <20180911134013.GA3932@redhat.com>
+ <20180913083232.GB207969@Turing-Arch-b> <20180913145149.GB3576@redhat.com>
+In-Reply-To: <20180913145149.GB3576@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYjA2ZmUyNTktOTViZC00OWFjLTk4ODMtMWM1ZmVkOTRhZTcxIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiM0FiTXlsbm8zUnA4QVo0MEZmeDZPVlRMSkJ4QmVLYTdKT1lyYlNvalZzdTBRbElGMEhBWEozNlZ3TUthaEhYcyJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Received: by 2002:a02:5942:0:0:0:0:0 with HTTP; Thu, 13 Sep 2018 22:11:09
- -0700 (PDT)
-In-Reply-To: <CAKwvOdns=3bktpXLEpo6o0J8OQPym6YE+x6Dvs_kYSBsuJKtSw@mail.gmail.com>
-References: <cover.1535462971.git.andreyknvl@google.com> <f5e73b5ead3355932ad8b5fc96b141c3f5b8c16c.1535462971.git.andreyknvl@google.com>
- <CACT4Y+aEwYiaVN--RH_0VBh0wbCcrf-Ndz+_eOaBNi6nKxrfQA@mail.gmail.com>
- <CAG48ez2oT1dtDcH8SfPLnoX5F8d6Pd=M-eOKHhYJ83EuL_j6wQ@mail.gmail.com>
- <CACT4Y+avu_68GoQcc32zpcOpAu-Pw7m71VmuKtEkOw=vKgxi7w@mail.gmail.com> <CAKwvOdns=3bktpXLEpo6o0J8OQPym6YE+x6Dvs_kYSBsuJKtSw@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 14 Sep 2018 07:11:09 +0200
-Message-ID: <CACT4Y+ahqiUrcfqfLjy1CKsG=NYMLZNOtQW6ofRYXh6ZHjpkrw@mail.gmail.com>
-Subject: Re: [PATCH v6 15/18] khwasan, arm64: add brk handler for inline instrumentation
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Jann Horn <jannh@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 13, 2018 at 8:09 PM, 'Nick Desaulniers' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
-> On Thu, Sep 13, 2018 at 1:37 AM Dmitry Vyukov <dvyukov@google.com> wrote:
->>
->> On Wed, Sep 12, 2018 at 7:39 PM, Jann Horn <jannh@google.com> wrote:
->> > On Wed, Sep 12, 2018 at 7:16 PM Dmitry Vyukov <dvyukov@google.com> wrote:
->> >> On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
->> > [...]
->> >> > +static int khwasan_handler(struct pt_regs *regs, unsigned int esr)
->> >> > +{
->> >> > +       bool recover = esr & KHWASAN_ESR_RECOVER;
->> >> > +       bool write = esr & KHWASAN_ESR_WRITE;
->> >> > +       size_t size = KHWASAN_ESR_SIZE(esr);
->> >> > +       u64 addr = regs->regs[0];
->> >> > +       u64 pc = regs->pc;
->> >> > +
->> >> > +       if (user_mode(regs))
->> >> > +               return DBG_HOOK_ERROR;
->> >> > +
->> >> > +       kasan_report(addr, size, write, pc);
->> >> > +
->> >> > +       /*
->> >> > +        * The instrumentation allows to control whether we can proceed after
->> >> > +        * a crash was detected. This is done by passing the -recover flag to
->> >> > +        * the compiler. Disabling recovery allows to generate more compact
->> >> > +        * code.
->> >> > +        *
->> >> > +        * Unfortunately disabling recovery doesn't work for the kernel right
->> >> > +        * now. KHWASAN reporting is disabled in some contexts (for example when
->> >> > +        * the allocator accesses slab object metadata; same is true for KASAN;
->> >> > +        * this is controlled by current->kasan_depth). All these accesses are
->> >> > +        * detected by the tool, even though the reports for them are not
->> >> > +        * printed.
->> >> > +        *
->> >> > +        * This is something that might be fixed at some point in the future.
->> >> > +        */
->> >> > +       if (!recover)
->> >> > +               die("Oops - KHWASAN", regs, 0);
->> >>
->> >> Why die and not panic? Die seems to be much less used function, and it
->> >> calls panic anyway, and we call panic in kasan_report if panic_on_warn
->> >> is set.
->> >
->> > die() is vaguely equivalent to BUG(); die() and BUG() normally only
->> > terminate the current process, which may or may not leave the system
->> > somewhat usable, while panic() always brings down the whole system.
->> > AFAIK panic() shouldn't be used unless you're in some very low-level
->> > code where you know that trying to just kill the current process can't
->> > work and the entire system is broken beyond repair.
->> >
->> > If KASAN traps on some random memory access, there's a good chance
->> > that just killing the current process will allow at least parts of the
->> > system to continue. I'm not sure whether BUG() or die() is more
->> > appropriate here, but I think it definitely should not be a panic().
->>
->>
->> Nick, do you know if die() will be enough to catch problems on Android
->> phones? panic_on_warn would turn this into panic, but I guess one does
->> not want panic_on_warn on a canary phone.
+> From: Jerome Glisse
+> Sent: Thursday, September 13, 2018 10:52 PM
 >
-> die() has arch specific implementations, so looking at:
->
-> arch/arm64/kernel/traps.c:196#die
->
-> it looks like panic is invoked if in_interrupt() or panic_on_oops(),
-> which is a configure option.  So maybe the config for KHWASAN should
-> also enable that? Otherwise seems easy to forget.  But maybe that
-> should remain configurable separately?
->
-> Looking at the kernel configs for the Pixel 2, it does seem like
-> CONFIG_PANIC_ON_OOPS=y is already enabled.
-> https://android.googlesource.com/kernel/msm/+/android-msm-wahoo-4.4-pie/arch/arm64/configs/wahoo_defconfig#746
+[...]
+ > AFAIK, on x86 and PPC at least, all PCIE devices are in the same group
+> by default at boot or at least all devices behind the same bridge.
 
-Then I think we are good here.
+the group thing reflects physical hierarchy limitation, not changed
+cross boot. Please note iommu group defines the minimal isolation
+boundary - all devices within same group must be attached to the
+same iommu domain or address space, because physically IOMMU
+cannot differentiate DMAs out of those devices. devices behind
+legacy PCI-X bridge is one example. other examples include devices
+behind a PCIe switch port which doesn't support ACS thus cannot
+route p2p transaction to IOMMU. If talking about typical PCIe 
+endpoint (with upstreaming ports all supporting ACS), you'll get
+one device per group.
 
-> Specifically to catch problems on Android, our internal debug builds
-> can report on panics, but not oops, IIUC.
+One iommu group today is attached to only one iommu domain.
+In the future one group may attach to multiple domains, as the
+aux domain concept being discussed in another thread.
+
+> 
+> Maybe they are kernel option to avoid that and userspace init program
+> can definitly re-arrange that base on sysadmin policy).
+
+I don't think there is such option, as it may break isolation model
+enabled by IOMMU.
+
+[...]
+> > > That is why i am being pedantic :) on making sure there is good reasons
+> > > to do what you do inside VFIO. I do believe that we want a common
+> frame-
+> > > work like the one you are proposing but i do not believe it should be
+> > > part of VFIO given the baggages it comes with and that are not relevant
+> > > to the use cases for this kind of devices.
+> >
+
+The purpose of VFIO is clear - the kernel portal for granting generic 
+device resource (mmio, irq, etc.) to user space. VFIO doesn't care
+what exactly a resource is used for (queue, cmd reg, etc.). If really
+pursuing VFIO path is necessary, maybe such common framework
+should lay down in user space, which gets all granted resource from
+kernel driver thru VFIO and then provides accelerator services to 
+other processes?
+
+Thanks
+Kevin
