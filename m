@@ -2,110 +2,241 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 20F527D923
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 15:28:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8DD707DE59
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 16:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727966AbeINUnK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Sep 2018 16:43:10 -0400
-Received: from foss.arm.com ([217.140.101.70]:35498 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726902AbeINUnJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Sep 2018 16:43:09 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C282580D;
-        Fri, 14 Sep 2018 08:28:08 -0700 (PDT)
-Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 91CD23F557;
-        Fri, 14 Sep 2018 08:28:08 -0700 (PDT)
-Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
-        id 2BD581AE2F82; Fri, 14 Sep 2018 16:28:26 +0100 (BST)
-Date:   Fri, 14 Sep 2018 16:28:26 +0100
-From:   Will Deacon <will.deacon@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Subject: Re: [PATCH v6 00/18] khwasan: kernel hardware assisted address
- sanitizer
-Message-ID: <20180914152825.GC6236@arm.com>
-References: <cover.1535462971.git.andreyknvl@google.com>
- <20180905141032.b1ddaab53d1b2b3bada95415@linux-foundation.org>
- <20180906100543.GI3592@arm.com>
- <CAAeHK+wStsNwh2oKv-KCG4kx5538FuDMQ6Yw2X=sK5LPrw2DZg@mail.gmail.com>
+        id S1728242AbeINVgN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Sep 2018 17:36:13 -0400
+Received: from esa1.microchip.iphmx.com ([68.232.147.91]:16656 "EHLO
+        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726845AbeINVgN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 17:36:13 -0400
+X-IronPort-AV: E=Sophos;i="5.53,373,1531810800"; 
+   d="scan'208";a="20707933"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 14 Sep 2018 09:21:00 -0700
+Received: from [10.159.245.112] (10.10.76.4) by chn-sv-exch04.mchp-main.com
+ (10.10.76.105) with Microsoft SMTP Server id 14.3.352.0; Fri, 14 Sep 2018
+ 09:20:51 -0700
+Subject: Re: [RESEND PATCH v5 0/9] extend PWM framework to support PWM modes
+To:     Claudiu Beznea <claudiu.beznea@microchip.com>,
+        <thierry.reding@gmail.com>, <alexandre.belloni@bootlin.com>,
+        <linux-pwm@vger.kernel.org>, <treding@nvidia.com>
+CC:     <shc_work@mail.ru>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <1535461286-12308-1-git-send-email-claudiu.beznea@microchip.com>
+From:   Nicolas Ferre <nicolas.ferre@microchip.com>
+Organization: microchip
+Message-ID: <b95d0de2-1a97-36f0-03ad-3b5e52b1fa5d@microchip.com>
+Date:   Fri, 14 Sep 2018 18:20:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+wStsNwh2oKv-KCG4kx5538FuDMQ6Yw2X=sK5LPrw2DZg@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <1535461286-12308-1-git-send-email-claudiu.beznea@microchip.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 06, 2018 at 01:06:23PM +0200, Andrey Konovalov wrote:
-> On Thu, Sep 6, 2018 at 12:05 PM, Will Deacon <will.deacon@arm.com> wrote:
-> > On Wed, Sep 05, 2018 at 02:10:32PM -0700, Andrew Morton wrote:
-> >> On Wed, 29 Aug 2018 13:35:04 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
-> >>
-> >> > This patchset adds a new mode to KASAN [1], which is called KHWASAN
-> >> > (Kernel HardWare assisted Address SANitizer).
-> >>
-> >> We're at v6 and there are no reviewed-by's or acked-by's to be seen.
-> >> Is that a fair commentary on what has been happening, or have people
-> >> been remiss in sending and gathering such things?
-> >
-> > I still have concerns about the consequences of merging this as anything
-> > other than a debug option [1]. Unfortunately, merging it as a debug option
-> > defeats the whole point, so I think we need to spend more effort on developing
-> > tools that can help us to find and fix the subtle bugs which will arise from
-> > enabling tagged pointers in the kernel.
+Thierry,
+
+On 28/08/2018 at 15:01, Claudiu Beznea wrote:
+> Hi,
 > 
-> I totally don't mind calling it a debug option. Do I need to somehow
-> specify it somewhere?
+> Please give feedback on these patches which extends the PWM framework in
+> order to support multiple PWM modes of operations. This series is a rework
+> of [1] and [2].
 
-Ok, sorry, I completely misunderstood you earlier on then! For some reason
-I thought you wanted this on by default.
+This series started with a RFC back on 5 April 2017 "extend PWM 
+framework to support PWM modes". The continuous work starting with v2 of 
+this series on January 12, 2018.
 
-In which case, I'm ok with the overall idea as long as we make the caveats
-clear in the Kconfig text. In particular, that enabling this option may
-introduce problems relating to pointer casting and comparison, but can
-offer better coverage and lower memory consumption than a fully
-software-based KASAN solution.
+Then Claudiu tried to address all comments up to v4 which didn't have 
+any more reviews. He posted a v5 without comments since May 22, 2018. 
+This series is basically a resent of the v5 (as said in the $subject).
 
-Will
+We would like to know what is preventing this series to be included in 
+the PWM sub-system. Note that if some issue still remain with it, we are 
+ready to help to solve them.
+
+Without feedback from you side, we fear that we would miss a merge 
+window again for no obvious reason (DT part is Acked by Rob: patch 5/9).
+
+Best regards,
+   Nicolas
+
+
+> The current patch series add the following PWM modes:
+> - PWM mode normal
+> - PWM mode complementary
+> - PWM mode push-pull
+> 
+> Normal mode - for PWM channels with one output; output waveforms looks like
+> this:
+>               __    __    __    __
+>      PWM   __|  |__|  |__|  |__|  |__
+>              <--T-->
+> 
+>      Where T is the signal period
+> 
+> Since PWMs with more than one output per channel could be used as one
+> output PWM the normal mode is the default mode for all PWMs (if not
+> specified otherwise).
+> 
+> Complementary mode - for PWM channels with two outputs; output waveforms
+> for a PWM channel in complementary mode looks line this:
+>               __    __    __    __
+>      PWMH1 __|  |__|  |__|  |__|  |__
+>            __    __    __    __    __
+>      PWML1   |__|  |__|  |__|  |__|
+>              <--T-->
+> 
+>      Where T is the signal period.
+> 
+> Push-pull mode - for PWM channels with two outputs; output waveforms for a
+> PWM channel in push-pull mode with normal polarity looks like this:
+>              __          __
+>      PWMH __|  |________|  |________
+>                    __          __
+>      PWML ________|  |________|  |__
+>             <--T-->
+> 
+>      If polarity is inversed:
+>           __    ________    ________
+>      PWMH   |__|        |__|
+>           ________    ________    __
+>      PWML         |__|        |__|
+>             <--T-->
+> 
+>      Where T is the signal period.
+> 
+> The PWM working modes are per PWM channel registered as PWM's capabilities.
+> The driver registers itself to PWM core a get_caps() function, in
+> struct pwm_ops, that will be used by PWM core to retrieve PWM capabilities.
+> If this function is not registered in driver's probe, a default function
+> will be used to retrieve PWM capabilities. Currently, the default
+> capabilities includes only PWM normal mode.
+> 
+> PWM state has been updated to keep PWM mode. PWM mode could be configured
+> via sysfs or via DT. pwm_apply_state() will do the preliminary validation
+> for PWM mode to be applied.
+> 
+> In sysfs, user could get PWM modes by reading mode file of PWM device:
+> root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# ls -l
+> total 0
+> -r--r--r-- 1 root root 4096 Oct  9 09:07 capture
+> lrwxrwxrwx 1 root root    0 Oct  9 09:07 device -> ../../pwmchip0
+> -rw-r--r-- 1 root root 4096 Oct  9 08:42 duty_cycle
+> -rw-r--r-- 1 root root 4096 Oct  9 08:44 enable
+> --w------- 1 root root 4096 Oct  9 09:07 export
+> -rw-r--r-- 1 root root 4096 Oct  9 08:43 mode
+> -r--r--r-- 1 root root 4096 Oct  9 09:07 npwm
+> -rw-r--r-- 1 root root 4096 Oct  9 08:42 period
+> -rw-r--r-- 1 root root 4096 Oct  9 08:44 polarity
+> drwxr-xr-x 2 root root    0 Oct  9 09:07 power
+> lrwxrwxrwx 1 root root    0 Oct  9 09:07 subsystem -> ../../../../../../../../class/pwm
+> -rw-r--r-- 1 root root 4096 Oct  9 08:42 uevent
+> --w------- 1 root root 4096 Oct  9 09:07 unexport
+> root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# cat mode
+> normal complementary [push-pull]
+> 
+> The mode enclosed in bracket is the currently active mode.
+> 
+> The mode could be set, via sysfs, by writing to mode file one of the modes
+> displayed at read:
+> root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# echo normal > mode
+> root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# cat mode
+> [normal] complementary push-pull
+> 
+> The PWM push-pull mode could be usefull in applications like half bridge
+> converters.
+> 
+> This series also add PWM modes support for Atmel/Microchip SoCs.
+> 
+> Thank you,
+> Claudiu Beznea
+> 
+> [1] https://www.spinics.net/lists/arm-kernel/msg580275.html
+> [2] https://lkml.org/lkml/2018/1/12/359
+> 
+> Changes in v5:
+> - solved kbuild errors by removing dummy functions for case where
+>    CONFIG_PWM is not defined; adopted this approach since the removed
+>    function are used only when CONFIG_PWM is defined (in PWM core
+>    and few drivers from drivers/pwm/ directory)
+> 
+> Changes in v4:
+> - removed changes related to pwm_config() as per maintainer proposals
+> - added pwm_mode_get_valid() to retrieve a valid PWM mode fror PWM device
+>    instead of using BIT(ffs(caps.mode) - 1) and changed drivers to use
+>    pwm_mode_get_valid() instead of pwm_get_caps() + BIT(ffs(caps.mode) - 1)
+>    (patches 2, 3, 4 from this series)
+> - renamed PWM_MODE() macro in PWMC_MODE() to avoid conflicts with
+>    pwm-sun4i.c driver ('C' stands for capability)
+> - removed pwm_caps_valid() function
+> - renamed PWM_DTMODE_COMPLEMENTARY and PWM_DTMODE_PUSH_PULL macros in
+>    PWM_MODE_COMPLEMENTARY and PWM_MODE_PUSH_PULL
+> 
+> Changes in v3:
+> - removed changes related to only one of_xlate function for all PWM drivers
+> - switch to PWM capabilities per PWM channel nor per PWM chip
+> - squash documentation and bindings patches as requeted by reviewer
+> - introduced PWM_MODE(name) macro and used a bit enum for pwm modes
+> - related to DT bindings, used flags cell also for PWM modes
+> - updated of_xlate specific functions with "state->mode = mode;"
+>    instructions to avoid pwm_apply_state() failures
+> - use available modes for PWM channel in pwm_config() by first calling
+>    pwm_get_caps() to get caps.modes
+> - use loops through available modes in mode_store()/mode_show() and also in
+>    of_pwm_xlate_with_flags() instead of "if else" instructions; in this way,
+>    the addition of a new mode is independent of this code sections
+> - use DTLI=1, DTHI=0 register settings to obtain push-pull mode waveforms
+>    for Atmel/Microchip PWM controller.
+> 
+> Changes in v2:
+> - remove of_xlate and of_pwm_n_cells and use generic functions to pharse DT
+>    inputs; this is done in patches 1, 2, 3, 4, 5, 6, 7 of this series; this will
+>    make easy the addition of PWM mode support from DT
+> - add PWM mode normal
+> - register PWM modes as capabilities of PWM chips at driver probe and, in case
+>    driver doesn't provide these capabilities use default ones
+> - change the way PWM mode is pharsed via DT by using a new input for pwms
+>    binding property
+> 
+> 
+> Claudiu Beznea (9):
+>    pwm: extend PWM framework with PWM modes
+>    pwm: clps711x: populate PWM mode in of_xlate function
+>    pwm: cros-ec: populate PWM mode in of_xlate function
+>    pwm: pxa: populate PWM mode in of_xlate function
+>    pwm: add PWM modes
+>    pwm: atmel: add pwm capabilities
+>    pwm: add push-pull mode support
+>    pwm: add documentation for pwm push-pull mode
+>    pwm: atmel: add push-pull mode support
+> 
+>   Documentation/devicetree/bindings/pwm/pwm.txt |  11 ++-
+>   Documentation/pwm.txt                         |  42 ++++++++-
+>   drivers/pwm/core.c                            | 125 +++++++++++++++++++++++++-
+>   drivers/pwm/pwm-atmel.c                       | 118 +++++++++++++++++-------
+>   drivers/pwm/pwm-clps711x.c                    |  10 ++-
+>   drivers/pwm/pwm-cros-ec.c                     |   1 +
+>   drivers/pwm/pwm-pxa.c                         |   1 +
+>   drivers/pwm/sysfs.c                           |  61 +++++++++++++
+>   include/dt-bindings/pwm/pwm.h                 |   2 +
+>   include/linux/pwm.h                           |  64 +++++++++++++
+>   10 files changed, 395 insertions(+), 40 deletions(-)
+> 
+
+
+-- 
+Nicolas Ferre
