@@ -3,49 +3,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC8957D584
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 14:41:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0AE227DD50
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 14:41:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728498AbeINTzi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Sep 2018 15:55:38 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46319 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728479AbeINTzh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 15:55:37 -0400
-Received: by mail-wr1-f66.google.com with SMTP id a108-v6so10861538wrc.13
-        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 07:40:48 -0700 (PDT)
+        id S1728012AbeINT42 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Sep 2018 15:56:28 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:42161 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728461AbeINTze (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 15:55:34 -0400
+Received: by mail-wr1-f67.google.com with SMTP id v17-v6so10879066wrr.9
+        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 07:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ujFzkuZMMLmXfVfLF2lfmeu9c3YEpE3NecX6O1UeHlg=;
-        b=OAompkBlzUe6jIx8tDFhyLc+feF0D6RjhKt+SaoxIJlxgpk1iyFjqtoJrUq/CWKfaV
-         xRFWEjUczPc76/xwEWzOU2cPz9x4VL3jZjZi8fVBAIBrtaq5aWIItbfHlZyr1QgOl6e6
-         GzSxM/E+QUzAjr/DjI2KcRysFXWs0Y3iGVXAzCtTtD51qEbWVT6YyCnQacaupwI0EV4m
-         dzveXvWdNCVn/Yi08U+GefqGndeEkjHqTT5dZEYDOv+wwRvD0Z74Xbeq2TNDbH8Rcrkf
-         3NvCgNzaxbQ0BQluKsRjX98CoOwrWrxfDlcQ3eoKRwDDU0Tr4dC4coAtTHGyUgMuaWdA
-         VVUg==
+        bh=rjARCe3NpsJLpu+gwm8Y4x+0pJknacrTsP46NqsklWs=;
+        b=ehBne27meR4PyxNCUPBVLcSfQlbZbVl7xJaoMM+y1SldpCWucVmRWNQ02YfBoKlyrQ
+         g4wHbPqW8q+LvM8BfzrqI3DrHrsjkqmtvKGud4P2hgJnhiNuqRD8CTLPs6koOpMuh3A9
+         PYK8zvCn2EMKZ0vtPaVvaAtERAC4oXhjRcCeb77BWk5E7h+vGM9uO0B7fz9sy98ZN+Bp
+         pX7dSsH8P9brxc85RCbgRPyOVmqa6x3FS6Z/io1fetyvDIJ0JS7XojWkA6vWF7t7wgIX
+         x0P7EgfCxnyMI6z0DIKUvBeRGEZBqxdyCiukDKov1bEE1i22YOYccM5q9mHiHzVvFvMP
+         bj7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=ujFzkuZMMLmXfVfLF2lfmeu9c3YEpE3NecX6O1UeHlg=;
-        b=U3YLVSOjO8JI4LQ/PQjFYh2mENU0Cu52/SSEmqBg3vYvZKrfQTKv5wK7d+SIHOOnoj
-         wIs+VdtrQOwosuW6fQvhmJQ9uRbsI0YiD5fs6SQf7dDgZpt3ni7OaVwRGi8Zd+nJdwf2
-         pCmEBZ591BMX3Jk1aFNrHgI3EitN3Np6PJYinukGvkol2FzfELrFQuIIB85TxdSKbc9n
-         kzx6XClkd+fqeVUPhKg6QKoG1C12hOcvJGwrEQZn1I+/aeUtuXXkHXW6d6KEKFbBMyt7
-         dkDOZj0+xxfWUr2naykhrL4eAxD4iSo6BXhNLdtO0nYd3GVNUwBvWpHaJnvPiZ95z/L1
-         0VxQ==
-X-Gm-Message-State: APzg51C1ta7mA9mAUZJ3xdzCw07vuBwzluwQqnY9/a56EDrXhmWdrZLg
-        s6aH51BZoEyl0mC56GGU56/dwA==
-X-Google-Smtp-Source: ANB0VdYfKVXK35963rQ3LpNlbAOqtyE1CvvdkM3Q9+pE6Hz4KU0cHlPfk8BBh5Yz3U0lQXahzwcgXw==
-X-Received: by 2002:adf:9b9b:: with SMTP id d27-v6mr10131493wrc.240.1536936047662;
-        Fri, 14 Sep 2018 07:40:47 -0700 (PDT)
+        bh=rjARCe3NpsJLpu+gwm8Y4x+0pJknacrTsP46NqsklWs=;
+        b=IQNdxF+GYsSewkxRVaKOUU3t6/sGUlgfc4P9B+d4ifOS4Jgwanzx+wr6ImEYB+8x15
+         yDFjV86mg0svYEuoQkPEu1EtIQn5XSzezqgCypxUbul6Nx2dgZGoasryKTqJvqLyThOb
+         wrtznxHsT8n5UmGeWk0vJnoauRMBYsaAGMyBw7Dl92FzIR4iIPF/p9khElBpkwvqXMoR
+         wGCGWmjLyqHJF1HwosazsAM5f0/KF9clLdyo4YnMuHczik2okNXXdtCluc5MgwH/0QDm
+         kwRhz16+HoVtKRk30HqutJvX75r8GiKqtT8RTPfZlNpxjVweADzzdGV4MAQZNwIaTa08
+         pTZw==
+X-Gm-Message-State: APzg51AwEHyApeSuKXmm90Vh99NfzQU/OY2qANh2sxm4+WyosYRkFRYz
+        daqqBICtnkgvXU22tqsTpAR2rg==
+X-Google-Smtp-Source: ANB0VdYkLruEia5UqmkWWvf/+HeCNtupZRYryHgb8VDENNxCVWiGFO+ctoDMZJ3RE1WRgggXgFckag==
+X-Received: by 2002:a5d:4648:: with SMTP id j8-v6mr9723585wrs.52.1536936045075;
+        Fri, 14 Sep 2018 07:40:45 -0700 (PDT)
 Received: from brgl-bgdev.home ([2a01:cb1d:af:5b00:e837:b8d5:48c1:571b])
-        by smtp.gmail.com with ESMTPSA id v46-v6sm10313526wrc.63.2018.09.14.07.40.46
+        by smtp.gmail.com with ESMTPSA id v46-v6sm10313526wrc.63.2018.09.14.07.40.43
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Sep 2018 07:40:47 -0700 (PDT)
+        Fri, 14 Sep 2018 07:40:44 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v4 18/22] nvmem: use SPDX license identifiers
-Date:   Fri, 14 Sep 2018 16:40:07 +0200
-Message-Id: <20180914144011.27614-19-brgl@bgdev.pl>
+Subject: [PATCH v4 16/22] Documentation: nvmem: document cell tables and lookup entries
+Date:   Fri, 14 Sep 2018 16:40:05 +0200
+Message-Id: <20180914144011.27614-17-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180914144011.27614-1-brgl@bgdev.pl>
 References: <20180914144011.27614-1-brgl@bgdev.pl>
@@ -76,75 +76,55 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Use SPDX license identiefiers to core nvmem files and remove GPL 2.0
-license boilerplate.
+Document the new nvmem kernel APIs.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c           | 10 +---------
- include/linux/nvmem-consumer.h |  5 +----
- include/linux/nvmem-provider.h |  5 +----
- 3 files changed, 3 insertions(+), 17 deletions(-)
+ Documentation/nvmem/nvmem.txt | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index da441019b609..ea05219e60b4 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -1,17 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0
- /*
-  * nvmem framework core.
-  *
-  * Copyright (C) 2015 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-  * Copyright (C) 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 and
-- * only version 2 as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
+diff --git a/Documentation/nvmem/nvmem.txt b/Documentation/nvmem/nvmem.txt
+index 8d8d8f58f96f..fc2fe4b18655 100644
+--- a/Documentation/nvmem/nvmem.txt
++++ b/Documentation/nvmem/nvmem.txt
+@@ -58,6 +58,37 @@ static int qfprom_probe(struct platform_device *pdev)
+ It is mandatory that the NVMEM provider has a regmap associated with its
+ struct device. Failure to do would return error code from nvmem_register().
  
- #include <linux/device.h>
-diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-index 0326b52e906b..d18caae2f7ac 100644
---- a/include/linux/nvmem-consumer.h
-+++ b/include/linux/nvmem-consumer.h
-@@ -1,12 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
- /*
-  * nvmem framework consumer.
-  *
-  * Copyright (C) 2015 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-  * Copyright (C) 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
-- *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2.  This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
++Users of board files can define and register nvmem cells using the
++nvmem_cell_table struct:
++
++static struct nvmem_cell_info foo_nvmem_cells[] = {
++	{
++		.name		= "macaddr",
++		.offset		= 0x7f00,
++		.bytes		= ETH_ALEN,
++	}
++};
++
++static struct nvmem_cell_table foo_nvmem_cell_table = {
++	.nvmem_name		= "i2c-eeprom",
++	.cells			= foo_nvmem_cells,
++	.ncells			= ARRAY_SIZE(foo_nvmem_cells),
++};
++
++nvmem_add_cell_table(&foo_nvmem_cell_table);
++
++Additionally it is possible to create nvmem cell lookup entries and register
++them with the nvmem framework from machine code as shown in the example below:
++
++static struct nvmem_cell_lookup foo_nvmem_lookup = {
++	.nvmem_name		= "i2c-eeprom",
++	.cell_name		= "macaddr",
++	.dev_id			= "foo_mac.0",
++	.con_id			= "mac-address",
++};
++
++nvmem_add_cell_lookups(&foo_nvmem_lookup, 1);
++
+ NVMEM Consumers
+ +++++++++++++++
  
- #ifndef _LINUX_NVMEM_CONSUMER_H
-diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index 5c9f205cac8f..8ae012f6545a 100644
---- a/include/linux/nvmem-provider.h
-+++ b/include/linux/nvmem-provider.h
-@@ -1,12 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
- /*
-  * nvmem framework provider.
-  *
-  * Copyright (C) 2015 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-  * Copyright (C) 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
-- *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2.  This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #ifndef _LINUX_NVMEM_PROVIDER_H
 -- 
 2.18.0
 
