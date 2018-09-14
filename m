@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85BC37D584
+	by archive.lwn.net (Postfix) with ESMTP id C02A17DE59
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 14:42:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728633AbeINT46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Sep 2018 15:56:58 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:36627 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728342AbeINTz2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 15:55:28 -0400
-Received: by mail-wr1-f66.google.com with SMTP id e1-v6so10901837wrt.3
-        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 07:40:40 -0700 (PDT)
+        id S1727941AbeINT5F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Sep 2018 15:57:05 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:40586 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728369AbeINTz1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 15:55:27 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 207-v6so2182327wme.5
+        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 07:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=iacN5A7LU/wkiibiq8lC1h7AfXkWsMWEAz/JdUQ5Jmo=;
-        b=A+PagJ5alGzsVmfKrww5yuuAB6Pcn4SGpA91HCgqbvU1U9nSTVpk+XzKJ7LG/8Jx+e
-         acc/IFWZWDF2nM86ugfSp+QR6KPe/D84tX2YoNpluCYpihWTpWVI85PTvuEuN7a89A2n
-         6zS493ccqYefWmoyKOcpx4NJQ4D6C7hjWz26Zlw2gVzSjCY7f9ZBbsTcuHjuNYAgDxJi
-         W+VgAdR0S8ONWFeacyPy/8ReWYFz4U7y9Ln8wTTf76pxHjhyBIiUg7CjVn6FNe8u5hEo
-         gmtMJeOKTjK21+o/5OVkmLczbQM0SeJNLxwcOvQs6RLk3kZZS3JAE2orW+ytONqCWIOv
-         nevw==
+        bh=sH6sHViOL69spwJvTSXNgwwBEle/YysBPMHNYaVwPC4=;
+        b=Koy/9eEzBccfFG9qSCX+EOZhuxMPA7hy2QzVpOung//tiU7iCFZE18fJYvadLjX0kA
+         /qoGTEDfuoqQXsoDCRQoHYQBFZY52GGkoNEFHD6GQq1Yb6cXXlexKon4T1Qn2O094bql
+         pkEGDJFEyXZYW640qfwuWpmTcRY1rfT4n7pFTIPq1Ulxnn+0P5DAmzqillC91rWLZP/T
+         MPyMz6ujatZmEyFm9s6NSCk0V8NZ+U8de7XDUffgaD07C4K8My4oONF6vg/QBqeBol7k
+         50YL2nI0k3SzjhZElLFjuWJEz2CeYTjtBDqNq7T6K5G2mG7l7OnMov9kFjr8MgD33Tc3
+         jx/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=iacN5A7LU/wkiibiq8lC1h7AfXkWsMWEAz/JdUQ5Jmo=;
-        b=AUi5znf4XC6qrC03yow52L3M8zUH5gYoptTidN/zSWSP/eHR80SyZJMT8KJ20dfz5V
-         0rj6rfKUJ3spgtWNu+/y698UdTbzEhDhi9QY2ZCFYPFpC5DmA0VnUzMhVwF/b6+mAjbn
-         k1D5dabF3mBcUb+/+OASg5R5lsKqgPcllzpZwvZW7PNC0DbIIlP+6BTOTKPGPeo43wwE
-         aKgMyoIO7p/KHJ6+nGsW74XPDqEOhSkpK/wsYfL//7lL90UFE5G6NidIxV23r0FXunbV
-         L1ZIYqQF26l0/bixzLI+yY9bHEV+9qHrTxlE5YkjxyxaD4vRJzCtsm/a9UaLy9p42V/4
-         jlEw==
-X-Gm-Message-State: APzg51BsFA8kRfP1KHhawkhlI0U3Q42Ntr0sYWK8eox4/x2i3LBHhQOf
-        OviE+acn2magU4B++HXkWJIMZA==
-X-Google-Smtp-Source: ANB0VdblS+NZxH8ZB/fLWY+GavsC2hZ/aBLIrCWzkE/zRigEXO09s2nspcwqwru6QNdqjHcIsi0dTA==
-X-Received: by 2002:a5d:6aca:: with SMTP id u10-v6mr10240281wrw.44.1536936039380;
-        Fri, 14 Sep 2018 07:40:39 -0700 (PDT)
-Received: from brgl-bgdev.home ([2a01:cb1d:af:5b00:e837:b8d5:48c1:571b])
-        by smtp.gmail.com with ESMTPSA id v46-v6sm10313526wrc.63.2018.09.14.07.40.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        bh=sH6sHViOL69spwJvTSXNgwwBEle/YysBPMHNYaVwPC4=;
+        b=gI46HGI3uQby8wFktJh9wStTKlcjgpcDeWcbnjvD72zaBa/q7FsRCFIYVJ2AQiVlSX
+         JMN6i4khs5xLEgqWI2tz49wXOfY6tOI9l7j7EDzx2viXvqm4GQGflhVMkDmDyJ6J9Rf6
+         fUE+gQrEu7LzZDnimL6+UkzkVp8037u9SMPTawPDVP+nq2wDhkiw4F2UlNxKhWXyHUHy
+         16WUWP/44XByrb5TIRs9B6Bsb8ZlDDMnQX2otOGIponFkIG+zF6q9AZ7Qn++HoJwtQOn
+         dppSeelPgP275JSloscATufZ3Wr1oCBJ+RzY7kklps2SxAV9nYvIuzJ+K3ZRSmtKmTI3
+         MA0g==
+X-Gm-Message-State: APzg51DNd3IeDWQN+f6A6B2k3Oq3SxmP5KxKtdTuJgoJ6AUDoJGLmZJW
+        sBWWWzHfWhHNiWfpFB+pijVGIw==
+X-Google-Smtp-Source: ANB0VdaTRxeowG48swESmynF2i+4+p8//1nxusFMaHH5bMDpBv61xoPI4fKsn4qSlT1FiOSi5idSDw==
+X-Received: by 2002:a1c:b213:: with SMTP id b19-v6mr2523529wmf.141.1536936038037;
         Fri, 14 Sep 2018 07:40:38 -0700 (PDT)
+Received: from brgl-bgdev.home ([2a01:cb1d:af:5b00:e837:b8d5:48c1:571b])
+        by smtp.gmail.com with ESMTPSA id v46-v6sm10313526wrc.63.2018.09.14.07.40.36
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 14 Sep 2018 07:40:37 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v4 12/22] nvmem: remove the global cell list
-Date:   Fri, 14 Sep 2018 16:40:01 +0200
-Message-Id: <20180914144011.27614-13-brgl@bgdev.pl>
+Subject: [PATCH v4 11/22] nvmem: change the signature of nvmem_unregister()
+Date:   Fri, 14 Sep 2018 16:40:00 +0200
+Message-Id: <20180914144011.27614-12-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180914144011.27614-1-brgl@bgdev.pl>
 References: <20180914144011.27614-1-brgl@bgdev.pl>
@@ -76,147 +76,79 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Nvmem subsystem keeps a global list of cells that, for non-DT systems,
-can only be referenced by cell name, which makes it impossible to have
-more than one nvmem device with cells named the same.
-
-This patch makes every nvmem device the owner of the list of its cells.
-This effectively removes the support for non-DT systems, but it will
-be reintroduced following a different approach in subsequent patches.
-
-This isn't a problem as support for board files in nvmem is currently
-broken anyway: any user that would try to get an nvmem cell from the
-global cell list would remove the cell after the calling
-nvmem_cell_put(). This can cause anything from a subsequent user not
-being able to get the cell to double free errors if more users hold
-reference to the same cell at the same time.
-
-Fortunately there are no such users which allows us to rework this part.
+We switched the nvmem framework to using kref instead of manually
+checking the current number of users in nvmem_unregister() so this
+function can no longer fail. We also converted all remaining users
+that still checked the return value of nvmem_unregister() to using
+devm_nvmem_register(). Make the routine return void.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c | 64 +++++++++++---------------------------------
- 1 file changed, 15 insertions(+), 49 deletions(-)
+ drivers/nvmem/core.c           | 8 ++------
+ include/linux/nvmem-provider.h | 9 +++------
+ 2 files changed, 5 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index c950d54bb69d..585688ea2152 100644
+index 552ffedce38e..c950d54bb69d 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -38,6 +38,7 @@ struct nvmem_device {
- 	int			flags;
- 	struct bin_attribute	eeprom;
- 	struct device		*base_dev;
-+	struct list_head	cells;
- 	nvmem_reg_read_t	reg_read;
- 	nvmem_reg_write_t	reg_write;
- 	void *priv;
-@@ -58,9 +59,6 @@ struct nvmem_cell {
- static DEFINE_MUTEX(nvmem_mutex);
- static DEFINE_IDA(nvmem_ida);
- 
--static LIST_HEAD(nvmem_cells);
--static DEFINE_MUTEX(nvmem_cells_mutex);
+@@ -553,20 +553,16 @@ static void nvmem_device_release(struct kref *kref)
+  * nvmem_unregister() - Unregister previously registered nvmem device
+  *
+  * @nvmem: Pointer to previously registered nvmem device.
+- *
+- * Return: Will be an negative on error or a zero on success.
+  */
+-int nvmem_unregister(struct nvmem_device *nvmem)
++void nvmem_unregister(struct nvmem_device *nvmem)
+ {
+ 	kref_put(&nvmem->refcnt, nvmem_device_release);
 -
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- static struct lock_class_key eeprom_lock_key;
- #endif
-@@ -282,28 +280,11 @@ static struct nvmem_device *of_nvmem_find(struct device_node *nvmem_np)
- 	return to_nvmem_device(d);
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(nvmem_unregister);
+ 
+ static void devm_nvmem_release(struct device *dev, void *res)
+ {
+-	WARN_ON(nvmem_unregister(*(struct nvmem_device **)res));
++	nvmem_unregister(*(struct nvmem_device **)res);
  }
  
--static struct nvmem_cell *nvmem_find_cell(const char *cell_id)
+ /**
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 24def6ad09bb..0f357d0c1e75 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -70,7 +70,7 @@ struct nvmem_config {
+ #if IS_ENABLED(CONFIG_NVMEM)
+ 
+ struct nvmem_device *nvmem_register(const struct nvmem_config *cfg);
+-int nvmem_unregister(struct nvmem_device *nvmem);
++void nvmem_unregister(struct nvmem_device *nvmem);
+ 
+ struct nvmem_device *devm_nvmem_register(struct device *dev,
+ 					 const struct nvmem_config *cfg);
+@@ -87,10 +87,7 @@ static inline struct nvmem_device *nvmem_register(const struct nvmem_config *c)
+ 	return ERR_PTR(-ENOSYS);
+ }
+ 
+-static inline int nvmem_unregister(struct nvmem_device *nvmem)
 -{
--	struct nvmem_cell *p;
--
--	mutex_lock(&nvmem_cells_mutex);
--
--	list_for_each_entry(p, &nvmem_cells, node)
--		if (!strcmp(p->name, cell_id)) {
--			mutex_unlock(&nvmem_cells_mutex);
--			return p;
--		}
--
--	mutex_unlock(&nvmem_cells_mutex);
--
--	return NULL;
+-	return -ENOSYS;
 -}
--
- static void nvmem_cell_drop(struct nvmem_cell *cell)
++static inline void nvmem_unregister(struct nvmem_device *nvmem) {}
+ 
+ static inline struct nvmem_device *
+ devm_nvmem_register(struct device *dev, const struct nvmem_config *c)
+@@ -101,7 +98,7 @@ devm_nvmem_register(struct device *dev, const struct nvmem_config *c)
+ static inline int
+ devm_nvmem_unregister(struct device *dev, struct nvmem_device *nvmem)
  {
--	mutex_lock(&nvmem_cells_mutex);
-+	mutex_lock(&nvmem_mutex);
- 	list_del(&cell->node);
--	mutex_unlock(&nvmem_cells_mutex);
-+	mutex_unlock(&nvmem_mutex);
- 	kfree(cell);
+-	return nvmem_unregister(nvmem);
++	return -ENOSYS;
+ 
  }
  
-@@ -311,16 +292,15 @@ static void nvmem_device_remove_all_cells(const struct nvmem_device *nvmem)
- {
- 	struct nvmem_cell *cell, *p;
- 
--	list_for_each_entry_safe(cell, p, &nvmem_cells, node)
--		if (cell->nvmem == nvmem)
--			nvmem_cell_drop(cell);
-+	list_for_each_entry_safe(cell, p, &nvmem->cells, node)
-+		nvmem_cell_drop(cell);
- }
- 
- static void nvmem_cell_add(struct nvmem_cell *cell)
- {
--	mutex_lock(&nvmem_cells_mutex);
--	list_add_tail(&cell->node, &nvmem_cells);
--	mutex_unlock(&nvmem_cells_mutex);
-+	mutex_lock(&nvmem_mutex);
-+	list_add_tail(&cell->node, &cell->nvmem->cells);
-+	mutex_unlock(&nvmem_mutex);
- }
- 
- static int nvmem_cell_info_to_nvmem_cell(struct nvmem_device *nvmem,
-@@ -465,6 +445,7 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
- 	}
- 
- 	kref_init(&nvmem->refcnt);
-+	INIT_LIST_HEAD(&nvmem->cells);
- 
- 	nvmem->id = rval;
- 	nvmem->owner = config->owner;
-@@ -626,29 +607,14 @@ static struct nvmem_device *__nvmem_device_get(struct device_node *np,
- {
- 	struct nvmem_device *nvmem = NULL;
- 
--	mutex_lock(&nvmem_mutex);
--
--	if (np) {
--		nvmem = of_nvmem_find(np);
--		if (!nvmem) {
--			mutex_unlock(&nvmem_mutex);
--			return ERR_PTR(-EPROBE_DEFER);
--		}
--	} else {
--		struct nvmem_cell *cell = nvmem_find_cell(cell_id);
--
--		if (cell) {
--			nvmem = cell->nvmem;
--			*cellp = cell;
--		}
--
--		if (!nvmem) {
--			mutex_unlock(&nvmem_mutex);
--			return ERR_PTR(-ENOENT);
--		}
--	}
-+	if (!np)
-+		return ERR_PTR(-ENOENT);
- 
-+	mutex_lock(&nvmem_mutex);
-+	nvmem = of_nvmem_find(np);
- 	mutex_unlock(&nvmem_mutex);
-+	if (!nvmem)
-+		return ERR_PTR(-EPROBE_DEFER);
- 
- 	if (!try_module_get(nvmem->owner)) {
- 		dev_err(&nvmem->dev,
 -- 
 2.18.0
 
