@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AC8A7D584
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 14:41:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC8957D584
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Sep 2018 14:41:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728076AbeINT4N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Sep 2018 15:56:13 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:54813 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728469AbeINTzj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 15:55:39 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c14-v6so2183717wmb.4
-        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 07:40:49 -0700 (PDT)
+        id S1728498AbeINTzi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Sep 2018 15:55:38 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46319 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728479AbeINTzh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Sep 2018 15:55:37 -0400
+Received: by mail-wr1-f66.google.com with SMTP id a108-v6so10861538wrc.13
+        for <linux-doc@vger.kernel.org>; Fri, 14 Sep 2018 07:40:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=SWhvTRaZMO6GTmTkXjZ+oIHfexV3W/J/b8cNASj1ylQ=;
-        b=RwaakG6bYlcm0lGCS8eOtLIj4Mp8WIvjUCZYaCoWIQDAQ/PObldJHzjc25om3Cq0BP
-         p+h89nN9Uh/kmBHn74JEVrjMa6Vi8dzSuCZwopCODbUM0Qo4Xpeig1DHBLkNhXVs+qHQ
-         Qrf797f7tJtZ7WqSt1RM1JqAM9lNO85SdHer0g2HNAYzARx80IuMOi7DerD5PHepypT9
-         nJFHcFUhCyCOPSgahlpAn21GX94KkxNQ0WO34IYkzTvBhNHrRt8usaCbUmC9HN3jWPyU
-         cvFW6LEIWce8EshNQ56s46aOcR7dwPjKQ/7UIsUQcOthctwBA+ZZhDenUKaTtx5nqahm
-         P75w==
+        bh=ujFzkuZMMLmXfVfLF2lfmeu9c3YEpE3NecX6O1UeHlg=;
+        b=OAompkBlzUe6jIx8tDFhyLc+feF0D6RjhKt+SaoxIJlxgpk1iyFjqtoJrUq/CWKfaV
+         xRFWEjUczPc76/xwEWzOU2cPz9x4VL3jZjZi8fVBAIBrtaq5aWIItbfHlZyr1QgOl6e6
+         GzSxM/E+QUzAjr/DjI2KcRysFXWs0Y3iGVXAzCtTtD51qEbWVT6YyCnQacaupwI0EV4m
+         dzveXvWdNCVn/Yi08U+GefqGndeEkjHqTT5dZEYDOv+wwRvD0Z74Xbeq2TNDbH8Rcrkf
+         3NvCgNzaxbQ0BQluKsRjX98CoOwrWrxfDlcQ3eoKRwDDU0Tr4dC4coAtTHGyUgMuaWdA
+         VVUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=SWhvTRaZMO6GTmTkXjZ+oIHfexV3W/J/b8cNASj1ylQ=;
-        b=R5ou8qDptaOiQn+qwwolBIDGqxHB7Jjtg9wAv+TeTU2DNPcun0CbWIcCaC9BSKVb4P
-         mfAJlUuDGP46DDj0soaw1WDoNpt05Ll2zO4OtJp/3Pzwwf0jL5a44hATzeXf5sPNOTHc
-         hxtWDdfDqWvPwgzGRSYL1ukw8s8YzPM1zk9livBwbDK8hIESb3sBhvUbWOMZJ9VJpoF8
-         SjzAyIWkuEnl/NbW905e8xVUjyAYQRptV6IJcvTi0XRyCuwgbb6ieptOwBnBLOiUyuC5
-         fuGMAQ2d/UnaGSHaXW2qtUaB2THHdBxnY0/yGRcqJMsiCADtZ5mXkJFmlb18/NISvUkz
-         Yrhg==
-X-Gm-Message-State: APzg51BKD+yB4EfJzDts+A7DBxLJu8VRe2Jse909QQk9w14J/OpNOffi
-        dfmiG2ILK7L1LeLNWkgPe6FrwQ==
-X-Google-Smtp-Source: ANB0Vdal0s7pvC2zmwT7gSqdyG8wHbOks9EXb9Vd1c7qhj6dANybj0gDiDT9zmAkh+lZdD+kUCcMNQ==
-X-Received: by 2002:a1c:1745:: with SMTP id 66-v6mr2531364wmx.38.1536936049073;
-        Fri, 14 Sep 2018 07:40:49 -0700 (PDT)
+        bh=ujFzkuZMMLmXfVfLF2lfmeu9c3YEpE3NecX6O1UeHlg=;
+        b=U3YLVSOjO8JI4LQ/PQjFYh2mENU0Cu52/SSEmqBg3vYvZKrfQTKv5wK7d+SIHOOnoj
+         wIs+VdtrQOwosuW6fQvhmJQ9uRbsI0YiD5fs6SQf7dDgZpt3ni7OaVwRGi8Zd+nJdwf2
+         pCmEBZ591BMX3Jk1aFNrHgI3EitN3Np6PJYinukGvkol2FzfELrFQuIIB85TxdSKbc9n
+         kzx6XClkd+fqeVUPhKg6QKoG1C12hOcvJGwrEQZn1I+/aeUtuXXkHXW6d6KEKFbBMyt7
+         dkDOZj0+xxfWUr2naykhrL4eAxD4iSo6BXhNLdtO0nYd3GVNUwBvWpHaJnvPiZ95z/L1
+         0VxQ==
+X-Gm-Message-State: APzg51C1ta7mA9mAUZJ3xdzCw07vuBwzluwQqnY9/a56EDrXhmWdrZLg
+        s6aH51BZoEyl0mC56GGU56/dwA==
+X-Google-Smtp-Source: ANB0VdYfKVXK35963rQ3LpNlbAOqtyE1CvvdkM3Q9+pE6Hz4KU0cHlPfk8BBh5Yz3U0lQXahzwcgXw==
+X-Received: by 2002:adf:9b9b:: with SMTP id d27-v6mr10131493wrc.240.1536936047662;
+        Fri, 14 Sep 2018 07:40:47 -0700 (PDT)
 Received: from brgl-bgdev.home ([2a01:cb1d:af:5b00:e837:b8d5:48c1:571b])
-        by smtp.gmail.com with ESMTPSA id v46-v6sm10313526wrc.63.2018.09.14.07.40.47
+        by smtp.gmail.com with ESMTPSA id v46-v6sm10313526wrc.63.2018.09.14.07.40.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Sep 2018 07:40:48 -0700 (PDT)
+        Fri, 14 Sep 2018 07:40:47 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v4 19/22] nvmem: make the naming of arguments in nvmem_cell_get() consistent
-Date:   Fri, 14 Sep 2018 16:40:08 +0200
-Message-Id: <20180914144011.27614-20-brgl@bgdev.pl>
+Subject: [PATCH v4 18/22] nvmem: use SPDX license identifiers
+Date:   Fri, 14 Sep 2018 16:40:07 +0200
+Message-Id: <20180914144011.27614-19-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180914144011.27614-1-brgl@bgdev.pl>
 References: <20180914144011.27614-1-brgl@bgdev.pl>
@@ -76,137 +76,75 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-The argument representing the cell name in the nvmem_cell_get() family
-of functions is not consistend between function prototypes and
-definitions. Name it 'id' in all those routines. This is in line with
-other frameworks and can represent both the DT cell name from the
-nvmem-cell-names property as well as the con_id field from cell
-lookup entries.
+Use SPDX license identiefiers to core nvmem files and remove GPL 2.0
+license boilerplate.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c           | 27 ++++++++++++++-------------
- include/linux/nvmem-consumer.h | 12 ++++++------
- 2 files changed, 20 insertions(+), 19 deletions(-)
+ drivers/nvmem/core.c           | 10 +---------
+ include/linux/nvmem-consumer.h |  5 +----
+ include/linux/nvmem-provider.h |  5 +----
+ 3 files changed, 3 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index ea05219e60b4..ff21402fbd7d 100644
+index da441019b609..ea05219e60b4 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -977,16 +977,15 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
-  * of_nvmem_cell_get() - Get a nvmem cell from given device node and cell id
+@@ -1,17 +1,9 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * nvmem framework core.
   *
-  * @np: Device tree node that uses the nvmem cell.
-- * @name: nvmem cell name from nvmem-cell-names property, or NULL
-- *	  for the cell at index 0 (the lone cell with no accompanying
-- *	  nvmem-cell-names property).
-+ * @id: nvmem cell name from nvmem-cell-names property, or NULL
-+ *      for the cell at index 0 (the lone cell with no accompanying
-+ *      nvmem-cell-names property).
-  *
-  * Return: Will be an ERR_PTR() on error or a valid pointer
-  * to a struct nvmem_cell.  The nvmem_cell will be freed by the
-  * nvmem_cell_put().
+  * Copyright (C) 2015 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+  * Copyright (C) 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 and
+- * only version 2 as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
   */
--struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
--					    const char *name)
-+struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
- {
- 	struct device_node *cell_np, *nvmem_np;
- 	struct nvmem_device *nvmem;
-@@ -994,8 +993,8 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
- 	int index = 0;
  
- 	/* if cell name exists, find index to the name */
--	if (name)
--		index = of_property_match_string(np, "nvmem-cell-names", name);
-+	if (id)
-+		index = of_property_match_string(np, "nvmem-cell-names", id);
- 
- 	cell_np = of_parse_phandle(np, "nvmem-cells", index);
- 	if (!cell_np)
-@@ -1025,27 +1024,29 @@ EXPORT_SYMBOL_GPL(of_nvmem_cell_get);
-  * nvmem_cell_get() - Get nvmem cell of device form a given cell name
-  *
-  * @dev: Device that requests the nvmem cell.
-- * @cell_id: nvmem cell name to get.
-+ * @id: nvmem cell name to get (this corresponds with the name from the
-+ *      nvmem-cell-names property for DT systems and with the con_id from
-+ *      the lookup entry for non-DT systems).
-  *
-  * Return: Will be an ERR_PTR() on error or a valid pointer
-  * to a struct nvmem_cell.  The nvmem_cell will be freed by the
-  * nvmem_cell_put().
-  */
--struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *cell_id)
-+struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *id)
- {
- 	struct nvmem_cell *cell;
- 
- 	if (dev->of_node) { /* try dt first */
--		cell = of_nvmem_cell_get(dev->of_node, cell_id);
-+		cell = of_nvmem_cell_get(dev->of_node, id);
- 		if (!IS_ERR(cell) || PTR_ERR(cell) == -EPROBE_DEFER)
- 			return cell;
- 	}
- 
--	/* NULL cell_id only allowed for device tree; invalid otherwise */
--	if (!cell_id)
-+	/* NULL cell id only allowed for device tree; invalid otherwise */
-+	if (!id)
- 		return ERR_PTR(-EINVAL);
- 
--	return nvmem_cell_get_from_lookup(dev, cell_id);
-+	return nvmem_cell_get_from_lookup(dev, id);
- }
- EXPORT_SYMBOL_GPL(nvmem_cell_get);
- 
+ #include <linux/device.h>
 diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-index d18caae2f7ac..e17617fa034f 100644
+index 0326b52e906b..d18caae2f7ac 100644
 --- a/include/linux/nvmem-consumer.h
 +++ b/include/linux/nvmem-consumer.h
-@@ -55,8 +55,8 @@ enum {
- #if IS_ENABLED(CONFIG_NVMEM)
+@@ -1,12 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * nvmem framework consumer.
+  *
+  * Copyright (C) 2015 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+  * Copyright (C) 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2.  This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
  
- /* Cell based interface */
--struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *name);
--struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *name);
-+struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *id);
-+struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *id);
- void nvmem_cell_put(struct nvmem_cell *cell);
- void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
- void *nvmem_cell_read(struct nvmem_cell *cell, size_t *len);
-@@ -91,13 +91,13 @@ int nvmem_unregister_notifier(struct notifier_block *nb);
- #else
+ #ifndef _LINUX_NVMEM_CONSUMER_H
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 5c9f205cac8f..8ae012f6545a 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -1,12 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * nvmem framework provider.
+  *
+  * Copyright (C) 2015 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+  * Copyright (C) 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2.  This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
  
- static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
--						const char *name)
-+						const char *id)
- {
- 	return ERR_PTR(-ENOSYS);
- }
- 
- static inline struct nvmem_cell *devm_nvmem_cell_get(struct device *dev,
--				       const char *name)
-+						     const char *id)
- {
- 	return ERR_PTR(-ENOSYS);
- }
-@@ -201,12 +201,12 @@ static inline int nvmem_unregister_notifier(struct notifier_block *nb)
- 
- #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
- struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
--				     const char *name);
-+				     const char *id);
- struct nvmem_device *of_nvmem_device_get(struct device_node *np,
- 					 const char *name);
- #else
- static inline struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
--				     const char *name)
-+						   const char *id)
- {
- 	return ERR_PTR(-ENOSYS);
- }
+ #ifndef _LINUX_NVMEM_PROVIDER_H
 -- 
 2.18.0
 
