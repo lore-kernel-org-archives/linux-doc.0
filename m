@@ -6,120 +6,114 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 44D787D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Sep 2018 17:39:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5DA77D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Sep 2018 17:44:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728216AbeIPXCq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 16 Sep 2018 19:02:46 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:42969 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728108AbeIPXCq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Sep 2018 19:02:46 -0400
-Received: by mail-vs1-f65.google.com with SMTP id s188-v6so2080849vss.9;
-        Sun, 16 Sep 2018 10:39:08 -0700 (PDT)
+        id S1728329AbeIPXIB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 16 Sep 2018 19:08:01 -0400
+Received: from mail-ua1-f67.google.com ([209.85.222.67]:34869 "EHLO
+        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728239AbeIPXIB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Sep 2018 19:08:01 -0400
+Received: by mail-ua1-f67.google.com with SMTP id m26-v6so9400152uap.2;
+        Sun, 16 Sep 2018 10:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lCit3YbuMsEoKKSgAnDSJgcl4i3h5GThqutwFDIqO8A=;
-        b=UYN3NXqbXkgiH7tLY1+OgHu/GdT8rcTwvLeJs8MTgsPCXe6oxWXspBvOR9eh+vvOJf
-         PalkUjF9YIMEBXuCqwcE1ZfW450eTAayr0BOdyns3vqWJGGDgtxhp0PHxlPZcgENIU0l
-         eheG1AGda96uj37ypIoBKb08XZKRdHdUTwsKU/KSjYJj/aAsisHV369GPbq/poIlAVxf
-         xWeytBBhtxgIeeP0TgQPwgG4gIeTGSGz0P5w0pz5J2ILy/jkUpAU2rEFiVmImM4d7tkH
-         Nbrz/nSZG5l6HmzREu/EwCfZ0DkZuLWuvvBW5PChUTCbxefbEL2HfW5bTl2K6Mvz2wcR
-         TUhA==
+        bh=qyCAQBduW8usSXdIAhYZPUboQwDlVu/e443hExwHrM0=;
+        b=jc2QnJjdIeDD/9OZhb6gVx2j0PeWUJ0uasnqWANcR1ST6UPJTvS0CayTTcsxoZ2H1L
+         M6TA1pLvLNPlG7nRE4SORAmZ4FMJATap+Fn6omfDZLZ9nT98djWm48gi10IG5Ie8jXQO
+         SEOqpb/yAOI1SYL15QHHrz2d7ify2HZyh56tje6WvqWBVIbddlJOadg+lW2wDIboMawq
+         OX0BTRG5kdTrRGv37laLQp+fLxMrGiong5e79FtbowWBd3Pr5aVRTAt9Hdj1I4gyk1m6
+         GKKNyX2Yy7TC3hDfIg+FR0hsbzNt9FT76j4dmA6+21Msy9sJa7NnmtZXfLV5bG1JWFg4
+         QQAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lCit3YbuMsEoKKSgAnDSJgcl4i3h5GThqutwFDIqO8A=;
-        b=rnqpnYVegFkx39rbj3hJkBweuuwx8C43n0s/gtV+SvdvpnmQvMlhvgoFRV69bq7bs6
-         t8J0yvlEVJSbEPrd/PCxeIjmzUDbnUSELaxZmv/8uMVx1OT1rLypPfTCfC+CZ0YJmoUv
-         6FxsWTS1iGERbhKN3raxS8qGNOT0G54PzeoSJwoPefZ0LalOL+jWGqx8XFgYMduzkV4z
-         8rkDc9fwV11PCeWJrM96DTbNPNZ0LmCSQL6AGeOdfFdmHhaLbZ//jFIdk+mr4u93c6EV
-         DJrOv9ltehVhKMvkmF7AFsyCoyP/2j/JTUEpT2ubXZ7d8ADAA6mvfs6qimDI+/AE5aR/
-         aMsQ==
-X-Gm-Message-State: APzg51BL2wYvUpua0tSyCXCA0+pQU816LA6zYqfvS/ZhKGhgJymO/6bZ
-        jXX58NUrEdPpjkmSwQs/6NEKR5xRQ0sudoay4EWW0FOjI5Y=
-X-Google-Smtp-Source: ANB0VdZQtVLEZVZPwti12vhjyoe8J5iv8xCG7JbfBa6gOG2WN6BLDMcuBTHx2AQM3jPp0FjY2Csr2qtYyGpwqS6uS10=
-X-Received: by 2002:a67:e414:: with SMTP id d20-v6mr6728946vsf.116.1537119547550;
- Sun, 16 Sep 2018 10:39:07 -0700 (PDT)
+        bh=qyCAQBduW8usSXdIAhYZPUboQwDlVu/e443hExwHrM0=;
+        b=eO4IijVq+SC5myC8BrpSPyommkWOVSKnser6UkH7Q9nH4c9WSJLLOH9s41EiKNW7t7
+         9xE5vdJTUOc1DdoA8ooGAo+nF6GRYJyy8poJPI/I/hZnf4+Gjrf9f6+uW7y79AsXpkxw
+         B/DG+GOmamQ/SzjXzqjdfKR283AxAlM9y1BEholQIYBMbTNJqTz1kgFJjASSmKJOaG3G
+         e5VWPFQHhTO//vX+JVW4zKjZbAkoPqtkCBoXl9lubpPYrK9+FR4k6iPS/n8mqC9b2kEK
+         xCyiQCEXlShoBVNMugFMPf68+Vq5nSXtFIFzE7kXj7R+gUnoWAoM7E0PVYIkWzCOUQXe
+         Yhmg==
+X-Gm-Message-State: APzg51DFdHVJIY/8JUMTfUomGk8qgUZhw9HHduPN1yupaHjCWXkd07Qv
+        4ESEQ0SPqxrXjPPfmUEpurNpSubmvj0COXCZQbY=
+X-Google-Smtp-Source: ANB0VdZD5v2/WxE1EiiLSif+jBNqolrBizANPYceZw3tDGKP1MjslyqF9HzTohJO5xunDtR0hHPPH+0TMJRhjwIqHI0=
+X-Received: by 2002:ab0:6a6:: with SMTP id g35-v6mr6448305uag.16.1537119861042;
+ Sun, 16 Sep 2018 10:44:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <1536516257-30871-1-git-send-email-s.mesoraca16@gmail.com> <20180909142741.3b87df76@lwn.net>
-In-Reply-To: <20180909142741.3b87df76@lwn.net>
+References: <1536516257-30871-1-git-send-email-s.mesoraca16@gmail.com>
+ <20180909191903.GA2344@ravnborg.org> <CAK7LNATP_3K0KYyW51K3mqHs-WiReJWMeB82Uxikh+zUqDKQ6A@mail.gmail.com>
+In-Reply-To: <CAK7LNATP_3K0KYyW51K3mqHs-WiReJWMeB82Uxikh+zUqDKQ6A@mail.gmail.com>
 From:   Salvatore Mesoraca <s.mesoraca16@gmail.com>
-Date:   Sun, 16 Sep 2018 19:38:56 +0200
-Message-ID: <CAJHCu1J4+K3q2ce0k-hMOJdsSJ8yV+7iXROj0BjNgO87B_Hj+g@mail.gmail.com>
+Date:   Sun, 16 Sep 2018 19:44:09 +0200
+Message-ID: <CAJHCu1JtS2nTaxCbSDOvUYZe2Lf2LpcOvhBE00vX6XiFEH_hZg@mail.gmail.com>
 Subject: Re: [PATCH v2] kconfig: add hardened defconfig helpers
-To:     corbet@lwn.net
-Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
+To:     yamada.masahiro@socionext.com
+Cc:     sam@ravnborg.org,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
         linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org, Jann Horn <jannh@google.com>,
-        keescook@chromium.org, labbott@redhat.com,
-        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        ebiederm@xmission.com
+        corbet@lwn.net, keescook@chromium.org, labbott@redhat.com,
+        michal.lkml@markovi.net, ebiederm@xmission.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> wrote:
-> [omissis]
+Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
 >
-> Some overall thoughts:
+> 2018-09-10 4:19 GMT+09:00 Sam Ravnborg <sam@ravnborg.org>:
+> > Hi Salvatore.
+> >
+> > On Sun, Sep 09, 2018 at 08:04:17PM +0200, Salvatore Mesoraca wrote:
+> >> Adds 4 new defconfig helpers (hardenedlowconfig, hardenedmediumconfig,
+> >> hardenedhighconfig, hardenedextremeconfig) to enable various hardening
+> >> features.
+> >> The list of config options to enable is based on KSPP's Recommended
+> >> Settings and on kconfig-hardened-check, with some modifications.
+> >> These options are divided into 4 levels (low, medium, high, extreme)
+> >> based on their negative side effects, not on their usefulness.
+> >> 'Low' level collects all those protections that have (almost) no
+> >> negative side effects.
+> >> 'Extreme' level collects those protections that may have so many
+> >> negative side effects that most people wouldn't want to enable them.
+> >> Every feature in each level is briefly documented in
+> >> Documentation/security/hardenedconfig.rst, this file also contain a
+> >> better explanation of what every level means.
+> >> To prevent this file from drifting from what the various defconfigs
+> >> actually do, it is used to dynamically generate the config fragments.
+> >
+> > In the above you nicely describes what is done.
+> > But there is nothing about the target group for this feature.
+> > Who will benefit from this?
+> >
+> > With respect to the actual implmentation we now
+> > have two ways to handle config fragments.
+> > Current solution is to save the config fragments in kernel/configs.
+> > And the new solution is to parse the config fragments from an rst file.
+> > The changelog fails to mentions why we need a new way to handle
+> > the config fragments.
 >
-> - As Sam asked: who are the users of this feature?  Presumably you have
->   some real people out there in mind for each of these levels, or you would
->   not have created them?
+>
+> I agree.
+>
+> Another new way this patch added is,
+>
+>  CONFIG options are now described in the ReST document,
+>  but our current way is to describe the detailed information
+>  in the 'help' section in Kconfig files.
 
-In general this feature will be useful for all those people who are
-interested in enabling hardening features on their kernel.
-Maybe they are not so many, but they exist and are the reason why
-KSPP's list and kconfig-hardened-check script were written.
-Anyway, not everybody is willing to trade a lot of performance for security.
-I hope that splitting features based on their negative impact will
-increase the usage of those features which are more "usable", but
-still not so known by many people.
-
-> - Who will maintain it?  The list of hardening-relevant configuration
->   options is always in high flux, as our understanding of the security
->   implications of each.  This feature will require some significant ongoing
->   attention or it will quickly become stale.  I think it needs a
->   MAINTAINERS entry.
-
-Good, I can add myself as maintainer, I also got Kees permission to
-add him as designated reviewer too.
-
-> - It's a little strange to see an RST document used as the input for the
->   kernel configuration process.  Assuming this is really the best way to do
->   this (and I worry about things like duplicated descriptions of kernel
->   configuration options), you should, at a minimum, carefully document the
->   format of this file at the beginning.  Otherwise people will surely break
->   it.  In fact, they'll break it anyway, so more checking in the processing
->   script seems indicated.
-
-Yes, this approach is a bit "original". I think your suggestions are sensible.
-I'll document better the format and add more checks to the script to
-make it more resilient.
-
->   Without having thought it through in great depth, I suspect that a better
->   approach might be to find a way to mark the hardening level in the
->   Kconfig entries.
-
-The reason why everything starts from an .rst is that I'd like to have
-a doc page with a detailed list of all the hardening feature.
-If the fragments aren't going to be generated from the doc we'll a way
-to make sure that what is written in the doc is coherent with what
-Kconfig is doing.
-I'm don't think that it will be much better.
-
-> - You have ordered the options alphabetically, but that is, I would argue,
->   not the best way.  My guess is that people would read this file to answer
->   the question of "just how many bullets will hardening level H put into my
->   foot?"  So I would sort them by hardening level as the primary key.
-
-This seems reasonable, I'll change it.
+This is true, but hardening features are quite different from other
+types of features or config options, because they can't be easily
+found, unless you already know what you are looking for.
+Many people need a single place that lists them all, clearly
+explaining why they might want them or not without having to bounce
+around different Kconfig parts.
 
 Thank you for your time,
 
