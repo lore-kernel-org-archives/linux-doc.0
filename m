@@ -1,215 +1,195 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9A1C77D581
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 15 Sep 2018 17:54:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D8F17D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Sep 2018 14:08:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbeIOXOf convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 15 Sep 2018 19:14:35 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:36705 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727171AbeIOXOf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 15 Sep 2018 19:14:35 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id E5697207A8; Sat, 15 Sep 2018 19:54:44 +0200 (CEST)
-Received: from xps13 (84-112-184-8.cable.dynamic.surfer.at [84.112.184.8])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 2FED12071D;
-        Sat, 15 Sep 2018 19:54:43 +0200 (CEST)
-Date:   Sat, 15 Sep 2018 19:54:40 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Hartley Sweeten <hsweeten@visionengravers.com>,
-        Ryan Mallon <rmallon@gmail.com>,
-        Alexander Shiyan <shc_work@mail.ru>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Fabio Estevam <fabio.estevam@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Imre Kaloz <kaloz@openwrt.org>,
-        Krzysztof Halasa <khalasa@piap.pl>,
-        Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org,
-        Alexander Clouter <alex@digriz.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Ralf Baechle <ralf@linux-mips.org>, linux-mips@linux-mips.org,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
+        id S1728499AbeIPTbz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 16 Sep 2018 15:31:55 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:37334 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728498AbeIPTbz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Sep 2018 15:31:55 -0400
+Received: by mail-io1-f65.google.com with SMTP id v14-v6so9490769iob.4
+        for <linux-doc@vger.kernel.org>; Sun, 16 Sep 2018 07:08:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wFr0Cg2J3IgxpyZK3ZQa/R1nse2QZZ8G3FN6hiIkXC8=;
+        b=JpevIQArxcFMe+JcgDnc6M7Anqt8DOp0L+TDqcnFShDxnTYJRfw3pI+zKH6DyDpK/c
+         OfygbIc8/82xSA8N+l1NCDo9ZTz+lGuXPXahrkD2ko9IPsbV3PEFr3wTUVqgbuybVz8y
+         ROsw4yGvEgE8Rhf65Tv8ReR7pW+ZCa54vATso=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wFr0Cg2J3IgxpyZK3ZQa/R1nse2QZZ8G3FN6hiIkXC8=;
+        b=Ixe0cmAmaks6wP0UoVbvXmZVxr1ecKTrbA+6s2lBstV5xKD6hlyQ+FN6STTTI+j/qc
+         Zxm0NVyuGqPTzafhNlyueq3768T6LBgdDZAXip+nf6O6K/eC0frqxrQj/Ohkw6g65726
+         WCPQ+OpX8pvDoM4X1XCSnye/PoiBP02wMM2RIvnZ+qdyRoeDd7UEyCJVRRyCO5MfxVZm
+         RxE3GO6Hmtc7xqHKammlYb/7h2Y1HxjOn9p06pa+OzgQO8KRgPcx45ZC2+8g3le7tmXA
+         ljkubXAC7gSZE5eQhZDENPzCTfinxtuyJdo7PE1EWB61/s1AiQfYSEiVBQXAaABoxp3I
+         ulYw==
+X-Gm-Message-State: APzg51De0BggYMtjqCxVQBPcbimhiA6mv4AjgYdnR5BJpJTOmfnxTumq
+        a3D7R95aaXgTL2cqBF0l3y453g==
+X-Google-Smtp-Source: ANB0VdZZ2SSKS7LRck9f3DKEDCAaxLHCMcb/ua3pc/dA0EDHm+6bG3dRlekeuYcD16Z9qwKxZLRJjA==
+X-Received: by 2002:a6b:ce19:: with SMTP id p25-v6mr266324iob.243.1537106929220;
+        Sun, 16 Sep 2018 07:08:49 -0700 (PDT)
+Received: from [10.199.96.233] ([209.82.80.116])
+        by smtp.googlemail.com with ESMTPSA id x68-v6sm2778580ita.2.2018.09.16.07.08.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 16 Sep 2018 07:08:48 -0700 (PDT)
+Subject: Re: [PATCH v4 00/22] nvmem: rework of the subsystem for non-DT users
+To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devel@driverdev.osuosl.org
-Subject: Re: [PATCH 00/19] mtd: rawnand: API cleanup (2nd batch)
-Message-ID: <20180915195440.251fea18@xps13>
-In-Reply-To: <20180906223851.6964-1-boris.brezillon@bootlin.com>
-References: <20180906223851.6964-1-boris.brezillon@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+References: <20180914144011.27614-1-brgl@bgdev.pl>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <2507f7cc-89ec-0cd2-9dec-68aee1350ac8@linaro.org>
+Date:   Sun, 16 Sep 2018 15:08:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20180914144011.27614-1-brgl@bgdev.pl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris,
-
-Boris Brezillon <boris.brezillon@bootlin.com> wrote on Fri,  7 Sep 2018
-00:38:32 +0200:
-
-> Hello,
-> 
-> This is the 2nd batch of API cleanup patches. This time we move
-> deprecated hooks/fields to the nand_legacy struct, and then move some
-> of the code found in nand_base.c into separate source/header files.
-> 
-> With this new organization, new comers should more easily identify the
-> bits they can use in their NAND controller drivers and those that are
-> only meant for core code. It also shrink a bit nand_base.c which was
-> over 6000 lines of code.
-> 
-> Note that existing coding style issues (reported by checkpatch) in arch
-> or driver code are intentionally not fixed to keep the series focused
-> on the API/core cleanup.
-> 
-> Regards,
-> 
-> Boris
-> 
-> Boris Brezillon (19):
->   mtd: rawnand: Leave chip->IO_ADDR_{R,W} to NULL when unused
->   mtd: rawnand: Create a legacy struct and move ->IO_ADDR_{R,W} there
->   mtd: rawnand: Deprecate ->{read,write}_{byte,buf}() hooks
->   mtd: rawnand: Deprecate ->cmd_ctrl() and ->cmdfunc()
->   mtd: rawnand: Deprecate ->dev_ready() and ->waitfunc()
->   mtd: rawnand: Deprecate ->block_{bad,markbad}() hooks
->   mtd: rawnand: Deprecate ->erase()
->   mtd: rawnand: Deprecate ->{set,get}_features() hooks
->   mtd: rawnand: Deprecate ->chip_delay
->   mtd: rawnand: Move function prototypes after struct declarations
->   mtd: rawnand: Get rid of nand_flash_dev forward declation
->   mtd: rawnand: Get rid of the duplicate nand_chip forward declaration
->   mtd: rawnand: Get rid of a few unused definitions
->   mtd: rawnand: Move platform_nand_xxx definitions out of rawnand.h
->   mtd: rawnand: Inline onfi_get_async_timing_mode()
->   mtd: rawnand: Keep all internal stuff private
->   mtd: rawnand: Move legacy code to nand_legacy.c
->   mtd: rawnand: Move ONFI code to nand_onfi.c
->   mtd: rawnand: Move JEDEC code to nand_jedec.c
-> 
->  Documentation/driver-api/mtdnand.rst             |   30 +-
->  arch/arm/mach-ep93xx/snappercl15.c               |    8 +-
->  arch/arm/mach-ep93xx/ts72xx.c                    |    9 +-
->  arch/arm/mach-imx/mach-qong.c                    |    6 +-
->  arch/arm/mach-ixp4xx/ixdp425-setup.c             |    2 +-
->  arch/arm/mach-omap1/board-fsample.c              |    3 +-
->  arch/arm/mach-omap1/board-h2.c                   |    3 +-
->  arch/arm/mach-omap1/board-h3.c                   |    2 +-
->  arch/arm/mach-omap1/board-nand.c                 |    2 +-
->  arch/arm/mach-omap1/board-perseus2.c             |    3 +-
->  arch/arm/mach-orion5x/ts78xx-setup.c             |    9 +-
->  arch/arm/mach-pxa/balloon3.c                     |    5 +-
->  arch/arm/mach-pxa/em-x270.c                      |    9 +-
->  arch/arm/mach-pxa/palmtx.c                       |    5 +-
->  arch/mips/alchemy/devboards/db1200.c             |    9 +-
->  arch/mips/alchemy/devboards/db1300.c             |    9 +-
->  arch/mips/alchemy/devboards/db1550.c             |    9 +-
->  arch/mips/netlogic/xlr/platform-flash.c          |    3 +-
->  arch/mips/pnx833x/common/platform.c              |    5 +-
->  arch/mips/rb532/devices.c                        |    5 +-
->  arch/sh/boards/mach-migor/setup.c                |    8 +-
->  drivers/mtd/nand/raw/Makefile                    |    4 +-
->  drivers/mtd/nand/raw/ams-delta.c                 |   22 +-
->  drivers/mtd/nand/raw/atmel/nand-controller.c     |   22 +-
->  drivers/mtd/nand/raw/au1550nd.c                  |   43 +-
->  drivers/mtd/nand/raw/bcm47xxnflash/ops_bcm4706.c |   22 +-
->  drivers/mtd/nand/raw/brcmnand/brcmnand.c         |   15 +-
->  drivers/mtd/nand/raw/cafe_nand.c                 |   22 +-
->  drivers/mtd/nand/raw/cmx270_nand.c               |   28 +-
->  drivers/mtd/nand/raw/cs553x_nand.c               |   42 +-
->  drivers/mtd/nand/raw/davinci_nand.c              |   34 +-
->  drivers/mtd/nand/raw/denali.c                    |   23 +-
->  drivers/mtd/nand/raw/diskonchip.c                |   50 +-
->  drivers/mtd/nand/raw/fsl_elbc_nand.c             |   18 +-
->  drivers/mtd/nand/raw/fsl_ifc_nand.c              |   24 +-
->  drivers/mtd/nand/raw/fsl_upm.c                   |   30 +-
->  drivers/mtd/nand/raw/fsmc_nand.c                 |    1 -
->  drivers/mtd/nand/raw/gpio.c                      |   16 +-
->  drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c       |   22 +-
->  drivers/mtd/nand/raw/hisi504_nand.c              |   18 +-
->  drivers/mtd/nand/raw/internals.h                 |  114 ++
->  drivers/mtd/nand/raw/jz4740_nand.c               |   14 +-
->  drivers/mtd/nand/raw/jz4780_nand.c               |   10 +-
->  drivers/mtd/nand/raw/lpc32xx_mlc.c               |   12 +-
->  drivers/mtd/nand/raw/lpc32xx_slc.c               |   26 +-
->  drivers/mtd/nand/raw/mpc5121_nfc.c               |   14 +-
->  drivers/mtd/nand/raw/mtk_nand.c                  |   12 +-
->  drivers/mtd/nand/raw/mxc_nand.c                  |   20 +-
->  drivers/mtd/nand/raw/nand_amd.c                  |    2 +-
->  drivers/mtd/nand/raw/nand_base.c                 | 1260 +++-------------------
->  drivers/mtd/nand/raw/nand_bbt.c                  |    5 +-
->  drivers/mtd/nand/raw/nand_hynix.c                |    9 +-
->  drivers/mtd/nand/raw/nand_ids.c                  |    4 +-
->  drivers/mtd/nand/raw/nand_jedec.c                |  113 ++
->  drivers/mtd/nand/raw/nand_legacy.c               |  642 +++++++++++
->  drivers/mtd/nand/raw/nand_macronix.c             |    2 +-
->  drivers/mtd/nand/raw/nand_micron.c               |    3 +-
->  drivers/mtd/nand/raw/nand_onfi.c                 |  305 ++++++
->  drivers/mtd/nand/raw/nand_samsung.c              |    2 +-
->  drivers/mtd/nand/raw/nand_timings.c              |   18 +-
->  drivers/mtd/nand/raw/nand_toshiba.c              |    2 +-
->  drivers/mtd/nand/raw/nandsim.c                   |   14 +-
->  drivers/mtd/nand/raw/ndfc.c                      |   14 +-
->  drivers/mtd/nand/raw/nuc900_nand.c               |   22 +-
->  drivers/mtd/nand/raw/omap2.c                     |   62 +-
->  drivers/mtd/nand/raw/orion_nand.c                |   12 +-
->  drivers/mtd/nand/raw/oxnas_nand.c                |   10 +-
->  drivers/mtd/nand/raw/pasemi_nand.c               |   32 +-
->  drivers/mtd/nand/raw/plat_nand.c                 |   17 +-
->  drivers/mtd/nand/raw/qcom_nandc.c                |   39 +-
->  drivers/mtd/nand/raw/r852.c                      |   14 +-
->  drivers/mtd/nand/raw/s3c2410.c                   |   34 +-
->  drivers/mtd/nand/raw/sh_flctl.c                  |   18 +-
->  drivers/mtd/nand/raw/sharpsl.c                   |   12 +-
->  drivers/mtd/nand/raw/sm_common.c                 |    2 +-
->  drivers/mtd/nand/raw/socrates_nand.c             |   16 +-
->  drivers/mtd/nand/raw/sunxi_nand.c                |   14 +-
->  drivers/mtd/nand/raw/tango_nand.c                |   12 +-
->  drivers/mtd/nand/raw/tmio_nand.c                 |   20 +-
->  drivers/mtd/nand/raw/txx9ndfmc.c                 |   12 +-
->  drivers/mtd/nand/raw/xway_nand.c                 |   12 +-
->  drivers/staging/mt29f_spinand/mt29f_spinand.c    |   16 +-
->  include/linux/mtd/jedec.h                        |   91 ++
->  include/linux/mtd/onfi.h                         |  178 +++
->  include/linux/mtd/platnand.h                     |   74 ++
->  include/linux/mtd/rawnand.h                      |  555 ++--------
->  86 files changed, 2300 insertions(+), 2191 deletions(-)
->  create mode 100644 drivers/mtd/nand/raw/internals.h
->  create mode 100644 drivers/mtd/nand/raw/nand_jedec.c
->  create mode 100644 drivers/mtd/nand/raw/nand_legacy.c
->  create mode 100644 drivers/mtd/nand/raw/nand_onfi.c
->  create mode 100644 include/linux/mtd/jedec.h
->  create mode 100644 include/linux/mtd/onfi.h
->  create mode 100644 include/linux/mtd/platnand.h
-> 
-
-Series reviewed, there is one typo in patch 2/19 and 16/19 and a
-s/ONFI/JEDEC/ in patch 19/19, otherwise I like the cleanup very much!
-Can I modify when applying or you plan to do more/other changes?
 
 
-Thanks,
-Miquèl
+On 14/09/18 15:39, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> 
+> NOTE: I decided to post v4 despite no new reviews from Srinivas as I'll
+> be off next week. There were a couple issues reported by the kbuild bot
+> and one bug I noticed after sending v3.
+> 
+> This series contains nvmem framework changes prerequisite for further
+> development of my previous series[1] that aims at removal of the
+> platform data struct from at24 EEPROM driver.
+> 
+> The patches are conceptually split into a couple groups.
+> 
+> First five patches fix issues with existing issues.
+> 
+> Patch 6 switches the nvmem providers to using kref which is necessary
+> for removal of the return value from nvmem_unregister(). This is an
+> approach similar to the one used in the clock framework where the
+> provider is only removed after the last reference to it is dropped.
+> 
+> Patch 7 changes the errno returned from the driver after kzalloc()
+> fails from -EINVAL to -ENOMEM which makes more sense.
+> 
+> Patches 8-10 convert last remaining users of nvmem_unregister() who
+> still check its return value to using devm_nvmem_unregister() and
+> patch 11 changes its return value from int to void.
+> 
+> Patches 12-15 introduce the most significant changes of this series:
+> we remove the global cell list, add support for static cell definitions
+> external to the provider structure, change the way DT lookup works and
+> allow to associate resources and consumers using lookup tables. The way
+> nvmem_cell_get() for non-DT users is changed but there are no current
+> users and it's currently broken anyway (cell being removed after a call
+> to nvmem_cell_put()).
+> 
+> Patch 16 updates the documentation.
+> 
+> Patch 17 adds support for notifiers to nvmem so that users can
+> subscribe for events such as device or cell registration or removal.
+> 
+> Patches 18 & 19 add some minor improvements to the codebase.
+> 
+> Last three patches contain fixes to warnings emitted by checkpatch.
+> It's a good moment to add them if we're already touching a big part
+> of the subsystem's code.
+> 
+> Tested both DT and non-DT use cases.
+> 
+> [1] https://lkml.org/lkml/2018/8/10/149
+> 
+> v1 -> v2:
+> - extended the lookup structure with a proper con_id independent from the
+>    cell name defined in the cell definition table
+> - added a patch that makes the naming convention for the cell name argument
+>    in the nvmem_cell_get() family of functions consistent
+> - there were two users of nvmem_unregister() that still checked the return
+>    value, now switched to devm_nvmem_register()
+> - fixed build failures reported by kbuild test robot
+> 
+> v2 -> v3:
+> - dropped the patch removing unused APIs and introduced changes on top of
+>    existing code instead
+> - fixed nvmem provider reference decreasing in error paths
+> - added checkpatch fixes
+> - removed nvmem-machine.h and distributed new definitions among existing
+>    consumer and provider headers
+> - reordered patches thematically
+> - added more patches fixing issues in existing codebase
+> 
+> v3 -> v4:
+> - fixed the notifier chain call when removing nvmem devices: call the
+>    notifier chain for NVMEM_REMOVE before releasing any resources
+> - added patch 7/22 ("sunxi_sid: return -ENOMEM if kzalloc() fails")
+> - fixed the return value in error path for patch 8/22 ("sunxi_sid: use
+>    devm_nvmem_register())"
+> - fixed the return value of devm_nvmem_unregister() in
+>    patch 11/22 ("change the signature of nvmem_unregister()")
+> 
+> Bartosz Golaszewski (22):
+>    nvmem: provide nvmem_dev_name()
+>    nvmem: remove the name field from struct nvmem_device
+>    nvmem: use list_for_each_entry_safe in nvmem_device_remove_all_cells()
+>    nvmem: remove a stray newline
+>    nvmem: check the return value of nvmem_add_cells()
+>    nvmem: use kref
+>    nvmem: sunxi_sid: return -ENOMEM if kzalloc() fails
+>    nvmem: sunxi_sid: use devm_nvmem_register()
+>    nvmem: lpc18xx_eeprom: use devm_nvmem_register()
+>    nvmem: mxs-ocotp: use devm_nvmem_register()
+>    nvmem: change the signature of nvmem_unregister()
+>    nvmem: remove the global cell list
+>    nvmem: add support for cell info
+>    nvmem: resolve cells from DT at registration time
+>    nvmem: add support for cell lookups from machine code
+>    Documentation: nvmem: document cell tables and lookup entries
+>    nvmem: add a notifier chain
+>    nvmem: use SPDX license identifiers
+>    nvmem: make the naming of arguments in nvmem_cell_get() consistent
+>    nvmem: use EOPNOTSUPP instead of ENOSYS
+>    nvmem: fix commenting style
+>    nvmem: use octal permissions instead of constants
+
+Thanks for working on this!
+Nice work!
+
+Overall the patchset looks good!
+
+I will send these to Greg KH along with other nvmem patches sometime 
+this week!
+
+
+
+-srini
