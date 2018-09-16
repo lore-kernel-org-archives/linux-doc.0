@@ -1,195 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D8F17D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Sep 2018 14:08:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5C6897D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Sep 2018 17:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728499AbeIPTbz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 16 Sep 2018 15:31:55 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:37334 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728498AbeIPTbz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Sep 2018 15:31:55 -0400
-Received: by mail-io1-f65.google.com with SMTP id v14-v6so9490769iob.4
-        for <linux-doc@vger.kernel.org>; Sun, 16 Sep 2018 07:08:49 -0700 (PDT)
+        id S1728230AbeIPWib (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 16 Sep 2018 18:38:31 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:35953 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727394AbeIPWib (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Sep 2018 18:38:31 -0400
+Received: by mail-vs1-f68.google.com with SMTP id z19-v6so2075650vso.3;
+        Sun, 16 Sep 2018 10:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=wFr0Cg2J3IgxpyZK3ZQa/R1nse2QZZ8G3FN6hiIkXC8=;
-        b=JpevIQArxcFMe+JcgDnc6M7Anqt8DOp0L+TDqcnFShDxnTYJRfw3pI+zKH6DyDpK/c
-         OfygbIc8/82xSA8N+l1NCDo9ZTz+lGuXPXahrkD2ko9IPsbV3PEFr3wTUVqgbuybVz8y
-         ROsw4yGvEgE8Rhf65Tv8ReR7pW+ZCa54vATso=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=i49dArdacxzzu8mTgtYAt2Lt9rDnQ/ZSCIiSJxCGWlo=;
+        b=MX+3wk9jI1x4BUh0L2xKi1sn519FzP5eNS8aWubNVh84+JJtcNrHX1eSLA9tinNuAb
+         Stx718y6D8SdsSbafhfwVcsmpmGkjdlIG7ua6P2iTcE5PWW6Nws5AYRsrST24cyH1Wy3
+         iviyJiC/2OTxBRsQdn7nSgZu0a8uoeclKFUHbUt+QHJX0t0v2ETwYdZvMNCSlccXXtHN
+         +rd2JKmaZLPwleZ8hqL6lGaE7L5fHaunKy76LQW4GihdeTwODTRBIOaOaQIeKlgUk2+D
+         j/ePl4kEjQ0wm3+mbZFmmeehaFqxiPWSiBupBwTNAuuRZBXToSQdWtyR7Unmh9qGuW0H
+         8Rmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=wFr0Cg2J3IgxpyZK3ZQa/R1nse2QZZ8G3FN6hiIkXC8=;
-        b=Ixe0cmAmaks6wP0UoVbvXmZVxr1ecKTrbA+6s2lBstV5xKD6hlyQ+FN6STTTI+j/qc
-         Zxm0NVyuGqPTzafhNlyueq3768T6LBgdDZAXip+nf6O6K/eC0frqxrQj/Ohkw6g65726
-         WCPQ+OpX8pvDoM4X1XCSnye/PoiBP02wMM2RIvnZ+qdyRoeDd7UEyCJVRRyCO5MfxVZm
-         RxE3GO6Hmtc7xqHKammlYb/7h2Y1HxjOn9p06pa+OzgQO8KRgPcx45ZC2+8g3le7tmXA
-         ljkubXAC7gSZE5eQhZDENPzCTfinxtuyJdo7PE1EWB61/s1AiQfYSEiVBQXAaABoxp3I
-         ulYw==
-X-Gm-Message-State: APzg51De0BggYMtjqCxVQBPcbimhiA6mv4AjgYdnR5BJpJTOmfnxTumq
-        a3D7R95aaXgTL2cqBF0l3y453g==
-X-Google-Smtp-Source: ANB0VdZZ2SSKS7LRck9f3DKEDCAaxLHCMcb/ua3pc/dA0EDHm+6bG3dRlekeuYcD16Z9qwKxZLRJjA==
-X-Received: by 2002:a6b:ce19:: with SMTP id p25-v6mr266324iob.243.1537106929220;
-        Sun, 16 Sep 2018 07:08:49 -0700 (PDT)
-Received: from [10.199.96.233] ([209.82.80.116])
-        by smtp.googlemail.com with ESMTPSA id x68-v6sm2778580ita.2.2018.09.16.07.08.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 16 Sep 2018 07:08:48 -0700 (PDT)
-Subject: Re: [PATCH v4 00/22] nvmem: rework of the subsystem for non-DT users
-To:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-References: <20180914144011.27614-1-brgl@bgdev.pl>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <2507f7cc-89ec-0cd2-9dec-68aee1350ac8@linaro.org>
-Date:   Sun, 16 Sep 2018 15:08:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=i49dArdacxzzu8mTgtYAt2Lt9rDnQ/ZSCIiSJxCGWlo=;
+        b=B14QwpWrILGKMDoUDHCshm94qET5TDu83GiCqiDn7Q+VpuFckFWujr5VOSPs70Hdo8
+         VrRb+0wOrCLqis+zmCbeAGp9dFTnvUWn/pd70yxP1vawS3f+sZNvcw5d3dyVyFESR61X
+         xfG5OtdVHW+6X7woSsJtHlWm/XHtE7XJoDPPeAKMst8Qb9KoiyVBT4n4pUCgmezDCLBY
+         bXdOM6c+yboL+gPufiE4MkfcFT/HW2MCpjywQXb1Fln7yYqRVfCXsWVeaJRIprkBf5Xs
+         mwlgf1Zo3sckmbyoms1HSEnMmSInzCPMhjtahzLSgyCRne2VPI4G+iPQG7LY2q541+gz
+         EsDA==
+X-Gm-Message-State: APzg51DSGGl75R+u5u4FYUpHKFv2SOZ7jx+/lM7KiJ820VupCebEyVMO
+        h6HPr7pAw6sRSV3j+LMbfYk368SHdIwsOJa9I0k=
+X-Google-Smtp-Source: ANB0VdaNWPCNZm/8OJEVdBUDIVJeWRLX0lfbqdcl2kOFaf4015gsI3ohbtbFi1YYQ/i/krF/OK8r/yBWNmHzbgTc74Q=
+X-Received: by 2002:a67:4991:: with SMTP id d17-v6mr6917673vsg.41.1537118095964;
+ Sun, 16 Sep 2018 10:14:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180914144011.27614-1-brgl@bgdev.pl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1536516257-30871-1-git-send-email-s.mesoraca16@gmail.com> <20180909191903.GA2344@ravnborg.org>
+In-Reply-To: <20180909191903.GA2344@ravnborg.org>
+From:   Salvatore Mesoraca <s.mesoraca16@gmail.com>
+Date:   Sun, 16 Sep 2018 19:14:44 +0200
+Message-ID: <CAJHCu1++7sJv88Qg4wtx-AhfmQCbjy2psxuoePz2YViLNu-ahA@mail.gmail.com>
+Subject: Re: [PATCH v2] kconfig: add hardened defconfig helpers
+To:     sam@ravnborg.org
+Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jann Horn <jannh@google.com>,
+        corbet@lwn.net, keescook@chromium.org, labbott@redhat.com,
+        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
+        ebiederm@xmission.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Salvatore.
 
+Hi Sam
 
-On 14/09/18 15:39, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> NOTE: I decided to post v4 despite no new reviews from Srinivas as I'll
-> be off next week. There were a couple issues reported by the kbuild bot
-> and one bug I noticed after sending v3.
-> 
-> This series contains nvmem framework changes prerequisite for further
-> development of my previous series[1] that aims at removal of the
-> platform data struct from at24 EEPROM driver.
-> 
-> The patches are conceptually split into a couple groups.
-> 
-> First five patches fix issues with existing issues.
-> 
-> Patch 6 switches the nvmem providers to using kref which is necessary
-> for removal of the return value from nvmem_unregister(). This is an
-> approach similar to the one used in the clock framework where the
-> provider is only removed after the last reference to it is dropped.
-> 
-> Patch 7 changes the errno returned from the driver after kzalloc()
-> fails from -EINVAL to -ENOMEM which makes more sense.
-> 
-> Patches 8-10 convert last remaining users of nvmem_unregister() who
-> still check its return value to using devm_nvmem_unregister() and
-> patch 11 changes its return value from int to void.
-> 
-> Patches 12-15 introduce the most significant changes of this series:
-> we remove the global cell list, add support for static cell definitions
-> external to the provider structure, change the way DT lookup works and
-> allow to associate resources and consumers using lookup tables. The way
-> nvmem_cell_get() for non-DT users is changed but there are no current
-> users and it's currently broken anyway (cell being removed after a call
-> to nvmem_cell_put()).
-> 
-> Patch 16 updates the documentation.
-> 
-> Patch 17 adds support for notifiers to nvmem so that users can
-> subscribe for events such as device or cell registration or removal.
-> 
-> Patches 18 & 19 add some minor improvements to the codebase.
-> 
-> Last three patches contain fixes to warnings emitted by checkpatch.
-> It's a good moment to add them if we're already touching a big part
-> of the subsystem's code.
-> 
-> Tested both DT and non-DT use cases.
-> 
-> [1] https://lkml.org/lkml/2018/8/10/149
-> 
-> v1 -> v2:
-> - extended the lookup structure with a proper con_id independent from the
->    cell name defined in the cell definition table
-> - added a patch that makes the naming convention for the cell name argument
->    in the nvmem_cell_get() family of functions consistent
-> - there were two users of nvmem_unregister() that still checked the return
->    value, now switched to devm_nvmem_register()
-> - fixed build failures reported by kbuild test robot
-> 
-> v2 -> v3:
-> - dropped the patch removing unused APIs and introduced changes on top of
->    existing code instead
-> - fixed nvmem provider reference decreasing in error paths
-> - added checkpatch fixes
-> - removed nvmem-machine.h and distributed new definitions among existing
->    consumer and provider headers
-> - reordered patches thematically
-> - added more patches fixing issues in existing codebase
-> 
-> v3 -> v4:
-> - fixed the notifier chain call when removing nvmem devices: call the
->    notifier chain for NVMEM_REMOVE before releasing any resources
-> - added patch 7/22 ("sunxi_sid: return -ENOMEM if kzalloc() fails")
-> - fixed the return value in error path for patch 8/22 ("sunxi_sid: use
->    devm_nvmem_register())"
-> - fixed the return value of devm_nvmem_unregister() in
->    patch 11/22 ("change the signature of nvmem_unregister()")
-> 
-> Bartosz Golaszewski (22):
->    nvmem: provide nvmem_dev_name()
->    nvmem: remove the name field from struct nvmem_device
->    nvmem: use list_for_each_entry_safe in nvmem_device_remove_all_cells()
->    nvmem: remove a stray newline
->    nvmem: check the return value of nvmem_add_cells()
->    nvmem: use kref
->    nvmem: sunxi_sid: return -ENOMEM if kzalloc() fails
->    nvmem: sunxi_sid: use devm_nvmem_register()
->    nvmem: lpc18xx_eeprom: use devm_nvmem_register()
->    nvmem: mxs-ocotp: use devm_nvmem_register()
->    nvmem: change the signature of nvmem_unregister()
->    nvmem: remove the global cell list
->    nvmem: add support for cell info
->    nvmem: resolve cells from DT at registration time
->    nvmem: add support for cell lookups from machine code
->    Documentation: nvmem: document cell tables and lookup entries
->    nvmem: add a notifier chain
->    nvmem: use SPDX license identifiers
->    nvmem: make the naming of arguments in nvmem_cell_get() consistent
->    nvmem: use EOPNOTSUPP instead of ENOSYS
->    nvmem: fix commenting style
->    nvmem: use octal permissions instead of constants
+> On Sun, Sep 09, 2018 at 08:04:17PM +0200, Salvatore Mesoraca wrote:
+> > Adds 4 new defconfig helpers (hardenedlowconfig, hardenedmediumconfig,
+> > hardenedhighconfig, hardenedextremeconfig) to enable various hardening
+> > features.
+> > The list of config options to enable is based on KSPP's Recommended
+> > Settings and on kconfig-hardened-check, with some modifications.
+> > These options are divided into 4 levels (low, medium, high, extreme)
+> > based on their negative side effects, not on their usefulness.
+> > 'Low' level collects all those protections that have (almost) no
+> > negative side effects.
+> > 'Extreme' level collects those protections that may have so many
+> > negative side effects that most people wouldn't want to enable them.
+> > Every feature in each level is briefly documented in
+> > Documentation/security/hardenedconfig.rst, this file also contain a
+> > better explanation of what every level means.
+> > To prevent this file from drifting from what the various defconfigs
+> > actually do, it is used to dynamically generate the config fragments.
+>
+> In the above you nicely describes what is done.
+> But there is nothing about the target group for this feature.
+> Who will benefit from this?
 
-Thanks for working on this!
-Nice work!
+Sometimes people ask about kernel hardening features, that's the
+reason why the KSPP's list and the kconfig-hardened-check script were
+written.
+Unfortunately, kernel features with security implications have often
+misleading names and descriptions and are scattered around the
+menuconfig.
+This patchset will help anyone who want to have an "hardened kernel"
+but isn't following kernel development closely enough to know about
+all the features.
+On one hand, this will provide an official and understandable list of
+hardening features inside the kernel doc, on the other hand it also
+provide a fast and easy way to enable those features all at once.
 
-Overall the patchset looks good!
+> With respect to the actual implmentation we now
+> have two ways to handle config fragments.
+> Current solution is to save the config fragments in kernel/configs.
+> And the new solution is to parse the config fragments from an rst file.
+> The changelog fails to mentions why we need a new way to handle
+> the config fragments.
 
-I will send these to Greg KH along with other nvmem patches sometime 
-this week!
+The reason why I'm doing it like this is that I want both the config
+fragments and the doc in the kernel.
+Generating the fragments from the doc is the best way to make sure
+that they will always do what the doc says.
 
+> If we want to go the "parse from rst file" way - can it then
+> be abstracted in a way so this is the only way to handle
+> these in-kernel config fragments?
+> And then move the current config fragment to the new way.
+>
+> It most be possible with a little careful design to make this
+> a general solution and not a hardening thing only.
 
+I don't know if maintainers of the other fragments care at all about
+having every single option documented in detail.
+For hardening features it makes sense, because people may want to just
+learn about them and enable them manually.
+I don't know if this is common or desirable for other config fragments.
 
--srini
+Thank you for you comment,
+
+Salvatore
