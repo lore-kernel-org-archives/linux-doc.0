@@ -2,181 +2,218 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4B4CD7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 07:33:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A95F97D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 08:29:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728202AbeIQM6v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Sep 2018 08:58:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58352 "EHLO mx1.redhat.com"
+        id S1727329AbeIQN4O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Sep 2018 09:56:14 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:57512 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727010AbeIQM6u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Sep 2018 08:58:50 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 83AEA30224B4;
-        Mon, 17 Sep 2018 07:32:39 +0000 (UTC)
-Received: from [10.36.117.44] (ovpn-117-44.ams2.redhat.com [10.36.117.44])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C3CAC19483;
-        Mon, 17 Sep 2018 07:32:28 +0000 (UTC)
-Subject: Re: [PATCH RFCv2 3/6] mm/memory_hotplug: fix online/offline_pages
- called w.o. mem_hotplug_lock
-To:     Rashmica <rashmica.g@gmail.com>, linux-mm@kvack.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
-        xen-devel@lists.xenproject.org, devel@linuxdriverproject.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
+        id S1727185AbeIQN4O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Sep 2018 09:56:14 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id D029B20798; Mon, 17 Sep 2018 10:29:49 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-99-10.w90-88.abo.wanadoo.fr [90.88.4.10])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 1B35320741;
+        Mon, 17 Sep 2018 10:29:39 +0200 (CEST)
+Date:   Mon, 17 Sep 2018 10:29:39 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org,
+        David Woodhouse <dwmw2@infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Hartley Sweeten <hsweeten@visionengravers.com>,
+        Ryan Mallon <rmallon@gmail.com>,
+        Alexander Shiyan <shc_work@mail.ru>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Fabio Estevam <fabio.estevam@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Imre Kaloz <kaloz@openwrt.org>,
+        Krzysztof Halasa <khalasa@piap.pl>,
+        Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org,
+        Alexander Clouter <alex@digriz.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory CLEMENT <gregory.clement@bootlin.com>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>, Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Ralf Baechle <ralf@linux-mips.org>, linux-mips@linux-mips.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Michael Neuling <mikey@neuling.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>,
-        Mathieu Malaterre <malat@debian.org>
-References: <20180821104418.12710-1-david@redhat.com>
- <20180821104418.12710-4-david@redhat.com>
- <70372ef5-e332-6c07-f08c-50f8808bde6d@gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <5f80ca56-9f34-4e6e-bc83-8f8b3c888163@redhat.com>
-Date:   Mon, 17 Sep 2018 09:32:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        devel@driverdev.osuosl.org
+Subject: Re: [PATCH 00/19] mtd: rawnand: API cleanup (2nd batch)
+Message-ID: <20180917102939.3ff716db@bbrezillon>
+In-Reply-To: <20180915195440.251fea18@xps13>
+References: <20180906223851.6964-1-boris.brezillon@bootlin.com>
+        <20180915195440.251fea18@xps13>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <70372ef5-e332-6c07-f08c-50f8808bde6d@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Mon, 17 Sep 2018 07:32:41 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 03.09.18 um 02:36 schrieb Rashmica:
-> Hi David,
-> 
-> 
-> On 21/08/18 20:44, David Hildenbrand wrote:
-> 
->> There seem to be some problems as result of 30467e0b3be ("mm, hotplug:
->> fix concurrent memory hot-add deadlock"), which tried to fix a possible
->> lock inversion reported and discussed in [1] due to the two locks
->> 	a) device_lock()
->> 	b) mem_hotplug_lock
->>
->> While add_memory() first takes b), followed by a) during
->> bus_probe_device(), onlining of memory from user space first took b),
->> followed by a), exposing a possible deadlock.
-> 
-> Do you mean "onlining of memory from user space first took a),
-> followed by b)"? 
+On Sat, 15 Sep 2018 19:54:40 +0200
+Miquel Raynal <miquel.raynal@bootlin.com> wrote:
 
-Very right, thanks.
+> Hi Boris,
+> 
+> Boris Brezillon <boris.brezillon@bootlin.com> wrote on Fri,  7 Sep 2018
+> 00:38:32 +0200:
+> 
+> > Hello,
+> > 
+> > This is the 2nd batch of API cleanup patches. This time we move
+> > deprecated hooks/fields to the nand_legacy struct, and then move some
+> > of the code found in nand_base.c into separate source/header files.
+> > 
+> > With this new organization, new comers should more easily identify the
+> > bits they can use in their NAND controller drivers and those that are
+> > only meant for core code. It also shrink a bit nand_base.c which was
+> > over 6000 lines of code.
+> > 
+> > Note that existing coding style issues (reported by checkpatch) in arch
+> > or driver code are intentionally not fixed to keep the series focused
+> > on the API/core cleanup.
+> > 
+> > Regards,
+> > 
+> > Boris
+> > 
+> > Boris Brezillon (19):
+> >   mtd: rawnand: Leave chip->IO_ADDR_{R,W} to NULL when unused
+> >   mtd: rawnand: Create a legacy struct and move ->IO_ADDR_{R,W} there
+> >   mtd: rawnand: Deprecate ->{read,write}_{byte,buf}() hooks
+> >   mtd: rawnand: Deprecate ->cmd_ctrl() and ->cmdfunc()
+> >   mtd: rawnand: Deprecate ->dev_ready() and ->waitfunc()
+> >   mtd: rawnand: Deprecate ->block_{bad,markbad}() hooks
+> >   mtd: rawnand: Deprecate ->erase()
+> >   mtd: rawnand: Deprecate ->{set,get}_features() hooks
+> >   mtd: rawnand: Deprecate ->chip_delay
+> >   mtd: rawnand: Move function prototypes after struct declarations
+> >   mtd: rawnand: Get rid of nand_flash_dev forward declation
+> >   mtd: rawnand: Get rid of the duplicate nand_chip forward declaration
+> >   mtd: rawnand: Get rid of a few unused definitions
+> >   mtd: rawnand: Move platform_nand_xxx definitions out of rawnand.h
+> >   mtd: rawnand: Inline onfi_get_async_timing_mode()
+> >   mtd: rawnand: Keep all internal stuff private
+> >   mtd: rawnand: Move legacy code to nand_legacy.c
+> >   mtd: rawnand: Move ONFI code to nand_onfi.c
+> >   mtd: rawnand: Move JEDEC code to nand_jedec.c
+> > 
+> >  Documentation/driver-api/mtdnand.rst             |   30 +-
+> >  arch/arm/mach-ep93xx/snappercl15.c               |    8 +-
+> >  arch/arm/mach-ep93xx/ts72xx.c                    |    9 +-
+> >  arch/arm/mach-imx/mach-qong.c                    |    6 +-
+> >  arch/arm/mach-ixp4xx/ixdp425-setup.c             |    2 +-
+> >  arch/arm/mach-omap1/board-fsample.c              |    3 +-
+> >  arch/arm/mach-omap1/board-h2.c                   |    3 +-
+> >  arch/arm/mach-omap1/board-h3.c                   |    2 +-
+> >  arch/arm/mach-omap1/board-nand.c                 |    2 +-
+> >  arch/arm/mach-omap1/board-perseus2.c             |    3 +-
+> >  arch/arm/mach-orion5x/ts78xx-setup.c             |    9 +-
+> >  arch/arm/mach-pxa/balloon3.c                     |    5 +-
+> >  arch/arm/mach-pxa/em-x270.c                      |    9 +-
+> >  arch/arm/mach-pxa/palmtx.c                       |    5 +-
+> >  arch/mips/alchemy/devboards/db1200.c             |    9 +-
+> >  arch/mips/alchemy/devboards/db1300.c             |    9 +-
+> >  arch/mips/alchemy/devboards/db1550.c             |    9 +-
+> >  arch/mips/netlogic/xlr/platform-flash.c          |    3 +-
+> >  arch/mips/pnx833x/common/platform.c              |    5 +-
+> >  arch/mips/rb532/devices.c                        |    5 +-
+> >  arch/sh/boards/mach-migor/setup.c                |    8 +-
+> >  drivers/mtd/nand/raw/Makefile                    |    4 +-
+> >  drivers/mtd/nand/raw/ams-delta.c                 |   22 +-
+> >  drivers/mtd/nand/raw/atmel/nand-controller.c     |   22 +-
+> >  drivers/mtd/nand/raw/au1550nd.c                  |   43 +-
+> >  drivers/mtd/nand/raw/bcm47xxnflash/ops_bcm4706.c |   22 +-
+> >  drivers/mtd/nand/raw/brcmnand/brcmnand.c         |   15 +-
+> >  drivers/mtd/nand/raw/cafe_nand.c                 |   22 +-
+> >  drivers/mtd/nand/raw/cmx270_nand.c               |   28 +-
+> >  drivers/mtd/nand/raw/cs553x_nand.c               |   42 +-
+> >  drivers/mtd/nand/raw/davinci_nand.c              |   34 +-
+> >  drivers/mtd/nand/raw/denali.c                    |   23 +-
+> >  drivers/mtd/nand/raw/diskonchip.c                |   50 +-
+> >  drivers/mtd/nand/raw/fsl_elbc_nand.c             |   18 +-
+> >  drivers/mtd/nand/raw/fsl_ifc_nand.c              |   24 +-
+> >  drivers/mtd/nand/raw/fsl_upm.c                   |   30 +-
+> >  drivers/mtd/nand/raw/fsmc_nand.c                 |    1 -
+> >  drivers/mtd/nand/raw/gpio.c                      |   16 +-
+> >  drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c       |   22 +-
+> >  drivers/mtd/nand/raw/hisi504_nand.c              |   18 +-
+> >  drivers/mtd/nand/raw/internals.h                 |  114 ++
+> >  drivers/mtd/nand/raw/jz4740_nand.c               |   14 +-
+> >  drivers/mtd/nand/raw/jz4780_nand.c               |   10 +-
+> >  drivers/mtd/nand/raw/lpc32xx_mlc.c               |   12 +-
+> >  drivers/mtd/nand/raw/lpc32xx_slc.c               |   26 +-
+> >  drivers/mtd/nand/raw/mpc5121_nfc.c               |   14 +-
+> >  drivers/mtd/nand/raw/mtk_nand.c                  |   12 +-
+> >  drivers/mtd/nand/raw/mxc_nand.c                  |   20 +-
+> >  drivers/mtd/nand/raw/nand_amd.c                  |    2 +-
+> >  drivers/mtd/nand/raw/nand_base.c                 | 1260 +++-------------------
+> >  drivers/mtd/nand/raw/nand_bbt.c                  |    5 +-
+> >  drivers/mtd/nand/raw/nand_hynix.c                |    9 +-
+> >  drivers/mtd/nand/raw/nand_ids.c                  |    4 +-
+> >  drivers/mtd/nand/raw/nand_jedec.c                |  113 ++
+> >  drivers/mtd/nand/raw/nand_legacy.c               |  642 +++++++++++
+> >  drivers/mtd/nand/raw/nand_macronix.c             |    2 +-
+> >  drivers/mtd/nand/raw/nand_micron.c               |    3 +-
+> >  drivers/mtd/nand/raw/nand_onfi.c                 |  305 ++++++
+> >  drivers/mtd/nand/raw/nand_samsung.c              |    2 +-
+> >  drivers/mtd/nand/raw/nand_timings.c              |   18 +-
+> >  drivers/mtd/nand/raw/nand_toshiba.c              |    2 +-
+> >  drivers/mtd/nand/raw/nandsim.c                   |   14 +-
+> >  drivers/mtd/nand/raw/ndfc.c                      |   14 +-
+> >  drivers/mtd/nand/raw/nuc900_nand.c               |   22 +-
+> >  drivers/mtd/nand/raw/omap2.c                     |   62 +-
+> >  drivers/mtd/nand/raw/orion_nand.c                |   12 +-
+> >  drivers/mtd/nand/raw/oxnas_nand.c                |   10 +-
+> >  drivers/mtd/nand/raw/pasemi_nand.c               |   32 +-
+> >  drivers/mtd/nand/raw/plat_nand.c                 |   17 +-
+> >  drivers/mtd/nand/raw/qcom_nandc.c                |   39 +-
+> >  drivers/mtd/nand/raw/r852.c                      |   14 +-
+> >  drivers/mtd/nand/raw/s3c2410.c                   |   34 +-
+> >  drivers/mtd/nand/raw/sh_flctl.c                  |   18 +-
+> >  drivers/mtd/nand/raw/sharpsl.c                   |   12 +-
+> >  drivers/mtd/nand/raw/sm_common.c                 |    2 +-
+> >  drivers/mtd/nand/raw/socrates_nand.c             |   16 +-
+> >  drivers/mtd/nand/raw/sunxi_nand.c                |   14 +-
+> >  drivers/mtd/nand/raw/tango_nand.c                |   12 +-
+> >  drivers/mtd/nand/raw/tmio_nand.c                 |   20 +-
+> >  drivers/mtd/nand/raw/txx9ndfmc.c                 |   12 +-
+> >  drivers/mtd/nand/raw/xway_nand.c                 |   12 +-
+> >  drivers/staging/mt29f_spinand/mt29f_spinand.c    |   16 +-
+> >  include/linux/mtd/jedec.h                        |   91 ++
+> >  include/linux/mtd/onfi.h                         |  178 +++
+> >  include/linux/mtd/platnand.h                     |   74 ++
+> >  include/linux/mtd/rawnand.h                      |  555 ++--------
+> >  86 files changed, 2300 insertions(+), 2191 deletions(-)
+> >  create mode 100644 drivers/mtd/nand/raw/internals.h
+> >  create mode 100644 drivers/mtd/nand/raw/nand_jedec.c
+> >  create mode 100644 drivers/mtd/nand/raw/nand_legacy.c
+> >  create mode 100644 drivers/mtd/nand/raw/nand_onfi.c
+> >  create mode 100644 include/linux/mtd/jedec.h
+> >  create mode 100644 include/linux/mtd/onfi.h
+> >  create mode 100644 include/linux/mtd/platnand.h
+> >   
+> 
+> Series reviewed, there is one typo in patch 2/19 and 16/19 and a
+> s/ONFI/JEDEC/ in patch 19/19, otherwise I like the cleanup very much!
+> Can I modify when applying or you plan to do more/other changes?
 
-> 
->> In [1], and it was decided to not make use of device_hotplug_lock, but
->> rather to enforce a locking order.
->>
->> The problems I spotted related to this:
->>
->> 1. Memory block device attributes: While .state first calls
->>    mem_hotplug_begin() and the calls device_online() - which takes
->>    device_lock() - .online does no longer call mem_hotplug_begin(), so
->>    effectively calls online_pages() without mem_hotplug_lock.
->>
->> 2. device_online() should be called under device_hotplug_lock, however
->>    onlining memory during add_memory() does not take care of that.
->>
->> In addition, I think there is also something wrong about the locking in
->>
->> 3. arch/powerpc/platforms/powernv/memtrace.c calls offline_pages()
->>    without locks. This was introduced after 30467e0b3be. And skimming over
->>    the code, I assume it could need some more care in regards to locking
->>    (e.g. device_online() called without device_hotplug_lock - but I'll
->>    not touch that for now).
-> 
-> Can you mention that you fixed this in later patches?
-
-Sure!
-
-> 
-> 
-> The series looks good to me. Feel free to add my reviewed-by:
-> 
-> Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
-> 
-
-Thanks, r-b only for this patch or all of the series?
-
--- 
+Yep, you can fix+apply the series if you're happy with it.
 
 Thanks,
 
-David / dhildenb
+Boris
