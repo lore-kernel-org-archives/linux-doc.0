@@ -3,57 +3,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E47187D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 18:42:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E056C7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 18:59:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727672AbeIRALR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Sep 2018 20:11:17 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:44075 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728007AbeIRALN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Sep 2018 20:11:13 -0400
-Received: by mail-io1-f67.google.com with SMTP id 75-v6so12326301iou.11
-        for <linux-doc@vger.kernel.org>; Mon, 17 Sep 2018 11:42:38 -0700 (PDT)
+        id S1727833AbeIRA1p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Sep 2018 20:27:45 -0400
+Received: from mail-it0-f68.google.com ([209.85.214.68]:52970 "EHLO
+        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727792AbeIRA1o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Sep 2018 20:27:44 -0400
+Received: by mail-it0-f68.google.com with SMTP id h3-v6so12665651ita.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Sep 2018 11:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=O5u7wMaeEk5fXb1J01fxLI6QHGCxyT5enhFPS6rHyRY=;
-        b=jd4FM5IS7f0vh3csEHwSv5NUA9rtXE8KD/0+x/dX+blaJ/pXqQWvnWocszCWRJZBXi
-         hndcTDC2awQIUnUZ1MTmL+mMNOQeAfV+izh37HjkSQikTpg2Uo5/17R4Ewx2avfgt1wt
-         fHTsZ1b+jqs6ayOY0OrEyRGl8lttRhvBtheJh1c0bj8sfhmEbkEPZSlm2UJtnzQ2FW6H
-         KaSDYmij4gIw28uvGEAJ1DkwDMj4pp0BKH3feLAgNIS252NtcFAqD6/QiW7ec2qZG59w
-         5nKdbV95/DByG5Qk1YlSh1RsHBaRiG1TPf/kvBlxPuZRZQy7VSPOPTWb8VnttqG/Nd4t
-         G5Hg==
+        bh=imbl7D6svXjMEDV1aM57VNbFqhmwF/aRo2PktqskJuQ=;
+        b=AXvoZLmLgMAkSSLph5qhphHZPpuXzsVeA+LJnEioxD2i9DbxIbUMZ7oU/I7T0KAQEG
+         HWB1T5bqUEG6VEPGD8GTee4MqYcfAMZDmQMxszQ63t59biirUoMKxrO6CjKf06sp/Y29
+         31Ek95BboUhSTqFMKjwriT0NMBhJ9uZWh6ReIvNYjgx2ol0Jf65rxmWDhRCWG1KSpGDw
+         kL0TazrHkDS+H/6Qe2mUoUvzEKLIwdVDHBJ1tqpcOuZwFrqJfXvfQFN1AqhqOzHCwdod
+         W29fkyw6sKhsiW2nMQDhZQxSuMFgVI0isAvsI8NrMiWsYdFKU43eWaSd1nQfPhmE+dl3
+         J3KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=O5u7wMaeEk5fXb1J01fxLI6QHGCxyT5enhFPS6rHyRY=;
-        b=feIZ23++/Hdj/vDQc/TefqJHrgC+SsItnzw7SzBlnSyDDl3INtyZzB7oJnf+ACB7wl
-         QgbQl42kEaM7ZUciGEIw4PnYjEppvzvE/rpNQO0rG4yKFDUJvbDyG7qDNrB6QcOmVqXL
-         XNjE//4P1MB0z5lqpihJPP9nTPD+KI8l4jpCbrkiVgUbD8IBO0CZfdM3qlJct/9yFXMZ
-         wv/D3yoJLubx65s9KIZ0hoL6XCvOYcafGNsheOQxHcKi14DWiM6+LUAZVrdtgEQoyPDE
-         N2Cz5tBjgDbI8JLF7OeclRRrPUozWI3FvV2yIqn7wyyHnkgMJZMqpXydSzaq6gegbD4v
-         Jujg==
-X-Gm-Message-State: APzg51ClMW9NyLoh4B0jEBlWgYIoHxr9IkKjfnIA6/fvFMq6AuKqNEYO
-        e0z/y32TkIqOvzNlvVNdXus9jTUNYG1Rwr7BYg0pGQ==
-X-Google-Smtp-Source: ANB0Vda9zHAY8xmHgUHbwXkczsykCuIOYRyirwb3bmL+ueoCcJnoaS2qc01BLkxqLf9gMfP9X77u+IXTvbF74xI/lqc=
-X-Received: by 2002:a6b:2147:: with SMTP id h68-v6mr21760951ioh.192.1537209757392;
- Mon, 17 Sep 2018 11:42:37 -0700 (PDT)
+        bh=imbl7D6svXjMEDV1aM57VNbFqhmwF/aRo2PktqskJuQ=;
+        b=Flx+GZ1R06gOjlNlb18gfkNLdp8ty+h/AfxGe7MmP7HNZ2W7IohK7ySje8N2abe7Aj
+         4q5OLaalGfYQRTIgFB+aHF0ReDcNoH7OBys58voXUVYBAYeUOr/lwiAETDQf+6myqhcW
+         5g1iKEiEDwQ85i3qf6+DAii09RsL31Pm0wp/zesYtiY2iGK7Lfxx+SdW3IlEFSKrIzSK
+         vz2rXoQGpfW64+VhTAS6dt7GBxv9U/iXIkkMJrH8ikcSE2QYno9+iD1HRlwhsFg3Ry/w
+         xTXWacqwZLEx3rL8lsU9VZcLHHwLuV5d/zENEVs/dRq0DvCm/eqJDyXHcQxBnoLZhLmY
+         SGxQ==
+X-Gm-Message-State: APzg51C9idYLri2bcI84F08K/AXlYqXLSRzNj3BvTfaxd9oGW4UHepwz
+        J+t4J9+JIDtlnzf0llNz7ygDqR7Cf79CDySCaKvd6w==
+X-Google-Smtp-Source: ANB0VdaS1EoKzdL952x3zxcMxZ9kKbrRdhvkgUNLHKzjLC0aaZXkL32ZLULEnBXIBEItyZhiP7MBWrW3iJZ02RUaX8s=
+X-Received: by 2002:a24:be8f:: with SMTP id i137-v6mr14019760itf.113.1537210746324;
+ Mon, 17 Sep 2018 11:59:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Mon, 17 Sep 2018 11:42:36
+Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Mon, 17 Sep 2018 11:59:05
  -0700 (PDT)
-In-Reply-To: <CACT4Y+baDKvmpKJ4SKoEuZG4ir2xRGscQ7Ro4hkVAX3jwiWnFg@mail.gmail.com>
-References: <cover.1535462971.git.andreyknvl@google.com> <868c9168481ff5103034ac1e37b830d28ed5f4ee.1535462971.git.andreyknvl@google.com>
- <CACT4Y+baDKvmpKJ4SKoEuZG4ir2xRGscQ7Ro4hkVAX3jwiWnFg@mail.gmail.com>
+In-Reply-To: <CACT4Y+adO3n4Nb4XOPyXdt43DbYjb=Kz6__tPTmb1CX=00qNSQ@mail.gmail.com>
+References: <cover.1535462971.git.andreyknvl@google.com> <6cd298a90d02068969713f2fd440eae21227467b.1535462971.git.andreyknvl@google.com>
+ <CACT4Y+adO3n4Nb4XOPyXdt43DbYjb=Kz6__tPTmb1CX=00qNSQ@mail.gmail.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 17 Sep 2018 20:42:36 +0200
-Message-ID: <CAAeHK+yvVgV6LA8PgJz6ysCo+X38tCyLrMVhKOe08tFyZP_F0Q@mail.gmail.com>
-Subject: Re: [PATCH v6 03/18] khwasan: add CONFIG_KASAN_GENERIC and CONFIG_KASAN_HW
+Date:   Mon, 17 Sep 2018 20:59:05 +0200
+Message-ID: <CAAeHK+w+Znw-t_wd29PO5B+pNegS3wqzS1mUVCmfrgdCXpavWw@mail.gmail.com>
+Subject: Re: [PATCH v6 07/18] khwasan: add tag related helper functions
 To:     Dmitry Vyukov <dvyukov@google.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -97,71 +97,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 12, 2018 at 4:47 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
+On Wed, Sep 12, 2018 at 6:21 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
 > On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
 
->>
->>  #define __no_sanitize_address __attribute__((no_sanitize("address")))
->> +#define __no_sanitize_hwaddress __attribute__((no_sanitize("hwaddress")))
+>> +void *khwasan_preset_slub_tag(struct kmem_cache *cache, const void *addr)
 >
-> It seems that it would be better to have just 1 attribute for both types.
-> Currently __no_sanitize_address is used just in a single place. But if
-> it ever used more, people will need to always spell both which looks
-> unnecessary, or, worse will only fix asan but forget about khwasan.
->
-> If we do just:
->
-> #define __no_sanitize_address __attribute__((no_sanitize("address",
-> "hwaddress")))
->
-> Then we don't need any changes in compiler-gcc.h nor in compiler.h,
-> and no chance or forgetting one of them.
+> Can't we do this in the existing kasan_init_slab_obj() hook? It looks
+> like it should do exactly this -- allow any one-time initialization
+> for objects. We could extend it to accept index and return a new
+> pointer.
+> If that does not work for some reason, I would try to at least unify
+> the hook for slab/slub, e.g. pass idx=-1 from slub and then use
+> random_tag().
+> It also seems that we do preset tag for slab multiple times (from
+> slab_get_obj()). Using kasan_init_slab_obj() should resolve this too
+> (hopefully we don't call it multiple times).
 
-Will do in v7.
-
->>  config KASAN
->> -       bool "KASan: runtime memory debugger"
->> +       bool "KASAN: runtime memory debugger"
->> +       help
->> +         Enables KASAN (KernelAddressSANitizer) - runtime memory debugger,
->> +         designed to find out-of-bounds accesses and use-after-free bugs.
->
-> Perhaps also give link to Documentation/dev-tools/kasan.rst while we are here.
-
-Will do in v7.
-
->
->> +
->> +choice
->> +       prompt "KASAN mode"
->> +       depends on KASAN
->> +       default KASAN_GENERIC
->> +       help
->> +         KASAN has two modes: KASAN (a classic version, similar to userspace
->
-> In these few sentences we call the old mode with 3 different terms:
-> "generic", "classic" and "KASAN" :)
-> This is somewhat confusing. Let's call it "generic" throughout (here
-> and in the docs patch). "Generic" as in "supported on multiple arch
-> and not-dependent on hardware features". "Classic" makes sense for
-> people who knew KASAN before, but for future readers in won't make
-> sense.
-
-Will use "generic" in v7.
-
->>
->> +if HAVE_ARCH_KASAN_HW
->
-> This choice looks somewhat weird on non-arm64. It's kinda a choice
-> menu, but one can't really choose anything. Should we put the whole
-> choice under HAVE_ARCH_KASAN_HW, and just select KASAN_GENERIC
-> otherwise? I don't know what't the practice here. Andrey R?
-
-I think having one option that is auto selected is fine.
-
->> +config KASAN_HW
->> +       bool "KHWASAN: the hardware assisted mode"
-
-Do we need a hyphen here? hardware-assisted?
-
-Yes, will fix in v7.
+The issue is that SLAB stores freelist as an array of indexes instead
+of using an actual linked list like SLUB. So you can't store the tag
+in the pointer while the object is in the freelist, since there's no
+pointer. And, technically, we don't preset tags for SLAB, we just use
+the id as the tag every time a pointer is used, so perhaps we should
+rename the callback. As to unifying the callbacks, sure, we can do
+that.
