@@ -2,218 +2,288 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A95F97D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 08:29:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D60B7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 08:41:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727329AbeIQN4O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Sep 2018 09:56:14 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:57512 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727185AbeIQN4O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Sep 2018 09:56:14 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id D029B20798; Mon, 17 Sep 2018 10:29:49 +0200 (CEST)
-Received: from bbrezillon (AAubervilliers-681-1-99-10.w90-88.abo.wanadoo.fr [90.88.4.10])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 1B35320741;
-        Mon, 17 Sep 2018 10:29:39 +0200 (CEST)
-Date:   Mon, 17 Sep 2018 10:29:39 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Hartley Sweeten <hsweeten@visionengravers.com>,
-        Ryan Mallon <rmallon@gmail.com>,
-        Alexander Shiyan <shc_work@mail.ru>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Fabio Estevam <fabio.estevam@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Imre Kaloz <kaloz@openwrt.org>,
-        Krzysztof Halasa <khalasa@piap.pl>,
-        Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org,
-        Alexander Clouter <alex@digriz.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Ralf Baechle <ralf@linux-mips.org>, linux-mips@linux-mips.org,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
+        id S1728079AbeIQOIO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Sep 2018 10:08:14 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:12165 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727329AbeIQOIO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Sep 2018 10:08:14 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 919565DA796FB;
+        Mon, 17 Sep 2018 16:41:45 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server (TLS) id 14.3.399.0; Mon, 17 Sep
+ 2018 16:41:37 +0800
+Date:   Mon, 17 Sep 2018 16:39:40 +0800
+From:   Kenneth Lee <liguozhu@hisilicon.com>
+To:     Jerome Glisse <jglisse@redhat.com>
+CC:     Kenneth Lee <nek.in.cn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Zaibo Xu <xuzaibo@huawei.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devel@driverdev.osuosl.org
-Subject: Re: [PATCH 00/19] mtd: rawnand: API cleanup (2nd batch)
-Message-ID: <20180917102939.3ff716db@bbrezillon>
-In-Reply-To: <20180915195440.251fea18@xps13>
-References: <20180906223851.6964-1-boris.brezillon@bootlin.com>
-        <20180915195440.251fea18@xps13>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Thomas Gleixner <tglx@linutronix.de>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-crypto@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <kvm@vger.kernel.org>, <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Sanjay Kumar <sanjay.k.kumar@intel.com>, <linuxarm@huawei.com>
+Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180917083940.GE207969@Turing-Arch-b>
+References: <20180903005204.26041-1-nek.in.cn@gmail.com>
+ <20180917014244.GA27596@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180917014244.GA27596@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [10.67.212.75]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 15 Sep 2018 19:54:40 +0200
-Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-
-> Hi Boris,
+On Sun, Sep 16, 2018 at 09:42:44PM -0400, Jerome Glisse wrote:
+> Date: Sun, 16 Sep 2018 21:42:44 -0400
+> From: Jerome Glisse <jglisse@redhat.com>
+> To: Kenneth Lee <nek.in.cn@gmail.com>
+> CC: Jonathan Corbet <corbet@lwn.net>, Herbert Xu
+>  <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>,
+>  Joerg Roedel <joro@8bytes.org>, Alex Williamson
+>  <alex.williamson@redhat.com>, Kenneth Lee <liguozhu@hisilicon.com>, Hao
+>  Fang <fanghao11@huawei.com>, Zhou Wang <wangzhou1@hisilicon.com>, Zaibo Xu
+>  <xuzaibo@huawei.com>, Philippe Ombredanne <pombredanne@nexb.com>, Greg
+>  Kroah-Hartman <gregkh@linuxfoundation.org>, Thomas Gleixner
+>  <tglx@linutronix.de>, linux-doc@vger.kernel.org,
+>  linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+>  iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+>  linux-accelerators@lists.ozlabs.org, Lu Baolu <baolu.lu@linux.intel.com>,
+>  Sanjay Kumar <sanjay.k.kumar@intel.com>, linuxarm@huawei.com
+> Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+> User-Agent: Mutt/1.10.1 (2018-07-13)
+> Message-ID: <20180917014244.GA27596@redhat.com>
 > 
-> Boris Brezillon <boris.brezillon@bootlin.com> wrote on Fri,  7 Sep 2018
-> 00:38:32 +0200:
+> So i want to summarize issues i have as this threads have dig deep into
+> details. For this i would like to differentiate two cases first the easy
+> one when relying on SVA/SVM. Then the second one when there is no SVA/SVM.
+
+Thank you very much for the summary.
+
+> In both cases your objectives as i understand them:
 > 
-> > Hello,
-> > 
-> > This is the 2nd batch of API cleanup patches. This time we move
-> > deprecated hooks/fields to the nand_legacy struct, and then move some
-> > of the code found in nand_base.c into separate source/header files.
-> > 
-> > With this new organization, new comers should more easily identify the
-> > bits they can use in their NAND controller drivers and those that are
-> > only meant for core code. It also shrink a bit nand_base.c which was
-> > over 6000 lines of code.
-> > 
-> > Note that existing coding style issues (reported by checkpatch) in arch
-> > or driver code are intentionally not fixed to keep the series focused
-> > on the API/core cleanup.
-> > 
-> > Regards,
-> > 
-> > Boris
-> > 
-> > Boris Brezillon (19):
-> >   mtd: rawnand: Leave chip->IO_ADDR_{R,W} to NULL when unused
-> >   mtd: rawnand: Create a legacy struct and move ->IO_ADDR_{R,W} there
-> >   mtd: rawnand: Deprecate ->{read,write}_{byte,buf}() hooks
-> >   mtd: rawnand: Deprecate ->cmd_ctrl() and ->cmdfunc()
-> >   mtd: rawnand: Deprecate ->dev_ready() and ->waitfunc()
-> >   mtd: rawnand: Deprecate ->block_{bad,markbad}() hooks
-> >   mtd: rawnand: Deprecate ->erase()
-> >   mtd: rawnand: Deprecate ->{set,get}_features() hooks
-> >   mtd: rawnand: Deprecate ->chip_delay
-> >   mtd: rawnand: Move function prototypes after struct declarations
-> >   mtd: rawnand: Get rid of nand_flash_dev forward declation
-> >   mtd: rawnand: Get rid of the duplicate nand_chip forward declaration
-> >   mtd: rawnand: Get rid of a few unused definitions
-> >   mtd: rawnand: Move platform_nand_xxx definitions out of rawnand.h
-> >   mtd: rawnand: Inline onfi_get_async_timing_mode()
-> >   mtd: rawnand: Keep all internal stuff private
-> >   mtd: rawnand: Move legacy code to nand_legacy.c
-> >   mtd: rawnand: Move ONFI code to nand_onfi.c
-> >   mtd: rawnand: Move JEDEC code to nand_jedec.c
-> > 
-> >  Documentation/driver-api/mtdnand.rst             |   30 +-
-> >  arch/arm/mach-ep93xx/snappercl15.c               |    8 +-
-> >  arch/arm/mach-ep93xx/ts72xx.c                    |    9 +-
-> >  arch/arm/mach-imx/mach-qong.c                    |    6 +-
-> >  arch/arm/mach-ixp4xx/ixdp425-setup.c             |    2 +-
-> >  arch/arm/mach-omap1/board-fsample.c              |    3 +-
-> >  arch/arm/mach-omap1/board-h2.c                   |    3 +-
-> >  arch/arm/mach-omap1/board-h3.c                   |    2 +-
-> >  arch/arm/mach-omap1/board-nand.c                 |    2 +-
-> >  arch/arm/mach-omap1/board-perseus2.c             |    3 +-
-> >  arch/arm/mach-orion5x/ts78xx-setup.c             |    9 +-
-> >  arch/arm/mach-pxa/balloon3.c                     |    5 +-
-> >  arch/arm/mach-pxa/em-x270.c                      |    9 +-
-> >  arch/arm/mach-pxa/palmtx.c                       |    5 +-
-> >  arch/mips/alchemy/devboards/db1200.c             |    9 +-
-> >  arch/mips/alchemy/devboards/db1300.c             |    9 +-
-> >  arch/mips/alchemy/devboards/db1550.c             |    9 +-
-> >  arch/mips/netlogic/xlr/platform-flash.c          |    3 +-
-> >  arch/mips/pnx833x/common/platform.c              |    5 +-
-> >  arch/mips/rb532/devices.c                        |    5 +-
-> >  arch/sh/boards/mach-migor/setup.c                |    8 +-
-> >  drivers/mtd/nand/raw/Makefile                    |    4 +-
-> >  drivers/mtd/nand/raw/ams-delta.c                 |   22 +-
-> >  drivers/mtd/nand/raw/atmel/nand-controller.c     |   22 +-
-> >  drivers/mtd/nand/raw/au1550nd.c                  |   43 +-
-> >  drivers/mtd/nand/raw/bcm47xxnflash/ops_bcm4706.c |   22 +-
-> >  drivers/mtd/nand/raw/brcmnand/brcmnand.c         |   15 +-
-> >  drivers/mtd/nand/raw/cafe_nand.c                 |   22 +-
-> >  drivers/mtd/nand/raw/cmx270_nand.c               |   28 +-
-> >  drivers/mtd/nand/raw/cs553x_nand.c               |   42 +-
-> >  drivers/mtd/nand/raw/davinci_nand.c              |   34 +-
-> >  drivers/mtd/nand/raw/denali.c                    |   23 +-
-> >  drivers/mtd/nand/raw/diskonchip.c                |   50 +-
-> >  drivers/mtd/nand/raw/fsl_elbc_nand.c             |   18 +-
-> >  drivers/mtd/nand/raw/fsl_ifc_nand.c              |   24 +-
-> >  drivers/mtd/nand/raw/fsl_upm.c                   |   30 +-
-> >  drivers/mtd/nand/raw/fsmc_nand.c                 |    1 -
-> >  drivers/mtd/nand/raw/gpio.c                      |   16 +-
-> >  drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c       |   22 +-
-> >  drivers/mtd/nand/raw/hisi504_nand.c              |   18 +-
-> >  drivers/mtd/nand/raw/internals.h                 |  114 ++
-> >  drivers/mtd/nand/raw/jz4740_nand.c               |   14 +-
-> >  drivers/mtd/nand/raw/jz4780_nand.c               |   10 +-
-> >  drivers/mtd/nand/raw/lpc32xx_mlc.c               |   12 +-
-> >  drivers/mtd/nand/raw/lpc32xx_slc.c               |   26 +-
-> >  drivers/mtd/nand/raw/mpc5121_nfc.c               |   14 +-
-> >  drivers/mtd/nand/raw/mtk_nand.c                  |   12 +-
-> >  drivers/mtd/nand/raw/mxc_nand.c                  |   20 +-
-> >  drivers/mtd/nand/raw/nand_amd.c                  |    2 +-
-> >  drivers/mtd/nand/raw/nand_base.c                 | 1260 +++-------------------
-> >  drivers/mtd/nand/raw/nand_bbt.c                  |    5 +-
-> >  drivers/mtd/nand/raw/nand_hynix.c                |    9 +-
-> >  drivers/mtd/nand/raw/nand_ids.c                  |    4 +-
-> >  drivers/mtd/nand/raw/nand_jedec.c                |  113 ++
-> >  drivers/mtd/nand/raw/nand_legacy.c               |  642 +++++++++++
-> >  drivers/mtd/nand/raw/nand_macronix.c             |    2 +-
-> >  drivers/mtd/nand/raw/nand_micron.c               |    3 +-
-> >  drivers/mtd/nand/raw/nand_onfi.c                 |  305 ++++++
-> >  drivers/mtd/nand/raw/nand_samsung.c              |    2 +-
-> >  drivers/mtd/nand/raw/nand_timings.c              |   18 +-
-> >  drivers/mtd/nand/raw/nand_toshiba.c              |    2 +-
-> >  drivers/mtd/nand/raw/nandsim.c                   |   14 +-
-> >  drivers/mtd/nand/raw/ndfc.c                      |   14 +-
-> >  drivers/mtd/nand/raw/nuc900_nand.c               |   22 +-
-> >  drivers/mtd/nand/raw/omap2.c                     |   62 +-
-> >  drivers/mtd/nand/raw/orion_nand.c                |   12 +-
-> >  drivers/mtd/nand/raw/oxnas_nand.c                |   10 +-
-> >  drivers/mtd/nand/raw/pasemi_nand.c               |   32 +-
-> >  drivers/mtd/nand/raw/plat_nand.c                 |   17 +-
-> >  drivers/mtd/nand/raw/qcom_nandc.c                |   39 +-
-> >  drivers/mtd/nand/raw/r852.c                      |   14 +-
-> >  drivers/mtd/nand/raw/s3c2410.c                   |   34 +-
-> >  drivers/mtd/nand/raw/sh_flctl.c                  |   18 +-
-> >  drivers/mtd/nand/raw/sharpsl.c                   |   12 +-
-> >  drivers/mtd/nand/raw/sm_common.c                 |    2 +-
-> >  drivers/mtd/nand/raw/socrates_nand.c             |   16 +-
-> >  drivers/mtd/nand/raw/sunxi_nand.c                |   14 +-
-> >  drivers/mtd/nand/raw/tango_nand.c                |   12 +-
-> >  drivers/mtd/nand/raw/tmio_nand.c                 |   20 +-
-> >  drivers/mtd/nand/raw/txx9ndfmc.c                 |   12 +-
-> >  drivers/mtd/nand/raw/xway_nand.c                 |   12 +-
-> >  drivers/staging/mt29f_spinand/mt29f_spinand.c    |   16 +-
-> >  include/linux/mtd/jedec.h                        |   91 ++
-> >  include/linux/mtd/onfi.h                         |  178 +++
-> >  include/linux/mtd/platnand.h                     |   74 ++
-> >  include/linux/mtd/rawnand.h                      |  555 ++--------
-> >  86 files changed, 2300 insertions(+), 2191 deletions(-)
-> >  create mode 100644 drivers/mtd/nand/raw/internals.h
-> >  create mode 100644 drivers/mtd/nand/raw/nand_jedec.c
-> >  create mode 100644 drivers/mtd/nand/raw/nand_legacy.c
-> >  create mode 100644 drivers/mtd/nand/raw/nand_onfi.c
-> >  create mode 100644 include/linux/mtd/jedec.h
-> >  create mode 100644 include/linux/mtd/onfi.h
-> >  create mode 100644 include/linux/mtd/platnand.h
-> >   
+> [R1]- expose a common user space API that make it easy to share boiler
+>       plate code accross many devices (discovering devices, opening
+>       device, creating context, creating command queue ...).
+> [R2]- try to share the device as much as possible up to device limits
+>       (number of independant queues the device has)
+> [R3]- minimize syscall by allowing user space to directly schedule on the
+>       device queue without a round trip to the kernel
 > 
-> Series reviewed, there is one typo in patch 2/19 and 16/19 and a
-> s/ONFI/JEDEC/ in patch 19/19, otherwise I like the cleanup very much!
-> Can I modify when applying or you plan to do more/other changes?
+> I don't think i missed any.
+> 
+> 
+> (1) Device with SVA/SVM
+> 
+> For that case it is easy, you do not need to be in VFIO or part of any
+> thing specific in the kernel. There is no security risk (modulo bug in
+> the SVA/SVM silicon). Fork/exec is properly handle and binding a process
+> to a device is just couple dozen lines of code.
+> 
 
-Yep, you can fix+apply the series if you're happy with it.
+This is right...logically. But the kernel has no clear definition about "Device
+with SVA/SVM" and no boiler plate for doing so. Then VFIO may become one of the
+boiler plate.
 
-Thanks,
+VFIO is one of the wrappers for IOMMU for user space. And maybe it is the only
+one. If we add that support within VFIO, which solve most of the problem of
+SVA/SVM, it will save a lot of work in the future.
 
-Boris
+I think this is the key confliction between us. So could Alex please say
+something here? If the VFIO is going to take this into its scope, we can try
+together to solve all the problem on the way. If it it is not, it is also
+simple, we can just go to another way to fulfill this part of requirements even
+we have to duplicate most of the code.
+
+Another point I need to emphasis here: because we have to replace the hardware
+queue when fork, so it won't be very simple even in SVA/SVM case.
+
+> 
+> (2) Device does not have SVA/SVM (or it is disabled)
+> 
+> You want to still allow device to be part of your framework. However
+> here i see fundamentals securities issues and you move the burden of
+> being careful to user space which i think is a bad idea. We should
+> never trus the userspace from kernel space.
+> 
+> To keep the same API for the user space code you want a 1:1 mapping
+> between device physical address and process virtual address (ie if
+> device access device physical address A it is accessing the same
+> memory as what is backing the virtual address A in the process.
+> 
+> Security issues are on two things:
+> [I1]- fork/exec, a process who opened any such device and created an
+>       active queue can transfer without its knowledge control of its
+>       commands queue through COW. The parent map some anonymous region
+>       to the device as a command queue buffer but because of COW the
+>       parent can be the first to copy on write and thus the child can
+>       inherit the original pages that are mapped to the hardware.
+>       Here parent lose control and child gain it.
+
+This is indeed an issue. But it remains an issue only if you continue to use the
+queue and the memory after fork. We can use at_fork kinds of gadget to fix it in
+user space.
+
+From some perspectives, I think the issue can be solved by iommu_notifier. For
+example, when the process is fork-ed, we can set the mapped device mmio space as
+COW for the child process, so a new queue can be created and set to the same
+state as the parent's if the space is accessed. Then we can have two separated
+queues for both the parent and the child. The memory part can be done in the
+same way.
+
+The thing is, the same strategy can be applied to VFIO without changing its
+original feature.
+
+> 
+> [I2]- Because of [R3] you want to allow userspace to schedule commands
+>       on the device without doing an ioctl and thus here user space
+>       can schedule any commands to the device with any address. What
+>       happens if that address have not been mapped by the user space
+>       is undefined and in fact can not be defined as what each IOMMU
+>       does on invalid address access is different from IOMMU to IOMMU.
+> 
+>       In case of a bad IOMMU, or simply an IOMMU improperly setup by
+>       the kernel, this can potentialy allow user space to DMA anywhere.
+
+I don't think this is an issue. If you cannot trust IOMMU and proper setup of
+IOMMU in kernel, you cannot trust anything. And the whole VFIO framework is
+untrustable.
+
+> 
+> [I3]- By relying on GUP in VFIO you are not abiding by the implicit
+>       contract (at least i hope it is implicit) that you should not
+>       try to map to the device any file backed vma (private or share).
+> 
+>       The VFIO code never check the vma controlling the addresses that
+>       are provided to VFIO_IOMMU_MAP_DMA ioctl. Which means that the
+>       user space can provide file backed range.
+> 
+>       I am guessing that the VFIO code never had any issues because its
+>       number one user is QEMU and QEMU never does that (and that's good
+>       as no one should ever do that).
+> 
+>       So if process does that you are opening your self to serious file
+>       system corruption (depending on file system this can lead to total
+>       data loss for the filesystem).
+> 
+>       Issue is that once you GUP you never abide to file system flushing
+>       which write protect the page before writing to the disk. So
+>       because the page is still map with write permission to the device
+>       (assuming VFIO_IOMMU_MAP_DMA was a write map) then the device can
+>       write to the page while it is in the middle of being written back
+>       to disk. Consult your nearest file system specialist to ask him
+>       how bad that can be.
+
+Same as I2, it is an issue, but the problem can be solved in VFIO if we really
+take it in the scope of VFIO.
+
+> 
+> [I4]- Design issue, mdev design As Far As I Understand It is about
+>       sharing a single device to multiple clients (most obvious case
+>       here is again QEMU guest). But you are going against that model,
+>       in fact AFAIUI you are doing the exect opposite. When there is
+>       no SVA/SVM you want only one mdev device that can not be share.
+
+Wait. It is NOT "I want only one mdev device when there is no SVA/SVM", it is "I
+can support only one mdev when there is no PASID support for the IOMMU".
+
+> 
+>       So this is counter intuitive to the mdev existing design. It is
+>       not about sharing device among multiple users but about giving
+>       exclusive access to the device to one user.
+> 
+> 
+> 
+> All the reasons above is why i believe a different model would serve
+> you and your user better. Below is a design that avoids all of the
+> above issues and still delivers all of your objectives with the
+> exceptions of the third one [R3] when there is no SVA/SVM.
+> 
+> 
+> Create a subsystem (very much boiler plate code) which allow device to
+> register themself against (very much like what you do in your current
+> patchset but outside of VFIO).
+> 
+> That subsystem will create a device file for each registered system and
+> expose a common API (ie set of ioctl) for each of those device files.
+> 
+> When user space create a queue (through an ioctl after opening the device
+> file) the kernel can return -EBUSY if all the device queue are in use,
+> or create a device queue and return a flag like SYNC_ONLY for device that
+> do not have SVA/SVM.
+> 
+> For device with SVA/SVM at the time the process create a queue you bind
+> the process PASID to the device queue. From there on the userspace can
+> schedule commands and use the device without going to kernel space.
+
+As mentioned previously, this is not enough for fork scenario.
+
+> 
+> For device without SVA/SVM you create a fake queue that is just pure
+> memory is not related to the device. From there on the userspace must
+> call an ioctl every time it wants the device to consume its queue
+> (hence why the SYNC_ONLY flag for synchronous operation only). The
+> kernel portion read the fake queue expose to user space and copy
+> commands into the real hardware queue but first it properly map any
+> of the process memory needed for those commands to the device and
+> adjust the device physical address with the one it gets from dma_map
+> API.
+> 
+
+But in this way, we will lost most of the benefit of avoiding syscall.
+
+> With that model it is "easy" to listen to mmu_notifier and to abide by
+> them to avoid issues [I1], [I3] and [I4]. You obviously avoid the [I2]
+> issue by only mapping a fake device queue to userspace.
+> 
+> So yes with that models it means that every device that wish to support
+> the non SVA/SVM case will have to do extra work (ie emulate its command
+> queue in software in the kernel). But by doing so, you support an
+> unlimited number of process on your device (ie all the process can share
+> one single hardware command queues or multiple hardware queues).
+
+If I can do this, I will not need WarpDrive at all:(
+
+> 
+> The big advantages i see here is that the process do not have to worry
+> about doing something wrong. You are protecting yourself and your user
+> from stupid mistakes.
+> 
+> 
+> I hope this is useful to you.
+> 
+
+Anyway, I will try to address the problem you mentioned in next version, and
+make both options (on-VFIO or off-VFIO) are available. Thanks.
+
+> Cheers,
+> Jérôme
+
+
+Cheers
+-- 
+			-Kenneth(Hisilicon)
+
