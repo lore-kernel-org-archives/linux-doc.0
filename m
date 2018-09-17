@@ -2,201 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB7CB7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 01:42:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CD2E67E424
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 03:48:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727010AbeIQHHy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Sep 2018 03:07:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56644 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725996AbeIQHHy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Sep 2018 03:07:54 -0400
-Received: from smtp.corp.redhat.com (int-mx11.intmail.prod.int.phx2.redhat.com [10.5.11.26])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id EC621308212D;
-        Mon, 17 Sep 2018 01:42:52 +0000 (UTC)
-Received: from redhat.com (ovpn-121-3.rdu2.redhat.com [10.10.121.3])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8874530912F4;
-        Mon, 17 Sep 2018 01:42:46 +0000 (UTC)
-Date:   Sun, 16 Sep 2018 21:42:44 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Kenneth Lee <nek.in.cn@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Joerg Roedel <joro@8bytes.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Kenneth Lee <liguozhu@hisilicon.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kvm@vger.kernel.org, linux-accelerators@lists.ozlabs.org,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Sanjay Kumar <sanjay.k.kumar@intel.com>, linuxarm@huawei.com
-Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180917014244.GA27596@redhat.com>
-References: <20180903005204.26041-1-nek.in.cn@gmail.com>
+        id S1728134AbeIQJHM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Sep 2018 05:07:12 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:44409 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726674AbeIQJHM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Sep 2018 05:07:12 -0400
+Received: by mail-pl1-f194.google.com with SMTP id ba4-v6so6735628plb.11;
+        Sun, 16 Sep 2018 20:41:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rML5Wltx1r2sF8iF34Q7S9vp+4dA4MBU7NHbYjw9mV8=;
+        b=iw+HGcUDacv0Q8oJDM0GIx4eRwHBAnCO0FLj3kO/mDR6VZNkgoKJ9NokKrBMOPrF3o
+         BtjAcgi7n3T/jbdx/thpNrRZlxlSSyntIcfytrkcyrwksH7QgeTigGx5xTYgbyPH3n0q
+         Jaz79DVrGeKvqhjGI4UaJp7nawxzzk2/DMgsa/hXkm9BO0EFuRG8oObG0qeq7Q8b0cGR
+         v0wqlWyO4tYW9b6G+rz2rm2GDVHp39p5S28o2XGlcfEVFHJpKtuE0mRENJ3TVAnlVDmK
+         S/X/r1nL7BHniw+1qn102CGD2vt7FMex63gCxtnFQHq9OgTmh3dpP5n8NJS/eHUGv/5B
+         Sy0Q==
+X-Gm-Message-State: APzg51C1E5biFUIXkN2xpeqPI5NtHRA6ZW1xKxy7W5ltYnClC+77azC9
+        3ivL96lwSQsz+eqy9F6gigU0IB6z
+X-Google-Smtp-Source: ANB0VdYD8PkLF6fldd5sWcJ7pMD/uK+p/+oXOBMSjQqjc0/M8RCttIbmQgcQpNPgVuHgXvOOR8Y2JA==
+X-Received: by 2002:a17:902:d703:: with SMTP id w3-v6mr6989332ply.132.1537155705642;
+        Sun, 16 Sep 2018 20:41:45 -0700 (PDT)
+Received: from ?IPv6:2405:6580:9660:3200:60c7:933c:fe9f:29ca? ([2405:6580:9660:3200:60c7:933c:fe9f:29ca])
+        by smtp.gmail.com with ESMTPSA id s16-v6sm16559845pfm.114.2018.09.16.20.41.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 16 Sep 2018 20:41:44 -0700 (PDT)
+Subject: Re: [PATCH] Documentation: soundwire: fix stream.rst markup warnings
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        moderated for non-subscribers <alsa-devel@alsa-project.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     Vinod Koul <vkoul@kernel.org>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Shreyas NC <shreyas.nc@intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <8e1ec734-06b8-ba8a-fdca-3221ac134ea0@infradead.org>
+From:   Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Message-ID: <b14e406b-0988-22d3-4d1f-6809c4d77610@sakamocchi.jp>
+Date:   Mon, 17 Sep 2018 12:41:41 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180903005204.26041-1-nek.in.cn@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.26
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Mon, 17 Sep 2018 01:42:53 +0000 (UTC)
+In-Reply-To: <8e1ec734-06b8-ba8a-fdca-3221ac134ea0@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So i want to summarize issues i have as this threads have dig deep into
-details. For this i would like to differentiate two cases first the easy
-one when relying on SVA/SVM. Then the second one when there is no SVA/SVM.
-In both cases your objectives as i understand them:
+Hi,
 
-[R1]- expose a common user space API that make it easy to share boiler
-      plate code accross many devices (discovering devices, opening
-      device, creating context, creating command queue ...).
-[R2]- try to share the device as much as possible up to device limits
-      (number of independant queues the device has)
-[R3]- minimize syscall by allowing user space to directly schedule on the
-      device queue without a round trip to the kernel
+On Sep 17 2018 09:34, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Fix kernel-doc markup warnings in soundwire/stream.rst:
+> 
+> rc4/Documentation/driver-api/soundwire/stream.rst:177: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> rc4/Documentation/driver-api/soundwire/stream.rst:203: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> rc4/Documentation/driver-api/soundwire/stream.rst:248: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> rc4/Documentation/driver-api/soundwire/stream.rst:277: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> rc4/Documentation/driver-api/soundwire/stream.rst:304: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> rc4/Documentation/driver-api/soundwire/stream.rst:328: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> rc4/Documentation/driver-api/soundwire/stream.rst:352: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> rc4/Documentation/driver-api/soundwire/stream.rst:364: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> 
+> Fixes: 89634f99a83e ("Documentation: soundwire: Add more documentation")
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Cc: Sanyog Kale <sanyog.r.kale@intel.com>
+> Cc: Shreyas NC <shreyas.nc@intel.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-doc@vger.kernel.org
+> ---
+>   Documentation/driver-api/soundwire/stream.rst |    8 ++++++++
+>   1 file changed, 8 insertions(+)
 
-I don't think i missed any.
-
-
-(1) Device with SVA/SVM
-
-For that case it is easy, you do not need to be in VFIO or part of any
-thing specific in the kernel. There is no security risk (modulo bug in
-the SVA/SVM silicon). Fork/exec is properly handle and binding a process
-to a device is just couple dozen lines of code.
-
-
-(2) Device does not have SVA/SVM (or it is disabled)
-
-You want to still allow device to be part of your framework. However
-here i see fundamentals securities issues and you move the burden of
-being careful to user space which i think is a bad idea. We should
-never trus the userspace from kernel space.
-
-To keep the same API for the user space code you want a 1:1 mapping
-between device physical address and process virtual address (ie if
-device access device physical address A it is accessing the same
-memory as what is backing the virtual address A in the process.
-
-Security issues are on two things:
-[I1]- fork/exec, a process who opened any such device and created an
-      active queue can transfer without its knowledge control of its
-      commands queue through COW. The parent map some anonymous region
-      to the device as a command queue buffer but because of COW the
-      parent can be the first to copy on write and thus the child can
-      inherit the original pages that are mapped to the hardware.
-      Here parent lose control and child gain it.
-
-[I2]- Because of [R3] you want to allow userspace to schedule commands
-      on the device without doing an ioctl and thus here user space
-      can schedule any commands to the device with any address. What
-      happens if that address have not been mapped by the user space
-      is undefined and in fact can not be defined as what each IOMMU
-      does on invalid address access is different from IOMMU to IOMMU.
-
-      In case of a bad IOMMU, or simply an IOMMU improperly setup by
-      the kernel, this can potentialy allow user space to DMA anywhere.
-
-[I3]- By relying on GUP in VFIO you are not abiding by the implicit
-      contract (at least i hope it is implicit) that you should not
-      try to map to the device any file backed vma (private or share).
-
-      The VFIO code never check the vma controlling the addresses that
-      are provided to VFIO_IOMMU_MAP_DMA ioctl. Which means that the
-      user space can provide file backed range.
-
-      I am guessing that the VFIO code never had any issues because its
-      number one user is QEMU and QEMU never does that (and that's good
-      as no one should ever do that).
-
-      So if process does that you are opening your self to serious file
-      system corruption (depending on file system this can lead to total
-      data loss for the filesystem).
-
-      Issue is that once you GUP you never abide to file system flushing
-      which write protect the page before writing to the disk. So
-      because the page is still map with write permission to the device
-      (assuming VFIO_IOMMU_MAP_DMA was a write map) then the device can
-      write to the page while it is in the middle of being written back
-      to disk. Consult your nearest file system specialist to ask him
-      how bad that can be.
-
-[I4]- Design issue, mdev design As Far As I Understand It is about
-      sharing a single device to multiple clients (most obvious case
-      here is again QEMU guest). But you are going against that model,
-      in fact AFAIUI you are doing the exect opposite. When there is
-      no SVA/SVM you want only one mdev device that can not be share.
-
-      So this is counter intuitive to the mdev existing design. It is
-      not about sharing device among multiple users but about giving
-      exclusive access to the device to one user.
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Tested-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
 
+Thanks
 
-All the reasons above is why i believe a different model would serve
-you and your user better. Below is a design that avoids all of the
-above issues and still delivers all of your objectives with the
-exceptions of the third one [R3] when there is no SVA/SVM.
-
-
-Create a subsystem (very much boiler plate code) which allow device to
-register themself against (very much like what you do in your current
-patchset but outside of VFIO).
-
-That subsystem will create a device file for each registered system and
-expose a common API (ie set of ioctl) for each of those device files.
-
-When user space create a queue (through an ioctl after opening the device
-file) the kernel can return -EBUSY if all the device queue are in use,
-or create a device queue and return a flag like SYNC_ONLY for device that
-do not have SVA/SVM.
-
-For device with SVA/SVM at the time the process create a queue you bind
-the process PASID to the device queue. From there on the userspace can
-schedule commands and use the device without going to kernel space.
-
-For device without SVA/SVM you create a fake queue that is just pure
-memory is not related to the device. From there on the userspace must
-call an ioctl every time it wants the device to consume its queue
-(hence why the SYNC_ONLY flag for synchronous operation only). The
-kernel portion read the fake queue expose to user space and copy
-commands into the real hardware queue but first it properly map any
-of the process memory needed for those commands to the device and
-adjust the device physical address with the one it gets from dma_map
-API.
-
-With that model it is "easy" to listen to mmu_notifier and to abide by
-them to avoid issues [I1], [I3] and [I4]. You obviously avoid the [I2]
-issue by only mapping a fake device queue to userspace.
-
-So yes with that models it means that every device that wish to support
-the non SVA/SVM case will have to do extra work (ie emulate its command
-queue in software in the kernel). But by doing so, you support an
-unlimited number of process on your device (ie all the process can share
-one single hardware command queues or multiple hardware queues).
-
-The big advantages i see here is that the process do not have to worry
-about doing something wrong. You are protecting yourself and your user
-from stupid mistakes.
-
-
-I hope this is useful to you.
-
-Cheers,
-Jérôme
+Takashi Sakamoto
