@@ -6,157 +6,162 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 887197D87C
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 17:01:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E47187D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Sep 2018 18:42:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727832AbeIQW3P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Sep 2018 18:29:15 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:45335 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727081AbeIQW3P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Sep 2018 18:29:15 -0400
-Received: by mail-io1-f65.google.com with SMTP id e12-v6so12039962iok.12
-        for <linux-doc@vger.kernel.org>; Mon, 17 Sep 2018 10:01:02 -0700 (PDT)
+        id S1727672AbeIRALR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Sep 2018 20:11:17 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:44075 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728007AbeIRALN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Sep 2018 20:11:13 -0400
+Received: by mail-io1-f67.google.com with SMTP id 75-v6so12326301iou.11
+        for <linux-doc@vger.kernel.org>; Mon, 17 Sep 2018 11:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=6kkwi9ODII+ly6Sy0nkzb3fHOIF6HzNCux2feEI7VR4=;
-        b=E12KZq+EUBAd/2gE/ikuRp6Js+6HJIIr86Q9ZSAOf/iiFei8jooG228vM3BTkXBZDY
-         dX9bIBdqBno3OmsMlm4TuGsbxTN7IODE6b/wnAuTi9Kd4pn/Q6AGVtQvK+yCgduKbsIS
-         XkzIW4MlVrXPFWbFegJv+mrKhEQnVXkRqnTT4BdhXwWjlB9UGWXiCG6u8qdNe9xVDMVx
-         hk17YIMwWh0Z7CBtr1aATdSLYY+j4tkwJEVBqvc7Ru4T1vDEtEMqtm0KsMqh61k9kH6D
-         4evD+PfgXBLTpboLGOfIPoyliV7zS5jDFpHvq8ePC5EISFTnusZIr+D23vlDwc7h8eMn
-         3d2g==
+        bh=O5u7wMaeEk5fXb1J01fxLI6QHGCxyT5enhFPS6rHyRY=;
+        b=jd4FM5IS7f0vh3csEHwSv5NUA9rtXE8KD/0+x/dX+blaJ/pXqQWvnWocszCWRJZBXi
+         hndcTDC2awQIUnUZ1MTmL+mMNOQeAfV+izh37HjkSQikTpg2Uo5/17R4Ewx2avfgt1wt
+         fHTsZ1b+jqs6ayOY0OrEyRGl8lttRhvBtheJh1c0bj8sfhmEbkEPZSlm2UJtnzQ2FW6H
+         KaSDYmij4gIw28uvGEAJ1DkwDMj4pp0BKH3feLAgNIS252NtcFAqD6/QiW7ec2qZG59w
+         5nKdbV95/DByG5Qk1YlSh1RsHBaRiG1TPf/kvBlxPuZRZQy7VSPOPTWb8VnttqG/Nd4t
+         G5Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=6kkwi9ODII+ly6Sy0nkzb3fHOIF6HzNCux2feEI7VR4=;
-        b=opYjRhJb2pAIKWOv32zI6Zv/phlY5rF2u/TYt8nSdC34ql18g6lZRFLMJVkArtXJX7
-         QX+pHcrS3Z4w2ojffeqj1pFUm0IpgDj/f7ockEfY0LMkOKTTtpTexv/Jj5Qh/msi2tvy
-         IN8//VKr1x/jKafv6kmx1QNBXxSrEWV1njQkmA+a5DCAVva04/M9geAxcTXhPqApvW94
-         CIBEPft3sPBAexcS4NKUlAk5umcr2rkN8tOos72aZzlpSIRVE2WEWlh7t3jLKpvFtNCT
-         QwCtz9GMikiQS1pIpGWR3pkg1jTMLjrRu0vwhR9ykpFloYc8bDPuF44OzC1n5jSIoWyD
-         ROGQ==
-X-Gm-Message-State: APzg51CawD44dZSWVznplytlJhnfMehHNVYxIXqk6D3koNnsVQZBs4SF
-        bnaUpfo1Hgyl3qR9blF6PgI5kgJglxRAftDRDOPe/g==
-X-Google-Smtp-Source: ANB0VdYO9Sy10yJtvIQkz2/PfVhTpO6MDbJzGiDcPhw7AH36mEFfvOYzwheIGkG6F5Z2yqguqjtqdnZhrdSV86bW9nc=
-X-Received: by 2002:a6b:ca85:: with SMTP id a127-v6mr22628516iog.31.1537203661373;
- Mon, 17 Sep 2018 10:01:01 -0700 (PDT)
+        bh=O5u7wMaeEk5fXb1J01fxLI6QHGCxyT5enhFPS6rHyRY=;
+        b=feIZ23++/Hdj/vDQc/TefqJHrgC+SsItnzw7SzBlnSyDDl3INtyZzB7oJnf+ACB7wl
+         QgbQl42kEaM7ZUciGEIw4PnYjEppvzvE/rpNQO0rG4yKFDUJvbDyG7qDNrB6QcOmVqXL
+         XNjE//4P1MB0z5lqpihJPP9nTPD+KI8l4jpCbrkiVgUbD8IBO0CZfdM3qlJct/9yFXMZ
+         wv/D3yoJLubx65s9KIZ0hoL6XCvOYcafGNsheOQxHcKi14DWiM6+LUAZVrdtgEQoyPDE
+         N2Cz5tBjgDbI8JLF7OeclRRrPUozWI3FvV2yIqn7wyyHnkgMJZMqpXydSzaq6gegbD4v
+         Jujg==
+X-Gm-Message-State: APzg51ClMW9NyLoh4B0jEBlWgYIoHxr9IkKjfnIA6/fvFMq6AuKqNEYO
+        e0z/y32TkIqOvzNlvVNdXus9jTUNYG1Rwr7BYg0pGQ==
+X-Google-Smtp-Source: ANB0Vda9zHAY8xmHgUHbwXkczsykCuIOYRyirwb3bmL+ueoCcJnoaS2qc01BLkxqLf9gMfP9X77u+IXTvbF74xI/lqc=
+X-Received: by 2002:a6b:2147:: with SMTP id h68-v6mr21760951ioh.192.1537209757392;
+ Mon, 17 Sep 2018 11:42:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Mon, 17 Sep 2018 10:01:00
+Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Mon, 17 Sep 2018 11:42:36
  -0700 (PDT)
-In-Reply-To: <20180911164152.GA29166@arrakis.emea.arm.com>
-References: <cover.1535629099.git.andreyknvl@google.com> <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
- <CA+55aFyW9N2tSb2bQvkthbVVyY6nt5yFeWQRLHp1zruBmb5ocw@mail.gmail.com>
- <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com>
- <20180907152600.myidisza5o4kdmvf@armageddon.cambridge.arm.com>
- <CA+55aFzQ+ykLu10q3AdyaaKJx8SDWWL9Qiu6WH2jbN_ugRUTOg@mail.gmail.com> <20180911164152.GA29166@arrakis.emea.arm.com>
+In-Reply-To: <CACT4Y+baDKvmpKJ4SKoEuZG4ir2xRGscQ7Ro4hkVAX3jwiWnFg@mail.gmail.com>
+References: <cover.1535462971.git.andreyknvl@google.com> <868c9168481ff5103034ac1e37b830d28ed5f4ee.1535462971.git.andreyknvl@google.com>
+ <CACT4Y+baDKvmpKJ4SKoEuZG4ir2xRGscQ7Ro4hkVAX3jwiWnFg@mail.gmail.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 17 Sep 2018 19:01:00 +0200
-Message-ID: <CAAeHK+z4HOF_PobxSys8svftWt8dhbuUXEpq2sdXBTCXwTEH2g@mail.gmail.com>
-Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by sparse
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+Date:   Mon, 17 Sep 2018 20:42:36 +0200
+Message-ID: <CAAeHK+yvVgV6LA8PgJz6ysCo+X38tCyLrMVhKOe08tFyZP_F0Q@mail.gmail.com>
+Subject: Re: [PATCH v6 03/18] khwasan: add CONFIG_KASAN_GENERIC and CONFIG_KASAN_HW
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
-        linux-mm <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Christoph Lameter <cl@linux.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I took another look at the changes this patchset does to the kernel
-and here are my thoughts:
+On Wed, Sep 12, 2018 at 4:47 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
+> On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
 
-I see two ways how a (potentially tagged) user pointer gets into the kernel:
+>>
+>>  #define __no_sanitize_address __attribute__((no_sanitize("address")))
+>> +#define __no_sanitize_hwaddress __attribute__((no_sanitize("hwaddress")))
+>
+> It seems that it would be better to have just 1 attribute for both types.
+> Currently __no_sanitize_address is used just in a single place. But if
+> it ever used more, people will need to always spell both which looks
+> unnecessary, or, worse will only fix asan but forget about khwasan.
+>
+> If we do just:
+>
+> #define __no_sanitize_address __attribute__((no_sanitize("address",
+> "hwaddress")))
+>
+> Then we don't need any changes in compiler-gcc.h nor in compiler.h,
+> and no chance or forgetting one of them.
 
-1. A pointer is passed to a syscall (directly as an argument or
-indirectly as a struct field).
-2. A pointer is extracted from user context (registers, etc.) by some
-kind of a trap/fault handler.
-(Is there something else?)
+Will do in v7.
 
-In case 1 we also have a special case of a pointer passed to one of
-the memory syscalls (mmap, mprotect, etc.). These syscalls "are not
-doing memory accesses but rather dealing with the memory range, hence
-an untagged pointer is better suited" as pointed out by Catalin (these
-syscalls do not always use "unsigned long" instead of "void __user *"
-though, for example shmat uses "void __user *").
+>>  config KASAN
+>> -       bool "KASan: runtime memory debugger"
+>> +       bool "KASAN: runtime memory debugger"
+>> +       help
+>> +         Enables KASAN (KernelAddressSANitizer) - runtime memory debugger,
+>> +         designed to find out-of-bounds accesses and use-after-free bugs.
+>
+> Perhaps also give link to Documentation/dev-tools/kasan.rst while we are here.
 
-Looking at patch #8 ("usb, arm64: untag user addresses in devio") in
-this series, it seems that that devio ioctl actually accepts a pointer
-into a vma, so we shouldn't actually be untagging its argument and the
-patch needs to be dropped. Otherwise there's quite a few more cases
-that needs to be changed (like tcp_zerocopy_receive() for example,
-more can be found by grepping find_vma() in generic code).
+Will do in v7.
 
-Regarding case 2, it seems that analyzing casts of __user pointers
-won't really help, since the code (arch/arm64/mm/fault.c) doesn't
-really use them. However all of this code is arch specific, so it
-shouldn't really change over time (right?). It looks like dealing with
-tags passed to the kernel through these fault handlers is already
-resolved with these patches (and therefore patch #6 ("arm64: untag
-user address in __do_user_fault") in this series is not actually
-needed and can be dropped (need to test that)):
+>
+>> +
+>> +choice
+>> +       prompt "KASAN mode"
+>> +       depends on KASAN
+>> +       default KASAN_GENERIC
+>> +       help
+>> +         KASAN has two modes: KASAN (a classic version, similar to userspace
+>
+> In these few sentences we call the old mode with 3 different terms:
+> "generic", "classic" and "KASAN" :)
+> This is somewhat confusing. Let's call it "generic" throughout (here
+> and in the docs patch). "Generic" as in "supported on multiple arch
+> and not-dependent on hardware features". "Classic" makes sense for
+> people who knew KASAN before, but for future readers in won't make
+> sense.
 
-276e9327 ("arm64: entry: improve data abort handling of tagged pointers"),
-81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on
-a tagged pointer")
-7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged pointers")
+Will use "generic" in v7.
 
-Now, I also see two cases when kernel behavior changes depending on
-whether a pointer is tagged:
+>>
+>> +if HAVE_ARCH_KASAN_HW
+>
+> This choice looks somewhat weird on non-arm64. It's kinda a choice
+> menu, but one can't really choose anything. Should we put the whole
+> choice under HAVE_ARCH_KASAN_HW, and just select KASAN_GENERIC
+> otherwise? I don't know what't the practice here. Andrey R?
 
-1. Kernel code checks that a pointer belongs to userspace by comparing
-it with TASK_SIZE/addr_limit/user_addr_max()/USER_DS/... .
-2. A pointer gets passed to find_vma() or similar functions.
-(Is there something else?)
+I think having one option that is auto selected is fine.
 
-The initial thought that I had here is that the pointers that reach
-find_vma() must be passed through memory syscalls and therefore
-shouldn't be untagged and don't require any fixes. There are at least
-two exceptions to this: 1. get_user_pages() (see patch #4 ("mm, arm64:
-untag user addresses in mm/gup.c") in this patch series) and 2.
-__do_page_fault() in arch/arm64/mm/fault.c. Are there any other
-obvious exceptions? I've tried adding BUG_ON(has_tag(addr)) to
-find_vma() and running a modified syzkaller version that passes tagged
-pointers to the kernel and failed to find anything else.
+>> +config KASAN_HW
+>> +       bool "KHWASAN: the hardware assisted mode"
 
-As for case 1, the places where pointers are compared with TASK_SIZE
-and others can be found with grep. Maybe it makes sense to introduce
-some kind of routine like is_user_pointer() that handles tagged
-pointers and refactor the existing code to use it? And maybe add a
-rule to checkpatch.pl that forbids the direct usage of TASK_SIZE and
-others.
+Do we need a hyphen here? hardware-assisted?
 
-So I think detecting direct comparisons with TASK_SIZE and others
-would more useful than finding __user pointer casts (it seems that the
-latter requires a lot of annotations to be fixed/added), and I should
-just drop this patch with annotations.
-
-WDYT?
+Yes, will fix in v7.
