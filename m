@@ -6,54 +6,55 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2B7747D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 16:50:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C0867D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 17:09:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729900AbeIRWYM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Sep 2018 18:24:12 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:38270 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728065AbeIRWYM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Sep 2018 18:24:12 -0400
-Received: by mail-io1-f66.google.com with SMTP id y3-v6so2140269ioc.5
-        for <linux-doc@vger.kernel.org>; Tue, 18 Sep 2018 09:50:46 -0700 (PDT)
+        id S1730194AbeIRWmy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Sep 2018 18:42:54 -0400
+Received: from mail-it0-f65.google.com ([209.85.214.65]:50183 "EHLO
+        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730195AbeIRWmy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Sep 2018 18:42:54 -0400
+Received: by mail-it0-f65.google.com with SMTP id j81-v6so4338181ite.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Sep 2018 10:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=S7NSi8y5oqjKqVQu+A5gE7d9gD4oGqqQyNJAQWjDqVs=;
-        b=LDg/YjO/irWKmN3s7HJilg47wiCRlMtNAtqwm4Y2t7gql3JwLohRZY/iiFRWMvJXEi
-         Bbue0MpGpWl/EoWn9/bv4s41xCyq8PbMyNLR+7BUc+fQnF865gSe0xjUejt1gtatCXS6
-         5PWWQD+RJZys8UUF4turVeLvp4PFU8U73/ZIGfkAGUjajugrarm6EDCCOrZNVpW/biF8
-         xg1oX1lH2uVEXpYmeZuzJma3tD/7kKbf6IR9+OA1XDA/WIJf1XUZC+WuLKPYVImwErRY
-         5KGhr7jDpWKN5c9+c+toHhsCCmrLtQdSUlkCVjxI6y/hP9cm/mdL3NcFH6rcUTOIr4cT
-         V/AQ==
+        bh=pUKdOE3Y16h6545zaISUxKO9AusnuLo4zm5dn+P7adE=;
+        b=C0uNsreNAMljFxjNIys+dCasy4mqL6VgTLuydxYwxb066BXxAiZscXj+AFbzomIbsu
+         m9bczDEEE07ZNmYj7GaHnzYEFZeeM6qeilHPnkzNq8KqMnNJNLHC0VzsfFmmjoQaECiE
+         UtUk2GB0FyHFvKKYGwfqbJrEKZk9HqNH0Owbt3tqGua2TplKRrGSBwv7S5HSd+TeE8DR
+         EjaiDgQiNvKyemuiH1P5sf7KPRWW+qqOTzgMBuofUd6yLZ3o43Hs8QWmsdIw1tkUa+J1
+         kmZ4gbgLZxW7JiBmONHre5OPejBQPX4GjwTrxaOvZW51atc7sjTMGP2dfPV7CoyjNzr2
+         JRSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=S7NSi8y5oqjKqVQu+A5gE7d9gD4oGqqQyNJAQWjDqVs=;
-        b=buZWos+vnGxeuy0Ce5+D/gkcy9YpQkGCTE9QbA3Nrw7tB9sI/xHKptZcFfrj8jF+Kn
-         jqtauV7PNjqeXMTKAEwzB/a4HBEBYDuuwfm0OqgZIlrkHA8mZiXOUrJ7svZ1tQD2e6JY
-         GuoUMoekOpWbsSMD18Xb8T0CwVb+6DCzhnE1K5clPuwot+NOIByv9PGufEEIZlK9e/L9
-         od8iqKs+6fTg+/PxR67R/Iluixqh1cJRSO0Qhfh1fNgK3h/3n6jJRw8bCmB2Syf2p8pu
-         nNcfYbS3GJnNYyi2HDF2+ORGACekjZZo6NZaeHPvcgbdu3AhTjlaRcZSzp5UbKtmx1If
-         Qdxw==
-X-Gm-Message-State: APzg51BExHeb1Q788AMI3gxA20T4NOuOEBtyqMizhay2u/82LUces14/
-        NG8TTDcUs1InOTY1CwEwQoxUDRcKFCAZpnsYy9rhsA==
-X-Google-Smtp-Source: ANB0VdYx/8DId4QQx4kOmfZXWV7OZTbWXv2pf6J0pgoluaAvMz9R2OKl2U9UJdBIxGtqcOJvE/HXrOT5fcrpY2gTzGc=
-X-Received: by 2002:a6b:2147:: with SMTP id h68-v6mr25437479ioh.192.1537289445779;
- Tue, 18 Sep 2018 09:50:45 -0700 (PDT)
+        bh=pUKdOE3Y16h6545zaISUxKO9AusnuLo4zm5dn+P7adE=;
+        b=qi8YIq32Q9Sw083pPRCjlq6oCOsQXJnoBgu53BmPjAiH9DMMyCHPZ+lpmt98p4mC4m
+         yM53WmBc+4Z0JVY9GGEfpviMcWfINkaM22r3H/hwPzUoWK8yJF4wwPI+tXvALHGewOAD
+         q6huch5nIzbmTvL+jBk6eYTA0XBmN4y6aGDScSr0m21r7qDvtASZ3LPu6lSKG0Hu60Rp
+         5wswcVLSqcxAw0DD/Jv42Bg+XqN2x5TW8L1sla+n58uYpTztl8hYNoGjmcBWj5jH2Z+6
+         dbNh3irypTppjoqp5pgXtP4GvuBw64aUCaauAg9BEoixDsC4z+CFNq9aooeGzMmE9QUt
+         QF/Q==
+X-Gm-Message-State: APzg51CSkjX2fH0s0axfPHy258Ea3YYB+i5KK6vrGMGdSWMROe1zxlrs
+        dFzI8cX6jzdaOPy1MgbKU1IMPsAcfArvLCNpl42DPg==
+X-Google-Smtp-Source: ANB0VdYVAEeWxZzFwgNruJ8fgTBcMGjdKxGatm1f24qFQHg4mPHEPk93xmFXw+rRSvSQp/4IthRz1nC0MUZEng8uj8E=
+X-Received: by 2002:a02:9962:: with SMTP id d31-v6mr28144620jak.1.1537290562857;
+ Tue, 18 Sep 2018 10:09:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Tue, 18 Sep 2018 09:50:45
+Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Tue, 18 Sep 2018 10:09:22
  -0700 (PDT)
-In-Reply-To: <CACT4Y+awX48sFAYFCgx1Q-nJ=QrBhr08psMmHr+hDeCsQc0NRw@mail.gmail.com>
-References: <cover.1535462971.git.andreyknvl@google.com> <95b5beb7ec13b7e998efe84c9a7a5c1fa49a9fe3.1535462971.git.andreyknvl@google.com>
- <CACT4Y+awX48sFAYFCgx1Q-nJ=QrBhr08psMmHr+hDeCsQc0NRw@mail.gmail.com>
+In-Reply-To: <CACT4Y+aJ36LGLG=TVOGQoJ+fB4Xc9CjdxAs8KZpUm3AsNEoHFw@mail.gmail.com>
+References: <cover.1535462971.git.andreyknvl@google.com> <19d757c2cafc277f0143a8ac34e179061f3487f5.1535462971.git.andreyknvl@google.com>
+ <CACT4Y+aJ36LGLG=TVOGQoJ+fB4Xc9CjdxAs8KZpUm3AsNEoHFw@mail.gmail.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 18 Sep 2018 18:50:45 +0200
-Message-ID: <CAAeHK+z3W+JqC2d=-ZddsLv5D7BWa6oKpEdJFiyS1DbEYVnmqA@mail.gmail.com>
-Subject: Re: [PATCH v6 08/18] khwasan: preassign tags to objects with ctors or SLAB_TYPESAFE_BY_RCU
+Date:   Tue, 18 Sep 2018 19:09:22 +0200
+Message-ID: <CAAeHK+xBX4X0oxhjOrjJfwdqcvU80VPhUsi38mEczzHRb01Wew@mail.gmail.com>
+Subject: Re: [PATCH v6 06/18] khwasan, arm64: untag virt address in
+ __kimg_to_phys and _virt_addr_is_linear
 To:     Dmitry Vyukov <dvyukov@google.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -97,19 +98,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 12, 2018 at 6:36 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
+On Wed, Sep 12, 2018 at 6:33 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
 > On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
 
->>         if (!shuffle) {
->> +               start = khwasan_preset_slub_tag(s, start);
->>                 for_each_object_idx(p, idx, s, start, page->objects) {
->>                         setup_object(s, page, p);
->> +                       p = khwasan_preset_slub_tag(s, p);
+>> +#ifdef CONFIG_KASAN_HW
+>> +#define KASAN_TAG_SHIFTED(tag)         ((unsigned long)(tag) << 56)
+>> +#define KASAN_SET_TAG(addr, tag)       (((addr) & ~KASAN_TAG_SHIFTED(0xff)) | \
+>> +                                               KASAN_TAG_SHIFTED(tag))
+>> +#define KASAN_RESET_TAG(addr)          KASAN_SET_TAG(addr, 0xff)
+>> +#endif
+>> +
 >
 >
-> As I commented in the previous patch, can't we do this in
-> kasan_init_slab_obj(), which should be called in all the right places
-> already?
+> Wouldn't it be better to
+> #define KASAN_RESET_TAG(addr) addr
+> when CONFIG_KASAN_HW is not enabled, and then not duplicate the macros
+> below? That's what we do in kasan.h for all hooks.
+> I see that a subsequent patch duplicates yet another macro in this
+> file. While we could use:
 >
+> #define __kimg_to_phys(addr)   (KASAN_RESET_TAG(addr) - kimage_voffset)
+>
+> with and without kasan. Duplicating them increases risk that somebody
+> will change only the non-kasan version but forget kasan version.
 
-As per offline discussion, will do in v7.
+Will do in v7.
