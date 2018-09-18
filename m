@@ -6,54 +6,54 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3943F7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 17:36:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B28E97DD4F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 18:42:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730202AbeIRXKO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Sep 2018 19:10:14 -0400
-Received: from mail-it0-f66.google.com ([209.85.214.66]:51073 "EHLO
-        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729739AbeIRXKO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Sep 2018 19:10:14 -0400
-Received: by mail-it0-f66.google.com with SMTP id j81-v6so4464527ite.0
-        for <linux-doc@vger.kernel.org>; Tue, 18 Sep 2018 10:36:36 -0700 (PDT)
+        id S1729618AbeISAQw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Sep 2018 20:16:52 -0400
+Received: from mail-it0-f68.google.com ([209.85.214.68]:37216 "EHLO
+        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729782AbeISAQw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Sep 2018 20:16:52 -0400
+Received: by mail-it0-f68.google.com with SMTP id h20-v6so4381045itf.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Sep 2018 11:42:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=+k/5drNdlZWuPZfdEpsZoFUQEmCXXOlIeKSjH9PPxNE=;
-        b=aSgNMyXj/LVT78mYo+FKAfQAdDwcwkcTek2Q1vje6UTpyT5M/9RoC/uJ3A3nl3f3z+
-         bYk3/C1LSYCjh7RsxeoLwSB0LZvp7emLObzjZGyAXU2UTSZEpCdLjsmGgjz0fkiP/tgS
-         nNGGwrvDPNrprsB3fFgZ3k3dOp6IWCpBnezuY9qigifXlwOe62fkWrrCb8qPAYK4ri1R
-         S8zmTmy2BPrZ8SXxgJieywiGwekROo1Rw2vPGxux7D9PpeZyUyCFEGF11Tj+jAYWVtyw
-         n+15C/lx3gE1YVpLuPepsg6k317Jt6hjhm/Z9Y77DnCc1AbDmuoR8uP8XrCQhTr4hPeX
-         l9Lg==
+        bh=4d36XmtxBW5NFyXdurff1rHNSewgLeeQvwdnKIbecc0=;
+        b=dpfC5YF8D4Eyb/jgB8z9LJJb7npv0hinuVPaY7/zuloofzBIfb4ihj0G3iopVdCYUv
+         2ybQTIkNExxXDJbyihrMZbqq/bhkMg9eYncAerKmgc7GFWXQvNrG/18q/3Kns3kQKFB/
+         015ITZ6xbbs54B8zqSLOU+NVDUtTh/BITt0R5FI9icsrPueY12xsfIhTnMRSTfM4UP8r
+         sX7c/eIp9okOCVZfZaDkoFZK7yRgbw5ijHBi1/tEH3kWcYfBoblqgkw7KJ2B+W3+tmcf
+         7lBxCTDl09bxUuIV0qw6lMXWv48JE+gxubVMeeAE7rJJGW2p/Z7VCFmUOF4W/8kNgCzs
+         a2yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=+k/5drNdlZWuPZfdEpsZoFUQEmCXXOlIeKSjH9PPxNE=;
-        b=QuteQRSEUZMTKf8n5M+t0PtPg6BEorn+Bk+EDycpDn/XMWrv/EGyC3FetFdorHdtpN
-         GdKWQrDJPjgXghsd3UukWTmxP+vRMRmm15ZhxPRWlZY0n/A1iHfBgbMT5QqQknLJdntW
-         8XbiZo2TSrcTlGxJm4NLN5LtkVdlY++AnCecYRO7zQh4cpyRZvpYmKOYDrBCFJZcDJrm
-         F/qyoKPXzV2dQtH3hu1bZRJLPA4S/Xya0TkJ/xoxVUJRrFp3f75iRnsrm2wHN3SKe8/0
-         5ALRFbxDXqXDu1ls1iVMSw9yUTb+elSijRLrXQf34YIfiGAwLqRq9m/U8WY5omYg26hB
-         0cmg==
-X-Gm-Message-State: APzg51Dh3QY2pGnrGwyfpHBw0j+xs8lQSQfQ0GTWdWR3pVwH15JMe/B5
-        kn6nCUXpKtDK1knNdjpqVsOiNze6htRJpKelp/BiNQ==
-X-Google-Smtp-Source: ANB0VdZWIk8DDN+tcU4GaFWqGM7cUE8rns1/yrM+jqVZmET9GamPHR//UMkGR15EKfHztiNzrCDRYaLTzBuu0yXNFCI=
-X-Received: by 2002:a24:5f92:: with SMTP id r140-v6mr17045618itb.95.1537292195894;
- Tue, 18 Sep 2018 10:36:35 -0700 (PDT)
+        bh=4d36XmtxBW5NFyXdurff1rHNSewgLeeQvwdnKIbecc0=;
+        b=Yc/4jCzz1H6vA7w198JinVny6I3W9iLUH6S2BBLBjy0ThEqbawdRWwMynIBuddcBAZ
+         00QhIhQidp9+kMeZzO7mEZRuLhUPnsFu8WpBiOR8nVhS5dxkR4iy1BsKI5uLn77TLbt1
+         wTMCg7ev3gjMENQtxmDkJWW5gv83i3+mK4ER6UMBVXf1UjI/I11eWepTVYSsqf6rAY17
+         v9ZKDjIFu8HkkH1S3EVC9of/dbqkI8JO2YaHL97kJXqLxjbihIid0X/LIq1Xee1B/QW9
+         yh/1NU6swiNoUCb31nkwf9KtMydSoyAjk2Y7hIe6hpp46Qj86ux2WVrgB6rifm7fiwzG
+         KbFg==
+X-Gm-Message-State: APzg51AiZ24rBxX4IcbYHEA6E071dYotc41jHv9ScrFlyiWUjVhDzFj4
+        8V2lIW/UUd2vnqwkY8jjCWybExKkoPYelXaPqSXkRg==
+X-Google-Smtp-Source: ANB0VdYdcTxqpzntHjnCUJ1d3zVspY4qpnFDX1LOIND654hhtFQOMVr480zjb+rTk2Eoty/k+X6m+unvHyWRYDr3oZg=
+X-Received: by 2002:a24:9f07:: with SMTP id c7-v6mr15535988ite.53.1537296177299;
+ Tue, 18 Sep 2018 11:42:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Tue, 18 Sep 2018 10:36:35
+Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Tue, 18 Sep 2018 11:42:56
  -0700 (PDT)
-In-Reply-To: <CACT4Y+aNhNeR==XKQ9gHxt1p-9JS0EkjMSyWtgYi886oumh9rA@mail.gmail.com>
-References: <cover.1535462971.git.andreyknvl@google.com> <f39cdef4fde40b6d2ef356db3e0126bda0e1e8c7.1535462971.git.andreyknvl@google.com>
- <CACT4Y+aNhNeR==XKQ9gHxt1p-9JS0EkjMSyWtgYi886oumh9rA@mail.gmail.com>
+In-Reply-To: <CACT4Y+a0A1n+FjbiQSEh4UMUPkq4KnqEOEXkfo-X+EwsVFZxMg@mail.gmail.com>
+References: <cover.1535462971.git.andreyknvl@google.com> <1a3b3030b6ee01931b397583b69f3af94e2a2308.1535462971.git.andreyknvl@google.com>
+ <CACT4Y+a0A1n+FjbiQSEh4UMUPkq4KnqEOEXkfo-X+EwsVFZxMg@mail.gmail.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 18 Sep 2018 19:36:35 +0200
-Message-ID: <CAAeHK+xFV0x3g0_HUp_TtACR1dsjXCGdzFyw0BHEmrwqdXi-Og@mail.gmail.com>
-Subject: Re: [PATCH v6 13/18] khwasan: add bug reporting routines
+Date:   Tue, 18 Sep 2018 20:42:56 +0200
+Message-ID: <CAAeHK+wDhpX_E7cL8D4-BnM4WCT_Bb2Gp6wfqk7+P-4XAoiMOg@mail.gmail.com>
+Subject: Re: [PATCH v6 17/18] khwasan: update kasan documentation
 To:     Dmitry Vyukov <dvyukov@google.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -97,43 +97,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 12, 2018 at 7:50 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
+On Wed, Sep 12, 2018 at 8:39 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
 > On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+>> This patch updates KASAN documentation to reflect the addition of KHWASAN.
 
->> +#ifdef CONFIG_KASAN_HW
+>> -Currently KASAN is supported only for the x86_64 and arm64 architectures.
+>> +KASAN uses compile-time instrumentation to insert validity checks before every
+>> +memory access, and therefore requires a compiler version that supports that.
+>> +For classic KASAN you need GCC version 4.9.2 or later. GCC 5.0 or later is
+>> +required for detection of out-of-bounds accesses on stack and global variables.
+>> +KHWASAN in turns is only supported in clang and requires revision 330044 or
 >
-> We already have #ifdef CONFIG_KASAN_HW section below with additional
-> functions for KASAN_HW and empty stubs otherwise. I would add this one
-> there as well.
+> in turn?
+>
 
-Will do in v7.
+>> -and choose between CONFIG_KASAN_OUTLINE and CONFIG_KASAN_INLINE. Outline and
+>> -inline are compiler instrumentation types. The former produces smaller binary
+>> -the latter is 1.1 - 2 times faster. Inline instrumentation requires a GCC
+>> +and choose between CONFIG_KASAN_GENERIC (to enable classic KASAN) and
+>> +CONFIG_KASAN_HW (to enabled KHWASAN). You also need to choose choose between
+>
+> to enable
+>
 
+>> +     print_address_description+0x73/0x280 mm/kasan/report.c:254
 >
->> +void print_tags(u8 addr_tag, const void *addr);
->> +#else
->> +static inline void print_tags(u8 addr_tag, const void *addr) { }
->> +#endif
+>
+> KASAN does not print line numbers per se.
+> I think we need to show unmodified output to not confuse readers
+> (probably remove the useless ? lines).
 
->> +void *find_first_bad_addr(void *addr, size_t size)
->> +{
->> +       u8 tag = get_tag(addr);
->> +       void *untagged_addr = reset_tag(addr);
->> +       u8 *shadow = (u8 *)kasan_mem_to_shadow(untagged_addr);
->> +       void *first_bad_addr = untagged_addr;
->> +
->> +       while (*shadow == tag && first_bad_addr < untagged_addr + size) {
->
-> I think it's better to check that are within bounds before accessing
-> shadow. Otherwise it's kinda potential out-of-bounds access ;)
-> I know that we _should_ not do an oob here, but still.
-> Also feels that this function can be shortened to something like:
->
-> u8 tag = get_tag(addr);
-> void *p = reset_tag(addr);
-> void *end = p + size;
->
-> while (p < end && tag == *(u8 *)kasan_mem_to_shadow(p))
->         p += KASAN_SHADOW_SCALE_SIZE;
-> return p;
-
-Will do in v7.
+Will fix all in v7.
