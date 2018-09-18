@@ -5,137 +5,145 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9FBB67D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 09:17:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 61DEF7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 11:48:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729238AbeIROtB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Sep 2018 10:49:01 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52144 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726759AbeIROtB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Sep 2018 10:49:01 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id DAB8FB00D;
-        Tue, 18 Sep 2018 09:17:15 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 959631E091E; Tue, 18 Sep 2018 11:17:14 +0200 (CEST)
-Date:   Tue, 18 Sep 2018 11:17:14 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jan Kara <jack@suse.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1727757AbeIRRUt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Sep 2018 13:20:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49564 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726768AbeIRRUt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Sep 2018 13:20:49 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 24C04307D857;
+        Tue, 18 Sep 2018 11:48:34 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-248.ams2.redhat.com [10.36.116.248])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7C0DE17101;
+        Tue, 18 Sep 2018 11:48:23 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-mm@kvack.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
+        xen-devel@lists.xenproject.org, devel@linuxdriverproject.org,
+        David Hildenbrand <david@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, bridge@lists.linux-foundation.org,
-        netdev@vger.kernel.org, Ted Tso <tytso@mit.edu>
-Subject: Re: [PATCH] docs: fix some broken documentation references
-Message-ID: <20180918091714.GG10257@quack2.suse.cz>
-References: <6b47bf56b898c48a0dc3cd42283c9e5c7c23367a.1537210894.git.mchehab+samsung@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6b47bf56b898c48a0dc3cd42283c9e5c7c23367a.1537210894.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Balbir Singh <bsingharora@gmail.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        John Allen <jallen@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Juergen Gross <jgross@suse.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Len Brown <lenb@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Mathieu Malaterre <malat@debian.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Neuling <mikey@neuling.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Nathan Fontenot <nfont@linux.vnet.ibm.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Paul Mackerras <paulus@samba.org>,
+        Pavel Tatashin <pasha.tatashin@oracle.com>,
+        Pavel Tatashin <pavel.tatashin@microsoft.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rashmica Gupta <rashmica.g@gmail.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
+Subject: [PATCH v1 0/6] mm: online/offline_pages called w.o. mem_hotplug_lock
+Date:   Tue, 18 Sep 2018 13:48:16 +0200
+Message-Id: <20180918114822.21926-1-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Tue, 18 Sep 2018 11:48:36 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 17-09-18 15:02:34, Mauro Carvalho Chehab wrote:
-> Some documentation files received recent changes and are
-> pointing to wrong places.
-> 
-> Those references can easily fixed with the help of a
-> script:
-> 
-> 	$ ./scripts/documentation-file-ref-check --fix
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Reading through the code and studying how mem_hotplug_lock is to be used,
+I noticed that there are two places where we can end up calling
+device_online()/device_offline() - online_pages()/offline_pages() without
+the mem_hotplug_lock. And there are other places where we call
+device_online()/device_offline() without the device_hotplug_lock.
 
-Looks good to me. Thanks for fixing this up. You can add:
+While e.g.
+	echo "online" > /sys/devices/system/memory/memory9/state
+is fine, e.g.
+	echo 1 > /sys/devices/system/memory/memory9/online
+Will not take the mem_hotplug_lock. However the device_lock() and
+device_hotplug_lock.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+E.g. via memory_probe_store(), we can end up calling
+add_memory()->online_pages() without the device_hotplug_lock. So we can
+have concurrent callers in online_pages(). We e.g. touch in online_pages()
+basically unprotected zone->present_pages then.
 
-								Honza
-> ---
->  Documentation/filesystems/dax.txt  | 2 +-
->  Documentation/filesystems/ext2.txt | 2 +-
->  MAINTAINERS                        | 4 ++--
->  net/bridge/Kconfig                 | 2 +-
->  4 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
-> index 70cb68bed2e8..bc393e0a22b8 100644
-> --- a/Documentation/filesystems/dax.txt
-> +++ b/Documentation/filesystems/dax.txt
-> @@ -75,7 +75,7 @@ exposure of uninitialized data through mmap.
->  
->  These filesystems may be used for inspiration:
->  - ext2: see Documentation/filesystems/ext2.txt
-> -- ext4: see Documentation/filesystems/ext4.txt
-> +- ext4: see Documentation/filesystems/ext4/ext4.rst
->  - xfs:  see Documentation/filesystems/xfs.txt
->  
->  
-> diff --git a/Documentation/filesystems/ext2.txt b/Documentation/filesystems/ext2.txt
-> index 81c0becab225..a45c9fc0747b 100644
-> --- a/Documentation/filesystems/ext2.txt
-> +++ b/Documentation/filesystems/ext2.txt
-> @@ -358,7 +358,7 @@ and are copied into the filesystem.  If a transaction is incomplete at
->  the time of the crash, then there is no guarantee of consistency for
->  the blocks in that transaction so they are discarded (which means any
->  filesystem changes they represent are also lost).
-> -Check Documentation/filesystems/ext4.txt if you want to read more about
-> +Check Documentation/filesystems/ext4/ext4.rst if you want to read more about
->  ext4 and journaling.
->  
->  References
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9989925f658d..078a4cf6d064 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -840,7 +840,7 @@ ANALOG DEVICES INC ADGS1408 DRIVER
->  M:	Mircea Caprioru <mircea.caprioru@analog.com>
->  S:	Supported
->  F:	drivers/mux/adgs1408.c
-> -F:	Documentation/devicetree/bindings/mux/adgs1408.txt
-> +F:	Documentation/devicetree/bindings/mux/adi,adgs1408.txt
->  
->  ANALOG DEVICES INC ADP5061 DRIVER
->  M:	Stefan Popa <stefan.popa@analog.com>
-> @@ -5515,7 +5515,7 @@ W:	http://ext4.wiki.kernel.org
->  Q:	http://patchwork.ozlabs.org/project/linux-ext4/list/
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git
->  S:	Maintained
-> -F:	Documentation/filesystems/ext4.txt
-> +F:	Documentation/filesystems/ext4/ext4.rst
->  F:	fs/ext4/
->  
->  Extended Verification Module (EVM)
-> diff --git a/net/bridge/Kconfig b/net/bridge/Kconfig
-> index aa0d3b2f1bb7..3625d6ade45c 100644
-> --- a/net/bridge/Kconfig
-> +++ b/net/bridge/Kconfig
-> @@ -17,7 +17,7 @@ config BRIDGE
->  	  other third party bridge products.
->  
->  	  In order to use the Ethernet bridge, you'll need the bridge
-> -	  configuration tools; see <file:Documentation/networking/bridge.txt>
-> +	  configuration tools; see <file:Documentation/networking/bridge.rst>
->  	  for location. Please read the Bridge mini-HOWTO for more
->  	  information.
->  
-> -- 
-> 2.17.1
-> 
-> 
+Looks like there is a longer history to that (see Patch #2 for details),
+and fixing it to work the way it was intended is not really possible. We
+would e.g. have to take the mem_hotplug_lock in device/base/core.c, which
+sounds wrong.
+
+Summary: We had a lock inversion on mem_hotplug_lock and device_lock().
+More details can be found in patch 3 and patch 6.
+
+I propose the general rules (documentation added in patch 6):
+
+1. add_memory/add_memory_resource() must only be called with
+   device_hotplug_lock.
+2. remove_memory() must only be called with device_hotplug_lock. This is
+   already documented and holds for all callers.
+3. device_online()/device_offline() must only be called with
+   device_hotplug_lock. This is already documented and true for now in core
+   code. Other callers (related to memory hotplug) have to be fixed up.
+4. mem_hotplug_lock is taken inside of add_memory/remove_memory/
+   online_pages/offline_pages.
+
+To me, this looks way cleaner than what we have right now (and easier to
+verify). And looking at the documentation of remove_memory, using
+lock_device_hotplug also for add_memory() feels natural.
+
+
+RFCv2 -> v1:
+- Dropped an unnecessary _ref from remove_memory() in patch #1
+- Minor patch description fixes.
+- Added rb's
+
+RFC -> RFCv2:
+- Don't export device_hotplug_lock, provide proper remove_memory/add_memory
+  wrappers.
+- Split up the patches a bit.
+- Try to improve powernv memtrace locking
+- Add some documentation for locking that matches my knowledge
+
+David Hildenbrand (6):
+  mm/memory_hotplug: make remove_memory() take the device_hotplug_lock
+  mm/memory_hotplug: make add_memory() take the device_hotplug_lock
+  mm/memory_hotplug: fix online/offline_pages called w.o.
+    mem_hotplug_lock
+  powerpc/powernv: hold device_hotplug_lock when calling device_online()
+  powerpc/powernv: hold device_hotplug_lock in memtrace_offline_pages()
+  memory-hotplug.txt: Add some details about locking internals
+
+ Documentation/memory-hotplug.txt              | 39 +++++++++++-
+ arch/powerpc/platforms/powernv/memtrace.c     | 14 +++--
+ .../platforms/pseries/hotplug-memory.c        |  8 +--
+ drivers/acpi/acpi_memhotplug.c                |  4 +-
+ drivers/base/memory.c                         | 22 +++----
+ drivers/xen/balloon.c                         |  3 +
+ include/linux/memory_hotplug.h                |  4 +-
+ mm/memory_hotplug.c                           | 59 +++++++++++++++----
+ 8 files changed, 115 insertions(+), 38 deletions(-)
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.17.1
+
