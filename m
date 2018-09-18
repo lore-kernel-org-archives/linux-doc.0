@@ -2,124 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7DD717D923
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 07:00:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9FBB67D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 09:17:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728880AbeIRMbT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Sep 2018 08:31:19 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:59888 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727585AbeIRMbT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Sep 2018 08:31:19 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id A3B312071D; Tue, 18 Sep 2018 09:00:03 +0200 (CEST)
-Received: from bbrezillon (AAubervilliers-681-1-99-10.w90-88.abo.wanadoo.fr [90.88.4.10])
-        by mail.bootlin.com (Postfix) with ESMTPSA id E4C7320703;
-        Tue, 18 Sep 2018 09:00:02 +0200 (CEST)
-Date:   Tue, 18 Sep 2018 09:00:02 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     vitor <Vitor.Soares@synopsys.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
+        id S1729238AbeIROtB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Sep 2018 10:49:01 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52144 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726759AbeIROtB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Sep 2018 10:49:01 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id DAB8FB00D;
+        Tue, 18 Sep 2018 09:17:15 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 959631E091E; Tue, 18 Sep 2018 11:17:14 +0200 (CEST)
+Date:   Tue, 18 Sep 2018 11:17:14 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jan Kara <jack@suse.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        "Alicja Jurasik-Urbaniak" <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        "Rafal Ciepiela" <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        <linux-gpio@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH v7 01/10] i3c: Add core I3C infrastructure
-Message-ID: <20180918090002.2e4012e6@bbrezillon>
-In-Reply-To: <aa29faa0-237c-3875-64da-b93a1e87ccff@synopsys.com>
-References: <20180905154108.20770-1-boris.brezillon@bootlin.com>
-        <20180905154108.20770-2-boris.brezillon@bootlin.com>
-        <aa29faa0-237c-3875-64da-b93a1e87ccff@synopsys.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, bridge@lists.linux-foundation.org,
+        netdev@vger.kernel.org, Ted Tso <tytso@mit.edu>
+Subject: Re: [PATCH] docs: fix some broken documentation references
+Message-ID: <20180918091714.GG10257@quack2.suse.cz>
+References: <6b47bf56b898c48a0dc3cd42283c9e5c7c23367a.1537210894.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6b47bf56b898c48a0dc3cd42283c9e5c7c23367a.1537210894.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vitor,
-
-Sorry for the late reply, I was not at the office last week.
-
-On Tue, 11 Sep 2018 11:04:07 +0100
-vitor <Vitor.Soares@synopsys.com> wrote:
-
-> Hi Boris,
+On Mon 17-09-18 15:02:34, Mauro Carvalho Chehab wrote:
+> Some documentation files received recent changes and are
+> pointing to wrong places.
 > 
-> On 05-09-2018 16:40, Boris Brezillon wrote:
-> > +i3c_master_register_new_i3c_devs(struct i3c_master_controller *master)
-> > +{
-> > +	struct i3c_dev_desc *desc;
-> > +	int ret;
-> > +
-> > +	if (!master->init_done)
-> > +		return;
-> > +  
-> If you have a hot-join and call i3c_master_do_daa this function will 
-> return without create the i3c_device.
-
-Hm, you mean if hot-join happens when the I3C master is not yet
-registered? That shouldn't be a problem since all devices will be
-registered at the end of i3c_master_register(). Am I missing something?
-Is this a problem you actually face or just something you found out
-doing code inspection?
-
+> Those references can easily fixed with the help of a
+> script:
 > 
-> > +	i3c_bus_for_each_i3cdev(master->bus, desc) {
-> > +		if (desc->dev || !desc->info.dyn_addr || desc == master->this)
-> > +			continue;
-> > +
-> > +		desc->dev = kzalloc(sizeof(*desc->dev), GFP_KERNEL);
-> > +		if (!desc->dev)
-> > +			continue;
-> > +
-> > +		desc->dev->bus = master->bus;
-> > +		desc->dev->desc = desc;
-> > +		desc->dev->dev.parent = &master->bus->dev;
-> > +		desc->dev->dev.type = &i3c_device_type;
-> > +		desc->dev->dev.bus = &i3c_bus_type;
-> > +		desc->dev->dev.release = i3c_device_release;
-> > +		dev_set_name(&desc->dev->dev, "%d-%llx", master->bus->id,
-> > +			     desc->info.pid);
-> > +
-> > +		if (desc->boardinfo)
-> > +			desc->dev->dev.of_node = desc->boardinfo->of_node;
-> > +
-> > +		ret = device_register(&desc->dev->dev);
-> > +		if (ret)
-> > +			dev_err(master->parent,
-> > +				"Failed to add I3C device (err = %d)\n", ret);
-> > +	}
-> > +}
+> 	$ ./scripts/documentation-file-ref-check --fix
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Regards,
+Looks good to me. Thanks for fixing this up. You can add:
 
-Boris
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+> ---
+>  Documentation/filesystems/dax.txt  | 2 +-
+>  Documentation/filesystems/ext2.txt | 2 +-
+>  MAINTAINERS                        | 4 ++--
+>  net/bridge/Kconfig                 | 2 +-
+>  4 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
+> index 70cb68bed2e8..bc393e0a22b8 100644
+> --- a/Documentation/filesystems/dax.txt
+> +++ b/Documentation/filesystems/dax.txt
+> @@ -75,7 +75,7 @@ exposure of uninitialized data through mmap.
+>  
+>  These filesystems may be used for inspiration:
+>  - ext2: see Documentation/filesystems/ext2.txt
+> -- ext4: see Documentation/filesystems/ext4.txt
+> +- ext4: see Documentation/filesystems/ext4/ext4.rst
+>  - xfs:  see Documentation/filesystems/xfs.txt
+>  
+>  
+> diff --git a/Documentation/filesystems/ext2.txt b/Documentation/filesystems/ext2.txt
+> index 81c0becab225..a45c9fc0747b 100644
+> --- a/Documentation/filesystems/ext2.txt
+> +++ b/Documentation/filesystems/ext2.txt
+> @@ -358,7 +358,7 @@ and are copied into the filesystem.  If a transaction is incomplete at
+>  the time of the crash, then there is no guarantee of consistency for
+>  the blocks in that transaction so they are discarded (which means any
+>  filesystem changes they represent are also lost).
+> -Check Documentation/filesystems/ext4.txt if you want to read more about
+> +Check Documentation/filesystems/ext4/ext4.rst if you want to read more about
+>  ext4 and journaling.
+>  
+>  References
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9989925f658d..078a4cf6d064 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -840,7 +840,7 @@ ANALOG DEVICES INC ADGS1408 DRIVER
+>  M:	Mircea Caprioru <mircea.caprioru@analog.com>
+>  S:	Supported
+>  F:	drivers/mux/adgs1408.c
+> -F:	Documentation/devicetree/bindings/mux/adgs1408.txt
+> +F:	Documentation/devicetree/bindings/mux/adi,adgs1408.txt
+>  
+>  ANALOG DEVICES INC ADP5061 DRIVER
+>  M:	Stefan Popa <stefan.popa@analog.com>
+> @@ -5515,7 +5515,7 @@ W:	http://ext4.wiki.kernel.org
+>  Q:	http://patchwork.ozlabs.org/project/linux-ext4/list/
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git
+>  S:	Maintained
+> -F:	Documentation/filesystems/ext4.txt
+> +F:	Documentation/filesystems/ext4/ext4.rst
+>  F:	fs/ext4/
+>  
+>  Extended Verification Module (EVM)
+> diff --git a/net/bridge/Kconfig b/net/bridge/Kconfig
+> index aa0d3b2f1bb7..3625d6ade45c 100644
+> --- a/net/bridge/Kconfig
+> +++ b/net/bridge/Kconfig
+> @@ -17,7 +17,7 @@ config BRIDGE
+>  	  other third party bridge products.
+>  
+>  	  In order to use the Ethernet bridge, you'll need the bridge
+> -	  configuration tools; see <file:Documentation/networking/bridge.txt>
+> +	  configuration tools; see <file:Documentation/networking/bridge.rst>
+>  	  for location. Please read the Bridge mini-HOWTO for more
+>  	  information.
+>  
+> -- 
+> 2.17.1
+> 
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
