@@ -6,55 +6,55 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E5007D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 15:45:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B7747D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 16:50:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728912AbeIRVSm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Sep 2018 17:18:42 -0400
-Received: from mail-it0-f66.google.com ([209.85.214.66]:34877 "EHLO
-        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729753AbeIRVSl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Sep 2018 17:18:41 -0400
-Received: by mail-it0-f66.google.com with SMTP id 139-v6so3647743itf.0
-        for <linux-doc@vger.kernel.org>; Tue, 18 Sep 2018 08:45:32 -0700 (PDT)
+        id S1729900AbeIRWYM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Sep 2018 18:24:12 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:38270 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728065AbeIRWYM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Sep 2018 18:24:12 -0400
+Received: by mail-io1-f66.google.com with SMTP id y3-v6so2140269ioc.5
+        for <linux-doc@vger.kernel.org>; Tue, 18 Sep 2018 09:50:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=G39LeE3j89pOeDp3MlZsLrw2HaAfCPU7/f1VOjS6b4I=;
-        b=Ck5hVqgqbrrpb+24RXExvL0YlH+GoMxdJ17SyWcTIYCPfU4F0vfX+ox/33kzkiROfF
-         +ADvndyKfq+DMzjD4aVCmZDUNHaAJ8bJD/xN43sMCxSfFAIJJQZeELDTM2QhMnwFvxvD
-         l3AfCWGLMRJc+QtuVne9O6spJJbiF1OOUUuOSzL6cHPb8kXLxn9g9bDKf5RurG6y3oXD
-         HHj6ct35HM59mjgYXMxyW+xvy6TpMArp9OvY61klIvaOVc+coYUD6gPMzsnYHK0xAgNP
-         YYLwXQaDTxP+aVmBRrs5/7j3/xaa54yshIorHpbDGPmZedrNqGqvNpgAS5FvjGUwpJKg
-         AxQg==
+        bh=S7NSi8y5oqjKqVQu+A5gE7d9gD4oGqqQyNJAQWjDqVs=;
+        b=LDg/YjO/irWKmN3s7HJilg47wiCRlMtNAtqwm4Y2t7gql3JwLohRZY/iiFRWMvJXEi
+         Bbue0MpGpWl/EoWn9/bv4s41xCyq8PbMyNLR+7BUc+fQnF865gSe0xjUejt1gtatCXS6
+         5PWWQD+RJZys8UUF4turVeLvp4PFU8U73/ZIGfkAGUjajugrarm6EDCCOrZNVpW/biF8
+         xg1oX1lH2uVEXpYmeZuzJma3tD/7kKbf6IR9+OA1XDA/WIJf1XUZC+WuLKPYVImwErRY
+         5KGhr7jDpWKN5c9+c+toHhsCCmrLtQdSUlkCVjxI6y/hP9cm/mdL3NcFH6rcUTOIr4cT
+         V/AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=G39LeE3j89pOeDp3MlZsLrw2HaAfCPU7/f1VOjS6b4I=;
-        b=FC6SYB+b7ZOPke1VQNYNLrkivmpj9WPOvwQxIOmMSOzLZVHcdZEYlILbr+mEJGP2i6
-         fzxTcajDKyBTokxoaA9T7IZ1TKzRUXFzTX1HsTtYX8EDJzb6FobT074hTD4dQRKOirqJ
-         QwuYFhl4vm2/gXmhAGiXf0Gr26tE5GIQe8fVnilP/UP8eqqUBm9C1yxrODTV2eGSj+eC
-         Nwg4c+KNEt9mFD7/wKpCqjjla773HiF4nuM02v3M6ZtppZ8HKz6xMN3SSnWUpUrqVBhV
-         XZVkqBy4Kv9u1xCKlrnuLzPVjt6U3iMuhEfTpy0iqLseK+Gg0kpvwF6yL+bf+Xqbflls
-         5oYw==
-X-Gm-Message-State: APzg51AEy24hb/IgTfxO65vrQ6Zte0ORQ3ac7VhsXFBloE4MGldfbWcC
-        FIkHeL8kdLa5LZM1CjGZbirA2vC4erKO7Qxhon98sA==
-X-Google-Smtp-Source: ANB0VdaHaepZAaqjLoWrQ8SoCHpVOxP8PA/aubJWtZA7UY6iOrQCoVT2MZXTHCI0Xn7uVldkY9bAR0C41LfkiBOOZds=
-X-Received: by 2002:a24:d286:: with SMTP id z128-v6mr16414275itf.14.1537285532139;
- Tue, 18 Sep 2018 08:45:32 -0700 (PDT)
+        bh=S7NSi8y5oqjKqVQu+A5gE7d9gD4oGqqQyNJAQWjDqVs=;
+        b=buZWos+vnGxeuy0Ce5+D/gkcy9YpQkGCTE9QbA3Nrw7tB9sI/xHKptZcFfrj8jF+Kn
+         jqtauV7PNjqeXMTKAEwzB/a4HBEBYDuuwfm0OqgZIlrkHA8mZiXOUrJ7svZ1tQD2e6JY
+         GuoUMoekOpWbsSMD18Xb8T0CwVb+6DCzhnE1K5clPuwot+NOIByv9PGufEEIZlK9e/L9
+         od8iqKs+6fTg+/PxR67R/Iluixqh1cJRSO0Qhfh1fNgK3h/3n6jJRw8bCmB2Syf2p8pu
+         nNcfYbS3GJnNYyi2HDF2+ORGACekjZZo6NZaeHPvcgbdu3AhTjlaRcZSzp5UbKtmx1If
+         Qdxw==
+X-Gm-Message-State: APzg51BExHeb1Q788AMI3gxA20T4NOuOEBtyqMizhay2u/82LUces14/
+        NG8TTDcUs1InOTY1CwEwQoxUDRcKFCAZpnsYy9rhsA==
+X-Google-Smtp-Source: ANB0VdYx/8DId4QQx4kOmfZXWV7OZTbWXv2pf6J0pgoluaAvMz9R2OKl2U9UJdBIxGtqcOJvE/HXrOT5fcrpY2gTzGc=
+X-Received: by 2002:a6b:2147:: with SMTP id h68-v6mr25437479ioh.192.1537289445779;
+ Tue, 18 Sep 2018 09:50:45 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:5942:0:0:0:0:0 with HTTP; Tue, 18 Sep 2018 08:45:11
+Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Tue, 18 Sep 2018 09:50:45
  -0700 (PDT)
-In-Reply-To: <CAAeHK+w+Znw-t_wd29PO5B+pNegS3wqzS1mUVCmfrgdCXpavWw@mail.gmail.com>
-References: <cover.1535462971.git.andreyknvl@google.com> <6cd298a90d02068969713f2fd440eae21227467b.1535462971.git.andreyknvl@google.com>
- <CACT4Y+adO3n4Nb4XOPyXdt43DbYjb=Kz6__tPTmb1CX=00qNSQ@mail.gmail.com> <CAAeHK+w+Znw-t_wd29PO5B+pNegS3wqzS1mUVCmfrgdCXpavWw@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Tue, 18 Sep 2018 17:45:11 +0200
-Message-ID: <CACT4Y+a=tctG9PXkQmaeLtU3cGbBCSA==uwHasX+XzNVB66kcA@mail.gmail.com>
-Subject: Re: [PATCH v6 07/18] khwasan: add tag related helper functions
-To:     Andrey Konovalov <andreyknvl@google.com>
+In-Reply-To: <CACT4Y+awX48sFAYFCgx1Q-nJ=QrBhr08psMmHr+hDeCsQc0NRw@mail.gmail.com>
+References: <cover.1535462971.git.andreyknvl@google.com> <95b5beb7ec13b7e998efe84c9a7a5c1fa49a9fe3.1535462971.git.andreyknvl@google.com>
+ <CACT4Y+awX48sFAYFCgx1Q-nJ=QrBhr08psMmHr+hDeCsQc0NRw@mail.gmail.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 18 Sep 2018 18:50:45 +0200
+Message-ID: <CAAeHK+z3W+JqC2d=-ZddsLv5D7BWa6oKpEdJFiyS1DbEYVnmqA@mail.gmail.com>
+Subject: Re: [PATCH v6 08/18] khwasan: preassign tags to objects with ctors or SLAB_TYPESAFE_BY_RCU
+To:     Dmitry Vyukov <dvyukov@google.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -97,31 +97,19 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 17, 2018 at 8:59 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> On Wed, Sep 12, 2018 at 6:21 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
->> On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
->
->>> +void *khwasan_preset_slub_tag(struct kmem_cache *cache, const void *addr)
->>
->> Can't we do this in the existing kasan_init_slab_obj() hook? It looks
->> like it should do exactly this -- allow any one-time initialization
->> for objects. We could extend it to accept index and return a new
->> pointer.
->> If that does not work for some reason, I would try to at least unify
->> the hook for slab/slub, e.g. pass idx=-1 from slub and then use
->> random_tag().
->> It also seems that we do preset tag for slab multiple times (from
->> slab_get_obj()). Using kasan_init_slab_obj() should resolve this too
->> (hopefully we don't call it multiple times).
->
-> The issue is that SLAB stores freelist as an array of indexes instead
-> of using an actual linked list like SLUB. So you can't store the tag
-> in the pointer while the object is in the freelist, since there's no
-> pointer. And, technically, we don't preset tags for SLAB, we just use
-> the id as the tag every time a pointer is used, so perhaps we should
-> rename the callback. As to unifying the callbacks, sure, we can do
-> that.
+On Wed, Sep 12, 2018 at 6:36 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
+> On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
 
-As per offline discussion: potentially we can use
-kasan_init_slab_obj() if we add tag in kmalloc hook by using
-obj_to_idx().
+>>         if (!shuffle) {
+>> +               start = khwasan_preset_slub_tag(s, start);
+>>                 for_each_object_idx(p, idx, s, start, page->objects) {
+>>                         setup_object(s, page, p);
+>> +                       p = khwasan_preset_slub_tag(s, p);
+>
+>
+> As I commented in the previous patch, can't we do this in
+> kasan_init_slab_obj(), which should be called in all the right places
+> already?
+>
+
+As per offline discussion, will do in v7.
