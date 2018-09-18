@@ -5,145 +5,247 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 61DEF7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 11:48:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B66517DE59
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 11:49:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727757AbeIRRUt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Sep 2018 13:20:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49564 "EHLO mx1.redhat.com"
+        id S1729152AbeIRRVC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Sep 2018 13:21:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42092 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726768AbeIRRUt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Sep 2018 13:20:49 -0400
+        id S1729049AbeIRRVC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Sep 2018 13:21:02 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 24C04307D857;
-        Tue, 18 Sep 2018 11:48:34 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 75470308427E;
+        Tue, 18 Sep 2018 11:48:48 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-248.ams2.redhat.com [10.36.116.248])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7C0DE17101;
-        Tue, 18 Sep 2018 11:48:23 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 358D717101;
+        Tue, 18 Sep 2018 11:48:41 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-mm@kvack.org
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
         xen-devel@lists.xenproject.org, devel@linuxdriverproject.org,
         David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Balbir Singh <bsingharora@gmail.com>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        John Allen <jallen@linux.vnet.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Juergen Gross <jgross@suse.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Len Brown <lenb@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Mathieu Malaterre <malat@debian.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Neuling <mikey@neuling.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Nathan Fontenot <nfont@linux.vnet.ibm.com>,
-        Oscar Salvador <osalvador@suse.de>,
         Paul Mackerras <paulus@samba.org>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Pavel Tatashin <pavel.tatashin@microsoft.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rashmica Gupta <rashmica.g@gmail.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Nathan Fontenot <nfont@linux.vnet.ibm.com>,
+        John Allen <jallen@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Vlastimil Babka <vbabka@suse.cz>,
+        Oscar Salvador <osalvador@suse.de>,
+        Mathieu Malaterre <malat@debian.org>,
+        Pavel Tatashin <pavel.tatashin@microsoft.com>,
         YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
-Subject: [PATCH v1 0/6] mm: online/offline_pages called w.o. mem_hotplug_lock
-Date:   Tue, 18 Sep 2018 13:48:16 +0200
-Message-Id: <20180918114822.21926-1-david@redhat.com>
+Subject: [PATCH v1 2/6] mm/memory_hotplug: make add_memory() take the device_hotplug_lock
+Date:   Tue, 18 Sep 2018 13:48:18 +0200
+Message-Id: <20180918114822.21926-3-david@redhat.com>
+In-Reply-To: <20180918114822.21926-1-david@redhat.com>
+References: <20180918114822.21926-1-david@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Tue, 18 Sep 2018 11:48:36 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Tue, 18 Sep 2018 11:48:48 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reading through the code and studying how mem_hotplug_lock is to be used,
-I noticed that there are two places where we can end up calling
-device_online()/device_offline() - online_pages()/offline_pages() without
-the mem_hotplug_lock. And there are other places where we call
-device_online()/device_offline() without the device_hotplug_lock.
+add_memory() currently does not take the device_hotplug_lock, however
+is aleady called under the lock from
+	arch/powerpc/platforms/pseries/hotplug-memory.c
+	drivers/acpi/acpi_memhotplug.c
+to synchronize against CPU hot-remove and similar.
 
-While e.g.
-	echo "online" > /sys/devices/system/memory/memory9/state
-is fine, e.g.
-	echo 1 > /sys/devices/system/memory/memory9/online
-Will not take the mem_hotplug_lock. However the device_lock() and
-device_hotplug_lock.
+In general, we should hold the device_hotplug_lock when adding memory
+to synchronize against online/offline request (e.g. from user space) -
+which already resulted in lock inversions due to device_lock() and
+mem_hotplug_lock - see 30467e0b3be ("mm, hotplug: fix concurrent memory
+hot-add deadlock"). add_memory()/add_memory_resource() will create memory
+block devices, so this really feels like the right thing to do.
 
-E.g. via memory_probe_store(), we can end up calling
-add_memory()->online_pages() without the device_hotplug_lock. So we can
-have concurrent callers in online_pages(). We e.g. touch in online_pages()
-basically unprotected zone->present_pages then.
+Holding the device_hotplug_lock makes sure that a memory block device
+can really only be accessed (e.g. via .online/.state) from user space,
+once the memory has been fully added to the system.
 
-Looks like there is a longer history to that (see Patch #2 for details),
-and fixing it to work the way it was intended is not really possible. We
-would e.g. have to take the mem_hotplug_lock in device/base/core.c, which
-sounds wrong.
+The lock is not held yet in
+	drivers/xen/balloon.c
+	arch/powerpc/platforms/powernv/memtrace.c
+	drivers/s390/char/sclp_cmd.c
+	drivers/hv/hv_balloon.c
+So, let's either use the locked variants or take the lock.
 
-Summary: We had a lock inversion on mem_hotplug_lock and device_lock().
-More details can be found in patch 3 and patch 6.
+Don't export add_memory_resource(), as it once was exported to be used
+by XEN, which is never built as a module. If somebody requires it, we
+also have to export a locked variant (as device_hotplug_lock is never
+exported).
 
-I propose the general rules (documentation added in patch 6):
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: Len Brown <lenb@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Juergen Gross <jgross@suse.com>
+Cc: Nathan Fontenot <nfont@linux.vnet.ibm.com>
+Cc: John Allen <jallen@linux.vnet.ibm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Mathieu Malaterre <malat@debian.org>
+Cc: Pavel Tatashin <pavel.tatashin@microsoft.com>
+Cc: YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
+Reviewed-by: Pavel Tatashin <pavel.tatashin@microsoft.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ .../platforms/pseries/hotplug-memory.c        |  2 +-
+ drivers/acpi/acpi_memhotplug.c                |  2 +-
+ drivers/base/memory.c                         |  9 ++++++--
+ drivers/xen/balloon.c                         |  3 +++
+ include/linux/memory_hotplug.h                |  1 +
+ mm/memory_hotplug.c                           | 22 ++++++++++++++++---
+ 6 files changed, 32 insertions(+), 7 deletions(-)
 
-1. add_memory/add_memory_resource() must only be called with
-   device_hotplug_lock.
-2. remove_memory() must only be called with device_hotplug_lock. This is
-   already documented and holds for all callers.
-3. device_online()/device_offline() must only be called with
-   device_hotplug_lock. This is already documented and true for now in core
-   code. Other callers (related to memory hotplug) have to be fixed up.
-4. mem_hotplug_lock is taken inside of add_memory/remove_memory/
-   online_pages/offline_pages.
-
-To me, this looks way cleaner than what we have right now (and easier to
-verify). And looking at the documentation of remove_memory, using
-lock_device_hotplug also for add_memory() feels natural.
-
-
-RFCv2 -> v1:
-- Dropped an unnecessary _ref from remove_memory() in patch #1
-- Minor patch description fixes.
-- Added rb's
-
-RFC -> RFCv2:
-- Don't export device_hotplug_lock, provide proper remove_memory/add_memory
-  wrappers.
-- Split up the patches a bit.
-- Try to improve powernv memtrace locking
-- Add some documentation for locking that matches my knowledge
-
-David Hildenbrand (6):
-  mm/memory_hotplug: make remove_memory() take the device_hotplug_lock
-  mm/memory_hotplug: make add_memory() take the device_hotplug_lock
-  mm/memory_hotplug: fix online/offline_pages called w.o.
-    mem_hotplug_lock
-  powerpc/powernv: hold device_hotplug_lock when calling device_online()
-  powerpc/powernv: hold device_hotplug_lock in memtrace_offline_pages()
-  memory-hotplug.txt: Add some details about locking internals
-
- Documentation/memory-hotplug.txt              | 39 +++++++++++-
- arch/powerpc/platforms/powernv/memtrace.c     | 14 +++--
- .../platforms/pseries/hotplug-memory.c        |  8 +--
- drivers/acpi/acpi_memhotplug.c                |  4 +-
- drivers/base/memory.c                         | 22 +++----
- drivers/xen/balloon.c                         |  3 +
- include/linux/memory_hotplug.h                |  4 +-
- mm/memory_hotplug.c                           | 59 +++++++++++++++----
- 8 files changed, 115 insertions(+), 38 deletions(-)
-
+diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
+index b3f54466e25f..2e6f41dc103a 100644
+--- a/arch/powerpc/platforms/pseries/hotplug-memory.c
++++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
+@@ -702,7 +702,7 @@ static int dlpar_add_lmb(struct drmem_lmb *lmb)
+ 	nid = memory_add_physaddr_to_nid(lmb->base_addr);
+ 
+ 	/* Add the memory */
+-	rc = add_memory(nid, lmb->base_addr, block_sz);
++	rc = __add_memory(nid, lmb->base_addr, block_sz);
+ 	if (rc) {
+ 		dlpar_remove_device_tree_lmb(lmb);
+ 		return rc;
+diff --git a/drivers/acpi/acpi_memhotplug.c b/drivers/acpi/acpi_memhotplug.c
+index 811148415993..8fe0960ea572 100644
+--- a/drivers/acpi/acpi_memhotplug.c
++++ b/drivers/acpi/acpi_memhotplug.c
+@@ -228,7 +228,7 @@ static int acpi_memory_enable_device(struct acpi_memory_device *mem_device)
+ 		if (node < 0)
+ 			node = memory_add_physaddr_to_nid(info->start_addr);
+ 
+-		result = add_memory(node, info->start_addr, info->length);
++		result = __add_memory(node, info->start_addr, info->length);
+ 
+ 		/*
+ 		 * If the memory block has been used by the kernel, add_memory()
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index 817320c7c4c1..40cac122ec73 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -519,15 +519,20 @@ memory_probe_store(struct device *dev, struct device_attribute *attr,
+ 	if (phys_addr & ((pages_per_block << PAGE_SHIFT) - 1))
+ 		return -EINVAL;
+ 
++	ret = lock_device_hotplug_sysfs();
++	if (ret)
++		goto out;
++
+ 	nid = memory_add_physaddr_to_nid(phys_addr);
+-	ret = add_memory(nid, phys_addr,
+-			 MIN_MEMORY_BLOCK_SIZE * sections_per_block);
++	ret = __add_memory(nid, phys_addr,
++			   MIN_MEMORY_BLOCK_SIZE * sections_per_block);
+ 
+ 	if (ret)
+ 		goto out;
+ 
+ 	ret = count;
+ out:
++	unlock_device_hotplug();
+ 	return ret;
+ }
+ 
+diff --git a/drivers/xen/balloon.c b/drivers/xen/balloon.c
+index e12bb256036f..6bab019a82b1 100644
+--- a/drivers/xen/balloon.c
++++ b/drivers/xen/balloon.c
+@@ -395,7 +395,10 @@ static enum bp_state reserve_additional_memory(void)
+ 	 * callers drop the mutex before trying again.
+ 	 */
+ 	mutex_unlock(&balloon_mutex);
++	/* add_memory_resource() requires the device_hotplug lock */
++	lock_device_hotplug();
+ 	rc = add_memory_resource(nid, resource, memhp_auto_online);
++	unlock_device_hotplug();
+ 	mutex_lock(&balloon_mutex);
+ 
+ 	if (rc) {
+diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+index 1f096852f479..ffd9cd10fcf3 100644
+--- a/include/linux/memory_hotplug.h
++++ b/include/linux/memory_hotplug.h
+@@ -324,6 +324,7 @@ static inline void __remove_memory(int nid, u64 start, u64 size) {}
+ extern void __ref free_area_init_core_hotplug(int nid);
+ extern int walk_memory_range(unsigned long start_pfn, unsigned long end_pfn,
+ 		void *arg, int (*func)(struct memory_block *, void *));
++extern int __add_memory(int nid, u64 start, u64 size);
+ extern int add_memory(int nid, u64 start, u64 size);
+ extern int add_memory_resource(int nid, struct resource *resource, bool online);
+ extern int arch_add_memory(int nid, u64 start, u64 size,
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index b8b1bd970322..ef5444145c88 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1111,7 +1111,12 @@ static int online_memory_block(struct memory_block *mem, void *arg)
+ 	return device_online(&mem->dev);
+ }
+ 
+-/* we are OK calling __meminit stuff here - we have CONFIG_MEMORY_HOTPLUG */
++/*
++ * NOTE: The caller must call lock_device_hotplug() to serialize hotplug
++ * and online/offline operations (triggered e.g. by sysfs).
++ *
++ * we are OK calling __meminit stuff here - we have CONFIG_MEMORY_HOTPLUG
++ */
+ int __ref add_memory_resource(int nid, struct resource *res, bool online)
+ {
+ 	u64 start, size;
+@@ -1180,9 +1185,9 @@ int __ref add_memory_resource(int nid, struct resource *res, bool online)
+ 	mem_hotplug_done();
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(add_memory_resource);
+ 
+-int __ref add_memory(int nid, u64 start, u64 size)
++/* requires device_hotplug_lock, see add_memory_resource() */
++int __ref __add_memory(int nid, u64 start, u64 size)
+ {
+ 	struct resource *res;
+ 	int ret;
+@@ -1196,6 +1201,17 @@ int __ref add_memory(int nid, u64 start, u64 size)
+ 		release_memory_resource(res);
+ 	return ret;
+ }
++
++int add_memory(int nid, u64 start, u64 size)
++{
++	int rc;
++
++	lock_device_hotplug();
++	rc = __add_memory(nid, start, size);
++	unlock_device_hotplug();
++
++	return rc;
++}
+ EXPORT_SYMBOL_GPL(add_memory);
+ 
+ #ifdef CONFIG_MEMORY_HOTREMOVE
 -- 
 2.17.1
 
