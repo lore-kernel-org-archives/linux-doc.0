@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7754B7D584
+	by archive.lwn.net (Postfix) with ESMTP id A23E97E3A9
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 21:53:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730016AbeISD1U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Sep 2018 23:27:20 -0400
-Received: from mga07.intel.com ([134.134.136.100]:56514 "EHLO mga07.intel.com"
+        id S1730689AbeISD0z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Sep 2018 23:26:55 -0400
+Received: from mga14.intel.com ([192.55.52.115]:59619 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730771AbeISD1I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Sep 2018 23:27:08 -0400
+        id S1730461AbeISD0b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Sep 2018 23:26:31 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Sep 2018 14:52:33 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Sep 2018 14:51:54 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.53,391,1531810800"; 
-   d="scan'208";a="87270519"
+   d="scan'208";a="87270391"
 Received: from maru.jf.intel.com ([10.54.51.77])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2018 14:52:09 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2018 14:51:44 -0700
 From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
         Jean Delvare <jdelvare@suse.com>,
@@ -60,11 +60,15 @@ Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
         openbmc@lists.ozlabs.org,
         Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jason M Biils <jason.m.bills@linux.intel.com>
-Subject: [PATCH v8 12/12] Add maintainers for the PECI subsystem
-Date:   Tue, 18 Sep 2018 14:51:24 -0700
-Message-Id: <20180918215124.14003-13-jae.hyun.yoo@linux.intel.com>
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Milton Miller II <miltonm@us.ibm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: [PATCH v8 04/12] dt-bindings: Add a document of PECI adapter driver for ASPEED AST24xx/25xx SoCs
+Date:   Tue, 18 Sep 2018 14:51:16 -0700
+Message-Id: <20180918215124.14003-5-jae.hyun.yoo@linux.intel.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180918215124.14003-1-jae.hyun.yoo@linux.intel.com>
 References: <20180918215124.14003-1-jae.hyun.yoo@linux.intel.com>
@@ -73,44 +77,90 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds maintainer information for the PECI subsystem.
+This commit adds a dt-bindings document of PECI adapter driver for ASPEED
+AST24xx/25xx SoCs.
 
-Cc: David S. Miller <davem@davemloft.net>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jason M Biils <jason.m.bills@linux.intel.com>
+Cc: Milton Miller II <miltonm@us.ibm.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ryan Chen <ryan_chen@aspeedtech.com>
 Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
+Reviewed-by: James Feist <james.feist@linux.intel.com>
+Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ .../devicetree/bindings/peci/peci-aspeed.txt  | 55 +++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/peci/peci-aspeed.txt
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4ece30f15777..b9ffc217ec68 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11361,6 +11361,19 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/peaq-wmi.c
- 
-+PECI SUBSYSTEM
-+M:	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-+M:	Jason M Biils <jason.m.bills@linux.intel.com>
-+L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/peci/
-+F:	drivers/mfd/intel-peci-client.c
-+F:	drivers/peci/
-+F:	drivers/hwmon/peci-*.c
-+F:	include/linux/mfd/intel-peci-client.h
-+F:	include/linux/peci.h
-+F:	include/uapi/linux/peci-ioctl.h
+diff --git a/Documentation/devicetree/bindings/peci/peci-aspeed.txt b/Documentation/devicetree/bindings/peci/peci-aspeed.txt
+new file mode 100644
+index 000000000000..cdca73a3b7d8
+--- /dev/null
++++ b/Documentation/devicetree/bindings/peci/peci-aspeed.txt
+@@ -0,0 +1,55 @@
++Device tree configuration for PECI buses on the AST24XX and AST25XX SoCs.
 +
- PER-CPU MEMORY ALLOCATOR
- M:	Dennis Zhou <dennis@kernel.org>
- M:	Tejun Heo <tj@kernel.org>
++Required properties:
++- compatible        : Should be one of:
++			"aspeed,ast2400-peci"
++			"aspeed,ast2500-peci"
++- reg               : Should contain PECI controller registers location and
++		      length.
++- #address-cells    : Should be <1> required to define a client address.
++- #size-cells       : Should be <0> required to define a client address.
++- interrupts        : Should contain PECI controller interrupt.
++- clocks            : Should contain clock source for PECI controller. Should
++		      reference the external oscillator clock in the second
++		      cell.
++- resets            : Should contain phandle to reset controller with the reset
++		      number in the second cell.
++- clock-frequency   : Should contain the operation frequency of PECI controller
++		      in units of Hz.
++		      187500 ~ 24000000
++
++Optional properties:
++- msg-timing        : Message timing negotiation period. This value will
++		      determine the period of message timing negotiation to be
++		      issued by PECI controller. The unit of the programmed
++		      value is four times of PECI clock period.
++		      0 ~ 255 (default: 1)
++- addr-timing       : Address timing negotiation period. This value will
++		      determine the period of address timing negotiation to be
++		      issued by PECI controller. The unit of the programmed
++		      value is four times of PECI clock period.
++		      0 ~ 255 (default: 1)
++- rd-sampling-point : Read sampling point selection. The whole period of a bit
++		      time will be divided into 16 time frames. This value will
++		      determine the time frame in which the controller will
++		      sample PECI signal for data read back. Usually in the
++		      middle of a bit time is the best.
++		      0 ~ 15 (default: 8)
++- cmd-timeout-ms    : Command timeout in units of ms.
++		      1 ~ 60000 (default: 1000)
++
++Example:
++	peci0: peci-bus@0 {
++		compatible = "aspeed,ast2500-peci";
++		reg = <0x0 0x60>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		interrupts = <15>;
++		clocks = <&syscon ASPEED_CLK_GATE_REFCLK>;
++		resets = <&syscon ASPEED_RESET_PECI>;
++		clock-frequency = <24000000>;
++		msg-timing = <1>;
++		addr-timing = <1>;
++		rd-sampling-point = <8>;
++		cmd-timeout-ms = <1000>;
++	};
 -- 
 2.18.0
 
