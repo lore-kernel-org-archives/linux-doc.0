@@ -3,57 +3,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9FF997D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 11:54:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C8A17D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 17:28:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731341AbeISRcA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Sep 2018 13:32:00 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:42602 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731336AbeISRcA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 13:32:00 -0400
-Received: by mail-io1-f68.google.com with SMTP id n18-v6so4217545ioa.9
-        for <linux-doc@vger.kernel.org>; Wed, 19 Sep 2018 04:54:25 -0700 (PDT)
+        id S1732974AbeISXGt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Sep 2018 19:06:49 -0400
+Received: from mail-it0-f66.google.com ([209.85.214.66]:34541 "EHLO
+        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732920AbeISXGt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 19:06:49 -0400
+Received: by mail-it0-f66.google.com with SMTP id x79-v6so17796886ita.1
+        for <linux-doc@vger.kernel.org>; Wed, 19 Sep 2018 10:27:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=TN3QNhjkYmw+HaBkvgCjeas8QL9MY9/JuWC0ExTNN4o=;
-        b=PYuijPmDpDUM5Hb3P+jRogRYdga0+2EzCa9Sqq5z9BIgrwUVwZQ8dE5LQTQPaMqz+a
-         8fiBxh7PtngyuI7n2nluQovcivuvczjAGFAyKowM2V0nuCs96jqo1hsYwylJ61PXBZGV
-         bbhragISEp7Ye4Z2oFx5DSeEmA55fWNhc2JTmduIMwzBNW00bSDvDwsiYd0Z0vnHFflL
-         k4YNy9Gsz5GO//BYNRshaLumRIG9Y/oy5PsuGsur2yqdHCbv7YZwKkJg0i5VWfT2kWXE
-         ymoWZnSlqOH9zPPjE7MyezNleyYOEGlcNseQJkQz1tW7fIR2jZvk+JNp7ghEsVeeTE29
-         AeZg==
+        bh=zAosuzFSpruYcMp8zUqTs2t8IQKgTVloTJphmeIs/9o=;
+        b=R7fQIHpdaDdk17IrN2krX5/Em5oNcRlfDMSVm5KpaRumV8yQFydW+obAcKAzL0yHkn
+         mTcfyY9y4guxIn+XZAYU9k/jS/Bv2zpNlRpy0jhfIfW6E34qizowW1LOwfH7aVuIyU2o
+         0rWuSIb3s40GrBTvzdC+YbUTQBst9nWsY9Tyzc9KqAHBDCVDmBGb+IMbbRBQKFayAlQu
+         PCWaK3dqdPcKjL047OXFJmB9wstf6MWp28nXp/Pom4tkQQZkM4yrh3Wiq2ov4+7qrvHw
+         MXtJ3uaN+T1cSdq9jXtC4LO6oB95GToAbpis2eQNXIo4JPyMRRT/GtZuK68elS7Ix0+s
+         aArw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=TN3QNhjkYmw+HaBkvgCjeas8QL9MY9/JuWC0ExTNN4o=;
-        b=RaJx2mhtg72uVy0gYcK62APsNpZ8GhUuqzmfiV+Z/7wSR09MJi8IRT3h18KihcLXM9
-         L1dXAb4sq2TFzvB1GHqfXvjo9kERkIh1R5yS0E98PvhyyDQdKYXedX6gck41U07CQAZw
-         P0ODDYbuimmZOTmw17DQSAC6ShjnC0ihwgQjD1SQ8Yi0d3ctJgyy86Tm6FG4qzuFfT9p
-         WCVjRVWUzWCcMYz/wFWffWjORC3O8bDWlGacLHmyUa+NA876D1qvamJqjJ/D2EuDRi60
-         vIZGHgvwqX39tRXy+rnGgZcmfl/LkzVTirQRJVgKaKxBWR3NuOV3BDu/e2C04ISLxtp4
-         v5TA==
-X-Gm-Message-State: APzg51Ao4Yd3bMOVmznfDKnLUD1E/SRxBlnKFKzE3hb1a8jDbsiEsLm9
-        K8QOqLpTo7AB3cMh/p8TlvOgWNE4abX141laUieNAg==
-X-Google-Smtp-Source: ANB0Vda/TSY5GBQv89JSajwxw8ANC9OEuaIBS3CoGpgBvPLzzhDlrCxmenhqlK89cazbWen0QpQ4VlXoG+pv5XijtSE=
-X-Received: by 2002:a6b:1707:: with SMTP id 7-v6mr28516531iox.119.1537358064356;
- Wed, 19 Sep 2018 04:54:24 -0700 (PDT)
+        bh=zAosuzFSpruYcMp8zUqTs2t8IQKgTVloTJphmeIs/9o=;
+        b=gYAqmdILmwVFFRN76VGyhr0mzC1wD/1QXbcE7Zm+85+Gckf88u3xwJNDyXO6zIG7w5
+         8WeqVNaHN9+TPU9OWbK9y17VY9sa+y38SI47xx0qdNayb1CVGXUcbhn9F6P1R7/wOIa4
+         9MeEgH7ySNE7O6hJV3OsMr2BezO41EOcMZGylXzK5sGg488EPrrQXtL2/fJ16pZ95kGY
+         lWcpGLiDigG5dXT8flQOeSNLN8ExcXbLFKzPJuNxUpvMoL2+qf53HbyCPJhTunOAE7EC
+         yhYSdyYByYijFwZU2FwQL+eggaW70RlIus9QQ0NnxlDNmQYsakcjtrJC3X6Q+3QI8Aey
+         29og==
+X-Gm-Message-State: APzg51ACi6ASu49rUav1MowAdHgwEbs8nKeUSazEvDPgV4ICPlSHjFQP
+        QFFmvAExxAKvvFajrnul7fEaD2SJpoDQiW2Bjn4Mkw==
+X-Google-Smtp-Source: ANB0VdYbecamHVnbOHoY535blocy3fTBUCqVTTqorA+jTUDqqll4w3qD3zZeO0T2FxugUdGpzhYVttXIF/5W3W/MOyw=
+X-Received: by 2002:a24:5f92:: with SMTP id r140-v6mr21149663itb.95.1537378073201;
+ Wed, 19 Sep 2018 10:27:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Wed, 19 Sep 2018 04:54:23
+Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Wed, 19 Sep 2018 10:27:52
  -0700 (PDT)
-In-Reply-To: <CACT4Y+YicYhmzrKf84=oJJErdFKSNM70cmoN3m_zzERcUQ_-Fg@mail.gmail.com>
-References: <cover.1535462971.git.andreyknvl@google.com> <4267d0903e0fdf9c261b91cf8a2bf0f71047a43c.1535462971.git.andreyknvl@google.com>
- <CACT4Y+YicYhmzrKf84=oJJErdFKSNM70cmoN3m_zzERcUQ_-Fg@mail.gmail.com>
+In-Reply-To: <CACT4Y+Z4zLSBdXGtk-6nH64UpOVA8s5TJZSpokAqEu4pE8LpCA@mail.gmail.com>
+References: <cover.1535462971.git.andreyknvl@google.com> <b4ba65afa55f2fdfd2856fb03c5aba99c7a8bdd7.1535462971.git.andreyknvl@google.com>
+ <CACT4Y+Z4zLSBdXGtk-6nH64UpOVA8s5TJZSpokAqEu4pE8LpCA@mail.gmail.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 19 Sep 2018 13:54:23 +0200
-Message-ID: <CAAeHK+xMjDwZkKDn_0aVWERkjv6B-hFKjn0coGo4LbcPBds4Ew@mail.gmail.com>
-Subject: Re: [PATCH v6 14/18] khwasan: add hooks implementation
+Date:   Wed, 19 Sep 2018 19:27:52 +0200
+Message-ID: <CAAeHK+ySaS_jUe_wNQ192kE4bUgZUOMdSyQeRp5Tx2nCD41vBQ@mail.gmail.com>
+Subject: Re: [PATCH v6 04/18] khwasan, arm64: adjust shadow size for CONFIG_KASAN_HW
 To:     Dmitry Vyukov <dvyukov@google.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -97,106 +97,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 12, 2018 at 8:30 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
+On Wed, Sep 12, 2018 at 4:54 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
 > On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
 
->>  void kasan_unpoison_shadow(const void *address, size_t size)
->>  {
->> -       kasan_poison_shadow(address, size, 0);
->> +       u8 tag = get_tag(address);
->> +
->> +       /* Perform shadow offset calculation based on untagged address */
+>>  /*
+>> - * KASAN requires 1/8th of the kernel virtual address space for the shadow
+>> - * region. KASAN can bloat the stack significantly, so double the (minimum)
+>> - * stack size when KASAN is in use.
+>> + * KASAN and KHWASAN require 1/8th and 1/16th of the kernel virtual address
 >
-> The comment is not super-useful. It would be more useful to say why we
-> need to do this.
-> Most callers explicitly untag pointer passed to this function, for
-> some it's unclear if the pointer contains tag or not.
-> For example, __hwasan_tag_memory -- what does it accept? Tagged or untagged?
+>
+> I am somewhat confused by the terminology.
+> "KASAN" is not actually "CONFIG_KASAN" below, it is actually
+> "CONFIG_KASAN_GENERIC". While "KHWASAN" translates to "KASAN_HW" few
+> lines later.
+> I think we need some consistent terminology for comments and config
+> names until it's too late.
+>
 
-There are some callers that pass tagged pointers to this functions,
-e.g. ksize or kasan_unpoison_object_data. I'll expand the comment.
-
->
->
->> +       address = reset_tag(address);
->> +
->> +       kasan_poison_shadow(address, size, tag);
->>
->>         if (size & KASAN_SHADOW_MASK) {
->>                 u8 *shadow = (u8 *)kasan_mem_to_shadow(address + size);
->> -               *shadow = size & KASAN_SHADOW_MASK;
->> +
->> +               if (IS_ENABLED(CONFIG_KASAN_HW))
->> +                       *shadow = tag;
->> +               else
->> +                       *shadow = size & KASAN_SHADOW_MASK;
->>         }
->>  }
->
->
-> It seems that this function is just different for kasan and khwasan.
-> Currently for kasan we have:
->
-> kasan_poison_shadow(address, size, tag);
-> if (size & KASAN_SHADOW_MASK) {
->         u8 *shadow = (u8 *)kasan_mem_to_shadow(address + size);
->         *shadow = size & KASAN_SHADOW_MASK;
-> }
->
-> But what we want to say for khwasan is:
->
-> kasan_poison_shadow(address, round_up(size, KASAN_SHADOW_SCALE_SIZE),
-> get_tag(address));
->
-> Not sure if we want to keep a common implementation or just have
-> separate implementations...
-
-As per offline discussion leaving as is.
-
-
->>  void kasan_free_pages(struct page *page, unsigned int order)
->> @@ -235,6 +248,7 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
->>                         slab_flags_t *flags)
->>  {
->>         unsigned int orig_size = *size;
->> +       unsigned int redzone_size = 0;
->
-> This variable seems to be always initialized below. We don't general
-> initialize local variables in this case.
-
-Will fix in v7.
-
->>  void check_memory_region(unsigned long addr, size_t size, bool write,
->>                                 unsigned long ret_ip)
->>  {
->> +       u8 tag;
->> +       u8 *shadow_first, *shadow_last, *shadow;
->> +       void *untagged_addr;
->> +
->> +       tag = get_tag((const void *)addr);
->> +
->> +       /* Ignore accesses for pointers tagged with 0xff (native kernel
->
-> /* on a separate line
-
-Will fix in v7.
-
->
->> +        * pointer tag) to suppress false positives caused by kmap.
->> +        *
->> +        * Some kernel code was written to account for archs that don't keep
->> +        * high memory mapped all the time, but rather map and unmap particular
->> +        * pages when needed. Instead of storing a pointer to the kernel memory,
->> +        * this code saves the address of the page structure and offset within
->> +        * that page for later use. Those pages are then mapped and unmapped
->> +        * with kmap/kunmap when necessary and virt_to_page is used to get the
->> +        * virtual address of the page. For arm64 (that keeps the high memory
->> +        * mapped all the time), kmap is turned into a page_address call.
->> +
->> +        * The issue is that with use of the page_address + virt_to_page
->> +        * sequence the top byte value of the original pointer gets lost (gets
->> +        * set to KHWASAN_TAG_KERNEL (0xFF).
->
-> Missed closing bracket.
-
-Will fix in v7.
+As per offline discussion will rename in v7.
