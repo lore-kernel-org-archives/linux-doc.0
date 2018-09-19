@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5B4737D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 18:55:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AEB1F7D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 18:55:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732190AbeITAeW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Sep 2018 20:34:22 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33420 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732292AbeITAeV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 20:34:21 -0400
-Received: by mail-wr1-f68.google.com with SMTP id v90-v6so6898037wrc.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Sep 2018 11:55:04 -0700 (PDT)
+        id S2387459AbeITAe1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Sep 2018 20:34:27 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51848 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387403AbeITAeZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 20:34:25 -0400
+Received: by mail-wm1-f68.google.com with SMTP id y2-v6so7389321wma.1
+        for <linux-doc@vger.kernel.org>; Wed, 19 Sep 2018 11:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+TT5Fj1GkPfxux4ZKavFB34Rw0bRLnsUF+AwDpjqZ8E=;
-        b=R09DSWFF1vo6IMQGrQsyLfTQ6GaJPP325NhavrzW8OTFnsW4sEMsi9D/BCYlmlitcr
-         HUazOA7arsEgQDcgDVgIzcPPkB6GHX1UaG2UtP/2k1YL+AUqJlmZqHLpTP4cSrxictnP
-         jKslCAE90z0eG6eTetOjMpjIJ52OGi8bujU9/3zNgh6za8kyiRNLzokKfzD8yypJ/sWo
-         W0z9lbGl9Ortjb2uUCEYNTVwsbefN60C2XSFRifDoxVRw7yAmqWvl/GZ8In23EaY+Z49
-         NOSvO5IAm28BADuey4xQwUt/nTwAi/VPa/sAZhzWKs7W+gnWl/1ASYuCodNbbD+BYpgD
-         +Cdg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=TFebpY+4DQvyEj9/6cNobOxFdZpML3D62x2Uz3V3Bjo=;
+        b=V7r3yStp8H8MLbU05RxHTdCCSUIgot36k2lVklepQ6thP99J4eEl3X/BcbgdKQG1cz
+         ov14PQJBKjiPdC/Kpqf4Y3Q0P37buFLjzhzPU+yNBGBWsxkHBcfkqB8b03K3wNqdybhp
+         fxxpp0jzhrRzTqHV+2WZ08KSFfTbNRn1sDXrw0bU7l2701k9xgSWWuNv3/2JfepTlEAO
+         hKe65XlQMlQdbbKJEqkzx4qdIuCAmo3cxk2HShXqIi2HIeZeZocsqQYGItsSmyTubffR
+         dP/7Hmv8XLY/EY8MIrV6zlserQlbtqkJZ1KjJKzC6/bqj4rHiQrM5VTYpnxvSvXzadEx
+         J8rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+TT5Fj1GkPfxux4ZKavFB34Rw0bRLnsUF+AwDpjqZ8E=;
-        b=ZE7EmMH+kRWu1WJT0F699PbbecDkVG95KiHZVBeuh0GWbyCx0CiHikuQ4xnos/J7a6
-         uyiyQeQeRMkhN5btgmgStpLmKO+7F11Sqsq+De/E1rDtWWx1vRi+VjAN7BwYXJWu5p2l
-         RnnaiUIT02pIxBhhZpVuzFOsPE+OvLfKeI59mrpTsAdwanoVGTzkYftStVe92eV4IUmF
-         829vt4xkL7+SgVbCOH6+7YAt0s3W2iYFQEWx+lgKLnuD/Ye4CvYoaf8E++SID/JCcOn6
-         VVqFr4UF6rczqOcf0dtjQmfz0BQi9zVsuzrsuQ9XsjwIvnTUEyVtJroACvp6Gy6dhixG
-         ISeQ==
-X-Gm-Message-State: APzg51Djx1Q7F4KEyMzKQhYLWsFx4c9jcWvLo5LOMh8tvYaedZl3izSq
-        AzlFJGB1UYyerMsfKlEYtTwQrw==
-X-Google-Smtp-Source: ANB0VdYUBUVKqKYMvd0RMm9qAXhBbic+4NE3Jz035yUIeBrH7OCWKequYTwqS/HCin7zx24fiozBWw==
-X-Received: by 2002:adf:93a5:: with SMTP id 34-v6mr3352484wrp.244.1537383303576;
-        Wed, 19 Sep 2018 11:55:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=TFebpY+4DQvyEj9/6cNobOxFdZpML3D62x2Uz3V3Bjo=;
+        b=hIPYNtt1gEfyjpMFJw1Zmdkk5YdO+2L/MPeA4F+RHgMa+7e3ZUN4se3tzvWuS2KaOC
+         tFGt+GNgBWgAS/aFg2OCgu9ilqprEGqFzble3EO/01/zU49WrBYwszmRUCLCy9/D0Oog
+         EsjtvaPlSEI/v0qNsGcqoN0ZIW2Yfg3+zKTpVyg8Z7I5KLS13x7qB3oWUzE4Bi06Hroq
+         XZ60D8toe6EUQogHxl0IcjsERaPZ3cxx8/LAoLIrokU8EI9IstMJTzcRnlzDNcJtH+5j
+         JWmYEuft9gRaLSOzA9kotaFDxZtEEMKHZ0s4YvLjC8K0muDZEag7sPCNmS+MdevTQP9/
+         J85A==
+X-Gm-Message-State: APzg51Cp4QBtPHSY0mB8h5kYssg8TCPVV5uDbAWAF1mXl7irTP60+ZqY
+        sIM0RNsTB/dkHrgcz6d8m0prAw==
+X-Google-Smtp-Source: ANB0VdZUu+vy1Owz3dpk5x8u2wXrzI0XtzccwYM/JDM58MTR37LaKxyy0LCRQOuaC/+2M+0l7KHF5A==
+X-Received: by 2002:a1c:f0a:: with SMTP id 10-v6mr21514675wmp.58.1537383308879;
+        Wed, 19 Sep 2018 11:55:08 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id b10-v6sm8510065wmc.28.2018.09.19.11.55.01
+        by smtp.gmail.com with ESMTPSA id b10-v6sm8510065wmc.28.2018.09.19.11.55.06
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Sep 2018 11:55:02 -0700 (PDT)
+        Wed, 19 Sep 2018 11:55:07 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,440 +85,63 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v8 00/20] kasan: add software tag-based mode for arm64
-Date:   Wed, 19 Sep 2018 20:54:39 +0200
-Message-Id: <cover.1537383101.git.andreyknvl@google.com>
+Subject: [PATCH v8 03/20] kasan: rename source files to reflect the new naming scheme
+Date:   Wed, 19 Sep 2018 20:54:42 +0200
+Message-Id: <cdb3ec97bf34525fbfef52027404c2434bbf6477.1537383101.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.0.397.gdd90340f6a-goog
+In-Reply-To: <cover.1537383101.git.andreyknvl@google.com>
+References: <cover.1537383101.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patchset adds a new software tag-based mode to KASAN [1].
-(Initially this mode was called KHWASAN, but it got renamed,
- see the naming rationale at the end of this section).
-
-The plan is to implement HWASan [2] for the kernel with the incentive,
-that it's going to have comparable to KASAN performance, but in the same
-time consume much less memory, trading that off for somewhat imprecise
-bug detection and being supported only for arm64.
-
-The underlying ideas of the approach used by software tag-based KASAN are:
-
-1. By using the Top Byte Ignore (TBI) arm64 CPU feature, we can store
-   pointer tags in the top byte of each kernel pointer.
-
-2. Using shadow memory, we can store memory tags for each chunk of kernel
-   memory.
-
-3. On each memory allocation, we can generate a random tag, embed it into
-   the returned pointer and set the memory tags that correspond to this
-   chunk of memory to the same value.
-
-4. By using compiler instrumentation, before each memory access we can add
-   a check that the pointer tag matches the tag of the memory that is being
-   accessed.
-
-5. On a tag mismatch we report an error.
-
-With this patchset the existing KASAN mode gets renamed to generic KASAN,
-with the word "generic" meaning that the implementation can be supported
-by any architecture as it is purely software.
-
-The new mode this patchset adds is called software tag-based KASAN. The
-word "tag-based" refers to the fact that this mode uses tags embedded into
-the top byte of kernel pointers and the TBI arm64 CPU feature that allows
-to dereference such pointers. The word "software" here means that shadow
-memory manipulation and tag checking on pointer dereference is done in
-software. As it is the only tag-based implementation right now, "software
-tag-based" KASAN is sometimes referred to as simply "tag-based" in this
-patchset.
-
-A potential expansion of this mode is a hardware tag-based mode, which would
-use hardware memory tagging support (announced by Arm [3]) instead of
-compiler instrumentation and manual shadow memory manipulation.
-
-Same as generic KASAN, software tag-based KASAN is strictly a debugging
-feature.
-
-[1] https://www.kernel.org/doc/html/latest/dev-tools/kasan.html
-
-[2] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-
-[3] https://community.arm.com/processors/b/blog/posts/arm-a-profile-architecture-2018-developments-armv85a
-
-
-====== Rationale
-
-On mobile devices generic KASAN's memory usage is significant problem. One
-of the main reasons to have tag-based KASAN is to be able to perform a
-similar set of checks as the generic one does, but with lower memory
-requirements.
-
-Comment from Vishwath Mohan <vishwath@google.com>:
-
-I don't have data on-hand, but anecdotally both ASAN and KASAN have proven
-problematic to enable for environments that don't tolerate the increased
-memory pressure well. This includes,
-(a) Low-memory form factors - Wear, TV, Things, lower-tier phones like Go,
-(c) Connected components like Pixel's visual core [1].
-
-These are both places I'd love to have a low(er) memory footprint option at
-my disposal.
-
-Comment from Evgenii Stepanov <eugenis@google.com>:
-
-Looking at a live Android device under load, slab (according to
-/proc/meminfo) + kernel stack take 8-10% available RAM (~350MB). KASAN's
-overhead of 2x - 3x on top of it is not insignificant.
-
-Not having this overhead enables near-production use - ex. running
-KASAN/KHWASAN kernel on a personal, daily-use device to catch bugs that do
-not reproduce in test configuration. These are the ones that often cost
-the most engineering time to track down.
-
-CPU overhead is bad, but generally tolerable. RAM is critical, in our
-experience. Once it gets low enough, OOM-killer makes your life miserable.
-
-[1] https://www.blog.google/products/pixel/pixel-visual-core-image-processing-and-machine-learning-pixel-2/
-
-
-====== Technical details
-
-Software tag-based KASAN mode is implemented in a very similar way to the
-generic one. This patchset essentially does the following:
-
-1. TCR_TBI1 is set to enable Top Byte Ignore.
-
-2. Shadow memory is used (with a different scale, 1:16, so each shadow
-   byte corresponds to 16 bytes of kernel memory) to store memory tags.
-
-3. All slab objects are aligned to shadow scale, which is 16 bytes.
-
-4. All pointers returned from the slab allocator are tagged with a random
-   tag and the corresponding shadow memory is poisoned with the same value.
-
-5. Compiler instrumentation is used to insert tag checks. Either by
-   calling callbacks or by inlining them (CONFIG_KASAN_OUTLINE and
-   CONFIG_KASAN_INLINE flags are reused).
-
-6. When a tag mismatch is detected in callback instrumentation mode
-   KASAN simply prints a bug report. In case of inline instrumentation,
-   clang inserts a brk instruction, and KASAN has it's own brk handler,
-   which reports the bug.
-
-7. The memory in between slab objects is marked with a reserved tag, and
-   acts as a redzone.
-
-8. When a slab object is freed it's marked with a reserved tag.
-
-Bug detection is imprecise for two reasons:
-
-1. We won't catch some small out-of-bounds accesses, that fall into the
-   same shadow cell, as the last byte of a slab object.
-
-2. We only have 1 byte to store tags, which means we have a 1/256
-   probability of a tag match for an incorrect access (actually even
-   slightly less due to reserved tag values).
-
-Despite that there's a particular type of bugs that tag-based KASAN can
-detect compared to generic KASAN: use-after-free after the object has been
-allocated by someone else.
-
-
-====== Testing
-
-Some kernel developers voiced a concern that changing the top byte of
-kernel pointers may lead to subtle bugs that are difficult to discover.
-To address this concern deliberate testing has been performed.
-
-It doesn't seem feasible to do some kind of static checking to find
-potential issues with pointer tagging, so a dynamic approach was taken.
-All pointer comparisons/subtractions have been instrumented in an LLVM
-compiler pass and a kernel module that would print a bug report whenever
-two pointers with different tags are being compared/subtracted (ignoring
-comparisons with NULL pointers and with pointers obtained by casting an
-error code to a pointer type) has been used. Then the kernel has been
-booted in QEMU and on an Odroid C2 board and syzkaller has been run.
-
-This yielded the following results.
-
-The two places that look interesting are:
-
-is_vmalloc_addr in include/linux/mm.h
-is_kernel_rodata in mm/util.c
-
-Here we compare a pointer with some fixed untagged values to make sure
-that the pointer lies in a particular part of the kernel address space.
-Since tag-based KASAN doesn't add tags to pointers that belong to rodata
-or vmalloc regions, this should work as is. To make sure debug checks to
-those two functions that check that the result doesn't change whether
-we operate on pointers with or without untagging has been added.
-
-A few other cases that don't look that interesting:
-
-Comparing pointers to achieve unique sorting order of pointee objects
-(e.g. sorting locks addresses before performing a double lock):
-
-tty_ldisc_lock_pair_timeout in drivers/tty/tty_ldisc.c
-pipe_double_lock in fs/pipe.c
-unix_state_double_lock in net/unix/af_unix.c
-lock_two_nondirectories in fs/inode.c
-mutex_lock_double in kernel/events/core.c
-
-ep_cmp_ffd in fs/eventpoll.c
-fsnotify_compare_groups fs/notify/mark.c
-
-Nothing needs to be done here, since the tags embedded into pointers
-don't change, so the sorting order would still be unique.
-
-Checks that a pointer belongs to some particular allocation:
-
-is_sibling_entry in lib/radix-tree.c
-object_is_on_stack in include/linux/sched/task_stack.h
-
-Nothing needs to be done here either, since two pointers can only belong
-to the same allocation if they have the same tag.
-
-Overall, since the kernel boots and works, there are no critical bugs.
-As for the rest, the traditional kernel testing way (use until fails) is
-the only one that looks feasible.
-
-Another point here is that tag-based KASAN is available under a separate
-config option that needs to be deliberately enabled. Even though it might
-be used in a "near-production" environment to find bugs that are not found
-during fuzzing or running tests, it is still a debug tool.
-
-
-====== Benchmarks
-
-The following numbers were collected on Odroid C2 board. Both generic and
-tag-based KASAN were used in inline instrumentation mode.
-
-Boot time [1]:
-* ~1.7 sec for clean kernel
-* ~5.0 sec for generic KASAN
-* ~5.0 sec for tag-based KASAN
-
-Network performance [2]:
-* 8.33 Gbits/sec for clean kernel
-* 3.17 Gbits/sec for generic KASAN
-* 2.85 Gbits/sec for tag-based KASAN
-
-Slab memory usage after boot [3]:
-* ~40 kb for clean kernel
-* ~105 kb (~260% overhead) for generic KASAN
-* ~47 kb (~20% overhead) for tag-based KASAN
-
-KASAN memory overhead consists of three main parts:
-1. Increased slab memory usage due to redzones.
-2. Shadow memory (the whole reserved once during boot).
-3. Quaratine (grows gradually until some preset limit; the more the limit,
-   the more the chance to detect a use-after-free).
-
-Comparing tag-based vs generic KASAN for each of these points:
-1. 20% vs 260% overhead.
-2. 1/16th vs 1/8th of physical memory.
-3. Tag-based KASAN doesn't require quarantine.
-
-[1] Time before the ext4 driver is initialized.
-[2] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
-[3] Measured as `cat /proc/meminfo | grep Slab`.
-
-
-====== Some notes
-
-A few notes:
-
-1. The patchset can be found here:
-   https://github.com/xairy/kasan-prototype/tree/khwasan
-
-2. Building requires a recent Clang version (7.0.0 or later).
-
-3. Stack instrumentation is not supported yet and will be added later.
-
-
-====== Changes
-
-Changes in v7:
-- Rebased onto 7876320f (4.19-rc4).
-- Renamed KHWASAN to software tag-based KASAN (see the top of the cover
-  letter for details).
-- Explicitly called tag-based KASAN a debug tool.
-- Reused kasan_init_slab_obj() callback to preassign tags to caches
-  without constructors, remove khwasan_preset_sl(u/a)b_tag().
-- Moved move obj_to_index to include/linux/slab_def.h from mm/slab.c.
-- Moved cache->s_mem untagging to alloc_slabmgmt() for SLAB.
-- Fixed check_memory_region() to correctly handle user memory accesses and
-  size == 0 case.
-- Merged __no_sanitize_hwaddress into __no_sanitize_address.
-- Defined KASAN_SET_TAG and KASAN_RESET_TAG macros for non KASAN builds to
-  avoid duplication of __kimg_to_phys, _virt_addr_is_linear and
-  page_to_virt macros.
-- Fixed and simplified find_first_bad_addr for generic KASAN.
-- Use non symbolized example KASAN report in documentation.
-- Mention clang version requirements for both KASAN modes in the Kconfig
-  options and in the documentation.
-- Various small fixes.
-
-Changes in v6:
-- Rebased onto 050cdc6c (4.19-rc1+).
-- Added notes regarding patchset testing into the cover letter.
-
-Changes in v5:
-- Rebased onto 1ffaddd029 (4.18-rc8).
-- Preassign tags for objects from caches with constructors and
-  SLAB_TYPESAFE_BY_RCU caches.
-- Fix SLAB allocator support by untagging page->s_mem in
-  kasan_poison_slab().
-- Performed dynamic testing to find potential places where pointer tagging
-  might result in bugs [1].
-- Clarified and fixed memory usage benchmarks in the cover letter.
-- Added a rationale for having KHWASAN to the cover letter.
-
-Changes in v4:
-- Fixed SPDX comment style in mm/kasan/kasan.h.
-- Fixed mm/kasan/kasan.h changes being included in a wrong patch.
-- Swapped "khwasan, arm64: fix up fault handling logic" and "khwasan: add
-  tag related helper functions" patches order.
-- Rebased onto 6f0d349d (4.18-rc2+).
-
-Changes in v3:
-- Minor documentation fixes.
-- Fixed CFLAGS variable name in KASAN makefile.
-- Added a "SPDX-License-Identifier: GPL-2.0" line to all source files
-  under mm/kasan.
-- Rebased onto 81e97f013 (4.18-rc1+).
-
-Changes in v2:
-- Changed kmalloc_large_node_hook to return tagged pointer instead of
-  using an output argument.
-- Fix checking whether -fsanitize=hwaddress is supported by the compiler.
-- Removed duplication of -fno-builtin for KASAN and KHWASAN.
-- Removed {} block for one line for_each_possible_cpu loop.
-- Made set_track() static inline as it is used only in common.c.
-- Moved optimal_redzone() to common.c.
-- Fixed using tagged pointer for shadow calculation in
-  kasan_unpoison_shadow().
-- Restored setting cache->align in kasan_cache_create(), which was
-  accidentally lost.
-- Simplified __kasan_slab_free(), kasan_alloc_pages() and kasan_kmalloc().
-- Removed tagging from kasan_kmalloc_large().
-- Added page_kasan_tag_reset() to kasan_poison_slab() and removed
-  !PageSlab() check from page_to_virt.
-- Reset pointer tag in _virt_addr_is_linear.
-- Set page tag for each page when multiple pages are allocated or freed.
-- Added a comment as to why we ignore cma allocated pages.
-
-Changes in v1:
-- Rebased onto 4.17-rc4.
-- Updated benchmarking stats.
-- Documented compiler version requirements, memory usage and slowdown.
-- Dropped kvm patches, as clang + arm64 + kvm is completely broken [1].
-
-Changes in RFC v3:
-- Renamed CONFIG_KASAN_CLASSIC and CONFIG_KASAN_TAGS to
-  CONFIG_KASAN_GENERIC and CONFIG_KASAN_HW respectively.
-- Switch to -fsanitize=kernel-hwaddress instead of -fsanitize=hwaddress.
-- Removed unnecessary excessive shadow initialization.
-- Removed khwasan_enabled flag (it’s not needed since KHWASAN is
-  initialized before any slab caches are used).
-- Split out kasan_report.c and khwasan_report.c from report.c.
-- Moved more common KASAN and KHWASAN functions to common.c.
-- Added tagging to pagealloc.
-- Rebased onto 4.17-rc1.
-- Temporarily dropped patch that adds kvm support (arm64 + kvm + clang
-  combo is broken right now [2]).
-
-Changes in RFC v2:
-- Removed explicit casts to u8 * for kasan_mem_to_shadow() calls.
-- Introduced KASAN_TCR_FLAGS for setting the TCR_TBI1 flag.
-- Added a comment regarding the non-atomic RMW sequence in
-  khwasan_random_tag().
-- Made all tag related functions accept const void *.
-- Untagged pointers in __kimg_to_phys, which is used by virt_to_phys.
-- Untagged pointers in show_ptr in fault handling logic.
-- Untagged pointers passed to KVM.
-- Added two reserved tag values: 0xFF and 0xFE.
-- Used the reserved tag 0xFF to disable validity checking (to resolve the
-  issue with pointer tag being lost after page_address + kmap usage).
-- Used the reserved tag 0xFE to mark redzones and freed objects.
-- Added mnemonics for esr manipulation in KHWASAN brk handler.
-- Added a comment about the -recover flag.
-- Some minor cleanups and fixes.
-- Rebased onto 3215b9d5 (4.16-rc6+).
-- Tested on real hardware (Odroid C2 board).
-- Added better benchmarks.
-
-[1] https://lkml.org/lkml/2018/7/18/765
-[2] https://lkml.org/lkml/2018/4/19/775
-
-Andrey Konovalov (20):
-  kasan, mm: change hooks signatures
-  kasan: move common generic and tag-based code to common.c
-  kasan: rename source files to reflect the new naming scheme
-  kasan: add CONFIG_KASAN_GENERIC and CONFIG_KASAN_SW_TAGS
-  kasan, arm64: adjust shadow size for tag-based mode
-  kasan: initialize shadow to 0xff for tag-based mode
-  kasan, arm64: untag address in __kimg_to_phys and _virt_addr_is_linear
-  kasan: add tag related helper functions
-  kasan: preassign tags to objects with ctors or SLAB_TYPESAFE_BY_RCU
-  mm: move obj_to_index to include/linux/slab_def.h
-  kasan, arm64: fix up fault handling logic
-  kasan, arm64: enable top byte ignore for the kernel
-  kasan, mm: perform untagged pointers comparison in krealloc
-  kasan: split out generic_report.c from report.c
-  kasan: add bug reporting routines for tag-based mode
-  kasan: add hooks implementation for tag-based mode
-  kasan, arm64: add brk handler for inline instrumentation
-  kasan, mm, arm64: tag non slab memory allocated via pagealloc
-  kasan: update documentation
-  kasan: add SPDX-License-Identifier mark to source files
-
- Documentation/dev-tools/kasan.rst      | 232 +++++----
- arch/arm64/Kconfig                     |   1 +
- arch/arm64/Makefile                    |   2 +-
- arch/arm64/include/asm/brk-imm.h       |   2 +
- arch/arm64/include/asm/memory.h        |  36 +-
- arch/arm64/include/asm/pgtable-hwdef.h |   1 +
- arch/arm64/kernel/traps.c              |  68 ++-
- arch/arm64/mm/fault.c                  |   3 +
- arch/arm64/mm/kasan_init.c             |  18 +-
- arch/arm64/mm/proc.S                   |   8 +-
- include/linux/compiler-clang.h         |   5 +-
- include/linux/kasan.h                  |  83 +++-
- include/linux/mm.h                     |  29 ++
- include/linux/page-flags-layout.h      |  10 +
- include/linux/slab_def.h               |  13 +
- lib/Kconfig.kasan                      |  87 +++-
- mm/cma.c                               |  11 +
- mm/kasan/Makefile                      |  15 +-
- mm/kasan/{kasan.c => common.c}         | 659 +++++++++----------------
- mm/kasan/generic.c                     | 344 +++++++++++++
- mm/kasan/generic_report.c              | 153 ++++++
- mm/kasan/{kasan_init.c => init.c}      |   1 +
- mm/kasan/kasan.h                       |  83 +++-
- mm/kasan/quarantine.c                  |   1 +
- mm/kasan/report.c                      | 272 +++-------
- mm/kasan/tags.c                        | 161 ++++++
- mm/kasan/tags_report.c                 |  58 +++
- mm/page_alloc.c                        |   1 +
- mm/slab.c                              |  29 +-
- mm/slab.h                              |   2 +-
- mm/slab_common.c                       |   6 +-
- mm/slub.c                              |  41 +-
- scripts/Makefile.kasan                 |  27 +-
- 33 files changed, 1634 insertions(+), 828 deletions(-)
- rename mm/kasan/{kasan.c => common.c} (59%)
- create mode 100644 mm/kasan/generic.c
- create mode 100644 mm/kasan/generic_report.c
- rename mm/kasan/{kasan_init.c => init.c} (99%)
- create mode 100644 mm/kasan/tags.c
- create mode 100644 mm/kasan/tags_report.c
-
+We now have two KASAN modes: generic KASAN and tag-based KASAN. Rename
+kasan.c to generic.c to reflect that. Also rename kasan_init.c to init.c
+as it contains initialization code for both KASAN modes.
+
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ mm/kasan/Makefile                 | 8 ++++----
+ mm/kasan/{kasan.c => generic.c}   | 0
+ mm/kasan/{kasan_init.c => init.c} | 0
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ rename mm/kasan/{kasan.c => generic.c} (100%)
+ rename mm/kasan/{kasan_init.c => init.c} (100%)
+
+diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
+index a6df14bffb6b..d643530b24aa 100644
+--- a/mm/kasan/Makefile
++++ b/mm/kasan/Makefile
+@@ -1,14 +1,14 @@
+ # SPDX-License-Identifier: GPL-2.0
+ KASAN_SANITIZE := n
+ UBSAN_SANITIZE_common.o := n
+-UBSAN_SANITIZE_kasan.o := n
++UBSAN_SANITIZE_generic.o := n
+ KCOV_INSTRUMENT := n
+ 
+-CFLAGS_REMOVE_kasan.o = -pg
++CFLAGS_REMOVE_generic.o = -pg
+ # Function splitter causes unnecessary splits in __asan_load1/__asan_store1
+ # see: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63533
+ 
+ CFLAGS_common.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
+-CFLAGS_kasan.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
++CFLAGS_generic.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
+ 
+-obj-y := common.o kasan.o report.o kasan_init.o quarantine.o
++obj-y := common.o generic.o report.o init.o quarantine.o
+diff --git a/mm/kasan/kasan.c b/mm/kasan/generic.c
+similarity index 100%
+rename from mm/kasan/kasan.c
+rename to mm/kasan/generic.c
+diff --git a/mm/kasan/kasan_init.c b/mm/kasan/init.c
+similarity index 100%
+rename from mm/kasan/kasan_init.c
+rename to mm/kasan/init.c
 -- 
 2.19.0.397.gdd90340f6a-goog
 
