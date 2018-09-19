@@ -1,95 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4910F7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Sep 2018 22:02:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D7857D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 01:22:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729736AbeISDh2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Sep 2018 23:37:28 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:57801 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726821AbeISDh2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Sep 2018 23:37:28 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id B6F8C21F86;
-        Tue, 18 Sep 2018 18:02:50 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 18 Sep 2018 18:02:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=OMQO+J2bROXWzNvkHWhu1FR/AAvJpPwwK/7jB5EK6NE=; b=q9Q8gfO+
-        dAPytakF7I2hOvsWwB0iWYHYLNqTyXAWBiEV+Yd9IWnG1W88FC77ddJJFBR+yd9v
-        jJBwVSUtE0FruXw3Gy8ftUB5LVZco3lTvxpcEqMJcMbyT5TIdEKcGU995GnvWq0X
-        AGRd5bpH5RXN4Leqbc+LcAYxHBTea+gCP8NxL9ozLNPZcNy2Ys5GLlmc0ZcEyana
-        pUtB2PScsFNtKj5fUjpkHCuVVjTl8WFSXaVfIEwkxbqJzFpBH4uLSyhYa3bL62sl
-        W7ZjL8S5si/uP+oGWrUB/acwLMqoLZRBkatlLgqfdKAkQlkJNUItR+7h+NXPpHr2
-        bFxbVnIoffnU9A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=OMQO+J2bROXWzNvkHWhu1FR/AAvJp
-        PwwK/7jB5EK6NE=; b=L5lLjOcXxglejUzjzscFmVjepW+b/oYICBuOAnZWHq0/L
-        Dcs33TbuaUOWdvllFoTvYpssCl488hiKc5ZSvuAQNDfuXuVzvNhJJj+1Arr1Kk+v
-        xf6E2zbtQajwkmfOboa3x8SSNo+iP5BbvHvOg1SqnGStYzfob1fHEQ6PLa9bzuNf
-        lDOYyyBqbTlDhVapzHzzEG+kfUwyA6h10c6vp1vu2C6pEaqfotfwiAbOehWKUmke
-        QoogrVMO727gQLB9A1aLgqk2/ZfmGfPDMDXIQGKovbGX6PhtG/NgiDkKGsvKv/pw
-        bVIqIaKqwmchutBiWwtUCd/ofIRENt+jJSFxMmpqA==
-X-ME-Proxy: <xmx:CnahW_ej6cE-Irp48YNqzPIsZWv3A4Z1daAXnwk1s6pKay1yAz5xow>
-    <xmx:CnahW_OQqVAPYRvAy990Tx9466APxxxIrpKJpV_biPm9db3qgKqjVQ>
-    <xmx:CnahWxoiYnEyx5Zps-b8IqpdA87YSdKzdQXsj0ZicyFzixr8I-mq2w>
-    <xmx:CnahW4fNdmnrybLfEozPxsXD8KiMCkwLhe7mDEZ_vqz2CbqeFYB4Lw>
-    <xmx:CnahWy7QO2ERGB7ZmESEtx_5YADCBLos-VAX5blMt_bEYzYUYMYixw>
-    <xmx:CnahW13lUNYHxJt619BHM0QLR4uW3WiOg0Ze_zwoIdgawvLNimy7HA>
-X-ME-Sender: <xms:CnahW3joYRuA98B1sjDTIXXsctE4xPYk5nWLDH-0g4Oec7_tkb-NQA>
-Received: from localhost (ppp121-44-228-8.bras2.syd2.internode.on.net [121.44.228.8])
-        by mail.messagingengine.com (Postfix) with ESMTPA id B3B08E405A;
-        Tue, 18 Sep 2018 18:02:49 -0400 (EDT)
-Date:   Wed, 19 Sep 2018 08:02:46 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jiri Slaby <jslaby@suse.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/3] tty_port: Fix kernel-docs warnings
-Message-ID: <20180918220246.GD22746@eros>
-References: <20180912075044.8695-1-me@tobin.cc>
- <20180912075044.8695-4-me@tobin.cc>
- <20180918133849.GA25134@kroah.com>
+        id S1727822AbeISG5a (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Sep 2018 02:57:30 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36599 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727103AbeISG5a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 02:57:30 -0400
+Received: by mail-pf1-f196.google.com with SMTP id b11-v6so1865454pfo.3;
+        Tue, 18 Sep 2018 18:22:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=UrTrWbpH9AWgy9n7J6b6EqfVJPxAM+sBtDAXZwlWKz4=;
+        b=aYP6hEXNkOEh3hOb6bXM7dYTYS5jj19RYKBIbmHKM43qPHmiWb5+by+5LQOhGdDeYL
+         eDBtbcU3uNl6VBcJjQRfr1s25exYxP3rSjl+MvWp7uR5it41cDoHP0lcVdfLVvktR6nX
+         UgPxSmmTlA+tyLG7sP4Y454XgfS9vsHMjSPaOI2SgrH+qQQJQDgHYfkNMepEHcZ95gme
+         FY81U0wnspFgfEAcSTl7ZO4NMe5tyGlQ3yAHNPS65gpFiAogW61Ery5wS1I0e4YcK5wM
+         0mUy2aU6Sqk16MZlSXyUEdKljA0YGKZtdIqyAqynZhhSQs6C7jBjHpomgc6rW9udGxwK
+         J5IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UrTrWbpH9AWgy9n7J6b6EqfVJPxAM+sBtDAXZwlWKz4=;
+        b=qxfE2yvj4GRRnYGWjvmMbTXWE9d0D3pBFhi/Zvy1DQya70Wl7sz0XS60vbp6gp2wk+
+         ZTW5LZFJJLbaFTC22ui78RmtDaJ7wyS5xgLHYtqaaydet670ML9OY70aQd9ftu16wQWY
+         Dvv0NWSHDRICkmRTM4Z19PYWIeDJXkOGocZal0gDOUdmUF5e8frbXCSqVXbvV2TZgGR9
+         Di++UcRrKoVRwHY3QyPq01Zc1t+L0rS6NSp2LmSJu7ynmOwsjlCjMfQuxkg9f0C+fUO5
+         HcJrlCoOZWbVxlfQkPTlhxueRlSLJH89SGNkBZK9xcf3QAVEJ/Z8CwIDCesQjaDVXJ2X
+         tNAA==
+X-Gm-Message-State: APzg51CVxS54yEuDcRCx632tBU1ES5oep/gvFjBtfThC6VSRmPQViRqU
+        EHktvKOrpIUD2g1a6Ku7gJY=
+X-Google-Smtp-Source: ANB0VdYgCOyhGJa82W3YuA4km0qhZLmI3SB4xdJRTmqLba+IWkzYZyHf3dxyHmJmU6fCtSH5w0YXfg==
+X-Received: by 2002:a63:5a13:: with SMTP id o19-v6mr29785435pgb.75.1537320131382;
+        Tue, 18 Sep 2018 18:22:11 -0700 (PDT)
+Received: from localhost (14-202-194-140.static.tpgi.com.au. [14.202.194.140])
+        by smtp.gmail.com with ESMTPSA id n26-v6sm602291pgd.45.2018.09.18.18.22.09
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 18 Sep 2018 18:22:10 -0700 (PDT)
+Date:   Wed, 19 Sep 2018 11:22:07 +1000
+From:   Balbir Singh <bsingharora@gmail.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-acpi@vger.kernel.org, xen-devel@lists.xenproject.org,
+        devel@linuxdriverproject.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        John Allen <jallen@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Juergen Gross <jgross@suse.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Len Brown <lenb@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Mathieu Malaterre <malat@debian.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Neuling <mikey@neuling.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Nathan Fontenot <nfont@linux.vnet.ibm.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Paul Mackerras <paulus@samba.org>,
+        Pavel Tatashin <pasha.tatashin@oracle.com>,
+        Pavel Tatashin <pavel.tatashin@microsoft.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rashmica Gupta <rashmica.g@gmail.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
+Subject: Re: [PATCH v1 0/6] mm: online/offline_pages called w.o.
+ mem_hotplug_lock
+Message-ID: <20180919012207.GD8537@350D>
+References: <20180918114822.21926-1-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180918133849.GA25134@kroah.com>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
+In-Reply-To: <20180918114822.21926-1-david@redhat.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 18, 2018 at 03:38:49PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Sep 12, 2018 at 05:50:44PM +1000, Tobin C. Harding wrote:
-> > Currently extracting the kernel-docs causes a six warnings of type
-> > 
-> >   warning: Function parameter or member 'foo' not described in 'bar'
-> > 
-> > Add function parameter descriptions to the function kernel-docs.
-> > 
-> > Signed-off-by: Tobin C. Harding <me@tobin.cc>
-> > ---
-> >  drivers/tty/tty_port.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
+On Tue, Sep 18, 2018 at 01:48:16PM +0200, David Hildenbrand wrote:
+> Reading through the code and studying how mem_hotplug_lock is to be used,
+> I noticed that there are two places where we can end up calling
+> device_online()/device_offline() - online_pages()/offline_pages() without
+> the mem_hotplug_lock. And there are other places where we call
+> device_online()/device_offline() without the device_hotplug_lock.
 > 
-> As I didn't take patch 2/3, this one doesn't apply :(
+> While e.g.
+> 	echo "online" > /sys/devices/system/memory/memory9/state
+> is fine, e.g.
+> 	echo 1 > /sys/devices/system/memory/memory9/online
+> Will not take the mem_hotplug_lock. However the device_lock() and
+> device_hotplug_lock.
+> 
+> E.g. via memory_probe_store(), we can end up calling
+> add_memory()->online_pages() without the device_hotplug_lock. So we can
+> have concurrent callers in online_pages(). We e.g. touch in online_pages()
+> basically unprotected zone->present_pages then.
+> 
+> Looks like there is a longer history to that (see Patch #2 for details),
+> and fixing it to work the way it was intended is not really possible. We
+> would e.g. have to take the mem_hotplug_lock in device/base/core.c, which
+> sounds wrong.
+> 
+> Summary: We had a lock inversion on mem_hotplug_lock and device_lock().
+> More details can be found in patch 3 and patch 6.
+> 
+> I propose the general rules (documentation added in patch 6):
+> 
+> 1. add_memory/add_memory_resource() must only be called with
+>    device_hotplug_lock.
+> 2. remove_memory() must only be called with device_hotplug_lock. This is
+>    already documented and holds for all callers.
+> 3. device_online()/device_offline() must only be called with
+>    device_hotplug_lock. This is already documented and true for now in core
+>    code. Other callers (related to memory hotplug) have to be fixed up.
+> 4. mem_hotplug_lock is taken inside of add_memory/remove_memory/
+>    online_pages/offline_pages.
+> 
+> To me, this looks way cleaner than what we have right now (and easier to
+> verify). And looking at the documentation of remove_memory, using
+> lock_device_hotplug also for add_memory() feels natural.
+>
 
-Oh I thought this whole set would have been ignored because of comments
-on it.  I've been working on doing these changes for all of drivers/tty/
+That seems reasonable, but also implies that device_online() would hold
+back add/remove memory, could you please also document what mode
+read/write the locks need to be held? For example can the device_hotplug_lock
+be held in read mode while add/remove memory via (mem_hotplug_lock) is held
+in write mode?
 
-Thanks for reviewing and taking the first patch.  I'll be sure to
-rebase.
-
-thanks,
-Tobin.
+Balbir Singh.
+ 
