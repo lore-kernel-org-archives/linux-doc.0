@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E02117D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 18:56:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 080D57D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 18:56:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387540AbeITAeg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Sep 2018 20:34:36 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42462 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387529AbeITAef (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 20:34:35 -0400
-Received: by mail-wr1-f65.google.com with SMTP id v17-v6so6869592wrr.9
-        for <linux-doc@vger.kernel.org>; Wed, 19 Sep 2018 11:55:20 -0700 (PDT)
+        id S2387553AbeITAei (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Sep 2018 20:34:38 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38824 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387472AbeITAeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 20:34:37 -0400
+Received: by mail-wr1-f66.google.com with SMTP id j8-v6so3142503wrw.5
+        for <linux-doc@vger.kernel.org>; Wed, 19 Sep 2018 11:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PIceIrvWyef1xlEqXhKzbMfNSt9Di8ecFmfot9dbvKM=;
-        b=Vnc101Zm5F6hDUo3GCgeWj0T1ajKKdHv+fSoJ5cPZmtrZy+76KwfSvlBYifVYbaBm4
-         aT52eLOZvNN3mOoRXhXDmsrE0FSKlQbc4NUYXZZltyVU+gNWEuXYnfdqFBaon3aBbFbz
-         Rrf7heXVQrKNnZ993RTjCusodK9ahYJmmjxFNSO2m66AWNUoiGrqZKiWA6DXeRqoSmP0
-         CRNQNV56bk1ptsTjko1IcufN+aJH4xQ+qzmSUXjXQIk/T9e0w4InsMgesDaVxDZtzsPy
-         AtZx87+m6lGcPD+Yo0NCHIOHCqBTdNKWhpQcGE6W24gyD9Pm+JggCEBYU8leqhBj+gue
-         DptA==
+        bh=xtJgUAWOXZXX0dAHUptbPqpenfy7NgkmLyignEvLyTk=;
+        b=vPuyihblvxcn0sLFem62r23wIGYYYskYXdS/f0UduHxfmXZcYhZa+1inXCT+EVC71b
+         xR9esBpfVNjAw5O1xd94Y0Ta9SiVI5dJ17z93VEQu3KYeWrfq33uQUDvbvmcGV6iZTUb
+         b+9TkA37Wz+GEuxDBV724TGKdy1T52jCVQWAgTPE79jxFsVOoaSYOixroijjzYzATXJ1
+         jj4LdW4Md3upKR14f85br611JPh1UrMa8LADi2b3KZ1rAmXkL7gTDaLh1qx5/UUIf96h
+         Ykig492trKfPPYXL59tNXdfV/Ll/v7d93Di9WJRRygDSUcHJLfMTsoWN2l6fYWF3kink
+         jUjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PIceIrvWyef1xlEqXhKzbMfNSt9Di8ecFmfot9dbvKM=;
-        b=RWamP3Q+3A1CYeDU27NQm/UDSEwkWUpL61Lcc9l4uyAi5jqafiKymxx+bY7095701T
-         vjL0Vp5qRZMQ1Og4gtsM+a7f4lkT3HPCoy3b+KULKK8z744hcsosTcGvbI/wI4VdXx60
-         A7SAsALUkmA+07OEqUCpwobcnI6EKop1ty3iH6juGiHhKuYT7bS2JskujPFS5JecKR0L
-         R7QxTOqy/49EHEHecBJcJyiy7Uv1hImh9p6i1xaU8FvaZ4uJkZB8skYfY4i0XwAjTUCZ
-         r1vSt5disXAoBRZ1bCKLP/BQdOk8/Vg0f9kvrDuhG68jg9UfKJcY86RiFNVwSPutuJo7
-         9ouQ==
-X-Gm-Message-State: APzg51BNA/QalIKJNPHzAC2e/JKt/8CZu15KLt82slk5guETx8+jF0AC
-        Mw0jiKalAGTBN4ZkZ4pCG2Y0Yw==
-X-Google-Smtp-Source: ANB0VdYOeki63tDIAVwp8ieNxxHhTyhrB+nzOntZG8kNpeZXd21UUF5kmU3s+AZ5Ilpiw1n4VWV5Bg==
-X-Received: by 2002:a5d:5248:: with SMTP id p8-v6mr30297536wrv.198.1537383319545;
-        Wed, 19 Sep 2018 11:55:19 -0700 (PDT)
+        bh=xtJgUAWOXZXX0dAHUptbPqpenfy7NgkmLyignEvLyTk=;
+        b=mFsP75ZJWhprQ/H5vtscbyGe7k2eAUTDe3ABLE9Njh8dNck4bx7mlTQoNLhnkIOf4U
+         8QyhKQVr07cJFrH7wS9/+6N0Do2X2Vl3y00AszAAvmD7D6kRuGFwW2WEi0i/iJKtgNsw
+         2saeHQdzz3vHVeJq1BZWZbQjGXeuEydZbonCkSev7hIk7r5uEDAUgZSkrHJvUdZoGClt
+         PpQFYlDcxo4lkjJ7ZEYP2y3/l2O0Czvb4xay17eWIyI3W1DB3m7SEUqFu1JUYWabhXQM
+         J3A+G5EQbUherSLEaDok+zswXsTDMcTOh9pmYyM2G4sZ7i4XYqmH8V1gsqSj3zxMKcYX
+         Hd8A==
+X-Gm-Message-State: APzg51AFH87LDh29e8OMo18joln4ANEyvlIt1Jq33S/ITmcvQGi72PtS
+        xuaKgp5t9osZBzesTphlIUEAlw==
+X-Google-Smtp-Source: ANB0VdblUI7MFFp8hCfvF9UePgtJJWb/kUMM90uaKcYDdSH4MK9TlKqZCLxx5yQlpghBFlT3+9tF4A==
+X-Received: by 2002:adf:9464:: with SMTP id 91-v6mr30486547wrq.231.1537383321264;
+        Wed, 19 Sep 2018 11:55:21 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id b10-v6sm8510065wmc.28.2018.09.19.11.55.18
+        by smtp.gmail.com with ESMTPSA id b10-v6sm8510065wmc.28.2018.09.19.11.55.19
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Sep 2018 11:55:18 -0700 (PDT)
+        Wed, 19 Sep 2018 11:55:20 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v8 10/20] mm: move obj_to_index to include/linux/slab_def.h
-Date:   Wed, 19 Sep 2018 20:54:49 +0200
-Message-Id: <d306ffa81d2416a26d17586e8196367f8e9d6102.1537383101.git.andreyknvl@google.com>
+Subject: [PATCH v8 11/20] kasan, arm64: fix up fault handling logic
+Date:   Wed, 19 Sep 2018 20:54:50 +0200
+Message-Id: <ca97a9434ecb703456cc06d9f17fd45e2e0b46ce.1537383101.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.0.397.gdd90340f6a-goog
 In-Reply-To: <cover.1537383101.git.andreyknvl@google.com>
 References: <cover.1537383101.git.andreyknvl@google.com>
@@ -98,73 +98,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While with SLUB we can actually preassign tags for caches with contructors
-and store them in pointers in the freelist, SLAB doesn't allow that since
-the freelist is stored as an array of indexes, so there are no pointers to
-store the tags.
+show_pte in arm64 fault handling relies on the fact that the top byte of
+a kernel pointer is 0xff, which isn't always the case with tag-based
+KASAN.
 
-Instead we compute the tag twice, once when a slab is created before
-calling the constructor and then again each time when an object is
-allocated with kmalloc. Tag is computed simply by taking the lowest byte of
-the index that corresponds to the object. However in kasan_kmalloc we only
-have access to the objects pointer, so we need a way to find out which
-index this object corresponds to.
-
-This patch moves obj_to_index from slab.c to include/linux/slab_def.h to
-be reused by KASAN.
+This patch resets the top byte in show_pte.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- include/linux/slab_def.h | 13 +++++++++++++
- mm/slab.c                | 13 -------------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ arch/arm64/mm/fault.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/slab_def.h b/include/linux/slab_def.h
-index 3485c58cfd1c..9a5eafb7145b 100644
---- a/include/linux/slab_def.h
-+++ b/include/linux/slab_def.h
-@@ -104,4 +104,17 @@ static inline void *nearest_obj(struct kmem_cache *cache, struct page *page,
- 		return object;
- }
+diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+index 50b30ff30de4..78328c864d01 100644
+--- a/arch/arm64/mm/fault.c
++++ b/arch/arm64/mm/fault.c
+@@ -32,6 +32,7 @@
+ #include <linux/perf_event.h>
+ #include <linux/preempt.h>
+ #include <linux/hugetlb.h>
++#include <linux/kasan.h>
  
-+/*
-+ * We want to avoid an expensive divide : (offset / cache->size)
-+ *   Using the fact that size is a constant for a particular cache,
-+ *   we can replace (offset / cache->size) by
-+ *   reciprocal_divide(offset, cache->reciprocal_buffer_size)
-+ */
-+static inline unsigned int obj_to_index(const struct kmem_cache *cache,
-+					const struct page *page, void *obj)
-+{
-+	u32 offset = (obj - page->s_mem);
-+	return reciprocal_divide(offset, cache->reciprocal_buffer_size);
-+}
+ #include <asm/bug.h>
+ #include <asm/cmpxchg.h>
+@@ -134,6 +135,8 @@ void show_pte(unsigned long addr)
+ 	pgd_t *pgdp;
+ 	pgd_t pgd;
+ 
++	addr = (unsigned long)kasan_reset_tag((void *)addr);
 +
- #endif	/* _LINUX_SLAB_DEF_H */
-diff --git a/mm/slab.c b/mm/slab.c
-index fe0ddf08aa2c..6d8de7630944 100644
---- a/mm/slab.c
-+++ b/mm/slab.c
-@@ -406,19 +406,6 @@ static inline void *index_to_obj(struct kmem_cache *cache, struct page *page,
- 	return page->s_mem + cache->size * idx;
- }
- 
--/*
-- * We want to avoid an expensive divide : (offset / cache->size)
-- *   Using the fact that size is a constant for a particular cache,
-- *   we can replace (offset / cache->size) by
-- *   reciprocal_divide(offset, cache->reciprocal_buffer_size)
-- */
--static inline unsigned int obj_to_index(const struct kmem_cache *cache,
--					const struct page *page, void *obj)
--{
--	u32 offset = (obj - page->s_mem);
--	return reciprocal_divide(offset, cache->reciprocal_buffer_size);
--}
--
- #define BOOT_CPUCACHE_ENTRIES	1
- /* internal cache of cache description objs */
- static struct kmem_cache kmem_cache_boot = {
+ 	if (addr < TASK_SIZE) {
+ 		/* TTBR0 */
+ 		mm = current->active_mm;
 -- 
 2.19.0.397.gdd90340f6a-goog
 
