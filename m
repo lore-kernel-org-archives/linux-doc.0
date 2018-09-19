@@ -1,108 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD8287D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 18:09:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 74AB37D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 18:53:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732789AbeISXsX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Sep 2018 19:48:23 -0400
-Received: from mail-it0-f65.google.com ([209.85.214.65]:36237 "EHLO
-        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732545AbeISXsX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 19:48:23 -0400
-Received: by mail-it0-f65.google.com with SMTP id u13-v6so8960045iti.1
-        for <linux-doc@vger.kernel.org>; Wed, 19 Sep 2018 11:09:18 -0700 (PDT)
+        id S1732840AbeITAdI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Sep 2018 20:33:08 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:39787 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732828AbeITAdI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 20:33:08 -0400
+Received: by mail-io1-f68.google.com with SMTP id l7-v6so5359498iok.6
+        for <linux-doc@vger.kernel.org>; Wed, 19 Sep 2018 11:53:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=ISZLf4DnHFIhsg+YbdjTklFmn4eDr4rDQyUoCeuA2q8=;
-        b=LvJoFXQb+KOhNNQPhO3Bdv8qeK6IF2ynw5MqyQpUSr/sE3NyU3UUttJfIOx02nuxef
-         /lO+PPDyUNPCbJRBgAnlwfutBVdvtE3F52n0kC2i5HKwDtolp8iW58o+pYeGvaat3MVh
-         GgFYsR/L+uJxBL8bVh+CVofaqRFOOtZw4ek0o=
+        bh=5jqb3O74LNDHRJQZbYQ7ykrAUCRLRrTDLvyZBQX5gZ0=;
+        b=vfS6c1azvMHRNNsdwm98F9Z9gpII+RJsziOKkavjMjf25PaM95w51Md/jVsrLREyjv
+         g2vB/zQRNnwDsGaJJ/jDExICclW0EFQ8YVb8cShLKGEwUy2PrkumkNjX8Q/132hRZA/Y
+         XJdzujus0CUn3OopkRZFDG4uOfVR1gMRPS4IGdnew7RCDaa5BkNPUPlrTKQcUyriAixh
+         /4tpT2dVXFA6piOUFUwXv29LvrBdvmcIo21bF/5euTJuMwHgnA6iqQvlzOdwvo7PZ3Wu
+         KpFxrQXgLKMkZlILyGAiq2LStmmu70qOCCII5Rf4EPhknT9tu6G/BtonreHrzkgIDq1Z
+         TtyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=ISZLf4DnHFIhsg+YbdjTklFmn4eDr4rDQyUoCeuA2q8=;
-        b=slOeHWyMz+64HVbZzbiMwIqsQZrhGVQ0aOBJaGfIyNC5puPVYfaOV2yCHemEZT2SPA
-         7qSatyh9XAIusYU4XjaxPw1IV7Jh40YOsFmjmYFELArsebRjTq06pI31DDwhsEkcYx6b
-         tJ2xcQ20khPQz5ouxfdGPNC21dnwr2zudwLNg2xHD1YsvAHbMXZZn9rUV5uYDwIZD4CY
-         VXv2cGqjObaRz2sOB8J+ChJBZ508YnLgok33/tHNq0Td9DWFOOVHsQjbTd8g2KYbq5uX
-         lmVwe//pGhYmQFbj535/jndX2/24uAMz5nXDaSPBZWUhNYaNHh7hgHCCUPpIt+HH9WpM
-         qVQw==
-X-Gm-Message-State: APzg51CKNRwhrneLmgaO0lUzzbYBzl8/nr8OKYwTRuS/6BM9dnmkkWA3
-        WTEsVUjDRnmhLnsLadhXHyK4MD5Ga/rCVuIfo6UP2g==
-X-Google-Smtp-Source: ANB0VdaaDDXi8yndRXDcrfK1Ne9ZDdK4AK/4KYBaHZr/o/egJTR+4il7b6Xp09l7zkztVT11xv6U1L0Uy3QkYlhzd8M=
-X-Received: by 2002:a02:6c45:: with SMTP id w66-v6mr33431549jab.87.1537380557726;
- Wed, 19 Sep 2018 11:09:17 -0700 (PDT)
+        bh=5jqb3O74LNDHRJQZbYQ7ykrAUCRLRrTDLvyZBQX5gZ0=;
+        b=MGzyYqtLzoa7VHKPlYwd7GssENslbbYsOiIJN9snAC9Z6/IGkkq2sTVf9TfOa+znTZ
+         Ej6ruBaE0A9whL4UFLD/iLZjxNbPszs/qUZ5vjkVJ1uINRU+ROkpRBqA919GuHPRo8ir
+         y0SMYdTvqLiO2tgRmujH5+0B76R9TM2G/NYQPdZitlimoXMQBuBeFsgYLUjvfGaQ1Ppj
+         0FJueqdieyBYtCWU+14KYxTH5jvQgAg4dBMjVVkptbiZpa9wU6rzF8+f0fTi9V0R8/wo
+         uClQf8O3UYKwmftXY6qSgBiOw20nkKOF1hltJgoF93Ff+zCi4xuP72or25Leeq7xGgJB
+         +5kQ==
+X-Gm-Message-State: APzg51B934mRdTfp0cwnX8KcyGr/Sc5E4x9+DZrosjJb05pe93btcY/L
+        mBUzRpLmTJ9FqPDm1/6MtvBBejbHGK7mKc7Tkz31Fg==
+X-Google-Smtp-Source: ANB0Vda/iOdRo/765W3FtKGgdBxNWv2Jb43v+T7nmuMQM2hBgOlGUiRRt8FqZV59hPwuYEs3LwyZnuJW4wJpYUwq4I4=
+X-Received: by 2002:a6b:2147:: with SMTP id h68-v6mr29966004ioh.192.1537383233221;
+ Wed, 19 Sep 2018 11:53:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180902120144.6855-1-jmkrzyszt@gmail.com> <20180905215008.1649-1-jmkrzyszt@gmail.com>
- <CACRpkdbAG1N0v-BrXruf5088L0x3XwSHbFTWOFxjHQWx0LKz5g@mail.gmail.com>
-In-Reply-To: <CACRpkdbAG1N0v-BrXruf5088L0x3XwSHbFTWOFxjHQWx0LKz5g@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 19 Sep 2018 11:08:57 -0700
-Message-ID: <CACRpkdbdYmsFD3XOVLWjoGsPSU4UnTKtkYm5VQxGmoeQZewWZA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/4] gpiolib: speed up GPIO array processing
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        Peter Rosin <peda@axentia.se>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Greg KH <gregkh@linuxfoundation.org>, kishon@ti.com,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Peter Meerwald <pmeerw@pmeerw.net>,
-        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
+Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Wed, 19 Sep 2018 11:53:52
+ -0700 (PDT)
+In-Reply-To: <20180914152825.GC6236@arm.com>
+References: <cover.1535462971.git.andreyknvl@google.com> <20180905141032.b1ddaab53d1b2b3bada95415@linux-foundation.org>
+ <20180906100543.GI3592@arm.com> <CAAeHK+wStsNwh2oKv-KCG4kx5538FuDMQ6Yw2X=sK5LPrw2DZg@mail.gmail.com>
+ <20180914152825.GC6236@arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 19 Sep 2018 20:53:52 +0200
+Message-ID: <CAAeHK+x1MO4Q+11No8prngHCspy36EoPVv01SvQBsyuOYCKUcQ@mail.gmail.com>
+Subject: Re: [PATCH v6 00/18] khwasan: kernel hardware assisted address sanitizer
+To:     Will Deacon <will.deacon@arm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Rojhalat Ibrahim <imr@rtschenk.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        ext Tony Lindgren <tony@atomide.com>,
-        Yegor Yefremov <yegorslists@googlemail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, linux-iio@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-serial@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 13, 2018 at 2:22 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Wed, Sep 5, 2018 at 11:49 PM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
+On Fri, Sep 14, 2018 at 5:28 PM, Will Deacon <will.deacon@arm.com> wrote:
+> On Thu, Sep 06, 2018 at 01:06:23PM +0200, Andrey Konovalov wrote:
+>> On Thu, Sep 6, 2018 at 12:05 PM, Will Deacon <will.deacon@arm.com> wrote:
+>> > On Wed, Sep 05, 2018 at 02:10:32PM -0700, Andrew Morton wrote:
+>> >> On Wed, 29 Aug 2018 13:35:04 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
+>> >>
+>> >> > This patchset adds a new mode to KASAN [1], which is called KHWASAN
+>> >> > (Kernel HardWare assisted Address SANitizer).
+>> >>
+>> >> We're at v6 and there are no reviewed-by's or acked-by's to be seen.
+>> >> Is that a fair commentary on what has been happening, or have people
+>> >> been remiss in sending and gathering such things?
+>> >
+>> > I still have concerns about the consequences of merging this as anything
+>> > other than a debug option [1]. Unfortunately, merging it as a debug option
+>> > defeats the whole point, so I think we need to spend more effort on developing
+>> > tools that can help us to find and fix the subtle bugs which will arise from
+>> > enabling tagged pointers in the kernel.
+>>
+>> I totally don't mind calling it a debug option. Do I need to somehow
+>> specify it somewhere?
 >
-> > The goal is to boost performance of get/set array functions while
-> > processing GPIO arrays which represent pins of a signle chip in
-> > hardware order.  If resulting performance is close to PIO, GPIO API
-> > can be used for data I/O without much loss of speed.
+> Ok, sorry, I completely misunderstood you earlier on then! For some reason
+> I thought you wanted this on by default.
 >
-> I applied the v8 to an immutable branch and pushed to kernelorg
-> so the build servers can churn it a bit, and if it works fine
-> then we can merge this into the devel branch and also set up
-> that as something other subsystems can pull in if they need it.
->
-> I'm really excited to merge this!
+> In which case, I'm ok with the overall idea as long as we make the caveats
+> clear in the Kconfig text. In particular, that enabling this option may
+> introduce problems relating to pointer casting and comparison, but can
+> offer better coverage and lower memory consumption than a fully
+> software-based KASAN solution.
 
-The branch built with no problems, and now I merged this into
-devel. If that also builds fine, I will let it hit linux-next so we can
-stabilize it for v4.20.
-
-Yours,
-Linus Walleij
+Great! I'll explicitly call it debug feature and mention the caveats
+in v7. Thanks!
