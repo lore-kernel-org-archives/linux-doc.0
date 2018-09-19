@@ -1,214 +1,202 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B49D7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 07:35:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9FF997D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Sep 2018 11:54:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728334AbeISNL6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Sep 2018 09:11:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49198 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726527AbeISNL6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 Sep 2018 09:11:58 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1C47D3084219;
-        Wed, 19 Sep 2018 07:35:18 +0000 (UTC)
-Received: from [10.36.117.41] (ovpn-117-41.ams2.redhat.com [10.36.117.41])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A8E972B592;
-        Wed, 19 Sep 2018 07:35:08 +0000 (UTC)
-Subject: Re: [PATCH v1 0/6] mm: online/offline_pages called w.o.
- mem_hotplug_lock
-To:     Balbir Singh <bsingharora@gmail.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-acpi@vger.kernel.org, xen-devel@lists.xenproject.org,
-        devel@linuxdriverproject.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        John Allen <jallen@linux.vnet.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Juergen Gross <jgross@suse.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Len Brown <lenb@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Mathieu Malaterre <malat@debian.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Neuling <mikey@neuling.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Nathan Fontenot <nfont@linux.vnet.ibm.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Paul Mackerras <paulus@samba.org>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Pavel Tatashin <pavel.tatashin@microsoft.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rashmica Gupta <rashmica.g@gmail.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
-References: <20180918114822.21926-1-david@redhat.com>
- <20180919012207.GD8537@350D>
-From:   David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <f3a13f6a-b34c-8561-884a-23fd9aa60331@redhat.com>
-Date:   Wed, 19 Sep 2018 09:35:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        id S1731341AbeISRcA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Sep 2018 13:32:00 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:42602 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731336AbeISRcA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Sep 2018 13:32:00 -0400
+Received: by mail-io1-f68.google.com with SMTP id n18-v6so4217545ioa.9
+        for <linux-doc@vger.kernel.org>; Wed, 19 Sep 2018 04:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=TN3QNhjkYmw+HaBkvgCjeas8QL9MY9/JuWC0ExTNN4o=;
+        b=PYuijPmDpDUM5Hb3P+jRogRYdga0+2EzCa9Sqq5z9BIgrwUVwZQ8dE5LQTQPaMqz+a
+         8fiBxh7PtngyuI7n2nluQovcivuvczjAGFAyKowM2V0nuCs96jqo1hsYwylJ61PXBZGV
+         bbhragISEp7Ye4Z2oFx5DSeEmA55fWNhc2JTmduIMwzBNW00bSDvDwsiYd0Z0vnHFflL
+         k4YNy9Gsz5GO//BYNRshaLumRIG9Y/oy5PsuGsur2yqdHCbv7YZwKkJg0i5VWfT2kWXE
+         ymoWZnSlqOH9zPPjE7MyezNleyYOEGlcNseQJkQz1tW7fIR2jZvk+JNp7ghEsVeeTE29
+         AeZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=TN3QNhjkYmw+HaBkvgCjeas8QL9MY9/JuWC0ExTNN4o=;
+        b=RaJx2mhtg72uVy0gYcK62APsNpZ8GhUuqzmfiV+Z/7wSR09MJi8IRT3h18KihcLXM9
+         L1dXAb4sq2TFzvB1GHqfXvjo9kERkIh1R5yS0E98PvhyyDQdKYXedX6gck41U07CQAZw
+         P0ODDYbuimmZOTmw17DQSAC6ShjnC0ihwgQjD1SQ8Yi0d3ctJgyy86Tm6FG4qzuFfT9p
+         WCVjRVWUzWCcMYz/wFWffWjORC3O8bDWlGacLHmyUa+NA876D1qvamJqjJ/D2EuDRi60
+         vIZGHgvwqX39tRXy+rnGgZcmfl/LkzVTirQRJVgKaKxBWR3NuOV3BDu/e2C04ISLxtp4
+         v5TA==
+X-Gm-Message-State: APzg51Ao4Yd3bMOVmznfDKnLUD1E/SRxBlnKFKzE3hb1a8jDbsiEsLm9
+        K8QOqLpTo7AB3cMh/p8TlvOgWNE4abX141laUieNAg==
+X-Google-Smtp-Source: ANB0Vda/TSY5GBQv89JSajwxw8ANC9OEuaIBS3CoGpgBvPLzzhDlrCxmenhqlK89cazbWen0QpQ4VlXoG+pv5XijtSE=
+X-Received: by 2002:a6b:1707:: with SMTP id 7-v6mr28516531iox.119.1537358064356;
+ Wed, 19 Sep 2018 04:54:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180919012207.GD8537@350D>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Wed, 19 Sep 2018 07:35:19 +0000 (UTC)
+Received: by 2002:a02:c54e:0:0:0:0:0 with HTTP; Wed, 19 Sep 2018 04:54:23
+ -0700 (PDT)
+In-Reply-To: <CACT4Y+YicYhmzrKf84=oJJErdFKSNM70cmoN3m_zzERcUQ_-Fg@mail.gmail.com>
+References: <cover.1535462971.git.andreyknvl@google.com> <4267d0903e0fdf9c261b91cf8a2bf0f71047a43c.1535462971.git.andreyknvl@google.com>
+ <CACT4Y+YicYhmzrKf84=oJJErdFKSNM70cmoN3m_zzERcUQ_-Fg@mail.gmail.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 19 Sep 2018 13:54:23 +0200
+Message-ID: <CAAeHK+xMjDwZkKDn_0aVWERkjv6B-hFKjn0coGo4LbcPBds4Ew@mail.gmail.com>
+Subject: Re: [PATCH v6 14/18] khwasan: add hooks implementation
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 19.09.18 um 03:22 schrieb Balbir Singh:
-> On Tue, Sep 18, 2018 at 01:48:16PM +0200, David Hildenbrand wrote:
->> Reading through the code and studying how mem_hotplug_lock is to be used,
->> I noticed that there are two places where we can end up calling
->> device_online()/device_offline() - online_pages()/offline_pages() without
->> the mem_hotplug_lock. And there are other places where we call
->> device_online()/device_offline() without the device_hotplug_lock.
+On Wed, Sep 12, 2018 at 8:30 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
+> On Wed, Aug 29, 2018 at 1:35 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+
+>>  void kasan_unpoison_shadow(const void *address, size_t size)
+>>  {
+>> -       kasan_poison_shadow(address, size, 0);
+>> +       u8 tag = get_tag(address);
+>> +
+>> +       /* Perform shadow offset calculation based on untagged address */
+>
+> The comment is not super-useful. It would be more useful to say why we
+> need to do this.
+> Most callers explicitly untag pointer passed to this function, for
+> some it's unclear if the pointer contains tag or not.
+> For example, __hwasan_tag_memory -- what does it accept? Tagged or untagged?
+
+There are some callers that pass tagged pointers to this functions,
+e.g. ksize or kasan_unpoison_object_data. I'll expand the comment.
+
+>
+>
+>> +       address = reset_tag(address);
+>> +
+>> +       kasan_poison_shadow(address, size, tag);
 >>
->> While e.g.
->> 	echo "online" > /sys/devices/system/memory/memory9/state
->> is fine, e.g.
->> 	echo 1 > /sys/devices/system/memory/memory9/online
->> Will not take the mem_hotplug_lock. However the device_lock() and
->> device_hotplug_lock.
->>
->> E.g. via memory_probe_store(), we can end up calling
->> add_memory()->online_pages() without the device_hotplug_lock. So we can
->> have concurrent callers in online_pages(). We e.g. touch in online_pages()
->> basically unprotected zone->present_pages then.
->>
->> Looks like there is a longer history to that (see Patch #2 for details),
->> and fixing it to work the way it was intended is not really possible. We
->> would e.g. have to take the mem_hotplug_lock in device/base/core.c, which
->> sounds wrong.
->>
->> Summary: We had a lock inversion on mem_hotplug_lock and device_lock().
->> More details can be found in patch 3 and patch 6.
->>
->> I propose the general rules (documentation added in patch 6):
->>
->> 1. add_memory/add_memory_resource() must only be called with
->>    device_hotplug_lock.
->> 2. remove_memory() must only be called with device_hotplug_lock. This is
->>    already documented and holds for all callers.
->> 3. device_online()/device_offline() must only be called with
->>    device_hotplug_lock. This is already documented and true for now in core
->>    code. Other callers (related to memory hotplug) have to be fixed up.
->> 4. mem_hotplug_lock is taken inside of add_memory/remove_memory/
->>    online_pages/offline_pages.
->>
->> To me, this looks way cleaner than what we have right now (and easier to
->> verify). And looking at the documentation of remove_memory, using
->> lock_device_hotplug also for add_memory() feels natural.
->>
-> 
-> That seems reasonable, but also implies that device_online() would hold
-> back add/remove memory, could you please also document what mode
-> read/write the locks need to be held? For example can the device_hotplug_lock
-> be held in read mode while add/remove memory via (mem_hotplug_lock) is held
-> in write mode?
+>>         if (size & KASAN_SHADOW_MASK) {
+>>                 u8 *shadow = (u8 *)kasan_mem_to_shadow(address + size);
+>> -               *shadow = size & KASAN_SHADOW_MASK;
+>> +
+>> +               if (IS_ENABLED(CONFIG_KASAN_HW))
+>> +                       *shadow = tag;
+>> +               else
+>> +                       *shadow = size & KASAN_SHADOW_MASK;
+>>         }
+>>  }
+>
+>
+> It seems that this function is just different for kasan and khwasan.
+> Currently for kasan we have:
+>
+> kasan_poison_shadow(address, size, tag);
+> if (size & KASAN_SHADOW_MASK) {
+>         u8 *shadow = (u8 *)kasan_mem_to_shadow(address + size);
+>         *shadow = size & KASAN_SHADOW_MASK;
+> }
+>
+> But what we want to say for khwasan is:
+>
+> kasan_poison_shadow(address, round_up(size, KASAN_SHADOW_SCALE_SIZE),
+> get_tag(address));
+>
+> Not sure if we want to keep a common implementation or just have
+> separate implementations...
 
-device_hotplug_lock is an ordinary mutex. So no option there.
-
-Only mem_hotplug_lock is a per CPU RW mutex. And as of now it only
-exists to not require get_online_mems()/put_online_mems() to take the
-device_hotplug_lock. Which is perfectly valid, because these users only
-care about memory (not any other devices) not suddenly vanish. And that
-RW lock makes things fast.
-
-Any modifications (online/offline/add/remove) require the
-mem_hotplug_lock in write.
-
-I can add some more details to documentation in patch #6.
-
-"... we should always hold the mem_hotplug_lock (via
-mem_hotplug_begin/mem_hotplug_done) in write mode to serialize memory
-hotplug" ..."
-
-"In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in
-read mode allows for a quite efficient get_online_mems/put_online_mems
-implementation, so code accessing memory can protect from that memory
-vanishing."
-
-Would that work for you?
-
-Thanks!
-
-> 
-> Balbir Singh.
->  
-> 
+As per offline discussion leaving as is.
 
 
--- 
+>>  void kasan_free_pages(struct page *page, unsigned int order)
+>> @@ -235,6 +248,7 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>>                         slab_flags_t *flags)
+>>  {
+>>         unsigned int orig_size = *size;
+>> +       unsigned int redzone_size = 0;
+>
+> This variable seems to be always initialized below. We don't general
+> initialize local variables in this case.
 
-Thanks,
+Will fix in v7.
 
-David / dhildenb
+>>  void check_memory_region(unsigned long addr, size_t size, bool write,
+>>                                 unsigned long ret_ip)
+>>  {
+>> +       u8 tag;
+>> +       u8 *shadow_first, *shadow_last, *shadow;
+>> +       void *untagged_addr;
+>> +
+>> +       tag = get_tag((const void *)addr);
+>> +
+>> +       /* Ignore accesses for pointers tagged with 0xff (native kernel
+>
+> /* on a separate line
+
+Will fix in v7.
+
+>
+>> +        * pointer tag) to suppress false positives caused by kmap.
+>> +        *
+>> +        * Some kernel code was written to account for archs that don't keep
+>> +        * high memory mapped all the time, but rather map and unmap particular
+>> +        * pages when needed. Instead of storing a pointer to the kernel memory,
+>> +        * this code saves the address of the page structure and offset within
+>> +        * that page for later use. Those pages are then mapped and unmapped
+>> +        * with kmap/kunmap when necessary and virt_to_page is used to get the
+>> +        * virtual address of the page. For arm64 (that keeps the high memory
+>> +        * mapped all the time), kmap is turned into a page_address call.
+>> +
+>> +        * The issue is that with use of the page_address + virt_to_page
+>> +        * sequence the top byte value of the original pointer gets lost (gets
+>> +        * set to KHWASAN_TAG_KERNEL (0xFF).
+>
+> Missed closing bracket.
+
+Will fix in v7.
