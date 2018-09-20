@@ -5,29 +5,39 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 663817D87C
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 17:08:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 64BD17D584
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 17:10:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728787AbeITWwb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Sep 2018 18:52:31 -0400
-Received: from ms.lwn.net ([45.79.88.28]:46898 "EHLO ms.lwn.net"
+        id S1727845AbeITWyx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Sep 2018 18:54:53 -0400
+Received: from ms.lwn.net ([45.79.88.28]:46918 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726128AbeITWwb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Sep 2018 18:52:31 -0400
+        id S1726540AbeITWyx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Sep 2018 18:54:53 -0400
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 54A692EF;
-        Thu, 20 Sep 2018 17:08:04 +0000 (UTC)
-Date:   Thu, 20 Sep 2018 11:08:02 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 7C1A52EF;
+        Thu, 20 Sep 2018 17:10:24 +0000 (UTC)
+Date:   Thu, 20 Sep 2018 11:10:22 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     joro@8bytes.org, iommu@lists.linux-foundation.org,
-        linux-doc@vger.kernel.org, olof@lixom.net
-Subject: Re: [PATCH] iommu: Fix passthrough option documentation
-Message-ID: <20180920110802.7687857b@lwn.net>
-In-Reply-To: <60d15534e43f7856ce2e436aff28465cd679bb1d.1537448341.git.robin.murphy@arm.com>
-References: <60d15534e43f7856ce2e436aff28465cd679bb1d.1537448341.git.robin.murphy@arm.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Jan Kara <jack@suse.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, bridge@lists.linux-foundation.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH] docs: fix some broken documentation references
+Message-ID: <20180920111022.072b33a7@lwn.net>
+In-Reply-To: <6b47bf56b898c48a0dc3cd42283c9e5c7c23367a.1537210894.git.mchehab+samsung@kernel.org>
+References: <6b47bf56b898c48a0dc3cd42283c9e5c7c23367a.1537210894.git.mchehab+samsung@kernel.org>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -38,19 +48,19 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 20 Sep 2018 14:14:26 +0100
-Robin Murphy <robin.murphy@arm.com> wrote:
+On Mon, 17 Sep 2018 15:02:34 -0400
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> Document that the default for "iommu.passthrough" is now configurable.
+> Some documentation files received recent changes and are
+> pointing to wrong places.
 > 
-> Fixes: 58d1131777a4 ("iommu: Add config option to set passthrough as default")
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> ---
+> Those references can easily fixed with the help of a
+> script:
 > 
-> Joerg, Jon, as a pure doc fix I'll leave it to your discretion as to
-> whose tree is most appropriate (it shouldn't conflict with the other
-> IOMMU patches I'm working on)
+> 	$ ./scripts/documentation-file-ref-check --fix
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-I went ahead and applied it, thanks.
+Applied, thanks.
 
 jon
