@@ -1,189 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5AFA7D581
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 16:20:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C29807D87C
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 16:23:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729361AbeITWEC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Sep 2018 18:04:02 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:35408 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727813AbeITWEC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 18:04:02 -0400
-Received: by mail-lj1-f194.google.com with SMTP id p10-v6so8960501ljg.2;
-        Thu, 20 Sep 2018 09:19:44 -0700 (PDT)
+        id S1728016AbeITWIA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Sep 2018 18:08:00 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34902 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726827AbeITWIA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 18:08:00 -0400
+Received: by mail-pf1-f195.google.com with SMTP id p12-v6so4619412pfh.2
+        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 09:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+UPtWUl6Yh7NRq4oZEu4K6wGXZnx26UbRhox6oV/oH4=;
-        b=T9nzEVcKHbkS0N9olmvbKlcapG6lPHsVNt13Hug5keW+LOAnopW9H2KQZEKvY+Yr2U
-         m8cFBK4aZ/yJ4Ny1aGvQdWHNLckm3pSZs55Y15JQwqajfCBgb5wsOKZSzbN3BL9roYO9
-         8JC2tlOY7L4hoG8v49Ol+FoJxQ6Z5KY3McO8zZoE1TevEOjXRAfi7SBbHslXxYk+XkWV
-         D0SM9N7FQmdV6pzLQPhQmKSfCRhn3QMsUqx98UMaimu6/k8GqqFC0Y/FcQ+Ua/nGBNoe
-         K60aiNa+cpTzYm0PSPi/xja5b7TnNYkXqQGy/DMF1o9YRHDJzT5kd4gSjriSnQXTK0mL
-         fiwg==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=HAekkvj+upuXCbRczMVdl859lF9VoTKVAjIU/VJ2coM=;
+        b=QfxwvVp8tome4GK1jZVeIc9mB7z/4XM7KhcwWc279YFu1tRN6sQ/MZCqtZjreQ6xiE
+         LQuHejng8P2HpZMrD4oJhARbDCcKXyAKv1A/tYHOqf7NRN37Mn6HzCuThF78wuNzMinJ
+         AYPsa4SZ5AtoWzI9vYzGRSlh2u4Qe4YSN8ZVo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+UPtWUl6Yh7NRq4oZEu4K6wGXZnx26UbRhox6oV/oH4=;
-        b=lpc/4zc8LnK1MlX/9AaD9UhoXks2S7s4/5tHJzMzXGawJsdDyrXhE0XMs8qCgaXK2W
-         ff+AJeFqmEDUDWReEjOBhT/0NuUafKoj3/op5S5Yv3LlqpZXzE+EzdrWlUzHv6DM/saY
-         PU7oVlpXsqRBFMvuS10SiDmITDJiIoo+jmmzWuoB0VY6W2GM3Ht7JfJBFNHzq/oAXieM
-         QYGT+S3OJ0ZWna/KVBtBgsEPFqROJrcKsenD9MZHkwvqI1R1sAnNyu8Rp6woVpuleHDU
-         Koyg5buxTauPHXZu4K2O8I8svn4P43hgQPnoQAhlgfIhfYteTzjREzDSTYJAqDzCcgJh
-         G5GQ==
-X-Gm-Message-State: ABuFfojPlCCV4M0FpIPegBQUjZIEAt8xY9JDd80NGd86kPM7CivkiVRU
-        rVruFMG7kwtdmGid2rdpiSs=
-X-Google-Smtp-Source: ACcGV61IaZrFaNaOrrBrXeXaPHBLj2w8Qhx58iEUo43xsPFYBvkiR533Phu4rhsuMh83BNFrs/am3g==
-X-Received: by 2002:a2e:b007:: with SMTP id y7-v6mr2609415ljk.22.1537460384110;
-        Thu, 20 Sep 2018 09:19:44 -0700 (PDT)
-Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id b80-v6sm1810441lfe.83.2018.09.20.09.19.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Sep 2018 09:19:43 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        Peter Rosin <peda@axentia.se>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-serial@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Rojhalat Ibrahim <imr@rtschenk.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Tony Lindgren <tony@atomide.com>,
-        Yegor Yefremov <yegorslists@googlemail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "'Linux Samsung SOC'" <linux-samsung-soc@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [PATCH v7 4/4] gpiolib: Implement fast processing path in get/set array
-Date:   Thu, 20 Sep 2018 18:21:09 +0200
-Message-ID: <15226900.TQMLYV7PZ0@z50>
-In-Reply-To: <9860023.SlBYqtbjDV@z50>
-References: <20180831225616.29221-1-jmkrzyszt@gmail.com> <20180920101151eucas1p221f5a1715b8556bb9d99bf08fe09ce6f~WE-_cEf4l0754207542eucas1p27@eucas1p2.samsung.com> <9860023.SlBYqtbjDV@z50>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+         :references;
+        bh=HAekkvj+upuXCbRczMVdl859lF9VoTKVAjIU/VJ2coM=;
+        b=gXR2BUxieE40phVIT08E3shLZNgG+nKFQOvexBRJWSvpduJv2T8OBitBCYVbCDccKC
+         chWZM2KFWOLeGceEwsUq6s2EPg0lMm2fFkpHL1Cd3NkrStqS7qQ9iHJKxrcSYwkW52sj
+         zQSyllHoiHdgOEyGojcZoP8ZpcEd1U05TQefjQabfvuEhCvirhCZW6nmBkyhZCqul9Jz
+         J5KTHn3brNoCpDNusC6mG4juF68ncpSDrZh3YpLTi1Ti/9P6lNexX5acUnfSUWWbQSCf
+         oBNIyg1SGZZptLtzTT3Ieh6OWYs/bwsp1m+5oD7esMkFliKa1lve9wIkiBQ4nE0g/pZq
+         /seQ==
+X-Gm-Message-State: APzg51BDZI319hay555pV6APgQDsBp0rACqMNnhJFMJbMdXWHeOqUPQy
+        69uKLUtBOswJwR56fIL55v7JtA==
+X-Google-Smtp-Source: ANB0VdaLGaDTdYZ+gaoCAYoLtM95f6E7F0R+Yx3SsZgG8m8OHAeuEDYEanCZYNIk0v/TfAhThYTHoQ==
+X-Received: by 2002:a65:66d4:: with SMTP id c20-v6mr34957476pgw.55.1537460624804;
+        Thu, 20 Sep 2018 09:23:44 -0700 (PDT)
+Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
+        by smtp.gmail.com with ESMTPSA id 185-v6sm38786730pge.82.2018.09.20.09.23.43
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 20 Sep 2018 09:23:43 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     James Morris <jmorris@namei.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Paul Moore <paul@paul-moore.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH security-next v2 04/26] LSM: Remove initcall tracing
+Date:   Thu, 20 Sep 2018 09:23:16 -0700
+Message-Id: <20180920162338.21060-5-keescook@chromium.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180920162338.21060-1-keescook@chromium.org>
+References: <20180920162338.21060-1-keescook@chromium.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, September 20, 2018 5:48:22 PM CEST Janusz Krzysztofik wrote:
-> On Thursday, September 20, 2018 12:11:48 PM CEST Marek Szyprowski wrote:
-> > Hi All,
-> > 
-> > On 2018-09-02 14:01, Janusz Krzysztofik wrote:
-> > > Certain GPIO descriptor arrays returned by gpio_get_array() may contain
-> > > information on direct mapping of array members to pins of a single GPIO
-> > > chip in hardware order.  In such cases, bitmaps of values can be passed
-> > > directly from/to the chip's .get/set_multiple() callbacks without
-> > > wasting time on iterations.
-> > >
-> > > Add respective code to gpiod_get/set_array_bitmap_complex() functions.
-> > > Pins not applicable for fast path are processed as before, skipping
-> > > over the 'fast' ones.
-> > >
-> > > Cc: Jonathan Corbet <corbet@lwn.net>
-> > > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> > 
-> > I've just noticed that this patch landed in today's linux-next. Sadly it
-> > breaks booting of Exynos5250-based Samsung Snow Chromebook (ARM 32bit,
-> > device-tree source arch/arm/boot/dts/exynos5250-snow.dts).
-> > 
-> > Booting hangs after detecting MMC cards. Reverting this patch fixes the
-> > boot. I will try later to add some debugs and investigate it further what
-> > really happens when booting hangs.
-> 
-> Hi Marek,
-> 
-> Thanks for reporting. Could you please try the following fix?
+This partially reverts commit 58eacfffc417 ("init, tracing: instrument
+security and console initcall trace events") since security init calls
+are about to no longer resemble regular init calls.
 
-Hi again,
-
-I realized the patch was not correct, j, not i, should be updated in second 
-hunk. Please try the following one.
-
-Thanks,
-Janusz
-
-From a919c504850f6cb40e8e81267a3a37537f7c4fd4 Mon Sep 17 00:00:00 2001
-From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Date: Thu, 20 Sep 2018 17:37:21 +0200
-Subject: [PATCH] gpiolib: Fix bitmap index not updated
-
-While skipping fast path bits, bitmap index is not updated with next
-found zero bit position. Fix it.
-
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/gpio/gpiolib.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ security/security.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index a53d17745d21..369bdd358fcc 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -2880,7 +2880,7 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
- 			__set_bit(hwgpio, mask);
+diff --git a/security/security.c b/security/security.c
+index 892fe6b691cf..41a5da2c7faf 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -30,8 +30,6 @@
+ #include <linux/string.h>
+ #include <net/flow.h>
  
- 			if (array_info)
--				find_next_zero_bit(array_info->get_mask,
-+				i = find_next_zero_bit(array_info->get_mask,
- 						   array_size, i);
- 			else
- 				i++;
-@@ -2905,7 +2905,8 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
- 			trace_gpio_value(desc_to_gpio(desc), 1, value);
+-#include <trace/events/initcall.h>
+-
+ #define MAX_LSM_EVM_XATTR	2
  
- 			if (array_info)
--				find_next_zero_bit(array_info->get_mask, i, j);
-+				j = find_next_zero_bit(array_info->get_mask, i,
-+						       j);
- 			else
- 				j++;
- 		}
-@@ -3192,7 +3193,7 @@ int gpiod_set_array_value_complex(bool raw, bool can_sleep,
- 			}
+ /* Maximum number of letters for an LSM name string */
+@@ -47,17 +45,13 @@ static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
  
- 			if (array_info)
--				find_next_zero_bit(array_info->set_mask,
-+				i = find_next_zero_bit(array_info->set_mask,
- 						   array_size, i);
- 			else
- 				i++;
+ static void __init do_security_initcalls(void)
+ {
+-	int ret;
+ 	initcall_t call;
+ 	initcall_entry_t *ce;
+ 
+ 	ce = __start_lsm_info;
+-	trace_initcall_level("security");
+ 	while (ce < __end_lsm_info) {
+ 		call = initcall_from_entry(ce);
+-		trace_initcall_start(call);
+-		ret = call();
+-		trace_initcall_finish(call, ret);
++		call();
+ 		ce++;
+ 	}
+ }
 -- 
-2.16.4
-
-
-
+2.17.1
 
