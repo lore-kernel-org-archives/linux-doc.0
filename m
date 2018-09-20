@@ -6,47 +6,47 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8F2507E424
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 17:25:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B15D7E42A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 17:25:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388200AbeITXIY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Sep 2018 19:08:24 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34984 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388191AbeITXIX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 19:08:23 -0400
-Received: by mail-wr1-f68.google.com with SMTP id j26-v6so10224146wre.2;
-        Thu, 20 Sep 2018 10:23:51 -0700 (PDT)
+        id S2388268AbeITXI2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Sep 2018 19:08:28 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:51527 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728997AbeITXI1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 19:08:27 -0400
+Received: by mail-wm1-f67.google.com with SMTP id y2-v6so339077wma.1;
+        Thu, 20 Sep 2018 10:23:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=0RA0ONh6m9Yv1rVJTvrOsFSDcGT4jsVl1K//X96wXxE=;
-        b=GE0rQn0ChqI0rlDQfCmMochFlu5MMVWGter0daDflRe0EGBZrniL5RHjfQGrTC6GYT
-         qfR1w5xluVEr7xEqbyI/VTwPRv/8UvHdBb72KxZbHEuiZqJEVeRfMf/BV+ZnYWwED7p3
-         UJ4OOyWsraVc9JrkV48UUJGD/Qxk16WiuB0qMontOBX+ola5TlvBcJk+UHcSJ/kLz352
-         Rcj/hmuKUOkEkTQXUIwTqbGkTDsRvDMoUdhxdJI+Gd6zBGhJNh1GQ6nBztzm1q3qHvNu
-         8ko6ABiGoBd0/AC7zfH2T5u1VyEeNy3qmpLVDkBx60M2BitxaL0U4CsXKNNQKIF4AlOv
-         RW3w==
+        bh=kZws1JBtb+e6LCZ++aOvnGEdZInUrW1YdgzCF3tRjOM=;
+        b=aH5KRNN7bpqo7GgJbTa3bdbnKiznxj1QRridFK7a98Lgbq1cEM30HxNoU/mEcLnaSl
+         RS81kPPtda1lie/st9XLgsqykKcp/x+BZRbTbrQYj0wdKv2z6bXODxaO9MhbSE4LKeqW
+         nnZ8xdz8qJiUou7cOjpa+If7Q0/fABVtM+x2y9zMuCixkoOGUNPtohHD0NFVvS4P011E
+         mOe2QWUVV7LWwWmz4e4ZjQWf7rQjkN5DPJrsDIctCQAezzWJmGT3p9liicRj1SSgicx9
+         I8rtzf0wP6SlVSE20I0mCyL2jQmhgbYisK3uAU9PeLwM4nvIZhyNpWPYO6IMcPqFpA1/
+         sLVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=0RA0ONh6m9Yv1rVJTvrOsFSDcGT4jsVl1K//X96wXxE=;
-        b=O7gtivy8POKtRojjuR8A7r/LKA8r0QnQHlIIEmEpH6PC2LJCKgUK8pQcZ53W97XUxa
-         SCaVJZyOQUksvYFF2NoKHHH+H/I6nQNPrc/t1JXfq6sejWdIxbTa9WechjIQjtuJapVk
-         yuV0qHkgMzt9BofkZSTTh7qiZgZ9dqvJS5+dNiRgQvfs1lin0drbgnCkgThWTopDuIuB
-         FiElwmWCMqpYSZhAXCv6N66OduINkJPsav7Hg9ENgd/CV1zngVHCH0EQ0fIP726oEBjh
-         lHzLnlB3ZKRQ0Nr0gwhi7Hl3zSw53H9wKKQKS5qap6wqqloogih0XAZljqaqkNCQzL6p
-         VXDg==
-X-Gm-Message-State: APzg51B2q6EAqYga8J7KsNQpHUZCAwkzqD3asT2Ypqcp8vNIDbvG4N5S
-        zFCheKZE5OwiJ1MVB/GKnAI=
-X-Google-Smtp-Source: ANB0VdbPnQwPA61LSbOk68RibKZDCx6D9g5+HXMH3vzL0u2Tt+FXc8SSYTN2I8wpooNOM3LvvH/GNA==
-X-Received: by 2002:adf:8b50:: with SMTP id v16-v6mr12546686wra.282.1537464230740;
-        Thu, 20 Sep 2018 10:23:50 -0700 (PDT)
+        bh=kZws1JBtb+e6LCZ++aOvnGEdZInUrW1YdgzCF3tRjOM=;
+        b=JaaWpfL+U9z3y/Svud5M0JB+M1jVvEYEEA4Q89QY0CFdwrX5i/7+/ykDCKzg4RV2eE
+         9+JOMySQ02lBtinKp5BiX3DNhgDWbw2Ss500H9F/r7YZOzjbzr8oWHA0ijaxT9BWafok
+         K/MKMBD8z7znmCF2wy8u0y6TUtbqFx3hY98GpzI+WMpQBRdWqwPcS5OEHyswWPxx2fYa
+         3wKRx+PiloniKLcs7E95oVT3UhZHa/GAVe5NWTzp/HPKqQBSmDFUWVCJ/PvFY1wEydUI
+         Ecdc5QgiosiDbID6cVQH8sH6w1Aq9AN1t+iAX6dCfkDSJua1WWRBOz8uHTHMh3PLKfu6
+         bkgg==
+X-Gm-Message-State: APzg51DExAJFgV9qIAwsf3MnrzZ5kZKuK/WLo7xGM4a7JHwSb/gigBj1
+        w49KkMxPmEzaI7OzgpfO4m4=
+X-Google-Smtp-Source: ANB0VdYlXps34Qa98w0QUMlN77Nz3bVdxyFDq9JwIORinKAnhr32EcEesF7yjizFBGS8sJb4RQN5ww==
+X-Received: by 2002:a1c:4007:: with SMTP id n7-v6mr3917202wma.108.1537464235105;
+        Thu, 20 Sep 2018 10:23:55 -0700 (PDT)
 Received: from localhost.localdomain (62.83.35.8.dyn.user.ono.com. [62.83.35.8])
-        by smtp.gmail.com with ESMTPSA id q200-v6sm3466562wmd.2.2018.09.20.10.23.48
+        by smtp.gmail.com with ESMTPSA id q200-v6sm3466562wmd.2.2018.09.20.10.23.52
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Sep 2018 10:23:50 -0700 (PDT)
+        Thu, 20 Sep 2018 10:23:54 -0700 (PDT)
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-kernel@vger.kernel.org,
@@ -86,9 +86,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
         linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH v5 12/15] Compiler Attributes: add support for __nonstring (gcc >= 8)
-Date:   Thu, 20 Sep 2018 19:22:58 +0200
-Message-Id: <20180920172301.21868-13-miguel.ojeda.sandonis@gmail.com>
+Subject: [PATCH v5 14/15] Compiler Attributes: auxdisplay: panel: use __nonstring
+Date:   Thu, 20 Sep 2018 19:23:00 +0200
+Message-Id: <20180920172301.21868-15-miguel.ojeda.sandonis@gmail.com>
 In-Reply-To: <20180920172301.21868-1-miguel.ojeda.sandonis@gmail.com>
 References: <20180920172301.21868-1-miguel.ojeda.sandonis@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
@@ -96,84 +96,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From the GCC manual:
-
-  nonstring
-
-    The nonstring variable attribute specifies that an object or member
-    declaration with type array of char, signed char, or unsigned char,
-    or pointer to such a type is intended to store character arrays that
-    do not necessarily contain a terminating NUL. This is useful in detecting
-    uses of such arrays or pointers with functions that expect NUL-terminated
-    strings, and to avoid warnings when such an array or pointer is used as
-    an argument to a bounded string manipulation function such as strncpy.
-
-  https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html
-
-This attribute can be used for documentation purposes (i.e. replacing
-comments), but it is most helpful when the following warnings are enabled:
-
-  -Wstringop-overflow
-
-    Warn for calls to string manipulation functions such as memcpy and
-    strcpy that are determined to overflow the destination buffer.
-
-    [...]
-
-  -Wstringop-truncation
-
-    Warn for calls to bounded string manipulation functions such as
-    strncat, strncpy, and stpncpy that may either truncate the copied
-    string or leave the destination unchanged.
-
-    [...]
-
-    In situations where a character array is intended to store a sequence
-    of bytes with no terminating NUL such an array may be annotated with
-    attribute nonstring to avoid this warning. Such arrays, however,
-    are not suitable arguments to functions that expect NUL-terminated
-    strings. To help detect accidental misuses of such arrays GCC issues
-    warnings unless it can prove that the use is safe.
-
-  https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+Let gcc know these arrays are not meant to be NUL-terminated
+by annotating them with the new __nonstring variable attribute;
+and remove the comment since it conveys the same information.
 
 Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 ---
- include/linux/compiler_attributes.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/auxdisplay/panel.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-index f0f9fc398440..6b28c1b7310c 100644
---- a/include/linux/compiler_attributes.h
-+++ b/include/linux/compiler_attributes.h
-@@ -34,6 +34,7 @@
- # define __GCC4_has_attribute___externally_visible__  1
- # define __GCC4_has_attribute___noclone__             1
- # define __GCC4_has_attribute___optimize__            1
-+# define __GCC4_has_attribute___nonstring__           0
- # define __GCC4_has_attribute___no_sanitize_address__ (__GNUC_MINOR__ >= 8)
- #endif
- 
-@@ -181,6 +182,19 @@
-  */
- #define   noinline                      __attribute__((__noinline__))
- 
-+/*
-+ * Optional: only supported since gcc >= 8
-+ * Optional: not supported by clang
-+ * Optional: not supported by icc
-+ *
-+ *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html#index-nonstring-variable-attribute
-+ */
-+#if __has_attribute(__nonstring__)
-+# define __nonstring                    __attribute__((__nonstring__))
-+#else
-+# define __nonstring
-+#endif
-+
- /*
-  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-noreturn-function-attribute
-  * clang: https://clang.llvm.org/docs/AttributeReference.html#noreturn
+diff --git a/drivers/auxdisplay/panel.c b/drivers/auxdisplay/panel.c
+index 3b25a643058c..21b9b2f2470a 100644
+--- a/drivers/auxdisplay/panel.c
++++ b/drivers/auxdisplay/panel.c
+@@ -155,10 +155,9 @@ struct logical_input {
+ 			int release_data;
+ 		} std;
+ 		struct {	/* valid when type == INPUT_TYPE_KBD */
+-			/* strings can be non null-terminated */
+-			char press_str[sizeof(void *) + sizeof(int)];
+-			char repeat_str[sizeof(void *) + sizeof(int)];
+-			char release_str[sizeof(void *) + sizeof(int)];
++			char press_str[sizeof(void *) + sizeof(int)] __nonstring;
++			char repeat_str[sizeof(void *) + sizeof(int)] __nonstring;
++			char release_str[sizeof(void *) + sizeof(int)] __nonstring;
+ 		} kbd;
+ 	} u;
+ };
 -- 
 2.17.1
 
