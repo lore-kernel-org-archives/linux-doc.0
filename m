@@ -1,134 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 94ED37DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 21:56:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A6E27DD4F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 23:39:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727518AbeIUDld (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Sep 2018 23:41:33 -0400
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:38288 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727252AbeIUDld (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 23:41:33 -0400
-Received: by mail-yw1-f68.google.com with SMTP id n21-v6so4405663ywh.5
-        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 14:55:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=O7Ju11CnqlQ65JFs+cTZJv3B3c6e6mPVZbOA0gUwNI4=;
-        b=ZH6YgTV35xB6RLGtVB9NFWyayApUadyAJZqoaXzB8L7jiyi7nZBjp9epd9ph4stATt
-         HvmBCFP7BNeh5us4l8G4HQcdRRo5uUp0nIly2eTZw/zQiqc5mkI9F0aCTznwlp0QWeD/
-         Ljw6PWcwqbB8gIYHo416NTf7opDyY+8sUmat0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=O7Ju11CnqlQ65JFs+cTZJv3B3c6e6mPVZbOA0gUwNI4=;
-        b=aYajmjRaF73PCtjAgWZ0+Q5bCLN4LDvWMNoWdPwcJhlwDbLKl+UmgTtiEcKz1Cl/1z
-         ld39ZtJlzG4gRJymtD+3/8AtIUUrV95qNU+qDplZW5XRFgBkTvXgCmbATYuO5eV0e2gC
-         NvKmRfKEBG7a2JcCFyi9vPZ5hjvPo+1KxoB/6uh6+nyO8EJW4wyAQqMWlR2zFnOyEbXs
-         WfJXEgTofLDVPblsn3aySgfPdWnSsZercIhUsQjCZ1BNGWM8qkdYpzC3x2SNRET81IGO
-         Hazrkjfr6Yr9WTZwQ1IS5PLL2VGSf9oaJsJ4eC79QVfc0MN4yQgSkF9BaDGY4D+m2b0C
-         alNw==
-X-Gm-Message-State: APzg51CegizVuMsAro4Tnkc6brTYkunaSaf5f+GDjQRmWCweUtdqFHgs
-        L+Ze3jYc7aQccvNmSq4rFp9Db8OH/Ko=
-X-Google-Smtp-Source: ANB0VdbslUBXx+8oxnDW2nZHWKqGDNaQZzLLBEj18M/cm1Sc9JA6AsF/w80+rz0Q5WI3ZDwq34jVyg==
-X-Received: by 2002:a81:1b58:: with SMTP id b85-v6mr18342734ywb.63.1537480556877;
-        Thu, 20 Sep 2018 14:55:56 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id f5-v6sm3866285ywd.53.2018.09.20.14.55.53
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Sep 2018 14:55:53 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id c4-v6so4602379ybl.6
-        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 14:55:53 -0700 (PDT)
-X-Received: by 2002:a25:3617:: with SMTP id d23-v6mr12372664yba.141.1537480553100;
- Thu, 20 Sep 2018 14:55:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:5f04:0:0:0:0:0 with HTTP; Thu, 20 Sep 2018 14:55:52
- -0700 (PDT)
-In-Reply-To: <1898403.NNy4ELVaME@merkaba>
-References: <20180920162338.21060-1-keescook@chromium.org> <1898403.NNy4ELVaME@merkaba>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Thu, 20 Sep 2018 14:55:52 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jJfp2ezmODaQgj_gROdpr=_Dc4_h=ujPeR-ggTZ8AUciQ@mail.gmail.com>
-Message-ID: <CAGXu5jJfp2ezmODaQgj_gROdpr=_Dc4_h=ujPeR-ggTZ8AUciQ@mail.gmail.com>
-Subject: Re: [PATCH security-next v2 00/26] LSM: Explict LSM ordering
-To:     Martin Steigerwald <martin@lichtvoll.de>
-Cc:     James Morris <jmorris@namei.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        John Johansen <john.johansen@canonical.com>,
+        id S1725783AbeIUFZP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 01:25:15 -0400
+Received: from sonic305-10.consmr.mail.bf2.yahoo.com ([74.6.133.49]:37803 "EHLO
+        sonic305-10.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725901AbeIUFZP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 01:25:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1537486756; bh=5gFemGCDTfvEi6KpnXAdEqRQLmIouF8wOxCNT5GKBj8=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=D05R1CbGc54SxoB5iffcrkQqxN3xPiiH1mR85PCWNPVohnF94enKVXVFQBVvYopqGTY4h3jMDSHjPi2tez2mBiQiDKoezCXllJpvyWuTYU9BDyDOZ8fIrd8cN4Js+X4OvItVc0UCc3gjM+GxMYjlqqKz4/uOsfrFUo0nct4CCC5qNejTeV7+RyHCHPY00bGwPswxyqdzbmlrMnUo1xmHvnJmUjNps5/pCjlBl3ZyMOonuq8Fm7OHpGzNm6Eyax5lhPQ+NhjuWkSav66Jy3i5HBcyIUSrhLhDz4qJCpe14IRrThN/6/gMfvcVDfrOqi5jxydYJbhPvYP3QaA6VKROVw==
+X-YMail-OSG: ZlPC1doVM1mpsHzdrAj2jRarv4Cfwjs7rNgRsAuih8Rar0wZdQnXAP98uE63UL6
+ UPf4mfDhYXTOHBsXntTQN95MCkjfjKo_D9bhpDtPhmIlq_Svq47r63rBzONAOYlGIxhPsgbg6_MC
+ w.2ht.se9ygHCG1V6DvrNyFCRHRFS5lWFnYdW4hRpBxB_ITxMcfAfcURQgOrX1pbW5Ygoign91zx
+ IT2CRHWU9hFT22zFcvpEQ9BiFetTug_Xq1Mx.B1bQPs_Ida4LPOoIzBgDxd7cFzBZzi99zJZ8z1L
+ jvf.h1tnJXzSoOYRfIdTTL_gCN4UO.8a5RlbbD.N4u5U8CtQTYNkSh5nPkIIKpwizrWrqLp_HqEi
+ 8WWzMPjNOvYVnDA9Q1MS5MDixF8xIUMrPhUbo5pSHZ7QeRHo_2DHDDJhwXOSvt9fAxuDehCv78NW
+ jhVgPL4rLbuKNeHsW9K8kUX6ST4RFXO5RM112hSewzYzr1DonCzkwdxmKbY5VZ54U4g4deedYt9m
+ W4BwiLG_FuP6drWSNfB_M0sb1EsiPArAFVVYhCFMpXO0pBBDhodOeiwM5jEWXUyDUQNDNrJLELay
+ PgGJkZ6NmTjWmGd7aDwb_1pJ1WRm8igOAQSnKIs3kHpENt1.APui8biGkLPyRxfGPGC4wPHllBdW
+ 2PJwft56gkG7NciDPBWjIweABdiZicRzEG3z8HPT67UWnwcQEssPKcYY2KAbDHJ7tiPw3T55Oe5_
+ sngu6KspIuJiE_ux3OF62vxOFlI79.jMWzQrQI2S5duVuG_piIz87AHgxBL5BRta0sVo.gf2wk5m
+ WaBzFDXWsvxoEMkxeNiCD0rKNNrqap0coEmrvcO_1oEBIMucgMPXvIp0hCwB46lKhHXS4Dq1OTHj
+ brt0cH1YkLkUAVN4TCyLH_FYkEc8TKGWy1ul7ekKlbo1H4MoRdjBl5El3wRE6.DsrOAMDfSPHxDm
+ Cu_Z1vGjEm8Mf8ABEt.SEpuV_wuRgFJgInS0F09FLgQJz4c0J8ijL9I6kkYbMekU7lOeK_suWtK1
+ pQ5eJfeBumJN7q5MUxnlg5lBajdxhXRhcKtrm
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.bf2.yahoo.com with HTTP; Thu, 20 Sep 2018 23:39:16 +0000
+Received: from c-67-169-65-224.hsd1.ca.comcast.net (EHLO [192.168.0.102]) ([67.169.65.224])
+          by smtp426.mail.bf1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID c66bc8791b32c3d33a1e70e70151fc15;
+          Thu, 20 Sep 2018 23:39:16 +0000 (UTC)
+Subject: Re: [PATCH security-next v2 01/26] LSM: Correctly announce start of
+ LSM initialization
+To:     Kees Cook <keescook@chromium.org>, James Morris <jmorris@namei.org>
+Cc:     John Johansen <john.johansen@canonical.com>,
         Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
         Paul Moore <paul@paul-moore.com>,
         Stephen Smalley <sds@tycho.nsa.gov>,
         "Schaufler, Casey" <casey.schaufler@intel.com>,
         LSM <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20180920162338.21060-1-keescook@chromium.org>
+ <20180920162338.21060-2-keescook@chromium.org>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+Message-ID: <d273e21a-4323-f2ed-84ef-6b47e89633e4@schaufler-ca.com>
+Date:   Thu, 20 Sep 2018 16:39:12 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20180920162338.21060-2-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 20, 2018 at 1:14 PM, Martin Steigerwald <martin@lichtvoll.de> w=
-rote:
-> Kees Cook - 20.09.18, 18:23:
->> v2:
->> - add "lsm.order=3D" and CONFIG_LSM_ORDER instead of overloading
->> "security=3D" - reorganize introduction of ordering logic code
->>
->> Updated cover letter:
->>
->> This refactors the LSM registration and initialization infrastructure
->> to more centrally support different LSM types. What was considered a
->> "major" LSM is kept for legacy use of the "security=3D" boot parameter,
->> and now overlaps with the new class of "exclusive" LSMs for the future
->> blob sharing (to be added later). The "minor" LSMs become more well
->> defined as a result of the refactoring.
->>
->> Instead of continuing to (somewhat improperly) overload the kernel's
->> initcall system, this changes the LSM infrastructure to store a
->> registration structure (struct lsm_info) table instead, where metadata
->> about each LSM can be recorded (name, flags, order, enable flag, init
->> function). This can be extended in the future to include things like
->> required blob size for the coming "blob sharing" LSMs.
+On 9/20/2018 9:23 AM, Kees Cook wrote:
+> For a while now, the LSM core has said it was "initializED", rather than
+> "initializING". This adjust the report to be more accurate (i.e. before
+> this was reported before any LSMs had been initialized.)
 >
-> I read the cover letter and still don=C2=B4t know what this is about. Now=
- I
-> am certainly not engaged deeply with LSM. I bet my main missing piece
-> is: What is a "blob sharing" LSM.
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+
+Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
+
+> ---
+>  security/security.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> I think it would improve the cover letter greatly if it explains briefly
-> what is a major LSM, what is a minor LSM and what is a "blob sharing"
-> LSM.
->
-> Why those are all needed? What is the actual security or end user
-> benefit of this work? The questions are not to question your work. I bet
-> it makes all perfect sense. I just did not understand its sense from
-> reading the cover letter.
+> diff --git a/security/security.c b/security/security.c
+> index 736e78da1ab9..4cbcf244a965 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -72,10 +72,11 @@ int __init security_init(void)
+>  	int i;
+>  	struct hlist_head *list = (struct hlist_head *) &security_hook_heads;
+>  
+> +	pr_info("Security Framework initializing\n");
+> +
+>  	for (i = 0; i < sizeof(security_hook_heads) / sizeof(struct hlist_head);
+>  	     i++)
+>  		INIT_HLIST_HEAD(&list[i]);
+> -	pr_info("Security Framework initialized\n");
+>  
+>  	/*
+>  	 * Load minor LSMs, with the capability module always first.
 
-Sure, thanks! I'll include more details for any later versions. This
-is mainly related to some internal refactoring the LSM is doing to
-support additional LSM that need more extensive "stacking" of the
-kernel internals. I aimed this at linux-doc@ and linux-arch@ to get
-feedback on the Documentation/ and linker script changes,
-respectively. In theory, users don't need to know anything about
-minor/major nor blob-sharing, as that should normally be all an
-internal issue.
-
-Thanks!
-
--Kees
-
---=20
-Kees Cook
-Pixel Security
