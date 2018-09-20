@@ -6,52 +6,51 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B03667D584
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 18:16:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 089527D581
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 18:18:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727649AbeIUAB2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Sep 2018 20:01:28 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:44398 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726827AbeIUAB2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 20:01:28 -0400
-Received: by mail-pg1-f193.google.com with SMTP id r1-v6so4798415pgp.11
-        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 11:16:44 -0700 (PDT)
+        id S2387905AbeIUADO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Sep 2018 20:03:14 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:43817 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726925AbeIUADN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 20:03:13 -0400
+Received: by mail-pg1-f196.google.com with SMTP id q19-v6so3947611pgn.10
+        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 11:18:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Mh+EYBHnUkz4ClbZx5Wz1Ay+kDl2weo/gfbdbgGnZEo=;
-        b=Il+eZW1SjlkAsKADcpiWN7WlIfOJ85jbgiJRw/KQNCYi4ts8YBQe/ilBNdnARE4jwA
-         MMJ9hMhDSXUNRIuZQeqb8RkGr1sz7Dk7NzfGyArYFviJo2dq7xlOpi7QsmwT/gcTHqHv
-         Qc8TgI0FOaIZEb7IyzEphSnXV1W6UrWARsO4ohhKvDfcxbfQe5hE4Swpyl8lPxxubjrF
-         9T4ll+2CpCszhcfT9XwAN6kEd3OHpsBgcpEqCb8iK3TsRmhp5nGMwsO0nb3VejwQIzWD
-         g0MPHoR8O1tplVu94BtUxzA/6rFPpseQSyL4c6YQr1csK+aLK7XKBRmbTasfW8uZtZ7b
-         5IIw==
+        bh=6dLv9BFMsAwxCi/XYmlJKxqLD7eDnACUAKnEAGhV/fQ=;
+        b=OqRd8fsY65MwISMMW5lykrjmCcOT34FiK3qyFvRNMMqtivOS4oWGCJ+hBS4tpwLWYj
+         5glFiTQqmU6VVycj4LmI1uknhSxb6+qqpwM9pFwRevOQhbVdzNOmZ13M+pHIzWza8iO4
+         mG8+3XMBQUo7LYMn9zkpeRdowzcW4EVYBaAH29qDZdV5zvVA1XLpny8YG1D2f3pDuAt7
+         J3OhVtICODVPRlAEjeawPR2D07of4QACCWlGlf65YakLJsiR82UeAFPOhomLb6Osgtid
+         lI5cDGTK+0pVsQyx8iInmv4BBWuPyj/bBxNYGEp4vyiuoOIU5eYwpk3aGP3p3fXYWKPn
+         k2OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Mh+EYBHnUkz4ClbZx5Wz1Ay+kDl2weo/gfbdbgGnZEo=;
-        b=gFQfhUbdEXUmOhMr1K9CXuKtplZroH4GQInW8pJ58i4Aio38/rlP9vRdfjCUpr4Ubx
-         xIINH+DYM4rT0j3HFKIYyhFmdxfbPOdS6oQHPtG0EdbtosydwaDjxwQzCb3k5EvOy/Zu
-         cnKnW1gbZeP5qLEEsBA7cirHnzj4aADHfBGELwt9yto2sqTBKT2KZmkOzwZSeR+54/QW
-         83TVIKeG6hSB90yUejy+b0V2cm529nTe8sQC3Q+H5Q/u40n9zapjwZsiAK1ij1faZol2
-         wexybrgoNBpV58oOhHZd1WXAS+O5rWFjpW7TAqTec0j9zg3dIA2LMeoyGU2mXAi/nxr4
-         vzRg==
-X-Gm-Message-State: APzg51D9X3tt1Nt486BRaTWLJkCCUbQd6FF4l5eS13uiHhHLijlQKhBR
-        sSFqc3ePm/grXQsoHghFe7pHxWc7P2DV2DvqZMZg2w==
-X-Google-Smtp-Source: ANB0VdaAlyMrda7H3GqCdir9mRx2bmHVM3fwb2iFW/0hZU/L1qfEzskg/z78/jCHnUdO72nBsBlS07cFnwdKhxQxlPM=
-X-Received: by 2002:a63:1363:: with SMTP id 35-v6mr38041853pgt.202.1537467403525;
- Thu, 20 Sep 2018 11:16:43 -0700 (PDT)
+        bh=6dLv9BFMsAwxCi/XYmlJKxqLD7eDnACUAKnEAGhV/fQ=;
+        b=OHTJvHJai/pXWi6dQIaHcNr/XlYluglcAqVy7wOB78W25zrrdSTKXp7y+0+caAB/XT
+         hHnt6dmOmJVYL6lEwQuplLtr8S8JI94RA0rn5DuJpVX8ks2gKXiW8NMrlMhPGWcZ9jGe
+         rpyXqd5RFS/QCmhbGjWOJyM9Ib8E21TKWUx/hUkrrI7RayUIVu36uinO66OoaBY98/Qj
+         PzEDxYdi+3MIlCdEzLbgHibFYNW4QG6e/HHCT/VH/QX5ePzjL4oUw3KMhAJ6sZh6P44Q
+         0Hpsxhz1mGdK/f+RpS4tbpeFWM4HLyaEkuuFhXhG3kNrtK5K0lSj1/G8t7Y1E9zUiFaj
+         fl6g==
+X-Gm-Message-State: APzg51D/QDbamG3G/lc1CwmO3oSIU/sG9fdswsksqO7DRePEqCS/+E3r
+        Tw5igbIofVYar7j9fudP0JlQMSMz7VAxZa3+qX78Ig==
+X-Google-Smtp-Source: ANB0VdY8KZlpSW6gX0nWeae/iEzGzDX5InOHLzEWy1YMZqbV2Ms4vbei91gthvAk46rJGhvK9xJClMrZ20maRTvKDBw=
+X-Received: by 2002:a62:591a:: with SMTP id n26-v6mr42590521pfb.94.1537467508667;
+ Thu, 20 Sep 2018 11:18:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180920172301.21868-1-miguel.ojeda.sandonis@gmail.com> <20180920172301.21868-14-miguel.ojeda.sandonis@gmail.com>
-In-Reply-To: <20180920172301.21868-14-miguel.ojeda.sandonis@gmail.com>
+References: <20180920172301.21868-1-miguel.ojeda.sandonis@gmail.com>
+In-Reply-To: <20180920172301.21868-1-miguel.ojeda.sandonis@gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 20 Sep 2018 11:16:31 -0700
-Message-ID: <CAKwvOdmVfqMSox3nR57i=5GzSfV8szeaK1REs2X_gtmv7x1f4Q@mail.gmail.com>
-Subject: Re: [PATCH v5 13/15] Compiler Attributes: enable -Wstringop-truncation
- on W=1 (gcc >= 8)
+Date:   Thu, 20 Sep 2018 11:18:17 -0700
+Message-ID: <CAKwvOdk2O+-FqXU1R8m=vSbZuMGJxY-_4AWd+tFpcTDKhWWFaw@mail.gmail.com>
+Subject: Re: [PATCH v5 00/15] Compiler Attributes
 To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc:     Greg KH <gregkh@linuxfoundation.org>,
         LKML <linux-kernel@vger.kernel.org>, adilger.kernel@dilger.ca,
@@ -92,45 +91,144 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Thu, Sep 20, 2018 at 10:23 AM Miguel Ojeda
 <miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> Commit 217c3e019675 ("disable stringop truncation warnings for now")
-> disabled -Wstringop-truncation since it was too noisy.
+> The Compiler Attributes series is an effort to disentangle
+> the include/linux/compiler*.h headers and bring them up to date.
 >
-> Having __nonstring available allows us to let GCC know that a string
-> is not meant to be NUL-terminated, which helps suppressing some
-> -Wstringop-truncation warnings.
+> The main idea behind the series is to use feature checking macros
+> (i.e. __has_attribute) instead of compiler version checks (e.g. GCC_VERSION),
+> which are compiler-agnostic (so they can be shared, reducing the size
+> of compiler-specific headers) and version-agnostic.
 >
-> Note that using __nonstring actually triggers other warnings
-> (-Wstringop-overflow, which is on by default) which may be real
-> problems. Therefore, cleaning up -Wstringop-truncation warnings
-> also buys us the ability to uncover further potential problems.
+> Other related improvements have been performed in the headers as well,
+> which on top of the use of __has_attribute it has amounted to a significant
+> simplification of these headers (e.g. GCC_VERSION is now only guarding 4
+> non-attribute macros).
 >
-> To encourage the use of __nonstring, we put the warning back at W=1.
-> In the future, if we end up with a fairly warning-free tree,
-> we might want to enable it by default.
+> This series should also help the efforts to support compiling the kernel
+> with clang and icc. A fair amount of documentation and comments have also
+> been added, clarified or removed; and the headers are now more readable,
+> which should help kernel developers in general.
 >
-> Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-> ---
->  scripts/Makefile.extrawarn | 1 +
->  1 file changed, 1 insertion(+)
+> The series was triggered due to the move to gcc >= 4.6. In turn, this series
+> has also triggered Sparse to gain the ability to recognize __has_attribute
+> on its own.
 >
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 8d5357053f86..b8f36f5f43f2 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -29,6 +29,7 @@ warning-1 += $(call cc-option, -Wmissing-include-dirs)
->  warning-1 += $(call cc-option, -Wunused-but-set-variable)
->  warning-1 += $(call cc-option, -Wunused-const-variable)
->  warning-1 += $(call cc-option, -Wpacked-not-aligned)
-> +warning-1 += $(call cc-option, -Wstringop-truncation)
->  warning-1 += $(call cc-disable-warning, missing-field-initializers)
->  warning-1 += $(call cc-disable-warning, sign-compare)
+> Finally, the nonstring variable attribute series has been applied on top
+> of this one.
+>
+> You can also fetch it from:
+>
+>   https://github.com/ojeda/linux/tree/compiler-attributes-v5
+>
+> Enjoy!
+>
+> Cheers,
+> Miguel
+
+Thanks for this series.  I've reviewed the rest of the patches in the
+series that didn't already have my reviewed by tags on them.  They
+look good to go to me.
+
+>
+> Cc: Andreas Dilger <adilger.kernel@dilger.ca>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Cc: Olof Johansson <olof@lxom.net>
+> Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> Cc: David S. Miller <davem@davemloft.net>
+> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@kernel.org>
+> Cc: Paul Lawrence <paullawrence@google.com>
+> Cc: Sandipan Das <sandipan@linux.vnet.ibm.com>
+> Cc: Andrey Konovalov <andreyknvl@google.com>
+> Cc: David Woodhouse <dwmw2@infradead.org>
+> Cc: Will Deacon <will.deacon@arm.com>
+> Cc: Philippe Ombredanne <pombredanne@nexb.com>
+> Cc: Paul Burton <paul.burton@mips.com>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Willy Tarreau <w@1wt.eu>
+> Cc: Martin Sebor <msebor@gmail.com>
+> Cc: Christopher Li <sparse@chrisli.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Theodore Ts'o <tytso@mit.edu>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Cc: Joe Perches <joe@perches.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Dominique Martinet <asmadeus@codewreck.org>
+> Cc: Stefan Agner <stefan@agner.ch>
+> Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-ext4@vger.kernel.org
+> Cc: linux-sparse@vger.kernel.org
+> Cc: linux-kbuild@vger.kernel.org
+>
+> v4 -> v5
+>
+>   * Removed the 2 __naked patches, since Greg just applied them to master;
+>     and rebased on top of that. The only change in the range-diff is in
+>     "Compiler Attributes: always use the extra-underscores syntax" due
+>     to the move of __naked to compiler_types.h.
+>
+>   * Applied the nonstring series on top of this one (last 4 patches).
+>     Rationale:
+>       - the nonstring series would anyway be modified again by this one
+>         (so it has been rebased after the general cleanup).
+>       - ext4's "local" nonstring was merged
+>       - easier to manage (and easier to see the end result)
+>
+>     The first 2 patches of the last 4 add the warning back at W=1 and
+>     add the __nonstring attribute. The other two serve as an example
+>     of usage and as a cleanup.
+>
+>   * Cc lists removed from each commit; using a single list in the cover letter;
+>     and a new, revised list of Cc (wider audience).
+>
+> Miguel Ojeda (15):
+>   Compiler Attributes: remove unused attributes
+>   Compiler Attributes: always use the extra-underscores syntax
+>   Compiler Attributes: remove unneeded tests
+>   Compiler Attributes: homogenize __must_be_array
+>   Compiler Attributes: remove unneeded sparse (__CHECKER__) tests
+>   Compiler Attributes: add missing SPDX ID in compiler_types.h
+>   Compiler Attributes: use feature checks instead of version checks
+>   Compiler Attributes: KENTRY used twice the "used" attribute
+>   Compiler Attributes: remove uses of __attribute__ from compiler.h
+>   Compiler Attributes: add Doc/process/programming-language.rst
+>   Compiler Attributes: add MAINTAINERS entry
+>   Compiler Attributes: add support for __nonstring (gcc >= 8)
+>   Compiler Attributes: enable -Wstringop-truncation on W=1 (gcc >= 8)
+>   Compiler Attributes: auxdisplay: panel: use __nonstring
+>   Compiler Attributes: ext4: remove local __nonstring definition
+>
+>  Documentation/process/index.rst               |   1 +
+>  .../process/programming-language.rst          |  45 +++
+>  MAINTAINERS                                   |   5 +
+>  drivers/auxdisplay/panel.c                    |   7 +-
+>  fs/ext4/ext4.h                                |   9 -
+>  include/linux/compiler-clang.h                |   5 -
+>  include/linux/compiler-gcc.h                  |  70 +----
+>  include/linux/compiler-intel.h                |   9 -
+>  include/linux/compiler.h                      |  19 +-
+>  include/linux/compiler_attributes.h           | 258 ++++++++++++++++++
+>  include/linux/compiler_types.h                | 101 +------
+>  scripts/Makefile.extrawarn                    |   1 +
+>  12 files changed, 341 insertions(+), 189 deletions(-)
+>  create mode 100644 Documentation/process/programming-language.rst
+>  create mode 100644 include/linux/compiler_attributes.h
 >
 > --
 > 2.17.1
 >
 
-I was sad to see these go in the first place.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 -- 
 Thanks,
