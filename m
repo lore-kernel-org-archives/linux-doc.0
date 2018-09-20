@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-6.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D66C7E3A6
+	by archive.lwn.net (Postfix) with ESMTP id A72887E3AC
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 16:27:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387866AbeITWIK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S2387920AbeITWIK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Thu, 20 Sep 2018 18:08:10 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36125 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387855AbeITWIH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 18:08:07 -0400
-Received: by mail-pg1-f195.google.com with SMTP id d1-v6so4676149pgo.3
-        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 09:23:52 -0700 (PDT)
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:41050 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387690AbeITWII (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 18:08:08 -0400
+Received: by mail-pl1-f196.google.com with SMTP id b12-v6so4584246plr.8
+        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 09:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=qxKmeptjfUa2vEoMofymSdiWJ6eFCYZf96mgiQ1zm+w=;
-        b=V4TgC8bV4oO1RGfvT+IaUyyihurzZ5EZzb3X4NL8Iwaqb3LUtxcqUh4oeWfeKyApZr
-         twIA8oX20bRdkCtJOv8lleQcDx/pE/p5AE+9J4GF2I/FJXDnD5QWrb0MSorGa14zmV4r
-         14oi/OYEVPJN0TmWQO728xeaqTOg18JqE5JT8=
+        bh=BZjzkTJ7R/6jxPCxq75uSj94glR2mULSvjebOSVz4jc=;
+        b=MxXn5o1wdwyUuv3gmjvXz9NVRRSlP+x+Rz1IVveFVDlxx49jM8QkeGYTj+2lEj19Ck
+         HyUGyqGRAHYTsoLpAVKXVO3oJSRTrQ9g04aCFM8tAsox+vUhAOv4lOGgT8jRe5nnyqaU
+         q7TJK3kweWHBAT0eHuHhh9/o7VuN3z88+piyQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=qxKmeptjfUa2vEoMofymSdiWJ6eFCYZf96mgiQ1zm+w=;
-        b=JiqVSsIfwdyy0YjsRvk2NqhCbn3RU/U9DCcZ9LemXOmXHzvPwOSPS4LjJc368yG2ja
-         avU6NtdAoA/WKXlshNqgdfnnO7n6XKSWhdbaTNHat0jtpfaLA1iAWiSx3lIIuPDv3ZRG
-         fwfXj7EIIZLkxri7SkVo5O5dwookn6uAQHBgxqxvNFAVw/UY/I0+eSa+jNID1xBOHIkt
-         XYP3uDUl9DaoOT3xMCNt1aqFLYeEP7LGetz/LkYoMwdFh/4Bmr1VCGbsbpvnRvQx48Xc
-         qGk1bWzpyEOuHtNiozv8c2bSlq9bQ8GuaygFCY+GALfn4sLEm6vMF6jN4BJ/iZ4hco3w
-         Enwg==
-X-Gm-Message-State: APzg51BESiAg5mLHEUy+sMn+B9UqitOrxvJeqwVu9PFWv/7b6zRJfGa4
-        zNmgqWkD+Un+Ap4cRYQ3l8n8gg==
-X-Google-Smtp-Source: ANB0VdYjp8PYYMUUOof7sqaHQs7KaAcqqJsTYhKAzFip8yP4yFpzQ42PiwAOdkQoQu1Q4xPXeOcjYg==
-X-Received: by 2002:a62:9541:: with SMTP id p62-v6mr42693655pfd.194.1537460632344;
-        Thu, 20 Sep 2018 09:23:52 -0700 (PDT)
+        bh=BZjzkTJ7R/6jxPCxq75uSj94glR2mULSvjebOSVz4jc=;
+        b=UDXtetGwrGp7+dT8Q+qqE12IZV6eK+E9vKmlhH6JlqTjpDJMXvjSljWQVg2lxBuZQJ
+         9mXixQ8lN5+0MVTDN8M+RVLUTAZWxEa4D6dN7Tj2NRBuvXUQVNMJZ0Djfs6ZU9hgX2Il
+         FtLMmDxNqMtzYihSRIIllB6LhfBIC1hdAPfC3gf7ZUGDJ/GxhZx4i+ZJ9gA5cO4wg93O
+         taAk+HB6rVGzcU8+T0V6iL0RtJrhwWDs5Rs/6Q4BkRNO3BUVYAD5ThH2jsbArdLTeFjX
+         UiHT6AXHqF4siNecUOv2sIz7HfNeHHs1zros3Oh77/1iPLmh0Y/diD+i13FVEf2Ed2RD
+         baBA==
+X-Gm-Message-State: APzg51D738+LOV1BmukAfWzz5b+PsekrrEj1l6xB4vwApTn0bYGxhpk4
+        kBQztHZ5Rupd90AM5HDQ4mMjYw==
+X-Google-Smtp-Source: ANB0VdZa8WAKhEBDZi6pTa87ak2DeTsRv+3CPD5AU53nh1/hTxqKn+W2wCm+b3ddirMYd5z3LH/PfQ==
+X-Received: by 2002:a17:902:6b:: with SMTP id 98-v6mr4400899pla.258.1537460633220;
+        Thu, 20 Sep 2018 09:23:53 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id h4-v6sm25918546pgp.13.2018.09.20.09.23.46
+        by smtp.gmail.com with ESMTPSA id c1-v6sm31903041pfi.142.2018.09.20.09.23.47
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
         Thu, 20 Sep 2018 09:23:48 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -55,9 +55,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v2 08/26] LSM: Record LSM name in struct lsm_info
-Date:   Thu, 20 Sep 2018 09:23:20 -0700
-Message-Id: <20180920162338.21060-9-keescook@chromium.org>
+Subject: [PATCH security-next v2 10/26] LSM: Don't ignore initialization failures
+Date:   Thu, 20 Sep 2018 09:23:22 -0700
+Message-Id: <20180920162338.21060-11-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180920162338.21060-1-keescook@chromium.org>
 References: <20180920162338.21060-1-keescook@chromium.org>
@@ -66,38 +66,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In preparation for making LSM selections outside of the LSMs, include
-the name of LSMs in struct lsm_info.
+LSM initialization failures have traditionally been ignored. We should
+at least WARN when something goes wrong.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/lsm_hooks.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ security/security.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 02ec717189f9..543636f18152 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -2040,16 +2040,20 @@ extern void security_add_hooks(struct security_hook_list *hooks, int count,
- 				char *lsm);
+diff --git a/security/security.c b/security/security.c
+index ee49b921d750..1f055936a746 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -55,10 +55,12 @@ static bool debug __initdata;
+ static void __init major_lsm_init(void)
+ {
+ 	struct lsm_info *lsm;
++	int ret;
  
- struct lsm_info {
-+	const char *name;	/* Populated automatically. */
- 	int (*init)(void);
- };
- 
- extern struct lsm_info __start_lsm_info[], __end_lsm_info[];
- 
- #define DEFINE_LSM(lsm)							\
-+	static const char __lsm_name_##lsm[] __initconst		\
-+		__aligned(1) = #lsm;					\
- 	static struct lsm_info __lsm_##lsm				\
- 		__used __section(.lsm_info.init)			\
- 		__aligned(sizeof(unsigned long))			\
- 		= {							\
-+			.name = __lsm_name_##lsm,			\
- 
- #define END_LSM	  }
+ 	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
+ 		init_debug("initializing %s\n", lsm->name);
+-		lsm->init();
++		ret = lsm->init();
++		WARN(ret, "%s failed to initialize: %d\n", lsm->name, ret);
+ 	}
+ }
  
 -- 
 2.17.1
