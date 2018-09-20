@@ -4,49 +4,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A1B77E421
+	by archive.lwn.net (Postfix) with ESMTP id A4A9C7E425
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 17:25:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388146AbeITXIV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Sep 2018 19:08:21 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40155 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727476AbeITXIU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 19:08:20 -0400
-Received: by mail-wr1-f66.google.com with SMTP id y8-v6so6562880wrh.7;
-        Thu, 20 Sep 2018 10:23:49 -0700 (PDT)
+        id S2388243AbeITXI0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Sep 2018 19:08:26 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:45614 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727476AbeITXIZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 19:08:25 -0400
+Received: by mail-wr1-f65.google.com with SMTP id 20-v6so10195428wrb.12;
+        Thu, 20 Sep 2018 10:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=GNvSaAuN8ua66sOY4or0/D1FlscDvCeOL0lZIZxxVVY=;
-        b=ZxtQg47DfgTZWX+3aESPFzEFNa+YSp+x4lCfZoBf60il26qhOBGTWjiEsEbaF+xdr2
-         4AywgAjMnBnuxTQ4s8ueVm2zxeVU7zZ11SUrIPpgpZde5kxpv0X39WZcSB4+/hVJS22Z
-         0FYg7E/rODGjTnj8pgzvUhzQJN2J/xh4on32Q/YrfXHlFD2X+c4XdAS1A1/F+A8ejXgL
-         6xcNAhMoVtWFnsQ2tOJvsMfFDEbgkwAXzv0GpihoXwwT8124GN3nSx+1G7HiUCMzA4Op
-         oZoN5qPN8Z79TcktlU1IYXHQCH8JZ4Pt7Hchb3Uz3sKziqctX7W/IwfRoj2gxBe+Sse6
-         21cg==
+        bh=MnTJefPcDnUjEexZ63YwvuA/ucBgN9alSs7ZSnkWlhg=;
+        b=kyG8mo8+p3E7jf+6xlOwFJvKyHNsmY94KkGDK0ETcTSQtdy23Mcic7JODYSUPS6O4Z
+         YdNBY82M40WiupXxE5vJ6kiM3VdTJB1HWi5tX/CVAMsOiTjWXDLBZFB7OKpt6RoWKMRH
+         PLPc0eRIKGI4ZnBij01n0tbpYnnd7Wj2+NBss+Gi9yorw53kK3lxsXh3PV6L91N5p4/U
+         9fx3izf6XJ3ud062UAGCQXzK8aE4hYiJ74Vpqxg2fc3wK0eJiACCxzukVVB35nDRqhR6
+         ySr7Pz4pTQVtSeHI9PSPSFfVbDguFSm5IUggyEHZUuJmOYlAOWq/SRdqsbPonllKycCI
+         bFuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=GNvSaAuN8ua66sOY4or0/D1FlscDvCeOL0lZIZxxVVY=;
-        b=Aqw3cE/Gaw4vQM02plZEsqjU7doFbpnYsyWPeCyqI/h/R71iVkxN4LUWz2m8Coj5fP
-         EVTaAOMz3Qn1unxazXNK7uUdNPjHf/hjdnAZEBJA4jl031xOFZTDRzPFjgftiDZOsbBV
-         fWFNMHCMvNmfSQO/rvjoQHr876j6SVx7Taf3cx/i1S2NAtp9kQ9ivyyoNMXHkEJyVc9s
-         piaQ1rk4TMW6in2f2zIbLehsPRvX+VUWgSJ9W2hqouNEQz7NCit9gt5R8Qz+4+JBWr3T
-         DYSVQH6eqoG212UmpdfKbYRb4OrgzNrQUbtGKwvfUH/pxuu1AMPR7i6sGOukPX3is0gJ
-         udKQ==
-X-Gm-Message-State: ABuFfoisG8+8KNSDZxd+DYQ1W4smYTKwv7f2zEqX24Mg76lGsichYCAA
-        qffCkND6PrQWfuaqfs/Xns4=
-X-Google-Smtp-Source: ACcGV63BK/cnjGFvECOBoAjjxVvAO91wUVlT/95+RZ58uKyVECjaFS6PmXQCKhN/CJhtw1rlbHjUJg==
-X-Received: by 2002:adf:f7c8:: with SMTP id a8-v6mr4418106wrq.86.1537464228572;
-        Thu, 20 Sep 2018 10:23:48 -0700 (PDT)
+        bh=MnTJefPcDnUjEexZ63YwvuA/ucBgN9alSs7ZSnkWlhg=;
+        b=nFxERmkUuZ16JWj20c/6Uw2JiTzQxCLHighLgq6C1NMCq3lNT55DFT/DkPIjICZox9
+         M+vC0FjsSyUjGlHIRNW/rHRJ+mEumoYIYXlc1lBXLbWMPzKhd1RYPdYpznIwjiDr593H
+         py2MZWzPda3o4JDzO0yDHSrOPFM54WkZ/rHkGbz25ojjZ5pJ0DL3S+FVXI+ZWLYC22fJ
+         OYChXFngoCnv53Z2pZXfxzgNpEKMvh7Y99sl7krM9vm+XVcF+HBIoiW6Dlwpryat/EOZ
+         lJVYEp+Gw+0qi1DKV0+9DJm5zNImh4aZmDkN0XroUXSol7ftOUuULA792WSu/gF+yYxP
+         Xj4w==
+X-Gm-Message-State: APzg51CA8766KcoQkjNLcrkU/j4jPQUvZX/jFdOzw8C32bsPE8x+6uMi
+        zTvBnE1z86M8pcmbjNuJSk4=
+X-Google-Smtp-Source: ANB0VdZyGjxq0fGXj6GT4VCfup6Xj7NZdcFTuXeYqkCEurXaYspOYS+t6mFFyuYf0ETFRwSfK5qyBA==
+X-Received: by 2002:adf:9f13:: with SMTP id l19-v6mr35348305wrf.206.1537464232875;
+        Thu, 20 Sep 2018 10:23:52 -0700 (PDT)
 Received: from localhost.localdomain (62.83.35.8.dyn.user.ono.com. [62.83.35.8])
-        by smtp.gmail.com with ESMTPSA id q200-v6sm3466562wmd.2.2018.09.20.10.23.46
+        by smtp.gmail.com with ESMTPSA id q200-v6sm3466562wmd.2.2018.09.20.10.23.50
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Sep 2018 10:23:48 -0700 (PDT)
+        Thu, 20 Sep 2018 10:23:52 -0700 (PDT)
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-kernel@vger.kernel.org,
@@ -86,9 +86,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
         linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH v5 11/15] Compiler Attributes: add MAINTAINERS entry
-Date:   Thu, 20 Sep 2018 19:22:57 +0200
-Message-Id: <20180920172301.21868-12-miguel.ojeda.sandonis@gmail.com>
+Subject: [PATCH v5 13/15] Compiler Attributes: enable -Wstringop-truncation on W=1 (gcc >= 8)
+Date:   Thu, 20 Sep 2018 19:22:59 +0200
+Message-Id: <20180920172301.21868-14-miguel.ojeda.sandonis@gmail.com>
 In-Reply-To: <20180920172301.21868-1-miguel.ojeda.sandonis@gmail.com>
 References: <20180920172301.21868-1-miguel.ojeda.sandonis@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
@@ -96,29 +96,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Reviewed-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Commit 217c3e019675 ("disable stringop truncation warnings for now")
+disabled -Wstringop-truncation since it was too noisy.
+
+Having __nonstring available allows us to let GCC know that a string
+is not meant to be NUL-terminated, which helps suppressing some
+-Wstringop-truncation warnings.
+
+Note that using __nonstring actually triggers other warnings
+(-Wstringop-overflow, which is on by default) which may be real
+problems. Therefore, cleaning up -Wstringop-truncation warnings
+also buys us the ability to uncover further potential problems.
+
+To encourage the use of __nonstring, we put the warning back at W=1.
+In the future, if we end up with a fairly warning-free tree,
+we might want to enable it by default.
+
 Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 ---
- MAINTAINERS | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/Makefile.extrawarn | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e993064637ca..74419b8d00ac 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3722,6 +3722,11 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/compal-laptop.c
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 8d5357053f86..b8f36f5f43f2 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -29,6 +29,7 @@ warning-1 += $(call cc-option, -Wmissing-include-dirs)
+ warning-1 += $(call cc-option, -Wunused-but-set-variable)
+ warning-1 += $(call cc-option, -Wunused-const-variable)
+ warning-1 += $(call cc-option, -Wpacked-not-aligned)
++warning-1 += $(call cc-option, -Wstringop-truncation)
+ warning-1 += $(call cc-disable-warning, missing-field-initializers)
+ warning-1 += $(call cc-disable-warning, sign-compare)
  
-+COMPILER ATTRIBUTES
-+M:	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-+S:	Maintained
-+F:	include/linux/compiler_attributes.h
-+
- CONEXANT ACCESSRUNNER USB DRIVER
- L:	accessrunner-general@lists.sourceforge.net
- W:	http://accessrunner.sourceforge.net/
 -- 
 2.17.1
 
