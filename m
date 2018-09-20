@@ -2,53 +2,65 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2CA67D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 13:11:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 500957D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Sep 2018 13:14:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387684AbeITSzI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Sep 2018 14:55:08 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:48210 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387418AbeITSzI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Sep 2018 14:55:08 -0400
-Received: from localhost (ip-213-127-77-73.ip.prioritytelecom.net [213.127.77.73])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 26BCA11B8;
-        Thu, 20 Sep 2018 13:11:39 +0000 (UTC)
-Date:   Thu, 20 Sep 2018 15:11:37 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Vladimir Zapolskiy <vz@mleia.com>
-Cc:     Evgeniy Polyakov <zbr@ioremap.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: filesystems: remove reminiscences of
- POHMELFS
-Message-ID: <20180920131137.GA18628@kroah.com>
-References: <20180912124419.10623-1-vz@mleia.com>
+        id S2387757AbeITS57 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Sep 2018 14:57:59 -0400
+Received: from foss.arm.com ([217.140.101.70]:45774 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387557AbeITS57 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Sep 2018 14:57:59 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4D5167A9;
+        Thu, 20 Sep 2018 06:14:31 -0700 (PDT)
+Received: from e110467-lin.cambridge.arm.com (e110467-lin.Emea.Arm.com [10.4.12.131])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 36AEB3F5BD;
+        Thu, 20 Sep 2018 06:14:30 -0700 (PDT)
+From:   Robin Murphy <robin.murphy@arm.com>
+To:     joro@8bytes.org, corbet@lwn.net
+Cc:     iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        olof@lixom.net
+Subject: [PATCH] iommu: Fix passthrough option documentation
+Date:   Thu, 20 Sep 2018 14:14:26 +0100
+Message-Id: <60d15534e43f7856ce2e436aff28465cd679bb1d.1537448341.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.19.0.dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180912124419.10623-1-vz@mleia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 12, 2018 at 03:44:19PM +0300, Vladimir Zapolskiy wrote:
-> The POHMELFS filesystem was removed in 2012 by commit 67435319866f8
-> ("staging: pohmelfs: remove drivers/staging/pohmelfs") promising that
-> a newer version will be included to the kernel, but unfortunately
-> it didn't happen.
-> 
-> Since likely any delopment of the filesystem is halted, the change removes
-> the abandoned POHMELFS documentation from the kernel tree.
-> 
-> Signed-off-by: Vladimir Zapolskiy <vz@mleia.com>
+Document that the default for "iommu.passthrough" is now configurable.
 
-I've taken this through the staging tree as that is where this code used
-to live.  Thanks for the cleanup.
+Fixes: 58d1131777a4 ("iommu: Add config option to set passthrough as default")
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
 
-greg k-h
+Joerg, Jon, as a pure doc fix I'll leave it to your discretion as to
+whose tree is most appropriate (it shouldn't conflict with the other
+IOMMU patches I'm working on)
+
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 406b91759b62..8ab2984692ff 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1767,7 +1767,7 @@
+ 			Format: { "0" | "1" }
+ 			0 - Use IOMMU translation for DMA.
+ 			1 - Bypass the IOMMU for DMA.
+-			unset - Use IOMMU translation for DMA.
++			unset - Use value of CONFIG_IOMMU_DEFAULT_PASSTHROUGH.
+ 
+ 	io7=		[HW] IO7 for Marvel based alpha systems
+ 			See comment before marvel_specify_io7 in
+-- 
+2.19.0.dirty
+
