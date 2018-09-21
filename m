@@ -1,51 +1,51 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-3.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	URIBL_DBL_ABUSE_MALW autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7F02B7E3D2
+	by archive.lwn.net (Postfix) with ESMTP id A9DCD7E3E0
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 07:31:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389594AbeIUNR0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 09:17:26 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:32842 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389591AbeIUNRZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 09:17:25 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n11-v6so572977wro.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 00:29:50 -0700 (PDT)
+        id S2389609AbeIUNR2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 09:17:28 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55588 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389391AbeIUNR1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 09:17:27 -0400
+Received: by mail-wm1-f66.google.com with SMTP id f21-v6so1925797wmc.5
+        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 00:29:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=xUWytVeU60Ge4e6flnnEzHifvO92bv3CXt84Mfa/t9w=;
-        b=1kelKcN85PVPFbfriiaT/5vJv5kew2sG7xwtrELs4OyRVDzJFARgYelKQYEPPmks/h
-         fqVoEHz8POEh1azTUq+nUEX9o1G7O9pWfYTC+SN6gJjwqt5Xp1OSag/I60gkvYh86Ta3
-         0rXEK6PuQFR+ILSWtG2YRwsqeUEJpcSE9DaioVfzx86GpZ4IMlVI8aoIUeDQ870cmvVO
-         tBivGWyktcfm9HvyP5nSRe/mgdk9kCdkDicGfgC+ACawvMugEFZj++tvvZdt2yPGVimO
-         IUcxbm7uGER5FMoVu/i75XWOyVJ6qnYIMlm3PwtbYuN390+LlG/waXfRbQhCZtEfPDnS
-         U0gg==
+        bh=ujFzkuZMMLmXfVfLF2lfmeu9c3YEpE3NecX6O1UeHlg=;
+        b=OvbxD4w48xlLdUjHcuGu7BF18SmgVQUlpff9bmPW0urV3p91CPt//5rIVYaL8so5af
+         cvoiwx9KQBgHHLbGTmxLK8xx2iFU1tATNF8vXDwrU4OzIwrp3jEwiIJTjGHGp21rvds2
+         EHABchHXxEuk87dLL8WFG42+4rpX3rGwC6AkIkR2VakokgzB6ujhouXbKm6T3K34Zvt8
+         QUSLisIBRZEACAFQfYDc8Nj5608CPWpVj63Wnj6e+0hWjGKMaZs4jfqVbaVCoLbXRrfx
+         EW16d21kIqtNlU1EcHlOI9DCRqCh3rQeUVNvyVXrUycrKPoEfPQjw9JydehVcwM9+bAW
+         8lEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=xUWytVeU60Ge4e6flnnEzHifvO92bv3CXt84Mfa/t9w=;
-        b=UCWFud7thpKyUiYnikrKmCYLyxdzlDU3RfXZ8nbIDtygS4urMMPi7Lpds7MUQeBRCG
-         1tRsjkL/n82sStoukbBEGGORk881jLP1D+RHgHLxTZZnFbT3ATwCKtIMLlNIxzh6CL1c
-         8THqxkW47gIEO/L7p9SDCa+NGJsda7XMmaJrIu5TsqCsIRB3+hVj3/bcs5carAdoLHnP
-         t4/ZIxW7w0WbaA78JjlmK461in4aDttXfjgiwNarW781vHJ/hm+xj6XeUyJqzB1R16oh
-         Kn9bJX2PXI7/THffcmYEf9SKXxSyx2myTSil0AjJs58YdBxxu/KBt3nuwe2MXsL4aZq4
-         39iw==
-X-Gm-Message-State: APzg51COCmy8rptU/o17Ah3keEcP4O3htjRMd04HCfkHfjiibD2GxGl9
-        ByFaI/QfNSWU5aIykAynHWSoiA==
-X-Google-Smtp-Source: ANB0Vdab0At+8/ADEKqlpJ8V3wuE6/aZXFQDvAWhgaZB7V2uI9jHLCSS8hDu1mRAAXG9lZD5jh07Kg==
-X-Received: by 2002:adf:a299:: with SMTP id s25-v6mr12717273wra.100.1537514989619;
-        Fri, 21 Sep 2018 00:29:49 -0700 (PDT)
+        bh=ujFzkuZMMLmXfVfLF2lfmeu9c3YEpE3NecX6O1UeHlg=;
+        b=Kl5iv7PQ8T/x/Km/pAhCLW9u8cO1kt+xDymD6X+MDc+MbchCt11TweKHNMnSUiwkw5
+         +1w3NFZB83/CD1DkZo0hVi3bAr7x8W48apY5KADxfu4ZDSwblJiCnvAkf/bdaNHgyzmD
+         Z0Sm/sOB+19oqJapVmGKQDmsrsEezO8XQXjYq3GgJdcoq2OSBYyyZZqb+aUatYEO/cdm
+         xhTukiSJHHvhmhEufzN/hTM4rxYgfedcI6QxMV6fYuwNXI5/lG5z1NmGSwSCLtMWn0Sp
+         X4UgjK5YNUh3jE/u0knfBM/lq79l3l4T3gfZrKwvaW1NEYUMCXdbO8vcF7qcHrR22w8d
+         tWTg==
+X-Gm-Message-State: APzg51B/yAfByfxB6jE6+byWvenKpIyHAV21syb2KF8x5sRV3pSrQpSH
+        IYkt/TTKM3DwcgbqmLnJO47/nQ==
+X-Google-Smtp-Source: ANB0VdazdE6y91UPIGNmhvum39ncgjWGTXJ4b85md0eIb1eh9ts6RljZsZqcWsz+ht99a4CbuWn8Iw==
+X-Received: by 2002:a1c:e70b:: with SMTP id e11-v6mr5705782wmh.22.1537514991003;
+        Fri, 21 Sep 2018 00:29:51 -0700 (PDT)
 Received: from brgl-bgdev.home ([2a01:cb1d:af:5b00:e837:b8d5:48c1:571b])
-        by smtp.gmail.com with ESMTPSA id d18-v6sm2841597wmb.33.2018.09.21.00.29.48
+        by smtp.gmail.com with ESMTPSA id d18-v6sm2841597wmb.33.2018.09.21.00.29.49
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 21 Sep 2018 00:29:49 -0700 (PDT)
+        Fri, 21 Sep 2018 00:29:50 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v5 17/22] nvmem: add a notifier chain
-Date:   Fri, 21 Sep 2018 09:29:16 +0200
-Message-Id: <20180921072921.19387-18-brgl@bgdev.pl>
+Subject: [PATCH v5 18/22] nvmem: use SPDX license identifiers
+Date:   Fri, 21 Sep 2018 09:29:17 +0200
+Message-Id: <20180921072921.19387-19-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180921072921.19387-1-brgl@bgdev.pl>
 References: <20180921072921.19387-1-brgl@bgdev.pl>
@@ -76,154 +76,75 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Add a blocking notifier chain with four events (add and remove for
-both devices and cells) so that users can get notified about the
-addition of nvmem resources they're waiting for.
-
-We'll use this instead of the at24 setup callback in the mityomapl138
-board file.
+Use SPDX license identiefiers to core nvmem files and remove GPL 2.0
+license boilerplate.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c           | 36 ++++++++++++++++++++++++++++++++++
- include/linux/nvmem-consumer.h | 21 ++++++++++++++++++++
- 2 files changed, 57 insertions(+)
+ drivers/nvmem/core.c           | 10 +---------
+ include/linux/nvmem-consumer.h |  5 +----
+ include/linux/nvmem-provider.h |  5 +----
+ 3 files changed, 3 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 9cc86d131e1e..da441019b609 100644
+index da441019b609..ea05219e60b4 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -65,6 +65,8 @@ static LIST_HEAD(nvmem_cell_tables);
- static DEFINE_MUTEX(nvmem_lookup_mutex);
- static LIST_HEAD(nvmem_lookup_list);
+@@ -1,17 +1,9 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * nvmem framework core.
+  *
+  * Copyright (C) 2015 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+  * Copyright (C) 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 and
+- * only version 2 as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+  */
  
-+static BLOCKING_NOTIFIER_HEAD(nvmem_notifier);
-+
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- static struct lock_class_key eeprom_lock_key;
- #endif
-@@ -300,6 +302,7 @@ static struct nvmem_device *nvmem_find(const char *name)
- 
- static void nvmem_cell_drop(struct nvmem_cell *cell)
- {
-+	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_CELL_REMOVE, cell);
- 	mutex_lock(&nvmem_mutex);
- 	list_del(&cell->node);
- 	mutex_unlock(&nvmem_mutex);
-@@ -319,6 +322,7 @@ static void nvmem_cell_add(struct nvmem_cell *cell)
- 	mutex_lock(&nvmem_mutex);
- 	list_add_tail(&cell->node, &cell->nvmem->cells);
- 	mutex_unlock(&nvmem_mutex);
-+	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_CELL_ADD, cell);
- }
- 
- static int nvmem_cell_info_to_nvmem_cell(struct nvmem_device *nvmem,
-@@ -434,6 +438,32 @@ static int nvmem_setup_compat(struct nvmem_device *nvmem,
- 	return 0;
- }
- 
-+/**
-+ * nvmem_register_notifier() - Register a notifier block for nvmem events.
-+ *
-+ * @nb: notifier block to be called on nvmem events.
-+ *
-+ * Return: 0 on success, negative error number on failure.
-+ */
-+int nvmem_register_notifier(struct notifier_block *nb)
-+{
-+	return blocking_notifier_chain_register(&nvmem_notifier, nb);
-+}
-+EXPORT_SYMBOL_GPL(nvmem_register_notifier);
-+
-+/**
-+ * nvmem_unregister_notifier() - Unregister a notifier block for nvmem events.
-+ *
-+ * @nb: notifier block to be unregistered.
-+ *
-+ * Return: 0 on success, negative error number on failure.
-+ */
-+int nvmem_unregister_notifier(struct notifier_block *nb)
-+{
-+	return blocking_notifier_chain_unregister(&nvmem_notifier, nb);
-+}
-+EXPORT_SYMBOL_GPL(nvmem_unregister_notifier);
-+
- static int nvmem_add_cells_from_table(struct nvmem_device *nvmem)
- {
- 	const struct nvmem_cell_info *info;
-@@ -647,6 +677,10 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
- 	if (rval)
- 		goto err_remove_cells;
- 
-+	rval = blocking_notifier_call_chain(&nvmem_notifier, NVMEM_ADD, nvmem);
-+	if (rval)
-+		goto err_remove_cells;
-+
- 	return nvmem;
- 
- err_remove_cells:
-@@ -669,6 +703,8 @@ static void nvmem_device_release(struct kref *kref)
- 
- 	nvmem = container_of(kref, struct nvmem_device, refcnt);
- 
-+	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_REMOVE, nvmem);
-+
- 	if (nvmem->flags & FLAG_COMPAT)
- 		device_remove_bin_file(nvmem->base_dev, &nvmem->eeprom);
- 
+ #include <linux/device.h>
 diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-index 27eee3945405..0326b52e906b 100644
+index 0326b52e906b..d18caae2f7ac 100644
 --- a/include/linux/nvmem-consumer.h
 +++ b/include/linux/nvmem-consumer.h
-@@ -14,6 +14,7 @@
+@@ -1,12 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * nvmem framework consumer.
+  *
+  * Copyright (C) 2015 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+  * Copyright (C) 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2.  This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
  
- #include <linux/err.h>
- #include <linux/errno.h>
-+#include <linux/notifier.h>
+ #ifndef _LINUX_NVMEM_CONSUMER_H
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 5c9f205cac8f..8ae012f6545a 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -1,12 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * nvmem framework provider.
+  *
+  * Copyright (C) 2015 Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+  * Copyright (C) 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2.  This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
  
- struct device;
- struct device_node;
-@@ -47,6 +48,13 @@ struct nvmem_cell_lookup {
- 	struct list_head	node;
- };
- 
-+enum {
-+	NVMEM_ADD = 1,
-+	NVMEM_REMOVE,
-+	NVMEM_CELL_ADD,
-+	NVMEM_CELL_REMOVE,
-+};
-+
- #if IS_ENABLED(CONFIG_NVMEM)
- 
- /* Cell based interface */
-@@ -80,6 +88,9 @@ void nvmem_add_cell_lookups(struct nvmem_cell_lookup *entries,
- void nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries,
- 			    size_t nentries);
- 
-+int nvmem_register_notifier(struct notifier_block *nb);
-+int nvmem_unregister_notifier(struct notifier_block *nb);
-+
- #else
- 
- static inline struct nvmem_cell *nvmem_cell_get(struct device *dev,
-@@ -179,6 +190,16 @@ nvmem_add_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries) {}
- static inline void
- nvmem_del_cell_lookups(struct nvmem_cell_lookup *entries, size_t nentries) {}
- 
-+static inline int nvmem_register_notifier(struct notifier_block *nb)
-+{
-+	return -ENOSYS;
-+}
-+
-+static inline int nvmem_unregister_notifier(struct notifier_block *nb)
-+{
-+	return -ENOSYS;
-+}
-+
- #endif /* CONFIG_NVMEM */
- 
- #if IS_ENABLED(CONFIG_NVMEM) && IS_ENABLED(CONFIG_OF)
+ #ifndef _LINUX_NVMEM_PROVIDER_H
 -- 
 2.18.0
 
