@@ -5,22 +5,22 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2548E7DE7E
+	by archive.lwn.net (Postfix) with ESMTP id C6A707E3A6
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:11:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390882AbeIUU7s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 16:59:48 -0400
-Received: from mga11.intel.com ([192.55.52.93]:13767 "EHLO mga11.intel.com"
+        id S2390565AbeIUVAA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 17:00:00 -0400
+Received: from mga11.intel.com ([192.55.52.93]:13768 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390777AbeIUU7r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Sep 2018 16:59:47 -0400
+        id S2390535AbeIUU7s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Sep 2018 16:59:48 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 08:10:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,285,1534834800"; 
-   d="scan'208";a="88187974"
+   d="scan'208";a="88187985"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
   by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2018 08:10:28 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -45,10 +45,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v4 5/9] x86/cet/ibt: ELF header parsing for IBT
-Date:   Fri, 21 Sep 2018 08:05:49 -0700
-Message-Id: <20180921150553.21016-6-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v4 8/9] x86: Insert endbr32/endbr64 to vDSO
+Date:   Fri, 21 Sep 2018 08:05:52 -0700
+Message-Id: <20180921150553.21016-9-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180921150553.21016-1-yu-cheng.yu@intel.com>
 References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
@@ -57,53 +56,80 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Look in .note.gnu.property of an ELF file and check if Indirect
-Branch Tracking needs to be enabled for the task.
+From: "H.J. Lu" <hjl.tools@gmail.com>
+
+When Intel indirect branch tracking is enabled, functions in vDSO which
+may be called indirectly must have endbr32 or endbr64 as the first
+instruction.  Compiler must support -fcf-protection=branch so that it
+can be used to compile vDSO.
 
 Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/uapi/asm/elf_property.h | 1 +
- arch/x86/kernel/elf.c                    | 8 +++++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ arch/x86/entry/vdso/.gitignore        |  4 ++++
+ arch/x86/entry/vdso/Makefile          | 12 +++++++++++-
+ arch/x86/entry/vdso/vdso-layout.lds.S |  1 +
+ 3 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/uapi/asm/elf_property.h b/arch/x86/include/uapi/asm/elf_property.h
-index af361207718c..343a871b8fc1 100644
---- a/arch/x86/include/uapi/asm/elf_property.h
-+++ b/arch/x86/include/uapi/asm/elf_property.h
-@@ -11,5 +11,6 @@
-  * Bits for GNU_PROPERTY_X86_FEATURE_1_AND
-  */
- #define GNU_PROPERTY_X86_FEATURE_1_SHSTK	(0x00000002)
-+#define GNU_PROPERTY_X86_FEATURE_1_IBT		(0x00000001)
+diff --git a/arch/x86/entry/vdso/.gitignore b/arch/x86/entry/vdso/.gitignore
+index aae8ffdd5880..552941fdfae0 100644
+--- a/arch/x86/entry/vdso/.gitignore
++++ b/arch/x86/entry/vdso/.gitignore
+@@ -5,3 +5,7 @@ vdso32-sysenter-syms.lds
+ vdso32-int80-syms.lds
+ vdso-image-*.c
+ vdso2c
++vclock_gettime.S
++vgetcpu.S
++vclock_gettime.asm
++vgetcpu.asm
+diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
+index fa3f439f0a92..8694f70c08e6 100644
+--- a/arch/x86/entry/vdso/Makefile
++++ b/arch/x86/entry/vdso/Makefile
+@@ -102,13 +102,17 @@ vobjx32s := $(foreach F,$(vobjx32s-y),$(obj)/$F)
  
- #endif /* _UAPI_ASM_X86_ELF_PROPERTY_H */
-diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
-index 2fddd0bc545b..13358026cd64 100644
---- a/arch/x86/kernel/elf.c
-+++ b/arch/x86/kernel/elf.c
-@@ -300,7 +300,8 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
+ # Convert 64bit object file to x32 for x32 vDSO.
+ quiet_cmd_x32 = X32     $@
+-      cmd_x32 = $(OBJCOPY) -O elf32-x86-64 $< $@
++      cmd_x32 = $(OBJCOPY) -R .note.gnu.property -O elf32-x86-64 $< $@
  
- 	struct elf64_hdr *ehdr64 = ehdr_p;
+ $(obj)/%-x32.o: $(obj)/%.o FORCE
+ 	$(call if_changed,x32)
  
--	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
-+	    !cpu_feature_enabled(X86_FEATURE_IBT))
- 		return 0;
+ targets += vdsox32.lds $(vobjx32s-y)
  
- 	if (ehdr64->e_ident[EI_CLASS] == ELFCLASS64) {
-@@ -335,6 +336,11 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
- 		}
- 	}
- 
-+	if (cpu_feature_enabled(X86_FEATURE_IBT)) {
-+		if (feature & GNU_PROPERTY_X86_FEATURE_1_IBT)
-+			err = cet_setup_ibt();
-+	}
++ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++    $(obj)/vclock_gettime.o $(obj)/vgetcpu.o $(obj)/vdso32/vclock_gettime.o: KBUILD_CFLAGS += -fcf-protection=branch
++endif
 +
- out:
- 	return err;
- }
+ $(obj)/%.so: OBJCOPYFLAGS := -S
+ $(obj)/%.so: $(obj)/%.so.dbg
+ 	$(call if_changed,objcopy)
+@@ -160,6 +164,12 @@ quiet_cmd_vdso = VDSO    $@
+ 
+ VDSO_LDFLAGS = -shared $(call ld-option, --hash-style=both) \
+ 	$(call ld-option, --build-id) -Bsymbolic
++ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++  VDSO_LDFLAGS += $(call ldoption, -z$(comma)ibt)
++endif
++ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
++  VDSO_LDFLAGS += $(call ldoption, -z$(comma)shstk)
++endif
+ GCOV_PROFILE := n
+ 
+ #
+diff --git a/arch/x86/entry/vdso/vdso-layout.lds.S b/arch/x86/entry/vdso/vdso-layout.lds.S
+index acfd5ba7d943..cabaeedfed78 100644
+--- a/arch/x86/entry/vdso/vdso-layout.lds.S
++++ b/arch/x86/entry/vdso/vdso-layout.lds.S
+@@ -74,6 +74,7 @@ SECTIONS
+ 	.fake_shstrtab	: { *(.fake_shstrtab) }		:text
+ 
+ 
++	.note.gnu.property : { *(.note.gnu.property) }	:text	:note
+ 	.note		: { *(.note.*) }		:text	:note
+ 
+ 	.eh_frame_hdr	: { *(.eh_frame_hdr) }		:text	:eh_frame_hdr
 -- 
 2.17.1
 
