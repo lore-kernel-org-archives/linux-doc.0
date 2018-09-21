@@ -5,32 +5,32 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 933477D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 03:19:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6A3987D57F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 03:22:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726160AbeIUJGR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 05:06:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53210 "EHLO mx1.redhat.com"
+        id S2388084AbeIUJIr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 05:08:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37012 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725892AbeIUJGR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Sep 2018 05:06:17 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        id S1725892AbeIUJIr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Sep 2018 05:08:47 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id CDA46308402B;
-        Fri, 21 Sep 2018 03:19:31 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 7BE2D30026A9;
+        Fri, 21 Sep 2018 03:22:00 +0000 (UTC)
 Received: from localhost (ovpn-8-16.pek2.redhat.com [10.72.8.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id EEB145C54F;
-        Fri, 21 Sep 2018 03:19:30 +0000 (UTC)
-Date:   Fri, 21 Sep 2018 11:19:27 +0800
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D189310694C9;
+        Fri, 21 Sep 2018 03:21:59 +0000 (UTC)
+Date:   Fri, 21 Sep 2018 11:21:57 +0800
 From:   Baoquan He <bhe@redhat.com>
 To:     mingo@kernel.org, tglx@linutronix.de, hpa@zytor.com
 Cc:     linux-kernel@vger.kernel.org, kirill.shutemov@linux.intel.com,
         x86@kernel.org, thgarnie@google.com, corbet@lwn.net,
         linux-doc@vger.kernel.org, peterz@infradead.org
-Subject: Re: [PATCH 3/3] x86/doc/kaslr.txt: Create a separate part of
- document abourt KASLR at the end of file
-Message-ID: <20180921031927.GS2555@MiWiFi-R3L-srv>
+Subject: [PATCH v2 3/3] x86/doc/kaslr.txt: Create a separate part of document
+ abourt KASLR at the end of file
+Message-ID: <20180921032157.GT2555@MiWiFi-R3L-srv>
 References: <20180921020550.13095-1-bhe@redhat.com>
  <20180921020550.13095-4-bhe@redhat.com>
 MIME-Version: 1.0
@@ -38,21 +38,111 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20180921020550.13095-4-bhe@redhat.com>
 User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Fri, 21 Sep 2018 03:19:32 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Fri, 21 Sep 2018 03:22:00 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/21/18 at 10:05am, Baoquan He wrote:
-> +Name 		Starting address	   Size						Aligned
-> +-----------------------------------------------------------------------------------------------
-> +direct mapping  page_offset_base	[actual size of system RAM + 10 TB padding]	1 GB
-> +*guard hole	random			random						1 GB
-> +vmalloc		vmalloc_base		32 TB						1 GB
-> +*guard hole	random			random						1 GB
-> +vmemmap		vmemmap_base		1 TB						1 GB
-> +*guard hole	random			random						1 GB
+Take the original content as the first part to only list static mm layout
+tables in non-KASLR case. Then add KASLR document at the end.
 
-OK, seems tab is uncontrollable, I will use space instead.
+Signed-off-by: Baoquan He <bhe@redhat.com>
+---
+ Documentation/x86/x86_64/mm.txt | 62 +++++++++++++++++++++++++++++++++++------
+ 1 file changed, 54 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/x86/x86_64/mm.txt b/Documentation/x86/x86_64/mm.txt
+index fc1da95e629d..58187614c7ca 100644
+--- a/Documentation/x86/x86_64/mm.txt
++++ b/Documentation/x86/x86_64/mm.txt
+@@ -1,4 +1,6 @@
+ 
++MM layout in non-KASLR case:
++
+ Virtual memory map with 4 level page tables:
+ 
+ 0000000000000000 - 00007fffffffffff (=47 bits, 128 TB) user space, different per mm
+@@ -12,7 +14,6 @@ ffffea0000000000 - ffffeaffffffffff (=40 bits, 1 TB) virtual memory map (vmemmap
+ ffffeb0000000000 - ffffebffffffffff (=40 bits, 1 TB) unused hole
+ ffffec0000000000 - fffffbffffffffff (=44 bits, 16 TB) kasan shadow memory
+ fffffc0000000000 - fffffdffffffffff (=41 bits, 2 TB) unused hole
+-				    vaddr_end for KASLR
+ fffffe0000000000 - fffffe7fffffffff (=39 bits, 512 GB) cpu_entry_area mapping
+ fffffe8000000000 - fffffeffffffffff (=39 bits, 512 GB) LDT remap for PTI
+ ffffff0000000000 - ffffff7fffffffff (=39 bits, 512 GB) %esp fixup stacks
+@@ -38,7 +39,6 @@ ffd4000000000000 - ffd5ffffffffffff (=49 bits, 512 TB) virtual memory map (vmemm
+ ffd6000000000000 - ffdeffffffffffff (~51 bits, 2304 TB) unused hole
+ ffdf000000000000 - fffffdffffffffff (~53 bits, ~8 PB) kasan shadow memory
+ fffffc0000000000 - fffffdffffffffff (=41 bits, 2 TB) unused hole
+-				    vaddr_end for KASLR
+ fffffe0000000000 - fffffe7fffffffff (=39 bits, 512 GB) cpu_entry_area mapping
+ fffffe8000000000 - fffffeffffffffff (=39 bits, 512 GB) unused hole
+ ffffff0000000000 - ffffff7fffffffff (=39 bits, 512 GB) %esp fixup stacks
+@@ -70,10 +70,56 @@ memory window (this size is arbitrary, it can be raised later if needed).
+ The mappings are not part of any other kernel PGD and are only available
+ during EFI runtime calls.
+ 
+-Note that if CONFIG_RANDOMIZE_MEMORY is enabled, the direct mapping of all
+-physical memory, vmalloc/ioremap space and virtual memory map are randomized.
+-Their order is preserved but their base will be offset early at boot time.
++KASLR
++=========================================================================
++
++Kernel Adress Space Layout Randomization (KASLR) consists of two parts
++which work together to enhance the security of the Linux kernel:
++
++ - Kernel text KASLR
++ - Memory region KASLR
++
++Kernel text KASLR
++-----------------
++The physical address and virtual address of kernel text itself are
++randomized to a different position separately. The physical address of
++the kernel can be anywhere under 64TB, while the virtual address of the
++kernel is restricted between [0xffffffff80000000, ffffffffbfffffff],
++the 1GB space.
++
++ffffffff80000000 - ffffffffbfffffff (1 GB)  kernel text mapping, from phys 0
++ffffffffc0000000 - fffffffffeffffff (1520 MB) module mapping space
++
++Note: The kernel text KASLR uses 1 GB space to randomize the position of
++kernel image, and it's defalutly enabled. If KASLR config option
++CONFIG_RANDOMIZE_BASE is not enabled, the space for kernel image will be
++shrink to 512 MB, increase the size of modules area to 1.5 GB.
++
++Memory region KASLR
++-------------------
++If CONFIG_RANDOMIZE_MEMORY is enabled, the below three memory regions
++are randomized. Their order is preserved but their base will be offset
++early at boot time.
++
++   - direct mapping region
++   - vmalloc region
++   - vmemmap region
++
++The KASLR address range must not overlap with anything except the KASAN
++shadow area, which is correct as KASAN disables KASLR.
++
++So from the original starting address of the direct mapping region for physical
++RAM to the starting address of the cpu_entry_area mapping region, namely
++[0xffff880000000000 - 0xfffffdffffffffff], the scope of 118 TB in all is
++the virtual address space where memory region KASLR can be allowed to move
++those memory regions around. After KASLR manipulation is done, their layout
++looks like:
+ 
+-Be very careful vs. KASLR when changing anything here. The KASLR address
+-range must not overlap with anything except the KASAN shadow area, which is
+-correct as KASAN disables KASLR.
++Name            Starting address        Size                                         Aligned
++-----------------------------------------------------------------------------------------------
++direct mapping  page_offset_base        [actual size of system RAM + 10 TB padding]  1 GB
++*guard hole     random                  random                                       1 GB
++vmalloc         vmalloc_base            32 TB                                        1 GB
++*guard hole     random                  random                                       1 GB
++vmemmap         vmemmap_base            1 TB                                         1 GB
++*guard hole     random                  random                                       1 GB
+-- 
+2.13.6
+
