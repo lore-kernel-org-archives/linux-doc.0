@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E31F7E417
+	by archive.lwn.net (Postfix) with ESMTP id 8CC7E7E41E
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 07:31:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389235AbeIUNRj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 09:17:39 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:32920 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389623AbeIUNRc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 09:17:32 -0400
-Received: by mail-wm1-f66.google.com with SMTP id r1-v6so3414128wmh.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 00:29:57 -0700 (PDT)
+        id S2389562AbeIUNSG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 09:18:06 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45411 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389576AbeIUNRY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 09:17:24 -0400
+Received: by mail-wr1-f68.google.com with SMTP id 20-v6so11782659wrb.12
+        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 00:29:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=BVLbSgd1wb/HwG+kDXFY/KlS+ziWt1RndHQUeQC7kyc=;
-        b=a7QRAMB9IE3DmEB5wR9u0Mt99su5XgEX/eTSBxVzD+M+bK06knYXrB2nIVT2TrxduA
-         cUZpYJT/MtPZGgRFdqhS3VLRfcRcvCIu8rOeBVci9f34nd0gNHLtOhCv0hvmNRxim+Zs
-         N1F0OitgHNVVuJXUKYn41+enR47CZXFOfhNSjl+WQCYpUcfM2G3PjZg8P3cKNxx0N0nH
-         cUVKQ7HE1bHexVouHgE7NLJHxco3s/lw1oBFde6xCYO9/sx9sefjGHBUwhSpHRid3KpO
-         XiNuNrgJvpBL2FO/qX52yNNrM76OxCcgHsUwLRQygt9FnT5HABpcyNgjomN7GnCg7VR/
-         x5aA==
+        bh=rjARCe3NpsJLpu+gwm8Y4x+0pJknacrTsP46NqsklWs=;
+        b=nrl0ZmzFXKV1C2dHT2G+p10w+heILcFor2W+NM5qN7CgCgjv1OsLYmDDtjR5/haaJl
+         +c//cpqEP8jAIsCY29Fulgr0VzOmKLAbgR77mGFiBb17oMQgwSExDg7KgUDudPC6bEY5
+         s134IalH1vMybPrCDZgOWCUjqgmzslGKYEYIeFcy11EiSypauYgMuVD3Zt92UYwDhpwj
+         xc8GchyYlZALU7ukamoDf9namr6cIrQz2IH4MP/TrKpLNF5EscTcKZOeAPTfIPZJysKf
+         47xg1UgHQe0zj1jCnk3CoeOWSW6+RW20Od1tdK+wPeqCS7R5vaYnksm9Gw/AlDY7MV4t
+         fGtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=BVLbSgd1wb/HwG+kDXFY/KlS+ziWt1RndHQUeQC7kyc=;
-        b=dSODNB9fi7Em2x9I0Y41l7SHZjxd8RzNORNKutk3JHXQhsFXZLgBHTMBxDEv5c+BhM
-         d+/JydbTd2cDn8AQFb7PzGXbPHozhg1x3CK/SpxV0gNIG6LGSa1lDFvMRkeRj6J5rFJ6
-         ABW4fl1Fma8r1PD2UnEICQMqRAUMZNhYuBcZC+ySyO+JFcvE0co7HXF2DETopBG42s/T
-         Xn38HdWhIM5hVWVdR0082DRymVCsjucHzyIPnQ9D2UpeZSFi7NZ11G6X+9bOmj+mBoka
-         Vn8apCXC0t4rB0n2twGEbe8MmWxhQYbTiCdgkmMxrdjMSuVj5g2P43wuDkIin4RTTZsd
-         dFtg==
-X-Gm-Message-State: ABuFfoiaBSZ41liUyOco2AhmBIOdcfGZdQckBD9PvySaJgjHUduVw+4f
-        yr34VD+L5YQ97hrSt2+XZT+XPA==
-X-Google-Smtp-Source: ANB0Vdb9HGryc4tNeEoea1LbGzQw/ODvtG/TZj55AVd1yReHsffG/W5gOhQeQ/w4gT8U+wTGGaLr3A==
-X-Received: by 2002:a1c:e00a:: with SMTP id x10-v6mr5954422wmg.58.1537514996394;
-        Fri, 21 Sep 2018 00:29:56 -0700 (PDT)
+        bh=rjARCe3NpsJLpu+gwm8Y4x+0pJknacrTsP46NqsklWs=;
+        b=WBP7xKZ0KOLOfccI+JwxDXgdXVPfpjRjHNK+mM5O29tBLdWlA+ddq5iQzN4OQ4lg71
+         tBlLPgdF8qFgoKUxcTo75XL0hJgRUjuk/+6TSNXHEJ27fdUrfT74SRSLpAHiggYCjTHV
+         nQRDZOBQdiLZRdcP7v8jDWvKlCdqq3uQaQsjue7R8NSv3nz+mrN5kbUVzsTpFeNzKm2H
+         aZle2++9Z2o1Fqy/QotSLNuTYsGEbTGrGqsQ5Im0w7o5em51s2+hYMfnZBWvkxYT/S1f
+         o68uFW6gZY/x50u5dOgzn3IKZXXY41+JkTAsRB1PLJbja2iTBI+IjAOZRqUgq+1CPiYt
+         Darw==
+X-Gm-Message-State: APzg51DC3JJ8sv5+LEG+nXaUNZWNyFKczVB+mZkpRgilweJ/lTnYMg5M
+        4TStX94PCWeeMFLauZ4f/ACbpA==
+X-Google-Smtp-Source: ANB0Vdav5OfRgQsR3mjSOueeXCMx0dNd3X2ZogTEP48htDbmJ1HVY310M6PUYAoafiOD1j+qUSLcHw==
+X-Received: by 2002:adf:f984:: with SMTP id f4-v6mr37339731wrr.105.1537514988246;
+        Fri, 21 Sep 2018 00:29:48 -0700 (PDT)
 Received: from brgl-bgdev.home ([2a01:cb1d:af:5b00:e837:b8d5:48c1:571b])
-        by smtp.gmail.com with ESMTPSA id d18-v6sm2841597wmb.33.2018.09.21.00.29.55
+        by smtp.gmail.com with ESMTPSA id d18-v6sm2841597wmb.33.2018.09.21.00.29.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 21 Sep 2018 00:29:55 -0700 (PDT)
+        Fri, 21 Sep 2018 00:29:47 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
@@ -63,9 +63,9 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v5 22/22] nvmem: use octal permissions instead of constants
-Date:   Fri, 21 Sep 2018 09:29:21 +0200
-Message-Id: <20180921072921.19387-23-brgl@bgdev.pl>
+Subject: [PATCH v5 16/22] Documentation: nvmem: document cell tables and lookup entries
+Date:   Fri, 21 Sep 2018 09:29:15 +0200
+Message-Id: <20180921072921.19387-17-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180921072921.19387-1-brgl@bgdev.pl>
 References: <20180921072921.19387-1-brgl@bgdev.pl>
@@ -76,54 +76,55 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Checkpatch emits a warning when using symbolic permissions. Use octal
-permissions instead.
+Document the new nvmem kernel APIs.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/nvmem/core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/nvmem/nvmem.txt | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index e44a1860a2b3..ad1227df1984 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -154,7 +154,7 @@ static ssize_t bin_attr_nvmem_write(struct file *filp, struct kobject *kobj,
- static struct bin_attribute bin_attr_rw_nvmem = {
- 	.attr	= {
- 		.name	= "nvmem",
--		.mode	= S_IWUSR | S_IRUGO,
-+		.mode	= 0644,
- 	},
- 	.read	= bin_attr_nvmem_read,
- 	.write	= bin_attr_nvmem_write,
-@@ -178,7 +178,7 @@ static const struct attribute_group *nvmem_rw_dev_groups[] = {
- static struct bin_attribute bin_attr_ro_nvmem = {
- 	.attr	= {
- 		.name	= "nvmem",
--		.mode	= S_IRUGO,
-+		.mode	= 0444,
- 	},
- 	.read	= bin_attr_nvmem_read,
- };
-@@ -201,7 +201,7 @@ static const struct attribute_group *nvmem_ro_dev_groups[] = {
- static struct bin_attribute bin_attr_rw_root_nvmem = {
- 	.attr	= {
- 		.name	= "nvmem",
--		.mode	= S_IWUSR | S_IRUSR,
-+		.mode	= 0600,
- 	},
- 	.read	= bin_attr_nvmem_read,
- 	.write	= bin_attr_nvmem_write,
-@@ -225,7 +225,7 @@ static const struct attribute_group *nvmem_rw_root_dev_groups[] = {
- static struct bin_attribute bin_attr_ro_root_nvmem = {
- 	.attr	= {
- 		.name	= "nvmem",
--		.mode	= S_IRUSR,
-+		.mode	= 0400,
- 	},
- 	.read	= bin_attr_nvmem_read,
- };
+diff --git a/Documentation/nvmem/nvmem.txt b/Documentation/nvmem/nvmem.txt
+index 8d8d8f58f96f..fc2fe4b18655 100644
+--- a/Documentation/nvmem/nvmem.txt
++++ b/Documentation/nvmem/nvmem.txt
+@@ -58,6 +58,37 @@ static int qfprom_probe(struct platform_device *pdev)
+ It is mandatory that the NVMEM provider has a regmap associated with its
+ struct device. Failure to do would return error code from nvmem_register().
+ 
++Users of board files can define and register nvmem cells using the
++nvmem_cell_table struct:
++
++static struct nvmem_cell_info foo_nvmem_cells[] = {
++	{
++		.name		= "macaddr",
++		.offset		= 0x7f00,
++		.bytes		= ETH_ALEN,
++	}
++};
++
++static struct nvmem_cell_table foo_nvmem_cell_table = {
++	.nvmem_name		= "i2c-eeprom",
++	.cells			= foo_nvmem_cells,
++	.ncells			= ARRAY_SIZE(foo_nvmem_cells),
++};
++
++nvmem_add_cell_table(&foo_nvmem_cell_table);
++
++Additionally it is possible to create nvmem cell lookup entries and register
++them with the nvmem framework from machine code as shown in the example below:
++
++static struct nvmem_cell_lookup foo_nvmem_lookup = {
++	.nvmem_name		= "i2c-eeprom",
++	.cell_name		= "macaddr",
++	.dev_id			= "foo_mac.0",
++	.con_id			= "mac-address",
++};
++
++nvmem_add_cell_lookups(&foo_nvmem_lookup, 1);
++
+ NVMEM Consumers
+ +++++++++++++++
+ 
 -- 
 2.18.0
 
