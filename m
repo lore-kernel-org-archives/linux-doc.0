@@ -1,139 +1,186 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 334DB7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 12:25:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9442D7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 13:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388850AbeIUSNj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 14:13:39 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:43976 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727697AbeIUSNj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 14:13:39 -0400
-Received: by mail-io1-f68.google.com with SMTP id y10-v6so11954156ioa.10
-        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 05:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=FEdUn77hfplHsqh8OJiidognkuBS3sbEWNjMCJbO6VU=;
-        b=GP4qjuN05dK/c/Y08fV1cwM1zbmNoXO/DtzcncLXrcJovUTu/YiAIgZW2GqspfQFVd
-         DUvHDxTWQBd4sFKKrrE0mwwInpyo4hX6Zrsa83lbZpTpIRgSeq7I/1lk79VywlgU4Ail
-         bV7rTiz0QWimp8z4RjEgOJXT1kUgPQf/EHPP2gsZ4a1c4w8vVoo+mDEGxL5wf/KPzKpW
-         KoEM6YEVL5x3vg8aB5C6ootI8yBWAqS2Hrk7B/u7J4APBqfleB9BkydvO9Vt/5J+MB6+
-         xU7e1knycUsmVOcM4bFmCXbjS1rglXdjTW/ITO05jI8yUj5i+84WXamTYO7jLdWPM1P1
-         3XUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=FEdUn77hfplHsqh8OJiidognkuBS3sbEWNjMCJbO6VU=;
-        b=dQcuRM1wMaIiYIE4haLMQCLoI0/taSglc3ezaehxJBCqpKSGRcG9g2YemNyAWlzv74
-         KtDnzEzdTmdrdmNhajZi+7bZp/kIbGZDYdb8oosI0D3PPnIxiZGq3FNzLhgkWna+im5S
-         1ZIwSyukLNkMAUfbPpMbZZ6h3AZC2JWtssb6XACD2+Ny7TUmrLynX9N1YZq4ABWjeiAQ
-         WA9Y59MB2RH0/B2Hog4K/6f8O2kJ6s8QdE6CK5doHV4VRTForNSxY7Yi2qgOIjzmsonK
-         0olTfTtWZSOhEHbRoC0yarw4KZjdnfy8wrUHTMZZ++Es5JV1Iubd14Hwd+fXw04qPBMd
-         vkhg==
-X-Gm-Message-State: APzg51DXAGsTc7pFmm1tsQVN4JCgWBqRHouvAL7IP+azZRqdZDREzbkz
-        91lP+xay46Y5iwqfRhFsH+5vrkNGGtBmKmbz5uPhIw==
-X-Google-Smtp-Source: ANB0VdaNHfIHTAgSgtpHFhzU739EApcUV90eoDrRT4ferIYcUz1KEndOEVMf9lLEnE6sh9sh+FRb4d3PaiHuwdmXPgw=
-X-Received: by 2002:a6b:ca85:: with SMTP id a127-v6mr38249544iog.31.1537532700205;
- Fri, 21 Sep 2018 05:25:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:3d47:0:0:0:0:0 with HTTP; Fri, 21 Sep 2018 05:24:59
- -0700 (PDT)
-In-Reply-To: <CACT4Y+aoFSySFTd9FzA0xzRYQXSbs-wzX7B67hD3jTGAQEXBOA@mail.gmail.com>
-References: <cover.1537383101.git.andreyknvl@google.com> <d74e710797323db0e43f047ea698fbc85060fc57.1537383101.git.andreyknvl@google.com>
- <CACT4Y+aoFSySFTd9FzA0xzRYQXSbs-wzX7B67hD3jTGAQEXBOA@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 21 Sep 2018 14:24:59 +0200
-Message-ID: <CAAeHK+zBh0BiYq65QDxD-nxkHHF0QL6UQx8fs40K39R6XJJfzA@mail.gmail.com>
-Subject: Re: [PATCH v8 09/20] kasan: preassign tags to objects with ctors or SLAB_TYPESAFE_BY_RCU
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
+        id S1727857AbeIUTJM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 15:09:12 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:48515 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727392AbeIUTJM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 15:09:12 -0400
+Received: from static-50-53-48-205.bvtn.or.frontiernet.net ([50.53.48.205] helo=[10.8.192.6])
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <john.johansen@canonical.com>)
+        id 1g3LLz-000507-Tg; Fri, 21 Sep 2018 13:20:16 +0000
+Subject: Re: [PATCH security-next v2 26/26] LSM: Add all exclusive LSMs to
+ ordered initialization
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Paul Moore <paul@paul-moore.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20180920162338.21060-1-keescook@chromium.org>
+ <20180920162338.21060-27-keescook@chromium.org>
+ <a0165ce9-d15b-eaef-a5e8-2aeb6bdc69f6@schaufler-ca.com>
+ <CAGXu5j++wXMUXuqT7m5MZdeXqO=i7RgyKZoLwELfSTx6UPOVSA@mail.gmail.com>
+ <7d2cc28b-aee5-ee91-9362-f92f8ca30adc@schaufler-ca.com>
+ <6c899d9e-45aa-8159-c402-b3c4d1936112@canonical.com>
+ <CAGXu5jKzqij5dY2FYm5rafPNPpF1Tx9BPmK+=FvG+=tpFxpscw@mail.gmail.com>
+ <74ecd4ec-491b-93d7-4e3f-46f92121130b@canonical.com>
+ <CAGXu5j+QhU2HOicYKqfNo17n9k6DKgt1upa3O2p1b5Gvn6icbQ@mail.gmail.com>
+From:   John Johansen <john.johansen@canonical.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Canonical
+Message-ID: <915ba7e5-0e10-87ef-f0a9-1d8db2e6de90@canonical.com>
+Date:   Fri, 21 Sep 2018 06:19:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CAGXu5j+QhU2HOicYKqfNo17n9k6DKgt1upa3O2p1b5Gvn6icbQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 21, 2018 at 1:25 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
-> On Wed, Sep 19, 2018 at 8:54 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+On 09/20/2018 08:02 PM, Kees Cook wrote:
+> On Thu, Sep 20, 2018 at 7:14 PM, John Johansen
+> <john.johansen@canonical.com> wrote:
+>> On 09/20/2018 07:05 PM, Kees Cook wrote:
+>>> On Thu, Sep 20, 2018 at 6:39 PM, John Johansen
+>>> <john.johansen@canonical.com> wrote:
+>>>> On 09/20/2018 06:10 PM, Casey Schaufler wrote:
+>>>>> On 9/20/2018 5:45 PM, Kees Cook wrote:
+>>>>>> On Thu, Sep 20, 2018 at 5:25 PM, Casey Schaufler <casey@schaufler-ca.com> wrote:
+>>>>>>> On 9/20/2018 9:23 AM, Kees Cook wrote:
+>>>>>>>>  config LSM_ORDER
+>>>>>>>>       string "Default initialization order of builtin LSMs"
+>>>>>>>> -     default "yama,loadpin,integrity"
+>>>>>>>> +     default "yama,loadpin,integrity,selinux,smack,tomoyo,apparmor"
+>>>>>>> If I want to compile all the major modules into my kernel and use
+>>>>>>> AppArmor by default would I use
+>>>>>>>
+>>>>>>>         default "yama,loadpin,integrity,apparmor,selinux,smack,tomoyo"
+>>>>>>>
+>>>>>>> or
+>>>>>>>
+>>>>>>>         default "yama,loadpin,integrity,apparmor"
+>>>>>> I was expecting the former, but the latter will have the same result.
+>>>>
+>>>> t find having the two be equivalent violates expectations. At least
+>>>> when considering the end goal of full/extreme stacking, its trivially
+>>>> the same with current major lsms being exclusive
+>>>
+>>> This mixes "enablement" with "ordering", though, and I think the past
+>>> threads have shown this to be largely problematic.
+>>>
+>>> However, with CONFIG_LSM_ENABLED, we get the effect you're looking for, IIUC.
+>>
+>> no, I was just stating in a world where we have full stacking those two
+>> are not equivalent, as I would assume the order of any lsm not listed
+>> may end up being different.
+> 
+> Right, the ordering would be defined first by runtime (lsm.order=)
+> followed any missing LSMs then ordered by their order in
+> CONFIG_LSM_ORDER=, followed by any still missing LSMs then ordered by
+> their order at link-time (which *may* be Makefile order, but could
+> change with LTO, etc).
+> 
+>>>>>>> When we have "blob-sharing" how could I compile in tomoyo,
+>>>>>>> but exclude it without a boot line option?
+>>>>>> Ooh, yes, this series has no way to do that. Perhaps
+>>>>>> CONFIG_LSM_DISABLE in the same form as CONFIG_LSM_ORDER? I would
+>>>>>> totally remove LoadPin's CONFIG for this in favor it.
+>>>>>
+>>>>> I would generally prefer an optional CONFIG_LSM_ENABLE to
+>>>>> CONFIG_LSM_DISABLE, but I understand the logic behind your
+>>>>> approach. I would be looking for something like
+>>>>>
+>>>> +1 on the CONFIG_LSM_ENABLE ove DISABLE
+>>>>
+>>>>> CONFIG LSM_ENABLE
+>>>>>       string "Default set of enabled LSMs"
+>>>>>       default ""
+>>>>>
+>>>>> as opposed to
+>>>>>
+>>>>> CONFIG LSM_DISABLE
+>>>>>       string "Default set of disabled LSMs"
+>>>>>       default ""
+>>>>>
+>>>>> where an empty string is interpreted as "use 'em all"
+>>>>> in either case.
+>>>
+>>> Yes, I like CONFIG_LSM_ENABLE if "empty" means "enable all". Should
+>>> CONFIG_LSM_ENABLE replace all the other CONFIG-based LSM
+>>> enabling/disabling?
+>>
+>> I don't particularly like "empty" being "enable all". With that
+>> how would I disable all builtin lsms so that I just boot with
+>> capability.
+>>
+>> An option of all or even * is more explicit and leaves the empty
+>> set to mean disable everything
+> 
+> Okay, that works. I prefer "all" FWIW.
+> 
+me too, I was just trying to throw out options.
 
->>         if (!shuffle) {
->>                 for_each_object_idx(p, idx, s, start, page->objects) {
->> -                       setup_object(s, page, p);
->> -                       if (likely(idx < page->objects))
->> -                               set_freepointer(s, p, p + s->size);
->> -                       else
->> +                       if (likely(idx < page->objects)) {
->> +                               next = p + s->size;
->> +                               next = setup_object(s, page, next);
->> +                               set_freepointer(s, p, next);
->> +                       } else
->>                                 set_freepointer(s, p, NULL);
->>                 }
->> -               page->freelist = fixup_red_left(s, start);
->> +               start = fixup_red_left(s, start);
->> +               start = setup_object(s, page, start);
->> +               page->freelist = start;
->>         }
->
-> Just want to double-check that this is correct.
-> We now do an additional setup_object call after the loop, but we do 1
-> less in the loop. So total number of calls should be the same, right?
-> However, after the loop we call setup_object for the first object (?),
-> but inside of the loop we skip the call for the last object (?). Am I
-> missing something, or we call ctor twice for the last object and don't
-> call it for the first one?
-
-Inside the loop we call setup_object for the "next" object. So we
-start iterating on the first one, but call setup_object for the
-second. Then the loop moves on to the second one and calls
-setup_object for the third. And so on. So the loop calls setup_object
-for every object (including the last one) except for the first one.
-
-The idea is that we want the freelist pointer that is stored in the
-current object to have a tagged pointer to the next one, so we need to
-assign a tag to the next object before storing the pointer in the
-current one.
