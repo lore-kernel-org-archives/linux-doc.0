@@ -1,213 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CF5E07DD50
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 00:37:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EF4497DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 00:37:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388699AbeIUGXO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 02:23:14 -0400
-Received: from mail-qt1-f181.google.com ([209.85.160.181]:34434 "EHLO
-        mail-qt1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725892AbeIUGXO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 02:23:14 -0400
-Received: by mail-qt1-f181.google.com with SMTP id x23-v6so223607qtr.1
-        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 17:37:03 -0700 (PDT)
+        id S2388718AbeIUGXe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 02:23:34 -0400
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:34131 "EHLO
+        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbeIUGXe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 02:23:34 -0400
+Received: by mail-yb1-f193.google.com with SMTP id 184-v6so4757157ybg.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 17:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dd2gQ8alDNqh0/9yBLGatUlP0YdFYr+gGtNvz2yVS0E=;
-        b=XA172QN8TbISuBhdGthUblG1T18IQkAW9yuX55Ohwtvapz2RaOdLUHtSb4aC/KMkPf
-         5QNpAhnkZFOVrBow0jCYTQvuL4htP7CWFvj+W1iOAufVfqu3qQZ6tIrxZTO5IirhlMAY
-         BiNWAacSL+tkNOA5PdnenZUU/1XP8DwPvw5zNek3BEL5+J1fQButLKCE2oaHEgJ58Vab
-         idbL2T1yboTKBRpoB4VRkW8Mg44ZrApm37s7ZUAVRLwSpDLeRsXZ1lPo9+CpU4IAkX6U
-         JNP/S9SIu3+VOC7vxaFtpKI4fUFLZ/30GO7eHgVor74igQm99DfMNKxtOOBhbB/HRh1q
-         suag==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=Um6y7SxnsgwmD0u5AQ7dCU67I9NHlPBN99PY01BVHTQ=;
+        b=WDQu/Yu1ryaa/ziSXjgGc/cHX/UCH+CMQj7etkY5qVoGZSlYj2kVdumXfXIl+Hy0Ek
+         XfahZeaTeKCjO6FWE7d+L9wnK04Mbj/yNTbQW5APqYisZEy+UHNjteEAIMIUTxTd31m4
+         m9rYtUl+fTRQ74DMEV1MjhSf3fcuX+rqvZx9o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dd2gQ8alDNqh0/9yBLGatUlP0YdFYr+gGtNvz2yVS0E=;
-        b=YQroY/+U/ebwZDucGfwxNNS6YFSDWXdpI1mBeQfn6Ogtllg+Tp6Uj2lBDl1iL1Orkt
-         WWMB3Q0EsMAZ1P1m0qIO1AoASTRohV68TyPxCPeFAPOg5KI9beOql4D8lv144e6CjEe2
-         gtIphwBiV+Q8LHiUNQceFdHdq5VinwEKFXI6DmPS3epiz7iczaujRZxNdiHawf0TPVmF
-         ErJ8rMsWgYRhfFHHsQAjWpc4MXZfSoDp4QapxFDgQRcAYfItujljjXpU8kBMSZYYFrNN
-         adrIxpGoTgvphZaA5gE2Ie8aSlO/e6FJQE1SEFLTCtX79b4xbZJqMrmZa9gB0xOVJQoK
-         C/ng==
-X-Gm-Message-State: APzg51DN8OiJvT77/FSESaFv6TX3+liKDSoPvpE4sT6k8jQodxNdP/2E
-        g81PhWFDE90t6KnSh9aEHfg=
-X-Google-Smtp-Source: ANB0VdYEHelcMSIrGqKrifW6SlO3j0pvz2hs0OTkAtiSf4LOSRKTXrBkKEAU3/Pa4RYk4QoEELyF9g==
-X-Received: by 2002:ac8:3759:: with SMTP id p25-v6mr29891134qtb.310.1537490223079;
-        Thu, 20 Sep 2018 17:37:03 -0700 (PDT)
-Received: from localhost.localdomain (host-64-47-119-29.masergy.com. [64.47.119.29])
-        by smtp.gmail.com with ESMTPSA id m51-v6sm19115402qtc.85.2018.09.20.17.37.01
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=Um6y7SxnsgwmD0u5AQ7dCU67I9NHlPBN99PY01BVHTQ=;
+        b=Vy7qDAuDIRCDA6BZnvFDDwDS374RMowrakfKTW9K6xWd7l3I2A0s9J6kcX+2ecnxr6
+         5pw9n4PAbKwM7/PyH8y9VVfGH8iTt9XXfSfi6XHtw9KOS424F2MBw/iC8jN+NJgB/3u1
+         p7Fww+YcNaYezDliK4qHwX9cCDJzdZsEhhtOOUGVOd9LzYGUuRByp1+zzmXSioa/FwPO
+         0ydvW8ZeHsZ4AVnrzpeR7GybzQvKj07j5pODvA96XJX3j/Wl6DEqN89DCY4Ypbsf1jeU
+         WLcZIHPbLpEdr5XE8cqYMYnc+3xYpKgVMX6WP7BWHK3gIivhExl4dYTBvSk25MPI1AGK
+         zdyw==
+X-Gm-Message-State: APzg51BX2jHbdaHjFa/aLHVSEvdRygv6096pzX20hMfxpTH5b9pNFQMn
+        pyK8igT52VB8+8gvfGCVyyQeI+NzZtk=
+X-Google-Smtp-Source: ANB0VdY6074fJSdwLWzw8eTsWnm/v/Gjq7AxxxtDS/my2LBm1riHX8IvImqsqdfhckt0SMNVQdNChg==
+X-Received: by 2002:a25:4e0b:: with SMTP id c11-v6mr19770993ybb.367.1537490242768;
+        Thu, 20 Sep 2018 17:37:22 -0700 (PDT)
+Received: from mail-yw1-f52.google.com (mail-yw1-f52.google.com. [209.85.161.52])
+        by smtp.gmail.com with ESMTPSA id n187-v6sm13164758ywn.76.2018.09.20.17.37.19
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Sep 2018 17:37:02 -0700 (PDT)
-From:   Michael Vlahos <micvlas@gmail.com>
-To:     corbet@lwn.net
-Cc:     dan.j.williams@intel.com, olof@lxom.net,
-        gregkh@linuxfoundation.org, clm@fb.com, rostedt@goodmis.org,
-        linux-doc@vger.kernel.org, tytso@mit.edu,
-        Michael Vlahos <micvlas@gmail.com>
-Subject: [PATCH] Modify Code of Conduct
-Date:   Thu, 20 Sep 2018 17:34:30 -0700
-Message-Id: <20180921003430.22901-1-micvlas@gmail.com>
-X-Mailer: git-send-email 2.19.0
+        Thu, 20 Sep 2018 17:37:19 -0700 (PDT)
+Received: by mail-yw1-f52.google.com with SMTP id q129-v6so4535892ywg.8
+        for <linux-doc@vger.kernel.org>; Thu, 20 Sep 2018 17:37:19 -0700 (PDT)
+X-Received: by 2002:a0d:d347:: with SMTP id v68-v6mr2395001ywd.124.1537490238838;
+ Thu, 20 Sep 2018 17:37:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a25:5f04:0:0:0:0:0 with HTTP; Thu, 20 Sep 2018 17:37:18
+ -0700 (PDT)
+In-Reply-To: <d12fc06e-ff16-63c9-34ba-7303205b0a1d@schaufler-ca.com>
+References: <20180920162338.21060-1-keescook@chromium.org> <20180920162338.21060-19-keescook@chromium.org>
+ <d12fc06e-ff16-63c9-34ba-7303205b0a1d@schaufler-ca.com>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Thu, 20 Sep 2018 17:37:18 -0700
+X-Gmail-Original-Message-ID: <CAGXu5jJRHN6hMwk49Ss8knSX4CJa0UkWe0pPMHbnFGwECjo_rw@mail.gmail.com>
+Message-ID: <CAGXu5jJRHN6hMwk49Ss8knSX4CJa0UkWe0pPMHbnFGwECjo_rw@mail.gmail.com>
+Subject: Re: [PATCH security-next v2 18/26] LSM: Build ordered list of ordered
+ LSMs for init
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     James Morris <jmorris@namei.org>,
+        John Johansen <john.johansen@canonical.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Paul Moore <paul@paul-moore.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-to make it more applicaple to real world software develoment by making
-it focus on software and dephasizing contributor's personal traits.
+On Thu, Sep 20, 2018 at 5:04 PM, Casey Schaufler <casey@schaufler-ca.com> wrote:
+> On 9/20/2018 9:23 AM, Kees Cook wrote:
+>> This constructs a list of ordered LSMs to initialize, using a hard-coded
+>> list of only "integrity": minor LSMs continue to have direct hook calls,
+>> and major LSMs continue to initialize separately.
+>>
+>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>
+> Do you think that this mechanism will be sufficiently
+> flexible to accommodate dynamically loaded security modules
+> in the future? While I am not personally an advocate of
+> dynamically loaded security modules I have been working to
+> ensure that I haven't done anything that would actively
+> interfere with someone who did.
 
-The changes also attempt reduce the Code of Conduct's potential for abuse
-by people of any agenda who would seek to use it for a power grab.
+I don't think it does, no. This is all just the boot time
+initialization order, so a dynamic LSM would be unchanged: it would
+initialize at module load time. :)
 
-Signed-off-by: Michael Vlahos <micvlas@gmail.com>
----
- Documentation/process/code-of-conduct.rst | 77 +++++++++++++++--------
- 1 file changed, 50 insertions(+), 27 deletions(-)
+-Kees
 
-diff --git a/Documentation/process/code-of-conduct.rst b/Documentation/process/code-of-conduct.rst
-index ab7c24b5478c..54a6784cd0d7 100644
---- a/Documentation/process/code-of-conduct.rst
-+++ b/Documentation/process/code-of-conduct.rst
-@@ -1,4 +1,4 @@
--Contributor Covenant Code of Conduct
-+Code of Conduct
- ++++++++++++++++++++++++++++++++++++
- 
- Our Pledge
-@@ -6,10 +6,25 @@ Our Pledge
- 
- In the interest of fostering an open and welcoming environment, we as
- contributors and maintainers pledge to making participation in our project and
--our community a harassment-free experience for everyone, regardless of age, body
--size, disability, ethnicity, sex characteristics, gender identity and
--expression, level of experience, education, socio-economic status, nationality,
--personal appearance, race, religion, or sexual identity and orientation.
-+our community a harassment-free experience for everyone; a place where all that
-+matters is the quality of the code they contribute. Personal details of
-+contributors are irrelevant. Contributor's opinions and comments on topics not
-+directly related to the project being contributed to are also irrelevant.
-+
-+While we seek to be welcoming, it is important to recall that some amount of
-+conflict is both unavoidable and healthy. Thus to attempt to avoid all conflict
-+is both destructive and futile. Instead our goal is to encourage criticism and
-+critique of code that is both respectful and civil with the express aim of
-+improving the overall quality of the codebase, and also to prevent low quality
-+contributions from being accepted into the codebase. Critique and criticism of
-+a contributor's overall history of code quality in that contributor's
-+contributions to the project must be allowed in a respectful and civil manner.
-+
-+To prevent abuse of it, we assert that the purpose of the Code of Conduct is to
-+facilitate the creation of the best, most robust, software possible; not to
-+control the thought or speech of contributors outside the bounds of the project.
-+We respect the rights of contributors to do and say whatever they like when not
-+directly representing the project.
- 
- Our Standards
- =============
-@@ -21,17 +36,19 @@ include:
- * Being respectful of differing viewpoints and experiences
- * Gracefully accepting constructive criticism
- * Focusing on what is best for the community
--* Showing empathy towards other community members
- 
- 
- Examples of unacceptable behavior by participants include:
- 
--* The use of sexualized language or imagery and unwelcome sexual attention or
--  advances
-+* The use of sexual imagery and sexual attention or advances
- * Trolling, insulting/derogatory comments, and personal or political attacks
- * Public or private harassment
- * Publishing others’ private information, such as a physical or electronic
-   address, without explicit permission
-+* Intentionally mentioning one's own irrelevant personal details and opinions
-+* Not respecting the irrelevance of a contributor's personal details
-+* Not respecting the irrelevance of a contributor's opinions outside the scope
-+  of the project
- * Other conduct which could reasonably be considered inappropriate in a
-   professional setting
- 
-@@ -40,35 +57,40 @@ Our Responsibilities
- ====================
- 
- Maintainers are responsible for clarifying the standards of acceptable behavior
--and are expected to take appropriate and fair corrective action in response to
--any instances of unacceptable behavior.
-+and are expected to take appropriate, consistent, and fair corrective action in
-+response to any instances of unacceptable behavior.
- 
--Maintainers have the right and responsibility to remove, edit, or reject
--comments, commits, code, wiki edits, issues, and other contributions that are
--not aligned to this Code of Conduct, or to ban temporarily or permanently any
--contributor for other behaviors that they deem inappropriate, threatening,
--offensive, or harmful.
-+Maintainers have the right to remove, edit, or reject comments, commits, code,
-+wiki edits, issues, and other contributions that are not aligned to this Code
-+of Conduct, or to temporarily ban any contributor for behaviors that
-+violate the Code of Conduct.
- 
- Scope
- =====
- 
- This Code of Conduct applies both within project spaces and in public spaces
--when an individual is representing the project or its community. Examples of
--representing a project or community include using an official project e-mail
--address, posting via an official social media account, or acting as an appointed
--representative at an online or offline event. Representation of a project may be
--further defined and clarified by project maintainers.
-+when a contributor is explicitly representing the project or its community.
-+Examples of representing the project or community include posting via an official
-+social media account, or acting as an appointed representative at an online or
-+offline event. Comments on personal social media accounts, emails, blogs and
-+similar non-project related spaces are not subject to the Code of Conduct, and
-+contributors may not be judged by them. An exception is made on a post-by-post
-+basis (or equivalent thereof) when a contributor's post on any platform directly
-+mentions trying to impact the project in any way. Representation of a project
-+may be further defined and clarified by project maintainers.
- 
- Enforcement
- ===========
- 
--Instances of abusive, harassing, or otherwise unacceptable behavior may be
--reported by contacting the Technical Advisory Board (TAB) at
-+Suspected violations of the code of conduct such as harassment may be reported
-+by contacting the Technical Advisory Board (TAB) at
- <tab@lists.linux-foundation.org>. All complaints will be reviewed and
- investigated and will result in a response that is deemed necessary and
--appropriate to the circumstances. The TAB is obligated to maintain
--confidentiality with regard to the reporter of an incident.  Further details of
--specific enforcement policies may be posted separately.
-+appropriate to the circumstances. The TAB is obligated to be as
-+transparent as possible in this matter including publicly stating: who made the
-+claim, when, why, who decided the claim, the reasoning used to decide on
-+any leveled punishments, and providing some evidence of the violation. Further
-+details of specific enforcement policies may be posted separately.
- 
- Maintainers who do not follow or enforce the Code of Conduct in good faith may
- face temporary or permanent repercussions as determined by other members of the
-@@ -77,5 +99,6 @@ project’s leadership.
- Attribution
- ===========
- 
--This Code of Conduct is adapted from the Contributor Covenant, version 1.4,
--available at https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
-+This Code of Conduct is modified from the Contributor Covenant,
-+version 1.4, available at:
-+ https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
-\ No newline at end of file
 -- 
-2.19.0
-
+Kees Cook
+Pixel Security
