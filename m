@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 962A77DD4F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:12:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7422F7E0C1
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:12:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390789AbeIUU7n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 16:59:43 -0400
+        id S1728313AbeIUVBO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 17:01:14 -0400
 Received: from mga11.intel.com ([192.55.52.93]:13761 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728184AbeIUU7m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Sep 2018 16:59:42 -0400
+        id S2390479AbeIUU7n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Sep 2018 16:59:43 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
   by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 08:10:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,285,1534834800"; 
-   d="scan'208";a="71856865"
+   d="scan'208";a="71857055"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Sep 2018 08:09:53 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 21 Sep 2018 08:09:54 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,9 +46,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v4 23/27] mm/map: Add Shadow stack pages to memory accounting
-Date:   Fri, 21 Sep 2018 08:03:47 -0700
-Message-Id: <20180921150351.20898-24-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v4 27/27] x86/cet/shstk: Add Shadow Stack instructions to opcode map
+Date:   Fri, 21 Sep 2018 08:03:51 -0700
+Message-Id: <20180921150351.20898-28-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180921150351.20898-1-yu-cheng.yu@intel.com>
 References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
@@ -57,37 +57,178 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add shadow stack pages to memory accounting.
-Also check if the system has enough memory before enabling CET.
+Add the following shadow stack management instructions.
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu.intel.com>
+INCSSP:
+    Increment shadow stack pointer by the steps specified.
+
+RDSSP:
+    Read SSP register into a GPR.
+
+SAVEPREVSSP:
+    Use "prev ssp" token at top of current shadow stack to
+    create a "restore token" on previous shadow stack.
+
+RSTORSSP:
+    Restore from a "restore token" pointed by a GPR to SSP.
+
+WRSS:
+    Write to kernel-mode shadow stack (kernel-mode instruction).
+
+WRUSS:
+    Write to user-mode shadow stack (kernel-mode instruction).
+
+SETSSBSY:
+    Verify the "supervisor token" pointed by IA32_PL0_SSP MSR,
+    if valid, set the token to busy, and set SSP to the value
+    of IA32_PL0_SSP MSR.
+
+CLRSSBSY:
+    Verify the "supervisor token" pointed by a GPR, if valid,
+    clear the busy bit from the token.
+
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- mm/mmap.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/x86/lib/x86-opcode-map.txt               | 26 +++++++++++++------
+ tools/objtool/arch/x86/lib/x86-opcode-map.txt | 26 +++++++++++++------
+ 2 files changed, 36 insertions(+), 16 deletions(-)
 
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 5f2b2b184c60..de2d0faa1c61 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1671,6 +1671,9 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
- 	if (file && is_file_hugepages(file))
- 		return 0;
+diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+index e0b85930dd77..c5e825d44766 100644
+--- a/arch/x86/lib/x86-opcode-map.txt
++++ b/arch/x86/lib/x86-opcode-map.txt
+@@ -366,7 +366,7 @@ AVXcode: 1
+ 1b: BNDCN Gv,Ev (F2) | BNDMOV Ev,Gv (66) | BNDMK Gv,Ev (F3) | BNDSTX Ev,Gv
+ 1c:
+ 1d:
+-1e:
++1e: RDSSP Rd (F3),REX.W
+ 1f: NOP Ev
+ # 0x0f 0x20-0x2f
+ 20: MOV Rd,Cd
+@@ -610,7 +610,17 @@ fe: paddd Pq,Qq | vpaddd Vx,Hx,Wx (66),(v1)
+ ff: UD0
+ EndTable
  
-+	if (arch_copy_pte_mapping(vm_flags))
-+		return 1;
+-Table: 3-byte opcode 1 (0x0f 0x38)
++Table: 3-byte opcode 1 (0x0f 0x01)
++Referrer:
++AVXcode:
++# Skip 0x00-0xe7
++e8: SETSSBSY (f3)
++e9:
++ea: SAVEPREVSSP (f3)
++# Skip 0xeb-0xff
++EndTable
 +
- 	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
- }
++Table: 3-byte opcode 2 (0x0f 0x38)
+ Referrer: 3-byte escape 1
+ AVXcode: 2
+ # 0x0f 0x38 0x00-0x0f
+@@ -789,12 +799,12 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
+ f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+ f2: ANDN Gy,By,Ey (v)
+ f3: Grp17 (1A)
+-f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
+-f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
++f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
++f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq (66),REX.W
+ f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+ EndTable
  
-@@ -3261,6 +3264,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
- 		mm->stack_vm += npages;
- 	else if (is_data_mapping(flags))
- 		mm->data_vm += npages;
-+	else if (arch_copy_pte_mapping(flags))
-+		mm->data_vm += npages;
- }
+-Table: 3-byte opcode 2 (0x0f 0x3a)
++Table: 3-byte opcode 3 (0x0f 0x3a)
+ Referrer: 3-byte escape 2
+ AVXcode: 3
+ # 0x0f 0x3a 0x00-0xff
+@@ -948,7 +958,7 @@ GrpTable: Grp7
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
+-5: rdpkru (110),(11B) | wrpkru (111),(11B)
++5: rdpkru (110),(11B) | wrpkru (111),(11B) | RSTORSSP Mq (F3)
+ 6: LMSW Ew
+ 7: INVLPG Mb | SWAPGS (o64),(000),(11B) | RDTSCP (001),(11B)
+ EndTable
+@@ -1019,8 +1029,8 @@ GrpTable: Grp15
+ 2: vldmxcsr Md (v1) | WRFSBASE Ry (F3),(11B)
+ 3: vstmxcsr Md (v1) | WRGSBASE Ry (F3),(11B)
+ 4: XSAVE | ptwrite Ey (F3),(11B)
+-5: XRSTOR | lfence (11B)
+-6: XSAVEOPT | clwb (66) | mfence (11B)
++5: XRSTOR | lfence (11B) | INCSSP Rd (F3),REX.W
++6: XSAVEOPT | clwb (66) | mfence (11B) | CLRSSBSY Mq (F3)
+ 7: clflush | clflushopt (66) | sfence (11B)
+ EndTable
  
- static vm_fault_t special_mapping_fault(struct vm_fault *vmf);
+diff --git a/tools/objtool/arch/x86/lib/x86-opcode-map.txt b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+index e0b85930dd77..c5e825d44766 100644
+--- a/tools/objtool/arch/x86/lib/x86-opcode-map.txt
++++ b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+@@ -366,7 +366,7 @@ AVXcode: 1
+ 1b: BNDCN Gv,Ev (F2) | BNDMOV Ev,Gv (66) | BNDMK Gv,Ev (F3) | BNDSTX Ev,Gv
+ 1c:
+ 1d:
+-1e:
++1e: RDSSP Rd (F3),REX.W
+ 1f: NOP Ev
+ # 0x0f 0x20-0x2f
+ 20: MOV Rd,Cd
+@@ -610,7 +610,17 @@ fe: paddd Pq,Qq | vpaddd Vx,Hx,Wx (66),(v1)
+ ff: UD0
+ EndTable
+ 
+-Table: 3-byte opcode 1 (0x0f 0x38)
++Table: 3-byte opcode 1 (0x0f 0x01)
++Referrer:
++AVXcode:
++# Skip 0x00-0xe7
++e8: SETSSBSY (f3)
++e9:
++ea: SAVEPREVSSP (f3)
++# Skip 0xeb-0xff
++EndTable
++
++Table: 3-byte opcode 2 (0x0f 0x38)
+ Referrer: 3-byte escape 1
+ AVXcode: 2
+ # 0x0f 0x38 0x00-0x0f
+@@ -789,12 +799,12 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
+ f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+ f2: ANDN Gy,By,Ey (v)
+ f3: Grp17 (1A)
+-f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
+-f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
++f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
++f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq (66),REX.W
+ f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+ EndTable
+ 
+-Table: 3-byte opcode 2 (0x0f 0x3a)
++Table: 3-byte opcode 3 (0x0f 0x3a)
+ Referrer: 3-byte escape 2
+ AVXcode: 3
+ # 0x0f 0x3a 0x00-0xff
+@@ -948,7 +958,7 @@ GrpTable: Grp7
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
+-5: rdpkru (110),(11B) | wrpkru (111),(11B)
++5: rdpkru (110),(11B) | wrpkru (111),(11B) | RSTORSSP Mq (F3)
+ 6: LMSW Ew
+ 7: INVLPG Mb | SWAPGS (o64),(000),(11B) | RDTSCP (001),(11B)
+ EndTable
+@@ -1019,8 +1029,8 @@ GrpTable: Grp15
+ 2: vldmxcsr Md (v1) | WRFSBASE Ry (F3),(11B)
+ 3: vstmxcsr Md (v1) | WRGSBASE Ry (F3),(11B)
+ 4: XSAVE | ptwrite Ey (F3),(11B)
+-5: XRSTOR | lfence (11B)
+-6: XSAVEOPT | clwb (66) | mfence (11B)
++5: XRSTOR | lfence (11B) | INCSSP Rd (F3),REX.W
++6: XSAVEOPT | clwb (66) | mfence (11B) | CLRSSBSY Mq (F3)
+ 7: clflush | clflushopt (66) | sfence (11B)
+ EndTable
+ 
 -- 
 2.17.1
 
