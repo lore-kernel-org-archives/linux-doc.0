@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D9B1B7DE7B
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:11:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2548E7DE7E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:11:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390897AbeIUU7s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S2390882AbeIUU7s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 21 Sep 2018 16:59:48 -0400
-Received: from mga11.intel.com ([192.55.52.93]:13768 "EHLO mga11.intel.com"
+Received: from mga11.intel.com ([192.55.52.93]:13767 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390880AbeIUU7r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2390777AbeIUU7r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 21 Sep 2018 16:59:47 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -20,7 +20,7 @@ Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 08:10:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,285,1534834800"; 
-   d="scan'208";a="88187982"
+   d="scan'208";a="88187974"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
   by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2018 08:10:28 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -46,9 +46,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v4 7/9] x86/cet/ibt: Add ENDBR to op-code-map
-Date:   Fri, 21 Sep 2018 08:05:51 -0700
-Message-Id: <20180921150553.21016-8-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v4 5/9] x86/cet/ibt: ELF header parsing for IBT
+Date:   Fri, 21 Sep 2018 08:05:49 -0700
+Message-Id: <20180921150553.21016-6-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180921150553.21016-1-yu-cheng.yu@intel.com>
 References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
@@ -57,79 +57,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add control transfer terminating instructions:
+Look in .note.gnu.property of an ELF file and check if Indirect
+Branch Tracking needs to be enabled for the task.
 
-ENDBR64/ENDBR32:
-    Mark a valid 64/32-bit control transfer endpoint.
-
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/lib/x86-opcode-map.txt               | 13 +++++++++++--
- tools/objtool/arch/x86/lib/x86-opcode-map.txt | 13 +++++++++++--
- 2 files changed, 22 insertions(+), 4 deletions(-)
+ arch/x86/include/uapi/asm/elf_property.h | 1 +
+ arch/x86/kernel/elf.c                    | 8 +++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
-index c5e825d44766..fbc53481bc59 100644
---- a/arch/x86/lib/x86-opcode-map.txt
-+++ b/arch/x86/lib/x86-opcode-map.txt
-@@ -620,7 +620,16 @@ ea: SAVEPREVSSP (f3)
- # Skip 0xeb-0xff
- EndTable
+diff --git a/arch/x86/include/uapi/asm/elf_property.h b/arch/x86/include/uapi/asm/elf_property.h
+index af361207718c..343a871b8fc1 100644
+--- a/arch/x86/include/uapi/asm/elf_property.h
++++ b/arch/x86/include/uapi/asm/elf_property.h
+@@ -11,5 +11,6 @@
+  * Bits for GNU_PROPERTY_X86_FEATURE_1_AND
+  */
+ #define GNU_PROPERTY_X86_FEATURE_1_SHSTK	(0x00000002)
++#define GNU_PROPERTY_X86_FEATURE_1_IBT		(0x00000001)
  
--Table: 3-byte opcode 2 (0x0f 0x38)
-+Table: 3-byte opcode 2 (0x0f 0x1e)
-+Referrer:
-+AVXcode:
-+# Skip 0x00-0xf9
-+fa: ENDBR64 (f3)
-+fb: ENDBR32 (f3)
-+#skip 0xfc-0xff
-+EndTable
+ #endif /* _UAPI_ASM_X86_ELF_PROPERTY_H */
+diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
+index 2fddd0bc545b..13358026cd64 100644
+--- a/arch/x86/kernel/elf.c
++++ b/arch/x86/kernel/elf.c
+@@ -300,7 +300,8 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
+ 
+ 	struct elf64_hdr *ehdr64 = ehdr_p;
+ 
+-	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
++	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
++	    !cpu_feature_enabled(X86_FEATURE_IBT))
+ 		return 0;
+ 
+ 	if (ehdr64->e_ident[EI_CLASS] == ELFCLASS64) {
+@@ -335,6 +336,11 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
+ 		}
+ 	}
+ 
++	if (cpu_feature_enabled(X86_FEATURE_IBT)) {
++		if (feature & GNU_PROPERTY_X86_FEATURE_1_IBT)
++			err = cet_setup_ibt();
++	}
 +
-+Table: 3-byte opcode 3 (0x0f 0x38)
- Referrer: 3-byte escape 1
- AVXcode: 2
- # 0x0f 0x38 0x00-0x0f
-@@ -804,7 +813,7 @@ f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq
- f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
- EndTable
- 
--Table: 3-byte opcode 3 (0x0f 0x3a)
-+Table: 3-byte opcode 4 (0x0f 0x3a)
- Referrer: 3-byte escape 2
- AVXcode: 3
- # 0x0f 0x3a 0x00-0xff
-diff --git a/tools/objtool/arch/x86/lib/x86-opcode-map.txt b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
-index c5e825d44766..fbc53481bc59 100644
---- a/tools/objtool/arch/x86/lib/x86-opcode-map.txt
-+++ b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
-@@ -620,7 +620,16 @@ ea: SAVEPREVSSP (f3)
- # Skip 0xeb-0xff
- EndTable
- 
--Table: 3-byte opcode 2 (0x0f 0x38)
-+Table: 3-byte opcode 2 (0x0f 0x1e)
-+Referrer:
-+AVXcode:
-+# Skip 0x00-0xf9
-+fa: ENDBR64 (f3)
-+fb: ENDBR32 (f3)
-+#skip 0xfc-0xff
-+EndTable
-+
-+Table: 3-byte opcode 3 (0x0f 0x38)
- Referrer: 3-byte escape 1
- AVXcode: 2
- # 0x0f 0x38 0x00-0x0f
-@@ -804,7 +813,7 @@ f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq
- f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
- EndTable
- 
--Table: 3-byte opcode 3 (0x0f 0x3a)
-+Table: 3-byte opcode 4 (0x0f 0x3a)
- Referrer: 3-byte escape 2
- AVXcode: 3
- # 0x0f 0x3a 0x00-0xff
+ out:
+ 	return err;
+ }
 -- 
 2.17.1
 
