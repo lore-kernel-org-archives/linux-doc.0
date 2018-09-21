@@ -1,37 +1,33 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E27237D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 16:55:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E8F797D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 17:26:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390248AbeIUWpT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 18:45:19 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:42052 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388909AbeIUWpT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 18:45:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=08oZhVAsrOzYwrbCYvThD4RKeGUmXuT6FdhAm1zidfg=; b=Gh9jgvOZdui0JxmUTjjL3k/9xc
-        vxmNrOdGb2RF9ekhRD+RV8BaebwXs4tARAFXqWT1Zam0zf3i+f11Pqvggqe51+MzPwTb+E6KwiOil
-        8tF8ZTZjXA3UwsnpG2azt6qVUz1UGb3y0ne0mx9vWfqZ8Wjyrpq2f3fJVOkDZbY0xVmeVoU4/+m+V
-        KkszmlW8RGn6P8HSW8HbqS/O0oHKYZoa3Y4GDZg3O9MyA/xsL8QxfmcIQvFUAvEdz8hA4Vfjvq1k3
-        9DpAKx0Uilf+ZDupwvsM/t0kUt4c9F1ElZrBZLG08PCNjzPvZMJ1CUuxRBk48F7OZs6VTsGMHbnzt
-        +Og0SnnA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1g3Ohx-0000xV-97; Fri, 21 Sep 2018 16:55:09 +0000
+        id S2390927AbeIUXQY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 19:16:24 -0400
+Received: from mga04.intel.com ([192.55.52.120]:9207 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390076AbeIUXQY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Sep 2018 19:16:24 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 10:26:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,285,1534834800"; 
+   d="scan'208";a="259221278"
+Received: from unknown (HELO 2b52.sc.intel.com) ([143.183.136.147])
+  by orsmga005.jf.intel.com with ESMTP; 21 Sep 2018 10:26:21 -0700
+Message-ID: <c2d5d7944b7a34b67ddc0e5c1d3600e63c426236.camel@intel.com>
 Subject: Re: [RFC PATCH v4 23/27] mm/map: Add Shadow stack pages to memory
  accounting
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -52,35 +48,28 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Fri, 21 Sep 2018 10:21:50 -0700
+In-Reply-To: <8c18fabf-170f-9010-3075-238e34c9f09b@infradead.org>
 References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
- <20180921150351.20898-24-yu-cheng.yu@intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <8c18fabf-170f-9010-3075-238e34c9f09b@infradead.org>
-Date:   Fri, 21 Sep 2018 09:55:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
-MIME-Version: 1.0
-In-Reply-To: <20180921150351.20898-24-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+         <20180921150351.20898-24-yu-cheng.yu@intel.com>
+         <8c18fabf-170f-9010-3075-238e34c9f09b@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/21/18 8:03 AM, Yu-cheng Yu wrote:
-> Add shadow stack pages to memory accounting.
-> Also check if the system has enough memory before enabling CET.
+On Fri, 2018-09-21 at 09:55 -0700, Randy Dunlap wrote:
+> On 9/21/18 8:03 AM, Yu-cheng Yu wrote:
+> > Add shadow stack pages to memory accounting.
+> > Also check if the system has enough memory before enabling CET.
+> > 
+> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu.intel.com>
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu.intel.com>
+> oops. typo above.
+> 
 
-oops. typo above.
-
-> ---
->  mm/mmap.c | 5 +++++
->  1 file changed, 5 insertions(+)
-
-
--- 
-~Randy
+I will fix it.  Thanks!
