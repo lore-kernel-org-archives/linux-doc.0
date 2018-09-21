@@ -6,76 +6,125 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 520D57D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 20:13:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 12AC77D584
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 20:13:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391251AbeIVCD0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 22:03:26 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:41555 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390726AbeIVCD0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 22:03:26 -0400
-Received: by mail-pg1-f195.google.com with SMTP id z3-v6so1556169pgv.8;
+        id S2390726AbeIVCD2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 22:03:28 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:46675 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391328AbeIVCD1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 22:03:27 -0400
+Received: by mail-pf1-f193.google.com with SMTP id u24-v6so6426002pfn.13;
         Fri, 21 Sep 2018 13:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=JmJnwgzqo/oZAiSurYldFDuuAW8Na+dBrzrglmTsWSU=;
-        b=jlkBcZvNAdQuZoBAn9s3b9GT5hiLddVBK0l/CI8nElJ/sachr3QloT/KRivWN9rv3X
-         tm0TS6tLrvyQdE23S3tIENQ0tGkuRR70xXPEtpOmkVaxVrQVHIico4IMmKqfLyuDMu61
-         1e7dX6nVLge82ijWmEralK5uvErj8eqVe5WYznOyAfPiU2SciMw0bLfLCB3lzki4XFkE
-         RCCSGEv9SnEqpUx7dR3dO2Gc6VkUvuJOy+JnomMU42VsrYTz6JIAr0rszlq+LwPvi8/f
-         TCfC5SiMDMsZZQ9wqkbiEosu6QvdEIoGHymnVgGcdED1Q5ZhHSYTnQgHCIuAqscffmjm
-         zjKw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=YuvJRKiLhdLur1IAAqr2McXI180TC+c1UQYaeBdT0+M=;
+        b=hH+2RgOhaN6BBx7lEiMfSUI7BsUT/O9U67MqEjbdephSgWZk4gAJZ8jcZLh794VZsJ
+         xwXntydhQ3cMJd8vG0aHTmYkw3/SIPWb2iex24PJ395zzXx+yhRWjuvxAqKRMPU5++ww
+         b4uykbArUYMK7HZA6CZDK6GCPqk1d+TEfNrrLhWOxETxcbGYtF6iPpp2GVLx+g46xsYA
+         2COU9u9KMyqbjPz1F4/UaEiylMkEuW5C9tTffdRzrxGn6oMp+iyEUyITZKAqzl8/Hfg8
+         F3SUndFhdnUJfsVEXZJE1KTIwhuT/tMk3KZjp8153SDEZYiADBxEUVAjTZvvi8jceGGg
+         dZSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=JmJnwgzqo/oZAiSurYldFDuuAW8Na+dBrzrglmTsWSU=;
-        b=ZOdyuPqMCRatjAKmd9vBL5/Da/68lJ7c1ELebHAQDyq6VZQkDU/YiA/bPVseIKk1xs
-         8H8Fl2SBJ6z8FZjgZ7nWltCVjtdugGIojyZNnb63ABcyoxYYL6vKMiFCTtp7MfZH57UJ
-         glOh3gEPrGN0/zfUnNDK98CUraaNn0hYCI32qOY5T7ZCAveEAkDaWHaaY9We6mXPZHbd
-         hlewd8ATO1nzlbS30DkpXUKd8s9Q7TKgk+UAWR0gffKtWIAopF6I6TRPxCgG/CEwYYvn
-         70zMvC8UKXFbm0PcfRMAicaBekLrD7mRe6+Ox5f9IthijJHctmLiXPGlhkRQUWdANLQR
-         ggLA==
-X-Gm-Message-State: APzg51BxyropT4ucKd7LO1gy37o2r2jwDmd9ueSpwWHwiVPibLNXfTCs
-        Ru+JH/UBAt1PUsqejvYPThU=
-X-Google-Smtp-Source: ANB0VdYhARt/6/XPCmT+Qgd2DI7HjEDOD5EhrtJi12kLnm4G65r+RfmdfPqe5ZkvHaiIwngfqg600w==
-X-Received: by 2002:a62:cd3:: with SMTP id 80-v6mr48746846pfm.184.1537560778621;
-        Fri, 21 Sep 2018 13:12:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=YuvJRKiLhdLur1IAAqr2McXI180TC+c1UQYaeBdT0+M=;
+        b=bbIoK1LjwkYgR5D8Y43pcfdQHmlDrjBB7aU8NjX0LeBaCU6VUDAyWMdVSB4AWYiWdp
+         2rNoi6DKi/ipGY2NGM+ojikLVFrKfHYd25KhSq/NDwigpM8wdNdod6+mHme2l2d1Bnia
+         Vj7WfqGcT7D8BVHTUFUkhnayhEANe2dyVbfOyn5uhE7UgPj3oIwiwTSM/jHD5TA9NxUg
+         5J+q7aEmAczGL7U8Bp2wloydu6tj5wBm7sUB9DihyE+owIY+yfshNX2BWKHHyqWFaVLz
+         ZKMePAZFn1aTNx38l9KUd3vigDSpq3zq5d6/NhtZqfAJCSyFtax2oRtVZJsDBq0UhyDj
+         ZYrQ==
+X-Gm-Message-State: APzg51BdEt2IVtbI5SFUu42BlbAWNbo7mNaNNrMSGj8LX43jLnYzrqFe
+        HNvsFUfp4zUn8La8dLoSU60=
+X-Google-Smtp-Source: ANB0VdYd3l1wwns/BTN/lefpuA//kdK22GaVez09qlnWle26HADwz+Q+QglFnAfPKL9enDi2EzUjQQ==
+X-Received: by 2002:a63:2150:: with SMTP id s16-v6mr43114943pgm.267.1537560779413;
+        Fri, 21 Sep 2018 13:12:59 -0700 (PDT)
 Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id 132-v6sm783231pgh.67.2018.09.21.13.12.57
+        by smtp.gmail.com with ESMTPSA id 132-v6sm783231pgh.67.2018.09.21.13.12.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 21 Sep 2018 13:12:58 -0700 (PDT)
+        Fri, 21 Sep 2018 13:12:59 -0700 (PDT)
 From:   Nicolin Chen <nicoleotsuka@gmail.com>
 To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
         mark.rutland@arm.com, corbet@lwn.net
 Cc:     afd@ti.com, linux-hwmon@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v2 0/2] Add an initial DT binding doc for ina3221
-Date:   Fri, 21 Sep 2018 13:12:50 -0700
-Message-Id: <20180921201252.12875-1-nicoleotsuka@gmail.com>
+Subject: [PATCH v2 1/2] dt-bindings: hwmon: Add ina3221 documentation
+Date:   Fri, 21 Sep 2018 13:12:51 -0700
+Message-Id: <20180921201252.12875-2-nicoleotsuka@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180921201252.12875-1-nicoleotsuka@gmail.com>
+References: <20180921201252.12875-1-nicoleotsuka@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series adds a initial DT binding doc for ina3221. It defines
-a child node to describe the input source of each ina3221 channel.
-Then it changes the driver to handle the information properly.
+Texas Instruments INA3221 is a triple-channel shunt and bus
+voltage monitor. This patch adds a DT binding doc for it.
 
+Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+---
 Changelog
 v1->v2:
- * Redefined DT bindings (detail in PATCH-1)
- * Changed the driver code accordingly (detail in PATCH-2)
+ * Dropped channel name properties
+ * Added child node definitions.
+ * * Added shunt resistor property in the child node
+ * * Added status property to indicate connection status
+ * * Changed to use child node name as the label of input source
 
- .../devicetree/bindings/hwmon/ina3221.txt     |  38 ++++++
- Documentation/hwmon/ina3221                   |   1 +
- drivers/hwmon/ina3221.c                       | 126 ++++++++++++++++--
- 3 files changed, 155 insertions(+), 10 deletions(-)
+ .../devicetree/bindings/hwmon/ina3221.txt     | 38 +++++++++++++++++++
+ 1 file changed, 38 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/hwmon/ina3221.txt
 
+diff --git a/Documentation/devicetree/bindings/hwmon/ina3221.txt b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+new file mode 100644
+index 000000000000..02a2ffbb7c3f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+@@ -0,0 +1,38 @@
++ina3221 properties
++
++1) ina3221 node
++  Required properties:
++  - compatible: Must be "ti,ina3221"
++  - reg: I2C address
++
++  = The node contains optional child nodes for three channels =
++  = Each child node describes the information of input source =
++
++  Example:
++
++  ina3221@40 {
++          compatible = "ti,ina3221";
++          reg = <0x40>;
++          [ child node definitions... ]
++  };
++
++2) child nodes
++  The names of child nodes should indicate input source names
++
++  Required properties:
++  - input-id: Must be 1, 2 or 3
++
++  Optional properties:
++  - shunt-resistor: Shunt resistor value in micro-Ohm
++  - status: Should be "disabled" if no input source
++
++  Example:
++
++  input1 {
++          input-id = <0x1>;
++          status = "disabled";
++  };
++  VDD_GPU {
++          input-id = <0x2>;
++          shunt-resistor = <5>;
++  };
 -- 
 2.17.1
 
