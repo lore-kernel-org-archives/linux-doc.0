@@ -5,22 +5,22 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E565B7DE7D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:11:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D0727E3A6
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:11:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390844AbeIUU7p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 16:59:45 -0400
+        id S2390256AbeIUVAf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 17:00:35 -0400
 Received: from mga11.intel.com ([192.55.52.93]:13767 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390777AbeIUU7p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Sep 2018 16:59:45 -0400
+        id S2390860AbeIUU7r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Sep 2018 16:59:47 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 08:10:27 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 08:10:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,285,1534834800"; 
-   d="scan'208";a="88187958"
+   d="scan'208";a="88187968"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
   by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2018 08:10:27 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -46,68 +46,83 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v4 0/9] Control Flow Enforcement: Branch Tracking, PTRACE
-Date:   Fri, 21 Sep 2018 08:05:44 -0700
-Message-Id: <20180921150553.21016-1-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v4 3/9] x86/cet/ibt: Add IBT legacy code bitmap allocation function
+Date:   Fri, 21 Sep 2018 08:05:47 -0700
+Message-Id: <20180921150553.21016-4-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180921150553.21016-1-yu-cheng.yu@intel.com>
+References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous version of CET patches can be found in the following
-link:
+Indirect branch tracking provides an optional legacy code bitmap
+that indicates locations of non-IBT compatible code.  When set,
+each bit in the bitmap represents a page in the linear address is
+legacy code.
 
-  https://lkml.org/lkml/2018/8/30/582
+We allocate the bitmap only when the application requests it.
+Most applications do not need the bitmap.
 
-Summary of changes from v3:
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+---
+ arch/x86/kernel/cet.c | 45 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-  Move IBT legacy code bitmap allocation back to when the application
-  requests it.  Most application do not need the bitmap.  It is only
-  used when an application does dlopen() a legacy library.
-
-  In the previous version, we pre-allocated the bitmap for every IBT-
-  enabled application to avoid creating a hole in the linear address.
-  However, this created a problem when the system has limited memory.
-
-H.J. Lu (1):
-  x86: Insert endbr32/endbr64 to vDSO
-
-Yu-cheng Yu (8):
-  x86/cet/ibt: Add Kconfig option for user-mode Indirect Branch Tracking
-  x86/cet/ibt: User-mode indirect branch tracking support
-  x86/cet/ibt: Add IBT legacy code bitmap allocation function
-  mm/mmap: Add IBT bitmap size to address space limit check
-  x86/cet/ibt: ELF header parsing for IBT
-  x86/cet/ibt: Add arch_prctl functions for IBT
-  x86/cet/ibt: Add ENDBR to op-code-map
-  x86/cet: Add PTRACE interface for CET
-
- arch/x86/Kconfig                              | 12 +++
- arch/x86/Makefile                             |  7 ++
- arch/x86/entry/vdso/.gitignore                |  4 +
- arch/x86/entry/vdso/Makefile                  | 12 ++-
- arch/x86/entry/vdso/vdso-layout.lds.S         |  1 +
- arch/x86/include/asm/cet.h                    |  8 ++
- arch/x86/include/asm/disabled-features.h      |  8 +-
- arch/x86/include/asm/fpu/regset.h             |  7 +-
- arch/x86/include/uapi/asm/elf_property.h      |  1 +
- arch/x86/include/uapi/asm/prctl.h             |  1 +
- arch/x86/include/uapi/asm/resource.h          |  5 ++
- arch/x86/kernel/cet.c                         | 76 +++++++++++++++++++
- arch/x86/kernel/cet_prctl.c                   | 38 +++++++++-
- arch/x86/kernel/cpu/common.c                  | 20 ++++-
- arch/x86/kernel/elf.c                         |  8 +-
- arch/x86/kernel/fpu/regset.c                  | 41 ++++++++++
- arch/x86/kernel/process.c                     |  2 +
- arch/x86/kernel/ptrace.c                      | 16 ++++
- arch/x86/lib/x86-opcode-map.txt               | 13 +++-
- include/uapi/asm-generic/resource.h           |  3 +
- include/uapi/linux/elf.h                      |  1 +
- mm/mmap.c                                     | 12 ++-
- tools/objtool/arch/x86/lib/x86-opcode-map.txt | 13 +++-
- 23 files changed, 296 insertions(+), 13 deletions(-)
-
+diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+index 6adfe795d692..a65d9745af08 100644
+--- a/arch/x86/kernel/cet.c
++++ b/arch/x86/kernel/cet.c
+@@ -314,3 +314,48 @@ void cet_disable_ibt(void)
+ 	wrmsrl(MSR_IA32_U_CET, r);
+ 	current->thread.cet.ibt_enabled = 0;
+ }
++
++int cet_setup_ibt_bitmap(void)
++{
++	u64 r;
++	unsigned long bitmap;
++	unsigned long size;
++
++	if (!cpu_feature_enabled(X86_FEATURE_IBT))
++		return -EOPNOTSUPP;
++
++	if (!current->thread.cet.ibt_bitmap_addr) {
++		/*
++		 * Calculate size and put in thread header.
++		 * may_expand_vm() needs this information.
++		 */
++		size = TASK_SIZE / PAGE_SIZE / BITS_PER_BYTE;
++		current->thread.cet.ibt_bitmap_size = size;
++		bitmap = do_mmap_locked(0, size, PROT_READ | PROT_WRITE,
++					MAP_ANONYMOUS | MAP_PRIVATE,
++					VM_DONTDUMP);
++
++		if (bitmap >= TASK_SIZE) {
++			current->thread.cet.ibt_bitmap_size = 0;
++			return -ENOMEM;
++		}
++
++		current->thread.cet.ibt_bitmap_addr = bitmap;
++	}
++
++	/*
++	 * Lower bits of MSR_IA32_CET_LEG_IW_EN are for IBT
++	 * settings.  Clear lower bits even bitmap is already
++	 * page-aligned.
++	 */
++	bitmap = current->thread.cet.ibt_bitmap_addr;
++	bitmap &= PAGE_MASK;
++
++	/*
++	 * Turn on IBT legacy bitmap.
++	 */
++	rdmsrl(MSR_IA32_U_CET, r);
++	r |= (MSR_IA32_CET_LEG_IW_EN | bitmap);
++	wrmsrl(MSR_IA32_U_CET, r);
++	return 0;
++}
 -- 
 2.17.1
 
