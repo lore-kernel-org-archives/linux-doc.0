@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F1BE07D923
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:11:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 962A77DD4F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:12:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390860AbeIUVAm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 17:00:42 -0400
-Received: from mga11.intel.com ([192.55.52.93]:13767 "EHLO mga11.intel.com"
+        id S2390789AbeIUU7n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 16:59:43 -0400
+Received: from mga11.intel.com ([192.55.52.93]:13761 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390842AbeIUU7p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Sep 2018 16:59:45 -0400
+        id S1728184AbeIUU7m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Sep 2018 16:59:42 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 08:10:27 -0700
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 08:10:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,285,1534834800"; 
-   d="scan'208";a="88187961"
+   d="scan'208";a="71856865"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2018 08:10:27 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 21 Sep 2018 08:09:53 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,69 +46,48 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v4 1/9] x86/cet/ibt: Add Kconfig option for user-mode Indirect Branch Tracking
-Date:   Fri, 21 Sep 2018 08:05:45 -0700
-Message-Id: <20180921150553.21016-2-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v4 23/27] mm/map: Add Shadow stack pages to memory accounting
+Date:   Fri, 21 Sep 2018 08:03:47 -0700
+Message-Id: <20180921150351.20898-24-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180921150553.21016-1-yu-cheng.yu@intel.com>
-References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
+In-Reply-To: <20180921150351.20898-1-yu-cheng.yu@intel.com>
+References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The user-mode indirect branch tracking support is done mostly by
-GCC to insert ENDBR64/ENDBR32 instructions at branch targets.
-The kernel provides CPUID enumeration, feature MSR setup and
-the allocation of legacy bitmap.
+Add shadow stack pages to memory accounting.
+Also check if the system has enough memory before enabling CET.
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu.intel.com>
 ---
- arch/x86/Kconfig  | 12 ++++++++++++
- arch/x86/Makefile |  7 +++++++
- 2 files changed, 19 insertions(+)
+ mm/mmap.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 6377125543cc..2a0ff538a229 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1941,6 +1941,18 @@ config X86_INTEL_SHADOW_STACK_USER
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 5f2b2b184c60..de2d0faa1c61 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1671,6 +1671,9 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
+ 	if (file && is_file_hugepages(file))
+ 		return 0;
  
- 	  If unsure, say y.
++	if (arch_copy_pte_mapping(vm_flags))
++		return 1;
++
+ 	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
+ }
  
-+config X86_INTEL_BRANCH_TRACKING_USER
-+	prompt "Intel Indirect Branch Tracking for user-mode"
-+	def_bool n
-+	depends on CPU_SUP_INTEL && X86_64
-+	select X86_INTEL_CET
-+	select ARCH_HAS_PROGRAM_PROPERTIES
-+	---help---
-+	  Indirect Branch Tracking provides hardware protection against return-/jmp-
-+	  oriented programming attacks.
-+
-+	  If unsure, say y
-+
- config EFI
- 	bool "EFI runtime service support"
- 	depends on ACPI
-diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-index b28842b80295..ff652bba849f 100644
---- a/arch/x86/Makefile
-+++ b/arch/x86/Makefile
-@@ -159,6 +159,13 @@ ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-   endif
- endif
+@@ -3261,6 +3264,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
+ 		mm->stack_vm += npages;
+ 	else if (is_data_mapping(flags))
+ 		mm->data_vm += npages;
++	else if (arch_copy_pte_mapping(flags))
++		mm->data_vm += npages;
+ }
  
-+# Check compiler ibt support
-+ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+  ifeq ($(call cc-option-yn, -fcf-protection=branch), n)
-+      $(error CONFIG_X86_INTEL_BRANCH_TRACKING_USER not supported by compiler)
-+  endif
-+endif
-+
- #
- # If the function graph tracer is used with mcount instead of fentry,
- # '-maccumulate-outgoing-args' is needed to prevent a GCC bug
+ static vm_fault_t special_mapping_fault(struct vm_fault *vmf);
 -- 
 2.17.1
 
