@@ -1,263 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1B5377D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 14:52:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C1487D57F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 14:57:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390180AbeIUUlY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 16:41:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44612 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728184AbeIUUlY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Sep 2018 16:41:24 -0400
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.phx2.redhat.com [10.5.11.24])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 25BC0792BB;
-        Fri, 21 Sep 2018 14:52:10 +0000 (UTC)
-Received: from redhat.com (ovpn-124-21.rdu2.redhat.com [10.10.124.21])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 67B25308BDA0;
-        Fri, 21 Sep 2018 14:52:03 +0000 (UTC)
-Date:   Fri, 21 Sep 2018 10:52:01 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Kenneth Lee <liguozhu@hisilicon.com>
-Cc:     Kenneth Lee <nek.in.cn@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>, kvm@vger.kernel.org,
+        id S2390086AbeIUUqy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 16:46:54 -0400
+Received: from sonic306-9.consmr.mail.bf2.yahoo.com ([74.6.132.48]:38641 "EHLO
+        sonic306-9.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390179AbeIUUqy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 16:46:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1537541858; bh=NZxr5DvYFN7iF1Ir6w85jsFCYmP6N+scR2Oj4Q3VULM=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=Gj4I+RrQKyw9iwnlSEO9A+/B3lRYouiP2+swJGlPHueRCmTUcZoh2IrjvPSFpUe1zHAaKYLVoybP/EWpIcmA/p+oW5LR0lFx7j2xzyRnTISe4b9A5zbhEfCBnew9HxM7QyR6yIw7RRzB2X5/jBuV+EfCPXEsZEj83XKV3qHb8JieFDN03VH0xLatL3hM/yuWUsOhYkGAMnx8KEc7TRxMYEV+5kU+eXaZuizYVbCYhO66+yL6jHjeoftT8NnZgAZuCp3317flT5Bj1SDErSDrI1Ahrh2oT2Ql4QNNNQNl2VMyX2/BOzMM10beMXaahcnZI9NWFS0TFR8ugUbAwp55wQ==
+X-YMail-OSG: 3tH6jrgVM1lo6tiIeVzVZLXYFsp4V4T7tuogD66fi5oDxXc9hiepkqx6IcTO482
+ cXAYQwzu5Fz8qZoxHVhz5kSr231skKhml.dIONfU6gdZcQ7t4HkpnK_rMwWmF4T0P3inAAEskTaM
+ GQii7XPp1AnKG6hLroHOrJTS41Sqo0VwOkbzqKZXPDC.Ef5wQu7YAvlm7CQo4LvnDaFfYLJcgiNu
+ bBdb9XY0TA9tz05EnzOsoxvgn9FrvCEMLUfN8mP94dxlrbOxgGxm3HRrk3VQ.46PTGhHAMAlTe0C
+ 2RnxBU59JVXvSsZ1BLTxqJQ2UWmPA6m8CCC2S6DqjOg4KOTP5aF7LGHTX8kyQA5iXVAQqMyBjJPH
+ _GVBDC1iI7Hp84vxDh1AKQOExL1t1A8poxgw._aHi9lHZ3mzlL0fyYucyr_u1rnBD_9.PUrH0QH6
+ hPiUeSjNA7EIAPP8IsPaeBFyETTlTpL1OyXVbLKl_3Y6PChdxgS00HOlnYTX_nXlaxE_K.0wFuNd
+ 3G.XbLbqZf3NFvgRFcOQAt3.I7sZf36I7sDX87TO_oNLTKkZc_vDqF3JiLlz8bcd0_TZn9_NUalB
+ Yq3R7xXgMpJC08p_TLs.KlGrtXlBiyRxhiYYMV05eURcsyynZmvmVWlHcL.akZSGK9wRl7ykALaU
+ RpSywYrADu3D77Vyf.cU2Bdu9RqA_sLKoqEhwdg943xLZtUMafKdgQLE3_KODceFdCn.Ol5ABTIV
+ uyxe5WTg1fpEzHUlcr9WMHJeDWt2wm3nzDMg0dhn91fy5JR2X_lpUR6I6sBX94AXdE56GT_dLYJR
+ R9DfNT3N7feQ52zqpGhRJFxVNrZ.N.SrgOQnvpDCgwclb7xK69nEayz_YCdnORQ74oOD8JX6.tno
+ u1Z4BF6f_R_1OSVMU2CsOVS.r5OwBbhB0.ywKai2vWG1dfYtjD.loF0tCxUjMk2gu4eYBlQHeyau
+ mpgGTmugcN51Zunftajwd.KhbvaCq5aEB3yRTVbb6sMX4BUbkX60xUp.8GytnHCvBUnAvmsyO4Xf
+ bwkivyUGvmt6W4KeTb8zXXks7M_xx4td9gzaIEOFx7UHMjV8B
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Fri, 21 Sep 2018 14:57:38 +0000
+Received: from c-67-169-65-224.hsd1.ca.comcast.net (EHLO [192.168.0.102]) ([67.169.65.224])
+          by smtp402.mail.bf1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID b1ea943c7e117406b472149e3b4ed37f;
+          Fri, 21 Sep 2018 14:57:34 +0000 (UTC)
+Subject: Re: [PATCH security-next v2 26/26] LSM: Add all exclusive LSMs to
+ ordered initialization
+To:     John Johansen <john.johansen@canonical.com>,
+        Kees Cook <keescook@chromium.org>
+Cc:     James Morris <jmorris@namei.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Paul Moore <paul@paul-moore.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        LSM <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joerg Roedel <joro@8bytes.org>, linux-doc@vger.kernel.org,
-        Sanjay Kumar <sanjay.k.kumar@intel.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        linuxarm@huawei.com, Alex Williamson <alex.williamson@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-crypto@vger.kernel.org, Zhou Wang <wangzhou1@hisilicon.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        linux-accelerators@lists.ozlabs.org,
-        Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
-Message-ID: <20180921145201.GA3357@redhat.com>
-References: <20180903005204.26041-1-nek.in.cn@gmail.com>
- <20180917014244.GA27596@redhat.com>
- <20180921100314.GH207969@Turing-Arch-b>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20180920162338.21060-1-keescook@chromium.org>
+ <20180920162338.21060-27-keescook@chromium.org>
+ <a0165ce9-d15b-eaef-a5e8-2aeb6bdc69f6@schaufler-ca.com>
+ <CAGXu5j++wXMUXuqT7m5MZdeXqO=i7RgyKZoLwELfSTx6UPOVSA@mail.gmail.com>
+ <7d2cc28b-aee5-ee91-9362-f92f8ca30adc@schaufler-ca.com>
+ <6c899d9e-45aa-8159-c402-b3c4d1936112@canonical.com>
+ <CAGXu5jKzqij5dY2FYm5rafPNPpF1Tx9BPmK+=FvG+=tpFxpscw@mail.gmail.com>
+ <74ecd4ec-491b-93d7-4e3f-46f92121130b@canonical.com>
+ <CAGXu5j+QhU2HOicYKqfNo17n9k6DKgt1upa3O2p1b5Gvn6icbQ@mail.gmail.com>
+ <915ba7e5-0e10-87ef-f0a9-1d8db2e6de90@canonical.com>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+Message-ID: <78fc6ba1-881a-9c82-ebc1-64311279050c@schaufler-ca.com>
+Date:   Fri, 21 Sep 2018 07:57:30 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180921100314.GH207969@Turing-Arch-b>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.24
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Fri, 21 Sep 2018 14:52:10 +0000 (UTC)
+In-Reply-To: <915ba7e5-0e10-87ef-f0a9-1d8db2e6de90@canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 21, 2018 at 06:03:14PM +0800, Kenneth Lee wrote:
-> On Sun, Sep 16, 2018 at 09:42:44PM -0400, Jerome Glisse wrote:
-> > 
-> > So i want to summarize issues i have as this threads have dig deep into
-> > details. For this i would like to differentiate two cases first the easy
-> > one when relying on SVA/SVM. Then the second one when there is no SVA/SVM.
-> > In both cases your objectives as i understand them:
-> > 
-> > [R1]- expose a common user space API that make it easy to share boiler
-> >       plate code accross many devices (discovering devices, opening
-> >       device, creating context, creating command queue ...).
-> > [R2]- try to share the device as much as possible up to device limits
-> >       (number of independant queues the device has)
-> > [R3]- minimize syscall by allowing user space to directly schedule on the
-> >       device queue without a round trip to the kernel
-> > 
-> > I don't think i missed any.
-> > 
-> > 
-> > (1) Device with SVA/SVM
-> > 
-> > For that case it is easy, you do not need to be in VFIO or part of any
-> > thing specific in the kernel. There is no security risk (modulo bug in
-> > the SVA/SVM silicon). Fork/exec is properly handle and binding a process
-> > to a device is just couple dozen lines of code.
-> > 
-> > 
-> > (2) Device does not have SVA/SVM (or it is disabled)
-> > 
-> > You want to still allow device to be part of your framework. However
-> > here i see fundamentals securities issues and you move the burden of
-> > being careful to user space which i think is a bad idea. We should
-> > never trus the userspace from kernel space.
-> > 
-> > To keep the same API for the user space code you want a 1:1 mapping
-> > between device physical address and process virtual address (ie if
-> > device access device physical address A it is accessing the same
-> > memory as what is backing the virtual address A in the process.
-> > 
-> > Security issues are on two things:
-> > [I1]- fork/exec, a process who opened any such device and created an
-> >       active queue can transfer without its knowledge control of its
-> >       commands queue through COW. The parent map some anonymous region
-> >       to the device as a command queue buffer but because of COW the
-> >       parent can be the first to copy on write and thus the child can
-> >       inherit the original pages that are mapped to the hardware.
-> >       Here parent lose control and child gain it.
-> > 
-> 
-> Hi, Jerome, 
-> 
-> I reconsider your logic. I think the problem can be solved. Let us separate the
-> SVA/SVM feature into two: fault-from-device and device-va-awareness. A device
-> with iommu can support only device-va-awareness or both.
+On 9/21/2018 6:19 AM, John Johansen wrote:
+> On 09/20/2018 08:02 PM, Kees Cook wrote:
+>> On Thu, Sep 20, 2018 at 7:14 PM, John Johansen
+>> <john.johansen@canonical.com> wrote:
+>>> On 09/20/2018 07:05 PM, Kees Cook wrote:
+>>>> On Thu, Sep 20, 2018 at 6:39 PM, John Johansen
+>>>> <john.johansen@canonical.com> wrote:
+>>>>
+>>>> Yes, I like CONFIG_LSM_ENABLE if "empty" means "enable all". Should
+>>>> CONFIG_LSM_ENABLE replace all the other CONFIG-based LSM
+>>>> enabling/disabling?
+>>> I don't particularly like "empty" being "enable all". With that
+>>> how would I disable all builtin lsms so that I just boot with
+>>> capability.
+>>>
+>>> An option of all or even * is more explicit and leaves the empty
+>>> set to mean disable everything
+>> Okay, that works. I prefer "all" FWIW.
+>>
+> me too, I was just trying to throw out options.
 
-Not sure i follow, are you also talking about the non SVA/SVM case here ?
-Either device has SVA/SVM, either it does not. The fact that device can
-use same physical address PA for its access as the process virtual address
-VA does not change any of the issues listed here, same issues would apply
-if device was using PA != VA ...
+I'll buy that. "all" is fine by me, although it means we
+can't have an LSM named "all". :) We should also allow "none"
+to mean no LSMs. I know lots of people who love using security=none.
 
-
-> VFIO works on top of iommu, so it will support at least device-va-awareness. For
-> the COW problem, it can be taken as a mmu synchronization issue. If the mmu page
-> table is changed, it should be synchronize to iommu (via iommu_notifier). In the
-> case that the device support fault-from-device, it will work fine. In the case
-> that it supports only device-va-awareness, we can prefault (handle_mm_fault)
-> also via iommu_notifier and reset to iommu page table.
-> 
-> So this can be considered as a bug of VFIO, cannot it?
-
-So again SVA/SVM is fine because it uses the same CPU page table so anything
-done to the process address space reflect automaticly to the device. Nothing
-to do for SVA/SVM.
-
-For non SVA/SVM you _must_ unmap device command queues, flush and wait for
-all pending commands, unmap all the IOMMU mapping and wait for the process
-to fault on the unmapped device command queue before trying to restore any
-thing. This would be terribly slow i described it in another email.
-
-Also you can not fault inside a mmu_notifier it is illegal, all you can do
-is unmap thing and wait for access to finish.
-
-> > [I2]- Because of [R3] you want to allow userspace to schedule commands
-> >       on the device without doing an ioctl and thus here user space
-> >       can schedule any commands to the device with any address. What
-> >       happens if that address have not been mapped by the user space
-> >       is undefined and in fact can not be defined as what each IOMMU
-> >       does on invalid address access is different from IOMMU to IOMMU.
-> > 
-> >       In case of a bad IOMMU, or simply an IOMMU improperly setup by
-> >       the kernel, this can potentialy allow user space to DMA anywhere.
-> > 
-> > [I3]- By relying on GUP in VFIO you are not abiding by the implicit
-> >       contract (at least i hope it is implicit) that you should not
-> >       try to map to the device any file backed vma (private or share).
-> > 
-> >       The VFIO code never check the vma controlling the addresses that
-> >       are provided to VFIO_IOMMU_MAP_DMA ioctl. Which means that the
-> >       user space can provide file backed range.
-> > 
-> >       I am guessing that the VFIO code never had any issues because its
-> >       number one user is QEMU and QEMU never does that (and that's good
-> >       as no one should ever do that).
-> > 
-> >       So if process does that you are opening your self to serious file
-> >       system corruption (depending on file system this can lead to total
-> >       data loss for the filesystem).
-> > 
-> >       Issue is that once you GUP you never abide to file system flushing
-> >       which write protect the page before writing to the disk. So
-> >       because the page is still map with write permission to the device
-> >       (assuming VFIO_IOMMU_MAP_DMA was a write map) then the device can
-> >       write to the page while it is in the middle of being written back
-> >       to disk. Consult your nearest file system specialist to ask him
-> >       how bad that can be.
-> 
-> In the case, we cannot do anything if the device do not support
-> fault-from-device. But we can reject write map with file-backed mapping.
-
-Yes this would avoid most issues with file-backed mapping, truncate would
-still cause weird behavior but only for your device. But then your non
-SVA/SVM case does not behave as the SVA/SVM case so why not do what i out-
-lined below that allow same behavior modulo command flushing ...
-
-> It seems both issues can be solved under VFIO framework:) (But of cause, I don't
-> mean it has to)
-
-The COW can not be solve without either the solution i described in this
-previous mail below or the other one with mmu notifier. But the one below
-is saner and has better performance.
-
-
-> > 
-> > [I4]- Design issue, mdev design As Far As I Understand It is about
-> >       sharing a single device to multiple clients (most obvious case
-> >       here is again QEMU guest). But you are going against that model,
-> >       in fact AFAIUI you are doing the exect opposite. When there is
-> >       no SVA/SVM you want only one mdev device that can not be share.
-> > 
-> >       So this is counter intuitive to the mdev existing design. It is
-> >       not about sharing device among multiple users but about giving
-> >       exclusive access to the device to one user.
-> > 
-> > 
-> > 
-> > All the reasons above is why i believe a different model would serve
-> > you and your user better. Below is a design that avoids all of the
-> > above issues and still delivers all of your objectives with the
-> > exceptions of the third one [R3] when there is no SVA/SVM.
-> > 
-> > 
-> > Create a subsystem (very much boiler plate code) which allow device to
-> > register themself against (very much like what you do in your current
-> > patchset but outside of VFIO).
-> > 
-> > That subsystem will create a device file for each registered system and
-> > expose a common API (ie set of ioctl) for each of those device files.
-> > 
-> > When user space create a queue (through an ioctl after opening the device
-> > file) the kernel can return -EBUSY if all the device queue are in use,
-> > or create a device queue and return a flag like SYNC_ONLY for device that
-> > do not have SVA/SVM.
-> > 
-> > For device with SVA/SVM at the time the process create a queue you bind
-> > the process PASID to the device queue. From there on the userspace can
-> > schedule commands and use the device without going to kernel space.
-> > 
-> > For device without SVA/SVM you create a fake queue that is just pure
-> > memory is not related to the device. From there on the userspace must
-> > call an ioctl every time it wants the device to consume its queue
-> > (hence why the SYNC_ONLY flag for synchronous operation only). The
-> > kernel portion read the fake queue expose to user space and copy
-> > commands into the real hardware queue but first it properly map any
-> > of the process memory needed for those commands to the device and
-> > adjust the device physical address with the one it gets from dma_map
-> > API.
-> > 
-> > With that model it is "easy" to listen to mmu_notifier and to abide by
-> > them to avoid issues [I1], [I3] and [I4]. You obviously avoid the [I2]
-> > issue by only mapping a fake device queue to userspace.
-> > 
-> > So yes with that models it means that every device that wish to support
-> > the non SVA/SVM case will have to do extra work (ie emulate its command
-> > queue in software in the kernel). But by doing so, you support an
-> > unlimited number of process on your device (ie all the process can share
-> > one single hardware command queues or multiple hardware queues).
-> > 
-> > The big advantages i see here is that the process do not have to worry
-> > about doing something wrong. You are protecting yourself and your user
-> > from stupid mistakes.
-> > 
-> > 
-> > I hope this is useful to you.
-> > 
-> > Cheers,
-> > Jérôme
-> 
-> Cheers
-> -- 
-> 			-Kenneth(Hisilicon)
-> 
