@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4804A7E3AC
+	by archive.lwn.net (Postfix) with ESMTP id B57927DD4F
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:17:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390372AbeIUVE1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 17:04:27 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53209 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390491AbeIUVD0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 17:03:26 -0400
-Received: by mail-wm1-f66.google.com with SMTP id y139-v6so3429645wmc.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 08:14:06 -0700 (PDT)
+        id S2390590AbeIUVFV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 17:05:21 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39384 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390478AbeIUVDJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 17:03:09 -0400
+Received: by mail-wr1-f67.google.com with SMTP id s14-v6so13207873wrw.6
+        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 08:13:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0OMivlQBlkMR+OIo97sD6sFFaZkiu9rVW9+qGQSiUP4=;
-        b=OFyuXUUZFiBmXAWubLMx8YU2l5NLejkfxGTmVmIjjN+VgNs9mtzWo980BQQpct6WLd
-         rDAhvuAdk6qF3cbQTSFRXn0PcT1IzpAfxR+sFpJOJe2IJbwSj59PMSyBpUxLuVggrsvP
-         hrti4DOQKgnAED9gVJ5snFxmuK+mluxPyAQnTA3dQ7NAfuUFASCgQMSB3mp5/xfQ27xS
-         75qVKCQIrZCgnWJtYLaPFDtHEGJ538o1f4PLXaKvfU2khl7Q/i2PkvPvdY0aTeENetoK
-         2nbVWFbN03/CT+bvoF56qjyq9biCpx6HnnKmrSy5A+VKYDB3tV63Bch01C/sd+Kv4Qzw
-         1BOw==
+        bh=VnLcDLnNHX3D1V0xwPdNWmxniEcAj6mTqts7hl6T03U=;
+        b=ZqYhEIgJrVuxfXSwj0U3wAdBDMFQ3K2MfTrbshNs4zTYzV6Epfe4N08cpAUlIwslpv
+         xtl3MUdQgeNxaDr5M3OLYrr/oyXO3Jwy/VkIiJ9VbMwX9FvaT3GYojgus27+fB1jr0aF
+         zqE6l2PKhvYPWfw4QryKz9jQojo8C9Y+GmPmFlGS78hEr5LVcSPCOkazg9saupiHtpHT
+         qG3N7ODqRPmI3BvJqo1neoEibBxoQ3qOWDM6ObWkUuNIWzdz4epU3MTv8JYQ2sjhE213
+         NmThuBmhOepa2JRDimx8XovURqkoHUrplFpSeEyN4ffGhYUR/0H69o3oXkaJg5URyXiT
+         iMyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0OMivlQBlkMR+OIo97sD6sFFaZkiu9rVW9+qGQSiUP4=;
-        b=jWxpSSzrm3IvLugL6+Rbm7sVc/SBEol097zmYWHd2giVwxcMf1Tiu9rmWiMTvhQ7X1
-         s32raSvhmRclbqdfmam1g6nks7OpxbJ8ekfBkyluiikMR5GCP4IDl0cEe7WXce0xTWkK
-         4ydVozn2SsZeKtbOJRymyxcY9C+v4SyYPcNP5OTtEHQE4F613M/euEH4wFs3gs/buQFo
-         NAIEHyu5rlqO4f4GsvnUAbKlXXt0fe/DZLhFHEJ9CxCDMQU4K5xFwcbAWxDbQflUZ2Ng
-         WJRk2d/CvRskVyBWdImntdRbtqEaQ2IOXJBKWVo2Sq5fsRYcJM0jVCLXXtXC+Nux3acp
-         bU1w==
-X-Gm-Message-State: APzg51DxQHDOpZuRpMqLROwvAN58nOQpv6b/L6fdjcxOeGsOTVgLeMk+
-        LE56boDAbttM7PrbFz/ALqJVOw==
-X-Google-Smtp-Source: ANB0VdZLgoo9U70xaziY+cHCD1by/PdgBIs7OJ1vqc5f/YS1n5hIWdaF6Wpvq4bFhZ/LeGhK+ftS8A==
-X-Received: by 2002:a1c:40d5:: with SMTP id n204-v6mr7794413wma.44.1537542845659;
-        Fri, 21 Sep 2018 08:14:05 -0700 (PDT)
+        bh=VnLcDLnNHX3D1V0xwPdNWmxniEcAj6mTqts7hl6T03U=;
+        b=RUwJrVRbZbTbSFx8hauaWjSHqoroF1ec/TmwgcXTN/2lDv/XCg+9ImBer01om+nqfO
+         oaNCJKiUrbqyZilu9pHCL3C85h0ldNPAvMojKaSUBWchmjyoKpgze1HRk/EN4dO6WMSL
+         CwOA2uOFSPHpcWR/1+70v7WGnJJjJOWVdmi5DavUChMZt/+2YLQXx3tH2ecKZlaoQZUm
+         YR8NxyhM5tQg+yosqAP5VsIxlbnRQyHCTgOWQLi1lpFZ8tGW+npyrbHcgOaGuRf51VOs
+         ++SVrd3DEn9W2v8lEt7x0/ZOnnoiQUwqDqS88CcTNYVirXbGd2O6dJZTMSD4d0ZX+oG3
+         N9AA==
+X-Gm-Message-State: APzg51BLmWvPUuVy1T0HOCr9ettKDsNkoB8/CWub1L4KEeGC2QRsw/vy
+        Bq+LAnbAnPQPgCNCfbs2cLkBig==
+X-Google-Smtp-Source: ANB0VdaOo3tZkvgiQYshv/itxNwRIE4PpNX7L5d+RPYe11hJWCrZ3OxtCClBiyGXmAl100v26ullQw==
+X-Received: by 2002:a05:6000:108:: with SMTP id o8mr36829838wrx.196.1537542827857;
+        Fri, 21 Sep 2018 08:13:47 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id e7-v6sm27990271wru.46.2018.09.21.08.14.04
+        by smtp.gmail.com with ESMTPSA id e7-v6sm27990271wru.46.2018.09.21.08.13.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 21 Sep 2018 08:14:04 -0700 (PDT)
+        Fri, 21 Sep 2018 08:13:46 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v9 11/20] kasan, arm64: fix up fault handling logic
-Date:   Fri, 21 Sep 2018 17:13:33 +0200
-Message-Id: <a8169b3802dda203e717ecd9cdc40cc3fa86e7e5.1537542735.git.andreyknvl@google.com>
+Subject: [PATCH v9 01/20] kasan, mm: change hooks signatures
+Date:   Fri, 21 Sep 2018 17:13:23 +0200
+Message-Id: <37b1d7e7c372b60e2323b33bf2e57d4e3409df0b.1537542735.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.0.444.g18242da7ef-goog
 In-Reply-To: <cover.1537542735.git.andreyknvl@google.com>
 References: <cover.1537542735.git.andreyknvl@google.com>
@@ -98,38 +98,347 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-show_pte in arm64 fault handling relies on the fact that the top byte of
-a kernel pointer is 0xff, which isn't always the case with tag-based
-KASAN.
-
-This patch resets the top byte in show_pte.
+Tag-based KASAN changes the value of the top byte of pointers returned
+from the kernel allocation functions (such as kmalloc). This patch updates
+KASAN hooks signatures and their usage in SLAB and SLUB code to reflect
+that.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/mm/fault.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/linux/kasan.h | 43 +++++++++++++++++++++++++++++--------------
+ mm/kasan/kasan.c      | 30 ++++++++++++++++++------------
+ mm/slab.c             | 12 ++++++------
+ mm/slab.h             |  2 +-
+ mm/slab_common.c      |  4 ++--
+ mm/slub.c             | 15 +++++++--------
+ 6 files changed, 63 insertions(+), 43 deletions(-)
 
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 50b30ff30de4..78328c864d01 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -32,6 +32,7 @@
- #include <linux/perf_event.h>
- #include <linux/preempt.h>
- #include <linux/hugetlb.h>
-+#include <linux/kasan.h>
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index 46aae129917c..52c86a568a4e 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -51,16 +51,16 @@ void kasan_cache_shutdown(struct kmem_cache *cache);
+ void kasan_poison_slab(struct page *page);
+ void kasan_unpoison_object_data(struct kmem_cache *cache, void *object);
+ void kasan_poison_object_data(struct kmem_cache *cache, void *object);
+-void kasan_init_slab_obj(struct kmem_cache *cache, const void *object);
++void *kasan_init_slab_obj(struct kmem_cache *cache, const void *object);
  
- #include <asm/bug.h>
- #include <asm/cmpxchg.h>
-@@ -134,6 +135,8 @@ void show_pte(unsigned long addr)
- 	pgd_t *pgdp;
- 	pgd_t pgd;
+-void kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags);
++void *kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags);
+ void kasan_kfree_large(void *ptr, unsigned long ip);
+ void kasan_poison_kfree(void *ptr, unsigned long ip);
+-void kasan_kmalloc(struct kmem_cache *s, const void *object, size_t size,
++void *kasan_kmalloc(struct kmem_cache *s, const void *object, size_t size,
+ 		  gfp_t flags);
+-void kasan_krealloc(const void *object, size_t new_size, gfp_t flags);
++void *kasan_krealloc(const void *object, size_t new_size, gfp_t flags);
  
-+	addr = (unsigned long)kasan_reset_tag((void *)addr);
+-void kasan_slab_alloc(struct kmem_cache *s, void *object, gfp_t flags);
++void *kasan_slab_alloc(struct kmem_cache *s, void *object, gfp_t flags);
+ bool kasan_slab_free(struct kmem_cache *s, void *object, unsigned long ip);
+ 
+ struct kasan_cache {
+@@ -105,19 +105,34 @@ static inline void kasan_unpoison_object_data(struct kmem_cache *cache,
+ 					void *object) {}
+ static inline void kasan_poison_object_data(struct kmem_cache *cache,
+ 					void *object) {}
+-static inline void kasan_init_slab_obj(struct kmem_cache *cache,
+-				const void *object) {}
++static inline void *kasan_init_slab_obj(struct kmem_cache *cache,
++				const void *object)
++{
++	return (void *)object;
++}
+ 
+-static inline void kasan_kmalloc_large(void *ptr, size_t size, gfp_t flags) {}
++static inline void *kasan_kmalloc_large(void *ptr, size_t size, gfp_t flags)
++{
++	return ptr;
++}
+ static inline void kasan_kfree_large(void *ptr, unsigned long ip) {}
+ static inline void kasan_poison_kfree(void *ptr, unsigned long ip) {}
+-static inline void kasan_kmalloc(struct kmem_cache *s, const void *object,
+-				size_t size, gfp_t flags) {}
+-static inline void kasan_krealloc(const void *object, size_t new_size,
+-				 gfp_t flags) {}
++static inline void *kasan_kmalloc(struct kmem_cache *s, const void *object,
++				size_t size, gfp_t flags)
++{
++	return (void *)object;
++}
++static inline void *kasan_krealloc(const void *object, size_t new_size,
++				 gfp_t flags)
++{
++	return (void *)object;
++}
+ 
+-static inline void kasan_slab_alloc(struct kmem_cache *s, void *object,
+-				   gfp_t flags) {}
++static inline void *kasan_slab_alloc(struct kmem_cache *s, void *object,
++				   gfp_t flags)
++{
++	return object;
++}
+ static inline bool kasan_slab_free(struct kmem_cache *s, void *object,
+ 				   unsigned long ip)
+ {
+diff --git a/mm/kasan/kasan.c b/mm/kasan/kasan.c
+index c3bd5209da38..55deff17a4d9 100644
+--- a/mm/kasan/kasan.c
++++ b/mm/kasan/kasan.c
+@@ -474,20 +474,22 @@ struct kasan_free_meta *get_free_info(struct kmem_cache *cache,
+ 	return (void *)object + cache->kasan_info.free_meta_offset;
+ }
+ 
+-void kasan_init_slab_obj(struct kmem_cache *cache, const void *object)
++void *kasan_init_slab_obj(struct kmem_cache *cache, const void *object)
+ {
+ 	struct kasan_alloc_meta *alloc_info;
+ 
+ 	if (!(cache->flags & SLAB_KASAN))
+-		return;
++		return (void *)object;
+ 
+ 	alloc_info = get_alloc_info(cache, object);
+ 	__memset(alloc_info, 0, sizeof(*alloc_info));
 +
- 	if (addr < TASK_SIZE) {
- 		/* TTBR0 */
- 		mm = current->active_mm;
++	return (void *)object;
+ }
+ 
+-void kasan_slab_alloc(struct kmem_cache *cache, void *object, gfp_t flags)
++void *kasan_slab_alloc(struct kmem_cache *cache, void *object, gfp_t flags)
+ {
+-	kasan_kmalloc(cache, object, cache->object_size, flags);
++	return kasan_kmalloc(cache, object, cache->object_size, flags);
+ }
+ 
+ static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
+@@ -528,7 +530,7 @@ bool kasan_slab_free(struct kmem_cache *cache, void *object, unsigned long ip)
+ 	return __kasan_slab_free(cache, object, ip, true);
+ }
+ 
+-void kasan_kmalloc(struct kmem_cache *cache, const void *object, size_t size,
++void *kasan_kmalloc(struct kmem_cache *cache, const void *object, size_t size,
+ 		   gfp_t flags)
+ {
+ 	unsigned long redzone_start;
+@@ -538,7 +540,7 @@ void kasan_kmalloc(struct kmem_cache *cache, const void *object, size_t size,
+ 		quarantine_reduce();
+ 
+ 	if (unlikely(object == NULL))
+-		return;
++		return NULL;
+ 
+ 	redzone_start = round_up((unsigned long)(object + size),
+ 				KASAN_SHADOW_SCALE_SIZE);
+@@ -551,10 +553,12 @@ void kasan_kmalloc(struct kmem_cache *cache, const void *object, size_t size,
+ 
+ 	if (cache->flags & SLAB_KASAN)
+ 		set_track(&get_alloc_info(cache, object)->alloc_track, flags);
++
++	return (void *)object;
+ }
+ EXPORT_SYMBOL(kasan_kmalloc);
+ 
+-void kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags)
++void *kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags)
+ {
+ 	struct page *page;
+ 	unsigned long redzone_start;
+@@ -564,7 +568,7 @@ void kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags)
+ 		quarantine_reduce();
+ 
+ 	if (unlikely(ptr == NULL))
+-		return;
++		return NULL;
+ 
+ 	page = virt_to_page(ptr);
+ 	redzone_start = round_up((unsigned long)(ptr + size),
+@@ -574,21 +578,23 @@ void kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags)
+ 	kasan_unpoison_shadow(ptr, size);
+ 	kasan_poison_shadow((void *)redzone_start, redzone_end - redzone_start,
+ 		KASAN_PAGE_REDZONE);
++
++	return (void *)ptr;
+ }
+ 
+-void kasan_krealloc(const void *object, size_t size, gfp_t flags)
++void *kasan_krealloc(const void *object, size_t size, gfp_t flags)
+ {
+ 	struct page *page;
+ 
+ 	if (unlikely(object == ZERO_SIZE_PTR))
+-		return;
++		return ZERO_SIZE_PTR;
+ 
+ 	page = virt_to_head_page(object);
+ 
+ 	if (unlikely(!PageSlab(page)))
+-		kasan_kmalloc_large(object, size, flags);
++		return kasan_kmalloc_large(object, size, flags);
+ 	else
+-		kasan_kmalloc(page->slab_cache, object, size, flags);
++		return kasan_kmalloc(page->slab_cache, object, size, flags);
+ }
+ 
+ void kasan_poison_kfree(void *ptr, unsigned long ip)
+diff --git a/mm/slab.c b/mm/slab.c
+index aa76a70e087e..6fdca9ec2ea4 100644
+--- a/mm/slab.c
++++ b/mm/slab.c
+@@ -3551,7 +3551,7 @@ void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+ {
+ 	void *ret = slab_alloc(cachep, flags, _RET_IP_);
+ 
+-	kasan_slab_alloc(cachep, ret, flags);
++	ret = kasan_slab_alloc(cachep, ret, flags);
+ 	trace_kmem_cache_alloc(_RET_IP_, ret,
+ 			       cachep->object_size, cachep->size, flags);
+ 
+@@ -3617,7 +3617,7 @@ kmem_cache_alloc_trace(struct kmem_cache *cachep, gfp_t flags, size_t size)
+ 
+ 	ret = slab_alloc(cachep, flags, _RET_IP_);
+ 
+-	kasan_kmalloc(cachep, ret, size, flags);
++	ret = kasan_kmalloc(cachep, ret, size, flags);
+ 	trace_kmalloc(_RET_IP_, ret,
+ 		      size, cachep->size, flags);
+ 	return ret;
+@@ -3641,7 +3641,7 @@ void *kmem_cache_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid)
+ {
+ 	void *ret = slab_alloc_node(cachep, flags, nodeid, _RET_IP_);
+ 
+-	kasan_slab_alloc(cachep, ret, flags);
++	ret = kasan_slab_alloc(cachep, ret, flags);
+ 	trace_kmem_cache_alloc_node(_RET_IP_, ret,
+ 				    cachep->object_size, cachep->size,
+ 				    flags, nodeid);
+@@ -3660,7 +3660,7 @@ void *kmem_cache_alloc_node_trace(struct kmem_cache *cachep,
+ 
+ 	ret = slab_alloc_node(cachep, flags, nodeid, _RET_IP_);
+ 
+-	kasan_kmalloc(cachep, ret, size, flags);
++	ret = kasan_kmalloc(cachep, ret, size, flags);
+ 	trace_kmalloc_node(_RET_IP_, ret,
+ 			   size, cachep->size,
+ 			   flags, nodeid);
+@@ -3679,7 +3679,7 @@ __do_kmalloc_node(size_t size, gfp_t flags, int node, unsigned long caller)
+ 	if (unlikely(ZERO_OR_NULL_PTR(cachep)))
+ 		return cachep;
+ 	ret = kmem_cache_alloc_node_trace(cachep, flags, node, size);
+-	kasan_kmalloc(cachep, ret, size, flags);
++	ret = kasan_kmalloc(cachep, ret, size, flags);
+ 
+ 	return ret;
+ }
+@@ -3715,7 +3715,7 @@ static __always_inline void *__do_kmalloc(size_t size, gfp_t flags,
+ 		return cachep;
+ 	ret = slab_alloc(cachep, flags, caller);
+ 
+-	kasan_kmalloc(cachep, ret, size, flags);
++	ret = kasan_kmalloc(cachep, ret, size, flags);
+ 	trace_kmalloc(caller, ret,
+ 		      size, cachep->size, flags);
+ 
+diff --git a/mm/slab.h b/mm/slab.h
+index 58c6c1c2a78e..4190c24ef0e9 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -441,7 +441,7 @@ static inline void slab_post_alloc_hook(struct kmem_cache *s, gfp_t flags,
+ 
+ 		kmemleak_alloc_recursive(object, s->object_size, 1,
+ 					 s->flags, flags);
+-		kasan_slab_alloc(s, object, flags);
++		p[i] = kasan_slab_alloc(s, object, flags);
+ 	}
+ 
+ 	if (memcg_kmem_enabled())
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index fea3376f9816..3abfa0f86118 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1183,7 +1183,7 @@ void *kmalloc_order(size_t size, gfp_t flags, unsigned int order)
+ 	page = alloc_pages(flags, order);
+ 	ret = page ? page_address(page) : NULL;
+ 	kmemleak_alloc(ret, size, 1, flags);
+-	kasan_kmalloc_large(ret, size, flags);
++	ret = kasan_kmalloc_large(ret, size, flags);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(kmalloc_order);
+@@ -1461,7 +1461,7 @@ static __always_inline void *__do_krealloc(const void *p, size_t new_size,
+ 		ks = ksize(p);
+ 
+ 	if (ks >= new_size) {
+-		kasan_krealloc((void *)p, new_size, flags);
++		p = kasan_krealloc((void *)p, new_size, flags);
+ 		return (void *)p;
+ 	}
+ 
+diff --git a/mm/slub.c b/mm/slub.c
+index 8da34a8af53d..b2172284d421 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -1334,10 +1334,10 @@ static inline void dec_slabs_node(struct kmem_cache *s, int node,
+  * Hooks for other subsystems that check memory allocations. In a typical
+  * production configuration these hooks all should produce no code at all.
+  */
+-static inline void kmalloc_large_node_hook(void *ptr, size_t size, gfp_t flags)
++static inline void *kmalloc_large_node_hook(void *ptr, size_t size, gfp_t flags)
+ {
+ 	kmemleak_alloc(ptr, size, 1, flags);
+-	kasan_kmalloc_large(ptr, size, flags);
++	return kasan_kmalloc_large(ptr, size, flags);
+ }
+ 
+ static __always_inline void kfree_hook(void *x)
+@@ -2730,7 +2730,7 @@ void *kmem_cache_alloc_trace(struct kmem_cache *s, gfp_t gfpflags, size_t size)
+ {
+ 	void *ret = slab_alloc(s, gfpflags, _RET_IP_);
+ 	trace_kmalloc(_RET_IP_, ret, size, s->size, gfpflags);
+-	kasan_kmalloc(s, ret, size, gfpflags);
++	ret = kasan_kmalloc(s, ret, size, gfpflags);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(kmem_cache_alloc_trace);
+@@ -2758,7 +2758,7 @@ void *kmem_cache_alloc_node_trace(struct kmem_cache *s,
+ 	trace_kmalloc_node(_RET_IP_, ret,
+ 			   size, s->size, gfpflags, node);
+ 
+-	kasan_kmalloc(s, ret, size, gfpflags);
++	ret = kasan_kmalloc(s, ret, size, gfpflags);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(kmem_cache_alloc_node_trace);
+@@ -3748,7 +3748,7 @@ void *__kmalloc(size_t size, gfp_t flags)
+ 
+ 	trace_kmalloc(_RET_IP_, ret, size, s->size, flags);
+ 
+-	kasan_kmalloc(s, ret, size, flags);
++	ret = kasan_kmalloc(s, ret, size, flags);
+ 
+ 	return ret;
+ }
+@@ -3765,8 +3765,7 @@ static void *kmalloc_large_node(size_t size, gfp_t flags, int node)
+ 	if (page)
+ 		ptr = page_address(page);
+ 
+-	kmalloc_large_node_hook(ptr, size, flags);
+-	return ptr;
++	return kmalloc_large_node_hook(ptr, size, flags);
+ }
+ 
+ void *__kmalloc_node(size_t size, gfp_t flags, int node)
+@@ -3793,7 +3792,7 @@ void *__kmalloc_node(size_t size, gfp_t flags, int node)
+ 
+ 	trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);
+ 
+-	kasan_kmalloc(s, ret, size, flags);
++	ret = kasan_kmalloc(s, ret, size, flags);
+ 
+ 	return ret;
+ }
 -- 
 2.19.0.444.g18242da7ef-goog
 
