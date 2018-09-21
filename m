@@ -1,241 +1,159 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FORGED_MUA_MOZILLA,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F0ED77D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 14:14:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4B0B67D581
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 14:28:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728365AbeIUUDS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 16:03:18 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:35088 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728184AbeIUUDS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 16:03:18 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20180921141411euoutp01cb700cfde6a17a601cc9b2a095132c7b~Wb813tBWC2628326283euoutp01D;
-        Fri, 21 Sep 2018 14:14:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20180921141411euoutp01cb700cfde6a17a601cc9b2a095132c7b~Wb813tBWC2628326283euoutp01D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1537539251;
-        bh=GvZp8nuwtVijAteiyulp3SKkdYv/J3IP6UHkupIZ8zw=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=i2DalOc+j6CF330X1r9ALCIMkmQt8sQPw0pB6yWihTASwMYiHUjGampiBZFGbHElW
-         TAM9Be7iFoSK31YbQxwzFPpJJQJvaEP+yOuZMPZKDGx8HDMnxJ+rv51lUw4hFWVeHr
-         VJhyWt1sXcK9rAmmkLusFNjdsRNnPkoPDU54nJI4=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20180921141410eucas1p2eb424aca42ebf40adc7036e4abfbb8f8~Wb81NiUQC1306913069eucas1p2n;
-        Fri, 21 Sep 2018 14:14:10 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id CC.09.04806.1BCF4AB5; Fri, 21
-        Sep 2018 15:14:10 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20180921141409eucas1p190a47e2608429870d23516ee5e75c191~Wb8z_FmwI1466414664eucas1p1F;
-        Fri, 21 Sep 2018 14:14:09 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20180921141408eusmtrp106086b6e12679e25a8cd67dad7409ad4~Wb8zqCUM42831428314eusmtrp1v;
-        Fri, 21 Sep 2018 14:14:08 +0000 (GMT)
-X-AuditID: cbfec7f5-34dff700000012c6-e7-5ba4fcb1bd26
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id E5.A5.04128.0BCF4AB5; Fri, 21
-        Sep 2018 15:14:08 +0100 (BST)
-Received: from [106.116.147.30] (unknown [106.116.147.30]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20180921141407eusmtip14b73cfb4f9da548f0fb7325da2c9b933~Wb8ySCiPr1685416854eusmtip1S;
-        Fri, 21 Sep 2018 14:14:07 +0000 (GMT)
-Subject: Re: [PATCH v7 4/4] gpiolib: Implement fast processing path in
- get/set array
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        Peter Rosin <peda@axentia.se>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-serial@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Rojhalat Ibrahim <imr@rtschenk.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Tony Lindgren <tony@atomide.com>,
-        Yegor Yefremov <yegorslists@googlemail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Date:   Fri, 21 Sep 2018 16:14:06 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-        Thunderbird/52.9.1
+        id S2390175AbeIUURh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 16:17:37 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:32964 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728384AbeIUURh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 16:17:37 -0400
+Received: by mail-io1-f65.google.com with SMTP id r196-v6so12438566iod.0
+        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 07:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=74oBTiZr3GKImqfkkADCJON0PqznDXIBxVnzqvX+kz8=;
+        b=iWA6AJhNk820rNuxGMftyKtHbvikFgsPcQoQMTPgFe0HS04jIlQQhqDoXU94t2ocZK
+         2FnhhFOHAA69jWD3Mv7DPNAqFfCOQzrDWWxnWomgNi8pbQivISplEJmgE5CpGJV3mHnT
+         mw4yqk41E6Ej6Mjx5FaqWhbIMHtzU8jV0I6PBCh0onl959gPA2p8h9YaoPNM87DOrfQ/
+         vYcMPMmz1EwFCsphyOw35uSyy11lKl1B8aP8XR/rTwz91DoGfIiZKBgBgkJ2HgQIYS9b
+         u4H4ThoSozTsEPNxMHM5fyseiGcRusxhajAKtRwzaImhESAD25J0yh4dkhfZltYXi+5W
+         Qhqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=74oBTiZr3GKImqfkkADCJON0PqznDXIBxVnzqvX+kz8=;
+        b=hZLqBbVp5iHcyeOC+PPSGKFspWntOuMnI6H3R70eC2oBwtinaYpKNTH3ADTYCV1NMD
+         dlEvmPGdBi/iExNoJuQQ3LiVdR9cS55gdS8YmpmCGIy12EKHw0kaMXCqbFeNTsskD4hw
+         eX6glnZeyWd/rPWLp55IMNpCouaLRxXOVjs/cKRQxQScaFR9XECq0tOZKhJkQy+66vdv
+         VIHU8+QeXZ4bb/7ECw6TLthSm7Pja04LDIPx8NwN2jFic7yhPgwgx0IEZOZJvlgeeAp/
+         5BkV0yhkQfa/7U/ZGSvja5jAU1QxsffIOBEStM1iI4+pN2AqW/JBZOtdVXNSkbOy87p5
+         NkuQ==
+X-Gm-Message-State: APzg51DiNNr6VMh6WujYsKt3vshmviMRuKohRE5+vdc/REzrqw378rF+
+        O+35BTJfhrs5w6Y+hwuicdwQE7AyyewxsbRtBtHDvA==
+X-Google-Smtp-Source: ANB0VdaQDDxYU4zdTLk5+IoXzhgYjoTNs3ohPMdEFEeKaqticcN3tguxn/UeElIfUDhG0VOPgBCsgntoLXoOSu7B56A=
+X-Received: by 2002:a6b:ca85:: with SMTP id a127-v6mr38758579iog.31.1537540108394;
+ Fri, 21 Sep 2018 07:28:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAGfqbt7xJxGbq3oOJp9S0Sg7Z9=T6Dy52MDNWSDdsU==kPt1KQ@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TbWxTZRT2vfftvXfDzrsC7pWpM41iXGBIZvRE1ECiyfWLwA/BOBSucB3I
-        VpZ2H4KSoIN9lJF1FN24FDqzLoMqgts6Rm27rVtWl6Ht2IdQHUHTOgUKnXZNoMO57gbdv+c8
-        z3nOec6Pw9Ga28wSboeuWNLrxAItk4o7+m//uLx12pb3dPXb4B/30hDqrkRg8e/H4Lpwh4U7
-        N/tY+D3opqC86QwDtd9HEFz9zE7BSIdMw5GzUQoC4RoGnDM3aPD7z7JgM1tVcGS6hYIvK2wY
-        2qzTCKruxhCc6LuJYdhpYaBvphZBg99DwYWmQyw07o+q4I+JTDD1trFwuf4GC/2ND4Lba0Uw
-        2vEDhoSzn4WLtXUUhN0/YegaeQ1+rjMj8J3eCD6rBUH8+q/M6ieFwfouWrg2ukYYHhuihfjU
-        YSx80X2MFdynGxih/dRlSgicXyBc8fRi4bw8zgrRyfeEsMnMCq32akb4ZczFCN7eKiR0Hf+a
-        XZf5TuoL26SCHaWSfsVLW1K3t8tRVVH3ox85/jqE96FbxIhSOMI/Q9yeA9iIUjkNfxKRZnsz
-        pRQxROyJCaQUfyNSfakP37P4vj3HKELLrOXoQTYpaPhbiNgi2Um8kN9AJuLjc4ZF/DLyp6uS
-        SmKa/20BGa7ZkMQMv5IYI0YmiTH/BIlVxFVGxHGL+U0k4VyVpNV8Ohk4Gpobk8KvJweOd2Jl
-        TBYpdxyjFZxBgiHrXGrCB1PIQPAuo5hLyVVHEnOzwsvkyuRbSv6F5JqvnVXww2TQXIMVbzki
-        lQ0yqxQ1iDgsnYzStYr0+obmwtH8U+SMc4VCryEzFhtW5qeRS5F0JU8aOdxRTyu0mlRVaJTu
-        pUT2ffPf2p7ARdqEtPK8K+V5l8nzLpP/39uIsB1lSCWGwnzJkKuTynIMYqGhRJefs3VXYSua
-        fYjBf3xTncgz/b4X8RzS3q++L2rL06jEUsPuQi8iHK1dpPYYZyn1NnH3Hkm/a7O+pEAyeFEm
-        h7UZ6rTsD/I0fL5YLO2UpCJJf0+luJQl+5BcNPX53g9PnIq0PVvlCBfzuSPLNYnFaPhxd+wr
-        U6ip7vqQLf/1mXPhnmxwvRL05TzftXn9uk/XilOerYnHCl7VuVoODpqKY1SgjApo9rzRM5Cb
-        3vlm2Sd727Me2rhJ18zrxGVbMp4b/W6pGFodnxS1Jx+RPs4qWks90GDe+eLYu1iLDdvFldm0
-        3iD+C2T09TYMBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTdxTH87v39t4idrlW1F9g2ZYmaOa0ekHowQeR/262LNli1AwGrNEb
-        6qQUe4vKjJFIAW1UCjUgBSwG2AaZkUGtyHitMBCtKVrEFxhUcPIo1hdGwDEomPDfJ+d8Pyc5
-        yVdKys10sHRfikHQp6iTFfQS6sZ/nf3ra6Yr4jZezwkFd7+ThMHWHAQlbiMFja5JBibH2xl4
-        9qCJgMzySzTkXvMiGDheTUCPw0rC2RofAd1Dp2homBkjwe2uYaDCYpPA2enfCLiQXUFBnW0a
-        wYkPbxCcbx+nwNNQQkP7TC6Cc+5mAlzlpxkoM/ok8PzfEDC31TFwv3CMgY6yldDktCG447hJ
-        wVRDBwO3c/MIGGq6S0FLz9fwMM+CoPPibui0lSCYGH1Mb1/D3yhsIfmROzG8p/cWyU+8zaf4
-        gtZihm+6eI7m7VX3Cb77aiD/qLmN4q9a+xne9zKBHzJbGL62+iTN9/U20ryz7QTiW0r/YL4L
-        iVVu1evSDMIXGp1o2KaI4yBMyUWBMmxTlJILV8VvDotQbIjeuldI3ndQ0G+I/kmpsVt9ktTW
-        zw5ffnWaykAvsAkFSDG7CXf+eYU2oSVSOVuJ8EiPh5xffIq7CjIk87wcT/eaFkJehHvu9fkX
-        y9ldOHMywy8EsevwcGMOMRci2eeB+OnIB3LeGCTx1JO//Sma5bDJO3cqQCpjo3HtwC1ijik2
-        FL/JnvBfXcH+iP+xGBcyy3BX0SA1xwHs9zirtN7PJBuJz9c9Juf5c5x5uXiBV+EHgzbCjOTW
-        Rbp1kWJdpFgXKWWIqkZBQpqoTdKKYUpRrRXTUpKUe3TaWjTbRkfHe3s9Mo3vcCJWihRLZb97
-        K+LkEvVBMV3rRFhKKoJkzabZkWyvOv0XQa9L1KclC6ITRcw+l0cGr9ijm+12iiGRi+BUEMWp
-        wlXhkaBYJXNvTI+Vs0lqg7BfEFIF/UePkAYEZ6BCL528syhr2MXt1Nx8d6SgylVZWZe67JNs
-        49TqmJmfNz/NCtrBmbmQ2JPhETHrD+V/E0WqLw2Epnq2dQ2rRvu6hJU/aA4vxYQlIf8rh/bA
-        bXt8tONYvMf3a3exter1+7zRhCLH2rdG+9hf9a3fHk087nJG9iU0PAssfVV+5suONVsUlKhR
-        c2tJvaj+HxIjJ8WjAwAA
-Message-Id: <20180921141409eucas1p190a47e2608429870d23516ee5e75c191~Wb8z_FmwI1466414664eucas1p1F@eucas1p1.samsung.com>
-X-CMS-MailID: 20180921141409eucas1p190a47e2608429870d23516ee5e75c191
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20180920161947epcas3p491e6c136fe05d9672c81b7b4b8328f64
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20180920161947epcas3p491e6c136fe05d9672c81b7b4b8328f64
-References: <20180831225616.29221-1-jmkrzyszt@gmail.com>
-        <20180920101151eucas1p221f5a1715b8556bb9d99bf08fe09ce6f~WE-_cEf4l0754207542eucas1p27@eucas1p2.samsung.com>
-        <9860023.SlBYqtbjDV@z50>
-        <CGME20180920161947epcas3p491e6c136fe05d9672c81b7b4b8328f64@epcas3p4.samsung.com>
-        <15226900.TQMLYV7PZ0@z50>
-        <20180921081806eucas1p182d4646e8510b5f0356214af7edba11e~WXF8Ptw4M0970709707eucas1p1p@eucas1p1.samsung.com>
-        <CAGfqbt7xJxGbq3oOJp9S0Sg7Z9=T6Dy52MDNWSDdsU==kPt1KQ@mail.gmail.com>
+Received: by 2002:a02:3d47:0:0:0:0:0 with HTTP; Fri, 21 Sep 2018 07:28:27
+ -0700 (PDT)
+In-Reply-To: <CACT4Y+aD=ghemsrBaw2N_FJWtrWNf3r=BWxjWLkKBjNB-s=4Vg@mail.gmail.com>
+References: <cover.1537383101.git.andreyknvl@google.com> <d3f5102da9792370158ed02203d8066dd5e07ff7.1537383101.git.andreyknvl@google.com>
+ <CACT4Y+aD=ghemsrBaw2N_FJWtrWNf3r=BWxjWLkKBjNB-s=4Vg@mail.gmail.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Fri, 21 Sep 2018 16:28:27 +0200
+Message-ID: <CAAeHK+wBcmoikVedBZFSGC4UGsF578AKCzFhNFNgMuJe6oWvZA@mail.gmail.com>
+Subject: Re: [PATCH v8 16/20] kasan: add hooks implementation for tag-based mode
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Janusz,
+On Fri, Sep 21, 2018 at 1:37 PM, Dmitry Vyukov <dvyukov@google.com> wrote:
+> On Wed, Sep 19, 2018 at 8:54 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
 
-
-On 2018-09-21 12:51, Janusz Krzysztofik wrote:
-> 2018-09-21 10:18 GMT+02:00, Marek Szyprowski <m.szyprowski@samsung.com>:
->> On 2018-09-20 18:21, Janusz Krzysztofik wrote:
->>> On Thursday, September 20, 2018 5:48:22 PM CEST Janusz Krzysztofik wrote:
->>>> On Thursday, September 20, 2018 12:11:48 PM CEST Marek Szyprowski wrote:
->>>>> On 2018-09-02 14:01, Janusz Krzysztofik wrote:
->>>>>> Certain GPIO descriptor arrays returned by gpio_get_array() may
->>>>>> contain
->>>>>> information on direct mapping of array members to pins of a single
->>>>>> GPIO
->>>>>> chip in hardware order.  In such cases, bitmaps of values can be
->>>>>> passed
->>>>>> directly from/to the chip's .get/set_multiple() callbacks without
->>>>>> wasting time on iterations.
->>>>>>
->>>>>> Add respective code to gpiod_get/set_array_bitmap_complex() functions.
->>>>>> Pins not applicable for fast path are processed as before, skipping
->>>>>> over the 'fast' ones.
->>>>>>
->>>>>> Cc: Jonathan Corbet <corbet@lwn.net>
->>>>>> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
->>>>> I've just noticed that this patch landed in today's linux-next. Sadly
->>>>> it
->>>>> breaks booting of Exynos5250-based Samsung Snow Chromebook (ARM 32bit,
->>>>> device-tree source arch/arm/boot/dts/exynos5250-snow.dts).
->>>>>
->>>>> Booting hangs after detecting MMC cards. Reverting this patch fixes the
->>>>> boot. I will try later to add some debugs and investigate it further
->>>>> what
->>>>> really happens when booting hangs.
->>>> Hi Marek,
->>>>
->>>> Thanks for reporting. Could you please try the following fix?
->>> Hi again,
->>>
->>> I realized the patch was not correct, j, not i, should be updated in
->>> second
->>> hunk. Please try the following one.
->>>
->>> Thanks,
->>> Janusz
->>>
->>> >From a919c504850f6cb40e8e81267a3a37537f7c4fd4 Mon Sep 17 00:00:00 2001
->>> From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
->>> Date: Thu, 20 Sep 2018 17:37:21 +0200
->>> Subject: [PATCH] gpiolib: Fix bitmap index not updated
->>> While skipping fast path bits, bitmap index is not updated with next
->>> found zero bit position. Fix it.
->>>
->>> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
->> This one also doesn't help. A quick compare of logs with this version and
->> a working system shows, that with your patch (and fix) there are no calls
->> to
->> gpx0-2 pin (which are a part of mmc pwrseq), what causes mmc failure. If
->> you need any more information (what kind of logs will help?), let me know.
-> There is a debug message on array_info content available at the end of
-> gpiod_get_array(), could you please activate it and post the message so
-> we can understand better what is going on?
-
-With debug enabled on next-20180919:
-[    2.499153] pwrseq_simple mmc3_pwrseq: GPIO array info: chip=gpx0, 
-size=2, get_mask=2, set_mask=2, invert_mask=2
-
-On next-20180920 I get no this message and booting hangs.
-
-Same with next-20180920 + your second fix from this thread.
-
-I will try to debug this more on Monday.
-
-> On the other hand, I've had a look your device-tree configuration and
-> it looks like that specific setup won't benefit from the fast bitmap path.
-> You have pin 2 at position 0 and pin 1 at position 1 of the array.
-> Hence, the fast bitmap path covers only pin 1, and pin 2 is processed
-> by the old path with apparently buggy code for skipping over fast pins.
+>> +       /*
+>> +        * Since it's desirable to only call object contructors ones during
 >
-> As a temporary workaround, you could try to revert the order of pins in
-> your dts file (pin 1 at position 0, pin 2 at 1) and the mmc pwrseq code
-> should work for you again by taking the original old path, not skipping
-> over fast pins.  Results of such check may also help us to better
-> understand and resolve the issue.
+> s/ones/once/
 
-Changing the order of mmc pwrseq gpio pins fixes boot hang.
+Will fix.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+>
+>> +        * slab allocation, we preassign tags to all such objects.
+>
+> While we are here, it can make sense to mention that we can't repaint
+> objects with ctors after reallocation (even for
+> non-SLAB_TYPESAFE_BY_RCU) because the ctor code can memorize pointer
+> to the object somewhere (e.g. in the object itself). Then if we
+> repaint it, the old memorized pointer will become invalid.
 
+Will mention.
+
+>> -       kasan_unpoison_shadow(object, size);
+>> +       /* See the comment in kasan_init_slab_obj regarding preassigned tags */
+>> +       if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) &&
+>> +                       (cache->ctor || cache->flags & SLAB_TYPESAFE_BY_RCU)) {
+>> +#ifdef CONFIG_SLAB
+>> +               struct page *page = virt_to_page(object);
+>> +
+>> +               tag = (u8)obj_to_index(cache, page, (void *)object);
+>> +#else
+>> +               tag = get_tag(object);
+>> +#endif
+>
+> This kinda _almost_ matches the chunk of code in kasan_init_slab_obj,
+> but not exactly. Wonder if there is some nice way to unify this code?
+>
+> Maybe something like:
+>
+> static u8 tag_for_object(struct kmem_cache *cache, const void *object, new bool)
+> {
+>     if (!IS_ENABLED(CONFIG_KASAN_SW_TAGS) ||
+>         !cache->ctor && !(cache->flags & SLAB_TYPESAFE_BY_RCU))
+>         return random_tag();
+> #ifdef CONFIG_SLAB
+>     struct page *page = virt_to_page(object);
+>     return (u8)obj_to_index(cache, page, (void *)object);
+> #else
+>     return new ? random_tag() : get_tag(object);
+> #endif
+> }
+>
+> Then we can call this in both places.
+
+Will do, however I think it's better to do the CONFIG_KASAN_SW_TAGS
+check outside this helper function.
+
+> As a side effect this will assign tags to pointers during slab
+> initialization even if we don't have ctors, but it should be fine (?).
+
+We don't have to assign tag in this case, can just leave 0xff.
