@@ -5,22 +5,22 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C0077DE79
+	by archive.lwn.net (Postfix) with ESMTP id CEEC87DE7C
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 15:09:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390484AbeIUU6K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 16:58:10 -0400
-Received: from mga11.intel.com ([192.55.52.93]:13568 "EHLO mga11.intel.com"
+        id S2390612AbeIUU6v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 16:58:51 -0400
+Received: from mga05.intel.com ([192.55.52.43]:27306 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390450AbeIUU6I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Sep 2018 16:58:08 -0400
+        id S2390456AbeIUU6J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Sep 2018 16:58:09 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 08:08:51 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2018 08:08:50 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,285,1534834800"; 
-   d="scan'208";a="71856587"
+   d="scan'208";a="71856580"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
   by fmsmga007.fm.intel.com with ESMTP; 21 Sep 2018 08:08:50 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -46,9 +46,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v4 19/27] x86/cet/shstk: Introduce WRUSS instruction
-Date:   Fri, 21 Sep 2018 08:03:43 -0700
-Message-Id: <20180921150351.20898-20-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v4 17/27] mm: Introduce do_mmap_locked()
+Date:   Fri, 21 Sep 2018 08:03:41 -0700
+Message-Id: <20180921150351.20898-18-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180921150351.20898-1-yu-cheng.yu@intel.com>
 References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
@@ -57,84 +57,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-WRUSS is a new kernel-mode instruction but writes directly
-to user shadow stack memory.  This is used to construct
-a return address on the shadow stack for the signal
-handler.
-
-This instruction can fault if the user shadow stack is
-invalid shadow stack memory.  In that case, the kernel does
-fixup.
+There are a few places that need do_mmap() with mm->mmap_sem held.
+Create an in-line function for that.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/special_insns.h | 32 ++++++++++++++++++++++++++++
- arch/x86/mm/fault.c                  |  9 ++++++++
- 2 files changed, 41 insertions(+)
+ include/linux/mm.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
-index 317fc59b512c..c04e68ef47da 100644
---- a/arch/x86/include/asm/special_insns.h
-+++ b/arch/x86/include/asm/special_insns.h
-@@ -237,6 +237,38 @@ static inline void clwb(volatile void *__p)
- 		: [pax] "a" (p));
- }
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index f40387ecd920..c4cc07baccda 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2318,6 +2318,24 @@ static inline void mm_populate(unsigned long addr, unsigned long len)
+ static inline void mm_populate(unsigned long addr, unsigned long len) {}
+ #endif
  
-+#ifdef CONFIG_X86_INTEL_CET
-+#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
-+static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
++static inline unsigned long do_mmap_locked(unsigned long addr,
++	unsigned long len, unsigned long prot, unsigned long flags,
++	vm_flags_t vm_flags)
 +{
-+	asm_volatile_goto("1: wrussd %1, (%0)\n"
-+			  _ASM_EXTABLE(1b, %l[fail])
-+			  :: "r" (addr), "r" (val)
-+			  :: fail);
-+	return 0;
-+fail:
-+	return -1;
-+}
-+#else
-+static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
-+{
-+	WARN_ONCE(1, "write_user_shstk_32 used but not supported.\n");
-+	return -EFAULT;
-+}
-+#endif
++	struct mm_struct *mm = current->mm;
++	unsigned long populate;
 +
-+static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
-+{
-+	asm_volatile_goto("1: wrussq %1, (%0)\n"
-+			  _ASM_EXTABLE(1b, %l[fail])
-+			  :: "r" (addr), "r" (val)
-+			  :: fail);
-+	return 0;
-+fail:
-+	return -1;
-+}
-+#endif /* CONFIG_X86_INTEL_CET */
++	down_write(&mm->mmap_sem);
++	addr = do_mmap(NULL, addr, len, prot, flags, vm_flags, 0,
++		       &populate, NULL);
++	up_write(&mm->mmap_sem);
 +
- #define nop() asm volatile ("nop")
- 
- 
-diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-index 7c3877a982f4..4d4ac57a4ba2 100644
---- a/arch/x86/mm/fault.c
-+++ b/arch/x86/mm/fault.c
-@@ -1305,6 +1305,15 @@ __do_page_fault(struct pt_regs *regs, unsigned long error_code,
- 		error_code |= X86_PF_USER;
- 		flags |= FAULT_FLAG_USER;
- 	} else {
-+		/*
-+		 * WRUSS is a kernel instrcution and but writes
-+		 * to user shadow stack.  When a fault occurs,
-+		 * both X86_PF_USER and X86_PF_SHSTK are set.
-+		 * Clear X86_PF_USER here.
-+		 */
-+		if ((error_code & (X86_PF_USER | X86_PF_SHSTK)) ==
-+		    (X86_PF_USER | X86_PF_SHSTK))
-+			error_code &= ~X86_PF_USER;
- 		if (regs->flags & X86_EFLAGS_IF)
- 			local_irq_enable();
- 	}
++	if (populate)
++		mm_populate(addr, populate);
++
++	return addr;
++}
++
+ /* These take the mm semaphore themselves */
+ extern int __must_check vm_brk(unsigned long, unsigned long);
+ extern int __must_check vm_brk_flags(unsigned long, unsigned long, unsigned long);
 -- 
 2.17.1
 
