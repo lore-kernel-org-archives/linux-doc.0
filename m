@@ -1,241 +1,527 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB6897D57F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 11:26:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D22E37D57F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Sep 2018 11:38:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389805AbeIUROx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Sep 2018 13:14:53 -0400
-Received: from mail-oi0-f66.google.com ([209.85.218.66]:37319 "EHLO
-        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389746AbeIUROx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 13:14:53 -0400
-Received: by mail-oi0-f66.google.com with SMTP id p84-v6so11092335oic.4;
-        Fri, 21 Sep 2018 04:26:26 -0700 (PDT)
+        id S2389804AbeIUR0h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Sep 2018 13:26:37 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:46669 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728184AbeIUR0g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Sep 2018 13:26:36 -0400
+Received: by mail-io1-f66.google.com with SMTP id y12-v6so11815342ioj.13
+        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 04:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=vw0e28fwSZC5UQc5BVCOLbGo+yoDvxKS5llDJY/qwuw=;
-        b=ROigMOcFwVzgIKkSC+Aknm0Yax5z0Bt8xgKkCSE602kGi3Mg1H89oSwI9d46wRyeYb
-         RmpEM1L+CX9xG7Y0cD3G8bjDAk9loiENARMpt4/cl+s4sbAF827q2sXS8B7MJHDoJ8+x
-         1ft5+Kurt9joBNo4X5ao8WPtyNq8V5hc/KNVkaSKBCOk605wL+3z84Ln7u7ZFSXum9yd
-         ALQhTfBF67cVHE9rgJlEbV9vmFY74FCP546IxE4NqmVgsHt7MM9jUdJ8PT5Et484Hgmr
-         ujH7or+JK3H7PFKL7j+KDnJXqKO0WywjaLTAx/QtCsDaW+M7ZwbYcgTxRE/qL8uYY89B
-         iNTA==
+        bh=wOFHlzjfzVTho6ybAlDHXiapIYkOLEfItGHti9bOMoA=;
+        b=kHtCLb2zpFXDJbTQ7YdHDUrmbgrwY5150a0941G2h5IW7ZI8A426mLZQEwnNNOKVei
+         GA5ExFu/R3cTVTyOzfsgMVozJoRqxDzx/gmmYZbnqKlUT1lE6IDh5Ab8CCaKdjURtvbP
+         oqvSbIlj/0208pABO7qbbDnwA0NbFh+3Ra3PwpZgJ5A3k9oBfWvXionfuJ8xj/gyL97M
+         AFmyqKOFhABoHWRWBr6cnGEvK0L5IyXnqgB0hhzFuQJ0FleMnz+G5VOPKuUTJO4B4Xrj
+         Z1nzG3wxq1ovY8RLpfdEEi91nv0tm55zLt29KVYl4onimDXF3GAKpPsNVw/vGyOgDvYu
+         QF4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=vw0e28fwSZC5UQc5BVCOLbGo+yoDvxKS5llDJY/qwuw=;
-        b=mXH1QZFLwT9vE7UUB2Ue3Cb9fcDZ6aJbWSQIYvbqqEf4TSAzfVRUxj22mNqPOpyCeI
-         p0/KP7MgJyXdujbQIpFbfR5dE/gF+pn6PpcshxQuI5vcgMtY44i7rcwbhCwnywFVDIKt
-         YwUc3yAJG8s1L/Z5GJZCAaCJamxFhqakXX/dNvdwf55JO+iNHgGRS/3Zg0i3IjEEPVKF
-         GdGZXmJ5YVD2H8r2zJq1Jb18MQz3DAw4T05PKe90+kDCwRym0epZj+Xuk91bBt6pQMDN
-         yZABu+wk5FxIz4wR1DM+IWpSmlB/N3kLQibTCguDpRzcHdKkTFkSlS9QxYXgw1nId7Xt
-         UetA==
-X-Gm-Message-State: APzg51D0Wr9JwLmW4dzmqYIyu753a9JeQWD/vA8teFYE/uDFZCrR7T1D
-        1eA8F/82I3R22g/DWiDvrK/lBM6DXmi1EZnzlWM=
-X-Google-Smtp-Source: ANB0VdafiVnEdFrQToTn9wM0Xe6RT2xOW2OQq+5nQujhuaoYp8VK0cG8EgGXzov8VsAS5gAzbms9VqsJmCNHwRAJ5Vw=
-X-Received: by 2002:aca:2203:: with SMTP id b3-v6mr1358004oic.366.1537529186279;
- Fri, 21 Sep 2018 04:26:26 -0700 (PDT)
+        bh=wOFHlzjfzVTho6ybAlDHXiapIYkOLEfItGHti9bOMoA=;
+        b=s69VHU4NtAmgxHS2z+M7bchc8gBryZzMVkWFOZYT6oNB4Gt1PNsegl7puT1vSNEzXu
+         TDz9t4gJpcTKtOcR0gyz2YinWSZHfP6N0FrawUXbYq3c6KYYX9jAUilDX+gSQ+EjHWwg
+         O9oksqiWKAoGiF3IZ4/DtbqJYMDRuh3qmjKTLwa3e6/7Xs7R10ThMCAlUIVGKooF8nHD
+         lkLx24oj+t/Ef+ZNMqAD6Yuix+wWfxH130tV7Aqgw1vBq4Jkm5H3E6jXg9Ev8i1HrnB+
+         6/d37pLdNt9hFiO4xY5z/FcFS3qgClWX2zjoNq13KHCNNw+Na7p0NxJFnCAALPrqJt2h
+         4oHg==
+X-Gm-Message-State: APzg51D4GA3nKkVCiKdE9RHPaRlHqPbCIbjEoXD3wFzv9MUocoJc/Mr9
+        SOGzMzdmQ2A7sq1Ggm/pA/5OsinoZBu6L4+xykYcFg==
+X-Google-Smtp-Source: ANB0VdZWF73U4Gy5yDOJz+ifN0qGji+B85PxHfpN50aRucHHBUxvQqcrewJeyAuSiDgGgDCHpbVgQBnr7iKFal7kp80=
+X-Received: by 2002:a6b:6209:: with SMTP id f9-v6mr36172508iog.11.1537529887136;
+ Fri, 21 Sep 2018 04:38:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:326:0:0:0:0:0 with HTTP; Fri, 21 Sep 2018 04:26:25 -0700 (PDT)
-In-Reply-To: <CAGfqbt7xJxGbq3oOJp9S0Sg7Z9=T6Dy52MDNWSDdsU==kPt1KQ@mail.gmail.com>
-References: <20180831225616.29221-1-jmkrzyszt@gmail.com> <20180920101151eucas1p221f5a1715b8556bb9d99bf08fe09ce6f~WE-_cEf4l0754207542eucas1p27@eucas1p2.samsung.com>
- <9860023.SlBYqtbjDV@z50> <CGME20180920161947epcas3p491e6c136fe05d9672c81b7b4b8328f64@epcas3p4.samsung.com>
- <15226900.TQMLYV7PZ0@z50> <20180921081806eucas1p182d4646e8510b5f0356214af7edba11e~WXF8Ptw4M0970709707eucas1p1p@eucas1p1.samsung.com>
- <CAGfqbt7xJxGbq3oOJp9S0Sg7Z9=T6Dy52MDNWSDdsU==kPt1KQ@mail.gmail.com>
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Date:   Fri, 21 Sep 2018 13:26:25 +0200
-Message-ID: <CAGfqbt6chUGTDQ-yjppMydet+LFLAjpVzzRsr4+ho3Nu9y_2UQ@mail.gmail.com>
-Subject: Re: [PATCH v7 4/4] gpiolib: Implement fast processing path in get/set array
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        Peter Rosin <peda@axentia.se>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
+Received: by 2002:a02:5942:0:0:0:0:0 with HTTP; Fri, 21 Sep 2018 04:37:46
+ -0700 (PDT)
+In-Reply-To: <d3f5102da9792370158ed02203d8066dd5e07ff7.1537383101.git.andreyknvl@google.com>
+References: <cover.1537383101.git.andreyknvl@google.com> <d3f5102da9792370158ed02203d8066dd5e07ff7.1537383101.git.andreyknvl@google.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Fri, 21 Sep 2018 13:37:46 +0200
+Message-ID: <CACT4Y+aD=ghemsrBaw2N_FJWtrWNf3r=BWxjWLkKBjNB-s=4Vg@mail.gmail.com>
+Subject: Re: [PATCH v8 16/20] kasan: add hooks implementation for tag-based mode
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-serial@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Rojhalat Ibrahim <imr@rtschenk.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Tony Lindgren <tony@atomide.com>,
-        Yegor Yefremov <yegorslists@googlemail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Marek,
+On Wed, Sep 19, 2018 at 8:54 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> This commit adds tag-based KASAN specific hooks implementation and
+> adjusts common generic and tag-based KASAN ones.
+>
+> 1. When a new slab cache is created, tag-based KASAN rounds up the size of
+>    the objects in this cache to KASAN_SHADOW_SCALE_SIZE (== 16).
+>
+> 2. On each kmalloc tag-based KASAN generates a random tag, sets the shadow
+>    memory, that corresponds to this object to this tag, and embeds this
+>    tag value into the top byte of the returned pointer.
+>
+> 3. On each kfree tag-based KASAN poisons the shadow memory with a random
+>    tag to allow detection of use-after-free bugs.
+>
+> The rest of the logic of the hook implementation is very much similar to
+> the one provided by generic KASAN. Tag-based KASAN saves allocation and
+> free stack metadata to the slab object the same way generic KASAN does.
+>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  mm/kasan/common.c | 118 ++++++++++++++++++++++++++++++++++++++--------
+>  mm/kasan/kasan.h  |   8 ++++
+>  mm/kasan/tags.c   |  48 +++++++++++++++++++
+>  3 files changed, 155 insertions(+), 19 deletions(-)
+>
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index 7134e75447ff..d368095feb6c 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -140,6 +140,13 @@ void kasan_poison_shadow(const void *address, size_t size, u8 value)
+>  {
+>         void *shadow_start, *shadow_end;
+>
+> +       /*
+> +        * Perform shadow offset calculation based on untagged address, as
+> +        * some of the callers (e.g. kasan_poison_object_data) pass tagged
+> +        * addresses to this function.
+> +        */
+> +       address = reset_tag(address);
+> +
+>         shadow_start = kasan_mem_to_shadow(address);
+>         shadow_end = kasan_mem_to_shadow(address + size);
+>
+> @@ -148,11 +155,24 @@ void kasan_poison_shadow(const void *address, size_t size, u8 value)
+>
+>  void kasan_unpoison_shadow(const void *address, size_t size)
+>  {
+> -       kasan_poison_shadow(address, size, 0);
+> +       u8 tag = get_tag(address);
+> +
+> +       /*
+> +        * Perform shadow offset calculation based on untagged address, as
+> +        * some of the callers (e.g. kasan_unpoison_object_data) pass tagged
+> +        * addresses to this function.
+> +        */
+> +       address = reset_tag(address);
+> +
+> +       kasan_poison_shadow(address, size, tag);
+>
+>         if (size & KASAN_SHADOW_MASK) {
+>                 u8 *shadow = (u8 *)kasan_mem_to_shadow(address + size);
+> -               *shadow = size & KASAN_SHADOW_MASK;
+> +
+> +               if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+> +                       *shadow = tag;
+> +               else
+> +                       *shadow = size & KASAN_SHADOW_MASK;
+>         }
+>  }
+>
+> @@ -200,8 +220,9 @@ void kasan_unpoison_stack_above_sp_to(const void *watermark)
+>
+>  void kasan_alloc_pages(struct page *page, unsigned int order)
+>  {
+> -       if (likely(!PageHighMem(page)))
+> -               kasan_unpoison_shadow(page_address(page), PAGE_SIZE << order);
+> +       if (unlikely(PageHighMem(page)))
+> +               return;
+> +       kasan_unpoison_shadow(page_address(page), PAGE_SIZE << order);
+>  }
+>
+>  void kasan_free_pages(struct page *page, unsigned int order)
+> @@ -218,6 +239,9 @@ void kasan_free_pages(struct page *page, unsigned int order)
+>   */
+>  static inline unsigned int optimal_redzone(unsigned int object_size)
+>  {
+> +       if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+> +               return 0;
+> +
+>         return
+>                 object_size <= 64        - 16   ? 16 :
+>                 object_size <= 128       - 32   ? 32 :
+> @@ -232,6 +256,7 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>                         slab_flags_t *flags)
+>  {
+>         unsigned int orig_size = *size;
+> +       unsigned int redzone_size;
+>         int redzone_adjust;
+>
+>         /* Add alloc meta. */
+> @@ -239,20 +264,20 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>         *size += sizeof(struct kasan_alloc_meta);
+>
+>         /* Add free meta. */
+> -       if (cache->flags & SLAB_TYPESAFE_BY_RCU || cache->ctor ||
+> -           cache->object_size < sizeof(struct kasan_free_meta)) {
+> +       if (IS_ENABLED(CONFIG_KASAN_GENERIC) &&
+> +           (cache->flags & SLAB_TYPESAFE_BY_RCU || cache->ctor ||
+> +            cache->object_size < sizeof(struct kasan_free_meta))) {
+>                 cache->kasan_info.free_meta_offset = *size;
+>                 *size += sizeof(struct kasan_free_meta);
+>         }
+> -       redzone_adjust = optimal_redzone(cache->object_size) -
+> -               (*size - cache->object_size);
+>
+> +       redzone_size = optimal_redzone(cache->object_size);
+> +       redzone_adjust = redzone_size - (*size - cache->object_size);
+>         if (redzone_adjust > 0)
+>                 *size += redzone_adjust;
+>
+>         *size = min_t(unsigned int, KMALLOC_MAX_SIZE,
+> -                       max(*size, cache->object_size +
+> -                                       optimal_redzone(cache->object_size)));
+> +                       max(*size, cache->object_size + redzone_size));
+>
+>         /*
+>          * If the metadata doesn't fit, don't enable KASAN at all.
+> @@ -265,6 +290,8 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>                 return;
+>         }
+>
+> +       cache->align = round_up(cache->align, KASAN_SHADOW_SCALE_SIZE);
+> +
+>         *flags |= SLAB_KASAN;
+>  }
+>
+> @@ -319,6 +346,28 @@ void *kasan_init_slab_obj(struct kmem_cache *cache, const void *object)
+>         alloc_info = get_alloc_info(cache, object);
+>         __memset(alloc_info, 0, sizeof(*alloc_info));
+>
+> +       /*
+> +        * Since it's desirable to only call object contructors ones during
 
-2018-09-21 12:51 GMT+02:00, Janusz Krzysztofik <jmkrzyszt@gmail.com>:
-> Hi Marek,
->
-> 2018-09-21 10:18 GMT+02:00, Marek Szyprowski <m.szyprowski@samsung.com>:
->> Hi Janusz,
->>
->> On 2018-09-20 18:21, Janusz Krzysztofik wrote:
->>> On Thursday, September 20, 2018 5:48:22 PM CEST Janusz Krzysztofik
->>> wrote:
->>>> On Thursday, September 20, 2018 12:11:48 PM CEST Marek Szyprowski
->>>> wrote:
->>>>> On 2018-09-02 14:01, Janusz Krzysztofik wrote:
->>>>>> Certain GPIO descriptor arrays returned by gpio_get_array() may
->>>>>> contain
->>>>>> information on direct mapping of array members to pins of a single
->>>>>> GPIO
->>>>>> chip in hardware order.  In such cases, bitmaps of values can be
->>>>>> passed
->>>>>> directly from/to the chip's .get/set_multiple() callbacks without
->>>>>> wasting time on iterations.
->>>>>>
->>>>>> Add respective code to gpiod_get/set_array_bitmap_complex()
->>>>>> functions.
->>>>>> Pins not applicable for fast path are processed as before, skipping
->>>>>> over the 'fast' ones.
->>>>>>
->>>>>> Cc: Jonathan Corbet <corbet@lwn.net>
->>>>>> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
->>>>> I've just noticed that this patch landed in today's linux-next. Sadly
->>>>> it
->>>>> breaks booting of Exynos5250-based Samsung Snow Chromebook (ARM 32bit,
->>>>> device-tree source arch/arm/boot/dts/exynos5250-snow.dts).
->>>>>
->>>>> Booting hangs after detecting MMC cards. Reverting this patch fixes
->>>>> the
->>>>> boot. I will try later to add some debugs and investigate it further
->>>>> what
->>>>> really happens when booting hangs.
->>>> Hi Marek,
->>>>
->>>> Thanks for reporting. Could you please try the following fix?
->>> Hi again,
->>>
->>> I realized the patch was not correct, j, not i, should be updated in
->>> second
->>> hunk. Please try the following one.
->>>
->>> Thanks,
->>> Janusz
->>>
->>> >From a919c504850f6cb40e8e81267a3a37537f7c4fd4 Mon Sep 17 00:00:00 2001
->>> From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
->>> Date: Thu, 20 Sep 2018 17:37:21 +0200
->>> Subject: [PATCH] gpiolib: Fix bitmap index not updated
->>> While skipping fast path bits, bitmap index is not updated with next
->>> found zero bit position. Fix it.
->>>
->>> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
->>
->> This one also doesn't help. A quick compare of logs with this version and
->> a working system shows, that with your patch (and fix) there are no calls
->> to
->> gpx0-2 pin (which are a part of mmc pwrseq), what causes mmc failure. If
->> you need any more information (what kind of logs will help?), let me
->> know.
+s/ones/once/
 
-One more question. You said before that booting hanged after detecting MMC
-cards.  Without the fix, I could imagine it keeps iterating with index not
-updated and simply never returns from gpiod_get/set_array_bitmap_complex().
-Is the behaviour you observe the same with the fix applied?
+> +        * slab allocation, we preassign tags to all such objects.
 
-Thanks,
-Janusz
+While we are here, it can make sense to mention that we can't repaint
+objects with ctors after reallocation (even for
+non-SLAB_TYPESAFE_BY_RCU) because the ctor code can memorize pointer
+to the object somewhere (e.g. in the object itself). Then if we
+repaint it, the old memorized pointer will become invalid.
 
-> There is a debug message on array_info content available at the end of
-> gpiod_get_array(), could you please activate it and post the message so
-> we can understand better what is going on?
+> +        * Also preassign tags for SLAB_TYPESAFE_BY_RCU slabs to avoid
+> +        * use-after-free reports.
+> +        * For SLAB allocator we can't preassign tags randomly since the
+> +        * freelist is stored as an array of indexes instead of a linked
+> +        * list. Assign tags based on objects indexes, so that objects that
+> +        * are next to each other get different tags.
+> +        */
+> +       if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) &&
+> +                       (cache->ctor || cache->flags & SLAB_TYPESAFE_BY_RCU)) {
+> +#ifdef CONFIG_SLAB
+> +               struct page *page = virt_to_page(object);
+> +               u8 tag = (u8)obj_to_index(cache, page, (void *)object);
+> +#else
+> +               u8 tag = random_tag();
+> +#endif
+
+This looks much better now as compared to the 2 additional callbacks
+in the previous version.
+
+> +
+> +               object = set_tag(object, tag);
+> +       }
+> +
+>         return (void *)object;
+>  }
 >
-> On the other hand, I've had a look your device-tree configuration and
-> it looks like that specific setup won't benefit from the fast bitmap path.
-> You have pin 2 at position 0 and pin 1 at position 1 of the array.
-> Hence, the fast bitmap path covers only pin 1, and pin 2 is processed
-> by the old path with apparently buggy code for skipping over fast pins.
+> @@ -327,15 +376,30 @@ void *kasan_slab_alloc(struct kmem_cache *cache, void *object, gfp_t flags)
+>         return kasan_kmalloc(cache, object, cache->object_size, flags);
+>  }
 >
-> As a temporary workaround, you could try to revert the order of pins in
-> your dts file (pin 1 at position 0, pin 2 at 1) and the mmc pwrseq code
-> should work for you again by taking the original old path, not skipping
-> over fast pins.  Results of such check may also help us to better
-> understand and resolve the issue.
+> +static inline bool shadow_invalid(u8 tag, s8 shadow_byte)
+> +{
+> +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
+> +               return shadow_byte < 0 ||
+> +                       shadow_byte >= KASAN_SHADOW_SCALE_SIZE;
+> +       else
+> +               return tag != (u8)shadow_byte;
+> +}
+> +
+>  static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
+>                               unsigned long ip, bool quarantine)
+>  {
+>         s8 shadow_byte;
+> +       u8 tag;
+> +       void *tagged_object;
+>         unsigned long rounded_up_size;
 >
-> Thanks,
-> Janusz
+> +       tag = get_tag(object);
+> +       tagged_object = object;
+> +       object = reset_tag(object);
+> +
+>         if (unlikely(nearest_obj(cache, virt_to_head_page(object), object) !=
+>             object)) {
+> -               kasan_report_invalid_free(object, ip);
+> +               kasan_report_invalid_free(tagged_object, ip);
+>                 return true;
+>         }
 >
->>
->>> ---
->>>   drivers/gpio/gpiolib.c | 7 ++++---
->>>   1 file changed, 4 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
->>> index a53d17745d21..369bdd358fcc 100644
->>> --- a/drivers/gpio/gpiolib.c
->>> +++ b/drivers/gpio/gpiolib.c
->>> @@ -2880,7 +2880,7 @@ int gpiod_get_array_value_complex(bool raw, bool
->>> can_sleep,
->>>   			__set_bit(hwgpio, mask);
->>>
->>>   			if (array_info)
->>> -				find_next_zero_bit(array_info->get_mask,
->>> +				i = find_next_zero_bit(array_info->get_mask,
->>>   						   array_size, i);
->>>   			else
->>>   				i++;
->>> @@ -2905,7 +2905,8 @@ int gpiod_get_array_value_complex(bool raw, bool
->>> can_sleep,
->>>   			trace_gpio_value(desc_to_gpio(desc), 1, value);
->>>
->>>   			if (array_info)
->>> -				find_next_zero_bit(array_info->get_mask, i, j);
->>> +				j = find_next_zero_bit(array_info->get_mask, i,
->>> +						       j);
->>>   			else
->>>   				j++;
->>>   		}
->>> @@ -3192,7 +3193,7 @@ int gpiod_set_array_value_complex(bool raw, bool
->>> can_sleep,
->>>   			}
->>>
->>>   			if (array_info)
->>> -				find_next_zero_bit(array_info->set_mask,
->>> +				i = find_next_zero_bit(array_info->set_mask,
->>>   						   array_size, i);
->>>   			else
->>>   				i++;
->>
->> Best regards
->> --
->> Marek Szyprowski, PhD
->> Samsung R&D Institute Poland
->>
->>
+> @@ -344,20 +408,22 @@ static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
+>                 return false;
+>
+>         shadow_byte = READ_ONCE(*(s8 *)kasan_mem_to_shadow(object));
+> -       if (shadow_byte < 0 || shadow_byte >= KASAN_SHADOW_SCALE_SIZE) {
+> -               kasan_report_invalid_free(object, ip);
+> +       if (shadow_invalid(tag, shadow_byte)) {
+> +               kasan_report_invalid_free(tagged_object, ip);
+>                 return true;
+>         }
+>
+>         rounded_up_size = round_up(cache->object_size, KASAN_SHADOW_SCALE_SIZE);
+>         kasan_poison_shadow(object, rounded_up_size, KASAN_KMALLOC_FREE);
+>
+> -       if (!quarantine || unlikely(!(cache->flags & SLAB_KASAN)))
+> +       if ((IS_ENABLED(CONFIG_KASAN_GENERIC) && !quarantine) ||
+> +                       unlikely(!(cache->flags & SLAB_KASAN)))
+>                 return false;
+>
+>         set_track(&get_alloc_info(cache, object)->free_track, GFP_NOWAIT);
+>         quarantine_put(get_free_info(cache, object), cache);
+> -       return true;
+> +
+> +       return IS_ENABLED(CONFIG_KASAN_GENERIC);
+>  }
+>
+>  bool kasan_slab_free(struct kmem_cache *cache, void *object, unsigned long ip)
+> @@ -370,6 +436,7 @@ void *kasan_kmalloc(struct kmem_cache *cache, const void *object, size_t size,
+>  {
+>         unsigned long redzone_start;
+>         unsigned long redzone_end;
+> +       u8 tag;
+>
+>         if (gfpflags_allow_blocking(flags))
+>                 quarantine_reduce();
+> @@ -382,14 +449,27 @@ void *kasan_kmalloc(struct kmem_cache *cache, const void *object, size_t size,
+>         redzone_end = round_up((unsigned long)object + cache->object_size,
+>                                 KASAN_SHADOW_SCALE_SIZE);
+>
+> -       kasan_unpoison_shadow(object, size);
+> +       /* See the comment in kasan_init_slab_obj regarding preassigned tags */
+> +       if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) &&
+> +                       (cache->ctor || cache->flags & SLAB_TYPESAFE_BY_RCU)) {
+> +#ifdef CONFIG_SLAB
+> +               struct page *page = virt_to_page(object);
+> +
+> +               tag = (u8)obj_to_index(cache, page, (void *)object);
+> +#else
+> +               tag = get_tag(object);
+> +#endif
+
+This kinda _almost_ matches the chunk of code in kasan_init_slab_obj,
+but not exactly. Wonder if there is some nice way to unify this code?
+
+Maybe something like:
+
+static u8 tag_for_object(struct kmem_cache *cache, const void *object, new bool)
+{
+    if (!IS_ENABLED(CONFIG_KASAN_SW_TAGS) ||
+        !cache->ctor && !(cache->flags & SLAB_TYPESAFE_BY_RCU))
+        return random_tag();
+#ifdef CONFIG_SLAB
+    struct page *page = virt_to_page(object);
+    return (u8)obj_to_index(cache, page, (void *)object);
+#else
+    return new ? random_tag() : get_tag(object);
+#endif
+}
+
+Then we can call this in both places.
+As a side effect this will assign tags to pointers during slab
+initialization even if we don't have ctors, but it should be fine (?).
+
+
+
+> +       } else
+> +               tag = random_tag();
+> +
+> +       kasan_unpoison_shadow(set_tag(object, tag), size);
+>         kasan_poison_shadow((void *)redzone_start, redzone_end - redzone_start,
+>                 KASAN_KMALLOC_REDZONE);
+>
+>         if (cache->flags & SLAB_KASAN)
+>                 set_track(&get_alloc_info(cache, object)->alloc_track, flags);
+>
+> -       return (void *)object;
+> +       return set_tag(object, tag);
+>  }
+>  EXPORT_SYMBOL(kasan_kmalloc);
+>
+> @@ -439,7 +519,7 @@ void kasan_poison_kfree(void *ptr, unsigned long ip)
+>         page = virt_to_head_page(ptr);
+>
+>         if (unlikely(!PageSlab(page))) {
+> -               if (ptr != page_address(page)) {
+> +               if (reset_tag(ptr) != page_address(page)) {
+>                         kasan_report_invalid_free(ptr, ip);
+>                         return;
+>                 }
+> @@ -452,7 +532,7 @@ void kasan_poison_kfree(void *ptr, unsigned long ip)
+>
+>  void kasan_kfree_large(void *ptr, unsigned long ip)
+>  {
+> -       if (ptr != page_address(virt_to_head_page(ptr)))
+> +       if (reset_tag(ptr) != page_address(virt_to_head_page(ptr)))
+>                 kasan_report_invalid_free(ptr, ip);
+>         /* The object will be poisoned by page_alloc. */
+>  }
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index a2533b890248..a3db6b8efe7a 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -12,10 +12,18 @@
+>  #define KASAN_TAG_INVALID      0xFE /* inaccessible memory tag */
+>  #define KASAN_TAG_MAX          0xFD /* maximum value for random tags */
+>
+> +#ifdef CONFIG_KASAN_GENERIC
+>  #define KASAN_FREE_PAGE         0xFF  /* page was freed */
+>  #define KASAN_PAGE_REDZONE      0xFE  /* redzone for kmalloc_large allocations */
+>  #define KASAN_KMALLOC_REDZONE   0xFC  /* redzone inside slub object */
+>  #define KASAN_KMALLOC_FREE      0xFB  /* object was freed (kmem_cache_free/kfree) */
+> +#else
+> +#define KASAN_FREE_PAGE         KASAN_TAG_INVALID
+> +#define KASAN_PAGE_REDZONE      KASAN_TAG_INVALID
+> +#define KASAN_KMALLOC_REDZONE   KASAN_TAG_INVALID
+> +#define KASAN_KMALLOC_FREE      KASAN_TAG_INVALID
+> +#endif
+> +
+>  #define KASAN_GLOBAL_REDZONE    0xFA  /* redzone for global variable */
+>
+>  /*
+> diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
+> index 700323946867..a3cca11e4fed 100644
+> --- a/mm/kasan/tags.c
+> +++ b/mm/kasan/tags.c
+> @@ -78,15 +78,60 @@ void *kasan_reset_tag(const void *addr)
+>  void check_memory_region(unsigned long addr, size_t size, bool write,
+>                                 unsigned long ret_ip)
+>  {
+> +       u8 tag;
+> +       u8 *shadow_first, *shadow_last, *shadow;
+> +       void *untagged_addr;
+> +
+> +       if (unlikely(size == 0))
+> +               return;
+> +
+> +       tag = get_tag((const void *)addr);
+> +
+> +       /*
+> +        * Ignore accesses for pointers tagged with 0xff (native kernel
+> +        * pointer tag) to suppress false positives caused by kmap.
+> +        *
+> +        * Some kernel code was written to account for archs that don't keep
+> +        * high memory mapped all the time, but rather map and unmap particular
+> +        * pages when needed. Instead of storing a pointer to the kernel memory,
+> +        * this code saves the address of the page structure and offset within
+> +        * that page for later use. Those pages are then mapped and unmapped
+> +        * with kmap/kunmap when necessary and virt_to_page is used to get the
+> +        * virtual address of the page. For arm64 (that keeps the high memory
+> +        * mapped all the time), kmap is turned into a page_address call.
+> +
+> +        * The issue is that with use of the page_address + virt_to_page
+> +        * sequence the top byte value of the original pointer gets lost (gets
+> +        * set to KASAN_TAG_KERNEL (0xFF)).
+> +        */
+> +       if (tag == KASAN_TAG_KERNEL)
+> +               return;
+> +
+> +       untagged_addr = reset_tag((const void *)addr);
+> +       if (unlikely(untagged_addr <
+> +                       kasan_shadow_to_mem((void *)KASAN_SHADOW_START))) {
+> +               kasan_report(addr, size, write, ret_ip);
+> +               return;
+> +       }
+> +       shadow_first = kasan_mem_to_shadow(untagged_addr);
+> +       shadow_last = kasan_mem_to_shadow(untagged_addr + size - 1);
+> +       for (shadow = shadow_first; shadow <= shadow_last; shadow++) {
+> +               if (*shadow != tag) {
+> +                       kasan_report(addr, size, write, ret_ip);
+> +                       return;
+> +               }
+> +       }
+>  }
+>
+>  #define DEFINE_HWASAN_LOAD_STORE(size)                                 \
+>         void __hwasan_load##size##_noabort(unsigned long addr)          \
+>         {                                                               \
+> +               check_memory_region(addr, size, false, _RET_IP_);       \
+>         }                                                               \
+>         EXPORT_SYMBOL(__hwasan_load##size##_noabort);                   \
+>         void __hwasan_store##size##_noabort(unsigned long addr)         \
+>         {                                                               \
+> +               check_memory_region(addr, size, true, _RET_IP_);        \
+>         }                                                               \
+>         EXPORT_SYMBOL(__hwasan_store##size##_noabort)
+>
+> @@ -98,15 +143,18 @@ DEFINE_HWASAN_LOAD_STORE(16);
+>
+>  void __hwasan_loadN_noabort(unsigned long addr, unsigned long size)
+>  {
+> +       check_memory_region(addr, size, false, _RET_IP_);
+>  }
+>  EXPORT_SYMBOL(__hwasan_loadN_noabort);
+>
+>  void __hwasan_storeN_noabort(unsigned long addr, unsigned long size)
+>  {
+> +       check_memory_region(addr, size, true, _RET_IP_);
+>  }
+>  EXPORT_SYMBOL(__hwasan_storeN_noabort);
+>
+>  void __hwasan_tag_memory(unsigned long addr, u8 tag, unsigned long size)
+>  {
+> +       kasan_poison_shadow((void *)addr, size, tag);
+>  }
+>  EXPORT_SYMBOL(__hwasan_tag_memory);
+> --
+> 2.19.0.397.gdd90340f6a-goog
 >
