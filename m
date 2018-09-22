@@ -1,139 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5B3057D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 18:46:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E813E7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 23:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726226AbeIWAl3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Sep 2018 20:41:29 -0400
-Received: from mail-pl1-f169.google.com ([209.85.214.169]:34413 "EHLO
-        mail-pl1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726039AbeIWAl3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 20:41:29 -0400
-Received: by mail-pl1-f169.google.com with SMTP id f6-v6so7379436plo.1;
-        Sat, 22 Sep 2018 11:46:56 -0700 (PDT)
+        id S1725900AbeIWFdi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 23 Sep 2018 01:33:38 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:45488 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725891AbeIWFdi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 01:33:38 -0400
+Received: by mail-lj1-f194.google.com with SMTP id x16-v6so8732024ljd.12
+        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 16:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=O4G79cfQl39IIcoPKzysjvTlS/OFLnC+acQiKVBt+x4=;
-        b=SaiW+p4gAlmEPHbnsW2CI2ufFSDwQ5HWgagtSrcpThw1dUIe+8xrkb0i8+uLhFDRqi
-         Lm1V0vUKTm8JTne8WYemRxryefq98JQ3rXQFN+ZouWlaiQoPJHESNjFYVbCX64c1eJsY
-         qwFuQKJvhZSE2aW381JbaVVdVOW2t58yThj0etWLhpqih/Jo6GiqUSgNZd58mrpRf3yy
-         Q8pciE+jIcRZMWWpN3xMG1v6Ve38+264CIbILE6tt9jb+jUzj0QEv4G4KVsa04oCctz6
-         UgKzEvXAlD8PoIcNjTpwowxNxHlpm2txQC0xuELMTNBhPhq1bmmb9KQGZn621CT04bab
-         fI2Q==
+        d=joelfernandes.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t4vsmcrWT914V8JL5+69GqM4sSIsQ2EBYEbRFEjx/8I=;
+        b=RP8dllz44cqDoJpKJ8wcwuRwtQS9mTyHuzgB0SXdtdgsiGtVCRjgDjs+kJonZJtqK7
+         rZOEDa0QB4cLq9eT20hiKeaEdd5KAph1nWUKNAGIjEIRcysGvMse77OOtrhfqXh8q4m7
+         TsI1etAfzPqVHwKoBgj1esgSY+nN2DpqfskU4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=O4G79cfQl39IIcoPKzysjvTlS/OFLnC+acQiKVBt+x4=;
-        b=Dy7YthPxI04D9nO8kG9HlefC09i3YlC3D1fp32KE3IeBb74UQBPmn8m0/WTBZfzY9T
-         DXlI/s2pU9bHOwIJwtJCgUUDk5uRRNTY480OzjNr/MsN8ESUf4Hh3ueTK2qurDSZ8/yR
-         dyD6UQiUSTq1BHW3+UaXqCa8mVbNgkY8/NSvIrksB/lUXxEmTB2+Gf8wwLxOIDA/jI5l
-         KxTOzOA2JD6ODP1dZHl8S5VB+g5p6oPYnmejFsCPlwSrEAycNym+uw1+SaKKtLjb3Ykc
-         2J5dGNrxiyobLs+b5Q6Y7xAlI7P3AqzSBgURGDdfmRidi0yvORlF7XmFpCc5nOBP4TUY
-         bhfg==
-X-Gm-Message-State: ABuFfog5F6LQP+q5xDQ+AVK0fdPjQk6Ey8JctMRycFraC9CPd3i/Fm87
-        t6o9yPqDr1HqeUdmEAzzMK4=
-X-Google-Smtp-Source: ACcGV60PJBrtpDuYZXOmP7fWxly/hbf8NC50fe1wmegs2SkhXRnsdTmOOf5r0f2t6vZvoiMVa1NPFQ==
-X-Received: by 2002:a17:902:7c96:: with SMTP id y22-v6mr3658238pll.332.1537642015730;
-        Sat, 22 Sep 2018 11:46:55 -0700 (PDT)
-Received: from Asurada (c-73-231-2-134.hsd1.ca.comcast.net. [73.231.2.134])
-        by smtp.gmail.com with ESMTPSA id f11-v6sm46350974pfa.131.2018.09.22.11.46.54
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Sep 2018 11:46:55 -0700 (PDT)
-Date:   Sat, 22 Sep 2018 11:46:51 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] hwmon: ina3221: Read channel input source info
- from DT
-Message-ID: <20180922184650.GB9092@Asurada>
-References: <20180921223216.634-1-nicoleotsuka@gmail.com>
- <20180921223216.634-3-nicoleotsuka@gmail.com>
- <a7e6c311-eba4-e9b2-df64-9d02882a1dcb@roeck-us.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t4vsmcrWT914V8JL5+69GqM4sSIsQ2EBYEbRFEjx/8I=;
+        b=PFxFrOHQeSQobmx69gU8GA3Ay2be2AbaqoCKMWHWJLjHKBYXbmu9n2F8DXehjVbkzP
+         Nn7QNdhibMcvfzS7Pfx+awna0P1O2T/FeuoINvWZj5JIFh+tDiRE3tlSwt4SKqPn3aFu
+         k8rU9lnNVRLfWnwSIzWMcupvTargL8xRQ0owCNeakplsc9BBDgQA8d/TSviHTllfyccm
+         NKaD2n7DxFuqEtUyQpIz88jZSr3dtI3RL2abPkzoyd45jXNlZvJkEXIiPXvnypiHRt53
+         FmTtlj9qwODNrMG3PeF6+6fVvRCVBwSVYtK3b8RUePdmnb2V49idFvgwZzQAqpdwdfSw
+         9sJQ==
+X-Gm-Message-State: ABuFfohPD7cEHdYm1AHi7x6bdcb+ob9L8+yB6dzfknCXAvgn5ZTJy50u
+        7o9MDaNQlTmEAptKN0D9LP/D1CVqJ1xnhmY5GK8alQ==
+X-Google-Smtp-Source: ACcGV63uH2ajeHZ4Xguu3ovKQkh/zNcAprJnMoniW7rwdqenX03WMnLtyWuGwohuxnm5CeEIgsl750Qc8cdaZls+04o=
+X-Received: by 2002:a2e:901a:: with SMTP id h26-v6mr445800ljg.121.1537659496988;
+ Sat, 22 Sep 2018 16:38:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a7e6c311-eba4-e9b2-df64-9d02882a1dcb@roeck-us.net>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+References: <20180921223153.114728-1-joel@joelfernandes.org>
+ <20180922011428.GU4222@linux.ibm.com> <CAEXW_YTgSFr5r3Qkr0+0_wxKGQV1KKP_8X8uQKAnHmhvem8XtA@mail.gmail.com>
+ <20180922134616.GX4222@linux.ibm.com>
+In-Reply-To: <20180922134616.GX4222@linux.ibm.com>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Sat, 22 Sep 2018 19:38:05 -0400
+Message-ID: <CAEXW_YRaLjRWH9BYV_r8e4pCuBEGCzMSRdS6x7Qozc8HKoej=w@mail.gmail.com>
+Subject: Re: [PATCH RFC] Documentation: RCU: Clarify comment about fanout
+To:     paulmck@linux.ibm.com
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> >This patch adds a new structure of input source specific
-> >information including input source label, shunt resistor
-> >value and its connection status. It exposes these labels
-> >via sysfs and also disables those channels where there's
-> >no input source being connected.
-> >
-> 
-> I see you have decided to just display the disconnected channels.
-> This is misleading, and I can not accept it. Please either use the
-> is_visible callback to not display those channels at all, or have
+On Sat, Sep 22, 2018 at 9:46 AM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+[...]
+> > I have a few more as well, I'll send them out soon.
+>
+> I do have on my list to update this document based on the changes in
+> -rcu, which among other things eliminate the rcu_dynticks structure
+> and  make it so there is only one rcu_state structure in a given
+> running system.
+>
+> If you are crazy enough to want to make the corresponding changes,
+> I would welcome the patches (and would be happy to help with editing,
+> grammar, and soforth.  The potential advantage to you is familiarlzation
+> with the new version of the code.
+>
+> This is not a small amount of work, so please give it some thought
+> before saying "yes".  (In contrast, I would of course understand and
+> respect an immediate "no".)
 
-I will add is_visible. I have almost finished it while waiting for
-the v3's review comments. Will test it and include in the v4.
+I thought about this and I'd be happy to do it as long as you don't
+mind me asking questions about parts I don't understand (which
+shouldn't be a problem from my past experience ;-)). I am spending
+time understanding the code anyway so I'd rather update the main
+documentation than my own notes for the benefit of everyone ;-) As you
+said, it'll help familiarization of the code. Btw I got rid of those
+extra rcu_state externs too, I'll send that patch out today and
+continue working on things next week...
 
-> the _input attribute of disabled channels return -ENODATA (see
-> 'in[0-*]_enable' attribute in the ABI). If you implement the latter,
-> I would suggest to also implement the _enable attribute.
+Thanks!
 
-I will also add one separate patch for in[0-*]_enable after these
-two changes pass the review and get applied.
-
-> As mentioned in patch 1, I can not accept an implicitly mandatory
-> label attribute. The property defining the label attribute will
-> have to be optional and well defined to ensure that it matches
-> the ABI.
-
-I replied this in the PATCH-1. Let's discuss this topic there.
-
-> >+	/* Disable channels if their inputs are disconnected */
-> >+	for (i = 0, mask = 0; i < INA3221_NUM_CHANNELS; i++) {
-> >+		if (ina->inputs[i].disconnected)
-> >+			mask |= INA3221_CONFIG_CHx_EN(i);
-> >+	}
-> 
-> Consequently, you should also _enable_ channels which are not explicitly disabled.
-
-The register has enabled all channels by default. So I felt it'd
-be neat to have disabling code only. My v1 actually had enabling
-part as well, but I can add it back if you think it'd be better.
-
-> This can be tricky since you'll have to distinguish non-DT and DT configuration
-> and retain the original configuration if no channel configuration data is available
-> from devicetree.
-
-I don't quite understand this comments. Would you please elaborate
-it?
-
-For non-DT configurations, input->disconnected is always false by
-default unless someone adds config for it (through platform_data).
-If regmap_update_bits only does disabling like this version does,
-non-DT configurations will not get affected since mask = 0. Or if
-we change it to do both enabling and disabling, regmap_update_bits
-will still ignore since there's no register value changed, though
-it won't really hurt even if regmap writes correct configurations
-to the register.
-
-For DT configurations (without channel input source defined), it's
-like the same as non-DT configurations. As we have platforms only
-enabled ina3221 via DT while they don't have this new DT binding,
-the driver has to be backward compatible, so my change only sets
-input->disconnected=true when a status="disabled" is present, i.e.
-those platforms are treated as all channels getting enabled until
-they update their DTs.
-
-Thanks for the review
-Nicolin
+ - Joel
