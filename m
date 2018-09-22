@@ -1,399 +1,176 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57B307D584
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 12:50:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EBE217D581
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 13:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729573AbeIVSn7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Sep 2018 14:43:59 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:43708 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728934AbeIVSn6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 14:43:58 -0400
-Received: by mail-pl1-f193.google.com with SMTP id 30-v6so497844plb.10;
-        Sat, 22 Sep 2018 05:50:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XElcj7IsJPZpOh5XwJJX4+99mcOm3tAfnX4rQLsZqmc=;
-        b=h+ytM6F4mf1rQrfhSly1uWsqxYNCHvJdsmoc/HauR90lm7YEtslqfYJaiPnAKG12nm
-         vovJH2yV5MSJpYVWP2QPmAfY6fzSEI05QSpH1H303AJhdt4ftE1XuC7UjTMuGr7cPCXD
-         FQBsIU+BMgMfXd6Xnw7d9s5OamyckxO4zSQU7jToL+r1E7bnLbvuUhNr7iyMNtJ3SSKY
-         VZgBTO+jDEtd9G5h5MmkyiLPYTfkMsMJYTuPMxMZBiTCT1EqXk3o+WVXdJkP/TyUzJif
-         p9dhy/PH2jnKR31kmTDi+gkjmu8wfpcU0RHTIjsKzDLIYk1Cs9eOgD45Rg6+tu0gSWOI
-         wV3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XElcj7IsJPZpOh5XwJJX4+99mcOm3tAfnX4rQLsZqmc=;
-        b=shqjq6kAo30pWYZs82Z9bGhBUjAbXOxQtgvX6oeYtCYg91wfx0cYUqrOYICOoJCGme
-         v3Sk5CRS+w2P/V6lzSmLBLZb0Y59tPLw3zGpyVVmGHUfIu7Cb90OLwBUjuoDT9srE0lG
-         bpMH7re9QgzCxlKAFrfhqg4VaF00JGN3hp1uyS52ZMaF4S/P3KCYQ3AGOWgf6X2D1Tl/
-         Rlg5iEOj71/AkJTSWKkmsFxWwIYvgDkEWPwS2EA/INDewk2Rayrro8j7emnpi5aeyZgg
-         s6OsmO3qWNbDSnByaLHIJkHSy45tC+9YgEGq9v6QuwIOojlVYJOLcQvuaSZXreDihIzW
-         XmaQ==
-X-Gm-Message-State: ABuFfohUT7gS7Uw4OdeCyrS3dVHwoWfs80BTOumNh/2UdPyNFEIRSAYm
-        3weAPO30ylMb5TxHq2fP4wAsHEW8
-X-Google-Smtp-Source: ACcGV63L8W5BOzCFWrphYs76BEXhSxNagRWAzkYEnBBCyv0V24ovq9z5fU0Frbdn2B14BSL7ay+2Cw==
-X-Received: by 2002:a17:902:be07:: with SMTP id r7-v6mr2537776pls.275.1537620629029;
-        Sat, 22 Sep 2018 05:50:29 -0700 (PDT)
-Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id d66-v6sm50294970pfd.121.2018.09.22.05.50.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Sep 2018 05:50:28 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] hwmon: ina3221: Read channel input source info
- from DT
-To:     Nicolin Chen <nicoleotsuka@gmail.com>, jdelvare@suse.com,
-        robh+dt@kernel.org, mark.rutland@arm.com, corbet@lwn.net
-Cc:     afd@ti.com, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20180921223216.634-1-nicoleotsuka@gmail.com>
- <20180921223216.634-3-nicoleotsuka@gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <a7e6c311-eba4-e9b2-df64-9d02882a1dcb@roeck-us.net>
-Date:   Sat, 22 Sep 2018 05:50:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1731136AbeIVTkD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Sep 2018 15:40:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36660 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729730AbeIVTkD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 15:40:03 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8MDi45J005543
+        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 09:46:23 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2mnkxkvysm-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 09:46:22 -0400
+Received: from localhost
+        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sat, 22 Sep 2018 09:46:22 -0400
+Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
+        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sat, 22 Sep 2018 09:46:17 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8MDkGVI29753460
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sat, 22 Sep 2018 13:46:16 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0B314B2064;
+        Sat, 22 Sep 2018 09:44:42 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C47DEB205F;
+        Sat, 22 Sep 2018 09:44:41 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.80.211.27])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Sat, 22 Sep 2018 09:44:41 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 84B4016C1D07; Sat, 22 Sep 2018 06:46:16 -0700 (PDT)
+Date:   Sat, 22 Sep 2018 06:46:16 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH RFC] Documentation: RCU: Clarify comment about fanout
+Reply-To: paulmck@linux.ibm.com
+References: <20180921223153.114728-1-joel@joelfernandes.org>
+ <20180922011428.GU4222@linux.ibm.com>
+ <CAEXW_YTgSFr5r3Qkr0+0_wxKGQV1KKP_8X8uQKAnHmhvem8XtA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20180921223216.634-3-nicoleotsuka@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEXW_YTgSFr5r3Qkr0+0_wxKGQV1KKP_8X8uQKAnHmhvem8XtA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18092213-0068-0000-0000-000003406D28
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009751; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000266; SDB=6.01092029; UDB=6.00564291; IPR=6.00872053;
+ MB=3.00023450; MTD=3.00000008; XFM=3.00000015; UTC=2018-09-22 13:46:20
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18092213-0069-0000-0000-000045D26BFB
+Message-Id: <20180922134616.GX4222@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-22_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1809220146
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On 09/21/2018 03:32 PM, Nicolin Chen wrote:
-> From: Nicolin Chen <nicolinc@nvidia.com>
+On Sat, Sep 22, 2018 at 04:10:51AM -0400, Joel Fernandes wrote:
+> On Fri, Sep 21, 2018 at 9:14 PM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+> >
+> > On Fri, Sep 21, 2018 at 06:31:53PM -0400, Joel Fernandes (Google) wrote:
+> > > RCU Data-Structures document describes a trick to test RCU with small
+> > > number of CPUs but with a larger tree. It wasn't immediately clear how
+> > > the document arrived at 16 CPUs which also requires setting the
+> > > FANOUT_LEAF to 2 instead of the default of 16. Clarify that.
+> > >
+> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> >
+> > Good catch, applied, thank you!  You know, those two Kconfig options
+> > are so closely linked in my mind that I doubt if I would ever have
+> > noticed this issue.  So good show!
 > 
-> An ina3221 chip has three input ports. Each port is used
-> to measure the voltage and current of its input source.
+> Thanks!
 > 
-> The DT binding now has defined bindings for their input
-> sources, so the driver should read these information and
-> handle accordingly.
+> > I of course could not resist doing a bit of editing.  Could you please
+> > check the following to make sure that I didn't mess something up?
 > 
-> This patch adds a new structure of input source specific
-> information including input source label, shunt resistor
-> value and its connection status. It exposes these labels
-> via sysfs and also disables those channels where there's
-> no input source being connected.
+> Yes, the edit looks good and improved the changes ;-)
+
+Whew!
+
+> I have a few more as well, I'll send them out soon.
+
+I do have on my list to update this document based on the changes in
+-rcu, which among other things eliminate the rcu_dynticks structure
+and  make it so there is only one rcu_state structure in a given
+running system.
+
+If you are crazy enough to want to make the corresponding changes,
+I would welcome the patches (and would be happy to help with editing,
+grammar, and soforth.  The potential advantage to you is familiarlzation
+with the new version of the code.
+
+This is not a small amount of work, so please give it some thought
+before saying "yes".  (In contrast, I would of course understand and
+respect an immediate "no".)
+
+							Thanx, Paul
+
+> thanks!
 > 
-
-I see you have decided to just display the disconnected channels.
-This is misleading, and I can not accept it. Please either use the
-is_visible callback to not display those channels at all, or have
-the _input attribute of disabled channels return -ENODATA (see
-'in[0-*]_enable' attribute in the ABI). If you implement the latter,
-I would suggest to also implement the _enable attribute.
-
-As mentioned in patch 1, I can not accept an implicitly mandatory
-label attribute. The property defining the label attribute will
-have to be optional and well defined to ensure that it matches
-the ABI.
-
-One more comment inline below.
-
-Thanks,
-Guenter
-
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
-> Changelog
-> v2->v3:
->   * N/A
-> v1->v2:
->   * Added a structure for input source corresponding to DT bindings
->   * Moved shunt resistor value to the structure
->   * Defined in[123]_label sysfs nodes instead of name[123]_input
->   * Updated probe() function to get information from DT
->   * Updated ina3221 hwmon documentation for the labels
->   * Dropped dynamical group definition to keep all groups as they were
->   * * Will send an incremental patch later apart from this DT binding series
+>  - Joel
 > 
->   Documentation/hwmon/ina3221 |   1 +
->   drivers/hwmon/ina3221.c     | 126 +++++++++++++++++++++++++++++++++---
->   2 files changed, 117 insertions(+), 10 deletions(-)
 > 
-> diff --git a/Documentation/hwmon/ina3221 b/Documentation/hwmon/ina3221
-> index 0ff74854cb2e..2726038be5bd 100644
-> --- a/Documentation/hwmon/ina3221
-> +++ b/Documentation/hwmon/ina3221
-> @@ -22,6 +22,7 @@ Sysfs entries
->   -------------
->   
->   in[123]_input           Bus voltage(mV) channels
-> +in[123]_label           Voltage channel labels
->   curr[123]_input         Current(mA) measurement channels
->   shunt[123]_resistor     Shunt resistance(uOhm) channels
->   curr[123]_crit          Critical alert current(mA) setting, activates the
-> diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
-> index e6b49500c52a..ba470fc53e27 100644
-> --- a/drivers/hwmon/ina3221.c
-> +++ b/drivers/hwmon/ina3221.c
-> @@ -41,6 +41,7 @@
->   #define INA3221_CONFIG_MODE_SHUNT	BIT(1)
->   #define INA3221_CONFIG_MODE_BUS		BIT(2)
->   #define INA3221_CONFIG_MODE_CONTINUOUS	BIT(3)
-> +#define INA3221_CONFIG_CHx_EN(x)	BIT(14 - (x))
->   
->   #define INA3221_RSHUNT_DEFAULT		10000
->   
-> @@ -86,16 +87,28 @@ static const unsigned int register_channel[] = {
->   	[INA3221_WARN3] = INA3221_CHANNEL3,
->   };
->   
-> +/**
-> + * struct ina3221_input - channel input source specific information
-> + * @label: label of channel input source
-> + * @shunt_resistor: shunt resistor value of channel input source
-> + * @disconnected: connection status of channel input source
-> + */
-> +struct ina3221_input {
-> +	const char *label;
-> +	int shunt_resistor;
-> +	bool disconnected;
-> +};
-> +
->   /**
->    * struct ina3221_data - device specific information
->    * @regmap: Register map of the device
->    * @fields: Register fields of the device
-> - * @shunt_resistors: Array of resistor values per channel
-> + * @inputs: Array of channel input source specific structures
->    */
->   struct ina3221_data {
->   	struct regmap *regmap;
->   	struct regmap_field *fields[F_MAX_FIELDS];
-> -	int shunt_resistors[INA3221_NUM_CHANNELS];
-> +	struct ina3221_input inputs[INA3221_NUM_CHANNELS];
->   };
->   
->   static int ina3221_read_value(struct ina3221_data *ina, unsigned int reg,
-> @@ -131,6 +144,17 @@ static ssize_t ina3221_show_bus_voltage(struct device *dev,
->   	return snprintf(buf, PAGE_SIZE, "%d\n", voltage_mv);
->   }
->   
-> +static ssize_t ina3221_show_label(struct device *dev,
-> +				  struct device_attribute *attr, char *buf)
-> +{
-> +	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
-> +	struct ina3221_data *ina = dev_get_drvdata(dev);
-> +	unsigned int channel = sd_attr->index;
-> +	struct ina3221_input *input = &ina->inputs[channel];
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%s\n", input->label);
-> +}
-> +
->   static ssize_t ina3221_show_shunt_voltage(struct device *dev,
->   					  struct device_attribute *attr,
->   					  char *buf)
-> @@ -155,7 +179,8 @@ static ssize_t ina3221_show_current(struct device *dev,
->   	struct ina3221_data *ina = dev_get_drvdata(dev);
->   	unsigned int reg = sd_attr->index;
->   	unsigned int channel = register_channel[reg];
-> -	int resistance_uo = ina->shunt_resistors[channel];
-> +	struct ina3221_input *input = &ina->inputs[channel];
-> +	int resistance_uo = input->shunt_resistor;
->   	int val, current_ma, voltage_nv, ret;
->   
->   	ret = ina3221_read_value(ina, reg, &val);
-> @@ -176,7 +201,8 @@ static ssize_t ina3221_set_current(struct device *dev,
->   	struct ina3221_data *ina = dev_get_drvdata(dev);
->   	unsigned int reg = sd_attr->index;
->   	unsigned int channel = register_channel[reg];
-> -	int resistance_uo = ina->shunt_resistors[channel];
-> +	struct ina3221_input *input = &ina->inputs[channel];
-> +	int resistance_uo = input->shunt_resistor;
->   	int val, current_ma, voltage_uv, ret;
->   
->   	ret = kstrtoint(buf, 0, &current_ma);
-> @@ -209,11 +235,9 @@ static ssize_t ina3221_show_shunt(struct device *dev,
->   	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
->   	struct ina3221_data *ina = dev_get_drvdata(dev);
->   	unsigned int channel = sd_attr->index;
-> -	unsigned int resistance_uo;
-> +	struct ina3221_input *input = &ina->inputs[channel];
->   
-> -	resistance_uo = ina->shunt_resistors[channel];
-> -
-> -	return snprintf(buf, PAGE_SIZE, "%d\n", resistance_uo);
-> +	return snprintf(buf, PAGE_SIZE, "%d\n", input->shunt_resistor);
->   }
->   
->   static ssize_t ina3221_set_shunt(struct device *dev,
-> @@ -223,6 +247,7 @@ static ssize_t ina3221_set_shunt(struct device *dev,
->   	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
->   	struct ina3221_data *ina = dev_get_drvdata(dev);
->   	unsigned int channel = sd_attr->index;
-> +	struct ina3221_input *input = &ina->inputs[channel];
->   	int val;
->   	int ret;
->   
-> @@ -232,7 +257,7 @@ static ssize_t ina3221_set_shunt(struct device *dev,
->   
->   	val = clamp_val(val, 1, INT_MAX);
->   
-> -	ina->shunt_resistors[channel] = val;
-> +	input->shunt_resistor = val;
->   
->   	return count;
->   }
-> @@ -261,6 +286,14 @@ static SENSOR_DEVICE_ATTR(in2_input, S_IRUGO,
->   static SENSOR_DEVICE_ATTR(in3_input, S_IRUGO,
->   		ina3221_show_bus_voltage, NULL, INA3221_BUS3);
->   
-> +/* voltage channel label */
-> +static SENSOR_DEVICE_ATTR(in1_label, 0444,
-> +		ina3221_show_label, NULL, INA3221_CHANNEL1);
-> +static SENSOR_DEVICE_ATTR(in2_label, 0444,
-> +		ina3221_show_label, NULL, INA3221_CHANNEL2);
-> +static SENSOR_DEVICE_ATTR(in3_label, 0444,
-> +		ina3221_show_label, NULL, INA3221_CHANNEL3);
-> +
->   /* calculated current */
->   static SENSOR_DEVICE_ATTR(curr1_input, S_IRUGO,
->   		ina3221_show_current, NULL, INA3221_SHUNT1);
-> @@ -320,6 +353,7 @@ static SENSOR_DEVICE_ATTR(in6_input, S_IRUGO,
->   static struct attribute *ina3221_attrs[] = {
->   	/* channel 1 */
->   	&sensor_dev_attr_in1_input.dev_attr.attr,
-> +	&sensor_dev_attr_in1_label.dev_attr.attr,
->   	&sensor_dev_attr_curr1_input.dev_attr.attr,
->   	&sensor_dev_attr_shunt1_resistor.dev_attr.attr,
->   	&sensor_dev_attr_curr1_crit.dev_attr.attr,
-> @@ -330,6 +364,7 @@ static struct attribute *ina3221_attrs[] = {
->   
->   	/* channel 2 */
->   	&sensor_dev_attr_in2_input.dev_attr.attr,
-> +	&sensor_dev_attr_in2_label.dev_attr.attr,
->   	&sensor_dev_attr_curr2_input.dev_attr.attr,
->   	&sensor_dev_attr_shunt2_resistor.dev_attr.attr,
->   	&sensor_dev_attr_curr2_crit.dev_attr.attr,
-> @@ -340,6 +375,7 @@ static struct attribute *ina3221_attrs[] = {
->   
->   	/* channel 3 */
->   	&sensor_dev_attr_in3_input.dev_attr.attr,
-> +	&sensor_dev_attr_in3_label.dev_attr.attr,
->   	&sensor_dev_attr_curr3_input.dev_attr.attr,
->   	&sensor_dev_attr_shunt3_resistor.dev_attr.attr,
->   	&sensor_dev_attr_curr3_crit.dev_attr.attr,
-> @@ -370,6 +406,60 @@ static const struct regmap_config ina3221_regmap_config = {
->   	.volatile_table = &ina3221_volatile_table,
->   };
->   
-> +static int ina3221_probe_child_from_dt(struct device *dev,
-> +				       struct device_node *child,
-> +				       struct ina3221_data *ina)
-> +{
-> +	struct ina3221_input *input;
-> +	u32 val;
-> +	int ret;
-> +
-> +	ret = of_property_read_u32(child, "input-id", &val);
-> +	if (ret) {
-> +		dev_err(dev, "missing input-id property of %s\n", child->name);
-> +		return ret;
-> +	} else if (val < 1 || val > INA3221_NUM_CHANNELS) {
-> +		dev_err(dev, "invalid input-id %d of %s\n", val, child->name);
-> +		return ret;
-> +	}
-> +
-> +	input = &ina->inputs[val - 1];
-> +
-> +	/* Log the disconnected channel input */
-> +	if (!of_device_is_available(child)) {
-> +		input->disconnected = true;
-> +		return 0;
-> +	}
-> +
-> +	/* Log the connected channel input */
-> +	input->label = child->name;
-> +
-> +	/* Overwrite default shunt resistor value optionally */
-> +	if (!of_property_read_u32(child, "shunt-resistor", &val))
-> +		input->shunt_resistor = val;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ina3221_probe_from_dt(struct device *dev, struct ina3221_data *ina)
-> +{
-> +	const struct device_node *np = dev->of_node;
-> +	struct device_node *child;
-> +	int ret;
-> +
-> +	/* Compatible with non-DT platforms */
-> +	if (!np)
-> +		return 0;
-> +
-> +	for_each_child_of_node(np, child) {
-> +		ret = ina3221_probe_child_from_dt(dev, child, ina);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   static int ina3221_probe(struct i2c_client *client,
->   			 const struct i2c_device_id *id)
->   {
-> @@ -377,6 +467,7 @@ static int ina3221_probe(struct i2c_client *client,
->   	struct ina3221_data *ina;
->   	struct device *hwmon_dev;
->   	int i, ret;
-> +	u16 mask;
->   
->   	ina = devm_kzalloc(dev, sizeof(*ina), GFP_KERNEL);
->   	if (!ina)
-> @@ -399,7 +490,13 @@ static int ina3221_probe(struct i2c_client *client,
->   	}
->   
->   	for (i = 0; i < INA3221_NUM_CHANNELS; i++)
-> -		ina->shunt_resistors[i] = INA3221_RSHUNT_DEFAULT;
-> +		ina->inputs[i].shunt_resistor = INA3221_RSHUNT_DEFAULT;
-> +
-> +	ret = ina3221_probe_from_dt(dev, ina);
-> +	if (ret) {
-> +		dev_err(dev, "Unable to probe from device treee\n");
-> +		return ret;
-> +	}
->   
->   	ret = regmap_field_write(ina->fields[F_RST], true);
->   	if (ret) {
-> @@ -407,6 +504,15 @@ static int ina3221_probe(struct i2c_client *client,
->   		return ret;
->   	}
->   
-> +	/* Disable channels if their inputs are disconnected */
-> +	for (i = 0, mask = 0; i < INA3221_NUM_CHANNELS; i++) {
-> +		if (ina->inputs[i].disconnected)
-> +			mask |= INA3221_CONFIG_CHx_EN(i);
-> +	}
-
-Consequently, you should also _enable_ channels which are not explicitly disabled.
-This can be tricky since you'll have to distinguish non-DT and DT configuration
-and retain the original configuration if no channel configuration data is available
-from devicetree.
-
-> +	ret = regmap_update_bits(ina->regmap, INA3221_CONFIG, mask, 0);
-> +	if (ret)
-> +		return ret;
-> +
->   	hwmon_dev = devm_hwmon_device_register_with_groups(dev,
->   							   client->name,
->   							   ina, ina3221_groups);
+> >
+> >                                                         Thanx, Paul
+> >
+> > ------------------------------------------------------------------------
+> >
+> > commit 9870c5b0f7b41a7b6085c20c22b320681800dabc
+> > Author: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > Date:   Fri Sep 21 18:31:53 2018 -0400
+> >
+> >     doc: Clarify RCU data-structure comment about rcu_tree fanout
+> >
+> >     RCU Data-Structures document describes a trick to test RCU with small
+> >     number of CPUs but with a taller tree. It wasn't immediately clear how
+> >     the document arrived at 16 CPUs which also requires setting the
+> >     FANOUT_LEAF to 2 instead of the default of 16.  This commit therefore
+> >     provides the needed clarification.
+> >
+> >     Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> >
+> > diff --git a/Documentation/RCU/Design/Data-Structures/Data-Structures.html b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
+> > index 1d2051c0c3fc..476b1ac38e4c 100644
+> > --- a/Documentation/RCU/Design/Data-Structures/Data-Structures.html
+> > +++ b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
+> > @@ -127,9 +127,11 @@ CPUs, RCU would configure the <tt>rcu_node</tt> tree as follows:
+> >  </p><p>RCU currently permits up to a four-level tree, which on a 64-bit system
+> >  accommodates up to 4,194,304 CPUs, though only a mere 524,288 CPUs for
+> >  32-bit systems.
+> > -On the other hand, you can set <tt>CONFIG_RCU_FANOUT</tt> to be
+> > -as small as 2 if you wish, which would permit only 16 CPUs, which
+> > -is useful for testing.
+> > +On the other hand, you can set both <tt>CONFIG_RCU_FANOUT</tt> and
+> > +<tt>CONFIG_RCU_FANOUT_LEAF</tt> to be as small as 2, which would result
+> > +in a 16-CPU test using a 4-level tree.
+> > +This can be useful for testing large-system capabilities on small test
+> > +machines.
+> >
+> >  </p><p>This multi-level combining tree allows us to get most of the
+> >  performance and scalability
+> >
 > 
 
