@@ -1,176 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EBE217D581
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 13:46:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 410BC7D581
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 18:04:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731136AbeIVTkD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Sep 2018 15:40:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36660 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729730AbeIVTkD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 15:40:03 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8MDi45J005543
-        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 09:46:23 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2mnkxkvysm-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 09:46:22 -0400
-Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sat, 22 Sep 2018 09:46:22 -0400
-Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 22 Sep 2018 09:46:17 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8MDkGVI29753460
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 22 Sep 2018 13:46:16 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0B314B2064;
-        Sat, 22 Sep 2018 09:44:42 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C47DEB205F;
-        Sat, 22 Sep 2018 09:44:41 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.80.211.27])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Sat, 22 Sep 2018 09:44:41 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 84B4016C1D07; Sat, 22 Sep 2018 06:46:16 -0700 (PDT)
-Date:   Sat, 22 Sep 2018 06:46:16 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC] Documentation: RCU: Clarify comment about fanout
-Reply-To: paulmck@linux.ibm.com
-References: <20180921223153.114728-1-joel@joelfernandes.org>
- <20180922011428.GU4222@linux.ibm.com>
- <CAEXW_YTgSFr5r3Qkr0+0_wxKGQV1KKP_8X8uQKAnHmhvem8XtA@mail.gmail.com>
+        id S1727668AbeIVX6U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Sep 2018 19:58:20 -0400
+Received: from mail-pl1-f178.google.com ([209.85.214.178]:42023 "EHLO
+        mail-pl1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727444AbeIVX6U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 19:58:20 -0400
+Received: by mail-pl1-f178.google.com with SMTP id x20-v6so1810247pln.9;
+        Sat, 22 Sep 2018 11:03:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=lqP/ScYapj5ZfNKVjpnLFuNrpq7uJNpLbuU2p/3GcmA=;
+        b=H3Gzm9PqUGF5ayx+XflYECLGO52qf164vD42x/RFjWemYoE23AKcWM4a0dt91X4ntt
+         QQEF87unSzo/fgitsusyazPA43ECiENmAUdpIoJe9v9BSeh/Yh6R8/UAMVghRFOnc+3k
+         ricXZvNCdR/qmw33tdaHGkNLTeunth0NB6SfnG7mL/4BO2K9IlWuqkMl17O9fF5kKgVV
+         9gDQV88gUnSQFAD/Fi1I34Zwj6C4qO/KUOHiAPdKokeBfA82wDVfaAHJ5KAtyWMuEart
+         MsgnVpZWW4EBJNNFfp3/Un6yHhxMxxrTWkbbk23elbbt7Y0LtRUpv0JmGu0w2pQiiPWx
+         A0BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=lqP/ScYapj5ZfNKVjpnLFuNrpq7uJNpLbuU2p/3GcmA=;
+        b=Gfx0ABhzaY3Xbc1PuzUYFofQXBm4oQWsF/KRw5LdVsZwdcj9pQDjXN4BMj1hLvnTrY
+         nBlol8Uezq+g3G9kCL5GoM6Qj/fqKMcF1MCcbMLuJPObdRJfA719Cwi3MFs1Jr7MtAFu
+         ktD+Ii65ytGEyzzO2kxJe48QJJISZmAbTNT0sRCQo1aBnSBhR5GpkLndXhRBIY/r2ckI
+         iV2jKShQsdF+JqHR04bIRYLP9P780ZTuSB3OggZ4qY/P9aOzN6numoVEPrQQS89sDIt5
+         zxyR9qY6TW2cO1gCzo9Aj2RFz01N8mootIdBL28YJzXp+Qwk2UCHxZgMJjmzbSgldS6k
+         X4JA==
+X-Gm-Message-State: ABuFfohJQW/Dox7sFQEQUxcyVP34qQywx6FKMHIKleaFI/WaADLo/rbh
+        whqaBNXG3yuffag/K/6amOU=
+X-Google-Smtp-Source: ACcGV630QNCwI1BjY7mYGaeJPT9l8ybAQtSV19gqPONA8taXzhjl9+CAlrbt0hR/C1kIZ7O02nbkrg==
+X-Received: by 2002:a17:902:263:: with SMTP id 90-v6mr3505468plc.190.1537639434495;
+        Sat, 22 Sep 2018 11:03:54 -0700 (PDT)
+Received: from Asurada (c-73-231-2-134.hsd1.ca.comcast.net. [73.231.2.134])
+        by smtp.gmail.com with ESMTPSA id n22-v6sm59896521pfj.68.2018.09.22.11.03.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 22 Sep 2018 11:03:54 -0700 (PDT)
+Date:   Sat, 22 Sep 2018 11:03:48 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: Add ina3221 documentation
+Message-ID: <20180922180348.GA9092@Asurada>
+References: <20180921223216.634-1-nicoleotsuka@gmail.com>
+ <20180921223216.634-2-nicoleotsuka@gmail.com>
+ <3c117b80-f671-1e57-6eab-3d9801b4b889@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAEXW_YTgSFr5r3Qkr0+0_wxKGQV1KKP_8X8uQKAnHmhvem8XtA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18092213-0068-0000-0000-000003406D28
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009751; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000266; SDB=6.01092029; UDB=6.00564291; IPR=6.00872053;
- MB=3.00023450; MTD=3.00000008; XFM=3.00000015; UTC=2018-09-22 13:46:20
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18092213-0069-0000-0000-000045D26BFB
-Message-Id: <20180922134616.GX4222@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-22_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1809220146
+In-Reply-To: <3c117b80-f671-1e57-6eab-3d9801b4b889@roeck-us.net>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 22, 2018 at 04:10:51AM -0400, Joel Fernandes wrote:
-> On Fri, Sep 21, 2018 at 9:14 PM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
-> >
-> > On Fri, Sep 21, 2018 at 06:31:53PM -0400, Joel Fernandes (Google) wrote:
-> > > RCU Data-Structures document describes a trick to test RCU with small
-> > > number of CPUs but with a larger tree. It wasn't immediately clear how
-> > > the document arrived at 16 CPUs which also requires setting the
-> > > FANOUT_LEAF to 2 instead of the default of 16. Clarify that.
-> > >
-> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> >
-> > Good catch, applied, thank you!  You know, those two Kconfig options
-> > are so closely linked in my mind that I doubt if I would ever have
-> > noticed this issue.  So good show!
-> 
-> Thanks!
-> 
-> > I of course could not resist doing a bit of editing.  Could you please
-> > check the following to make sure that I didn't mess something up?
-> 
-> Yes, the edit looks good and improved the changes ;-)
-
-Whew!
-
-> I have a few more as well, I'll send them out soon.
-
-I do have on my list to update this document based on the changes in
--rcu, which among other things eliminate the rcu_dynticks structure
-and  make it so there is only one rcu_state structure in a given
-running system.
-
-If you are crazy enough to want to make the corresponding changes,
-I would welcome the patches (and would be happy to help with editing,
-grammar, and soforth.  The potential advantage to you is familiarlzation
-with the new version of the code.
-
-This is not a small amount of work, so please give it some thought
-before saying "yes".  (In contrast, I would of course understand and
-respect an immediate "no".)
-
-							Thanx, Paul
-
-> thanks!
-> 
->  - Joel
-> 
-> 
-> >
-> >                                                         Thanx, Paul
-> >
-> > ------------------------------------------------------------------------
-> >
-> > commit 9870c5b0f7b41a7b6085c20c22b320681800dabc
-> > Author: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > Date:   Fri Sep 21 18:31:53 2018 -0400
-> >
-> >     doc: Clarify RCU data-structure comment about rcu_tree fanout
-> >
-> >     RCU Data-Structures document describes a trick to test RCU with small
-> >     number of CPUs but with a taller tree. It wasn't immediately clear how
-> >     the document arrived at 16 CPUs which also requires setting the
-> >     FANOUT_LEAF to 2 instead of the default of 16.  This commit therefore
-> >     provides the needed clarification.
-> >
-> >     Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-> >
-> > diff --git a/Documentation/RCU/Design/Data-Structures/Data-Structures.html b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-> > index 1d2051c0c3fc..476b1ac38e4c 100644
-> > --- a/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-> > +++ b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-> > @@ -127,9 +127,11 @@ CPUs, RCU would configure the <tt>rcu_node</tt> tree as follows:
-> >  </p><p>RCU currently permits up to a four-level tree, which on a 64-bit system
-> >  accommodates up to 4,194,304 CPUs, though only a mere 524,288 CPUs for
-> >  32-bit systems.
-> > -On the other hand, you can set <tt>CONFIG_RCU_FANOUT</tt> to be
-> > -as small as 2 if you wish, which would permit only 16 CPUs, which
-> > -is useful for testing.
-> > +On the other hand, you can set both <tt>CONFIG_RCU_FANOUT</tt> and
-> > +<tt>CONFIG_RCU_FANOUT_LEAF</tt> to be as small as 2, which would result
-> > +in a 16-CPU test using a 4-level tree.
-> > +This can be useful for testing large-system capabilities on small test
-> > +machines.
-> >
-> >  </p><p>This multi-level combining tree allows us to get most of the
-> >  performance and scalability
+> >+2) child nodes
+> >+  The names of child nodes should indicate input source names
+> >+
+> >+  Required properties:
+> >+  - input-id: Must be 1, 2 or 3
+> >+
+> >+  Optional properties:
+> >+  - shunt-resistor: Shunt resistor value in micro-Ohm
+> >+  - status: Should be "disabled" if no input source
+> >+
+> >+  Example:
+> >+
+> >+  input1 {
+> >+          input-id = <0x1>;
+> >+          status = "disabled";
+> >+  };
+> >+  VDD_GPU {
+> >+          input-id = <0x2>;
+> >+          shunt-resistor = <5000>;
+> >+  };
 > >
 > 
+> Using child nodes is a good idea. However, you are converting the node name into
+> the hwmon 'label' attribute which I can not accept. First, it is undocumented,
+> second, it effectively creates an undocumented property (if one wants to configure
+> the shunt resistor value, one has to configure a child node which is converted
+> into a label), and third, it violates the hwmon ABI ('input1' is not a "hint
+> about what this voltage channel is being used for").
 
+Oh. I see the point here now. Then a child name could be just input[123],
+and I will add a separate optional child property to indicate the label.
+
+Will fix it in next ver.
+
+Thanks
+Nicolin
