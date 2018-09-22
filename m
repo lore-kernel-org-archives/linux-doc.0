@@ -1,131 +1,150 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE7037D581
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 08:11:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B94607D581
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 12:38:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725874AbeIVODp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Sep 2018 10:03:45 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45100 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725858AbeIVODp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 10:03:45 -0400
-Received: by mail-lj1-f195.google.com with SMTP id x16-v6so7611006ljd.12
-        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 01:11:03 -0700 (PDT)
+        id S1729183AbeIVScH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Sep 2018 14:32:07 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:43475 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728164AbeIVScH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 14:32:07 -0400
+Received: by mail-pg1-f195.google.com with SMTP id q19-v6so6364347pgn.10;
+        Sat, 22 Sep 2018 05:38:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tQB2gosLX8oDnCIIvPjmdmMwEnxM6Nwus1miMlxx9eM=;
-        b=xZbmpRXnPDTIIIQjaPxmJ58k8n9ZdRCNgjB7uzh1HuHkBK/enqVlbNPnqLTWd5yJuv
-         Ruz0U6jHSzTMhUUTpNNqHrJ5dXnBrIQoAPSi2eKEjIQipdrRYmnw6l9kHcuZCSrOwWbR
-         sbXfi1gxKVaivbnQblZ+iNmeRpTJQjUaS2Jqw=
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xG9U2gChXv9WLrM9ziaCG22RRjOkxJ3YsZGRbGvn++A=;
+        b=fHKV91MONTs7VZpgFvRQK68PIxxtLUcLSFiuDlaPZ84v0H6pDW0fQkqnEN+HKFuiaS
+         cTZ/vb36wYnNpWindBkxInCDkPVhPvSgnv1xKxS4MzZ65kRtYdehe3JlQ6pr9I+qCyDW
+         7kDOtL1Lm8xiwA851CiGe4wEcYd/J9UwYT4xaud2YjQdai+qAj9ntm/lJVM2Er6b0JK2
+         OxN8a/F0E2Fneypy6c+oA+PDv8ZRNPPV7kb283NrJoh/jrFyYnPxt68YDRyFP2L2TB6c
+         5KPzw7+Io5iGvCdp946T3EvfJ71EF8a9A3TSEx1UkFUnOVUncbK0Fz5GMH870Q8tCLIc
+         IoXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tQB2gosLX8oDnCIIvPjmdmMwEnxM6Nwus1miMlxx9eM=;
-        b=UaigxCnU8YPsl/9X0ky0+kmWJSTS0tbeP5tnO6rFvo5T7Qn2ResAWXn9ulqMsAtEsO
-         rKK2tH3CdNnRaWStuprQj/pBkbxiMOhFRjrY25DZW6bs/jaACIoWxDLljb6cO9Vvao4F
-         Wx7EWMb9wqL92fw1mlVLZkcfl6eeXVdoJGrv3ChnRBc8mhSWyo/N+BsSkWHAmk55bnmm
-         uVELlLBdJbWUVdvkG1pdHXLBWdIrw3dmptkeRxOrMCi5dIedZooAkDhSWKtFvTRdrB8f
-         lI6fDWRi368vUrHTS3JKk2W0NFu0PdIWyCitbL2SmypoDrTTRU68mTCEaV4znWY/yIHQ
-         4euQ==
-X-Gm-Message-State: ABuFfogJtE7VaxM792MUkHHfMX2oQ+T6a7RJ2g3x5GZPEW77rrHn4i6B
-        LG5yJtlFwCrM9aQ6amglvfQd/QcsU7RE0pTNA2JVjA==
-X-Google-Smtp-Source: ACcGV60pe7m5a6UNgGTmZ9Mph8JkNo69m1S4ZF0yIVmmsjQfcEzXjHSF0ihFprmXt+Ln8UJrHZK9snH59DHrCVnbtp0=
-X-Received: by 2002:a2e:8098:: with SMTP id i24-v6mr4648892ljg.36.1537603862482;
- Sat, 22 Sep 2018 01:11:02 -0700 (PDT)
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xG9U2gChXv9WLrM9ziaCG22RRjOkxJ3YsZGRbGvn++A=;
+        b=mdt8D00reTAJZXjggJQMGPwOJu6SaY10RrHULQSewFlPuu9pKF+H7/kUI+D1YgkqEw
+         VrzyPjaM58NbZrSeGWYu4L1k20IIjfRMCo33p0OpxAJJHXkK4RdFXNUdFaDYjTVkTLDZ
+         jFwU/A+vaC1CraVAbNhz4IPE3MjNEGQNhQomHYwzkkipdyNwBDMf+XQ9V2TqI/TUn0oh
+         eFdFI5pNzweGa6DPKf/0/+OUhWgRZ7zWAEyXBdfgMsOlKS3YEyk2OyvSJQPh5Jsnn4Ca
+         /jhttOay7LQqAMbEf/K4l5AVHYTJUt4hHaJ+RCfsXefoUInKyE2cFW/SxJdV9wNiri6r
+         O+nQ==
+X-Gm-Message-State: ABuFfohVBCaMAzw3q+sAeOIThAuRKb1OlHVB0V01uG6mkDxpyMmoW18s
+        AISnwL5VhMuu4WRpyY9QFkuspBb7
+X-Google-Smtp-Source: ACcGV633XoQhW/9rFxjd8pZx/EYkS4Fikai0ivcIaXCabjw/izPO3+dxQNMdb2MzArLtNHIXr+y+vw==
+X-Received: by 2002:a63:a40a:: with SMTP id c10-v6mr1842092pgf.140.1537619919526;
+        Sat, 22 Sep 2018 05:38:39 -0700 (PDT)
+Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id f186-v6sm31454504pgc.4.2018.09.22.05.38.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 22 Sep 2018 05:38:38 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: Add ina3221 documentation
+To:     Nicolin Chen <nicoleotsuka@gmail.com>, jdelvare@suse.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, corbet@lwn.net
+Cc:     afd@ti.com, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20180921223216.634-1-nicoleotsuka@gmail.com>
+ <20180921223216.634-2-nicoleotsuka@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <3c117b80-f671-1e57-6eab-3d9801b4b889@roeck-us.net>
+Date:   Sat, 22 Sep 2018 05:38:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20180921223153.114728-1-joel@joelfernandes.org> <20180922011428.GU4222@linux.ibm.com>
-In-Reply-To: <20180922011428.GU4222@linux.ibm.com>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Sat, 22 Sep 2018 04:10:51 -0400
-Message-ID: <CAEXW_YTgSFr5r3Qkr0+0_wxKGQV1KKP_8X8uQKAnHmhvem8XtA@mail.gmail.com>
-Subject: Re: [PATCH RFC] Documentation: RCU: Clarify comment about fanout
-To:     paulmck@linux.ibm.com
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180921223216.634-2-nicoleotsuka@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 21, 2018 at 9:14 PM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
->
-> On Fri, Sep 21, 2018 at 06:31:53PM -0400, Joel Fernandes (Google) wrote:
-> > RCU Data-Structures document describes a trick to test RCU with small
-> > number of CPUs but with a larger tree. It wasn't immediately clear how
-> > the document arrived at 16 CPUs which also requires setting the
-> > FANOUT_LEAF to 2 instead of the default of 16. Clarify that.
-> >
-> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->
-> Good catch, applied, thank you!  You know, those two Kconfig options
-> are so closely linked in my mind that I doubt if I would ever have
-> noticed this issue.  So good show!
+Hi,
 
-Thanks!
+On 09/21/2018 03:32 PM, Nicolin Chen wrote:
+> Texas Instruments INA3221 is a triple-channel shunt and bus
+> voltage monitor. This patch adds a DT binding doc for it.
+> 
+> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> ---
+> Changelog
+> v2->v3:
+>   * Added a simple subject in the line 1
+>   * Fixed the shunt resistor value in the example
+> v1->v2:
+>   * Dropped channel name properties
+>   * Added child node definitions.
+>   * * Added shunt resistor property in the child node
+>   * * Added status property to indicate connection status
+>   * * Changed to use child node name as the label of input source
+> 
+>   .../devicetree/bindings/hwmon/ina3221.txt     | 38 +++++++++++++++++++
+>   1 file changed, 38 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/hwmon/ina3221.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/ina3221.txt b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+> new file mode 100644
+> index 000000000000..bcfd5b9c697b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+> @@ -0,0 +1,38 @@
+> +Texas Instruments INA3221 Device Tree Bindings
+> +
+> +1) ina3221 node
+> +  Required properties:
+> +  - compatible: Must be "ti,ina3221"
+> +  - reg: I2C address
+> +
+> +  = The node contains optional child nodes for three channels =
+> +  = Each child node describes the information of input source =
+> +
+> +  Example:
+> +
+> +  ina3221@40 {
+> +          compatible = "ti,ina3221";
+> +          reg = <0x40>;
+> +          [ child node definitions... ]
+> +  };
+> +
+> +2) child nodes
+> +  The names of child nodes should indicate input source names
+> +
+> +  Required properties:
+> +  - input-id: Must be 1, 2 or 3
+> +
+> +  Optional properties:
+> +  - shunt-resistor: Shunt resistor value in micro-Ohm
+> +  - status: Should be "disabled" if no input source
+> +
+> +  Example:
+> +
+> +  input1 {
+> +          input-id = <0x1>;
+> +          status = "disabled";
+> +  };
+> +  VDD_GPU {
+> +          input-id = <0x2>;
+> +          shunt-resistor = <5000>;
+> +  };
+> 
 
-> I of course could not resist doing a bit of editing.  Could you please
-> check the following to make sure that I didn't mess something up?
+Using child nodes is a good idea. However, you are converting the node name into
+the hwmon 'label' attribute which I can not accept. First, it is undocumented,
+second, it effectively creates an undocumented property (if one wants to configure
+the shunt resistor value, one has to configure a child node which is converted
+into a label), and third, it violates the hwmon ABI ('input1' is not a "hint
+about what this voltage channel is being used for").
 
-Yes, the edit looks good and improved the changes ;-)
-
-I have a few more as well, I'll send them out soon.
-
-thanks!
-
- - Joel
-
-
->
->                                                         Thanx, Paul
->
-> ------------------------------------------------------------------------
->
-> commit 9870c5b0f7b41a7b6085c20c22b320681800dabc
-> Author: Joel Fernandes (Google) <joel@joelfernandes.org>
-> Date:   Fri Sep 21 18:31:53 2018 -0400
->
->     doc: Clarify RCU data-structure comment about rcu_tree fanout
->
->     RCU Data-Structures document describes a trick to test RCU with small
->     number of CPUs but with a taller tree. It wasn't immediately clear how
->     the document arrived at 16 CPUs which also requires setting the
->     FANOUT_LEAF to 2 instead of the default of 16.  This commit therefore
->     provides the needed clarification.
->
->     Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
->
-> diff --git a/Documentation/RCU/Design/Data-Structures/Data-Structures.html b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-> index 1d2051c0c3fc..476b1ac38e4c 100644
-> --- a/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-> +++ b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-> @@ -127,9 +127,11 @@ CPUs, RCU would configure the <tt>rcu_node</tt> tree as follows:
->  </p><p>RCU currently permits up to a four-level tree, which on a 64-bit system
->  accommodates up to 4,194,304 CPUs, though only a mere 524,288 CPUs for
->  32-bit systems.
-> -On the other hand, you can set <tt>CONFIG_RCU_FANOUT</tt> to be
-> -as small as 2 if you wish, which would permit only 16 CPUs, which
-> -is useful for testing.
-> +On the other hand, you can set both <tt>CONFIG_RCU_FANOUT</tt> and
-> +<tt>CONFIG_RCU_FANOUT_LEAF</tt> to be as small as 2, which would result
-> +in a 16-CPU test using a 4-level tree.
-> +This can be useful for testing large-system capabilities on small test
-> +machines.
->
->  </p><p>This multi-level combining tree allows us to get most of the
->  performance and scalability
->
+Guenter
