@@ -1,138 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 02F1E7D581
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 01:14:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EE7037D581
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 08:11:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725800AbeIVHGD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Sep 2018 03:06:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42562 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725766AbeIVHGD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 03:06:03 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8M19IdA055295
-        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 21:14:34 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2mn87wpj6s-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 21 Sep 2018 21:14:34 -0400
-Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Fri, 21 Sep 2018 21:14:34 -0400
-Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 21 Sep 2018 21:14:29 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8M1ETq429229100
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 22 Sep 2018 01:14:29 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DF817B2067;
-        Fri, 21 Sep 2018 21:12:54 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BFC63B2065;
-        Fri, 21 Sep 2018 21:12:54 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.85.169.26])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Fri, 21 Sep 2018 21:12:54 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 89A8E16C1EA9; Fri, 21 Sep 2018 18:14:28 -0700 (PDT)
-Date:   Fri, 21 Sep 2018 18:14:28 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        id S1725874AbeIVODp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Sep 2018 10:03:45 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:45100 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725858AbeIVODp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 10:03:45 -0400
+Received: by mail-lj1-f195.google.com with SMTP id x16-v6so7611006ljd.12
+        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 01:11:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tQB2gosLX8oDnCIIvPjmdmMwEnxM6Nwus1miMlxx9eM=;
+        b=xZbmpRXnPDTIIIQjaPxmJ58k8n9ZdRCNgjB7uzh1HuHkBK/enqVlbNPnqLTWd5yJuv
+         Ruz0U6jHSzTMhUUTpNNqHrJ5dXnBrIQoAPSi2eKEjIQipdrRYmnw6l9kHcuZCSrOwWbR
+         sbXfi1gxKVaivbnQblZ+iNmeRpTJQjUaS2Jqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tQB2gosLX8oDnCIIvPjmdmMwEnxM6Nwus1miMlxx9eM=;
+        b=UaigxCnU8YPsl/9X0ky0+kmWJSTS0tbeP5tnO6rFvo5T7Qn2ResAWXn9ulqMsAtEsO
+         rKK2tH3CdNnRaWStuprQj/pBkbxiMOhFRjrY25DZW6bs/jaACIoWxDLljb6cO9Vvao4F
+         Wx7EWMb9wqL92fw1mlVLZkcfl6eeXVdoJGrv3ChnRBc8mhSWyo/N+BsSkWHAmk55bnmm
+         uVELlLBdJbWUVdvkG1pdHXLBWdIrw3dmptkeRxOrMCi5dIedZooAkDhSWKtFvTRdrB8f
+         lI6fDWRi368vUrHTS3JKk2W0NFu0PdIWyCitbL2SmypoDrTTRU68mTCEaV4znWY/yIHQ
+         4euQ==
+X-Gm-Message-State: ABuFfogJtE7VaxM792MUkHHfMX2oQ+T6a7RJ2g3x5GZPEW77rrHn4i6B
+        LG5yJtlFwCrM9aQ6amglvfQd/QcsU7RE0pTNA2JVjA==
+X-Google-Smtp-Source: ACcGV60pe7m5a6UNgGTmZ9Mph8JkNo69m1S4ZF0yIVmmsjQfcEzXjHSF0ihFprmXt+Ln8UJrHZK9snH59DHrCVnbtp0=
+X-Received: by 2002:a2e:8098:: with SMTP id i24-v6mr4648892ljg.36.1537603862482;
+ Sat, 22 Sep 2018 01:11:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180921223153.114728-1-joel@joelfernandes.org> <20180922011428.GU4222@linux.ibm.com>
+In-Reply-To: <20180922011428.GU4222@linux.ibm.com>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Sat, 22 Sep 2018 04:10:51 -0400
+Message-ID: <CAEXW_YTgSFr5r3Qkr0+0_wxKGQV1KKP_8X8uQKAnHmhvem8XtA@mail.gmail.com>
+Subject: Re: [PATCH RFC] Documentation: RCU: Clarify comment about fanout
+To:     paulmck@linux.ibm.com
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Josh Triplett <josh@joshtriplett.org>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         linux-doc@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC] Documentation: RCU: Clarify comment about fanout
-Reply-To: paulmck@linux.ibm.com
-References: <20180921223153.114728-1-joel@joelfernandes.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180921223153.114728-1-joel@joelfernandes.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18092201-0068-0000-0000-00000340360A
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009749; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000266; SDB=6.01091778; UDB=6.00564141; IPR=6.00871803;
- MB=3.00023443; MTD=3.00000008; XFM=3.00000015; UTC=2018-09-22 01:14:32
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18092201-0069-0000-0000-000045D11C34
-Message-Id: <20180922011428.GU4222@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-22_01:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1809220010
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 21, 2018 at 06:31:53PM -0400, Joel Fernandes (Google) wrote:
-> RCU Data-Structures document describes a trick to test RCU with small
-> number of CPUs but with a larger tree. It wasn't immediately clear how
-> the document arrived at 16 CPUs which also requires setting the
-> FANOUT_LEAF to 2 instead of the default of 16. Clarify that.
-> 
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+On Fri, Sep 21, 2018 at 9:14 PM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+>
+> On Fri, Sep 21, 2018 at 06:31:53PM -0400, Joel Fernandes (Google) wrote:
+> > RCU Data-Structures document describes a trick to test RCU with small
+> > number of CPUs but with a larger tree. It wasn't immediately clear how
+> > the document arrived at 16 CPUs which also requires setting the
+> > FANOUT_LEAF to 2 instead of the default of 16. Clarify that.
+> >
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+>
+> Good catch, applied, thank you!  You know, those two Kconfig options
+> are so closely linked in my mind that I doubt if I would ever have
+> noticed this issue.  So good show!
 
-Good catch, applied, thank you!  You know, those two Kconfig options
-are so closely linked in my mind that I doubt if I would ever have
-noticed this issue.  So good show!
+Thanks!
 
-I of course could not resist doing a bit of editing.  Could you please
-check the following to make sure that I didn't mess something up?
+> I of course could not resist doing a bit of editing.  Could you please
+> check the following to make sure that I didn't mess something up?
 
-							Thanx, Paul
+Yes, the edit looks good and improved the changes ;-)
 
-------------------------------------------------------------------------
+I have a few more as well, I'll send them out soon.
 
-commit 9870c5b0f7b41a7b6085c20c22b320681800dabc
-Author: Joel Fernandes (Google) <joel@joelfernandes.org>
-Date:   Fri Sep 21 18:31:53 2018 -0400
+thanks!
 
-    doc: Clarify RCU data-structure comment about rcu_tree fanout
-    
-    RCU Data-Structures document describes a trick to test RCU with small
-    number of CPUs but with a taller tree. It wasn't immediately clear how
-    the document arrived at 16 CPUs which also requires setting the
-    FANOUT_LEAF to 2 instead of the default of 16.  This commit therefore
-    provides the needed clarification.
-    
-    Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-    Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+ - Joel
 
-diff --git a/Documentation/RCU/Design/Data-Structures/Data-Structures.html b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-index 1d2051c0c3fc..476b1ac38e4c 100644
---- a/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-+++ b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-@@ -127,9 +127,11 @@ CPUs, RCU would configure the <tt>rcu_node</tt> tree as follows:
- </p><p>RCU currently permits up to a four-level tree, which on a 64-bit system
- accommodates up to 4,194,304 CPUs, though only a mere 524,288 CPUs for
- 32-bit systems.
--On the other hand, you can set <tt>CONFIG_RCU_FANOUT</tt> to be
--as small as 2 if you wish, which would permit only 16 CPUs, which
--is useful for testing.
-+On the other hand, you can set both <tt>CONFIG_RCU_FANOUT</tt> and
-+<tt>CONFIG_RCU_FANOUT_LEAF</tt> to be as small as 2, which would result
-+in a 16-CPU test using a 4-level tree.
-+This can be useful for testing large-system capabilities on small test
-+machines.
- 
- </p><p>This multi-level combining tree allows us to get most of the
- performance and scalability
 
+>
+>                                                         Thanx, Paul
+>
+> ------------------------------------------------------------------------
+>
+> commit 9870c5b0f7b41a7b6085c20c22b320681800dabc
+> Author: Joel Fernandes (Google) <joel@joelfernandes.org>
+> Date:   Fri Sep 21 18:31:53 2018 -0400
+>
+>     doc: Clarify RCU data-structure comment about rcu_tree fanout
+>
+>     RCU Data-Structures document describes a trick to test RCU with small
+>     number of CPUs but with a taller tree. It wasn't immediately clear how
+>     the document arrived at 16 CPUs which also requires setting the
+>     FANOUT_LEAF to 2 instead of the default of 16.  This commit therefore
+>     provides the needed clarification.
+>
+>     Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+>     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+>
+> diff --git a/Documentation/RCU/Design/Data-Structures/Data-Structures.html b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
+> index 1d2051c0c3fc..476b1ac38e4c 100644
+> --- a/Documentation/RCU/Design/Data-Structures/Data-Structures.html
+> +++ b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
+> @@ -127,9 +127,11 @@ CPUs, RCU would configure the <tt>rcu_node</tt> tree as follows:
+>  </p><p>RCU currently permits up to a four-level tree, which on a 64-bit system
+>  accommodates up to 4,194,304 CPUs, though only a mere 524,288 CPUs for
+>  32-bit systems.
+> -On the other hand, you can set <tt>CONFIG_RCU_FANOUT</tt> to be
+> -as small as 2 if you wish, which would permit only 16 CPUs, which
+> -is useful for testing.
+> +On the other hand, you can set both <tt>CONFIG_RCU_FANOUT</tt> and
+> +<tt>CONFIG_RCU_FANOUT_LEAF</tt> to be as small as 2, which would result
+> +in a 16-CPU test using a 4-level tree.
+> +This can be useful for testing large-system capabilities on small test
+> +machines.
+>
+>  </p><p>This multi-level combining tree allows us to get most of the
+>  performance and scalability
+>
