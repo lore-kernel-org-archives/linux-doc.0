@@ -1,102 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E12A77D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 23:41:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 472437D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 23:57:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726231AbeIWFhB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 23 Sep 2018 01:37:01 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:35072 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbeIWFhA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 01:37:00 -0400
-Received: by mail-pl1-f195.google.com with SMTP id g2-v6so7522725plo.2
-        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 16:41:40 -0700 (PDT)
+        id S1725897AbeIWFwV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 23 Sep 2018 01:52:21 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:35613 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725862AbeIWFwV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 01:52:21 -0400
+Received: by mail-pf1-f196.google.com with SMTP id p12-v6so7527337pfh.2;
+        Sat, 22 Sep 2018 16:56:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2yxP4rhfIhDVX/maUGdnrlkcLnjNANX3q76JH8ZURX0=;
-        b=ZUqboCnM9ZG7xFxbvC7EYayAEVfJ2l1kN8pw2FsvaK8gYSvTtnhYU+O4ocgqTxpsY7
-         gGm8aQgziXx+NbMSodtogA9AKsVVBaJgIdQLkUC0F6GYd9OpN8fosUBfr6bUOFcEOmxY
-         62OgGkqDi3wurAf2l16KF9rnu+tkl4prNoBPA=
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=yhU6AFucjYuaEBlXVfmhqsSUjsj7F/FZ3yfpqeIQT5w=;
+        b=cp+0BzRXHG7YR4QT9lM/VGA1RlJdjXjvowfoSqlrtjS9gOhQy//A2gHLYZ1Tp6devk
+         Yh+tN9OrMfEqN+nBZ9+cXr1f5/eNlX3yG92CTsvDqtBuU+zm/SmSg7xABdq1ueUxgPfy
+         nhPsWL4d+jZGW++YM8hcsjfo9gIY7S/OTer2/xbcUegFoWmYRMq6ysxYau5xoS48dxPU
+         fGtdgqEGmA43zcNL1G8hsfdLNKbvO8xtD19OhEN7j2RHXySDxxQ1Ffc6hck5CslMNDNa
+         /AJz40BWnV6Y5yRQVJDKhgM+I0G2L8d8i/FAELXCGdz38FBKYYWGGkMVwmzzXDm+WSIm
+         QTVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2yxP4rhfIhDVX/maUGdnrlkcLnjNANX3q76JH8ZURX0=;
-        b=nKJDkUKOp91iOuMcZXnMsAR3WUuhnG4c7Kt3MEUqgRSmRd4OIU3HiyTRoWAW6wGQK4
-         cKMq6p3F/o+WqznTHkRXqnY2ftMQOQ+hOYHdVIBJSbprt4c/UG2SzabGv2VQEgIkVR/c
-         RKP9Y48U6x+rEKl/tD95F9bNCPnNpFMd6WSJk0TtEF09OWANQIq5Bk8K736rRkfFTesk
-         FcsEPb2IXKTysZYLnQ+M0SYVdGHNFAjHslGHg0ltkeblzaBg/1s3cwnRGYBy9vDFR58I
-         rkIKgdAwSNcjcHi+THUmX1wj1Ga459+mxzOUIpaeb3ogzbFag6IP0jug3nf9PS4P4YY6
-         jEag==
-X-Gm-Message-State: ABuFfoir7OZvjo0qQLAUWzm9hmAIZg6AGVPdIGvEyxrMXmRBhA4YphnY
-        8c/GcWWnsull2/Ep/FIt2R/UlAi+eAU=
-X-Google-Smtp-Source: ACcGV61PZMOYdvw3cRGg4CPuAf+ITcqoBWkXwRZPO2ga2T44ldc4d9F/dNog6fSvBqApTVTMy8djAQ==
-X-Received: by 2002:a17:902:14e:: with SMTP id 72-v6mr4155963plb.299.1537659700437;
-        Sat, 22 Sep 2018 16:41:40 -0700 (PDT)
-Received: from joelaf-glaptop0.roam.corp.google.com (c-98-210-118-128.hsd1.ca.comcast.net. [98.210.118.128])
-        by smtp.gmail.com with ESMTPSA id h4-v6sm32377789pgp.13.2018.09.22.16.41.38
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yhU6AFucjYuaEBlXVfmhqsSUjsj7F/FZ3yfpqeIQT5w=;
+        b=qvp0lEXlLxSYN0yiLpQPbIKQ1hCkdTt8c6yCkb46i+ZB+H0F8xDRb1CX8ZbkZeEXLw
+         0/v5ZtpGSdCLbMUywXIzRphyof2ZrsnElhH2ycj+OhXZmYHA6trx9EN5VafmuBRrGOse
+         x+/SvGqPklmt6tc4KqLdGiRT+AwpgUsvR6aif+AKg15l9fKQHVr80WxUZZvxBxGEhZyZ
+         1rc9DkICaFXMHBaJWEDE7mccn27WWJ06XX/3O8QAdh1LqOrMwnqLNS8OppvkDyDr0yJb
+         2mgbixMZ/ASsEW2JuY5v47OmCLfqAv7qdWEXGtRPlfcNvWPmij4ENdu+HwePST052+z4
+         ozRQ==
+X-Gm-Message-State: APzg51AvU/Px8TUsD9zUzVvduv0IFinS8Evs2gootTNS8GdWs8CW4A2m
+        hCYypvLqLZ5X+a3XM9rsin0Gsjqn
+X-Google-Smtp-Source: ANB0VdYCnY4Abq96LKg8N9o4Kbp+gKGCe3ddSwPfADxJNy9PvLwQjq7GTNXAtsexTtzRB4cUMczLvQ==
+X-Received: by 2002:a62:8208:: with SMTP id w8-v6mr4047724pfd.215.1537660618262;
+        Sat, 22 Sep 2018 16:56:58 -0700 (PDT)
+Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id o21-v6sm51202242pfa.54.2018.09.22.16.56.56
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Sep 2018 16:41:39 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH RFC 2/3] rcu: tree: Fix comment about gp_seq_needed
-Date:   Sat, 22 Sep 2018 19:41:26 -0400
-Message-Id: <20180922234127.94970-2-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.19.0.444.g18242da7ef-goog
-In-Reply-To: <20180922234127.94970-1-joel@joelfernandes.org>
-References: <20180922234127.94970-1-joel@joelfernandes.org>
+        Sat, 22 Sep 2018 16:56:57 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: Add ina3221 documentation
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
+Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20180921223216.634-1-nicoleotsuka@gmail.com>
+ <20180921223216.634-2-nicoleotsuka@gmail.com>
+ <3c117b80-f671-1e57-6eab-3d9801b4b889@roeck-us.net>
+ <20180922180348.GA9092@Asurada>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <b29cff36-b6c0-e9df-475b-f5138cff06c4@roeck-us.net>
+Date:   Sat, 22 Sep 2018 16:56:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180922180348.GA9092@Asurada>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-rcu_state does not have a gp_seq_needed field. This comment therefore is
-confusing or incorrect. Fix it.
+On 09/22/2018 11:03 AM, Nicolin Chen wrote:
+>>> +2) child nodes
+>>> +  The names of child nodes should indicate input source names
+>>> +
+>>> +  Required properties:
+>>> +  - input-id: Must be 1, 2 or 3
+>>> +
+>>> +  Optional properties:
+>>> +  - shunt-resistor: Shunt resistor value in micro-Ohm
+>>> +  - status: Should be "disabled" if no input source
+>>> +
+>>> +  Example:
+>>> +
+>>> +  input1 {
+>>> +          input-id = <0x1>;
+>>> +          status = "disabled";
+>>> +  };
+>>> +  VDD_GPU {
+>>> +          input-id = <0x2>;
+>>> +          shunt-resistor = <5000>;
+>>> +  };
+>>>
+>>
+>> Using child nodes is a good idea. However, you are converting the node name into
+>> the hwmon 'label' attribute which I can not accept. First, it is undocumented,
+>> second, it effectively creates an undocumented property (if one wants to configure
+>> the shunt resistor value, one has to configure a child node which is converted
+>> into a label), and third, it violates the hwmon ABI ('input1' is not a "hint
+>> about what this voltage channel is being used for").
+> 
+> Oh. I see the point here now. Then a child name could be just input[123],
+> and I will add a separate optional child property to indicate the label.
+> 
+Exactly. "label" is quite widely used as property name, so that should be acceptable.
+I am not sure about index; we'll see if Rob has any comments.
 
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- kernel/rcu/tree.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/kernel/rcu/tree.h b/kernel/rcu/tree.h
-index 57a937ac51c2..fd2ba3f9eee9 100644
---- a/kernel/rcu/tree.h
-+++ b/kernel/rcu/tree.h
-@@ -57,7 +57,7 @@ struct rcu_node {
- 					/*  some rcu_state fields as well as */
- 					/*  following. */
- 	unsigned long gp_seq;	/* Track rsp->rcu_gp_seq. */
--	unsigned long gp_seq_needed; /* Track rsp->rcu_gp_seq_needed. */
-+	unsigned long gp_seq_needed; /* Track the furthest future gp request seen */
- 	unsigned long completedqs; /* All QSes done for this node. */
- 	unsigned long qsmask;	/* CPUs or groups that need to switch in */
- 				/*  order for current grace period to proceed.*/
-@@ -163,7 +163,7 @@ union rcu_noqs {
- struct rcu_data {
- 	/* 1) quiescent-state and grace-period handling : */
- 	unsigned long	gp_seq;		/* Track rsp->rcu_gp_seq counter. */
--	unsigned long	gp_seq_needed;	/* Track rsp->rcu_gp_seq_needed ctr. */
-+	unsigned long	gp_seq_needed;	/* Track the furthest future gp request seen */
- 	union rcu_noqs	cpu_no_qs;	/* No QSes yet for this CPU. */
- 	bool		core_needs_qs;	/* Core waits for quiesc state. */
- 	bool		beenonline;	/* CPU online at least once. */
--- 
-2.19.0.444.g18242da7ef-goog
-
+Thanks,
+Guenter
