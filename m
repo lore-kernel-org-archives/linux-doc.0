@@ -4,105 +4,136 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 410BC7D581
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 18:04:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B3057D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 18:46:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727668AbeIVX6U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Sep 2018 19:58:20 -0400
-Received: from mail-pl1-f178.google.com ([209.85.214.178]:42023 "EHLO
-        mail-pl1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727444AbeIVX6U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 19:58:20 -0400
-Received: by mail-pl1-f178.google.com with SMTP id x20-v6so1810247pln.9;
-        Sat, 22 Sep 2018 11:03:55 -0700 (PDT)
+        id S1726226AbeIWAl3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Sep 2018 20:41:29 -0400
+Received: from mail-pl1-f169.google.com ([209.85.214.169]:34413 "EHLO
+        mail-pl1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726039AbeIWAl3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Sep 2018 20:41:29 -0400
+Received: by mail-pl1-f169.google.com with SMTP id f6-v6so7379436plo.1;
+        Sat, 22 Sep 2018 11:46:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=lqP/ScYapj5ZfNKVjpnLFuNrpq7uJNpLbuU2p/3GcmA=;
-        b=H3Gzm9PqUGF5ayx+XflYECLGO52qf164vD42x/RFjWemYoE23AKcWM4a0dt91X4ntt
-         QQEF87unSzo/fgitsusyazPA43ECiENmAUdpIoJe9v9BSeh/Yh6R8/UAMVghRFOnc+3k
-         ricXZvNCdR/qmw33tdaHGkNLTeunth0NB6SfnG7mL/4BO2K9IlWuqkMl17O9fF5kKgVV
-         9gDQV88gUnSQFAD/Fi1I34Zwj6C4qO/KUOHiAPdKokeBfA82wDVfaAHJ5KAtyWMuEart
-         MsgnVpZWW4EBJNNFfp3/Un6yHhxMxxrTWkbbk23elbbt7Y0LtRUpv0JmGu0w2pQiiPWx
-         A0BA==
+        bh=O4G79cfQl39IIcoPKzysjvTlS/OFLnC+acQiKVBt+x4=;
+        b=SaiW+p4gAlmEPHbnsW2CI2ufFSDwQ5HWgagtSrcpThw1dUIe+8xrkb0i8+uLhFDRqi
+         Lm1V0vUKTm8JTne8WYemRxryefq98JQ3rXQFN+ZouWlaiQoPJHESNjFYVbCX64c1eJsY
+         qwFuQKJvhZSE2aW381JbaVVdVOW2t58yThj0etWLhpqih/Jo6GiqUSgNZd58mrpRf3yy
+         Q8pciE+jIcRZMWWpN3xMG1v6Ve38+264CIbILE6tt9jb+jUzj0QEv4G4KVsa04oCctz6
+         UgKzEvXAlD8PoIcNjTpwowxNxHlpm2txQC0xuELMTNBhPhq1bmmb9KQGZn621CT04bab
+         fI2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=lqP/ScYapj5ZfNKVjpnLFuNrpq7uJNpLbuU2p/3GcmA=;
-        b=Gfx0ABhzaY3Xbc1PuzUYFofQXBm4oQWsF/KRw5LdVsZwdcj9pQDjXN4BMj1hLvnTrY
-         nBlol8Uezq+g3G9kCL5GoM6Qj/fqKMcF1MCcbMLuJPObdRJfA719Cwi3MFs1Jr7MtAFu
-         ktD+Ii65ytGEyzzO2kxJe48QJJISZmAbTNT0sRCQo1aBnSBhR5GpkLndXhRBIY/r2ckI
-         iV2jKShQsdF+JqHR04bIRYLP9P780ZTuSB3OggZ4qY/P9aOzN6numoVEPrQQS89sDIt5
-         zxyR9qY6TW2cO1gCzo9Aj2RFz01N8mootIdBL28YJzXp+Qwk2UCHxZgMJjmzbSgldS6k
-         X4JA==
-X-Gm-Message-State: ABuFfohJQW/Dox7sFQEQUxcyVP34qQywx6FKMHIKleaFI/WaADLo/rbh
-        whqaBNXG3yuffag/K/6amOU=
-X-Google-Smtp-Source: ACcGV630QNCwI1BjY7mYGaeJPT9l8ybAQtSV19gqPONA8taXzhjl9+CAlrbt0hR/C1kIZ7O02nbkrg==
-X-Received: by 2002:a17:902:263:: with SMTP id 90-v6mr3505468plc.190.1537639434495;
-        Sat, 22 Sep 2018 11:03:54 -0700 (PDT)
+        bh=O4G79cfQl39IIcoPKzysjvTlS/OFLnC+acQiKVBt+x4=;
+        b=Dy7YthPxI04D9nO8kG9HlefC09i3YlC3D1fp32KE3IeBb74UQBPmn8m0/WTBZfzY9T
+         DXlI/s2pU9bHOwIJwtJCgUUDk5uRRNTY480OzjNr/MsN8ESUf4Hh3ueTK2qurDSZ8/yR
+         dyD6UQiUSTq1BHW3+UaXqCa8mVbNgkY8/NSvIrksB/lUXxEmTB2+Gf8wwLxOIDA/jI5l
+         KxTOzOA2JD6ODP1dZHl8S5VB+g5p6oPYnmejFsCPlwSrEAycNym+uw1+SaKKtLjb3Ykc
+         2J5dGNrxiyobLs+b5Q6Y7xAlI7P3AqzSBgURGDdfmRidi0yvORlF7XmFpCc5nOBP4TUY
+         bhfg==
+X-Gm-Message-State: ABuFfog5F6LQP+q5xDQ+AVK0fdPjQk6Ey8JctMRycFraC9CPd3i/Fm87
+        t6o9yPqDr1HqeUdmEAzzMK4=
+X-Google-Smtp-Source: ACcGV60PJBrtpDuYZXOmP7fWxly/hbf8NC50fe1wmegs2SkhXRnsdTmOOf5r0f2t6vZvoiMVa1NPFQ==
+X-Received: by 2002:a17:902:7c96:: with SMTP id y22-v6mr3658238pll.332.1537642015730;
+        Sat, 22 Sep 2018 11:46:55 -0700 (PDT)
 Received: from Asurada (c-73-231-2-134.hsd1.ca.comcast.net. [73.231.2.134])
-        by smtp.gmail.com with ESMTPSA id n22-v6sm59896521pfj.68.2018.09.22.11.03.53
+        by smtp.gmail.com with ESMTPSA id f11-v6sm46350974pfa.131.2018.09.22.11.46.54
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Sep 2018 11:03:54 -0700 (PDT)
-Date:   Sat, 22 Sep 2018 11:03:48 -0700
+        Sat, 22 Sep 2018 11:46:55 -0700 (PDT)
+Date:   Sat, 22 Sep 2018 11:46:51 -0700
 From:   Nicolin Chen <nicoleotsuka@gmail.com>
 To:     Guenter Roeck <linux@roeck-us.net>
 Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
         corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: Add ina3221 documentation
-Message-ID: <20180922180348.GA9092@Asurada>
+Subject: Re: [PATCH v3 2/2] hwmon: ina3221: Read channel input source info
+ from DT
+Message-ID: <20180922184650.GB9092@Asurada>
 References: <20180921223216.634-1-nicoleotsuka@gmail.com>
- <20180921223216.634-2-nicoleotsuka@gmail.com>
- <3c117b80-f671-1e57-6eab-3d9801b4b889@roeck-us.net>
+ <20180921223216.634-3-nicoleotsuka@gmail.com>
+ <a7e6c311-eba4-e9b2-df64-9d02882a1dcb@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3c117b80-f671-1e57-6eab-3d9801b4b889@roeck-us.net>
+In-Reply-To: <a7e6c311-eba4-e9b2-df64-9d02882a1dcb@roeck-us.net>
 User-Agent: Mutt/1.5.22 (2013-10-16)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> >+2) child nodes
-> >+  The names of child nodes should indicate input source names
-> >+
-> >+  Required properties:
-> >+  - input-id: Must be 1, 2 or 3
-> >+
-> >+  Optional properties:
-> >+  - shunt-resistor: Shunt resistor value in micro-Ohm
-> >+  - status: Should be "disabled" if no input source
-> >+
-> >+  Example:
-> >+
-> >+  input1 {
-> >+          input-id = <0x1>;
-> >+          status = "disabled";
-> >+  };
-> >+  VDD_GPU {
-> >+          input-id = <0x2>;
-> >+          shunt-resistor = <5000>;
-> >+  };
+> >This patch adds a new structure of input source specific
+> >information including input source label, shunt resistor
+> >value and its connection status. It exposes these labels
+> >via sysfs and also disables those channels where there's
+> >no input source being connected.
 > >
 > 
-> Using child nodes is a good idea. However, you are converting the node name into
-> the hwmon 'label' attribute which I can not accept. First, it is undocumented,
-> second, it effectively creates an undocumented property (if one wants to configure
-> the shunt resistor value, one has to configure a child node which is converted
-> into a label), and third, it violates the hwmon ABI ('input1' is not a "hint
-> about what this voltage channel is being used for").
+> I see you have decided to just display the disconnected channels.
+> This is misleading, and I can not accept it. Please either use the
+> is_visible callback to not display those channels at all, or have
 
-Oh. I see the point here now. Then a child name could be just input[123],
-and I will add a separate optional child property to indicate the label.
+I will add is_visible. I have almost finished it while waiting for
+the v3's review comments. Will test it and include in the v4.
 
-Will fix it in next ver.
+> the _input attribute of disabled channels return -ENODATA (see
+> 'in[0-*]_enable' attribute in the ABI). If you implement the latter,
+> I would suggest to also implement the _enable attribute.
 
-Thanks
+I will also add one separate patch for in[0-*]_enable after these
+two changes pass the review and get applied.
+
+> As mentioned in patch 1, I can not accept an implicitly mandatory
+> label attribute. The property defining the label attribute will
+> have to be optional and well defined to ensure that it matches
+> the ABI.
+
+I replied this in the PATCH-1. Let's discuss this topic there.
+
+> >+	/* Disable channels if their inputs are disconnected */
+> >+	for (i = 0, mask = 0; i < INA3221_NUM_CHANNELS; i++) {
+> >+		if (ina->inputs[i].disconnected)
+> >+			mask |= INA3221_CONFIG_CHx_EN(i);
+> >+	}
+> 
+> Consequently, you should also _enable_ channels which are not explicitly disabled.
+
+The register has enabled all channels by default. So I felt it'd
+be neat to have disabling code only. My v1 actually had enabling
+part as well, but I can add it back if you think it'd be better.
+
+> This can be tricky since you'll have to distinguish non-DT and DT configuration
+> and retain the original configuration if no channel configuration data is available
+> from devicetree.
+
+I don't quite understand this comments. Would you please elaborate
+it?
+
+For non-DT configurations, input->disconnected is always false by
+default unless someone adds config for it (through platform_data).
+If regmap_update_bits only does disabling like this version does,
+non-DT configurations will not get affected since mask = 0. Or if
+we change it to do both enabling and disabling, regmap_update_bits
+will still ignore since there's no register value changed, though
+it won't really hurt even if regmap writes correct configurations
+to the register.
+
+For DT configurations (without channel input source defined), it's
+like the same as non-DT configurations. As we have platforms only
+enabled ina3221 via DT while they don't have this new DT binding,
+the driver has to be backward compatible, so my change only sets
+input->disconnected=true when a status="disabled" is present, i.e.
+those platforms are treated as all channels getting enabled until
+they update their DTs.
+
+Thanks for the review
 Nicolin
