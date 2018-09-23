@@ -1,129 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C4DD67DD4F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 05:45:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B61F27D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 06:01:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726008AbeIWLmG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 23 Sep 2018 07:42:06 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:35047 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725988AbeIWLmG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 07:42:06 -0400
-Received: by mail-pg1-f195.google.com with SMTP id v133-v6so262087pgb.2;
-        Sat, 22 Sep 2018 22:45:52 -0700 (PDT)
+        id S1726011AbeIWL5m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 23 Sep 2018 07:57:42 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40827 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbeIWL5l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 07:57:41 -0400
+Received: by mail-pl1-f195.google.com with SMTP id s17-v6so7706531plp.7;
+        Sat, 22 Sep 2018 23:01:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=tq9bvVBhYJhxEf9Gn7mmNpxAVaVdpAByjBlJ2fL4DIo=;
-        b=pWhde9eGE7Fq0gCBbhRMHYVsx9qERxcuFUdDEzw6oGUC0co1bJ2RYY8F13DzCNcwJS
-         RJCNPgdfkjjS5r0DoWQdWq2Eo0giYypwllJclKMNhwX7RRvCk+tdukFaHkrFrvUQZWYr
-         hVtuCv2i5Gik/7HWGW71Q9mexvHImeQyUcPOIheaK/DmwRm0mMHjgEHRJNnYghiE+soa
-         Cft9YNsvQdVzOd/FPwW4qo38mKi3AyHlkZDDLTt16VQ2USP2BgvssAvTLIbt68s03Jif
-         nxEeY3ZVuFeUbeZJ5alC8GAPGALf8OfvON8Lyw57GxsBuQGIyjF7JU9d3GCO3J6VOS7X
-         gy1g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HE/9J+1oCMN1iMTytl9day00KIaAVdxKpoLXQg5wK8s=;
+        b=ugUIh/eVZExX53nQN1Ap08I6H/4OaI1iotyh6ulW9fbcAAtc1910MbkSgguMSLdVJk
+         ZvSbHgGVmKsPeXqpOqrfoi8cS/qRRsZ9n11R2qzKR6XtQMt0f8KFTDyeWNTYvicfzLKe
+         +iHUsbK+cwlgnTATpmkMIDj7cRslK2RJtSlm8xMvCLfTuGvklgLDlH0etN3Wtj3RZfOZ
+         RaSQ9GheaYGTKkvRWhoQWvAvEu9RYVWAODIJwWWJFBfsMZTCiR3epjxbwQyq+LRCY/t2
+         Fcaq1YxPaeaWYGo+FgGAmSFDB+8vnrQemyi5bbTdgXyKmUJEfLEzp+Cs75zbGna+YRG4
+         x7lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=tq9bvVBhYJhxEf9Gn7mmNpxAVaVdpAByjBlJ2fL4DIo=;
-        b=Qx1k84c8Cdg9kQ2K2dPDEazqwhKZkNjHIq+mN4qGJFuOW/fYa3xrzwZ2t7PO5sjheD
-         rT2sud6AZuf/r9k8qqb7mEMjLXLpuvLz7C6pREsLpeQLPt087sRmrTPAwxf9k9tQO9Gt
-         Z8R4ozx5j5ZezSFzHwHHhujw3lkGCl3xVzpAySEkpeEf1SVQm0vXWlo8WJEIzx+/pE3K
-         2PH5PHjdQYQWNs3NuFujwKjyPrawFODitPX4Hy8TJl3KxDlC/5jMbTXXUdeP6dxk4sAW
-         Q/vwpXUK9wFEgLqV+mJVabiOklhdysPrGNWc8LCLsTQMWy4VpeYBHNerBBC6BYw1lFeT
-         aYww==
-X-Gm-Message-State: APzg51CxBr1O/3BgP84ye0ANG+lUIbZEsU0DNPnyyifPh9TU/Ei7F5xc
-        lDzr5bcYb9n6a/oi7IsOC82giiIb
-X-Google-Smtp-Source: ANB0VdbedHPjvY2YJgjC6/EwYQV0EoWqg3DrMWk2tA4U9i1E27IGI9JFcncwBjLNkI46+kcRhVTZeA==
-X-Received: by 2002:a62:cc83:: with SMTP id j3-v6mr4981393pfk.255.1537681552122;
-        Sat, 22 Sep 2018 22:45:52 -0700 (PDT)
-Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id m26-v6sm54502277pfi.102.2018.09.22.22.45.49
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Sep 2018 22:45:51 -0700 (PDT)
-Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: Add ina3221 documentation
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HE/9J+1oCMN1iMTytl9day00KIaAVdxKpoLXQg5wK8s=;
+        b=emIWcs6U7V7uXUVpghMFU1pjfsvVcCyOEJmFWeFP2Wn6MHd2xYR2gETY1dBbdhAg6o
+         VX4Hzsj3avoAnsh96cjI5QgUXf6JwW5kFk6rrtrPaJ3IQ81WF6RwJEB4zFrj5VoBU30F
+         5YdXxmXL0hkrgf6wCkyMYlaHQ3j4cjLhvEpSNHfQzg3EebWH670sCLgiV5nBXhOf+Iih
+         dLq4JC+lmoGt6KJjb2Fp+bpdeeOHTRcyouGvsGAhd7FyQGWX4a7TI9WrDAneAkAHG2xG
+         GslDe264vfnyu3s8wPSEBDrqrwJ5NYtsBQIytLPEUo9+HOekbYCt05KBGmDuqieo2KMZ
+         tXKA==
+X-Gm-Message-State: ABuFfoh9bZsr62Mu+WYNgQt+wvFaqTlbnhkqb6zOAPB3zhtMQm8Pi9JI
+        b+G6dVx31Hl3MPrjjEosGcA=
+X-Google-Smtp-Source: ACcGV61G58PQ6wtbxd0KkqocGDdyKun2XDGm4MFDX2lHblz8/fzsHhx0PbP/I3sSGr7h1lzR9KtiAA==
+X-Received: by 2002:a17:902:b682:: with SMTP id c2-v6mr3560040pls.171.1537682485927;
+        Sat, 22 Sep 2018 23:01:25 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id 77-v6sm2355742pfw.159.2018.09.22.23.01.25
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 22 Sep 2018 23:01:25 -0700 (PDT)
+Date:   Sat, 22 Sep 2018 23:01:21 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
 Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
         corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: Add ina3221 documentation
+Message-ID: <20180923060120.GA8872@Asurada-Nvidia.nvidia.com>
 References: <20180923041118.8743-1-nicoleotsuka@gmail.com>
  <20180923041118.8743-2-nicoleotsuka@gmail.com>
  <353ccbbd-94c8-72eb-eb98-8a0507431e15@roeck-us.net>
  <20180923053151.GB9960@Asurada>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <ce76fdf2-2894-96ad-d2f5-b2c25f197ee4@roeck-us.net>
-Date:   Sat, 22 Sep 2018 22:45:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ <ce76fdf2-2894-96ad-d2f5-b2c25f197ee4@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <20180923053151.GB9960@Asurada>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ce76fdf2-2894-96ad-d2f5-b2c25f197ee4@roeck-us.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/22/2018 10:31 PM, Nicolin Chen wrote:
-> On Sat, Sep 22, 2018 at 10:19:42PM -0700, Guenter Roeck wrote:
->>> +2) child nodes
->>> +  Required properties:
->>> +  - input-id: Must be 1, 2 or 3
->>> +
->>> +  Optional properties:
->>> +  - input-label: Name of the input source
->>> +  - shunt-resistor: Shunt resistor value in micro-Ohm
->>> +  - status: Should be "disabled" if no input source
->>> +
->>> +  Example:
->>> +
->>> +  input1 {
->>> +          input-id = <0x1>;
->>
->> We'll have to find a better name for this. Feel free to look up examples in the
->> existing devicetree descriptions. The one that seems to be used most of the time
->> to indicate a channel index or id is "reg". It should also start with 0 - there
->> is no real reason for it to start with 1; it only makes the code more complex.
+On Sat, Sep 22, 2018 at 10:45:49PM -0700, Guenter Roeck wrote:
+> On 09/22/2018 10:31 PM, Nicolin Chen wrote:
+> > On Sat, Sep 22, 2018 at 10:19:42PM -0700, Guenter Roeck wrote:
+> > > > +2) child nodes
+> > > > +  Required properties:
+> > > > +  - input-id: Must be 1, 2 or 3
+> > > > +
+> > > > +  Optional properties:
+> > > > +  - input-label: Name of the input source
+> > > > +  - shunt-resistor: Shunt resistor value in micro-Ohm
+> > > > +  - status: Should be "disabled" if no input source
+> > > > +
+> > > > +  Example:
+> > > > +
+> > > > +  input1 {
+> > > > +          input-id = <0x1>;
+> > > 
+> > > We'll have to find a better name for this. Feel free to look up examples in the
+> > > existing devicetree descriptions. The one that seems to be used most of the time
+> > > to indicate a channel index or id is "reg". It should also start with 0 - there
+> > > is no real reason for it to start with 1; it only makes the code more complex.
+> > 
+> > The reason is that the port start from 1 in the datasheet.
+> > 
 > 
-> The reason is that the port start from 1 in the datasheet.
-> 
+> Maybe, but for me I'll want to have something that we can reuse for other chips.
+> Having the index start with 0 for one chip and with 1 for another would be
+> confusing. It is bad enough that we have in[0..n] for voltages and temp[1..n]
+> for temperatures. I would not want to see the same in devicetree files,
+> and much less so on a per-device basis. It is also pretty common to start
+> channel numbers with 0 in devicetree files.
 
-Maybe, but for me I'll want to have something that we can reuse for other chips.
-Having the index start with 0 for one chip and with 1 for another would be
-confusing. It is bad enough that we have in[0..n] for voltages and temp[1..n]
-for temperatures. I would not want to see the same in devicetree files,
-and much less so on a per-device basis. It is also pretty common to start
-channel numbers with 0 in devicetree files.
+Understood. I search a bit and saw most of "*-id" start from 0,
+although I cannot be sure whether their Datasheet/RM/schematics
+are counting from 0 or 1.
 
-> I don't mind using reg or count it from 0, will look up to
-> see if I can find something solid; otherwise, I'll wait for
-> binding doc maintainers' opinions before sending v5.
-> 
-Sure, no problem.
+And I also found a transposing example:
+    Documentation/devicetree/bindings/serial/mrvl,pxa-ssp.txt
 
-Guenter
+Probably should be better to wait for doc maintainers' input.
 
->>> +          status = "disabled";
->>> +  };
->>> +  input2 {
->>> +          input-id = <0x2>;
->>> +          shunt-resistor = <5000>;
->>
->> I would suggest shunt-resistor-micro-ohms as per
->> Documentation/devicetree/bindings/property-units.txt.
-> 
-> Will change it.
-> 
-> Thank you
-> Nicolin
-> 
-
+Thanks
+Nicolin
