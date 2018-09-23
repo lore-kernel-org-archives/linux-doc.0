@@ -6,47 +6,47 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7218F7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 23:52:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 164E07D87C
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 23:53:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727359AbeIXFwJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Sep 2018 01:52:09 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:32857 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725919AbeIXFwH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 01:52:07 -0400
-Received: by mail-lj1-f196.google.com with SMTP id l19-v6so2154537ljb.0;
-        Sun, 23 Sep 2018 16:52:36 -0700 (PDT)
+        id S1727294AbeIXFwG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Sep 2018 01:52:06 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:37959 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725932AbeIXFwF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 01:52:05 -0400
+Received: by mail-lf1-f65.google.com with SMTP id z186-v6so15160781lfa.5;
+        Sun, 23 Sep 2018 16:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=u/WVvvps4INqy3Y40qi5MvRWOHI2pdz+3o9vxbYSDG4=;
-        b=S6FVd2BHYu/2b5qMyaKN6G+hqztoSPL88+3ZnsvAf8NybeBq4HEm31x2X3UwHKteXk
-         oQ3weBnxNtYanLb6pxQE2hxtLJb+fcG4jTHt9VpOZZZpUk75CnRN/0RuiDZtZJkUlnh0
-         u6V1XZemC/yRgpcBPKv2TrKJEl7X7X5nFAV9ikhgL7nCwyizeqsNEsiTX8/vyDuYdnlo
-         I9ibtVqthDGnMncHUoArsAlymsE6RGUT0hsPTGIWtM1barov9IFV0y1DTzCDHmIyhCYv
-         ASa758NbQ6GgtuR2QG2M+OhvLzk9Qc+/xYkuVRVPc/lGaf0daZCHtz2duyp9aTjZtrOC
-         N4uw==
+        bh=Mg0atZwESfwIvpH4FO9elFcUPvpgUp8Akcfpx+l/4o8=;
+        b=NlWr2aPvPsEDztjPTg3Dpib4GS4ZiJaa/tBuMFavHB9ZhRnC8KcMfFPIr/yI6xcRXb
+         yywZ8JJle1hJzKCPf1ScmVflVsBGe5x4ElqJ7Gqo193QiGa2fbAsK2vW0y3uPd9vqwvq
+         bgBXvcy/ydBbGFBwGQIZLgCDNrPWsiRukjwFUr/euIp1iO+EbveIU2Qjyk1uRK3/OZjn
+         uqJum//WQjxJvRTFuKjZAbd8CUfhtXtTwsHGEkqMvpSIjxOJWeeqHyu8GOTlXODaUBY3
+         r2tl7cWotTOw34iEzZAcyXTPwsJsvKKqm88l98KPFbSebGtM/Y5Kig/87NSoYr/FWyG1
+         CnJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=u/WVvvps4INqy3Y40qi5MvRWOHI2pdz+3o9vxbYSDG4=;
-        b=lfFnfPIsB5DKg2AvGBdAIEmCVHby0ygJ2tvka3Vhd++b9XVpsAIgAKC7Dn1vR/IOrs
-         XN5gPjl0RyD1WI+9oDewkIDbtJ2KKgAuNRXVRNFVBs3PdyIRwhpyrGC/1TikjztuSXxY
-         KhnVDFLBmvwhQh9ASNjb8liH07XaeUoEzymIcrhIGm5nY5SjhH4hJ7fzhsCbYFDzhvhM
-         yMQDC6ZdSuTigNZrQcisTjs7gFZGE539CacSE3y7/wHUlgaZV8SaD/SCgfctlzLzE6Fe
-         dKr2qSY+BM+LFn+M+0g2A3muogJjC+z8NCWupeFjX4NsvEF+EwLuforHTJK9U0xGuhbo
-         7JRw==
-X-Gm-Message-State: APzg51Ceg92PlnG/wfvHnRUNYt3px0vPAZGuMcEXYbSuxm0hyIBnwig9
-        uLtQxsY5a8VxkfwnJ7EKwqU=
-X-Google-Smtp-Source: ACcGV612QnapKQBiKaGACwYISbJFvvjzlmvMHhe0tAiURUYc1VxJFw8bzDs1wDM+CBSISWwbkiCXkw==
-X-Received: by 2002:a2e:947:: with SMTP id 68-v6mr8393674ljj.1.1537746755828;
-        Sun, 23 Sep 2018 16:52:35 -0700 (PDT)
+        bh=Mg0atZwESfwIvpH4FO9elFcUPvpgUp8Akcfpx+l/4o8=;
+        b=GFQAWR86eWHEp0Fs0wxHmOKArP20v/wrZAjQHw42Tjk9XqgUF6AVEN35szWOtq1lpu
+         Pxl+SXhIVkLq/gmlVAoGuDxMUYIdwUASBYcwzanrt1VnnHTOSFhu8cLuuHRc9o9uqRD3
+         YcHehaZZaDdTokXytCMpM+kH6WBodpRGE+YCSUy9AHrHQZy5FvYlfEyzyum66UwjRxs3
+         tZB7wUX2/TnWNeIqQYilN7zryKY7eEMulMLtR2ZrPsJZiiLU2pRrXUVVUTXJH/cwA0xK
+         4mlIZhxswkjNy87IEdfog/S2V8KJQxV4hYu1PVGBQrNjuG8yTss/+F9uN4ZebD7p1f5B
+         Q+mg==
+X-Gm-Message-State: APzg51BxQM9Qd8+73NU/iiMUcyI7PWgEr5i7aUGW731Dur46Fqlknrmd
+        UCnt7ho8bjp/afxyNVIGVPs=
+X-Google-Smtp-Source: ANB0VdYalzWvTuVqZQt/8iRSFb8VkyNMD/akAle0kXEQQLAf+V+s/mSFK23Sz+1ODikX1K7fFIQSQw==
+X-Received: by 2002:a19:1952:: with SMTP id 79-v6mr2474242lfz.85.1537746753683;
+        Sun, 23 Sep 2018 16:52:33 -0700 (PDT)
 Received: from z50.lan (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id m8-v6sm3419718lfh.25.2018.09.23.16.52.33
+        by smtp.gmail.com with ESMTPSA id m8-v6sm3419718lfh.25.2018.09.23.16.52.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 Sep 2018 16:52:35 -0700 (PDT)
+        Sun, 23 Sep 2018 16:52:33 -0700 (PDT)
 From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -84,9 +84,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>
-Subject: [PATCH 2/2] gpiolib: Fix array members of same chip processed separately
-Date:   Mon, 24 Sep 2018 01:53:36 +0200
-Message-Id: <20180923235336.22148-3-jmkrzyszt@gmail.com>
+Subject: [PATCH 1/2] gpiolib: Fix missing updates of bitmap index
+Date:   Mon, 24 Sep 2018 01:53:35 +0200
+Message-Id: <20180923235336.22148-2-jmkrzyszt@gmail.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20180923235336.22148-1-jmkrzyszt@gmail.com>
 References: <2785169.v6aIfS3K2k@z50>
@@ -96,119 +96,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-New code introduced by commit bf9346f5d47b ("gpiolib: Identify arrays
-matching GPIO hardware") forcibly tries to find an array member which
-has its array index number equal to its hardware pin number and set
-up an array info for possible fast bitmap processing of all arrray
-pins belonging to that chip which also satisfy that numbering rule.
+In new code introduced by commit b17566a6b08b ("gpiolib: Implement fast
+processing path in get/set array"), bitmap index is not updated with
+next found zero bit position as it should while skipping over pins
+already processed via fast bitmap path, possibly resulting in an
+infinite loop.  Fix it.
 
-Depending on array content, it may happen that consecutive array
-members which belong to the same chip but don't have array indexes
-equal to their pin hardware numbers will be split into groups, some of
-them processed together via the fast bitmap path, and rest of them
-separetely.  However, applications may expect all those pins being
-processed together with a single call to .set_multiple() chip callback,
-like that was done before the change.
-
-Limit applicability of fast bitmap processing path to cases where all
-pins of consecutive array members starting from 0 which belong to the
-same chip have their hardware numbers equal to their corresponding
-array indexes.  That should still speed up processing of applications
-using whole GPIO banks as I/O ports, while not breaking simultaneous
-manipulation of consecutive pins of the same chip which don't follow
-the equal numbering rule.
-
-Cc: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 ---
- Documentation/driver-api/gpio/board.rst | 19 +++++++++++++-----
- drivers/gpio/gpiolib.c                  | 35 +++++++++++++++++++++++----------
- 2 files changed, 39 insertions(+), 15 deletions(-)
+ drivers/gpio/gpiolib.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
-index c66821e033c2..a0f294e2e250 100644
---- a/Documentation/driver-api/gpio/board.rst
-+++ b/Documentation/driver-api/gpio/board.rst
-@@ -202,9 +202,18 @@ mapped to the device determines if the array qualifies for fast bitmap
- processing.  If yes, a bitmap is passed over get/set array functions directly
- between a caller and a respective .get/set_multiple() callback of a GPIO chip.
- 
--In order to qualify for fast bitmap processing, the pin mapping must meet the
-+In order to qualify for fast bitmap processing, the array must meet the
- following requirements:
--- it must belong to the same chip as other 'fast' pins of the function,
--- its index within the function must match its hardware number within the chip.
--
--Open drain and open source pins are excluded from fast bitmap output processing.
-+- pin hardware number of array member 0 must also be 0,
-+- pin hardware numbers of consecutive array members which belong to the same
-+  chip as member 0 does must also match their array indexes.
-+
-+Otherwise fast bitmap processing path is not used in order to avoid consecutive
-+pins which belong to the same chip but are not in hardware order being processed
-+separately.
-+
-+If the array applies for fast bitmap processing path, pins which belong to
-+different chips than member 0 does, as well as those with indexes different from
-+their hardware pin numbers, are excluded from the fast path, both input and
-+output.  Moreover, open drain and open source pins are excluded from fast bitmap
-+output processing.
 diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index 7d9536a79a66..6ae13e3e05f1 100644
+index a53d17745d21..7d9536a79a66 100644
 --- a/drivers/gpio/gpiolib.c
 +++ b/drivers/gpio/gpiolib.c
-@@ -4376,11 +4376,10 @@ struct gpio_descs *__must_check gpiod_get_array(struct device *dev,
+@@ -2880,8 +2880,8 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
+ 			__set_bit(hwgpio, mask);
  
- 		chip = gpiod_to_chip(desc);
- 		/*
--		 * Select a chip of first array member
--		 * whose index matches its pin hardware number
--		 * as a candidate for fast bitmap processing.
-+		 * If pin hardware number of array member 0 is also 0, select
-+		 * its chip as a candidate for fast bitmap processing path.
- 		 */
--		if (!array_info && gpio_chip_hwgpio(desc) == descs->ndescs) {
-+		if (descs->ndescs == 0 && gpio_chip_hwgpio(desc) == 0) {
- 			struct gpio_descs *array;
+ 			if (array_info)
+-				find_next_zero_bit(array_info->get_mask,
+-						   array_size, i);
++				i = find_next_zero_bit(array_info->get_mask,
++						       array_size, i);
+ 			else
+ 				i++;
+ 		} while ((i < array_size) &&
+@@ -2905,7 +2905,8 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
+ 			trace_gpio_value(desc_to_gpio(desc), 1, value);
  
- 			bitmap_size = BITS_TO_LONGS(chip->ngpio > count ?
-@@ -4414,14 +4413,30 @@ struct gpio_descs *__must_check gpiod_get_array(struct device *dev,
- 				   count - descs->ndescs);
- 			descs->info = array_info;
+ 			if (array_info)
+-				find_next_zero_bit(array_info->get_mask, i, j);
++				j = find_next_zero_bit(array_info->get_mask, i,
++						       j);
+ 			else
+ 				j++;
  		}
--		/*
--		 * Unmark members which don't qualify for fast bitmap
--		 * processing (different chip, not in hardware order)
--		 */
--		if (array_info && (chip != array_info->chip ||
--		    gpio_chip_hwgpio(desc) != descs->ndescs)) {
-+		/* Unmark array members which don't belong to the 'fast' chip */
-+		if (array_info && array_info->chip != chip) {
- 			__clear_bit(descs->ndescs, array_info->get_mask);
- 			__clear_bit(descs->ndescs, array_info->set_mask);
-+		}
-+		/*
-+		 * Detect array members which belong to the 'fast' chip
-+		 * but their pins are not in hardware order.
-+		 */
-+		else if (array_info &&
-+			   gpio_chip_hwgpio(desc) != descs->ndescs) {
-+			/*
-+			 * Don't use fast path if all array members processed so
-+			 * far belong to the same chip as this one but its pin
-+			 * hardware number is different from its array index.
-+			 */
-+			if (bitmap_full(array_info->get_mask, descs->ndescs)) {
-+				array_info = NULL;
-+			} else {
-+				__clear_bit(descs->ndescs,
-+					    array_info->get_mask);
-+				__clear_bit(descs->ndescs,
-+					    array_info->set_mask);
-+			}
- 		} else if (array_info) {
- 			/* Exclude open drain or open source from fast output */
- 			if (gpiochip_line_is_open_drain(chip, descs->ndescs) ||
+@@ -3192,8 +3193,8 @@ int gpiod_set_array_value_complex(bool raw, bool can_sleep,
+ 			}
+ 
+ 			if (array_info)
+-				find_next_zero_bit(array_info->set_mask,
+-						   array_size, i);
++				i = find_next_zero_bit(array_info->set_mask,
++						       array_size, i);
+ 			else
+ 				i++;
+ 		} while ((i < array_size) &&
 -- 
 2.16.4
 
