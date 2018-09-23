@@ -1,151 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 26F177D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Sep 2018 23:59:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 78F157D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 00:36:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726126AbeIWFzV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 23 Sep 2018 01:55:21 -0400
-Received: from mail-pl1-f171.google.com ([209.85.214.171]:43233 "EHLO
-        mail-pl1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725886AbeIWFzV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 01:55:21 -0400
-Received: by mail-pl1-f171.google.com with SMTP id 30-v6so878812plb.10;
-        Sat, 22 Sep 2018 16:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Ioyrqpa26KSrlAeWACHsoroxobRUGDVxuhw3SkV2mAo=;
-        b=k7pdtO66JWX9HQ9RR5H2voMGG/q4rt8nPQ6nP7MFOGinTrEEtgd5bqzLYbp2w8pLkb
-         SNZsqSlOYS1HyFzhjB2UOcM1sMgQrgya+0PzpKZYCJ2q6C8f33AoNKJ/coHz/mdD6N6L
-         0XrZfGJUQVWhFsFR9pMlwapjSvacPoRaZ7ppATp4qiXV6RuWPBteaiKx4aK/lILc9b/S
-         Dvv6J8AoE4N1j2ZCLzK1YFq0e9zrmnUsjtbxJ9nhH3KJ0XjqdvvjvkrFys42o0jTu+De
-         TnxirDDfGNVeVl7iXypzMXvyefqCxw9O5qo0ILDDWGc0vKODJlhXAqu7ID1fgKXU+E2x
-         wbnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Ioyrqpa26KSrlAeWACHsoroxobRUGDVxuhw3SkV2mAo=;
-        b=RzS8O6MLD0XPHnx3JmRWsTquiFJX7kSfEdSl/R1/qX8xHxL6eN0Gtig2tkzXPtBull
-         ammw6XOpSh3pNxNmcrh4Wki3hHewsUR3MBEzjBdAB2j0/ityRhs4EhqXL0rUgR9+W+qf
-         eL7SF2uvfEg/AftwsS9J6K3r+STNMLJSDTJhDOD3ZHtSy0jBnRFKZtX2HCbqrW7dBuDl
-         OZ7MpYtvTcLjQu0eL+YOUmZwR8GL5X7gng6hsEemvTMrSNU3S+hduiW2BtNFSey30gzB
-         lVBv99tsFkhE02wVx5dfPpODhMz+qDXd4ClYFovwv2Qo24+GQAkfk3QGzasSwYIhVWS/
-         6jOA==
-X-Gm-Message-State: ABuFfojSJBbEy4Laco8LFpxNLpHwflJf4peOWaS03kvq7d4cnnvc1k2t
-        OJ7rYfplBu0SVsGNqE9vSrNujZ2d
-X-Google-Smtp-Source: ACcGV62nbMTISan79Gs1VHUMjLW1Z5IH3qgXt7Se4HhaNa+DonhapZBztXFNh0jfoQC17Ghprq001g==
-X-Received: by 2002:a17:902:8e81:: with SMTP id bg1-v6mr4270677plb.129.1537660797109;
-        Sat, 22 Sep 2018 16:59:57 -0700 (PDT)
-Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id p3-v6sm39501546pfo.130.2018.09.22.16.59.55
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Sep 2018 16:59:56 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] hwmon: ina3221: Read channel input source info
- from DT
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20180921223216.634-1-nicoleotsuka@gmail.com>
- <20180921223216.634-3-nicoleotsuka@gmail.com>
- <a7e6c311-eba4-e9b2-df64-9d02882a1dcb@roeck-us.net>
- <20180922184650.GB9092@Asurada>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <f8e017c4-10dd-2d0d-84df-b05d3ed03bbf@roeck-us.net>
-Date:   Sat, 22 Sep 2018 16:59:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1725912AbeIWGb2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 23 Sep 2018 02:31:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47460 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725908AbeIWGb1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 02:31:27 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8N0Zqkj002288
+        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 20:35:58 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2mnm0sk3ut-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 20:35:57 -0400
+Received: from localhost
+        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sat, 22 Sep 2018 20:35:57 -0400
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sat, 22 Sep 2018 20:35:54 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8N0ZrGo21299276
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sun, 23 Sep 2018 00:35:53 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9C873B205F;
+        Sat, 22 Sep 2018 20:34:17 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7BE25B2066;
+        Sat, 22 Sep 2018 20:34:17 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.180.236])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Sat, 22 Sep 2018 20:34:17 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 9E0CC16C197D; Sat, 22 Sep 2018 17:35:52 -0700 (PDT)
+Date:   Sat, 22 Sep 2018 17:35:52 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH RFC 1/3] rcu: tree: Remove unused externs
+Reply-To: paulmck@linux.ibm.com
+References: <20180922234127.94970-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-In-Reply-To: <20180922184650.GB9092@Asurada>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180922234127.94970-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18092300-0060-0000-0000-000002B498EE
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009754; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000266; SDB=6.01092245; UDB=6.00564421; IPR=6.00872269;
+ MB=3.00023459; MTD=3.00000008; XFM=3.00000015; UTC=2018-09-23 00:35:56
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18092300-0061-0000-0000-0000469A81B0
+Message-Id: <20180923003552.GI4222@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-22_16:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1809230005
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/22/2018 11:46 AM, Nicolin Chen wrote:
->>> This patch adds a new structure of input source specific
->>> information including input source label, shunt resistor
->>> value and its connection status. It exposes these labels
->>> via sysfs and also disables those channels where there's
->>> no input source being connected.
->>>
->>
->> I see you have decided to just display the disconnected channels.
->> This is misleading, and I can not accept it. Please either use the
->> is_visible callback to not display those channels at all, or have
+On Sat, Sep 22, 2018 at 07:41:25PM -0400, Joel Fernandes (Google) wrote:
+> These aren't used anymore. Remove them.
 > 
-> I will add is_visible. I have almost finished it while waiting for
-> the v3's review comments. Will test it and include in the v4.
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+Good catch, queued and pushed with subject/commit-log edits,
+thank you!
+
+							Thanx, Paul
+
+> ---
+>  kernel/rcu/tree.h | 11 -----------
+>  1 file changed, 11 deletions(-)
 > 
->> the _input attribute of disabled channels return -ENODATA (see
->> 'in[0-*]_enable' attribute in the ABI). If you implement the latter,
->> I would suggest to also implement the _enable attribute.
-> 
-> I will also add one separate patch for in[0-*]_enable after these
-> two changes pass the review and get applied.
-> 
->> As mentioned in patch 1, I can not accept an implicitly mandatory
->> label attribute. The property defining the label attribute will
->> have to be optional and well defined to ensure that it matches
->> the ABI.
-> 
-> I replied this in the PATCH-1. Let's discuss this topic there.
-> 
->>> +	/* Disable channels if their inputs are disconnected */
->>> +	for (i = 0, mask = 0; i < INA3221_NUM_CHANNELS; i++) {
->>> +		if (ina->inputs[i].disconnected)
->>> +			mask |= INA3221_CONFIG_CHx_EN(i);
->>> +	}
->>
->> Consequently, you should also _enable_ channels which are not explicitly disabled.
-> 
-> The register has enabled all channels by default. So I felt it'd
-> be neat to have disabling code only. My v1 actually had enabling
-> part as well, but I can add it back if you think it'd be better.
-> 
->> This can be tricky since you'll have to distinguish non-DT and DT configuration
->> and retain the original configuration if no channel configuration data is available
->> from devicetree.
-> 
-> I don't quite understand this comments. Would you please elaborate
-> it?
-> 
-> For non-DT configurations, input->disconnected is always false by
-> default unless someone adds config for it (through platform_data).
-> If regmap_update_bits only does disabling like this version does,
-> non-DT configurations will not get affected since mask = 0. Or if
-> we change it to do both enabling and disabling, regmap_update_bits
-> will still ignore since there's no register value changed, though
-> it won't really hurt even if regmap writes correct configurations
-> to the register.
-> 
-> For DT configurations (without channel input source defined), it's
-> like the same as non-DT configurations. As we have platforms only
-> enabled ina3221 via DT while they don't have this new DT binding,
-> the driver has to be backward compatible, so my change only sets
-> input->disconnected=true when a status="disabled" is present, i.e.
-> those platforms are treated as all channels getting enabled until
-> they update their DTs.
+> diff --git a/kernel/rcu/tree.h b/kernel/rcu/tree.h
+> index 703e19ff532d..57a937ac51c2 100644
+> --- a/kernel/rcu/tree.h
+> +++ b/kernel/rcu/tree.h
+> @@ -398,17 +398,6 @@ static const char *tp_rcu_varname __used __tracepoint_string = rcu_name;
+>  #define RCU_NAME rcu_name
+>  #endif /* #else #ifdef CONFIG_TRACING */
+>  
+> -/*
+> - * RCU implementation internal declarations:
+> - */
+> -extern struct rcu_state rcu_sched_state;
+> -
+> -extern struct rcu_state rcu_bh_state;
+> -
+> -#ifdef CONFIG_PREEMPT_RCU
+> -extern struct rcu_state rcu_preempt_state;
+> -#endif /* #ifdef CONFIG_PREEMPT_RCU */
+> -
+>  int rcu_dynticks_snap(struct rcu_data *rdp);
+>  
+>  #ifdef CONFIG_RCU_BOOST
+> -- 
+> 2.19.0.444.g18242da7ef-goog
 > 
 
-I think your assumption may be that the chip is always in its reset state
-when Linux is loaded. This is not necessarily the case; it may be
-preconfigured by BIOS or ROMMON, or even by someone using i2cset before
-loading the driver. If you add enable/disable functionality, you can
-not make an assumption about the original state of the chip at probe time;
-you have to read it from the chip itself.
-
-Thanks,
-Guenter
