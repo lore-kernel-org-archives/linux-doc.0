@@ -1,105 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2F607D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 05:20:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8D07E7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 05:25:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726008AbeIWLQw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 23 Sep 2018 07:16:52 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:43740 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725988AbeIWLQw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 07:16:52 -0400
-Received: by mail-pf1-f193.google.com with SMTP id j26-v6so7670634pfi.10;
-        Sat, 22 Sep 2018 22:20:42 -0700 (PDT)
+        id S1725995AbeIWLVz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 23 Sep 2018 07:21:55 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:39331 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725969AbeIWLVz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 07:21:55 -0400
+Received: by mail-pg1-f194.google.com with SMTP id 85-v6so4706896pge.6;
+        Sat, 22 Sep 2018 22:25:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RhTJtTmI8/Ay10FGFY/CKc0rIkGlDASoSU8nbP0g8qo=;
-        b=Gz5dlSIj5/hxByJpuqJe+1h2OMCcM82qolGplJgdpjNQYB4/6HOgCPzQHE+bwQdTHf
-         CwS5uY2oPyJLUf/o3R1SP2zXfiq5FsURJm0p49OSKNPgbK8rMOJ/e7JJotMY/zfPRSIR
-         6feGKMBfxubJGaiRok9TCzl6+5B/OqcLCZUyxhUnTHHQm1YdOw8vIeoXNDG3MuxSUsVK
-         OV3l9EWrM3tUx1RlyUbWHWH81lzjlUhixJMnAp6MOJPw86DWWh3vL4r/vXs7+Aja3p8I
-         S0ho+5RGmOaDTXuz9OS/sPSjmDqxj+k1mHM140aVBakp8p2UW15gZvVzIm0Q55A45vQH
-         k1/w==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=EYxJAjaRCOqbgSatR2vIJysDTaEOnnmfMdvZcoY2fzM=;
+        b=JeEQgJdZsGWrFRNJdEbKyIrmsMHuhjYS5wW5FhUFps/z+cli7vQVzO4QCiI/+f6RQ5
+         t6+u2DrhrRehgag0WtFDmGkU5gGYOcw+vX8v611GvxwixtONocoaAspkA2jyUDp58dPq
+         g7cZqnqExCqyx3B2/DE2pDgnuLXF1ZSJsN6ToegaZMGk2jMGoPws1nfKxk3tvD8wsQdH
+         VAR4r71IE2/vc0vRBKk06DprDYVB1alJdKEm53/sX0j791cxTBoZWFWkfv1k2ssqp//R
+         7uzK828cSI6ZSxN/oOru/gCaa5ebC8DCLfrJ/mpa+YR4UYDEFRal1qJgxgxm/DtxUrWm
+         9wgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RhTJtTmI8/Ay10FGFY/CKc0rIkGlDASoSU8nbP0g8qo=;
-        b=LRrFm06Yf70rjEPp0YH+s5OdVQjaLRoXVkRuhCLRNINwxpoTrSVBnkuD68Eacks3dD
-         90PQmJrLNBlq/FglmmT5fyOY9vAORM15Jay4K8Xi/BuUyaW4I3wmoTExfN8SexNkDIyx
-         GcajRmAtY7Iwyf4YXTBeMmA77GMDCPBftZImma0pMQmFd8SXBtbn20uh8j5jLVGwg8bb
-         XLO67jbkPkzApIU98U8H+IRpZW9wT1D0FhnmDdTMSgBOUcOpUD7SLBIwHc81l5/h6bM7
-         Ui0tGHh0RXmeYBFNkWGyC/2M75++SjBkjN6g39hfa+qqoeX2eE9EjkspW0FvLdsbO8ow
-         U6Iw==
-X-Gm-Message-State: ABuFfogKwIjkuuGfWMQvKwDVtMCo182usrW2mBqJHWtyMeD/+EIfpnjM
-        78Um60KMth8hlsU0N4TVF54=
-X-Google-Smtp-Source: ANB0VdYNHCBXNCLQYRrdeeMCJRwCbv0ZeuZf7CNsDy72XwQCRcu2yk2WfB49JTbeOdLOaF6h1MQQvg==
-X-Received: by 2002:a63:8e43:: with SMTP id k64-v6mr523494pge.75.1537680042202;
-        Sat, 22 Sep 2018 22:20:42 -0700 (PDT)
-Received: from Asurada (c-73-231-2-134.hsd1.ca.comcast.net. [73.231.2.134])
-        by smtp.gmail.com with ESMTPSA id y86-v6sm44980020pfk.84.2018.09.22.22.20.41
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EYxJAjaRCOqbgSatR2vIJysDTaEOnnmfMdvZcoY2fzM=;
+        b=Wzfb3jKm9MCw0xaX/C6yjm8hxUBecUTV6FjAVLpqe8qPvnKg0xsq6PbXJDlyQGCN3+
+         OYt9XBuMRDiVXceOhY8MvKoC2ZxQpWQxTACirQ6b1jKPMkD+HnuK3HIKLLXJ3EYjMaY1
+         FOBO58fIv+tvslGNnMSleLoV6LIdiPEmEok/uRvJ0rk6GhP5CCFO1B9NMNtIjImI0SJ7
+         zEfI8CeYj2T8TZPqVaoX1a1ywPyiFC2cfmN/pVD2cobifmYm2VoS94ZRQ2lpgwqCNQK8
+         umrShWT5u/UFgfgVT95c2etvu3M4hHPQw1DYiAmo5rP9hL4QKhMTFKiv15Y/sRR4WMNs
+         eYaQ==
+X-Gm-Message-State: ABuFfojZ/IrVDosx4vD/50yLiJ41xHPiu7zlnq4ei+HWfcL2vnZt6jcl
+        g411IOznCWqGBjobsEk2ljWuA7E0
+X-Google-Smtp-Source: ACcGV62T6KnM03M1EfBasqNoF5S7KXh4QNMZK6ABhvxA742tkaepKhUQUWgb1xDU7UbmzicPbTU/hg==
+X-Received: by 2002:a63:5ec5:: with SMTP id s188-v6mr4382687pgb.126.1537680344580;
+        Sat, 22 Sep 2018 22:25:44 -0700 (PDT)
+Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id v20-v6sm62231952pfk.12.2018.09.22.22.25.43
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Sep 2018 22:20:42 -0700 (PDT)
-Date:   Sat, 22 Sep 2018 22:20:36 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
+        Sat, 22 Sep 2018 22:25:43 -0700 (PDT)
+Subject: Re: [PATCH v3 2/2] hwmon: ina3221: Read channel input source info
+ from DT
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
 Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
         corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] hwmon: ina3221: Read channel input source info
- from DT
-Message-ID: <20180923052036.GA9960@Asurada>
-References: <20180923041118.8743-1-nicoleotsuka@gmail.com>
- <20180923041118.8743-3-nicoleotsuka@gmail.com>
- <6f179232-9114-f403-ee35-2495cea73318@roeck-us.net>
+References: <20180921223216.634-1-nicoleotsuka@gmail.com>
+ <20180921223216.634-3-nicoleotsuka@gmail.com>
+ <a7e6c311-eba4-e9b2-df64-9d02882a1dcb@roeck-us.net>
+ <20180922184650.GB9092@Asurada>
+ <f8e017c4-10dd-2d0d-84df-b05d3ed03bbf@roeck-us.net>
+ <20180923003841.GA10071@Asurada-Nvidia.nvidia.com>
+ <80510b08-0e89-03ce-7d69-fe51f8b6a7b5@roeck-us.net>
+ <20180923033300.GA5736@Asurada>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <5c102fee-202e-e5cb-18a0-be08b82dd461@roeck-us.net>
+Date:   Sat, 22 Sep 2018 22:25:42 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f179232-9114-f403-ee35-2495cea73318@roeck-us.net>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+In-Reply-To: <20180923033300.GA5736@Asurada>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thank you for the quick response!
+On 09/22/2018 08:33 PM, Nicolin Chen wrote:
 
-On Sat, Sep 22, 2018 at 10:11:26PM -0700, Guenter Roeck wrote:
-> >+static umode_t ina3221_attr_is_visible(struct kobject *kobj,
-> >+				       struct attribute *attr, int n)
-> >+{
-> >+	const int max_attrs = ARRAY_SIZE(ina3221_attrs) - 1;
-> >+	const int num_attrs = max_attrs / INA3221_NUM_CHANNELS;
-> >+	struct device *dev = kobj_to_dev(kobj);
-> >+	struct ina3221_data *ina = dev_get_drvdata(dev);
-> >+	enum ina3221_channels channel = n / num_attrs;
+>> No. If the chip was configured by the BIOS/ROMMON, it is supposed
+>> to be that way. We can not just override that.
 > 
-> 	int index = n % num_attrs;
+> For this driver, it does soft reset in the probe() so we're
+> sure that all channels are enabled at the moment of calling
+> this regmap_update_bits. So there's no assumption anymore.
 > 
-> >+	struct ina3221_input *input = &ina->inputs[channel];
-> >+	int i;
-> >+
-> >+	/* Hide if channel input source is disconnected */
-> >+	if (input->disconnected)
-> >+		return 0;
-> >+
-> >+	/* Hide label node if label is not provided */
-> 
-> 	if (index == 1 && !input->label)
-> 		return 0;
-> 
-> and drop i, ina3221_label_attrs[], and the loop below.
 
-Will do that in v5.
+Good point.
 
-Thanks
-Nicolin
+> But the case that you mentioned is a good one. It does give
+> me some insight about the use case and the things that will
+> need to be careful when adding in[123]_enable. Just it'd be
+> also possible that BIOS could disable a channel that is not
+> explicitly disabled in the DT -- then the driver should not
+> enable it.
+> 
+
+Not necessarily. Again, we can not assume that everyone has DT
+(or that it and/or the BIOS is correct, for that matter).
+
+Nevertheless, adding the enable attribute is not required at this
+point, so it is ok for me to skip it. Please note that I'll accept
+a patch adding it, though, if it is ever submitted (with a use case).
+
+Thanks,
+Guenter
