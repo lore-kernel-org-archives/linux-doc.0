@@ -5,46 +5,46 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 46BD67D57F
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 00:36:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 38E577D57F
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 00:37:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725916AbeIWGcS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 23 Sep 2018 02:32:18 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50648 "EHLO
+        id S1726266AbeIWGdB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 23 Sep 2018 02:33:01 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39150 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725900AbeIWGcS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 02:32:18 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8N0ZDVt050464
-        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 20:36:48 -0400
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2mnmsrhry3-1
+        by vger.kernel.org with ESMTP id S1725916AbeIWGdB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Sep 2018 02:33:01 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8N0ZZ8B064481
+        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 20:37:31 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2mnkvabkrq-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 20:36:47 -0400
+        for <linux-doc@vger.kernel.org>; Sat, 22 Sep 2018 20:37:30 -0400
 Received: from localhost
-        by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sat, 22 Sep 2018 20:36:47 -0400
-Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
-        by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Sat, 22 Sep 2018 20:37:30 -0400
+Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
+        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 22 Sep 2018 20:36:45 -0400
+        Sat, 22 Sep 2018 20:37:27 -0400
 Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8N0aitW22216856
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8N0bQcx44499028
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 23 Sep 2018 00:36:44 GMT
+        Sun, 23 Sep 2018 00:37:26 GMT
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C5FC1B2065;
-        Sat, 22 Sep 2018 20:35:08 -0400 (EDT)
+        by IMSVA (Postfix) with ESMTP id DD3BBB2065;
+        Sat, 22 Sep 2018 20:35:50 -0400 (EDT)
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A4F5CB205F;
-        Sat, 22 Sep 2018 20:35:08 -0400 (EDT)
+        by IMSVA (Postfix) with ESMTP id B8085B205F;
+        Sat, 22 Sep 2018 20:35:50 -0400 (EDT)
 Received: from paulmck-ThinkPad-W541 (unknown [9.85.180.236])
         by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Sat, 22 Sep 2018 20:35:08 -0400 (EDT)
+        Sat, 22 Sep 2018 20:35:50 -0400 (EDT)
 Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id CD50D16C197D; Sat, 22 Sep 2018 17:36:43 -0700 (PDT)
-Date:   Sat, 22 Sep 2018 17:36:43 -0700
+        id E0A4416C197D; Sat, 22 Sep 2018 17:37:25 -0700 (PDT)
+Date:   Sat, 22 Sep 2018 17:37:25 -0700
 From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
 To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
 Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
@@ -53,24 +53,25 @@ Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC 2/3] rcu: tree: Fix comment about gp_seq_needed
+Subject: Re: [PATCH RFC 3/3] Documentation: RCU: Fix rcu_preempt_state
+ reference in stallwarn
 Reply-To: paulmck@linux.ibm.com
 References: <20180922234127.94970-1-joel@joelfernandes.org>
- <20180922234127.94970-2-joel@joelfernandes.org>
+ <20180922234127.94970-3-joel@joelfernandes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180922234127.94970-2-joel@joelfernandes.org>
+In-Reply-To: <20180922234127.94970-3-joel@joelfernandes.org>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-TM-AS-GCONF: 00
-x-cbid: 18092300-0064-0000-0000-00000352985C
+x-cbid: 18092300-0068-0000-0000-000003409F8A
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00009754; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000266; SDB=6.01092245; UDB=6.00564421; IPR=6.00872270;
- MB=3.00023459; MTD=3.00000008; XFM=3.00000015; UTC=2018-09-23 00:36:47
+ PH=3.00000004; SC=3.00000266; SDB=6.01092246; UDB=6.00564421; IPR=6.00872270;
+ MB=3.00023459; MTD=3.00000008; XFM=3.00000015; UTC=2018-09-23 00:37:30
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18092300-0065-0000-0000-00003ABC7BDF
-Message-Id: <20180923003643.GJ4222@linux.ibm.com>
+x-cbparentid: 18092300-0069-0000-0000-000045D38C1A
+Message-Id: <20180923003725.GK4222@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-22_16:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -83,45 +84,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 22, 2018 at 07:41:26PM -0400, Joel Fernandes (Google) wrote:
-> rcu_state does not have a gp_seq_needed field. This comment therefore is
-> confusing or incorrect. Fix it.
+On Sat, Sep 22, 2018 at 07:41:27PM -0400, Joel Fernandes (Google) wrote:
+> rcu_preempt_state doesn't exist anymore. Update stallwarn documentation
+> accordingly.
 > 
 > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Good eyes, queued and pushed with edits, thank you!
-
-(Yes, I do have a great deal of experience with punched cards.  Why do
-you ask?)
+Good eyes, queued and pushed with edits, including fixing a grammar
+nit in my original.  ;-)
 
 							Thanx, Paul
 
 > ---
->  kernel/rcu/tree.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/RCU/stallwarn.txt | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> diff --git a/kernel/rcu/tree.h b/kernel/rcu/tree.h
-> index 57a937ac51c2..fd2ba3f9eee9 100644
-> --- a/kernel/rcu/tree.h
-> +++ b/kernel/rcu/tree.h
-> @@ -57,7 +57,7 @@ struct rcu_node {
->  					/*  some rcu_state fields as well as */
->  					/*  following. */
->  	unsigned long gp_seq;	/* Track rsp->rcu_gp_seq. */
-> -	unsigned long gp_seq_needed; /* Track rsp->rcu_gp_seq_needed. */
-> +	unsigned long gp_seq_needed; /* Track the furthest future gp request seen */
->  	unsigned long completedqs; /* All QSes done for this node. */
->  	unsigned long qsmask;	/* CPUs or groups that need to switch in */
->  				/*  order for current grace period to proceed.*/
-> @@ -163,7 +163,7 @@ union rcu_noqs {
->  struct rcu_data {
->  	/* 1) quiescent-state and grace-period handling : */
->  	unsigned long	gp_seq;		/* Track rsp->rcu_gp_seq counter. */
-> -	unsigned long	gp_seq_needed;	/* Track rsp->rcu_gp_seq_needed ctr. */
-> +	unsigned long	gp_seq_needed;	/* Track the furthest future gp request seen */
->  	union rcu_noqs	cpu_no_qs;	/* No QSes yet for this CPU. */
->  	bool		core_needs_qs;	/* Core waits for quiesc state. */
->  	bool		beenonline;	/* CPU online at least once. */
+> diff --git a/Documentation/RCU/stallwarn.txt b/Documentation/RCU/stallwarn.txt
+> index 491043fd976f..b6bc7a2a9961 100644
+> --- a/Documentation/RCU/stallwarn.txt
+> +++ b/Documentation/RCU/stallwarn.txt
+> @@ -176,9 +176,8 @@ causing stalls, and that the stall was affecting RCU-sched.  This message
+>  will normally be followed by stack dumps for each CPU.  Please note that
+>  PREEMPT_RCU builds can be stalled by tasks as well as by CPUs, and that
+>  the tasks will be indicated by PID, for example, "P3421".  It is even
+> -possible for a rcu_preempt_state stall to be caused by both CPUs -and-
+> -tasks, in which case the offending CPUs and tasks will all be called
+> -out in the list.
+> +possible for a rcu_state stall to be caused by both CPUs -and- tasks,
+> +in which case the offending CPUs and tasks will all be called out in the list.
+>  
+>  CPU 2's "(3 GPs behind)" indicates that this CPU has not interacted with
+>  the RCU core for the past three grace periods.  In contrast, CPU 16's "(0
 > -- 
 > 2.19.0.444.g18242da7ef-goog
 > 
