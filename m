@@ -4,145 +4,115 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 164E07D87C
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Sep 2018 23:53:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 53A717D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 00:10:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727294AbeIXFwG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Sep 2018 01:52:06 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:37959 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725932AbeIXFwF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 01:52:05 -0400
-Received: by mail-lf1-f65.google.com with SMTP id z186-v6so15160781lfa.5;
-        Sun, 23 Sep 2018 16:52:34 -0700 (PDT)
+        id S1726339AbeIXGKG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Sep 2018 02:10:06 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:43736 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725929AbeIXGKG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 02:10:06 -0400
+Received: by mail-pf1-f194.google.com with SMTP id j26-v6so8271228pfi.10;
+        Sun, 23 Sep 2018 17:10:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Mg0atZwESfwIvpH4FO9elFcUPvpgUp8Akcfpx+l/4o8=;
-        b=NlWr2aPvPsEDztjPTg3Dpib4GS4ZiJaa/tBuMFavHB9ZhRnC8KcMfFPIr/yI6xcRXb
-         yywZ8JJle1hJzKCPf1ScmVflVsBGe5x4ElqJ7Gqo193QiGa2fbAsK2vW0y3uPd9vqwvq
-         bgBXvcy/ydBbGFBwGQIZLgCDNrPWsiRukjwFUr/euIp1iO+EbveIU2Qjyk1uRK3/OZjn
-         uqJum//WQjxJvRTFuKjZAbd8CUfhtXtTwsHGEkqMvpSIjxOJWeeqHyu8GOTlXODaUBY3
-         r2tl7cWotTOw34iEzZAcyXTPwsJsvKKqm88l98KPFbSebGtM/Y5Kig/87NSoYr/FWyG1
-         CnJQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=t8eNVGf+mb8xAyFzpH/TeE4oZrfbbhxUCkVUaQHIwkw=;
+        b=uta+e6d+edYbiA7B3z7kS6pxbCBvSB6di7oDc3xEx5wTKoy+okwnVkSK1XUjd+2JTe
+         OA4huIAYms0GUZcp/c2nF3CzR9Non+WpvHt+wBD1+4JPaRjASuPuda4i2ZKZjpulFVCX
+         5e4nLJ/pR63XrHNyWi5MqMKHBjjJjUSjbxOP56xSsP5lOb3k6xyYHIp6wpmabza3P91Z
+         mizxxN3HOZnF4zpudZOILs9EszE3SvcHL8jqHf/940IIWV9bYu91nRDdZQRz3Jkj43Ow
+         XVvZYLdI1N7gf/wXxDhBlJzZ26RCGIB8HIvVv4rC4EgY4sORcNLS/v3fVuGja9TSQNEm
+         kM6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Mg0atZwESfwIvpH4FO9elFcUPvpgUp8Akcfpx+l/4o8=;
-        b=GFQAWR86eWHEp0Fs0wxHmOKArP20v/wrZAjQHw42Tjk9XqgUF6AVEN35szWOtq1lpu
-         Pxl+SXhIVkLq/gmlVAoGuDxMUYIdwUASBYcwzanrt1VnnHTOSFhu8cLuuHRc9o9uqRD3
-         YcHehaZZaDdTokXytCMpM+kH6WBodpRGE+YCSUy9AHrHQZy5FvYlfEyzyum66UwjRxs3
-         tZB7wUX2/TnWNeIqQYilN7zryKY7eEMulMLtR2ZrPsJZiiLU2pRrXUVVUTXJH/cwA0xK
-         4mlIZhxswkjNy87IEdfog/S2V8KJQxV4hYu1PVGBQrNjuG8yTss/+F9uN4ZebD7p1f5B
-         Q+mg==
-X-Gm-Message-State: APzg51BxQM9Qd8+73NU/iiMUcyI7PWgEr5i7aUGW731Dur46Fqlknrmd
-        UCnt7ho8bjp/afxyNVIGVPs=
-X-Google-Smtp-Source: ANB0VdYalzWvTuVqZQt/8iRSFb8VkyNMD/akAle0kXEQQLAf+V+s/mSFK23Sz+1ODikX1K7fFIQSQw==
-X-Received: by 2002:a19:1952:: with SMTP id 79-v6mr2474242lfz.85.1537746753683;
-        Sun, 23 Sep 2018 16:52:33 -0700 (PDT)
-Received: from z50.lan (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id m8-v6sm3419718lfh.25.2018.09.23.16.52.31
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=t8eNVGf+mb8xAyFzpH/TeE4oZrfbbhxUCkVUaQHIwkw=;
+        b=VLLkG4JmOiZs8BYmBbC8/YKBaM55oBG+mADytMyjQZqoUzEgK3AQz5xc8N2GDG8d5H
+         F8jSjJL80ORj7xQiqn/vLHxasM8n/eiXEmkp7Yo4zq2/0N8rya1lvQRyChjkBVoqUgys
+         wCGzf0cTWLA33zqJY08wx6Lemrtsm8xAv+VDqW/0co2QgV5fWrxN6gNt0DVX+2FcTh1a
+         84wOi379o6VABVWuxk0YBVYocVAoIP0qf11PIV7+/JA93zIaPLK/dWT0TXz6g522NMOB
+         kQ9w0FbaqiF9nhq0zIEqAN8YmgeDefu0Ht1QUnPF2ipogimOuDMXsthCA2ZRpJ8zjgOb
+         EFIA==
+X-Gm-Message-State: ABuFfoiXrh+vWznxVT+HrdlFbNCT05yr48u4ftrTOUm1fkV/8sF/O7Ao
+        MQY1P+7XDrcvKlx1QSm1m/U=
+X-Google-Smtp-Source: ANB0VdY/ojQcN0iNdaDo3KnRbGjqL+WAwfsxQAzGI0bfCKspgscigw21poh7GVKFYbtri5BByLUM/w==
+X-Received: by 2002:a63:7d43:: with SMTP id m3-v6mr1431071pgn.341.1537747833424;
+        Sun, 23 Sep 2018 17:10:33 -0700 (PDT)
+Received: from Asurada (c-73-231-2-134.hsd1.ca.comcast.net. [73.231.2.134])
+        by smtp.gmail.com with ESMTPSA id a2-v6sm33087394pgc.68.2018.09.23.17.10.32
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 Sep 2018 16:52:33 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        Peter Rosin <peda@axentia.se>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Rojhalat Ibrahim <imr@rtschenk.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Tony Lindgren <tony@atomide.com>,
-        Yegor Yefremov <yegorslists@googlemail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-serial@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>
-Subject: [PATCH 1/2] gpiolib: Fix missing updates of bitmap index
-Date:   Mon, 24 Sep 2018 01:53:35 +0200
-Message-Id: <20180923235336.22148-2-jmkrzyszt@gmail.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20180923235336.22148-1-jmkrzyszt@gmail.com>
-References: <2785169.v6aIfS3K2k@z50>
- <20180923235336.22148-1-jmkrzyszt@gmail.com>
+        Sun, 23 Sep 2018 17:10:33 -0700 (PDT)
+Date:   Sun, 23 Sep 2018 17:10:25 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: Add ina3221 documentation
+Message-ID: <20180924001025.GA7496@Asurada>
+References: <20180923041118.8743-1-nicoleotsuka@gmail.com>
+ <20180923041118.8743-2-nicoleotsuka@gmail.com>
+ <353ccbbd-94c8-72eb-eb98-8a0507431e15@roeck-us.net>
+ <20180923053151.GB9960@Asurada>
+ <ce76fdf2-2894-96ad-d2f5-b2c25f197ee4@roeck-us.net>
+ <20180923060120.GA8872@Asurada-Nvidia.nvidia.com>
+ <fe5c9570-70f8-d54d-509e-fce3733a4145@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fe5c9570-70f8-d54d-509e-fce3733a4145@roeck-us.net>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In new code introduced by commit b17566a6b08b ("gpiolib: Implement fast
-processing path in get/set array"), bitmap index is not updated with
-next found zero bit position as it should while skipping over pins
-already processed via fast bitmap path, possibly resulting in an
-infinite loop.  Fix it.
+On Sat, Sep 22, 2018 at 11:36:22PM -0700, Guenter Roeck wrote:
+> >>>>>+  Optional properties:
+> >>>>>+  - input-label: Name of the input source
+> 
+> Just noticed the "input-" here. Please just use "label".
 
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
----
- drivers/gpio/gpiolib.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Will fix in v5.
 
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index a53d17745d21..7d9536a79a66 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -2880,8 +2880,8 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
- 			__set_bit(hwgpio, mask);
- 
- 			if (array_info)
--				find_next_zero_bit(array_info->get_mask,
--						   array_size, i);
-+				i = find_next_zero_bit(array_info->get_mask,
-+						       array_size, i);
- 			else
- 				i++;
- 		} while ((i < array_size) &&
-@@ -2905,7 +2905,8 @@ int gpiod_get_array_value_complex(bool raw, bool can_sleep,
- 			trace_gpio_value(desc_to_gpio(desc), 1, value);
- 
- 			if (array_info)
--				find_next_zero_bit(array_info->get_mask, i, j);
-+				j = find_next_zero_bit(array_info->get_mask, i,
-+						       j);
- 			else
- 				j++;
- 		}
-@@ -3192,8 +3193,8 @@ int gpiod_set_array_value_complex(bool raw, bool can_sleep,
- 			}
- 
- 			if (array_info)
--				find_next_zero_bit(array_info->set_mask,
--						   array_size, i);
-+				i = find_next_zero_bit(array_info->set_mask,
-+						       array_size, i);
- 			else
- 				i++;
- 		} while ((i < array_size) &&
--- 
-2.16.4
+> >>>>>+  input1 {
+> >>>>>+          input-id = <0x1>;
+> >>>>
+> >>>>We'll have to find a better name for this. Feel free to look up examples in the
+> >>>>existing devicetree descriptions. The one that seems to be used most of the time
+> >>>>to indicate a channel index or id is "reg". It should also start with 0 - there
+> >>>>is no real reason for it to start with 1; it only makes the code more complex.
+> >>>
+> >>>The reason is that the port start from 1 in the datasheet.
+> >>>
+> >>
+> >>Maybe, but for me I'll want to have something that we can reuse for other chips.
+> >>Having the index start with 0 for one chip and with 1 for another would be
+> >>confusing. It is bad enough that we have in[0..n] for voltages and temp[1..n]
+> >>for temperatures. I would not want to see the same in devicetree files,
+> >>and much less so on a per-device basis. It is also pretty common to start
+> >>channel numbers with 0 in devicetree files.
+> >
+> >Understood. I search a bit and saw most of "*-id" start from 0,
+> >although I cannot be sure whether their Datasheet/RM/schematics
+> >are counting from 0 or 1.
+> >
+> >And I also found a transposing example:
+> >     Documentation/devicetree/bindings/serial/mrvl,pxa-ssp.txt
+> >
+> 
+> You'll always find an example for anything in the kernel. In this case,
+> it is for one specific chip. I'll want this to be reusable as template for
+> _all_ hardware monitoring chips.
 
+I see.
+
+Thanks
+Nicolin
