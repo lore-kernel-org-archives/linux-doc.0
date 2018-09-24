@@ -5,69 +5,67 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE0797D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 03:12:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D06D07DE6F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 05:35:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbeIXJMc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Sep 2018 05:12:32 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35471 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727205AbeIXJMb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 05:12:31 -0400
-Received: by mail-wm1-f68.google.com with SMTP id o18-v6so8500530wmc.0
-        for <linux-doc@vger.kernel.org>; Sun, 23 Sep 2018 20:12:32 -0700 (PDT)
+        id S1727430AbeIXLfc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Sep 2018 07:35:32 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52298 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727414AbeIXLfc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 07:35:32 -0400
+Received: by mail-wm1-f65.google.com with SMTP id l7-v6so3483707wme.2
+        for <linux-doc@vger.kernel.org>; Sun, 23 Sep 2018 22:35:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+SNeM+3rEiB9AOJ7flDOpSJUnC15RRsbdFD5lT7uKC0=;
-        b=SnqAMKCCGlWIo/gOYkuoAs6fkjlHU+/PYDwsByRhX8K9QEb0k+OOvp7jo0cYnz0VoJ
-         gYfDgSLx7YBuZk5tL1/bvp/R+CYcS+ic+3Urbh28xnTHUWHPmUSnSFi47oIsT+OaVRP3
-         Wdr13LB00WqD50k9N2Q7Wke0wOF97W/UopqT4=
+        bh=Z9R1aXWDdyaRlMfRGrp94QSZu/fyz5EfI5I6L2UcPxw=;
+        b=F0A+IgX8KvCefyU4euLvooaN8cO+Z0pYMbkFBYMrjwVARWC0azKYZ4SdpFTUhsaGi8
+         A6VyP3FiL1qHpmaymEvzUYH5q0i9Op5xgMz9NNjpzE4EgPk3xgJVKNwepYUgAc/kjLea
+         jWMawZ9ALhUyFVxk/Osw8W0qusXqQ0HqRAh9M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=+SNeM+3rEiB9AOJ7flDOpSJUnC15RRsbdFD5lT7uKC0=;
-        b=tewQEuJJ8vVxBclyB3qLo9n4B6TIxtYIg/wfodReUi+5xX5BETx48j3f8DSvA3Rev4
-         ocZXpc87NYJXTPcCNnNGMicXYyw9Scvw26veFuf7ly52DCdF2xHCGHevmpUpZhTpPAJA
-         k5CiWsBK2jAPCjMrSOKTd24DtgqcnMvOz07krr1PIfS+FwOIyI0AFkc5puhZhEQSPM8F
-         jCQv6y5P217JZ4a8sgQ8RiE1bum8/GYaWTxRQ3tNG6oFrdmAJWaQb42BfY8j12JOkhtF
-         lHXRqwu2ucUjjKBb00zvhckAvSlNc/Hx6DQYxSsJFGh58RzNo7Vh5JSO5AzUMB4CkKS1
-         QhTg==
-X-Gm-Message-State: ABuFfoiTlVYkPDPNPIndWa0sgVU1Ku/DJ1O+NbncAQtvaYm35kqkQ9bO
-        2ioB7cAngzSomNSQiXFdS3oZo8DqEgw=
-X-Google-Smtp-Source: ANB0Vdays2jX5iJ+DbdDiAqzMmKDj57HlI7Zx1ZrlnPZ6HnjXxnmIM3fgkhpedb1bS6kSJDV7g3VIA==
-X-Received: by 2002:a1c:7711:: with SMTP id t17-v6mr5661512wmi.35.1537758751389;
-        Sun, 23 Sep 2018 20:12:31 -0700 (PDT)
-Received: from [192.168.0.41] (sju31-1-78-210-255-2.fbx.proxad.net. [78.210.255.2])
-        by smtp.googlemail.com with ESMTPSA id k63-v6sm31067102wmd.46.2018.09.23.20.12.29
+        bh=Z9R1aXWDdyaRlMfRGrp94QSZu/fyz5EfI5I6L2UcPxw=;
+        b=LrymWlwJvaYTmhc5FqfJxAej+nAQ73k63eipox/eZguNsvlfd6ADuaJQpbT5grPPdb
+         IZztiinvr0W+4h5FZU+vTUWdAcnwiutg3Kn8xfuKItSm7zE+HTcz8Kdt4AgFUNaqr5jp
+         yxjNxOKIzC0HSTTalLlQ0bwNpJqLaA+3XCw0hhB/pG9eQJn5BlF2WU0GuisHCaXww1ZF
+         /W2PFtZWjGLiLmTLUMxplZyilKqFKe53pdmICT07kUneH94oMnmsdPtRE1+uT8MA6qHa
+         wZhBavwXBtrmATXjodkCtKwnSASNOmQg5eO4WSAMB2U/FeebINcrN8emveIW5OtfViFq
+         sruA==
+X-Gm-Message-State: APzg51CIBxEo/szmNvAZtTwETfEBQnlBdZXwwi+TgoHXDswXG8elAXo6
+        frC3D9LXffzbGp4Rx8BUQxGBoQ==
+X-Google-Smtp-Source: ACcGV60TeS+4vcb6rH4dZXvnDjrJlrphbSBaoBASF7zbDuvGACWs16RYgXPlwsoESjE1xZsta9UP8g==
+X-Received: by 2002:a1c:f210:: with SMTP id s16-v6mr4263888wmc.36.1537767307505;
+        Sun, 23 Sep 2018 22:35:07 -0700 (PDT)
+Received: from [192.168.0.41] (89.154.136.77.rev.sfr.net. [77.136.154.89])
+        by smtp.googlemail.com with ESMTPSA id g2-v6sm2558997wmh.16.2018.09.23.22.35.05
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 Sep 2018 20:12:30 -0700 (PDT)
+        Sun, 23 Sep 2018 22:35:06 -0700 (PDT)
 Subject: Re: [PATCH v7 05/24] clocksource: Add a new timer-ingenic driver
-To:     Paul Cercueil <paul@crapouillou.net>,
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Mathieu Malaterre <malat@debian.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        od@zcrc.me, linux-mips@linux-mips.org,
         Paul Burton <paul.burton@mips.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     od@zcrc.me, Mathieu Malaterre <malat@debian.org>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@linux-mips.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20180821171635.22740-1-paul@crapouillou.net>
- <20180821171635.22740-6-paul@crapouillou.net>
+        Mark Rutland <mark.rutland@arm.com>, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org
+References: <5ba8750a.1c69fb81.501e8.d0f0SMTPIN_ADDED_MISSING@mx.google.com>
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <e0836866-552f-374b-d271-a4ea2d4953ac@linaro.org>
-Date:   Mon, 24 Sep 2018 05:12:29 +0200
+Message-ID: <58645f14-aec2-4f66-3a39-34beeabdb035@linaro.org>
+Date:   Mon, 24 Sep 2018 07:35:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180821171635.22740-6-paul@crapouillou.net>
+In-Reply-To: <5ba8750a.1c69fb81.501e8.d0f0SMTPIN_ADDED_MISSING@mx.google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -76,19 +74,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21/08/2018 19:16, Paul Cercueil wrote:
-> This driver handles the TCU (Timer Counter Unit) present on the Ingenic
-> JZ47xx SoCs, and provides the kernel with a system timer, and optionally
-> with a clocksource and a sched_clock.
+On 24/09/2018 07:24, Paul Cercueil wrote:
+> Hi Daniel,
 > 
-> It also provides clocks and interrupt handling to client drivers.
+> Le 24 sept. 2018 05:12, Daniel Lezcano <daniel.lezcano@linaro.org> a écrit :
+>>
+>> On 21/08/2018 19:16, Paul Cercueil wrote: 
+>>> This driver handles the TCU (Timer Counter Unit) present on the Ingenic 
+>>> JZ47xx SoCs, and provides the kernel with a system timer, and optionally 
+>>> with a clocksource and a sched_clock. 
+>>>
+>>> It also provides clocks and interrupt handling to client drivers. 
+>>
+>> Can you provide a much more complete description of the timer in order 
+>> to make my life easier for the review of this patch? 
+> 
+> See patch [03/24], it adds a doc file that describes the hardware.
 
-Can you provide a much more complete description of the timer in order
-to make my life easier for the review of this patch?
+Thanks, I went through but it is incomplete to understand what the timer
+do. I will reverse-engineer the code but it would help if you can give
+the gross approach. Why multiple channels ? mutexes and completion ?
 
-Thanks
-
-  -- Daniel
 
 -- 
  <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
