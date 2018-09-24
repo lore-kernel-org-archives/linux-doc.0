@@ -1,134 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA7EF7DD4F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 14:36:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71DD27E424
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 15:08:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730841AbeIXUin (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Sep 2018 16:38:43 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41133 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726350AbeIXUim (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 16:38:42 -0400
-Received: by mail-ed1-f66.google.com with SMTP id f38-v6so16489555edd.8;
-        Mon, 24 Sep 2018 07:36:14 -0700 (PDT)
+        id S1726328AbeIXVJM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Sep 2018 17:09:12 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:36287 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731390AbeIXVHH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 17:07:07 -0400
+Received: by mail-io1-f68.google.com with SMTP id q5-v6so17862766iop.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Sep 2018 08:04:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=nP5/6X+XM9/CyLwxL8lAAbXv+C7Hxkb/e/KUou+jVQw=;
-        b=FfjvWTVpOgL8H7CYA7Hsaw+yfVi6xBWTo662gxMpMJ+2XU46xELtHKq/vnUbm2wijG
-         WLQmroK0Deb7VlyhmDpA8PNkPQFkLyKhCasjfJz9H9QFQ2mRFxprHfpjgvbJFir+2R15
-         9hVW6JGe5lQH+JNPxSjUFN7NzwpNpFYHixq9cQQ0nkfk5io2J9EVQtxAyYaaRy1AQRsw
-         QOC3twoDD3KOn2+uF1SCi6l6DliQvOVsLWcsi94MCJl9JpQGTwr8VA8rzWgY/t87U5ho
-         cLdffO+PR+Mfv+GgWDCbdvJdlJDaqtYtug3t31ZsLMDXulPCsCsTyHxxGhON9M2jnRaS
-         CByQ==
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=ShTzFkFIAIHHj6y6a7OpO6vxlQgBfu2puoZIc+A7uEI=;
+        b=B4+v3wSAwUOhLTstc8n0h0q1yVJvHJQ2QsnHDo2hLzNznUX9qYOcYZGgQNQvotqzFA
+         tsP2vp+NKE2UTafSYnqq7Ktef64Ao83mZYHnFmjxL2NnWpCjeKoG8phsmF3MRQBcTkPV
+         sjFYeFqR01p+6VJuM5CsPPhsJBiEH0xtHyl7EZbD4DnfHaHBzeZc2Tb8vw8hhhZDDcz3
+         qA5UBJMQCCppzHKsyt+NNIaRT8/n16E5hKTSF8JxYjAwqzwHr108pG6UFotGb7KtJaNj
+         rGRFagwFaGBUpAHsUI2jrzKCHubk38stsIGr/HpAjGlf0LWB4NE5/MFaL6utsHRjt9TN
+         wO/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=nP5/6X+XM9/CyLwxL8lAAbXv+C7Hxkb/e/KUou+jVQw=;
-        b=sHLAZYHokOAOx579NotaoubTC7gs6JOfLBG7K3SDArCF2GkP883eZRWvyHIBvCZL5E
-         HIUcykaKm5LdVSxUDeRIT/BzpuS5VsdDZZKVs76vqn8ie44fwazaHw1Hq7WH+E8pfgzV
-         pZnp1uqKczBYWeBEf8/VyQJMGkiKFAmfBMfruLdGQvTQSl8zyhzYKAMVCxsgTcxl3EUb
-         SdDzpxV9yBQIFf8n8rZdaXWpp+/DowJSsjr7uHjcFltrlpoB1xMgL3xP3qjTIKcHS8bl
-         v959F3wOKrlhrhin6aK4ndfditY+SBx8+H6Q+cua7iUpQJkDU1ynHFvTeHaqHRtU/bif
-         kdkA==
-X-Gm-Message-State: ABuFfohZ0xx0OUPd5owzsxGgtj7hFgOGTq1vl+OA4yOaS84/Gj3Mo651
-        E8ZZ9UsBxFKccVV2z1jTseE=
-X-Google-Smtp-Source: ACcGV62eETRPTPRP8t+Wced+Shu8S3Zj9tMznDxTgScHwfZUlCR62u8b1CdHYQ3Ud2OblQQIwVQfhw==
-X-Received: by 2002:a50:9949:: with SMTP id l9-v6mr16547906edb.277.1537799774220;
-        Mon, 24 Sep 2018 07:36:14 -0700 (PDT)
-Received: from ltop.local ([2a02:a03f:40a4:8000:f958:b56d:4d45:27ff])
-        by smtp.gmail.com with ESMTPSA id z49-v6sm901436edz.79.2018.09.24.07.36.10
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 24 Sep 2018 07:36:13 -0700 (PDT)
-Date:   Mon, 24 Sep 2018 16:36:10 +0200
-From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v5 00/15] Compiler Attributes
-Message-ID: <20180924143608.aiyehiibgc7isk7k@ltop.local>
-References: <20180920172301.21868-1-miguel.ojeda.sandonis@gmail.com>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=ShTzFkFIAIHHj6y6a7OpO6vxlQgBfu2puoZIc+A7uEI=;
+        b=XTTfD2Qo3OJRbFROjNF5nPEgdd3gZmE7Y9wrSamRhwwf4/boNIT8TDKeL1umjqsX/y
+         xE90fQd6iteh1xOpD/oSqvwtHQ1lMzejl6Ag1AVUxoe6iyB4QgYZps6aviwYYkR8smUw
+         oqlmQVIogX1tBeV1yt3qtQz2NFPaF61oSGKS6Fl/Oj8+qFe8L0MztxZMd3ufsDFoVAJw
+         IX/PAwot+V5fo9Wf8U/hATkghcZlx/08GfspmQk63DShJMKTos1Mog8CwiJN6ks9QBdT
+         6I5XaZDBot8pFSoogEnhy7Ai+seqMgpDdCSwUwPu8JOUCE1jB46rw1ph8QCZXExYfOkk
+         eTUg==
+X-Gm-Message-State: ABuFfoibVfqlJU/NMzxaXwStDYnhXP9z5m4WJN4RWSXqMnRRCyk8JPJO
+        Nx/AcrFf/53eKl+0IdRG+SB4nl0qQyA+LKf0XQCbYtQv
+X-Google-Smtp-Source: ACcGV62QAmMwiIZFtGODMNNB8cOeDT/1Leu/8RZEWSWbbaGqkICePn+BtKP1n+ocgioSaamD7HRJHMSIL39ViX79zVI=
+X-Received: by 2002:a6b:ece:: with SMTP id 197-v6mr8323454ioo.192.1537801472042;
+ Mon, 24 Sep 2018 08:04:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180920172301.21868-1-miguel.ojeda.sandonis@gmail.com>
-User-Agent: NeoMutt/20180622
+Received: by 2002:a02:3d47:0:0:0:0:0 with HTTP; Mon, 24 Sep 2018 08:04:31
+ -0700 (PDT)
+In-Reply-To: <CAAeHK+z4HOF_PobxSys8svftWt8dhbuUXEpq2sdXBTCXwTEH2g@mail.gmail.com>
+References: <cover.1535629099.git.andreyknvl@google.com> <5d54526e5ff2e5ad63d0dfdd9ab17cf359afa4f2.1535629099.git.andreyknvl@google.com>
+ <CA+55aFyW9N2tSb2bQvkthbVVyY6nt5yFeWQRLHp1zruBmb5ocw@mail.gmail.com>
+ <CA+55aFy2t_MHgr_CgwbhtFkL+djaCq2qMM1G+f2DwJ0qEr1URQ@mail.gmail.com>
+ <20180907152600.myidisza5o4kdmvf@armageddon.cambridge.arm.com>
+ <CA+55aFzQ+ykLu10q3AdyaaKJx8SDWWL9Qiu6WH2jbN_ugRUTOg@mail.gmail.com>
+ <20180911164152.GA29166@arrakis.emea.arm.com> <CAAeHK+z4HOF_PobxSys8svftWt8dhbuUXEpq2sdXBTCXwTEH2g@mail.gmail.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Mon, 24 Sep 2018 17:04:31 +0200
+Message-ID: <CAAeHK+z0C+GKK3dEVmtaAiS2koAZ5NDug7-nahUT79y3MX3MLQ@mail.gmail.com>
+Subject: Re: [PATCH v6 11/11] arm64: annotate user pointers casts detected by sparse
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mm <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 20, 2018 at 07:22:46PM +0200, Miguel Ojeda wrote:
-> The Compiler Attributes series is an effort to disentangle
-> the include/linux/compiler*.h headers and bring them up to date.
-> 
-> The main idea behind the series is to use feature checking macros
-> (i.e. __has_attribute) instead of compiler version checks (e.g. GCC_VERSION),
-> which are compiler-agnostic (so they can be shared, reducing the size
-> of compiler-specific headers) and version-agnostic.
-> 
-> Other related improvements have been performed in the headers as well,
-> which on top of the use of __has_attribute it has amounted to a significant
-> simplification of these headers (e.g. GCC_VERSION is now only guarding 4
-> non-attribute macros).
-> 
-> This series should also help the efforts to support compiling the kernel
-> with clang and icc. A fair amount of documentation and comments have also
-> been added, clarified or removed; and the headers are now more readable,
-> which should help kernel developers in general.
-> 
-> The series was triggered due to the move to gcc >= 4.6. In turn, this series
-> has also triggered Sparse to gain the ability to recognize __has_attribute
-> on its own.
-> 
-> Finally, the nonstring variable attribute series has been applied on top
-> of this one.
+On Mon, Sep 17, 2018 at 7:01 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> I took another look at the changes this patchset does to the kernel
+> and here are my thoughts:
+>
+> I see two ways how a (potentially tagged) user pointer gets into the kernel:
+>
+> 1. A pointer is passed to a syscall (directly as an argument or
+> indirectly as a struct field).
+> 2. A pointer is extracted from user context (registers, etc.) by some
+> kind of a trap/fault handler.
+> (Is there something else?)
+>
+> In case 1 we also have a special case of a pointer passed to one of
+> the memory syscalls (mmap, mprotect, etc.). These syscalls "are not
+> doing memory accesses but rather dealing with the memory range, hence
+> an untagged pointer is better suited" as pointed out by Catalin (these
+> syscalls do not always use "unsigned long" instead of "void __user *"
+> though, for example shmat uses "void __user *").
+>
+> Looking at patch #8 ("usb, arm64: untag user addresses in devio") in
+> this series, it seems that that devio ioctl actually accepts a pointer
+> into a vma, so we shouldn't actually be untagging its argument and the
+> patch needs to be dropped. Otherwise there's quite a few more cases
+> that needs to be changed (like tcp_zerocopy_receive() for example,
+> more can be found by grepping find_vma() in generic code).
+>
+> Regarding case 2, it seems that analyzing casts of __user pointers
+> won't really help, since the code (arch/arm64/mm/fault.c) doesn't
+> really use them. However all of this code is arch specific, so it
+> shouldn't really change over time (right?). It looks like dealing with
+> tags passed to the kernel through these fault handlers is already
+> resolved with these patches (and therefore patch #6 ("arm64: untag
+> user address in __do_user_fault") in this series is not actually
+> needed and can be dropped (need to test that)):
+>
+> 276e9327 ("arm64: entry: improve data abort handling of tagged pointers"),
+> 81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on
+> a tagged pointer")
+> 7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged pointers")
+>
+> Now, I also see two cases when kernel behavior changes depending on
+> whether a pointer is tagged:
+>
+> 1. Kernel code checks that a pointer belongs to userspace by comparing
+> it with TASK_SIZE/addr_limit/user_addr_max()/USER_DS/... .
+> 2. A pointer gets passed to find_vma() or similar functions.
+> (Is there something else?)
+>
+> The initial thought that I had here is that the pointers that reach
+> find_vma() must be passed through memory syscalls and therefore
+> shouldn't be untagged and don't require any fixes. There are at least
+> two exceptions to this: 1. get_user_pages() (see patch #4 ("mm, arm64:
+> untag user addresses in mm/gup.c") in this patch series) and 2.
+> __do_page_fault() in arch/arm64/mm/fault.c. Are there any other
+> obvious exceptions? I've tried adding BUG_ON(has_tag(addr)) to
+> find_vma() and running a modified syzkaller version that passes tagged
+> pointers to the kernel and failed to find anything else.
+>
+> As for case 1, the places where pointers are compared with TASK_SIZE
+> and others can be found with grep. Maybe it makes sense to introduce
+> some kind of routine like is_user_pointer() that handles tagged
+> pointers and refactor the existing code to use it? And maybe add a
+> rule to checkpatch.pl that forbids the direct usage of TASK_SIZE and
+> others.
+>
+> So I think detecting direct comparisons with TASK_SIZE and others
+> would more useful than finding __user pointer casts (it seems that the
+> latter requires a lot of annotations to be fixed/added), and I should
+> just drop this patch with annotations.
+>
+> WDYT?
 
-Hi Miguel,
-Feel free to add my
-  Reviewed-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-on patches 11-15 (I think the others ones already have it).
-
--- Luc
+ping
