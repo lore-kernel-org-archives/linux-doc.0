@@ -5,49 +5,49 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD2C57D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 08:11:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72B0A7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 08:13:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727446AbeIXOMa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Sep 2018 10:12:30 -0400
-Received: from mail-it1-f193.google.com ([209.85.166.193]:51464 "EHLO
-        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726888AbeIXOM3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 10:12:29 -0400
-Received: by mail-it1-f193.google.com with SMTP id e14-v6so9373060itf.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Sep 2018 01:11:36 -0700 (PDT)
+        id S1726323AbeIXOOJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Sep 2018 10:14:09 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:39488 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727159AbeIXOOJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 10:14:09 -0400
+Received: by mail-io1-f65.google.com with SMTP id l7-v6so16915437iok.6
+        for <linux-doc@vger.kernel.org>; Mon, 24 Sep 2018 01:13:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=PlkHYqfm/OcI9dWSaGFletmPJsWJa9K+glsS+ZMx/aM=;
-        b=dCUzUo6ykF7dX3U550+ahyUNwiGOoROpCpM//E4AustwPBVT8J5SDjGmHcp9Qyk/Er
-         jyrYlmuHj2ZuJlOB2rbV3nw/YMemXKNprzN24i+LbHxg5ljXmfiKLFQzmpKatjLv+nxy
-         D1H8Lf+0TgJpED7C5pc78koiPxnyk/deRRYpA=
+        bh=tuCpIlcdQTeV/K7rYvlgsPf7U0bVlHvEfKgiDfhDHvs=;
+        b=VT32eHnsqo34eMWXwaJmjSagmgbjREwJEg3Oo655D0ogCmuCOq3AUW7CXZRJk4yHZW
+         tyCdK19SnYanYL4kGt8YMw4cDC9bPfRxbCobVkISd9lPVRoNbBUZ3MDDVMbrC3Omjlh4
+         Ypy6dKJLFUtLRhgABiSr8N3xSUzzR6cs+xDM0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=PlkHYqfm/OcI9dWSaGFletmPJsWJa9K+glsS+ZMx/aM=;
-        b=fura7u5vyvHC0q4J6ukO+jyE+fJgbTxyK6kmutJSvhuqSSgVEfTQLhjB6iA55nLgHz
-         A1FvVeOqQdHiGPj/hOcc3w1ohsBoChoyuZ3awm2Wj41yEx8XIw1ohWxMYgzb3ofh+8VD
-         UUgmNNjkADLdqRGSn06DFcsG4lcGamxxR29PUpqb4L1gEfePUsJHZKo/18fjEs3sRUHr
-         WFhvOHTgFfwTGjmZ5rgAGp66t7XcN/4b7ak/9WHRwImQoqJHfkSZzgSobOasDdH6Xc36
-         u5jz4P7I7V4ZjpJLoZT3PUddRYossdO0Hikf5RSBi06DvaDK1r3XunpDg3TCSY6Q2ROx
-         Nukw==
-X-Gm-Message-State: APzg51DcA19wUjEnxCZ5HJ3fNldecwjYoaJNcc5F1lYPwwA/FBi74pBQ
-        j7yED96XN5rze0EVLXTh6U+DpIrv4K8bhbkjDgTOvw==
-X-Google-Smtp-Source: ANB0VdZgdi4zT0JqzPxuW7yyKdlorpobyaCX2A+HOYD7OSpAwsPZ3tuKYFn0IRQLE3ibxsvNXZwsU6NVmj7VaJxZW4c=
-X-Received: by 2002:a02:2505:: with SMTP id g5-v6mr8190725jag.112.1537776696397;
- Mon, 24 Sep 2018 01:11:36 -0700 (PDT)
+        bh=tuCpIlcdQTeV/K7rYvlgsPf7U0bVlHvEfKgiDfhDHvs=;
+        b=d7Yj3TgldZXlYmC34baogglHJuQvsBQZm2R1S0Whd8gdEQaP0jKgnOXa0moN8wjmxn
+         rhD4MDNowIhGJ877HA6a0tWT++RKX/suw9n0JzWTb8+/ZxP2FIpNMfobmKHuzq7TVLWq
+         VSWFQ8wjMwJ8a3XkiT0Fx56uw4WNujrNvavtb5zeTHDniGudKrSdNh9gccbR/Es9TMg5
+         glFklE295PDxtNoQ6iVcMdu23gtbTefV9k0I3zsaMjOMLeElv6j+TmgyPuwkQeiUv6Iw
+         IUl9q7Ya7pYXZEVyC+tbczAKztuUJOmuwpPPlFNHKbkPdTP4Ap3LSQnxNwHZULEHMugi
+         nlOw==
+X-Gm-Message-State: ABuFfojyDx5GdKvpb/RIzij8odqruGK3+lA59y1kN1KH0L0yoeeFPtWc
+        WlsVUZKW94dSY7C7n48maH26jYbc3YMA5oujrRjZdA==
+X-Google-Smtp-Source: ACcGV60jffR0gaxbH3Vbw/lU1LGhXZ36zx4v91f3ANt16Mo8JSUuDe3E9mRsPPUwcyg0oa6ijdsqsjzeDzVZ2kEPnaw=
+X-Received: by 2002:a6b:630a:: with SMTP id p10-v6mr7161376iog.175.1537776795785;
+ Mon, 24 Sep 2018 01:13:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <2785169.v6aIfS3K2k@z50> <20180923235336.22148-1-jmkrzyszt@gmail.com>
- <20180923235336.22148-2-jmkrzyszt@gmail.com>
-In-Reply-To: <20180923235336.22148-2-jmkrzyszt@gmail.com>
+ <20180923235336.22148-3-jmkrzyszt@gmail.com>
+In-Reply-To: <20180923235336.22148-3-jmkrzyszt@gmail.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 24 Sep 2018 10:11:23 +0200
-Message-ID: <CACRpkdZ-pcy=pBKaLUPOZ5jf2bsp2X2u6QCLCWJ1H_XdNY9wtw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gpiolib: Fix missing updates of bitmap index
+Date:   Mon, 24 Sep 2018 10:13:02 +0200
+Message-ID: <CACRpkdbF=Yda3Wqii6dkDjqPzuh43Vb4nvPVrxLet3MYo0qUrw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] gpiolib: Fix array members of same chip processed separately
 To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
@@ -90,17 +90,32 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Mon, Sep 24, 2018 at 1:52 AM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
 
-> In new code introduced by commit b17566a6b08b ("gpiolib: Implement fast
-> processing path in get/set array"), bitmap index is not updated with
-> next found zero bit position as it should while skipping over pins
-> already processed via fast bitmap path, possibly resulting in an
-> infinite loop.  Fix it.
+> New code introduced by commit bf9346f5d47b ("gpiolib: Identify arrays
+> matching GPIO hardware") forcibly tries to find an array member which
+> has its array index number equal to its hardware pin number and set
+> up an array info for possible fast bitmap processing of all arrray
+> pins belonging to that chip which also satisfy that numbering rule.
 >
+> Depending on array content, it may happen that consecutive array
+> members which belong to the same chip but don't have array indexes
+> equal to their pin hardware numbers will be split into groups, some of
+> them processed together via the fast bitmap path, and rest of them
+> separetely.  However, applications may expect all those pins being
+> processed together with a single call to .set_multiple() chip callback,
+> like that was done before the change.
+>
+> Limit applicability of fast bitmap processing path to cases where all
+> pins of consecutive array members starting from 0 which belong to the
+> same chip have their hardware numbers equal to their corresponding
+> array indexes.  That should still speed up processing of applications
+> using whole GPIO banks as I/O ports, while not breaking simultaneous
+> manipulation of consecutive pins of the same chip which don't follow
+> the equal numbering rule.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
 > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 
 Patch applied!
-
-Thanks for working on getting this into shape!
 
 Yours,
 Linus Walleij
