@@ -3,134 +3,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D6657D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 07:14:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD2C57D57F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 08:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725825AbeIXNPL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Sep 2018 09:15:11 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37914 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726914AbeIXNPL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 09:15:11 -0400
-Received: by mail-wr1-f65.google.com with SMTP id j8-v6so14772715wrw.5
-        for <linux-doc@vger.kernel.org>; Mon, 24 Sep 2018 00:14:29 -0700 (PDT)
+        id S1727446AbeIXOMa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Sep 2018 10:12:30 -0400
+Received: from mail-it1-f193.google.com ([209.85.166.193]:51464 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726888AbeIXOM3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Sep 2018 10:12:29 -0400
+Received: by mail-it1-f193.google.com with SMTP id e14-v6so9373060itf.1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Sep 2018 01:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WuG1X1M3KFSddiJgkJ0AwqTU/xMGLDpRyA5DOLC5w1U=;
-        b=S+o2Fv41yiCbgxZnkAkjHKlxTtIEptB915xs1gdcKJQ3uXDJvskK56BFGCRuopQQ2t
-         gWLg0P3P8LXWegkr66xzTgMxPp8E3i9huZUKOGup/ehJb7LxiIqhZx1MkJ25C6FRWo/p
-         KaqGgKbUCeup3TLkPgxlf/W1mRwj/ceywId9g=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PlkHYqfm/OcI9dWSaGFletmPJsWJa9K+glsS+ZMx/aM=;
+        b=dCUzUo6ykF7dX3U550+ahyUNwiGOoROpCpM//E4AustwPBVT8J5SDjGmHcp9Qyk/Er
+         jyrYlmuHj2ZuJlOB2rbV3nw/YMemXKNprzN24i+LbHxg5ljXmfiKLFQzmpKatjLv+nxy
+         D1H8Lf+0TgJpED7C5pc78koiPxnyk/deRRYpA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WuG1X1M3KFSddiJgkJ0AwqTU/xMGLDpRyA5DOLC5w1U=;
-        b=W40ieytx64dqSSVPUPUAHHFhZPRDHHOsG4GcBvwTgxWYl6P2RduxJMXdZ5fcDVGPNl
-         +e7m2fMdo4qCu4dVMCqSMl6Wwkc7fePUqB1EZjrSzLwo9CLEF/WEyvofk+RA+lsLoTEH
-         PI0v6kRPAzOG4eV1W2bjIwHh0n5/PoTbn0paJmC5OhSmWYh6CtBt5x7Wml662p7p7WMu
-         ccvg7YSC35DkOBYrUnCdn4slLtvWQS5rKq6pGHv05csjDHbF32b1G9r9pwqRrhxR8m9M
-         Iuf8H+B7hq6sTnXfUSbE/ZBwJQUpKLRAgEnBeqgpNBE3H85Xg9+xzJUjLdlXutW78EtQ
-         FVCw==
-X-Gm-Message-State: ABuFfoh6ugEsOnWhveFZqY7p2P9ZD/WY660xUzWn9NqsPGNWvC0nGh27
-        RGcDG2wpgMbRsPvcirMItzmyDg==
-X-Google-Smtp-Source: ACcGV60s4laND56QrgYhaZFALQur/k4kF1YTXHLrwNFcFHOwCO/BhsK4F0Mi5w89AooR/Mwfby0jJg==
-X-Received: by 2002:a5d:4b52:: with SMTP id w18-v6mr7202299wrs.87.1537773268575;
-        Mon, 24 Sep 2018 00:14:28 -0700 (PDT)
-Received: from [192.168.0.41] (89.154.136.77.rev.sfr.net. [77.136.154.89])
-        by smtp.googlemail.com with ESMTPSA id l5sm838709wrx.69.2018.09.24.00.14.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 24 Sep 2018 00:14:27 -0700 (PDT)
-Subject: Re: [PATCH v7 05/24] clocksource: Add a new timer-ingenic driver
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Mathieu Malaterre <malat@debian.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        od@zcrc.me, linux-mips@linux-mips.org,
-        Paul Burton <paul.burton@mips.com>,
-        Mark Rutland <mark.rutland@arm.com>, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-pwm@vger.kernel.org
-References: <5ba88a1a.1c69fb81.2ba56.ccdaSMTPIN_ADDED_MISSING@mx.google.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <a9d7366a-7118-9819-4d15-cdc10fa6c41c@linaro.org>
-Date:   Mon, 24 Sep 2018 09:14:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PlkHYqfm/OcI9dWSaGFletmPJsWJa9K+glsS+ZMx/aM=;
+        b=fura7u5vyvHC0q4J6ukO+jyE+fJgbTxyK6kmutJSvhuqSSgVEfTQLhjB6iA55nLgHz
+         A1FvVeOqQdHiGPj/hOcc3w1ohsBoChoyuZ3awm2Wj41yEx8XIw1ohWxMYgzb3ofh+8VD
+         UUgmNNjkADLdqRGSn06DFcsG4lcGamxxR29PUpqb4L1gEfePUsJHZKo/18fjEs3sRUHr
+         WFhvOHTgFfwTGjmZ5rgAGp66t7XcN/4b7ak/9WHRwImQoqJHfkSZzgSobOasDdH6Xc36
+         u5jz4P7I7V4ZjpJLoZT3PUddRYossdO0Hikf5RSBi06DvaDK1r3XunpDg3TCSY6Q2ROx
+         Nukw==
+X-Gm-Message-State: APzg51DcA19wUjEnxCZ5HJ3fNldecwjYoaJNcc5F1lYPwwA/FBi74pBQ
+        j7yED96XN5rze0EVLXTh6U+DpIrv4K8bhbkjDgTOvw==
+X-Google-Smtp-Source: ANB0VdZgdi4zT0JqzPxuW7yyKdlorpobyaCX2A+HOYD7OSpAwsPZ3tuKYFn0IRQLE3ibxsvNXZwsU6NVmj7VaJxZW4c=
+X-Received: by 2002:a02:2505:: with SMTP id g5-v6mr8190725jag.112.1537776696397;
+ Mon, 24 Sep 2018 01:11:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5ba88a1a.1c69fb81.2ba56.ccdaSMTPIN_ADDED_MISSING@mx.google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <2785169.v6aIfS3K2k@z50> <20180923235336.22148-1-jmkrzyszt@gmail.com>
+ <20180923235336.22148-2-jmkrzyszt@gmail.com>
+In-Reply-To: <20180923235336.22148-2-jmkrzyszt@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 24 Sep 2018 10:11:23 +0200
+Message-ID: <CACRpkdZ-pcy=pBKaLUPOZ5jf2bsp2X2u6QCLCWJ1H_XdNY9wtw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] gpiolib: Fix missing updates of bitmap index
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Peter Rosin <peda@axentia.se>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Greg KH <gregkh@linuxfoundation.org>, kishon@ti.com,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald <pmeerw@pmeerw.net>,
+        Jiri Slaby <jslaby@suse.com>, Willy Tarreau <w@1wt.eu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sebastien Bourdelin <sebastien.bourdelin@savoirfairelinux.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Rojhalat Ibrahim <imr@rtschenk.de>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        ext Tony Lindgren <tony@atomide.com>,
+        Yegor Yefremov <yegorslists@googlemail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>, linux-iio@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-serial@vger.kernel.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24/09/2018 08:53, Paul Cercueil wrote:
-> 
-> Le 24 sept. 2018 07:58, Daniel Lezcano <daniel.lezcano@linaro.org> a écrit :
->>
->> On 24/09/2018 07:49, Paul Cercueil wrote: 
->>>
->>> Le 24 sept. 2018 07:35, Daniel Lezcano <daniel.lezcano@linaro.org> a 
->>> écrit : 
->>>>
->>>> On 24/09/2018 07:24, Paul Cercueil wrote: 
->>>>> Hi Daniel, 
->>>>>
->>>>> Le 24 sept. 2018 05:12, Daniel Lezcano 
->>>>> <daniel.lezcano@linaro.org> a écrit : 
->>>>>>
->>>>>> On 21/08/2018 19:16, Paul Cercueil wrote: 
->>>>>>> This driver handles the TCU (Timer Counter Unit) present on 
->>>>>>> the Ingenic JZ47xx SoCs, and provides the kernel with a 
->>>>>>> system timer, and optionally with a clocksource and a 
->>>>>>> sched_clock. 
->>>>>>>
->>>>>>> It also provides clocks and interrupt handling to client 
->>>>>>> drivers. 
->>>>>>
->>>>>> Can you provide a much more complete description of the timer 
->>>>>> in order to make my life easier for the review of this patch? 
->>>>>
->>>>> See patch [03/24], it adds a doc file that describes the 
->>>>> hardware. 
->>>>
->>>> Thanks, I went through but it is incomplete to understand what the 
->>>> timer do. I will reverse-engineer the code but it would help if you 
->>>> can give the gross approach. Why multiple channels ? mutexes and 
->>>> completion ? 
->>>
->>> Much of the complexity is because of the multi-purpose nature of the 
->>> TCU channels. Each one can be used as timer/clocksource, or PWM. 
->>>
->>> The driver starts by using channels 0 and 1 as system timer and 
->>> clocksource, respectively, the other ones being unused for now. Then, 
->>> *if* the PWM driver requests one of the channels in use by the 
->>> timer/clocksource driver, say channel 0, the timer/clocksource driver 
->>> will dynamically reassign the system timer to a free channel, from 
->>> channel 0 to e.g. channel 2. Only in that case the completion/mutex 
->>> are actually used. 
->>
->> Why do you need to do this? Can't be the channels dedicated and reserved 
->> for clocksource and clockevent? 
-> 
-> That's what I had in place (ingenic,timer-channel and ingenic,clocksource-channel DT properties), but Rob didn't want any linux-specific properties in the devicetree binding :(
+On Mon, Sep 24, 2018 at 1:52 AM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
 
-Isn't possible to specify the channel to use in the DT? like renesas16 ?
+> In new code introduced by commit b17566a6b08b ("gpiolib: Implement fast
+> processing path in get/set array"), bitmap index is not updated with
+> next found zero bit position as it should while skipping over pins
+> already processed via fast bitmap path, possibly resulting in an
+> infinite loop.  Fix it.
+>
+> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 
--- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Patch applied!
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Thanks for working on getting this into shape!
 
+Yours,
+Linus Walleij
