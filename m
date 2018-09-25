@@ -1,171 +1,338 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF8EA7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 01:27:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B66357D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 05:57:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726202AbeIYHcD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Sep 2018 03:32:03 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:38550 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726021AbeIYHcC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Sep 2018 03:32:02 -0400
-Received: by mail-pf1-f193.google.com with SMTP id x17-v6so10015633pfh.5;
-        Mon, 24 Sep 2018 18:27:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=M4PwrHUuI2b/M7dL2jAXZ4BB/+ald6SXCbxfEMvGrsc=;
-        b=IUBf3gm7q3bUtQ5rWk8zreGhJDaWnV+0NB9wx3fIez+Pc1f76L9vqqgw/WXg5w+3Ti
-         eGq0bPnKDuVeiYD1S+/TPXFrBous9+8dlYc73mx5NbU6SLGUo2WNMfJBQwV1lzd6u6De
-         c0SnyhYttmQz+aj49TSsR8vrVrBZynTvOt/efm152jrISf/sZZ/hYtQVPH4ZUeKFqNGE
-         3YC6vo1El2FgwkZN9/9Qg7JVW0ndRKrkxXAbZ937Ztv/yMAb9Q3gCGaDiSVrg/ZNjj+g
-         KHdrJR5VLtxK29h9PeQ3FVWuWj5xpfutAOcjxfJwPGLaynLNoNdFFzevGbfHzXCZM8f+
-         L+DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=M4PwrHUuI2b/M7dL2jAXZ4BB/+ald6SXCbxfEMvGrsc=;
-        b=lcxXlnkOc2zsngTPQCk/d/G+FqFH+V4KCeGpHdvsjyrv1qktuEgizO7CZYsQeh7JzP
-         E2Ixia9O2P5CUZZ4ZQi59pW+l08tCpQepwCrrprY8ewNONmpWaL14ah09yEr0+WbxBNz
-         MzubHqD6jBvz1MR+3jRQdT89GqV/Rp9+tJazixxtir9W0LRiH3OCU8uSYkymXge7VyAQ
-         IhHw57+wvRUlvLS7tIL6pIWK8ucc7aFxm6eWFFr0P06SVUJzRytNwBFkRZKy/OXt+o6Z
-         ElHuZo7c0b1hwY/Ty2yvA2+ezLcsN/+jMihptkubJFo/dq03CiDTctNIrbuPGKW978Zq
-         8UGg==
-X-Gm-Message-State: ABuFfog/gBFa30oncl4oyAs4MhEszgxhZjaKaITa5KcoA2S+RJQpckdO
-        d+dxi3H/CndWFB9t7IMNt+M=
-X-Google-Smtp-Source: ACcGV61cXfBZCxvEJHAXIB1m3DIg/xFLrDvRJVzyWODAo/Z9SPs7BJb8P5NLF8irg1mTB6F7yGbEuA==
-X-Received: by 2002:a17:902:744c:: with SMTP id e12-v6mr1143723plt.186.1537838824711;
-        Mon, 24 Sep 2018 18:27:04 -0700 (PDT)
-Received: from rohan.ozlabs.ibm.com ([122.99.82.10])
-        by smtp.googlemail.com with ESMTPSA id 3-v6sm787339pfq.10.2018.09.24.18.26.54
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 24 Sep 2018 18:27:03 -0700 (PDT)
-Message-ID: <1537838811.10753.2.camel@gmail.com>
-Subject: Re: [PATCH RFCv2 3/6] mm/memory_hotplug: fix online/offline_pages
- called w.o. mem_hotplug_lock
-From:   Rashmica Gupta <rashmica.g@gmail.com>
-To:     David Hildenbrand <david@redhat.com>, linux-mm@kvack.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
-        xen-devel@lists.xenproject.org, devel@linuxdriverproject.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
+        id S1726133AbeIYMDS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Sep 2018 08:03:18 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:12693 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725843AbeIYMDR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 Sep 2018 08:03:17 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 0A6DDF82FC266;
+        Tue, 25 Sep 2018 13:57:19 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server (TLS) id 14.3.399.0; Tue, 25 Sep
+ 2018 13:57:11 +0800
+Date:   Tue, 25 Sep 2018 13:55:09 +0800
+From:   Kenneth Lee <liguozhu@hisilicon.com>
+To:     Jerome Glisse <jglisse@redhat.com>
+CC:     Kenneth Lee <nek.in.cn@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Michael Neuling <mikey@neuling.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        "Joerg Roedel" <joro@8bytes.org>, <linux-doc@vger.kernel.org>,
+        Sanjay Kumar <sanjay.k.kumar@intel.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+        <linuxarm@huawei.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        <linux-crypto@vger.kernel.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
         Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>,
-        Mathieu Malaterre <malat@debian.org>
-Date:   Tue, 25 Sep 2018 11:26:51 +1000
-In-Reply-To: <5f80ca56-9f34-4e6e-bc83-8f8b3c888163@redhat.com>
-References: <20180821104418.12710-1-david@redhat.com>
-         <20180821104418.12710-4-david@redhat.com>
-         <70372ef5-e332-6c07-f08c-50f8808bde6d@gmail.com>
-         <5f80ca56-9f34-4e6e-bc83-8f8b3c888163@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 (3.26.6-1.fc27) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        "Zaibo Xu" <xuzaibo@huawei.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        <linux-accelerators@lists.ozlabs.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+Message-ID: <20180925055509.GJ207969@Turing-Arch-b>
+References: <20180903005204.26041-1-nek.in.cn@gmail.com>
+ <20180917014244.GA27596@redhat.com>
+ <20180921100314.GH207969@Turing-Arch-b>
+ <20180921145201.GA3357@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180921145201.GA3357@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [10.67.212.75]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2018-09-17 at 09:32 +0200, David Hildenbrand wrote:
-> Am 03.09.18 um 02:36 schrieb Rashmica:
-> > Hi David,
-> > 
-> > 
-> > On 21/08/18 20:44, David Hildenbrand wrote:
-> > 
-> > > There seem to be some problems as result of 30467e0b3be ("mm,
-> > > hotplug:
-> > > fix concurrent memory hot-add deadlock"), which tried to fix a
-> > > possible
-> > > lock inversion reported and discussed in [1] due to the two locks
-> > > 	a) device_lock()
-> > > 	b) mem_hotplug_lock
-> > > 
-> > > While add_memory() first takes b), followed by a) during
-> > > bus_probe_device(), onlining of memory from user space first took
-> > > b),
-> > > followed by a), exposing a possible deadlock.
-> > 
-> > Do you mean "onlining of memory from user space first took a),
-> > followed by b)"? 
+On Fri, Sep 21, 2018 at 10:52:01AM -0400, Jerome Glisse wrote:
+> Received: from popscn.huawei.com [10.3.17.45] by Turing-Arch-b with POP3
+>  (fetchmail-6.3.26) for <kenny@localhost> (single-drop); Fri, 21 Sep 2018
+>  23:00:01 +0800 (CST)
+> Received: from DGGEMM406-HUB.china.huawei.com (10.3.20.214) by
+>  DGGEML403-HUB.china.huawei.com (10.3.17.33) with Microsoft SMTP Server
+>  (TLS) id 14.3.399.0; Fri, 21 Sep 2018 22:52:20 +0800
+> Received: from dggwg01-in.huawei.com (172.30.65.38) by
+>  DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server id
+>  14.3.399.0; Fri, 21 Sep 2018 22:52:16 +0800
+> Received: from mx1.redhat.com (unknown [209.132.183.28])	by Forcepoint
+>  Email with ESMTPS id 912ECA2EC6662;	Fri, 21 Sep 2018 22:52:12 +0800 (CST)
+> Received: from smtp.corp.redhat.com
+>  (int-mx09.intmail.prod.int.phx2.redhat.com [10.5.11.24])	(using
+>  TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))	(No client
+>  certificate requested)	by mx1.redhat.com (Postfix) with ESMTPS id
+>  25BC0792BB;	Fri, 21 Sep 2018 14:52:10 +0000 (UTC)
+> Received: from redhat.com (ovpn-124-21.rdu2.redhat.com [10.10.124.21])
+> 	by smtp.corp.redhat.com (Postfix) with ESMTPS id 67B25308BDA0;
+> 	Fri, 21 Sep 2018 14:52:03 +0000 (UTC)
+> Date: Fri, 21 Sep 2018 10:52:01 -0400
+> From: Jerome Glisse <jglisse@redhat.com>
+> To: Kenneth Lee <liguozhu@hisilicon.com>
+> CC: Kenneth Lee <nek.in.cn@gmail.com>, Herbert Xu
+>  <herbert@gondor.apana.org.au>, kvm@vger.kernel.org, Jonathan Corbet
+>  <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joerg
+>  Roedel <joro@8bytes.org>, linux-doc@vger.kernel.org, Sanjay Kumar
+>  <sanjay.k.kumar@intel.com>, Hao Fang <fanghao11@huawei.com>,
+>  iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+>  linuxarm@huawei.com, Alex Williamson <alex.williamson@redhat.com>, Thomas
+>  Gleixner <tglx@linutronix.de>, linux-crypto@vger.kernel.org, Zhou Wang
+>  <wangzhou1@hisilicon.com>, Philippe Ombredanne <pombredanne@nexb.com>,
+>  Zaibo Xu <xuzaibo@huawei.com>, "David S . Miller" <davem@davemloft.net>,
+>  linux-accelerators@lists.ozlabs.org, Lu Baolu <baolu.lu@linux.intel.com>
+> Subject: Re: [RFCv2 PATCH 0/7] A General Accelerator Framework, WarpDrive
+> Message-ID: <20180921145201.GA3357@redhat.com>
+> References: <20180903005204.26041-1-nek.in.cn@gmail.com>
+>  <20180917014244.GA27596@redhat.com>
+>  <20180921100314.GH207969@Turing-Arch-b>
+> Content-Type: text/plain; charset="iso-8859-1"
+> Content-Disposition: inline
+> Content-Transfer-Encoding: 8bit
+> In-Reply-To: <20180921100314.GH207969@Turing-Arch-b>
+> User-Agent: Mutt/1.10.1 (2018-07-13)
+> X-Scanned-By: MIMEDefang 2.84 on 10.5.11.24
+> X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+>  (mx1.redhat.com [10.5.110.39]); Fri, 21 Sep 2018 14:52:10 +0000 (UTC)
+> Return-Path: jglisse@redhat.com
+> X-MS-Exchange-Organization-AuthSource: DGGEMM406-HUB.china.huawei.com
+> X-MS-Exchange-Organization-AuthAs: Anonymous
+> MIME-Version: 1.0
 > 
-> Very right, thanks.
+> On Fri, Sep 21, 2018 at 06:03:14PM +0800, Kenneth Lee wrote:
+> > On Sun, Sep 16, 2018 at 09:42:44PM -0400, Jerome Glisse wrote:
+> > > 
+> > > So i want to summarize issues i have as this threads have dig deep into
+> > > details. For this i would like to differentiate two cases first the easy
+> > > one when relying on SVA/SVM. Then the second one when there is no SVA/SVM.
+> > > In both cases your objectives as i understand them:
+> > > 
+> > > [R1]- expose a common user space API that make it easy to share boiler
+> > >       plate code accross many devices (discovering devices, opening
+> > >       device, creating context, creating command queue ...).
+> > > [R2]- try to share the device as much as possible up to device limits
+> > >       (number of independant queues the device has)
+> > > [R3]- minimize syscall by allowing user space to directly schedule on the
+> > >       device queue without a round trip to the kernel
+> > > 
+> > > I don't think i missed any.
+> > > 
+> > > 
+> > > (1) Device with SVA/SVM
+> > > 
+> > > For that case it is easy, you do not need to be in VFIO or part of any
+> > > thing specific in the kernel. There is no security risk (modulo bug in
+> > > the SVA/SVM silicon). Fork/exec is properly handle and binding a process
+> > > to a device is just couple dozen lines of code.
+> > > 
+> > > 
+> > > (2) Device does not have SVA/SVM (or it is disabled)
+> > > 
+> > > You want to still allow device to be part of your framework. However
+> > > here i see fundamentals securities issues and you move the burden of
+> > > being careful to user space which i think is a bad idea. We should
+> > > never trus the userspace from kernel space.
+> > > 
+> > > To keep the same API for the user space code you want a 1:1 mapping
+> > > between device physical address and process virtual address (ie if
+> > > device access device physical address A it is accessing the same
+> > > memory as what is backing the virtual address A in the process.
+> > > 
+> > > Security issues are on two things:
+> > > [I1]- fork/exec, a process who opened any such device and created an
+> > >       active queue can transfer without its knowledge control of its
+> > >       commands queue through COW. The parent map some anonymous region
+> > >       to the device as a command queue buffer but because of COW the
+> > >       parent can be the first to copy on write and thus the child can
+> > >       inherit the original pages that are mapped to the hardware.
+> > >       Here parent lose control and child gain it.
+> > > 
+> > 
+> > Hi, Jerome, 
+> > 
+> > I reconsider your logic. I think the problem can be solved. Let us separate the
+> > SVA/SVM feature into two: fault-from-device and device-va-awareness. A device
+> > with iommu can support only device-va-awareness or both.
 > 
-> > 
-> > > In [1], and it was decided to not make use of
-> > > device_hotplug_lock, but
-> > > rather to enforce a locking order.
-> > > 
-> > > The problems I spotted related to this:
-> > > 
-> > > 1. Memory block device attributes: While .state first calls
-> > >    mem_hotplug_begin() and the calls device_online() - which
-> > > takes
-> > >    device_lock() - .online does no longer call
-> > > mem_hotplug_begin(), so
-> > >    effectively calls online_pages() without mem_hotplug_lock.
-> > > 
-> > > 2. device_online() should be called under device_hotplug_lock,
-> > > however
-> > >    onlining memory during add_memory() does not take care of
-> > > that.
-> > > 
-> > > In addition, I think there is also something wrong about the
-> > > locking in
-> > > 
-> > > 3. arch/powerpc/platforms/powernv/memtrace.c calls
-> > > offline_pages()
-> > >    without locks. This was introduced after 30467e0b3be. And
-> > > skimming over
-> > >    the code, I assume it could need some more care in regards to
-> > > locking
-> > >    (e.g. device_online() called without device_hotplug_lock - but
-> > > I'll
-> > >    not touch that for now).
-> > 
-> > Can you mention that you fixed this in later patches?
+> Not sure i follow, are you also talking about the non SVA/SVM case here ?
+> Either device has SVA/SVM, either it does not. The fact that device can
+> use same physical address PA for its access as the process virtual address
+> VA does not change any of the issues listed here, same issues would apply
+> if device was using PA != VA ...
 > 
-> Sure!
 > 
+> > VFIO works on top of iommu, so it will support at least device-va-awareness. For
+> > the COW problem, it can be taken as a mmu synchronization issue. If the mmu page
+> > table is changed, it should be synchronize to iommu (via iommu_notifier). In the
+> > case that the device support fault-from-device, it will work fine. In the case
+> > that it supports only device-va-awareness, we can prefault (handle_mm_fault)
+> > also via iommu_notifier and reset to iommu page table.
 > > 
-> > 
-> > The series looks good to me. Feel free to add my reviewed-by:
-> > 
-> > Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
-> > 
+> > So this can be considered as a bug of VFIO, cannot it?
 > 
-> Thanks, r-b only for this patch or all of the series?
+> So again SVA/SVM is fine because it uses the same CPU page table so anything
+> done to the process address space reflect automaticly to the device. Nothing
+> to do for SVA/SVM.
+> 
+> For non SVA/SVM you _must_ unmap device command queues, flush and wait for
+> all pending commands, unmap all the IOMMU mapping and wait for the process
+> to fault on the unmapped device command queue before trying to restore any
+> thing. This would be terribly slow i described it in another email.
+> 
+> Also you can not fault inside a mmu_notifier it is illegal, all you can do
+> is unmap thing and wait for access to finish.
+> 
+> > > [I2]- Because of [R3] you want to allow userspace to schedule commands
+> > >       on the device without doing an ioctl and thus here user space
+> > >       can schedule any commands to the device with any address. What
+> > >       happens if that address have not been mapped by the user space
+> > >       is undefined and in fact can not be defined as what each IOMMU
+> > >       does on invalid address access is different from IOMMU to IOMMU.
+> > > 
+> > >       In case of a bad IOMMU, or simply an IOMMU improperly setup by
+> > >       the kernel, this can potentialy allow user space to DMA anywhere.
+> > > 
+> > > [I3]- By relying on GUP in VFIO you are not abiding by the implicit
+> > >       contract (at least i hope it is implicit) that you should not
+> > >       try to map to the device any file backed vma (private or share).
+> > > 
+> > >       The VFIO code never check the vma controlling the addresses that
+> > >       are provided to VFIO_IOMMU_MAP_DMA ioctl. Which means that the
+> > >       user space can provide file backed range.
+> > > 
+> > >       I am guessing that the VFIO code never had any issues because its
+> > >       number one user is QEMU and QEMU never does that (and that's good
+> > >       as no one should ever do that).
+> > > 
+> > >       So if process does that you are opening your self to serious file
+> > >       system corruption (depending on file system this can lead to total
+> > >       data loss for the filesystem).
+> > > 
+> > >       Issue is that once you GUP you never abide to file system flushing
+> > >       which write protect the page before writing to the disk. So
+> > >       because the page is still map with write permission to the device
+> > >       (assuming VFIO_IOMMU_MAP_DMA was a write map) then the device can
+> > >       write to the page while it is in the middle of being written back
+> > >       to disk. Consult your nearest file system specialist to ask him
+> > >       how bad that can be.
+> > 
+> > In the case, we cannot do anything if the device do not support
+> > fault-from-device. But we can reject write map with file-backed mapping.
+> 
+> Yes this would avoid most issues with file-backed mapping, truncate would
+> still cause weird behavior but only for your device. But then your non
+> SVA/SVM case does not behave as the SVA/SVM case so why not do what i out-
+> lined below that allow same behavior modulo command flushing ...
+> 
+> > It seems both issues can be solved under VFIO framework:) (But of cause, I don't
+> > mean it has to)
+> 
+> The COW can not be solve without either the solution i described in this
+> previous mail below or the other one with mmu notifier. But the one below
+> is saner and has better performance.
+> 
+> 
+> > > 
+> > > [I4]- Design issue, mdev design As Far As I Understand It is about
+> > >       sharing a single device to multiple clients (most obvious case
+> > >       here is again QEMU guest). But you are going against that model,
+> > >       in fact AFAIUI you are doing the exect opposite. When there is
+> > >       no SVA/SVM you want only one mdev device that can not be share.
+> > > 
+> > >       So this is counter intuitive to the mdev existing design. It is
+> > >       not about sharing device among multiple users but about giving
+> > >       exclusive access to the device to one user.
+> > > 
+> > > 
+> > > 
+> > > All the reasons above is why i believe a different model would serve
+> > > you and your user better. Below is a design that avoids all of the
+> > > above issues and still delivers all of your objectives with the
+> > > exceptions of the third one [R3] when there is no SVA/SVM.
+> > > 
+> > > 
+> > > Create a subsystem (very much boiler plate code) which allow device to
+> > > register themself against (very much like what you do in your current
+> > > patchset but outside of VFIO).
+> > > 
+> > > That subsystem will create a device file for each registered system and
+> > > expose a common API (ie set of ioctl) for each of those device files.
+> > > 
+> > > When user space create a queue (through an ioctl after opening the device
+> > > file) the kernel can return -EBUSY if all the device queue are in use,
+> > > or create a device queue and return a flag like SYNC_ONLY for device that
+> > > do not have SVA/SVM.
+> > > 
+> > > For device with SVA/SVM at the time the process create a queue you bind
+> > > the process PASID to the device queue. From there on the userspace can
+> > > schedule commands and use the device without going to kernel space.
+> > > 
+> > > For device without SVA/SVM you create a fake queue that is just pure
+> > > memory is not related to the device. From there on the userspace must
+> > > call an ioctl every time it wants the device to consume its queue
+> > > (hence why the SYNC_ONLY flag for synchronous operation only). The
+> > > kernel portion read the fake queue expose to user space and copy
+> > > commands into the real hardware queue but first it properly map any
+> > > of the process memory needed for those commands to the device and
+> > > adjust the device physical address with the one it gets from dma_map
+> > > API.
+> > > 
+> > > With that model it is "easy" to listen to mmu_notifier and to abide by
+> > > them to avoid issues [I1], [I3] and [I4]. You obviously avoid the [I2]
+> > > issue by only mapping a fake device queue to userspace.
+> > > 
+> > > So yes with that models it means that every device that wish to support
+> > > the non SVA/SVM case will have to do extra work (ie emulate its command
+> > > queue in software in the kernel). But by doing so, you support an
+> > > unlimited number of process on your device (ie all the process can share
+> > > one single hardware command queues or multiple hardware queues).
+> > > 
+> > > The big advantages i see here is that the process do not have to worry
+> > > about doing something wrong. You are protecting yourself and your user
+> > > from stupid mistakes.
+> > > 
+> > > 
+> > > I hope this is useful to you.
+> > > 
+> > > Cheers,
+> > > Jérôme
+> > 
+> > Cheers
+> > -- 
+> > 			-Kenneth(Hisilicon)
+> > 
 
-Sorry, I somehow missed this. To all of the series.
-> 
+Thank you very much. Jerome. I will push RFCv3 without VFIO soon.
+
+The basic idea will be:
+
+1. Make a chrdev interface for any WarpDrive device instance. Allocate queue
+   when it is openned.
+
+2. For device with SVA/SVM, the device (in the queue context) share
+   application's process page table via iommu.
+
+3. For device without SVA/SVM, the application can mmap any WarpDrive device as
+   its "shared memory". The memory will be shared with any queue openned by this
+   process, before or after the queues are openned. The VAs will still be shared
+   with the hardware (by iommu or by kernel translation). This will fulfill the
+   requirement of "Sharing VA", but it will need the application to use those
+   mmapped memory only.
+
+Cheers
+
+-- 
+			-Kenneth(Hisilicon)
