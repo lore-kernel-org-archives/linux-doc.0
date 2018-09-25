@@ -1,85 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 94FAE7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 13:27:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 94DD17DD50
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 16:27:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729217AbeIYTex (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Sep 2018 15:34:53 -0400
-Received: from ms.lwn.net ([45.79.88.28]:51992 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729115AbeIYTew (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 Sep 2018 15:34:52 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 942D62D5;
-        Tue, 25 Sep 2018 13:27:18 +0000 (UTC)
-Date:   Tue, 25 Sep 2018 07:27:17 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, linux-sgx@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com,
+        id S1727136AbeIYWfy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Sep 2018 18:35:54 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50950 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727023AbeIYWfy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Sep 2018 18:35:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=KnpYBxNAh061QW52EVkyYMXjgF83hGim+6fQGH4NYlg=; b=ImCJAzEb15quG2qNOO0kH9GwG
+        Ljdbt6fNZRe/3j9pGg/bYdXiYa23+B8z73kinhIX50YyzEYii75+HpX+fJX/zyH/POxJypLuEjH5B
+        MTEUrZzg999iv/ywBnt3JRhdOxDMvZwTIazWREJ5QQSoQQctmRgdTCYCz4OIIT47Gle7REnoBljt+
+        AOvnusMmb1pZDzYYS/ukWZmP7WtF7T7PYQ+TOpF0rYnykdrRzpuQlywuNr+UPW2OYPTYc+pDK2KM3
+        n2ho0IP0f8x1mvtVSKvHhbLXZ9G46myLtfUQyVvF4tbF2w5w1rGuTjZvxZSXvZPWmA5OdKqFL7iNa
+        kkKA+y1CA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1g4qB0-0002S2-U1; Tue, 25 Sep 2018 16:27:27 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6D09E20289D14; Tue, 25 Sep 2018 18:27:05 +0200 (CEST)
+Date:   Tue, 25 Sep 2018 18:27:05 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH v14 19/19] x86/sgx: Driver documentation
-Message-ID: <20180925072717.3a41af75@lwn.net>
-In-Reply-To: <20180925130845.9962-20-jarkko.sakkinen@linux.intel.com>
-References: <20180925130845.9962-1-jarkko.sakkinen@linux.intel.com>
-        <20180925130845.9962-20-jarkko.sakkinen@linux.intel.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v4 01/27] x86/cpufeatures: Add CPUIDs for
+ Control-flow Enforcement Technology (CET)
+Message-ID: <20180925162705.GB30146@hirez.programming.kicks-ass.net>
+References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
+ <20180921150351.20898-2-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180921150351.20898-2-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 25 Sep 2018 16:06:56 +0300
-Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com> wrote:
+On Fri, Sep 21, 2018 at 08:03:25AM -0700, Yu-cheng Yu wrote:
 
-> Documentation of the features of the Software Guard eXtensions used
-> by the Linux kernel and basic design choices for the core and driver
-> and functionality.
+> diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
+> index 772c219b6889..63cbb4d9938e 100644
+> --- a/arch/x86/kernel/cpu/scattered.c
+> +++ b/arch/x86/kernel/cpu/scattered.c
+> @@ -21,6 +21,7 @@ struct cpuid_bit {
+>  static const struct cpuid_bit cpuid_bits[] = {
+>  	{ X86_FEATURE_APERFMPERF,       CPUID_ECX,  0, 0x00000006, 0 },
+>  	{ X86_FEATURE_EPB,		CPUID_ECX,  3, 0x00000006, 0 },
+> +	{ X86_FEATURE_IBT,		CPUID_EDX, 20, 0x00000007, 0},
+                                                                   ^^
+missing white space at the end there.
+
+>  	{ X86_FEATURE_CAT_L3,		CPUID_EBX,  1, 0x00000010, 0 },
+>  	{ X86_FEATURE_CAT_L2,		CPUID_EBX,  2, 0x00000010, 0 },
+>  	{ X86_FEATURE_CDP_L3,		CPUID_ECX,  2, 0x00000010, 1 },
+> -- 
+> 2.17.1
 > 
-> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> ---
->  Documentation/index.rst         |   1 +
->  Documentation/x86/intel_sgx.rst | 185 ++++++++++++++++++++++++++++++++
->  2 files changed, 186 insertions(+)
->  create mode 100644 Documentation/x86/intel_sgx.rst
-> 
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 5db7e87c7cb1..1cdc139adb40 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -104,6 +104,7 @@ implementation.
->     :maxdepth: 2
->  
->     sh/index
-> +   x86/index
-
-So you're adding this reference to x86/index, but the actual file
-(Documentation/x86/index.rst) doesn't exist; that will break the docs
-build.  I do appreciate your doing your document in RST, though!
-
-Who is the intended audience for this document?  I see a bit of UAPI
-stuff that might be better placed in the userspace-api manual, mixed with
-stuff that user-space developers are unlikely to take much interest in.
-Might it be worth splitting this into two pieces?
-
-Thanks,
-
-jon
