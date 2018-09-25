@@ -5,94 +5,77 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 896637D584
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 18:26:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D76B7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 18:49:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727557AbeIZAfX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Sep 2018 20:35:23 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:40274 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727273AbeIZAfW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Sep 2018 20:35:22 -0400
-Received: by mail-pg1-f196.google.com with SMTP id n31-v6so5281998pgm.7
-        for <linux-doc@vger.kernel.org>; Tue, 25 Sep 2018 11:26:35 -0700 (PDT)
+        id S1727380AbeIZA6Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Sep 2018 20:58:16 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43531 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726944AbeIZA6Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Sep 2018 20:58:16 -0400
+Received: by mail-lj1-f194.google.com with SMTP id m84-v6so22730357lje.10
+        for <linux-doc@vger.kernel.org>; Tue, 25 Sep 2018 11:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iobjIfdXylFlPdRp0Yvu1bpQIsYvW1yCa9Ix2CTdNJQ=;
-        b=Rb0HmpYS/c/0jVktdhahA7NJ/VhPfHy+jj9opXhjnaBNtPg2jkWoZQ0hw+9ywgEP1j
-         pORdPD1JpjN6tuFoYxlC8XqJ/Du5jLeg9MTlNmCNBPxJYyoWi65c9MI1Ssxnh/fBeQ6m
-         1jW8XOEw24JO3xB4oF474StAy/xI9TmOoNEMA=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=K+CK6/JK9NoS9LCQtCqUtUy7XYEtjbTk8RCaxRN4oyE=;
+        b=Ee+vdNz0oRrepr40QayxH2KChXVIFdcF6XiZl+e/TK7GjXt6OxWzAIyNrthXMbDaOc
+         qLELqUzObikPoB2HebvldN8vGnU5R/tnlvHetYWkB1cNET3y9S7hVxmgLpzZTP1gQd8k
+         uvhtyrp4PHXMiMbv6bp0mHCjyljA3nQ3X2mXY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iobjIfdXylFlPdRp0Yvu1bpQIsYvW1yCa9Ix2CTdNJQ=;
-        b=FXA4XkHgzuDRg9OIV0WYxxVwkjwbavHjpx8kQ+GsKyuKq8nhgzu0JJeXL/8P0nOrC8
-         cIKOi3PWoIQ8Kzh2L621ZGU9jy/A1aM4eKCqsvgiuJlL2SMQm+8OSDIzyYUsCkgdmgGb
-         Gzdq2ruG+G1UoYhiyukqs99izpEo1FQ6zCU96OASDZn1C94aT09c5Yw7VFJJ2qgps2aW
-         xUFnYcNj7t3pSnXPS9FVAsUBndhTlaTkIXukl0147WE2V0pwjqS3jxxXLqhaBYBVJa1F
-         Znc1slGZyL4ReEAfQq4aRYymsiaQQk/nZdoaiSLm52oJgJgE8hnyOMtYJCyZu2ULHRvH
-         RNfg==
-X-Gm-Message-State: ABuFfogb+NaRvlJFpMpO0Walg4e3QY6TiFjO4rTmVi4CQxGn+mgYJNbl
-        3rKCb+xo1nPO2rVIvjvANB+iPQ==
-X-Google-Smtp-Source: ACcGV62Tj9oXQ/mE5tHLx1pcws4Hdp8M6vLr6FT1shuhPg92iIAWzUBucZrc9nqoCR8D8njrfwEFUw==
-X-Received: by 2002:a65:64d7:: with SMTP id t23-v6mr2193487pgv.436.1537899995111;
-        Tue, 25 Sep 2018 11:26:35 -0700 (PDT)
-Received: from joelaf-glaptop0.roam.corp.google.com (c-98-210-118-128.hsd1.ca.comcast.net. [98.210.118.128])
-        by smtp.gmail.com with ESMTPSA id x70-v6sm6883626pfk.85.2018.09.25.11.26.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Sep 2018 11:26:34 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K+CK6/JK9NoS9LCQtCqUtUy7XYEtjbTk8RCaxRN4oyE=;
+        b=amMQoJPo42ckM6ZoxxKN6cKOvXT21tyBCNSs0XyCgdWd/WbgBBBmMPQlhvAvE1Xn9u
+         EHNWytnqFJs/3ls65rY5kp+t4IpaHFjUWE32fDE7n40y991FF9WLfLuhOly+djpYgqkO
+         3WVBKcP1LbpZeCJ6K7Bi5UEVBGMOMPYV7PkC54KiEjWLcL4hlJQcHkZx2ObUD+1eWnMc
+         0twQvvMKwZEh0yWQNETd7Idxk0I99IXX680S92NtXj5/Cf8t7rDun5Ro0RprOtpt8du9
+         DC4SqSBjrs/2kxh/anTP4EUSaEVRgal6wLXDRbb5VRuXLkzfPlBstFZYjLbQeDQtYN45
+         aKxA==
+X-Gm-Message-State: ABuFfoiFhtbvdWlDs7gSmr03XVpkTH387HSoOnzS3T5y2UzZpxFhr/sm
+        EI2Z/tDg08IVYovRI45IM4rsTdoehnbc9Mho3fSBgA==
+X-Google-Smtp-Source: ACcGV63u/3+NqecsKqbo2XqsCwlLXzTvnL8lUC7oeiKehBIHnj7RWJWbh7/p5GpjbrgN2K1HafMo4A5xaxFtbpaXnjg=
+X-Received: by 2002:a2e:900a:: with SMTP id h10-v6mr1775226ljg.121.1537901361707;
+ Tue, 25 Sep 2018 11:49:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180925182601.37421-1-joel@joelfernandes.org>
+In-Reply-To: <20180925182601.37421-1-joel@joelfernandes.org>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Tue, 25 Sep 2018 11:49:10 -0700
+Message-ID: <CAEXW_YTjjfZhH6rpOArSVub_XhC4mvbKn6Rf0DSiy=rAHQGzPw@mail.gmail.com>
+Subject: Re: [0/5] rcu doc updates
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Josh Triplett <josh@joshtriplett.org>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         linux-doc@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
         Steven Rostedt <rostedt@goodmis.org>
-Subject: [5/5] doc: rcu: Update description of gp_seq fields in rcu_data
-Date:   Tue, 25 Sep 2018 11:26:01 -0700
-Message-Id: <20180925182601.37421-6-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.19.0.444.g18242da7ef-goog
-In-Reply-To: <20180925182601.37421-1-joel@joelfernandes.org>
-References: <20180925182601.37421-1-joel@joelfernandes.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The rcu_state structure doesn't have a gp_seq_needed field. Update the
-description under rcu_data accordingly, to reflect this.
+On Tue, Sep 25, 2018 at 11:26 AM Joel Fernandes (Google)
+<joel@joelfernandes.org> wrote:
+>
+> Hi Paul,
+> These patches are documentation updates for the rcu_dynticks rolling into
+> rcu_data and also the updates to the fact that there's a single rcu_state now.
+> Its based on your rcu/dev branch.
+>
+> Next I'm thinking of tackling 'RCU Callback Handling' and further digging into
+> the dyntick handling and then dig into other documents outside of
+> Data-Structure that need updates. But let me know any suggestions.
+> Thanks!
 
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- .../RCU/Design/Data-Structures/Data-Structures.html        | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Apologies that my scripts missed the 'PATCH' prefix. Hopefully that's
+Ok for this time, but let me know if you'd like me to resend them!
+Thanks!
 
-diff --git a/Documentation/RCU/Design/Data-Structures/Data-Structures.html b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-index a45fc326d990..b41deca48383 100644
---- a/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-+++ b/Documentation/RCU/Design/Data-Structures/Data-Structures.html
-@@ -1009,9 +1009,10 @@ as follows:
-   5   bool gpwrap;
- </pre>
- 
--<p>The <tt>-&gt;gp_seq</tt> and <tt>-&gt;gp_seq_needed</tt>
--fields are the counterparts of the fields of the same name
--in the <tt>rcu_state</tt> and <tt>rcu_node</tt> structures.
-+<p>The <tt>-&gt;gp_seq</tt> field is the counterpart of the field of the same
-+name in the <tt>rcu_state</tt> and <tt>rcu_node</tt> structures.  The
-+<tt>-&gt;gp_seq_needed</tt> field is the counterpart of the field of the same
-+name in the rcu_node</tt> structure.
- They may each lag up to one behind their <tt>rcu_node</tt>
- counterparts, but in <tt>CONFIG_NO_HZ_IDLE</tt> and
- <tt>CONFIG_NO_HZ_FULL</tt> kernels can lag
--- 
-2.19.0.444.g18242da7ef-goog
-
+ - Joel
