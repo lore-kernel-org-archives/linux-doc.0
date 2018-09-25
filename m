@@ -1,140 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DEE1B7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Sep 2018 15:47:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C45127DE6F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 00:18:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729180AbeIXVuD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Sep 2018 17:50:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53776 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729013AbeIXVuD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Sep 2018 17:50:03 -0400
-Received: from smtp.corp.redhat.com (int-mx11.intmail.prod.int.phx2.redhat.com [10.5.11.26])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 6AF3137E60;
-        Mon, 24 Sep 2018 15:47:15 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-8.bos.redhat.com [10.18.17.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 93B483091376;
-        Mon, 24 Sep 2018 15:47:11 +0000 (UTC)
-Subject: Re: [PATCH v12 9/9] cpuset: Support forced turning off of partition
- flag
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <1535380884-31308-1-git-send-email-longman@redhat.com>
- <1535380884-31308-10-git-send-email-longman@redhat.com>
- <20180827164004.GE3978217@devbig004.ftw2.facebook.com>
- <0daf1f43-2292-0281-3ab8-aef20d0475dc@redhat.com>
- <7a57412b-ccdd-be20-529b-89f0737ce41d@redhat.com>
-Organization: Red Hat
-Message-ID: <be374350-df64-5685-2802-629d43b0b284@redhat.com>
-Date:   Mon, 24 Sep 2018 11:47:11 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <7a57412b-ccdd-be20-529b-89f0737ce41d@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.26
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Mon, 24 Sep 2018 15:47:15 +0000 (UTC)
+        id S1728263AbeIYGX0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Sep 2018 02:23:26 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44061 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728126AbeIYGX0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Sep 2018 02:23:26 -0400
+Received: by mail-pf1-f193.google.com with SMTP id k21-v6so9904548pff.11
+        for <linux-doc@vger.kernel.org>; Mon, 24 Sep 2018 17:18:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=grdTh6jgWyilD8yd1ADEbK7C00utpPYIiWkMyo43GXU=;
+        b=WDUrBOFup3bgS3V1x1Go6KM1/ZIZHZznHJFiBJ2FwbSVplhb/hvi7CSZP6qHZUMbd/
+         929mOJBuzYbyYOOE1oLY7DlyH+uPKZrIFsjGTrERVRghtfDhzvSqVAHqOYjsDNEzXktc
+         VrutY4O+8Lb5M6lBhaAWe2/MVw0f9LAoNcb2g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=grdTh6jgWyilD8yd1ADEbK7C00utpPYIiWkMyo43GXU=;
+        b=b8DcP2P67gkUTb+he3ubfj1Yu9ks2ZAZ85ORlbYFBG7y/5WAkWXH+TsMloZ4tLBY7U
+         YggQtzhP/fN6fmPOIrzTaZU4s36uvXVKukiXHMRKY823KhctVODKGWAuTIYxUZYXpd2R
+         SsRw3hnw3na7zsOGJYa4ECjKvm/swzSNkHEeTHcKZtZBioSPhD8J0BCVwB91nLqHB+Tz
+         weBicSmXx4WA+Wa2LlgrxfxXfl7yCxM42FXahPRl1O/XWT/oHhtfSzvHuqlQ5SmEa5/m
+         RI1EKH5XXpLaST7zaAU3LzBfYOZtUiCxmHDWEGOmPM+7FzZPu8OjYnQxIpMLrcVh6y19
+         BgEw==
+X-Gm-Message-State: ABuFfohj432LDWC+Xph2SIZUioezQA/FpWYOVXU0xTKGfFzsEiKBc+yr
+        BTlLJq5VVtrJTaqOsXKHla933w==
+X-Google-Smtp-Source: ACcGV60Q+qQUcfOgrc942qlgSi/1M22qVFDImDAbsmJZ/SOrnCHJDrfeP/Y4IHCoF1FM5IPgnBcmVA==
+X-Received: by 2002:a62:444d:: with SMTP id r74-v6mr1006201pfa.96.1537834720182;
+        Mon, 24 Sep 2018 17:18:40 -0700 (PDT)
+Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
+        by smtp.gmail.com with ESMTPSA id y85-v6sm560016pfa.170.2018.09.24.17.18.36
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 24 Sep 2018 17:18:37 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     James Morris <jmorris@namei.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Abderrahmane Benbachir <abderrahmane.benbachir@polymtl.ca>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-security-module@vger.kernel.org,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Paul Moore <paul@paul-moore.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH security-next v3 04/29] LSM: Remove initcall tracing
+Date:   Mon, 24 Sep 2018 17:18:07 -0700
+Message-Id: <20180925001832.18322-5-keescook@chromium.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180925001832.18322-1-keescook@chromium.org>
+References: <20180925001832.18322-1-keescook@chromium.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/06/2018 05:20 PM, Waiman Long wrote:
-> On 08/27/2018 01:50 PM, Waiman Long wrote:
->> On 08/27/2018 12:40 PM, Tejun Heo wrote:
->>> Hello, Waiman.
->>>
->>> On Mon, Aug 27, 2018 at 10:41:24AM -0400, Waiman Long wrote:
->>>> Cpuset allows arbitrary modification of cpu list in "cpuset.cpus"
->>>> even if the requested CPUs won't be granted in "cpuset.cpus.effective"
->>>> as restricted by its parent. However, the validate_change() function
->>>> will inhibit removal of CPUs that have been used in child cpusets.
->>>>
->>>> Being a partition root, however, limits the kind of cpu list
->>>> modification that is allowed. Adding CPUs is not allowed if the new
->>>> CPUs are not in the parent's effective cpu list that can be put into
->>>> "cpuset.cpus.reserved". In addition, a child partition cannot exhaust
->>>> all the parent's effective CPUs.
->>>>
->>>> Because of the implicit cpu exclusive nature of the partition root,
->>>> cpu changes that break that cpu exclusivity will not be allowed. Other
->>>> changes that break the conditions of being a partition root is generally
->>>> allowed. However, the partition flag of the cpuset as well those of
->>>> the descendant partitions will be forcefully turned off.
->>> First of all, thanks a lot for your persistence.  I'm not necessarily
->>> against the flag being forced off but wonder whether the same
->>> config/effective approach can be used as in .cpus and .mems.  Can you
->>> elaborate a bit on the choice here?
->>>
->>> Thank you.
->> My current code has explicitly assumed the following relationship for
->> partition root.
->>
->>     cpus_allowed = effective_cpus + reserved_cpus
->>
->> Also effective_cpus cannot be empty. Specifically, cpus_allowed has to
->> be equal to effective_cpus before a cpuset can be made a partition root.
->>
->> Any changes that break the above conditions will turn off the partition
->> flag forcefully. The only exception is cpu offlining where cpus_allowed
->>> effective_cpus + reserved_cpus can happen.
->> One reason for doing so is because reserved_cpus is hidden. So the main
->> way to infer that is to do cpus_allowed - effective_cpus.
->>
->> It is probably doable to make cpus_allowed >= effective_cpus +
->> reserved_cpus in general, but we may need to expose reserved_cpus as a
->> read-only file, for instance. There may also be other complications that
->> we will need to take care of if this is supported. My current preference
->> is to not doing that unless there is compelling reason to do so.
->>
->> Cheers,
->> Longman
-> For the current patch, one of conditions to allow users to turn on the
-> partition flag is cpus_allowed = effective_cpus. Once the partition flag
-> is on, the twos have to be the same too except with cpu offlining. This
-> patch is added to allow arbitrary modification to the cpuset.cpus file
-> except those that have already been forbidden in the existing code. When
-> the modification violates the rules of being a partition root, the flag
-> will be turned off or we will have to deny the modification request.
->
-> I am admitting that it is an easy way out in term of programming effort
-> as I am not sure how much effort is needed to enable arbitrary
-> modification to cpuset.cpus without force disabling and whether such an
-> effort is even worthwhile to do.
->
-> We can certainly relax the current restrictions in the future.  Any
-> suggestion to improve the patchset is welcome. I would really like to
-> see this merged in 4.20 (or maybe 5.0) kernel.
->
-> Cheers,
-> Longman
->
-Tejun,
+This partially reverts commit 58eacfffc417 ("init, tracing: instrument
+security and console initcall trace events") since security init calls
+are about to no longer resemble regular init calls.
 
-Sorry for bothering you again.
+Cc: James Morris <jmorris@namei.org>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Abderrahmane Benbachir <abderrahmane.benbachir@polymtl.ca>
+Cc: Steven Rostedt (VMware) <rostedt@goodmis.org>
+Cc: linux-security-module@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ security/security.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-I would like to know your assessment of this patchset as to whether it
-is ready or not.
-
-Thanks,
-Longman
+diff --git a/security/security.c b/security/security.c
+index 892fe6b691cf..41a5da2c7faf 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -30,8 +30,6 @@
+ #include <linux/string.h>
+ #include <net/flow.h>
+ 
+-#include <trace/events/initcall.h>
+-
+ #define MAX_LSM_EVM_XATTR	2
+ 
+ /* Maximum number of letters for an LSM name string */
+@@ -47,17 +45,13 @@ static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
+ 
+ static void __init do_security_initcalls(void)
+ {
+-	int ret;
+ 	initcall_t call;
+ 	initcall_entry_t *ce;
+ 
+ 	ce = __start_lsm_info;
+-	trace_initcall_level("security");
+ 	while (ce < __end_lsm_info) {
+ 		call = initcall_from_entry(ce);
+-		trace_initcall_start(call);
+-		ret = call();
+-		trace_initcall_finish(call, ret);
++		call();
+ 		ce++;
+ 	}
+ }
+-- 
+2.17.1
 
