@@ -3,46 +3,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 556137D581
+	by archive.lwn.net (Postfix) with ESMTP id BC4F27DE7B
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 00:20:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728727AbeIYGXh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Sep 2018 02:23:37 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:46759 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728675AbeIYGXg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Sep 2018 02:23:36 -0400
-Received: by mail-pf1-f195.google.com with SMTP id d8-v6so2958240pfo.13
-        for <linux-doc@vger.kernel.org>; Mon, 24 Sep 2018 17:18:51 -0700 (PDT)
+        id S1728706AbeIYGXg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Sep 2018 02:23:36 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:38360 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728642AbeIYGXd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Sep 2018 02:23:33 -0400
+Received: by mail-pg1-f196.google.com with SMTP id r77-v6so4989619pgr.5
+        for <linux-doc@vger.kernel.org>; Mon, 24 Sep 2018 17:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=2edRK2AZFrxFBXiESIgGjfhpy0zSRex0q+D6nx3+uAQ=;
-        b=Urp1Mw90h+P8UxAPse25ALToKoEoVGmrJLmAMfS65DsUAxVRC1H4HpNVY/p7NpXEqx
-         u8W55R5zikND2gyQf/c+q8WvpnfXrVQkBtQTl5swRnfU2gB/jtqataQi8vMrvL7e72FO
-         cWNBdupazSohrkGtbXwFjWCWa5x+DYeZKZs9w=
+        bh=V3gWF7rko5DL5iZJCCi6Kc67O4L0MbWrE1FLQotdnGU=;
+        b=hkOjT+tkFnNlRszSXPE//GHlDYA0w4AK8opuzxqqgNSPnb4aEo6bx3OTwffySrpN4W
+         jIb9d1mocCjbaiWHTR+rZjDkXeKO0vUU+VHXyYFomeC2mkGsAuU6YmkwUm26MIDQ6jZJ
+         gsOo7QwkxDatM8nWhoWjLBhDOoJ+Kh5j0QS1o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=2edRK2AZFrxFBXiESIgGjfhpy0zSRex0q+D6nx3+uAQ=;
-        b=e4fySGP5VNL4AGxUV3oL7QUUhmrxBg/TJck5Q4BJmk7kcdNZ3zhnYXb0KYgSYRTX1u
-         uxQBfBwNEVGfYUvqO/iLrkv7uhMHP+Qqf0molWgwFtTd9iU+aW0BpZ1Vjr5j+7/hRBMj
-         8FMypnwIOxwK6u/veV2RtNJXYFJ3wr59NzbQ2ojgY2seGsy+E45Y0Dd1XzHYlSZ+TMwT
-         JrHj7ZGAyQtSu+wYCA4CX/oz9fsWsjWO7CJJ0uW4oO1PlFblyHEuyrTwVq3U2CXy2pWJ
-         ogg03P6XQiGaXywE4fW7GKcUB9p9vC1CBV9DCi2a3SH6pSciBvgi6RPwTKIt+hA+2kVC
-         YxXQ==
-X-Gm-Message-State: ABuFfohgEtwwzkLLnWwhw8SVQnLrf9WmimYdpcmo1ULOA/TbfEYutxKe
-        ubVH8PF+xdlB2HwjcJfPe1AYHg==
-X-Google-Smtp-Source: ACcGV62vk1m1eX4nNjkskL5VB4G+9KlGlE6f28Ca6ufe2w21HkY1HPch0o1YcPxOFhnYqvYqiz6hPA==
-X-Received: by 2002:a63:e04d:: with SMTP id n13-v6mr931731pgj.426.1537834730657;
-        Mon, 24 Sep 2018 17:18:50 -0700 (PDT)
+        bh=V3gWF7rko5DL5iZJCCi6Kc67O4L0MbWrE1FLQotdnGU=;
+        b=MCXi11ZMd84j42amNtQ312wwpdiJaNR0Vo/5/kKS+YHoGn5WXZtszPjm9XVVXGkAoe
+         8fjWs61hcxy92tZ2mZiJhKsd1VKnQFCNYYmXTZWCoYiIJ1gScRjMtJetnZxloHWheaBU
+         BAO4LARU5//K75egQZINpoEzFAxqx5sNpMF6R18J3SUCj75jRFDzLxWs3C9aer5L6KXN
+         htfBhVar6fpxlJE5WrVpvyV88voz4tUu84oEw4OnDFB6UZlOaE/PnCF4rwXYAHzdedhi
+         Eg5GPcDF/fbqdAw9tPq6bdiapV2ZMu+2tiuIJpZalmdpS9tpB1CLzE8WW8LyHaQBX1sU
+         q9dg==
+X-Gm-Message-State: ABuFfoj5bJh3Hjk592i7O9tVgA5o8ZjNgSwePS/MQJ18kuRQ99csOOl2
+        7iQOJybfFGhTDJKygugupdBAAQ==
+X-Google-Smtp-Source: ACcGV60qe4zTewbildyI7dwKMAKAlT5Ht4YTAsfkNCS7qLzGRoOJBbDOROzO5coNkv/AJZkjpEC9Kw==
+X-Received: by 2002:a17:902:44:: with SMTP id 62-v6mr955985pla.181.1537834727371;
+        Mon, 24 Sep 2018 17:18:47 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id c78-v6sm505844pfc.188.2018.09.24.17.18.42
+        by smtp.gmail.com with ESMTPSA id v83-v6sm612154pfa.103.2018.09.24.17.18.40
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 24 Sep 2018 17:18:48 -0700 (PDT)
+        Mon, 24 Sep 2018 17:18:42 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     James Morris <jmorris@namei.org>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -55,9 +55,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v3 11/29] LSM: Introduce LSM_FLAG_LEGACY_MAJOR
-Date:   Mon, 24 Sep 2018 17:18:14 -0700
-Message-Id: <20180925001832.18322-12-keescook@chromium.org>
+Subject: [PATCH security-next v3 09/29] LSM: Provide init debugging infrastructure
+Date:   Mon, 24 Sep 2018 17:18:12 -0700
+Message-Id: <20180925001832.18322-10-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180925001832.18322-1-keescook@chromium.org>
 References: <20180925001832.18322-1-keescook@chromium.org>
@@ -66,80 +66,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds a flag for the current "major" LSMs to distinguish them when
-we have a universal method for ordering all LSMs. It's called "legacy"
-since the distinction of "major" will go away in the blob-sharing world.
+Booting with "lsm.debug" will report future details on how LSM ordering
+decisions are being made.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/lsm_hooks.h  | 3 +++
- security/apparmor/lsm.c    | 1 +
- security/selinux/hooks.c   | 1 +
- security/smack/smack_lsm.c | 1 +
- security/tomoyo/tomoyo.c   | 1 +
- 5 files changed, 7 insertions(+)
+ .../admin-guide/kernel-parameters.txt          |  2 ++
+ security/security.c                            | 18 ++++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 543636f18152..5056f7374b3d 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -2039,8 +2039,11 @@ extern char *lsm_names;
- extern void security_add_hooks(struct security_hook_list *hooks, int count,
- 				char *lsm);
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 9871e649ffef..32d323ee9218 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2274,6 +2274,8 @@
+ 	ltpc=		[NET]
+ 			Format: <io>,<irq>,<dma>
  
-+#define LSM_FLAG_LEGACY_MAJOR	BIT(0)
++	lsm.debug	[SECURITY] Enable LSM initialization debugging output.
 +
- struct lsm_info {
- 	const char *name;	/* Populated automatically. */
-+	unsigned long flags;	/* Optional: flags describing LSM */
- 	int (*init)(void);
- };
- 
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 7fa7b4464cf4..4c5f63e9aeba 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1607,5 +1607,6 @@ static int __init apparmor_init(void)
- }
- 
- DEFINE_LSM(apparmor)
-+	.flags = LSM_FLAG_LEGACY_MAJOR,
- 	.init = apparmor_init,
- END_LSM;
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 469a90806bc6..615cf6498c0f 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -7203,6 +7203,7 @@ void selinux_complete_init(void)
- /* SELinux requires early initialization in order to label
-    all processes and objects when they are created. */
- DEFINE_LSM(selinux)
-+	.flags = LSM_FLAG_LEGACY_MAJOR,
- 	.init = selinux_init,
- END_LSM;
- 
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index 1e1ace718e75..4aef844fc0e2 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -4883,5 +4883,6 @@ static __init int smack_init(void)
-  * all processes and objects when they are created.
+ 	machvec=	[IA-64] Force the use of a particular machine-vector
+ 			(machvec) in a generic kernel.
+ 			Example: machvec=hpzx1_swiotlb
+diff --git a/security/security.c b/security/security.c
+index e74f46fba591..ee49b921d750 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -12,6 +12,8 @@
+  *	(at your option) any later version.
   */
- DEFINE_LSM(smack)
-+	.flags = LSM_FLAG_LEGACY_MAJOR,
- 	.init = smack_init,
- END_LSM;
-diff --git a/security/tomoyo/tomoyo.c b/security/tomoyo/tomoyo.c
-index a280d4eab456..528b6244a648 100644
---- a/security/tomoyo/tomoyo.c
-+++ b/security/tomoyo/tomoyo.c
-@@ -551,5 +551,6 @@ static int __init tomoyo_init(void)
- }
  
- DEFINE_LSM(tomoyo)
-+	.flags = LSM_FLAG_LEGACY_MAJOR,
- 	.init = tomoyo_init,
- END_LSM;
++#define pr_fmt(fmt) "LSM: " fmt
++
+ #include <linux/bpf.h>
+ #include <linux/capability.h>
+ #include <linux/dcache.h>
+@@ -43,11 +45,19 @@ char *lsm_names;
+ static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
+ 	CONFIG_DEFAULT_SECURITY;
+ 
++static bool debug __initdata;
++#define init_debug(...)						\
++	do {							\
++		if (debug)					\
++			pr_info(__VA_ARGS__);			\
++	} while (0)
++
+ static void __init major_lsm_init(void)
+ {
+ 	struct lsm_info *lsm;
+ 
+ 	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
++		init_debug("initializing %s\n", lsm->name);
+ 		lsm->init();
+ 	}
+ }
+@@ -91,6 +101,14 @@ static int __init choose_lsm(char *str)
+ }
+ __setup("security=", choose_lsm);
+ 
++/* Enable LSM order debugging. */
++static int __init enable_debug(char *str)
++{
++	debug = true;
++	return 1;
++}
++__setup("lsm.debug", enable_debug);
++
+ static bool match_last_lsm(const char *list, const char *lsm)
+ {
+ 	const char *last;
 -- 
 2.17.1
 
