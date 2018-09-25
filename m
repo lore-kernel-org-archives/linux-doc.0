@@ -1,33 +1,39 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A6CE7D584
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 16:34:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B1E6D7D584
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 16:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727334AbeIYWmm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Sep 2018 18:42:42 -0400
-Received: from mga12.intel.com ([192.55.52.136]:17969 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726252AbeIYWmm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 Sep 2018 18:42:42 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Sep 2018 09:34:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,302,1534834800"; 
-   d="scan'208";a="93136136"
-Received: from 2b52.sc.intel.com ([143.183.136.51])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2018 09:34:25 -0700
-Message-ID: <309a30584a56babbd4d25199f71b786442300c1e.camel@intel.com>
-Subject: Re: [RFC PATCH v4 01/27] x86/cpufeatures: Add CPUIDs for
- Control-flow Enforcement Technology (CET)
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
+        id S1726026AbeIYWqg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Sep 2018 18:46:36 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:38954 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726377AbeIYWqg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Sep 2018 18:46:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=zkXTXKUdzrmPZs7+5Op9fbVNhPIQJTimXSmU1iV9ZC4=; b=YOIcLcy/52k1FSI6p7jraqu+2
+        9y432BDJ40c4QlgiLVWWTRh7HU0nK/RHjrVSGVLJ4NXouQZfbc8aAssX7+uyB5MlXMoyBLypx6Hjl
+        j2NOOfziXY7xUuOGblXow9nJaBGfICa+QAuNkc8X+WRbNsNTq/dohcFftFPmH1gDb5vbqtdeHMH46
+        WBcdb43Wpc2DkasGnRvExTpgLrjJFQYL45liiKFGPgtCOiMxBJYdZaXCsLKWzj6W6+Wujlisd2YlP
+        8ETH5+3Kw4NHg0TZvvuuS8s/ZIZtHtFvOf1M/pFOwv1cVWEbsiWeVp3tES0bauTYQin8Asw4ESMza
+        chQfIlQZg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1g4qLM-0008KZ-1G; Tue, 25 Sep 2018 16:38:08 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0680B20289D15; Tue, 25 Sep 2018 18:37:46 +0200 (CEST)
+Date:   Tue, 25 Sep 2018 18:37:45 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -48,36 +54,56 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Tue, 25 Sep 2018 09:29:51 -0700
-In-Reply-To: <20180925162705.GB30146@hirez.programming.kicks-ass.net>
+Subject: Re: [RFC PATCH v4 02/27] x86/fpu/xstate: Change some names to
+ separate XSAVES system and user states
+Message-ID: <20180925163745.GC30146@hirez.programming.kicks-ass.net>
 References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
-         <20180921150351.20898-2-yu-cheng.yu@intel.com>
-         <20180925162705.GB30146@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+ <20180921150351.20898-3-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180921150351.20898-3-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2018-09-25 at 18:27 +0200, Peter Zijlstra wrote:
-> On Fri, Sep 21, 2018 at 08:03:25AM -0700, Yu-cheng Yu wrote:
-> 
-> > diff --git a/arch/x86/kernel/cpu/scattered.c
-> > b/arch/x86/kernel/cpu/scattered.c
-> > index 772c219b6889..63cbb4d9938e 100644
-> > --- a/arch/x86/kernel/cpu/scattered.c
-> > +++ b/arch/x86/kernel/cpu/scattered.c
-> > @@ -21,6 +21,7 @@ struct cpuid_bit {
-> >  static const struct cpuid_bit cpuid_bits[] = {
-> >  	{ X86_FEATURE_APERFMPERF,       CPUID_ECX,  0, 0x00000006, 0 },
-> >  	{ X86_FEATURE_EPB,		CPUID_ECX,  3, 0x00000006, 0 },
-> > +	{ X86_FEATURE_IBT,		CPUID_EDX, 20, 0x00000007, 0},
-> 
->                                                                    ^^
-> missing white space at the end there.
+On Fri, Sep 21, 2018 at 08:03:26AM -0700, Yu-cheng Yu wrote:
 
-I will fix it.  Thanks!
+> diff --git a/arch/x86/include/asm/fpu/internal.h b/arch/x86/include/asm/fpu/internal.h
+> index a38bf5a1e37a..f1f9bf91a0ab 100644
+> --- a/arch/x86/include/asm/fpu/internal.h
+> +++ b/arch/x86/include/asm/fpu/internal.h
+> @@ -93,7 +93,8 @@ static inline void fpstate_init_xstate(struct xregs_state *xsave)
+>  	 * XRSTORS requires these bits set in xcomp_bv, or it will
+>  	 * trigger #GP:
+>  	 */
+> -	xsave->header.xcomp_bv = XCOMP_BV_COMPACTED_FORMAT | xfeatures_mask;
+> +	xsave->header.xcomp_bv = XCOMP_BV_COMPACTED_FORMAT |
+> +			xfeatures_mask_user;
 
+I would be OK with that line extending to 82 characters..
+
+>  }
+>  
+>  static inline void fpstate_init_fxstate(struct fxregs_state *fx)
+
+> diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+> index 87a57b7642d3..19f8df54c72a 100644
+> --- a/arch/x86/kernel/fpu/xstate.c
+> +++ b/arch/x86/kernel/fpu/xstate.c
+
+> @@ -421,7 +421,8 @@ static void __init setup_init_fpu_buf(void)
+>  	print_xstate_features();
+>  
+>  	if (boot_cpu_has(X86_FEATURE_XSAVES))
+> -		init_fpstate.xsave.header.xcomp_bv = (u64)1 << 63 | xfeatures_mask;
+> +		init_fpstate.xsave.header.xcomp_bv =
+> +			BIT_ULL(63) | xfeatures_mask_user;
+
+If you do that, the if () needs { } per coding style.
+
+>  
+>  	/*
+>  	 * Init all the features state with header.xfeatures being 0x0
