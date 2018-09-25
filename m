@@ -1,317 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 06A8C7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 09:16:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B96487D57F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 12:15:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728812AbeIYPWO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Sep 2018 11:22:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49034 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728391AbeIYPWO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 Sep 2018 11:22:14 -0400
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.phx2.redhat.com [10.5.11.24])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 34ABBC057E09;
-        Tue, 25 Sep 2018 09:15:38 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-161.ams2.redhat.com [10.36.117.161])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 06857308BDAA;
-        Tue, 25 Sep 2018 09:15:30 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-mm@kvack.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
-        xen-devel@lists.xenproject.org, devel@linuxdriverproject.org,
-        David Hildenbrand <david@redhat.com>,
+        id S1727606AbeIYSW0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Sep 2018 14:22:26 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:34664 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727507AbeIYSW0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Sep 2018 14:22:26 -0400
+Received: by mail-pf1-f194.google.com with SMTP id k19-v6so11128638pfi.1;
+        Tue, 25 Sep 2018 05:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gQtaM9eknJxnHWhohwXfKlfTu7V5+kzZCuLhwZEH/OE=;
+        b=FjuUzCipu/AXBKYV7TV9In3RoeDSwuvZVvYaXWTxX1BaUl6z/+3OS/eRAE7+3ldHKF
+         lu4iMcE9hu43clTeScYND8i+A6aLZkCeKEWRwEF8h65On1u2CQVKVU0i5XTxdkVmn1f3
+         XoXfVjxdSph7j3WoZKdHnNEPCTgoA4fHnG5OjPON6T2NQN769q+m7mrXiiTdJBWV1RuJ
+         9c7tM+8GEOMGoOBaMh41PNYAq5S1jQfppxYTHKX7/LGImT2BBNvGssA2Oqy30I+3n3y4
+         MkfKS8cpzWZS2y4pG8gjuunoiSQXD39kADfbWK/lg7Qa6gTVrq3bg4H5A1jVD0GdVjVu
+         2Bsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gQtaM9eknJxnHWhohwXfKlfTu7V5+kzZCuLhwZEH/OE=;
+        b=QiUSgh2oQG31OJd71ZUYd52brFLBH2ShQTvmF11RXcK0ZwooC1UxGGe3/iyFxLk0dz
+         E/AzGqhqIisydxwHx3fRRRACREjRTMhRqMx38ZrD9IHxptfmzOyLXfzpq1IXtQJ+8oOr
+         LTbyv6V93I8zy064RKtzaSt5Hup7rEj73XIaGRGw6FmHfNWL/GjA487iOg2nlooaiNax
+         0afgfH/cDYesXRTJeT9raM+RxxrZDuRFdyBdsO+hMtN852+SJ7TaB8x8pJc5cDBXq3ZY
+         tMF+ZGTZORFfZLKcGIGZZXmi6u7qFcy3PcjWycxbq+FOUNw0520nqaAmPEN2+lwEeFHt
+         qfgQ==
+X-Gm-Message-State: ABuFfogpZ0IFcC5XzSTfWYolDHAB+Vn4lrUW3G+HIhPbmz34fSk0svaq
+        abuXrhWsgE7rAOxekaQd/H0=
+X-Google-Smtp-Source: ACcGV61TrZaw8pSev8G9dD7XkP4N2kB4Rn0vImS95/K4AjA8SgoaIBOURC8qjFXW9wSxMWn+8uwIiQ==
+X-Received: by 2002:a65:6398:: with SMTP id h24-v6mr804943pgv.245.1537877708816;
+        Tue, 25 Sep 2018 05:15:08 -0700 (PDT)
+Received: from localhost (14-202-194-140.static.tpgi.com.au. [14.202.194.140])
+        by smtp.gmail.com with ESMTPSA id p75-v6sm4299662pfi.22.2018.09.25.05.15.07
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 25 Sep 2018 05:15:08 -0700 (PDT)
+Date:   Tue, 25 Sep 2018 22:15:04 +1000
+From:   Balbir Singh <bsingharora@gmail.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-acpi@vger.kernel.org, xen-devel@lists.xenproject.org,
+        devel@linuxdriverproject.org,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Paul Mackerras <paulus@samba.org>,
         Michael Ellerman <mpe@ellerman.id.au>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
         Rashmica Gupta <rashmica.g@gmail.com>,
-        Michael Neuling <mikey@neuling.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Pavel Tatashin <pavel.tatashin@microsoft.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>,
-        Mathieu Malaterre <malat@debian.org>
-Subject: [PATCH v2 3/6] mm/memory_hotplug: fix online/offline_pages called w.o. mem_hotplug_lock
-Date:   Tue, 25 Sep 2018 11:14:54 +0200
-Message-Id: <20180925091457.28651-4-david@redhat.com>
-In-Reply-To: <20180925091457.28651-1-david@redhat.com>
+        Michael Neuling <mikey@neuling.org>
+Subject: Re: [PATCH v2 5/6] powerpc/powernv: hold device_hotplug_lock when
+ calling memtrace_offline_pages()
+Message-ID: <20180925121504.GH8537@350D>
 References: <20180925091457.28651-1-david@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.24
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Tue, 25 Sep 2018 09:15:38 +0000 (UTC)
+ <20180925091457.28651-6-david@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180925091457.28651-6-david@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There seem to be some problems as result of 30467e0b3be ("mm, hotplug:
-fix concurrent memory hot-add deadlock"), which tried to fix a possible
-lock inversion reported and discussed in [1] due to the two locks
-	a) device_lock()
-	b) mem_hotplug_lock
+On Tue, Sep 25, 2018 at 11:14:56AM +0200, David Hildenbrand wrote:
+> Let's perform all checking + offlining + removing under
+> device_hotplug_lock, so nobody can mess with these devices via
+> sysfs concurrently.
+> 
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Rashmica Gupta <rashmica.g@gmail.com>
+> Cc: Balbir Singh <bsingharora@gmail.com>
+> Cc: Michael Neuling <mikey@neuling.org>
+> Reviewed-by: Pavel Tatashin <pavel.tatashin@microsoft.com>
+> Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  arch/powerpc/platforms/powernv/memtrace.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/powerpc/platforms/powernv/memtrace.c b/arch/powerpc/platforms/powernv/memtrace.c
+> index fdd48f1a39f7..d84d09c56af9 100644
+> --- a/arch/powerpc/platforms/powernv/memtrace.c
+> +++ b/arch/powerpc/platforms/powernv/memtrace.c
+> @@ -70,6 +70,7 @@ static int change_memblock_state(struct memory_block *mem, void *arg)
+>  	return 0;
+>  }
+>  
+> +/* called with device_hotplug_lock held */
+>  static bool memtrace_offline_pages(u32 nid, u64 start_pfn, u64 nr_pages)
+>  {
+>  	u64 end_pfn = start_pfn + nr_pages - 1;
+> @@ -111,6 +112,7 @@ static u64 memtrace_alloc_node(u32 nid, u64 size)
+>  	end_pfn = round_down(end_pfn - nr_pages, nr_pages);
+>  
+>  	for (base_pfn = end_pfn; base_pfn > start_pfn; base_pfn -= nr_pages) {
+> +		lock_device_hotplug();
 
-While add_memory() first takes b), followed by a) during
-bus_probe_device(), onlining of memory from user space first took a),
-followed by b), exposing a possible deadlock.
+Why not grab the lock before the for loop? That way we can avoid bad cases like a
+large node being scanned for a small number of pages (nr_pages). Ideally we need
+a cond_resched() in the loop, but I guess offline_pages() has one.
 
-In [1], and it was decided to not make use of device_hotplug_lock, but
-rather to enforce a locking order.
-
-The problems I spotted related to this:
-
-1. Memory block device attributes: While .state first calls
-   mem_hotplug_begin() and the calls device_online() - which takes
-   device_lock() - .online does no longer call mem_hotplug_begin(), so
-   effectively calls online_pages() without mem_hotplug_lock.
-
-2. device_online() should be called under device_hotplug_lock, however
-   onlining memory during add_memory() does not take care of that.
-
-In addition, I think there is also something wrong about the locking in
-
-3. arch/powerpc/platforms/powernv/memtrace.c calls offline_pages()
-   without locks. This was introduced after 30467e0b3be. And skimming over
-   the code, I assume it could need some more care in regards to locking
-   (e.g. device_online() called without device_hotplug_lock. This will
-   be addressed in the following patches.
-
-Now that we hold the device_hotplug_lock when
-- adding memory (e.g. via add_memory()/add_memory_resource())
-- removing memory (e.g. via remove_memory())
-- device_online()/device_offline()
-
-We can move mem_hotplug_lock usage back into
-online_pages()/offline_pages().
-
-Why is mem_hotplug_lock still needed? Essentially to make
-get_online_mems()/put_online_mems() be very fast (relying on
-device_hotplug_lock would be very slow), and to serialize against
-addition of memory that does not create memory block devices (hmm).
-
-[1] http://driverdev.linuxdriverproject.org/pipermail/ driverdev-devel/
-    2015-February/065324.html
-
-This patch is partly based on a patch by Vitaly Kuznetsov.
-
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: Len Brown <lenb@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Cc: Martin Schwidefsky <schwidefsky@de.ibm.com>
-Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
-Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Cc: Juergen Gross <jgross@suse.com>
-Cc: Rashmica Gupta <rashmica.g@gmail.com>
-Cc: Michael Neuling <mikey@neuling.org>
-Cc: Balbir Singh <bsingharora@gmail.com>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Philippe Ombredanne <pombredanne@nexb.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Pavel Tatashin <pavel.tatashin@microsoft.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
-Cc: Mathieu Malaterre <malat@debian.org>
-Reviewed-by: Pavel Tatashin <pavel.tatashin@microsoft.com>
-Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- drivers/base/memory.c | 13 +------------
- mm/memory_hotplug.c   | 28 ++++++++++++++++++++--------
- 2 files changed, 21 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-index 40cac122ec73..0e5985682642 100644
---- a/drivers/base/memory.c
-+++ b/drivers/base/memory.c
-@@ -228,7 +228,6 @@ static bool pages_correctly_probed(unsigned long start_pfn)
- /*
-  * MEMORY_HOTPLUG depends on SPARSEMEM in mm/Kconfig, so it is
-  * OK to have direct references to sparsemem variables in here.
-- * Must already be protected by mem_hotplug_begin().
-  */
- static int
- memory_block_action(unsigned long phys_index, unsigned long action, int online_type)
-@@ -294,7 +293,6 @@ static int memory_subsys_online(struct device *dev)
- 	if (mem->online_type < 0)
- 		mem->online_type = MMOP_ONLINE_KEEP;
- 
--	/* Already under protection of mem_hotplug_begin() */
- 	ret = memory_block_change_state(mem, MEM_ONLINE, MEM_OFFLINE);
- 
- 	/* clear online_type */
-@@ -341,19 +339,11 @@ store_mem_state(struct device *dev,
- 		goto err;
- 	}
- 
--	/*
--	 * Memory hotplug needs to hold mem_hotplug_begin() for probe to find
--	 * the correct memory block to online before doing device_online(dev),
--	 * which will take dev->mutex.  Take the lock early to prevent an
--	 * inversion, memory_subsys_online() callbacks will be implemented by
--	 * assuming it's already protected.
--	 */
--	mem_hotplug_begin();
--
- 	switch (online_type) {
- 	case MMOP_ONLINE_KERNEL:
- 	case MMOP_ONLINE_MOVABLE:
- 	case MMOP_ONLINE_KEEP:
-+		/* mem->online_type is protected by device_hotplug_lock */
- 		mem->online_type = online_type;
- 		ret = device_online(&mem->dev);
- 		break;
-@@ -364,7 +354,6 @@ store_mem_state(struct device *dev,
- 		ret = -EINVAL; /* should never happen */
- 	}
- 
--	mem_hotplug_done();
- err:
- 	unlock_device_hotplug();
- 
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index affb03e0dfef..d4c7e42e46f3 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -860,7 +860,6 @@ static struct zone * __meminit move_pfn_range(int online_type, int nid,
- 	return zone;
- }
- 
--/* Must be protected by mem_hotplug_begin() or a device_lock */
- int __ref online_pages(unsigned long pfn, unsigned long nr_pages, int online_type)
- {
- 	unsigned long flags;
-@@ -872,6 +871,8 @@ int __ref online_pages(unsigned long pfn, unsigned long nr_pages, int online_typ
- 	struct memory_notify arg;
- 	struct memory_block *mem;
- 
-+	mem_hotplug_begin();
-+
- 	/*
- 	 * We can't use pfn_to_nid() because nid might be stored in struct page
- 	 * which is not yet initialized. Instead, we find nid from memory block.
-@@ -936,6 +937,7 @@ int __ref online_pages(unsigned long pfn, unsigned long nr_pages, int online_typ
- 
- 	if (onlined_pages)
- 		memory_notify(MEM_ONLINE, &arg);
-+	mem_hotplug_done();
- 	return 0;
- 
- failed_addition:
-@@ -943,6 +945,7 @@ int __ref online_pages(unsigned long pfn, unsigned long nr_pages, int online_typ
- 		 (unsigned long long) pfn << PAGE_SHIFT,
- 		 (((unsigned long long) pfn + nr_pages) << PAGE_SHIFT) - 1);
- 	memory_notify(MEM_CANCEL_ONLINE, &arg);
-+	mem_hotplug_done();
- 	return ret;
- }
- #endif /* CONFIG_MEMORY_HOTPLUG_SPARSE */
-@@ -1147,20 +1150,20 @@ int __ref add_memory_resource(int nid, struct resource *res, bool online)
- 	/* create new memmap entry */
- 	firmware_map_add_hotplug(start, start + size, "System RAM");
- 
-+	/* device_online() will take the lock when calling online_pages() */
-+	mem_hotplug_done();
-+
- 	/* online pages if requested */
- 	if (online)
- 		walk_memory_range(PFN_DOWN(start), PFN_UP(start + size - 1),
- 				  NULL, online_memory_block);
- 
--	goto out;
--
-+	return ret;
- error:
- 	/* rollback pgdat allocation and others */
- 	if (new_node)
- 		rollback_node_hotadd(nid);
- 	memblock_remove(start, size);
--
--out:
- 	mem_hotplug_done();
- 	return ret;
- }
-@@ -1588,10 +1591,16 @@ static int __ref __offline_pages(unsigned long start_pfn,
- 		return -EINVAL;
- 	if (!IS_ALIGNED(end_pfn, pageblock_nr_pages))
- 		return -EINVAL;
-+
-+	mem_hotplug_begin();
-+
- 	/* This makes hotplug much easier...and readable.
- 	   we assume this for now. .*/
--	if (!test_pages_in_a_zone(start_pfn, end_pfn, &valid_start, &valid_end))
-+	if (!test_pages_in_a_zone(start_pfn, end_pfn, &valid_start,
-+				  &valid_end)) {
-+		mem_hotplug_done();
- 		return -EINVAL;
-+	}
- 
- 	zone = page_zone(pfn_to_page(valid_start));
- 	node = zone_to_nid(zone);
-@@ -1600,8 +1609,10 @@ static int __ref __offline_pages(unsigned long start_pfn,
- 	/* set above range as isolated */
- 	ret = start_isolate_page_range(start_pfn, end_pfn,
- 				       MIGRATE_MOVABLE, true);
--	if (ret)
-+	if (ret) {
-+		mem_hotplug_done();
- 		return ret;
-+	}
- 
- 	arg.start_pfn = start_pfn;
- 	arg.nr_pages = nr_pages;
-@@ -1672,6 +1683,7 @@ static int __ref __offline_pages(unsigned long start_pfn,
- 	writeback_set_ratelimit();
- 
- 	memory_notify(MEM_OFFLINE, &arg);
-+	mem_hotplug_done();
- 	return 0;
- 
- failed_removal:
-@@ -1681,10 +1693,10 @@ static int __ref __offline_pages(unsigned long start_pfn,
- 	memory_notify(MEM_CANCEL_OFFLINE, &arg);
- 	/* pushback to free area */
- 	undo_isolate_page_range(start_pfn, end_pfn, MIGRATE_MOVABLE);
-+	mem_hotplug_done();
- 	return ret;
- }
- 
--/* Must be protected by mem_hotplug_begin() or a device_lock */
- int offline_pages(unsigned long start_pfn, unsigned long nr_pages)
- {
- 	return __offline_pages(start_pfn, start_pfn + nr_pages);
--- 
-2.17.1
-
+Acked-by: Balbir Singh <bsingharora@gmail.com>
