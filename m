@@ -1,152 +1,179 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DAE107D87A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Sep 2018 23:00:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD31F7DD50
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 01:52:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbeIZFJn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Sep 2018 01:09:43 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:45119 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725999AbeIZFJm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 01:09:42 -0400
-Received: by mail-pf1-f196.google.com with SMTP id a23-v6so4547787pfi.12;
-        Tue, 25 Sep 2018 15:59:52 -0700 (PDT)
+        id S1727342AbeIZIC4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Sep 2018 04:02:56 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:38450 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726321AbeIZIC4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 04:02:56 -0400
+Received: by mail-pf1-f193.google.com with SMTP id x17-v6so12473346pfh.5;
+        Tue, 25 Sep 2018 18:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=hL162RkExEcLg9Z+BbmT3Ey+Hhsqgktqno5vtgKw68E=;
-        b=TLI795JVq6orQTiHJTZSUk1WDFFrt55+3qvytTcTeuoo7h5bY8UvvSfk7OHIHa4HGd
-         JTgenpLrDJxNXLS3orP374tWwUC5pvKQSq4H5WbDNtecIXRW9Dc7O5Xzl6GOxptCWBs0
-         /1BbciHi1jEaE5iagE59f8+9kRnHYvwJ7yNrWuky5izMYNl9xNwwehrss9KZAT4W6dX9
-         3IF38WifMK4Kdkz5B0ygLCHYotOdwcV2BIkMw/JBdUuUCmht0tLeiNm4pgGi5A3edWEh
-         hQLyUiVd34Sb/GFsI51xnMmMG419L2Vyed+Ox9Lg4RqkR9tW8XEBcsGP7UFyUKvFNQC+
-         NlTQ==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Vn6F+B4SV98rBF2jaB+i4NBTjG9lJYXTriU3XFApq6k=;
+        b=vDl3kh4GdB4SrxgcUIMUuqVULX5AnhBPdaHHSM4NCUcokgYcxh1MlEQx9OfPvpCTyt
+         oV+UvZKg9em+HHulDvjwHbxrxp6x9WvmwQsGdKpeqnFcqEfCA2N4x1r/i7Vmh5ZkJg/C
+         +2C+JyafYrKRIdN22UrA8S0Tu4esiUcPDtkZumMM6xzhlkJUfPR3LDJ1SWkyksgM9rq/
+         w9nJinXXE4TMVIozsE+YCQhbmayiXfJyvwnVPJOekCkPrurwi9ItoEdUR86an65eKC3L
+         hLhkXAQINwY/I8PyN/QVzRgpz1DJp87Y9eKupPyXlDYNyuEM7EiM4d8rXfxqmO8qbP2q
+         OzaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=hL162RkExEcLg9Z+BbmT3Ey+Hhsqgktqno5vtgKw68E=;
-        b=YzURbUxaTxghMhAYM6BpcC3GGQfAMJoVLdgOivL9Gyv/OOa6c91TomRB7YGjgsEYxk
-         2kZ3mqSfTbHZrHYLEWHynTMnbIFfS38C9lpNXrM2qHHYEEA/3K29oDJpJHXRovt30R9y
-         KbtuPFcfhGqpebcERtWHl1j8rLjxmvB7BJ5IZtkKsG3jFBGIyot8O/rsxJro3TvXf+99
-         +kNpkNizpjBlk7WW4i74d/yccxDrdgt1jvmhoHyohj4OB/CcpfaJXPWN3F3FEwq2eC5l
-         2JLvzplpo+2eLNC2hrWAQaUnvpBsjNri4IUyw+DfTBOWwMIjOJROThA6qw3C/8u6yyDb
-         wQgw==
-X-Gm-Message-State: ABuFfojIGAdwFYfLUphw/wxMmngF7s/2pZUa22AcYofI+VF3ByZ3znD6
-        8GXs/WnChf1dH+4H8tIEpxo=
-X-Google-Smtp-Source: ACcGV61zyBLcZHf//kNvVQZCexlS4Dtt2f2+rQyPEgSxvXwXDmOvX/x6XgvPOk4x24VG/2op7rM9Ig==
-X-Received: by 2002:a63:c4f:: with SMTP id 15-v6mr2983098pgm.155.1537916391915;
-        Tue, 25 Sep 2018 15:59:51 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id n22-v6sm4652579pfi.185.2018.09.25.15.59.50
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Vn6F+B4SV98rBF2jaB+i4NBTjG9lJYXTriU3XFApq6k=;
+        b=EWfsdWqXyEsU52g0pylMCRksMdG3DYR0G4tk5uvwm3sR641yeevtzF69SqQp9x8yi0
+         LqZKeCHOIETg7N4dkeChzHNbiWSEsXhPR4oxxIP8n9WpOq/0fhOgwdpO65ONjW7IpjHM
+         Nfkkk+j1YW+aeJpe6BlNCyZaN4H0oTufufPf98sxkx04Ld6k/0OvkI4LrqTSSsEkr5Je
+         LB3ep8fxpYCVBcFJ5uupoYCP3QsKj53lg72gVSP2dB/Z6SGOGId3LIV9MSOeGJcxJdVE
+         rHqSPTSCru4DF79R+2ZgCHcCdq+JzSUjjztHI6+WYzucogixhNDC5hRaaM1DfZT/wlPJ
+         jAAQ==
+X-Gm-Message-State: ABuFfohHg5BIVkU4gL7H+qUDZsmcVS0kwLvUxLiHNPDTcUm0qYbcWP6E
+        j/4OSU16nn2kGmf1eI+0RXcX6QfZ
+X-Google-Smtp-Source: ACcGV62CupOauvKCVBeZexv5uMKPzVz8f9XJMtdHi/Z3nBDnRNSJn5C0uHKlzbF+JZj8xLX38+Pwfw==
+X-Received: by 2002:a17:902:b908:: with SMTP id bf8-v6mr3690990plb.284.1537926752084;
+        Tue, 25 Sep 2018 18:52:32 -0700 (PDT)
+Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id h7-v6sm4947863pfd.155.2018.09.25.18.52.30
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Sep 2018 15:59:51 -0700 (PDT)
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
-        mark.rutland@arm.com, corbet@lwn.net
+        Tue, 25 Sep 2018 18:52:31 -0700 (PDT)
+Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add ina3221 documentation
+To:     Nicolin Chen <nicoleotsuka@gmail.com>, jdelvare@suse.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, corbet@lwn.net
 Cc:     afd@ti.com, linux-hwmon@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v5 1/2] dt-bindings: hwmon: Add ina3221 documentation
-Date:   Tue, 25 Sep 2018 15:59:29 -0700
-Message-Id: <20180925225930.31886-2-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180925225930.31886-1-nicoleotsuka@gmail.com>
 References: <20180925225930.31886-1-nicoleotsuka@gmail.com>
+ <20180925225930.31886-2-nicoleotsuka@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <4f16baf7-b1bc-c7d2-3dd9-ed10b78d59b6@roeck-us.net>
+Date:   Tue, 25 Sep 2018 18:52:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20180925225930.31886-2-nicoleotsuka@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Texas Instruments INA3221 is a triple-channel shunt and bus
-voltage monitor. This patch adds a DT binding doc for it.
+Hi Nicolin,
 
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
-Changelog
-v4->v5:
- * Replaced "input-id" with "reg" and added address-cells and size-cells
- * Replaced "input-label" with "label"
- * Replaced "shunt-resistor" with "shunt-resistor-micro-ohms"
-v3->v4:
- * Removed the attempt of putting labels in the node names
- * Added a new optional label property in the child node
- * Updated examples accordingly
-v2->v3:
- * Added a simple subject in the line 1
- * Fixed the shunt resistor value in the example
-v1->v2:
- * Dropped channel name properties
- * Added child node definitions.
- * * Added shunt resistor property in the child node
- * * Added status property to indicate connection status
- * * Changed to use child node name as the label of input source
+On 09/25/2018 03:59 PM, Nicolin Chen wrote:
+> Texas Instruments INA3221 is a triple-channel shunt and bus
+> voltage monitor. This patch adds a DT binding doc for it.
+> 
+> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> ---
+> Changelog
+> v4->v5:
+>   * Replaced "input-id" with "reg" and added address-cells and size-cells
+>   * Replaced "input-label" with "label"
+>   * Replaced "shunt-resistor" with "shunt-resistor-micro-ohms"
+> v3->v4:
+>   * Removed the attempt of putting labels in the node names
+>   * Added a new optional label property in the child node
+>   * Updated examples accordingly
+> v2->v3:
+>   * Added a simple subject in the line 1
+>   * Fixed the shunt resistor value in the example
+> v1->v2:
+>   * Dropped channel name properties
+>   * Added child node definitions.
+>   * * Added shunt resistor property in the child node
+>   * * Added status property to indicate connection status
+>   * * Changed to use child node name as the label of input source
+> 
+>   .../devicetree/bindings/hwmon/ina3221.txt     | 49 +++++++++++++++++++
+>   1 file changed, 49 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/hwmon/ina3221.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/ina3221.txt b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+> new file mode 100644
+> index 000000000000..e17a897f4803
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+> @@ -0,0 +1,49 @@
+> +Texas Instruments INA3221 Device Tree Bindings
+> +
+> +1) ina3221 node
+> +  Required properties:
+> +  - compatible: Must be "ti,ina3221"
+> +  - reg: I2C address
+> +
+> +  Optional properties:
+> +  = The node contains optional child nodes for three channels =
+> +  = Each child node describes the information of input source =
+> +
+> +  - #address-cells: Required only if a child node is present. Must be 1.
+> +  - #size-cells: Required only if a child node is present. Must be 0.
+> +
+> +  Example:
+> +
+> +  ina3221@40 {
+> +          compatible = "ti,ina3221";
+> +          reg = <0x40>;
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          [ child node definitions... ]
+> +  };
+> +
+> +2) child nodes
+> +  Required properties:
+> +  - reg: Must be 0, 1 or 2, corresponding to IN1, IN2 or IN3 port of INA3221
+> +
+> +  Optional properties:
+> +  - label: Name of the input source
+> +  - shunt-resistor-micro-ohms: Shunt resistor value in micro-Ohm
+> +  - status: Should be "disabled" if no input source
+> +
+> +  Example:
+> +
+> +  input@0 {
+> +          reg = <0x0>;
+> +          status = "disabled";
 
- .../devicetree/bindings/hwmon/ina3221.txt     | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/ina3221.txt
+I kind of feel embarrassed that I asked for the reg change ... especially while
+saying at the same time that I would like to see this work for other chips
+as well.
 
-diff --git a/Documentation/devicetree/bindings/hwmon/ina3221.txt b/Documentation/devicetree/bindings/hwmon/ina3221.txt
-new file mode 100644
-index 000000000000..e17a897f4803
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/ina3221.txt
-@@ -0,0 +1,49 @@
-+Texas Instruments INA3221 Device Tree Bindings
-+
-+1) ina3221 node
-+  Required properties:
-+  - compatible: Must be "ti,ina3221"
-+  - reg: I2C address
-+
-+  Optional properties:
-+  = The node contains optional child nodes for three channels =
-+  = Each child node describes the information of input source =
-+
-+  - #address-cells: Required only if a child node is present. Must be 1.
-+  - #size-cells: Required only if a child node is present. Must be 0.
-+
-+  Example:
-+
-+  ina3221@40 {
-+          compatible = "ti,ina3221";
-+          reg = <0x40>;
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          [ child node definitions... ]
-+  };
-+
-+2) child nodes
-+  Required properties:
-+  - reg: Must be 0, 1 or 2, corresponding to IN1, IN2 or IN3 port of INA3221
-+
-+  Optional properties:
-+  - label: Name of the input source
-+  - shunt-resistor-micro-ohms: Shunt resistor value in micro-Ohm
-+  - status: Should be "disabled" if no input source
-+
-+  Example:
-+
-+  input@0 {
-+          reg = <0x0>;
-+          status = "disabled";
-+  };
-+  input@1 {
-+          reg = <0x1>;
-+          shunt-resistor-micro-ohms = <5000>;
-+  };
-+  input@2 {
-+          reg = <0x2>;
-+          label = "VDD_5V";
-+          shunt-resistor-micro-ohms = <5000>;
-+  };
--- 
-2.17.1
+Other chips have different kinds of sensors. Voltage, current, power, temperature,
+and others. Whatever we come up with should support that.
+
+I see two possibilities right now. We can stick with reg and add a "type" property,
+or we can make the index something like
+	{voltage,current,power,temperature,humidity}-{id,index}
+
+I personally prefer "type", but I don't really have a strong opinion.
+What do you think ? Or maybe we should really wait for feedback from Rob.
+
+Thanks,
+Guenter
+
+> +  };
+> +  input@1 {
+> +          reg = <0x1>;
+> +          shunt-resistor-micro-ohms = <5000>;
+> +  };
+> +  input@2 {
+> +          reg = <0x2>;
+> +          label = "VDD_5V";
+> +          shunt-resistor-micro-ohms = <5000>;
+> +  };
+> 
 
