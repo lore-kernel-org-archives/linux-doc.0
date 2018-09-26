@@ -3,66 +3,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 026927D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 13:06:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 19BE67D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 16:10:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728351AbeIZTT3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Sep 2018 15:19:29 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:38407 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726802AbeIZTT3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 15:19:29 -0400
-Received: by mail-pl1-f194.google.com with SMTP id b5-v6so473723plr.5;
-        Wed, 26 Sep 2018 06:06:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Qutz0/lV7vOTKwTH9g4Umnh+RBF2ICmVfaQLJ8xEVgE=;
-        b=N1TrgovIoo8CmPWGKHAtdlqrJK4Zlbjgzb3+Ban7z16ms+0bIevoPuMH5HkM7wp/4y
-         v6vtSd0z5+rsMm7VKTJv90IqonlxsZcJURkzMp2AY6xR97vz4DQpaV9BBKCX6qPVXTLX
-         yk5XqEY/HGgql6NIULEWaHuHbQ79fhiZkGcO0Pi1tZloZig7zxrEqPMm34qig9EeA7cY
-         jT3vK7lTWXkNbEtzd7xLQ04L/3Z5vz2c7QKi/gm4dhtR/vAHqawSZtEK0CbNnHyvU0Xe
-         5+AoE5TyzTV8BMtHfXBlYtxlN5BNmx+LryRTRZqRUWWpu/tvA6ZNtWGVMoy/gDKw/aau
-         tuwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Qutz0/lV7vOTKwTH9g4Umnh+RBF2ICmVfaQLJ8xEVgE=;
-        b=Hpgse6e2ie1WKG/DR5/bbnb3UBsdgtSw0XZQ8YnoK2dCg0fOgt/XcipNaFZ7vW1yjp
-         pddeLfkvacwn+vLq3SWRQ8Xn6OXADcxndtpksKr6wbpKjlrEpF4nMujN+NSXLNJ/tzZ9
-         Q7npsKiB4KWWg5G+JDBEWsn8Ut5JUi5P4jqtvI6eF3XIJryTGjDOGmmsDvAAB+MKqV9h
-         U73K0UbjxcSP1JeJgwy2x42KLpqPcR6zjKQWSTiLZYxo+RAV+fPfyxFlpumUPg5AMsJf
-         aBgZUL29eKc7bHEiESSAZUOwQPpHOD3qE6yT+1lFTr3j8AHM77riN8ZNIcyIvx46d2tL
-         KTZw==
-X-Gm-Message-State: ABuFfojEZf+Rc/6xarkma+hxop+I15cEIUmSuyAWAP137G//vE8+Vb93
-        gWDAD3AcrbqP+lx6RpKvF1TKQRZa
-X-Google-Smtp-Source: ACcGV61QOT1dCFXDv7oqUe5lVkvJxZitiTlupnl9AhKT7sdSiwMKLv9F97w45iK3PIQ2AzgzAR9iqA==
-X-Received: by 2002:a17:902:d201:: with SMTP id t1-v6mr6124291ply.63.1537967195421;
-        Wed, 26 Sep 2018 06:06:35 -0700 (PDT)
-Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id u62-v6sm8049171pfu.69.2018.09.26.06.06.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Sep 2018 06:06:34 -0700 (PDT)
-Subject: Re: [PATCH 2/2] hwmon: ina3221: Add enable sysfs nodes
-To:     Nicolin Chen <nicoleotsuka@gmail.com>, jdelvare@suse.com,
-        corbet@lwn.net
-Cc:     afd@ti.com, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20180926064245.4091-1-nicoleotsuka@gmail.com>
- <20180926064245.4091-3-nicoleotsuka@gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <0cfe55e1-10d8-ac1f-8b6e-73777074a219@roeck-us.net>
-Date:   Wed, 26 Sep 2018 06:06:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1728290AbeIZWX4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Sep 2018 18:23:56 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:53924 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727698AbeIZWXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 18:23:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=wq7ISVzsJDUIsC2v5kxwtm3ZttxBOJm1KM5Ze+GtpdI=; b=SaZBpcoan4NBHmslqQXLGQgY9G
+        KIVovBDrhMeGPNZxlIHy5EgEEgUulRxDrwFll90q8t/ZIjYSabs0xg95nKRHz4L7yL+0rHj49WAFP
+        /1aSWtee9fGT9UW0T9PCi9VLCbN3K8pTLmoDwXChVgEuZPAQPncPpVm21524HZUhpXPMi9bWCRVWq
+        PxfXNg5KkN908LIdxi/+q3reaa+Zotipcpx5lkB8g+wChOVcj+ABOqTVwTxGh0Udsvkwiz+SR2Od+
+        ZGA2LsrEriyshJpSc9fPqgufcC2WFmuIJyqNrKgjR5VtETs/DAsuAoofP46C2pY7uZU4ky4zG+t5S
+        64yXXfFg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1g5CNs-0001FJ-GP; Wed, 26 Sep 2018 16:10:12 +0000
+Subject: Re: [PATCH 2/2] init: add support to directly boot to a mapped device
+To:     Helen Koike <helen.koike@collabora.com>, dm-devel@redhat.com
+Cc:     agk@redhat.com, snitzer@redhat.com, linux-kernel@vger.kernel.org,
+        enric.balletbo@collabora.com, wad@chromium.org,
+        linux-doc@vger.kernel.org, linux-lvm@redhat.com,
+        kernel@collabora.com
+References: <cover.1537936397.git.helen.koike@collabora.com>
+ <2c01b2a43a46fab760208d7af3a7af37eec8c41a.1537936397.git.helen.koike@collabora.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <c0da1483-4d82-0e13-d03b-9ee8ea6a9d84@infradead.org>
+Date:   Wed, 26 Sep 2018 09:09:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.0
 MIME-Version: 1.0
-In-Reply-To: <20180926064245.4091-3-nicoleotsuka@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <2c01b2a43a46fab760208d7af3a7af37eec8c41a.1537936397.git.helen.koike@collabora.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -70,228 +52,185 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nicolin,
-
-On 09/25/2018 11:42 PM, Nicolin Chen wrote:
-> The inX_enable interface allows user space to enable or disable
-> the corresponding channel. Meanwhile, according to hwmon ABI, a
-> disabled channel/sensor should return -ENODATA as a read result.
+On 9/25/18 10:00 PM, Helen Koike wrote:
+> From: Will Drewry <wad@chromium.org>
 > 
-> However, there're configurable nodes sharing the same __show()
-> functions. So this change also adds to check if the attribute is
-> read-only to make sure it's not reading a configuration but the
-> sensor data.
+> Add a dm= kernel parameter modeled after the md= parameter from
+> do_mounts_md. It allows for device-mapper targets to be configured at
+> boot time for use early in the boot process (as the root device or
+> otherwise).
 > 
+> Signed-off-by: Will Drewry <wad@chromium.org>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> [rework to use dm_ioctl calls]
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> [rework to use concise format | rework for upstream]
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
 
-One necessary high level change I don't see below: With this change,
-we should no longer drop a channel entirely if it is disabled from
-devicetree. All channels should be visible but report -ENODATA if
-disabled. In other words, it should be possible for the 'enable' flag
-to override settings in DT.
+Hi,
 
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+A few small comments inline...
+
 > ---
->   Documentation/hwmon/ina3221 |  1 +
->   drivers/hwmon/ina3221.c     | 85 +++++++++++++++++++++++++++++++++++++
->   2 files changed, 86 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/ina3221 b/Documentation/hwmon/ina3221
-> index 6be64b553cd0..1aa32366d8aa 100644
-> --- a/Documentation/hwmon/ina3221
-> +++ b/Documentation/hwmon/ina3221
-> @@ -23,6 +23,7 @@ Sysfs entries
->   
->   in[123]_input           Bus voltage(mV) channels
->   in[123]_label           Voltage channel labels
-> +in[123]_enable          Voltage channel enable controls
->   curr[123]_input         Current(mA) measurement channels
->   shunt[123]_resistor     Shunt resistance(uOhm) channels
->   curr[123]_crit          Critical alert current(mA) setting, activates the
-> diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
-> index 5890a2da3bfe..1be2d062a19e 100644
-> --- a/drivers/hwmon/ina3221.c
-> +++ b/drivers/hwmon/ina3221.c
-> @@ -78,6 +78,9 @@ enum ina3221_channels {
->   };
->   
->   static const unsigned int register_channel[] = {
-> +	[INA3221_BUS1] = INA3221_CHANNEL1,
-> +	[INA3221_BUS2] = INA3221_CHANNEL2,
-> +	[INA3221_BUS3] = INA3221_CHANNEL3,
->   	[INA3221_SHUNT1] = INA3221_CHANNEL1,
->   	[INA3221_SHUNT2] = INA3221_CHANNEL2,
->   	[INA3221_SHUNT3] = INA3221_CHANNEL3,
-> @@ -113,6 +116,19 @@ struct ina3221_data {
->   	struct ina3221_input inputs[INA3221_NUM_CHANNELS];
->   };
->   
-> +static inline bool ina3221_is_enable(struct ina3221_data *ina, int channel)
+>  .../admin-guide/kernel-parameters.rst         |   1 +
+>  .../admin-guide/kernel-parameters.txt         |   3 +
+>  Documentation/device-mapper/dm-boot.txt       |  63 +++
+>  init/Makefile                                 |   1 +
+>  init/do_mounts.c                              |   1 +
+>  init/do_mounts.h                              |  10 +
+>  init/do_mounts_dm.c                           | 475 ++++++++++++++++++
+>  7 files changed, 554 insertions(+)
+>  create mode 100644 Documentation/device-mapper/dm-boot.txt
+>  create mode 100644 init/do_mounts_dm.c
 
-s/is_enable/is_enabled/, maybe ?
+> diff --git a/Documentation/device-mapper/dm-boot.txt b/Documentation/device-mapper/dm-boot.txt
+> new file mode 100644
+> index 000000000000..f598f102c980
+> --- /dev/null
+> +++ b/Documentation/device-mapper/dm-boot.txt
+> @@ -0,0 +1,63 @@
+> +Boot time creation of mapped devices
+> +====================================
+> +
+> +It is possible to configure a device mapper device to act as the root
+> +device for your system in two ways.
+> +
+> +The first is to build an initial ramdisk which boots to a minimal
+> +userspace which configures the device, then pivot_root(8) in to it.
+> +
+> +The second is to possible when the device-mapper and any targets are
 
+parse error:  ^^^^^^^^^^^^^^
+
+> +compiled into the kernel (not a module), one or more device-mappers may
+> +be created and used as the root device at boot time with the parameters
+> +given with the boot line dm=...
+> +
+> +The format is specified as a simple string of data separated by commas and
+
+for some definition of "simple".
+
+> +optionally semi-colons, where:
+> + - a comma is used to separate fields like name, uuid, flags and table (specifies
+> +   one device)
+> + - a semi-colon is used to separate devices.
+> +
+> +So the format will look like this:
+> +
+> + dm=<name>,<uuid>,<minor>,<flags>,<table>[,<table>+][;<dev_name>,<uuid>,<minor>,<flags>,<table>[,<table>+]]
+> +
+> +Where,
+> +	<dev_name>	::= The device name.
+> +	<uuid>		::= xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | ""
+> +	<minor>		::= The device minor number.
+> +	<flags>		::= "ro" | "rw"
+> +	<table>		::= <start> <length> <type> <options>
+> +	<type>		::= "verity" | "bootcache" | ...
+> +
+> +The dm line may be as normal when using the dmsetup tool when using the
+> +--concise argument.
+> +
+> +Examples
+> +========
+> +An example of booting to a linear array made up of user-mode linux block
+> +devices:
+> +
+> +  dm="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" \
+> +  root=/dev/dm-0
+> +
+> +This will boot to a rw dm-linear target of 8192 sectors split across two
+> +block devices identified by their major:minor numbers.  After boot, udev
+> +will rename this target to /dev/mapper/lroot (depending on the rules).
+> +No uuid was assigned.
+> +
+> +An example of multiple device-mappers, with the dm="..." contents shown
+> +here split on multiple lines for readability:
+> +
+> +    vboot,,ro,
+> +      0 1768000 bootcache
+> +        aa55b119-2a47-8c45-946a-5ac57765011f+1
+> +        76e9be054b15884a9fa85973e9cb274c93afadb6
+> +        1768000 100000 23 20000;
+> +    vroot,,ro,
+> +      0 1740800 verity 254:0 254:0 1740800 sha1
+> +        76e9be054b15884a9fa85973e9cb274c93afadb6
+> +        5b3549d54d6c7a3837b9b81ed72e49463a64c03680c47835bef94d768e5646fe;
+> +    vram,,rw,
+> +      0 32768 linear 1:0 0,
+> +      32768 32768 linear 1:1 0
+
+> diff --git a/init/do_mounts_dm.c b/init/do_mounts_dm.c
+> new file mode 100644
+> index 000000000000..507ae31808ef
+> --- /dev/null
+> +++ b/init/do_mounts_dm.c
+> @@ -0,0 +1,475 @@
+> +// SPDX-License-Identifier: <SPDX License Expression>
+> +
+> +/*
+> + * do_mounts_dm.c
+> + * Copyright (C) 2017 The Chromium OS Authors <chromium-os-dev@chromium.org>
+> + * Based on do_mounts_md.c
+> + *
+> + * This file is released under the GPLv2.
+> + */
+> +#include <linux/async.h>
+> +#include <linux/ctype.h>
+> +#include <linux/device-mapper.h>
+> +#include <linux/fs.h>
+> +#include <linux/string.h>
+> +#include <linux/delay.h>
+> +
+> +#include "do_mounts.h"
+> +
+> +#define DM_MAX_DEVICES 256
+> +#define DM_MAX_NAME 32
+> +#define DM_MAX_UUID 129
+> +
+> +#define DM_MSG_PREFIX "init"
+> +
+> +#define is_even(a) (((a) & 1) == 0)
+> +
+> +/* See Documentation/device-mapper/dm-boot.txt for dm="..." format details. */
+> +
+> +struct target {
+> +	sector_t start;
+> +	sector_t length;
+> +	char *type;
+> +	char *params;
+> +	/* simple singly linked list */
+> +	struct target *next;
+> +};
+> +
+> +struct dm_device {
+> +	int minor;
+> +	int ro;
+> +	char name[DM_MAX_NAME];
+> +	char uuid[DM_MAX_UUID];
+> +	struct target *table;
+> +	int table_count;
+> +	/* simple singly linked list */
+> +	struct dm_device *next;
+> +};
+> +
+> +static struct {
+> +	unsigned long num_devices;
+> +	char *str;
+> +} dm_setup_args __initdata;
+> +
+> +static int dm_early_setup __initdata;
+> +
+
+// @a: must be a power of 2
+
+> +static void __init *_align(void *ptr, unsigned int a)
 > +{
-> +	unsigned int config;
-> +	int ret;
+> +	register unsigned long agn = --a;
 > +
-> +	/* Return false to reject further read */
-> +	ret = regmap_read(ina->regmap, INA3221_CONFIG, &config);
-> +	if (ret)
-> +		return false;
-> +
-> +	return (config & INA3221_CONFIG_CHx_EN(channel)) > 0;
-
-The "> 0" is unnecessary. Conversion to bool is automatic. If you want to make
-it explicit, please use
-
-	return !!(config & INA3221_CONFIG_CHx_EN(channel));
-
-It should not be necessary to re-read the value from the chip all the time.
-I would suggest to cache the value in the 'disabled' variable.
-
+> +	return (void *) (((unsigned long) ptr + agn) & ~agn);
 > +}
-> +
->   static ssize_t ina3221_show_label(struct device *dev,
->   				  struct device_attribute *attr, char *buf)
->   {
-> @@ -124,6 +140,45 @@ static ssize_t ina3221_show_label(struct device *dev,
->   	return snprintf(buf, PAGE_SIZE, "%s\n", input->label);
->   }
->   
-> +static ssize_t ina3221_show_enable(struct device *dev,
-> +				   struct device_attribute *attr, char *buf)
-> +{
-> +	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
-> +	struct ina3221_data *ina = dev_get_drvdata(dev);
-> +	unsigned int channel = sd_attr->index;
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%d\n",
-> +			ina3221_is_enable(ina, channel));
-> +}
-> +
-> +static ssize_t ina3221_set_enable(struct device *dev,
-> +				  struct device_attribute *attr,
-> +				  const char *buf, size_t count)
-> +{
-> +	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
-> +	struct ina3221_data *ina = dev_get_drvdata(dev);
-> +	unsigned int channel = sd_attr->index;
-> +	unsigned int mask = INA3221_CONFIG_CHx_EN(channel);
-> +	unsigned int config;
-> +	int val, ret;
-> +
-> +	ret = kstrtoint(buf, 0, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* inX_enable only accepts 1 for enabling or 0 for disabling */
-> +	if (val != 0 && val != 1)
-> +		return -EINVAL;
-> +
-Just use kstrtobool().
 
-> +	config = val ? mask : 0;
-> +
-> +	ret = regmap_update_bits(ina->regmap, INA3221_CONFIG, mask, config);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return count;
-> +}
-> +
->   static int ina3221_read_value(struct ina3221_data *ina, unsigned int reg,
->   			      int *val)
->   {
-> @@ -146,8 +201,13 @@ static ssize_t ina3221_show_bus_voltage(struct device *dev,
->   	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
->   	struct ina3221_data *ina = dev_get_drvdata(dev);
->   	unsigned int reg = sd_attr->index;
-> +	unsigned int channel = register_channel[reg];
->   	int val, voltage_mv, ret;
->   
-> +	/* No data for read-only attribute if channel is disabled */
-> +	if (!attr->store && !ina3221_is_enable(ina, channel))
-> +		return -ENODATA;
-> +
->   	ret = ina3221_read_value(ina, reg, &val);
->   	if (ret)
->   		return ret;
-> @@ -164,8 +224,13 @@ static ssize_t ina3221_show_shunt_voltage(struct device *dev,
->   	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
->   	struct ina3221_data *ina = dev_get_drvdata(dev);
->   	unsigned int reg = sd_attr->index;
-> +	unsigned int channel = register_channel[reg];
->   	int val, voltage_uv, ret;
->   
-> +	/* No data for read-only attribute if channel is disabled */
-> +	if (!attr->store && !ina3221_is_enable(ina, channel))
-> +		return -ENODATA;
-> +
->   	ret = ina3221_read_value(ina, reg, &val);
->   	if (ret)
->   		return ret;
-> @@ -201,8 +266,13 @@ static ssize_t ina3221_show_current(struct device *dev,
->   	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
->   	struct ina3221_data *ina = dev_get_drvdata(dev);
->   	unsigned int reg = sd_attr->index;
-> +	unsigned int channel = register_channel[reg];
->   	int current_ma, ret;
->   
-> +	/* No data for read-only attribute if channel is disabled */
-> +	if (!attr->store && !ina3221_is_enable(ina, channel))
-> +		return -ENODATA;
-> +
->   	ret = __ina3221_show_current(ina, reg, &current_ma);
->   	if (ret)
->   		return ret;
-> @@ -318,6 +388,10 @@ static ssize_t ina3221_show_power(struct device *dev,
->   	int val, current_ma, voltage_mv, ret;
->   	s64 power_uw;
->   
-> +	/* No data for read-only attribute if channel is disabled */
-> +	if (!attr->store && !ina3221_is_enable(ina, channel))
-> +		return -ENODATA;
-> +
->   	/* Read bus voltage */
->   	ret = ina3221_read_value(ina, reg_bus, &val);
->   	if (ret)
-> @@ -377,6 +451,14 @@ static SENSOR_DEVICE_ATTR(in2_label, 0444,
->   static SENSOR_DEVICE_ATTR(in3_label, 0444,
->   		ina3221_show_label, NULL, INA3221_CHANNEL3);
->   
-> +/* voltage channel enable */
-> +static SENSOR_DEVICE_ATTR(in1_enable, 0644,
-> +		ina3221_show_enable, ina3221_set_enable, INA3221_CHANNEL1);
-> +static SENSOR_DEVICE_ATTR(in2_enable, 0644,
-> +		ina3221_show_enable, ina3221_set_enable, INA3221_CHANNEL2);
-> +static SENSOR_DEVICE_ATTR(in3_enable, 0644,
-> +		ina3221_show_enable, ina3221_set_enable, INA3221_CHANNEL3);
-> +
->   /* bus voltage */
->   static SENSOR_DEVICE_ATTR(in1_input, S_IRUGO,
->   		ina3221_show_bus_voltage, NULL, INA3221_BUS1);
-> @@ -460,6 +542,7 @@ static SENSOR_DEVICE_ATTR(power3_crit, 0644,
->   static struct attribute *ina3221_attrs[] = {
->   	/* channel 1 -- make sure label at first */
->   	&sensor_dev_attr_in1_label.dev_attr.attr,
-> +	&sensor_dev_attr_in1_enable.dev_attr.attr,
->   	&sensor_dev_attr_in1_input.dev_attr.attr,
->   	&sensor_dev_attr_curr1_input.dev_attr.attr,
->   	&sensor_dev_attr_shunt1_resistor.dev_attr.attr,
-> @@ -473,6 +556,7 @@ static struct attribute *ina3221_attrs[] = {
->   
->   	/* channel 2 -- make sure label at first */
->   	&sensor_dev_attr_in2_label.dev_attr.attr,
-> +	&sensor_dev_attr_in2_enable.dev_attr.attr,
->   	&sensor_dev_attr_in2_input.dev_attr.attr,
->   	&sensor_dev_attr_curr2_input.dev_attr.attr,
->   	&sensor_dev_attr_shunt2_resistor.dev_attr.attr,
-> @@ -486,6 +570,7 @@ static struct attribute *ina3221_attrs[] = {
->   
->   	/* channel 3 -- make sure label at first */
->   	&sensor_dev_attr_in3_label.dev_attr.attr,
-> +	&sensor_dev_attr_in3_enable.dev_attr.attr,
->   	&sensor_dev_attr_in3_input.dev_attr.attr,
->   	&sensor_dev_attr_curr3_input.dev_attr.attr,
->   	&sensor_dev_attr_shunt3_resistor.dev_attr.attr,
-> 
 
+thanks.
+-- 
+~Randy
