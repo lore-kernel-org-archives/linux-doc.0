@@ -1,106 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B0F5B7DE59
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 16:36:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D2C07D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 18:02:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727692AbeIZWtS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Sep 2018 18:49:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34506 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728241AbeIZWtR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Sep 2018 18:49:17 -0400
-Received: from vmware.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 438562147D;
-        Wed, 26 Sep 2018 16:35:28 +0000 (UTC)
-Date:   Wed, 26 Sep 2018 12:35:22 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Abderrahmane Benbachir <abderrahmane.benbachir@polymtl.ca>,
-        linux-security-module@vger.kernel.org,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Paul Moore <paul@paul-moore.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH security-next v3 04/29] LSM: Remove initcall tracing
-Message-ID: <20180926123522.4080d9eb@vmware.local.home>
-In-Reply-To: <20180925001832.18322-5-keescook@chromium.org>
-References: <20180925001832.18322-1-keescook@chromium.org>
-        <20180925001832.18322-5-keescook@chromium.org>
-X-Mailer: Claws Mail 3.15.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726234AbeI0AQ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Sep 2018 20:16:57 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44793 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726032AbeI0AQ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 20:16:56 -0400
+Received: by mail-pf1-f193.google.com with SMTP id k21-v6so13819884pff.11;
+        Wed, 26 Sep 2018 11:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GnBvQuL16UJO0IC+KGztOwP/ExuS4oWL8Ku1y1ES8+4=;
+        b=HX6Kx8OQAIOBN3rbBbh2f6Aj6Wx9/cxIJS+1EwtD1MwA8DxrE+eS19jK5r72YX5IGh
+         ISoH1YXEQ6I8AdERDlKCunNFt9BsDpqPKkCCiUsTNnieTdiSbEjC4y4MlweUOkNLG6/K
+         hrQ8wc6GZNn9q3R7gtgm4nMxKsqBussttyPDsejdGh3IiFx2iJ6dOIQFqDnCu5NbJCgp
+         XtzDdLiTzcoVeNBI6CvR35LQKgRhfXRJt9bgrMOWDYaM4DQ9LElipG22It90CrRHbV8r
+         q8TYCV3oHe+JHkDE47o2hqlX1dTSRfbJtfXEBHga82PyXKgKJf618xWJ65UMTZAXnT75
+         8xyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GnBvQuL16UJO0IC+KGztOwP/ExuS4oWL8Ku1y1ES8+4=;
+        b=n9YPLp7i70k0ZK4tlSxmyKT2y8YhKFP8Ul5PFMt/c29Qfw7fART3D4aCzvoyspeqU5
+         T9qIUp34IJjEqeQT6uBL7cOx4pL0fq39IleNHxaIBBrNmE+ICd1kDsUU901WuOs9w5EH
+         cpIIPFKvrOMig6ssO2jbczWa/2NibdgzH33HiDi/KWeS9tPR2pD1TcWdz2g/UkZf5GcF
+         81n+Zp8/cP7yJQdlub/q0ZNoOEKSEkw5DeqUl1LSfqKv4EzjonhyAmzBorygTMkZ/0MC
+         xlw64T1PSD6Z7s4rPXtk/AWVkhpzyXTxc31hbC9S2IeDDq7p3DEhGDwToRXFyzlJjeIx
+         dQ9g==
+X-Gm-Message-State: ABuFfogN7lwKDmaPDnA22mjkcIgycnLBOJ4iKSfv1hAG6YM5pf633olk
+        qQHy+lVQWDzDKePlbPNySIk=
+X-Google-Smtp-Source: ACcGV63FQwi+VUibqHyk5E10nA1i1DCH+A12HVtgs4NbQm1OEKU9oJuNa2OL0djU3T2SOIgx1+oUSg==
+X-Received: by 2002:a62:1089:: with SMTP id 9-v6mr7515260pfq.30.1537984969326;
+        Wed, 26 Sep 2018 11:02:49 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id r205-v6sm12055000pgr.11.2018.09.26.11.02.48
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 26 Sep 2018 11:02:48 -0700 (PDT)
+Date:   Wed, 26 Sep 2018 11:02:44 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     jdelvare@suse.com, corbet@lwn.net, afd@ti.com,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: ina3221: Add enable sysfs nodes
+Message-ID: <20180926180243.GA6329@Asurada-Nvidia.nvidia.com>
+References: <20180926064245.4091-1-nicoleotsuka@gmail.com>
+ <20180926064245.4091-3-nicoleotsuka@gmail.com>
+ <0cfe55e1-10d8-ac1f-8b6e-73777074a219@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0cfe55e1-10d8-ac1f-8b6e-73777074a219@roeck-us.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 24 Sep 2018 17:18:07 -0700
-Kees Cook <keescook@chromium.org> wrote:
+On Wed, Sep 26, 2018 at 06:06:32AM -0700, Guenter Roeck wrote:
+> On 09/25/2018 11:42 PM, Nicolin Chen wrote:
+> > The inX_enable interface allows user space to enable or disable
+> > the corresponding channel. Meanwhile, according to hwmon ABI, a
+> > disabled channel/sensor should return -ENODATA as a read result.
+> > 
+> > However, there're configurable nodes sharing the same __show()
+> > functions. So this change also adds to check if the attribute is
+> > read-only to make sure it's not reading a configuration but the
+> > sensor data.
+ 
+> One necessary high level change I don't see below: With this change,
+> we should no longer drop a channel entirely if it is disabled from
+> devicetree. All channels should be visible but report -ENODATA if
+> disabled. In other words, it should be possible for the 'enable' flag
+> to override settings in DT.
 
-> This partially reverts commit 58eacfffc417 ("init, tracing: instrument
-> security and console initcall trace events") since security init calls
-> are about to no longer resemble regular init calls.
+Hmm...I don't feel so convinced here. The status in DT binding isn't
+exactly a setting but a physical status: if a hardware design leaves
+a channel to be disconnected, I don't really see a point in enabling
+it in the runtime. Or maybe you can shed some light on it?
 
-I'm not against the change, but how much are they going to "no longer
-resemble regular init calls"?
+Meanwhile, I believe the enable nodes are necessary in either way as
+users could decide to disable the connected channels, based on their
+use cases, to save power.
 
--- Steve
-
-> 
-> Cc: James Morris <jmorris@namei.org>
-> Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> Cc: Abderrahmane Benbachir <abderrahmane.benbachir@polymtl.ca>
-> Cc: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> Cc: linux-security-module@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  security/security.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/security/security.c b/security/security.c
-> index 892fe6b691cf..41a5da2c7faf 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -30,8 +30,6 @@
->  #include <linux/string.h>
->  #include <net/flow.h>
->  
-> -#include <trace/events/initcall.h>
-> -
->  #define MAX_LSM_EVM_XATTR	2
->  
->  /* Maximum number of letters for an LSM name string */
-> @@ -47,17 +45,13 @@ static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
->  
->  static void __init do_security_initcalls(void)
->  {
-> -	int ret;
->  	initcall_t call;
->  	initcall_entry_t *ce;
->  
->  	ce = __start_lsm_info;
-> -	trace_initcall_level("security");
->  	while (ce < __end_lsm_info) {
->  		call = initcall_from_entry(ce);
-> -		trace_initcall_start(call);
-> -		ret = call();
-> -		trace_initcall_finish(call, ret);
-> +		call();
->  		ce++;
->  	}
->  }
-
+Thanks
+Nicolin
