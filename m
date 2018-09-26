@@ -1,120 +1,175 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C3C37D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 05:02:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 579497D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 06:14:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726319AbeIZLNm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Sep 2018 07:13:42 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53574 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726289AbeIZLNm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 07:13:42 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id E186E263B51
-Subject: Re: [PATCH 0/2] boot to a mapped device
-From:   Helen Koike <helen.koike@collabora.com>
-To:     dm-devel@redhat.com
-Cc:     agk@redhat.com, snitzer@redhat.com, linux-kernel@vger.kernel.org,
-        enric.balletbo@collabora.com, wad@chromium.org,
-        linux-doc@vger.kernel.org, linux-lvm@redhat.com,
-        kernel@collabora.com
-References: <cover.1537936397.git.helen.koike@collabora.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=helen.koike@collabora.com; keydata=
- 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
-Message-ID: <610d5f5e-ea07-631d-04d3-18fd3da0fe2a@collabora.com>
-Date:   Wed, 26 Sep 2018 02:02:25 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        id S1726841AbeIZMZt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Sep 2018 08:25:49 -0400
+Received: from mail-pg1-f174.google.com ([209.85.215.174]:46063 "EHLO
+        mail-pg1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726375AbeIZMZt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 08:25:49 -0400
+Received: by mail-pg1-f174.google.com with SMTP id t70-v6so8540805pgd.12;
+        Tue, 25 Sep 2018 23:14:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=hSzlvBMQumDskGG6DeB3QO1VWt2EZsQefxT+1LJ+xiA=;
+        b=FyCW38m6SnOFHikAwus1sKTutdhifDbrtsRMktZcpJVnoEBdWF51sBeU3vVzOf9uD3
+         nQcNIhFRJuZNwnC7z5qK1Db1haBhbjz88fAkP9zFShZW7WFLUw9eWF+GDwVhrLCE6+u3
+         ESHG4pvathoNG6StDiJScJgBZ65+nXCmE4wlRAXimpDiwxQqf6lEerEf8J+YnSbL/ln+
+         aQfQ/2MCYc7b4irUU222EtsE7cuOqrfmoESaiwBHzM2NBUHSxCEg/LEGL2MUqHCoFYC0
+         aSLsDkJUE8i8UnQQIvoqcccY1aME2zJ4QUgDzz3/2hQ+zKRIQBPG3ktSaCKNdEqVdy3N
+         Zl5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=hSzlvBMQumDskGG6DeB3QO1VWt2EZsQefxT+1LJ+xiA=;
+        b=hY5rvBq24l7Du1zZ9mW74lkFF1mmSx8uTmvIZbp/YGy0yKwGc4OT0dFAmyHIEpd/ON
+         Ery+h4AqMaV1vQZ4rP/DIYy1hAfSbhYMqpAT4rTV34X1zjzM59gIVwdfDXipxPD2HSeV
+         vMPf497oSPSvageCpsSt6+EAvmQvGMmZHOkAEeYkF30D3QGsk6wij6yCHA29iITb6NWG
+         lXZRQD8N/leexq44y4oV58fFdKgwHSCcToCKfJP78JFMUVToobHRhY483y93Mp5pEivL
+         MNi6XpMZTOmOU+LhFdXQMBcT6aPzOISs6COCHo77QILRrCjwlslsGd2Uj5VYLdNJ4B3b
+         llUQ==
+X-Gm-Message-State: ABuFfoimuF/i23uP3jeSONqq1vcY70MNMdtD/SLn479FrQLQyupnBxMT
+        DpI6sxiCxPjHTZWnPM+BATE=
+X-Google-Smtp-Source: ACcGV62NkwEovGoClohyUCaSIqg9fbcXAMrv0A9FdkoLvw2zThZQJWjOKQB9nkzoTJkD9WvobRZGoQ==
+X-Received: by 2002:a17:902:bc8b:: with SMTP id bb11-v6mr4395150plb.112.1537942471119;
+        Tue, 25 Sep 2018 23:14:31 -0700 (PDT)
+Received: from Asurada (c-73-231-2-134.hsd1.ca.comcast.net. [73.231.2.134])
+        by smtp.gmail.com with ESMTPSA id g12-v6sm856942pfo.50.2018.09.25.23.14.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 25 Sep 2018 23:14:30 -0700 (PDT)
+Date:   Tue, 25 Sep 2018 23:14:19 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add ina3221 documentation
+Message-ID: <20180926061418.GA900@Asurada>
+References: <20180925225930.31886-1-nicoleotsuka@gmail.com>
+ <20180925225930.31886-2-nicoleotsuka@gmail.com>
+ <4f16baf7-b1bc-c7d2-3dd9-ed10b78d59b6@roeck-us.net>
+ <20180926030857.GA458@Asurada-Nvidia.nvidia.com>
+ <7896d6d6-c7c0-b462-3150-5ceff906bae0@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <cover.1537936397.git.helen.koike@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7896d6d6-c7c0-b462-3150-5ceff906bae0@roeck-us.net>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Sep 25, 2018 at 08:40:59PM -0700, Guenter Roeck wrote:
+> >>>+2) child nodes
+> >>>+  Required properties:
+> >>>+  - reg: Must be 0, 1 or 2, corresponding to IN1, IN2 or IN3 port of INA3221
 
+> >>>+  input@0 {
+> >>>+          reg = <0x0>;
+> >>>+          status = "disabled";
 
-On 9/26/18 2:00 AM, Helen Koike wrote:
-> This series is reviving an old patchwork.
-> Booting from a mapped device requires an initramfs. This series is
-> allows for device-mapper targets to be configured at boot time for
-> use early in the boot process (as the root device or otherwise).
-> 
-> Example, the following could be added in the boot parameters.
-> dm="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" root=/dev/dm-0
-> 
-> Enric Balletbo i Serra (1):
->   dm ioctl: add a device mapper ioctl function.
-> 
-> Will Drewry (1):
->   init: add support to directly boot to a mapped device
-> 
->  .../admin-guide/kernel-parameters.rst         |   1 +
->  .../admin-guide/kernel-parameters.txt         |   3 +
->  Documentation/device-mapper/dm-boot.txt       |  63 +++
->  drivers/md/dm-ioctl.c                         |  50 ++
->  include/linux/device-mapper.h                 |   6 +
->  init/Makefile                                 |   1 +
->  init/do_mounts.c                              |   1 +
->  init/do_mounts.h                              |  10 +
->  init/do_mounts_dm.c                           | 475 ++++++++++++++++++
->  9 files changed, 610 insertions(+)
->  create mode 100644 Documentation/device-mapper/dm-boot.txt
->  create mode 100644 init/do_mounts_dm.c
-> 
+> >>saying at the same time that I would like to see this work for other chips
+> >>as well.
 
-Sorry about sending this email multiple times, my git send-email wans't
-properly configured.
+> >>Other chips have different kinds of sensors. Voltage, current, power, temperature,
+> >>and others. Whatever we come up with should support that.
+> >>
+> >>I see two possibilities right now. We can stick with reg and add a "type" property,
+> >>or we can make the index something like
+> >>	{voltage,current,power,temperature,humidity}-{id,index}
+> >
+> >One small concern is a case of being multi-type. For example, I saw
+> >ina2xx driver having voltage, current and power at the same time...
+> >
+> Yes, with that we would have something like
+> 
+> 	voltage@0 {
+> 		type = "voltage";
+> 		reg = <0>;
+> 	};
+> 	current@0 {
+> 		type = "current";
+> 		reg = <0>;
+> or
+> 	voltage@0 {
+> 		voltage-id = <0>;
+> 	};
+> 	current@0 {
+> 		current-id = <0>;
 
-Helen
+I see the point now. So this could be a good binding for different
+types of sensor input sources. Then the hwmon device driver side'd
+also get a hint from DT, or potentially have further common helper
+functions or structures being defined in the core driver.
+
+Yet I feel that we could still have something more obvious to tell
+which exact port that the input source links to. From my point of
+view, neither "type-id" nor "type + reg" nor "reg" only perfectly
+tells the port connection information. It somehow feels like that
+we are assigning an ID or even an address to an input source; Yes,
+we describe them in the doc, but by reading the device node itself
+without knowing the famous "reg", it's a bit hard to tell. And not
+to justify for my way, but both the "input-id" in the v2 and the
+"pwm-port" in the aspeed patch sound relatively straightforward.
+
+If we could make something similar to regulator bindings, probably
+it would make more sense. I know the standalone voltage node might
+be odd though, just trying to express my concern.
+	source0: voltage0 {
+		type = "voltage";
+		lable = "VDD_5V";
+		shunt-resistor-micro-ohm = <5000>;
+		/* status = "disabled"; */
+	};
+	ina3221@40 {
+		port1 = <&source0>;
+		/* port2 = <&source1>; */
+	};
+
+> With "type", we would still need two properties.
+> 
+> 	reg = <0>;
+> 	type = "voltage";
+> 
+> and type could be optional or not required for a chip only supporting
+> a single sensor type (like the ina3221).
+> 
+> This would be equivalent to, say,
+> 	voltage-index = <0>;
+> when using a single property.
+> 
+> With the "reg" approach, we would be ok for now - however, I would like
+> to get feedback from Rob if introducing a "type" property will be
+> acceptable when the time comes to do so.
+
+OK. Let's see how Rob replies. If he strongly feels "reg" is still
+essential, at least this patch can be Acked first -- reduces turn
+around time :)
+
+> >By the way, I have two ina3221 hwmon patches that rebase upon this
+> >binding series. And I'd like to send them out to go through review
+> >first, but I am not sure if you'd be okay for it -- I don't really
+> >like to change their rebase order as it might mess up something.
+> >
+> Are those bug fixes or further enhancements ? For enhancements,
+> it is your call when to send them; I am fine either way. If they are
+> bug fixes, they should come first so we can apply them to -stable.
+
+Understood. They are adding new sysfs nodes, like in[123]_enable
+as you suggested during the previous review. I'll send them soon.
+
+Thanks
+Nicolin
