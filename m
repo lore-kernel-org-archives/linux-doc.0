@@ -1,105 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D24CB7D581
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 19:49:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1191A7D581
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 19:58:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727146AbeI0CDn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Sep 2018 22:03:43 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:42292 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726431AbeI0CDn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 22:03:43 -0400
-Received: by mail-pf1-f196.google.com with SMTP id l9-v6so94016pff.9;
-        Wed, 26 Sep 2018 12:49:10 -0700 (PDT)
+        id S1726431AbeI0CMz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Sep 2018 22:12:55 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:47028 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726410AbeI0CMz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 22:12:55 -0400
+Received: by mail-pf1-f194.google.com with SMTP id d8-v6so93367pfo.13;
+        Wed, 26 Sep 2018 12:58:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=51mBzVRuDSxvzkUxZZ6Cmg60pCqyn7MPw2Gjd6mPjWQ=;
-        b=UmKk5CoBlcSefy9eHeZI/2Fgu6LeC6Ajq6PXVWzl0cFMtqPOVusvogDa0gPLzuaFDV
-         Edy+JqUY8e36+UqxUFaJ6naSX+eItt43itHLEtJ16tycGDcpDfzxnZRmxIkvpUDsHjB7
-         wUmwA/MMAtT+Pi/QbFAlHvpeDFgUe7+PuuKxfMARyHFpmQgqN4+fyk7UTYaaFWRGp/Gl
-         zGQVRrLCJshi52kNtzKdtIp2K7VsgbiGF2DlGd0+w+RC364iqV4mzHhdaq5W8DOG9Mmu
-         SiMBa8llJc2z+L5X+BB8By3kvaa92O5Mezj5NFYAy2QSLHsXqiJie+lzEJpre2bC+rI0
-         iMqw==
+        bh=fAL5be0qBDxk2IQ8EFhPh0cFiVBpanT1WtL3hXbOMMw=;
+        b=XhwfEtn5bs7rNbVYG2SZkEJUrZwG4cEa2hVzeuXn7tET7WF9GfNJxsc309CJP9DbVD
+         I/4WHMCjHCZl3zFFZdXy1pbZsYg+ff9V2VFCRujjUmLdFszF8HvwLTgfDn7IldT51pYv
+         LimP9LPhFPXP4WAPOQSJqWIr78f31bcHyA0+OGnKQ6jMCbDpKxdOJE3KhHSS3i/ZkM+i
+         v9Fda9UkmVkkewXQSMb5TlOhrQPGNenxettEFDl0sfz8Ea+0+d0NKGDXjVXoB/zXsZjO
+         OOfDkdjPsTpjc3vJtvlMq2ZsDQ1fQ/8E8zOrKAVJoMm0MryTv0btX8vksoPJ9rfomB9U
+         GkOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=51mBzVRuDSxvzkUxZZ6Cmg60pCqyn7MPw2Gjd6mPjWQ=;
-        b=hVM773z0K8XuAnSOw5Iq1NPi3ZgUbM4y2J9PVkYuk1/BfqOjrIWpju2lKyKFhv/8y0
-         em88tKrxCTOAdYwHgQ8djUuJEp76VTEXIjKjLYRFTh0cY14Yocn9ActqWREFD999FuS+
-         2qdkMJswi4vnsyE5TGzyKY0tUVB0Z0OSDlG8VOhqYBiQFZETyzc1eGiA0N7RAWEYFrml
-         hbKm+aInUDDoEleahwmZZOI9iWk4ONotH0VVBpK+w7EC02ZUNs5YfYDIa6ubUEWzRJ4Y
-         Dhz1Z/P0aTmLpzjNHawjtVNWW3FLFGvW5l9iemOyH8R7XLJoTh26Z2xTNGxjIOnI2Obo
-         UeQQ==
-X-Gm-Message-State: ABuFfogF6ouJ+RAiTlWZOUadnVYJmdmEIjcIpbBTeEmcOluONBTVXPOy
-        a9sRRIDCu1VcY2lY2Q8hE5Q=
-X-Google-Smtp-Source: ACcGV60uGlaUh64eO54/OIRBF4ad4I8nN9NAGLGanT0OnOJV4JTcqmaKP3iCEHlw68lrXNdT7gJUrg==
-X-Received: by 2002:a17:902:7e49:: with SMTP id a9-v6mr7456043pln.149.1537991350105;
-        Wed, 26 Sep 2018 12:49:10 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id v83-v6sm18719785pfa.103.2018.09.26.12.49.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 26 Sep 2018 12:49:09 -0700 (PDT)
-Date:   Wed, 26 Sep 2018 12:49:05 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=fAL5be0qBDxk2IQ8EFhPh0cFiVBpanT1WtL3hXbOMMw=;
+        b=jPcpCq21nqkccdn5LOLSx3nGDb5XbVycyu4q4Tkl2Wp8tNCZT7FcTnw3ejoS0RNaZ1
+         z77Fg5uvdWu7hsQFen4pthdD+O32yi6m6OEnR4TGEl0uDepd4/wI6O3Lo+H3lX3i1C3F
+         pnywpOSOaniSsJXT6E6wASvA/zACHsy0kQRCkXL0LUfrvtQl0ILGFzAIs29vRDD5GyRh
+         y7GEKsMOpW2OeVRGPIIcGL06KuD2z/G+PI0WHHPaofRKn/GhOolV3A98fECNEyv0okac
+         YYUoYmJ4PmC6Q4qPDzxbatpLklIoRg4Vt4BgnbPZIQB1O3UP+K1q8FAARbZPq3ckJIQJ
+         h2Hw==
+X-Gm-Message-State: ABuFfoi2O0PdhNyCp2Uuw9BiDIzbdEWDwrmh65iIQE/egnpwOK/FpjvP
+        VMGxz0tz+veYfG7Rb06ut+s=
+X-Google-Smtp-Source: ACcGV600HMGMNnBoyYxYzuMPqE2S0s5p/GdbRJiD8TCu30d0IxDymKaB8DFQifROCnf3rAfqT2+PFQ==
+X-Received: by 2002:a17:902:59dd:: with SMTP id d29-v6mr7587919plj.34.1537991899542;
+        Wed, 26 Sep 2018 12:58:19 -0700 (PDT)
+Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id s27-v6sm14808255pfk.133.2018.09.26.12.58.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 Sep 2018 12:58:19 -0700 (PDT)
+Date:   Wed, 26 Sep 2018 12:58:17 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
 Cc:     jdelvare@suse.com, corbet@lwn.net, afd@ti.com,
         linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] hwmon: ina3221: Add power sysfs nodes
-Message-ID: <20180926194904.GA10595@Asurada-Nvidia.nvidia.com>
+Subject: Re: [PATCH 2/2] hwmon: ina3221: Add enable sysfs nodes
+Message-ID: <20180926195817.GA19695@roeck-us.net>
 References: <20180926064245.4091-1-nicoleotsuka@gmail.com>
- <20180926064245.4091-2-nicoleotsuka@gmail.com>
- <dbf77a33-ae5c-1ac7-c94f-fa5505074adb@roeck-us.net>
- <20180926182006.GB6329@Asurada-Nvidia.nvidia.com>
- <20180926194534.GB18731@roeck-us.net>
+ <20180926064245.4091-3-nicoleotsuka@gmail.com>
+ <0cfe55e1-10d8-ac1f-8b6e-73777074a219@roeck-us.net>
+ <20180926180243.GA6329@Asurada-Nvidia.nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180926194534.GB18731@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20180926180243.GA6329@Asurada-Nvidia.nvidia.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Guenter,
+Nicolin,
 
-On Wed, Sep 26, 2018 at 12:45:34PM -0700, Guenter Roeck wrote:
-> Hi Nicolin,
-> 
-> On Wed, Sep 26, 2018 at 11:20:06AM -0700, Nicolin Chen wrote:
-> > On Wed, Sep 26, 2018 at 05:34:53AM -0700, Guenter Roeck wrote:
-> > > Hi Nicolin,
+On Wed, Sep 26, 2018 at 11:02:44AM -0700, Nicolin Chen wrote:
+> On Wed, Sep 26, 2018 at 06:06:32AM -0700, Guenter Roeck wrote:
+> > On 09/25/2018 11:42 PM, Nicolin Chen wrote:
+> > > The inX_enable interface allows user space to enable or disable
+> > > the corresponding channel. Meanwhile, according to hwmon ABI, a
+> > > disabled channel/sensor should return -ENODATA as a read result.
 > > > 
-> > > On 09/25/2018 11:42 PM, Nicolin Chen wrote:
-> > > > The hwmon sysfs ABI supports powerX_input and powerX_crit. This
-> > > > can ease user space programs who care more about power in total
-> > > > than voltage or current individually.
-> > > > 
-> > > > So this patch adds these two sysfs nodes for INA3221 driver.
-> > 
-> > > Ah, sorry, we can't do that. The sysfs nodes are for chips providing power
-> > > registers, not for kernel drivers to provide calculations based on voltage
-> > > and current measurements.
-> > 
-> > Hmm..I saw ina2xx.c and ltc4215.c are doing similar calculations...
-> > 
+> > > However, there're configurable nodes sharing the same __show()
+> > > functions. So this change also adds to check if the attribute is
+> > > read-only to make sure it's not reading a configuration but the
+> > > sensor data.
+>  
+> > One necessary high level change I don't see below: With this change,
+> > we should no longer drop a channel entirely if it is disabled from
+> > devicetree. All channels should be visible but report -ENODATA if
+> > disabled. In other words, it should be possible for the 'enable' flag
+> > to override settings in DT.
 > 
-> ina2xx.c doesn't; the chips supported by the driver do have a register
-> reporting the power (0x03). ltc4215.c was not reviewed by a hwmon
-> maintainer. I think I mentioned before that you can find anything you want
-> in the Linux kernel. That doesn't make it right.
+> Hmm...I don't feel so convinced here. The status in DT binding isn't
+> exactly a setting but a physical status: if a hardware design leaves
+> a channel to be disconnected, I don't really see a point in enabling
+> it in the runtime. Or maybe you can shed some light on it?
+> 
 
-OK. In that case, I am dropping this change.
+You are making an assumption from your use case. It might as well be that
+some or all channels are disabled in DT by default to conserve power,
+not because they are disconnected.
 
-Thanks
-Nicolin
+> Meanwhile, I believe the enable nodes are necessary in either way as
+> users could decide to disable the connected channels, based on their
+> use cases, to save power.
+> 
+Agreed, though I would not say "necessary". "Useful" seems to be more
+appropriate.
+
+Thanks,
+Guenter
