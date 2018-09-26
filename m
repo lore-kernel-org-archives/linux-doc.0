@@ -1,236 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 19BE67D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 16:10:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9677A7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 16:12:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728290AbeIZWX4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Sep 2018 18:23:56 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:53924 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727698AbeIZWXz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 18:23:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=wq7ISVzsJDUIsC2v5kxwtm3ZttxBOJm1KM5Ze+GtpdI=; b=SaZBpcoan4NBHmslqQXLGQgY9G
-        KIVovBDrhMeGPNZxlIHy5EgEEgUulRxDrwFll90q8t/ZIjYSabs0xg95nKRHz4L7yL+0rHj49WAFP
-        /1aSWtee9fGT9UW0T9PCi9VLCbN3K8pTLmoDwXChVgEuZPAQPncPpVm21524HZUhpXPMi9bWCRVWq
-        PxfXNg5KkN908LIdxi/+q3reaa+Zotipcpx5lkB8g+wChOVcj+ABOqTVwTxGh0Udsvkwiz+SR2Od+
-        ZGA2LsrEriyshJpSc9fPqgufcC2WFmuIJyqNrKgjR5VtETs/DAsuAoofP46C2pY7uZU4ky4zG+t5S
-        64yXXfFg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1g5CNs-0001FJ-GP; Wed, 26 Sep 2018 16:10:12 +0000
-Subject: Re: [PATCH 2/2] init: add support to directly boot to a mapped device
-To:     Helen Koike <helen.koike@collabora.com>, dm-devel@redhat.com
-Cc:     agk@redhat.com, snitzer@redhat.com, linux-kernel@vger.kernel.org,
-        enric.balletbo@collabora.com, wad@chromium.org,
-        linux-doc@vger.kernel.org, linux-lvm@redhat.com,
-        kernel@collabora.com
-References: <cover.1537936397.git.helen.koike@collabora.com>
- <2c01b2a43a46fab760208d7af3a7af37eec8c41a.1537936397.git.helen.koike@collabora.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c0da1483-4d82-0e13-d03b-9ee8ea6a9d84@infradead.org>
-Date:   Wed, 26 Sep 2018 09:09:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
-MIME-Version: 1.0
-In-Reply-To: <2c01b2a43a46fab760208d7af3a7af37eec8c41a.1537936397.git.helen.koike@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1727570AbeIZW0I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Sep 2018 18:26:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54452 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727442AbeIZW0H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Sep 2018 18:26:07 -0400
+Received: from localhost.localdomain (user-0ccsrjt.cable.mindspring.com [24.206.110.125])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5F52B2151C;
+        Wed, 26 Sep 2018 16:12:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1537978348;
+        bh=33TV/+XaIUDpufwMbFUhy2R1V/Z01HcvA1T6OInGDRc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lM5EReX1JX8MwDD2YeJBNChjlxz1dk0N2c4tf7MGqT+kQyJwzeVcKz6BDyZhkWnoM
+         m26Ry9O20/crjeEROgVmsx82javTC+KuPfSHDZMmkbGzDGaUCvU0Q1CkfaxnO3BSvB
+         H0PwHIPgRGN0PlcPZFkBxt9zjlsQH1EGRBGili70=
+From:   Alan Tull <atull@kernel.org>
+To:     Moritz Fischer <mdf@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Federico Vaga <federico.vaga@cern.ch>,
+        linux-kernel@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, Alan Tull <atull@kernel.org>
+Subject: [PATCH v3 0/4] fpga: add devm managed create APIs
+Date:   Wed, 26 Sep 2018 11:12:18 -0500
+Message-Id: <1537978342-17697-1-git-send-email-atull@kernel.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/25/18 10:00 PM, Helen Koike wrote:
-> From: Will Drewry <wad@chromium.org>
-> 
-> Add a dm= kernel parameter modeled after the md= parameter from
-> do_mounts_md. It allows for device-mapper targets to be configured at
-> boot time for use early in the boot process (as the root device or
-> otherwise).
-> 
-> Signed-off-by: Will Drewry <wad@chromium.org>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> [rework to use dm_ioctl calls]
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> [rework to use concise format | rework for upstream]
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Implement managed devm_fpga_(mgr|bridge|region)_create() functions.
 
-Hi,
+Patchset is dependent on the patches that were acked/sent upstream:
+   https://lkml.org/lkml/2018/9/12/639
 
-A few small comments inline...
+v3 changes:
+* take out unclear explanation fpga_(mgr|br|region)_unregister
+* Add acks
+* drop the separately resent "dt-bindings: fpga: fix freeze controller compatible in region doc"
+* drop some of the acked patches that I send to Greg
 
-> ---
->  .../admin-guide/kernel-parameters.rst         |   1 +
->  .../admin-guide/kernel-parameters.txt         |   3 +
->  Documentation/device-mapper/dm-boot.txt       |  63 +++
->  init/Makefile                                 |   1 +
->  init/do_mounts.c                              |   1 +
->  init/do_mounts.h                              |  10 +
->  init/do_mounts_dm.c                           | 475 ++++++++++++++++++
->  7 files changed, 554 insertions(+)
->  create mode 100644 Documentation/device-mapper/dm-boot.txt
->  create mode 100644 init/do_mounts_dm.c
+Alan Tull (4):
+  fpga: mgr: add devm_fpga_mgr_create
+  fpga: bridge: add devm_fpga_bridge_create
+  fpga: add devm_fpga_region_create
+  docs: fpga: document programming fpgas using regions
 
-> diff --git a/Documentation/device-mapper/dm-boot.txt b/Documentation/device-mapper/dm-boot.txt
-> new file mode 100644
-> index 000000000000..f598f102c980
-> --- /dev/null
-> +++ b/Documentation/device-mapper/dm-boot.txt
-> @@ -0,0 +1,63 @@
-> +Boot time creation of mapped devices
-> +====================================
-> +
-> +It is possible to configure a device mapper device to act as the root
-> +device for your system in two ways.
-> +
-> +The first is to build an initial ramdisk which boots to a minimal
-> +userspace which configures the device, then pivot_root(8) in to it.
-> +
-> +The second is to possible when the device-mapper and any targets are
+ Documentation/driver-api/fpga/fpga-bridge.rst      |  37 ++----
+ Documentation/driver-api/fpga/fpga-mgr.rst         | 126 +++------------------
+ Documentation/driver-api/fpga/fpga-programming.rst | 107 +++++++++++++++++
+ Documentation/driver-api/fpga/fpga-region.rst      |  91 +++++++--------
+ Documentation/driver-api/fpga/index.rst            |   2 +
+ Documentation/driver-api/fpga/intro.rst            |   2 +-
+ drivers/fpga/altera-cvp.c                          |   8 +-
+ drivers/fpga/altera-fpga2sdram.c                   |   8 +-
+ drivers/fpga/altera-freeze-bridge.c                |  13 +--
+ drivers/fpga/altera-hps2fpga.c                     |   7 +-
+ drivers/fpga/altera-pr-ip-core.c                   |   9 +-
+ drivers/fpga/altera-ps-spi.c                       |  11 +-
+ drivers/fpga/dfl-fme-br.c                          |  11 +-
+ drivers/fpga/dfl-fme-mgr.c                         |  11 +-
+ drivers/fpga/dfl-fme-region.c                      |   6 +-
+ drivers/fpga/dfl.c                                 |   6 +-
+ drivers/fpga/fpga-bridge.c                         |  68 +++++++++--
+ drivers/fpga/fpga-mgr.c                            |  64 +++++++++--
+ drivers/fpga/fpga-region.c                         |  65 +++++++++--
+ drivers/fpga/ice40-spi.c                           |  10 +-
+ drivers/fpga/machxo2-spi.c                         |  11 +-
+ drivers/fpga/of-fpga-region.c                      |   6 +-
+ drivers/fpga/socfpga-a10.c                         |   5 +-
+ drivers/fpga/socfpga.c                             |  10 +-
+ drivers/fpga/ts73xx-fpga.c                         |  11 +-
+ drivers/fpga/xilinx-pr-decoupler.c                 |   4 +-
+ drivers/fpga/xilinx-spi.c                          |  12 +-
+ drivers/fpga/zynq-fpga.c                           |   5 +-
+ include/linux/fpga/fpga-bridge.h                   |   4 +
+ include/linux/fpga/fpga-mgr.h                      |   4 +
+ include/linux/fpga/fpga-region.h                   |   4 +
+ 31 files changed, 412 insertions(+), 326 deletions(-)
+ create mode 100644 Documentation/driver-api/fpga/fpga-programming.rst
 
-parse error:  ^^^^^^^^^^^^^^
-
-> +compiled into the kernel (not a module), one or more device-mappers may
-> +be created and used as the root device at boot time with the parameters
-> +given with the boot line dm=...
-> +
-> +The format is specified as a simple string of data separated by commas and
-
-for some definition of "simple".
-
-> +optionally semi-colons, where:
-> + - a comma is used to separate fields like name, uuid, flags and table (specifies
-> +   one device)
-> + - a semi-colon is used to separate devices.
-> +
-> +So the format will look like this:
-> +
-> + dm=<name>,<uuid>,<minor>,<flags>,<table>[,<table>+][;<dev_name>,<uuid>,<minor>,<flags>,<table>[,<table>+]]
-> +
-> +Where,
-> +	<dev_name>	::= The device name.
-> +	<uuid>		::= xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | ""
-> +	<minor>		::= The device minor number.
-> +	<flags>		::= "ro" | "rw"
-> +	<table>		::= <start> <length> <type> <options>
-> +	<type>		::= "verity" | "bootcache" | ...
-> +
-> +The dm line may be as normal when using the dmsetup tool when using the
-> +--concise argument.
-> +
-> +Examples
-> +========
-> +An example of booting to a linear array made up of user-mode linux block
-> +devices:
-> +
-> +  dm="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" \
-> +  root=/dev/dm-0
-> +
-> +This will boot to a rw dm-linear target of 8192 sectors split across two
-> +block devices identified by their major:minor numbers.  After boot, udev
-> +will rename this target to /dev/mapper/lroot (depending on the rules).
-> +No uuid was assigned.
-> +
-> +An example of multiple device-mappers, with the dm="..." contents shown
-> +here split on multiple lines for readability:
-> +
-> +    vboot,,ro,
-> +      0 1768000 bootcache
-> +        aa55b119-2a47-8c45-946a-5ac57765011f+1
-> +        76e9be054b15884a9fa85973e9cb274c93afadb6
-> +        1768000 100000 23 20000;
-> +    vroot,,ro,
-> +      0 1740800 verity 254:0 254:0 1740800 sha1
-> +        76e9be054b15884a9fa85973e9cb274c93afadb6
-> +        5b3549d54d6c7a3837b9b81ed72e49463a64c03680c47835bef94d768e5646fe;
-> +    vram,,rw,
-> +      0 32768 linear 1:0 0,
-> +      32768 32768 linear 1:1 0
-
-> diff --git a/init/do_mounts_dm.c b/init/do_mounts_dm.c
-> new file mode 100644
-> index 000000000000..507ae31808ef
-> --- /dev/null
-> +++ b/init/do_mounts_dm.c
-> @@ -0,0 +1,475 @@
-> +// SPDX-License-Identifier: <SPDX License Expression>
-> +
-> +/*
-> + * do_mounts_dm.c
-> + * Copyright (C) 2017 The Chromium OS Authors <chromium-os-dev@chromium.org>
-> + * Based on do_mounts_md.c
-> + *
-> + * This file is released under the GPLv2.
-> + */
-> +#include <linux/async.h>
-> +#include <linux/ctype.h>
-> +#include <linux/device-mapper.h>
-> +#include <linux/fs.h>
-> +#include <linux/string.h>
-> +#include <linux/delay.h>
-> +
-> +#include "do_mounts.h"
-> +
-> +#define DM_MAX_DEVICES 256
-> +#define DM_MAX_NAME 32
-> +#define DM_MAX_UUID 129
-> +
-> +#define DM_MSG_PREFIX "init"
-> +
-> +#define is_even(a) (((a) & 1) == 0)
-> +
-> +/* See Documentation/device-mapper/dm-boot.txt for dm="..." format details. */
-> +
-> +struct target {
-> +	sector_t start;
-> +	sector_t length;
-> +	char *type;
-> +	char *params;
-> +	/* simple singly linked list */
-> +	struct target *next;
-> +};
-> +
-> +struct dm_device {
-> +	int minor;
-> +	int ro;
-> +	char name[DM_MAX_NAME];
-> +	char uuid[DM_MAX_UUID];
-> +	struct target *table;
-> +	int table_count;
-> +	/* simple singly linked list */
-> +	struct dm_device *next;
-> +};
-> +
-> +static struct {
-> +	unsigned long num_devices;
-> +	char *str;
-> +} dm_setup_args __initdata;
-> +
-> +static int dm_early_setup __initdata;
-> +
-
-// @a: must be a power of 2
-
-> +static void __init *_align(void *ptr, unsigned int a)
-> +{
-> +	register unsigned long agn = --a;
-> +
-> +	return (void *) (((unsigned long) ptr + agn) & ~agn);
-> +}
-
-
-thanks.
 -- 
-~Randy
+2.7.4
+
