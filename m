@@ -1,155 +1,340 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F18B47D57F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 10:09:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 66E397D57F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 26 Sep 2018 12:34:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbeIZQVr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 26 Sep 2018 12:21:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42504 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726404AbeIZQVr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Sep 2018 12:21:47 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0804FC05D41D;
-        Wed, 26 Sep 2018 10:09:34 +0000 (UTC)
-Received: from [10.36.117.98] (ovpn-117-98.ams2.redhat.com [10.36.117.98])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BDBC526346;
-        Wed, 26 Sep 2018 10:09:11 +0000 (UTC)
-Subject: Re: [PATCH v2 5/6] powerpc/powernv: hold device_hotplug_lock when
- calling memtrace_offline_pages()
-To:     Balbir Singh <bsingharora@gmail.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-acpi@vger.kernel.org, xen-devel@lists.xenproject.org,
-        devel@linuxdriverproject.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Rashmica Gupta <rashmica.g@gmail.com>,
-        Michael Neuling <mikey@neuling.org>
-References: <20180925091457.28651-1-david@redhat.com>
- <20180925091457.28651-6-david@redhat.com> <20180925121504.GH8537@350D>
-From:   David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwX4EEwECACgFAljj9eoCGwMFCQlmAYAGCwkI
- BwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEE3eEPcA/4Na5IIP/3T/FIQMxIfNzZshIq687qgG
- 8UbspuE/YSUDdv7r5szYTK6KPTlqN8NAcSfheywbuYD9A4ZeSBWD3/NAVUdrCaRP2IvFyELj
- xoMvfJccbq45BxzgEspg/bVahNbyuBpLBVjVWwRtFCUEXkyazksSv8pdTMAs9IucChvFmmq3
- jJ2vlaz9lYt/lxN246fIVceckPMiUveimngvXZw21VOAhfQ+/sofXF8JCFv2mFcBDoa7eYob
- s0FLpmqFaeNRHAlzMWgSsP80qx5nWWEvRLdKWi533N2vC/EyunN3HcBwVrXH4hxRBMco3jvM
- m8VKLKao9wKj82qSivUnkPIwsAGNPdFoPbgghCQiBjBe6A75Z2xHFrzo7t1jg7nQfIyNC7ez
- MZBJ59sqA9EDMEJPlLNIeJmqslXPjmMFnE7Mby/+335WJYDulsRybN+W5rLT5aMvhC6x6POK
- z55fMNKrMASCzBJum2Fwjf/VnuGRYkhKCqqZ8gJ3OvmR50tInDV2jZ1DQgc3i550T5JDpToh
- dPBxZocIhzg+MBSRDXcJmHOx/7nQm3iQ6iLuwmXsRC6f5FbFefk9EjuTKcLMvBsEx+2DEx0E
- UnmJ4hVg7u1PQ+2Oy+Lh/opK/BDiqlQ8Pz2jiXv5xkECvr/3Sv59hlOCZMOaiLTTjtOIU7Tq
- 7ut6OL64oAq+zsFNBFXLn5EBEADn1959INH2cwYJv0tsxf5MUCghCj/CA/lc/LMthqQ773ga
- uB9mN+F1rE9cyyXb6jyOGn+GUjMbnq1o121Vm0+neKHUCBtHyseBfDXHA6m4B3mUTWo13nid
- 0e4AM71r0DS8+KYh6zvweLX/LL5kQS9GQeT+QNroXcC1NzWbitts6TZ+IrPOwT1hfB4WNC+X
- 2n4AzDqp3+ILiVST2DT4VBc11Gz6jijpC/KI5Al8ZDhRwG47LUiuQmt3yqrmN63V9wzaPhC+
- xbwIsNZlLUvuRnmBPkTJwwrFRZvwu5GPHNndBjVpAfaSTOfppyKBTccu2AXJXWAE1Xjh6GOC
- 8mlFjZwLxWFqdPHR1n2aPVgoiTLk34LR/bXO+e0GpzFXT7enwyvFFFyAS0Nk1q/7EChPcbRb
- hJqEBpRNZemxmg55zC3GLvgLKd5A09MOM2BrMea+l0FUR+PuTenh2YmnmLRTro6eZ/qYwWkC
- u8FFIw4pT0OUDMyLgi+GI1aMpVogTZJ70FgV0pUAlpmrzk/bLbRkF3TwgucpyPtcpmQtTkWS
- gDS50QG9DR/1As3LLLcNkwJBZzBG6PWbvcOyrwMQUF1nl4SSPV0LLH63+BrrHasfJzxKXzqg
- rW28CTAE2x8qi7e/6M/+XXhrsMYG+uaViM7n2je3qKe7ofum3s4vq7oFCPsOgwARAQABwsFl
- BBgBAgAPBQJVy5+RAhsMBQkJZgGAAAoJEE3eEPcA/4NagOsP/jPoIBb/iXVbM+fmSHOjEshl
- KMwEl/m5iLj3iHnHPVLBUWrXPdS7iQijJA/VLxjnFknhaS60hkUNWexDMxVVP/6lbOrs4bDZ
- NEWDMktAeqJaFtxackPszlcpRVkAs6Msn9tu8hlvB517pyUgvuD7ZS9gGOMmYwFQDyytpepo
- YApVV00P0u3AaE0Cj/o71STqGJKZxcVhPaZ+LR+UCBZOyKfEyq+ZN311VpOJZ1IvTExf+S/5
- lqnciDtbO3I4Wq0ArLX1gs1q1XlXLaVaA3yVqeC8E7kOchDNinD3hJS4OX0e1gdsx/e6COvy
- qNg5aL5n0Kl4fcVqM0LdIhsubVs4eiNCa5XMSYpXmVi3HAuFyg9dN+x8thSwI836FoMASwOl
- C7tHsTjnSGufB+D7F7ZBT61BffNBBIm1KdMxcxqLUVXpBQHHlGkbwI+3Ye+nE6HmZH7IwLwV
- W+Ajl7oYF+jeKaH4DZFtgLYGLtZ1LDwKPjX7VAsa4Yx7S5+EBAaZGxK510MjIx6SGrZWBrrV
- TEvdV00F2MnQoeXKzD7O4WFbL55hhyGgfWTHwZ457iN9SgYi1JLPqWkZB0JRXIEtjd4JEQcx
- +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <19de0a52-2abd-6e79-1b8e-dcf17eff3fba@redhat.com>
-Date:   Wed, 26 Sep 2018 12:09:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        id S1726987AbeIZSrp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 26 Sep 2018 14:47:45 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36766 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726768AbeIZSrp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Sep 2018 14:47:45 -0400
+Received: by mail-pl1-f195.google.com with SMTP id p5-v6so9899052plk.3;
+        Wed, 26 Sep 2018 05:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RtwXvcvbgd19jPnmDvPbfFQbUiqHNtjNTUehAj1hCgI=;
+        b=ZoY17CkdvPqJJ2OPIVLceYFFZQF0L9jV3LhVU6dngQra8svHABStdH6RfBMCrfjpaX
+         u3JtrkuftkttyQw4mUxyWjAGnsvrmtNRccbhNxgLeOiLwNWJdVjn+a9Ai40sNnLipne1
+         CTPx9SG/otP17zVlvgKrRDUJcX9Be9Ga8zkzIWwhhvwXoWmyBwV/9hFdAj/wApiEBRqB
+         sA3Dg1OY3ukBxQvmRSfR9lli2KUPnF4vfmJnQorU9Dvy+DhlmFquZeunecseR+oVhMI/
+         +rmuqKyubeBGchBtUo9zIyoGKHV5DVNfdjNDwP9cbG3rdwHMxqAxOpF2CtSwuwLgzmfW
+         ZeYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RtwXvcvbgd19jPnmDvPbfFQbUiqHNtjNTUehAj1hCgI=;
+        b=XZRzywmcj7hICz9gVAbidm+PyEe0UHm93YLchqOiZj19uJp1Y/0UsfoO+3hLE9RiNl
+         5ldaCj+bGyFSgmL8HaH9Qo2EbF/6atPjgowiYIr/kzwX1eaznLsXSZls4GtO/igZ4JqX
+         GPtzFm42Aga7tHUssLt5D8xtNd9A9MVY47OZ0yoly9vLS5nYkDBHyplV5jyN7WUz1wVV
+         34a/n+VMt6W3JePkTFflA7sh1O0lIB/+OlwSvXQdSs5eQu6ZOmJrdXHdvAnJ6TDqS1OF
+         BK/ToL5cCOCtcMgMVG8jM+qeCKWxQJHS428vUxXX948P8YBota+E9pLJJF1VtnVUmqjg
+         J8oQ==
+X-Gm-Message-State: ABuFfoha4V9JT2X0n8i0WtYkg+wTFX2HMSqVSCkOKOiF9uvtyV463D2L
+        ESpnfLbXuVtT6DuJOouzkqraimI4
+X-Google-Smtp-Source: ACcGV60V7YdRTu6iwc0bnASsGunHUnuK8bAtk1Qlb3Pp0ixeF3FGEEwi5AZ84B14tIo7oOVcm/sbGg==
+X-Received: by 2002:a17:902:1a9:: with SMTP id b38-v6mr5992419plb.89.1537965296436;
+        Wed, 26 Sep 2018 05:34:56 -0700 (PDT)
+Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id l6-v6sm7091590pfl.169.2018.09.26.05.34.54
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 Sep 2018 05:34:55 -0700 (PDT)
+Subject: Re: [PATCH 1/2] hwmon: ina3221: Add power sysfs nodes
+To:     Nicolin Chen <nicoleotsuka@gmail.com>, jdelvare@suse.com,
+        corbet@lwn.net
+Cc:     afd@ti.com, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20180926064245.4091-1-nicoleotsuka@gmail.com>
+ <20180926064245.4091-2-nicoleotsuka@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <dbf77a33-ae5c-1ac7-c94f-fa5505074adb@roeck-us.net>
+Date:   Wed, 26 Sep 2018 05:34:53 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180925121504.GH8537@350D>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20180926064245.4091-2-nicoleotsuka@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Wed, 26 Sep 2018 10:09:34 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25/09/2018 14:15, Balbir Singh wrote:
-> On Tue, Sep 25, 2018 at 11:14:56AM +0200, David Hildenbrand wrote:
->> Let's perform all checking + offlining + removing under
->> device_hotplug_lock, so nobody can mess with these devices via
->> sysfs concurrently.
->>
->> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->> Cc: Paul Mackerras <paulus@samba.org>
->> Cc: Michael Ellerman <mpe@ellerman.id.au>
->> Cc: Rashmica Gupta <rashmica.g@gmail.com>
->> Cc: Balbir Singh <bsingharora@gmail.com>
->> Cc: Michael Neuling <mikey@neuling.org>
->> Reviewed-by: Pavel Tatashin <pavel.tatashin@microsoft.com>
->> Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  arch/powerpc/platforms/powernv/memtrace.c | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/powerpc/platforms/powernv/memtrace.c b/arch/powerpc/platforms/powernv/memtrace.c
->> index fdd48f1a39f7..d84d09c56af9 100644
->> --- a/arch/powerpc/platforms/powernv/memtrace.c
->> +++ b/arch/powerpc/platforms/powernv/memtrace.c
->> @@ -70,6 +70,7 @@ static int change_memblock_state(struct memory_block *mem, void *arg)
->>  	return 0;
->>  }
->>  
->> +/* called with device_hotplug_lock held */
->>  static bool memtrace_offline_pages(u32 nid, u64 start_pfn, u64 nr_pages)
->>  {
->>  	u64 end_pfn = start_pfn + nr_pages - 1;
->> @@ -111,6 +112,7 @@ static u64 memtrace_alloc_node(u32 nid, u64 size)
->>  	end_pfn = round_down(end_pfn - nr_pages, nr_pages);
->>  
->>  	for (base_pfn = end_pfn; base_pfn > start_pfn; base_pfn -= nr_pages) {
->> +		lock_device_hotplug();
+Hi Nicolin,
+
+On 09/25/2018 11:42 PM, Nicolin Chen wrote:
+> The hwmon sysfs ABI supports powerX_input and powerX_crit. This
+> can ease user space programs who care more about power in total
+> than voltage or current individually.
 > 
-> Why not grab the lock before the for loop? That way we can avoid bad cases like a
-> large node being scanned for a small number of pages (nr_pages). Ideally we need
-> a cond_resched() in the loop, but I guess offline_pages() has one.
-
-Yes, it does.
-
-I can move it out of the loop, thanks!
-
-> 
-> Acked-by: Balbir Singh <bsingharora@gmail.com>
+> So this patch adds these two sysfs nodes for INA3221 driver.
 > 
 
+Ah, sorry, we can't do that. The sysfs nodes are for chips providing power
+registers, not for kernel drivers to provide calculations based on voltage
+and current measurements. Basic guideline is that we report what is there,
+not some  calculation based on it.
 
--- 
+This is even more true for power limits: We can not assume that the power limit
+is (max voltage * max current). or (current voltage * max_current), or anything
+else. We simply don't have the knowledge to make that assumption.
 
 Thanks,
+Guenter
 
-David / dhildenb
+> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> ---
+>   Documentation/hwmon/ina3221 |   4 +
+>   drivers/hwmon/ina3221.c     | 145 ++++++++++++++++++++++++++++++++----
+>   2 files changed, 133 insertions(+), 16 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/ina3221 b/Documentation/hwmon/ina3221
+> index 2726038be5bd..6be64b553cd0 100644
+> --- a/Documentation/hwmon/ina3221
+> +++ b/Documentation/hwmon/ina3221
+> @@ -34,3 +34,7 @@ curr[123]_max           Warning alert current(mA) setting, activates the
+>                             average is above this value.
+>   curr[123]_max_alarm     Warning alert current limit exceeded
+>   in[456]_input           Shunt voltage(uV) for channels 1, 2, and 3 respectively
+> +power[123]_input        Power(uW) measurement channels
+> +power[123]_crit         Critical alert power(uW) setting, activates the
+> +                          corresponding alarm when the respective power
+> +                          is above this value
+> diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
+> index ce4d1f55e9cd..5890a2da3bfe 100644
+> --- a/drivers/hwmon/ina3221.c
+> +++ b/drivers/hwmon/ina3221.c
+> @@ -38,6 +38,8 @@
+>   #define INA3221_WARN3			0x0c
+>   #define INA3221_MASK_ENABLE		0x0f
+>   
+> +#define INA3221_BUS(x)			(INA3221_BUS1 + ((x) << 1))
+> +
+>   #define INA3221_CONFIG_MODE_SHUNT	BIT(1)
+>   #define INA3221_CONFIG_MODE_BUS		BIT(2)
+>   #define INA3221_CONFIG_MODE_CONTINUOUS	BIT(3)
+> @@ -172,43 +174,50 @@ static ssize_t ina3221_show_shunt_voltage(struct device *dev,
+>   	return snprintf(buf, PAGE_SIZE, "%d\n", voltage_uv);
+>   }
+>   
+> -static ssize_t ina3221_show_current(struct device *dev,
+> -				    struct device_attribute *attr, char *buf)
+> +static int __ina3221_show_current(struct ina3221_data *ina,
+> +				  unsigned int reg, int *current_ma)
+>   {
+> -	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
+> -	struct ina3221_data *ina = dev_get_drvdata(dev);
+> -	unsigned int reg = sd_attr->index;
+>   	unsigned int channel = register_channel[reg];
+>   	struct ina3221_input *input = &ina->inputs[channel];
+>   	int resistance_uo = input->shunt_resistor;
+> -	int val, current_ma, voltage_nv, ret;
+> +	int val, voltage_nv, ret;
+>   
+> +	/* Read bus shunt voltage */
+>   	ret = ina3221_read_value(ina, reg, &val);
+>   	if (ret)
+>   		return ret;
+> +
+> +	/* LSB (4th bit) is 40 uV (40000 nV) */
+>   	voltage_nv = val * 40000;
+>   
+> -	current_ma = DIV_ROUND_CLOSEST(voltage_nv, resistance_uo);
+> +	*current_ma = DIV_ROUND_CLOSEST(voltage_nv, resistance_uo);
+>   
+> -	return snprintf(buf, PAGE_SIZE, "%d\n", current_ma);
+> +	return 0;
+>   }
+>   
+> -static ssize_t ina3221_set_current(struct device *dev,
+> -				   struct device_attribute *attr,
+> -				   const char *buf, size_t count)
+> +static ssize_t ina3221_show_current(struct device *dev,
+> +				    struct device_attribute *attr, char *buf)
+>   {
+>   	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
+>   	struct ina3221_data *ina = dev_get_drvdata(dev);
+>   	unsigned int reg = sd_attr->index;
+> -	unsigned int channel = register_channel[reg];
+> -	struct ina3221_input *input = &ina->inputs[channel];
+> -	int resistance_uo = input->shunt_resistor;
+> -	int val, current_ma, voltage_uv, ret;
+> +	int current_ma, ret;
+>   
+> -	ret = kstrtoint(buf, 0, &current_ma);
+> +	ret = __ina3221_show_current(ina, reg, &current_ma);
+>   	if (ret)
+>   		return ret;
+>   
+> +	return snprintf(buf, PAGE_SIZE, "%d\n", current_ma);
+> +}
+> +
+> +static int __ina3221_set_current(struct ina3221_data *ina,
+> +				 unsigned int reg, int current_ma)
+> +{
+> +	unsigned int channel = register_channel[reg];
+> +	struct ina3221_input *input = &ina->inputs[channel];
+> +	int resistance_uo = input->shunt_resistor;
+> +	int val, voltage_uv, ret;
+> +
+>   	/* clamp current */
+>   	current_ma = clamp_val(current_ma,
+>   			       INT_MIN / resistance_uo,
+> @@ -226,6 +235,26 @@ static ssize_t ina3221_set_current(struct device *dev,
+>   	if (ret)
+>   		return ret;
+>   
+> +	return 0;
+> +}
+> +
+> +static ssize_t ina3221_set_current(struct device *dev,
+> +				   struct device_attribute *attr,
+> +				   const char *buf, size_t count)
+> +{
+> +	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
+> +	struct ina3221_data *ina = dev_get_drvdata(dev);
+> +	unsigned int reg = sd_attr->index;
+> +	int current_ma, ret;
+> +
+> +	ret = kstrtoint(buf, 0, &current_ma);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = __ina3221_set_current(ina, reg, current_ma);
+> +	if (ret)
+> +		return ret;
+> +
+>   	return count;
+>   }
+>   
+> @@ -278,6 +307,68 @@ static ssize_t ina3221_show_alert(struct device *dev,
+>   	return snprintf(buf, PAGE_SIZE, "%d\n", regval);
+>   }
+>   
+> +static ssize_t ina3221_show_power(struct device *dev,
+> +				  struct device_attribute *attr, char *buf)
+> +{
+> +	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
+> +	struct ina3221_data *ina = dev_get_drvdata(dev);
+> +	unsigned int reg = sd_attr->index;
+> +	unsigned int channel = register_channel[reg];
+> +	unsigned int reg_bus = INA3221_BUS(channel);
+> +	int val, current_ma, voltage_mv, ret;
+> +	s64 power_uw;
+> +
+> +	/* Read bus voltage */
+> +	ret = ina3221_read_value(ina, reg_bus, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* LSB (4th bit) is 8 mV */
+> +	voltage_mv = val * 8;
+> +
+> +	/* Read calculated current */
+> +	ret = __ina3221_show_current(ina, reg, &current_ma);
+> +	if (ret)
+> +		return ret;
+> +
+> +	power_uw = (s64)voltage_mv * current_ma;
+> +
+> +	return snprintf(buf, PAGE_SIZE, "%lld\n", power_uw);
+> +}
+> +
+> +static ssize_t ina3221_set_power(struct device *dev,
+> +				 struct device_attribute *attr,
+> +				 const char *buf, size_t count)
+> +{
+> +	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
+> +	struct ina3221_data *ina = dev_get_drvdata(dev);
+> +	unsigned int reg = sd_attr->index;
+> +	unsigned int channel = register_channel[reg];
+> +	unsigned int reg_bus = INA3221_BUS(channel);
+> +	int val, current_ma, voltage_mv, ret;
+> +	s64 power_uw;
+> +
+> +	ret = kstrtos64(buf, 0, &power_uw);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Read bus voltage */
+> +	ret = ina3221_read_value(ina, reg_bus, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* LSB (4th bit) is 8 mV */
+> +	voltage_mv = val * 8;
+> +
+> +	current_ma = DIV_ROUND_CLOSEST(power_uw, voltage_mv);
+> +
+> +	ret = __ina3221_set_current(ina, reg, current_ma);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return count;
+> +}
+> +
+>   /* input channel label */
+>   static SENSOR_DEVICE_ATTR(in1_label, 0444,
+>   		ina3221_show_label, NULL, INA3221_CHANNEL1);
+> @@ -350,6 +441,22 @@ static SENSOR_DEVICE_ATTR(in5_input, S_IRUGO,
+>   static SENSOR_DEVICE_ATTR(in6_input, S_IRUGO,
+>   		ina3221_show_shunt_voltage, NULL, INA3221_SHUNT3);
+>   
+> +/* calculated power */
+> +static SENSOR_DEVICE_ATTR(power1_input, 0444,
+> +		ina3221_show_power, NULL, INA3221_SHUNT1);
+> +static SENSOR_DEVICE_ATTR(power2_input, 0444,
+> +		ina3221_show_power, NULL, INA3221_SHUNT2);
+> +static SENSOR_DEVICE_ATTR(power3_input, 0444,
+> +		ina3221_show_power, NULL, INA3221_SHUNT3);
+> +
+> +/* critical power */
+> +static SENSOR_DEVICE_ATTR(power1_crit, 0644,
+> +		ina3221_show_power, ina3221_set_power, INA3221_CRIT1);
+> +static SENSOR_DEVICE_ATTR(power2_crit, 0644,
+> +		ina3221_show_power, ina3221_set_power, INA3221_CRIT2);
+> +static SENSOR_DEVICE_ATTR(power3_crit, 0644,
+> +		ina3221_show_power, ina3221_set_power, INA3221_CRIT3);
+> +
+>   static struct attribute *ina3221_attrs[] = {
+>   	/* channel 1 -- make sure label at first */
+>   	&sensor_dev_attr_in1_label.dev_attr.attr,
+> @@ -361,6 +468,8 @@ static struct attribute *ina3221_attrs[] = {
+>   	&sensor_dev_attr_curr1_max.dev_attr.attr,
+>   	&sensor_dev_attr_curr1_max_alarm.dev_attr.attr,
+>   	&sensor_dev_attr_in4_input.dev_attr.attr,
+> +	&sensor_dev_attr_power1_input.dev_attr.attr,
+> +	&sensor_dev_attr_power1_crit.dev_attr.attr,
+>   
+>   	/* channel 2 -- make sure label at first */
+>   	&sensor_dev_attr_in2_label.dev_attr.attr,
+> @@ -372,6 +481,8 @@ static struct attribute *ina3221_attrs[] = {
+>   	&sensor_dev_attr_curr2_max.dev_attr.attr,
+>   	&sensor_dev_attr_curr2_max_alarm.dev_attr.attr,
+>   	&sensor_dev_attr_in5_input.dev_attr.attr,
+> +	&sensor_dev_attr_power2_input.dev_attr.attr,
+> +	&sensor_dev_attr_power2_crit.dev_attr.attr,
+>   
+>   	/* channel 3 -- make sure label at first */
+>   	&sensor_dev_attr_in3_label.dev_attr.attr,
+> @@ -383,6 +494,8 @@ static struct attribute *ina3221_attrs[] = {
+>   	&sensor_dev_attr_curr3_max.dev_attr.attr,
+>   	&sensor_dev_attr_curr3_max_alarm.dev_attr.attr,
+>   	&sensor_dev_attr_in6_input.dev_attr.attr,
+> +	&sensor_dev_attr_power3_input.dev_attr.attr,
+> +	&sensor_dev_attr_power3_crit.dev_attr.attr,
+>   
+>   	NULL,
+>   };
+> 
+
