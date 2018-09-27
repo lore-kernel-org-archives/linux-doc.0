@@ -5,249 +5,82 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA7667D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 09:27:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71D297D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 11:38:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728323AbeI0Pno (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 11:43:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39066 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727606AbeI0Pno (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Sep 2018 11:43:44 -0400
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.phx2.redhat.com [10.5.11.25])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2D325308FC50;
-        Thu, 27 Sep 2018 09:26:24 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-116-205.ams2.redhat.com [10.36.116.205])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F196A2010D95;
-        Thu, 27 Sep 2018 09:26:18 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-mm@kvack.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
-        xen-devel@lists.xenproject.org, devel@linuxdriverproject.org,
-        David Hildenbrand <david@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Nathan Fontenot <nfont@linux.vnet.ibm.com>,
-        John Allen <jallen@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Oscar Salvador <osalvador@suse.de>,
-        Mathieu Malaterre <malat@debian.org>,
-        Pavel Tatashin <pavel.tatashin@microsoft.com>,
-        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
-Subject: [PATCH v3 2/6] mm/memory_hotplug: make add_memory() take the device_hotplug_lock
-Date:   Thu, 27 Sep 2018 11:25:50 +0200
-Message-Id: <20180927092554.13567-3-david@redhat.com>
-In-Reply-To: <20180927092554.13567-1-david@redhat.com>
-References: <20180927092554.13567-1-david@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.25
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Thu, 27 Sep 2018 09:26:24 +0000 (UTC)
+        id S1727182AbeI0R4F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 13:56:05 -0400
+Received: from andre.telenet-ops.be ([195.130.132.53]:51886 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727111AbeI0R4F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 13:56:05 -0400
+Received: from ramsan.of.borg ([84.194.111.163])
+        by andre.telenet-ops.be with bizsmtp
+        id gbeC1y0063XaVaC01beCgA; Thu, 27 Sep 2018 13:38:12 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.86_2)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1g5UcV-0001Uv-VL; Thu, 27 Sep 2018 13:38:11 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1g5UcV-00080I-TH; Thu, 27 Sep 2018 13:38:11 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Laura Abbott <labbott@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/3] gpio: Fix VLA removal fallout
+Date:   Thu, 27 Sep 2018 13:38:07 +0200
+Message-Id: <20180927113810.30721-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-add_memory() currently does not take the device_hotplug_lock, however
-is aleady called under the lock from
-	arch/powerpc/platforms/pseries/hotplug-memory.c
-	drivers/acpi/acpi_memhotplug.c
-to synchronize against CPU hot-remove and similar.
+	Hi Linus,
 
-In general, we should hold the device_hotplug_lock when adding memory
-to synchronize against online/offline request (e.g. from user space) -
-which already resulted in lock inversions due to device_lock() and
-mem_hotplug_lock - see 30467e0b3be ("mm, hotplug: fix concurrent memory
-hot-add deadlock"). add_memory()/add_memory_resource() will create memory
-block devices, so this really feels like the right thing to do.
+This patch series fixes various (mostly harmless) issues introduced by
+commit 3027743f83f867d8 ("gpio: Remove VLA from gpiolib").
 
-Holding the device_hotplug_lock makes sure that a memory block device
-can really only be accessed (e.g. via .online/.state) from user space,
-once the memory has been fully added to the system.
+As per the "one patch should fix one issue"-policy, this series contains 3
+patches, although they all have the same Fixes: tag.
 
-The lock is not held yet in
-	drivers/xen/balloon.c
-	arch/powerpc/platforms/powernv/memtrace.c
-	drivers/s390/char/sclp_cmd.c
-	drivers/hv/hv_balloon.c
-So, let's either use the locked variants or take the lock.
+Changes compared to v1:
+  - Rebase on top of gpio array rework.
 
-Don't export add_memory_resource(), as it once was exported to be used
-by XEN, which is never built as a module. If somebody requires it, we
-also have to export a locked variant (as device_hotplug_lock is never
-exported).
+W.r.t. propagating errors: while gpiod_set_array_value_complex() and its
+callers can now return an error code, this is currently limited to -ENOMEM.
+Actual failures setting a GPIO output value cannot be propagated, as
+gpio_chip.set() still returns void.  Do you want to change that?
+E.g. gen_74x164_set_value() can fail.
 
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: Len Brown <lenb@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Cc: Juergen Gross <jgross@suse.com>
-Cc: Nathan Fontenot <nfont@linux.vnet.ibm.com>
-Cc: John Allen <jallen@linux.vnet.ibm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Mathieu Malaterre <malat@debian.org>
-Cc: Pavel Tatashin <pavel.tatashin@microsoft.com>
-Cc: YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
-Reviewed-by: Pavel Tatashin <pavel.tatashin@microsoft.com>
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- .../platforms/pseries/hotplug-memory.c        |  2 +-
- drivers/acpi/acpi_memhotplug.c                |  2 +-
- drivers/base/memory.c                         |  9 ++++++--
- drivers/xen/balloon.c                         |  3 +++
- include/linux/memory_hotplug.h                |  1 +
- mm/memory_hotplug.c                           | 22 ++++++++++++++++---
- 6 files changed, 32 insertions(+), 7 deletions(-)
+Feel free to fold patches if deemed appropriate.
 
-diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
-index dd0264c43f3e..d26a771d985e 100644
---- a/arch/powerpc/platforms/pseries/hotplug-memory.c
-+++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
-@@ -673,7 +673,7 @@ static int dlpar_add_lmb(struct drmem_lmb *lmb)
- 	nid = memory_add_physaddr_to_nid(lmb->base_addr);
- 
- 	/* Add the memory */
--	rc = add_memory(nid, lmb->base_addr, block_sz);
-+	rc = __add_memory(nid, lmb->base_addr, block_sz);
- 	if (rc) {
- 		invalidate_lmb_associativity_index(lmb);
- 		return rc;
-diff --git a/drivers/acpi/acpi_memhotplug.c b/drivers/acpi/acpi_memhotplug.c
-index 811148415993..8fe0960ea572 100644
---- a/drivers/acpi/acpi_memhotplug.c
-+++ b/drivers/acpi/acpi_memhotplug.c
-@@ -228,7 +228,7 @@ static int acpi_memory_enable_device(struct acpi_memory_device *mem_device)
- 		if (node < 0)
- 			node = memory_add_physaddr_to_nid(info->start_addr);
- 
--		result = add_memory(node, info->start_addr, info->length);
-+		result = __add_memory(node, info->start_addr, info->length);
- 
- 		/*
- 		 * If the memory block has been used by the kernel, add_memory()
-diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-index 817320c7c4c1..40cac122ec73 100644
---- a/drivers/base/memory.c
-+++ b/drivers/base/memory.c
-@@ -519,15 +519,20 @@ memory_probe_store(struct device *dev, struct device_attribute *attr,
- 	if (phys_addr & ((pages_per_block << PAGE_SHIFT) - 1))
- 		return -EINVAL;
- 
-+	ret = lock_device_hotplug_sysfs();
-+	if (ret)
-+		goto out;
-+
- 	nid = memory_add_physaddr_to_nid(phys_addr);
--	ret = add_memory(nid, phys_addr,
--			 MIN_MEMORY_BLOCK_SIZE * sections_per_block);
-+	ret = __add_memory(nid, phys_addr,
-+			   MIN_MEMORY_BLOCK_SIZE * sections_per_block);
- 
- 	if (ret)
- 		goto out;
- 
- 	ret = count;
- out:
-+	unlock_device_hotplug();
- 	return ret;
- }
- 
-diff --git a/drivers/xen/balloon.c b/drivers/xen/balloon.c
-index a3f5cbfcd4a1..fdfc64f5acea 100644
---- a/drivers/xen/balloon.c
-+++ b/drivers/xen/balloon.c
-@@ -395,7 +395,10 @@ static enum bp_state reserve_additional_memory(void)
- 	 * callers drop the mutex before trying again.
- 	 */
- 	mutex_unlock(&balloon_mutex);
-+	/* add_memory_resource() requires the device_hotplug lock */
-+	lock_device_hotplug();
- 	rc = add_memory_resource(nid, resource, memhp_auto_online);
-+	unlock_device_hotplug();
- 	mutex_lock(&balloon_mutex);
- 
- 	if (rc) {
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index 1f096852f479..ffd9cd10fcf3 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -324,6 +324,7 @@ static inline void __remove_memory(int nid, u64 start, u64 size) {}
- extern void __ref free_area_init_core_hotplug(int nid);
- extern int walk_memory_range(unsigned long start_pfn, unsigned long end_pfn,
- 		void *arg, int (*func)(struct memory_block *, void *));
-+extern int __add_memory(int nid, u64 start, u64 size);
- extern int add_memory(int nid, u64 start, u64 size);
- extern int add_memory_resource(int nid, struct resource *resource, bool online);
- extern int arch_add_memory(int nid, u64 start, u64 size,
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index f6dbd5d8fffd..affb03e0dfef 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1090,7 +1090,12 @@ static int online_memory_block(struct memory_block *mem, void *arg)
- 	return device_online(&mem->dev);
- }
- 
--/* we are OK calling __meminit stuff here - we have CONFIG_MEMORY_HOTPLUG */
-+/*
-+ * NOTE: The caller must call lock_device_hotplug() to serialize hotplug
-+ * and online/offline operations (triggered e.g. by sysfs).
-+ *
-+ * we are OK calling __meminit stuff here - we have CONFIG_MEMORY_HOTPLUG
-+ */
- int __ref add_memory_resource(int nid, struct resource *res, bool online)
- {
- 	u64 start, size;
-@@ -1159,9 +1164,9 @@ int __ref add_memory_resource(int nid, struct resource *res, bool online)
- 	mem_hotplug_done();
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(add_memory_resource);
- 
--int __ref add_memory(int nid, u64 start, u64 size)
-+/* requires device_hotplug_lock, see add_memory_resource() */
-+int __ref __add_memory(int nid, u64 start, u64 size)
- {
- 	struct resource *res;
- 	int ret;
-@@ -1175,6 +1180,17 @@ int __ref add_memory(int nid, u64 start, u64 size)
- 		release_memory_resource(res);
- 	return ret;
- }
-+
-+int add_memory(int nid, u64 start, u64 size)
-+{
-+	int rc;
-+
-+	lock_device_hotplug();
-+	rc = __add_memory(nid, start, size);
-+	unlock_device_hotplug();
-+
-+	return rc;
-+}
- EXPORT_SYMBOL_GPL(add_memory);
- 
- #ifdef CONFIG_MEMORY_HOTREMOVE
+Thanks!
+
+Geert Uytterhoeven (3):
+  Documentation: gpio: Fix return type of gpiod_set_raw_array_value*()
+  gpio: Propagate errors from gpiod_set_array_value_complex()
+  gpio: Restore indentation of continued lines
+
+ Documentation/driver-api/gpio/consumer.rst | 32 +++++++-------
+ drivers/gpio/gpiolib.c                     | 50 +++++++++++-----------
+ drivers/gpio/gpiolib.h                     |  8 ++--
+ include/linux/gpio/consumer.h              | 46 ++++++++++----------
+ 4 files changed, 70 insertions(+), 66 deletions(-)
+
 -- 
 2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
