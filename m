@@ -1,114 +1,172 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DATE_IN_PAST_03_06,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ABE057D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 04:28:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8E1807D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 06:36:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726594AbeI0Kod (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 06:44:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60720 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726591AbeI0Koc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 06:44:32 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8R4Oolh132689
-        for <linux-doc@vger.kernel.org>; Thu, 27 Sep 2018 00:28:19 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2mrkun94k8-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 27 Sep 2018 00:28:18 -0400
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Thu, 27 Sep 2018 00:28:17 -0400
-Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
-        by e17.ny.us.ibm.com (146.89.104.204) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 27 Sep 2018 00:28:13 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w8R4SCDM21692530
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 27 Sep 2018 04:28:13 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0E710B2068;
-        Thu, 27 Sep 2018 00:26:32 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CA837B2065;
-        Thu, 27 Sep 2018 00:26:31 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.85.180.198])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 27 Sep 2018 00:26:31 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id AF9A416C3FCC; Wed, 26 Sep 2018 16:47:40 -0700 (PDT)
-Date:   Wed, 26 Sep 2018 16:47:40 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [0/5] rcu doc updates
-Reply-To: paulmck@linux.ibm.com
-References: <20180925182601.37421-1-joel@joelfernandes.org>
- <CAEXW_YTjjfZhH6rpOArSVub_XhC4mvbKn6Rf0DSiy=rAHQGzPw@mail.gmail.com>
+        id S1727221AbeI0MxI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 08:53:08 -0400
+Received: from esa1.microchip.iphmx.com ([68.232.147.91]:62984 "EHLO
+        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726820AbeI0MxH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 08:53:07 -0400
+X-IronPort-AV: E=Sophos;i="5.54,309,1534834800"; 
+   d="scan'208";a="21429516"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 26 Sep 2018 23:36:28 -0700
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.76.108) with Microsoft SMTP Server (TLS) id
+ 14.3.352.0; Wed, 26 Sep 2018 23:36:27 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector1-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=98SNDhmupDQKZqMfYNf9aDCiuVQXCfsuHTzoyTvh0wo=;
+ b=aRKX/VmwS5EosGlqSgaYuPgntWkibm2Rd84GZpOe8liVufepjKxV1PWHGKbvKcx3AY7jMzxKiNkI/XrUgzs3hpEgI/nnRJzBa/yeR/9876XEhJoMdxZ+oA0auraqhBvxtrW/ipGw4Z8zDukBtMu33OpxOYU1Wr1a7AoFibl8iTA=
+Received: from DM2PR11MB0105.namprd11.prod.outlook.com (10.160.26.155) by
+ DM2PR11MB0141.namprd11.prod.outlook.com (10.160.132.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1143.15; Thu, 27 Sep 2018 06:36:24 +0000
+Received: from DM2PR11MB0105.namprd11.prod.outlook.com
+ ([fe80::cdb9:9501:ede9:23c4]) by DM2PR11MB0105.namprd11.prod.outlook.com
+ ([fe80::cdb9:9501:ede9:23c4%2]) with mapi id 15.20.1164.024; Thu, 27 Sep 2018
+ 06:36:22 +0000
+From:   <Wesley.Sheng@microchip.com>
+To:     <kurt.schwemmer@microsemi.com>, <logang@deltatee.com>,
+        <bhelgaas@google.com>, <corbet@lwn.net>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <Wesley.Sheng@microchip.com>,
+        <linux-ntb@googlegroups.com>, <linux-ntb@googlegroups.com>
+Subject: [PATCH v2] NTB: switchtec_ntb: Update switchtec documentation with
+ pre-requisites for NTB
+Thread-Topic: [PATCH v2] NTB: switchtec_ntb: Update switchtec documentation
+ with pre-requisites for NTB
+Thread-Index: AdRWJ6ahEsH1t+pmS2mkegcrvKmh4A==
+Date:   Thu, 27 Sep 2018 06:36:22 +0000
+Message-ID: <DM2PR11MB010585C1D5584683B31CCF5495140@DM2PR11MB0105.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Wesley.Sheng@microchip.com; 
+x-originating-ip: [211.144.195.220]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;DM2PR11MB0141;6:VOqbjtAzQJLIyCecUc6sHbD3vdinFLv5HwOvQ9fKRlDfiBycpx8pnrat03eGHrRqr/EDzetKibNWwk8paEW8Z4S6jpGq4JU1cyZxZZXy3Sci/0VDtA2cPuyEQcqfsBzVoji39RO2br2npYarhA4Ub/EVx+eNu9rAGRGw8T32KrX6ov3Jnn5dSuD506frNsJOHnovlKAleqspxCaZEKEeg1qzZpHB9nMflDwj6DPNYzijTjQRYG32pXBBqfFJOOREHUG5C6UEJs/En4hZAzS12rbl3xAxhQ+71rpNDer2D3+Ce9+exYoKIO3Za2YUQKgdZp2a1Wc/r1Ix0K6td7HkwMnvpdHwMG41/reRPJedg7hyl6ocGEfh3pyYEBfSJoLBF5uXaCxkMxLiQMc8zHLYN5OGdAOf5t/PXgSoZbNw8jPj+PxDYL1vbU7Lf9aRoXXZMhL0gaE29f/Iye9tsH22DQ==;5:w3W3D/joy1zRGgS171hSgSDzcLTpneRQUjNNyX/N9WQOs92NvB+oCMC3SZntOrE5WHLrImxQkrFCyQjvozYI6JNsijmkK9+xOMNo5CT2HDFGJDz0ZOAxLhkPY27LMAKwBcYAhb6JU7g9kKnyn/Ah+dbvHzpce2E31IvhFzmx++M=;7:HkhDL73+/rO7vU9XJuDwz34clctF9JjiSFdVTL5dmxyoRApLtcLtAHl6Z5tHajzG/SW/BSWFayOOOsqCF+z/NwCgZpzwjFlx9Dn9rN057XpDMXp7Ez9LH159I15/Ftd7If/beAlazxkHY2LetaaQrZBZAhPSoVsFd+Bhdyeoung5iSyZxZ1RghEPY5KFySKS74HGTBr4tmX6VNvIarFgKXBddzN9o+QJoOVX5K/lcgLJNXUEVA4sXFReoMfLsyjq
+x-ms-exchange-antispam-srfa-diagnostics: SOS;SOR;
+x-forefront-antispam-report: SFV:SKI;SCL:-1;SFV:NSPM;SFS:(10009020)(136003)(366004)(346002)(396003)(39860400002)(376002)(189003)(199004)(9686003)(6116002)(7736002)(25786009)(53936002)(72206003)(15650500001)(478600001)(4326008)(6436002)(256004)(3846002)(14444005)(2900100001)(2906002)(34290500001)(14454004)(305945005)(5660300001)(55016002)(316002)(6506007)(54906003)(5250100002)(186003)(110136005)(68736007)(2501003)(99286004)(81156014)(71190400001)(71200400001)(2201001)(476003)(102836004)(26005)(486006)(86362001)(8936002)(105586002)(8676002)(74316002)(106356001)(33656002)(81166006)(97736004)(66066001)(7696005);DIR:OUT;SFP:1101;SCL:1;SRVR:DM2PR11MB0141;H:DM2PR11MB0105.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-ms-office365-filtering-correlation-id: e07c3e21-1109-4a8f-09f6-08d624438ac9
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989299)(4534165)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:DM2PR11MB0141;
+x-ms-traffictypediagnostic: DM2PR11MB0141:
+x-microsoft-antispam-prvs: <DM2PR11MB014125142AD295A3BED0B67895140@DM2PR11MB0141.namprd11.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(278428928389397);
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(6040522)(2401047)(5005006)(8121501046)(3002001)(93006095)(93001095)(3231355)(944501410)(52105095)(10201501046)(149066)(150057)(6041310)(20161123564045)(20161123558120)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(201708071742011)(7699051);SRVR:DM2PR11MB0141;BCL:0;PCL:0;RULEID:;SRVR:DM2PR11MB0141;
+x-forefront-prvs: 0808323E97
+received-spf: None (protection.outlook.com: microchip.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: K65X6QlruNl21i65ZQ7gSNdgWHqze3Krd2nfe/aMJ4ODNMlcB6zX5dseQb3JkvN9b+Tth+hwkT6PJqZq+RyOOssVFkPu/13tjAa3iJ5fZ324iOZtTDnRzh1HPeQxI7CdsUrvkxjQRw8GTCuTMHOHaIn5wG4C1oVJY2l+h1fipyshheM6io5IkwEcAKBTkns2QJ1+HOhc7VL2NV4tMUm3Uy0bz0tHM5Xa0KBDZfItNpiLaYkRJHvnEfk7bIcPsh6HdVODRfsp101mEMDzEMc9MjLaBmAY87DQ+FP3JvxDSBQ5zNXf+F867lL5YUr/iUxlOO42XmgUSnZu82z6yYjZKIwgHDnzivGS+4nTnR1WNnc=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEXW_YTjjfZhH6rpOArSVub_XhC4mvbKn6Rf0DSiy=rAHQGzPw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18092704-0040-0000-0000-000004770948
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009778; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000267; SDB=6.01094226; UDB=6.00565617; IPR=6.00874261;
- MB=3.00023523; MTD=3.00000008; XFM=3.00000015; UTC=2018-09-27 04:28:16
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18092704-0041-0000-0000-0000087F0EBB
-Message-Id: <20180926234740.GN4222@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-09-27_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=953 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1809270046
+X-MS-Exchange-CrossTenant-Network-Message-Id: e07c3e21-1109-4a8f-09f6-08d624438ac9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2018 06:36:22.7624
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR11MB0141
+X-OriginatorOrg: microchip.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 25, 2018 at 11:49:10AM -0700, Joel Fernandes wrote:
-> On Tue, Sep 25, 2018 at 11:26 AM Joel Fernandes (Google)
-> <joel@joelfernandes.org> wrote:
-> >
-> > Hi Paul,
-> > These patches are documentation updates for the rcu_dynticks rolling into
-> > rcu_data and also the updates to the fact that there's a single rcu_state now.
-> > Its based on your rcu/dev branch.
-> >
-> > Next I'm thinking of tackling 'RCU Callback Handling' and further digging into
-> > the dyntick handling and then dig into other documents outside of
-> > Data-Structure that need updates. But let me know any suggestions.
-> > Thanks!
-> 
-> Apologies that my scripts missed the 'PATCH' prefix. Hopefully that's
-> Ok for this time, but let me know if you'd like me to resend them!
-> Thanks!
+Update switchtec documentation
+1.add pre-requisites for NTB driver
+2.misc updates
+ change NTB hardware driver name to ntb_hw_switchtec
+ update the description of 2 partitions limit
+ add reference to Linux Documentation/ntb.txt
+ add use of term 'Command ID'
+ add use of term 'Command Return Value'
+ add a missing ')'
 
-I will let it go this time.  ;-)
+Signed-off-by: Kelvin Cao <kelvin.cao@microchip.com>
+Signed-off-by: Wesley Yung <Wesley.Yung@microchip.com>
+Signed-off-by: Wesley Sheng <Wesley.sheng@microchip.com>
 
-Queued, thank you very much!  I will push them out when I get to a
-reliable network connection.
+---
+ Documentation/switchtec.txt | 30 ++++++++++++++--------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
 
-I made a few adjustments to wording, so please double-check.  You
-should be able to just diff against your original patches.
-
-							Thanx, Paul
-
+diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt inde=
+x f788264..40e839d 100644
+--- a/Documentation/switchtec.txt
++++ b/Documentation/switchtec.txt
+@@ -23,7 +23,7 @@ The primary means of communicating with the Switchtec man=
+agement firmware is
+ through the Memory-mapped Remote Procedure Call (MRPC) interface.
+ Commands are submitted to the interface with a 4-byte command
+ identifier and up to 1KB of command specific data. The firmware will=20
+-respond with a 4 bytes return code and up to 1KB of command specific
++respond with a 4-byte return code and up to 1KB of command specific
+ data. The interface only processes a single command at a time.
+=20
+=20
+@@ -36,8 +36,8 @@ device: /dev/switchtec#, one for each management endpoint=
+ in the system.
+ The char device has the following semantics:
+=20
+ * A write must consist of at least 4 bytes and no more than 1028 bytes.
+-  The first four bytes will be interpreted as the command to run and
+-  the remainder will be used as the input data. A write will send the
++  The first 4 bytes will be interpreted as the Command ID and the =20
++ remainder will be used as the input data. A write will send the
+   command to the firmware to begin processing.
+=20
+ * Each write must be followed by exactly one read. Any double write will
+ @@ -45,9 +45,9 @@ The char device has the following semantics:
+   produce an error.
+=20
+ * A read will block until the firmware completes the command and return
+-  the four bytes of status plus up to 1024 bytes of output data. (The
+-  length will be specified by the size parameter of the read call --
+-  reading less than 4 bytes will produce an error.
++  the 4-byte Command Return Value plus up to 1024 bytes of output =20
++ data. (The length will be specified by the size parameter of the read =20
++ call -- reading less than 4 bytes will produce an error.)
+=20
+ * The poll call will also be supported for userspace applications that
+   need to do other things while waiting for the command to complete.
+@@ -83,10 +83,20 @@ The following IOCTLs are also supported by the device:
+ Non-Transparent Bridge (NTB) Driver
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-An NTB driver is provided for the switchtec hardware in switchtec_ntb.
+-Currently, it only supports switches configured with exactly 2=20
+-partitions. It also requires the following configuration settings:
++An NTB hardware driver is provided for the Switchtec hardware in=20
++ntb_hw_switchtec. Currently, it only supports switches configured with=20
++exactly 2 NT partitions and zero or more non-NT partitions. It also=20
++requires the following configuration settings:
+=20
+-* Both partitions must be able to access each other's GAS spaces.
++* Both NT partitions must be able to access each other's GAS spaces.
+   Thus, the bits in the GAS Access Vector under Management Settings
+   must be set to support this.
++* Kernel configuration MUST include support for NTB (CONFIG_NTB needs
++  to be set)
++
++NT EP BAR 2 will be dynamically configured as a Direct Window, and the=20
++configuration file does not need to configure it explicitly.
++
++Please refer to Documentation/ntb.txt in Linux source tree for an=20
++overall understanding of the Linux NTB stack. ntb_hw_switchtec works as=20
++an NTB Hardware Driver in this stack.
