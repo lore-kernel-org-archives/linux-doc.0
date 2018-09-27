@@ -1,149 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF4887D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 17:44:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 14B557D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 18:31:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728284AbeI1ADh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 20:03:37 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:39063 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727223AbeI1ADh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 20:03:37 -0400
-Received: by mail-ot1-f65.google.com with SMTP id c12-v6so3389777otl.6;
-        Thu, 27 Sep 2018 10:44:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=opI7Sye5yL4RSrSfntxIglMzQQxBp0lGtYEpA+tZ47Y=;
-        b=aI0UMw1pocBM+cigCJQ00iHwMjcnyQX77Or666NreHvAPYnp2Sf8oT/od5G4i+mDtW
-         qQuYSlC5MP4iwKkI//iLsKpJMQl/g+frfisUqNbcPMRJpzzgUW2/x6avdbxtF5adXSsW
-         Sg5Xr/8Xb0Sr1IEBcSPRzfnSHn6hhQVwDfHpqobDCqScmgphFCcLeJ8dt+Qx5+ypTIL2
-         a3T7GfPHIn2NbgHZL2YIoH4a1/xyioBOd+pWhvbriArBjLkR0cQX34DxO2qpZayxPiXe
-         iLM7BhO81T0B/nYpoGl0rNEB4FBRuc8gfxKj9KSbRHm6r43x/HjYcsOBg2kg/Q76QkSV
-         6fBA==
-X-Gm-Message-State: ABuFfogYFyZ4MVGpUqBwK2773+cdf43h5+t72IqI/3xcxgBWuQ4QCr19
-        D1sAB95lLxb03WDG20Pbgw==
-X-Google-Smtp-Source: ACcGV62DPYJK1UQWSw9CnIY2xBb1rdvCeC3qQ1JJ3/TArIf+GInwk0B+N+C7trV0OJSaIha9EoHYTQ==
-X-Received: by 2002:a9d:2555:: with SMTP id j21-v6mr1408083otd.125.1538070254490;
-        Thu, 27 Sep 2018 10:44:14 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id o75-v6sm1118782ota.27.2018.09.27.10.44.13
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 27 Sep 2018 10:44:13 -0700 (PDT)
-Date:   Thu, 27 Sep 2018 12:44:13 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     jdelvare@suse.com, linux@roeck-us.net, mark.rutland@arm.com,
-        corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add ina3221 documentation
-Message-ID: <20180927174413.GB7587@bogus>
-References: <20180925225930.31886-1-nicoleotsuka@gmail.com>
- <20180925225930.31886-2-nicoleotsuka@gmail.com>
+        id S1728284AbeI1AvV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 20:51:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54931 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727587AbeI1AvV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Sep 2018 20:51:21 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 712C53001FCD;
+        Thu, 27 Sep 2018 18:31:47 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.149])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 40DDD752CA;
+        Thu, 27 Sep 2018 18:31:42 +0000 (UTC)
+Date:   Thu, 27 Sep 2018 14:31:41 -0400
+From:   Mike Snitzer <snitzer@redhat.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Richard Weinberger <richard.weinberger@gmail.com>,
+        helen.koike@collabora.com,
+        device-mapper development <dm-devel@redhat.com>,
+        Alasdair G Kergon <agk@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Will Drewry <wad@chromium.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-lvm@redhat.com, kernel@collabora.com
+Subject: Re: [PATCH 0/2] boot to a mapped device
+Message-ID: <20180927183141.GA4921@redhat.com>
+References: <cover.1537936397.git.helen.koike@collabora.com>
+ <CAFLxGvzCDOTR4stPmp1TTLkQ39x3e8MQuL=AR754abKc5skhpA@mail.gmail.com>
+ <20180927142328.GA4074@redhat.com>
+ <CAGXu5j+Y5e_oTZVCAHa48XgVcvEKGnVW_74oXZOUyLnfYPAjAg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180925225930.31886-2-nicoleotsuka@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <CAGXu5j+Y5e_oTZVCAHa48XgVcvEKGnVW_74oXZOUyLnfYPAjAg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Thu, 27 Sep 2018 18:31:47 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 25, 2018 at 03:59:29PM -0700, Nicolin Chen wrote:
-> Texas Instruments INA3221 is a triple-channel shunt and bus
-> voltage monitor. This patch adds a DT binding doc for it.
+On Thu, Sep 27 2018 at 12:36pm -0400,
+Kees Cook <keescook@chromium.org> wrote:
+
+> On Thu, Sep 27, 2018 at 7:23 AM, Mike Snitzer <snitzer@redhat.com> wrote:
+> > On Wed, Sep 26 2018 at  3:16am -0400,
+> > Richard Weinberger <richard.weinberger@gmail.com> wrote:
+> >
+> >> Helen,
+> >>
+> >> On Wed, Sep 26, 2018 at 7:01 AM Helen Koike <helen.koike@collabora.com> wrote:
+> >> >
+> >> > This series is reviving an old patchwork.
+> >> > Booting from a mapped device requires an initramfs. This series is
+> >> > allows for device-mapper targets to be configured at boot time for
+> >> > use early in the boot process (as the root device or otherwise).
+> >>
+> >> What is the reason for this patch series?
+> >> Setting up non-trivial root filesystems/storage always requires an
+> >> initramfs, there is nothing
+> >> wrong about this.
+> >
+> > Exactly.  If phones or whatever would benefit from this patchset then
+> > say as much.
 > 
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> ---
-> Changelog
-> v4->v5:
->  * Replaced "input-id" with "reg" and added address-cells and size-cells
->  * Replaced "input-label" with "label"
->  * Replaced "shunt-resistor" with "shunt-resistor-micro-ohms"
-> v3->v4:
->  * Removed the attempt of putting labels in the node names
->  * Added a new optional label property in the child node
->  * Updated examples accordingly
-> v2->v3:
->  * Added a simple subject in the line 1
->  * Fixed the shunt resistor value in the example
-> v1->v2:
->  * Dropped channel name properties
->  * Added child node definitions.
->  * * Added shunt resistor property in the child node
->  * * Added status property to indicate connection status
->  * * Changed to use child node name as the label of input source
+> I think some of the context for the series was lost in commit logs,
+> but yes, both Android and Chrome OS do not use initramfs. The only
+> thing that was needed to do this was being able to configure dm
+> devices on the kernel command line, so the overhead of a full
+> initramfs was seen as a boot time liability, a boot image size
+> liability (e.g. Chrome OS has a limited amount of storage available
+> for the boot image that is covered by the static root of trust
+> signature), and a complexity risk: everything that is needed for boot
+> could be specified on the kernel command line, so better to avoid the
+> whole initramfs dance.
 > 
->  .../devicetree/bindings/hwmon/ina3221.txt     | 49 +++++++++++++++++++
->  1 file changed, 49 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/ina3221.txt
+> So, instead, this plumbs the dm commands directly instead of bringing
+> up a full userspace and performing ioctls.
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ina3221.txt b/Documentation/devicetree/bindings/hwmon/ina3221.txt
-> new file mode 100644
-> index 000000000000..e17a897f4803
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/ina3221.txt
-> @@ -0,0 +1,49 @@
-> +Texas Instruments INA3221 Device Tree Bindings
-> +
-> +1) ina3221 node
-> +  Required properties:
-> +  - compatible: Must be "ti,ina3221"
-> +  - reg: I2C address
-> +
-> +  Optional properties:
-> +  = The node contains optional child nodes for three channels =
-> +  = Each child node describes the information of input source =
-> +
-> +  - #address-cells: Required only if a child node is present. Must be 1.
-> +  - #size-cells: Required only if a child node is present. Must be 0.
-> +
-> +  Example:
-> +
-> +  ina3221@40 {
-> +          compatible = "ti,ina3221";
-> +          reg = <0x40>;
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          [ child node definitions... ]
-> +  };
-> +
-> +2) child nodes
-> +  Required properties:
-> +  - reg: Must be 0, 1 or 2, corresponding to IN1, IN2 or IN3 port of INA3221
-> +
-> +  Optional properties:
-> +  - label: Name of the input source
-> +  - shunt-resistor-micro-ohms: Shunt resistor value in micro-Ohm
-> +  - status: Should be "disabled" if no input source
+> > I will not accept this patchset at this time.
+> >
+> >> > Example, the following could be added in the boot parameters.
+> >> > dm="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" root=/dev/dm-0
+> >>
+> >> Hmmm, the new dm= parameter is anything but easy to get right.
+> >
+> > No, it isn't.. exposes way too much potential for users hanging
+> > themselves.
+> 
+> IIRC, the changes in syntax were suggested back when I was trying to
+> drive this series:
+> https://www.redhat.com/archives/dm-devel/2016-February/msg00199.html
+> 
+> And it matches the "concise" format in dmsetup:
+> https://sourceware.org/git/?p=lvm2.git;a=commit;h=827be01758ec5adb7b9d5ea75b658092adc65534
+> 
+> What do you feel are next steps?
 
-Don't need to explicitly list status.
+There is quite a lot of init/ code, to handle parsing the concise DM
+format, that is being proposed for inclusion.  I question why that
+DM-specific code would be located in init/
 
-> +
-> +  Example:
-> +
-> +  input@0 {
-> +          reg = <0x0>;
-> +          status = "disabled";
-> +  };
-> +  input@1 {
-> +          reg = <0x1>;
-> +          shunt-resistor-micro-ohms = <5000>;
-> +  };
-> +  input@2 {
-> +          reg = <0x2>;
-> +          label = "VDD_5V";
-> +          shunt-resistor-micro-ohms = <5000>;
-> +  };
+There also needs to be a careful comparison done between the proposed
+init/ code to support consise DM format and the userspace lvm2
+equivalent (e.g. lvm2.git commit 827be0175)
 
-Please combine the examples into one complete example.
+That aside, the DM targets that are allowed to be supported by this dm=
+commandline boot interface must be constrained (there are serious risks
+in allowing activation of certain DM targets without first using
+userspace tools to check the validity of associated metadata, as is done
+by the DM thin and cache targets).  Also, all targets supported must be
+upstream.  "linear", "verity" and "bootcache" DM targets are referenced
+in Documentation, "bootcache" must be a Google target.  I'm not aware of
+it.
 
-Rob
+Mike
