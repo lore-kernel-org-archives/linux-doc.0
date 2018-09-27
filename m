@@ -1,129 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 14B557D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 18:31:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 55C567D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 18:39:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728284AbeI1AvV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 20:51:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54931 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727587AbeI1AvV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Sep 2018 20:51:21 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 712C53001FCD;
-        Thu, 27 Sep 2018 18:31:47 +0000 (UTC)
-Received: from localhost (unknown [10.18.25.149])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 40DDD752CA;
-        Thu, 27 Sep 2018 18:31:42 +0000 (UTC)
-Date:   Thu, 27 Sep 2018 14:31:41 -0400
-From:   Mike Snitzer <snitzer@redhat.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Richard Weinberger <richard.weinberger@gmail.com>,
-        helen.koike@collabora.com,
-        device-mapper development <dm-devel@redhat.com>,
-        Alasdair G Kergon <agk@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Will Drewry <wad@chromium.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-lvm@redhat.com, kernel@collabora.com
-Subject: Re: [PATCH 0/2] boot to a mapped device
-Message-ID: <20180927183141.GA4921@redhat.com>
-References: <cover.1537936397.git.helen.koike@collabora.com>
- <CAFLxGvzCDOTR4stPmp1TTLkQ39x3e8MQuL=AR754abKc5skhpA@mail.gmail.com>
- <20180927142328.GA4074@redhat.com>
- <CAGXu5j+Y5e_oTZVCAHa48XgVcvEKGnVW_74oXZOUyLnfYPAjAg@mail.gmail.com>
+        id S1727320AbeI1A6z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 20:58:55 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:40869 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727404AbeI1A6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 20:58:54 -0400
+Received: by mail-pf1-f195.google.com with SMTP id s5-v6so2507922pfj.7;
+        Thu, 27 Sep 2018 11:39:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wx4n+pGnn4Z27VuDHAijr/2jdLp27dEjTrmAwqM/WRI=;
+        b=Jj/HJ56ZB8avkSygxia05Hpk+JobOAl4f3IvxnRAXdEdPcjy92KjQlkOrDPbpkFSdh
+         BBE8QzXlAC43dwZxAXcBCclSph0E+JUR3zpz5JKb4dOkuhp9W/W8vmOLzDn5381AorEC
+         d4/69DlyDlEbmuLRal5shjutVlHBLBq/1l5oFVm2pGr+SkNdaEMg26WnaTksgr0Wh/m4
+         JIIWg11vFwY1JRUa549y5EOK8tYmvGeA4Yf2zbdAhv1NBXCB7q5tLYKMqMr5Yj6VzhDN
+         lalzUWF+aQiGpGJ+mbRllSlX3qyag7BElDz+hIdX2GuOsQMuxdSDR2QkBfRIqjw71/L0
+         Ej5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wx4n+pGnn4Z27VuDHAijr/2jdLp27dEjTrmAwqM/WRI=;
+        b=OKD0dZ6zvKL8Np2iXEAfkA8Zng+ks4biZS6ud+g3Tx5fJJmwBkc0ZqI9gV/H6l5UKU
+         NCNL+DXphLN9Fax6jvBOvwiVw23cC95k9E2924jcNkbbXba+NQKU11/CEpSM7sDVab5w
+         xjhNtTlrG1gpbyCmzLP5J14fCsuq6bpUWFA+I3h4gBPTLFadPUcmox4j6mjZL1tzKJmb
+         xdvArbJ+QQ+mAQFK6XYKet6YoUL4pS3qtCKt7eQX3XqWUPQB5amijaNwYErYqCRAQSOh
+         tIakHq14LkSSYpzPR8PgDfpriiyhaBa6M1RKcQxhOCuGHyxnKE9eWiE7uLuof/agGcch
+         ffmw==
+X-Gm-Message-State: ABuFfohm4VjvBBHRr+GWRCUC/5k/3mR4fOO7H4O/Qcq/mhFSJ0wYHoBe
+        IxRrXUomkT6S9+ujxOBJCWLwy9SV
+X-Google-Smtp-Source: ACcGV62hrVcB/QpiRxSpgZlyMWin4gj2FFWlrItZNEPy6NLv7ERsRNMAh1jAfIID5vSSjYszQzj3aw==
+X-Received: by 2002:a62:1b45:: with SMTP id b66-v6mr8322260pfb.94.1538073558525;
+        Thu, 27 Sep 2018 11:39:18 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id s85-v6sm5295923pfi.15.2018.09.27.11.39.17
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 27 Sep 2018 11:39:17 -0700 (PDT)
+Date:   Thu, 27 Sep 2018 11:39:13 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     jdelvare@suse.com, corbet@lwn.net, afd@ti.com,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: ina3221: Add enable sysfs nodes
+Message-ID: <20180927183912.GA15719@Asurada-Nvidia.nvidia.com>
+References: <20180926064245.4091-1-nicoleotsuka@gmail.com>
+ <20180926064245.4091-3-nicoleotsuka@gmail.com>
+ <0cfe55e1-10d8-ac1f-8b6e-73777074a219@roeck-us.net>
+ <20180926180243.GA6329@Asurada-Nvidia.nvidia.com>
+ <20180926195817.GA19695@roeck-us.net>
+ <20180926202519.GB10595@Asurada-Nvidia.nvidia.com>
+ <20180926204455.GA17035@roeck-us.net>
+ <20180926215504.GC10595@Asurada-Nvidia.nvidia.com>
+ <20180927160509.GA18064@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGXu5j+Y5e_oTZVCAHa48XgVcvEKGnVW_74oXZOUyLnfYPAjAg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Thu, 27 Sep 2018 18:31:47 +0000 (UTC)
+In-Reply-To: <20180927160509.GA18064@roeck-us.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 27 2018 at 12:36pm -0400,
-Kees Cook <keescook@chromium.org> wrote:
+Hello Guenter,
 
-> On Thu, Sep 27, 2018 at 7:23 AM, Mike Snitzer <snitzer@redhat.com> wrote:
-> > On Wed, Sep 26 2018 at  3:16am -0400,
-> > Richard Weinberger <richard.weinberger@gmail.com> wrote:
-> >
-> >> Helen,
-> >>
-> >> On Wed, Sep 26, 2018 at 7:01 AM Helen Koike <helen.koike@collabora.com> wrote:
-> >> >
-> >> > This series is reviving an old patchwork.
-> >> > Booting from a mapped device requires an initramfs. This series is
-> >> > allows for device-mapper targets to be configured at boot time for
-> >> > use early in the boot process (as the root device or otherwise).
-> >>
-> >> What is the reason for this patch series?
-> >> Setting up non-trivial root filesystems/storage always requires an
-> >> initramfs, there is nothing
-> >> wrong about this.
-> >
-> > Exactly.  If phones or whatever would benefit from this patchset then
-> > say as much.
+On Thu, Sep 27, 2018 at 09:05:09AM -0700, Guenter Roeck wrote:
+> > > Point is that I don't _know_ how this is going to be used, so I'd
+> > > rather keep it flexible.
+> > 
+> > Well, taking one step back, I am okay to follow your way if you
+> > are really firm about it. Just please give me a more reply and
+> > I will merge this change to that v5, dropping the is_visible().
 > 
-> I think some of the context for the series was lost in commit logs,
-> but yes, both Android and Chrome OS do not use initramfs. The only
-> thing that was needed to do this was being able to configure dm
-> devices on the kernel command line, so the overhead of a full
-> initramfs was seen as a boot time liability, a boot image size
-> liability (e.g. Chrome OS has a limited amount of storage available
-> for the boot image that is covered by the static root of trust
-> signature), and a complexity risk: everything that is needed for boot
-> could be specified on the kernel command line, so better to avoid the
-> whole initramfs dance.
-> 
-> So, instead, this plumbs the dm commands directly instead of bringing
-> up a full userspace and performing ioctls.
-> 
-> > I will not accept this patchset at this time.
-> >
-> >> > Example, the following could be added in the boot parameters.
-> >> > dm="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" root=/dev/dm-0
-> >>
-> >> Hmmm, the new dm= parameter is anything but easy to get right.
-> >
-> > No, it isn't.. exposes way too much potential for users hanging
-> > themselves.
-> 
-> IIRC, the changes in syntax were suggested back when I was trying to
-> drive this series:
-> https://www.redhat.com/archives/dm-devel/2016-February/msg00199.html
-> 
-> And it matches the "concise" format in dmsetup:
-> https://sourceware.org/git/?p=lvm2.git;a=commit;h=827be01758ec5adb7b9d5ea75b658092adc65534
-> 
-> What do you feel are next steps?
+> Quite obviously we are not converging. Given that, I think it
+> would be better to shelve the new attributes for now and to wait
+> for an actual user who actually needs the new attributes.
 
-There is quite a lot of init/ code, to handle parsing the concise DM
-format, that is being proposed for inclusion.  I question why that
-DM-specific code would be located in init/
+I would rather remove the hiding code, if we have to sacrifice
+one of them. We both agreed that in[123]_enable is more useful.
+And actually we will still keep is_visible() for empty labels.
+So even if one day we somehow feel safe to hide a disconnected
+channel one day, it'd only need a couple of lines of changes.
 
-There also needs to be a careful comparison done between the proposed
-init/ code to support consise DM format and the userspace lvm2
-equivalent (e.g. lvm2.git commit 827be0175)
+I will squash this change into v6, and will send it after I fix
+things that Rob pointed out at DT binding.
 
-That aside, the DM targets that are allowed to be supported by this dm=
-commandline boot interface must be constrained (there are serious risks
-in allowing activation of certain DM targets without first using
-userspace tools to check the validity of associated metadata, as is done
-by the DM thin and cache targets).  Also, all targets supported must be
-upstream.  "linear", "verity" and "bootcache" DM targets are referenced
-in Documentation, "bootcache" must be a Google target.  I'm not aware of
-it.
-
-Mike
+Thank you
+Nicolin
