@@ -5,210 +5,74 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 311AF7D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 11:38:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 20FB47D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 14:23:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727272AbeI0R4Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 13:56:25 -0400
-Received: from andre.telenet-ops.be ([195.130.132.53]:51888 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727216AbeI0R4I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 13:56:08 -0400
-Received: from ramsan.of.borg ([84.194.111.163])
-        by andre.telenet-ops.be with bizsmtp
-        id gbeE1y00T3XaVaC01beEgw; Thu, 27 Sep 2018 13:38:14 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.86_2)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1g5UcY-0001V3-Hx; Thu, 27 Sep 2018 13:38:14 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1g5UcY-00080P-Gq; Thu, 27 Sep 2018 13:38:14 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Laura Abbott <labbott@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/3] gpio: Propagate errors from gpiod_set_array_value_complex()
-Date:   Thu, 27 Sep 2018 13:38:09 +0200
-Message-Id: <20180927113810.30721-3-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180927113810.30721-1-geert+renesas@glider.be>
-References: <20180927113810.30721-1-geert+renesas@glider.be>
+        id S1727335AbeI0UmH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 16:42:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52876 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727289AbeI0UmH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Sep 2018 16:42:07 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5C7D530015C7;
+        Thu, 27 Sep 2018 14:23:37 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.149])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 068C9600C7;
+        Thu, 27 Sep 2018 14:23:30 +0000 (UTC)
+Date:   Thu, 27 Sep 2018 10:23:29 -0400
+From:   Mike Snitzer <snitzer@redhat.com>
+To:     Richard Weinberger <richard.weinberger@gmail.com>
+Cc:     helen.koike@collabora.com,
+        device-mapper development <dm-devel@redhat.com>,
+        agk@redhat.com, LKML <linux-kernel@vger.kernel.org>,
+        enric.balletbo@collabora.com, Will Drewry <wad@chromium.org>,
+        linux-doc@vger.kernel.org, linux-lvm@redhat.com,
+        kernel@collabora.com
+Subject: Re: [PATCH 0/2] boot to a mapped device
+Message-ID: <20180927142328.GA4074@redhat.com>
+References: <cover.1537936397.git.helen.koike@collabora.com>
+ <CAFLxGvzCDOTR4stPmp1TTLkQ39x3e8MQuL=AR754abKc5skhpA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFLxGvzCDOTR4stPmp1TTLkQ39x3e8MQuL=AR754abKc5skhpA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Thu, 27 Sep 2018 14:23:37 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Internal helper function gpiod_set_array_value_complex() was changed to
-return an error value, but not all gpiolib callers were updated to
-propagate the new error up.
+On Wed, Sep 26 2018 at  3:16am -0400,
+Richard Weinberger <richard.weinberger@gmail.com> wrote:
 
-Fixes: 3027743f83f867d8 ("gpio: Remove VLA from gpiolib")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Rebase on top of gpio array rework.
----
- Documentation/driver-api/gpio/consumer.rst | 16 ++++++------
- drivers/gpio/gpiolib.c                     | 30 ++++++++++++----------
- include/linux/gpio/consumer.h              | 28 ++++++++++----------
- 3 files changed, 39 insertions(+), 35 deletions(-)
+> Helen,
+> 
+> On Wed, Sep 26, 2018 at 7:01 AM Helen Koike <helen.koike@collabora.com> wrote:
+> >
+> > This series is reviving an old patchwork.
+> > Booting from a mapped device requires an initramfs. This series is
+> > allows for device-mapper targets to be configured at boot time for
+> > use early in the boot process (as the root device or otherwise).
+> 
+> What is the reason for this patch series?
+> Setting up non-trivial root filesystems/storage always requires an
+> initramfs, there is nothing
+> wrong about this.
 
-diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-index ba4973829faef238..5e4d8aa68913529c 100644
---- a/Documentation/driver-api/gpio/consumer.rst
-+++ b/Documentation/driver-api/gpio/consumer.rst
-@@ -340,18 +340,18 @@ The following functions get or set the values of an array of GPIOs::
- 					   struct gpio_array *array_info,
- 					   unsigned long *value_bitmap);
- 
--	void gpiod_set_array_value(unsigned int array_size,
--				   struct gpio_desc **desc_array,
--				   struct gpio_array *array_info,
--				   unsigned long *value_bitmap)
-+	int gpiod_set_array_value(unsigned int array_size,
-+				  struct gpio_desc **desc_array,
-+				  struct gpio_array *array_info,
-+				  unsigned long *value_bitmap)
- 	int gpiod_set_raw_array_value(unsigned int array_size,
- 				      struct gpio_desc **desc_array,
- 				      struct gpio_array *array_info,
- 				      unsigned long *value_bitmap)
--	void gpiod_set_array_value_cansleep(unsigned int array_size,
--					    struct gpio_desc **desc_array,
--					    struct gpio_array *array_info,
--					    unsigned long *value_bitmap)
-+	int gpiod_set_array_value_cansleep(unsigned int array_size,
-+					   struct gpio_desc **desc_array,
-+					   struct gpio_array *array_info,
-+					   unsigned long *value_bitmap)
- 	int gpiod_set_raw_array_value_cansleep(unsigned int array_size,
- 					       struct gpio_desc **desc_array,
- 					       struct gpio_array *array_info,
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index a53d17745d210480..843a8075ac437d57 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -3306,15 +3306,16 @@ EXPORT_SYMBOL_GPL(gpiod_set_raw_array_value);
-  * This function should be called from contexts where we cannot sleep, and will
-  * complain if the GPIO chip functions potentially sleep.
-  */
--void gpiod_set_array_value(unsigned int array_size,
--			   struct gpio_desc **desc_array,
--			   struct gpio_array *array_info,
--			   unsigned long *value_bitmap)
-+int gpiod_set_array_value(unsigned int array_size,
-+			  struct gpio_desc **desc_array,
-+			  struct gpio_array *array_info,
-+			  unsigned long *value_bitmap)
- {
- 	if (!desc_array)
--		return;
--	gpiod_set_array_value_complex(false, false, array_size, desc_array,
--				      array_info, value_bitmap);
-+		return -EINVAL;
-+	return gpiod_set_array_value_complex(false, false, array_size,
-+					     desc_array, array_info,
-+					     value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_set_array_value);
- 
-@@ -3723,16 +3724,17 @@ void gpiod_add_lookup_tables(struct gpiod_lookup_table **tables, size_t n)
-  *
-  * This function is to be called from contexts that can sleep.
-  */
--void gpiod_set_array_value_cansleep(unsigned int array_size,
--				    struct gpio_desc **desc_array,
--				    struct gpio_array *array_info,
--				    unsigned long *value_bitmap)
-+int gpiod_set_array_value_cansleep(unsigned int array_size,
-+				   struct gpio_desc **desc_array,
-+				   struct gpio_array *array_info,
-+				   unsigned long *value_bitmap)
- {
- 	might_sleep_if(extra_checks);
- 	if (!desc_array)
--		return;
--	gpiod_set_array_value_complex(false, true, array_size, desc_array,
--				      array_info, value_bitmap);
-+		return -EINVAL;
-+	return gpiod_set_array_value_complex(false, true, array_size,
-+					     desc_array, array_info,
-+					     value_bitmap);
- }
- EXPORT_SYMBOL_GPL(gpiod_set_array_value_cansleep);
- 
-diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
-index d7fbe30ece849cd7..136aeca37740decf 100644
---- a/include/linux/gpio/consumer.h
-+++ b/include/linux/gpio/consumer.h
-@@ -117,10 +117,10 @@ int gpiod_get_array_value(unsigned int array_size,
- 			  struct gpio_array *array_info,
- 			  unsigned long *value_bitmap);
- void gpiod_set_value(struct gpio_desc *desc, int value);
--void gpiod_set_array_value(unsigned int array_size,
--			   struct gpio_desc **desc_array,
--			   struct gpio_array *array_info,
--			   unsigned long *value_bitmap);
-+int gpiod_set_array_value(unsigned int array_size,
-+			  struct gpio_desc **desc_array,
-+			  struct gpio_array *array_info,
-+			  unsigned long *value_bitmap);
- int gpiod_get_raw_value(const struct gpio_desc *desc);
- int gpiod_get_raw_array_value(unsigned int array_size,
- 			      struct gpio_desc **desc_array,
-@@ -139,10 +139,10 @@ int gpiod_get_array_value_cansleep(unsigned int array_size,
- 				   struct gpio_array *array_info,
- 				   unsigned long *value_bitmap);
- void gpiod_set_value_cansleep(struct gpio_desc *desc, int value);
--void gpiod_set_array_value_cansleep(unsigned int array_size,
--				    struct gpio_desc **desc_array,
--				    struct gpio_array *array_info,
--				    unsigned long *value_bitmap);
-+int gpiod_set_array_value_cansleep(unsigned int array_size,
-+				   struct gpio_desc **desc_array,
-+				   struct gpio_array *array_info,
-+				   unsigned long *value_bitmap);
- int gpiod_get_raw_value_cansleep(const struct gpio_desc *desc);
- int gpiod_get_raw_array_value_cansleep(unsigned int array_size,
- 				       struct gpio_desc **desc_array,
-@@ -361,13 +361,14 @@ static inline void gpiod_set_value(struct gpio_desc *desc, int value)
- 	/* GPIO can never have been requested */
- 	WARN_ON(1);
- }
--static inline void gpiod_set_array_value(unsigned int array_size,
--					 struct gpio_desc **desc_array,
--					 struct gpio_array *array_info,
--					 unsigned long *value_bitmap)
-+static inline int gpiod_set_array_value(unsigned int array_size,
-+					struct gpio_desc **desc_array,
-+					struct gpio_array *array_info,
-+					unsigned long *value_bitmap)
- {
- 	/* GPIO can never have been requested */
- 	WARN_ON(1);
-+	return 0;
- }
- static inline int gpiod_get_raw_value(const struct gpio_desc *desc)
- {
-@@ -419,13 +420,14 @@ static inline void gpiod_set_value_cansleep(struct gpio_desc *desc, int value)
- 	/* GPIO can never have been requested */
- 	WARN_ON(1);
- }
--static inline void gpiod_set_array_value_cansleep(unsigned int array_size,
-+static inline int gpiod_set_array_value_cansleep(unsigned int array_size,
- 					    struct gpio_desc **desc_array,
- 					    struct gpio_array *array_info,
- 					    unsigned long *value_bitmap)
- {
- 	/* GPIO can never have been requested */
- 	WARN_ON(1);
-+	return 0;
- }
- static inline int gpiod_get_raw_value_cansleep(const struct gpio_desc *desc)
- {
--- 
-2.17.1
+Exactly.  If phones or whatever would benefit from this patchset then
+say as much.
 
+I will not accept this patchset at this time.
+
+> > Example, the following could be added in the boot parameters.
+> > dm="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" root=/dev/dm-0
+> 
+> Hmmm, the new dm= parameter is anything but easy to get right.
+
+No, it isn't.. exposes way too much potential for users hanging
+themselves.
