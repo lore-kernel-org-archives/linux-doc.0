@@ -1,47 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DCEA27D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 20:39:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 541B37D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 20:44:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727530AbeI1C7D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 22:59:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45262 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727295AbeI1C7D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Sep 2018 22:59:03 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4755921712;
-        Thu, 27 Sep 2018 20:38:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1538080737;
-        bh=i2DBqlCtCOaQ5XkZkSYwE/IujQn9YGBFT3Esxu2iC+U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=s0I5o72P8Vm7Ahrpi5uZw6H+AZhHhAOwd+j5KPjtV7FVxjwsMBTzC2GnyjSr9Zi71
-         pOd5WJNayPTLFBHbneHcWvg73IP7KPJvWBrS/OCkm0Ah5z7PHRSQoRZ0sFLiRPmkkd
-         tQif7O16lx8fu8cOgzi+mdPdslgWsdBTfCATmOlI=
-Received: by mail-qt1-f178.google.com with SMTP id z14-v6so4348870qtn.2;
-        Thu, 27 Sep 2018 13:38:57 -0700 (PDT)
-X-Gm-Message-State: ABuFfojJUruyxd+HmLtZhRt4Vd40q4x9ozMT1s2zQnsF4ZTgvzDbVNom
-        r2017FWXne9fZuXyXsW7bsE815Ek43ynjEiUpQ==
-X-Google-Smtp-Source: ACcGV63ebic0D+NJWKC3us72jqbp2UaZUMhjlXRR9rSyAr7ZO1y0Zhbri4EvDfZxyeT4yBxk20TCxJmJJsl3+5X5F+g=
-X-Received: by 2002:aed:2905:: with SMTP id s5-v6mr6850435qtd.101.1538080736373;
- Thu, 27 Sep 2018 13:38:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180927194910.18464-1-nicoleotsuka@gmail.com> <20180927194910.18464-2-nicoleotsuka@gmail.com>
-In-Reply-To: <20180927194910.18464-2-nicoleotsuka@gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 27 Sep 2018 15:38:44 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLcuJyjHFzW7-p4HAZq3g5tGAo0wT8f5ZT_KYWV5X5+5A@mail.gmail.com>
-Message-ID: <CAL_JsqLcuJyjHFzW7-p4HAZq3g5tGAo0wT8f5ZT_KYWV5X5+5A@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] dt-bindings: hwmon: Add ina3221 documentation
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
+        id S1727370AbeI1DET (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 23:04:19 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45666 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727331AbeI1DET (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 23:04:19 -0400
+Received: by mail-pg1-f194.google.com with SMTP id t70-v6so2764787pgd.12;
+        Thu, 27 Sep 2018 13:44:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HStFA5SnE7vrI0jwGOVUVgwG0dcEQ0TIBR37yh7VvxI=;
+        b=af1BrsZkEC1AfyWWuuukSfumJwpYMdUdE03Qofgruaeouh9JIFnQ41jjCfY14zwasm
+         NImYeEPqvt8MDCmmpwH4l4hF0VvK7cXMDVMfiuxCqgeHRka7j1nmufBLSXM6yibSGel2
+         XO2UnxnoUZupilfp73U197DA8yhiNOxaBE5jVJedW1VmH9hOHGWxxRerxxyOTPRt8q/5
+         vnb/z0DNsSHF+rY9ssXPBw8RrQSJKRQEto2uNiWvvtAvzU2DW7BA37HEYmer0aj7Igvz
+         Bq26B+LM1AmVNe3sr1Tzt8ISqSnt3hl4xcLwJOwdoQL8Dn16mL2K101fP+1a8NmhoZNe
+         k3AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HStFA5SnE7vrI0jwGOVUVgwG0dcEQ0TIBR37yh7VvxI=;
+        b=D8iQMBuBAQYHmbpr78kS/8YkF25fTDRW7f9z/TuWHoP+tQp8vSaJ7Zha/bBwbCOiXg
+         r4laAfFCoZpYkKRE8QGVe7CgyRJz2G+96sMQ8fpzmK2CtvjVDBrNbjeYYpr4oMWnBlB7
+         lv++ixenq+dTim1+In2CmzVmsPB2VkM65SOEuK8VdfgbkmZNPZHLvtfZOThYhMBvM4t1
+         5shxAE8u9cW1Pg2z2FaKlQ+V9ivQfK4lUCS9Q2wML+hVs3D+GJRh+lZ5m5+eu6x7726c
+         4PXtxkrsxnCefIKZQltpR6c3NwF3whIGctQLE4IRK1exo8Fl8zDiDgqnV0h2itZdaq0s
+         6qQg==
+X-Gm-Message-State: ABuFfoiKRNyGVw2tzWk8GsL4XgOjejnxs7wDsX+jpq53Brr8aMHBLy/M
+        Hb96zhXdgSI8IwAQm1dl9ExKfQ/I
+X-Google-Smtp-Source: ACcGV639FKn4NkY+XTcGyYrkitd439MGQToJ+MxE15w/WEu+CE/AySbnpsf6ytcIwt4c8z644+96zg==
+X-Received: by 2002:a62:5950:: with SMTP id n77-v6mr8805305pfb.0.1538081051668;
+        Thu, 27 Sep 2018 13:44:11 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id u79-v6sm6242792pfd.117.2018.09.27.13.44.11
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 27 Sep 2018 13:44:11 -0700 (PDT)
+Date:   Thu, 27 Sep 2018 13:44:07 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -51,25 +60,38 @@ Cc:     Jean Delvare <jdelvare@suse.com>,
         devicetree@vger.kernel.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v6 1/2] dt-bindings: hwmon: Add ina3221 documentation
+Message-ID: <20180927204407.GB20923@Asurada-Nvidia.nvidia.com>
+References: <20180927194910.18464-1-nicoleotsuka@gmail.com>
+ <20180927194910.18464-2-nicoleotsuka@gmail.com>
+ <CAL_JsqLcuJyjHFzW7-p4HAZq3g5tGAo0wT8f5ZT_KYWV5X5+5A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqLcuJyjHFzW7-p4HAZq3g5tGAo0wT8f5ZT_KYWV5X5+5A@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 27, 2018 at 2:49 PM Nicolin Chen <nicoleotsuka@gmail.com> wrote:
->
-> Texas Instruments INA3221 is a triple-channel shunt and bus
-> voltage monitor. This patch adds a DT binding doc for it.
->
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> ---
-> Changelog
-> v5->v6:
->  * Removed status property as no need to explicitly list it.
->  * Combined all examples into a complete one.
+On Thu, Sep 27, 2018 at 03:38:44PM -0500, Rob Herring wrote:
+> On Thu, Sep 27, 2018 at 2:49 PM Nicolin Chen <nicoleotsuka@gmail.com> wrote:
+> >
+> > Texas Instruments INA3221 is a triple-channel shunt and bus
+> > voltage monitor. This patch adds a DT binding doc for it.
+> >
+> > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> > ---
+> > Changelog
+> > v5->v6:
+> >  * Removed status property as no need to explicitly list it.
+> >  * Combined all examples into a complete one.
+> 
+> Sorry, I meant combine the parent and child nodes into one. Showing 3
+> children is perfectly fine as the device has 3 channels.
 
-Sorry, I meant combine the parent and child nodes into one. Showing 3
-children is perfectly fine as the device has 3 channels.
+Sending v7.
 
-Rob
+Thanks
+Nicolin
