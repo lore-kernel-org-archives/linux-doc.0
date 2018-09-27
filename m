@@ -5,82 +5,86 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71D297D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 11:38:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2AAA47D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 11:38:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727182AbeI0R4F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 13:56:05 -0400
-Received: from andre.telenet-ops.be ([195.130.132.53]:51886 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727111AbeI0R4F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 13:56:05 -0400
+        id S1727340AbeI0R4I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 13:56:08 -0400
+Received: from albert.telenet-ops.be ([195.130.137.90]:45638 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727292AbeI0R4I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 13:56:08 -0400
 Received: from ramsan.of.borg ([84.194.111.163])
-        by andre.telenet-ops.be with bizsmtp
-        id gbeC1y0063XaVaC01beCgA; Thu, 27 Sep 2018 13:38:12 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id gbeE1y0093XaVaC06beEKa; Thu, 27 Sep 2018 13:38:14 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.86_2)
         (envelope-from <geert@linux-m68k.org>)
-        id 1g5UcV-0001Uv-VL; Thu, 27 Sep 2018 13:38:11 +0200
+        id 1g5UcY-0001Uz-8L; Thu, 27 Sep 2018 13:38:14 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1g5UcV-00080I-TH; Thu, 27 Sep 2018 13:38:11 +0200
+        id 1g5UcY-00080M-7C; Thu, 27 Sep 2018 13:38:14 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Laura Abbott <labbott@redhat.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 0/3] gpio: Fix VLA removal fallout
-Date:   Thu, 27 Sep 2018 13:38:07 +0200
-Message-Id: <20180927113810.30721-1-geert+renesas@glider.be>
+Subject: [PATCH v2 1/3] Documentation: gpio: Fix return type of gpiod_set_raw_array_value*()
+Date:   Thu, 27 Sep 2018 13:38:08 +0200
+Message-Id: <20180927113810.30721-2-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180927113810.30721-1-geert+renesas@glider.be>
+References: <20180927113810.30721-1-geert+renesas@glider.be>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-	Hi Linus,
+The return type of gpiod_set_raw_array_value() and
+gpiod_set_raw_array_value_cansleep() was changed from void to int, but
+the doc update was forgotten.
 
-This patch series fixes various (mostly harmless) issues introduced by
-commit 3027743f83f867d8 ("gpio: Remove VLA from gpiolib").
-
-As per the "one patch should fix one issue"-policy, this series contains 3
-patches, although they all have the same Fixes: tag.
-
-Changes compared to v1:
+Fixes: 3027743f83f867d8 ("gpio: Remove VLA from gpiolib")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
   - Rebase on top of gpio array rework.
+---
+ Documentation/driver-api/gpio/consumer.rst | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-W.r.t. propagating errors: while gpiod_set_array_value_complex() and its
-callers can now return an error code, this is currently limited to -ENOMEM.
-Actual failures setting a GPIO output value cannot be propagated, as
-gpio_chip.set() still returns void.  Do you want to change that?
-E.g. gen_74x164_set_value() can fail.
-
-Feel free to fold patches if deemed appropriate.
-
-Thanks!
-
-Geert Uytterhoeven (3):
-  Documentation: gpio: Fix return type of gpiod_set_raw_array_value*()
-  gpio: Propagate errors from gpiod_set_array_value_complex()
-  gpio: Restore indentation of continued lines
-
- Documentation/driver-api/gpio/consumer.rst | 32 +++++++-------
- drivers/gpio/gpiolib.c                     | 50 +++++++++++-----------
- drivers/gpio/gpiolib.h                     |  8 ++--
- include/linux/gpio/consumer.h              | 46 ++++++++++----------
- 4 files changed, 70 insertions(+), 66 deletions(-)
-
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index cf992e5ab976e62a..ba4973829faef238 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -344,18 +344,18 @@ The following functions get or set the values of an array of GPIOs::
+ 				   struct gpio_desc **desc_array,
+ 				   struct gpio_array *array_info,
+ 				   unsigned long *value_bitmap)
+-	void gpiod_set_raw_array_value(unsigned int array_size,
+-				       struct gpio_desc **desc_array,
+-				       struct gpio_array *array_info,
+-				       unsigned long *value_bitmap)
++	int gpiod_set_raw_array_value(unsigned int array_size,
++				      struct gpio_desc **desc_array,
++				      struct gpio_array *array_info,
++				      unsigned long *value_bitmap)
+ 	void gpiod_set_array_value_cansleep(unsigned int array_size,
+ 					    struct gpio_desc **desc_array,
+ 					    struct gpio_array *array_info,
+ 					    unsigned long *value_bitmap)
+-	void gpiod_set_raw_array_value_cansleep(unsigned int array_size,
+-						struct gpio_desc **desc_array,
+-						struct gpio_array *array_info,
+-						unsigned long *value_bitmap)
++	int gpiod_set_raw_array_value_cansleep(unsigned int array_size,
++					       struct gpio_desc **desc_array,
++					       struct gpio_array *array_info,
++					       unsigned long *value_bitmap)
+ 
+ The array can be an arbitrary set of GPIOs. The functions will try to access
+ GPIOs belonging to the same bank or chip simultaneously if supported by the
 -- 
 2.17.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
