@@ -1,166 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 14C7F7DD4F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 16:05:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F2C9C7DD50
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 16:28:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727437AbeI0WYK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 18:24:10 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:37040 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727338AbeI0WYJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 18:24:09 -0400
-Received: by mail-pg1-f195.google.com with SMTP id c10-v6so2300169pgq.4;
-        Thu, 27 Sep 2018 09:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kxhM6P1q7B1Pqh4UixRKhCOxhTru1MCiwAqmDiNMfqA=;
-        b=E+qEQKI7eU2q91kuqh74rtzlPRB359CyNKEBSdyiqSdyf5PWoTdFI3cN7sziubiSX/
-         NHeMd4JudNdTn/rjGDedaEkhPeHJKnbnrBnaC3WqlAgZMqHaTQnQCwI3/RcFwxESHHBG
-         HPjTGHyPVTzvwFMqLsKIED6VxtLfBr0BL+m6buO7+5UocPPLDN3/CPXaa7Nj5F47KS2O
-         rYrH7MaSWUcVZSsQCwIeQTr3AYa9joFXKsX0sV1FN4HR/aoisnZ03IqVhBxkuLze6PQ8
-         aJ85BlvovyfiQLuRcn9wr/k8Ji9I82qKZIETk2HdZ85Rox8DyeDlxDozCjRfglX6xas0
-         qftQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kxhM6P1q7B1Pqh4UixRKhCOxhTru1MCiwAqmDiNMfqA=;
-        b=snLIPhHT6KNR61DZ1mn9h3nIW9mMm9pTNoai7P0SKbwzp2iHxguaiw1FrO9AViZ/Mq
-         owxSMjZ7mJGygjm+02h4WcAmp+QRVPMgsUPwg9TvlnKDgES+ywrvoA65MKmntne1eFOQ
-         ULacLqmbfY7EdLyNm1yd/z1c7D88aWpcu6HFljkuUmhTvMXqot3B2gpvCKKQ37ClMYHM
-         pXIunYDqcmktl1HduunWC6aSuW0mzb9R2HaggnGyTCkVCTYPYg/GH1+FAwCVEo+tyUm4
-         tUm6DNR1+E3NKMH6SUZnWpTS7vE5tljw9QqmFW78/lUNgB/IjgOQpjtOvKfX3iFILQbr
-         eJLQ==
-X-Gm-Message-State: ABuFfogfnBOzSk1C94eTuy9wPxQRd+nnDOOVkVm+tTtNyXf/ALEtcYcn
-        WGkJvRh8dedUrzSU269Xrck=
-X-Google-Smtp-Source: ACcGV6023fxl3jPjN53Q5EgbxZ4pG9tS26umS4zgUHVIh91WC3KW2OheXNxboruG8i5cmr5XzcN1zg==
-X-Received: by 2002:a17:902:28a8:: with SMTP id f37-v6mr11710916plb.264.1538064312070;
-        Thu, 27 Sep 2018 09:05:12 -0700 (PDT)
-Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id t22-v6sm6342903pfk.141.2018.09.27.09.05.10
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 27 Sep 2018 09:05:10 -0700 (PDT)
-Date:   Thu, 27 Sep 2018 09:05:09 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     jdelvare@suse.com, corbet@lwn.net, afd@ti.com,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: ina3221: Add enable sysfs nodes
-Message-ID: <20180927160509.GA18064@roeck-us.net>
-References: <20180926064245.4091-1-nicoleotsuka@gmail.com>
- <20180926064245.4091-3-nicoleotsuka@gmail.com>
- <0cfe55e1-10d8-ac1f-8b6e-73777074a219@roeck-us.net>
- <20180926180243.GA6329@Asurada-Nvidia.nvidia.com>
- <20180926195817.GA19695@roeck-us.net>
- <20180926202519.GB10595@Asurada-Nvidia.nvidia.com>
- <20180926204455.GA17035@roeck-us.net>
- <20180926215504.GC10595@Asurada-Nvidia.nvidia.com>
+        id S1728477AbeI0Wqf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 18:46:35 -0400
+Received: from mga01.intel.com ([192.55.52.88]:37468 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727731AbeI0Wqe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Sep 2018 18:46:34 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Sep 2018 09:27:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,311,1534834800"; 
+   d="scan'208";a="95437347"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.151]) ([10.7.153.151])
+  by orsmga002.jf.intel.com with ESMTP; 27 Sep 2018 09:27:30 -0700
+Subject: Re: [PATCH v8 01/12] dt-bindings: Add a document of PECI subsystem
+To:     Rob Herring <robh@kernel.org>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juergen Gross <jgross@suse.com>,
+        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org
+References: <20180918215124.14003-1-jae.hyun.yoo@linux.intel.com>
+ <20180918215124.14003-2-jae.hyun.yoo@linux.intel.com>
+ <20180927151055.GA11054@bogus>
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <28aa0b24-8531-21e0-343c-78654937d7ff@linux.intel.com>
+Date:   Thu, 27 Sep 2018 09:27:30 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180926215504.GC10595@Asurada-Nvidia.nvidia.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20180927151055.GA11054@bogus>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nicolin,
+On 9/27/2018 8:10 AM, Rob Herring wrote:
+> On Tue, 18 Sep 2018 14:51:13 -0700, Jae Hyun Yoo wrote:
+>> This commit adds a document of generic PECI bus, adapter and client
+>> driver.
+>>
+>> Cc: Rob Herring <robh+dt@kernel.org>
+>> Cc: Mark Rutland <mark.rutland@arm.com>
+>> Cc: Andrew Jeffery <andrew@aj.id.au>
+>> Cc: Joel Stanley <joel@jms.id.au>
+>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
+>> Reviewed-by: James Feist <james.feist@linux.intel.com>
+>> Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
+>> ---
+>>   .../devicetree/bindings/peci/peci.txt         | 43 +++++++++++++++++++
+>>   1 file changed, 43 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/peci/peci.txt
+>>
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
 
-On Wed, Sep 26, 2018 at 02:55:06PM -0700, Nicolin Chen wrote:
-> On Wed, Sep 26, 2018 at 01:44:55PM -0700, Guenter Roeck wrote:
-> > On Wed, Sep 26, 2018 at 01:25:20PM -0700, Nicolin Chen wrote:
-> > > Hello,
-> > > 
-> > > On Wed, Sep 26, 2018 at 12:58:17PM -0700, Guenter Roeck wrote:
-> > > > On Wed, Sep 26, 2018 at 11:02:44AM -0700, Nicolin Chen wrote:
-> > > > > On Wed, Sep 26, 2018 at 06:06:32AM -0700, Guenter Roeck wrote:
-> > > > > > On 09/25/2018 11:42 PM, Nicolin Chen wrote:
-> > > > > > > The inX_enable interface allows user space to enable or disable
-> > > > > > > the corresponding channel. Meanwhile, according to hwmon ABI, a
-> > > > > > > disabled channel/sensor should return -ENODATA as a read result.
-> > > > > > > 
-> > > > > > > However, there're configurable nodes sharing the same __show()
-> > > > > > > functions. So this change also adds to check if the attribute is
-> > > > > > > read-only to make sure it's not reading a configuration but the
-> > > > > > > sensor data.
-> > > > >  
-> > > > > > One necessary high level change I don't see below: With this change,
-> > > > > > we should no longer drop a channel entirely if it is disabled from
-> > > > > > devicetree. All channels should be visible but report -ENODATA if
-> > > > > > disabled. In other words, it should be possible for the 'enable' flag
-> > > > > > to override settings in DT.
-> > > > > 
-> > > > > Hmm...I don't feel so convinced here. The status in DT binding isn't
-> > > > > exactly a setting but a physical status: if a hardware design leaves
-> > > > > a channel to be disconnected, I don't really see a point in enabling
-> > > > > it in the runtime. Or maybe you can shed some light on it?
-> > > > > 
-> > > > 
-> > > > You are making an assumption from your use case. It might as well be that
-> > > > some or all channels are disabled in DT by default to conserve power,
-> > > > not because they are disconnected.
-> > > 
-> > > I think I probably should update my DT binding somehow to say it
-> > > explicitly that the property should be only used in cases of the
-> > > physical disconnections, although I feel the current binding "no
-> > > input source" already has the same meaning.
-> > > 
-> > > In my opinion, disabling channels in DT to save power isn't very
-> > > plausible, because it sounds more likely a user decision, while,
-> > > as we know, DT merely describes the hardware design.
-> > > 
-> > 
-> > I try to avoid making such assumptions. All I know is that I'll have
-> > to deal with the fallout if a single person wants to use the property
-> > differently.
-> 
-> I can understand your point (or pain lol). But I believe in such
-> a case, DT maintainers should reject such a DT change. Let's say
-> if this kinda "default setting" in DT is allowable, other things
-> such as having a default mode setting between polling or one-shot
-> modes, and as default critical current settings would be able to
-> put into DT. But we know that these would be rejected as a reason
-> of "not being hardware design but a user decision".
-> 
-> > This is similar to disabling an entire subsystem in DT
-> > because it isn't used in a specific system - say, a SPI or I2C bus
-> > which has nothing connected on some shipping hardware, even though
-> > the board has a connector for it. Your argument is that one shall
-> > not use the status property do disable loading the driver, and that
-> > one must not remove a set of properties for unused hardware either.
-> > That doesn't sound very realistic to me.
-> 
-> SPI/I2C is a good example comparing to my case. And you do make
-> a point. In that case, I think DT overlay is designed for it --
-> one shall overlay the status property from "disable" (defined in
-> the DTS of the shipping hardware -- the main board) to "okay" in
-> the overlay DTS where a connection actually happens.
-> 
-> And even in this case, it makes sense to me to disable both the
-> status and the driver of SPI/I2C for the main board. Otherwise,
-> memory could be wasted for standalone main board users at those
-> unused SPI/I2C buses -- and the memory might be larger than one
-> could expect depending on where drivers allocate data buffers.
-> 
-> > Point is that I don't _know_ how this is going to be used, so I'd
-> > rather keep it flexible.
-> 
-> Well, taking one step back, I am okay to follow your way if you
-> are really firm about it. Just please give me a more reply and
-> I will merge this change to that v5, dropping the is_visible().
-
-Quite obviously we are not converging. Given that, I think it
-would be better to shelve the new attributes for now and to wait
-for an actual user who actually needs the new attributes.
-
-Thanks,
-Guenter
+Thanks for the review, Rob!
