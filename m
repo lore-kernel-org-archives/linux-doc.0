@@ -4,94 +4,95 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 541B37D57F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 20:44:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1D9C7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 20:55:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727370AbeI1DET (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 23:04:19 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:45666 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727331AbeI1DET (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 23:04:19 -0400
-Received: by mail-pg1-f194.google.com with SMTP id t70-v6so2764787pgd.12;
-        Thu, 27 Sep 2018 13:44:12 -0700 (PDT)
+        id S1728505AbeI1DOX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 23:14:23 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:45581 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727295AbeI1DOW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 23:14:22 -0400
+Received: by mail-pg1-f195.google.com with SMTP id t70-v6so2780545pgd.12;
+        Thu, 27 Sep 2018 13:54:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=HStFA5SnE7vrI0jwGOVUVgwG0dcEQ0TIBR37yh7VvxI=;
-        b=af1BrsZkEC1AfyWWuuukSfumJwpYMdUdE03Qofgruaeouh9JIFnQ41jjCfY14zwasm
-         NImYeEPqvt8MDCmmpwH4l4hF0VvK7cXMDVMfiuxCqgeHRka7j1nmufBLSXM6yibSGel2
-         XO2UnxnoUZupilfp73U197DA8yhiNOxaBE5jVJedW1VmH9hOHGWxxRerxxyOTPRt8q/5
-         vnb/z0DNsSHF+rY9ssXPBw8RrQSJKRQEto2uNiWvvtAvzU2DW7BA37HEYmer0aj7Igvz
-         Bq26B+LM1AmVNe3sr1Tzt8ISqSnt3hl4xcLwJOwdoQL8Dn16mL2K101fP+1a8NmhoZNe
-         k3AA==
+        h=from:to:cc:subject:date:message-id;
+        bh=P5Rd6p4jsWq71kIYji+uUh3Ej9u3ymYB/pmbVBVe4B8=;
+        b=k9ui6lWHO29wsCotFyQzm/FOCWsi3RT4kWyxF2cUYiTdi7Pn7B9ZM/WYS+VAr7YOdd
+         TWCE/1Wun6GrktzZ8z5JInpWuJVsIA/UKZ1uokjhSA8a/UkDg85lggLAVjiMjxnQKhoF
+         RFPqttjzCUHJlOhlQ9dxSygT7Ok9HFOJXbGA6iDePWwvzCY9MXjCJ3WVXzb5/uHRNM/2
+         GBSlzYyvhIqsEh88/pq2HoqGjCAA963MoztWCEx+Nccv2aFSS1tqaBDkBAWW3ZYEQyuE
+         e3GrpMV0aVCZ60hp0S6xwyW2fYlvlwRsy3sZabeM9jQqQV0TqsC1jW1G+PT6fSAL6gF3
+         ZOVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HStFA5SnE7vrI0jwGOVUVgwG0dcEQ0TIBR37yh7VvxI=;
-        b=D8iQMBuBAQYHmbpr78kS/8YkF25fTDRW7f9z/TuWHoP+tQp8vSaJ7Zha/bBwbCOiXg
-         r4laAfFCoZpYkKRE8QGVe7CgyRJz2G+96sMQ8fpzmK2CtvjVDBrNbjeYYpr4oMWnBlB7
-         lv++ixenq+dTim1+In2CmzVmsPB2VkM65SOEuK8VdfgbkmZNPZHLvtfZOThYhMBvM4t1
-         5shxAE8u9cW1Pg2z2FaKlQ+V9ivQfK4lUCS9Q2wML+hVs3D+GJRh+lZ5m5+eu6x7726c
-         4PXtxkrsxnCefIKZQltpR6c3NwF3whIGctQLE4IRK1exo8Fl8zDiDgqnV0h2itZdaq0s
-         6qQg==
-X-Gm-Message-State: ABuFfoiKRNyGVw2tzWk8GsL4XgOjejnxs7wDsX+jpq53Brr8aMHBLy/M
-        Hb96zhXdgSI8IwAQm1dl9ExKfQ/I
-X-Google-Smtp-Source: ACcGV639FKn4NkY+XTcGyYrkitd439MGQToJ+MxE15w/WEu+CE/AySbnpsf6ytcIwt4c8z644+96zg==
-X-Received: by 2002:a62:5950:: with SMTP id n77-v6mr8805305pfb.0.1538081051668;
-        Thu, 27 Sep 2018 13:44:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=P5Rd6p4jsWq71kIYji+uUh3Ej9u3ymYB/pmbVBVe4B8=;
+        b=KDDq7/yU1On8Zxvy1h1uPWo+t8VghPKMYoKYsPX+OqXhd2lvf9vHSHpG6Hd1J8N7Kg
+         L2NTFm0UnzLESVFw080AZIhhGN35IZntW2l3w4EbrPJcH86VjxEn8aJiG/JZ6Plr93bI
+         JrRd34iImvKqLhsK5nwQdxdSgfEaq7W5PH3Dl+vXPfeF0/hUqjNbru5t4Je9pwscvB8V
+         8yme3EUzTt9eB55SiwL6KCbCqrUjFxyt5QiuYknd/iNez1j/hQAOGrJGp4ds8+zJoBwo
+         J5CM+seRjRXXrKBroL4+gkTVbRx+MEem4AlM8preZCdwF20IVZ8owmUNf0witVqxD4d6
+         mpQQ==
+X-Gm-Message-State: ABuFfogQuo9kVQfTxUu9V8FB+6zItQAIYhs1EVMZW29M+toUg13aSn1X
+        1M8pjfBZuuPmvosu65EzqgA=
+X-Google-Smtp-Source: ACcGV63cCOorHzjrLaW2jkb+Td+UeZUQt8rQNsmapPat3dM13RxDtwOSM/Qbs1ZNBiNnxPDRqaxaTw==
+X-Received: by 2002:a17:902:aa83:: with SMTP id d3-v6mr12709715plr.242.1538081653120;
+        Thu, 27 Sep 2018 13:54:13 -0700 (PDT)
 Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id u79-v6sm6242792pfd.117.2018.09.27.13.44.11
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 27 Sep 2018 13:44:11 -0700 (PDT)
-Date:   Thu, 27 Sep 2018 13:44:07 -0700
+        by smtp.gmail.com with ESMTPSA id v26-v6sm4354101pfe.57.2018.09.27.13.54.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 27 Sep 2018 13:54:12 -0700 (PDT)
 From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Andrew F. Davis" <afd@ti.com>,
-        Linux HWMON List <linux-hwmon@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v6 1/2] dt-bindings: hwmon: Add ina3221 documentation
-Message-ID: <20180927204407.GB20923@Asurada-Nvidia.nvidia.com>
-References: <20180927194910.18464-1-nicoleotsuka@gmail.com>
- <20180927194910.18464-2-nicoleotsuka@gmail.com>
- <CAL_JsqLcuJyjHFzW7-p4HAZq3g5tGAo0wT8f5ZT_KYWV5X5+5A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqLcuJyjHFzW7-p4HAZq3g5tGAo0wT8f5ZT_KYWV5X5+5A@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
+        mark.rutland@arm.com, corbet@lwn.net
+Cc:     afd@ti.com, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v7 0/2] Add an initial DT binding doc for ina3221
+Date:   Thu, 27 Sep 2018 13:54:04 -0700
+Message-Id: <20180927205406.21932-1-nicoleotsuka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 27, 2018 at 03:38:44PM -0500, Rob Herring wrote:
-> On Thu, Sep 27, 2018 at 2:49 PM Nicolin Chen <nicoleotsuka@gmail.com> wrote:
-> >
-> > Texas Instruments INA3221 is a triple-channel shunt and bus
-> > voltage monitor. This patch adds a DT binding doc for it.
-> >
-> > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> > ---
-> > Changelog
-> > v5->v6:
-> >  * Removed status property as no need to explicitly list it.
-> >  * Combined all examples into a complete one.
-> 
-> Sorry, I meant combine the parent and child nodes into one. Showing 3
-> children is perfectly fine as the device has 3 channels.
+This series adds a initial DT binding doc for ina3221. It defines
+a child node to describe the input source of each ina3221 channel.
+Then it changes the driver to handle the information properly.
 
-Sending v7.
+Changelog
+v6->v7:
+ * Refined the example in the binding doc (PATCH-1)
+v5->v6:
+ * Removed status property and merged examples (PATCH-1)
+ * Added in[123]_enable sysfs nodes (PATCH-2)
+v4->v5:
+ * Changed two property names of child node (PATCH-1)
+ * Changed the driver accordingly and simplified is_visible (PATCH-2)
+v3->v4:
+ * Fixed one place in child DT node bindings (PATCH-1)
+ * Changed the driver accordingly and added is_visible (PATCH-2)
+v2->v3:
+ * Fixed two places in DT bindings (PATCH-1)
+v1->v2:
+ * Redefined DT bindings (detail in PATCH-1)
+ * Changed the driver code accordingly (detail in PATCH-2)
 
-Thanks
-Nicolin
+Nicolin Chen (2):
+  dt-bindings: hwmon: Add ina3221 documentation
+  hwmon: ina3221: Read channel input source info from DT
+
+ .../devicetree/bindings/hwmon/ina3221.txt     |  44 ++++
+ Documentation/hwmon/ina3221                   |   2 +
+ drivers/hwmon/ina3221.c                       | 237 ++++++++++++++++--
+ 3 files changed, 269 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ina3221.txt
+
+-- 
+2.17.1
+
