@@ -1,116 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E25047D581
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 16:38:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 566AB7D57F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 17:43:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728196AbeI0W5g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Sep 2018 18:57:36 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:58172 "EHLO ale.deltatee.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727320AbeI0W5g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Sep 2018 18:57:36 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1g5ZJ7-0003WJ-1O; Thu, 27 Sep 2018 10:38:29 -0600
-To:     Wesley.Sheng@microchip.com, kurt.schwemmer@microsemi.com,
-        bhelgaas@google.com, corbet@lwn.net
-Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-ntb@googlegroups.com
-References: <DM2PR11MB010585C1D5584683B31CCF5495140@DM2PR11MB0105.namprd11.prod.outlook.com>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <2164850f-0772-026e-19a0-73747d03aa93@deltatee.com>
-Date:   Thu, 27 Sep 2018 10:38:27 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        id S1727320AbeI1ACU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Sep 2018 20:02:20 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:39363 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727223AbeI1ACU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Sep 2018 20:02:20 -0400
+Received: by mail-oi1-f193.google.com with SMTP id y81-v6so2913662oia.6;
+        Thu, 27 Sep 2018 10:42:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=w6d+A0Vv/nUcoBcJgB2dAUxIRKszMsUmC1lmMSWxwrU=;
+        b=Oz+Ny8OC04NrbjiUCbFKAx0prxsaMexiLvhAwupuY7jXSZHPTQ5mzybH8KqnG3ctOH
+         DAY7pDz7iB1V4wnutrdx8H4JoPZ3UEWohFmBv5DJGN2gsiKfJlw/R8eCEqjCgUZWXy43
+         Q1MmxWAtkNCfa0sxfA1ZvxmMuLHgdQVFRPfd+AKtEZb+gZ2ZsN7MHbsMeiy7mubzpeQm
+         /dvIYmyQIeW7Nd42XUEMoTp3HSXwJFnswkq904Zt6WVtcEEqrf8nURDGamA85SsqMvRS
+         IJke6xR+fKPFh3QajIYAryyjvb5R4JSGdtLu/hIx1wwYgCbWnZi3zPEsIGliTHCT3qcu
+         UX0Q==
+X-Gm-Message-State: ABuFfog7vI4CPxHM+Vz7ksRAQOU8XFURHR/Bkc6StVsBwtvqcOdwvClD
+        gKCvtp4JbF6rClbmzRMefA==
+X-Google-Smtp-Source: ACcGV63Ta0cnnjSFSVEVROKO7NV0iBPoUjGfKwjU3KDyECgej/6SDB+ucKP+XrbAKtiEt/y/qbqgYw==
+X-Received: by 2002:aca:5108:: with SMTP id f8-v6mr3811935oib.272.1538070176911;
+        Thu, 27 Sep 2018 10:42:56 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n30-v6sm1176935otb.73.2018.09.27.10.42.56
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 27 Sep 2018 10:42:56 -0700 (PDT)
+Date:   Thu, 27 Sep 2018 12:42:55 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Nicolin Chen <nicoleotsuka@gmail.com>, jdelvare@suse.com,
+        mark.rutland@arm.com, corbet@lwn.net, afd@ti.com,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add ina3221 documentation
+Message-ID: <20180927174255.GA7587@bogus>
+References: <20180925225930.31886-1-nicoleotsuka@gmail.com>
+ <20180925225930.31886-2-nicoleotsuka@gmail.com>
+ <4f16baf7-b1bc-c7d2-3dd9-ed10b78d59b6@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <DM2PR11MB010585C1D5584683B31CCF5495140@DM2PR11MB0105.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: linux-ntb@googlegroups.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, corbet@lwn.net, bhelgaas@google.com, kurt.schwemmer@microsemi.com, Wesley.Sheng@microchip.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v2] NTB: switchtec_ntb: Update switchtec documentation
- with pre-requisites for NTB
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4f16baf7-b1bc-c7d2-3dd9-ed10b78d59b6@roeck-us.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2018-09-27 12:36 a.m., Wesley.Sheng@microchip.com wrote:
-> Update switchtec documentation
-> 1.add pre-requisites for NTB driver
-> 2.misc updates
->  change NTB hardware driver name to ntb_hw_switchtec
->  update the description of 2 partitions limit
->  add reference to Linux Documentation/ntb.txt
->  add use of term 'Command ID'
->  add use of term 'Command Return Value'
->  add a missing ')'
-
-You need a better commit message. It needs to describe, in plain
-English, why the maintainers should merge this, not itemize the
-individual changes (that's what the patch body tells us).
-
->  * A write must consist of at least 4 bytes and no more than 1028 bytes.
-> -  The first four bytes will be interpreted as the command to run and
-> -  the remainder will be used as the input data. A write will send the
-> +  The first 4 bytes will be interpreted as the Command ID and the  
-> + remainder will be used as the input data. A write will send the
->    command to the firmware to begin processing.
-
-You still have some broken white space in this patch. Notice the spacing
-before "remainder" compared to the previous line.
-
->  * Each write must be followed by exactly one read. Any double write will
->  @@ -45,9 +45,9 @@ The char device has the following semantics:
->    produce an error.
->  
->  * A read will block until the firmware completes the command and return
-> -  the four bytes of status plus up to 1024 bytes of output data. (The
-> -  length will be specified by the size parameter of the read call --
-> -  reading less than 4 bytes will produce an error.
-> +  the 4-byte Command Return Value plus up to 1024 bytes of output  
-> + data. (The length will be specified by the size parameter of the read  
-> + call -- reading less than 4 bytes will produce an error.)
-
-Here too.
-
->  * The poll call will also be supported for userspace applications that
->    need to do other things while waiting for the command to complete.
-> @@ -83,10 +83,20 @@ The following IOCTLs are also supported by the device:
->  Non-Transparent Bridge (NTB) Driver
->  ===================================
->  
-> -An NTB driver is provided for the switchtec hardware in switchtec_ntb.
-> -Currently, it only supports switches configured with exactly 2 
-> -partitions. It also requires the following configuration settings:
-> +An NTB hardware driver is provided for the Switchtec hardware in 
-> +ntb_hw_switchtec. Currently, it only supports switches configured with 
-> +exactly 2 NT partitions and zero or more non-NT partitions. It also 
-> +requires the following configuration settings:
->  
-> -* Both partitions must be able to access each other's GAS spaces.
-> +* Both NT partitions must be able to access each other's GAS spaces.
->    Thus, the bits in the GAS Access Vector under Management Settings
->    must be set to support this.
-> +* Kernel configuration MUST include support for NTB (CONFIG_NTB needs
-> +  to be set)
-> +
-> +NT EP BAR 2 will be dynamically configured as a Direct Window, and the 
-> +configuration file does not need to configure it explicitly.
-> +
-> +Please refer to Documentation/ntb.txt in Linux source tree for an 
-> +overall understanding of the Linux NTB stack. ntb_hw_switchtec works as 
-> +an NTB Hardware Driver in this stack.
+On Tue, Sep 25, 2018 at 06:52:29PM -0700, Guenter Roeck wrote:
+> Hi Nicolin,
 > 
+> On 09/25/2018 03:59 PM, Nicolin Chen wrote:
+> > Texas Instruments INA3221 is a triple-channel shunt and bus
+> > voltage monitor. This patch adds a DT binding doc for it.
+> > 
+> > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> > ---
+> > Changelog
+> > v4->v5:
+> >   * Replaced "input-id" with "reg" and added address-cells and size-cells
+> >   * Replaced "input-label" with "label"
+> >   * Replaced "shunt-resistor" with "shunt-resistor-micro-ohms"
+> > v3->v4:
+> >   * Removed the attempt of putting labels in the node names
+> >   * Added a new optional label property in the child node
+> >   * Updated examples accordingly
+> > v2->v3:
+> >   * Added a simple subject in the line 1
+> >   * Fixed the shunt resistor value in the example
+> > v1->v2:
+> >   * Dropped channel name properties
+> >   * Added child node definitions.
+> >   * * Added shunt resistor property in the child node
+> >   * * Added status property to indicate connection status
+> >   * * Changed to use child node name as the label of input source
+> > 
+> >   .../devicetree/bindings/hwmon/ina3221.txt     | 49 +++++++++++++++++++
+> >   1 file changed, 49 insertions(+)
+> >   create mode 100644 Documentation/devicetree/bindings/hwmon/ina3221.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/hwmon/ina3221.txt b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+> > new file mode 100644
+> > index 000000000000..e17a897f4803
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+> > @@ -0,0 +1,49 @@
+> > +Texas Instruments INA3221 Device Tree Bindings
+> > +
+> > +1) ina3221 node
+> > +  Required properties:
+> > +  - compatible: Must be "ti,ina3221"
+> > +  - reg: I2C address
+> > +
+> > +  Optional properties:
+> > +  = The node contains optional child nodes for three channels =
+> > +  = Each child node describes the information of input source =
+> > +
+> > +  - #address-cells: Required only if a child node is present. Must be 1.
+> > +  - #size-cells: Required only if a child node is present. Must be 0.
+> > +
+> > +  Example:
+> > +
+> > +  ina3221@40 {
+> > +          compatible = "ti,ina3221";
+> > +          reg = <0x40>;
+> > +          #address-cells = <1>;
+> > +          #size-cells = <0>;
+> > +
+> > +          [ child node definitions... ]
+> > +  };
+> > +
+> > +2) child nodes
+> > +  Required properties:
+> > +  - reg: Must be 0, 1 or 2, corresponding to IN1, IN2 or IN3 port of INA3221
+> > +
+> > +  Optional properties:
+> > +  - label: Name of the input source
+> > +  - shunt-resistor-micro-ohms: Shunt resistor value in micro-Ohm
+> > +  - status: Should be "disabled" if no input source
+> > +
+> > +  Example:
+> > +
+> > +  input@0 {
+> > +          reg = <0x0>;
+> > +          status = "disabled";
+> 
+> I kind of feel embarrassed that I asked for the reg change ... especially while
+> saying at the same time that I would like to see this work for other chips
+> as well.
+> 
+> Other chips have different kinds of sensors. Voltage, current, power, temperature,
+> and others. Whatever we come up with should support that.
+> 
+> I see two possibilities right now. We can stick with reg and add a "type" property,
+> or we can make the index something like
+> 	{voltage,current,power,temperature,humidity}-{id,index}
+> 
+> I personally prefer "type", but I don't really have a strong opinion.
+> What do you think ? Or maybe we should really wait for feedback from Rob.
+
+reg and 'type' is my preference though just 'type' may be too vague. For 
+this case I don't think we need it if there's only one possible type as 
+the driver should know that.
+
+Rob
