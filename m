@@ -2,100 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA7447D08D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Sep 2018 03:24:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CD3E77D08D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Sep 2018 03:39:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727093AbeI1JqU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Sep 2018 05:46:20 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:13139 "EHLO huawei.com"
+        id S1728711AbeI1KAo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Sep 2018 06:00:44 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:6424 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726060AbeI1JqU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Sep 2018 05:46:20 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 52E5471CDDA82;
-        Fri, 28 Sep 2018 11:24:42 +0800 (CST)
-Received: from dessert.huawei.com (10.69.192.158) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.399.0; Fri, 28 Sep 2018 11:24:36 +0800
-From:   Zeng Tao <prime.zeng@hisilicon.com>
-To:     <gregkh@linuxfoundation.org>, <stern@rowland.harvard.edu>,
-        <mathias.nyman@linux.intel.com>, <drinkcat@chromium.org>,
-        <felipe.balbi@linux.intel.com>, <drake@endlessm.com>,
-        <ravisadineni@chromium.org>, <joe@perches.com>
-CC:     <prime.zeng@hisilicon.com>, Jonathan Corbet <corbet@lwn.net>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
+        id S1728500AbeI1KAo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Sep 2018 06:00:44 -0400
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.55])
+        by Forcepoint Email with ESMTP id DCFC8F56C5D48;
+        Fri, 28 Sep 2018 11:24:35 +0800 (CST)
+Received: from DGGEMM526-MBX.china.huawei.com ([169.254.8.153]) by
+ DGGEMM403-HUB.china.huawei.com ([10.3.20.211]) with mapi id 14.03.0399.000;
+ Fri, 28 Sep 2018 11:24:32 +0800
+From:   "Zengtao (B)" <prime.zeng@hisilicon.com>
+To:     Greg KH <gregkh@linuxfoundation.org>, Roger Quadros <rogerq@ti.com>
+CC:     "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "mathias.nyman@linux.intel.com" <mathias.nyman@linux.intel.com>,
+        "drinkcat@chromium.org" <drinkcat@chromium.org>,
+        "felipe.balbi@linux.intel.com" <felipe.balbi@linux.intel.com>,
+        "drake@endlessm.com" <drake@endlessm.com>,
+        "ravisadineni@chromium.org" <ravisadineni@chromium.org>,
+        "joe@perches.com" <joe@perches.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        "Marc Zyngier" <marc.zyngier@arm.com>,
         Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        "Thymo van Beers" <thymovanbeers@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        "Konrad Rzeszutek Wilk" <konrad.wilk@oracle.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
         Frederic Weisbecker <frederic@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-Subject: [PATCH] usb: hub: try old enumeration scheme first for high speed devices
-Date:   Fri, 28 Sep 2018 19:27:52 +0800
-Message-ID: <1538134077-14542-1-git-send-email-prime.zeng@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        "David Rientjes" <rientjes@google.com>,
+        Mike Looijmans <mike.looijmans@topic.nl>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH v3] usb: hub: try old enumeration scheme first for high
+ speed devices
+Thread-Topic: [PATCH v3] usb: hub: try old enumeration scheme first for high
+ speed devices
+Thread-Index: AQHUOCmse8PdmwGt+UmhI1N8GN9kXKTHrzeAgDD2RACADJ1K4A==
+Date:   Fri, 28 Sep 2018 03:24:31 +0000
+Message-ID: <678F3D1BB717D949B966B68EAEB446ED0CA25F3F@dggemm526-mbx.china.huawei.com>
+References: <1534759484-44744-1-git-send-email-prime.zeng@hisilicon.com>
+ <535e6c93-4369-c01e-953c-35e7041129e8@ti.com>
+ <20180920103742.GD14252@kroah.com>
+In-Reply-To: <20180920103742.GD14252@kroah.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.67.222.15]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.158]
 X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The new scheme is required just to support legacy low and full-speed
-devices. For high speed devices, it will slower the enumeration speed.
-So in this patch we try the "old" enumeration scheme first for high speed
-devices, and this is what Windows does since Windows 8.
-
-Signed-off-by: Zeng Tao <prime.zeng@hisilicon.com>
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Reviewed-by: Roger Quadros <rogerq@ti.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 3 ++-
- drivers/usb/core/hub.c                          | 4 +++-
- 2 files changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 92eb1f4..151c527 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4610,7 +4610,8 @@
- 
- 	usbcore.old_scheme_first=
- 			[USB] Start with the old device initialization
--			scheme (default 0 = off).
-+			scheme,  applies only to low and full-speed devices
-+			 (default 0 = off).
- 
- 	usbcore.usbfs_memory_mb=
- 			[USB] Memory limit (in MB) for buffers allocated by
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 462ce49..fb4e6bb 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -2660,11 +2660,13 @@ static bool use_new_scheme(struct usb_device *udev, int retry,
- {
- 	int old_scheme_first_port =
- 		port_dev->quirks & USB_PORT_QUIRK_OLD_SCHEME;
-+	int quick_enumeration = (udev->speed == USB_SPEED_HIGH);
- 
- 	if (udev->speed >= USB_SPEED_SUPER)
- 		return false;
- 
--	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first);
-+	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first
-+			      || quick_enumeration);
- }
- 
- /* Is a USB 3.0 port in the Inactive or Compliance Mode state?
--- 
-2.7.4
-
+SGkgZ3JlZzoNCg0KU29ycnkgZm9yIHRoZSBsYXRlIHJlc3BvbnNlLCBJIGhhdmUgYXBwbGllZCB0
+aGUgdGFncyBhbmQgcmVzZW5kLCBwbGVhc2UgcmVjZWl2ZSBpdCBhbmQgY2hlY2sNCg0KVGh4DQpa
+ZW5ndGFvIA0KDQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9tOiBHcmVnIEtIIFtt
+YWlsdG86Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+U2VudDogVGh1cnNkYXksIFNlcHRl
+bWJlciAyMCwgMjAxOCA2OjM4IFBNDQo+VG86IFJvZ2VyIFF1YWRyb3MgPHJvZ2VycUB0aS5jb20+
+DQo+Q2M6IFplbmd0YW8gKEIpIDxwcmltZS56ZW5nQGhpc2lsaWNvbi5jb20+OyBzdGVybkByb3ds
+YW5kLmhhcnZhcmQuZWR1Ow0KPm1hdGhpYXMubnltYW5AbGludXguaW50ZWwuY29tOyBkcmlua2Nh
+dEBjaHJvbWl1bS5vcmc7DQo+ZmVsaXBlLmJhbGJpQGxpbnV4LmludGVsLmNvbTsgZHJha2VAZW5k
+bGVzc20uY29tOw0KPnJhdmlzYWRpbmVuaUBjaHJvbWl1bS5vcmc7IGpvZUBwZXJjaGVzLmNvbTsg
+Sm9uYXRoYW4gQ29yYmV0DQo+PGNvcmJldEBsd24ubmV0PjsgVGhvbWFzIEdsZWl4bmVyIDx0Z2x4
+QGxpbnV0cm9uaXguZGU+OyBJbmdvIE1vbG5hcg0KPjxtaW5nb0BrZXJuZWwub3JnPjsgUmFmYWVs
+IEouIFd5c29ja2kgPHJhZmFlbC5qLnd5c29ja2lAaW50ZWwuY29tPjsNCj5NYXJjIFp5bmdpZXIg
+PG1hcmMuenluZ2llckBhcm0uY29tPjsgS2FpLUhlbmcgRmVuZw0KPjxrYWkuaGVuZy5mZW5nQGNh
+bm9uaWNhbC5jb20+OyBUaHltbyB2YW4gQmVlcnMNCj48dGh5bW92YW5iZWVyc0BnbWFpbC5jb20+
+OyBGcmVkZXJpYyBXZWlzYmVja2VyDQo+PGZyZWRlcmljQGtlcm5lbC5vcmc+OyBLb25yYWQgUnpl
+c3p1dGVrIFdpbGsgPGtvbnJhZC53aWxrQG9yYWNsZS5jb20+Ow0KPkRhdmlkIFJpZW50amVzIDxy
+aWVudGplc0Bnb29nbGUuY29tPjsgTWlrZSBMb29pam1hbnMNCj48bWlrZS5sb29pam1hbnNAdG9w
+aWMubmw+OyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOw0KPmxpbnV4LWtlcm5lbEB2Z2VyLmtl
+cm5lbC5vcmc7IGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmcNCj5TdWJqZWN0OiBSZTogW1BBVENI
+IHYzXSB1c2I6IGh1YjogdHJ5IG9sZCBlbnVtZXJhdGlvbiBzY2hlbWUgZmlyc3QgZm9yDQo+aGln
+aCBzcGVlZCBkZXZpY2VzDQo+DQo+T24gTW9uLCBBdWcgMjAsIDIwMTggYXQgMDk6NTU6NDlBTSAr
+MDMwMCwgUm9nZXIgUXVhZHJvcyB3cm90ZToNCj4+IE9uIDIwLzA4LzE4IDEzOjA0LCBaZW5nIFRh
+byB3cm90ZToNCj4+ID4gVGhlIG5ldyBzY2hlbWUgaXMgcmVxdWlyZWQganVzdCB0byBzdXBwb3J0
+IGxlZ2FjeSBsb3cgYW5kIGZ1bGwtc3BlZWQNCj4+ID4gZGV2aWNlcy4gRm9yIGhpZ2ggc3BlZWQg
+ZGV2aWNlcywgaXQgd2lsbCBzbG93ZXIgdGhlIGVudW1lcmF0aW9uIHNwZWVkLg0KPj4gPiBTbyBp
+biB0aGlzIHBhdGNoIHdlIHRyeSB0aGUgIm9sZCIgZW51bWVyYXRpb24gc2NoZW1lIGZpcnN0IGZv
+ciBoaWdoDQo+PiA+IHNwZWVkIGRldmljZXMsIGFuZCB0aGlzIGlzIHdoYXQgV2luZG93cyBkb2Vz
+IHNpbmNlIFdpbmRvd3MgOC4NCj4+ID4NCj4+ID4gU2lnbmVkLW9mZi1ieTogWmVuZyBUYW8gPHBy
+aW1lLnplbmdAaGlzaWxpY29uLmNvbT4NCj4+DQo+PiBZb3UgbmVlZCB0byBhZGQgQWxhbidzIEFj
+ayBoZXJlLiBJIGRvbid0IHRoaW5rIHlvdSBuZWVkIHRvIHJlc2VuZA0KPnRob3VnaC4NCj4+DQo+
+PiBSZXZpZXdlZC1ieTogUm9nZXIgUXVhZHJvcyA8cm9nZXJxQHRpLmNvbT4NCj4NCj5QbGVhc2Ug
+cmVzZW5kLCBJIG5lZWQgaGlzIGFjayBoZXJlIDopDQo+DQo+dGhhbmtzLA0KPg0KPmdyZWcgay1o
+DQo=
