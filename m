@@ -5,99 +5,101 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD3E77D08D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Sep 2018 03:39:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8ACFB7D04F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Sep 2018 15:39:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728711AbeI1KAo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Sep 2018 06:00:44 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:6424 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728500AbeI1KAo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Sep 2018 06:00:44 -0400
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.55])
-        by Forcepoint Email with ESMTP id DCFC8F56C5D48;
-        Fri, 28 Sep 2018 11:24:35 +0800 (CST)
-Received: from DGGEMM526-MBX.china.huawei.com ([169.254.8.153]) by
- DGGEMM403-HUB.china.huawei.com ([10.3.20.211]) with mapi id 14.03.0399.000;
- Fri, 28 Sep 2018 11:24:32 +0800
-From:   "Zengtao (B)" <prime.zeng@hisilicon.com>
-To:     Greg KH <gregkh@linuxfoundation.org>, Roger Quadros <rogerq@ti.com>
-CC:     "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "mathias.nyman@linux.intel.com" <mathias.nyman@linux.intel.com>,
-        "drinkcat@chromium.org" <drinkcat@chromium.org>,
-        "felipe.balbi@linux.intel.com" <felipe.balbi@linux.intel.com>,
-        "drake@endlessm.com" <drake@endlessm.com>,
-        "ravisadineni@chromium.org" <ravisadineni@chromium.org>,
-        "joe@perches.com" <joe@perches.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        "Marc Zyngier" <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        "David Rientjes" <rientjes@google.com>,
-        Mike Looijmans <mike.looijmans@topic.nl>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH v3] usb: hub: try old enumeration scheme first for high
- speed devices
-Thread-Topic: [PATCH v3] usb: hub: try old enumeration scheme first for high
- speed devices
-Thread-Index: AQHUOCmse8PdmwGt+UmhI1N8GN9kXKTHrzeAgDD2RACADJ1K4A==
-Date:   Fri, 28 Sep 2018 03:24:31 +0000
-Message-ID: <678F3D1BB717D949B966B68EAEB446ED0CA25F3F@dggemm526-mbx.china.huawei.com>
-References: <1534759484-44744-1-git-send-email-prime.zeng@hisilicon.com>
- <535e6c93-4369-c01e-953c-35e7041129e8@ti.com>
- <20180920103742.GD14252@kroah.com>
-In-Reply-To: <20180920103742.GD14252@kroah.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.67.222.15]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+        id S1729121AbeI1WDk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Sep 2018 18:03:40 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:55279 "EHLO pegase1.c-s.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728873AbeI1WDj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Sep 2018 18:03:39 -0400
+Received: from localhost (mailhub1-int [192.168.12.234])
+        by localhost (Postfix) with ESMTP id 42MG7V3fyHz9ttfs;
+        Fri, 28 Sep 2018 17:39:18 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+        with ESMTP id L1JUP_l9iiuS; Fri, 28 Sep 2018 17:39:18 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 42MG7V36NWz9ttfr;
+        Fri, 28 Sep 2018 17:39:18 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id AFB3B8B91E;
+        Fri, 28 Sep 2018 17:39:20 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id i4doe6mF1TeF; Fri, 28 Sep 2018 17:39:20 +0200 (CEST)
+Received: from pc16082vm.idsi0.si.c-s.fr (unknown [172.25.231.3])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 7FAF28B91B;
+        Fri, 28 Sep 2018 17:39:20 +0200 (CEST)
+Received: by pc16082vm.idsi0.si.c-s.fr (Postfix, from userid 0)
+        id 5ED296F281; Fri, 28 Sep 2018 15:39:20 +0000 (UTC)
+Message-Id: <b3ca67442a924acb9f4a3409264914ca9feaf7d5.1538148840.git.christophe.leroy@c-s.fr>
+From:   Christophe Leroy <christophe.leroy@c-s.fr>
+Subject: [PATCH v3] powerpc: wire up memtest
+To:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org
+Date:   Fri, 28 Sep 2018 15:39:20 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgZ3JlZzoNCg0KU29ycnkgZm9yIHRoZSBsYXRlIHJlc3BvbnNlLCBJIGhhdmUgYXBwbGllZCB0
-aGUgdGFncyBhbmQgcmVzZW5kLCBwbGVhc2UgcmVjZWl2ZSBpdCBhbmQgY2hlY2sNCg0KVGh4DQpa
-ZW5ndGFvIA0KDQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9tOiBHcmVnIEtIIFtt
-YWlsdG86Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+U2VudDogVGh1cnNkYXksIFNlcHRl
-bWJlciAyMCwgMjAxOCA2OjM4IFBNDQo+VG86IFJvZ2VyIFF1YWRyb3MgPHJvZ2VycUB0aS5jb20+
-DQo+Q2M6IFplbmd0YW8gKEIpIDxwcmltZS56ZW5nQGhpc2lsaWNvbi5jb20+OyBzdGVybkByb3ds
-YW5kLmhhcnZhcmQuZWR1Ow0KPm1hdGhpYXMubnltYW5AbGludXguaW50ZWwuY29tOyBkcmlua2Nh
-dEBjaHJvbWl1bS5vcmc7DQo+ZmVsaXBlLmJhbGJpQGxpbnV4LmludGVsLmNvbTsgZHJha2VAZW5k
-bGVzc20uY29tOw0KPnJhdmlzYWRpbmVuaUBjaHJvbWl1bS5vcmc7IGpvZUBwZXJjaGVzLmNvbTsg
-Sm9uYXRoYW4gQ29yYmV0DQo+PGNvcmJldEBsd24ubmV0PjsgVGhvbWFzIEdsZWl4bmVyIDx0Z2x4
-QGxpbnV0cm9uaXguZGU+OyBJbmdvIE1vbG5hcg0KPjxtaW5nb0BrZXJuZWwub3JnPjsgUmFmYWVs
-IEouIFd5c29ja2kgPHJhZmFlbC5qLnd5c29ja2lAaW50ZWwuY29tPjsNCj5NYXJjIFp5bmdpZXIg
-PG1hcmMuenluZ2llckBhcm0uY29tPjsgS2FpLUhlbmcgRmVuZw0KPjxrYWkuaGVuZy5mZW5nQGNh
-bm9uaWNhbC5jb20+OyBUaHltbyB2YW4gQmVlcnMNCj48dGh5bW92YW5iZWVyc0BnbWFpbC5jb20+
-OyBGcmVkZXJpYyBXZWlzYmVja2VyDQo+PGZyZWRlcmljQGtlcm5lbC5vcmc+OyBLb25yYWQgUnpl
-c3p1dGVrIFdpbGsgPGtvbnJhZC53aWxrQG9yYWNsZS5jb20+Ow0KPkRhdmlkIFJpZW50amVzIDxy
-aWVudGplc0Bnb29nbGUuY29tPjsgTWlrZSBMb29pam1hbnMNCj48bWlrZS5sb29pam1hbnNAdG9w
-aWMubmw+OyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOw0KPmxpbnV4LWtlcm5lbEB2Z2VyLmtl
-cm5lbC5vcmc7IGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmcNCj5TdWJqZWN0OiBSZTogW1BBVENI
-IHYzXSB1c2I6IGh1YjogdHJ5IG9sZCBlbnVtZXJhdGlvbiBzY2hlbWUgZmlyc3QgZm9yDQo+aGln
-aCBzcGVlZCBkZXZpY2VzDQo+DQo+T24gTW9uLCBBdWcgMjAsIDIwMTggYXQgMDk6NTU6NDlBTSAr
-MDMwMCwgUm9nZXIgUXVhZHJvcyB3cm90ZToNCj4+IE9uIDIwLzA4LzE4IDEzOjA0LCBaZW5nIFRh
-byB3cm90ZToNCj4+ID4gVGhlIG5ldyBzY2hlbWUgaXMgcmVxdWlyZWQganVzdCB0byBzdXBwb3J0
-IGxlZ2FjeSBsb3cgYW5kIGZ1bGwtc3BlZWQNCj4+ID4gZGV2aWNlcy4gRm9yIGhpZ2ggc3BlZWQg
-ZGV2aWNlcywgaXQgd2lsbCBzbG93ZXIgdGhlIGVudW1lcmF0aW9uIHNwZWVkLg0KPj4gPiBTbyBp
-biB0aGlzIHBhdGNoIHdlIHRyeSB0aGUgIm9sZCIgZW51bWVyYXRpb24gc2NoZW1lIGZpcnN0IGZv
-ciBoaWdoDQo+PiA+IHNwZWVkIGRldmljZXMsIGFuZCB0aGlzIGlzIHdoYXQgV2luZG93cyBkb2Vz
-IHNpbmNlIFdpbmRvd3MgOC4NCj4+ID4NCj4+ID4gU2lnbmVkLW9mZi1ieTogWmVuZyBUYW8gPHBy
-aW1lLnplbmdAaGlzaWxpY29uLmNvbT4NCj4+DQo+PiBZb3UgbmVlZCB0byBhZGQgQWxhbidzIEFj
-ayBoZXJlLiBJIGRvbid0IHRoaW5rIHlvdSBuZWVkIHRvIHJlc2VuZA0KPnRob3VnaC4NCj4+DQo+
-PiBSZXZpZXdlZC1ieTogUm9nZXIgUXVhZHJvcyA8cm9nZXJxQHRpLmNvbT4NCj4NCj5QbGVhc2Ug
-cmVzZW5kLCBJIG5lZWQgaGlzIGFjayBoZXJlIDopDQo+DQo+dGhhbmtzLA0KPg0KPmdyZWcgay1o
-DQo=
+Add call to early_memtest() so that kernel compiled with
+CONFIG_MEMTEST really perform memtest at startup when requested
+via 'memtest' boot parameter.
+
+Tested-by: Daniel Axtens <dja@axtens.net>
+Signed-off-by: Christophe Leroy <christophe.leroy@c-s.fr>
+---
+ v3: updated kernel parameters documentation to mention PPC
+
+ v2: moved the test after initmem_init() as PPC64 sets max_low_pfn later than PPC32.
+
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ arch/powerpc/kernel/setup-common.c              | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 92eb1f42240d..a5ad67d5cb16 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2404,7 +2404,7 @@
+ 			seconds.  Use this parameter to check at some
+ 			other rate.  0 disables periodic checking.
+ 
+-	memtest=	[KNL,X86,ARM] Enable memtest
++	memtest=	[KNL,X86,ARM,PPC] Enable memtest
+ 			Format: <integer>
+ 			default : 0 <disable>
+ 			Specifies the number of memtest passes to be
+diff --git a/arch/powerpc/kernel/setup-common.c b/arch/powerpc/kernel/setup-common.c
+index 93fa0c99681e..9ca9db707bcb 100644
+--- a/arch/powerpc/kernel/setup-common.c
++++ b/arch/powerpc/kernel/setup-common.c
+@@ -33,6 +33,7 @@
+ #include <linux/serial_8250.h>
+ #include <linux/percpu.h>
+ #include <linux/memblock.h>
++#include <linux/bootmem.h>
+ #include <linux/of_platform.h>
+ #include <linux/hugetlb.h>
+ #include <asm/debugfs.h>
+@@ -966,6 +967,8 @@ void __init setup_arch(char **cmdline_p)
+ 
+ 	initmem_init();
+ 
++	early_memtest(min_low_pfn << PAGE_SHIFT, max_low_pfn << PAGE_SHIFT);
++
+ #ifdef CONFIG_DUMMY_CONSOLE
+ 	conswitchp = &dummy_con;
+ #endif
+-- 
+2.13.3
+
