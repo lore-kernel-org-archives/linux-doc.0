@@ -1,100 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 976307D04F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Sep 2018 23:15:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AA7447D08D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Sep 2018 03:24:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726083AbeI1Ffr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Sep 2018 01:35:47 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36052 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725924AbeI1Ffr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Sep 2018 01:35:47 -0400
-Received: by mail-pg1-f194.google.com with SMTP id d1-v6so3017882pgo.3;
-        Thu, 27 Sep 2018 16:15:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=R3JUVI4VF6/KFF2AMLchyR/zYUB4Yah6d+9TpVBnI3Q=;
-        b=sbcDjK6l6ganMDhmL3vER6vLIqkRXtKA8WoH+2HVWcmN3VGBrZj7ifmf1ITFRRbzYo
-         cPpiFlzyYiexYqabBpfLSMN9zvS+Tduv5MmlBQC/3mtH1RdMPLAp+ErpDU/o3EApM9OK
-         apXyaTUDpk2aHZmFo+cuKJIGom8/igkHiTf3YKUlXeDh5tDnde64iV7E1c7hDRt72woe
-         lKmzTIriYYiGW5ghmZn4otZ/p8e9BUePRW+/HfXZC2XbILquBILZ9nujOpQgwY6GLBMT
-         VD4fRazbd/ciGjp7T4pZ75NnGI80g9DGXoWPzti3JCd8B7irku/c35PBXFXf8TRJdaLQ
-         AcmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=R3JUVI4VF6/KFF2AMLchyR/zYUB4Yah6d+9TpVBnI3Q=;
-        b=I6WaeqtNj7HhBiHWEgpBo+fYChRGF+AFhasOLDMCPW1NX/Yp0kaPyQGt/2BesSDZgE
-         1S/vOpC2Fo5nsk7ZQ/8tv8jegtsUUtxbwJCGNI9CgxLfZKAAJfc4g2gBthfilHzJcy2N
-         zMKl8WBIRmoV+YYYkPgbb7+HC3CGsCxSvtwXdQoo4jbuut11sbnLv3EGaiSbzoOMmN93
-         aANF6TnrkkSPfmdt2CLqLeojIBuqaOddcEZR5N/mSh9oC226nC3Ck4D70fuqcc6C6BT0
-         yxzGm34M45OCfpjgyDQpYSzWw3mtJKy2kO4rJEUkGuZogs9HJHfn69f0FGBVdVtqsTuV
-         jgOg==
-X-Gm-Message-State: ABuFfoh1hF/gUMAWH5ric0RLoDUAnyL0CIjsg2DrpAxHF+dNWUsdGGt/
-        9c0d4xfzXGO4quPIVZjlCac=
-X-Google-Smtp-Source: ACcGV62wvwmyhoOzn6WPmkOYxs4nuIotrNhfu2U8cb/Ti3f2ATXepRtNBqTnKv8jXbapMyLCoCtb8A==
-X-Received: by 2002:a63:27c1:: with SMTP id n184-v6mr12407268pgn.278.1538090103580;
-        Thu, 27 Sep 2018 16:15:03 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id w81-v6sm6724984pfk.92.2018.09.27.16.15.02
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 27 Sep 2018 16:15:03 -0700 (PDT)
-Date:   Thu, 27 Sep 2018 16:14:59 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     jdelvare@suse.com, corbet@lwn.net, afd@ti.com,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: ina3221: Add enable sysfs nodes
-Message-ID: <20180927231458.GA31793@Asurada-Nvidia.nvidia.com>
-References: <20180926064245.4091-1-nicoleotsuka@gmail.com>
- <20180926064245.4091-3-nicoleotsuka@gmail.com>
- <0cfe55e1-10d8-ac1f-8b6e-73777074a219@roeck-us.net>
- <20180927222614.GA8430@Asurada-Nvidia.nvidia.com>
- <20180927225200.GE9198@roeck-us.net>
+        id S1727093AbeI1JqU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Sep 2018 05:46:20 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:13139 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726060AbeI1JqU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Sep 2018 05:46:20 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 52E5471CDDA82;
+        Fri, 28 Sep 2018 11:24:42 +0800 (CST)
+Received: from dessert.huawei.com (10.69.192.158) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.399.0; Fri, 28 Sep 2018 11:24:36 +0800
+From:   Zeng Tao <prime.zeng@hisilicon.com>
+To:     <gregkh@linuxfoundation.org>, <stern@rowland.harvard.edu>,
+        <mathias.nyman@linux.intel.com>, <drinkcat@chromium.org>,
+        <felipe.balbi@linux.intel.com>, <drake@endlessm.com>,
+        <ravisadineni@chromium.org>, <joe@perches.com>
+CC:     <prime.zeng@hisilicon.com>, Jonathan Corbet <corbet@lwn.net>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        "Thymo van Beers" <thymovanbeers@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>,
+        "Konrad Rzeszutek Wilk" <konrad.wilk@oracle.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+Subject: [PATCH] usb: hub: try old enumeration scheme first for high speed devices
+Date:   Fri, 28 Sep 2018 19:27:52 +0800
+Message-ID: <1538134077-14542-1-git-send-email-prime.zeng@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180927225200.GE9198@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.158]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 27, 2018 at 03:52:00PM -0700, Guenter Roeck wrote:
+The new scheme is required just to support legacy low and full-speed
+devices. For high speed devices, it will slower the enumeration speed.
+So in this patch we try the "old" enumeration scheme first for high speed
+devices, and this is what Windows does since Windows 8.
 
-> The proper fix for this problem would be to add support for suspend /
-> resume to the driver. At resume time, all channels will have been
-> re-enabled if the chip was powered off, even if they were explicitly
-> disabled by devicetree (or via explicit configuration). This means
-> the driver just behaves badly across suspend/resume, period.
-> Displaying a raw value instead of a cached one doesn't solve that
-> problem. By using a cached value, at least the user would not notice
-> that the chip no longer does what it is supposed to be doing.
->
-> I guess we just have different priorities. If I think suspend/resume
-> is a problem for my use case, I would just go ahead and fix it.
-> I would not try to write code that doesn't fix the problem causing it,
-> much less argue for it.
+Signed-off-by: Zeng Tao <prime.zeng@hisilicon.com>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Reviewed-by: Roger Quadros <rogerq@ti.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 3 ++-
+ drivers/usb/core/hub.c                          | 4 +++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-I agree.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 92eb1f4..151c527 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4610,7 +4610,8 @@
+ 
+ 	usbcore.old_scheme_first=
+ 			[USB] Start with the old device initialization
+-			scheme (default 0 = off).
++			scheme,  applies only to low and full-speed devices
++			 (default 0 = off).
+ 
+ 	usbcore.usbfs_memory_mb=
+ 			[USB] Memory limit (in MB) for buffers allocated by
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 462ce49..fb4e6bb 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -2660,11 +2660,13 @@ static bool use_new_scheme(struct usb_device *udev, int retry,
+ {
+ 	int old_scheme_first_port =
+ 		port_dev->quirks & USB_PORT_QUIRK_OLD_SCHEME;
++	int quick_enumeration = (udev->speed == USB_SPEED_HIGH);
+ 
+ 	if (udev->speed >= USB_SPEED_SUPER)
+ 		return false;
+ 
+-	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first);
++	return USE_NEW_SCHEME(retry, old_scheme_first_port || old_scheme_first
++			      || quick_enumeration);
+ }
+ 
+ /* Is a USB 3.0 port in the Inactive or Compliance Mode state?
+-- 
+2.7.4
 
-> Having said that, I didn't mention that part in my other reply,
-> meaning I'll accept the code as is.
-
-Thanks for the generosity. But, since Rob hasn't acked yet, let
-me write the patch for suspend and resume first, which shouldn't
-take long.
-
-Thanks
-Nicolin
