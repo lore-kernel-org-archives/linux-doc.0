@@ -1,119 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 499EC7D081
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 30 Sep 2018 16:57:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 12F757D08D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 30 Sep 2018 20:55:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728435AbeI3Xa5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 30 Sep 2018 19:30:57 -0400
-Received: from mail-yb1-f196.google.com ([209.85.219.196]:35484 "EHLO
-        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727470AbeI3Xa5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Sep 2018 19:30:57 -0400
-Received: by mail-yb1-f196.google.com with SMTP id o63-v6so4675949yba.2
-        for <linux-doc@vger.kernel.org>; Sun, 30 Sep 2018 09:57:09 -0700 (PDT)
+        id S1728652AbeJAD3v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 30 Sep 2018 23:29:51 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:34604 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728553AbeJAD3v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Sep 2018 23:29:51 -0400
+Received: by mail-pg1-f195.google.com with SMTP id g12-v6so2298691pgs.1;
+        Sun, 30 Sep 2018 13:55:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=jt+YDrRX2EglLGgJgZ/5VjbfR6ozVNQfeBU8ewRjsMI=;
-        b=l1auv6I/viu1eURjkIoidQvCha3tZW0l7e210B/rPP2fiEeoRt1l9iVVQ0JIf3w1gK
-         YJgK3k/w/7f3Ah7ZEZN4gh/cOh24+SkV4lsIfBJg2++UlsDtF1gAIDve0FqehK4PLJj+
-         pzDgDE4UvrWHIv2r9sS3lNqBN4xjptmsX6I3U=
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rDu36eOsDS1MNpXaGfplBUdNu4gp6zaz+E8K9+WDZFg=;
+        b=E/J0FX+U2cutFiRwbl3wEu8MKDT+gcGyKTOUS6oW4Imco6q+mydpOEh5AItdIQVkDz
+         inmilyI2T2ROe7G8WlqaDl8s7hdZh/u/vAc31Ol4mNw56L/QdcUrK7a+RbYsiKpIc8lV
+         /B5Wmr2SFYr+qYOshAEMp53aClVCLgXJ2Ukz/53YweFYGRsawsr9RVB2ve+hcSiyPzrw
+         LGEFm8tynDFiUEeZ48A889lQufu7pKo2gaIScvKYmIO02IxZaubAEWs3bNvXgF/GnrXJ
+         BpRCYoT2mHYkSMWzEpE4cywThY69K4hoN2T/nA+TpgPx0hmhzct8tZhlJ3WUgQSHUSma
+         ZqqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=jt+YDrRX2EglLGgJgZ/5VjbfR6ozVNQfeBU8ewRjsMI=;
-        b=ArwDdAYtD6CaFXtAfh0Co3w9HWbNfroIeCPz28PCpopVRS38Ow2ywpaS88+8mioBBk
-         cuvUs1AJ9gUFtbyqvHhsTlGiADwaNtADvhSq3uN1kH8V2MwgXjYK8vxP4FBR2tjqrIwr
-         wrntaWUbQG6AqGvugX3CqeF9hsF8Y8RRmsWSs//5Guz2HIwaPFNTig5n5ISU9s0oeqh+
-         PAcVLxQ9rDu/xS8r43948JR0cEofahvRN52O2d7y1g9MFb2/SfdE3R3faWGVdyIrZveg
-         Islw64BtAZzYtp3rf0yLrQBNRwuRYBm1fGh9arDkzfwtCSw2GmiRk+UwdzN2zbQ3VhaL
-         j/Yg==
-X-Gm-Message-State: ABuFfojLFzVBt5hYQzJKLRVR1gbSrkgFDpxAMtVaIguuY7dyRhOM7oDO
-        puxVSaCIEnH/vhSbKJ9cWozHK8xN4g8=
-X-Google-Smtp-Source: ACcGV61cdvzkgFE6mKRMiqSRX7ZEpB9kTGCI2/gSwajgrDiGHGbs+u/LS6ZGRQ/nivTGjBgSSdXXgw==
-X-Received: by 2002:a25:e710:: with SMTP id e16-v6mr4126259ybh.358.1538326628935;
-        Sun, 30 Sep 2018 09:57:08 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id y126-v6sm202535ywe.26.2018.09.30.09.57.07
-        for <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rDu36eOsDS1MNpXaGfplBUdNu4gp6zaz+E8K9+WDZFg=;
+        b=FQJ9KEqJK74KJFTRqML2ufgm+AIAlhTrr4X1Yk9JYKwkcMXtJoFQ4be771qhbw7ZjB
+         JO9fds46oH8qWbuv2n8SdAcYzE85XjCLelP/F0NHcVDgpnG7zWKcVOoHGODWLnqEite3
+         s57jmRzTpTWETS+jYSci+KZJgg6UtOktnGxm94jF+S/M4KQ/J9kk8m6YjMVQ4Z/XhBjO
+         XblbBMDwlIG01kiSVbI818mWHYdbzRck+KK1dfzS+G4QB9rjFnXHWV2Bay4Bo1Vjk5Ps
+         HIRchZrd6yYMfYfPEwQ2U9H9G/TiG1ZxbsyHHYL2npCnR57XmgOc4zrY03PWpbbIfdPh
+         SUVg==
+X-Gm-Message-State: ABuFfohCnVCvI7x9BursYCIxmmyE5P42WxA18uqJF/GFsZmPqnd9G9nA
+        2SpqGtYuYwZQrJgCQXMCuWTV7kId
+X-Google-Smtp-Source: ACcGV60iaFw66uDHEUZ/+NOk75Ig9X5+ZQFqBCjYTErVmAO5ICp4Eo1qLe63xlXoyV3LMy/oMnzsSQ==
+X-Received: by 2002:a17:902:722:: with SMTP id 31-v6mr8536744pli.207.1538340920725;
+        Sun, 30 Sep 2018 13:55:20 -0700 (PDT)
+Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id r81-v6sm2312717pfa.110.2018.09.30.13.55.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 30 Sep 2018 09:57:07 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id w7-v6so4659737ybm.7
-        for <linux-doc@vger.kernel.org>; Sun, 30 Sep 2018 09:57:07 -0700 (PDT)
-X-Received: by 2002:a25:dd82:: with SMTP id u124-v6mr3911015ybg.171.1538326626727;
- Sun, 30 Sep 2018 09:57:06 -0700 (PDT)
+        Sun, 30 Sep 2018 13:55:19 -0700 (PDT)
+Subject: Re: [PATCH v8 2/2] hwmon: ina3221: Read channel input source info
+ from DT
+To:     Nicolin Chen <nicoleotsuka@gmail.com>, jdelvare@suse.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, corbet@lwn.net
+Cc:     afd@ti.com, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20180929013937.29289-1-nicoleotsuka@gmail.com>
+ <20180929013937.29289-3-nicoleotsuka@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <ab3a36dc-fa5a-4669-2f99-aa55a4083db2@roeck-us.net>
+Date:   Sun, 30 Sep 2018 13:55:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Sun, 30 Sep 2018 09:57:05
- -0700 (PDT)
-In-Reply-To: <67c14d95-10f6-37d5-ee8a-c1fb6a6d460a@i-love.sakura.ne.jp>
-References: <20180925001832.18322-1-keescook@chromium.org> <e6122c7d-bd29-d081-3c1e-96b7c369d4fe@schaufler-ca.com>
- <CAGXu5jKQVDW8Wp0ESv2raa0xJnHCCMNqFCzZ5jSVXQ=Dp7FF8A@mail.gmail.com>
- <eda428eb-f6e1-f048-a394-251953c388b6@i-love.sakura.ne.jp>
- <CAGXu5jLUaFX_jPHoOq1abEAjJdLo29Hr2q=sk07yj4KytW6psQ@mail.gmail.com> <67c14d95-10f6-37d5-ee8a-c1fb6a6d460a@i-love.sakura.ne.jp>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Sun, 30 Sep 2018 09:57:05 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jLRPMjWDnvh+wKfqQHZ+nrSH5rHz1Hat2owEu2mTXnjRw@mail.gmail.com>
-Message-ID: <CAGXu5jLRPMjWDnvh+wKfqQHZ+nrSH5rHz1Hat2owEu2mTXnjRw@mail.gmail.com>
-Subject: Re: [PATCH security-next v3 00/29] LSM: Explict LSM ordering
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>,
-        John Johansen <john.johansen@canonical.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180929013937.29289-3-nicoleotsuka@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 29, 2018 at 7:36 PM, Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
-> On 2018/09/30 3:18, Kees Cook wrote:
->>> Just wondering what is "__lsm_name_##lsm" for...
->>>
->>> +#define DEFINE_LSM(lsm)                                                        \
->>> +       static const char __lsm_name_##lsm[] __initconst                \
->>> +               __aligned(1) = #lsm;                                    \
->>> +       static struct lsm_info __lsm_##lsm                              \
->>> +               __used __section(.lsm_info.init)                        \
->>> +               __aligned(sizeof(unsigned long))                        \
->>> +               = {                                                     \
->>> +                       .name = __lsm_name_##lsm,                       \
->>> +
->>> +#define END_LSM          }
->>
->> I wasn't super happy with the END_LSM thing, but I wanted to be able
->> to declare the name as __initconst, otherwise it needlessly stays in
->> memory after init. That said, it's not a huge deal, and maybe
->> readability trumps a tiny meory savings?
->
-> The value of .name field is a few bytes string, and is not sensitive
-> information. Keeping such string in non-__initdata section unlikely
-> increases total memory pages required for that module.
->
-> Unless we need to generate unique address of such string for some reason,
-> I think that this saving is pointless.
+Hi Nicolin,
 
-Okay, sounds good. I will adjust the macro and respin with a v4.
+On 09/28/2018 06:39 PM, Nicolin Chen wrote:
+> An ina3221 chip has three input ports. Each port is used
+> to measure the voltage and current of its input source.
+> 
+> The DT binding now has defined bindings for their input
+> sources, so the driver should read these information and
+> handle accordingly.
+> 
+> This patch adds a new structure of input source specific
+> information including input source label, shunt resistor
+> value and its connection status. It exposes these labels
+> via in[123]_label sysfs nodes upon available, and also
+> disables those channels where there are no input source
+> being connected. Meanwhile, it also adds in[123]_enable
+> sysfs nodes for users to get control of three channels,
+> and returns -ENODATA code for any sensor read according
+> to hwmon ABI.
+> 
+> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
 
-Thanks!
+[ ... ]
 
--Kees
+> +
+> +static ssize_t ina3221_set_enable(struct device *dev,
+> +				  struct device_attribute *attr,
+> +				  const char *buf, size_t count)
+> +{
+> +	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
+> +	struct ina3221_data *ina = dev_get_drvdata(dev);
+> +	unsigned int channel = sd_attr->index;
+> +	u16 config = ina->reg_config;
+> +	bool enable;
+> +	int ret;
+> +
+> +	ret = kstrtobool(buf, &enable);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (enable)
+> +		config |= INA3221_CONFIG_CHx_EN(channel);
+> +	else
+> +		config &= ~INA3221_CONFIG_CHx_EN(channel);
+> +
+> +	ret = regmap_write(ina->regmap, INA3221_CONFIG, config);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ina->reg_config = config;
+> +
 
--- 
-Kees Cook
-Pixel Security
+Sorry it too me so long to realize this: The code above is racy.
+There could be multiple threads enabling and disabling a channel.
+Without a mutex, there is no guarantee that the final value of
+reg_config matches the value written into the chip.
+
+You'll have to introduce a mutex and implement something like
+
+	...
+	ret = kstrtobool(buf, &enable);
+	if (ret)
+		return ret;
+
+	mutex_lock(&ina->update_lock);
+	config = ina->reg_config;
+	...
+	ret = regmap_write(ina->regmap, INA3221_CONFIG, config);
+	if (ret) {
+		count = ret;
+		goto error;
+	}
+	ina->reg_config = config;
+error:
+	mutex_unlock(&ina->update_lock);
+	return count;
+
+Guenter
