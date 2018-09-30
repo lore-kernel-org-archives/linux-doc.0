@@ -1,88 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D7A9B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 30 Sep 2018 02:37:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CFEB27D081
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 30 Sep 2018 11:11:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727425AbeI3JIB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 30 Sep 2018 05:08:01 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:16849 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727195AbeI3JIA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Sep 2018 05:08:00 -0400
-Received: from fsav107.sakura.ne.jp (fsav107.sakura.ne.jp [27.133.134.234])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id w8U2aX89046601;
-        Sun, 30 Sep 2018 11:36:33 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav107.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav107.sakura.ne.jp);
- Sun, 30 Sep 2018 11:36:33 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav107.sakura.ne.jp)
-Received: from [192.168.1.8] (softbank060157066051.bbtec.net [60.157.66.51])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id w8U2aG6w046410
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Sun, 30 Sep 2018 11:36:33 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Subject: Re: [PATCH security-next v3 00/29] LSM: Explict LSM ordering
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>,
-        John Johansen <john.johansen@canonical.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20180925001832.18322-1-keescook@chromium.org>
- <e6122c7d-bd29-d081-3c1e-96b7c369d4fe@schaufler-ca.com>
- <CAGXu5jKQVDW8Wp0ESv2raa0xJnHCCMNqFCzZ5jSVXQ=Dp7FF8A@mail.gmail.com>
- <eda428eb-f6e1-f048-a394-251953c388b6@i-love.sakura.ne.jp>
- <CAGXu5jLUaFX_jPHoOq1abEAjJdLo29Hr2q=sk07yj4KytW6psQ@mail.gmail.com>
-Message-ID: <67c14d95-10f6-37d5-ee8a-c1fb6a6d460a@i-love.sakura.ne.jp>
-Date:   Sun, 30 Sep 2018 11:36:15 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1728417AbeI3Rn7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 30 Sep 2018 13:43:59 -0400
+Received: from mail-qt1-f177.google.com ([209.85.160.177]:40078 "EHLO
+        mail-qt1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728145AbeI3Rn7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Sep 2018 13:43:59 -0400
+Received: by mail-qt1-f177.google.com with SMTP id e9-v6so11150355qtp.7;
+        Sun, 30 Sep 2018 04:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0CaiMDt6crCpqHUZQfmfm2CspAy1IeXRTZIn0nVAtio=;
+        b=lVV+2Vg4Hvm3rdKcS/r+b0OIGMhTz5gVAKGVfwk3Qc+HGAHL6ppoDPUWSaO5r7BZZE
+         iujdqNQLXZTjgw0njsGpm1nwEX+DEBWKy84DJcpgnEmCinNZQVd8pk1fEfHv4uDA9yig
+         d9yEnkozz+0ZEVG/ome78zwd5H1jTXEze7XkmbxvqyUKYiV66fXoNwxNjEHTK2oNFZHi
+         VbDrjBJZmVdWqx7m2kQ4cgYnN9kwZp2ubBFQ4KoFBQBBjnRlIilVcJRj2nxrF5WNaN4D
+         oavUQSrv/tO1S2Wxjzv3qqz8tZPMKdQceRzwdywJ6tHF8jTerP6jexG5yTa8NsGjBkf9
+         fOFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0CaiMDt6crCpqHUZQfmfm2CspAy1IeXRTZIn0nVAtio=;
+        b=iFmrGNHc1AW9KMBlyfq6phTwjgLXCrNc4zditWGkAhJBgb9D2HscBCTcoW8e28VC/H
+         aLAdEPY/2QP562X25Hpr0A5+kkqFg/7nc3Lfn6kmnx15og66tBBueNgTAg3L3vMfdAOq
+         uRC+yomQyaeXQTlBLVg5KGPC2DGVSL04ty1XmlSBljisWwKAGOdEs4+xH57bvXHsEVWF
+         MJh/4rnIhLSKr7XdjrW8XK7x7aAhX49HiQDaAOBf/DhsWwQalkxUFbWFcsvSYfxB1Gu3
+         IQh5oct35TqfvCl+32CGYRwl0dye3192V9dGWRnVW8kn7JpG/B0OrvLYQE+HGg6yc+LD
+         SlOA==
+X-Gm-Message-State: ABuFfohxkSIo/fFT8n1I81t/nKWRfqg28moExIc6ir8YqrIfwE6++nlr
+        EKxIQSkqR1ft30bDxI27HCzxnpH92SMJDB362tM=
+X-Google-Smtp-Source: ACcGV632M6+plBiArfTYeWtq5JUqNdGFbzZl/Eh31eCLO7Abj05WKiRMmFKrtNYBJi7F9fyMp9488PDHvKBaUaUhhbU=
+X-Received: by 2002:a0c:87ba:: with SMTP id 55-v6mr4817074qvj.202.1538305883058;
+ Sun, 30 Sep 2018 04:11:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAGXu5jLUaFX_jPHoOq1abEAjJdLo29Hr2q=sk07yj4KytW6psQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CA+icZUW+N4V-bLEX0217dMYTrfzmgLZkbif8w3-zRQXnd7VYSQ@mail.gmail.com>
+In-Reply-To: <CA+icZUW+N4V-bLEX0217dMYTrfzmgLZkbif8w3-zRQXnd7VYSQ@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sun, 30 Sep 2018 13:11:11 +0200
+Message-ID: <CANiq72mATUQeNA5uTSY2XBPwDi-S+K+H3LJJU5_UFcxUj_E8sw@mail.gmail.com>
+Subject: Re: [PATCH v5 00/15] Compiler Attributes
+To:     sedat.dilek@gmail.com
+Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        David Miller <davem@davemloft.net>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>, "Ted Ts'o" <tytso@mit.edu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2018/09/30 3:18, Kees Cook wrote:
->> Just wondering what is "__lsm_name_##lsm" for...
->>
->> +#define DEFINE_LSM(lsm)                                                        \
->> +       static const char __lsm_name_##lsm[] __initconst                \
->> +               __aligned(1) = #lsm;                                    \
->> +       static struct lsm_info __lsm_##lsm                              \
->> +               __used __section(.lsm_info.init)                        \
->> +               __aligned(sizeof(unsigned long))                        \
->> +               = {                                                     \
->> +                       .name = __lsm_name_##lsm,                       \
->> +
->> +#define END_LSM          }
-> 
-> I wasn't super happy with the END_LSM thing, but I wanted to be able
-> to declare the name as __initconst, otherwise it needlessly stays in
-> memory after init. That said, it's not a huge deal, and maybe
-> readability trumps a tiny meory savings?
+Hi Sedat,
 
-The value of .name field is a few bytes string, and is not sensitive
-information. Keeping such string in non-__initdata section unlikely
-increases total memory pages required for that module.
+On Mon, Sep 24, 2018 at 10:46 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> [ Please CC me I am not subcribed to this ML ]
+>
+> Quote from <https://lkml.org/lkml/2018/9/20/901>:
+>
+> Tested-by: Sedat Dilek <sedat.dilek@gmail.com> (against Linux
+> v4.19-rc5 and built with LLVM/Clang v7)
 
-Unless we need to generate unique address of such string for some reason,
-I think that this saving is pointless.
+Thanks a lot for testing! Which configuration roughly (e.g.
+allmodconfig)? Did you boot it & run it for a while?
+
+Cheers,
+Miguel
