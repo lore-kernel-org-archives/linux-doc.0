@@ -1,115 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A3BBF7D081
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Oct 2018 01:01:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B1317D081
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Oct 2018 03:28:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726478AbeJAHgs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Oct 2018 03:36:48 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:34109 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726080AbeJAHgr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Oct 2018 03:36:47 -0400
-Received: by mail-yb1-f194.google.com with SMTP id 184-v6so4968123ybg.1
-        for <linux-doc@vger.kernel.org>; Sun, 30 Sep 2018 18:01:34 -0700 (PDT)
+        id S1727656AbeJAKDz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 1 Oct 2018 06:03:55 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:42690 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727287AbeJAKDz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Oct 2018 06:03:55 -0400
+Received: by mail-pg1-f193.google.com with SMTP id i4-v6so7801315pgq.9;
+        Sun, 30 Sep 2018 20:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=hrDNhPObw6e1fWHKYJ1uWfvaXZbb4Utsc/+r7Rmskdw=;
-        b=h1R3G9vqqazOU05O83Sa8ly0oQTdyB9kCm7HW1a+/205zbM4n1UkY76CTYRQ8E8cWH
-         63Ag3zvrjvff4t3a5S11whIW/PtjpJENrlToTEDrOJN5kFdgXRH2UIkaITmmuCZLvXzv
-         FIfJYnIWbJ9KSBIUbJ4sYYoMnb0dldLiPC1Lc=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kxBaaWYbk8uXGcWGxYraCagkZvNtzkvoICpOMaJmaLE=;
+        b=tu42LR69WX7TGfKHSlLGiIAl0KHbUXDejYKtIXhHyLfJ+45Qv3ZFs2a8QUD9Y4JJ/A
+         VJ35dbCRUwycU6r2d56CG/QfW9u8lVQFYojzv3gTzgztHYfs6GM2w7B7Hp2pfCNleF3x
+         lagDW5XrpaJAr+TDHiVCvREx/5iepHNDYJssCWOIS0s6PJXOZlMNfxeMfFMqEAqN3U2j
+         wdKM0v5OEVokxNSVY8HU5FB9Np9GU6qcT0ug0155/vFlKisXq7ikEALKGn4H/4IIHvBm
+         D12LRXwAxz9bMqKAmIrSv9l0aUOxocYteBoeKicVYYw0wUYY0sxr6msEQb9G2DlHn6OJ
+         KzNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=hrDNhPObw6e1fWHKYJ1uWfvaXZbb4Utsc/+r7Rmskdw=;
-        b=jhPqnYYU7wc/KvEOdXCtJzxXOA9FRoZnQffOh0DEq/SrdXojgUzmmEq8lp+XY105Jk
-         WR/+qFllyxTO9wbDoCX6qgJ6B6SJj3vzQJaW6td9XZXYPaEOdynIoURtkpb2bhk/BDDP
-         f1GfH/xtrzlmwFRpJ293VgP1KbsCqR6YBWAURb9ZhRisnWkAiQrrEQxDxrRjm1MqGmNd
-         ryfrqLw8an6ZWtX60+tvFR2M0DK2Feinz33LVp4mNFQ1gCrM7IJUqFaHe6G2IaVA4BuQ
-         905MO1MsgQymPhspDQUUfn+TGJne18MX5FO34QzSbNdfgGbLds7BRz1X4KpvYgo7nK/q
-         WVcg==
-X-Gm-Message-State: ABuFfoh/6qPSWwZAIjj2H/530nmYIs26dyJjgn0BR+kkcVLqej8MrbMQ
-        tSl/XfH/GJlwF+bxv+qP4DI/d2QHCoY=
-X-Google-Smtp-Source: ACcGV62GfM8SCVIBqaTgJeMwbt9ad5T0OVfiFhVTNaoKcJjFbt5bHoVKS3KMtcXQKpvS/o/j1q2hEA==
-X-Received: by 2002:a25:b08c:: with SMTP id f12-v6mr2082646ybj.396.1538355693232;
-        Sun, 30 Sep 2018 18:01:33 -0700 (PDT)
-Received: from mail-yw1-f52.google.com (mail-yw1-f52.google.com. [209.85.161.52])
-        by smtp.gmail.com with ESMTPSA id r5-v6sm11462611ywr.80.2018.09.30.18.01.31
-        for <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kxBaaWYbk8uXGcWGxYraCagkZvNtzkvoICpOMaJmaLE=;
+        b=FDTEPxm0jWvlhx41kPwJzVY15lF4PhxN6/L7I5JYS/xFSByFkJZ4SByzxGbL+NzXQe
+         d13xvb+OniJCHOvK7lY5whq7lcSYsQWv7tKTkPZh6xMOBQSBuPuNBWrGclOFOA/xqY+g
+         s8myWxHLYq4v2ncVvI99WA1/dBuENkgEsyqKlzRTXU37xpWtXxc08Y8oTdOygYE8a6vV
+         ZnULsAJdNEWzwd8fR5ad8bouLP9HYwIj/RwhJJCw1MKePzZjRSokc8d6DZtzmZkFrMcW
+         U5uh48PJ+IaBfT3lnvtIzsOPy2H5QqDb8wpB19Tm5kDZp9e9iTJO3HFUpcXK+pun4Zk9
+         VObg==
+X-Gm-Message-State: ABuFfojJEk+eV44MpjT8zvyo/DuTYf7yCQQJ3idOWOF5lDiROqVMhcrJ
+        /bsQIhyGf0vWmd6nTIH1+/k=
+X-Google-Smtp-Source: ACcGV61tWVV2ferK8Pq7qNroecU/lyNyhM0gngSxPuEgYGgpqYj9CHF5xtZL8Cgqk4VB5xWID7bkYg==
+X-Received: by 2002:a17:902:710e:: with SMTP id a14-v6mr9843376pll.179.1538364496284;
+        Sun, 30 Sep 2018 20:28:16 -0700 (PDT)
+Received: from Asurada (c-73-231-2-134.hsd1.ca.comcast.net. [73.231.2.134])
+        by smtp.gmail.com with ESMTPSA id r23-v6sm2260961pfh.79.2018.09.30.20.28.15
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 30 Sep 2018 18:01:31 -0700 (PDT)
-Received: by mail-yw1-f52.google.com with SMTP id y14-v6so4852979ywa.4
-        for <linux-doc@vger.kernel.org>; Sun, 30 Sep 2018 18:01:31 -0700 (PDT)
-X-Received: by 2002:a0d:d302:: with SMTP id v2-v6mr4726475ywd.124.1538355690627;
- Sun, 30 Sep 2018 18:01:30 -0700 (PDT)
+        Sun, 30 Sep 2018 20:28:15 -0700 (PDT)
+Date:   Sun, 30 Sep 2018 20:28:10 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 2/2] hwmon: ina3221: Read channel input source info
+ from DT
+Message-ID: <20181001032809.GB4428@Asurada>
+References: <20180929013937.29289-1-nicoleotsuka@gmail.com>
+ <20180929013937.29289-3-nicoleotsuka@gmail.com>
+ <ab3a36dc-fa5a-4669-2f99-aa55a4083db2@roeck-us.net>
 MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Sun, 30 Sep 2018 18:01:29
- -0700 (PDT)
-In-Reply-To: <20180930192526.4480231c@vmware.local.home>
-References: <20180925001832.18322-1-keescook@chromium.org> <20180925001832.18322-5-keescook@chromium.org>
- <20180926123522.4080d9eb@vmware.local.home> <CAGXu5jJyL7FuLRj1XxujpGs9=wUQgS4dRfeGB+HUBqy4mkEBhQ@mail.gmail.com>
- <20180930192526.4480231c@vmware.local.home>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Sun, 30 Sep 2018 18:01:29 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jJsVv9bMh831yx1y8KjhgA204hkpOEVpWzvifATw-w0cw@mail.gmail.com>
-Message-ID: <CAGXu5jJsVv9bMh831yx1y8KjhgA204hkpOEVpWzvifATw-w0cw@mail.gmail.com>
-Subject: Re: [PATCH security-next v3 04/29] LSM: Remove initcall tracing
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Abderrahmane Benbachir <abderrahmane.benbachir@polymtl.ca>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Paul Moore <paul@paul-moore.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab3a36dc-fa5a-4669-2f99-aa55a4083db2@roeck-us.net>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 30, 2018 at 4:25 PM, Steven Rostedt <rostedt@goodmis.org> wrote:
-> On Wed, 26 Sep 2018 11:35:21 -0700
-> Kees Cook <keescook@chromium.org> wrote:
->
->> On Wed, Sep 26, 2018 at 9:35 AM, Steven Rostedt <rostedt@goodmis.org> wrote:
->> > On Mon, 24 Sep 2018 17:18:07 -0700
->> > Kees Cook <keescook@chromium.org> wrote:
->> >
->> >> This partially reverts commit 58eacfffc417 ("init, tracing: instrument
->> >> security and console initcall trace events") since security init calls
->> >> are about to no longer resemble regular init calls.
->> >
->> > I'm not against the change, but how much are they going to "no longer
->> > resemble regular init calls"?
->>
->> My take on "regular" init calls is that they're always run, link-time
->> ordered, etc. The changes proposed here will make it so not all
->> initialization are run depending on runtime configurations, ordering
->> will be flexible, etc.
->>
->
-> Will it still be a good idea to have a tracepoint for those calls?
-> Perhaps not an  initcall tracepoint but some other kind?
+On Sun, Sep 30, 2018 at 01:55:18PM -0700, Guenter Roeck wrote:
+> Hi Nicolin,
+> 
+> On 09/28/2018 06:39 PM, Nicolin Chen wrote:
+> >An ina3221 chip has three input ports. Each port is used
+> >to measure the voltage and current of its input source.
+> >
+> >The DT binding now has defined bindings for their input
+> >sources, so the driver should read these information and
+> >handle accordingly.
+> >
+> >This patch adds a new structure of input source specific
+> >information including input source label, shunt resistor
+> >value and its connection status. It exposes these labels
+> >via in[123]_label sysfs nodes upon available, and also
+> >disables those channels where there are no input source
+> >being connected. Meanwhile, it also adds in[123]_enable
+> >sysfs nodes for users to get control of three channels,
+> >and returns -ENODATA code for any sensor read according
+> >to hwmon ABI.
+> >
+> >Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> 
+> [ ... ]
+> 
+> >+
+> >+static ssize_t ina3221_set_enable(struct device *dev,
+> >+				  struct device_attribute *attr,
+> >+				  const char *buf, size_t count)
+> >+{
+> >+	struct sensor_device_attribute *sd_attr = to_sensor_dev_attr(attr);
+> >+	struct ina3221_data *ina = dev_get_drvdata(dev);
+> >+	unsigned int channel = sd_attr->index;
+> >+	u16 config = ina->reg_config;
+> >+	bool enable;
+> >+	int ret;
+> >+
+> >+	ret = kstrtobool(buf, &enable);
+> >+	if (ret)
+> >+		return ret;
+> >+
+> >+	if (enable)
+> >+		config |= INA3221_CONFIG_CHx_EN(channel);
+> >+	else
+> >+		config &= ~INA3221_CONFIG_CHx_EN(channel);
+> >+
+> >+	ret = regmap_write(ina->regmap, INA3221_CONFIG, config);
+> >+	if (ret)
+> >+		return ret;
+> >+
+> >+	ina->reg_config = config;
+> >+
+> 
+> Sorry it too me so long to realize this: The code above is racy.
+> There could be multiple threads enabling and disabling a channel.
+> Without a mutex, there is no guarantee that the final value of
+> reg_config matches the value written into the chip.
 
-I'm not opposed. It could be a follow-up patch, I assume?
+Hmm..that's true...glad you found and pointed it out.
 
--Kees
+> You'll have to introduce a mutex and implement something like
+> 	ret = kstrtobool(buf, &enable);
+> 	if (ret)
+> 		return ret;
+> 
+> 	mutex_lock(&ina->update_lock);
+> 	config = ina->reg_config;
+> 	...
+> 	ret = regmap_write(ina->regmap, INA3221_CONFIG, config);
+> 	if (ret) {
+> 		count = ret;
+> 		goto error;
+> 	}
+> 	ina->reg_config = config;
+> error:
+> 	mutex_unlock(&ina->update_lock);
+> 	return count;
 
--- 
-Kees Cook
-Pixel Security
+I would prefer to just add another regmap_read at the end for
+the reg_config sync, and to use regmap_update_bits() for the
+bit set/clear. It might not serialize things as the solution
+above does but at least the reg_config would get the correct
+value eventually. Since regmap has an internal mutex already,
+we may get rid of another mutex by doing so.
+
+I will send a v9 tomorrow.
+
+Thanks for the review
+Nicolin
