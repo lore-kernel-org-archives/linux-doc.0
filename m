@@ -1,114 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 076A07D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Oct 2018 10:01:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9A3197D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Oct 2018 10:24:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729088AbeJAQiK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Oct 2018 12:38:10 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42735 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729035AbeJAQiK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Oct 2018 12:38:10 -0400
-Received: by mail-wr1-f66.google.com with SMTP id b11-v6so13176138wru.9
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 03:01:09 -0700 (PDT)
+        id S1728860AbeJARBh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 1 Oct 2018 13:01:37 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:42783 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728826AbeJARBh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Oct 2018 13:01:37 -0400
+Received: by mail-io1-f65.google.com with SMTP id n18-v6so8919397ioa.9
+        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 03:24:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=9lkGVsNxlX+MgxZEditI3+TUfrnT+qVHsgFgcxCtk2w=;
-        b=ZOKxpbUWqhLgCP4ASCtZf2YdLW4a+l14c4un/aoCYcSJuR9rsb0UNquKVmmrCGxFL6
-         3oWXytaXh0svUcJRIip6X1jLt0ZKg0nOi+SCuRycOQIGElbTDThaYd9iW3YQF6w0JNH/
-         CYiUpf7SkH3AFJgNYdKGa3BTqTApAu8rG/VojZKdy/8vIWsuiZsH9UJx0TnzyXjt6asm
-         JbOHcYOuYDOTXU6C3n8tIACaYWNnJ37ors22VHql+VPrik4mFxQBQWVpHvPSaMB+vHuX
-         sWEcCnomajArBB7M3yuh0fGJa2tW1LyG2juGzwMsu3s3jQeFIQOvYKElQ8r6whEs9/jO
-         +Mpw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=THM6kc82mMstt4+zJoSfqZigSugW3/mfNxEP+tVrN74=;
+        b=KdxsoKZqk8t+2eIMUQP9++XuiiWF6j5GYR/NaLmlWgDxUl5uOVHI7q+JGfSJirX9tN
+         FqMNrp1SL6XLvHN0mBjQXJPrddiFZUV+rSYqYQUEQToatQzTYtae0jluNEN/Dpc35n2N
+         pL0x6a3xwD/BtoEw/lY+t765VcnlZZu2M8bRA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=9lkGVsNxlX+MgxZEditI3+TUfrnT+qVHsgFgcxCtk2w=;
-        b=sywQ2ufQY9eDXVl/E6lm/oa5S7fEaDoXYiGJxFWM8gdWFMchQpgBzbM5iPpCy+wkx8
-         cZWHbG6BQrn0LWlrthmjzbWIW6xWLmkkbXpe0+UCKwsGEWXt+WRLYrC7+12r9ysQNikn
-         ZPuRwyHrmGGx0mFsL5owOpYf/QRemeT2ZqZvFj3PGEWnXxPks5CoV49S9BVpGGOfLhxn
-         n8Qu+n2Bueg1WLHnbj2I2J8YhbVsWrn7XicMNkUaivesPD9gc3lwJb6tM1x9AglRNlxo
-         VLPH4V4WP5uHSTjnli9lMK6ArB9uIyRamYT8CueGo8CqTDP7U9HapX6JCmv0gmTfcqBw
-         knrg==
-X-Gm-Message-State: ABuFfogGmqfh+KHeoADmtj0ziGQgWLp2KjkJjQudGKn6G89Jo+N7q+eC
-        93uHg2Ql0f6zujk2omIW7G+onDSd35w=
-X-Google-Smtp-Source: ACcGV616rKr+oxnnBxwz2G3IN49pz01AkQWclQUNErXx9EaQ1PPip/RJilEgZwXH3kFmNtz13dBAeA==
-X-Received: by 2002:a05:6000:12c5:: with SMTP id l5mr5239511wrx.215.1538388068551;
-        Mon, 01 Oct 2018 03:01:08 -0700 (PDT)
-Received: from brgl-bgdev.baylibre.local (AStLambert-681-1-14-252.w90-86.abo.wanadoo.fr. [90.86.135.252])
-        by smtp.gmail.com with ESMTPSA id c13-v6sm1537658wrm.50.2018.10.01.03.01.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Oct 2018 03:01:07 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH] nvmem: fix nvmem_cell_get_from_lookup()
-Date:   Mon,  1 Oct 2018 12:00:52 +0200
-Message-Id: <20181001100052.3580-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.18.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=THM6kc82mMstt4+zJoSfqZigSugW3/mfNxEP+tVrN74=;
+        b=Dx/k/pOT+PvZPiTBtP0r7PPYp9s4yQKHFeD2YWn/1wjVbfv6yE+xIKgkk5zSgwlB8h
+         lAxNQNprnCUnOSBNTLSjhTMzTiCKFWQh5loH4B5I2CXac2udecb2xlrfhUdzFBvNdS68
+         rj59VaaFp23NbxgFkE/9Z8VV2X0kX4xgoJY4r0ZOgBhQP7wztRJdenFAvzvRsDxWgZ1D
+         FHEjeYOJM7fAXP+38WeAfoUkOupApJZ/9T9tc7WuX0H7Danginb1aM8T126hKi4faF+k
+         saSxkR7My4NIM+fyPXP/RWvyq5WZhVC9VVumU45SP9CBsvVwE6N0DWWPI/wDZVxABYUI
+         4U0A==
+X-Gm-Message-State: ABuFfogKMVfq12M7lZ2nsNHLeZkhwbYtEhcZM5Du9VZjQ3SWGtVXScnZ
+        1Dunn9Xz0QD6TxVzU5jneJxhY6nZ0FauuqP/VvNpcrwY
+X-Google-Smtp-Source: ACcGV61L2gQrvU1Niq7Y35IOGz4oyPzHhoNiQZa1c1ji58cobp2MSbOPeWcudsA1SWkFF7f6qWFWdz1nDUX7Rk9pkeY=
+X-Received: by 2002:a6b:c3c4:: with SMTP id t187-v6mr6326932iof.304.1538389471412;
+ Mon, 01 Oct 2018 03:24:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180927113810.30721-1-geert+renesas@glider.be>
+In-Reply-To: <20180927113810.30721-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 1 Oct 2018 12:24:18 +0200
+Message-ID: <CACRpkdYgX6aMACDdE6yMkur9txQq1hKCMfaLj_+FTg4vg-+Mzw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] gpio: Fix VLA removal fallout
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Laura Abbott <labbott@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Thu, Sep 27, 2018 at 1:38 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-We check if the pointer returned by __nvmem_device_get() is not NULL
-while we should actually check if it is not IS_ERR(nvmem). Fix it.
+> This patch series fixes various (mostly harmless) issues introduced by
+> commit 3027743f83f867d8 ("gpio: Remove VLA from gpiolib").
+>
+> As per the "one patch should fix one issue"-policy, this series contains 3
+> patches, although they all have the same Fixes: tag.
+>
+> Changes compared to v1:
+>   - Rebase on top of gpio array rework.
 
-While we're at it: fix the next error path where we should assign an
-error value to cell before returning.
+Patches applied, thanks Geert!
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
----
- drivers/nvmem/core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> W.r.t. propagating errors: while gpiod_set_array_value_complex() and its
+> callers can now return an error code, this is currently limited to -ENOMEM.
+> Actual failures setting a GPIO output value cannot be propagated, as
+> gpio_chip.set() still returns void.  Do you want to change that?
+> E.g. gen_74x164_set_value() can fail.
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index ad1227df1984..8249621d11a6 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -952,9 +952,9 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
- 		    (strcmp(lookup->con_id, con_id) == 0)) {
- 			/* This is the right entry. */
- 			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
--			if (!nvmem) {
-+			if (IS_ERR(nvmem)) {
- 				/* Provider may not be registered yet. */
--				cell = ERR_PTR(-EPROBE_DEFER);
-+				cell = (struct nvmem_cell *)nvmem;
- 				goto out;
- 			}
- 
-@@ -962,6 +962,7 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
- 						       lookup->cell_name);
- 			if (!cell) {
- 				__nvmem_device_put(nvmem);
-+				cell = ERR_PTR(-ENOENT);
- 				goto out;
- 			}
- 		}
--- 
-2.18.0
+I think we discussed it at one point and said that it's something
+we should fix some day, just nobody has got around to do it.
 
+Yours,
+Linus Walleij
