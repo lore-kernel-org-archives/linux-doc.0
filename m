@@ -1,67 +1,28 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 43ECE7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Oct 2018 22:03:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E6917D087
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Oct 2018 22:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726459AbeJBEnj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 00:43:39 -0400
-Received: from mail-yb1-f173.google.com ([209.85.219.173]:32836 "EHLO
-        mail-yb1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726276AbeJBEni (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 00:43:38 -0400
-Received: by mail-yb1-f173.google.com with SMTP id u88-v6so2007372ybi.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 15:03:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=G4WcYotR03OEiNZiei9M0bOlxNlJjM/PINeXng+gx/M=;
-        b=lgiy8jMhzBgIGEBGrPZhMcj8TTB261UftqDh5TzpBimaxjJ1FIwdJ/GRff2r1AC6Bc
-         B5R4sUiLA/1U83AoKpyhFreRdDY0RNHuj0RFSKVOEkB10C6Ds1DjNO2Xam/Tt18aLhDT
-         cltTpHVsiCm5bW317fIcdRaho9chmr7VjzWhc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=G4WcYotR03OEiNZiei9M0bOlxNlJjM/PINeXng+gx/M=;
-        b=Qf5O3PScpfju1PYcoSOxeoLCP/WgddUE6NawycspN3kIvz51hHchaRVNh2JcdVacC4
-         +HPRhDOFxY6MYIQ24v29UhFdB3tmsmYWpsPhVEvN37ePZY/ztUNU4vZKuWF5/RMZgiQF
-         a509dIsojnaPRdqbdWbZQeZaP19R2O50p4fz8adnQscDVFN+cm4EXgh7DlA1eFLr/eDn
-         JWv3KJU9g2ZhBUaIzsraMMqn/+HA9evSFHZayDCYadJTsdlQanpO8vXsWB3p2m+RIGKW
-         dGU82RaJhi9CTpJK8BBNibGQI5WVhg2THwSiTpm+Z9MqguZpkignLSz3yk2syis0zkzm
-         RZkQ==
-X-Gm-Message-State: ABuFfogTgpC/pFN8CcwTpTpRCKxl9Fx84v9TiCEaLtESo9xXlWaGAQpR
-        0uVPkdCd2eWDbmUCmMtOLcTimP9WPBo=
-X-Google-Smtp-Source: ACcGV62lzIRqf25saqU0Ac5nKYIH6zXbOOJHBl5GPwm7LzjlGNqPH8hh8VQsmC1pOivQcahy1ywHsQ==
-X-Received: by 2002:a25:acd5:: with SMTP id x21-v6mr5901503ybd.43.1538431421982;
-        Mon, 01 Oct 2018 15:03:41 -0700 (PDT)
-Received: from mail-yw1-f41.google.com (mail-yw1-f41.google.com. [209.85.161.41])
-        by smtp.gmail.com with ESMTPSA id z130-v6sm3767443ywd.91.2018.10.01.15.03.40
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Oct 2018 15:03:40 -0700 (PDT)
-Received: by mail-yw1-f41.google.com with SMTP id v1-v6so6194456ywv.6
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 15:03:40 -0700 (PDT)
-X-Received: by 2002:a0d:fec6:: with SMTP id o189-v6mr7157668ywf.237.1538431419933;
- Mon, 01 Oct 2018 15:03:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Mon, 1 Oct 2018 15:03:39 -0700 (PDT)
-In-Reply-To: <110c9903-0fbb-8d6f-1fd0-7731402d600f@canonical.com>
-References: <20180925001832.18322-1-keescook@chromium.org> <20180925001832.18322-13-keescook@chromium.org>
- <110c9903-0fbb-8d6f-1fd0-7731402d600f@canonical.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Mon, 1 Oct 2018 15:03:39 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jK+WT-1QkapORpzBJDCeZSAXUf_tN0mwRU+cWy=phRdgA@mail.gmail.com>
-Message-ID: <CAGXu5jK+WT-1QkapORpzBJDCeZSAXUf_tN0mwRU+cWy=phRdgA@mail.gmail.com>
-Subject: Re: [PATCH security-next v3 12/29] LSM: Provide separate ordered initialization
-To:     John Johansen <john.johansen@canonical.com>
-Cc:     James Morris <jmorris@namei.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
+        id S1726445AbeJBFAO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 01:00:14 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:51933 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726117AbeJBFAO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 01:00:14 -0400
+Received: from static-50-53-48-205.bvtn.or.frontiernet.net ([50.53.48.205] helo=[192.168.192.153])
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <john.johansen@canonical.com>)
+        id 1g76Y0-0002Bg-12; Mon, 01 Oct 2018 22:20:12 +0000
+Subject: Re: [PATCH security-next v3 14/29] LSM: Plumb visibility into
+ optional "enabled" state
+To:     Kees Cook <keescook@chromium.org>, James Morris <jmorris@namei.org>
+Cc:     Casey Schaufler <casey@schaufler-ca.com>,
         Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
         Paul Moore <paul@paul-moore.com>,
         Stephen Smalley <sds@tycho.nsa.gov>,
@@ -71,39 +32,122 @@ Cc:     James Morris <jmorris@namei.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         linux-arch <linux-arch@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20180925001832.18322-1-keescook@chromium.org>
+ <20180925001832.18322-15-keescook@chromium.org>
+ <alpine.LRH.2.21.1810020747380.20364@namei.org>
+ <CAGXu5jJKvb=3vu3_b-NNdr_=KwvgO9qa96Qo5qzSZuiy2=+Oig@mail.gmail.com>
+From:   John Johansen <john.johansen@canonical.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Canonical
+Message-ID: <822e8ef3-5035-736e-1bea-dcb4af5c36ac@canonical.com>
+Date:   Mon, 1 Oct 2018 15:20:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CAGXu5jJKvb=3vu3_b-NNdr_=KwvgO9qa96Qo5qzSZuiy2=+Oig@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 1, 2018 at 2:17 PM, John Johansen
-<john.johansen@canonical.com> wrote:
-> On 09/24/2018 05:18 PM, Kees Cook wrote:
->> This provides a place for ordered LSMs to be initialized, separate from
->> the "major" LSMs. This is mainly a copy/paste from major_lsm_init() to
->> ordered_lsm_init(), but it will change drastically in later patches.
+On 10/01/2018 02:56 PM, Kees Cook wrote:
+> On Mon, Oct 1, 2018 at 2:47 PM, James Morris <jmorris@namei.org> wrote:
+>> On Mon, 24 Sep 2018, Kees Cook wrote:
 >>
->> What is not obvious in the patch is that this change moves the integrity
->> LSM from major_lsm_init() into ordered_lsm_init(), since it is not marked
->> with the LSM_FLAG_LEGACY_MAJOR. As it is the only LSM in the "ordered"
->> list, there is no reordering yet created.
+>>> In preparation for lifting the "is this LSM enabled?" logic out of the
+>>> individual LSMs, pass in any special enabled state tracking (as needed
+>>> for SELinux, AppArmor, and LoadPin). This should be an "int" to include
+>>> handling any future cases where "enabled" is exposed via sysctl which
+>>> has no "bool" type.
+>>>
+>>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>>> ---
+>>>  include/linux/lsm_hooks.h | 1 +
+>>>  security/apparmor/lsm.c   | 5 +++--
+>>>  security/selinux/hooks.c  | 1 +
+>>>  3 files changed, 5 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+>>> index 5056f7374b3d..2a41e8e6f6e5 100644
+>>> --- a/include/linux/lsm_hooks.h
+>>> +++ b/include/linux/lsm_hooks.h
+>>> @@ -2044,6 +2044,7 @@ extern void security_add_hooks(struct security_hook_list *hooks, int count,
+>>>  struct lsm_info {
+>>>       const char *name;       /* Populated automatically. */
+>>>       unsigned long flags;    /* Optional: flags describing LSM */
+>>> +     int *enabled;           /* Optional: NULL means enabled. */
 >>
->> Signed-off-by: Kees Cook <keescook@chromium.org>
->
-> I know its already being done, but I don't like splitting the init
-> order
+>> This seems potentially confusing.
+>>
+>> Perhaps initialize 'enabled' to a default int pointer, like:
+>>
+>>         static int lsm_default_enabled = 1;
+>>
+>> Then,
+>>
+>>         DEFINE_LSM(foobar)
+>>         flags = LSM_FLAG_LEGACY_MAJOR,
+>>         .enabled = &lsm_default_enabled,
+>>         .init = foobar_init,
+>>         END_LSM;
+> 
+> The reason I didn't do this is because there are only two LSMs that
+> expose this "enabled" variable, so I didn't like making the other LSMs
+> have to declare this. Internally, though, this is exactly what the
+> infrastructure does: if it finds a NULL, it aims it at
+> &lsm_default_enabled (in a later patch).
+> 
+> However, it seems more discussion is needed on the "enable" bit of
+> this, so I'll reply to John in a moment...
+> 
+fwiw the apparmor.enabled config is really only a meant to be used to
+disable apparmor. I'd drop it entirely except its part of the userspace
+api now and needs to show up in
 
-Can you describe what you mean here? Do you mean having two init
-functions? This is only done temporarily while the other pieces are
-reorganized. The later patches reintegrate this. (Before this series,
-we effectively had three implicit init paths: minor, major, and
-integrity, so even this patch "alone" is an improvement IMO.)
+  /sys/module/apparmor/parameters/enabled
 
-Thanks for the reviews!
-
--Kees
-
--- 
-Kees Cook
-Pixel Security
