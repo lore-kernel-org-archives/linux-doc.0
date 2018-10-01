@@ -1,137 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A63517D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Oct 2018 08:48:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 076A07D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Oct 2018 10:01:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728856AbeJAPYx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Oct 2018 11:24:53 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:51188 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728749AbeJAPYx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Oct 2018 11:24:53 -0400
-Received: by mail-wm1-f67.google.com with SMTP id s12-v6so7875126wmc.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 01:48:12 -0700 (PDT)
+        id S1729088AbeJAQiK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 1 Oct 2018 12:38:10 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42735 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729035AbeJAQiK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Oct 2018 12:38:10 -0400
+Received: by mail-wr1-f66.google.com with SMTP id b11-v6so13176138wru.9
+        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 03:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=R9CJMIeFcZ8iHn0hpKm44TFWAl3+X4CN67TLXf13aHQ=;
-        b=coR1VsBEtj0kJ1mZ1jz3pdAAyyaBlxiuk2frl4y5X8VJE1LePtX7bIHldJIM/vj0g2
-         QjCVjyDAZSDkDaqG0JipfD4lB//hPsl15DZKsQqi4jd0V5boaYQfWNi7xUbxGhx4ko8L
-         BQNGgwijfPNRf49zwHCw6HGupZcyuI+2W5pyo=
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=9lkGVsNxlX+MgxZEditI3+TUfrnT+qVHsgFgcxCtk2w=;
+        b=ZOKxpbUWqhLgCP4ASCtZf2YdLW4a+l14c4un/aoCYcSJuR9rsb0UNquKVmmrCGxFL6
+         3oWXytaXh0svUcJRIip6X1jLt0ZKg0nOi+SCuRycOQIGElbTDThaYd9iW3YQF6w0JNH/
+         CYiUpf7SkH3AFJgNYdKGa3BTqTApAu8rG/VojZKdy/8vIWsuiZsH9UJx0TnzyXjt6asm
+         JbOHcYOuYDOTXU6C3n8tIACaYWNnJ37ors22VHql+VPrik4mFxQBQWVpHvPSaMB+vHuX
+         sWEcCnomajArBB7M3yuh0fGJa2tW1LyG2juGzwMsu3s3jQeFIQOvYKElQ8r6whEs9/jO
+         +Mpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=R9CJMIeFcZ8iHn0hpKm44TFWAl3+X4CN67TLXf13aHQ=;
-        b=QNKl0p0UpCBHPCTo0qbyPsX8b1blbrcYXu3oNpjCRQJx8Uz0VlUp1CTzuB5MBELcBt
-         zfA0URoPowsA9P1yLyQAmnTs4tSoKQA88LCuLMdpk1NTunrvCPAj4X+8T56VKVIdqzg+
-         MtXnRiR5HcIdA85RAHDjDu8AqtW1fgDZWZ1aYIiVc6zU5MeuQEFw9NuxhCxSpc0Nxi9T
-         01lSWPwDJuJPlS7WFqCU2SsYLhe2sHy62WbUZdqai2GCqELqPlcm3s2smd1j9k0ZdMxE
-         xdCSoBNfcMTKYX3G5zNm8M5Yuri4LLZzBQHUtnXNcwKHdlvCiSOgTBHx04nWVSTnI5B0
-         vafA==
-X-Gm-Message-State: ABuFfoi0/EQDFhKbiy/rTCzqa8RHX5hP3ai1VFXdnYxw1ItRS4faNL68
-        Yk5kEwNjU+rvQIcGUQ4YFeMucA==
-X-Google-Smtp-Source: ACcGV62LzPXNoNM/2l/782JIfbTjRdlJCfbQwG6SIEKlNUaGeWtwPFoB1MROs3+5LPaj+nbPeC3VeA==
-X-Received: by 2002:a1c:5dd4:: with SMTP id r203-v6mr7895873wmb.29.1538383691997;
-        Mon, 01 Oct 2018 01:48:11 -0700 (PDT)
-Received: from [192.168.0.41] (210.183.88.92.rev.sfr.net. [92.88.183.210])
-        by smtp.googlemail.com with ESMTPSA id a18sm10442301wrx.55.2018.10.01.01.48.10
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=9lkGVsNxlX+MgxZEditI3+TUfrnT+qVHsgFgcxCtk2w=;
+        b=sywQ2ufQY9eDXVl/E6lm/oa5S7fEaDoXYiGJxFWM8gdWFMchQpgBzbM5iPpCy+wkx8
+         cZWHbG6BQrn0LWlrthmjzbWIW6xWLmkkbXpe0+UCKwsGEWXt+WRLYrC7+12r9ysQNikn
+         ZPuRwyHrmGGx0mFsL5owOpYf/QRemeT2ZqZvFj3PGEWnXxPks5CoV49S9BVpGGOfLhxn
+         n8Qu+n2Bueg1WLHnbj2I2J8YhbVsWrn7XicMNkUaivesPD9gc3lwJb6tM1x9AglRNlxo
+         VLPH4V4WP5uHSTjnli9lMK6ArB9uIyRamYT8CueGo8CqTDP7U9HapX6JCmv0gmTfcqBw
+         knrg==
+X-Gm-Message-State: ABuFfogGmqfh+KHeoADmtj0ziGQgWLp2KjkJjQudGKn6G89Jo+N7q+eC
+        93uHg2Ql0f6zujk2omIW7G+onDSd35w=
+X-Google-Smtp-Source: ACcGV616rKr+oxnnBxwz2G3IN49pz01AkQWclQUNErXx9EaQ1PPip/RJilEgZwXH3kFmNtz13dBAeA==
+X-Received: by 2002:a05:6000:12c5:: with SMTP id l5mr5239511wrx.215.1538388068551;
+        Mon, 01 Oct 2018 03:01:08 -0700 (PDT)
+Received: from brgl-bgdev.baylibre.local (AStLambert-681-1-14-252.w90-86.abo.wanadoo.fr. [90.86.135.252])
+        by smtp.gmail.com with ESMTPSA id c13-v6sm1537658wrm.50.2018.10.01.03.01.05
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Oct 2018 01:48:11 -0700 (PDT)
-Subject: Re: [PATCH v5 04/21] dt-bindings: Add doc for the Ingenic TCU drivers
-To:     Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, linux-pwm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20180724231958.20659-1-paul@crapouillou.net>
- <20180724231958.20659-5-paul@crapouillou.net>
- <20180725152105.GA6347@rob-hp-laptop>
- <1532988062.4702.2@smtp.crapouillou.net>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <cfecfae5-abd0-c051-51a3-cb5d906006e9@linaro.org>
-Date:   Mon, 1 Oct 2018 10:48:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <1532988062.4702.2@smtp.crapouillou.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Mon, 01 Oct 2018 03:01:07 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH] nvmem: fix nvmem_cell_get_from_lookup()
+Date:   Mon,  1 Oct 2018 12:00:52 +0200
+Message-Id: <20181001100052.3580-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.18.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 31/07/2018 00:01, Paul Cercueil wrote:
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-[ ... ]
+We check if the pointer returned by __nvmem_device_get() is not NULL
+while we should actually check if it is not IS_ERR(nvmem). Fix it.
 
->>>  +- ingenic,timer-channel: Specifies the TCU channel that should be
->>> used as
->>>  +  system timer. If not provided, the TCU channel 0 is used for the
->>> system timer.
->>>  +
->>>  +- ingenic,clocksource-channel: Specifies the TCU channel that
->>> should be used
->>>  +  as clocksource and sched_clock. It must be a different channel
->>> than the one
->>>  +  used as system timer. If not provided, neither a clocksource nor a
->>>  +  sched_clock is instantiated.
->>
->> clocksource and sched_clock are Linux specific and don't belong in DT.
->> You should define properties of the hardware or use existing properties
->> like interrupts or clocks to figure out which channel to use. For
->> example, if some channels don't have an interrupt, then use them for
->> clocksource and not a clockevent. Or you could have timers that run in
->> low-power modes or not. If all the channels are identical, then it
->> shouldn't matter which ones the OS picks.
+While we're at it: fix the next error path where we should assign an
+error value to cell before returning.
 
-It can't work in this case because the pmw and the timer driver are not
-communicating and the first one can stole a channel to the last one.
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
+ drivers/nvmem/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-
-> We already talked about that. All the TCU channels can be used for PWM.
-> The problem is I cannot know from the driver's scope which channels will
-> be free and which channels will be requested for PWM. You suggested that I
-> parse the devicetree for clients, and I did that in the V3/V4 patchset. But
-> it only works for clients requesting through devicetree, not from platform
-> code or even sysfs.
-> 
-> One thing I can try is to dynamically change the channels the system timer
-> and clocksource are using when the current ones are requested for PWM. But
-> that sounds hardcore...
-
-Yes, it is :/
-
-Sorry for letting you wasting time and effort to write an overkill code
-not suitable for upstream.
-
-A very gross thought, wouldn't be possible to "register" a channel from
-the timer driver code in a shared data area (but well self-encapsulated)
-and the pwm code will check such channel isn't in use ?
-
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index ad1227df1984..8249621d11a6 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -952,9 +952,9 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+ 		    (strcmp(lookup->con_id, con_id) == 0)) {
+ 			/* This is the right entry. */
+ 			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
+-			if (!nvmem) {
++			if (IS_ERR(nvmem)) {
+ 				/* Provider may not be registered yet. */
+-				cell = ERR_PTR(-EPROBE_DEFER);
++				cell = (struct nvmem_cell *)nvmem;
+ 				goto out;
+ 			}
+ 
+@@ -962,6 +962,7 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+ 						       lookup->cell_name);
+ 			if (!cell) {
+ 				__nvmem_device_put(nvmem);
++				cell = ERR_PTR(-ENOENT);
+ 				goto out;
+ 			}
+ 		}
 -- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+2.18.0
 
