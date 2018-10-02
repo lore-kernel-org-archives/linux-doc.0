@@ -1,89 +1,187 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 043967D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 17:07:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 696017D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 17:15:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726709AbeJBXwR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 19:52:17 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:38535 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726572AbeJBXwR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 19:52:17 -0400
-Received: by mail-pl1-f194.google.com with SMTP id b5-v6so2056965plr.5;
-        Tue, 02 Oct 2018 10:07:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EIPbGsjH+rmJ9Zn47a7tfgVu+weQ1wqkfOQ2S8mBr4I=;
-        b=qYZgrAUcbHktnYnGOkdsT05b52u/Y4uaiTevfTIueMt58SU3nnuVG20beFIziNE7OZ
-         15y/JFWGY8JfwW50jXXb5KPYu17Zo1wf3ccrunnnYBFnWlsH479NhTukUbyPlc9LtfuB
-         1uoNPUGVYD18mzSyxPsdBTWtEyzfH697dJr3RapRt6JFcGCOAbPrl3oVk2ZNgYT3LsuR
-         Z+GoSJinoWDnScNGQgljxHqBcd2mprJr3ApjSgh2H2sopSQNQEPakloNHV+yZCFgelqP
-         Zg547fj7vfohfvwMQ/6vGl9lXo9cNwCkcHjEEK/yh9fyRuoTbB6i74iwGi0QoqyBqYMS
-         JwEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EIPbGsjH+rmJ9Zn47a7tfgVu+weQ1wqkfOQ2S8mBr4I=;
-        b=cicJc4a9uXqDtDKlR3HCMlOmZdc2lTTLVitjKfyr+TaKrtssP9RWE8tODXNRwvU9D8
-         q9t6wyNxzxcdTOHrf6vz2scSfO833Jbxk7DLwieheQQlCr0JIPTfcxhr4ypw7yDRY9cO
-         rpY6fEY/xa4aeLeROv/mkx2aJsbLWkplEdBextwKNftuhirpvU5CIBI6SlO3/I8cN481
-         iviJqWZhUJpLwFC/nDd8ZZNXPmmrJQZs7ELXXyqF4hCAw4KUjgN1ZLdwIvGY7ZQfosQ6
-         dRfg/Rz2mjAjz6JkZYSZoAq23f0GSt7KB4CcKLNUnKoPmbHL5mKgvvNBsz0TCBbBrdG7
-         I/Eg==
-X-Gm-Message-State: ABuFfogDdXiAgIz22yO2yep7w7ngWMp41W8x55inA2+cwiS5a1uK9t2U
-        bjwmjqMwYrSPvgTRLTyk3N0=
-X-Google-Smtp-Source: ACcGV60h5Efv+5JOEULseLI0KR0v4Ku2dXv1SvkHuNRDL1rKZJ/4oUnRT4DUFV1gbE6erKl+H/4YjA==
-X-Received: by 2002:a17:902:8690:: with SMTP id g16-v6mr17106926plo.302.1538500074222;
-        Tue, 02 Oct 2018 10:07:54 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id i2-v6sm23136550pgq.35.2018.10.02.10.07.53
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 02 Oct 2018 10:07:54 -0700 (PDT)
-Date:   Tue, 2 Oct 2018 10:07:48 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     jdelvare@suse.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        corbet@lwn.net, afd@ti.com, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 1/2] dt-bindings: hwmon: Add ina3221 documentation
-Message-ID: <20181002170748.GA24384@Asurada-Nvidia.nvidia.com>
-References: <20181002010523.2019-1-nicoleotsuka@gmail.com>
- <20181002010523.2019-2-nicoleotsuka@gmail.com>
- <20181002170518.GA27236@roeck-us.net>
+        id S1726274AbeJCAAT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 20:00:19 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:35956 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725953AbeJCAAT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Oct 2018 20:00:19 -0400
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id FOclop3Z8WOr; Tue,  2 Oct 2018 19:15:52 +0200 (CEST)
+Received: from zn.tnic (p200300EC2BC64F00329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2bc6:4f00:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7C38B1EC02D1;
+        Tue,  2 Oct 2018 19:15:52 +0200 (CEST)
+Date:   Tue, 2 Oct 2018 19:15:54 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v4 03/27] x86/fpu/xstate: Enable XSAVES system states
+Message-ID: <20181002171554.GE29601@zn.tnic>
+References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
+ <20180921150351.20898-4-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20181002170518.GA27236@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20180921150351.20898-4-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 02, 2018 at 10:05:18AM -0700, Guenter Roeck wrote:
-> Hi Nicolin,
-> 
-> On Mon, Oct 01, 2018 at 06:05:22PM -0700, Nicolin Chen wrote:
-> > Texas Instruments INA3221 is a triple-channel shunt and bus
-> > voltage monitor. This patch adds a DT binding doc for it.
-> > 
-> > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> > ---
-> 
-> This version of the series looks good to me. I'll add both patches to
-> hwmon-next, with the understanding that I may pull them if Rob has
-> bindings related concerns.
+On Fri, Sep 21, 2018 at 08:03:27AM -0700, Yu-cheng Yu wrote:
+> XSAVES saves both system and user states.  The Linux kernel
+> currently does not save/restore any system states.  This patch
+> creates the framework for supporting system states.
 
-Thanks a lot, especially for the review.
+... and needs a lot more text explaining *why* it is doing that.
 
-Nicolin
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/fpu/internal.h |   3 +-
+>  arch/x86/include/asm/fpu/xstate.h   |   9 ++-
+>  arch/x86/kernel/fpu/core.c          |   7 +-
+>  arch/x86/kernel/fpu/init.c          |  10 ---
+>  arch/x86/kernel/fpu/xstate.c        | 112 +++++++++++++++++-----------
+>  5 files changed, 80 insertions(+), 61 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/fpu/internal.h b/arch/x86/include/asm/fpu/internal.h
+> index f1f9bf91a0ab..1f447865db3a 100644
+> --- a/arch/x86/include/asm/fpu/internal.h
+> +++ b/arch/x86/include/asm/fpu/internal.h
+> @@ -45,7 +45,6 @@ extern void fpu__init_cpu_xstate(void);
+>  extern void fpu__init_system(struct cpuinfo_x86 *c);
+>  extern void fpu__init_check_bugs(void);
+>  extern void fpu__resume_cpu(void);
+> -extern u64 fpu__get_supported_xfeatures_mask(void);
+>  
+>  /*
+>   * Debugging facility:
+> @@ -94,7 +93,7 @@ static inline void fpstate_init_xstate(struct xregs_state *xsave)
+>  	 * trigger #GP:
+>  	 */
+>  	xsave->header.xcomp_bv = XCOMP_BV_COMPACTED_FORMAT |
+> -			xfeatures_mask_user;
+> +			xfeatures_mask_all;
+>  }
+>  
+>  static inline void fpstate_init_fxstate(struct fxregs_state *fx)
+> diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
+> index 9b382e5157ed..a32dc5f8c963 100644
+> --- a/arch/x86/include/asm/fpu/xstate.h
+> +++ b/arch/x86/include/asm/fpu/xstate.h
+> @@ -19,10 +19,10 @@
+>  #define XSAVE_YMM_SIZE	    256
+>  #define XSAVE_YMM_OFFSET    (XSAVE_HDR_SIZE + XSAVE_HDR_OFFSET)
+>  
+> -/* System features */
+> -#define XFEATURE_MASK_SYSTEM (XFEATURE_MASK_PT)
+
+Previous patch renames it, this patch deletes it. Why do we need all
+that unnecessary churn?
+
+Also, this patch is trying to do a couple of things at once and
+reviewing it is not trivial. Please split the changes logically.
+
+> diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+> index 19f8df54c72a..dd2c561c4544 100644
+> --- a/arch/x86/kernel/fpu/xstate.c
+> +++ b/arch/x86/kernel/fpu/xstate.c
+> @@ -51,13 +51,16 @@ static short xsave_cpuid_features[] __initdata = {
+>  };
+>  
+>  /*
+> - * Mask of xstate features supported by the CPU and the kernel:
+> + * Mask of xstate features supported by the CPU and the kernel.
+> + * This is the result from CPUID query, SUPPORTED_XFEATURES_MASK,
+> + * and boot_cpu_has().
+>   */
+
+This needs to explain what both masks are - user and system. "CPU" and
+"kernel" is not "user" and "all".
+
+>  u64 xfeatures_mask_user __read_mostly;
+> +u64 xfeatures_mask_all __read_mostly;
+
+
+
+> @@ -219,30 +222,31 @@ void fpstate_sanitize_xstate(struct fpu *fpu)
+>   */
+>  void fpu__init_cpu_xstate(void)
+>  {
+> -	if (!boot_cpu_has(X86_FEATURE_XSAVE) || !xfeatures_mask_user)
+> +	if (!boot_cpu_has(X86_FEATURE_XSAVE) || !xfeatures_mask_all)
+>  		return;
+> +
+> +	cr4_set_bits(X86_CR4_OSXSAVE);
+> +
+>  	/*
+> -	 * Make it clear that XSAVES system states are not yet
+> -	 * implemented should anyone expect it to work by changing
+> -	 * bits in XFEATURE_MASK_* macros and XCR0.
+> +	 * XCR_XFEATURE_ENABLED_MASK sets the features that are managed
+> +	 * by XSAVE{C, OPT} and XRSTOR.  Only XSAVE user states can be
+> +	 * set here.
+>  	 */
+> -	WARN_ONCE((xfeatures_mask_user & XFEATURE_MASK_SYSTEM),
+> -		"x86/fpu: XSAVES system states are not yet implemented.\n");
+> +	xsetbv(XCR_XFEATURE_ENABLED_MASK,
+> +	       xfeatures_mask_user);
+
+No need to break the line here.
+
+Also, you have a couple more places in your patches where you
+unnecessarily break lines. Please don't do that, even if it exceeds 80
+cols by a couple of chars.
+
+>  
+> -	xfeatures_mask_user &= ~XFEATURE_MASK_SYSTEM;
+> -
+> -	cr4_set_bits(X86_CR4_OSXSAVE);
+> -	xsetbv(XCR_XFEATURE_ENABLED_MASK, xfeatures_mask_user);
+> +	/*
+> +	 * MSR_IA32_XSS sets which XSAVES system states to be managed by
+> +	 * XSAVES.  Only XSAVES system states can be set here.
+> +	 */
+> +	if (boot_cpu_has(X86_FEATURE_XSAVES))
+> +		wrmsrl(MSR_IA32_XSS,
+> +		       xfeatures_mask_all & ~xfeatures_mask_user);
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
