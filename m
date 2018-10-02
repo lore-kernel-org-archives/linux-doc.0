@@ -1,164 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6568A7D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 09:14:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9DA087D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 09:42:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbeJBP4e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 11:56:34 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39581 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725951AbeJBP4e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 11:56:34 -0400
-Received: by mail-wm1-f65.google.com with SMTP id q8-v6so1401345wmq.4;
-        Tue, 02 Oct 2018 02:14:16 -0700 (PDT)
+        id S1726617AbeJBQZG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 12:25:06 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39762 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726207AbeJBQZG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 12:25:06 -0400
+Received: by mail-wr1-f67.google.com with SMTP id 61-v6so656507wrb.6
+        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 02:42:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GFwAnrIf8He7C543Be3u26CPMO0haqkMjsQZldSjvow=;
-        b=lSKl6N3iYsQ8l20N49Q7ZJUGyPn7XOS1ZWFiaD0Mqt6UBBJESnMGT3PsYR8DytwHMo
-         O9Jl+3etKMKhNa8fLhXYh2R5Nnqd35AQng93vH1eEKkguqo75UdqUL0RvKwnJHGbVYrd
-         mYgs5ti0wrK5UhbSNhPy1GBycEpPFzhE7mVZ7zyuI6VBx4FO8T6yXeZoYS3nC7Bvm0qq
-         1kmvUhDoir+tMBOKOf8yUMRpzsin2hRsuByP9IC18zI50Hxxo4cJn0RTYdSstOB2MS+U
-         UgjWRFgCeoPBsANFUOLajKotInrQ19OtEfknvFeq2YKk2d47vECLzMFCu44M2aszUCOa
-         +ubA==
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V3jZM2zRxZov3RiYJJND5l9o9GvRdVPeg8Domw0sixQ=;
+        b=rdv7BvnHz8eN8fvqCehuj2i61008VQhDgwsFte0rmXuwF4XjOBndwGkgD915PwUulq
+         Py+qaQbXLcBFT1H8ujLvfpIGCjq91U5NvKmDIjKy6YNCyT1eZtCbVp5cGw7OiClk/SSh
+         42JhDXElxUZ9RfMGFi4gEc1p5l1rCT1heo3eEH4Dr7y5nMOIuzfp+R1vi41Kcmh7tzsL
+         yIFrWWFmV5SWhEV9FF1yZA3irU2gYJhOe1R3IJE8EAhkGN5qc+AxvbxoxmruGoktgrNm
+         ChVdvOX3eu5ka3qfMC6xTV4cYHmVUJl7g/1LoozLCnwGac7RR1ISwQyPWHHX8MOqjucP
+         YbeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GFwAnrIf8He7C543Be3u26CPMO0haqkMjsQZldSjvow=;
-        b=ZS57NL/gmvWWBqnzFHQd6obcAuE5gLjSbgt3nvkXuKHqoDDRhDDePSKmJdkPSHdAp8
-         z809pKkHynnHsQsNiWZEyBa32n7kWV9dFw0qNVtgqBgNnhAZLciQLnIr0IIkQGb5gwhv
-         iS++YFDi4pfpldYXahuEJcOOYNjBRTyJNsc0nH0S+WmpdHbt62pDqNoWi3zbXnA4n4Ni
-         1DlOhSptpLKMGXKparQEdrJJMjKtwOamrmmJKw2oFDXglRwkXScSIwLCaUcqfvq+tLJq
-         4LMGEhno5hH7RgHetz0By+z+y2OLYtUUlx8Xq+vUAWLaED4kV3b/3ZyLRVSRed0Ip5+t
-         zqRQ==
-X-Gm-Message-State: ABuFfojw5O4q7c22vyjXFsLIdYR1n8vaeWGwyX6qhLK58+oyx8PYRtU6
-        yAzEWqZTMnoWLXTBCczBQxGinAwE
-X-Google-Smtp-Source: ACcGV61wBW9hnm7ndoGdk9R69ehAK0rr03QS+usOoksjhoUbv2kn2da7oJ6mMsaROdszl4PygvK7oA==
-X-Received: by 2002:a1c:2052:: with SMTP id g79-v6mr1262010wmg.42.1538471655575;
-        Tue, 02 Oct 2018 02:14:15 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id 195-v6sm1563846wmx.21.2018.10.02.02.14.14
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 02 Oct 2018 02:14:15 -0700 (PDT)
-Date:   Tue, 2 Oct 2018 11:14:12 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Baoquan He <bhe@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, tglx@linutronix.de,
-        kirill.shutemov@linux.intel.com, thgarnie@google.com,
-        corbet@lwn.net
-Subject: Re: [PATCH v2 2/3] x86/mm/doc: Clean up the memory region layout
- descriptions
-Message-ID: <20181002091412.GE116695@gmail.com>
-References: <20180926235823.3567-1-bhe@redhat.com>
- <20180926235823.3567-3-bhe@redhat.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V3jZM2zRxZov3RiYJJND5l9o9GvRdVPeg8Domw0sixQ=;
+        b=gPZGtgYuwNqPlEygUvws8Yu1pGfhTwKxtVmmd5oAIHKeQrnQIHhBtPs4NxTQv6OBUq
+         oDiTmLhSyMFFHcIpV3k3zW9XZgJUriYpaIiqMFm7aRR6SmraUoqjw+sfWEjVP6FuJIHY
+         wc0QWs3xhMoywzbL5+j1+rNKOKyQCSoSMhxGi64d9RRZBfFH78CvssHFyERqV00exFRn
+         w7fjcKAt2ia4/Zc2SJcNHRUz6PxRPHee9HtCXgo4us/MkeY71HHV9/h/EnOeEVxQepOQ
+         KHX/0W19QI1tEfpEVZGzgicSSNGyakV2r0xE8cOb2EDeAQ4vlOqX0ZXKqRuPHUz9fE5f
+         1IUg==
+X-Gm-Message-State: ABuFfogQ/jZXFHJqvoTeg8AwlAEUDN2ABiWuNVdNx7dzO+8DlAU7Eyou
+        h9OaV6XDxPiU9pfRRVBd4luHwWBx0+s=
+X-Google-Smtp-Source: ACcGV62jIN8Ly1/AfBCWyCVlRXJsTUr0dIBMhUhhs65Yxv+Rpg09qePIuNNWr7cCxX4A0Kr6HQ0oOw==
+X-Received: by 2002:adf:dcc7:: with SMTP id x7-v6mr6148953wrm.21.1538473362270;
+        Tue, 02 Oct 2018 02:42:42 -0700 (PDT)
+Received: from debian-brgl.home ([2a01:cb1d:af:5b00:217b:7d7b:52aa:bc53])
+        by smtp.gmail.com with ESMTPSA id t24-v6sm4036840wra.5.2018.10.02.02.42.40
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Oct 2018 02:42:41 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, Alban Bedel <albeu@free.fr>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH] nvmem: fix nvmem_cell_get_from_lookup()
+Date:   Tue,  2 Oct 2018 11:42:38 +0200
+Message-Id: <20181002094238.17571-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.19.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180926235823.3567-3-bhe@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-* Baoquan He <bhe@redhat.com> wrote:
+We check if the pointer returned by __nvmem_device_get() is not NULL
+while we should actually check if it is not IS_ERR(nvmem). Fix it.
 
-> In Documentation/x86/x86_64/mm.txt, the style of descritions about
-> memory region layout is a little confusing:
-> 
->  - mix size in TB with 'bits'
->  - sometimes mention a size in the description and sometimes not
->  - sometimes list holes by address, sometimes only as an 'unused hole' line
-> 
-> So fix them to make them in consistent style.
-> 
-> Signed-off-by: Baoquan He <bhe@redhat.com>
-> ---
->  Documentation/x86/x86_64/mm.txt | 76 ++++++++++++++++++++---------------------
->  1 file changed, 38 insertions(+), 38 deletions(-)
-> 
-> diff --git a/Documentation/x86/x86_64/mm.txt b/Documentation/x86/x86_64/mm.txt
-> index 5432a96d31ff..fc1da95e629d 100644
-> --- a/Documentation/x86/x86_64/mm.txt
-> +++ b/Documentation/x86/x86_64/mm.txt
-> @@ -1,52 +1,52 @@
->  
->  Virtual memory map with 4 level page tables:
->  
-> -0000000000000000 - 00007fffffffffff (=47 bits) user space, different per mm
-> -hole caused by [47:63] sign extension
-> -ffff800000000000 - ffff87ffffffffff (=43 bits) guard hole, reserved for hypervisor
-> -ffff880000000000 - ffffc7ffffffffff (=64 TB) direct mapping of all phys. memory
-> -ffffc80000000000 - ffffc8ffffffffff (=40 bits) hole
-> -ffffc90000000000 - ffffe8ffffffffff (=45 bits) vmalloc/ioremap space
-> -ffffe90000000000 - ffffe9ffffffffff (=40 bits) hole
-> -ffffea0000000000 - ffffeaffffffffff (=40 bits) virtual memory map (1TB)
-> -... unused hole ...
-> -ffffec0000000000 - fffffbffffffffff (=44 bits) kasan shadow memory (16TB)
-> -... unused hole ...
-> +0000000000000000 - 00007fffffffffff (=47 bits, 128 TB) user space, different per mm
-> +				    hole caused by [47:63] sign extension
-> +ffff800000000000 - ffff87ffffffffff (=43 bits, 8 TB) guard hole, reserved for hypervisor
-> +ffff880000000000 - ffffc7ffffffffff (=46 bits, 64 TB) direct mapping of all phys. memory (page_offset_base)
-> +ffffc80000000000 - ffffc8ffffffffff (=40 bits, 1 TB) unused hole
-> +ffffc90000000000 - ffffe8ffffffffff (=45 bits, 32 TB) vmalloc/ioremap space (vmalloc_base)
-> +ffffe90000000000 - ffffe9ffffffffff (=40 bits, 1 TB) unused hole
-> +ffffea0000000000 - ffffeaffffffffff (=40 bits, 1 TB) virtual memory map (vmemmap_base)
-> +ffffeb0000000000 - ffffebffffffffff (=40 bits, 1 TB) unused hole
-> +ffffec0000000000 - fffffbffffffffff (=44 bits, 16 TB) kasan shadow memory
-> +fffffc0000000000 - fffffdffffffffff (=41 bits, 2 TB) unused hole
->  				    vaddr_end for KASLR
-> -fffffe0000000000 - fffffe7fffffffff (=39 bits) cpu_entry_area mapping
-> -fffffe8000000000 - fffffeffffffffff (=39 bits) LDT remap for PTI
-> -ffffff0000000000 - ffffff7fffffffff (=39 bits) %esp fixup stacks
-> -... unused hole ...
-> -ffffffef00000000 - fffffffeffffffff (=64 GB) EFI region mapping space
-> -... unused hole ...
-> -ffffffff80000000 - ffffffff9fffffff (=512 MB)  kernel text mapping, from phys 0
-> -ffffffffa0000000 - fffffffffeffffff (1520 MB) module mapping space
-> +fffffe0000000000 - fffffe7fffffffff (=39 bits, 512 GB) cpu_entry_area mapping
-> +fffffe8000000000 - fffffeffffffffff (=39 bits, 512 GB) LDT remap for PTI
-> +ffffff0000000000 - ffffff7fffffffff (=39 bits, 512 GB) %esp fixup stacks
-> +ffffff8000000000 - fffffffeefffffff (~39 bits, ~507 GB) unused hole
-> +ffffffef00000000 - fffffffeffffffff (=36 bits, 64 GB) EFI region mapping space
-> +ffffffff00000000 - ffffffff7fffffff (=31 bits, 2 GB) unused hole
-> +ffffffff80000000 - ffffffff9fffffff (=29 bits, 512 MB)  kernel text mapping, from phys 0
-> +ffffffffa0000000 - fffffffffeffffff (~31 bits, 1520 MB) module mapping space
->  [fixmap start]   - ffffffffff5fffff kernel-internal fixmap range
->  ffffffffff600000 - ffffffffff600fff (=4 kB) legacy vsyscall ABI
->  ffffffffffe00000 - ffffffffffffffff (=2 MB) unused hole
+While we're at it: fix the next error path where we should assign an
+error value to cell before returning.
 
-Looks mostly good now, but could you please make the right side align vertically as well, like 
-I did in the examples I provided previously?
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
+ drivers/nvmem/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-There's zero reason for it to look this disorganized:
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index ad1227df1984..f49474e1ad49 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -952,9 +952,9 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+ 		    (strcmp(lookup->con_id, con_id) == 0)) {
+ 			/* This is the right entry. */
+ 			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
+-			if (!nvmem) {
++			if (IS_ERR(nvmem)) {
+ 				/* Provider may not be registered yet. */
+-				cell = ERR_PTR(-EPROBE_DEFER);
++				cell = ERR_CAST(nvmem);
+ 				goto out;
+ 			}
+ 
+@@ -962,6 +962,7 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+ 						       lookup->cell_name);
+ 			if (!cell) {
+ 				__nvmem_device_put(nvmem);
++				cell = ERR_PTR(-ENOENT);
+ 				goto out;
+ 			}
+ 		}
+-- 
+2.19.0
 
-> +ffffff8000000000 - fffffffeefffffff (~39 bits, ~507 GB) unused hole
-> +ffffffef00000000 - fffffffeffffffff (=36 bits, 64 GB) EFI region mapping space
-> +ffffffff00000000 - ffffffff7fffffff (=31 bits, 2 GB) unused hole
-> +ffffffff80000000 - ffffffff9fffffff (=29 bits, 512 MB)  kernel text mapping, from phys 0
-
-I.e. can we do something like:
-
-> +ffffff8000000000 - fffffffeefffffff (~39 bits, ~507 GB) unused hole
-> +ffffffef00000000 - fffffffeffffffff (=36 bits,   64 GB) EFI region mapping space
-> +ffffffff00000000 - ffffffff7fffffff (=31 bits,    2 GB) unused hole
-> +ffffffff80000000 - ffffffff9fffffff (=29 bits,  512 MB) kernel text mapping, from phys 0
-
-?
-
-That not only makes it more readable, but makes typos like the whitespace noise double space in 
-the last line more obvious.
-
-Thanks,
-
-	Ingo
