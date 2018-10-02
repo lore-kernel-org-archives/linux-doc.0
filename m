@@ -2,22 +2,22 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2DF5C7D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 21:18:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A649F7D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 21:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727506AbeJCED2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 00:03:28 -0400
-Received: from namei.org ([65.99.196.166]:35208 "EHLO namei.org"
+        id S1728552AbeJCEGC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 00:06:02 -0400
+Received: from namei.org ([65.99.196.166]:35230 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725884AbeJCED2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 00:03:28 -0400
+        id S1727040AbeJCEGC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Oct 2018 00:06:02 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id w92LHvQF024472;
-        Tue, 2 Oct 2018 21:17:57 GMT
-Date:   Wed, 3 Oct 2018 07:17:57 +1000 (AEST)
+        by namei.org (8.14.4/8.14.4) with ESMTP id w92LKWUj024580;
+        Tue, 2 Oct 2018 21:20:33 GMT
+Date:   Wed, 3 Oct 2018 07:20:32 +1000 (AEST)
 From:   James Morris <jmorris@namei.org>
 To:     Kees Cook <keescook@chromium.org>
 cc:     Casey Schaufler <casey@schaufler-ca.com>,
@@ -29,11 +29,11 @@ cc:     Casey Schaufler <casey@schaufler-ca.com>,
         LSM <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH security-next v4 09/32] LSM: Provide init debugging
- infrastructure
-In-Reply-To: <20181002005505.6112-10-keescook@chromium.org>
-Message-ID: <alpine.LRH.2.21.1810030717460.23596@namei.org>
-References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-10-keescook@chromium.org>
+Subject: Re: [PATCH security-next v4 10/32] LSM: Don't ignore initialization
+ failures
+In-Reply-To: <20181002005505.6112-11-keescook@chromium.org>
+Message-ID: <alpine.LRH.2.21.1810030719040.23596@namei.org>
+References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-11-keescook@chromium.org>
 User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,17 +44,43 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Mon, 1 Oct 2018, Kees Cook wrote:
 
-> Booting with "lsm.debug" will report future details on how LSM ordering
-> decisions are being made.
+> LSM initialization failures have traditionally been ignored. We should
+> at least WARN when something goes wrong.
+
+I guess we could have a boot param which specifies what to do if any LSM 
+fails to init, as I think some folks will want to stop execution at that 
+point.
+
+Thoughts?
+
+
 > 
 > Signed-off-by: Kees Cook <keescook@chromium.org>
 > Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
 > Reviewed-by: John Johansen <john.johansen@canonical.com>
-
-
-
-Reviewed-by: James Morris <james.morris@microsoft.com>
-
+> ---
+>  security/security.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/security/security.c b/security/security.c
+> index 395f804f6a91..2055af907eba 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -55,10 +55,12 @@ static __initdata bool debug;
+>  static void __init major_lsm_init(void)
+>  {
+>  	struct lsm_info *lsm;
+> +	int ret;
+>  
+>  	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
+>  		init_debug("initializing %s\n", lsm->name);
+> -		lsm->init();
+> +		ret = lsm->init();
+> +		WARN(ret, "%s failed to initialize: %d\n", lsm->name, ret);
+>  	}
+>  }
+>  
+> 
 
 -- 
 James Morris
