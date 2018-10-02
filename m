@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1ACE37D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:05:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 571867D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:05:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726739AbeJBHpk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 03:45:40 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:43652 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726835AbeJBHpD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:45:03 -0400
-Received: by mail-io1-f65.google.com with SMTP id y10-v6so267880ioa.10
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:32 -0700 (PDT)
+        id S1726513AbeJBHpt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 03:45:49 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:34571 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726697AbeJBHpC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:45:02 -0400
+Received: by mail-io1-f68.google.com with SMTP id k19-v6so304064iom.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=W/qQzlLdHC3pOVrMYLSbt8GYIcGt6njlsLirLySrxEA=;
-        b=Y7Tdip1y9DwjAKK6x8Y+GHfJCWkEXS3Aw7euEhxbEiDtK6KfdYnw6gwb5IT16cRlOR
-         ISlTHU748v3IdC/VJdzbHQA5J6rxccFfp3yCZ3J/6w9GJXQ+hCK5ws2b0T6qoXssy4wc
-         EjM77V+6IofPdUj3X/Gebf/zpXt/ZCfP0VSY8=
+        bh=9HNh3Q4VSJQ5w/3yyHsrKc9aYEok0he5oMNhPVupBp4=;
+        b=Lh2KYIUDEd873+dDWgH/cRt/83/GRJbzYnB+K7WwzMFcXv9oqBIRx1erTG1iww0Qcs
+         TdP6+oIvl5oYuf4q6zNuKng8aGp03W6hekBu71VCaPIpvOdQZwy9HZN9cz9LvUICACRs
+         baq7BtEIffeKPzNXwFBAjzEO5c+UoDEbP9KTQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=W/qQzlLdHC3pOVrMYLSbt8GYIcGt6njlsLirLySrxEA=;
-        b=PHDz9WlyBNEQqxZml8POoDF6emDofbvKa4nEW6bIC+xI12DMXjHkFb0hKLpdOXdxu1
-         hkyxwypUl6jUC6XZclcXOoJ1VPQv7DI93Yi63UhCH/BG8CrnBzxl5gGc1WXlZZWZBdgl
-         QnuDS2spRu9Vz+UvMKDZJ+3Xm3AVT5uFpKrHM2L3D6ODCySMrTtlV2ZZzVC8VAKGKJID
-         R4N065bt9r2Rh2HBdnjeuMNAI6GjLClXJAfaRZcquma5JzLNftjPeNWuTyFwTSu8IX8S
-         typT/pPSsFvhyvvVZx8uOqK4BXWKSusfS0n24w0Ye2Eu/6yI7dYBRPCMAVkNmG76MYMx
-         jkvg==
-X-Gm-Message-State: ABuFfoi6ClQb5pYCD5glomIt/Narf9ertRJ6HxmxJYrKhjsqG5mag+pi
-        kuAy9ARYrT9m2xpWqkgSARzGGA==
-X-Google-Smtp-Source: ACcGV63Cykas03Y9txiaHpl+hTXVURFzAvX/91GaddzbP8yzCAh5DVaH6ZWfP7OiVOI6H7XcoIdJ1w==
-X-Received: by 2002:a17:902:d90e:: with SMTP id c14-v6mr8773333plz.61.1538442272202;
-        Mon, 01 Oct 2018 18:04:32 -0700 (PDT)
+        bh=9HNh3Q4VSJQ5w/3yyHsrKc9aYEok0he5oMNhPVupBp4=;
+        b=HwIwhd6rUjqhDjmeIOTCM2rNkFlWDrAZx+xnMtGWmZXAxiVfroF8pLlZSniyzqEGfn
+         pV7MkANUHeNU/FbXm/wqx+YOaj4aOCPPc30tKyPfoh5cV9rwzADK0WT2OtoGdlMsyo5S
+         47kM7mGmjJu5MaQagRCN8Nro5d9CPaBnumDiHbX3unkYm5sJ5F9Wq1CkC1FzN2tKQwvs
+         Gtw3QcAnXOojUKEqLtfAu7SLmN7IkBZ+dBdEew0FRSYYKyZPsnXrSwWWVZpp+0lwHqci
+         97XkOXEdnnus+ov0IJ0Rma29OQ0o4gpiVb64kgDNkkY+euItpoUpn1MSjDr7vFclumry
+         yJcQ==
+X-Gm-Message-State: ABuFfogUTA3eqzToLy5Fd6up8+ezT4hYkLqTTcO25v/n3t01kOxRyDGC
+        H+sI0+2ZSjDkhixNu0yKOoPyAQ==
+X-Google-Smtp-Source: ACcGV61p+6jux778ZBLbYvLQR8FnTRc24YhLc4vSgLatG/TNAzLVvla8MMwQU8ljRvMGsZAFhu2JBw==
+X-Received: by 2002:a17:902:f01:: with SMTP id 1-v6mr14341449ply.8.1538442271325;
+        Mon, 01 Oct 2018 18:04:31 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id h77-v6sm18554060pfh.13.2018.10.01.18.04.26
+        by smtp.gmail.com with ESMTPSA id h132-v6sm22420511pfc.100.2018.10.01.18.04.27
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
         Mon, 01 Oct 2018 18:04:29 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -55,9 +55,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-Date:   Mon,  1 Oct 2018 17:54:56 -0700
-Message-Id: <20181002005505.6112-24-keescook@chromium.org>
+Subject: [PATCH security-next v4 22/32] apparmor: Remove boot parameter
+Date:   Mon,  1 Oct 2018 17:54:55 -0700
+Message-Id: <20181002005505.6112-23-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181002005505.6112-1-keescook@chromium.org>
 References: <20181002005505.6112-1-keescook@chromium.org>
@@ -68,101 +68,84 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Since LSM enabling is now centralized with CONFIG_LSM_ENABLE and
 "lsm.enable=...", this removes the LSM-specific enabling logic from
-SELinux.
+AppArmor, though it leaves the existing userspace API visibility into
+/sys/module/apparmor/parameters/enabled.
 
+Co-developed-by: John Johansen <john.johansen@canonical.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- .../admin-guide/kernel-parameters.txt         |  9 ------
- security/selinux/Kconfig                      | 29 -------------------
- security/selinux/hooks.c                      | 15 +---------
- 3 files changed, 1 insertion(+), 52 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |  7 -------
+ security/apparmor/Kconfig                       | 16 ----------------
+ security/apparmor/lsm.c                         |  7 ++-----
+ 3 files changed, 2 insertions(+), 28 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cf963febebb0..0d10ab3d020e 100644
+index f646cfab5613..cf963febebb0 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4045,15 +4045,6 @@
- 			loaded. An invalid security module name will be treated
- 			as if no module has been chosen.
+@@ -4054,13 +4054,6 @@
+ 			If enabled at boot time, /selinux/disable can be used
+ 			later to disable prior to initial policy load.
  
--	selinux=	[SELINUX] Disable or enable SELinux at boot time.
+-	apparmor=	[APPARMOR] Disable or enable AppArmor at boot time
 -			Format: { "0" | "1" }
--			See security/selinux/Kconfig help text.
+-			See security/apparmor/Kconfig help text
 -			0 -- disable.
 -			1 -- enable.
 -			Default value is set via kernel config option.
--			If enabled at boot time, /selinux/disable can be used
--			later to disable prior to initial policy load.
 -
  	serialnumber	[BUGS=X86-32]
  
  	shapers=	[NET]
-diff --git a/security/selinux/Kconfig b/security/selinux/Kconfig
-index 8af7a690eb40..86936528a0bb 100644
---- a/security/selinux/Kconfig
-+++ b/security/selinux/Kconfig
-@@ -8,35 +8,6 @@ config SECURITY_SELINUX
- 	  You will also need a policy configuration and a labeled filesystem.
+diff --git a/security/apparmor/Kconfig b/security/apparmor/Kconfig
+index b6b68a7750ce..3de21f46c82a 100644
+--- a/security/apparmor/Kconfig
++++ b/security/apparmor/Kconfig
+@@ -14,22 +14,6 @@ config SECURITY_APPARMOR
+ 
  	  If you are unsure how to answer this question, answer N.
  
--config SECURITY_SELINUX_BOOTPARAM
--	bool "NSA SELinux boot parameter"
--	depends on SECURITY_SELINUX
--	default n
--	help
--	  This option adds a kernel parameter 'selinux', which allows SELinux
--	  to be disabled at boot.  If this option is selected, SELinux
--	  functionality can be disabled with selinux=0 on the kernel
--	  command line.  The purpose of this option is to allow a single
--	  kernel image to be distributed with SELinux built in, but not
--	  necessarily enabled.
--
--	  If you are unsure how to answer this question, answer N.
--
--config SECURITY_SELINUX_BOOTPARAM_VALUE
--	int "NSA SELinux boot parameter default value"
--	depends on SECURITY_SELINUX_BOOTPARAM
+-config SECURITY_APPARMOR_BOOTPARAM_VALUE
+-	int "AppArmor boot parameter default value"
+-	depends on SECURITY_APPARMOR
 -	range 0 1
 -	default 1
 -	help
 -	  This option sets the default value for the kernel parameter
--	  'selinux', which allows SELinux to be disabled at boot.  If this
--	  option is set to 0 (zero), the SELinux kernel parameter will
--	  default to 0, disabling SELinux at bootup.  If this option is
--	  set to 1 (one), the SELinux kernel parameter will default to 1,
--	  enabling SELinux at bootup.
+-	  'apparmor', which allows AppArmor to be enabled or disabled
+-          at boot.  If this option is set to 0 (zero), the AppArmor
+-	  kernel parameter will default to 0, disabling AppArmor at
+-	  boot.  If this option is set to 1 (one), the AppArmor
+-	  kernel parameter will default to 1, enabling AppArmor at
+-	  boot.
 -
 -	  If you are unsure how to answer this question, answer 1.
 -
- config SECURITY_SELINUX_DISABLE
- 	bool "NSA SELinux runtime disable"
- 	depends on SECURITY_SELINUX
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 71a10fedecb3..8f5eea097612 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -120,20 +120,7 @@ __setup("enforcing=", enforcing_setup);
- #define selinux_enforcing_boot 1
- #endif
+ config SECURITY_APPARMOR_HASH
+ 	bool "Enable introspection of sha1 hashes for loaded profiles"
+ 	depends on SECURITY_APPARMOR
+diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+index bc56b058dc75..4cd96a66ed6f 100644
+--- a/security/apparmor/lsm.c
++++ b/security/apparmor/lsm.c
+@@ -1303,15 +1303,12 @@ bool aa_g_paranoid_load = true;
+ module_param_named(paranoid_load, aa_g_paranoid_load, aabool, S_IRUGO);
  
--#ifdef CONFIG_SECURITY_SELINUX_BOOTPARAM
--int selinux_enabled = CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE;
--
--static int __init selinux_enabled_setup(char *str)
--{
+ /* Boot time disable flag */
+-static int apparmor_enabled = CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE;
++static int apparmor_enabled __lsm_ro_after_init;
+ module_param_named(enabled, apparmor_enabled, int, 0444);
+ 
+ static int __init apparmor_enabled_setup(char *str)
+ {
 -	unsigned long enabled;
--	if (!kstrtoul(str, 0, &enabled))
--		selinux_enabled = enabled ? 1 : 0;
--	return 1;
--}
--__setup("selinux=", selinux_enabled_setup);
--#else
--int selinux_enabled = 1;
--#endif
-+int selinux_enabled __lsm_ro_after_init;
+-	int error = kstrtoul(str, 0, &enabled);
+-	if (!error)
+-		apparmor_enabled = enabled ? 1 : 0;
++	pr_err("Boot param 'apparmor=' ignored. Use 'lsm.disable=apparmor'\n");
+ 	return 1;
+ }
  
- static unsigned int selinux_checkreqprot_boot =
- 	CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE;
 -- 
 2.17.1
 
