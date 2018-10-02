@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 73BAD7DD48
+	by archive.lwn.net (Postfix) with ESMTP id B4AE17D8E9
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 13:13:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726517AbeJBT4o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 15:56:44 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:45277 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728066AbeJBT4M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 15:56:12 -0400
-Received: by mail-wr1-f68.google.com with SMTP id q5-v6so2145310wrw.12
-        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 06:12:54 -0700 (PDT)
+        id S1727775AbeJBT4I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 15:56:08 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:39410 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727819AbeJBT4H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 15:56:07 -0400
+Received: by mail-wr1-f65.google.com with SMTP id 61-v6so1428555wrb.6
+        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 06:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NvErLiPb7Dhi68E8otsA18THd2lbB+9b3/NhcG854Xk=;
-        b=J3rqMQ+OwoWESxRlNUNZvjq3C/i5394uPASFBYI9muB/L1ZiyOZBCro1+FKtx6blgw
-         Zf3QR0zbR9aBLw8k94HJn2BihJomkAwGXZ6D3IccQan79jH4+JXMjrtrO30iOwbiwlL7
-         ZXwh97DJrxJryJEPEhuLlgAGLLAKtiHeczVtcczOfqs5HYQ7W2vG5CxdrOSeUx2uSvN5
-         GAAUamfcPXwAaP0TYFJuhfKsE1NhlhzkhRgg8V0uSoEfQtqHCiPnIouALNbppfaPkHjL
-         VYO3WaSNSHcsFRl7xSVGvwVKBnyNE6GtDLcbcOxwj/EAXF0Z2usZxGp1Hq2AoDKtY0gx
-         DxAA==
+        bh=Cq3vN6aPcQwtnG7Yk3tP2XwC690M9TeiFA6EGKo+spg=;
+        b=wVK2wJsBGU5FIzxsuMJcgTdTL10q6LtoeL+UENspJKFgA0RDNTzi9Wn5gAyDr+6Szv
+         RncY5kWukrU8NwSkp4uPffTL6eb+JtiBGH/Jp80QDfaMmzXGUpB7izMO5ZlGKrJ/c+NM
+         S3mjkFvCJ3ABkch+sQLZcNPA/SdENdR9ieF/M8THE6aUPYbQYb7DD3n9cIvpFuI7qLT3
+         +ZUu1kES5j/a2JYULJs6Ry0XZ+RqRXQI2jOIg5lPqOT26QlkW3W+kKGlm1f1B+9coovo
+         V0zbhgSer4xnymtNsXnnPFCfur591TOZxRATREyyigBwTz3+tXsZi3uIwP51Q2Zc36uq
+         h/rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NvErLiPb7Dhi68E8otsA18THd2lbB+9b3/NhcG854Xk=;
-        b=aJyiSjQ26WBSBfHFnh8rt+ukn1RCd56ZbH8OiZ/DfpFQwkCKrZPL3hhUKx+ZAlSbz8
-         fpzWxVItSqSCMD8Uk2KQVpXugEWoGy+9F2jFHHTv9IDRYPbGL1gh3BGaNtOs1NDJE5iZ
-         WVoEe9cPOz5aE7nMrHvbPgIRAWDlh5mwBJo153fGOdAFTYMAr7Lr3W6IqaSXSbW+18fS
-         Ly07lZy8SNpEdiTrOtWwWWEkE8MDcs/FwXW7fD5WkeOMUMlnfhGgC7sTDT/wnurqh5Gv
-         L9RSGexgyInyaImlR2Zj67DRouauPgFa277NitqdtOR+nWBxvWuKeuhPU8hI2b6kU6I/
-         RCQg==
-X-Gm-Message-State: ABuFfojGF2CBx+O0eoXxqIiWShzrWNBHFKnm7l9ztmTX8a39AIVQZvmO
-        AYp1FMTSw7kMt+fAdPc9k4wYCA==
-X-Google-Smtp-Source: ACcGV63nabJtbVmhZN2ucFxis2mJLsrnliWxzagWfRZDa1M/aDSkXCme9Zu5EuIB9WfhAKLrjz02yA==
-X-Received: by 2002:a5d:4101:: with SMTP id l1-v6mr6433311wrp.45.1538485973338;
-        Tue, 02 Oct 2018 06:12:53 -0700 (PDT)
+        bh=Cq3vN6aPcQwtnG7Yk3tP2XwC690M9TeiFA6EGKo+spg=;
+        b=mCdTG7EXMX8OAcw99xJDh4xzlPU9GF4/ygEl1XZ7DBVAgw00BYM4rZmsKO9bTqaM1N
+         YRBYgZI4xkD8sGNyU6bA3Uk2J6vcXNnP66eGPCQRxaKpAp+bjNEvkNy0vEdktVjn6SS3
+         axRe02p/ixtEhySm1UPvK4siWscCKCHo9DhHTGVl+sitq0LJ4imCFgyV5mT9zw3mccep
+         qwZz403Z/9EX3gHf7lTZwRRrU6qzPDBqtfehJDXQ+mbeiuYbVVxSVE6NepB0rgOos5XN
+         5FSIqEkpR4yoByygJLs04G4hhlBas/MSJxCuf/6D3uZtz6Umo8VktJg3nA42urck1lfl
+         9cKg==
+X-Gm-Message-State: ABuFfoiWuxFyoEtHUX2ktb06W8F7UW8zeUCW1h8EPmLUrtM6bFDOsvXU
+        tpkKN180bzGS4GrIGYcPXWlrIg==
+X-Google-Smtp-Source: ACcGV62AocYuBthFf3RuZ7M7TITSn4vXXnPKZ8bb2eLezWn89dGEtVrCS/4KW1hgHo/fTVInkvsQ6Q==
+X-Received: by 2002:adf:db8e:: with SMTP id u14-v6mr10999323wri.217.1538485969081;
+        Tue, 02 Oct 2018 06:12:49 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id v10-v6sm17458681wrp.0.2018.10.02.06.12.51
+        by smtp.gmail.com with ESMTPSA id v10-v6sm17458681wrp.0.2018.10.02.06.12.47
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Oct 2018 06:12:52 -0700 (PDT)
+        Tue, 02 Oct 2018 06:12:48 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,9 +73,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v7 5/8] lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
-Date:   Tue,  2 Oct 2018 15:12:40 +0200
-Message-Id: <978d6bcda7f6cc9420d77b1155d54300e73a634d.1538485901.git.andreyknvl@google.com>
+Subject: [PATCH v7 2/8] uaccess: add untagged_addr definition for other arches
+Date:   Tue,  2 Oct 2018 15:12:37 +0200
+Message-Id: <1ff6af9a9ab1f716d0ecbfcfe6788a02e21b7480.1538485901.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.0.605.g01d371f741-goog
 In-Reply-To: <cover.1538485901.git.andreyknvl@google.com>
 References: <cover.1538485901.git.andreyknvl@google.com>
@@ -86,44 +86,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-strncpy_from_user and strnlen_user accept user addresses as arguments, and
-do not go through the same path as copy_from_user and others, so here we
-need to handle the case of tagged user addresses separately.
+To allow arm64 syscalls accept tagged pointers from userspace, we must
+untag them when they are passed to the kernel. Since untagging is done in
+generic parts of the kernel, the untagged_addr macro needs to be defined
+for all architectures.
 
-Untag user pointers passed to these functions.
+Define it as a noop for other architectures besides arm64.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- lib/strncpy_from_user.c | 2 ++
- lib/strnlen_user.c      | 2 ++
- 2 files changed, 4 insertions(+)
+ include/linux/uaccess.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
-index b53e1b5d80f4..97467cd2bc59 100644
---- a/lib/strncpy_from_user.c
-+++ b/lib/strncpy_from_user.c
-@@ -106,6 +106,8 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
- 	if (unlikely(count <= 0))
- 		return 0;
+diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+index efe79c1cdd47..c045b4eff95e 100644
+--- a/include/linux/uaccess.h
++++ b/include/linux/uaccess.h
+@@ -13,6 +13,10 @@
  
-+	src = untagged_addr(src);
-+
- 	max_addr = user_addr_max();
- 	src_addr = (unsigned long)src;
- 	if (likely(src_addr < max_addr)) {
-diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
-index 60d0bbda8f5e..8b5f56466e00 100644
---- a/lib/strnlen_user.c
-+++ b/lib/strnlen_user.c
-@@ -108,6 +108,8 @@ long strnlen_user(const char __user *str, long count)
- 	if (unlikely(count <= 0))
- 		return 0;
+ #include <asm/uaccess.h>
  
-+	str = untagged_addr(str);
++#ifndef untagged_addr
++#define untagged_addr(addr) addr
++#endif
 +
- 	max_addr = user_addr_max();
- 	src_addr = (unsigned long)str;
- 	if (likely(src_addr < max_addr)) {
+ /*
+  * Architectures should provide two primitives (raw_copy_{to,from}_user())
+  * and get rid of their private instances of copy_{to,from}_user() and
 -- 
 2.19.0.605.g01d371f741-goog
 
