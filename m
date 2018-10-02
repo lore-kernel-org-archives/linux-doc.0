@@ -1,144 +1,151 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 10DB67D08F
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 23:00:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 066237D088
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 23:06:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726834AbeJCFqQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 01:46:16 -0400
-Received: from ozlabs.org ([203.11.71.1]:39485 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725198AbeJCFqQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 01:46:16 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ozlabs.org (Postfix) with ESMTPSA id 42PvkY4VwZz9s3x;
-        Wed,  3 Oct 2018 09:00:21 +1000 (AEST)
-Authentication-Results: ozlabs.org; dmarc=none (p=none dis=none) header.from=canb.auug.org.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1538521228;
-        bh=uszHi0YP3NHd2A75uOyoWENmbNV/nKcyim4Q/kdSyq4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=gOH2g66TFUBC5A5QiYzHieg0K/hofBu53ssIFUMikDjptaD6Tc2HaoUmGutekDf8s
-         +zAn1bPRu04tHsktYoTZ5TmYGhzidu/AFyJt3+jBPV+zbr87bqhn41WIX0PlAeIpTV
-         D697PmEzWDoD4owCHeddTAbdFX8DNR5ZS77UzEdDxOpJq3T0yoAO8Aunc/kwmmGdOe
-         RlUre0miCEl9GV2xkjO6cGmMr855OhNggW60daykiOl8gHN+m88CNsHAVXukJbag1F
-         PQOsgLJJhGkZrzSOWZ9FWdjgXkk6YIdGwTI00HuXybZdE37aTT6U9JQsNpIK/gbuOg
-         FwLO9OWWPLLLA==
-Date:   Wed, 3 Oct 2018 09:00:10 +1000
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Dominique Martinet <asmadeus@codewreck.org>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>, Ted Ts'o <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
-Message-ID: <20181003090010.5150f914@canb.auug.org.au>
-In-Reply-To: <20181002223652.GA4290@nautica>
-References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
-        <20181003071059.02b3fd6f@canb.auug.org.au>
-        <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
-        <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
-        <20181002223652.GA4290@nautica>
+        id S1727009AbeJCFwR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 01:52:17 -0400
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:37538 "EHLO
+        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725744AbeJCFwP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 01:52:15 -0400
+Received: by mail-yb1-f194.google.com with SMTP id h1-v6so1571757ybm.4
+        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 16:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=S0Ciq0S0JGenOhU5WcUgrqpxaUlMx+CT/CSmdLz/MQk=;
+        b=QccxNMIdR4mPtjWtaS6DNElAKKah/uGpg+eCuFTE4LqStDJuX44rrhOHWTVEiH/igA
+         qI77veKoVN7YVI86l7Nr4KL8h7m3wP1aFcaVAtYHhAXwO3Z7mGjqG12TqHgcdbHfhSQH
+         5qioxib6XZNhv2MONOKo1LYRdzpig7P4kHnRo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=S0Ciq0S0JGenOhU5WcUgrqpxaUlMx+CT/CSmdLz/MQk=;
+        b=JTrtWwu1VYVfx1y0YV66TuAdkOjVzoZDYQ7RdK/3t4zwU4JVtgNy3twt2Uzq2zFQlc
+         MfooRSGzkwKUITKw8vNRF5UkXaZpEmGWYTOpPvKKzpJZDvyw/zbAV7pp79dyTKoW6jSO
+         mNs0E11flz73I2MGGnCWoWjJn9VP9RK37uHWgG+aiUrYxcSMQjrKljv5K2BFRZr/qch3
+         8h2+YW2N+dsbfCK4gCHepUUvT6qfYWZp0Fp70k6MSxcPVM2zSP3ralCmWQ0R/zYYjeLx
+         GYNTvzDPeRfQgjoG4L75YldLvR7PVQE3Y1nPqIbju0hQOT/82M1xCPMr6OklbWYX2FjZ
+         Q8Sw==
+X-Gm-Message-State: ABuFfojrhZR1Mo8ugF4Wz7LOanpUxlJXKl+Dam91++gysu+lRVZ/kT/R
+        uBROF7oMaew+x7rmYE6fuFtW/Arj6tU=
+X-Google-Smtp-Source: ACcGV63e8CanMTIw/YdXXrqEAlDIZu1G6bEmY6sR8yEaih5VQXByRHw/3eX87mIH+IfQbF7LhCBpyg==
+X-Received: by 2002:a25:2f90:: with SMTP id v138-v6mr8840555ybv.79.1538521590267;
+        Tue, 02 Oct 2018 16:06:30 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id q1-v6sm2345666ywa.92.2018.10.02.16.06.26
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Oct 2018 16:06:27 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id o63-v6so1581447yba.2
+        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 16:06:26 -0700 (PDT)
+X-Received: by 2002:a25:3617:: with SMTP id d23-v6mr10188175yba.141.1538521586370;
+ Tue, 02 Oct 2018 16:06:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/Pi_fuJWlk3fcJlLoIKV/0xY"; protocol="application/pgp-signature"
+Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Tue, 2 Oct 2018 16:06:25 -0700 (PDT)
+In-Reply-To: <alpine.LRH.2.21.1810030758460.23596@namei.org>
+References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-24-keescook@chromium.org>
+ <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
+ <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov> <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com>
+ <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov> <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
+ <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
+ <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
+ <alpine.LRH.2.21.1810030758460.23596@namei.org>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Tue, 2 Oct 2018 16:06:25 -0700
+X-Gmail-Original-Message-ID: <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
+Message-ID: <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
+Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
+To:     James Morris <jmorris@namei.org>
+Cc:     John Johansen <john.johansen@canonical.com>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/Pi_fuJWlk3fcJlLoIKV/0xY
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi Miguel,
-
-On Wed, 3 Oct 2018 00:36:52 +0200 Dominique Martinet <asmadeus@codewreck.or=
-g> wrote:
+On Tue, Oct 2, 2018 at 3:06 PM, James Morris <jmorris@namei.org> wrote:
+> On Tue, 2 Oct 2018, Kees Cook wrote:
 >
-> Miguel Ojeda wrote on Wed, Oct 03, 2018:
-> > As I have read, -next is supposed to be a vision of what the merge
-> > window will look like after merging everything, i.e. ideally -rc1. For
-> > that to work for files out-of-tree (like these ones, which are not
-> > maintained by a single tree), changes should be allowed to be stacked
-> > on each other; otherwise, we cannot handle conflicts :-( =20
->=20
-> The rule is the same as with a regular mainline pull; I don't have the
-> reference at hand but in some recent-ish pull request Linus said he
-> prefers the stable version with the conflict, and optionally you can
-> provide a second branch with the conflict resolved for reference, but
-> the pull request should be based on something stable even if it has
-> conflicts
->=20
-> If there is a conflict Stefen will resolve it like Linus/Greg would, and
-> the resolved bit will be carried over everyday so it's not much more
-> work -- exactly like a regular pull request for inclusion in the main
-> tree :)
+>> On Tue, Oct 2, 2018 at 11:57 AM, John Johansen
+>> <john.johansen@canonical.com> wrote:
+>> > Under the current scheme
+>> >
+>> > lsm.enabled=selinux
+>> >
+>> > could actually mean selinux,yama,loadpin,something_else are
+>> > enabled. If we extend this behavior to when full stacking lands
+>> >
+>> > lsm.enabled=selinux,yama
+>> >
+>> > might mean selinux,yama,apparmor,loadpin,something_else
+>> >
+>> > and what that list is will vary from kernel to kernel, which I think
+>> > is harder for the user than the lsm.enabled list being what is
+>> > actually enabled at boot
+>>
+>> Ah, I think I missed this in your earlier emails. What you don't like
+>> here is that "lsm.enable=" is additive. You want it to be explicit.
+>>
+>
+> This is a path to madness.
+>
+> How about enable flags set ONLY per LSM:
+>
+> lsm.selinux.enable=x
+> lsm.apparmor.enable=x
+>
+> With no lsm.enable, and removing selinux=x and apparmor=x.
+>
+> Yes this will break existing docs, but they can be updated for newer
+> kernel versions to say "replace selinux=0 with lsm.selinux.enable=0" from
+> kernel X onwards.
+>
+> Surely distro packages and bootloaders are able to cope with changes to
+> kernel parameters?
+>
+> We can either take a one-time hit now, or build new usability debt, which
+> will confuse people forever.
 
-Exactly what Dominique said.  I will fix up the conflict (unless it is
-a very complex conflict, in which case the author(s) should help) and
-the Linus (or Greg) will do the same.  If you do depend on a patch in
-Andrew's series, what happens if that patch does not get sent to Linus
-during the merge window or Linus rejects it?
+I'd like to avoid this for a few reasons:
 
---=20
-Cheers,
-Stephen Rothwell
+- this requires per-LSM plumbing instead of centralized plumbing
+  - each LSM needs to have its own CONFIG flag
+  - each LSM needs to have its own bootparam flag
+- SELinux has explicited stated they do not want to lose selinux=
+- this doesn't meet John's goal of having a "single explicit enable list"
 
---Sig_/Pi_fuJWlk3fcJlLoIKV/0xY
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+I think the current proposal (in the other thread) is likely the
+sanest approach:
 
------BEGIN PGP SIGNATURE-----
+- Drop CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE
+- Drop CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE
+- All enabled LSMs are listed at build-time in CONFIG_LSM_ENABLE
+- Boot time enabling for selinux= and apparmor= remain
+- lsm.enable= is explicit: overrides above and omissions are disabled
+- maybe include lsm.disable= to disable anything
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAluz+HoACgkQAVBC80lX
-0GwB6Af/QRmuvQ4ntPviR4hY99kAVf71n2hG+jM6yJp/+JjLvGaMxGSq+ZFAMk0V
-qnVWGZKhMDjl8b1Z+UrEJU35kn5GoWIAIbaXsBSgGWo5Hc6Z9u3PDfF6/Z0pMUEw
-KE8e8PS/1KVk24EBb5foc0l3VvVYKttUroqVfUglkYVgvizRV6kdzkMAbOaqdiVh
-eMIWmB0ZxYoOyM2rAQt9ul4VhQLrLKiIPlzjUQa3pMJmcaHT38RuuZ/Cpv4M3L0a
-uNbiOJCyY+hUp4Q6Twi69Srk9IWU5GdaSWwTOM0SvWRQhh1ge/K0mC+b21D8ANDh
-utwC/WyGrQiXJcpRJKiQpefzWwcWbQ==
-=9ecB
------END PGP SIGNATURE-----
+-Kees
 
---Sig_/Pi_fuJWlk3fcJlLoIKV/0xY--
+-- 
+Kees Cook
+Pixel Security
