@@ -1,113 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-2.7 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3DC507D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 08:43:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6568A7D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 09:14:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbeJBPZX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 11:25:23 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:48036 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726492AbeJBPZX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Oct 2018 11:25:23 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id CD7944068B;
-        Tue,  2 Oct 2018 10:43:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1538469792; x=1540284193; bh=9I3mhbSPlWpHa5QXZkDqBVAouF5ZA6sGAi2
-        Ke0tVqVI=; b=LdaW/kmEtSJ2wNc6a4Yov4z2kJulsFAKSCc3R0pQZIrOYyzYOKM
-        lWI67PWkWwr8yBuXpg9SwQU42+RlSTqsV9JOcQ5cZo1YKlYXAnE6yghHRJ5cS3ES
-        vFXg+6rNKIW3SSE4ud45w+1UPNp6E8TQdpRpXWW9Hyb5UsjZW6WyF+iQvltnhnLq
-        522TuXw/X626ridMKKPZIFOZPnAeqNgj0nrimEK7leHl7jgTzIe8bXoPLu6WG5Xg
-        Y4HIgItMAsPIWLr4ebaiyZ3YnDxmo7/MtZzch5ttQe3ZBI5/VlbwVDSYAmwUctNK
-        4kwwU5lK+rTgQe4v/7zF/rz/FOXe10JRY9b46YBwJX0fDdldtcMdvMwgGwbSJAs1
-        NlXwxrFgPsaXvGMeMn9eVmNZxy191zX6bUPjquJE6SE0WP7DWqVpT2oh3Z4kEer0
-        PtsL1aqOGgTkjnGxrtQNrs2ykz/ZUYu7k3Pa95ItofIGxXRHNYkfMjZJTHpdL+Wn
-        g++r7dzDq66xq0p0Yp8XxM0xW8bJAlP0TwXOpC0sUC/KA77vlx8ql7WZ+rf3pWxF
-        vNUd5tD1sEJBDH7Zz/BA5cb83dSmWipn74QaHQokMiJKrooQ8YiRrfMmRnrDg2u4
-        gbROFgN4U2dwdRevbFLGSt2mXGoMcYlcedoBvpLAKGOIc7vCJH4zmhMo=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id HEMsKuBP399v; Tue,  2 Oct 2018 10:43:12 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 9F549402C0;
-        Tue,  2 Oct 2018 10:43:12 +0200 (CEST)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id EDE9927C;
-        Tue,  2 Oct 2018 10:43:11 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alessia Mantegazza <amantegazza@vaga.pv.it>
-Subject: Re: [PATCH] doc:it_IT: add some process/* translations
-Date:   Tue, 02 Oct 2018 10:43:10 +0200
-Message-ID: <1608921.jop3HA6fpD@pcbe13614>
-In-Reply-To: <20180920143511.26136ddd@lwn.net>
-References: <20180909161641.3792-1-federico.vaga@vaga.pv.it> <20180920142957.09000163@lwn.net> <20180920143511.26136ddd@lwn.net>
+        id S1726138AbeJBP4e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 11:56:34 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39581 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725951AbeJBP4e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 11:56:34 -0400
+Received: by mail-wm1-f65.google.com with SMTP id q8-v6so1401345wmq.4;
+        Tue, 02 Oct 2018 02:14:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GFwAnrIf8He7C543Be3u26CPMO0haqkMjsQZldSjvow=;
+        b=lSKl6N3iYsQ8l20N49Q7ZJUGyPn7XOS1ZWFiaD0Mqt6UBBJESnMGT3PsYR8DytwHMo
+         O9Jl+3etKMKhNa8fLhXYh2R5Nnqd35AQng93vH1eEKkguqo75UdqUL0RvKwnJHGbVYrd
+         mYgs5ti0wrK5UhbSNhPy1GBycEpPFzhE7mVZ7zyuI6VBx4FO8T6yXeZoYS3nC7Bvm0qq
+         1kmvUhDoir+tMBOKOf8yUMRpzsin2hRsuByP9IC18zI50Hxxo4cJn0RTYdSstOB2MS+U
+         UgjWRFgCeoPBsANFUOLajKotInrQ19OtEfknvFeq2YKk2d47vECLzMFCu44M2aszUCOa
+         +ubA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GFwAnrIf8He7C543Be3u26CPMO0haqkMjsQZldSjvow=;
+        b=ZS57NL/gmvWWBqnzFHQd6obcAuE5gLjSbgt3nvkXuKHqoDDRhDDePSKmJdkPSHdAp8
+         z809pKkHynnHsQsNiWZEyBa32n7kWV9dFw0qNVtgqBgNnhAZLciQLnIr0IIkQGb5gwhv
+         iS++YFDi4pfpldYXahuEJcOOYNjBRTyJNsc0nH0S+WmpdHbt62pDqNoWi3zbXnA4n4Ni
+         1DlOhSptpLKMGXKparQEdrJJMjKtwOamrmmJKw2oFDXglRwkXScSIwLCaUcqfvq+tLJq
+         4LMGEhno5hH7RgHetz0By+z+y2OLYtUUlx8Xq+vUAWLaED4kV3b/3ZyLRVSRed0Ip5+t
+         zqRQ==
+X-Gm-Message-State: ABuFfojw5O4q7c22vyjXFsLIdYR1n8vaeWGwyX6qhLK58+oyx8PYRtU6
+        yAzEWqZTMnoWLXTBCczBQxGinAwE
+X-Google-Smtp-Source: ACcGV61wBW9hnm7ndoGdk9R69ehAK0rr03QS+usOoksjhoUbv2kn2da7oJ6mMsaROdszl4PygvK7oA==
+X-Received: by 2002:a1c:2052:: with SMTP id g79-v6mr1262010wmg.42.1538471655575;
+        Tue, 02 Oct 2018 02:14:15 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id 195-v6sm1563846wmx.21.2018.10.02.02.14.14
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 02 Oct 2018 02:14:15 -0700 (PDT)
+Date:   Tue, 2 Oct 2018 11:14:12 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Baoquan He <bhe@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, tglx@linutronix.de,
+        kirill.shutemov@linux.intel.com, thgarnie@google.com,
+        corbet@lwn.net
+Subject: Re: [PATCH v2 2/3] x86/mm/doc: Clean up the memory region layout
+ descriptions
+Message-ID: <20181002091412.GE116695@gmail.com>
+References: <20180926235823.3567-1-bhe@redhat.com>
+ <20180926235823.3567-3-bhe@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180926235823.3567-3-bhe@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
 
-I was on a long holiday. I will re-send a V2 patch without that document in 
-the next days
+* Baoquan He <bhe@redhat.com> wrote:
 
-On Thursday, September 20, 2018 10:35:11 PM CEST Jonathan Corbet wrote:
-> On Thu, 20 Sep 2018 14:29:57 -0600
+> In Documentation/x86/x86_64/mm.txt, the style of descritions about
+> memory region layout is a little confusing:
 > 
-> Jonathan Corbet <corbet@lwn.net> wrote:
-> > On Sun,  9 Sep 2018 18:16:41 +0200
-> > 
-> > Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> > > This patch does not translate entirely the subfolder "process/"
-> > > but only part of it (to begin with).
-> > > 
-> > > In order to avoid broken links, I included empty documents
-> > > for those which are not yet translated.
-> > > 
-> > > In order to be able to refer to all documents in "process/",
-> > > I added a sphinx label to those which had not one.
-> > > 
-> > > Translated documents:
-> > > - howto
-> > > - 1.Intro
-> > > - clang-format
-> > > - coding-style
-> > > - kernel-driver-statement
-> > > - magic-number
-> > > - volatile-considered-harmful
-> > > - development-process
-> > > 
-> > > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> > > Signed-off-by: Alessia Mantegazza <amantegazza@vaga.pv.it>
-> > 
-> > Applied, thanks.
+>  - mix size in TB with 'bits'
+>  - sometimes mention a size in the description and sometimes not
+>  - sometimes list holes by address, sometimes only as an 'unused hole' line
 > 
-> Actually, I just backed that out, sorry.  There's an immediate conflict
-> with -next over code-of-conflict.rst that is best avoided, and there is
-> no point in adding a translation of the old code. If you can respin the
-> patch set without that change, I'll apply it.
+> So fix them to make them in consistent style.
 > 
-> Thanks,
+> Signed-off-by: Baoquan He <bhe@redhat.com>
+> ---
+>  Documentation/x86/x86_64/mm.txt | 76 ++++++++++++++++++++---------------------
+>  1 file changed, 38 insertions(+), 38 deletions(-)
 > 
-> jon
+> diff --git a/Documentation/x86/x86_64/mm.txt b/Documentation/x86/x86_64/mm.txt
+> index 5432a96d31ff..fc1da95e629d 100644
+> --- a/Documentation/x86/x86_64/mm.txt
+> +++ b/Documentation/x86/x86_64/mm.txt
+> @@ -1,52 +1,52 @@
+>  
+>  Virtual memory map with 4 level page tables:
+>  
+> -0000000000000000 - 00007fffffffffff (=47 bits) user space, different per mm
+> -hole caused by [47:63] sign extension
+> -ffff800000000000 - ffff87ffffffffff (=43 bits) guard hole, reserved for hypervisor
+> -ffff880000000000 - ffffc7ffffffffff (=64 TB) direct mapping of all phys. memory
+> -ffffc80000000000 - ffffc8ffffffffff (=40 bits) hole
+> -ffffc90000000000 - ffffe8ffffffffff (=45 bits) vmalloc/ioremap space
+> -ffffe90000000000 - ffffe9ffffffffff (=40 bits) hole
+> -ffffea0000000000 - ffffeaffffffffff (=40 bits) virtual memory map (1TB)
+> -... unused hole ...
+> -ffffec0000000000 - fffffbffffffffff (=44 bits) kasan shadow memory (16TB)
+> -... unused hole ...
+> +0000000000000000 - 00007fffffffffff (=47 bits, 128 TB) user space, different per mm
+> +				    hole caused by [47:63] sign extension
+> +ffff800000000000 - ffff87ffffffffff (=43 bits, 8 TB) guard hole, reserved for hypervisor
+> +ffff880000000000 - ffffc7ffffffffff (=46 bits, 64 TB) direct mapping of all phys. memory (page_offset_base)
+> +ffffc80000000000 - ffffc8ffffffffff (=40 bits, 1 TB) unused hole
+> +ffffc90000000000 - ffffe8ffffffffff (=45 bits, 32 TB) vmalloc/ioremap space (vmalloc_base)
+> +ffffe90000000000 - ffffe9ffffffffff (=40 bits, 1 TB) unused hole
+> +ffffea0000000000 - ffffeaffffffffff (=40 bits, 1 TB) virtual memory map (vmemmap_base)
+> +ffffeb0000000000 - ffffebffffffffff (=40 bits, 1 TB) unused hole
+> +ffffec0000000000 - fffffbffffffffff (=44 bits, 16 TB) kasan shadow memory
+> +fffffc0000000000 - fffffdffffffffff (=41 bits, 2 TB) unused hole
+>  				    vaddr_end for KASLR
+> -fffffe0000000000 - fffffe7fffffffff (=39 bits) cpu_entry_area mapping
+> -fffffe8000000000 - fffffeffffffffff (=39 bits) LDT remap for PTI
+> -ffffff0000000000 - ffffff7fffffffff (=39 bits) %esp fixup stacks
+> -... unused hole ...
+> -ffffffef00000000 - fffffffeffffffff (=64 GB) EFI region mapping space
+> -... unused hole ...
+> -ffffffff80000000 - ffffffff9fffffff (=512 MB)  kernel text mapping, from phys 0
+> -ffffffffa0000000 - fffffffffeffffff (1520 MB) module mapping space
+> +fffffe0000000000 - fffffe7fffffffff (=39 bits, 512 GB) cpu_entry_area mapping
+> +fffffe8000000000 - fffffeffffffffff (=39 bits, 512 GB) LDT remap for PTI
+> +ffffff0000000000 - ffffff7fffffffff (=39 bits, 512 GB) %esp fixup stacks
+> +ffffff8000000000 - fffffffeefffffff (~39 bits, ~507 GB) unused hole
+> +ffffffef00000000 - fffffffeffffffff (=36 bits, 64 GB) EFI region mapping space
+> +ffffffff00000000 - ffffffff7fffffff (=31 bits, 2 GB) unused hole
+> +ffffffff80000000 - ffffffff9fffffff (=29 bits, 512 MB)  kernel text mapping, from phys 0
+> +ffffffffa0000000 - fffffffffeffffff (~31 bits, 1520 MB) module mapping space
+>  [fixmap start]   - ffffffffff5fffff kernel-internal fixmap range
+>  ffffffffff600000 - ffffffffff600fff (=4 kB) legacy vsyscall ABI
+>  ffffffffffe00000 - ffffffffffffffff (=2 MB) unused hole
 
+Looks mostly good now, but could you please make the right side align vertically as well, like 
+I did in the examples I provided previously?
 
--- 
-Federico Vaga
-http://www.federicovaga.it/
+There's zero reason for it to look this disorganized:
 
+> +ffffff8000000000 - fffffffeefffffff (~39 bits, ~507 GB) unused hole
+> +ffffffef00000000 - fffffffeffffffff (=36 bits, 64 GB) EFI region mapping space
+> +ffffffff00000000 - ffffffff7fffffff (=31 bits, 2 GB) unused hole
+> +ffffffff80000000 - ffffffff9fffffff (=29 bits, 512 MB)  kernel text mapping, from phys 0
 
+I.e. can we do something like:
+
+> +ffffff8000000000 - fffffffeefffffff (~39 bits, ~507 GB) unused hole
+> +ffffffef00000000 - fffffffeffffffff (=36 bits,   64 GB) EFI region mapping space
+> +ffffffff00000000 - ffffffff7fffffff (=31 bits,    2 GB) unused hole
+> +ffffffff80000000 - ffffffff9fffffff (=29 bits,  512 MB) kernel text mapping, from phys 0
+
+?
+
+That not only makes it more readable, but makes typos like the whitespace noise double space in 
+the last line more obvious.
+
+Thanks,
+
+	Ingo
