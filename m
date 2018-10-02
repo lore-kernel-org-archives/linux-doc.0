@@ -1,181 +1,209 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2297D7DD29
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 12:12:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 33B667D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 13:12:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727562AbeJBSzj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 14:55:39 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:47038 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727947AbeJBSzi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 14:55:38 -0400
-Received: by mail-lj1-f196.google.com with SMTP id 203-v6so1492832ljj.13
-        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 05:12:35 -0700 (PDT)
+        id S1727761AbeJBT4G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 15:56:06 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34000 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727771AbeJBT4F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 15:56:05 -0400
+Received: by mail-wr1-f65.google.com with SMTP id z4-v6so2181746wrb.1
+        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 06:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SpM/aoFy445qMko0vLoJ2ExH5nJRcWRLuT6ut0sSZZ4=;
-        b=B8eUV75JKOR4VpVS5sljVe7wXpx0RS/r3WxiykH4pscaGk0oMVHFkwxcD0NNKOvGsz
-         zMtT1qUalkKaZNXa1+bOjN3LOvFugqFZFxCCncGFNgSHKVdAoZpqOlNJXWBBLf25U/NX
-         BWgKjvuEGNk/cjpLPs2ZNRQpxVbiXY2TCXGsdBKfk35/S9utk7t4kL2s56NmiMnoDvmT
-         n9rx8d5TbLtO2+YurkdNCFe/Wt3qUapeyMxixIj3hphNjgjnA39bG/lASdlEOPAcuEq6
-         mZYbfRJKgIeE+IH9MS0s9b/fSmlSH4BwWG34Q3HmKIBszKi/aFcxej4r3bVjmVR4FotN
-         K8tw==
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gXQJN5/mYbcTFUKfsLCjPiu94Tn0A2v77x7OgiEie9w=;
+        b=mpC6ltPJGJlGd34YZ/Qs5gI+Ffq9tG+HvFBzQBmI7MRKYSBk9BvtrLVxtgjOEPFk0+
+         oUQfcKkF5hvO59b7aO6FA2yAEkyRkElhfhZrZ+IcCjJTNiB+AUgHYl93kBy3qJYPTEll
+         Pta+xwmcCczWOhPNBVWZxg6hx7GNaHRlRCoKhY5e6PJNUzg/M6I756svrmxGUkYmY5O1
+         0NJpq+8aFGccjVaHa7efnQZjIGCY83PIyzO5Bwt+dvdVDOdHtbLcG4Wet0JljtEk5dTr
+         +kZ6ERsNbY9O5HoLE+WHntRqHfgktxYB1Hrlu18nEsO1HxGbTDDxRVn4f1xIYlk2pvXa
+         GDvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SpM/aoFy445qMko0vLoJ2ExH5nJRcWRLuT6ut0sSZZ4=;
-        b=KXw83fcbDlAgGsawPPa3WDUgpOWCTSxCNFv/XT7ugelTf/w7dY6+PZ1CX7wZzkpTnH
-         TOPdSR5aOK4d5982F0zoLA7M6CEsAE9IMAYLonb23vrqLOtQbcmyaEObMHDcLh2qyOwg
-         2yDtZbBXhFlyKk4Kb8YnjiAprmEtyJdYPBUs3bcgDP8NO6LxG1uW2AfEcGbhG9yyKXe6
-         5f3LCewsgLfnHE38jHB+nRfApm1BA2l4dES6MPTZqlakdWTEpQrJdoGEYdGrHolGy/UF
-         QO1kBWbkN6AmwNKqUufqlQYJ0dzn0R1cwZMwoZ5Af/GvSQW/3GvT198OgKSbQCP7CPQ+
-         Rv5Q==
-X-Gm-Message-State: ABuFfoiUv1UcF4jQo0/6V4d1nC/PTNCrXKWvjAoVzFBOZE6tdigpjOPC
-        nEtAL/CvlNFfy42TEzS/DLEFsnkC3IKqYzM3FxC+ymk=
-X-Google-Smtp-Source: ACcGV61ljfuIR0uDiBFyz6VZVK9LIPrFczTXzzQnGazTYu9SYCu0lgZTCE3obYV4l9/Ukq4y8F7vcmHYFLX3nuExgIs=
-X-Received: by 2002:a2e:d11:: with SMTP id 17-v6mr4835502ljn.18.1538482354829;
- Tue, 02 Oct 2018 05:12:34 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gXQJN5/mYbcTFUKfsLCjPiu94Tn0A2v77x7OgiEie9w=;
+        b=A53EvnS04qXz5O+4cmx71npLbiaYR9+roOBv+nC/Kfpc1IH7+tXcfn/s8hMr4oS7RH
+         6XVLEZNI5IR883QmUFaf0tQ2EJ+pcad+3smwOXcdCJTs2pro1ZCp7A8LPF53DkJR+CaW
+         X6FlkxK4Vf/6ccQNKh7+uKQpKQ1G8gv0wCISUwEeWdvkxl9yxtXze8261CnTKSA7NB8G
+         VeQQbaIzRBzb49647h6W/R2+BiWZ5reXbOIu45YrpyXjV21zfF/m9GOuzaXlulqGzw4w
+         FOU5VNolQVdkk8VaJUr5HQ6Ca1puLvf1eOcJN2fcwhfX9VcX6ICaOIlq3LSIg1Qxc/Lw
+         ij3A==
+X-Gm-Message-State: ABuFfohMfBMeSkxRpzdTKSVgtUrkSCWuKobofZ2IWpzEV14YD0W8DlyI
+        cK6U6Fy1cmji4elzwFEIdvdunQ==
+X-Google-Smtp-Source: ACcGV630HX4IhsHu3l0v51SFXWagAwZSqYlNgcp3UOU0Jze+SvrS1IrHCRMul6p7phL9fLdRnmoUlg==
+X-Received: by 2002:a5d:6608:: with SMTP id n8-v6mr11042178wru.281.1538485966358;
+        Tue, 02 Oct 2018 06:12:46 -0700 (PDT)
+Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
+        by smtp.gmail.com with ESMTPSA id v10-v6sm17458681wrp.0.2018.10.02.06.12.44
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Oct 2018 06:12:45 -0700 (PDT)
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH v7 0/8] arm64: untag user pointers passed to the kernel
+Date:   Tue,  2 Oct 2018 15:12:35 +0200
+Message-Id: <cover.1538485901.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.19.0.605.g01d371f741-goog
 MIME-Version: 1.0
-References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-24-keescook@chromium.org>
-In-Reply-To: <20181002005505.6112-24-keescook@chromium.org>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 2 Oct 2018 08:12:23 -0400
-Message-ID: <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-To:     keescook@chromium.org
-Cc:     James Morris <jmorris@namei.org>, casey@schaufler-ca.com,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        Stephen Smalley <sds@tycho.nsa.gov>, casey.schaufler@intel.com,
-        linux-security-module@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 1, 2018 at 9:04 PM Kees Cook <keescook@chromium.org> wrote:
-> Since LSM enabling is now centralized with CONFIG_LSM_ENABLE and
-> "lsm.enable=...", this removes the LSM-specific enabling logic from
-> SELinux.
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  9 ------
->  security/selinux/Kconfig                      | 29 -------------------
->  security/selinux/hooks.c                      | 15 +---------
->  3 files changed, 1 insertion(+), 52 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index cf963febebb0..0d10ab3d020e 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4045,15 +4045,6 @@
->                         loaded. An invalid security module name will be treated
->                         as if no module has been chosen.
->
-> -       selinux=        [SELINUX] Disable or enable SELinux at boot time.
-> -                       Format: { "0" | "1" }
-> -                       See security/selinux/Kconfig help text.
-> -                       0 -- disable.
-> -                       1 -- enable.
-> -                       Default value is set via kernel config option.
-> -                       If enabled at boot time, /selinux/disable can be used
-> -                       later to disable prior to initial policy load.
+arm64 has a feature called Top Byte Ignore, which allows to embed pointer
+tags into the top byte of each pointer. Userspace programs (such as
+HWASan, a memory debugging tool [1]) might use this feature and pass
+tagged user pointers to the kernel through syscalls or other interfaces.
 
-No comments yet on the rest of the patchset, but the subject line of
-this patch caught my eye and I wanted to comment quickly on this one
-...
+Right now the kernel is already able to handle user faults with tagged
+pointers, due to these patches:
 
-Not a fan unfortunately.
+1. 81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on a
+             tagged pointer")
+2. 7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged
+	      pointers")
+3. 276e9327 ("arm64: entry: improve data abort handling of tagged
+	      pointers")
 
-Much like the SELinux bits under /proc/self/attr, this is a user
-visible thing which has made its way into a lot of docs, scripts, and
-minds; I believe removing it would be a big mistake.
+When passing tagged pointers to syscalls, there's a special case of such a
+pointer being passed to one of the memory syscalls (mmap, mprotect, etc.).
+These syscalls don't do memory accesses but rather deal with memory
+ranges, hence an untagged pointer is better suited.
 
->         serialnumber    [BUGS=X86-32]
->
->         shapers=        [NET]
-> diff --git a/security/selinux/Kconfig b/security/selinux/Kconfig
-> index 8af7a690eb40..86936528a0bb 100644
-> --- a/security/selinux/Kconfig
-> +++ b/security/selinux/Kconfig
-> @@ -8,35 +8,6 @@ config SECURITY_SELINUX
->           You will also need a policy configuration and a labeled filesystem.
->           If you are unsure how to answer this question, answer N.
->
-> -config SECURITY_SELINUX_BOOTPARAM
-> -       bool "NSA SELinux boot parameter"
-> -       depends on SECURITY_SELINUX
-> -       default n
-> -       help
-> -         This option adds a kernel parameter 'selinux', which allows SELinux
-> -         to be disabled at boot.  If this option is selected, SELinux
-> -         functionality can be disabled with selinux=0 on the kernel
-> -         command line.  The purpose of this option is to allow a single
-> -         kernel image to be distributed with SELinux built in, but not
-> -         necessarily enabled.
-> -
-> -         If you are unsure how to answer this question, answer N.
-> -
-> -config SECURITY_SELINUX_BOOTPARAM_VALUE
-> -       int "NSA SELinux boot parameter default value"
-> -       depends on SECURITY_SELINUX_BOOTPARAM
-> -       range 0 1
-> -       default 1
-> -       help
-> -         This option sets the default value for the kernel parameter
-> -         'selinux', which allows SELinux to be disabled at boot.  If this
-> -         option is set to 0 (zero), the SELinux kernel parameter will
-> -         default to 0, disabling SELinux at bootup.  If this option is
-> -         set to 1 (one), the SELinux kernel parameter will default to 1,
-> -         enabling SELinux at bootup.
-> -
-> -         If you are unsure how to answer this question, answer 1.
-> -
->  config SECURITY_SELINUX_DISABLE
->         bool "NSA SELinux runtime disable"
->         depends on SECURITY_SELINUX
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 71a10fedecb3..8f5eea097612 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -120,20 +120,7 @@ __setup("enforcing=", enforcing_setup);
->  #define selinux_enforcing_boot 1
->  #endif
->
-> -#ifdef CONFIG_SECURITY_SELINUX_BOOTPARAM
-> -int selinux_enabled = CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE;
-> -
-> -static int __init selinux_enabled_setup(char *str)
-> -{
-> -       unsigned long enabled;
-> -       if (!kstrtoul(str, 0, &enabled))
-> -               selinux_enabled = enabled ? 1 : 0;
-> -       return 1;
-> -}
-> -__setup("selinux=", selinux_enabled_setup);
-> -#else
-> -int selinux_enabled = 1;
-> -#endif
-> +int selinux_enabled __lsm_ro_after_init;
->
->  static unsigned int selinux_checkreqprot_boot =
->         CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE;
-> --
-> 2.17.1
->
+This patchset extends tagged pointer support to non-memory syscalls. This
+is done by reusing the untagged_addr macro to untag user pointers when the
+kernel performs pointer checking to find out whether the pointer comes
+from userspace (most notably in access_ok).
 
+The following testing approaches has been taken to find potential issues
+with user pointer untagging:
+
+1. Static testing (with sparse [2] and separately with a custom static
+   analyzer based on Clang) to track casts of __user pointers to integer
+   types to find places where untagging needs to be done.
+
+2. Dynamic testing: adding BUG_ON(has_tag(addr)) to find_vma() and running
+   a modified syzkaller version that passes tagged pointers to the kernel.
+
+Based on the results of the testing the requried patches have been added
+to the patchset.
+
+This patchset is a prerequisite for ARM's memory tagging hardware feature
+support [3].
+
+Thanks!
+
+[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
+
+[2] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
+
+[3] https://community.arm.com/processors/b/blog/posts/arm-a-profile-architecture-2018-developments-armv85a
+
+Changes in v7:
+- Rebased onto 17b57b18 (4.19-rc6).
+- Dropped the "arm64: untag user address in __do_user_fault" patch, since
+  the existing patches already handle user faults properly.
+- Dropped the "usb, arm64: untag user addresses in devio" patch, since the
+  passed pointer must come from a vma and therefore be untagged.
+- Dropped the "arm64: annotate user pointers casts detected by sparse"
+  patch (see the discussion to the replies of the v6 of this patchset).
+- Added more context to the cover letter.
+- Updated Documentation/arm64/tagged-pointers.txt.
+
+Changes in v6:
+- Added annotations for user pointer casts found by sparse.
+- Rebased onto 050cdc6c (4.19-rc1+).
+
+Changes in v5:
+- Added 3 new patches that add untagging to places found with static
+  analysis.
+- Rebased onto 44c929e1 (4.18-rc8).
+
+Changes in v4:
+- Added a selftest for checking that passing tagged pointers to the
+  kernel succeeds.
+- Rebased onto 81e97f013 (4.18-rc1+).
+
+Changes in v3:
+- Rebased onto e5c51f30 (4.17-rc6+).
+- Added linux-arch@ to the list of recipients.
+
+Changes in v2:
+- Rebased onto 2d618bdf (4.17-rc3+).
+- Removed excessive untagging in gup.c.
+- Removed untagging pointers returned from __uaccess_mask_ptr.
+
+Changes in v1:
+- Rebased onto 4.17-rc1.
+
+Changes in RFC v2:
+- Added "#ifndef untagged_addr..." fallback in linux/uaccess.h instead of
+  defining it for each arch individually.
+- Updated Documentation/arm64/tagged-pointers.txt.
+- Dropped "mm, arm64: untag user addresses in memory syscalls".
+- Rebased onto 3eb2ce82 (4.16-rc7).
+
+Andrey Konovalov (8):
+  arm64: add type casts to untagged_addr macro
+  uaccess: add untagged_addr definition for other arches
+  arm64: untag user addresses in access_ok and __uaccess_mask_ptr
+  mm, arm64: untag user addresses in mm/gup.c
+  lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
+  fs, arm64: untag user address in copy_mount_options
+  arm64: update Documentation/arm64/tagged-pointers.txt
+  selftests, arm64: add a selftest for passing tagged pointers to kernel
+
+ Documentation/arm64/tagged-pointers.txt       | 24 +++++++++++--------
+ arch/arm64/include/asm/uaccess.h              | 14 +++++++----
+ fs/namespace.c                                |  2 +-
+ include/linux/uaccess.h                       |  4 ++++
+ lib/strncpy_from_user.c                       |  2 ++
+ lib/strnlen_user.c                            |  2 ++
+ mm/gup.c                                      |  4 ++++
+ tools/testing/selftests/arm64/.gitignore      |  1 +
+ tools/testing/selftests/arm64/Makefile        | 11 +++++++++
+ .../testing/selftests/arm64/run_tags_test.sh  | 12 ++++++++++
+ tools/testing/selftests/arm64/tags_test.c     | 19 +++++++++++++++
+ 11 files changed, 79 insertions(+), 16 deletions(-)
+ create mode 100644 tools/testing/selftests/arm64/.gitignore
+ create mode 100644 tools/testing/selftests/arm64/Makefile
+ create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
+ create mode 100644 tools/testing/selftests/arm64/tags_test.c
 
 -- 
-paul moore
-www.paul-moore.com
+2.19.0.605.g01d371f741-goog
+
