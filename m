@@ -5,69 +5,69 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 013D17D087
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 19:03:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C8407D087
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 19:17:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727400AbeJCBrw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 21:47:52 -0400
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:40905 "EHLO
+        id S1727677AbeJCCCI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 22:02:08 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:37470 "EHLO
         mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727505AbeJCBrv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 21:47:51 -0400
-Received: by mail-yw1-f67.google.com with SMTP id l79-v6so1221999ywc.7
-        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 12:03:02 -0700 (PDT)
+        with ESMTP id S1727653AbeJCCCH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 22:02:07 -0400
+Received: by mail-yw1-f67.google.com with SMTP id y14-v6so1247647ywa.4
+        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 12:17:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=Z++//P3YjInCGZ08dRZq3CLV98QJ86yU6u/kjrJS+oc=;
-        b=H84jSiJrrfxdIWpeaTckpQZS2CitH9Cpm4oa0F0fAcAqvuUo9FMI55WQZII2ciETPI
-         51fzaPxwBIWNjsKO58aIiDfpulTLpnVi0GiMazqY5EJ9qLwOB3Bv9PlYNafTvHDJlu/X
-         m8hA88DSZuWHa4MAau8k9a3DqvhFiL0+4yXB8=
+        bh=grN8AMjjDCH1UIcWr3BrHVkT4cVrEMnQ0E1dTL0Fukc=;
+        b=KeSmrAWR8Tzm7VnCsqWa9ea/4Bxs78nUMqb3BLiLrM9sMnhbe22xMt/vjYsVcGcPzn
+         7fSElIlrchz9KZOtLS9ZXmrwLHMaKfPnkZMYJqgHxLMOKLtmQm7Y3s5ME3CaesdwxCw2
+         1R1EzYRODbdUdZoDkK+dMlSUbhMFGAsPpIAXU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=Z++//P3YjInCGZ08dRZq3CLV98QJ86yU6u/kjrJS+oc=;
-        b=fUm7MdzEDoGyXeupaGidKS8OM6IvSK9CLN/eYsFXV+tRKdxpMoh05wo43N2hNKaTJc
-         mpyn2TohRZEjN59iGyJYWwZmkYbSJRw8JjD7qrbhNDnbekREwCl1Y3NRzPf+oLDgAHR6
-         TKoL6rQaqV0WyBaWKTnVhAgW0knycqHv5tIc4YVJvfIXe04OCryN7uX5Zq8tIavhN2Z4
-         lL/x6iVTuRtoB4eWRnT3BiJXTJT0aU9IxFXAbh0X9BgUn2GWPDUEoLJx8y+6J8jiM8+6
-         XoP8jh1AYi+vjSDePFT6m7AfYLMHFNYIzu4eigWkPJ/Z8uo9EpGKdObCpcg/jN7deSIE
-         P0QA==
-X-Gm-Message-State: ABuFfogU9blFIvVWvIoYoVZy3QUN20QrwpfiDDzK1+MfyayQo9fQSlhU
-        cWTYe7uXMhR14rr590FsUywsHIxSUW0=
-X-Google-Smtp-Source: ACcGV60NxwCOAmmcQWrqao4fnw47S/rWs4mEX+B53vl/B6W29tSyKqRJRVRdFfl3bSCSqIb//iLPMw==
-X-Received: by 2002:a0d:f643:: with SMTP id g64-v6mr9385317ywf.235.1538506981988;
-        Tue, 02 Oct 2018 12:03:01 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id l6-v6sm7392164ywb.15.2018.10.02.12.02.59
+        bh=grN8AMjjDCH1UIcWr3BrHVkT4cVrEMnQ0E1dTL0Fukc=;
+        b=GWB4He9zatq3ufwsCTH0WheW0ahhl4IBed9J2CVM6Wrvntc2ydb7jQKZ4hHfjMgDxu
+         q6/qxcKfie+1h/HYhNcS+tUhIHPngNC4IDO2D+u1f3bbg37nj0mGMVNBBjaDUYDXZywT
+         5ADMFrbo+jpkR9xsu6FK/h4YBq62QOt06HoNI8Kr1szOLsw/ntzriVZzRoF6Zp8kE4f9
+         TjYapq+/u1zfWrYgC5dVkehGZujMblJVdp4hhwyUc0YALSz4YctQE58QOEBqF0ldXeEk
+         UruBxyQg6KMAz388uGP84WSxMyHkuEaEURsz+tf0nqmE5yirMBEn0QvNuW47TBRMsUlu
+         kiDA==
+X-Gm-Message-State: ABuFfohOd/Os0PC4IUmoxoiU8jl80MOvTfN1T6Erhr0XAofBMiyCjsye
+        qhArXRo5Y8RU3BOdJHHmH6tr0dGgp6M=
+X-Google-Smtp-Source: ACcGV60tTbh4DljMnOxR1fPY84PFBuqq8P42++Mzpqsb89Ctd2holekiG5xasn/c8IV8JMhWBJtwUA==
+X-Received: by 2002:a81:1b85:: with SMTP id b127-v6mr7693370ywb.381.1538507834473;
+        Tue, 02 Oct 2018 12:17:14 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id 189-v6sm6226613ywf.4.2018.10.02.12.17.11
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Oct 2018 12:03:00 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id u88-v6so1278791ybi.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 12:02:59 -0700 (PDT)
-X-Received: by 2002:a25:2395:: with SMTP id j143-v6mr1236460ybj.137.1538506979133;
- Tue, 02 Oct 2018 12:02:59 -0700 (PDT)
+        Tue, 02 Oct 2018 12:17:11 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id e190-v6so1285968ybb.5
+        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 12:17:11 -0700 (PDT)
+X-Received: by 2002:a25:3588:: with SMTP id c130-v6mr8045250yba.410.1538507831148;
+ Tue, 02 Oct 2018 12:17:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Tue, 2 Oct 2018 12:02:58 -0700 (PDT)
-In-Reply-To: <cc2ff677-a45e-e171-7a71-7d8e202bcabd@tycho.nsa.gov>
+Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Tue, 2 Oct 2018 12:17:10 -0700 (PDT)
+In-Reply-To: <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com>
 References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-24-keescook@chromium.org>
  <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
  <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov> <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com>
  <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov> <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
- <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com> <cc2ff677-a45e-e171-7a71-7d8e202bcabd@tycho.nsa.gov>
+ <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com> <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com>
 From:   Kees Cook <keescook@chromium.org>
-Date:   Tue, 2 Oct 2018 12:02:58 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jKSgURe-6bQjq0NSWhod3YFpoqaFzs24B6AEQJK3o=MLA@mail.gmail.com>
-Message-ID: <CAGXu5jKSgURe-6bQjq0NSWhod3YFpoqaFzs24B6AEQJK3o=MLA@mail.gmail.com>
+Date:   Tue, 2 Oct 2018 12:17:10 -0700
+X-Gmail-Original-Message-ID: <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
+Message-ID: <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
 Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-To:     Stephen Smalley <sds@tycho.nsa.gov>
+To:     John Johansen <john.johansen@canonical.com>
 Cc:     Jordan Glover <Golden_Miller83@protonmail.ch>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
         Paul Moore <paul@paul-moore.com>,
         James Morris <jmorris@namei.org>,
         Casey Schaufler <casey@schaufler-ca.com>,
-        John Johansen <john.johansen@canonical.com>,
         Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
         "Schaufler, Casey" <casey.schaufler@intel.com>,
         linux-security-module <linux-security-module@vger.kernel.org>,
@@ -81,58 +81,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 2, 2018 at 11:33 AM, Stephen Smalley <sds@tycho.nsa.gov> wrote:
-> On 10/02/2018 12:54 PM, Kees Cook wrote:
->>
->> On Tue, Oct 2, 2018 at 9:33 AM, Jordan Glover
->> <Golden_Miller83@protonmail.ch> wrote:
->>>
->>> It's always documented as: "selinux=1 security=selinux" so security=
->>> should
->>> still do the job and selinux=1 become no-op, no?
->>
->>
->> The v3 patch set worked this way, yes. (The per-LSM enable defaults
->> were set by the LSM. Only in the case of "lsm.disable=selinux" would
->> the above stop working.)
->>
->> John did not like the separation of having two CONFIG and two
->> bootparams mixing the controls. The v3 resolution rules were:
->>
->> SECURITY_SELINUX_BOOTPARAM_VALUE overrides CONFIG_LSM_ENABLE.
->> SECURITY_APPARMOR_BOOTPARAM_VALUE overrides CONFIG_LSM_ENABLE.
->> selinux= overrides SECURITY_SELINUX_BOOTPARAM_VALUE.
->> apparmor.enabled= overrides SECURITY_APPARMOR_BOOTPARAM_VALUE.
->> apparmor= overrides apparmor.enabled=.
->> lsm.enable= overrides selinux=.
->> lsm.enable= overrides apparmor=.
->> lsm.disable= overrides lsm.enable=.
->> major LSM _omission_ from security= (if present) overrides lsm.enable.
->>
->> v4 removed the per-LSM boot params and CONFIGs at John's request, but
->> Paul and Stephen don't want this for SELinux.
->>
->> The pieces for reducing conflict with CONFIG_LSM_ENABLE and
->> lsm.{enable,disable}= were:
->>
->> 1- Remove SECURITY_APPARMOR_BOOTPARAM_VALUE.
->> 2- Remove apparmor= and apparmor.enabled=.
->> 3- Remove SECURITY_SELINUX_BOOTPARAM_VALUE.
->> 4- Remove selinux=.
->>
->> v4 used all of 1-4 above. SELinux says "4" cannot happen as it's too
->> commonly used. Would 3 be okay for SELinux?
+On Tue, Oct 2, 2018 at 11:57 AM, John Johansen
+<john.johansen@canonical.com> wrote:
+> Under the current scheme
 >
+> lsm.enabled=selinux
 >
-> Let's say a user/packager/distro has been building kernels for the past 14
-> years (*) with a config that has SECURITY_SELINUX_BOOTPARAM_VALUE=0, and now
-> they build a new kernel that includes these patches using that same config.
-> Won't SELinux be enabled by default because SECURITY_SELINUX_BOOTPARAM_VALUE
-> is now ignored and LSM_ENABLE defaults to all?  Is it ok to require them to
-> specify a new config option to preserve old behavior?
+> could actually mean selinux,yama,loadpin,something_else are
+> enabled. If we extend this behavior to when full stacking lands
+>
+> lsm.enabled=selinux,yama
+>
+> might mean selinux,yama,apparmor,loadpin,something_else
+>
+> and what that list is will vary from kernel to kernel, which I think
+> is harder for the user than the lsm.enabled list being what is
+> actually enabled at boot
 
-Yes, I think that's fine -- kernel CONFIGs change all the time. System
-builders are used to examining these changes.
+Ah, I think I missed this in your earlier emails. What you don't like
+here is that "lsm.enable=" is additive. You want it to be explicit.
+
+Are you okay with lsm.order= having fallback?
+
+The situation we were trying to solve was with new LSMs getting
+implicitly disabled if someone is booting with an explicit list. For
+example:
+
+lsm.enable=yama,apparmor
+
+means when "landlock" gets added to the kernel, it will be implicitly disabled.
+
+> If we have to have multiple kernel parameter, I prefer a behvior where
+> if you hav conflicting kernel parameters specified
+>
+>   apparmor=0 lsm.enabled=apparmor
+>
+> that the conflict is logged and the lsm is left disabled, as I think
+> it is easier for users to understand than the overrides scheme of v3,
+> and sans logging of the conflict is effectively what we had in the
+> past
+>
+>   apparmor=0 security=apparmor
+> or
+>   apparmor=1 security=selinux
+>
+> would result in apparmor being disabed
+
+Okay, so for this part you want per-LSM boot param to have priority
+(which seems to match SELinux's concerns), possibly logging the
+conflict, but still accepting the apparmor= and selinux= state.
+security= would still driving initialization ordering (so I think the
+behavior I have in the series would be correct).
+
+> That being said I get we have a mess currently, and there really
+> doesn't seem to be a good way to fix it. I think getting this right
+> for the user is important enough that I am willing to break current
+> apparmor userspace api. While apparmor=0 is documented we have also
+> documented security=X for years and apparmor=0 isn't used too often
+> so I think we can drop it to help clean this mess up abit.
+>
+> I am not going to Nak, or block on v3 behavior if that is considered
+> the best path forward after this discussion/rant.
+
+I could define CONFIG_LSM_ENABLE as being "additive" to
+SECURITY_APPARMOR_BOOTPARAM_VALUE and
+SECURITY_SELINUX_BOOTPARAM_VALUE?
 
 -Kees
 
