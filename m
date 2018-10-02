@@ -1,99 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 891A67D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 21:38:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B96D57D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 22:04:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727416AbeJCEXg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 00:23:36 -0400
-Received: from mail-yb1-f196.google.com ([209.85.219.196]:34384 "EHLO
-        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727271AbeJCEXf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 00:23:35 -0400
-Received: by mail-yb1-f196.google.com with SMTP id 184-v6so1486251ybg.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 14:38:11 -0700 (PDT)
+        id S1727276AbeJCEuM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 00:50:12 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:36940 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727218AbeJCEuM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 00:50:12 -0400
+Received: by mail-qk1-f193.google.com with SMTP id x8-v6so2220846qka.4;
+        Tue, 02 Oct 2018 15:04:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9U346hGaAvFdwuDfRtVfUPZUdxyBrP9tyHzIfWdZO6U=;
-        b=NMiT4lOj6R7864F2apfpBwr9YrJZaHu1v1M1lJlUKGQGxn8IVg/nvC8ctMgg6veLuF
-         TfU1+CDk3xeswoLTq4PSmrhqYLUfgDrne/W3SjpfDwdx7RRopnP5AaDiMGEWdTu1gDp6
-         CNVyunL879b84Grv/g2tsu+HPjc6gEQsw7FJk=
+        bh=kZamy6iYH5OSZp4S2SNF2Cb1OLsvnlEgThQoQVJBMjc=;
+        b=N9sjZ6AOqUpBZk0ysYQ6cgHQBRnIqCZaYCj5j6yzTC44L8DZev6yhcREm2E6mAD4PI
+         1WEwBml4zBfboNlPVQebkliopaEXbwOckgpZ65nt//HbVADsdfcsZaT2PBra1XDZ4cYV
+         mSEHAW8xvQQ3nKXLUDLda3YFbs5PeOZB6+Mhyf8SQukykBu3i28sBSlfLkonKCWchvJC
+         ktcXZsscWxheXHeZa0TjVT6dgVE0zXyzGgj6oa7jyuZhWuaXnuF1lGNGHY3C/gpj4RU3
+         oMmVgI6ZDIoeoJzgDP5KJhF+1ME4W0xF5D/K897vMjsL9LMY4vvmY6vRZKFi1vh250eW
+         0Ikw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9U346hGaAvFdwuDfRtVfUPZUdxyBrP9tyHzIfWdZO6U=;
-        b=Rw8BQRmUIMdolXSBDeE7pK9lq/PUs0Y9+UdAdKAXbvw5YzFMRBBSaaWcH9Y/5gKeKH
-         fG0rsg0tH/56iqBoBWV8McgUM/OdIwColRz6JyTTbgMMsnJGLNkS/jM8j0JdXdNAH3DN
-         EKkR0zeA3a+y830i3DOQH4jlvgreeRnk+YlG85QeoaItajHhlVebBfZHN8E8htEbYIiH
-         Z1Nj+397AuzpyoDDNAJjDboOxp0XmhkBhC8eJJ2Tel+dEfexjJoYOLPOr9XuseAcUR4P
-         lfyr7eDH1NMyLgoTPtxYUWAAn5VtetWLasnHjj72d/tfi66aGVsOiJ/geSZP/3/hdXiV
-         qAIQ==
-X-Gm-Message-State: ABuFfoj6JbhjcMZ9Z7G8/nHN5A7YOUepcmx5Rx/iWhuPLcDknG8uHHM2
-        qx/Vm76Nx707A719P6j0BYF8a+Jjj0o=
-X-Google-Smtp-Source: ACcGV60XU2VHUF3hhe9dav9genrR+09dOXs6hSUV5mBzPMGP+LchEsSf+LCFIL+sfHqlED91XY3gLg==
-X-Received: by 2002:a25:4ec5:: with SMTP id c188-v6mr9058510ybb.522.1538516291252;
-        Tue, 02 Oct 2018 14:38:11 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id j186-v6sm6262075ywd.88.2018.10.02.14.38.06
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Oct 2018 14:38:07 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id 5-v6so1483241ybf.3
-        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 14:38:06 -0700 (PDT)
-X-Received: by 2002:a25:2395:: with SMTP id j143-v6mr1547958ybj.137.1538516286591;
- Tue, 02 Oct 2018 14:38:06 -0700 (PDT)
+        bh=kZamy6iYH5OSZp4S2SNF2Cb1OLsvnlEgThQoQVJBMjc=;
+        b=Qxdt8Oi/IzXKbC/IZbwJgBBUFUkTTiG5MUCbgmcAl6qgVEhQmIoT1EOwb1L0GhXF6/
+         qoi3djKX3yZdQm/8UUC/Sa/KE7r8U1/Ihod+QxX4lnoRORECtoifZxosv1k8C0u2jAZs
+         TzGy56rc4hATASoe2FU8i34GWrMHMHlw6M5fNkl/Thn3S0vqefqDZx15qyfFrw74q8vQ
+         Q3QrmEb7xyBF+gEKfkkm8+3Ri31qJzsM+H9Ai8bm4yaYNGfYRmXlHKuLp/pQZVGCthkv
+         oHuMJmxYAzkSA+YR3PkzBD8/LMNlVa7oYi4UGbncze7TKERWAWalJ6Nl+AYsV79KJDmc
+         oGkA==
+X-Gm-Message-State: ABuFfoh13ASgHDS3xMQGIGWDLi5DQIQVUeAraJqdZiBbxDb5A5CEAxnd
+        FC858BZl90sb18AaQFzmyJ/VdcK8Wy+UG6X4h48=
+X-Google-Smtp-Source: ACcGV62yJiBCABKQHJNPL4GDfab7gXLSTFMor8k11c7JkpBtupGVZqrH5eOwEY7uEKPZIt46Zw34StGdXn75Vx1O2Lo=
+X-Received: by 2002:a37:7a05:: with SMTP id v5-v6mr13498967qkc.129.1538517880586;
+ Tue, 02 Oct 2018 15:04:40 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Tue, 2 Oct 2018 14:38:05 -0700 (PDT)
-In-Reply-To: <alpine.LRH.2.21.1810030719040.23596@namei.org>
-References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-11-keescook@chromium.org>
- <alpine.LRH.2.21.1810030719040.23596@namei.org>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Tue, 2 Oct 2018 14:38:05 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jJRFv_e7_-hAnuuEoC90JPXG2aTaHJ98_UaoS_4R1mYtg@mail.gmail.com>
-Message-ID: <CAGXu5jJRFv_e7_-hAnuuEoC90JPXG2aTaHJ98_UaoS_4R1mYtg@mail.gmail.com>
-Subject: Re: [PATCH security-next v4 10/32] LSM: Don't ignore initialization failures
-To:     James Morris <jmorris@namei.org>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Paul Moore <paul@paul-moore.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
+ <20181003071059.02b3fd6f@canb.auug.org.au>
+In-Reply-To: <20181003071059.02b3fd6f@canb.auug.org.au>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 3 Oct 2018 00:04:29 +0200
+Message-ID: <CANiq72nh0nybEC8SizQ9rv=RvncMuTH-dt5vciRtvQ1aFBzJcg@mail.gmail.com>
+Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
+To:     Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        David Miller <davem@davemloft.net>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>, "Ted Ts'o" <tytso@mit.edu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 2, 2018 at 2:20 PM, James Morris <jmorris@namei.org> wrote:
-> On Mon, 1 Oct 2018, Kees Cook wrote:
->
->> LSM initialization failures have traditionally been ignored. We should
->> at least WARN when something goes wrong.
->
-> I guess we could have a boot param which specifies what to do if any LSM
-> fails to init, as I think some folks will want to stop execution at that
-> point.
->
-> Thoughts?
+Hi Stephen,
 
-I'm not opposed, but I won't author it because Linus will yell at me
-about introducing a "machine killing" option.
+On Tue, Oct 2, 2018 at 11:11 PM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>
+> Hi Miguel,
+>
+> On Tue, 2 Oct 2018 15:47:12 +0200 Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+> >
+> > The Compiler Attributes series has been stable for 10+ days. To
+> > increase testing before 4.20, I would to request it being picked up
+> > for -next.
+> >
+> > The changes w.r.t. v5 in the LKML:
+> >
+> >   - Rebased on top of next-20180928, which required removing
+>
+> Unfortunately, trees/branches included in linux-next must be based on
+> something stable (usually Linus' tree, but it could be another
+> tree/branch that is included in linux-next that does not rebase).
+> Linux-next itself rebases every day, so snything based on it would drag
+> in a previous version of all the other trees :-(
 
--Kees
+I assumed you could apply changes as a diff/patches/cherry-pick, not
+as a merge, for those that went on top of others (so that at the new
+merge window, conflicts were already solved). Otherwise, why are
+next-* tags/branches provided anyway?
 
--- 
-Kees Cook
-Pixel Security
+>
+> > aligned_largest, which was removed by 9503cd9cbaba
+> > ("include/linux/compiler*.h: add version detection to
+> > asm_volatile_goto").
+>
+> That commit is from Andrew's patch series which also rebases (usually
+> at least every week), so you cannot depend on it.
+
+Then who is solving the conflict?
+
+Thanks!
+
+Cheers,
+Miguel
