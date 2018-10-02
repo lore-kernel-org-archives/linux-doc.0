@@ -1,160 +1,212 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F55E7E775
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 13:58:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2EB017E786
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 13:58:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728783AbeJBUaw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 16:30:52 -0400
-Received: from mail-qt1-f180.google.com ([209.85.160.180]:44599 "EHLO
-        mail-qt1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728727AbeJBUaw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 16:30:52 -0400
-Received: by mail-qt1-f180.google.com with SMTP id c56-v6so1911439qtd.11;
-        Tue, 02 Oct 2018 06:47:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=19T0Fm7XDb8OXjL6BiHkI0Qn4B86+ziTcltuQNWW1zs=;
-        b=bCiyn7ebaRoQKlrZyji2/HgVQxfgQfN1EbXFxANqqNRAmEZkFuMrCg/ZEr7q1++T+S
-         0PnXqJUCY31m5mHB+k75ENGiiaEqKtkl6zYCAIvObIQxGdyJANrStbVkgxV2d4byF109
-         6MIRWADZy/GUGh3rg7m7nkP8UKrTDA0D4bW1UVj8WVYyNvYl2C9a7Fb+J4JUDJr5duyi
-         6ee7vOwRt6nOrVC28Z2fQFoMSj3iMies4JRsU3sGXAEc5Clxz2v/FvTlNngUEN7X9X32
-         7eUyJPOajDd3AusVvwqIiG3BWc//j3niW/PhPInBNktIjaqP9RJUO/i2UAhozxbXeOy3
-         IIMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=19T0Fm7XDb8OXjL6BiHkI0Qn4B86+ziTcltuQNWW1zs=;
-        b=eRLTrdv5//AbEYcKbquv9MdWQM7kQi9TXBoC8HSQY4N8rpmfPgRxwnzk736MBKi8dI
-         V4Zg1Apo//enK1ve0aGwnQaYmt8MMDarArGPBHHp0pCE8tNfgn6G4WEzjBSFYqUsW7R+
-         jZhNMedfJYcpr6V+r3BeCdRROsOcaYQiS8yWiuAsfJGM369pw3y2Q+T6LCummRxLpK08
-         lNkcCRxdDUltV2l5g2aKAhaFNc7Y2tpdiuTg/HT2g/t+Ru/y3z+sJsmqdp27a3IjHwmZ
-         kYr1trIfiF5+7eF6Q5C54XWjCXIbLZPoklyQKGetYiqmxKVMHR0C67qnUFnSAfHTYix9
-         LfDQ==
-X-Gm-Message-State: ABuFfoiSM32YtSEY+sl2dMK7JdPbERLsmcuxNOxxDKSD+ofjKk3ZbsoR
-        NyiuWTBKlsNDmkyl3jtIxCu1nOhpL0YB+yPkgfc=
-X-Google-Smtp-Source: ACcGV637dvbgpMHqNcTPRM5X+pC1PfWsZVQyouA6HuRVlLRqhOpgDkIldYJ88rzelcFdpTMiD96WgRH3nVwJGLg4QkY=
-X-Received: by 2002:aed:3c1b:: with SMTP id t27-v6mr8294151qte.226.1538488043824;
- Tue, 02 Oct 2018 06:47:23 -0700 (PDT)
+        id S1731304AbeJBUee (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 16:34:34 -0400
+Received: from uphb19pa09.eemsg.mail.mil ([214.24.26.83]:59988 "EHLO
+        USFB19PA12.eemsg.mail.mil" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730939AbeJBUee (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 16:34:34 -0400
+X-Greylist: delayed 592 seconds by postgrey-1.27 at vger.kernel.org; Tue, 02 Oct 2018 16:34:32 EDT
+X-EEMSG-check-008: 219724108|USFB19PA12_EEMSG_MP8.csd.disa.mil
+Received: from emsm-gh1-uea11.ncsc.mil ([214.29.60.3])
+  by USFB19PA12.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256; 02 Oct 2018 13:41:11 +0000
+X-IronPort-AV: E=Sophos;i="5.54,332,1534809600"; 
+   d="scan'208";a="18923944"
+IronPort-PHdr: =?us-ascii?q?9a23=3AgWMyhx9HWp4L1f9uRHKM819IXTAuvvDOBiVQ1K?=
+ =?us-ascii?q?B+1ukQIJqq85mqBkHD//Il1AaPAd2Eraocw8Pt8InYEVQa5piAtH1QOLdtbD?=
+ =?us-ascii?q?Qizfssogo7HcSeAlf6JvO5JwYzHcBFSUM3tyrjaRsdF8nxfUDdrWOv5jAOBB?=
+ =?us-ascii?q?r/KRB1JuPoEYLOksi7ze+/94HRbglSmDaxfa55IQmrownWqsQYm5ZpJLwryh?=
+ =?us-ascii?q?vOrHtIeuBWyn1tKFmOgRvy5dq+8YB6/ShItP0v68BPUaPhf6QlVrNYFygpM3?=
+ =?us-ascii?q?o05MLwqxbOSxaE62YGXWUXlhpIBBXF7A3/U5zsvCb2qvZx1S+HNsDtU7s6RS?=
+ =?us-ascii?q?qt4LtqSB/wiScIKTg58H3MisdtiK5XuQ+tqwBjz4LRZoyaOuB+fqfAdt0EQ2?=
+ =?us-ascii?q?RPUNtaWyhYDo+ic4cDCuwMNvtaoYbgvVsDtQawCxeiBO3vyTFGiHH50qI43O?=
+ =?us-ascii?q?s9Hg/LxxAgEtAUvXjIsNn4OqUfXOaox6fI1zXDaPZW1C/g5ojUbB8hufGMUq?=
+ =?us-ascii?q?x2ccHM1EcvEhnKjlGUqYP7PzKey+MAs3OG4Op7Tu+vl24mpB1xojio3MssjJ?=
+ =?us-ascii?q?LJiZgPxlDL8iV53p84KNulQ0B4ed6pCIZcui6VOodsQs4uXntktDg1x7EYo5?=
+ =?us-ascii?q?K3YS4Hw4k9yRHFcfyIaY2I7wrmVOaWPDh3mmpoeKm6hxau6UigzfD8VtWs3F?=
+ =?us-ascii?q?ZKsCVFlt7Mu2gR1xPJ8MiHS+Z9/ly71TaT1wHc9uFEIUcumardN5Eh2aI/mo?=
+ =?us-ascii?q?AWsUTCGi/6gET2jKmIeUU44uWk9uvqb7r8qpKcKoN4kB/yP6swlsClHOg0Kg?=
+ =?us-ascii?q?0OUHKa+eS42r3j50r5QLBSg/0tj6bZq4vXJdgbp6GlAw9V1Zwv6xCkDzi8yt?=
+ =?us-ascii?q?gYkn4HLExddBKdk4fpI03OIOz/Dfqnm1Sjiiprx/TdM735GJrNM3zDnK7kfb?=
+ =?us-ascii?q?Z67E5c0hQ8wcpD6JJTD7ELOOjzVVPptNzEEh85NBS5w+X5B9pjzYMRRWWPAq?=
+ =?us-ascii?q?iaMK7JrVCI5vgvI+6JZI8UpTb9LuIp5/n0jX82gVUdZ7Wm3YMLaHCkGfRrO0?=
+ =?us-ascii?q?eZYX/rgtcbC2cKvxE+QffsiFKYVD5ceXeyU7g75jEhB4KsFZ3DSZy1gLydwC?=
+ =?us-ascii?q?e7GYVbaXxcBVCXD3jpd56JW+wQZyKSOMBhjzIEVby/RI87zB2hqBX1x6B7Ie?=
+ =?us-ascii?q?rT/y0SrYjj28Rt5+3PiREy8iR5D8aa02GNSWF4hGEIRzg23K9lp0x90UmM0a?=
+ =?us-ascii?q?5jjvNED9NT4fRJUgE7NZHA1eN6D8r+VR7GfteMUFymWMmpASktTtItxN8De1?=
+ =?us-ascii?q?59FMukjhDMwiqqArkVm6WIBJMq6KLc2Wb+J8JmxnbHzaUhi14mQtVROmG8na?=
+ =?us-ascii?q?5w7QvTB5PTk0qDjaqqc7oT0DTP9Geb1WCOpl1XUBZsUaXZWnASflfZos7i5k?=
+ =?us-ascii?q?zcT76iE68nPRdBycGYN6tKZNnpgktcRPr4OdTeZX6xlHm0BRqS2ryMa4/qcX?=
+ =?us-ascii?q?0H3CrBEEgEjxwT/XGeOAg6ByehpX/eDTN3GVL0fUzj7fR+qGm6Tk8ozwCGdk?=
+ =?us-ascii?q?hh172o9R4IgfyTVege3qwLuCg/sTV4BlW90MzMC9qGuQVheL9QYdQn4FdIzW?=
+ =?us-ascii?q?jZrRByPoS8L6B+gV4Taxh4v0T01xpsFIpAjdMnrHckzQp0M66Y1k1Ody+A15?=
+ =?us-ascii?q?DqJrLXMnXy/Ayoa6PO3lHe0dCW+roA6fghtlrjux2mG1E883VozdZVyWGQ5p?=
+ =?us-ascii?q?bUAwoIV5L+TEI3+wJ9p7HAbSk3/5nU2mF0Mamorj/C3MokBO8kyhamYtdeP7?=
+ =?us-ascii?q?qIGxXoE8IGB8ijM/Iqm1e3YRIeJuxS97A7P9mgd/SY3K6nJuFgnCipjW5f+o?=
+ =?us-ascii?q?ByzlqM9zZgSu7Px5sFx/CY3g2aVzbzlVuhsd74mZpCZT4MGmqy0jbkBIFPaa?=
+ =?us-ascii?q?1oZ4oLCnmhI9exxtpgg57hQXlY9ESsBwBO5Mj8QROPaxTY2gpK2AxDuXW6nQ?=
+ =?us-ascii?q?OgxiFw1jQuqbCSmifJxrKmPBkKN3VAQ25hpVzsO4+xjs0fGk+yYFsHjhygsH?=
+ =?us-ascii?q?3myrBbqaI3FGzaRUNFbmCiNG15erehvbqFJchU4dUntjsBA7f0WkyTVrOo+0?=
+ =?us-ascii?q?hS6CjkBWYLgWlhLzw=3D?=
+X-IPAS-Result: =?us-ascii?q?A2AoAACudLNb/wHyM5BaGwEBAQEDAQEBBwMBAQGBU4FiK?=
+ =?us-ascii?q?oFlKIN0lDBPAQEBBoEQJYhtjW+BejYBhEAChA4hNhYBAwEBAQEBAQIBbCiCN?=
+ =?us-ascii?q?SQBgl4BAQEBAgEjFUEQCxgCAiYCAlcGAQwGAgEBgl4dGAqBdQUIpTyBLoR3h?=
+ =?us-ascii?q?SaBC4l4F3mBB4ESJwyCX4R+gwGCVwKIUIVCQI5qCZAyBhePWpcJDCWBVSsIA?=
+ =?us-ascii?q?hgIIQ+DJ4M3AQmNLyMwewEBjVMBAQ?=
+Received: from tarius.tycho.ncsc.mil ([144.51.242.1])
+  by emsm-gh1-uea11.NCSC.MIL with ESMTP; 02 Oct 2018 13:41:09 +0000
+Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto.infosec.tycho.ncsc.mil [192.168.25.131])
+        by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id w92Df02Z031340;
+        Tue, 2 Oct 2018 09:41:00 -0400
+Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
+To:     Paul Moore <paul@paul-moore.com>, keescook@chromium.org
+Cc:     James Morris <jmorris@namei.org>, casey@schaufler-ca.com,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20181002005505.6112-1-keescook@chromium.org>
+ <20181002005505.6112-24-keescook@chromium.org>
+ <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
+From:   Stephen Smalley <sds@tycho.nsa.gov>
+Message-ID: <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov>
+Date:   Tue, 2 Oct 2018 09:42:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 2 Oct 2018 15:47:12 +0200
-Message-ID: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
-Subject: [GIT PULL linux-next] Add Compiler Attributes tree
-To:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>
-Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Stephen,
+On 10/02/2018 08:12 AM, Paul Moore wrote:
+> On Mon, Oct 1, 2018 at 9:04 PM Kees Cook <keescook@chromium.org> wrote:
+>> Since LSM enabling is now centralized with CONFIG_LSM_ENABLE and
+>> "lsm.enable=...", this removes the LSM-specific enabling logic from
+>> SELinux.
+>>
+>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>> ---
+>>   .../admin-guide/kernel-parameters.txt         |  9 ------
+>>   security/selinux/Kconfig                      | 29 -------------------
+>>   security/selinux/hooks.c                      | 15 +---------
+>>   3 files changed, 1 insertion(+), 52 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index cf963febebb0..0d10ab3d020e 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -4045,15 +4045,6 @@
+>>                          loaded. An invalid security module name will be treated
+>>                          as if no module has been chosen.
+>>
+>> -       selinux=        [SELINUX] Disable or enable SELinux at boot time.
+>> -                       Format: { "0" | "1" }
+>> -                       See security/selinux/Kconfig help text.
+>> -                       0 -- disable.
+>> -                       1 -- enable.
+>> -                       Default value is set via kernel config option.
+>> -                       If enabled at boot time, /selinux/disable can be used
+>> -                       later to disable prior to initial policy load.
+> 
+> No comments yet on the rest of the patchset, but the subject line of
+> this patch caught my eye and I wanted to comment quickly on this one
+> ...
+> 
+> Not a fan unfortunately.
+> 
+> Much like the SELinux bits under /proc/self/attr, this is a user
+> visible thing which has made its way into a lot of docs, scripts, and
+> minds; I believe removing it would be a big mistake.
 
-The Compiler Attributes series has been stable for 10+ days. To
-increase testing before 4.20, I would to request it being picked up
-for -next.
+Yes, we can't suddenly break existing systems that had selinux=0 in 
+their grub config.  We have to retain the support.
 
-The changes w.r.t. v5 in the LKML:
+> 
+>>          serialnumber    [BUGS=X86-32]
+>>
+>>          shapers=        [NET]
+>> diff --git a/security/selinux/Kconfig b/security/selinux/Kconfig
+>> index 8af7a690eb40..86936528a0bb 100644
+>> --- a/security/selinux/Kconfig
+>> +++ b/security/selinux/Kconfig
+>> @@ -8,35 +8,6 @@ config SECURITY_SELINUX
+>>            You will also need a policy configuration and a labeled filesystem.
+>>            If you are unsure how to answer this question, answer N.
+>>
+>> -config SECURITY_SELINUX_BOOTPARAM
+>> -       bool "NSA SELinux boot parameter"
+>> -       depends on SECURITY_SELINUX
+>> -       default n
+>> -       help
+>> -         This option adds a kernel parameter 'selinux', which allows SELinux
+>> -         to be disabled at boot.  If this option is selected, SELinux
+>> -         functionality can be disabled with selinux=0 on the kernel
+>> -         command line.  The purpose of this option is to allow a single
+>> -         kernel image to be distributed with SELinux built in, but not
+>> -         necessarily enabled.
+>> -
+>> -         If you are unsure how to answer this question, answer N.
+>> -
+>> -config SECURITY_SELINUX_BOOTPARAM_VALUE
+>> -       int "NSA SELinux boot parameter default value"
+>> -       depends on SECURITY_SELINUX_BOOTPARAM
+>> -       range 0 1
+>> -       default 1
+>> -       help
+>> -         This option sets the default value for the kernel parameter
+>> -         'selinux', which allows SELinux to be disabled at boot.  If this
+>> -         option is set to 0 (zero), the SELinux kernel parameter will
+>> -         default to 0, disabling SELinux at bootup.  If this option is
+>> -         set to 1 (one), the SELinux kernel parameter will default to 1,
+>> -         enabling SELinux at bootup.
+>> -
+>> -         If you are unsure how to answer this question, answer 1.
+>> -
+>>   config SECURITY_SELINUX_DISABLE
+>>          bool "NSA SELinux runtime disable"
+>>          depends on SECURITY_SELINUX
+>> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+>> index 71a10fedecb3..8f5eea097612 100644
+>> --- a/security/selinux/hooks.c
+>> +++ b/security/selinux/hooks.c
+>> @@ -120,20 +120,7 @@ __setup("enforcing=", enforcing_setup);
+>>   #define selinux_enforcing_boot 1
+>>   #endif
+>>
+>> -#ifdef CONFIG_SECURITY_SELINUX_BOOTPARAM
+>> -int selinux_enabled = CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE;
+>> -
+>> -static int __init selinux_enabled_setup(char *str)
+>> -{
+>> -       unsigned long enabled;
+>> -       if (!kstrtoul(str, 0, &enabled))
+>> -               selinux_enabled = enabled ? 1 : 0;
+>> -       return 1;
+>> -}
+>> -__setup("selinux=", selinux_enabled_setup);
+>> -#else
+>> -int selinux_enabled = 1;
+>> -#endif
+>> +int selinux_enabled __lsm_ro_after_init;
+>>
+>>   static unsigned int selinux_checkreqprot_boot =
+>>          CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE;
+>> --
+>> 2.17.1
+>>
+> 
+> 
 
-  - Rebased on top of next-20180928, which required removing
-aligned_largest, which was removed by 9503cd9cbaba
-("include/linux/compiler*.h: add version detection to
-asm_volatile_goto").
-  - Added latest Reviewed-by's and Tested-by's.
-
-Thanks!
-
-Cheers,
-Miguel
-
-The following changes since commit 4794a36bf08dfa89fe636e5080db9d8350e255dd:
-
-  Add linux-next specific files for 20180928 (2018-09-28 15:26:51 +1000)
-
-are available in the Git repository at:
-
-  https://github.com/ojeda/linux.git compiler-attributes
-
-for you to fetch changes up to dbce062c0b519db1cdad8d87ab46851f0be6bdea:
-
-  Compiler Attributes: ext4: remove local __nonstring definition
-(2018-10-02 15:11:26 +0200)
-
-----------------------------------------------------------------
-Miguel Ojeda (15):
-      Compiler Attributes: remove unused attributes
-      Compiler Attributes: always use the extra-underscores syntax
-      Compiler Attributes: remove unneeded tests
-      Compiler Attributes: homogenize __must_be_array
-      Compiler Attributes: remove unneeded sparse (__CHECKER__) tests
-      Compiler Attributes: add missing SPDX ID in compiler_types.h
-      Compiler Attributes: use feature checks instead of version checks
-      Compiler Attributes: KENTRY used twice the "used" attribute
-      Compiler Attributes: remove uses of __attribute__ from compiler.h
-      Compiler Attributes: add Doc/process/programming-language.rst
-      Compiler Attributes: add MAINTAINERS entry
-      Compiler Attributes: add support for __nonstring (gcc >= 8)
-      Compiler Attributes: enable -Wstringop-truncation on W=1 (gcc >= 8)
-      Compiler Attributes: auxdisplay: panel: use __nonstring
-      Compiler Attributes: ext4: remove local __nonstring definition
-
- Documentation/process/index.rst                |   1 +
- Documentation/process/programming-language.rst |  45 +++++
- MAINTAINERS                                    |   5 +
- drivers/auxdisplay/panel.c                     |   7 +-
- fs/ext4/ext4.h                                 |   9 -
- include/linux/compiler-clang.h                 |   5 -
- include/linux/compiler-gcc.h                   |  70 +------
- include/linux/compiler-intel.h                 |   9 -
- include/linux/compiler.h                       |  19 +-
- include/linux/compiler_attributes.h            | 257 +++++++++++++++++++++++++
- include/linux/compiler_types.h                 | 100 ++--------
- scripts/Makefile.extrawarn                     |   1 +
- 12 files changed, 340 insertions(+), 188 deletions(-)
- create mode 100644 Documentation/process/programming-language.rst
- create mode 100644 include/linux/compiler_attributes.h
