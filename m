@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2EB187D087
+	by archive.lwn.net (Postfix) with ESMTP id 8196A7DC5B
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 13:13:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728112AbeJBT4N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 15:56:13 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:35952 "EHLO
+        id S1727942AbeJBT4P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 15:56:15 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35954 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728020AbeJBT4N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 15:56:13 -0400
-Received: by mail-wr1-f67.google.com with SMTP id y16so2179211wrw.3
-        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 06:12:55 -0700 (PDT)
+        with ESMTP id S1728025AbeJBT4O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 15:56:14 -0400
+Received: by mail-wr1-f67.google.com with SMTP id y16so2179294wrw.3
+        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 06:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xOEYtA/I6Fm+wYElUl5x45bwyq3Cixn9jAS0SVOnGHY=;
-        b=hapSsxwdWXwCXhX3cx/PcxUUNiBlkLbDk5Ol0GIiM68H9rsaDKFOhEppykmnJbSMIG
-         hP4HvsnoWoqCLF1XH0klHSE3kJRDP7PzPV+P6sfrd5jZTa5O9wY0NHxHbg+ssowNWDAK
-         jMZK0Qtbun2y4bsuxkmMQDRH3ZXywQU73104mMawS21UPnCx0hs79aj2FTAWAvr0G5Zk
-         bxZmeY1y8kNyiwgFzrMFxb0Kd5/hqdAgiK5/yWb9dAnFsWl2bEa6+ntzVC/LqyX7KdsE
-         qebdV3d2DvQAFlQK5j16Cw1+qqvmSmApY2GvOiRAmqs6XOLDd7R47nErQEM1ADlvsb3k
-         CIGg==
+        bh=hNEOFJA3qECaqXrpJm2EBhk28wiALQ2kw33CEUTdhdg=;
+        b=nNXdbbDg2VNy5SHxXbN+Ptyr1KLwmnSsBGGhJxCoeFHxmaR8fTh5dfCJuPuP2R7XcN
+         027ftARciHcerS2ELQQ0Z978f0Ec52kSHFCKqN2p00S/HUmL+4/+FNQ+Ee04V1jiecR8
+         HhckI+hYniaDUvRkL6ovrPKMPRzVpN0yqJRFIQYoJAbvkk98v1trRnIA9bACjz2T0htl
+         sjhh3se+0ylvvlL4j4oFlIEkdCL/ALFEN07VsuQFmvaytb4hkV7XgiiEkG2pDFVbjLFm
+         LQf987ZWYE7Z3lM2zVMpcuPdTXS7FNh6OcL7SSEDcP9l9TyEXua3IFp0e1iBvQrZGJ4M
+         iEJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xOEYtA/I6Fm+wYElUl5x45bwyq3Cixn9jAS0SVOnGHY=;
-        b=D19oAIDsLIW0n/op5IWdkuUpwgb5/GHs2hppnuT0Ttlv/l5qRjsL6KuI97oPuQE/eb
-         kbWCNgi5Y9TClqb6mPTFhZbrvQEu0JMRjQ/YJQpo8QDPh5+Kf61RF5azbt+G77R+geMs
-         HSLB3NBjw0meHblos6uKyHjj1gWknfsNof5n3ySiQtan44DvHFxaUTd0LIZmW5li+eBt
-         4Z/wyfiRizIPL84qL8celuxr5mMkEmonZEGjDYhAyFs3CCs7skNQc5S+ZWtQ7cnRwknT
-         TCWR+c7PZ9J+vhwOs5EMl2W9FB/YCJOVk8KvnzRwc63LuQtPBLHLvvP/zWVLDnJmROUy
-         mYeg==
-X-Gm-Message-State: ABuFfojypHko4awSpoveSVXfKGuyOKC734XIsMGyuOryneJeMzLInXRI
-        Opg7uwMampXzdOv4dKY+hA5yZg==
-X-Google-Smtp-Source: ACcGV61mrD9eqhs6Y3Sph53EBteAZzSIYlvW15ySh9La2vNV0aqpQtde7IbKlj9BD/8p9DYuC53IiA==
-X-Received: by 2002:a5d:6707:: with SMTP id o7-v6mr10890380wru.326.1538485974696;
-        Tue, 02 Oct 2018 06:12:54 -0700 (PDT)
+        bh=hNEOFJA3qECaqXrpJm2EBhk28wiALQ2kw33CEUTdhdg=;
+        b=VVekzqHDH9xVEvG38IzauCiYcrZkd6AwObk3UTCmFOe9XftTNtxVGXYjMHcX15y0rN
+         300YQXlKbrme7ErhEu/3uhuqpg+O6OvP8PJ0aln43qNpeKLEyp/KpMvQ6a7omxViczHF
+         1NSG8IKUGKOYeLJqn3oZLrGOJBXWH3EA2C61Z9JgQ1BZFeLceajCBFqUvDbWA/4Ap1XV
+         YRhF381CMhxGYTwlVq5cupLV1SzJcGBBS+sF/+7YeawnC4xvyRdO7EAWnfH3TNpJ/0s9
+         3BF8bVomziuZ6eNAme4hZ72WdyK1uSfLhEamUNqZN+R7vhGPFqYO5cTVN9DCegUdP6vs
+         frbw==
+X-Gm-Message-State: ABuFfojwWZz7itewCDZux9+ZJfOUo2Ykw8nUMqJZOFZ8LYZn7aKRLsWc
+        F8tlOQqE2CJDBtzHZ9XdL4YrzA==
+X-Google-Smtp-Source: ACcGV62jbjfhc53LoCFPGDSIPFzkIzlh2/mWrosWETT93RgqVUF8Im7cl/cWkkH9GjoPBnJtS3XIfQ==
+X-Received: by 2002:adf:9792:: with SMTP id s18-v6mr11253044wrb.283.1538485976256;
+        Tue, 02 Oct 2018 06:12:56 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id v10-v6sm17458681wrp.0.2018.10.02.06.12.53
+        by smtp.gmail.com with ESMTPSA id v10-v6sm17458681wrp.0.2018.10.02.06.12.54
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Oct 2018 06:12:53 -0700 (PDT)
+        Tue, 02 Oct 2018 06:12:55 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,9 +73,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v7 6/8] fs, arm64: untag user address in copy_mount_options
-Date:   Tue,  2 Oct 2018 15:12:41 +0200
-Message-Id: <c16db382982a7c2888e1241a455341118cd63b89.1538485901.git.andreyknvl@google.com>
+Subject: [PATCH v7 7/8] arm64: update Documentation/arm64/tagged-pointers.txt
+Date:   Tue,  2 Oct 2018 15:12:42 +0200
+Message-Id: <47a464307d4df3c0cb65f88d1fe83f9a741dd74b.1538485901.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.0.605.g01d371f741-goog
 In-Reply-To: <cover.1538485901.git.andreyknvl@google.com>
 References: <cover.1538485901.git.andreyknvl@google.com>
@@ -86,32 +86,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In copy_mount_options a user address is being subtracted from TASK_SIZE.
-If the address is lower than TASK_SIZE, the size is calculated to not
-allow the exact_copy_from_user() call to cross TASK_SIZE boundary.
-However if the address is tagged, then the size will be calculated
-incorrectly.
-
-Untag the address before subtracting.
+Document the changes in Documentation/arm64/tagged-pointers.txt.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- fs/namespace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/arm64/tagged-pointers.txt | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 99186556f8d3..51f763fb9430 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -2672,7 +2672,7 @@ void *copy_mount_options(const void __user * data)
- 	 * the remainder of the page.
- 	 */
- 	/* copy_from_user cannot cross TASK_SIZE ! */
--	size = TASK_SIZE - (unsigned long)data;
-+	size = TASK_SIZE - (unsigned long)untagged_addr(data);
- 	if (size > PAGE_SIZE)
- 		size = PAGE_SIZE;
+diff --git a/Documentation/arm64/tagged-pointers.txt b/Documentation/arm64/tagged-pointers.txt
+index a25a99e82bb1..ae877d185fdb 100644
+--- a/Documentation/arm64/tagged-pointers.txt
++++ b/Documentation/arm64/tagged-pointers.txt
+@@ -17,13 +17,21 @@ this byte for application use.
+ Passing tagged addresses to the kernel
+ --------------------------------------
  
+-All interpretation of userspace memory addresses by the kernel assumes
+-an address tag of 0x00.
++Some initial work for supporting non-zero address tags passed to the
++kernel has been done. As of now, the kernel supports tags in:
+ 
+-This includes, but is not limited to, addresses found in:
++  - user fault addresses
+ 
+- - pointer arguments to system calls, including pointers in structures
+-   passed to system calls,
++  - pointer arguments (including pointers in structures), which don't
++    describe virtual memory ranges, passed to system calls
++
++All other interpretations of userspace memory addresses by the kernel
++assume an address tag of 0x00. This includes, but is not limited to,
++addresses found in:
++
++ - pointer arguments (including pointers in structures), which describe
++   virtual memory ranges, passed to memory system calls (mmap, mprotect,
++   etc.)
+ 
+  - the stack pointer (sp), e.g. when interpreting it to deliver a
+    signal,
+@@ -33,11 +41,7 @@ This includes, but is not limited to, addresses found in:
+ 
+ Using non-zero address tags in any of these locations may result in an
+ error code being returned, a (fatal) signal being raised, or other modes
+-of failure.
+-
+-For these reasons, passing non-zero address tags to the kernel via
+-system calls is forbidden, and using a non-zero address tag for sp is
+-strongly discouraged.
++of failure. Using a non-zero address tag for sp is strongly discouraged.
+ 
+ Programs maintaining a frame pointer and frame records that use non-zero
+ address tags may suffer impaired or inaccurate debug and profiling
 -- 
 2.19.0.605.g01d371f741-goog
 
