@@ -3,46 +3,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BCF097D082
+	by archive.lwn.net (Postfix) with ESMTP id DABD67D087
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:05:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726823AbeJBHpA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 03:45:00 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:36968 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726720AbeJBHo7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:44:59 -0400
-Received: by mail-io1-f68.google.com with SMTP id v14-v6so289611iob.4
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:27 -0700 (PDT)
+        id S1726762AbeJBHpv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 03:45:51 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:40068 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726847AbeJBHpC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:45:02 -0400
+Received: by mail-io1-f67.google.com with SMTP id w16-v6so280160iom.7
+        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ks3HdAgDKLMMPmesm6MVfQ5et4OmzqciJ/tnMRsEDA8=;
-        b=PU3VlaY/JJxOXfVs1rxXb/rtRH+f+o/ysjXlqktQ0scZ98ix2EBT9uYMAlSLWhHAgb
-         kYovQAdSj5zeNBmWXdY6TAUA+LqS6IIZIwjObdlfUHccDRhlkel3XnNEFeB6cDNBrgaK
-         4x4+vpRp4BAl6ses/FATsmZJWY7cNA3BfcScc=
+        bh=tdMBnB2oAyq5XzINlGSax4GXFXs6dLBDH2RuSJZ1iHg=;
+        b=IOAwpEyeuW78PoA8zSabfO2pe5gJEOcExGs6YDEGSsb+E+cYIaEi8V1I7W21NpeLLS
+         kfuJY9NxrlrpcFJaF5KCnK2lCxVouqOkRQQhjuQmY/k+VJYkUIi6PWfv3GpUl2T/xGaw
+         3WYc6QHfn1TuSiUZh0RHYl+a+WeN0+YglsyMI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=ks3HdAgDKLMMPmesm6MVfQ5et4OmzqciJ/tnMRsEDA8=;
-        b=L3tpycld670Pf02zR2XHI8i14Z+pLmfDq8DRF7CTknmTnvxCcveqnGv4bnenA9UvQc
-         5GMKmsQKd/6WFLYJiC+DLVrrfImT4groIiql2DWAyHJCt/65Wsm2TNRKNn9XcFANqqz9
-         kBPVbwD/F5NTq1fxq3PEDqBnRUQPaTzqtSdP4t4CPn/VIp8j1kEVii/GQGm5q0HNLfSf
-         JRQVSUaHfeoqIL2Yfypd7CIHkjZ0Hay/nLODC5+EvHdJZ7g320jqIcCZWoX/4IBjU9Fu
-         xQiCA/4cZbUkM5akPMDpR4gGfEPhCwmp1QPOx0ETBkj14PWr8MGzvPX8xz0KQuqNC5R8
-         TJjA==
-X-Gm-Message-State: ABuFfogCIdSQ8PmG33BXwjujIeWcM2XVM/oK0F0MHVhNqBmUYngH14Qq
-        u/8TcKv9h1ve0dtBQpzr2NkLMA==
-X-Google-Smtp-Source: ACcGV62y3FiVazsys9HJMkgofRwcIjXme51N9qYTXIuCfyzTJ5a4dq9OZMwYYg0P4bdFXsiVxkxu2Q==
-X-Received: by 2002:a17:902:8a89:: with SMTP id p9-v6mr14549464plo.183.1538442267459;
-        Mon, 01 Oct 2018 18:04:27 -0700 (PDT)
+        bh=tdMBnB2oAyq5XzINlGSax4GXFXs6dLBDH2RuSJZ1iHg=;
+        b=f9UY/kCaqOFLlAk4snqIKWuxbYkmDzLlOT/VF/LuG9WKXfQgU0eXS5f+e0pqzKrTyI
+         j41JVNggJ2HF3k6TNqy1FP7eJvzRUO+VYM/fJuAZDAQwxGbpvFCIZNEinQnpQy4+NIlY
+         LXQfxAlGMBNr0WmEFg74eNIzu45oQZ0ykyG8NOM4x4v9+keROf+iRhreezfTbX6+OE3B
+         j6HaGszVrmoFhEIm8oGESm0D0cRXuGMkdL0MSMxGtGCj7wKnQu8p089EIOKG2NKqGIf7
+         ttcXJc69Ot0x/yDSeq1bhMJJVxXIothWBf8nPFXWaZh7Xrc4l7xR1bN4/sNHX12cjd8j
+         5xJg==
+X-Gm-Message-State: ABuFfohi/D6LUck6KMtqDC9EqsQEodeA9G3Y2+uMX+9zRfTddWbdDWGk
+        IWzqYm4E52ovYgc7JJ8abNtz1Q==
+X-Google-Smtp-Source: ACcGV63IIML1SgotQIHfAm7hKprmP/+QrH6PQR8V0LW/QO8jWfgw67tGPCiOeRPEcwnie+lLag5GWw==
+X-Received: by 2002:a17:902:246a:: with SMTP id m39-v6mr14011703plg.57.1538442270389;
+        Mon, 01 Oct 2018 18:04:30 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id 187-v6sm26488822pfu.129.2018.10.01.18.04.23
+        by smtp.gmail.com with ESMTPSA id e190-v6sm23693127pfc.81.2018.10.01.18.04.26
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 01 Oct 2018 18:04:24 -0700 (PDT)
+        Mon, 01 Oct 2018 18:04:29 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     James Morris <jmorris@namei.org>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -55,9 +55,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v4 16/32] LSM: Prepare for arbitrary LSM enabling
-Date:   Mon,  1 Oct 2018 17:54:49 -0700
-Message-Id: <20181002005505.6112-17-keescook@chromium.org>
+Subject: [PATCH security-next v4 24/32] LSM: Build ordered list of ordered LSMs for init
+Date:   Mon,  1 Oct 2018 17:54:57 -0700
+Message-Id: <20181002005505.6112-25-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181002005505.6112-1-keescook@chromium.org>
 References: <20181002005505.6112-1-keescook@chromium.org>
@@ -66,124 +66,129 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Before now, all the LSMs that did not specify an "enable" variable in their
-struct lsm_info were considered enabled by default. This prepares to make
-LSM enabling more explicit. For all LSMs without an explicit "enable"
-variable, a hard-coded storage location is chosen, and all LSMs without
-an external "enable" state have their state explicitly set to "enabled".
-
-This code appears more complex than it needs to be (comma-separated
-list parsing and "set" function parameter) because its use will be
-expanded on in the following patches to provide more explicit enabling.
+This constructs a list of ordered LSMs to initialize, using a hard-coded
+list of only "integrity": minor LSMs continue to have direct hook calls,
+and major LSMs continue to initialize separately.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
-Reviewed-by: John Johansen <john.johansen@canonical.com>
 ---
- security/security.c | 69 ++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 65 insertions(+), 4 deletions(-)
+ security/security.c | 59 +++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 52 insertions(+), 7 deletions(-)
 
 diff --git a/security/security.c b/security/security.c
-index 4e5e67b82b7b..9459b4ee4fd9 100644
+index 40b9f508b856..8706b42b4d44 100644
 --- a/security/security.c
 +++ b/security/security.c
-@@ -54,17 +54,46 @@ static __initdata bool debug;
+@@ -34,6 +34,9 @@
  
- static bool __init is_enabled(struct lsm_info *lsm)
- {
--	if (!lsm->enabled || *lsm->enabled)
--		return true;
-+	if (WARN_ON(!lsm->enabled))
-+		return false;
+ #define MAX_LSM_EVM_XATTR	2
  
--	return false;
-+	return *lsm->enabled;
- }
++/* How many LSMs were built into the kernel? */
++#define LSM_COUNT (__end_lsm_info - __start_lsm_info)
++
+ struct security_hook_heads security_hook_heads __lsm_ro_after_init;
+ static ATOMIC_NOTIFIER_HEAD(lsm_notifier_chain);
  
- /* Mark an LSM's enabled flag, if it exists. */
--static void __init set_enabled(struct lsm_info *lsm, bool enabled)
-+static int lsm_enabled_true __initdata = 1;
-+static int lsm_enabled_false __initdata = 0;
-+
-+static void __init default_enabled(struct lsm_info *lsm, bool enabled)
- {
-+	/* If storage location already set, skip this one. */
- 	if (lsm->enabled)
-+		return;
-+
-+	/*
-+	 * When an LSM hasn't configured an enable variable, we can use
-+	 * a hard-coded location for storing the default enabled state.
-+	 */
-+	if (enabled)
-+		lsm->enabled = &lsm_enabled_true;
-+	else
-+		lsm->enabled = &lsm_enabled_false;
-+}
-+
-+static void __init set_enabled(struct lsm_info *lsm, bool enabled)
-+{
-+	if (WARN_ON(!lsm->enabled))
-+		return;
-+
-+	if (lsm->enabled == &lsm_enabled_true) {
-+		if (!enabled)
-+			lsm->enabled = &lsm_enabled_false;
-+	} else if (lsm->enabled == &lsm_enabled_false) {
-+		if (enabled)
-+			lsm->enabled = &lsm_enabled_true;
-+	} else {
- 		*lsm->enabled = enabled;
-+	}
- }
+@@ -45,6 +48,9 @@ static __initdata const char *chosen_major_lsm;
  
- /* Is an LSM allowed to be initialized? */
-@@ -127,6 +156,35 @@ static void __init major_lsm_init(void)
+ static __initconst const char * const builtin_lsm_enable = CONFIG_LSM_ENABLE;
+ 
++/* Ordered list of LSMs to initialize. */
++static __initdata struct lsm_info **ordered_lsms;
++
+ static __initdata bool debug;
+ #define init_debug(...)						\
+ 	do {							\
+@@ -88,6 +94,45 @@ static void __init set_enabled(struct lsm_info *lsm, bool enabled)
  	}
  }
  
-+static void __init parse_lsm_enable(const char *str,
-+				    void (*set)(struct lsm_info *, bool),
-+				    bool enabled)
++/* Is an LSM already listed in the ordered LSMs list? */
++static bool __init exists_ordered_lsm(struct lsm_info *lsm)
 +{
-+	char *sep, *name, *next;
++	struct lsm_info **check;
 +
-+	if (!str)
++	for (check = ordered_lsms; *check; check++)
++		if (*check == lsm)
++			return true;
++
++	return false;
++}
++
++/* Append an LSM to the list of ordered LSMs to initialize. */
++static int last_lsm __initdata;
++static void __init append_ordered_lsm(struct lsm_info *lsm, const char *from)
++{
++	/* Ignore duplicate selections. */
++	if (exists_ordered_lsm(lsm))
 +		return;
 +
-+	sep = kstrdup(str, GFP_KERNEL);
-+	next = sep;
-+	while ((name = strsep(&next, ",")) != NULL) {
-+		struct lsm_info *lsm;
++	if (WARN(last_lsm == LSM_COUNT, "%s: out of LSM slots!?\n", from))
++		return;
 +
-+		for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
-+			if (strcmp(name, "all") == 0 ||
-+			    strcmp(name, lsm->name) == 0)
-+				set(lsm, enabled);
-+		}
-+	}
-+	kfree(sep);
++	ordered_lsms[last_lsm++] = lsm;
++	init_debug("%s ordering: %s (%sabled)\n", from, lsm->name,
++		   is_enabled(lsm) ? "en" : "dis");
 +}
 +
-+static void __init prepare_lsm_enable(void)
++/* Populate ordered LSMs list from hard-coded list of LSMs. */
++static void __init prepare_lsm_order(void)
 +{
-+	/* Prepare defaults. */
-+	parse_lsm_enable("all", default_enabled, true);
++	struct lsm_info *lsm;
++
++	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
++		if (strcmp(lsm->name, "integrity") == 0)
++			append_ordered_lsm(lsm, "builtin");
++	}
 +}
 +
- /**
-  * security_init - initializes the security framework
-  *
-@@ -143,6 +201,9 @@ int __init security_init(void)
+ /* Is an LSM allowed to be initialized? */
+ static bool __init lsm_allowed(struct lsm_info *lsm)
+ {
+@@ -118,14 +163,10 @@ static void __init maybe_initialize_lsm(struct lsm_info *lsm)
+ 
+ static void __init ordered_lsm_init(void)
+ {
+-	struct lsm_info *lsm;
+-
+-	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
+-		if ((lsm->flags & LSM_FLAG_LEGACY_MAJOR) != 0)
+-			continue;
++	struct lsm_info **lsm;
+ 
+-		maybe_initialize_lsm(lsm);
+-	}
++	for (lsm = ordered_lsms; *lsm; lsm++)
++		maybe_initialize_lsm(*lsm);
+ }
+ 
+ static void __init major_lsm_init(void)
+@@ -207,6 +248,8 @@ int __init security_init(void)
+ 	for (i = 0; i < sizeof(security_hook_heads) / sizeof(struct hlist_head);
  	     i++)
  		INIT_HLIST_HEAD(&list[i]);
++	ordered_lsms = kcalloc(LSM_COUNT + 1, sizeof(*ordered_lsms),
++				GFP_KERNEL);
  
-+	/* Figure out which LSMs are enabled and disabled. */
-+	prepare_lsm_enable();
-+
+ 	/* Figure out which LSMs are enabled and disabled. */
+ 	prepare_lsm_enable();
+@@ -219,6 +262,7 @@ int __init security_init(void)
+ 	loadpin_add_hooks();
+ 
+ 	/* Load LSMs in specified order. */
++	prepare_lsm_order();
+ 	ordered_lsm_init();
+ 
  	/*
- 	 * Load minor LSMs, with the capability module always first.
+@@ -226,6 +270,7 @@ int __init security_init(void)
  	 */
+ 	major_lsm_init();
+ 
++	kfree(ordered_lsms);
+ 	return 0;
+ }
+ 
 -- 
 2.17.1
 
