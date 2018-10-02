@@ -3,53 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 747A47D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 09:43:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2C91E7D090
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 09:44:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727285AbeJBQZ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 12:25:57 -0400
-Received: from mail-it1-f195.google.com ([209.85.166.195]:37821 "EHLO
-        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727240AbeJBQZ5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 12:25:57 -0400
-Received: by mail-it1-f195.google.com with SMTP id m9-v6so2755722ita.2
-        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 02:43:34 -0700 (PDT)
+        id S1726321AbeJBQ0T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 12:26:19 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37181 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727455AbeJBQ0S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 12:26:18 -0400
+Received: by mail-wm1-f68.google.com with SMTP id 185-v6so1507392wmt.2
+        for <linux-doc@vger.kernel.org>; Tue, 02 Oct 2018 02:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=VL33L2BXfLh1jyQS7r/gH4FO1nrLNgAqNmliOTRuAfE=;
-        b=SVn1I+vz52XANu1ubyj/ZEQ5Nh2o158ywl1XkCT6oU0DOR+/ov1V5nx/3AdBWhQmYf
-         I/Roi6Gznhl8xuXI97+KhAAYvRNt5RFTK9fHSalxLQWqpvpq2K1vCPmS4LwNaee56OjG
-         pojDY1TGflAi4UQqpVmju/oh35mslbBDh5tCwvotpZRr9UCEqjjTDRx0h06Kgxb19WiE
-         ij+MoM4H5Th10s/QZYx90nYQ3tD6znjASl5kNmVjH7VjPSXvw8XdxT4t59Jk0ayLNMPZ
-         g+UIJyRxuAzlC2yXTUJeUM/RdRGXqBVSxGiL4IMbHMzfMkFC1Llag1uBhHPzEBWTH2kq
-         V5VQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GXs1lClEWsn92wLmUxVM+cd4Mz2GfrXa5objbOmjlQo=;
+        b=lxAHv31xmGTTjVY6FrHZRKPP/sDlR97vQxFu1y2Qz6u6dNtqzpiiiDr2WJlOaUqexD
+         wESE7DKPnvHRuDRvdeWuZSoT3RNAFTy8p8T4CUjaXg8YHlWFo7/Ob7DVJF3yYGywJbcR
+         0M0nMlh45eStYIg+cdAUhCGM53NPrylKqkruAtcTVTDljcX3vMoE+FHKwIXb5SwyYRFE
+         K4oyFHd3xuBGS28tfFn9DYhEkXTX+d8zMPO7c3VpU3bv9Cu1qImJz2VCeHDGBgpAts2+
+         2N3TOFLjmI9VpidbNF9AOr7SThR81Gj1WgmUoVWplAlkP6bgHjYsoeJFjREIfSzcKGer
+         oXhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=VL33L2BXfLh1jyQS7r/gH4FO1nrLNgAqNmliOTRuAfE=;
-        b=qGHLTt9hMjjtnfrREDGr3RIougZ9BOTBZ3vLzQux97/QfiICVrRJjxquXGJVw0a6HM
-         8UqJYspFxcI/jN8eBXPBG3NYwiaZ/AD9dZ/Xg6wpuiltTPbN/fzZKOp7kjIrwZHAZrJs
-         6lO4uwRBJnHvLB5MgwrThYWRxRtC7LcZoi+TIVQ5HbJI8lb/+z3V2YEfbOa8aaxKLCsl
-         Z3pF2xeFljUQlQL0rEy+2QYqpSXCgerYwiUHTuQ0waWUZOK1YfX87+tDUfTXPo+Brurl
-         WElAPJmV6Zp3cIS60capTZvpdB+X2JOrEYV4C5hLNfopbbU0yAfR2ljKwNtwrAsptl6w
-         6TsQ==
-X-Gm-Message-State: ABuFfoi/D83y4ghELF/NWfzZjt/hLJ+z9E76qbfpkRF9nHRrLNl2h26I
-        k9aNbs/4EqqgA8qB07u+k2x3SOcqr09gLpBGKwIsRQ==
-X-Google-Smtp-Source: ACcGV60l1mMiLAFtyJwA9hdphUfg7WDQgNIGFQ4QRaOg5WEPEgdCj5hT80z/kEUqyaZ7z+vGCR/fw5G9rzILntmuFcM=
-X-Received: by 2002:a24:f047:: with SMTP id p7-v6mr1284075iti.125.1538473414050;
- Tue, 02 Oct 2018 02:43:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181002094238.17571-1-brgl@bgdev.pl>
-In-Reply-To: <20181002094238.17571-1-brgl@bgdev.pl>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GXs1lClEWsn92wLmUxVM+cd4Mz2GfrXa5objbOmjlQo=;
+        b=qvgJiIqz1966WuNOiPaZKVZGKKU82XkkgJDBx7L9Fi0t3tl+HOkEWSHZ+cBJT3FbTP
+         Em7ZxxdZ9GCAVld+DpRmIKOis/xhFaI6doIiyBkLhbglgei8YuBgERSDHFO5hgj4088u
+         WkpV7ojx8SWXLTFNdxMAeNOFzyEyVZhXVu3+8gnGtiRL5mXs6eRoAV6HZW9w2KZk8B9v
+         bQyAdqhnTHddjTV5/GICVavgG2msbOOuDIxfwP13EtH/w0gxZRpfScJg0ynrqGlWe6IU
+         f43RY+GGhNYkGkpwnCn5ISM6iiAH1mhJ6QaQ787fKFTKRGVQ8TBLW4im4ThAVEkoLYIV
+         GX8A==
+X-Gm-Message-State: ABuFfoiP1zxnwcUS5sgz2oQjSqMXW0qOL4Usg6eo4gYpADTHEAIVGo5L
+        48AUgncfjsmVYg0NWj2jyOl+3Tajw2Q=
+X-Google-Smtp-Source: ACcGV60qbeO24HWoB67EJEmJ4fmH7anTnVPh7li25L6qHDkMMq/HrcN7xEfsAXdsGL9cx2A7jtKQIg==
+X-Received: by 2002:a1c:c145:: with SMTP id r66-v6mr1254363wmf.131.1538473434443;
+        Tue, 02 Oct 2018 02:43:54 -0700 (PDT)
+Received: from debian-brgl.home ([2a01:cb1d:af:5b00:217b:7d7b:52aa:bc53])
+        by smtp.gmail.com with ESMTPSA id r13-v6sm10863996wmf.35.2018.10.02.02.43.52
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Oct 2018 02:43:53 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Tue, 2 Oct 2018 11:43:22 +0200
-Message-ID: <CAMRc=Mdu1BZKA89OEjrB7Ti5nZujpO=_jk4EBaxjpESnFgZm1w@mail.gmail.com>
-Subject: Re: [PATCH] nvmem: fix nvmem_cell_get_from_lookup()
 To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         "David S . Miller" <davem@davemloft.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -64,65 +62,60 @@ To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
         Chen-Yu Tsai <wens@csie.org>,
         Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH v2] nvmem: fix nvmem_cell_get_from_lookup()
+Date:   Tue,  2 Oct 2018 11:43:50 +0200
+Message-Id: <20181002094350.17649-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.19.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-wt., 2 pa=C5=BA 2018 o 11:42 Bartosz Golaszewski <brgl@bgdev.pl> napisa=C5=
-=82(a):
->
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->
-> We check if the pointer returned by __nvmem_device_get() is not NULL
-> while we should actually check if it is not IS_ERR(nvmem). Fix it.
->
-> While we're at it: fix the next error path where we should assign an
-> error value to cell before returning.
->
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  drivers/nvmem/core.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-> index ad1227df1984..f49474e1ad49 100644
-> --- a/drivers/nvmem/core.c
-> +++ b/drivers/nvmem/core.c
-> @@ -952,9 +952,9 @@ nvmem_cell_get_from_lookup(struct device *dev, const =
-char *con_id)
->                     (strcmp(lookup->con_id, con_id) =3D=3D 0)) {
->                         /* This is the right entry. */
->                         nvmem =3D __nvmem_device_get(NULL, lookup->nvmem_=
-name);
-> -                       if (!nvmem) {
-> +                       if (IS_ERR(nvmem)) {
->                                 /* Provider may not be registered yet. */
-> -                               cell =3D ERR_PTR(-EPROBE_DEFER);
-> +                               cell =3D ERR_CAST(nvmem);
->                                 goto out;
->                         }
->
-> @@ -962,6 +962,7 @@ nvmem_cell_get_from_lookup(struct device *dev, const =
-char *con_id)
->                                                        lookup->cell_name)=
-;
->                         if (!cell) {
->                                 __nvmem_device_put(nvmem);
-> +                               cell =3D ERR_PTR(-ENOENT);
->                                 goto out;
->                         }
->                 }
-> --
-> 2.19.0
->
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Ugh this was supposed to be v2. Sorry for spamming.
+We check if the pointer returned by __nvmem_device_get() is not NULL
+while we should actually check if it is not IS_ERR(nvmem). Fix it.
 
-Bart
+While we're at it: fix the next error path where we should assign an
+error value to cell before returning.
+
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
+v1 -> v2:
+- use ERR_CAST() instead of a direct pointer cast
+
+ drivers/nvmem/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index ad1227df1984..f49474e1ad49 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -952,9 +952,9 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+ 		    (strcmp(lookup->con_id, con_id) == 0)) {
+ 			/* This is the right entry. */
+ 			nvmem = __nvmem_device_get(NULL, lookup->nvmem_name);
+-			if (!nvmem) {
++			if (IS_ERR(nvmem)) {
+ 				/* Provider may not be registered yet. */
+-				cell = ERR_PTR(-EPROBE_DEFER);
++				cell = ERR_CAST(nvmem);
+ 				goto out;
+ 			}
+ 
+@@ -962,6 +962,7 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+ 						       lookup->cell_name);
+ 			if (!cell) {
+ 				__nvmem_device_put(nvmem);
++				cell = ERR_PTR(-ENOENT);
+ 				goto out;
+ 			}
+ 		}
+-- 
+2.19.0
+
