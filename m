@@ -1,95 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB4ED7D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 22:06:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B2F277D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 22:12:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726890AbeJCEwF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 00:52:05 -0400
-Received: from namei.org ([65.99.196.166]:35266 "EHLO namei.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726809AbeJCEwF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 00:52:05 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id w92M6Ca3027182;
-        Tue, 2 Oct 2018 22:06:12 GMT
-Date:   Wed, 3 Oct 2018 08:06:12 +1000 (AEST)
-From:   James Morris <jmorris@namei.org>
-To:     Kees Cook <keescook@chromium.org>
-cc:     John Johansen <john.johansen@canonical.com>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-In-Reply-To: <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
-Message-ID: <alpine.LRH.2.21.1810030758460.23596@namei.org>
-References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-24-keescook@chromium.org> <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com> <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov>
- <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com> <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov> <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
- <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com> <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+        id S1726407AbeJCE5z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 00:57:55 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:43408 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725753AbeJCE5z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 00:57:55 -0400
+Received: by mail-qt1-f194.google.com with SMTP id q41-v6so3810897qtq.10;
+        Tue, 02 Oct 2018 15:12:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sWxNWmiqns+AOyqKu02Nwm5Gg98duCkCdWxz4spYG9s=;
+        b=mx6nlVQq3QAyG+y+1k2S1PVD/6CiTYx3o1hDYFdaLQMltH0VZq9TakW0astZzMja9v
+         8oHIAe+fnIEitLEdYjpRnK2nh34lqkOOu2TLv9BwrI/wQmt13M5qwIdl8Z6/m7Jp36ar
+         uqNnRUKISzX1DD/+XnNEYFwzLlx/cjwpIM7U0wxWEzrPO8Mwd3qTW+/M6DR9+g2ZSYzo
+         UWkY+6NupMhyc7mimrECD45UEjFwL5pmd/CrNQGD2iJIM7XNEYY2UzVLX7j4UEi45GYi
+         p4y2LuKfIpSR3nq1w+b8ksXTqIX1GNjdZ6FkUR17UNH+gF/osrn+tE8Q7Ymm6qTeknaj
+         r+RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sWxNWmiqns+AOyqKu02Nwm5Gg98duCkCdWxz4spYG9s=;
+        b=U0IvrKo5sfynXdf1WIFR3IGsPgocGc1vU/DHwMmPZ41+nzUbtuuzGudaO8EniA4Ifl
+         81M9SAF3LmqNE2j0AMlN52/G7aHLor0owAlAixEarvIMTzRFPJQ//wsswE6W9N6Ofni0
+         YasjoOP1K7qJQVWUyvpR1xF+Ft8LBQ34aqILORFazAq26/1qFaYvci0hkp5//Kf4kpBR
+         un1cbn/Fl9OuLsWI1sANSsmlzCaFAnASAwN5I+0wr5qr6XZEFPH2yzk+mAi6zg5843ea
+         voYyQpg+uTm+zSNKs/7KC3sPbbLF7tCiJpXrHPOFbr47NjmTsWtjz6VBSZUFxhCoM59Q
+         wnQw==
+X-Gm-Message-State: ABuFfojusvIDYxg6WbD8hZItF2MEXm4dXZ0vrP1Jxxcg1TJpdeI9f4EQ
+        B+050ObtHMNx6WoIV0jEXGkVeyBSzps3Si1ojuQ=
+X-Google-Smtp-Source: ACcGV63rLBKhI9U2VnGnErJc/+FeS6HhA3Ut3M6i+oYZuiC3NcSprAATchZQlVkoLL7VZjCV5y4HVA3jyI3XCYymTeA=
+X-Received: by 2002:ac8:3509:: with SMTP id y9-v6mr14455209qtb.241.1538518341837;
+ Tue, 02 Oct 2018 15:12:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
+ <20181003071059.02b3fd6f@canb.auug.org.au> <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
+In-Reply-To: <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 3 Oct 2018 00:12:10 +0200
+Message-ID: <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
+Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        David Miller <davem@davemloft.net>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>, "Ted Ts'o" <tytso@mit.edu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2 Oct 2018, Kees Cook wrote:
+Hi Nick,
 
-> On Tue, Oct 2, 2018 at 11:57 AM, John Johansen
-> <john.johansen@canonical.com> wrote:
-> > Under the current scheme
+On Tue, Oct 2, 2018 at 11:16 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Tue, Oct 2, 2018 at 2:11 PM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
 > >
-> > lsm.enabled=selinux
+> > Hi Miguel,
 > >
-> > could actually mean selinux,yama,loadpin,something_else are
-> > enabled. If we extend this behavior to when full stacking lands
+> > On Tue, 2 Oct 2018 15:47:12 +0200 Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+> > >
+> > > The Compiler Attributes series has been stable for 10+ days. To
+> > > increase testing before 4.20, I would to request it being picked up
+> > > for -next.
+> > >
+> > > The changes w.r.t. v5 in the LKML:
+> > >
+> > >   - Rebased on top of next-20180928, which required removing
 > >
-> > lsm.enabled=selinux,yama
+> > Unfortunately, trees/branches included in linux-next must be based on
+> > something stable (usually Linus' tree, but it could be another
+> > tree/branch that is included in linux-next that does not rebase).
+> > Linux-next itself rebases every day, so snything based on it would drag
+> > in a previous version of all the other trees :-(
+>
+> I think of this like a branch that's force pushed to.  Can't base
+> other branches or trees off of it cause it's always moving/force
+> rewriting history.
+
+As I have read, -next is supposed to be a vision of what the merge
+window will look like after merging everything, i.e. ideally -rc1. For
+that to work for files out-of-tree (like these ones, which are not
+maintained by a single tree), changes should be allowed to be stacked
+on each other; otherwise, we cannot handle conflicts :-(
+
+>
 > >
-> > might mean selinux,yama,apparmor,loadpin,something_else
+> > > aligned_largest, which was removed by 9503cd9cbaba
+> > > ("include/linux/compiler*.h: add version detection to
+> > > asm_volatile_goto").
 > >
-> > and what that list is will vary from kernel to kernel, which I think
-> > is harder for the user than the lsm.enabled list being what is
-> > actually enabled at boot
-> 
-> Ah, I think I missed this in your earlier emails. What you don't like
-> here is that "lsm.enable=" is additive. You want it to be explicit.
-> 
+> > That commit is from Andrew's patch series which also rebases (usually
+> > at least every week), so you cannot depend on it.
+>
+> Miguel, you should be able to drop that patch from your set then,
+> since Andrew's -mm tree flows into this -next tree as well, IIUC.
+> We'll take up that patch from there.
 
-This is a path to madness.
+Not sure what you mean by "drop that patch". There is no patch to
+drop, there is a conflict with a change already in -next.
 
-How about enable flags set ONLY per LSM:
-
-lsm.selinux.enable=x
-lsm.apparmor.enable=x
-
-With no lsm.enable, and removing selinux=x and apparmor=x.
-
-Yes this will break existing docs, but they can be updated for newer 
-kernel versions to say "replace selinux=0 with lsm.selinux.enable=0" from 
-kernel X onwards.
-
-Surely distro packages and bootloaders are able to cope with changes to 
-kernel parameters?
-
-We can either take a one-time hit now, or build new usability debt, which 
-will confuse people forever.
-
-
--- 
-James Morris
-<jmorris@namei.org>
-
+Cheers,
+Miguel
