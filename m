@@ -1,207 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 366F67D087
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 19:48:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 95BAE7D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 20:06:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726738AbeJCCdB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 22:33:01 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:45227 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726194AbeJCCdA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 22:33:00 -0400
-Received: from static-50-53-48-205.bvtn.or.frontiernet.net ([50.53.48.205] helo=[192.168.192.153])
-        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-        (Exim 4.76)
-        (envelope-from <john.johansen@canonical.com>)
-        id 1g7QeD-0002IN-MC; Tue, 02 Oct 2018 19:47:57 +0000
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20181002005505.6112-1-keescook@chromium.org>
- <20181002005505.6112-24-keescook@chromium.org>
- <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
- <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov>
- <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com>
- <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov>
- <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
- <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
- <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com>
- <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
-From:   John Johansen <john.johansen@canonical.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Canonical
-Message-ID: <125243f2-8532-c0c0-0b0e-d28b3ecb910e@canonical.com>
-Date:   Tue, 2 Oct 2018 12:47:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726642AbeJCCve (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 22:51:34 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:34751 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726194AbeJCCve (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 22:51:34 -0400
+Received: by mail-yb1-f195.google.com with SMTP id 184-v6so1365868ybg.1;
+        Tue, 02 Oct 2018 13:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=QlWTy0mqvsJMaoHzIum62k26GAzGa4P6alp0zN7hjTc=;
+        b=lkMSbU62adT7EicXRo7qEQQ9IoIpQjiEvv/fSozErRkZFpeTI21t0sKNa8BFLHq2vZ
+         dYNm/w8wxmj7fXYblwLV1vb1YcR18FP5BSQAQiY3mtmjUmRZqNvdQZiQnQfaHEc2wlNd
+         vso0tS+JmaFiT6OefvK3dsCayG2i38tfLk4AIBNv0dV3mfKy5VIV2lj1mGdISEbz+QVL
+         Bzhcuf+huTyp7AHIR4TnhUFhnz0TypzjEipersOKHdzH4lte8Gj+Jex7lC1qeL/DEcFf
+         RhmcZHBYZ2+KsUioqQPOX9Esm3jPI0NID60w9lHKMlCvm8YlMGEYETnMd+61UIoqX1Gs
+         /IsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=QlWTy0mqvsJMaoHzIum62k26GAzGa4P6alp0zN7hjTc=;
+        b=Yn7H9EBKs1ZmRv8IcMSvk9dNjmxy313BxNwemsry6aJlKuPECE+IKR3EvMBJHv/BMX
+         gWhc083AL/Q3+S8X9AlexI/uHuAbX5qH1klIJ+llySPraU+XqQV01o36DKs9f05cVJDo
+         /4LLhsCe9aXqyrk/TjRQbdz5DrflBhb5Bh9PqAoLHGruty71Tm47YVEzfyO72E6GQLhW
+         GCbO6lbJqObpRFlrmUz8NWuBDYw/G3CGPkRvCXuKNAJUV7BVyfCunNlNOyDM53sdpQft
+         V1ZwqnSHx9H50uydckTbjr3GavNduxXMXLZ0Vs0Heohx7HROq+S7o697ANUwxV8cVX5Y
+         FkmQ==
+X-Gm-Message-State: ABuFfoi8TYZ6CGdfQXd1AAlfmMt9YpKBl8HrnpxrnBSrBbzfUaaXGXPg
+        jPcmMk5g+eIGjQ6EF3NMj2E=
+X-Google-Smtp-Source: ACcGV62+aeHGWzfwcsGqonBnnAhxwiAF7M5o20eVvFEQ0WYyDDDwusZlqXQrA79BZZBxNk+wQiQbTA==
+X-Received: by 2002:a25:185:: with SMTP id 127-v6mr300818ybb.154.1538510790401;
+        Tue, 02 Oct 2018 13:06:30 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:200::7:aff1])
+        by smtp.gmail.com with ESMTPSA id v34-v6sm14678106ywh.45.2018.10.02.13.06.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Oct 2018 13:06:29 -0700 (PDT)
+Date:   Tue, 2 Oct 2018 13:06:27 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v12 9/9] cpuset: Support forced turning off of partition
+ flag
+Message-ID: <20181002200627.GI270328@devbig004.ftw2.facebook.com>
+References: <1535380884-31308-1-git-send-email-longman@redhat.com>
+ <1535380884-31308-10-git-send-email-longman@redhat.com>
+ <20180827164004.GE3978217@devbig004.ftw2.facebook.com>
+ <0daf1f43-2292-0281-3ab8-aef20d0475dc@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0daf1f43-2292-0281-3ab8-aef20d0475dc@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/02/2018 12:17 PM, Kees Cook wrote:
-> On Tue, Oct 2, 2018 at 11:57 AM, John Johansen
-> <john.johansen@canonical.com> wrote:
->> Under the current scheme
->>
->> lsm.enabled=selinux
->>
->> could actually mean selinux,yama,loadpin,something_else are
->> enabled. If we extend this behavior to when full stacking lands
->>
->> lsm.enabled=selinux,yama
->>
->> might mean selinux,yama,apparmor,loadpin,something_else
->>
->> and what that list is will vary from kernel to kernel, which I think
->> is harder for the user than the lsm.enabled list being what is
->> actually enabled at boot
+Hello, Waiman.
+
+My apologies for the delay.
+
+On Mon, Aug 27, 2018 at 01:50:18PM -0400, Waiman Long wrote:
+> My current code has explicitly assumed the following relationship for
+> partition root.
 > 
-> Ah, I think I missed this in your earlier emails. What you don't like
-> here is that "lsm.enable=" is additive. You want it to be explicit.
+>     cpus_allowed = effective_cpus + reserved_cpus
 > 
-> Are you okay with lsm.order= having fallback?
+> Also effective_cpus cannot be empty. Specifically, cpus_allowed has to
+> be equal to effective_cpus before a cpuset can be made a partition root.
 > 
-
-yeah, if we are going to separate order, fallbacks are fine for
-anything that isn't specified.
-
-I am still not convinced that separating order from enablement is
-right, but its generally something a user should care about so I can
-live with it.
-
-> The situation we were trying to solve was with new LSMs getting
-> implicitly disabled if someone is booting with an explicit list. For
-> example:
+> Any changes that break the above conditions will turn off the partition
+> flag forcefully. The only exception is cpu offlining where cpus_allowed
+> > effective_cpus + reserved_cpus can happen.
 > 
-> lsm.enable=yama,apparmor
+> One reason for doing so is because reserved_cpus is hidden. So the main
+> way to infer that is to do cpus_allowed - effective_cpus.
 > 
-> means when "landlock" gets added to the kernel, it will be implicitly disabled.
-> 
+> It is probably doable to make cpus_allowed >= effective_cpus +
+> reserved_cpus in general, but we may need to expose reserved_cpus as a
+> read-only file, for instance. There may also be other complications that
+> we will need to take care of if this is supported. My current preference
+> is to not doing that unless there is compelling reason to do so.
 
-And here is the point of contention, I wouldn't call that implicitly
-disabled. The user explicitly selected a set of LSMs to enable. Having
-other LSMs enable when they aren't specified is confusing to a user,
-as now they have to consider what is enabled by default in the
-Kconfig.
+So, if we're gonna make this hierarchical, I think it probably would
+be better to go in all the way.  It's kinda weird to mix the two
+approaches - the normal cpuset operation following the usual
+convention (it'd be really great to fix the removal part too) and
+parition code doing something else.
 
-I think requiring distros/builders to consider Kconfig options is
-fine, but its a lot higher hurdle for regular users.
+I think adding another interface file should be fine here.
 
+Thanks.
 
->> If we have to have multiple kernel parameter, I prefer a behvior where
->> if you hav conflicting kernel parameters specified
->>
->>   apparmor=0 lsm.enabled=apparmor
->>
->> that the conflict is logged and the lsm is left disabled, as I think
->> it is easier for users to understand than the overrides scheme of v3,
->> and sans logging of the conflict is effectively what we had in the
->> past
->>
->>   apparmor=0 security=apparmor
->> or
->>   apparmor=1 security=selinux
->>
->> would result in apparmor being disabed
-> 
-> Okay, so for this part you want per-LSM boot param to have priority
-> (which seems to match SELinux's concerns), possibly logging the
-
-hrmmm I wouldn't call it priority :)
-
-If you look at the above logic its a boolean AND operation. The LSM is
-only enabled if $LSM=1 AND security=$LSM all other combinations result
-in $LSM being disabled
-
-> conflict, but still accepting the apparmor= and selinux= state.
-
-logging is nice for the user but certainly isn't required and is more
-than we are doing today
-
-> security= would still driving initialization ordering (so I think the
-> behavior I have in the series would be correct).
-> 
->> That being said I get we have a mess currently, and there really
->> doesn't seem to be a good way to fix it. I think getting this right
->> for the user is important enough that I am willing to break current
->> apparmor userspace api. While apparmor=0 is documented we have also
->> documented security=X for years and apparmor=0 isn't used too often
->> so I think we can drop it to help clean this mess up abit.
->>
->> I am not going to Nak, or block on v3 behavior if that is considered
->> the best path forward after this discussion/rant.
-> 
-> I could define CONFIG_LSM_ENABLE as being "additive" to
-> SECURITY_APPARMOR_BOOTPARAM_VALUE and
-> SECURITY_SELINUX_BOOTPARAM_VALUE?
-> 
-
-Oh sure lets deal with my complaint about too many ways to configure
-this beast by adding yet another config option :P
-
-seriously though, please no. That just adds another layer of confusion
-even if it is only being foisted on the distro/builder
+-- 
+tejun
