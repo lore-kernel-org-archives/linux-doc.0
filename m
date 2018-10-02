@@ -3,44 +3,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 547677D087
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:04:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 42DFA7D08D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:04:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbeJBHpF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 03:45:05 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:34576 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726836AbeJBHpE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:45:04 -0400
-Received: by mail-io1-f68.google.com with SMTP id k19-v6so304155iom.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:33 -0700 (PDT)
+        id S1726983AbeJBHpG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 03:45:06 -0400
+Received: from mail-it1-f193.google.com ([209.85.166.193]:39462 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726871AbeJBHpF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:45:05 -0400
+Received: by mail-it1-f193.google.com with SMTP id w200-v6so1095656itc.4
+        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=0qW1uF7m4L1ZO2KeQqVjIZsOMVYw9XJu7Iz5ldDGsTM=;
-        b=NDhrsbxuJpH8jCuXv4vA++uSz8lSj1sQmARm/JggoSeY5rzd+87LpdFJG6YVNE5JTC
-         IuuqsE44RAfi7t/wqc2uh4MNhih7NpbPqGZRmhwOAB5T0RyMtBgOU7ui0H709C+WsAON
-         wo4xmL7lr8nSw/gkCJpns1qLaabNLquiH0EM0=
+        bh=N6emET198pDiEm6Vd06hKtPFfJd7JvMik8xEi2V7KFs=;
+        b=SV3VHMjmobqNp5GRVov5pkKZyWI6AY64iPse0eS4cnfn/VMAqhdoH/LkwTwoblVtVJ
+         MtvqXBS1EGe2yoIEZ1k8Ga425P7CpJVh7zMiRi/2YgFEed91VEBUEl8E4lu0uxduZc6k
+         6Fo6pQyQa58xOWZJsPV+IX9wjRlnnuTSDL71E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=0qW1uF7m4L1ZO2KeQqVjIZsOMVYw9XJu7Iz5ldDGsTM=;
-        b=Do9zXFeqAWNVozmqZEPNYvAg3ux0rHIyrC+CEoCqdWqoHgO8kEXTW6Q2mX9J5k5dhC
-         sd7l+wAB9bcd2W3j1fIOdyqkOkU4qh/vzpN/61BR73yOkxkG3ZZI5nLJwLeTf2D5vaav
-         3leNjpi1ip+VrErig6M5pmdwStRncuE8UPqd9Mzz3B7S4vOeL6L0VJ3lxXq7pxrS7WAm
-         0lu9Bky1ayXpk7bGYkBhZULHZ6bhOMwYjsZ/uCkc3YgYitWe/7h30of1SY+hBfIdfJsZ
-         XzIut1M/TXlWVQwp/uYbMasaEYWuHq5dH5SISq6rwtN8hGfTu79xHntah2UgzCE3O+OH
-         FvYQ==
-X-Gm-Message-State: ABuFfoih5/OIO6TUtRSzez2x4Z05ABowEMJcNidEtUgt0zuuF3ZMDK2t
-        ZUJSQp/dDxnYxuJpXr4vEufbTC0R6o4=
-X-Google-Smtp-Source: ACcGV605gnobaiJmFA16xtbVu/9AcHEdLAn7xCklyTmVNdo6+1o9hZHdekNSMlFgBvkhB8xVoYqVcg==
-X-Received: by 2002:a17:902:b212:: with SMTP id t18-v6mr14398304plr.136.1538442273074;
+        bh=N6emET198pDiEm6Vd06hKtPFfJd7JvMik8xEi2V7KFs=;
+        b=X0Qjye4AVE+CAr2OTCzEZCkgNmvFEU7tCT8Cr/fv+MbHKYe0br3dfPcw/0rvMHt4SP
+         WeQp+S5N0hbqXbCrzG52CYSGKhq4vQaEFjM8MwHqqPJbcibZa5PuR8xUM/bB+ZC+stWO
+         I8WpwIjevaHwwavgCsrsmTLuH3ITv1xBFmdlTSDM7hiNuxoaT8CXif01plcbgMn3j9vF
+         7pTXkGv5XdTHEp9Z6/xTRzFkv/QRptvObvwwtLXs81PvKoULpeU/nVn9Wmy5w82bSsow
+         kAezuQQ+4J/o+3JxM6uPVqZleC2Kd8VIW0S8fufXGanKkblaTxnOrJD7Elby4QIqGQU1
+         9Csg==
+X-Gm-Message-State: ABuFfognwWriDp/zXIx3KHDCSZyT+P/1PagNcHEOCbUXUywhl7ezO6XV
+        BIrFr8R2CeVvRNb5IoVgM6GVAQ==
+X-Google-Smtp-Source: ACcGV61tBdvqbTJs1/3KRT+jxW1fP3TEMHRIzvS7NuxvEGl9MOvzhramlGCUoZEt8l2l94zl44HwKQ==
+X-Received: by 2002:a63:c608:: with SMTP id w8-v6mr12440039pgg.16.1538442273937;
         Mon, 01 Oct 2018 18:04:33 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id p3-v6sm19540885pfo.130.2018.10.01.18.04.27
+        by smtp.gmail.com with ESMTPSA id w2-v6sm17058281pfk.140.2018.10.01.18.04.27
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
         Mon, 01 Oct 2018 18:04:29 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -55,9 +55,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v4 20/32] LSM: Refactor "security=" in terms of enable/disable
-Date:   Mon,  1 Oct 2018 17:54:53 -0700
-Message-Id: <20181002005505.6112-21-keescook@chromium.org>
+Subject: [PATCH security-next v4 29/32] LSM: Introduce enum lsm_order
+Date:   Mon,  1 Oct 2018 17:55:02 -0700
+Message-Id: <20181002005505.6112-30-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181002005505.6112-1-keescook@chromium.org>
 References: <20181002005505.6112-1-keescook@chromium.org>
@@ -66,61 +66,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For what are marked as the Legacy Major LSMs, make them effectively
-exclusive when selected on the "security=" boot parameter, to handle
-the future case of when a previously major LSMs become non-exclusive
-(e.g. when TOMOYO starts blob-sharing).
+In preparation for distinguishing the "capability" LSM from other LSMs,
+it must be ordered first. This introduces LSM_ORDER_MUTABLE for the
+general LSMs, LSM_ORDER_FIRST for capabilities, and LSM_ORDER_LAST for
+anything that must run last (e.g. Landlock may use this in the future).
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
 ---
- security/security.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ include/linux/lsm_hooks.h |  7 +++++++
+ security/security.c       | 18 ++++++++++++++++--
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index 63a6caaee8e6..62bc230826e0 100644
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -2041,8 +2041,15 @@ extern void security_add_hooks(struct security_hook_list *hooks, int count,
+ 
+ #define LSM_FLAG_LEGACY_MAJOR	BIT(0)
+ 
++enum lsm_order {
++	LSM_ORDER_FIRST = -1,	/* This is only for capabilities. */
++	LSM_ORDER_MUTABLE = 0,
++	LSM_ORDER_LAST,
++};
++
+ struct lsm_info {
+ 	const char *name;	/* Required. */
++	enum lsm_order order;	/* Optional: default is LSM_ORDER_MUTABLE */
+ 	unsigned long flags;	/* Optional: flags describing LSM */
+ 	int *enabled;		/* Optional: set based on CONFIG_LSM_ENABLE */
+ 	int (*init)(void);	/* Required. */
 diff --git a/security/security.c b/security/security.c
-index 455ba2767965..d7132c181ea6 100644
+index 44c23d23158e..dac379518e60 100644
 --- a/security/security.c
 +++ b/security/security.c
-@@ -103,14 +103,6 @@ static bool __init lsm_allowed(struct lsm_info *lsm)
- 	if (!is_enabled(lsm))
- 		return false;
+@@ -140,7 +140,8 @@ static void __init parse_lsm_order(const char *order, const char *origin)
+ 		bool found = false;
  
--	/* Skip major-specific checks if not a major LSM. */
--	if ((lsm->flags & LSM_FLAG_LEGACY_MAJOR) == 0)
--		return true;
--
--	/* Disabled if this LSM isn't the chosen one. */
--	if (strcmp(lsm->name, chosen_major_lsm) != 0)
--		return false;
--
- 	return true;
- }
+ 		for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
+-			if ((lsm->flags & LSM_FLAG_LEGACY_MAJOR) == 0 &&
++			if (lsm->order == LSM_ORDER_MUTABLE &&
++			    (lsm->flags & LSM_FLAG_LEGACY_MAJOR) == 0 &&
+ 			    strcmp(lsm->name, name) == 0) {
+ 				append_ordered_lsm(lsm, origin);
+ 				found = true;
+@@ -158,6 +159,12 @@ static void __init prepare_lsm_order(void)
+ {
+ 	struct lsm_info *lsm;
  
-@@ -188,8 +180,24 @@ static void __init prepare_lsm_enable(void)
- 	parse_lsm_enable(chosen_lsm_enable, set_enabled, true);
- 	parse_lsm_enable(chosen_lsm_disable, set_enabled, false);
- 
-+	/* Process "security=", if given. */
- 	if (!chosen_major_lsm)
- 		chosen_major_lsm = CONFIG_DEFAULT_SECURITY;
-+	if (chosen_major_lsm) {
-+		struct lsm_info *lsm;
++	/* LSM_ORDER_FIRST is always first. */
++	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
++		if (lsm->order == LSM_ORDER_FIRST)
++			append_ordered_lsm(lsm, "first");
++	}
 +
-+		/*
-+		 * To match the original "security=" behavior, this
-+		 * explicitly does NOT fallback to another Legacy Major
-+		 * if the selected one was separately disabled: disable
-+		 * all non-matching Legacy Major LSMs.
-+		 */
-+		for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
-+			if ((lsm->flags & LSM_FLAG_LEGACY_MAJOR) &&
-+			    strcmp(lsm->name, chosen_major_lsm) != 0)
-+				set_enabled(lsm, false);
-+		}
+ 	/* Parse order from commandline, if present. */
+ 	parse_lsm_order(chosen_lsm_order, "cmdline");
+ 
+@@ -166,9 +173,16 @@ static void __init prepare_lsm_order(void)
+ 
+ 	/* Add any missing LSMs, in link order. */
+ 	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
+-		if ((lsm->flags & LSM_FLAG_LEGACY_MAJOR) == 0)
++		if (lsm->order == LSM_ORDER_MUTABLE &&
++		    (lsm->flags & LSM_FLAG_LEGACY_MAJOR) == 0)
+ 			append_ordered_lsm(lsm, "link-time");
+ 	}
++
++	/* LSM_ORDER_LAST is always last. */
++	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
++		if (lsm->order == LSM_ORDER_LAST)
++			append_ordered_lsm(lsm, "last");
 +	}
  }
  
- /**
+ /* Is an LSM allowed to be initialized? */
 -- 
 2.17.1
 
