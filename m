@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A0D4B7D087
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:04:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B9B47D08D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:04:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbeJBHo7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 03:44:59 -0400
-Received: from mail-it1-f194.google.com ([209.85.166.194]:51266 "EHLO
-        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbeJBHo5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:44:57 -0400
-Received: by mail-it1-f194.google.com with SMTP id 74-v6so1026563itw.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:26 -0700 (PDT)
+        id S1726870AbeJBHpC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 03:45:02 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:54952 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726835AbeJBHpB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:45:01 -0400
+Received: by mail-it1-f195.google.com with SMTP id l191-v6so1002422ita.4
+        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=TJOVK3ymMMejAlxuU1TJP5KKpaIPAoNY/QahRvn63YY=;
-        b=ZsdqSfIGNbNUhHM6zlEaEFFGv3nj9drdpPB8Mt1PGYPbL5KYZehXxoK0eHNYVMlgCj
-         PRw+u2Za+yMrjJl3ijH/HKyhpg2I+2BE4hgpH37xW+/KtJmpxNFkHfjL9bUJsIBuULlU
-         XXk7yIxOOtA/BOYUntvSB7WzxvAXl/UwE9l08=
+        bh=sVOoGnQVVxtCQukk9qvIxsFMi2TMOCjgfBDPf6jS5YQ=;
+        b=oWMa/tn1rXNvp56NZzs7vYF4yF3oxT5MHoSS9c41PHjSgCp2ZUK64Iy0T9L3kshGCo
+         dpda/TnhyAjx43PVZ71axdb0UYPuvx3fIb80UKBkJwKcB1R3Lrz4r9+JSk4GFQ6BFA65
+         iCrps6usAwk6JEQL2Ap9vDKiNcqUyIn6NhLt8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=TJOVK3ymMMejAlxuU1TJP5KKpaIPAoNY/QahRvn63YY=;
-        b=E/F97JvzhGBaU7OG2QZqwjhS3KZGXzS3Swx+AGiqPFBxX6iRPoyP5uvbAfJUzqzbY8
-         +taSGV/v850Fl0XCPXipzT+HXi0lk3Mqo66Gyutd2JLCVwFNyEFwLW4AfsPZozGm/W4T
-         uicwnlPS87PKtsKxc/VQzVIaJiCRaWmykbq6h+I8nh9jKx395JNppqDMoqx4cHV/ENZO
-         mI06ZNrr4EIlP/vQtJK0meknknq/yQ7Oa7IDF5cYhpQmYiosvbBtvrmPqShGBcpKQ4QV
-         pfA+Dh7t1xrX/1M0WraJIFU67wjPNVwJP1xovU9djl1R2tX/A6BnSV04NwCI29c7JIac
-         ju6Q==
-X-Gm-Message-State: ABuFfoj3qptkqCndQ2adk4piIIDiKw30dAnyTTY7Oc18pUhbzoJGimYB
-        DsQhThCQASPTIaRXfH8QM8ziYQ==
-X-Google-Smtp-Source: ACcGV63wWN6vR8b5T4rL69Rt1lzONxTKJR/V7oSgbKmWlib7Vgd4hI6QxRLbvZiBWyuQkP+JNnx3bg==
-X-Received: by 2002:a63:6ce:: with SMTP id 197-v6mr12170408pgg.338.1538442266621;
-        Mon, 01 Oct 2018 18:04:26 -0700 (PDT)
+        bh=sVOoGnQVVxtCQukk9qvIxsFMi2TMOCjgfBDPf6jS5YQ=;
+        b=AteqsoGyXHs3F741uv6QCNWSZLitXCi8zGHHq3+upxqVDBsWgTd1/O1NWvyQyDFSnX
+         /vZE4VLor7/vFNXIbDHOsXyeLdTK+sXHXq1FpCJRLx8m+9A89e/VogF6fwYhhFQe3QAE
+         FUV4WFuwKLc1YsvJRzdDeHnpCgQdjs4b9zdlKJJ7zL1l8VokvKDJ2fI5VGLYzpUJZhKS
+         fuW/LFJpvqeTg422ddFLg1aoRgDUSkOxTqq14nYa56MVTP4a6wo0mDiJG+rdSyPFdl30
+         YNoSxQ/buTVkeQZgYXepO54geOuqhU53XpRoZ6RIYXYffa6iDbDWZLDXf1S90gC/J+Lu
+         gVYA==
+X-Gm-Message-State: ABuFfogbBu0llCr0Km9wMs6KvYq/3CXaFyimXGb0fVz9kyfbiC1wBs9N
+        3soUQAWOglcEfY+FFUb1DSXH3A==
+X-Google-Smtp-Source: ACcGV61gAfz3eq5nRwKSITgdokwgKGzhbAXBNqps58mayyW8EoJld4tsLx4//UvTSWttaRRr6tefNw==
+X-Received: by 2002:a63:a902:: with SMTP id u2-v6mr12305606pge.207.1538442269214;
+        Mon, 01 Oct 2018 18:04:29 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id a79-v6sm22262669pfa.124.2018.10.01.18.04.23
+        by smtp.gmail.com with ESMTPSA id v2-v6sm2793786pfe.6.2018.10.01.18.04.24
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
         Mon, 01 Oct 2018 18:04:24 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -55,9 +55,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v4 19/32] LSM: Prepare for reorganizing "security=" logic
-Date:   Mon,  1 Oct 2018 17:54:52 -0700
-Message-Id: <20181002005505.6112-20-keescook@chromium.org>
+Subject: [PATCH security-next v4 17/32] LSM: Introduce CONFIG_LSM_ENABLE
+Date:   Mon,  1 Oct 2018 17:54:50 -0700
+Message-Id: <20181002005505.6112-18-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181002005505.6112-1-keescook@chromium.org>
 References: <20181002005505.6112-1-keescook@chromium.org>
@@ -66,77 +66,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This moves the string handling for "security=" boot parameter into
-a stored pointer instead of a string duplicate. This will allow
-easier handling of the string when switching logic to use the coming
-enable/disable infrastructure.
+To provide a set of default-enabled LSMs at boot, this introduces the
+new CONFIG_LSM_ENABLE. A value of "all" means all builtin LSMs are
+enabled by default. Any unlisted LSMs will be implicitly disabled
+(excepting those with LSM-specific CONFIGs for enabling/disabling).
+
+The behavior of the LSM-specific CONFIGs for SELinux are AppArmor
+unchanged: the default-enabled state for those LSMs remains controlled
+through their LSM-specific "enable" CONFIGs.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
-Reviewed-by: John Johansen <john.johansen@canonical.com>
 ---
- security/security.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ include/linux/lsm_hooks.h | 2 +-
+ security/Kconfig          | 8 ++++++++
+ security/security.c       | 4 +++-
+ 3 files changed, 12 insertions(+), 2 deletions(-)
 
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index 9ecb623fb39d..fd85637a1931 100644
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -2044,7 +2044,7 @@ extern void security_add_hooks(struct security_hook_list *hooks, int count,
+ struct lsm_info {
+ 	const char *name;	/* Required. */
+ 	unsigned long flags;	/* Optional: flags describing LSM */
+-	int *enabled;		/* Optional: NULL means enabled. */
++	int *enabled;		/* Optional: NULL checks CONFIG_LSM_ENABLE */
+ 	int (*init)(void);	/* Required. */
+ };
+ 
+diff --git a/security/Kconfig b/security/Kconfig
+index 27d8b2688f75..ac23feba584d 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -276,5 +276,13 @@ config DEFAULT_SECURITY
+ 	default "apparmor" if DEFAULT_SECURITY_APPARMOR
+ 	default "" if DEFAULT_SECURITY_DAC
+ 
++config LSM_ENABLE
++	string "LSMs to enable at boot time"
++	default "all"
++	help
++	  A comma-separated list of LSMs to enable by default at boot. The
++	  default is "all", to enable all LSM modules at boot. Any LSMs
++	  not listed here will be disabled by default.
++
+ endmenu
+ 
 diff --git a/security/security.c b/security/security.c
-index 3fff2d1d1ec4..455ba2767965 100644
+index 9459b4ee4fd9..35601000176b 100644
 --- a/security/security.c
 +++ b/security/security.c
-@@ -34,18 +34,14 @@
+@@ -45,6 +45,8 @@ char *lsm_names;
+ static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
+ 	CONFIG_DEFAULT_SECURITY;
  
- #define MAX_LSM_EVM_XATTR	2
- 
--/* Maximum number of letters for an LSM name string */
--#define SECURITY_NAME_MAX	10
--
- struct security_hook_heads security_hook_heads __lsm_ro_after_init;
- static ATOMIC_NOTIFIER_HEAD(lsm_notifier_chain);
- 
- char *lsm_names;
- /* Boot-time LSM user choice */
--static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
--	CONFIG_DEFAULT_SECURITY;
- static __initdata const char *chosen_lsm_enable;
- static __initdata const char *chosen_lsm_disable;
-+static __initdata const char *chosen_major_lsm;
- 
- static __initconst const char * const builtin_lsm_enable = CONFIG_LSM_ENABLE;
- 
-@@ -112,7 +108,7 @@ static bool __init lsm_allowed(struct lsm_info *lsm)
- 		return true;
- 
- 	/* Disabled if this LSM isn't the chosen one. */
--	if (strcmp(lsm->name, chosen_lsm) != 0)
-+	if (strcmp(lsm->name, chosen_major_lsm) != 0)
- 		return false;
- 
- 	return true;
-@@ -191,6 +187,9 @@ static void __init prepare_lsm_enable(void)
- 	/* Process "lsm.enable=" and "lsm.disable=", if given. */
- 	parse_lsm_enable(chosen_lsm_enable, set_enabled, true);
- 	parse_lsm_enable(chosen_lsm_disable, set_enabled, false);
++static __initconst const char * const builtin_lsm_enable = CONFIG_LSM_ENABLE;
 +
-+	if (!chosen_major_lsm)
-+		chosen_major_lsm = CONFIG_DEFAULT_SECURITY;
+ static __initdata bool debug;
+ #define init_debug(...)						\
+ 	do {							\
+@@ -182,7 +184,7 @@ static void __init parse_lsm_enable(const char *str,
+ static void __init prepare_lsm_enable(void)
+ {
+ 	/* Prepare defaults. */
+-	parse_lsm_enable("all", default_enabled, true);
++	parse_lsm_enable(builtin_lsm_enable, default_enabled, true);
  }
  
  /**
-@@ -231,12 +230,12 @@ int __init security_init(void)
- }
- 
- /* Save user chosen LSM */
--static int __init choose_lsm(char *str)
-+static int __init choose_major_lsm(char *str)
- {
--	strncpy(chosen_lsm, str, SECURITY_NAME_MAX);
-+	chosen_major_lsm = str;
- 	return 1;
- }
--__setup("security=", choose_lsm);
-+__setup("security=", choose_major_lsm);
- 
- /* Enable LSM order debugging. */
- static int __init enable_debug(char *str)
 -- 
 2.17.1
 
