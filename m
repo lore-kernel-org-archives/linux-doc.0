@@ -5,27 +5,29 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF15A7D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 15:29:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8AEDE7D090
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 16:26:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727264AbeJBWM6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 18:12:58 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:60370 "EHLO mail.skyhub.de"
+        id S1729073AbeJBXKa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 19:10:30 -0400
+Received: from mga17.intel.com ([192.55.52.151]:35277 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726330AbeJBWM6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Oct 2018 18:12:58 -0400
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id uDytq2NR1IPx; Tue,  2 Oct 2018 17:29:01 +0200 (CEST)
-Received: from zn.tnic (p200300EC2BC64F00329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2bc6:4f00:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id CCAC01EC021C;
-        Tue,  2 Oct 2018 17:29:00 +0200 (CEST)
-Date:   Tue, 2 Oct 2018 17:29:03 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        id S1727351AbeJBXKa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Oct 2018 19:10:30 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Oct 2018 09:26:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,332,1534834800"; 
+   d="scan'208";a="96798264"
+Received: from 2b52.sc.intel.com ([143.183.136.147])
+  by orsmga002.jf.intel.com with ESMTP; 02 Oct 2018 09:25:59 -0700
+Message-ID: <ba13d643c21de8e1e01a8d528457fb5dd82c42aa.camel@intel.com>
+Subject: Re: [RFC PATCH v4 02/27] x86/fpu/xstate: Change some names to
+ separate XSAVES system and user states
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Borislav Petkov <bp@alien8.de>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -47,35 +49,34 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v4 02/27] x86/fpu/xstate: Change some names to
- separate XSAVES system and user states
-Message-ID: <20181002152903.GB29601@zn.tnic>
+Date:   Tue, 02 Oct 2018 09:21:18 -0700
+In-Reply-To: <20181002152903.GB29601@zn.tnic>
 References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
- <20180921150351.20898-3-yu-cheng.yu@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+         <20180921150351.20898-3-yu-cheng.yu@intel.com>
+         <20181002152903.GB29601@zn.tnic>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180921150351.20898-3-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 21, 2018 at 08:03:26AM -0700, Yu-cheng Yu wrote:
-> To support XSAVES system states, change some names to distinguish
-> user and system states.
+On Tue, 2018-10-02 at 17:29 +0200, Borislav Petkov wrote:
+> On Fri, Sep 21, 2018 at 08:03:26AM -0700, Yu-cheng Yu wrote:
+> > To support XSAVES system states, change some names to distinguish
+> > user and system states.
+> 
+> I don't understand what the logic here is. SDM says:
+> 
+> XSAVES—Save Processor Extended States Supervisor
+> 
+> the stress being on "Supervisor" - why does it need to be renamed to
+> "system" now?
+> 
 
-I don't understand what the logic here is. SDM says:
+Good point.  However, "system" is more indicative; CET states are per-task and
+not "Supervisor".  Do we want to go back to "Supervisor" or add comments?
 
-XSAVES—Save Processor Extended States Supervisor
-
-the stress being on "Supervisor" - why does it need to be renamed to
-"system" now?
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+Yu-cheng
