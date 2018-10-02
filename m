@@ -2,186 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 696017D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 17:15:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D57A7D087
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 17:43:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726274AbeJCAAT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 20:00:19 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:35956 "EHLO mail.skyhub.de"
+        id S1727583AbeJCA1q convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 20:27:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34106 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725953AbeJCAAT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Oct 2018 20:00:19 -0400
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id FOclop3Z8WOr; Tue,  2 Oct 2018 19:15:52 +0200 (CEST)
-Received: from zn.tnic (p200300EC2BC64F00329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2bc6:4f00:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727449AbeJCA1q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Oct 2018 20:27:46 -0400
+Received: from smtp.corp.redhat.com (int-mx12.intmail.prod.int.phx2.redhat.com [10.5.11.27])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7C38B1EC02D1;
-        Tue,  2 Oct 2018 19:15:52 +0200 (CEST)
-Date:   Tue, 2 Oct 2018 19:15:54 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        by mx1.redhat.com (Postfix) with ESMTPS id 155F78764F;
+        Tue,  2 Oct 2018 17:43:15 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 94FB59D80A;
+        Tue,  2 Oct 2018 17:43:13 +0000 (UTC)
+Subject: Re: [PATCH v8 3/5] ipc: Allow boot time extension of IPCMNI from 32k
+ to 2M
+To:     Manfred Spraul <manfred@colorfullife.com>,
+        Davidlohr Bueso <dave@stgolabs.net>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v4 03/27] x86/fpu/xstate: Enable XSAVES system states
-Message-ID: <20181002171554.GE29601@zn.tnic>
-References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
- <20180921150351.20898-4-yu-cheng.yu@intel.com>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>
+References: <1529317698-16575-1-git-send-email-longman@redhat.com>
+ <1529317698-16575-4-git-send-email-longman@redhat.com>
+ <20180817164548.GA32382@linux-r8p5>
+ <5ddb67bb-872b-c8c1-7838-2622195ae1fc@redhat.com>
+ <02ebafee-a295-58cf-044e-e2df0e878e0d@colorfullife.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <8c9dda74-c9fb-cc18-5af4-c081dbb8b154@redhat.com>
+Date:   Tue, 2 Oct 2018 13:43:13 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
+In-Reply-To: <02ebafee-a295-58cf-044e-e2df0e878e0d@colorfullife.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20180921150351.20898-4-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.27
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Tue, 02 Oct 2018 17:43:15 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 21, 2018 at 08:03:27AM -0700, Yu-cheng Yu wrote:
-> XSAVES saves both system and user states.  The Linux kernel
-> currently does not save/restore any system states.  This patch
-> creates the framework for supporting system states.
+On 10/02/2018 12:32 PM, Manfred Spraul wrote:
+> Hello together,
+>
+> On 8/18/18 3:15 AM, Waiman Long wrote:
+>> On 08/17/2018 12:45 PM, Davidlohr Bueso wrote:
+>>> Cc'ing Manfred.
+>>>
+>>> On Mon, 18 Jun 2018, Waiman Long wrote:
+>>>
+>>>> The maximum number of unique System V IPC identifiers was limited to
+>>>> 32k.  That limit should be big enough for most use cases.
+>>>>
+>>>> However, there are some users out there requesting for more. To
+>>>> satisfy
+>>>> the need of those users, a new boot time kernel option "ipcmni_extend"
+>>>> is added to extend the IPCMNI value to 2M. This is a 64X increase
+>>>> which
+>>>> hopefully is big enough for them.
+>>> Could you please provide more info on the need of these users and how
+>>> you came up with this new value (which just seems quite arbitrary)?
+>>>
+>>> Thanks,
+>>> Davidlohr
+>> Red Hat has a customer that is migrating from Solaris to Linux. Some of
+>> their applications just happen to use more than 32k of shared memory
+>> segments. I think Solaris allows up to 16M unique ID.
+>>
+>> Yes, the amount of increase is a bit arbitrary. I was trying to balance
+>> how many bits should be left for sequence number. Maybe I should just
+>> take 8 more bits for ID and leave 8 bits for sequence number to match
+>> Solaris.
+>
+> - I think we should use the same numbers as Solaris.
+> Otherwise we later have to touch it again.
 
-... and needs a lot more text explaining *why* it is doing that.
+As said in my patch, it is a trade-off between # of uniq identifiers
+versus the chance of id reuse. I don't have an objection to increase it
+further, but I don't see the customers to really need such a large value.
 
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/asm/fpu/internal.h |   3 +-
->  arch/x86/include/asm/fpu/xstate.h   |   9 ++-
->  arch/x86/kernel/fpu/core.c          |   7 +-
->  arch/x86/kernel/fpu/init.c          |  10 ---
->  arch/x86/kernel/fpu/xstate.c        | 112 +++++++++++++++++-----------
->  5 files changed, 80 insertions(+), 61 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/fpu/internal.h b/arch/x86/include/asm/fpu/internal.h
-> index f1f9bf91a0ab..1f447865db3a 100644
-> --- a/arch/x86/include/asm/fpu/internal.h
-> +++ b/arch/x86/include/asm/fpu/internal.h
-> @@ -45,7 +45,6 @@ extern void fpu__init_cpu_xstate(void);
->  extern void fpu__init_system(struct cpuinfo_x86 *c);
->  extern void fpu__init_check_bugs(void);
->  extern void fpu__resume_cpu(void);
-> -extern u64 fpu__get_supported_xfeatures_mask(void);
->  
->  /*
->   * Debugging facility:
-> @@ -94,7 +93,7 @@ static inline void fpstate_init_xstate(struct xregs_state *xsave)
->  	 * trigger #GP:
->  	 */
->  	xsave->header.xcomp_bv = XCOMP_BV_COMPACTED_FORMAT |
-> -			xfeatures_mask_user;
-> +			xfeatures_mask_all;
->  }
->  
->  static inline void fpstate_init_fxstate(struct fxregs_state *fx)
-> diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
-> index 9b382e5157ed..a32dc5f8c963 100644
-> --- a/arch/x86/include/asm/fpu/xstate.h
-> +++ b/arch/x86/include/asm/fpu/xstate.h
-> @@ -19,10 +19,10 @@
->  #define XSAVE_YMM_SIZE	    256
->  #define XSAVE_YMM_OFFSET    (XSAVE_HDR_SIZE + XSAVE_HDR_OFFSET)
->  
-> -/* System features */
-> -#define XFEATURE_MASK_SYSTEM (XFEATURE_MASK_PT)
+>
+> - What is the performance when using shmget() with already 10M
+> segments present?
 
-Previous patch renames it, this patch deletes it. Why do we need all
-that unnecessary churn?
+I am not sure the performance impact as I had not measure it myself. The
+shmget() function is considered in slowpath. We are generally less
+concern about its performance than other code paths that are in a
+performance critical path.
 
-Also, this patch is trying to do a couple of things at once and
-reviewing it is not trivial. Please split the changes logically.
+>
+> - I like the new logic for updating the sequence counter.
+>
+> Is there a reason why you only enable it for extended mode?
 
-> diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-> index 19f8df54c72a..dd2c561c4544 100644
-> --- a/arch/x86/kernel/fpu/xstate.c
-> +++ b/arch/x86/kernel/fpu/xstate.c
-> @@ -51,13 +51,16 @@ static short xsave_cpuid_features[] __initdata = {
->  };
->  
->  /*
-> - * Mask of xstate features supported by the CPU and the kernel:
-> + * Mask of xstate features supported by the CPU and the kernel.
-> + * This is the result from CPUID query, SUPPORTED_XFEATURES_MASK,
-> + * and boot_cpu_has().
->   */
+I tried not to disturb the existing logic for backward compatibility
+concern. I don't mind switching it all over to use the new "deleted"
+approach if other people have no objection.
 
-This needs to explain what both masks are - user and system. "CPU" and
-"kernel" is not "user" and "all".
+Cheers,
+Longman
 
->  u64 xfeatures_mask_user __read_mostly;
-> +u64 xfeatures_mask_all __read_mostly;
+> You create a rarely used codepath, and I don't understand what speaks
+> against switching to the 'deleted' approach for all systems.
+>
+>
+> -- 
+>
+>     Manfred
+>
 
 
-
-> @@ -219,30 +222,31 @@ void fpstate_sanitize_xstate(struct fpu *fpu)
->   */
->  void fpu__init_cpu_xstate(void)
->  {
-> -	if (!boot_cpu_has(X86_FEATURE_XSAVE) || !xfeatures_mask_user)
-> +	if (!boot_cpu_has(X86_FEATURE_XSAVE) || !xfeatures_mask_all)
->  		return;
-> +
-> +	cr4_set_bits(X86_CR4_OSXSAVE);
-> +
->  	/*
-> -	 * Make it clear that XSAVES system states are not yet
-> -	 * implemented should anyone expect it to work by changing
-> -	 * bits in XFEATURE_MASK_* macros and XCR0.
-> +	 * XCR_XFEATURE_ENABLED_MASK sets the features that are managed
-> +	 * by XSAVE{C, OPT} and XRSTOR.  Only XSAVE user states can be
-> +	 * set here.
->  	 */
-> -	WARN_ONCE((xfeatures_mask_user & XFEATURE_MASK_SYSTEM),
-> -		"x86/fpu: XSAVES system states are not yet implemented.\n");
-> +	xsetbv(XCR_XFEATURE_ENABLED_MASK,
-> +	       xfeatures_mask_user);
-
-No need to break the line here.
-
-Also, you have a couple more places in your patches where you
-unnecessarily break lines. Please don't do that, even if it exceeds 80
-cols by a couple of chars.
-
->  
-> -	xfeatures_mask_user &= ~XFEATURE_MASK_SYSTEM;
-> -
-> -	cr4_set_bits(X86_CR4_OSXSAVE);
-> -	xsetbv(XCR_XFEATURE_ENABLED_MASK, xfeatures_mask_user);
-> +	/*
-> +	 * MSR_IA32_XSS sets which XSAVES system states to be managed by
-> +	 * XSAVES.  Only XSAVES system states can be set here.
-> +	 */
-> +	if (boot_cpu_has(X86_FEATURE_XSAVES))
-> +		wrmsrl(MSR_IA32_XSS,
-> +		       xfeatures_mask_all & ~xfeatures_mask_user);
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
