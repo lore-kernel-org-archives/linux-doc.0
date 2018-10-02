@@ -3,46 +3,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 571867D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:05:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCF097D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:05:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbeJBHpt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 03:45:49 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:34571 "EHLO
+        id S1726823AbeJBHpA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 03:45:00 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:36968 "EHLO
         mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726697AbeJBHpC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:45:02 -0400
-Received: by mail-io1-f68.google.com with SMTP id k19-v6so304064iom.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:31 -0700 (PDT)
+        with ESMTP id S1726720AbeJBHo7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:44:59 -0400
+Received: by mail-io1-f68.google.com with SMTP id v14-v6so289611iob.4
+        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=9HNh3Q4VSJQ5w/3yyHsrKc9aYEok0he5oMNhPVupBp4=;
-        b=Lh2KYIUDEd873+dDWgH/cRt/83/GRJbzYnB+K7WwzMFcXv9oqBIRx1erTG1iww0Qcs
-         TdP6+oIvl5oYuf4q6zNuKng8aGp03W6hekBu71VCaPIpvOdQZwy9HZN9cz9LvUICACRs
-         baq7BtEIffeKPzNXwFBAjzEO5c+UoDEbP9KTQ=
+        bh=ks3HdAgDKLMMPmesm6MVfQ5et4OmzqciJ/tnMRsEDA8=;
+        b=PU3VlaY/JJxOXfVs1rxXb/rtRH+f+o/ysjXlqktQ0scZ98ix2EBT9uYMAlSLWhHAgb
+         kYovQAdSj5zeNBmWXdY6TAUA+LqS6IIZIwjObdlfUHccDRhlkel3XnNEFeB6cDNBrgaK
+         4x4+vpRp4BAl6ses/FATsmZJWY7cNA3BfcScc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=9HNh3Q4VSJQ5w/3yyHsrKc9aYEok0he5oMNhPVupBp4=;
-        b=HwIwhd6rUjqhDjmeIOTCM2rNkFlWDrAZx+xnMtGWmZXAxiVfroF8pLlZSniyzqEGfn
-         pV7MkANUHeNU/FbXm/wqx+YOaj4aOCPPc30tKyPfoh5cV9rwzADK0WT2OtoGdlMsyo5S
-         47kM7mGmjJu5MaQagRCN8Nro5d9CPaBnumDiHbX3unkYm5sJ5F9Wq1CkC1FzN2tKQwvs
-         Gtw3QcAnXOojUKEqLtfAu7SLmN7IkBZ+dBdEew0FRSYYKyZPsnXrSwWWVZpp+0lwHqci
-         97XkOXEdnnus+ov0IJ0Rma29OQ0o4gpiVb64kgDNkkY+euItpoUpn1MSjDr7vFclumry
-         yJcQ==
-X-Gm-Message-State: ABuFfogUTA3eqzToLy5Fd6up8+ezT4hYkLqTTcO25v/n3t01kOxRyDGC
-        H+sI0+2ZSjDkhixNu0yKOoPyAQ==
-X-Google-Smtp-Source: ACcGV61p+6jux778ZBLbYvLQR8FnTRc24YhLc4vSgLatG/TNAzLVvla8MMwQU8ljRvMGsZAFhu2JBw==
-X-Received: by 2002:a17:902:f01:: with SMTP id 1-v6mr14341449ply.8.1538442271325;
-        Mon, 01 Oct 2018 18:04:31 -0700 (PDT)
+        bh=ks3HdAgDKLMMPmesm6MVfQ5et4OmzqciJ/tnMRsEDA8=;
+        b=L3tpycld670Pf02zR2XHI8i14Z+pLmfDq8DRF7CTknmTnvxCcveqnGv4bnenA9UvQc
+         5GMKmsQKd/6WFLYJiC+DLVrrfImT4groIiql2DWAyHJCt/65Wsm2TNRKNn9XcFANqqz9
+         kBPVbwD/F5NTq1fxq3PEDqBnRUQPaTzqtSdP4t4CPn/VIp8j1kEVii/GQGm5q0HNLfSf
+         JRQVSUaHfeoqIL2Yfypd7CIHkjZ0Hay/nLODC5+EvHdJZ7g320jqIcCZWoX/4IBjU9Fu
+         xQiCA/4cZbUkM5akPMDpR4gGfEPhCwmp1QPOx0ETBkj14PWr8MGzvPX8xz0KQuqNC5R8
+         TJjA==
+X-Gm-Message-State: ABuFfogCIdSQ8PmG33BXwjujIeWcM2XVM/oK0F0MHVhNqBmUYngH14Qq
+        u/8TcKv9h1ve0dtBQpzr2NkLMA==
+X-Google-Smtp-Source: ACcGV62y3FiVazsys9HJMkgofRwcIjXme51N9qYTXIuCfyzTJ5a4dq9OZMwYYg0P4bdFXsiVxkxu2Q==
+X-Received: by 2002:a17:902:8a89:: with SMTP id p9-v6mr14549464plo.183.1538442267459;
+        Mon, 01 Oct 2018 18:04:27 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id h132-v6sm22420511pfc.100.2018.10.01.18.04.27
+        by smtp.gmail.com with ESMTPSA id 187-v6sm26488822pfu.129.2018.10.01.18.04.23
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 01 Oct 2018 18:04:29 -0700 (PDT)
+        Mon, 01 Oct 2018 18:04:24 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     James Morris <jmorris@namei.org>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -55,9 +55,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v4 22/32] apparmor: Remove boot parameter
-Date:   Mon,  1 Oct 2018 17:54:55 -0700
-Message-Id: <20181002005505.6112-23-keescook@chromium.org>
+Subject: [PATCH security-next v4 16/32] LSM: Prepare for arbitrary LSM enabling
+Date:   Mon,  1 Oct 2018 17:54:49 -0700
+Message-Id: <20181002005505.6112-17-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181002005505.6112-1-keescook@chromium.org>
 References: <20181002005505.6112-1-keescook@chromium.org>
@@ -66,86 +66,124 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since LSM enabling is now centralized with CONFIG_LSM_ENABLE and
-"lsm.enable=...", this removes the LSM-specific enabling logic from
-AppArmor, though it leaves the existing userspace API visibility into
-/sys/module/apparmor/parameters/enabled.
+Before now, all the LSMs that did not specify an "enable" variable in their
+struct lsm_info were considered enabled by default. This prepares to make
+LSM enabling more explicit. For all LSMs without an explicit "enable"
+variable, a hard-coded storage location is chosen, and all LSMs without
+an external "enable" state have their state explicitly set to "enabled".
 
-Co-developed-by: John Johansen <john.johansen@canonical.com>
+This code appears more complex than it needs to be (comma-separated
+list parsing and "set" function parameter) because its use will be
+expanded on in the following patches to provide more explicit enabling.
+
 Signed-off-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
+Reviewed-by: John Johansen <john.johansen@canonical.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt |  7 -------
- security/apparmor/Kconfig                       | 16 ----------------
- security/apparmor/lsm.c                         |  7 ++-----
- 3 files changed, 2 insertions(+), 28 deletions(-)
+ security/security.c | 69 ++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 65 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f646cfab5613..cf963febebb0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4054,13 +4054,6 @@
- 			If enabled at boot time, /selinux/disable can be used
- 			later to disable prior to initial policy load.
+diff --git a/security/security.c b/security/security.c
+index 4e5e67b82b7b..9459b4ee4fd9 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -54,17 +54,46 @@ static __initdata bool debug;
  
--	apparmor=	[APPARMOR] Disable or enable AppArmor at boot time
--			Format: { "0" | "1" }
--			See security/apparmor/Kconfig help text
--			0 -- disable.
--			1 -- enable.
--			Default value is set via kernel config option.
--
- 	serialnumber	[BUGS=X86-32]
- 
- 	shapers=	[NET]
-diff --git a/security/apparmor/Kconfig b/security/apparmor/Kconfig
-index b6b68a7750ce..3de21f46c82a 100644
---- a/security/apparmor/Kconfig
-+++ b/security/apparmor/Kconfig
-@@ -14,22 +14,6 @@ config SECURITY_APPARMOR
- 
- 	  If you are unsure how to answer this question, answer N.
- 
--config SECURITY_APPARMOR_BOOTPARAM_VALUE
--	int "AppArmor boot parameter default value"
--	depends on SECURITY_APPARMOR
--	range 0 1
--	default 1
--	help
--	  This option sets the default value for the kernel parameter
--	  'apparmor', which allows AppArmor to be enabled or disabled
--          at boot.  If this option is set to 0 (zero), the AppArmor
--	  kernel parameter will default to 0, disabling AppArmor at
--	  boot.  If this option is set to 1 (one), the AppArmor
--	  kernel parameter will default to 1, enabling AppArmor at
--	  boot.
--
--	  If you are unsure how to answer this question, answer 1.
--
- config SECURITY_APPARMOR_HASH
- 	bool "Enable introspection of sha1 hashes for loaded profiles"
- 	depends on SECURITY_APPARMOR
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index bc56b058dc75..4cd96a66ed6f 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1303,15 +1303,12 @@ bool aa_g_paranoid_load = true;
- module_param_named(paranoid_load, aa_g_paranoid_load, aabool, S_IRUGO);
- 
- /* Boot time disable flag */
--static int apparmor_enabled = CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE;
-+static int apparmor_enabled __lsm_ro_after_init;
- module_param_named(enabled, apparmor_enabled, int, 0444);
- 
- static int __init apparmor_enabled_setup(char *str)
+ static bool __init is_enabled(struct lsm_info *lsm)
  {
--	unsigned long enabled;
--	int error = kstrtoul(str, 0, &enabled);
--	if (!error)
--		apparmor_enabled = enabled ? 1 : 0;
-+	pr_err("Boot param 'apparmor=' ignored. Use 'lsm.disable=apparmor'\n");
- 	return 1;
+-	if (!lsm->enabled || *lsm->enabled)
+-		return true;
++	if (WARN_ON(!lsm->enabled))
++		return false;
+ 
+-	return false;
++	return *lsm->enabled;
  }
  
+ /* Mark an LSM's enabled flag, if it exists. */
+-static void __init set_enabled(struct lsm_info *lsm, bool enabled)
++static int lsm_enabled_true __initdata = 1;
++static int lsm_enabled_false __initdata = 0;
++
++static void __init default_enabled(struct lsm_info *lsm, bool enabled)
+ {
++	/* If storage location already set, skip this one. */
+ 	if (lsm->enabled)
++		return;
++
++	/*
++	 * When an LSM hasn't configured an enable variable, we can use
++	 * a hard-coded location for storing the default enabled state.
++	 */
++	if (enabled)
++		lsm->enabled = &lsm_enabled_true;
++	else
++		lsm->enabled = &lsm_enabled_false;
++}
++
++static void __init set_enabled(struct lsm_info *lsm, bool enabled)
++{
++	if (WARN_ON(!lsm->enabled))
++		return;
++
++	if (lsm->enabled == &lsm_enabled_true) {
++		if (!enabled)
++			lsm->enabled = &lsm_enabled_false;
++	} else if (lsm->enabled == &lsm_enabled_false) {
++		if (enabled)
++			lsm->enabled = &lsm_enabled_true;
++	} else {
+ 		*lsm->enabled = enabled;
++	}
+ }
+ 
+ /* Is an LSM allowed to be initialized? */
+@@ -127,6 +156,35 @@ static void __init major_lsm_init(void)
+ 	}
+ }
+ 
++static void __init parse_lsm_enable(const char *str,
++				    void (*set)(struct lsm_info *, bool),
++				    bool enabled)
++{
++	char *sep, *name, *next;
++
++	if (!str)
++		return;
++
++	sep = kstrdup(str, GFP_KERNEL);
++	next = sep;
++	while ((name = strsep(&next, ",")) != NULL) {
++		struct lsm_info *lsm;
++
++		for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
++			if (strcmp(name, "all") == 0 ||
++			    strcmp(name, lsm->name) == 0)
++				set(lsm, enabled);
++		}
++	}
++	kfree(sep);
++}
++
++static void __init prepare_lsm_enable(void)
++{
++	/* Prepare defaults. */
++	parse_lsm_enable("all", default_enabled, true);
++}
++
+ /**
+  * security_init - initializes the security framework
+  *
+@@ -143,6 +201,9 @@ int __init security_init(void)
+ 	     i++)
+ 		INIT_HLIST_HEAD(&list[i]);
+ 
++	/* Figure out which LSMs are enabled and disabled. */
++	prepare_lsm_enable();
++
+ 	/*
+ 	 * Load minor LSMs, with the capability module always first.
+ 	 */
 -- 
 2.17.1
 
