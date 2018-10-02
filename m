@@ -1,182 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 106427D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:05:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5AB487D08D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 01:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726396AbeJBHo7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Oct 2018 03:44:59 -0400
-Received: from mail-it1-f193.google.com ([209.85.166.193]:37376 "EHLO
-        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726276AbeJBHo6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:44:58 -0400
-Received: by mail-it1-f193.google.com with SMTP id m9-v6so1116179ita.2
-        for <linux-doc@vger.kernel.org>; Mon, 01 Oct 2018 18:04:26 -0700 (PDT)
+        id S1727345AbeJBHqI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Oct 2018 03:46:08 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:35347 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726803AbeJBHqH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Oct 2018 03:46:07 -0400
+Received: by mail-io1-f66.google.com with SMTP id w11-v6so299425iob.2;
+        Mon, 01 Oct 2018 18:05:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=0RYipdsIhsetP9y77Y83cY+AYnVXjoUOFr0d0L1Gup4=;
-        b=WEfbzd0L4U24y99D5LFveDvCDTC2jDhleO7GYaIn21f52QkqSxmL7zow5OZDB6DGLy
-         UcgA6UvB3ar3il1u9qh29ybZoPMhAWAhAtczzIcPWb19JAa5U/3mpQrhCKsLUPbIQZGJ
-         2YQahoVdMA460SQ0PtPTgn/N1srQmFlB322ss=
+        bh=/wIq9IFwVJHrQLumNYDLwrD02H3CSb5KOfmjnOjo7lE=;
+        b=PG32msl2xsabBXOWKmt+d7NODHvYjTiCwFDhqhjqt1ep6hzpqjCHBjwt+DlrlxDaz7
+         NQm3e/rFgl1GdikY2+tJXSKKCZDNMIXxtF+GAudlyXbRzo4Nb31ypmuTX8jF67gLP4VP
+         umHy301m4yjbO21yr1ysyJDZ44AMflwFryYEkPOteyyvbCzufRHSYhG53vP9LKiN1pq3
+         TuuB4aYepEqyeOtQkM1+OlObA5e4jHtbAw+3/sSJIR8N9YgkYoeOASKfXHweCG7XQW14
+         TeiXVrmU9ES/cxxZ9WhYutayUDPVORt1hD+r+62SToHw58uaVI/TpNKr0V8C8NPTsoR4
+         wGYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=0RYipdsIhsetP9y77Y83cY+AYnVXjoUOFr0d0L1Gup4=;
-        b=WHWJkbLRmIivdaW9Ydqvto//4W1LWW2Gyw7ZP//K6H2b1K+aBou9gAcQYO9gWdtR5m
-         ScDuA2YbKj6Fj/UHc6x6xcQIzDmp603/2wZydHZu/Jh/CxNr5Ad6u5IZ5C/rFC+GwAPn
-         M7wLZ2PkoXkTJr1Rc3j6SR7Bu/iqM9ywwIH2Lz6HqNwt5MmsykF7nTJ+GKPDtU399XfZ
-         8FN4wN+XBUu4oT3nGHWqgPsZWbHNXlaGwB40bgn43ArIYoNAaNnkyIp7YccQ1x4wnK8F
-         L73Ja5dJHQ0s15iEBc0Z8uBGKosum79Hwp0SK/N+jtTIHSCARGLFaA3vcAkSoWrNyUHu
-         Yr4w==
-X-Gm-Message-State: ABuFfohyt36EKiTGC+G95wC4GpWFq5U/eaGd8I5qhHKx/6pZUiJpOD+5
-        q6werNGbfMm0jNrOvu3sFZ/rcg==
-X-Google-Smtp-Source: ACcGV60efYAt7b30NyxgEaD1regdxKPx79Oq12am8usQIO4dJRW8ygNRFu5Dhr1PSd0MwqicM9r/SQ==
-X-Received: by 2002:a63:6ec4:: with SMTP id j187-v6mr12395919pgc.3.1538442265802;
-        Mon, 01 Oct 2018 18:04:25 -0700 (PDT)
-Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id c2-v6sm19748936pfo.107.2018.10.01.18.04.23
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 01 Oct 2018 18:04:24 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     James Morris <jmorris@namei.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Paul Moore <paul@paul-moore.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v4 18/32] LSM: Introduce lsm.enable= and lsm.disable=
-Date:   Mon,  1 Oct 2018 17:54:51 -0700
-Message-Id: <20181002005505.6112-19-keescook@chromium.org>
+        bh=/wIq9IFwVJHrQLumNYDLwrD02H3CSb5KOfmjnOjo7lE=;
+        b=UyKaqMWQVk4GVggFU7oGj9SOcX0A9lUw33MiTVzWI0lqWzi8I3cq7rAgxJ7E6yxplT
+         b42I2CLspjITc9hwTcfOxwq69YTEC9EaOdcubREz6qPfPsANd2jQRLu7PoVZpYuNmIYu
+         XBXMK824xVdsjEujUNb0xSKGuOiKV0zt+qu+UQpTDUwd20FtFNrrv9Ulte6uKcKDJhYG
+         G22d0mPCcUQq4V+OuUUmINTCzXo/ejuLWNitNqHQENqgZl9EN1WiY1uRkOLE61lqDJJw
+         Q5YDJG14NKX5Cgn62lF0DHVM/rB3KYOlZJdMnN3NLKcjRSrOLVDeZKbp1Zv8iFR9Ozj0
+         8Agw==
+X-Gm-Message-State: ABuFfojqImq6P1D5gkCc+Oa7XSloclbCinOztgF7utfz6dTwau5JWVpF
+        0bmXkxDcq8g4iyDDRCE/M8M=
+X-Google-Smtp-Source: ACcGV61WvI4jO78o8phv7VgMq6bGCFsdbLVQcAOmkAHJf3tpiVQL7aFCfLv48x0FdD/xAh9bfgPm9Q==
+X-Received: by 2002:a62:4ec9:: with SMTP id c192-v6mr13907012pfb.221.1538442335411;
+        Mon, 01 Oct 2018 18:05:35 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id x20-v6sm26084959pfe.131.2018.10.01.18.05.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 01 Oct 2018 18:05:34 -0700 (PDT)
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
+        mark.rutland@arm.com, corbet@lwn.net
+Cc:     afd@ti.com, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v9 1/2] dt-bindings: hwmon: Add ina3221 documentation
+Date:   Mon,  1 Oct 2018 18:05:22 -0700
+Message-Id: <20181002010523.2019-2-nicoleotsuka@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181002005505.6112-1-keescook@chromium.org>
-References: <20181002005505.6112-1-keescook@chromium.org>
+In-Reply-To: <20181002010523.2019-1-nicoleotsuka@gmail.com>
+References: <20181002010523.2019-1-nicoleotsuka@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This introduces the "lsm.enable=..." and "lsm.disable=..." boot parameters
-which each can contain a comma-separated list of LSMs to enable or
-disable, respectively. The string "all" matches all LSMs.
+Texas Instruments INA3221 is a triple-channel shunt and bus
+voltage monitor. This patch adds a DT binding doc for it.
 
-This has very similar functionality to the existing per-LSM enable
-handling ("apparmor.enabled=...", etc), but provides a centralized
-place to perform the changes. These parameters take precedent over any
-LSM-specific boot parameters.
-
-Disabling an LSM means it will not be considered when performing
-initializations. Enabling an LSM means either undoing a previous
-LSM-specific boot parameter disabling or a undoing a default-disabled
-CONFIG setting.
-
-For example: "lsm.disable=apparmor apparmor.enabled=1" will result in
-AppArmor being disabled. "selinux.enabled=0 lsm.enable=selinux" will
-result in SELinux being enabled.
-
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
+Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
 ---
- .../admin-guide/kernel-parameters.txt         | 12 ++++++++++
- security/Kconfig                              |  4 +++-
- security/security.c                           | 22 +++++++++++++++++++
- 3 files changed, 37 insertions(+), 1 deletion(-)
+Changelog
+v7->v9:
+ * N/A
+v6->v7:
+ * Restored three channel examples and merged them with the parent one
+v5->v6:
+ * Removed status property as no need to explicitly list it.
+ * Combined all examples into a complete one.
+v4->v5:
+ * Replaced "input-id" with "reg" and added address-cells and size-cells
+ * Replaced "input-label" with "label"
+ * Replaced "shunt-resistor" with "shunt-resistor-micro-ohms"
+v3->v4:
+ * Removed the attempt of putting labels in the node names
+ * Added a new optional label property in the child node
+ * Updated examples accordingly
+v2->v3:
+ * Added a simple subject in the line 1
+ * Fixed the shunt resistor value in the example
+v1->v2:
+ * Dropped channel name properties
+ * Added child node definitions.
+ * * Added shunt resistor property in the child node
+ * * Added status property to indicate connection status
+ * * Changed to use child node name as the label of input source
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 32d323ee9218..67c90985d2b8 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2276,6 +2276,18 @@
- 
- 	lsm.debug	[SECURITY] Enable LSM initialization debugging output.
- 
-+	lsm.disable=lsm1,...,lsmN
-+			[SECURITY] Comma-separated list of LSMs to disable
-+			at boot time. This overrides "lsm.enable=",
-+			CONFIG_LSM_ENABLE, and any per-LSM CONFIGs and boot
-+			parameters.
+ .../devicetree/bindings/hwmon/ina3221.txt     | 44 +++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ina3221.txt
+
+diff --git a/Documentation/devicetree/bindings/hwmon/ina3221.txt b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+new file mode 100644
+index 000000000000..a7b25caa2b8e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/ina3221.txt
+@@ -0,0 +1,44 @@
++Texas Instruments INA3221 Device Tree Bindings
 +
-+	lsm.enable=lsm1,...,lsmN
-+			[SECURITY] Comma-separated list of LSMs to enable
-+			at boot time. This overrides any omissions from
-+			CONFIG_LSM_ENABLE, and any per-LSM CONFIGs and
-+			boot parameters.
++1) ina3221 node
++  Required properties:
++  - compatible: Must be "ti,ina3221"
++  - reg: I2C address
 +
- 	machvec=	[IA-64] Force the use of a particular machine-vector
- 			(machvec) in a generic kernel.
- 			Example: machvec=hpzx1_swiotlb
-diff --git a/security/Kconfig b/security/Kconfig
-index ac23feba584d..1e57619fd561 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -282,7 +282,9 @@ config LSM_ENABLE
- 	help
- 	  A comma-separated list of LSMs to enable by default at boot. The
- 	  default is "all", to enable all LSM modules at boot. Any LSMs
--	  not listed here will be disabled by default.
-+	  not listed here will be disabled by default. This can be
-+	  changed with the "lsm.enable=" and "lsm.disable=" boot
-+	  parameters.
- 
- endmenu
- 
-diff --git a/security/security.c b/security/security.c
-index 35601000176b..3fff2d1d1ec4 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -44,6 +44,8 @@ char *lsm_names;
- /* Boot-time LSM user choice */
- static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
- 	CONFIG_DEFAULT_SECURITY;
-+static __initdata const char *chosen_lsm_enable;
-+static __initdata const char *chosen_lsm_disable;
- 
- static __initconst const char * const builtin_lsm_enable = CONFIG_LSM_ENABLE;
- 
-@@ -185,6 +187,10 @@ static void __init prepare_lsm_enable(void)
- {
- 	/* Prepare defaults. */
- 	parse_lsm_enable(builtin_lsm_enable, default_enabled, true);
++  Optional properties:
++  = The node contains optional child nodes for three channels =
++  = Each child node describes the information of input source =
 +
-+	/* Process "lsm.enable=" and "lsm.disable=", if given. */
-+	parse_lsm_enable(chosen_lsm_enable, set_enabled, true);
-+	parse_lsm_enable(chosen_lsm_disable, set_enabled, false);
- }
- 
- /**
-@@ -240,6 +246,22 @@ static int __init enable_debug(char *str)
- }
- __setup("lsm.debug", enable_debug);
- 
-+/* Explicitly enable a list of LSMs. */
-+static int __init enable_lsm(char *str)
-+{
-+	chosen_lsm_enable = str;
-+	return 1;
-+}
-+__setup("lsm.enable=", enable_lsm);
++  - #address-cells: Required only if a child node is present. Must be 1.
++  - #size-cells: Required only if a child node is present. Must be 0.
 +
-+/* Explicitly disable a list of LSMs. */
-+static int __init disable_lsm(char *str)
-+{
-+	chosen_lsm_disable = str;
-+	return 1;
-+}
-+__setup("lsm.disable=", disable_lsm);
++2) child nodes
++  Required properties:
++  - reg: Must be 0, 1 or 2, corresponding to IN1, IN2 or IN3 port of INA3221
 +
- static bool match_last_lsm(const char *list, const char *lsm)
- {
- 	const char *last;
++  Optional properties:
++  - label: Name of the input source
++  - shunt-resistor-micro-ohms: Shunt resistor value in micro-Ohm
++
++Example:
++
++ina3221@40 {
++	compatible = "ti,ina3221";
++	reg = <0x40>;
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	input@0 {
++		reg = <0x0>;
++		status = "disabled";
++	};
++	input@1 {
++		reg = <0x1>;
++		shunt-resistor-micro-ohms = <5000>;
++	};
++	input@2 {
++		reg = <0x2>;
++		label = "VDD_5V";
++		shunt-resistor-micro-ohms = <5000>;
++	};
++};
 -- 
 2.17.1
 
