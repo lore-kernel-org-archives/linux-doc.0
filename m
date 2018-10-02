@@ -1,26 +1,40 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7A56A7D088
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 22:43:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10DB67D08F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Oct 2018 23:00:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726993AbeJCF3D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 01:29:03 -0400
-Received: from nautica.notk.org ([91.121.71.147]:55254 "EHLO nautica.notk.org"
+        id S1726834AbeJCFqQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 01:46:16 -0400
+Received: from ozlabs.org ([203.11.71.1]:39485 "EHLO ozlabs.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726731AbeJCF3D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 01:29:03 -0400
-X-Greylist: delayed 375 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Oct 2018 01:29:01 EDT
-Received: by nautica.notk.org (Postfix, from userid 1001)
-        id AE877C009; Wed,  3 Oct 2018 00:37:07 +0200 (CEST)
-Date:   Wed, 3 Oct 2018 00:36:52 +0200
-From:   Dominique Martinet <asmadeus@codewreck.org>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        id S1725198AbeJCFqQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Oct 2018 01:46:16 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ozlabs.org (Postfix) with ESMTPSA id 42PvkY4VwZz9s3x;
+        Wed,  3 Oct 2018 09:00:21 +1000 (AEST)
+Authentication-Results: ozlabs.org; dmarc=none (p=none dis=none) header.from=canb.auug.org.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1538521228;
+        bh=uszHi0YP3NHd2A75uOyoWENmbNV/nKcyim4Q/kdSyq4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=gOH2g66TFUBC5A5QiYzHieg0K/hofBu53ssIFUMikDjptaD6Tc2HaoUmGutekDf8s
+         +zAn1bPRu04tHsktYoTZ5TmYGhzidu/AFyJt3+jBPV+zbr87bqhn41WIX0PlAeIpTV
+         D697PmEzWDoD4owCHeddTAbdFX8DNR5ZS77UzEdDxOpJq3T0yoAO8Aunc/kwmmGdOe
+         RlUre0miCEl9GV2xkjO6cGmMr855OhNggW60daykiOl8gHN+m88CNsHAVXukJbag1F
+         PQOsgLJJhGkZrzSOWZ9FWdjgXkk6YIdGwTI00HuXybZdE37aTT6U9JQsNpIK/gbuOg
+         FwLO9OWWPLLLA==
+Date:   Wed, 3 Oct 2018 09:00:10 +1000
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Dominique Martinet <asmadeus@codewreck.org>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Greg KH <gregkh@linuxfoundation.org>,
         Linux-Next Mailing List <linux-next@vger.kernel.org>,
@@ -56,47 +70,75 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Ext4 Developers List <linux-ext4@vger.kernel.org>,
         linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
+        linux-kernel <linux-kernel@vger.kernel.org>
 Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
-Message-ID: <20181002223652.GA4290@nautica>
+Message-ID: <20181003090010.5150f914@canb.auug.org.au>
+In-Reply-To: <20181002223652.GA4290@nautica>
 References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
- <20181003071059.02b3fd6f@canb.auug.org.au>
- <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
- <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
+        <20181003071059.02b3fd6f@canb.auug.org.au>
+        <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
+        <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
+        <20181002223652.GA4290@nautica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/Pi_fuJWlk3fcJlLoIKV/0xY"; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Miguel Ojeda wrote on Wed, Oct 03, 2018:
-> As I have read, -next is supposed to be a vision of what the merge
-> window will look like after merging everything, i.e. ideally -rc1. For
-> that to work for files out-of-tree (like these ones, which are not
-> maintained by a single tree), changes should be allowed to be stacked
-> on each other; otherwise, we cannot handle conflicts :-(
+--Sig_/Pi_fuJWlk3fcJlLoIKV/0xY
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The rule is the same as with a regular mainline pull; I don't have the
-reference at hand but in some recent-ish pull request Linus said he
-prefers the stable version with the conflict, and optionally you can
-provide a second branch with the conflict resolved for reference, but
-the pull request should be based on something stable even if it has
-conflicts
+Hi Miguel,
 
-If there is a conflict Stefen will resolve it like Linus/Greg would, and
-the resolved bit will be carried over everyday so it's not much more
-work -- exactly like a regular pull request for inclusion in the main
-tree :)
+On Wed, 3 Oct 2018 00:36:52 +0200 Dominique Martinet <asmadeus@codewreck.or=
+g> wrote:
+>
+> Miguel Ojeda wrote on Wed, Oct 03, 2018:
+> > As I have read, -next is supposed to be a vision of what the merge
+> > window will look like after merging everything, i.e. ideally -rc1. For
+> > that to work for files out-of-tree (like these ones, which are not
+> > maintained by a single tree), changes should be allowed to be stacked
+> > on each other; otherwise, we cannot handle conflicts :-( =20
+>=20
+> The rule is the same as with a regular mainline pull; I don't have the
+> reference at hand but in some recent-ish pull request Linus said he
+> prefers the stable version with the conflict, and optionally you can
+> provide a second branch with the conflict resolved for reference, but
+> the pull request should be based on something stable even if it has
+> conflicts
+>=20
+> If there is a conflict Stefen will resolve it like Linus/Greg would, and
+> the resolved bit will be carried over everyday so it's not much more
+> work -- exactly like a regular pull request for inclusion in the main
+> tree :)
 
+Exactly what Dominique said.  I will fix up the conflict (unless it is
+a very complex conflict, in which case the author(s) should help) and
+the Linus (or Greg) will do the same.  If you do depend on a patch in
+Andrew's series, what happens if that patch does not get sent to Linus
+during the merge window or Linus rejects it?
 
-(Found another mail arguing for stable base[1], but can't find the mail I
-was thinking of)
- [1] http://lkml.kernel.org/r/CA+55aFw+dwofadgvzrM-UCMSih+f1choCwW+xFFM3aPjoRQX_g@mail.gmail.com
+--=20
+Cheers,
+Stephen Rothwell
 
--- 
-Dominique Martinet
+--Sig_/Pi_fuJWlk3fcJlLoIKV/0xY
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAluz+HoACgkQAVBC80lX
+0GwB6Af/QRmuvQ4ntPviR4hY99kAVf71n2hG+jM6yJp/+JjLvGaMxGSq+ZFAMk0V
+qnVWGZKhMDjl8b1Z+UrEJU35kn5GoWIAIbaXsBSgGWo5Hc6Z9u3PDfF6/Z0pMUEw
+KE8e8PS/1KVk24EBb5foc0l3VvVYKttUroqVfUglkYVgvizRV6kdzkMAbOaqdiVh
+eMIWmB0ZxYoOyM2rAQt9ul4VhQLrLKiIPlzjUQa3pMJmcaHT38RuuZ/Cpv4M3L0a
+uNbiOJCyY+hUp4Q6Twi69Srk9IWU5GdaSWwTOM0SvWRQhh1ge/K0mC+b21D8ANDh
+utwC/WyGrQiXJcpRJKiQpefzWwcWbQ==
+=9ecB
+-----END PGP SIGNATURE-----
+
+--Sig_/Pi_fuJWlk3fcJlLoIKV/0xY--
