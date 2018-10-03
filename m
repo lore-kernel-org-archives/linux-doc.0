@@ -5,26 +5,36 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B22B17D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 19:00:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2E597D08F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 19:03:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727001AbeJDBtg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 21:49:36 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:47492 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726950AbeJDBtf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 21:49:35 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id A2930207EB; Wed,  3 Oct 2018 20:59:53 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D06C5207C8;
-        Wed,  3 Oct 2018 20:59:52 +0200 (CEST)
-Date:   Wed, 3 Oct 2018 20:59:53 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Joe Perches <joe@perches.com>, Rob Herring <robh+dt@kernel.org>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1727091AbeJDBwl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 21:52:41 -0400
+Received: from smtprelay0174.hostedemail.com ([216.40.44.174]:49195 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726950AbeJDBwl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 21:52:41 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 0EE66182CED2A;
+        Wed,  3 Oct 2018 19:03:01 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: vest59_36ba49960b458
+X-Filterd-Recvd-Size: 3878
+Received: from XPS-9350.home (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf02.hostedemail.com (Postfix) with ESMTPA;
+        Wed,  3 Oct 2018 19:02:55 +0000 (UTC)
+Message-ID: <e62f978f8d6fc3486c35818432d118358b32c58a.camel@perches.com>
+Subject: Re: [PATCH v8 05/10] dt-bindings: i3c: Add macros to help fill
+ I3C/I2C device's reg property
+From:   Joe Perches <joe@perches.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Przemyslaw Sroka <psroka@cadence.com>,
         Arkadiusz Golec <agolec@cadence.com>,
@@ -36,127 +46,73 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Suresh Punnoose <sureshp@cadence.com>,
         Rafal Ciepiela <rafalc@cadence.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Pawel Moll <pawel.moll@arm.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Kumar Gala <galak@codeaurora.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH v8 05/10] dt-bindings: i3c: Add macros to help fill
- I3C/I2C device's reg property
-Message-ID: <20181003205953.426021bb@bbrezillon>
-In-Reply-To: <c7b929a8c8ebaec7ce0f0e09f803e414e74f986b.camel@perches.com>
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>, pgaj@cadence.com,
+        Peter Rosin <peda@axentia.se>, mshettel@codeaurora.org,
+        swboyd@chromium.org
+Date:   Wed, 03 Oct 2018 12:02:54 -0700
+In-Reply-To: <CAMuHMdVA7eKD+qfzzCqrXus69NPb3Qd_G0k=TYvrdt=2pRG51A@mail.gmail.com>
 References: <20181003132212.12619-1-boris.brezillon@bootlin.com>
-        <20181003132212.12619-6-boris.brezillon@bootlin.com>
-        <c7b929a8c8ebaec7ce0f0e09f803e414e74f986b.camel@perches.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+         <20181003132212.12619-6-boris.brezillon@bootlin.com>
+         <c7b929a8c8ebaec7ce0f0e09f803e414e74f986b.camel@perches.com>
+         <CAMuHMdVA7eKD+qfzzCqrXus69NPb3Qd_G0k=TYvrdt=2pRG51A@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.1-1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 03 Oct 2018 11:37:17 -0700
-Joe Perches <joe@perches.com> wrote:
-
-> On Wed, 2018-10-03 at 15:22 +0200, Boris Brezillon wrote:
-> > The reg property of devices connected to an I3C bus have 3 cells, and
-> > filling them manually is not trivial. Provides macros to help doing
-> > that.  
+On Wed, 2018-10-03 at 20:45 +0200, Geert Uytterhoeven wrote:
+> Hi Joe,
 > 
-> This patch logic seems excessively fragile.
-
-Keep in mind that this header is meant to be include by .dts(i) files,
-not regular .c files.
-
-> 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> > Changes in v8:
-> > - None
+> On Wed, Oct 3, 2018 at 8:37 PM Joe Perches <joe@perches.com> wrote:
+> > On Wed, 2018-10-03 at 15:22 +0200, Boris Brezillon wrote:
+> > > The reg property of devices connected to an I3C bus have 3 cells, and
+> > > filling them manually is not trivial. Provides macros to help doing
+> > > that.
 > > 
-> > Changes in v5:
-> > - none
-> > ---
-> >  include/dt-bindings/i3c/i3c.h | 28 ++++++++++++++++++++++++++++
-> >  1 file changed, 28 insertions(+)
-> >  create mode 100644 include/dt-bindings/i3c/i3c.h
+> > This patch logic seems excessively fragile.
+> > > --- /dev/null
+> > > +++ b/include/dt-bindings/i3c/i3c.h
+> > > +
+> > > +#define I3C_PID(manufid, partid, instid, extrainfo)          \
+> > > +     ((manufid) << 1)                                        \
+> > > +     (((partid) << 16) | ((instid) << 12) | (extrainfo))
 > > 
-> > diff --git a/include/dt-bindings/i3c/i3c.h b/include/dt-bindings/i3c/i3c.h
-> > new file mode 100644
-> > index 000000000000..97448c546649
-> > --- /dev/null
-> > +++ b/include/dt-bindings/i3c/i3c.h
-> > @@ -0,0 +1,28 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) 2017 Cadence Design Systems Inc.
-> > + *
-> > + * Author: Boris Brezillon <boris.brezillon@bootlin.com>
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_I3C_I3C_H
-> > +#define _DT_BINDINGS_I3C_I3C_H
-> > +
-> > +#define IS_I2C_DEV		0x80000000
-> > +
-> > +#define I2C_DEV(addr, lvr)					\
-> > +	(addr) (IS_I2C_DEV | (lvr)) 0x0  
+> > This macro doesn't make any sense.  Missing a shift and an or?
 > 
-> This looks to be missing surrounding parentheses.
-
-Actually it's not. The macro is supposed to declare 3 u32 integers each
-of them separated by a space:
-
-	reg = <I2C_DEV(0x34, 0x1)>;
-
-is translated into
-
-	reg = <0x34 0x80000001 0x0>;
-
+> No, it generates two of the three cells.
 > 
-> > +
-> > +#define I3C_PID(manufid, partid, instid, extrainfo)		\
-> > +	((manufid) << 1)					\
-> > +	(((partid) << 16) | ((instid) << 12) | (extrainfo))  
+> > > +
+> > > +#define I3C_DEV_WITH_STATIC_ADDR(addr, manufid, partid,              \
+> > > +                              instid, extrainfo)             \
+> > > +     (addr) I3C_PID(manufid, partid, instid, extrainfo)
+> > > +
+> > > +#define I3C_DEV(manufid, partid, instid, extrainfo)          \
+> > > +     I3C_DEV_WITH_STATIC_ADDR(0x0, manufid, partid,          \
+> > > +                              instid, extrainfo)
 > 
-> This macro doesn't make any sense.  Missing a shift and an or?
+> And the above two macros generate all three cells.
 
-Same here, the PID is taking 2 32-bit entries.
+It seems none of the other include/dt-bindings/ .h files
+have unusual macros like these.
 
-Now, I agree that this is far from obvious, and if Rob is okay, I'd
-like to propose a different binding to avoid having to define these
-macros:
+Perhaps this file should not have a .h extension but
+something be named like i3c_reg_property.macros
 
-	reg = <i2c_addr_or_i3c_static_addr pid_msb pid_lsb>;
 
-If pid_msb and pid_lsb are 0, then the node is defining an I2C device
-(AFAICT, 0 is not a valid PID), otherwise it's an I3C device. This way
-we get rid of the IS_I2C_DEV flag, and we can get rid of those macros
-without making I3C dev node definition too painful (the only part
-developers will have to get right is the PID) 
-
-> 
-> > +
-> > +#define I3C_DEV_WITH_STATIC_ADDR(addr, manufid, partid,		\
-> > +				 instid, extrainfo)		\
-> > +	(addr) I3C_PID(manufid, partid, instid, extrainfo)
-> > +
-> > +#define I3C_DEV(manufid, partid, instid, extrainfo)		\
-> > +	I3C_DEV_WITH_STATIC_ADDR(0x0, manufid, partid,		\
-> > +				 instid, extrainfo)
-> > +
-> > +#endif  
-> 
 
