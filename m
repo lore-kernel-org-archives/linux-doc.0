@@ -1,125 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 56C627D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 21:35:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7EF9E7D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 21:41:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726182AbeJDEZO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 00:25:14 -0400
-Received: from namei.org ([65.99.196.166]:35550 "EHLO namei.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725799AbeJDEZO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Oct 2018 00:25:14 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id w93LYcQS023791;
-        Wed, 3 Oct 2018 21:34:38 GMT
-Date:   Thu, 4 Oct 2018 07:34:38 +1000 (AEST)
-From:   James Morris <jmorris@namei.org>
-To:     Kees Cook <keescook@chromium.org>
-cc:     John Johansen <john.johansen@canonical.com>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-In-Reply-To: <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com>
-Message-ID: <alpine.LRH.2.21.1810040723320.16168@namei.org>
-References: <20181002005505.6112-1-keescook@chromium.org> <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov> <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com> <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov>
- <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch> <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com> <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com>
- <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com> <alpine.LRH.2.21.1810030758460.23596@namei.org> <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com> <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com>
- <alpine.LRH.2.21.1810040416500.13517@namei.org> <CAGXu5j+oPR58oJ06-n7e96-Rmu+ywTW0hud5LhOZ_3UXG5s12w@mail.gmail.com> <alpine.LRH.2.21.1810040427550.13517@namei.org> <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+        id S1726730AbeJDEbb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 00:31:31 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:43842 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726338AbeJDEbb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 00:31:31 -0400
+Received: by mail-qt1-f194.google.com with SMTP id q41-v6so7675273qtq.10;
+        Wed, 03 Oct 2018 14:41:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=DcNfJBcvV+N7frxghQMur12JlWbuuNXGuvgJdjrvXBo=;
+        b=sal/xKkq5rwbI2+2joC43ZN0ip6rMYj26GDTYJDS/wgXm8NtowPu+5gA25dDuh+yHa
+         okkPAElXyGwrB6HFmCRWiVa/AD5FJbf/MRAB4YECiz+AJ4oxBaPcsJIURzE1TKN4Z9ze
+         CyrtKMhc+mGc2k/T4vcawKa205hSGQaS8QcEXY+4NIEVaCkc3omnKnXVJKyzoE+nOV4t
+         b8YqiZoPtiesYFig0gPVsU0YZ0wdGw0+2PtFRjGLYmQppF4/iWRD44E5KigGrMmY3ixv
+         LdQ+wqqi3SWy3L3ozlkjxy4jhdCD5dyqVSbUFwVrMEL8NX8KwmAAkXs84KS50N3GNUl4
+         JsDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=DcNfJBcvV+N7frxghQMur12JlWbuuNXGuvgJdjrvXBo=;
+        b=EVYxcHj179L0unZ4K0GH430Tg78C05OXYtkZoZ6bWmOMQ4sqCQaG9uZ4by+Yy/opZw
+         dwZInM6fwYJHtRaF+l5hBdvEqrYvBlM4nzDDTgJdhjgqIP4KBiVdzEMJ5ciXr2E34h6u
+         H30N+w2anQMpGlQ3Mxnx3GYSUDBIBhM892NGRwijES35U1+AcAqdcaCDIebO7NKWry2t
+         2IVA3q1HyXyL69iREKFQJtp2T3N7ibcX1MkUaAFAs340kJD4HUOcUXggYxd9i2guRQGP
+         cW83pXKspulDSJfZQ9EVk444UAPFajN1vN8WXOW5aAAdnc8Kepgs7xjBlk18mEGnFPf+
+         cr2A==
+X-Gm-Message-State: ABuFfoiXDPEQFXfeW37B82UAXBdCpEQ9lVvXlWRd/3QRHiH7eN1wKJd7
+        0751yins/KtuDh9MnglekZBKdII29NeBEV9KEcE=
+X-Google-Smtp-Source: ACcGV62IfciUlmeUqPMP0Tm5Q68jeE+CimzP24KFGHYdeSc9hZ1gmWuzPzJ8+5Un8Lv7x+pz52uBPoG8TN2mJ6loCAQ=
+X-Received: by 2002:aed:2867:: with SMTP id r94-v6mr2937732qtd.112.1538602880400;
+ Wed, 03 Oct 2018 14:41:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
+ <20181003071059.02b3fd6f@canb.auug.org.au> <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
+ <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
+ <20181002232454.GB2483@thunk.org> <CANiq72=cRpqnB3BxLsmj-rMdUGJK+pac1SRppoRgsON69ErfQg@mail.gmail.com>
+ <20181003153303.GC2835@thunk.org> <CANiq72=Jq8HZ1=CsSvV4GenG+F6z3vRFmiB7Joct5VKdUFo8pA@mail.gmail.com>
+In-Reply-To: <CANiq72=Jq8HZ1=CsSvV4GenG+F6z3vRFmiB7Joct5VKdUFo8pA@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 3 Oct 2018 23:41:08 +0200
+Message-ID: <CANiq72nMu6NXg1Ovn49qJ=FP_S4_LQJSwPuS+Q_zofhOEbVZng@mail.gmail.com>
+Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
+To:     "Ted Ts'o" <tytso@mit.edu>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        David Miller <davem@davemloft.net>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 3 Oct 2018, Kees Cook wrote:
+On Wed, Oct 3, 2018 at 11:23 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+> On Wed, Oct 3, 2018 at 5:33 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
+> > had done with full consideration, specifically for this reason.  Even
+> > if the definition was different, my definition *had* been fully tested
+> > with over a 27+ VM hours of regression testing, and if it turned out
 
-> On Wed, Oct 3, 2018 at 11:28 AM, James Morris <jmorris@namei.org> wrote:
-> > On Wed, 3 Oct 2018, Kees Cook wrote:
-> >
-> >> On Wed, Oct 3, 2018 at 11:17 AM, James Morris <jmorris@namei.org> wrote:
-> >> > On Tue, 2 Oct 2018, John Johansen wrote:
-> >> >> To me a list like
-> >> >>   lsm.enable=X,Y,Z
-> >> >
-> >> > What about even simpler:
-> >> >
-> >> > lsm=selinux,!apparmor,yama
-> >>
-> >> We're going to have lsm.order=, so I'd like to keep it with a dot
-> >> separator (this makes it more like module parameters, too). You want
-> >> to mix enable/disable in the same string? That implies you'd want
-> >> implicit enabling (i.e. it complements the builtin enabling), which is
-> >> opposite from what John wanted.
-> >>
-> >
-> > Why can't this be the order as well?
-> 
-> That was covered extensively in the earlier threads. It boils down to
-> making sure we do not create a pattern of leaving LSMs disabled by
-> default when they are added to the kernel. The v1 series used
-> security= like this:
-> 
-> +       security=       [SECURITY] An ordered comma-separated list of
-> +                       security modules to attempt to enable at boot. If
-> +                       this boot parameter is not specified, only the
-> +                       security modules asking for initialization will be
-> +                       enabled (see CONFIG_DEFAULT_SECURITY). Duplicate
-> +                       or invalid security modules will be ignored. The
-> +                       capability module is always loaded first, without
-> +                       regard to this parameter.
-> 
-> This meant booting "security=apparmor" would disable all the other
-> LSMs, which wasn't friendly at all. So "security=" was left alone (to
-> leave it to only select the "major" LSM: all major LSMs not matching
-> "security=" would be disabled). So I proposed "lsm.order=" to specify
-> the order things were going to be initialized in, but to avoid kernels
-> booting with newly added LSMs forced-off due to not being listed in
-> "lsm.order=", it had to have implicit fall-back for unlisted LSMs.
-> (i.e. anything missing from lsm.order would then follow their order in
-> CONFIG_LSM_ORDER, and anything missing there would fall back to
-> link-time ordering.) However, then the objection was raised that this
-> didn't provide a way to explicitly disable an LSM. So I proposed
-> lsm.enable/disable, and John argued for CONFIG_LSM_ENABLE over
-> CONFIG_LSM_DISABLE.
+I forgot to mention that if the definitions were different, it could
+have caused a problem, because your definition wouldn't apply, so your
+27+ hours of testing wouldn't have mattered :-P Without the #ifndef,
+we would have at least got a redefinition warning about it.
 
-Ok, but it may end up being clearer, simpler, and thus more secure to just 
-have a single way to configure LSM.
-
-For example:
-
-  - All LSMs which are built are NOT enabled by default
-
-  - You specify enablement and order via a Kconfig:
-
-	CONFIG_LSM="selinux,yama"
-
-  - This can be entirely overridden by a boot param:
-
-	lsm="apparmor,landlock"
-
-And that's it.
-
-Of course, capabilities is always enabled and not be visible to kconfig or 
-boot params.
-
-
--- 
-James Morris
-<jmorris@namei.org>
-
+Cheers,
+Miguel
