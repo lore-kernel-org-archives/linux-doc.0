@@ -1,116 +1,507 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7EF9E7D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 21:41:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E7C977D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 23:27:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726730AbeJDEbb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 00:31:31 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:43842 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726338AbeJDEbb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 00:31:31 -0400
-Received: by mail-qt1-f194.google.com with SMTP id q41-v6so7675273qtq.10;
-        Wed, 03 Oct 2018 14:41:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=DcNfJBcvV+N7frxghQMur12JlWbuuNXGuvgJdjrvXBo=;
-        b=sal/xKkq5rwbI2+2joC43ZN0ip6rMYj26GDTYJDS/wgXm8NtowPu+5gA25dDuh+yHa
-         okkPAElXyGwrB6HFmCRWiVa/AD5FJbf/MRAB4YECiz+AJ4oxBaPcsJIURzE1TKN4Z9ze
-         CyrtKMhc+mGc2k/T4vcawKa205hSGQaS8QcEXY+4NIEVaCkc3omnKnXVJKyzoE+nOV4t
-         b8YqiZoPtiesYFig0gPVsU0YZ0wdGw0+2PtFRjGLYmQppF4/iWRD44E5KigGrMmY3ixv
-         LdQ+wqqi3SWy3L3ozlkjxy4jhdCD5dyqVSbUFwVrMEL8NX8KwmAAkXs84KS50N3GNUl4
-         JsDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=DcNfJBcvV+N7frxghQMur12JlWbuuNXGuvgJdjrvXBo=;
-        b=EVYxcHj179L0unZ4K0GH430Tg78C05OXYtkZoZ6bWmOMQ4sqCQaG9uZ4by+Yy/opZw
-         dwZInM6fwYJHtRaF+l5hBdvEqrYvBlM4nzDDTgJdhjgqIP4KBiVdzEMJ5ciXr2E34h6u
-         H30N+w2anQMpGlQ3Mxnx3GYSUDBIBhM892NGRwijES35U1+AcAqdcaCDIebO7NKWry2t
-         2IVA3q1HyXyL69iREKFQJtp2T3N7ibcX1MkUaAFAs340kJD4HUOcUXggYxd9i2guRQGP
-         cW83pXKspulDSJfZQ9EVk444UAPFajN1vN8WXOW5aAAdnc8Kepgs7xjBlk18mEGnFPf+
-         cr2A==
-X-Gm-Message-State: ABuFfoiXDPEQFXfeW37B82UAXBdCpEQ9lVvXlWRd/3QRHiH7eN1wKJd7
-        0751yins/KtuDh9MnglekZBKdII29NeBEV9KEcE=
-X-Google-Smtp-Source: ACcGV62IfciUlmeUqPMP0Tm5Q68jeE+CimzP24KFGHYdeSc9hZ1gmWuzPzJ8+5Un8Lv7x+pz52uBPoG8TN2mJ6loCAQ=
-X-Received: by 2002:aed:2867:: with SMTP id r94-v6mr2937732qtd.112.1538602880400;
- Wed, 03 Oct 2018 14:41:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
- <20181003071059.02b3fd6f@canb.auug.org.au> <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
- <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
- <20181002232454.GB2483@thunk.org> <CANiq72=cRpqnB3BxLsmj-rMdUGJK+pac1SRppoRgsON69ErfQg@mail.gmail.com>
- <20181003153303.GC2835@thunk.org> <CANiq72=Jq8HZ1=CsSvV4GenG+F6z3vRFmiB7Joct5VKdUFo8pA@mail.gmail.com>
-In-Reply-To: <CANiq72=Jq8HZ1=CsSvV4GenG+F6z3vRFmiB7Joct5VKdUFo8pA@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 3 Oct 2018 23:41:08 +0200
-Message-ID: <CANiq72nMu6NXg1Ovn49qJ=FP_S4_LQJSwPuS+Q_zofhOEbVZng@mail.gmail.com>
-Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
-To:     "Ted Ts'o" <tytso@mit.edu>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
+        id S1726511AbeJDGRt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 02:17:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:20328 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726182AbeJDGRs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Oct 2018 02:17:48 -0400
+Received: from smtp.corp.redhat.com (int-mx12.intmail.prod.int.phx2.redhat.com [10.5.11.27])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 82A7C3082AF3;
+        Wed,  3 Oct 2018 23:27:17 +0000 (UTC)
+Received: from asgard.redhat.com (ovpn-200-17.brq.redhat.com [10.40.200.17])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 18AE79D8D0;
+        Wed,  3 Oct 2018 23:27:07 +0000 (UTC)
+Date:   Thu, 4 Oct 2018 01:27:36 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v4 21/27] x86/cet/shstk: ELF header parsing of Shadow
+ Stack
+Message-ID: <20181003232736.GI32759@asgard.redhat.com>
+References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
+ <20180921150351.20898-22-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180921150351.20898-22-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.27
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Wed, 03 Oct 2018 23:27:18 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 3, 2018 at 11:23 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
-> On Wed, Oct 3, 2018 at 5:33 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
-> > had done with full consideration, specifically for this reason.  Even
-> > if the definition was different, my definition *had* been fully tested
-> > with over a 27+ VM hours of regression testing, and if it turned out
+On Fri, Sep 21, 2018 at 08:03:45AM -0700, Yu-cheng Yu wrote:
+> Look in .note.gnu.property of an ELF file and check if Shadow Stack needs
+> to be enabled for the task.
+> 
+> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/Kconfig                         |   4 +
+>  arch/x86/include/asm/elf.h               |   5 +
+>  arch/x86/include/uapi/asm/elf_property.h |  15 +
+>  arch/x86/kernel/Makefile                 |   2 +
+>  arch/x86/kernel/elf.c                    | 340 +++++++++++++++++++++++
+>  fs/binfmt_elf.c                          |  15 +
+>  include/uapi/linux/elf.h                 |   1 +
+>  7 files changed, 382 insertions(+)
+>  create mode 100644 arch/x86/include/uapi/asm/elf_property.h
+>  create mode 100644 arch/x86/kernel/elf.c
+> 
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 808aa3aecf3c..6377125543cc 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -1919,12 +1919,16 @@ config X86_INTEL_CET
+>  config ARCH_HAS_SHSTK
+>  	def_bool n
+>  
+> +config ARCH_HAS_PROGRAM_PROPERTIES
+> +	def_bool n
+> +
+>  config X86_INTEL_SHADOW_STACK_USER
+>  	prompt "Intel Shadow Stack for user-mode"
+>  	def_bool n
+>  	depends on CPU_SUP_INTEL && X86_64
+>  	select X86_INTEL_CET
+>  	select ARCH_HAS_SHSTK
+> +	select ARCH_HAS_PROGRAM_PROPERTIES
+>  	---help---
+>  	  Shadow stack provides hardware protection against program stack
+>  	  corruption.  Only when all the following are true will an application
+> diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+> index 0d157d2a1e2a..5b5f169c5c07 100644
+> --- a/arch/x86/include/asm/elf.h
+> +++ b/arch/x86/include/asm/elf.h
+> @@ -382,4 +382,9 @@ struct va_alignment {
+>  
+>  extern struct va_alignment va_align;
+>  extern unsigned long align_vdso_addr(unsigned long);
+> +
+> +#ifdef CONFIG_ARCH_HAS_PROGRAM_PROPERTIES
+> +extern int arch_setup_features(void *ehdr, void *phdr, struct file *file,
+> +			       bool interp);
+> +#endif
+>  #endif /* _ASM_X86_ELF_H */
+> diff --git a/arch/x86/include/uapi/asm/elf_property.h b/arch/x86/include/uapi/asm/elf_property.h
+> new file mode 100644
+> index 000000000000..af361207718c
+> --- /dev/null
+> +++ b/arch/x86/include/uapi/asm/elf_property.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _UAPI_ASM_X86_ELF_PROPERTY_H
+> +#define _UAPI_ASM_X86_ELF_PROPERTY_H
+> +
+> +/*
+> + * pr_type
+> + */
+> +#define GNU_PROPERTY_X86_FEATURE_1_AND (0xc0000002)
+> +
+> +/*
+> + * Bits for GNU_PROPERTY_X86_FEATURE_1_AND
+> + */
+> +#define GNU_PROPERTY_X86_FEATURE_1_SHSTK	(0x00000002)
 
-I forgot to mention that if the definitions were different, it could
-have caused a problem, because your definition wouldn't apply, so your
-27+ hours of testing wouldn't have mattered :-P Without the #ifndef,
-we would have at least got a redefinition warning about it.
+Hm, these defeinitions aren't much different comparing to NT_*
+definitions in include/uapi/linux/elf.h, is it expected that those
+properties have to be parsed individually for each architecture?
 
-Cheers,
-Miguel
+> +
+> +#endif /* _UAPI_ASM_X86_ELF_PROPERTY_H */
+> diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+> index fbb2d91fb756..36b14ef410c8 100644
+> --- a/arch/x86/kernel/Makefile
+> +++ b/arch/x86/kernel/Makefile
+> @@ -141,6 +141,8 @@ obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
+>  
+>  obj-$(CONFIG_X86_INTEL_CET)		+= cet.o
+>  
+> +obj-$(CONFIG_ARCH_HAS_PROGRAM_PROPERTIES) += elf.o
+
+Same thing here, enablement of program properties per se seems rather generic.
+
+> diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
+> new file mode 100644
+> index 000000000000..2fddd0bc545b
+> --- /dev/null
+> +++ b/arch/x86/kernel/elf.c
+> @@ -0,0 +1,340 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Look at an ELF file's .note.gnu.property and determine if the file
+> + * supports shadow stack and/or indirect branch tracking.
+> + * The path from the ELF header to the note section is the following:
+> + * elfhdr->elf_phdr->elf_note->property[].
+> + */
+> +
+> +#include <asm/cet.h>
+> +#include <asm/elf_property.h>
+> +#include <asm/prctl.h>
+> +#include <asm/processor.h>
+> +#include <uapi/linux/elf-em.h>
+> +#include <uapi/linux/prctl.h>
+> +#include <linux/binfmts.h>
+> +#include <linux/elf.h>
+> +#include <linux/slab.h>
+> +#include <linux/fs.h>
+> +#include <linux/uaccess.h>
+> +#include <linux/string.h>
+> +#include <linux/compat.h>
+> +
+> +/*
+> + * The .note.gnu.property layout:
+> + *
+> + *	struct elf_note {
+> + *		u32 n_namesz; --> sizeof(n_name[]); always (4)
+> + *		u32 n_ndescsz;--> sizeof(property[])
+> + *		u32 n_type;   --> always NT_GNU_PROPERTY_TYPE_0
+> + *	};
+> + *	char n_name[4]; --> always 'GNU\0'
+> + *
+> + *	struct {
+> + *		struct property_x86 {
+> + *			u32 pr_type;
+> + *			u32 pr_datasz;
+> + *		};
+> + *		u8 pr_data[pr_datasz];
+> + *	}[];
+> + */
+> +
+> +#define BUF_SIZE (PAGE_SIZE / 4)
+> +
+> +struct property_x86 {
+> +	u32 pr_type;
+> +	u32 pr_datasz;
+> +};
+> +
+> +typedef bool (test_fn)(void *buf, u32 *arg);
+> +typedef void *(next_fn)(void *buf, u32 *arg);
+> +
+> +static inline bool test_note_type_0(void *buf, u32 *arg)
+> +{
+> +	struct elf_note *n = buf;
+> +
+> +	return ((n->n_namesz == 4) && (memcmp(n + 1, "GNU", 4) == 0) &&
+> +		(n->n_type == NT_GNU_PROPERTY_TYPE_0));
+> +}
+> +
+> +static inline void *next_note(void *buf, u32 *arg)
+> +{
+> +	struct elf_note *n = buf;
+> +	u32 align = *arg;
+> +	int size;
+> +
+> +	size = round_up(sizeof(*n) + n->n_namesz, align);
+> +	size = round_up(size + n->n_descsz, align);
+> +
+> +	if (buf + size < buf)
+> +		return NULL;
+> +	else
+> +		return (buf + size);
+> +}
+> +
+> +static inline bool test_property_x86(void *buf, u32 *arg)
+> +{
+> +	struct property_x86 *pr = buf;
+> +	u32 max_type = *arg;
+> +
+> +	if (pr->pr_type > max_type)
+> +		*arg = pr->pr_type;
+> +
+> +	return (pr->pr_type == GNU_PROPERTY_X86_FEATURE_1_AND);
+> +}
+> +
+> +static inline void *next_property(void *buf, u32 *arg)
+> +{
+> +	struct property_x86 *pr = buf;
+> +	u32 max_type = *arg;
+> +
+> +	if ((buf + sizeof(*pr) +  pr->pr_datasz < buf) ||
+> +	    (pr->pr_type > GNU_PROPERTY_X86_FEATURE_1_AND) ||
+> +	    (pr->pr_type > max_type))
+> +		return NULL;
+> +	else
+> +		return (buf + sizeof(*pr) + pr->pr_datasz);
+> +}
+> +
+> +/*
+> + * Scan 'buf' for a pattern; return true if found.
+> + * *pos is the distance from the beginning of buf to where
+> + * the searched item or the next item is located.
+> + */
+> +static int scan(u8 *buf, u32 buf_size, int item_size,
+> +		 test_fn test, next_fn next, u32 *arg, u32 *pos)
+> +{
+> +	int found = 0;
+> +	u8 *p, *max;
+> +
+> +	max = buf + buf_size;
+> +	if (max < buf)
+> +		return 0;
+> +
+> +	p = buf;
+> +
+> +	while ((p + item_size < max) && (p + item_size > buf)) {
+> +		if (test(p, arg)) {
+> +			found = 1;
+> +			break;
+> +		}
+> +
+> +		p = next(p, arg);
+> +	}
+> +
+> +	*pos = (p + item_size <= buf) ? 0 : (u32)(p - buf);
+> +	return found;
+> +}
+> +
+> +/*
+> + * Search a NT_GNU_PROPERTY_TYPE_0 for GNU_PROPERTY_X86_FEATURE_1_AND.
+> + */
+> +static int find_feature_x86(struct file *file, unsigned long desc_size,
+> +			    loff_t file_offset, u8 *buf, u32 *feature)
+> +{
+> +	u32 buf_pos;
+> +	unsigned long read_size;
+> +	unsigned long done;
+> +	int found = 0;
+> +	int ret = 0;
+> +	u32 last_pr = 0;
+> +
+> +	*feature = 0;
+> +	buf_pos = 0;
+> +
+> +	for (done = 0; done < desc_size; done += buf_pos) {
+> +		read_size = desc_size - done;
+> +		if (read_size > BUF_SIZE)
+> +			read_size = BUF_SIZE;
+> +
+> +		ret = kernel_read(file, buf, read_size, &file_offset);
+> +
+> +		if (ret != read_size)
+> +			return (ret < 0) ? ret : -EIO;
+> +
+> +		ret = 0;
+> +		found = scan(buf, read_size, sizeof(struct property_x86),
+> +			     test_property_x86, next_property,
+> +			     &last_pr, &buf_pos);
+> +
+> +		if ((!buf_pos) || found)
+> +			break;
+> +
+> +		file_offset += buf_pos - read_size;
+> +	}
+> +
+> +	if (found) {
+> +		struct property_x86 *pr =
+> +			(struct property_x86 *)(buf + buf_pos);
+> +
+> +		if (pr->pr_datasz == 4) {
+> +			u32 *max =  (u32 *)(buf + read_size);
+> +			u32 *data = (u32 *)((u8 *)pr + sizeof(*pr));
+> +
+> +			if (data + 1 <= max) {
+> +				*feature = *data;
+> +			} else {
+> +				file_offset += buf_pos - read_size;
+> +				file_offset += sizeof(*pr);
+> +				ret = kernel_read(file, feature, 4,
+> +						  &file_offset);
+> +			}
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +/*
+> + * Search a PT_NOTE segment for the first NT_GNU_PROPERTY_TYPE_0.
+> + */
+> +static int find_note_type_0(struct file *file, unsigned long note_size,
+> +			    loff_t file_offset, u32 align, u32 *feature)
+> +{
+> +	u8 *buf;
+> +	u32 buf_pos;
+> +	unsigned long read_size;
+> +	unsigned long done;
+> +	int found = 0;
+> +	int ret = 0;
+> +
+> +	buf = kmalloc(BUF_SIZE, GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	*feature = 0;
+> +	buf_pos = 0;
+> +
+> +	for (done = 0; done < note_size; done += buf_pos) {
+> +		read_size = note_size - done;
+> +		if (read_size > BUF_SIZE)
+> +			read_size = BUF_SIZE;
+> +
+> +		ret = kernel_read(file, buf, read_size, &file_offset);
+> +
+> +		if (ret != read_size) {
+> +			ret = (ret < 0) ? ret : -EIO;
+> +			kfree(buf);
+> +			return ret;
+> +		}
+> +
+> +		/*
+> +		 * item_size = sizeof(struct elf_note) + elf_note.n_namesz.
+> +		 * n_namesz is 4 for the note type we look for.
+> +		 */
+> +		ret = 0;
+> +		found += scan(buf, read_size, sizeof(struct elf_note) + 4,
+> +			      test_note_type_0, next_note,
+> +			      &align, &buf_pos);
+> +
+> +		file_offset += buf_pos - read_size;
+> +
+> +		if (found == 1) {
+> +			struct elf_note *n =
+> +				(struct elf_note *)(buf + buf_pos);
+> +			u32 start = round_up(sizeof(*n) + n->n_namesz, align);
+> +			u32 total = round_up(start + n->n_descsz, align);
+> +
+> +			ret = find_feature_x86(file, n->n_descsz,
+> +					       file_offset + start,
+> +					       buf, feature);
+> +			file_offset += total;
+> +			buf_pos += total;
+> +		} else if (!buf_pos) {
+> +			*feature = 0;
+> +			break;
+> +		}
+> +	}
+> +
+> +	kfree(buf);
+> +	return ret;
+> +}
+> +
+> +#ifdef CONFIG_COMPAT
+> +static int check_notes_32(struct file *file, struct elf32_phdr *phdr,
+> +			  int phnum, u32 *feature)
+> +{
+> +	int i;
+> +	int err = 0;
+> +
+> +	for (i = 0; i < phnum; i++, phdr++) {
+> +		if ((phdr->p_type != PT_NOTE) || (phdr->p_align != 4))
+> +			continue;
+> +
+> +		err = find_note_type_0(file, phdr->p_filesz, phdr->p_offset,
+> +				       phdr->p_align, feature);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +#endif
+> +
+> +#ifdef CONFIG_X86_64
+> +static int check_notes_64(struct file *file, struct elf64_phdr *phdr,
+> +			  int phnum, u32 *feature)
+> +{
+> +	int i;
+> +	int err = 0;
+> +
+> +	for (i = 0; i < phnum; i++, phdr++) {
+> +		if ((phdr->p_type != PT_NOTE) || (phdr->p_align != 8))
+> +			continue;
+> +
+> +		err = find_note_type_0(file, phdr->p_filesz, phdr->p_offset,
+> +				       phdr->p_align, feature);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +#endif
+> +
+> +int arch_setup_features(void *ehdr_p, void *phdr_p,
+> +			struct file *file, bool interp)
+> +{
+> +	int err = 0;
+> +	u32 feature = 0;
+> +
+> +	struct elf64_hdr *ehdr64 = ehdr_p;
+> +
+> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +		return 0;
+> +
+> +	if (ehdr64->e_ident[EI_CLASS] == ELFCLASS64) {
+> +		struct elf64_phdr *phdr64 = phdr_p;
+> +
+> +		err = check_notes_64(file, phdr64, ehdr64->e_phnum,
+> +				     &feature);
+> +		if (err < 0)
+> +			goto out;
+> +	} else {
+> +#ifdef CONFIG_COMPAT
+> +		struct elf32_hdr *ehdr32 = ehdr_p;
+> +
+> +		if (ehdr32->e_ident[EI_CLASS] == ELFCLASS32) {
+> +			struct elf32_phdr *phdr32 = phdr_p;
+> +
+> +			err = check_notes_32(file, phdr32, ehdr32->e_phnum,
+> +					     &feature);
+> +			if (err < 0)
+> +				goto out;
+> +		}
+> +#endif
+> +	}
+> +
+> +	memset(&current->thread.cet, 0, sizeof(struct cet_status));
+> +
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		if (feature & GNU_PROPERTY_X86_FEATURE_1_SHSTK) {
+> +			err = cet_setup_shstk();
+> +			if (err < 0)
+> +				goto out;
+> +		}
+> +	}
+> +
+> +out:
+> +	return err;
+> +}
+
+There's a lot of similar code with bpf stackmap .build-id code (commit
+v4.17-rc1~148^2~156^2~3^2~1), it might be worthy generalising some ELF
+traversal routines, since there's general need of parsing ELF property
+segments.
