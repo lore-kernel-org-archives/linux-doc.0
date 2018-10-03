@@ -2,27 +2,27 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57D927D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 04:15:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BF2557D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 04:55:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbeJCLCR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 07:02:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57102 "EHLO mx1.redhat.com"
+        id S1726694AbeJCLmg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 07:42:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48952 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726394AbeJCLCR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 07:02:17 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        id S1726533AbeJCLmg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Oct 2018 07:42:36 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A81CDAC2D5;
-        Wed,  3 Oct 2018 04:15:39 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id AA6513082128;
+        Wed,  3 Oct 2018 04:55:52 +0000 (UTC)
 Received: from asgard.redhat.com (ovpn-200-17.brq.redhat.com [10.40.200.17])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1772D662D0;
-        Wed,  3 Oct 2018 04:15:27 +0000 (UTC)
-Date:   Wed, 3 Oct 2018 06:15:57 +0200
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 59B885D76A;
+        Wed,  3 Oct 2018 04:55:42 +0000 (UTC)
+Date:   Wed, 3 Oct 2018 06:56:11 +0200
 From:   Eugene Syromiatnikov <esyr@redhat.com>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -46,116 +46,27 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v4 19/27] x86/cet/shstk: Introduce WRUSS instruction
-Message-ID: <20181003041557.GA22724@asgard.redhat.com>
+Subject: Re: [RFC PATCH v4 24/27] mm/mmap: Create a guard area between VMAs
+Message-ID: <20181003045611.GB22724@asgard.redhat.com>
 References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
- <20180921150351.20898-20-yu-cheng.yu@intel.com>
+ <20180921150351.20898-25-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180921150351.20898-20-yu-cheng.yu@intel.com>
+In-Reply-To: <20180921150351.20898-25-yu-cheng.yu@intel.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Wed, 03 Oct 2018 04:15:40 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Wed, 03 Oct 2018 04:55:53 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 21, 2018 at 08:03:43AM -0700, Yu-cheng Yu wrote:
-> WRUSS is a new kernel-mode instruction but writes directly
-> to user shadow stack memory.  This is used to construct
-> a return address on the shadow stack for the signal
-> handler.
-> 
-> This instruction can fault if the user shadow stack is
-> invalid shadow stack memory.  In that case, the kernel does
-> fixup.
+On Fri, Sep 21, 2018 at 08:03:48AM -0700, Yu-cheng Yu wrote:
+> Create a guard area between VMAs, to detect memory corruption.
 
-"a fixup"
-
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/asm/special_insns.h | 32 ++++++++++++++++++++++++++++
->  arch/x86/mm/fault.c                  |  9 ++++++++
->  2 files changed, 41 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
-> index 317fc59b512c..c04e68ef47da 100644
-> --- a/arch/x86/include/asm/special_insns.h
-> +++ b/arch/x86/include/asm/special_insns.h
-> @@ -237,6 +237,38 @@ static inline void clwb(volatile void *__p)
->  		: [pax] "a" (p));
->  }
->  
-> +#ifdef CONFIG_X86_INTEL_CET
-> +#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
-> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
-> +{
-> +	asm_volatile_goto("1: wrussd %1, (%0)\n"
-> +			  _ASM_EXTABLE(1b, %l[fail])
-> +			  :: "r" (addr), "r" (val)
-> +			  :: fail);
-> +	return 0;
-> +fail:
-> +	return -1;
-
-Should it...
-
-> +}
-> +#else
-> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
-> +{
-> +	WARN_ONCE(1, "write_user_shstk_32 used but not supported.\n");
-
-"is/was used"
-
-> +	return -EFAULT;
-> +}
-> +#endif
-> +
-> +static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
-> +{
-> +	asm_volatile_goto("1: wrussq %1, (%0)\n"
-> +			  _ASM_EXTABLE(1b, %l[fail])
-> +			  :: "r" (addr), "r" (val)
-> +			  :: fail);
-> +	return 0;
-> +fail:
-> +	return -1;
-
-...and it be -EPERM, if -EFAULT was returned earlier for write_user_shstk_32?
-
-> +}
-> +#endif /* CONFIG_X86_INTEL_CET */
-> +
->  #define nop() asm volatile ("nop")
->  
->  
-> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> index 7c3877a982f4..4d4ac57a4ba2 100644
-> --- a/arch/x86/mm/fault.c
-> +++ b/arch/x86/mm/fault.c
-> @@ -1305,6 +1305,15 @@ __do_page_fault(struct pt_regs *regs, unsigned long error_code,
->  		error_code |= X86_PF_USER;
->  		flags |= FAULT_FLAG_USER;
->  	} else {
-> +		/*
-> +		 * WRUSS is a kernel instrcution and but writes
-
-"WRUSS is a kernel instruction but writes"
-
-> +		 * to user shadow stack.  When a fault occurs,
-> +		 * both X86_PF_USER and X86_PF_SHSTK are set.
-> +		 * Clear X86_PF_USER here.
-> +		 */
-> +		if ((error_code & (X86_PF_USER | X86_PF_SHSTK)) ==
-> +		    (X86_PF_USER | X86_PF_SHSTK))
-> +			error_code &= ~X86_PF_USER;
->  		if (regs->flags & X86_EFLAGS_IF)
->  			local_irq_enable();
->  	}
-> -- 
-> 2.17.1
-> 
+Do I understand correctly that with this patch a user space program
+no longer be able to place two mappings back to back? If it is so,
+it will likely break a lot of things; for example, it's a common ring
+buffer implementations technique, to map buffer memory twice back
+to back in order to avoid special handling of items wrapping its end.
