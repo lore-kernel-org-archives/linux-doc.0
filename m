@@ -1,115 +1,168 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 98C9D7D087
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 16:53:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E2417D08D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 17:26:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726862AbeJCXmT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 19:42:19 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:42670 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726842AbeJCXmT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 19:42:19 -0400
-Received: by mail-oi1-f195.google.com with SMTP id w81-v6so5087269oiw.9
-        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 09:53:07 -0700 (PDT)
+        id S1727225AbeJDAQC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 20:16:02 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:41535 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727033AbeJDAQC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 20:16:02 -0400
+Received: by mail-yw1-f67.google.com with SMTP id q129-v6so2605994ywg.8
+        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 10:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=nOMoFA3pt/QNOFKVsymAykXxw42vbOxgzwDRgQONvqg=;
-        b=KwTNb3H7GJ22hmUX3//uimOh8uaXG4prsMS3Q1oIb/u8ig/iSyMkdORLercP6AudDx
-         GypyylYCdQ8U6AS4mxmQZyqMqpjVOnaKZ5LMriU1RBuzrm9SX8SaUIHVYTpuuGVqUOAW
-         QrNTYZSKZ3VQR6g+Z6G1h7U4XtLkU64BpJUhsNwbQSuWNlLA+iJhzozoBtiaqP9zp/g3
-         iPWX/E1ehxsMuAwOpIfO9k70VOge5RkoCRjVdEYPUOtATM1lFv2oagfBdCmBbcVS1c3I
-         AoGG3ywH5uziYCeHth3pZac/8sYfgwB/L9raS44ZDWXELXErApSGVy/X+mGSDs+HAzmm
-         Offw==
+        bh=pgagTJS+/zh6aAZZxcRs0vqo7FGylJqShjBmA4Pw+9E=;
+        b=c0Ff/dGUIIowPk+JxYLnn8oOKC+ep2diKty9/lSpYwvFzBDsyvOyvcAsDcnhzxAHQe
+         1uKIl+v22OAy605FeiVBZ+AK3ZMFheACzKYtRM/hyHEuZ01LX9WPOHCfigfAz0FOmRZV
+         rPTu84GMskeVHyGvuIuSmnOJ+peco3/YpbVlk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=nOMoFA3pt/QNOFKVsymAykXxw42vbOxgzwDRgQONvqg=;
-        b=l0ROPl9oGRRP5At81RVVrpPztRqgdE08bqjdoo2UYO0CqhaZHtkwgK+0iHiJvLXb2+
-         3nTx5QNZwIUrt24chHKz+yH/jYodvi2mejvyyKK38iUVoX97JL9SbS18AbkRDVwJGTlJ
-         ohu3UpONn8nhbXmfNFNLSX+Uf/PGtGQKeRWOvjYWT5bEsAFji3K0yhzTzBXpRFyElR2x
-         0JYC9bAT97zRYfw6voPEYholZMlmNkwkBaxwhJVlB8WcoEje5sNw0Nq/ejWPbs5Si+4F
-         JUD1/B9elOZ+weV/yOUvNznGriN+L41Uv0CQCgkcGPceLNASsTfYdrxc07YeW36QNgTG
-         j93A==
-X-Gm-Message-State: ABuFfojnIPhHptaOm2IXQzbf3L65SqBi/NXoiC2QuKmNUnwo8g1+jAyg
-        Rxn3MHTOjB10Niofj7eXL25VLUwuSqoNZAaK6m1itw==
-X-Google-Smtp-Source: ACcGV63JI8IiOqsmHcLUF1uEUpbHHkcIc7xNmypxFvwN+flAdjV/Q3n9pQxCYQbKPcpL0fku7RjAo1YAcXTY4PAPF3c=
-X-Received: by 2002:aca:d513:: with SMTP id m19-v6mr1205223oig.82.1538585586555;
- Wed, 03 Oct 2018 09:53:06 -0700 (PDT)
+        bh=pgagTJS+/zh6aAZZxcRs0vqo7FGylJqShjBmA4Pw+9E=;
+        b=R8An+y5IUMksduckWcajVvfhxZLR674o+AXpj4egZcoOarAygoybg1k5GucDZCj0E1
+         sR/CDfAT14aYugp/Mnejvd5Obln7kDyqfjR/1blsl9h96+XQPB2dyWom7waCqiC6BjlG
+         vidYDDpdyYqFR3qoYCJY8Uw/36LhNbsuoV1tjhTjuf9Y1Z7wPaRuHR+uoOr2SN9fj1r8
+         vACBNM5aOmYb2prtSGX90qu4eAFeQsY7rw6T/LOC11NB9BfeCeZ3lbkIBHgPy6ldSQzf
+         JcnzbajxXD9OQo9H22nWrifE0eq3Zrik9Pv9jw5jjnUq/nxb/9JlT1G0mZWCW2eb6ZPi
+         B7JA==
+X-Gm-Message-State: ABuFfoiSHnD32Nd1/7s9vjToVSOIbkJ92MLebME6c7YwwH9Vk4b2MKLy
+        l/sTZu76Ur8ON1zuLxtUHGjW9aPXCJ0=
+X-Google-Smtp-Source: ACcGV63mSyJlI4HyTDdPpECPOJINTunoBqqRzopggtrWQg+yLo2W3ou/j3yxehj6f1l562bjFVzW/A==
+X-Received: by 2002:a81:70c4:: with SMTP id l187-v6mr1550055ywc.478.1538587601266;
+        Wed, 03 Oct 2018 10:26:41 -0700 (PDT)
+Received: from mail-yw1-f47.google.com (mail-yw1-f47.google.com. [209.85.161.47])
+        by smtp.gmail.com with ESMTPSA id n207-v6sm813721ywd.31.2018.10.03.10.26.37
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Oct 2018 10:26:38 -0700 (PDT)
+Received: by mail-yw1-f47.google.com with SMTP id m129-v6so2620365ywc.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 10:26:37 -0700 (PDT)
+X-Received: by 2002:a81:2908:: with SMTP id p8-v6mr1539629ywp.407.1538587597054;
+ Wed, 03 Oct 2018 10:26:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180921150351.20898-1-yu-cheng.yu@intel.com> <20180921150351.20898-25-yu-cheng.yu@intel.com>
- <20181003045611.GB22724@asgard.redhat.com> <CALCETrU-Ny-uC1NqRedQwNKe2MMhsFEqZ08TtHJwbLfCACMmLw@mail.gmail.com>
- <5ddb0ad33298d1858e530fce9c9ea2788b2fac81.camel@intel.com> <20181003163226.GC9449@asgard.redhat.com>
-In-Reply-To: <20181003163226.GC9449@asgard.redhat.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 3 Oct 2018 18:52:40 +0200
-Message-ID: <CAG48ez0KZYv9BECMm0-BNypJ232jrdkFp6_4VYTA=WoB-8w89w@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 24/27] mm/mmap: Create a guard area between VMAs
-To:     Eugene Syromiatnikov <esyr@redhat.com>
-Cc:     yu-cheng.yu@intel.com, Andy Lutomirski <luto@amacapital.net>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
+Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Wed, 3 Oct 2018 10:26:36 -0700 (PDT)
+In-Reply-To: <583a703e-18af-a1b2-dfc9-62a2a3384825@tycho.nsa.gov>
+References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-24-keescook@chromium.org>
+ <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
+ <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov> <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com>
+ <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov> <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
+ <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
+ <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
+ <alpine.LRH.2.21.1810030758460.23596@namei.org> <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
+ <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com> <CAGXu5jKqSZ5LhQ_HwbA9-_DAg3efNzWfLjpxO_rurBgUZ-nnAA@mail.gmail.com>
+ <583a703e-18af-a1b2-dfc9-62a2a3384825@tycho.nsa.gov>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Wed, 3 Oct 2018 10:26:36 -0700
+X-Gmail-Original-Message-ID: <CAGXu5jLmQQd4e=B3YsiEoRVih2m889ia2tnzu5r8bqcms2sOqQ@mail.gmail.com>
+Message-ID: <CAGXu5jLmQQd4e=B3YsiEoRVih2m889ia2tnzu5r8bqcms2sOqQ@mail.gmail.com>
+Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
+To:     Stephen Smalley <sds@tycho.nsa.gov>
+Cc:     John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
+        Paul Moore <paul@paul-moore.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>, rdunlap@infradead.org,
-        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 3, 2018 at 6:32 PM Eugene Syromiatnikov <esyr@redhat.com> wrote:
-> On Wed, Oct 03, 2018 at 09:00:04AM -0700, Yu-cheng Yu wrote:
-> > On Tue, 2018-10-02 at 22:36 -0700, Andy Lutomirski wrote:
-> > > On Tue, Oct 2, 2018 at 9:55 PM Eugene Syromiatnikov <esyr@redhat.com> wrote:
-> > > >
-> > > > On Fri, Sep 21, 2018 at 08:03:48AM -0700, Yu-cheng Yu wrote:
-> > > > > Create a guard area between VMAs, to detect memory corruption.
-> > > >
-> > > > Do I understand correctly that with this patch a user space program
-> > > > no longer be able to place two mappings back to back? If it is so,
-> > > > it will likely break a lot of things; for example, it's a common ring
-> > > > buffer implementations technique, to map buffer memory twice back
-> > > > to back in order to avoid special handling of items wrapping its end.
-> > >
-> > > I haven't checked what the patch actually does, but it shouldn't have
-> > > any affect on MAP_FIXED or the new no-replace MAP_FIXED variant.
-> > >
-> > > --Andy
-> >
-> > I did some mmap tests with/without MAP_FIXED, and it works as intended.
-> > In addition to the ring buffer, are there other test cases?
+On Wed, Oct 3, 2018 at 6:39 AM, Stephen Smalley <sds@tycho.nsa.gov> wrote:
+> On 10/02/2018 07:54 PM, Kees Cook wrote:
+>>
+>> On Tue, Oct 2, 2018 at 4:46 PM, John Johansen
+>> <john.johansen@canonical.com> wrote:
+>>>
+>>> On 10/02/2018 04:06 PM, Kees Cook wrote:
+>>>>
+>>>> I think the current proposal (in the other thread) is likely the
+>>>> sanest approach:
+>>>>
+>>>> - Drop CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE
+>>>> - Drop CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE
+>>>> - All enabled LSMs are listed at build-time in CONFIG_LSM_ENABLE
+>>>
+>>>
+>>> Hrrmmm isn't this a Kconfig selectable list, with each built-in LSM
+>>> available to be enabled by default at boot.
+>>
+>>
+>> That's not how I have it currently. It's a comma-separated a string,
+>> including the reserved name "all". The default would just be
+>> "CONFIG_LSM_ENABLE=all". Casey and I wanted this to have a way to
+>> capture new LSMs by default at build-time.
+>>
+>>>> - Boot time enabling for selinux= and apparmor= remain
+>>>> - lsm.enable= is explicit: overrides above and omissions are disabled
+>>>
+>>> wfm
+>>
+>>
+>> Okay, this is closer to v3 than v4. Paul or Stephen, how do you feel
+>> about losing the SELinux bootparam CONFIG? (i.e. CONFIG_LSM_ENABLE
+>> would be replacing its functionality.)
 >
-> Right, after some more code reading I figured out that it indeed
-> shouldn't affect MAP_FIXED, thank you for confirmation.
 >
-> I'm not sure, however, whether such a change that provides no ability
-> to configure or affect it will go well with all the supported
-> architectures.
+> I'd like to know how distro kernel maintainers feel about it. They would
+> need to understand that if they were previously setting
+> CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE to 0 and want to preserve that
+> behavior, then they must set CONFIG_LSM_ENABLE explicitly to a list of
+> security modules (that does not include selinux, of course).  In practice,
 
-Is there a concrete reason why you think an architecture might not
-like this? As far as I can tell, the virtual address space overhead
-should be insignificant even for 32-bit systems.
+That's not how it would be done. See below...
+
+> this means that even the distros that choose to build all security modules
+> into their kernels must explicitly set CONFIG_LSM_ENABLE to a specific list
+> of security modules.  So no one would use "all" in practice.
+
+This is why I had originally wanted to do CONFIG_LSM_DISABLE. Right
+now, distro kernel maintainers have two ways to trigger enablement:
+via the SELinux and AppArmor BOOTPARAM_VALUE _and_ DEFAULT_SECURITY
+(which is an implicit "enable" for Smack or TOMOYO). All the minors
+are on-if-built. So, really, the BOOTPARAM_VALUEs were only used for
+disabling. Distros would build what they wanted, then use
+DEFAULT_SECURITY for their desired major, and if their
+DEFAULT_SECURITY wasn't SELinux or AppArmor, they'd _also_ have to set
+those BOOTPARAM_VALUEs to 0.
+
+The goal of the series is to split this more cleanly between "enable"
+and "order": the way to handle the LSMs is to enable _everything_ and
+then set the desired init order: the first exclusive "wins". So I *do*
+think the default would be CONFIG_LSM_ENALBE=all, since it's
+CONFIG_LSM_ORDER= that effectively replaces CONFIG_DEFAULT_SECURITY.
+
+Either a distro builds a very specific subset of LSMs, or they build
+in all LSMs (for the user to choose from). In both cases, they set an
+explicit order, which defines which exclusive LSM get selected.
+
+AppArmor wants to drop BOOTPARAM_VALUE, which make sense, since it's
+even now redundant to CONFIG_DEFAULT_SECURITY. I think it makes sense
+to drop SELinux's BOOTPARAM_VALUE too. The current way to "enable" a
+major LSM is via CONFIG_DEFAULT_SECURITY. No sane distro kernel is
+going to set CONFIG_DEFAULT_SECURITY=selinux and
+CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE=0. If you wanted no major LSM
+(but still build them all in), you'd set CONFIG_DEFAULT_SECURITY="".
+
+-Kees
+
+-- 
+Kees Cook
+Pixel Security
