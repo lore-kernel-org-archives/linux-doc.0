@@ -5,41 +5,40 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C4EC47D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 16:21:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D8EA7D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 16:32:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727034AbeJCXKu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 19:10:50 -0400
-Received: from mga02.intel.com ([134.134.136.20]:9897 "EHLO mga02.intel.com"
+        id S1726943AbeJCXVS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 19:21:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51848 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726950AbeJCXKu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 19:10:50 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2018 09:21:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,336,1534834800"; 
-   d="scan'208";a="91865603"
-Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Oct 2018 09:16:14 -0700
-Message-ID: <9c93e864e5996862cb5fdb66d4140faa634cbc47.camel@intel.com>
-Subject: Re: [RFC PATCH v4 06/27] x86/cet: Control protection exception
- handler
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Eugene Syromiatnikov <esyr@redhat.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S1726829AbeJCXVS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Oct 2018 19:21:18 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5EC9B3084026;
+        Wed,  3 Oct 2018 16:32:10 +0000 (UTC)
+Received: from asgard.redhat.com (ovpn-200-25.brq.redhat.com [10.40.200.25])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E1E9B87DB;
+        Wed,  3 Oct 2018 16:31:57 +0000 (UTC)
+Date:   Wed, 3 Oct 2018 18:32:26 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     Andy Lutomirski <luto@amacapital.net>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
@@ -48,71 +47,50 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Wed, 03 Oct 2018 09:11:34 -0700
-In-Reply-To: <20181003103959.GB7111@asgard.redhat.com>
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v4 24/27] mm/mmap: Create a guard area between VMAs
+Message-ID: <20181003163226.GC9449@asgard.redhat.com>
 References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
-         <20180921150351.20898-7-yu-cheng.yu@intel.com>
-         <20181003103959.GB7111@asgard.redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+ <20180921150351.20898-25-yu-cheng.yu@intel.com>
+ <20181003045611.GB22724@asgard.redhat.com>
+ <CALCETrU-Ny-uC1NqRedQwNKe2MMhsFEqZ08TtHJwbLfCACMmLw@mail.gmail.com>
+ <5ddb0ad33298d1858e530fce9c9ea2788b2fac81.camel@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ddb0ad33298d1858e530fce9c9ea2788b2fac81.camel@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Wed, 03 Oct 2018 16:32:10 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2018-10-03 at 12:39 +0200, Eugene Syromiatnikov wrote:
-> On Fri, Sep 21, 2018 at 08:03:30AM -0700, Yu-cheng Yu wrote:
-> > +dotraplinkage void
-> > +do_control_protection(struct pt_regs *regs, long error_code)
-> > +{
-> > +	struct task_struct *tsk;
-> > +
-> > +	RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
-> > +	if (notify_die(DIE_TRAP, "control protection fault", regs,
-> > +		       error_code, X86_TRAP_CP, SIGSEGV) == NOTIFY_STOP)
-> > +		return;
-> > +	cond_local_irq_enable(regs);
-> > +
-> > +	if (!user_mode(regs))
-> > +		die("kernel control protection fault", regs, error_code);
-> > +
-> > +	if (!static_cpu_has(X86_FEATURE_SHSTK) &&
-> > +	    !static_cpu_has(X86_FEATURE_IBT))
-> > +		WARN_ONCE(1, "CET is disabled but got control "
-> > +			  "protection fault\n");
-> > +
-> > +	tsk = current;
-> > +	tsk->thread.error_code = error_code;
-> > +	tsk->thread.trap_nr = X86_TRAP_CP;
-> > +
-> > +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-> > +	    printk_ratelimit()) {
-> > +		unsigned int max_err;
-> > +
-> > +		max_err = ARRAY_SIZE(control_protection_err) - 1;
-> > +		if ((error_code < 0) || (error_code > max_err))
-> > +			error_code = 0;
-> > +		pr_info("%s[%d] control protection ip:%lx sp:%lx
-> > error:%lx(%s)",
-> > +			tsk->comm, task_pid_nr(tsk),
-> > +			regs->ip, regs->sp, error_code,
-> > +			control_protection_err[error_code]);
-> > +		print_vma_addr(KERN_CONT " in ", regs->ip);
-> > +		pr_cont("\n");
-> > +	}
-> > +
-> > +	force_sig_info(SIGSEGV, SEND_SIG_PRIV, tsk);
+On Wed, Oct 03, 2018 at 09:00:04AM -0700, Yu-cheng Yu wrote:
+> On Tue, 2018-10-02 at 22:36 -0700, Andy Lutomirski wrote:
+> > On Tue, Oct 2, 2018 at 9:55 PM Eugene Syromiatnikov <esyr@redhat.com> wrote:
+> > > 
+> > > On Fri, Sep 21, 2018 at 08:03:48AM -0700, Yu-cheng Yu wrote:
+> > > > Create a guard area between VMAs, to detect memory corruption.
+> > > 
+> > > Do I understand correctly that with this patch a user space program
+> > > no longer be able to place two mappings back to back? If it is so,
+> > > it will likely break a lot of things; for example, it's a common ring
+> > > buffer implementations technique, to map buffer memory twice back
+> > > to back in order to avoid special handling of items wrapping its end.
+> > 
+> > I haven't checked what the patch actually does, but it shouldn't have
+> > any affect on MAP_FIXED or the new no-replace MAP_FIXED variant.
+> > 
+> > --Andy
 > 
-> That way, no information is provided to userspace (both application and
-> debugger), which is rather unfortunate. It would be nice if a new SEGV_*
-> code was added at least, and CET error (with error code constant provided
-> in UAPI) is passed via si_errno. (Having ip/sp/*ssp would be even
-> better, but I'm not exactly sure about ramifications of providing this
-> kind of information to user space).
+> I did some mmap tests with/without MAP_FIXED, and it works as intended.
+> In addition to the ring buffer, are there other test cases?
 
-Ok, I will add that.
+Right, after some more code reading I figured out that it indeed
+shouldn't affect MAP_FIXED, thank you for confirmation.
 
-Yu-cheng
+I'm not sure, however, whether such a change that provides no ability
+to configure or affect it will go well with all the supported
+architectures.
