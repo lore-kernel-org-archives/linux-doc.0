@@ -1,95 +1,180 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1B1F27D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 13:01:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F0EC57D087
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 13:02:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbeJCTtL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 15:49:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35714 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726630AbeJCTtL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 15:49:11 -0400
-Received: from gandalf.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D057020835;
-        Wed,  3 Oct 2018 13:00:48 +0000 (UTC)
-Date:   Wed, 3 Oct 2018 09:00:47 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
+        id S1726755AbeJCTvF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 15:51:05 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:55172 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726998AbeJCTvF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 15:51:05 -0400
+Received: by mail-wm1-f67.google.com with SMTP id r63-v6so5646759wma.4
+        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 06:02:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=A+aivF/32R1ktzeou5fE9ytY0sBoviKtCVouuPwcBio=;
+        b=hUibl2zs39ZWGRNCDzgezwncyk2K6+SmPP5qussWgvUhtTj/4eymODGSZpVRTmBEvB
+         vgBsNpOzgZeAQJk0zEaH4h8Zq/lNbBkPXMgsCDYCREtFRvAQCxjTrqq5ftAJUkPX4ROS
+         tu8kkDM56XoKwkFwsvmFcHG89B0U0z1hzd1YU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=A+aivF/32R1ktzeou5fE9ytY0sBoviKtCVouuPwcBio=;
+        b=LjbUwtsXbXDheOLTn/V6/GlWK8yTMDkw9Nwibfh/NnAfAbAH+k4bSipcrfPUS0Wmxl
+         iqNmuevcbRH/mnUM/40jL8rNGKuQPtTmioysaNYfViJwAWzD4/kVwLrQTjDVwj7hTRhF
+         qJZ/jKEvuFp9KQ39lPaYw+Jwvao0GeDDbflXWGjmFMLPI6yq9qh71/hNkWKAYgJSN+He
+         6/Uu81aMoJ7Bycdnfx3Ftlxq5tbms39x8XySWkP4xMHIE12BFJeyc1pFRDeWM3DDtLeI
+         4pxKl62lsXiWbea9xEj1FyiZow8O9P1Ow6EkBkIxBIQeK3vwbHndWCpKl5d4tlYbBW4Y
+         AW7w==
+X-Gm-Message-State: ABuFfoiwPeTzmPIul6bArkjV/rhgGeiB4t3hhd3lCyCWXZPi83SneOAg
+        EpPJo6rS7OYkM0YcGKkMfVDZGQ==
+X-Google-Smtp-Source: ACcGV63ogankSLUvImdLvYTQBlnfKCox3HBy5wg15/BEutwYe4tgE3TLg8IqIDvMApIxBg5z3wzrxA==
+X-Received: by 2002:a1c:e4c6:: with SMTP id b189-v6mr1432893wmh.114.1538571763766;
+        Wed, 03 Oct 2018 06:02:43 -0700 (PDT)
+Received: from [192.168.0.41] (84.152.136.77.rev.sfr.net. [77.136.152.84])
+        by smtp.googlemail.com with ESMTPSA id a105-v6sm2949592wrc.23.2018.10.03.06.02.41
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Oct 2018 06:02:42 -0700 (PDT)
+Subject: Re: [PATCH v5 04/21] dt-bindings: Add doc for the Ingenic TCU drivers
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Guenter Roeck <linux@roeck-us.net>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-watchdog@vger.kernel.org, robh@kernel.org,
+        linux-mips@linux-mips.org, Stephen Boyd <sboyd@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>, "Ted Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
-Message-ID: <20181003090047.5aa88fc4@gandalf.local.home>
-In-Reply-To: <CANiq72nLLhTf3AsXqLkPmK6TV_g7E3tML9XaM_zE45dM7XPn-A@mail.gmail.com>
-References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
-        <20181003071059.02b3fd6f@canb.auug.org.au>
-        <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
-        <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
-        <20181002223652.GA4290@nautica>
-        <20181003090010.5150f914@canb.auug.org.au>
-        <CANiq72nLLhTf3AsXqLkPmK6TV_g7E3tML9XaM_zE45dM7XPn-A@mail.gmail.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org
+References: <5bb4bb5d.1c69fb81.ed9a6.adc6SMTPIN_ADDED_MISSING@mx.google.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <fa8dd794-3077-eb5c-5657-f62d1a6521b5@linaro.org>
+Date:   Wed, 3 Oct 2018 15:02:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <5bb4bb5d.1c69fb81.ed9a6.adc6SMTPIN_ADDED_MISSING@mx.google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 3 Oct 2018 14:34:28 +0200
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+On 03/10/2018 14:51, Paul Cercueil wrote:
+> 
+> Le 3 oct. 2018 2:47 PM, Daniel Lezcano <daniel.lezcano@linaro.org> a
+> écrit :
+>> 
+>> On 03/10/2018 12:32, Paul Cercueil wrote:
+>>> 
+>>> Le 1 oct. 2018 10:48, Daniel Lezcano <daniel.lezcano@linaro.org>
+>>> a écrit :
+>>>> 
+>>>> On 31/07/2018 00:01, Paul Cercueil wrote:
+>>>> 
+>>>> [ ... ]
+>>>> 
+>>>>>>> +- ingenic,timer-channel: Specifies the TCU channel that
+>>>>>>>  should be used as +  system timer. If not provided, the
+>>>>>>> TCU channel 0 is used for the system timer. + +- 
+>>>>>>> ingenic,clocksource-channel: Specifies the TCU channel
+>>>>>>> that should be used +  as clocksource and sched_clock. It
+>>>>>>> must be a different channel than the one +  used as
+>>>>>>> system timer. If not provided, neither a clocksource nor
+>>>>>>> a +  sched_clock is instantiated.
+>>>>>> 
+>>>>>> clocksource and sched_clock are Linux specific and don't
+>>>>>> belong in DT. You should define properties of the hardware
+>>>>>> or use existing properties like interrupts or clocks to
+>>>>>> figure out which channel to use. For example, if some
+>>>>>> channels don't have an interrupt, then use them for
+>>>>>> clocksource and not a clockevent. Or you could have timers
+>>>>>> that run in low-power modes or not. If all the channels are
+>>>>>> identical, then it shouldn't matter which ones the OS
+>>>>>> picks.
+>>>> 
+>>>> It can't work in this case because the pmw and the timer driver
+>>>> are not communicating and the first one can stole a channel to
+>>>> the last one.
+>>> 
+>>> In that particular case the timer driver will always request its
+>>>  channels first; with no timer set the system hangs before 
+>>> subsys_initcall, and the PWM driver is a subnode of the timer
+>>> node, so is probed only after the timer probed.
+>>> 
+>>>>> We already talked about that. All the TCU channels can be
+>>>>> used for PWM. The problem is I cannot know from the driver's
+>>>>> scope which channels will be free and which channels will be
+>>>>> requested for PWM. You suggested that I parse the devicetree
+>>>>> for clients, and I did that in the V3/V4 patchset. But it
+>>>>> only works for clients requesting through devicetree, not
+>>>>> from platform code or even sysfs.
+>>>>> 
+>>>>> One thing I can try is to dynamically change the channels the
+>>>>>  system timer and clocksource are using when the current ones
+>>>>> are requested for PWM. But that sounds hardcore...
+>>>> 
+>>>> Yes, it is :/
+>>>> 
+>>>> Sorry for letting you wasting time and effort to write an
+>>>> overkill code not suitable for upstream.
+>>>> 
+>>>> A very gross thought, wouldn't be possible to "register" a
+>>>> channel from the timer driver code in a shared data area (but
+>>>> well self-encapsulated) and the pwm code will check such
+>>>> channel isn't in use ?
+>>> 
+>>> Probably, but it's the contrary I need to do. The timer driver
+>>> code can use any channel, and probes first. The PWM driver code
+>>> must use specific channels, and probes last. So either the timer
+>>> driver knows what channels it can't use, thanks to a device
+>>> property, or it adapts itself when a channel in use is requested
+>>> for PWM, which is what I tried in v7.
+>> 
+>> When you say "must use specific channels", where is coming this 
+>> information ?
+> 
+> If the backlight for the LCD is connected to the pin that corresponds
+> to PWM1, then you must use the TCU channel 1. It's that simple.
 
-> When I sent the first email, I assumed that changes in -next were
-> supposed to be clean -- my mistake, but please document somewhere how
-> -next works! Specially that you are rerere'ing conflicts and
-> re-resolving them every day.
+Is it a runtime detection or is it hardcoded somewhere ?
 
-Yes, a document in the Documentation directory on how to work with
-linux-next may be a good idea. Something we can point people to when
-they start using linux-next. I know there was something in the initial
-email, but I've lost that.
+(just trying to understand the whole picture)
 
--- Steve
+>>> I think we could find a way to use a devicetree property that
+>>> doesn't trigger Rob. That would still be the easiest and cleanest
+>>> solution.
+>>> 
+>>> Maybe "ingenic,reserved-channels-mask", which would contain a
+>>> mask of channels that can only be used by the timer driver. And
+>>> what the timer driver does with these channels, would be specific
+>>> to the implementation and would not appear in the bindings. I
+>>> hope Rob can work with that.
+>>> 
+>>> -Paul
+
+
+-- 
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
