@@ -1,165 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D9C477D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 20:36:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B23257D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 21:04:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727144AbeJDD0L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 23:26:11 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:36351 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726950AbeJDD0L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 23:26:11 -0400
-Received: by mail-yb1-f194.google.com with SMTP id 5-v6so2982272ybf.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 13:36:13 -0700 (PDT)
+        id S1727137AbeJDDyV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 23:54:21 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:46042 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726969AbeJDDyU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 23:54:20 -0400
+Received: by mail-pg1-f193.google.com with SMTP id t70-v6so2084156pgd.12;
+        Wed, 03 Oct 2018 14:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=wpFr+Hx2NbVy/3EKUYPoL01zFPb1EwjCpAZhF1GQotc=;
-        b=MOg30Bv7tHPEVqfq4sdyfblhl/GzBPRza0X1/0VWWk5u1jUcBPuObp9VPmc0024Jx2
-         QQgmIFYAlJp4wO4HZV8dPKR+qTVyAK1gpTZg1ascP4mJtCxCBW9bcoWDqIxfOvE8Y/3i
-         YU4A3i/+iWIXQMce0nD1g4RP2hC+AbCnF/k2U=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=eT1z7kCaPNGd1B8QQr3yYO0fQSZS6ql4og4wbPEH0pE=;
+        b=Ngv+saBEi757gu59/zsVBhNl8Dw8bgJoPAjQYA+/5V27qHYea3LO5lfTJBCobAD0YV
+         4dL2g/fU74cCN/U5TFetx+Rf7OJxzGY4ol1194P7KUupGE7G+1OmQh9UvhM2EyUqoIE8
+         MB+uXHWpGM+Em5zloHz/0yzmHTxP3AJb7ZwOQmgpOW2JKB63Fsd8I0W6QWtPN0uRdfYX
+         Ys3j5f8qP8ui6rVLkn2SGEpdxGo5hWIawgMns9o9516gT5j4tw46O3iUJ3rwvOXty2E7
+         zxsJvOlRplHRRxSJ9Z7GsE8ODreHTLpRHQDQYhQpmzDRDr+yTLwNl8KiMXRqkgkQDe6Q
+         hmTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=wpFr+Hx2NbVy/3EKUYPoL01zFPb1EwjCpAZhF1GQotc=;
-        b=V6Vh5PLXifvzybiG0SM1K45t3DOlqjoTfQ1RdP/kVPGJf9ZPoGS5eOI+bGlmloX7HG
-         PzMCiapAUG5JVw3Tf/+2ohfU9uuRVmdqxF/GWeW+pKo4RNFGluPD7r/GeolMIUG0ID4y
-         EyUU6taeW1Rnqbmb56JtpjfU8DA17T3UYQoHE7NkHw5xGLgCNsSYvQQLMzqFgSjG8lgx
-         LZTqanJWyhR60SpE9xgVxYw6Z34IBIbnRJItDVvvs8eH8OMT5lB2WFeMfx5JP9snzWaI
-         rkvPgpurXYki7w3h12O34Zq6Io1mmr7P3e34bCDwuzqlUZdGJZQ2nDeTpCkYVdmbUvNO
-         Irog==
-X-Gm-Message-State: ABuFfoi1E0eXKxEdE39Z6oukYfjyth1gQYNaJw9o4rFN0tLAD7m7C9v9
-        Rigzh+VMIQ4VrOT15fEwooBg5/fyxRg=
-X-Google-Smtp-Source: ACcGV63aCfmpxPTe14kk9nondI0ZunfSvAeHYrsb4tAbsZJCdUs+UBr58ZPS4jmqL3aKem9QFmCMuQ==
-X-Received: by 2002:a25:ac62:: with SMTP id r34-v6mr1951979ybd.115.1538598972238;
-        Wed, 03 Oct 2018 13:36:12 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id d128-v6sm904924ywe.18.2018.10.03.13.36.10
-        for <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=eT1z7kCaPNGd1B8QQr3yYO0fQSZS6ql4og4wbPEH0pE=;
+        b=clz6mjKvSu9N9CIdasj8WG428XcY236R0KpYpa0HUjmjEKOF4qnjUsVVyXESSLY5js
+         pa46s/qHFDc+yH7A3iVZ9EMqet6BcdQi7J+S/sUpY1PwWwdskuvhPszURWLxToJYDOcQ
+         pCWM9dSdOcXaxMXoRSKJXPxRZeaPCRRM33tS7Y/5PaWvw5fTJp1gAoedzRaGV4EkQb68
+         4OsW/nNhi5sYPwfJeYhLX+w8y3Df8FksgAl/K1IrW7Fv922+LeLh7tvVJy6SPXRGxrj6
+         6WtZIQORhnDrHG2MzlaJc5ymR5NcnQFoc3nXCZUf+F+CHHP3hsLeSG5o/rYvIWzpkv0Z
+         Vm2A==
+X-Gm-Message-State: ABuFfojgaVnNHIDfcwmv55Cw+RYrUCtwfKvvl8L+VZsWfL1qCVUifpDf
+        JeWzYcgeb5SMYAHOL+grP54=
+X-Google-Smtp-Source: ACcGV63r7lBrjqtmQnZ6ViwGWA6GXWACF2TQT3mMsHME7Ir+3FnMipnY1MTfeufDXEGVoWFx/21rcg==
+X-Received: by 2002:a63:f05:: with SMTP id e5-v6mr2840555pgl.84.1538600657175;
+        Wed, 03 Oct 2018 14:04:17 -0700 (PDT)
+Received: from [10.69.78.41] ([192.19.223.250])
+        by smtp.gmail.com with ESMTPSA id y4-v6sm3199749pfm.137.2018.10.03.14.04.12
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Oct 2018 13:36:11 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id e190-v6so2973315ybb.5
-        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 13:36:10 -0700 (PDT)
-X-Received: by 2002:a25:2395:: with SMTP id j143-v6mr1934723ybj.137.1538598970262;
- Wed, 03 Oct 2018 13:36:10 -0700 (PDT)
+        Wed, 03 Oct 2018 14:04:15 -0700 (PDT)
+Subject: Re: [PATCH v2 00/29] at24: remove at24_platform_data
+To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Brian Norris <computersforpeace@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
+        Rob Herring <robh@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Norris <briannorris@chromium.org>
+References: <20180810080526.27207-1-brgl@bgdev.pl>
+ <20180831194643.GA62862@ban.mtv.corp.google.com>
+ <CAMRc=MejZLV1EQ7uAddsxLY0MTUF8WyiBn=F0ZhkWQJpET0EDQ@mail.gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <a4c2e6cf-749a-83a1-0bda-43ddb7e744cd@gmail.com>
+Date:   Wed, 3 Oct 2018 14:04:10 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.0
 MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Wed, 3 Oct 2018 13:36:09 -0700 (PDT)
-In-Reply-To: <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com>
-References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-24-keescook@chromium.org>
- <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
- <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov> <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com>
- <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov> <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
- <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
- <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
- <alpine.LRH.2.21.1810030758460.23596@namei.org> <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
- <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com> <alpine.LRH.2.21.1810040416500.13517@namei.org>
- <CAGXu5j+oPR58oJ06-n7e96-Rmu+ywTW0hud5LhOZ_3UXG5s12w@mail.gmail.com>
- <alpine.LRH.2.21.1810040427550.13517@namei.org> <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Wed, 3 Oct 2018 13:36:09 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jLBHN=YSs3Uh49bBJ1SRA1Km2UUD4j37GJJXiKhQq+KPA@mail.gmail.com>
-Message-ID: <CAGXu5jLBHN=YSs3Uh49bBJ1SRA1Km2UUD4j37GJJXiKhQq+KPA@mail.gmail.com>
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-To:     James Morris <jmorris@namei.org>
-Cc:     John Johansen <john.johansen@canonical.com>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMRc=MejZLV1EQ7uAddsxLY0MTUF8WyiBn=F0ZhkWQJpET0EDQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 3, 2018 at 1:10 PM, Kees Cook <keescook@chromium.org> wrote:
-> On Wed, Oct 3, 2018 at 11:28 AM, James Morris <jmorris@namei.org> wrote:
->> On Wed, 3 Oct 2018, Kees Cook wrote:
+
+
+On 10/3/2018 1:15 PM, Bartosz Golaszewski wrote:
+> pt., 31 sie 2018 o 21:46 Brian Norris <computersforpeace@gmail.com> napisał(a):
 >>
->>> On Wed, Oct 3, 2018 at 11:17 AM, James Morris <jmorris@namei.org> wrote:
->>> > On Tue, 2 Oct 2018, John Johansen wrote:
->>> >> To me a list like
->>> >>   lsm.enable=X,Y,Z
->>> >
->>> > What about even simpler:
->>> >
->>> > lsm=selinux,!apparmor,yama
->>>
->>> We're going to have lsm.order=, so I'd like to keep it with a dot
->>> separator (this makes it more like module parameters, too). You want
->>> to mix enable/disable in the same string? That implies you'd want
->>> implicit enabling (i.e. it complements the builtin enabling), which is
->>> opposite from what John wanted.
->>>
+>> Hi,
 >>
->> Why can't this be the order as well?
->
-> That was covered extensively in the earlier threads. It boils down to
-> making sure we do not create a pattern of leaving LSMs disabled by
-> default when they are added to the kernel. The v1 series used
-> security= like this:
->
-> +       security=       [SECURITY] An ordered comma-separated list of
-> +                       security modules to attempt to enable at boot. If
-> +                       this boot parameter is not specified, only the
-> +                       security modules asking for initialization will be
-> +                       enabled (see CONFIG_DEFAULT_SECURITY). Duplicate
-> +                       or invalid security modules will be ignored. The
-> +                       capability module is always loaded first, without
-> +                       regard to this parameter.
->
-> This meant booting "security=apparmor" would disable all the other
-> LSMs, which wasn't friendly at all. So "security=" was left alone (to
-> leave it to only select the "major" LSM: all major LSMs not matching
-> "security=" would be disabled). So I proposed "lsm.order=" to specify
-> the order things were going to be initialized in, but to avoid kernels
-> booting with newly added LSMs forced-off due to not being listed in
-> "lsm.order=", it had to have implicit fall-back for unlisted LSMs.
-> (i.e. anything missing from lsm.order would then follow their order in
-> CONFIG_LSM_ORDER, and anything missing there would fall back to
-> link-time ordering.) However, then the objection was raised that this
-> didn't provide a way to explicitly disable an LSM. So I proposed
-> lsm.enable/disable, and John argued for CONFIG_LSM_ENABLE over
-> CONFIG_LSM_DISABLE.
+>> On Fri, Aug 10, 2018 at 10:04:57AM +0200, Bartosz Golaszewski wrote:
+>>> Most boards use the EEPROM to store the MAC address. This series adds
+>>> support for cell lookups to the nvmem framework, registers relevant
+>>> cells for all users, adds nvmem support to eth_platform_get_mac_address(),
+>>> converts davinci_emac driver to using it and replaces at24_platform_data
+>>> with device properties.
+>>
+>> We already have:
+>>
+>> of_get_nvmem_mac_address() (which does exactly what you're adding,
+>> except it's DT specific)
+>> of_get_mac_address()
+>> fwnode_get_mac_address()
+>> device_get_mac_address()
+>>
+>> and now you've taught me that this exists too:
+>>
+>> eth_platform_get_mac_address()
+>>
+>> These mostly don't share code, and with your series, they'll start to
+>> diverge even more as to what they support. Can you please help rectify
+>> that, instead of widening the gap?
+>>
+>> For instance, you can delete most of eth_platform_get_mac_address() and
+>> replace it with device_get_mac_address() [1]. And you could add your new
+>> stuff to fwnode_get_mac_address().
+>>
+>> And important part to note here is that you code isn't just useful for
+>> ethernet -- it could be useful for Wifi devices too. So IMO, sticking it
+>> only in an "eth" function is the wrong move.
+>>
+>> Brian
+>>
+>> [1] arch_get_platform_mac_address() is the only part I wouldn't want to
+>> replicate into a truly generic helper. The following should be a no-op
+>> refactor, AIUI:
+>>
+> 
+> The only user of arch_get_platform_mac_address() is sparc. It returns
+> an address that seems to be read from some kind of EEPROM. I'm not
+> familiar with this arch though. I'm wondering if we could somehow
+> seamlessly remove this call and then convert all users of
+> eth_platform_get_mac_address() to using device_get_mac_address()?
+> 
+> David: I couldn't find a place in sparc code where any ethernet device
+> would be registered, so is there a chance that nobody is using it?
 
-I still think we should have all built LSMs enabled by default, with
-CONFIG_LSM_DISABLE available to turn stuff off. CONFIG_LSM_ORDER
-declares their order, "lsm.order=" works as mentioned, and
-"lsm.enable/disable=" make changes to what's enabled.
-
-(This would be most like the v3 series, swapping CONFIG_LSM_ENABLE for
-CONFIG_LSM_DISABLE.)
-
-It gives us centralized ordering and centralized disabling. Distros
-wanting specific LSMs are already building them, so _also_ adding them
-to CONFIG_LSM_ENABLE seems redundant to me. Distros wanting all the
-LSMs just want to declare the order of initialization, and maybe add
-some to CONFIG_LSM_DISABLE some day, so they use CONFIG_LSM_ORDER.
-
-I should also note that I don't want to leave CONFIG_DEFAULT_SECURITY
-in, since it's just a way to disable all the other majors. I don't
-like this because it will force LSMs to be disabled that don't need to
-be once blob-sharing lands. The whole point of this series is to get
-us away from fixed ordering and thinking about "major" vs "minor" and
-towards "exclusive" or not, where we can continue to slowly chip away
-at exclusivity without breaking anything.
-
--Kees
-
+SPARC uses a true Open Firmware implementation, so it would register 
+drivers through the CONFIG_OF infrastructure.
 -- 
-Kees Cook
-Pixel Security
+Florian
