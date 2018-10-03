@@ -1,141 +1,192 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F93D7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 20:10:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EFDF67D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 20:15:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727132AbeJDDAt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 23:00:49 -0400
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:35182 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726941AbeJDDAt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 23:00:49 -0400
-Received: by mail-yw1-f65.google.com with SMTP id y76-v6so2842192ywd.2
-        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 13:10:56 -0700 (PDT)
+        id S1727218AbeJDDF3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 23:05:29 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:36847 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727091AbeJDDF3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 23:05:29 -0400
+Received: by mail-it1-f195.google.com with SMTP id c85-v6so10855717itd.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 13:15:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=2ltOwQ63QbGaIFq6R/SviRcoBgF6s6Isx0gKdU2+eh4=;
-        b=XPda/oH/q9itpDkmQRKeH9ujvUdiUnzH6UMG3fUN1ETKnM2I5z5t2kM6l4KmpYER+g
-         KpYQxsFTsVEdMQLDSVbBHLTY2cY5felkFLqd+8ZHGAfWyS/MU2mJgi1/Q/I88AtSLEmj
-         uZlwpyrbwRnSCwR9ft+EWCry46D1M2+Z14BUY=
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=+6VgtKoQRQClLuY3hlq3MEk2cdknUIKuog99zX/kvXM=;
+        b=1D2XUkmI4JFMfKs3DWFN0y1fkAzR4c9ORyfoXaGCLNHvK+a5lDIhH2leErJz5RxDEK
+         45SY3nGDvW8S1uWuAaoo0XDy3yvgBfi8RTjDd6QKzi9HeFP6rADVWreTOXmZjwzK7h7c
+         IahvjH32ZxANxts22IcVxaIOt+62D+mvoBVrWiC1caMlcvoBITsXOlVWXhtz3kfFENyw
+         e+i/i1XxtP+Q0mCwyO/sHgry3o0mnXuRGbWL55WwRHNK109IDHzHn0cgmneoboE/8nth
+         wwzIzfxDATGmf98ygzseWxnjPljsB8sT4OMxqql7naKJizcReOLGf5J3nusrt4+Ot3nC
+         tWkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=2ltOwQ63QbGaIFq6R/SviRcoBgF6s6Isx0gKdU2+eh4=;
-        b=qyBdAscy9brAX15rHm1bQMUWcilJCkVucJK6hiWX8BWn/p0Pdem5SVm5wrN194/mSq
-         +knRJFkdmG6PhZjUtvnP+9VMWaK0o1NU41RSSDGlYyg5bEeBOhkduZNC+hbzRHWEETeX
-         xye4C0voBW+/dMp1PIrXDGRkJJA6WgH4/rLGFr174PXlXyOIGd0G40dAS2DzFF5cXCCA
-         1wQ2n+OGHvglOnfhoQsiM+RrNL7WsDWXZ+IKJaTct0xr5QIWf9ZhU+JQKytrXuzAqdlt
-         Qgt5qfJE/EkHcBszVAOnukvroNonPLY0dTyUUTFGZbtPv0J5cTU242nlpbqmlMg4pkuZ
-         jNVg==
-X-Gm-Message-State: ABuFfog8X+DSPARrQm32TtFJLbyv6Us6hWzEiGH7Zk7IOgUJ+mDoqsnK
-        ZEYZLnh5gzKdDm2m9APZdMCu+Ru6UKg=
-X-Google-Smtp-Source: ACcGV62Fhrn7+Bq/pV7txLCIrDbEPhRhv0D2tV6/pusJrrbUS2RL1Lkvf6ltT+DRf2CZHWqDdP7I2g==
-X-Received: by 2002:a81:52d0:: with SMTP id g199-v6mr1959665ywb.368.1538597455287;
-        Wed, 03 Oct 2018 13:10:55 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id x64-v6sm1972610ywx.103.2018.10.03.13.10.53
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Oct 2018 13:10:54 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id o8-v6so2923744ybk.13
-        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 13:10:53 -0700 (PDT)
-X-Received: by 2002:a25:8091:: with SMTP id n17-v6mr1888958ybk.209.1538597452740;
- Wed, 03 Oct 2018 13:10:52 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=+6VgtKoQRQClLuY3hlq3MEk2cdknUIKuog99zX/kvXM=;
+        b=TodtHjf/LgeCgbbaYrI/4eFneaEy7FHVhAv46kpKAp1yq2cv41NpqOqD+DLoECwSxc
+         tT7+jqJwcULj+XsUZ8KERKVQoWB0Yzh4IybJ+wwdETYCvklU+oPqyieLJfISW+asLhoz
+         mjaJpZ+XKTeS08edcybpYohE/ZTtsc6TL57YvsrYzgfObDLqsutEoOb0VXSTrjHkSSpA
+         gB6MrkZO34HweZPQ+f8wOnkNxt0VUGkHYtJazjgmLuU0QahL8FYVc2YDTSwZ0uzvnrmU
+         i24m78JwH2CI+VxUuvz/NYGkuYiFu0p0CXJkrh7/sLtIaaO7r0Ya60TGW6dnRkE4xyp5
+         Dn6w==
+X-Gm-Message-State: ABuFfoiKryODVuzKY+TOFNvIx5eWpYWnpU1Ble+AtWfK4tBTj98Olhs4
+        j5m70yohFlGQXlFt0HGEZ4a/uqzwe0Wo9AmG363KGg==
+X-Google-Smtp-Source: ACcGV62MPxaE1h2pZ3p7zMCx7zIiDtlLRA5uOmjdNUm5il2OlaCPgUGksjNSSk1CbVO0n3761GjTTr0BOUja6hUBN3M=
+X-Received: by 2002:a24:6f05:: with SMTP id x5-v6mr2698446itb.111.1538597734624;
+ Wed, 03 Oct 2018 13:15:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Wed, 3 Oct 2018 13:10:51 -0700 (PDT)
-In-Reply-To: <alpine.LRH.2.21.1810040427550.13517@namei.org>
-References: <20181002005505.6112-1-keescook@chromium.org> <20181002005505.6112-24-keescook@chromium.org>
- <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
- <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov> <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com>
- <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov> <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
- <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
- <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
- <alpine.LRH.2.21.1810030758460.23596@namei.org> <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
- <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com> <alpine.LRH.2.21.1810040416500.13517@namei.org>
- <CAGXu5j+oPR58oJ06-n7e96-Rmu+ywTW0hud5LhOZ_3UXG5s12w@mail.gmail.com> <alpine.LRH.2.21.1810040427550.13517@namei.org>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Wed, 3 Oct 2018 13:10:51 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com>
-Message-ID: <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com>
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-To:     James Morris <jmorris@namei.org>
-Cc:     John Johansen <john.johansen@canonical.com>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+References: <20180810080526.27207-1-brgl@bgdev.pl> <20180831194643.GA62862@ban.mtv.corp.google.com>
+In-Reply-To: <20180831194643.GA62862@ban.mtv.corp.google.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Wed, 3 Oct 2018 22:15:23 +0200
+Message-ID: <CAMRc=MejZLV1EQ7uAddsxLY0MTUF8WyiBn=F0ZhkWQJpET0EDQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/29] at24: remove at24_platform_data
+To:     Brian Norris <computersforpeace@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
+        Rob Herring <robh@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Norris <briannorris@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 3, 2018 at 11:28 AM, James Morris <jmorris@namei.org> wrote:
-> On Wed, 3 Oct 2018, Kees Cook wrote:
+pt., 31 sie 2018 o 21:46 Brian Norris <computersforpeace@gmail.com> napisa=
+=C5=82(a):
 >
->> On Wed, Oct 3, 2018 at 11:17 AM, James Morris <jmorris@namei.org> wrote:
->> > On Tue, 2 Oct 2018, John Johansen wrote:
->> >> To me a list like
->> >>   lsm.enable=X,Y,Z
->> >
->> > What about even simpler:
->> >
->> > lsm=selinux,!apparmor,yama
->>
->> We're going to have lsm.order=, so I'd like to keep it with a dot
->> separator (this makes it more like module parameters, too). You want
->> to mix enable/disable in the same string? That implies you'd want
->> implicit enabling (i.e. it complements the builtin enabling), which is
->> opposite from what John wanted.
->>
+> Hi,
 >
-> Why can't this be the order as well?
+> On Fri, Aug 10, 2018 at 10:04:57AM +0200, Bartosz Golaszewski wrote:
+> > Most boards use the EEPROM to store the MAC address. This series adds
+> > support for cell lookups to the nvmem framework, registers relevant
+> > cells for all users, adds nvmem support to eth_platform_get_mac_address=
+(),
+> > converts davinci_emac driver to using it and replaces at24_platform_dat=
+a
+> > with device properties.
+>
+> We already have:
+>
+> of_get_nvmem_mac_address() (which does exactly what you're adding,
+> except it's DT specific)
+> of_get_mac_address()
+> fwnode_get_mac_address()
+> device_get_mac_address()
+>
+> and now you've taught me that this exists too:
+>
+> eth_platform_get_mac_address()
+>
+> These mostly don't share code, and with your series, they'll start to
+> diverge even more as to what they support. Can you please help rectify
+> that, instead of widening the gap?
+>
+> For instance, you can delete most of eth_platform_get_mac_address() and
+> replace it with device_get_mac_address() [1]. And you could add your new
+> stuff to fwnode_get_mac_address().
+>
+> And important part to note here is that you code isn't just useful for
+> ethernet -- it could be useful for Wifi devices too. So IMO, sticking it
+> only in an "eth" function is the wrong move.
+>
+> Brian
+>
+> [1] arch_get_platform_mac_address() is the only part I wouldn't want to
+> replicate into a truly generic helper. The following should be a no-op
+> refactor, AIUI:
+>
 
-That was covered extensively in the earlier threads. It boils down to
-making sure we do not create a pattern of leaving LSMs disabled by
-default when they are added to the kernel. The v1 series used
-security= like this:
+The only user of arch_get_platform_mac_address() is sparc. It returns
+an address that seems to be read from some kind of EEPROM. I'm not
+familiar with this arch though. I'm wondering if we could somehow
+seamlessly remove this call and then convert all users of
+eth_platform_get_mac_address() to using device_get_mac_address()?
 
-+       security=       [SECURITY] An ordered comma-separated list of
-+                       security modules to attempt to enable at boot. If
-+                       this boot parameter is not specified, only the
-+                       security modules asking for initialization will be
-+                       enabled (see CONFIG_DEFAULT_SECURITY). Duplicate
-+                       or invalid security modules will be ignored. The
-+                       capability module is always loaded first, without
-+                       regard to this parameter.
+David: I couldn't find a place in sparc code where any ethernet device
+would be registered, so is there a chance that nobody is using it?
 
-This meant booting "security=apparmor" would disable all the other
-LSMs, which wasn't friendly at all. So "security=" was left alone (to
-leave it to only select the "major" LSM: all major LSMs not matching
-"security=" would be disabled). So I proposed "lsm.order=" to specify
-the order things were going to be initialized in, but to avoid kernels
-booting with newly added LSMs forced-off due to not being listed in
-"lsm.order=", it had to have implicit fall-back for unlisted LSMs.
-(i.e. anything missing from lsm.order would then follow their order in
-CONFIG_LSM_ORDER, and anything missing there would fall back to
-link-time ordering.) However, then the objection was raised that this
-didn't provide a way to explicitly disable an LSM. So I proposed
-lsm.enable/disable, and John argued for CONFIG_LSM_ENABLE over
-CONFIG_LSM_DISABLE.
+Best regards,
+Bartosz Golaszewski
 
--Kees
-
--- 
-Kees Cook
-Pixel Security
+> diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
+> index ee28440f57c5..b738651f71e1 100644
+> --- a/net/ethernet/eth.c
+> +++ b/net/ethernet/eth.c
+> @@ -47,12 +47,12 @@
+>  #include <linux/inet.h>
+>  #include <linux/ip.h>
+>  #include <linux/netdevice.h>
+> +#include <linux/property.h>
+>  #include <linux/etherdevice.h>
+>  #include <linux/skbuff.h>
+>  #include <linux/errno.h>
+>  #include <linux/init.h>
+>  #include <linux/if_ether.h>
+> -#include <linux/of_net.h>
+>  #include <linux/pci.h>
+>  #include <net/dst.h>
+>  #include <net/arp.h>
+> @@ -528,19 +528,11 @@ unsigned char * __weak arch_get_platform_mac_addres=
+s(void)
+>  int eth_platform_get_mac_address(struct device *dev, u8 *mac_addr)
+>  {
+>         const unsigned char *addr;
+> -       struct device_node *dp;
+>
+> -       if (dev_is_pci(dev))
+> -               dp =3D pci_device_to_OF_node(to_pci_dev(dev));
+> -       else
+> -               dp =3D dev->of_node;
+> -
+> -       addr =3D NULL;
+> -       if (dp)
+> -               addr =3D of_get_mac_address(dp);
+> -       if (!addr)
+> -               addr =3D arch_get_platform_mac_address();
+> +       if (device_get_mac_address(dev, mac_addr, ETH_ALEN))
+> +               return 0;
+>
+> +       addr =3D arch_get_platform_mac_address();
+>         if (!addr)
+>                 return -ENODEV;
+>
