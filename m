@@ -1,180 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F0EC57D087
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 13:02:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B1E47D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 13:16:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbeJCTvF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 15:51:05 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:55172 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726998AbeJCTvF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 15:51:05 -0400
-Received: by mail-wm1-f67.google.com with SMTP id r63-v6so5646759wma.4
-        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 06:02:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=A+aivF/32R1ktzeou5fE9ytY0sBoviKtCVouuPwcBio=;
-        b=hUibl2zs39ZWGRNCDzgezwncyk2K6+SmPP5qussWgvUhtTj/4eymODGSZpVRTmBEvB
-         vgBsNpOzgZeAQJk0zEaH4h8Zq/lNbBkPXMgsCDYCREtFRvAQCxjTrqq5ftAJUkPX4ROS
-         tu8kkDM56XoKwkFwsvmFcHG89B0U0z1hzd1YU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=A+aivF/32R1ktzeou5fE9ytY0sBoviKtCVouuPwcBio=;
-        b=LjbUwtsXbXDheOLTn/V6/GlWK8yTMDkw9Nwibfh/NnAfAbAH+k4bSipcrfPUS0Wmxl
-         iqNmuevcbRH/mnUM/40jL8rNGKuQPtTmioysaNYfViJwAWzD4/kVwLrQTjDVwj7hTRhF
-         qJZ/jKEvuFp9KQ39lPaYw+Jwvao0GeDDbflXWGjmFMLPI6yq9qh71/hNkWKAYgJSN+He
-         6/Uu81aMoJ7Bycdnfx3Ftlxq5tbms39x8XySWkP4xMHIE12BFJeyc1pFRDeWM3DDtLeI
-         4pxKl62lsXiWbea9xEj1FyiZow8O9P1Ow6EkBkIxBIQeK3vwbHndWCpKl5d4tlYbBW4Y
-         AW7w==
-X-Gm-Message-State: ABuFfoiwPeTzmPIul6bArkjV/rhgGeiB4t3hhd3lCyCWXZPi83SneOAg
-        EpPJo6rS7OYkM0YcGKkMfVDZGQ==
-X-Google-Smtp-Source: ACcGV63ogankSLUvImdLvYTQBlnfKCox3HBy5wg15/BEutwYe4tgE3TLg8IqIDvMApIxBg5z3wzrxA==
-X-Received: by 2002:a1c:e4c6:: with SMTP id b189-v6mr1432893wmh.114.1538571763766;
-        Wed, 03 Oct 2018 06:02:43 -0700 (PDT)
-Received: from [192.168.0.41] (84.152.136.77.rev.sfr.net. [77.136.152.84])
-        by smtp.googlemail.com with ESMTPSA id a105-v6sm2949592wrc.23.2018.10.03.06.02.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Oct 2018 06:02:42 -0700 (PDT)
-Subject: Re: [PATCH v5 04/21] dt-bindings: Add doc for the Ingenic TCU drivers
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Guenter Roeck <linux@roeck-us.net>, linux-doc@vger.kernel.org,
+        id S1726892AbeJCUE1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 16:04:27 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:33514 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726630AbeJCUE0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 16:04:26 -0400
+Received: from static-50-53-48-205.bvtn.or.frontiernet.net ([50.53.48.205] helo=[192.168.192.153])
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <john.johansen@canonical.com>)
+        id 1g7h0Q-0003dw-Sg; Wed, 03 Oct 2018 13:15:59 +0000
+Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
+To:     Kees Cook <keescook@chromium.org>
+Cc:     James Morris <jmorris@namei.org>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-watchdog@vger.kernel.org, robh@kernel.org,
-        linux-mips@linux-mips.org, Stephen Boyd <sboyd@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Paul Burton <paul.burton@mips.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-pwm@vger.kernel.org
-References: <5bb4bb5d.1c69fb81.ed9a6.adc6SMTPIN_ADDED_MISSING@mx.google.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <fa8dd794-3077-eb5c-5657-f62d1a6521b5@linaro.org>
-Date:   Wed, 3 Oct 2018 15:02:40 +0200
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20181002005505.6112-1-keescook@chromium.org>
+ <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
+ <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov>
+ <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com>
+ <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov>
+ <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
+ <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
+ <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com>
+ <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
+ <alpine.LRH.2.21.1810030758460.23596@namei.org>
+ <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
+ <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com>
+ <CAGXu5jKqSZ5LhQ_HwbA9-_DAg3efNzWfLjpxO_rurBgUZ-nnAA@mail.gmail.com>
+ <3b539d37-136f-b868-3155-f2982eb63890@canonical.com>
+ <CAGXu5jJ-2V5ch-Qer_O0mg1J5-9SUmyJXsGYicZEMyg5KkqHaw@mail.gmail.com>
+From:   John Johansen <john.johansen@canonical.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Canonical
+Message-ID: <e3e60cd9-a390-af5c-7ccb-2b63694b0685@canonical.com>
+Date:   Wed, 3 Oct 2018 06:15:54 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <5bb4bb5d.1c69fb81.ed9a6.adc6SMTPIN_ADDED_MISSING@mx.google.com>
+In-Reply-To: <CAGXu5jJ-2V5ch-Qer_O0mg1J5-9SUmyJXsGYicZEMyg5KkqHaw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/10/2018 14:51, Paul Cercueil wrote:
+On 10/02/2018 05:12 PM, Kees Cook wrote:
+> On Tue, Oct 2, 2018 at 5:05 PM, John Johansen
+> <john.johansen@canonical.com> wrote:
+>> On 10/02/2018 04:54 PM, Kees Cook wrote:
+>>> That's not how I have it currently. It's a comma-separated a string,
+>>> including the reserved name "all". The default would just be
+>>> "CONFIG_LSM_ENABLE=all". Casey and I wanted this to have a way to
+>>> capture new LSMs by default at build-time.
+>>>
+>>
+>> I understand where you are coming from, but speaking with my distro
+>> hat on, that is not going to work. As a distro Ubuntu very much wants
+>> to be able to offer all the LSMs built in to the kernel so the user
+>> can select them. But very much wants to be able to specify a default
+>> supported subset that is enabled at boot.
+>>
+>> I expect RH and Suse will feel similarily. Speaking for Ubuntu if this
+>> isn't available as part of lsm stacking it will get distro patched in.
 > 
-> Le 3 oct. 2018 2:47 PM, Daniel Lezcano <daniel.lezcano@linaro.org> a
-> écrit :
->> 
->> On 03/10/2018 12:32, Paul Cercueil wrote:
->>> 
->>> Le 1 oct. 2018 10:48, Daniel Lezcano <daniel.lezcano@linaro.org>
->>> a écrit :
->>>> 
->>>> On 31/07/2018 00:01, Paul Cercueil wrote:
->>>> 
->>>> [ ... ]
->>>> 
->>>>>>> +- ingenic,timer-channel: Specifies the TCU channel that
->>>>>>>  should be used as +  system timer. If not provided, the
->>>>>>> TCU channel 0 is used for the system timer. + +- 
->>>>>>> ingenic,clocksource-channel: Specifies the TCU channel
->>>>>>> that should be used +  as clocksource and sched_clock. It
->>>>>>> must be a different channel than the one +  used as
->>>>>>> system timer. If not provided, neither a clocksource nor
->>>>>>> a +  sched_clock is instantiated.
->>>>>> 
->>>>>> clocksource and sched_clock are Linux specific and don't
->>>>>> belong in DT. You should define properties of the hardware
->>>>>> or use existing properties like interrupts or clocks to
->>>>>> figure out which channel to use. For example, if some
->>>>>> channels don't have an interrupt, then use them for
->>>>>> clocksource and not a clockevent. Or you could have timers
->>>>>> that run in low-power modes or not. If all the channels are
->>>>>> identical, then it shouldn't matter which ones the OS
->>>>>> picks.
->>>> 
->>>> It can't work in this case because the pmw and the timer driver
->>>> are not communicating and the first one can stole a channel to
->>>> the last one.
->>> 
->>> In that particular case the timer driver will always request its
->>>  channels first; with no timer set the system hangs before 
->>> subsys_initcall, and the PWM driver is a subnode of the timer
->>> node, so is probed only after the timer probed.
->>> 
->>>>> We already talked about that. All the TCU channels can be
->>>>> used for PWM. The problem is I cannot know from the driver's
->>>>> scope which channels will be free and which channels will be
->>>>> requested for PWM. You suggested that I parse the devicetree
->>>>> for clients, and I did that in the V3/V4 patchset. But it
->>>>> only works for clients requesting through devicetree, not
->>>>> from platform code or even sysfs.
->>>>> 
->>>>> One thing I can try is to dynamically change the channels the
->>>>>  system timer and clocksource are using when the current ones
->>>>> are requested for PWM. But that sounds hardcore...
->>>> 
->>>> Yes, it is :/
->>>> 
->>>> Sorry for letting you wasting time and effort to write an
->>>> overkill code not suitable for upstream.
->>>> 
->>>> A very gross thought, wouldn't be possible to "register" a
->>>> channel from the timer driver code in a shared data area (but
->>>> well self-encapsulated) and the pwm code will check such
->>>> channel isn't in use ?
->>> 
->>> Probably, but it's the contrary I need to do. The timer driver
->>> code can use any channel, and probes first. The PWM driver code
->>> must use specific channels, and probes last. So either the timer
->>> driver knows what channels it can't use, thanks to a device
->>> property, or it adapts itself when a channel in use is requested
->>> for PWM, which is what I tried in v7.
->> 
->> When you say "must use specific channels", where is coming this 
->> information ?
+> Right. Ubuntu would do something like:
 > 
-> If the backlight for the LCD is connected to the pin that corresponds
-> to PWM1, then you must use the TCU channel 1. It's that simple.
+> CONFIG_LSM_ENABLE=yama,apparmor,integrity
+> 
+> And that's why I wanted non-explicit lsm.enable, so that an end user
+> could just do:
+> 
+> lsm.enable=loadpin
+> 
+> to add loadpin.
+> 
+> Perhaps we could have both? "lsm.enable=+loadpin" (add loadpin to
+> build default list) vs "lsm.enable=loadpin" (override build default
+> list with ONLY loadpin).
+> 
 
-Is it a runtime detection or is it hardcoded somewhere ?
-
-(just trying to understand the whole picture)
-
->>> I think we could find a way to use a devicetree property that
->>> doesn't trigger Rob. That would still be the easiest and cleanest
->>> solution.
->>> 
->>> Maybe "ingenic,reserved-channels-mask", which would contain a
->>> mask of channels that can only be used by the timer driver. And
->>> what the timer driver does with these channels, would be specific
->>> to the implementation and would not appear in the bindings. I
->>> hope Rob can work with that.
->>> 
->>> -Paul
-
-
--- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
-
+Maybe? I'm not sure what the best option is with all the competing
+requirements/desires. I need to think about it more and would like
+to see what others think.
