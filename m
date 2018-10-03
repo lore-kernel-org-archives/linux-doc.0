@@ -5,145 +5,130 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 486D97D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 13:47:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F5C67D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 14:08:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726807AbeJCUf4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 16:35:56 -0400
-Received: from upbd19pa10.eemsg.mail.mil ([214.24.27.85]:53362 "EHLO
-        upbd19pa10.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726694AbeJCUf4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 16:35:56 -0400
-X-Greylist: delayed 608 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Oct 2018 16:35:53 EDT
-X-EEMSG-check-008: 172424293|UPBD19PA10_EEMSG_MP10.csd.disa.mil
-Received: from emsm-gh1-uea11.ncsc.mil ([214.29.60.3])
-  by upbd19pa10.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256; 03 Oct 2018 13:37:16 +0000
-X-IronPort-AV: E=Sophos;i="5.54,336,1534809600"; 
-   d="scan'208";a="18979063"
-IronPort-PHdr: =?us-ascii?q?9a23=3Aza8k7xxqW16ag87XCy+O+j09IxM/srCxBDY+r6?=
- =?us-ascii?q?Qd0uwVKfad9pjvdHbS+e9qxAeQG9mDtLQc06L/iOPJYSQ4+5GPsXQPItRndi?=
- =?us-ascii?q?QuroEopTEmG9OPEkbhLfTnPGQQFcVGU0J5rTngaRAGUMnxaEfPrXKs8DUcBg?=
- =?us-ascii?q?vwNRZvJuTyB4Xek9m72/q99pHPYQhEniaxba9vJxiqsAvdsdUbj5F/Iagr0B?=
- =?us-ascii?q?vJpXVIe+VSxWx2IF+Yggjx6MSt8pN96ipco/0u+dJOXqX8ZKQ4UKdXDC86PG?=
- =?us-ascii?q?Av5c3krgfMQA2S7XYBSGoWkx5IAw/Y7BHmW5r6ryX3uvZh1CScIMb7Vq4/Vy?=
- =?us-ascii?q?i84Kh3SR/okCYHOCA/8GHLkcx7kaZXrAu8qxBj34LYZYeYO/RkfqPZYNgUW2?=
- =?us-ascii?q?xPUMhMXCBFG4+wcZcDA+8HMO1FrYfyukEOoAOjCweyCuPhyjxGiHH40qI10e?=
- =?us-ascii?q?suDQ7I0Rc8H98MqnnYsMn5OakQXO2z0aLGzS/Db/RT2Trl9YbIbg4uoemMXb?=
- =?us-ascii?q?1ud8ra1FQhFwbfgVWUrYzqITOU3fkKvmiA8uVgTvmii3Inqg5tojivwd0gio?=
- =?us-ascii?q?/Sho0P0FzE+iJ5wJgsKNC+VUV1YsakHYNNuyyVOIZ6WMMvT3xytCokxbAKp4?=
- =?us-ascii?q?S3cDUMxZ863RDQceaHfJKN4h/7UeaRJip3i2x9dbKkghay7VCgyurhVsmoyF?=
- =?us-ascii?q?pKrjRKkt3Ltn0Vyxzc8NKHSvpg/ke6wzqPywDS5f1EIUAzj6bbLYIuwqUsmZ?=
- =?us-ascii?q?YJtETDHyv2lF33jK+QaEok5vCl5/nob7jpvJORN5J4hhvgPqkhhMCzG/k0Ph?=
- =?us-ascii?q?ALX2eB+OS80LPj/Vf+QLVPlvA2ibTWsIvBKMQHpq+2Hw9V0oE55xa5FDepys?=
- =?us-ascii?q?4UnXYALFJbYB6HlZTmO0nSIPDkCveym1esnyl1yPDdIrLhBZLNLnvYnbj9fb?=
- =?us-ascii?q?Z98UlcyA8yzdBC4pJYELYBIOj8WkXprtzXEgc5MxCow+bgENh91IQeWWKJAq?=
- =?us-ascii?q?ODMqPStl+I6fgpI+mXeoAVvi3wJOQ/6P7oin85n14dcrWz0psTcny3AvNmI0?=
- =?us-ascii?q?CBa3r2ntgBCXsKvhY5TOHyil2CVDlTZ2yoX6I9/TE2E4SmAp3GRo+zgbyNxi?=
- =?us-ascii?q?C7HodZZmpeEFCDDW/od5mYW/cLcC+cI8hhkjgZWre/TY8uzRagtA7+y7pjMO?=
- =?us-ascii?q?XU4C4VuJz42dht/e3Tkg0y9TtyD8SYyW6NTmV0knkUSD82xKp/u1Byyk+f0a?=
- =?us-ascii?q?hkhPxVDcRT6OlUUgc+LpPc1/Z1C832Wg7Ye9eJT1GmQs+4Dj0rUt0xxNoOaV?=
- =?us-ascii?q?5nG9q+lhDDwzaqA7gNmrOXHpM06bzT3njqKsZm13nG1LMuj0QoQstLK2KmnL?=
- =?us-ascii?q?dz+BTJCILTj0qZkKOqf7wG3CHR7GeD0XaOvEZAXQ5oT6rFW38fZlbXrdT//0?=
- =?us-ascii?q?/CTKGhCa4hMgRfzc6PMapKZsTtjVVBWvfsJs7SY3mrlGezGBaI3KmDYJDse2?=
- =?us-ascii?q?oDxindClAEmRgJ/XmaLQg+Gjuho2XGATNyD13veF3j8OlkpHOgUkA0zxuFb1?=
- =?us-ascii?q?Bv17qx5BEVn+eRS/IV3rIYpighry94E0q639LTE9CAvRZufL1AYdMh51dKzW?=
- =?us-ascii?q?bZtw17Ppy9IKFun0UefBprsEPzzRV3C5lAkMgzoHMvywp9NL+Y0FdfeD6Dw5?=
- =?us-ascii?q?DwNaPYKnPo8BCsdaHWwFfe38iS+qsV7/Q4sVrjthmzFkU+63Vnz8VV03yE65?=
- =?us-ascii?q?rWCwoSS4n+XVgr9xVho7HbbC8965nS1XJyLam+qiXC1M4xBOs51hageM9SMK?=
- =?us-ascii?q?eFFA/0Ds0bCNGiJ/Etm1e1dR8EIu9S+7AuP8+8dPuJxrSrPOB+kzKil2hH55?=
- =?us-ascii?q?p90k2U/SpmVuHIx4oFw+2f3gafUzf8jVGhst34mIxdfz4SBHawySj/CY5Paa?=
- =?us-ascii?q?19Y5wLBX2tI8Kp3NV+gYDiW3pC+F6kHVMG19ejeQCOYFzlwQ1QyUMXrGSjmS?=
- =?us-ascii?q?u5yTx0jj4oorOc3CPQ2eTicgQIOmpQSWl8glfjP5K0g8oZXEe2dQgpkgWq5U?=
- =?us-ascii?q?Lgy6hcvqR/IDqbfUAdXCX7NClJVayz/u6BbsNU45Qvsg1cUP67ZFGHT/j6uR?=
- =?us-ascii?q?RMl2vBGGtYjBI8dzisoZj/10h4j2KbanR0rHPfYsx27RzW4tvaRPVY2nwNQy?=
- =?us-ascii?q?wu2hfNAV3pBMWk5dWZkd/4t+m6U2+wHslIfTLD0ZKLtCz943ZjRxK4gabgyZ?=
- =?us-ascii?q?XcDQEm3HqjhJFRXiLSoUO5O9Oz2g=3D=3D?=
-X-IPAS-Result: =?us-ascii?q?A2BzAACgxLRb/wHyM5BcGgEBAQEBAgEBAQEHAgEBAQGDN?=
- =?us-ascii?q?SqBZSiDdJQ1TQEBAQEBBoEILYhtj2k2AYRAAoQgITgUAQMBAQEBAQECAWwog?=
- =?us-ascii?q?jUkAYJfAQUjFUEQCxgCAiYCAlcGAQwGAgEBgl4/gXUNpQqBLoR3hRiBC4oWF?=
- =?us-ascii?q?3mBB4E5gmuHf4JXAo4ZQI50CZA4BhePYpcqIYFVKwgCGAghDzuCbJBwIzB7A?=
- =?us-ascii?q?QGNHQEB?=
-Received: from tarius.tycho.ncsc.mil ([144.51.242.1])
-  by emsm-gh1-uea11.NCSC.MIL with ESMTP; 03 Oct 2018 13:37:15 +0000
-Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
-        by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id w93DbDC2012556;
-        Wed, 3 Oct 2018 09:37:13 -0400
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-To:     Kees Cook <keescook@chromium.org>,
-        John Johansen <john.johansen@canonical.com>
-Cc:     James Morris <jmorris@namei.org>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Paul Moore <paul@paul-moore.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
+        id S1726997AbeJCU5I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 16:57:08 -0400
+Received: from mga18.intel.com ([134.134.136.126]:4270 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726543AbeJCU5I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Oct 2018 16:57:08 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2018 07:08:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,336,1534834800"; 
+   d="scan'208";a="95721444"
+Received: from aphalle-mobl.amr.corp.intel.com (HELO [10.251.4.33]) ([10.251.4.33])
+  by fmsmga001.fm.intel.com with ESMTP; 03 Oct 2018 07:05:24 -0700
+Subject: Re: [RFC PATCH v4 09/27] x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+To:     Matthew Wilcox <willy@infradead.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
+ <20180921150351.20898-10-yu-cheng.yu@intel.com>
+ <20181003133856.GA24782@bombadil.infradead.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20181002005505.6112-1-keescook@chromium.org>
- <20181002005505.6112-24-keescook@chromium.org>
- <CAHC9VhQjMfH6Q+Tif8nBknZojgxrb6x+oDz4vHRiZN8rb8MZ5Q@mail.gmail.com>
- <785ef6a9-ae46-3533-0348-74bcf6f10928@tycho.nsa.gov>
- <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com>
- <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov>
- <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
- <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
- <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com>
- <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
- <alpine.LRH.2.21.1810030758460.23596@namei.org>
- <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
- <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com>
- <CAGXu5jKqSZ5LhQ_HwbA9-_DAg3efNzWfLjpxO_rurBgUZ-nnAA@mail.gmail.com>
-From:   Stephen Smalley <sds@tycho.nsa.gov>
-Message-ID: <583a703e-18af-a1b2-dfc9-62a2a3384825@tycho.nsa.gov>
-Date:   Wed, 3 Oct 2018 09:39:10 -0400
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <688c3f90-f86e-32e8-ce1a-7a10facb08a8@linux.intel.com>
+Date:   Wed, 3 Oct 2018 07:05:23 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAGXu5jKqSZ5LhQ_HwbA9-_DAg3efNzWfLjpxO_rurBgUZ-nnAA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20181003133856.GA24782@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/02/2018 07:54 PM, Kees Cook wrote:
-> On Tue, Oct 2, 2018 at 4:46 PM, John Johansen
-> <john.johansen@canonical.com> wrote:
->> On 10/02/2018 04:06 PM, Kees Cook wrote:
->>> I think the current proposal (in the other thread) is likely the
->>> sanest approach:
->>>
->>> - Drop CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE
->>> - Drop CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE
->>> - All enabled LSMs are listed at build-time in CONFIG_LSM_ENABLE
->>
->> Hrrmmm isn't this a Kconfig selectable list, with each built-in LSM
->> available to be enabled by default at boot.
+On 10/03/2018 06:38 AM, Matthew Wilcox wrote:
+> On Fri, Sep 21, 2018 at 08:03:33AM -0700, Yu-cheng Yu wrote:
+>> We are going to create _PAGE_DIRTY_SW for non-hardware, memory
+>> management purposes.  Rename _PAGE_DIRTY to _PAGE_DIRTY_HW and
+>> _PAGE_BIT_DIRTY to _PAGE_BIT_DIRTY_HW to make these PTE dirty
+>> bits more clear.  There are no functional changes in this
+>> patch.
+> I would like there to be some documentation in this patchset which
+> explains the difference between PAGE_SOFT_DIRTY and PAGE_DIRTY_SW.
 > 
-> That's not how I have it currently. It's a comma-separated a string,
-> including the reserved name "all". The default would just be
-> "CONFIG_LSM_ENABLE=all". Casey and I wanted this to have a way to
-> capture new LSMs by default at build-time.
-> 
->>> - Boot time enabling for selinux= and apparmor= remain
->>> - lsm.enable= is explicit: overrides above and omissions are disabled
->> wfm
-> 
-> Okay, this is closer to v3 than v4. Paul or Stephen, how do you feel
-> about losing the SELinux bootparam CONFIG? (i.e. CONFIG_LSM_ENABLE
-> would be replacing its functionality.)
+> Also, is it really necessary to rename PAGE_DIRTY?  It feels like a
+> lot of churn.
 
-I'd like to know how distro kernel maintainers feel about it. They would 
-need to understand that if they were previously setting 
-CONFIG_SECURITY_SELINUX_BOOTPARAM_VALUE to 0 and want to preserve that 
-behavior, then they must set CONFIG_LSM_ENABLE explicitly to a list of 
-security modules (that does not include selinux, of course).  In 
-practice, this means that even the distros that choose to build all 
-security modules into their kernels must explicitly set 
-CONFIG_LSM_ENABLE to a specific list of security modules.  So no one 
-would use "all" in practice.
+This is a lot of churn?  Are we looking a the same patch? :)
+
+ arch/x86/include/asm/pgtable.h       |  6 +++---
+ arch/x86/include/asm/pgtable_types.h | 17 +++++++++--------
+ arch/x86/kernel/relocate_kernel_64.S |  2 +-
+ arch/x86/kvm/vmx.c                   |  2 +-
+ 4 files changed, 14 insertions(+), 13 deletions(-)
+
+But, yeah, I think we need to.  While it will take a little adjustment
+in the brains of us old-timers and a bit of pain when switching from old
+kernels to new, this makes it a lot more clear what is going on.
