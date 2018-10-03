@@ -1,231 +1,214 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 714E97D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 10:44:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72D007D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 11:54:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbeJCRcM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 13:32:12 -0400
-Received: from foss.arm.com ([217.140.101.70]:49342 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726544AbeJCRcM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 13:32:12 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42EE318A;
-        Wed,  3 Oct 2018 03:44:23 -0700 (PDT)
-Received: from e107981-ln.cambridge.arm.com (e107981-ln.emea.arm.com [10.4.13.117])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB6733F5A0;
-        Wed,  3 Oct 2018 03:44:21 -0700 (PDT)
-Date:   Wed, 3 Oct 2018 11:44:18 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Cc:     bhelgaas@google.com, kishon@ti.com, corbet@lwn.net,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] tools/pci: Change pcitest compiling process
-Message-ID: <20181003104418.GB13827@e107981-ln.cambridge.arm.com>
-References: <f543d460ccff7891aa08c744fb675eb2c11fb2e7.1535025221.git.gustavo.pimentel@synopsys.com>
+        id S1726933AbeJCSmX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 14:42:23 -0400
+Received: from mail-qt1-f170.google.com ([209.85.160.170]:37140 "EHLO
+        mail-qt1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726809AbeJCSmW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Oct 2018 14:42:22 -0400
+Received: by mail-qt1-f170.google.com with SMTP id n6-v6so5515154qtl.4;
+        Wed, 03 Oct 2018 04:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=4ZU0NqyeDKJqVATpo3F4hRGrcA/p65+RxIxkyHT2WTc=;
+        b=qVlE3JITjCo5T80aFChdQqXhV+2JMBmatix6tHhnP7ucNESrIIVHl0z8mzU6OERp4F
+         maueJ5aELTDSjxuOmvUsXTYGl4i3iZcYH5U3Le8Dw0kejQ/gWA8ZJjmq3XaVjihlk413
+         NrjCbsEvmI+XD8gfucgHP+YdDr+auZt1WxcPKp6zJ3rmfmAy7zCcR2CO+M01GflsBZ+s
+         0bsgv/LTm+hAmGpWPTSK0l8q/uxfaytO5SEastOsWlj/3LICm23oCmJNtOSpzYW3cFgZ
+         Vqp5F7wLOBuOmCrNoepOfiqZp81PKcveEUW2YLmvPRsUcAThZxnJPz7J7GMhUNRMVEqs
+         mCsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=4ZU0NqyeDKJqVATpo3F4hRGrcA/p65+RxIxkyHT2WTc=;
+        b=cLTTV+SUfRbG4oOd/G4Yc/NKT/xqECm4e7hO7aRo9Jm1k3S56SI6HJNaGwO0F+kdD5
+         4QdnxRYJalrO4ufAwdOBq4IP2pIoM7qrLETCj65B6PXH+XPEDqLqQKUtiejtAkR20Z5U
+         329h6Y5s5lJ5T7Fr3+Cq6m4rp04Y5w9WwOu2TqL2ewvo9j74JYomTBsv0id5vwnO4Zs7
+         8rqjDvC47k7hyy0MC+O7LDAwqcscrL8kmXtbzll6id/kFYlXP9TOQSKAxEScE7eplhdY
+         QNhZrV7/ihLpaE++td8nCrhavcPNeTEdgygZuC1AbTdkEmPQ7Mo0010tkx4JAVpH2+Gk
+         rpCQ==
+X-Gm-Message-State: ABuFfohq1/ER92frYNCKnPPcg7iMDY4XZobQ1nnq9ZBRtxJgHn6SO/33
+        7ZGQ8CZ26x1gtM0/s+633x2x/2Of4JU4YtU9Sbo=
+X-Google-Smtp-Source: ACcGV63hL17PT6rKb0AKtDderPdljFWkjDQ8LIIVwOggDYDuenGMDpaesV8t3ixxVdYuocER+WRnCUv6hk2rTK0aK9E=
+X-Received: by 2002:a0c:f40c:: with SMTP id h12-v6mr870825qvl.78.1538567656744;
+ Wed, 03 Oct 2018 04:54:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f543d460ccff7891aa08c744fb675eb2c11fb2e7.1535025221.git.gustavo.pimentel@synopsys.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
+ <20181003071059.02b3fd6f@canb.auug.org.au> <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
+ <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com> <20181002232454.GB2483@thunk.org>
+In-Reply-To: <20181002232454.GB2483@thunk.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 3 Oct 2018 13:54:05 +0200
+Message-ID: <CANiq72=cRpqnB3BxLsmj-rMdUGJK+pac1SRppoRgsON69ErfQg@mail.gmail.com>
+Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
+To:     "Ted Ts'o" <tytso@mit.edu>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        David Miller <davem@davemloft.net>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 23, 2018 at 01:55:15PM +0200, Gustavo Pimentel wrote:
-> Change tool compiling process in order to be build using the same
-> mechanism used in other linux tools (e.g. iio, perf, etc). This will
-> allow in future the buildroot tool to build and integrate this tool in
-> a more expeditious way.
-> 
-> Update documentation accordingly.
-> 
-> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> ---
->  Documentation/PCI/endpoint/pci-test-howto.txt | 19 ++++++----
->  tools/Makefile                                | 13 ++++---
->  tools/pci/Build                               |  1 +
->  tools/pci/Makefile                            | 53 +++++++++++++++++++++++++++
->  4 files changed, 72 insertions(+), 14 deletions(-)
->  create mode 100644 tools/pci/Build
->  create mode 100644 tools/pci/Makefile
+Hi Ted,
 
-Applied to pci/tools for v4.20, with subject updated.
+On Wed, Oct 3, 2018 at 1:25 AM Theodore Y. Ts'o <tytso@mit.edu> wrote:
+>
+> On Wed, Oct 03, 2018 at 12:12:10AM +0200, Miguel Ojeda wrote:
+> > As I have read, -next is supposed to be a vision of what the merge
+> > window will look like after merging everything, i.e. ideally -rc1. For
+> > that to work for files out-of-tree (like these ones, which are not
+> > maintained by a single tree), changes should be allowed to be stacked
+> > on each other; otherwise, we cannot handle conflicts :-(
+>
+> In general, best practice is to base tree on an -rcX commit.  I
+> usually will use something like -rc4 which is after most of the major
+> changes have gone in.  This tends to reduce conflicts for most git
+> trees.
 
-Thanks,
-Lorenzo
+Sure. That is what I do for mainline PRs to Linus. As you say, it
+works fine for mostly independent trees. But it doesn't (that well)
+for out-of-tree stuff or for stuff spanning several trees.
 
-> diff --git a/Documentation/PCI/endpoint/pci-test-howto.txt b/Documentation/PCI/endpoint/pci-test-howto.txt
-> index 75f48c3..16df733 100644
-> --- a/Documentation/PCI/endpoint/pci-test-howto.txt
-> +++ b/Documentation/PCI/endpoint/pci-test-howto.txt
-> @@ -98,17 +98,20 @@ Note that the devices listed here correspond to the value populated in 1.4 above
->  2.2 Using Endpoint Test function Device
->  
->  pcitest.sh added in tools/pci/ can be used to run all the default PCI endpoint
-> -tests. Before pcitest.sh can be used pcitest.c should be compiled using the
-> -following commands.
-> +tests. To compile this tool the following commands should be used:
->  
-> -	cd <kernel-dir>
-> -	make headers_install ARCH=arm
-> -	arm-linux-gnueabihf-gcc -Iusr/include tools/pci/pcitest.c -o pcitest
-> -	cp pcitest  <rootfs>/usr/sbin/
-> -	cp tools/pci/pcitest.sh <rootfs>
-> +	# cd <kernel-dir>
-> +	# make -C tools/pci
-> +
-> +or if you desire to compile and install in your system:
-> +
-> +	# cd <kernel-dir>
-> +	# make -C tools/pci install
-> +
-> +The tool and script will be located in <rootfs>/usr/bin/
->  
->  2.2.1 pcitest.sh Output
-> -	# ./pcitest.sh
-> +	# pcitest.sh
->  	BAR tests
->  
->  	BAR0:           OKAY
-> diff --git a/tools/Makefile b/tools/Makefile
-> index be02c8b..abb358a 100644
-> --- a/tools/Makefile
-> +++ b/tools/Makefile
-> @@ -21,6 +21,7 @@ help:
->  	@echo '  leds                   - LEDs  tools'
->  	@echo '  liblockdep             - user-space wrapper for kernel locking-validator'
->  	@echo '  bpf                    - misc BPF tools'
-> +	@echo '  pci                    - PCI tools'
->  	@echo '  perf                   - Linux performance measurement and analysis tool'
->  	@echo '  selftests              - various kernel selftests'
->  	@echo '  spi                    - spi tools'
-> @@ -59,7 +60,7 @@ acpi: FORCE
->  cpupower: FORCE
->  	$(call descend,power/$@)
->  
-> -cgroup firewire hv guest spi usb virtio vm bpf iio gpio objtool leds wmi: FORCE
-> +cgroup firewire hv guest spi usb virtio vm bpf iio gpio objtool leds wmi pci: FORCE
->  	$(call descend,$@)
->  
->  liblockdep: FORCE
-> @@ -94,7 +95,7 @@ kvm_stat: FORCE
->  all: acpi cgroup cpupower gpio hv firewire liblockdep \
->  		perf selftests spi turbostat usb \
->  		virtio vm bpf x86_energy_perf_policy \
-> -		tmon freefall iio objtool kvm_stat wmi
-> +		tmon freefall iio objtool kvm_stat wmi pci
->  
->  acpi_install:
->  	$(call descend,power/$(@:_install=),install)
-> @@ -102,7 +103,7 @@ acpi_install:
->  cpupower_install:
->  	$(call descend,power/$(@:_install=),install)
->  
-> -cgroup_install firewire_install gpio_install hv_install iio_install perf_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install:
-> +cgroup_install firewire_install gpio_install hv_install iio_install perf_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install pci_install:
->  	$(call descend,$(@:_install=),install)
->  
->  liblockdep_install:
-> @@ -128,7 +129,7 @@ install: acpi_install cgroup_install cpupower_install gpio_install \
->  		perf_install selftests_install turbostat_install usb_install \
->  		virtio_install vm_install bpf_install x86_energy_perf_policy_install \
->  		tmon_install freefall_install objtool_install kvm_stat_install \
-> -		wmi_install
-> +		wmi_install pci_install
->  
->  acpi_clean:
->  	$(call descend,power/acpi,clean)
-> @@ -136,7 +137,7 @@ acpi_clean:
->  cpupower_clean:
->  	$(call descend,power/cpupower,clean)
->  
-> -cgroup_clean hv_clean firewire_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean:
-> +cgroup_clean hv_clean firewire_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean pci_clean:
->  	$(call descend,$(@:_clean=),clean)
->  
->  liblockdep_clean:
-> @@ -174,6 +175,6 @@ clean: acpi_clean cgroup_clean cpupower_clean hv_clean firewire_clean \
->  		perf_clean selftests_clean turbostat_clean spi_clean usb_clean virtio_clean \
->  		vm_clean bpf_clean iio_clean x86_energy_perf_policy_clean tmon_clean \
->  		freefall_clean build_clean libbpf_clean libsubcmd_clean liblockdep_clean \
-> -		gpio_clean objtool_clean leds_clean wmi_clean
-> +		gpio_clean objtool_clean leds_clean wmi_clean pci_clean
->  
->  .PHONY: FORCE
-> diff --git a/tools/pci/Build b/tools/pci/Build
-> new file mode 100644
-> index 0000000..c375aea
-> --- /dev/null
-> +++ b/tools/pci/Build
-> @@ -0,0 +1 @@
-> +pcitest-y += pcitest.o
-> diff --git a/tools/pci/Makefile b/tools/pci/Makefile
-> new file mode 100644
-> index 0000000..46e4c2f
-> --- /dev/null
-> +++ b/tools/pci/Makefile
-> @@ -0,0 +1,53 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +include ../scripts/Makefile.include
-> +
-> +bindir ?= /usr/bin
-> +
-> +ifeq ($(srctree),)
-> +srctree := $(patsubst %/,%,$(dir $(CURDIR)))
-> +srctree := $(patsubst %/,%,$(dir $(srctree)))
-> +endif
-> +
-> +# Do not use make's built-in rules
-> +# (this improves performance and avoids hard-to-debug behaviour);
-> +MAKEFLAGS += -r
-> +
-> +CFLAGS += -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
-> +
-> +ALL_TARGETS := pcitest pcitest.sh
-> +ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS))
-> +
-> +all: $(ALL_PROGRAMS)
-> +
-> +export srctree OUTPUT CC LD CFLAGS
-> +include $(srctree)/tools/build/Makefile.include
-> +
-> +#
-> +# We need the following to be outside of kernel tree
-> +#
-> +$(OUTPUT)include/linux/: ../../include/uapi/linux/
-> +	mkdir -p $(OUTPUT)include/linux/ 2>&1 || true
-> +	ln -sf $(CURDIR)/../../include/uapi/linux/pcitest.h $@
-> +
-> +prepare: $(OUTPUT)include/linux/
-> +
-> +PCITEST_IN := $(OUTPUT)pcitest-in.o
-> +$(PCITEST_IN): prepare FORCE
-> +	$(Q)$(MAKE) $(build)=pcitest
-> +$(OUTPUT)pcitest: $(PCITEST_IN)
-> +	$(QUIET_LINK)$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
-> +
-> +clean:
-> +	rm -f $(ALL_PROGRAMS)
-> +	rm -rf $(OUTPUT)include/
-> +	find $(if $(OUTPUT),$(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
-> +
-> +install: $(ALL_PROGRAMS)
-> +	install -d -m 755 $(DESTDIR)$(bindir);		\
-> +	for program in $(ALL_PROGRAMS); do		\
-> +		install $$program $(DESTDIR)$(bindir);	\
-> +	done
-> +
-> +FORCE:
-> +
-> +.PHONY: all install clean FORCE prepare
-> -- 
-> 2.7.4
-> 
+>
+> There are times when a commit in one tree needs to depend on a commit
+> in another tree.  What to do depends on the circumstances.
+>
+
+Exactly. And for this case, I simply assumed Stephen wanted a clean
+series to apply on top of the latest next-* tag (same way we base
+stuff on top of -rc*s). Note that this is *not* really a "tree"
+collecting changes/development, it is a patch series, i.e. what is
+important is only the range-diff.
+
+What has surprised me is that -next does not allow for range-diffs
+(patches/commits/...) to be inside -next, maybe applied after all the
+normal merges of trees. I simply assumed it did, given what I could
+find about -next (which does not seem to be documented properly, by
+the way).
+
+>
+> So another solution is to simply evade the problem.  If the reason why
+> tree A needs to depend on tree B is that tree B is using some
+> interface which has changed, if it's a minor change, then Stephen will
+> fix it up when he pulls the changes; just as Linus will.
+
+While this is a simple conflict, I don't really agree with release
+maintainers having to fix conflicts on the fly (even if it is a single
+trivial line), but that is an orthogonal discussion...
+
+> Yet another solution is to arrange the code changes to avoid needing
+> commits that might conflict.  For example, in fs/ext4/ext4.h, I very
+> deliberately did this.
+>
+> /* Until this gets included into linux/compiler-gcc.h */
+> #ifndef __nonstring
+> #if defined(GCC_VERSION) && (GCC_VERSION >= 80000)
+> #define __nonstring __attribute__((nonstring))
+> #else
+> #define __nonstring
+> #endif
+> #endif
+>
+> You included a cleanup patch to remove it in your git tree, but it
+> wasn't actually necessary.  If there was a merge conflict, it would be
+> simple enough to just drop your cleanup patch, since I had carefully
+> used #ifndef __nonstring... #endif.  So the idea was that if someone
+> defined __nonstring somewhere else, it wouldn't break the build with a
+> duplicate #define since it was protected with an #ifndef.
+>
+> I didn't mind that you included a cleanup patch; but I set things up
+> so that it would not be necessary, since often the best way to solve a
+> merge conflict is by avoiding the need for the change (in some other
+> git tree) in the first place.  :-)
+
+Alright, I am not sure how to answer this without sounding
+"aggressive" and maybe I misunderstood something you tried to point
+out, so I apologize in advance. There are several points here:
+
+  * The merge conflict isn't related to this (but let's assume it was,
+since you pointed this out as an example -- I guess; although I am not
+sure why).
+
+  * Thanks for explaining, but I think most people here understand how
+#ifndef works :-) Also note that we already had guards for some
+attributes that needed per-compiler implementations.
+
+  * The patch is actually necessary:
+
+    - Several people argued that examples should be present when I
+introduced __nonstring earlier in the series. While I don't think they
+are mandatory for this case, they are good to have, and since they
+were anyway requested, I happily added them.
+
+    - Changes should include everything related to them (as far as
+possible, i.e. extreme examples aside). Adding __nonstring and not
+removing the ext4 part would simply be leaving undone work (which has
+to be done sooner or later). To be honest, it could have even been
+done in the same commit and I would say it is logically OK (even if
+not great).
+
+    - Related to that: I think the outer #ifndef shouldn't have been
+included to begin with, because it is either wrong or dead code: if we
+end up having a __nonstring, it should be removed at the same time
+(like this series does); and if __nonstring isn't there (like now), it
+isn't guarding against anything. At worst, it could hide a mismatch in
+the definitions.
+
+    - I promised to you I would clean it up :-)
+
+You seem to argue that it is better to avoid merge conflicts rather
+than doing a proper series. Well, I think we should really try to
+avoid conflicts pushing down the """quality""" of
+patches/commits/series.
+
+Cheers,
+Miguel
