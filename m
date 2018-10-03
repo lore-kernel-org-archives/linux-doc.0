@@ -5,26 +5,28 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D8EA7D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 16:32:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 559BA7D087
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 16:45:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726943AbeJCXVS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 19:21:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51848 "EHLO mx1.redhat.com"
+        id S1727092AbeJCXfB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 19:35:01 -0400
+Received: from mga11.intel.com ([192.55.52.93]:19275 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726829AbeJCXVS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 19:21:18 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5EC9B3084026;
-        Wed,  3 Oct 2018 16:32:10 +0000 (UTC)
-Received: from asgard.redhat.com (ovpn-200-25.brq.redhat.com [10.40.200.25])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E1E9B87DB;
-        Wed,  3 Oct 2018 16:31:57 +0000 (UTC)
-Date:   Wed, 3 Oct 2018 18:32:26 +0200
-From:   Eugene Syromiatnikov <esyr@redhat.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        id S1726842AbeJCXfA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Oct 2018 19:35:00 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2018 09:45:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,336,1534834800"; 
+   d="scan'208";a="95767878"
+Received: from 2b52.sc.intel.com ([143.183.136.147])
+  by fmsmga001.fm.intel.com with ESMTP; 03 Oct 2018 09:45:38 -0700
+Message-ID: <36fa923c4ed6b78517b93475aa2544aa8ba7243c.camel@intel.com>
+Subject: Re: [RFC PATCH v4 24/27] mm/mmap: Create a guard area between VMAs
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>
 Cc:     Andy Lutomirski <luto@amacapital.net>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -48,49 +50,51 @@ Cc:     Andy Lutomirski <luto@amacapital.net>, X86 ML <x86@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v4 24/27] mm/mmap: Create a guard area between VMAs
-Message-ID: <20181003163226.GC9449@asgard.redhat.com>
+Date:   Wed, 03 Oct 2018 09:40:58 -0700
+In-Reply-To: <20181003163226.GC9449@asgard.redhat.com>
 References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
- <20180921150351.20898-25-yu-cheng.yu@intel.com>
- <20181003045611.GB22724@asgard.redhat.com>
- <CALCETrU-Ny-uC1NqRedQwNKe2MMhsFEqZ08TtHJwbLfCACMmLw@mail.gmail.com>
- <5ddb0ad33298d1858e530fce9c9ea2788b2fac81.camel@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5ddb0ad33298d1858e530fce9c9ea2788b2fac81.camel@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Wed, 03 Oct 2018 16:32:10 +0000 (UTC)
+         <20180921150351.20898-25-yu-cheng.yu@intel.com>
+         <20181003045611.GB22724@asgard.redhat.com>
+         <CALCETrU-Ny-uC1NqRedQwNKe2MMhsFEqZ08TtHJwbLfCACMmLw@mail.gmail.com>
+         <5ddb0ad33298d1858e530fce9c9ea2788b2fac81.camel@intel.com>
+         <20181003163226.GC9449@asgard.redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 03, 2018 at 09:00:04AM -0700, Yu-cheng Yu wrote:
-> On Tue, 2018-10-02 at 22:36 -0700, Andy Lutomirski wrote:
-> > On Tue, Oct 2, 2018 at 9:55 PM Eugene Syromiatnikov <esyr@redhat.com> wrote:
+On Wed, 2018-10-03 at 18:32 +0200, Eugene Syromiatnikov wrote:
+> On Wed, Oct 03, 2018 at 09:00:04AM -0700, Yu-cheng Yu wrote:
+> > On Tue, 2018-10-02 at 22:36 -0700, Andy Lutomirski wrote:
+> > > On Tue, Oct 2, 2018 at 9:55 PM Eugene Syromiatnikov <esyr@redhat.com>
+> > > wrote:
+> > > > 
+> > > > On Fri, Sep 21, 2018 at 08:03:48AM -0700, Yu-cheng Yu wrote:
+> > > > > Create a guard area between VMAs, to detect memory corruption.
+> > > > 
+> > > > Do I understand correctly that with this patch a user space program
+> > > > no longer be able to place two mappings back to back? If it is so,
+> > > > it will likely break a lot of things; for example, it's a common ring
+> > > > buffer implementations technique, to map buffer memory twice back
+> > > > to back in order to avoid special handling of items wrapping its end.
 > > > 
-> > > On Fri, Sep 21, 2018 at 08:03:48AM -0700, Yu-cheng Yu wrote:
-> > > > Create a guard area between VMAs, to detect memory corruption.
+> > > I haven't checked what the patch actually does, but it shouldn't have
+> > > any affect on MAP_FIXED or the new no-replace MAP_FIXED variant.
 > > > 
-> > > Do I understand correctly that with this patch a user space program
-> > > no longer be able to place two mappings back to back? If it is so,
-> > > it will likely break a lot of things; for example, it's a common ring
-> > > buffer implementations technique, to map buffer memory twice back
-> > > to back in order to avoid special handling of items wrapping its end.
+> > > --Andy
 > > 
-> > I haven't checked what the patch actually does, but it shouldn't have
-> > any affect on MAP_FIXED or the new no-replace MAP_FIXED variant.
-> > 
-> > --Andy
+> > I did some mmap tests with/without MAP_FIXED, and it works as intended.
+> > In addition to the ring buffer, are there other test cases?
 > 
-> I did some mmap tests with/without MAP_FIXED, and it works as intended.
-> In addition to the ring buffer, are there other test cases?
+> Right, after some more code reading I figured out that it indeed
+> shouldn't affect MAP_FIXED, thank you for confirmation.
+> 
+> I'm not sure, however, whether such a change that provides no ability
+> to configure or affect it will go well with all the supported
+> architectures.
 
-Right, after some more code reading I figured out that it indeed
-shouldn't affect MAP_FIXED, thank you for confirmation.
-
-I'm not sure, however, whether such a change that provides no ability
-to configure or affect it will go well with all the supported
-architectures.
+Can we do CONFIG_MMAP_GUARD_GAP?
