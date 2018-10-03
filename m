@@ -2,33 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F5C67D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 14:08:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 06B5F7D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 14:35:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726997AbeJCU5I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 16:57:08 -0400
-Received: from mga18.intel.com ([134.134.136.126]:4270 "EHLO mga18.intel.com"
+        id S1726797AbeJCVYa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 17:24:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56110 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726543AbeJCU5I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 16:57:08 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2018 07:08:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,336,1534834800"; 
-   d="scan'208";a="95721444"
-Received: from aphalle-mobl.amr.corp.intel.com (HELO [10.251.4.33]) ([10.251.4.33])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Oct 2018 07:05:24 -0700
-Subject: Re: [RFC PATCH v4 09/27] x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
-To:     Matthew Wilcox <willy@infradead.org>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
- <20180921150351.20898-10-yu-cheng.yu@intel.com>
- <20181003133856.GA24782@bombadil.infradead.org>
+        id S1726726AbeJCVYa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Oct 2018 17:24:30 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 0AB3E3082212;
+        Wed,  3 Oct 2018 14:35:50 +0000 (UTC)
+Received: from asgard.redhat.com (ovpn-200-34.brq.redhat.com [10.40.200.34])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 056C917AA2;
+        Wed,  3 Oct 2018 14:35:40 +0000 (UTC)
+Date:   Wed, 3 Oct 2018 16:36:10 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -38,6 +34,7 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Florian Weimer <fweimer@redhat.com>,
         "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -49,86 +46,330 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <688c3f90-f86e-32e8-ce1a-7a10facb08a8@linux.intel.com>
-Date:   Wed, 3 Oct 2018 07:05:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+Subject: Re: [RFC PATCH v4 20/27] x86/cet/shstk: Signal handling for shadow
+ stack
+Message-ID: <20181003143610.GC22724@asgard.redhat.com>
+References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
+ <20180921150351.20898-21-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20181003133856.GA24782@bombadil.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180921150351.20898-21-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Wed, 03 Oct 2018 14:35:50 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/03/2018 06:38 AM, Matthew Wilcox wrote:
-> On Fri, Sep 21, 2018 at 08:03:33AM -0700, Yu-cheng Yu wrote:
->> We are going to create _PAGE_DIRTY_SW for non-hardware, memory
->> management purposes.  Rename _PAGE_DIRTY to _PAGE_DIRTY_HW and
->> _PAGE_BIT_DIRTY to _PAGE_BIT_DIRTY_HW to make these PTE dirty
->> bits more clear.  There are no functional changes in this
->> patch.
-> I would like there to be some documentation in this patchset which
-> explains the difference between PAGE_SOFT_DIRTY and PAGE_DIRTY_SW.
+On Fri, Sep 21, 2018 at 08:03:44AM -0700, Yu-cheng Yu wrote:
+> When setting up a signal, the kernel creates a shadow stack
+> restore token at the current SHSTK address and then stores the
+> token's address in the signal frame, right after the FPU state.
+> Before restoring a signal, the kernel verifies and then uses the
+> restore token to set the SHSTK pointer.
+
+> diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> index ec256ae27a31..5cc4be6e0982 100644
+> --- a/arch/x86/kernel/cet.c
+> +++ b/arch/x86/kernel/cet.c
+
+> @@ -46,6 +47,69 @@ static unsigned long get_shstk_addr(void)
+>  	return ptr;
+>  }
+>  
+> +/*
+> + * Verify the restore token at the address of 'ssp' is
+> + * valid and then set shadow stack pointer according to the
+> + * token.
+> + */
+> +static int verify_rstor_token(bool ia32, unsigned long ssp,
+> +			      unsigned long *new_ssp)
+> +{
+> +	unsigned long token;
+> +
+> +	*new_ssp = 0;
+> +
+> +	if (!IS_ALIGNED(ssp, 8))
+> +		return -EINVAL;
+> +
+> +	if (get_user(token, (unsigned long __user *)ssp))
+> +		return -EFAULT;
+> +
+
+> +	/* Is 64-bit mode flag correct? */
+> +	if (ia32 && (token & 3) != 0)
+> +		return -EINVAL;
+> +	else if ((token & 3) != 1)
+> +		return -EINVAL;
+
+It is probably worth adding constant names for these flags, example,
+there's Section 2.4 in the currently available description[1], and
+it took some time before I decided to look into other patches
+and find the patch with the documentation (or finally notice section 2.7).
+
+[1] https://software.intel.com/sites/default/files/managed/4d/2a/control-flow-enforcement-technology-preview.pdf
+
+> +	token &= ~(1UL);
+> +
+> +	if ((!ia32 && !IS_ALIGNED(token, 8)) || !IS_ALIGNED(token, 4))
+> +		return -EINVAL;
+> +
+> +	if ((ALIGN_DOWN(token, 8) - 8) != ssp)
+> +		return -EINVAL;
+> +
+> +	*new_ssp = token;
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Create a restore token on the shadow stack.
+> + * A token is always 8-byte and aligned to 8.
+> + */
+> +static int create_rstor_token(bool ia32, unsigned long ssp,
+> +			      unsigned long *new_ssp)
+> +{
+> +	unsigned long addr;
+> +
+> +	*new_ssp = 0;
+> +
+> +	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
+> +		return -EINVAL;
+
+Maybe refactor this check into a separate function/macro?
+
+> +
+> +	addr = ALIGN_DOWN(ssp, 8) - 8;
+> +
+> +	/* Is the token for 64-bit? */
+> +	if (!ia32)
+> +		ssp |= 1;
+
+Again, usage of a named constant might document it better.
+
+> +
+> +	if (write_user_shstk_64(addr, ssp))
+
+This function is defined in "[RFC PATCH v4 19/27] x86/cet/shstk:
+Introduce WRUSS instruction"
+
+> +		return -EFAULT;
+> +
+> +	*new_ssp = addr;
+> +	return 0;
+> +}
+> +
+>  int cet_setup_shstk(void)
+>  {
+>  	unsigned long addr, size;
+> @@ -107,3 +171,54 @@ void cet_disable_free_shstk(struct task_struct *tsk)
+>  
+>  	tsk->thread.cet.shstk_enabled = 0;
+>  }
+> +
+> +int cet_restore_signal(unsigned long ssp)
+> +{
+> +	unsigned long new_ssp;
+> +	int err;
+> +
+> +	if (!current->thread.cet.shstk_enabled)
+> +		return 0;
+> +
+> +	err = verify_rstor_token(in_ia32_syscall(), ssp, &new_ssp);
+> +
+> +	if (err)
+> +		return err;
+> +
+> +	return set_shstk_ptr(new_ssp);
+> +}
+> +
+> +/*
+> + * Setup the shadow stack for the signal handler: first,
+> + * create a restore token to keep track of the current ssp,
+> + * and then the return address of the signal handler.
+> + */
+> +int cet_setup_signal(bool ia32, unsigned long rstor_addr,
+> +		     unsigned long *new_ssp)
+> +{
+> +	unsigned long ssp;
+> +	int err;
+> +
+> +	if (!current->thread.cet.shstk_enabled)
+> +		return 0;
+> +
+> +	ssp = get_shstk_addr();
+> +	err = create_rstor_token(ia32, ssp, new_ssp);
+> +
+> +	if (err)
+> +		return err;
+> +
+> +	if (ia32) {
+> +		ssp = *new_ssp - sizeof(u32);
+> +		err = write_user_shstk_32(ssp, (unsigned int)rstor_addr);
+> +	} else {
+> +		ssp = *new_ssp - sizeof(u64);
+> +		err = write_user_shstk_64(ssp, rstor_addr);
+> +	}
+> +
+> +	if (err)
+> +		return err;
+> +
+> +	set_shstk_ptr(ssp);
+> +	return 0;
+> +}
+> diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+> index 92a3b312a53c..e9a85689143f 100644
+> --- a/arch/x86/kernel/signal.c
+> +++ b/arch/x86/kernel/signal.c
+> @@ -46,6 +46,7 @@
+>  
+>  #include <asm/sigframe.h>
+>  #include <asm/signal.h>
+> +#include <asm/cet.h>
+>  
+>  #define COPY(x)			do {			\
+>  	get_user_ex(regs->x, &sc->x);			\
+> @@ -152,6 +153,10 @@ static int restore_sigcontext(struct pt_regs *regs,
+>  
+>  	err |= fpu__restore_sig(buf, IS_ENABLED(CONFIG_X86_32));
+>  
+> +#ifdef CONFIG_X86_64
+> +	err |= restore_sigcontext_ext(buf);
+> +#endif
+> +
+>  	force_iret();
+>  
+>  	return err;
+> @@ -266,6 +271,11 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+>  	}
+>  
+
+>  	if (fpu->initialized) {
+> +#ifdef CONFIG_X86_64
+> +		/* sigcontext extension */
+> +		if (boot_cpu_has(X86_FEATURE_SHSTK))
+> +			sp -= sizeof(struct sc_ext) + 8;
+> +#endif
+>  		sp = fpu__alloc_mathframe(sp, IS_ENABLED(CONFIG_X86_32),
+>  					  &buf_fx, &math_size);
+
+That might be refactored in a separate function.
+
+Also, it looks like that possible padding for 8-byte alignment
+(copy_ext_{to,from}_user) is not accounted here.
+
+>  		*fpstate = (void __user *)sp;
+> @@ -493,6 +503,9 @@ static int __setup_rt_frame(int sig, struct ksignal *ksig,
+>  	err |= setup_sigcontext(&frame->uc.uc_mcontext, fp, regs, set->sig[0]);
+>  	err |= __copy_to_user(&frame->uc.uc_sigmask, set, sizeof(*set));
+>  
+> +	if (!err)
+> +		err = setup_sigcontext_ext(ksig, fp);
+> +
+
+Why is this not in setup_sigcontext, for example?
+
+>  	if (err)
+>  		return -EFAULT;
+>  
+> @@ -576,6 +589,9 @@ static int x32_setup_rt_frame(struct ksignal *ksig,
+>  				regs, set->sig[0]);
+>  	err |= __copy_to_user(&frame->uc.uc_sigmask, set, sizeof(*set));
+>  
+> +	if (!err)
+> +		err = setup_sigcontext_ext(ksig, fpstate);
+> +
+>  	if (err)
+>  		return -EFAULT;
+>  
+> @@ -707,6 +723,86 @@ setup_rt_frame(struct ksignal *ksig, struct pt_regs *regs)
+>  	}
+>  }
+>  
+> +#ifdef CONFIG_X86_64
+> +static int copy_ext_from_user(struct sc_ext *ext, void __user *fpu)
+> +{
+> +	void __user *p;
+> +
+> +	if (!fpu)
+> +		return -EINVAL;
+> +
+> +	p = fpu + fpu_user_xstate_size + FP_XSTATE_MAGIC2_SIZE;
+> +	p = (void __user *)ALIGN((unsigned long)p, 8);
+> +
+> +	if (!access_ok(VERIFY_READ, p, sizeof(*ext)))
+> +		return -EFAULT;
+> +
+> +	if (__copy_from_user(ext, p, sizeof(*ext)))
+> +		return -EFAULT;
+> +
+> +	if (ext->total_size != sizeof(*ext))
+> +		return -EINVAL;
+> +	return 0;
+> +}
+> +
+> +static int copy_ext_to_user(void __user *fpu, struct sc_ext *ext)
+> +{
+> +	void __user *p;
+> +
+> +	if (!fpu)
+> +		return -EINVAL;
+> +
+> +	if (ext->total_size != sizeof(*ext))
+> +		return -EINVAL;
+> +
+> +	p = fpu + fpu_user_xstate_size + FP_XSTATE_MAGIC2_SIZE;
+> +	p = (void __user *)ALIGN((unsigned long)p, 8);
+> +
+> +	if (!access_ok(VERIFY_WRITE, p, sizeof(*ext)))
+> +		return -EFAULT;
+> +
+> +	if (__copy_to_user(p, ext, sizeof(*ext)))
+> +		return -EFAULT;
+> +
+> +	return 0;
+> +}
+> +
+> +int restore_sigcontext_ext(void __user *fp)
+> +{
+> +	int err = 0;
+> +
+> +	if (boot_cpu_has(X86_FEATURE_SHSTK) && fp) {
+> +		struct sc_ext ext = {0, 0};
+> +
+> +		err = copy_ext_from_user(&ext, fp);
+> +
+> +		if (!err)
+> +			err = cet_restore_signal(ext.ssp);
+> +	}
+> +
+> +	return err;
+> +}
+> +
+> +int setup_sigcontext_ext(struct ksignal *ksig, void __user *fp)
+> +{
+> +	int err = 0;
+> +
+> +	if (boot_cpu_has(X86_FEATURE_SHSTK) && fp) {
+> +		struct sc_ext ext = {0, 0};
+> +		unsigned long rstor;
+> +
+> +		rstor = (unsigned long)ksig->ka.sa.sa_restorer;
+> +		err = cet_setup_signal(is_ia32_frame(ksig), rstor, &ext.ssp);
+> +		if (!err) {
+> +			ext.total_size = sizeof(ext);
+> +			err = copy_ext_to_user(fp, &ext);
+> +		}
+> +	}
+> +
+> +	return err;
+> +}
+> +#endif
+> +
+>  static void
+>  handle_signal(struct ksignal *ksig, struct pt_regs *regs)
+>  {
+> -- 
+> 2.17.1
 > 
-> Also, is it really necessary to rename PAGE_DIRTY?  It feels like a
-> lot of churn.
-
-This is a lot of churn?  Are we looking a the same patch? :)
-
- arch/x86/include/asm/pgtable.h       |  6 +++---
- arch/x86/include/asm/pgtable_types.h | 17 +++++++++--------
- arch/x86/kernel/relocate_kernel_64.S |  2 +-
- arch/x86/kvm/vmx.c                   |  2 +-
- 4 files changed, 14 insertions(+), 13 deletions(-)
-
-But, yeah, I think we need to.  While it will take a little adjustment
-in the brains of us old-timers and a bit of pain when switching from old
-kernels to new, this makes it a lot more clear what is going on.
