@@ -5,20 +5,20 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 728A57D082
+	by archive.lwn.net (Postfix) with ESMTP id A36717D08F
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 13:22:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727401AbeJCULB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 16:11:01 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:37444 "EHLO mail.bootlin.com"
+        id S1727493AbeJCULG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 16:11:06 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:37554 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726793AbeJCULB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 16:11:01 -0400
+        id S1726793AbeJCULF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Oct 2018 16:11:05 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 0BF73207CC; Wed,  3 Oct 2018 15:22:34 +0200 (CEST)
+        id 1F25A208B7; Wed,  3 Oct 2018 15:22:36 +0200 (CEST)
 Received: from bbrezillon.fritz.box (AAubervilliers-681-1-24-95.w90-88.abo.wanadoo.fr [90.88.144.95])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 95D19207F3;
-        Wed,  3 Oct 2018 15:22:16 +0200 (CEST)
+        by mail.bootlin.com (Postfix) with ESMTPSA id 07455208C2;
+        Wed,  3 Oct 2018 15:22:20 +0200 (CEST)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
@@ -50,9 +50,9 @@ Cc:     Przemyslaw Sroka <psroka@cadence.com>,
         Mike Shettel <mshettel@codeaurora.org>,
         Stephen Boyd <swboyd@chromium.org>,
         Boris Brezillon <boris.brezillon@bootlin.com>
-Subject: [PATCH v8 05/10] dt-bindings: i3c: Add macros to help fill I3C/I2C device's reg property
-Date:   Wed,  3 Oct 2018 15:22:07 +0200
-Message-Id: <20181003132212.12619-6-boris.brezillon@bootlin.com>
+Subject: [PATCH v8 10/10] dt-bindings: gpio: Add bindings for Cadence I3C gpio expander
+Date:   Wed,  3 Oct 2018 15:22:12 +0200
+Message-Id: <20181003132212.12619-11-boris.brezillon@bootlin.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20181003132212.12619-1-boris.brezillon@bootlin.com>
 References: <20181003132212.12619-1-boris.brezillon@bootlin.com>
@@ -61,9 +61,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The reg property of devices connected to an I3C bus have 3 cells, and
-filling them manually is not trivial. Provides macros to help doing
-that.
+Document the Cadence I3C gpio expander bindings.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -71,47 +69,68 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 Changes in v8:
 - None
 
-Changes in v5:
-- none
----
- include/dt-bindings/i3c/i3c.h | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 include/dt-bindings/i3c/i3c.h
+Changes in v7:
+- None
 
-diff --git a/include/dt-bindings/i3c/i3c.h b/include/dt-bindings/i3c/i3c.h
+Changes in v6:
+- None
+
+Changes in v5:
+- Add Rob's R-b
+
+Changes in v4:
+- Use GPIO_ and IRQ_TYPE_ macros instead of raw numbers
+- Fix the unit-address in the example
+---
+ .../devicetree/bindings/gpio/gpio-cdns-i3c.txt     | 39 ++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
+
+diff --git a/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt b/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
 new file mode 100644
-index 000000000000..97448c546649
+index 000000000000..d0155a9cea79
 --- /dev/null
-+++ b/include/dt-bindings/i3c/i3c.h
-@@ -0,0 +1,28 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2017 Cadence Design Systems Inc.
-+ *
-+ * Author: Boris Brezillon <boris.brezillon@bootlin.com>
-+ */
++++ b/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
+@@ -0,0 +1,39 @@
++* Cadence I3C GPIO expander
 +
-+#ifndef _DT_BINDINGS_I3C_I3C_H
-+#define _DT_BINDINGS_I3C_I3C_H
++The Cadence I3C GPIO expander provides 8 GPIOs controllable over I3C.
++This GPIOs can be configured in output or input mode and if they are in input
++mode they can generate IBIs (In Band Interrupts).
 +
-+#define IS_I2C_DEV		0x80000000
++Required properties for GPIO node:
++- reg : 3 cells encoding the I3C static address (none in our case) and the I3C
++	Provisional ID. See Documentation/devicetree/bindings/i3c/i3c.txt for
++	more details.
++	Should be <0x0 0x392 0x0>.
++- gpio-controller : Marks the device node as a gpio controller.
++- #gpio-cells : Should be two. The first cell is the pin number and
++  the second cell is used to specify the gpio polarity (GPIO_ACTIVE_HIGH or
++  GPIO_ACTIVE_LOW)
++- interrupt-controller: Marks the device node as an interrupt controller.
++- #interrupt-cells : Should be 2. The first cell is the GPIO number.
++  The second cell is used to specify trigger type and level flags.
++  The following trigger types are accepted (see
++  <dt-bindings/interrupt-controller/irq.h> for their definition):
++	IRQ_TYPE_EDGE_RISING
++	IRQ_TYPE_EDGE_FALLING
++	IRQ_TYPE_EDGE_BOTH
++	IRQ_TYPE_LEVEL_HIGH
++	IRQ_TYPE_LEVEL_LOW
 +
-+#define I2C_DEV(addr, lvr)					\
-+	(addr) (IS_I2C_DEV | (lvr)) 0x0
++Example:
 +
-+#define I3C_PID(manufid, partid, instid, extrainfo)		\
-+	((manufid) << 1)					\
-+	(((partid) << 16) | ((instid) << 12) | (extrainfo))
-+
-+#define I3C_DEV_WITH_STATIC_ADDR(addr, manufid, partid,		\
-+				 instid, extrainfo)		\
-+	(addr) I3C_PID(manufid, partid, instid, extrainfo)
-+
-+#define I3C_DEV(manufid, partid, instid, extrainfo)		\
-+	I3C_DEV_WITH_STATIC_ADDR(0x0, manufid, partid,		\
-+				 instid, extrainfo)
-+
-+#endif
++	i3c-master@xxx {
++		...
++		i3c_gpio_expander: gpio@0,39200000000 {
++			reg = <0 0x392 0x0>;
++			gpio-controller;
++			#gpio-cells = <2>;
++			interrupt-controller;
++			#interrupt-cells = <2>;
++		};
++		...
++	};
 -- 
 2.14.1
 
