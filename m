@@ -1,257 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A7937D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 15:34:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4CD7C7D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Oct 2018 16:06:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbeJCWW6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Oct 2018 18:22:58 -0400
-Received: from imap.thunk.org ([74.207.234.97]:34230 "EHLO imap.thunk.org"
+        id S1726856AbeJCWzr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Oct 2018 18:55:47 -0400
+Received: from mga09.intel.com ([134.134.136.24]:16572 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726748AbeJCWW6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Oct 2018 18:22:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
-         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=IgUH+wccZfyBwYBvcoEsdtmL+lfBX0dNy5P8XKGVI54=; b=wPbijM0QhycH/1j7hMTxDKqMqC
-        380DQffsSZyV1/Bq0G7HBB6UAIVLcv5CbiMfNh8wqXcNoL+HZAW2hAO+WAKyjURCCvvEXGDHpquyT
-        OokvVnhjFiEW5ogrF2mOaD4O4EX1btXFDJnoZWRu2zCw/WHzVdVcfXdDvYjkFGCYWBc4=;
-Received: from root (helo=callcc.thunk.org)
-        by imap.thunk.org with local-esmtp (Exim 4.89)
-        (envelope-from <tytso@thunk.org>)
-        id 1g7j96-0006iB-6e; Wed, 03 Oct 2018 15:33:04 +0000
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 68FDC7A0136; Wed,  3 Oct 2018 11:33:03 -0400 (EDT)
-Date:   Wed, 3 Oct 2018 11:33:03 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
+        id S1726811AbeJCWzr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Oct 2018 18:55:47 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2018 09:06:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,336,1534834800"; 
+   d="scan'208";a="75122244"
+Received: from 2b52.sc.intel.com ([143.183.136.147])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Oct 2018 09:04:44 -0700
+Message-ID: <5ddb0ad33298d1858e530fce9c9ea2788b2fac81.camel@intel.com>
+Subject: Re: [RFC PATCH v4 24/27] mm/mmap: Create a guard area between VMAs
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@amacapital.net>,
+        Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
-Message-ID: <20181003153303.GC2835@thunk.org>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
- <20181003071059.02b3fd6f@canb.auug.org.au>
- <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
- <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
- <20181002232454.GB2483@thunk.org>
- <CANiq72=cRpqnB3BxLsmj-rMdUGJK+pac1SRppoRgsON69ErfQg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiq72=cRpqnB3BxLsmj-rMdUGJK+pac1SRppoRgsON69ErfQg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: tytso@thunk.org
-X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
+Date:   Wed, 03 Oct 2018 09:00:04 -0700
+In-Reply-To: <CALCETrU-Ny-uC1NqRedQwNKe2MMhsFEqZ08TtHJwbLfCACMmLw@mail.gmail.com>
+References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
+         <20180921150351.20898-25-yu-cheng.yu@intel.com>
+         <20181003045611.GB22724@asgard.redhat.com>
+         <CALCETrU-Ny-uC1NqRedQwNKe2MMhsFEqZ08TtHJwbLfCACMmLw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 03, 2018 at 01:54:05PM +0200, Miguel Ojeda wrote:
+On Tue, 2018-10-02 at 22:36 -0700, Andy Lutomirski wrote:
+> On Tue, Oct 2, 2018 at 9:55 PM Eugene Syromiatnikov <esyr@redhat.com> wrote:
+> > 
+> > On Fri, Sep 21, 2018 at 08:03:48AM -0700, Yu-cheng Yu wrote:
+> > > Create a guard area between VMAs, to detect memory corruption.
+> > 
+> > Do I understand correctly that with this patch a user space program
+> > no longer be able to place two mappings back to back? If it is so,
+> > it will likely break a lot of things; for example, it's a common ring
+> > buffer implementations technique, to map buffer memory twice back
+> > to back in order to avoid special handling of items wrapping its end.
 > 
-> Exactly. And for this case, I simply assumed Stephen wanted a clean
-> series to apply on top of the latest next-* tag (same way we base
-> stuff on top of -rc*s). Note that this is *not* really a "tree"
-> collecting changes/development, it is a patch series, i.e. what is
-> important is only the range-diff.
+> I haven't checked what the patch actually does, but it shouldn't have
+> any affect on MAP_FIXED or the new no-replace MAP_FIXED variant.
 > 
-> What has surprised me is that -next does not allow for range-diffs
-> (patches/commits/...) to be inside -next, maybe applied after all the
-> normal merges of trees. I simply assumed it did, given what I could
-> find about -next (which does not seem to be documented properly, by
-> the way).
+> --Andy
 
-Part of the reason why I wrote my long message was because the -next
-tree usage has been mostly by convention.  Better documentation would
-be a good thing; I think the main reason why we don't have it is that
-historically, the people who submit direct pull requests to Linus
-already know how things work.  Obviously that's not a great
-assumption, but in fact there are a large number of things about what
-is needed to be a subsystem maintainer which needs to be documented,
-and the linux-next tree is just one part of it.  (And perhaps not even
-the biggest part.)
+I did some mmap tests with/without MAP_FIXED, and it works as intended.
+In addition to the ring buffer, are there other test cases?
 
-Historically there was one source of changes into the linux-next tree
-which was done as quilt-style patch series, and that was Andrew
-Morton's mmotm tree.  Part of the problem is that it's a lot more work
-to consume a patch series, and so these days while Andrew still uses a
-patch series, he exports a git tree[1] which is what I believe Stephen
-and Linus use.  (For that matter, I use a patch series[2] as well, but
-the public interface is the ext4.git tree on git.kernel.org.)
+Yu-cheng
 
-[1] https://www.ozlabs.org/~akpm/mmotm/mmotm-readme.txt
-[2] https://ext4.wiki.kernel.org/index.php/Ext4_patchsets
-
-> While this is a simple conflict, I don't really agree with release
-> maintainers having to fix conflicts on the fly (even if it is a single
-> trivial line), but that is an orthogonal discussion...
-
-Sure; there are some srtong reasons for it, but we can save that for
-the Maintainer's Handbook discussion.  I will say that this is
-something where attempts to avoid Linus needing to fix conflicts on
-the fly, such as a rebase right before a PULL request, violates
-Linus's rules which has in the past resulted in him expressing a
-"strong" correction e-mail to Maintainers since it was assumed that
-they really should have known better.  Linus has said he doesn't want
-to yell at Maintainers, so we can support him by getting the
-Maintainer's Handbook out there.  :-)
-
-> Alright, I am not sure how to answer this without sounding
-> "aggressive" and maybe I misunderstood something you tried to point
-> out, so I apologize in advance. There are several points here:
-> 
->   * The merge conflict isn't related to this (but let's assume it was,
-> since you pointed this out as an example -- I guess; although I am not
-> sure why).
-
-I thought I was clear that I used it as an example, but my apologies
-if that didn't come across.
-
->     - Changes should include everything related to them (as far as
-> possible, i.e. extreme examples aside). Adding __nonstring and not
-> removing the ext4 part would simply be leaving undone work (which has
-> to be done sooner or later). To be honest, it could have even been
-> done in the same commit and I would say it is logically OK (even if
-> not great).
-> ...
->
-> You seem to argue that it is better to avoid merge conflicts rather
-> than doing a proper series. Well, I think we should really try to
-> avoid conflicts pushing down the """quality""" of
-> patches/commits/series.
-
-And I think this is where the disagreement lies, which is why I
-bothered to send my long missive in the first place.  From my point of
-view, and I suspect many maintainers share this, avoiding merge
-conflicts is way important than making sure everything is "done" in a
-single patch series.  There have been plenty of changes where cleanup
-is done latter, and/or where preparatory patches are done in one
-release, and the big change happens in the next release, 3 months
-later.
-
-That's because some of the alternatives, such as basing your git tree
-on an unstable head branch, such as linux-next, or a last minute
-rebase which means that the actual patches that which gets the pull
-rebase hasn't been tested or soaked in linux-next, are far worse
-because it can lead to lower quality git trees getting merged during
-the merge window.
-
-There is a tension here between maximizing the "quality" of a patch
-series, and maximizing the "quality" of the git trees that feed into
-the merge window.  Or perhaps the better way of saying this is
-minimizing the risk of bad changes getting integreted during the merge
-window.  Some technical debt which gets cleaned up in the next release
-is in my view a very low price to pay in order to minimize risk.
-
-Part of this is because I've had to waste time debugging changes made
-to the ext4 sources which came in via someone else's git tree that
-were "obviously correct" or "trivial changes" --- but they weren't.
-Most of the time they get caught as part of linux-next testing, but
-not always.  So sometimes the interests of one subsystem maintainer
-can end up conflicting with the interests of the patch series author,
-or the interests of another subsystem maintainer.  And that's why we
-have some of these "cultural understandings", many of which we clearly
-need to document.
-
-(And yes, in this case I didn't object to the cleanup being in your
-patch series; normally I don't care, unless it actually break things.
-I was just trying to make the point from my perspective, nothing
-*required* that the change be in your git tree, and if it *was*
-causing the problem, I had gone out of my way to make sure to make it
-easy for you to drop the change; and from my perspective I was doing
-you --- and me :-) --- a favor when I added the outer #ifndef, which I
-had done with full consideration, specifically for this reason.  Even
-if the definition was different, my definition *had* been fully tested
-with over a 27+ VM hours of regression testing, and if it turned out
-that they were different, cleaning that up three months from now in
-the next release is just *fine* as far as I'm concerned.)
-
-Cheers,
-
-						- Ted
