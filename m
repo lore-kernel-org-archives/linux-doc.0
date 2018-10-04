@@ -5,46 +5,46 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 05F327D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 16:08:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 729BA7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 16:11:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727759AbeJDXCX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 19:02:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60394 "EHLO mail.kernel.org"
+        id S1727599AbeJDXFZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 19:05:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32998 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727735AbeJDXCX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Oct 2018 19:02:23 -0400
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+        id S1727557AbeJDXFY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Oct 2018 19:05:24 -0400
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2A2A621477
-        for <linux-doc@vger.kernel.org>; Thu,  4 Oct 2018 16:08:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C55D2214D5
+        for <linux-doc@vger.kernel.org>; Thu,  4 Oct 2018 16:11:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1538669307;
-        bh=jNrCRitcO3wT7VnwH79c3INnhO3XKOC5TGVuaohfz8A=;
+        s=default; t=1538669488;
+        bh=McW8l0g6u/rmKJBjUdIIj6PR8dE10qVwcKAaEBFicnE=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=h9S+j84rYz/1pX3G+Mb/lHscdi5VTZg+8Q35lfJ52lhzq77QHKMIU9N6wheVg4yJT
-         OgpsHW4etYppfEfBKmFG/HObK8Fg8HzUiYCXBR6mN4Zf01uXhl5smpE1YhVuJbWqSe
-         39rfFFhzBUQUQZex+KhEKn5LL5u7Pf4suMUzmkVs=
-Received: by mail-wm1-f45.google.com with SMTP id z25-v6so1897105wmf.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 Oct 2018 09:08:27 -0700 (PDT)
-X-Gm-Message-State: ABuFfogu77dOEe9v8XZb73DAKvS6182xHcgUdUIItWE17tL2NTCKNwo8
-        Ln9pNif43562zyCqnY4bbO43aoeWhth3G8vmw1Edfg==
-X-Google-Smtp-Source: ACcGV63LQvxIjiM/IoS0D3IQrPO2bDkodspDho1w1QbAyA9CPpJX3cQHOZw8oZ1pUr4m4HEADhhXrmD4hx5wxfimkPM=
-X-Received: by 2002:a1c:f312:: with SMTP id q18-v6mr5190582wmq.14.1538669305459;
- Thu, 04 Oct 2018 09:08:25 -0700 (PDT)
+        b=QL0GlCTkOPO4qASli0QzgW2694Z1n5Q5Q4HExotJ9AfDwuteN2B1xBBLp4PSsxWpX
+         nmI3LN1ikUeaslRm7KiWa86J2J1Yhkz+K2CcuWhIiSa4mSrLF3zqepu572NWgBN+Ne
+         w7PblTK3Dh6jXr3Cy9xsKpZiJlFkc0jwueIKkxpc=
+Received: by mail-wr1-f43.google.com with SMTP id a2-v6so3483349wrc.13
+        for <linux-doc@vger.kernel.org>; Thu, 04 Oct 2018 09:11:27 -0700 (PDT)
+X-Gm-Message-State: ABuFfohTLneP7mN0AvzyoEszyDUI45qXxwkrsAQ46uMjIjUUHnsa1Pqj
+        c1wAYHb6YlkbpnNKynOW7rbakCvwwd+17zodK57H9w==
+X-Google-Smtp-Source: ACcGV62WUVHCeK6Uipu0KKC97xIy3fwJ+NfgSeD4pPVuy3IztqNDnYDiKMIUY2UIVL3crxxoDypFk4VaBNSnuDsWkyo=
+X-Received: by 2002:adf:e387:: with SMTP id e7-v6mr5478846wrm.94.1538669486047;
+ Thu, 04 Oct 2018 09:11:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180921150553.21016-1-yu-cheng.yu@intel.com> <20180921150553.21016-7-yu-cheng.yu@intel.com>
- <20181004132811.GJ32759@asgard.redhat.com> <3350f7b42b32f3f7a1963a9c9c526210c24f7b05.camel@intel.com>
-In-Reply-To: <3350f7b42b32f3f7a1963a9c9c526210c24f7b05.camel@intel.com>
+References: <20180921150553.21016-1-yu-cheng.yu@intel.com> <20180921150553.21016-4-yu-cheng.yu@intel.com>
+In-Reply-To: <20180921150553.21016-4-yu-cheng.yu@intel.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 4 Oct 2018 09:08:12 -0700
-X-Gmail-Original-Message-ID: <CALCETrWTu-zuSKn6e3=QkP4_ca8PJfuevMD8KJq0VX3nq7Hw8Q@mail.gmail.com>
-Message-ID: <CALCETrWTu-zuSKn6e3=QkP4_ca8PJfuevMD8KJq0VX3nq7Hw8Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 6/9] x86/cet/ibt: Add arch_prctl functions for IBT
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Eugene Syromiatnikov <esyr@redhat.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
+Date:   Thu, 4 Oct 2018 09:11:14 -0700
+X-Gmail-Original-Message-ID: <CALCETrUj5_kc8qr5xNJSyE4Dz18BcYCcgA1i_CvqgJzZiwG+ig@mail.gmail.com>
+Message-ID: <CALCETrUj5_kc8qr5xNJSyE4Dz18BcYCcgA1i_CvqgJzZiwG+ig@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 3/9] x86/cet/ibt: Add IBT legacy code bitmap
+ allocation function
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
         LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
@@ -72,42 +72,72 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Oct 4, 2018, at 8:37 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+On Fri, Sep 21, 2018 at 8:10 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
->> On Thu, 2018-10-04 at 15:28 +0200, Eugene Syromiatnikov wrote:
->>> On Fri, Sep 21, 2018 at 08:05:50AM -0700, Yu-cheng Yu wrote:
->>> Update ARCH_CET_STATUS and ARCH_CET_DISABLE to include Indirect
->>> Branch Tracking features.
->>>
->>> Introduce:
->>>
->>> arch_prctl(ARCH_CET_LEGACY_BITMAP, unsigned long *addr)
->>>    Enable the Indirect Branch Tracking legacy code bitmap.
->>>
->>>    The parameter 'addr' is a pointer to a user buffer.
->>>    On returning to the caller, the kernel fills the following:
->>>
->>>    *addr = IBT bitmap base address
->>>    *(addr + 1) = IBT bitmap size
->>
->> Again, some structure with a size field would be better from
->> UAPI/extensibility standpoint.
->>
->> One additional point: "size" in the structure from kernel should have
->> structure size expected by kernel, and at least providing there "0" from
->> user space shouldn't lead to failure (in fact, it is possible to provide
->> structure size back to userspace even if buffer is too small, along
->> with error).
+> Indirect branch tracking provides an optional legacy code bitmap
+> that indicates locations of non-IBT compatible code.  When set,
+> each bit in the bitmap represents a page in the linear address is
+> legacy code.
 >
-> This has been in GLIBC v2.28.  We cannot change it anymore.
+> We allocate the bitmap only when the application requests it.
+> Most applications do not need the bitmap.
+>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/kernel/cet.c | 45 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+>
+> diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> index 6adfe795d692..a65d9745af08 100644
+> --- a/arch/x86/kernel/cet.c
+> +++ b/arch/x86/kernel/cet.c
+> @@ -314,3 +314,48 @@ void cet_disable_ibt(void)
+>         wrmsrl(MSR_IA32_U_CET, r);
+>         current->thread.cet.ibt_enabled = 0;
+>  }
+> +
+> +int cet_setup_ibt_bitmap(void)
+> +{
+> +       u64 r;
+> +       unsigned long bitmap;
+> +       unsigned long size;
+> +
+> +       if (!cpu_feature_enabled(X86_FEATURE_IBT))
+> +               return -EOPNOTSUPP;
+> +
+> +       if (!current->thread.cet.ibt_bitmap_addr) {
+> +               /*
+> +                * Calculate size and put in thread header.
+> +                * may_expand_vm() needs this information.
+> +                */
+> +               size = TASK_SIZE / PAGE_SIZE / BITS_PER_BYTE;
+> +               current->thread.cet.ibt_bitmap_size = size;
+> +               bitmap = do_mmap_locked(0, size, PROT_READ | PROT_WRITE,
+> +                                       MAP_ANONYMOUS | MAP_PRIVATE,
+> +                                       VM_DONTDUMP);
+> +
+> +               if (bitmap >= TASK_SIZE) {
+> +                       current->thread.cet.ibt_bitmap_size = 0;
+> +                       return -ENOMEM;
+> +               }
+> +
+> +               current->thread.cet.ibt_bitmap_addr = bitmap;
+> +       }
+> +
+> +       /*
+> +        * Lower bits of MSR_IA32_CET_LEG_IW_EN are for IBT
+> +        * settings.  Clear lower bits even bitmap is already
+> +        * page-aligned.
+> +        */
+> +       bitmap = current->thread.cet.ibt_bitmap_addr;
+> +       bitmap &= PAGE_MASK;
+> +
+> +       /*
+> +        * Turn on IBT legacy bitmap.
+> +        */
+> +       rdmsrl(MSR_IA32_U_CET, r);
+> +       r |= (MSR_IA32_CET_LEG_IW_EN | bitmap);
+> +       wrmsrl(MSR_IA32_U_CET, r);
+> +       return 0;
 
-Sure you can. Just change ARCH_CET_LEGACY_BITMAP to a new number.  You
-might need to change all the constants.  And if the ELF note by itself
-causes a problem too, you may need to rename it.  And maybe ask glibc
-to kindly not enable code that depends on non-upstreamed kernel
-features.
-
-There is not, and has never been, any ABI compatibility requirement
-that says that, if glibc 2.28 "enables" a feature, that the kernel
-will ever enable it in a way that makes glibc 2.28 actually support
-it.  All the kernel needs to do is avoid making glibc 2.28 *crash*.
+Why are you writing the MSRs in the case where the bitmap was already allocated?
