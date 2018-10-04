@@ -2,40 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E68B7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 16:18:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C946F7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 16:32:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727759AbeJDXMx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 19:12:53 -0400
-Received: from albireo.enyo.de ([5.158.152.32]:36938 "EHLO albireo.enyo.de"
+        id S1727761AbeJDX0T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 19:26:19 -0400
+Received: from mga03.intel.com ([134.134.136.65]:10903 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727526AbeJDXMx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Oct 2018 19:12:53 -0400
-X-Greylist: delayed 651 seconds by postgrey-1.27 at vger.kernel.org; Thu, 04 Oct 2018 19:12:51 EDT
-Received: from [172.17.203.2] (helo=deneb.enyo.de)
-        by albireo.enyo.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1g86AF-0000Oz-7r; Thu, 04 Oct 2018 16:07:47 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.89)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1g86AF-0004ms-0u; Thu, 04 Oct 2018 18:07:47 +0200
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Eugene Syromiatnikov <esyr@redhat.com>, x86@kernel.org,
+        id S1727415AbeJDX0S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Oct 2018 19:26:18 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2018 09:32:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,340,1534834800"; 
+   d="scan'208";a="78731131"
+Received: from 2b52.sc.intel.com ([143.183.136.147])
+  by orsmga008.jf.intel.com with ESMTP; 04 Oct 2018 09:30:13 -0700
+Message-ID: <5fad8118868739a452b8f5834290a04f1b343775.camel@intel.com>
+Subject: Re: [RFC PATCH v4 6/9] x86/cet/ibt: Add arch_prctl functions for IBT
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@amacapital.net>,
+        Florian Weimer <fw@deneb.enyo.de>
+Cc:     Eugene Syromiatnikov <esyr@redhat.com>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
@@ -44,59 +50,78 @@ Cc:     Eugene Syromiatnikov <esyr@redhat.com>, x86@kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        libc-alpha@sourceware.org, carlos@redhat.com
-Subject: Re: [RFC PATCH v4 6/9] x86/cet/ibt: Add arch_prctl functions for IBT
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Carlos O'Donell <carlos@redhat.com>
+Date:   Thu, 04 Oct 2018 09:25:32 -0700
+In-Reply-To: <CALCETrXTqxQLWEHhSQ6WsDosnD61rnN2TgAFFomVAf5URP4DzA@mail.gmail.com>
 References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
-        <20180921150553.21016-7-yu-cheng.yu@intel.com>
-        <20181004132811.GJ32759@asgard.redhat.com>
-        <3350f7b42b32f3f7a1963a9c9c526210c24f7b05.camel@intel.com>
-Date:   Thu, 04 Oct 2018 18:07:47 +0200
-In-Reply-To: <3350f7b42b32f3f7a1963a9c9c526210c24f7b05.camel@intel.com>
-        (Yu-cheng Yu's message of "Thu, 04 Oct 2018 08:37:16 -0700")
-Message-ID: <87murtn19o.fsf@mid.deneb.enyo.de>
-MIME-Version: 1.0
-Content-Type: text/plain
+         <20180921150553.21016-7-yu-cheng.yu@intel.com>
+         <20181004132811.GJ32759@asgard.redhat.com>
+         <3350f7b42b32f3f7a1963a9c9c526210c24f7b05.camel@intel.com>
+         <87murtn19o.fsf@mid.deneb.enyo.de>
+         <CALCETrXTqxQLWEHhSQ6WsDosnD61rnN2TgAFFomVAf5URP4DzA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Yu-cheng Yu:
+On Thu, 2018-10-04 at 09:12 -0700, Andy Lutomirski wrote:
+> On Thu, Oct 4, 2018 at 9:08 AM Florian Weimer <fw@deneb.enyo.de> wrote:
+> > 
+> > * Yu-cheng Yu:
+> > 
+> > > On Thu, 2018-10-04 at 15:28 +0200, Eugene Syromiatnikov wrote:
+> > > > On Fri, Sep 21, 2018 at 08:05:50AM -0700, Yu-cheng Yu wrote:
+> > > > > Update ARCH_CET_STATUS and ARCH_CET_DISABLE to include Indirect
+> > > > > Branch Tracking features.
+> > > > > 
+> > > > > Introduce:
+> > > > > 
+> > > > > arch_prctl(ARCH_CET_LEGACY_BITMAP, unsigned long *addr)
+> > > > >     Enable the Indirect Branch Tracking legacy code bitmap.
+> > > > > 
+> > > > >     The parameter 'addr' is a pointer to a user buffer.
+> > > > >     On returning to the caller, the kernel fills the following:
+> > > > > 
+> > > > >     *addr = IBT bitmap base address
+> > > > >     *(addr + 1) = IBT bitmap size
+> > > > 
+> > > > Again, some structure with a size field would be better from
+> > > > UAPI/extensibility standpoint.
+> > > > 
+> > > > One additional point: "size" in the structure from kernel should have
+> > > > structure size expected by kernel, and at least providing there "0" from
+> > > > user space shouldn't lead to failure (in fact, it is possible to provide
+> > > > structure size back to userspace even if buffer is too small, along
+> > > > with error).
+> > > 
+> > > This has been in GLIBC v2.28.  We cannot change it anymore.
+> > 
+> > In theory, you could, if you change the ARCH_CET_LEGACY_BITMAP
+> > constant, so that glibc will not use the different arch_prctl
+> > operation.  We could backport the change into the glibc 2.28 dynamic
+> > linker, so that existing binaries will start using CET again.  Then
+> > only statically linked binaries will be impacted.
+> > 
+> > It's definitely not ideal, but it's doable if the interface is
+> > terminally broken or otherwise unacceptable.  But to me it looks like
+> > this threshold isn't reached here.
+> 
+> I tend to agree.
+> 
+> But I do think there's a real problem that should be fixed and won't
+> affect ABI: the *name* of the prctl is pretty bad.  I read the test
+> several times trying to decide if you meant
+> ARCH_GET_CET_LEGACY_BITMAP?  But you don't.
+> 
+> Maybe name it ARCH_CET_CREATE_LEGACY_BITMAP?  And explicitly document
+> what it does if legacy bitmap already exists?
 
-> On Thu, 2018-10-04 at 15:28 +0200, Eugene Syromiatnikov wrote:
->> On Fri, Sep 21, 2018 at 08:05:50AM -0700, Yu-cheng Yu wrote:
->> > Update ARCH_CET_STATUS and ARCH_CET_DISABLE to include Indirect
->> > Branch Tracking features.
->> > 
->> > Introduce:
->> > 
->> > arch_prctl(ARCH_CET_LEGACY_BITMAP, unsigned long *addr)
->> >     Enable the Indirect Branch Tracking legacy code bitmap.
->> > 
->> >     The parameter 'addr' is a pointer to a user buffer.
->> >     On returning to the caller, the kernel fills the following:
->> > 
->> >     *addr = IBT bitmap base address
->> >     *(addr + 1) = IBT bitmap size
->> 
->> Again, some structure with a size field would be better from
->> UAPI/extensibility standpoint.
->> 
->> One additional point: "size" in the structure from kernel should have
->> structure size expected by kernel, and at least providing there "0" from
->> user space shouldn't lead to failure (in fact, it is possible to provide
->> structure size back to userspace even if buffer is too small, along
->> with error).
->
-> This has been in GLIBC v2.28.  We cannot change it anymore.
+I will fix it.
 
-In theory, you could, if you change the ARCH_CET_LEGACY_BITMAP
-constant, so that glibc will not use the different arch_prctl
-operation.  We could backport the change into the glibc 2.28 dynamic
-linker, so that existing binaries will start using CET again.  Then
-only statically linked binaries will be impacted.
-
-It's definitely not ideal, but it's doable if the interface is
-terminally broken or otherwise unacceptable.  But to me it looks like
-this threshold isn't reached here.
+Yu-cheng
