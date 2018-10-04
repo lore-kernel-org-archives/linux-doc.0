@@ -2,126 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C946F7D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 16:32:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F6167D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 17:50:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727761AbeJDX0T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 19:26:19 -0400
-Received: from mga03.intel.com ([134.134.136.65]:10903 "EHLO mga03.intel.com"
+        id S1727537AbeJEAoZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 20:44:25 -0400
+Received: from namei.org ([65.99.196.166]:35682 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727415AbeJDX0S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Oct 2018 19:26:18 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2018 09:32:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,340,1534834800"; 
-   d="scan'208";a="78731131"
-Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by orsmga008.jf.intel.com with ESMTP; 04 Oct 2018 09:30:13 -0700
-Message-ID: <5fad8118868739a452b8f5834290a04f1b343775.camel@intel.com>
-Subject: Re: [RFC PATCH v4 6/9] x86/cet/ibt: Add arch_prctl functions for IBT
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Andy Lutomirski <luto@amacapital.net>,
-        Florian Weimer <fw@deneb.enyo.de>
-Cc:     Eugene Syromiatnikov <esyr@redhat.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1727458AbeJEAoZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Oct 2018 20:44:25 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id w94HnEtf015791;
+        Thu, 4 Oct 2018 17:49:14 GMT
+Date:   Fri, 5 Oct 2018 03:49:14 +1000 (AEST)
+From:   James Morris <jmorris@namei.org>
+To:     Kees Cook <keescook@chromium.org>
+cc:     John Johansen <john.johansen@canonical.com>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Carlos O'Donell <carlos@redhat.com>
-Date:   Thu, 04 Oct 2018 09:25:32 -0700
-In-Reply-To: <CALCETrXTqxQLWEHhSQ6WsDosnD61rnN2TgAFFomVAf5URP4DzA@mail.gmail.com>
-References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
-         <20180921150553.21016-7-yu-cheng.yu@intel.com>
-         <20181004132811.GJ32759@asgard.redhat.com>
-         <3350f7b42b32f3f7a1963a9c9c526210c24f7b05.camel@intel.com>
-         <87murtn19o.fsf@mid.deneb.enyo.de>
-         <CALCETrXTqxQLWEHhSQ6WsDosnD61rnN2TgAFFomVAf5URP4DzA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
+In-Reply-To: <CAGXu5jJDBhFrdCBHH4MZVDmG88mMxSaSx0w9anCcyx24YHLO5w@mail.gmail.com>
+Message-ID: <alpine.LRH.2.21.1810050338470.14095@namei.org>
+References: <20181002005505.6112-1-keescook@chromium.org> <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov> <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
+ <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com> <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com> <alpine.LRH.2.21.1810030758460.23596@namei.org>
+ <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com> <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com> <alpine.LRH.2.21.1810040416500.13517@namei.org> <CAGXu5j+oPR58oJ06-n7e96-Rmu+ywTW0hud5LhOZ_3UXG5s12w@mail.gmail.com>
+ <alpine.LRH.2.21.1810040427550.13517@namei.org> <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com> <alpine.LRH.2.21.1810040723320.16168@namei.org> <CAGXu5jJDBhFrdCBHH4MZVDmG88mMxSaSx0w9anCcyx24YHLO5w@mail.gmail.com>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-10-04 at 09:12 -0700, Andy Lutomirski wrote:
-> On Thu, Oct 4, 2018 at 9:08 AM Florian Weimer <fw@deneb.enyo.de> wrote:
-> > 
-> > * Yu-cheng Yu:
-> > 
-> > > On Thu, 2018-10-04 at 15:28 +0200, Eugene Syromiatnikov wrote:
-> > > > On Fri, Sep 21, 2018 at 08:05:50AM -0700, Yu-cheng Yu wrote:
-> > > > > Update ARCH_CET_STATUS and ARCH_CET_DISABLE to include Indirect
-> > > > > Branch Tracking features.
-> > > > > 
-> > > > > Introduce:
-> > > > > 
-> > > > > arch_prctl(ARCH_CET_LEGACY_BITMAP, unsigned long *addr)
-> > > > >     Enable the Indirect Branch Tracking legacy code bitmap.
-> > > > > 
-> > > > >     The parameter 'addr' is a pointer to a user buffer.
-> > > > >     On returning to the caller, the kernel fills the following:
-> > > > > 
-> > > > >     *addr = IBT bitmap base address
-> > > > >     *(addr + 1) = IBT bitmap size
-> > > > 
-> > > > Again, some structure with a size field would be better from
-> > > > UAPI/extensibility standpoint.
-> > > > 
-> > > > One additional point: "size" in the structure from kernel should have
-> > > > structure size expected by kernel, and at least providing there "0" from
-> > > > user space shouldn't lead to failure (in fact, it is possible to provide
-> > > > structure size back to userspace even if buffer is too small, along
-> > > > with error).
-> > > 
-> > > This has been in GLIBC v2.28.  We cannot change it anymore.
-> > 
-> > In theory, you could, if you change the ARCH_CET_LEGACY_BITMAP
-> > constant, so that glibc will not use the different arch_prctl
-> > operation.  We could backport the change into the glibc 2.28 dynamic
-> > linker, so that existing binaries will start using CET again.  Then
-> > only statically linked binaries will be impacted.
-> > 
-> > It's definitely not ideal, but it's doable if the interface is
-> > terminally broken or otherwise unacceptable.  But to me it looks like
-> > this threshold isn't reached here.
-> 
-> I tend to agree.
-> 
-> But I do think there's a real problem that should be fixed and won't
-> affect ABI: the *name* of the prctl is pretty bad.  I read the test
-> several times trying to decide if you meant
-> ARCH_GET_CET_LEGACY_BITMAP?  But you don't.
-> 
-> Maybe name it ARCH_CET_CREATE_LEGACY_BITMAP?  And explicitly document
-> what it does if legacy bitmap already exists?
+On Wed, 3 Oct 2018, Kees Cook wrote:
 
-I will fix it.
+> On Wed, Oct 3, 2018 at 2:34 PM, James Morris <jmorris@namei.org> wrote:
+> > On Wed, 3 Oct 2018, Kees Cook wrote:
+> >
+> >   - All LSMs which are built are NOT enabled by default
+> >
+> >   - You specify enablement and order via a Kconfig:
+> >
+> >         CONFIG_LSM="selinux,yama"
+> >
+> >   - This can be entirely overridden by a boot param:
+> >
+> >         lsm="apparmor,landlock"
+> 
+> This doesn't work with how SELinux and AppArmor do their bootparams,
+> unfortunately. (And Paul and Stephen have expressed that the
+> documented selinux on/off must continue to work.) For example, let's
+> say you've built an Ubuntu kernel with:
+> 
+> CONFIG_SELINUX=y
+> ...
+> CONFIG_LSM="yama,apparmor"
+> 
+> (i.e. you want SELinux available, but not enabled, so it's left out of
+> CONFIG_LSM)
+> 
+> Then someone boots the system with:
+> 
+> selinux=1 security=selinux
+> 
+> In what order does selinux get initialized relative to yama?
+> (apparmor, flagged as a "legacy major", would have been disabled by
+> the "security=" not matching it.)
 
-Yu-cheng
+It doesn't, it needs to be specified in one place.
+
+Distros will need to update boot parameter handling for this kernel 
+onwards.  Otherwise, we will need to carry this confusing mess forward 
+forever.
+
+> The LSM order needs to be defined externally to enablement because 
+> something may become enabled when not listed in the order.
+> 
+> Now, maybe I misunderstood your earlier suggestion, and what you meant
+> was to do something like:
+> 
+> CONFIG_LSM="yama,apparmor,!selinux"
+> 
+> to mean "put selinux here in the order, but don't enable it". Then the
+> problem becomes what happens to an LSM that has been built in but not
+> listed in CONFIG_LSM?
+
+In my most recent suggestion, there is no '!' disablement, just 
+enablement.  If an LSM is not listed in CONFIG_LSM="", it's not enabled.
+
+> Related to that, this means that when new LSMs are added, they will
+> need to be added to any custom CONFIG_LSM= or lsm= parameters. If
+> that's really how we have to go, I'll accept it, but I think it's a
+> bit unfriendly. :P
+
+If you want to enable them, yes.  How is this different to adding new 
+mount options as new fs features become available?
+
+
+> Another reason I don't like it is because it requires users to know
+> about all the LSMs to make changes. One LSM can't be added/removed
+> without specifying ALL of the LSMs. (i.e. there is no trivial way to
+> enable/disable a single LSM without it growing its own enable/disable
+> code as in SELinux/AppArmor. I'd hoped to make that easier for both
+> users and developers.) Again, I can live with it, but I think it's
+> unfriendly.
+
+This is only done via boot params or KConfig.
+
+-- 
+James Morris
+<jmorris@namei.org>
+
