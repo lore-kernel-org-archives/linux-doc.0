@@ -2,138 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 609D07D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 16:12:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 940877D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 16:18:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727663AbeJDXGO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 19:06:14 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51680 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727407AbeJDXGN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 19:06:13 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 143-v6so9554004wmf.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 Oct 2018 09:12:16 -0700 (PDT)
+        id S1727758AbeJDXMp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 19:12:45 -0400
+Received: from mail-yb1-f169.google.com ([209.85.219.169]:43053 "EHLO
+        mail-yb1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727614AbeJDXMo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 19:12:44 -0400
+Received: by mail-yb1-f169.google.com with SMTP id w80-v6so4132080ybe.10
+        for <linux-doc@vger.kernel.org>; Thu, 04 Oct 2018 09:18:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=zwA+tSgQuA+pgEuJcmrQMT7TOK3gYP4Fut+qMSm90Hg=;
-        b=WJAHVy74lH3c9Jeb/T+x86gz1Cx56o2qAQ9NBp14bVHT73QP6EpmuA3Wa7a7RUC7hN
-         ffNQ53yVTyYps3wQ+jTptvKUoz2pdUV9cbIMrE/RzpzJzvdeqtiqzj1IDAaKTUZFSBYF
-         +oeaRVYyLIhjQzHST+WbYpUwZ1kvrkGsPtDoAfqYoYjSWFnLr0wqUPJu7WyCQLoEQu3F
-         tVbG6mIrVJD/qNzCS30H6TvQ9gTv5b7MnYapTdLiILuioWj+C+93M2frkxPNbbl4HRyF
-         8DriNhs1EzLc4+MV2oU0VnQA8J6/3bivnGfi4h4A6AMi5toKpL9ngZONX6K4Mg7Eevp0
-         6E8Q==
+        bh=klikc/ppoWhHWoTPwATe/d3YAeCUULUa19nJC8jVpk4=;
+        b=kG5QhKQiXbODahJrteU88ImIM3Gdefjzn39Ql04hsa85oIqg7rheUSWXuwlMoldiMN
+         FWm+elTP8aX3dgn08TLtTiswx17TJHuHOgpOiYn2P8fAVOOQdu47PFcD8PHZOXZjMZ5K
+         qoNi7nkRrmowNiZmDx5tvSSQVnd2//ArTBVUA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=zwA+tSgQuA+pgEuJcmrQMT7TOK3gYP4Fut+qMSm90Hg=;
-        b=dKJU/jLIgSMgS2jn5N7DmYxTgXjrNGlVUsNk3fL8Z6D9rljn6imeTEqpt/VZ5BI8iG
-         EfIBpNn+ocMEp7bXak4bXS1Nm89gxdqISwBd2R9n7iuTlC1R0NpuutHhfpYL/1BvuAXg
-         Fwnqwf56XmXVtzFiAE5oI2lKFtba0d6W6gKIRjxh7uibH49LhMKQI9a9iYet/EDjwre5
-         Mer665DZXotY00zfTw0T8TRa2iaCBPcU8lLHTQEgVlrkmR807zdzMH5wcXFcvOGizlFE
-         v6VptfrYh070L9hc7n+451ym4sRaQ3dxMc7CuyurDAKHTcM4I0DQ7R8VH6v+ZDYrpOWK
-         xRGQ==
-X-Gm-Message-State: ABuFfohvzWRXxeVW6OAo+H9HUmajW3r2jwOHjE3knCXUr6hcwK/i5+Lp
-        rpjbuNy4/zqH5qMtSb92iQt0tjhpy6yWnIjiGhtBRg==
-X-Google-Smtp-Source: ACcGV616CzSraccRxzEbau+A9fQgfvQsE1DJWliI6fc/cfIQS1234f3EJjAjHnFKkbafr7ziCOfGIZGKOWYnZWldTQY=
-X-Received: by 2002:a1c:1fcd:: with SMTP id f196-v6mr5267962wmf.19.1538669535756;
- Thu, 04 Oct 2018 09:12:15 -0700 (PDT)
+        bh=klikc/ppoWhHWoTPwATe/d3YAeCUULUa19nJC8jVpk4=;
+        b=OFcoCms9/Ylp3bW+68FtNZAcg6KnUzz6avkche/qiSK/sTZxO6o9sgkRRFAMLpTOw9
+         ClIaZYd1s2lgZHHFo255t+tBRXscatTBrsnYXZpiEUhisghDCZXV4FWDZtIJuzFAioZu
+         6+nkMeGDcPyc/N1L4e3FWmaBV0fWHI9l0Kw33jb6J35VvavtxdKYEqdXl4EVIxeRS1VF
+         sfhMsI+l6w+jfx79HoWmCfZ8Dq/u9U/T7Oph4iyY13Cq7gzouj1SafvNLGkwcOTDyDal
+         jLtiNQfMs800xe2onpkfdWe99KuWBWQ7G8Emv7XBbQAVLUPb6uto4NnHsmeDQDfgU/WB
+         2Pwg==
+X-Gm-Message-State: ABuFfohYP5dEogtqaJJLFjIWiTndI30mF5YxUqaV9HkMbXq6e5q5oQYD
+        igPOyJqbNy7Tf3we5fQ+UMO1ihZX/hs=
+X-Google-Smtp-Source: ACcGV63L0pQnDj/EAVCyfvwcZ4w5TxNMsh9AoeZRX31g5dk1Z7jc65KpW84t2UAW0r3v4YJwCNjJ8A==
+X-Received: by 2002:a5b:912:: with SMTP id a18-v6mr3995877ybq.437.1538669926024;
+        Thu, 04 Oct 2018 09:18:46 -0700 (PDT)
+Received: from mail-yw1-f41.google.com (mail-yw1-f41.google.com. [209.85.161.41])
+        by smtp.gmail.com with ESMTPSA id k17-v6sm2195034ywk.47.2018.10.04.09.18.42
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Oct 2018 09:18:43 -0700 (PDT)
+Received: by mail-yw1-f41.google.com with SMTP id d126-v6so3999962ywa.5
+        for <linux-doc@vger.kernel.org>; Thu, 04 Oct 2018 09:18:42 -0700 (PDT)
+X-Received: by 2002:a0d:fec6:: with SMTP id o189-v6mr4141380ywf.237.1538669921384;
+ Thu, 04 Oct 2018 09:18:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180921150553.21016-1-yu-cheng.yu@intel.com> <20180921150553.21016-7-yu-cheng.yu@intel.com>
- <20181004132811.GJ32759@asgard.redhat.com> <3350f7b42b32f3f7a1963a9c9c526210c24f7b05.camel@intel.com>
- <87murtn19o.fsf@mid.deneb.enyo.de>
-In-Reply-To: <87murtn19o.fsf@mid.deneb.enyo.de>
-From:   Andy Lutomirski <luto@amacapital.net>
-Date:   Thu, 4 Oct 2018 09:12:04 -0700
-Message-ID: <CALCETrXTqxQLWEHhSQ6WsDosnD61rnN2TgAFFomVAf5URP4DzA@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 6/9] x86/cet/ibt: Add arch_prctl functions for IBT
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Thu, 4 Oct 2018 09:18:40 -0700 (PDT)
+In-Reply-To: <f016c836-cc9d-0a2d-fb18-930b43898cdf@canonical.com>
+References: <20181002005505.6112-1-keescook@chromium.org> <CAGXu5jKNzG3rGUAV39D0w4txHRG3H2qU1Z1e_b+03OgycTaWqA@mail.gmail.com>
+ <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov> <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
+ <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
+ <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
+ <alpine.LRH.2.21.1810030758460.23596@namei.org> <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
+ <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com> <alpine.LRH.2.21.1810040416500.13517@namei.org>
+ <CAGXu5j+oPR58oJ06-n7e96-Rmu+ywTW0hud5LhOZ_3UXG5s12w@mail.gmail.com>
+ <alpine.LRH.2.21.1810040427550.13517@namei.org> <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com>
+ <CAGXu5jLBHN=YSs3Uh49bBJ1SRA1Km2UUD4j37GJJXiKhQq+KPA@mail.gmail.com> <f016c836-cc9d-0a2d-fb18-930b43898cdf@canonical.com>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Thu, 4 Oct 2018 09:18:40 -0700
+X-Gmail-Original-Message-ID: <CAGXu5jJJit8bDNvgXaFkuvFPy7NWtJW2oRWFbG-6iWk0+A1qng@mail.gmail.com>
+Message-ID: <CAGXu5jJJit8bDNvgXaFkuvFPy7NWtJW2oRWFbG-6iWk0+A1qng@mail.gmail.com>
+Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
+To:     John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>
+Cc:     Jordan Glover <Golden_Miller83@protonmail.ch>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        "Carlos O'Donell" <carlos@redhat.com>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 4, 2018 at 9:08 AM Florian Weimer <fw@deneb.enyo.de> wrote:
+On Wed, Oct 3, 2018 at 10:56 PM, John Johansen
+<john.johansen@canonical.com> wrote:
+> On 10/03/2018 01:36 PM, Kees Cook wrote:
+>> I still think we should have all built LSMs enabled by default, with
+>> CONFIG_LSM_DISABLE available to turn stuff off. CONFIG_LSM_ORDER
 >
-> * Yu-cheng Yu:
+> and this as a distro ubuntu does not want.
+> Ubuntu wants to make yes available by building them in, but does NOT
+> want all the LSM enabled by default, not even necessarily all minor LSMs.
 >
-> > On Thu, 2018-10-04 at 15:28 +0200, Eugene Syromiatnikov wrote:
-> >> On Fri, Sep 21, 2018 at 08:05:50AM -0700, Yu-cheng Yu wrote:
-> >> > Update ARCH_CET_STATUS and ARCH_CET_DISABLE to include Indirect
-> >> > Branch Tracking features.
-> >> >
-> >> > Introduce:
-> >> >
-> >> > arch_prctl(ARCH_CET_LEGACY_BITMAP, unsigned long *addr)
-> >> >     Enable the Indirect Branch Tracking legacy code bitmap.
-> >> >
-> >> >     The parameter 'addr' is a pointer to a user buffer.
-> >> >     On returning to the caller, the kernel fills the following:
-> >> >
-> >> >     *addr = IBT bitmap base address
-> >> >     *(addr + 1) = IBT bitmap size
-> >>
-> >> Again, some structure with a size field would be better from
-> >> UAPI/extensibility standpoint.
-> >>
-> >> One additional point: "size" in the structure from kernel should have
-> >> structure size expected by kernel, and at least providing there "0" from
-> >> user space shouldn't lead to failure (in fact, it is possible to provide
-> >> structure size back to userspace even if buffer is too small, along
-> >> with error).
-> >
-> > This has been in GLIBC v2.28.  We cannot change it anymore.
+> As a distro we want a supported set as default, and users can opt-in
+> to new LSMs. If a new LSM comes along we don't want it enabled by
+> default, which happens Using the lsm disable approach.
+
+Okay, but order still matters. Where, in the order, should a disabled
+LSM go? It seems like the friendliest approach for an end-user would
+be to do something like
+
+lsm=+landlock
+
+and it all works correctly. That user doesn't need to know about
+ordering or the distro default LSMs. They just want to _add_ landlock.
+They want all the other LSMs to still be present, and they want the
+distro to have chosen where landlock is in the ordering.
+
+>> I should also note that I don't want to leave CONFIG_DEFAULT_SECURITY
+>> in, since it's just a way to disable all the other majors. I don't
+>> like this because it will force LSMs to be disabled that don't need to
+>> be once blob-sharing lands. The whole point of this series is to get
+>> us away from fixed ordering and thinking about "major" vs "minor" and
+>> towards "exclusive" or not, where we can continue to slowly chip away
+>> at exclusivity without breaking anything.
+>>
+> sure we definitely want to get away form "major" vs "minor" and in
+> generally even exclusive, except where to LSMs just can't live
+> with each other.
 >
-> In theory, you could, if you change the ARCH_CET_LEGACY_BITMAP
-> constant, so that glibc will not use the different arch_prctl
-> operation.  We could backport the change into the glibc 2.28 dynamic
-> linker, so that existing binaries will start using CET again.  Then
-> only statically linked binaries will be impacted.
->
-> It's definitely not ideal, but it's doable if the interface is
-> terminally broken or otherwise unacceptable.  But to me it looks like
-> this threshold isn't reached here.
+> But that doesn't mean dropping something like default security. The
+> mistake with the current DEFAULT_SECURITY was that it only applied
+> to major LSMs, not the minor ones.
 
-I tend to agree.
+Right, we need to expand it to include a full description of ordering
+and enablement.
 
-But I do think there's a real problem that should be fixed and won't
-affect ABI: the *name* of the prctl is pretty bad.  I read the test
-several times trying to decide if you meant
-ARCH_GET_CET_LEGACY_BITMAP?  But you don't.
+How about this:
 
-Maybe name it ARCH_CET_CREATE_LEGACY_BITMAP?  And explicitly document
-what it does if legacy bitmap already exists?
+CONFIG_LSM specifies order and enablement status. For example:
 
---Andy
+CONFIG_LSM=yama,loadpin,apparmor,!selinux
+
+This means init order is yama, loadpin, apparmor, selinux, but selinux
+is disabled. Anything not listed in CONFIG_LSM but built in will be
+disabled and ordered in link-order. (i.e. an implicit trailing
+"!smack,!tomoyo".)
+
+Then we add "lsm=" which understands modifiers "-", and "+".
+"lsm=-apparmor,+selinux" wouldn't change ordering, but would disable
+apparmor and enable selinux. "lsm=smack,loadpin" would enable only
+smack and loadpin, in that order and disable everything else.
+
+I don't want to overload "security=", but we can if we want. It would
+be as above, but a trailing comma would be needed to trigger the
+"ordering" behavior. e.g. "security=selinux" would disable all other
+majors (retaining the current behavior), but "security=selinux," would
+disable all other LSMs.
+
+-Kees
+
+-- 
+Kees Cook
+Pixel Security
