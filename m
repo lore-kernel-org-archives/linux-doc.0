@@ -1,49 +1,48 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD93A7D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 14:38:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA50A7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 14:39:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727380AbeJDVbn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 17:31:43 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:60138 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727322AbeJDVbn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 17:31:43 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w94EYH8v090817;
-        Thu, 4 Oct 2018 14:35:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=3zAwkcCqsiJJ3tf4fDUCP8h5IpJmykzD0Smpt5CumTM=;
- b=i3CBSemwUW/9qWBIil8nUkq9cFzwriFnJQ8mTPe5poKPjYoQqGokTy/dOeKPEOMy5mkN
- u9t30YcaVeSyuHgNHdO5xktLnqaivihYbgecYVvUc5GjB39wQWnbUQdtLfEhFaNPezm6
- iLgWOApEkvv+s1cWqNgqT75z7BJZ0JcUQL9RQNnPAR4nurmsg72Q2RaQajaW3BzU6EIa
- c+GXhzrFtxFaacVlKwRrzHSYYAN9KXmuOpKV6ktiddR2fxOuyV7m5sfxl5K+3nsUB7dC
- tMN8x4LHT64HiBDhaCiIVO0vjYqcFT31OU2/0L43XTu76dCpuXAUJLGpFqUofuxwwkt5 Cg== 
-Received: from userv0021.oracle.com (userv0021.oracle.com [156.151.31.71])
-        by userp2130.oracle.com with ESMTP id 2mt0tu4r43-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 04 Oct 2018 14:35:54 +0000
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w94EZsnx018685
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 4 Oct 2018 14:35:54 GMT
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w94EZnbE016456;
-        Thu, 4 Oct 2018 14:35:49 GMT
-Received: from oracle.com (/10.39.202.251)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 04 Oct 2018 14:35:48 +0000
-Date:   Thu, 4 Oct 2018 10:35:08 -0400
-From:   Sowmini Varadhan <sowmini.varadhan@oracle.com>
-To:     Arnd Bergmann <arnd@arndb.de>
+        id S1727578AbeJDVcq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 17:32:46 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:40611 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727381AbeJDVcq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 17:32:46 -0400
+Received: by mail-qt1-f194.google.com with SMTP id b4-v6so2047195qtc.7;
+        Thu, 04 Oct 2018 07:39:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S8kY2KZcv5clBm6IljvPQOeVp2ZgUbugkxxstMi9iu4=;
+        b=LteK12j7+1ovzWLhcudq8dzCfbqFNeSv94ZLe+pBTae2uDitXV4kN0ySnBHoVGRQlw
+         f0LDAPfa74T/dIWKHc7QrhGEp/FIkauUpLYdr1gqDACD34LN4hcZBgP9x4iioUn3VchP
+         3+/rPm2h3lCSDYXMVKPkZ6y48PF/Z9XkyngUdt9Fka8vHSU3QUJPCr0BRd98O2qMxt2W
+         9VW3UnO2hNEdV3Lny9lk+T4Wy0y4NyFkCklJRyD7f36lFm5iOuKQKz+eUltBdbIeACEH
+         dHSYFoERl66B94cEyW1GOaVmGG5UwAzKJXM9WR4DrnkdGGl/FodsY4RBK/ipIQyMHG6D
+         Y59A==
+X-Gm-Message-State: ABuFfoivFbN0Q9cb8jbuHXsI0DxrTzXUirZE3qGLt/fRJspOIdxedjyl
+        OYsBum26xzD9gWrXhj604tOwe6o1shvph9WMvtQ=
+X-Google-Smtp-Source: ACcGV60oO5m0XqX6FPxBekVW7eerkvmCEC6HjFj34/sHDJNjrdMvNlCdyjPQ3KjX/uGLJpHpVjzkmH25wJM+hHrSfjU=
+X-Received: by 2002:aed:3f08:: with SMTP id p8-v6mr5532329qtf.185.1538663949960;
+ Thu, 04 Oct 2018 07:39:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180810080526.27207-1-brgl@bgdev.pl> <20180831194643.GA62862@ban.mtv.corp.google.com>
+ <CAMRc=MejZLV1EQ7uAddsxLY0MTUF8WyiBn=F0ZhkWQJpET0EDQ@mail.gmail.com>
+ <a4c2e6cf-749a-83a1-0bda-43ddb7e744cd@gmail.com> <CAMRc=MfwM7vODsnuV9eKS4Uf7M5ac59u7ao7KvyaxKzPv5FRvw@mail.gmail.com>
+ <CAK8P3a1LufzR1_6mXH=1zDb34VQStLywGM1w5x5CDAMh_7uMyA@mail.gmail.com> <20181004143508.GG13299@oracle.com>
+In-Reply-To: <20181004143508.GG13299@oracle.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 4 Oct 2018 16:38:51 +0200
+Message-ID: <CAK8P3a3Z7CT3tV=mMB-qZFJfyamP0kTHK2PPCbqzh-WXDNdPZA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/29] at24: remove at24_platform_data
+To:     Sowmini Varadhan <sowmini.varadhan@oracle.com>
 Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Brian Norris <computersforpeace@gmail.com>,
@@ -76,50 +75,39 @@ Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
         Networking <netdev@vger.kernel.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH v2 00/29] at24: remove at24_platform_data
-Message-ID: <20181004143508.GG13299@oracle.com>
-References: <20180810080526.27207-1-brgl@bgdev.pl>
- <20180831194643.GA62862@ban.mtv.corp.google.com>
- <CAMRc=MejZLV1EQ7uAddsxLY0MTUF8WyiBn=F0ZhkWQJpET0EDQ@mail.gmail.com>
- <a4c2e6cf-749a-83a1-0bda-43ddb7e744cd@gmail.com>
- <CAMRc=MfwM7vODsnuV9eKS4Uf7M5ac59u7ao7KvyaxKzPv5FRvw@mail.gmail.com>
- <CAK8P3a1LufzR1_6mXH=1zDb34VQStLywGM1w5x5CDAMh_7uMyA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a1LufzR1_6mXH=1zDb34VQStLywGM1w5x5CDAMh_7uMyA@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9035 signatures=668707
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1807170000 definitions=main-1810040137
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just catching up on this thread, so please excuse any unintentional
-misquotes here.
+On Thu, Oct 4, 2018 at 4:36 PM Sowmini Varadhan
+<sowmini.varadhan@oracle.com> wrote:
+>
+> Just catching up on this thread, so please excuse any unintentional
+> misquotes here.
+>
+> > > > > David: I couldn't find a place in sparc code where any ethernet device
+> > > > > would be registered, so is there a chance that nobody is using it?
+> > > >
+> > > > SPARC uses a true Open Firmware implementation, so it would register
+> > > > drivers through the CONFIG_OF infrastructure.
+>
+> correct
+>
+> > The calls are not even that old, and clearly added intentionally for sparc,
+> > see commit ba94272d08a7 ("i40e: use eth_platform_get_mac_address()")
+> > which added the first one.
+>
+> Yes, correct again. Wouldn't PPC also end up doing the same thing?
+>
+> See also commit c762dff24c06 (for ixgbe) - without this fix sparc systems
+> will come up with a bogus mac address and then you end up having to
+> manually fix this in ugly ways.
 
-> > > > David: I couldn't find a place in sparc code where any ethernet device
-> > > > would be registered, so is there a chance that nobody is using it?
-> > >
-> > > SPARC uses a true Open Firmware implementation, so it would register
-> > > drivers through the CONFIG_OF infrastructure.
+The of_get_mac_address() portion is not controversial at all I think,
+the question was whether we need the fallback to
+arch_get_platform_mac_address() in any of the drivers that
+call eth_platform_get_mac_address().
 
-correct
-
-> The calls are not even that old, and clearly added intentionally for sparc,
-> see commit ba94272d08a7 ("i40e: use eth_platform_get_mac_address()")
-> which added the first one.
-
-Yes, correct again. Wouldn't PPC also end up doing the same thing?
-
-See also commit c762dff24c06 (for ixgbe) - without this fix sparc systems
-will come up with a bogus mac address and then you end up having to
-manually fix this in ugly ways.
-
---Sowmini
-
-
+      Arnd
