@@ -3,51 +3,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-	version=3.4.1
+	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY,WEIRD_QUOTING autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 267D07D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 04:20:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 943EF7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 04:20:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727138AbeJDLL1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 07:11:27 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:35334 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726813AbeJDLL1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 07:11:27 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w944J5hM101737;
-        Thu, 4 Oct 2018 04:20:06 GMT
+        id S1727253AbeJDLLe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 07:11:34 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:60526 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727251AbeJDLLe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 07:11:34 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w944IwAQ134866;
+        Thu, 4 Oct 2018 04:20:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
  cc : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=RC0tG7lBC+3Naz27BpAunSpC7C1NlHyq/B7oRIg8h+M=;
- b=VFECe6NsPrvDFBcWXNVlKB28ftYXsJxiCFds1NRwNkgcYnubkCevI46UL+aQ/sLCSNKM
- zmxYkL1kIy2K42dv6UpfOHQHGCMI11b50TZspvEpuB/V/C+sYIxgdldN0/Y03M10cQn3
- slsahRWvMIV2v14uQ8TDawI01zRVsd6kMeJlBNVw1rQ507hv1R7xfurZW6eFMLb7p/x4
- UyVLxXwIqE7lRpQ+tzm8laYN7JpaMHCrLV3yR4izpv7bFJ4YVX2ME9N3MIDK7BovRa7j
- K7yNRUNLn3UMK2ucvD/WJkeCy4DOdMRWiNMwsNNJebLQFzxxov05FJPa//LOD+ls4mcc SA== 
-Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
-        by userp2120.oracle.com with ESMTP id 2mt21r9hvs-1
+ bh=wvq0M+D1FgbHUwHgI8XhDVHQ3lCPZfcO309LXmhghzA=;
+ b=ViiXt6nZcYCdkh+GtEj3lK1waiJyikrhPWNI3ZG8/5R9zmnPJEarfBmFRqKca4LSSmiE
+ HH9mZKhxroFxXeGjwqqpmYPWplY9RqLOw5pEzrgeSCXtqurzQkTO94DOCVkhRqYUp+vT
+ of6NEs72n6ikxx5jX555g16NBsRQN4smJ/+EnNVlBbnfgc5sSwJg2KN244Cxyme2YaPy
+ xLXDEsVCJYmCnK+RYcZAxXWniwCZ8fJ4BVfXev0OzPt2VuxsSaQeV+PryfMLMZPXxbI8
+ OR/3j5cd+WI297ORlZdKLNkrwQZUfY07w07MsfuSgoXC9oWpzbVIPDHbxxyXlqQNCYDW DA== 
+Received: from aserv0022.oracle.com (aserv0022.oracle.com [141.146.126.234])
+        by userp2130.oracle.com with ESMTP id 2mt0tu1mxb-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 04 Oct 2018 04:20:06 +0000
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w944K151032571
+        Thu, 04 Oct 2018 04:20:13 +0000
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w944K7VU028212
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 4 Oct 2018 04:20:01 GMT
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w944K0vw028633;
-        Thu, 4 Oct 2018 04:20:00 GMT
+        Thu, 4 Oct 2018 04:20:07 GMT
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w944K7WC027491;
+        Thu, 4 Oct 2018 04:20:07 GMT
 Received: from localhost (/10.159.235.87)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 04 Oct 2018 04:20:00 +0000
-Subject: [PATCH 15/22] docs: add XFS internal inodes to the DS&A book
+        with ESMTP ; Wed, 03 Oct 2018 21:20:06 -0700
+Subject: [PATCH 16/22] docs: add preliminary XFS realtime rmapbt structures
+ to the DS&A book
 From:   "Darrick J. Wong" <darrick.wong@oracle.com>
 To:     darrick.wong@oracle.com
 Cc:     linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
         corbet@lwn.net
-Date:   Wed, 03 Oct 2018 21:19:59 -0700
-Message-ID: <153862679943.26427.8180150868933893763.stgit@magnolia>
+Date:   Wed, 03 Oct 2018 21:20:05 -0700
+Message-ID: <153862680580.26427.13325972708752045108.stgit@magnolia>
 In-Reply-To: <153862669110.26427.16504658853992750743.stgit@magnolia>
 References: <153862669110.26427.16504658853992750743.stgit@magnolia>
 User-Agent: StGit/0.17.1-dirty
@@ -55,7 +56,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9035 signatures=668707
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1807170000 definitions=main-1810040044
@@ -68,233 +69,256 @@ From: Darrick J. Wong <darrick.wong@oracle.com>
 
 Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
 ---
- .../filesystems/xfs-data-structures/globals.rst    |    1 
- .../xfs-data-structures/internal_inodes.rst        |  208 ++++++++++++++++++++
- 2 files changed, 209 insertions(+)
- create mode 100644 Documentation/filesystems/xfs-data-structures/internal_inodes.rst
+ .../xfs-data-structures/internal_inodes.rst        |    2 
+ .../filesystems/xfs-data-structures/rtrmapbt.rst   |  230 ++++++++++++++++++++
+ 2 files changed, 232 insertions(+)
+ create mode 100644 Documentation/filesystems/xfs-data-structures/rtrmapbt.rst
 
 
-diff --git a/Documentation/filesystems/xfs-data-structures/globals.rst b/Documentation/filesystems/xfs-data-structures/globals.rst
-index 8ce83deafae5..1662540e40ef 100644
---- a/Documentation/filesystems/xfs-data-structures/globals.rst
-+++ b/Documentation/filesystems/xfs-data-structures/globals.rst
-@@ -7,3 +7,4 @@ Global Structures
- .. include:: dabtrees.rst
- .. include:: allocation_groups.rst
- .. include:: journaling_log.rst
-+.. include:: internal_inodes.rst
 diff --git a/Documentation/filesystems/xfs-data-structures/internal_inodes.rst b/Documentation/filesystems/xfs-data-structures/internal_inodes.rst
-new file mode 100644
-index 000000000000..4c3a1bf1f822
---- /dev/null
+index 4c3a1bf1f822..0faf58caf8f6 100644
+--- a/Documentation/filesystems/xfs-data-structures/internal_inodes.rst
 +++ b/Documentation/filesystems/xfs-data-structures/internal_inodes.rst
-@@ -0,0 +1,208 @@
-+.. SPDX-License-Identifier: CC-BY-SA-4.0
+@@ -206,3 +206,5 @@ rtbitmap location, and positive if there are any.
+ This data structure is not particularly space efficient, however it is a very
+ fast way to provide the same data as the two free space B+trees for regular
+ files since the space is preallocated and metadata maintenance is minimal.
 +
-+Internal Inodes
-+---------------
++.. include:: rtrmapbt.rst
+diff --git a/Documentation/filesystems/xfs-data-structures/rtrmapbt.rst b/Documentation/filesystems/xfs-data-structures/rtrmapbt.rst
+new file mode 100644
+index 000000000000..1573ec4f09ec
+--- /dev/null
++++ b/Documentation/filesystems/xfs-data-structures/rtrmapbt.rst
+@@ -0,0 +1,230 @@
++Real-Time Reverse-Mapping B+tree
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-+XFS allocates several inodes when a filesystem is created. These are internal
-+and not accessible from the standard directory structure. These inodes are
-+only accessible from the superblock.
++    **Note**
 +
-+Quota Inodes
-+~~~~~~~~~~~~
++    This data structure is under construction! Details may change.
 +
-+Prior to version 5 filesystems, two inodes can be allocated for quota
-+management. The first inode will be used for user quotas. The second inode
-+will be used for group quotas or project quotas, depending on mount options.
-+Group and project quotas are mutually exclusive features in these
-+environments.
++If the reverse-mapping B+tree and real-time storage device features are
++enabled, the real-time device has its own reverse block-mapping B+tree.
 +
-+In version 5 or later filesystems, each quota type is allocated its own inode,
-+making it possible to use group and project quota management simultaneously.
++As mentioned in the chapter about `reconstruction <#metadata-reconstruction>`__, this
++data structure is another piece of the puzzle necessary to reconstruct the
++data or attribute fork of a file from reverse-mapping records; we can also use
++it to double-check allocations to ensure that we are not accidentally
++cross-linking blocks, which can cause severe damage to the filesystem.
 +
-+-  Project quota’s primary purpose is to track and monitor disk usage for
-+   directories. For this to occur, the directory inode must have the
-+   XFS\_DIFLAG\_PROJINHERIT flag set so all inodes created underneath the
-+   directory inherit the project ID.
++This B+tree is only present if the XFS\_SB\_FEAT\_RO\_COMPAT\_RMAPBT feature
++is enabled and a real time device is present. The feature requires a version 5
++filesystem.
 +
-+-  Inodes and blocks owned by ID zero do not have enforced quotas, but only
-+   quota accounting.
-+
-+-  Extended attributes do not contribute towards the ID’s quota.
-+
-+-  To access each ID’s quota information in the file, seek to the ID offset
-+   multiplied by the size of xfs\_dqblk\_t (136 bytes).
-+
-+.. figure:: images/76.png
-+   :alt: Quota inode layout
-+
-+   Quota inode layout
-+
-+Quota information is stored in the data extents of the reserved quota inodes
-+as an array of the xfs\_dqblk structures, where there is one array element for
-+each ID in the system:
++The real-time reverse mapping B+tree is rooted in an inode’s data fork; the
++inode number is given by the sb\_rrmapino field in the superblock. The B+tree
++blocks themselves are stored in the regular filesystem. The structures used
++for an inode’s B+tree root are:
 +
 +.. code:: c
 +
-+    struct xfs_disk_dquot {
-+         __be16                d_magic;
-+         __u8                  d_version;
-+         __u8                  d_flags;
-+         __be32                d_id;
-+         __be64                d_blk_hardlimit;
-+         __be64                d_blk_softlimit;
-+         __be64                d_ino_hardlimit;
-+         __be64                d_ino_softlimit;
-+         __be64                d_bcount;
-+         __be64                d_icount;
-+         __be32                d_itimer;
-+         __be32                d_btimer;
-+         __be16                d_iwarns;
-+         __be16                d_bwarns;
-+         __be32                d_pad0;
-+         __be64                d_rtb_hardlimit;
-+         __be64                d_rtb_softlimit;
-+         __be64                d_rtbcount;
-+         __be32                d_rtbtimer;
-+         __be16                d_rtbwarns;
-+         __be16                d_pad;
-+    };
-+    struct xfs_dqblk {
-+         struct xfs_disk_dquot dd_diskdq;
-+         char                  dd_fill[4];
-+
-+         /* version 5 filesystem fields begin here */
-+         __be32                dd_crc;
-+         __be64                dd_lsn;
-+         uuid_t                dd_uuid;
++    struct xfs_rtrmap_root {
++         __be16                     bb_level;
++         __be16                     bb_numrecs;
 +    };
 +
-+**d\_magic**
-+    Specifies the signature where these two bytes are 0x4451
-+    (XFS\_DQUOT\_MAGIC), or \`\`DQ'' in ASCII.
++-  On disk, the B+tree node starts with the xfs\_rtrmap\_root header followed
++   by an array of xfs\_rtrmap\_key values and then an array of
++   xfs\_rtrmap\_ptr\_t values. The size of both arrays is specified by the
++   header’s bb\_numrecs value.
 +
-+**d\_version**
-+    The structure version, currently this is 1 (XFS\_DQUOT\_VERSION).
++-  The root node in the inode can only contain up to 10 key/pointer pairs for
++   a standard 512 byte inode before a new level of nodes is added between the
++   root and the leaves. di\_forkoff should always be zero, because there are
++   no extended attributes.
 +
-+**d\_flags**
-+    Specifies which type of ID the structure applies to:
++Each record in the real-time reverse-mapping B+tree has the following
++structure:
 +
 +.. code:: c
 +
-+    #define XFS_DQ_USER  0x0001
-+    #define XFS_DQ_PROJ  0x0002
-+    #define XFS_DQ_GROUP 0x0004
++    struct xfs_rtrmap_rec {
++         __be64                     rm_startblock;
++         __be64                     rm_blockcount;
++         __be64                     rm_owner;
++         __be64                     rm_fork:1;
++         __be64                     rm_bmbt:1;
++         __be64                     rm_unwritten:1;
++         __be64                     rm_unused:7;
++         __be64                     rm_offset:54;
++    };
 +
-+**d\_id**
-+    The ID for the quota structure. This will be a uid, gid or projid based on
-+    the value of d\_flags.
++**rm\_startblock**
++    Real-time device block number of this record.
 +
-+**d\_blk\_hardlimit**
-+    The hard limit for the number of filesystem blocks the ID can own. The ID
-+    will not be able to use more space than this limit. If it is attempted,
-+    ENOSPC will be returned.
++**rm\_blockcount**
++    The length of this extent, in real-time blocks.
 +
-+**d\_blk\_softlimit**
-+    The soft limit for the number of filesystem blocks the ID can own. The ID
-+    can temporarily use more space than by d\_blk\_softlimit up to
-+    d\_blk\_hardlimit. If the space is not freed by the time limit specified
-+    by ID zero’s d\_btimer value, the ID will be denied more space until the
-+    total blocks owned goes below d\_blk\_softlimit.
++**rm\_owner**
++    A 64-bit number describing the owner of this extent. This must be an inode
++    number, because the real-time device is for file data only.
 +
-+**d\_ino\_hardlimit**
-+    The hard limit for the number of inodes the ID can own. The ID will not be
-+    able to create or own any more inodes if d\_icount reaches this value.
++**rm\_fork**
++    If rm\_owner describes an inode, this can be 1 if this record is for an
++    attribute fork. This value will always be zero for real-time extents.
 +
-+**d\_ino\_softlimit**
-+    The soft limit for the number of inodes the ID can own. The ID can
-+    temporarily create or own more inodes than specified by d\_ino\_softlimit
-+    up to d\_ino\_hardlimit. If the inode count is not reduced by the time
-+    limit specified by ID zero’s d\_itimer value, the ID will be denied from
-+    creating or owning more inodes until the count goes below
-+    d\_ino\_softlimit.
++**rm\_bmbt**
++    If rm\_owner describes an inode, this can be 1 to signify that this record
++    is for a block map B+tree block. In this case, rm\_offset has no meaning.
++    This value will always be zero for real-time extents.
 +
-+**d\_bcount**
-+    How many filesystem blocks are actually owned by the ID.
++**rm\_unwritten**
++    A flag indicating that the extent is unwritten. This corresponds to the
++    flag in the `extent record <#data-extents>`__ format which means
++    XFS\_EXT\_UNWRITTEN.
 +
-+**d\_icount**
-+    How many inodes are actually owned by the ID.
++**rm\_offset**
++    The 54-bit logical file block offset, if rm\_owner describes an inode.
 +
-+**d\_itimer**
-+    Specifies the time when the ID’s d\_icount exceeded d\_ino\_softlimit. The
-+    soft limit will turn into a hard limit after the elapsed time exceeds ID
-+    zero’s d\_itimer value. When d\_icount goes back below d\_ino\_softlimit,
-+    d\_itimer is reset back to zero.
++    **Note**
 +
-+**d\_btimer**
-+    Specifies the time when the ID’s d\_bcount exceeded d\_blk\_softlimit. The
-+    soft limit will turn into a hard limit after the elapsed time exceeds ID
-+    zero’s d\_btimer value. When d\_bcount goes back below d\_blk\_softlimit,
-+    d\_btimer is reset back to zero.
++    The single-bit flag values rm\_unwritten, rm\_fork, and rm\_bmbt are
++    packed into the larger fields in the C structure definition.
 +
-+**d\_iwarns**; \ **d\_bwarns**; \ **d\_rtbwarns**
-+    Specifies how many times a warning has been issued. Currently not used.
++The key has the following structure:
 +
-+**d\_rtb\_hardlimit**
-+    The hard limit for the number of real-time blocks the ID can own. The ID
-+    cannot own more space on the real-time subvolume beyond this limit.
++.. code:: c
 +
-+**d\_rtb\_softlimit**
-+    The soft limit for the number of real-time blocks the ID can own. The ID
-+    can temporarily own more space than specified by d\_rtb\_softlimit up to
-+    d\_rtb\_hardlimit. If d\_rtbcount is not reduced by the time limit
-+    specified by ID zero’s d\_rtbtimer value, the ID will be denied from
-+    owning more space until the count goes below d\_rtb\_softlimit.
++    struct xfs_rtrmap_key {
++         __be64                     rm_startblock;
++         __be64                     rm_owner;
++         __be64                     rm_fork:1;
++         __be64                     rm_bmbt:1;
++         __be64                     rm_reserved:1;
++         __be64                     rm_unused:7;
++         __be64                     rm_offset:54;
++    };
 +
-+**d\_rtbcount**
-+    How many real-time blocks are currently owned by the ID.
++-  All block numbers are 64-bit real-time device block numbers.
 +
-+**d\_rtbtimer**
-+    Specifies the time when the ID’s d\_rtbcount exceeded d\_rtb\_softlimit.
-+    The soft limit will turn into a hard limit after the elapsed time exceeds
-+    ID zero’s d\_rtbtimer value. When d\_rtbcount goes back below
-+    d\_rtb\_softlimit, d\_rtbtimer is reset back to zero.
++-  The bb\_magic value is "MAPR" (0x4d415052).
 +
-+**dd\_uuid**
-+    The UUID of this block, which must match either sb\_uuid or sb\_meta\_uuid
-+    depending on which features are set.
++-  The xfs\_btree\_lblock\_t header is used for intermediate B+tree node as
++   well as the leaves.
 +
-+**dd\_lsn**
-+    Log sequence number of the last DQ block write.
++-  Each pointer is associated with two keys. The first of these is the "low
++   key", which is the key of the smallest record accessible through the
++   pointer. This low key has the same meaning as the key in all other btrees.
++   The second key is the high key, which is the maximum of the largest key
++   that can be used to access a given record underneath the pointer. Recall
++   that each record in the real-time reverse mapping b+tree describes an
++   interval of physical blocks mapped to an interval of logical file block
++   offsets; therefore, it makes sense that a range of keys can be used to find
++   to a record.
 +
-+**dd\_crc**
-+    Checksum of the DQ block.
++xfs\_db rtrmapbt Example
++""""""""""""""""""""""""
 +
-+Real-time Inodes
-+~~~~~~~~~~~~~~~~
++This example shows a real-time reverse-mapping B+tree from a freshly populated
++root filesystem:
 +
-+There are two inodes allocated to managing the real-time device’s space, the
-+Bitmap Inode and the Summary Inode.
++::
 +
-+Real-Time Bitmap Inode
-+^^^^^^^^^^^^^^^^^^^^^^
++    xfs_db> sb 0
++    xfs_db> addr rrmapino
++    xfs_db> p
++    core.magic = 0x494e
++    core.mode = 0100000
++    core.version = 3
++    core.format = 5 (rtrmapbt)
++    ...
++    u3.rtrmapbt.level = 3
++    u3.rtrmapbt.numrecs = 1
++    u3.rtrmapbt.keys[1] = [startblock,owner,offset,attrfork,bmbtblock,startblock_hi,
++                   owner_hi,offset_hi,attrfork_hi,bmbtblock_hi]
++        1:[1,132,1,0,0,1705337,133,54431,0,0]
++    u3.rtrmapbt.ptrs[1] = 1:671
++    xfs_db> addr u3.rtrmapbt.ptrs[1]
++    xfs_db> p
++    magic = 0x4d415052
++    level = 2
++    numrecs = 8
++    leftsib = null
++    rightsib = null
++    bno = 5368
++    lsn = 0x400000000
++    uuid = 98bbde42-67e7-46a5-a73e-d64a76b1b5ce
++    owner = 131
++    crc = 0x2560d199 (correct)
++    keys[1-8] = [startblock,owner,offset,attrfork,bmbtblock,startblock_hi,owner_hi,
++             offset_hi,attrfork_hi,bmbtblock_hi]
++        1:[1,132,1,0,0,17749,132,17749,0,0]
++        2:[17751,132,17751,0,0,35499,132,35499,0,0]
++        3:[35501,132,35501,0,0,53249,132,53249,0,0]
++        4:[53251,132,53251,0,0,1658473,133,7567,0,0]
++        5:[1658475,133,7569,0,0,1667473,133,16567,0,0]
++        6:[1667475,133,16569,0,0,1685223,133,34317,0,0]
++        7:[1685225,133,34319,0,0,1694223,133,43317,0,0]
++        8:[1694225,133,43319,0,0,1705337,133,54431,0,0]
++    ptrs[1-8] = 1:134 2:238 3:345 4:453 5:795 6:563 7:670 8:780
 +
-+The real time bitmap inode, sb\_rbmino, tracks the used/free space in the
-+real-time device using an old-style bitmap. One bit is allocated per real-time
-+extent. The size of an extent is specified by the superblock’s sb\_rextsize
-+value.
++We arbitrarily pick pointer 7 (twice) to traverse downwards:
 +
-+The number of blocks used by the bitmap inode is equal to the number of
-+real-time extents (sb\_rextents) divided by the block size (sb\_blocksize) and
-+bits per byte. This value is stored in sb\_rbmblocks. The nblocks and extent
-+array for the inode should match this. Each real time block gets its own bit
-+in the bitmap.
++::
 +
-+Real-Time Summary Inode
-+^^^^^^^^^^^^^^^^^^^^^^^
++    xfs_db> addr ptrs[7]
++    xfs_db> p
++    magic = 0x4d415052
++    level = 1
++    numrecs = 36
++    leftsib = 563
++    rightsib = 780
++    bno = 5360
++    lsn = 0
++    uuid = 98bbde42-67e7-46a5-a73e-d64a76b1b5ce
++    owner = 131
++    crc = 0x6807761d (correct)
++    keys[1-36] = [startblock,owner,offset,attrfork,bmbtblock,startblock_hi,owner_hi,
++              offset_hi,attrfork_hi,bmbtblock_hi]
++        1:[1685225,133,34319,0,0,1685473,133,34567,0,0]
++        2:[1685475,133,34569,0,0,1685723,133,34817,0,0]
++        3:[1685725,133,34819,0,0,1685973,133,35067,0,0]
++        ...
++        34:[1693475,133,42569,0,0,1693723,133,42817,0,0]
++        35:[1693725,133,42819,0,0,1693973,133,43067,0,0]
++        36:[1693975,133,43069,0,0,1694223,133,43317,0,0]
++    ptrs[1-36] = 1:669 2:672 3:674...34:722 35:723 36:725
++    xfs_db> addr ptrs[7]
++    xfs_db> p
++    magic = 0x4d415052
++    level = 0
++    numrecs = 125
++    leftsib = 678
++    rightsib = 681
++    bno = 5440
++    lsn = 0
++    uuid = 98bbde42-67e7-46a5-a73e-d64a76b1b5ce
++    owner = 131
++    crc = 0xefce34d4 (correct)
++    recs[1-125] = [startblock,blockcount,owner,offset,extentflag,attrfork,bmbtblock]
++        1:[1686725,1,133,35819,0,0,0]
++        2:[1686727,1,133,35821,0,0,0]
++        3:[1686729,1,133,35823,0,0,0]
++        ...
++        123:[1686969,1,133,36063,0,0,0]
++        124:[1686971,1,133,36065,0,0,0]
++        125:[1686973,1,133,36067,0,0,0]
 +
-+The real time summary inode, sb\_rsumino, tracks the used and free space
-+accounting information for the real-time device. This file indexes the
-+approximate location of each free extent on the real-time device first by
-+log2(extent size) and then by the real-time bitmap block number. The size of
-+the summary inode file is equal to sb\_rbmblocks × log2(realtime device size)
-+× sizeof(xfs\_suminfo\_t). The entry for a given log2(extent size) and
-+rtbitmap block number is 0 if there is no free extents of that size at that
-+rtbitmap location, and positive if there are any.
++Several interesting things pop out here. The first record shows that inode 133
++has mapped real-time block 1,686,725 at offset 35,819. We confirm this by
++looking at the block map for that inode:
 +
-+This data structure is not particularly space efficient, however it is a very
-+fast way to provide the same data as the two free space B+trees for regular
-+files since the space is preallocated and metadata maintenance is minimal.
++::
++
++    xfs_db> inode 133
++    xfs_db> p core.realtime
++    core.realtime = 1
++    xfs_db> bmap
++    data offset 35817 startblock 1686723 (1/638147) count 1 flag 0
++    data offset 35819 startblock 1686725 (1/638149) count 1 flag 0
++    data offset 35821 startblock 1686727 (1/638151) count 1 flag 0
++
++Notice that inode 133 has the real-time flag set, which means that its data
++blocks are all allocated from the real-time device.
 
