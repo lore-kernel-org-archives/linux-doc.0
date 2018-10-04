@@ -1,244 +1,174 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2878B7D088
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 09:07:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B6F9B7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 11:06:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727310AbeJDP7R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 11:59:17 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:36091 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727150AbeJDP7R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 11:59:17 -0400
-Received: by mail-qk1-f194.google.com with SMTP id a85-v6so5258910qkg.3;
-        Thu, 04 Oct 2018 02:06:58 -0700 (PDT)
+        id S1727278AbeJDR7S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 13:59:18 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:46081 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727245AbeJDR7S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 13:59:18 -0400
+Received: by mail-io1-f68.google.com with SMTP id t7-v6so7503549ioj.13
+        for <linux-doc@vger.kernel.org>; Thu, 04 Oct 2018 04:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=SzW9TXV1675hNI/0Czx4hXwKzEoKuZg3QBRo//Qkm0k=;
-        b=TFrQ1FDah5xGFhfVo47hqO27u5wdJ6WqBDakLL51oXxbfvsJ8jNj0AbBv6ObPy6yzo
-         7+6l4F0drupA+xBP5Ua+0lBemJHWX15X+S2sBxAfy2SwmjdaCr1GhGjHbQeH0cWXVsdB
-         eyB8B88YeKPcJ7v5ihceWQF0AupMOPfZYOoQoiYGzwYHOL3jydXdRdIySA8fvj0NdS5w
-         0AK27vCKUOW6F0ok/W6ofzoh2PYybQIVB7cBlc9OnQJXL5yDTMmqANgHPT+Y4kffJwZ/
-         r3ZNzAO62CCk5KgsCYpgvM+D74gDGZxfEush/ViwtFbedi3VMNWc4M8Gx+WODJcu38TJ
-         mQIg==
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=xxkYyzpPCHAW6LP3RbijxSP25jc+Vjy5656kVu0QYHs=;
+        b=tNjcBfAoU/JT6YPyPNuSjG+4gXq+R7NyMLJUSt28NmpLc2HXbBfKDUf45tVAhppRmU
+         6VcU47ZxeYpEo9Q1ezIZAgPrUwJuOm5kJIpwE00g3wXfaP7yAHcnhgGd4AXT2tPBLAu4
+         NPi8pvRrrAgmo8e2ph1w5pEdGPcm/IacjcIley8wf4TFaOYZ1uykM65C/y1SGcIAyk0t
+         BTR6MglL/PrFfBnwA65LWncKNbJl/7KNAjGT8I6Km9/X5khcJ8T9UyiNjcldGhOnAvdZ
+         t3yuxhUYXRxgqnP3MfNNy5x8QehoHzHadsBBLc+nZQnkYZa409mfgdNNeKKBUXNs5MuX
+         SpEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=SzW9TXV1675hNI/0Czx4hXwKzEoKuZg3QBRo//Qkm0k=;
-        b=fx3a2lGWmAnkEVxY4KZihtn1elAyFk4O4tm6mVHoI1n2jLiP+mEtl/gEv1QGpFy2DG
-         rjMN5VcV1MZq5k8rQECiuhu+7rKfCsGq5x4o3NveYs8dSoKy6uowT4OvDp7/Fr8s/ajM
-         7a6AcyBsiVHtxhN4nsOT9unaQ4wwNU8Iua6YijRsWvMsGGN9FtccN9vlhKWWXxUR0Kw5
-         POpS1eJmGf4WTdi5pTIHtttMt8oMkxtdJ/YmHNhX2fOzakdu0STH36Krythr4rmOvzji
-         TypbDCe6cchMtGejEOPoradcPCVs5QUqFbokBXmEQ3l+Dj3jXVkzHu4pLvW5y3t7uv9q
-         fyAw==
-X-Gm-Message-State: ABuFfoiI2A1fG5uwpPCdiRXah2s4A2dPbJXvU06nS4Ilsl/paYmNtoVw
-        KFFHS6srfanPq8hCu93Dya4CIHnnSnXhMraCu94=
-X-Google-Smtp-Source: ACcGV60o79E8tPgyksSqbBvK4C3bRqmxXDDKfPJqwV7ZByJDqTLSneEa/kOfivGmKEmworQXsnJwcWqjOCZ/gbbuByQ=
-X-Received: by 2002:ae9:c107:: with SMTP id z7-v6mr4326353qki.192.1538644018163;
- Thu, 04 Oct 2018 02:06:58 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xxkYyzpPCHAW6LP3RbijxSP25jc+Vjy5656kVu0QYHs=;
+        b=BImT8UmwZS5xqE8AwN1Y9ZeaNt84hXqh1F5m7ZjQEF1NDFZ9xPFWvO5oHZ8pzDCcGd
+         /2g7fIM6todKbMgb5vtRawTwUJ0yMGi9q7dfduUqLFk9Jy0CRYpXDSBaiQrBNocjia3s
+         4zEYymljgfbWwJlRCK8WR6Ae6GPA0dtsODaQQbILyRC68EWjW2rPmr3yBltRto/ttq6S
+         AAPLHcux5swjTpWlCLuiZRhB1+tk5ivg1SVuv7mB+UH/8jyBy+8MssS2oczlOByGVuYT
+         obpn5bYSHmFxsIyPrAXE57v+mGqrUlvzSIQWIkxfwF2Wqtzgl3vW/afaYKu/y6sRNzp1
+         PzTQ==
+X-Gm-Message-State: ABuFfogIycxwhkrO5rg591d76m3TmUU1EzSTfVveN4Kwk++qkgz2Yc/F
+        HwlUIMitbAyO+xpEF/af+qt4+xkBIHYGrkXo6N+JdQ==
+X-Google-Smtp-Source: ACcGV62CFErv9ybpjPgbVwk3xOrzQsOfkG+nVtRyCKKodX42qWjw1f1yezioK1rg3171SXRlJI0J7aEobTVIuHPWxtM=
+X-Received: by 2002:a5e:8d11:: with SMTP id m17-v6mr3938664ioj.258.1538651191800;
+ Thu, 04 Oct 2018 04:06:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANiq72=rgT9cPWH64Tf_8gAU09EiH5FvGqFUdOjV=spVbM5m8Q@mail.gmail.com>
- <20181003071059.02b3fd6f@canb.auug.org.au> <CAKwvOdmt4-jFv6d-ZVUH5OOvXSz38jpuNvQy-jtoSS3xEoh78A@mail.gmail.com>
- <CANiq72mmxiO6RWBTQfWYDaa6gmOF01nXmN6BJNCAjAFz3QJqqA@mail.gmail.com>
- <20181002232454.GB2483@thunk.org> <CANiq72=cRpqnB3BxLsmj-rMdUGJK+pac1SRppoRgsON69ErfQg@mail.gmail.com>
- <20181003153303.GC2835@thunk.org> <CANiq72=Jq8HZ1=CsSvV4GenG+F6z3vRFmiB7Joct5VKdUFo8pA@mail.gmail.com>
- <CANiq72nMu6NXg1Ovn49qJ=FP_S4_LQJSwPuS+Q_zofhOEbVZng@mail.gmail.com> <20181004050140.GC646@thunk.org>
-In-Reply-To: <20181004050140.GC646@thunk.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 4 Oct 2018 11:06:46 +0200
-Message-ID: <CANiq72nTAF6SyM+mgMG-DT=nOLz5DyEjfHKgq5uJLwufBNWViA@mail.gmail.com>
-Subject: Re: [GIT PULL linux-next] Add Compiler Attributes tree
-To:     "Ted Ts'o" <tytso@mit.edu>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
+References: <20180810080526.27207-1-brgl@bgdev.pl> <20180831194643.GA62862@ban.mtv.corp.google.com>
+ <CAMRc=MejZLV1EQ7uAddsxLY0MTUF8WyiBn=F0ZhkWQJpET0EDQ@mail.gmail.com> <a4c2e6cf-749a-83a1-0bda-43ddb7e744cd@gmail.com>
+In-Reply-To: <a4c2e6cf-749a-83a1-0bda-43ddb7e744cd@gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 4 Oct 2018 13:06:20 +0200
+Message-ID: <CAMRc=MfwM7vODsnuV9eKS4Uf7M5ac59u7ao7KvyaxKzPv5FRvw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/29] at24: remove at24_platform_data
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Brian Norris <computersforpeace@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Naren <naren.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>,
+        Sven Van Asbroeck <svendev@arcx.com>,
+        Paolo Abeni <pabeni@redhat.com>, Alban Bedel <albeu@free.fr>,
+        Rob Herring <robh@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Norris <briannorris@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ted,
-
-On Thu, Oct 4, 2018 at 7:02 AM Theodore Y. Ts'o <tytso@mit.edu> wrote:
-> In this case, yes.  Again, I emphasize that I was using the ext4.h
-> cleanup as an *example*.  The point I was trying to make was that your
-> change did *not* do a full set of deep ext4 regression tests because
-> the your change didn't go through the ext4.git tree.  I have seen
-
-Because it shouldn't matter from which tree they come from to get the
-tests run. *That* is the problem: effectively we have independent
-projects in the kernel. If you tell me that my change did not run the
-ext4 tests (even if I Cc'd you or maybe some ML, etc.), it means there
-is something wrong.
-
-> cases where "simple mechanical changes" were anything but, and while
-> the kernel *compiled* it resulted in the file system not working.
-> (And in the worst case, it resulted actual data loss or file system
-> corruption.)
-
-Yes, I have also experienced one-liners breaking entire projects.
-Ideally, any change should be assumed to break everything unless
-proved otherwise, and I agree with having as much testing as possible
--- see above for the actual problem here.
-
-> My test scripts are public, and in fact I've gone out of my way to
-> make them easy for other people to run them, with documentation[1][2],
-> slide sets[3], etc.  But the vast majority of people who submit
-> patches to ext4.git don't bother --- and as far as I know *no one* who
-> sends ext4 changes via other git trees *ever* bothered.  (And, for one
-> recent patchset where the ext4 developer spent a lot of time using
-> kvm-xfstests before submission, accepting that set of changes was easy
-> and was a joy.  I'm a big believe in tests.)
-
-I believe you -- but actually I would *expect* that. Nobody runs them
-because nobody has either the time, the expertise, or feels the need
-to do so. It is not a matter of "being easy to run". It is simply that
-people won't do it unless you force them to (and if you force them,
-you will lose some contributions).
-
-The solution is not providing slides, documentation, or making it
-fool-proof. The solution, in my view, is avoiding people having to do
-the tests. Currently, I thought we do that in the kernel by Cc'ing
-whoever is a maintainer of the code and letting that person do
-whatever is required for those changes. Of course, you can automate
-this in many fancy ways as many projects/companies have done (and as
-you describe for Google).
-
-However...
-
-> So if you are willing to completely standardize your testing
-> infrastructure and devote utterly lavish amounts of automated testing
-
-...I don't agree. I don't think this follows from the above
-discussion. While release management and testing are topics that go
-together (pretty much always), they are two different, independent
-problems. I am talking here about the need for some "software" to do
-the release management (i.e. merging many trees, doing integration,
-etc.), not the testing side of it (which can change irrespective of
-the release management side; e.g. may have different triggers, may
-have different requirements, may use different systems to help, etc.).
-
-Actually, it is fairly easy to prove: Pick Documentation/ and imagine
-it was only plain text files without processing required (as in the
-old days). For that "project", you don't need any testing whatsoever,
-but you still need to do release integration. For ext4, you may want
-to use your testing scripts. For drivers/foo/bar.c, maybe the only way
-of testing is plugging the hardware and seeing that it works. So,
-different projects, different testing mechanisms; but same release
-integration at the end of the day.
-
-> which is deeply integrated into a standardized, non-email code review
-> system, the challenge you have identified *has* been solved.  But
-
-Of course it has been "solved". All projects with hundreds of
-contributors/subprojects/... have to deal with the same issues, and
-they have to keep moving forward at the end of the day. The point is
-not how Google, or CERN, or anybody else does it. The point is that
-there should be a better way to handle this which makes kernel
-development better.
-
-I explained the issue we faced at CERN years ago simply because it was
-very similar to this (merging given tags of different trees,
-basically). I am not sure how/if your Google example is relevant here,
-since it is a completely custom system, it is very different to what
-the kernel does, etc. I understand you are trying to say "this is no
-news, there are other ways of solving it, it is solved at Google"; but
-with my "example" I was not trying to say "we solved it at CERN" or
-trying to say I am a "guru"; I was simply stating that it seems there
-could be a project coming out of this to solve this space *in the
-context of the kernel workflow*.
-
-> trust me when I say that it is a very non-trivial thing to do, and it
-> requires a lot of very strict code development practices that are
-> imposed on all Google C++ developers working in the common tree (which
-> is probably 90%+ of the SWE's inside Google).  I'm not at all
-> convinced that it could be adopted or imposed on the kernel
-> development process.  In fact, I'm quite confident it could not be.
-
-This paragraph seems to follow from the fact that you connect
-heavily-automated testing with release integration. I don't
-necessarily agree with that as explained above, so I think I could cut
-here this part of the discussion, but anyway, here it goes: coding
-development practices are not completely tied to release integration.
-Same as testing: i.e. you *can* do release integration (and heavy
-testing) without strict coding development guidelines. We actually do
-that at the kernel nowadays (and we did it at CERN too).
-
+=C5=9Br., 3 pa=C5=BA 2018 o 23:04 Florian Fainelli <f.fainelli@gmail.com> n=
+apisa=C5=82(a):
 >
-> I actually think the Linux Kernel's approach of carefully segregating
-> how code and headers to avoid merge conflicts (and worse, semantic
-> conflicts that may git merge and build succesfully, but then blow up
-
-Not sure how the kernel is preventing semantic conflicts (in different
-ways than other projects, I mean). What do you mean?
-
-> in subtle ways leading to user data loss) is actually a pretty good
-> way of doing things.  It works 99.99% of the the commits.  True, it
-
-I would say many commits are local enough that it is not really a
-problem. The issue is non-local commits, and I am not that confident
-it works for 99.99% of those.
-
-> wasn't optimal for the changes you were trying to make; but your
-> experience is the exception, not the rule.
-
-Sure, but regardless of how well it works, the fact is that Stephen is
-managing some custom (and AFAIK, ad hoc) scripts. That usually means
-there is something that may be factorized out.
-
 >
-> The risk here is that it's very easy to engineer changes in processes
-> for corner cases, and which make things much worse (either taking more
-> time, or more effort, or being less reliable) for the common case.
+>
+> On 10/3/2018 1:15 PM, Bartosz Golaszewski wrote:
+> > pt., 31 sie 2018 o 21:46 Brian Norris <computersforpeace@gmail.com> nap=
+isa=C5=82(a):
+> >>
+> >> Hi,
+> >>
+> >> On Fri, Aug 10, 2018 at 10:04:57AM +0200, Bartosz Golaszewski wrote:
+> >>> Most boards use the EEPROM to store the MAC address. This series adds
+> >>> support for cell lookups to the nvmem framework, registers relevant
+> >>> cells for all users, adds nvmem support to eth_platform_get_mac_addre=
+ss(),
+> >>> converts davinci_emac driver to using it and replaces at24_platform_d=
+ata
+> >>> with device properties.
+> >>
+> >> We already have:
+> >>
+> >> of_get_nvmem_mac_address() (which does exactly what you're adding,
+> >> except it's DT specific)
+> >> of_get_mac_address()
+> >> fwnode_get_mac_address()
+> >> device_get_mac_address()
+> >>
+> >> and now you've taught me that this exists too:
+> >>
+> >> eth_platform_get_mac_address()
+> >>
+> >> These mostly don't share code, and with your series, they'll start to
+> >> diverge even more as to what they support. Can you please help rectify
+> >> that, instead of widening the gap?
+> >>
+> >> For instance, you can delete most of eth_platform_get_mac_address() an=
+d
+> >> replace it with device_get_mac_address() [1]. And you could add your n=
+ew
+> >> stuff to fwnode_get_mac_address().
+> >>
+> >> And important part to note here is that you code isn't just useful for
+> >> ethernet -- it could be useful for Wifi devices too. So IMO, sticking =
+it
+> >> only in an "eth" function is the wrong move.
+> >>
+> >> Brian
+> >>
+> >> [1] arch_get_platform_mac_address() is the only part I wouldn't want t=
+o
+> >> replicate into a truly generic helper. The following should be a no-op
+> >> refactor, AIUI:
+> >>
+> >
+> > The only user of arch_get_platform_mac_address() is sparc. It returns
+> > an address that seems to be read from some kind of EEPROM. I'm not
+> > familiar with this arch though. I'm wondering if we could somehow
+> > seamlessly remove this call and then convert all users of
+> > eth_platform_get_mac_address() to using device_get_mac_address()?
+> >
+> > David: I couldn't find a place in sparc code where any ethernet device
+> > would be registered, so is there a chance that nobody is using it?
+>
+> SPARC uses a true Open Firmware implementation, so it would register
+> drivers through the CONFIG_OF infrastructure.
+> --
 
-Agreed, but changes are not necessarily bad, i.e. they are not
-guaranteed to be worse than the previous state. Actually, I would
-argue we could reach a better state of the art for *all*
-commits/cases, not only corner ones.
+I'm seeing that there are only six callers of
+eth_platform_get_mac_address() (the only function which calls
+arch_get_platform_mac_address()).
 
-Cheers,
-Miguel
+Of these six callers four are intel ethernet drivers and two are usb
+ethernet adapter drivers.
+
+Is it even possible that sparc wants to get the mac address for a usb
+adapter from some memory chip? Maybe we *can* safely remove that
+function completely? That would allow us to simplify a lot of code.
+
+Bart
