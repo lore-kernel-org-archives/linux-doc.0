@@ -5,109 +5,205 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA50A7D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 14:39:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5E487D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 15:42:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727578AbeJDVcq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 17:32:46 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:40611 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727381AbeJDVcq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 17:32:46 -0400
-Received: by mail-qt1-f194.google.com with SMTP id b4-v6so2047195qtc.7;
-        Thu, 04 Oct 2018 07:39:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S8kY2KZcv5clBm6IljvPQOeVp2ZgUbugkxxstMi9iu4=;
-        b=LteK12j7+1ovzWLhcudq8dzCfbqFNeSv94ZLe+pBTae2uDitXV4kN0ySnBHoVGRQlw
-         f0LDAPfa74T/dIWKHc7QrhGEp/FIkauUpLYdr1gqDACD34LN4hcZBgP9x4iioUn3VchP
-         3+/rPm2h3lCSDYXMVKPkZ6y48PF/Z9XkyngUdt9Fka8vHSU3QUJPCr0BRd98O2qMxt2W
-         9VW3UnO2hNEdV3Lny9lk+T4Wy0y4NyFkCklJRyD7f36lFm5iOuKQKz+eUltBdbIeACEH
-         dHSYFoERl66B94cEyW1GOaVmGG5UwAzKJXM9WR4DrnkdGGl/FodsY4RBK/ipIQyMHG6D
-         Y59A==
-X-Gm-Message-State: ABuFfoivFbN0Q9cb8jbuHXsI0DxrTzXUirZE3qGLt/fRJspOIdxedjyl
-        OYsBum26xzD9gWrXhj604tOwe6o1shvph9WMvtQ=
-X-Google-Smtp-Source: ACcGV60oO5m0XqX6FPxBekVW7eerkvmCEC6HjFj34/sHDJNjrdMvNlCdyjPQ3KjX/uGLJpHpVjzkmH25wJM+hHrSfjU=
-X-Received: by 2002:aed:3f08:: with SMTP id p8-v6mr5532329qtf.185.1538663949960;
- Thu, 04 Oct 2018 07:39:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180810080526.27207-1-brgl@bgdev.pl> <20180831194643.GA62862@ban.mtv.corp.google.com>
- <CAMRc=MejZLV1EQ7uAddsxLY0MTUF8WyiBn=F0ZhkWQJpET0EDQ@mail.gmail.com>
- <a4c2e6cf-749a-83a1-0bda-43ddb7e744cd@gmail.com> <CAMRc=MfwM7vODsnuV9eKS4Uf7M5ac59u7ao7KvyaxKzPv5FRvw@mail.gmail.com>
- <CAK8P3a1LufzR1_6mXH=1zDb34VQStLywGM1w5x5CDAMh_7uMyA@mail.gmail.com> <20181004143508.GG13299@oracle.com>
-In-Reply-To: <20181004143508.GG13299@oracle.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 4 Oct 2018 16:38:51 +0200
-Message-ID: <CAK8P3a3Z7CT3tV=mMB-qZFJfyamP0kTHK2PPCbqzh-WXDNdPZA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/29] at24: remove at24_platform_data
-To:     Sowmini Varadhan <sowmini.varadhan@oracle.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Brian Norris <computersforpeace@gmail.com>,
-        David Miller <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, Sekhar Nori <nsekhar@ti.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Russell King - ARM Linux <linux@armlinux.org.uk>,
-        gregkh <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        naren.kernel@gmail.com,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        ivan.khoronzhuk@linaro.org, svendev@arcx.com, pabeni@redhat.com,
-        Alban Bedel <albeu@free.fr>, Rob Herring <robh@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        linux-omap <linux-omap@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Norris <briannorris@chromium.org>
+        id S1727588AbeJDWft (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 18:35:49 -0400
+Received: from mga05.intel.com ([192.55.52.43]:45890 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727537AbeJDWft (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Oct 2018 18:35:49 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2018 08:41:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,340,1534834800"; 
+   d="scan'208";a="78717399"
+Received: from 2b52.sc.intel.com ([143.183.136.147])
+  by orsmga008.jf.intel.com with ESMTP; 04 Oct 2018 08:41:58 -0700
+Message-ID: <3350f7b42b32f3f7a1963a9c9c526210c24f7b05.camel@intel.com>
+Subject: Re: [RFC PATCH v4 6/9] x86/cet/ibt: Add arch_prctl functions for IBT
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Thu, 04 Oct 2018 08:37:16 -0700
+In-Reply-To: <20181004132811.GJ32759@asgard.redhat.com>
+References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
+         <20180921150553.21016-7-yu-cheng.yu@intel.com>
+         <20181004132811.GJ32759@asgard.redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 4, 2018 at 4:36 PM Sowmini Varadhan
-<sowmini.varadhan@oracle.com> wrote:
->
-> Just catching up on this thread, so please excuse any unintentional
-> misquotes here.
->
-> > > > > David: I couldn't find a place in sparc code where any ethernet device
-> > > > > would be registered, so is there a chance that nobody is using it?
-> > > >
-> > > > SPARC uses a true Open Firmware implementation, so it would register
-> > > > drivers through the CONFIG_OF infrastructure.
->
-> correct
->
-> > The calls are not even that old, and clearly added intentionally for sparc,
-> > see commit ba94272d08a7 ("i40e: use eth_platform_get_mac_address()")
-> > which added the first one.
->
-> Yes, correct again. Wouldn't PPC also end up doing the same thing?
->
-> See also commit c762dff24c06 (for ixgbe) - without this fix sparc systems
-> will come up with a bogus mac address and then you end up having to
-> manually fix this in ugly ways.
+On Thu, 2018-10-04 at 15:28 +0200, Eugene Syromiatnikov wrote:
+> On Fri, Sep 21, 2018 at 08:05:50AM -0700, Yu-cheng Yu wrote:
+> > Update ARCH_CET_STATUS and ARCH_CET_DISABLE to include Indirect
+> > Branch Tracking features.
+> > 
+> > Introduce:
+> > 
+> > arch_prctl(ARCH_CET_LEGACY_BITMAP, unsigned long *addr)
+> >     Enable the Indirect Branch Tracking legacy code bitmap.
+> > 
+> >     The parameter 'addr' is a pointer to a user buffer.
+> >     On returning to the caller, the kernel fills the following:
+> > 
+> >     *addr = IBT bitmap base address
+> >     *(addr + 1) = IBT bitmap size
+> 
+> Again, some structure with a size field would be better from
+> UAPI/extensibility standpoint.
+> 
+> One additional point: "size" in the structure from kernel should have
+> structure size expected by kernel, and at least providing there "0" from
+> user space shouldn't lead to failure (in fact, it is possible to provide
+> structure size back to userspace even if buffer is too small, along
+> with error).
 
-The of_get_mac_address() portion is not controversial at all I think,
-the question was whether we need the fallback to
-arch_get_platform_mac_address() in any of the drivers that
-call eth_platform_get_mac_address().
+This has been in GLIBC v2.28.  We cannot change it anymore.
 
-      Arnd
+> 
+> > 
+> > Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > ---
+> >  arch/x86/include/uapi/asm/prctl.h |  1 +
+> >  arch/x86/kernel/cet_prctl.c       | 38 ++++++++++++++++++++++++++++++-
+> >  arch/x86/kernel/process.c         |  1 +
+> >  3 files changed, 39 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/x86/include/uapi/asm/prctl.h
+> > b/arch/x86/include/uapi/asm/prctl.h
+> > index 3aec1088e01d..31d2465f9caf 100644
+> > --- a/arch/x86/include/uapi/asm/prctl.h
+> > +++ b/arch/x86/include/uapi/asm/prctl.h
+> > @@ -18,5 +18,6 @@
+> >  #define ARCH_CET_DISABLE	0x3002
+> >  #define ARCH_CET_LOCK		0x3003
+> >  #define ARCH_CET_ALLOC_SHSTK	0x3004
+> > +#define ARCH_CET_LEGACY_BITMAP	0x3005
+> 
+> It would probably be nice to have mention of an architecture in these
+> definitions ("ARCH_X86_CET_"...), but it's likely too late.
+
+We can still change macro names.  I will work on that.
+
+> 
+> >  
+> >  #endif /* _ASM_X86_PRCTL_H */
+> > diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
+> > index c4b7c19f5040..df47b5ebc3f4 100644
+> > --- a/arch/x86/kernel/cet_prctl.c
+> > +++ b/arch/x86/kernel/cet_prctl.c
+> > @@ -20,6 +20,8 @@ static int handle_get_status(unsigned long arg2)
+> >  
+> >  	if (current->thread.cet.shstk_enabled)
+> >  		features |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
+> > +	if (current->thread.cet.ibt_enabled)
+> > +		features |= GNU_PROPERTY_X86_FEATURE_1_IBT;
+> >  
+> >  	shstk_base = current->thread.cet.shstk_base;
+> >  	shstk_size = current->thread.cet.shstk_size;
+> > @@ -49,9 +51,35 @@ static int handle_alloc_shstk(unsigned long arg2)
+> >  	return 0;
+> >  }
+> >  
+> > +static int handle_bitmap(unsigned long arg2)
+> > +{
+> > +	unsigned long addr, size;
+> > +
+> > +	if (current->thread.cet.ibt_enabled) {
+> > +		int err;
+> > +
+> > +		err  = cet_setup_ibt_bitmap();
+> > +		if (err)
+> > +			return err;
+> > +
+> > +		addr = current->thread.cet.ibt_bitmap_addr;
+> > +		size = current->thread.cet.ibt_bitmap_size;
+> > +	} else {
+> > +		addr = 0;
+> > +		size = 0;
+> > +	}
+> > +
+> > +	if (put_user(addr, (unsigned long __user *)arg2) ||
+> > +	    put_user(size, (unsigned long __user *)arg2 + 1))
+> > +		return -EFAULT;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  int prctl_cet(int option, unsigned long arg2)
+> >  {
+> > -	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> > +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
+> > +	    !cpu_feature_enabled(X86_FEATURE_IBT))
+> 
+> This check is repeated many times, it is probably worth defining
+> something like cpu_x86_cet_enabled() or something like that.
+> Besides, early introduction of the macro would allow avoiding all these
+> changes over the code in IBT patches, only macro definition has
+> to be changed that way.
+
+Yes, that makes things easier.
+
+> 
+> > @@ -73,6 +103,12 @@ int prctl_cet(int option, unsigned long arg2)
+> >  	case ARCH_CET_ALLOC_SHSTK:
+> >  		return handle_alloc_shstk(arg2);
+> >  
+> > +	/*
+> > +	 * Allocate legacy bitmap and return address & size to user.
+> > +	 */
+> > +	case ARCH_CET_LEGACY_BITMAP:
+> > +		return handle_bitmap(arg2);
+> > +
+> >  	default:
+> >  		return -EINVAL;
+> >  	}
+> > diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+> > index ac0ea9c7e89f..aea15a9b6a3e 100644
+> > --- a/arch/x86/kernel/process.c
+> > +++ b/arch/x86/kernel/process.c
+> > @@ -797,6 +797,7 @@ long do_arch_prctl_common(struct task_struct *task, int
+> > option,
+> >  	case ARCH_CET_DISABLE:
+> >  	case ARCH_CET_LOCK:
+> >  	case ARCH_CET_ALLOC_SHSTK:
+> > +	case ARCH_CET_LEGACY_BITMAP:
+> >  		return prctl_cet(option, cpuid_enabled);
+> >  	}
+> 
+> I wonder, whether this duplication is really needed for CET-related
+> arch_prctl commands, why not just call them from do_arch_prctl_common?
+
+I will fix it.
+
+Yu-cheng
