@@ -1,111 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 68FD97D923
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 00:04:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 437887D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 03:25:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727322AbeJDGyi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 02:54:38 -0400
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:46570 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727143AbeJDGyi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 02:54:38 -0400
-Received: by mail-yw1-f68.google.com with SMTP id j202-v6so3055774ywa.13
-        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 17:03:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=bmL0ZyPC0ChRPdmL9WJ4CMlC25RswfvQYlntOSokPnQ=;
-        b=RTLjzHrG8qvsQTgyIVVQqV6vJZzXuH9f2wd/G/9lwZ40a33lEHc2JFkqQcRsDx61pZ
-         xb8z/BZ77fd0a2XR90Ro6efOirtKv69bnQmAFOqXllOX+7gVRFWIVYf0Y49/r1ylogZF
-         KT8RV2XSFIr4MH2wwUsb2+v7tttgoDzdaffzU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=bmL0ZyPC0ChRPdmL9WJ4CMlC25RswfvQYlntOSokPnQ=;
-        b=OULN2kaW+gD74bI+LfIfQxQCTSIjVENAsACemsuJ2yyGZWi/uDkWGBU+js6FMGtqJX
-         6F+OblGI5Tuswjbh1at3Nt6Pl7LmWP11ANLAMENwjLixNoRwSt5g3+KcBMqao4WaXZRE
-         fKYqzj38jP8Bx0g8fjtlziP1vy+RCgrVimDS+ODJGopNqvPX5DPWNwIJJCqhcKiOHluY
-         acJWtpDn+Be67KuJzplEYJATrg/t+R4uHUVsNDwnMiGcGPLXuobSWrs0cTQ8Un60iKyj
-         fASEG4G1SG5QwPnNEI90pu2c/iiSJkYcyB71oIc8kxbkAkkKfZqiDTlUMPdV7buPbJmt
-         daIA==
-X-Gm-Message-State: ABuFfogWjPma05ctUaes2hmcLDGab3oCabamJtOkwK8s448xW7iIHdLk
-        vgyfY+TPRWXUaVwj18MVp7rJai5sbi8=
-X-Google-Smtp-Source: ACcGV62mVF67SWuhqT9CjJfgBWxcUW8VX+ojbayJyiCmc5tM/AntxLMlrhu6GF+rRd6HyYGsWjP+Nw==
-X-Received: by 2002:a81:270d:: with SMTP id n13-v6mr2258398ywn.347.1538611439156;
-        Wed, 03 Oct 2018 17:03:59 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id u8-v6sm2405024ywl.59.2018.10.03.17.03.55
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Oct 2018 17:03:56 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id o63-v6so3198932yba.2
-        for <linux-doc@vger.kernel.org>; Wed, 03 Oct 2018 17:03:55 -0700 (PDT)
-X-Received: by 2002:a25:640a:: with SMTP id y10-v6mr2344354ybb.421.1538611434689;
- Wed, 03 Oct 2018 17:03:54 -0700 (PDT)
+        id S1727091AbeJDKQZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 06:16:25 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:36672 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726998AbeJDKQZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 06:16:25 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w943O2Ke059509;
+        Thu, 4 Oct 2018 03:25:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
+ cc : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2018-07-02;
+ bh=xuv+G80akpeM9jOmgAurlZzebFFeAAFp1ouu9RbkSsc=;
+ b=Y2DZwisjrd+p/mxqzGuQD8x55tFBm2c9sUhhLahl5UNfGmeRzHgTcOmqAS1r9S2PXQEk
+ aW++q6Y6eyAacVUVpxBL5vdhyI2Vf+MbyFAVpvnBvX9m8q/wBTHFYlNHxlQ3YVMg/zNC
+ tfFqThFExa6EV3NUEfbAgVtanEWFSDHQ3l4jUqORNEosp5uw1jmCMx8rw3KKByKLLO+S
+ yvljQCyMEwV5XUOExfkcVkAnNI+RO/dFKimiu37O2f9p9qTJqHnlF8XehCbH1FiaF++y
+ GedfQH9IIvtYu5A3z/GYRtNqsP20+kg/bkS7FyAQ/tOb5uaAhtQh5reSpETd4/s+fo37 4Q== 
+Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
+        by aserp2120.oracle.com with ESMTP id 2mt1bq9150-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 04 Oct 2018 03:25:12 +0000
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w943PAut010906
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 4 Oct 2018 03:25:11 GMT
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w943P9v9000675;
+        Thu, 4 Oct 2018 03:25:09 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 04 Oct 2018 03:25:09 +0000
+Subject: [PATCH v2 00/22] xfs-4.20: major documentation surgery
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     darrick.wong@oracle.com
+Cc:     linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net
+Date:   Wed, 03 Oct 2018 20:25:07 -0700
+Message-ID: <153862350727.27883.9408120819569795102.stgit@magnolia>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Wed, 3 Oct 2018 17:03:53 -0700 (PDT)
-In-Reply-To: <6037a1f0-7af1-9847-91f6-6444f04f5b21@infradead.org>
-References: <20181002005505.6112-1-keescook@chromium.org> <809f1cfd-077b-ee58-51ba-b22daf46d12b@tycho.nsa.gov>
- <QpdcE4QSCQKJqDmB2QBEGBlnlioHuRHlM0g5HF8KbHjU1zIUAOjnQ2r9EIMu3m0S2OWNR3_M_TSp_M6CVDqkp6kKuFPUvegsyDPNw1AGju4=@protonmail.ch>
- <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
- <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
- <alpine.LRH.2.21.1810030758460.23596@namei.org> <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
- <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com> <alpine.LRH.2.21.1810040416500.13517@namei.org>
- <CAGXu5j+oPR58oJ06-n7e96-Rmu+ywTW0hud5LhOZ_3UXG5s12w@mail.gmail.com>
- <alpine.LRH.2.21.1810040427550.13517@namei.org> <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com>
- <alpine.LRH.2.21.1810040723320.16168@namei.org> <CAGXu5jJDBhFrdCBHH4MZVDmG88mMxSaSx0w9anCcyx24YHLO5w@mail.gmail.com>
- <6037a1f0-7af1-9847-91f6-6444f04f5b21@infradead.org>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Wed, 3 Oct 2018 17:03:53 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jKGtNYXkFQVxOM9M1fdgaZcki6NqfJAtE0_VsG75Ku=HQ@mail.gmail.com>
-Message-ID: <CAGXu5jKGtNYXkFQVxOM9M1fdgaZcki6NqfJAtE0_VsG75Ku=HQ@mail.gmail.com>
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     James Morris <jmorris@namei.org>,
-        John Johansen <john.johansen@canonical.com>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9035 signatures=668707
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1807170000 definitions=main-1810040034
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 3, 2018 at 4:59 PM, Randy Dunlap <rdunlap@infradead.org> wrote:
-> To me, "security=selinux" means SELinux and nothing else, so I think that
-> all of these params are inviting a lot of confusion.
->
-> Sorry, I don't have a good answer for this.
+Hi all,
 
-This part, at least, has a pretty clear solution. :) The consensus is
-to limit "security=" to what have been considered the "major" LSMs" so
-it'll work in spirit the way it was designed. The goal of the new
-options, though, is to find something that'll fit all the ways LSMs
-are getting used: the majors, the minors, and the coming "medium"
-LSMs. The precedent is pretty good here, since "security=" already
-ignores the minor LSMs: Yama and LoadPin. So it'll just control the
-enable/disable of the "major" LSMs, who will carry an internal marking
-indicating that they're mediated by "security=" (and no new LSMs would
-get this marking).
+This series converts the existing in-kernel xfs documentation to rst
+format, links it in with the rest of the kernel's rst documetation, and
+then begins pulling in the contents of the Data Structures & Algorithms
+book from the xfs-documentation git tree.  No changes are made to the
+text during the import process except to fix things that the conversion
+process (asciidoctor + pandoc) didn't do correctly.  The goal of this
+series is to tie together the XFS code with the on-disk format
+documentation for the features supported by the code.
 
--Kees
+I've built the docs and put them here, in case you hate reading rst:
+https://djwong.org/docs/kdoc/admin-guide/xfs.html
+https://djwong.org/docs/kdoc/filesystems/xfs-data-structures/index.html
 
--- 
-Kees Cook
-Pixel Security
+I've posted a branch here because the png import patch is huge:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=docs-4.20-merge
+
+The patchset should apply cleanly against 4.19-rc6.  Comments and
+questions are, as always, welcome.
+
+--D
