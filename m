@@ -6,48 +6,49 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 308157D087
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 03:26:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C19F7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 03:26:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727588AbeJDKRM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 06:17:12 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:47344 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726998AbeJDKRL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 06:17:11 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w943O2hO040557;
-        Thu, 4 Oct 2018 03:26:00 GMT
+        id S1727589AbeJDKRT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 06:17:19 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:52846 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726998AbeJDKRT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 06:17:19 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w943O3FY010663;
+        Thu, 4 Oct 2018 03:26:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
  cc : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=7Y4/TTHGReC21v25+bY8WG31PH97/6IFZwcsiaSDK7E=;
- b=Kr5aOmIycrVPkODceNqiqo+gM5ehlS7ncxaa93zuU8dCo1yafzl9Ii70ym0D2PmLtAlm
- AYKMrucjc9ChsohBcSAJXXSjmXg9pTfm5KJxv+ApO8NM7bvwvAJzqhA9TGxtykPJG5zK
- hgOPT16LX3aPIZbyjljCM0l8yXMvPvV3YZRLkck0gQt9fdh1UdvOXTGl2ywSBJZVSv/M
- 6BajXSTblKbzAJIRtV7WBPyZPntBdjlwWLVL8QD02tK7z6VkJB8qiCqGZOleu9Jhza86
- cBAKMm8pHlVyhvkpTdpqRX8NeONynggEPWDwqWcSUbRJj4y7VjLHfh1DhWg4Z6c/PQfY 1g== 
+ bh=RZ/QQnka7t16qgM+eSK/QH3Pxt9Ii+9VSEqGehOPuXI=;
+ b=UqE19Z4ChrGNOF1PTJSnKZnd3Q2Mhe1s/N9sV56wpY8WP+B/jeMQI/0eNkCRHdF7iZHn
+ FtowZjoE/afKThXzruYlw2Z9QV0llTMBNtd+u+XQSPdljNgdrG6vCuz4iUnuW3iwR416
+ Lksbn3JGws8wiJ8JBtbcxvul6/OsA50z2TJiGe5+dL1KGzK+gHeUTJv0kCSwuFLHOaYT
+ fIWJ8+BCrIdlT7zax+SUsMOTL1KcnA7kiluFkajes1JvQrzk0b8+rU58nHg6sdDMnaHG
+ oT7YsS1drSE9QTbSti1hh+OuwybCOPPvwqBo97b/RpZfZPnIsD88CTgoxraOBsF4ZQ6c JQ== 
 Received: from aserv0022.oracle.com (aserv0022.oracle.com [141.146.126.234])
-        by userp2130.oracle.com with ESMTP id 2mt0tu12fr-1
+        by userp2120.oracle.com with ESMTP id 2mt21r8yp6-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 04 Oct 2018 03:25:59 +0000
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w943Pw9w031350
+        Thu, 04 Oct 2018 03:26:06 +0000
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w943Q4Ps032309
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 4 Oct 2018 03:25:59 GMT
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w943Pw4l004405;
-        Thu, 4 Oct 2018 03:25:58 GMT
+        Thu, 4 Oct 2018 03:26:05 GMT
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w943Q4EK002678;
+        Thu, 4 Oct 2018 03:26:04 GMT
 Received: from localhost (/67.169.218.210)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 03 Oct 2018 20:25:57 -0700
-Subject: [PATCH 06/22] docs: add XFS online repair chapter to DS&A book
+        with ESMTP ; Thu, 04 Oct 2018 03:26:04 +0000
+Subject: [PATCH 07/22] docs: add XFS common types and magic numbers to DS&A
+ book
 From:   "Darrick J. Wong" <darrick.wong@oracle.com>
 To:     darrick.wong@oracle.com
 Cc:     linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
         corbet@lwn.net
-Date:   Wed, 03 Oct 2018 20:25:55 -0700
-Message-ID: <153862355578.27883.17216033492327236049.stgit@magnolia>
+Date:   Wed, 03 Oct 2018 20:26:02 -0700
+Message-ID: <153862356229.27883.2970956950937907574.stgit@magnolia>
 In-Reply-To: <153862350727.27883.9408120819569795102.stgit@magnolia>
 References: <153862350727.27883.9408120819569795102.stgit@magnolia>
 User-Agent: StGit/0.17.1-dirty
@@ -68,93 +69,372 @@ From: Darrick J. Wong <darrick.wong@oracle.com>
 
 Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
 ---
- .../filesystems/xfs-data-structures/overview.rst   |    1 
- .../xfs-data-structures/reconstruction.rst         |   68 ++++++++++++++++++++
- 2 files changed, 69 insertions(+)
- create mode 100644 Documentation/filesystems/xfs-data-structures/reconstruction.rst
+ .../xfs-data-structures/common_types.rst           |   61 ++++
+ .../filesystems/xfs-data-structures/magic.rst      |  277 ++++++++++++++++++++
+ .../filesystems/xfs-data-structures/overview.rst   |    2 
+ 3 files changed, 340 insertions(+)
+ create mode 100644 Documentation/filesystems/xfs-data-structures/common_types.rst
+ create mode 100644 Documentation/filesystems/xfs-data-structures/magic.rst
 
 
-diff --git a/Documentation/filesystems/xfs-data-structures/overview.rst b/Documentation/filesystems/xfs-data-structures/overview.rst
-index d8d668ec6097..b1b3f711638b 100644
---- a/Documentation/filesystems/xfs-data-structures/overview.rst
-+++ b/Documentation/filesystems/xfs-data-structures/overview.rst
-@@ -46,3 +46,4 @@ latency.
- .. include:: self_describing_metadata.rst
- .. include:: delayed_logging.rst
- .. include:: reflink.rst
-+.. include:: reconstruction.rst
-diff --git a/Documentation/filesystems/xfs-data-structures/reconstruction.rst b/Documentation/filesystems/xfs-data-structures/reconstruction.rst
+diff --git a/Documentation/filesystems/xfs-data-structures/common_types.rst b/Documentation/filesystems/xfs-data-structures/common_types.rst
 new file mode 100644
-index 000000000000..10a7a728c50c
+index 000000000000..63de847924c6
 --- /dev/null
-+++ b/Documentation/filesystems/xfs-data-structures/reconstruction.rst
-@@ -0,0 +1,68 @@
++++ b/Documentation/filesystems/xfs-data-structures/common_types.rst
+@@ -0,0 +1,61 @@
 +.. SPDX-License-Identifier: CC-BY-SA-4.0
 +
-+Metadata Reconstruction
-+-----------------------
++Common XFS Types
++----------------
 +
-+    **Note**
++All the following XFS types can be found in xfs\_types.h. NULL values are
++always -1 on disk (ie. all bits for the value set to one).
 +
-+    This is a theoretical discussion of how reconstruction could work; none of
-+    this is implemented as of 2018.
++**xfs\_ino\_t**
++    Unsigned 64 bit absolute `inode number <#inode-numbers>`__.
 +
-+A simple UNIX filesystem can be thought of in terms of a directed acyclic
-+graph. To a first approximation, there exists a root directory node, which
-+points to other nodes. Those other nodes can themselves be directories or they
-+can be files. Each file, in turn, points to data blocks.
++**xfs\_off\_t**
++    Signed 64 bit file offset.
 +
-+XFS adds a few more details to this picture:
++**xfs\_daddr\_t**
++    Signed 64 bit disk address (sectors).
 +
-+-  The real root(s) of an XFS filesystem are the allocation group headers
-+   (superblock, AGF, AGI, AGFL).
++**xfs\_agnumber\_t**
++    Unsigned 32 bit `AG number <#allocation-groups>`__.
 +
-+-  Each allocation group’s headers point to various per-AG B+trees (free
-+   space, inode, free inodes, free list, etc.)
++**xfs\_agblock\_t**
++    Unsigned 32 bit AG relative block number.
 +
-+-  The free space B+trees point to unused extents;
++**xfs\_extlen\_t**
++    Unsigned 32 bit `extent <#data-extents>`__ length in blocks.
 +
-+-  The inode B+trees point to blocks containing inode chunks;
++**xfs\_extnum\_t**
++    Signed 32 bit number of extents in a data fork.
 +
-+-  All superblocks point to the root directory and the log;
++**xfs\_aextnum\_t**
++    Signed 16 bit number of extents in an attribute fork.
 +
-+-  Hardlinks mean that multiple directories can point to a single file node;
++**xfs\_dablk\_t**
++    Unsigned 32 bit block number for `directories <#directories>`__ and
++    `extended attributes <#extended-attributes>`__.
 +
-+-  File data block pointers are indexed by file offset;
++**xfs\_dahash\_t**
++    Unsigned 32 bit hash of a directory file name or extended attribute name.
 +
-+-  Files and directories can have a second collection of pointers to data
-+   blocks which contain extended attributes;
++**xfs\_fsblock\_t**
++    Unsigned 64 bit filesystem block number combining `AG
++    number <#allocation-groups>`__ and block offset into the AG.
 +
-+-  Large directories require multiple data blocks to store all the
-+   subpointers;
++**xfs\_rfsblock\_t**
++    Unsigned 64 bit raw filesystem block number.
 +
-+-  Still larger directories use high-offset data blocks to store a B+tree of
-+   hashes to directory entries;
++**xfs\_rtblock\_t**
++    Unsigned 64 bit extent number in the `real-time <#real-time-devices>`__
++    sub-volume.
 +
-+-  Large extended attribute forks similarly use high-offset data blocks to
-+   store a B+tree of hashes to attribute keys; and
++**xfs\_fileoff\_t**
++    Unsigned 64 bit block offset into a file.
 +
-+-  Symbolic links can point to data blocks.
++**xfs\_filblks\_t**
++    Unsigned 64 bit block count for a file.
 +
-+The beauty of this massive graph structure is that under normal circumstances,
-+everything known to the filesystem is discoverable (access controls
-+notwithstanding) from the root. The major weakness of this structure of course
-+is that breaking a edge in the graph can render entire subtrees inaccessible.
-+xfs\_repair “recovers” from broken directories by scanning for unlinked inodes
-+and connecting them to /lost+found, but this isn’t sufficiently general to
-+recover from breaks in other parts of the graph structure. Wouldn’t it be
-+useful to have back pointers as a secondary data structure? The current repair
-+strategy is to reconstruct whatever can be rebuilt, but to scrap anything that
-+doesn’t check out.
++**uuid\_t**
++    16-byte universally unique identifier (UUID).
 +
-+The `reverse-mapping B+tree <#reverse-mapping-b-tree>`__ fills in part of the
-+puzzle. Since it contains copies of every entry in each inode’s data and
-+attribute forks, we can fix a corrupted block map with these records.
-+Furthermore, if the inode B+trees become corrupt, it is possible to visit all
-+inode chunks using the reverse-mapping data. Should XFS ever gain the ability
-+to store parent directory information in each inode, it also becomes possible
-+to resurrect damaged directory trees, which should reduce the complaints about
-+inodes ending up in /lost+found. Everything else in the per-AG primary
-+metadata can already be reconstructed via xfs\_repair. Hopefully,
-+reconstruction will not turn out to be a fool’s errand.
++**xfs\_fsize\_t**
++    Signed 64 bit byte size of a file.
+diff --git a/Documentation/filesystems/xfs-data-structures/magic.rst b/Documentation/filesystems/xfs-data-structures/magic.rst
+new file mode 100644
+index 000000000000..f5e57581645d
+--- /dev/null
++++ b/Documentation/filesystems/xfs-data-structures/magic.rst
+@@ -0,0 +1,277 @@
++.. SPDX-License-Identifier: CC-BY-SA-4.0
++
++Magic Numbers
++-------------
++
++These are the magic numbers that are known to XFS, along with links to the
++relevant chapters. Magic numbers tend to have consistent locations:
++
++-  32-bit magic numbers are always at offset zero in the block.
++
++-  16-bit magic numbers for the directory and attribute B+tree are at offset
++   eight.
++
++-  The quota magic number is at offset zero.
++
++-  The inode magic is at the beginning of each inode.
++
++.. list-table::
++   :widths: 28 12 8 34
++   :header-rows: 1
++
++   * - Flag
++     - Hexadecimal
++     - ASCII
++     - Data structure
++   * - XFS_SB_MAGIC
++     - 0x58465342
++     - XFSB
++     - `Superblock <#superblocks>`__
++   * - XFS_AGF_MAGIC
++     - 0x58414746
++     - XAGF
++     - `Free Space <#ag-free-space-block>`__
++   * - XFS_AGI_MAGIC
++     - 0x58414749
++     - XAGI
++     - `Inode Information <#inode-information>`__
++   * - XFS_AGFL_MAGIC
++     - 0x5841464c
++     - XAFL
++     - `Free Space List <#ag-free-list>`__, v5 only
++   * - XFS_DINODE_MAGIC
++     - 0x494e
++     - IN
++     - `Inodes <#inode-core>`__
++   * - XFS_DQUOT_MAGIC
++     - 0x4451
++     - DQ
++     - `Quota Inodes <#quota-inodes>`__
++   * - XFS_SYMLINK_MAGIC
++     - 0x58534c4d
++     - XSLM
++     - `Symbolic Links <#extent-symbolic-links>`__
++   * - XFS_ABTB_MAGIC
++     - 0x41425442
++     - ABTB
++     - `Free Space by Block B+tree <#ag-free-space-b-trees>`__
++   * - XFS_ABTB_CRC_MAGIC
++     - 0x41423342
++     - AB3B
++     - `Free Space by Block B+tree <#ag-free-space-b-trees>`__, v5 only
++   * - XFS_ABTC_MAGIC
++     - 0x41425443
++     - ABTC
++     - `Free Space by Size B+tree <#ag-free-space-b-trees>`__
++   * - XFS_ABTC_CRC_MAGIC
++     - 0x41423343
++     - AB3C
++     - `Free Space by Size B+tree <#ag-free-space-b-trees>`__, v5 only
++   * - XFS_IBT_MAGIC
++     - 0x49414254
++     - IABT
++     - `Inode B+tree <#inode-b-trees>`__
++   * - XFS_IBT_CRC_MAGIC
++     - 0x49414233
++     - IAB3
++     - `Inode B+tree <#inode-b-trees>`__, v5 only
++   * - XFS_FIBT_MAGIC
++     - 0x46494254
++     - FIBT
++     - `Free Inode B+tree <#inode-b-trees>`__
++   * - XFS_FIBT_CRC_MAGIC
++     - 0x46494233
++     - FIB3
++     - `Free Inode B+tree <#inode-b-trees>`__, v5 only
++   * - XFS_BMAP_MAGIC
++     - 0x424d4150
++     - BMAP
++     - `B+Tree Extent List <#b-tree-extent-list>`__
++   * - XFS_BMAP_CRC_MAGIC
++     - 0x424d4133
++     - BMA3
++     - `B+Tree Extent List <#b-tree-extent-list>`__, v5 only
++   * - XLOG_HEADER_MAGIC_NUM
++     - 0xfeedbabe
++     -
++     - `Log Records <#log-records>`__
++   * - XFS_DA_NODE_MAGIC
++     - 0xfebe
++     -
++     - `Directory/Attribute Node <#directory-attribute-internal-node>`__
++   * - XFS_DA3_NODE_MAGIC
++     - 0x3ebe
++     -
++     - `Directory/Attribute Node <#directory-attribute-internal-node>`__, v5 only
++   * - XFS_DIR2_BLOCK_MAGIC
++     - 0x58443242
++     - XD2B
++     - `Block Directory Data <#block-directories>`__
++   * - XFS_DIR3_BLOCK_MAGIC
++     - 0x58444233
++     - XDB3
++     - `Block Directory Data <#block-directories>`__, v5 only
++   * - XFS_DIR2_DATA_MAGIC
++     - 0x58443244
++     - XD2D
++     - `Leaf Directory Data <#leaf-directories>`__
++   * - XFS_DIR3_DATA_MAGIC
++     - 0x58444433
++     - XDD3
++     - `Leaf Directory Data <#leaf-directories>`__, v5 only
++   * - XFS_DIR2_LEAF1_MAGIC
++     - 0xd2f1
++     -
++     - `Leaf Directory <#leaf-directories>`__
++   * - XFS_DIR3_LEAF1_MAGIC
++     - 0x3df1
++     -
++     - `Leaf Directory <#leaf-directories>`__, v5 only
++   * - XFS_DIR2_LEAFN_MAGIC
++     - 0xd2ff
++     -
++     - `Node Directory <#node-directories>`__
++   * - XFS_DIR3_LEAFN_MAGIC
++     - 0x3dff
++     -
++     - `Node Directory <#node-directories>`__, v5 only
++   * - XFS_DIR2_FREE_MAGIC
++     - 0x58443246
++     - XD2F
++     - `Node Directory Free Space <#node-directories>`__
++   * - XFS_DIR3_FREE_MAGIC
++     - 0x58444633
++     - XDF3
++     - `Node Directory Free Space <#node-directories>`__, v5 only
++   * - XFS_ATTR_LEAF_MAGIC
++     - 0xfbee
++     -
++     - `Leaf Attribute <#leaf-attributes>`__
++   * - XFS_ATTR3_LEAF_MAGIC
++     - 0x3bee
++     -
++     - `Leaf Attribute <#leaf-attributes>`__, v5 only
++   * - XFS_ATTR3_RMT_MAGIC
++     - 0x5841524d
++     - XARM
++     - `Remote Attribute Value <#remote-attribute-values>`__, v5 only
++   * - XFS_RMAP_CRC_MAGIC
++     - 0x524d4233
++     - RMB3
++     - `Reverse Mapping B+tree <#reverse-mapping-b-tree>`__, v5 only
++   * - XFS_RTRMAP_CRC_MAGIC
++     - 0x4d415052
++     - MAPR
++     - `Real-Time Reverse Mapping B+tree <#real-time-reverse-mapping-b-tree>`__, v5 only
++   * - XFS_REFC_CRC_MAGIC
++     - 0x52334643
++     - R3FC
++     - `Reference Count B+tree <#reference-count-b-tree>`__, v5 only
++   * - XFS_MD_MAGIC
++     - 0x5846534d
++     - XFSM
++     - `Metadata Dumps <#metadata-dumps>`__
++
++The magic numbers for log items are at offset zero in each log item, but items
++are not aligned to blocks.
++
++.. list-table::
++   :widths: 24 12 8 36
++   :header-rows: 1
++
++   * - Flag
++     - Hexadecimal
++     - ASCII
++     - Data structure
++   * - XFS_TRANS_HEADER_MAGIC
++     - 0x5452414e
++     - TRAN
++     - `Log Transactions <#transaction-headers>`__
++   * - XFS_LI_EFI
++     - 0x1236
++     -
++     - `Extent Freeing Intent Log Item <#intent-to-free-an-extent>`__
++   * - XFS_LI_EFD
++     - 0x1237
++     -
++     - `Extent Freeing Done Log Item <#completion-of-intent-to-free-an-extent>`__
++   * - XFS_LI_IUNLINK
++     - 0x1238
++     -
++     -  Unknown?
++   * - XFS_LI_INODE
++     - 0x123b
++     -
++     - `Inode Updates Log Item <#inode-updates>`__
++   * - XFS_LI_BUF
++     - 0x123c
++     -
++     - `Buffer Writes Log Item <#buffer-log-item>`__
++   * - XFS_LI_DQUOT
++     - 0x123d
++     -
++     - `Update Quota Log Item <#quota-update-data-log-item>`__
++   * - XFS_LI_QUOTAOFF
++     - 0x123e
++     -
++     - `Quota Off Log Item <#disable-quota-log-item>`__
++   * - XFS_LI_ICREATE
++     - 0x123f
++     -
++     - `Inode Creation Log Item <#inode-creation-log-item>`__
++   * - XFS_LI_RUI
++     - 0x1240
++     -
++     - `Reverse Mapping Update Intent <#reverse-mapping-updates-intent>`__
++   * - XFS_LI_RUD
++     - 0x1241
++     -
++     - `Reverse Mapping Update Done <#completion-of-reverse-mapping-updates>`__
++   * - XFS_LI_CUI
++     - 0x1242
++     -
++     - `Reference Count Update Intent <#reference-count-updates-intent>`__
++   * - XFS_LI_CUD
++     - 0x1243
++     -
++     - `Reference Count Update Done <#completion-of-reference-count-updates>`__
++   * - XFS_LI_BUI
++     - 0x1244
++     -
++     - `File Block Mapping Update Intent <#file-block-mapping-intent>`__
++   * - XFS_LI_BUD
++     - 0x1245
++     -
++     - `File Block Mapping Update Done <#completion-of-file-block-mapping-updates>`__
++
++Theoretical Limits
++------------------
++
++XFS can create really big filesystems!
++
+++---------------------+---------------------+---------------------+---------------------+
++| Item                | 1KiB blocks         | 4KiB blocks         | 64KiB blocks        |
+++=====================+=====================+=====================+=====================+
++| Blocks              | 2\ :sup:`52`        | 2\ :sup:`52`        | 2\ :sup:`52`        |
+++---------------------+---------------------+---------------------+---------------------+
++| Inodes              | 2\ :sup:`63`        | 2\ :sup:`63`        | 2\ :sup:`64`        |
+++---------------------+---------------------+---------------------+---------------------+
++| Allocation Groups   | 2\ :sup:`32`        | 2\ :sup:`32`        | 2\ :sup:`32`        |
+++---------------------+---------------------+---------------------+---------------------+
++| File System Size    | 8EiB                | 8EiB                | 8EiB                |
+++---------------------+---------------------+---------------------+---------------------+
++| Blocks per AG       | 2\ :sup:`31`        | 2\ :sup:`31`        | 2\ :sup:`31`        |
+++---------------------+---------------------+---------------------+---------------------+
++| Inodes per AG       | 2\ :sup:`32`        | 2\ :sup:`32`        | 2\ :sup:`32`        |
+++---------------------+---------------------+---------------------+---------------------+
++| Max AG Size         | 2TiB                | 8TiB                | 128TiB              |
+++---------------------+---------------------+---------------------+---------------------+
++| Blocks Per File     | 2\ :sup:`54`        | 2\ :sup:`54`        | 2\ :sup:`54`        |
+++---------------------+---------------------+---------------------+---------------------+
++| File Size           | 8EiB                | 8EiB                | 8EiB                |
+++---------------------+---------------------+---------------------+---------------------+
++| Max Dir Size        | 32GiB               | 32GiB               | 32GiB               |
+++---------------------+---------------------+---------------------+---------------------+
++
++Linux doesn’t suppport files or devices larger than 8EiB, so the block
++limitations are largely ignorable.
+diff --git a/Documentation/filesystems/xfs-data-structures/overview.rst b/Documentation/filesystems/xfs-data-structures/overview.rst
+index b1b3f711638b..23eb71d65c93 100644
+--- a/Documentation/filesystems/xfs-data-structures/overview.rst
++++ b/Documentation/filesystems/xfs-data-structures/overview.rst
+@@ -47,3 +47,5 @@ latency.
+ .. include:: delayed_logging.rst
+ .. include:: reflink.rst
+ .. include:: reconstruction.rst
++.. include:: common_types.rst
++.. include:: magic.rst
 
