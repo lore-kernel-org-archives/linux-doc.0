@@ -5,28 +5,28 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5E487D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 15:42:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D64F7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 15:54:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727588AbeJDWft (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 18:35:49 -0400
-Received: from mga05.intel.com ([192.55.52.43]:45890 "EHLO mga05.intel.com"
+        id S1727535AbeJDWrx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 18:47:53 -0400
+Received: from mga17.intel.com ([192.55.52.151]:36594 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727537AbeJDWft (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Oct 2018 18:35:49 -0400
+        id S1727369AbeJDWrx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Oct 2018 18:47:53 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2018 08:41:59 -0700
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2018 08:54:01 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,340,1534834800"; 
-   d="scan'208";a="78717399"
+   d="scan'208";a="79879490"
 Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by orsmga008.jf.intel.com with ESMTP; 04 Oct 2018 08:41:58 -0700
-Message-ID: <3350f7b42b32f3f7a1963a9c9c526210c24f7b05.camel@intel.com>
-Subject: Re: [RFC PATCH v4 6/9] x86/cet/ibt: Add arch_prctl functions for IBT
+  by orsmga006.jf.intel.com with ESMTP; 04 Oct 2018 08:52:16 -0700
+Message-ID: <beb7872250b61e42c0069a4aab710b31f804d72c.camel@intel.com>
+Subject: Re: [RFC PATCH v4 03/27] x86/fpu/xstate: Enable XSAVES system states
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Eugene Syromiatnikov <esyr@redhat.com>
+To:     Borislav Petkov <bp@alien8.de>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -48,11 +48,11 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Thu, 04 Oct 2018 08:37:16 -0700
-In-Reply-To: <20181004132811.GJ32759@asgard.redhat.com>
-References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
-         <20180921150553.21016-7-yu-cheng.yu@intel.com>
-         <20181004132811.GJ32759@asgard.redhat.com>
+Date:   Thu, 04 Oct 2018 08:47:35 -0700
+In-Reply-To: <20181002171554.GE29601@zn.tnic>
+References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
+         <20180921150351.20898-4-yu-cheng.yu@intel.com>
+         <20181002171554.GE29601@zn.tnic>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
@@ -62,148 +62,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-10-04 at 15:28 +0200, Eugene Syromiatnikov wrote:
-> On Fri, Sep 21, 2018 at 08:05:50AM -0700, Yu-cheng Yu wrote:
-> > Update ARCH_CET_STATUS and ARCH_CET_DISABLE to include Indirect
-> > Branch Tracking features.
+On Tue, 2018-10-02 at 19:15 +0200, Borislav Petkov wrote:
+> On Fri, Sep 21, 2018 at 08:03:27AM -0700, Yu-cheng Yu wrote:
 > > 
-> > Introduce:
-> > 
-> > arch_prctl(ARCH_CET_LEGACY_BITMAP, unsigned long *addr)
-> >     Enable the Indirect Branch Tracking legacy code bitmap.
-> > 
-> >     The parameter 'addr' is a pointer to a user buffer.
-> >     On returning to the caller, the kernel fills the following:
-> > 
-> >     *addr = IBT bitmap base address
-> >     *(addr + 1) = IBT bitmap size
-> 
-> Again, some structure with a size field would be better from
-> UAPI/extensibility standpoint.
-> 
-> One additional point: "size" in the structure from kernel should have
-> structure size expected by kernel, and at least providing there "0" from
-> user space shouldn't lead to failure (in fact, it is possible to provide
-> structure size back to userspace even if buffer is too small, along
-> with error).
-
-This has been in GLIBC v2.28.  We cannot change it anymore.
-
-> 
-> > 
-> > Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > ---
-> >  arch/x86/include/uapi/asm/prctl.h |  1 +
-> >  arch/x86/kernel/cet_prctl.c       | 38 ++++++++++++++++++++++++++++++-
-> >  arch/x86/kernel/process.c         |  1 +
-> >  3 files changed, 39 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/arch/x86/include/uapi/asm/prctl.h
-> > b/arch/x86/include/uapi/asm/prctl.h
-> > index 3aec1088e01d..31d2465f9caf 100644
-> > --- a/arch/x86/include/uapi/asm/prctl.h
-> > +++ b/arch/x86/include/uapi/asm/prctl.h
-> > @@ -18,5 +18,6 @@
-> >  #define ARCH_CET_DISABLE	0x3002
-> >  #define ARCH_CET_LOCK		0x3003
-> >  #define ARCH_CET_ALLOC_SHSTK	0x3004
-> > +#define ARCH_CET_LEGACY_BITMAP	0x3005
-> 
-> It would probably be nice to have mention of an architecture in these
-> definitions ("ARCH_X86_CET_"...), but it's likely too late.
-
-We can still change macro names.  I will work on that.
-
-> 
+> > diff --git a/arch/x86/include/asm/fpu/xstate.h
+> > b/arch/x86/include/asm/fpu/xstate.h
+> > index 9b382e5157ed..a32dc5f8c963 100644
+> > --- a/arch/x86/include/asm/fpu/xstate.h
+> > +++ b/arch/x86/include/asm/fpu/xstate.h
+> > @@ -19,10 +19,10 @@
+> >  #define XSAVE_YMM_SIZE	    256
+> >  #define XSAVE_YMM_OFFSET    (XSAVE_HDR_SIZE + XSAVE_HDR_OFFSET)
 > >  
-> >  #endif /* _ASM_X86_PRCTL_H */
-> > diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
-> > index c4b7c19f5040..df47b5ebc3f4 100644
-> > --- a/arch/x86/kernel/cet_prctl.c
-> > +++ b/arch/x86/kernel/cet_prctl.c
-> > @@ -20,6 +20,8 @@ static int handle_get_status(unsigned long arg2)
-> >  
-> >  	if (current->thread.cet.shstk_enabled)
-> >  		features |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
-> > +	if (current->thread.cet.ibt_enabled)
-> > +		features |= GNU_PROPERTY_X86_FEATURE_1_IBT;
-> >  
-> >  	shstk_base = current->thread.cet.shstk_base;
-> >  	shstk_size = current->thread.cet.shstk_size;
-> > @@ -49,9 +51,35 @@ static int handle_alloc_shstk(unsigned long arg2)
-> >  	return 0;
-> >  }
-> >  
-> > +static int handle_bitmap(unsigned long arg2)
-> > +{
-> > +	unsigned long addr, size;
-> > +
-> > +	if (current->thread.cet.ibt_enabled) {
-> > +		int err;
-> > +
-> > +		err  = cet_setup_ibt_bitmap();
-> > +		if (err)
-> > +			return err;
-> > +
-> > +		addr = current->thread.cet.ibt_bitmap_addr;
-> > +		size = current->thread.cet.ibt_bitmap_size;
-> > +	} else {
-> > +		addr = 0;
-> > +		size = 0;
-> > +	}
-> > +
-> > +	if (put_user(addr, (unsigned long __user *)arg2) ||
-> > +	    put_user(size, (unsigned long __user *)arg2 + 1))
-> > +		return -EFAULT;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  int prctl_cet(int option, unsigned long arg2)
-> >  {
-> > -	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> > +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
-> > +	    !cpu_feature_enabled(X86_FEATURE_IBT))
+> > -/* System features */
+> > -#define XFEATURE_MASK_SYSTEM (XFEATURE_MASK_PT)
 > 
-> This check is repeated many times, it is probably worth defining
-> something like cpu_x86_cet_enabled() or something like that.
-> Besides, early introduction of the macro would allow avoiding all these
-> changes over the code in IBT patches, only macro definition has
-> to be changed that way.
-
-Yes, that makes things easier.
-
+> Previous patch renames it, this patch deletes it. Why do we need all
+> that unnecessary churn?
 > 
-> > @@ -73,6 +103,12 @@ int prctl_cet(int option, unsigned long arg2)
-> >  	case ARCH_CET_ALLOC_SHSTK:
-> >  		return handle_alloc_shstk(arg2);
+> Also, this patch is trying to do a couple of things at once and
+> reviewing it is not trivial. Please split the changes logically.
+
+Yes, if we leave XFEATURE_MASK_SUPERVISOR unchanged in the previous patch, this
+patch becomes much simpler.  Perhaps we don't even need to split this one.
+
+> > diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+> > index 19f8df54c72a..dd2c561c4544 100644
+> > --- a/arch/x86/kernel/fpu/xstate.c
+> > +++ b/arch/x86/kernel/fpu/xstate.c
+> > @@ -51,13 +51,16 @@ static short xsave_cpuid_features[] __initdata = {
+> >  };
 > >  
-> > +	/*
-> > +	 * Allocate legacy bitmap and return address & size to user.
-> > +	 */
-> > +	case ARCH_CET_LEGACY_BITMAP:
-> > +		return handle_bitmap(arg2);
-> > +
-> >  	default:
-> >  		return -EINVAL;
-> >  	}
-> > diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-> > index ac0ea9c7e89f..aea15a9b6a3e 100644
-> > --- a/arch/x86/kernel/process.c
-> > +++ b/arch/x86/kernel/process.c
-> > @@ -797,6 +797,7 @@ long do_arch_prctl_common(struct task_struct *task, int
-> > option,
-> >  	case ARCH_CET_DISABLE:
-> >  	case ARCH_CET_LOCK:
-> >  	case ARCH_CET_ALLOC_SHSTK:
-> > +	case ARCH_CET_LEGACY_BITMAP:
-> >  		return prctl_cet(option, cpuid_enabled);
-> >  	}
+> >  /*
+> > - * Mask of xstate features supported by the CPU and the kernel:
+> > + * Mask of xstate features supported by the CPU and the kernel.
+> > + * This is the result from CPUID query, SUPPORTED_XFEATURES_MASK,
+> > + * and boot_cpu_has().
+> >   */
 > 
-> I wonder, whether this duplication is really needed for CET-related
-> arch_prctl commands, why not just call them from do_arch_prctl_common?
+> This needs to explain what both masks are - user and system. "CPU" and
+> "kernel" is not "user" and "all".
+> 
+> >  u64 xfeatures_mask_user __read_mostly;
+> > +u64 xfeatures_mask_all __read_mostly;
 
-I will fix it.
+The first one is all supported "user" states; the latter is "system" and "user"
+states combined.  I will put in comments.
 
 Yu-cheng
