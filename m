@@ -6,57 +6,57 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7F897D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 04:20:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1951E7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Oct 2018 04:21:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727279AbeJDLMG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Oct 2018 07:12:06 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:33016 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726813AbeJDLMG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 07:12:06 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w944J0pF134905;
-        Thu, 4 Oct 2018 04:20:45 GMT
+        id S1727283AbeJDLMT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Oct 2018 07:12:19 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:51756 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726813AbeJDLMS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Oct 2018 07:12:18 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w944ItHD152897;
+        Thu, 4 Oct 2018 04:20:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
  cc : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=LR0OvzpXAaE6NyEiy1OIW5jcmwu3hJAat3xihHoK70c=;
- b=Lffhzp4nAd93ohABC5t9jI2Uy692EVRQqVtf7rkd+leBG6feZQ8FNL284u9JL/3MuqCB
- HZjjbMBVD3ThCDbN2XIt3SpbU2gjnfn8axM6wKscalxc7je3WgSu2ORGcLx5OpqvTt8n
- FdGR1MFHVucEQhd/i7Z/v7cYnNX+HgiRLLPNzBBJ9/IXmlB6qZML1v45dS5/Sx4VM4YT
- Dh5H/sm6F16sP4M8V28Muw+Ju4aZzMbIO4Mm0wGXFkmztBkLFjkKgCVbuITZjSP7aWJQ
- 7/uXa4bBITLNoQPKRNYvVv49g+n5jXI8ccTUQwise0LYHcQmCXT85/gPVMi88Y6FfeWK ow== 
-Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
-        by userp2130.oracle.com with ESMTP id 2mt0tu1myb-1
+ bh=VCmQ3QYfKQfLRsSF9RtFUKaTIZ3T586jYcJ64KsNQyo=;
+ b=j8lyry0mwczcFkHXu73dKjEQOV+dY+805qkoVbpefzwNzrgNCsgwAvNxqBZc3BBp1iNA
+ tjZpFVWcG+YcJ00Lv16ugTm0P/TcTZpkuqiY63q8q3ywQV8qqczmjy2RFJJe/DC4QkcR
+ mK+KmVYqypdGnnENADW6KwJV89V4f6qdJkV3QoQ6pH3xOcoKu/w060Eyb3V0cXfNihQE
+ lA2+meodDAvmAkJMlzHBNE7pCs4hxlaRFuE6Pl/RxAPtiyXG8ya222d5HZlWtSRrnz1p
+ cdx+Xd6zf9pfmfy3Sz19cxxqcjVcfd5lRdDJafXkIpfXpTEiPXpts7lkFKsKCix/6zhp Ew== 
+Received: from userv0021.oracle.com (userv0021.oracle.com [156.151.31.71])
+        by aserp2120.oracle.com with ESMTP id 2mt1bq9kwf-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 04 Oct 2018 04:20:45 +0000
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w944KjtY003348
+        Thu, 04 Oct 2018 04:20:57 +0000
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w944KpbK009632
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 4 Oct 2018 04:20:45 GMT
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w944Kit7027762;
-        Thu, 4 Oct 2018 04:20:44 GMT
+        Thu, 4 Oct 2018 04:20:51 GMT
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w944Kp1t030089;
+        Thu, 4 Oct 2018 04:20:51 GMT
 Received: from localhost (/10.159.235.87)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 04 Oct 2018 04:20:44 +0000
-Subject: [PATCH 21/22] docs: add XFS symlink structures to the DS&A book
+        with ESMTP ; Thu, 04 Oct 2018 04:20:51 +0000
+Subject: [PATCH 22/22] docs: add XFS metadump structure to DS&A book
 From:   "Darrick J. Wong" <darrick.wong@oracle.com>
 To:     darrick.wong@oracle.com
 Cc:     linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
         corbet@lwn.net
-Date:   Wed, 03 Oct 2018 21:20:37 -0700
-Message-ID: <153862683795.26427.2587274780036422993.stgit@magnolia>
+Date:   Wed, 03 Oct 2018 21:20:49 -0700
+Message-ID: <153862684984.26427.12441242440283590000.stgit@magnolia>
 In-Reply-To: <153862669110.26427.16504658853992750743.stgit@magnolia>
 References: <153862669110.26427.16504658853992750743.stgit@magnolia>
 User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9035 signatures=668707
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=813
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1807170000 definitions=main-1810040044
 Sender: linux-doc-owner@vger.kernel.org
@@ -68,165 +68,98 @@ From: Darrick J. Wong <darrick.wong@oracle.com>
 
 Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
 ---
- .../filesystems/xfs-data-structures/dynamic.rst    |    1 
- .../xfs-data-structures/symbolic_links.rst         |  140 ++++++++++++++++++++
- 2 files changed, 141 insertions(+)
- create mode 100644 Documentation/filesystems/xfs-data-structures/symbolic_links.rst
+ .../filesystems/xfs-data-structures/auxiliary.rst  |    2 +
+ .../filesystems/xfs-data-structures/metadump.rst   |   72 ++++++++++++++++++++
+ 2 files changed, 74 insertions(+)
+ create mode 100644 Documentation/filesystems/xfs-data-structures/metadump.rst
 
 
-diff --git a/Documentation/filesystems/xfs-data-structures/dynamic.rst b/Documentation/filesystems/xfs-data-structures/dynamic.rst
-index 16755381d0f8..68837d0f477e 100644
---- a/Documentation/filesystems/xfs-data-structures/dynamic.rst
-+++ b/Documentation/filesystems/xfs-data-structures/dynamic.rst
-@@ -7,3 +7,4 @@ Dynamic Allocated Structures
- .. include:: data_extents.rst
- .. include:: directories.rst
- .. include:: extended_attributes.rst
-+.. include:: symbolic_links.rst
-diff --git a/Documentation/filesystems/xfs-data-structures/symbolic_links.rst b/Documentation/filesystems/xfs-data-structures/symbolic_links.rst
+diff --git a/Documentation/filesystems/xfs-data-structures/auxiliary.rst b/Documentation/filesystems/xfs-data-structures/auxiliary.rst
+index d2fd2f88ad0e..7ed970f0bc28 100644
+--- a/Documentation/filesystems/xfs-data-structures/auxiliary.rst
++++ b/Documentation/filesystems/xfs-data-structures/auxiliary.rst
+@@ -2,3 +2,5 @@
+ 
+ Auxiliary Data Structures
+ =========================
++
++.. include:: metadump.rst
+diff --git a/Documentation/filesystems/xfs-data-structures/metadump.rst b/Documentation/filesystems/xfs-data-structures/metadump.rst
 new file mode 100644
-index 000000000000..9206fd44b108
+index 000000000000..51bc966c1f76
 --- /dev/null
-+++ b/Documentation/filesystems/xfs-data-structures/symbolic_links.rst
-@@ -0,0 +1,140 @@
++++ b/Documentation/filesystems/xfs-data-structures/metadump.rst
+@@ -0,0 +1,72 @@
 +.. SPDX-License-Identifier: CC-BY-SA-4.0
 +
-+Symbolic Links
++Metadata Dumps
 +--------------
 +
-+Symbolic links to a file can be stored in one of two formats: "local" and
-+"extents". The length of the symlink contents is always specified by the
-+inode’s di\_size value.
++The xfs\_metadump and xfs\_mdrestore tools are used to create a sparse
++snapshot of a live file system and to restore that snapshot onto a block
++device for debugging purposes. Only the metadata are captured in the snapshot,
++and the metadata blocks may be obscured for privacy reasons.
 +
-+Short Form Symbolic Links
-+~~~~~~~~~~~~~~~~~~~~~~~~~
++A metadump file starts with a xfs\_metablock that records the addresses of the
++blocks that follow. Following that are the metadata blocks captured from the
++filesystem. The first block following the first superblock must be the
++superblock from AG 0. If the metadump has more blocks than can be pointed to
++by the xfs\_metablock.mb\_daddr area, the sequence of xfs\_metablock followed
++by metadata blocks is repeated.
 +
-+Symbolic links are stored with the "local" di\_format if the symbolic link
-+can fit within the inode’s data fork. The link data is an array of characters
-+(di\_symlink array in the data fork union).
-+
-+.. figure:: images/61.png
-+   :alt: Symbolic link short form layout
-+
-+   Symbolic link short form layout
-+
-+xfs\_db Short Form Symbolic Link Example
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+A short symbolic link to a file is created:
-+
-+::
-+
-+    xfs_db> inode <inode#>
-+    xfs_db> p
-+    core.magic = 0x494e
-+    core.mode = 0120777
-+    core.version = 1
-+    core.format = 1 (local)
-+    ...
-+    core.size = 12
-+    core.nblocks = 0
-+    core.extsize = 0
-+    core.nextents = 0
-+    ...
-+    u.symlink = "small_target"
-+
-+Raw on-disk data with the link contents highlighted:
-+
-+::
-+
-+    xfs_db> type text
-+    xfs_db> p
-+    00: 49 4e a1 ff 01 01 00 01 00 00 00 00 00 00 00 00 IN..............
-+    10: 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 01 ................
-+    20: 44 be e1 c7 03 c4 d4 18 44 be el c7 03 c4 d4 18 D.......D.......
-+    30: 44 be e1 c7 03 c4 d4 18 00 00 00 00 00 00 00 Oc D...............
-+    40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
-+    50: 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 ................
-+    60: ff ff ff ff 73 6d 61 6c 6c 5f 74 61 72 67 65 74 ....small.target
-+    70: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
-+
-+Extent Symbolic Links
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+If the length of the symbolic link exceeds the space available in the inode’s
-+data fork, the link is moved to a new filesystem block and the inode’s
-+di\_format is changed to "extents". The location of the block(s) is
-+specified by the data fork’s di\_bmx[] array. In the significant majority of
-+cases, this will be in one filesystem block as a symlink cannot be longer than
-+1024 characters.
-+
-+On a v5 filesystem, the first block of each extent starts with the following
-+header structure:
++**Metadata Dump Format.**
 +
 +.. code:: c
 +
-+    struct xfs_dsymlink_hdr {
-+         __be32                    sl_magic;
-+         __be32                    sl_offset;
-+         __be32                    sl_bytes;
-+         __be32                    sl_crc;
-+         uuid_t                    sl_uuid;
-+         __be64                    sl_owner;
-+         __be64                    sl_blkno;
-+         __be64                    sl_lsn;
++    struct xfs_metablock {
++        __be32      mb_magic;
++        __be16      mb_count;
++        uint8_t     mb_blocklog;
++        uint8_t     mb_reserved;
++        __be64      mb_daddr[];
 +    };
 +
-+**sl\_magic**
-+    Specifies the magic number for the symlink block: "XSLM" (0x58534c4d).
++**mb\_magic**
++    The magic number, "XFSM" (0x5846534d).
 +
-+**sl\_offset**
-+    Offset of the symbolic link target data, in bytes.
++**mb\_count**
++    Number of blocks indexed by this record. This value must not exceed (1 <<
++    mb\_blocklog) - sizeof(struct xfs\_metablock).
 +
-+**sl\_bytes**
-+    Number of bytes used to contain the link target data.
++**mb\_blocklog**
++    The log size of a metadump block. This size of a metadump block 512 bytes,
++    so this value should be 9.
 +
-+**sl\_crc**
-+    Checksum of the symlink block.
++**mb\_reserved**
++    Reserved. Should be zero.
 +
-+**sl\_uuid**
-+    The UUID of this block, which must match either sb\_uuid or sb\_meta\_uuid
-+    depending on which features are set.
++**mb\_daddr**
++    An array of disk addresses. Each of the mb\_count blocks (of size (1 <<
++    mb\_blocklog) following the xfs\_metablock should be written back to the
++    address pointed to by the corresponding mb\_daddr entry.
 +
-+**sl\_owner**
-+    The inode number that this symlink block belongs to.
++Dump Obfuscation
++~~~~~~~~~~~~~~~~
 +
-+**sl\_blkno**
-+    Disk block number of this symlink.
++Unless explicitly disabled, the xfs\_metadump tool obfuscates empty block
++space and naming information to avoid leaking sensitive information into the
++metadump file. xfs\_metadump does not copy user data blocks.
 +
-+**sl\_lsn**
-+    Log sequence number of the last write to this block.
++The obfuscation policy is as follows:
 +
-+Filesystems formatted prior to v5 do not have this header in the remote block.
-+Symlink data begins immediately at offset zero.
++-  File and extended attribute names are both considered "names".
 +
-+.. figure:: images/62.png
-+   :alt: Symbolic link extent layout
++-  Names longer than 8 characters are totally rewritten with a name that
++   matches the hash of the old name.
 +
-+   Symbolic link extent layout
++-  Names between 5 and 8 characters are partially rewritten to match the hash
++   of the old name.
 +
-+xfs\_db Symbolic Link Extent Example
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++-  Names shorter than 5 characters are not obscured at all.
 +
-+A longer link is created (greater than 156 bytes):
++-  Names that cross a block boundary are not obscured at all.
 +
-+::
++-  Extended attribute values are zeroed.
 +
-+    xfs_db> inode <inode#>
-+    xfs_db> p
-+    core.magic = 0x494e
-+    core.mode = 0120777
-+    core.version = 1
-+    core.format = 2 (extents)
-+    ...
-+    core.size = 182
-+    core.nblocks = 1
-+    core.extsize = 0
-+    core.nextents = 1
-+    ...
-+    u.bmx[0] = [startoff,startblock,blockcount,extentflag] 0:[0,37530,1,0]
-+    xfs_db> dblock 0
-+    xfs_db> type symlink
-+    xfs_db> p
-+    "symlink contents..."
++-  Empty parts of metadata blocks are zeroed.
 
