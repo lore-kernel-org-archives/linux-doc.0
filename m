@@ -1,148 +1,246 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 31EE87D08E
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 16:35:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2129E7D92B
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 17:02:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727941AbeJEXfC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Oct 2018 19:35:02 -0400
-Received: from mail-yb1-f196.google.com ([209.85.219.196]:37762 "EHLO
-        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727798AbeJEXfB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Oct 2018 19:35:01 -0400
-Received: by mail-yb1-f196.google.com with SMTP id h1-v6so5672277ybm.4
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 09:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=4vcOWcGFWjgwlB0xk/o4LvAQ9uGCBIWBW8bUlhArKxU=;
-        b=iYl9ls4DIMiAVy/svw/tu2nJffUBabsYRHkJjIKrCmMrnkikCXUQ6h7qei1J04PiMm
-         OIDae3hqgGHc824Fhj41m83Qg58istTGaywFs254LeSNbMmatmF4uYFTzCXBGgQuaPem
-         jh4hDDV64YjLpVcPdy+/j8DAzS5xJmlJ1Rj9o=
+        id S1729028AbeJEX6f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Oct 2018 19:58:35 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:45292 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729025AbeJEX6e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Oct 2018 19:58:34 -0400
+Received: by mail-ot1-f65.google.com with SMTP id u22so13319911ota.12;
+        Fri, 05 Oct 2018 09:59:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=4vcOWcGFWjgwlB0xk/o4LvAQ9uGCBIWBW8bUlhArKxU=;
-        b=Mj7TJ1AEsZ/yW0KwAcUSK6UfmkDcxeeFCq2GpueBKUBtvewc2EsfyEuuSvCzNVg1sr
-         JBnE8BST0j/qA44muNN9xtmzsmcM5nJzUIIPRzjglIxd8A2qv45tbMFb88wCP4rpPnbT
-         t+E7GYreloQlEwLvKEsO6EsRP61VDeoGrcZqE+zwM4YLkHoDzeMeynKUMtjctZ73OBJA
-         knnb95amf11yJrz41YZF9Oj25/r7QP7unneC0ldHaHJ8Fv/WLKHjRcx+013re/6SKDuP
-         e3EGJaS3fWlW33ke4DnNl6W5HuXYWB/9ON8h8bguFIjA1V1BMFzMX20SjbGPF03jgs5z
-         atDQ==
-X-Gm-Message-State: ABuFfogDxb2ZeJta8S1jcajmjPGlqiTIcmOE41SzFmv18PCwFnFBXxFX
-        xakrN4ljY09xTYwUvZTYVX6AY+dIHuI=
-X-Google-Smtp-Source: ACcGV60Nrg16+3muZ8ZUgrT8sK+SiXSic8oFLC3q0yDe1Hu+c2z2wOIw0qqxzlZ88QbwOBg9nJKbQw==
-X-Received: by 2002:a25:274a:: with SMTP id n71-v6mr7060873ybn.52.1538757331742;
-        Fri, 05 Oct 2018 09:35:31 -0700 (PDT)
-Received: from mail-yw1-f54.google.com (mail-yw1-f54.google.com. [209.85.161.54])
-        by smtp.gmail.com with ESMTPSA id r5-v6sm7887069ywr.80.2018.10.05.09.35.29
-        for <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=XljLqX9eXIuRQosUM4KeYlmmSjpyha1rYixAv1GAi7w=;
+        b=r24DWzeFYwRTkESPr88ylKRYmTGpJTkBPL35QWTykWQDw9ilqw0V0r7BzXfZUM/jme
+         l5kSxbTocGyIIHzC+jK2ZD0j8aPcFmcFOEVRkBK2tj8itRAYwbMDsGjo4+DU2/PNcXQh
+         XSVB/rjyfTCmUbEmidJwoTv+F9+5Eyzk0JvICBCpXOc0w/LTbTZGTe7jFauKT5E/ab3n
+         UZMQ8wNtrTh+cdP4QgbNrXOhgJ2GC+a+Z9ztS1eKuGoA6kPXBAjC8jZEH7bxtrs8qviF
+         Fvk191YSdQD+AJTy0JDaSw3jf+H/2yU1Ht5yrkWK+ul2U7d2IQMiMoLxNQK9nTSkrqQw
+         2wpQ==
+X-Gm-Message-State: ABuFfoggLUTFaVSX2TkBcN7u4uJm6MtS+ORDawDOSDveJOIdRAvi8U0o
+        9LHBkpRC4Tzb5PomfIDELjqPzAvJDQ==
+X-Google-Smtp-Source: ACcGV619SNVK+McwRQAIJpBNhGG+LnSTDITEyXhEpl8W0rExapKdpQmE6EXbIfVvP/irfgPNq/nECA==
+X-Received: by 2002:a9d:308d:: with SMTP id s13mr7263505otc.359.1538758739965;
+        Fri, 05 Oct 2018 09:58:59 -0700 (PDT)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.googlemail.com with ESMTPSA id u63-v6sm2904328ota.75.2018.10.05.09.58.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Oct 2018 09:35:30 -0700 (PDT)
-Received: by mail-yw1-f54.google.com with SMTP id v198-v6so5469947ywg.12
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 09:35:29 -0700 (PDT)
-X-Received: by 2002:a81:98cb:: with SMTP id p194-v6mr6744281ywg.353.1538757329237;
- Fri, 05 Oct 2018 09:35:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Fri, 5 Oct 2018 09:35:27 -0700 (PDT)
-In-Reply-To: <alpine.LRH.2.21.1810051449110.2590@namei.org>
-References: <20181002005505.6112-1-keescook@chromium.org> <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com>
- <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
- <alpine.LRH.2.21.1810030758460.23596@namei.org> <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com>
- <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com> <alpine.LRH.2.21.1810040416500.13517@namei.org>
- <CAGXu5j+oPR58oJ06-n7e96-Rmu+ywTW0hud5LhOZ_3UXG5s12w@mail.gmail.com>
- <alpine.LRH.2.21.1810040427550.13517@namei.org> <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com>
- <alpine.LRH.2.21.1810040723320.16168@namei.org> <CAGXu5jJDBhFrdCBHH4MZVDmG88mMxSaSx0w9anCcyx24YHLO5w@mail.gmail.com>
- <alpine.LRH.2.21.1810050338470.14095@namei.org> <CAGXu5j+3HqqBa_ogQqGJYubeZr9uCrbKzEoKO3Or=71e4c_=Gw@mail.gmail.com>
- <alpine.LRH.2.21.1810051449110.2590@namei.org>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Fri, 5 Oct 2018 09:35:27 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jKrOWnrmEfpzH3ay2uQBsP1nmpgceWLsGRsEzZ0n4dLvw@mail.gmail.com>
-Message-ID: <CAGXu5jKrOWnrmEfpzH3ay2uQBsP1nmpgceWLsGRsEzZ0n4dLvw@mail.gmail.com>
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-To:     James Morris <jmorris@namei.org>
-Cc:     John Johansen <john.johansen@canonical.com>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
+        Fri, 05 Oct 2018 09:58:59 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
+Cc:     Grant Likely <glikely@secretlab.ca>,
+        Kumar Gala <kumar.gala@linaro.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>,
+        Mark Brown <broonie@kernel.org>, Tom Rini <trini@konsulko.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH 07/36] kbuild: Add support for DT binding schema checks
+Date:   Fri,  5 Oct 2018 11:58:19 -0500
+Message-Id: <20181005165848.3474-8-robh@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20181005165848.3474-1-robh@kernel.org>
+References: <20181005165848.3474-1-robh@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 4, 2018 at 9:58 PM, James Morris <jmorris@namei.org> wrote:
-> On Thu, 4 Oct 2018, Kees Cook wrote:
->
->> On Thu, Oct 4, 2018 at 10:49 AM, James Morris <jmorris@namei.org> wrote:
->> > On Wed, 3 Oct 2018, Kees Cook wrote:
->> >> Then someone boots the system with:
->> >>
->> >> selinux=1 security=selinux
->> >>
->> >> In what order does selinux get initialized relative to yama?
->> >> (apparmor, flagged as a "legacy major", would have been disabled by
->> >> the "security=" not matching it.)
->> >
->> > It doesn't, it needs to be specified in one place.
->> >
->> > Distros will need to update boot parameter handling for this kernel
->> > onwards.  Otherwise, we will need to carry this confusing mess forward
->> > forever.
->>
->> Are you saying that you want to overrule Paul and Stephen about
->> keeping "selinux=1 secuiryt=selinux" working?
->
-> Not overrule, but convince.
->
-> At least, deprecate selinux=1 and security=X, but not extend it any
-> further.
+This adds the build infrastructure for checking DT binding schema
+documents and validating dts files using the binding schema.
 
-Okay, this is the expectation from me as well. I think my series makes
-it work as-is with the new stuff just fine.
+Check DT binding schema documents:
+make dt_binding_check
 
->> > In my most recent suggestion, there is no '!' disablement, just
->> > enablement.  If an LSM is not listed in CONFIG_LSM="", it's not enabled.
->>
->> And a user would need to specify ALL lsms on the "lsm=" line?
->>
->
-> Yes, the ones they want enabled.
->
->> What do you think of my latest proposal? It could happily work all
->> three ways: old boot params and security= work ("selinux=1
->> security=selinux" keeps working), individual LSM enable/disable works
->> ("lsm=+loadpin"), and full LSM ordering works
->> ("lsm=each,lsm,in,order,here"):
->>
->> https://lore.kernel.org/lkml/CAGXu5jJJit8bDNvgXaFkuvFPy7NWtJW2oRWFbG-6iWk0+A1qng@mail.gmail.com/
->>
->
-> I think having something like +yama will still lead to confusion.
-> Explicitly stating each enabled LSM in order is totally unambiguous.
->
-> If people are moving away from the distro defaults, and there is no
-> high-level interface to manage this, it seems to me there's a deeper
-> issue with the distro.
+Build dts files and check using DT binding schema:
+make dtbs_check
 
-Okay. I will adjust the series and send a v5.
+Currently, the validation targets are separate from a normal build to
+avoid a hard dependency on the external DT schema project and because
+there are lots of warnings generated.
 
--Kees
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: linux-doc@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .gitignore                                   |  1 +
+ Documentation/Makefile                       |  2 +-
+ Documentation/devicetree/bindings/.gitignore |  2 ++
+ Documentation/devicetree/bindings/Makefile   | 30 ++++++++++++++++++++
+ Makefile                                     |  8 +++++-
+ scripts/Makefile.lib                         | 24 ++++++++++++++--
+ 6 files changed, 63 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/.gitignore
+ create mode 100644 Documentation/devicetree/bindings/Makefile
 
+diff --git a/.gitignore b/.gitignore
+index 97ba6b79834c..a20ac26aa2f5 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -15,6 +15,7 @@
+ *.bin
+ *.bz2
+ *.c.[012]*.*
++*.dt.yaml
+ *.dtb
+ *.dtb.S
+ *.dwo
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 2ca77ad0f238..9786957c6a35 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -2,7 +2,7 @@
+ # Makefile for Sphinx documentation
+ #
+ 
+-subdir-y :=
++subdir-y := devicetree/bindings/
+ 
+ # You can set these variables from the command line.
+ SPHINXBUILD   = sphinx-build
+diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
+new file mode 100644
+index 000000000000..7e47316f1d7a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/.gitignore
+@@ -0,0 +1,2 @@
++*.example.dts
++*.yaml.tmp
+diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
+new file mode 100644
+index 000000000000..b57f0dec3fab
+--- /dev/null
++++ b/Documentation/devicetree/bindings/Makefile
+@@ -0,0 +1,30 @@
++# SPDX-License-Identifier: GPL-2.0
++DT_DOC_CHECKER ?= dt-doc-validate
++DT_EXTRACT_EX ?= dt-extract-example
++
++quiet_cmd_chk_binding = CHKDT   $<
++      cmd_chk_binding = (set -e; \
++                         $(DT_DOC_CHECKER) $< ; \
++                         mkdir -p $(dir $@) ; \
++                         $(DT_EXTRACT_EX) $< > $@ )
++
++$(obj)/%.example.dts: $(src)/%.yaml FORCE
++	$(call if_changed,chk_binding)
++
++DT_MK_SCHEMA ?= dt-mk-schema
++DT_TMP_SCHEMA := .schema.yaml.tmp
++extra-y += $(DT_TMP_SCHEMA)
++
++quiet_cmd_mk_schema = SCHEMA  $@
++      cmd_mk_schema = mkdir -p $(obj); \
++                      $(DT_MK_SCHEMA) -o $@ $(srctree)/$(src)
++
++DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
++DTS_EXAMPLES = $(patsubst %.yaml,%.example.dts, $(DT_DOCS))
++extra-y += $(DTS_EXAMPLES)
++
++DTBS = $(patsubst %.yaml,%.example.dtb, $(DT_DOCS))
++extra-y += $(DTBS)
++
++$(obj)/$(DT_TMP_SCHEMA): $(addprefix $(obj)/, $(DTBS)) FORCE
++	$(call if_changed,mk_schema)
+diff --git a/Makefile b/Makefile
+index 021e274c4b03..648f7238e883 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1227,10 +1227,13 @@ ifneq ($(dtstree),)
+ %.dtb: prepare3 scripts_dtc
+ 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+ 
+-PHONY += dtbs dtbs_install
++PHONY += dtbs dtbs_install dt_binding_check
+ dtbs: prepare3 scripts_dtc
+ 	$(Q)$(MAKE) $(build)=$(dtstree)
+ 
++dtbs_check: prepare3 dt_binding_check
++	$(Q)$(MAKE) $(build)=$(dtstree) CHECK_DTBS=1
++
+ dtbs_install:
+ 	$(Q)$(MAKE) $(dtbinst)=$(dtstree)
+ 
+@@ -1244,6 +1247,9 @@ PHONY += scripts_dtc
+ scripts_dtc: scripts_basic
+ 	$(Q)$(MAKE) $(build)=scripts/dtc
+ 
++dt_binding_check: scripts_dtc
++	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
++
+ # ---------------------------------------------------------------------------
+ # Modules
+ 
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 8fe4468f9bda..d1c5630ba24c 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -61,6 +61,11 @@ real-obj-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y))
+ extra-y				+= $(dtb-y)
+ extra-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
+ 
++ifneq ($(CHECK_DTBS),)
++extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
++extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
++endif
++
+ # Add subdir path
+ 
+ extra-y		:= $(addprefix $(obj)/,$(extra-y))
+@@ -284,13 +289,28 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+ quiet_cmd_dtc = DTC     $@
+ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
+ 	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+-	$(DTC) -O dtb -o $@ -b 0 \
++	$(DTC) -O $(2) -o $@ -b 0 \
+ 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+ 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
+ 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+ 
+ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+-	$(call if_changed_dep,dtc)
++	$(call if_changed_dep,dtc,dtb)
++
++DT_CHECKER ?= dt-validate
++DT_BINDING_DIR := Documentation/devicetree/bindings
++DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/.schema.yaml.tmp
++
++quiet_cmd_dtb_check =	CHECK  $@
++      cmd_dtb_check =	$(DT_CHECKER) -p $(DT_TMP_SCHEMA) $@ ;
++
++define rule_dtc_dt_yaml
++	$(call cmd_and_fixdep,dtc,yaml)		\
++	$(call echo-cmd,dtb_check) $(cmd_dtb_check)
++endef
++
++$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
++	$(call if_changed_rule,dtc_dt_yaml)
+ 
+ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+ 
 -- 
-Kees Cook
-Pixel Security
+2.17.1
+
