@@ -1,96 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CA2387D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 20:24:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD4837D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 23:18:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbeJFDY6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Oct 2018 23:24:58 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:44589 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728139AbeJFDY6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Oct 2018 23:24:58 -0400
-Received: by mail-oi1-f196.google.com with SMTP id u74-v6so11389642oia.11;
-        Fri, 05 Oct 2018 13:24:38 -0700 (PDT)
+        id S1726505AbeJFGTX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 02:19:23 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:34520 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726399AbeJFGTX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 02:19:23 -0400
+Received: by mail-pf1-f194.google.com with SMTP id k19-v6so5751309pfi.1
+        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 16:18:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yt3lMyj3e/yJLq7o3wY2Jk6Tj4WKurWoSIB/tjxKVZ8=;
+        b=OSwdnrD23zRhLS4qDxw0b26fg4e6SPBHtMNHFQOc4lW1ik9BmZsM/Asi3qvpucF+aW
+         Qcz77Hwjtz9idE/IQzr5FHdfQLRoDxkC2uWyqJ4Qa/uiIHKwl+zeiY2dBaM5CMJ8ZZHj
+         FLUMK/7ZddexRfjjf30ouojRoxi3oLWsrrD3I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3c9dYevr3/ZjBFzOnzdfF1FipPZlUr92blF38NhIick=;
-        b=e+7Z5LKNVFKfHPmH66E/jfDydUPyvADpsZzGEAmPHbgUu7ThPyM3/j1NtoYyVNc7Wr
-         3bWRPFvl0veVngqVEmkRF2fq6elLPZoOHO7hV3Mkq1AxCDbFC7O/yroDoxRlk39TXS+o
-         HQF5FTpC3NZcY2x1gFyvb86TDQQHOil01Ilq52X17JqI+FW2VZALFsmb96kgth71Hp0d
-         ELChnIWNbuZp8YCssuDbX6J1jAaTSVzCxK8N+8DGOGyJvCvNtoTQRoE0/i683z0Cmpyk
-         4JQnIYLtZSBMD1DEGeffMqcI06PFS39tN1kjeE2Y4THBYe72eDvY6Y2iQItLpTrwF++2
-         5MIQ==
-X-Gm-Message-State: ABuFfoj0X+MXRHlK2CxQDyqK15ev6hMbf5JpOIluQ5kXmsWtmGcta7Mx
-        HkzBfzC2V5S+dJ+5U5T3BQ==
-X-Google-Smtp-Source: ACcGV61fxjNP7DcLIHqIpErIdZwKVmvQrhCb1jusJe4xGd6YdyTQpohsNRFTOrXNRQWkLzsoXdoEdw==
-X-Received: by 2002:aca:1802:: with SMTP id h2-v6mr271783oih.353.1538771078143;
-        Fri, 05 Oct 2018 13:24:38 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id q15-v6sm2744040otl.43.2018.10.05.13.24.37
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 05 Oct 2018 13:24:37 -0700 (PDT)
-Date:   Fri, 5 Oct 2018 15:24:36 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
-        mark.rutland@arm.com, corbet@lwn.net, afd@ti.com,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 1/2] dt-bindings: hwmon: Add ina3221 documentation
-Message-ID: <20181005202436.GA28437@bogus>
-References: <20181002010523.2019-1-nicoleotsuka@gmail.com>
- <20181002010523.2019-2-nicoleotsuka@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yt3lMyj3e/yJLq7o3wY2Jk6Tj4WKurWoSIB/tjxKVZ8=;
+        b=MC0yrEh7rLnVr18G8yG03z/16kLVKUIC8DZyG8v7zqV9yDIFJlXz9nF5G1LH9hwT0n
+         koLGGz+z3ST37hG+SfIAdmSvbeH/kAx4xejWUjt+jRNc+OlyktRjsP1zwYb7ct3gUYAg
+         HhufIz58Ccm9lokQ5DQMzieGpvaVqv2JhFYERAf7tt3v2oJSrfWtDupKl8MRXunk6jsA
+         3LhYnT7M4mtWphjVm2CZpO2yoIDsw544G1AnN9enaDfAVYvdr5skTNFH24UElbLLEQKN
+         PHJK3FctMw66vSFifYzRzYLegTyFXfRtU83mQM3Q3eFAy4JbEIGylw0db9kBdvhoS90W
+         68WQ==
+X-Gm-Message-State: ABuFfoj3mXlfcQag5rNWYgovSiDaRdChd4DDGjgfwVrNqft1X0TbXY/6
+        8Z5cLSWf6sOGx13ZJPmXnwQtMQ==
+X-Google-Smtp-Source: ACcGV63OJoNuNIFzPRV5cfmYndQb6dEx+VWJ7N9JI9A3QuoyCMVqai8jPmq/9IRkEpD2VYSN1c5HSQ==
+X-Received: by 2002:a63:1411:: with SMTP id u17-v6mr11860703pgl.247.1538781507628;
+        Fri, 05 Oct 2018 16:18:27 -0700 (PDT)
+Received: from joelaf.mtv.corp.google.com ([2620:0:1000:1601:3aef:314f:b9ea:889f])
+        by smtp.gmail.com with ESMTPSA id q76-v6sm16641028pfa.18.2018.10.05.16.18.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 05 Oct 2018 16:18:26 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
+Subject: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
+Date:   Fri,  5 Oct 2018 16:18:09 -0700
+Message-Id: <20181005231815.170433-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.19.0.605.g01d371f741-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181002010523.2019-2-nicoleotsuka@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  1 Oct 2018 18:05:22 -0700, Nicolin Chen wrote:
-> Texas Instruments INA3221 is a triple-channel shunt and bus
-> voltage monitor. This patch adds a DT binding doc for it.
-> 
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> ---
-> Changelog
-> v7->v9:
->  * N/A
-> v6->v7:
->  * Restored three channel examples and merged them with the parent one
-> v5->v6:
->  * Removed status property as no need to explicitly list it.
->  * Combined all examples into a complete one.
-> v4->v5:
->  * Replaced "input-id" with "reg" and added address-cells and size-cells
->  * Replaced "input-label" with "label"
->  * Replaced "shunt-resistor" with "shunt-resistor-micro-ohms"
-> v3->v4:
->  * Removed the attempt of putting labels in the node names
->  * Added a new optional label property in the child node
->  * Updated examples accordingly
-> v2->v3:
->  * Added a simple subject in the line 1
->  * Fixed the shunt resistor value in the example
-> v1->v2:
->  * Dropped channel name properties
->  * Added child node definitions.
->  * * Added shunt resistor property in the child node
->  * * Added status property to indicate connection status
->  * * Changed to use child node name as the label of input source
-> 
->  .../devicetree/bindings/hwmon/ina3221.txt     | 44 +++++++++++++++++++
->  1 file changed, 44 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/ina3221.txt
-> 
+Hi Paul,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Here are this week's rcu doc updates based on combing through whatisRCU and
+checklists. Hopefully you agree with them. I left several old _bh and _sched
+API references as is, since I don't think its a good idea to remove them till
+the APIs themselves are removed, however I did remove several of them as well
+(like in the first patch in this series) since I feel its better to "encourage"
+new users not to use the old API.
+
+Also do you think it makes sense for us to write coccinelle patches to check if
+folks use them on new patches? Btw, I am new to coccinelle but I'd love to give
+it a try, it looks exciting. I remember you saying you wanted to do that, so
+that's something else you could potentially offload to me as you see fit ;-)
+
+Thank you very much!
+
+Joel Fernandes (Google) (5):
+  doc: rcu: Update core and full API in whatisRCU
+  doc: rcu: Add more rationale for using rcu_read_lock_sched in
+    checklist
+  doc: rcu: Remove obsolete suggestion from checklist
+  doc: rcu: Remove obsolete checklist item about synchronize_rcu usage
+  doc: rcu: Encourage use of rcu_barrier in checklist
+
+ Documentation/RCU/checklist.txt | 49 +++++++----------------------
+ Documentation/RCU/whatisRCU.txt | 55 +++++++++++++++++----------------
+ 2 files changed, 39 insertions(+), 65 deletions(-)
+
+-- 
+2.19.0.605.g01d371f741-goog
