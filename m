@@ -5,100 +5,94 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7B79C7D087
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 04:58:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 567C37D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 07:08:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbeJELzm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Oct 2018 07:55:42 -0400
-Received: from namei.org ([65.99.196.166]:35746 "EHLO namei.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726939AbeJELzm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Oct 2018 07:55:42 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id w954wDR7011060;
-        Fri, 5 Oct 2018 04:58:13 GMT
-Date:   Fri, 5 Oct 2018 14:58:13 +1000 (AEST)
-From:   James Morris <jmorris@namei.org>
-To:     Kees Cook <keescook@chromium.org>
-cc:     John Johansen <john.johansen@canonical.com>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        "Schaufler, Casey" <casey.schaufler@intel.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
-In-Reply-To: <CAGXu5j+3HqqBa_ogQqGJYubeZr9uCrbKzEoKO3Or=71e4c_=Gw@mail.gmail.com>
-Message-ID: <alpine.LRH.2.21.1810051449110.2590@namei.org>
-References: <20181002005505.6112-1-keescook@chromium.org> <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com> <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
- <alpine.LRH.2.21.1810030758460.23596@namei.org> <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com> <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com> <alpine.LRH.2.21.1810040416500.13517@namei.org> <CAGXu5j+oPR58oJ06-n7e96-Rmu+ywTW0hud5LhOZ_3UXG5s12w@mail.gmail.com>
- <alpine.LRH.2.21.1810040427550.13517@namei.org> <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com> <alpine.LRH.2.21.1810040723320.16168@namei.org> <CAGXu5jJDBhFrdCBHH4MZVDmG88mMxSaSx0w9anCcyx24YHLO5w@mail.gmail.com>
- <alpine.LRH.2.21.1810050338470.14095@namei.org> <CAGXu5j+3HqqBa_ogQqGJYubeZr9uCrbKzEoKO3Or=71e4c_=Gw@mail.gmail.com>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+        id S1728116AbeJEOFW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Oct 2018 10:05:22 -0400
+Received: from mail-wr1-f48.google.com ([209.85.221.48]:43412 "EHLO
+        mail-wr1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727185AbeJEOFV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Oct 2018 10:05:21 -0400
+Received: by mail-wr1-f48.google.com with SMTP id n1-v6so12374350wrt.10;
+        Fri, 05 Oct 2018 00:07:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oWo1xNzfo+k/gC3Zp/F75xR+3JKVfFbkGJq2SW9FQzo=;
+        b=TMEXL9EFYLABFpLsOabNO9lAWHXFSB59c2hy9j0rjLwLfwDu4OdmRQKVtpFPDD7dSe
+         gdPzAvTmnvCYUkbCvyrJtShmrUCGi3OdyHHLQnvZPFzzPJfj2sKaNfn1GOUi0B/0xJpA
+         VLcb6Ee+/Ngm8CzKs32ANgbfwHFcwTAE4dy1p2zATwJlZK6YUdU7YaGkbWiEfIkERCL1
+         qVUaFFfa0efd4Kuy+z6iuza4F2/efHsvCIofl2bHkJsvHxz7srHJWlOYTp5LWtge9+P0
+         y4fHJbuHnI7vZ7PQppvn7MYlQ9j7qDT6/GttYgSh15aHCg697jyky6jyIySY+BOCOcCk
+         vDfQ==
+X-Gm-Message-State: ABuFfogDptB0JjKBbMJoaZJ86GkdIsw+195Oa1oxZqtW1XyhBstvn0f5
+        nVcSC7fIRA3ExCuLw5SJifY=
+X-Google-Smtp-Source: ACcGV60YB5PqaO8biF/WCLgxrXP1h5Gepxo+CeVyoVF3N/x1M2o3JuOPW7wOPYWHN6vxLsDVXN+r8A==
+X-Received: by 2002:a5d:4101:: with SMTP id l1-v6mr7692851wrp.45.1538723278847;
+        Fri, 05 Oct 2018 00:07:58 -0700 (PDT)
+Received: from techadventures.net (techadventures.net. [62.201.165.239])
+        by smtp.gmail.com with ESMTPSA id e64-v6sm850655wmg.0.2018.10.05.00.07.56
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 05 Oct 2018 00:07:57 -0700 (PDT)
+Received: by techadventures.net (Postfix, from userid 1000)
+        id 6D6B1125822; Fri,  5 Oct 2018 09:07:56 +0200 (CEST)
+Date:   Fri, 5 Oct 2018 09:07:56 +0200
+From:   Oscar Salvador <osalvador@techadventures.net>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-acpi@vger.kernel.org, xen-devel@lists.xenproject.org,
+        devel@linuxdriverproject.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Rashmica Gupta <rashmica.g@gmail.com>,
+        Michael Neuling <mikey@neuling.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Pavel Tatashin <pavel.tatashin@microsoft.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>,
+        Mathieu Malaterre <malat@debian.org>
+Subject: Re: [PATCH v3 3/6] mm/memory_hotplug: fix online/offline_pages
+ called w.o. mem_hotplug_lock
+Message-ID: <20181005070756.GA27754@techadventures.net>
+References: <20180927092554.13567-1-david@redhat.com>
+ <20180927092554.13567-4-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180927092554.13567-4-david@redhat.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 4 Oct 2018, Kees Cook wrote:
+On Thu, Sep 27, 2018 at 11:25:51AM +0200, David Hildenbrand wrote:
+> Reviewed-by: Pavel Tatashin <pavel.tatashin@microsoft.com>
+> Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-> On Thu, Oct 4, 2018 at 10:49 AM, James Morris <jmorris@namei.org> wrote:
-> > On Wed, 3 Oct 2018, Kees Cook wrote:
-> >> Then someone boots the system with:
-> >>
-> >> selinux=1 security=selinux
-> >>
-> >> In what order does selinux get initialized relative to yama?
-> >> (apparmor, flagged as a "legacy major", would have been disabled by
-> >> the "security=" not matching it.)
-> >
-> > It doesn't, it needs to be specified in one place.
-> >
-> > Distros will need to update boot parameter handling for this kernel
-> > onwards.  Otherwise, we will need to carry this confusing mess forward
-> > forever.
-> 
-> Are you saying that you want to overrule Paul and Stephen about
-> keeping "selinux=1 secuiryt=selinux" working?
-
-Not overrule, but convince.
-
-At least, deprecate selinux=1 and security=X, but not extend it any 
-further.
-
-> > In my most recent suggestion, there is no '!' disablement, just
-> > enablement.  If an LSM is not listed in CONFIG_LSM="", it's not enabled.
-> 
-> And a user would need to specify ALL lsms on the "lsm=" line?
-> 
-
-Yes, the ones they want enabled.
-
-> What do you think of my latest proposal? It could happily work all
-> three ways: old boot params and security= work ("selinux=1
-> security=selinux" keeps working), individual LSM enable/disable works
-> ("lsm=+loadpin"), and full LSM ordering works
-> ("lsm=each,lsm,in,order,here"):
-> 
-> https://lore.kernel.org/lkml/CAGXu5jJJit8bDNvgXaFkuvFPy7NWtJW2oRWFbG-6iWk0+A1qng@mail.gmail.com/
-> 
-
-I think having something like +yama will still lead to confusion.
-Explicitly stating each enabled LSM in order is totally unambiguous.
-
-If people are moving away from the distro defaults, and there is no 
-high-level interface to manage this, it seems to me there's a deeper 
-issue with the distro.
-
-
+Reviewed-by: Oscar Salvador <osalvador@suse.de>
 -- 
-James Morris
-<jmorris@namei.org>
-
+Oscar Salvador
+SUSE L3
