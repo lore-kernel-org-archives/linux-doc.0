@@ -1,66 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 539677D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 15:33:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AFC9B7E2A4
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 16:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727725AbeJEWct (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Oct 2018 18:32:49 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40820 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727572AbeJEWct (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Oct 2018 18:32:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=cVmoCc7Fs9SeTMXCAAX1k5IDbnngNCfM3Zdp6msfP0k=; b=vBRkVYBBV0s5yw3fk4cY/iYR9
-        jsL6SVYe4htVr9kAwiax0trqGhIgFgr99rblIgwXKlwj+G6CSEb8AQ9urioeXyVi1GDQ3Ch89+WQc
-        IUYgTUOg77HPVGUaFCo6gBb9uWPNEgVKwqheU568rCP/PXwcfuA+6iQatY0bVIIL5swyxaopn1BA/
-        3MjPo3Fw4VZq1kLppkbb8bKme1JLg1bJuEKhrZccV80jk7CuoSmZCUuURcxqVo5h8r84KnvUaDGjW
-        AB9Nr6U6v9s877NJPlPGvLm/HCfagFOtVe5n2h5BR9bApxDmtR7iqVDtxyxSJDjEy+bviIohRPGQR
-        LAWpGq3HQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1g8S6h-00016E-Gv; Fri, 05 Oct 2018 15:33:35 +0000
-Subject: Re: [PATCH 0/2] ext4: even more documentation fixes
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
-        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net
-References: <153870117116.30837.1220267868954289184.stgit@magnolia>
- <007a23b2-1db3-36fb-3300-f94115d4f2b3@infradead.org>
- <20181005152205.GA22801@thunk.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <830727e5-cb34-9a59-85c8-dd5e3772aeef@infradead.org>
-Date:   Fri, 5 Oct 2018 08:33:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
-MIME-Version: 1.0
-In-Reply-To: <20181005152205.GA22801@thunk.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1729609AbeJEXSL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Oct 2018 19:18:11 -0400
+Received: from mga02.intel.com ([134.134.136.20]:40260 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728967AbeJEXSK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Oct 2018 19:18:10 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Oct 2018 09:18:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,345,1534834800"; 
+   d="scan'208";a="86033243"
+Received: from 2b52.sc.intel.com ([143.183.136.147])
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Oct 2018 09:18:23 -0700
+Message-ID: <fc2f98ab46240c0498bdf4d7458b4373c1f02bf8.camel@intel.com>
+Subject: Re: [RFC PATCH v4 3/9] x86/cet/ibt: Add IBT legacy code bitmap
+ allocation function
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Fri, 05 Oct 2018 09:13:40 -0700
+In-Reply-To: <20181003195702.GF32759@asgard.redhat.com>
+References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
+         <20180921150553.21016-4-yu-cheng.yu@intel.com>
+         <20181003195702.GF32759@asgard.redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/5/18 8:22 AM, Theodore Y. Ts'o wrote:
-> On Thu, Oct 04, 2018 at 07:48:31PM -0700, Randy Dunlap wrote:
->> Hi Darrick,
->>
->> I don't see patch 2/2 anywhere (my inbox, email archives)...
+On Wed, 2018-10-03 at 21:57 +0200, Eugene Syromiatnikov wrote:
+> On Fri, Sep 21, 2018 at 08:05:47AM -0700, Yu-cheng Yu wrote:
+> > Indirect branch tracking provides an optional legacy code bitmap
+> > that indicates locations of non-IBT compatible code.  When set,
+> > each bit in the bitmap represents a page in the linear address is
+> > legacy code.
+> > 
+> > We allocate the bitmap only when the application requests it.
+> > Most applications do not need the bitmap.
+> > 
+> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > ---
+> >  arch/x86/kernel/cet.c | 45 +++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 45 insertions(+)
+> > 
+> > diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> > index 6adfe795d692..a65d9745af08 100644
+> > --- a/arch/x86/kernel/cet.c
+> > +++ b/arch/x86/kernel/cet.c
+> > @@ -314,3 +314,48 @@ void cet_disable_ibt(void)
+> >  	wrmsrl(MSR_IA32_U_CET, r);
+> >  	current->thread.cet.ibt_enabled = 0;
+> >  }
+> > +
+> > +int cet_setup_ibt_bitmap(void)
+> > +{
+> > +	u64 r;
+> > +	unsigned long bitmap;
+> > +	unsigned long size;
+> > +
+> > +	if (!cpu_feature_enabled(X86_FEATURE_IBT))
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	if (!current->thread.cet.ibt_bitmap_addr) {
+> > +		/*
+> > +		 * Calculate size and put in thread header.
+> > +		 * may_expand_vm() needs this information.
+> > +		 */
+> > +		size = TASK_SIZE / PAGE_SIZE / BITS_PER_BYTE;
 > 
-> Probably because it's moving a lot of files around, so the diffs were 276k.
+> TASK_SIZE_MAX is likely needed here, as an application can easily switch
+> between long an 32-bit protected mode.  And then the case of a CPU that
+> doesn't support 5LPT.
 
-Oh, yeah.  Thanks.
+If we had calculated bitmap size from TASK_SIZE_MAX, all 32-bit apps would have
+failed the allocation for bitmap size > TASK_SIZE.  Please see values below,
+which is printed from the current code.
 
--- 
-~Randy
+Yu-cheng
+
+
+x64:
+TASK_SIZE_MAX	= 0000 7fff ffff f000
+TASK_SIZE	= 0000 7fff ffff f000
+bitmap size	= 0000 0000 ffff ffff
+
+x32:
+TASK_SIZE_MAX	= 0000 7fff ffff f000
+TASK_SIZE	= 0000 0000 ffff e000
+bitmap size	= 0000 0000 0001 ffff
+
