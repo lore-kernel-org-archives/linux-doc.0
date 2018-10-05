@@ -1,120 +1,66 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D7AC77D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 14:55:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E40697D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 15:22:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728729AbeJEVyy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Oct 2018 17:54:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38380 "EHLO mx1.redhat.com"
+        id S1728207AbeJEWVX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Oct 2018 18:21:23 -0400
+Received: from imap.thunk.org ([74.207.234.97]:52226 "EHLO imap.thunk.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728139AbeJEVyy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Oct 2018 17:54:54 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BC462C0624CB;
-        Fri,  5 Oct 2018 14:55:49 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9BA6743FDE;
-        Fri,  5 Oct 2018 14:55:47 +0000 (UTC)
-Subject: Re: [PATCH v4 0/3] fs/dcache: Track # of negative dentries
-To:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
-        Michal Hocko <mhocko@kernel.org>
-References: <1536773742-32687-1-git-send-email-longman@redhat.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <7054d7fe-5385-c743-b2ea-595e5988799f@redhat.com>
-Date:   Fri, 5 Oct 2018 10:55:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S1726082AbeJEWVX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Oct 2018 18:21:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
+         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=CUBBQ9y2ZRx5iC34O1PK7vaHtDLUQgGZzXYaCGHYE5M=; b=CHS528Z9AnhrWH8UdQK2bAkKvg
+        4k8tbSka2AXmLDCuegZoLiIoiGCBlkSDjU5F5LUyz994F8U8fPYAme9Nn2s5/xmtaVOmM/gWk2ra+
+        1pM39RIFFBJ62quOF2cFIs720M4NYWeUJLQ5llDFbA+QBCR3O3CeXGtCiOIamh/nL/Ds=;
+Received: from root (helo=callcc.thunk.org)
+        by imap.thunk.org with local-esmtp (Exim 4.89)
+        (envelope-from <tytso@thunk.org>)
+        id 1g8Rva-0002Jq-53; Fri, 05 Oct 2018 15:22:06 +0000
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 646347A51B1; Fri,  5 Oct 2018 11:22:05 -0400 (EDT)
+Date:   Fri, 5 Oct 2018 11:22:05 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
+        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net
+Subject: Re: [PATCH 0/2] ext4: even more documentation fixes
+Message-ID: <20181005152205.GA22801@thunk.org>
+References: <153870117116.30837.1220267868954289184.stgit@magnolia>
+ <007a23b2-1db3-36fb-3300-f94115d4f2b3@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <1536773742-32687-1-git-send-email-longman@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Fri, 05 Oct 2018 14:55:50 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <007a23b2-1db3-36fb-3300-f94115d4f2b3@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: tytso@thunk.org
+X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/12/2018 01:35 PM, Waiman Long wrote:
->  v3->v4:
->   - Drop patch 4 as it is just a minor optimization.
->   - Add a cc:stable tag to patch 1.
->   - Clean up some comments in patch 3.
->
->  v2->v3:
->   - With confirmation that the dummy array in dentry_stat structure
->     was never a replacement of a previously used field, patch 3 is now
->     reverted back to use one of dummy field as the negative dentry count
->     instead of adding a new field.
->
->  v1->v2:
->   - Clarify what the new nr_dentry_negative per-cpu counter is tracking
->     and open-code the increment and decrement as suggested by Dave Chinner.
->   - Append the new nr_dentry_negative count as the 7th element of dentry-state
->     instead of replacing one of the dummy entries.
->   - Remove patch "fs/dcache: Make negative dentries easier to be
->     reclaimed" for now as I need more time to think about what
->     to do with it.
->   - Add 2 more patches to address issues found while reviewing the
->     dentry code.
->   - Add another patch to change the conditional branch of
->     nr_dentry_negative accounting to conditional move so as to reduce
->     the performance impact of the accounting code.
->
-> This patchset addresses 2 issues found in the dentry code and adds a
-> new nr_dentry_negative per-cpu counter to track the total number of
-> negative dentries in all the LRU lists.
->
-> Patch 1 fixes a bug in the accounting of nr_dentry_unused in
-> shrink_dcache_sb().
->
-> Patch 2 removes the ____cacheline_aligned_in_smp tag from super_block
-> LRU lists.
->
-> Patch 3 adds the new nr_dentry_negative per-cpu counter.
->
-> Various filesystem related tests were run and no statistically
-> significant changes in performance outside of the possible noise range
-> was observed.
->
-> Waiman Long (3):
->   fs/dcache: Fix incorrect nr_dentry_unused accounting in
->     shrink_dcache_sb()
->   fs: Don't need to put list_lru into its own cacheline
->   fs/dcache: Track & report number of negative dentries
->
->  Documentation/sysctl/fs.txt | 26 ++++++++++++++++----------
->  fs/dcache.c                 | 38 +++++++++++++++++++++++++++++++++-----
->  include/linux/dcache.h      |  7 ++++---
->  include/linux/fs.h          |  9 +++++----
->  4 files changed, 58 insertions(+), 22 deletions(-)
->
-Any comments on these patches. The first one actually is a bug fix.
+On Thu, Oct 04, 2018 at 07:48:31PM -0700, Randy Dunlap wrote:
+> Hi Darrick,
+> 
+> I don't see patch 2/2 anywhere (my inbox, email archives)...
 
-Cheers,
-Longman
+Probably because it's moving a lot of files around, so the diffs were 276k.
 
+
+
+> 
+> -- 
+> ~Randy
