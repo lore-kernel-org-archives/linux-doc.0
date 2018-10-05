@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1D4CE7D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 07:15:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 710197D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 07:16:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728229AbeJEOMz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Oct 2018 10:12:55 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:37466 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727036AbeJEOMz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Oct 2018 10:12:55 -0400
-Received: by mail-wm1-f66.google.com with SMTP id 185-v6so865927wmt.2;
-        Fri, 05 Oct 2018 00:15:31 -0700 (PDT)
+        id S1728110AbeJEONs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Oct 2018 10:13:48 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:55238 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727036AbeJEONs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Oct 2018 10:13:48 -0400
+Received: by mail-wm1-f68.google.com with SMTP id r63-v6so823248wma.4;
+        Fri, 05 Oct 2018 00:16:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rLF/fUrswzwTf1w0onr3v+ax23k7hk6LQODldba/KpQ=;
-        b=byJHU8HzCfuyJBV2w0JG+ivJ28KVk/hs0wso0+tbIGVCOmMuDyIyHpRrdLCoerke6i
-         o/KxQ35ksXKP//aVl6MMkNZWd9mu6n9mkxExYVL6kyeUkjpY2wTpoBLifKUlEi36GbXx
-         zvrI3ubwepGVb0M/Cfvn85JkKW+ke0wdL+JPgPKpABpBrSwIHvkrVelQvzSt6yX1A4QG
-         BEXRXjNREg4RJv80dF6UQnoxcdvCRsLQyjicAggHaJlcanV53fbpmpP1dgKnModDlk0d
-         VaXUvgZvT6uVRP8eiQzdqhRHtULnWceygZIgLoVMr+k1iq1GuBkA+EeuR/vo1JGV11qY
-         ttQQ==
-X-Gm-Message-State: ABuFfoiEFe3Y5JG6RQKvZ0RUTd1Wbc9ZHrmlOZss6AdxebSZEZNuriWn
-        rOH5TgnA+EhOgJFWL9+BENo=
-X-Google-Smtp-Source: ACcGV62xTS7MoAnvgjRB5eo6esfIUGlYCP2yq8jFJz1NJEE76Gthgl8cHLOAdd7f71xBAils/qV+ow==
-X-Received: by 2002:a1c:2846:: with SMTP id o67-v6mr6740461wmo.60.1538723730904;
-        Fri, 05 Oct 2018 00:15:30 -0700 (PDT)
+        bh=aR/jC4H+BZ2o9lgfz0G0A5l8xgrll1yDCKPstbspgPM=;
+        b=SwATTlTXtMc3TRAcFtD3b/tEhV30IdMqcwpDMbqE9fLhRQ6BATg/Sn4HlZJ0e8IOaN
+         dfkF7vOATf9iXOisZ0bo0u10cLJeKk1jbGbwcOywh+8vdMrh+8GLlfz8krW76vtchtoQ
+         dWpEEDjowFgLn38zycbF3AT9rMpQYxLdx9G2r6XwfEafAWS3vc5Qlgsj6eiLIV1snTSk
+         1ZTFmA6ejxygC10I/83Xdocmk65VM4tjnyEgWTxkJOYKPhJ5Zxq53W3BsunbQhxez8HW
+         D2BcgpYeZAIxILZQ1zzGBW0H0h8HX5G9pPS7VSXDeNbgxKR1P44TPos0R/dp4tDvQBak
+         rWTw==
+X-Gm-Message-State: ABuFfoglnbGMuUAoIn2dyI9Nd3Lb/sucHCLF6r7ljAUyA82KYhvpsL7d
+        bZlP8I/E/+nvBZqx1xjzCFo=
+X-Google-Smtp-Source: ACcGV62rkvQfaVax3+CKM4rI6dVZO/x+jQfOoQhQf86qnRsCE72Jcct7LW309FM0eBE/dW53ziii+Q==
+X-Received: by 2002:a1c:e5cf:: with SMTP id c198-v6mr7001829wmh.113.1538723783664;
+        Fri, 05 Oct 2018 00:16:23 -0700 (PDT)
 Received: from techadventures.net (techadventures.net. [62.201.165.239])
-        by smtp.gmail.com with ESMTPSA id s24-v6sm809132wmc.7.2018.10.05.00.15.30
+        by smtp.gmail.com with ESMTPSA id j203-v6sm940598wmd.46.2018.10.05.00.16.22
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Oct 2018 00:15:30 -0700 (PDT)
+        Fri, 05 Oct 2018 00:16:23 -0700 (PDT)
 Received: by techadventures.net (Postfix, from userid 1000)
-        id 95CFE125826; Fri,  5 Oct 2018 09:15:29 +0200 (CEST)
-Date:   Fri, 5 Oct 2018 09:15:29 +0200
+        id 7C2F7125828; Fri,  5 Oct 2018 09:16:22 +0200 (CEST)
+Date:   Fri, 5 Oct 2018 09:16:22 +0200
 From:   Oscar Salvador <osalvador@techadventures.net>
 To:     David Hildenbrand <david@redhat.com>
 Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
@@ -50,9 +50,9 @@ Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         Michael Ellerman <mpe@ellerman.id.au>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Len Brown <lenb@kernel.org>,
-        Rashmica Gupta <rashmica.g@gmail.com>,
-        Michael Neuling <mikey@neuling.org>,
-        Balbir Singh <bsingharora@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
         Nathan Fontenot <nfont@linux.vnet.ibm.com>,
         John Allen <jallen@linux.vnet.ibm.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -60,32 +60,31 @@ Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         Dan Williams <dan.j.williams@intel.com>,
         Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Vlastimil Babka <vbabka@suse.cz>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Oscar Salvador <osalvador@suse.de>,
-        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>,
-        Mathieu Malaterre <malat@debian.org>
-Subject: Re: [PATCH v3 1/6] mm/memory_hotplug: make remove_memory() take the
+        Mathieu Malaterre <malat@debian.org>,
+        Pavel Tatashin <pavel.tatashin@microsoft.com>,
+        YASUAKI ISHIMATSU <yasu.isimatu@gmail.com>
+Subject: Re: [PATCH v3 2/6] mm/memory_hotplug: make add_memory() take the
  device_hotplug_lock
-Message-ID: <20181005071529.GC27754@techadventures.net>
+Message-ID: <20181005071622.GD27754@techadventures.net>
 References: <20180927092554.13567-1-david@redhat.com>
- <20180927092554.13567-2-david@redhat.com>
+ <20180927092554.13567-3-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180927092554.13567-2-david@redhat.com>
+In-Reply-To: <20180927092554.13567-3-david@redhat.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 27, 2018 at 11:25:49AM +0200, David Hildenbrand wrote:
+On Thu, Sep 27, 2018 at 11:25:50AM +0200, David Hildenbrand wrote:
 > Reviewed-by: Pavel Tatashin <pavel.tatashin@microsoft.com>
 > Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
- 
+
 Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
 -- 
