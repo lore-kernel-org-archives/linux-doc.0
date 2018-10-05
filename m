@@ -1,60 +1,31 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D6827D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 17:08:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 541FC7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 17:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728278AbeJFAHh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Oct 2018 20:07:37 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:41133 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727958AbeJFAHh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Oct 2018 20:07:37 -0400
-Received: by mail-wr1-f65.google.com with SMTP id x12-v6so14275566wru.8
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 10:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=omVygbcTYdT0JG/mGBY8WXc3C5dFkxVGFhiTfz0WKgk=;
-        b=rYJsoTpjPm+/2EBVbSEcOp9WHCpZoMcJ9X4KgF6vzj7ecr6zGAWZRqmgl8BzRBhJpL
-         tlBSlLqTdzBUopx51Jxw5EXzQDWztqIQDVHMCZgMCAAkvgXoUBqbTjLsjX0CqBYQkWv4
-         SF5HqTERhaJJ2rIbFXnwSt28s+/SB+D9aa+LBC4ps8FooznxfYUORhOliRnWl9+xGykL
-         75B1SwXtAo2FyZ4aXtK2Au2tl/9s3yfhmSy1ExoXo0iTCauPsTk9g+Hcn76THDqK0qSR
-         Lj0nYDf4gYxb/99LoPfzAqfsiZiXw9nmD+8WkruErFv3Cr4EJc+dr3/si4Qye2q5OMyv
-         8vZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=omVygbcTYdT0JG/mGBY8WXc3C5dFkxVGFhiTfz0WKgk=;
-        b=aVLDW67xhxcI13CkqCAvd5K9Q9hEetm8Ltwypcf3Lmf07u7FbA8O2W2agq0lHn1VFW
-         lQzvlRaiVlwFGfAkhxU7yFsff8ZDdQ7zkItL9xd2m2sRaLwAl/5mdS71UiZKWYJXnEF4
-         UlFWZl/25VhcN8jnqlIPwz+iwQQfgTP2BLdhy/uRvgYxu08Pyn8yADSgIyqSzufoSpKq
-         s2dR48/mGdkfSKSJQ9rh856LNf5xB5gfLrfUHiykVit7HjwIBzBHJZYEzTA2eG7qCFZF
-         Pm2g7mjsYXclnj9IAHtLBnyWZ3nqCo0nz0By07jSREtlWA/XmJHEi2X+aU8u7mqY/CPx
-         NK6w==
-X-Gm-Message-State: ABuFfojDBA/iLiNzR8lAH8e75Dg474AMAcuMH9965tok2cr5v0Ju7kRT
-        NBQ7Ae3oAKChKvNa5HtD+q5gLCPRsUBRXblvRfxCDQ==
-X-Google-Smtp-Source: ACcGV62X5ZnFm0HuSz8wH/UW6fi45YL2teet8czwGUJoELbMulwCJy3EcCIJBegqdO0Lq7IEGz/z8TeIfZhZ4vOS3dM=
-X-Received: by 2002:adf:82e3:: with SMTP id 90-v6mr8552145wrc.131.1538759278792;
- Fri, 05 Oct 2018 10:07:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180921150553.21016-1-yu-cheng.yu@intel.com> <20180921150553.21016-4-yu-cheng.yu@intel.com>
- <20181003195702.GF32759@asgard.redhat.com> <fc2f98ab46240c0498bdf4d7458b4373c1f02bf8.camel@intel.com>
- <5BF3AE8F-CC2A-4160-9FF6-FEA171A76371@amacapital.net> <aa5a061c159471f410d677af6a609793906cece1.camel@intel.com>
-In-Reply-To: <aa5a061c159471f410d677af6a609793906cece1.camel@intel.com>
-From:   Andy Lutomirski <luto@amacapital.net>
-Date:   Fri, 5 Oct 2018 10:07:46 -0700
-Message-ID: <CALCETrXVdYsJsVy=QWruDYdRc6wb44b=0J3OK3zjR_fT1fQH7w@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 3/9] x86/cet/ibt: Add IBT legacy code bitmap
- allocation function
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Eugene Syromiatnikov <esyr@redhat.com>, X86 ML <x86@kernel.org>,
+        id S1727958AbeJFAZp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Oct 2018 20:25:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42188 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727941AbeJFAZp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Oct 2018 20:25:45 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id A3FDA61BB0;
+        Fri,  5 Oct 2018 17:26:03 +0000 (UTC)
+Received: from asgard.redhat.com (ovpn-200-33.brq.redhat.com [10.40.200.33])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C5BE8424D;
+        Fri,  5 Oct 2018 17:25:52 +0000 (UTC)
+Date:   Fri, 5 Oct 2018 19:26:22 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -77,121 +48,124 @@ Cc:     Eugene Syromiatnikov <esyr@redhat.com>, X86 ML <x86@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH v4 3/9] x86/cet/ibt: Add IBT legacy code bitmap
+ allocation function
+Message-ID: <20181005172622.GD19360@asgard.redhat.com>
+References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
+ <20180921150553.21016-4-yu-cheng.yu@intel.com>
+ <20181003195702.GF32759@asgard.redhat.com>
+ <fc2f98ab46240c0498bdf4d7458b4373c1f02bf8.camel@intel.com>
+ <5BF3AE8F-CC2A-4160-9FF6-FEA171A76371@amacapital.net>
+ <aa5a061c159471f410d677af6a609793906cece1.camel@intel.com>
+ <CALCETrXVdYsJsVy=QWruDYdRc6wb44b=0J3OK3zjR_fT1fQH7w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrXVdYsJsVy=QWruDYdRc6wb44b=0J3OK3zjR_fT1fQH7w@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Fri, 05 Oct 2018 17:26:04 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 5, 2018 at 10:03 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> On Fri, 2018-10-05 at 09:28 -0700, Andy Lutomirski wrote:
-> > > On Oct 5, 2018, at 9:13 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote=
-:
-> > >
-> > > > On Wed, 2018-10-03 at 21:57 +0200, Eugene Syromiatnikov wrote:
-> > > > > On Fri, Sep 21, 2018 at 08:05:47AM -0700, Yu-cheng Yu wrote:
-> > > > > Indirect branch tracking provides an optional legacy code bitmap
-> > > > > that indicates locations of non-IBT compatible code.  When set,
-> > > > > each bit in the bitmap represents a page in the linear address is
-> > > > > legacy code.
-> > > > >
-> > > > > We allocate the bitmap only when the application requests it.
-> > > > > Most applications do not need the bitmap.
-> > > > >
-> > > > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > > > ---
-> > > > > arch/x86/kernel/cet.c | 45 ++++++++++++++++++++++++++++++++++++++=
-+++++
-> > > > > 1 file changed, 45 insertions(+)
-> > > > >
-> > > > > diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
-> > > > > index 6adfe795d692..a65d9745af08 100644
-> > > > > --- a/arch/x86/kernel/cet.c
-> > > > > +++ b/arch/x86/kernel/cet.c
-> > > > > @@ -314,3 +314,48 @@ void cet_disable_ibt(void)
-> > > > >    wrmsrl(MSR_IA32_U_CET, r);
-> > > > >    current->thread.cet.ibt_enabled =3D 0;
-> > > > > }
-> > > > > +
-> > > > > +int cet_setup_ibt_bitmap(void)
-> > > > > +{
-> > > > > +    u64 r;
-> > > > > +    unsigned long bitmap;
-> > > > > +    unsigned long size;
-> > > > > +
-> > > > > +    if (!cpu_feature_enabled(X86_FEATURE_IBT))
-> > > > > +        return -EOPNOTSUPP;
-> > > > > +
-> > > > > +    if (!current->thread.cet.ibt_bitmap_addr) {
-> > > > > +        /*
-> > > > > +         * Calculate size and put in thread header.
-> > > > > +         * may_expand_vm() needs this information.
-> > > > > +         */
-> > > > > +        size =3D TASK_SIZE / PAGE_SIZE / BITS_PER_BYTE;
-> > > >
-> > > > TASK_SIZE_MAX is likely needed here, as an application can easily s=
-witch
-> > > > between long an 32-bit protected mode.  And then the case of a CPU =
-that
-> > > > doesn't support 5LPT.
-> > >
-> > > If we had calculated bitmap size from TASK_SIZE_MAX, all 32-bit apps =
-would
-> > > have
-> > > failed the allocation for bitmap size > TASK_SIZE.  Please see values=
- below,
-> > > which is printed from the current code.
-> > >
-> > > Yu-cheng
-> > >
-> > >
-> > > x64:
-> > > TASK_SIZE_MAX    =3D 0000 7fff ffff f000
-> > > TASK_SIZE    =3D 0000 7fff ffff f000
-> > > bitmap size    =3D 0000 0000 ffff ffff
-> > >
-> > > x32:
-> > > TASK_SIZE_MAX    =3D 0000 7fff ffff f000
-> > > TASK_SIZE    =3D 0000 0000 ffff e000
-> > > bitmap size    =3D 0000 0000 0001 ffff
-> > >
+On Fri, Oct 05, 2018 at 10:07:46AM -0700, Andy Lutomirski wrote:
+> On Fri, Oct 5, 2018 at 10:03 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 > >
-> > I haven=E2=80=99t followed all the details here, but I have a general p=
-olicy of
-> > objecting to any new use of TASK_SIZE. If you really really need to dep=
-end on
-> > 32-bitness in new code, please figure out what exactly you mean by =E2=
-=80=9C32-bit=E2=80=9D
-> > and use an explicit check.
->
-> The explicit check would be:
->
-> test_thread_flag(TIF_ADDR32) ? IA32_PAGE_OFFSET : TASK_SIZE_MAX
->
-> which is the same as TASK_SIZE.
+> > On Fri, 2018-10-05 at 09:28 -0700, Andy Lutomirski wrote:
+> > > > On Oct 5, 2018, at 9:13 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > > >
+> > > > > On Wed, 2018-10-03 at 21:57 +0200, Eugene Syromiatnikov wrote:
+> > > > > > On Fri, Sep 21, 2018 at 08:05:47AM -0700, Yu-cheng Yu wrote:
+> > > > > > Indirect branch tracking provides an optional legacy code bitmap
+> > > > > > that indicates locations of non-IBT compatible code.  When set,
+> > > > > > each bit in the bitmap represents a page in the linear address is
+> > > > > > legacy code.
+> > > > > >
+> > > > > > We allocate the bitmap only when the application requests it.
+> > > > > > Most applications do not need the bitmap.
+> > > > > >
+> > > > > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > > > > ---
+> > > > > > arch/x86/kernel/cet.c | 45 +++++++++++++++++++++++++++++++++++++++++++
+> > > > > > 1 file changed, 45 insertions(+)
+> > > > > >
+> > > > > > diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> > > > > > index 6adfe795d692..a65d9745af08 100644
+> > > > > > --- a/arch/x86/kernel/cet.c
+> > > > > > +++ b/arch/x86/kernel/cet.c
+> > > > > > @@ -314,3 +314,48 @@ void cet_disable_ibt(void)
+> > > > > >    wrmsrl(MSR_IA32_U_CET, r);
+> > > > > >    current->thread.cet.ibt_enabled = 0;
+> > > > > > }
+> > > > > > +
+> > > > > > +int cet_setup_ibt_bitmap(void)
+> > > > > > +{
+> > > > > > +    u64 r;
+> > > > > > +    unsigned long bitmap;
+> > > > > > +    unsigned long size;
+> > > > > > +
+> > > > > > +    if (!cpu_feature_enabled(X86_FEATURE_IBT))
+> > > > > > +        return -EOPNOTSUPP;
+> > > > > > +
+> > > > > > +    if (!current->thread.cet.ibt_bitmap_addr) {
+> > > > > > +        /*
+> > > > > > +         * Calculate size and put in thread header.
+> > > > > > +         * may_expand_vm() needs this information.
+> > > > > > +         */
+> > > > > > +        size = TASK_SIZE / PAGE_SIZE / BITS_PER_BYTE;
+> > > > >
+> > > > > TASK_SIZE_MAX is likely needed here, as an application can easily switch
+> > > > > between long an 32-bit protected mode.  And then the case of a CPU that
+> > > > > doesn't support 5LPT.
+> > > >
+> > > > If we had calculated bitmap size from TASK_SIZE_MAX, all 32-bit apps would
+> > > > have
+> > > > failed the allocation for bitmap size > TASK_SIZE.  Please see values below,
+> > > > which is printed from the current code.
+> > > >
+> > > > Yu-cheng
+> > > >
+> > > >
+> > > > x64:
+> > > > TASK_SIZE_MAX    = 0000 7fff ffff f000
+> > > > TASK_SIZE    = 0000 7fff ffff f000
+> > > > bitmap size    = 0000 0000 ffff ffff
+> > > >
+> > > > x32:
+> > > > TASK_SIZE_MAX    = 0000 7fff ffff f000
+> > > > TASK_SIZE    = 0000 0000 ffff e000
+> > > > bitmap size    = 0000 0000 0001 ffff
+> > > >
+> > >
+> > > I haven’t followed all the details here, but I have a general policy of
+> > > objecting to any new use of TASK_SIZE. If you really really need to depend on
+> > > 32-bitness in new code, please figure out what exactly you mean by “32-bit”
+> > > and use an explicit check.
+> >
+> > The explicit check would be:
+> >
+> > test_thread_flag(TIF_ADDR32) ? IA32_PAGE_OFFSET : TASK_SIZE_MAX
+> >
+> > which is the same as TASK_SIZE.
+> 
+> But this is only ever done in response to a syscall, right?  So
+> wouldn't in_compat_syscall() be the right check?
+> 
+> Also, this whole thing makes me extremely nervous.  The MSR only
+> contains the start address, not the size, right?  So what prevents
+> some goof from causing the CPU to read way past the end of the bitmap
+> if the bitmap is short because the kernel thought it was supposed to
+> be 32-bit?
 
-But this is only ever done in response to a syscall, right?  So
-wouldn't in_compat_syscall() be the right check?
+That's what I've mentioned initially: every syscall made with int 0x80
+is interpreted as compat, even if it was made from long mode.
 
-Also, this whole thing makes me extremely nervous.  The MSR only
-contains the start address, not the size, right?  So what prevents
-some goof from causing the CPU to read way past the end of the bitmap
-if the bitmap is short because the kernel thought it was supposed to
-be 32-bit?
+> I'm inclined to suggest something awful-ish: always allocate the
+> bitmap as though it's for a 64-bit process, and just let it be at a
+> high address.  And add a syscall or arch_prctl() to manipulate it for
+> the benefit of 32-bit programs that can't address it directly.
 
-I'm inclined to suggest something awful-ish: always allocate the
-bitmap as though it's for a 64-bit process, and just let it be at a
-high address.  And add a syscall or arch_prctl() to manipulate it for
-the benefit of 32-bit programs that can't address it directly.
-
->
-> Or, do we want a new macro?
->
-> #define IBT_BITMAP_SIZE (test_thread_flag(TIF_ADDR32) ? \
->         (IA32_PAGE_OFFSET / PAGE_SIZE / BITS_PER_BYTE) : \
->         (TASK_SIZE_MAX / PAGE_SIZE / BITS_PER_BYTE))
-
-No.  I don't like hiding magic like this in a macro that looks like a const=
-ant.
+That's likely the only way to go.
