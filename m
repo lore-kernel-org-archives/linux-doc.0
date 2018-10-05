@@ -1,161 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 562CF7D981
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 16:28:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 538B67D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 16:29:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728515AbeJEX1g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Oct 2018 19:27:36 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:45289 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728935AbeJEX1f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Oct 2018 19:27:35 -0400
-Received: by mail-pl1-f195.google.com with SMTP id y15-v6so7070184plr.12
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 09:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=ylALM1i0/5QJ4UtpmaS85u5cgqJgzR+0WMDfZjeoQak=;
-        b=qgK7T18lH+BiZJCwaW5fLt2Sax6iXXOZzvbpCqgMmmTfQkHmXPpT7PR1LPfrRugQUn
-         OWu1GIfay8S5a/95gKD+KlVIwUuU7rgMymrU/QnyZXJnkQcs+JkV40aAiB7oGlCs8YvO
-         d7eB606Z5KxFghHK1YzJfl7A3SKTkrMUkr4A4gX/xgki3YWNKVGBnRO47ApaZ2FkUEAr
-         1C/LboX2DwGAuowU+H9SlyMtXl+9SLGSH2OGAMD/W8tI4uWFn9GIWYEtTLzahI/cHEjb
-         24V0O2K4p8WV2dFPGopjZeg19DGHFzqAvicf1IbrrU2xgEzDy+2ACcqMvh8/eQG4JqI5
-         ghMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=ylALM1i0/5QJ4UtpmaS85u5cgqJgzR+0WMDfZjeoQak=;
-        b=hkT5DIrppclQYz9e/VWTZmpkPnIOMdlf7FMk0BzIcNux/EE3DrjNqCLLv01eu6jo5U
-         bYQDFQ773xwfa3nJ/Zy3IUhR3vdqn567xAPBFzsxiRQKfrWFwaTCNQm6p/zTP49TR0z5
-         oHNledTwB4v+UAnbAGtpdzQYfjnWbv7cEnO651S2YwJ207W3dufxWTvY8m8h3uK0ylRa
-         h94Rt8ftYGFW3CV7zYdI/BIW5D0zlVKlmy0ROmJDbLDD4f6uc82oka52B29MjTIEFvwn
-         quxPWMM+mug6+46l6TbiSsyBYRn2Z9EAgVmSSpQuqTfGrWfeOLJPbGt2skJQVZiiiCvc
-         cSGg==
-X-Gm-Message-State: ABuFfojKPLbt4w0xlm8YwQLClZ8v9ps/s+MFurQDzfNBk3yMUQ3LkUKr
-        VlQvw5kMQfM9QXHn1bE/PIpMaA==
-X-Google-Smtp-Source: ACcGV63D2URhe1qL0SvTDQV0Xw8kug7LpBoF/0pJq164+V+4CtbLr3fIexHG3QA8ppsBOLyqlxFZGQ==
-X-Received: by 2002:a17:902:421:: with SMTP id 30-v6mr6187502ple.184.1538756887742;
-        Fri, 05 Oct 2018 09:28:07 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b02c:cbf4:5532:1d8f:efe5:8aa? ([2600:1010:b02c:cbf4:5532:1d8f:efe5:8aa])
-        by smtp.gmail.com with ESMTPSA id d24-v6sm8488462pgv.23.2018.10.05.09.28.06
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Oct 2018 09:28:06 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH v4 3/9] x86/cet/ibt: Add IBT legacy code bitmap allocation function
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16A366)
-In-Reply-To: <fc2f98ab46240c0498bdf4d7458b4373c1f02bf8.camel@intel.com>
-Date:   Fri, 5 Oct 2018 09:28:05 -0700
-Cc:     Eugene Syromiatnikov <esyr@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1728849AbeJEX3V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Oct 2018 19:29:21 -0400
+Received: from namei.org ([65.99.196.166]:35840 "EHLO namei.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728835AbeJEX3V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Oct 2018 19:29:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id w95GTG2M009164;
+        Fri, 5 Oct 2018 16:29:16 GMT
+Date:   Sat, 6 Oct 2018 02:29:16 +1000 (AEST)
+From:   James Morris <jmorris@namei.org>
+To:     Kees Cook <keescook@chromium.org>
+cc:     John Johansen <john.johansen@canonical.com>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        "Schaufler, Casey" <casey.schaufler@intel.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <5BF3AE8F-CC2A-4160-9FF6-FEA171A76371@amacapital.net>
-References: <20180921150553.21016-1-yu-cheng.yu@intel.com> <20180921150553.21016-4-yu-cheng.yu@intel.com> <20181003195702.GF32759@asgard.redhat.com> <fc2f98ab46240c0498bdf4d7458b4373c1f02bf8.camel@intel.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH security-next v4 23/32] selinux: Remove boot parameter
+In-Reply-To: <alpine.LRH.2.21.1810051449110.2590@namei.org>
+Message-ID: <alpine.LRH.2.21.1810060229090.8957@namei.org>
+References: <20181002005505.6112-1-keescook@chromium.org> <CAGXu5jKqXNbEvPr1axQtGCCnWsGhDgjynW5u326mcx4vZ1oH8g@mail.gmail.com> <abe03d09-4dcb-2b02-4102-5e108d617a42@canonical.com> <CAGXu5jJtC1gkJ0ZKDFroL8UzvjiPfmC+6EsrzyB0j0oETdSQQg@mail.gmail.com>
+ <alpine.LRH.2.21.1810030758460.23596@namei.org> <CAGXu5jLKgrdhah-5TtAXDL-odbLGeyAUH2=PkAU769AkEnZFfQ@mail.gmail.com> <5955f5ce-b803-4f58-8b07-54c291e33da5@canonical.com> <alpine.LRH.2.21.1810040416500.13517@namei.org> <CAGXu5j+oPR58oJ06-n7e96-Rmu+ywTW0hud5LhOZ_3UXG5s12w@mail.gmail.com>
+ <alpine.LRH.2.21.1810040427550.13517@namei.org> <CAGXu5jJmVR4Wsdti=aFaDhCBaxsVu1KTJOdsJOtFvZOV1ZhdvQ@mail.gmail.com> <alpine.LRH.2.21.1810040723320.16168@namei.org> <CAGXu5jJDBhFrdCBHH4MZVDmG88mMxSaSx0w9anCcyx24YHLO5w@mail.gmail.com>
+ <alpine.LRH.2.21.1810050338470.14095@namei.org> <CAGXu5j+3HqqBa_ogQqGJYubeZr9uCrbKzEoKO3Or=71e4c_=Gw@mail.gmail.com> <alpine.LRH.2.21.1810051449110.2590@namei.org>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 5 Oct 2018, James Morris wrote:
 
+> On Thu, 4 Oct 2018, Kees Cook wrote:
 
-> On Oct 5, 2018, at 9:13 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->=20
->> On Wed, 2018-10-03 at 21:57 +0200, Eugene Syromiatnikov wrote:
->>> On Fri, Sep 21, 2018 at 08:05:47AM -0700, Yu-cheng Yu wrote:
->>> Indirect branch tracking provides an optional legacy code bitmap
->>> that indicates locations of non-IBT compatible code.  When set,
->>> each bit in the bitmap represents a page in the linear address is
->>> legacy code.
->>>=20
->>> We allocate the bitmap only when the application requests it.
->>> Most applications do not need the bitmap.
->>>=20
->>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->>> ---
->>> arch/x86/kernel/cet.c | 45 +++++++++++++++++++++++++++++++++++++++++++
->>> 1 file changed, 45 insertions(+)
->>>=20
->>> diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
->>> index 6adfe795d692..a65d9745af08 100644
->>> --- a/arch/x86/kernel/cet.c
->>> +++ b/arch/x86/kernel/cet.c
->>> @@ -314,3 +314,48 @@ void cet_disable_ibt(void)
->>>    wrmsrl(MSR_IA32_U_CET, r);
->>>    current->thread.cet.ibt_enabled =3D 0;
->>> }
->>> +
->>> +int cet_setup_ibt_bitmap(void)
->>> +{
->>> +    u64 r;
->>> +    unsigned long bitmap;
->>> +    unsigned long size;
->>> +
->>> +    if (!cpu_feature_enabled(X86_FEATURE_IBT))
->>> +        return -EOPNOTSUPP;
->>> +
->>> +    if (!current->thread.cet.ibt_bitmap_addr) {
->>> +        /*
->>> +         * Calculate size and put in thread header.
->>> +         * may_expand_vm() needs this information.
->>> +         */
->>> +        size =3D TASK_SIZE / PAGE_SIZE / BITS_PER_BYTE;
->>=20
->> TASK_SIZE_MAX is likely needed here, as an application can easily switch
->> between long an 32-bit protected mode.  And then the case of a CPU that
->> doesn't support 5LPT.
->=20
-> If we had calculated bitmap size from TASK_SIZE_MAX, all 32-bit apps would=
- have
-> failed the allocation for bitmap size > TASK_SIZE.  Please see values belo=
-w,
-> which is printed from the current code.
->=20
-> Yu-cheng
->=20
->=20
-> x64:
-> TASK_SIZE_MAX    =3D 0000 7fff ffff f000
-> TASK_SIZE    =3D 0000 7fff ffff f000
-> bitmap size    =3D 0000 0000 ffff ffff
->=20
-> x32:
-> TASK_SIZE_MAX    =3D 0000 7fff ffff f000
-> TASK_SIZE    =3D 0000 0000 ffff e000
-> bitmap size    =3D 0000 0000 0001 ffff
->=20
+> > And a user would need to specify ALL lsms on the "lsm=" line?
+> > 
+> 
+> Yes, the ones they want enabled.
 
-I haven=E2=80=99t followed all the details here, but I have a general policy=
- of objecting to any new use of TASK_SIZE. If you really really need to depe=
-nd on 32-bitness in new code, please figure out what exactly you mean by =E2=
-=80=9C32-bit=E2=80=9D and use an explicit check.
+If they're overriding the kconfig value.
 
-Some day I would love to delete TASK_SIZE.=
+-- 
+James Morris
+<jmorris@namei.org>
+
