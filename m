@@ -5,45 +5,45 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E27E7D92A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 23:18:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3AE3D7D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 23:18:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729112AbeJFGT0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 02:19:26 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39755 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728403AbeJFGT0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 02:19:26 -0400
-Received: by mail-pf1-f196.google.com with SMTP id c25-v6so5421173pfe.6
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 16:18:31 -0700 (PDT)
+        id S1729228AbeJFGT3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 02:19:29 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:46773 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728403AbeJFGT2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 02:19:28 -0400
+Received: by mail-pg1-f193.google.com with SMTP id a5-v6so5321655pgv.13
+        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 16:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YA9WH3pfYU6schmD91/Hmd5hK9+CpUcqh3SP6wwSGRA=;
-        b=XjhtMzt5Xd6fiPGeYST7XCyh8L60eEuk07+Hm95TeHuDpkYIsD45rr9NBSEd1Vi3It
-         MhUw3JiOoIlGryCXOsgG6KK1GMC82uGIEOXSioQPmpQ5DCvZekWkQXGCY/sshKPyc1Fy
-         Jnz4p3xlqd6fxMP4BwhyEdI7g7e/zeGcdvTz8=
+        bh=VuiGGF4tGE77ZoRCuOu2WaKGuaS8nUiVz1gvo4RFW90=;
+        b=hiN7Esssa+biM79y02dxKh1TZZvxnQJy5tklCPgKWM+YfpFRQIcdicfNXBg/yQE9oU
+         e/LmRkuN7kRe0SYBIor5hFFTi3BVP2LlEIfqtYzJx7Dd3iVCBJ+GAG3O9Tn7WKSOozs8
+         GW2YI+MvUbNatlojnrf2PjQg+C7HG6B5okCF8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YA9WH3pfYU6schmD91/Hmd5hK9+CpUcqh3SP6wwSGRA=;
-        b=t/3sgEz9BtyAJpWbJ/fI/LUci3jfSOKmWf5BSMyDEiJNdBOHiUi7HAUyOxZTfOcgKs
-         iYF7ZvpfjZwdXXMWrU3G8ERETV7IPv0EtdBG5VZdRV2v19nE8AEFVVA8L2i10so9nf+n
-         OnWGbhhyubni6ejoiuVJhStH+WI4Yrpu7/FaV7ABjy+4hbSG6QEKeX1v8Gb/4YwprHKf
-         bL9GlfRoBtsg3oDZpbpSPQpCr2tnoUG8C+qtunS1IjIYaGXBQQu1nAI5cAiFMSg8d8C6
-         YVEFfRIZi3WY8O5owmrTawmOSiXk2K3DwhtJJmfsTg6zuBuU55yZ0N44KaXTOzN2vNdd
-         2UQg==
-X-Gm-Message-State: ABuFfog8H3/fpLXRWfApIJCottSMrzcF4pWNWJMQMITmQRG5RFYu1Kl7
-        D3+3QMLisZb73oHL+TAN8ronwA==
-X-Google-Smtp-Source: ACcGV621aXYCsucSyU0/Rh3IRnWXf4FMAI2g+LOkygUhhZsXWSi62pyIDHV8XrImCLt/6bsfYRC8hQ==
-X-Received: by 2002:a63:608c:: with SMTP id u134-v6mr11850262pgb.266.1538781511252;
-        Fri, 05 Oct 2018 16:18:31 -0700 (PDT)
+        bh=VuiGGF4tGE77ZoRCuOu2WaKGuaS8nUiVz1gvo4RFW90=;
+        b=ojE2hoDQ16maCuVbBZdWb687MFQY94JzNExBPCC8rF2wKSaXvCU0sjt4jVwa4hd+g3
+         nNGcr+qjnHYBSh/kbzFg1HBXq3oml4s0o2TPq2j5dHy1v5Ux4tUHd5WzMH+LXx4UVNdY
+         97SlOl4RCb9fe91Skr3x3AIFSXTqvnsB1Rb44P0GjeXJP2/GOOLCxl7jaPjHNgXgWDW6
+         W0/sngcnERDIPhljW+i1rSJBmvDstQ4r4nWzAaa9jPP7sn4zzjIJYuL/D6DTNImqagR8
+         y9gMARj7uBtW5hJwsrSGROpCIBf4+g/eqOH2kHgKcl0M+r10flX0iWeZDpINo5Yi24Jp
+         oRRA==
+X-Gm-Message-State: ABuFfogIiM7rzrn8N+to3bjha2f41L3meZYwYLFWd+j/9AAi6jNiBk5p
+        NV0zpQNO6XOS44k65VD7P/epVg==
+X-Google-Smtp-Source: ACcGV60Icikt2yjKJfW7Zqn6YndlLIcqwfGZCNjvCoanu+j3nzpfv7j4sAdC7AAtbhjIsq8stybaOQ==
+X-Received: by 2002:a63:4745:: with SMTP id w5-v6mr12254899pgk.377.1538781513088;
+        Fri, 05 Oct 2018 16:18:33 -0700 (PDT)
 Received: from joelaf.mtv.corp.google.com ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id q76-v6sm16641028pfa.18.2018.10.05.16.18.29
+        by smtp.gmail.com with ESMTPSA id q76-v6sm16641028pfa.18.2018.10.05.16.18.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Oct 2018 16:18:29 -0700 (PDT)
+        Fri, 05 Oct 2018 16:18:31 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
@@ -54,9 +54,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
         Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
-Subject: [PATCH RFC 2/5] doc: rcu: Add more rationale for using rcu_read_lock_sched in checklist
-Date:   Fri,  5 Oct 2018 16:18:11 -0700
-Message-Id: <20181005231815.170433-3-joel@joelfernandes.org>
+Subject: [PATCH RFC 3/5] doc: rcu: Remove obsolete suggestion from checklist
+Date:   Fri,  5 Oct 2018 16:18:12 -0700
+Message-Id: <20181005231815.170433-4-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.19.0.605.g01d371f741-goog
 In-Reply-To: <20181005231815.170433-1-joel@joelfernandes.org>
 References: <20181005231815.170433-1-joel@joelfernandes.org>
@@ -67,27 +67,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It could be clarified better why rcu_read_lock_sched is better than
-using preempt_disable, add the same.
+call_rcu_bh is now implemented in terms of call_rcu, so the suggestion
+to use a different API for speed benefits is not accurate anymore.
+Update the document accordingly.
 
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- Documentation/RCU/checklist.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/RCU/checklist.txt | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/Documentation/RCU/checklist.txt b/Documentation/RCU/checklist.txt
-index 49747717d905..8860ab2a897a 100644
+index 8860ab2a897a..cc22ce49618d 100644
 --- a/Documentation/RCU/checklist.txt
 +++ b/Documentation/RCU/checklist.txt
-@@ -63,7 +63,7 @@ over a rather long period of time, but improvements are always welcome!
- 	pointer must be covered by rcu_read_lock(), rcu_read_lock_bh(),
- 	rcu_read_lock_sched(), or by the appropriate update-side lock.
- 	Disabling of preemption can serve as rcu_read_lock_sched(), but
--	is less readable.
-+	is less readable and prevents lockdep from detecting locking issues.
+@@ -285,11 +285,7 @@ over a rather long period of time, but improvements are always welcome!
+ 		here is that superuser already has lots of ways to crash
+ 		the machine.
  
- 	Letting RCU-protected pointers "leak" out of an RCU read-side
- 	critical section is every bid as bad as letting them leak out
+-	d.	Use call_rcu_bh() rather than call_rcu(), in order to take
+-		advantage of call_rcu_bh()'s faster grace periods.  (This
+-		is only a partial solution, though.)
+-
+-	e.	Periodically invoke synchronize_rcu(), permitting a limited
++	d.	Periodically invoke synchronize_rcu(), permitting a limited
+ 		number of updates per grace period.
+ 
+ 	The same cautions apply to call_rcu_bh(), call_rcu_sched(),
 -- 
 2.19.0.605.g01d371f741-goog
 
