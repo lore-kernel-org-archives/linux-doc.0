@@ -5,45 +5,45 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF89B7D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 23:18:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BF4587D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Oct 2018 23:18:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729325AbeJFGTc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 02:19:32 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:45604 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729070AbeJFGTb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 02:19:31 -0400
-Received: by mail-pf1-f194.google.com with SMTP id u12-v6so2606829pfn.12
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 16:18:37 -0700 (PDT)
+        id S1729323AbeJFGTr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 02:19:47 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:44124 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728403AbeJFGT3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 02:19:29 -0400
+Received: by mail-pl1-f193.google.com with SMTP id p25-v6so7479880pli.11
+        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 16:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GGAqxr0F89ju3bhRty+29lvrmYJBGdCM+Kjt6JTCbOI=;
-        b=EFAyFhAV1BIxvRq2BYQcFC7zJBWdPRY8+Dtk9krt6Tv6dIJ3iL89lRCgci3eRjHyft
-         rfLEW4y/Nu9xVp2GeUpsYoWBq5ExXwUwWQJ3K8IlA7rUaDGZEHQ9RDErxfx3JV0GH3dT
-         qOqsY3xp5FSfc+blysbdDYDwbpBKvCzCFZOVY=
+        bh=Jy3+afbhcoBBWCkKDq49jdH16mCQEkKTdo6+KmIauoI=;
+        b=eoaoVZPqMzi4LZ1H8Tpx9DfAVybQ8tMwdZNylBaD63o4KRwZaiWrcYllGNhrhu9NtR
+         ZJylVC9WAoM1hX98Ob7EoU6xkzu5M5Xk/5/MiW9r9FIE351NAWsu3G+uxSJEcfkr4SeR
+         GaXl1uoMWbKe0AVaUtiOy4UO4x8vDaUNfr1HA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GGAqxr0F89ju3bhRty+29lvrmYJBGdCM+Kjt6JTCbOI=;
-        b=TP4BSTAIul2cCVs9LUny31Ez75XGq75t0A8z8OiS+m44c2Enc5Mzr3SmiSePwe5iQA
-         8ZBlUOGrmcTg5GGkqZRD+u4c6nVaiw/vf+w6DBFxZW5E4Orfk08IFm4aYlXTyv5HsmY+
-         UD2TDCIQWtmLuEtaqd5HgNPtHaVK5aki8FStqAxcX2l04HsXV0oYiUqn1J0nmYBKYpO7
-         50gZtFULzv0tKBaCMsudps3z+Xdtbc8ULEHv6C81yVF1cnIp8B5dAZ8cRrXSIitLAs3A
-         BjeqpLDStJueEmqSAWrwYPqU3dWwO5VtACYa/hPqlOeIRtQHPKSUv07ZTTFS+yMVmb4x
-         mCxQ==
-X-Gm-Message-State: ABuFfojMTMdNZPfb8aIXvAqaZtFzZlJMLXRwQZyrt85vgOztdn7h+KC1
-        SUDStGGG1HQyWKP52kxxykJ6Bw==
-X-Google-Smtp-Source: ACcGV60FlVkU3W/TdcigKZUyjnqE4NCtHrOIHI5LmCEUTW1hliEJg/vKubOv/rtvuwG8yiUWiNvlnQ==
-X-Received: by 2002:a65:47cb:: with SMTP id f11-v6mr12326568pgs.166.1538781516548;
-        Fri, 05 Oct 2018 16:18:36 -0700 (PDT)
+        bh=Jy3+afbhcoBBWCkKDq49jdH16mCQEkKTdo6+KmIauoI=;
+        b=VeXPx/xocq3j3V/tdBglTdm6c+6OiO3J5CD4kNMsMtSvbvzly09hCGypCkyrLMnOg4
+         EIsoIK5BPHTgiS/gtgAiX7otXO1FpQHfR7tCd6VVBKMMJw4ZuZ8qZJRa1ew9Aru5TMx+
+         anIqk3Un8gOOSmVAhmpkLqBvEcrGiDd6lKVySlZlQrlERZROC3Rt0He8e8JhBLmDrZ40
+         txqC4Wg9ElJrcfvtn9ptgXAfZkoIEc2ylrtwryhKBF38GIw+KThCIzQ9P+wf9Slvv6Yr
+         M9DrOKWd5N6rkeeW/+pINe2c5kBHA3fBo8/Ui6+tx2Emhi5sg2RGbhVuHgztC38P9MI8
+         HCEg==
+X-Gm-Message-State: ABuFfohKQrz/jvk1WCEoo4bBYzs+/1xRH5ewf+WnyLy5Pk0RELYG/0sZ
+        V3kfCFtPc1j1isvc+JNm6bmNvA==
+X-Google-Smtp-Source: ACcGV62vxheOV0Wa8tSgtroZSOD2qNMI+CiTX9+Pj7hsb6f+o8hE1aRxG9rsHCyxc+KmsqHlCzeXig==
+X-Received: by 2002:a17:902:3fa5:: with SMTP id a34-v6mr13776194pld.244.1538781514664;
+        Fri, 05 Oct 2018 16:18:34 -0700 (PDT)
 Received: from joelaf.mtv.corp.google.com ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id q76-v6sm16641028pfa.18.2018.10.05.16.18.34
+        by smtp.gmail.com with ESMTPSA id q76-v6sm16641028pfa.18.2018.10.05.16.18.33
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Oct 2018 16:18:35 -0700 (PDT)
+        Fri, 05 Oct 2018 16:18:33 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
@@ -54,9 +54,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
         Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
-Subject: [PATCH RFC 5/5] doc: rcu: Encourage use of rcu_barrier in checklist
-Date:   Fri,  5 Oct 2018 16:18:14 -0700
-Message-Id: <20181005231815.170433-6-joel@joelfernandes.org>
+Subject: [PATCH RFC 4/5] doc: rcu: Remove obsolete checklist item about synchronize_rcu usage
+Date:   Fri,  5 Oct 2018 16:18:13 -0700
+Message-Id: <20181005231815.170433-5-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.19.0.605.g01d371f741-goog
 In-Reply-To: <20181005231815.170433-1-joel@joelfernandes.org>
 References: <20181005231815.170433-1-joel@joelfernandes.org>
@@ -67,32 +67,103 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The checklist suggests rcu_barrier_bh for RCU-bh and similarly for
-sched, however these APIs are now implemented as rcu_barrier itself due
-to the RCU consolidation. It may also be removed in the future, so lets
-correct the doc to encourage use of the rcu_barrier() API itself.
-Similar changes are made in previous patches.
+Since the RCU mechanisms have been consolidated, this checklist item
+seems no longer useful or relevant. Probably even a bit misleading. For
+example, synchronize_rcu will now guarantee that all interrupt disabled
+regions have finished executing. So lets remove this checklist item.
 
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- Documentation/RCU/checklist.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/RCU/checklist.txt | 37 +++++++--------------------------
+ 1 file changed, 7 insertions(+), 30 deletions(-)
 
 diff --git a/Documentation/RCU/checklist.txt b/Documentation/RCU/checklist.txt
-index b90ad1b0665a..6f469864d9f5 100644
+index cc22ce49618d..b90ad1b0665a 100644
 --- a/Documentation/RCU/checklist.txt
 +++ b/Documentation/RCU/checklist.txt
-@@ -442,8 +442,8 @@ over a rather long period of time, but improvements are always welcome!
- 	You instead need to use one of the barrier functions:
+@@ -320,37 +320,14 @@ over a rather long period of time, but improvements are always welcome!
+ 	will break Alpha, cause aggressive compilers to generate bad code,
+ 	and confuse people trying to read your code.
  
- 	o	call_rcu() -> rcu_barrier()
--	o	call_rcu_bh() -> rcu_barrier_bh()
--	o	call_rcu_sched() -> rcu_barrier_sched()
-+	o	call_rcu_bh() -> rcu_barrier()
-+	o	call_rcu_sched() -> rcu_barrier()
- 	o	call_srcu() -> srcu_barrier()
+-11.	Note that synchronize_rcu() -only- guarantees to wait until
+-	all currently executing rcu_read_lock()-protected RCU read-side
+-	critical sections complete.  It does -not- necessarily guarantee
+-	that all currently running interrupts, NMIs, preempt_disable()
+-	code, or idle loops will complete.  Therefore, if your
+-	read-side critical sections are protected by something other
+-	than rcu_read_lock(), do -not- use synchronize_rcu().
+-
+-	Similarly, disabling preemption is not an acceptable substitute
+-	for rcu_read_lock().  Code that attempts to use preemption
+-	disabling where it should be using rcu_read_lock() will break
+-	in CONFIG_PREEMPT=y kernel builds.
+-
+-	If you want to wait for interrupt handlers, NMI handlers, and
+-	code under the influence of preempt_disable(), you instead
+-	need to use synchronize_irq() or synchronize_sched().
+-
+-	This same limitation also applies to synchronize_rcu_bh()
+-	and synchronize_srcu(), as well as to the asynchronous and
+-	expedited forms of the three primitives, namely call_rcu(),
+-	call_rcu_bh(), call_srcu(), synchronize_rcu_expedited(),
+-	synchronize_rcu_bh_expedited(), and synchronize_srcu_expedited().
+-
+-12.	Any lock acquired by an RCU callback must be acquired elsewhere
++11.	Any lock acquired by an RCU callback must be acquired elsewhere
+ 	with softirq disabled, e.g., via spin_lock_irqsave(),
+ 	spin_lock_bh(), etc.  Failing to disable irq on a given
+ 	acquisition of that lock will result in deadlock as soon as
+ 	the RCU softirq handler happens to run your RCU callback while
+ 	interrupting that acquisition's critical section.
  
- 	However, these barrier functions are absolutely -not- guaranteed
+-13.	RCU callbacks can be and are executed in parallel.  In many cases,
++12.	RCU callbacks can be and are executed in parallel.  In many cases,
+ 	the callback code simply wrappers around kfree(), so that this
+ 	is not an issue (or, more accurately, to the extent that it is
+ 	an issue, the memory-allocator locking handles it).  However,
+@@ -366,7 +343,7 @@ over a rather long period of time, but improvements are always welcome!
+ 	not the case, a self-spawning RCU callback would prevent the
+ 	victim CPU from ever going offline.)
+ 
+-14.	Unlike other forms of RCU, it -is- permissible to block in an
++13.	Unlike other forms of RCU, it -is- permissible to block in an
+ 	SRCU read-side critical section (demarked by srcu_read_lock()
+ 	and srcu_read_unlock()), hence the "SRCU": "sleepable RCU".
+ 	Please note that if you don't need to sleep in read-side critical
+@@ -410,7 +387,7 @@ over a rather long period of time, but improvements are always welcome!
+ 	Note that rcu_dereference() and rcu_assign_pointer() relate to
+ 	SRCU just as they do to other forms of RCU.
+ 
+-15.	The whole point of call_rcu(), synchronize_rcu(), and friends
++14.	The whole point of call_rcu(), synchronize_rcu(), and friends
+ 	is to wait until all pre-existing readers have finished before
+ 	carrying out some otherwise-destructive operation.  It is
+ 	therefore critically important to -first- remove any path
+@@ -422,13 +399,13 @@ over a rather long period of time, but improvements are always welcome!
+ 	is the caller's responsibility to guarantee that any subsequent
+ 	readers will execute safely.
+ 
+-16.	The various RCU read-side primitives do -not- necessarily contain
++15.	The various RCU read-side primitives do -not- necessarily contain
+ 	memory barriers.  You should therefore plan for the CPU
+ 	and the compiler to freely reorder code into and out of RCU
+ 	read-side critical sections.  It is the responsibility of the
+ 	RCU update-side primitives to deal with this.
+ 
+-17.	Use CONFIG_PROVE_LOCKING, CONFIG_DEBUG_OBJECTS_RCU_HEAD, and the
++16.	Use CONFIG_PROVE_LOCKING, CONFIG_DEBUG_OBJECTS_RCU_HEAD, and the
+ 	__rcu sparse checks to validate your RCU code.	These can help
+ 	find problems as follows:
+ 
+@@ -451,7 +428,7 @@ over a rather long period of time, but improvements are always welcome!
+ 	These debugging aids can help you find problems that are
+ 	otherwise extremely difficult to spot.
+ 
+-18.	If you register a callback using call_rcu(), call_rcu_bh(),
++17.	If you register a callback using call_rcu(), call_rcu_bh(),
+ 	call_rcu_sched(), or call_srcu(), and pass in a function defined
+ 	within a loadable module, then it in necessary to wait for
+ 	all pending callbacks to be invoked after the last invocation
 -- 
 2.19.0.605.g01d371f741-goog
 
