@@ -1,142 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7FC8D7D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 22:17:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 593E77D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 22:47:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725829AbeJGFWf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 7 Oct 2018 01:22:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54022 "EHLO mail.kernel.org"
+        id S1725842AbeJGFwk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 7 Oct 2018 01:52:40 -0400
+Received: from imap.thunk.org ([74.207.234.97]:43430 "EHLO imap.thunk.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725821AbeJGFWf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 7 Oct 2018 01:22:35 -0400
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F3B0B214D5
-        for <linux-doc@vger.kernel.org>; Sat,  6 Oct 2018 22:17:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1538864256;
-        bh=EydBx8Y1sVEc7r+PLq9ZaGivxcTg3ytUZ55ZgquFN/g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=eiyKvAlcEtqqwgtKpqyyjabGkzFDuYkx/RgX/t7bwmNI8RGxg6ypLkNNfSEmJY337
-         X+tdPV0zJmmS5mIVbVK0vfWoJnKuHzPWA0QXlsfZbZOO7v+ERWmHMByXOHCKiygNqk
-         S0vOL2E8adikCyzDbudKtaVLSWuHHX2ZUAHRPgMk=
-Received: by mail-wr1-f45.google.com with SMTP id y11-v6so6179023wrd.4
-        for <linux-doc@vger.kernel.org>; Sat, 06 Oct 2018 15:17:35 -0700 (PDT)
-X-Gm-Message-State: ABuFfoj107ZvBlDaF+LQYZygmZ35m7GJo3od3ot42g3Ik9MBWSgSqlOK
-        65/9/3m+8XpLmDNPCIRNZpdNZHOOo+i5Jy7FUTpk/A==
-X-Google-Smtp-Source: ACcGV60txTtgCUR1ibFmlcXGuADoxJlh+yxiOWCul3I3M4YCuj1lHfsff5ppsU4gDsoN2cTJM6YgDiR1QAOutcGlU88=
-X-Received: by 2002:adf:9792:: with SMTP id s18-v6mr12609763wrb.283.1538864254215;
- Sat, 06 Oct 2018 15:17:34 -0700 (PDT)
+        id S1725821AbeJGFwk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 7 Oct 2018 01:52:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
+         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=NZBjo2aGfpTjJRn918klV4zqOc8QA4M8zsX7haRhh2k=; b=G2fhd4zhcsvxg0xVJYL4q2mMqP
+        wOwexAbxrp9LMg1xBlUwLhVjvREw6Z/JMjtUVcWY0ratjd0JpJ93lWZ0ysd0U7tQD1anXGTfDro8I
+        od2epYH3gDBBPhtWz5DOCNHiaoL4IZbKdkVcILHSCcj2Op9xqs51v9OtG+ypM0vpj3o8=;
+Received: from root (helo=callcc.thunk.org)
+        by imap.thunk.org with local-esmtp (Exim 4.89)
+        (envelope-from <tytso@thunk.org>)
+        id 1g8vMB-0004hI-2K; Sat, 06 Oct 2018 22:47:31 +0000
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 08A247A5240; Sat,  6 Oct 2018 18:47:30 -0400 (EDT)
+Date:   Sat, 6 Oct 2018 18:47:29 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
+Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
+Message-ID: <20181006224729.GA7130@thunk.org>
+Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>, linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
+References: <20181005231815.170433-1-joel@joelfernandes.org>
+ <20181005234628.GB2548@thunk.org>
+ <20181006034540.GM2674@linux.ibm.com>
+ <20181006044057.GA41279@joelaf.mtv.corp.google.com>
 MIME-Version: 1.0
-References: <20181006084327.27467-1-bhe@redhat.com> <20181006122259.GB418@gmail.com>
- <20181006143821.GA72401@gmail.com> <20181006170317.GA21297@gmail.com>
-In-Reply-To: <20181006170317.GA21297@gmail.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Sat, 6 Oct 2018 15:17:21 -0700
-X-Gmail-Original-Message-ID: <CALCETrXcsf9fNAkZH29e=p8pTkqE=YR42cbnLWmqqbAbJQ6KbA@mail.gmail.com>
-Message-ID: <CALCETrXcsf9fNAkZH29e=p8pTkqE=YR42cbnLWmqqbAbJQ6KbA@mail.gmail.com>
-Subject: Re: [PATCH 4/3 v2] x86/mm/doc: Enhance the x86-64 virtual memory
- layout descriptions
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     Baoquan He <bhe@redhat.com>, Andrew Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Peter Zijlstra <a.p.zijlstra@chello.nl>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Garnier <thgarnie@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181006044057.GA41279@joelaf.mtv.corp.google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: tytso@thunk.org
+X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 6, 2018 at 10:03 AM Ingo Molnar <mingo@kernel.org> wrote:
->
->
-> There's one PTI related layout asymmetry I noticed between 4-level and 5-level kernels:
->
->   47-bit:
-> > +                                                            |
-> > +                                                            | Kernel-space virtual memory, shared between all processes:
-> > +____________________________________________________________|___________________________________________________________
-> > +                  |            |                  |         |
-> > + ffff800000000000 | -128    TB | ffff87ffffffffff |    8 TB | ... guard hole, also reserved for hypervisor
-> > + ffff880000000000 | -120    TB | ffffc7ffffffffff |   64 TB | direct mapping of all physical memory (page_offset_base)
-> > + ffffc80000000000 |  -56    TB | ffffc8ffffffffff |    1 TB | ... unused hole
-> > + ffffc90000000000 |  -55    TB | ffffe8ffffffffff |   32 TB | vmalloc/ioremap space (vmalloc_base)
-> > + ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused hole
-> > + ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual memory map (vmemmap_base)
-> > + ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused hole
-> > + ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory
-> > + fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
-> > +                  |            |                  |         | vaddr_end for KASLR
-> > + fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
-> > + fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | LDT remap for PTI
-> > + ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
-> > +__________________|____________|__________________|_________|____________________________________________________________
-> > +                                                            |
->
->   56-bit:
-> > +                                                            |
-> > +                                                            | Kernel-space virtual memory, shared between all processes:
-> > +____________________________________________________________|___________________________________________________________
-> > +                  |            |                  |         |
-> > + ff00000000000000 |  -64    PB | ff0fffffffffffff |    4 PB | ... guard hole, also reserved for hypervisor
-> > + ff10000000000000 |  -60    PB | ff8fffffffffffff |   32 PB | direct mapping of all physical memory (page_offset_base)
-> > + ff90000000000000 |  -28    PB | ff9fffffffffffff |    4 PB | LDT remap for PTI
-> > + ffa0000000000000 |  -24    PB | ffd1ffffffffffff | 12.5 PB | vmalloc/ioremap space (vmalloc_base)
-> > + ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
-> > + ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
-> > + ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
-> > + ffdf000000000000 |   -8.25 PB | fffffdffffffffff |   ~8 PB | KASAN shadow memory
-> > + fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
-> > +                  |            |                  |         | vaddr_end for KASLR
-> > + fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
-> > + fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | ... unused hole
-> > + ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
->
-> The two layouts are very similar beyond the shift in the offset and the region sizes, except
-> one big asymmetry: is the placement of the LDT remap for PTI.
->
-> Is there any fundamental reason why the LDT area is mapped into a 4 petabyte (!) area on 56-bit
-> kernels, instead of being at the -1.5 TB offset like on 47-bit kernels?
->
-> The only reason I can see is that this way is that it's currently coded at the PGD level only:
->
-> static void map_ldt_struct_to_user(struct mm_struct *mm)
-> {
->         pgd_t *pgd = pgd_offset(mm, LDT_BASE_ADDR);
->
->         if (static_cpu_has(X86_FEATURE_PTI) && !mm->context.ldt)
->                 set_pgd(kernel_to_user_pgdp(pgd), *pgd);
-> }
->
-> ( BTW., the 4 petabyte size of the area is misleading: a 5-level PGD entry covers 256 TB of
->   virtual memory, i.e 0.25 PB, not 4 PB. So in reality we have a 0.25 PB area there, used up
->   by the LDT mapping in a single PGD entry, plus a 3.75 PB hole after that. )
->
-> ... but unless I'm missing something it's not really fundamental for it to be at the PGD level
-> - it could be two levels lower as well, and it could move back to the same place where it's on
-> the 47-bit kernel.
->
+On Fri, Oct 05, 2018 at 09:40:57PM -0700, Joel Fernandes wrote:
+> 
+> Could you annotate this pointer (sbi->s_qf_names) with __rcu so it can be
+> checked by sparse for proper usage? Its also point #16 in the checklist.txt
+> RCU document. I enclosed a diff to do this below.
 
-The subtlety is that, if it's lower than the PGD level, there end up
-being some tables that are private to each LDT-using mm that map
-things other than the LDT.  Those tables cover the same address range
-as some corresponding tables in init_mm, and if those tables in
-init_mm change after the LDT mapping is set up, the changes won't
-propagate.
+Sure.
 
-So it probably could be made to work, but it would take some extra care.
+> I also saw a bunch of places in super.c where the pointer isn't accessed from
+> an rcu read section or rcu_dereference, but it was a quick look so sorry if I
+> missed something. If its true, then are you planning to convert these to use
+> rcu_dereference and wrapped by an rcu_read_lock/unlock as well?
+
+These are places where we are holding s_umount, so there's no way
+s_qf_names can change out from under us.  So the conversion should be
+to use rcu_dereference_protected().
+
+> > +		to_free[i] = rcu_dereference_protected(sbi->s_qf_names[i],
+> > +						       &sb->s_umount);
+> 
+> Also should this be the following?
+> 		to_free[i] = rcu_dereference_protected(sbi->s_qf_names[i],
+> 					       lockdep_is_held(&sb->s_umount));
+
+Yep, good catch, thanks.
+
+						- Ted
