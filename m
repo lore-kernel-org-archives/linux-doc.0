@@ -1,122 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F7C07D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 12:33:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E320B7D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 13:29:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727202AbeJFTgd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 15:36:33 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37879 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727161AbeJFTgd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 15:36:33 -0400
-Received: by mail-wr1-f65.google.com with SMTP id y11-v6so5364392wrd.4;
-        Sat, 06 Oct 2018 05:33:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5ebSLkD0UFrm0Zo5niwE5ReF8HMW+6U0qSy/prZmK4c=;
-        b=T6JadZwmy4l8sV30x5cxcVjvhz5ErllkjyaJPl6KnPljpsNHa69MK5wCWUL4/DzG3Q
-         i2250xYG741txylBwHi7CeL5onXQcNiLYhE90npzcJQuHwx9keMHmhn4Qq+HKs9+jd+l
-         cpJYrOaNDS3o83DXZ8g9OjngFSzFNiz7CAxh43q9lTiJlBP402eHz+Un9ZRg8rGqf8qx
-         KFRGYpjJ4RxpDWEGbZPNhIiZEkWoR3b+I2NKHMElXtmiK1QdzSnNp+Vuz4/aNRJAg46E
-         mONcJp88XSuV+CLGGstLeDwkN2rtjCQAIpdGthyCmeAnAZl2ba2/Vb5NXY5cZbYEIOcf
-         stCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5ebSLkD0UFrm0Zo5niwE5ReF8HMW+6U0qSy/prZmK4c=;
-        b=QrwvR7CARlz75GOZ/OZzpSuvep3C+5p6Btwan2BnUzcH+3IMmiImXHBtoOhmHYLSqm
-         GZ7hBCORketytqzVDdUw8FpaSqOEH7bZCYZD3cA4VgvqS/YaoOatIhmREZA7VqHFBetS
-         g4Xmco/thJCe2MDFbr0cKQ8rZsbR6hmrgerrg/uH/s/4az0tjX/UmNt3JOr83+HHxWQ/
-         1Vu2bkWu6BWIybUf1zkxWHB97cvaqiQxclNtiVqQTyEZHbaaURKTXxkm1mVxlA6w1skJ
-         tTfQU41RGDJkvNfXT9hi8k5FusY1ydDHvpQJr7BFpGcK0MZR1vU8OOnAViiybsMoMV4w
-         E9JA==
-X-Gm-Message-State: ABuFfohnbCaPYCXqNyHogZMr/Z0ci753qpNS+9m3T1oULw0AhXheHv/z
-        cI+JFDewxpv+er09wl9p7xI=
-X-Google-Smtp-Source: ACcGV60BNITByNkS0xAUnz2OCZMrPqTQnsCMex8Smq5aYfjZPvHrUaSdyg8Nl2em41E42K3A2oK6Ug==
-X-Received: by 2002:adf:ec11:: with SMTP id x17-v6mr11138090wrn.266.1538829205496;
-        Sat, 06 Oct 2018 05:33:25 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id u191-v6sm4690792wmd.31.2018.10.06.05.33.24
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 06 Oct 2018 05:33:24 -0700 (PDT)
-Date:   Sat, 6 Oct 2018 14:33:22 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Baoquan He <bhe@redhat.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, tglx@linutronix.de, thgarnie@google.com,
-        corbet@lwn.net, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <a.p.zijlstra@chello.nl>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 4/3] x86/mm/doc: Enhance the x86-64 virtual memory layout
- descriptions
-Message-ID: <20181006123322.GA60572@gmail.com>
-References: <20181006084327.27467-1-bhe@redhat.com>
- <20181006122259.GB418@gmail.com>
+        id S1727995AbeJFUdM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 16:33:12 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:48842 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727726AbeJFUdM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 16:33:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=wkSapPGHEC/kxN69RBLF/FMB/LVi8iZ3qIOCKwiG+NI=; b=Li/XEhimEJ0KxZx31AM9U+dHc
+        3SweqRHE9T7DsLcWQE6nz0qSUE3IGnO0CGSQ9hSBQ+BBDY+4+YQ/aEbfqktM4eV+3YRHwXdzuLl1g
+        y+n9MLQUv4AjnJ9TCEy8OVInGdqH+hknbh0dJO8coC+HanYgLOR9o4NDbccd9SZxVhwuu5LCoZ5Ar
+        5eQyZ1/4hZC+ysei7cMpMtePrpcx5YwDXoYLqY6CMg40GxNxDe4rw2yFz/w3ismXinKPkBYxKLvpN
+        pv4lVGcPIkB4fu35dTcLiDDs4KmOp7rrVnd3A1KJ0XI4gyDIyfpNFwkxvqUL3juQbnxwgWdOjsoCD
+        yzd/0HAAw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1g8meV-0006ml-W1; Sat, 06 Oct 2018 13:29:51 +0000
+Date:   Sat, 6 Oct 2018 06:29:51 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
+        linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net
+Subject: Re: [PATCH v2 00/22] xfs-4.20: major documentation surgery
+Message-ID: <20181006132951.GA17023@bombadil.infradead.org>
+References: <153862669110.26427.16504658853992750743.stgit@magnolia>
+ <20181006005154.GM12041@dastard>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181006122259.GB418@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20181006005154.GM12041@dastard>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Oct 06, 2018 at 10:51:54AM +1000, Dave Chinner wrote:
+> On Wed, Oct 03, 2018 at 09:18:11PM -0700, Darrick J. Wong wrote:
+> > Hi all,
+> > 
+> > This series converts the existing in-kernel xfs documentation to rst
+> > format, links it in with the rest of the kernel's rst documetation, and
+> > then begins pulling in the contents of the Data Structures & Algorithms
+> > book from the xfs-documentation git tree.  No changes are made to the
+> > text during the import process except to fix things that the conversion
+> > process (asciidoctor + pandoc) didn't do correctly.  The goal of this
+> > series is to tie together the XFS code with the on-disk format
+> > documentation for the features supported by the code.
+> > 
+> > I've built the docs and put them here, in case you hate reading rst:
+> > https://djwong.org/docs/kdoc/admin-guide/xfs.html
+> > https://djwong.org/docs/kdoc/filesystems/xfs-data-structures/index.html
+> > 
+> > I've posted a branch here because the png import patch is huge:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=docs-4.20-merge
+> > 
+> > The patchset should apply cleanly against 4.19-rc6.  Comments and
+> > questions are, as always, welcome.
+> 
+> Jon,
+> 
+> Can you let us know whether the CC-by-SA 4.0 license is acceptible
+> or not? That's really the only thing that we need clarified at this
+> point - if it's OK I'll to pull this into the XFS tree for the 4.20
+> merge window. If not, we'll go back to the drawing board....
 
-* Ingo Molnar <mingo@kernel.org> wrote:
+This is (obviously) not legal advice.
 
-> +========================================================
-> +| Complete virtual memory map with 4-level page tables |
-> +========================================================
+I had an informal chat with Bradley Kuhn at LinuxCon Japan about using
+CC-BY-SA-4.0 and he indicated that I was probably better off using the
+GPL-2(+) for documentation.  I've changed the XArray documentation from
+CC-BY-SA-4.0 to GPL-2+.
 
-> +--------------------------------------------------------------------------------
-> +start addr       | offset     | end addr         |  size   | VM area description
-> +-----------------|------------|------------------|---------|--------------------
-
-> +
-> +# Identical layout to the 56-bit one from here on:
-> +
-> +ffffff8000000000 | -512    GB | fffffffeefffffff | ~507 GB | ... unused hole
-> +ffffffef00000000 |  -68    GB | fffffffeffffffff |   64 GB | EFI region mapping space
-
-> +========================================================
-> +| Complete virtual memory map with 5-level page tables |
-> +========================================================
-
-> +ffffff8000000000 |   -0.5  TB | ffffffeeffffffff |  444 GB | ... unused hole
-> +
-> +# Identical layout to the 47-bit one from here on:
-> +
-> +ffffffef00000000 |  -68    GB | fffffffeffffffff |   64 GB | EFI region mapping space
-
-So patch #2 appears to have introduced an error/typo in the 47-bit table. Note the weird size 
-and discontinuity of the 'unused hole' in the 47-bit table, and compare it with 56-bit table:
-
-  fffffffeefffffff
-  ffffffeeffffffff
-
-(Note how the incorrect end address was cargo-cult-copied into the 'size' field of ~507 GB...)
-
-The correct number is the 56-bit one, and both tables should show the following identical 
-layout:
-
-  ffffff8000000000 | -512    GB | fffffffeefffffff |  444 GB | ... unused hole
-  ffffffef00000000 |  -68    GB | fffffffeffffffff |   64 GB | EFI region mapping space
-
-Agreed?
-
-Thanks,
-
-	Ingo
+YMMV, defer to the LF lawyer, but I thought it worth providing a data
+point.
