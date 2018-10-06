@@ -1,138 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E70B97D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 16:30:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 047F47D087
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 16:49:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726224AbeJFXeb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 19:34:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33812 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725266AbeJFXea (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 19:34:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=eTBgH6DqMO6/18Ze4VhgcO9CjLgRjQl/mNnVbrWImLQ=; b=BCcb4bdkqHVSMxPYLivhsYq5h
-        RHXLYkAE0yMlrExxt0h/rkWNfKtYGILGTkMzAcU+u7QS8D2/pucuCS9PEv6hJrumZuxa6XCwEFfpL
-        dRHIk3jaTlqymVWJpdJeDeIcuJsfh3H/+VFxIO8ViBtB1G2Rf8NzsPp72heiSW2FzSZJc4NMUehLL
-        XdwepnPHZFlYByqaS4+dcptIwIa/jbr/ekvHQ7mnxgZFiEdx3VsQqyxXX6FFjGBFzHhlXeASJUO2S
-        FhEjIyvpZF7qP/Eu64KIXQAw9+Mtkg9V7cD8151//7KbU5DO4e0j90YcGm4Nby0la75v4q326c7Ao
-        aL2jcAp0w==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1g8pTA-0005Xe-Jx; Sat, 06 Oct 2018 16:30:20 +0000
-Subject: Re: [PATCH] Documentation/arm64: HugeTLB page implementation
-To:     Punit Agrawal <punit.agrawal@arm.com>, linux-doc@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        steve.capper@arm.com, Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20181005143458.17875-1-punit.agrawal@arm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
-Date:   Sat, 6 Oct 2018 09:30:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        id S1725266AbeJFXxq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 19:53:46 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46574 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725881AbeJFXxp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 19:53:45 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w96Gmx11019997
+        for <linux-doc@vger.kernel.org>; Sat, 6 Oct 2018 12:49:41 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2mxqcqce26-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sat, 06 Oct 2018 12:49:41 -0400
+Received: from localhost
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sat, 6 Oct 2018 12:49:39 -0400
+Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sat, 6 Oct 2018 12:49:34 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w96GnXNZ38142184
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sat, 6 Oct 2018 16:49:33 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 89FEFB2067;
+        Sat,  6 Oct 2018 12:47:40 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6801FB2064;
+        Sat,  6 Oct 2018 12:47:40 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.150.28])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Sat,  6 Oct 2018 12:47:40 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id C059C16C12C1; Sat,  6 Oct 2018 09:49:33 -0700 (PDT)
+Date:   Sat, 6 Oct 2018 09:49:33 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
+Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
+Reply-To: paulmck@linux.ibm.com
+References: <20181005231815.170433-1-joel@joelfernandes.org>
+ <20181005234628.GB2548@thunk.org>
+ <20181006034540.GM2674@linux.ibm.com>
+ <20181006053446.GA2529@thunk.org>
 MIME-Version: 1.0
-In-Reply-To: <20181005143458.17875-1-punit.agrawal@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181006053446.GA2529@thunk.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18100616-2213-0000-0000-000002FE6019
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009831; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000267; SDB=6.01098786; UDB=6.00568357; IPR=6.00878826;
+ MB=3.00023641; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-06 16:49:37
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18100616-2214-0000-0000-00005BCD4874
+Message-Id: <20181006164933.GP2674@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-06_08:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1810060171
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-Just some minor stuff (below).
-
-On 10/5/18 7:34 AM, Punit Agrawal wrote:
-> Arm v8 architecture supports multiple page sizes - 4k, 16k and
-> 64k. Based on the active page size, the Linux port supports
-> corresponding hugepage sizes at PMD and PUD(4k only) levels.
+On Sat, Oct 06, 2018 at 01:34:46AM -0400, Theodore Y. Ts'o wrote:
+> On Fri, Oct 05, 2018 at 08:45:40PM -0700, Paul E. McKenney wrote:
+> > 
+> > Shouldn't the synchronize_rcu() precede the loop doing the kfree()
+> > calls?  Or am I missing something subtle?
 > 
-> In addition, the architecture also supports caching larger sized
-> ranges (composed of multiple entries) at the PTE and PMD level in the
-> TLBs using the contiguous bit. The Linux port makes use of this
-> architectural support to enable additional hugepage sizes.
+> No, that was a cut and paste error on my part.  I was removing the
+> rcu_read_unlock() before the kfree loop, and accidentally removed the
+> synchronize_rcu().  Then when I put it back, I put it back in the
+> right place.
+
+Been there, done that!  ;-)
+
+> The longer version:
 > 
-> Describe the two different types of hugepages supported by the arm64
-> kernel and the hugepage sizes enabled by each.
+> I originally used rcu_read_lock() and rcu_read_unlock() around setting
+> up to_free[] --- since whatisRCU.txt didn't talk about
+> rcu_derefence_proctected(), just rcu_dereference() in Section 2: "What
+> is RCU's Core API?"   
 > 
-> Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will.deacon@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/arm64/hugetlbpage.txt | 39 +++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
->  create mode 100644 Documentation/arm64/hugetlbpage.txt
+> Then when I looked at the example in Section 3, I was surprised when I
+> didn't see the rcu_read_[un]lock() on the updater side, and spent some
+> time trying to figure out how to use rcu_dereference_protected().
 > 
-> diff --git a/Documentation/arm64/hugetlbpage.txt b/Documentation/arm64/hugetlbpage.txt
-> new file mode 100644
-> index 000000000000..64ee24b88d27
-> --- /dev/null
-> +++ b/Documentation/arm64/hugetlbpage.txt
-> @@ -0,0 +1,39 @@
-> +HugeTLBpage on ARM64
-> +====================
-> +
-> +Hugepage relies on making efficient use of TLBs to improve performance of
-> +address translations. The benefit depends on both -
-> +
-> +  - the size of hugepages
-> +  - size of entries supported by the TLBs
-> +
-> +The ARM64 port supports two flavours of hugepages.
-> +
-> +1) Block mappings at the pud/pmd level
-> +--------------------------------------
-> +
-> +These are regular hugepages where a pmd or a pud page table entry points to a
-> +block of memory. Regardless of the supported size of entries in TLB, block
-> +mappings reduces the depth of page table walk needed to translate hugepage
-
-            reduce
-
-> +addresses.
-> +
-> +2) Using the Contiguous bit
-> +---------------------------
-> +
-> +The architecture provides a contiguous bit in the translation table entries
-> +(D4.5.3, ARM DDI 0487C.a) that hints to the mmu to indicate that it is one of a
-
-preferably                                     MMU
-
-> +contiguous set of entries that can be cached in a single TLB entry.
-> +
-> +The contiguous bit is used in Linux to increase the mapping size at the pmd and
-> +pte (last) level. The number of supported contiguous entries vary by page size
-
-                                                                varies
-
-> +and level of the page table.
-> +
-> +
-> +
-> +The following hugepage sizes are supported -
-> +
-> +         CONT PTE    PMD    CONT PMD    PUD
-> +         --------    ---    --------    ---
-> +  4K:         64K     2M         32M     1G
-> +  16K:         2M    32M          1G
-> +  64K:         2M   512M         16G
+> Then when I did the transumation from
+> rcu_read_lock/rcu_dereference_protected/rcu_read_unlock to
+> rcu_dereference_protected, I bobbled the location of
+> synchronize_rcu().
 > 
+> 						- Ted
+> 
+> P.S.  Pedagogically, it might make sense to show an example that only
+> uses the RCU core API --- I assume using rcu_read_[un]lock() and
+> rcu_dereference() does work; it's just non-optimal, right?  --- and
+> then introduce the use of rcu_dereference_protected() afterwards.
 
+Yes, you can use rcu_dereference() on the update side and dispense
+with rcu_dereference_protected(), but that will require you to add an
+otherwise useless rcu_read_lock()/rcu_read_unlock() pair when accessing
+the pointer on the update side.
 
-thanks,
--- 
-~Randy
+Furthermore, if you are OK leaking memory rather than freeing it (which
+is admittedly quite rare, but does sometimes happen), then yes, you
+don't need call_rcu(), synchronize_rcu(), and friends.
+
+So it is as you say, functional but non-optimal.
+
+							Thanx, Paul
+
