@@ -5,120 +5,71 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7AF907D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 00:13:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A6217D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 00:45:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726696AbeJFHOi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 03:14:38 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43984 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726399AbeJFHOi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 03:14:38 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w96091jD106611
-        for <linux-doc@vger.kernel.org>; Fri, 5 Oct 2018 20:13:31 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2mxedmrb84-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 20:13:31 -0400
-Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Fri, 5 Oct 2018 20:13:30 -0400
-Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 5 Oct 2018 20:13:27 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w960DQDS14876898
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 6 Oct 2018 00:13:26 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CB301B206C;
-        Fri,  5 Oct 2018 20:11:33 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B5649B206E;
-        Fri,  5 Oct 2018 20:11:33 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.172])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Fri,  5 Oct 2018 20:11:33 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id CF05216C37CD; Fri,  5 Oct 2018 17:13:26 -0700 (PDT)
-Date:   Fri, 5 Oct 2018 17:13:26 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
-Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
-Reply-To: paulmck@linux.ibm.com
-References: <20181005231815.170433-1-joel@joelfernandes.org>
+        id S1726812AbeJFHqu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 03:46:50 -0400
+Received: from ipmail07.adl2.internode.on.net ([150.101.137.131]:25188 "EHLO
+        ipmail07.adl2.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726399AbeJFHqu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 03:46:50 -0400
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail07.adl2.internode.on.net with ESMTP; 06 Oct 2018 10:15:32 +0930
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1g8aip-0004QL-2w; Sat, 06 Oct 2018 10:45:31 +1000
+Date:   Sat, 6 Oct 2018 10:45:31 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     corbet@lwn.net, xfs <linux-xfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: improve readability for people with poorer eyesight
+Message-ID: <20181006004531.GL12041@dastard>
+References: <20181005010603.GA6702@magnolia>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181005231815.170433-1-joel@joelfernandes.org>
+In-Reply-To: <20181005010603.GA6702@magnolia>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18100600-0068-0000-0000-000003486AC7
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009826; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000267; SDB=6.01098454; UDB=6.00568158; IPR=6.00878494;
- MB=3.00023634; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-06 00:13:29
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18100600-0069-0000-0000-000045F9083E
-Message-Id: <20181006001326.GL2674@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-05_12:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1810060001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 05, 2018 at 04:18:09PM -0700, Joel Fernandes (Google) wrote:
-> Hi Paul,
+On Thu, Oct 04, 2018 at 06:06:03PM -0700, Darrick J. Wong wrote:
+> Hi,
 > 
-> Here are this week's rcu doc updates based on combing through whatisRCU and
-> checklists. Hopefully you agree with them. I left several old _bh and _sched
-> API references as is, since I don't think its a good idea to remove them till
-> the APIs themselves are removed, however I did remove several of them as well
-> (like in the first patch in this series) since I feel its better to "encourage"
-> new users not to use the old API.
+> So my eyesight still hasn't fully recovered, so in the meantime it's
+> been difficult to read the online documentation.  Here's some stylesheet
+> overrides I've been using to make it easier for me to read them:
+> https://djwong.org/docs/kdoc/index.html
 > 
-> Also do you think it makes sense for us to write coccinelle patches to check if
-> folks use them on new patches? Btw, I am new to coccinelle but I'd love to give
-> it a try, it looks exciting. I remember you saying you wanted to do that, so
-> that's something else you could potentially offload to me as you see fit ;-)
+> ---
+> From: Darrick J. Wong <darrick.wong@oracle.com>
 > 
-> Thank you very much!
+> My eyesight is not in good shape, which means that I have difficulty
+> reading the online Linux documentation.  Specifically, body text is
+> oddly small compared to list items and the contrast of various text
+> elements is too low for me to be able to see easily.
+> 
+> Therefore, alter the HTML theme overrides to make the text larger and
+> increase the contrast for better visibility, and trust the typeface
+> choices of the reader's browser.
+> 
+> For the PDF output, increase the text size, use a sans-serif typeface
+> for sans-serif text, and use a serif typeface for "roman" serif text.
+> 
+> Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
 
-Good catches, applied and pushed, thank you!
+This fixes problems I noticed when trying to review the built html
+documentation - the inconsistent font sizes on my high-dpi monitor
+made it almost impossible to read even though I have no eyesight
+problems....
 
-I updated the commit log and a couple of the patches a bit, so could
-you please double-check them?
+Acked-by: Dave Chinner <dchinner@redhat.com>
 
-							Thanx, Paul
-
-> Joel Fernandes (Google) (5):
->   doc: rcu: Update core and full API in whatisRCU
->   doc: rcu: Add more rationale for using rcu_read_lock_sched in
->     checklist
->   doc: rcu: Remove obsolete suggestion from checklist
->   doc: rcu: Remove obsolete checklist item about synchronize_rcu usage
->   doc: rcu: Encourage use of rcu_barrier in checklist
-> 
->  Documentation/RCU/checklist.txt | 49 +++++++----------------------
->  Documentation/RCU/whatisRCU.txt | 55 +++++++++++++++++----------------
->  2 files changed, 39 insertions(+), 65 deletions(-)
-> 
-> -- 
-> 2.19.0.605.g01d371f741-goog
-> 
-
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
