@@ -3,94 +3,162 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5216B7D088
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 02:10:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 507527D088
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 02:37:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729262AbeJFJMT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 05:12:19 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:36648 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729063AbeJFJMS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 05:12:18 -0400
-Received: by mail-pl1-f196.google.com with SMTP id y11-v6so4448388plt.3
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 19:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bUNYlJGIjGCvXIhJkr6hq8hpy2plvFlAxJEvKFZicn4=;
-        b=HUDKFKd2BDUlgS9EjaxcsnmhwREO1EsmWNuxQkIXvqB3jJOXSAA90ALvLLHX3QeMKZ
-         O1OuXvwASl056bQNQJyhkj89F2ACOPxAwhdErSeG5+jNcxWhjjGm+AP5okpHI2r3/dvG
-         fqvhIVYedDW2WWGnzSloY/kUavtdoztb3NaOI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bUNYlJGIjGCvXIhJkr6hq8hpy2plvFlAxJEvKFZicn4=;
-        b=Yb8rG/Io9O+mhqbcO0wKK/4nAXtBxnlD+Cxqlzn8sXg4evTtlpAgUnnQQsggNIQsC6
-         m+rs5FM/c2OpVJgx8nKzRZYnFRNfqQXE9ev2SPM3IuPWFhVnWWv0nQH3CXLC1NiYTwAN
-         BISkPoyvMKsQBuHthIb3Np6UfEZpqg/VV0FrZcYWUKiUIWnI77VrbyI7XSaqOlt3YwPM
-         AIHuE8x9Yb29uG9hONVyXhOwbDpibA8JpjYOXfPyyIbyh6wTdQTEOqurVC+seW4bjxYl
-         Yc+aFCzbYlFDfWAjYMmlPFj3q8PVooWt9G5irRUQv0bGmo5lkf/sBzGMyRC0ZlCKkv1i
-         yZMQ==
-X-Gm-Message-State: ABuFfogmxwjLZCB27m6+g9NfwFZZVJXJHpJyLtg06KJwz5mAzhUGa1b/
-        aVuv8Jcy/rVTRZwp1qHYIrnYEQ==
-X-Google-Smtp-Source: ACcGV60+h+dEZWUbI4bCflzMtoOsCG9AnaE0IYRTVx2+O9S9dEygMo2MTTwj38Awz/lvY3T0skPtEA==
-X-Received: by 2002:a17:902:5c4:: with SMTP id f62-v6mr1195640plf.18.1538791852337;
-        Fri, 05 Oct 2018 19:10:52 -0700 (PDT)
-Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id l2-v6sm9146111pgp.20.2018.10.05.19.10.50
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 05 Oct 2018 19:10:51 -0700 (PDT)
-Date:   Fri, 5 Oct 2018 19:10:50 -0700
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
-Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
-Message-ID: <20181006021050.GC204532@joelaf.mtv.corp.google.com>
-References: <20181005231815.170433-1-joel@joelfernandes.org>
- <20181006001326.GL2674@linux.ibm.com>
+        id S1726919AbeJFJiz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 05:38:55 -0400
+Received: from ozlabs.org ([203.11.71.1]:46621 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726505AbeJFJiz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 6 Oct 2018 05:38:55 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ozlabs.org (Postfix) with ESMTPSA id 42RrPH2gbRz9s47;
+        Sat,  6 Oct 2018 12:37:07 +1000 (AEST)
+Authentication-Results: ozlabs.org; dmarc=none (p=none dis=none) header.from=canb.auug.org.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1538793442;
+        bh=J4SdjjyM9zQ/Xa76pXOmtyqJYshw7Xr3fpvsIHJk2go=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dSHBicMNXfpVoDrSXsJ84TWNsg8skFxNrHbVVX8T7ejnZ59AJ2L6wacszwuKBmxYn
+         4QGaXkssJYZ88vvZZm+zx5xaXbnFUG81NBtXmfQycAoh5S6XKIoo9cVJO+1DbTihU5
+         B4MnXAws1X5IBinmXchiS7aKPpxL6KSkBw4COTElJiC3XHe6SctPw9Bccn7EfCh/TN
+         ij/J+hCZx7NARrHE0eqKjNkSU+XUWs+STnfe1q+LzvPP5a3//o8EhlZC59FAw55V/0
+         6PYJOFJ1K1SIz8thioJvz9lzBYaCYSQwmAsy1/zQ0p+/Xg04ciYFXhwvhLGlTi0j2T
+         CnRfCDgSoG49A==
+Date:   Sat, 6 Oct 2018 12:37:06 +1000
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [GIT PULL linux-next] Add Compiler Attributes (v6) tree
+Message-ID: <20181006123706.121fc6bc@canb.auug.org.au>
+In-Reply-To: <CANiq72kuTr09CjE0jcNFkdO-gOFCjYp+REuLPq5V9c4Y8KvWXA@mail.gmail.com>
+References: <CANiq72kuTr09CjE0jcNFkdO-gOFCjYp+REuLPq5V9c4Y8KvWXA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181006001326.GL2674@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/XBsAZcgT2zZeLnpPcuNXhp1"; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 05, 2018 at 05:13:26PM -0700, Paul E. McKenney wrote:
-> On Fri, Oct 05, 2018 at 04:18:09PM -0700, Joel Fernandes (Google) wrote:
-> > Hi Paul,
-> > 
-> > Here are this week's rcu doc updates based on combing through whatisRCU and
-> > checklists. Hopefully you agree with them. I left several old _bh and _sched
-> > API references as is, since I don't think its a good idea to remove them till
-> > the APIs themselves are removed, however I did remove several of them as well
-> > (like in the first patch in this series) since I feel its better to "encourage"
-> > new users not to use the old API.
-> > 
-> > Also do you think it makes sense for us to write coccinelle patches to check if
-> > folks use them on new patches? Btw, I am new to coccinelle but I'd love to give
-> > it a try, it looks exciting. I remember you saying you wanted to do that, so
-> > that's something else you could potentially offload to me as you see fit ;-)
-> > 
-> > Thank you very much!
-> 
-> Good catches, applied and pushed, thank you!
-> 
-> I updated the commit log and a couple of the patches a bit, so could
-> you please double-check them?
+--Sig_/XBsAZcgT2zZeLnpPcuNXhp1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Yes I checked and it looks good, thanks!
+Hi Miguel,
 
- - Joel
+On Fri, 5 Oct 2018 13:32:25 +0200 Miguel Ojeda <miguel.ojeda.sandonis@gmail=
+.com> wrote:
+>
+> As discussed, here it is the Compiler Attributes series for
+> linux-next. This time the original v6, based on -rc6.
+>=20
+> The changes w.r.t. v5:
+>=20
+>   - Added latest Reviewed-by's and Tested-by's.
+>=20
+> The conflicts are trivial to solve, but if you want a reference, take
+> a look at (rebased on top of next-20181005):
+>=20
+>   https://github.com/ojeda/linux.git compiler-attributes-rebased
+>=20
+> Thanks!
+>=20
+> Cheers,
+> Miguel
+>=20
+> The following changes since commit 17b57b1883c1285f3d0dc2266e8f79286a7bef=
+38:
+>=20
+>   Linux 4.19-rc6 (2018-09-30 07:15:35 -0700)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://github.com/ojeda/linux.git compiler-attributes
 
+Thanks for adding your subsystem tree as a participant of linux-next.  As
+you may know, this is not a judgement of your code.  The purpose of
+linux-next is for integration testing and to lower the impact of
+conflicts between subsystems in the next merge window.=20
+
+You will need to ensure that the patches/commits in your tree/series have
+been:
+     * submitted under GPL v2 (or later) and include the Contributor's
+        Signed-off-by,
+     * posted to the relevant mailing list,
+     * reviewed by you (or another maintainer of your subsystem tree),
+     * successfully unit tested, and=20
+     * destined for the current or next Linux merge window.
+
+Basically, this should be just what you would send to Linus (or ask him
+to fetch).  It is allowed to be rebased if you deem it necessary.
+
+Just in case you are unaware, I will fetch that branch every morning
+and the merge it into linux-next, so any updates will be added without
+you having to send a new pull request.  I will send you an email if I
+find a problem.
+--=20
+Cheers,
+Stephen Rothwell=20
+sfr@canb.auug.org.au
+
+--Sig_/XBsAZcgT2zZeLnpPcuNXhp1
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlu4H9IACgkQAVBC80lX
+0Gw8Xgf/WO3e5cq2gi42DEe04GACun0MjPVUObeEaYyMIPJAWWf9N61ljSZn6kqF
+kPniwP4jklEvGQAkBYVwsArnGHKacOk28ahaZMUeIM5qIcVRVGasJ4HHMTq+8Wdn
+wYhq3q1OjEUOR+HxofUS9oFYPiikGWv7rqRHlnwnVQONqAcA+kvTmxH3wWyGRSfp
+sX978hckIPvhwNQZh6/Qy32RG7SYefa0Z3UpDbdfpWpmehWrFmC4mh6ITkMOcGCY
+bqPkGqBnHqoa0PDQMAf56OdbhKwrRAS6WF6t5/7KSUgwxWaqSMnDXfSCpYErAdA1
+5/DHCXzqxkCKto4C05UrwgUQG7l/VQ==
+=d5WN
+-----END PGP SIGNATURE-----
+
+--Sig_/XBsAZcgT2zZeLnpPcuNXhp1--
