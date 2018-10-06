@@ -1,164 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 507527D088
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 02:37:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 212D37D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 03:46:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726919AbeJFJiz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 05:38:55 -0400
-Received: from ozlabs.org ([203.11.71.1]:46621 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726505AbeJFJiz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 6 Oct 2018 05:38:55 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ozlabs.org (Postfix) with ESMTPSA id 42RrPH2gbRz9s47;
-        Sat,  6 Oct 2018 12:37:07 +1000 (AEST)
-Authentication-Results: ozlabs.org; dmarc=none (p=none dis=none) header.from=canb.auug.org.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1538793442;
-        bh=J4SdjjyM9zQ/Xa76pXOmtyqJYshw7Xr3fpvsIHJk2go=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=dSHBicMNXfpVoDrSXsJ84TWNsg8skFxNrHbVVX8T7ejnZ59AJ2L6wacszwuKBmxYn
-         4QGaXkssJYZ88vvZZm+zx5xaXbnFUG81NBtXmfQycAoh5S6XKIoo9cVJO+1DbTihU5
-         B4MnXAws1X5IBinmXchiS7aKPpxL6KSkBw4COTElJiC3XHe6SctPw9Bccn7EfCh/TN
-         ij/J+hCZx7NARrHE0eqKjNkSU+XUWs+STnfe1q+LzvPP5a3//o8EhlZC59FAw55V/0
-         6PYJOFJ1K1SIz8thioJvz9lzBYaCYSQwmAsy1/zQ0p+/Xg04ciYFXhwvhLGlTi0j2T
-         CnRfCDgSoG49A==
-Date:   Sat, 6 Oct 2018 12:37:06 +1000
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [GIT PULL linux-next] Add Compiler Attributes (v6) tree
-Message-ID: <20181006123706.121fc6bc@canb.auug.org.au>
-In-Reply-To: <CANiq72kuTr09CjE0jcNFkdO-gOFCjYp+REuLPq5V9c4Y8KvWXA@mail.gmail.com>
-References: <CANiq72kuTr09CjE0jcNFkdO-gOFCjYp+REuLPq5V9c4Y8KvWXA@mail.gmail.com>
+        id S1727134AbeJFKr3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 06:47:29 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49282 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726913AbeJFKr3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 06:47:29 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w963i2dX141811
+        for <linux-doc@vger.kernel.org>; Fri, 5 Oct 2018 23:45:46 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2mxf4sm9j8-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 23:45:45 -0400
+Received: from localhost
+        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Fri, 5 Oct 2018 23:45:45 -0400
+Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
+        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 5 Oct 2018 23:45:41 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w963jeoA46202932
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sat, 6 Oct 2018 03:45:41 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7CDB8B205F;
+        Fri,  5 Oct 2018 23:43:48 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 48EF1B2064;
+        Fri,  5 Oct 2018 23:43:48 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.150.28])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Fri,  5 Oct 2018 23:43:48 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 6C5B116C37A7; Fri,  5 Oct 2018 20:45:40 -0700 (PDT)
+Date:   Fri, 5 Oct 2018 20:45:40 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
+Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
+Reply-To: paulmck@linux.ibm.com
+References: <20181005231815.170433-1-joel@joelfernandes.org>
+ <20181005234628.GB2548@thunk.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/XBsAZcgT2zZeLnpPcuNXhp1"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181005234628.GB2548@thunk.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18100603-0060-0000-0000-000002BC1D39
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009827; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000267; SDB=6.01098525; UDB=6.00568200; IPR=6.00878565;
+ MB=3.00023635; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-06 03:45:44
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18100603-0061-0000-0000-000046BF8036
+Message-Id: <20181006034540.GM2674@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-06_01:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1810060038
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/XBsAZcgT2zZeLnpPcuNXhp1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Fri, Oct 05, 2018 at 07:46:28PM -0400, Theodore Y. Ts'o wrote:
+> On Fri, Oct 05, 2018 at 04:18:09PM -0700, Joel Fernandes (Google) wrote:
+> > 
+> > Here are this week's rcu doc updates based on combing through whatisRCU and
+> > checklists. Hopefully you agree with them. I left several old _bh and _sched
+> > API references as is, since I don't think its a good idea to remove them till
+> > the APIs themselves are removed, however I did remove several of them as well
+> > (like in the first patch in this series) since I feel its better to "encourage"
+> > new users not to use the old API.
+> 
+> Hi Joel,
+> 
+> As it so happens, I just recently wrote my first RCU patch[1] (file
+> systems, especially on-disk data structures, generally tend not to be
+> good candidates for RCU semantics).
+> 
+> [1] http://patchwork.ozlabs.org/patch/979779/
 
-Hi Miguel,
+Very cool!
 
-On Fri, 5 Oct 2018 13:32:25 +0200 Miguel Ojeda <miguel.ojeda.sandonis@gmail=
-.com> wrote:
->
-> As discussed, here it is the Compiler Attributes series for
-> linux-next. This time the original v6, based on -rc6.
->=20
-> The changes w.r.t. v5:
->=20
->   - Added latest Reviewed-by's and Tested-by's.
->=20
-> The conflicts are trivial to solve, but if you want a reference, take
-> a look at (rebased on top of next-20181005):
->=20
->   https://github.com/ojeda/linux.git compiler-attributes-rebased
->=20
-> Thanks!
->=20
+One question...  In the following hunk:
+
+------------------------------------------------------------------------
+
+@@ -5353,9 +5362,13 @@  static int ext4_remount(struct super_block *sb, int *flags, char *data)
+ #ifdef CONFIG_QUOTA
+ 	sbi->s_jquota_fmt = old_opts.s_jquota_fmt;
+ 	for (i = 0; i < EXT4_MAXQUOTAS; i++) {
+-		kfree(sbi->s_qf_names[i]);
+-		sbi->s_qf_names[i] = old_opts.s_qf_names[i];
++		to_free[i] = rcu_dereference_protected(sbi->s_qf_names[i],
++						       &sb->s_umount);
++		rcu_assign_pointer(sbi->s_qf_names[i], old_opts.s_qf_names[i]);
+ 	}
++	for (i = 0; i < EXT4_MAXQUOTAS; i++)
++		kfree(to_free[i]);
++	synchronize_rcu();
+ #endif
+ 	kfree(orig_data);
+ 	return err;
+
+------------------------------------------------------------------------
+
+Shouldn't the synchronize_rcu() precede the loop doing the kfree()
+calls?  Or am I missing something subtle?
+
+Otherwise, looks good!  I was worried that seq_show_option() might
+sleep, but it looks like it is just putting characters into an
+array.  If there is lingering concern, CONFIG_PROVE_LOCKING will
+usually catch that sort of thing.
+
+							Thanx, Paul
+
+> So if you are working on improving RCU documentation, I thought I
+> would give two comments on the RCU docs from the perspective of a
+> developer trying to use RCU for the first time.
+> 
+> * whatisRCU is great, but one the example in Section 3 uses
+>   rcu_dereference_protected() without explaining it.  Given that using
+>   that function seems to be considered best practice, maybe a few more
+>   words there would be in order?  That function isn't mentioned in
+>   rcu.txt either, BTW.
+> 
+> * lockdep.txt *does* explain what rcu_dereference_protected() does,
+>   but it doesn't really describe lockdep_is_held().  You can mostly
+>   figure it out from context, but it wasn't obvious to me what locks
+>   it could be used against, and in the case of a rw_semaphore, whether
+>   it applied to shared as well as exclusive locks.  That's a lockdep
+>   abstraction, and not a RCU abstraction, but lockdep isn't
+>   particularly well documented, so I ended up spending 20-30 minutes
+>   or so looking at the lockdep implementation before I was sure it
+>   actually worked the way I thought it was going to.
+> 
+> Anyway, I was going to put submitting a patch to improve whatisRCU on
+> my (vastly over-long) TODO list, but when I saw your patch set, I
+> couldn't resist trying to see if I could fob it off on you.  If you
+> don't think that's fair (and it probably isn't really), just let me
+> know, and I'll put it back on my todo list.  :-)
+> 
 > Cheers,
-> Miguel
->=20
-> The following changes since commit 17b57b1883c1285f3d0dc2266e8f79286a7bef=
-38:
->=20
->   Linux 4.19-rc6 (2018-09-30 07:15:35 -0700)
->=20
-> are available in the Git repository at:
->=20
->   https://github.com/ojeda/linux.git compiler-attributes
+> 
+> 					- Ted
+> 
 
-Thanks for adding your subsystem tree as a participant of linux-next.  As
-you may know, this is not a judgement of your code.  The purpose of
-linux-next is for integration testing and to lower the impact of
-conflicts between subsystems in the next merge window.=20
-
-You will need to ensure that the patches/commits in your tree/series have
-been:
-     * submitted under GPL v2 (or later) and include the Contributor's
-        Signed-off-by,
-     * posted to the relevant mailing list,
-     * reviewed by you (or another maintainer of your subsystem tree),
-     * successfully unit tested, and=20
-     * destined for the current or next Linux merge window.
-
-Basically, this should be just what you would send to Linus (or ask him
-to fetch).  It is allowed to be rebased if you deem it necessary.
-
-Just in case you are unaware, I will fetch that branch every morning
-and the merge it into linux-next, so any updates will be added without
-you having to send a new pull request.  I will send you an email if I
-find a problem.
---=20
-Cheers,
-Stephen Rothwell=20
-sfr@canb.auug.org.au
-
---Sig_/XBsAZcgT2zZeLnpPcuNXhp1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlu4H9IACgkQAVBC80lX
-0Gw8Xgf/WO3e5cq2gi42DEe04GACun0MjPVUObeEaYyMIPJAWWf9N61ljSZn6kqF
-kPniwP4jklEvGQAkBYVwsArnGHKacOk28ahaZMUeIM5qIcVRVGasJ4HHMTq+8Wdn
-wYhq3q1OjEUOR+HxofUS9oFYPiikGWv7rqRHlnwnVQONqAcA+kvTmxH3wWyGRSfp
-sX978hckIPvhwNQZh6/Qy32RG7SYefa0Z3UpDbdfpWpmehWrFmC4mh6ITkMOcGCY
-bqPkGqBnHqoa0PDQMAf56OdbhKwrRAS6WF6t5/7KSUgwxWaqSMnDXfSCpYErAdA1
-5/DHCXzqxkCKto4C05UrwgUQG7l/VQ==
-=d5WN
------END PGP SIGNATURE-----
-
---Sig_/XBsAZcgT2zZeLnpPcuNXhp1--
