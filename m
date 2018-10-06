@@ -3,48 +3,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 55FF47D088
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 04:41:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 331097D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 04:50:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726992AbeJFLmu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 07:42:50 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:45247 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726919AbeJFLmu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 07:42:50 -0400
-Received: by mail-pf1-f194.google.com with SMTP id u12-v6so2831583pfn.12
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 21:41:00 -0700 (PDT)
+        id S1727609AbeJFLws (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 07:52:48 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34628 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726992AbeJFLws (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 07:52:48 -0400
+Received: by mail-pf1-f193.google.com with SMTP id k19-v6so5982420pfi.1
+        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 21:50:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=buawwSaE4LVq8zBFZZNwx1NbiRZrm6PBPrDAaPIvISQ=;
-        b=qWqMd31gcrcVQjNdxZoiBdKP0HWyFuwo0BIkNPbZ8HjshhBT3PwGuCf05pVfwBUl6b
-         1qjMtOLs8ZIaGrn6tRCWkReXdgn3tOPwScftnwXowo8wrg7U1HFGMfcwwUbaxJ0+EhQm
-         CE/QsbqS+FOcH3J7NeZsnNzRxmdZ1u70ZaGww=
+        bh=AF4T9q6esTLB9832L9cypGeKj5NxUnXSBfgWcHmtG0U=;
+        b=odrT4GTFlpJvDxlR4nIgw8X0R6i3f2AzSRdyvPIQe5VSrbjpWInyH7jo0N8lNoG8Wo
+         SZ3Ri2Xn2PC1EDpo1SreQ3xxQDEmP6i7Z8AANK6vaDP5HJHQ5wAfBVbp5ULOMzQV8U+V
+         DfbIVhkKoiCAMh6D8zYqbW2i+A0aLyO6NDtQo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=buawwSaE4LVq8zBFZZNwx1NbiRZrm6PBPrDAaPIvISQ=;
-        b=YoURUESg7AMaQGEWf2DyHs3ziTXm/IbbKCRjTI8ZWw63m8P59lQDCitlMaWQ758WZJ
-         xL4x5+7qQXYDvn8TqYkxsiWSTu2EjpiFskeZ4rhMtyjMWOD/HiZAvYL+Zbiif23C06QB
-         4+YjN3BvEYVrgX79rjeO3RYhYSqHyE6TOI7s8Rblgf/ztVRxy6ytP76wUEqzvIfd2Cjm
-         BzMVqldSqHa0i+NU+bo0lP5c/6+FxgmQLYwhdbeykpd5IKp3xLmKxYO6syA0gNrzLywp
-         pL+vpr1MREJPKW6I2f0zBt+KLF/5NiDiyVwyJVvZm3HfmevATbuDfl/jS9DuHnRpgxXa
-         M4aw==
-X-Gm-Message-State: ABuFfohPc6kB4QElmyNY/muSuJoIYp1FHaADkFaNPp9tjn/I9uuHiwuW
-        7ny/5sRYmP731BMepfP5l+BJPw==
-X-Google-Smtp-Source: ACcGV62ZJ35r8fo61+vj+CBq2/d4qs9WquhX1ssKrRQ7He+pzBe5xgq/yD9lCKUcKVssF5eJhkuCyw==
-X-Received: by 2002:a63:d40c:: with SMTP id a12-v6mr12633830pgh.394.1538800860147;
-        Fri, 05 Oct 2018 21:41:00 -0700 (PDT)
+        bh=AF4T9q6esTLB9832L9cypGeKj5NxUnXSBfgWcHmtG0U=;
+        b=DT5K6yKxnt8CgxTwoB5TfIRtp4hA1Afzt0EcmEYt1GkC3J/w7QuH528M5e7y1k9vJT
+         sVYCOh2Lj8sRmaDEiV7bGRmg/y2J3xAkXYK+5awfl3ap3nmgb9ZZxoa6xw5dI9lUI8O3
+         Vi2jRrRaEYXz4AKyYiH9QDphU3afALCh4qJfo6S15wlPrq8hnHFVU2DxeYaDVx2WLrCo
+         +G8MNQSzAclWnn0E7jxevyrW1FwyOHxmmuXdb8flGUh0rg4EQJmvjr1MIp6X7TlEo/qr
+         wgq4WJtH9d17E/LLKrLVLDMfNkKynx2hn88arDSISnwyMm9q0HBhyBX7/isUWNQjIzAV
+         PlMw==
+X-Gm-Message-State: ABuFfohgMbnyz6TBbk0gxzTziz3/7Y7bh/aBxY9t6QQJ0ztz65GN4h+A
+        92I9dBFpXf4DOCMOHJcEQUomzg==
+X-Google-Smtp-Source: ACcGV60h+geK1KC/8rtGoe23+Kn55XRCc8yelEJJxqFCpIUioSqikNRQlm31nafX5Warp1jDvBfjIg==
+X-Received: by 2002:a62:5343:: with SMTP id h64-v6mr14831002pfb.226.1538801456098;
+        Fri, 05 Oct 2018 21:50:56 -0700 (PDT)
 Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id b3-v6sm17202258pfc.178.2018.10.05.21.40.58
+        by smtp.gmail.com with ESMTPSA id m10-v6sm13653157pfg.180.2018.10.05.21.50.54
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 05 Oct 2018 21:40:58 -0700 (PDT)
-Date:   Fri, 5 Oct 2018 21:40:57 -0700
+        Fri, 05 Oct 2018 21:50:54 -0700 (PDT)
+Date:   Fri, 5 Oct 2018 21:50:53 -0700
 From:   Joel Fernandes <joel@joelfernandes.org>
 To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>, linux-kernel@vger.kernel.org,
@@ -55,7 +55,7 @@ Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>, linux-kernel@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
 Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
-Message-ID: <20181006044057.GA41279@joelaf.mtv.corp.google.com>
+Message-ID: <20181006045053.GA99811@joelaf.mtv.corp.google.com>
 References: <20181005231815.170433-1-joel@joelfernandes.org>
  <20181005234628.GB2548@thunk.org>
  <20181006034540.GM2674@linux.ibm.com>
@@ -100,45 +100,34 @@ On Fri, Oct 05, 2018 at 08:45:40PM -0700, Paul E. McKenney wrote:
 >  	for (i = 0; i < EXT4_MAXQUOTAS; i++) {
 > -		kfree(sbi->s_qf_names[i]);
 > -		sbi->s_qf_names[i] = old_opts.s_qf_names[i];
-
-Could you annotate this pointer (sbi->s_qf_names) with __rcu so it can be
-checked by sparse for proper usage? Its also point #16 in the checklist.txt
-RCU document. I enclosed a diff to do this below.
-
-I also saw a bunch of places in super.c where the pointer isn't accessed from
-an rcu read section or rcu_dereference, but it was a quick look so sorry if I
-missed something. If its true, then are you planning to convert these to use
-rcu_dereference and wrapped by an rcu_read_lock/unlock as well?
-
 > +		to_free[i] = rcu_dereference_protected(sbi->s_qf_names[i],
 > +						       &sb->s_umount);
-
-Also should this be the following?
-		to_free[i] = rcu_dereference_protected(sbi->s_qf_names[i],
-					       lockdep_is_held(&sb->s_umount));
-
 > +		rcu_assign_pointer(sbi->s_qf_names[i], old_opts.s_qf_names[i]);
 >  	}
 > +	for (i = 0; i < EXT4_MAXQUOTAS; i++)
 > +		kfree(to_free[i]);
 > +	synchronize_rcu();
+>  #endif
+>  	kfree(orig_data);
+>  	return err;
+> 
+> ------------------------------------------------------------------------
+> 
+> Shouldn't the synchronize_rcu() precede the loop doing the kfree()
+> calls?  Or am I missing something subtle?
+> 
+> Otherwise, looks good!  I was worried that seq_show_option() might
+> sleep, but it looks like it is just putting characters into an
+> array.  If there is lingering concern, CONFIG_PROVE_LOCKING will
+> usually catch that sort of thing.
 
-I had same concern as Paul here about synchronize_rcu done before the kfree.
+Also I was wondering if the "if (sbi->s_qf_names[USRQUOTA])" in the patch
+should be "if (rcu_dereference(sbi->s_qf_names[USRQUOTA]))". I don't think
+the compiler could optimize the access in this case, bit IMO using the
+rcu_dereference would serve to document that its an RCU protected pointer
+anyway.
 
 thanks,
 
  - Joel
 
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index 5863fd22e90b..eec1b3090d04 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -5083,7 +5083,7 @@ struct ext4_mount_options {
- 	u32 s_min_batch_time, s_max_batch_time;
- #ifdef CONFIG_QUOTA
- 	int s_jquota_fmt;
--	char *s_qf_names[EXT4_MAXQUOTAS];
-+	char __rcu *s_qf_names[EXT4_MAXQUOTAS];
- #endif
- };
- 
