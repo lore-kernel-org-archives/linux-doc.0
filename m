@@ -1,111 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B485D7D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 10:19:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 263277D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 11:28:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727799AbeJFRWg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 13:22:36 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40716 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726409AbeJFRWg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 13:22:36 -0400
-Received: by mail-lj1-f196.google.com with SMTP id r83-v6so13766409ljr.7;
-        Sat, 06 Oct 2018 03:19:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7hbdlP7pn0cJDxMN++LopNgpE8g7mb56YKiKoXifT7E=;
-        b=uTu5Ml+MyZrSCsDkA6KnxX5/J9CcmjVrE7u7aZ1ndQjLOjS43KpEBDMSQ+NA5TZ5wF
-         cNDIJPvTRigcGbdxAx8KEey3xj39RXKxuApFsMCF2Ju3JSPhsUHd0IkhDByumeridBUT
-         /PHT8T6a1wUNzlaLL521LjYuCTLR3hRypgzo3ga3e/fIkq0VRjI6LCwq+C9nGO9zI/Et
-         yIaqYyIaknJxilOHKMTlHf/lzIxsxg96FM+bUPAukoWVJrsagMRS5rOL3x3tt/enL4oF
-         fjyguHvOQSyOscRP4ntFvclJZPcQ5A/XEC2n5OW55GJ6Pq7YkAkwZfVssijGNGTygG5p
-         +V1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7hbdlP7pn0cJDxMN++LopNgpE8g7mb56YKiKoXifT7E=;
-        b=ArzyUnHHm/0SJniAfkfjHvYUBN7uuHlgnLG2zjdAM7pAh24hvxlGqDbASF+AlhetZi
-         wwlAqmZ2lgnPC1eI85A3y51nUY4vbQ5+n2Bjjf6LNmfGIQ93C9FtoLoG88vjD5QO41ce
-         Itj1HpdY335maW0mIADhGNeJfHdY5ZJwF5Ij11xnIILWtZDJ1lpN54kNSkf14iSCEKM5
-         8MpzH1F5lfIqFtjMVhQBVewdtgKNPCywfhEWTdyTB61F4wq9FtITGsPgOUFHXumXh0/1
-         mATX9643OWe7zsXg+PfhUivVRz4iMz8ZYbYO59o/wKP+ikyqqsxifx67cE6j5pvhcCDW
-         lZsg==
-X-Gm-Message-State: ABuFfojsnEHuJ3u0jB+7orqSwVVxnOaDwU5v/OGJsQ5NtRE0mR5mldKH
-        nreLpdssacwnDfjiuDdA4/ubQAUNNisZ8DPbPWk=
-X-Google-Smtp-Source: ACcGV63E16n7FCQIbM/mSPL8svq6yvZemfyPym/k7obJZZSt3M0DMeSpn4g6b3sFhGvoOvHVmb5/O13tWjfRdwvQlp8=
-X-Received: by 2002:a2e:501c:: with SMTP id e28-v6mr9619293ljb.45.1538821192044;
- Sat, 06 Oct 2018 03:19:52 -0700 (PDT)
+        id S1727595AbeJFSbi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 14:31:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39884 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727456AbeJFSbi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 6 Oct 2018 14:31:38 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5780E30820D1;
+        Sat,  6 Oct 2018 11:28:45 +0000 (UTC)
+Received: from localhost (ovpn-8-16.pek2.redhat.com [10.72.8.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E6A95C21D;
+        Sat,  6 Oct 2018 11:28:44 +0000 (UTC)
+Date:   Sat, 6 Oct 2018 19:28:27 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     mingo@kernel.org
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, tglx@linutronix.de, thgarnie@google.com,
+        corbet@lwn.net
+Subject: Re: [PATCH 0/3] x86/mm/doc: Clean up mm.txt
+Message-ID: <20181006112827.GD5140@MiWiFi-R3L-srv>
+References: <20181006084327.27467-1-bhe@redhat.com>
 MIME-Version: 1.0
-References: <CA+icZUW+N4V-bLEX0217dMYTrfzmgLZkbif8w3-zRQXnd7VYSQ@mail.gmail.com>
- <CANiq72mATUQeNA5uTSY2XBPwDi-S+K+H3LJJU5_UFcxUj_E8sw@mail.gmail.com> <CA+icZUXnew3JNME1UcCN0Dtc_3CHutyqcJ3yvb4d_rDBDt3jKw@mail.gmail.com>
-In-Reply-To: <CA+icZUXnew3JNME1UcCN0Dtc_3CHutyqcJ3yvb4d_rDBDt3jKw@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 6 Oct 2018 12:19:41 +0200
-Message-ID: <CANiq72mw4gPMP+j9E19o3r9+fpn=Tq0nUDWuR=3HfYdPOgN81A@mail.gmail.com>
-Subject: Re: [PATCH v5 00/15] Compiler Attributes
-To:     sedat.dilek@gmail.com
-Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>, "Ted Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181006084327.27467-1-bhe@redhat.com>
+User-Agent: Mutt/1.9.1 (2017-09-22)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Sat, 06 Oct 2018 11:28:45 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 6, 2018 at 9:13 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> Hi Miguel,
->
-> In my testoings I am booting in QEMU and on bare metal.
-> Both tests were successful.
+On 10/06/18 at 04:43pm, Baoquan He wrote:
+> This clean up is suggested by Ingo.
+> 
+> It firstly fix the confusions in mm layout tables by unifying
+> each memory region description in the consistent style.
+> 
+> Secondly take the KASLR words out of the mm layout tables to make
+> it as a separate section to only list mm layout in non-KASLR case.
+> Then add KASLR document at the end of mm.txt.
+> 
+> Meanwhile update description about KERNEL_IMAGE_SIZE in
+> arch/x86/include/asm/page_64_types.h .
 
-Wow! I only wanted to confirm it booted and/or run for a while -- but
-having more information is always good. Thanks a *lot*!
+Sorry, this is V3 post. I forgot adding v3 tag in patch subject.
 
-I will add a reference to your email in the commits.
-
-Cheers,
-Miguel
+> 
+> v2->v3:
+> Ingo helped to prettify the patch log and code comment, repost them
+> after updating accordign to Ingo's suggestions.
+> 
+> v1->v2:
+> 
+> Resend v2 since some typo and incorrect descriptions found in v1 post.
+> 
+> Baoquan He (3):
+>   x86/KASLR: Update KERNEL_IMAGE_SIZE description
+>   x86/mm/doc: Clean up the memory region layout descriptions
+>   x86/doc/kaslr.txt: Create a separate part of document abourt KASLR at
+>     the end of file
+> 
+>  Documentation/x86/x86_64/mm.txt      | 150 +++++++++++++++++++++++------------
+>  arch/x86/include/asm/page_64_types.h |  15 ++--
+>  2 files changed, 107 insertions(+), 58 deletions(-)
+> 
+> -- 
+> 2.13.6
+> 
