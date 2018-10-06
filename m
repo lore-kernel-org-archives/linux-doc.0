@@ -1,66 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38BB87D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 01:09:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 687F27D088
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 01:59:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726913AbeJFIKW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 04:10:22 -0400
-Received: from ipmail06.adl6.internode.on.net ([150.101.137.145]:34215 "EHLO
-        ipmail06.adl6.internode.on.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726505AbeJFIKW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 04:10:22 -0400
-Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
-  by ipmail06.adl6.internode.on.net with ESMTP; 06 Oct 2018 10:39:05 +0930
-Received: from dave by dastard with local (Exim 4.80)
-        (envelope-from <david@fromorbit.com>)
-        id 1g8b5c-0004Sj-CV; Sat, 06 Oct 2018 11:09:04 +1000
-Date:   Sat, 6 Oct 2018 11:09:04 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
-        linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 00/22] xfs-4.20: major documentation surgery
-Message-ID: <20181006010904.GA17046@dastard>
-References: <153862669110.26427.16504658853992750743.stgit@magnolia>
- <20181006005154.GM12041@dastard>
- <20181005190120.5a08c573@lwn.net>
+        id S1729407AbeJFJAl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 05:00:41 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:46258 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726812AbeJFJAk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 05:00:40 -0400
+Received: by mail-pl1-f196.google.com with SMTP id v5-v6so7575243plz.13
+        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 18:59:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ieo5aU7IW8O9fdGCRZUMA1k1N44dJBGOAndkP0WH7a4=;
+        b=TUP1E4/Te28gJ0zdutR/9N/xM8HBL5RKTL/rstAl0DB4Xu3xRChoFC0s9rXjaqqwxf
+         dy9PIYYHqAnuz2L/S86i60CE6UpgejTd7fUsLogLnpLwkz190zzKl0rgqPa9ZIA6FvIt
+         ESPqwCmIgF8ezLSvMRlHd12QPQMcHry9ybMIw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ieo5aU7IW8O9fdGCRZUMA1k1N44dJBGOAndkP0WH7a4=;
+        b=Q/cTY6vwWUFJ2iDYA5kaVuNFHfb0DNS30A5MP0OBKqZh+qJ4fpanF135lxmIBJ4Yuc
+         7t88a4z2wtzFUw4uaq/dem6KgYiPs/uW62PXTdNfENmWaIHgWAnRT15iGBNjA8HcwJ+V
+         9x5DQUZU7x/SBVbfUlpVQ+B/ke9gqMynUf+OHlaLP/qf2zKHmgklO1KsJoSdG064pmJn
+         6p6P983HSXj6frhPM3z29xiDpbrKeajxWpdpzU3CypcckadiLuxeKnshwagcDL2tqbSc
+         aws0D7GS/rb0ti1zkVg2jBPL1iyceuz+tNz8b4sRqCrr8PXQpCaLy1AvygT1+ATgSAdS
+         SIyw==
+X-Gm-Message-State: ABuFfohXlaXmborAlG7ilze7BtHiV3ir2p517rE5qc9lvWG2H6ds5n34
+        0a3xXVYhqGy4do30TA32/VnZlJIQ/3M=
+X-Google-Smtp-Source: ACcGV63FiFGTFFHYQgtpBk1XbeetKlFLwIzLf3Tk6bo3Ie2iIV04DizEH9UmilTeXwlVZsJzITH+6g==
+X-Received: by 2002:a17:902:9a45:: with SMTP id x5-v6mr13991406plv.213.1538791155852;
+        Fri, 05 Oct 2018 18:59:15 -0700 (PDT)
+Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
+        by smtp.gmail.com with ESMTPSA id g88-v6sm16501506pfd.181.2018.10.05.18.59.14
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 05 Oct 2018 18:59:14 -0700 (PDT)
+Date:   Fri, 5 Oct 2018 18:59:13 -0700
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
+Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
+Message-ID: <20181006015913.GA204532@joelaf.mtv.corp.google.com>
+References: <20181005231815.170433-1-joel@joelfernandes.org>
+ <20181005234628.GB2548@thunk.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181005190120.5a08c573@lwn.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20181005234628.GB2548@thunk.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 05, 2018 at 07:01:20PM -0600, Jonathan Corbet wrote:
-> On Sat, 6 Oct 2018 10:51:54 +1000
-> Dave Chinner <david@fromorbit.com> wrote:
+On Fri, Oct 05, 2018 at 07:46:28PM -0400, Theodore Y. Ts'o wrote:
+> On Fri, Oct 05, 2018 at 04:18:09PM -0700, Joel Fernandes (Google) wrote:
+> > 
+> > Here are this week's rcu doc updates based on combing through whatisRCU and
+> > checklists. Hopefully you agree with them. I left several old _bh and _sched
+> > API references as is, since I don't think its a good idea to remove them till
+> > the APIs themselves are removed, however I did remove several of them as well
+> > (like in the first patch in this series) since I feel its better to "encourage"
+> > new users not to use the old API.
 > 
-> > Can you let us know whether the CC-by-SA 4.0 license is acceptible
-> > or not? That's really the only thing that we need clarified at this
-> > point - if it's OK I'll to pull this into the XFS tree for the 4.20
-> > merge window. If not, we'll go back to the drawing board....
+> Hi Joel,
+
+Hi Ted,
+
 > 
-> I remain pretty concerned about it, to tell the truth.  Rather than
-> continue to guess, though, I've called for help, and will be talking with
-> the LF lawyer about this next Thursday.  Before then, I can't say anything
-> except "I don't think this works..."
+> As it so happens, I just recently wrote my first RCU patch[1] (file
+> systems, especially on-disk data structures, generally tend not to be
+> good candidates for RCU semantics).
 > 
-> Will let you know what I hear.
+> [1] http://patchwork.ozlabs.org/patch/979779/
+> 
+> So if you are working on improving RCU documentation, I thought I
+> would give two comments on the RCU docs from the perspective of a
+> developer trying to use RCU for the first time.
+> 
+> * whatisRCU is great, but one the example in Section 3 uses
+>   rcu_dereference_protected() without explaining it.  Given that using
+>   that function seems to be considered best practice, maybe a few more
+>   words there would be in order?  That function isn't mentioned in
+>   rcu.txt either, BTW.
 
-Thanks for the update, Jon. I'll put this on the backburner until I
-hear back from you.
+I actually felt the same about rcu_dereference_protected while reading and
+then looked at the comment above the implementation. The code comments are
+pretty detailed, but I agree the example should mention a few words about it
+since it uses it. I could look into improving that, no problem.
 
-Cheers,
+> * lockdep.txt *does* explain what rcu_dereference_protected() does,
+>   but it doesn't really describe lockdep_is_held().  You can mostly
+>   figure it out from context, but it wasn't obvious to me what locks
+>   it could be used against, and in the case of a rw_semaphore, whether
+>   it applied to shared as well as exclusive locks.  That's a lockdep
+>   abstraction, and not a RCU abstraction, but lockdep isn't
+>   particularly well documented, so I ended up spending 20-30 minutes
+>   or so looking at the lockdep implementation before I was sure it
+>   actually worked the way I thought it was going to.
 
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+Ok, makes sense to improve it. Since I haven't yet looked through lockdep.txt
+yet (as a part of my broader documentation effort for the RCU consolidation),
+I can take up improving that based on your suggestions since I have to look
+into it anyway :). I'll look into that next week and CC you on this.
+
+> Anyway, I was going to put submitting a patch to improve whatisRCU on
+> my (vastly over-long) TODO list, but when I saw your patch set, I
+> couldn't resist trying to see if I could fob it off on you.  If you
+> don't think that's fair (and it probably isn't really), just let me
+> know, and I'll put it back on my todo list.  :-)
+
+Its Ok :) I'm happy to help! thanks for letting me know.
+
+Best,
+
+ - Joel
+
