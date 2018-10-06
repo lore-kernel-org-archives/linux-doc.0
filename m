@@ -1,99 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C81E87D088
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 05:34:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E1A307D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 08:43:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbeJFMgv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 08:36:51 -0400
-Received: from imap.thunk.org ([74.207.234.97]:37544 "EHLO imap.thunk.org"
+        id S1727685AbeJFPp7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 11:45:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45054 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726792AbeJFMgv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 6 Oct 2018 08:36:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
-         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=eNCvdSXnHk7RGTNgGwQlTQ6cNBzhy/g+YAfKuxoR0ZE=; b=Qpt+Q+6PJeUVWyPS+YJKFGaska
-        w3OMKcffOD4Xq5oCrzEKHJAtR/BHdf1SRJTKXNxIppDvwAjbmdAL9L3WvXbsCVxwQ7XfQLHIIDz//
-        YYZkKXTz2qEx8jxlvPxLKmTKK9levh0Y8XATyfYSummTqKS3l+D+MoRLuenAfdbAUO/A=;
-Received: from root (helo=callcc.thunk.org)
-        by imap.thunk.org with local-esmtp (Exim 4.89)
-        (envelope-from <tytso@thunk.org>)
-        id 1g8fEm-0000Bx-0h; Sat, 06 Oct 2018 05:34:48 +0000
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id B87F47A523B; Sat,  6 Oct 2018 01:34:46 -0400 (EDT)
-Date:   Sat, 6 Oct 2018 01:34:46 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
-Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
-Message-ID: <20181006053446.GA2529@thunk.org>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>, linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
-References: <20181005231815.170433-1-joel@joelfernandes.org>
- <20181005234628.GB2548@thunk.org>
- <20181006034540.GM2674@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181006034540.GM2674@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: tytso@thunk.org
-X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
+        id S1727228AbeJFPp7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 6 Oct 2018 11:45:59 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 319085D669;
+        Sat,  6 Oct 2018 08:43:33 +0000 (UTC)
+Received: from MiWiFi-R3L-srv.redhat.com (ovpn-8-16.pek2.redhat.com [10.72.8.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1A41F608F2;
+        Sat,  6 Oct 2018 08:43:29 +0000 (UTC)
+From:   Baoquan He <bhe@redhat.com>
+To:     mingo@kernel.org
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, tglx@linutronix.de, thgarnie@google.com,
+        corbet@lwn.net, Baoquan He <bhe@redhat.com>
+Subject: [PATCH 0/3] x86/mm/doc: Clean up mm.txt
+Date:   Sat,  6 Oct 2018 16:43:24 +0800
+Message-Id: <20181006084327.27467-1-bhe@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Sat, 06 Oct 2018 08:43:33 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 05, 2018 at 08:45:40PM -0700, Paul E. McKenney wrote:
-> 
-> Shouldn't the synchronize_rcu() precede the loop doing the kfree()
-> calls?  Or am I missing something subtle?
+This clean up is suggested by Ingo.
 
-No, that was a cut and paste error on my part.  I was removing the
-rcu_read_unlock() before the kfree loop, and accidentally removed the
-synchronize_rcu().  Then when I put it back, I put it back in the
-right place.
+It firstly fix the confusions in mm layout tables by unifying
+each memory region description in the consistent style.
 
-The longer version:
+Secondly take the KASLR words out of the mm layout tables to make
+it as a separate section to only list mm layout in non-KASLR case.
+Then add KASLR document at the end of mm.txt.
 
-I originally used rcu_read_lock() and rcu_read_unlock() around setting
-up to_free[] --- since whatisRCU.txt didn't talk about
-rcu_derefence_proctected(), just rcu_dereference() in Section 2: "What
-is RCU's Core API?"   
+Meanwhile update description about KERNEL_IMAGE_SIZE in
+arch/x86/include/asm/page_64_types.h .
 
-Then when I looked at the example in Section 3, I was surprised when I
-didn't see the rcu_read_[un]lock() on the updater side, and spent some
-time trying to figure out how to use rcu_dereference_protected().
+v2->v3:
+Ingo helped to prettify the patch log and code comment, repost them
+after updating accordign to Ingo's suggestions.
 
-Then when I did the transumation from
-rcu_read_lock/rcu_dereference_protected/rcu_read_unlock to
-rcu_dereference_protected, I bobbled the location of
-synchronize_rcu().
+v1->v2:
 
-						- Ted
+Resend v2 since some typo and incorrect descriptions found in v1 post.
 
-P.S.  Pedagogically, it might make sense to show an example that only
-uses the RCU core API --- I assume using rcu_read_[un]lock() and
-rcu_dereference() does work; it's just non-optimal, right?  --- and
-then introduce the use of rcu_dereference_protected() afterwards.
+Baoquan He (3):
+  x86/KASLR: Update KERNEL_IMAGE_SIZE description
+  x86/mm/doc: Clean up the memory region layout descriptions
+  x86/doc/kaslr.txt: Create a separate part of document abourt KASLR at
+    the end of file
+
+ Documentation/x86/x86_64/mm.txt      | 150 +++++++++++++++++++++++------------
+ arch/x86/include/asm/page_64_types.h |  15 ++--
+ 2 files changed, 107 insertions(+), 58 deletions(-)
+
+-- 
+2.13.6
+
