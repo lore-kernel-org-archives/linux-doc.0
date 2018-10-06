@@ -5,141 +5,119 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 751917D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 08:44:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C5A507D087
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 09:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727944AbeJFPqU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 11:46:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45706 "EHLO mx1.redhat.com"
+        id S1727814AbeJFQXf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 12:23:35 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:38948 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727228AbeJFPqU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 6 Oct 2018 11:46:20 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 15C40308A967;
-        Sat,  6 Oct 2018 08:43:53 +0000 (UTC)
-Received: from MiWiFi-R3L-srv.redhat.com (ovpn-8-16.pek2.redhat.com [10.72.8.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9013C608F2;
-        Sat,  6 Oct 2018 08:43:49 +0000 (UTC)
-From:   Baoquan He <bhe@redhat.com>
-To:     mingo@kernel.org
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, tglx@linutronix.de, thgarnie@google.com,
-        corbet@lwn.net, Baoquan He <bhe@redhat.com>
-Subject: [PATCH 3/3] x86/doc/kaslr.txt: Create a separate part of document abourt KASLR at the end of file
-Date:   Sat,  6 Oct 2018 16:43:27 +0800
-Message-Id: <20181006084327.27467-4-bhe@redhat.com>
-In-Reply-To: <20181006084327.27467-1-bhe@redhat.com>
-References: <20181006084327.27467-1-bhe@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Sat, 06 Oct 2018 08:43:53 +0000 (UTC)
+        id S1727703AbeJFQXf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 6 Oct 2018 12:23:35 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 4CD9820802; Sat,  6 Oct 2018 11:20:59 +0200 (CEST)
+Received: from localhost (unknown [88.191.26.124])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 19B52206A2;
+        Sat,  6 Oct 2018 11:20:49 +0200 (CEST)
+Date:   Sat, 6 Oct 2018 11:20:50 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>, robh@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Guenter Roeck <linux@roeck-us.net>, linux-doc@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-mips@linux-mips.org, Stephen Boyd <sboyd@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Paul Burton <paul.burton@mips.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v5 04/21] dt-bindings: Add doc for the Ingenic TCU drivers
+Message-ID: <20181006092050.GA32272@piout.net>
+References: <S23990757AbeJCKjwPaYBe/20181003103952Z+1106@eddie.linux-mips.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <S23990757AbeJCKjwPaYBe/20181003103952Z+1106@eddie.linux-mips.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Take the original content as the first part to only list static mm
-layout tables in non-KASLR case. Then add KASLR related description
-at the end.
+On 03/10/2018 12:32:51+0200, Paul Cercueil wrote:
+> 
+> Le 1 oct. 2018 10:48, Daniel Lezcano <daniel.lezcano@linaro.org> a écrit :
+> >
+> > On 31/07/2018 00:01, Paul Cercueil wrote: 
+> >
+> > [ ... ] 
+> >
+> > >>>  +- ingenic,timer-channel: Specifies the TCU channel that should be 
+> > >>> used as 
+> > >>>  +  system timer. If not provided, the TCU channel 0 is used for the 
+> > >>> system timer. 
+> > >>>  + 
+> > >>>  +- ingenic,clocksource-channel: Specifies the TCU channel that 
+> > >>> should be used 
+> > >>>  +  as clocksource and sched_clock. It must be a different channel 
+> > >>> than the one 
+> > >>>  +  used as system timer. If not provided, neither a clocksource nor a 
+> > >>>  +  sched_clock is instantiated. 
+> > >> 
+> > >> clocksource and sched_clock are Linux specific and don't belong in DT. 
+> > >> You should define properties of the hardware or use existing properties 
+> > >> like interrupts or clocks to figure out which channel to use. For 
+> > >> example, if some channels don't have an interrupt, then use them for 
+> > >> clocksource and not a clockevent. Or you could have timers that run in 
+> > >> low-power modes or not. If all the channels are identical, then it 
+> > >> shouldn't matter which ones the OS picks. 
+> >
+> > It can't work in this case because the pmw and the timer driver are not 
+> > communicating and the first one can stole a channel to the last one. 
+> 
+> In that particular case the timer driver will always request its channels first; with no timer set the system hangs before subsys_initcall, and the PWM driver is a subnode of the timer node, so is probed only after the timer probed.
+> 
+> > > We already talked about that. All the TCU channels can be used for PWM. 
+> > > The problem is I cannot know from the driver's scope which channels will 
+> > > be free and which channels will be requested for PWM. You suggested that I 
+> > > parse the devicetree for clients, and I did that in the V3/V4 patchset. But 
+> > > it only works for clients requesting through devicetree, not from platform 
+> > > code or even sysfs. 
+> > > 
+> > > One thing I can try is to dynamically change the channels the system timer 
+> > > and clocksource are using when the current ones are requested for PWM. But 
+> > > that sounds hardcore... 
+> >
+> > Yes, it is :/ 
+> >
+> > Sorry for letting you wasting time and effort to write an overkill code 
+> > not suitable for upstream. 
+> >
+> > A very gross thought, wouldn't be possible to "register" a channel from 
+> > the timer driver code in a shared data area (but well self-encapsulated) 
+> > and the pwm code will check such channel isn't in use ? 
+> 
+> Probably, but it's the contrary I need to do. The timer driver code can use any channel, and probes first. The PWM driver code must use specific channels, and probes last. So either the timer driver knows what channels it can't use, thanks to a device property, or it adapts itself when a channel in use is requested for PWM, which is what I tried in v7.
+> 
+> I think we could find a way to use a devicetree property that doesn't trigger Rob. That would still be the easiest and cleanest solution. 
+> 
+> Maybe "ingenic,reserved-channels-mask", which would contain a mask of channels that can only be used by the timer driver. And what the timer driver does with these channels, would be specific to the implementation and would not appear in the bindings. I hope Rob can work with that.
+> 
 
-Signed-off-by: Baoquan He <bhe@redhat.com>
----
- Documentation/x86/x86_64/mm.txt | 64 +++++++++++++++++++++++++++++++++++------
- 1 file changed, 55 insertions(+), 9 deletions(-)
+Rob did ack the following binding:
 
-diff --git a/Documentation/x86/x86_64/mm.txt b/Documentation/x86/x86_64/mm.txt
-index b4bc95c9790e..549fcae596e0 100644
---- a/Documentation/x86/x86_64/mm.txt
-+++ b/Documentation/x86/x86_64/mm.txt
-@@ -1,5 +1,5 @@
- 
--Virtual memory map with 4 level page tables:
-+MM layout in non-KASLR case:
- 
- 0000000000000000 - 00007fffffffffff (=47 bits,   128 TB) user space, different per mm
- 				    hole caused by [47:63] sign extension
-@@ -12,7 +12,6 @@ ffffea0000000000 - ffffeaffffffffff (=40 bits,     1 TB) virtual memory map (vme
- ffffeb0000000000 - ffffebffffffffff (=40 bits,     1 TB) unused hole
- ffffec0000000000 - fffffbffffffffff (=44 bits,    16 TB) kasan shadow memory
- fffffc0000000000 - fffffdffffffffff (=41 bits,     2 TB) unused hole
--				    vaddr_end for KASLR
- fffffe0000000000 - fffffe7fffffffff (=39 bits,   512 GB) cpu_entry_area mapping
- fffffe8000000000 - fffffeffffffffff (=39 bits,   512 GB) LDT remap for PTI
- ffffff0000000000 - ffffff7fffffffff (=39 bits,   512 GB) %esp fixup stacks
-@@ -38,7 +37,6 @@ ffd4000000000000 - ffd5ffffffffffff (=49 bits,   512 TB) virtual memory map (vme
- ffd6000000000000 - ffdeffffffffffff (~51 bits,  2304 TB) unused hole
- ffdf000000000000 - fffffdffffffffff (~53 bits,    ~8 PB) kasan shadow memory
- fffffc0000000000 - fffffdffffffffff (=41 bits,     2 TB) unused hole
--				    vaddr_end for KASLR
- fffffe0000000000 - fffffe7fffffffff (=39 bits,   512 GB) cpu_entry_area mapping
- fffffe8000000000 - fffffeffffffffff (=39 bits,   512 GB) unused hole
- ffffff0000000000 - ffffff7fffffffff (=39 bits,   512 GB) %esp fixup stacks
-@@ -70,10 +68,58 @@ memory window (this size is arbitrary, it can be raised later if needed).
- The mappings are not part of any other kernel PGD and are only available
- during EFI runtime calls.
- 
--Note that if CONFIG_RANDOMIZE_MEMORY is enabled, the direct mapping of all
--physical memory, vmalloc/ioremap space and virtual memory map are randomized.
--Their order is preserved but their base will be offset early at boot time.
-+MM layout related to KASLR
-+=========================================================================
- 
--Be very careful vs. KASLR when changing anything here. The KASLR address
--range must not overlap with anything except the KASAN shadow area, which is
--correct as KASAN disables KASLR.
-+Kernel Address Space Layout Randomization (KASLR) consists of two parts
-+which work together to enhance the security of the Linux kernel:
-+
-+ - Kernel text KASLR
-+ - Memory region KASLR
-+
-+Kernel text KASLR
-+-----------------
-+The physical address and virtual address of kernel text itself are
-+randomized to a different position separately. The physical address of
-+the kernel can be anywhere, under 64TB at most in 4-level paging mode,
-+and under 4 PB in 5-level paging mode, while the virtual address of the
-+kernel is restricted between [0xffffffff80000000, ffffffffbfffffff],
-+the 1GB space.
-+
-+ffffffff80000000 - ffffffffbfffffff (1 GB)  kernel text mapping, from phys 0
-+ffffffffc0000000 - fffffffffeffffff (1 GB) module mapping space
-+
-+Note: The kernel text KASLR uses 1 GB space to randomize the position of
-+kernel image, and it's defalutly enabled. If KASLR config option
-+CONFIG_RANDOMIZE_BASE is not enabled, the space for kernel image will be
-+shrunk to 512 MB, accordingly increase the size of modules area to 1.5 GB.
-+
-+Memory region KASLR
-+-------------------
-+If CONFIG_RANDOMIZE_MEMORY is enabled, the below three memory regions
-+are randomized. Their order is preserved but their base will be offset
-+early at boot time.
-+
-+   - direct mapping region
-+   - vmalloc region
-+   - vmemmap region
-+
-+The KASLR address range must not overlap with anything except the KASAN
-+shadow area, which is correct as KASAN disables KASLR.
-+
-+So if take 4-level paging mode as example, from the original starting
-+address of the direct mapping region for physical RAM, to the starting
-+address of the cpu_entry_area mapping region, namely
-+[0xffff880000000000 - 0xfffffdffffffffff], the scope of 118 TB in all
-+is the virtual address space where memory region KASLR can be allowed to
-+move those memory regions around. After KASLR manipulation is done, their
-+layout looks like:
-+
-+Name            Starting address        Size                                         Aligned
-+-----------------------------------------------------------------------------------------------
-+direct mapping  page_offset_base        [actual size of system RAM + 10 TB padding]  1 GB
-+*guard hole     random                  random                                       1 GB
-+vmalloc         vmalloc_base            32 TB                                        1 GB
-+*guard hole     random                  random                                       1 GB
-+vmemmap         vmemmap_base            1 TB                                         1 GB
-+*guard hole     random                  random                                       1 GB
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/mfd/atmel-tcb.txt
+
+another subdevice is a PWM (not documented here).
+
+
 -- 
-2.13.6
-
+Alexandre Belloni, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
