@@ -1,137 +1,182 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 047F47D087
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 16:49:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 740057D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 17:03:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725266AbeJFXxq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 19:53:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46574 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725881AbeJFXxp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 19:53:45 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w96Gmx11019997
-        for <linux-doc@vger.kernel.org>; Sat, 6 Oct 2018 12:49:41 -0400
-Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2mxqcqce26-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 06 Oct 2018 12:49:41 -0400
-Received: from localhost
-        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sat, 6 Oct 2018 12:49:39 -0400
-Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
-        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 6 Oct 2018 12:49:34 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w96GnXNZ38142184
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 6 Oct 2018 16:49:33 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 89FEFB2067;
-        Sat,  6 Oct 2018 12:47:40 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6801FB2064;
-        Sat,  6 Oct 2018 12:47:40 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.85.150.28])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Sat,  6 Oct 2018 12:47:40 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id C059C16C12C1; Sat,  6 Oct 2018 09:49:33 -0700 (PDT)
-Date:   Sat, 6 Oct 2018 09:49:33 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
-Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
-Reply-To: paulmck@linux.ibm.com
-References: <20181005231815.170433-1-joel@joelfernandes.org>
- <20181005234628.GB2548@thunk.org>
- <20181006034540.GM2674@linux.ibm.com>
- <20181006053446.GA2529@thunk.org>
+        id S1727771AbeJGAH3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 20:07:29 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55766 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726256AbeJGAH3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 20:07:29 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 206-v6so4447779wmb.5;
+        Sat, 06 Oct 2018 10:03:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mYWIlfxJGNDWZbIqIVWQoaAv4RL99OVSMqmWfILT3Zc=;
+        b=RD+lvhqWYAPgjU2NkJ6xzTSV67EbJ7kmnaolxJvB6D6kjPlVXRmVY61e65ANGYlnw3
+         rKVg9kvLGMhQfCDY6ULr59+J3tqY2rS8dxZXfuIMyZw9vljFksT0T5jONmQnEr392E5W
+         UJ8Ml2QZf/YabSKyJi1dPDQNZP7GgY4MWdA2jskzbyfUxUpm0r8EgFwPs85UDq3Qr0ug
+         YkQ1TgK1AUmg8SyBAMAO+agQdt9qD5XAWFh61BKACMiSjxl93l5CSFyJk04y0bfP3W/q
+         C8z0oblbn7WIMzWylVhVa6gkfQTvSbdCfyjL8FeM3VmYZiacI9MQY4aPrdGbMUJDg5cy
+         8WNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mYWIlfxJGNDWZbIqIVWQoaAv4RL99OVSMqmWfILT3Zc=;
+        b=TaAzvIvS4o3QvsCvDRMnkfTouw65e7k06sWGMgdn449qn7BbF8tohDWSSdycxMieCS
+         nBLNRAdKnyWlpVPpdWsDCxs7a6SjL7lSTdpKzBgEF7NpBehHaG+IxiBNglPOJOZaLyM3
+         dbZFoxHjwt6I03gWy9/BerD7vIUR/dwsu7dN/JgcP0LpmhZMADqwiJtI1NfOxEnoBdAU
+         JE9mq9O3TjfrS53QLMd7GukZ9xFBu9xxwKjwaSdaGGs2h0Zj5aT0z3ocUU+KroQkKPBO
+         JPz3ZH9YDKHrf1fw3qmFuUDOO25Ec+i9IZx0ZFAbOXqRNhBSMlV23kcBZX3rV/7fXTBm
+         dYPw==
+X-Gm-Message-State: ABuFfohm+2XB+6Ou+Jr9OA0erFAdUaCuEUfEs93i+RojvsFyuqF/6oks
+        i3iTjQPEWEvvoGgFJPASXCE=
+X-Google-Smtp-Source: ACcGV60JArR/7YOjKB8lc0crt8QurMmUPeOKumOdYNRcfOcpXqNC+0fczW7uaFOxnTa1CkpXyJjD9w==
+X-Received: by 2002:a7b:c1d9:: with SMTP id a25-v6mr10822704wmj.55.1538845400301;
+        Sat, 06 Oct 2018 10:03:20 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id c2-v6sm8949440wrt.77.2018.10.06.10.03.18
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 06 Oct 2018 10:03:19 -0700 (PDT)
+Date:   Sat, 6 Oct 2018 19:03:17 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Baoquan He <bhe@redhat.com>, Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, tglx@linutronix.de, thgarnie@google.com,
+        corbet@lwn.net, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 4/3 v2] x86/mm/doc: Enhance the x86-64 virtual memory
+ layout descriptions
+Message-ID: <20181006170317.GA21297@gmail.com>
+References: <20181006084327.27467-1-bhe@redhat.com>
+ <20181006122259.GB418@gmail.com>
+ <20181006143821.GA72401@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181006053446.GA2529@thunk.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18100616-2213-0000-0000-000002FE6019
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009831; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000267; SDB=6.01098786; UDB=6.00568357; IPR=6.00878826;
- MB=3.00023641; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-06 16:49:37
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18100616-2214-0000-0000-00005BCD4874
-Message-Id: <20181006164933.GP2674@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-06_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1810060171
+In-Reply-To: <20181006143821.GA72401@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 06, 2018 at 01:34:46AM -0400, Theodore Y. Ts'o wrote:
-> On Fri, Oct 05, 2018 at 08:45:40PM -0700, Paul E. McKenney wrote:
-> > 
-> > Shouldn't the synchronize_rcu() precede the loop doing the kfree()
-> > calls?  Or am I missing something subtle?
-> 
-> No, that was a cut and paste error on my part.  I was removing the
-> rcu_read_unlock() before the kfree loop, and accidentally removed the
-> synchronize_rcu().  Then when I put it back, I put it back in the
-> right place.
 
-Been there, done that!  ;-)
+There's one PTI related layout asymmetry I noticed between 4-level and 5-level kernels:
 
-> The longer version:
-> 
-> I originally used rcu_read_lock() and rcu_read_unlock() around setting
-> up to_free[] --- since whatisRCU.txt didn't talk about
-> rcu_derefence_proctected(), just rcu_dereference() in Section 2: "What
-> is RCU's Core API?"   
-> 
-> Then when I looked at the example in Section 3, I was surprised when I
-> didn't see the rcu_read_[un]lock() on the updater side, and spent some
-> time trying to figure out how to use rcu_dereference_protected().
-> 
-> Then when I did the transumation from
-> rcu_read_lock/rcu_dereference_protected/rcu_read_unlock to
-> rcu_dereference_protected, I bobbled the location of
-> synchronize_rcu().
-> 
-> 						- Ted
-> 
-> P.S.  Pedagogically, it might make sense to show an example that only
-> uses the RCU core API --- I assume using rcu_read_[un]lock() and
-> rcu_dereference() does work; it's just non-optimal, right?  --- and
-> then introduce the use of rcu_dereference_protected() afterwards.
+  47-bit:
+> +                                                            |
+> +                                                            | Kernel-space virtual memory, shared between all processes:
+> +____________________________________________________________|___________________________________________________________
+> +                  |            |                  |         |
+> + ffff800000000000 | -128    TB | ffff87ffffffffff |    8 TB | ... guard hole, also reserved for hypervisor
+> + ffff880000000000 | -120    TB | ffffc7ffffffffff |   64 TB | direct mapping of all physical memory (page_offset_base)
+> + ffffc80000000000 |  -56    TB | ffffc8ffffffffff |    1 TB | ... unused hole
+> + ffffc90000000000 |  -55    TB | ffffe8ffffffffff |   32 TB | vmalloc/ioremap space (vmalloc_base)
+> + ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused hole
+> + ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual memory map (vmemmap_base)
+> + ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused hole
+> + ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory
+> + fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
+> +                  |            |                  |         | vaddr_end for KASLR
+> + fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
+> + fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | LDT remap for PTI
+> + ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
+> +__________________|____________|__________________|_________|____________________________________________________________
+> +                                                            |
 
-Yes, you can use rcu_dereference() on the update side and dispense
-with rcu_dereference_protected(), but that will require you to add an
-otherwise useless rcu_read_lock()/rcu_read_unlock() pair when accessing
-the pointer on the update side.
+  56-bit:
+> +                                                            |
+> +                                                            | Kernel-space virtual memory, shared between all processes:
+> +____________________________________________________________|___________________________________________________________
+> +                  |            |                  |         |
+> + ff00000000000000 |  -64    PB | ff0fffffffffffff |    4 PB | ... guard hole, also reserved for hypervisor
+> + ff10000000000000 |  -60    PB | ff8fffffffffffff |   32 PB | direct mapping of all physical memory (page_offset_base)
+> + ff90000000000000 |  -28    PB | ff9fffffffffffff |    4 PB | LDT remap for PTI
+> + ffa0000000000000 |  -24    PB | ffd1ffffffffffff | 12.5 PB | vmalloc/ioremap space (vmalloc_base)
+> + ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
+> + ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
+> + ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
+> + ffdf000000000000 |   -8.25 PB | fffffdffffffffff |   ~8 PB | KASAN shadow memory
+> + fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
+> +                  |            |                  |         | vaddr_end for KASLR
+> + fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
+> + fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | ... unused hole
+> + ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
 
-Furthermore, if you are OK leaking memory rather than freeing it (which
-is admittedly quite rare, but does sometimes happen), then yes, you
-don't need call_rcu(), synchronize_rcu(), and friends.
+The two layouts are very similar beyond the shift in the offset and the region sizes, except 
+one big asymmetry: is the placement of the LDT remap for PTI.
 
-So it is as you say, functional but non-optimal.
+Is there any fundamental reason why the LDT area is mapped into a 4 petabyte (!) area on 56-bit 
+kernels, instead of being at the -1.5 TB offset like on 47-bit kernels?
 
-							Thanx, Paul
+The only reason I can see is that this way is that it's currently coded at the PGD level only:
 
+static void map_ldt_struct_to_user(struct mm_struct *mm)
+{
+        pgd_t *pgd = pgd_offset(mm, LDT_BASE_ADDR); 
+
+        if (static_cpu_has(X86_FEATURE_PTI) && !mm->context.ldt)
+                set_pgd(kernel_to_user_pgdp(pgd), *pgd);
+}
+
+( BTW., the 4 petabyte size of the area is misleading: a 5-level PGD entry covers 256 TB of 
+  virtual memory, i.e 0.25 PB, not 4 PB. So in reality we have a 0.25 PB area there, used up
+  by the LDT mapping in a single PGD entry, plus a 3.75 PB hole after that. )
+
+... but unless I'm missing something it's not really fundamental for it to be at the PGD level 
+- it could be two levels lower as well, and it could move back to the same place where it's on 
+the 47-bit kernel.
+
+The LDT mapping operation is pretty heavy already, and the actual use of the LDT is not 
+impacted by where it's mapped, as the LDT is per mm so no remapping is required on context 
+switch.
+
+I.e. could we move the LDT over to the same place? This would make an even larger area of the 
+address space identical between 47-bit and 56-bit kernels:
+
+                                                            |
+                                                            | Identical layout to the 47-bit one from here on:
+____________________________________________________________|____________________________________________________________
+                  |            |                  |         |
+ fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
+                  |            |                  |         | vaddr_end for KASLR
+ fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
+ fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | LDT remap for PTI
+ ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
+ ffffff8000000000 | -512    GB | ffffffeeffffffff |  444 GB | ... unused hole
+ ffffffef00000000 |  -68    GB | fffffffeffffffff |   64 GB | EFI region mapping space
+ ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | ... unused hole
+ ffffffff80000000 |   -2    GB | ffffffff9fffffff |  512 MB | kernel text mapping, mapped to physical address 0
+ ffffffff80000000 |-2048    MB |                  |         |
+ ffffffffa0000000 |-1536    MB | fffffffffeffffff | 1520 MB | module mapping space
+ ffffffffff000000 |  -16    MB |                  |         |
+    FIXADDR_START | ~-11    MB | ffffffffff5fffff | ~0.5 MB | kernel-internal fixmap range, variable size and offset
+ ffffffffff600000 |  -10    MB | ffffffffff600fff |    4 kB | legacy vsyscall ABI
+ ffffffffffe00000 |   -2    MB | ffffffffffffffff |    2 MB | ... unused hole
+__________________|____________|__________________|_________|___________________________________________________________
+
+And the rest would basically just be 4 areas: the direct-mapping, vmalloc, vmemmap and KASAN 
+areas - which are scaled according to whether it's a 47-bit or 56-bit kernel.
+
+Thoughts?
+
+Thanks,
+
+	Ingo
