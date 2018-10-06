@@ -1,181 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 65FC57D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 15:02:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E70B97D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 16:30:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727606AbeJFWGW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 18:06:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60582 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727595AbeJFWGW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 6 Oct 2018 18:06:22 -0400
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.phx2.redhat.com [10.5.11.25])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B34E130820D1;
-        Sat,  6 Oct 2018 15:02:43 +0000 (UTC)
-Received: from localhost (ovpn-8-20.pek2.redhat.com [10.72.8.20])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E41E02010D55;
-        Sat,  6 Oct 2018 15:02:42 +0000 (UTC)
-Date:   Sat, 6 Oct 2018 23:02:40 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, tglx@linutronix.de, thgarnie@google.com,
-        corbet@lwn.net, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <a.p.zijlstra@chello.nl>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 4/3 v2] x86/mm/doc: Enhance the x86-64 virtual memory
- layout descriptions
-Message-ID: <20181006150240.GF5140@MiWiFi-R3L-srv>
-References: <20181006084327.27467-1-bhe@redhat.com>
- <20181006122259.GB418@gmail.com>
- <20181006143821.GA72401@gmail.com>
+        id S1726224AbeJFXeb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 19:34:31 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:33812 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725266AbeJFXea (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 19:34:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=eTBgH6DqMO6/18Ze4VhgcO9CjLgRjQl/mNnVbrWImLQ=; b=BCcb4bdkqHVSMxPYLivhsYq5h
+        RHXLYkAE0yMlrExxt0h/rkWNfKtYGILGTkMzAcU+u7QS8D2/pucuCS9PEv6hJrumZuxa6XCwEFfpL
+        dRHIk3jaTlqymVWJpdJeDeIcuJsfh3H/+VFxIO8ViBtB1G2Rf8NzsPp72heiSW2FzSZJc4NMUehLL
+        XdwepnPHZFlYByqaS4+dcptIwIa/jbr/ekvHQ7mnxgZFiEdx3VsQqyxXX6FFjGBFzHhlXeASJUO2S
+        FhEjIyvpZF7qP/Eu64KIXQAw9+Mtkg9V7cD8151//7KbU5DO4e0j90YcGm4Nby0la75v4q326c7Ao
+        aL2jcAp0w==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1g8pTA-0005Xe-Jx; Sat, 06 Oct 2018 16:30:20 +0000
+Subject: Re: [PATCH] Documentation/arm64: HugeTLB page implementation
+To:     Punit Agrawal <punit.agrawal@arm.com>, linux-doc@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        steve.capper@arm.com, Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20181005143458.17875-1-punit.agrawal@arm.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
+Date:   Sat, 6 Oct 2018 09:30:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181006143821.GA72401@gmail.com>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.25
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Sat, 06 Oct 2018 15:02:43 +0000 (UTC)
+In-Reply-To: <20181005143458.17875-1-punit.agrawal@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/06/18 at 04:38pm, Ingo Molnar wrote:
-> +Notes:
-> +
-> + - Negative addresses such as "-23 TB" are absolute addresses in bytes, counted down
-> +   from the top of the 64-bit address space. It's easier to understand the layout
-> +   when seen both in absolute addresses and in distance-from-top notation.
-> +
-> +   For example 0xffffe90000000000 == -23 TB, it's 23 TB lower than the top of the
-> +   64-bit address space (ffffffffffffffff).
-> +
-> +   Note that as we get closer to the top of the address space, the notation changes
-> +   from TB to GB and then MB/KB.
-> +
-> + - "16M TB" might look weird at first sight, but it's an easier to visualize size
-> +   notation than "16 EB", which few will recognize at first sight as 16 exabytes.
-> +   It also shows it nicely how incredibly large 64-bit address space is.
+Hi,
+Just some minor stuff (below).
 
-Thanks, this looks much better than the old version and my change.
+On 10/5/18 7:34 AM, Punit Agrawal wrote:
+> Arm v8 architecture supports multiple page sizes - 4k, 16k and
+> 64k. Based on the active page size, the Linux port supports
+> corresponding hugepage sizes at PMD and PUD(4k only) levels.
+> 
+> In addition, the architecture also supports caching larger sized
+> ranges (composed of multiple entries) at the PTE and PMD level in the
+> TLBs using the contiguous bit. The Linux port makes use of this
+> architectural support to enable additional hugepage sizes.
+> 
+> Describe the two different types of hugepages supported by the arm64
+> kernel and the hugepage sizes enabled by each.
+> 
+> Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will.deacon@arm.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/arm64/hugetlbpage.txt | 39 +++++++++++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+>  create mode 100644 Documentation/arm64/hugetlbpage.txt
+> 
+> diff --git a/Documentation/arm64/hugetlbpage.txt b/Documentation/arm64/hugetlbpage.txt
+> new file mode 100644
+> index 000000000000..64ee24b88d27
+> --- /dev/null
+> +++ b/Documentation/arm64/hugetlbpage.txt
+> @@ -0,0 +1,39 @@
+> +HugeTLBpage on ARM64
+> +====================
+> +
+> +Hugepage relies on making efficient use of TLBs to improve performance of
+> +address translations. The benefit depends on both -
+> +
+> +  - the size of hugepages
+> +  - size of entries supported by the TLBs
+> +
+> +The ARM64 port supports two flavours of hugepages.
+> +
+> +1) Block mappings at the pud/pmd level
+> +--------------------------------------
+> +
+> +These are regular hugepages where a pmd or a pud page table entry points to a
+> +block of memory. Regardless of the supported size of entries in TLB, block
+> +mappings reduces the depth of page table walk needed to translate hugepage
 
-Reviewed-by: Baoquan He <bhe@redhat.com>
+            reduce
 
-Thanks
-Baoquan
+> +addresses.
 > +
-> +========================================================================================================================
-> +    Start addr    |   Offset   |     End addr     |  Size   | VM area description
-> +========================================================================================================================
-> +                  |            |                  |         |
-> + 0000000000000000 |    0       | 00007fffffffffff |  128 TB | user-space virtual memory, different per mm
-> +__________________|____________|__________________|_________|___________________________________________________________
-> +                  |            |                  |         |
-> + 0000800000000000 | +128    TB | ffff7fffffffffff | ~16M TB | ... huge, almost 64 bits wide hole of non-canonical
-> +                  |            |                  |         |     virtual memory addresses up to the -128 TB
-> +                  |            |                  |         |     starting offset of kernel mappings.
-> +__________________|____________|__________________|_________|___________________________________________________________
-> +                                                            |
-> +                                                            | Kernel-space virtual memory, shared between all processes:
-> +____________________________________________________________|___________________________________________________________
-> +                  |            |                  |         |
-> + ffff800000000000 | -128    TB | ffff87ffffffffff |    8 TB | ... guard hole, also reserved for hypervisor
-> + ffff880000000000 | -120    TB | ffffc7ffffffffff |   64 TB | direct mapping of all physical memory (page_offset_base)
-> + ffffc80000000000 |  -56    TB | ffffc8ffffffffff |    1 TB | ... unused hole
-> + ffffc90000000000 |  -55    TB | ffffe8ffffffffff |   32 TB | vmalloc/ioremap space (vmalloc_base)
-> + ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused hole
-> + ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual memory map (vmemmap_base)
-> + ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused hole
-> + ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory
-> + fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
-> +                  |            |                  |         | vaddr_end for KASLR
-> + fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
-> + fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | LDT remap for PTI
-> + ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
-> +__________________|____________|__________________|_________|____________________________________________________________
-> +                                                            |
-> +                                                            | Identical layout to the 47-bit one from here on:
-> +____________________________________________________________|____________________________________________________________
-> +                  |            |                  |         |
-> + ffffff8000000000 | -512    GB | ffffffeeffffffff |  444 GB | ... unused hole
-> + ffffffef00000000 |  -68    GB | fffffffeffffffff |   64 GB | EFI region mapping space
-> + ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | ... unused hole
-> + ffffffff80000000 |   -2    GB | ffffffff9fffffff |  512 MB | kernel text mapping, mapped to physical address 0
-> + ffffffff80000000 |-2048    MB |                  |         |
-> + ffffffffa0000000 |-1536    MB | fffffffffeffffff | 1520 MB | module mapping space
-> + ffffffffff000000 |  -16    MB |                  |         |
-> +    FIXADDR_START | ~-11    MB | ffffffffff5fffff | ~0.5 MB | kernel-internal fixmap range, variable size and offset
-> + ffffffffff600000 |  -10    MB | ffffffffff600fff |    4 kB | legacy vsyscall ABI
-> + ffffffffffe00000 |   -2    MB | ffffffffffffffff |    2 MB | ... unused hole
-> +__________________|____________|__________________|_________|___________________________________________________________
+> +2) Using the Contiguous bit
+> +---------------------------
+> +
+> +The architecture provides a contiguous bit in the translation table entries
+> +(D4.5.3, ARM DDI 0487C.a) that hints to the mmu to indicate that it is one of a
+
+preferably                                     MMU
+
+> +contiguous set of entries that can be cached in a single TLB entry.
+> +
+> +The contiguous bit is used in Linux to increase the mapping size at the pmd and
+> +pte (last) level. The number of supported contiguous entries vary by page size
+
+                                                                varies
+
+> +and level of the page table.
 > +
 > +
-> +====================================================
-> +Complete virtual memory map with 5-level page tables
-> +====================================================
 > +
-> +Notes:
+> +The following hugepage sizes are supported -
 > +
-> + - With 56-bit addresses, user-space memory gets expanded by a factor of 512x,
-> +   from 0.125 PB to 64 PB. All kernel mappings shift down to the -64 PT starting
-> +   offset and many of the regions expand to support the much larger physical
-> +   memory supported.
-> +
-> +========================================================================================================================
-> +    Start addr    |   Offset   |     End addr     |  Size   | VM area description
-> +========================================================================================================================
-> +                  |            |                  |         |
-> + 0000000000000000 |    0       | 00ffffffffffffff |   64 PB | user-space virtual memory, different per mm
-> +__________________|____________|__________________|_________|___________________________________________________________
-> +                  |            |                  |         |
-> + 0000800000000000 |  +64    PB | ffff7fffffffffff | ~16K PB | ... huge, still almost 64 bits wide hole of non-canonical
-> +                  |            |                  |         |     virtual memory addresses up to the -128 TB
-> +                  |            |                  |         |     starting offset of kernel mappings.
-> +__________________|____________|__________________|_________|___________________________________________________________
-> +                                                            |
-> +                                                            | Kernel-space virtual memory, shared between all processes:
-> +____________________________________________________________|___________________________________________________________
-> +                  |            |                  |         |
-> + ff00000000000000 |  -64    PB | ff0fffffffffffff |    4 PB | ... guard hole, also reserved for hypervisor
-> + ff10000000000000 |  -60    PB | ff8fffffffffffff |   32 PB | direct mapping of all physical memory (page_offset_base)
-> + ff90000000000000 |  -28    PB | ff9fffffffffffff |    4 PB | LDT remap for PTI
-> + ffa0000000000000 |  -24    PB | ffd1ffffffffffff | 12.5 PB | vmalloc/ioremap space (vmalloc_base)
-> + ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
-> + ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
-> + ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
-> + ffdf000000000000 |   -8.25 PB | fffffdffffffffff |   ~8 PB | KASAN shadow memory
-> + fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
-> +                  |            |                  |         | vaddr_end for KASLR
-> + fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
-> + fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | ... unused hole
-> + ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
-> +__________________|____________|__________________|_________|____________________________________________________________
-> +                                                            |
-> +                                                            | Identical layout to the 47-bit one from here on:
-> +____________________________________________________________|____________________________________________________________
-> +                  |            |                  |         |
-> + ffffff8000000000 | -512    GB | ffffffeeffffffff |  444 GB | ... unused hole
-> + ffffffef00000000 |  -68    GB | fffffffeffffffff |   64 GB | EFI region mapping space
-> + ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | ... unused hole
-> + ffffffff80000000 |   -2    GB | ffffffff9fffffff |  512 MB | kernel text mapping, mapped to physical address 0
-> + ffffffff80000000 |-2048    MB |                  |         |
-> + ffffffffa0000000 |-1536    MB | fffffffffeffffff | 1520 MB | module mapping space
-> + ffffffffff000000 |  -16    MB |                  |         |
-> +    FIXADDR_START | ~-11    MB | ffffffffff5fffff | ~0.5 MB | kernel-internal fixmap range, variable size and offset
-> + ffffffffff600000 |  -10    MB | ffffffffff600fff |    4 kB | legacy vsyscall ABI
-> + ffffffffffe00000 |   -2    MB | ffffffffffffffff |    2 MB | ... unused hole
-> +__________________|____________|__________________|_________|___________________________________________________________
->  
->  Architecture defines a 64-bit virtual address. Implementations can support
->  less. Currently supported are 48- and 57-bit virtual addresses. Bits 63
+> +         CONT PTE    PMD    CONT PMD    PUD
+> +         --------    ---    --------    ---
+> +  4K:         64K     2M         32M     1G
+> +  16K:         2M    32M          1G
+> +  64K:         2M   512M         16G
+> 
+
+
+thanks,
+-- 
+~Randy
