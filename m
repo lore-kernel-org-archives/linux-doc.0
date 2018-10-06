@@ -3,73 +3,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 687F27D088
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 01:59:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5216B7D088
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 02:10:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729407AbeJFJAl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Oct 2018 05:00:41 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:46258 "EHLO
+        id S1729262AbeJFJMT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 6 Oct 2018 05:12:19 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:36648 "EHLO
         mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726812AbeJFJAk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 05:00:40 -0400
-Received: by mail-pl1-f196.google.com with SMTP id v5-v6so7575243plz.13
-        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 18:59:16 -0700 (PDT)
+        with ESMTP id S1729063AbeJFJMS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Oct 2018 05:12:18 -0400
+Received: by mail-pl1-f196.google.com with SMTP id y11-v6so4448388plt.3
+        for <linux-doc@vger.kernel.org>; Fri, 05 Oct 2018 19:10:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=ieo5aU7IW8O9fdGCRZUMA1k1N44dJBGOAndkP0WH7a4=;
-        b=TUP1E4/Te28gJ0zdutR/9N/xM8HBL5RKTL/rstAl0DB4Xu3xRChoFC0s9rXjaqqwxf
-         dy9PIYYHqAnuz2L/S86i60CE6UpgejTd7fUsLogLnpLwkz190zzKl0rgqPa9ZIA6FvIt
-         ESPqwCmIgF8ezLSvMRlHd12QPQMcHry9ybMIw=
+        bh=bUNYlJGIjGCvXIhJkr6hq8hpy2plvFlAxJEvKFZicn4=;
+        b=HUDKFKd2BDUlgS9EjaxcsnmhwREO1EsmWNuxQkIXvqB3jJOXSAA90ALvLLHX3QeMKZ
+         O1OuXvwASl056bQNQJyhkj89F2ACOPxAwhdErSeG5+jNcxWhjjGm+AP5okpHI2r3/dvG
+         fqvhIVYedDW2WWGnzSloY/kUavtdoztb3NaOI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ieo5aU7IW8O9fdGCRZUMA1k1N44dJBGOAndkP0WH7a4=;
-        b=Q/cTY6vwWUFJ2iDYA5kaVuNFHfb0DNS30A5MP0OBKqZh+qJ4fpanF135lxmIBJ4Yuc
-         7t88a4z2wtzFUw4uaq/dem6KgYiPs/uW62PXTdNfENmWaIHgWAnRT15iGBNjA8HcwJ+V
-         9x5DQUZU7x/SBVbfUlpVQ+B/ke9gqMynUf+OHlaLP/qf2zKHmgklO1KsJoSdG064pmJn
-         6p6P983HSXj6frhPM3z29xiDpbrKeajxWpdpzU3CypcckadiLuxeKnshwagcDL2tqbSc
-         aws0D7GS/rb0ti1zkVg2jBPL1iyceuz+tNz8b4sRqCrr8PXQpCaLy1AvygT1+ATgSAdS
-         SIyw==
-X-Gm-Message-State: ABuFfohXlaXmborAlG7ilze7BtHiV3ir2p517rE5qc9lvWG2H6ds5n34
-        0a3xXVYhqGy4do30TA32/VnZlJIQ/3M=
-X-Google-Smtp-Source: ACcGV63FiFGTFFHYQgtpBk1XbeetKlFLwIzLf3Tk6bo3Ie2iIV04DizEH9UmilTeXwlVZsJzITH+6g==
-X-Received: by 2002:a17:902:9a45:: with SMTP id x5-v6mr13991406plv.213.1538791155852;
-        Fri, 05 Oct 2018 18:59:15 -0700 (PDT)
+        bh=bUNYlJGIjGCvXIhJkr6hq8hpy2plvFlAxJEvKFZicn4=;
+        b=Yb8rG/Io9O+mhqbcO0wKK/4nAXtBxnlD+Cxqlzn8sXg4evTtlpAgUnnQQsggNIQsC6
+         m+rs5FM/c2OpVJgx8nKzRZYnFRNfqQXE9ev2SPM3IuPWFhVnWWv0nQH3CXLC1NiYTwAN
+         BISkPoyvMKsQBuHthIb3Np6UfEZpqg/VV0FrZcYWUKiUIWnI77VrbyI7XSaqOlt3YwPM
+         AIHuE8x9Yb29uG9hONVyXhOwbDpibA8JpjYOXfPyyIbyh6wTdQTEOqurVC+seW4bjxYl
+         Yc+aFCzbYlFDfWAjYMmlPFj3q8PVooWt9G5irRUQv0bGmo5lkf/sBzGMyRC0ZlCKkv1i
+         yZMQ==
+X-Gm-Message-State: ABuFfogmxwjLZCB27m6+g9NfwFZZVJXJHpJyLtg06KJwz5mAzhUGa1b/
+        aVuv8Jcy/rVTRZwp1qHYIrnYEQ==
+X-Google-Smtp-Source: ACcGV60+h+dEZWUbI4bCflzMtoOsCG9AnaE0IYRTVx2+O9S9dEygMo2MTTwj38Awz/lvY3T0skPtEA==
+X-Received: by 2002:a17:902:5c4:: with SMTP id f62-v6mr1195640plf.18.1538791852337;
+        Fri, 05 Oct 2018 19:10:52 -0700 (PDT)
 Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id g88-v6sm16501506pfd.181.2018.10.05.18.59.14
+        by smtp.gmail.com with ESMTPSA id l2-v6sm9146111pgp.20.2018.10.05.19.10.50
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 05 Oct 2018 18:59:14 -0700 (PDT)
-Date:   Fri, 5 Oct 2018 18:59:13 -0700
+        Fri, 05 Oct 2018 19:10:51 -0700 (PDT)
+Date:   Fri, 5 Oct 2018 19:10:50 -0700
 From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Josh Triplett <josh@joshtriplett.org>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         linux-doc@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
         Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
 Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
-Message-ID: <20181006015913.GA204532@joelaf.mtv.corp.google.com>
+Message-ID: <20181006021050.GC204532@joelaf.mtv.corp.google.com>
 References: <20181005231815.170433-1-joel@joelfernandes.org>
- <20181005234628.GB2548@thunk.org>
+ <20181006001326.GL2674@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181005234628.GB2548@thunk.org>
+In-Reply-To: <20181006001326.GL2674@linux.ibm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 05, 2018 at 07:46:28PM -0400, Theodore Y. Ts'o wrote:
+On Fri, Oct 05, 2018 at 05:13:26PM -0700, Paul E. McKenney wrote:
 > On Fri, Oct 05, 2018 at 04:18:09PM -0700, Joel Fernandes (Google) wrote:
+> > Hi Paul,
 > > 
 > > Here are this week's rcu doc updates based on combing through whatisRCU and
 > > checklists. Hopefully you agree with them. I left several old _bh and _sched
@@ -77,57 +77,20 @@ On Fri, Oct 05, 2018 at 07:46:28PM -0400, Theodore Y. Ts'o wrote:
 > > the APIs themselves are removed, however I did remove several of them as well
 > > (like in the first patch in this series) since I feel its better to "encourage"
 > > new users not to use the old API.
+> > 
+> > Also do you think it makes sense for us to write coccinelle patches to check if
+> > folks use them on new patches? Btw, I am new to coccinelle but I'd love to give
+> > it a try, it looks exciting. I remember you saying you wanted to do that, so
+> > that's something else you could potentially offload to me as you see fit ;-)
+> > 
+> > Thank you very much!
 > 
-> Hi Joel,
-
-Hi Ted,
-
+> Good catches, applied and pushed, thank you!
 > 
-> As it so happens, I just recently wrote my first RCU patch[1] (file
-> systems, especially on-disk data structures, generally tend not to be
-> good candidates for RCU semantics).
-> 
-> [1] http://patchwork.ozlabs.org/patch/979779/
-> 
-> So if you are working on improving RCU documentation, I thought I
-> would give two comments on the RCU docs from the perspective of a
-> developer trying to use RCU for the first time.
-> 
-> * whatisRCU is great, but one the example in Section 3 uses
->   rcu_dereference_protected() without explaining it.  Given that using
->   that function seems to be considered best practice, maybe a few more
->   words there would be in order?  That function isn't mentioned in
->   rcu.txt either, BTW.
+> I updated the commit log and a couple of the patches a bit, so could
+> you please double-check them?
 
-I actually felt the same about rcu_dereference_protected while reading and
-then looked at the comment above the implementation. The code comments are
-pretty detailed, but I agree the example should mention a few words about it
-since it uses it. I could look into improving that, no problem.
-
-> * lockdep.txt *does* explain what rcu_dereference_protected() does,
->   but it doesn't really describe lockdep_is_held().  You can mostly
->   figure it out from context, but it wasn't obvious to me what locks
->   it could be used against, and in the case of a rw_semaphore, whether
->   it applied to shared as well as exclusive locks.  That's a lockdep
->   abstraction, and not a RCU abstraction, but lockdep isn't
->   particularly well documented, so I ended up spending 20-30 minutes
->   or so looking at the lockdep implementation before I was sure it
->   actually worked the way I thought it was going to.
-
-Ok, makes sense to improve it. Since I haven't yet looked through lockdep.txt
-yet (as a part of my broader documentation effort for the RCU consolidation),
-I can take up improving that based on your suggestions since I have to look
-into it anyway :). I'll look into that next week and CC you on this.
-
-> Anyway, I was going to put submitting a patch to improve whatisRCU on
-> my (vastly over-long) TODO list, but when I saw your patch set, I
-> couldn't resist trying to see if I could fob it off on you.  If you
-> don't think that's fair (and it probably isn't really), just let me
-> know, and I'll put it back on my todo list.  :-)
-
-Its Ok :) I'm happy to help! thanks for letting me know.
-
-Best,
+Yes I checked and it looks good, thanks!
 
  - Joel
 
