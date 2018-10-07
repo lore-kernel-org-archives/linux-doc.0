@@ -5,30 +5,29 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5B2B27D082
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  7 Oct 2018 14:46:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 85DFF7D082
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  7 Oct 2018 14:52:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727258AbeJGVyJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 7 Oct 2018 17:54:09 -0400
-Received: from ms.lwn.net ([45.79.88.28]:34640 "EHLO ms.lwn.net"
+        id S1726891AbeJGWAH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 7 Oct 2018 18:00:07 -0400
+Received: from ms.lwn.net ([45.79.88.28]:34654 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726527AbeJGVyJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 7 Oct 2018 17:54:09 -0400
+        id S1726527AbeJGWAH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 7 Oct 2018 18:00:07 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 825898AF;
-        Sun,  7 Oct 2018 14:46:41 +0000 (UTC)
-Date:   Sun, 7 Oct 2018 08:46:40 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 5E3698AF;
+        Sun,  7 Oct 2018 14:52:38 +0000 (UTC)
+Date:   Sun, 7 Oct 2018 08:52:37 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 2/2] docs/vm: split memory hotplug notifier description
- to Documentation/core-api
-Message-ID: <20181007084640.76cd08c8@lwn.net>
-In-Reply-To: <1538691061-31289-3-git-send-email-rppt@linux.vnet.ibm.com>
-References: <1538691061-31289-1-git-send-email-rppt@linux.vnet.ibm.com>
-        <1538691061-31289-3-git-send-email-rppt@linux.vnet.ibm.com>
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     xfs <linux-xfs@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: improve readability for people with poorer
+ eyesight
+Message-ID: <20181007085237.6281983e@lwn.net>
+In-Reply-To: <20181005010603.GA6702@magnolia>
+References: <20181005010603.GA6702@magnolia>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,42 +37,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  5 Oct 2018 01:11:01 +0300
-Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+On Thu, 4 Oct 2018 18:06:03 -0700
+"Darrick J. Wong" <darrick.wong@oracle.com> wrote:
 
-> The memory hotplug notifier description is about kernel internals rather
-> than admin/user visible API. Place it appropriately.
+> o my eyesight still hasn't fully recovered, so in the meantime it's
+> been difficult to read the online documentation.  Here's some stylesheet
+> overrides I've been using to make it easier for me to read them:
+> https://djwong.org/docs/kdoc/index.html
 > 
-> Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
-
-One little nit...
-
->  Documentation/admin-guide/mm/memory-hotplug.rst    | 83 ---------------------
->  Documentation/core-api/index.rst                   |  2 +
->  Documentation/core-api/memory-hotplug-notifier.rst | 84 ++++++++++++++++++++++
->  3 files changed, 86 insertions(+), 83 deletions(-)
->  create mode 100644 Documentation/core-api/memory-hotplug-notifier.rst
+> ---
+> From: Darrick J. Wong <darrick.wong@oracle.com>
 > 
-> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> index a33090c..0b9c83e 100644
-> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> @@ -31,7 +31,6 @@ be changed often.
->      6.1 Memory offline and ZONE_MOVABLE
->      6.2. How to offline memory
->    7. Physical memory remove
-> -  8. Memory hotplug event notifier
->    9. Future Work List
+> My eyesight is not in good shape, which means that I have difficulty
+> reading the online Linux documentation.  Specifically, body text is
+> oddly small compared to list items and the contrast of various text
+> elements is too low for me to be able to see easily.
+> 
+> Therefore, alter the HTML theme overrides to make the text larger and
+> increase the contrast for better visibility, and trust the typeface
+> choices of the reader's browser.
+> 
+> For the PDF output, increase the text size, use a sans-serif typeface
+> for sans-serif text, and use a serif typeface for "roman" serif text.
+> 
+> Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
 
-That leaves a gap in the numbering here.
-
-In general, the best solution to this sort of issue is to take the TOC out
-entirely and let Sphinx worry about generating it.  People tend not to
-think about updating the TOC when they make changes elsewhere, so it often
-goes out of sync with the rest of the document anyway.
-
-I'll apply these, but please feel free to send a patch to fix this up.
-
-Thanks,
+I've been wanting to find some time to work on our stylesheets for years;
+what we have now is far from ideal (or attractive) IMO.  This is a good
+step in the right direction - applied, thanks.
 
 jon
