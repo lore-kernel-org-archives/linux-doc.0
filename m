@@ -1,95 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 593E77D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Oct 2018 22:47:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 83E697D08E
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  7 Oct 2018 08:54:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725842AbeJGFwk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 7 Oct 2018 01:52:40 -0400
-Received: from imap.thunk.org ([74.207.234.97]:43430 "EHLO imap.thunk.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725821AbeJGFwk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 7 Oct 2018 01:52:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
-         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=NZBjo2aGfpTjJRn918klV4zqOc8QA4M8zsX7haRhh2k=; b=G2fhd4zhcsvxg0xVJYL4q2mMqP
-        wOwexAbxrp9LMg1xBlUwLhVjvREw6Z/JMjtUVcWY0ratjd0JpJ93lWZ0ysd0U7tQD1anXGTfDro8I
-        od2epYH3gDBBPhtWz5DOCNHiaoL4IZbKdkVcILHSCcj2Op9xqs51v9OtG+ypM0vpj3o8=;
-Received: from root (helo=callcc.thunk.org)
-        by imap.thunk.org with local-esmtp (Exim 4.89)
-        (envelope-from <tytso@thunk.org>)
-        id 1g8vMB-0004hI-2K; Sat, 06 Oct 2018 22:47:31 +0000
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 08A247A5240; Sat,  6 Oct 2018 18:47:30 -0400 (EDT)
-Date:   Sat, 6 Oct 2018 18:47:29 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
-Subject: Re: [PATCH RFC 0/5] rcu doc updates for whatisRCU and checklist
-Message-ID: <20181006224729.GA7130@thunk.org>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>, linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>, pantin@google.com
-References: <20181005231815.170433-1-joel@joelfernandes.org>
- <20181005234628.GB2548@thunk.org>
- <20181006034540.GM2674@linux.ibm.com>
- <20181006044057.GA41279@joelaf.mtv.corp.google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181006044057.GA41279@joelaf.mtv.corp.google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: tytso@thunk.org
-X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
+        id S1725994AbeJGQB0 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 7 Oct 2018 12:01:26 -0400
+Received: from pic75-3-78-194-244-226.fbxo.proxad.net ([78.194.244.226]:33460
+        "EHLO mail.corsac.net" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1726402AbeJGQBZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Oct 2018 12:01:25 -0400
+Received: from scapa.corsac.net (unknown [IPv6:2a01:e34:ec2f:4e20:6af7:28ff:fe8d:2119])
+        by mail.corsac.net (Postfix) with ESMTPS id 08AC192
+        for <linux-doc@vger.kernel.org>; Sun,  7 Oct 2018 10:54:47 +0200 (CEST)
+Received: from corsac (uid 1000)
+        (envelope-from corsac@corsac.net)
+        id a0205
+        by scapa.corsac.net (DragonFly Mail Agent v0.11);
+        Sun, 07 Oct 2018 10:54:46 +0200
+Message-ID: <5b06d90e5fd23633af4dfbb5f9c6cfa7607152cc.camel@corsac.net>
+Subject: Re: [PATCH] yama: clarify ptrace_scope=2 in Yama documentation
+From:   Yves-Alexis Perez <corsac@corsac.net>
+To:     Matthew Wilcox <willy@infradead.org>,
+        Kees Cook <keescook@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, trivial@kernel.org
+Date:   Sun, 07 Oct 2018 10:54:42 +0200
+In-Reply-To: <be02c1974b028efcc2a0ec49dfedff456a78e156.camel@corsac.net>
+References: <20181002204722.GA9610@scapa.corsac.net>
+         <20181002205259.GA16090@bombadil.infradead.org>
+         <be02c1974b028efcc2a0ec49dfedff456a78e156.camel@corsac.net>
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.1-1 
+Mime-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 05, 2018 at 09:40:57PM -0700, Joel Fernandes wrote:
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+On Tue, 2018-10-02 at 23:08 +0200, Yves-Alexis Perez wrote:
+> On Tue, 2018-10-02 at 13:52 -0700, Matthew Wilcox wrote:
+> > On Tue, Oct 02, 2018 at 10:47:23PM +0200, Yves-Alexis Perez wrote:
+> > > Current phrasing is ambiguous since it's unclear if attaching to a
+> > > children through PTRACE_TRACEME requires CAP_SYS_PTRACE. Rephrase the
+> > > sentence to make that clear.
+> > 
+> > I disagree that your sentence makes that clear.  How about:
+> > 
+> > >  2 - admin-only attach:
+> > > -    only processes with ``CAP_SYS_PTRACE`` may use ptrace
+> > > -    with ``PTRACE_ATTACH``, or through children calling
+> > > ``PTRACE_TRACEME``.
+> > > +    only processes with ``CAP_SYS_PTRACE`` may use ptrace, either with
+> > > +    ``PTRACE_ATTACH`` or through children calling ``PTRACE_TRACEME``.
+> > 
+> > +    only processes with ``CAP_SYS_PTRACE`` may use ptrace.  This
+> > +    restricts both ``PTRACE_ATTACH`` and ``PTRACE_TRACEME``.
 > 
-> Could you annotate this pointer (sbi->s_qf_names) with __rcu so it can be
-> checked by sparse for proper usage? Its also point #16 in the checklist.txt
-> RCU document. I enclosed a diff to do this below.
-
-Sure.
-
-> I also saw a bunch of places in super.c where the pointer isn't accessed from
-> an rcu read section or rcu_dereference, but it was a quick look so sorry if I
-> missed something. If its true, then are you planning to convert these to use
-> rcu_dereference and wrapped by an rcu_read_lock/unlock as well?
-
-These are places where we are holding s_umount, so there's no way
-s_qf_names can change out from under us.  So the conversion should be
-to use rcu_dereference_protected().
-
-> > +		to_free[i] = rcu_dereference_protected(sbi->s_qf_names[i],
-> > +						       &sb->s_umount);
+> Hi Matthew,
 > 
-> Also should this be the following?
-> 		to_free[i] = rcu_dereference_protected(sbi->s_qf_names[i],
-> 					       lockdep_is_held(&sb->s_umount));
+> I'm no native speaker, both versions are fine by me but I liked keeping the
+> “children calling” part since the semantics are quite different for
+> PTRACE_ATTACH and PTRACE_TRACEME.
+> 
+Hi Kees, Matthew,
 
-Yep, good catch, thanks.
+so what's the status on this? Who needs to acknowledge one wording or another?
 
-						- Ted
+Regards,
+- -- 
+Yves-Alexis
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEE8vi34Qgfo83x35gF3rYcyPpXRFsFAlu5ydIACgkQ3rYcyPpX
+RFt7oAgAued/FsFiGvk6U/RG3JEj5p5aRu6harAXqK/Mw8n1gEu0nGvZvFJn31eY
+fcU8quTtbmiNR2oYrAxjri2dhVd2JLsKDZU1bhpcKk33jDOzhUjeKnJgLGY38Z01
+5idfKSy0CEZ0FvYvpt7gOm3loFlbM0au9JgFszVwFM8Yartr5vH1mPlZUwGbrroH
+RORqAkwVI+g8iK1vqq9fdCf9J5mwcYu0DR8STvP8Nx12zEDNeiCShvXDNNt5VKg3
+BHVNPHvE8uKaZmlyYt1oy9ZKjjcHn6veVkKEKFRz/TVc+q/Z7G1cORzVb7GzIPGj
+9GoIZP2+Wi+7KUqUYQnHZSfujd5BzQ==
+=jfBM
+-----END PGP SIGNATURE-----
