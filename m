@@ -5,42 +5,40 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 286BB7D088
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 10:37:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28A917D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 10:48:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726354AbeJHRsF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 13:48:05 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:34710 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbeJHRsF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 13:48:05 -0400
-Received: by mail-qk1-f195.google.com with SMTP id p6-v6so11762447qkg.1;
-        Mon, 08 Oct 2018 03:37:01 -0700 (PDT)
+        id S1727449AbeJHR6r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Oct 2018 13:58:47 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44248 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726612AbeJHR6q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 13:58:46 -0400
+Received: by mail-lf1-f67.google.com with SMTP id m18-v6so13567105lfl.11;
+        Mon, 08 Oct 2018 03:47:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ABAzHvy42/tuYULpp/Kx5+SxMsW4Nke/wMSs9iUcpHc=;
-        b=lWo1eimbZvfBtXD6fF2UTnXbEDGNbrrp+TEifioPhlQGsbBSQerg1TYNRKVLWoSbVs
-         VMiiUCJ0PqqXLfFh8ln8SVcMVNhkYFF8irHBnx6Z1xFKb+PoiVh5rYq5I/vljqOCX5j1
-         9snR5PmSNU/6+/G8hF2OgF+ihEa3o8nK4TDj2/V7N2thqLSbm4eDAenVU9EtBY54ryCT
-         RBskVh4KepShJvlZct5z8YzW6sbstZV/6X0d/IF9f3s1VJ3bn9MfpzYWPq2BVqmVRFtD
-         dWzif/Gp9lAJ8PrPp/GwLkXIDtkQZhlw+0LQqwz34uaPUwweVIzrstYB/VkilgtSgEXJ
-         sJXQ==
-X-Gm-Message-State: ABuFfojV9y6t0zdtFM32IC4AafFUrgCCTM80ketp7IXL67VEl6rJDSld
-        nwsVWtB14ZV+wG77ON5A6R6npCDaU6AygOWwCo4=
-X-Google-Smtp-Source: ACcGV63zXQFCk50m2EUEU9lrbK+4uyARnWqdK6AqV8jqbOOA4wdPAN12MRlvG7lO4uxL+2L/6mXzc/1sNd1jgE0+k8E=
-X-Received: by 2002:a37:e21a:: with SMTP id g26-v6mr17611823qki.330.1538995020814;
- Mon, 08 Oct 2018 03:37:00 -0700 (PDT)
+        bh=cnJqKGfKCJn6THfdu0w+U8mp3PA/UTX51c6e69INi9o=;
+        b=FajzgdHibbsC7lU/qaufFiVDeaaCBagTQScXmJS6znJyuBl2/7aiKUt2jjxljheniW
+         sHPl5Bw8VMfoDPE0SAPuw10/AXHHhMgBNG8D10YzJL84mVpQEiDxtHq8zcrWtZ9PW71M
+         WiD3754smSLFE2OKFa2W+P+9RVrE8O1Zs0a0sWZsPZPAgEWWZY5QGTadjCW7USq2O4Lc
+         mkixQdNa8NMtrZ0AqivYREjJ/WMKvwYWA3M8CjQKH5jwR9eAyLWAFWQZMIeT1SLevoi7
+         jlEhgXJyiUtbffWr4xNjRfHrM2s0sIcKNnvPi44Zx6lGj2WwatDbr49ytBx6uBjZqWl9
+         GLgw==
+X-Gm-Message-State: ABuFfohL3Acgo3wJhF7/IGEF6omjVinCm54t/9EFgSnljKthc9yHVQ4J
+        vRNLBNWRgtuZZgMgzxOgbNDD8nQ1cbR+xmpbjdc=
+X-Google-Smtp-Source: ACcGV61pB2vwPNyHB6fkOMZ97n+/c4OwSck8WviBAk965P28UkIHwr7nE7HJStr/AhCt/m3GehT0iQEbZ0IYRvmKCWA=
+X-Received: by 2002:a19:6d0e:: with SMTP id i14-v6mr12760275lfc.57.1538995657922;
+ Mon, 08 Oct 2018 03:47:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181003132212.12619-1-boris.brezillon@bootlin.com>
- <20181003132212.12619-8-boris.brezillon@bootlin.com> <CAK8P3a21t7pQ2uYWgu2+VZZNYc+pz_w3WCL7YVUEzqqyOFLvnA@mail.gmail.com>
- <20181008122101.7b391070@bbrezillon>
-In-Reply-To: <20181008122101.7b391070@bbrezillon>
+In-Reply-To: <20181003132212.12619-1-boris.brezillon@bootlin.com>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 8 Oct 2018 12:36:44 +0200
-Message-ID: <CAK8P3a3Sck0yYzH-Ks=CvHJLgZ1VrUjHvzw2XL7C_GC515=VVg@mail.gmail.com>
-Subject: Re: [PATCH v8 07/10] i3c: master: Add driver for Cadence IP
+Date:   Mon, 8 Oct 2018 12:47:21 +0200
+Message-ID: <CAK8P3a2C+FHiPnHKEAanhD=RpqDG1VywTEGhpdBvvKQ8zmwdUA@mail.gmail.com>
+Subject: Re: [PATCH v8 00/10] Add the I3C subsystem
 To:     Boris Brezillon <boris.brezillon@bootlin.com>
 Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Linux I2C <linux-i2c@vger.kernel.org>,
@@ -79,58 +77,62 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 8, 2018 at 12:21 PM Boris Brezillon
+On Wed, Oct 3, 2018 at 3:22 PM Boris Brezillon
 <boris.brezillon@bootlin.com> wrote:
 >
-> On Mon, 8 Oct 2018 12:06:30 +0200
-> Arnd Bergmann <arnd@arndb.de> wrote:
+> Sorry for the huge delay between v7 and v8 despite the small amount of
+> things I was asked to fix/rework.
 >
-> > On Wed, Oct 3, 2018 at 3:22 PM Boris Brezillon
-> > <boris.brezillon@bootlin.com> wrote:
-> > >
-> > > Add a driver for Cadence I3C master IP.
-> > >
-> > > Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
-> > > ---
-> >
-> > > Changes in v7:
-> > > - Fix readsl/writesl() usage
-> > > - Add a depends on ARM || ARM64 || XTENSA to forbid selection of this
-> > >   driver on platforms that are not implementing readsl/writesl
-> >
-> > Most architectures include asm-generic/io.h, which contains a generic
-> > implementation of readsl(). Maybe that #ifdef could be extended here?
-> > I remember discussing this with you not so long ago, which led to
-> > commit 0bbf47eab469 ("ia64: use asm-generic/io.h"). Do we have
-> > a list of architectures that don't include asm-generic/io.h? Maybe
-> > the 'depends on' could be for the set of architectures that fail here.
+> This patch series is adding a new subsystem to support I3C devices.
 >
-> Well, we started patching 2 archs (ia64 and sparc) based on kbuild
-> robots failure report, and then I received other reports (still from
-> kbuild robots) long after the initial ones. I can't tell for sure which
-> archs are not implementing those functions, hence the conservative
-> approach taken here.
+> This is just adding support for basic features. Extra features will
+> be added afterwards.
+>
+> There are a few design choices that are worth mentioning because they
+> impact the way I3C device drivers can interact with their devices:
+>
+> - all functions used to send I3C/I2C frames must be called in
+>   non-atomic context. Mainly done this way to ease implementation, but
+>   this is still open to discussion. Please let me know if you think it's
+>   worth considering an asynchronous model here
+> - the I3C bus and I3C master controller are now tightly coupled even
+>   though they're still allocated separately. There's now a 1:1
+>   relationship between these objects, and the I3C master is no longer
+>   represented under the I3C bus object.
+>   Arnd, let me know if you had something different in mind, and I'll
+>   rework the implementation accordingly.
 
-I think it's a fairly safe assumption that architectures which include
-asm-generic/io.h will be fine here. If one of them is broken, that
-can be fixed individually. Looking at the ones that don't include this
-file:
+I looked at the entire series again and I'm rather happy with how
+it turned out. I've commented on a tiny issue about the readsl()
+that should be easy to resolve one way or another, with that
+you can add my
 
-grep -L asm-generic/io.h arch/*/include/asm/io*.h
-arch/alpha/include/asm/io.h        # missing readsl
-arch/hexagon/include/asm/io.h   # has its own readsl
-arch/mips/include/asm/io.h         # missing readsl (but used from ide.h?)
-arch/parisc/include/asm/io.h       # missing readsl
-arch/powerpc/include/asm/io.h   # has its own readsl
-arch/sh/include/asm/io.h             # has its own readsl
-arch/sparc/include/asm/io.h        # has its own readsl
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
-Based on this, I would try what happens on mips, and make it depend
-on !(ALPHA || PARISC)
+There is one additional issue that we've talked about previously
+and that I'd like to hear about from GregKH or maybe other
+subsystem maintainers: In the current version, you have a single
+'bus_type' object, and this is used to represent both a 'host' and
+a 'device'. I think we concluded that this is done in other
+subsystems as well, and that this is fitting here because a
+host (master device) can hand over being a master to another
+device (slave), which then becomes the host and sees this
+one as a slave. Also a lot of the sysfs attributes are the same
+because of this relationship.
 
-Another option is to just use ioread32_rep(), which should be
-available everywhere and has almost the same behavior as
-readsl(). The only difference is that on architectures like x86
-it takes a few extra cycles to look at the address.
+It also means that you get a mix of things in sysfs:
 
-        Arnd
+/sys/devices/i3c/<bus>
+/sys/devices/i3c/<device>
+/sys/devices/i3c/<bus>/<device>
+
+which is a bit like what we have on USB where we can have hub
+devices that are again parents of other USB devices, but I don't
+think we can have i3c hubs or multiplexers in the same way, so
+it's only a single level.
+
+I'm ok with this model after our previous discussion and couldn't
+come up with a better one. If anyone else still sees it as
+problematic and has a better idea, please let us know now.
+
+         Arnd
