@@ -1,85 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6E4CF7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 14:55:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CBED57D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 19:49:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbeJHWID (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 18:08:03 -0400
-Received: from mga02.intel.com ([134.134.136.20]:29700 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726278AbeJHWID (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Oct 2018 18:08:03 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Oct 2018 07:55:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,357,1534834800"; 
-   d="scan'208";a="97126274"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.86])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Oct 2018 07:55:51 -0700
-Received: from andy by smile with local (Exim 4.91)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1g9Wwo-00080p-Jj; Mon, 08 Oct 2018 17:55:50 +0300
-Date:   Mon, 8 Oct 2018 17:55:50 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Petr Mladek <pmladek@suse.com>,
-        "Tobin C. Harding" <me@tobin.cc>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 1/3] lib/vsprintf: Prepare for more general use of
- ptr_to_id()
-Message-ID: <20181008145550.GD15943@smile.fi.intel.com>
-References: <20181008110504.25449-1-geert+renesas@glider.be>
- <20181008110504.25449-2-geert+renesas@glider.be>
- <20181008142544.GB15943@smile.fi.intel.com>
- <CAMuHMdXFjDXWVxmkpc5AWebeOasDvj5RrhKOd3gkTqAeK5Y5pg@mail.gmail.com>
+        id S1726427AbeJIDCk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Oct 2018 23:02:40 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:33456 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726418AbeJIDCj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 23:02:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=9+hibdFJ7f+QzvvL8Y657U7dz0koWuYGCzJ6Awvw590=; b=qcTdmJnojkMpi+YOOsp/yTxyZ
+        w4SqVOpTxeV8UCe07T4RjzQyn1UUslnU9wplLB74oAOZzxffXFurGknbMAuw8nb2jI+7BJtU7yutv
+        FrmtBaWlBwDA/AXopenIx0KdoaqDSEveyAfW5AwKvosXMT+mdKiy8FgPV6TL3axw9ZCZv+QK8g80e
+        EL/U5vIP38RWQzuWLxGZD/R8N3Kwng7qBr3q1xswAjdXbm5ZiKkCN13+Gk2hHFVCpHeykPIvLu5bp
+        pdAh0YKVHeDgXVCUh68GJ7pfuhQXKaITFLq8WwHIjn3mRxnJ877W/qxPUy4aWxSmvOkE40p6NZIfa
+        G1kOcoVhg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1g9bWl-0006nu-Js; Mon, 08 Oct 2018 19:49:15 +0000
+Subject: Re: [PATCH v2] Documentation/arm64: HugeTLB page implementation
+To:     Punit Agrawal <punit.agrawal@arm.com>, linux-doc@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        steve.capper@arm.com, Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
+ <20181008100355.31820-1-punit.agrawal@arm.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <67f4ceb7-d41c-ab7a-4d5e-c147dadf6860@infradead.org>
+Date:   Mon, 8 Oct 2018 12:49:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXFjDXWVxmkpc5AWebeOasDvj5RrhKOd3gkTqAeK5Y5pg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20181008100355.31820-1-punit.agrawal@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 08, 2018 at 04:37:29PM +0200, Geert Uytterhoeven wrote:
-> Hi Andy,
+On 10/8/18 3:03 AM, Punit Agrawal wrote:
+> Arm v8 architecture supports multiple page sizes - 4k, 16k and
+> 64k. Based on the active page size, the Linux port supports
+> corresponding hugepage sizes at PMD and PUD(4k only) levels.
 > 
-> On Mon, Oct 8, 2018 at 4:25 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Mon, Oct 08, 2018 at 01:05:02PM +0200, Geert Uytterhoeven wrote:
-> > >   - Make the ptr argument const, to avoid adding casts in future
-> > >     callers,
-> >
-> > >   - Add a forward declaration, to avoid moving large blocks of code.
-> >
-> > How big it would be? ptr_to_id() itself plus...
+> In addition, the architecture also supports caching larger sized
+> ranges (composed of multiple entries) at the PTE and PMD level in the
+> TLBs using the contiguous bit. The Linux port makes use of this
+> architectural support to enable additional hugepage sizes.
 > 
-> ... all the randomization helpers.
-> And ptr_to_id() needs pointer_string(), string(), widen_string(), number(),
-> and move_right().
+> Describe the two different types of hugepages supported by the arm64
+> kernel and the hugepage sizes enabled by each.
 > 
-> 118 insertions(+), 120 deletions(-)
-> 
-> Is that acceptable?
+> Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will.deacon@arm.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
 
-Better to ask Peter and others, my personal opinion I would go "forward
-declaration"-less solution.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+> Hi,
+> 
+> This version incorporates the feedback on v1.
+> 
+> Thanks,
+> Punit
+> 
+>  Documentation/arm64/hugetlbpage.txt | 38 +++++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/arm64/hugetlbpage.txt
+> 
+> diff --git a/Documentation/arm64/hugetlbpage.txt b/Documentation/arm64/hugetlbpage.txt
+> new file mode 100644
+> index 000000000000..cfae87dc653b
+> --- /dev/null
+> +++ b/Documentation/arm64/hugetlbpage.txt
+> @@ -0,0 +1,38 @@
+> +HugeTLBpage on ARM64
+> +====================
+> +
+> +Hugepage relies on making efficient use of TLBs to improve performance of
+> +address translations. The benefit depends on both -
+> +
+> +  - the size of hugepages
+> +  - size of entries supported by the TLBs
+> +
+> +The ARM64 port supports two flavours of hugepages.
+> +
+> +1) Block mappings at the pud/pmd level
+> +--------------------------------------
+> +
+> +These are regular hugepages where a pmd or a pud page table entry points to a
+> +block of memory. Regardless of the supported size of entries in TLB, block
+> +mappings reduce the depth of page table walk needed to translate hugepage
+> +addresses.
+> +
+> +2) Using the Contiguous bit
+> +---------------------------
+> +
+> +The architecture provides a contiguous bit in the translation table entries
+> +(D4.5.3, ARM DDI 0487C.a) that hints to the MMU to indicate that it is one of a
+> +contiguous set of entries that can be cached in a single TLB entry.
+> +
+> +The contiguous bit is used in Linux to increase the mapping size at the pmd and
+> +pte (last) level. The number of supported contiguous entries varies by page size
+> +and level of the page table.
+> +
+> +
+> +The following hugepage sizes are supported -
+> +
+> +         CONT PTE    PMD    CONT PMD    PUD
+> +         --------    ---    --------    ---
+> +  4K:         64K     2M         32M     1G
+> +  16K:         2M    32M          1G
+> +  64K:         2M   512M         16G
+> 
+
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+~Randy
