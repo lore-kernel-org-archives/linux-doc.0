@@ -2,74 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 49C0F7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 11:06:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 804F27D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 11:08:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726511AbeJHSQT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 14:16:19 -0400
-Received: from xavier.telenet-ops.be ([195.130.132.52]:52832 "EHLO
-        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727285AbeJHSQT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 14:16:19 -0400
+        id S1726511AbeJHSUE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Oct 2018 14:20:04 -0400
+Received: from laurent.telenet-ops.be ([195.130.137.89]:47166 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726728AbeJHSUE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 14:20:04 -0400
 Received: from ramsan.of.borg ([84.194.111.163])
-        by xavier.telenet-ops.be with bizsmtp
-        id kz561y0043XaVaC01z56XY; Mon, 08 Oct 2018 13:05:06 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id kz8p1y00D3XaVaC01z8pPY; Mon, 08 Oct 2018 13:08:51 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.86_2)
         (envelope-from <geert@linux-m68k.org>)
-        id 1g9TLV-000510-TU; Mon, 08 Oct 2018 13:05:05 +0200
+        id 1g9TP7-00052p-7D; Mon, 08 Oct 2018 13:08:49 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1g9TLV-0006dJ-RR; Mon, 08 Oct 2018 13:05:05 +0200
+        id 1g9TP7-0006gQ-5Z; Mon, 08 Oct 2018 13:08:49 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Petr Mladek <pmladek@suse.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+To:     Jonathan Corbet <corbet@lwn.net>,
         "Tobin C . Harding" <me@tobin.cc>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Rob Herring <robh@kernel.org>, Petr Mladek <pmladek@suse.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/3] lib/vsprintf: Hash remaining raw addresses
-Date:   Mon,  8 Oct 2018 13:05:01 +0200
-Message-Id: <20181008110504.25449-1-geert+renesas@glider.be>
+Subject: [PATCH] doc: printk-formats: Remove bogus kobject references for device nodes
+Date:   Mon,  8 Oct 2018 13:08:48 +0200
+Message-Id: <20181008110848.25648-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-	Hi all,
+When converting from text to rst, the kobjects section and its sole
+subsection about device tree nodes were coalesced into a single section,
+yielding an inconsistent result.
 
-There are still two format specifiers that print unhanced kernel
-addresses, potentially leaking sensitive information regarding the
-kernel layout in memory.
+Remove all references to kobjects, as
+  1. Device tree object pointers are not compatible to kobject pointers
+     (the former may embed the latter, though), and
+  2. there are no printk formats defined for kobject types.
 
-This patch series fixes this by printing hashed addresses instead.
-    
-Thanks!
+Update the vsprintf() source code comments to match the above.
 
-Geert Uytterhoeven (3):
-  lib/vsprintf: Prepare for more general use of ptr_to_id()
-  lib/vsprintf: Hash legacy clock addresses
-  lib/vsprintf: Hash printed address for netdev bits fallback
+Fixes: b3ed23213eab1e08 ("doc: convert printk-formats.txt to rst")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/core-api/printk-formats.rst |  6 +++---
+ lib/vsprintf.c                            | 20 +++++++++-----------
+ 2 files changed, 12 insertions(+), 14 deletions(-)
 
- Documentation/core-api/printk-formats.rst |  5 ++---
- lib/vsprintf.c                            | 17 ++++++++++-------
- 2 files changed, 12 insertions(+), 10 deletions(-)
-
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index d39798c2558500d5..ff48b55040ef5acf 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -376,15 +376,15 @@ correctness of the format string and va_list arguments.
+ 
+ Passed by reference.
+ 
+-kobjects
+---------
++Device tree nodes
++-----------------
+ 
+ ::
+ 
+ 	%pOF[fnpPcCF]
+ 
+ 
+-For printing kobject based structs (device nodes). Default behaviour is
++For printing device tree node structures. Default behaviour is
+ equivalent to %pOFf.
+ 
+ 	- f - device node full_name
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index a3dc15c89c217b79..9a8876bfa1e06592 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1840,17 +1840,15 @@ static char *ptr_to_id(char *buf, char *end, const void *ptr,
+  *       p page flags (see struct page) given as pointer to unsigned long
+  *       g gfp flags (GFP_* and __GFP_*) given as pointer to gfp_t
+  *       v vma flags (VM_*) given as pointer to unsigned long
+- * - 'O' For a kobject based struct. Must be one of the following:
+- *       - 'OF[fnpPcCF]'  For a device tree object
+- *                        Without any optional arguments prints the full_name
+- *                        f device node full_name
+- *                        n device node name
+- *                        p device node phandle
+- *                        P device node path spec (name + @unit)
+- *                        F device node flags
+- *                        c major compatible string
+- *                        C full compatible string
+- *
++ * - 'OF[fnpPcCF]'  For a device tree object
++ *                  Without any optional arguments prints the full_name
++ *                  f device node full_name
++ *                  n device node name
++ *                  p device node phandle
++ *                  P device node path spec (name + @unit)
++ *                  F device node flags
++ *                  c major compatible string
++ *                  C full compatible string
+  * - 'x' For printing the address. Equivalent to "%lx".
+  *
+  * ** When making changes please also update:
 -- 
 2.17.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
