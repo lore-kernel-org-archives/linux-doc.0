@@ -2,124 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F06B67D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 12:05:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC7687D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 13:15:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727857AbeJHTQj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 15:16:39 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:42358 "EHLO mail.bootlin.com"
+        id S1726014AbeJHU1E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Oct 2018 16:27:04 -0400
+Received: from foss.arm.com ([217.140.101.70]:50096 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726995AbeJHTQj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Oct 2018 15:16:39 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 9858D207C4; Mon,  8 Oct 2018 14:05:11 +0200 (CEST)
-Received: from bbrezillon (AAubervilliers-681-1-28-153.w90-88.abo.wanadoo.fr [90.88.148.153])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D29F820726;
-        Mon,  8 Oct 2018 14:05:10 +0200 (CEST)
-Date:   Mon, 8 Oct 2018 14:05:11 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>, mshettel@codeaurora.org,
-        swboyd@chromium.org
-Subject: Re: [PATCH v8 07/10] i3c: master: Add driver for Cadence IP
-Message-ID: <20181008140511.153392d1@bbrezillon>
-In-Reply-To: <CAK8P3a3Sck0yYzH-Ks=CvHJLgZ1VrUjHvzw2XL7C_GC515=VVg@mail.gmail.com>
-References: <20181003132212.12619-1-boris.brezillon@bootlin.com>
-        <20181003132212.12619-8-boris.brezillon@bootlin.com>
-        <CAK8P3a21t7pQ2uYWgu2+VZZNYc+pz_w3WCL7YVUEzqqyOFLvnA@mail.gmail.com>
-        <20181008122101.7b391070@bbrezillon>
-        <CAK8P3a3Sck0yYzH-Ks=CvHJLgZ1VrUjHvzw2XL7C_GC515=VVg@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726006AbeJHU1E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Oct 2018 16:27:04 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73DA918A;
+        Mon,  8 Oct 2018 06:15:23 -0700 (PDT)
+Received: from e119886-lin.cambridge.arm.com (unknown [10.37.6.11])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F1D53F5B7;
+        Mon,  8 Oct 2018 06:15:22 -0700 (PDT)
+From:   Andrew Murray <andrew.murray@arm.com>
+To:     Robert Love <rml@tech9.net>, Jonathan Corbet <corbet@lwn.net>
+Cc:     kpreempt-tech@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: preempt-locking: Use better example
+Date:   Mon,  8 Oct 2018 14:15:15 +0100
+Message-Id: <1539004515-8152-1-git-send-email-andrew.murray@arm.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 8 Oct 2018 12:36:44 +0200
-Arnd Bergmann <arnd@arndb.de> wrote:
+The existing wording implies that the use of spin_unlock whilst irqs are
+disabled might trigger a reschedule. However the preemptible() test in
+preempt_schedule will prevent a reschedule if irqs are disabled.
 
-> On Mon, Oct 8, 2018 at 12:21 PM Boris Brezillon
-> <boris.brezillon@bootlin.com> wrote:
-> >
-> > On Mon, 8 Oct 2018 12:06:30 +0200
-> > Arnd Bergmann <arnd@arndb.de> wrote:
-> >  
-> > > On Wed, Oct 3, 2018 at 3:22 PM Boris Brezillon
-> > > <boris.brezillon@bootlin.com> wrote:  
-> > > >
-> > > > Add a driver for Cadence I3C master IP.
-> > > >
-> > > > Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
-> > > > ---  
-> > >  
-> > > > Changes in v7:
-> > > > - Fix readsl/writesl() usage
-> > > > - Add a depends on ARM || ARM64 || XTENSA to forbid selection of this
-> > > >   driver on platforms that are not implementing readsl/writesl  
-> > >
-> > > Most architectures include asm-generic/io.h, which contains a generic
-> > > implementation of readsl(). Maybe that #ifdef could be extended here?
-> > > I remember discussing this with you not so long ago, which led to
-> > > commit 0bbf47eab469 ("ia64: use asm-generic/io.h"). Do we have
-> > > a list of architectures that don't include asm-generic/io.h? Maybe
-> > > the 'depends on' could be for the set of architectures that fail here.  
-> >
-> > Well, we started patching 2 archs (ia64 and sparc) based on kbuild
-> > robots failure report, and then I received other reports (still from
-> > kbuild robots) long after the initial ones. I can't tell for sure which
-> > archs are not implementing those functions, hence the conservative
-> > approach taken here.  
-> 
-> I think it's a fairly safe assumption that architectures which include
-> asm-generic/io.h will be fine here. If one of them is broken, that
-> can be fixed individually. Looking at the ones that don't include this
-> file:
-> 
-> grep -L asm-generic/io.h arch/*/include/asm/io*.h
-> arch/alpha/include/asm/io.h        # missing readsl
-> arch/hexagon/include/asm/io.h   # has its own readsl
-> arch/mips/include/asm/io.h         # missing readsl (but used from ide.h?)
-> arch/parisc/include/asm/io.h       # missing readsl
-> arch/powerpc/include/asm/io.h   # has its own readsl
-> arch/sh/include/asm/io.h             # has its own readsl
-> arch/sparc/include/asm/io.h        # has its own readsl
-> 
-> Based on this, I would try what happens on mips, and make it depend
-> on !(ALPHA || PARISC)
+Lets improve the clarity of this wording to change the example from
+spin_unlock to cond_resched() and cond_resched_lock() as these are
+functions that will trigger a reschedule if the preempt count is 0 without
+testing that irqs are disabled.
 
-Okay, I'll try with that.
+Also remove the 'Last Updated' line as this is not up to date and better
+tracked via GIT.
+
+Signed-off-by: Andrew Murray <andrew.murray@arm.com>
+---
+ Documentation/preempt-locking.txt | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/preempt-locking.txt b/Documentation/preempt-locking.txt
+index c945062..509f5a4 100644
+--- a/Documentation/preempt-locking.txt
++++ b/Documentation/preempt-locking.txt
+@@ -3,7 +3,6 @@ Proper Locking Under a Preemptible Kernel: Keeping Kernel Code Preempt-Safe
+ ===========================================================================
+ 
+ :Author: Robert Love <rml@tech9.net>
+-:Last Updated: 28 Aug 2002
+ 
+ 
+ Introduction
+@@ -92,11 +91,12 @@ any locks or interrupts are disabled, since preemption is implicitly disabled
+ in those cases.
+ 
+ But keep in mind that 'irqs disabled' is a fundamentally unsafe way of
+-disabling preemption - any spin_unlock() decreasing the preemption count
+-to 0 might trigger a reschedule. A simple printk() might trigger a reschedule.
+-So use this implicit preemption-disabling property only if you know that the
+-affected codepath does not do any of this. Best policy is to use this only for
+-small, atomic code that you wrote and which calls no complex functions.
++disabling preemption - any cond_resched() or cond_resched_lock() might trigger
++a reschedule if the preempt count is 0. A simple printk() might trigger a
++reschedule. So use this implicit preemption-disabling property only if you
++know that the affected codepath does not do any of this. Best policy is to use
++this only for small, atomic code that you wrote and which calls no complex
++functions.
+ 
+ Example::
+ 
+-- 
+2.7.4
+
