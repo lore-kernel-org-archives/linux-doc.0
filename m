@@ -1,146 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	UPPERCASE_50_75 autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B1E407D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 09:59:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1636E7D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 10:04:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbeJHRKL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 13:10:11 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:44731 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726193AbeJHRKL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 13:10:11 -0400
-Received: by mail-ot1-f68.google.com with SMTP id p23so7346658otf.11;
-        Mon, 08 Oct 2018 02:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6pPl+ooxeuaHheuMEW1uilUNg7fgvFgLTQ5AiW5OUWI=;
-        b=ASfF7DvaFE+sS7/Qr+mj2BWqdEmZUx6Vt75cTZCD5+aIVjW/g25ejQ7gNj7lNqcyfX
-         xtwyvO259ecUYT5J09nkD8Idm5zXIO7gTgMxR7DXr2bpiJh028CNoczbkGhI1HCjRApm
-         hj61u+GMhK4rV7tAb2Lw3QFg7PS40sJII52rNaLms+eiKuSk4oUKB+N99WtR497uNXT8
-         1/6RfvT4dLLivJuLu5x17ezOifh3VZoMsko3PEmKkesg+3beIxZy13NqGntee9A8+9Zb
-         NxPRMhjdUv9G4cGXtU6FglDjGZ+zCfjSNLQUF1AtRq3wlkLQuamWY7SerMhnOQlIfklW
-         Lkyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6pPl+ooxeuaHheuMEW1uilUNg7fgvFgLTQ5AiW5OUWI=;
-        b=tB5Qy7aWluPCh2xHUWo2CBoBaC/o+p8/u8b5YblYmNG36EJey0w8sszukaitWHG2B4
-         QKokRWS6T2IPfWMxQiswDg6yVZetgVBB0jJLLoN+YzEtKRjFmk6XZQb70MDvU+bTNpsD
-         q4PQpUX8fmILIvvnaL5QN0VBfOsqijt7G55PE1JNOW7u76z28QKw1uLCVEUP92sdBxIZ
-         6EHvz5U369GcXai+2CZfM/9uBxUKrtihKYQRxwxi7m+VZVfZpnSyF8Kefbn9YNdgALR5
-         66g/HzejGeAstlPkXME0DVPeyHDWHaVdpp4+c1anpkF6aV1XKOy95fLwz0elSsQ1tj5H
-         eJIQ==
-X-Gm-Message-State: ABuFfogKqVMrEr6roE6txfS0SVe8jE3Q17Jogh9H/IEEsTUPrm8qAmvk
-        Z+RXpKojzUUph4gOCnrucGJr/Yr4MazIraT3iIo=
-X-Google-Smtp-Source: ACcGV60FHkthoD1/xyJJDzGkX+kAf83QmfuwLMGujVi2OKG+jlgt8/Cm+gzzqe/ayNHWjE+KLauqJC90gyY7m7ZcYFg=
-X-Received: by 2002:a9d:614a:: with SMTP id c10mr7919361otk.278.1538992757379;
- Mon, 08 Oct 2018 02:59:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180621063338.20093-1-ganapatrao.kulkarni@cavium.com>
- <20180621063338.20093-3-ganapatrao.kulkarni@cavium.com> <CADYwmhHdTuK-z4GcGCYypYo2dvvPj7udihPcMmTkHTSU2fOWWw@mail.gmail.com>
-In-Reply-To: <CADYwmhHdTuK-z4GcGCYypYo2dvvPj7udihPcMmTkHTSU2fOWWw@mail.gmail.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Mon, 8 Oct 2018 15:29:05 +0530
-Message-ID: <CAKTKpr7nq7jfXzHmTd-EX6b3MDefa6B5i--Zn=yUZV7MqS2ywA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
-To:     pranith.foss@gmail.com
-Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Will Deacon <Will.Deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, jnair@caviumnetworks.com,
-        Robert Richter <Robert.Richter@cavium.com>,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
-Content-Type: text/plain; charset="UTF-8"
+        id S1726330AbeJHRPA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Oct 2018 13:15:00 -0400
+Received: from foss.arm.com ([217.140.101.70]:47016 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726193AbeJHRPA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Oct 2018 13:15:00 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6EC57A9;
+        Mon,  8 Oct 2018 03:04:04 -0700 (PDT)
+Received: from localhost (e105922-lin.cambridge.arm.com [10.1.197.25])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 578FA3F5D3;
+        Mon,  8 Oct 2018 03:04:04 -0700 (PDT)
+From:   Punit Agrawal <punit.agrawal@arm.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        steve.capper@arm.com, rdunlap@infradead.org,
+        Punit Agrawal <punit.agrawal@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2] Documentation/arm64: HugeTLB page implementation
+Date:   Mon,  8 Oct 2018 11:03:55 +0100
+Message-Id: <20181008100355.31820-1-punit.agrawal@arm.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
+References: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
+X-ARM-No-Footer: FoSSMail
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pranith,
+Arm v8 architecture supports multiple page sizes - 4k, 16k and
+64k. Based on the active page size, the Linux port supports
+corresponding hugepage sizes at PMD and PUD(4k only) levels.
 
-On Sat, Jul 7, 2018 at 11:22 AM Pranith Kumar <pranith.foss@gmail.com> wrote:
->
-> Hi Ganapatrao,
->
->
-> On Wed, Jun 20, 2018 at 11:33 PM, Ganapatrao Kulkarni
-> <ganapatrao.kulkarni@cavium.com> wrote:
->
-> > +
-> > +enum thunderx2_uncore_l3_events {
-> > +       L3_EVENT_NONE,
-> > +       L3_EVENT_NBU_CANCEL,
-> > +       L3_EVENT_DIB_RETRY,
-> > +       L3_EVENT_DOB_RETRY,
-> > +       L3_EVENT_DIB_CREDIT_RETRY,
-> > +       L3_EVENT_DOB_CREDIT_RETRY,
-> > +       L3_EVENT_FORCE_RETRY,
-> > +       L3_EVENT_IDX_CONFLICT_RETRY,
-> > +       L3_EVENT_EVICT_CONFLICT_RETRY,
-> > +       L3_EVENT_BANK_CONFLICT_RETRY,
-> > +       L3_EVENT_FILL_ENTRY_RETRY,
-> > +       L3_EVENT_EVICT_NOT_READY_RETRY,
-> > +       L3_EVENT_L3_RETRY,
-> > +       L3_EVENT_READ_REQ,
-> > +       L3_EVENT_WRITE_BACK_REQ,
-> > +       L3_EVENT_INVALIDATE_NWRITE_REQ,
-> > +       L3_EVENT_INV_REQ,
-> > +       L3_EVENT_SELF_REQ,
-> > +       L3_EVENT_REQ,
-> > +       L3_EVENT_EVICT_REQ,
-> > +       L3_EVENT_INVALIDATE_NWRITE_HIT,
-> > +       L3_EVENT_INVALIDATE_HIT,
-> > +       L3_EVENT_SELF_HIT,
-> > +       L3_EVENT_READ_HIT,
-> > +       L3_EVENT_MAX,
-> > +};
-> > +
-> > +enum thunderx2_uncore_dmc_events {
-> > +       DMC_EVENT_NONE,
-> > +       DMC_EVENT_COUNT_CYCLES,
-> > +       DMC_EVENT_RES2,
-> > +       DMC_EVENT_RES3,
-> > +       DMC_EVENT_RES4,
-> > +       DMC_EVENT_RES5,
-> > +       DMC_EVENT_RES6,
-> > +       DMC_EVENT_RES7,
-> > +       DMC_EVENT_RES8,
-> > +       DMC_EVENT_READ_64B_TXNS,
-> > +       DMC_EVENT_READ_BELOW_64B_TXNS,
-> > +       DMC_EVENT_WRITE_TXNS,
-> > +       DMC_EVENT_TXN_CYCLES,
-> > +       DMC_EVENT_DATA_TRANSFERS,
-> > +       DMC_EVENT_CANCELLED_READ_TXNS,
-> > +       DMC_EVENT_CONSUMED_READ_TXNS,
-> > +       DMC_EVENT_MAX,
-> > +};
->
-> Can you please provide a link to where these counters are documented?
-> It is not clear what each counter does especially for the L3C events.
+In addition, the architecture also supports caching larger sized
+ranges (composed of multiple entries) at the PTE and PMD level in the
+TLBs using the contiguous bit. The Linux port makes use of this
+architectural support to enable additional hugepage sizes.
 
-I will add brief description of each event in Documentation.
->
-> Also, what counter do you need to use to get L3 hit/miss ratio? I
-> think this is the most useful counter related to L3.
+Describe the two different types of hugepages supported by the arm64
+kernel and the hugepage sizes enabled by each.
 
-L3C cache Hit Ratio = (L3_READ_HIT + L3_INV_N_WRITE_HIT +
-L3_INVALIDATE_HIT) / (L3_READ_REQ + L3_INV_N_WRITE_REQ +
-L3_INVALIDATE_REQ)
+Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will.deacon@arm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+---
+Hi,
 
->
-> Thanks,
-> --
-> Pranith
+This version incorporates the feedback on v1.
 
-thanks
-Ganapat
+Thanks,
+Punit
+
+ Documentation/arm64/hugetlbpage.txt | 38 +++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+ create mode 100644 Documentation/arm64/hugetlbpage.txt
+
+diff --git a/Documentation/arm64/hugetlbpage.txt b/Documentation/arm64/hugetlbpage.txt
+new file mode 100644
+index 000000000000..cfae87dc653b
+--- /dev/null
++++ b/Documentation/arm64/hugetlbpage.txt
+@@ -0,0 +1,38 @@
++HugeTLBpage on ARM64
++====================
++
++Hugepage relies on making efficient use of TLBs to improve performance of
++address translations. The benefit depends on both -
++
++  - the size of hugepages
++  - size of entries supported by the TLBs
++
++The ARM64 port supports two flavours of hugepages.
++
++1) Block mappings at the pud/pmd level
++--------------------------------------
++
++These are regular hugepages where a pmd or a pud page table entry points to a
++block of memory. Regardless of the supported size of entries in TLB, block
++mappings reduce the depth of page table walk needed to translate hugepage
++addresses.
++
++2) Using the Contiguous bit
++---------------------------
++
++The architecture provides a contiguous bit in the translation table entries
++(D4.5.3, ARM DDI 0487C.a) that hints to the MMU to indicate that it is one of a
++contiguous set of entries that can be cached in a single TLB entry.
++
++The contiguous bit is used in Linux to increase the mapping size at the pmd and
++pte (last) level. The number of supported contiguous entries varies by page size
++and level of the page table.
++
++
++The following hugepage sizes are supported -
++
++         CONT PTE    PMD    CONT PMD    PUD
++         --------    ---    --------    ---
++  4K:         64K     2M         32M     1G
++  16K:         2M    32M          1G
++  64K:         2M   512M         16G
+-- 
+2.18.0
+
