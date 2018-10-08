@@ -5,81 +5,65 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC7687D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 13:15:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BA2FD7D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 14:25:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726014AbeJHU1E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 16:27:04 -0400
-Received: from foss.arm.com ([217.140.101.70]:50096 "EHLO foss.arm.com"
+        id S1726379AbeJHVhq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Oct 2018 17:37:46 -0400
+Received: from mga04.intel.com ([192.55.52.120]:20382 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726006AbeJHU1E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Oct 2018 16:27:04 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73DA918A;
-        Mon,  8 Oct 2018 06:15:23 -0700 (PDT)
-Received: from e119886-lin.cambridge.arm.com (unknown [10.37.6.11])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F1D53F5B7;
-        Mon,  8 Oct 2018 06:15:22 -0700 (PDT)
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Robert Love <rml@tech9.net>, Jonathan Corbet <corbet@lwn.net>
-Cc:     kpreempt-tech@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: preempt-locking: Use better example
-Date:   Mon,  8 Oct 2018 14:15:15 +0100
-Message-Id: <1539004515-8152-1-git-send-email-andrew.murray@arm.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726078AbeJHVhq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Oct 2018 17:37:46 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Oct 2018 07:25:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,357,1534834800"; 
+   d="scan'208";a="77120820"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.86])
+  by fmsmga008.fm.intel.com with ESMTP; 08 Oct 2018 07:25:45 -0700
+Received: from andy by smile with local (Exim 4.91)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1g9WTg-0007hF-OG; Mon, 08 Oct 2018 17:25:44 +0300
+Date:   Mon, 8 Oct 2018 17:25:44 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Petr Mladek <pmladek@suse.com>, "Tobin C . Harding" <me@tobin.cc>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] lib/vsprintf: Prepare for more general use of
+ ptr_to_id()
+Message-ID: <20181008142544.GB15943@smile.fi.intel.com>
+References: <20181008110504.25449-1-geert+renesas@glider.be>
+ <20181008110504.25449-2-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181008110504.25449-2-geert+renesas@glider.be>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The existing wording implies that the use of spin_unlock whilst irqs are
-disabled might trigger a reschedule. However the preemptible() test in
-preempt_schedule will prevent a reschedule if irqs are disabled.
+On Mon, Oct 08, 2018 at 01:05:02PM +0200, Geert Uytterhoeven wrote:
+>   - Make the ptr argument const, to avoid adding casts in future
+>     callers,
 
-Lets improve the clarity of this wording to change the example from
-spin_unlock to cond_resched() and cond_resched_lock() as these are
-functions that will trigger a reschedule if the preempt count is 0 without
-testing that irqs are disabled.
 
-Also remove the 'Last Updated' line as this is not up to date and better
-tracked via GIT.
+>   - Add a forward declaration, to avoid moving large blocks of code.
 
-Signed-off-by: Andrew Murray <andrew.murray@arm.com>
----
- Documentation/preempt-locking.txt | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+How big it would be? ptr_to_id() itself plus...
 
-diff --git a/Documentation/preempt-locking.txt b/Documentation/preempt-locking.txt
-index c945062..509f5a4 100644
---- a/Documentation/preempt-locking.txt
-+++ b/Documentation/preempt-locking.txt
-@@ -3,7 +3,6 @@ Proper Locking Under a Preemptible Kernel: Keeping Kernel Code Preempt-Safe
- ===========================================================================
- 
- :Author: Robert Love <rml@tech9.net>
--:Last Updated: 28 Aug 2002
- 
- 
- Introduction
-@@ -92,11 +91,12 @@ any locks or interrupts are disabled, since preemption is implicitly disabled
- in those cases.
- 
- But keep in mind that 'irqs disabled' is a fundamentally unsafe way of
--disabling preemption - any spin_unlock() decreasing the preemption count
--to 0 might trigger a reschedule. A simple printk() might trigger a reschedule.
--So use this implicit preemption-disabling property only if you know that the
--affected codepath does not do any of this. Best policy is to use this only for
--small, atomic code that you wrote and which calls no complex functions.
-+disabling preemption - any cond_resched() or cond_resched_lock() might trigger
-+a reschedule if the preempt count is 0. A simple printk() might trigger a
-+reschedule. So use this implicit preemption-disabling property only if you
-+know that the affected codepath does not do any of this. Best policy is to use
-+this only for small, atomic code that you wrote and which calls no complex
-+functions.
- 
- Example::
- 
+> +static char *ptr_to_id(char *buf, char *end, const void *ptr,
+> +		       struct printf_spec spec);
+
 -- 
-2.7.4
+With Best Regards,
+Andy Shevchenko
+
 
