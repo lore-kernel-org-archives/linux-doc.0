@@ -2,116 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1636E7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 10:04:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1BCE27D08E
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 10:07:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbeJHRPA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 13:15:00 -0400
-Received: from foss.arm.com ([217.140.101.70]:47016 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726193AbeJHRPA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Oct 2018 13:15:00 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6EC57A9;
-        Mon,  8 Oct 2018 03:04:04 -0700 (PDT)
-Received: from localhost (e105922-lin.cambridge.arm.com [10.1.197.25])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 578FA3F5D3;
-        Mon,  8 Oct 2018 03:04:04 -0700 (PDT)
-From:   Punit Agrawal <punit.agrawal@arm.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        steve.capper@arm.com, rdunlap@infradead.org,
-        Punit Agrawal <punit.agrawal@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2] Documentation/arm64: HugeTLB page implementation
-Date:   Mon,  8 Oct 2018 11:03:55 +0100
-Message-Id: <20181008100355.31820-1-punit.agrawal@arm.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
-References: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
-X-ARM-No-Footer: FoSSMail
+        id S1727610AbeJHRRo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Oct 2018 13:17:44 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:38400 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726193AbeJHRRn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 13:17:43 -0400
+Received: by mail-qt1-f195.google.com with SMTP id l9-v6so20288677qtf.5;
+        Mon, 08 Oct 2018 03:06:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5ND4333KgeiGhqJUZDrQhCAD3jx2kxYi2DF+wzdibHc=;
+        b=co83knW1NeYhAcUQpMqAl4c5QBAcm1ybcGTuSspBBL58evDOmAGsdzki3/1cYpbppU
+         pf6cqcfFVmzzcD0rlE8Z2X3Rmcqzqqsdox0kJ9dM/8A70GGo4gsAgnC73WxYm1+oJpN3
+         4c8jzF/b4Ji3xI5an8pLTuHUBF7QfiKWsFfyYp6QqsF83wiaDfug4x9SP4Ook8niuDBC
+         /Mx+u8f7bbZtGmWJeCfizEwq3UC0zKBx1P2ODVigENjVDHzGo0zNK9fwwffL3GLISnxX
+         xo4v2yEL44LzX57JsIKLrNI4MgJualIqjSMwi8TYgtFOD85la3gXr5UAu3DLOEgzByde
+         DBsA==
+X-Gm-Message-State: ABuFfogvr3ekCxhnLJ1SsxsWYg3RhkQJvYSXF4wZqGX8GvxE3DOd8pIi
+        6Eapp3xSb++ZVQyeC2UMWuuYGuMFGPQnJx2e91g=
+X-Google-Smtp-Source: ACcGV61WzwRlpPpwOYv6FOzQjZYQQ7vVXKDtA3K8PnHL5giF0ufMTnFF/RfLzjtlBC8Oe0EMJwSlgz1Ch3b9+jjBgVU=
+X-Received: by 2002:aed:3f08:: with SMTP id p8-v6mr18379305qtf.185.1538993206906;
+ Mon, 08 Oct 2018 03:06:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181003132212.12619-1-boris.brezillon@bootlin.com> <20181003132212.12619-8-boris.brezillon@bootlin.com>
+In-Reply-To: <20181003132212.12619-8-boris.brezillon@bootlin.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 8 Oct 2018 12:06:30 +0200
+Message-ID: <CAK8P3a21t7pQ2uYWgu2+VZZNYc+pz_w3WCL7YVUEzqqyOFLvnA@mail.gmail.com>
+Subject: Re: [PATCH v8 07/10] i3c: master: Add driver for Cadence IP
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        gregkh <gregkh@linuxfoundation.org>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>, mshettel@codeaurora.org,
+        swboyd@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Arm v8 architecture supports multiple page sizes - 4k, 16k and
-64k. Based on the active page size, the Linux port supports
-corresponding hugepage sizes at PMD and PUD(4k only) levels.
+On Wed, Oct 3, 2018 at 3:22 PM Boris Brezillon
+<boris.brezillon@bootlin.com> wrote:
+>
+> Add a driver for Cadence I3C master IP.
+>
+> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+> ---
 
-In addition, the architecture also supports caching larger sized
-ranges (composed of multiple entries) at the PTE and PMD level in the
-TLBs using the contiguous bit. The Linux port makes use of this
-architectural support to enable additional hugepage sizes.
+> Changes in v7:
+> - Fix readsl/writesl() usage
+> - Add a depends on ARM || ARM64 || XTENSA to forbid selection of this
+>   driver on platforms that are not implementing readsl/writesl
 
-Describe the two different types of hugepages supported by the arm64
-kernel and the hugepage sizes enabled by each.
+Most architectures include asm-generic/io.h, which contains a generic
+implementation of readsl(). Maybe that #ifdef could be extended here?
+I remember discussing this with you not so long ago, which led to
+commit 0bbf47eab469 ("ia64: use asm-generic/io.h"). Do we have
+a list of architectures that don't include asm-generic/io.h? Maybe
+the 'depends on' could be for the set of architectures that fail here.
 
-Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will.deacon@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
-Hi,
+> +static void cdns_i3c_master_rd_from_rx_fifo(struct cdns_i3c_master *master,
+> +                                           u8 *bytes, int nbytes)
+> +{
+> +       readsl(master->regs + RX_FIFO, bytes, nbytes / 4);
+> +       if (nbytes & 3) {
+> +               u32 tmp = __raw_readl(master->regs + RX_FIFO);
+> +
+> +               memcpy(bytes + (nbytes & ~3), &tmp, nbytes & 3);
+> +       }
+> +}
 
-This version incorporates the feedback on v1.
+The __raw_readl() is probably correct here (I can't think of any
+architecture on which it is not), but it still makes me feel uneasy
+about possible endianess or other issues.
 
-Thanks,
-Punit
+Maybe make this:?
 
- Documentation/arm64/hugetlbpage.txt | 38 +++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100644 Documentation/arm64/hugetlbpage.txt
+        readsl(master->regs + RX_FIFO, &tmp, 1);
 
-diff --git a/Documentation/arm64/hugetlbpage.txt b/Documentation/arm64/hugetlbpage.txt
-new file mode 100644
-index 000000000000..cfae87dc653b
---- /dev/null
-+++ b/Documentation/arm64/hugetlbpage.txt
-@@ -0,0 +1,38 @@
-+HugeTLBpage on ARM64
-+====================
-+
-+Hugepage relies on making efficient use of TLBs to improve performance of
-+address translations. The benefit depends on both -
-+
-+  - the size of hugepages
-+  - size of entries supported by the TLBs
-+
-+The ARM64 port supports two flavours of hugepages.
-+
-+1) Block mappings at the pud/pmd level
-+--------------------------------------
-+
-+These are regular hugepages where a pmd or a pud page table entry points to a
-+block of memory. Regardless of the supported size of entries in TLB, block
-+mappings reduce the depth of page table walk needed to translate hugepage
-+addresses.
-+
-+2) Using the Contiguous bit
-+---------------------------
-+
-+The architecture provides a contiguous bit in the translation table entries
-+(D4.5.3, ARM DDI 0487C.a) that hints to the MMU to indicate that it is one of a
-+contiguous set of entries that can be cached in a single TLB entry.
-+
-+The contiguous bit is used in Linux to increase the mapping size at the pmd and
-+pte (last) level. The number of supported contiguous entries varies by page size
-+and level of the page table.
-+
-+
-+The following hugepage sizes are supported -
-+
-+         CONT PTE    PMD    CONT PMD    PUD
-+         --------    ---    --------    ---
-+  4K:         64K     2M         32M     1G
-+  16K:         2M    32M          1G
-+  64K:         2M   512M         16G
--- 
-2.18.0
 
+     Arnd
