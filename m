@@ -5,56 +5,131 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B7917D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 08:22:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D6EA7D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 09:39:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbeJHPcv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 11:32:51 -0400
-Received: from www62.your-server.de ([213.133.104.62]:59998 "EHLO
-        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726193AbeJHPcv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 11:32:51 -0400
-Received: from [78.46.172.2] (helo=sslproxy05.your-server.de)
-        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89_1)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1g9Qns-0007Hn-89; Mon, 08 Oct 2018 10:22:12 +0200
-Received: from [62.203.87.61] (helo=linux.home)
-        by sslproxy05.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1g9Qns-0009hk-1x; Mon, 08 Oct 2018 10:22:12 +0200
-Subject: Re: [PATCH] bpf, doc: Document Jump X addressing mode
-To:     Arthur Fabre <arthur@arthurfabre.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20181007084519.27445-1-arthur@arthurfabre.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <b4246d37-26c0-36c7-908d-e01b20c23028@iogearbox.net>
-Date:   Mon, 8 Oct 2018 10:22:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.3.0
+        id S1727346AbeJHQuB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Oct 2018 12:50:01 -0400
+Received: from foss.arm.com ([217.140.101.70]:46532 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726354AbeJHQuB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Oct 2018 12:50:01 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F8C67A9;
+        Mon,  8 Oct 2018 02:39:12 -0700 (PDT)
+Received: from localhost (e105922-lin.cambridge.arm.com [10.1.197.25])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A7DB03F5D3;
+        Mon,  8 Oct 2018 02:39:11 -0700 (PDT)
+From:   Punit Agrawal <punit.agrawal@arm.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, steve.capper@arm.com,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] Documentation/arm64: HugeTLB page implementation
+References: <20181005143458.17875-1-punit.agrawal@arm.com>
+        <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
+Date:   Mon, 08 Oct 2018 10:39:10 +0100
+In-Reply-To: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org> (Randy
+        Dunlap's message of "Sat, 6 Oct 2018 09:30:19 -0700")
+Message-ID: <871s90u69t.fsf@e105922-lin.cambridge.arm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20181007084519.27445-1-arthur@arthurfabre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.100.1/25017/Mon Oct  8 06:49:45 2018)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/07/2018 10:45 AM, Arthur Fabre wrote:
-> bpf_asm and the other classic BPF tools support jump conditions
-> comparing register A to register X, in addition to comparing register A
-> with constant K.
-> Only the latter was documented in filter.txt, add two new addressing
-> modes that describe the former.
-> 
-> Signed-off-by: Arthur Fabre <arthur@arthurfabre.com>
+Hi Randy,
 
-Applied to bpf-next, thanks!
+Randy Dunlap <rdunlap@infradead.org> writes:
+
+> Hi,
+> Just some minor stuff (below).
+>
+> On 10/5/18 7:34 AM, Punit Agrawal wrote:
+>> Arm v8 architecture supports multiple page sizes - 4k, 16k and
+>> 64k. Based on the active page size, the Linux port supports
+>> corresponding hugepage sizes at PMD and PUD(4k only) levels.
+>> 
+>> In addition, the architecture also supports caching larger sized
+>> ranges (composed of multiple entries) at the PTE and PMD level in the
+>> TLBs using the contiguous bit. The Linux port makes use of this
+>> architectural support to enable additional hugepage sizes.
+>> 
+>> Describe the two different types of hugepages supported by the arm64
+>> kernel and the hugepage sizes enabled by each.
+>> 
+>> Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will.deacon@arm.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> ---
+>>  Documentation/arm64/hugetlbpage.txt | 39 +++++++++++++++++++++++++++++
+>>  1 file changed, 39 insertions(+)
+>>  create mode 100644 Documentation/arm64/hugetlbpage.txt
+>> 
+>> diff --git a/Documentation/arm64/hugetlbpage.txt b/Documentation/arm64/hugetlbpage.txt
+>> new file mode 100644
+>> index 000000000000..64ee24b88d27
+>> --- /dev/null
+>> +++ b/Documentation/arm64/hugetlbpage.txt
+>> @@ -0,0 +1,39 @@
+>> +HugeTLBpage on ARM64
+>> +====================
+>> +
+>> +Hugepage relies on making efficient use of TLBs to improve performance of
+>> +address translations. The benefit depends on both -
+>> +
+>> +  - the size of hugepages
+>> +  - size of entries supported by the TLBs
+>> +
+>> +The ARM64 port supports two flavours of hugepages.
+>> +
+>> +1) Block mappings at the pud/pmd level
+>> +--------------------------------------
+>> +
+>> +These are regular hugepages where a pmd or a pud page table entry points to a
+>> +block of memory. Regardless of the supported size of entries in TLB, block
+>> +mappings reduces the depth of page table walk needed to translate hugepage
+>
+>             reduce
+>
+>> +addresses.
+>> +
+>> +2) Using the Contiguous bit
+>> +---------------------------
+>> +
+>> +The architecture provides a contiguous bit in the translation table entries
+>> +(D4.5.3, ARM DDI 0487C.a) that hints to the mmu to indicate that it is one of a
+>
+> preferably                                     MMU
+>
+>> +contiguous set of entries that can be cached in a single TLB entry.
+>> +
+>> +The contiguous bit is used in Linux to increase the mapping size at the pmd and
+>> +pte (last) level. The number of supported contiguous entries vary by page size
+>
+>                                                                 varies
+>
+>> +and level of the page table.
+>> +
+>> +
+>> +
+>> +The following hugepage sizes are supported -
+>> +
+>> +         CONT PTE    PMD    CONT PMD    PUD
+>> +         --------    ---    --------    ---
+>> +  4K:         64K     2M         32M     1G
+>> +  16K:         2M    32M          1G
+>> +  64K:         2M   512M         16G
+>> 
+
+I've updated the patch with incorporating your feedback and will post an
+update shortly.
+
+Thanks a lot for taking a look.
+
+Punit
