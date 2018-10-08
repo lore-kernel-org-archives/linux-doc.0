@@ -2,44 +2,26 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1BCE27D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 10:07:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B95797D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 10:21:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727610AbeJHRRo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 13:17:44 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:38400 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726193AbeJHRRn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 13:17:43 -0400
-Received: by mail-qt1-f195.google.com with SMTP id l9-v6so20288677qtf.5;
-        Mon, 08 Oct 2018 03:06:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5ND4333KgeiGhqJUZDrQhCAD3jx2kxYi2DF+wzdibHc=;
-        b=co83knW1NeYhAcUQpMqAl4c5QBAcm1ybcGTuSspBBL58evDOmAGsdzki3/1cYpbppU
-         pf6cqcfFVmzzcD0rlE8Z2X3Rmcqzqqsdox0kJ9dM/8A70GGo4gsAgnC73WxYm1+oJpN3
-         4c8jzF/b4Ji3xI5an8pLTuHUBF7QfiKWsFfyYp6QqsF83wiaDfug4x9SP4Ook8niuDBC
-         /Mx+u8f7bbZtGmWJeCfizEwq3UC0zKBx1P2ODVigENjVDHzGo0zNK9fwwffL3GLISnxX
-         xo4v2yEL44LzX57JsIKLrNI4MgJualIqjSMwi8TYgtFOD85la3gXr5UAu3DLOEgzByde
-         DBsA==
-X-Gm-Message-State: ABuFfogvr3ekCxhnLJ1SsxsWYg3RhkQJvYSXF4wZqGX8GvxE3DOd8pIi
-        6Eapp3xSb++ZVQyeC2UMWuuYGuMFGPQnJx2e91g=
-X-Google-Smtp-Source: ACcGV61WzwRlpPpwOYv6FOzQjZYQQ7vVXKDtA3K8PnHL5giF0ufMTnFF/RfLzjtlBC8Oe0EMJwSlgz1Ch3b9+jjBgVU=
-X-Received: by 2002:aed:3f08:: with SMTP id p8-v6mr18379305qtf.185.1538993206906;
- Mon, 08 Oct 2018 03:06:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181003132212.12619-1-boris.brezillon@bootlin.com> <20181003132212.12619-8-boris.brezillon@bootlin.com>
-In-Reply-To: <20181003132212.12619-8-boris.brezillon@bootlin.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 8 Oct 2018 12:06:30 +0200
-Message-ID: <CAK8P3a21t7pQ2uYWgu2+VZZNYc+pz_w3WCL7YVUEzqqyOFLvnA@mail.gmail.com>
-Subject: Re: [PATCH v8 07/10] i3c: master: Add driver for Cadence IP
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
+        id S1727094AbeJHRcR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Oct 2018 13:32:17 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:39551 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726193AbeJHRcR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Oct 2018 13:32:17 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 298852072D; Mon,  8 Oct 2018 12:21:14 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-28-153.w90-88.abo.wanadoo.fr [90.88.148.153])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 5951A208B7;
+        Mon,  8 Oct 2018 12:21:01 +0200 (CEST)
+Date:   Mon, 8 Oct 2018 12:21:01 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Linux I2C <linux-i2c@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -71,50 +53,68 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Przemyslaw Gaj <pgaj@cadence.com>,
         Peter Rosin <peda@axentia.se>, mshettel@codeaurora.org,
         swboyd@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v8 07/10] i3c: master: Add driver for Cadence IP
+Message-ID: <20181008122101.7b391070@bbrezillon>
+In-Reply-To: <CAK8P3a21t7pQ2uYWgu2+VZZNYc+pz_w3WCL7YVUEzqqyOFLvnA@mail.gmail.com>
+References: <20181003132212.12619-1-boris.brezillon@bootlin.com>
+        <20181003132212.12619-8-boris.brezillon@bootlin.com>
+        <CAK8P3a21t7pQ2uYWgu2+VZZNYc+pz_w3WCL7YVUEzqqyOFLvnA@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 3, 2018 at 3:22 PM Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
->
-> Add a driver for Cadence I3C master IP.
->
-> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
-> ---
+On Mon, 8 Oct 2018 12:06:30 +0200
+Arnd Bergmann <arnd@arndb.de> wrote:
 
-> Changes in v7:
-> - Fix readsl/writesl() usage
-> - Add a depends on ARM || ARM64 || XTENSA to forbid selection of this
->   driver on platforms that are not implementing readsl/writesl
+> On Wed, Oct 3, 2018 at 3:22 PM Boris Brezillon
+> <boris.brezillon@bootlin.com> wrote:
+> >
+> > Add a driver for Cadence I3C master IP.
+> >
+> > Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+> > ---  
+> 
+> > Changes in v7:
+> > - Fix readsl/writesl() usage
+> > - Add a depends on ARM || ARM64 || XTENSA to forbid selection of this
+> >   driver on platforms that are not implementing readsl/writesl  
+> 
+> Most architectures include asm-generic/io.h, which contains a generic
+> implementation of readsl(). Maybe that #ifdef could be extended here?
+> I remember discussing this with you not so long ago, which led to
+> commit 0bbf47eab469 ("ia64: use asm-generic/io.h"). Do we have
+> a list of architectures that don't include asm-generic/io.h? Maybe
+> the 'depends on' could be for the set of architectures that fail here.
 
-Most architectures include asm-generic/io.h, which contains a generic
-implementation of readsl(). Maybe that #ifdef could be extended here?
-I remember discussing this with you not so long ago, which led to
-commit 0bbf47eab469 ("ia64: use asm-generic/io.h"). Do we have
-a list of architectures that don't include asm-generic/io.h? Maybe
-the 'depends on' could be for the set of architectures that fail here.
+Well, we started patching 2 archs (ia64 and sparc) based on kbuild
+robots failure report, and then I received other reports (still from
+kbuild robots) long after the initial ones. I can't tell for sure which
+archs are not implementing those functions, hence the conservative
+approach taken here.
 
-> +static void cdns_i3c_master_rd_from_rx_fifo(struct cdns_i3c_master *master,
-> +                                           u8 *bytes, int nbytes)
-> +{
-> +       readsl(master->regs + RX_FIFO, bytes, nbytes / 4);
-> +       if (nbytes & 3) {
-> +               u32 tmp = __raw_readl(master->regs + RX_FIFO);
-> +
-> +               memcpy(bytes + (nbytes & ~3), &tmp, nbytes & 3);
-> +       }
-> +}
+> 
+> > +static void cdns_i3c_master_rd_from_rx_fifo(struct cdns_i3c_master *master,
+> > +                                           u8 *bytes, int nbytes)
+> > +{
+> > +       readsl(master->regs + RX_FIFO, bytes, nbytes / 4);
+> > +       if (nbytes & 3) {
+> > +               u32 tmp = __raw_readl(master->regs + RX_FIFO);
+> > +
+> > +               memcpy(bytes + (nbytes & ~3), &tmp, nbytes & 3);
+> > +       }
+> > +}  
+> 
+> The __raw_readl() is probably correct here (I can't think of any
+> architecture on which it is not), but it still makes me feel uneasy
+> about possible endianess or other issues.
+> 
+> Maybe make this:?
+> 
+>         readsl(master->regs + RX_FIFO, &tmp, 1);
 
-The __raw_readl() is probably correct here (I can't think of any
-architecture on which it is not), but it still makes me feel uneasy
-about possible endianess or other issues.
-
-Maybe make this:?
-
-        readsl(master->regs + RX_FIFO, &tmp, 1);
-
-
-     Arnd
+I'm fine with that, assuming it does the same thing :-).
