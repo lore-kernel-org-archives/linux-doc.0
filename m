@@ -1,115 +1,139 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DA7DA7D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 01:40:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 773CB7D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 04:48:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726537AbeJIIyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Oct 2018 04:54:41 -0400
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:40031 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726160AbeJIIyl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Oct 2018 04:54:41 -0400
-Received: by mail-yb1-f193.google.com with SMTP id w7-v6so9104442ybm.7
-        for <linux-doc@vger.kernel.org>; Mon, 08 Oct 2018 18:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=7qA+dtOcdI9urqDaS/IIx7h3l7wueuGPmWbY8bS/3GU=;
-        b=Cr7d8QAz0kukYdX0iBqB5KVdL/yUDjRmOJyD2dc6Vca6WvhfsP421Td/pzu5oqOyHg
-         vWlxQnjXCC7v55mqc/rDdr5wc7MeIxqZ7muGiZA+v5x01nSspt/SnK8V1DwKWl6Gkwbm
-         uO8CQq0kdGPN3kyueDJcm9Vjm72pamEF8xH0g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=7qA+dtOcdI9urqDaS/IIx7h3l7wueuGPmWbY8bS/3GU=;
-        b=U2DNoRYR307UPlU5RwJE87jXRykn/cESxJLvpKv19Ma5RHDkvPEufh7axJcuAdN+gQ
-         unoAJK4c7sTlK5u1U4GZhUeoMYmfE2K6EmBPBg6SVqC4rultJ1bh8fgDpVVRk1OQtxw1
-         FGg1QYKBj0LiW2wdtQty/BUfWon0Si9ecfdl3M/i+6JaUo8TUGs9tHSPsgRs5tATQZUZ
-         pIiV/HlK6zaFtEiPPYM3Y2QFQctxSaT7Ok8bdmXERwMaSwPB9KVr6UTFRNp4xwJls+wi
-         MZ8zIsIAPmLyXHM9LGfcJmbY4so0dzag9iO7z+cZInU4dTfx40bTCiEH51t2H6Xzik0R
-         e2/A==
-X-Gm-Message-State: ABuFfogr9wL5pH2Lk33CEkhQadYDesV6z47wJv5SFABvE29RjKFO7UL/
-        JnerG+zvPy7DyE63X8rZ9ODgXu1fXjU=
-X-Google-Smtp-Source: ACcGV61xyMU3yXmBON5sMjOzXkNkfd+F3Jf2qwkoP1kypRAWuaDqtgpUZsnScI567cnzPz/imexTYQ==
-X-Received: by 2002:a25:3383:: with SMTP id z125-v6mr13905170ybz.308.1539049210786;
-        Mon, 08 Oct 2018 18:40:10 -0700 (PDT)
-Received: from mail-yw1-f53.google.com (mail-yw1-f53.google.com. [209.85.161.53])
-        by smtp.gmail.com with ESMTPSA id n62-v6sm6838157ywf.105.2018.10.08.18.40.09
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Oct 2018 18:40:09 -0700 (PDT)
-Received: by mail-yw1-f53.google.com with SMTP id y76-v6so8918824ywd.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Oct 2018 18:40:09 -0700 (PDT)
-X-Received: by 2002:a81:98cb:: with SMTP id p194-v6mr14391598ywg.353.1539049208850;
- Mon, 08 Oct 2018 18:40:08 -0700 (PDT)
+        id S1725808AbeJIMDp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Oct 2018 08:03:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39600 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725803AbeJIMDp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Oct 2018 08:03:45 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 80120308424D;
+        Tue,  9 Oct 2018 04:48:43 +0000 (UTC)
+Received: from localhost (ovpn-8-16.pek2.redhat.com [10.72.8.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C7E764436;
+        Tue,  9 Oct 2018 04:48:42 +0000 (UTC)
+Date:   Tue, 9 Oct 2018 12:48:39 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Ingo Molnar <mingo@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Garnier <thgarnie@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 4/3 v2] x86/mm/doc: Enhance the x86-64 virtual memory
+ layout descriptions
+Message-ID: <20181009044839.GH5140@MiWiFi-R3L-srv>
+References: <20181006084327.27467-1-bhe@redhat.com>
+ <20181006122259.GB418@gmail.com>
+ <20181006143821.GA72401@gmail.com>
+ <20181006170317.GA21297@gmail.com>
+ <CALCETrXcsf9fNAkZH29e=p8pTkqE=YR42cbnLWmqqbAbJQ6KbA@mail.gmail.com>
+ <20181009003553.GG5140@MiWiFi-R3L-srv>
 MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Mon, 8 Oct 2018 18:40:08 -0700 (PDT)
-In-Reply-To: <c06eb47c-05d3-f51c-625b-9bfdd33a426a@infradead.org>
-References: <c06eb47c-05d3-f51c-625b-9bfdd33a426a@infradead.org>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Mon, 8 Oct 2018 18:40:08 -0700
-X-Gmail-Original-Message-ID: <CAGXu5j+B82dt9KvO0UVMBLoFxZEZF76xic4Sz41HtVfKHWpwWQ@mail.gmail.com>
-Message-ID: <CAGXu5j+B82dt9KvO0UVMBLoFxZEZF76xic4Sz41HtVfKHWpwWQ@mail.gmail.com>
-Subject: Re: [PATCH] security: fix LSM description location
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181009003553.GG5140@MiWiFi-R3L-srv>
+User-Agent: Mutt/1.9.1 (2017-09-22)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Tue, 09 Oct 2018 04:48:43 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 8, 2018 at 5:46 PM, Randy Dunlap <rdunlap@infradead.org> wrote:
-> From: Randy Dunlap <rdunlap@infradead.org>
->
-> Fix Documentation location reference for where LSM descriptions should
-> be placed.
->
-> Suggested-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: James Morris <jmorris@namei.org>
-> Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> Cc: linux-security-module@vger.kernel.org
+On 10/09/18 at 08:35am, Baoquan He wrote:
+> Hi Andy, Ingo
+> 
+> On 10/06/18 at 03:17pm, Andy Lutomirski wrote:
+> > On Sat, Oct 6, 2018 at 10:03 AM Ingo Molnar <mingo@kernel.org> wrote:
+> > > ... but unless I'm missing something it's not really fundamental for it to be at the PGD level
+> > > - it could be two levels lower as well, and it could move back to the same place where it's on
+> > > the 47-bit kernel.
+> > >
+> > 
+> > The subtlety is that, if it's lower than the PGD level, there end up
+> > being some tables that are private to each LDT-using mm that map
+> > things other than the LDT.  Those tables cover the same address range
+> > as some corresponding tables in init_mm, and if those tables in
+> > init_mm change after the LDT mapping is set up, the changes won't
+> > propagate.
+> > 
+> > So it probably could be made to work, but it would take some extra care.
+> 
+> In 4-level paging mode, we reserve 512 GB virtual address space for it to
+> map, the 512 GB is one PGD entry. In 5-level paging mode, we reserve 4
+> PB for mapping LDT, and leave the previous 512 GB space next to
+> cpu_entry_area mapping empty as unused hole. Maybe we can still put LDT
+> map for PTI in the old place, after cpu_entry_area mapping in 5-level.
+> Then in 5-level, 512 GB is only one p4d entry, however it's in the last
+> pgd entry, each pgd points to 256 TB area, and the last pgd entry will
+> points to p4d table which always exists in system since it contains
+> kernel text mapping etc. Now if LDT take one entry in the always
+> existing p4d table, maybe it can still works as before it owns a whole
+> pgd entry, oh, no, 4 PB will cost 16 pgd entries.
 
-Thanks!
+Sorry, I am too long-winded. Here I mean that LDT map of 512 GB will
+occupy one p4d entry alone, and the corresponding pgd and p4d table are
+all always presnet and populated and unchanged. It might not need
+any page table change to propagate. Not sure if there's any other risk
+in this case.
 
-Acked-by: Kees Cook <keescook@chromium.org>
+Thanks
+Baoquan
 
-Jon, can you take this?
-
--Kees
-
-> ---
->  Documentation/security/LSM.rst |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> --- lnx-419-rc7.orig/Documentation/security/LSM.rst
-> +++ lnx-419-rc7/Documentation/security/LSM.rst
-> @@ -5,7 +5,7 @@ Linux Security Module Development
->  Based on https://lkml.org/lkml/2007/10/26/215,
->  a new LSM is accepted into the kernel when its intent (a description of
->  what it tries to protect against and in what cases one would expect to
-> -use it) has been appropriately documented in ``Documentation/security/LSM.rst``.
-> +use it) has been appropriately documented in ``Documentation/admin-guide/LSM/``.
->  This allows an LSM's code to be easily compared to its goals, and so
->  that end users and distros can make a more informed decision about which
->  LSMs suit their requirements.
->
->
-
-
-
--- 
-Kees Cook
-Pixel Security
+> 
+> Most importantly, putting LDT map for PTI in KASLR area, won't it cause
+> code bug, if we randomize the direct mapping/vmaloc/vmemmap to make them
+> overlap with LDT map area? We didn't take LDT into consideration when do
+> memory region KASLR.
+> 
+> 
+> 4-level virutal memory layout:
+> 
+> ffff800000000000 | -128    TB | ffff87ffffffffff |    8 TB | ... guard hole, also reserved for hypervisor
+> ffff880000000000 | -120    TB | ffffc7ffffffffff |   64 TB | direct mapping of all physical memory (page_offset_base)
+> ffffc80000000000 |  -56    TB | ffffc8ffffffffff |    1 TB | ... unused hole
+> ffffc90000000000 |  -55    TB | ffffe8ffffffffff |   32 TB | vmalloc/ioremap space (vmalloc_base)
+> ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused hole
+> ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual memory map (vmemmap_base)
+> ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused hole
+> ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory
+> fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
+>                  |            |                  |         | vaddr_end for KASLR
+> fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
+> fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | LDT remap for PTI
+> 					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^	
+> ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
+> 
+> 5-level virtual memory layout:
+> 
+> ff10000000000000 |  -60    PB | ff8fffffffffffff |   32 PB | direct mapping of all physical memory (page_offset_base)
+> ff90000000000000 |  -28    PB | ff9fffffffffffff |    4 PB | LDT remap for PTI
+> 					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> ffa0000000000000 |  -24    PB | ffd1ffffffffffff | 12.5 PB | vmalloc/ioremap space (vmalloc_base)
+> ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
+> ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
+> ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
+> ffdf000000000000 |   -8.25 PB | fffffdffffffffff |   ~8 PB | KASAN shadow memory
+> fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
+>                  |            |                  |         | vaddr_end for KASLR
+> fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
+> fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | ... unused hole
+> ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
