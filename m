@@ -2,62 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2899E7D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 08:31:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 192D17D088
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 10:02:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725927AbeJIPre (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Oct 2018 11:47:34 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43084 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725892AbeJIPrd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Oct 2018 11:47:33 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 26EA7AF80;
-        Tue,  9 Oct 2018 08:31:46 +0000 (UTC)
-From:   Nikolay Borisov <nborisov@suse.com>
-To:     snitzer@redhat.com
-Cc:     linux-doc@vger.kernel.org, dm-devel@redhat.com, corbet@lwn.net,
-        Nikolay Borisov <nborisov@suse.com>
-Subject: [PATCH] dm flakey: Document "error_writes" feature
-Date:   Tue,  9 Oct 2018 11:31:31 +0300
-Message-Id: <1539073891-7701-1-git-send-email-nborisov@suse.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726754AbeJIRSM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Oct 2018 13:18:12 -0400
+Received: from foss.arm.com ([217.140.101.70]:35002 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726160AbeJIRSL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Oct 2018 13:18:11 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B17CED1;
+        Tue,  9 Oct 2018 03:02:03 -0700 (PDT)
+Received: from localhost (e105922-lin.cambridge.arm.com [10.1.197.25])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF5163F5D3;
+        Tue,  9 Oct 2018 03:02:02 -0700 (PDT)
+From:   Punit Agrawal <punit.agrawal@arm.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, steve.capper@arm.com,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2] Documentation/arm64: HugeTLB page implementation
+References: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
+        <20181008100355.31820-1-punit.agrawal@arm.com>
+        <67f4ceb7-d41c-ab7a-4d5e-c147dadf6860@infradead.org>
+Date:   Tue, 09 Oct 2018 11:02:01 +0100
+In-Reply-To: <67f4ceb7-d41c-ab7a-4d5e-c147dadf6860@infradead.org> (Randy
+        Dunlap's message of "Mon, 8 Oct 2018 12:49:13 -0700")
+Message-ID: <87ftxf7812.fsf@e105922-lin.cambridge.arm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit ef548c551e72 ("dm flakey: introduce "error_writes" feature")
-added the ability to dm flakey to error out writes in contrast to
-silently dropping it with 'drop_writes'. Unfortunately this feature
-is not currently documented and one has to be either familiar with the
-source code of dm flakey or check out xfstests sources to know of
-this parameter. So document it.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-Signed-off-by: Nikolay Borisov <nborisov@suse.com>
----
- Documentation/device-mapper/dm-flakey.txt | 4 ++++
- 1 file changed, 4 insertions(+)
+> On 10/8/18 3:03 AM, Punit Agrawal wrote:
+>> Arm v8 architecture supports multiple page sizes - 4k, 16k and
+>> 64k. Based on the active page size, the Linux port supports
+>> corresponding hugepage sizes at PMD and PUD(4k only) levels.
+>> 
+>> In addition, the architecture also supports caching larger sized
+>> ranges (composed of multiple entries) at the PTE and PMD level in the
+>> TLBs using the contiguous bit. The Linux port makes use of this
+>> architectural support to enable additional hugepage sizes.
+>> 
+>> Describe the two different types of hugepages supported by the arm64
+>> kernel and the hugepage sizes enabled by each.
+>> 
+>> Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will.deacon@arm.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-diff --git a/Documentation/device-mapper/dm-flakey.txt b/Documentation/device-mapper/dm-flakey.txt
-index c43030718cef..9f0e247d0877 100644
---- a/Documentation/device-mapper/dm-flakey.txt
-+++ b/Documentation/device-mapper/dm-flakey.txt
-@@ -33,6 +33,10 @@ Table parameters
- 	All write I/O is silently ignored.
- 	Read I/O is handled correctly.
- 
-+  error_writes:
-+	All write I/O is failed with an error signalled.
-+	Read I/O is handled correctly.
-+
-   corrupt_bio_byte <Nth_byte> <direction> <value> <flags>:
- 	During <down interval>, replace <Nth_byte> of the data of
- 	each matching bio with <value>.
--- 
-2.7.4
+Thanks!
 
+Catalin, Will - I assume you'll pick this up at some point? Or do arm64
+documentation patches get routed by another tree?
+
+>
+> Thanks.
+>
+>> ---
+>> Hi,
+>> 
+>> This version incorporates the feedback on v1.
+>> 
+>> Thanks,
+>> Punit
+>> 
+>>  Documentation/arm64/hugetlbpage.txt | 38 +++++++++++++++++++++++++++++
+>>  1 file changed, 38 insertions(+)
+>>  create mode 100644 Documentation/arm64/hugetlbpage.txt
+>> 
+>> diff --git a/Documentation/arm64/hugetlbpage.txt b/Documentation/arm64/hugetlbpage.txt
+>> new file mode 100644
+>> index 000000000000..cfae87dc653b
+>> --- /dev/null
+>> +++ b/Documentation/arm64/hugetlbpage.txt
+>> @@ -0,0 +1,38 @@
+>> +HugeTLBpage on ARM64
+>> +====================
+>> +
+>> +Hugepage relies on making efficient use of TLBs to improve performance of
+>> +address translations. The benefit depends on both -
+>> +
+>> +  - the size of hugepages
+>> +  - size of entries supported by the TLBs
+>> +
+>> +The ARM64 port supports two flavours of hugepages.
+>> +
+>> +1) Block mappings at the pud/pmd level
+>> +--------------------------------------
+>> +
+>> +These are regular hugepages where a pmd or a pud page table entry points to a
+>> +block of memory. Regardless of the supported size of entries in TLB, block
+>> +mappings reduce the depth of page table walk needed to translate hugepage
+>> +addresses.
+>> +
+>> +2) Using the Contiguous bit
+>> +---------------------------
+>> +
+>> +The architecture provides a contiguous bit in the translation table entries
+>> +(D4.5.3, ARM DDI 0487C.a) that hints to the MMU to indicate that it is one of a
+>> +contiguous set of entries that can be cached in a single TLB entry.
+>> +
+>> +The contiguous bit is used in Linux to increase the mapping size at the pmd and
+>> +pte (last) level. The number of supported contiguous entries varies by page size
+>> +and level of the page table.
+>> +
+>> +
+>> +The following hugepage sizes are supported -
+>> +
+>> +         CONT PTE    PMD    CONT PMD    PUD
+>> +         --------    ---    --------    ---
+>> +  4K:         64K     2M         32M     1G
+>> +  16K:         2M    32M          1G
+>> +  64K:         2M   512M         16G
+>> 
