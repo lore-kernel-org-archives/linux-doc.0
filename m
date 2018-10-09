@@ -2,123 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 074257D087
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 13:29:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E2167D087
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 13:56:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726943AbeJIUmn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Oct 2018 16:42:43 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45398 "EHLO mx1.suse.de"
+        id S1726613AbeJIVN7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Oct 2018 17:13:59 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54702 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726418AbeJIUmm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Oct 2018 16:42:42 -0400
+        id S1726476AbeJIVN7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Oct 2018 17:13:59 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 30E83AC1F;
-        Tue,  9 Oct 2018 13:25:45 +0000 (UTC)
-Subject: Re: [PATCH v4 3/3] x86/acpi: take rsdp address for boot params if
- available
-To:     Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org,
-        x86@kernel.org, linux-doc@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        corbet@lwn.net
-References: <20181009105437.5471-1-jgross@suse.com>
- <20181009105437.5471-4-jgross@suse.com>
- <b747b936-e2c5-0d7c-aa9d-ce92a7057527@oracle.com>
-From:   Juergen Gross <jgross@suse.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jgross@suse.com; prefer-encrypt=mutual; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNHkp1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmRlPsLAeQQTAQIAIwUCU4xw6wIbAwcL
- CQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJELDendYovxMvi4UH/Ri+OXlObzqMANruTd4N
- zmVBAZgx1VW6jLc8JZjQuJPSsd/a+bNr3BZeLV6lu4Pf1Yl2Log129EX1KWYiFFvPbIiq5M5
- kOXTO8Eas4CaScCvAZ9jCMQCgK3pFqYgirwTgfwnPtxFxO/F3ZcS8jovza5khkSKL9JGq8Nk
- czDTruQ/oy0WUHdUr9uwEfiD9yPFOGqp4S6cISuzBMvaAiC5YGdUGXuPZKXLpnGSjkZswUzY
- d9BVSitRL5ldsQCg6GhDoEAeIhUC4SQnT9SOWkoDOSFRXZ+7+WIBGLiWMd+yKDdRG5RyP/8f
- 3tgGiB6cyuYfPDRGsELGjUaTUq3H2xZgIPfOwE0EU4xwFgEIAMsx+gDjgzAY4H1hPVXgoLK8
- B93sTQFN9oC6tsb46VpxyLPfJ3T1A6Z6MVkLoCejKTJ3K9MUsBZhxIJ0hIyvzwI6aYJsnOew
- cCiCN7FeKJ/oA1RSUemPGUcIJwQuZlTOiY0OcQ5PFkV5YxMUX1F/aTYXROXgTmSaw0aC1Jpo
- w7Ss1mg4SIP/tR88/d1+HwkJDVW1RSxC1PWzGizwRv8eauImGdpNnseneO2BNWRXTJumAWDD
- pYxpGSsGHXuZXTPZqOOZpsHtInFyi5KRHSFyk2Xigzvh3b9WqhbgHHHE4PUVw0I5sIQt8hJq
- 5nH5dPqz4ITtCL9zjiJsExHuHKN3NZsAEQEAAcLAXwQYAQIACQUCU4xwFgIbDAAKCRCw3p3W
- KL8TL0P4B/9YWver5uD/y/m0KScK2f3Z3mXJhME23vGBbMNlfwbr+meDMrJZ950CuWWnQ+d+
- Ahe0w1X7e3wuLVODzjcReQ/v7b4JD3wwHxe+88tgB9byc0NXzlPJWBaWV01yB2/uefVKryAf
- AHYEd0gCRhx7eESgNBe3+YqWAQawunMlycsqKa09dBDL1PFRosF708ic9346GLHRc6Vj5SRA
- UTHnQqLetIOXZm3a2eQ1gpQK9MmruO86Vo93p39bS1mqnLLspVrL4rhoyhsOyh0Hd28QCzpJ
- wKeHTd0MAWAirmewHXWPco8p1Wg+V+5xfZzuQY0f4tQxvOpXpt4gQ1817GQ5/Ed/wsDtBBgB
- CAAgFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAlrd8NACGwIAgQkQsN6d1ii/Ey92IAQZFggA
- HRYhBFMtsHpB9jjzHji4HoBcYbtP2GO+BQJa3fDQAAoJEIBcYbtP2GO+TYsA/30H/0V6cr/W
- V+J/FCayg6uNtm3MJLo4rE+o4sdpjjsGAQCooqffpgA+luTT13YZNV62hAnCLKXH9n3+ZAgJ
- RtAyDWk1B/0SMDVs1wxufMkKC3Q/1D3BYIvBlrTVKdBYXPxngcRoqV2J77lscEvkLNUGsu/z
- W2pf7+P3mWWlrPMJdlbax00vevyBeqtqNKjHstHatgMZ2W0CFC4hJ3YEetuRBURYPiGzuJXU
- pAd7a7BdsqWC4o+GTm5tnGrCyD+4gfDSpkOT53S/GNO07YkPkm/8J4OBoFfgSaCnQ1izwgJQ
- jIpcG2fPCI2/hxf2oqXPYbKr1v4Z1wthmoyUgGN0LPTIm+B5vdY82wI5qe9uN6UOGyTH2B3p
- hRQUWqCwu2sqkI3LLbTdrnyDZaixT2T0f4tyF5Lfs+Ha8xVMhIyzNb1byDI5FKCb
-Message-ID: <fca0bc23-8755-4773-a22a-5e085392dac2@suse.com>
-Date:   Tue, 9 Oct 2018 15:25:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        by mx1.suse.de (Postfix) with ESMTP id A58D7ACBC;
+        Tue,  9 Oct 2018 13:56:53 +0000 (UTC)
+Date:   Tue, 9 Oct 2018 15:56:52 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "Tobin C. Harding" <me@tobin.cc>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 1/3] lib/vsprintf: Prepare for more general use of
+ ptr_to_id()
+Message-ID: <20181009135652.kdy2izt2pbehndmx@pathway.suse.cz>
+References: <20181008110504.25449-1-geert+renesas@glider.be>
+ <20181008110504.25449-2-geert+renesas@glider.be>
+ <20181008142544.GB15943@smile.fi.intel.com>
+ <CAMuHMdXFjDXWVxmkpc5AWebeOasDvj5RrhKOd3gkTqAeK5Y5pg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <b747b936-e2c5-0d7c-aa9d-ce92a7057527@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXFjDXWVxmkpc5AWebeOasDvj5RrhKOd3gkTqAeK5Y5pg@mail.gmail.com>
+User-Agent: NeoMutt/20170421 (1.8.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/10/2018 15:22, Boris Ostrovsky wrote:
-> On 10/9/18 6:54 AM, Juergen Gross wrote:
->> +
->> +u64 x86_default_get_root_pointer(void)
->> +{
->> +	return boot_params.hdr.acpi_rsdp_addr;
->> +}
+On Mon 2018-10-08 16:37:29, Geert Uytterhoeven wrote:
+> Hi Andy,
 > 
+> On Mon, Oct 8, 2018 at 4:25 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Mon, Oct 08, 2018 at 01:05:02PM +0200, Geert Uytterhoeven wrote:
+> > >   - Make the ptr argument const, to avoid adding casts in future
+> > >     callers,
+> >
+> > >   - Add a forward declaration, to avoid moving large blocks of code.
+> >
+> > How big it would be? ptr_to_id() itself plus...
 > 
-> Should we then update init_pvh_bootparams() with
+> ... all the randomization helpers.
+> And ptr_to_id() needs pointer_string(), string(), widen_string(), number(),
+> and move_right().
 > 
->     pvh_bootparams.hdr.acpi_rsdp_addr = pvh_start_info.rsdp_paddr;
+> 118 insertions(+), 120 deletions(-)
 > 
-> (and drop x86_init.acpi.get_root_pointer = pvh_get_root_pointer;) ?
+> Is that acceptable?
 
-I was planning to do this as a follow on patch.
+Yes, it is acceptable. And my feeling is that it is the preferred
+solution is kernel because it helps to keep the code cleaner
+in the long term.
 
+I am for moving the code if there is no cyclic dependency.
 
-Juergen
-
-> 
-> -boris
-> 
->> diff --git a/arch/x86/kernel/x86_init.c b/arch/x86/kernel/x86_init.c
->> index 2792b5573818..50a2b492fdd6 100644
->> --- a/arch/x86/kernel/x86_init.c
->> +++ b/arch/x86/kernel/x86_init.c
->> @@ -31,7 +31,6 @@ static int __init iommu_init_noop(void) { return 0; }
->>  static void iommu_shutdown_noop(void) { }
->>  static bool __init bool_x86_init_noop(void) { return false; }
->>  static void x86_op_int_noop(int cpu) { }
->> -static u64 u64_x86_init_noop(void) { return 0; }
->>  
->>  /*
->>   * The platform setup functions are preset with the default functions
->> @@ -96,7 +95,7 @@ struct x86_init_ops x86_init __initdata = {
->>  	},
->>  
->>  	.acpi = {
->> -		.get_root_pointer	= u64_x86_init_noop,
->> +		.get_root_pointer	= x86_default_get_root_pointer,
->>  		.reduced_hw_early_init	= acpi_generic_reduced_hw_init,
->>  	},
->>  };
-> 
-> 
-
+Best Regards,
+Petr
