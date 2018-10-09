@@ -1,121 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C33B67D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 01:33:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DA7DA7D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 01:40:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726103AbeJIIsR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Oct 2018 04:48:17 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33744 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725823AbeJIIsR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Oct 2018 04:48:17 -0400
-Received: by mail-pl1-f195.google.com with SMTP id s4-v6so10846379plp.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Oct 2018 18:33:49 -0700 (PDT)
+        id S1726537AbeJIIyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Oct 2018 04:54:41 -0400
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:40031 "EHLO
+        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726160AbeJIIyl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Oct 2018 04:54:41 -0400
+Received: by mail-yb1-f193.google.com with SMTP id w7-v6so9104442ybm.7
+        for <linux-doc@vger.kernel.org>; Mon, 08 Oct 2018 18:40:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DEmAFEukNjBuJ2mkXEf/xrv4vdpDOGkWYaADMVgzl8o=;
-        b=kchSpnXZP3Wuzx/fKM6kMuQqfdullDuzAgNA8URCbPncOYLNZlBJQ6WY2Rjfq0KODj
-         njJmdhnaH2VwhPQ+gD/ZMiOo8i83+uaOHUTSrs/zprp9mM4sYw+kEtSuDlv8lvmUmyzb
-         y+EU4a2d6342gcsKGFr51EbnsFnwnNb07YIqs=
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=7qA+dtOcdI9urqDaS/IIx7h3l7wueuGPmWbY8bS/3GU=;
+        b=Cr7d8QAz0kukYdX0iBqB5KVdL/yUDjRmOJyD2dc6Vca6WvhfsP421Td/pzu5oqOyHg
+         vWlxQnjXCC7v55mqc/rDdr5wc7MeIxqZ7muGiZA+v5x01nSspt/SnK8V1DwKWl6Gkwbm
+         uO8CQq0kdGPN3kyueDJcm9Vjm72pamEF8xH0g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DEmAFEukNjBuJ2mkXEf/xrv4vdpDOGkWYaADMVgzl8o=;
-        b=DAvHeke00pCY5f/r/GR7XC7O2Gxk2/ojF7fYZIHa2DXiKASgTLXJiVrdtSsvzzFrPr
-         PbO6XG+Jo6NodJXghiC+Bh7PB3O3V8oDBbQpVM1inosQ6WY7iUYlBlNn35DD0df8GJgh
-         Rvbxu/99NLZrnKv2kDmo9Rca79n6VvDOFK3+h3cFmZ9JTuXiWCwEbUUAO52wcxUsjXqt
-         eDODsUIKKG0TFKDv2VBMLHfwMZ5JOluwrQ+15qT7GoB+WiOm6BEvbv/GJFOlRI5gcgok
-         gV9W+vZogpcpWE2zPTxBBd1ehV0Z9yz7e0xNwPCfWbP6a6mZLzmy71w46wq3BdVpzdCO
-         G/cQ==
-X-Gm-Message-State: ABuFfog/qdf3TyYx0Z+O4J/9IgcXOY/XzZSnseVUxakVACD8jOpQPQmT
-        SJnG8xr37UXngS+26IA49a+CKg==
-X-Google-Smtp-Source: ACcGV62Flq8J6hH9PlW/0esU7F3IUDVO9QDdk6QtiRiDoj207SAKHS7TuKpu5vz8vyBrL/lru9VInA==
-X-Received: by 2002:a17:902:a989:: with SMTP id bh9-v6mr25644758plb.245.1539048828983;
-        Mon, 08 Oct 2018 18:33:48 -0700 (PDT)
-Received: from joelaf.mtv.corp.google.com ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id h5-v6sm24153803pfo.135.2018.10.08.18.33.47
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=7qA+dtOcdI9urqDaS/IIx7h3l7wueuGPmWbY8bS/3GU=;
+        b=U2DNoRYR307UPlU5RwJE87jXRykn/cESxJLvpKv19Ma5RHDkvPEufh7axJcuAdN+gQ
+         unoAJK4c7sTlK5u1U4GZhUeoMYmfE2K6EmBPBg6SVqC4rultJ1bh8fgDpVVRk1OQtxw1
+         FGg1QYKBj0LiW2wdtQty/BUfWon0Si9ecfdl3M/i+6JaUo8TUGs9tHSPsgRs5tATQZUZ
+         pIiV/HlK6zaFtEiPPYM3Y2QFQctxSaT7Ok8bdmXERwMaSwPB9KVr6UTFRNp4xwJls+wi
+         MZ8zIsIAPmLyXHM9LGfcJmbY4so0dzag9iO7z+cZInU4dTfx40bTCiEH51t2H6Xzik0R
+         e2/A==
+X-Gm-Message-State: ABuFfogr9wL5pH2Lk33CEkhQadYDesV6z47wJv5SFABvE29RjKFO7UL/
+        JnerG+zvPy7DyE63X8rZ9ODgXu1fXjU=
+X-Google-Smtp-Source: ACcGV61xyMU3yXmBON5sMjOzXkNkfd+F3Jf2qwkoP1kypRAWuaDqtgpUZsnScI567cnzPz/imexTYQ==
+X-Received: by 2002:a25:3383:: with SMTP id z125-v6mr13905170ybz.308.1539049210786;
+        Mon, 08 Oct 2018 18:40:10 -0700 (PDT)
+Received: from mail-yw1-f53.google.com (mail-yw1-f53.google.com. [209.85.161.53])
+        by smtp.gmail.com with ESMTPSA id n62-v6sm6838157ywf.105.2018.10.08.18.40.09
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Oct 2018 18:33:47 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>, tytso@mit.edu,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH] docs: rcu: Make reader aware of rcu_dereference_protected
-Date:   Mon,  8 Oct 2018 18:33:41 -0700
-Message-Id: <20181009013341.60111-1-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.19.0.605.g01d371f741-goog
+        Mon, 08 Oct 2018 18:40:09 -0700 (PDT)
+Received: by mail-yw1-f53.google.com with SMTP id y76-v6so8918824ywd.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Oct 2018 18:40:09 -0700 (PDT)
+X-Received: by 2002:a81:98cb:: with SMTP id p194-v6mr14391598ywg.353.1539049208850;
+ Mon, 08 Oct 2018 18:40:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Mon, 8 Oct 2018 18:40:08 -0700 (PDT)
+In-Reply-To: <c06eb47c-05d3-f51c-625b-9bfdd33a426a@infradead.org>
+References: <c06eb47c-05d3-f51c-625b-9bfdd33a426a@infradead.org>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Mon, 8 Oct 2018 18:40:08 -0700
+X-Gmail-Original-Message-ID: <CAGXu5j+B82dt9KvO0UVMBLoFxZEZF76xic4Sz41HtVfKHWpwWQ@mail.gmail.com>
+Message-ID: <CAGXu5j+B82dt9KvO0UVMBLoFxZEZF76xic4Sz41HtVfKHWpwWQ@mail.gmail.com>
+Subject: Re: [PATCH] security: fix LSM description location
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-whatisRCU says rcu_dereference cannot be used outside of rcu read lock
-protected sections. Its better to mention rcu_dereference_protected when
-it says that, so that the new reader is aware of this API and is not led
-to believing that all RCU dereferences in all situations have to be
-protected by a rcu_read_lock() and rcu_read_unlock().
+On Mon, Oct 8, 2018 at 5:46 PM, Randy Dunlap <rdunlap@infradead.org> wrote:
+> From: Randy Dunlap <rdunlap@infradead.org>
+>
+> Fix Documentation location reference for where LSM descriptions should
+> be placed.
+>
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+> Cc: linux-security-module@vger.kernel.org
 
-Cc: tytso@mit.edu
-Suggested-by: tytso@mit.edu
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- Documentation/RCU/whatisRCU.txt | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+Thanks!
 
-diff --git a/Documentation/RCU/whatisRCU.txt b/Documentation/RCU/whatisRCU.txt
-index 7c33445fd0e5..da820fc9b307 100644
---- a/Documentation/RCU/whatisRCU.txt
-+++ b/Documentation/RCU/whatisRCU.txt
-@@ -266,7 +266,7 @@ rcu_dereference()
- 	unnecessary overhead on Alpha CPUs.
- 
- 	Note that the value returned by rcu_dereference() is valid
--	only within the enclosing RCU read-side critical section.
-+	only within the enclosing RCU read-side critical section [1].
- 	For example, the following is -not- legal:
- 
- 		rcu_read_lock();
-@@ -292,6 +292,24 @@ rcu_dereference()
- 	typically used indirectly, via the _rcu list-manipulation
- 	primitives, such as list_for_each_entry_rcu().
- 
-+	[1] The variant rcu_dereference_protected() can be used outside
-+	of an RCU read-side critical section as long as the usage is
-+	protected by update-side locks. These update-side locks are
-+	obviously acquired by the update-side code, but may also be used
-+	to protect other code sequences outside of the reader and the
-+	updater. If such sequences need to make an rcu_dereference() call,
-+	they can instead simply call rcu_dereference_protected() without
-+	needing extra calls to rcu_read_lock() and rcu_read_unlock().
-+	Another advantage of using rcu_dereference_protected() is it does
-+	not prevent compiler optimizations unlike rcu_dereference() which
-+	could result in optimized and the result is assured to be
-+	functionaly correct due to the update-side locks.
-+	rcu_dereference_protected() takes a lockdep expression to
-+	indicate what is providing the protection. If the indicated
-+	protection is not provided, a lockdep splat is emitted.
-+	See RCU/Design/Requirements.html and the API's code comments
-+	for more details and example usage.
-+
- The following diagram shows how each API communicates among the
- reader, updater, and reclaimer.
- 
+Acked-by: Kees Cook <keescook@chromium.org>
+
+Jon, can you take this?
+
+-Kees
+
+> ---
+>  Documentation/security/LSM.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> --- lnx-419-rc7.orig/Documentation/security/LSM.rst
+> +++ lnx-419-rc7/Documentation/security/LSM.rst
+> @@ -5,7 +5,7 @@ Linux Security Module Development
+>  Based on https://lkml.org/lkml/2007/10/26/215,
+>  a new LSM is accepted into the kernel when its intent (a description of
+>  what it tries to protect against and in what cases one would expect to
+> -use it) has been appropriately documented in ``Documentation/security/LSM.rst``.
+> +use it) has been appropriately documented in ``Documentation/admin-guide/LSM/``.
+>  This allows an LSM's code to be easily compared to its goals, and so
+>  that end users and distros can make a more informed decision about which
+>  LSMs suit their requirements.
+>
+>
+
+
+
 -- 
-2.19.0.605.g01d371f741-goog
-
+Kees Cook
+Pixel Security
