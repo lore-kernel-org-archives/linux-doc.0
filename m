@@ -1,137 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CBED57D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Oct 2018 19:49:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9EF837D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 00:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbeJIDCk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Oct 2018 23:02:40 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33456 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726418AbeJIDCj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Oct 2018 23:02:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=9+hibdFJ7f+QzvvL8Y657U7dz0koWuYGCzJ6Awvw590=; b=qcTdmJnojkMpi+YOOsp/yTxyZ
-        w4SqVOpTxeV8UCe07T4RjzQyn1UUslnU9wplLB74oAOZzxffXFurGknbMAuw8nb2jI+7BJtU7yutv
-        FrmtBaWlBwDA/AXopenIx0KdoaqDSEveyAfW5AwKvosXMT+mdKiy8FgPV6TL3axw9ZCZv+QK8g80e
-        EL/U5vIP38RWQzuWLxGZD/R8N3Kwng7qBr3q1xswAjdXbm5ZiKkCN13+Gk2hHFVCpHeykPIvLu5bp
-        pdAh0YKVHeDgXVCUh68GJ7pfuhQXKaITFLq8WwHIjn3mRxnJ877W/qxPUy4aWxSmvOkE40p6NZIfa
-        G1kOcoVhg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1g9bWl-0006nu-Js; Mon, 08 Oct 2018 19:49:15 +0000
-Subject: Re: [PATCH v2] Documentation/arm64: HugeTLB page implementation
-To:     Punit Agrawal <punit.agrawal@arm.com>, linux-doc@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        steve.capper@arm.com, Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
- <20181008100355.31820-1-punit.agrawal@arm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <67f4ceb7-d41c-ab7a-4d5e-c147dadf6860@infradead.org>
-Date:   Mon, 8 Oct 2018 12:49:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        id S1725823AbeJIHuR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Oct 2018 03:50:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:3308 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725749AbeJIHuR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Oct 2018 03:50:17 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 3274743A38;
+        Tue,  9 Oct 2018 00:35:58 +0000 (UTC)
+Received: from localhost (ovpn-8-16.pek2.redhat.com [10.72.8.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id EA11169EFA;
+        Tue,  9 Oct 2018 00:35:56 +0000 (UTC)
+Date:   Tue, 9 Oct 2018 08:35:53 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Ingo Molnar <mingo@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Garnier <thgarnie@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 4/3 v2] x86/mm/doc: Enhance the x86-64 virtual memory
+ layout descriptions
+Message-ID: <20181009003553.GG5140@MiWiFi-R3L-srv>
+References: <20181006084327.27467-1-bhe@redhat.com>
+ <20181006122259.GB418@gmail.com>
+ <20181006143821.GA72401@gmail.com>
+ <20181006170317.GA21297@gmail.com>
+ <CALCETrXcsf9fNAkZH29e=p8pTkqE=YR42cbnLWmqqbAbJQ6KbA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20181008100355.31820-1-punit.agrawal@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrXcsf9fNAkZH29e=p8pTkqE=YR42cbnLWmqqbAbJQ6KbA@mail.gmail.com>
+User-Agent: Mutt/1.9.1 (2017-09-22)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Tue, 09 Oct 2018 00:35:58 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/8/18 3:03 AM, Punit Agrawal wrote:
-> Arm v8 architecture supports multiple page sizes - 4k, 16k and
-> 64k. Based on the active page size, the Linux port supports
-> corresponding hugepage sizes at PMD and PUD(4k only) levels.
-> 
-> In addition, the architecture also supports caching larger sized
-> ranges (composed of multiple entries) at the PTE and PMD level in the
-> TLBs using the contiguous bit. The Linux port makes use of this
-> architectural support to enable additional hugepage sizes.
-> 
-> Describe the two different types of hugepages supported by the arm64
-> kernel and the hugepage sizes enabled by each.
-> 
-> Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will.deacon@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
+Hi Andy, Ingo
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+On 10/06/18 at 03:17pm, Andy Lutomirski wrote:
+> On Sat, Oct 6, 2018 at 10:03 AM Ingo Molnar <mingo@kernel.org> wrote:
+> > ... but unless I'm missing something it's not really fundamental for it to be at the PGD level
+> > - it could be two levels lower as well, and it could move back to the same place where it's on
+> > the 47-bit kernel.
+> >
+> 
+> The subtlety is that, if it's lower than the PGD level, there end up
+> being some tables that are private to each LDT-using mm that map
+> things other than the LDT.  Those tables cover the same address range
+> as some corresponding tables in init_mm, and if those tables in
+> init_mm change after the LDT mapping is set up, the changes won't
+> propagate.
+> 
+> So it probably could be made to work, but it would take some extra care.
 
-Thanks.
+I didn't know LDT well before, after some investigation, seems mainly
+user space program like Wine will use it to protect/isolate something
+by calling modify_ldt syscall, and Xen also use it. still I don't know
+how they will use it to manipulate code/data segments.
 
-> ---
-> Hi,
-> 
-> This version incorporates the feedback on v1.
-> 
-> Thanks,
-> Punit
-> 
->  Documentation/arm64/hugetlbpage.txt | 38 +++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
->  create mode 100644 Documentation/arm64/hugetlbpage.txt
-> 
-> diff --git a/Documentation/arm64/hugetlbpage.txt b/Documentation/arm64/hugetlbpage.txt
-> new file mode 100644
-> index 000000000000..cfae87dc653b
-> --- /dev/null
-> +++ b/Documentation/arm64/hugetlbpage.txt
-> @@ -0,0 +1,38 @@
-> +HugeTLBpage on ARM64
-> +====================
-> +
-> +Hugepage relies on making efficient use of TLBs to improve performance of
-> +address translations. The benefit depends on both -
-> +
-> +  - the size of hugepages
-> +  - size of entries supported by the TLBs
-> +
-> +The ARM64 port supports two flavours of hugepages.
-> +
-> +1) Block mappings at the pud/pmd level
-> +--------------------------------------
-> +
-> +These are regular hugepages where a pmd or a pud page table entry points to a
-> +block of memory. Regardless of the supported size of entries in TLB, block
-> +mappings reduce the depth of page table walk needed to translate hugepage
-> +addresses.
-> +
-> +2) Using the Contiguous bit
-> +---------------------------
-> +
-> +The architecture provides a contiguous bit in the translation table entries
-> +(D4.5.3, ARM DDI 0487C.a) that hints to the MMU to indicate that it is one of a
-> +contiguous set of entries that can be cached in a single TLB entry.
-> +
-> +The contiguous bit is used in Linux to increase the mapping size at the pmd and
-> +pte (last) level. The number of supported contiguous entries varies by page size
-> +and level of the page table.
-> +
-> +
-> +The following hugepage sizes are supported -
-> +
-> +         CONT PTE    PMD    CONT PMD    PUD
-> +         --------    ---    --------    ---
-> +  4K:         64K     2M         32M     1G
-> +  16K:         2M    32M          1G
-> +  64K:         2M   512M         16G
-> 
+While from the current kernel code, it can contains array of 8192 entries,
+and each entry is 8 Byte, when PTI not enabled. If PTI is enabled, it's
+doubled, 2 slots to map, 2 * 8192 * 8, 128KB in all. So one pmd entry can
+cover it.
+
+In 4-level paging mode, we reserve 512 GB virtual address space for it to
+map, the 512 GB is one PGD entry. In 5-level paging mode, we reserve 4
+PB for mapping LDT, and leave the previous 512 GB space next to
+cpu_entry_area mapping empty as unused hole. Maybe we can still put LDT
+map for PTI in the old place, after cpu_entry_area mapping in 5-level.
+Then in 5-level, 512 GB is only one p4d entry, however it's in the last
+pgd entry, each pgd points to 256 TB area, and the last pgd entry will
+points to p4d table which always exists in system since it contains
+kernel text mapping etc. Now if LDT take one entry in the always
+existing p4d table, maybe it can still works as before it owns a whole
+pgd entry, oh, no, 4 PB will cost 16 pgd entries.
+
+Most importantly, putting LDT map for PTI in KASLR area, won't it cause
+code bug, if we randomize the direct mapping/vmaloc/vmemmap to make them
+overlap with LDT map area? We didn't take LDT into consideration when do
+memory region KASLR.
 
 
--- 
-~Randy
+4-level virutal memory layout:
+
+ffff800000000000 | -128    TB | ffff87ffffffffff |    8 TB | ... guard hole, also reserved for hypervisor
+ffff880000000000 | -120    TB | ffffc7ffffffffff |   64 TB | direct mapping of all physical memory (page_offset_base)
+ffffc80000000000 |  -56    TB | ffffc8ffffffffff |    1 TB | ... unused hole
+ffffc90000000000 |  -55    TB | ffffe8ffffffffff |   32 TB | vmalloc/ioremap space (vmalloc_base)
+ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused hole
+ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual memory map (vmemmap_base)
+ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused hole
+ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory
+fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
+                 |            |                  |         | vaddr_end for KASLR
+fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
+fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | LDT remap for PTI
+					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^	
+ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
+
+5-level virtual memory layout:
+
+ff10000000000000 |  -60    PB | ff8fffffffffffff |   32 PB | direct mapping of all physical memory (page_offset_base)
+ff90000000000000 |  -28    PB | ff9fffffffffffff |    4 PB | LDT remap for PTI
+					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ffa0000000000000 |  -24    PB | ffd1ffffffffffff | 12.5 PB | vmalloc/ioremap space (vmalloc_base)
+ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
+ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
+ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
+ffdf000000000000 |   -8.25 PB | fffffdffffffffff |   ~8 PB | KASAN shadow memory
+fffffc0000000000 |   -4    TB | fffffdffffffffff |    2 TB | ... unused hole
+                 |            |                  |         | vaddr_end for KASLR
+fffffe0000000000 |   -2    TB | fffffe7fffffffff |  0.5 TB | cpu_entry_area mapping
+fffffe8000000000 |   -1.5  TB | fffffeffffffffff |  0.5 TB | ... unused hole
+ffffff0000000000 |   -1    TB | ffffff7fffffffff |  0.5 TB | %esp fixup stacks
