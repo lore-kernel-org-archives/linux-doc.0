@@ -2,65 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 194867D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 10:55:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 786147D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 11:50:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbeJISLW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Oct 2018 14:11:22 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44020 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726721AbeJISLD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Oct 2018 14:11:03 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 001CBAE41;
-        Tue,  9 Oct 2018 10:54:40 +0000 (UTC)
-From:   Juergen Gross <jgross@suse.com>
-To:     linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org,
-        x86@kernel.org, linux-doc@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        corbet@lwn.net, boris.ostrovsky@oracle.com,
-        Juergen Gross <jgross@suse.com>, stable@vger.kernel.org
-Subject: [PATCH v4 1/3] x86/xen: fix boot loader version reported for pvh guests
-Date:   Tue,  9 Oct 2018 12:54:35 +0200
-Message-Id: <20181009105437.5471-2-jgross@suse.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20181009105437.5471-1-jgross@suse.com>
-References: <20181009105437.5471-1-jgross@suse.com>
+        id S1726439AbeJITH0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Oct 2018 15:07:26 -0400
+Received: from foss.arm.com ([217.140.101.70]:36616 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726415AbeJITHZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Oct 2018 15:07:25 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 701307A9;
+        Tue,  9 Oct 2018 04:50:50 -0700 (PDT)
+Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 412E33F5D3;
+        Tue,  9 Oct 2018 04:50:50 -0700 (PDT)
+Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
+        id 846071AE03D0; Tue,  9 Oct 2018 12:50:49 +0100 (BST)
+Date:   Tue, 9 Oct 2018 12:50:49 +0100
+From:   Will Deacon <will.deacon@arm.com>
+To:     Punit Agrawal <punit.agrawal@arm.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        steve.capper@arm.com, Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2] Documentation/arm64: HugeTLB page implementation
+Message-ID: <20181009115049.GA6248@arm.com>
+References: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
+ <20181008100355.31820-1-punit.agrawal@arm.com>
+ <67f4ceb7-d41c-ab7a-4d5e-c147dadf6860@infradead.org>
+ <87ftxf7812.fsf@e105922-lin.cambridge.arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ftxf7812.fsf@e105922-lin.cambridge.arm.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The boot loader version reported via sysfs is wrong in case of the
-kernel being booted via the Xen PVH boot entry. it should be 2.12
-(0x020c), but it is reported to be 2.18 (0x0212).
+On Tue, Oct 09, 2018 at 11:02:01AM +0100, Punit Agrawal wrote:
+> Randy Dunlap <rdunlap@infradead.org> writes:
+> 
+> > On 10/8/18 3:03 AM, Punit Agrawal wrote:
+> >> Arm v8 architecture supports multiple page sizes - 4k, 16k and
+> >> 64k. Based on the active page size, the Linux port supports
+> >> corresponding hugepage sizes at PMD and PUD(4k only) levels.
+> >> 
+> >> In addition, the architecture also supports caching larger sized
+> >> ranges (composed of multiple entries) at the PTE and PMD level in the
+> >> TLBs using the contiguous bit. The Linux port makes use of this
+> >> architectural support to enable additional hugepage sizes.
+> >> 
+> >> Describe the two different types of hugepages supported by the arm64
+> >> kernel and the hugepage sizes enabled by each.
+> >> 
+> >> Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
+> >> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> >> Cc: Will Deacon <will.deacon@arm.com>
+> >> Cc: Jonathan Corbet <corbet@lwn.net>
+> >
+> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Thanks!
+> 
+> Catalin, Will - I assume you'll pick this up at some point? Or do arm64
+> documentation patches get routed by another tree?
 
-As the current way to set the version is error prone use the more
-readable variant (2 << 8) | 12.
+Acked-by: Will Deacon <will.deacon@arm.com>
 
-Cc: <stable@vger.kernel.org> # 4.12
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
- arch/x86/xen/enlighten_pvh.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Catalin can pick this up for 4.20.
 
-diff --git a/arch/x86/xen/enlighten_pvh.c b/arch/x86/xen/enlighten_pvh.c
-index c85d1a88f476..f7f77023288a 100644
---- a/arch/x86/xen/enlighten_pvh.c
-+++ b/arch/x86/xen/enlighten_pvh.c
-@@ -75,7 +75,7 @@ static void __init init_pvh_bootparams(void)
- 	 * Version 2.12 supports Xen entry point but we will use default x86/PC
- 	 * environment (i.e. hardware_subarch 0).
- 	 */
--	pvh_bootparams.hdr.version = 0x212;
-+	pvh_bootparams.hdr.version = (2 << 8) | 12;
- 	pvh_bootparams.hdr.type_of_loader = (9 << 4) | 0; /* Xen loader */
- 
- 	x86_init.acpi.get_root_pointer = pvh_get_root_pointer;
--- 
-2.16.4
-
+Will
