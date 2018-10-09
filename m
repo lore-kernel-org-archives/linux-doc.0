@@ -5,57 +5,55 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 996357D087
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 14:18:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C7CA17D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 19:19:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbeJIVfb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Oct 2018 17:35:31 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58820 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726393AbeJIVfb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Oct 2018 17:35:31 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 4501BAE60;
-        Tue,  9 Oct 2018 14:18:20 +0000 (UTC)
-Date:   Tue, 9 Oct 2018 16:18:19 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Tobin C . Harding" <me@tobin.cc>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/3] lib/vsprintf: Hash printed address for netdev bits
- fallback
-Message-ID: <20181009141819.ajng53xs43meudsj@pathway.suse.cz>
-References: <20181008110504.25449-1-geert+renesas@glider.be>
- <20181008110504.25449-4-geert+renesas@glider.be>
+        id S1727500AbeJJChr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Oct 2018 22:37:47 -0400
+Received: from namei.org ([65.99.196.166]:33244 "EHLO namei.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727449AbeJJChr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Oct 2018 22:37:47 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id w99JIvcY010396;
+        Tue, 9 Oct 2018 19:18:57 GMT
+Date:   Wed, 10 Oct 2018 06:18:57 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+cc:     LKML <linux-kernel@vger.kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        linux-security-module@vger.kernel.org,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH] security: fix LSM description location
+In-Reply-To: <c06eb47c-05d3-f51c-625b-9bfdd33a426a@infradead.org>
+Message-ID: <alpine.LRH.2.21.1810100618430.9831@namei.org>
+References: <c06eb47c-05d3-f51c-625b-9bfdd33a426a@infradead.org>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181008110504.25449-4-geert+renesas@glider.be>
-User-Agent: NeoMutt/20170421 (1.8.2)
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 2018-10-08 13:05:04, Geert Uytterhoeven wrote:
-> The handler for "%pN" falls back to printing the raw pointer value when
-> using a different format than the (sole supported) special format
-> "%pNF", potentially leaking sensitive information regarding the kernel
-> layout in memory.
+On Mon, 8 Oct 2018, Randy Dunlap wrote:
+
+> From: Randy Dunlap <rdunlap@infradead.org>
 > 
-> Avoid this leak by printing the hashed address instead.
-> Note that there are no in-tree users of the fallback.
+> Fix Documentation location reference for where LSM descriptions should
+> be placed.
 > 
-> Fixes: ad67b74d2469d9b8 ("printk: hash addresses printed with %p")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+> Cc: linux-security-module@vger.kernel.org
 
-Great catch!
+Applied to
+git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git next-general
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
+-- 
+James Morris
+<jmorris@namei.org>
 
-Best Regards,
-Petr
