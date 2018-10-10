@@ -5,105 +5,125 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C8BF7D08F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 15:37:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A939A7D08F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 15:44:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726663AbeJJW7s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Oct 2018 18:59:48 -0400
-Received: from foss.arm.com ([217.140.101.70]:54260 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726503AbeJJW7s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Oct 2018 18:59:48 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 032F6ED1;
-        Wed, 10 Oct 2018 08:37:05 -0700 (PDT)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.80])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2E57E3F5B3;
-        Wed, 10 Oct 2018 08:36:59 -0700 (PDT)
-Date:   Wed, 10 Oct 2018 16:36:56 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Eugene Syromiatnikov <esyr@redhat.com>
-Cc:     Yury Norov <ynorov@caviumnetworks.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Wookey <wookey@wookware.org>
-Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
-Message-ID: <20181010153655.GA212880@arrakis.emea.arm.com>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
- <20180724173957.GA22106@yury-thinkpad>
- <20181010141017.GA2881@asgard.redhat.com>
+        id S1726515AbeJJXHJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Oct 2018 19:07:09 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33816 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726668AbeJJXHI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Oct 2018 19:07:08 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9AFck7A139129
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 11:44:23 -0400
+Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2n1kypgyhy-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 11:44:22 -0400
+Received: from localhost
+        by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Wed, 10 Oct 2018 11:44:21 -0400
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+        by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 10 Oct 2018 11:44:17 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w9AFiG9w22872080
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 10 Oct 2018 15:44:16 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 16817B206B;
+        Wed, 10 Oct 2018 11:42:18 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8C2A5B2065;
+        Wed, 10 Oct 2018 11:42:17 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.80.212.127])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Wed, 10 Oct 2018 11:42:17 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id E222716C3FD5; Wed, 10 Oct 2018 08:44:14 -0700 (PDT)
+Date:   Wed, 10 Oct 2018 08:44:14 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, tytso@mit.edu,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] docs: rcu: Make reader aware of rcu_dereference_protected
+Reply-To: paulmck@linux.ibm.com
+References: <20181009013341.60111-1-joel@joelfernandes.org>
+ <20181010030906.GB2674@linux.ibm.com>
+ <20181010040159.GA90259@joelaf.mtv.corp.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181010141017.GA2881@asgard.redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20181010040159.GA90259@joelaf.mtv.corp.google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18101015-0064-0000-0000-0000035D4AD3
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009854; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000268; SDB=6.01100676; UDB=6.00569495; IPR=6.00880724;
+ MB=3.00023697; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-10 15:44:19
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18101015-0065-0000-0000-00003AEF3A22
+Message-Id: <20181010154414.GC2674@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-10_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1810100153
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 10, 2018 at 04:10:21PM +0200, Eugene Syromiatnikov wrote:
-> I have some questions regarding AArch64 ILP32 implementation for which I
-> failed to find an answer myself:
->  * How ptrace() tracer is supposed to distinguish between ILP32 and LP64
->    tracees? For MIPS N32 and x32 this is possible based on syscall
->    number, but for AArch64 ILP32 I do not see such a sign. There's also
->    ARM_ip is employed for signalling entering/exiting, I wonder whether
->    it's possible to employ it also for signalling tracee's personality.
+On Tue, Oct 09, 2018 at 09:01:59PM -0700, Joel Fernandes wrote:
+> On Tue, Oct 09, 2018 at 08:09:06PM -0700, Paul E. McKenney wrote:
+> > On Mon, Oct 08, 2018 at 06:33:41PM -0700, Joel Fernandes (Google) wrote:
+> > > whatisRCU says rcu_dereference cannot be used outside of rcu read lock
+> > > protected sections. Its better to mention rcu_dereference_protected when
+> > > it says that, so that the new reader is aware of this API and is not led
+> > > to believing that all RCU dereferences in all situations have to be
+> > > protected by a rcu_read_lock() and rcu_read_unlock().
+> > > 
+> > > Cc: tytso@mit.edu
+> > > Suggested-by: tytso@mit.edu
+> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > 
+> > Good stuff!  I queued and pushed this with some wordsmithing.  Could
+> > you please check for my having messed something up?
+> 
+> One small nit which the below diff should fix, but otherwise looks good to
+> me, thanks!
 
-With the current implementation, I don't think you can distinguish. From
-the kernel perspective, the register set is the same. What is the
-use-case for this?
+Good catch!  I rolled the into the commit, thank you!
 
-We could add a new regset to expose the ILP32 state (NT_ARM_..., I can't
-think of a name now but probably not PER* as this implies PER_LINUX_...
-which is independent from TIF_32BIT_*).
+							Thanx, Paul
 
->  * What's the reasoning behind capping syscall arguments to 32 bit? x32
->    and MIPS N32 do not have such a restriction (and do not need special
->    wrappers for syscalls that pass 64-bit values as a result, except
->    when they do,  as it is the case for preadv2 on x32); moreover, that
->    would lead to insurmountable difficulties for AArch64 ILP32 tracers
->    that try to trace LP64 tracees, as it would be impossible to pass
->    64-bit addresses to process_vm_{read,write} or ptrace PEEK/POKE.
+>  - Joel
+> 
+> ----8<----
+> 
+> diff --git a/Documentation/RCU/whatisRCU.txt b/Documentation/RCU/whatisRCU.txt
+> index 38044c978e54..093b85ad49eb 100644
+> --- a/Documentation/RCU/whatisRCU.txt
+> +++ b/Documentation/RCU/whatisRCU.txt
+> @@ -297,7 +297,7 @@ rcu_dereference()
+>  	protected by locks acquired by the update-side code.  This variant
+>  	avoids the lockdep warning that would happen when using (for
+>  	example) rcu_dereference() without rcu_read_lock() protection.
+> -	Using rcu_dereference_protected() also have the advantage
+> +	Using rcu_dereference_protected() also has the advantage
+>  	of permitting compiler optimizations that rcu_dereference()
+>  	must prohibit.	The rcu_dereference_protected() variant takes
+>  	a lockdep expression to indicate which locks must be acquired
+> 
 
-We've attempted in earlier versions to allow a mix of 32 and 64-bit
-register values from ILP32 but it got pretty complicated. The entry code
-would need to know which registers need zeroing of the top 32-bit and
-the generic unistd.h wrapper hacks were not very nice. Some past
-discussions:
-
-https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1211716.html
-
--- 
-Catalin
