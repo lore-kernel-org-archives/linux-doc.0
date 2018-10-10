@@ -1,32 +1,62 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD7EB7D8D9
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 14:10:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 11E8F7D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 14:18:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726798AbeJJVcR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Oct 2018 17:32:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44428 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726636AbeJJVcQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Oct 2018 17:32:16 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 764E381107;
-        Wed, 10 Oct 2018 14:09:54 +0000 (UTC)
-Received: from asgard.redhat.com (ovpn-200-26.brq.redhat.com [10.40.200.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A03C86B8C0;
-        Wed, 10 Oct 2018 14:09:44 +0000 (UTC)
-Date:   Wed, 10 Oct 2018 16:10:21 +0200
-From:   Eugene Syromiatnikov <esyr@redhat.com>
-To:     Yury Norov <ynorov@caviumnetworks.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1726666AbeJJVk1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Oct 2018 17:40:27 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:45595 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726492AbeJJVk1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Oct 2018 17:40:27 -0400
+Received: by mail-qt1-f194.google.com with SMTP id e10-v6so5775430qtq.12;
+        Wed, 10 Oct 2018 07:18:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=o0T2TmV6crCtyVy6hBkmVctjbws1EKETNgH0JZEpJq8=;
+        b=YyODl0fwwIY1ceKhGqq8rGRi2g0o5SjRj6XWi3ONVggaPpZDvKdy/0ikDgyuyxbq8g
+         NhpIQ4ajP9e+frJG4LZfZEpqPThuVfI2k0y6sCLWcdJpBLk/eQlbZiKEWKSP4FdOPaUo
+         rX5FEwqVh/J4Lh6tXu39jgpQGieM/UaqYPcbOEmLGk1d2TGTACvPDjdmM72triY0wqgw
+         obR0qFnUyScptYaTCEJ86WeC/ldQrtn/tWwCxkozBBfVLsAfGFF9O4O7rwt6Mw711xyc
+         h+r4uYDC7uEHK4fp0OHNI6fyRogvcpDFzGjwTtUhti9K1aqKRVLEnNKJ/BSv5sjL+LqW
+         eQkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=o0T2TmV6crCtyVy6hBkmVctjbws1EKETNgH0JZEpJq8=;
+        b=t4uqS9Jd2M1+YKklkeqZyhQH3DCFl8P8WNQNrV7wfa6eX3vgcYmyIuYlsIDtdddeSY
+         oJTX4rI4vjnh3+MT0W+GiG71vdKJhry/XxX/3+pLE29FH0dtkRjTD0DFzmdBDIYzkoUJ
+         5UwCcJKn/D0dP/f4YzpyfCo6mLDMhiOONUxDM4tGGshY1VDfeZT4iaShS2ISeyhVoLju
+         eahp+XZuKia8JHfUUPOreoL1vYUi5VJe7fBqcXyJVOjui6BIbKCbwVJ/oyW22QZWlL1t
+         qHyb/C0CwTzc2A9LN3JXquUQB0YtCYMihCr5XsohKNUEHPCvk896JL2FET+uWkntaDL6
+         6LCQ==
+X-Gm-Message-State: ABuFfohr9cfrpYnG0QbE72rYNTi7FKDCH7Et/VXnvGPGuQml3DmXiAn5
+        ryiFHsLEPif81TgtCboG8ECZ2ot9QD4fKqrz5+0=
+X-Google-Smtp-Source: ACcGV6226BVdh0ZaPCA5fqWNk8GC+c5LD6ZVB290ivsAQVWBml/u52KI9mlznsvISc+cFqb05z5c1oo8GKmLFyVN8uk=
+X-Received: by 2002:ac8:2bf0:: with SMTP id n45-v6mr28359765qtn.152.1539181083472;
+ Wed, 10 Oct 2018 07:18:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ad4:524f:0:0:0:0:0 with HTTP; Wed, 10 Oct 2018 07:18:02
+ -0700 (PDT)
+In-Reply-To: <20181010141017.GA2881@asgard.redhat.com>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+ <20180724173957.GA22106@yury-thinkpad> <20181010141017.GA2881@asgard.redhat.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 10 Oct 2018 16:18:02 +0200
+X-Google-Sender-Auth: N9STCFFW8Mf7_bk3zldBY_o_r_8
+Message-ID: <CAK8P3a2svZe6FHoNzjkizwwDZfRQ4Y7qpX0y4m6T56uo8n4gVQ@mail.gmail.com>
+Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
+To:     Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     Yury Norov <ynorov@caviumnetworks.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
@@ -59,56 +89,56 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Pavel Machek <pavel@ucw.cz>,
         Palmer Dabbelt <palmer@sifive.com>,
         Wookey <wookey@wookware.org>
-Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
-Message-ID: <20181010141017.GA2881@asgard.redhat.com>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
- <20180724173957.GA22106@yury-thinkpad>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180724173957.GA22106@yury-thinkpad>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Wed, 10 Oct 2018 14:09:55 +0000 (UTC)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 24, 2018 at 08:39:57PM +0300, Yury Norov wrote:
-> Hi all,
-> 
-> + Pavel Machek, Palmer Dabbelt, Wookey.
-> 
-> On Wed, May 16, 2018 at 11:18:45AM +0300, Yury Norov wrote:
-> > This series enables AARCH64 with ILP32 mode.
-> > 
-> > As supporting work, it introduces ARCH_32BIT_OFF_T configuration
-> > option that is enabled for existing 32-bit architectures but disabled
-> > for new arches (so 64-bit off_t userspace type is used by new userspace).
-> > Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
-> > 
-> > Based on kernel v4.16. Tested with LTP, glibc testsuite, trinity, lmbench,
-> > CPUSpec.
+On 10/10/18, Eugene Syromiatnikov <esyr@redhat.com> wrote:
+> On Tue, Jul 24, 2018 at 08:39:57PM +0300, Yury Norov wrote:
+>> Hi all,
+>>
+>> + Pavel Machek, Palmer Dabbelt, Wookey.
+>>
+>> On Wed, May 16, 2018 at 11:18:45AM +0300, Yury Norov wrote:
+>> > This series enables AARCH64 with ILP32 mode.
+>> >
+>> > As supporting work, it introduces ARCH_32BIT_OFF_T configuration
+>> > option that is enabled for existing 32-bit architectures but disabled
+>> > for new arches (so 64-bit off_t userspace type is used by new
+>> > userspace).
+>> > Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
+>> >
+>> > Based on kernel v4.16. Tested with LTP, glibc testsuite, trinity,
+>> > lmbench,
+>> > CPUSpec.
+>
+>> This is the update of the series based on 4.17 kernel
+>> https://github.com/norov/linux/tree/ilp32-4.17
+>
+> Hello.
+>
+> I have some questions regarding AArch64 ILP32 implementation for which I
+> failed to find an answer myself:
+>  * How ptrace() tracer is supposed to distinguish between ILP32 and LP64
+>    tracees? For MIPS N32 and x32 this is possible based on syscall
+>    number, but for AArch64 ILP32 I do not see such a sign. There's also
+>    ARM_ip is employed for signalling entering/exiting, I wonder whether
+>    it's possible to employ it also for signalling tracee's personality.
 
-> This is the update of the series based on 4.17 kernel
-> https://github.com/norov/linux/tree/ilp32-4.17
+Don't know.
 
-Hello.
+>  * What's the reasoning behind capping syscall arguments to 32 bit? x32
+>    and MIPS N32 do not have such a restriction (and do not need special
+>    wrappers for syscalls that pass 64-bit values as a result, except
+>    when they do,  as it is the case for preadv2 on x32); moreover, that
+>    would lead to insurmountable difficulties for AArch64 ILP32 tracers
+>    that try to trace LP64 tracees, as it would be impossible to pass
+>    64-bit addresses to process_vm_{read,write} or ptrace PEEK/POKE.
 
-I have some questions regarding AArch64 ILP32 implementation for which I
-failed to find an answer myself:
- * How ptrace() tracer is supposed to distinguish between ILP32 and LP64
-   tracees? For MIPS N32 and x32 this is possible based on syscall
-   number, but for AArch64 ILP32 I do not see such a sign. There's also
-   ARM_ip is employed for signalling entering/exiting, I wonder whether
-   it's possible to employ it also for signalling tracee's personality.
- * What's the reasoning behind capping syscall arguments to 32 bit? x32
-   and MIPS N32 do not have such a restriction (and do not need special
-   wrappers for syscalls that pass 64-bit values as a result, except
-   when they do,  as it is the case for preadv2 on x32); moreover, that
-   would lead to insurmountable difficulties for AArch64 ILP32 tracers
-   that try to trace LP64 tracees, as it would be impossible to pass
-   64-bit addresses to process_vm_{read,write} or ptrace PEEK/POKE.
+The idea is to keep the syscall entry points as similar as possible
+between arm (aarch32) emulation and aarch64-ilp32 mode when
+you have a kernel that supports both.
 
-Thank you.
+      Arnd
