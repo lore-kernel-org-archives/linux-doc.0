@@ -1,84 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D82767D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 17:09:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 807A57D087
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 19:09:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbeJKAcF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Oct 2018 20:32:05 -0400
-Received: from foss.arm.com ([217.140.101.70]:55678 "EHLO foss.arm.com"
+        id S1727222AbeJKCdT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Oct 2018 22:33:19 -0400
+Received: from imap.thunk.org ([74.207.234.97]:42962 "EHLO imap.thunk.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726607AbeJKAcF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Oct 2018 20:32:05 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02411ED1;
-        Wed, 10 Oct 2018 10:09:02 -0700 (PDT)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.80])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E0C33F5B3;
-        Wed, 10 Oct 2018 10:09:00 -0700 (PDT)
-Date:   Wed, 10 Oct 2018 18:08:58 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Will Deacon <will.deacon@arm.com>
-Cc:     Punit Agrawal <punit.agrawal@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, steve.capper@arm.com,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] Documentation/arm64: HugeTLB page implementation
-Message-ID: <20181010170857.GF212880@arrakis.emea.arm.com>
-References: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
- <20181008100355.31820-1-punit.agrawal@arm.com>
- <67f4ceb7-d41c-ab7a-4d5e-c147dadf6860@infradead.org>
- <87ftxf7812.fsf@e105922-lin.cambridge.arm.com>
- <20181009115049.GA6248@arm.com>
+        id S1726911AbeJKCdS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Oct 2018 22:33:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
+         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=fRWVMAqAEEThnjYzwz9rFJPbidGagUpLN/pVG9RQw24=; b=MqcbE4I4DiIJUEA6UpCU4oOUH2
+        FHuMWaQUYhYnZ+7fFNN+WBqVuDweVh7Gf5djF1mAHqATfZWVZcMgfaS+VU9TK49cgXJQg6gbn3+ud
+        ZLBWx4rGEOvR2Q2KyY86xrnTfhg1iH05TvkQT2R7c85PEJK47avxjpXSTuwIObwxaLfo=;
+Received: from root (helo=callcc.thunk.org)
+        by imap.thunk.org with local-esmtp (Exim 4.89)
+        (envelope-from <tytso@thunk.org>)
+        id 1gAJrY-0002m3-Ol; Wed, 10 Oct 2018 19:09:40 +0000
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id F07927A7902; Wed, 10 Oct 2018 15:09:39 -0400 (EDT)
+Date:   Wed, 10 Oct 2018 15:09:39 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     Joel Fernandes <joel@joelfernandes.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] docs: rcu: Make reader aware of rcu_dereference_protected
+Message-ID: <20181010190939.GA25315@thunk.org>
+Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>, linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+References: <20181009013341.60111-1-joel@joelfernandes.org>
+ <20181010030906.GB2674@linux.ibm.com>
+ <20181010040159.GA90259@joelaf.mtv.corp.google.com>
+ <20181010154414.GC2674@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181009115049.GA6248@arm.com>
+In-Reply-To: <20181010154414.GC2674@linux.ibm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: tytso@thunk.org
+X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 09, 2018 at 12:50:49PM +0100, Will Deacon wrote:
-> On Tue, Oct 09, 2018 at 11:02:01AM +0100, Punit Agrawal wrote:
-> > Randy Dunlap <rdunlap@infradead.org> writes:
-> > 
-> > > On 10/8/18 3:03 AM, Punit Agrawal wrote:
-> > >> Arm v8 architecture supports multiple page sizes - 4k, 16k and
-> > >> 64k. Based on the active page size, the Linux port supports
-> > >> corresponding hugepage sizes at PMD and PUD(4k only) levels.
-> > >> 
-> > >> In addition, the architecture also supports caching larger sized
-> > >> ranges (composed of multiple entries) at the PTE and PMD level in the
-> > >> TLBs using the contiguous bit. The Linux port makes use of this
-> > >> architectural support to enable additional hugepage sizes.
-> > >> 
-> > >> Describe the two different types of hugepages supported by the arm64
-> > >> kernel and the hugepage sizes enabled by each.
-> > >> 
-> > >> Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
-> > >> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> > >> Cc: Will Deacon <will.deacon@arm.com>
-> > >> Cc: Jonathan Corbet <corbet@lwn.net>
-> > >
-> > > Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> > 
-> > Thanks!
-> > 
-> > Catalin, Will - I assume you'll pick this up at some point? Or do arm64
-> > documentation patches get routed by another tree?
-> 
-> Acked-by: Will Deacon <will.deacon@arm.com>
-> 
-> Catalin can pick this up for 4.20.
+Thanks, the update to the documentation looks great!!
 
-Done.
+I think lockdep_is_held() should be better documented, but that should
+be done in the lockdep docs, not the RCU documentation.
 
--- 
-Catalin
+	    	      	  		- Ted
