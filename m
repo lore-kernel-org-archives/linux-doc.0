@@ -5,181 +5,536 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2B927D087
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 08:46:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B6317D087
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 09:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726967AbeJJQHb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Oct 2018 12:07:31 -0400
-Received: from mail-eopbgr730046.outbound.protection.outlook.com ([40.107.73.46]:48528
-        "EHLO NAM05-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726788AbeJJQHb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Oct 2018 12:07:31 -0400
-Received: from BN6PR19CA0053.namprd19.prod.outlook.com (2603:10b6:404:e3::15)
- by SN1PR19MB0398.namprd19.prod.outlook.com (2a01:111:e400:5964::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1207.23; Wed, 10 Oct
- 2018 08:46:19 +0000
-Received: from BN1BFFO11FD003.protection.gbl (2a01:111:f400:7c10::1:131) by
- BN6PR19CA0053.outlook.office365.com (2603:10b6:404:e3::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.1228.23 via Frontend Transport; Wed, 10 Oct 2018 08:46:19 +0000
-Authentication-Results: spf=softfail (sender IP is 208.19.100.21)
- smtp.mailfrom=microchip.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none
- header.from=microchip.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- microchip.com discourages use of 208.19.100.21 as permitted sender)
-Received: from AVMBX1.microsemi.net (208.19.100.21) by
- BN1BFFO11FD003.mail.protection.outlook.com (10.58.144.66) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.20.1228.17 via Frontend Transport; Wed, 10 Oct 2018 08:46:17 +0000
-Received: from AVMBX2.microsemi.net (10.100.34.32) by AVMBX1.microsemi.net
- (10.100.34.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1531.3; Wed, 10 Oct
- 2018 00:45:43 -0700
-Received: from server1.microsemi.net (10.188.117.51) by avmbx2.microsemi.net
- (10.100.34.32) with Microsoft SMTP Server id 15.1.1531.3 via Frontend
- Transport; Wed, 10 Oct 2018 00:45:40 -0700
-From:   Wesley Sheng <wesley.sheng@microchip.com>
-To:     <bhelgaas@google.com>, <corbet@lwn.net>, <logang@deltatee.com>,
-        <kurt.schwemmer@microsemi.com>
-CC:     <linux-ntb@googlegroups.com>, <linux-pci@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Wesley Yung <wesley.yung@microchip.com>,
-        Kelvin Cao <kelvin.cao@microchip.com>,
-        "Wesley Sheng" <wesley.sheng@microchip.com>
-Subject: [PATCH v3] NTB: switchtec_ntb: Update switchtec documentation with pre-requisites for NTB
-Date:   Wed, 10 Oct 2018 22:42:55 +0800
-Message-ID: <1539182575-26851-1-git-send-email-wesley.sheng@microchip.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726665AbeJJRNm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Oct 2018 13:13:42 -0400
+Received: from foss.arm.com ([217.140.101.70]:49504 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726515AbeJJRNm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Oct 2018 13:13:42 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E52A80D;
+        Wed, 10 Oct 2018 02:52:18 -0700 (PDT)
+Received: from [10.1.196.93] (en101.cambridge.arm.com [10.1.196.93])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99EBC3F5BC;
+        Wed, 10 Oct 2018 02:52:16 -0700 (PDT)
+Subject: Re: [PATCH v6 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
+ driver
+To:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Will.Deacon@arm.com, mark.rutland@arm.com,
+        jnair@caviumnetworks.com, Robert.Richter@cavium.com,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com,
+        gklkml16@gmail.com
+References: <20180621063338.20093-1-ganapatrao.kulkarni@cavium.com>
+ <20180621063338.20093-3-ganapatrao.kulkarni@cavium.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <c77e9601-71ca-ff09-f21d-b2493ca7c40b@arm.com>
+Date:   Wed, 10 Oct 2018 10:52:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-Matching-Connectors: 131836347790239803;(5a93feec-e11d-4f7b-166a-08d09f1f276b);()
-X-Forefront-Antispam-Report: CIP:208.19.100.21;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(346002)(396003)(39860400002)(376002)(136003)(2980300002)(189003)(199004)(77096007)(107886003)(5660300001)(8936002)(81156014)(106466001)(50466002)(81166006)(26005)(356003)(105596002)(6666003)(48376002)(97736004)(2201001)(450100002)(4326008)(86362001)(36756003)(336012)(316002)(54906003)(486006)(53936002)(498600001)(2616005)(110136005)(16586007)(305945005)(8676002)(2906002)(126002)(44832011)(14444005)(53416004)(476003)(51416003)(47776003)(68736007)(50226002)(69596002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN1PR19MB0398;H:AVMBX1.microsemi.net;FPR:;SPF:SoftFail;LANG:en;PTR:InfoDomainNonexistent;MX:1;A:1;
-X-Microsoft-Exchange-Diagnostics: 1;BN1BFFO11FD003;1:4sVgexfFS/0n91+I135sUj6VrMxozqJg/GK94vOF7y/CmQV0fAtCCm8M3KrXcjY1H0X3CHMqcqH6RLRXH4RDO9Y0BE9Ua+1/cR7JBqfq1jQxiJzllIT09PKrTwFqUHN+
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bba9119d-bab9-4f6b-9555-08d62e8cd8e9
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(7020095)(5600074)(711020)(2017052603328);SRVR:SN1PR19MB0398;
-X-Microsoft-Exchange-Diagnostics: 1;SN1PR19MB0398;3:yL/haTm9zDLQAUzpv6MFcdb35GLS7uxZ7FYpx2gT5xC/OP2R1YmACcFVkmQes8KZQ1ftj8VuBEPd1kbwR2cpyaEqqjA8h7m8/zV3vT89H3jTN04niJDExEpgAaw4ma563QRRXhvKMARQkHPByA4cr022D/3eq1raSKGsjdQ569ntF6o2cTUG/dsGeOWM5VUHrB6wwsUU83I5VKd7nxGJkf1ofqETKZmmrV+Fsp7eOXuaqaD7SvHi1P/jrQnMI7uSyjhDRfa5B0LNAZYAVfj4bupp71IKAzlHIE7GjfsYYqR4F3x28kWikndV2dQ47sCzOgaBjKiirZCNUfVWxKHJJB3SNPuhkiSgKUpXQHP0SEM=;25:0HPrnlyOcYtMDESBK//ULUy4aQGSKipn6yEy36kmC8xUiQpGRIglSVGCSSA2xTxsuRRkSbZT97t1w71mftADVZYsza/qQiEO9lixJ98L7AbVlc2Teu1okEaJFRXGNy3gnAWNiB/qrOXPuzLLOb6FMUJgUfzbRSW2wVZPNKUKeZmYcCYpZqWESQG9f8U/U4Mp9GpdFIglVwbiYucf7a2TnyLD8rYgczcK0liT0P45XNGE+zlycnRRvvwiGkkW9W97KHy/+0MIbTtBNNjVhWiEVyxM0GqTKOtKkGceISBj7tPLVpXmPlccVi5l7II2qUx63oPNi7rYP4/sz/DtNfYDSg==
-X-MS-TrafficTypeDiagnostic: SN1PR19MB0398:
-X-Microsoft-Exchange-Diagnostics: 1;SN1PR19MB0398;31:+MErSXnx//m5nRUWUM7wC4zWZumMYXO/qkR+/hgnb6HzV7/kO0pHy37zqayqFfndwjoLX9nkfJqjM7KOW9jHjJUE/b5gp8kTjwwdimh7prItXLSCdys9/uLKD1rgaT27IVwKdosY9o6BvqFwsBrB/xw+lOUX/iyGjKQvJ/X5ubOedsTMQtEIpduIICjrvGBQZKaAbzQNegN/ErSpvOuxdQL5oXpLVmhpy/hNBCr7x6w=;4:6sVx7XhSulI2deB0dzaXfp5isOD3byy3yaOzJfCr+QGZquSE1vmmtvM3YPQL8nLPpWgAapVuwGRciqbHzBI0YFZrt+hQgqPFyXRkBURuPxDro1nMB9KS4AAriI/jlElkK0di7YwvYeJwwhNmbyTEWzixDJVxNuUHgXh5JelP3Zb08roCy+mnB3YmKYnjgevBDBOH88sjIh5toPSKy2RbXn+SPGWXjmZW4laDgmDhOYMwbkL0AJWxZR52MmbbC1uFiCbe99F2d6rjJiEXUfGSDbBspnscBBWCEQZ7SnMqPx6nk36q53kF0s6ZmByw04YC
-X-Microsoft-Antispam-PRVS: <SN1PR19MB03985B6E0901F4ABD3F9B4D795E00@SN1PR19MB0398.namprd19.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(278428928389397);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(6095135)(2401047)(8121501046)(5005006)(3002001)(93006095)(93001095)(10201501046)(3231355)(944501410)(52105095)(6055026)(6096035)(20161123563025)(20161123561025)(20161123559100)(20161123565025)(201703131430075)(201703131448075)(201703131433075)(201703151042153)(20161123556025)(201708071742011)(7699051);SRVR:SN1PR19MB0398;BCL:0;PCL:0;RULEID:(400006);SRVR:SN1PR19MB0398;
-X-Forefront-PRVS: 08213D42D3
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;SN1PR19MB0398;23:qvOFI+NLUoHw1vTURpkCoftoYIMQHXgWkxrcKNyz/?=
- =?us-ascii?Q?wDYgqEG7x5u0182Mj2c+ZVg1YiSC7dgdJWhlatqwrhvRlNA89GTeobBOk7A2?=
- =?us-ascii?Q?Gr2chq7T5sXyoHqE2+zThjZaHqCFQcXkOjDbk+bXzl4X05PncBqsZhUxaoec?=
- =?us-ascii?Q?mqHHjd8o/cf/L45MRLCJWKSlSnlMV7WiP9244yQcSE++Hs74UTo61oGEIs5w?=
- =?us-ascii?Q?N2lBaXkmvKVRSe9hK3f3SD5YdEmWx1SwzjksTb1Fjc2wvs7EAwsd3d8mnN2v?=
- =?us-ascii?Q?PZHEbFoVe+CTsEGLAGJmrZ5W7Hx+p/lGhhmzbY1XCGc5BP8TKaU/qq5G1ko/?=
- =?us-ascii?Q?9uga7IeD38+rq3fXqTMFJiDHlCIgJGN6u+T4sHRHqww1g98t3oWFm82k5g5y?=
- =?us-ascii?Q?EyGqjnviKRd7GegMk54MyBvw9qv8Gh/q9Zav5pUagDQBPey+/CbUtdUzbfxW?=
- =?us-ascii?Q?hgJe3YH4yst3Hu/cXka+8I7BH4ZGRJKbSmBhgzrngJFay3a4rBn2Sw2gSSbA?=
- =?us-ascii?Q?AK5+9dl0yEpLbo/nCmmM8KX6IjQNbftU9Do/U75sr8F5N+afPeV2m4Ng5pJc?=
- =?us-ascii?Q?Gk0c0IF0gFofk5fLHZcOGhfX2RJtU/tU4MLfOLcuReJRfsdAasRuOBscJrFk?=
- =?us-ascii?Q?QdBqz1foK/jPooJ1PuqhF9GK4szOZwvAt701crcOadHgipOdeldym148xEYP?=
- =?us-ascii?Q?WPvU9KT1bQ79opcqsKB8Z+/9IfPZyKovN9tNzz3IEeosPXRga+rL7YXEBSdY?=
- =?us-ascii?Q?LJQyrYiM7GFIe4a0+xpxlwDLN/GpztNzB7l9aCU2k5to7OKReUBpSscNKxtA?=
- =?us-ascii?Q?JqiteAjniZLso6sZnAImaYSq5AJaXDFHvh3PkO67duSy+G1go2PI2ILNrBcH?=
- =?us-ascii?Q?vBIZ2OzuoLmlfEGFbD1xuGF+iyBxUQD/qZ2nXdaOqySl/kIeaejy4mUsxCP5?=
- =?us-ascii?Q?6ZPRePGF8NnG1yUS5Pe3+R5AS0NF4ViFMdKur9vW3EIy+swY+obrlNT85pBX?=
- =?us-ascii?Q?sestP/3iJ644LHQo1WLqgzZYNhdzTOH95km8RyFm7X648QPaa1Idd2HDN4C+?=
- =?us-ascii?Q?cvNgTB668nyJFM4STOqtITVBWiZs2piBXydV2pEyGLZTGVvWRFf7PNw1xvPV?=
- =?us-ascii?Q?1JEtuNtlNU=3D?=
-X-Microsoft-Antispam-Message-Info: EpgKH+JrM1wU/IrxKy5GCrAPhRpUuWFeyShBB/2KCX2pS/x6bRGarND2vjs2Nlo2PHhQ7nN2Sulet0ED89On4SKmRXpyNnkDy36c6PfR5WKwL7Z2jYYwyzMZI9HkFABSzrO7vhf+3CH0sEtqa7s6FzgeGsRpotmkeCAg5+zx89VM3tfG/HfOFFO6J5/cKjKE3Nte1ZQf/5yq8B5FrLh9ZBqnzi23VkhYBM0MhydkVyG1fgu8eCtY0HZYmxb275cVg6M2txm7l6r1lJ1pJcXjMgU/gLToeuEMO+znC06AHa0nuSq92etdtgn5xNvaQgM4IzBg+HE3hrwR0fJQyqz8We+GqQk0iKpDG+99XC/NvcM=
-X-Microsoft-Exchange-Diagnostics: 1;SN1PR19MB0398;6:ESqfYImtTRLE4d2K847EF2ojEfj0BiEZCyJB1waXr2/e91+73mLRH0VBFgWYmwdRoRw8Nuf88ITCQnaSR1cT/Y3YvH2+64Qzf1eMCS/YyZQQpVlPk/rPfTDdYHPYQOsmhKaWrPjCNn9F34XvlecGv5AiygmfDMfCmxqtd1Yv9UMIpO3UB+Iaf4t7nkmZWo7k5IDqmtizuoJFai8ziuIWJ5CJbsiEOe8ya9/sXYYY1MZx1vtJQh0i9mPimDTA6PItv+gcBf+P5K5lSFRKXvixTW6uNhLN2Oo2ipWQR/iDbIq0HhC2wc/+WDtFUAH+0EMO5g0jAGB74muWn9SsJVPPkUnUIvIwUHp5IkJAsUG3Zw/AkXSGPk42M6jae1CgnTMEOyhBaxbOcHIF3Xd/37zALyH6SiEOze8+zA9WxFOcln8i74ny6eI+05rsx0nhjAeCbiaztqKSgrPtxYsMY3z3ug==;5:iQ3VwJIJOY1sC6XrVU122lL1JouuXQee2OTiCjsRkYV2ISaKsQ2yK/JgjkBFe4txIPq7xRjSICeRdKEHKsv1+oERMH4OJPoGUfxlyThOZAd+kvLZmXAafbnxHBG26x+fhmNdW3ywhjms+xhRuuj+fvJuNnLMDRyd20qjFW6pCFY=;7:9WfslajheDvQqGtUJn8ML1uc0npzvVKE9Oy9AHU7qiQT6UCSzTWSxMDjyL5vWLp3p5s9r3k59XRYqLB+y36kJ3dAVQ35XbWnDVrm0fsUFYUu1W/NV2oLMJfbB7uGb9hyuB4K1g90KU1DLQr8upN43uojh5gfGNyefeO1vgipxBG16DUqddmTNM3AUuaPKWzyjSjR2xYxrP1cYI24400vRJTs5pkMsqxytBB3DzMzLszIx4b1ajDeoru4Aw8LIeD/
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2018 08:46:17.6802
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bba9119d-bab9-4f6b-9555-08d62e8cd8e9
-X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;Ip=[208.19.100.21];Helo=[AVMBX1.microsemi.net]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR19MB0398
+In-Reply-To: <20180621063338.20093-3-ganapatrao.kulkarni@cavium.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Wesley Yung <wesley.yung@microchip.com>
+Hi Ganapatrao,
 
-The ntb_hw_switchtec driver has requirements on kernel configuration
-so we add these notes to the documentation and also clean up a few 
-other sentences in the documentation.
+On 21/06/18 07:33, Ganapatrao Kulkarni wrote:
+> This patch adds a perf driver for the PMU UNCORE devices DDR4 Memory
+> Controller(DMC) and Level 3 Cache(L3C).
+> 
+> ThunderX2 has 8 independent DMC PMUs to capture performance events
+> corresponding to 8 channels of DDR4 Memory Controller and 16 independent
+> L3C PMUs to capture events corresponding to 16 tiles of L3 cache.
+> Each PMU supports up to 4 counters. All counters lack overflow interrupt
+> and are sampled periodically.
+> 
+> Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
+> ---
+>   drivers/perf/Kconfig         |   8 +
+>   drivers/perf/Makefile        |   1 +
+>   drivers/perf/thunderx2_pmu.c | 949 +++++++++++++++++++++++++++++++++++++++++++
+>   include/linux/cpuhotplug.h   |   1 +
+>   4 files changed, 959 insertions(+)
+>   create mode 100644 drivers/perf/thunderx2_pmu.c
+> 
 
-Signed-off-by: Wesley Yung <wesley.yung@microchip.com>
-Signed-off-by: Kelvin Cao <kelvin.cao@microchip.com>
-Signed-off-by: Wesley Sheng <wesley.sheng@microchip.com>
----
- Documentation/switchtec.txt | 30 ++++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt
-index f788264..d6f04dcc 100644
---- a/Documentation/switchtec.txt
-+++ b/Documentation/switchtec.txt
-@@ -23,7 +23,7 @@ The primary means of communicating with the Switchtec management firmware is
- through the Memory-mapped Remote Procedure Call (MRPC) interface.
- Commands are submitted to the interface with a 4-byte command
- identifier and up to 1KB of command specific data. The firmware will
--respond with a 4 bytes return code and up to 1KB of command specific
-+respond with a 4-byte return code and up to 1KB of command specific
- data. The interface only processes a single command at a time.
- 
- 
-@@ -36,8 +36,8 @@ device: /dev/switchtec#, one for each management endpoint in the system.
- The char device has the following semantics:
- 
- * A write must consist of at least 4 bytes and no more than 1028 bytes.
--  The first four bytes will be interpreted as the command to run and
--  the remainder will be used as the input data. A write will send the
-+  The first 4 bytes will be interpreted as the Command ID and the
-+  remainder will be used as the input data. A write will send the
-   command to the firmware to begin processing.
- 
- * Each write must be followed by exactly one read. Any double write will
-@@ -45,9 +45,9 @@ The char device has the following semantics:
-   produce an error.
- 
- * A read will block until the firmware completes the command and return
--  the four bytes of status plus up to 1024 bytes of output data. (The
--  length will be specified by the size parameter of the read call --
--  reading less than 4 bytes will produce an error.
-+  the 4-byte Command Return Value plus up to 1024 bytes of output
-+  data. (The length will be specified by the size parameter of the read
-+  call -- reading less than 4 bytes will produce an error.)
- 
- * The poll call will also be supported for userspace applications that
-   need to do other things while waiting for the command to complete.
-@@ -83,10 +83,20 @@ The following IOCTLs are also supported by the device:
- Non-Transparent Bridge (NTB) Driver
- ===================================
- 
--An NTB driver is provided for the switchtec hardware in switchtec_ntb.
--Currently, it only supports switches configured with exactly 2
--partitions. It also requires the following configuration settings:
-+An NTB hardware driver is provided for the Switchtec hardware in
-+ntb_hw_switchtec. Currently, it only supports switches configured with
-+exactly 2 NT partitions and zero or more non-NT partitions. It also requires
-+the following configuration settings:
- 
--* Both partitions must be able to access each other's GAS spaces.
-+* Both NT partitions must be able to access each other's GAS spaces.
-   Thus, the bits in the GAS Access Vector under Management Settings
-   must be set to support this.
-+* Kernel configuration MUST include support for NTB (CONFIG_NTB needs
-+  to be set)
-+
-+NT EP BAR 2 will be dynamically configured as a Direct Window, and
-+the configuration file does not need to configure it explicitly.
-+
-+Please refer to Documentation/ntb.txt in Linux source tree for an overall
-+understanding of the Linux NTB stack. ntb_hw_switchtec works as an NTB
-+Hardware Driver in this stack.
--- 
-2.7.4
+> +
+> +/*
+> + * DMC and L3 counter interface is muxed across all channels.
+> + * hence we need to select the channel before accessing counter
+> + * data/control registers.
+> + *
+> + *  L3 Tile and DMC channel selection is through SMC call
+> + *  SMC call arguments,
+> + *	x0 = THUNDERX2_SMC_CALL_ID	(Vendor SMC call Id)
+> + *	x1 = THUNDERX2_SMC_SET_CHANNEL	(Id to set DMC/L3C channel)
+> + *	x2 = Node id
+> + *	x3 = DMC(1)/L3C(0)
+> + *	x4 = channel Id
+> + */
+> +static void uncore_select_channel(struct perf_event *event)
+> +{
+> +	struct arm_smccc_res res;
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore =
+> +		pmu_to_thunderx2_pmu_uncore(event->pmu);
+> +	struct thunderx2_pmu_uncore_dev *uncore_dev =
+> +		pmu_uncore->uncore_dev;
+> +
+> +	arm_smccc_smc(THUNDERX2_SMC_CALL_ID, THUNDERX2_SMC_SET_CHANNEL,
+> +			uncore_dev->node, uncore_dev->type,
+> +			pmu_uncore->channel, 0, 0, 0, &res);
+> +	if (res.a0) {
+> +		dev_err(uncore_dev->dev,
+> +			"SMC to Select channel failed for PMU UNCORE[%s]\n",
+> +				pmu_uncore->uncore_dev->name);
+> +	}
+> +}
+> +
 
+> +static void uncore_start_event_l3c(struct perf_event *event, int flags)
+> +{
+> +	u32 val;
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	/* event id encoded in bits [07:03] */
+> +	val = GET_EVENTID(event) << 3;
+> +	reg_writel(val, hwc->config_base);
+> +	local64_set(&hwc->prev_count, 0);
+> +	reg_writel(0, hwc->event_base);
+> +}
+> +
+> +static void uncore_stop_event_l3c(struct perf_event *event)
+> +{
+> +	reg_writel(0, event->hw.config_base);
+> +}
+> +
+> +static void uncore_start_event_dmc(struct perf_event *event, int flags)
+> +{
+> +	u32 val;
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	int idx = GET_COUNTERID(event);
+> +	int event_type = GET_EVENTID(event);
+> +
+> +	/* enable and start counters.
+> +	 * 8 bits for each counter, bits[05:01] of a counter to set event type.
+> +	 */
+> +	val = reg_readl(hwc->config_base);
+> +	val &= ~DMC_EVENT_CFG(idx, 0x1f);
+> +	val |= DMC_EVENT_CFG(idx, event_type);
+> +	reg_writel(val, hwc->config_base);
+> +	local64_set(&hwc->prev_count, 0);
+> +	reg_writel(0, hwc->event_base);
+> +}
+> +
+> +static void uncore_stop_event_dmc(struct perf_event *event)
+> +{
+> +	u32 val;
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	int idx = GET_COUNTERID(event);
+> +
+> +	/* clear event type(bits[05:01]) to stop counter */
+> +	val = reg_readl(hwc->config_base);
+> +	val &= ~DMC_EVENT_CFG(idx, 0x1f);
+> +	reg_writel(val, hwc->config_base);
+> +}
+> +
+> +static void init_cntr_base_l3c(struct perf_event *event,
+> +		struct thunderx2_pmu_uncore_dev *uncore_dev)
+> +{
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	/* counter ctrl/data reg offset at 8 */
+> +	hwc->config_base = (unsigned long)uncore_dev->base
+> +		+ L3C_COUNTER_CTL + (8 * GET_COUNTERID(event));
+> +	hwc->event_base =  (unsigned long)uncore_dev->base
+> +		+ L3C_COUNTER_DATA + (8 * GET_COUNTERID(event));
+> +}
+> +
+> +static void init_cntr_base_dmc(struct perf_event *event,
+> +		struct thunderx2_pmu_uncore_dev *uncore_dev)
+> +{
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	hwc->config_base = (unsigned long)uncore_dev->base
+> +		+ DMC_COUNTER_CTL;
+> +	/* counter data reg offset at 0xc */
+> +	hwc->event_base = (unsigned long)uncore_dev->base
+> +		+ DMC_COUNTER_DATA + (0xc * GET_COUNTERID(event));
+> +}
+> +
+> +static void thunderx2_uncore_update(struct perf_event *event)
+> +{
+> +	s64 prev, new = 0;
+> +	u64 delta;
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore;
+> +	enum thunderx2_uncore_type type;
+> +
+> +	pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+> +	type = pmu_uncore->uncore_dev->type;
+> +
+> +	pmu_uncore->uncore_dev->select_channel(event);
+> +
+> +	new = reg_readl(hwc->event_base);
+> +	prev = local64_xchg(&hwc->prev_count, new);
+> +
+> +	/* handles rollover of 32 bit counter */
+> +	delta = (u32)(((1UL << 32) - prev) + new);
+> +	local64_add(delta, &event->count);
+> +}
+> +
+
+
+> +
+> +/*
+> + * We must NOT create groups containing events from multiple hardware PMUs,
+> + * although mixing different software and hardware PMUs is allowed.
+> + */
+> +static bool thunderx2_uncore_validate_event_group(struct perf_event *event)
+> +{
+> +	struct pmu *pmu = event->pmu;
+> +	struct perf_event *leader = event->group_leader;
+> +	struct perf_event *sibling;
+> +	int counters = 0;
+> +
+> +	if (leader->pmu != event->pmu && !is_software_event(leader))
+> +		return false;
+> +
+> +	for_each_sibling_event(sibling, event->group_leader) {
+> +		if (is_software_event(sibling))
+> +			continue;
+> +		if (sibling->pmu != pmu)
+> +			return false;
+> +		counters++;
+> +	}
+
+The above loop will not account for :
+1) The leader event
+2) The event that we are about to add.
+
+So you need to allocate counters for both the above to make sure we can
+accommodate the events.
+
+> +
+> +	/*
+> +	 * If the group requires more counters than the HW has,
+> +	 * it cannot ever be scheduled.
+> +	 */
+> +	return counters < UNCORE_MAX_COUNTERS;
+> +}
+> +
+
+
+> +
+> +static void thunderx2_uncore_start(struct perf_event *event, int flags)
+> +{
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore;
+> +	struct thunderx2_pmu_uncore_dev *uncore_dev;
+> +	unsigned long irqflags;
+> +
+> +	hwc->state = 0;
+> +	pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+> +	uncore_dev = pmu_uncore->uncore_dev;
+> +
+> +	raw_spin_lock_irqsave(&uncore_dev->lock, irqflags);
+> +	uncore_dev->select_channel(event);
+> +	uncore_dev->start_event(event, flags);
+> +	raw_spin_unlock_irqrestore(&uncore_dev->lock, irqflags);
+> +
+> +	perf_event_update_userpage(event);
+> +
+> +	if (!find_last_bit(pmu_uncore->active_counters,
+> +				pmu_uncore->uncore_dev->max_counters)) {
+
+Are we guaranteed that the counter0 is always allocated ? What if the
+event is deleted and there are other events active ? A better check
+would be :
+	if (find_last_bit(...) != pmu_uncore->uncore_dev->max_counters)
+
+> +		hrtimer_start(&pmu_uncore->hrtimer,
+> +			ns_to_ktime(uncore_dev->hrtimer_interval),
+> +			HRTIMER_MODE_REL_PINNED);
+> +	}
+> +}
+
+
+> +
+> +static void thunderx2_uncore_stop(struct perf_event *event, int flags)
+> +{
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore;
+> +	struct thunderx2_pmu_uncore_dev *uncore_dev;
+> +	unsigned long irqflags;
+> +
+> +	if (hwc->state & PERF_HES_UPTODATE)
+> +		return;
+> +
+> +	pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+> +	uncore_dev = pmu_uncore->uncore_dev;
+> +
+> +	raw_spin_lock_irqsave(&uncore_dev->lock, irqflags);
+> +
+> +	uncore_dev->select_channel(event);
+> +	uncore_dev->stop_event(event);
+> +
+> +	WARN_ON_ONCE(hwc->state & PERF_HES_STOPPED);
+> +	hwc->state |= PERF_HES_STOPPED;
+> +	if ((flags & PERF_EF_UPDATE) && !(hwc->state & PERF_HES_UPTODATE)) {
+
+We already check the UPTODATE flag above, we could skip that
+flag check here ?
+
+> +		thunderx2_uncore_update(event);
+> +		hwc->state |= PERF_HES_UPTODATE;
+> +	}
+> +	raw_spin_unlock_irqrestore(&uncore_dev->lock, irqflags);
+> +}
+> +
+> +static int thunderx2_uncore_add(struct perf_event *event, int flags)
+> +{
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore;
+> +	struct thunderx2_pmu_uncore_dev *uncore_dev;
+> +
+> +	pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+> +	uncore_dev = pmu_uncore->uncore_dev;
+> +
+> +	/* Allocate a free counter */
+> +	hwc->idx  = alloc_counter(pmu_uncore);
+> +	if (hwc->idx < 0)
+> +		return -EAGAIN;
+> +
+> +	pmu_uncore->events[hwc->idx] = event;
+> +	/* set counter control and data registers base address */
+> +	uncore_dev->init_cntr_base(event, uncore_dev);
+> +
+> +	hwc->state = PERF_HES_UPTODATE | PERF_HES_STOPPED;
+> +	if (flags & PERF_EF_START)
+> +		thunderx2_uncore_start(event, flags);
+> +
+> +	return 0;
+> +}
+> +
+> +static void thunderx2_uncore_del(struct perf_event *event, int flags)
+> +{
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore =
+> +			pmu_to_thunderx2_pmu_uncore(event->pmu);
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	thunderx2_uncore_stop(event, PERF_EF_UPDATE);
+> +
+> +	/* clear the assigned counter */
+> +	free_counter(pmu_uncore, GET_COUNTERID(event));
+> +
+> +	perf_event_update_userpage(event);
+> +	pmu_uncore->events[hwc->idx] = NULL;
+> +	hwc->idx = -1;
+> +}
+> +
+> +static void thunderx2_uncore_read(struct perf_event *event)
+> +{
+> +	unsigned long irqflags;
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore =
+> +			pmu_to_thunderx2_pmu_uncore(event->pmu);
+> +
+> +	raw_spin_lock_irqsave(&pmu_uncore->uncore_dev->lock, irqflags);
+> +	thunderx2_uncore_update(event);
+> +	raw_spin_unlock_irqrestore(&pmu_uncore->uncore_dev->lock, irqflags);
+> +}
+> +
+> +static enum hrtimer_restart thunderx2_uncore_hrtimer_callback(
+> +		struct hrtimer *hrt)
+> +{
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore;
+> +	unsigned long irqflags;
+> +	int idx;
+> +	bool restart_timer = false;
+> +
+> +	pmu_uncore = container_of(hrt, struct thunderx2_pmu_uncore_channel,
+> +			hrtimer);
+> +
+> +	raw_spin_lock_irqsave(&pmu_uncore->uncore_dev->lock, irqflags);
+> +	for_each_set_bit(idx, pmu_uncore->active_counters,
+> +			pmu_uncore->uncore_dev->max_counters) {
+> +		struct perf_event *event = pmu_uncore->events[idx];
+
+Do we need to check if the "event" is not NULL ? Couldn't this race with
+an event_del() operation ?
+
+> +
+> +		thunderx2_uncore_update(event);
+> +		restart_timer = true;
+> +	}
+> +	raw_spin_unlock_irqrestore(&pmu_uncore->uncore_dev->lock, irqflags);
+> +
+> +	if (restart_timer)
+> +		hrtimer_forward_now(hrt,
+> +			ns_to_ktime(
+> +				pmu_uncore->uncore_dev->hrtimer_interval));
+> +
+> +	return restart_timer ? HRTIMER_RESTART : HRTIMER_NORESTART;
+> +}
+> +
+> +static int thunderx2_pmu_uncore_register(
+> +		struct thunderx2_pmu_uncore_channel *pmu_uncore)
+> +{
+> +	struct device *dev = pmu_uncore->uncore_dev->dev;
+> +	char *name = pmu_uncore->uncore_dev->name;
+> +	int channel = pmu_uncore->channel;
+> +
+> +	/* Perf event registration */
+> +	pmu_uncore->pmu = (struct pmu) {
+> +		.attr_groups	= pmu_uncore->uncore_dev->attr_groups,
+> +		.task_ctx_nr	= perf_invalid_context,
+> +		.event_init	= thunderx2_uncore_event_init,
+> +		.add		= thunderx2_uncore_add,
+> +		.del		= thunderx2_uncore_del,
+> +		.start		= thunderx2_uncore_start,
+> +		.stop		= thunderx2_uncore_stop,
+> +		.read		= thunderx2_uncore_read,
+
+You must fill in the module field of the PMU to prevent this module from
+being unloaded while it is in use.
+
+> +	};
+> +
+> +	pmu_uncore->pmu.name = devm_kasprintf(dev, GFP_KERNEL,
+> +			"%s_%d", name, channel);
+> +
+> +	return perf_pmu_register(&pmu_uncore->pmu, pmu_uncore->pmu.name, -1);
+> +}
+> +
+> +static int thunderx2_pmu_uncore_add(struct thunderx2_pmu_uncore_dev *uncore_dev,
+> +		int channel)
+> +{
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore;
+> +	int ret, cpu;
+> +
+> +	pmu_uncore = devm_kzalloc(uncore_dev->dev, sizeof(*pmu_uncore),
+> +			GFP_KERNEL);
+> +	if (!pmu_uncore)
+> +		return -ENOMEM;
+> +
+> +	cpu = cpumask_any_and(cpumask_of_node(uncore_dev->node),
+> +			cpu_online_mask);
+> +	if (cpu >= nr_cpu_ids)
+> +		return -EINVAL;
+
+Do we need to fail this here ? We could always add this back when a CPU
+comes online (e.g, maxcpus=n). We do have cpu-hotplug call backs anyway.
+
+> +static acpi_status thunderx2_pmu_uncore_dev_add(acpi_handle handle, u32 level,
+> +				    void *data, void **return_value)
+> +{
+> +	struct thunderx2_pmu_uncore_dev *uncore_dev;
+> +	struct acpi_device *adev;
+> +	enum thunderx2_uncore_type type;
+> +	int channel;
+> +
+> +	if (acpi_bus_get_device(handle, &adev))
+> +		return AE_OK;
+> +	if (acpi_bus_get_status(adev) || !adev->status.present)
+> +		return AE_OK;
+> +
+> +	type = get_uncore_device_type(adev);
+> +	if (type == PMU_TYPE_INVALID)
+> +		return AE_OK;
+> +
+> +	uncore_dev = init_pmu_uncore_dev((struct device *)data, handle,
+> +			adev, type);
+> +
+> +	if (!uncore_dev)
+> +		return AE_ERROR;
+> +
+> +	for (channel = 0; channel < uncore_dev->max_channels; channel++) {
+> +		if (thunderx2_pmu_uncore_add(uncore_dev, channel)) {
+> +			/* Can't add the PMU device, abort */
+> +			return AE_ERROR;
+> +		}
+> +	}
+> +	return AE_OK;
+> +}
+> +
+> +static int thunderx2_uncore_pmu_offline_cpu(unsigned int cpu,
+> +		struct hlist_node *node)
+> +{
+> +	int new_cpu;
+> +	struct thunderx2_pmu_uncore_channel *pmu_uncore;
+> +
+> +	pmu_uncore = hlist_entry_safe(node,
+> +			struct thunderx2_pmu_uncore_channel, node);
+> +	if (cpu != pmu_uncore->cpu)
+> +		return 0;
+> +
+> +	new_cpu = cpumask_any_and(
+> +			cpumask_of_node(pmu_uncore->uncore_dev->node),
+> +			cpu_online_mask);
+> +	if (new_cpu >= nr_cpu_ids)
+> +		return 0;
+> +
+> +	pmu_uncore->cpu = new_cpu;
+> +	perf_pmu_migrate_context(&pmu_uncore->pmu, cpu, new_cpu);
+> +	return 0;
+> +}
+> +
+> +static const struct acpi_device_id thunderx2_uncore_acpi_match[] = {
+> +	{"CAV901C", 0},
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(acpi, thunderx2_uncore_acpi_match);
+> +
+> +static int thunderx2_uncore_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	acpi_handle handle;
+> +	acpi_status status;
+> +
+> +	set_dev_node(dev, acpi_get_node(ACPI_HANDLE(dev)));
+> +
+> +	/* Make sure firmware supports DMC/L3C set channel smc call */
+> +	if (test_uncore_select_channel_early(dev))
+> +		return -ENODEV;
+> +
+> +	if (!has_acpi_companion(dev))
+> +		return -ENODEV;
+> +
+> +	handle = ACPI_HANDLE(dev);
+> +	if (!handle)
+> +		return -EINVAL;
+> +
+> +	/* Walk through the tree for all PMU UNCORE devices */
+> +	status = acpi_walk_namespace(ACPI_TYPE_DEVICE, handle, 1,
+> +				     thunderx2_pmu_uncore_dev_add,
+> +				     NULL, dev, NULL);
+> +	if (ACPI_FAILURE(status)) {
+> +		dev_err(dev, "failed to probe PMU devices\n");
+> +		return_ACPI_STATUS(status);
+> +	}
+> +
+> +	dev_info(dev, "node%d: pmu uncore registered\n", dev_to_node(dev));
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver thunderx2_uncore_driver = {
+> +	.probe = thunderx2_uncore_probe,
+> +	.driver = {
+> +		.name		= "thunderx2-uncore-pmu",
+> +		.acpi_match_table = ACPI_PTR(thunderx2_uncore_acpi_match),
+> +	},
+> +};
+
+Don't we need to unregister the pmu's when we remove the module ?
+
+Suzuki
