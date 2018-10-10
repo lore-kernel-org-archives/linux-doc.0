@@ -1,217 +1,151 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 423787D087
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 23:09:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 524A67D087
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 23:43:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726621AbeJKGdb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 02:33:31 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:33540 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726562AbeJKGda (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 02:33:30 -0400
-Received: by mail-pg1-f195.google.com with SMTP id y18-v6so3220091pge.0;
-        Wed, 10 Oct 2018 16:09:10 -0700 (PDT)
+        id S1725988AbeJKHHb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 03:07:31 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:35073 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725968AbeJKHHb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:07:31 -0400
+Received: by mail-pg1-f193.google.com with SMTP id v133-v6so3245180pgb.2;
+        Wed, 10 Oct 2018 16:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=T0em95t/hmL+0u+ih93JBdnzyT8IgOzhDeujGDFICzk=;
-        b=qS8Y3kv19m59Fmcg4vijdicAYkeSTbPm9yeAuUbViMv6Bnm/TiWvOvmgE08zuH+vBk
-         7uvKwlKv5bHXDYAmEgQB7wd7KQRUEYjcPwLZW5YwsKiJXlvv4vG7zipXSj8/YNWmWYhP
-         10VIlgLIyFEPmFYIixb0Cn4ltnC+9DQXWoxXH/IVZZFe1TxHXbtp9JX08WqEjCbh3gi8
-         84HPmoWrXnkhxhnn5S4UHAccUwU04sDL3KajK8S6i0Pq3D/SoMKwwOaMwKKv6BjIN+kx
-         Lzy7VJXmHW7GBbKAO3NX/hL+1JpXayuU24SRcr0FvWGzfQHHMyguasi0tqvDPOW2jE9x
-         C7FQ==
+        bh=y/ospkn93L347mrsbpw1MzaF6RU4CH2cmJUqRSLorso=;
+        b=BoyfiSivkEQsLpVnhiX7unS3tAiOSniW8BkRlKw31dDpSsohSeTB1UYWAAIy+taciE
+         uZpl8pcowRyXuyv/NC87FmtMMTP6j5CjZQk3qjdyTPsN1Vbr2nF/HiGNffe9rsHdT9GO
+         jk8JnuLVUIsZ75t6++JBCmOJjgZ1alvcITtJgLYt7WMJYE7DEdxHjFuQBmAaA2urFJuU
+         deIH8u18mhSoklmHzYHYLMr0UBJHzK55tkCMEB5YVzhFP9NSGPjpYADGBJ6ezDxSYFMV
+         wWlHL8oCL7NmsMXSZr9ML6t60SRezCcR4XxCMrfFmYs1M4wA9lMgNSOkoWxXkwcHuEiv
+         X1pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=T0em95t/hmL+0u+ih93JBdnzyT8IgOzhDeujGDFICzk=;
-        b=Wd1KHsINTKuG/o9MRdm7/N7fOhfzY0mX7BJOiw2ZvsI42qj51u1z01/E4WYCMzYcr0
-         qGmuM5zab3HCRvXW+jFGFs3mhPcL9z/Wmv3Z6TPiZjzMTzn35KOtYtJobuxFkvGQCcVD
-         d1MauhKL1ndfRfS38eVj9Thnw9hWs4A1JHCj95+NGtiwQ6TYVB8b4kBfVbz4gFL0i1xp
-         3PvXBcvu7Y6Cpw+s+Xvg+RTEyLgP1s2EhHXVKRjHmL4JeSMYlhBORZWNIm8nIfemo3kL
-         jcN3qduqNjjmIPhx7S+R7ZqYApWydjcchF4s5lyeXWVuZoFNbyYUS8ZovhVuCUZrfuJE
-         UZQQ==
-X-Gm-Message-State: ABuFfogLaPyc3/D0HddqWxYuVJulZ5G7IJR5ncHsZruSKmjInoJssTZF
-        KcFJhEkaptdtjc5mCchqsukfF8b0
-X-Google-Smtp-Source: ACcGV62vDvvLwVgsbXBHNzqu27+QGTORasz02hjUGzkZ+aDnTREZYOD/DdRhi9EArg14rmklGtJjcQ==
-X-Received: by 2002:a62:e057:: with SMTP id f84-v6mr36555746pfh.208.1539212950128;
-        Wed, 10 Oct 2018 16:09:10 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id g5-v6sm15001638pfb.130.2018.10.10.16.09.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 10 Oct 2018 16:09:09 -0700 (PDT)
-Date:   Wed, 10 Oct 2018 16:09:07 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=y/ospkn93L347mrsbpw1MzaF6RU4CH2cmJUqRSLorso=;
+        b=i4gmT7e+B+2uI+IM7iRtfEJYbHYHP0sTucJFdlF5qmw33RqArCKL4w8I57+iMT1KpS
+         pzdNH66Gy/AqJcqOTJp3L/uy5tjAGQijacvUNkgln/IumY7DvzI258PbElDSy7wRuGjz
+         mOiSImLR8ReA63SbQ0heZBffD3lIrgueekpTXt8OKB1CFXRe856mo9c4FDo3IxzbcwiW
+         dp2MDjnJxJKBEoV+HZG6mPWqmqLHpPsTf+2vGhxDm37+nYN37m5nNDZQuymjJYSGtBgT
+         dConQakvPGv8myyT536XtEF8nPiqGUTSYfxqXV/FCYv/XaZ5x6sPim6yx7R0YRa/ZvuK
+         7xWA==
+X-Gm-Message-State: ABuFfoh7ol4xAobU6dUA5gd8CErT8XMwS9XF9V0Ii5oMJ/FX0LYgvL5G
+        NXiWe3wElY7Ra0YLfgPG1X0=
+X-Google-Smtp-Source: ACcGV61bw5NF3Z9O3/PWPbvbNuhIo1BBY8ckjrs2S6pFaCI1bs/QLWzuy1KhgHFZ0hrozNJ/DHSZ9A==
+X-Received: by 2002:a62:9b9a:: with SMTP id e26-v6mr37959261pfk.181.1539214982499;
+        Wed, 10 Oct 2018 16:43:02 -0700 (PDT)
+Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id m15-v6sm35035753pgt.28.2018.10.10.16.43.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 10 Oct 2018 16:43:01 -0700 (PDT)
+Date:   Wed, 10 Oct 2018 16:43:00 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
 Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
         linux-kernel@vger.kernel.org, corbet@lwn.net,
         linux-doc@vger.kernel.org
 Subject: Re: [PATCH 2/2] hwmon: (ina3221) Add operating mode support
-Message-ID: <20181010230906.GB1706@Asurada-Nvidia.nvidia.com>
+Message-ID: <20181010234300.GA25480@roeck-us.net>
 References: <20181010043310.30873-1-nicoleotsuka@gmail.com>
  <20181010043310.30873-3-nicoleotsuka@gmail.com>
  <32c22986-544e-aca1-12bf-9080667cf499@roeck-us.net>
+ <20181010230906.GB1706@Asurada-Nvidia.nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <32c22986-544e-aca1-12bf-9080667cf499@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20181010230906.GB1706@Asurada-Nvidia.nvidia.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Guenter,
+Hi Nicolin,
 
-On Wed, Oct 10, 2018 at 06:22:39AM -0700, Guenter Roeck wrote:
-
-> > The hwmon core now has a new optional mode interface. So this patch
-> > just implements this mode support so that user space can check and
-> > configure via sysfs node its operating modes: power-down, one-shot,
-> > and continuous modes.
-
-> One-shot mode on its own does not make sense or add value: It would require
-> explicit driver support to trigger a reading, wait for the result, and
-> report it back to the user. If the intent here is to have the user write the
-> mode (which triggers the one-shot reading), wait a bit, and then read the
-> results, that doesn't make sense because standard userspace applications
-> won't know that. Also, that would be unsynchronized - one has to read the
-> CVRF bit in the mask/enable register to know if the reading is complete.
-
-I think I oversimplified the one-shot mode here and you are right:
-there should be a one-shot reading routine; the conversion time in
-the configuration register also needs to be taken care of.
-
-> The effort to do all this using CPU cycles would in most if not all cases
-> outweigh any perceived power savings. As such, I just don't see the
-> practical use case.
-
-It really depends on the use case and how often the one-shot gets
-triggered. For battery-powered devices, running in the continuous
-mode does consume considerable power based on the measurement from
-our power folks. If a system is running in a power sensitive mode,
-while it still needs to occasionally check the inputs, it could be
-a use case for one-shot mode, though it's purely a user decision.
-
-> power-down mode effectively reinvents runtime power management (runtime
-> suspend/resume support) and is thus simply unacceptable.
-
-Similar to one-shot, if a system is in a low power mode where it
-doesn't want to check the inputs anymore, I feel the user space
-could at least make the decision to turn on/off the chips, I am
-not quite sure if the generic runtime PM system already has this
-kind of support though.
-
-> I am open to help explore adding support for runtime power management
-> to the hwmon subsystem, but that would be less than straightforward and
-> require an actual use case to warrant the effort.
-
-Is there any feasible solution from your point of view?
-
-Thanks
-Nicolin
-----
-
+On Wed, Oct 10, 2018 at 04:09:07PM -0700, Nicolin Chen wrote:
+> Hello Guenter,
 > 
-> As such, NACK, sorry.
+> On Wed, Oct 10, 2018 at 06:22:39AM -0700, Guenter Roeck wrote:
 > 
-> Thanks,
-> Guenter
+> > > The hwmon core now has a new optional mode interface. So this patch
+> > > just implements this mode support so that user space can check and
+> > > configure via sysfs node its operating modes: power-down, one-shot,
+> > > and continuous modes.
 > 
-> > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> > ---
-> >   drivers/hwmon/ina3221.c | 64 +++++++++++++++++++++++++++++++++++++++++
-> >   1 file changed, 64 insertions(+)
-> > 
-> > diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
-> > index d61688f04594..5218fd85506d 100644
-> > --- a/drivers/hwmon/ina3221.c
-> > +++ b/drivers/hwmon/ina3221.c
-> > @@ -77,6 +77,28 @@ enum ina3221_channels {
-> >   	INA3221_NUM_CHANNELS
-> >   };
-> > +enum ina3221_modes {
-> > +	INA3221_MODE_POWERDOWN,
-> > +	INA3221_MODE_ONESHOT,
-> > +	INA3221_MODE_CONTINUOUS,
-> > +	INA3221_NUM_MODES,
-> > +};
-> > +
-> > +static const char *ina3221_mode_names[INA3221_NUM_MODES] = {
-> > +	[INA3221_MODE_POWERDOWN] = "power-down",
-> > +	[INA3221_MODE_ONESHOT] = "one-shot",
-> > +	[INA3221_MODE_CONTINUOUS] = "continuous",
-> > +};
-> > +
-> > +static const u16 ina3221_mode_val[] = {
-> > +	[INA3221_MODE_POWERDOWN] = INA3221_CONFIG_MODE_POWERDOWN,
-> > +	[INA3221_MODE_ONESHOT] = INA3221_CONFIG_MODE_SHUNT |
-> > +				     INA3221_CONFIG_MODE_BUS,
-> > +	[INA3221_MODE_CONTINUOUS] = INA3221_CONFIG_MODE_CONTINUOUS |
-> > +				    INA3221_CONFIG_MODE_SHUNT |
-> > +				    INA3221_CONFIG_MODE_BUS,
-> > +};
-> > +
-> >   /**
-> >    * struct ina3221_input - channel input source specific information
-> >    * @label: label of channel input source
-> > @@ -386,9 +408,51 @@ static const struct hwmon_ops ina3221_hwmon_ops = {
-> >   	.write = ina3221_write,
-> >   };
-> > +static int ina3221_mode_get_index(struct device *dev, unsigned int *index)
-> > +{
-> > +	struct ina3221_data *ina = dev_get_drvdata(dev);
-> > +	u16 mode = ina->reg_config & INA3221_CONFIG_MODE_MASK;
-> > +
-> > +	if (mode == INA3221_CONFIG_MODE_POWERDOWN)
-> > +		*index = INA3221_MODE_POWERDOWN;
-> > +	if (mode & INA3221_CONFIG_MODE_CONTINUOUS)
-> > +		*index = INA3221_MODE_CONTINUOUS;
-> > +	else
-> > +		*index = INA3221_MODE_ONESHOT;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int ina3221_mode_set_index(struct device *dev, unsigned int index)
-> > +{
-> > +	struct ina3221_data *ina = dev_get_drvdata(dev);
-> > +	int ret;
-> > +
-> > +	ret = regmap_update_bits(ina->regmap, INA3221_CONFIG,
-> > +				 INA3221_CONFIG_MODE_MASK,
-> > +				 ina3221_mode_val[index]);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Cache the latest config register value */
-> > +	ret = regmap_read(ina->regmap, INA3221_CONFIG, &ina->reg_config);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct hwmon_mode ina3221_hwmon_mode = {
-> > +	.names = ina3221_mode_names,
-> > +	.list_size = INA3221_NUM_MODES,
-> > +	.get_index = ina3221_mode_get_index,
-> > +	.set_index = ina3221_mode_set_index,
-> > +};
-> > +
-> >   static const struct hwmon_chip_info ina3221_chip_info = {
-> >   	.ops = &ina3221_hwmon_ops,
-> >   	.info = ina3221_info,
-> > +	.mode = &ina3221_hwmon_mode,
-> >   };
-> >   /* Extra attribute groups */
-> > 
+> > One-shot mode on its own does not make sense or add value: It would require
+> > explicit driver support to trigger a reading, wait for the result, and
+> > report it back to the user. If the intent here is to have the user write the
+> > mode (which triggers the one-shot reading), wait a bit, and then read the
+> > results, that doesn't make sense because standard userspace applications
+> > won't know that. Also, that would be unsynchronized - one has to read the
+> > CVRF bit in the mask/enable register to know if the reading is complete.
 > 
+> I think I oversimplified the one-shot mode here and you are right:
+> there should be a one-shot reading routine; the conversion time in
+> the configuration register also needs to be taken care of.
+> 
+> > The effort to do all this using CPU cycles would in most if not all cases
+> > outweigh any perceived power savings. As such, I just don't see the
+> > practical use case.
+> 
+> It really depends on the use case and how often the one-shot gets
+> triggered. For battery-powered devices, running in the continuous
+> mode does consume considerable power based on the measurement from
+> our power folks. If a system is running in a power sensitive mode,
+> while it still needs to occasionally check the inputs, it could be
+> a use case for one-shot mode, though it's purely a user decision.
+> 
+That would actually be a use case for runtime power management.
+The power used by a modern sensor chip is miniscule compared
+to the power consumed by other components in the system,
+which may explain why no one bothered looking into runtime
+power management for sensors.
+
+This is also an argument against any device or subsystem specific solution:
+Users will want to be able to control power consumption for all devices
+in the system, not just for sensors. A device specific power control
+mechanism would, from user space perspective, be a nightmare.
+
+> > power-down mode effectively reinvents runtime power management (runtime
+> > suspend/resume support) and is thus simply unacceptable.
+> 
+> Similar to one-shot, if a system is in a low power mode where it
+> doesn't want to check the inputs anymore, I feel the user space
+> could at least make the decision to turn on/off the chips, I am
+> not quite sure if the generic runtime PM system already has this
+> kind of support though.
+> 
+Please look up "runtime power management". It provides the basic
+mechanism to turn off / disable a device if it is not used. The point
+here is that the basic mechanism is there, even though it may not
+be perfect. If it is not perfect, it needs to be improved.
+Implementing a per-subsystem alternate method would be the wrong
+approach.
+
+> > I am open to help explore adding support for runtime power management
+> > to the hwmon subsystem, but that would be less than straightforward and
+> > require an actual use case to warrant the effort.
+> 
+> Is there any feasible solution from your point of view?
+> 
+
+You mean to implement runtime suspend/resume for hwmon drivers,
+or some other approach ? As for implementing it in hwmon drivers,
+I don't know; I don't recall this ever coming up, and never
+thought about it. This is where the use case comes in - if done,
+it has to be done properly, which will require some thinking and
+a substantial amount of time. It simply does not make sense to
+spend time on that effort if there is no actual use case.
+
+Implementing an alternate mechanism is simply a no-go.
+
+Guenter
