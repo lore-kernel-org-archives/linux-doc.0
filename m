@@ -2,80 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85B497D088
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 14:54:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C8BF7D08F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 15:37:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbeJJWRH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Oct 2018 18:17:07 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:58664 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726515AbeJJWRH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Oct 2018 18:17:07 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 601BAD95DA183;
-        Wed, 10 Oct 2018 22:54:29 +0800 (CST)
-Received: from localhost.localdomain (10.67.212.75) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.399.0; Wed, 10 Oct 2018 22:54:23 +0800
-From:   John Garry <john.garry@huawei.com>
-To:     <corbet@lwn.net>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <peterz@infradead.org>, <mingo@redhat.com>,
-        John Garry <john.garry@huawei.com>
-Subject: [PATCH] docs/completion.txt: Fix a couple of punctuation nits
-Date:   Wed, 10 Oct 2018 22:56:32 +0800
-Message-ID: <1539183392-239389-1-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 1.9.1
+        id S1726663AbeJJW7s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Oct 2018 18:59:48 -0400
+Received: from foss.arm.com ([217.140.101.70]:54260 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726503AbeJJW7s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Oct 2018 18:59:48 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 032F6ED1;
+        Wed, 10 Oct 2018 08:37:05 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.80])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2E57E3F5B3;
+        Wed, 10 Oct 2018 08:36:59 -0700 (PDT)
+Date:   Wed, 10 Oct 2018 16:36:56 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     Yury Norov <ynorov@caviumnetworks.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Wookey <wookey@wookware.org>
+Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
+Message-ID: <20181010153655.GA212880@arrakis.emea.arm.com>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+ <20180724173957.GA22106@yury-thinkpad>
+ <20181010141017.GA2881@asgard.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181010141017.GA2881@asgard.redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch fixes a couple of punctuation nits which can make the document
-more correct and readable.
+On Wed, Oct 10, 2018 at 04:10:21PM +0200, Eugene Syromiatnikov wrote:
+> I have some questions regarding AArch64 ILP32 implementation for which I
+> failed to find an answer myself:
+>  * How ptrace() tracer is supposed to distinguish between ILP32 and LP64
+>    tracees? For MIPS N32 and x32 this is possible based on syscall
+>    number, but for AArch64 ILP32 I do not see such a sign. There's also
+>    ARM_ip is employed for signalling entering/exiting, I wonder whether
+>    it's possible to employ it also for signalling tracee's personality.
 
-Also missing "()" are added to some function references for consistency.
+With the current implementation, I don't think you can distinguish. From
+the kernel perspective, the register set is the same. What is the
+use-case for this?
 
-Signed-off-by: John Garry <john.garry@huawei.com>
+We could add a new regset to expose the ILP32 state (NT_ARM_..., I can't
+think of a name now but probably not PER* as this implies PER_LINUX_...
+which is independent from TIF_32BIT_*).
 
-diff --git a/Documentation/scheduler/completion.txt b/Documentation/scheduler/completion.txt
-index 656cf80..108bd0f 100644
---- a/Documentation/scheduler/completion.txt
-+++ b/Documentation/scheduler/completion.txt
-@@ -116,7 +116,7 @@ A typical usage scenario is:
- This is not implying any temporal order on wait_for_completion() and the
- call to complete() - if the call to complete() happened before the call
- to wait_for_completion() then the waiting side simply will continue
--immediately as all dependencies are satisfied if not it will block until
-+immediately as all dependencies are satisfied; if not, it will block until
- completion is signaled by complete().
- 
- Note that wait_for_completion() is calling spin_lock_irq()/spin_unlock_irq(),
-@@ -131,7 +131,7 @@ wait_for_completion():
- The default behavior is to wait without a timeout and to mark the task as
- uninterruptible. wait_for_completion() and its variants are only safe
- in process context (as they can sleep) but not in atomic context,
--interrupt context, with disabled irqs. or preemption is disabled - see also
-+interrupt context, with disabled irqs, or preemption is disabled - see also
- try_wait_for_completion() below for handling completion in atomic/interrupt
- context.
- 
-@@ -224,7 +224,7 @@ queue spinlock. Any such concurrent calls to complete() or complete_all()
- probably are a design bug.
- 
- Signaling completion from hard-irq context is fine as it will appropriately
--lock with spin_lock_irqsave/spin_unlock_irqrestore and it will never sleep.
-+lock with spin_lock_irqsave()/spin_unlock_irqrestore() and it will never sleep.
- 
- 
- try_wait_for_completion()/completion_done():
+>  * What's the reasoning behind capping syscall arguments to 32 bit? x32
+>    and MIPS N32 do not have such a restriction (and do not need special
+>    wrappers for syscalls that pass 64-bit values as a result, except
+>    when they do,  as it is the case for preadv2 on x32); moreover, that
+>    would lead to insurmountable difficulties for AArch64 ILP32 tracers
+>    that try to trace LP64 tracees, as it would be impossible to pass
+>    64-bit addresses to process_vm_{read,write} or ptrace PEEK/POKE.
+
+We've attempted in earlier versions to allow a mix of 32 and 64-bit
+register values from ILP32 but it got pretty complicated. The entry code
+would need to know which registers need zeroing of the top 32-bit and
+the generic unistd.h wrapper hacks were not very nice. Some past
+discussions:
+
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1211716.html
+
 -- 
-1.9.1
-
+Catalin
