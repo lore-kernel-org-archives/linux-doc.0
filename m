@@ -1,93 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A02667D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 17:01:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D82767D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 17:09:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726525AbeJKAYs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Oct 2018 20:24:48 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:3874 "EHLO mx.kolabnow.com"
+        id S1727103AbeJKAcF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Oct 2018 20:32:05 -0400
+Received: from foss.arm.com ([217.140.101.70]:55678 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726515AbeJKAYs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Oct 2018 20:24:48 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 1BC0F3D8;
-        Wed, 10 Oct 2018 19:01:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1539190899; x=1541005300; bh=5AmPBE4/VxhPgEv8KhruXhMNtNd2NRf6iD5
-        pOaVhGrE=; b=wjBRXoz/GnX+QlfD3jyVgjwB6dPtjDxvnmCUA1keU/w3LNJehqs
-        MM8recWVuO4oe4wkoNodOe4QW4RbPZbo2zDWYqhZE4p9LC5tHFP+yN9RS/GDcr1Y
-        vPfoxUoaUa7c5nxiq3ECQlOgVxldc2KzhOzg35x2lX5u1xEcR0+YwTH/0CyccTCS
-        +dUXVTu/7At4hcRzgylmpzeFfawRSGSTNHD5HCMfTy6sAbCuUUyO22ZVM2RNOOQh
-        1uIvz3b86WHVdnT6sRR4o45XmeOl6srIEt0/P4eubDB69hRy3AfU5zgwN0ljTheR
-        0g0kQ1xfvUoDolOX5AwuNM+jE4FjWxV5tjePAutbMqblYdWEjLYcq8rNDF/cvGvo
-        hC1tjmwQsVsIButLaVO59+jD6yJ00EVvK/YxpTP/AtW/v8jQmJajyrD8r9KrQ3TQ
-        6Dw/NeK6qsyrq06e4R73T+oUMiuPjIrTFNrM9Im5WVkADUZysIA/TAfikZKXqxO+
-        jPooIuRwP+uPGyrAP/582nf4szVV1U1bgzpCyl1FRr/VNWIVL/94x2WY5aqcZjN0
-        BvLJDL76VcZPWVeC01C6cDIDVQW39UZEYoP1GxYmrTn10+3UAfMP6Z3O5Texnr37
-        MYmeHsQsHF1y5TkTj4OSDDxXt1bN2YxfSxtKj3mCkDIlJf5I9yFBlGVM=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id QIL5ylSVhmvs; Wed, 10 Oct 2018 19:01:39 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 9B677125;
-        Wed, 10 Oct 2018 19:01:39 +0200 (CEST)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 16E841DE;
-        Wed, 10 Oct 2018 19:01:39 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alessia Mantegazza <amantegazza@vaga.pv.it>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] doc:it_IT: add some process/* translations
-Date:   Wed, 10 Oct 2018 19:01:29 +0200
-Message-ID: <36650122.oeEFLVpePO@harkonnen>
-In-Reply-To: <20181007084210.0cec373a@lwn.net>
-References: <20181005185157.27819-1-federico.vaga@vaga.pv.it> <20181007084210.0cec373a@lwn.net>
+        id S1726607AbeJKAcF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Oct 2018 20:32:05 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02411ED1;
+        Wed, 10 Oct 2018 10:09:02 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.80])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E0C33F5B3;
+        Wed, 10 Oct 2018 10:09:00 -0700 (PDT)
+Date:   Wed, 10 Oct 2018 18:08:58 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Will Deacon <will.deacon@arm.com>
+Cc:     Punit Agrawal <punit.agrawal@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, steve.capper@arm.com,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] Documentation/arm64: HugeTLB page implementation
+Message-ID: <20181010170857.GF212880@arrakis.emea.arm.com>
+References: <97e4e5fb-24ed-0545-414a-6a0c0116e6b8@infradead.org>
+ <20181008100355.31820-1-punit.agrawal@arm.com>
+ <67f4ceb7-d41c-ab7a-4d5e-c147dadf6860@infradead.org>
+ <87ftxf7812.fsf@e105922-lin.cambridge.arm.com>
+ <20181009115049.GA6248@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181009115049.GA6248@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sunday, October 7, 2018 4:42:10 PM CEST Jonathan Corbet wrote:
-> Just FYI, I'll hold this until after the start of the merge window.
+On Tue, Oct 09, 2018 at 12:50:49PM +0100, Will Deacon wrote:
+> On Tue, Oct 09, 2018 at 11:02:01AM +0100, Punit Agrawal wrote:
+> > Randy Dunlap <rdunlap@infradead.org> writes:
+> > 
+> > > On 10/8/18 3:03 AM, Punit Agrawal wrote:
+> > >> Arm v8 architecture supports multiple page sizes - 4k, 16k and
+> > >> 64k. Based on the active page size, the Linux port supports
+> > >> corresponding hugepage sizes at PMD and PUD(4k only) levels.
+> > >> 
+> > >> In addition, the architecture also supports caching larger sized
+> > >> ranges (composed of multiple entries) at the PTE and PMD level in the
+> > >> TLBs using the contiguous bit. The Linux port makes use of this
+> > >> architectural support to enable additional hugepage sizes.
+> > >> 
+> > >> Describe the two different types of hugepages supported by the arm64
+> > >> kernel and the hugepage sizes enabled by each.
+> > >> 
+> > >> Signed-off-by: Punit Agrawal <punit.agrawal@arm.com>
+> > >> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> > >> Cc: Will Deacon <will.deacon@arm.com>
+> > >> Cc: Jonathan Corbet <corbet@lwn.net>
+> > >
+> > > Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> > 
+> > Thanks!
+> > 
+> > Catalin, Will - I assume you'll pick this up at some point? Or do arm64
+> > documentation patches get routed by another tree?
+> 
+> Acked-by: Will Deacon <will.deacon@arm.com>
+> 
+> Catalin can pick this up for 4.20.
 
-Ok
+Done.
 
-> This is starting to be quite a bit of translated material!  Are you sure
-> you're up to maintaining it all as the documents evolve?
-
-Short answer:
-yes
-
-Long answer:
-I cannot guarantee that as soon as there are changes in English we are there 
-to translate them immediately within the same release. We do our best to do 
-it, but I think that a delay has to be taken into account (a change has to be 
-accepted first, and then we can translate. Already in the optimal process 
-there is a delay).
-The intention is to continue our translations with "stable" documents so that 
-maintenance become easier.
-
-As we discussed a bit some time ago, Documentation is not always in sync with 
-the code, and translations may not be in sync with the official Documentation. 
-So, I understand your question (fear) and I answer "yes with a human delay" 
-because we are not a company but just free contributors (which means: we are 
-using our free time).
-
-
-
-
-
-
+-- 
+Catalin
