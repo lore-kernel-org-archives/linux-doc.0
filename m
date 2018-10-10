@@ -2,123 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2B4D57D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Oct 2018 21:20:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 070567D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 03:09:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727006AbeJJEjB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Oct 2018 00:39:01 -0400
-Received: from mga04.intel.com ([192.55.52.120]:54055 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726523AbeJJEjB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Oct 2018 00:39:01 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Oct 2018 14:20:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,361,1534834800"; 
-   d="scan'208";a="81242652"
-Received: from 2b52.sc.intel.com ([143.183.136.51])
-  by orsmga006.jf.intel.com with ESMTP; 09 Oct 2018 14:20:04 -0700
-Message-ID: <38064485f5255aa999700d87debecbd6c7e084ba.camel@intel.com>
-Subject: Re: [RFC PATCH v4 21/27] x86/cet/shstk: ELF header parsing of
- Shadow Stack
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Eugene Syromiatnikov <esyr@redhat.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1726862AbeJJK3O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Oct 2018 06:29:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47362 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726485AbeJJK3N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Oct 2018 06:29:13 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9A34Exi022634
+        for <linux-doc@vger.kernel.org>; Tue, 9 Oct 2018 23:09:12 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2n18ab1wuu-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 09 Oct 2018 23:09:11 -0400
+Received: from localhost
+        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Tue, 9 Oct 2018 23:09:11 -0400
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+        by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 9 Oct 2018 23:09:08 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w9A397wP58916954
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 10 Oct 2018 03:09:07 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1FD7EB2066;
+        Tue,  9 Oct 2018 23:07:10 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EBB93B2064;
+        Tue,  9 Oct 2018 23:07:09 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.167.121])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue,  9 Oct 2018 23:07:09 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 0575A16C4285; Tue,  9 Oct 2018 20:09:07 -0700 (PDT)
+Date:   Tue, 9 Oct 2018 20:09:06 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, tytso@mit.edu,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Tue, 09 Oct 2018 14:15:14 -0700
-In-Reply-To: <20181003232736.GI32759@asgard.redhat.com>
-References: <20180921150351.20898-1-yu-cheng.yu@intel.com>
-         <20180921150351.20898-22-yu-cheng.yu@intel.com>
-         <20181003232736.GI32759@asgard.redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] docs: rcu: Make reader aware of rcu_dereference_protected
+Reply-To: paulmck@linux.ibm.com
+References: <20181009013341.60111-1-joel@joelfernandes.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181009013341.60111-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18101003-0052-0000-0000-000003406320
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009851; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000268; SDB=6.01100424; UDB=6.00569344; IPR=6.00880473;
+ MB=3.00023688; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-10 03:09:11
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18101003-0053-0000-0000-00005E5BAD40
+Message-Id: <20181010030906.GB2674@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-09_14:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1810100029
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-10-04 at 01:27 +0200, Eugene Syromiatnikov wrote:
-> On Fri, Sep 21, 2018 at 08:03:45AM -0700, Yu-cheng Yu wrote:
-
-[...]
-
-> > diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
-> > index 0d157d2a1e2a..5b5f169c5c07 100644
-> > --- a/arch/x86/include/asm/elf.h
-> > +++ b/arch/x86/include/asm/elf.h
-> > @@ -382,4 +382,9 @@ struct va_alignment {
-> >  
-> >  extern struct va_alignment va_align;
-> >  extern unsigned long align_vdso_addr(unsigned long);
-> > +
-> > +#ifdef CONFIG_ARCH_HAS_PROGRAM_PROPERTIES
-> > +extern int arch_setup_features(void *ehdr, void *phdr, struct file *file,
-> > +			       bool interp);
-> > +#endif
-> >  #endif /* _ASM_X86_ELF_H */
-> > diff --git a/arch/x86/include/uapi/asm/elf_property.h
-> > b/arch/x86/include/uapi/asm/elf_property.h
-> > new file mode 100644
-> > index 000000000000..af361207718c
-> > --- /dev/null
-> > +++ b/arch/x86/include/uapi/asm/elf_property.h
-> > @@ -0,0 +1,15 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +#ifndef _UAPI_ASM_X86_ELF_PROPERTY_H
-> > +#define _UAPI_ASM_X86_ELF_PROPERTY_H
-> > +
-> > +/*
-> > + * pr_type
-> > + */
-> > +#define GNU_PROPERTY_X86_FEATURE_1_AND (0xc0000002)
-> > +
-> > +/*
-> > + * Bits for GNU_PROPERTY_X86_FEATURE_1_AND
-> > + */
-> > +#define GNU_PROPERTY_X86_FEATURE_1_SHSTK	(0x00000002)
+On Mon, Oct 08, 2018 at 06:33:41PM -0700, Joel Fernandes (Google) wrote:
+> whatisRCU says rcu_dereference cannot be used outside of rcu read lock
+> protected sections. Its better to mention rcu_dereference_protected when
+> it says that, so that the new reader is aware of this API and is not led
+> to believing that all RCU dereferences in all situations have to be
+> protected by a rcu_read_lock() and rcu_read_unlock().
 > 
-> Hm, these defeinitions aren't much different comparing to NT_*
-> definitions in include/uapi/linux/elf.h, is it expected that those
-> properties have to be parsed individually for each architecture?
+> Cc: tytso@mit.edu
+> Suggested-by: tytso@mit.edu
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Yes, we have NT_GNU_PROPERTY_TYPE_0 defined in include/uapi/linux/elf.h.
-GNU_PROPERTY_X86_FEATURE_1_xxxx is for X86 only.
+Good stuff!  I queued and pushed this with some wordsmithing.  Could
+you please check for my having messed something up?
 
-[...]
+							Thanx, Paul
 
+> ---
+>  Documentation/RCU/whatisRCU.txt | 20 +++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
 > 
-> There's a lot of similar code with bpf stackmap .build-id code (commit
-> v4.17-rc1~148^2~156^2~3^2~1), it might be worthy generalising some ELF
-> traversal routines, since there's general need of parsing ELF property
-> segments.
+> diff --git a/Documentation/RCU/whatisRCU.txt b/Documentation/RCU/whatisRCU.txt
+> index 7c33445fd0e5..da820fc9b307 100644
+> --- a/Documentation/RCU/whatisRCU.txt
+> +++ b/Documentation/RCU/whatisRCU.txt
+> @@ -266,7 +266,7 @@ rcu_dereference()
+>  	unnecessary overhead on Alpha CPUs.
+>  
+>  	Note that the value returned by rcu_dereference() is valid
+> -	only within the enclosing RCU read-side critical section.
+> +	only within the enclosing RCU read-side critical section [1].
+>  	For example, the following is -not- legal:
+>  
+>  		rcu_read_lock();
+> @@ -292,6 +292,24 @@ rcu_dereference()
+>  	typically used indirectly, via the _rcu list-manipulation
+>  	primitives, such as list_for_each_entry_rcu().
+>  
+> +	[1] The variant rcu_dereference_protected() can be used outside
+> +	of an RCU read-side critical section as long as the usage is
+> +	protected by update-side locks. These update-side locks are
+> +	obviously acquired by the update-side code, but may also be used
+> +	to protect other code sequences outside of the reader and the
+> +	updater. If such sequences need to make an rcu_dereference() call,
+> +	they can instead simply call rcu_dereference_protected() without
+> +	needing extra calls to rcu_read_lock() and rcu_read_unlock().
+> +	Another advantage of using rcu_dereference_protected() is it does
+> +	not prevent compiler optimizations unlike rcu_dereference() which
+> +	could result in optimized and the result is assured to be
+> +	functionaly correct due to the update-side locks.
+> +	rcu_dereference_protected() takes a lockdep expression to
+> +	indicate what is providing the protection. If the indicated
+> +	protection is not provided, a lockdep splat is emitted.
+> +	See RCU/Design/Requirements.html and the API's code comments
+> +	for more details and example usage.
+> +
+>  The following diagram shows how each API communicates among the
+>  reader, updater, and reclaimer.
+>  
+> -- 
+> 2.19.0.605.g01d371f741-goog
+> 
 
-Only a small similarity exists.  The routine find_note_type_0() does a lot more
-validation.  It appears stack_map_get_build_id() does not need that.
-
-Yu-cheng
