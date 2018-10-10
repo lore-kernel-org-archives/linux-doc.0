@@ -1,195 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D43827D088
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 13:22:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CD8317D088
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 14:09:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbeJJUox (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Oct 2018 16:44:53 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:33766 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726206AbeJJUow (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Oct 2018 16:44:52 -0400
-Received: by mail-pl1-f194.google.com with SMTP id s4-v6so2555176plp.0;
-        Wed, 10 Oct 2018 06:22:42 -0700 (PDT)
+        id S1726515AbeJJVbv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Oct 2018 17:31:51 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:45728 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726664AbeJJVbr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Oct 2018 17:31:47 -0400
+Received: by mail-io1-f68.google.com with SMTP id e12-v6so3936039iok.12
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 07:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=A8s7R2ZQX/fhFWw5FF5/E3oeI7TsyVWv/5ts7Vva8q0=;
-        b=oaD9zuBwAE0oMQN9AkdV5oFK8QcL+/ojcAq4CyF/RLojpNJsz0cOGLtzlrZA+NZFdo
-         18VTX8njprXH24yFZ5SpaX8vcfXnTdf6fCIgEW+HvS/v1p7fHzKlkIu0GropOT0EMuQy
-         uJZKzMAOH6JyM9TCDPGY0vQZUnrVz5FtZxacRdOAlNLpAD0GeSg/WMncqUWRd/Df0vNA
-         0Uh28tguy+lnDOBeRhk1akWNXqogykwKDB4IZ5hWkNz1xGnMbAqmHiNgF8R6leymEiFI
-         cVf18mhYBT6wf1ii11JeHIP+lxSXVjTjb56wlsKBkXwsrso78yKK3Cj0zh/vf0KVCLxu
-         Qy3g==
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=p+i/SeulGZsLtuJoYdnEg6qKNJlUxdAKHT2EfuI4+A8=;
+        b=GM4yd+1Sp9buX1op2dU+jEsWChCwsYSarX4SxUqJsxyhIZeLoMgUCuQIlmd84f6f3J
+         /b63y92iKPxF23eey37vjYRdm8XgbR6ixWi3Sd7sV1hRebXZrYvytCvL7F0xLpyofOPb
+         Zl7p7GyK48lfw5EoZCb4gzpJNzpL9v/8NHftiSMQaUNeRZlpB1+QlHDBr/scsoC6z+2a
+         hQ/MtcbKWwLwZEgy9vn/BQMjkCkr/4oMdrqEcfZE9Jsfm9qXRlWyf6MIb7yJSddCxIWT
+         pdRSlQN9PeApnGR4yP6rGbAyi9B0S9XBWEpoYPd9IMZJ+pP2NoigF/ys6BkIfdXXgUvd
+         rKrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=A8s7R2ZQX/fhFWw5FF5/E3oeI7TsyVWv/5ts7Vva8q0=;
-        b=tmKxtW2kIi/5FoukljO9UKWhqBYUB609GJHMvLXc+ZSnunlgoDfCZZy88KyIIJ8I6t
-         PUK424Mol63lHHAMLGiKdlRSItqJwW3X0YuzCKriDgY+J8YBqpwWEJNWpAr/S/cgVeIz
-         WBPOLhisZx1COrbrmQmwQQ/Wqja01sfTpobnb34JNJ27Uh5VVMwymNx7zbjGjOLE3Y5E
-         EVW3lrz2pHP/6JNmPMDKU0tO3+Kspo2BzdYW7iCIcG4BMlM6aC0ppAxR+SKg6NyXzVSE
-         vz1sqi4GTz0wyZRnPToDTbqkH/JgLHn5PNK7JnF4xRAThCTbzHHEMOMH1vW3aOx9OhU4
-         Lnkw==
-X-Gm-Message-State: ABuFfohuNSYDAZOABDNqEaiOeXOPB3z6pzr/YQYkAdlgvhnHIn/CJVXi
-        2DtvjcWVLKJ4vSD+kcnxeEX+C94L
-X-Google-Smtp-Source: ACcGV637T/LCja/rPjbCW/O7TAnL+rLdFZ3fd7lpleds7c9E4vti5blCw/D6LE8LQIQNRTESjKWdDQ==
-X-Received: by 2002:a17:902:a618:: with SMTP id u24-v6mr32935701plq.77.1539177761795;
-        Wed, 10 Oct 2018 06:22:41 -0700 (PDT)
-Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id t69-v6sm31881114pgd.43.2018.10.10.06.22.40
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 10 Oct 2018 06:22:41 -0700 (PDT)
-Subject: Re: [PATCH 2/2] hwmon: (ina3221) Add operating mode support
-To:     Nicolin Chen <nicoleotsuka@gmail.com>, jdelvare@suse.com
-Cc:     linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20181010043310.30873-1-nicoleotsuka@gmail.com>
- <20181010043310.30873-3-nicoleotsuka@gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <32c22986-544e-aca1-12bf-9080667cf499@roeck-us.net>
-Date:   Wed, 10 Oct 2018 06:22:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=p+i/SeulGZsLtuJoYdnEg6qKNJlUxdAKHT2EfuI4+A8=;
+        b=RHmPwK+sHZd01t3SHnNz7bFkcVMss8G6JUtAzyPIBZAPZiGAOt0sXrP235p58Uhgo0
+         2yLkfry7HjRBScPxNtvWbEWxVKJ0Xf9iE2OF0SR8XQY6xHNpVMXKjacPPB5nnmLjyZLM
+         N8KA3YK8a0kU14ebeU6/sNNhmgudMqP6eYRT2xe+m5C0NgvwSGeE2qITQ4QruzpmXY5X
+         Hn7akwAT3uknYTyU3d+cxNjX9o68siplhLvIyaPiDLK9h/OyA0Nvp9tLWh+eeJSqYB1e
+         CWkPDIXsfqi76O5Er/DjYYqLWK1tLUfPflG0g9eUkpUUbyRUtlQTKZEKH2E+xSdZZlok
+         5VHw==
+X-Gm-Message-State: ABuFfogKtQmVSHwhJP8oANT6QFalKXlsAIXYkYiJDmX2DZ4zYl7lJNeT
+        7hFonnSBFgUt5CTwNsGFto6xqK/VEPpOqWkEbdLxjg==
+X-Google-Smtp-Source: ACcGV62HccFgm+MI26AbDUUvBOuQCH1Gh+LUQJb9IxBsrhrxbmxRXh5ipQdnilWcHe7g0co5SvexGDnSTzrFy1+Aqvs=
+X-Received: by 2002:a6b:ece:: with SMTP id 197-v6mr21646400ioo.192.1539180566119;
+ Wed, 10 Oct 2018 07:09:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20181010043310.30873-3-nicoleotsuka@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a02:3d47:0:0:0:0:0 with HTTP; Wed, 10 Oct 2018 07:09:25
+ -0700 (PDT)
+In-Reply-To: <20181003173256.GG12998@arrakis.emea.arm.com>
+References: <cover.1538485901.git.andreyknvl@google.com> <47a464307d4df3c0cb65f88d1fe83f9a741dd74b.1538485901.git.andreyknvl@google.com>
+ <20181003173256.GG12998@arrakis.emea.arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 10 Oct 2018 16:09:25 +0200
+Message-ID: <CAAeHK+yPCRNAOSi6OpYC_Tdbo9SoXRVRbx8pjXNq96v8csO-Wg@mail.gmail.com>
+Subject: Re: [PATCH v7 7/8] arm64: update Documentation/arm64/tagged-pointers.txt
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nicolin,
+On Wed, Oct 3, 2018 at 7:32 PM, Catalin Marinas <catalin.marinas@arm.com> wrote:
+> On Tue, Oct 02, 2018 at 03:12:42PM +0200, Andrey Konovalov wrote:
+>> diff --git a/Documentation/arm64/tagged-pointers.txt b/Documentation/arm64/tagged-pointers.txt
+>> index a25a99e82bb1..ae877d185fdb 100644
+>> --- a/Documentation/arm64/tagged-pointers.txt
+>> +++ b/Documentation/arm64/tagged-pointers.txt
+>> @@ -17,13 +17,21 @@ this byte for application use.
+>>  Passing tagged addresses to the kernel
+>>  --------------------------------------
+>>
+>> -All interpretation of userspace memory addresses by the kernel assumes
+>> -an address tag of 0x00.
+>> +Some initial work for supporting non-zero address tags passed to the
+>> +kernel has been done. As of now, the kernel supports tags in:
+>
+> With my maintainer hat on, the above statement leads me to think this
+> new ABI is work in progress, so not yet suitable for upstream.
 
-On 10/09/2018 09:33 PM, Nicolin Chen wrote:
-> The hwmon core now has a new optional mode interface. So this patch
-> just implements this mode support so that user space can check and
-> configure via sysfs node its operating modes: power-down, one-shot,
-> and continuous modes.
-> 
+OK, I think we can just say "The kernel supports tags in:" here. Will do in v8.
 
-One-shot mode on its own does not make sense or add value: It would require
-explicit driver support to trigger a reading, wait for the result, and
-report it back to the user. If the intent here is to have the user write the
-mode (which triggers the one-shot reading), wait a bit, and then read the
-results, that doesn't make sense because standard userspace applications
-won't know that. Also, that would be unsynchronized - one has to read the
-CVRF bit in the mask/enable register to know if the reading is complete.
-The effort to do all this using CPU cycles would in most if not all cases
-outweigh any perceived power savings. As such, I just don't see the
-practical use case.
+>
+> Also, how is user space supposed to know that it can now pass tagged
+> pointers into the kernel? An ABI change (or relaxation), needs to be
+> advertised by the kernel, usually via a new HWCAP bit (e.g. HWCAP_TBI).
+> Once we have a HWCAP bit in place, we need to be pretty clear about
+> which syscalls can and cannot cope with tagged pointers. The "as of now"
+> implies potential further relaxation which, again, would need to be
+> advertised to user in some (additional) way.
 
-power-down mode effectively reinvents runtime power management (runtime
-suspend/resume support) and is thus simply unacceptable.
+How exactly should I do that? Something like this [1]? Or is it only
+for hardware specific things and for this patchset I need to do
+something else?
 
-I am open to help explore adding support for runtime power management
-to the hwmon subsystem, but that would be less than straightforward and
-require an actual use case to warrant the effort.
+[1] https://github.com/torvalds/linux/commit/7206dc93a58fb76421c4411eefa3c003337bcb2d
 
-As such, NACK, sorry.
+>
+>> -This includes, but is not limited to, addresses found in:
+>> +  - user fault addresses
+>
+> While the kernel currently supports this in some way (by clearing the
+> tag exception entry, el0_da), the above implies (at least to me) that
+> sigcontext.fault_address would contain the tagged address. That's not
+> the case (unless I missed it in your patches).
 
-Thanks,
-Guenter
+I'll update the doc to reflect this in v8.
 
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> ---
->   drivers/hwmon/ina3221.c | 64 +++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 64 insertions(+)
-> 
-> diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
-> index d61688f04594..5218fd85506d 100644
-> --- a/drivers/hwmon/ina3221.c
-> +++ b/drivers/hwmon/ina3221.c
-> @@ -77,6 +77,28 @@ enum ina3221_channels {
->   	INA3221_NUM_CHANNELS
->   };
->   
-> +enum ina3221_modes {
-> +	INA3221_MODE_POWERDOWN,
-> +	INA3221_MODE_ONESHOT,
-> +	INA3221_MODE_CONTINUOUS,
-> +	INA3221_NUM_MODES,
-> +};
-> +
-> +static const char *ina3221_mode_names[INA3221_NUM_MODES] = {
-> +	[INA3221_MODE_POWERDOWN] = "power-down",
-> +	[INA3221_MODE_ONESHOT] = "one-shot",
-> +	[INA3221_MODE_CONTINUOUS] = "continuous",
-> +};
-> +
-> +static const u16 ina3221_mode_val[] = {
-> +	[INA3221_MODE_POWERDOWN] = INA3221_CONFIG_MODE_POWERDOWN,
-> +	[INA3221_MODE_ONESHOT] = INA3221_CONFIG_MODE_SHUNT |
-> +				     INA3221_CONFIG_MODE_BUS,
-> +	[INA3221_MODE_CONTINUOUS] = INA3221_CONFIG_MODE_CONTINUOUS |
-> +				    INA3221_CONFIG_MODE_SHUNT |
-> +				    INA3221_CONFIG_MODE_BUS,
-> +};
-> +
->   /**
->    * struct ina3221_input - channel input source specific information
->    * @label: label of channel input source
-> @@ -386,9 +408,51 @@ static const struct hwmon_ops ina3221_hwmon_ops = {
->   	.write = ina3221_write,
->   };
->   
-> +static int ina3221_mode_get_index(struct device *dev, unsigned int *index)
-> +{
-> +	struct ina3221_data *ina = dev_get_drvdata(dev);
-> +	u16 mode = ina->reg_config & INA3221_CONFIG_MODE_MASK;
-> +
-> +	if (mode == INA3221_CONFIG_MODE_POWERDOWN)
-> +		*index = INA3221_MODE_POWERDOWN;
-> +	if (mode & INA3221_CONFIG_MODE_CONTINUOUS)
-> +		*index = INA3221_MODE_CONTINUOUS;
-> +	else
-> +		*index = INA3221_MODE_ONESHOT;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ina3221_mode_set_index(struct device *dev, unsigned int index)
-> +{
-> +	struct ina3221_data *ina = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = regmap_update_bits(ina->regmap, INA3221_CONFIG,
-> +				 INA3221_CONFIG_MODE_MASK,
-> +				 ina3221_mode_val[index]);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Cache the latest config register value */
-> +	ret = regmap_read(ina->regmap, INA3221_CONFIG, &ina->reg_config);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct hwmon_mode ina3221_hwmon_mode = {
-> +	.names = ina3221_mode_names,
-> +	.list_size = INA3221_NUM_MODES,
-> +	.get_index = ina3221_mode_get_index,
-> +	.set_index = ina3221_mode_set_index,
-> +};
-> +
->   static const struct hwmon_chip_info ina3221_chip_info = {
->   	.ops = &ina3221_hwmon_ops,
->   	.info = ina3221_info,
-> +	.mode = &ina3221_hwmon_mode,
->   };
->   
->   /* Extra attribute groups */
-> 
+>
+>> - - pointer arguments to system calls, including pointers in structures
+>> -   passed to system calls,
+>> +  - pointer arguments (including pointers in structures), which don't
+>> +    describe virtual memory ranges, passed to system calls
+>
+> I think we need to be more precise here...
 
+In what way?
+
+>
+>> +All other interpretations of userspace memory addresses by the kernel
+>> +assume an address tag of 0x00. This includes, but is not limited to,
+>> +addresses found in:
+>> +
+>> + - pointer arguments (including pointers in structures), which describe
+>> +   virtual memory ranges, passed to memory system calls (mmap, mprotect,
+>> +   etc.)
+>
+> ...and probably a full list here.
+
+Will add a full list in v8.
