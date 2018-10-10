@@ -2,62 +2,185 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5F7A97D099
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 15:58:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B57E7D08F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 16:01:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbeJJXVH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Oct 2018 19:21:07 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:50722 "EHLO ale.deltatee.com"
+        id S1726830AbeJJXYC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Oct 2018 19:24:02 -0400
+Received: from mga11.intel.com ([192.55.52.93]:36076 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726479AbeJJXVG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Oct 2018 19:21:06 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1gAGsJ-0000cA-MT; Wed, 10 Oct 2018 09:58:16 -0600
-To:     Wesley Sheng <wesley.sheng@microchip.com>, bhelgaas@google.com,
-        corbet@lwn.net, kurt.schwemmer@microsemi.com
-Cc:     linux-ntb@googlegroups.com, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Wesley Yung <wesley.yung@microchip.com>,
-        Kelvin Cao <kelvin.cao@microchip.com>
-References: <1539182575-26851-1-git-send-email-wesley.sheng@microchip.com>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <7da3c288-0174-b8c7-21a7-2ff3fb3f504b@deltatee.com>
-Date:   Wed, 10 Oct 2018 09:58:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
-MIME-Version: 1.0
-In-Reply-To: <1539182575-26851-1-git-send-email-wesley.sheng@microchip.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: kelvin.cao@microchip.com, wesley.yung@microchip.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-ntb@googlegroups.com, kurt.schwemmer@microsemi.com, corbet@lwn.net, bhelgaas@google.com, wesley.sheng@microchip.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v3] NTB: switchtec_ntb: Update switchtec documentation
- with pre-requisites for NTB
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+        id S1726479AbeJJXYC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Oct 2018 19:24:02 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Oct 2018 09:01:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,364,1534834800"; 
+   d="scan'208";a="240200199"
+Received: from 2b52.sc.intel.com ([143.183.136.51])
+  by orsmga004.jf.intel.com with ESMTP; 10 Oct 2018 09:00:55 -0700
+Message-ID: <f6dcfb3c548f49cd096088e4366e44f57ec5964e.camel@intel.com>
+Subject: Re: [RFC PATCH v4 3/9] x86/cet/ibt: Add IBT legacy code bitmap
+ allocation function
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>,
+        Andy Lutomirski <luto@amacapital.net>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
+Date:   Wed, 10 Oct 2018 08:56:03 -0700
+In-Reply-To: <20181005172622.GD19360@asgard.redhat.com>
+References: <20180921150553.21016-1-yu-cheng.yu@intel.com>
+         <20180921150553.21016-4-yu-cheng.yu@intel.com>
+         <20181003195702.GF32759@asgard.redhat.com>
+         <fc2f98ab46240c0498bdf4d7458b4373c1f02bf8.camel@intel.com>
+         <5BF3AE8F-CC2A-4160-9FF6-FEA171A76371@amacapital.net>
+         <aa5a061c159471f410d677af6a609793906cece1.camel@intel.com>
+         <CALCETrXVdYsJsVy=QWruDYdRc6wb44b=0J3OK3zjR_fT1fQH7w@mail.gmail.com>
+         <20181005172622.GD19360@asgard.redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2018-10-10 8:42 a.m., Wesley Sheng wrote:
-> From: Wesley Yung <wesley.yung@microchip.com>
+On Fri, 2018-10-05 at 10:26 -0700, Eugene Syromiatnikov wrote:
+> On Fri, Oct 05, 2018 at 10:07:46AM -0700, Andy Lutomirski wrote:
+> > On Fri, Oct 5, 2018 at 10:03 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > > 
+> > > On Fri, 2018-10-05 at 09:28 -0700, Andy Lutomirski wrote:
+> > > > > On Oct 5, 2018, at 9:13 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > > > > 
+> > > > > > On Wed, 2018-10-03 at 21:57 +0200, Eugene Syromiatnikov wrote:
+> > > > > > > On Fri, Sep 21, 2018 at 08:05:47AM -0700, Yu-cheng Yu wrote:
+> > > > > > > Indirect branch tracking provides an optional legacy code bitmap
+> > > > > > > that indicates locations of non-IBT compatible code.  When set,
+> > > > > > > each bit in the bitmap represents a page in the linear address is
+> > > > > > > legacy code.
+> > > > > > > 
+> > > > > > > We allocate the bitmap only when the application requests it.
+> > > > > > > Most applications do not need the bitmap.
+> > > > > > > 
+> > > > > > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > > > > > ---
+> > > > > > > arch/x86/kernel/cet.c | 45
+> > > > > > > +++++++++++++++++++++++++++++++++++++++++++
+> > > > > > > 1 file changed, 45 insertions(+)
+> > > > > > > 
+> > > > > > > diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> > > > > > > index 6adfe795d692..a65d9745af08 100644
+> > > > > > > --- a/arch/x86/kernel/cet.c
+> > > > > > > +++ b/arch/x86/kernel/cet.c
+> > > > > > > @@ -314,3 +314,48 @@ void cet_disable_ibt(void)
+> > > > > > >    wrmsrl(MSR_IA32_U_CET, r);
+> > > > > > >    current->thread.cet.ibt_enabled = 0;
+> > > > > > > }
+> > > > > > > +
+> > > > > > > +int cet_setup_ibt_bitmap(void)
+> > > > > > > +{
+> > > > > > > +    u64 r;
+> > > > > > > +    unsigned long bitmap;
+> > > > > > > +    unsigned long size;
+> > > > > > > +
+> > > > > > > +    if (!cpu_feature_enabled(X86_FEATURE_IBT))
+> > > > > > > +        return -EOPNOTSUPP;
+> > > > > > > +
+> > > > > > > +    if (!current->thread.cet.ibt_bitmap_addr) {
+> > > > > > > +        /*
+> > > > > > > +         * Calculate size and put in thread header.
+> > > > > > > +         * may_expand_vm() needs this information.
+> > > > > > > +         */
+> > > > > > > +        size = TASK_SIZE / PAGE_SIZE / BITS_PER_BYTE;
+> > > > > > 
+> > > > > > TASK_SIZE_MAX is likely needed here, as an application can easily
+> > > > > > switch
+> > > > > > between long an 32-bit protected mode.  And then the case of a CPU
+> > > > > > that
+> > > > > > doesn't support 5LPT.
+> > > > > 
+> > > > > If we had calculated bitmap size from TASK_SIZE_MAX, all 32-bit apps
+> > > > > would
+> > > > > have
+> > > > > failed the allocation for bitmap size > TASK_SIZE.  Please see values
+> > > > > below,
+> > > > > which is printed from the current code.
+> > > > > 
+> > > > > Yu-cheng
+> > > > > 
+> > > > > 
+> > > > > x64:
+> > > > > TASK_SIZE_MAX    = 0000 7fff ffff f000
+> > > > > TASK_SIZE    = 0000 7fff ffff f000
+> > > > > bitmap size    = 0000 0000 ffff ffff
+> > > > > 
+> > > > > x32:
+> > > > > TASK_SIZE_MAX    = 0000 7fff ffff f000
+> > > > > TASK_SIZE    = 0000 0000 ffff e000
+> > > > > bitmap size    = 0000 0000 0001 ffff
+> > > > > 
+> > > > 
+> > > > I haven’t followed all the details here, but I have a general policy of
+> > > > objecting to any new use of TASK_SIZE. If you really really need to
+> > > > depend on
+> > > > 32-bitness in new code, please figure out what exactly you mean by “32-
+> > > > bit”
+> > > > and use an explicit check.
+> > > 
+> > > The explicit check would be:
+> > > 
+> > > test_thread_flag(TIF_ADDR32) ? IA32_PAGE_OFFSET : TASK_SIZE_MAX
+> > > 
+> > > which is the same as TASK_SIZE.
+> > 
+> > But this is only ever done in response to a syscall, right?  So
+> > wouldn't in_compat_syscall() be the right check?
+> > 
+> > Also, this whole thing makes me extremely nervous.  The MSR only
+> > contains the start address, not the size, right?  So what prevents
+> > some goof from causing the CPU to read way past the end of the bitmap
+> > if the bitmap is short because the kernel thought it was supposed to
+> > be 32-bit?
 > 
-> The ntb_hw_switchtec driver has requirements on kernel configuration
-> so we add these notes to the documentation and also clean up a few 
-> other sentences in the documentation.
+> That's what I've mentioned initially: every syscall made with int 0x80
+> is interpreted as compat, even if it was made from long mode.
 > 
-> Signed-off-by: Wesley Yung <wesley.yung@microchip.com>
-> Signed-off-by: Kelvin Cao <kelvin.cao@microchip.com>
-> Signed-off-by: Wesley Sheng <wesley.sheng@microchip.com>
+> > I'm inclined to suggest something awful-ish: always allocate the
+> > bitmap as though it's for a 64-bit process, and just let it be at a
+> > high address.  And add a syscall or arch_prctl() to manipulate it for
+> > the benefit of 32-bit programs that can't address it directly.
+> 
+> That's likely the only way to go.
 
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+This bitmap is needed only when the app does dlopen() a non-IBT .so file.  Most
+applications do not need it.  Can't we let dlopen mmap() the bitmap when needed
+and pass it to the kernel?
+
+Yu-cheng
+
