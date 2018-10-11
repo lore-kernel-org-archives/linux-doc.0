@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7AF677D8D7
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:19:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C8EAB7D8D7
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:20:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726079AbeJKHoR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 03:44:17 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:33969 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727271AbeJKHnm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:43:42 -0400
-Received: by mail-pg1-f195.google.com with SMTP id g12-v6so3282461pgs.1
-        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:19:08 -0700 (PDT)
+        id S1727164AbeJKHnj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 03:43:39 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43294 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727148AbeJKHni (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:43:38 -0400
+Received: by mail-pf1-f193.google.com with SMTP id p24-v6so3433215pff.10
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=GuIJ8XJ4isc39j9FCpw3e0aw5+nW65wvPHXUlrmcc7Y=;
-        b=mhtBdzE+++HD8ZlJoh9Sh0lv152Wzv0XGlfdoeoVj/D32O41aK7MS3Rnda2A+qODA4
-         Qrtnl5zHcJjkVY0W3YVUHVY6xRjOu9KcQX0A9xYhnJ/gGZTbh0I5BYOJHFqBeSSiV/fs
-         A2G5p2YQxlN9jUuRqSEWvuI/VAQoq+e1ylRS8=
+        bh=O55DFeS8ueFeZRsonWfjwV1xQL3qE86rj2SxIpnAmMg=;
+        b=SnJL19inC1A4uT1F9hK0NVjaJHzq4ikuhyvQZjAdgvEZYbYPVBYF99u+kezQV7YvtS
+         TRWhdqZoJNOwf1Xr5Vmkq1dYyTLwe1OnOzAs9UWA2CZooDhUDac9UEaTwJDdOEdoe9rZ
+         r7bJlN7WfZYwNT3zKh6fTEO4BS3805PxuY51M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=GuIJ8XJ4isc39j9FCpw3e0aw5+nW65wvPHXUlrmcc7Y=;
-        b=g0cRzD0aV/V1xM1HpPG7bsjKPbpMPyVh2jLK3myaryDrjjN4BkR2+8jgizyA+c0g8P
-         9Z/2RQ4NyK8aNIw0Wi++bhatlW5otFsaIxd64cP7VykgqSJAtSgSk98wpEcdr9Fw4+bh
-         fyCmCyydBtOnuDf8zWc5shDUgLsR4MR9JpBVv6LDDFwhocKnKPTnO3hkwrTJV72EEb8J
-         Xl72NHbVw1k16XSnMyoC/QEcyiWEEVRPiNXpRfI7l6oB0QsuQt9vQuQaRnHyrq2ek8Jd
-         efBv1mDsRoVUKiGvoYN+byRgOb5dY9Jw1V95xYMhFuP7FbjOeBI4k2sdahgEaJ9gmZbm
-         55gA==
-X-Gm-Message-State: ABuFfoimjRGe4G2Ohr63QBNp4I8PO7gNaTly3tbKb+7n+kXQ2itrb9gt
-        itnP6DBBjlyOx2mugrd9DdSNKw==
-X-Google-Smtp-Source: ACcGV627jaDsqj2WS45TJpj57mDCEEoEjxz2qpKKlMB5C0fElqT6SNaIE4E9x/uZC/smsv9yjDYbMw==
-X-Received: by 2002:a62:c80d:: with SMTP id z13-v6mr36366057pff.176.1539217147856;
-        Wed, 10 Oct 2018 17:19:07 -0700 (PDT)
+        bh=O55DFeS8ueFeZRsonWfjwV1xQL3qE86rj2SxIpnAmMg=;
+        b=TLkfqn/T9/PlXPkGEI1JuwenGssu5WAAeRajm9jX1BANIkmNqMCf7NfY3MRK0IJAPs
+         bNgr6Rp5C+cIpNAr9tge1tN4z1BpRKJO9Tr1ZOqhcViKGkWnNi032ENGHJ5DTeiIkdOR
+         w28TvO7dzX7dmt/Ug7g3liPQzkezeJtFgjWF5x0tZj0J/j5MVXQlmtlMyagHUMYFj3gM
+         IokBGOr/3wzeCyWvtAIGfMzABbw8YXUbqscayoxAhGdBBpQmK/1hP/Q3WSRPrmNmAUHn
+         QnbtfIyfxkwyhdEiMxwTBUxoLdiuS1zSDPXBHvAgSD/Ow2fZgRi6d+f19lC3H6I24UL/
+         Qj5w==
+X-Gm-Message-State: ABuFfogqCmEpq0XMBAAUhbUv+rHsXswlmYcX05yiL3XWZJU6b5TJTs0t
+        6VFREZzB8kapogk2UJHYtL4VMQ==
+X-Google-Smtp-Source: ACcGV62ySqYROrB5LLeSkAniSEvUin/jAQUthu9Z2hI8/66fd8ozoSTiVrhYKRl/r8/5x5QALVqtXg==
+X-Received: by 2002:a63:fd09:: with SMTP id d9-v6mr32277270pgh.164.1539217144391;
+        Wed, 10 Oct 2018 17:19:04 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id y185-v6sm26488288pgd.8.2018.10.10.17.18.58
+        by smtp.gmail.com with ESMTPSA id b3-v6sm40544422pfc.178.2018.10.10.17.18.56
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 10 Oct 2018 17:19:06 -0700 (PDT)
+        Wed, 10 Oct 2018 17:18:58 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     James Morris <jmorris@namei.org>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -57,9 +57,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v5 14/30] LSM: Plumb visibility into optional "enabled" state
-Date:   Wed, 10 Oct 2018 17:18:30 -0700
-Message-Id: <20181011001846.30964-15-keescook@chromium.org>
+Subject: [PATCH security-next v5 09/30] LSM: Provide init debugging infrastructure
+Date:   Wed, 10 Oct 2018 17:18:25 -0700
+Message-Id: <20181011001846.30964-10-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011001846.30964-1-keescook@chromium.org>
 References: <20181011001846.30964-1-keescook@chromium.org>
@@ -68,67 +68,79 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In preparation for lifting the "is this LSM enabled?" logic out of the
-individual LSMs, pass in any special enabled state tracking (as needed
-for SELinux, AppArmor, and LoadPin). This should be an "int" to include
-handling any future cases where "enabled" is exposed via sysctl which
-has no "bool" type.
+Booting with "lsm.debug" will report future details on how LSM ordering
+decisions are being made.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
 Reviewed-by: John Johansen <john.johansen@canonical.com>
+Reviewed-by: James Morris <james.morris@microsoft.com>
 ---
- include/linux/lsm_hooks.h | 1 +
- security/apparmor/lsm.c   | 5 +++--
- security/selinux/hooks.c  | 1 +
- 3 files changed, 5 insertions(+), 2 deletions(-)
+ .../admin-guide/kernel-parameters.txt          |  2 ++
+ security/security.c                            | 18 ++++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 531e219a49b9..6ec5a0266f21 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -2044,6 +2044,7 @@ extern void security_add_hooks(struct security_hook_list *hooks, int count,
- struct lsm_info {
- 	const char *name;	/* Required. */
- 	unsigned long flags;	/* Optional: flags describing LSM */
-+	int *enabled;		/* Optional: NULL means enabled. */
- 	int (*init)(void);	/* Required. */
- };
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 9871e649ffef..32d323ee9218 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2274,6 +2274,8 @@
+ 	ltpc=		[NET]
+ 			Format: <io>,<irq>,<dma>
  
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 768cb539fb6c..6ace45704cb6 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1303,8 +1303,8 @@ bool aa_g_paranoid_load = true;
- module_param_named(paranoid_load, aa_g_paranoid_load, aabool, S_IRUGO);
++	lsm.debug	[SECURITY] Enable LSM initialization debugging output.
++
+ 	machvec=	[IA-64] Force the use of a particular machine-vector
+ 			(machvec) in a generic kernel.
+ 			Example: machvec=hpzx1_swiotlb
+diff --git a/security/security.c b/security/security.c
+index e74f46fba591..395f804f6a91 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -12,6 +12,8 @@
+  *	(at your option) any later version.
+  */
  
- /* Boot time disable flag */
--static bool apparmor_enabled = CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE;
--module_param_named(enabled, apparmor_enabled, bool, S_IRUGO);
-+static int apparmor_enabled = CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE;
-+module_param_named(enabled, apparmor_enabled, int, 0444);
++#define pr_fmt(fmt) "LSM: " fmt
++
+ #include <linux/bpf.h>
+ #include <linux/capability.h>
+ #include <linux/dcache.h>
+@@ -43,11 +45,19 @@ char *lsm_names;
+ static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
+ 	CONFIG_DEFAULT_SECURITY;
  
- static int __init apparmor_enabled_setup(char *str)
++static __initdata bool debug;
++#define init_debug(...)						\
++	do {							\
++		if (debug)					\
++			pr_info(__VA_ARGS__);			\
++	} while (0)
++
+ static void __init major_lsm_init(void)
  {
-@@ -1609,5 +1609,6 @@ static int __init apparmor_init(void)
- DEFINE_LSM(apparmor) = {
- 	.name = "apparmor",
- 	.flags = LSM_FLAG_LEGACY_MAJOR,
-+	.enabled = &apparmor_enabled,
- 	.init = apparmor_init,
- };
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 020886895819..e8da99550b67 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -7205,6 +7205,7 @@ void selinux_complete_init(void)
- DEFINE_LSM(selinux) = {
- 	.name = "selinux",
- 	.flags = LSM_FLAG_LEGACY_MAJOR,
-+	.enabled = &selinux_enabled,
- 	.init = selinux_init,
- };
+ 	struct lsm_info *lsm;
  
+ 	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
++		init_debug("initializing %s\n", lsm->name);
+ 		lsm->init();
+ 	}
+ }
+@@ -91,6 +101,14 @@ static int __init choose_lsm(char *str)
+ }
+ __setup("security=", choose_lsm);
+ 
++/* Enable LSM order debugging. */
++static int __init enable_debug(char *str)
++{
++	debug = true;
++	return 1;
++}
++__setup("lsm.debug", enable_debug);
++
+ static bool match_last_lsm(const char *list, const char *lsm)
+ {
+ 	const char *last;
 -- 
 2.17.1
 
