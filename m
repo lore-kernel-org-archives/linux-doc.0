@@ -1,151 +1,148 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 524A67D087
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Oct 2018 23:43:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5AD3B7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:18:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725988AbeJKHHb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 03:07:31 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:35073 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725968AbeJKHHb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:07:31 -0400
-Received: by mail-pg1-f193.google.com with SMTP id v133-v6so3245180pgb.2;
-        Wed, 10 Oct 2018 16:43:02 -0700 (PDT)
+        id S1726146AbeJKHn2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 03:43:28 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:41804 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726079AbeJKHn2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:43:28 -0400
+Received: by mail-pf1-f195.google.com with SMTP id m77-v6so3436504pfi.8
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:18:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=y/ospkn93L347mrsbpw1MzaF6RU4CH2cmJUqRSLorso=;
-        b=BoyfiSivkEQsLpVnhiX7unS3tAiOSniW8BkRlKw31dDpSsohSeTB1UYWAAIy+taciE
-         uZpl8pcowRyXuyv/NC87FmtMMTP6j5CjZQk3qjdyTPsN1Vbr2nF/HiGNffe9rsHdT9GO
-         jk8JnuLVUIsZ75t6++JBCmOJjgZ1alvcITtJgLYt7WMJYE7DEdxHjFuQBmAaA2urFJuU
-         deIH8u18mhSoklmHzYHYLMr0UBJHzK55tkCMEB5YVzhFP9NSGPjpYADGBJ6ezDxSYFMV
-         wWlHL8oCL7NmsMXSZr9ML6t60SRezCcR4XxCMrfFmYs1M4wA9lMgNSOkoWxXkwcHuEiv
-         X1pw==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=BNwJMOTTBg+xIR0Zs6W8eU/Z+0Zh4DQ+gRWYfOJdHJk=;
+        b=eswuuMyUcqsBjLTBfAB22g9uhe1PlJ8+V/+KeDKDtQQX4iBQuW1eOEKeqzSReQQSaM
+         EndljOTeVmhtFg8Y6C9BnvuOOSU0eHaz+xjkWESbjrCvyGdGTOzW2lnF6H0X1jQCdmwq
+         ItsjiPNv7g08aVWXJvoW3MYJA84QSOLjysRrg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=y/ospkn93L347mrsbpw1MzaF6RU4CH2cmJUqRSLorso=;
-        b=i4gmT7e+B+2uI+IM7iRtfEJYbHYHP0sTucJFdlF5qmw33RqArCKL4w8I57+iMT1KpS
-         pzdNH66Gy/AqJcqOTJp3L/uy5tjAGQijacvUNkgln/IumY7DvzI258PbElDSy7wRuGjz
-         mOiSImLR8ReA63SbQ0heZBffD3lIrgueekpTXt8OKB1CFXRe856mo9c4FDo3IxzbcwiW
-         dp2MDjnJxJKBEoV+HZG6mPWqmqLHpPsTf+2vGhxDm37+nYN37m5nNDZQuymjJYSGtBgT
-         dConQakvPGv8myyT536XtEF8nPiqGUTSYfxqXV/FCYv/XaZ5x6sPim6yx7R0YRa/ZvuK
-         7xWA==
-X-Gm-Message-State: ABuFfoh7ol4xAobU6dUA5gd8CErT8XMwS9XF9V0Ii5oMJ/FX0LYgvL5G
-        NXiWe3wElY7Ra0YLfgPG1X0=
-X-Google-Smtp-Source: ACcGV61bw5NF3Z9O3/PWPbvbNuhIo1BBY8ckjrs2S6pFaCI1bs/QLWzuy1KhgHFZ0hrozNJ/DHSZ9A==
-X-Received: by 2002:a62:9b9a:: with SMTP id e26-v6mr37959261pfk.181.1539214982499;
-        Wed, 10 Oct 2018 16:43:02 -0700 (PDT)
-Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id m15-v6sm35035753pgt.28.2018.10.10.16.43.00
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 10 Oct 2018 16:43:01 -0700 (PDT)
-Date:   Wed, 10 Oct 2018 16:43:00 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (ina3221) Add operating mode support
-Message-ID: <20181010234300.GA25480@roeck-us.net>
-References: <20181010043310.30873-1-nicoleotsuka@gmail.com>
- <20181010043310.30873-3-nicoleotsuka@gmail.com>
- <32c22986-544e-aca1-12bf-9080667cf499@roeck-us.net>
- <20181010230906.GB1706@Asurada-Nvidia.nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181010230906.GB1706@Asurada-Nvidia.nvidia.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=BNwJMOTTBg+xIR0Zs6W8eU/Z+0Zh4DQ+gRWYfOJdHJk=;
+        b=fhIq0LA/tpNtJapeK/sNySEMsejv9yEME56YhA7GGAhTXDB+H0XCDxlDNeOgKdclAv
+         BMdSY0YVEiKQdmHajFC6Ac47SiaVxCxhl2F3S9RjaWNs+JMLQgLpBOux5EVdHnIEIcEZ
+         /Tftv1sJHeCnigYi0VLa4p96/ACUTXRrMUbc3rYlg6lxm+H/7ysMIuosyvKaeX8kWT8T
+         aO9n9XeQVZjYZg2WkVp4MhduweqxQZzhuvt9B+bcn0nKWylqQmlFGw/X2Q5n03sqV9Xi
+         +R7Bd+0B/sYuxPTPqWedhQbm8UP297Pv0Rl3m15ckK0oeVf8rdtAPr4kGnQRtME4l13Q
+         regQ==
+X-Gm-Message-State: ABuFfogKrAtlHQxyrU89Z2kdRbmdfoeDEobWZztS6amsdv8Sw0VoN6qd
+        DmWVEKCjie0tN2OZKuxxNz2neg==
+X-Google-Smtp-Source: ACcGV60R0wKzvkdI8mQ1Qw4xoZj8qzhNGByRSzvOxOWIR3tU81mhVfzxBcRPL9cm6vs7aeQ+Ww2Lgw==
+X-Received: by 2002:a63:d502:: with SMTP id c2-v6mr31625882pgg.324.1539217133914;
+        Wed, 10 Oct 2018 17:18:53 -0700 (PDT)
+Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
+        by smtp.gmail.com with ESMTPSA id 189-v6sm40061286pfe.121.2018.10.10.17.18.52
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 10 Oct 2018 17:18:52 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     James Morris <jmorris@namei.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH security-next v5 03/30] LSM: Rename .security_initcall section to .lsm_info
+Date:   Wed, 10 Oct 2018 17:18:19 -0700
+Message-Id: <20181011001846.30964-4-keescook@chromium.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20181011001846.30964-1-keescook@chromium.org>
+References: <20181011001846.30964-1-keescook@chromium.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nicolin,
+In preparation for switching from initcall to just a regular set of
+pointers in a section, rename the internal section name.
 
-On Wed, Oct 10, 2018 at 04:09:07PM -0700, Nicolin Chen wrote:
-> Hello Guenter,
-> 
-> On Wed, Oct 10, 2018 at 06:22:39AM -0700, Guenter Roeck wrote:
-> 
-> > > The hwmon core now has a new optional mode interface. So this patch
-> > > just implements this mode support so that user space can check and
-> > > configure via sysfs node its operating modes: power-down, one-shot,
-> > > and continuous modes.
-> 
-> > One-shot mode on its own does not make sense or add value: It would require
-> > explicit driver support to trigger a reading, wait for the result, and
-> > report it back to the user. If the intent here is to have the user write the
-> > mode (which triggers the one-shot reading), wait a bit, and then read the
-> > results, that doesn't make sense because standard userspace applications
-> > won't know that. Also, that would be unsynchronized - one has to read the
-> > CVRF bit in the mask/enable register to know if the reading is complete.
-> 
-> I think I oversimplified the one-shot mode here and you are right:
-> there should be a one-shot reading routine; the conversion time in
-> the configuration register also needs to be taken care of.
-> 
-> > The effort to do all this using CPU cycles would in most if not all cases
-> > outweigh any perceived power savings. As such, I just don't see the
-> > practical use case.
-> 
-> It really depends on the use case and how often the one-shot gets
-> triggered. For battery-powered devices, running in the continuous
-> mode does consume considerable power based on the measurement from
-> our power folks. If a system is running in a power sensitive mode,
-> while it still needs to occasionally check the inputs, it could be
-> a use case for one-shot mode, though it's purely a user decision.
-> 
-That would actually be a use case for runtime power management.
-The power used by a modern sensor chip is miniscule compared
-to the power consumed by other components in the system,
-which may explain why no one bothered looking into runtime
-power management for sensors.
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
+Reviewed-by: James Morris <james.morris@microsoft.com>
+Reviewed-by: John Johansen <john.johansen@canonical.com>
+---
+ include/asm-generic/vmlinux.lds.h | 10 +++++-----
+ include/linux/init.h              |  4 ++--
+ security/security.c               |  4 ++--
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-This is also an argument against any device or subsystem specific solution:
-Users will want to be able to control power consumption for all devices
-in the system, not just for sensors. A device specific power control
-mechanism would, from user space perspective, be a nightmare.
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index 934a45395547..5079a969e612 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -787,14 +787,14 @@
+ 		__con_initcall_end = .;
+ 
+ #define SECURITY_INITCALL						\
+-		__security_initcall_start = .;				\
+-		KEEP(*(.security_initcall.init))			\
+-		__security_initcall_end = .;
++		__start_lsm_info = .;					\
++		KEEP(*(.lsm_info.init))					\
++		__end_lsm_info = .;
+ 
+ /* Older linker script style for security init. */
+ #define SECURITY_INIT							\
+-	.security_initcall.init : AT(ADDR(.security_initcall.init) - LOAD_OFFSET) { \
+-		SECURITY_INITCALL					\
++	.lsm_info.init : AT(ADDR(.lsm_info.init) - LOAD_OFFSET) {	\
++		LSM_INFO						\
+ 	}
+ 
+ #ifdef CONFIG_BLK_DEV_INITRD
+diff --git a/include/linux/init.h b/include/linux/init.h
+index 2538d176dd1f..77636539e77c 100644
+--- a/include/linux/init.h
++++ b/include/linux/init.h
+@@ -133,7 +133,7 @@ static inline initcall_t initcall_from_entry(initcall_entry_t *entry)
+ #endif
+ 
+ extern initcall_entry_t __con_initcall_start[], __con_initcall_end[];
+-extern initcall_entry_t __security_initcall_start[], __security_initcall_end[];
++extern initcall_entry_t __start_lsm_info[], __end_lsm_info[];
+ 
+ /* Used for contructor calls. */
+ typedef void (*ctor_fn_t)(void);
+@@ -236,7 +236,7 @@ extern bool initcall_debug;
+ 	static exitcall_t __exitcall_##fn __exit_call = fn
+ 
+ #define console_initcall(fn)	___define_initcall(fn,, .con_initcall)
+-#define security_initcall(fn)	___define_initcall(fn,, .security_initcall)
++#define security_initcall(fn)	___define_initcall(fn,, .lsm_info)
+ 
+ struct obs_kernel_param {
+ 	const char *str;
+diff --git a/security/security.c b/security/security.c
+index 4cbcf244a965..892fe6b691cf 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -51,9 +51,9 @@ static void __init do_security_initcalls(void)
+ 	initcall_t call;
+ 	initcall_entry_t *ce;
+ 
+-	ce = __security_initcall_start;
++	ce = __start_lsm_info;
+ 	trace_initcall_level("security");
+-	while (ce < __security_initcall_end) {
++	while (ce < __end_lsm_info) {
+ 		call = initcall_from_entry(ce);
+ 		trace_initcall_start(call);
+ 		ret = call();
+-- 
+2.17.1
 
-> > power-down mode effectively reinvents runtime power management (runtime
-> > suspend/resume support) and is thus simply unacceptable.
-> 
-> Similar to one-shot, if a system is in a low power mode where it
-> doesn't want to check the inputs anymore, I feel the user space
-> could at least make the decision to turn on/off the chips, I am
-> not quite sure if the generic runtime PM system already has this
-> kind of support though.
-> 
-Please look up "runtime power management". It provides the basic
-mechanism to turn off / disable a device if it is not used. The point
-here is that the basic mechanism is there, even though it may not
-be perfect. If it is not perfect, it needs to be improved.
-Implementing a per-subsystem alternate method would be the wrong
-approach.
-
-> > I am open to help explore adding support for runtime power management
-> > to the hwmon subsystem, but that would be less than straightforward and
-> > require an actual use case to warrant the effort.
-> 
-> Is there any feasible solution from your point of view?
-> 
-
-You mean to implement runtime suspend/resume for hwmon drivers,
-or some other approach ? As for implementing it in hwmon drivers,
-I don't know; I don't recall this ever coming up, and never
-thought about it. This is where the use case comes in - if done,
-it has to be done properly, which will require some thinking and
-a substantial amount of time. It simply does not make sense to
-spend time on that effort if there is no actual use case.
-
-Implementing an alternate mechanism is simply a no-go.
-
-Guenter
