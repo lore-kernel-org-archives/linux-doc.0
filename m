@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7DD7E7D08D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:23:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9BBAB7D8D4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:23:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727958AbeJKWtR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 18:49:17 -0400
-Received: from mga05.intel.com ([192.55.52.43]:3986 "EHLO mga05.intel.com"
+        id S1728512AbeJKWuu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 18:50:50 -0400
+Received: from mga11.intel.com ([192.55.52.93]:21816 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728526AbeJKWs0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728423AbeJKWs0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 11 Oct 2018 18:48:26 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:20:47 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:20:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,368,1534834800"; 
-   d="scan'208";a="78019157"
+   d="scan'208";a="78019116"
 Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2018 08:20:46 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2018 08:20:45 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -47,9 +47,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v5 20/27] x86/cet/shstk: User-mode shadow stack support
-Date:   Thu, 11 Oct 2018 08:15:16 -0700
-Message-Id: <20181011151523.27101-21-yu-cheng.yu@intel.com>
+Subject: [PATCH v5 12/27] x86/mm: Introduce _PAGE_DIRTY_SW
+Date:   Thu, 11 Oct 2018 08:15:08 -0700
+Message-Id: <20181011151523.27101-13-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011151523.27101-1-yu-cheng.yu@intel.com>
 References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
@@ -58,335 +58,363 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds basic shadow stack enabling/disabling routines.
-A task's shadow stack is allocated from memory with VM_SHSTK
-flag set and read-only protection.  The shadow stack is
-allocated to a fixed size of RLIMIT_STACK.
+A RO and dirty PTE exists in the following cases:
+
+(a) A page is modified and then shared with a fork()'ed child;
+(b) A R/O page that has been COW'ed;
+(c) A SHSTK page.
+
+The processor does not read the dirty bit for (a) and (b), but
+checks the dirty bit for (c).  To prevent the use of non-SHSTK
+memory as SHSTK, we introduce a spare bit of the 64-bit PTE as
+_PAGE_BIT_DIRTY_SW and use that for (a) and (b).  This results
+to the following possible PTE settings:
+
+Modified PTE:             (R/W + DIRTY_HW)
+Modified and shared PTE:  (R/O + DIRTY_SW)
+R/O PTE COW'ed:           (R/O + DIRTY_SW)
+SHSTK PTE:                (R/O + DIRTY_HW)
+SHSTK PTE COW'ed:         (R/O + DIRTY_HW)
+SHSTK PTE shared:         (R/O + DIRTY_SW)
+
+Note that _PAGE_BIT_DRITY_SW is only used in R/O PTEs but
+not R/W PTEs.
+
+When this patch is applied, there are six free bits left in
+the 64-bit PTE.  There is no more free bit in the 32-bit
+PTE (except for PAE) and shadow stack is not implemented
+for the 32-bit kernel.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/cet.h               |  34 +++++++
- arch/x86/include/asm/disabled-features.h |   8 +-
- arch/x86/include/asm/msr-index.h         |  14 +++
- arch/x86/include/asm/processor.h         |   5 ++
- arch/x86/kernel/Makefile                 |   2 +
- arch/x86/kernel/cet.c                    | 109 +++++++++++++++++++++++
- arch/x86/kernel/cpu/common.c             |  25 ++++++
- arch/x86/kernel/process.c                |   2 +
- 8 files changed, 198 insertions(+), 1 deletion(-)
- create mode 100644 arch/x86/include/asm/cet.h
- create mode 100644 arch/x86/kernel/cet.c
+ arch/x86/include/asm/pgtable.h       | 129 ++++++++++++++++++++++-----
+ arch/x86/include/asm/pgtable_types.h |  21 ++++-
+ 2 files changed, 128 insertions(+), 22 deletions(-)
 
-diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
-new file mode 100644
-index 000000000000..c952a2ec65fe
---- /dev/null
-+++ b/arch/x86/include/asm/cet.h
-@@ -0,0 +1,34 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _ASM_X86_CET_H
-+#define _ASM_X86_CET_H
-+
-+#ifndef __ASSEMBLY__
-+#include <linux/types.h>
-+
-+struct task_struct;
-+/*
-+ * Per-thread CET status
-+ */
-+struct cet_status {
-+	unsigned long	shstk_base;
-+	unsigned long	shstk_size;
-+	unsigned int	shstk_enabled:1;
-+};
-+
-+#ifdef CONFIG_X86_INTEL_CET
-+int cet_setup_shstk(void);
-+void cet_disable_shstk(void);
-+void cet_disable_free_shstk(struct task_struct *p);
-+#else
-+static inline int cet_setup_shstk(void) { return -EINVAL; }
-+static inline void cet_disable_shstk(void) {}
-+static inline void cet_disable_free_shstk(struct task_struct *p) {}
-+#endif
-+
-+#define cpu_x86_cet_enabled() \
-+	(cpu_feature_enabled(X86_FEATURE_SHSTK) || \
-+	 cpu_feature_enabled(X86_FEATURE_IBT))
-+
-+#endif /* __ASSEMBLY__ */
-+
-+#endif /* _ASM_X86_CET_H */
-diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
-index 33833d1909af..3624a11e5ba6 100644
---- a/arch/x86/include/asm/disabled-features.h
-+++ b/arch/x86/include/asm/disabled-features.h
-@@ -56,6 +56,12 @@
- # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
- #endif
- 
-+#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-+#define DISABLE_SHSTK	0
-+#else
-+#define DISABLE_SHSTK	(1<<(X86_FEATURE_SHSTK & 31))
-+#endif
-+
- /*
-  * Make sure to add features to the correct mask
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index 95c918ad84ed..3ee554d81480 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -119,9 +119,9 @@ extern pmdval_t early_pmd_flags;
+  * The following only work if pte_present() is true.
+  * Undefined behaviour if not..
   */
-@@ -75,7 +81,7 @@
- #define DISABLED_MASK13	0
- #define DISABLED_MASK14	0
- #define DISABLED_MASK15	0
--#define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP)
-+#define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP|DISABLE_SHSTK)
- #define DISABLED_MASK17	0
- #define DISABLED_MASK18	0
- #define DISABLED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 19)
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 4731f0cf97c5..e073801a44e0 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -777,4 +777,18 @@
- #define MSR_VM_IGNNE                    0xc0010115
- #define MSR_VM_HSAVE_PA                 0xc0010117
- 
-+/* Control-flow Enforcement Technology MSRs */
-+#define MSR_IA32_U_CET		0x6a0 /* user mode cet setting */
-+#define MSR_IA32_S_CET		0x6a2 /* kernel mode cet setting */
-+#define MSR_IA32_PL0_SSP	0x6a4 /* kernel shstk pointer */
-+#define MSR_IA32_PL3_SSP	0x6a7 /* user shstk pointer */
-+#define MSR_IA32_INT_SSP_TAB	0x6a8 /* exception shstk table */
-+
-+/* MSR_IA32_U_CET and MSR_IA32_S_CET bits */
-+#define MSR_IA32_CET_SHSTK_EN		0x0000000000000001ULL
-+#define MSR_IA32_CET_WRSS_EN		0x0000000000000002ULL
-+#define MSR_IA32_CET_ENDBR_EN		0x0000000000000004ULL
-+#define MSR_IA32_CET_LEG_IW_EN		0x0000000000000008ULL
-+#define MSR_IA32_CET_NO_TRACK_EN	0x0000000000000010ULL
-+
- #endif /* _ASM_X86_MSR_INDEX_H */
-diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
-index d53c54b842da..63918cecf367 100644
---- a/arch/x86/include/asm/processor.h
-+++ b/arch/x86/include/asm/processor.h
-@@ -24,6 +24,7 @@ struct vm86;
- #include <asm/special_insns.h>
- #include <asm/fpu/types.h>
- #include <asm/unwind_hints.h>
-+#include <asm/cet.h>
- 
- #include <linux/personality.h>
- #include <linux/cache.h>
-@@ -505,6 +506,10 @@ struct thread_struct {
- 	unsigned int		sig_on_uaccess_err:1;
- 	unsigned int		uaccess_err:1;	/* uaccess failed */
- 
-+#ifdef CONFIG_X86_INTEL_CET
-+	struct cet_status	cet;
-+#endif
-+
- 	/* Floating point and extended processor state */
- 	struct fpu		fpu;
- 	/*
-diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-index 8824d01c0c35..fbb2d91fb756 100644
---- a/arch/x86/kernel/Makefile
-+++ b/arch/x86/kernel/Makefile
-@@ -139,6 +139,8 @@ obj-$(CONFIG_UNWINDER_ORC)		+= unwind_orc.o
- obj-$(CONFIG_UNWINDER_FRAME_POINTER)	+= unwind_frame.o
- obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
- 
-+obj-$(CONFIG_X86_INTEL_CET)		+= cet.o
-+
- ###
- # 64 bit specific files
- ifeq ($(CONFIG_X86_64),y)
-diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
-new file mode 100644
-index 000000000000..ec256ae27a31
---- /dev/null
-+++ b/arch/x86/kernel/cet.c
-@@ -0,0 +1,109 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * cet.c - Control Flow Enforcement (CET)
-+ *
-+ * Copyright (c) 2018, Intel Corporation.
-+ * Yu-cheng Yu <yu-cheng.yu@intel.com>
-+ */
-+
-+#include <linux/types.h>
-+#include <linux/mm.h>
-+#include <linux/mman.h>
-+#include <linux/slab.h>
-+#include <linux/uaccess.h>
-+#include <linux/sched/signal.h>
-+#include <asm/msr.h>
-+#include <asm/user.h>
-+#include <asm/fpu/xstate.h>
-+#include <asm/fpu/types.h>
-+#include <asm/compat.h>
-+#include <asm/cet.h>
-+
-+static int set_shstk_ptr(unsigned long addr)
-+{
-+	u64 r;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return -1;
-+
-+	if ((addr >= TASK_SIZE_MAX) || (!IS_ALIGNED(addr, 4)))
-+		return -1;
-+
-+	rdmsrl(MSR_IA32_U_CET, r);
-+	wrmsrl(MSR_IA32_PL3_SSP, addr);
-+	wrmsrl(MSR_IA32_U_CET, r | MSR_IA32_CET_SHSTK_EN);
-+	return 0;
-+}
-+
-+static unsigned long get_shstk_addr(void)
-+{
-+	unsigned long ptr;
-+
-+	if (!current->thread.cet.shstk_enabled)
-+		return 0;
-+
-+	rdmsrl(MSR_IA32_PL3_SSP, ptr);
-+	return ptr;
-+}
-+
-+int cet_setup_shstk(void)
-+{
-+	unsigned long addr, size;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return -EOPNOTSUPP;
-+
-+	size = rlimit(RLIMIT_STACK);
-+	addr = do_mmap_locked(0, size, PROT_READ,
-+			      MAP_ANONYMOUS | MAP_PRIVATE, VM_SHSTK);
-+
-+	/*
-+	 * Return actual error from do_mmap().
-+	 */
-+	if (addr >= TASK_SIZE_MAX)
-+		return addr;
-+
-+	set_shstk_ptr(addr + size - sizeof(u64));
-+	current->thread.cet.shstk_base = addr;
-+	current->thread.cet.shstk_size = size;
-+	current->thread.cet.shstk_enabled = 1;
-+	return 0;
-+}
-+
-+void cet_disable_shstk(void)
-+{
-+	u64 r;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return;
-+
-+	rdmsrl(MSR_IA32_U_CET, r);
-+	r &= ~(MSR_IA32_CET_SHSTK_EN);
-+	wrmsrl(MSR_IA32_U_CET, r);
-+	wrmsrl(MSR_IA32_PL3_SSP, 0);
-+	current->thread.cet.shstk_enabled = 0;
-+}
-+
-+void cet_disable_free_shstk(struct task_struct *tsk)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) ||
-+	    !tsk->thread.cet.shstk_enabled)
-+		return;
-+
-+	if (tsk == current)
-+		cet_disable_shstk();
-+
-+	/*
-+	 * Free only when tsk is current or shares mm
-+	 * with current but has its own shstk.
-+	 */
-+	if (tsk->mm && (tsk->mm == current->mm) &&
-+	    (tsk->thread.cet.shstk_base)) {
-+		vm_munmap(tsk->thread.cet.shstk_base,
-+			  tsk->thread.cet.shstk_size);
-+		tsk->thread.cet.shstk_base = 0;
-+		tsk->thread.cet.shstk_size = 0;
-+	}
-+
-+	tsk->thread.cet.shstk_enabled = 0;
-+}
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 44c4ef3d989b..c3960326b67f 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -52,6 +52,7 @@
- #include <asm/microcode_intel.h>
- #include <asm/intel-family.h>
- #include <asm/cpu_device_id.h>
-+#include <asm/cet.h>
- 
- #ifdef CONFIG_X86_LOCAL_APIC
- #include <asm/uv/uv.h>
-@@ -411,6 +412,29 @@ static __init int setup_disable_pku(char *arg)
- __setup("nopku", setup_disable_pku);
- #endif /* CONFIG_X86_64 */
- 
-+static __always_inline void setup_cet(struct cpuinfo_x86 *c)
-+{
-+	if (cpu_x86_cet_enabled())
-+		cr4_set_bits(X86_CR4_CET);
-+}
-+
-+#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-+static __init int setup_disable_shstk(char *s)
-+{
-+	/* require an exact match without trailing characters */
-+	if (s[0] != '\0')
-+		return 0;
-+
-+	if (!boot_cpu_has(X86_FEATURE_SHSTK))
-+		return 1;
-+
-+	setup_clear_cpu_cap(X86_FEATURE_SHSTK);
-+	pr_info("x86: 'no_cet_shstk' specified, disabling Shadow Stack\n");
-+	return 1;
-+}
-+__setup("no_cet_shstk", setup_disable_shstk);
-+#endif
-+
- /*
-  * Some CPU features depend on higher CPUID levels, which may not always
-  * be available due to CPUID level capping or broken virtualization
-@@ -1376,6 +1400,7 @@ static void identify_cpu(struct cpuinfo_x86 *c)
- 	x86_init_rdrand(c);
- 	x86_init_cache_qos(c);
- 	setup_pku(c);
-+	setup_cet(c);
- 
- 	/*
- 	 * Clear/Set all flags overridden by options, need do it
-diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-index c93fcfdf1673..4a776da4c28c 100644
---- a/arch/x86/kernel/process.c
-+++ b/arch/x86/kernel/process.c
-@@ -39,6 +39,7 @@
- #include <asm/desc.h>
- #include <asm/prctl.h>
- #include <asm/spec-ctrl.h>
-+#include <asm/cet.h>
- 
- /*
-  * per-CPU TSS segments. Threads are completely 'soft' on Linux,
-@@ -134,6 +135,7 @@ void flush_thread(void)
- 	flush_ptrace_hw_breakpoint(tsk);
- 	memset(tsk->thread.tls_array, 0, sizeof(tsk->thread.tls_array));
- 
-+	cet_disable_shstk();
- 	fpu__clear(&tsk->thread.fpu);
+-static inline int pte_dirty(pte_t pte)
++static inline bool pte_dirty(pte_t pte)
+ {
+-	return pte_flags(pte) & _PAGE_DIRTY;
++	return pte_flags(pte) & _PAGE_DIRTY_BITS;
  }
  
+ 
+@@ -143,9 +143,9 @@ static inline int pte_young(pte_t pte)
+ 	return pte_flags(pte) & _PAGE_ACCESSED;
+ }
+ 
+-static inline int pmd_dirty(pmd_t pmd)
++static inline bool pmd_dirty(pmd_t pmd)
+ {
+-	return pmd_flags(pmd) & _PAGE_DIRTY;
++	return pmd_flags(pmd) & _PAGE_DIRTY_BITS;
+ }
+ 
+ static inline int pmd_young(pmd_t pmd)
+@@ -153,9 +153,9 @@ static inline int pmd_young(pmd_t pmd)
+ 	return pmd_flags(pmd) & _PAGE_ACCESSED;
+ }
+ 
+-static inline int pud_dirty(pud_t pud)
++static inline bool pud_dirty(pud_t pud)
+ {
+-	return pud_flags(pud) & _PAGE_DIRTY;
++	return pud_flags(pud) & _PAGE_DIRTY_BITS;
+ }
+ 
+ static inline int pud_young(pud_t pud)
+@@ -294,9 +294,23 @@ static inline pte_t pte_clear_flags(pte_t pte, pteval_t clear)
+ 	return native_make_pte(v & ~clear);
+ }
+ 
++#if defined(CONFIG_X86_INTEL_SHADOW_STACK_USER)
++static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t to)
++{
++	if (pte_flags(pte) & from)
++		pte = pte_set_flags(pte_clear_flags(pte, from), to);
++	return pte;
++}
++#else
++static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t to)
++{
++	return pte;
++}
++#endif
++
+ static inline pte_t pte_mkclean(pte_t pte)
+ {
+-	return pte_clear_flags(pte, _PAGE_DIRTY);
++	return pte_clear_flags(pte, _PAGE_DIRTY_BITS);
+ }
+ 
+ static inline pte_t pte_mkold(pte_t pte)
+@@ -306,6 +320,7 @@ static inline pte_t pte_mkold(pte_t pte)
+ 
+ static inline pte_t pte_wrprotect(pte_t pte)
+ {
++	pte = pte_move_flags(pte, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
+ 	return pte_clear_flags(pte, _PAGE_RW);
+ }
+ 
+@@ -316,9 +331,24 @@ static inline pte_t pte_mkexec(pte_t pte)
+ 
+ static inline pte_t pte_mkdirty(pte_t pte)
+ {
++	pteval_t dirty = (!IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER) ||
++			   pte_write(pte)) ? _PAGE_DIRTY_HW:_PAGE_DIRTY_SW;
++	return pte_set_flags(pte, dirty | _PAGE_SOFT_DIRTY);
++}
++
++#ifdef CONFIG_ARCH_HAS_SHSTK
++static inline pte_t pte_mkdirty_shstk(pte_t pte)
++{
++	pte = pte_clear_flags(pte, _PAGE_DIRTY_SW);
+ 	return pte_set_flags(pte, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
+ }
+ 
++static inline bool pte_dirty_hw(pte_t pte)
++{
++	return pte_flags(pte) & _PAGE_DIRTY_HW;
++}
++#endif
++
+ static inline pte_t pte_mkyoung(pte_t pte)
+ {
+ 	return pte_set_flags(pte, _PAGE_ACCESSED);
+@@ -326,6 +356,7 @@ static inline pte_t pte_mkyoung(pte_t pte)
+ 
+ static inline pte_t pte_mkwrite(pte_t pte)
+ {
++	pte = pte_move_flags(pte, _PAGE_DIRTY_SW, _PAGE_DIRTY_HW);
+ 	return pte_set_flags(pte, _PAGE_RW);
+ }
+ 
+@@ -373,6 +404,20 @@ static inline pmd_t pmd_clear_flags(pmd_t pmd, pmdval_t clear)
+ 	return native_make_pmd(v & ~clear);
+ }
+ 
++#if defined(CONFIG_X86_INTEL_SHADOW_STACK_USER)
++static inline pmd_t pmd_move_flags(pmd_t pmd, pmdval_t from, pmdval_t to)
++{
++	if (pmd_flags(pmd) & from)
++		pmd = pmd_set_flags(pmd_clear_flags(pmd, from), to);
++	return pmd;
++}
++#else
++static inline pmd_t pmd_move_flags(pmd_t pmd, pmdval_t from, pmdval_t to)
++{
++	return pmd;
++}
++#endif
++
+ static inline pmd_t pmd_mkold(pmd_t pmd)
+ {
+ 	return pmd_clear_flags(pmd, _PAGE_ACCESSED);
+@@ -380,19 +425,36 @@ static inline pmd_t pmd_mkold(pmd_t pmd)
+ 
+ static inline pmd_t pmd_mkclean(pmd_t pmd)
+ {
+-	return pmd_clear_flags(pmd, _PAGE_DIRTY);
++	return pmd_clear_flags(pmd, _PAGE_DIRTY_BITS);
+ }
+ 
+ static inline pmd_t pmd_wrprotect(pmd_t pmd)
+ {
++	pmd = pmd_move_flags(pmd, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
+ 	return pmd_clear_flags(pmd, _PAGE_RW);
+ }
+ 
+ static inline pmd_t pmd_mkdirty(pmd_t pmd)
+ {
++	pmdval_t dirty = (!IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER) ||
++			  (pmd_flags(pmd) & _PAGE_RW)) ?
++			  _PAGE_DIRTY_HW:_PAGE_DIRTY_SW;
++	return pmd_set_flags(pmd, dirty | _PAGE_SOFT_DIRTY);
++}
++
++#ifdef CONFIG_ARCH_HAS_SHSTK
++static inline pmd_t pmd_mkdirty_shstk(pmd_t pmd)
++{
++	pmd = pmd_clear_flags(pmd, _PAGE_DIRTY_SW);
+ 	return pmd_set_flags(pmd, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
+ }
+ 
++static inline bool pmd_dirty_hw(pmd_t pmd)
++{
++	return  pmd_flags(pmd) & _PAGE_DIRTY_HW;
++}
++#endif
++
+ static inline pmd_t pmd_mkdevmap(pmd_t pmd)
+ {
+ 	return pmd_set_flags(pmd, _PAGE_DEVMAP);
+@@ -410,6 +472,7 @@ static inline pmd_t pmd_mkyoung(pmd_t pmd)
+ 
+ static inline pmd_t pmd_mkwrite(pmd_t pmd)
+ {
++	pmd = pmd_move_flags(pmd, _PAGE_DIRTY_SW, _PAGE_DIRTY_HW);
+ 	return pmd_set_flags(pmd, _PAGE_RW);
+ }
+ 
+@@ -427,6 +490,20 @@ static inline pud_t pud_clear_flags(pud_t pud, pudval_t clear)
+ 	return native_make_pud(v & ~clear);
+ }
+ 
++#if defined(CONFIG_X86_INTEL_SHADOW_STACK_USER)
++static inline pud_t pud_move_flags(pud_t pud, pudval_t from, pudval_t to)
++{
++	if (pud_flags(pud) & from)
++		pud = pud_set_flags(pud_clear_flags(pud, from), to);
++	return pud;
++}
++#else
++static inline pud_t pud_move_flags(pud_t pud, pudval_t from, pudval_t to)
++{
++	return pud;
++}
++#endif
++
+ static inline pud_t pud_mkold(pud_t pud)
+ {
+ 	return pud_clear_flags(pud, _PAGE_ACCESSED);
+@@ -434,17 +511,22 @@ static inline pud_t pud_mkold(pud_t pud)
+ 
+ static inline pud_t pud_mkclean(pud_t pud)
+ {
+-	return pud_clear_flags(pud, _PAGE_DIRTY);
++	return pud_clear_flags(pud, _PAGE_DIRTY_BITS);
+ }
+ 
+ static inline pud_t pud_wrprotect(pud_t pud)
+ {
++	pud = pud_move_flags(pud, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
+ 	return pud_clear_flags(pud, _PAGE_RW);
+ }
+ 
+ static inline pud_t pud_mkdirty(pud_t pud)
+ {
+-	return pud_set_flags(pud, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
++	pudval_t dirty = (!IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER) ||
++			  (pud_flags(pud) & _PAGE_RW)) ?
++			  _PAGE_DIRTY_HW:_PAGE_DIRTY_SW;
++
++	return pud_set_flags(pud, dirty | _PAGE_SOFT_DIRTY);
+ }
+ 
+ static inline pud_t pud_mkdevmap(pud_t pud)
+@@ -464,6 +546,7 @@ static inline pud_t pud_mkyoung(pud_t pud)
+ 
+ static inline pud_t pud_mkwrite(pud_t pud)
+ {
++	pud = pud_move_flags(pud, _PAGE_DIRTY_SW, _PAGE_DIRTY_HW);
+ 	return pud_set_flags(pud, _PAGE_RW);
+ }
+ 
+@@ -595,19 +678,12 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+ 	val &= _PAGE_CHG_MASK;
+ 	val |= check_pgprot(newprot) & ~_PAGE_CHG_MASK;
+ 	val = flip_protnone_guard(oldval, val, PTE_PFN_MASK);
++	if ((pte_write(pte) && !(pgprot_val(newprot) & _PAGE_RW)))
++		return pte_move_flags(__pte(val), _PAGE_DIRTY_HW,
++				      _PAGE_DIRTY_SW);
+ 	return __pte(val);
+ }
+ 
+-static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
+-{
+-	pmdval_t val = pmd_val(pmd), oldval = val;
+-
+-	val &= _HPAGE_CHG_MASK;
+-	val |= check_pgprot(newprot) & ~_HPAGE_CHG_MASK;
+-	val = flip_protnone_guard(oldval, val, PHYSICAL_PMD_PAGE_MASK);
+-	return __pmd(val);
+-}
+-
+ /* mprotect needs to preserve PAT bits when updating vm_page_prot */
+ #define pgprot_modify pgprot_modify
+ static inline pgprot_t pgprot_modify(pgprot_t oldprot, pgprot_t newprot)
+@@ -1159,6 +1235,19 @@ static inline int pmd_write(pmd_t pmd)
+ 	return pmd_flags(pmd) & _PAGE_RW;
+ }
+ 
++static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
++{
++	pmdval_t val = pmd_val(pmd), oldval = val;
++
++	val &= _HPAGE_CHG_MASK;
++	val |= check_pgprot(newprot) & ~_HPAGE_CHG_MASK;
++	val = flip_protnone_guard(oldval, val, PHYSICAL_PMD_PAGE_MASK);
++	if ((pmd_write(pmd) && !(pgprot_val(newprot) & _PAGE_RW)))
++		return pmd_move_flags(__pmd(val), _PAGE_DIRTY_HW,
++				      _PAGE_DIRTY_SW);
++	return __pmd(val);
++}
++
+ #define __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR
+ static inline pmd_t pmdp_huge_get_and_clear(struct mm_struct *mm, unsigned long addr,
+ 				       pmd_t *pmdp)
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index 0657a22d5216..bd17e38d6a36 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -23,6 +23,7 @@
+ #define _PAGE_BIT_SOFTW2	10	/* " */
+ #define _PAGE_BIT_SOFTW3	11	/* " */
+ #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
++#define _PAGE_BIT_SOFTW5	57	/* available for programmer */
+ #define _PAGE_BIT_SOFTW4	58	/* available for programmer */
+ #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
+ #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
+@@ -34,6 +35,7 @@
+ #define _PAGE_BIT_CPA_TEST	_PAGE_BIT_SOFTW1
+ #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
+ #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
++#define _PAGE_BIT_DIRTY_SW	_PAGE_BIT_SOFTW5 /* was written to */
+ 
+ /* If _PAGE_BIT_PRESENT is clear, we use these: */
+ /* - if the user mapped it with PROT_NONE; pte_present gives true */
+@@ -109,6 +111,21 @@
+ #define _PAGE_DEVMAP	(_AT(pteval_t, 0))
+ #endif
+ 
++/*
++ * _PAGE_DIRTY_HW: set by the processor when a page is written.
++ * _PAGE_DIRTY_SW: a spare bit tracking a written, but now R/O page.
++ *   [R/W + _PAGE_DIRTY_HW] <-> [R/O + _PAGE_DIRTY_SW].
++ * _PAGE_SOFT_DIRTY: a spare bit used to track written pages since a time point
++ * set by the system admin; see Documentation/admin-guide/mm/soft-dirty.rst.
++ */
++#if defined(CONFIG_X86_INTEL_SHADOW_STACK_USER)
++#define _PAGE_DIRTY_SW	(_AT(pteval_t, 1) << _PAGE_BIT_DIRTY_SW)
++#else
++#define _PAGE_DIRTY_SW	(_AT(pteval_t, 0))
++#endif
++
++#define _PAGE_DIRTY_BITS (_PAGE_DIRTY_HW | _PAGE_DIRTY_SW)
++
+ #define _PAGE_PROTNONE	(_AT(pteval_t, 1) << _PAGE_BIT_PROTNONE)
+ 
+ #define _PAGE_TABLE_NOENC	(_PAGE_PRESENT | _PAGE_RW | _PAGE_USER |\
+@@ -122,9 +139,9 @@
+  * instance, and is *not* included in this mask since
+  * pte_modify() does modify it.
+  */
+-#define _PAGE_CHG_MASK	(PTE_PFN_MASK | _PAGE_PCD | _PAGE_PWT |		\
++#define _PAGE_CHG_MASK	(PTE_PFN_MASK | _PAGE_PCD | _PAGE_PWT |			\
+ 			 _PAGE_SPECIAL | _PAGE_ACCESSED | _PAGE_DIRTY_HW |	\
+-			 _PAGE_SOFT_DIRTY)
++			 _PAGE_DIRTY_SW | _PAGE_SOFT_DIRTY)
+ #define _HPAGE_CHG_MASK (_PAGE_CHG_MASK | _PAGE_PSE)
+ 
+ /*
 -- 
 2.17.1
 
