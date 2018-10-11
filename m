@@ -2,76 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 70F4C7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 16:51:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6FA707D087
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 17:01:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730503AbeJLAT2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 20:19:28 -0400
-Received: from mga11.intel.com ([192.55.52.93]:35190 "EHLO mga11.intel.com"
+        id S1730572AbeJLA36 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 20:29:58 -0400
+Received: from mga11.intel.com ([192.55.52.93]:36745 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729991AbeJLAT1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Oct 2018 20:19:27 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
+        id S1725984AbeJLA36 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Oct 2018 20:29:58 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 09:51:24 -0700
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 10:01:52 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,369,1534834800"; 
-   d="scan'208";a="270528239"
-Received: from unknown (HELO 2b52) ([143.183.136.147])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Oct 2018 09:50:07 -0700
-Message-ID: <c3d193c68e017230dea1398f2eac4d8a8615f75e.camel@intel.com>
-Subject: Re: [PATCH v5 01/27] x86/cpufeatures: Add CPUIDs for Control Flow
- Enforcement Technology (CET)
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Thu, 11 Oct 2018 09:45:21 -0700
-In-Reply-To: <20181011164329.GF25435@zn.tnic>
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
-         <20181011151523.27101-2-yu-cheng.yu@intel.com>
-         <20181011164329.GF25435@zn.tnic>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+   d="scan'208";a="80687194"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.86])
+  by orsmga008.jf.intel.com with ESMTP; 11 Oct 2018 10:01:49 -0700
+Received: from andy by smile with local (Exim 4.91)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1gAeLM-0004iL-Ip; Thu, 11 Oct 2018 20:01:48 +0300
+Date:   Thu, 11 Oct 2018 20:01:48 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Petr Mladek <pmladek@suse.com>, "Tobin C . Harding" <me@tobin.cc>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] lib/vsprintf: Hash remaining raw addresses
+Message-ID: <20181011170148.GM15943@smile.fi.intel.com>
+References: <20181011084249.4520-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181011084249.4520-1-geert+renesas@glider.be>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-10-11 at 18:43 +0200, Borislav Petkov wrote:
-> On Thu, Oct 11, 2018 at 08:14:57AM -0700, Yu-cheng Yu wrote:
-> > Add CPUIDs for Control Flow Enforcement Technology (CET).
+On Thu, Oct 11, 2018 at 10:42:46AM +0200, Geert Uytterhoeven wrote:
+> 	Hi all,
 > 
-> This is not "CPUIDs" but feature flags. Fix the subject too pls.
+> There are still two format specifiers that print unhanced kernel
+> addresses, potentially leaking sensitive information regarding the
+> kernel layout in memory.
+> 
+> This patch series fixes this by printing hashed addresses instead.
 
-I will fix it.
+Looks nice!
 
-Thanks,
-Yu-cheng
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+>     
+> Changes compared to v1:
+>   - Get rid of the forward declaration for ptr_to_id(),
+>   - Add Reviewed-by.
+> 
+> Thanks!
+> 
+> Geert Uytterhoeven (3):
+>   lib/vsprintf: Prepare for more general use of ptr_to_id()
+>   lib/vsprintf: Hash legacy clock addresses
+>   lib/vsprintf: Hash printed address for netdev bits fallback
+> 
+>  Documentation/core-api/printk-formats.rst |   5 +-
+>  lib/vsprintf.c                            | 216 +++++++++++-----------
+>  2 files changed, 110 insertions(+), 111 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
+> Gr{oetje,eeting}s,
+> 
+> 						Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+> 							    -- Linus Torvalds
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
