@@ -1,174 +1,58 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 293187D08D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:25:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 062687D088
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:29:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726299AbeJKWsU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 18:48:20 -0400
-Received: from mga05.intel.com ([192.55.52.43]:3984 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726168AbeJKWsU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Oct 2018 18:48:20 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:20:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,368,1534834800"; 
-   d="scan'208";a="78019071"
-Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2018 08:20:42 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v5 00/27] Control Flow Enforcement: Shadow Stack
-Date:   Thu, 11 Oct 2018 08:14:56 -0700
-Message-Id: <20181011151523.27101-1-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727128AbeJKW4y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 18:56:54 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57334 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727127AbeJKW4y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 18:56:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=5OFE+kDLgDKIUChQrgPy1tx5qymEnOAsRqZxp9OwaAc=; b=E3Q0y58/L17elJg0BlZfmF4SL
+        LxqbgfZ4ktMFja1Z6YOg7Rj1kUuBvcs2Q2jp2OS+T1wSP8W04Y9ZEoEpwRuvRSKoau3xm8pMTaY+6
+        lIFkjNu0ALGJ/HDTIuFcwQg98UwBu5XcJcjA0RXvDpuD1vtx6F36MX77VQG7GVehDuz0lj8D3Z7Lq
+        DYWAKX2M+i3E51uOAcW76INBt4nLFjCQkLZhiAQujpaSHXyKziQHS/4pV8g/N1VxWQN01fCxn1env
+        +KW2sA/BjTEK9SMr2Xi2x1hPMOdETa391DuVasGcYWY+HRQyVCUBbPOA+hSXu5XON+XDvSfBbXDnu
+        0IpCU0JyQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gActi-0001dv-Ks; Thu, 11 Oct 2018 15:29:10 +0000
+Date:   Thu, 11 Oct 2018 08:29:10 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     John Garry <john.garry@huawei.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, peterz@infradead.org,
+        mingo@redhat.com
+Subject: Re: [PATCH] docs/completion.txt: Fix a couple of punctuation nits
+Message-ID: <20181011152910.GA8191@bombadil.infradead.org>
+References: <1539183392-239389-1-git-send-email-john.garry@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1539183392-239389-1-git-send-email-john.garry@huawei.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous version of CET Shadow Stack patches is at the following
-link:
+On Wed, Oct 10, 2018 at 10:56:32PM +0800, John Garry wrote:
+> This patch fixes a couple of punctuation nits which can make the document
+> more correct and readable.
+> 
+> Also missing "()" are added to some function references for consistency.
 
-  https://lkml.org/lkml/2018/9/21/776
-
-Summary of changes from v4:
-
-  Clean up XSAVES system states patches.
-  Update control protection fault handler to provide error code to user.
-  Add CONFIG_VM_AREA_GUARD.
-  Clean up arch_prctl.
-  Fix some typos and macros.
-
-Yu-cheng Yu (27):
-  x86/cpufeatures: Add CPUIDs for Control Flow Enforcement Technology
-    (CET)
-  x86/fpu/xstate: Change names to separate XSAVES system and user states
-  x86/fpu/xstate: Introduce XSAVES system states
-  x86/fpu/xstate: Add XSAVES system states for shadow stack
-  Documentation/x86: Add CET description
-  x86/cet: Control protection exception handler
-  mm/mmap: Create a guard area between VMAs
-  x86/cet/shstk: Add Kconfig option for user-mode shadow stack
-  mm: Introduce VM_SHSTK for shadow stack memory
-  mm/mmap: Prevent Shadow Stack VMA merges
-  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
-  x86/mm: Introduce _PAGE_DIRTY_SW
-  drm/i915/gvt: Update _PAGE_DIRTY to _PAGE_DIRTY_BITS
-  x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for
-    _PAGE_DIRTY_SW
-  x86/mm: Shadow stack page fault error checking
-  mm: Handle shadow stack page fault
-  mm: Handle THP/HugeTLB shadow stack page fault
-  mm: Update can_follow_write_pte/pmd for shadow stack
-  mm: Introduce do_mmap_locked()
-  x86/cet/shstk: User-mode shadow stack support
-  x86/cet/shstk: Introduce WRUSS instruction
-  x86/cet/shstk: Signal handling for shadow stack
-  x86/cet/shstk: ELF header parsing of Shadow Stack
-  x86/cet/shstk: Handle thread shadow stack
-  mm/mmap: Add Shadow stack pages to memory accounting
-  x86/cet/shstk: Add arch_prctl functions for Shadow Stack
-  x86/cet/shstk: Add Shadow Stack instructions to opcode map
-
- .../admin-guide/kernel-parameters.txt         |   6 +
- Documentation/index.rst                       |   1 +
- Documentation/x86/index.rst                   |  11 +
- Documentation/x86/intel_cet.rst               | 266 ++++++++++++++
- arch/x86/Kconfig                              |  30 ++
- arch/x86/Makefile                             |   7 +
- arch/x86/entry/entry_64.S                     |   2 +-
- arch/x86/ia32/ia32_signal.c                   |  13 +
- arch/x86/include/asm/cet.h                    |  46 +++
- arch/x86/include/asm/cpufeatures.h            |   2 +
- arch/x86/include/asm/disabled-features.h      |   8 +-
- arch/x86/include/asm/elf.h                    |   5 +
- arch/x86/include/asm/fpu/internal.h           |   5 +-
- arch/x86/include/asm/fpu/types.h              |  22 ++
- arch/x86/include/asm/fpu/xstate.h             |  26 +-
- arch/x86/include/asm/mmu_context.h            |   3 +
- arch/x86/include/asm/msr-index.h              |  14 +
- arch/x86/include/asm/pgtable.h                | 191 ++++++++--
- arch/x86/include/asm/pgtable_types.h          |  38 +-
- arch/x86/include/asm/processor.h              |   5 +
- arch/x86/include/asm/sighandling.h            |   5 +
- arch/x86/include/asm/special_insns.h          |  32 ++
- arch/x86/include/asm/traps.h                  |   5 +
- arch/x86/include/uapi/asm/elf_property.h      |  15 +
- arch/x86/include/uapi/asm/prctl.h             |   5 +
- arch/x86/include/uapi/asm/processor-flags.h   |   2 +
- arch/x86/include/uapi/asm/sigcontext.h        |  15 +
- arch/x86/kernel/Makefile                      |   4 +
- arch/x86/kernel/cet.c                         | 298 +++++++++++++++
- arch/x86/kernel/cet_prctl.c                   |  86 +++++
- arch/x86/kernel/cpu/common.c                  |  25 ++
- arch/x86/kernel/elf.c                         | 341 ++++++++++++++++++
- arch/x86/kernel/fpu/core.c                    |  10 +-
- arch/x86/kernel/fpu/init.c                    |  10 -
- arch/x86/kernel/fpu/signal.c                  |   6 +-
- arch/x86/kernel/fpu/xstate.c                  | 146 +++++---
- arch/x86/kernel/idt.c                         |   4 +
- arch/x86/kernel/process.c                     |   7 +-
- arch/x86/kernel/process_64.c                  |   7 +
- arch/x86/kernel/relocate_kernel_64.S          |   2 +-
- arch/x86/kernel/signal.c                      |  97 +++++
- arch/x86/kernel/signal_compat.c               |   2 +-
- arch/x86/kernel/traps.c                       |  64 ++++
- arch/x86/kvm/vmx.c                            |   2 +-
- arch/x86/lib/x86-opcode-map.txt               |  26 +-
- arch/x86/mm/fault.c                           |  27 ++
- arch/x86/mm/pgtable.c                         |  41 +++
- drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
- fs/binfmt_elf.c                               |  15 +
- fs/proc/task_mmu.c                            |   3 +
- include/asm-generic/pgtable.h                 |  14 +
- include/linux/mm.h                            |  56 ++-
- include/uapi/asm-generic/siginfo.h            |   3 +-
- include/uapi/linux/elf.h                      |   1 +
- mm/Kconfig                                    |   7 +
- mm/gup.c                                      |   8 +-
- mm/huge_memory.c                              |  12 +-
- mm/memory.c                                   |   7 +-
- mm/mmap.c                                     |  11 +
- tools/objtool/arch/x86/lib/x86-opcode-map.txt |  26 +-
- 60 files changed, 1986 insertions(+), 164 deletions(-)
- create mode 100644 Documentation/x86/index.rst
- create mode 100644 Documentation/x86/intel_cet.rst
- create mode 100644 arch/x86/include/asm/cet.h
- create mode 100644 arch/x86/include/uapi/asm/elf_property.h
- create mode 100644 arch/x86/kernel/cet.c
- create mode 100644 arch/x86/kernel/cet_prctl.c
- create mode 100644 arch/x86/kernel/elf.c
-
--- 
-2.17.1
-
+While there's nothing wrong here, any chance you want to try converting
+it to .rst and adding it to the overall index?  It looks a lot like
+rst already.
