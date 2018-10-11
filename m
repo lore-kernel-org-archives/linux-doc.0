@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D87927D8D7
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:22:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3047F7D8D7
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:23:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728611AbeJKWu2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 18:50:28 -0400
-Received: from mga17.intel.com ([192.55.52.151]:21581 "EHLO mga17.intel.com"
+        id S1728827AbeJKWtW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 18:49:22 -0400
+Received: from mga18.intel.com ([134.134.136.126]:64714 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727863AbeJKWto (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Oct 2018 18:49:44 -0400
+        id S1728528AbeJKWtV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Oct 2018 18:49:21 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:22:05 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:21:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,368,1534834800"; 
-   d="scan'208";a="77271639"
+   d="scan'208";a="77271614"
 Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Oct 2018 08:21:45 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 Oct 2018 08:21:42 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,91 +46,81 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: [PATCH v5 08/11] x86: Insert endbr32/endbr64 to vDSO
-Date:   Thu, 11 Oct 2018 08:16:51 -0700
-Message-Id: <20181011151654.27221-9-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v5 00/11] Control Flow Enforcement: Branch Tracking, PTRACE
+Date:   Thu, 11 Oct 2018 08:16:43 -0700
+Message-Id: <20181011151654.27221-1-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181011151654.27221-1-yu-cheng.yu@intel.com>
-References: <20181011151654.27221-1-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+The previous version of CET Branch Tracking/PTRACE patches is at the following
+link:
 
-When Intel indirect branch tracking is enabled, functions in vDSO which
-may be called indirectly must have endbr32 or endbr64 as the first
-instruction.  Compiler must support -fcf-protection=branch so that it
-can be used to compile vDSO.
+  https://lkml.org/lkml/2018/9/21/773
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
----
- arch/x86/entry/vdso/.gitignore        |  4 ++++
- arch/x86/entry/vdso/Makefile          | 12 +++++++++++-
- arch/x86/entry/vdso/vdso-layout.lds.S |  1 +
- 3 files changed, 16 insertions(+), 1 deletion(-)
+Summary of changes from v4:
 
-diff --git a/arch/x86/entry/vdso/.gitignore b/arch/x86/entry/vdso/.gitignore
-index aae8ffdd5880..552941fdfae0 100644
---- a/arch/x86/entry/vdso/.gitignore
-+++ b/arch/x86/entry/vdso/.gitignore
-@@ -5,3 +5,7 @@ vdso32-sysenter-syms.lds
- vdso32-int80-syms.lds
- vdso-image-*.c
- vdso2c
-+vclock_gettime.S
-+vgetcpu.S
-+vclock_gettime.asm
-+vgetcpu.asm
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 141d415a8c80..0b1b464e7ae7 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -108,13 +108,17 @@ vobjx32s := $(foreach F,$(vobjx32s-y),$(obj)/$F)
- 
- # Convert 64bit object file to x32 for x32 vDSO.
- quiet_cmd_x32 = X32     $@
--      cmd_x32 = $(OBJCOPY) -O elf32-x86-64 $< $@
-+      cmd_x32 = $(OBJCOPY) -R .note.gnu.property -O elf32-x86-64 $< $@
- 
- $(obj)/%-x32.o: $(obj)/%.o FORCE
- 	$(call if_changed,x32)
- 
- targets += vdsox32.lds $(vobjx32s-y)
- 
-+ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+    $(obj)/vclock_gettime.o $(obj)/vgetcpu.o $(obj)/vdso32/vclock_gettime.o: KBUILD_CFLAGS += -fcf-protection=branch
-+endif
-+
- $(obj)/%.so: OBJCOPYFLAGS := -S
- $(obj)/%.so: $(obj)/%.so.dbg
- 	$(call if_changed,objcopy)
-@@ -172,6 +176,12 @@ quiet_cmd_vdso = VDSO    $@
- 
- VDSO_LDFLAGS = -shared $(call ld-option, --hash-style=both) \
- 	$(call ld-option, --build-id) -Bsymbolic
-+ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+  VDSO_LDFLAGS += $(call ldoption, -z$(comma)ibt)
-+endif
-+ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-+  VDSO_LDFLAGS += $(call ldoption, -z$(comma)shstk)
-+endif
- GCOV_PROFILE := n
- 
- #
-diff --git a/arch/x86/entry/vdso/vdso-layout.lds.S b/arch/x86/entry/vdso/vdso-layout.lds.S
-index acfd5ba7d943..cabaeedfed78 100644
---- a/arch/x86/entry/vdso/vdso-layout.lds.S
-+++ b/arch/x86/entry/vdso/vdso-layout.lds.S
-@@ -74,6 +74,7 @@ SECTIONS
- 	.fake_shstrtab	: { *(.fake_shstrtab) }		:text
- 
- 
-+	.note.gnu.property : { *(.note.gnu.property) }	:text	:note
- 	.note		: { *(.note.*) }		:text	:note
- 
- 	.eh_frame_hdr	: { *(.eh_frame_hdr) }		:text	:eh_frame_hdr
+  Add ENDBR32/ENDBR64 to vsyscall assembly code.
+  Small cleanups.
+  Small fixes in IBT bitmap allocation.
+
+  From the discussion of IBT bitmap size, I got:
+
+    1. There are potential issues from using TASK_SIZE/TASK_SIZE_MAX;
+    2. We cannot always depend on in_compat_syscall();
+    3. Doing allocation in the kernel is tricky;
+
+    The bitmap is needed only when an app does dlopen() non-IBT .so
+    files; most applications do not need it.
+
+    I am proposing that dlopen() does mmap() and passes the bitmap to
+    the kernel.  If that is accepted, we can change these patches
+    accordingly.
+
+H.J. Lu (3):
+  x86: Insert endbr32/endbr64 to vDSO
+  x86/vsyscall/32: Add ENDBR32 to vsyscall entry point
+  x86/vsyscall/64: Add ENDBR64 to vsyscall entry points
+
+Yu-cheng Yu (8):
+  x86/cet/ibt: Add Kconfig option for user-mode Indirect Branch Tracking
+  x86/cet/ibt: User-mode indirect branch tracking support
+  x86/cet/ibt: Add IBT legacy code bitmap allocation function
+  mm/mmap: Add IBT bitmap size to address space limit check
+  x86/cet/ibt: ELF header parsing for IBT
+  x86/cet/ibt: Add arch_prctl functions for IBT
+  x86/cet/ibt: Add ENDBR to op-code-map
+  x86/cet: Add PTRACE interface for CET
+
+ arch/x86/Kconfig                              | 16 ++++
+ arch/x86/Makefile                             |  7 ++
+ arch/x86/entry/vdso/.gitignore                |  4 +
+ arch/x86/entry/vdso/Makefile                  | 12 ++-
+ arch/x86/entry/vdso/vdso-layout.lds.S         |  1 +
+ arch/x86/entry/vdso/vdso32/system_call.S      |  3 +
+ arch/x86/entry/vsyscall/vsyscall_emu_64.S     |  9 +++
+ arch/x86/include/asm/cet.h                    |  8 ++
+ arch/x86/include/asm/disabled-features.h      |  8 +-
+ arch/x86/include/asm/fpu/regset.h             |  7 +-
+ arch/x86/include/asm/mmu_context.h            |  7 ++
+ arch/x86/include/uapi/asm/elf_property.h      |  1 +
+ arch/x86/include/uapi/asm/prctl.h             |  1 +
+ arch/x86/kernel/cet.c                         | 78 +++++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   | 35 +++++++++
+ arch/x86/kernel/cpu/common.c                  | 17 ++++
+ arch/x86/kernel/elf.c                         |  5 ++
+ arch/x86/kernel/fpu/regset.c                  | 41 ++++++++++
+ arch/x86/kernel/process.c                     |  1 +
+ arch/x86/kernel/ptrace.c                      | 16 ++++
+ arch/x86/lib/x86-opcode-map.txt               | 13 +++-
+ include/uapi/linux/elf.h                      |  1 +
+ mm/mmap.c                                     | 19 ++++-
+ tools/objtool/arch/x86/lib/x86-opcode-map.txt | 13 +++-
+ 24 files changed, 313 insertions(+), 10 deletions(-)
+
 -- 
 2.17.1
 
