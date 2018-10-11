@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2152B7D08D
+	by archive.lwn.net (Postfix) with ESMTP id 5F9A57D8D7
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:24:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728361AbeJKWsY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 18:48:24 -0400
+        id S1727947AbeJKWvo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 18:51:44 -0400
 Received: from mga05.intel.com ([192.55.52.43]:3986 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727503AbeJKWsY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728356AbeJKWsY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 11 Oct 2018 18:48:24 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:20:44 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:20:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,368,1534834800"; 
-   d="scan'208";a="78019102"
+   d="scan'208";a="78019126"
 Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2018 08:20:44 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2018 08:20:45 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -47,9 +47,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v5 08/27] x86/cet/shstk: Add Kconfig option for user-mode shadow stack
-Date:   Thu, 11 Oct 2018 08:15:04 -0700
-Message-Id: <20181011151523.27101-9-yu-cheng.yu@intel.com>
+Subject: [PATCH v5 15/27] x86/mm: Shadow stack page fault error checking
+Date:   Thu, 11 Oct 2018 08:15:11 -0700
+Message-Id: <20181011151523.27101-16-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011151523.27101-1-yu-cheng.yu@intel.com>
 References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
@@ -58,87 +58,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce Kconfig option X86_INTEL_SHADOW_STACK_USER.
+If a page fault is triggered by a shadow stack access (e.g.
+call/ret) or shadow stack management instructions (e.g.
+wrussq), then bit[6] of the page fault error code is set.
 
-An application has shadow stack protection when all the following are
-true:
-
-  (1) The kernel has X86_INTEL_SHADOW_STACK_USER enabled,
-  (2) The running processor supports the shadow stack,
-  (3) The application is built with shadow stack enabled tools & libs
-      and, and at runtime, all dependent shared libs can support shadow
-      stack.
-
-If this kernel config option is enabled, but (2) or (3) above is not
-true, the application runs without the shadow stack protection.
-Existing legacy applications will continue to work without the shadow
-stack protection.
-
-The user-mode shadow stack protection is only implemented for the
-64-bit kernel.  Thirty-two bit applications are supported under the
-compatibility mode.
+In access_error(), we check if a shadow stack page fault
+is within a shadow stack memory area.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/Kconfig  | 26 ++++++++++++++++++++++++++
- arch/x86/Makefile |  7 +++++++
- 2 files changed, 33 insertions(+)
+ arch/x86/include/asm/traps.h |  2 ++
+ arch/x86/mm/fault.c          | 18 ++++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 1a0be022f91d..5f73335b7a3a 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1913,6 +1913,32 @@ config X86_INTEL_MEMORY_PROTECTION_KEYS
+diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
+index 5196050ff3d5..58ea2f5722e9 100644
+--- a/arch/x86/include/asm/traps.h
++++ b/arch/x86/include/asm/traps.h
+@@ -157,6 +157,7 @@ enum {
+  *   bit 3 ==				1: use of reserved bit detected
+  *   bit 4 ==				1: fault was an instruction fetch
+  *   bit 5 ==				1: protection keys block access
++ *   bit 6 ==				1: shadow stack access fault
+  */
+ enum x86_pf_error_code {
+ 	X86_PF_PROT	=		1 << 0,
+@@ -165,5 +166,6 @@ enum x86_pf_error_code {
+ 	X86_PF_RSVD	=		1 << 3,
+ 	X86_PF_INSTR	=		1 << 4,
+ 	X86_PF_PK	=		1 << 5,
++	X86_PF_SHSTK	=		1 << 6,
+ };
+ #endif /* _ASM_X86_TRAPS_H */
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index 47bebfe6efa7..7c3877a982f4 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -1162,6 +1162,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
+ 				       (error_code & X86_PF_INSTR), foreign))
+ 		return 1;
  
- 	  If unsure, say y.
++	/*
++	 * Verify X86_PF_SHSTK is within a shadow stack VMA.
++	 * It is always an error if there is a shadow stack
++	 * fault outside a shadow stack VMA.
++	 */
++	if (error_code & X86_PF_SHSTK) {
++		if (!(vma->vm_flags & VM_SHSTK))
++			return 1;
++		return 0;
++	}
++
+ 	if (error_code & X86_PF_WRITE) {
+ 		/* write, present and write, not present: */
+ 		if (unlikely(!(vma->vm_flags & VM_WRITE)))
+@@ -1300,6 +1311,13 @@ __do_page_fault(struct pt_regs *regs, unsigned long error_code,
  
-+config X86_INTEL_CET
-+	def_bool n
-+
-+config ARCH_HAS_SHSTK
-+	def_bool n
-+
-+config X86_INTEL_SHADOW_STACK_USER
-+	prompt "Intel Shadow Stack for user-mode"
-+	def_bool n
-+	depends on CPU_SUP_INTEL && X86_64
-+	select ARCH_USES_HIGH_VMA_FLAGS
-+	select X86_INTEL_CET
-+	select ARCH_HAS_SHSTK
-+	select VM_AREA_GUARD
-+	---help---
-+	  Shadow stack provides hardware protection against program stack
-+	  corruption.  Only when all the following are true will an application
-+	  have the shadow stack protection: the kernel supports it (i.e. this
-+	  feature is enabled), the application is compiled and linked with
-+	  shadow stack enabled, and the processor supports this feature.
-+	  When the kernel has this configuration enabled, existing non shadow
-+	  stack applications will continue to work, but without shadow stack
-+	  protection.
-+
-+	  If unsure, say y.
-+
- config EFI
- 	bool "EFI runtime service support"
- 	depends on ACPI
-diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-index 8f6e7eb8ae9f..b28842b80295 100644
---- a/arch/x86/Makefile
-+++ b/arch/x86/Makefile
-@@ -152,6 +152,13 @@ ifdef CONFIG_X86_X32
- endif
- export CONFIG_X86_X32_ABI
+ 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
  
-+# Check assembler shadow stack suppot
-+ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-+  ifeq ($(call as-instr, saveprevssp, y),)
-+      $(error CONFIG_X86_INTEL_SHADOW_STACK_USER not supported by the assembler)
-+  endif
-+endif
-+
- #
- # If the function graph tracer is used with mcount instead of fentry,
- # '-maccumulate-outgoing-args' is needed to prevent a GCC bug
++	/*
++	 * If the fault is caused by a shadow stack access,
++	 * i.e. CALL/RET/SAVEPREVSSP/RSTORSSP, then set
++	 * FAULT_FLAG_WRITE to effect copy-on-write.
++	 */
++	if (error_code & X86_PF_SHSTK)
++		flags |= FAULT_FLAG_WRITE;
+ 	if (error_code & X86_PF_WRITE)
+ 		flags |= FAULT_FLAG_WRITE;
+ 	if (error_code & X86_PF_INSTR)
 -- 
 2.17.1
 
