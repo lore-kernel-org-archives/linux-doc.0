@@ -1,61 +1,60 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B50CB7D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 19:37:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 726297D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 19:50:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727047AbeJLDFp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 23:05:45 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:37545 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726607AbeJLDFo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 23:05:44 -0400
-Received: by mail-pl1-f195.google.com with SMTP id u6-v6so1969219plz.4;
-        Thu, 11 Oct 2018 12:37:04 -0700 (PDT)
+        id S1726399AbeJLDTN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 23:19:13 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39654 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726052AbeJLDTM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 23:19:12 -0400
+Received: by mail-pf1-f194.google.com with SMTP id c25-v6so4931485pfe.6;
+        Thu, 11 Oct 2018 12:50:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=l7ToRFdrb/9GJxkM06I5rmAqxSUBEYH5cNDOc++YDOE=;
-        b=EC57ybGIrJ+5LGOQ35hCRP93FZ1hNP3hx1IF9Z1WX6pDCJX06YAsXxpy2dVIuubivs
-         22SGx+2kCFuO3Yv4KVnXtjBkRDojZ8FHWRO7P1xVazWwidzes7Ujta0prApO1e9xEDze
-         Tj0FYc93TltLEKP8cJHia+sabVIMlSXRZdhJpYjTqEXI3w5jyQaEZBO2X7AcPZuseF7U
-         wojSpjG2OC+iid8aAXyPrMD9J3HBJ3QV/kkT2wIcX93S9Q7pHgzYCchDTDq56oZB7NIU
-         YAobeHwYaZj3DCR1LI0L7DeaJGMYw4lwhbeVp6d9J3u294/B0RWBeYb6rt/HMhW00YyM
-         1XvQ==
+        bh=KDY/cOnx+553uOFRwA2NY7TXZ01hRpHbDBzwaSA9o1Y=;
+        b=Yrh9PP0vvA1terySneQpLQc9pTZp5QiGmmrwZrVgUw1WPQGhsT32VjxFTtVJbq67G6
+         9v108fA14bpRunVD36tKmWeZhaE7TgpzdjYUhzhGLf6eXY1KfdIe5Jche+rzTEeXnuxo
+         Tw/pURfL4LTxiGnZLlYZiR82FoEyvU2wetQkOH+iQZHFTIPlm5GFG22tRUuHS58IpWGM
+         LDsoqQ7l1rcuiPECoH4g7hOqQas0TKfucCcjrhostjg4WxRbp2vbTx2QQS4lQoXJlB8K
+         1hDTEG+a59/Ok2y105ejzDh1jzsxsp2VSKgP5f/N4T28AdQ0/6kdQnsQ0Q/pf0vVyIKD
+         nioQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=l7ToRFdrb/9GJxkM06I5rmAqxSUBEYH5cNDOc++YDOE=;
-        b=A7AJghd3hk8VFmp/TuRXFUj4m2dbHHjNyhjdZsb67bYsgGqTlhCXm1+RxoEoiR4ZKR
-         foow4YmJ9K2AIGvM5+EfFcruUuearM+gHX/pgYQuEDJQvohvAqEuDvSFveu77I49qpAw
-         V5+xXubJ87seXv/iKiQGrhQOCIrrDu4atYRvvhv1do2bnnv+xvJ5veU2DFjaebHdXvJS
-         LGgClzuOb9lZLixBuhkcYXn23NDi3Kuo0narDiyfSiahV0K+h8uHfZHKY7dFlc42TuOO
-         S/Vn2IuCCm8p9d2p63PJt7/KZmIxS96iXJgOzOJq9SDbKhmwuigOXYT2Wkio8u2BwAti
-         ES7w==
-X-Gm-Message-State: ABuFfoiEdgFPqhw8UxXs9+MLhG9zf3QvQG8JiTjUayKdAacGphdXi0fI
-        u5YGEkeBLGuMokX7jIheAZ4=
-X-Google-Smtp-Source: ACcGV62WWUzLN/iYc3zCyYWvG5TMzFIVBaUuySSEPL+XsvsXKnbbsMZAWkNkNK8i6SAGBH85lt+usA==
-X-Received: by 2002:a17:902:7007:: with SMTP id y7-v6mr2783429plk.185.1539286623472;
-        Thu, 11 Oct 2018 12:37:03 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id p4-v6sm30172893pfg.188.2018.10.11.12.37.02
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 11 Oct 2018 12:37:03 -0700 (PDT)
-Date:   Thu, 11 Oct 2018 12:36:59 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=KDY/cOnx+553uOFRwA2NY7TXZ01hRpHbDBzwaSA9o1Y=;
+        b=JFIhOAJD7dRnzq/gF6ibjRq1m86LeXrMxAhQkWOfPZF36b2PD7IOvkihK3lRyzwPZz
+         TiRHFGL5C1O+BuQWbLvCugEQ219M50fnk3lqyFyvA0Km/Lx1kh182aQbEXOjHPChGLwK
+         BEf4N8pFcp0b9RQRilDX5bnrvV0cUopF303Ws4cxiyQzm9wwvYU7lE5HivuZguP4QV4p
+         Ggi4J0hmKFxK72E6sIjAXQHP9M56WbkLuL+tUU9Xp9N1vBhPGX315VX3Sj8qQPdIoWIe
+         J2gnBakbHo0oICuRR7rtW+2NS29Frc5JCKEo3m4ULAshKjUjrVwqhzjMklSNgBQHpZM0
+         BmoA==
+X-Gm-Message-State: ABuFfojWqgtI5OnIJSFcnfPEbf6czWz0G8epMHbSw0SqMKkwXiWyJG4a
+        nZi5nQLlw+dQA/n4DYzo6dQ=
+X-Google-Smtp-Source: ACcGV62UVwI94gO/ddOUUgK3fLejtFdX8DTOKAYKWnNSvyrg22zJRWDlHl43qrGiSG7zn3Th1PNAAA==
+X-Received: by 2002:aa7:814f:: with SMTP id d15-v6mr2938368pfn.78.1539287427839;
+        Thu, 11 Oct 2018 12:50:27 -0700 (PDT)
+Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id d10-v6sm29202998pgp.26.2018.10.11.12.50.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 11 Oct 2018 12:50:27 -0700 (PDT)
+Date:   Thu, 11 Oct 2018 12:50:25 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
 Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
         linux-kernel@vger.kernel.org, corbet@lwn.net,
         linux-doc@vger.kernel.org
 Subject: Re: [PATCH 2/2] hwmon: (ina3221) Add operating mode support
-Message-ID: <20181011193658.GA3828@Asurada-Nvidia.nvidia.com>
+Message-ID: <20181011195025.GA7038@roeck-us.net>
 References: <20181010043310.30873-1-nicoleotsuka@gmail.com>
  <20181010043310.30873-3-nicoleotsuka@gmail.com>
  <32c22986-544e-aca1-12bf-9080667cf499@roeck-us.net>
@@ -63,31 +62,47 @@ References: <20181010043310.30873-1-nicoleotsuka@gmail.com>
  <20181010234300.GA25480@roeck-us.net>
  <20181011002411.GA10379@Asurada-Nvidia.nvidia.com>
  <20181011193152.GA4854@roeck-us.net>
+ <20181011193658.GA3828@Asurada-Nvidia.nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181011193152.GA4854@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20181011193658.GA3828@Asurada-Nvidia.nvidia.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 11, 2018 at 12:31:52PM -0700, Guenter Roeck wrote:
+Hi Nicolin,
 
-> > One more question here, and this might sound a bit abuse of using
-> > the existing hwmon ABI: would it sound plausible to you that the
-> > driver powers down the chip when all three channels get disabled
-> > via in[123]_enable nodes? :)
-> > 
+On Thu, Oct 11, 2018 at 12:36:59PM -0700, Nicolin Chen wrote:
+> On Thu, Oct 11, 2018 at 12:31:52PM -0700, Guenter Roeck wrote:
 > 
-> I would not call that an abuse, no.
+> > > One more question here, and this might sound a bit abuse of using
+> > > the existing hwmon ABI: would it sound plausible to you that the
+> > > driver powers down the chip when all three channels get disabled
+> > > via in[123]_enable nodes? :)
+> > > 
+> > 
+> > I would not call that an abuse, no.
+> 
+> Hmm..do you mean that you aren't in favor of powering down the chip
+> after all channels get disabled?
+> 
+No, I was trying to say that I would be ok with powering down the chip.
 
-Hmm..do you mean that you aren't in favor of powering down the chip
-after all channels get disabled?
+> I was thinking about having pm_runtime_get_sync()/put() for channel
+> enabling/disabling routine of in[123]_enable.
+> 
 
-I was thinking about having pm_runtime_get_sync()/put() for channel
-enabling/disabling routine of in[123]_enable.
+Not sure if that would work. It might end up waking the chip when a
+sysfs attribute is accessed. It might be worth a try, though.
 
-Thanks
-Nicolin
+It might also be possible to utilize userspace runtime attributes,
+like setting runtime_enabled and setting the idle time before the sensor
+shuts down. It would probably be necessary to implement not only
+activating the sensor, though - we would also need to to ensure that
+the first reading after activation waits until the first read is
+complete.
+
+Guenter
