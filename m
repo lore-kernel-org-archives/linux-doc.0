@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A8ADA7D8D7
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:24:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 834EB7D088
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:25:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729096AbeJKWwQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 18:52:16 -0400
-Received: from mga05.intel.com ([192.55.52.43]:3986 "EHLO mga05.intel.com"
+        id S1727554AbeJKWsV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 18:48:21 -0400
+Received: from mga05.intel.com ([192.55.52.43]:3984 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728026AbeJKWsX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Oct 2018 18:48:23 -0400
+        id S1726189AbeJKWsU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Oct 2018 18:48:20 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:20:43 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:20:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,368,1534834800"; 
-   d="scan'208";a="78019095"
+   d="scan'208";a="78019075"
 Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2018 08:20:43 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2018 08:20:42 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -47,9 +47,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v5 06/27] x86/cet: Control protection exception handler
-Date:   Thu, 11 Oct 2018 08:15:02 -0700
-Message-Id: <20181011151523.27101-7-yu-cheng.yu@intel.com>
+Subject: [PATCH v5 01/27] x86/cpufeatures: Add CPUIDs for Control Flow Enforcement Technology (CET)
+Date:   Thu, 11 Oct 2018 08:14:57 -0700
+Message-Id: <20181011151523.27101-2-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011151523.27101-1-yu-cheng.yu@intel.com>
 References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
@@ -58,183 +58,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A control protection exception is triggered when a control flow transfer
-attempt violated shadow stack or indirect branch tracking constraints.
-For example, the return address for a RET instruction differs from the
-safe copy on the shadow stack; or a JMP instruction arrives at a non-
-ENDBR instruction.
+Add CPUIDs for Control Flow Enforcement Technology (CET).
 
-The control protection exception handler works in a similar way as the
-general protection fault handler.
+CPUID.(EAX=7,ECX=0):ECX[bit 7] Shadow stack
+CPUID.(EAX=7,ECX=0):EDX[bit 20] Indirect branch tracking
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/entry/entry_64.S          |  2 +-
- arch/x86/include/asm/traps.h       |  3 ++
- arch/x86/kernel/idt.c              |  4 ++
- arch/x86/kernel/signal_compat.c    |  2 +-
- arch/x86/kernel/traps.c            | 64 ++++++++++++++++++++++++++++++
- include/uapi/asm-generic/siginfo.h |  3 +-
- 6 files changed, 75 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/cpufeatures.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-index 957dfb693ecc..5f4914e988df 100644
---- a/arch/x86/entry/entry_64.S
-+++ b/arch/x86/entry/entry_64.S
-@@ -1000,7 +1000,7 @@ idtentry spurious_interrupt_bug		do_spurious_interrupt_bug	has_error_code=0
- idtentry coprocessor_error		do_coprocessor_error		has_error_code=0
- idtentry alignment_check		do_alignment_check		has_error_code=1
- idtentry simd_coprocessor_error		do_simd_coprocessor_error	has_error_code=0
--
-+idtentry control_protection		do_control_protection		has_error_code=1
- 
- 	/*
- 	 * Reload gs selector with exception handling
-diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
-index 3de69330e6c5..5196050ff3d5 100644
---- a/arch/x86/include/asm/traps.h
-+++ b/arch/x86/include/asm/traps.h
-@@ -26,6 +26,7 @@ asmlinkage void invalid_TSS(void);
- asmlinkage void segment_not_present(void);
- asmlinkage void stack_segment(void);
- asmlinkage void general_protection(void);
-+asmlinkage void control_protection(void);
- asmlinkage void page_fault(void);
- asmlinkage void async_page_fault(void);
- asmlinkage void spurious_interrupt_bug(void);
-@@ -77,6 +78,7 @@ dotraplinkage void do_stack_segment(struct pt_regs *, long);
- dotraplinkage void do_double_fault(struct pt_regs *, long);
- #endif
- dotraplinkage void do_general_protection(struct pt_regs *, long);
-+dotraplinkage void do_control_protection(struct pt_regs *, long);
- dotraplinkage void do_page_fault(struct pt_regs *, unsigned long);
- dotraplinkage void do_spurious_interrupt_bug(struct pt_regs *, long);
- dotraplinkage void do_coprocessor_error(struct pt_regs *, long);
-@@ -142,6 +144,7 @@ enum {
- 	X86_TRAP_AC,		/* 17, Alignment Check */
- 	X86_TRAP_MC,		/* 18, Machine Check */
- 	X86_TRAP_XF,		/* 19, SIMD Floating-Point Exception */
-+	X86_TRAP_CP = 21,	/* 21 Control Protection Fault */
- 	X86_TRAP_IRET = 32,	/* 32, IRET Exception */
- };
- 
-diff --git a/arch/x86/kernel/idt.c b/arch/x86/kernel/idt.c
-index 01adea278a71..66ebc8cb16e2 100644
---- a/arch/x86/kernel/idt.c
-+++ b/arch/x86/kernel/idt.c
-@@ -104,6 +104,10 @@ static const __initconst struct idt_data def_idts[] = {
- #elif defined(CONFIG_X86_32)
- 	SYSG(IA32_SYSCALL_VECTOR,	entry_INT80_32),
- #endif
-+
-+#ifdef CONFIG_X86_64
-+	INTG(X86_TRAP_CP,		control_protection),
-+#endif
- };
- 
- /*
-diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
-index 9ccbf0576cd0..c572a3de1037 100644
---- a/arch/x86/kernel/signal_compat.c
-+++ b/arch/x86/kernel/signal_compat.c
-@@ -27,7 +27,7 @@ static inline void signal_compat_build_tests(void)
- 	 */
- 	BUILD_BUG_ON(NSIGILL  != 11);
- 	BUILD_BUG_ON(NSIGFPE  != 15);
--	BUILD_BUG_ON(NSIGSEGV != 7);
-+	BUILD_BUG_ON(NSIGSEGV != 8);
- 	BUILD_BUG_ON(NSIGBUS  != 5);
- 	BUILD_BUG_ON(NSIGTRAP != 5);
- 	BUILD_BUG_ON(NSIGCHLD != 6);
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index e6db475164ed..4188775681cf 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -578,6 +578,70 @@ do_general_protection(struct pt_regs *regs, long error_code)
- }
- NOKPROBE_SYMBOL(do_general_protection);
- 
-+static const char *control_protection_err[] =
-+{
-+	"unknown",
-+	"near-ret",
-+	"far-ret/iret",
-+	"endbranch",
-+	"rstorssp",
-+	"setssbsy",
-+};
-+
-+/*
-+ * When a control protection exception occurs, send a signal
-+ * to the responsible application.  Currently, control
-+ * protection is only enabled for the user mode.  This
-+ * exception should not come from the kernel mode.
-+ */
-+dotraplinkage void
-+do_control_protection(struct pt_regs *regs, long error_code)
-+{
-+	struct task_struct *tsk;
-+	siginfo_t info;
-+
-+	RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
-+	if (notify_die(DIE_TRAP, "control protection fault", regs,
-+		       error_code, X86_TRAP_CP, SIGSEGV) == NOTIFY_STOP)
-+		return;
-+	cond_local_irq_enable(regs);
-+
-+	if (!user_mode(regs))
-+		die("kernel control protection fault", regs, error_code);
-+
-+	if (!static_cpu_has(X86_FEATURE_SHSTK) &&
-+	    !static_cpu_has(X86_FEATURE_IBT))
-+		WARN_ONCE(1, "CET is disabled but got control "
-+			  "protection fault\n");
-+
-+	tsk = current;
-+	tsk->thread.error_code = error_code;
-+	tsk->thread.trap_nr = X86_TRAP_CP;
-+
-+	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-+	    printk_ratelimit()) {
-+		unsigned int max_err;
-+
-+		max_err = ARRAY_SIZE(control_protection_err) - 1;
-+		if ((error_code < 0) || (error_code > max_err))
-+			error_code = 0;
-+		pr_info("%s[%d] control protection ip:%lx sp:%lx error:%lx(%s)",
-+			tsk->comm, task_pid_nr(tsk),
-+			regs->ip, regs->sp, error_code,
-+			control_protection_err[error_code]);
-+		print_vma_addr(KERN_CONT " in ", regs->ip);
-+		pr_cont("\n");
-+	}
-+
-+	clear_siginfo(&info);
-+	info.si_signo	= SIGSEGV;
-+	info.si_errno	= error_code;
-+	info.si_code	= SEGV_CPERR;
-+	info.si_addr	= (void __user*)uprobe_get_trap_addr(regs);
-+	force_sig_info(SIGSEGV, &info, tsk);
-+}
-+NOKPROBE_SYMBOL(do_control_protection);
-+
- dotraplinkage void notrace do_int3(struct pt_regs *regs, long error_code)
- {
- #ifdef CONFIG_DYNAMIC_FTRACE
-diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-index 80e2a7227205..264d8e03270f 100644
---- a/include/uapi/asm-generic/siginfo.h
-+++ b/include/uapi/asm-generic/siginfo.h
-@@ -228,7 +228,8 @@ typedef struct siginfo {
- #define SEGV_ACCADI	5	/* ADI not enabled for mapped object */
- #define SEGV_ADIDERR	6	/* Disrupting MCD error */
- #define SEGV_ADIPERR	7	/* Precise MCD exception */
--#define NSIGSEGV	7
-+#define SEGV_CPERR	8
-+#define NSIGSEGV	8
- 
- /*
-  * SIGBUS si_codes
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 89a048c2faec..142b15da06fd 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -321,6 +321,7 @@
+ #define X86_FEATURE_PKU			(16*32+ 3) /* Protection Keys for Userspace */
+ #define X86_FEATURE_OSPKE		(16*32+ 4) /* OS Protection Keys Enable */
+ #define X86_FEATURE_AVX512_VBMI2	(16*32+ 6) /* Additional AVX512 Vector Bit Manipulation Instructions */
++#define X86_FEATURE_SHSTK		(16*32+ 7) /* Shadow Stack */
+ #define X86_FEATURE_GFNI		(16*32+ 8) /* Galois Field New Instructions */
+ #define X86_FEATURE_VAES		(16*32+ 9) /* Vector AES */
+ #define X86_FEATURE_VPCLMULQDQ		(16*32+10) /* Carry-Less Multiplication Double Quadword */
+@@ -341,6 +342,7 @@
+ #define X86_FEATURE_AVX512_4VNNIW	(18*32+ 2) /* AVX-512 Neural Network Instructions */
+ #define X86_FEATURE_AVX512_4FMAPS	(18*32+ 3) /* AVX-512 Multiply Accumulation Single precision */
+ #define X86_FEATURE_PCONFIG		(18*32+18) /* Intel PCONFIG */
++#define X86_FEATURE_IBT			(18*32+20) /* Indirect Branch Tracking */
+ #define X86_FEATURE_SPEC_CTRL		(18*32+26) /* "" Speculation Control (IBRS + IBPB) */
+ #define X86_FEATURE_INTEL_STIBP		(18*32+27) /* "" Single Thread Indirect Branch Predictors */
+ #define X86_FEATURE_FLUSH_L1D		(18*32+28) /* Flush L1D cache */
 -- 
 2.17.1
 
