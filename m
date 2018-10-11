@@ -3,46 +3,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2956F7D8D9
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:25:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6740C7D8E7
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbeJKHu1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 03:50:27 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:37897 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726040AbeJKHu1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:27 -0400
-Received: by mail-pg1-f194.google.com with SMTP id f8-v6so3280214pgq.5
-        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:50 -0700 (PDT)
+        id S1727016AbeJKHud (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 03:50:33 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:38160 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727028AbeJKHuc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:32 -0400
+Received: by mail-pl1-f196.google.com with SMTP id q19-v6so213508pll.5
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=f7MAy9mUUeYOMxjwjpwy6gsSU/ScT6gKoTAYP39DmWY=;
-        b=EKyGGt0rSKRVrksa4ueW6GHsYaRXgCYj4q0KjP+m+wkKZPKNH5yT42FbOkIELQ1ERS
-         rC57Khf/Qiu0U8fYdmIHGZv99rMI9/2oyMttaonvrMCyA7EtVLJ+Nwgvh6pvItnCWsOf
-         Sz+6nT4TxBzHHwsf17U09678uG9ZSnhxZZAGo=
+        bh=i7+WY/jHpzJT6ht0Y+8g3kVgLzl4v3M2OeZZNdpdTfs=;
+        b=odSYJl5MVP6b7FO/sh3vvTt0HGfbPxDgszmGZ7afN533sijcINFI5wqsUkHVLRqy5v
+         qPCya2I+EUl/w+8ITFfZzhNyyYdO87wueoQ7sLrA2GG1YhgfD15tKk74AKpGSvNOCvXR
+         loWdLuY7a+TrOiO9ebUBqA2BRlMGgt8AEX9sA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=f7MAy9mUUeYOMxjwjpwy6gsSU/ScT6gKoTAYP39DmWY=;
-        b=jSiDkH4almCsSdPTke/Qt64Od4QMTsd/82fc/5HONLvid0xXcPBW6qwVkpfRo/RVvx
-         VeW/MOKvLKOBtjcvBlldzTHUfSZy7rxOBuQS2WU7P1MsoQpTYyuaOTEAvar+VNV8Uuqz
-         3V5eaGUEj+tWiLmaZpYAIAhVj6ys3tIAyw5+roauahoFVmQvIsBN4k2tDv26zRQK+rPS
-         gfQO+2Oi0ktrvpDJ8JEF7NaG+dYHPbhkIkt6Ac8Tp/U976hglJWaAx1/KEoWpu1Eh53y
-         5/4kMcy6tJ64f8JWX+2D5ZFoVAXPsimt5z5an0rxic1cL8F6NlX3XT/4Mptyi7jFhwFJ
-         4CEw==
-X-Gm-Message-State: ABuFfoi0wWoGaDBQTaXMsOwuaM0p4WokPlF/JCaaOvPPvrGfsLVRGiXT
-        NY5vUo4fXEy/ExKjamSnbW35rGzJ5ng=
-X-Google-Smtp-Source: ACcGV62Mh0fpsW6JhMcZPgXNY6KV/gPsEDH2CbM6vYQ4G2gK3UT02xWAcVWf+GABYsRQKKE6Nxlwuw==
-X-Received: by 2002:a63:ed55:: with SMTP id m21-v6mr31611186pgk.147.1539217550287;
-        Wed, 10 Oct 2018 17:25:50 -0700 (PDT)
+        bh=i7+WY/jHpzJT6ht0Y+8g3kVgLzl4v3M2OeZZNdpdTfs=;
+        b=i+SCp+ocXS9CUdY0xgBmiUj4gAIYm6jtzp6/wIrQ4tamiteMBbylT/RfazXtOUWr1i
+         2lM9y4ptHQq/LFDz/grOQn3GuxOwSaTVRo8tvbwoceuGblGEqSqzYDttqd9vm62nM4yY
+         iTAOsaIwTgiVkh44Tvgj5XI6uGrhR+jsQoIxTZbI0g37v9DE9uQAWfKWzxqspIOpBIZy
+         3eTg9ymRYBh1U3BrufO/LbIVUA6Kjh8y4Wg0KlVtHkj2tKN7nCmSsrHpR4nap5D+HAJA
+         KevOH7jXnU52fGiBEm3AeX9wRe3J7wpRZoLl+h7N8MG50ckSUxLnL9tVD9gJ0UE/8Khk
+         ANfg==
+X-Gm-Message-State: ABuFfoi4ZuIqZ+osvgfGFU+YQvBd0vypokIw8myD6/DLZzyTgrx1czl0
+        DMKREi+fCOGU8Dqtj4nFLYEKlyXDAVo=
+X-Google-Smtp-Source: ACcGV60dUTyw3VCQSwMlueigJGcG9Tv+uK5nOIioeNv9gG8dH2JcJ28IFaQE7rn6vhF6uMUkh6aWvQ==
+X-Received: by 2002:a17:902:b198:: with SMTP id s24-v6mr33605985plr.70.1539217555602;
+        Wed, 10 Oct 2018 17:25:55 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id n79-v6sm53021033pfk.19.2018.10.10.17.25.45
+        by smtp.gmail.com with ESMTPSA id v189-v6sm36233331pfb.54.2018.10.10.17.25.47
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 10 Oct 2018 17:25:45 -0700 (PDT)
+        Wed, 10 Oct 2018 17:25:50 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     James Morris <jmorris@namei.org>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -57,9 +57,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v5 30/30] capability: Initialize as LSM_ORDER_FIRST
-Date:   Wed, 10 Oct 2018 17:18:46 -0700
-Message-Id: <20181011001846.30964-31-keescook@chromium.org>
+Subject: [PATCH security-next v5 22/30] LSM: Separate idea of "major" LSM from "exclusive" LSM
+Date:   Wed, 10 Oct 2018 17:18:38 -0700
+Message-Id: <20181011001846.30964-23-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011001846.30964-1-keescook@chromium.org>
 References: <20181011001846.30964-1-keescook@chromium.org>
@@ -68,66 +68,120 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This converts capabilities to use the new LSM_ORDER_FIRST position.
+In order to both support old "security=" Legacy Major LSM selection, and
+handling real exclusivity, this creates LSM_FLAG_EXCLUSIVE and updates
+the selection logic to handle them.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
 ---
- include/linux/lsm_hooks.h | 2 --
- security/commoncap.c      | 9 ++++++++-
- security/security.c       | 5 -----
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ include/linux/lsm_hooks.h  |  1 +
+ security/apparmor/lsm.c    |  2 +-
+ security/security.c        | 12 ++++++++++++
+ security/selinux/hooks.c   |  2 +-
+ security/smack/smack_lsm.c |  2 +-
+ security/tomoyo/tomoyo.c   |  2 +-
+ 6 files changed, 17 insertions(+), 4 deletions(-)
 
 diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 97898679a505..b728cb448957 100644
+index b6b05d351eb4..e88c725a43b8 100644
 --- a/include/linux/lsm_hooks.h
 +++ b/include/linux/lsm_hooks.h
-@@ -2092,6 +2092,4 @@ static inline void security_delete_hooks(struct security_hook_list *hooks,
- #define __lsm_ro_after_init	__ro_after_init
- #endif /* CONFIG_SECURITY_WRITABLE_HOOKS */
+@@ -2040,6 +2040,7 @@ extern void security_add_hooks(struct security_hook_list *hooks, int count,
+ 				char *lsm);
  
--extern void __init capability_add_hooks(void);
--
- #endif /* ! __LINUX_LSM_HOOKS_H */
-diff --git a/security/commoncap.c b/security/commoncap.c
-index 2e489d6a3ac8..c928eb3fe784 100644
---- a/security/commoncap.c
-+++ b/security/commoncap.c
-@@ -1366,10 +1366,17 @@ struct security_hook_list capability_hooks[] __lsm_ro_after_init = {
- 	LSM_HOOK_INIT(vm_enough_memory, cap_vm_enough_memory),
+ #define LSM_FLAG_LEGACY_MAJOR	BIT(0)
++#define LSM_FLAG_EXCLUSIVE	BIT(1)
+ 
+ struct lsm_info {
+ 	const char *name;	/* Required. */
+diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+index bc56b058dc75..ebf63461a79c 100644
+--- a/security/apparmor/lsm.c
++++ b/security/apparmor/lsm.c
+@@ -1602,7 +1602,7 @@ static int __init apparmor_init(void)
+ 
+ DEFINE_LSM(apparmor) = {
+ 	.name = "apparmor",
+-	.flags = LSM_FLAG_LEGACY_MAJOR,
++	.flags = LSM_FLAG_LEGACY_MAJOR | LSM_FLAG_EXCLUSIVE,
+ 	.enabled = &apparmor_enabled,
+ 	.init = apparmor_init,
  };
- 
--void __init capability_add_hooks(void)
-+static int __init capability_init(void)
- {
- 	security_add_hooks(capability_hooks, ARRAY_SIZE(capability_hooks),
- 				"capability");
-+	return 0;
- }
- 
-+DEFINE_LSM(capability) = {
-+	.name = "capability",
-+	.order = LSM_ORDER_FIRST,
-+	.init = capability_init,
-+};
-+
- #endif /* CONFIG_SECURITY */
 diff --git a/security/security.c b/security/security.c
-index 004938eb8e70..aa91181133c1 100644
+index 2c754968f98b..65f1fa733e4b 100644
 --- a/security/security.c
 +++ b/security/security.c
-@@ -267,11 +267,6 @@ int __init security_init(void)
- 	     i++)
- 		INIT_HLIST_HEAD(&list[i]);
+@@ -49,6 +49,7 @@ static __initconst const char * const builtin_lsm_order = CONFIG_LSM;
  
--	/*
--	 * Load minor LSMs, with the capability module always first.
--	 */
--	capability_add_hooks();
--
- 	/* Load LSMs in specified order. */
- 	ordered_lsm_init();
+ /* Ordered list of LSMs to initialize. */
+ static __initdata struct lsm_info **ordered_lsms;
++static __initdata struct lsm_info *exclusive;
  
+ static __initdata bool debug;
+ #define init_debug(...)						\
+@@ -129,6 +130,12 @@ static bool __init lsm_allowed(struct lsm_info *lsm)
+ 	if (!is_enabled(lsm))
+ 		return false;
+ 
++	/* Not allowed if another exclusive LSM already initialized. */
++	if ((lsm->flags & LSM_FLAG_EXCLUSIVE) && exclusive) {
++		init_debug("exclusive disabled: %s\n", lsm->name);
++		return false;
++	}
++
+ 	return true;
+ }
+ 
+@@ -144,6 +151,11 @@ static void __init maybe_initialize_lsm(struct lsm_info *lsm)
+ 	if (enabled) {
+ 		int ret;
+ 
++		if ((lsm->flags & LSM_FLAG_EXCLUSIVE) && !exclusive) {
++			exclusive = lsm;
++			init_debug("exclusive chosen: %s\n", lsm->name);
++		}
++
+ 		init_debug("initializing %s\n", lsm->name);
+ 		ret = lsm->init();
+ 		WARN(ret, "%s failed to initialize: %d\n", lsm->name, ret);
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 71a10fedecb3..0f8d7bb88197 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -7194,7 +7194,7 @@ void selinux_complete_init(void)
+    all processes and objects when they are created. */
+ DEFINE_LSM(selinux) = {
+ 	.name = "selinux",
+-	.flags = LSM_FLAG_LEGACY_MAJOR,
++	.flags = LSM_FLAG_LEGACY_MAJOR | LSM_FLAG_EXCLUSIVE,
+ 	.enabled = &selinux_enabled,
+ 	.init = selinux_init,
+ };
+diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+index f243044d5a55..92e4baa342f8 100644
+--- a/security/smack/smack_lsm.c
++++ b/security/smack/smack_lsm.c
+@@ -4881,6 +4881,6 @@ static __init int smack_init(void)
+  */
+ DEFINE_LSM(smack) = {
+ 	.name = "smack",
+-	.flags = LSM_FLAG_LEGACY_MAJOR,
++	.flags = LSM_FLAG_LEGACY_MAJOR | LSM_FLAG_EXCLUSIVE,
+ 	.init = smack_init,
+ };
+diff --git a/security/tomoyo/tomoyo.c b/security/tomoyo/tomoyo.c
+index a46f6bc1e97c..daff7d7897ad 100644
+--- a/security/tomoyo/tomoyo.c
++++ b/security/tomoyo/tomoyo.c
+@@ -550,6 +550,6 @@ static int __init tomoyo_init(void)
+ 
+ DEFINE_LSM(tomoyo) = {
+ 	.name = "tomoyo",
+-	.flags = LSM_FLAG_LEGACY_MAJOR,
++	.flags = LSM_FLAG_LEGACY_MAJOR | LSM_FLAG_EXCLUSIVE,
+ 	.init = tomoyo_init,
+ };
 -- 
 2.17.1
 
