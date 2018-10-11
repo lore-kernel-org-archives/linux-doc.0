@@ -3,44 +3,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B86FB7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:25:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2956F7D8D9
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:25:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbeJKHuY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 03:50:24 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:34399 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725989AbeJKHuX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:23 -0400
-Received: by mail-pg1-f196.google.com with SMTP id g12-v6so3288957pgs.1
-        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:47 -0700 (PDT)
+        id S1726689AbeJKHu1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 03:50:27 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:37897 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726040AbeJKHu1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:27 -0400
+Received: by mail-pg1-f194.google.com with SMTP id f8-v6so3280214pgq.5
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=7MWm0+P/X+39HL+s8UrwNL/nmKrjGJUnQdRflWFBBLo=;
-        b=YFYFaZPMiA6bx2pBhzXKXyqcvud3xTvKW0vJDgjtV6OcljqJzfkIJb+k5aN2/OZBYT
-         kbI9yzJnnTLUovU2SMPJRQFQFeSFoyQFDA3QRihYt9w+bBySiUFFWRS32h8iANEVHkKW
-         cbje0S0KgD59l7H3FViEsEmzw7NNEAKCa1FcQ=
+        bh=f7MAy9mUUeYOMxjwjpwy6gsSU/ScT6gKoTAYP39DmWY=;
+        b=EKyGGt0rSKRVrksa4ueW6GHsYaRXgCYj4q0KjP+m+wkKZPKNH5yT42FbOkIELQ1ERS
+         rC57Khf/Qiu0U8fYdmIHGZv99rMI9/2oyMttaonvrMCyA7EtVLJ+Nwgvh6pvItnCWsOf
+         Sz+6nT4TxBzHHwsf17U09678uG9ZSnhxZZAGo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=7MWm0+P/X+39HL+s8UrwNL/nmKrjGJUnQdRflWFBBLo=;
-        b=FuHzV98inESjGoeDum6NwRY5N/rRARnqRSZ0svYA7G0wvVzDgxGv1TCuG7bofhTz3d
-         Oxz5MSBl/H2eCmu8f5kkk4N6KW/AOEwPjerNMCxS/r956p21adOx5MGk3dvyOsQZFuj1
-         VzSKwYRxDkZiC5QOic/Ui2FY5ZAikA9JtzMeSAr/mEDk/+/pIupF/GdXvj838O3zJjAP
-         CzSylWolbLb168Mj8BtfJuDAhfK44gHRuOkLLGeOFDqHYOA+lxDH2NmM3wk86J/P1liK
-         AclNOO3zr5gD19rLXMzFehnGDZUyzReXSYW9NmzwOQcprN5II/497sitTPuMQdchWc85
-         xTwA==
-X-Gm-Message-State: ABuFfojIyM1E6oBGxKqbSoVzvfbSHb7TPtz90AQKhTZ59MFKc1wFcW59
-        LgltItvljOhfZAUSLCblXvD2gA==
-X-Google-Smtp-Source: ACcGV61//8vWC9oFusndN9PkH+YwosFItNb/PjHYIYtOo0iGstbSGUkswUC9yvVOa8ZTf9yTjit4tA==
-X-Received: by 2002:a62:c60a:: with SMTP id m10-v6mr36286695pfg.15.1539217547310;
-        Wed, 10 Oct 2018 17:25:47 -0700 (PDT)
+        bh=f7MAy9mUUeYOMxjwjpwy6gsSU/ScT6gKoTAYP39DmWY=;
+        b=jSiDkH4almCsSdPTke/Qt64Od4QMTsd/82fc/5HONLvid0xXcPBW6qwVkpfRo/RVvx
+         VeW/MOKvLKOBtjcvBlldzTHUfSZy7rxOBuQS2WU7P1MsoQpTYyuaOTEAvar+VNV8Uuqz
+         3V5eaGUEj+tWiLmaZpYAIAhVj6ys3tIAyw5+roauahoFVmQvIsBN4k2tDv26zRQK+rPS
+         gfQO+2Oi0ktrvpDJ8JEF7NaG+dYHPbhkIkt6Ac8Tp/U976hglJWaAx1/KEoWpu1Eh53y
+         5/4kMcy6tJ64f8JWX+2D5ZFoVAXPsimt5z5an0rxic1cL8F6NlX3XT/4Mptyi7jFhwFJ
+         4CEw==
+X-Gm-Message-State: ABuFfoi0wWoGaDBQTaXMsOwuaM0p4WokPlF/JCaaOvPPvrGfsLVRGiXT
+        NY5vUo4fXEy/ExKjamSnbW35rGzJ5ng=
+X-Google-Smtp-Source: ACcGV62Mh0fpsW6JhMcZPgXNY6KV/gPsEDH2CbM6vYQ4G2gK3UT02xWAcVWf+GABYsRQKKE6Nxlwuw==
+X-Received: by 2002:a63:ed55:: with SMTP id m21-v6mr31611186pgk.147.1539217550287;
+        Wed, 10 Oct 2018 17:25:50 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id l83-v6sm62173135pfi.172.2018.10.10.17.25.45
+        by smtp.gmail.com with ESMTPSA id n79-v6sm53021033pfk.19.2018.10.10.17.25.45
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
         Wed, 10 Oct 2018 17:25:45 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -57,9 +57,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v5 17/30] LSM: Introduce CONFIG_LSM
-Date:   Wed, 10 Oct 2018 17:18:33 -0700
-Message-Id: <20181011001846.30964-18-keescook@chromium.org>
+Subject: [PATCH security-next v5 30/30] capability: Initialize as LSM_ORDER_FIRST
+Date:   Wed, 10 Oct 2018 17:18:46 -0700
+Message-Id: <20181011001846.30964-31-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011001846.30964-1-keescook@chromium.org>
 References: <20181011001846.30964-1-keescook@chromium.org>
@@ -68,92 +68,66 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This provides a way to declare LSM initialization order via the new
-CONFIG_LSM. Currently only non-major LSMs are recognized. This will
-be expanded in future patches.
+This converts capabilities to use the new LSM_ORDER_FIRST position.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
 ---
- security/Kconfig    |  9 +++++++++
- security/security.c | 27 ++++++++++++++++++++++-----
- 2 files changed, 31 insertions(+), 5 deletions(-)
+ include/linux/lsm_hooks.h | 2 --
+ security/commoncap.c      | 9 ++++++++-
+ security/security.c       | 5 -----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/security/Kconfig b/security/Kconfig
-index 27d8b2688f75..005634f7c4bb 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -276,5 +276,14 @@ config DEFAULT_SECURITY
- 	default "apparmor" if DEFAULT_SECURITY_APPARMOR
- 	default "" if DEFAULT_SECURITY_DAC
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index 97898679a505..b728cb448957 100644
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -2092,6 +2092,4 @@ static inline void security_delete_hooks(struct security_hook_list *hooks,
+ #define __lsm_ro_after_init	__ro_after_init
+ #endif /* CONFIG_SECURITY_WRITABLE_HOOKS */
  
-+config LSM
-+	string "Ordered list of enabled LSMs"
-+	default "integrity"
-+	help
-+	  A comma-separated list of LSMs, in initialization order.
-+	  Any LSMs left off this list will be ignored.
-+
-+	  If unsure, leave this as the default.
-+
- endmenu
+-extern void __init capability_add_hooks(void);
+-
+ #endif /* ! __LINUX_LSM_HOOKS_H */
+diff --git a/security/commoncap.c b/security/commoncap.c
+index 2e489d6a3ac8..c928eb3fe784 100644
+--- a/security/commoncap.c
++++ b/security/commoncap.c
+@@ -1366,10 +1366,17 @@ struct security_hook_list capability_hooks[] __lsm_ro_after_init = {
+ 	LSM_HOOK_INIT(vm_enough_memory, cap_vm_enough_memory),
+ };
  
+-void __init capability_add_hooks(void)
++static int __init capability_init(void)
+ {
+ 	security_add_hooks(capability_hooks, ARRAY_SIZE(capability_hooks),
+ 				"capability");
++	return 0;
+ }
+ 
++DEFINE_LSM(capability) = {
++	.name = "capability",
++	.order = LSM_ORDER_FIRST,
++	.init = capability_init,
++};
++
+ #endif /* CONFIG_SECURITY */
 diff --git a/security/security.c b/security/security.c
-index 9bb15d697287..1c4889bce917 100644
+index 004938eb8e70..aa91181133c1 100644
 --- a/security/security.c
 +++ b/security/security.c
-@@ -48,6 +48,8 @@ char *lsm_names;
- static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
- 	CONFIG_DEFAULT_SECURITY;
+@@ -267,11 +267,6 @@ int __init security_init(void)
+ 	     i++)
+ 		INIT_HLIST_HEAD(&list[i]);
  
-+static __initconst const char * const builtin_lsm_order = CONFIG_LSM;
-+
- /* Ordered list of LSMs to initialize. */
- static __initdata struct lsm_info **ordered_lsms;
+-	/*
+-	 * Load minor LSMs, with the capability module always first.
+-	 */
+-	capability_add_hooks();
+-
+ 	/* Load LSMs in specified order. */
+ 	ordered_lsm_init();
  
-@@ -155,15 +157,30 @@ static void __init maybe_initialize_lsm(struct lsm_info *lsm)
- 	}
- }
- 
--/* Populate ordered LSMs list from single LSM name. */
-+/* Populate ordered LSMs list from comma-separated LSM name list. */
- static void __init ordered_lsm_parse(const char *order, const char *origin)
- {
- 	struct lsm_info *lsm;
-+	char *sep, *name, *next;
-+
-+	sep = kstrdup(order, GFP_KERNEL);
-+	next = sep;
-+	/* Walk the list, looking for matching LSMs. */
-+	while ((name = strsep(&next, ",")) != NULL) {
-+		bool found = false;
-+
-+		for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
-+			if ((lsm->flags & LSM_FLAG_LEGACY_MAJOR) == 0 &&
-+			    strcmp(lsm->name, name) == 0) {
-+				append_ordered_lsm(lsm, origin);
-+				found = true;
-+			}
-+		}
- 
--	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
--		if (strcmp(lsm->name, order) == 0)
--			append_ordered_lsm(lsm, origin);
-+		if (!found)
-+			init_debug("%s ignored: %s\n", origin, name);
- 	}
-+	kfree(sep);
- }
- 
- static void __init ordered_lsm_init(void)
-@@ -173,7 +190,7 @@ static void __init ordered_lsm_init(void)
- 	ordered_lsms = kcalloc(LSM_COUNT + 1, sizeof(*ordered_lsms),
- 				GFP_KERNEL);
- 
--	ordered_lsm_parse("integrity", "builtin");
-+	ordered_lsm_parse(builtin_lsm_order, "builtin");
- 
- 	for (lsm = ordered_lsms; *lsm; lsm++)
- 		maybe_initialize_lsm(*lsm);
 -- 
 2.17.1
 
