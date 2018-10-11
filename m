@@ -1,71 +1,65 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 65F2F7D8D7
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:53:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 07A217D087
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:57:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727975AbeJKXVB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 19:21:01 -0400
-Received: from namei.org ([65.99.196.166]:33840 "EHLO namei.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727375AbeJKXVA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Oct 2018 19:21:00 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id w9BFqW2P020603;
-        Thu, 11 Oct 2018 15:52:33 GMT
-Date:   Fri, 12 Oct 2018 02:52:32 +1100 (AEDT)
-From:   James Morris <jmorris@namei.org>
-To:     Kees Cook <keescook@chromium.org>
-cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        LSM <linux-security-module@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
-In-Reply-To: <CAGXu5jLzsYY1Ja8onnNdHXbenZ6vPrat_L8U_sbcCic0qk--qQ@mail.gmail.com>
-Message-ID: <alpine.LRH.2.21.1810120252220.20563@namei.org>
-References: <20181011001846.30964-1-keescook@chromium.org> <alpine.LRH.2.21.1810111443500.25845@namei.org> <CAGXu5jLzsYY1Ja8onnNdHXbenZ6vPrat_L8U_sbcCic0qk--qQ@mail.gmail.com>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+        id S1730553AbeJKXJh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 19:09:37 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:52372 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726700AbeJKXJh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 19:09:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=DYC6KjLQ3iB05Qw3MrUP4p5roecY+skehscAHp87U2E=; b=yRWm9Z6oXAfp0eBQolRy6XdwU
+        0Qp8JFP6EIMOgEwx17gafX/p7LLq97vXr+fD2cm1i+pN6yXWddCTfD93G0heWBK91e6dyEUi1M2g/
+        Bm4cWW3DHzCCtrlAPeEHfSWnFrVuxmK/p3Nr5Pax+Xc5OPn4VqHcBNiOVtYW77Kbbmh7gfFsBdNPE
+        6Aqu/2UjvpS4kU3P63A+xIxsTN6INrD7nzlg1AvswiVeNe3ZIYj/sTtiAcs7baEtQeTYO73TgtqI/
+        K/81q1mSEMzBigH4BgnFhWw9wHOg5n+aq52PbtwyYbXJmM+giEibNJxUn9JmiU8n0yUr59KbJUvjF
+        OSUf8q5DQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gAd5t-0004pP-Er; Thu, 11 Oct 2018 15:41:45 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id BF1B02027E1A2; Thu, 11 Oct 2018 17:41:43 +0200 (CEST)
+Date:   Thu, 11 Oct 2018 17:41:43 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     John Garry <john.garry@huawei.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mingo@redhat.com
+Subject: Re: [PATCH] docs/completion.txt: Fix a couple of punctuation nits
+Message-ID: <20181011154143.GB9867@hirez.programming.kicks-ass.net>
+References: <1539183392-239389-1-git-send-email-john.garry@huawei.com>
+ <20181011152910.GA8191@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181011152910.GA8191@bombadil.infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 11 Oct 2018, Kees Cook wrote:
-
-> On Wed, Oct 10, 2018 at 8:45 PM, James Morris <jmorris@namei.org> wrote:
-> > On Wed, 10 Oct 2018, Kees Cook wrote:
-> >
-> >> v5:
-> >> - redesigned to use CONFIG_LSM= and lsm= for both ordering and enabling
-> >> - dropped various Reviewed-bys due to rather large refactoring
-> >
-> > Patches 1-10 applied to
-> > git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git next-general
-> > and next-testing.
+On Thu, Oct 11, 2018 at 08:29:10AM -0700, Matthew Wilcox wrote:
+> On Wed, Oct 10, 2018 at 10:56:32PM +0800, John Garry wrote:
+> > This patch fixes a couple of punctuation nits which can make the document
+> > more correct and readable.
+> > 
+> > Also missing "()" are added to some function references for consistency.
 > 
-> Very cool; thanks!
-> 
-> As for the rest, I could post some examples of how the new CONFIG_LSM
-> and "lsm=..." work (and how they mix with the "legacy" options). Would
-> that be helpful?
+> While there's nothing wrong here, any chance you want to try converting
+> it to .rst and adding it to the overall index?  It looks a lot like
+> rst already.
 
-Yes, thanks.
-
--- 
-James Morris
-<jmorris@namei.org>
-
+I, on principle, will not touch rst files. They are inferior to txt files.
