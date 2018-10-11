@@ -1,69 +1,29 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 61F6D7D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 23:09:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 02A4E7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 23:48:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbeJLGiw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Oct 2018 02:38:52 -0400
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:33696 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726172AbeJLGiw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Oct 2018 02:38:52 -0400
-Received: by mail-yb1-f193.google.com with SMTP id u88-v6so4287349ybi.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 Oct 2018 16:09:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=E9Z8YXmyEHkjN2JSkxIYnrk1oOeD6hL6rpGkgyv6Ooo=;
-        b=ZlAWMLy7xB9VGuFtLXV9bY21AJDQg6yop286S/xbIdJNCEc3h3BKb1qIkTXGibDO1O
-         J3F+/m0Ia1keM4s5AiwIXKF9h5oP7fbZ39giOxryZzEtv2aibOGzP4/rAgvAhGJ+Y4o2
-         aNLpJoLo/GfWqFYNhCXz+OV8d0g/b66W6UaJY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=E9Z8YXmyEHkjN2JSkxIYnrk1oOeD6hL6rpGkgyv6Ooo=;
-        b=GqBaMveOdlm4WlHX/lJcDnhFqGaSF7hOFHdHHAztHqC6tZ9G80eV1lzSO84x9Ps/4W
-         +A0XGOkeLcksD1neK5Bi/1xaYOjmrWsn5noD198CHMMeaHvA5As485VVaH+wgyeGVvzR
-         SPd+RuCAW6NiG7cFUpWGvZ0BDlJlLepeyAqtFRkPoQPmoH3+JlIlaWdyw1jhmtrXNFa8
-         mcqh0rGMjP1XBtwMBjg7SVkYRNSM6oTseqQwhNVn7FbCi6nFEC+Yy2kEUUYLsAx9cue1
-         b7jp0k8JiDK8x+ZmJXN9F6wx35+uvb46gnJd7rDupQ8iuG4wEFEQ44hZl2mmwAzdJ1/O
-         yYbw==
-X-Gm-Message-State: ABuFfoho1jBikcmwfSV/uFmn7GJ42i2SdfkSgimL4xdlo4Z9puXYxaJ0
-        XarDJqo6+ddmx0x5EwAYt5C0LDqr9hY=
-X-Google-Smtp-Source: ACcGV62suBHdIJPIQTZ25I9DysSgrlVlfJTFpBaYqQihAyDW2hZ2N9zVq95YQtWC7kdYAv5vxMleBQ==
-X-Received: by 2002:a25:8589:: with SMTP id x9-v6mr2039082ybk.181.1539299362196;
-        Thu, 11 Oct 2018 16:09:22 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id l6-v6sm14310100ywb.15.2018.10.11.16.09.20
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Oct 2018 16:09:20 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id e16-v6so4274694ybk.8
-        for <linux-doc@vger.kernel.org>; Thu, 11 Oct 2018 16:09:20 -0700 (PDT)
-X-Received: by 2002:a25:3588:: with SMTP id c130-v6mr2077559yba.410.1539299360001;
- Thu, 11 Oct 2018 16:09:20 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Thu, 11 Oct 2018 16:09:18
- -0700 (PDT)
-In-Reply-To: <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
-References: <20181011001846.30964-1-keescook@chromium.org> <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
- <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Thu, 11 Oct 2018 16:09:18 -0700
-X-Gmail-Original-Message-ID: <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
-Message-ID: <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
+        id S1727268AbeJLHSC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Oct 2018 03:18:02 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:58814 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725830AbeJLHSC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Oct 2018 03:18:02 -0400
+Received: from static-50-53-48-205.bvtn.or.frontiernet.net ([50.53.48.205] helo=[192.168.192.153])
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <john.johansen@canonical.com>)
+        id 1gAkgn-0002fR-UF; Thu, 11 Oct 2018 23:48:22 +0000
 Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
-To:     Jordan Glover <Golden_Miller83@protonmail.ch>
+To:     Kees Cook <keescook@chromium.org>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>
 Cc:     James Morris <jmorris@namei.org>,
         Casey Schaufler <casey@schaufler-ca.com>,
-        John Johansen <john.johansen@canonical.com>,
         Stephen Smalley <sds@tycho.nsa.gov>,
         Paul Moore <paul@paul-moore.com>,
         Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
@@ -73,74 +33,150 @@ Cc:     James Morris <jmorris@namei.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         linux-arch <linux-arch@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20181011001846.30964-1-keescook@chromium.org>
+ <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
+ <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
+ <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
+From:   John Johansen <john.johansen@canonical.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Canonical
+Message-ID: <f68e5f4b-6360-a9e7-597f-89d1d3ca73c1@canonical.com>
+Date:   Thu, 11 Oct 2018 16:48:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 11, 2018 at 3:58 PM, Jordan Glover
-<Golden_Miller83@protonmail.ch> wrote:
-> On Thursday, October 11, 2018 7:57 PM, Kees Cook <keescook@chromium.org> wrote:
->>     To switch to SELinux at boot time with
->>     "CONFIG_LSM=yama,loadpin,integrity,apparmor", the old way continues to
->>     work:
+On 10/11/2018 04:09 PM, Kees Cook wrote:
+> On Thu, Oct 11, 2018 at 3:58 PM, Jordan Glover
+> <Golden_Miller83@protonmail.ch> wrote:
+>> On Thursday, October 11, 2018 7:57 PM, Kees Cook <keescook@chromium.org> wrote:
+>>>     To switch to SELinux at boot time with
+>>>     "CONFIG_LSM=yama,loadpin,integrity,apparmor", the old way continues to
+>>>     work:
+>>>
+>>>     selinux=1 security=selinux
+>>>
+>>>     This will work still, since it will enable selinux (selinux=1) and
+>>>     disable all other major LSMs (security=selinux).
+>>>
+>>>     The new way to enable selinux would be using
+>>>     "lsm=yama,loadpin,integrity,selinux".
+>>>
 >>
->>     selinux=1 security=selinux
+>> It seems to me that legacy way is more user friendly than the new one.
+>> AppArmor and SElinux are households names but the rest may be enigmatic
+>> for most users and the need for explicit passing them all may be
+>> troublesome. Especially when the new ones like sara,landlock or cows :)
+>> will be incoming. Moreover to knew what you have to pass there, you need
+>> to look at CONFIG_LSM in kernel config (which will vary across distros
+>> and also mean copy-paste from the web source may won't work as expected)
+>> which again most users don't do.
 >>
->>     This will work still, since it will enable selinux (selinux=1) and
->>     disable all other major LSMs (security=selinux).
+>> I think there is risk that users will end up with "lsm=selinux" without
+>> realizing that they may disable something along the way.
 >>
->>     The new way to enable selinux would be using
->>     "lsm=yama,loadpin,integrity,selinux".
+>> I would prefer for "lsm=" to work as override to "CONFIG_LSM=" with
+>> below assumptions:
 >>
->
-> It seems to me that legacy way is more user friendly than the new one.
-> AppArmor and SElinux are households names but the rest may be enigmatic
-> for most users and the need for explicit passing them all may be
-> troublesome. Especially when the new ones like sara,landlock or cows :)
-> will be incoming. Moreover to knew what you have to pass there, you need
-> to look at CONFIG_LSM in kernel config (which will vary across distros
-> and also mean copy-paste from the web source may won't work as expected)
-> which again most users don't do.
->
-> I think there is risk that users will end up with "lsm=selinux" without
-> realizing that they may disable something along the way.
->
-> I would prefer for "lsm=" to work as override to "CONFIG_LSM=" with
-> below assumptions:
->
-> I. lsm="$lsm" will append "$lsm" at the end of string. Before extreme
-> stacking it will also remove the other major (explicit) lsm from it.
->
-> II. lsm="!$lsm" will remove "$lsm" from the string.
->
-> III. If "$lsm" already exist in the string, it's moved at the end of it
-> (this will cover ordering).
+>> I. lsm="$lsm" will append "$lsm" at the end of string. Before extreme
+>> stacking it will also remove the other major (explicit) lsm from it.
+>>
+>> II. lsm="!$lsm" will remove "$lsm" from the string.
+>>
+>> III. If "$lsm" already exist in the string, it's moved at the end of it
+>> (this will cover ordering).
+> 
+> We've had things sort of like this proposed, but if you can convince
+> James and others, I'm all for it. I think the standing objection from
+> James and John about this is that the results of booting with
+> "lsm=something" ends up depending on CONFIG_LSM= for that distro. So
+> you end up with different behaviors instead of a consistent behavior
+> across all distros.
+> 
 
-We've had things sort of like this proposed, but if you can convince
-James and others, I'm all for it. I think the standing objection from
-James and John about this is that the results of booting with
-"lsm=something" ends up depending on CONFIG_LSM= for that distro. So
-you end up with different behaviors instead of a consistent behavior
-across all distros.
+Its certainly a point that could confuse the user. I do have concerns
+about it, but not something that is on a must haves list
 
-Now, in the future blob and extreme stacking world, having the
-explicit lsm= list shouldn't be too bad since LSMs will effectively
-ALL be initialized -- but they'll be inactive since they have no
-policy loaded.
+> Now, in the future blob and extreme stacking world, having the
+> explicit lsm= list shouldn't be too bad since LSMs will effectively
+> ALL be initialized -- but they'll be inactive since they have no
+> policy loaded.
+> 
 
-But I still agree with you: I'd like a friendlier way to
-disable/enable specific LSMs, but an explicit lsm= seems to be the
-only way.
+you are more optimistic about this than I am, but there will be at
+least some movement towards this.
 
-> It's possible that something lime this was discussed already
-> but without full examples it was hard to me for tracking things.
+> But I still agree with you: I'd like a friendlier way to
+> disable/enable specific LSMs, but an explicit lsm= seems to be the
+> only way.
+> 
 
-It's been a painful thread. ;)
+Hrmmm, I don't know about the only way, but a way to provide the
+explicit list, and also set a specific set as the default in the
+Kconfig is a hard requirement.
 
--Kees
+The initial lsm.ebable, lsm.disable had too many issues, and for
+various reasons I never managed to get back to kees' proposal
+for using +.
 
--- 
-Kees Cook
-Pixel Security
+That said, I do think the right approach for the initial pass is
+the explicit list. It moves the arguments to the side and allows
+this work to move forward.
+
+>> It's possible that something lime this was discussed already
+>> but without full examples it was hard to me for tracking things.
+> 
+> It's been a painful thread. ;)
+> 
+
+Indeed
