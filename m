@@ -5,27 +5,29 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F3537D08D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 16:43:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 70F4C7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 16:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730229AbeJLALn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 20:11:43 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:51366 "EHLO mail.skyhub.de"
+        id S1730503AbeJLAT2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 20:19:28 -0400
+Received: from mga11.intel.com ([192.55.52.93]:35190 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729991AbeJLALn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Oct 2018 20:11:43 -0400
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id XVn_nnE6gcfr; Thu, 11 Oct 2018 18:43:40 +0200 (CEST)
-Received: from zn.tnic (p200300EC2BD5D200329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2bd5:d200:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A4C461EC0266;
-        Thu, 11 Oct 2018 18:43:40 +0200 (CEST)
-Date:   Thu, 11 Oct 2018 18:43:29 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        id S1729991AbeJLAT1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Oct 2018 20:19:27 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 09:51:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,369,1534834800"; 
+   d="scan'208";a="270528239"
+Received: from unknown (HELO 2b52) ([143.183.136.147])
+  by fmsmga005.fm.intel.com with ESMTP; 11 Oct 2018 09:50:07 -0700
+Message-ID: <c3d193c68e017230dea1398f2eac4d8a8615f75e.camel@intel.com>
+Subject: Re: [PATCH v5 01/27] x86/cpufeatures: Add CPUIDs for Control Flow
+ Enforcement Technology (CET)
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Borislav Petkov <bp@alien8.de>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -48,62 +50,28 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v5 01/27] x86/cpufeatures: Add CPUIDs for Control Flow
- Enforcement Technology (CET)
-Message-ID: <20181011164329.GF25435@zn.tnic>
+Date:   Thu, 11 Oct 2018 09:45:21 -0700
+In-Reply-To: <20181011164329.GF25435@zn.tnic>
 References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
- <20181011151523.27101-2-yu-cheng.yu@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20181011151523.27101-2-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+         <20181011151523.27101-2-yu-cheng.yu@intel.com>
+         <20181011164329.GF25435@zn.tnic>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 11, 2018 at 08:14:57AM -0700, Yu-cheng Yu wrote:
-> Add CPUIDs for Control Flow Enforcement Technology (CET).
-
-This is not "CPUIDs" but feature flags. Fix the subject too pls.
-
-> CPUID.(EAX=7,ECX=0):ECX[bit 7] Shadow stack
-> CPUID.(EAX=7,ECX=0):EDX[bit 20] Indirect branch tracking
+On Thu, 2018-10-11 at 18:43 +0200, Borislav Petkov wrote:
+> On Thu, Oct 11, 2018 at 08:14:57AM -0700, Yu-cheng Yu wrote:
+> > Add CPUIDs for Control Flow Enforcement Technology (CET).
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/asm/cpufeatures.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index 89a048c2faec..142b15da06fd 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -321,6 +321,7 @@
->  #define X86_FEATURE_PKU			(16*32+ 3) /* Protection Keys for Userspace */
->  #define X86_FEATURE_OSPKE		(16*32+ 4) /* OS Protection Keys Enable */
->  #define X86_FEATURE_AVX512_VBMI2	(16*32+ 6) /* Additional AVX512 Vector Bit Manipulation Instructions */
-> +#define X86_FEATURE_SHSTK		(16*32+ 7) /* Shadow Stack */
->  #define X86_FEATURE_GFNI		(16*32+ 8) /* Galois Field New Instructions */
->  #define X86_FEATURE_VAES		(16*32+ 9) /* Vector AES */
->  #define X86_FEATURE_VPCLMULQDQ		(16*32+10) /* Carry-Less Multiplication Double Quadword */
-> @@ -341,6 +342,7 @@
->  #define X86_FEATURE_AVX512_4VNNIW	(18*32+ 2) /* AVX-512 Neural Network Instructions */
->  #define X86_FEATURE_AVX512_4FMAPS	(18*32+ 3) /* AVX-512 Multiply Accumulation Single precision */
->  #define X86_FEATURE_PCONFIG		(18*32+18) /* Intel PCONFIG */
-> +#define X86_FEATURE_IBT			(18*32+20) /* Indirect Branch Tracking */
->  #define X86_FEATURE_SPEC_CTRL		(18*32+26) /* "" Speculation Control (IBRS + IBPB) */
->  #define X86_FEATURE_INTEL_STIBP		(18*32+27) /* "" Single Thread Indirect Branch Predictors */
->  #define X86_FEATURE_FLUSH_L1D		(18*32+28) /* Flush L1D cache */
-> -- 
+> This is not "CPUIDs" but feature flags. Fix the subject too pls.
 
-With that addressed:
+I will fix it.
 
-Reviewed-by: Borislav Petkov <bp@suse.de>
+Thanks,
+Yu-cheng
 
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
