@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5FDA97D099
+	by archive.lwn.net (Postfix) with ESMTP id 9D9B57D8D9
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:26:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726896AbeJKHub (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 03:50:31 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:33029 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726902AbeJKHua (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:30 -0400
-Received: by mail-pg1-f195.google.com with SMTP id y18-v6so3295000pge.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:54 -0700 (PDT)
+        id S1727056AbeJKHuv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 03:50:51 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:36796 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727044AbeJKHuc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:32 -0400
+Received: by mail-pl1-f193.google.com with SMTP id y11-v6so3294168plt.3
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=5nEDfuECvIoCXFIzMh9Dj+6TlJ4peBjPjA1wDbBbnVw=;
-        b=oargnQD59MjHdASA/jZzqoYS/AuSEnLTP9i33/bcO4GerJX7MNwfBorPpxSGkmy8dk
-         SnlpmRUWdTySLIhGr/p5wxbZlEBIlVWGlvn+XgDoi7kOGBh3BjnJqSZBCORTZB+Ei4I+
-         5GJchYdIkG9d29+fzpDbdZuxOILSOHhtP4u3w=
+        bh=piFJbUUnA3DqTyvccR0Ze8PG9upbNm6UGtvVT6YJ0+U=;
+        b=aswPjPNs9bK0tyjPisDP2i0c3HxiZJd9dkzq0IXlaPWuNK/z/NLKaysyb/tEQZqYWj
+         yuGe5dqHCdG/xOcXFanWAqPLhny9RIpqjtlmHncMmOeuzfPAtcL0wcwGNsgThWiWIPSO
+         3SeL8e8kMJ2pbTd18YM/XwjcsAG1VY1VIQRhA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=5nEDfuECvIoCXFIzMh9Dj+6TlJ4peBjPjA1wDbBbnVw=;
-        b=crnER69/pGQc55UcGC7Cg69mNW6Q0jKBKN6fDN/ouLqxnNWe41uXWKrptv4ginDos0
-         WEKbrhODtUvnxafjk5grFYFrQSMDaBs5cJKuCWCMKIHiAHlRAodzWLXUfMUpYCdVNBRF
-         SoVB246YrJiyuOOil2H1i1wJaj5QhZ9KPnhyJ56tUdBNceNuueJVqOMP8AFJLfOSfgH7
-         FSIRgATvdwQvLVkczGactRa3+VIaZLeVzxuETg7t3QAs/F1xgw7OaqXKEboq3GpoeOgc
-         ZvceFkJZWMVyUzg0pAX9/LmFryMo1odhme8mfMwe4suzCalXskCIdnKm9h6pvVM4Tay8
-         WZow==
-X-Gm-Message-State: ABuFfoj2cucE/ulTP83Q7UDfbjaEqnwg+S60MuDtMLEaRc5OLxSml337
-        wC4jdRUJhvOogdivOLLAv+irIw==
-X-Google-Smtp-Source: ACcGV60psu5w1GB0+hcdsn8NLGqumxgi1GedY++WWis/Q829xrZiGZPmIT5ghc7tMJClonWd/JWD6g==
-X-Received: by 2002:a62:3541:: with SMTP id c62-v6mr36860753pfa.45.1539217553729;
-        Wed, 10 Oct 2018 17:25:53 -0700 (PDT)
+        bh=piFJbUUnA3DqTyvccR0Ze8PG9upbNm6UGtvVT6YJ0+U=;
+        b=YJlUkxQpMQhgDyCqcvPh9e0b8g8guGCYwD6lR6pfxvOlI/v6QKRKsAmiTqgRUWlF0w
+         i9Yev8weBn7ORQS8PKsrk88XPp9KFfuxce3cG6C2LSZ/AwaEcaXnZrHMqdO32HlMVkP2
+         cB+ZRU6cL6BfQ4IqpoGcv0sFDHsxl7Npm05abErH7az8PpOARKqVpcWj/aNmXfJUoQUk
+         RoQMMo0YnhR3cgmW5Kq5HxA5oTfn/HOpbja5BCbwj1ZFQfVCrJRkic5KFiKzr5FOfObN
+         RxxfGfqNLFA5yNpddtEywUW0hczQXscwKM5eyyK11d5SY4qXgwQ+NnVOJJ9QH+k3LcIr
+         Z20Q==
+X-Gm-Message-State: ABuFfohki2prf1m47T/mEAZnPeUUJ4dL5GIG47JA1AK/tb3/zKDLmojT
+        RbwLi+VSkH86HdIFU1AePX9f9A==
+X-Google-Smtp-Source: ACcGV61GWZ/jEH6+pjl/Cg7EY2qZq9fOqxOtf2HYn5v8u6IR+5Y73sAiWB+W5hGJ2mYIohWFcE/jNQ==
+X-Received: by 2002:a17:902:6e17:: with SMTP id u23-v6mr36037411plk.28.1539217556469;
+        Wed, 10 Oct 2018 17:25:56 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id w127-v6sm32878924pfd.112.2018.10.10.17.25.47
+        by smtp.gmail.com with ESMTPSA id c28-v6sm82620821pfk.48.2018.10.10.17.25.48
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
         Wed, 10 Oct 2018 17:25:50 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -57,9 +57,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v5 23/30] apparmor: Remove SECURITY_APPARMOR_BOOTPARAM_VALUE
-Date:   Wed, 10 Oct 2018 17:18:39 -0700
-Message-Id: <20181011001846.30964-24-keescook@chromium.org>
+Subject: [PATCH security-next v5 28/30] Yama: Initialize as ordered LSM
+Date:   Wed, 10 Oct 2018 17:18:44 -0700
+Message-Id: <20181011001846.30964-29-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011001846.30964-1-keescook@chromium.org>
 References: <20181011001846.30964-1-keescook@chromium.org>
@@ -68,59 +68,78 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In preparation for removing CONFIG_DEFAULT_SECURITY, this removes the
-soon-to-be redundant SECURITY_APPARMOR_BOOTPARAM_VALUE. Since explicit
-ordering via CONFIG_LSM or "lsm=" will define whether an LSM is enabled or
-not, this CONFIG will become effectively ignored, so remove it. However,
-in order to stay backward-compatible with "security=apparmor", the enable
-variable defaults to true.
+This converts Yama from being a direct "minor" LSM into an ordered LSM.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
 ---
- security/apparmor/Kconfig | 16 ----------------
- security/apparmor/lsm.c   |  2 +-
- 2 files changed, 1 insertion(+), 17 deletions(-)
+ include/linux/lsm_hooks.h | 5 -----
+ security/Kconfig          | 2 +-
+ security/security.c       | 1 -
+ security/yama/yama_lsm.c  | 8 +++++++-
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/security/apparmor/Kconfig b/security/apparmor/Kconfig
-index b6b68a7750ce..3de21f46c82a 100644
---- a/security/apparmor/Kconfig
-+++ b/security/apparmor/Kconfig
-@@ -14,22 +14,6 @@ config SECURITY_APPARMOR
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index e6893ff9ca2b..833ec0f03795 100644
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -2087,10 +2087,5 @@ static inline void security_delete_hooks(struct security_hook_list *hooks,
+ #endif /* CONFIG_SECURITY_WRITABLE_HOOKS */
  
- 	  If you are unsure how to answer this question, answer N.
+ extern void __init capability_add_hooks(void);
+-#ifdef CONFIG_SECURITY_YAMA
+-extern void __init yama_add_hooks(void);
+-#else
+-static inline void __init yama_add_hooks(void) { }
+-#endif
  
--config SECURITY_APPARMOR_BOOTPARAM_VALUE
--	int "AppArmor boot parameter default value"
--	depends on SECURITY_APPARMOR
--	range 0 1
--	default 1
--	help
--	  This option sets the default value for the kernel parameter
--	  'apparmor', which allows AppArmor to be enabled or disabled
--          at boot.  If this option is set to 0 (zero), the AppArmor
--	  kernel parameter will default to 0, disabling AppArmor at
--	  boot.  If this option is set to 1 (one), the AppArmor
--	  kernel parameter will default to 1, enabling AppArmor at
--	  boot.
--
--	  If you are unsure how to answer this question, answer 1.
--
- config SECURITY_APPARMOR_HASH
- 	bool "Enable introspection of sha1 hashes for loaded profiles"
- 	depends on SECURITY_APPARMOR
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index ebf63461a79c..9eaf1dec2e61 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1303,7 +1303,7 @@ bool aa_g_paranoid_load = true;
- module_param_named(paranoid_load, aa_g_paranoid_load, aabool, S_IRUGO);
+ #endif /* ! __LINUX_LSM_HOOKS_H */
+diff --git a/security/Kconfig b/security/Kconfig
+index 550bd7032ab2..f2a04f922ede 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -241,7 +241,7 @@ source security/integrity/Kconfig
  
- /* Boot time disable flag */
--static int apparmor_enabled = CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE;
-+static int apparmor_enabled __lsm_ro_after_init = 1;
- module_param_named(enabled, apparmor_enabled, int, 0444);
+ config LSM
+ 	string "Ordered list of enabled LSMs"
+-	default "loadpin,integrity,selinux,smack,tomoyo,apparmor"
++	default "yama,loadpin,integrity,selinux,smack,tomoyo,apparmor"
+ 	help
+ 	  A comma-separated list of LSMs, in initialization order.
+ 	  Any LSMs left off this list will be ignored. This can be
+diff --git a/security/security.c b/security/security.c
+index 6ad1262aa6ab..2eb8afdd945d 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -264,7 +264,6 @@ int __init security_init(void)
+ 	 * Load minor LSMs, with the capability module always first.
+ 	 */
+ 	capability_add_hooks();
+-	yama_add_hooks();
  
- static int __init apparmor_enabled_setup(char *str)
+ 	/* Load LSMs in specified order. */
+ 	ordered_lsm_init();
+diff --git a/security/yama/yama_lsm.c b/security/yama/yama_lsm.c
+index ffda91a4a1aa..eb1da1303d2e 100644
+--- a/security/yama/yama_lsm.c
++++ b/security/yama/yama_lsm.c
+@@ -477,9 +477,15 @@ static void __init yama_init_sysctl(void)
+ static inline void yama_init_sysctl(void) { }
+ #endif /* CONFIG_SYSCTL */
+ 
+-void __init yama_add_hooks(void)
++static int __init yama_init(void)
+ {
+ 	pr_info("Yama: becoming mindful.\n");
+ 	security_add_hooks(yama_hooks, ARRAY_SIZE(yama_hooks), "yama");
+ 	yama_init_sysctl();
++	return 0;
+ }
++
++DEFINE_LSM(yama) = {
++	.name = "yama",
++	.init = yama_init,
++};
 -- 
 2.17.1
 
