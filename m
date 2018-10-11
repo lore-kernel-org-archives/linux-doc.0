@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F07C7D927
+	by archive.lwn.net (Postfix) with ESMTP id 933367D9ED
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:22:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728957AbeJKWtq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 18:49:46 -0400
-Received: from mga17.intel.com ([192.55.52.151]:21585 "EHLO mga17.intel.com"
+        id S1728921AbeJKWtr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 18:49:47 -0400
+Received: from mga17.intel.com ([192.55.52.151]:21581 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728921AbeJKWtp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727400AbeJKWtp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 11 Oct 2018 18:49:45 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -20,9 +20,9 @@ Received: from fmsmga007.fm.intel.com ([10.253.24.52])
   by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:22:05 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,368,1534834800"; 
-   d="scan'208";a="77271642"
+   d="scan'208";a="77271633"
 Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Oct 2018 08:21:45 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 Oct 2018 08:21:44 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,9 +46,10 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: [PATCH v5 09/11] x86/vsyscall/32: Add ENDBR32 to vsyscall entry point
-Date:   Thu, 11 Oct 2018 08:16:52 -0700
-Message-Id: <20181011151654.27221-10-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v5 06/11] x86/cet/ibt: Add arch_prctl functions for IBT
+Date:   Thu, 11 Oct 2018 08:16:49 -0700
+Message-Id: <20181011151654.27221-7-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011151654.27221-1-yu-cheng.yu@intel.com>
 References: <20181011151654.27221-1-yu-cheng.yu@intel.com>
@@ -57,29 +58,106 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+Update ARCH_X86_CET_STATUS and ARCH_X86_CET_DISABLE to include
+Indirect Branch Tracking features.
 
-Add ENDBR32 to vsyscall entry point.
+Introduce:
+
+arch_prctl(ARCH_X86_CET_GET_LEGACY_BITMAP, unsigned long *addr)
+    Enable the Indirect Branch Tracking legacy code bitmap.
+    Allocate the bitmap if the task does not have one.
+
+    The parameter 'addr' is a pointer to a user buffer.
+    On returning to the caller, the kernel fills the following:
+
+    *addr = IBT bitmap base address
+    *(addr + 1) = IBT bitmap size
 
 Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/entry/vdso/vdso32/system_call.S | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/x86/include/uapi/asm/prctl.h |  1 +
+ arch/x86/kernel/cet_prctl.c       | 35 +++++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/arch/x86/entry/vdso/vdso32/system_call.S b/arch/x86/entry/vdso/vdso32/system_call.S
-index 263d7433dea8..2fc8141fff4e 100644
---- a/arch/x86/entry/vdso/vdso32/system_call.S
-+++ b/arch/x86/entry/vdso/vdso32/system_call.S
-@@ -14,6 +14,9 @@
- 	ALIGN
- __kernel_vsyscall:
- 	CFI_STARTPROC
-+#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+	endbr32
-+#endif
- 	/*
- 	 * Reshuffle regs so that all of any of the entry instructions
- 	 * will preserve enough state.
+diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
+index d962f0ec9ccf..fd4eae92c733 100644
+--- a/arch/x86/include/uapi/asm/prctl.h
++++ b/arch/x86/include/uapi/asm/prctl.h
+@@ -18,5 +18,6 @@
+ #define ARCH_X86_CET_DISABLE		0x3002
+ #define ARCH_X86_CET_LOCK		0x3003
+ #define ARCH_X86_CET_ALLOC_SHSTK	0x3004
++#define ARCH_X86_CET_GET_LEGACY_BITMAP	0x3005
+ 
+ #endif /* _ASM_X86_PRCTL_H */
+diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
+index 320dbb620d61..dc7e9785f5e7 100644
+--- a/arch/x86/kernel/cet_prctl.c
++++ b/arch/x86/kernel/cet_prctl.c
+@@ -21,6 +21,8 @@ static int handle_get_status(unsigned long arg2)
+ 
+ 	if (current->thread.cet.shstk_enabled)
+ 		features |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
++	if (current->thread.cet.ibt_enabled)
++		features |= GNU_PROPERTY_X86_FEATURE_1_IBT;
+ 
+ 	shstk_base = current->thread.cet.shstk_base;
+ 	shstk_size = current->thread.cet.shstk_size;
+@@ -56,6 +58,31 @@ static int handle_alloc_shstk(unsigned long arg2)
+ 	return 0;
+ }
+ 
++static int handle_bitmap(unsigned long arg2)
++{
++	unsigned long addr, size;
++
++	if (current->thread.cet.ibt_enabled) {
++		int err;
++
++		err  = cet_setup_ibt_bitmap();
++		if (err)
++			return err;
++
++		addr = current->thread.cet.ibt_bitmap_addr;
++		size = current->thread.cet.ibt_bitmap_size;
++	} else {
++		addr = 0;
++		size = 0;
++	}
++
++	if (put_user(addr, (unsigned long __user *)arg2) ||
++	    put_user(size, (unsigned long __user *)arg2 + 1))
++		return -EFAULT;
++
++	return 0;
++}
++
+ int prctl_cet(int option, unsigned long arg2)
+ {
+ 	if (!cpu_x86_cet_enabled())
+@@ -70,6 +97,8 @@ int prctl_cet(int option, unsigned long arg2)
+ 			return -EPERM;
+ 		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
+ 			cet_disable_free_shstk(current);
++		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_IBT)
++			cet_disable_ibt();
+ 
+ 		return 0;
+ 
+@@ -80,6 +109,12 @@ int prctl_cet(int option, unsigned long arg2)
+ 	case ARCH_X86_CET_ALLOC_SHSTK:
+ 		return handle_alloc_shstk(arg2);
+ 
++	/*
++	 * Allocate legacy bitmap and return address & size to user.
++	 */
++	case ARCH_X86_CET_GET_LEGACY_BITMAP:
++		return handle_bitmap(arg2);
++
+ 	default:
+ 		return -EINVAL;
+ 	}
 -- 
 2.17.1
 
