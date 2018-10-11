@@ -5,25 +5,25 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 263CD7D087
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 08:42:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCA587D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 08:42:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726955AbeJKQJJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728357AbeJKQJJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Thu, 11 Oct 2018 12:09:09 -0400
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:35260 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726035AbeJKQJJ (ORCPT
+Received: from laurent.telenet-ops.be ([195.130.137.89]:54322 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726955AbeJKQJJ (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 12:09:09 -0400
 Received: from ramsan.of.borg ([84.194.111.163])
-        by baptiste.telenet-ops.be with bizsmtp
-        id m8ir1y0033XaVaC018irBc; Thu, 11 Oct 2018 10:42:51 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id m8ir1y0053XaVaC018irZN; Thu, 11 Oct 2018 10:42:51 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.86_2)
         (envelope-from <geert@linux-m68k.org>)
-        id 1gAWYV-0000O7-07; Thu, 11 Oct 2018 10:42:51 +0200
+        id 1gAWYV-0000OD-1P; Thu, 11 Oct 2018 10:42:51 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1gAWYU-0001Bk-UQ; Thu, 11 Oct 2018 10:42:50 +0200
+        id 1gAWYU-0001Bo-Vo; Thu, 11 Oct 2018 10:42:50 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Petr Mladek <pmladek@suse.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -32,9 +32,9 @@ To:     Petr Mladek <pmladek@suse.com>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/3] lib/vsprintf: Hash legacy clock addresses
-Date:   Thu, 11 Oct 2018 10:42:48 +0200
-Message-Id: <20181011084249.4520-3-geert+renesas@glider.be>
+Subject: [PATCH v2 3/3] lib/vsprintf: Hash printed address for netdev bits fallback
+Date:   Thu, 11 Oct 2018 10:42:49 +0200
+Message-Id: <20181011084249.4520-4-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011084249.4520-1-geert+renesas@glider.be>
 References: <20181011084249.4520-1-geert+renesas@glider.be>
@@ -43,14 +43,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On platforms using the Common Clock Framework, "%pC" prints the clock's
-name. On legacy platforms, it prints the unhashed clock's address,
-potentially leaking sensitive information regarding the kernel layout in
-memory.
+The handler for "%pN" falls back to printing the raw pointer value when
+using a different format than the (sole supported) special format
+"%pNF", potentially leaking sensitive information regarding the kernel
+layout in memory.
 
-Avoid this leak by printing the hashed address instead.  To distinguish
-between clocks, a 32-bit unique identifier is as good as an actual
-pointer value.
+Avoid this leak by printing the hashed address instead.
+Note that there are no in-tree users of the fallback.
 
 Fixes: ad67b74d2469d9b8 ("printk: hash addresses printed with %p")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
@@ -59,39 +58,43 @@ Reviewed-by: Petr Mladek <pmladek@suse.com>
 v2:
   - Add Reviewed-by.
 ---
- Documentation/core-api/printk-formats.rst | 5 ++---
- lib/vsprintf.c                            | 2 +-
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ lib/vsprintf.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 25dc591cb1108790..d39798c2558500d5 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -420,9 +420,8 @@ struct clk
- 	%pC	pll1
- 	%pCn	pll1
- 
--For printing struct clk structures. %pC and %pCn print the name
--(Common Clock Framework) or address (legacy clock framework) of the
--structure.
-+For printing struct clk structures. %pC and %pCn print the name of the clock
-+(Common Clock Framework) or a unique 32-bit ID (legacy clock framework).
- 
- Passed by reference.
- 
 diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index b4e4ab274bde2397..3ea2119b85ac2e4f 100644
+index 3ea2119b85ac2e4f..4c75d847c1453ca4 100644
 --- a/lib/vsprintf.c
 +++ b/lib/vsprintf.c
-@@ -1563,7 +1563,7 @@ char *clock(char *buf, char *end, struct clk *clk, struct printf_spec spec,
- #ifdef CONFIG_COMMON_CLK
- 		return string(buf, end, __clk_get_name(clk), spec);
- #else
--		return special_hex_number(buf, end, (unsigned long)clk, sizeof(unsigned long));
-+		return ptr_to_id(buf, end, clk, spec);
- #endif
- 	}
+@@ -1510,7 +1510,8 @@ char *restricted_pointer(char *buf, char *end, const void *ptr,
  }
+ 
+ static noinline_for_stack
+-char *netdev_bits(char *buf, char *end, const void *addr, const char *fmt)
++char *netdev_bits(char *buf, char *end, const void *addr,
++		  struct printf_spec spec,  const char *fmt)
+ {
+ 	unsigned long long num;
+ 	int size;
+@@ -1521,9 +1522,7 @@ char *netdev_bits(char *buf, char *end, const void *addr, const char *fmt)
+ 		size = sizeof(netdev_features_t);
+ 		break;
+ 	default:
+-		num = (unsigned long)addr;
+-		size = sizeof(unsigned long);
+-		break;
++		return ptr_to_id(buf, end, addr, spec);
+ 	}
+ 
+ 	return special_hex_number(buf, end, num, size);
+@@ -1949,7 +1948,7 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+ 			break;
+ 		return restricted_pointer(buf, end, ptr, spec);
+ 	case 'N':
+-		return netdev_bits(buf, end, ptr, fmt);
++		return netdev_bits(buf, end, ptr, spec, fmt);
+ 	case 'a':
+ 		return address_val(buf, end, ptr, fmt);
+ 	case 'd':
 -- 
 2.17.1
 
