@@ -3,46 +3,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3743C7D8E7
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:26:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 356B17D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:26:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726892AbeJKHuf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 03:50:35 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:37901 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727182AbeJKHuf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:35 -0400
-Received: by mail-pf1-f195.google.com with SMTP id f29-v6so3453623pff.5
-        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:58 -0700 (PDT)
+        id S1726995AbeJKHub (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 03:50:31 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:42392 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726960AbeJKHua (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:30 -0400
+Received: by mail-pg1-f196.google.com with SMTP id i4-v6so3273627pgq.9
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=MDq8QXTvGfDQo8enk7I/8dLpEbR7SYI/PHjZNIdtOls=;
-        b=TFVYQeBD3isOYarr6fwcaguoEF1VqoyVIGS/Jy4VnBSn2ch8BFXlv3ocNYM/+XaNvU
-         4drzTWDWTFNWge+b+2BbGWlF2i90wvl1/SNzzKJXnrlqQpUF1WVonESt1NOKpO8aKjU2
-         UMTwYPv58C17E6wKQXqWMp1wLhBLl6zFy1YMk=
+        bh=DQdgKCn/bUcvd4Br0t1av29yxKn0HH2crs0trsCjZig=;
+        b=QqnvfrjOuLJL+o80kwEM6qYiHn0sy8kw7gXZmCstlzgpaTG3KZqajuzVHpQ0/sFT0M
+         GgwrOaDxSW0Xk6DbnGFZzipweTUnxmQFulXD04QsigOvs+4JBeRDO9OmXboeZJzJXmlT
+         9fcx7z5VGj2C7HVs1qfcfubyZJhpic6HWpYhs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=MDq8QXTvGfDQo8enk7I/8dLpEbR7SYI/PHjZNIdtOls=;
-        b=OSV1q+AbBZOAEJ59KMvXWjBqMPYR+Wjjq/fUq9Eh/NfGseibipFd1ElW3WJKC9QREC
-         AfhLvGSt2l+lLpQwt7hvS/6blVikq77Pq2ighTgvFAX0nq51eGa6+EA1IR2ZAhOA9i81
-         o1hM0qeDb9YHGJob/BSdAch285o5UCyJb+ZhlB/qoUVaFTPoDSzsgFmbT6zdL+Qg8An/
-         cWuSfQA1Zw7ku3yLIEjQ/s+TnxTDCm4iWIiO/dMkv76hKXOAgjMroGfVA8eGXSHPzcYS
-         9m2g3JK7JXG4pg6TOC2NXyNkE24fMgQNJLBlC2/v89yeim4+SzuGC0rqdgupgOhzIMEV
-         TIrA==
-X-Gm-Message-State: ABuFfohpuSADJ5goy0br8OadWIVGo45t5yiHfcpGMqhvFEnPw0ynIfr+
-        V0G6CvXh1HeWewVVSYG7aiDqsw==
-X-Google-Smtp-Source: ACcGV63wJGPcUqiX1haS0R+LeYhgztWmc+PLTeJMbugNUBpVwZbLBngSTPX4KjH9F5Jbs3eX5FrsHg==
-X-Received: by 2002:a62:5e02:: with SMTP id s2-v6mr25795217pfb.146.1539217558491;
-        Wed, 10 Oct 2018 17:25:58 -0700 (PDT)
+        bh=DQdgKCn/bUcvd4Br0t1av29yxKn0HH2crs0trsCjZig=;
+        b=fREtvHi/YeH5uKo9/K925XiOvjzr38Pen2xFg31hVJXrp1suUoEBl1qSv3ffnXxUBe
+         lTQiXxlVRNFUj7s53bN7KKFxTJ1HVbMCO48XskO0EsHPxCnz1Zm1cgRixn4jubR3u2ZL
+         2hCxwunTVuGYoV8ahq0WLRvH0k9iX5NKEHiVlyrA7hZp6sfrKrSTW9gc4C6+C/HYDsHi
+         EFOGsGbWu0oLQ8oM0FHBArmVr7A7UvZqus+m1HnG7faDxI92kuatXjh7iRP6legyMh6e
+         9s3i2JCbnIim2yjgSZuF1NQZ9LXfYP7Zn8IRgnOY5lFE/8YUeMXpbJbR6UNqfKEMrZ5p
+         Sc4A==
+X-Gm-Message-State: ABuFfoi+mA1StLQvm9xABWAGXdoHtRaQj95yqfYD/jN3QFzLgomlhTRQ
+        7d+utRcxkv1Y54bCHr7MFd91SQ==
+X-Google-Smtp-Source: ACcGV60OeEfa3KCZ/kUGezk7hN7oOaeQIOP2MjQZBjsY8UYfF8TYdVII5lAGVX0MQzYl/ny4PdjmOQ==
+X-Received: by 2002:a62:d40d:: with SMTP id a13-v6mr37693607pfh.23.1539217554665;
+        Wed, 10 Oct 2018 17:25:54 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id 187-v6sm43659859pfu.129.2018.10.10.17.25.50
+        by smtp.gmail.com with ESMTPSA id t64-v6sm35947232pfb.44.2018.10.10.17.25.48
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 10 Oct 2018 17:25:57 -0700 (PDT)
+        Wed, 10 Oct 2018 17:25:50 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     James Morris <jmorris@namei.org>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -57,9 +57,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v5 20/30] LSM: Prepare for reorganizing "security=" logic
-Date:   Wed, 10 Oct 2018 17:18:36 -0700
-Message-Id: <20181011001846.30964-21-keescook@chromium.org>
+Subject: [PATCH security-next v5 27/30] LoadPin: Initialize as ordered LSM
+Date:   Wed, 10 Oct 2018 17:18:43 -0700
+Message-Id: <20181011001846.30964-28-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011001846.30964-1-keescook@chromium.org>
 References: <20181011001846.30964-1-keescook@chromium.org>
@@ -68,78 +68,82 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This moves the string handling for "security=" boot parameter into
-a stored pointer instead of a string duplicate. This will allow
-easier handling of the string when switching logic to use the coming
-enable/disable infrastructure.
+This converts LoadPin from being a direct "minor" LSM into an ordered LSM.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
-Reviewed-by: John Johansen <john.johansen@canonical.com>
 ---
- security/security.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ include/linux/lsm_hooks.h  | 5 -----
+ security/Kconfig           | 2 +-
+ security/loadpin/loadpin.c | 8 +++++++-
+ security/security.c        | 1 -
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index e88c725a43b8..e6893ff9ca2b 100644
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -2092,10 +2092,5 @@ extern void __init yama_add_hooks(void);
+ #else
+ static inline void __init yama_add_hooks(void) { }
+ #endif
+-#ifdef CONFIG_SECURITY_LOADPIN
+-void __init loadpin_add_hooks(void);
+-#else
+-static inline void loadpin_add_hooks(void) { };
+-#endif
+ 
+ #endif /* ! __LINUX_LSM_HOOKS_H */
+diff --git a/security/Kconfig b/security/Kconfig
+index 2f8dc1f59cae..550bd7032ab2 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -241,7 +241,7 @@ source security/integrity/Kconfig
+ 
+ config LSM
+ 	string "Ordered list of enabled LSMs"
+-	default "integrity,selinux,smack,tomoyo,apparmor"
++	default "loadpin,integrity,selinux,smack,tomoyo,apparmor"
+ 	help
+ 	  A comma-separated list of LSMs, in initialization order.
+ 	  Any LSMs left off this list will be ignored. This can be
+diff --git a/security/loadpin/loadpin.c b/security/loadpin/loadpin.c
+index a2dc146b6364..640d9c69cf2e 100644
+--- a/security/loadpin/loadpin.c
++++ b/security/loadpin/loadpin.c
+@@ -184,13 +184,19 @@ static struct security_hook_list loadpin_hooks[] __lsm_ro_after_init = {
+ 	LSM_HOOK_INIT(kernel_load_data, loadpin_load_data),
+ };
+ 
+-void __init loadpin_add_hooks(void)
++static int __init loadpin_init(void)
+ {
+ 	pr_info("ready to pin (currently %senforcing)\n",
+ 		enforce ? "" : "not ");
+ 	security_add_hooks(loadpin_hooks, ARRAY_SIZE(loadpin_hooks), "loadpin");
++	return 0;
+ }
+ 
++DEFINE_LSM(loadpin) = {
++	.name = "loadpin",
++	.init = loadpin_init,
++};
++
+ /* Should not be mutable after boot, so not listed in sysfs (perm == 0). */
+ module_param(enforce, int, 0);
+ MODULE_PARM_DESC(enforce, "Enforce module/firmware pinning");
 diff --git a/security/security.c b/security/security.c
-index f3777ed4ca80..1b1ee823457c 100644
+index b40c4c212892..6ad1262aa6ab 100644
 --- a/security/security.c
 +++ b/security/security.c
-@@ -34,9 +34,6 @@
+@@ -265,7 +265,6 @@ int __init security_init(void)
+ 	 */
+ 	capability_add_hooks();
+ 	yama_add_hooks();
+-	loadpin_add_hooks();
  
- #define MAX_LSM_EVM_XATTR	2
- 
--/* Maximum number of letters for an LSM name string */
--#define SECURITY_NAME_MAX	10
--
- /* How many LSMs were built into the kernel? */
- #define LSM_COUNT (__end_lsm_info - __start_lsm_info)
- 
-@@ -45,9 +42,8 @@ static ATOMIC_NOTIFIER_HEAD(lsm_notifier_chain);
- 
- char *lsm_names;
- /* Boot-time LSM user choice */
--static __initdata char chosen_lsm[SECURITY_NAME_MAX + 1] =
--	CONFIG_DEFAULT_SECURITY;
- static __initdata const char *chosen_lsm_order;
-+static __initdata const char *chosen_major_lsm;
- 
- static __initconst const char * const builtin_lsm_order = CONFIG_LSM;
- 
-@@ -138,7 +134,7 @@ static bool __init lsm_allowed(struct lsm_info *lsm)
- 		return true;
- 
- 	/* Disabled if this LSM isn't the chosen one. */
--	if (strcmp(lsm->name, chosen_lsm) != 0)
-+	if (strcmp(lsm->name, chosen_major_lsm) != 0)
- 		return false;
- 
- 	return true;
-@@ -195,6 +191,9 @@ static void __init ordered_lsm_init(void)
- 	ordered_lsms = kcalloc(LSM_COUNT + 1, sizeof(*ordered_lsms),
- 				GFP_KERNEL);
- 
-+	if (!chosen_major_lsm)
-+		chosen_major_lsm = CONFIG_DEFAULT_SECURITY;
-+
- 	if (chosen_lsm_order)
- 		ordered_lsm_parse(chosen_lsm_order, "cmdline");
- 	else
-@@ -257,12 +256,12 @@ int __init security_init(void)
- }
- 
- /* Save user chosen LSM */
--static int __init choose_lsm(char *str)
-+static int __init choose_major_lsm(char *str)
- {
--	strncpy(chosen_lsm, str, SECURITY_NAME_MAX);
-+	chosen_major_lsm = str;
- 	return 1;
- }
--__setup("security=", choose_lsm);
-+__setup("security=", choose_major_lsm);
- 
- /* Explicitly choose LSM initialization order. */
- static int __init choose_lsm_order(char *str)
+ 	/* Load LSMs in specified order. */
+ 	ordered_lsm_init();
 -- 
 2.17.1
 
