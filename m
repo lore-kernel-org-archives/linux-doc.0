@@ -1,116 +1,219 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CF9817D087
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 20:55:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 226E47D088
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 23:06:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbeJLEYi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Oct 2018 00:24:38 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39922 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726770AbeJLEYi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Oct 2018 00:24:38 -0400
-Received: by mail-wr1-f65.google.com with SMTP id 61-v6so11164514wrb.6
-        for <linux-doc@vger.kernel.org>; Thu, 11 Oct 2018 13:55:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2KOjYX4ILxhVDuX6J6Xn9Mm3TnCRr6/YJJVFH//h0z0=;
-        b=qf9Z9hyN2c2yKMz3WdOpddxPJjgvuo0I3a46tr2NvcS7QB39fqUd9gTIS2y4W7PJXq
-         Z7uBYutIYxNO7oi674TDwQwAMRQ3KrRyT2FmiV9yI9fn1qCcYAlJNteiz43pVAICcHP3
-         yZORwyGV2PWTS1t869CuGydLZqeBHfRMS2818tCCykHx7wVCuZIEF28DwbjpLl9YyA77
-         ZH24VcEccP8QsYrGWVk3g/YV+kZQ+uQhV5ih8Kda39hgenvbh/lww6lOh651YZfwTNSU
-         DW8J6NAIyUc8NRnu98kIsMc+FbosreYcoJMcd8ql4u582720ioG4sjzP0R46A9mOhqSb
-         4ynA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2KOjYX4ILxhVDuX6J6Xn9Mm3TnCRr6/YJJVFH//h0z0=;
-        b=DF8g6SpuKF6ZvfsUDcP+OxanRomfN83MtYIa3EomHLQA5+C0QZr5dKcGSDYlD+hCSH
-         pGmn+xP6uGSfgCrBk3ccG9nONjs/g14PQSDZ9yfU5Rgf+yaAQwOY5H9uzwBI+0QxJuAH
-         HOA+P79SFC3khBKWXvkZHPCxll7aJVEeWzlq1oMpUGmX6oQC2EmmyL/WXU3aGd3/b4B8
-         NKMvlJ8iy8RlneHv01x6d7WQKAFnYJH/tcemx3NncTllyBrNt/vq9AnuWUE+Yrs8OOO0
-         oQ+4UPflZ9+OxbPEnc4PXpvhwmUgOJmbVmlyiW74WtvZgj+Tc4KeqbZZFz4JhLMhht1c
-         EdQg==
-X-Gm-Message-State: ABuFfoiuFMC4y+cEgmCR5PYfUED9NcOWLlbLaWaJQa6nFC3jXJRwMyj5
-        4lxLkbMMeduyJIJjJrga0EREiJ6YSmoa3hD1aO2uHg==
-X-Google-Smtp-Source: ACcGV60HIxYyBNiUnMvakya55CP3CUl/NaIFpl6QVhqly2z1o3gWSMhqUq8ac+FZHQjvpCBwvEBHwEPI/JKW6gBnJO8=
-X-Received: by 2002:adf:b188:: with SMTP id q8-v6mr2950881wra.95.1539291338385;
- Thu, 11 Oct 2018 13:55:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com> <20181011151523.27101-8-yu-cheng.yu@intel.com>
- <CAG48ez3R7XL8MX_sjff1FFYuARX_58wA_=ACbv2im-XJKR8tvA@mail.gmail.com>
-In-Reply-To: <CAG48ez3R7XL8MX_sjff1FFYuARX_58wA_=ACbv2im-XJKR8tvA@mail.gmail.com>
-From:   Andy Lutomirski <luto@amacapital.net>
-Date:   Thu, 11 Oct 2018 13:55:26 -0700
-Message-ID: <CALCETrUJ1t_K=FQExa_K0yg+aXkPot6wn6RHBPDc3BsAxtmMBw@mail.gmail.com>
-Subject: Re: [PATCH v5 07/27] mm/mmap: Create a guard area between VMAs
-To:     Jann Horn <jannh@google.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
+        id S1725824AbeJLGfa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Oct 2018 02:35:30 -0400
+Received: from mail-40130.protonmail.ch ([185.70.40.130]:56892 "EHLO
+        mail-40130.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbeJLGfa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Oct 2018 02:35:30 -0400
+Date:   Thu, 11 Oct 2018 22:58:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
+        s=default; t=1539298704;
+        bh=U7vuDGTuuk6QB8i/MHG2kvDaaLJRTJOLm+wp1OfFL+M=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
+         Feedback-ID:From;
+        b=JePUwiNaUoigfu0R+NY1YSP39lkZOyqlIY3fuYbf+z1htt+48ZqV9cEeX1rdFUpp0
+         KWls9jg7vTRLEThkkKn+zkc5dKkSRyjOSc/YXsFUJ3QK+tCfqI7xH//xmuNWHaJ9W9
+         OrkGhX2e0iw2pf04igOGGtGca+OfzrBphk2a1xJo=
+To:     Kees Cook <keescook@chromium.org>
+From:   Jordan Glover <Golden_Miller83@protonmail.ch>
+Cc:     James Morris <jmorris@namei.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        Daniel Micay <danielmicay@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        LSM <linux-security-module@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Reply-To: Jordan Glover <Golden_Miller83@protonmail.ch>
+Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
+Message-ID: <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
+In-Reply-To: <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
+References: <20181011001846.30964-1-keescook@chromium.org>
+ <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
+Feedback-ID: QEdvdaLhFJaqnofhWA-dldGwsuoeDdDw7vz0UPs8r8sanA3bIt8zJdf4aDqYKSy4gJuZ0WvFYJtvq21y6ge_uQ==:Ext:ProtonMail
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 11, 2018 at 1:39 PM Jann Horn <jannh@google.com> wrote:
->
-> On Thu, Oct 11, 2018 at 5:20 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > Create a guard area between VMAs to detect memory corruption.
-> [...]
-> > +config VM_AREA_GUARD
-> > +       bool "VM area guard"
-> > +       default n
-> > +       help
-> > +         Create a guard area between VM areas so that access beyond
-> > +         limit can be detected.
-> > +
-> >  endmenu
->
-> Sorry to bring this up so late, but Daniel Micay pointed out to me
-> that, given that VMA guards will raise the number of VMAs by
-> inhibiting vma_merge(), people are more likely to run into
-> /proc/sys/vm/max_map_count (which limits the number of VMAs to ~65k by
-> default, and can't easily be raised without risking an overflow of
-> page->_mapcount on systems with over ~800GiB of RAM, see
-> https://lore.kernel.org/lkml/20180208021112.GB14918@bombadil.infradead.org/
-> and replies) with this change.
->
-> Playing with glibc's memory allocator, it looks like glibc will use
-> mmap() for 128KB allocations; so at 65530*128KB=8GB of memory usage in
-> 128KB chunks, an application could run out of VMAs.
+=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90 Original Me=
+ssage =E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90
+On Thursday, October 11, 2018 7:57 PM, Kees Cook <keescook@chromium.org> wr=
+ote:
 
-Ugh.
+> On Wed, Oct 10, 2018 at 5:18 PM, Kees Cook keescook@chromium.org wrote:
+>
+> > v5:
+> >
+> > -   redesigned to use CONFIG_LSM=3D and lsm=3D for both ordering and en=
+abling
+> > -   dropped various Reviewed-bys due to rather large refactoring
+>
+> Here's a tl;dr of the behavioral changes...
+>
+> Right now, we have:
+>
+> -   hard-coded special LSM: capability which cannot be disabled.
+> -   hard-coded "minor" LSMs: they are enabled in a static order based on
+>     whether they are built into the kernel or not: yama, loadpin.
+>
+> -   a single LSM without a specified order because it only uses the
+>     early-init position: integrity.
+>
+> -   "major" LSMs that are selected via CONFIG_DEFAULT_SECURITY=3D or
+>     "security=3D" boot param.
+>
+> -   SELinux and AppArmor each can enable/disable themselves via
+>     CONFIG_..._BOOTPARAM_VALUE=3D and selinux=3D/apparmor=3D.
+>
+>     So, right now, systems will have all the minor LSMs and integrity
+>     initialized if they are built into the kernel without any way to
+>     control their order or disable them at boot time. To select a major
+>     LSM, the pattern is:
+>
+>     selinux=3D1 security=3Dselinux
+>
+>     Note that both are used here because if you built with
+>     CONFIG_SELINUX_BOOTPARAM_VALUE=3D0 and CONFIG_DEFAULT_SECURITY=3Dappa=
+rmor,
+>     just booting with "security=3Dselinux" just disables AppArmor but
+>     SELinux stays disabled. So the documented way to switch majors is wit=
+h
+>     "selinux=3D1 security=3Dselinux". However Tomoyo and Smack do not hav=
+e
+>     separate enable/disable logic. They will work fine with just
+>     "security=3Dsmack".
+>
+>     Now, in order to gain arbitrary LSM ordering, this series introduces
+>     CONFIG_LSM=3D (to replace CONFIG_DEFAULT_SECURITY=3D) and "lsm=3D" (t=
+o
+>     replace "security=3D"). Note that "security=3D" has not been removed =
+-- it
+>     will still work. Mixing it with "lsm=3D" can lead to situations where
+>     "security=3D" becomes effectively ignored, though.
+>
+>     In the rest of this I'm going to ignore capability: it will always be
+>     first and it will always be enabled.
+>
+>     Assuming that all LSMs are built in (e.g. yama, loadpin, selinux,
+>     smack, tomoyo, apparmor, integrity), here are the changes:
+>
+>     To choose the "default major LSM" of AppArmor before:
+>     CONFIG_DEFAULT_SECURITY=3Dapparmor
+>
+>     To choose the "default major LSM" of AppArmor without extreme stackin=
+g now:
+>     CONFIG_LSM=3Dyama,loadpin,integrity,apparmor
+>
+>     To choose the "default major LSM" of AppArmor with future extreme sta=
+cking now:
+>     CONFIG_LSM=3Dyama,loadpin,integrity,apparmor,tomoyo,selinux,smack
+>
+>     Whichever exclusive LSM is listed first will be the first to attempt
+>     initialization. Any non-conflicting LSMs following it will initialize
+>     too.
+>
+>     This means a distro can disable the "blob-sharing" behavior by just
+>     providing a CONFIG_LSM=3D that includes a single major LSM.
+>
+>     To switch to SELinux at boot time with
+>     "CONFIG_LSM=3Dyama,loadpin,integrity,apparmor", the old way continues=
+ to
+>     work:
+>
+>     selinux=3D1 security=3Dselinux
+>
+>     This will work still, since it will enable selinux (selinux=3D1) and
+>     disable all other major LSMs (security=3Dselinux).
+>
+>     The new way to enable selinux would be using
+>     "lsm=3Dyama,loadpin,integrity,selinux".
+>
 
-Do we have a free VM flag so we could do VM_GUARD to force a guard
-page?  (And to make sure that, when a new VMA is allocated, it won't
-be directly adjacent to a VM_GUARD VMA.)
+It seems to me that legacy way is more user friendly than the new one.
+AppArmor and SElinux are households names but the rest may be enigmatic
+for most users and the need for explicit passing them all may be
+troublesome. Especially when the new ones like sara,landlock or cows :)
+will be incoming. Moreover to knew what you have to pass there, you need
+to look at CONFIG_LSM in kernel config (which will vary across distros
+and also mean copy-paste from the web source may won't work as expected)
+which again most users don't do.
+
+I think there is risk that users will end up with "lsm=3Dselinux" without
+realizing that they may disable something along the way.
+
+I would prefer for "lsm=3D" to work as override to "CONFIG_LSM=3D" with
+below assumptions:
+
+I. lsm=3D"$lsm" will append "$lsm" at the end of string. Before extreme
+stacking it will also remove the other major (explicit) lsm from it.
+
+II. lsm=3D"!$lsm" will remove "$lsm" from the string.
+
+III. If "$lsm" already exist in the string, it's moved at the end of it
+(this will cover ordering).
+
+Examples:
+
+1. Without extreme stacking.
+
+a) Enable selinux, disable apparmor and leave the rest untouched.
+
+CONFIG_LSM=3Dyama,loadpin,integrity,apparmor && lsm=3Dselinux =3D yama,load=
+pin,integrity,selinux
+
+b) Enable selinux, disable apparmor and disable loadpin.
+
+CONFIG_LSM=3Dyama,loadpin,integrity,apparmor && lsm=3Dselinux,!loadpin =3D =
+yama,integrity,selinux
+
+
+2. With extreme stacking.
+
+a) Enable selinux, disable apparmor and leave the rest untouched.
+
+CONFIG_LSM=3Dyama,loadpin,integrity,apparmor && lsm=3Dselinux,!apparmor =3D=
+ yama,loadpin,integrity,selinux
+
+b) Enable selinux, disable apparmor and disable loadpin.
+
+CONFIG_LSM=3Dyama,loadpin,integrity,apparmor && lsm=3Dselinux,!apparmor,!lo=
+adpin =3D yama,integrity,selinux
+
+c) Enable selinux and order it after apparmor.
+
+CONFIG_LSM=3Dyama,loadpin,integrity,apparmor && lsm=3Dselinux =3D yama,load=
+pin,integrity,apparmor,selinux
+
+d) Enable selinux and order it before apparmor.
+
+CONFIG_LSM=3Dyama,loadpin,integrity,apparmor && lsm=3Dselinux,apparmor =3D =
+yama,loadpin,integrity,selinux,apparmor
+
+
+IMO above will be easier to handle for users. At worst case with
+full ordering all existing lsm's it will look the same as what
+Kees proposes but I assume that ordering is rather for more
+advanced people.
+
+It's possible that something lime this was discussed already
+but without full examples it was hard to me for tracking things.
+
+Jordan
