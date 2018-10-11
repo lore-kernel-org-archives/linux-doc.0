@@ -1,58 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 062687D088
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:29:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 65F2F7D8D7
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:53:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727128AbeJKW4y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 18:56:54 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57334 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727127AbeJKW4y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 18:56:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=5OFE+kDLgDKIUChQrgPy1tx5qymEnOAsRqZxp9OwaAc=; b=E3Q0y58/L17elJg0BlZfmF4SL
-        LxqbgfZ4ktMFja1Z6YOg7Rj1kUuBvcs2Q2jp2OS+T1wSP8W04Y9ZEoEpwRuvRSKoau3xm8pMTaY+6
-        lIFkjNu0ALGJ/HDTIuFcwQg98UwBu5XcJcjA0RXvDpuD1vtx6F36MX77VQG7GVehDuz0lj8D3Z7Lq
-        DYWAKX2M+i3E51uOAcW76INBt4nLFjCQkLZhiAQujpaSHXyKziQHS/4pV8g/N1VxWQN01fCxn1env
-        +KW2sA/BjTEK9SMr2Xi2x1hPMOdETa391DuVasGcYWY+HRQyVCUBbPOA+hSXu5XON+XDvSfBbXDnu
-        0IpCU0JyQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gActi-0001dv-Ks; Thu, 11 Oct 2018 15:29:10 +0000
-Date:   Thu, 11 Oct 2018 08:29:10 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     John Garry <john.garry@huawei.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, peterz@infradead.org,
-        mingo@redhat.com
-Subject: Re: [PATCH] docs/completion.txt: Fix a couple of punctuation nits
-Message-ID: <20181011152910.GA8191@bombadil.infradead.org>
-References: <1539183392-239389-1-git-send-email-john.garry@huawei.com>
+        id S1727975AbeJKXVB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 19:21:01 -0400
+Received: from namei.org ([65.99.196.166]:33840 "EHLO namei.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727375AbeJKXVA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Oct 2018 19:21:00 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id w9BFqW2P020603;
+        Thu, 11 Oct 2018 15:52:33 GMT
+Date:   Fri, 12 Oct 2018 02:52:32 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
+To:     Kees Cook <keescook@chromium.org>
+cc:     Casey Schaufler <casey@schaufler-ca.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
+        LSM <linux-security-module@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
+In-Reply-To: <CAGXu5jLzsYY1Ja8onnNdHXbenZ6vPrat_L8U_sbcCic0qk--qQ@mail.gmail.com>
+Message-ID: <alpine.LRH.2.21.1810120252220.20563@namei.org>
+References: <20181011001846.30964-1-keescook@chromium.org> <alpine.LRH.2.21.1810111443500.25845@namei.org> <CAGXu5jLzsYY1Ja8onnNdHXbenZ6vPrat_L8U_sbcCic0qk--qQ@mail.gmail.com>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1539183392-239389-1-git-send-email-john.garry@huawei.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 10, 2018 at 10:56:32PM +0800, John Garry wrote:
-> This patch fixes a couple of punctuation nits which can make the document
-> more correct and readable.
-> 
-> Also missing "()" are added to some function references for consistency.
+On Thu, 11 Oct 2018, Kees Cook wrote:
 
-While there's nothing wrong here, any chance you want to try converting
-it to .rst and adding it to the overall index?  It looks a lot like
-rst already.
+> On Wed, Oct 10, 2018 at 8:45 PM, James Morris <jmorris@namei.org> wrote:
+> > On Wed, 10 Oct 2018, Kees Cook wrote:
+> >
+> >> v5:
+> >> - redesigned to use CONFIG_LSM= and lsm= for both ordering and enabling
+> >> - dropped various Reviewed-bys due to rather large refactoring
+> >
+> > Patches 1-10 applied to
+> > git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git next-general
+> > and next-testing.
+> 
+> Very cool; thanks!
+> 
+> As for the rest, I could post some examples of how the new CONFIG_LSM
+> and "lsm=..." work (and how they mix with the "legacy" options). Would
+> that be helpful?
+
+Yes, thanks.
+
+-- 
+James Morris
+<jmorris@namei.org>
+
