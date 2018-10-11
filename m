@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDADA7D8D9
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:25:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 293187D08D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 15:25:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728026AbeJKWwX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 18:52:23 -0400
-Received: from mga05.intel.com ([192.55.52.43]:3986 "EHLO mga05.intel.com"
+        id S1726299AbeJKWsU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 18:48:20 -0400
+Received: from mga05.intel.com ([192.55.52.43]:3984 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726189AbeJKWsW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Oct 2018 18:48:22 -0400
+        id S1726168AbeJKWsU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Oct 2018 18:48:20 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:20:43 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2018 08:20:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,368,1534834800"; 
-   d="scan'208";a="78019085"
+   d="scan'208";a="78019071"
 Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2018 08:20:43 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2018 08:20:42 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -47,151 +47,128 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for shadow stack
-Date:   Thu, 11 Oct 2018 08:15:00 -0700
-Message-Id: <20181011151523.27101-5-yu-cheng.yu@intel.com>
+Subject: [PATCH v5 00/27] Control Flow Enforcement: Shadow Stack
+Date:   Thu, 11 Oct 2018 08:14:56 -0700
+Message-Id: <20181011151523.27101-1-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181011151523.27101-1-yu-cheng.yu@intel.com>
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Intel Control-flow Enforcement Technology (CET) introduces the
-following MSRs into the XSAVES system states.
+The previous version of CET Shadow Stack patches is at the following
+link:
 
-    IA32_U_CET (user-mode CET settings),
-    IA32_PL3_SSP (user-mode shadow stack),
-    IA32_PL0_SSP (kernel-mode shadow stack),
-    IA32_PL1_SSP (ring-1 shadow stack),
-    IA32_PL2_SSP (ring-2 shadow stack).
+  https://lkml.org/lkml/2018/9/21/776
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
----
- arch/x86/include/asm/fpu/types.h            | 22 +++++++++++++++++++++
- arch/x86/include/asm/fpu/xstate.h           |  4 +++-
- arch/x86/include/uapi/asm/processor-flags.h |  2 ++
- arch/x86/kernel/fpu/xstate.c                | 10 ++++++++++
- 4 files changed, 37 insertions(+), 1 deletion(-)
+Summary of changes from v4:
 
-diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
-index 202c53918ecf..e55d51d172f1 100644
---- a/arch/x86/include/asm/fpu/types.h
-+++ b/arch/x86/include/asm/fpu/types.h
-@@ -114,6 +114,9 @@ enum xfeature {
- 	XFEATURE_Hi16_ZMM,
- 	XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
- 	XFEATURE_PKRU,
-+	XFEATURE_RESERVED,
-+	XFEATURE_SHSTK_USER,
-+	XFEATURE_SHSTK_KERNEL,
- 
- 	XFEATURE_MAX,
- };
-@@ -128,6 +131,8 @@ enum xfeature {
- #define XFEATURE_MASK_Hi16_ZMM		(1 << XFEATURE_Hi16_ZMM)
- #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
- #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
-+#define XFEATURE_MASK_SHSTK_USER	(1 << XFEATURE_SHSTK_USER)
-+#define XFEATURE_MASK_SHSTK_KERNEL	(1 << XFEATURE_SHSTK_KERNEL)
- 
- #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
- #define XFEATURE_MASK_AVX512		(XFEATURE_MASK_OPMASK \
-@@ -229,6 +234,23 @@ struct pkru_state {
- 	u32				pad;
- } __packed;
- 
-+/*
-+ * State component 11 is Control flow Enforcement user states
-+ */
-+struct cet_user_state {
-+	u64 u_cet;	/* user control flow settings */
-+	u64 user_ssp;	/* user shadow stack pointer */
-+} __packed;
-+
-+/*
-+ * State component 12 is Control flow Enforcement kernel states
-+ */
-+struct cet_kernel_state {
-+	u64 kernel_ssp;	/* kernel shadow stack */
-+	u64 pl1_ssp;	/* ring-1 shadow stack */
-+	u64 pl2_ssp;	/* ring-2 shadow stack */
-+} __packed;
-+
- struct xstate_header {
- 	u64				xfeatures;
- 	u64				xcomp_bv;
-diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
-index d8e2ec99f635..18b60748a34d 100644
---- a/arch/x86/include/asm/fpu/xstate.h
-+++ b/arch/x86/include/asm/fpu/xstate.h
-@@ -28,7 +28,9 @@
- 				  XFEATURE_MASK_Hi16_ZMM | \
- 				  XFEATURE_MASK_PKRU | \
- 				  XFEATURE_MASK_BNDREGS | \
--				  XFEATURE_MASK_BNDCSR)
-+				  XFEATURE_MASK_BNDCSR | \
-+				  XFEATURE_MASK_SHSTK_USER | \
-+				  XFEATURE_MASK_SHSTK_KERNEL)
- 
- #ifdef CONFIG_X86_64
- #define REX_PREFIX	"0x48, "
-diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
-index bcba3c643e63..25311ec4b731 100644
---- a/arch/x86/include/uapi/asm/processor-flags.h
-+++ b/arch/x86/include/uapi/asm/processor-flags.h
-@@ -130,6 +130,8 @@
- #define X86_CR4_SMAP		_BITUL(X86_CR4_SMAP_BIT)
- #define X86_CR4_PKE_BIT		22 /* enable Protection Keys support */
- #define X86_CR4_PKE		_BITUL(X86_CR4_PKE_BIT)
-+#define X86_CR4_CET_BIT		23 /* enable Control flow Enforcement */
-+#define X86_CR4_CET		_BITUL(X86_CR4_CET_BIT)
- 
- /*
-  * x86-64 Task Priority Register, CR8
-diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-index 605ec6decf3e..ad36ea28bfd1 100644
---- a/arch/x86/kernel/fpu/xstate.c
-+++ b/arch/x86/kernel/fpu/xstate.c
-@@ -35,6 +35,9 @@ static const char *xfeature_names[] =
- 	"Processor Trace (unused)"	,
- 	"Protection Keys User registers",
- 	"unknown xstate feature"	,
-+	"Control flow User registers"	,
-+	"Control flow Kernel registers"	,
-+	"unknown xstate feature"	,
- };
- 
- static short xsave_cpuid_features[] __initdata = {
-@@ -48,6 +51,9 @@ static short xsave_cpuid_features[] __initdata = {
- 	X86_FEATURE_AVX512F,
- 	X86_FEATURE_INTEL_PT,
- 	X86_FEATURE_PKU,
-+	0,		   /* Unused */
-+	X86_FEATURE_SHSTK, /* XFEATURE_SHSTK_USER */
-+	X86_FEATURE_SHSTK, /* XFEATURE_SHSTK_KERNEL */
- };
- 
- /*
-@@ -312,6 +318,8 @@ static void __init print_xstate_features(void)
- 	print_xstate_feature(XFEATURE_MASK_ZMM_Hi256);
- 	print_xstate_feature(XFEATURE_MASK_Hi16_ZMM);
- 	print_xstate_feature(XFEATURE_MASK_PKRU);
-+	print_xstate_feature(XFEATURE_MASK_SHSTK_USER);
-+	print_xstate_feature(XFEATURE_MASK_SHSTK_KERNEL);
- }
- 
- /*
-@@ -558,6 +566,8 @@ static void check_xstate_against_struct(int nr)
- 	XCHECK_SZ(sz, nr, XFEATURE_ZMM_Hi256, struct avx_512_zmm_uppers_state);
- 	XCHECK_SZ(sz, nr, XFEATURE_Hi16_ZMM,  struct avx_512_hi16_state);
- 	XCHECK_SZ(sz, nr, XFEATURE_PKRU,      struct pkru_state);
-+	XCHECK_SZ(sz, nr, XFEATURE_SHSTK_USER,   struct cet_user_state);
-+	XCHECK_SZ(sz, nr, XFEATURE_SHSTK_KERNEL, struct cet_kernel_state);
- 
- 	/*
- 	 * Make *SURE* to add any feature numbers in below if
+  Clean up XSAVES system states patches.
+  Update control protection fault handler to provide error code to user.
+  Add CONFIG_VM_AREA_GUARD.
+  Clean up arch_prctl.
+  Fix some typos and macros.
+
+Yu-cheng Yu (27):
+  x86/cpufeatures: Add CPUIDs for Control Flow Enforcement Technology
+    (CET)
+  x86/fpu/xstate: Change names to separate XSAVES system and user states
+  x86/fpu/xstate: Introduce XSAVES system states
+  x86/fpu/xstate: Add XSAVES system states for shadow stack
+  Documentation/x86: Add CET description
+  x86/cet: Control protection exception handler
+  mm/mmap: Create a guard area between VMAs
+  x86/cet/shstk: Add Kconfig option for user-mode shadow stack
+  mm: Introduce VM_SHSTK for shadow stack memory
+  mm/mmap: Prevent Shadow Stack VMA merges
+  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+  x86/mm: Introduce _PAGE_DIRTY_SW
+  drm/i915/gvt: Update _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for
+    _PAGE_DIRTY_SW
+  x86/mm: Shadow stack page fault error checking
+  mm: Handle shadow stack page fault
+  mm: Handle THP/HugeTLB shadow stack page fault
+  mm: Update can_follow_write_pte/pmd for shadow stack
+  mm: Introduce do_mmap_locked()
+  x86/cet/shstk: User-mode shadow stack support
+  x86/cet/shstk: Introduce WRUSS instruction
+  x86/cet/shstk: Signal handling for shadow stack
+  x86/cet/shstk: ELF header parsing of Shadow Stack
+  x86/cet/shstk: Handle thread shadow stack
+  mm/mmap: Add Shadow stack pages to memory accounting
+  x86/cet/shstk: Add arch_prctl functions for Shadow Stack
+  x86/cet/shstk: Add Shadow Stack instructions to opcode map
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/index.rst                       |   1 +
+ Documentation/x86/index.rst                   |  11 +
+ Documentation/x86/intel_cet.rst               | 266 ++++++++++++++
+ arch/x86/Kconfig                              |  30 ++
+ arch/x86/Makefile                             |   7 +
+ arch/x86/entry/entry_64.S                     |   2 +-
+ arch/x86/ia32/ia32_signal.c                   |  13 +
+ arch/x86/include/asm/cet.h                    |  46 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |   5 +
+ arch/x86/include/asm/fpu/internal.h           |   5 +-
+ arch/x86/include/asm/fpu/types.h              |  22 ++
+ arch/x86/include/asm/fpu/xstate.h             |  26 +-
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  14 +
+ arch/x86/include/asm/pgtable.h                | 191 ++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  38 +-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/sighandling.h            |   5 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/traps.h                  |   5 +
+ arch/x86/include/uapi/asm/elf_property.h      |  15 +
+ arch/x86/include/uapi/asm/prctl.h             |   5 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |  15 +
+ arch/x86/kernel/Makefile                      |   4 +
+ arch/x86/kernel/cet.c                         | 298 +++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   |  86 +++++
+ arch/x86/kernel/cpu/common.c                  |  25 ++
+ arch/x86/kernel/elf.c                         | 341 ++++++++++++++++++
+ arch/x86/kernel/fpu/core.c                    |  10 +-
+ arch/x86/kernel/fpu/init.c                    |  10 -
+ arch/x86/kernel/fpu/signal.c                  |   6 +-
+ arch/x86/kernel/fpu/xstate.c                  | 146 +++++---
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |   7 +-
+ arch/x86/kernel/process_64.c                  |   7 +
+ arch/x86/kernel/relocate_kernel_64.S          |   2 +-
+ arch/x86/kernel/signal.c                      |  97 +++++
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  64 ++++
+ arch/x86/kvm/vmx.c                            |   2 +-
+ arch/x86/lib/x86-opcode-map.txt               |  26 +-
+ arch/x86/mm/fault.c                           |  27 ++
+ arch/x86/mm/pgtable.c                         |  41 +++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/binfmt_elf.c                               |  15 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/asm-generic/pgtable.h                 |  14 +
+ include/linux/mm.h                            |  56 ++-
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |   1 +
+ mm/Kconfig                                    |   7 +
+ mm/gup.c                                      |   8 +-
+ mm/huge_memory.c                              |  12 +-
+ mm/memory.c                                   |   7 +-
+ mm/mmap.c                                     |  11 +
+ tools/objtool/arch/x86/lib/x86-opcode-map.txt |  26 +-
+ 60 files changed, 1986 insertions(+), 164 deletions(-)
+ create mode 100644 Documentation/x86/index.rst
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/uapi/asm/elf_property.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 arch/x86/kernel/elf.c
+
 -- 
 2.17.1
 
