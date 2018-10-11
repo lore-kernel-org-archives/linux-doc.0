@@ -3,44 +3,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9D9B57D8D9
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:26:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6AAD47D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Oct 2018 00:26:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727056AbeJKHuv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Oct 2018 03:50:51 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:36796 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727044AbeJKHuc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:32 -0400
-Received: by mail-pl1-f193.google.com with SMTP id y11-v6so3294168plt.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:56 -0700 (PDT)
+        id S1726846AbeJKHu3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Oct 2018 03:50:29 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:35065 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726663AbeJKHu1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Oct 2018 03:50:27 -0400
+Received: by mail-pl1-f195.google.com with SMTP id f8-v6so3307658plb.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 Oct 2018 17:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=piFJbUUnA3DqTyvccR0Ze8PG9upbNm6UGtvVT6YJ0+U=;
-        b=aswPjPNs9bK0tyjPisDP2i0c3HxiZJd9dkzq0IXlaPWuNK/z/NLKaysyb/tEQZqYWj
-         yuGe5dqHCdG/xOcXFanWAqPLhny9RIpqjtlmHncMmOeuzfPAtcL0wcwGNsgThWiWIPSO
-         3SeL8e8kMJ2pbTd18YM/XwjcsAG1VY1VIQRhA=
+        bh=o/EXRqhMc1kFihgZuEZ0aZzlHiUobpIVUrAgL2D7PCk=;
+        b=mNyLGuf7bZUAbbM2vwI42nUFhUZ6PjmRv3XC1G5aZQGlWBYiYjGxgxglQxB2mkxSHS
+         XXISL8/WTRY5lDINv8C2QoHevX2QpKrsFAAUGHumt+5cqBBTiiDW5nYXp2i/Q3ii/Z7M
+         QJY43whG8ngJ4q0RLA/BF4S0/umyDw6CgeiVI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=piFJbUUnA3DqTyvccR0Ze8PG9upbNm6UGtvVT6YJ0+U=;
-        b=YJlUkxQpMQhgDyCqcvPh9e0b8g8guGCYwD6lR6pfxvOlI/v6QKRKsAmiTqgRUWlF0w
-         i9Yev8weBn7ORQS8PKsrk88XPp9KFfuxce3cG6C2LSZ/AwaEcaXnZrHMqdO32HlMVkP2
-         cB+ZRU6cL6BfQ4IqpoGcv0sFDHsxl7Npm05abErH7az8PpOARKqVpcWj/aNmXfJUoQUk
-         RoQMMo0YnhR3cgmW5Kq5HxA5oTfn/HOpbja5BCbwj1ZFQfVCrJRkic5KFiKzr5FOfObN
-         RxxfGfqNLFA5yNpddtEywUW0hczQXscwKM5eyyK11d5SY4qXgwQ+NnVOJJ9QH+k3LcIr
-         Z20Q==
-X-Gm-Message-State: ABuFfohki2prf1m47T/mEAZnPeUUJ4dL5GIG47JA1AK/tb3/zKDLmojT
-        RbwLi+VSkH86HdIFU1AePX9f9A==
-X-Google-Smtp-Source: ACcGV61GWZ/jEH6+pjl/Cg7EY2qZq9fOqxOtf2HYn5v8u6IR+5Y73sAiWB+W5hGJ2mYIohWFcE/jNQ==
-X-Received: by 2002:a17:902:6e17:: with SMTP id u23-v6mr36037411plk.28.1539217556469;
-        Wed, 10 Oct 2018 17:25:56 -0700 (PDT)
+        bh=o/EXRqhMc1kFihgZuEZ0aZzlHiUobpIVUrAgL2D7PCk=;
+        b=Cf4f2UCb06vnxVS6QyRBnJZUlxyJQgVFsuRxg/6+AFS44X5VfpYbPxd53ji6lLN6ee
+         lYsoNHnWaN1OjO9E2Kosd+57q8doe/Tqod5ehID+HABdW/rScL4ihfWH+xI7pCGRP/TH
+         JJ91hXzkon+5pWs6ikNKeQoxyXtJBeFDzm47rJiHyE/oXpO48H9zW2Lk6GcVABwxDSs6
+         vzT/avGO/tXQ35s8cGU2eVVpmj7PAHyvSmlmjEns5XIe1yTMSTJvH4GWg6v/37qhRb1S
+         qK7upyhWKKtmS4alCp3DqoaQoUlehkjSI1E6LLGWpnmFLJod+Vf2wOasfMccXB1Pmkts
+         7azA==
+X-Gm-Message-State: ABuFfogAKJY6N9daqH1yUYawdxD+Zq5+VJescY3o4zRj43v8ptOuBW8J
+        d/SlyFHQ+R0kGS6a74aAG51aUQ==
+X-Google-Smtp-Source: ACcGV62gtlSEYk6DttLToS0EZ4Auvn1R5JW2dXPCNh4rrFOK3yAHclxlz6Jw/dXRHO0LwV5Nrsx3Yw==
+X-Received: by 2002:a17:902:1021:: with SMTP id b30-v6mr35637768pla.23.1539217551470;
+        Wed, 10 Oct 2018 17:25:51 -0700 (PDT)
 Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id c28-v6sm82620821pfk.48.2018.10.10.17.25.48
+        by smtp.gmail.com with ESMTPSA id w127-v6sm32878900pfd.112.2018.10.10.17.25.47
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
         Wed, 10 Oct 2018 17:25:50 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -57,9 +57,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LSM <linux-security-module@vger.kernel.org>,
         linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH security-next v5 28/30] Yama: Initialize as ordered LSM
-Date:   Wed, 10 Oct 2018 17:18:44 -0700
-Message-Id: <20181011001846.30964-29-keescook@chromium.org>
+Subject: [PATCH security-next v5 26/30] LSM: Split LSM preparation from initialization
+Date:   Wed, 10 Oct 2018 17:18:42 -0700
+Message-Id: <20181011001846.30964-27-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181011001846.30964-1-keescook@chromium.org>
 References: <20181011001846.30964-1-keescook@chromium.org>
@@ -68,78 +68,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This converts Yama from being a direct "minor" LSM into an ordered LSM.
+Since we already have to do a pass through the LSMs to figure out if
+exclusive LSMs should be disabled after the first one is seen as enabled,
+this splits the logic up a bit more cleanly. Now we do a full "prepare"
+pass through the LSMs (which also allows for later use by the blob-sharing
+code), before starting the LSM initialization pass.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
 ---
- include/linux/lsm_hooks.h | 5 -----
- security/Kconfig          | 2 +-
- security/security.c       | 1 -
- security/yama/yama_lsm.c  | 8 +++++++-
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ security/security.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index e6893ff9ca2b..833ec0f03795 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -2087,10 +2087,5 @@ static inline void security_delete_hooks(struct security_hook_list *hooks,
- #endif /* CONFIG_SECURITY_WRITABLE_HOOKS */
- 
- extern void __init capability_add_hooks(void);
--#ifdef CONFIG_SECURITY_YAMA
--extern void __init yama_add_hooks(void);
--#else
--static inline void __init yama_add_hooks(void) { }
--#endif
- 
- #endif /* ! __LINUX_LSM_HOOKS_H */
-diff --git a/security/Kconfig b/security/Kconfig
-index 550bd7032ab2..f2a04f922ede 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -241,7 +241,7 @@ source security/integrity/Kconfig
- 
- config LSM
- 	string "Ordered list of enabled LSMs"
--	default "loadpin,integrity,selinux,smack,tomoyo,apparmor"
-+	default "yama,loadpin,integrity,selinux,smack,tomoyo,apparmor"
- 	help
- 	  A comma-separated list of LSMs, in initialization order.
- 	  Any LSMs left off this list will be ignored. This can be
 diff --git a/security/security.c b/security/security.c
-index 6ad1262aa6ab..2eb8afdd945d 100644
+index 4f52bd06705f..b40c4c212892 100644
 --- a/security/security.c
 +++ b/security/security.c
-@@ -264,7 +264,6 @@ int __init security_init(void)
- 	 * Load minor LSMs, with the capability module always first.
- 	 */
- 	capability_add_hooks();
--	yama_add_hooks();
- 
- 	/* Load LSMs in specified order. */
- 	ordered_lsm_init();
-diff --git a/security/yama/yama_lsm.c b/security/yama/yama_lsm.c
-index ffda91a4a1aa..eb1da1303d2e 100644
---- a/security/yama/yama_lsm.c
-+++ b/security/yama/yama_lsm.c
-@@ -477,9 +477,15 @@ static void __init yama_init_sysctl(void)
- static inline void yama_init_sysctl(void) { }
- #endif /* CONFIG_SYSCTL */
- 
--void __init yama_add_hooks(void)
-+static int __init yama_init(void)
- {
- 	pr_info("Yama: becoming mindful.\n");
- 	security_add_hooks(yama_hooks, ARRAY_SIZE(yama_hooks), "yama");
- 	yama_init_sysctl();
-+	return 0;
+@@ -139,22 +139,28 @@ static bool __init lsm_allowed(struct lsm_info *lsm)
+ 	return true;
  }
+ 
+-/* Check if LSM should be initialized. */
+-static void __init maybe_initialize_lsm(struct lsm_info *lsm)
++/* Prepare LSM for initialization. */
++static void __init prepare_lsm(struct lsm_info *lsm)
+ {
+ 	int enabled = lsm_allowed(lsm);
+ 
+ 	/* Record enablement (to handle any following exclusive LSMs). */
+ 	set_enabled(lsm, enabled);
+ 
+-	/* If selected, initialize the LSM. */
++	/* If enabled, do pre-initialization work. */
+ 	if (enabled) {
+-		int ret;
+-
+ 		if ((lsm->flags & LSM_FLAG_EXCLUSIVE) && !exclusive) {
+ 			exclusive = lsm;
+ 			init_debug("exclusive chosen: %s\n", lsm->name);
+ 		}
++	}
++}
 +
-+DEFINE_LSM(yama) = {
-+	.name = "yama",
-+	.init = yama_init,
-+};
++/* Initialize a given LSM, if it is enabled. */
++static void __init initialize_lsm(struct lsm_info *lsm)
++{
++	if (is_enabled(lsm)) {
++		int ret;
+ 
+ 		init_debug("initializing %s\n", lsm->name);
+ 		ret = lsm->init();
+@@ -230,7 +236,10 @@ static void __init ordered_lsm_init(void)
+ 		ordered_lsm_parse(builtin_lsm_order, "builtin");
+ 
+ 	for (lsm = ordered_lsms; *lsm; lsm++)
+-		maybe_initialize_lsm(*lsm);
++		prepare_lsm(*lsm);
++
++	for (lsm = ordered_lsms; *lsm; lsm++)
++		initialize_lsm(*lsm);
+ 
+ 	kfree(ordered_lsms);
+ }
 -- 
 2.17.1
 
