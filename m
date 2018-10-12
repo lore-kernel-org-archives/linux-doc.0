@@ -5,187 +5,208 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6728A7DE6E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Oct 2018 17:57:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 272E47D090
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Oct 2018 18:11:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727537AbeJMBaY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Oct 2018 21:30:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46114 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727051AbeJMBaX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Oct 2018 21:30:23 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8255C3002DD2;
-        Fri, 12 Oct 2018 17:56:44 +0000 (UTC)
-Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id ED33279425;
-        Fri, 12 Oct 2018 17:56:42 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
-        luto@amacapital.net, Mike Galbraith <efault@gmx.de>,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v13 11/11] cpuset: Expose cpuset.cpus.subpartitions with cgroup_debug
-Date:   Fri, 12 Oct 2018 13:55:51 -0400
-Message-Id: <1539366951-8498-12-git-send-email-longman@redhat.com>
-In-Reply-To: <1539366951-8498-1-git-send-email-longman@redhat.com>
-References: <1539366951-8498-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Fri, 12 Oct 2018 17:56:44 +0000 (UTC)
+        id S1727074AbeJMBpV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Oct 2018 21:45:21 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:49777 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbeJMBpU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Oct 2018 21:45:20 -0400
+Received: from static-50-53-48-205.bvtn.or.frontiernet.net ([50.53.48.205] helo=[192.168.192.153])
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <john.johansen@canonical.com>)
+        id 1gB1uM-0008Bs-KV; Fri, 12 Oct 2018 18:11:31 +0000
+Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
+To:     Jordan Glover <Golden_Miller83@protonmail.ch>
+Cc:     Kees Cook <keescook@chromium.org>,
+        James Morris <jmorris@namei.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20181011001846.30964-1-keescook@chromium.org>
+ <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
+ <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
+ <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
+ <37rRa7F7i2XcwVPiT6gLC8cX8p0732iDiT6mGjstlbBi3mcJsQCLA6A8HcDMNjR0SGheErloJl8z-Z5c57XxtJRBF9-LO_fUTUf41EcAGC4=@protonmail.ch>
+ <1a8ac9f4-8f82-5d3b-46ef-08801793443e@canonical.com>
+ <oANoEf39nJu-HzALTRaisEW9Um9AoAH5KyO5lM7tpmml58QTZLk7U9aHpTmcg8W_684zTws70sLPZXlK5Z91zLluFesVPYXiEUbIZr98Ljs=@protonmail.ch>
+From:   John Johansen <john.johansen@canonical.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Canonical
+Message-ID: <841f16b4-a8d0-4a4f-6e3e-15cd70bc25cc@canonical.com>
+Date:   Fri, 12 Oct 2018 11:11:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <oANoEf39nJu-HzALTRaisEW9Um9AoAH5KyO5lM7tpmml58QTZLk7U9aHpTmcg8W_684zTws70sLPZXlK5Z91zLluFesVPYXiEUbIZr98Ljs=@protonmail.ch>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For debugging purpose, it will be useful to expose the content of the
-subparts_cpus as a read-only file to see if the code work correctly.
-However, subparts_cpus will not be used at all in most use cases. So
-adding a new cpuset file that clutters the cgroup directory may not be
-desirable.  This is now being done by using the hidden "cgroup_debug"
-kernel command line option to expose a new "cpuset.cpus.subpartitions"
-file.
+On 10/12/2018 04:31 AM, Jordan Glover wrote:
+> ‐‐‐‐‐‐‐ Original Message ‐‐‐‐‐‐‐
+> On Friday, October 12, 2018 2:26 AM, John Johansen <john.johansen@canonical.com> wrote:
+> 
+>> On 10/11/2018 04:53 PM, Jordan Glover wrote:
+>>
+>>> ‐‐‐‐‐‐‐ Original Message ‐‐‐‐‐‐‐
+>>> On Friday, October 12, 2018 1:09 AM, Kees Cook keescook@chromium.org wrote:
+>>>
+>>>> We've had things sort of like this proposed, but if you can convince
+>>>> James and others, I'm all for it. I think the standing objection from
+>>>> James and John about this is that the results of booting with
+>>>> "lsm=something" ends up depending on CONFIG_LSM= for that distro. So
+>>>> you end up with different behaviors instead of a consistent behavior
+>>>> across all distros.
+>>>
+>>> Ok, I'll try :)
+>>> The final lsm string contains two parts: Kconfig "CONFIG_LSM=" and boot
+>>> param "lsm=". Changing even only one of those parts also changes the
+>>> final string.
+>>> In case of distros, it's the "CONFIG_LSM=" which changes. Even when "lsm="
+>>> stays constant, the behavior will be different, example:
+>>> Distro A has: CONFIG_LSM=loadpin,integrity,selinux
+>>> Distro B has CONFIG_LSM=yama,loadpin,integrity,selinux
+>>> User on distro A wants to enable apparmor with:
+>>> lsm=loadpin,integrity,apparmor
+>>> which they do and add it to howto on wiki.
+>>> User on distro B want to enable apparmor, they found info on some wiki and do:
+>>> lsm=loadpin,integrity,apparmor
+>>> Puff, yama got disabled!
+>>> Above example shows why I think "consistent behavior across all distros"
+>>> argument for current approach is flawed - because distros aren't
+>>> consistent. In my proposition the user will just use "lsm=apparmor" and
+>>> it will consistently enable apparmor on all distros which is what they
+>>> really wanted, but all pre-existing differences across distros will
+>>> remain unchanged.
+>>
+>> Are you sure about that? I have had more than one question about
+>> security=X resulting in a system with more than just X enabled. Ie why
+>> is yama enabled when I specifically set security to X.
+>>
+> 
+> So, non-explicit list will match current "security=" behavior which users
+> are more familiar with. The current answer for this question is "because
+> your distro enabled it and you didn't disabled it. With non-explcit list
+> that answer will stay the same.
+> 
 
-That option was originally used by the debug controller to expose
-itself when configured into the kernel. This is now extended to set an
-internal flag used by cgroup_addrm_files(). A new CFTYPE_DEBUG flag
-can now be used to specify that a cgroup file should only be created
-when the "cgroup_debug" option is specified.
+the current behavior is problematic leads to a configuration nightmare, 
+and is the reason lsm= is proposed instead of just sticking with
+security=
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- include/linux/cgroup-defs.h     |  1 +
- kernel/cgroup/cgroup-internal.h |  2 ++
- kernel/cgroup/cgroup.c          | 14 +++++++++++++-
- kernel/cgroup/cpuset.c          | 11 +++++++++++
- kernel/cgroup/debug.c           |  4 +---
- 5 files changed, 28 insertions(+), 4 deletions(-)
+> With explicit list, the question will be "why is yama disabled when I
+> enabled AppArmor with lsm=apparmor".
+> 
+yes that will happen as well
 
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index ff20b67..94c7a78 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -91,6 +91,7 @@ enum {
- 
- 	CFTYPE_NO_PREFIX	= (1 << 3),	/* (DON'T USE FOR NEW FILES) no subsys prefix */
- 	CFTYPE_WORLD_WRITABLE	= (1 << 4),	/* (DON'T USE FOR NEW FILES) S_IWUGO */
-+	CFTYPE_DEBUG		= (1 << 5),	/* create when cgroup_debug */
- 
- 	/* internal flags, do not use outside cgroup core proper */
- 	__CFTYPE_ONLY_ON_DFL	= (1 << 16),	/* only on default hierarchy */
-diff --git a/kernel/cgroup/cgroup-internal.h b/kernel/cgroup/cgroup-internal.h
-index 75568fc..c950864 100644
---- a/kernel/cgroup/cgroup-internal.h
-+++ b/kernel/cgroup/cgroup-internal.h
-@@ -11,6 +11,8 @@
- #define TRACE_CGROUP_PATH_LEN 1024
- extern spinlock_t trace_cgroup_path_lock;
- extern char trace_cgroup_path[TRACE_CGROUP_PATH_LEN];
-+extern bool cgroup_debug;
-+extern void __init enable_debug_cgroup(void);
- 
- /*
-  * cgroup_path() takes a spin lock. It is good practice not to take
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index aae10ba..067e48a 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -85,6 +85,7 @@
- 
- DEFINE_SPINLOCK(trace_cgroup_path_lock);
- char trace_cgroup_path[TRACE_CGROUP_PATH_LEN];
-+bool cgroup_debug __read_mostly;
- 
- /*
-  * Protects cgroup_idr and css_idr so that IDs can be released without
-@@ -3616,7 +3617,8 @@ static int cgroup_addrm_files(struct cgroup_subsys_state *css,
- 			continue;
- 		if ((cft->flags & CFTYPE_ONLY_ON_ROOT) && cgroup_parent(cgrp))
- 			continue;
--
-+		if ((cft->flags & CFTYPE_DEBUG) && !cgroup_debug)
-+			continue;
- 		if (is_add) {
- 			ret = cgroup_add_file(css, cgrp, cft);
- 			if (ret) {
-@@ -5695,6 +5697,16 @@ static int __init cgroup_disable(char *str)
- }
- __setup("cgroup_disable=", cgroup_disable);
- 
-+void __init __weak enable_debug_cgroup(void) { }
-+
-+static int __init enable_cgroup_debug(char *str)
-+{
-+	cgroup_debug = true;
-+	enable_debug_cgroup();
-+	return 1;
-+}
-+__setup("cgroup_debug", enable_cgroup_debug);
-+
- /**
-  * css_tryget_online_from_dir - get corresponding css from a cgroup dentry
-  * @dentry: directory dentry of interest
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index a3b81d4..9db4f10 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -2190,6 +2190,7 @@ static void cpuset_attach(struct cgroup_taskset *tset)
- 	FILE_MEMLIST,
- 	FILE_EFFECTIVE_CPULIST,
- 	FILE_EFFECTIVE_MEMLIST,
-+	FILE_SUBPARTS_CPULIST,
- 	FILE_CPU_EXCLUSIVE,
- 	FILE_MEM_EXCLUSIVE,
- 	FILE_MEM_HARDWALL,
-@@ -2371,6 +2372,9 @@ static int cpuset_common_seq_show(struct seq_file *sf, void *v)
- 	case FILE_EFFECTIVE_MEMLIST:
- 		seq_printf(sf, "%*pbl\n", nodemask_pr_args(&cs->effective_mems));
- 		break;
-+	case FILE_SUBPARTS_CPULIST:
-+		seq_printf(sf, "%*pbl\n", cpumask_pr_args(cs->subparts_cpus));
-+		break;
- 	default:
- 		ret = -EINVAL;
- 	}
-@@ -2576,6 +2580,13 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- 		.flags = CFTYPE_NOT_ON_ROOT,
- 	},
- 
-+	{
-+		.name = "cpus.subpartitions",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_SUBPARTS_CPULIST,
-+		.flags = CFTYPE_DEBUG,
-+	},
-+
- 	{ }	/* terminate */
- };
- 
-diff --git a/kernel/cgroup/debug.c b/kernel/cgroup/debug.c
-index 9caeda6..5f1b873 100644
---- a/kernel/cgroup/debug.c
-+++ b/kernel/cgroup/debug.c
-@@ -373,11 +373,9 @@ struct cgroup_subsys debug_cgrp_subsys = {
-  * On v2, debug is an implicit controller enabled by "cgroup_debug" boot
-  * parameter.
-  */
--static int __init enable_cgroup_debug(char *str)
-+void __init enable_debug_cgroup(void)
- {
- 	debug_cgrp_subsys.dfl_cftypes = debug_files;
- 	debug_cgrp_subsys.implicit_on_dfl = true;
- 	debug_cgrp_subsys.threaded = true;
--	return 1;
- }
--__setup("cgroup_debug", enable_cgroup_debug);
--- 
-1.8.3.1
+> To ask both questions user have to know that something like "yama" exist
+> in first place.
+> 
+yes. However when it comes to security I don't think its too insane to
+want to vet new modules before they become part of your configuration.
+This is something distros want to be able to do and something some users
+want.
 
+I am not claiming this is what all users will want, and it certainly
+isn't the best situation for the adoption of new lsms. But is a very
+understandable security policy stance.
+
+> As for question what users typically want you may look at search results
+> for "disable/enable yama" and "disable/enable apparmor/selinux". The
+> difference is several orders of magnitude. That's why I think typical user
+> just want to switch on/off one major lsm. I don't think anecdotal evidence
+> is representative here.
+> 
+>> There will certainly be cases where what you describe is exactly what
+>> the user wants. The problem is an explosion of options isn't good
+>> for the user either.
+>>
+>> What I want at the moment is the discussion about different ways to
+>> enable LSMs to be split off so this work can move forward.
+>>
+>>> The current approach requires that everyone who dares to touch "lsm="
+>>> knows about existence of all lsm, their enabled/disabled status on
+>>> target distro and their order. I doubt there are many people other
+>>> than recipients of this mail who fit for the above.
+>>
+>> Without having gotten a chance to review the current set of patches
+>> that was not what was discussed, it should only requires they know the
+>> set that they want.
+>>
+> 
+> "it should only requires they know the set that they want" is very
+> hard requirement and I don't think most users will pass this.
+> Especially when sets like:
+> 
+> lsm=yama,loadpin,integrity,apparmor
+> lsm=loadpin,integrity,yama,apparmor
+> 
+> will behave differently.
+> 
+yes, that is a problem and it highlights the complexity of the problem
+we are dealing with.
+
+Your proposal tries to hide the ordering issues from the user but they
+still suffer from the potentially different behavior of list ordering
+as it is moving the lsm around in the list.
+
+fwiw kees finally convinced me that having the order set separate from
+enablement in the kconfig is better for the user because of problems
+like this.
