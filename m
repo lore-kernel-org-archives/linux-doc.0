@@ -2,69 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 088877D92B
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Oct 2018 16:44:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7BBC37D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Oct 2018 17:21:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727353AbeJMARn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Oct 2018 20:17:43 -0400
-Received: from mga06.intel.com ([134.134.136.31]:38186 "EHLO mga06.intel.com"
+        id S1727195AbeJMAzZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Oct 2018 20:55:25 -0400
+Received: from ms.lwn.net ([45.79.88.28]:51070 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727210AbeJMARh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Oct 2018 20:17:37 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Oct 2018 09:44:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,373,1534834800"; 
-   d="scan'208";a="78322517"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by fmsmga008.fm.intel.com with ESMTP; 12 Oct 2018 09:44:15 -0700
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     corbet@lwn.net, rjw@rjwysocki.net, lenb@kernel.org,
-        viresh.kumar@linaro.org, robert.moore@intel.com,
-        erik.schmauss@intel.com
-Cc:     juri.lelli@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-pm@vger.kernel.org, devel@acpica.org,
-        pprakash@codeaurora.org, george.cherian@cavium.com,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v3 3/3] Documentation: intel_pstate: Add base_frequency information
-Date:   Fri, 12 Oct 2018 09:44:00 -0700
-Message-Id: <20181012164400.3479-4-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181012164400.3479-1-srinivas.pandruvada@linux.intel.com>
-References: <20181012164400.3479-1-srinivas.pandruvada@linux.intel.com>
+        id S1726665AbeJMAzY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Oct 2018 20:55:24 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2259B2E5;
+        Fri, 12 Oct 2018 17:21:54 +0000 (UTC)
+Date:   Fri, 12 Oct 2018 11:21:53 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mike Rapoport <rppt@linux.ibm.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] docs: memory-hotplug: add details about locking
+ internals
+Message-ID: <20181012112153.3e1801cb@lwn.net>
+In-Reply-To: <1539233897-10207-1-git-send-email-rppt@linux.ibm.com>
+References: <1539233897-10207-1-git-send-email-rppt@linux.ibm.com>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Updated documentation to explain base_frequency attribute.
+On Thu, 11 Oct 2018 07:58:15 +0300
+Mike Rapoport <rppt@linux.ibm.com> wrote:
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- Documentation/admin-guide/pm/intel_pstate.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+> As discussed at [1], the latest updates to memory hotplug documentation are
+> causing a conflict between docs and mmotm trees.
+> These patches resolve the conflict.
+> 
+> [1] https://lkml.org/lkml/2018/10/8/227
+> 
+> David Hildenbrand (1):
+>   docs/core-api: memory-hotplug: add some details about locking internals
+> 
+> Mike Rapoport (1):
+>   docs/core-api: rename memory-hotplug-notifier to memory-hotplug
 
-diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documentation/admin-guide/pm/intel_pstate.rst
-index 8f1d3de449b5..14a5505e073e 100644
---- a/Documentation/admin-guide/pm/intel_pstate.rst
-+++ b/Documentation/admin-guide/pm/intel_pstate.rst
-@@ -465,6 +465,10 @@ Next, the following policy attributes have special meaning if
- 	policy for the time interval between the last two invocations of the
- 	driver's utilization update callback by the CPU scheduler for that CPU.
- 
-+``base_frequency``
-+	When present, shows the base frequency of the CPU. Any frequency above
-+	this will be in the turbo frequency range.
-+
- The meaning of these attributes in the `passive mode <Passive Mode_>`_ is the
- same as for other scaling drivers.
- 
--- 
-2.17.1
+I've applied the pair, thanks.
 
+jon
