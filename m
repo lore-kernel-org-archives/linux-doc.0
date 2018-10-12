@@ -1,139 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6307B7D08F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Oct 2018 12:16:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6EE297D08F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Oct 2018 12:44:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728645AbeJLTsI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Oct 2018 15:48:08 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41809 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728617AbeJLTsI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Oct 2018 15:48:08 -0400
-Received: by mail-wr1-f66.google.com with SMTP id x12-v6so13182778wru.8;
-        Fri, 12 Oct 2018 05:15:55 -0700 (PDT)
+        id S1728601AbeJLUQy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Oct 2018 16:16:54 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:43797 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728131AbeJLUQy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Oct 2018 16:16:54 -0400
+Received: by mail-pl1-f194.google.com with SMTP id 30-v6so5886731plb.10;
+        Fri, 12 Oct 2018 05:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=HHiomxREflJbl30efl4y1P2+SizY9IsFIPHoagxqN8U=;
-        b=MB9Sm96kmH24VkChjSfO3Q7SnjsUovorU2iqY6vp1GBWK/yOLgFx9HiWMQxiqH/vGI
-         PlLFZpSJwpA3HteWGN4eoSVdrdO1YZaZCv7ri5lBaCxfc7A7k/iMfzGCgunVQd/3oG28
-         gJKkKhldDqQOxJrkK8evGVbzPwZvguCzV2o92UZCKlfKFwjEKY88BktduRHlyRldePnI
-         cdJkZtC6JZNYKPk5jNnEEgtxRdNPFyLMszWn9g7ii23aRXKDFB/kudneH7La8rgHQHFt
-         04c3GvpBleh4Re8X/vC0vq8Q9/xJafDoFu6h1bPjJ3bEAPLi6ZyAtB5Pa4dGPqjBdDrb
-         0WAg==
+        bh=e9wL70jQ9n9DEljZDo6ba099okOE6toh5sDh6KNJziU=;
+        b=sXD8V55moTRwiI1GKTvVqf07c7UcJOhWGU139rQqnRZOjYw1szdBwk2Hyc3+WsMMaP
+         AgfURm21gJeJvBE1d3bCBRfQaR4nprSIALoxYKd6bBnKQNoHUsEgducuoHtgpTu0vb6G
+         /y51DnBqzxZNLUZUsEjmVdoaJXBoMMnXt301+NUELwduxhk1TRCxsTG12RahhuF4+2bm
+         tiqF3m538NU7N1VJNATm2GEOc4eG97otp0lUuPore7hykrhA3WbsWdLnEV4m63xIqanV
+         dvsphpizqXzDf9Z7KhVSy/rHfGjHdPLrZ5LJHKvRM4uYX6zHFWymjKCGbdn+fRth3us2
+         s90A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HHiomxREflJbl30efl4y1P2+SizY9IsFIPHoagxqN8U=;
-        b=lT2SBfP4Egq4kVN0n9uWuQ1eZ6p1wTQdJRWTJ+0PLBr5qdJpNFfOZctEcPIHoC0CIx
-         DPMsggtXHSqW4OXWhXOlWyi6KW9ysh+/wIFgUMXYoEJPdIZynmw6mWgnNGQ5diHllPMO
-         IEfOMhzRm8lUNLQAA3i+pbUXi094vPenQTxAHvtWiBQZUModIrLzEDrSizkwU+BpHn2d
-         gyMbtglGIaQfpeFK7Jf6wZIN1ydWZoiLNvPb84KFgBXXZtFPp0JJ42kLZms+6Glh8Sia
-         T16GmhraVRAQY3kp0K+93chLQuhGMpmOEiUNH7O/y+m/16Omuwj6jIvCIB/XSwRs6GYj
-         N1eA==
-X-Gm-Message-State: ABuFfohy61JkoFxXKqcI3ZXifZdD2onm4P/Nr9vR1RE2NDISXbY/A6Ww
-        aPv9dGAi3GMswXbhaZWQGsE=
-X-Google-Smtp-Source: ACcGV63qDu5GYCslBSRnrZt+cY56yfx2pQ8S8qQYfav0jbZac/IHRxbj3zjEgMxbZeOsKIXX8vzp9A==
-X-Received: by 2002:adf:ec11:: with SMTP id x17-v6mr5104409wrn.266.1539346554095;
-        Fri, 12 Oct 2018 05:15:54 -0700 (PDT)
-Received: from localhost (p2E5BEEEA.dip0.t-ipconnect.de. [46.91.238.234])
-        by smtp.gmail.com with ESMTPSA id m67-v6sm1275069wmb.18.2018.10.12.05.15.53
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 12 Oct 2018 05:15:53 -0700 (PDT)
-Date:   Fri, 12 Oct 2018 14:15:52 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Claudiu Beznea <claudiu.beznea@microchip.com>
-Cc:     shc_work@mail.ru, robh+dt@kernel.org, mark.rutland@arm.com,
-        corbet@lwn.net, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, linux-pwm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RESEND PATCH v5 8/9] pwm: add documentation for pwm push-pull
- mode
-Message-ID: <20181012121552.GE31561@ulmo>
-References: <1535461286-12308-1-git-send-email-claudiu.beznea@microchip.com>
- <1535461286-12308-9-git-send-email-claudiu.beznea@microchip.com>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=e9wL70jQ9n9DEljZDo6ba099okOE6toh5sDh6KNJziU=;
+        b=hOaxJ8vR3yO+S5MThZmYhpzG3YuGUBYS2xEm5MNNG6HIg2dSZSipVWRs4l5wkRHw7M
+         B972Y+E3FJ9C8ybwsOoe1KhzTglgA93TkTT2x6vw+U22IP8Dw5w8aIMtLGk27i4pGy+9
+         hjkmbVtGufybQjlmDc4TIwkb8rump46qdDNT2gIBEKcmQoaLhnIaKoo8bgqt9EZaUb/V
+         5iKT3H706MipUGOmOXuS8ckwB8SihADtAv9LYttexBzImyYP6l3ssUggL3Aqys0yMlAs
+         zRP0Of/7AdwdsYHSi8p7DvL4MR6MZr9WSq8w7L+3oF4Qj4ZVV+F9owXhfmVSuBUMqmko
+         s/HQ==
+X-Gm-Message-State: ABuFfoh7iIg0WozGYsztFUn8wGCSYr88bw28pTjjM94BQdBBHIZ3F7IK
+        1scl8SsI8XPLjc+vlBc5Ic8=
+X-Google-Smtp-Source: ACcGV61WVGs5GkuOrmcWLWjxSYQ3d+dhI+b8qIcIt4V/UcmE0MCrWmsLt4PKyO1UoobH51a/DWZ0nw==
+X-Received: by 2002:a17:902:5c4:: with SMTP id f62-v6mr5903063plf.18.1539348276066;
+        Fri, 12 Oct 2018 05:44:36 -0700 (PDT)
+Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id k63-v6sm2228528pga.36.2018.10.12.05.44.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 12 Oct 2018 05:44:35 -0700 (PDT)
+Date:   Fri, 12 Oct 2018 05:44:34 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc:     Rob Herring <robh@kernel.org>,
+        Eddie James <eajames@linux.vnet.ibm.com>,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, jdelvare@suse.com,
+        linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org,
+        gregkh@linuxfoundation.org, mark.rutland@arm.com, joel@jms.id.au
+Subject: Re: [PATCH v5 01/10] dt-bindings: fsi: Add P9 OCC device
+ documentation
+Message-ID: <20181012124434.GA11386@roeck-us.net>
+References: <1535664761-86018-1-git-send-email-eajames@linux.vnet.ibm.com>
+ <1535664761-86018-2-git-send-email-eajames@linux.vnet.ibm.com>
+ <20180910181610.GA5907@bogus>
+ <c002018d3765280e135d673f7c731784a90a260d.camel@kernel.crashing.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="//IivP0gvsAy3Can"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1535461286-12308-9-git-send-email-claudiu.beznea@microchip.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <c002018d3765280e135d673f7c731784a90a260d.camel@kernel.crashing.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Sep 12, 2018 at 09:56:33AM +0200, Benjamin Herrenschmidt wrote:
+> On Mon, 2018-09-10 at 13:16 -0500, Rob Herring wrote:
+> > On Thu, Aug 30, 2018 at 04:32:32PM -0500, Eddie James wrote:
+> > > Document the bindings for the FSI-attached POWER9 On-Chip Controller.
+> > > 
+> > > Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt | 15 +++++++++++++++
+> > >  1 file changed, 15 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+> > > new file mode 100644
+> > > index 0000000..46372f6
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+> > > @@ -0,0 +1,15 @@
+> > > +Device-tree bindings for FSI-attached POWER9 On-Chip Controller (OCC)
+> > > +---------------------------------------------------------------------
+> > > +
+> > > +This is the binding for the P9 On-Chip Controller accessed over FSI from a
+> > > +service processor. See fsi.txt for details on bindings for FSI slave and CFAM
+> > > +nodes.
+> > > +
+> > > +Required properties:
+> > > + - compatible = "ibm,p9-occ"
+> > > +
+> > > +Examples:
+> > > +
+> > > +    occ {
+> > 
+> > FSI slave devices are supposed to have an address according to the 
+> > binding doc.
+> 
+> This isn't the FSI device per-se actually. This is a node below the
+> "sbefifo" FSI device. The SBE fifo is the mechanism by which we
+> communicate with the OCC. The sbefifo doesn't really define a "bus",
+> it's mostly used from userspace directly via /dev/sbefifo* to perform
+> various tasks in the chip, but it happens to also provide the in-kernel 
+> transport for the OCC commands.
+> 
 
---//IivP0gvsAy3Can
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What is the conclusion here ? Is it ok as-is, or does it have to be changed ?
 
-On Tue, Aug 28, 2018 at 04:01:25PM +0300, Claudiu Beznea wrote:
-> Add documentation for PWM push-pull mode.
->=20
-> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/pwm/pwm.txt |  2 ++
->  Documentation/pwm.txt                         | 16 ++++++++++++++++
->  include/dt-bindings/pwm/pwm.h                 |  1 +
->  3 files changed, 19 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/pwm/pwm.txt b/Documentatio=
-n/devicetree/bindings/pwm/pwm.txt
-> index 7c8aaac43f92..6a60c0fca112 100644
-> --- a/Documentation/devicetree/bindings/pwm/pwm.txt
-> +++ b/Documentation/devicetree/bindings/pwm/pwm.txt
-> @@ -49,6 +49,8 @@ Optionally, the pwm-specifier can encode a number of fl=
-ags (defined in
->  - PWM_MODE_COMPLEMENTARY: PWM complementary working mode (for PWM channe=
-ls
->  with two outputs); if not specified, the default for PWM channel will be
->  used
-> +- PWM_MODE_PUSH_PULL: PWM push-pull working modes (for PWM channels with
-> +two outputs); if not specified the default for PWM channel will be used
+Thanks,
+Guenter
 
-What if somebody has this in the DT:
-
-	PWM_MODE_COMPLEMENTARY | PWM_MODE_PUSH_PULL
-
-which one takes precedence, or do we reject it?
-
-Wouldn't it be preferable to either move the modes into an extra field
-within the flags field, or perhaps even add another field?
-
-I guess since Rob's already acked this, that concern may be unfounded.
-
-Thierry
-
---//IivP0gvsAy3Can
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlvAkHUACgkQ3SOs138+
-s6GvYA//VhYSRVNBzW3PbPthk9TMJ5k2nfLZjUjH7vwAEhSSE9MAEdP+M/ScAfpE
-b++6J3rnvfzUciUZRJtlHRC6AO7GyV2/oiju6Qlfn3Sg+mg5B+e2TH1eTRZuy25a
-8iUBaCGO4awJbTNFiYwO7NtgWRcdCvQijcvt1VM2iPI38t4a8GCPVSqbFmpu5y3B
-NvCP1oEyRxa91JDgIUaLgewiYf9Bmeld6hNVhEUx8IlA3WTX1zoj+Jnpdbnwps8l
-BHl6TuMdUWHzWPy31YVZp5US/1nuuIaFc0byl8UHzZ30TNdVOTxmHKzwUo2b5XPq
-GyDqZHuy0e8GacggIDY6YTOG4sgd15HBp8pFlNZwYm8rJaJzRDYWBWdMFlwaqxzx
-N6y42buFEaXUbOuXZFH675HylfhL8FCdiO/xfSAHsPWt032wfFrYoVBcIyNyRAAQ
-Dj8o8gMKXGJtmeNK/CKrFFuO7ZqfvhSPa6we2iCQdxvM78XRutmpsxu4sr06FT6B
-HnOIq1Lm7cqQqc4rZ9fQkWrj7FTDHr0zjGZUqIClune7X6gRi00wXZV+8MaSjbpl
-ghDRISv3+5V7Bz4AXREQxZNL2xpLxiNFAfuhGIuSj+T4i4aqc1AvNDzwoXy9vSxS
-8NVtXk20MV4CxF14GkSITHo1y8d6sDUDbo2xhINzWcbMxAFiBM4=
-=Vkfu
------END PGP SIGNATURE-----
-
---//IivP0gvsAy3Can--
+> Cheers,
+> Ben.
+> 
+> > > +        compatible = "ibm,p9-occ";
+> > > +    };
+> > > -- 
+> > > 1.8.3.1
+> > > 
+> 
