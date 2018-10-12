@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 209E57D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Oct 2018 00:26:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CD1B37D087
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Oct 2018 01:20:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726376AbeJLH4Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Oct 2018 03:56:25 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:59182 "EHLO
+        id S1727261AbeJLItx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Oct 2018 04:49:53 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:59754 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbeJLH4Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Oct 2018 03:56:25 -0400
+        with ESMTP id S1726196AbeJLItw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Oct 2018 04:49:52 -0400
 Received: from static-50-53-48-205.bvtn.or.frontiernet.net ([50.53.48.205] helo=[192.168.192.153])
         by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
         (Exim 4.76)
         (envelope-from <john.johansen@canonical.com>)
-        id 1gAlHs-0005ru-OV; Fri, 12 Oct 2018 00:26:40 +0000
+        id 1gAm7M-0000Xf-WD; Fri, 12 Oct 2018 01:19:53 +0000
 Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
-To:     Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Kees Cook <keescook@chromium.org>
-Cc:     James Morris <jmorris@namei.org>,
+To:     Jordan Glover <Golden_Miller83@protonmail.ch>
+Cc:     Kees Cook <keescook@chromium.org>,
+        James Morris <jmorris@namei.org>,
         Casey Schaufler <casey@schaufler-ca.com>,
         Stephen Smalley <sds@tycho.nsa.gov>,
         Paul Moore <paul@paul-moore.com>,
@@ -37,7 +37,8 @@ References: <20181011001846.30964-1-keescook@chromium.org>
  <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
  <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
  <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
- <37rRa7F7i2XcwVPiT6gLC8cX8p0732iDiT6mGjstlbBi3mcJsQCLA6A8HcDMNjR0SGheErloJl8z-Z5c57XxtJRBF9-LO_fUTUf41EcAGC4=@protonmail.ch>
+ <f68e5f4b-6360-a9e7-597f-89d1d3ca73c1@canonical.com>
+ <32stV62RmME8Dj5jKB8Z03zPe_Et72kMo71D8SpgSOHUo6SaROc8DomMWdk5jDGpyqVd8T63NIIK2NdDw95clpF8Uj47Wca2FBFItXDRh7E=@protonmail.ch>
 From:   John Johansen <john.johansen@canonical.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
@@ -83,12 +84,12 @@ Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
  qJciYE8TGHkZw1hOku+4OoM2GB5nEDlj+2TF/jLQ+EipX9PkPJYvxfRlC6dK8PKKfX9KdfmA
  IcgHfnV1jSn+8yH2djBPtKiqW0J69aIsyx7iV/03paPCjJh7Xq9vAzydN5U/UA==
 Organization: Canonical
-Message-ID: <1a8ac9f4-8f82-5d3b-46ef-08801793443e@canonical.com>
-Date:   Thu, 11 Oct 2018 17:26:35 -0700
+Message-ID: <38dde301-d77e-35fd-88d4-5cdc5b570ee8@canonical.com>
+Date:   Thu, 11 Oct 2018 18:19:48 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <37rRa7F7i2XcwVPiT6gLC8cX8p0732iDiT6mGjstlbBi3mcJsQCLA6A8HcDMNjR0SGheErloJl8z-Z5c57XxtJRBF9-LO_fUTUf41EcAGC4=@protonmail.ch>
+In-Reply-To: <32stV62RmME8Dj5jKB8Z03zPe_Et72kMo71D8SpgSOHUo6SaROc8DomMWdk5jDGpyqVd8T63NIIK2NdDw95clpF8Uj47Wca2FBFItXDRh7E=@protonmail.ch>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
@@ -97,86 +98,140 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/11/2018 04:53 PM, Jordan Glover wrote:
+On 10/11/2018 05:11 PM, Jordan Glover wrote:
 > ‐‐‐‐‐‐‐ Original Message ‐‐‐‐‐‐‐
-> On Friday, October 12, 2018 1:09 AM, Kees Cook <keescook@chromium.org> wrote:
+> On Friday, October 12, 2018 1:48 AM, John Johansen <john.johansen@canonical.com> wrote:
 > 
->> We've had things sort of like this proposed, but if you can convince
->> James and others, I'm all for it. I think the standing objection from
->> James and John about this is that the results of booting with
->> "lsm=something" ends up depending on CONFIG_LSM= for that distro. So
->> you end up with different behaviors instead of a consistent behavior
->> across all distros.
+>> On 10/11/2018 04:09 PM, Kees Cook wrote:
+>>
+>>> On Thu, Oct 11, 2018 at 3:58 PM, Jordan Glover
+>>> Golden_Miller83@protonmail.ch wrote:
+>>>
+>>>> On Thursday, October 11, 2018 7:57 PM, Kees Cook keescook@chromium.org wrote:
+>>>>
+>>>>>     To switch to SELinux at boot time with
+>>>>>     "CONFIG_LSM=yama,loadpin,integrity,apparmor", the old way continues to
+>>>>>     work:
+>>>>>
+>>>>>     selinux=1 security=selinux
+>>>>>
+>>>>>     This will work still, since it will enable selinux (selinux=1) and
+>>>>>     disable all other major LSMs (security=selinux).
+>>>>>
+>>>>>     The new way to enable selinux would be using
+>>>>>     "lsm=yama,loadpin,integrity,selinux".
+>>>>>
+>>>>
+>>>> It seems to me that legacy way is more user friendly than the new one.
+>>>> AppArmor and SElinux are households names but the rest may be enigmatic
+>>>> for most users and the need for explicit passing them all may be
+>>>> troublesome. Especially when the new ones like sara,landlock or cows :)
+>>>> will be incoming. Moreover to knew what you have to pass there, you need
+>>>> to look at CONFIG_LSM in kernel config (which will vary across distros
+>>>> and also mean copy-paste from the web source may won't work as expected)
+>>>> which again most users don't do.
+>>>> I think there is risk that users will end up with "lsm=selinux" without
+>>>> realizing that they may disable something along the way.
+>>>> I would prefer for "lsm=" to work as override to "CONFIG_LSM=" with
+>>>> below assumptions:
+>>>> I. lsm="$lsm" will append "$lsm" at the end of string. Before extreme
+>>>> stacking it will also remove the other major (explicit) lsm from it.
+>>>> II. lsm="!$lsm" will remove "$lsm" from the string.
+>>>> III. If "$lsm" already exist in the string, it's moved at the end of it
+>>>> (this will cover ordering).
+>>>
+>>> We've had things sort of like this proposed, but if you can convince
+>>> James and others, I'm all for it. I think the standing objection from
+>>> James and John about this is that the results of booting with
+>>> "lsm=something" ends up depending on CONFIG_LSM= for that distro. So
+>>> you end up with different behaviors instead of a consistent behavior
+>>> across all distros.
+>>
+>> Its certainly a point that could confuse the user. I do have concerns
+>> about it, but not something that is on a must haves list
+>>
+>>> Now, in the future blob and extreme stacking world, having the
+>>> explicit lsm= list shouldn't be too bad since LSMs will effectively
+>>> ALL be initialized -- but they'll be inactive since they have no
+>>> policy loaded.
+>>
+>> you are more optimistic about this than I am, but there will be at
+>> least some movement towards this.
+>>
+>>> But I still agree with you: I'd like a friendlier way to
+>>> disable/enable specific LSMs, but an explicit lsm= seems to be the
+>>> only way.
+>>
+>> Hrmmm, I don't know about the only way, but a way to provide the
+>> explicit list, and also set a specific set as the default in the
+>> Kconfig is a hard requirement.
 >>
 > 
-> Ok, I'll try :)
+> My proposition allows for explicit "lsm=" list but also accepts non
+> explicit list. This is it's advantage above current approach.
 > 
-> The final lsm string contains two parts: Kconfig "CONFIG_LSM=" and boot
-> param "lsm=". Changing even only one of those parts also changes the
-> final string.
+> The current approach works but it seems to target the very same people
+> who designed it :)
 > 
-> In case of distros, it's the "CONFIG_LSM=" which changes. Even when "lsm="
-> stays constant, the behavior will be different, example:
+>> The initial lsm.ebable, lsm.disable had too many issues, and for
+>> various reasons I never managed to get back to kees' proposal
+>> for using +.
+>>
+>> That said, I do think the right approach for the initial pass is
+>> the explicit list. It moves the arguments to the side and allows
+>> this work to move forward.
+>>
 > 
-> Distro A has: CONFIG_LSM=loadpin,integrity,selinux
-> Distro B has CONFIG_LSM=yama,loadpin,integrity,selinux
+> I'm afraid when it hits stable kernel and people will rely on it,
+> then it will be too late. Things will be even more hard to change
+> than now when we have to keep legacy syntax of security=xxx.
 > 
-> User on distro A wants to enable apparmor with:
+> I added explanation why explicit list doesn't solve consistency
+> across distros in the other reply
 > 
-> lsm=loadpin,integrity,apparmor
-> 
-> which they do and add it to howto on wiki.
-> 
-> User on distro B want to enable apparmor, they found info on some wiki and do:
-> 
-> lsm=loadpin,integrity,apparmor
-> 
-> 
-> Puff, yama got disabled!
-> 
-> Above example shows why I think "consistent behavior across all distros"
-> argument for current approach is flawed -  because distros aren't
-> consistent. In my proposition the user will just use "lsm=apparmor" and
-> it will consistently enable apparmor on all distros which is what they
-> really wanted, but all pre-existing differences across distros will
-> remain unchanged.
 
-Are you sure about that? I have had more than one question about
-security=X resulting in a system with more than just X enabled. Ie why
-is yama enabled when I specifically set security to X.
+It isn't perfect but it manages consistency across distros as best as
+can be achieved atm.
 
-There will certainly be cases where what you describe is exactly what
-the user wants. The problem is an explosion of options isn't good
-for the user either.
+Its just a fact that some LSMs are not going to be built into some
+kernels. The only way to deal with that is direct people to build
+their own kernels.
 
-What I want at the moment is the discussion about different ways to
-enable LSMs to be split off so this work can move forward.
+The other major problem is that the current LSM stacking patches do
+not deal with "extreme" stacking. So doing
 
-> 
-> The current approach requires that everyone who dares to touch "lsm="
-> knows about existence of all lsm, their enabled/disabled status on
-> target distro and their order. I doubt there are many people other
-> than recipients of this mail who fit for the above.
-> 
-Without having gotten a chance to review the current set of patches
-that was not what was discussed, it should only requires they know the
-set that they want.
+lsm=+apparmor
 
-It is possible some of the LSMs in the list are not available for a
-given kernel, but that is a problem with even the additive approach.
-That is
-  lsm=+apparmor
+(I am going to stick with the + syntax atm to avoid confusion between
+adding and setting)
 
-will not add apparmor to the set of LSMs available at run time if
-apparmor has not been built into the kernel.
+assuming apparmor is builtin will not necessarily get you apparmor if
+another major lsm is enabled.  Yes your specific proposal would as it
+specifies it overrides the current major, except that ordering
+important so if say landlock registers before apparmor, you may still
+not get apparmor.
+
+You proposal does not provide a means to ensure you have only a
+specific set of LSMs enabled. As an LSM not explicitly listed in lsm=
+lsm=! may still be enabled. So the user is going to have to be aware
+of the initial LSMs list if they are trying to guarentee a specific
+security arrangement.
+
+This violates one of the hard asks, and I will tell you that this will
+just mean there is going to be some distro patching to make sure it
+exists.
+
+The current explicit list is more consistent, and it is amenable to
+being extended with + or ! as selective add/remove so we are not
+locked into only supporting an explicit list.
 
 
-> I it's better to assume that average user has rather vague knowledge
-> about lsm and don't delve deep into Kconfig's of their chosen distro.
-> If they want to use "lsm=" their goal is to disable/enable on or more
-> things. My proposition will work better for those. More advanced users
-> still will may pass any "lsm=" string as they like, this having full
-> control.
+>>>> It's possible that something lime this was discussed already
+>>>> but without full examples it was hard to me for tracking things.
+>>>
+>>> It's been a painful thread. ;)
+>>
+>> Indeed
 > 
 > Jordan
 > 
