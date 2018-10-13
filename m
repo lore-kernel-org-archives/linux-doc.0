@@ -2,128 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C803A7D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Oct 2018 02:14:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2189F7D087
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Oct 2018 09:20:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726059AbeJMJtU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 13 Oct 2018 05:49:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57230 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725978AbeJMJtU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 13 Oct 2018 05:49:20 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2AA723078AA9;
-        Sat, 13 Oct 2018 02:14:04 +0000 (UTC)
-Received: from asgard.redhat.com (ovpn-200-28.brq.redhat.com [10.40.200.28])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AFB1601AC;
-        Sat, 13 Oct 2018 02:13:55 +0000 (UTC)
-Date:   Sat, 13 Oct 2018 04:14:16 +0200
-From:   Eugene Syromiatnikov <esyr@redhat.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Yury Norov <ynorov@caviumnetworks.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Pavel Machek <pavel@ucw.cz>,
+        id S1726512AbeJMQ4o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 13 Oct 2018 12:56:44 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:32778 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726380AbeJMQ4n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 13 Oct 2018 12:56:43 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D38B0F;
+        Sat, 13 Oct 2018 02:20:18 -0700 (PDT)
+Received: from mbp (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFCCD3F5D3;
+        Sat, 13 Oct 2018 02:20:12 -0700 (PDT)
+Date:   Sat, 13 Oct 2018 10:20:09 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>, linux-doc@vger.kernel.org,
         Palmer Dabbelt <palmer@sifive.com>,
-        Wookey <wookey@wookware.org>
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Yury Norov <ynorov@caviumnetworks.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        linux-arch@vger.kernel.org,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Alexander Graf <agraf@suse.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Wookey <wookey@wookware.org>, Mark Brown <broonie@kernel.org>,
+        nd@arm.com, linux-arm-kernel@lists.infradead.org,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Florian Weimer <fweimer@redhat.com>, linux-api@vger.kernel.org,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>
 Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
-Message-ID: <20181013021416.GE21972@asgard.redhat.com>
+Message-ID: <20181013092009.gzxorufk4tqrzked@mbp>
 References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
  <20180724173957.GA22106@yury-thinkpad>
  <20181010141017.GA2881@asgard.redhat.com>
- <20181010153655.GA212880@arrakis.emea.arm.com>
+ <7aac1a08-8948-1a04-cbd3-fbc6a53f9ff0@arm.com>
+ <20181013020731.GD21972@asgard.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181010153655.GA212880@arrakis.emea.arm.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Sat, 13 Oct 2018 02:14:04 +0000 (UTC)
+In-Reply-To: <20181013020731.GD21972@asgard.redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 10, 2018 at 04:36:56PM +0100, Catalin Marinas wrote:
-> On Wed, Oct 10, 2018 at 04:10:21PM +0200, Eugene Syromiatnikov wrote:
-> > I have some questions regarding AArch64 ILP32 implementation for which I
-> > failed to find an answer myself:
-> >  * How ptrace() tracer is supposed to distinguish between ILP32 and LP64
-> >    tracees? For MIPS N32 and x32 this is possible based on syscall
-> >    number, but for AArch64 ILP32 I do not see such a sign. There's also
-> >    ARM_ip is employed for signalling entering/exiting, I wonder whether
-> >    it's possible to employ it also for signalling tracee's personality.
+On Sat, Oct 13, 2018 at 04:07:31AM +0200, Eugene Syromiatnikov wrote:
+> On Wed, Oct 10, 2018 at 03:39:07PM +0100, Szabolcs Nagy wrote:
+> > On 10/10/18 15:10, Eugene Syromiatnikov wrote:
+> > >  * What's the reasoning behind capping syscall arguments to 32 bit? x32
+> > >    and MIPS N32 do not have such a restriction (and do not need special
+> > >    wrappers for syscalls that pass 64-bit values as a result, except
+> > >    when they do,  as it is the case for preadv2 on x32); moreover, that
+> > >    would lead to insurmountable difficulties for AArch64 ILP32 tracers
+> > >    that try to trace LP64 tracees, as it would be impossible to pass
+> > >    64-bit addresses to process_vm_{read,write} or ptrace PEEK/POKE.
+> > 
+> > but that's necessarily the case for all ilp32 abis:
+> > the userspace syscall function receives 32bit
+> > arguments so even if the kernel abi takes 64bit
+> > args you cannot use that from c code. (the libc
+> > does not even know which args should be sign or
+> > zero extended.)
 > 
-> With the current implementation, I don't think you can distinguish. From
-> the kernel perspective, the register set is the same. What is the
-> use-case for this?
+> glibc's syscall() prototype has kernel_ulong_t as its arguments (more
+> specifically, to __syscall_ulong_t, which is 64-bit wide on x32; it
+> should also have kernel_long_t as its return type instead of long,
+> but that's another story), so it works perfectly fine in case of x32.
 
-Err, a ptrace()-based tracer trying to trace a process, for example?
+This would have been my preferred approach but the libc community were
+not entirely happy with it as it breaks POSIX compatibility:
 
-> We could add a new regset to expose the ILP32 state (NT_ARM_..., I can't
-> think of a name now but probably not PER* as this implies PER_LINUX_...
-> which is independent from TIF_32BIT_*).
+https://sourceware.org/bugzilla/show_bug.cgi?id=16437
+http://lists.infradead.org/pipermail/linux-arm-kernel/2015-February/323348.html
 
-So that would require an additional ptrace() call on each syscall stop,
-is that correct?
+(there are other threads around x32 and people arguing whether POSIX is
+wrong)
 
-> >  * What's the reasoning behind capping syscall arguments to 32 bit? x32
-> >    and MIPS N32 do not have such a restriction (and do not need special
-> >    wrappers for syscalls that pass 64-bit values as a result, except
-> >    when they do,  as it is the case for preadv2 on x32); moreover, that
-> >    would lead to insurmountable difficulties for AArch64 ILP32 tracers
-> >    that try to trace LP64 tracees, as it would be impossible to pass
-> >    64-bit addresses to process_vm_{read,write} or ptrace PEEK/POKE.
-> 
-> We've attempted in earlier versions to allow a mix of 32 and 64-bit
-> register values from ILP32 but it got pretty complicated. The entry code
-> would need to know which registers need zeroing of the top 32-bit
+Some sometime around version 4 or 5 of this series, we made the move
+(back) to compat-like ABI.
 
-If kernel specifies 64-bit wide registers for syscalls, then it's the
-caller's (libc's) responsibility to properly sign-extend arguments when
-needed, and glibc, for example, already has proper type definitions that
-aimed to handle this.
-
-> and the generic unistd.h wrapper hacks were not very nice.
-
-They are already implemented in glibc during x32 introduction period.
-
-> Some past discussions:
-> 
-> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1211716.html
-> 
-> -- 
-> Catalin
+-- 
+Catalin
