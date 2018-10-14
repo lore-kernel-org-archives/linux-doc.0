@@ -1,133 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 589D37D082
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Oct 2018 19:53:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A72197D082
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Oct 2018 21:30:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbeJODfq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 14 Oct 2018 23:35:46 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:39704 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726375AbeJODfq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Oct 2018 23:35:46 -0400
-Received: by mail-qt1-f194.google.com with SMTP id e22-v6so19303629qto.6;
-        Sun, 14 Oct 2018 12:53:39 -0700 (PDT)
+        id S1726228AbeJOFM3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Oct 2018 01:12:29 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40857 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726107AbeJOFM3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Oct 2018 01:12:29 -0400
+Received: by mail-pl1-f194.google.com with SMTP id 1-v6so8277700plv.7
+        for <linux-doc@vger.kernel.org>; Sun, 14 Oct 2018 14:30:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B1BhcJksYld0iNAKOWfN53vg1bwHsJCccKOsz1OidCM=;
+        b=P3Gvaqcg09jDvQq63vIOoN9M87VDwdMJuajFEwUh7JleqOSXVfbkOI6OukhN5kvUVr
+         R84d9ws+5LO/PQZkNWjhU/ME1zTIaTwEmCC+QvZXNHS3LWOhEdQZZame1NygElGywAwP
+         Q8rd8Rg4tqBrWmFPcdZaGm5qrEDyVdqFCiBdg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=doFYNN6dg8ppo+j0Zk07aanLk9qlmCb+R+JOhgmPces=;
-        b=NOV0Ty2gUpYYkPOO1jS3ibCLHiiF+w7roqw5JM2WIr1E7tpHcKEICssxGljUIHlNMW
-         1QmFytEeVbLiq6Okag4H1vNKiYRd5pGJeseB9Usd24DH6WMBL+/uEoOIZg0rDhgaZSUV
-         vjK+t4flDMSvYG9Qz9KOtrU1I2lDaC+O72lMXDsIGjfgwbK8mE61ZoXSJ7Z/dy7hXc8a
-         za4OAz66PkjhGrAA+Y+UPMR7mR7UXVlFaFhNVtDYu4BOUJ6WQ67mYf0n4LRIgnvLpScu
-         +Opxm9UQNE5mUkemIBfc5FUS8+NN8VoAvtb2S2mAAJD2GRCaMomGFca8F0+6kGS/aW+Y
-         8EvQ==
-X-Gm-Message-State: ABuFfoiTcbcFTlJ8IEjJEqv3e8LFRacP8zQ0oUvE3GVaRpS0Kk2NF4YT
-        BhASoqdb3AwPHTL0y3OQE7MAFBkVgv449T1e/iU=
-X-Google-Smtp-Source: ACcGV62QbtpuaX/eixbfMELMPr+dxSrPH2IwBh2hGKi8FHx447B1/XjpDxeL7I6jyyytgzyVaVfFf/zOK4wXV/xg8Zk=
-X-Received: by 2002:ac8:2bf0:: with SMTP id n45-v6mr13913853qtn.152.1539546818882;
- Sun, 14 Oct 2018 12:53:38 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B1BhcJksYld0iNAKOWfN53vg1bwHsJCccKOsz1OidCM=;
+        b=iCUb4uCtIopgadvsDfs067zmHz2PFcdDcIs9zqg8I98EScRFmly8poauKFwZJ3Jr2Z
+         P1fwgHkx0MjcYGtXisqNnwFv7M+uqZProkdlZ8i8yF4efWK9tIYNl1QKNBeMeB96rboJ
+         S2Q72ZwU/GrstWmtVA6k0sNzA4QhnGxspf34obV/w8DoKrMarw9Rpvm1Lkra9V+12qBX
+         9am0GEtoGuMZHfS4p9jVl6eCeAChh72U0PG3ywDiMTNsb+nUE3gnvkN/7Bb4GsPLb8So
+         zkLHmA5JV9p1rkeDokZ+ZSMekKP1EgFTNsCMI0btZUZgvRyZmCo3jEgpsfJR+/POPn1C
+         COtw==
+X-Gm-Message-State: ABuFfoi4F4H2TLQr8u0Am6VT1MxiGLTcSp2fcE7JaVwofvzsNxBivJds
+        aZyE+JrEZAd6v1NbMVd8vu3K03Vms+w=
+X-Google-Smtp-Source: ACcGV61CbYi+gflLdz5Nia99KIF5T4g9v62OzVfZnt+cIHe9yN6/HQTIy1ewdl6j83S1K/p9Bt7hrQ==
+X-Received: by 2002:a17:902:728e:: with SMTP id d14-v6mr14695117pll.51.1539552609764;
+        Sun, 14 Oct 2018 14:30:09 -0700 (PDT)
+Received: from joelaf.mtv.corp.google.com ([2620:0:1000:1601:3aef:314f:b9ea:889f])
+        by smtp.gmail.com with ESMTPSA id h6-v6sm10828804pgn.84.2018.10.14.14.30.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 14 Oct 2018 14:30:08 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about disabling preemption
+Date:   Sun, 14 Oct 2018 14:29:55 -0700
+Message-Id: <20181014212955.95267-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.19.0.605.g01d371f741-goog
 MIME-Version: 1.0
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
- <20180724173957.GA22106@yury-thinkpad> <20181010141017.GA2881@asgard.redhat.com>
- <7aac1a08-8948-1a04-cbd3-fbc6a53f9ff0@arm.com> <20181013020731.GD21972@asgard.redhat.com>
-In-Reply-To: <20181013020731.GD21972@asgard.redhat.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Sun, 14 Oct 2018 21:53:22 +0200
-Message-ID: <CAK8P3a1qUVoE0CYkCOU2N+-WkqMad15fFsakbwkpiiPPRFz-eA@mail.gmail.com>
-Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
-To:     Eugene Syromiatnikov <esyr@redhat.com>
-Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Yury Norov <ynorov@caviumnetworks.com>, nd@arm.com,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        David Miller <davem@davemloft.net>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        "Manuel A. Fernandez Montecelo" <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan Lynch <Nathan_Lynch@mentor.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Wookey <wookey@wookware.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 13, 2018 at 4:07 AM Eugene Syromiatnikov <esyr@redhat.com> wrote:
->
-> On Wed, Oct 10, 2018 at 03:39:07PM +0100, Szabolcs Nagy wrote:
-> > On 10/10/18 15:10, Eugene Syromiatnikov wrote:
-> > >  * What's the reasoning behind capping syscall arguments to 32 bit? x32
-> > >    and MIPS N32 do not have such a restriction (and do not need special
-> > >    wrappers for syscalls that pass 64-bit values as a result, except
-> > >    when they do,  as it is the case for preadv2 on x32); moreover, that
-> > >    would lead to insurmountable difficulties for AArch64 ILP32 tracers
-> > >    that try to trace LP64 tracees, as it would be impossible to pass
-> > >    64-bit addresses to process_vm_{read,write} or ptrace PEEK/POKE.
-> >
-> > but that's necessarily the case for all ilp32 abis:
-> > the userspace syscall function receives 32bit
-> > arguments so even if the kernel abi takes 64bit
-> > args you cannot use that from c code. (the libc
-> > does not even know which args should be sign or
-> > zero extended.)
->
-> glibc's syscall() prototype has kernel_ulong_t as its arguments (more
-> specifically, to __syscall_ulong_t, which is 64-bit wide on x32; it
-> should also have kernel_long_t as its return type instead of long,
-> but that's another story), so it works perfectly fine in case of x32.
->
-> > process_vm_readv/writev is limited by the ilp32
-> > iovec struct, not by the syscall arguments.
->
-> Right, on x32/N32 this issue is worked around by the usage of the respective
-> x86_64/N64 call, and it looks like another thing that is impossible
-> with AArch64 ilp32.
->
-> > ptrace is specified to take void* addr argument,
-> > and void* is 32bit on all ilp32 targets.
-> > so again on the c language level there is no
-> > way around the 32bit limitation.
->
-> Which is an issue.
+The Requirements.html document says "Disabling Preemption Does Not Block
+Grace Periods". However this is no longer true with the RCU
+consolidation. Lets remove the obsolete (non-)requirement entirely.
 
-I have no idea why you think this is a problem specific to aarch64-ilp32:
-If we want to be able to debug 64-bit tasks from a 32-bit task on any
-architecture that has compat mode, we should solve it once and
-extend the ptrace interface to allow it on *all* of them. We certainly
-don't need /more/ special cases for the x32 hack, there should really
-be fewer of them.
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+ .../RCU/Design/Requirements/Requirements.html | 50 -------------------
+ 1 file changed, 50 deletions(-)
 
-      Arnd
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.html b/Documentation/RCU/Design/Requirements/Requirements.html
+index 7efc1c1da7af..4fae55056c1d 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.html
++++ b/Documentation/RCU/Design/Requirements/Requirements.html
+@@ -900,8 +900,6 @@ Except where otherwise noted, these non-guarantees were premeditated.
+ 	Grace Periods Don't Partition Read-Side Critical Sections</a>
+ <li>	<a href="#Read-Side Critical Sections Don't Partition Grace Periods">
+ 	Read-Side Critical Sections Don't Partition Grace Periods</a>
+-<li>	<a href="#Disabling Preemption Does Not Block Grace Periods">
+-	Disabling Preemption Does Not Block Grace Periods</a>
+ </ol>
+ 
+ <h3><a name="Readers Impose Minimal Ordering">Readers Impose Minimal Ordering</a></h3>
+@@ -1259,54 +1257,6 @@ of RCU grace periods.
+ <tr><td>&nbsp;</td></tr>
+ </table>
+ 
+-<h3><a name="Disabling Preemption Does Not Block Grace Periods">
+-Disabling Preemption Does Not Block Grace Periods</a></h3>
+-
+-<p>
+-There was a time when disabling preemption on any given CPU would block
+-subsequent grace periods.
+-However, this was an accident of implementation and is not a requirement.
+-And in the current Linux-kernel implementation, disabling preemption
+-on a given CPU in fact does not block grace periods, as Oleg Nesterov
+-<a href="https://lkml.kernel.org/g/20150614193825.GA19582@redhat.com">demonstrated</a>.
+-
+-<p>
+-If you need a preempt-disable region to block grace periods, you need to add
+-<tt>rcu_read_lock()</tt> and <tt>rcu_read_unlock()</tt>, for example
+-as follows:
+-
+-<blockquote>
+-<pre>
+- 1 preempt_disable();
+- 2 rcu_read_lock();
+- 3 do_something();
+- 4 rcu_read_unlock();
+- 5 preempt_enable();
+- 6
+- 7 /* Spinlocks implicitly disable preemption. */
+- 8 spin_lock(&amp;mylock);
+- 9 rcu_read_lock();
+-10 do_something();
+-11 rcu_read_unlock();
+-12 spin_unlock(&amp;mylock);
+-</pre>
+-</blockquote>
+-
+-<p>
+-In theory, you could enter the RCU read-side critical section first,
+-but it is more efficient to keep the entire RCU read-side critical
+-section contained in the preempt-disable region as shown above.
+-Of course, RCU read-side critical sections that extend outside of
+-preempt-disable regions will work correctly, but such critical sections
+-can be preempted, which forces <tt>rcu_read_unlock()</tt> to do
+-more work.
+-And no, this is <i>not</i> an invitation to enclose all of your RCU
+-read-side critical sections within preempt-disable regions, because
+-doing so would degrade real-time response.
+-
+-<p>
+-This non-requirement appeared with preemptible RCU.
+-
+ <h2><a name="Parallelism Facts of Life">Parallelism Facts of Life</a></h2>
+ 
+ <p>
+-- 
+2.19.0.605.g01d371f741-goog
+
