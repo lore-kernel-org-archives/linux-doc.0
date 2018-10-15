@@ -1,135 +1,184 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F19447D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 20:16:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C5ADF7D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 20:30:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbeJPECq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Oct 2018 00:02:46 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43767 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725917AbeJPECq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Oct 2018 00:02:46 -0400
-Received: by mail-pl1-f195.google.com with SMTP id 30-v6so9816593plb.10
-        for <linux-doc@vger.kernel.org>; Mon, 15 Oct 2018 13:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bCG56MnvqknkV8yWIM1urB4dfW5GfosWZ/Pr+b9aTc0=;
-        b=gUx7iYnAVk2aekhGq/1UAPgVIzD5v+C3MbNDeZ/fO+ulwk7tR8g1VJxPpmKGVG7DQl
-         q7xgY0SfDkCpoGWA3tBB7Kk8CD6riV3179robf/nMlVa8AkmhBRTqlydOY66AialCdlx
-         488un7mF0M0i8quXKybpYG30xobaLy+Zc7IaA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bCG56MnvqknkV8yWIM1urB4dfW5GfosWZ/Pr+b9aTc0=;
-        b=rTIzcLKBvOn/hpemwB7GdRmEGnC7+k2fMoREFnY3db+GGv2OlHyoMWe1MlNnX8arMX
-         QIOZujBr6VwB47biQlxNi367LPYv18nrFJkeqH4rcslMeEjz7iv+dovNOP6FjIpCH7mZ
-         NvtDrsniet4JqcxRSEIYgADFU6un0uOp62djVzrySKBxuyAAiwPoZrc+usj2oPEHvRWW
-         CcLMs2qAEHmSH1orCvtQLimtp/FEIGToHnCGRjIkUl/ff7iJh44qkW8eY7KW1Ef6TJMb
-         BD2u8PzqV4O0idcuHHaRioN2U8Qd9dvthyGDnGLkufTd3JVjnLUs/D2ziS2IHC4pYiLN
-         2vDA==
-X-Gm-Message-State: ABuFfogO407gx/hcxTqb9Xa9YHlu3xgnfNbyhDG+to3tAqObwkGjZcKO
-        qPyGkNTm8hxwFgdeV4Ty6mUu7GgQ5kw=
-X-Google-Smtp-Source: ACcGV61OnpFXUsG4YV2MK6nnPTIS9vHYx1oz1S+HXGjA/afo3d+u98ei8DHNwysKVGYsDRIDc4htyw==
-X-Received: by 2002:a17:902:7203:: with SMTP id ba3-v6mr8448519plb.321.1539634559171;
-        Mon, 15 Oct 2018 13:15:59 -0700 (PDT)
-Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id m10-v6sm18226446pfg.180.2018.10.15.13.15.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 15 Oct 2018 13:15:57 -0700 (PDT)
-Date:   Mon, 15 Oct 2018 13:15:56 -0700
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Nikolay Borisov <nborisov@suse.com>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
- disabling preemption
-Message-ID: <20181015201556.GA43575@joelaf.mtv.corp.google.com>
-References: <20181014212955.95267-1-joel@joelfernandes.org>
- <20181014231731.GN2674@linux.ibm.com>
- <20181015020827.GA217384@joelaf.mtv.corp.google.com>
- <20181015021349.GB217384@joelaf.mtv.corp.google.com>
- <20181015023328.GP2674@linux.ibm.com>
- <20181015024758.GA227989@joelaf.mtv.corp.google.com>
- <5151da01-343b-bb37-353e-b6652ae530f5@suse.com>
- <20181015112112.GT2674@linux.ibm.com>
- <20181015193951.GA33528@joelaf.mtv.corp.google.com>
- <20181015195426.GD2674@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181015195426.GD2674@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726091AbeJPERH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Oct 2018 00:17:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51130 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725917AbeJPERH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Oct 2018 00:17:07 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id CAE273082B06;
+        Mon, 15 Oct 2018 20:30:16 +0000 (UTC)
+Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 40AFD768B2;
+        Mon, 15 Oct 2018 20:30:04 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
+        luto@amacapital.net, Mike Galbraith <efault@gmx.de>,
+        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Tom Hromatka <tom.hromatka@oracle.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v14 00/12] Enable cpuset controller in default hierarchy
+Date:   Mon, 15 Oct 2018 16:29:25 -0400
+Message-Id: <1539635377-22335-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Mon, 15 Oct 2018 20:30:17 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 15, 2018 at 12:54:26PM -0700, Paul E. McKenney wrote:
-[...]
-> > > In any case, please don't spin for milliseconds with preemption disabled.
-> > > The real-time guys are unlikely to be happy with you if you do this!
-> > 
-> > Well just to clarify, I was just running Oleg's test which did this. This
-> > test was mentioned in the original documentation that I deleted. Ofcourse I
-> > would not dare do such a thing in production code :-D. I guess to Oleg's
-> > defense, he did it to very that synchronize_rcu() was not blocked on
-> > preempt-disable sections which was a different test.
-> 
-> Understood!  Just pointing out that RCU's tolerating a given action does
-> not necessarily mean that it is a good idea to take that action.  ;-)
+v14:
+ - Fix a bug about cpumask handling in patch 4 by using
+   CONFIG_CPUMASK_OFFSTACK #ifdef block.
+ - Add patch 12 to show descriptive name when reading
+   cpuset.sched.partition (suggested by Tejun).
+ - Change the function prototype of free_cpumasks() to match that of
+   alloc_cpumasks() (suggested by Tom Hromatka).
 
-Makes sense :-) thanks.
+v13:
+ - A major rewrite of the partition code so that there will be no
+   auto-turning off anymore. Instead, the partition root can enter into
+   an error state that can be restored back to a partition root later on.
+ - Patches 1 and 9 are the same as previous version, the rests are
+   either new or substantially revised.
 
-> > > > > +		pr_crit("SPIN done!\n");
-> > > > > +		preempt_enable();
-> > > > > +		break;
-> > > > > +	case 777:
-> > > > > +		pr_crit("SYNC start\n");
-> > > > > +		synchronize_rcu();
-> > > > > +		pr_crit("SYNC done!\n");
-> > > > 
-> > > > But you are using the console printing infrastructure which is rather
-> > > > heavyweight. Try replacing pr_* calls with trace_printk so that you
-> > > > write to the lock-free ring buffer, this will reduce the noise from the
-> > > > heavy console printing infrastructure.
-> > > 
-> > > And this might be a problem as well.
-> > 
-> > This was not the issue (or atleast not fully the issue) since I saw the same
-> > thing with trace_printk. It was exactly what you said - which is the
-> > excessively long preempt disabled times.
-> 
-> One approach would be to apply this patch against (say) v4.18, which
-> does not have consolidated grace periods.  You might then be able to
-> tell if the pr_crit() calls make any difference.
+v12:
+ - Take out the debugging patch to print partitions.
+ - Add a patch to force turning off partition flag if newly modified CPU
+   list doesn't meet the requirement of being a partition root.
+ - Remove some unneeded checking code in update_reserved_cpumask().
 
-I could do that, yeah. But since the original problem went away due to
-disabling preempts for a short while, I will move on and continue to focus on
-updating other parts of the documenation. Just to mention I
-brought this up because I thought its better to do that than not to, just
-incase there is any lurking issue with the consolidation. Sorry if that ended
-up with me being noisy.
+v11:
+ - Change the "domain_root" name to "partition" as suggested by Peter and
+   update the documentation and code accordingly.
+ - Remove the dying cgroup check in update_reserved_cpus() as the check
+   may not be needed after all.
+ - Document the effect of losing CPU affinity after offling all the cpus
+   in a partition.
+ - There is no other major code changes in this version.
 
-Just curious, while I am going through the documentation, is there anything
-in particular that particularly sticks out to you that needs updating? I
-think I am around 50% there with the last several rounds of doc patches but I
-have lot more to go through. "Just keep doing what you're doing" is also a
-perfectly valid answer ;-)
+v11 patch: https://lkml.org/lkml/2018/6/24/30
+v12 patch: https://lkml.org/lkml/2018/8/27/423
+v13 patch: https://lkml.org/lkml/2018/10/12/861
 
-thanks,
+The purpose of this patchset is to provide a basic set of cpuset control
+files for cgroup v2. This basic set includes the non-root "cpus",
+"mems" and "sched.partition". The "cpus.effective" and "mems.effective"
+will appear in all cpuset-enabled cgroups.
 
- - Joel
+The new control file that is unique to v2 is "sched.partition". It is
+a tristate flag file that designates if a cgroup is the root of a new
+scheduling domain or partition with its own set of unique list of CPUs
+from scheduling perspective disjointed from other partitions. An user
+can write only "1" or "0" into this file to turn on and off partition root.
+Depending on circumstances, a partition root may become erroneous and has
+a flag value of -1. However, if condition becomes favorable again, it can
+be changed back to a partition root automatically.
+
+The root cgroup is always a partition root. Multiple levels of partitions
+are supported with some limitations. So a container partition root can
+behave like a real root.
+
+When a partition root cgroup is removed, its list of exclusive CPUs
+will be returned back to the parent's cpus.effective automatically.
+
+A container root can be a partition root with sub-partitions
+created underneath it. One difference from the real root is that the
+"cpuset.sched.partition" flag isn't present in the real root, but is
+present in a container root. This is also true for other cpuset control
+files as well as those from the other controllers. This is a general
+issue that is not going to be addressed here in this patchset.
+
+This patchset does not exclude the possibility of adding more features
+in the future after careful consideration.
+
+Patch 1 enables cpuset in cgroup v2 with cpus, mems and their effective
+counterparts.
+
+Patch 2 defines new data structures to support partitioning.
+
+Patch 3 simplifies the allocation and freeing of cpumasks in the cpuset
+code and prepares for use by subsequent patches.
+
+Patch 4 adds a new "sched.partition" control file for setting up multiple
+scheduling domains or partitions. A partition root implies cpu_exclusive.
+
+Patch 5 makes new "sched.partition" file to have a new error value of -1
+which indicates that the partition root enters into an erroneous state
+where some of the constraints of a partition root (like cpu_exclusive)
+will still hold but it is not a real partition root anymore. This allows
+the cpuset to change back to a partition root later on automatically
+if the conditions become favorable again.
+
+Patch 6 adds tracking of the number of cpusets that use the parent's
+effective_cpus in order to make sure that those cpusets will be properly
+updated if their parents effective cpus changes because of changes in
+sibling partitions.
+
+Patch 7 makes the hotplug code deal with partition root properly.
+
+Patch 8 updates the scheduling domain genaration code to work with
+the new partition feature.
+
+Patch 9 exposes cpus.effective and mems.effective to the root cgroup
+as enabling child partitions will take CPUs away from the root cgroup.
+So it will be nice to monitor what CPUs are left there.
+
+Patch 10 updates the cgroup v2 documentation file with information
+about the new "sched.partition" file.
+
+Patch 11 adds a new read-only "cpus.subpartitions" file that list the
+CPUs in the subparts_cpus mask in the cpuset data structure when the
+command line option "cgroup_debug" is specified. This is mostly used
+for debugging and verification purposes.
+
+Patch 12 changes the output of reading cpuset.sched.partition from
+integer to a descriptive text similar to what cgroup.type is doing.
+
+A test script with various cpuset configurations was run on both regular
+and debug kernels with this patchset applied to verify that the cpusets
+behaved appropriate without unexpected error.
+
+Waiman Long (12):
+  cpuset: Enable cpuset controller in default hierarchy
+  cpuset: Define data structures to support scheduling partition
+  cpuset: Simply allocation and freeing of cpumasks
+  cpuset: Add new v2 cpuset.sched.partition flag
+  cpuset: Add an error state to cpuset.sched.partition
+  cpuset: Track cpusets that use parent's effective_cpus
+  cpuset: Make CPU hotplug work with partition
+  cpuset: Make generate_sched_domains() work with partition
+  cpuset: Expose cpus.effective and mems.effective on cgroup v2 root
+  cpuset: Add documentation about the new "cpuset.sched.partition" flag
+  cpuset: Expose cpuset.cpus.subpartitions with cgroup_debug
+  cpuset: Show descriptive text when reading cpuset.sched.partition
+
+ Documentation/admin-guide/cgroup-v2.rst | 175 ++++-
+ include/linux/cgroup-defs.h             |   1 +
+ kernel/cgroup/cgroup-internal.h         |   2 +
+ kernel/cgroup/cgroup.c                  |  14 +-
+ kernel/cgroup/cpuset.c                  | 909 ++++++++++++++++++++++--
+ kernel/cgroup/debug.c                   |   4 +-
+ 6 files changed, 1030 insertions(+), 75 deletions(-)
+
+-- 
+2.18.0
 
