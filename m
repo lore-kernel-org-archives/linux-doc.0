@@ -1,89 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E8527D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 15:52:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A9BE67D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 16:35:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbeJOXia (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Oct 2018 19:38:30 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:39136 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726550AbeJOXia (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Oct 2018 19:38:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=J3grTd8CYm6iW8j6njDGyBOvxniCX6xJckiInushUAk=; b=0XMXMd/ckM8u1rRGkI5TLZoV5t
-        i+hN7x+MwAVTxcvdQlFMQvVVIG8fjw39dO1w6SMySOghRMLXX0NNUkntzr+tIZujMtkTR+ERZvTQw
-        i8YE6QcF87lxnTPtpCAu5uIzz2MHvMZ3oiEzpBV2Fl7B12xTJOKzbmknKQFUev72U6K3qSpiQMJ2w
-        m2/Q5JnJP7Cg27EOqUZdnsK902D1sLdia//F3/xvx2WrCTBLSKUtVU+ywLgLyEk7ocQ6fQ89YnMRj
-        5SoPSlym4dfzgvq5wfka9ZPXUtspbvrd4WHyjMt/jSKaiF3nDk3fSI64jwjWiW3onxcAb+DzVjY7k
-        dlgUsvRA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gC5Ac-0000ZH-Aj; Mon, 15 Oct 2018 15:52:38 +0000
-Subject: Re: [PATCH] docs/uio: fix a grammar nitpick
-To:     Will Korteland <will@korte.land>, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <f4edbcfab23ae1a53499dcdc1db32f1b@korte.land>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <ba7b71e7-5652-1209-f169-cacc1067b89a@infradead.org>
-Date:   Mon, 15 Oct 2018 08:52:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1726588AbeJPAVn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Oct 2018 20:21:43 -0400
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:35076 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726528AbeJPAVm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Oct 2018 20:21:42 -0400
+Received: by mail-yw1-f65.google.com with SMTP id y76-v6so7760490ywd.2;
+        Mon, 15 Oct 2018 09:35:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=t0IESHF1ZWVIQ9LLdT48/Dib/xD5iVXdavDQf2nKJoQ=;
+        b=aB/luPtq6Fyw3ZPiaiNEe6MADBTomOHOTAtnyZQs1B+xXIlKXKE9Ic0sF/I9O5DoMl
+         UgWeLl5fmFy5ZzPiNr7YMfIWhDunnb5R6Xt28XgU19rycd4c60rvntUay/Xe4myc9Ui+
+         TrIgO2Kvc0ETwqiLP6yfNA2SiDK/Xb/viRUA6vzPZCA/IeI0zW8bTxiZD3U3ADU6h6eb
+         UzQT0xjdK1SU5Vdvj56+MNelWqZh+DTNKJt6l4R1TVheuXeUhXUAlObogHfQoQ87LGDW
+         232Q/C5PYCgKV2ZfyIMIUkvhT6iS8bnyoy9UO3jvT1dy19/wt8gdffGYmIE/o3AEBZzM
+         erQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=t0IESHF1ZWVIQ9LLdT48/Dib/xD5iVXdavDQf2nKJoQ=;
+        b=DPtGTD9h1p31rz17KGtvO2xY33SQyF2/iIuBTg1ji8NUTWX+VLPWfbqs00rkzfcf/I
+         QxXe/b8qRzYJg0C4NC306F9ZvkdglGi6+ePU5Abkchwi1wJwujYVm8w4sftivQ5MLSiO
+         +J2iK+I0hS3D3YQwUcvJS9OaKMliOHdO4eBxb1CZb28qlPSKP9shKfmmkgR6AzNcCJw5
+         z41kLMeg/vd4NUuR7CJFcQwMZ/h7nsm6d9cD/li/VWGJt1Zwbq9DjLvSgKiHWuM5h2O9
+         cBKoZ7WvsD7LASVNef09KUY+fqiVVQyPdF+Mt6V6l+vqXBhF159jI15PC4U/gfXb7fP2
+         SC/g==
+X-Gm-Message-State: ABuFfoiCNneL4PLncsw0BpIGPzRuaCvvLs2zb6ktjszMsoVqbndMhMwT
+        m+BXaSOwYVT+bP7cvrh5hfg=
+X-Google-Smtp-Source: ACcGV62BMfuk7oVAC8RxjnQDtMkt/PPGh4ZO0uDVWjf/GEcpdzeRsvVbvJDqgrQDYFm5PvKKGDQO8A==
+X-Received: by 2002:a81:ae5f:: with SMTP id g31-v6mr9672666ywk.372.1539621344048;
+        Mon, 15 Oct 2018 09:35:44 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:200::6:c108])
+        by smtp.gmail.com with ESMTPSA id c128-v6sm4052762ywb.68.2018.10.15.09.35.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Oct 2018 09:35:42 -0700 (PDT)
+Date:   Mon, 15 Oct 2018 09:35:40 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v13 00/11] cpuset: Enable cpuset controller in default
+ hierarchy
+Message-ID: <20181015163540.GQ270328@devbig004.ftw2.facebook.com>
+References: <1539366951-8498-1-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f4edbcfab23ae1a53499dcdc1db32f1b@korte.land>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1539366951-8498-1-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/15/18 1:10 AM, Will Korteland wrote:
-> This patch fixes a minor, incorrect piece of grammar in the UIO howto.
-> 
-> Signed-off-by: Will Korteland <will@korte.land>
+Hello, Waiman.
 
-Looks good to me.  Thanks.
+This looks great to me.  I have only one small nit in terms of
+interface.  Currently, cpuset.partition file uses -1, 0, 1; however,
+given that this is consistent with how cgroup.type behaves (something
+can be set but may be invalid), I wonder whether using a similar
+syntax would be more consistent.  e.g. sth like cpuset.type which
+takes "normal" or "partition" and shows one of "normal", "partition"
+and "partition invalid".  I'd be perfectly happy with that being a
+follow-up patch.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Peter, does the patchset look good to you?  It does everything we want
+it to in terms of sched domain partitioning and is compliant all
+cgroup2 conventions.  If so, I'll apply the series to the cgroup devel
+branch.
 
-
-> ---
-> This is my first attempt at a kernel patch, so please let me know if
-> I've done something silly.  I sent a copy of this a few days ago, but
-> I can't find it on the public archives - apologies if I've now posted
-> this twice.
-> 
->  Documentation/driver-api/uio-howto.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/uio-howto.rst b/Documentation/driver-api/uio-howto.rst
-> index fb2eb73be4a3..25f50eace28b 100644
-> --- a/Documentation/driver-api/uio-howto.rst
-> +++ b/Documentation/driver-api/uio-howto.rst
-> @@ -463,8 +463,8 @@ Getting information about your UIO device
-> 
->  Information about all UIO devices is available in sysfs. The first thing
->  you should do in your driver is check ``name`` and ``version`` to make
-> -sure your talking to the right device and that its kernel driver has the
-> -version you expect.
-> +sure you're talking to the right device and that its kernel driver has
-> +the version you expect.
-> 
->  You should also make sure that the memory mapping you need exists and
->  has the size you expect.
-
+Thank you very much for the work and persistence!
 
 -- 
-~Randy
+tejun
