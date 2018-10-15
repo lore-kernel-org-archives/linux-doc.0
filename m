@@ -1,124 +1,146 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 93F667D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 02:51:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CEFD27D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 06:05:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726397AbeJOKeM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Oct 2018 06:34:12 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:39581 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726055AbeJOKeM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Oct 2018 06:34:12 -0400
-Received: by mail-pg1-f193.google.com with SMTP id r9-v6so8431928pgv.6
-        for <linux-doc@vger.kernel.org>; Sun, 14 Oct 2018 19:50:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=x9Ypx7mHDlNqWFPYdjNz4Er2OMIsLBchG9a1Lbx78oE=;
-        b=HmaWNQMwc4CA//hcrZtLyaNi1y8ch1nYitPRdTc72YyUxMCQBZvGgge6f0VcoYgTCf
-         Chb/97zWnCa0KwWRz/rZVQrMTUPrrGYZcmAJXmzQzy2s8ypEZk9d/6Ef7RT1BgcsMKVl
-         cKy0LmX+JgZX8NRkqQs+yIFLZvLqNiPXHP9js=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=x9Ypx7mHDlNqWFPYdjNz4Er2OMIsLBchG9a1Lbx78oE=;
-        b=j8D4VkZ9/NV8Cg7F37QmBDpfvpCJtiDo90tmeA5GA7E31hxuJbi5W3ufoIFFI8+31L
-         SIOABne2LI9kr+JQhHfVU4h3/XMtrrSfPFrMXSkZuz3B8EPMyiGFEH/g/swaf9g6btHE
-         GEJduOEEWGC0bO/hEZzvdtMOYJOEH9DN70u1NMtTlM3kXJEnu/zUlVfrPPhKvSf4T+Bg
-         f6U5iTwiAnPvUHWAU4XNn+xo6cNBONURNwR7hy0GI0EzTO3YsIJ86dGvkYoSaQH3w+kp
-         pVAY7t6JydV+3yPSjOjSADcLAsBI6GvaV87zGxHQqqqDOtMV53fCpL5FBzN2lMh11711
-         6AJw==
-X-Gm-Message-State: ABuFfoip8l99aVupT6d5Kqx7IdEwEuKGqhGJHWNF+iZfZVWdnl86aQ73
-        ha1ofh54uWGq9BhP959pij6QwA==
-X-Google-Smtp-Source: ACcGV60WVxyQ1Xfax1RShcy/dBRCNrFVjSZ/m8PKjhklOht/p8E999+ypI2HbzqfEMX++rh5Y31/3g==
-X-Received: by 2002:a62:5887:: with SMTP id m129-v6mr15636425pfb.254.1539571858725;
-        Sun, 14 Oct 2018 19:50:58 -0700 (PDT)
-Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id t4-v6sm10239938pfh.45.2018.10.14.19.50.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 14 Oct 2018 19:50:57 -0700 (PDT)
-Date:   Sun, 14 Oct 2018 19:50:56 -0700
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+        id S1726401AbeJONtO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Oct 2018 09:49:14 -0400
+Received: from mx2.suse.de ([195.135.220.15]:38090 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726381AbeJONtO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Oct 2018 09:49:14 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 15914AD6B;
+        Mon, 15 Oct 2018 06:05:25 +0000 (UTC)
+Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
+ disabling preemption
+To:     Joel Fernandes <joel@joelfernandes.org>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Josh Triplett <josh@joshtriplett.org>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         linux-doc@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
- disabling preemption
-Message-ID: <20181015025056.GA25774@joelaf.mtv.corp.google.com>
 References: <20181014212955.95267-1-joel@joelfernandes.org>
  <20181014231731.GN2674@linux.ibm.com>
  <20181015020827.GA217384@joelaf.mtv.corp.google.com>
  <20181015021349.GB217384@joelaf.mtv.corp.google.com>
  <20181015023328.GP2674@linux.ibm.com>
  <20181015024758.GA227989@joelaf.mtv.corp.google.com>
+From:   Nikolay Borisov <nborisov@suse.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=nborisov@suse.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <5151da01-343b-bb37-353e-b6652ae530f5@suse.com>
+Date:   Mon, 15 Oct 2018 09:05:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20181015024758.GA227989@joelaf.mtv.corp.google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 14, 2018 at 07:47:58PM -0700, Joel Fernandes wrote:
+
+
+On 15.10.2018 05:47, Joel Fernandes wrote:
 > On Sun, Oct 14, 2018 at 07:33:28PM -0700, Paul E. McKenney wrote:
-> > On Sun, Oct 14, 2018 at 07:13:49PM -0700, Joel Fernandes wrote:
-> > > On Sun, Oct 14, 2018 at 07:08:27PM -0700, Joel Fernandes wrote:
-> > > > On Sun, Oct 14, 2018 at 04:17:31PM -0700, Paul E. McKenney wrote:
-> > > > > On Sun, Oct 14, 2018 at 02:29:55PM -0700, Joel Fernandes (Google) wrote:
-> > > > > > The Requirements.html document says "Disabling Preemption Does Not Block
-> > > > > > Grace Periods". However this is no longer true with the RCU
-> > > > > > consolidation. Lets remove the obsolete (non-)requirement entirely.
-> > > > > > 
-> > > > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > > 
-> > > > > Good catch, queued, thank you!
-> > > > 
-> > > > Thanks! By the way after I sent the patch, I also tried Oleg's experiment to
-> > > > confirm that this is indeed obsolete.  :)
-> > > > 
-> > > > One thing interesting came up when I tried synchronize_rcu_expedited()
-> > > > instead of synchronize_rcu() in Oleg's experiment, I still saw a multiple
-> > > > millisecond delay between when the rcu read section completely and the
-> > > > synchronize_rcu_expedited returns:
-> > > > 
-> > > > For example, with synchronize_rcu_expedited, the 'SPIN done' and the 'SYNC
-> > > > done' are about 3 millisecond apart:
-> > > > [   77.599142] SPIN start
-> > > > [   77.601595] SYNC start
-> > > > [   82.604950] SPIN done!
-> > > > [   82.607836] SYNC done!
-> > > >  I saw anywhere from 2-6 milliseconds.
-> > > > 
-> > > > The reason I bring this up is according to Requirements.html: In some cases,
-> > > > the multi-millisecond synchronize_rcu() latencies are unacceptable. In these
-> > > > cases, synchronize_rcu_expedited() may be used instead,.. so either I messed
-> > > > something up in the experiment, or I need to update this part of the document ;-)
-> > 
-> > In normal testing, 2-6 milliseconds is indeed excessive.  Could you please
-> > point me at Oleg's experiment?  Also, what CONFIG_PREEMPT setting were
-> > you using?  (My guess is CONFIG_PREEMPT=y.)
+>> On Sun, Oct 14, 2018 at 07:13:49PM -0700, Joel Fernandes wrote:
+>>> On Sun, Oct 14, 2018 at 07:08:27PM -0700, Joel Fernandes wrote:
+>>>> On Sun, Oct 14, 2018 at 04:17:31PM -0700, Paul E. McKenney wrote:
+>>>>> On Sun, Oct 14, 2018 at 02:29:55PM -0700, Joel Fernandes (Google) wrote:
+>>>>>> The Requirements.html document says "Disabling Preemption Does Not Block
+>>>>>> Grace Periods". However this is no longer true with the RCU
+>>>>>> consolidation. Lets remove the obsolete (non-)requirement entirely.
+>>>>>>
+>>>>>> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+>>>>>
+>>>>> Good catch, queued, thank you!
+>>>>
+>>>> Thanks! By the way after I sent the patch, I also tried Oleg's experiment to
+>>>> confirm that this is indeed obsolete.  :)
+>>>>
+>>>> One thing interesting came up when I tried synchronize_rcu_expedited()
+>>>> instead of synchronize_rcu() in Oleg's experiment, I still saw a multiple
+>>>> millisecond delay between when the rcu read section completely and the
+>>>> synchronize_rcu_expedited returns:
+>>>>
+>>>> For example, with synchronize_rcu_expedited, the 'SPIN done' and the 'SYNC
+>>>> done' are about 3 millisecond apart:
+>>>> [   77.599142] SPIN start
+>>>> [   77.601595] SYNC start
+>>>> [   82.604950] SPIN done!
+>>>> [   82.607836] SYNC done!
+>>>>  I saw anywhere from 2-6 milliseconds.
+>>>>
+>>>> The reason I bring this up is according to Requirements.html: In some cases,
+>>>> the multi-millisecond synchronize_rcu() latencies are unacceptable. In these
+>>>> cases, synchronize_rcu_expedited() may be used instead,.. so either I messed
+>>>> something up in the experiment, or I need to update this part of the document ;-)
+>>
+>> In normal testing, 2-6 milliseconds is indeed excessive.  Could you please
+>> point me at Oleg's experiment?  Also, what CONFIG_PREEMPT setting were
+>> you using?  (My guess is CONFIG_PREEMPT=y.)
 > 
 > The CONFIG_PREEMPT config I am using is CONFIG_PREEMPT=y.
 > 
-> > > So I realized I'm running in Qemu so it could also be a scheduling delay of
-> > > the vcpu thread. So apologies about the noise if the experiment works fine
-> > > for you.
-> > 
-> > I used rcuperf, which might not be doing the same thing as Oleg's
-> > experiment.
+>>> So I realized I'm running in Qemu so it could also be a scheduling delay of
+>>> the vcpu thread. So apologies about the noise if the experiment works fine
+>>> for you.
+>>
+>> I used rcuperf, which might not be doing the same thing as Oleg's
+>> experiment.
 > 
 > The experiment is mentioned at:
 > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg912055.html
@@ -156,12 +178,16 @@ On Sun, Oct 14, 2018 at 07:47:58PM -0700, Joel Fernandes wrote:
 > +	case 777:
 > +		pr_crit("SYNC start\n");
 > +		synchronize_rcu();
+> +		pr_crit("SYNC done!\n");
 
-By the way, just to mention, this needs to be changed to
-synchronize_rcu_expedited() and then built. So with that I see the multi
-millesecond delay.
+But you are using the console printing infrastructure which is rather
+heavyweight. Try replacing pr_* calls with trace_printk so that you
+write to the lock-free ring buffer, this will reduce the noise from the
+heavy console printing infrastructure.
 
-thanks,
 
- - Joel
-
+> +		break;
+>  	case PR_SET_PDEATHSIG:
+>  		if (!valid_signal(arg2)) {
+>  			error = -EINVAL;
+> 
