@@ -1,112 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F086E7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 15:49:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E8527D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 15:52:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbeJOXfN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Oct 2018 19:35:13 -0400
-Received: from mga03.intel.com ([134.134.136.65]:61101 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726515AbeJOXfN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Oct 2018 19:35:13 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Oct 2018 08:49:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,385,1534834800"; 
-   d="scan'208";a="271484375"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Oct 2018 08:49:24 -0700
-Message-ID: <c89ff15144f0c24187f82db088622d6c8aebd7d7.camel@linux.intel.com>
-Subject: Re: [PATCH v3 3/3] Documentation: intel_pstate: Add base_frequency
- information
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Robert Moore <robert.moore@intel.com>,
-        "Schmauss, Erik" <erik.schmauss@intel.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>, devel@acpica.org,
-        Prashanth Prakash <pprakash@codeaurora.org>,
-        George Cherian <george.cherian@cavium.com>
-Date:   Mon, 15 Oct 2018 08:49:24 -0700
-In-Reply-To: <CAJZ5v0iXOtcNSqPU7NYwG=S_JCdoTFzLRD1qZocWMnFnVJ-oMQ@mail.gmail.com>
-References: <20181012164400.3479-1-srinivas.pandruvada@linux.intel.com>
-         <20181012164400.3479-4-srinivas.pandruvada@linux.intel.com>
-         <CAJZ5v0iXOtcNSqPU7NYwG=S_JCdoTFzLRD1qZocWMnFnVJ-oMQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726614AbeJOXia (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Oct 2018 19:38:30 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:39136 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726550AbeJOXia (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Oct 2018 19:38:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=J3grTd8CYm6iW8j6njDGyBOvxniCX6xJckiInushUAk=; b=0XMXMd/ckM8u1rRGkI5TLZoV5t
+        i+hN7x+MwAVTxcvdQlFMQvVVIG8fjw39dO1w6SMySOghRMLXX0NNUkntzr+tIZujMtkTR+ERZvTQw
+        i8YE6QcF87lxnTPtpCAu5uIzz2MHvMZ3oiEzpBV2Fl7B12xTJOKzbmknKQFUev72U6K3qSpiQMJ2w
+        m2/Q5JnJP7Cg27EOqUZdnsK902D1sLdia//F3/xvx2WrCTBLSKUtVU+ywLgLyEk7ocQ6fQ89YnMRj
+        5SoPSlym4dfzgvq5wfka9ZPXUtspbvrd4WHyjMt/jSKaiF3nDk3fSI64jwjWiW3onxcAb+DzVjY7k
+        dlgUsvRA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gC5Ac-0000ZH-Aj; Mon, 15 Oct 2018 15:52:38 +0000
+Subject: Re: [PATCH] docs/uio: fix a grammar nitpick
+To:     Will Korteland <will@korte.land>, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+References: <f4edbcfab23ae1a53499dcdc1db32f1b@korte.land>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ba7b71e7-5652-1209-f169-cacc1067b89a@infradead.org>
+Date:   Mon, 15 Oct 2018 08:52:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <f4edbcfab23ae1a53499dcdc1db32f1b@korte.land>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2018-10-15 at 10:53 +0200, Rafael J. Wysocki wrote:
-> On Fri, Oct 12, 2018 at 6:44 PM Srinivas Pandruvada
-> <srinivas.pandruvada@linux.intel.com> wrote:
-> > 
-> > Updated documentation to explain base_frequency attribute.
-> > 
-> > Signed-off-by: Srinivas Pandruvada <
-> > srinivas.pandruvada@linux.intel.com>
-> > ---
-> >  Documentation/admin-guide/pm/intel_pstate.rst | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/Documentation/admin-guide/pm/intel_pstate.rst
-> > b/Documentation/admin-guide/pm/intel_pstate.rst
-> > index 8f1d3de449b5..14a5505e073e 100644
-> > --- a/Documentation/admin-guide/pm/intel_pstate.rst
-> > +++ b/Documentation/admin-guide/pm/intel_pstate.rst
-> > @@ -465,6 +465,10 @@ Next, the following policy attributes have
-> > special meaning if
-> >         policy for the time interval between the last two
-> > invocations of the
-> >         driver's utilization update callback by the CPU scheduler
-> > for that CPU.
-> > 
-> > +``base_frequency``
-> > +       When present, shows the base frequency of the CPU. Any
-> > frequency above
-> > +       this will be in the turbo frequency range.
-> > +
+On 10/15/18 1:10 AM, Will Korteland wrote:
+> This patch fixes a minor, incorrect piece of grammar in the UIO howto.
 > 
-> This isn't entirely correct, because base_frequency is not present in
-> the passive mode (and it is not present for the other drivers for
-> that
-> matter).
-That's why it said, "when present". This keeps door open to add to
-other modes too in future if needed.
+> Signed-off-by: Will Korteland <will@korte.land>
 
-Thanks,
-Srinivas
+Looks good to me.  Thanks.
 
-> 
-> >  The meaning of these attributes in the `passive mode <Passive
-> > Mode_>`_ is the
-> >  same as for other scaling drivers.
-> 
-> Instead, I would say:
-> 
-> "One more policy attribute is present if the `HWP feature is enabled
-> in the processor <Active Mode With HWP_>`_:"
-> 
-> here and I would add the description of the attribute below.
-> 
-> Thanks,
-> Rafael
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
+
+> ---
+> This is my first attempt at a kernel patch, so please let me know if
+> I've done something silly.  I sent a copy of this a few days ago, but
+> I can't find it on the public archives - apologies if I've now posted
+> this twice.
+> 
+>  Documentation/driver-api/uio-howto.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/uio-howto.rst b/Documentation/driver-api/uio-howto.rst
+> index fb2eb73be4a3..25f50eace28b 100644
+> --- a/Documentation/driver-api/uio-howto.rst
+> +++ b/Documentation/driver-api/uio-howto.rst
+> @@ -463,8 +463,8 @@ Getting information about your UIO device
+> 
+>  Information about all UIO devices is available in sysfs. The first thing
+>  you should do in your driver is check ``name`` and ``version`` to make
+> -sure your talking to the right device and that its kernel driver has the
+> -version you expect.
+> +sure you're talking to the right device and that its kernel driver has
+> +the version you expect.
+> 
+>  You should also make sure that the memory mapping you need exists and
+>  has the size you expect.
+
+
+-- 
+~Randy
