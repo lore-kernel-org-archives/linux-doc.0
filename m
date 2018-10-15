@@ -1,206 +1,190 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D48217D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 11:21:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7E8EA7D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 12:06:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726524AbeJOTGF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Oct 2018 15:06:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46534 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726499AbeJOTGE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Oct 2018 15:06:04 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9FBJmvc022887
-        for <linux-doc@vger.kernel.org>; Mon, 15 Oct 2018 07:21:14 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2n4sncgv8t-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 15 Oct 2018 07:21:14 -0400
-Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Mon, 15 Oct 2018 07:21:13 -0400
-Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 15 Oct 2018 07:21:10 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w9FBL9ek29032548
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 15 Oct 2018 11:21:09 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CE53CB2064;
-        Mon, 15 Oct 2018 07:19:04 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 933DAB2065;
-        Mon, 15 Oct 2018 07:19:04 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.85.131.128])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon, 15 Oct 2018 07:19:04 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id ABB2716C0B33; Mon, 15 Oct 2018 04:21:12 -0700 (PDT)
-Date:   Mon, 15 Oct 2018 04:21:12 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Nikolay Borisov <nborisov@suse.com>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
- disabling preemption
-Reply-To: paulmck@linux.ibm.com
-References: <20181014212955.95267-1-joel@joelfernandes.org>
- <20181014231731.GN2674@linux.ibm.com>
- <20181015020827.GA217384@joelaf.mtv.corp.google.com>
- <20181015021349.GB217384@joelaf.mtv.corp.google.com>
- <20181015023328.GP2674@linux.ibm.com>
- <20181015024758.GA227989@joelaf.mtv.corp.google.com>
- <5151da01-343b-bb37-353e-b6652ae530f5@suse.com>
+        id S1726421AbeJOTvs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Oct 2018 15:51:48 -0400
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:43214 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726319AbeJOTvs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Oct 2018 15:51:48 -0400
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.16.0.23/8.16.0.23) with SMTP id w9FC4sfY015460;
+        Mon, 15 Oct 2018 05:05:34 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=pfpt0818; bh=KZ35JQWM/Wq8FbORwZA+A/NzZONHOaqj3Sc8XfTbtHE=;
+ b=leBpmpr1cs/cKfObP3ZOxRD+pmf1/5BX4WIMF7/zHMGVE4yZbks0tdkbwCGEKXHvWzdy
+ gl6LgAOKlD/U5fXFMd+tzn7wFh0g7l6djQvrMAhvLmIDYrJPlNMiEdq5ekcl4bh4Y3qN
+ XM6H6f6DA4nejCahauVYH1mbDNFDVspUnNVcoxwiFDQYwhO+jyyywbPQ+dl9iZH7TiB2
+ yBfxIDU/9SKSRVW8+a8ES+HD5jFyJu7wHB96rEyni8zBiPhaD9m+aOZ11l9OxUAMYFDU
+ L9/bnoFA7TMRpChwuZOZFvYg+Rcc2BuosgEdSZMljfME7rH1bysl8DIiIiWCQDFZqk2k Xw== 
+Received: from il-exch02.marvell.com ([199.203.130.102])
+        by mx0a-0016f401.pphosted.com with ESMTP id 2n4pmqgrdf-15
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Mon, 15 Oct 2018 05:05:34 -0700
+Received: from SC-EXCH01.marvell.com (10.93.176.81) by IL-EXCH02.marvell.com
+ (10.4.102.221) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Mon, 15 Oct
+ 2018 15:05:21 +0300
+Received: from maili.marvell.com (10.93.176.43) by SC-EXCH01.marvell.com
+ (10.93.176.81) with Microsoft SMTP Server id 15.0.1210.3 via Frontend
+ Transport; Mon, 15 Oct 2018 05:05:21 -0700
+Received: from hannah.il.marvell.com (unknown [10.4.50.2])
+        by maili.marvell.com (Postfix) with ESMTP id C7EDD3F7040;
+        Mon, 15 Oct 2018 05:05:16 -0700 (PDT)
+From:   <hannah@marvell.com>
+To:     <catalin.marinas@arm.com>, <will.deacon@arm.com>, <corbet@lwn.net>,
+        <joro@8bytes.org>, <robh+dt@kernel.org>,
+        <gregory.clement@bootlin.com>, <mark.rutland@arm.com>,
+        <jason@lakedaemon.net>, <andrew@lunn.ch>,
+        <sebastian.hesselbarth@gmail.com>, <robin.murphy@arm.com>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <iommu@lists.linux-foundation.org>, <devicetree@vger.kernel.org>,
+        <thomas.petazzoni@bootlin.com>, <nadavh@marvell.com>,
+        <omrii@marvell.com>, Hanna Hawa <hannah@marvell.com>
+Subject: [PATCH 1/4] iommu/arm-smmu: introduce wrapper for writeq/readq
+Date:   Mon, 15 Oct 2018 15:00:43 +0300
+Message-ID: <1539604846-21151-2-git-send-email-hannah@marvell.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1539604846-21151-1-git-send-email-hannah@marvell.com>
+References: <1539604846-21151-1-git-send-email-hannah@marvell.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5151da01-343b-bb37-353e-b6652ae530f5@suse.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18101511-0068-0000-0000-0000034D4692
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009879; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000268; SDB=6.01102982; UDB=6.00570882; IPR=6.00883033;
- MB=3.00023760; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-15 11:21:12
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18101511-0069-0000-0000-00004613B833
-Message-Id: <20181015112112.GT2674@linux.ibm.com>
+Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-15_08:,,
  signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+X-Proofpoint-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1810150105
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1810150111
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 15, 2018 at 09:05:22AM +0300, Nikolay Borisov wrote:
-> On 15.10.2018 05:47, Joel Fernandes wrote:
-> > On Sun, Oct 14, 2018 at 07:33:28PM -0700, Paul E. McKenney wrote:
-> >> On Sun, Oct 14, 2018 at 07:13:49PM -0700, Joel Fernandes wrote:
-> >>> On Sun, Oct 14, 2018 at 07:08:27PM -0700, Joel Fernandes wrote:
-> >>>> On Sun, Oct 14, 2018 at 04:17:31PM -0700, Paul E. McKenney wrote:
-> >>>>> On Sun, Oct 14, 2018 at 02:29:55PM -0700, Joel Fernandes (Google) wrote:
-> >>>>>> The Requirements.html document says "Disabling Preemption Does Not Block
-> >>>>>> Grace Periods". However this is no longer true with the RCU
-> >>>>>> consolidation. Lets remove the obsolete (non-)requirement entirely.
-> >>>>>>
-> >>>>>> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> >>>>>
-> >>>>> Good catch, queued, thank you!
-> >>>>
-> >>>> Thanks! By the way after I sent the patch, I also tried Oleg's experiment to
-> >>>> confirm that this is indeed obsolete.  :)
-> >>>>
-> >>>> One thing interesting came up when I tried synchronize_rcu_expedited()
-> >>>> instead of synchronize_rcu() in Oleg's experiment, I still saw a multiple
-> >>>> millisecond delay between when the rcu read section completely and the
-> >>>> synchronize_rcu_expedited returns:
-> >>>>
-> >>>> For example, with synchronize_rcu_expedited, the 'SPIN done' and the 'SYNC
-> >>>> done' are about 3 millisecond apart:
-> >>>> [   77.599142] SPIN start
-> >>>> [   77.601595] SYNC start
-> >>>> [   82.604950] SPIN done!
-> >>>> [   82.607836] SYNC done!
-> >>>>  I saw anywhere from 2-6 milliseconds.
-> >>>>
-> >>>> The reason I bring this up is according to Requirements.html: In some cases,
-> >>>> the multi-millisecond synchronize_rcu() latencies are unacceptable. In these
-> >>>> cases, synchronize_rcu_expedited() may be used instead,.. so either I messed
-> >>>> something up in the experiment, or I need to update this part of the document ;-)
-> >>
-> >> In normal testing, 2-6 milliseconds is indeed excessive.  Could you please
-> >> point me at Oleg's experiment?  Also, what CONFIG_PREEMPT setting were
-> >> you using?  (My guess is CONFIG_PREEMPT=y.)
-> > 
-> > The CONFIG_PREEMPT config I am using is CONFIG_PREEMPT=y.
-> > 
-> >>> So I realized I'm running in Qemu so it could also be a scheduling delay of
-> >>> the vcpu thread. So apologies about the noise if the experiment works fine
-> >>> for you.
-> >>
-> >> I used rcuperf, which might not be doing the same thing as Oleg's
-> >> experiment.
-> > 
-> > The experiment is mentioned at:
-> > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg912055.html
-> > 
-> > If you apply the below diff, it applies cleanly on rcu/dev. And then run:
-> > taskset 2 perl -e 'syscall 157, 666, 5000' &
-> > taskset 1 perl -e 'syscall 157, 777'
-> > 
-> > diff --git a/kernel/sys.c b/kernel/sys.c
-> > index cf5c67533ff1..b654b7566ca3 100644
-> > --- a/kernel/sys.c
-> > +++ b/kernel/sys.c
-> > @@ -2261,6 +2261,9 @@ int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
-> >  	return -EINVAL;
-> >  }
-> >  
-> > +#include <linux/delay.h>
-> > +
-> > +
-> >  SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
-> >  		unsigned long, arg4, unsigned long, arg5)
-> >  {
-> > @@ -2274,6 +2277,19 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
-> >  
-> >  	error = 0;
-> >  	switch (option) {
-> > +	case 666:
-> > +		preempt_disable();
-> > +		pr_crit("SPIN start\n");
-> > +		while (arg2--)
-> > +			mdelay(1);
+From: Hanna Hawa <hannah@marvell.com>
 
-OK, this is the problem.  When you spin in the kernel for several
-milliseconds with preemption disabled, the consolidated grace period
-is -required- to wait for this preemption-disabled reader to complete,
-whether expedited or not.
+This patch introduce the smmu_writeq_relaxed/smmu_readq_relaxed
+helpers, as preparation to add specific Marvell work-around for
+accessing 64bit width registers of ARM SMMU.
 
-So, expected behavior.  ;-)
+Signed-off-by: Hanna Hawa <hannah@marvell.com>
+---
+ drivers/iommu/arm-smmu.c | 36 +++++++++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 9 deletions(-)
 
-In any case, please don't spin for milliseconds with preemption disabled.
-The real-time guys are unlikely to be happy with you if you do this!
-
-> > +		pr_crit("SPIN done!\n");
-> > +		preempt_enable();
-> > +		break;
-> > +	case 777:
-> > +		pr_crit("SYNC start\n");
-> > +		synchronize_rcu();
-> > +		pr_crit("SYNC done!\n");
-> 
-> But you are using the console printing infrastructure which is rather
-> heavyweight. Try replacing pr_* calls with trace_printk so that you
-> write to the lock-free ring buffer, this will reduce the noise from the
-> heavy console printing infrastructure.
-
-And this might be a problem as well.
-
-							Thanx, Paul
-
-> > +		break;
-> >  	case PR_SET_PDEATHSIG:
-> >  		if (!valid_signal(arg2)) {
-> >  			error = -EINVAL;
-> > 
-> 
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index fd1b80e..fccb1d4 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -88,9 +88,11 @@
+  * therefore this actually makes more sense than it might first appear.
+  */
+ #ifdef CONFIG_64BIT
+-#define smmu_write_atomic_lq		writeq_relaxed
++#define smmu_write_atomic_lq(smmu, val, reg)	\
++					smmu_writeq_relaxed(smmu, val, reg)
+ #else
+-#define smmu_write_atomic_lq		writel_relaxed
++#define smmu_write_atomic_lq(smmu, val, reg)	\
++					writel_relaxed(val, reg)
+ #endif
+ 
+ /* Translation context bank */
+@@ -270,6 +272,19 @@ static struct arm_smmu_domain *to_smmu_domain(struct iommu_domain *dom)
+ 	return container_of(dom, struct arm_smmu_domain, domain);
+ }
+ 
++static inline void smmu_writeq_relaxed(struct arm_smmu_device *smmu,
++				       u64 val,
++				       void __iomem *addr)
++{
++	writeq_relaxed(val, addr);
++}
++
++static inline u64 smmu_readq_relaxed(struct arm_smmu_device *smmu,
++				     void __iomem *addr)
++{
++	return readq_relaxed(addr);
++}
++
+ static void parse_driver_options(struct arm_smmu_device *smmu)
+ {
+ 	int i = 0;
+@@ -465,6 +480,7 @@ static void arm_smmu_tlb_inv_range_nosync(unsigned long iova, size_t size,
+ 					  size_t granule, bool leaf, void *cookie)
+ {
+ 	struct arm_smmu_domain *smmu_domain = cookie;
++	struct arm_smmu_device *smmu = smmu_domain->smmu;
+ 	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
+ 	bool stage1 = cfg->cbar != CBAR_TYPE_S2_TRANS;
+ 	void __iomem *reg = ARM_SMMU_CB(smmu_domain->smmu, cfg->cbndx);
+@@ -483,7 +499,7 @@ static void arm_smmu_tlb_inv_range_nosync(unsigned long iova, size_t size,
+ 			iova >>= 12;
+ 			iova |= (u64)cfg->asid << 48;
+ 			do {
+-				writeq_relaxed(iova, reg);
++				smmu_writeq_relaxed(smmu, iova, reg);
+ 				iova += granule >> 12;
+ 			} while (size -= granule);
+ 		}
+@@ -492,7 +508,7 @@ static void arm_smmu_tlb_inv_range_nosync(unsigned long iova, size_t size,
+ 			      ARM_SMMU_CB_S2_TLBIIPAS2;
+ 		iova >>= 12;
+ 		do {
+-			smmu_write_atomic_lq(iova, reg);
++			smmu_write_atomic_lq(smmu, iova, reg);
+ 			iova += granule >> 12;
+ 		} while (size -= granule);
+ 	}
+@@ -548,7 +564,7 @@ static irqreturn_t arm_smmu_context_fault(int irq, void *dev)
+ 		return IRQ_NONE;
+ 
+ 	fsynr = readl_relaxed(cb_base + ARM_SMMU_CB_FSYNR0);
+-	iova = readq_relaxed(cb_base + ARM_SMMU_CB_FAR);
++	iova = smmu_readq_relaxed(smmu, cb_base + ARM_SMMU_CB_FAR);
+ 
+ 	dev_err_ratelimited(smmu->dev,
+ 	"Unhandled context fault: fsr=0x%x, iova=0x%08lx, fsynr=0x%x, cb=%d\n",
+@@ -698,9 +714,11 @@ static void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
+ 		writel_relaxed(cb->ttbr[0], cb_base + ARM_SMMU_CB_TTBR0);
+ 		writel_relaxed(cb->ttbr[1], cb_base + ARM_SMMU_CB_TTBR1);
+ 	} else {
+-		writeq_relaxed(cb->ttbr[0], cb_base + ARM_SMMU_CB_TTBR0);
++		smmu_writeq_relaxed(smmu, cb->ttbr[0],
++				    cb_base + ARM_SMMU_CB_TTBR0);
+ 		if (stage1)
+-			writeq_relaxed(cb->ttbr[1], cb_base + ARM_SMMU_CB_TTBR1);
++			smmu_writeq_relaxed(smmu, cb->ttbr[1],
++					    cb_base + ARM_SMMU_CB_TTBR1);
+ 	}
+ 
+ 	/* MAIRs (stage-1 only) */
+@@ -1279,7 +1297,7 @@ static phys_addr_t arm_smmu_iova_to_phys_hard(struct iommu_domain *domain,
+ 	/* ATS1 registers can only be written atomically */
+ 	va = iova & ~0xfffUL;
+ 	if (smmu->version == ARM_SMMU_V2)
+-		smmu_write_atomic_lq(va, cb_base + ARM_SMMU_CB_ATS1PR);
++		smmu_write_atomic_lq(smmu, va, cb_base + ARM_SMMU_CB_ATS1PR);
+ 	else /* Register is only 32-bit in v1 */
+ 		writel_relaxed(va, cb_base + ARM_SMMU_CB_ATS1PR);
+ 
+@@ -1292,7 +1310,7 @@ static phys_addr_t arm_smmu_iova_to_phys_hard(struct iommu_domain *domain,
+ 		return ops->iova_to_phys(ops, iova);
+ 	}
+ 
+-	phys = readq_relaxed(cb_base + ARM_SMMU_CB_PAR);
++	phys = smmu_readq_relaxed(smmu, cb_base + ARM_SMMU_CB_PAR);
+ 	spin_unlock_irqrestore(&smmu_domain->cb_lock, flags);
+ 	if (phys & CB_PAR_F) {
+ 		dev_err(dev, "translation fault!\n");
+-- 
+1.9.1
 
