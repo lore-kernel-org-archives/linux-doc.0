@@ -1,77 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9847E7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 20:40:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A3907D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 20:54:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726145AbeJPE1j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Oct 2018 00:27:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48750 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725917AbeJPE1j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Oct 2018 00:27:39 -0400
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1E8502145D;
-        Mon, 15 Oct 2018 20:40:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1539636046;
-        bh=AScWQ7JjECJI5tiAKAKvTFA03/wmmvxb7nDYO7ki3WQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=aaBcBV1ctUgCDIfG+3DiQ6ZYUfR9Bq8BzHJRqPLxBltKeHOioCOIsEyyBPQNDeckM
-         FybBtQqBfQWCjTZ6mnQZ85SLGyomzaZD+m0/ou38SIIrF33WjVCYyVFrm+ToVyOgUG
-         OS4iz3NEu4FIcu5ssWmTRMnZRJeMgZAssoAaJL+8=
-Received: by mail-ed1-f45.google.com with SMTP id l14-v6so10179329edq.0;
-        Mon, 15 Oct 2018 13:40:46 -0700 (PDT)
-X-Gm-Message-State: ABuFfogiNdJcwOEhv/zoxoDcF+Ra1jxkgatL1tfuQTeeVKiiyFq3LEgy
-        Zk8o53nuU8NSCw8Qo0rbjvq4vGH89eCZzd6BNNM=
-X-Google-Smtp-Source: ACcGV607lPoA1njn2HOnfQOaWB76Rw6qUyX4rg9MCo2z0G10xdG9tOcSW1qdnI6+kR5R60h/8+IciGbJ0CoB604XyfE=
-X-Received: by 2002:a05:6402:14da:: with SMTP id f26mr26909955edx.224.1539636044512;
- Mon, 15 Oct 2018 13:40:44 -0700 (PDT)
+        id S1726112AbeJPEle (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Oct 2018 00:41:34 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:54116 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726091AbeJPEle (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Oct 2018 00:41:34 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id A906B80889; Mon, 15 Oct 2018 22:54:37 +0200 (CEST)
+Date:   Mon, 15 Oct 2018 22:54:36 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
+        dave.hansen@intel.com, sean.j.christopherson@intel.com,
+        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
+        shay.katz-zamir@intel.com, linux-sgx@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v14 19/19] x86/sgx: Driver documentation
+Message-ID: <20181015205436.GA28500@amd>
+References: <20180925130845.9962-1-jarkko.sakkinen@linux.intel.com>
+ <20180925130845.9962-20-jarkko.sakkinen@linux.intel.com>
 MIME-Version: 1.0
-References: <1537978342-17697-1-git-send-email-atull@kernel.org>
- <1537978342-17697-5-git-send-email-atull@kernel.org> <CAJYdmeNdBbJBVGjLkk03PpGERA2j=D__BVsb9_FBXwWFkMXR_Q@mail.gmail.com>
-In-Reply-To: <CAJYdmeNdBbJBVGjLkk03PpGERA2j=D__BVsb9_FBXwWFkMXR_Q@mail.gmail.com>
-From:   Alan Tull <atull@kernel.org>
-Date:   Mon, 15 Oct 2018 15:40:08 -0500
-X-Gmail-Original-Message-ID: <CANk1AXQxX8_AMkJhSbuNgxb1972dRqv-6niqU3V63FzKE8=wtQ@mail.gmail.com>
-Message-ID: <CANk1AXQxX8_AMkJhSbuNgxb1972dRqv-6niqU3V63FzKE8=wtQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] docs: fpga: document programming fpgas using regions
-To:     Moritz Fischer <moritz.fischer.private@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Federico Vaga <federico.vaga@cern.ch>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fpga@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="XsQoSWH+UP9D9v3l"
+Content-Disposition: inline
+In-Reply-To: <20180925130845.9962-20-jarkko.sakkinen@linux.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 15, 2018 at 3:11 PM Moritz Fischer
-<moritz.fischer.private@gmail.com> wrote:
->
-> On Wed, Sep 26, 2018 at 9:12 AM Alan Tull <atull@kernel.org> wrote:
-> >
-> > Clarify the intention that interfaces and upper layers use
-> > regions rather than managers directly.
-> >
-> > Rearrange API documentation to better group the API functions
-> > used to create FPGA mgr/bridge/regions and the API used for
-> > programming FPGAs.
-> >
-> > Signed-off-by: Alan Tull <atull@kernel.org>
-> > Suggested-by: Federico Vaga <federico.vaga@cern.ch>
->
-> Acked-by: Moritz Fischer <mdf@kernel.org>
 
-Thanks Moritz!
+--XsQoSWH+UP9D9v3l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Alan
+On Tue 2018-09-25 16:06:56, Jarkko Sakkinen wrote:
+> Documentation of the features of the Software Guard eXtensions used
+> by the Linux kernel and basic design choices for the core and driver
+> and functionality.
+>=20
+> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+
+> --- /dev/null
+> +++ b/Documentation/x86/intel_sgx.rst
+> @@ -0,0 +1,185 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Intel(R) SGX driver
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Intel(R) SGX is a set of CPU instructions that can be used by applicatio=
+ns to
+> +set aside private regions of code and data. The code outside the enclave=
+ is
+> +disallowed to access the memory inside the enclave by the CPU access con=
+trol.
+> +In a way you can think that SGX provides inverted sandbox. It protects t=
+he
+> +application from a malicious host.
+
+Well, recently hardware had some problems keeping its
+promises. So... what about rowhammer, meltdown and spectre?
+
+Which ones apply, which ones do not, and on what cpu generations?
+
+> +Overview of SGX
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +SGX has a set of data structures to maintain information about the encla=
+ves and
+> +their security properties. BIOS reserves a fixed size region of physical=
+ memory
+> +for these structures by setting Processor Reserved Memory Range Registers
+> +(PRMRR).
+> +
+> +This memory range is protected from outside access by the CPU and all th=
+e data
+> +coming in and out of the CPU package is encrypted by a key that is gener=
+ated for
+> +each boot cycle.
+
+Encryption, that sounds nice, but it is hard to do right. If SGX
+protected code changes single bit in its memory, how many bits will be
+changed in physical RAM?
+
+Can we get security people to look at this and perhaps tells us what
+properties it has?
+
+Thanks,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--XsQoSWH+UP9D9v3l
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlvE/owACgkQMOfwapXb+vI5JACeIS4TIY4nGCXYOUBBdtMzSfEh
+JH4AoKFfu10QTC4CbpAC/REiWoJy7pLi
+=Zkv5
+-----END PGP SIGNATURE-----
+
+--XsQoSWH+UP9D9v3l--
