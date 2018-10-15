@@ -2,175 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A22DE7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 17:03:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3EEE37D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 17:04:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726715AbeJPAtj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Oct 2018 20:49:39 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:33818 "EHLO mail.skyhub.de"
+        id S1726593AbeJPAu3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Oct 2018 20:50:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34844 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726593AbeJPAtj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Oct 2018 20:49:39 -0400
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id WS24LUrsrCtq; Mon, 15 Oct 2018 19:03:33 +0200 (CEST)
-Received: from zn.tnic (p200300EC2BDC0500329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2bdc:500:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726588AbeJPAu3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Oct 2018 20:50:29 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7CFF91EC02C1;
-        Mon, 15 Oct 2018 19:03:33 +0200 (CEST)
-Date:   Mon, 15 Oct 2018 19:03:20 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        by mx1.redhat.com (Postfix) with ESMTPS id 66764307D857;
+        Mon, 15 Oct 2018 17:04:25 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-8.bos.redhat.com [10.18.17.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B7A655EE1E;
+        Mon, 15 Oct 2018 17:04:21 +0000 (UTC)
+Subject: Re: [PATCH v13 00/11] cpuset: Enable cpuset controller in default
+ hierarchy
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v5 02/27] x86/fpu/xstate: Change names to separate XSAVES
- system and user states
-Message-ID: <20181015170320.GF11434@zn.tnic>
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
- <20181011151523.27101-3-yu-cheng.yu@intel.com>
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+References: <1539366951-8498-1-git-send-email-longman@redhat.com>
+ <20181015163540.GQ270328@devbig004.ftw2.facebook.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <89b64577-f20e-47d8-03a6-c047e5107271@redhat.com>
+Date:   Mon, 15 Oct 2018 13:04:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
+In-Reply-To: <20181015163540.GQ270328@devbig004.ftw2.facebook.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20181011151523.27101-3-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Mon, 15 Oct 2018 17:04:25 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 11, 2018 at 08:14:58AM -0700, Yu-cheng Yu wrote:
-> Control Flow Enforcement (CET) MSRs are XSAVES system/supervisor
-> states.  To support CET, we introduce XSAVES system states first.
-> 
-> XSAVES is a "supervisor" instruction and, comparing to XSAVE, saves
-> additional "supervisor" states that can be modified only from CPL 0.
-> However, these states are per-task and not kernel's own.  Rename
-> "supervisor" states to "system" states to clearly separate them from
-> "user" states.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/asm/fpu/internal.h |  4 +-
->  arch/x86/include/asm/fpu/xstate.h   | 20 +++----
->  arch/x86/kernel/fpu/core.c          |  4 +-
->  arch/x86/kernel/fpu/init.c          |  2 +-
->  arch/x86/kernel/fpu/signal.c        |  6 +--
->  arch/x86/kernel/fpu/xstate.c        | 82 ++++++++++++++---------------
->  6 files changed, 57 insertions(+), 61 deletions(-)
+On 10/15/2018 12:35 PM, Tejun Heo wrote:
+> Hello, Waiman.
+>
+> This looks great to me.  I have only one small nit in terms of
+> interface.  Currently, cpuset.partition file uses -1, 0, 1; however,
+> given that this is consistent with how cgroup.type behaves (something
+> can be set but may be invalid), I wonder whether using a similar
+> syntax would be more consistent.  e.g. sth like cpuset.type which
+> takes "normal" or "partition" and shows one of "normal", "partition"
+> and "partition invalid".  I'd be perfectly happy with that being a
+> follow-up patch.
 
-...
+Sure. I can send a follow-up patch to add that.
+> Peter, does the patchset look good to you?  It does everything we want
+> it to in terms of sched domain partitioning and is compliant all
+> cgroup2 conventions.  If so, I'll apply the series to the cgroup devel
+> branch.
+>
+> Thank you very much for the work and persistence!
+>
+Thanks for the comment. There is a minor bug in patch 3 because of the 2
+possibilities of how cpumask_var_t can be defined. I will send updated
+version of that patch to fix that.
 
-> diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-> index 87a57b7642d3..e7cbaed12ef1 100644
-> --- a/arch/x86/kernel/fpu/xstate.c
-> +++ b/arch/x86/kernel/fpu/xstate.c
-> @@ -51,13 +51,14 @@ static short xsave_cpuid_features[] __initdata = {
->  };
->  
->  /*
-> - * Mask of xstate features supported by the CPU and the kernel:
-> + * Mask of supported 'user' xstate features derived from boot_cpu_has() and
-> + * SUPPORTED_XFEATURES_MASK.
+-Longman
 
-<--- This comment here looks like a good place to put some blurb about
-user and system states, what they are, what the distinction is and so
-on.
 
->   */
-> -u64 xfeatures_mask __read_mostly;
-> +u64 xfeatures_mask_user __read_mostly;
->  
->  static unsigned int xstate_offsets[XFEATURE_MAX] = { [ 0 ... XFEATURE_MAX - 1] = -1};
->  static unsigned int xstate_sizes[XFEATURE_MAX]   = { [ 0 ... XFEATURE_MAX - 1] = -1};
-> -static unsigned int xstate_comp_offsets[sizeof(xfeatures_mask)*8];
-> +static unsigned int xstate_comp_offsets[sizeof(xfeatures_mask_user)*8];
->  
->  /*
->   * The XSAVE area of kernel can be in standard or compacted format;
-> @@ -82,7 +83,7 @@ void fpu__xstate_clear_all_cpu_caps(void)
->   */
->  int cpu_has_xfeatures(u64 xfeatures_needed, const char **feature_name)
->  {
-> -	u64 xfeatures_missing = xfeatures_needed & ~xfeatures_mask;
-> +	u64 xfeatures_missing = xfeatures_needed & ~xfeatures_mask_user;
->  
->  	if (unlikely(feature_name)) {
->  		long xfeature_idx, max_idx;
-> @@ -113,14 +114,11 @@ int cpu_has_xfeatures(u64 xfeatures_needed, const char **feature_name)
->  }
->  EXPORT_SYMBOL_GPL(cpu_has_xfeatures);
->  
-> -static int xfeature_is_supervisor(int xfeature_nr)
-> +static int xfeature_is_system(int xfeature_nr)
->  {
->  	/*
-> -	 * We currently do not support supervisor states, but if
-> -	 * we did, we could find out like this.
-> -	 *
->  	 * SDM says: If state component 'i' is a user state component,
-> -	 * ECX[0] return 0; if state component i is a supervisor
-> +	 * ECX[0] return 0; if state component i is a system
-
-		  is 0
-
->  	 * state component, ECX[0] returns 1.
-
-				   is 1.
-
->  	 */
->  	u32 eax, ebx, ecx, edx;
-
-...
-
-> @@ -242,7 +238,7 @@ void fpu__init_cpu_xstate(void)
->   */
->  static int xfeature_enabled(enum xfeature xfeature)
->  {
-> -	return !!(xfeatures_mask & (1UL << xfeature));
-> +	return !!(xfeatures_mask_user & BIT_ULL(xfeature));
->  }
->  
->  /*
-> @@ -272,7 +268,7 @@ static void __init setup_xstate_features(void)
->  		cpuid_count(XSTATE_CPUID, i, &eax, &ebx, &ecx, &edx);
->  
->  		/*
-> -		 * If an xfeature is supervisor state, the offset
-> +		 * If an xfeature is system state, the offset
-
-				is a system state, ...
-
->  		 * in EBX is invalid. We leave it to -1.
->  		 */
->  		if (xfeature_is_user(i))
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
