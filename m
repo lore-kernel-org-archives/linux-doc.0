@@ -2,29 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 274D87D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 18:42:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A4ED87D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 18:43:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726861AbeJPC2Z convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Oct 2018 22:28:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34905 "EHLO mx1.redhat.com"
+        id S1726836AbeJPC35 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Oct 2018 22:29:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58086 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726777AbeJPC2Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Oct 2018 22:28:25 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        id S1726594AbeJPC35 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Oct 2018 22:29:57 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 483F030832D8;
-        Mon, 15 Oct 2018 18:41:58 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 46C4D308626E;
+        Mon, 15 Oct 2018 18:43:29 +0000 (UTC)
 Received: from llong.remote.csb (dhcp-17-8.bos.redhat.com [10.18.17.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 12CB5413C;
-        Mon, 15 Oct 2018 18:41:55 +0000 (UTC)
-Subject: Re: [PATCH v13 01/11] cpuset: Enable cpuset controller in default
- hierarchy
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9544262480;
+        Mon, 15 Oct 2018 18:43:22 +0000 (UTC)
+Subject: Re: [PATCH v13 03/11] cpuset: Simply allocation and freeing of
+ cpumasks
 To:     Tom Hromatka <tom.hromatka@oracle.com>, Tejun Heo <tj@kernel.org>,
         Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -37,69 +36,117 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
 References: <1539366951-8498-1-git-send-email-longman@redhat.com>
- <1539366951-8498-2-git-send-email-longman@redhat.com>
- <bfa8d0a2-ce78-8a0b-2a2e-45b02d6a8239@oracle.com>
+ <1539366951-8498-4-git-send-email-longman@redhat.com>
+ <fe132a9a-472d-22db-43ef-42c00b68c8dd@oracle.com>
 From:   Waiman Long <longman@redhat.com>
 Organization: Red Hat
-Message-ID: <ebff503c-291c-345c-a0ab-e2a4ceb6ad0c@redhat.com>
-Date:   Mon, 15 Oct 2018 14:41:55 -0400
+Message-ID: <b5ec84fe-e9ed-7b82-7183-cb84f485dfc7@redhat.com>
+Date:   Mon, 15 Oct 2018 14:43:22 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.0
 MIME-Version: 1.0
-In-Reply-To: <bfa8d0a2-ce78-8a0b-2a2e-45b02d6a8239@oracle.com>
+In-Reply-To: <fe132a9a-472d-22db-43ef-42c00b68c8dd@oracle.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Mon, 15 Oct 2018 18:41:58 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Mon, 15 Oct 2018 18:43:29 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/15/2018 02:31 PM, Tom Hromatka wrote:
+On 10/15/2018 02:35 PM, Tom Hromatka wrote:
 >
 >
 > On 10/12/2018 11:55 AM, Waiman Long wrote:
->> Given the fact that thread mode had been merged into 4.14, it is now
->> time to enable cpuset to be used in the default hierarchy (cgroup v2)
->> as it is clearly threaded.
+>> The previous commit introduces a new subparts_cpus mask into the cpuset
+>> data structure and a new tmpmasks structure.  Managing the allocation
+>> and freeing of those cpumasks is becoming more complex.
 >>
->> The cpuset controller had experienced feature creep since its
->> introduction more than a decade ago. Besides the core cpus and mems
->> control files to limit cpus and memory nodes, there are a bunch of
->> additional features that can be controlled from the userspace. Some of
->> the features are of doubtful usefulness and may not be actively used.
+>> So a number of helper functions are added to simplify and streamline
+>> the management of those cpumasks. To make it simple, all the cpumasks
+>> are now pre-cleared on allocation.
 >>
->> This patch enables cpuset controller in the default hierarchy with
->> a minimal set of features, namely just the cpus and mems and their
->> effective_* counterparts.  We can certainly add more features to the
->> default hierarchy in the future if there is a real user need for them
->> later on.
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>   kernel/cgroup/cpuset.c | 104
+>> +++++++++++++++++++++++++++++++++----------------
+>>   1 file changed, 71 insertions(+), 33 deletions(-)
+>>
+>> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+>> index 29a2bdc..9ac5f94 100644
+>> --- a/kernel/cgroup/cpuset.c
+>> +++ b/kernel/cgroup/cpuset.c
+>> @@ -456,6 +456,57 @@ static int is_cpuset_subset(const struct cpuset
+>> *p, const struct cpuset *q)
+>>   }
+>>     /**
+>> + * alloc_cpumasks - allocate three cpumasks for cpuset
+>> + * @cs:  the cpuset that have cpumasks to be allocated.
+>> + * @tmp: the tmpmasks structure pointer
+>> + * Return: 0 if successful, -ENOMEM otherwise.
+>> + *
+>> + * Only one of the two input arguments should be non-NULL.
+>> + */
+>> +static inline int alloc_cpumasks(struct cpuset *cs, struct tmpmasks
+>> *tmp)
+>> +{
+>> +    cpumask_var_t *pmask1, *pmask2, *pmask3;
+>> +
+>> +    if (cs) {
+>> +        pmask1 = &cs->cpus_allowed;
+>> +        pmask2 = &cs->effective_cpus;
+>> +        pmask3 = &cs->subparts_cpus;
+>> +    } else {
+>> +        pmask1 = &tmp->new_cpus;
+>> +        pmask2 = &tmp->addmask;
+>> +        pmask3 = &tmp->delmask;
+>> +    }
+>> +
+>> +    if (!zalloc_cpumask_var(pmask1, GFP_KERNEL))
+>> +        return -ENOMEM;
+>> +
+>> +    if (!zalloc_cpumask_var(pmask2, GFP_KERNEL))
+>> +        goto free_one;
+>> +
+>> +    if (!zalloc_cpumask_var(pmask3, GFP_KERNEL))
+>> +        goto free_two;
+>> +
+>> +    return 0;
+>> +
+>> +free_two:
+>> +    free_cpumask_var(*pmask2);
+>> +free_one:
+>> +    free_cpumask_var(*pmask1);
+>> +    return -ENOMEM;
+>> +}
+>> +
+>> +/**
+>> + * free_cpumasks - free cpumasks in a tmpmasks structure
+>> + * @tmp: the tmpmasks structure pointer
+>> + */
+>> +static inline void free_cpumasks(struct tmpmasks *tmp)
+>> +{
+>> +    free_cpumask_var(tmp->new_cpus);
+>> +    free_cpumask_var(tmp->addmask);
+>> +    free_cpumask_var(tmp->delmask);
+>> +}
+>> +
 >
-> I really appreciate this simplification of the cpuset controller.
+> I hesitate to bring this up, but since you're respinning this
+> patch for a different bug...
 >
-> I currently have an in-house customer that is unhappy with the
-> way cgroups cpuset v1 handles offlined CPUs.  This patchset makes two
-> significant improvements over current cpuset v1 behavior.  1) It allows
-> for offlined CPUs to be added to a cpuset (even though the CPU is
-> offline) and 2) it restores CPUs back to the requested cpuset when they
-> come back online.  This is more intuitive and secure for my customers.
-> Thank you!
->
-> In part because of this patchset, I plan on proposing similar behavior
-> for offlined CPUs to cpuset v1.
+> Would it make sense to have free_cpumasks() have a similar
+> API and behavior to alloc_cpumasks()?  I could see this potentially
+> causing bugs/confusion in future patches.
 >
 > Thanks.
 >
 > Tom
-
-If you are just talking about the ability for cpuset to revert back to
-its original state when an offlined CPU becomes online again, that
-capability can be activated in v1 using the "cpuset_v2_mode" mount
-option when mounting the cpuset cgroup. However, that is not the default
-for v1.
+>
+>
+Thanks for the comment. Yes I will make the change.
 
 -Longman
-
 
