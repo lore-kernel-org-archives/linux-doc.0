@@ -1,117 +1,63 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD4B77DE59
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 17:59:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DCA467D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 18:26:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727473AbeJPBos (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Oct 2018 21:44:48 -0400
-Received: from mga18.intel.com ([134.134.136.126]:61673 "EHLO mga18.intel.com"
+        id S1726967AbeJPCNJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Oct 2018 22:13:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36846 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727414AbeJPBoh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Oct 2018 21:44:37 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Oct 2018 10:58:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,385,1534834800"; 
-   d="scan'208";a="78200164"
-Received: from maru.jf.intel.com ([10.54.51.77])
-  by fmsmga007.fm.intel.com with ESMTP; 15 Oct 2018 10:58:16 -0700
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jason M Biils <jason.m.bills@linux.intel.com>
-Subject: [RESEND PATCH v8 12/12] Add maintainers for the PECI subsystem
-Date:   Mon, 15 Oct 2018 10:57:12 -0700
-Message-Id: <20181015175712.1500-13-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181015175712.1500-1-jae.hyun.yoo@linux.intel.com>
-References: <20181015175712.1500-1-jae.hyun.yoo@linux.intel.com>
+        id S1726790AbeJPCNJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Oct 2018 22:13:09 -0400
+Received: from localhost (ip-213-127-77-176.ip.prioritytelecom.net [213.127.77.176])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2115420881;
+        Mon, 15 Oct 2018 18:26:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1539628005;
+        bh=LFHnTiWnZC4sfBa4kt89KDEC/FNMDC7FAmDd+MFpoBU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nzo3Ls59xNBsgtbNn+fRdXdA9z4sI4n2l2kEGDtiyoMDXvOP/xpjiPbBjqqjrLxxe
+         hgUEAKp65DjrXYYZbqzfz7y4tj3nFuOQs1jll7ZBMuxhpfGRWqB680jh2rEIRzzo26
+         svoSzp+PRFZVdpK4yz/xtDOcjHQyW/Xk721WlzAY=
+Date:   Mon, 15 Oct 2018 20:26:43 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Will Korteland <will@korte.land>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/uio: fix a grammar nitpick
+Message-ID: <20181015182643.GA6188@kroah.com>
+References: <3c4f4e78-3557-ce1b-a5f0-cdcefae1fbd3@korte.land>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3c4f4e78-3557-ce1b-a5f0-cdcefae1fbd3@korte.land>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds maintainer information for the PECI subsystem.
+On Sat, Oct 13, 2018 at 09:47:46PM +0000, Will Korteland wrote:
+> This patch fixes a minor, incorrect piece of grammar in the UIO howto.
+> 
+> Signed-off-by: Will Korteland <will@korte.land>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> This is my first attempt at a kernel patch, so please let me know if
+> I've done something silly.
 
-Cc: David S. Miller <davem@davemloft.net>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jason M Biils <jason.m.bills@linux.intel.com>
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
----
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+You sent this in html format :(
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f934a9187f7c..131f583af3a7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11550,6 +11550,19 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/peaq-wmi.c
- 
-+PECI SUBSYSTEM
-+M:	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-+M:	Jason M Biils <jason.m.bills@linux.intel.com>
-+L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/peci/
-+F:	drivers/mfd/intel-peci-client.c
-+F:	drivers/peci/
-+F:	drivers/hwmon/peci-*.c
-+F:	include/linux/mfd/intel-peci-client.h
-+F:	include/linux/peci.h
-+F:	include/uapi/linux/peci-ioctl.h
-+
- PER-CPU MEMORY ALLOCATOR
- M:	Dennis Zhou <dennis@kernel.org>
- M:	Tejun Heo <tj@kernel.org>
--- 
-2.19.1
+Also, the non-html format did not apply to the tree, can you redo this
+against linux-next and resend it?
 
+thanks,
+
+greg k-h
