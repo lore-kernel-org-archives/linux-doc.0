@@ -1,226 +1,323 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F5037D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 19:54:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A7677D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Oct 2018 20:11:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726802AbeJPDlK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Oct 2018 23:41:10 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38738 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726691AbeJPDlK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Oct 2018 23:41:10 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9FJs7Va009415
-        for <linux-doc@vger.kernel.org>; Mon, 15 Oct 2018 15:54:27 -0400
-Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2n509sjsu5-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 15 Oct 2018 15:54:26 -0400
-Received: from localhost
-        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Mon, 15 Oct 2018 15:54:26 -0400
-Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
-        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 15 Oct 2018 15:54:22 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w9FJsMbN28967020
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 15 Oct 2018 19:54:22 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 24BD7B2064;
-        Mon, 15 Oct 2018 15:52:17 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E3813B205F;
-        Mon, 15 Oct 2018 15:52:16 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.109])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon, 15 Oct 2018 15:52:16 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 59F2816C2B10; Mon, 15 Oct 2018 12:54:26 -0700 (PDT)
-Date:   Mon, 15 Oct 2018 12:54:26 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Nikolay Borisov <nborisov@suse.com>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
- disabling preemption
-Reply-To: paulmck@linux.ibm.com
-References: <20181014212955.95267-1-joel@joelfernandes.org>
- <20181014231731.GN2674@linux.ibm.com>
- <20181015020827.GA217384@joelaf.mtv.corp.google.com>
- <20181015021349.GB217384@joelaf.mtv.corp.google.com>
- <20181015023328.GP2674@linux.ibm.com>
- <20181015024758.GA227989@joelaf.mtv.corp.google.com>
- <5151da01-343b-bb37-353e-b6652ae530f5@suse.com>
- <20181015112112.GT2674@linux.ibm.com>
- <20181015193951.GA33528@joelaf.mtv.corp.google.com>
+        id S1726896AbeJPD5q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Oct 2018 23:57:46 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:35549 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726719AbeJPD5q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Oct 2018 23:57:46 -0400
+Received: by mail-qt1-f193.google.com with SMTP id d21-v6so10642054qtq.2;
+        Mon, 15 Oct 2018 13:11:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9TZCZM2ThHBLxdgdFwVJNRlV+2fIGiO8mK2wqokBjus=;
+        b=JPl2Mrdm7/L9R8Qr63cT23NIa4Pp87k1ZADoMkyhYTizza1yTkuupDVDogwDasFBEX
+         BFJ9KpI8/OvjB46JjTazCuqwEtsq9XX/Yv0IN8xMxCOXecPjza56T4zbopXRJT8cqnV4
+         jcoeq3NUXyJy9KL/NRAzGKQFDaPPjAr+sMnznEqOhVSb1IahZ33+q/tM1J8lxrGAD+zx
+         qlDRUuLVCgyPAKTDln0DFtEw6BS1h7Qm4Gl6bWKRdxt3JHoakn3NPsOfqY1Q29DpRPZu
+         vkdQDfpXBi8u4jTWP+eTjdNpDo2wefeSYBLyHLNE9TYv9cL4g4gpyWhEuy0UDFBKHaGn
+         9lBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9TZCZM2ThHBLxdgdFwVJNRlV+2fIGiO8mK2wqokBjus=;
+        b=PAnIH7VgKYlyDrMOfll8ukEVCQuc/+5BYI/LNgCQstoPK8SIZFoOrfLwoJs1ex5yC3
+         GKxP6W6pV/TMIFJq3BL+TGfDtaUsZqEcTZuoPM8wMR2M8dvYBD9IO6hL90DVpV15ganc
+         xeI3BTgaXd4iOPhOvFKCSL1JziTwL67bpu2mJicTzrOqXFlht3d+F4QrveLDkc7nsZBe
+         9zxG9ay4djTsPpst959fPVYQw/ShAd8JkRojeGPWT+jxEnBiYtm6PD/oChqlTXCb0HEX
+         lHBJCC0F/p4P9TW9ZOBhkW56priWJfrtXaCbHthrrt1oss9K+MZcNc0ri/mF82GYYMVW
+         YWKA==
+X-Gm-Message-State: ABuFfoje3JKMN1CuoqKavt+QBM7Euol/NU0qsHvNApGS3ZT150XLRAdy
+        f7ep8Hs62bBdlvETVGAUbqAVmgySG8K4/QbHZNg=
+X-Google-Smtp-Source: ACcGV61s8gksIOgNor7WzcFcH2iyGCnI5VBB45aplJDar8EfXNeE2q5ztNxGxduz5XaDkgQGBtfmF6iiDOLrb3uiDHY=
+X-Received: by 2002:aed:2791:: with SMTP id a17-v6mr17415572qtd.303.1539634259778;
+ Mon, 15 Oct 2018 13:10:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181015193951.GA33528@joelaf.mtv.corp.google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18101519-0060-0000-0000-000002C1177F
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009881; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000268; SDB=6.01103154; UDB=6.00570984; IPR=6.00883204;
- MB=3.00023767; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-15 19:54:25
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18101519-0061-0000-0000-000046DB7B00
-Message-Id: <20181015195426.GD2674@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-15_10:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1810150171
+References: <1537978342-17697-1-git-send-email-atull@kernel.org> <1537978342-17697-4-git-send-email-atull@kernel.org>
+In-Reply-To: <1537978342-17697-4-git-send-email-atull@kernel.org>
+From:   Moritz Fischer <moritz.fischer.private@gmail.com>
+Date:   Mon, 15 Oct 2018 13:10:49 -0700
+Message-ID: <CAJYdmeNAbZRHOB8eCNgx466QkA6PBD8nOQVSO57oG=tYkqD1Eg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] fpga: add devm_fpga_region_create
+To:     Alan Tull <atull@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Federico Vaga <federico.vaga@cern.ch>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fpga@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 15, 2018 at 12:39:51PM -0700, Joel Fernandes wrote:
-> On Mon, Oct 15, 2018 at 04:21:12AM -0700, Paul E. McKenney wrote:
-> > On Mon, Oct 15, 2018 at 09:05:22AM +0300, Nikolay Borisov wrote:
-> > > On 15.10.2018 05:47, Joel Fernandes wrote:
-> > > > On Sun, Oct 14, 2018 at 07:33:28PM -0700, Paul E. McKenney wrote:
-> > > >> On Sun, Oct 14, 2018 at 07:13:49PM -0700, Joel Fernandes wrote:
-> > > >>> On Sun, Oct 14, 2018 at 07:08:27PM -0700, Joel Fernandes wrote:
-> > > >>>> On Sun, Oct 14, 2018 at 04:17:31PM -0700, Paul E. McKenney wrote:
-> > > >>>>> On Sun, Oct 14, 2018 at 02:29:55PM -0700, Joel Fernandes (Google) wrote:
-> > > >>>>>> The Requirements.html document says "Disabling Preemption Does Not Block
-> > > >>>>>> Grace Periods". However this is no longer true with the RCU
-> > > >>>>>> consolidation. Lets remove the obsolete (non-)requirement entirely.
-> > > >>>>>>
-> > > >>>>>> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > >>>>>
-> > > >>>>> Good catch, queued, thank you!
-> > > >>>>
-> > > >>>> Thanks! By the way after I sent the patch, I also tried Oleg's experiment to
-> > > >>>> confirm that this is indeed obsolete.  :)
-> > > >>>>
-> > > >>>> One thing interesting came up when I tried synchronize_rcu_expedited()
-> > > >>>> instead of synchronize_rcu() in Oleg's experiment, I still saw a multiple
-> > > >>>> millisecond delay between when the rcu read section completely and the
-> > > >>>> synchronize_rcu_expedited returns:
-> > > >>>>
-> > > >>>> For example, with synchronize_rcu_expedited, the 'SPIN done' and the 'SYNC
-> > > >>>> done' are about 3 millisecond apart:
-> > > >>>> [   77.599142] SPIN start
-> > > >>>> [   77.601595] SYNC start
-> > > >>>> [   82.604950] SPIN done!
-> > > >>>> [   82.607836] SYNC done!
-> > > >>>>  I saw anywhere from 2-6 milliseconds.
-> > > >>>>
-> > > >>>> The reason I bring this up is according to Requirements.html: In some cases,
-> > > >>>> the multi-millisecond synchronize_rcu() latencies are unacceptable. In these
-> > > >>>> cases, synchronize_rcu_expedited() may be used instead,.. so either I messed
-> > > >>>> something up in the experiment, or I need to update this part of the document ;-)
-> > > >>
-> > > >> In normal testing, 2-6 milliseconds is indeed excessive.  Could you please
-> > > >> point me at Oleg's experiment?  Also, what CONFIG_PREEMPT setting were
-> > > >> you using?  (My guess is CONFIG_PREEMPT=y.)
-> > > > 
-> > > > The CONFIG_PREEMPT config I am using is CONFIG_PREEMPT=y.
-> > > > 
-> > > >>> So I realized I'm running in Qemu so it could also be a scheduling delay of
-> > > >>> the vcpu thread. So apologies about the noise if the experiment works fine
-> > > >>> for you.
-> > > >>
-> > > >> I used rcuperf, which might not be doing the same thing as Oleg's
-> > > >> experiment.
-> > > > 
-> > > > The experiment is mentioned at:
-> > > > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg912055.html
-> > > > 
-> > > > If you apply the below diff, it applies cleanly on rcu/dev. And then run:
-> > > > taskset 2 perl -e 'syscall 157, 666, 5000' &
-> > > > taskset 1 perl -e 'syscall 157, 777'
-> > > > 
-> > > > diff --git a/kernel/sys.c b/kernel/sys.c
-> > > > index cf5c67533ff1..b654b7566ca3 100644
-> > > > --- a/kernel/sys.c
-> > > > +++ b/kernel/sys.c
-> > > > @@ -2261,6 +2261,9 @@ int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
-> > > >  	return -EINVAL;
-> > > >  }
-> > > >  
-> > > > +#include <linux/delay.h>
-> > > > +
-> > > > +
-> > > >  SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
-> > > >  		unsigned long, arg4, unsigned long, arg5)
-> > > >  {
-> > > > @@ -2274,6 +2277,19 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
-> > > >  
-> > > >  	error = 0;
-> > > >  	switch (option) {
-> > > > +	case 666:
-> > > > +		preempt_disable();
-> > > > +		pr_crit("SPIN start\n");
-> > > > +		while (arg2--)
-> > > > +			mdelay(1);
-> > 
-> > OK, this is the problem.  When you spin in the kernel for several
-> > milliseconds with preemption disabled, the consolidated grace period
-> > is -required- to wait for this preemption-disabled reader to complete,
-> > whether expedited or not.
-> > 
-> > So, expected behavior.  ;-)
-> 
-> Cool. Thanks for confirming. I ran some tests too and if I reduce the
-> preempt_disabled section's duration, then the delay for
-> synchronize_rcu_expedited is much lesser indeed.
+On Wed, Sep 26, 2018 at 9:12 AM Alan Tull <atull@kernel.org> wrote:
+>
+> Add devm_fpga_region_create() which is the
+> managed version of fpga_region_create().
+>
+> Change current region drivers to use
+> devm_fpga_region_create().
+>
+> Signed-off-by: Alan Tull <atull@kernel.org>
+> Suggested-by: Federico Vaga <federico.vaga@cern.ch>
 
-Good to hear!
+Acked-by: Moritz Fischer <mdf@kernel.org>
+> ---
+> v2: add suggested-by
+> v3: remove some unclear documentation about fpga_region_unregister
+> ---
+>  Documentation/driver-api/fpga/fpga-region.rst |  3 ++
+>  drivers/fpga/dfl-fme-region.c                 |  6 +--
+>  drivers/fpga/dfl.c                            |  6 +--
+>  drivers/fpga/fpga-region.c                    | 65 +++++++++++++++++++++++----
+>  drivers/fpga/of-fpga-region.c                 |  6 +--
+>  include/linux/fpga/fpga-region.h              |  4 ++
+>  6 files changed, 70 insertions(+), 20 deletions(-)
+>
+> diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
+> index f30333c..dc9f75c 100644
+> --- a/Documentation/driver-api/fpga/fpga-region.rst
+> +++ b/Documentation/driver-api/fpga/fpga-region.rst
+> @@ -90,6 +90,9 @@ API to add a new FPGA region
+>     :functions: fpga_region
+>
+>  .. kernel-doc:: drivers/fpga/fpga-region.c
+> +   :functions: devm_fpga_region_create
+> +
+> +.. kernel-doc:: drivers/fpga/fpga-region.c
+>     :functions: fpga_region_create
+>
+>  .. kernel-doc:: drivers/fpga/fpga-region.c
+> diff --git a/drivers/fpga/dfl-fme-region.c b/drivers/fpga/dfl-fme-region.c
+> index 3fa0de2..1eeb42a 100644
+> --- a/drivers/fpga/dfl-fme-region.c
+> +++ b/drivers/fpga/dfl-fme-region.c
+> @@ -39,7 +39,7 @@ static int fme_region_probe(struct platform_device *pdev)
+>         if (IS_ERR(mgr))
+>                 return -EPROBE_DEFER;
+>
+> -       region = fpga_region_create(dev, mgr, fme_region_get_bridges);
+> +       region = devm_fpga_region_create(dev, mgr, fme_region_get_bridges);
+>         if (!region) {
+>                 ret = -ENOMEM;
+>                 goto eprobe_mgr_put;
+> @@ -51,14 +51,12 @@ static int fme_region_probe(struct platform_device *pdev)
+>
+>         ret = fpga_region_register(region);
+>         if (ret)
+> -               goto region_free;
+> +               goto eprobe_mgr_put;
+>
+>         dev_dbg(dev, "DFL FME FPGA Region probed\n");
+>
+>         return 0;
+>
+> -region_free:
+> -       fpga_region_free(region);
+>  eprobe_mgr_put:
+>         fpga_mgr_put(mgr);
+>         return ret;
+> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> index a9b521b..2c09e50 100644
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -899,7 +899,7 @@ dfl_fpga_feature_devs_enumerate(struct dfl_fpga_enum_info *info)
+>         if (!cdev)
+>                 return ERR_PTR(-ENOMEM);
+>
+> -       cdev->region = fpga_region_create(info->dev, NULL, NULL);
+> +       cdev->region = devm_fpga_region_create(info->dev, NULL, NULL);
+>         if (!cdev->region) {
+>                 ret = -ENOMEM;
+>                 goto free_cdev_exit;
+> @@ -911,7 +911,7 @@ dfl_fpga_feature_devs_enumerate(struct dfl_fpga_enum_info *info)
+>
+>         ret = fpga_region_register(cdev->region);
+>         if (ret)
+> -               goto free_region_exit;
+> +               goto free_cdev_exit;
+>
+>         /* create and init build info for enumeration */
+>         binfo = devm_kzalloc(info->dev, sizeof(*binfo), GFP_KERNEL);
+> @@ -942,8 +942,6 @@ dfl_fpga_feature_devs_enumerate(struct dfl_fpga_enum_info *info)
+>
+>  unregister_region_exit:
+>         fpga_region_unregister(cdev->region);
+> -free_region_exit:
+> -       fpga_region_free(cdev->region);
+>  free_cdev_exit:
+>         devm_kfree(info->dev, cdev);
+>         return ERR_PTR(ret);
+> diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
+> index 0d65220..bde5a9d 100644
+> --- a/drivers/fpga/fpga-region.c
+> +++ b/drivers/fpga/fpga-region.c
+> @@ -185,6 +185,10 @@ ATTRIBUTE_GROUPS(fpga_region);
+>   * @mgr: manager that programs this region
+>   * @get_bridges: optional function to get bridges to a list
+>   *
+> + * The caller of this function is responsible for freeing the resulting region
+> + * struct with fpga_region_free().  Using devm_fpga_region_create() instead is
+> + * recommended.
+> + *
+>   * Return: struct fpga_region or NULL
+>   */
+>  struct fpga_region
+> @@ -230,8 +234,8 @@ struct fpga_region
+>  EXPORT_SYMBOL_GPL(fpga_region_create);
+>
+>  /**
+> - * fpga_region_free - free a struct fpga_region
+> - * @region: FPGA region created by fpga_region_create
+> + * fpga_region_free - free a FPGA region created by fpga_region_create()
+> + * @region: FPGA region
+>   */
+>  void fpga_region_free(struct fpga_region *region)
+>  {
+> @@ -240,21 +244,69 @@ void fpga_region_free(struct fpga_region *region)
+>  }
+>  EXPORT_SYMBOL_GPL(fpga_region_free);
+>
+> +static void devm_fpga_region_release(struct device *dev, void *res)
+> +{
+> +       struct fpga_region *region = *(struct fpga_region **)res;
+> +
+> +       fpga_region_free(region);
+> +}
+> +
+> +/**
+> + * devm_fpga_region_create - create and initialize a managed FPGA region struct
+> + * @dev: device parent
+> + * @mgr: manager that programs this region
+> + * @get_bridges: optional function to get bridges to a list
+> + *
+> + * This function is intended for use in a FPGA region driver's probe function.
+> + * After the region driver creates the region struct with
+> + * devm_fpga_region_create(), it should register it with fpga_region_register().
+> + * The region driver's remove function should call fpga_region_unregister().
+> + * The region struct allocated with this function will be freed automatically on
+> + * driver detach.  This includes the case of a probe function returning error
+> + * before calling fpga_region_register(), the struct will still get cleaned up.
+> + *
+> + * Return: struct fpga_region or NULL
+> + */
+> +struct fpga_region
+> +*devm_fpga_region_create(struct device *dev,
+> +                        struct fpga_manager *mgr,
+> +                        int (*get_bridges)(struct fpga_region *))
+> +{
+> +       struct fpga_region **ptr, *region;
+> +
+> +       ptr = devres_alloc(devm_fpga_region_release, sizeof(*ptr), GFP_KERNEL);
+> +       if (!ptr)
+> +               return NULL;
+> +
+> +       region = fpga_region_create(dev, mgr, get_bridges);
+> +       if (!region) {
+> +               devres_free(ptr);
+> +       } else {
+> +               *ptr = region;
+> +               devres_add(dev, ptr);
+> +       }
+> +
+> +       return region;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_fpga_region_create);
+> +
+>  /**
+>   * fpga_region_register - register a FPGA region
+> - * @region: FPGA region created by fpga_region_create
+> + * @region: FPGA region
+> + *
+>   * Return: 0 or -errno
+>   */
+>  int fpga_region_register(struct fpga_region *region)
+>  {
+>         return device_add(&region->dev);
+> -
+>  }
+>  EXPORT_SYMBOL_GPL(fpga_region_register);
+>
+>  /**
+> - * fpga_region_unregister - unregister and free a FPGA region
+> + * fpga_region_unregister - unregister a FPGA region
+>   * @region: FPGA region
+> + *
+> + * This function is intended for use in a FPGA region driver's remove function.
+>   */
+>  void fpga_region_unregister(struct fpga_region *region)
+>  {
+> @@ -264,9 +316,6 @@ EXPORT_SYMBOL_GPL(fpga_region_unregister);
+>
+>  static void fpga_region_dev_release(struct device *dev)
+>  {
+> -       struct fpga_region *region = to_fpga_region(dev);
+> -
+> -       fpga_region_free(region);
+>  }
+>
+>  /**
+> diff --git a/drivers/fpga/of-fpga-region.c b/drivers/fpga/of-fpga-region.c
+> index d6a70e4..75f64ab 100644
+> --- a/drivers/fpga/of-fpga-region.c
+> +++ b/drivers/fpga/of-fpga-region.c
+> @@ -410,7 +410,7 @@ static int of_fpga_region_probe(struct platform_device *pdev)
+>         if (IS_ERR(mgr))
+>                 return -EPROBE_DEFER;
+>
+> -       region = fpga_region_create(dev, mgr, of_fpga_region_get_bridges);
+> +       region = devm_fpga_region_create(dev, mgr, of_fpga_region_get_bridges);
+>         if (!region) {
+>                 ret = -ENOMEM;
+>                 goto eprobe_mgr_put;
+> @@ -418,7 +418,7 @@ static int of_fpga_region_probe(struct platform_device *pdev)
+>
+>         ret = fpga_region_register(region);
+>         if (ret)
+> -               goto eprobe_free;
+> +               goto eprobe_mgr_put;
+>
+>         of_platform_populate(np, fpga_region_of_match, NULL, &region->dev);
+>         platform_set_drvdata(pdev, region);
+> @@ -427,8 +427,6 @@ static int of_fpga_region_probe(struct platform_device *pdev)
+>
+>         return 0;
+>
+> -eprobe_free:
+> -       fpga_region_free(region);
+>  eprobe_mgr_put:
+>         fpga_mgr_put(mgr);
+>         return ret;
+> diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
+> index 0521b7f..27cb706 100644
+> --- a/include/linux/fpga/fpga-region.h
+> +++ b/include/linux/fpga/fpga-region.h
+> @@ -44,4 +44,8 @@ void fpga_region_free(struct fpga_region *region);
+>  int fpga_region_register(struct fpga_region *region);
+>  void fpga_region_unregister(struct fpga_region *region);
+>
+> +struct fpga_region
+> +*devm_fpga_region_create(struct device *dev, struct fpga_manager *mgr,
+> +                       int (*get_bridges)(struct fpga_region *));
+> +
+>  #endif /* _FPGA_REGION_H */
+> --
+> 2.7.4
+>
 
-> > In any case, please don't spin for milliseconds with preemption disabled.
-> > The real-time guys are unlikely to be happy with you if you do this!
-> 
-> Well just to clarify, I was just running Oleg's test which did this. This
-> test was mentioned in the original documentation that I deleted. Ofcourse I
-> would not dare do such a thing in production code :-D. I guess to Oleg's
-> defense, he did it to very that synchronize_rcu() was not blocked on
-> preempt-disable sections which was a different test.
-
-Understood!  Just pointing out that RCU's tolerating a given action does
-not necessarily mean that it is a good idea to take that action.  ;-)
-
-> > > > +		pr_crit("SPIN done!\n");
-> > > > +		preempt_enable();
-> > > > +		break;
-> > > > +	case 777:
-> > > > +		pr_crit("SYNC start\n");
-> > > > +		synchronize_rcu();
-> > > > +		pr_crit("SYNC done!\n");
-> > > 
-> > > But you are using the console printing infrastructure which is rather
-> > > heavyweight. Try replacing pr_* calls with trace_printk so that you
-> > > write to the lock-free ring buffer, this will reduce the noise from the
-> > > heavy console printing infrastructure.
-> > 
-> > And this might be a problem as well.
-> 
-> This was not the issue (or atleast not fully the issue) since I saw the same
-> thing with trace_printk. It was exactly what you said - which is the
-> excessively long preempt disabled times.
-
-One approach would be to apply this patch against (say) v4.18, which
-does not have consolidated grace periods.  You might then be able to
-tell if the pr_crit() calls make any difference.
-
-							Thanx, Paul
-
+Thanks,
+Moritz
