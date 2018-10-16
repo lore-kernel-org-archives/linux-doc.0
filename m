@@ -5,43 +5,43 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BB8357D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 15:10:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D78EE7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 15:11:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727315AbeJPXBM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Oct 2018 19:01:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36352 "EHLO mail.kernel.org"
+        id S1727476AbeJPXBv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Oct 2018 19:01:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36720 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726760AbeJPXBM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Oct 2018 19:01:12 -0400
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+        id S1726760AbeJPXBv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Oct 2018 19:01:51 -0400
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 307B32145D;
-        Tue, 16 Oct 2018 15:10:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4E4AB2145D;
+        Tue, 16 Oct 2018 15:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1539702618;
-        bh=MH1CHJW234BPXNzpLzthAv6AhbCcCscU0nSrlmg4ANk=;
+        s=default; t=1539702657;
+        bh=yIc3xtPtY6iJlLud/fDjuKu6ru4U8U9vhQpjhoPF72w=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TfSDZT5hYAfG0vvomVv0Arxa4Ud2Mb+ig5LV7Xu+3rPD2FKeLbwVuc5kTKz8dxlSW
-         Qj38OawQaB7/b99Wo8mq8xAwzJD6zA6CpqzYtjdI9IkeIjSLXHTJhjzEdSzh9TgjCP
-         jX6hwXApHPPYFjTkIyb0h9AKdZdCk7cn/qGr4MEI=
-Received: by mail-wm1-f48.google.com with SMTP id 143-v6so22682778wmf.1;
-        Tue, 16 Oct 2018 08:10:18 -0700 (PDT)
-X-Gm-Message-State: ABuFfohAbLXVeq8auNkd20cOieJzwQ57dr0N6/MLltz403ZoJu0g4ESW
-        rgXm5b5Vqfjy96Wn2eUs6OjvJJbYxkXXPiJXGoU=
-X-Google-Smtp-Source: ACcGV63KbVbq4MG0XRosMdyes23xDa+Urwwbp7ajn0QvsECvECC868cxRijyODh8L8Mp/A/JjVyM1qS3pJ7kI8NN3Aw=
-X-Received: by 2002:a1c:ab54:: with SMTP id u81-v6mr16807601wme.45.1539702616630;
- Tue, 16 Oct 2018 08:10:16 -0700 (PDT)
+        b=Oat7Keb1n88V6jaBEqw6iuOMassjdHkRV/oDTUW62BOFCxiv/VlDvujLtq5n2ol31
+         idYfuSc+/QCSDX2Q0nka6Le1J9WqP7W+bRoVgdMw4RsD74exVmJC1mkjoRFpNlLmnx
+         G3GUIDOxC95Gb0GEpJN7jyZZkUx/jpwjPdLbDc5E=
+Received: by mail-wm1-f44.google.com with SMTP id a8-v6so23602159wmf.1;
+        Tue, 16 Oct 2018 08:10:57 -0700 (PDT)
+X-Gm-Message-State: ABuFfohaRg2flqKSZ+jsVcSfeIzcPhtF3JMg4/iiIxJREQXh29xxampw
+        MrtNtjVS/vfGAH8AF1d4O1EKfkh3lln78I+bZs4=
+X-Google-Smtp-Source: ACcGV61Hp3wCVgnXDxpjwUl/aS5SzE/V58J64zywIPjUmIBHW7O0EyRUo8m1lg2jhehJGBEdnuXz8VTP2APx6zMKd0A=
+X-Received: by 2002:a1c:9a4a:: with SMTP id c71-v6mr16803361wme.71.1539702655729;
+ Tue, 16 Oct 2018 08:10:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20181016145648eucas1p275ad5f845a04e40e5b9d0bbea624f34a@eucas1p2.samsung.com>
- <1539701782-26852-1-git-send-email-l.luba@partner.samsung.com> <20181016145648eucas1p275ad5f845a04e40e5b9d0bbea624f34a~eHqM4Yhz82489624896eucas1p25@eucas1p2.samsung.com>
-In-Reply-To: <20181016145648eucas1p275ad5f845a04e40e5b9d0bbea624f34a~eHqM4Yhz82489624896eucas1p25@eucas1p2.samsung.com>
+References: <CGME20181016145650eucas1p2330e8d680b70acffaea223a5a8c51ca0@eucas1p2.samsung.com>
+ <1539701782-26852-1-git-send-email-l.luba@partner.samsung.com> <20181016145650eucas1p2330e8d680b70acffaea223a5a8c51ca0~eHqOSKKqJ2135421354eucas1p2J@eucas1p2.samsung.com>
+In-Reply-To: <20181016145650eucas1p2330e8d680b70acffaea223a5a8c51ca0~eHqOSKKqJ2135421354eucas1p2J@eucas1p2.samsung.com>
 From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Tue, 16 Oct 2018 17:10:05 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPemhDTF7moU4H=PS=6ZZZRDR7Mobo0Z+-kBd_hw0vB1kw@mail.gmail.com>
-Message-ID: <CAJKOXPemhDTF7moU4H=PS=6ZZZRDR7Mobo0Z+-kBd_hw0vB1kw@mail.gmail.com>
-Subject: Re: [PATCH 07/11] DT: arm64: exynos7: add support for thermal trip irq-mode
+Date:   Tue, 16 Oct 2018 17:10:44 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPews4f8Js89AJ7Zz4GUT7ama9LKu1xP-OcV-0Kq28p-bw@mail.gmail.com>
+Message-ID: <CAJKOXPews4f8Js89AJ7Zz4GUT7ama9LKu1xP-OcV-0Kq28p-bw@mail.gmail.com>
+Subject: Re: [PATCH 08/11] DT: arm: exynos4: add support for thermal trip irq-mode
 To:     l.luba@partner.samsung.com
 Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -62,9 +62,9 @@ On Tue, 16 Oct 2018 at 16:56, Lukasz Luba <l.luba@partner.samsung.com> wrote:
 > that trip point triggers irq when temperature is met.
 > Exynos5433 supports 8 trip point which will trigger irq.
 
-Exynos7?
+Exynos4? 4 trip points?
 
-Beside that comments from previous email apply (no need to duplicate them).
+Beside that other comments apply as well.
 
 Best regards,
 Krzysztof
