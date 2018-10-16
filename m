@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D993E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 14:57:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C43E7D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 14:57:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727181AbeJPWsJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Oct 2018 18:48:09 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:57225 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727303AbeJPWro (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Oct 2018 18:47:44 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20181016145653euoutp017b20720f453d6b9bf67aeefc2f07514a~eHqQ2gzZC0464804648euoutp01d
-        for <linux-doc@vger.kernel.org>; Tue, 16 Oct 2018 14:56:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20181016145653euoutp017b20720f453d6b9bf67aeefc2f07514a~eHqQ2gzZC0464804648euoutp01d
+        id S1727384AbeJPWrm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Oct 2018 18:47:42 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:39272 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727100AbeJPWrk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Oct 2018 18:47:40 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20181016145649euoutp028ef3cc00b0b2b7312b9b3dea0c3e8910~eHqNPnzg40360503605euoutp02B
+        for <linux-doc@vger.kernel.org>; Tue, 16 Oct 2018 14:56:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20181016145649euoutp028ef3cc00b0b2b7312b9b3dea0c3e8910~eHqNPnzg40360503605euoutp02B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1539701813;
-        bh=sHvMKeTOPG+IldA992rEfPKQzvL1CjPS6hXEKMWqtj4=;
+        s=mail20170921; t=1539701809;
+        bh=L5Sb/ZLzlpOiDv5hLen/XRBTb288danQReW3wRWro1o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SZxoLXbZNkoRKuKjLLN1SHLBw/NIMtt1e4TPSAyr6MKQqrlV++MEMUUJ3BHBvgARy
-         Dbd7XPqf0ZIvQo4QT+GXSSP2NtI7AliEcosBTepf+32zd/aphHjIyntR8xp1/0PrRw
-         K1HonN7d5JN3FtEaVb7qFjq/nC4rWJzDye7MRzVc=
+        b=pYRMY15YGUrGnDTwKJ1aZUiYrEyGHxksJ51GBm4dQEsUjnTx1iYuATO2PhNuTdPiO
+         kvsWUbBctlqLK4NJ1F5rVfC3Xn4vQioOU5Jz4LbhdluynxJHu7SDniKH5IhefKPbNn
+         MdKe4xKC7BqHd82HWwt9uxPV1MT7bCXLKjpwRMYE=
 Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20181016145652eucas1p1f5c98ae5ecc067e98bc9b89b589a921c~eHqP_eE-t2005420054eucas1p1i;
-        Tue, 16 Oct 2018 14:56:52 +0000 (GMT)
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20181016145648eucas1p297686e627a910be675b7512fe654b96a~eHqMhkdIX0770807708eucas1p23;
+        Tue, 16 Oct 2018 14:56:48 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges1new.samsung.com (EUCPMTA) with SMTP id CB.C2.04441.33CF5CB5; Tue, 16
-        Oct 2018 15:56:52 +0100 (BST)
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 86.C2.04441.03CF5CB5; Tue, 16
+        Oct 2018 15:56:48 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20181016145651eucas1p1ea84684e37e67b4161548e6cff489cb8~eHqPK-tM31616816168eucas1p1y;
-        Tue, 16 Oct 2018 14:56:51 +0000 (GMT)
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20181016145647eucas1p206c068806214535da339588d77cbdfa5~eHqLYh2dR2135021350eucas1p2K;
+        Tue, 16 Oct 2018 14:56:47 +0000 (GMT)
 Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
         eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20181016145651eusmtrp2d8d81cdd81f631cc5052e64ea3c7c49d~eHqO8C9Y93061930619eusmtrp2f;
-        Tue, 16 Oct 2018 14:56:51 +0000 (GMT)
-X-AuditID: cbfec7f2-5c9ff70000001159-df-5bc5fc332a16
+        20181016145647eusmtrp21dffceae8154169cfb7895d936ec1442~eHqLJnVPb3061930619eusmtrp2W;
+        Tue, 16 Oct 2018 14:56:47 +0000 (GMT)
+X-AuditID: cbfec7f2-5e3ff70000001159-cf-5bc5fc30908e
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id E3.BA.04128.33CF5CB5; Tue, 16
-        Oct 2018 15:56:51 +0100 (BST)
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 9F.AA.04128.E2CF5CB5; Tue, 16
+        Oct 2018 15:56:47 +0100 (BST)
 Received: from AMDC3778.DIGITAL.local (unknown [106.120.51.20]) by
         eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20181016145650eusmtip263aa579161d6829f17331a9a964d8113~eHqOYAYyj2834528345eusmtip2H;
-        Tue, 16 Oct 2018 14:56:50 +0000 (GMT)
+        20181016145646eusmtip23755d3b877dda4c4502ba9ebc737f7d3~eHqKhgvCj2834528345eusmtip2F;
+        Tue, 16 Oct 2018 14:56:46 +0000 (GMT)
 From:   Lukasz Luba <l.luba@partner.samsung.com>
 To:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -58,49 +58,49 @@ Cc:     rui.zhang@intel.com, edubezval@gmail.com,
         Lukasz Luba <l.luba@partner.samsung.com>,
         Kukjin Kim <kgene@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 09/11] DT: arm: exynos: add support for thermal trip
+Subject: [PATCH 06/11] DT: arm64: exynos: add support for thermal trip
  irq-mode
-Date:   Tue, 16 Oct 2018 16:56:20 +0200
+Date:   Tue, 16 Oct 2018 16:56:17 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1539701782-26852-1-git-send-email-l.luba@partner.samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSa0hTYRjHeXd2zo7T1XGKvt5hEKXkTJI4kGlaHw5I6IcK0g+19DRFnbrj
-        HUODvKIzM6yWqDV1MczLNFOxTJ1KmnNeUBtKiCZoadJKZ3TzdBZ9+z+/5/J/3ocXR8TPUXc8
-        QZFOKxWyJAkm5HeP7hv9g36MxJwoyiI7HrSh5NrrYkDWWbzIeoMRJevn5lGycvUjQk5NtQtI
-        c4EnqV89QI+LGvnkbF8tRloqDIBsWpjmkYUvDQJybUWFnT1MtdS1AKpXvSygNP0bPEqvK8Wo
-        pfl+jOpszKc0qmqUGtzu51GqLh2gLHrvKGG0MDiOTkrIpJUBIdeE8a1an9RyUfZK4RpWAEzC
-        MmCHQyIIWh8u8cuAEBcTTwHc3LcK2ISY+Apgoy6fS1gANG8tIWUA/9uxN3OR41oAd0zzPC44
-        aFhq3gFsEUZIYY8ujeXOxCMALa80AjZAiCoerNKuo6yFExEJGwa1gNV84gj8XHpbwO3kDd8Z
-        SxFW2xER0LzYgHB8XAA3Ok+yWkRkQqOqxcbPwwH9C8BpJ7g51mWb4wl/99bzOM3AyRIdxuk8
-        WPymx1ZzGg6PTaPs0gjhC9v6AjgcBke29Sj34ENwccuRxciBvNt933YHESwpEnPVx2BXuclm
-        5AK1LTW24RT82TCLcuepA7DqVj92B/io/5s1AKADrnQGkyynmUAFnSVlZMlMhkIujU1J1oOD
-        zzTxa+xLD/g2c30IEDiQOIisC4YYMSrLZHKShwDEEYmzSD4zEiMWxclycmllylVlRhLNDAEP
-        nC9xFTXXdcSICbksnU6k6VRa+S/Lw+3cC0D1bvTobu6F9Y0V9ZP9e3PTKmJZWhDqEul3abLS
-        3BoSPBr+qSo+aSovKr99oFZxbgvPc4y9rPrwzJ+cvRJmWMBliSETaW4Vu/Y1kZ1HsWxp2VxT
-        mrfV+T2oUQdqzL7HsVMmr+G3fLVpJuLm9vgNQITb761+L/WocAjVuJ0Jn5LwmXhZoB+iZGR/
-        AIv9yh1IAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRmVeSWpSXmKPExsVy+t/xe7rGf45GGyxs57LYOGM9q8WTA+2M
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSa0hTYRjHec/ZuThcvq2LT1ZGq6AiLaMPB7QwMDqQVEJfSiGnHbTy1k5a
+        dsGVmJfWyowUK52YGcMwLzmTqTWndrF5KZZd7LZRmSXoCjSk8nRmffs//+f5Pf+Hl5cl1c1U
+        ALs/5bCgS9EmaWiloqlr0hG0bqozet2jDj+urqSW4tz3chFX5lnMldsdFFf+zElx510jJNfb
+        e5vhXuoXcfWuaavizHUF97TlKs15ztkRV/W8n+ByWu0M535vpMP9+JqyGsTfLR1i+ErrMMHX
+        m/Np/rXTSvMN17P4SmMRxd8ftRK8sdGMeE994E7lHmXYPiFpf4agW7spVpnoar9EpznDj+pd
+        dqRH/cEFyIcFvAFyP7uJAqRk1fgmgp7Wt5RcfEdgslUwcuFB8E5/hZhBWnseMZJW42oELc6V
+        /wiHq5MuQCxL42BoNh+S/Ln4CgJPW+XfTSQuJKCw+iMl0XNwFFgfVhASoMArwHgqQA4IhBeO
+        fFLSPngbvBw0kRIL2MGApT1bITVUOAPaLIWkDETAtb5+RtZz4Et3o1cvgt93y71Xi/Akz0zL
+        +gTkPmz2zoRCR3c/Jd1A4lVQ27JWtjfDcOF7RrIBz4LBb7Mlm5yWF5uKSdlWQd4ZtTy9EhoN
+        fd6g+VBdc9m7nIfRs1+Q/DxlCG7oh5gLaEnp/zATQmbkL6SLyQmCGJIiHAkWtcliekpCcHxq
+        cj2a/k+Pf3WPN6MfA3E2hFmk8VVNPLdHqylthpiZbEPAkpq5qoSBzmi1ap8285igS92rS08S
+        RBtayCo0/qobZXXRapygPSwcFIQ0QTfTJVifAD2KsXqiOjS8m4/cnbvG8WrXnRelmskxY3bN
+        0CejauJ4z9WiefGUoSFyDRp4N7sbxSzodW3OCLlveDCetCVq19jGuKzT20vaU5cPluhD5xfb
+        cNz6pRuCfi6z5EREvFH57hhR4q1hsTpDlaLLFE9kf31SUXXSHwwXb32wTPkcSOsb0yjERG3I
+        alInav8ASgig70sDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRmVeSWpSXmKPExsVy+t/xe7r6f45GG/T+ZLTYOGM9q8WTA+2M
         FvM+y1rMP3KO1WL+lWusFv2PXzNbnD+/gd3iVoOMxabHQKGFbUtYLC7vmsNm8bn3CKPF0usX
         mSxa9x5ht3jysI/Ngd9jzbw1jB47Z91l91i85yWTx6ZVnWwed67tYfPYvKTeY3HfZFaPg+/2
         MHn0bVnF6PF5k1wAV5SeTVF+aUmqQkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpq
-        TmZZapG+XYJexrrl8gU9vBUPW5+wNTBe4Opi5OCQEDCR+H4ppIuRi0NIYCmjxP1165i6GDmB
-        4mISk/ZtZ4ewhSX+XOtigyj6xCix6v4kJpBmNgE9iR2rCkHiIgLzGSWObroMVsQsMJdJYmXD
-        crBJwgK+EhtWfGAFsVkEVCXed7aATeUV8Ja4M/8/G8QGOYmb5zqZQWxOoPitGwuYQRYICXhJ
-        XFzMOIGRbwEjwypGkdTS4tz03GIjveLE3OLSvHS95PzcTYzAaNl27OeWHYxd74IPMQpwMCrx
-        8P64fiRaiDWxrLgy9xCjBAezkghv+qWj0UK8KYmVValF+fFFpTmpxYcYTYFumsgsJZqcD4zk
-        vJJ4Q1NDcwtLQ3Njc2MzCyVx3vMGlVFCAumJJanZqakFqUUwfUwcnFINjOEv/JO68gQ2K/tZ
-        iTE++HNRyuLvz1dbKmzn2rAtnqMva9Ummn8tnmuR4ZrmCDvHlr60jILbR64IbOmxPuJe7DzX
-        gHnuqevsQoeYHPbo73c6fodr6eKp+7LiNM4428i5/y6MU2fbbdPJcXnD/Ndl/qom9ZrcGwt/
-        Obw6sqVWOiyOVfFo+lYRJZbijERDLeai4kQAgcsleqwCAAA=
-Message-Id: <20181016145651eucas1p1ea84684e37e67b4161548e6cff489cb8~eHqPK-tM31616816168eucas1p1y@eucas1p1.samsung.com>
-X-CMS-MailID: 20181016145651eucas1p1ea84684e37e67b4161548e6cff489cb8
+        TmZZapG+XYJexuP9U9gKrjlUNDw+wtjAeFGvi5GTQ0LARGLvmVPsILaQwFJGiQf7QiDiYhKT
+        9m1nh7CFJf5c62LrYuQCqvnEKLHh/lHGLkYODjYBPYkdqwpB4iIC8xkljm66DFbELDCXSWJl
+        w3ImkG5hAX+JzS9vsYE0sAioSvQ1SoGEeQW8JFZ+Xwm1QE7i5rlOZhCbU8Bb4taNBcwg5UJA
+        NRcXM05g5FvAyLCKUSS1tDg3PbfYSK84Mbe4NC9dLzk/dxMjMFq2Hfu5ZQdj17vgQ4wCHIxK
+        PLw/rh+JFmJNLCuuzD3EKMHBrCTCm37paLQQb0piZVVqUX58UWlOavEhRlOgkyYyS4km5wMj
+        Oa8k3tDU0NzC0tDc2NzYzEJJnPe8QWWUkEB6YklqdmpqQWoRTB8TB6dUA+M0r6xD/aubujX3
+        zPH6GduxmCX6s/rHryVN+d5KU9ev2pr80pTzje/kAOnM+U0Hg9f9FQ8sVFnR8fV0aJLS2jnK
+        ylfecLNfebX8roCzHKenmr7gBnGTvxNZmzl35G73jPt6QixeiuHZxK73VcK8XipPppo9ebpv
+        X/aSaM8cqZbvk0V2qqx73KzEUpyRaKjFXFScCAAoqjGUrAIAAA==
+Message-Id: <20181016145647eucas1p206c068806214535da339588d77cbdfa5~eHqLYh2dR2135021350eucas1p2K@eucas1p2.samsung.com>
+X-CMS-MailID: 20181016145647eucas1p206c068806214535da339588d77cbdfa5
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20181016145651eucas1p1ea84684e37e67b4161548e6cff489cb8
+X-RootMTR: 20181016145647eucas1p206c068806214535da339588d77cbdfa5
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20181016145651eucas1p1ea84684e37e67b4161548e6cff489cb8
+X-CMS-RootMailID: 20181016145647eucas1p206c068806214535da339588d77cbdfa5
 References: <1539701782-26852-1-git-send-email-l.luba@partner.samsung.com>
-        <CGME20181016145651eucas1p1ea84684e37e67b4161548e6cff489cb8@eucas1p1.samsung.com>
+        <CGME20181016145647eucas1p206c068806214535da339588d77cbdfa5@eucas1p2.samsung.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -121,42 +121,273 @@ Cc: devicetree@vger.kernel.org
 Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Lukasz Luba <l.luba@partner.samsung.com>
 ---
- arch/arm/boot/dts/exynos5420-trip-points.dtsi | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi | 105 ++++++++++++++++---------
+ 1 file changed, 70 insertions(+), 35 deletions(-)
 
-diff --git a/arch/arm/boot/dts/exynos5420-trip-points.dtsi b/arch/arm/boot/dts/exynos5420-trip-points.dtsi
-index a67a3807..9e16970 100644
---- a/arch/arm/boot/dts/exynos5420-trip-points.dtsi
-+++ b/arch/arm/boot/dts/exynos5420-trip-points.dtsi
-@@ -11,21 +11,25 @@ trips {
- 	cpu-alert-0 {
- 		temperature = <85000>; /* millicelsius */
- 		hysteresis = <10000>; /* millicelsius */
--		type = "active";
-+		type = "passive";
-+		irq-mode;
+diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
+index fe3a0b1..c4330f6 100644
+--- a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
++++ b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
+@@ -17,37 +17,44 @@ thermal-zones {
+ 			atlas0_alert_0: atlas0-alert-0 {
+ 				temperature = <65000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas0_alert_1: atlas0-alert-1 {
+ 				temperature = <70000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas0_alert_2: atlas0-alert-2 {
+ 				temperature = <75000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas0_alert_3: atlas0-alert-3 {
+ 				temperature = <80000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas0_alert_4: atlas0-alert-4 {
+ 				temperature = <85000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas0_alert_5: atlas0-alert-5 {
+ 				temperature = <90000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas0_alert_6: atlas0-alert-6 {
+ 				temperature = <95000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 		};
+ 
+@@ -98,37 +105,44 @@ thermal-zones {
+ 			atlas1_alert_0: atlas1-alert-0 {
+ 				temperature = <65000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas1_alert_1: atlas1-alert-1 {
+ 				temperature = <70000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas1_alert_2: atlas1-alert-2 {
+ 				temperature = <75000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas1_alert_3: atlas1-alert-3 {
+ 				temperature = <80000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas1_alert_4: atlas1-alert-4 {
+ 				temperature = <85000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas1_alert_5: atlas1-alert-5 {
+ 				temperature = <90000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			atlas1_alert_6: atlas1-alert-6 {
+ 				temperature = <95000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 		};
  	};
- 	cpu-alert-1 {
- 		temperature = <103000>; /* millicelsius */
- 		hysteresis = <10000>; /* millicelsius */
--		type = "active";
-+		type = "passive";
-+		irq-mode;
+@@ -141,37 +155,44 @@ thermal-zones {
+ 			g3d_alert_0: g3d-alert-0 {
+ 				temperature = <70000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			g3d_alert_1: g3d-alert-1 {
+ 				temperature = <75000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			g3d_alert_2: g3d-alert-2 {
+ 				temperature = <80000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			g3d_alert_3: g3d-alert-3 {
+ 				temperature = <85000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			g3d_alert_4: g3d-alert-4 {
+ 				temperature = <90000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			g3d_alert_5: g3d-alert-5 {
+ 				temperature = <95000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			g3d_alert_6: g3d-alert-6 {
+ 				temperature = <100000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 		};
  	};
- 	cpu-alert-2 {
- 		temperature = <110000>; /* millicelsius */
- 		hysteresis = <10000>; /* millicelsius */
--		type = "active";
-+		type = "passive";
-+		irq-mode;
+@@ -184,37 +205,44 @@ thermal-zones {
+ 			apollo_alert_0: apollo-alert-0 {
+ 				temperature = <65000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			apollo_alert_1: apollo-alert-1 {
+ 				temperature = <70000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			apollo_alert_2: apollo-alert-2 {
+ 				temperature = <75000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			apollo_alert_3: apollo-alert-3 {
+ 				temperature = <80000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			apollo_alert_4: apollo-alert-4 {
+ 				temperature = <85000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			apollo_alert_5: apollo-alert-5 {
+ 				temperature = <90000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			apollo_alert_6: apollo-alert-6 {
+ 				temperature = <95000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 		};
+ 
+@@ -255,37 +283,44 @@ thermal-zones {
+ 			isp_alert_0: isp-alert-0 {
+ 				temperature = <80000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			isp_alert_1: isp-alert-1 {
+ 				temperature = <85000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			isp_alert_2: isp-alert-2 {
+ 				temperature = <90000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			isp_alert_3: isp-alert-3 {
+ 				temperature = <95000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			isp_alert_4: isp-alert-4 {
+ 				temperature = <100000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			isp_alert_5: isp-alert-5 {
+ 				temperature = <105000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 			isp_alert_6: isp-alert-6 {
+ 				temperature = <110000>;	/* millicelsius */
+ 				hysteresis = <1000>;	/* millicelsius */
+-				type = "active";
++				type = "passive";
++				irq-mode;
+ 			};
+ 		};
  	};
- 	cpu-crit-0 {
- 		temperature = <120000>; /* millicelsius */
- 		hysteresis = <0>; /* millicelsius */
- 		type = "critical";
-+		irq-mode;
- 	};
- };
 -- 
 2.7.4
 
