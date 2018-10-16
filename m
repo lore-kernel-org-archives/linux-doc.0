@@ -1,248 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 757207D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 08:34:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 69B067D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 08:57:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbeJPQWJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Oct 2018 12:22:09 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:33364 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726165AbeJPQWJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Oct 2018 12:22:09 -0400
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.0.23/8.16.0.23) with SMTP id w9G8Qlxi015624;
-        Tue, 16 Oct 2018 01:30:21 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=subject : to :
- references : cc : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pfpt0818;
- bh=DDD2iwOlPN6o1qlURtotGr6idqx4PzZvN1/JKDN3CTE=;
- b=uCEc/iYiEORGZJujrBOcqTIsi39Gow0J58Oqs5NLZ0Q2pLcbDUWqQ0h9SSJoeTu8QnlI
- /u6jP3+BzmDVMYc5RQQUBwhiUl9U6jb6JGlL+Mi7gAD0xgfofZbrO1iM7NZqtjWjt7nt
- Kr8ZujZ6aMvvhMr42VemdE7G4CbQKUNQQHfM5N8RsV/0Hq8W4MZp8mJSWc2KpISPacm4
- BGpCBdBFlVXCg2JtICrv2J8XmYsalz4q7cLbY9REkqpgpVahbxjcFagwCNVdxhuDtWX2
- l6tkuBkHkkyATLeWTJ/YbbHvSh/Wqfc6J6gOh4MCc03YClTot1Q8A8Gu4HxFrkL7458u pA== 
-Received: from sc-exch04.marvell.com ([199.233.58.184])
-        by mx0b-0016f401.pphosted.com with ESMTP id 2n5cfvr0bu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 16 Oct 2018 01:30:21 -0700
-Received: from IL-EXCH03.marvell.com (10.5.102.220) by SC-EXCH04.marvell.com
- (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1210.3; Tue, 16 Oct
- 2018 01:30:19 -0700
-Received: from SC-EXCH01.marvell.com (10.93.176.81) by IL-EXCH03.marvell.com
- (10.5.102.220) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Tue, 16 Oct
- 2018 11:30:16 +0300
-Received: from maili.marvell.com (10.93.176.43) by SC-EXCH01.marvell.com
- (10.93.176.81) with Microsoft SMTP Server id 15.0.1210.3 via Frontend
- Transport; Tue, 16 Oct 2018 01:30:15 -0700
-Received: from [10.4.50.2] (unknown [10.4.50.2])
-        by maili.marvell.com (Postfix) with ESMTP id 6A22E3F7052;
-        Tue, 16 Oct 2018 01:30:11 -0700 (PDT)
-Subject: Re: [PATCH 2/4] iommu/arm-smmu: Workaround for Marvell Armada-AP806
- SoC erratum #582743
-To:     Robin Murphy <robin.murphy@arm.com>, <catalin.marinas@arm.com>,
-        <will.deacon@arm.com>, <corbet@lwn.net>, <joro@8bytes.org>,
-        <robh+dt@kernel.org>, <gregory.clement@bootlin.com>,
-        <mark.rutland@arm.com>, <jason@lakedaemon.net>, <andrew@lunn.ch>,
-        <sebastian.hesselbarth@gmail.com>
-References: <1539604846-21151-1-git-send-email-hannah@marvell.com>
- <1539604846-21151-3-git-send-email-hannah@marvell.com>
- <8a7eefcf-6a77-8dc1-2ce9-9bb7395a3bb7@arm.com>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <iommu@lists.linux-foundation.org>, <devicetree@vger.kernel.org>,
-        <thomas.petazzoni@bootlin.com>, <nadavh@marvell.com>,
-        <omrii@marvell.com>, <nd@arm.com>
-From:   Hanna Hawa <hannah@marvell.com>
-Message-ID: <2e4f2b02-4b02-877d-1f51-c617170398a6@marvell.com>
-Date:   Tue, 16 Oct 2018 11:25:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+        id S1727268AbeJPQrJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Oct 2018 12:47:09 -0400
+Received: from o3.31pqt.s2shared.sendgrid.net ([167.89.55.59]:28611 "EHLO
+        o3.31pqt.s2shared.sendgrid.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727031AbeJPQrJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Oct 2018 12:47:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
+        h=mime-version:content-type:content-transfer-encoding:from:to:cc:
+        subject;
+        s=smtpapi; bh=QyMYDS0XVVnOyQIuRHG77IxGrCXgyIdEZNDUWVy/0TE=;
+        b=i8zOPn8Unc0N+MjgHkqRVraDBqbkfJVu5RGKJFfYiwvQFuVLnexkNGRp/8i6eOcgR+Ks
+        ssMwdfxBtF/WgbeSFsIrI8ygOICLCcfa0hMehDRd8IYV6Ky2AXFgERwIDiF5oVLgMf4Q8S
+        slxGoUOa9SunjxDF7QNegQzbn65uuqcOk=
+Received: by filter0008p2mdw1.sendgrid.net with SMTP id filter0008p2mdw1-16878-5BC5A808-9
+        2018-10-16 08:57:44.262606893 +0000 UTC m=+309092.011588282
+Received: from korte.land (unknown [146.185.150.169])
+        by ismtpd0005p1lon1.sendgrid.net (SG) with ESMTP id BCV83WFEQSyi8lOARxWJjg
+        Tue, 16 Oct 2018 08:57:44.141 +0000 (UTC)
+Received: from mail.korte.land (localhost [127.0.0.1])
+        by korte.land (Postfix) with ESMTP id CCAEE60269;
+        Tue, 16 Oct 2018 08:57:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <8a7eefcf-6a77-8dc1-2ce9-9bb7395a3bb7@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-16_05:,,
- signatures=0
-X-Proofpoint-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1810160075
+Date:   Tue, 16 Oct 2018 08:57:44 +0000 (UTC)
+From:   Will Korteland <will@korte.land>
+To:     gregkh@linuxfoundation.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs/uio: fix a grammar nitpick
+Message-ID: <7e426c03c0e342ade7ce86a977ef13b2@korte.land>
+X-Sender: will@korte.land
+User-Agent: Roundcube Webmail/1.3.6
+X-SG-EID: =?us-ascii?Q?cUnx5NqAuhUbAHG4iZ9Vx1BO6oMeAW3Kqk+xSEzhkR48c1futjyLp2=2Fwp8OUBt?=
+ =?us-ascii?Q?=2F5X+h1tdyY33lVKbOQVGXUFTE+NVkXoU+gX6pMe?=
+ =?us-ascii?Q?=2FEh1lHGF1qj4vIWo7bSTConpdR3lwoJLCv2atSx?=
+ =?us-ascii?Q?vYyjVbFL6AD=2FMulEP+qHIyZsIi56YATuDLjuiw0?=
+ =?us-ascii?Q?yhGN0kkGhDfOdg4zc5aUYdXNCtlf0uRcvz6g6G6?=
+ =?us-ascii?Q?sYuXrTHsl8R8WjXWoKMoaTHrqTw=2FUd7SHnbRKW?=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Robin,
+This patch fixes a minor, incorrect piece of grammar in the UIO howto.
 
+Signed-off-by: Will Korteland <will@korte.land>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+---
+The sole change since v1 is that I re-did the patch against
+linux-next-20181016 instead of linux. Sorry for the extra work Greg, and
+thanks Randy for the acked-by.
 
-On 10/15/2018 04:00 PM, Robin Murphy wrote:
-> Hi Hanna,
->
-> On 15/10/18 13:00, hannah@marvell.com wrote:
->> From: Hanna Hawa <hannah@marvell.com>
->>
->> Due to erratum #582743, the Marvell Armada-AP806 can't access 64bit
->> to ARM SMMUv2 registers.
->> This patch split the writeq/readq to two accesses of writel/readl.
->>
->> Note that separate writes/reads to 2 is not problem regards to atomicity,
->> because the driver use the readq/writeq while initialize the SMMU, report
->> for SMMU fault, and use spinlock in one case (iova_to_phys).
->
-> In general, this doesn't work. Here's what the SMMU spec says about
-> SMMU_CBn_TLBIVA, but others are similar:
->
-> "If SMMU_CBA2Rn.VA64 is one, then AArch64 format is selected. The
-> programmer should use 64 bit accesses to this register. If 32-bit
-> accesses are used then writes to the top 32 bits are ignored and writes
-> to the lower 32 bits are zero extended."
->
-> If your interconnect won't let 64-bit transactions through, then you
-> can't use AArch64 format at stage 1 at all, since there's no way to
-> invalidate entries with the correct ASID, and you'll have to restrict
-> stage 2 formats to at most 44-bit IOVAs in order for TLBIIPAS2{L} not to
-> invalidate the wrong thing.
-Thanks for your suggestion.
+  Documentation/driver-api/uio-howto.rst | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
 
-To restrict the IOVAs i need to add another work-around to the driver to 
-limit the va_size, is that acceptable?
+diff --git a/Documentation/driver-api/uio-howto.rst 
+b/Documentation/driver-api/uio-howto.rst
+index fb2eb73be4a3..25f50eace28b 100644
+--- a/Documentation/driver-api/uio-howto.rst
++++ b/Documentation/driver-api/uio-howto.rst
+@@ -463,8 +463,8 @@ Getting information about your UIO device
 
-What the different in the driver between AARCH32_L & AARCH32_S?
+  Information about all UIO devices is available in sysfs. The first 
+thing
+  you should do in your driver is check ``name`` and ``version`` to make
+-sure your talking to the right device and that its kernel driver has 
+the
+-version you expect.
++sure you're talking to the right device and that its kernel driver has
++the version you expect.
 
->
->> Signed-off-by: Hanna Hawa <hannah@marvell.com>
->> ---
->>   Documentation/arm64/silicon-errata.txt |  2 ++
->>   drivers/iommu/arm-smmu.c               | 33
->> +++++++++++++++++++++++++++++----
->>   2 files changed, 31 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/arm64/silicon-errata.txt
->> b/Documentation/arm64/silicon-errata.txt
->> index 3b2f2dd..fc3f2a0 100644
->> --- a/Documentation/arm64/silicon-errata.txt
->> +++ b/Documentation/arm64/silicon-errata.txt
->> @@ -67,6 +67,8 @@ stable kernels.
->>   | Cavium         | ThunderX2 SMMUv3| #74             |
->> N/A                         |
->>   | Cavium         | ThunderX2 SMMUv3| #126            |
->> N/A                         |
->>   |                |                 |
->> |                             |
->> +| Marvell        | ARM-MMU-500     | #582743         |
->> N/A                         |
->> +|                |                 |
->> |                             |
->
-> Nit: the convention here seems to be at least alphabetically sorted by
-> Implementer.
->
->>   | Freescale/NXP  | LS2080A/LS1043A | A-008585        |
->> FSL_ERRATUM_A008585         |
->>   |                |                 |
->> |                             |
->>   | Hisilicon      | Hip0{5,6,7}     | #161010101      |
->> HISILICON_ERRATUM_161010101 |
->> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
->> index fccb1d4..d64f892 100644
->> --- a/drivers/iommu/arm-smmu.c
->> +++ b/drivers/iommu/arm-smmu.c
->> @@ -119,6 +119,7 @@ enum arm_smmu_arch_version {
->>   enum arm_smmu_implementation {
->>       GENERIC_SMMU,
->>       ARM_MMU500,
->> +    MRVL_MMU500,
->
-> Is there any actually modification to the MMU-500 RTL itself here, or is
-> the problem just in the interconnect in front of the SMMU programming
-> interface? I would normally assume the latter, in which case treating it
-> as a separate implementation isn't really accurate, and I'd much rather
-> handle any workaround via smmu->options, just like the secure access
-> workaround (which is a similar integration issue).
-No actual modification to the RTL, i'll use the smmu->option
-Thanks for your review & suggestions.
-
-Hanna
->
-> Robin.
->
->>       CAVIUM_SMMUV2,
->>   };
->>   @@ -276,13 +277,35 @@ static inline void smmu_writeq_relaxed(struct
->> arm_smmu_device *smmu,
->>                          u64 val,
->>                          void __iomem *addr)
->>   {
->> -    writeq_relaxed(val, addr);
->> +    /*
->> +     * Marvell Armada-AP806 erratum #582743.
->> +     * Split all the writeq to double writel
->> +     */
->> +    if (smmu->model != MRVL_MMU500) {
->> +        writeq_relaxed(val, addr);
->> +        return;
->> +    }
->> +
->> +    writel_relaxed(upper_32_bits(val), addr + 4);
->> +    writel_relaxed(lower_32_bits(val), addr);
->>   }
->>     static inline u64 smmu_readq_relaxed(struct arm_smmu_device *smmu,
->>                        void __iomem *addr)
->>   {
->> -    return readq_relaxed(addr);
->> +    u64 val;
->> +
->> +    /*
->> +     * Marvell Armada-AP806 erratum #582743.
->> +     * Split all the readq to double readl
->> +     */
->> +    if (smmu->model != MRVL_MMU500)
->> +        return readq_relaxed(addr);
->> +
->> +    val = (u64)readl_relaxed(addr + 4) << 32;
->> +    val |= readl_relaxed(addr);
->> +
->> +    return val;
->>   }
->>     static void parse_driver_options(struct arm_smmu_device *smmu)
->> @@ -1611,7 +1634,7 @@ static void arm_smmu_device_reset(struct
->> arm_smmu_device *smmu)
->>       for (i = 0; i < smmu->num_mapping_groups; ++i)
->>           arm_smmu_write_sme(smmu, i);
->>   -    if (smmu->model == ARM_MMU500) {
->> +    if (smmu->model == ARM_MMU500 || smmu->model == MRVL_MMU500) {
->>           /*
->>            * Before clearing ARM_MMU500_ACTLR_CPRE, need to
->>            * clear CACHE_LOCK bit of ACR first. And, CACHE_LOCK
->> @@ -1640,7 +1663,7 @@ static void arm_smmu_device_reset(struct
->> arm_smmu_device *smmu)
->>            * Disable MMU-500's not-particularly-beneficial next-page
->>            * prefetcher for the sake of errata #841119 and #826419.
->>            */
->> -        if (smmu->model == ARM_MMU500) {
->> +        if (smmu->model == ARM_MMU500 || smmu->model == MRVL_MMU500) {
->>               reg = readl_relaxed(cb_base + ARM_SMMU_CB_ACTLR);
->>               reg &= ~ARM_MMU500_ACTLR_CPRE;
->>               writel_relaxed(reg, cb_base + ARM_SMMU_CB_ACTLR);
->> @@ -1923,6 +1946,7 @@ struct arm_smmu_match_data {
->>   ARM_SMMU_MATCH_DATA(smmu_generic_v2, ARM_SMMU_V2, GENERIC_SMMU);
->>   ARM_SMMU_MATCH_DATA(arm_mmu401, ARM_SMMU_V1_64K, GENERIC_SMMU);
->>   ARM_SMMU_MATCH_DATA(arm_mmu500, ARM_SMMU_V2, ARM_MMU500);
->> +ARM_SMMU_MATCH_DATA(mrvl_mmu500, ARM_SMMU_V2, MRVL_MMU500);
->>   ARM_SMMU_MATCH_DATA(cavium_smmuv2, ARM_SMMU_V2, CAVIUM_SMMUV2);
->>     static const struct of_device_id arm_smmu_of_match[] = {
->> @@ -1931,6 +1955,7 @@ struct arm_smmu_match_data {
->>       { .compatible = "arm,mmu-400", .data = &smmu_generic_v1 },
->>       { .compatible = "arm,mmu-401", .data = &arm_mmu401 },
->>       { .compatible = "arm,mmu-500", .data = &arm_mmu500 },
->> +    { .compatible = "marvell,mmu-500", .data = &mrvl_mmu500 },
->>       { .compatible = "cavium,smmu-v2", .data = &cavium_smmuv2 },
->>       { },
->>   };
->>
+  You should also make sure that the memory mapping you need exists and
+  has the size you expect.
+-- 
+2.19.1
