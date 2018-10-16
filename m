@@ -2,46 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 31ABD7D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 15:09:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BB8357D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 15:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726978AbeJPXAV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Oct 2018 19:00:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35940 "EHLO mail.kernel.org"
+        id S1727315AbeJPXBM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Oct 2018 19:01:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36352 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726760AbeJPXAV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Oct 2018 19:00:21 -0400
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+        id S1726760AbeJPXBM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Oct 2018 19:01:12 -0400
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 70FC62145D;
-        Tue, 16 Oct 2018 15:09:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 307B32145D;
+        Tue, 16 Oct 2018 15:10:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1539702567;
-        bh=zQiimhACeZc2wBZ4js31PHh12+qee5/i8UMw+4x5dEs=;
+        s=default; t=1539702618;
+        bh=MH1CHJW234BPXNzpLzthAv6AhbCcCscU0nSrlmg4ANk=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DrCc9G/cND4C8CukMc/IYME6WCAUUTL/18kluwEoIRgqhIbtPJsOJ+XOoq/eEnJWM
-         nSTZgu/JjoojesxG8HZeuUk8Odvel5YKxWWul7UEiyyMb2otXzGUEnP9S1JAexwU13
-         qiHcSGctm30hC9PzPdOip2Wq5ERMAo262PZ4R1nc=
-Received: by mail-wr1-f41.google.com with SMTP id 63-v6so25933612wra.11;
-        Tue, 16 Oct 2018 08:09:27 -0700 (PDT)
-X-Gm-Message-State: ABuFfoiqzHQsF2uyDvgstZlRANlj7+unZTxjPdti2bQrhpCc6HQkUbAC
-        NfsHlsO8TFVLlpMHAvGrxD0lG9kPqsJkOALUNt8=
-X-Google-Smtp-Source: ACcGV63J7bDgrI4/M2qEM/y6iAPNEQDgQwv80JEIM4LDGUdZ7i81vxJYvxUC7fHRGI2e6oq1/v06biRgIkUBgeX2uvI=
-X-Received: by 2002:adf:e152:: with SMTP id f18-v6mr18032305wri.42.1539702565824;
- Tue, 16 Oct 2018 08:09:25 -0700 (PDT)
+        b=TfSDZT5hYAfG0vvomVv0Arxa4Ud2Mb+ig5LV7Xu+3rPD2FKeLbwVuc5kTKz8dxlSW
+         Qj38OawQaB7/b99Wo8mq8xAwzJD6zA6CpqzYtjdI9IkeIjSLXHTJhjzEdSzh9TgjCP
+         jX6hwXApHPPYFjTkIyb0h9AKdZdCk7cn/qGr4MEI=
+Received: by mail-wm1-f48.google.com with SMTP id 143-v6so22682778wmf.1;
+        Tue, 16 Oct 2018 08:10:18 -0700 (PDT)
+X-Gm-Message-State: ABuFfohAbLXVeq8auNkd20cOieJzwQ57dr0N6/MLltz403ZoJu0g4ESW
+        rgXm5b5Vqfjy96Wn2eUs6OjvJJbYxkXXPiJXGoU=
+X-Google-Smtp-Source: ACcGV63KbVbq4MG0XRosMdyes23xDa+Urwwbp7ajn0QvsECvECC868cxRijyODh8L8Mp/A/JjVyM1qS3pJ7kI8NN3Aw=
+X-Received: by 2002:a1c:ab54:: with SMTP id u81-v6mr16807601wme.45.1539702616630;
+ Tue, 16 Oct 2018 08:10:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20181016145647eucas1p206c068806214535da339588d77cbdfa5@eucas1p2.samsung.com>
- <1539701782-26852-1-git-send-email-l.luba@partner.samsung.com> <20181016145647eucas1p206c068806214535da339588d77cbdfa5~eHqLYh2dR2135021350eucas1p2K@eucas1p2.samsung.com>
-In-Reply-To: <20181016145647eucas1p206c068806214535da339588d77cbdfa5~eHqLYh2dR2135021350eucas1p2K@eucas1p2.samsung.com>
+References: <CGME20181016145648eucas1p275ad5f845a04e40e5b9d0bbea624f34a@eucas1p2.samsung.com>
+ <1539701782-26852-1-git-send-email-l.luba@partner.samsung.com> <20181016145648eucas1p275ad5f845a04e40e5b9d0bbea624f34a~eHqM4Yhz82489624896eucas1p25@eucas1p2.samsung.com>
+In-Reply-To: <20181016145648eucas1p275ad5f845a04e40e5b9d0bbea624f34a~eHqM4Yhz82489624896eucas1p25@eucas1p2.samsung.com>
 From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Tue, 16 Oct 2018 17:09:14 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPe4Jf3QVbQ6BFPFptkgvmmpNu+QCmDoD3JqhyYOidJ7vA@mail.gmail.com>
-Message-ID: <CAJKOXPe4Jf3QVbQ6BFPFptkgvmmpNu+QCmDoD3JqhyYOidJ7vA@mail.gmail.com>
-Subject: Re: [PATCH 06/11] DT: arm64: exynos: add support for thermal trip irq-mode
+Date:   Tue, 16 Oct 2018 17:10:05 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPemhDTF7moU4H=PS=6ZZZRDR7Mobo0Z+-kBd_hw0vB1kw@mail.gmail.com>
+Message-ID: <CAJKOXPemhDTF7moU4H=PS=6ZZZRDR7Mobo0Z+-kBd_hw0vB1kw@mail.gmail.com>
+Subject: Re: [PATCH 07/11] DT: arm64: exynos7: add support for thermal trip irq-mode
 To:     l.luba@partner.samsung.com
 Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -58,67 +58,13 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, 16 Oct 2018 at 16:56, Lukasz Luba <l.luba@partner.samsung.com> wrote:
 >
-
-Hi Lukasz,
-
-Thanks for patches.
-
-I did not receive the first patches in the series. It is okay (depends
-on the context) but in such case sending cover letter to all people is
-quite useful. It helps to understand the entire patchset. Since I did
-not get them, I really do not know:
-1. Whether DTS patches are independent?
-2. How this fits in the big picture of Exynos thermal?
-
-
 > This patch adds support for new flash which indicates
-
-What is "flash"?
-
-Please wrap your lines accordingly (75 characters like in
-submitting-patches.rst). Current wrapping makes it more difficult to
-read.
-
 > that trip point triggers irq when temperature is met.
 > Exynos5433 supports 8 trip point which will trigger irq.
 
-"Exynos5433 supports 8 trip points which trigger interrupt."
-(or IRQ but not irq)
+Exynos7?
 
-> Above that number other trip points should be registered
-> without 'irq-mode' flag.
-
-Why they should be registered without irq-mode?
-
-> That will force the thermal framework to start polling
-> the temperature sensor under configured conditions and
-> handle the trip point.
-
-How does it fit into existing polling mode?
-
->
-> Cc: Kukjin Kim <kgene@kernel.org>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Signed-off-by: Lukasz Luba <l.luba@partner.samsung.com>
-> ---
->  arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi | 105 ++++++++++++++++---------
->  1 file changed, 70 insertions(+), 35 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
-> index fe3a0b1..c4330f6 100644
-> --- a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
-> +++ b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
-> @@ -17,37 +17,44 @@ thermal-zones {
->                         atlas0_alert_0: atlas0-alert-0 {
->                                 temperature = <65000>;  /* millicelsius */
->                                 hysteresis = <1000>;    /* millicelsius */
-> -                               type = "active";
-> +                               type = "passive";
-
-Change of active->passive looks irrelevant to this topic. Here and
-everywhere else.
+Beside that comments from previous email apply (no need to duplicate them).
 
 Best regards,
 Krzysztof
