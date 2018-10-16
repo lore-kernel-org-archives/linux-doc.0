@@ -1,228 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C480B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 14:58:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 31ABD7D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 15:09:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726986AbeJPWso (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Oct 2018 18:48:44 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:57182 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727097AbeJPWrf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Oct 2018 18:47:35 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20181016145645euoutp018c592b601b8716a913efc61063d04f43~eHqJwYbBX0427704277euoutp01f
-        for <linux-doc@vger.kernel.org>; Tue, 16 Oct 2018 14:56:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20181016145645euoutp018c592b601b8716a913efc61063d04f43~eHqJwYbBX0427704277euoutp01f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1539701805;
-        bh=YL3IJQwlo5YNFrxIFkhGqiDAirUyPIfzICP0/e+gE7E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Dl51satmR1c3w+yAdbiNRmZgcA3uNndkqCTcuY867OOOoqn3Un7413tSX/VCNZ7DO
-         0DS0K8HHRuuvgL3LmWxapMBqptDCknB/kphkw8J46NhkvyYwJwxc106VwFic2b3wwV
-         q9fPDOe+SeBUFtvjBwgBNTEjNAol+Ju8nBb216Dg=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20181016145644eucas1p1ebaa178971e16d75ece84cba3035817a~eHqJDSr863104931049eucas1p1k;
-        Tue, 16 Oct 2018 14:56:44 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 9E.21.04806.C2CF5CB5; Tue, 16
-        Oct 2018 15:56:44 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20181016145644eucas1p2755acef5196e01799d5704fac9766547~eHqIWySvH0770707707eucas1p2z;
-        Tue, 16 Oct 2018 14:56:44 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20181016145643eusmtrp18e14c3b9e80dd8c900577fdbfa20e6fe~eHqICmBmk1176711767eusmtrp12;
-        Tue, 16 Oct 2018 14:56:43 +0000 (GMT)
-X-AuditID: cbfec7f5-34dff700000012c6-81-5bc5fc2c8184
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 5D.D9.04284.B2CF5CB5; Tue, 16
-        Oct 2018 15:56:43 +0100 (BST)
-Received: from AMDC3778.DIGITAL.local (unknown [106.120.51.20]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20181016145643eusmtip203b1a7dcf3f34716276b899e65d7f1d3~eHqHeJKpU2834528345eusmtip2D;
-        Tue, 16 Oct 2018 14:56:43 +0000 (GMT)
-From:   Lukasz Luba <l.luba@partner.samsung.com>
-To:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        id S1726978AbeJPXAV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Oct 2018 19:00:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35940 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726760AbeJPXAV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Oct 2018 19:00:21 -0400
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 70FC62145D;
+        Tue, 16 Oct 2018 15:09:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1539702567;
+        bh=zQiimhACeZc2wBZ4js31PHh12+qee5/i8UMw+4x5dEs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=DrCc9G/cND4C8CukMc/IYME6WCAUUTL/18kluwEoIRgqhIbtPJsOJ+XOoq/eEnJWM
+         nSTZgu/JjoojesxG8HZeuUk8Odvel5YKxWWul7UEiyyMb2otXzGUEnP9S1JAexwU13
+         qiHcSGctm30hC9PzPdOip2Wq5ERMAo262PZ4R1nc=
+Received: by mail-wr1-f41.google.com with SMTP id 63-v6so25933612wra.11;
+        Tue, 16 Oct 2018 08:09:27 -0700 (PDT)
+X-Gm-Message-State: ABuFfoiqzHQsF2uyDvgstZlRANlj7+unZTxjPdti2bQrhpCc6HQkUbAC
+        NfsHlsO8TFVLlpMHAvGrxD0lG9kPqsJkOALUNt8=
+X-Google-Smtp-Source: ACcGV63J7bDgrI4/M2qEM/y6iAPNEQDgQwv80JEIM4LDGUdZ7i81vxJYvxUC7fHRGI2e6oq1/v06biRgIkUBgeX2uvI=
+X-Received: by 2002:adf:e152:: with SMTP id f18-v6mr18032305wri.42.1539702565824;
+ Tue, 16 Oct 2018 08:09:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <CGME20181016145647eucas1p206c068806214535da339588d77cbdfa5@eucas1p2.samsung.com>
+ <1539701782-26852-1-git-send-email-l.luba@partner.samsung.com> <20181016145647eucas1p206c068806214535da339588d77cbdfa5~eHqLYh2dR2135021350eucas1p2K@eucas1p2.samsung.com>
+In-Reply-To: <20181016145647eucas1p206c068806214535da339588d77cbdfa5~eHqLYh2dR2135021350eucas1p2K@eucas1p2.samsung.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Tue, 16 Oct 2018 17:09:14 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPe4Jf3QVbQ6BFPFptkgvmmpNu+QCmDoD3JqhyYOidJ7vA@mail.gmail.com>
+Message-ID: <CAJKOXPe4Jf3QVbQ6BFPFptkgvmmpNu+QCmDoD3JqhyYOidJ7vA@mail.gmail.com>
+Subject: Re: [PATCH 06/11] DT: arm64: exynos: add support for thermal trip irq-mode
+To:     l.luba@partner.samsung.com
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Cc:     rui.zhang@intel.com, edubezval@gmail.com,
+        linux-pm@vger.kernel.org, rui.zhang@intel.com, edubezval@gmail.com,
         daniel.lezcano@linaro.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, corbet@lwn.net, b.zolnierkie@samsung.com,
-        Lukasz Luba <l.luba@partner.samsung.com>
-Subject: [PATCH 03/11] thermal: add new sysfs file for irq-mode
-Date:   Tue, 16 Oct 2018 16:56:14 +0200
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1539701782-26852-1-git-send-email-l.luba@partner.samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSfSxVcRjH97vnnnuPO1fHIZ55rdustKKmP86qVVZbZ6LZxMIfujhheese
-        lNakP7wOWUSoi7zuzmZedkNcb1felryNSxKRllGrmy2Rch3Vf5/n+3yflz17CIyqwa2IsMgY
-        VhEpD5eJJEL1y/XXR49s9vgfezDjQNc9rsXpxY4URCv1tnSxdgini8cncHo60YauX9iG0uRy
-        IT3W8kRE6zO1iK6YHBHQSW1aMb04nyU6J2VqlDWIaS58K2bKWj8JmHpVmoiZmWgVMQ3l95iy
-        rByc6fzcKmCyGlWI0dfbeUr8JKeD2fCwOFbhfOaaJDTvFxVdaXdb9y4XT0QbkI4IAsgTsNHo
-        l44kBEVWI3gzt4T44DsC3eRHIR/oEfRVr2HpyGinom1iS8QnqhBUFk5i/0oyf5aJDX1FpBM0
-        qW4adHOyCIFeY9AlBEb2I5iuUgsMrczIszC2Pis0sJB0gJV8XgfSDqaG0nbGGZGXYFpXsjMB
-        SI0YljsLcENCSsbBYP7YbsEFGHw2IOLZDJZ7G8U828BgToaQZw5epap2PXchpb9p13MKuntH
-        cMPWGOkItS3O/GFcYUpD8WgCulVTgxnbxofqfIyXpZCaTPE9DkFjxvDuLhZQVZMn5i0MDIwm
-        8NdRImgb6MaykX3h/1ElCKmQJRvLRYSwnEske8uJk0dwsZEhTkFREfVo+4cGt3rXmpBmM7AL
-        kQSSGUt/TGr9KVwex8VHdCEgMJm5NGS0x5+SBsvj77CKqABFbDjLdSFrQiizlFYq6/wpMkQe
-        w95g2WhW8TcrIIysEpFgfPiKm/eBxYzcPftKV4wfXbetnffivsYV+3ywwkejXsxdNvPYWrpo
-        49KQd3I2pj1oUxPskemli5Y9FSyj4VCLBeXvaecYx299FYpoU1/v/dYJTyHA0fP56lW3qTEf
-        9/fGgfezC1zdM+zbeyt9E6jmQAv13kTXIpPz6o4v4+tJB2VCLlR+/DCm4OR/AMx1tSE/AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAIsWRmVeSWpSXmKPExsVy+t/xe7raf45GG0xapmWxccZ6VosnB9oZ
-        LeZ9lrWYf+Qcq8X8K9dYLW41yFhsegxkLGxbwmJxedccNovPvUcYLZZev8hk0br3CLvFk4d9
-        bA68HmvmrWH02DnrLrvH4j0vmTw2repk87hzbQ+bx+Yl9R6L+yazehx8t4fJo2/LKkaPz5vk
-        Arii9GyK8ktLUhUy8otLbJWiDS2M9AwtLfSMTCz1DI3NY62MTJX07WxSUnMyy1KL9O0S9DKm
-        /RUqWCZXceP+FNYGxt8SXYycHBICJhJ7r/1j62Lk4hASWMoo0fl+NzNEQkxi0r7t7BC2sMSf
-        a11QRZ8YJdq+LWfsYuTgYBPQk9ixqhAkLiIwn1Hi6KbLYEXMApcZJbqn7QHrFhawl7j88x4L
-        iM0ioCrxZvo2JhCbV8BLYvn1SYwQG+Qkbp7rBNvMKeAtcevGAmaQBUJANRcXM05g5FvAyLCK
-        USS1tDg3PbfYUK84Mbe4NC9dLzk/dxMjMDa2Hfu5eQfjpY3BhxgFOBiVeHh/XD8SLcSaWFZc
-        mXuIUYKDWUmEN/3S0Wgh3pTEyqrUovz4otKc1OJDjKZAN01klhJNzgfGbV5JvKGpobmFpaG5
-        sbmxmYWSOO95g8ooIYH0xJLU7NTUgtQimD4mDk6pBkZHxp578lorgubryc8wP2b+wSFu/YzJ
-        js7zVvg/nDuVa6V2Z8LkY7P4K+xZ9uWd9nQ76J7+fbWp/eZJRgv/NB2zPBR1g/GPFHtTulzs
-        9V5ZBf/3VTt+CNzNXlzTcaGVZ2/T65afrY5zClV+Ven1PDn56PwOy7/R7/ZfO7o+0P/KxU9B
-        Jv4XVeKVWIozEg21mIuKEwFlciBYowIAAA==
-Message-Id: <20181016145644eucas1p2755acef5196e01799d5704fac9766547~eHqIWySvH0770707707eucas1p2z@eucas1p2.samsung.com>
-X-CMS-MailID: 20181016145644eucas1p2755acef5196e01799d5704fac9766547
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20181016145644eucas1p2755acef5196e01799d5704fac9766547
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20181016145644eucas1p2755acef5196e01799d5704fac9766547
-References: <1539701782-26852-1-git-send-email-l.luba@partner.samsung.com>
-        <CGME20181016145644eucas1p2755acef5196e01799d5704fac9766547@eucas1p2.samsung.com>
+        mark.rutland@arm.com, corbet@lwn.net,
+        =?UTF-8?B?QmFydMWCb21pZWogxbtvxYJuaWVya2lld2ljeg==?= 
+        <b.zolnierkie@samsung.com>, kgene@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Patch adds show functions for irq-mode feature.
-It allocates new attributes and extends the old list.
+On Tue, 16 Oct 2018 at 16:56, Lukasz Luba <l.luba@partner.samsung.com> wrote:
+>
 
-Cc: Zhang Rui <rui.zhang@intel.com>
-Cc: Eduardo Valentin <edubezval@gmail.com>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-Signed-off-by: Lukasz Luba <l.luba@partner.samsung.com>
----
- drivers/thermal/thermal_sysfs.c | 53 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 51 insertions(+), 2 deletions(-)
+Hi Lukasz,
 
-diff --git a/drivers/thermal/thermal_sysfs.c b/drivers/thermal/thermal_sysfs.c
-index 2241cea..372b439 100644
---- a/drivers/thermal/thermal_sysfs.c
-+++ b/drivers/thermal/thermal_sysfs.c
-@@ -21,6 +21,8 @@
- 
- #include "thermal_core.h"
- 
-+#define TRIP_ATTR_NUM 4
-+
- /* sys I/F for thermal zone */
- 
- static ssize_t
-@@ -167,6 +169,28 @@ trip_point_temp_show(struct device *dev, struct device_attribute *attr,
- }
- 
- static ssize_t
-+trip_point_irq_mode_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
-+{
-+	struct thermal_zone_device *tz = to_thermal_zone(dev);
-+	int trip, ret;
-+	bool mode;
-+
-+	if (!tz->ops->get_trip_irq_mode)
-+		return -EPERM;
-+
-+	if (sscanf(attr->attr.name, "trip_point_%d_irq", &trip) != 1)
-+		return -EINVAL;
-+
-+	ret = tz->ops->get_trip_irq_mode(tz, trip, &mode);
-+
-+	if (ret)
-+		return ret;
-+
-+	return sprintf(buf, "%d\n", mode);
-+}
-+
-+static ssize_t
- trip_point_hyst_store(struct device *dev, struct device_attribute *attr,
- 		      const char *buf, size_t count)
- {
-@@ -520,10 +544,19 @@ static int create_trip_attrs(struct thermal_zone_device *tz, int mask)
- 	if (!tz->trip_type_attrs)
- 		return -ENOMEM;
- 
-+	tz->trip_irq_mode_attrs = kcalloc(tz->trips,
-+					  sizeof(*tz->trip_irq_mode_attrs),
-+					  GFP_KERNEL);
-+	if (!tz->trip_irq_mode_attrs) {
-+		kfree(tz->trip_type_attrs);
-+		return -ENOMEM;
-+	}
-+
- 	tz->trip_temp_attrs = kcalloc(tz->trips, sizeof(*tz->trip_temp_attrs),
- 				      GFP_KERNEL);
- 	if (!tz->trip_temp_attrs) {
- 		kfree(tz->trip_type_attrs);
-+		kfree(tz->trip_irq_mode_attrs);
- 		return -ENOMEM;
- 	}
- 
-@@ -533,14 +566,17 @@ static int create_trip_attrs(struct thermal_zone_device *tz, int mask)
- 					      GFP_KERNEL);
- 		if (!tz->trip_hyst_attrs) {
- 			kfree(tz->trip_type_attrs);
-+			kfree(tz->trip_irq_mode_attrs);
- 			kfree(tz->trip_temp_attrs);
- 			return -ENOMEM;
- 		}
- 	}
- 
--	attrs = kcalloc(tz->trips * 3 + 1, sizeof(*attrs), GFP_KERNEL);
-+	attrs = kcalloc(tz->trips * TRIP_ATTR_NUM + 1, sizeof(*attrs),
-+			GFP_KERNEL);
- 	if (!attrs) {
- 		kfree(tz->trip_type_attrs);
-+		kfree(tz->trip_irq_mode_attrs);
- 		kfree(tz->trip_temp_attrs);
- 		if (tz->ops->get_trip_hyst)
- 			kfree(tz->trip_hyst_attrs);
-@@ -559,6 +595,19 @@ static int create_trip_attrs(struct thermal_zone_device *tz, int mask)
- 		tz->trip_type_attrs[indx].attr.show = trip_point_type_show;
- 		attrs[indx] = &tz->trip_type_attrs[indx].attr.attr;
- 
-+		/* create trip irq_mode attribute */
-+		snprintf(tz->trip_irq_mode_attrs[indx].name,
-+			 THERMAL_NAME_LENGTH, "trip_point_%d_irq", indx);
-+
-+		sysfs_attr_init(&tz->trip_irq_mode_attrs[indx].attr.attr);
-+		tz->trip_irq_mode_attrs[indx].attr.attr.name =
-+			tz->trip_irq_mode_attrs[indx].name;
-+		tz->trip_irq_mode_attrs[indx].attr.attr.mode = S_IRUGO;
-+		tz->trip_irq_mode_attrs[indx].attr.show =
-+			trip_point_irq_mode_show;
-+		attrs[indx + tz->trips * 3] =
-+			&tz->trip_irq_mode_attrs[indx].attr.attr;
-+
- 		/* create trip temp attribute */
- 		snprintf(tz->trip_temp_attrs[indx].name, THERMAL_NAME_LENGTH,
- 			 "trip_point_%d_temp", indx);
-@@ -595,7 +644,7 @@ static int create_trip_attrs(struct thermal_zone_device *tz, int mask)
- 		attrs[indx + tz->trips * 2] =
- 					&tz->trip_hyst_attrs[indx].attr.attr;
- 	}
--	attrs[tz->trips * 3] = NULL;
-+	attrs[tz->trips * TRIP_ATTR_NUM] = NULL;
- 
- 	tz->trips_attribute_group.attrs = attrs;
- 
--- 
-2.7.4
+Thanks for patches.
 
+I did not receive the first patches in the series. It is okay (depends
+on the context) but in such case sending cover letter to all people is
+quite useful. It helps to understand the entire patchset. Since I did
+not get them, I really do not know:
+1. Whether DTS patches are independent?
+2. How this fits in the big picture of Exynos thermal?
+
+
+> This patch adds support for new flash which indicates
+
+What is "flash"?
+
+Please wrap your lines accordingly (75 characters like in
+submitting-patches.rst). Current wrapping makes it more difficult to
+read.
+
+> that trip point triggers irq when temperature is met.
+> Exynos5433 supports 8 trip point which will trigger irq.
+
+"Exynos5433 supports 8 trip points which trigger interrupt."
+(or IRQ but not irq)
+
+> Above that number other trip points should be registered
+> without 'irq-mode' flag.
+
+Why they should be registered without irq-mode?
+
+> That will force the thermal framework to start polling
+> the temperature sensor under configured conditions and
+> handle the trip point.
+
+How does it fit into existing polling mode?
+
+>
+> Cc: Kukjin Kim <kgene@kernel.org>
+> Cc: Krzysztof Kozlowski <krzk@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Lukasz Luba <l.luba@partner.samsung.com>
+> ---
+>  arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi | 105 ++++++++++++++++---------
+>  1 file changed, 70 insertions(+), 35 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
+> index fe3a0b1..c4330f6 100644
+> --- a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
+> +++ b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
+> @@ -17,37 +17,44 @@ thermal-zones {
+>                         atlas0_alert_0: atlas0-alert-0 {
+>                                 temperature = <65000>;  /* millicelsius */
+>                                 hysteresis = <1000>;    /* millicelsius */
+> -                               type = "active";
+> +                               type = "passive";
+
+Change of active->passive looks irrelevant to this topic. Here and
+everywhere else.
+
+Best regards,
+Krzysztof
