@@ -1,158 +1,248 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 569147D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 07:22:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 757207D08E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 08:34:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727111AbeJPPLy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Oct 2018 11:11:54 -0400
-Received: from mo-csw-fb1515.securemx.jp ([210.130.202.171]:41660 "EHLO
-        mo-csw-fb.securemx.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726649AbeJPPLy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Oct 2018 11:11:54 -0400
-X-Greylist: delayed 1187 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Oct 2018 11:11:52 EDT
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1515) id w9G7365c008685; Tue, 16 Oct 2018 16:03:06 +0900
-Received: by mo-csw.securemx.jp (mx-mo-csw1516) id w9G71371008034; Tue, 16 Oct 2018 16:01:03 +0900
-X-Iguazu-Qid: 34tKGYFtwQQ7xmLeB1
-X-Iguazu-QSIG: v=1; s=0; t=1539673262; q=34tKGYFtwQQ7xmLeB1; m=4J/ZlX1w0YOeXvs4ydgRQTJEBo3RFS8g/7eBaoUj94M=
-Received: from imx2.toshiba.co.jp (imx2.toshiba.co.jp [106.186.93.51])
-        by relay.securemx.jp (mx-mr1510) id w9G70tIC027429;
-        Tue, 16 Oct 2018 16:00:56 +0900
-Received: from hop001.toshiba.co.jp ([133.199.164.63])
-        by imx2.toshiba.co.jp  with ESMTP id w9G70tsi029592;
-        Tue, 16 Oct 2018 16:00:55 +0900 (JST)
-From:   Daniel Sangorrin <daniel.sangorrin@toshiba.co.jp>
-To:     stable@vger.kernel.org
-Cc:     Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        Brian Gerst <brgerst@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Denys Vlasenko <dvlasenk@redhat.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Quentin Casasnovas <quentin.casasnovas@oracle.com>,
-        Rik van Riel <riel@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Woodhouse <dwmw@amazon.co.uk>, Bo Gan <ganb@vmware.com>,
-        "Matt Helsley (VMware)" <matt.helsley@gmail.com>,
-        Borislav Petkov <bp@suse.de>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 4.4 4/4] x86/fpu: Finish excising 'eagerfpu'
-Date:   Tue, 16 Oct 2018 16:00:03 +0900
-X-TSB-HOP: ON
-Message-Id: <1539673203-21068-5-git-send-email-daniel.sangorrin@toshiba.co.jp>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1539673203-21068-1-git-send-email-daniel.sangorrin@toshiba.co.jp>
-References: <1539673203-21068-1-git-send-email-daniel.sangorrin@toshiba.co.jp>
+        id S1726539AbeJPQWJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Oct 2018 12:22:09 -0400
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:33364 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726165AbeJPQWJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Oct 2018 12:22:09 -0400
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+        by mx0b-0016f401.pphosted.com (8.16.0.23/8.16.0.23) with SMTP id w9G8Qlxi015624;
+        Tue, 16 Oct 2018 01:30:21 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=subject : to :
+ references : cc : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pfpt0818;
+ bh=DDD2iwOlPN6o1qlURtotGr6idqx4PzZvN1/JKDN3CTE=;
+ b=uCEc/iYiEORGZJujrBOcqTIsi39Gow0J58Oqs5NLZ0Q2pLcbDUWqQ0h9SSJoeTu8QnlI
+ /u6jP3+BzmDVMYc5RQQUBwhiUl9U6jb6JGlL+Mi7gAD0xgfofZbrO1iM7NZqtjWjt7nt
+ Kr8ZujZ6aMvvhMr42VemdE7G4CbQKUNQQHfM5N8RsV/0Hq8W4MZp8mJSWc2KpISPacm4
+ BGpCBdBFlVXCg2JtICrv2J8XmYsalz4q7cLbY9REkqpgpVahbxjcFagwCNVdxhuDtWX2
+ l6tkuBkHkkyATLeWTJ/YbbHvSh/Wqfc6J6gOh4MCc03YClTot1Q8A8Gu4HxFrkL7458u pA== 
+Received: from sc-exch04.marvell.com ([199.233.58.184])
+        by mx0b-0016f401.pphosted.com with ESMTP id 2n5cfvr0bu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 16 Oct 2018 01:30:21 -0700
+Received: from IL-EXCH03.marvell.com (10.5.102.220) by SC-EXCH04.marvell.com
+ (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1210.3; Tue, 16 Oct
+ 2018 01:30:19 -0700
+Received: from SC-EXCH01.marvell.com (10.93.176.81) by IL-EXCH03.marvell.com
+ (10.5.102.220) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Tue, 16 Oct
+ 2018 11:30:16 +0300
+Received: from maili.marvell.com (10.93.176.43) by SC-EXCH01.marvell.com
+ (10.93.176.81) with Microsoft SMTP Server id 15.0.1210.3 via Frontend
+ Transport; Tue, 16 Oct 2018 01:30:15 -0700
+Received: from [10.4.50.2] (unknown [10.4.50.2])
+        by maili.marvell.com (Postfix) with ESMTP id 6A22E3F7052;
+        Tue, 16 Oct 2018 01:30:11 -0700 (PDT)
+Subject: Re: [PATCH 2/4] iommu/arm-smmu: Workaround for Marvell Armada-AP806
+ SoC erratum #582743
+To:     Robin Murphy <robin.murphy@arm.com>, <catalin.marinas@arm.com>,
+        <will.deacon@arm.com>, <corbet@lwn.net>, <joro@8bytes.org>,
+        <robh+dt@kernel.org>, <gregory.clement@bootlin.com>,
+        <mark.rutland@arm.com>, <jason@lakedaemon.net>, <andrew@lunn.ch>,
+        <sebastian.hesselbarth@gmail.com>
+References: <1539604846-21151-1-git-send-email-hannah@marvell.com>
+ <1539604846-21151-3-git-send-email-hannah@marvell.com>
+ <8a7eefcf-6a77-8dc1-2ce9-9bb7395a3bb7@arm.com>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <iommu@lists.linux-foundation.org>, <devicetree@vger.kernel.org>,
+        <thomas.petazzoni@bootlin.com>, <nadavh@marvell.com>,
+        <omrii@marvell.com>, <nd@arm.com>
+From:   Hanna Hawa <hannah@marvell.com>
+Message-ID: <2e4f2b02-4b02-877d-1f51-c617170398a6@marvell.com>
+Date:   Tue, 16 Oct 2018 11:25:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <8a7eefcf-6a77-8dc1-2ce9-9bb7395a3bb7@arm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-16_05:,,
+ signatures=0
+X-Proofpoint-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1810160075
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Andy Lutomirski <luto@kernel.org>
+Hi Robin,
 
-commit e63650840e8b053aa09ad934877e87e9941ed135 upstream.
 
-Now that eagerfpu= is gone, remove it from the docs and some
-comments.  Also sync the changes to tools/.
+On 10/15/2018 04:00 PM, Robin Murphy wrote:
+> Hi Hanna,
+>
+> On 15/10/18 13:00, hannah@marvell.com wrote:
+>> From: Hanna Hawa <hannah@marvell.com>
+>>
+>> Due to erratum #582743, the Marvell Armada-AP806 can't access 64bit
+>> to ARM SMMUv2 registers.
+>> This patch split the writeq/readq to two accesses of writel/readl.
+>>
+>> Note that separate writes/reads to 2 is not problem regards to atomicity,
+>> because the driver use the readq/writeq while initialize the SMMU, report
+>> for SMMU fault, and use spinlock in one case (iova_to_phys).
+>
+> In general, this doesn't work. Here's what the SMMU spec says about
+> SMMU_CBn_TLBIVA, but others are similar:
+>
+> "If SMMU_CBA2Rn.VA64 is one, then AArch64 format is selected. The
+> programmer should use 64 bit accesses to this register. If 32-bit
+> accesses are used then writes to the top 32 bits are ignored and writes
+> to the lower 32 bits are zero extended."
+>
+> If your interconnect won't let 64-bit transactions through, then you
+> can't use AArch64 format at stage 1 at all, since there's no way to
+> invalidate entries with the correct ASID, and you'll have to restrict
+> stage 2 formats to at most 44-bit IOVAs in order for TLBIIPAS2{L} not to
+> invalidate the wrong thing.
+Thanks for your suggestion.
 
-Signed-off-by: Andy Lutomirski <luto@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Brian Gerst <brgerst@gmail.com>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Denys Vlasenko <dvlasenk@redhat.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>
-Cc: H. Peter Anvin <hpa@zytor.com>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Quentin Casasnovas <quentin.casasnovas@oracle.com>
-Cc: Rik van Riel <riel@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Link: http://lkml.kernel.org/r/cf430dd4481d41280e93ac6cf0def1007a67fc8e.1476740397.git.luto@kernel.org
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Daniel Sangorrin <daniel.sangorrin@toshiba.co.jp>
----
- Documentation/kernel-parameters.txt |  5 -----
- arch/x86/include/asm/cpufeatures.h  |  1 -
- arch/x86/include/asm/fpu/types.h    | 23 -----------------------
- 3 files changed, 29 deletions(-)
+To restrict the IOVAs i need to add another work-around to the driver to 
+limit the va_size, is that acceptable?
 
-diff --git a/Documentation/kernel-parameters.txt b/Documentation/kernel-parameters.txt
-index 3fd53e1..da515c5 100644
---- a/Documentation/kernel-parameters.txt
-+++ b/Documentation/kernel-parameters.txt
-@@ -961,11 +961,6 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
- 			See Documentation/x86/intel_mpx.txt for more
- 			information about the feature.
- 
--	eagerfpu=	[X86]
--			on	enable eager fpu restore
--			off	disable eager fpu restore
--			auto	selects the default scheme, which automatically
--				enables eagerfpu restore for xsaveopt.
- 
- 	module.async_probe [KNL]
- 			Enable asynchronous probe on this module.
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index dd2269dc..a5fa319 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -104,7 +104,6 @@
- #define X86_FEATURE_EXTD_APICID	( 3*32+26) /* has extended APICID (8 bits) */
- #define X86_FEATURE_AMD_DCM     ( 3*32+27) /* multi-node processor */
- #define X86_FEATURE_APERFMPERF	( 3*32+28) /* APERFMPERF */
--/* free, was #define X86_FEATURE_EAGER_FPU	( 3*32+29) * "eagerfpu" Non lazy FPU restore */
- #define X86_FEATURE_NONSTOP_TSC_S3 ( 3*32+30) /* TSC doesn't stop in S3 state */
- 
- /* Intel-defined CPU features, CPUID level 0x00000001 (ecx), word 4 */
-diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
-index dcb85a9..0d81c7d 100644
---- a/arch/x86/include/asm/fpu/types.h
-+++ b/arch/x86/include/asm/fpu/types.h
-@@ -310,29 +310,6 @@ struct fpu {
- 	 * the registers in the FPU are more recent than this state
- 	 * copy. If the task context-switches away then they get
- 	 * saved here and represent the FPU state.
--	 *
--	 * After context switches there may be a (short) time period
--	 * during which the in-FPU hardware registers are unchanged
--	 * and still perfectly match this state, if the tasks
--	 * scheduled afterwards are not using the FPU.
--	 *
--	 * This is the 'lazy restore' window of optimization, which
--	 * we track though 'fpu_fpregs_owner_ctx' and 'fpu->last_cpu'.
--	 *
--	 * We detect whether a subsequent task uses the FPU via setting
--	 * CR0::TS to 1, which causes any FPU use to raise a #NM fault.
--	 *
--	 * During this window, if the task gets scheduled again, we
--	 * might be able to skip having to do a restore from this
--	 * memory buffer to the hardware registers - at the cost of
--	 * incurring the overhead of #NM fault traps.
--	 *
--	 * Note that on modern CPUs that support the XSAVEOPT (or other
--	 * optimized XSAVE instructions), we don't use #NM traps anymore,
--	 * as the hardware can track whether FPU registers need saving
--	 * or not. On such CPUs we activate the non-lazy ('eagerfpu')
--	 * logic, which unconditionally saves/restores all FPU state
--	 * across context switches. (if FPU state exists.)
- 	 */
- 	union fpregs_state		state;
- 	/*
--- 
-2.7.4
+What the different in the driver between AARCH32_L & AARCH32_S?
 
+>
+>> Signed-off-by: Hanna Hawa <hannah@marvell.com>
+>> ---
+>>   Documentation/arm64/silicon-errata.txt |  2 ++
+>>   drivers/iommu/arm-smmu.c               | 33
+>> +++++++++++++++++++++++++++++----
+>>   2 files changed, 31 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/arm64/silicon-errata.txt
+>> b/Documentation/arm64/silicon-errata.txt
+>> index 3b2f2dd..fc3f2a0 100644
+>> --- a/Documentation/arm64/silicon-errata.txt
+>> +++ b/Documentation/arm64/silicon-errata.txt
+>> @@ -67,6 +67,8 @@ stable kernels.
+>>   | Cavium         | ThunderX2 SMMUv3| #74             |
+>> N/A                         |
+>>   | Cavium         | ThunderX2 SMMUv3| #126            |
+>> N/A                         |
+>>   |                |                 |
+>> |                             |
+>> +| Marvell        | ARM-MMU-500     | #582743         |
+>> N/A                         |
+>> +|                |                 |
+>> |                             |
+>
+> Nit: the convention here seems to be at least alphabetically sorted by
+> Implementer.
+>
+>>   | Freescale/NXP  | LS2080A/LS1043A | A-008585        |
+>> FSL_ERRATUM_A008585         |
+>>   |                |                 |
+>> |                             |
+>>   | Hisilicon      | Hip0{5,6,7}     | #161010101      |
+>> HISILICON_ERRATUM_161010101 |
+>> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+>> index fccb1d4..d64f892 100644
+>> --- a/drivers/iommu/arm-smmu.c
+>> +++ b/drivers/iommu/arm-smmu.c
+>> @@ -119,6 +119,7 @@ enum arm_smmu_arch_version {
+>>   enum arm_smmu_implementation {
+>>       GENERIC_SMMU,
+>>       ARM_MMU500,
+>> +    MRVL_MMU500,
+>
+> Is there any actually modification to the MMU-500 RTL itself here, or is
+> the problem just in the interconnect in front of the SMMU programming
+> interface? I would normally assume the latter, in which case treating it
+> as a separate implementation isn't really accurate, and I'd much rather
+> handle any workaround via smmu->options, just like the secure access
+> workaround (which is a similar integration issue).
+No actual modification to the RTL, i'll use the smmu->option
+Thanks for your review & suggestions.
+
+Hanna
+>
+> Robin.
+>
+>>       CAVIUM_SMMUV2,
+>>   };
+>>   @@ -276,13 +277,35 @@ static inline void smmu_writeq_relaxed(struct
+>> arm_smmu_device *smmu,
+>>                          u64 val,
+>>                          void __iomem *addr)
+>>   {
+>> -    writeq_relaxed(val, addr);
+>> +    /*
+>> +     * Marvell Armada-AP806 erratum #582743.
+>> +     * Split all the writeq to double writel
+>> +     */
+>> +    if (smmu->model != MRVL_MMU500) {
+>> +        writeq_relaxed(val, addr);
+>> +        return;
+>> +    }
+>> +
+>> +    writel_relaxed(upper_32_bits(val), addr + 4);
+>> +    writel_relaxed(lower_32_bits(val), addr);
+>>   }
+>>     static inline u64 smmu_readq_relaxed(struct arm_smmu_device *smmu,
+>>                        void __iomem *addr)
+>>   {
+>> -    return readq_relaxed(addr);
+>> +    u64 val;
+>> +
+>> +    /*
+>> +     * Marvell Armada-AP806 erratum #582743.
+>> +     * Split all the readq to double readl
+>> +     */
+>> +    if (smmu->model != MRVL_MMU500)
+>> +        return readq_relaxed(addr);
+>> +
+>> +    val = (u64)readl_relaxed(addr + 4) << 32;
+>> +    val |= readl_relaxed(addr);
+>> +
+>> +    return val;
+>>   }
+>>     static void parse_driver_options(struct arm_smmu_device *smmu)
+>> @@ -1611,7 +1634,7 @@ static void arm_smmu_device_reset(struct
+>> arm_smmu_device *smmu)
+>>       for (i = 0; i < smmu->num_mapping_groups; ++i)
+>>           arm_smmu_write_sme(smmu, i);
+>>   -    if (smmu->model == ARM_MMU500) {
+>> +    if (smmu->model == ARM_MMU500 || smmu->model == MRVL_MMU500) {
+>>           /*
+>>            * Before clearing ARM_MMU500_ACTLR_CPRE, need to
+>>            * clear CACHE_LOCK bit of ACR first. And, CACHE_LOCK
+>> @@ -1640,7 +1663,7 @@ static void arm_smmu_device_reset(struct
+>> arm_smmu_device *smmu)
+>>            * Disable MMU-500's not-particularly-beneficial next-page
+>>            * prefetcher for the sake of errata #841119 and #826419.
+>>            */
+>> -        if (smmu->model == ARM_MMU500) {
+>> +        if (smmu->model == ARM_MMU500 || smmu->model == MRVL_MMU500) {
+>>               reg = readl_relaxed(cb_base + ARM_SMMU_CB_ACTLR);
+>>               reg &= ~ARM_MMU500_ACTLR_CPRE;
+>>               writel_relaxed(reg, cb_base + ARM_SMMU_CB_ACTLR);
+>> @@ -1923,6 +1946,7 @@ struct arm_smmu_match_data {
+>>   ARM_SMMU_MATCH_DATA(smmu_generic_v2, ARM_SMMU_V2, GENERIC_SMMU);
+>>   ARM_SMMU_MATCH_DATA(arm_mmu401, ARM_SMMU_V1_64K, GENERIC_SMMU);
+>>   ARM_SMMU_MATCH_DATA(arm_mmu500, ARM_SMMU_V2, ARM_MMU500);
+>> +ARM_SMMU_MATCH_DATA(mrvl_mmu500, ARM_SMMU_V2, MRVL_MMU500);
+>>   ARM_SMMU_MATCH_DATA(cavium_smmuv2, ARM_SMMU_V2, CAVIUM_SMMUV2);
+>>     static const struct of_device_id arm_smmu_of_match[] = {
+>> @@ -1931,6 +1955,7 @@ struct arm_smmu_match_data {
+>>       { .compatible = "arm,mmu-400", .data = &smmu_generic_v1 },
+>>       { .compatible = "arm,mmu-401", .data = &arm_mmu401 },
+>>       { .compatible = "arm,mmu-500", .data = &arm_mmu500 },
+>> +    { .compatible = "marvell,mmu-500", .data = &mrvl_mmu500 },
+>>       { .compatible = "cavium,smmu-v2", .data = &cavium_smmuv2 },
+>>       { },
+>>   };
+>>
