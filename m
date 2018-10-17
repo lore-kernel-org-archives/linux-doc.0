@@ -1,251 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD6147D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 18:15:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 721867D088
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 20:25:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727082AbeJRCMC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Oct 2018 22:12:02 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35976 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727517AbeJRCMC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Oct 2018 22:12:02 -0400
-Received: by mail-pg1-f196.google.com with SMTP id f18-v6so12927434pgv.3
-        for <linux-doc@vger.kernel.org>; Wed, 17 Oct 2018 11:15:10 -0700 (PDT)
+        id S1726133AbeJREXF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 00:23:05 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:45551 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726334AbeJREXF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 00:23:05 -0400
+Received: by mail-vs1-f66.google.com with SMTP id g201so21618285vsd.12
+        for <linux-doc@vger.kernel.org>; Wed, 17 Oct 2018 13:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=A7OJafXuKzsXTZzW6/O4gfzp5OBBpfMXcMHu0ZInyAk=;
-        b=OjAkm+W4qr0DDf+Qt8RsTW1ixNV7FLts7WpRrm5nFdAl1lUvAz8h+x7GsBs7Avg21h
-         lC4asn/fs4BGYX6p05FT7w32F5eb9buXVnZnFq7vRmhKtiqCq+NgalEZyIOAkIjqkmx0
-         4DtdhWCtI3jpbbeDputVlmqRaX1xBENFSZoeA=
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Pr6NILnK9XPPFR1l7yWWQR1rB4C+P+FS3n0AEKO7BDc=;
+        b=jFTSmNWcTSIZZDas/tokxDkKeXwVqvdP8rJM+77xs9AZTjaexvX2dUIPs4xLjjDKSh
+         +AX49Tw5r5ZMagEjB+V1pfcaOmg6w3YkqkQBLEdmYe4d2FLS+GJIOijnGYVNW4ZZN9IH
+         D5/on1OvnJNyMlxm/whqMRxocDIYosAk7twGiO5umyoKuNbWwvWCZX+pp4hFO0Qngwd7
+         XiTus8y3yRkeJfOEbw0sivgKk4taWzRfcy2c3xSwlgYHuXTyvM2m9+30YrG7K7/wdu8P
+         PnQDiHV8yTFHJig2dpbV0uzA2UEosH7yC30zsllsNGmYHp1pwnjuLsBDbttR6+kvNVs6
+         sTaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=A7OJafXuKzsXTZzW6/O4gfzp5OBBpfMXcMHu0ZInyAk=;
-        b=LRfIa2DNK+rhKYper32M7kbSfzLpVdzeoPZB0HN1GWgFn/QyA/7wvoiVXYyzykW3sK
-         wpYiNTc3AjHFQjDaqnk76D1fM8z4MV9yFEBZMia50O5DpQ/WWXxbl0yhG4pIUv5jGTBZ
-         tDefJu7Z6UwXea1xXyTgiN8RvmcNtf6MIDTKFI42DUALBRgvrUPh+d8So2u2s7HnROZ3
-         UdZbD2DChI0BbGs16Zikil86yn9VvudgLwenBwmoGl7+coxItq/ZK0psKJd73Vqz7ZqX
-         HXGNu3X7ivpgmmlgw2DVLxm9SbDEd8Zx4gUmU68P2F1ESegfKw+uCEwBo7oOR5UISNPl
-         dhiw==
-X-Gm-Message-State: ABuFfogtcRSFjLS1R29h+BRC2iR4FgAcZ3BFZG+bycjomSSVsUz7hd+K
-        MJtqWqQ0iZeRyPhWqkXEdfSl6Q==
-X-Google-Smtp-Source: ACcGV63SCzNut/2NgqHahgHkxnjAdkwW75SN0qHdEaO4z/kuLdgaGgyTrh2Cp/hnAJE0UiE/BqSvyQ==
-X-Received: by 2002:a63:415:: with SMTP id 21-v6mr3370560pge.204.1539800109428;
-        Wed, 17 Oct 2018 11:15:09 -0700 (PDT)
-Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id k70-v6sm22988572pfc.76.2018.10.17.11.15.06
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 17 Oct 2018 11:15:06 -0700 (PDT)
-Date:   Wed, 17 Oct 2018 11:15:05 -0700
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Nikolay Borisov <nborisov@suse.com>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
- disabling preemption
-Message-ID: <20181017181505.GC107185@joelaf.mtv.corp.google.com>
-References: <20181015024758.GA227989@joelaf.mtv.corp.google.com>
- <5151da01-343b-bb37-353e-b6652ae530f5@suse.com>
- <20181015112112.GT2674@linux.ibm.com>
- <20181015193951.GA33528@joelaf.mtv.corp.google.com>
- <20181015195426.GD2674@linux.ibm.com>
- <20181015201556.GA43575@joelaf.mtv.corp.google.com>
- <20181015210856.GE2674@linux.ibm.com>
- <20181016112611.GA27405@linux.ibm.com>
- <20181016204122.GA8176@joelaf.mtv.corp.google.com>
- <20181017161100.GP2674@linux.ibm.com>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Pr6NILnK9XPPFR1l7yWWQR1rB4C+P+FS3n0AEKO7BDc=;
+        b=PHHgD13NpotLb0g9jGxiOYZ2B1njex9Uxd4ZpWw8la8BADrg2x7F3Md/lhW7I0TeCy
+         6GD6bPmQGhFDM5uuXTZ4F0zmS/qgqDfL0kkzTJHvy9Tp6R/dd3PGxrYDpV0cjKZl9GHf
+         vMThpwebDxcLHPUcujE8+qawapVPGy/88Thjd0OLtMsFmeFkkWCFC4VwNl5GBtSLEQof
+         N9Q6Lt4c3hOLRnXPoAiOz00qkToVGppv2SJ627fVP2HtpJjUllDBmccrKySyYv9figYD
+         pCFaTfNyopTks2XcGn99xnEv+iqCMgdZbrYA6UhqG9qppmB5YIy2ZIm3TkaDkx9QCtcn
+         +cAg==
+X-Gm-Message-State: ABuFfoj5u+Lbhd00EKCh6L+kdTARVN4TAppky1heyJGgobw9K5qUe24D
+        KwA35lsYRNH3gHYSyHzb+J5OJWCk4lnrDGwAXsOd0A==
+X-Google-Smtp-Source: ACcGV614G6SFgmx8peyJRntxyx0NM+UT3dhzKzJPGVvfnII3gg0iB/VlFcXvwMUg6OOQdlMUR6C1eojNh45/NWxdfTA=
+X-Received: by 2002:a67:3f94:: with SMTP id q20mr11298747vsi.1.1539807942636;
+ Wed, 17 Oct 2018 13:25:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181017161100.GP2674@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a1f:c284:0:0:0:0:0 with HTTP; Wed, 17 Oct 2018 13:25:42
+ -0700 (PDT)
+In-Reply-To: <CAAeHK+yEZTLjgSj8YUzeJec9Pp2TwuLT5nCa1OpfBLXJkx_hhg@mail.gmail.com>
+References: <cover.1538485901.git.andreyknvl@google.com> <be684ce5-92fd-e970-b002-83452cf50abd@arm.com>
+ <CAAeHK+yEZTLjgSj8YUzeJec9Pp2TwuLT5nCa1OpfBLXJkx_hhg@mail.gmail.com>
+From:   Evgenii Stepanov <eugenis@google.com>
+Date:   Wed, 17 Oct 2018 13:25:42 -0700
+Message-ID: <CAFKCwrh4-BvFB_R1J0LWcbfeR=d02OazowFuMU+hmq8Y=Dx+4w@mail.gmail.com>
+Subject: Re: [PATCH v7 0/8] arm64: untag user pointers passed to the kernel
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 17, 2018 at 09:11:00AM -0700, Paul E. McKenney wrote:
-> On Tue, Oct 16, 2018 at 01:41:22PM -0700, Joel Fernandes wrote:
-> > On Tue, Oct 16, 2018 at 04:26:11AM -0700, Paul E. McKenney wrote:
-> > > On Mon, Oct 15, 2018 at 02:08:56PM -0700, Paul E. McKenney wrote:
-> > > > On Mon, Oct 15, 2018 at 01:15:56PM -0700, Joel Fernandes wrote:
-> > > > > On Mon, Oct 15, 2018 at 12:54:26PM -0700, Paul E. McKenney wrote:
-> > > > > [...]
-> > > > > > > > In any case, please don't spin for milliseconds with preemption disabled.
-> > > > > > > > The real-time guys are unlikely to be happy with you if you do this!
-> > > > > > > 
-> > > > > > > Well just to clarify, I was just running Oleg's test which did this. This
-> > > > > > > test was mentioned in the original documentation that I deleted. Ofcourse I
-> > > > > > > would not dare do such a thing in production code :-D. I guess to Oleg's
-> > > > > > > defense, he did it to very that synchronize_rcu() was not blocked on
-> > > > > > > preempt-disable sections which was a different test.
-> > > > > > 
-> > > > > > Understood!  Just pointing out that RCU's tolerating a given action does
-> > > > > > not necessarily mean that it is a good idea to take that action.  ;-)
-> > > > > 
-> > > > > Makes sense :-) thanks.
-> > > > 
-> > > > Don't worry, that won't happen again.  ;-)
-> > > > 
-> > > > > > > > > > +		pr_crit("SPIN done!\n");
-> > > > > > > > > > +		preempt_enable();
-> > > > > > > > > > +		break;
-> > > > > > > > > > +	case 777:
-> > > > > > > > > > +		pr_crit("SYNC start\n");
-> > > > > > > > > > +		synchronize_rcu();
-> > > > > > > > > > +		pr_crit("SYNC done!\n");
-> > > > > > > > > 
-> > > > > > > > > But you are using the console printing infrastructure which is rather
-> > > > > > > > > heavyweight. Try replacing pr_* calls with trace_printk so that you
-> > > > > > > > > write to the lock-free ring buffer, this will reduce the noise from the
-> > > > > > > > > heavy console printing infrastructure.
-> > > > > > > > 
-> > > > > > > > And this might be a problem as well.
-> > > > > > > 
-> > > > > > > This was not the issue (or atleast not fully the issue) since I saw the same
-> > > > > > > thing with trace_printk. It was exactly what you said - which is the
-> > > > > > > excessively long preempt disabled times.
-> > > > > > 
-> > > > > > One approach would be to apply this patch against (say) v4.18, which
-> > > > > > does not have consolidated grace periods.  You might then be able to
-> > > > > > tell if the pr_crit() calls make any difference.
-> > > > > 
-> > > > > I could do that, yeah. But since the original problem went away due to
-> > > > > disabling preempts for a short while, I will move on and continue to focus on
-> > > > > updating other parts of the documenation. Just to mention I
-> > > > > brought this up because I thought its better to do that than not to, just
-> > > > > incase there is any lurking issue with the consolidation. Sorry if that ended
-> > > > > up with me being noisy.
-> > > > 
-> > > > Not a problem, no need to apologize!
-> > > 
-> > > Besides, digging through the code did point out a reasonable optimization.
-> > > In the common case, this would buy 100s of microseconds rather than
-> > > milliseconds, but it seems simple enough to be worthwhile.  Thoughts?
-> > 
-> > Cool, thanks. One comment below:
-> > 
-> > > ------------------------------------------------------------------------
-> > > 
-> > > commit 07921e8720907f58f82b142f2027fc56d5abdbfd
-> > > Author: Paul E. McKenney <paulmck@linux.ibm.com>
-> > > Date:   Tue Oct 16 04:12:58 2018 -0700
-> > > 
-> > >     rcu: Speed up expedited GPs when interrupting RCU reader
-> > >     
-> > >     In PREEMPT kernels, an expedited grace period might send an IPI to a
-> > >     CPU that is executing an RCU read-side critical section.  In that case,
-> > >     it would be nice if the rcu_read_unlock() directly interacted with the
-> > >     RCU core code to immediately report the quiescent state.  And this does
-> > >     happen in the case where the reader has been preempted.  But it would
-> > >     also be a nice performance optimization if immediate reporting also
-> > >     happened in the preemption-free case.
-> > >     
-> > >     This commit therefore adds an ->exp_hint field to the task_struct structure's
-> > >     ->rcu_read_unlock_special field.  The IPI handler sets this hint when
-> > >     it has interrupted an RCU read-side critical section, and this causes
-> > >     the outermost rcu_read_unlock() call to invoke rcu_read_unlock_special(),
-> > >     which, if preemption is enabled, reports the quiescent state immediately.
-> > >     If preemption is disabled, then the report is required to be deferred
-> > >     until preemption (or bottom halves or interrupts or whatever) is re-enabled.
-> > >     
-> > >     Because this is a hint, it does nothing for more complicated cases.  For
-> > >     example, if the IPI interrupts an RCU reader, but interrupts are disabled
-> > >     across the rcu_read_unlock(), but another rcu_read_lock() is executed
-> > >     before interrupts are re-enabled, the hint will already have been cleared.
-> > >     If you do crazy things like this, reporting will be deferred until some
-> > >     later RCU_SOFTIRQ handler, context switch, cond_resched(), or similar.
-> > >     
-> > >     Reported-by: Joel Fernandes <joel@joelfernandes.org>
-> > >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-> > > 
-> > > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > > index 004ca21f7e80..64ce751b5fe9 100644
-> > > --- a/include/linux/sched.h
-> > > +++ b/include/linux/sched.h
-> > > @@ -571,8 +571,10 @@ union rcu_special {
-> > >  	struct {
-> > >  		u8			blocked;
-> > >  		u8			need_qs;
-> > > +		u8			exp_hint; /* Hint for performance. */
-> > > +		u8			pad; /* No garbage from compiler! */
-> > >  	} b; /* Bits. */
-> > > -	u16 s; /* Set of bits. */
-> > > +	u32 s; /* Set of bits. */
-> > >  };
-> > >  
-> > >  enum perf_event_task_context {
-> > > diff --git a/kernel/rcu/tree_exp.h b/kernel/rcu/tree_exp.h
-> > > index e669ccf3751b..928fe5893a57 100644
-> > > --- a/kernel/rcu/tree_exp.h
-> > > +++ b/kernel/rcu/tree_exp.h
-> > > @@ -692,8 +692,10 @@ static void sync_rcu_exp_handler(void *unused)
-> > >  	 */
-> > >  	if (t->rcu_read_lock_nesting > 0) {
-> > >  		raw_spin_lock_irqsave_rcu_node(rnp, flags);
-> > > -		if (rnp->expmask & rdp->grpmask)
-> > > +		if (rnp->expmask & rdp->grpmask) {
-> > >  			rdp->deferred_qs = true;
-> > > +			WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, true);
-> > > +		}
-> > >  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
-> > >  	}
-> > >  
-> > > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
-> > > index 8b48bb7c224c..d6286eb6e77e 100644
-> > > --- a/kernel/rcu/tree_plugin.h
-> > > +++ b/kernel/rcu/tree_plugin.h
-> > > @@ -643,8 +643,9 @@ static void rcu_read_unlock_special(struct task_struct *t)
-> > >  	local_irq_save(flags);
-> > >  	irqs_were_disabled = irqs_disabled_flags(flags);
-> > >  	if ((preempt_bh_were_disabled || irqs_were_disabled) &&
-> > > -	    t->rcu_read_unlock_special.b.blocked) {
-> > > +	    t->rcu_read_unlock_special.s) {
-> > >  		/* Need to defer quiescent state until everything is enabled. */
-> > > +		WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
-> > >  		raise_softirq_irqoff(RCU_SOFTIRQ);
-> > 
-> > Still going through this patch, but it seems to me like the fact that
-> > rcu_read_unlock_special is called means someone has requested for a grace
-> > period. Then in that case, does it not make sense to raise the softirq
-> > for processing anyway?
-> 
-> Not necessarily.  Another reason that rcu_read_unlock_special() might
-> be called is if the RCU read-side critical section had been preempted,
-> in which case there might not even be a grace period in progress.
+On Wed, Oct 17, 2018 at 7:20 AM, Andrey Konovalov <andreyknvl@google.com> w=
+rote:
+> On Wed, Oct 17, 2018 at 4:06 PM, Vincenzo Frascino
+> <vincenzo.frascino@arm.com> wrote:
+>> Hi Andrey,
+>> I have been thinking a bit lately on how to address the problem of user =
+tagged pointers passed to the kernel through syscalls, and IMHO probably th=
+e best way we have to catch them all and make sure that the approach is mai=
+ntainable in the long term is to introduce shims that tag/untag the pointer=
+s passed to the kernel.
+>>
+>> In details, what I am proposing can live either in userspace (preferred =
+solution so that we do not have to relax the ABI) or in kernel space and ca=
+n be summarized as follows:
+>>  - A shim is specific to a syscall and is called by the libc when it nee=
+ds to invoke the respective syscall.
+>>  - It is required only if the syscall accepts pointers.
+>>  - It saves the tags of a pointers passed to the syscall in memory (same=
+ approach if the we are passing a struct that contains pointers to the kern=
+el, with the difference that all the tags of the pointers in the struct nee=
+d to be saved singularly)
+>>  - Untags the pointers
+>>  - Invokes the syscall
+>>  - Retags the pointers with the tags stored in memory
+>>  - Returns
+>>
+>> What do you think?
+>
+> Hi Vincenzo,
+>
+> If I correctly understand what you are proposing, I'm not sure if that
+> would work with the countless number of different ioctl calls. For
+> example when an ioctl accepts a struct with a bunch of pointer fields.
+> In this case a shim like the one you propose can't live in userspace,
+> since libc doesn't know about the interface of all ioctls, so it can't
+> know which fields to untag. The kernel knows about those interfaces
+> (since the kernel implements them), but then we would need a custom
+> shim for each ioctl variation, which doesn't seem practical.
 
-Yes true, it was at the back of my head ;) It needs to remove itself from the
-blocked lists on the unlock. And ofcourse the preemption case is alsoo
-clearly mentioned in this function's comments. (slaps self).
-
-> In addition, if interrupts, bottom halves, and preemption are all enabled,
-> the code in rcu_preempt_deferred_qs_irqrestore() doesn't need to bother
-> raising softirq, as it can instead just immediately report the quiescent
-> state.
-
-Makes sense. I will go through these code paths more today. Thank you for the
-explanations!
-
-I think something like need_exp_qs instead of 'exp_hint' may be more
-descriptive?
-
-Otherwise,
-Reviewed-by: Joel Fernandes <joel@joelfernandes.org>
-
-thanks,
-
- - Joel
-
+The current patchset handles majority of pointers in a just a few
+common places, like copy_from_user. Userspace shims will need to untag
+& retag all pointer arguments - we are looking at hundreds if not
+thousands of shims. They will also be located in a different code base
+from the syscall / ioctl implementations, which would make them
+impossible to keep up to date.
