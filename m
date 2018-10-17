@@ -1,141 +1,251 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8DBA67D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 17:09:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD6147D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 18:15:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727539AbeJRBFh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Oct 2018 21:05:37 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:55716 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727332AbeJRBFh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Oct 2018 21:05:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=cnqrxNVi8U9hCXQV081RSmpPpwbl6DRe7xEs2k9UVjo=; b=qsDzS7XOx2FPRx7ltEcC1qmyW7
-        hMjf6GwhxmEGlQAEI5yNTFWEYvyQ73ZBlk7+ZUC6c8SrtaUG3gaVNMvYMqmaA8cbfgijbLXotG7kI
-        loR0QDMepRM1YXpnBY9CeV2WxRiX2Op12vQTBsgEvUwzCK3SSFcX23WSycaxTA7wITi9rX/gjfXSN
-        vZYq/Xvwf9ltCXg2nfHbJzZ8PTm0H1cpC2P/T2z+z4CE/GCLnFBZesFgnC8RRv9xzZIuElt2LDdSq
-        H5T7GKxrpnbM6MQ1NYi8H6xIjAUgpqVqPo3DKrW5SMrGN+1waaxNgXd1NQlJhSu6cV7OLdgLnbpcs
-        nnWFKjjA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gCpJY-0003BU-4X; Wed, 17 Oct 2018 17:08:56 +0000
-Subject: Re: [PATCH] docs: Introduce deprecated APIs list
-To:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20181017021708.GA22211@beast>
- <aed0041d-7c28-4dfb-91b5-fc83174d8744@infradead.org>
- <875zy0ki3r.fsf@intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <70d6b61f-25af-f903-0693-46e649c08aff@infradead.org>
-Date:   Wed, 17 Oct 2018 10:08:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1727082AbeJRCMC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Oct 2018 22:12:02 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35976 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727517AbeJRCMC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Oct 2018 22:12:02 -0400
+Received: by mail-pg1-f196.google.com with SMTP id f18-v6so12927434pgv.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Oct 2018 11:15:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=A7OJafXuKzsXTZzW6/O4gfzp5OBBpfMXcMHu0ZInyAk=;
+        b=OjAkm+W4qr0DDf+Qt8RsTW1ixNV7FLts7WpRrm5nFdAl1lUvAz8h+x7GsBs7Avg21h
+         lC4asn/fs4BGYX6p05FT7w32F5eb9buXVnZnFq7vRmhKtiqCq+NgalEZyIOAkIjqkmx0
+         4DtdhWCtI3jpbbeDputVlmqRaX1xBENFSZoeA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=A7OJafXuKzsXTZzW6/O4gfzp5OBBpfMXcMHu0ZInyAk=;
+        b=LRfIa2DNK+rhKYper32M7kbSfzLpVdzeoPZB0HN1GWgFn/QyA/7wvoiVXYyzykW3sK
+         wpYiNTc3AjHFQjDaqnk76D1fM8z4MV9yFEBZMia50O5DpQ/WWXxbl0yhG4pIUv5jGTBZ
+         tDefJu7Z6UwXea1xXyTgiN8RvmcNtf6MIDTKFI42DUALBRgvrUPh+d8So2u2s7HnROZ3
+         UdZbD2DChI0BbGs16Zikil86yn9VvudgLwenBwmoGl7+coxItq/ZK0psKJd73Vqz7ZqX
+         HXGNu3X7ivpgmmlgw2DVLxm9SbDEd8Zx4gUmU68P2F1ESegfKw+uCEwBo7oOR5UISNPl
+         dhiw==
+X-Gm-Message-State: ABuFfogtcRSFjLS1R29h+BRC2iR4FgAcZ3BFZG+bycjomSSVsUz7hd+K
+        MJtqWqQ0iZeRyPhWqkXEdfSl6Q==
+X-Google-Smtp-Source: ACcGV63SCzNut/2NgqHahgHkxnjAdkwW75SN0qHdEaO4z/kuLdgaGgyTrh2Cp/hnAJE0UiE/BqSvyQ==
+X-Received: by 2002:a63:415:: with SMTP id 21-v6mr3370560pge.204.1539800109428;
+        Wed, 17 Oct 2018 11:15:09 -0700 (PDT)
+Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
+        by smtp.gmail.com with ESMTPSA id k70-v6sm22988572pfc.76.2018.10.17.11.15.06
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 17 Oct 2018 11:15:06 -0700 (PDT)
+Date:   Wed, 17 Oct 2018 11:15:05 -0700
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     Nikolay Borisov <nborisov@suse.com>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
+ disabling preemption
+Message-ID: <20181017181505.GC107185@joelaf.mtv.corp.google.com>
+References: <20181015024758.GA227989@joelaf.mtv.corp.google.com>
+ <5151da01-343b-bb37-353e-b6652ae530f5@suse.com>
+ <20181015112112.GT2674@linux.ibm.com>
+ <20181015193951.GA33528@joelaf.mtv.corp.google.com>
+ <20181015195426.GD2674@linux.ibm.com>
+ <20181015201556.GA43575@joelaf.mtv.corp.google.com>
+ <20181015210856.GE2674@linux.ibm.com>
+ <20181016112611.GA27405@linux.ibm.com>
+ <20181016204122.GA8176@joelaf.mtv.corp.google.com>
+ <20181017161100.GP2674@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <875zy0ki3r.fsf@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181017161100.GP2674@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/17/18 3:00 AM, Jani Nikula wrote:
-> On Tue, 16 Oct 2018, Randy Dunlap <rdunlap@infradead.org> wrote:
->> On 10/16/18 7:17 PM, Kees Cook wrote:
->>> As discussed in the "API replacement/deprecation" thread[1], this
->>> makes an effort to document what things shouldn't get (re)added to the
->>> kernel, by introducing Documentation/process/deprecated.rst. It also
->>> adds the overflow kerndoc to ReST output, and tweaks the struct_size()
->>> documentation to parse correctly.
->>>
->>> [1] https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2018-September/005282.html
->>>
->>> Signed-off-by: Kees Cook <keescook@chromium.org>
->>> ---
->>>  Documentation/driver-api/basics.rst  |  3 +
->>>  Documentation/process/deprecated.rst | 99 ++++++++++++++++++++++++++++
->>>  Documentation/process/index.rst      |  1 +
->>>  include/linux/overflow.h             |  2 +-
->>>  4 files changed, 104 insertions(+), 1 deletion(-)
->>>  create mode 100644 Documentation/process/deprecated.rst
->>
->>
->>> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
->>> index 40b48e2133cb..2f224f43dd06 100644
->>> --- a/include/linux/overflow.h
->>> +++ b/include/linux/overflow.h
->>> @@ -291,7 +291,7 @@ static inline __must_check size_t __ab_c_size(size_t n, size_t size, size_t c)
->>>  }
->>>  
->>>  /**
->>> - * struct_size() - Calculate size of structure with trailing array.
->>> + * function struct_size() - Calculate size of structure with trailing array.
->>
->> That syntax is not explained nor documented in Documentation/doc-guide/kernel-doc.rst.
->>
->> Is the root problem that the function name begins with "struct"?
->> Please explain in the patch description.
+On Wed, Oct 17, 2018 at 09:11:00AM -0700, Paul E. McKenney wrote:
+> On Tue, Oct 16, 2018 at 01:41:22PM -0700, Joel Fernandes wrote:
+> > On Tue, Oct 16, 2018 at 04:26:11AM -0700, Paul E. McKenney wrote:
+> > > On Mon, Oct 15, 2018 at 02:08:56PM -0700, Paul E. McKenney wrote:
+> > > > On Mon, Oct 15, 2018 at 01:15:56PM -0700, Joel Fernandes wrote:
+> > > > > On Mon, Oct 15, 2018 at 12:54:26PM -0700, Paul E. McKenney wrote:
+> > > > > [...]
+> > > > > > > > In any case, please don't spin for milliseconds with preemption disabled.
+> > > > > > > > The real-time guys are unlikely to be happy with you if you do this!
+> > > > > > > 
+> > > > > > > Well just to clarify, I was just running Oleg's test which did this. This
+> > > > > > > test was mentioned in the original documentation that I deleted. Ofcourse I
+> > > > > > > would not dare do such a thing in production code :-D. I guess to Oleg's
+> > > > > > > defense, he did it to very that synchronize_rcu() was not blocked on
+> > > > > > > preempt-disable sections which was a different test.
+> > > > > > 
+> > > > > > Understood!  Just pointing out that RCU's tolerating a given action does
+> > > > > > not necessarily mean that it is a good idea to take that action.  ;-)
+> > > > > 
+> > > > > Makes sense :-) thanks.
+> > > > 
+> > > > Don't worry, that won't happen again.  ;-)
+> > > > 
+> > > > > > > > > > +		pr_crit("SPIN done!\n");
+> > > > > > > > > > +		preempt_enable();
+> > > > > > > > > > +		break;
+> > > > > > > > > > +	case 777:
+> > > > > > > > > > +		pr_crit("SYNC start\n");
+> > > > > > > > > > +		synchronize_rcu();
+> > > > > > > > > > +		pr_crit("SYNC done!\n");
+> > > > > > > > > 
+> > > > > > > > > But you are using the console printing infrastructure which is rather
+> > > > > > > > > heavyweight. Try replacing pr_* calls with trace_printk so that you
+> > > > > > > > > write to the lock-free ring buffer, this will reduce the noise from the
+> > > > > > > > > heavy console printing infrastructure.
+> > > > > > > > 
+> > > > > > > > And this might be a problem as well.
+> > > > > > > 
+> > > > > > > This was not the issue (or atleast not fully the issue) since I saw the same
+> > > > > > > thing with trace_printk. It was exactly what you said - which is the
+> > > > > > > excessively long preempt disabled times.
+> > > > > > 
+> > > > > > One approach would be to apply this patch against (say) v4.18, which
+> > > > > > does not have consolidated grace periods.  You might then be able to
+> > > > > > tell if the pr_crit() calls make any difference.
+> > > > > 
+> > > > > I could do that, yeah. But since the original problem went away due to
+> > > > > disabling preempts for a short while, I will move on and continue to focus on
+> > > > > updating other parts of the documenation. Just to mention I
+> > > > > brought this up because I thought its better to do that than not to, just
+> > > > > incase there is any lurking issue with the consolidation. Sorry if that ended
+> > > > > up with me being noisy.
+> > > > 
+> > > > Not a problem, no need to apologize!
+> > > 
+> > > Besides, digging through the code did point out a reasonable optimization.
+> > > In the common case, this would buy 100s of microseconds rather than
+> > > milliseconds, but it seems simple enough to be worthwhile.  Thoughts?
+> > 
+> > Cool, thanks. One comment below:
+> > 
+> > > ------------------------------------------------------------------------
+> > > 
+> > > commit 07921e8720907f58f82b142f2027fc56d5abdbfd
+> > > Author: Paul E. McKenney <paulmck@linux.ibm.com>
+> > > Date:   Tue Oct 16 04:12:58 2018 -0700
+> > > 
+> > >     rcu: Speed up expedited GPs when interrupting RCU reader
+> > >     
+> > >     In PREEMPT kernels, an expedited grace period might send an IPI to a
+> > >     CPU that is executing an RCU read-side critical section.  In that case,
+> > >     it would be nice if the rcu_read_unlock() directly interacted with the
+> > >     RCU core code to immediately report the quiescent state.  And this does
+> > >     happen in the case where the reader has been preempted.  But it would
+> > >     also be a nice performance optimization if immediate reporting also
+> > >     happened in the preemption-free case.
+> > >     
+> > >     This commit therefore adds an ->exp_hint field to the task_struct structure's
+> > >     ->rcu_read_unlock_special field.  The IPI handler sets this hint when
+> > >     it has interrupted an RCU read-side critical section, and this causes
+> > >     the outermost rcu_read_unlock() call to invoke rcu_read_unlock_special(),
+> > >     which, if preemption is enabled, reports the quiescent state immediately.
+> > >     If preemption is disabled, then the report is required to be deferred
+> > >     until preemption (or bottom halves or interrupts or whatever) is re-enabled.
+> > >     
+> > >     Because this is a hint, it does nothing for more complicated cases.  For
+> > >     example, if the IPI interrupts an RCU reader, but interrupts are disabled
+> > >     across the rcu_read_unlock(), but another rcu_read_lock() is executed
+> > >     before interrupts are re-enabled, the hint will already have been cleared.
+> > >     If you do crazy things like this, reporting will be deferred until some
+> > >     later RCU_SOFTIRQ handler, context switch, cond_resched(), or similar.
+> > >     
+> > >     Reported-by: Joel Fernandes <joel@joelfernandes.org>
+> > >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> > > 
+> > > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > > index 004ca21f7e80..64ce751b5fe9 100644
+> > > --- a/include/linux/sched.h
+> > > +++ b/include/linux/sched.h
+> > > @@ -571,8 +571,10 @@ union rcu_special {
+> > >  	struct {
+> > >  		u8			blocked;
+> > >  		u8			need_qs;
+> > > +		u8			exp_hint; /* Hint for performance. */
+> > > +		u8			pad; /* No garbage from compiler! */
+> > >  	} b; /* Bits. */
+> > > -	u16 s; /* Set of bits. */
+> > > +	u32 s; /* Set of bits. */
+> > >  };
+> > >  
+> > >  enum perf_event_task_context {
+> > > diff --git a/kernel/rcu/tree_exp.h b/kernel/rcu/tree_exp.h
+> > > index e669ccf3751b..928fe5893a57 100644
+> > > --- a/kernel/rcu/tree_exp.h
+> > > +++ b/kernel/rcu/tree_exp.h
+> > > @@ -692,8 +692,10 @@ static void sync_rcu_exp_handler(void *unused)
+> > >  	 */
+> > >  	if (t->rcu_read_lock_nesting > 0) {
+> > >  		raw_spin_lock_irqsave_rcu_node(rnp, flags);
+> > > -		if (rnp->expmask & rdp->grpmask)
+> > > +		if (rnp->expmask & rdp->grpmask) {
+> > >  			rdp->deferred_qs = true;
+> > > +			WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, true);
+> > > +		}
+> > >  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+> > >  	}
+> > >  
+> > > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+> > > index 8b48bb7c224c..d6286eb6e77e 100644
+> > > --- a/kernel/rcu/tree_plugin.h
+> > > +++ b/kernel/rcu/tree_plugin.h
+> > > @@ -643,8 +643,9 @@ static void rcu_read_unlock_special(struct task_struct *t)
+> > >  	local_irq_save(flags);
+> > >  	irqs_were_disabled = irqs_disabled_flags(flags);
+> > >  	if ((preempt_bh_were_disabled || irqs_were_disabled) &&
+> > > -	    t->rcu_read_unlock_special.b.blocked) {
+> > > +	    t->rcu_read_unlock_special.s) {
+> > >  		/* Need to defer quiescent state until everything is enabled. */
+> > > +		WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
+> > >  		raise_softirq_irqoff(RCU_SOFTIRQ);
+> > 
+> > Still going through this patch, but it seems to me like the fact that
+> > rcu_read_unlock_special is called means someone has requested for a grace
+> > period. Then in that case, does it not make sense to raise the softirq
+> > for processing anyway?
 > 
-> Indeed, shouldn't be needed.
-> 
-> BR,
-> Jani.
-> 
->>
->>>   * @p: Pointer to the structure.
->>>   * @member: Name of the array member.
->>>   * @n: Number of elements in the array.
->>
->>
->> thanks.
+> Not necessarily.  Another reason that rcu_read_unlock_special() might
+> be called is if the RCU read-side critical section had been preempted,
+> in which case there might not even be a grace period in progress.
 
+Yes true, it was at the back of my head ;) It needs to remove itself from the
+blocked lists on the unlock. And ofcourse the preemption case is alsoo
+clearly mentioned in this function's comments. (slaps self).
 
-Well, this is just a guess (no testing), but in scripts/kernel-doc (at line
-1907 in 4.19-rc8), we can see:
+> In addition, if interrupts, bottom halves, and preemption are all enabled,
+> the code in rcu_preempt_deferred_qs_irqrestore() doesn't need to bother
+> raising softirq, as it can instead just immediately report the quiescent
+> state.
 
-	if ($identifier =~ m/^struct/) {
-	    $decl_type = 'struct';
-	} elsif ($identifier =~ m/^union/) {
-	    $decl_type = 'union';
-	} elsif ($identifier =~ m/^enum/) {
-	    $decl_type = 'enum';
-	} elsif ($identifier =~ m/^typedef/) {
-	    $decl_type = 'typedef';
-	} else {
-	    $decl_type = 'function';
-	}
+Makes sense. I will go through these code paths more today. Thank you for the
+explanations!
 
-I wouldn't be surprised if a function named "struct_size" looks like a
-type struct.  Maybe it needs to be more strict, with either a space or
-word boundary at the end of each type string.  E.g.:
+I think something like need_exp_qs instead of 'exp_hint' may be more
+descriptive?
 
-	if ($identifier =~ m/^struct\b/) {
-	    $decl_type = 'struct';
-	} elsif ($identifier =~ m/^union\b/) {
-	    $decl_type = 'union';
-	} elsif ($identifier =~ m/^enum\b/) {
-	    $decl_type = 'enum';
-	} elsif ($identifier =~ m/^typedef\b/) {
-	    $decl_type = 'typedef';
-	} else {
-	    $decl_type = 'function';
-	}
+Otherwise,
+Reviewed-by: Joel Fernandes <joel@joelfernandes.org>
 
+thanks,
 
+ - Joel
 
--- 
-~Randy
