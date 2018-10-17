@@ -5,133 +5,115 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 000487D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 13:19:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 502CD7D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 14:07:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726974AbeJQVOW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Oct 2018 17:14:22 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:52871 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727255AbeJQVOW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Oct 2018 17:14:22 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id AD9A4207C4; Wed, 17 Oct 2018 15:18:39 +0200 (CEST)
-Received: from bbrezillon (AAubervilliers-681-1-7-245.w90-88.abo.wanadoo.fr [90.88.129.245])
-        by mail.bootlin.com (Postfix) with ESMTPSA id E3D9520712;
-        Wed, 17 Oct 2018 15:18:28 +0200 (CEST)
-Date:   Wed, 17 Oct 2018 15:18:29 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     gregkh <gregkh@linuxfoundation.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
+        id S1727050AbeJQWCv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Oct 2018 18:02:51 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:52344 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727013AbeJQWCv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Oct 2018 18:02:51 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E51AC80D;
+        Wed, 17 Oct 2018 07:06:58 -0700 (PDT)
+Received: from [10.1.196.72] (unknown [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D16493F71A;
+        Wed, 17 Oct 2018 07:06:54 -0700 (PDT)
+Subject: Re: [PATCH v7 0/8] arm64: untag user pointers passed to the kernel
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>, mshettel@codeaurora.org,
-        swboyd@chromium.org
-Subject: Re: [PATCH v8 00/10] Add the I3C subsystem
-Message-ID: <20181017151829.470930a7@bbrezillon>
-In-Reply-To: <CAK8P3a2C+FHiPnHKEAanhD=RpqDG1VywTEGhpdBvvKQ8zmwdUA@mail.gmail.com>
-References: <20181003132212.12619-1-boris.brezillon@bootlin.com>
-        <CAK8P3a2C+FHiPnHKEAanhD=RpqDG1VywTEGhpdBvvKQ8zmwdUA@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+References: <cover.1538485901.git.andreyknvl@google.com>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <be684ce5-92fd-e970-b002-83452cf50abd@arm.com>
+Date:   Wed, 17 Oct 2018 15:06:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <cover.1538485901.git.andreyknvl@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+Hi Andrey,
 
-On Mon, 8 Oct 2018 12:47:21 +0200
-Arnd Bergmann <arnd@arndb.de> wrote:
+On 02/10/2018 14:12, Andrey Konovalov wrote:
+> arm64 has a feature called Top Byte Ignore, which allows to embed pointer
+> tags into the top byte of each pointer. Userspace programs (such as
+> HWASan, a memory debugging tool [1]) might use this feature and pass
+> tagged user pointers to the kernel through syscalls or other interfaces.
+> 
+> Right now the kernel is already able to handle user faults with tagged
+> pointers, due to these patches:
+> 
+> 1. 81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on a
+>              tagged pointer")
+> 2. 7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged
+> 	      pointers")
+> 3. 276e9327 ("arm64: entry: improve data abort handling of tagged
+> 	      pointers")
+> 
+> When passing tagged pointers to syscalls, there's a special case of such a
+> pointer being passed to one of the memory syscalls (mmap, mprotect, etc.).
+> These syscalls don't do memory accesses but rather deal with memory
+> ranges, hence an untagged pointer is better suited.
+> 
+> This patchset extends tagged pointer support to non-memory syscalls. This
+> is done by reusing the untagged_addr macro to untag user pointers when the
+> kernel performs pointer checking to find out whether the pointer comes
+> from userspace (most notably in access_ok).
+> 
+> The following testing approaches has been taken to find potential issues
+> with user pointer untagging:
+> 
+> 1. Static testing (with sparse [2] and separately with a custom static
+>    analyzer based on Clang) to track casts of __user pointers to integer
+>    types to find places where untagging needs to be done.
+> 
+> 2. Dynamic testing: adding BUG_ON(has_tag(addr)) to find_vma() and running
+>    a modified syzkaller version that passes tagged pointers to the kernel.
+> 
+...
 
-> On Wed, Oct 3, 2018 at 3:22 PM Boris Brezillon
-> <boris.brezillon@bootlin.com> wrote:
-> >
-> > Sorry for the huge delay between v7 and v8 despite the small amount of
-> > things I was asked to fix/rework.
-> >
-> > This patch series is adding a new subsystem to support I3C devices.
-> >
-> > This is just adding support for basic features. Extra features will
-> > be added afterwards.
-> >
-> > There are a few design choices that are worth mentioning because they
-> > impact the way I3C device drivers can interact with their devices:
-> >
-> > - all functions used to send I3C/I2C frames must be called in
-> >   non-atomic context. Mainly done this way to ease implementation, but
-> >   this is still open to discussion. Please let me know if you think it's
-> >   worth considering an asynchronous model here
-> > - the I3C bus and I3C master controller are now tightly coupled even
-> >   though they're still allocated separately. There's now a 1:1
-> >   relationship between these objects, and the I3C master is no longer
-> >   represented under the I3C bus object.
-> >   Arnd, let me know if you had something different in mind, and I'll
-> >   rework the implementation accordingly.  
-> 
-> I looked at the entire series again and I'm rather happy with how
-> it turned out. I've commented on a tiny issue about the readsl()
-> that should be easy to resolve one way or another, with that
-> you can add my
-> 
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-> 
-> There is one additional issue that we've talked about previously
-> and that I'd like to hear about from GregKH or maybe other
-> subsystem maintainers: In the current version, you have a single
-> 'bus_type' object, and this is used to represent both a 'host' and
-> a 'device'. I think we concluded that this is done in other
-> subsystems as well, and that this is fitting here because a
-> host (master device) can hand over being a master to another
-> device (slave), which then becomes the host and sees this
-> one as a slave. Also a lot of the sysfs attributes are the same
-> because of this relationship.
-> 
-> It also means that you get a mix of things in sysfs:
-> 
-> /sys/devices/i3c/<bus>
-> /sys/devices/i3c/<device>
-> /sys/devices/i3c/<bus>/<device>
-> 
-> which is a bit like what we have on USB where we can have hub
-> devices that are again parents of other USB devices, but I don't
-> think we can have i3c hubs or multiplexers in the same way, so
-> it's only a single level.
-> 
-> I'm ok with this model after our previous discussion and couldn't
-> come up with a better one. If anyone else still sees it as
-> problematic and has a better idea, please let us know now.
+I have been thinking a bit lately on how to address the problem of user tagged pointers passed to the kernel through syscalls, and IMHO probably the best way we have to catch them all and make sure that the approach is maintainable in the long term is to introduce shims that tag/untag the pointers passed to the kernel.
 
-I know you're quite busy with the 4.19 release, but if you find a bit
-of time, that'd be great to have your feedback on this.
+In details, what I am proposing can live either in userspace (preferred solution so that we do not have to relax the ABI) or in kernel space and can be summarized as follows:
+ - A shim is specific to a syscall and is called by the libc when it needs to invoke the respective syscall.
+ - It is required only if the syscall accepts pointers.
+ - It saves the tags of a pointers passed to the syscall in memory (same approach if the we are passing a struct that contains pointers to the kernel, with the difference that all the tags of the pointers in the struct need to be saved singularly)
+ - Untags the pointers
+ - Invokes the syscall
+ - Retags the pointers with the tags stored in memory
+ - Returns
 
-Thanks,
+What do you think?
 
-Boris
+-- 
+Regards,
+Vincenzo
