@@ -1,159 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 818647D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 22:37:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 88EBB7D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 22:40:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727188AbeJRGfI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 02:35:08 -0400
-Received: from mail-yb1-f196.google.com ([209.85.219.196]:41012 "EHLO
-        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727350AbeJRGfI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 02:35:08 -0400
-Received: by mail-yb1-f196.google.com with SMTP id e16-v6so11065060ybk.8
-        for <linux-doc@vger.kernel.org>; Wed, 17 Oct 2018 15:37:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=Lg0GOna/bu3SR+krD9Mg3SxVQkU2T4SP5z5fCIw1bvI=;
-        b=TnIjRT3wrnVh/VxzazJ+d5anZmywAl6XpjKbbqJ0Avo72T7/U0QrCFejeYmJv/icq/
-         RTyKZ25P+EDrsWBhqCgbf2l/tyXvyXr7e376T4IXDilYh2gu81FQ3BEKDTboNg3nNb65
-         UN13omd6L/QgFeAYskXg1JGjnvnTv7kT4gMB0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=Lg0GOna/bu3SR+krD9Mg3SxVQkU2T4SP5z5fCIw1bvI=;
-        b=FcQHQdE1dElt4+gPY2n8Lz0gfqADfq/dTsfUOhAbTwNORP5/XOzj3DpN16FNKRRCkR
-         xW9irMIEl8ljSmF/v+FVzoB6vcMdewuuzbR6jj1M6XCWZRwLwjV5fEOYcEMI2VwLbqP2
-         5T3Ao/zkaIRgEJNcD/v5yX0aYlX5/Ly248WLL5C2sS7FnOnpJrixg8s/YlWLgJDokeTr
-         raMT3it+3qr+PVjD92u+CGl2ys6jL+tGFqh9wYrM587SjlosjvDnKNCbe6wB2IAZfGpK
-         jOul8+Te67rg4eJ+uu/SgfngBC/eovtWfreGMHu5dSXRZliDkpOO2Bvznn5LkmgKDgOH
-         OJ5g==
-X-Gm-Message-State: ABuFfohnR/J9AGaW9cg+WibNaecEj9TKThQbfZqfApWOh9kTqiXS1XSX
-        Mnb+91I5FiKP7R907RyimED6hmlZBpQ=
-X-Google-Smtp-Source: ACcGV61ywQRnBqnxxqhUh2p3rmwg5rbOJs5E1xDzeQvCYOsvQ+7IJkFDyhNOwxOSjwtUgjHG41oh9w==
-X-Received: by 2002:a25:103:: with SMTP id 3-v6mr3895621ybb.114.1539815838559;
-        Wed, 17 Oct 2018 15:37:18 -0700 (PDT)
-Received: from mail-yw1-f47.google.com (mail-yw1-f47.google.com. [209.85.161.47])
-        by smtp.gmail.com with ESMTPSA id y1-v6sm4464290ywf.34.2018.10.17.15.37.16
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Oct 2018 15:37:17 -0700 (PDT)
-Received: by mail-yw1-f47.google.com with SMTP id v1-v6so11045279ywv.6
-        for <linux-doc@vger.kernel.org>; Wed, 17 Oct 2018 15:37:16 -0700 (PDT)
-X-Received: by 2002:a81:2cc3:: with SMTP id s186-v6mr17142882yws.168.1539815836119;
- Wed, 17 Oct 2018 15:37:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:d116:0:0:0:0:0 with HTTP; Wed, 17 Oct 2018 15:37:15
- -0700 (PDT)
-In-Reply-To: <70d6b61f-25af-f903-0693-46e649c08aff@infradead.org>
-References: <20181017021708.GA22211@beast> <aed0041d-7c28-4dfb-91b5-fc83174d8744@infradead.org>
- <875zy0ki3r.fsf@intel.com> <70d6b61f-25af-f903-0693-46e649c08aff@infradead.org>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Wed, 17 Oct 2018 15:37:15 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jJDZjaSLE9uPZVWCqrtSMh1-x8H=X+3ptSYrL5QZdo8xA@mail.gmail.com>
-Message-ID: <CAGXu5jJDZjaSLE9uPZVWCqrtSMh1-x8H=X+3ptSYrL5QZdo8xA@mail.gmail.com>
-Subject: Re: [PATCH] docs: Introduce deprecated APIs list
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        id S1727205AbeJRGhs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 02:37:48 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60370 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727188AbeJRGhs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 02:37:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=BwoZ3WcDYWO+yjIugTPr7sNhogD+F87PcyQx2HZ+CEE=; b=XNiTasvjUqxcUKVyKvrs7Tn7M
+        P/okGbwZe6l2a2/avbd6hbeACXL3UNOXfuqlTiGwbMj1coP7CodqEBx2nyDTHQHVjgm3yIqNKnU0T
+        hfP9jgNgIKdxkrUQw/6wsYfym9EUaFj+73rL1G1TPJh+/uJYcGx7+uLloCM9f4JBKj1jYJu74IlL6
+        fchsKREhN7In+1cuheh0VWKoRHQWxktJTSVtpZ64gQ8GyCBH0eEp2geF51DnM0BBCYbX44h7USySx
+        qb/954R/wiv9ffAU7RilAgJsWnthxB/HTzepMntJJNSPunxDHNujAOUmQ6qtWUtYxsgaK4fCmwLW3
+        k2xth4JuQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gCuTn-00041p-Oy; Wed, 17 Oct 2018 22:39:51 +0000
+Subject: Re: [PATCH v5 03/27] x86/fpu/xstate: Introduce XSAVES system states
+To:     Borislav Petkov <bp@alien8.de>, Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
+ <20181011151523.27101-4-yu-cheng.yu@intel.com>
+ <20181017104137.GE22535@zn.tnic>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <32da559b-7958-60db-e328-f0eb316e668e@infradead.org>
+Date:   Wed, 17 Oct 2018 15:39:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <20181017104137.GE22535@zn.tnic>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 17, 2018 at 10:08 AM, Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 10/17/18 3:00 AM, Jani Nikula wrote:
->> On Tue, 16 Oct 2018, Randy Dunlap <rdunlap@infradead.org> wrote:
->>> On 10/16/18 7:17 PM, Kees Cook wrote:
->>>> As discussed in the "API replacement/deprecation" thread[1], this
->>>> makes an effort to document what things shouldn't get (re)added to the
->>>> kernel, by introducing Documentation/process/deprecated.rst. It also
->>>> adds the overflow kerndoc to ReST output, and tweaks the struct_size()
->>>> documentation to parse correctly.
->>>>
->>>> [1] https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2018-September/005282.html
->>>>
->>>> Signed-off-by: Kees Cook <keescook@chromium.org>
->>>> ---
->>>>  Documentation/driver-api/basics.rst  |  3 +
->>>>  Documentation/process/deprecated.rst | 99 ++++++++++++++++++++++++++++
->>>>  Documentation/process/index.rst      |  1 +
->>>>  include/linux/overflow.h             |  2 +-
->>>>  4 files changed, 104 insertions(+), 1 deletion(-)
->>>>  create mode 100644 Documentation/process/deprecated.rst
->>>
->>>
->>>> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
->>>> index 40b48e2133cb..2f224f43dd06 100644
->>>> --- a/include/linux/overflow.h
->>>> +++ b/include/linux/overflow.h
->>>> @@ -291,7 +291,7 @@ static inline __must_check size_t __ab_c_size(size_t n, size_t size, size_t c)
->>>>  }
->>>>
->>>>  /**
->>>> - * struct_size() - Calculate size of structure with trailing array.
->>>> + * function struct_size() - Calculate size of structure with trailing array.
->>>
->>> That syntax is not explained nor documented in Documentation/doc-guide/kernel-doc.rst.
->>>
->>> Is the root problem that the function name begins with "struct"?
->>> Please explain in the patch description.
->>
->> Indeed, shouldn't be needed.
+On 10/17/18 3:41 AM, Borislav Petkov wrote:
 
-I actually thought the problem was with it not knowing how to deal
-with struct_size() being a macro instead of a real function.
+>> @@ -702,6 +703,7 @@ static int init_xstate_size(void)
+>>   */
+>>  static void fpu__init_disable_system_xstate(void)
+>>  {
+>> +	xfeatures_mask_all = 0;
+>>  	xfeatures_mask_user = 0;
+>>  	cr4_clear_bits(X86_CR4_OSXSAVE);
+>>  	fpu__xstate_clear_all_cpu_caps();
+>> @@ -717,6 +719,8 @@ void __init fpu__init_system_xstate(void)
+>>  	static int on_boot_cpu __initdata = 1;
+>>  	int err;
+>>  	int i;
+>> +	u64 cpu_user_xfeatures_mask;
+>> +	u64 cpu_system_xfeatures_mask;
+> 
+> Please sort function local variables declaration in a reverse christmas
+> tree order:
+> 
+> 	<type> longest_variable_name;
+> 	<type> shorter_var_name;
+> 	<type> even_shorter;
+> 	<type> i;
 
-> Well, this is just a guess (no testing), but in scripts/kernel-doc (at line
-> 1907 in 4.19-rc8), we can see:
->
->         if ($identifier =~ m/^struct/) {
->             $decl_type = 'struct';
->         } elsif ($identifier =~ m/^union/) {
->             $decl_type = 'union';
->         } elsif ($identifier =~ m/^enum/) {
->             $decl_type = 'enum';
->         } elsif ($identifier =~ m/^typedef/) {
->             $decl_type = 'typedef';
->         } else {
->             $decl_type = 'function';
->         }
->
-> I wouldn't be surprised if a function named "struct_size" looks like a
-> type struct.  Maybe it needs to be more strict, with either a space or
-> word boundary at the end of each type string.  E.g.:
->
->         if ($identifier =~ m/^struct\b/) {
->             $decl_type = 'struct';
->         } elsif ($identifier =~ m/^union\b/) {
->             $decl_type = 'union';
->         } elsif ($identifier =~ m/^enum\b/) {
->             $decl_type = 'enum';
->         } elsif ($identifier =~ m/^typedef\b/) {
->             $decl_type = 'typedef';
->         } else {
->             $decl_type = 'function';
->         }
+Hi,
 
-But I see it's actually the prefix! :P
+Would you mind explaining this request? (requirement?)
+Other than to say that it is the preference of some maintainers,
+please say Why it is preferred.
 
-Using the above code fixes it for me. Can you send this fix with my
-Tested-by, and I'll spin a v2 of my "deprecated.rst" patch without the
-overflow.h change?
+and since the <type>s above won't typically be the same length,
+it's not for variable name alignment, right?
 
--Kees
-
+thanks,
 -- 
-Kees Cook
-Pixel Security
+~Randy
