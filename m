@@ -1,94 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 43B2D7D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 03:26:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E7D577D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 07:03:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727388AbeJQLTg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Oct 2018 07:19:36 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47416 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727192AbeJQLTg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Oct 2018 07:19:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=h3t6EuSSgkqDJ2lDi1LClScf/NqJPqymNF27LiwgZao=; b=O5190NtNN5n7j0g6RG+Kgtzou
-        Z3pcUSHOw1Wgs5XdNWN3XjM1WLHqjb5LPeEejyxFoXyrArL5RMyNArx5EDI9ghSvambsmJwte+/Os
-        jkZ9EHMfYpNJvLqFbOcBzmVyWYnfU9yM/mXu287EVbGrvmO9Xbc0sA4dK+uNEWJSfKOmbxh2NrhSf
-        vo62EYRjM1jlIkKlzeX64WmmECiCIqBMgH334vNGyu58+S/b10QYPK2RoNxMRFGRh1TBOBSCZjnTF
-        MsyqtQM86kCZWgn996PBF1cr7m4kvcEsHQRx5u6G1iEIeX6d/1gsdq6tOhIhYvy5S/6mPjxQ1izGY
-        4AJpv8MMA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gCcTC-0000Le-5u; Wed, 17 Oct 2018 03:26:02 +0000
-Subject: Re: [PATCH] docs: Introduce deprecated APIs list
-To:     Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20181017021708.GA22211@beast>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <aed0041d-7c28-4dfb-91b5-fc83174d8744@infradead.org>
-Date:   Tue, 16 Oct 2018 20:25:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1727219AbeJQO5l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Oct 2018 10:57:41 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:42632 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727246AbeJQO5k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Oct 2018 10:57:40 -0400
+Received: by mail-lj1-f194.google.com with SMTP id y71-v6so23266079lje.9;
+        Wed, 17 Oct 2018 00:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KBP1p4NeDrFvGrl5ybCs1RrGYgm6SXucmIRz5ZPKKQQ=;
+        b=O3l4nl2xjEHsX+l8mKWXi0hIKxZKvDkJiq3ui8nMveGXl5bMQKssSlMs88VYSdl6Sp
+         qyYZVPOjunSMZfjkbTTPRoGKCfry+F1jo2pmb6IV3n/41+Gf4W9G4ta4AQzodsXLLtN8
+         MYTWq0hx4ekf0v6Csn1Nxy+qKoThpQvEI06QH+VwIKKhHsbea3Q/SQuLsaxUAsZ39L2B
+         8IcpYHC4SN+x6Jy/4kxV0bmxexrXzDYYVH7qBO+irgz1WjNOOhdGVxOjMgudH3Yu/nmV
+         eFuovPvpDS8u43a0J83VQqd3i2Gtc6cga+/GDy41jmir8PYTiVgEaGNeVmq/Tvb/UsU7
+         JaOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KBP1p4NeDrFvGrl5ybCs1RrGYgm6SXucmIRz5ZPKKQQ=;
+        b=mWwagbMIE1tiMO/T5nxVWy1VsxNQJLiZnsKISe2wk52kAraUvmWyRIN5HHDl1BoiJj
+         ZKz/Ws25H1rmBiukl/kdthXk7zHwAdHlQ4faO3bAmInV+kUVMr5jrRN4mpxikg1PuAU9
+         RcvUpsnUaSN0d5A0YZjqTKR40aPKqr8KkNz6jH3q5QeibUm6OdQZ9wk90taEONRLcQvI
+         Y0XxbwTcvbQk6PGpjKpuzeCGA/m79TwMQV6gRcv1sCa3A+p+HeAvm+xOKi8Sq0EeZbUN
+         deK1YZrOqunwrxvCPh5/ZVNZmqGH1eew5FJuZpkzyyJ7I/rH7frM+k+Kwh9RPc2QeXKe
+         ImnQ==
+X-Gm-Message-State: ABuFfoglHuQnIUg7jI+BvfTCtousC+6R1iI9oj/GX3FaUiVN2tcIF+qA
+        XhZOFq5FFueY9GnnedjKSDA2HsUa7QYJ/R9hTpk=
+X-Google-Smtp-Source: ACcGV61bG8bw3gv32Op2h5MRcTAMBfQGhEqlneXBl/jM27KAieupqmcjpxXXpPRFsC4PbcJe6hmEHcW69kZ/Drp62rA=
+X-Received: by 2002:a2e:458b:: with SMTP id s133-v6mr17326068lja.60.1539759803963;
+ Wed, 17 Oct 2018 00:03:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20181017021708.GA22211@beast>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CGME20181016145637eucas1p2dfa78042b9fd4fd27af7cc8537b7f485@eucas1p2.samsung.com>
+ <20181016145637eucas1p2dfa78042b9fd4fd27af7cc8537b7f485~eHqCoEO-42133821338eucas1p2F@eucas1p2.samsung.com>
+In-Reply-To: <20181016145637eucas1p2dfa78042b9fd4fd27af7cc8537b7f485~eHqCoEO-42133821338eucas1p2F@eucas1p2.samsung.com>
+From:   =?UTF-8?Q?Krzysztof_Koz=C5=82owski?= <k.kozlowski.k+lkml@gmail.com>
+Date:   Wed, 17 Oct 2018 09:03:13 +0200
+Message-ID: <CAJKOXPei6b7TnOnG7DUMNm+xEUsMxqcMOfbG10cJbrNROXLN2w@mail.gmail.com>
+Subject: Re: [PATCH 00/11] thermal: add new flag irq-mode for trip point
+To:     l.luba@partner.samsung.com
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, rui.zhang@intel.com, edubezval@gmail.com,
+        daniel.lezcano@linaro.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, corbet@lwn.net,
+        =?UTF-8?B?QmFydMWCb21pZWogxbtvxYJuaWVya2lld2ljeg==?= 
+        <b.zolnierkie@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/16/18 7:17 PM, Kees Cook wrote:
-> As discussed in the "API replacement/deprecation" thread[1], this
-> makes an effort to document what things shouldn't get (re)added to the
-> kernel, by introducing Documentation/process/deprecated.rst. It also
-> adds the overflow kerndoc to ReST output, and tweaks the struct_size()
-> documentation to parse correctly.
-> 
-> [1] https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2018-September/005282.html
-> 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  Documentation/driver-api/basics.rst  |  3 +
->  Documentation/process/deprecated.rst | 99 ++++++++++++++++++++++++++++
->  Documentation/process/index.rst      |  1 +
->  include/linux/overflow.h             |  2 +-
->  4 files changed, 104 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/process/deprecated.rst
+On Tue, 16 Oct 2018 at 16:56, Lukasz Luba <l.luba@partner.samsung.com> wrote:
+>
+> Hi all,
+>
+> This patch set adds new flag and mechanism in thermal trip point in DT.
+> The current situation with 'passive' (passive cooling - DVFS)
+> trip point is that it enables polling mode in thermal framework.
+
+For DT platform, I checked it some months ago... and that time I was
+pretty sure - passive mode does not enable polling (unless you tell it
+explicitly with "polling-delay-passive"). Maybe something changed...
+but quick look at the code tell me that not. Passive does not indicate
+polling mode.
+
+Why do you think that passive enables polling?
+
+Best regards
 
 
-> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-> index 40b48e2133cb..2f224f43dd06 100644
-> --- a/include/linux/overflow.h
-> +++ b/include/linux/overflow.h
-> @@ -291,7 +291,7 @@ static inline __must_check size_t __ab_c_size(size_t n, size_t size, size_t c)
->  }
->  
->  /**
-> - * struct_size() - Calculate size of structure with trailing array.
-> + * function struct_size() - Calculate size of structure with trailing array.
-
-That syntax is not explained nor documented in Documentation/doc-guide/kernel-doc.rst.
-
-Is the root problem that the function name begins with "struct"?
-Please explain in the patch description.
-
->   * @p: Pointer to the structure.
->   * @member: Name of the array member.
->   * @n: Number of elements in the array.
-
-
-thanks.
--- 
-~Randy
+> If the device supports irqs fired when the desired temerature is met,
+> thermal framwork should be notifed from driver's irq routine.
+> This is sufficent and there is no need of polling.
+> As a workaround, people declare trip point as 'active'
+> (active cooling, i.e. fan) to bypass polling mode setup in thermal
+> framework.
+>
+> With this patch set trip point 'passive' declared in DT with explicit flag:
+> 'irq-mode;' will not register itself as polling mode.
+>
+> A good example is Exynos4 SoC family, where there is 4 HW supported
+> trip points and there is a need of 6. The rest 2 are declared as 'passive'
+> without 'irq-mode;' flag, thus polling needed.
+>
+> It does not break existing design for trip points which do not have 'irq-mode'
+> flag - they will use polling.
+>
+> For consistency this flag should be added to all trip point types('active',
+> 'passive', 'hot', 'critical') when need (meaning, when irq will notify thermal
+> framework).
+>
+> Regards,
+> Lukasz Luba
+>
+> Lukasz Luba (11):
+>   thermal: remove unused function parameter
+>   thermal: add irq-mode configuration for trip point
+>   thermal: add new sysfs file for irq-mode
+>   Doc: thermal: new irq-mode for trip point
+>   Doc: DT: thermal: new irq-mode for trip point
+>   DT: arm64: exynos: add support for thermal trip irq-mode
+>   DT: arm64: exynos7: add support for thermal trip irq-mode
+>   DT: arm: exynos4: add support for thermal trip irq-mode
+>   DT: arm: exynos: add support for thermal trip irq-mode
+>   DT: arm: exynos: add support for thermal trip irq-mode
+>   DT: arm: exynos: add support for thermal trip irq-mode
+>
+>  .../devicetree/bindings/thermal/thermal.txt        |   7 ++
+>  Documentation/thermal/sysfs-api.txt                |   9 ++
+>  arch/arm/boot/dts/exynos4-cpu-thermal.dtsi         |  10 +-
+>  arch/arm/boot/dts/exynos5410-odroidxu.dts          |  10 +-
+>  arch/arm/boot/dts/exynos5420-trip-points.dtsi      |  10 +-
+>  arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi |  40 +++++---
+>  arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi     | 105 ++++++++++++++-------
+>  .../arm64/boot/dts/exynos/exynos7-trip-points.dtsi |   8 ++
+>  drivers/thermal/of-thermal.c                       |  17 ++++
+>  drivers/thermal/thermal_core.c                     |  16 ++--
+>  drivers/thermal/thermal_sysfs.c                    |  53 ++++++++++-
+>  include/linux/thermal.h                            |   5 +
+>  12 files changed, 226 insertions(+), 64 deletions(-)
+>
+> --
+> 2.7.4
+>
