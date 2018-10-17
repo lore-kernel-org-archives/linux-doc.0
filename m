@@ -1,31 +1,36 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B5A307D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 22:59:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D17B7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 23:17:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727304AbeJRG46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 02:56:58 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:45438 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727259AbeJRG46 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Oct 2018 02:56:58 -0400
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id LGZ4fKIA5EgQ; Thu, 18 Oct 2018 00:58:43 +0200 (CEST)
-Received: from zn.tnic (p200300EC2BC91B00329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2bc9:1b00:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 642781EC04DF;
-        Thu, 18 Oct 2018 00:58:42 +0200 (CEST)
-Date:   Thu, 18 Oct 2018 00:58:29 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Randy Dunlap <rdunlap@infradead.org>
+        id S1727337AbeJRHPN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 03:15:13 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:39668 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727316AbeJRHPM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 03:15:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=A3xmIxQE/qQ44bWf8Ps0hwRkE9rUw8JX3NwGiFM8VeA=; b=BsYuTKvNrh54cw27Kvn4OX+z/
+        BQ/BJ5dSHu07+qwEgUvJ52NHkKXtSvEjg6CdT7eYRsh+zi5lu54mCJ2ubIWPs+AgjySltJwOCe018
+        wP7KG1ib8hjiD9XayZ9gPNWn0Hixbjui3voZ0GyiGci6NSgmRsAxgTCoeCEcWtf0nkOUXfRQ0Lto+
+        nAZuMZalTJY7zfWOOv6mNckzI95kPBJZIKqGR2Doh0aU3/gopD6HP/xX7/USIo7KNnMrSre9WUC9t
+        EYszVLFms0rzDd3qSnuRoxnh1cdsqSi2ASGG5OW7rUBdWsN80TcwnKSYOm/83hA2tYlGLFADnfvQr
+        T6DZdUU1Q==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gCv3m-0001ox-Fw; Wed, 17 Oct 2018 23:17:02 +0000
+Subject: Re: [PATCH v5 03/27] x86/fpu/xstate: Introduce XSAVES system states
+To:     Borislav Petkov <bp@alien8.de>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -48,35 +53,42 @@ Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v5 03/27] x86/fpu/xstate: Introduce XSAVES system states
-Message-ID: <20181017225829.GA32023@zn.tnic>
 References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
  <20181011151523.27101-4-yu-cheng.yu@intel.com>
  <20181017104137.GE22535@zn.tnic>
  <32da559b-7958-60db-e328-f0eb316e668e@infradead.org>
+ <20181017225829.GA32023@zn.tnic>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <fde4c237-6210-f4e4-5362-c2e24a9916a2@infradead.org>
+Date:   Wed, 17 Oct 2018 16:17:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
+In-Reply-To: <20181017225829.GA32023@zn.tnic>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <32da559b-7958-60db-e328-f0eb316e668e@infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 17, 2018 at 03:39:47PM -0700, Randy Dunlap wrote:
-> Would you mind explaining this request? (requirement?)
-> Other than to say that it is the preference of some maintainers,
-> please say Why it is preferred.
+On 10/17/18 3:58 PM, Borislav Petkov wrote:
+> On Wed, Oct 17, 2018 at 03:39:47PM -0700, Randy Dunlap wrote:
+>> Would you mind explaining this request? (requirement?)
+>> Other than to say that it is the preference of some maintainers,
+>> please say Why it is preferred.
+>>
+>> and since the <type>s above won't typically be the same length,
+>> it's not for variable name alignment, right?
 > 
-> and since the <type>s above won't typically be the same length,
-> it's not for variable name alignment, right?
+> Searching the net a little, it shows you have asked that question
+> before. So what is it you really wanna know?
 
-Searching the net a little, it shows you have asked that question
-before. So what is it you really wanna know?
+OK, you have shown that your web search skills are better than mine.
 
+I asked what I really wanted to know.
+
+ta.
 -- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+~Randy
