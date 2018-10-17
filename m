@@ -2,91 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DAAD37D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 12:50:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 000487D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 13:19:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727000AbeJQUpr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Oct 2018 16:45:47 -0400
-Received: from ms.lwn.net ([45.79.88.28]:54540 "EHLO ms.lwn.net"
+        id S1726974AbeJQVOW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Oct 2018 17:14:22 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:52871 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726936AbeJQUpr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Oct 2018 16:45:47 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B25A2750;
-        Wed, 17 Oct 2018 12:50:12 +0000 (UTC)
-Date:   Wed, 17 Oct 2018 06:50:11 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] docs: Introduce deprecated APIs list
-Message-ID: <20181017065011.40ad8b24@lwn.net>
-In-Reply-To: <20181017021708.GA22211@beast>
-References: <20181017021708.GA22211@beast>
-Organization: LWN.net
+        id S1727255AbeJQVOW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Oct 2018 17:14:22 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id AD9A4207C4; Wed, 17 Oct 2018 15:18:39 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-7-245.w90-88.abo.wanadoo.fr [90.88.129.245])
+        by mail.bootlin.com (Postfix) with ESMTPSA id E3D9520712;
+        Wed, 17 Oct 2018 15:18:28 +0200 (CEST)
+Date:   Wed, 17 Oct 2018 15:18:29 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     gregkh <gregkh@linuxfoundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Wolfram Sang <wsa@the-dreams.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>, mshettel@codeaurora.org,
+        swboyd@chromium.org
+Subject: Re: [PATCH v8 00/10] Add the I3C subsystem
+Message-ID: <20181017151829.470930a7@bbrezillon>
+In-Reply-To: <CAK8P3a2C+FHiPnHKEAanhD=RpqDG1VywTEGhpdBvvKQ8zmwdUA@mail.gmail.com>
+References: <20181003132212.12619-1-boris.brezillon@bootlin.com>
+        <CAK8P3a2C+FHiPnHKEAanhD=RpqDG1VywTEGhpdBvvKQ8zmwdUA@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 16 Oct 2018 19:17:08 -0700
-Kees Cook <keescook@chromium.org> wrote:
+Hi Greg,
 
-> As discussed in the "API replacement/deprecation" thread[1], this
-> makes an effort to document what things shouldn't get (re)added to the
-> kernel, by introducing Documentation/process/deprecated.rst. It also
-> adds the overflow kerndoc to ReST output, and tweaks the struct_size()
-> documentation to parse correctly.
+On Mon, 8 Oct 2018 12:47:21 +0200
+Arnd Bergmann <arnd@arndb.de> wrote:
 
-Seems like a good idea overall...a couple of quick comments
-
-> [1] https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2018-September/005282.html
+> On Wed, Oct 3, 2018 at 3:22 PM Boris Brezillon
+> <boris.brezillon@bootlin.com> wrote:
+> >
+> > Sorry for the huge delay between v7 and v8 despite the small amount of
+> > things I was asked to fix/rework.
+> >
+> > This patch series is adding a new subsystem to support I3C devices.
+> >
+> > This is just adding support for basic features. Extra features will
+> > be added afterwards.
+> >
+> > There are a few design choices that are worth mentioning because they
+> > impact the way I3C device drivers can interact with their devices:
+> >
+> > - all functions used to send I3C/I2C frames must be called in
+> >   non-atomic context. Mainly done this way to ease implementation, but
+> >   this is still open to discussion. Please let me know if you think it's
+> >   worth considering an asynchronous model here
+> > - the I3C bus and I3C master controller are now tightly coupled even
+> >   though they're still allocated separately. There's now a 1:1
+> >   relationship between these objects, and the I3C master is no longer
+> >   represented under the I3C bus object.
+> >   Arnd, let me know if you had something different in mind, and I'll
+> >   rework the implementation accordingly.  
 > 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  Documentation/driver-api/basics.rst  |  3 +
->  Documentation/process/deprecated.rst | 99 ++++++++++++++++++++++++++++
->  Documentation/process/index.rst      |  1 +
+> I looked at the entire series again and I'm rather happy with how
+> it turned out. I've commented on a tiny issue about the readsl()
+> that should be easy to resolve one way or another, with that
+> you can add my
+> 
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+> 
+> There is one additional issue that we've talked about previously
+> and that I'd like to hear about from GregKH or maybe other
+> subsystem maintainers: In the current version, you have a single
+> 'bus_type' object, and this is used to represent both a 'host' and
+> a 'device'. I think we concluded that this is done in other
+> subsystems as well, and that this is fitting here because a
+> host (master device) can hand over being a master to another
+> device (slave), which then becomes the host and sees this
+> one as a slave. Also a lot of the sysfs attributes are the same
+> because of this relationship.
+> 
+> It also means that you get a mix of things in sysfs:
+> 
+> /sys/devices/i3c/<bus>
+> /sys/devices/i3c/<device>
+> /sys/devices/i3c/<bus>/<device>
+> 
+> which is a bit like what we have on USB where we can have hub
+> devices that are again parents of other USB devices, but I don't
+> think we can have i3c hubs or multiplexers in the same way, so
+> it's only a single level.
+> 
+> I'm ok with this model after our previous discussion and couldn't
+> come up with a better one. If anyone else still sees it as
+> problematic and has a better idea, please let us know now.
 
-I wonder if "process" is the right place, or core-api?  I guess we have a
-lot of similar stuff in process now.
-
-[...]
-
-> +open-coded arithmetic in allocator arguments
-> +--------------------------------------------
-> +Dynamic size calculations (especially multiplication)
-> +should not be performed in memory allocator (or similar)
-> +function arguments.
-> +
-> +For example, do not use ``rows * cols`` as an argument, as in:
-> +``kmalloc(rows * cols, GFP_KERNEL)``.
-> +Instead, the 2-factor form of the allocator should be used:
-> +``kmalloc_array(rows, cols, GFP_KERNEL)``.
-> +If no 2-factor form is available, the saturate-on-overflow helpers should
-> +be used:
-> +``vmalloc(array_size(rows, cols))``.
-> +
-> +See :c:func:`array_size`, :c:func:`array3_size`, and :c:func:`struct_size`,
-> +for more details as well as the related :c:func:`check_add_overflow` and
-> +:c:func:`check_mul_overflow` family of functions.
-
-I think this should say *why* developers are being told not to do it.  Does
-this advice hold even in cases where the dimensions are known, under the
-kernel's control, and guaranteed not to overflow even on Alan's port to
-eight-bit CPUs?
-
-To me it's also a bit confusing to present the arguments to kmalloc_array()
-as "rows" and "cols" when they are really "n" and "size".
+I know you're quite busy with the 4.19 release, but if you find a bit
+of time, that'd be great to have your feedback on this.
 
 Thanks,
 
-jon
+Boris
