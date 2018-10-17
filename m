@@ -1,227 +1,228 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ADA417D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Oct 2018 20:41:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7CFB37D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 02:17:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727053AbeJQEdf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Oct 2018 00:33:35 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:37448 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbeJQEde (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Oct 2018 00:33:34 -0400
-Received: by mail-pg1-f195.google.com with SMTP id c10-v6so11403785pgq.4
-        for <linux-doc@vger.kernel.org>; Tue, 16 Oct 2018 13:41:25 -0700 (PDT)
+        id S1727178AbeJQKKc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Oct 2018 06:10:32 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:42692 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727053AbeJQKKc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Oct 2018 06:10:32 -0400
+Received: by mail-pl1-f195.google.com with SMTP id c8-v6so11884162plo.9
+        for <linux-doc@vger.kernel.org>; Tue, 16 Oct 2018 19:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=cDAz38rqSWZEMZJsggvonncLFKvAtEhJAuUaJpMxy74=;
-        b=f8UEHrGyJpVqEfjGd92DNzTWyngG0PsMqmHuTU33P0HMwSw5+8gVwocR0AOynlbcE6
-         zuu0q8nGDnBBtCR1fSFUc6Z39L0eVwZBl6oAewbzQljt4lPz1VgwbAv6MzO/AG+Y9oLV
-         XlYt38KAKwPscpzb4yVsmKn/S8mo4ExBtbxdo=
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=DCVmlSjP07MR/1l2OcfmI69av54uWU4+X7+FEqXRDu4=;
+        b=DUHKFz759mSuPyWK2AWmYQatTLCnnFmVLYf1RFeXhfuXGEx3O4r791tzBYDsYeCb6E
+         KmiNAoDorCdqoAI85NXZWttiYTYgIaYy8jcXdSYkyHY+GftlEufSnZR5bybIzfyL1Lmp
+         epdl0TxNcuIDcydpRr5rygNAxrnducYFO9xpE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cDAz38rqSWZEMZJsggvonncLFKvAtEhJAuUaJpMxy74=;
-        b=cpt0AUInz6uri1/Ram7ggvmyHDNx4Wd0BIbBXvjIyTWruVtPL0/KlRZzqNhhWUx/qJ
-         Y4A9XebcBIaGsMB1FoULKxyl9hWULG2MZlLsiiUx3PrxqZ+LlsOMEaU85B+HP9zdMcOg
-         TglOZ6i5yFGzycWGntjfthNmVzcryBYMYSn2CIOzE3L+NPGYP6/hl/rkb83Cifoy94jB
-         wKOVpItW01dgs71E+1WGy94TN1mWusEh28rgnDfRuky+OtjX3ihatkGnXBZaNzxdFueB
-         QXx5cmg09eqEsVIbFUd4d2xd/lQQpG1f9DaQxMl4nxv+qRq1zdzupl1EpDwccV9xRX+v
-         +LvQ==
-X-Gm-Message-State: ABuFfoh0sOHlV247Sys0eTd7HHGrkwv+mFqBGd9GaGOvj7m3u4c63H4t
-        CmOLKJUCq7I9h5fNb1BXXaPD2A==
-X-Google-Smtp-Source: ACcGV63G6A+Fj5JTMfhGalA1hvGtsBXUH4m+Qfp3J4VLM8FOVU/vplApu7Es6qbGCuy4EanIZM/KBw==
-X-Received: by 2002:a63:d917:: with SMTP id r23-v6mr22018718pgg.0.1539722484850;
-        Tue, 16 Oct 2018 13:41:24 -0700 (PDT)
-Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id c21-v6sm29034309pfe.93.2018.10.16.13.41.23
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=DCVmlSjP07MR/1l2OcfmI69av54uWU4+X7+FEqXRDu4=;
+        b=to+9EaTiE5g9To10ioVugVX0CxWI+6OUSGA0PSVzukROFDwPTFAkNnX4K/Ga5Uqh7T
+         l4PXYPfBqJzXYoNwODnClD7iZSIGGpy4Qi5BSm5Lk7SfwHRknEWl1FnJYiD4w7cPMX+H
+         tGcZGynlXkLbkG8QTQcuLznkPFL0nSsxEPjZmS7rUHVaS8fYjz4Wt0Blks4zgw2e6I0p
+         hfDFic1uRzcp2QSw1omAzXO4hxtNHHWfcAKNoQiTU7n1oMVVC0j9wYZJSbaDHwxk2a98
+         qsNFOLrlAeFHbIqX9YeklQrbA5q1AX5bTgXIGv9o1eTwKK2zVNBlPQsxpo5wrtbKpw/U
+         PdqA==
+X-Gm-Message-State: ABuFfohiH5rjMY9b90ek7jeiWTjwWiocq0kKp1cmXX9YzsN9d6ZxpQRD
+        IzjEeOu8L3R7ZPbmko5g7cxSKA==
+X-Google-Smtp-Source: ACcGV60uqpSy+TqB2iYqbcuXkUGuq1ue5MaGG8JDp11NKPCe62fvKQbvYY8umLod6GBMvgUwVI8aBw==
+X-Received: by 2002:a17:902:6546:: with SMTP id d6-v6mr23894309pln.139.1539742630866;
+        Tue, 16 Oct 2018 19:17:10 -0700 (PDT)
+Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
+        by smtp.gmail.com with ESMTPSA id b14-v6sm19756230pgn.49.2018.10.16.19.17.09
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 16 Oct 2018 13:41:23 -0700 (PDT)
-Date:   Tue, 16 Oct 2018 13:41:22 -0700
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Nikolay Borisov <nborisov@suse.com>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
- disabling preemption
-Message-ID: <20181016204122.GA8176@joelaf.mtv.corp.google.com>
-References: <20181015021349.GB217384@joelaf.mtv.corp.google.com>
- <20181015023328.GP2674@linux.ibm.com>
- <20181015024758.GA227989@joelaf.mtv.corp.google.com>
- <5151da01-343b-bb37-353e-b6652ae530f5@suse.com>
- <20181015112112.GT2674@linux.ibm.com>
- <20181015193951.GA33528@joelaf.mtv.corp.google.com>
- <20181015195426.GD2674@linux.ibm.com>
- <20181015201556.GA43575@joelaf.mtv.corp.google.com>
- <20181015210856.GE2674@linux.ibm.com>
- <20181016112611.GA27405@linux.ibm.com>
+        Tue, 16 Oct 2018 19:17:09 -0700 (PDT)
+Date:   Tue, 16 Oct 2018 19:17:08 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] docs: Introduce deprecated APIs list
+Message-ID: <20181017021708.GA22211@beast>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181016112611.GA27405@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 16, 2018 at 04:26:11AM -0700, Paul E. McKenney wrote:
-> On Mon, Oct 15, 2018 at 02:08:56PM -0700, Paul E. McKenney wrote:
-> > On Mon, Oct 15, 2018 at 01:15:56PM -0700, Joel Fernandes wrote:
-> > > On Mon, Oct 15, 2018 at 12:54:26PM -0700, Paul E. McKenney wrote:
-> > > [...]
-> > > > > > In any case, please don't spin for milliseconds with preemption disabled.
-> > > > > > The real-time guys are unlikely to be happy with you if you do this!
-> > > > > 
-> > > > > Well just to clarify, I was just running Oleg's test which did this. This
-> > > > > test was mentioned in the original documentation that I deleted. Ofcourse I
-> > > > > would not dare do such a thing in production code :-D. I guess to Oleg's
-> > > > > defense, he did it to very that synchronize_rcu() was not blocked on
-> > > > > preempt-disable sections which was a different test.
-> > > > 
-> > > > Understood!  Just pointing out that RCU's tolerating a given action does
-> > > > not necessarily mean that it is a good idea to take that action.  ;-)
-> > > 
-> > > Makes sense :-) thanks.
-> > 
-> > Don't worry, that won't happen again.  ;-)
-> > 
-> > > > > > > > +		pr_crit("SPIN done!\n");
-> > > > > > > > +		preempt_enable();
-> > > > > > > > +		break;
-> > > > > > > > +	case 777:
-> > > > > > > > +		pr_crit("SYNC start\n");
-> > > > > > > > +		synchronize_rcu();
-> > > > > > > > +		pr_crit("SYNC done!\n");
-> > > > > > > 
-> > > > > > > But you are using the console printing infrastructure which is rather
-> > > > > > > heavyweight. Try replacing pr_* calls with trace_printk so that you
-> > > > > > > write to the lock-free ring buffer, this will reduce the noise from the
-> > > > > > > heavy console printing infrastructure.
-> > > > > > 
-> > > > > > And this might be a problem as well.
-> > > > > 
-> > > > > This was not the issue (or atleast not fully the issue) since I saw the same
-> > > > > thing with trace_printk. It was exactly what you said - which is the
-> > > > > excessively long preempt disabled times.
-> > > > 
-> > > > One approach would be to apply this patch against (say) v4.18, which
-> > > > does not have consolidated grace periods.  You might then be able to
-> > > > tell if the pr_crit() calls make any difference.
-> > > 
-> > > I could do that, yeah. But since the original problem went away due to
-> > > disabling preempts for a short while, I will move on and continue to focus on
-> > > updating other parts of the documenation. Just to mention I
-> > > brought this up because I thought its better to do that than not to, just
-> > > incase there is any lurking issue with the consolidation. Sorry if that ended
-> > > up with me being noisy.
-> > 
-> > Not a problem, no need to apologize!
-> 
-> Besides, digging through the code did point out a reasonable optimization.
-> In the common case, this would buy 100s of microseconds rather than
-> milliseconds, but it seems simple enough to be worthwhile.  Thoughts?
+As discussed in the "API replacement/deprecation" thread[1], this
+makes an effort to document what things shouldn't get (re)added to the
+kernel, by introducing Documentation/process/deprecated.rst. It also
+adds the overflow kerndoc to ReST output, and tweaks the struct_size()
+documentation to parse correctly.
 
-Cool, thanks. One comment below:
+[1] https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2018-September/005282.html
 
-> ------------------------------------------------------------------------
-> 
-> commit 07921e8720907f58f82b142f2027fc56d5abdbfd
-> Author: Paul E. McKenney <paulmck@linux.ibm.com>
-> Date:   Tue Oct 16 04:12:58 2018 -0700
-> 
->     rcu: Speed up expedited GPs when interrupting RCU reader
->     
->     In PREEMPT kernels, an expedited grace period might send an IPI to a
->     CPU that is executing an RCU read-side critical section.  In that case,
->     it would be nice if the rcu_read_unlock() directly interacted with the
->     RCU core code to immediately report the quiescent state.  And this does
->     happen in the case where the reader has been preempted.  But it would
->     also be a nice performance optimization if immediate reporting also
->     happened in the preemption-free case.
->     
->     This commit therefore adds an ->exp_hint field to the task_struct structure's
->     ->rcu_read_unlock_special field.  The IPI handler sets this hint when
->     it has interrupted an RCU read-side critical section, and this causes
->     the outermost rcu_read_unlock() call to invoke rcu_read_unlock_special(),
->     which, if preemption is enabled, reports the quiescent state immediately.
->     If preemption is disabled, then the report is required to be deferred
->     until preemption (or bottom halves or interrupts or whatever) is re-enabled.
->     
->     Because this is a hint, it does nothing for more complicated cases.  For
->     example, if the IPI interrupts an RCU reader, but interrupts are disabled
->     across the rcu_read_unlock(), but another rcu_read_lock() is executed
->     before interrupts are re-enabled, the hint will already have been cleared.
->     If you do crazy things like this, reporting will be deferred until some
->     later RCU_SOFTIRQ handler, context switch, cond_resched(), or similar.
->     
->     Reported-by: Joel Fernandes <joel@joelfernandes.org>
->     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-> 
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index 004ca21f7e80..64ce751b5fe9 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -571,8 +571,10 @@ union rcu_special {
->  	struct {
->  		u8			blocked;
->  		u8			need_qs;
-> +		u8			exp_hint; /* Hint for performance. */
-> +		u8			pad; /* No garbage from compiler! */
->  	} b; /* Bits. */
-> -	u16 s; /* Set of bits. */
-> +	u32 s; /* Set of bits. */
->  };
->  
->  enum perf_event_task_context {
-> diff --git a/kernel/rcu/tree_exp.h b/kernel/rcu/tree_exp.h
-> index e669ccf3751b..928fe5893a57 100644
-> --- a/kernel/rcu/tree_exp.h
-> +++ b/kernel/rcu/tree_exp.h
-> @@ -692,8 +692,10 @@ static void sync_rcu_exp_handler(void *unused)
->  	 */
->  	if (t->rcu_read_lock_nesting > 0) {
->  		raw_spin_lock_irqsave_rcu_node(rnp, flags);
-> -		if (rnp->expmask & rdp->grpmask)
-> +		if (rnp->expmask & rdp->grpmask) {
->  			rdp->deferred_qs = true;
-> +			WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, true);
-> +		}
->  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
->  	}
->  
-> diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
-> index 8b48bb7c224c..d6286eb6e77e 100644
-> --- a/kernel/rcu/tree_plugin.h
-> +++ b/kernel/rcu/tree_plugin.h
-> @@ -643,8 +643,9 @@ static void rcu_read_unlock_special(struct task_struct *t)
->  	local_irq_save(flags);
->  	irqs_were_disabled = irqs_disabled_flags(flags);
->  	if ((preempt_bh_were_disabled || irqs_were_disabled) &&
-> -	    t->rcu_read_unlock_special.b.blocked) {
-> +	    t->rcu_read_unlock_special.s) {
->  		/* Need to defer quiescent state until everything is enabled. */
-> +		WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
->  		raise_softirq_irqoff(RCU_SOFTIRQ);
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/driver-api/basics.rst  |  3 +
+ Documentation/process/deprecated.rst | 99 ++++++++++++++++++++++++++++
+ Documentation/process/index.rst      |  1 +
+ include/linux/overflow.h             |  2 +-
+ 4 files changed, 104 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/process/deprecated.rst
 
-Still going through this patch, but it seems to me like the fact that
-rcu_read_unlock_special is called means someone has requested for a grace
-period. Then in that case, does it not make sense to raise the softirq
-for processing anyway?
+diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+index 826e85d50a16..e970fadf4d1a 100644
+--- a/Documentation/driver-api/basics.rst
++++ b/Documentation/driver-api/basics.rst
+@@ -121,6 +121,9 @@ Kernel utility functions
+ .. kernel-doc:: kernel/rcu/update.c
+    :export:
+ 
++.. kernel-doc:: include/linux/overflow.h
++   :internal:
++
+ Device Resource Management
+ --------------------------
+ 
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+new file mode 100644
+index 000000000000..95e261224a81
+--- /dev/null
++++ b/Documentation/process/deprecated.rst
+@@ -0,0 +1,99 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=====================================================================
++Deprecated Interfaces, Language Features, Attributes, and Conventions
++=====================================================================
++
++In a perfect world, it would be possible to convert all instances of
++some deprecated API into the new API and entirely remove the old API in
++a single development cycle. However, due to the size of the kernel, the
++maintainership hierarchy, and timing, it's not always feasible to do these
++kinds of conversions at once. This means that new instances may sneak into
++the kernel while old ones are being removed, only making the amount of
++work to remove the API grow. In order to educate developers about what
++has been deprecated and why, this list has been created as a place to
++point when uses of deprecated things are proposed for inclusion in the
++kernel.
++
++__deprecated
++------------
++While this attribute does visually mark an interface as deprecated,
++it `does not produce warnings during builds any more
++<https://git.kernel.org/linus/771c035372a036f83353eef46dbb829780330234>`_
++because one of the standing goals of the kernel is to build without
++warnings and no one was actually doing anything to remove these deprecated
++interfaces. While using `__deprecated` is nice to note an old API in
++a header file, it isn't the full solution. Such interfaces must either
++be fully removed from the kernel, or added to this file to discourage
++others from using them in the future.
++
++open-coded arithmetic in allocator arguments
++--------------------------------------------
++Dynamic size calculations (especially multiplication)
++should not be performed in memory allocator (or similar)
++function arguments.
++
++For example, do not use ``rows * cols`` as an argument, as in:
++``kmalloc(rows * cols, GFP_KERNEL)``.
++Instead, the 2-factor form of the allocator should be used:
++``kmalloc_array(rows, cols, GFP_KERNEL)``.
++If no 2-factor form is available, the saturate-on-overflow helpers should
++be used:
++``vmalloc(array_size(rows, cols))``.
++
++See :c:func:`array_size`, :c:func:`array3_size`, and :c:func:`struct_size`,
++for more details as well as the related :c:func:`check_add_overflow` and
++:c:func:`check_mul_overflow` family of functions.
++
++simple_strtol(), simple_strtoll(), simple_strtoul(), simple_strtoull()
++----------------------------------------------------------------------
++The :c:func:`simple_strtol`, :c:func:`simple_strtoll`,
++:c:func:`simple_strtoul`, and :c:func:`simple_strtoull` functions
++explicitly ignore overflows, which may lead to unexpected results
++in callers. The respective :c:func:`kstrtol`, :c:func:`kstrtoll`,
++:c:func:`kstrtoul`, and :c:func:`kstrtoull` functions tend to be the
++correct replacements, though note that those require the string to be
++NUL or newline terminated.
++
++strcpy()
++--------
++:c:func:`strcpy` performs no bounds checking on the destination
++buffer. This could result in linear overflows beyond the
++end of the buffer, leading to all kinds of misbehaviors. While
++`CONFIG_FORTIFY_SOURCE=y` and various compiler flags help reduce the
++risk of using this function, there is no good reason to add new uses of
++this function. The safe replacement is :c:func:`strscpy`.
++
++strncpy() on NUL-terminated strings
++-----------------------------------
++Use of :c:func:`strncpy` does not guarantee that the destination buffer
++will be NUL terminated. This can lead to various linear read overflows
++and other misbehavior due to the missing termination. It also NUL-pads the
++destination buffer if the source contents are shorter than the destination
++buffer size, which may be a needless performance penalty for callers using
++only NUL-terminated strings. The safe replacement is :c:func:`strscpy`.
++(Users of :c:func:`strscpy` still needing NUL-padding will need an
++explicit :c:func:`memset` added.)
++
++If a caller is using non-NUL-terminated strings, :c:func:`strncpy()` can
++still be used, but destinations should be marked with the `__nonstring
++<https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html>`_
++attribute to avoid future compiler warnings.
++
++strlcpy()
++---------
++:c:func:`strlcpy` reads the entire source buffer first, possibly exceeding
++the given limit of bytes to copy. This is inefficient and can lead to
++linear read overflows if a source string is not NUL-terminated. The
++safe replacement is :c:func:`strscpy`.
++
++Variable Length Arrays (VLAs)
++-----------------------------
++Using stack VLAs produces much worse machine code than statically
++sized stack arrays. While these non-trivial `performance issues
++<https://git.kernel.org/linus/02361bc77888>`_ are reason enough to
++eliminate VLAs, they are also a security risk. Dynamic growth of a stack
++array may exceed the remaining memory in the stack segment. This could
++lead to a crash, possible overwriting sensitive contents at the end of the
++stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
++memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index 9ae3e317bddf..b4de2c682255 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -41,6 +41,7 @@ Other guides to the community that are of interest to most developers are:
+    stable-kernel-rules
+    submit-checklist
+    kernel-docs
++   deprecated
+ 
+ These are some overall technical guides that have been put here for now for
+ lack of a better place.
+diff --git a/include/linux/overflow.h b/include/linux/overflow.h
+index 40b48e2133cb..2f224f43dd06 100644
+--- a/include/linux/overflow.h
++++ b/include/linux/overflow.h
+@@ -291,7 +291,7 @@ static inline __must_check size_t __ab_c_size(size_t n, size_t size, size_t c)
+ }
+ 
+ /**
+- * struct_size() - Calculate size of structure with trailing array.
++ * function struct_size() - Calculate size of structure with trailing array.
+  * @p: Pointer to the structure.
+  * @member: Name of the array member.
+  * @n: Number of elements in the array.
+-- 
+2.17.1
 
-thanks,
 
-- Joel
-
+-- 
+Kees Cook
+Pixel Security
