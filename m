@@ -1,88 +1,197 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A3397D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 18:34:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8C837D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 20:01:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728712AbeJSCgf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 22:36:35 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:54926 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728570AbeJSCgf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 22:36:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+3iQAvzvwQ7XneO3whAjSbVwJjKLCKVy3Jm0LdygrXw=; b=XSQIaaBXwQ34qALZ0i3DynB2Rb
-        HY2+I5llBlM4o82WDxfV/TuXSFF0u4W1jrCCN07zr/LOvHYGBGsO9op5Cl3uReCW1ROAqzyL3qGRj
-        jsJ/Nw6ItSBT3ufQVD00M9cvwQCyAeoCbjvPOPn9eDVplmU5CK5k+NkS0iHaZ6xHEQdgbECmpKXbQ
-        VqH8nycDq0dUNrNwV7rrBiQ8LVHdTIbZUfZLvBMHJ/xY7bGc2BR3iICWnwpaHWy3QT7AkX5Jxogi/
-        +oPwfVuTImqJHUZKYdtEBchsdE4WLlrza0OAuqQ9h5uIu1JnmhX6hq6ZD/BdGTrzPqg132Y/+20p7
-        mglHpq7Q==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gDD7G-00088L-MF; Thu, 18 Oct 2018 18:33:51 +0000
-Subject: Re: [PATCH v5 03/27] x86/fpu/xstate: Introduce XSAVES system states
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
- <20181011151523.27101-4-yu-cheng.yu@intel.com>
- <20181017104137.GE22535@zn.tnic>
- <32da559b-7958-60db-e328-f0eb316e668e@infradead.org>
- <20181017225829.GA32023@zn.tnic>
- <fde4c237-6210-f4e4-5362-c2e24a9916a2@infradead.org>
- <20181018092603.GB20831@zn.tnic>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <17222925-1c4c-0acd-c92c-637228326b66@infradead.org>
-Date:   Thu, 18 Oct 2018 11:33:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1725958AbeJSEEE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 00:04:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35382 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725751AbeJSEEE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Oct 2018 00:04:04 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 7C7D3753E8;
+        Thu, 18 Oct 2018 20:01:28 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.149])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 210BA105704D;
+        Thu, 18 Oct 2018 20:01:25 +0000 (UTC)
+Date:   Thu, 18 Oct 2018 16:01:25 -0400
+From:   Mike Snitzer <snitzer@redhat.com>
+To:     Vitaly Chikunov <vt@altlinux.org>
+Cc:     Alasdair Kergon <agk@redhat.com>, dm-devel@redhat.com,
+        Jonathan Corbet <corbet@lwn.net>, Shaohua Li <shli@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-raid@vger.kernel.org
+Subject: Re: dm: add secdel target
+Message-ID: <20181018200124.GA6996@redhat.com>
+References: <20181014112439.8119-1-vt@altlinux.org>
 MIME-Version: 1.0
-In-Reply-To: <20181018092603.GB20831@zn.tnic>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181014112439.8119-1-vt@altlinux.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Thu, 18 Oct 2018 20:01:28 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/18/18 2:26 AM, Borislav Petkov wrote:
-> On Wed, Oct 17, 2018 at 04:17:01PM -0700, Randy Dunlap wrote:
->> I asked what I really wanted to know.
-> 
-> Then the answer is a bit better readability, I'd guess.
-> 
+On Sun, Oct 14 2018 at  7:24am -0400,
+Vitaly Chikunov <vt@altlinux.org> wrote:
 
-Thanks for the reply.
+> Report to the upper level ability to discard, and translate arriving
+> discards to the writes of random or zero data to the underlying level.
+> 
+> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+> ---
+>   This target is the same as the linear target except that is reports ability to
+>   discard to the upper level and translates arriving discards into sector
+>   overwrites with random (or zero) data.
 
--- 
-~Randy
+There is a fair amount of code duplication between dm-linear.c and this
+new target.
+
+Something needs to give, ideally you'd factor out methods that are
+shared by both targets, but those methods must _not_ introduce overhead
+to dm-linear.
+
+Could be that dm-linear methods just get called by the wrapper
+dm-sec-erase target (more on the "dm-sec-erase" name below).
+ 
+>   The target does not try to determine if the underlying drive reliably supports
+>   data overwrites, this decision is solely on the discretion of a user.
+> 
+>   It may be useful to create a secure deletion setup when filesystem when
+>   unlinking a file sends discards to its sectors, in this target they are
+>   translated to writes that wipe deleted data on the underlying drive.
+> 
+>   Tested on x86.
+
+All of this extra context and explanation needs to be captured in the
+actual patch header.  Not as a tangent in that "cut" section of your
+patch header.
+ 
+>  Documentation/device-mapper/dm-secdel.txt |  24 ++
+>  drivers/md/Kconfig                        |  14 ++
+>  drivers/md/Makefile                       |   2 +
+>  drivers/md/dm-secdel.c                    | 399 ++++++++++++++++++++++++++++++
+>  4 files changed, 439 insertions(+)
+>  create mode 100644 Documentation/device-mapper/dm-secdel.txt
+>  create mode 100644 drivers/md/dm-secdel.c
+
+<snip>
+
+Shouldn't this target be implementing all that is needed for
+REQ_OP_SECURE_ERASE support?  And the resulting DM device would
+advertise its capability using QUEUE_FLAG_SECERASE?
+
+And this is why I think the target should be named "dm-sec-erase" or
+even "dm-secure-erase".
+
+> diff --git a/drivers/md/dm-secdel.c b/drivers/md/dm-secdel.c
+> new file mode 100644
+> index 000000000000..9aeaf3f243c0
+> --- /dev/null
+> +++ b/drivers/md/dm-secdel.c
+
+<snip>
+
+> +/*
+> + * Send amount of masking data to the device
+> + * @mode: 0 to write zeros, otherwise to write random data
+> + */
+> +static int issue_erase(struct block_device *bdev, sector_t sector,
+> +		       sector_t nr_sects, gfp_t gfp_mask, enum secdel_mode mode)
+> +{
+> +	int ret = 0;
+> +
+> +	while (nr_sects) {
+> +		struct bio *bio;
+> +		unsigned int nrvecs = min(nr_sects,
+> +					  (sector_t)BIO_MAX_PAGES >> 3);
+> +
+> +		bio = bio_alloc(gfp_mask, nrvecs);
+
+You should probably be using your own bioset to allocate these bios.
+
+> +		if (!bio) {
+> +			DMERR("%s %lu[%lu]: no memory to allocate bio (%u)",
+> +			      __func__, sector, nr_sects, nrvecs);
+> +			ret = -ENOMEM;
+> +			break;
+> +		}
+> +
+> +		bio->bi_iter.bi_sector = sector;
+> +		bio_set_dev(bio, bdev);
+> +		bio->bi_end_io = bio_end_erase;
+> +
+> +		while (nr_sects != 0) {
+> +			unsigned int sn;
+> +			struct page *page = NULL;
+> +
+> +			sn = min((sector_t)PAGE_SIZE >> 9, nr_sects);
+> +			if (mode == SECDEL_MODE_RAND) {
+> +				page = alloc_page(gfp_mask);
+> +				if (!page) {
+> +					DMERR("%s %lu[%lu]: no memory to allocate page for random data",
+> +					      __func__, sector, nr_sects);
+> +					/* will fallback to zero filling */
+
+In general, performing memory allocations to service IO is something all
+DM core and DM targets must work to avoid.  This smells bad.
+
+...
+
+> +
+> +/* convert discards into writes */
+> +static int secdel_map_discard(struct dm_target *ti, struct bio *sbio)
+> +{
+> +	struct secdel_c *lc = ti->private;
+> +	struct block_device *bdev = lc->dev->bdev;
+> +	sector_t sector = sbio->bi_iter.bi_sector;
+> +	sector_t nr_sects = bio_sectors(sbio);
+> +
+> +	lc->requests++;
+> +	if (!bio_sectors(sbio))
+> +		return 0;
+> +	if (!op_discard(sbio))
+> +		return 0;
+> +	lc->discards++;
+> +	if (WARN_ON(sbio->bi_vcnt != 0))
+> +		return -1;
+> +	DMDEBUG("DISCARD %lu: %u sectors M%d", sbio->bi_iter.bi_sector,
+> +		bio_sectors(sbio), lc->mode);
+> +	bio_endio(sbio);
+> +
+> +	if (issue_erase(bdev, sector, nr_sects, GFP_NOFS, lc->mode))
+
+At a minimum this should be GFP_NOIO.  You don't want to recurse into
+block (and potentially yourself) in the face of low memory.
+
+> +static int secdel_end_io(struct dm_target *ti, struct bio *bio,
+> +			 blk_status_t *error)
+> +{
+> +	struct secdel_c *lc = ti->private;
+> +
+> +	if (!*error && bio_op(bio) == REQ_OP_ZONE_REPORT)
+> +		dm_remap_zone_report(ti, bio, lc->start);
+> +
+> +	return DM_ENDIO_DONE;
+> +}
+
+Perfect example of why this new target shouldn't be doing a point in
+time copy of dm-linear code.
+
+With 4.20's upcoming zoned device changes dm-linear no longer even has
+an end_io hook (which was introduced purely for REQ_OP_ZONE_REPORT's
+benefit).
+
+Mike
