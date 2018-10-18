@@ -5,106 +5,106 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 458677D088
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 16:08:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 41F767D088
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 17:31:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728259AbeJSAK0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 20:10:26 -0400
-Received: from foss.arm.com ([217.140.101.70]:40220 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727859AbeJSAK0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Oct 2018 20:10:26 -0400
+        id S1726463AbeJSBdm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 21:33:42 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:41514 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726444AbeJSBdm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Oct 2018 21:33:42 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D41EF341;
-        Thu, 18 Oct 2018 09:08:45 -0700 (PDT)
-Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B73A3F71A;
-        Thu, 18 Oct 2018 09:08:42 -0700 (PDT)
-Subject: Re: [PATCH 2/4] iommu/arm-smmu: Workaround for Marvell Armada-AP806
- SoC erratum #582743
-To:     Hanna Hawa <hannah@marvell.com>, catalin.marinas@arm.com,
-        will.deacon@arm.com, corbet@lwn.net, joro@8bytes.org,
-        robh+dt@kernel.org, gregory.clement@bootlin.com,
-        mark.rutland@arm.com, jason@lakedaemon.net, andrew@lunn.ch,
-        sebastian.hesselbarth@gmail.com
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        devicetree@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        nadavh@marvell.com, omrii@marvell.com, nd@arm.com
-References: <1539604846-21151-1-git-send-email-hannah@marvell.com>
- <1539604846-21151-3-git-send-email-hannah@marvell.com>
- <8a7eefcf-6a77-8dc1-2ce9-9bb7395a3bb7@arm.com>
- <2e4f2b02-4b02-877d-1f51-c617170398a6@marvell.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <38360fdf-8bc0-9fea-870f-fdb8b6103248@arm.com>
-Date:   Thu, 18 Oct 2018 17:08:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C8D69341;
+        Thu, 18 Oct 2018 10:31:42 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.80])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B000B3F5D3;
+        Thu, 18 Oct 2018 10:31:38 -0700 (PDT)
+Date:   Thu, 18 Oct 2018 18:31:36 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v7 7/8] arm64: update
+ Documentation/arm64/tagged-pointers.txt
+Message-ID: <20181018173135.GF237391@arrakis.emea.arm.com>
+References: <cover.1538485901.git.andreyknvl@google.com>
+ <47a464307d4df3c0cb65f88d1fe83f9a741dd74b.1538485901.git.andreyknvl@google.com>
+ <20181003173256.GG12998@arrakis.emea.arm.com>
+ <CAAeHK+yPCRNAOSi6OpYC_Tdbo9SoXRVRbx8pjXNq96v8csO-Wg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <2e4f2b02-4b02-877d-1f51-c617170398a6@marvell.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+yPCRNAOSi6OpYC_Tdbo9SoXRVRbx8pjXNq96v8csO-Wg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16/10/18 09:25, Hanna Hawa wrote:
-> Hi Robin,
+On Wed, Oct 10, 2018 at 04:09:25PM +0200, Andrey Konovalov wrote:
+> On Wed, Oct 3, 2018 at 7:32 PM, Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > On Tue, Oct 02, 2018 at 03:12:42PM +0200, Andrey Konovalov wrote:
+[...]
+> > Also, how is user space supposed to know that it can now pass tagged
+> > pointers into the kernel? An ABI change (or relaxation), needs to be
+> > advertised by the kernel, usually via a new HWCAP bit (e.g. HWCAP_TBI).
+> > Once we have a HWCAP bit in place, we need to be pretty clear about
+> > which syscalls can and cannot cope with tagged pointers. The "as of now"
+> > implies potential further relaxation which, again, would need to be
+> > advertised to user in some (additional) way.
 > 
+> How exactly should I do that? Something like this [1]? Or is it only
+> for hardware specific things and for this patchset I need to do
+> something else?
 > 
-> On 10/15/2018 04:00 PM, Robin Murphy wrote:
->> Hi Hanna,
->>
->> On 15/10/18 13:00, hannah@marvell.com wrote:
->>> From: Hanna Hawa <hannah@marvell.com>
->>>
->>> Due to erratum #582743, the Marvell Armada-AP806 can't access 64bit
->>> to ARM SMMUv2 registers.
->>> This patch split the writeq/readq to two accesses of writel/readl.
->>>
->>> Note that separate writes/reads to 2 is not problem regards to 
->>> atomicity,
->>> because the driver use the readq/writeq while initialize the SMMU, 
->>> report
->>> for SMMU fault, and use spinlock in one case (iova_to_phys).
->>
->> In general, this doesn't work. Here's what the SMMU spec says about
->> SMMU_CBn_TLBIVA, but others are similar:
->>
->> "If SMMU_CBA2Rn.VA64 is one, then AArch64 format is selected. The
->> programmer should use 64 bit accesses to this register. If 32-bit
->> accesses are used then writes to the top 32 bits are ignored and writes
->> to the lower 32 bits are zero extended."
->>
->> If your interconnect won't let 64-bit transactions through, then you
->> can't use AArch64 format at stage 1 at all, since there's no way to
->> invalidate entries with the correct ASID, and you'll have to restrict
->> stage 2 formats to at most 44-bit IOVAs in order for TLBIIPAS2{L} not to
->> invalidate the wrong thing.
-> Thanks for your suggestion.
+> [1] https://github.com/torvalds/linux/commit/7206dc93a58fb76421c4411eefa3c003337bcb2d
+
+Thinking some more on this, we should probably keep the HWCAP_* bits for
+actual hardware features. Maybe someone else has a better idea (the
+linux-abi list?). An option would be to make use of AT_FLAGS auxv
+(currently 0) in Linux. I've seen some MIPS patches in the past but
+nothing upstream.
+
+Yet another option would be for the user to probe on some innocuous
+syscall currently returning -EFAULT on tagged pointer arguments but I
+don't particularly like this.
+
+> >> - - pointer arguments to system calls, including pointers in structures
+> >> -   passed to system calls,
+> >> +  - pointer arguments (including pointers in structures), which don't
+> >> +    describe virtual memory ranges, passed to system calls
+> >
+> > I think we need to be more precise here...
 > 
-> To restrict the IOVAs i need to add another work-around to the driver to 
-> limit the va_size, is that acceptable?
+> In what way?
 
-Yeah, constraining AArch64 stage 2 to 44 bits should just be a case of 
-adjusting smmu->ipa_size at probe time, but you'd still need to add the 
-writel()-based TLBI path to take advantage of it.
+In the way of being explicit about which syscalls support tagged
+pointers, unless we find a good reason to support tagged pointers on all
+syscalls and avoid any lists.
 
-How big is the physical memory map on these SoCs? If everything fits 
-into 40 bits then I think you could get away with simply hiding the 
-SMMU_IDR2.PTFSv8 fields to sidestep the AArch64 formats altogether, and 
-everything else should fall out in the wash. Otherwise, you'll have to 
-just disable stage 1 support in addition to the stage 2 workaround as 
-above.
-
-> What the different in the driver between AARCH32_L & AARCH32_S?
-
-AARCH32_L is the 3-level LPAE format, which gives you 32-bit 
-input/40-bit output at stage 1 and 40-bit input/40-bit output at stage 
-2. AARCH32_S is the legacy 2-level short-descriptor format which only 
-supports stage 1 and is limited to 32-bit output addresses - MMU-500 
-does support it, but you probably want to avoid it if possible ;)
-
-Robin.
+-- 
+Catalin
