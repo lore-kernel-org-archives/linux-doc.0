@@ -1,134 +1,326 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 98B947D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Oct 2018 23:57:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F8047D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 02:07:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727214AbeJRHzD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 03:55:03 -0400
-Received: from mga18.intel.com ([134.134.136.126]:18839 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727186AbeJRHzD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Oct 2018 03:55:03 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Oct 2018 16:56:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,393,1534834800"; 
-   d="scan'208";a="89168711"
-Received: from ray.sc.intel.com (HELO [10.232.0.41]) ([10.232.0.41])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Oct 2018 16:56:51 -0700
-Subject: Re: [PATCH v14 19/19] x86/sgx: Driver documentation
-To:     Pavel Machek <pavel@ucw.cz>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-References: <20180925130845.9962-1-jarkko.sakkinen@linux.intel.com>
- <20180925130845.9962-20-jarkko.sakkinen@linux.intel.com>
- <20181015205436.GA28500@amd>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        sean.j.christopherson@intel.com, nhorman@redhat.com,
-        npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, linux-sgx@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com,
+        id S1727357AbeJRKG3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 06:06:29 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:44928 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727331AbeJRKG3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 06:06:29 -0400
+Received: by mail-pl1-f194.google.com with SMTP id d23-v6so124462pls.11
+        for <linux-doc@vger.kernel.org>; Wed, 17 Oct 2018 19:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Qt68m4WwaAA8wqn9TWpvccwnatcfbTjeytE/h9J0cbs=;
+        b=TfelXQWU06HJlB5UEnv+fT1DNN8DF/gZtkYaVyCnxUAaFe2xXbwrLDhWEJWBSeA7oI
+         ZgMqCDfEeHDNRLk2D/fCcFYRXIFxG5hVt+xC3L2/3LRU2cWgZpKtClXSSc19izYCIkT6
+         55m1z2r26owTGtHvMw/0Oaf8jMa3pQ4oFbz2k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Qt68m4WwaAA8wqn9TWpvccwnatcfbTjeytE/h9J0cbs=;
+        b=WU4ApkStJMnH1PF4e6Ul8w9Hk1wAThqljx13Q943z38dfl3FkXc4SPgCOOUZ5Ovr2Z
+         sGK8r0oCPBXkTC76+ofAF7cRcPPTANlML6FBMy2P5hkRXUstgR7nG/yECL+aX3h3clNm
+         /aZRUfJJkDcATyQyBFGMCKaUYuupdm4FSaKcjgf/4FjvTnHpTdSSRmqRXNBJJUoU6vQ3
+         5/rNcrvsRpFogQ41OIaMfgmUb0jnO4zcTDEiDi50gT8BLXPEe4hH9L9ZsDxradi6hho/
+         /4QPTDvuYC9Uk1vu33S5GIpmPQHe6HN+Incb8yDbkF5E+58Qn9VCBsGZPmv6u8xb4g6P
+         O00Q==
+X-Gm-Message-State: ABuFfog+vLa1x6VKrDxVIvEW633mal/ehkvnzvkHkZUP2WIuNQ6w9vYb
+        tCL3KmKTynhZeUDwHMuZFce4/A==
+X-Google-Smtp-Source: ACcGV62accAj2DSWYuDVMqJA4cGgJ4RRMAvWfIilrYW+6A6m+dgVwNovDNqMhxDwhC2nV5o9anFlYA==
+X-Received: by 2002:a17:902:54d:: with SMTP id 71-v6mr20643394plf.80.1539828474367;
+        Wed, 17 Oct 2018 19:07:54 -0700 (PDT)
+Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
+        by smtp.gmail.com with ESMTPSA id t69-v6sm24705859pgd.43.2018.10.17.19.07.52
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 17 Oct 2018 19:07:52 -0700 (PDT)
+Date:   Wed, 17 Oct 2018 19:07:51 -0700
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     Nikolay Borisov <nborisov@suse.com>, linux-kernel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <fe28962d-367b-b8bb-8280-fe48c7d08813@intel.com>
-Date:   Wed, 17 Oct 2018 16:56:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
+ disabling preemption
+Message-ID: <20181018020751.GB99677@joelaf.mtv.corp.google.com>
+References: <20181015112112.GT2674@linux.ibm.com>
+ <20181015193951.GA33528@joelaf.mtv.corp.google.com>
+ <20181015195426.GD2674@linux.ibm.com>
+ <20181015201556.GA43575@joelaf.mtv.corp.google.com>
+ <20181015210856.GE2674@linux.ibm.com>
+ <20181016112611.GA27405@linux.ibm.com>
+ <20181016204122.GA8176@joelaf.mtv.corp.google.com>
+ <20181017161100.GP2674@linux.ibm.com>
+ <20181017181505.GC107185@joelaf.mtv.corp.google.com>
+ <20181017203324.GS2674@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20181015205436.GA28500@amd>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181017203324.GS2674@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/15/2018 01:54 PM, Pavel Machek wrote:
->> +Intel(R) SGX is a set of CPU instructions that can be used by applications to
->> +set aside private regions of code and data. The code outside the enclave is
->> +disallowed to access the memory inside the enclave by the CPU access control.
->> +In a way you can think that SGX provides inverted sandbox. It protects the
->> +application from a malicious host.
-> Well, recently hardware had some problems keeping its
-> promises. So... what about rowhammer, meltdown and spectre?
+On Wed, Oct 17, 2018 at 01:33:24PM -0700, Paul E. McKenney wrote:
+> On Wed, Oct 17, 2018 at 11:15:05AM -0700, Joel Fernandes wrote:
+> > On Wed, Oct 17, 2018 at 09:11:00AM -0700, Paul E. McKenney wrote:
+> > > On Tue, Oct 16, 2018 at 01:41:22PM -0700, Joel Fernandes wrote:
+> > > > On Tue, Oct 16, 2018 at 04:26:11AM -0700, Paul E. McKenney wrote:
+> > > > > On Mon, Oct 15, 2018 at 02:08:56PM -0700, Paul E. McKenney wrote:
+> > > > > > On Mon, Oct 15, 2018 at 01:15:56PM -0700, Joel Fernandes wrote:
+> > > > > > > On Mon, Oct 15, 2018 at 12:54:26PM -0700, Paul E. McKenney wrote:
+> > > > > > > [...]
+> > > > > > > > > > In any case, please don't spin for milliseconds with preemption disabled.
+> > > > > > > > > > The real-time guys are unlikely to be happy with you if you do this!
+> > > > > > > > > 
+> > > > > > > > > Well just to clarify, I was just running Oleg's test which did this. This
+> > > > > > > > > test was mentioned in the original documentation that I deleted. Ofcourse I
+> > > > > > > > > would not dare do such a thing in production code :-D. I guess to Oleg's
+> > > > > > > > > defense, he did it to very that synchronize_rcu() was not blocked on
+> > > > > > > > > preempt-disable sections which was a different test.
+> > > > > > > > 
+> > > > > > > > Understood!  Just pointing out that RCU's tolerating a given action does
+> > > > > > > > not necessarily mean that it is a good idea to take that action.  ;-)
+> > > > > > > 
+> > > > > > > Makes sense :-) thanks.
+> > > > > > 
+> > > > > > Don't worry, that won't happen again.  ;-)
+> > > > > > 
+> > > > > > > > > > > > +		pr_crit("SPIN done!\n");
+> > > > > > > > > > > > +		preempt_enable();
+> > > > > > > > > > > > +		break;
+> > > > > > > > > > > > +	case 777:
+> > > > > > > > > > > > +		pr_crit("SYNC start\n");
+> > > > > > > > > > > > +		synchronize_rcu();
+> > > > > > > > > > > > +		pr_crit("SYNC done!\n");
+> > > > > > > > > > > 
+> > > > > > > > > > > But you are using the console printing infrastructure which is rather
+> > > > > > > > > > > heavyweight. Try replacing pr_* calls with trace_printk so that you
+> > > > > > > > > > > write to the lock-free ring buffer, this will reduce the noise from the
+> > > > > > > > > > > heavy console printing infrastructure.
+> > > > > > > > > > 
+> > > > > > > > > > And this might be a problem as well.
+> > > > > > > > > 
+> > > > > > > > > This was not the issue (or atleast not fully the issue) since I saw the same
+> > > > > > > > > thing with trace_printk. It was exactly what you said - which is the
+> > > > > > > > > excessively long preempt disabled times.
+> > > > > > > > 
+> > > > > > > > One approach would be to apply this patch against (say) v4.18, which
+> > > > > > > > does not have consolidated grace periods.  You might then be able to
+> > > > > > > > tell if the pr_crit() calls make any difference.
+> > > > > > > 
+> > > > > > > I could do that, yeah. But since the original problem went away due to
+> > > > > > > disabling preempts for a short while, I will move on and continue to focus on
+> > > > > > > updating other parts of the documenation. Just to mention I
+> > > > > > > brought this up because I thought its better to do that than not to, just
+> > > > > > > incase there is any lurking issue with the consolidation. Sorry if that ended
+> > > > > > > up with me being noisy.
+> > > > > > 
+> > > > > > Not a problem, no need to apologize!
+> > > > > 
+> > > > > Besides, digging through the code did point out a reasonable optimization.
+> > > > > In the common case, this would buy 100s of microseconds rather than
+> > > > > milliseconds, but it seems simple enough to be worthwhile.  Thoughts?
+> > > > 
+> > > > Cool, thanks. One comment below:
+> > > > 
+> > > > > ------------------------------------------------------------------------
+> > > > > 
+> > > > > commit 07921e8720907f58f82b142f2027fc56d5abdbfd
+> > > > > Author: Paul E. McKenney <paulmck@linux.ibm.com>
+> > > > > Date:   Tue Oct 16 04:12:58 2018 -0700
+> > > > > 
+> > > > >     rcu: Speed up expedited GPs when interrupting RCU reader
+> > > > >     
+> > > > >     In PREEMPT kernels, an expedited grace period might send an IPI to a
+> > > > >     CPU that is executing an RCU read-side critical section.  In that case,
+> > > > >     it would be nice if the rcu_read_unlock() directly interacted with the
+> > > > >     RCU core code to immediately report the quiescent state.  And this does
+> > > > >     happen in the case where the reader has been preempted.  But it would
+> > > > >     also be a nice performance optimization if immediate reporting also
+> > > > >     happened in the preemption-free case.
+> > > > >     
+> > > > >     This commit therefore adds an ->exp_hint field to the task_struct structure's
+> > > > >     ->rcu_read_unlock_special field.  The IPI handler sets this hint when
+> > > > >     it has interrupted an RCU read-side critical section, and this causes
+> > > > >     the outermost rcu_read_unlock() call to invoke rcu_read_unlock_special(),
+> > > > >     which, if preemption is enabled, reports the quiescent state immediately.
+> > > > >     If preemption is disabled, then the report is required to be deferred
+> > > > >     until preemption (or bottom halves or interrupts or whatever) is re-enabled.
+> > > > >     
+> > > > >     Because this is a hint, it does nothing for more complicated cases.  For
+> > > > >     example, if the IPI interrupts an RCU reader, but interrupts are disabled
+> > > > >     across the rcu_read_unlock(), but another rcu_read_lock() is executed
+> > > > >     before interrupts are re-enabled, the hint will already have been cleared.
+> > > > >     If you do crazy things like this, reporting will be deferred until some
+> > > > >     later RCU_SOFTIRQ handler, context switch, cond_resched(), or similar.
+> > > > >     
+> > > > >     Reported-by: Joel Fernandes <joel@joelfernandes.org>
+> > > > >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> > > > > 
+> > > > > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > > > > index 004ca21f7e80..64ce751b5fe9 100644
+> > > > > --- a/include/linux/sched.h
+> > > > > +++ b/include/linux/sched.h
+> > > > > @@ -571,8 +571,10 @@ union rcu_special {
+> > > > >  	struct {
+> > > > >  		u8			blocked;
+> > > > >  		u8			need_qs;
+> > > > > +		u8			exp_hint; /* Hint for performance. */
+> > > > > +		u8			pad; /* No garbage from compiler! */
+> > > > >  	} b; /* Bits. */
+> > > > > -	u16 s; /* Set of bits. */
+> > > > > +	u32 s; /* Set of bits. */
+> > > > >  };
+> > > > >  
+> > > > >  enum perf_event_task_context {
+> > > > > diff --git a/kernel/rcu/tree_exp.h b/kernel/rcu/tree_exp.h
+> > > > > index e669ccf3751b..928fe5893a57 100644
+> > > > > --- a/kernel/rcu/tree_exp.h
+> > > > > +++ b/kernel/rcu/tree_exp.h
+> > > > > @@ -692,8 +692,10 @@ static void sync_rcu_exp_handler(void *unused)
+> > > > >  	 */
+> > > > >  	if (t->rcu_read_lock_nesting > 0) {
+> > > > >  		raw_spin_lock_irqsave_rcu_node(rnp, flags);
+> > > > > -		if (rnp->expmask & rdp->grpmask)
+> > > > > +		if (rnp->expmask & rdp->grpmask) {
+> > > > >  			rdp->deferred_qs = true;
+> > > > > +			WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, true);
+> > > > > +		}
+> > > > >  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+> > > > >  	}
+> > > > >  
+> > > > > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+> > > > > index 8b48bb7c224c..d6286eb6e77e 100644
+> > > > > --- a/kernel/rcu/tree_plugin.h
+> > > > > +++ b/kernel/rcu/tree_plugin.h
+> > > > > @@ -643,8 +643,9 @@ static void rcu_read_unlock_special(struct task_struct *t)
+> > > > >  	local_irq_save(flags);
+> > > > >  	irqs_were_disabled = irqs_disabled_flags(flags);
+> > > > >  	if ((preempt_bh_were_disabled || irqs_were_disabled) &&
+> > > > > -	    t->rcu_read_unlock_special.b.blocked) {
+> > > > > +	    t->rcu_read_unlock_special.s) {
+> > > > >  		/* Need to defer quiescent state until everything is enabled. */
+> > > > > +		WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
+> > > > >  		raise_softirq_irqoff(RCU_SOFTIRQ);
+> > > > 
+> > > > Still going through this patch, but it seems to me like the fact that
+> > > > rcu_read_unlock_special is called means someone has requested for a grace
+> > > > period. Then in that case, does it not make sense to raise the softirq
+> > > > for processing anyway?
+> > > 
+> > > Not necessarily.  Another reason that rcu_read_unlock_special() might
+> > > be called is if the RCU read-side critical section had been preempted,
+> > > in which case there might not even be a grace period in progress.
+> > 
+> > Yes true, it was at the back of my head ;) It needs to remove itself from the
+> > blocked lists on the unlock. And ofcourse the preemption case is alsoo
+> > clearly mentioned in this function's comments. (slaps self).
+> 
+> Sometimes rcutorture reminds me of interesting RCU corner cases...  ;-)
+> 
+> > > In addition, if interrupts, bottom halves, and preemption are all enabled,
+> > > the code in rcu_preempt_deferred_qs_irqrestore() doesn't need to bother
+> > > raising softirq, as it can instead just immediately report the quiescent
+> > > state.
+> > 
+> > Makes sense. I will go through these code paths more today. Thank you for the
+> > explanations!
+> > 
+> > I think something like need_exp_qs instead of 'exp_hint' may be more
+> > descriptive?
+> 
+> Well, it is only a hint due to the fact that it is not preserved across
+> complex sequences of overlapping RCU read-side critical sections of
+> different types.  So if you have the following sequence:
+> 
+> 	rcu_read_lock();
+> 	/* Someone does synchronize_rcu_expedited(), which sets ->exp_hint. */
+> 	preempt_disable();
+> 	rcu_read_unlock(); /* Clears ->exp_hint. */
+> 	preempt_enable(); /* But ->exp_hint is already cleared. */
+> 
+> This is OK because there will be some later event that passes the quiescent
+> state to the RCU core.  This will slow down the expedited grace period,
+> but this case should be uncommon.  If it does turn out to be common, then
+> some more complex scheme can be put in place.
+> 
+> Hmmm...  This patch does need some help, doesn't it?  How about the following
+> to be folded into the original?
+> 
+> commit d8d996385055d4708121fa253e04b4272119f5e2
+> Author: Paul E. McKenney <paulmck@linux.ibm.com>
+> Date:   Wed Oct 17 13:32:25 2018 -0700
+> 
+>     fixup! rcu: Speed up expedited GPs when interrupting RCU reader
+>     
+>     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> 
+> diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+> index d6286eb6e77e..117aeb582fdc 100644
+> --- a/kernel/rcu/tree_plugin.h
+> +++ b/kernel/rcu/tree_plugin.h
+> @@ -650,6 +650,7 @@ static void rcu_read_unlock_special(struct task_struct *t)
+>  		local_irq_restore(flags);
+>  		return;
+>  	}
+> +	WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
+>  	rcu_preempt_deferred_qs_irqrestore(t, flags);
+>  }
+>  
 
-There's a ton of documentation out there about what kinds of protections
-SGX provides.  I don't think this is an appropriate place to have an
-exhaustive discussion about it.  But, there's extensive discussion of it
-on Intel's security site:
+Sure, I believe so. I was also thinking out load about if we can avoid
+raising of the softirq for some cases in rcu_read_unlock_special:
 
-https://software.intel.com/security-software-guidance/
+For example, in rcu_read_unlock_special()
 
-There's documentation on how L1TF affects SGX here:
+static void rcu_read_unlock_special(struct task_struct *t)
+{
+[...]
+	if ((preempt_bh_were_disabled || irqs_were_disabled) &&
+	    t->rcu_read_unlock_special.s) {
+		/* Need to defer quiescent state until everything is enabled. */
+		raise_softirq_irqoff(RCU_SOFTIRQ);
+		local_irq_restore(flags);
+		return;
+	}
+	rcu_preempt_deferred_qs_irqrestore(t, flags);
+}
 
-https://software.intel.com/security-software-guidance/software-guidance/l1-terminal-fault
+Instead of raising the softirq, for the case where irqs are enabled, but
+preemption is disabled, can we not just do:
 
-Or Spectre v2 here:
+		set_tsk_need_resched(current);
+		set_preempt_need_resched();
 
-https://software.intel.com/security-software-guidance/software-guidance/bounds-check-bypass
+and return? Not sure the benefits of doing that are, but it seems nice to
+avoid raising the softirq if possible, for benefit of real-time workloads.
 
-> Which ones apply, which ones do not, and on what cpu generations?
+Also it seems like there is a chance the softirq might run before the
+preemption is reenabled anyway right?
 
-The CVEs list this in pretty exhaustive detail.  The L1TF/SGX one, for
-example:
+Also one last thing, in your patch - do we really need to test for
+"t->rcu_read_unlock_special.s" in rcu_read_unlock_special()? AFAICT,
+rcu_read_unlock_special would only be called if t->rcu_read_unlock_special.s
+is set in the first place so we can drop the test for that.
 
-https://nvd.nist.gov/vuln/detail/CVE-2018-3615
+thanks,
 
-Lists a bunch of processor models.
+- Joel
 
