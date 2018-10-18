@@ -1,86 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C38707D090
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 10:14:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 957B17D982
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 11:15:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727500AbeJRSON (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 14:14:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54492 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728071AbeJRSOI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Oct 2018 14:14:08 -0400
-Received: from localhost (ip-213-127-77-176.ip.prioritytelecom.net [213.127.77.176])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2516C2148E;
-        Thu, 18 Oct 2018 10:13:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1539857629;
-        bh=DzZbeqmv+BFpusqIGxC5Zlgyc5U2PYNysgq3bhaK2EI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2lXoKDC1zG1/nFpDHKv0L5dqr/q0Q+wnJR3Pt0CuNj0MqtI3Rvmdgcnsn7Ytt1zz7
-         pUxerZk5PR5hVP8tydLgxng1nHof2iWCZHAxaeP+oAaA73xPzBfoZd8KsO0bdPXejh
-         kCoFarX9nEJj4XsDExLHABHtnuZiAYIOuL8QoP64=
-Date:   Thu, 18 Oct 2018 12:03:55 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [GIT PULL] IDA/IDR fixes for 4.19
-Message-ID: <20181018100355.GB8451@kroah.com>
-References: <20181016171608.GA19184@bombadil.infradead.org>
- <20181018062634.GA27494@infradead.org>
+        id S1728207AbeJRTPQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 15:15:16 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:36078 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728171AbeJRTPP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Oct 2018 15:15:15 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 74137A78;
+        Thu, 18 Oct 2018 04:14:44 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.80])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1213B3F5D3;
+        Thu, 18 Oct 2018 04:14:38 -0700 (PDT)
+Date:   Thu, 18 Oct 2018 12:14:36 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Yury Norov <ynorov@caviumnetworks.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Alexander Graf <agraf@suse.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        "Manuel A. Fernandez Montecelo" <manuel.montezelo@gmail.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Nathan Lynch <Nathan_Lynch@mentor.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        David Miller <davem@davemloft.net>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>
+Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
+Message-ID: <20181018111435.GA237391@arrakis.emea.arm.com>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+ <CALCETrVuabkb5ZQOSgQQTEq8CrS602NBpAkE2=4n982r1f5reQ@mail.gmail.com>
+ <CAK8P3a1Yhhv1TcQTcF0MinicGovgp_0g_sXqADe3fjVTtOK_aw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181018062634.GA27494@infradead.org>
+In-Reply-To: <CAK8P3a1Yhhv1TcQTcF0MinicGovgp_0g_sXqADe3fjVTtOK_aw@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 17, 2018 at 11:26:34PM -0700, Christoph Hellwig wrote:
-> On Tue, Oct 16, 2018 at 10:16:08AM -0700, Matthew Wilcox wrote:
-> > > >   git://git.infradead.org/users/willy/linux-dax.git ida-fixes-4.19-rc8
-> > > 
-> > > How about you at least test these in linux-next?  Putting things on top
-> > > of the most recent change is a huge tip-off that this branch got no
-> > > testing :(
-> > 
-> > One of the two changes is a comment line in a doc file.
-> > The other has been tested by 0day (which originally reported the issue).
-> > 
-> > I don't see how spending time in linux-next is going to achieve anything.
+On Sun, Oct 14, 2018 at 09:49:01PM +0200, Arnd Bergmann wrote:
+> On Sat, Oct 13, 2018 at 9:36 PM Andy Lutomirski <luto@amacapital.net> wrote:
+> >
+> > On Wed, May 16, 2018 at 1:19 AM Yury Norov <ynorov@caviumnetworks.com> wrote:
+> > >
+> > > This series enables AARCH64 with ILP32 mode.
+> > >
+> > > As supporting work, it introduces ARCH_32BIT_OFF_T configuration
+> > > option that is enabled for existing 32-bit architectures but disabled
+> > > for new arches (so 64-bit off_t userspace type is used by new userspace).
+> > > Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
+> >
+> > Second, ILP32 user code is highly unlikely
+> > to end up with the same struct layout as ILP64 code.  The latter seems
+> > like it should be solved entirely in userspace by adding a way to
+> > annotate a structure as being a kernel ABI structure and getting the
+> > toolchain to lay it out as if it were ILP64 even though the target is
+> > ILP32.
 > 
-> Especialy if we miss 4.19 final with that.  The documentation patch
-> avoids the probem of CC-BY-SA-4.0 including larger amounts of GPL files
-> in the output document, so we should have this before the release for
-> sure, and the other is just a test that isn't even in a normal kernel
-> build.
+> The syscall ABI could be almost completely abstracted in glibc, the
+> main issue is ioctl and a couple of related interfaces that pass data
+> structures (read() on /dev/input/*, mmap on /dev/snd/*
+> or raw sockets, fcntl).
 
-Ok, both patches are now pulled.
+There is another case on struct siginfo which has some pointers and it
+wouldn't look like an LP64 structure at all (and glibc doesn't normally
+intercept the sighandler call to rewrite the structure). We could add
+padding around void * members as the kernel zeros them, I don't recall
+the kernel reading these pointers from user. Anyway, using something
+that resembles compat_siginfo looked the simplest for ILP32.
 
-> Also after idr.rst is removed we should include something like this:
-> 
-> ---
-> >From c3660257f981e7a7254d18f52af64a2077f7bb49 Mon Sep 17 00:00:00 2001
-> From: Christoph Hellwig <hch@lst.de>
-> Date: Thu, 18 Oct 2018 08:22:39 +0200
-> Subject: LICENSES: Remove CC-BY-SA-4.0 license text
-
-<snip>
-
-Great idea, I've also merged this now as well after checking linux-next
-to ensure that no one else is using this license there either.
-
-thanks,
-
-greg k-h
+-- 
+Catalin
