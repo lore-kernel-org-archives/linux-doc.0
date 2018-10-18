@@ -1,108 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D82B7D088
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 09:57:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C38707D090
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 10:14:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727997AbeJRR5o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 13:57:44 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:37043 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728071AbeJRR5o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 13:57:44 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id B2C0B808CC; Thu, 18 Oct 2018 11:57:26 +0200 (CEST)
-Date:   Thu, 18 Oct 2018 11:57:27 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, linux-sgx@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v14 19/19] x86/sgx: Driver documentation
-Message-ID: <20181018095727.GC10861@amd>
-References: <20180925130845.9962-1-jarkko.sakkinen@linux.intel.com>
- <20180925130845.9962-20-jarkko.sakkinen@linux.intel.com>
- <20181015205436.GA28500@amd>
- <alpine.DEB.2.21.1810180205490.5022@jsakkine-mobl1>
+        id S1727500AbeJRSON (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 14:14:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54492 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728071AbeJRSOI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Oct 2018 14:14:08 -0400
+Received: from localhost (ip-213-127-77-176.ip.prioritytelecom.net [213.127.77.176])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2516C2148E;
+        Thu, 18 Oct 2018 10:13:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1539857629;
+        bh=DzZbeqmv+BFpusqIGxC5Zlgyc5U2PYNysgq3bhaK2EI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2lXoKDC1zG1/nFpDHKv0L5dqr/q0Q+wnJR3Pt0CuNj0MqtI3Rvmdgcnsn7Ytt1zz7
+         pUxerZk5PR5hVP8tydLgxng1nHof2iWCZHAxaeP+oAaA73xPzBfoZd8KsO0bdPXejh
+         kCoFarX9nEJj4XsDExLHABHtnuZiAYIOuL8QoP64=
+Date:   Thu, 18 Oct 2018 12:03:55 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [GIT PULL] IDA/IDR fixes for 4.19
+Message-ID: <20181018100355.GB8451@kroah.com>
+References: <20181016171608.GA19184@bombadil.infradead.org>
+ <20181018062634.GA27494@infradead.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="6zdv2QT/q3FMhpsV"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.1810180205490.5022@jsakkine-mobl1>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20181018062634.GA27494@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Oct 17, 2018 at 11:26:34PM -0700, Christoph Hellwig wrote:
+> On Tue, Oct 16, 2018 at 10:16:08AM -0700, Matthew Wilcox wrote:
+> > > >   git://git.infradead.org/users/willy/linux-dax.git ida-fixes-4.19-rc8
+> > > 
+> > > How about you at least test these in linux-next?  Putting things on top
+> > > of the most recent change is a huge tip-off that this branch got no
+> > > testing :(
+> > 
+> > One of the two changes is a comment line in a doc file.
+> > The other has been tested by 0day (which originally reported the issue).
+> > 
+> > I don't see how spending time in linux-next is going to achieve anything.
+> 
+> Especialy if we miss 4.19 final with that.  The documentation patch
+> avoids the probem of CC-BY-SA-4.0 including larger amounts of GPL files
+> in the output document, so we should have this before the release for
+> sure, and the other is just a test that isn't even in a normal kernel
+> build.
 
---6zdv2QT/q3FMhpsV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ok, both patches are now pulled.
 
-On Thu 2018-10-18 02:45:27, Jarkko Sakkinen wrote:
-> On Mon, 15 Oct 2018, Pavel Machek wrote:
-> >On Tue 2018-09-25 16:06:56, Jarkko Sakkinen wrote:
-> >>+Intel(R) SGX is a set of CPU instructions that can be used by applicat=
-ions to
-> >>+set aside private regions of code and data. The code outside the encla=
-ve is
-> >>+disallowed to access the memory inside the enclave by the CPU access c=
-ontrol.
-> >>+In a way you can think that SGX provides inverted sandbox. It protects=
- the
-> >>+application from a malicious host.
-> >
-> >Well, recently hardware had some problems keeping its
-> >promises. So... what about rowhammer, meltdown and spectre?
->=20
-> Doesn't hardware always have this problem over time?
+> Also after idr.rst is removed we should include something like this:
+> 
+> ---
+> >From c3660257f981e7a7254d18f52af64a2077f7bb49 Mon Sep 17 00:00:00 2001
+> From: Christoph Hellwig <hch@lst.de>
+> Date: Thu, 18 Oct 2018 08:22:39 +0200
+> Subject: LICENSES: Remove CC-BY-SA-4.0 license text
 
-No, not really.
+<snip>
 
-In this case, tries to protect from hardware "attacks" done by machine
-owner. That job is theoretically impossible, so you have harder
-situation than most..
+Great idea, I've also merged this now as well after checking linux-next
+to ensure that no one else is using this license there either.
 
-> >Which ones apply, which ones do not, and on what cpu generations?
->=20
-> Definitely should be refined.
->=20
-> Meltdowns approach AFAIK does not work because reads outside the enclave
-> will always have a predefined value (-1) but only if the page is present,
-> which was later exploited in the Foreshadow attack.
+thanks,
 
-What about L1tf and https://github.com/lsds/spectre-attack-sgx ?
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---6zdv2QT/q3FMhpsV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlvIWQcACgkQMOfwapXb+vIbCwCgw3wWxvBiMbEy5TVWTbYyQmif
-TjkAniEwkld7XGcUBTl90sv+3trigWg1
-=YAi6
------END PGP SIGNATURE-----
-
---6zdv2QT/q3FMhpsV--
+greg k-h
