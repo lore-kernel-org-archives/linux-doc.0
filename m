@@ -2,111 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 813357D088
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 09:15:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E23777D088
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 09:24:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727825AbeJRRPS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 13:15:18 -0400
-Received: from mga09.intel.com ([134.134.136.24]:10561 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727575AbeJRRPS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Oct 2018 13:15:18 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Oct 2018 02:15:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,395,1534834800"; 
-   d="scan'208";a="100261340"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.72.61])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Oct 2018 02:15:11 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH] kernel-doc: fix declaration type determination
-In-Reply-To: <640b26f4-a6fa-ffbc-c866-ea03de4f79a5@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <640b26f4-a6fa-ffbc-c866-ea03de4f79a5@infradead.org>
-Date:   Thu, 18 Oct 2018 12:14:53 +0300
-Message-ID: <87va5zipki.fsf@intel.com>
+        id S1727613AbeJRRYj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 13:24:39 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:36051 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727378AbeJRRYi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 13:24:38 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id AAE43808AC; Thu, 18 Oct 2018 11:24:28 +0200 (CEST)
+Date:   Thu, 18 Oct 2018 11:24:29 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [PATCH v5 03/27] x86/fpu/xstate: Introduce XSAVES system states
+Message-ID: <20181018092429.GA10861@amd>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
+ <20181011151523.27101-4-yu-cheng.yu@intel.com>
+ <20181017104137.GE22535@zn.tnic>
+ <32da559b-7958-60db-e328-f0eb316e668e@infradead.org>
+ <20181017225829.GA32023@zn.tnic>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="tThc/1wpZn/ma/RB"
+Content-Disposition: inline
+In-Reply-To: <20181017225829.GA32023@zn.tnic>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 17 Oct 2018, Randy Dunlap <rdunlap@infradead.org> wrote:
-> From: Randy Dunlap <rdunlap@infradead.org>
->
-> Make declaration type determination more robust.
->
-> When scripts/kernel-doc is deciding if some kernel-doc notation
-> contains an enum, a struct, a union, a typedef, or a function,
-> it does a pattern match on the beginning of the string, looking
-> for a match with one of "struct", "union", "enum", or "typedef",
-> and otherwise defaults to a function declaration type.
-> However, if a function or a function-like macro has a name that
-> begins with "struct" (e.g., struct_size()), then kernel-doc
-> incorrectly decides that this is a struct declaration.
->
-> Fix this by looking for the declaration type keywords having an
-> ending word boundary (\b), so that "struct_size" will not match
-> a struct declaration.
 
-My perl is all cargo cult, so can't really review, but based on the
-description this is what should be done,
+--tThc/1wpZn/ma/RB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+On Thu 2018-10-18 00:58:29, Borislav Petkov wrote:
+> On Wed, Oct 17, 2018 at 03:39:47PM -0700, Randy Dunlap wrote:
+> > Would you mind explaining this request? (requirement?)
+> > Other than to say that it is the preference of some maintainers,
+> > please say Why it is preferred.
+> >=20
+> > and since the <type>s above won't typically be the same length,
+> > it's not for variable name alignment, right?
+>=20
+> Searching the net a little, it shows you have asked that question
+> before. So what is it you really wanna know?
 
-> I compared lots of html before/after output from core-api, driver-api,
-> and networking.  There were no differences in any of the files that
-> I checked.
+Why do you think sorting local variables is good idea (for includes it
+reduces collision, hopefully you don't have that for local variables),
+and where is it documented in CodingStyle.
 
-I used to do diff -r on pre and post change clean documentation builds
-to verify this type of stuff.
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-BR,
-Jani.
+--tThc/1wpZn/ma/RB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Kees Cook <keescook@chromium.org>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  scripts/kernel-doc |    8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> --- lnx-419-rc8.orig/scripts/kernel-doc
-> +++ lnx-419-rc8/scripts/kernel-doc
-> @@ -1904,13 +1904,13 @@ sub process_name($$) {
->  	    ++$warnings;
->  	}
->  
-> -	if ($identifier =~ m/^struct/) {
-> +	if ($identifier =~ m/^struct\b/) {
->  	    $decl_type = 'struct';
-> -	} elsif ($identifier =~ m/^union/) {
-> +	} elsif ($identifier =~ m/^union\b/) {
->  	    $decl_type = 'union';
-> -	} elsif ($identifier =~ m/^enum/) {
-> +	} elsif ($identifier =~ m/^enum\b/) {
->  	    $decl_type = 'enum';
-> -	} elsif ($identifier =~ m/^typedef/) {
-> +	} elsif ($identifier =~ m/^typedef\b/) {
->  	    $decl_type = 'typedef';
->  	} else {
->  	    $decl_type = 'function';
->
->
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+iEYEARECAAYFAlvIUU0ACgkQMOfwapXb+vLuYwCffF5sBE4m1yg2zzM9Cn5YOb1i
+rZsAnjdiBM6nrGcUURtx3ege7AefZD0x
+=AiQ3
+-----END PGP SIGNATURE-----
+
+--tThc/1wpZn/ma/RB--
