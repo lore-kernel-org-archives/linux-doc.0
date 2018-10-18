@@ -5,103 +5,80 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 957B17D982
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 11:15:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 14F0E7D088
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 12:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728207AbeJRTPQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 15:15:16 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:36078 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728171AbeJRTPP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Oct 2018 15:15:15 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 74137A78;
-        Thu, 18 Oct 2018 04:14:44 -0700 (PDT)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.80])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1213B3F5D3;
-        Thu, 18 Oct 2018 04:14:38 -0700 (PDT)
-Date:   Thu, 18 Oct 2018 12:14:36 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Yury Norov <ynorov@caviumnetworks.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Alexander Graf <agraf@suse.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        "Manuel A. Fernandez Montecelo" <manuel.montezelo@gmail.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        id S1726584AbeJRULn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 16:11:43 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:46694 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726132AbeJRULn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Oct 2018 16:11:43 -0400
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id JQ7pSwJbClvq; Thu, 18 Oct 2018 14:10:39 +0200 (CEST)
+Received: from zn.tnic (p200300EC2BCA5400329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2bca:5400:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 207531EC08F9;
+        Thu, 18 Oct 2018 14:10:39 +0200 (CEST)
+Date:   Thu, 18 Oct 2018 14:10:32 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Nathan Lynch <Nathan_Lynch@mentor.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        David Miller <davem@davemloft.net>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>
-Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
-Message-ID: <20181018111435.GA237391@arrakis.emea.arm.com>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
- <CALCETrVuabkb5ZQOSgQQTEq8CrS602NBpAkE2=4n982r1f5reQ@mail.gmail.com>
- <CAK8P3a1Yhhv1TcQTcF0MinicGovgp_0g_sXqADe3fjVTtOK_aw@mail.gmail.com>
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [PATCH v5 03/27] x86/fpu/xstate: Introduce XSAVES system states
+Message-ID: <20181018121032.GD20831@zn.tnic>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
+ <20181011151523.27101-4-yu-cheng.yu@intel.com>
+ <20181017104137.GE22535@zn.tnic>
+ <32da559b-7958-60db-e328-f0eb316e668e@infradead.org>
+ <20181017225829.GA32023@zn.tnic>
+ <fde4c237-6210-f4e4-5362-c2e24a9916a2@infradead.org>
+ <20181018092603.GB20831@zn.tnic>
+ <20181018093125.GB10861@amd>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a1Yhhv1TcQTcF0MinicGovgp_0g_sXqADe3fjVTtOK_aw@mail.gmail.com>
+In-Reply-To: <20181018093125.GB10861@amd>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 14, 2018 at 09:49:01PM +0200, Arnd Bergmann wrote:
-> On Sat, Oct 13, 2018 at 9:36 PM Andy Lutomirski <luto@amacapital.net> wrote:
-> >
-> > On Wed, May 16, 2018 at 1:19 AM Yury Norov <ynorov@caviumnetworks.com> wrote:
-> > >
-> > > This series enables AARCH64 with ILP32 mode.
-> > >
-> > > As supporting work, it introduces ARCH_32BIT_OFF_T configuration
-> > > option that is enabled for existing 32-bit architectures but disabled
-> > > for new arches (so 64-bit off_t userspace type is used by new userspace).
-> > > Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
-> >
-> > Second, ILP32 user code is highly unlikely
-> > to end up with the same struct layout as ILP64 code.  The latter seems
-> > like it should be solved entirely in userspace by adding a way to
-> > annotate a structure as being a kernel ABI structure and getting the
-> > toolchain to lay it out as if it were ILP64 even though the target is
-> > ILP32.
-> 
-> The syscall ABI could be almost completely abstracted in glibc, the
-> main issue is ioctl and a couple of related interfaces that pass data
-> structures (read() on /dev/input/*, mmap on /dev/snd/*
-> or raw sockets, fcntl).
+On Thu, Oct 18, 2018 at 11:31:25AM +0200, Pavel Machek wrote:
+> We want readable sources, not neat ascii art everywhere.
 
-There is another case on struct siginfo which has some pointers and it
-wouldn't look like an LP64 structure at all (and glibc doesn't normally
-intercept the sighandler call to rewrite the structure). We could add
-padding around void * members as the kernel zeros them, I don't recall
-the kernel reading these pointers from user. Anyway, using something
-that resembles compat_siginfo looked the simplest for ILP32.
+And we want pink ponies.
+
+Reverse xmas tree order is and has been the usual variable sorting in
+the tip tree for years.
 
 -- 
-Catalin
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
