@@ -1,393 +1,317 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 80B5D7D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 14:46:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 355F07D088
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 15:32:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbeJRWsP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Oct 2018 18:48:15 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60318 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726359AbeJRWsP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 18:48:15 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9IEkO7o125975
-        for <linux-doc@vger.kernel.org>; Thu, 18 Oct 2018 10:46:54 -0400
-Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2n6uygrw08-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 18 Oct 2018 10:46:53 -0400
-Received: from localhost
-        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Thu, 18 Oct 2018 10:46:42 -0400
-Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
-        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 18 Oct 2018 10:46:38 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w9IEkbLF37617682
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 18 Oct 2018 14:46:37 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0759DB2065;
-        Thu, 18 Oct 2018 14:46:37 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BFF1EB205F;
-        Thu, 18 Oct 2018 14:46:36 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.109])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 18 Oct 2018 14:46:36 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 69F4216C3749; Thu, 18 Oct 2018 07:46:37 -0700 (PDT)
-Date:   Thu, 18 Oct 2018 07:46:37 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Nikolay Borisov <nborisov@suse.com>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
- disabling preemption
-Reply-To: paulmck@linux.ibm.com
-References: <20181015193951.GA33528@joelaf.mtv.corp.google.com>
- <20181015195426.GD2674@linux.ibm.com>
- <20181015201556.GA43575@joelaf.mtv.corp.google.com>
- <20181015210856.GE2674@linux.ibm.com>
- <20181016112611.GA27405@linux.ibm.com>
- <20181016204122.GA8176@joelaf.mtv.corp.google.com>
- <20181017161100.GP2674@linux.ibm.com>
- <20181017181505.GC107185@joelaf.mtv.corp.google.com>
- <20181017203324.GS2674@linux.ibm.com>
- <20181018020751.GB99677@joelaf.mtv.corp.google.com>
+        id S1728261AbeJRXe1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Oct 2018 19:34:27 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:32916 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727757AbeJRXe1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Oct 2018 19:34:27 -0400
+Received: by mail-wm1-f66.google.com with SMTP id y140-v6so2122420wmd.0;
+        Thu, 18 Oct 2018 08:32:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=CfZxJT+X35TDRugibjiWsyi9jqjDhW9u5vsmbXrQ1nY=;
+        b=PvPIcpK/h29zNZR+0w8DG2uvYteHqntpKrfq6Cs7aMYevFqQYG2fafgvYR+wD5S3zb
+         A+QV5fcKLueTmWk9/CIgcIU2IEVg2KjNUpf3F6h2qL/I4UXoN2srcpSCSAfiW1gBoynt
+         JX7uhDQeJlnEw0WNAoGBUj66/FWKglLE8oZ5fqk7tzewXQ9Nv0PHNVhUVsN1Ot66bcxX
+         1pyTGSkDnrKjukkrWvS9LvHqEWQz+YicO7VJwRUYMLQJ1w2b+1w0+8iKyyQ2q1QgXPGW
+         Lp1fZqVNavPtsbk+cLs3OO3YEvs4S4ZWl+rM8wdo6vj1SqK/miqBy5fuA2FDlnOl59zi
+         BonA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=CfZxJT+X35TDRugibjiWsyi9jqjDhW9u5vsmbXrQ1nY=;
+        b=gnvE2F4WuvAfCpDB72ZyUTmLWKOoaJysxy5V0ryUYjw2CO6zpN9ofqm1jMmIlD/lO0
+         n9z1ZMnB04KvtQbqdfV0UuZUnFiF7FDrxCwfIoUbgFxA5KBWvkHUOKYLL4iKKEjrgfxk
+         UY+/1I02SNvbbmbCt3v4ybledynKe19c4T5qupnm7/wizq4cZmGybrRfTmwptEBz/4UD
+         g9t4npKHg4UV2yuhXcmx8559dIerFH5viOg0HQfOu99jtlZoUE/B+v7rPh/Zo/jg8Cxt
+         tkFVRAIdNpkIQrq/P8pCLb+hntMseFGfRYZh1fX/ZLT0SMxNLegT1mLYTAcPi7kebnaU
+         xf/Q==
+X-Gm-Message-State: ABuFfoieLBFRfWj+aeFt18VvgdS2MWW17CkhhuJjxq5Z9cwt8xyENLOb
+        rrYYuY0goFWNf4r+oJh8Bgk=
+X-Google-Smtp-Source: ACcGV60+8ZTO/mBO4AQLxT9yEEAyXwphYEND1D21ZGazQFLESwact9IVCooINXmgcD/qbcOJ41nUQg==
+X-Received: by 2002:a1c:838a:: with SMTP id f132-v6mr859195wmd.51.1539876772261;
+        Thu, 18 Oct 2018 08:32:52 -0700 (PDT)
+Received: from localhost (pD9E511F8.dip0.t-ipconnect.de. [217.229.17.248])
+        by smtp.gmail.com with ESMTPSA id y25-v6sm3042325wrd.25.2018.10.18.08.32.51
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 18 Oct 2018 08:32:51 -0700 (PDT)
+Date:   Thu, 18 Oct 2018 17:32:50 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Claudiu.Beznea@microchip.com
+Cc:     mark.rutland@arm.com, linux-pwm@vger.kernel.org,
+        alexandre.belloni@bootlin.com, shc_work@mail.ru, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, robh+dt@kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [RESEND PATCH v5 1/9] pwm: extend PWM framework with PWM modes
+Message-ID: <20181018153250.GC6226@ulmo>
+References: <1535461286-12308-1-git-send-email-claudiu.beznea@microchip.com>
+ <1535461286-12308-2-git-send-email-claudiu.beznea@microchip.com>
+ <20181016122508.GH8852@ulmo>
+ <139cc421-ac12-1262-bc32-763731528ccf@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rQ2U398070+RC21q"
 Content-Disposition: inline
-In-Reply-To: <20181018020751.GB99677@joelaf.mtv.corp.google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18101814-2213-0000-0000-00000305838D
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009897; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000268; SDB=6.01104489; UDB=6.00571785; IPR=6.00884539;
- MB=3.00023809; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-18 14:46:40
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18101814-2214-0000-0000-00005BF04DE3
-Message-Id: <20181018144637.GD2674@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-18_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1810180128
+In-Reply-To: <139cc421-ac12-1262-bc32-763731528ccf@microchip.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 17, 2018 at 07:07:51PM -0700, Joel Fernandes wrote:
-> On Wed, Oct 17, 2018 at 01:33:24PM -0700, Paul E. McKenney wrote:
-> > On Wed, Oct 17, 2018 at 11:15:05AM -0700, Joel Fernandes wrote:
-> > > On Wed, Oct 17, 2018 at 09:11:00AM -0700, Paul E. McKenney wrote:
-> > > > On Tue, Oct 16, 2018 at 01:41:22PM -0700, Joel Fernandes wrote:
-> > > > > On Tue, Oct 16, 2018 at 04:26:11AM -0700, Paul E. McKenney wrote:
-> > > > > > On Mon, Oct 15, 2018 at 02:08:56PM -0700, Paul E. McKenney wrote:
-> > > > > > > On Mon, Oct 15, 2018 at 01:15:56PM -0700, Joel Fernandes wrote:
-> > > > > > > > On Mon, Oct 15, 2018 at 12:54:26PM -0700, Paul E. McKenney wrote:
-> > > > > > > > [...]
-> > > > > > > > > > > In any case, please don't spin for milliseconds with preemption disabled.
-> > > > > > > > > > > The real-time guys are unlikely to be happy with you if you do this!
-> > > > > > > > > > 
-> > > > > > > > > > Well just to clarify, I was just running Oleg's test which did this. This
-> > > > > > > > > > test was mentioned in the original documentation that I deleted. Ofcourse I
-> > > > > > > > > > would not dare do such a thing in production code :-D. I guess to Oleg's
-> > > > > > > > > > defense, he did it to very that synchronize_rcu() was not blocked on
-> > > > > > > > > > preempt-disable sections which was a different test.
-> > > > > > > > > 
-> > > > > > > > > Understood!  Just pointing out that RCU's tolerating a given action does
-> > > > > > > > > not necessarily mean that it is a good idea to take that action.  ;-)
-> > > > > > > > 
-> > > > > > > > Makes sense :-) thanks.
-> > > > > > > 
-> > > > > > > Don't worry, that won't happen again.  ;-)
-> > > > > > > 
-> > > > > > > > > > > > > +		pr_crit("SPIN done!\n");
-> > > > > > > > > > > > > +		preempt_enable();
-> > > > > > > > > > > > > +		break;
-> > > > > > > > > > > > > +	case 777:
-> > > > > > > > > > > > > +		pr_crit("SYNC start\n");
-> > > > > > > > > > > > > +		synchronize_rcu();
-> > > > > > > > > > > > > +		pr_crit("SYNC done!\n");
-> > > > > > > > > > > > 
-> > > > > > > > > > > > But you are using the console printing infrastructure which is rather
-> > > > > > > > > > > > heavyweight. Try replacing pr_* calls with trace_printk so that you
-> > > > > > > > > > > > write to the lock-free ring buffer, this will reduce the noise from the
-> > > > > > > > > > > > heavy console printing infrastructure.
-> > > > > > > > > > > 
-> > > > > > > > > > > And this might be a problem as well.
-> > > > > > > > > > 
-> > > > > > > > > > This was not the issue (or atleast not fully the issue) since I saw the same
-> > > > > > > > > > thing with trace_printk. It was exactly what you said - which is the
-> > > > > > > > > > excessively long preempt disabled times.
-> > > > > > > > > 
-> > > > > > > > > One approach would be to apply this patch against (say) v4.18, which
-> > > > > > > > > does not have consolidated grace periods.  You might then be able to
-> > > > > > > > > tell if the pr_crit() calls make any difference.
-> > > > > > > > 
-> > > > > > > > I could do that, yeah. But since the original problem went away due to
-> > > > > > > > disabling preempts for a short while, I will move on and continue to focus on
-> > > > > > > > updating other parts of the documenation. Just to mention I
-> > > > > > > > brought this up because I thought its better to do that than not to, just
-> > > > > > > > incase there is any lurking issue with the consolidation. Sorry if that ended
-> > > > > > > > up with me being noisy.
-> > > > > > > 
-> > > > > > > Not a problem, no need to apologize!
-> > > > > > 
-> > > > > > Besides, digging through the code did point out a reasonable optimization.
-> > > > > > In the common case, this would buy 100s of microseconds rather than
-> > > > > > milliseconds, but it seems simple enough to be worthwhile.  Thoughts?
-> > > > > 
-> > > > > Cool, thanks. One comment below:
-> > > > > 
-> > > > > > ------------------------------------------------------------------------
-> > > > > > 
-> > > > > > commit 07921e8720907f58f82b142f2027fc56d5abdbfd
-> > > > > > Author: Paul E. McKenney <paulmck@linux.ibm.com>
-> > > > > > Date:   Tue Oct 16 04:12:58 2018 -0700
-> > > > > > 
-> > > > > >     rcu: Speed up expedited GPs when interrupting RCU reader
-> > > > > >     
-> > > > > >     In PREEMPT kernels, an expedited grace period might send an IPI to a
-> > > > > >     CPU that is executing an RCU read-side critical section.  In that case,
-> > > > > >     it would be nice if the rcu_read_unlock() directly interacted with the
-> > > > > >     RCU core code to immediately report the quiescent state.  And this does
-> > > > > >     happen in the case where the reader has been preempted.  But it would
-> > > > > >     also be a nice performance optimization if immediate reporting also
-> > > > > >     happened in the preemption-free case.
-> > > > > >     
-> > > > > >     This commit therefore adds an ->exp_hint field to the task_struct structure's
-> > > > > >     ->rcu_read_unlock_special field.  The IPI handler sets this hint when
-> > > > > >     it has interrupted an RCU read-side critical section, and this causes
-> > > > > >     the outermost rcu_read_unlock() call to invoke rcu_read_unlock_special(),
-> > > > > >     which, if preemption is enabled, reports the quiescent state immediately.
-> > > > > >     If preemption is disabled, then the report is required to be deferred
-> > > > > >     until preemption (or bottom halves or interrupts or whatever) is re-enabled.
-> > > > > >     
-> > > > > >     Because this is a hint, it does nothing for more complicated cases.  For
-> > > > > >     example, if the IPI interrupts an RCU reader, but interrupts are disabled
-> > > > > >     across the rcu_read_unlock(), but another rcu_read_lock() is executed
-> > > > > >     before interrupts are re-enabled, the hint will already have been cleared.
-> > > > > >     If you do crazy things like this, reporting will be deferred until some
-> > > > > >     later RCU_SOFTIRQ handler, context switch, cond_resched(), or similar.
-> > > > > >     
-> > > > > >     Reported-by: Joel Fernandes <joel@joelfernandes.org>
-> > > > > >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-> > > > > > 
-> > > > > > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > > > > > index 004ca21f7e80..64ce751b5fe9 100644
-> > > > > > --- a/include/linux/sched.h
-> > > > > > +++ b/include/linux/sched.h
-> > > > > > @@ -571,8 +571,10 @@ union rcu_special {
-> > > > > >  	struct {
-> > > > > >  		u8			blocked;
-> > > > > >  		u8			need_qs;
-> > > > > > +		u8			exp_hint; /* Hint for performance. */
-> > > > > > +		u8			pad; /* No garbage from compiler! */
-> > > > > >  	} b; /* Bits. */
-> > > > > > -	u16 s; /* Set of bits. */
-> > > > > > +	u32 s; /* Set of bits. */
-> > > > > >  };
-> > > > > >  
-> > > > > >  enum perf_event_task_context {
-> > > > > > diff --git a/kernel/rcu/tree_exp.h b/kernel/rcu/tree_exp.h
-> > > > > > index e669ccf3751b..928fe5893a57 100644
-> > > > > > --- a/kernel/rcu/tree_exp.h
-> > > > > > +++ b/kernel/rcu/tree_exp.h
-> > > > > > @@ -692,8 +692,10 @@ static void sync_rcu_exp_handler(void *unused)
-> > > > > >  	 */
-> > > > > >  	if (t->rcu_read_lock_nesting > 0) {
-> > > > > >  		raw_spin_lock_irqsave_rcu_node(rnp, flags);
-> > > > > > -		if (rnp->expmask & rdp->grpmask)
-> > > > > > +		if (rnp->expmask & rdp->grpmask) {
-> > > > > >  			rdp->deferred_qs = true;
-> > > > > > +			WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, true);
-> > > > > > +		}
-> > > > > >  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
-> > > > > >  	}
-> > > > > >  
-> > > > > > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
-> > > > > > index 8b48bb7c224c..d6286eb6e77e 100644
-> > > > > > --- a/kernel/rcu/tree_plugin.h
-> > > > > > +++ b/kernel/rcu/tree_plugin.h
-> > > > > > @@ -643,8 +643,9 @@ static void rcu_read_unlock_special(struct task_struct *t)
-> > > > > >  	local_irq_save(flags);
-> > > > > >  	irqs_were_disabled = irqs_disabled_flags(flags);
-> > > > > >  	if ((preempt_bh_were_disabled || irqs_were_disabled) &&
-> > > > > > -	    t->rcu_read_unlock_special.b.blocked) {
-> > > > > > +	    t->rcu_read_unlock_special.s) {
-> > > > > >  		/* Need to defer quiescent state until everything is enabled. */
-> > > > > > +		WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
-> > > > > >  		raise_softirq_irqoff(RCU_SOFTIRQ);
-> > > > > 
-> > > > > Still going through this patch, but it seems to me like the fact that
-> > > > > rcu_read_unlock_special is called means someone has requested for a grace
-> > > > > period. Then in that case, does it not make sense to raise the softirq
-> > > > > for processing anyway?
-> > > > 
-> > > > Not necessarily.  Another reason that rcu_read_unlock_special() might
-> > > > be called is if the RCU read-side critical section had been preempted,
-> > > > in which case there might not even be a grace period in progress.
-> > > 
-> > > Yes true, it was at the back of my head ;) It needs to remove itself from the
-> > > blocked lists on the unlock. And ofcourse the preemption case is alsoo
-> > > clearly mentioned in this function's comments. (slaps self).
-> > 
-> > Sometimes rcutorture reminds me of interesting RCU corner cases...  ;-)
-> > 
-> > > > In addition, if interrupts, bottom halves, and preemption are all enabled,
-> > > > the code in rcu_preempt_deferred_qs_irqrestore() doesn't need to bother
-> > > > raising softirq, as it can instead just immediately report the quiescent
-> > > > state.
-> > > 
-> > > Makes sense. I will go through these code paths more today. Thank you for the
-> > > explanations!
-> > > 
-> > > I think something like need_exp_qs instead of 'exp_hint' may be more
-> > > descriptive?
-> > 
-> > Well, it is only a hint due to the fact that it is not preserved across
-> > complex sequences of overlapping RCU read-side critical sections of
-> > different types.  So if you have the following sequence:
-> > 
-> > 	rcu_read_lock();
-> > 	/* Someone does synchronize_rcu_expedited(), which sets ->exp_hint. */
-> > 	preempt_disable();
-> > 	rcu_read_unlock(); /* Clears ->exp_hint. */
-> > 	preempt_enable(); /* But ->exp_hint is already cleared. */
-> > 
-> > This is OK because there will be some later event that passes the quiescent
-> > state to the RCU core.  This will slow down the expedited grace period,
-> > but this case should be uncommon.  If it does turn out to be common, then
-> > some more complex scheme can be put in place.
-> > 
-> > Hmmm...  This patch does need some help, doesn't it?  How about the following
-> > to be folded into the original?
-> > 
-> > commit d8d996385055d4708121fa253e04b4272119f5e2
-> > Author: Paul E. McKenney <paulmck@linux.ibm.com>
-> > Date:   Wed Oct 17 13:32:25 2018 -0700
-> > 
-> >     fixup! rcu: Speed up expedited GPs when interrupting RCU reader
-> >     
-> >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-> > 
-> > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
-> > index d6286eb6e77e..117aeb582fdc 100644
-> > --- a/kernel/rcu/tree_plugin.h
-> > +++ b/kernel/rcu/tree_plugin.h
-> > @@ -650,6 +650,7 @@ static void rcu_read_unlock_special(struct task_struct *t)
-> >  		local_irq_restore(flags);
-> >  		return;
-> >  	}
-> > +	WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
-> >  	rcu_preempt_deferred_qs_irqrestore(t, flags);
-> >  }
-> >  
-> 
-> Sure, I believe so. I was also thinking out load about if we can avoid
-> raising of the softirq for some cases in rcu_read_unlock_special:
-> 
-> For example, in rcu_read_unlock_special()
-> 
-> static void rcu_read_unlock_special(struct task_struct *t)
-> {
-> [...]
-> 	if ((preempt_bh_were_disabled || irqs_were_disabled) &&
-> 	    t->rcu_read_unlock_special.s) {
-> 		/* Need to defer quiescent state until everything is enabled. */
-> 		raise_softirq_irqoff(RCU_SOFTIRQ);
-> 		local_irq_restore(flags);
-> 		return;
-> 	}
-> 	rcu_preempt_deferred_qs_irqrestore(t, flags);
-> }
-> 
-> Instead of raising the softirq, for the case where irqs are enabled, but
-> preemption is disabled, can we not just do:
-> 
-> 		set_tsk_need_resched(current);
-> 		set_preempt_need_resched();
-> 
-> and return? Not sure the benefits of doing that are, but it seems nice to
-> avoid raising the softirq if possible, for benefit of real-time workloads.
 
-This approach would work very well in the case when preemption or bottom
-halves were disabled, but would not handle the case where interrupts were
-enabled during the RCU read-side critical section, an expedited grace
-period started (thus setting ->exp_hint), interrupts where then disabled,
-and finally rcu_read_unlock() was invoked.  Re-enabling interrupts would
-not cause either softirq or the scheduler to do anything, so the end of
-the expedited grace period might be delayed for some time, for example,
-until the next scheduling-clock interrupt.
+--rQ2U398070+RC21q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But please see below.
+On Wed, Oct 17, 2018 at 12:42:00PM +0000, Claudiu.Beznea@microchip.com wrot=
+e:
+> On 16.10.2018 15:25, Thierry Reding wrote:
+> > On Tue, Aug 28, 2018 at 04:01:18PM +0300, Claudiu Beznea wrote:
+[...]
+> >> +const char *pwm_mode_desc(struct pwm_device *pwm, unsigned long mode)
+> >> +{
+> >> +	static const char * const modes[] =3D {
+> >> +		"invalid",
+> >> +		"normal",
+> >> +		"complementary",
+> >> +	};
+> >> +
+> >> +	if (!pwm_mode_valid(pwm, mode))
+> >> +		return modes[0];
+> >> +
+> >> +	return modes[ffs(mode)];
+> >> +}
+> >=20
+> > Do we really need to be able to get the name of the mode in the context
+> > of a given PWM channel? Couldn't we drop the pwm parameter and simply
+> > return the name (pwm_get_mode_name()?) and at the same time remove the
+> > extra "invalid" mode in there? I'm not sure what the use-case here is,
+> > but it seems to me like the code should always check for supported modes
+> > first before reporting their names in any way.
+>=20
+> Looking back at this code, the main use case for checking PWM mode validi=
+ty
+> in pwm_mode_desc() was only with regards to mode_store(). But there is not
+> need for this checking since the same thing will be checked in
+> pwm_apply_state() and, in case user provides an invalid mode via sysfs the
+> pwm_apply_state() will fail.
+>=20
+> To conclude, I will change this function in something like:
+>=20
+> if (mode =3D=3D PWM_MODE_NORMAL)
+> 	return "normal";
+> else if (mode =3D=3D PWM_MODE_COMPLEMENTARY)
+> 	return "complementary";
+> else if (mode =3D=3D PWM_MODE_PUSH_PULL)
+> 	return "push-pull";
+> else
+> 	return "invalid";
+>=20
+> Please let me know if it is OK for you.
 
-> Also it seems like there is a chance the softirq might run before the
-> preemption is reenabled anyway right?
+Do we even have to check here for validity of the mode in the first
+place? Shouldn't this already happen at a higher level? I mean we do
+need to check for valid input in mode_store(), but whatever mode we
+pass into this could already have been validated, so that this would
+never return "invalid".
 
-Not unless the rcu_read_unlock() is invoked from within a softirq
-handler on the one hand or within an interrupt handler that interrupted
-a preempt-disable region of code.  Otherwise, because interrupts are
-disabled, the raise_softirq() will wake up ksoftirqd, which cannot run
-until both preemption and bottom halves are enabled.
+For example, you already define an enum for the PWM modes. I think it'd
+be best if we then used that enum to pass the modes around. That way it
+becomes easy to check for validity.
 
-> Also one last thing, in your patch - do we really need to test for
-> "t->rcu_read_unlock_special.s" in rcu_read_unlock_special()? AFAICT,
-> rcu_read_unlock_special would only be called if t->rcu_read_unlock_special.s
-> is set in the first place so we can drop the test for that.
+So taking one step back, I think we can remove some of the ambiguities
+by making sure we only ever specify one mode. When the mode is
+explicitly being set, we only ever want one, right? The only point in
+time where we can store more than one is for the capabilities. So I
+think being more explicit about that would be useful. That way we remove
+any uncertainties about what the unsigned long might contain at any
+point in time.
 
-Good point!
+> >> +/**
+> >>   * pwmchip_add_with_polarity() - register a new PWM chip
+> >>   * @chip: the PWM chip to add
+> >>   * @polarity: initial polarity of PWM channels
+> >> @@ -275,6 +382,8 @@ int pwmchip_add_with_polarity(struct pwm_chip *chi=
+p,
+> >> =20
+> >>  	mutex_lock(&pwm_lock);
+> >> =20
+> >> +	chip->get_default_caps =3D pwmchip_get_default_caps;
+> >> +
+> >>  	ret =3D alloc_pwms(chip->base, chip->npwm);
+> >>  	if (ret < 0)
+> >>  		goto out;
+> >> @@ -294,6 +403,7 @@ int pwmchip_add_with_polarity(struct pwm_chip *chi=
+p,
+> >>  		pwm->pwm =3D chip->base + i;
+> >>  		pwm->hwpwm =3D i;
+> >>  		pwm->state.polarity =3D polarity;
+> >> +		pwm->state.mode =3D pwm_mode_get_valid(chip, pwm);
+> >> =20
+> >>  		if (chip->ops->get_state)
+> >>  			chip->ops->get_state(chip, pwm, &pwm->state);
+> >> @@ -469,7 +579,8 @@ int pwm_apply_state(struct pwm_device *pwm, struct=
+ pwm_state *state)
+> >>  	int err;
+> >> =20
+> >>  	if (!pwm || !state || !state->period ||
+> >> -	    state->duty_cycle > state->period)
+> >> +	    state->duty_cycle > state->period ||
+> >> +	    !pwm_mode_valid(pwm, state->mode))
+> >>  		return -EINVAL;
+> >> =20
+> >>  	if (!memcmp(state, &pwm->state, sizeof(*state)))
+> >> @@ -530,6 +641,9 @@ int pwm_apply_state(struct pwm_device *pwm, struct=
+ pwm_state *state)
+> >> =20
+> >>  			pwm->state.enabled =3D state->enabled;
+> >>  		}
+> >> +
+> >> +		/* No mode support for non-atomic PWM. */
+> >> +		pwm->state.mode =3D state->mode;
+> >=20
+> > That comment seems misplaced. This is actually part of atomic PWM, so
+> > maybe just reverse the logic and say "mode support only for atomic PWM"
+> > or something. I would personally just leave it away.
+>=20
+> Ok, sure. I will remove the comment. But the code has to be there to avoid
+> unassigned mode value for PWM state (normal mode means BIT(0)) and so to
+> avoid future PWM applies failure.
 
-How about the following?
+Oh yeah, definitely keep the code around. I was only commenting on
+the... comment. =3D)
 
-							Thanx, Paul
+> The legacy API has
+> > no way of setting the mode, which is indication enough that we don't
+> > support it.
+> >=20
+> >> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+> >> index 56518adc31dd..a4ce4ad7edf0 100644
+> >> --- a/include/linux/pwm.h
+> >> +++ b/include/linux/pwm.h
+> >> @@ -26,9 +26,32 @@ enum pwm_polarity {
+> >>  };
+> >> =20
+> >>  /**
+> >> + * PWM modes capabilities
+> >> + * @PWMC_MODE_NORMAL_BIT: PWM has one output
+> >> + * @PWMC_MODE_COMPLEMENTARY_BIT: PWM has 2 outputs with opposite pola=
+rities
+> >> + * @PWMC_MODE_CNT: PWM modes count
+> >> + */
+> >> +enum {
+> >> +	PWMC_MODE_NORMAL_BIT,
+> >> +	PWMC_MODE_COMPLEMENTARY_BIT,
+> >> +	PWMC_MODE_CNT,
+> >> +};
+> >> +
+> >> +#define PWMC_MODE(name)		BIT(PWMC_MODE_##name##_BIT)
+> >=20
+> > Why the C in the prefix? Why not just PWM_MODE_* for all of the above?
+>=20
+> Well... PWM_MODE() macro was already took by pwm-sun4i.c driver at the ti=
+me
+> I wrote this patch... So I choose to add extra C to this macro, "C" meani=
+ng
+> "constant" in my mind. I was not sure it was the best solution at that ti=
+me
+> either.
 
-------------------------------------------------------------------------
+We can always rename definitions in drivers if we want to use
+conflicting names in the core. In this particular case, and given what I
+said above regarding the PWM mode definitions, I think it'd be better to
+drop the _BIT suffix from the enum values, so that we get something like
+this:
 
-static void rcu_read_unlock_special(struct task_struct *t)
-{
-	unsigned long flags;
-	bool preempt_bh_were_disabled =
-			!!(preempt_count() & (PREEMPT_MASK | SOFTIRQ_MASK));
-	bool irqs_were_disabled;
+	enum pwm_mode {
+		PWM_MODE_NORMAL,
+		PWM_MODE_COMPLEMENTARY,
+		PWM_MODE_COUNT
+	};
 
-	/* NMI handlers cannot block and cannot safely manipulate state. */
-	if (in_nmi())
-		return;
+Then in order to create the actual bitmasks we can use a macro that is
+explicit about creating bitmasks:
 
-	local_irq_save(flags);
-	irqs_were_disabled = irqs_disabled_flags(flags);
-	if (preempt_bh_were_disabled || irqs_were_disabled) {
-		WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
-		/* Need to defer quiescent state until everything is enabled. */
-		if (irqs_were_disabled) {
-			raise_softirq_irqoff(RCU_SOFTIRQ);
-		} else {
-			set_tsk_need_resched(current);
-			set_preempt_need_resched();
-		}
-		local_irq_restore(flags);
-		return;
-	}
-	WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
-	rcu_preempt_deferred_qs_irqrestore(t, flags);
-}
+	#define PWM_MODE_MASK(name) BIT(PWM_MODE_##name##)
 
+With that, the conflict with pwm-sun4i conveniently goes away.
+
+> >> +struct pwm_caps {
+> >> +	unsigned long modes;
+> >> +};
+> >> +
+> >> +/**
+> >>   * struct pwm_args - board-dependent PWM arguments
+> >>   * @period: reference period
+> >>   * @polarity: reference polarity
+> >> + * @mode: reference mode
+> >=20
+> > As discussed in my reply to the cover letter, what is the use for the
+> > reference mode? Drivers want to use either normal or some other mode.
+> > What good is it to get this from board-dependent arguments if the
+> > driver already knows which one it wants or needs?
+>=20
+> For the moment, no, there is no in-kernel user. Only sysfs. I was thinking
+> I would also adapt, e.g., the pwm-regulator driver to also make use of th=
+is
+> features in setups like the one described in [1], page 2126
+> (Figure 56-13: Half-Bridge Converter Application: No Feedback Regulation).
+> But, for the moment there is no in-kernel user.
+>=20
+> [1] http://ww1.microchip.com/downloads/en/DeviceDoc/DS60001476B.pdf
+
+Okay, so that means we don't have any use-cases where we even need the
+mode in DT? If so, I don't think we should add that code yet. We'd be
+adding an ABI that we don't know how it will be used or if it is even
+sufficient. Granted, as long as nobody uses it we could probably just
+silently drop it again, but why risk if it's just dead code anyway.
+
+If I understand the half-bridge converter application correctly you
+would want to model that with pwm-regulator and instead of using a
+regular PWM (normal mode) you'd use a PWM_MODE_PUSH_PULL instead. Is
+that really all there is to support this? Does the voltage output of
+the half-bridge converter vary linearly with the duty-cycle? I suppose
+one could always combine the push-pull PWM with a voltage table to make
+it work. I'm not opposed to the idea, just trying to figure out if the
+pwm-regulator driver would be viable or whether there are other things
+we need to make these setups work.
+
+Thierry
+
+--rQ2U398070+RC21q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlvIp58ACgkQ3SOs138+
+s6FSrxAAkjdTRIoPaHkcXlwkwivOvbKCFuz5/wExjR5tKl2rPJjfRmlWZ06FZiVl
+EPJ3N2tSJmgklZE67QsO8I5U63gN7pRSao+lMz3rD44fg0eathO9a5+9C2wZ1lMh
+HXSts7shjoKJFZTxqDhy50vpkofdasnC+WG5vy5SOtmoS3M3PGSy8xwznsRbvgOY
+BOrt/mWmP93lucz4DQOd0TR/buMlkH4EI/PEmW2eMgKl06jLQjF/J//4jkwSASwV
+3r6S2tT4h9oc1ta3uqwtHpcYFxr8d9sjpEkOQMvO8cjw/Z9DP/HKqMgi+a9Mci9L
+dCsthKCYk9KO5KSzuGGYblKxKWEnzOCfUNz9puLKB3zzI0WwmNH4F5AJk+29gJtD
++iBU58t4Qi+sULq4EVh/Auc4+4kMAusXk+FM2NLCjgFBASR65i4/c1pTfxSjH/cb
+xe0m5wBoORk2CfUzTGbOXJ3oxLQJNQGh6sW4tu1jWAb7uH2GrlDaAIbemiAukk0W
+x8CEF1PAdKdz38v0tCsytDAXVJwywcDMKm5HVFrl/B9diz8amJp3Um/nzD3+ljJo
+voShgtHPv8IGx6mHI0HDax7150NEPRaT1fBMsPgIvdaGsvK7pTI2ZQgoxoMsj9b+
+KtQImMge2P+l9REzE3TjQv9DkbBY2uXtkk/NJyxbJTbP1sVtmtA=
+=dUyc
+-----END PGP SIGNATURE-----
+
+--rQ2U398070+RC21q--
