@@ -1,239 +1,323 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 84EA67D088
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Oct 2018 22:53:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4740F7D088
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 00:03:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727222AbeJSGzS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 02:55:18 -0400
-Received: from mail-by2nam01on0048.outbound.protection.outlook.com ([104.47.34.48]:52049
-        "EHLO NAM01-BY2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726506AbeJSGzS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Oct 2018 02:55:18 -0400
+        id S1726589AbeJSIHU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 04:07:20 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:46806 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbeJSIHT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 04:07:19 -0400
+Received: by mail-pg1-f196.google.com with SMTP id r190-v6so3311684pgr.13
+        for <linux-doc@vger.kernel.org>; Thu, 18 Oct 2018 17:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wSQ1axmy8lXOUD7l501sjNBVbDw+rZ+w7b9E2mmRG1g=;
- b=ruCokVPtJEduwNMyuN4Qabrv2+Q3wrfLXLcO8fpN3tM/MbelN6E8nQkuBKk1ccnVfhwi7ydlrclxqLU8OuDEHlqyXhIt61s6ew07oHyRGKDVRfxiOyknG0A1d3/oHB46M0zu+4vNbpoC5W15rMv2iaDbP5vE48I5AgEjnvNNHho=
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB1818.namprd12.prod.outlook.com (10.175.91.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1228.25; Thu, 18 Oct 2018 22:52:01 +0000
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::bd60:9d30:b818:b828]) by DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::bd60:9d30:b818:b828%3]) with mapi id 15.20.1250.028; Thu, 18 Oct 2018
- 22:52:01 +0000
-From:   "Moger, Babu" <Babu.Moger@amd.com>
-To:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: [PATCH v5 00/13] arch/x86: AMD QoS support
-Thread-Topic: [PATCH v5 00/13] arch/x86: AMD QoS support
-Thread-Index: AQHUZzUuNvwvLZwExEq0GgZvZL3+EA==
-Date:   Thu, 18 Oct 2018 22:52:00 +0000
-Message-ID: <20181018225124.23043-1-babu.moger@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN4PR0201CA0044.namprd02.prod.outlook.com
- (2603:10b6:803:2e::30) To DM5PR12MB2471.namprd12.prod.outlook.com
- (2603:10b6:4:b5::10)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;DM5PR12MB1818;20:Kt/osaEvUCdZE1T3UWvSdREnVtnjWEDPY4dzjDF2TVucq634zhpjAyM3wmO+dA3Dn/F1B6zsTMdmW4EaabMP9sMO40hughqpe3XLJ0UgFPpGlxm6JaA/Hdvmn99L8vwUENcN1+ClQB7Ie5oeUy+c8GW0kH3bmJfErGtExpZGxinneLs/npsr8RJefQnNl+Yz3VDR8X6dynRQCckmBkzl2ZAC6vIlHXknAksgP9/HFrx3ZIuiZ8rPnoWitjFxjZOo
-x-ms-office365-filtering-correlation-id: 5c9b7722-7175-46a7-0398-08d6354c5041
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1818;
-x-ms-traffictypediagnostic: DM5PR12MB1818:
-x-microsoft-antispam-prvs: <DM5PR12MB18189D4AB70EEDEFD531958795F80@DM5PR12MB1818.namprd12.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(72170088055959)(269456686620040)(767451399110)(84791874153150);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(823302103)(3231355)(944501410)(52105095)(3002001)(10201501046)(93006095)(93001095)(6055026)(149066)(150057)(6041310)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123558120)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1818;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1818;
-x-forefront-prvs: 08296C9B35
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(396003)(39860400002)(136003)(346002)(376002)(199004)(189003)(110136005)(478600001)(2201001)(8936002)(5660300001)(6306002)(7406005)(14454004)(7416002)(1076002)(6486002)(6512007)(5250100002)(6436002)(68736007)(966005)(72206003)(54906003)(66066001)(106356001)(3846002)(186003)(26005)(86362001)(2616005)(2906002)(476003)(99286004)(81166006)(102836004)(81156014)(6116002)(53936002)(486006)(52116002)(36756003)(386003)(316002)(2501003)(7736002)(6506007)(8676002)(2900100001)(25786009)(305945005)(71200400001)(71190400001)(105586002)(14444005)(256004)(97736004)(4326008)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1818;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: zjfsBqpdEjgqwCZ0lJPS9PnlWsIplU2dSVp2C2sbSpATC3B5DZpP1TRFsQFZZnMoHnklRpTKjn9EW4f9ZPwbDgnXbt2NkiuEZPYoqg3SmnHFAP8Yd9j+UNPysw+nlkLZSjsS3hspw5JZve5J3o2IavD5EQlREcid7Cshk4z7rKc0Z7Eku3g3rrwZPbcI0jCKNWRbI/L3ue3xpCwZfeTBQJEHzJB+qtsfFaz63j8oL3qd1BDXdMfzKXiEeGBVscwB5VBiLrBS6qrfeqCc2SqTa+/UD3boDArnGgVITm7y5x5et120/KEbVmfxjJphNidqnVqbiZHq/7OFMWYWndMv4xdoDDbGxncEynb+uZxwX+c=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gX4CK4IDw05n0IZm4PzZHhqfk88hqTNrGW7LQQdhvYw=;
+        b=NEt0esKjD50CJacFeIRt+OfeU7LDvHM51Cj9LbvDOOjizln6qS9F8L91FQp3Q50byA
+         1gYFcZCAS8SPx0rRWiFrgR0GXtZrj3pSkKlTOy+uxeRs3PIaNj2a5poFS7W5rkQ/e3jc
+         7Pf61tp4aQGJTjBm+pzUFMuAvEX9uwxEP9eK8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gX4CK4IDw05n0IZm4PzZHhqfk88hqTNrGW7LQQdhvYw=;
+        b=bIaVrTe1Bm0OvP3Rij5eae6NB/TcRoEKo/wRMLiT3hrugDeSqWUhg+Q3wxhfjRCQPD
+         nd6BBP72Hk1vTtiP+z4kcQ0XjVysIlr19dYggeMUeBu2zDQIPxzF5i5BqJliiJaVn/4Z
+         NJergc57o5KSHuTRIu+WuN0HWQHcOYhu3TQ0TGTdrmUz8M/wGhgehMlehw32OQjknAfy
+         qa9CRCSSf1rkTqdDueRBvyqsU7BzT1PK+2EyU2U7gCtjdFYFvAQ85prVt06PD5ItwPUb
+         DJ+NREOOnNQMCmOzZWEzWPS73TeERcWE5D8b4zMzlhMu2E2qWif/ZjcTgX+HZoCcUfpP
+         llcQ==
+X-Gm-Message-State: ABuFfojRa3XH5FQTwdXyQnwWjj0xq9Sm6U0v1zuOe8Yhir6GrXmO4Ns8
+        Qnl34oxef/o9y91XdIkIybo2MvOMJH4=
+X-Google-Smtp-Source: ACcGV60GOcEUbArJfA5Xy5xHUGMekYkkPzrI8s1Vtgj2q37jkLOf0oM8Ac3/bHWDxbQdbZdaCxAr+A==
+X-Received: by 2002:a62:1906:: with SMTP id 6-v6mr33080821pfz.9.1539907432821;
+        Thu, 18 Oct 2018 17:03:52 -0700 (PDT)
+Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
+        by smtp.gmail.com with ESMTPSA id 64-v6sm27163210pgb.74.2018.10.18.17.03.51
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 18 Oct 2018 17:03:51 -0700 (PDT)
+Date:   Thu, 18 Oct 2018 17:03:50 -0700
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     Nikolay Borisov <nborisov@suse.com>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
+ disabling preemption
+Message-ID: <20181019000350.GB89903@joelaf.mtv.corp.google.com>
+References: <20181015195426.GD2674@linux.ibm.com>
+ <20181015201556.GA43575@joelaf.mtv.corp.google.com>
+ <20181015210856.GE2674@linux.ibm.com>
+ <20181016112611.GA27405@linux.ibm.com>
+ <20181016204122.GA8176@joelaf.mtv.corp.google.com>
+ <20181017161100.GP2674@linux.ibm.com>
+ <20181017181505.GC107185@joelaf.mtv.corp.google.com>
+ <20181017203324.GS2674@linux.ibm.com>
+ <20181018020751.GB99677@joelaf.mtv.corp.google.com>
+ <20181018144637.GD2674@linux.ibm.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c9b7722-7175-46a7-0398-08d6354c5041
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2018 22:52:00.9205
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1818
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181018144637.GD2674@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series adds support for AMD64 architectural extensions for Platform
-Quality of Service. These extensions are intended to provide for the
-monitoring of the usage of certain system resources by one or more
-processors and for the separate allocation and enforcement of limits on
-the use of certain system resources by one or more processors.
+On Thu, Oct 18, 2018 at 07:46:37AM -0700, Paul E. McKenney wrote:
+[..]
+> > > > > > > ------------------------------------------------------------------------
+> > > > > > > 
+> > > > > > > commit 07921e8720907f58f82b142f2027fc56d5abdbfd
+> > > > > > > Author: Paul E. McKenney <paulmck@linux.ibm.com>
+> > > > > > > Date:   Tue Oct 16 04:12:58 2018 -0700
+> > > > > > > 
+> > > > > > >     rcu: Speed up expedited GPs when interrupting RCU reader
+> > > > > > >     
+> > > > > > >     In PREEMPT kernels, an expedited grace period might send an IPI to a
+> > > > > > >     CPU that is executing an RCU read-side critical section.  In that case,
+> > > > > > >     it would be nice if the rcu_read_unlock() directly interacted with the
+> > > > > > >     RCU core code to immediately report the quiescent state.  And this does
+> > > > > > >     happen in the case where the reader has been preempted.  But it would
+> > > > > > >     also be a nice performance optimization if immediate reporting also
+> > > > > > >     happened in the preemption-free case.
+> > > > > > >     
+> > > > > > >     This commit therefore adds an ->exp_hint field to the task_struct structure's
+> > > > > > >     ->rcu_read_unlock_special field.  The IPI handler sets this hint when
+> > > > > > >     it has interrupted an RCU read-side critical section, and this causes
+> > > > > > >     the outermost rcu_read_unlock() call to invoke rcu_read_unlock_special(),
+> > > > > > >     which, if preemption is enabled, reports the quiescent state immediately.
+> > > > > > >     If preemption is disabled, then the report is required to be deferred
+> > > > > > >     until preemption (or bottom halves or interrupts or whatever) is re-enabled.
+> > > > > > >     
+> > > > > > >     Because this is a hint, it does nothing for more complicated cases.  For
+> > > > > > >     example, if the IPI interrupts an RCU reader, but interrupts are disabled
+> > > > > > >     across the rcu_read_unlock(), but another rcu_read_lock() is executed
+> > > > > > >     before interrupts are re-enabled, the hint will already have been cleared.
+> > > > > > >     If you do crazy things like this, reporting will be deferred until some
+> > > > > > >     later RCU_SOFTIRQ handler, context switch, cond_resched(), or similar.
+> > > > > > >     
+> > > > > > >     Reported-by: Joel Fernandes <joel@joelfernandes.org>
+> > > > > > >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> > > > > > > 
+> > > > > > > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > > > > > > index 004ca21f7e80..64ce751b5fe9 100644
+> > > > > > > --- a/include/linux/sched.h
+> > > > > > > +++ b/include/linux/sched.h
+> > > > > > > @@ -571,8 +571,10 @@ union rcu_special {
+> > > > > > >  	struct {
+> > > > > > >  		u8			blocked;
+> > > > > > >  		u8			need_qs;
+> > > > > > > +		u8			exp_hint; /* Hint for performance. */
+> > > > > > > +		u8			pad; /* No garbage from compiler! */
+> > > > > > >  	} b; /* Bits. */
+> > > > > > > -	u16 s; /* Set of bits. */
+> > > > > > > +	u32 s; /* Set of bits. */
+> > > > > > >  };
+> > > > > > >  
+> > > > > > >  enum perf_event_task_context {
+> > > > > > > diff --git a/kernel/rcu/tree_exp.h b/kernel/rcu/tree_exp.h
+> > > > > > > index e669ccf3751b..928fe5893a57 100644
+> > > > > > > --- a/kernel/rcu/tree_exp.h
+> > > > > > > +++ b/kernel/rcu/tree_exp.h
+> > > > > > > @@ -692,8 +692,10 @@ static void sync_rcu_exp_handler(void *unused)
+> > > > > > >  	 */
+> > > > > > >  	if (t->rcu_read_lock_nesting > 0) {
+> > > > > > >  		raw_spin_lock_irqsave_rcu_node(rnp, flags);
+> > > > > > > -		if (rnp->expmask & rdp->grpmask)
+> > > > > > > +		if (rnp->expmask & rdp->grpmask) {
+> > > > > > >  			rdp->deferred_qs = true;
+> > > > > > > +			WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, true);
+> > > > > > > +		}
+> > > > > > >  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+> > > > > > >  	}
+> > > > > > >  
+> > > > > > > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+> > > > > > > index 8b48bb7c224c..d6286eb6e77e 100644
+> > > > > > > --- a/kernel/rcu/tree_plugin.h
+> > > > > > > +++ b/kernel/rcu/tree_plugin.h
+> > > > > > > @@ -643,8 +643,9 @@ static void rcu_read_unlock_special(struct task_struct *t)
+> > > > > > >  	local_irq_save(flags);
+> > > > > > >  	irqs_were_disabled = irqs_disabled_flags(flags);
+> > > > > > >  	if ((preempt_bh_were_disabled || irqs_were_disabled) &&
+> > > > > > > -	    t->rcu_read_unlock_special.b.blocked) {
+> > > > > > > +	    t->rcu_read_unlock_special.s) {
+> > > > > > >  		/* Need to defer quiescent state until everything is enabled. */
+> > > > > > > +		WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
+> > > > > > >  		raise_softirq_irqoff(RCU_SOFTIRQ);
+> > > > > > 
+> > > > > > Still going through this patch, but it seems to me like the fact that
+> > > > > > rcu_read_unlock_special is called means someone has requested for a grace
+> > > > > > period. Then in that case, does it not make sense to raise the softirq
+> > > > > > for processing anyway?
+> > > > > 
+> > > > > Not necessarily.  Another reason that rcu_read_unlock_special() might
+> > > > > be called is if the RCU read-side critical section had been preempted,
+> > > > > in which case there might not even be a grace period in progress.
+> > > > 
+> > > > Yes true, it was at the back of my head ;) It needs to remove itself from the
+> > > > blocked lists on the unlock. And ofcourse the preemption case is alsoo
+> > > > clearly mentioned in this function's comments. (slaps self).
+> > > 
+> > > Sometimes rcutorture reminds me of interesting RCU corner cases...  ;-)
+> > > 
+> > > > > In addition, if interrupts, bottom halves, and preemption are all enabled,
+> > > > > the code in rcu_preempt_deferred_qs_irqrestore() doesn't need to bother
+> > > > > raising softirq, as it can instead just immediately report the quiescent
+> > > > > state.
+> > > > 
+> > > > Makes sense. I will go through these code paths more today. Thank you for the
+> > > > explanations!
+> > > > 
+> > > > I think something like need_exp_qs instead of 'exp_hint' may be more
+> > > > descriptive?
+> > > 
+> > > Well, it is only a hint due to the fact that it is not preserved across
+> > > complex sequences of overlapping RCU read-side critical sections of
+> > > different types.  So if you have the following sequence:
+> > > 
+> > > 	rcu_read_lock();
+> > > 	/* Someone does synchronize_rcu_expedited(), which sets ->exp_hint. */
+> > > 	preempt_disable();
+> > > 	rcu_read_unlock(); /* Clears ->exp_hint. */
+> > > 	preempt_enable(); /* But ->exp_hint is already cleared. */
+> > > 
+> > > This is OK because there will be some later event that passes the quiescent
+> > > state to the RCU core.  This will slow down the expedited grace period,
+> > > but this case should be uncommon.  If it does turn out to be common, then
+> > > some more complex scheme can be put in place.
+> > > 
+> > > Hmmm...  This patch does need some help, doesn't it?  How about the following
+> > > to be folded into the original?
+> > > 
+> > > commit d8d996385055d4708121fa253e04b4272119f5e2
+> > > Author: Paul E. McKenney <paulmck@linux.ibm.com>
+> > > Date:   Wed Oct 17 13:32:25 2018 -0700
+> > > 
+> > >     fixup! rcu: Speed up expedited GPs when interrupting RCU reader
+> > >     
+> > >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> > > 
+> > > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+> > > index d6286eb6e77e..117aeb582fdc 100644
+> > > --- a/kernel/rcu/tree_plugin.h
+> > > +++ b/kernel/rcu/tree_plugin.h
+> > > @@ -650,6 +650,7 @@ static void rcu_read_unlock_special(struct task_struct *t)
+> > >  		local_irq_restore(flags);
+> > >  		return;
+> > >  	}
+> > > +	WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
+> > >  	rcu_preempt_deferred_qs_irqrestore(t, flags);
+> > >  }
+> > >  
+> > 
+> > Sure, I believe so. I was also thinking out load about if we can avoid
+> > raising of the softirq for some cases in rcu_read_unlock_special:
+> > 
+> > For example, in rcu_read_unlock_special()
+> > 
+> > static void rcu_read_unlock_special(struct task_struct *t)
+> > {
+> > [...]
+> > 	if ((preempt_bh_were_disabled || irqs_were_disabled) &&
+> > 	    t->rcu_read_unlock_special.s) {
+> > 		/* Need to defer quiescent state until everything is enabled. */
+> > 		raise_softirq_irqoff(RCU_SOFTIRQ);
+> > 		local_irq_restore(flags);
+> > 		return;
+> > 	}
+> > 	rcu_preempt_deferred_qs_irqrestore(t, flags);
+> > }
+> > 
+> > Instead of raising the softirq, for the case where irqs are enabled, but
+> > preemption is disabled, can we not just do:
+> > 
+> > 		set_tsk_need_resched(current);
+> > 		set_preempt_need_resched();
+> > 
+> > and return? Not sure the benefits of doing that are, but it seems nice to
+> > avoid raising the softirq if possible, for benefit of real-time workloads.
+> 
+> This approach would work very well in the case when preemption or bottom
+> halves were disabled, but would not handle the case where interrupts were
+> enabled during the RCU read-side critical section, an expedited grace
+> period started (thus setting ->exp_hint), interrupts where then disabled,
+> and finally rcu_read_unlock() was invoked.  Re-enabling interrupts would
+> not cause either softirq or the scheduler to do anything, so the end of
+> the expedited grace period might be delayed for some time, for example,
+> until the next scheduling-clock interrupt.
+> 
+> But please see below.
+> 
+> > Also it seems like there is a chance the softirq might run before the
+> > preemption is reenabled anyway right?
+> 
+> Not unless the rcu_read_unlock() is invoked from within a softirq
+> handler on the one hand or within an interrupt handler that interrupted
+> a preempt-disable region of code.  Otherwise, because interrupts are
+> disabled, the raise_softirq() will wake up ksoftirqd, which cannot run
+> until both preemption and bottom halves are enabled.
+> 
+> > Also one last thing, in your patch - do we really need to test for
+> > "t->rcu_read_unlock_special.s" in rcu_read_unlock_special()? AFAICT,
+> > rcu_read_unlock_special would only be called if t->rcu_read_unlock_special.s
+> > is set in the first place so we can drop the test for that.
+> 
+> Good point!
+> 
+> How about the following?
+> 
+> 							Thanx, Paul
+> 
+> ------------------------------------------------------------------------
+> 
+> static void rcu_read_unlock_special(struct task_struct *t)
+> {
+> 	unsigned long flags;
+> 	bool preempt_bh_were_disabled =
+> 			!!(preempt_count() & (PREEMPT_MASK | SOFTIRQ_MASK));
+> 	bool irqs_were_disabled;
+> 
+> 	/* NMI handlers cannot block and cannot safely manipulate state. */
+> 	if (in_nmi())
+> 		return;
+> 
+> 	local_irq_save(flags);
+> 	irqs_were_disabled = irqs_disabled_flags(flags);
+> 	if (preempt_bh_were_disabled || irqs_were_disabled) {
+> 		WRITE_ONCE(t->rcu_read_unlock_special.b.exp_hint, false);
+> 		/* Need to defer quiescent state until everything is enabled. */
+> 		if (irqs_were_disabled) {
+> 			raise_softirq_irqoff(RCU_SOFTIRQ);
+> 		} else {
+> 			set_tsk_need_resched(current);
+> 			set_preempt_need_resched();
+> 		}
 
-The monitoring and enforcement are not necessarily applied across the
-entire system, but in general apply to a QOS domain which corresponds to
-some shared system resource.  The set of resources which are monitored and
-the set for which the enforcement of limits is provided are implementation
-dependent. Platform QOS features are implemented on a logical processor bas=
-is.
-Therefore, multiple hardware threads of a single physical CPU core may have
-independent resource monitoring and enforcement configurations.
+Looks good to me, thanks! Maybe some code comments would be nice as well.
 
-AMD's next generation of processors support following QoS sub-features.
-- L3 Cache allocation enforcement
-- L3 Cache occupancy monitoring
-- L3 Code-Data Prioritization support
-- Memory Bandwidth Enforcement(Allocation)
+Shouldn't we also set_tsk_need_resched for the irqs_were_disabled case, so
+that say if we are in an IRQ disabled region (local_irq_disable), then
+ksoftirqd would run as possible once IRQs are renabled?
 
-The public specification for this feature is available at
-https://developer.amd.com/wp-content/resources/56375.pdf
+By the way, the user calling preempt_enable_no_resched would be another case
+where the expedited grace period might extend longer than needed with the
+above patch, but that seems unlikely enough to worry about :-)
 
-Obviously, there are multiple ways we can go about these changes. We felt
-it is appropriate to rename and re-organize the code little bit before
-making the functional changes. The first few patches(1-10) renames and
-re-organizes the sources in preparation. Rest of the patches(7-11) adds
-support for AMD QoS features.
+thanks,
 
-Please review and provide me feedback.
-
-Changes from v4 -> v5:
- a. Addressed comments from Fenghua Yu.
- b. The functions update_mba_bw and set_mba_sc is not required for AMD.
-    Removed all the changes related to these functions.
-
-Changes from v3 -> v4:
-https://lore.kernel.org/lkml/20181015205514.25387-1-babu.moger@amd.com/
- a. Addressed comments from Reinette Chatre and Borislav Petkov.
- b. Removed X86 dependancy for CONFIG_AMD_QOS. Implicitly is it already
-    dependent on X86.
- c. Updated the MAINTAINER file for name changes.
- d. Addressed most of "checkpatch.pl --strict" issues.
- d. Updated Documentation/x86/resctrl_ui.txt(previously
-    intel_rdt_ui.txt) file with AMD specific details. Changed few names
-    to resctrl from intel_rdt.
-
-Changes from v2 -> v3:
- https://lore.kernel.org/lkml/20181011203223.18157-1-babu.moger@amd.com/
- a. Rebased the patches on top of below branch as suggested by Thomas Gleix=
-ner.
-    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
- b. Addressed comments from Reinette Chatre, Fenghua Yu and Borislav Petkov=
-.
- c. Main changes are related to renaming the files and functions.
-    Renamed from intel_rdt to more generic resctrl(patches 1 to 3).
- d. Config parameter changed from PLATFORM_QOS to more generic RESCTRL.
- e. Fixed minor indentation issues.
-
-Changes from v1 -> v2:
- https://lore.kernel.org/lkml/20181005205512.29545-1-babu.moger@amd.com/
- a. Removed RFC from subject header. Based on the discussion so far,=20
-    plan is to go ahead with these patches and eventually re-structure
-    the code to make arch and non-arch separate.
- b. Addressed comments from Reinette Chatre and Fenghua Yu.
- c. Separated quirks and MBA from rdt init code. Kept the rest of the
-    code as is.
- d. Added _intel suffixes all the Intel only code just like AMD code.
- e. Added one more patch to bring the macros into header file.
- f. Few minor text changes.
-
-v1:
- https://lore.kernel.org/lkml/20180924191841.29111-1-babu.moger@amd.com/
-
-
-Babu Moger (12):
-  arch/x86: Start renaming the rdt files to more generic names
-  arch/x86: Rename the RDT functions and definitions
-  arch/x86: Re-arrange RDT init code
-  arch/x86: Bring all the macros to resctrl.h
-  arch/x86: Introduce a new config parameter RESCTRL
-  arch/x86: Use new config parameter RESCTRL for compilation
-  arch/x86: Initialize the resource functions that are different
-  arch/x86: Bring cbm_validate function into the resource structure
-  arch/x86: Introduce new config parameter AMD_QOS
-  arch/x86: Introduce QOS feature for AMD
-  Documentation/x86: Rename and update intel_rdt_ui.txt
-  MAINTAINERS: Update the file and documentation names in arch/x86
-
-Sherry Hurwitz (1):
-  arch/x86: Add AMD feature bit X86_FEATURE_MBA in cpuid bits array
-
- .../x86/{intel_rdt_ui.txt =3D> resctrl_ui.txt}  |   9 +-
- MAINTAINERS                                   |   6 +-
- arch/x86/Kconfig                              |  19 ++
- .../{intel_rdt_sched.h =3D> resctrl_sched.h}    |  28 +--
- arch/x86/kernel/cpu/Makefile                  |   6 +-
- .../x86/kernel/cpu/{intel_rdt.c =3D> resctrl.c} | 168 +++++++++++++++---
- .../x86/kernel/cpu/{intel_rdt.h =3D> resctrl.h} |  37 ++--
- ...dt_ctrlmondata.c =3D> resctrl_ctrlmondata.c} |  80 ++++++++-
- ...{intel_rdt_monitor.c =3D> resctrl_monitor.c} |  20 +--
- ...dt_pseudo_lock.c =3D> resctrl_pseudo_lock.c} |   6 +-
- ...ck_event.h =3D> resctrl_pseudo_lock_event.h} |   2 +-
- ...ntel_rdt_rdtgroup.c =3D> resctrl_rdtgroup.c} |  14 +-
- arch/x86/kernel/cpu/scattered.c               |   7 +-
- arch/x86/kernel/process_32.c                  |   4 +-
- arch/x86/kernel/process_64.c                  |   4 +-
- include/linux/sched.h                         |   2 +-
- 16 files changed, 317 insertions(+), 95 deletions(-)
- rename Documentation/x86/{intel_rdt_ui.txt =3D> resctrl_ui.txt} (99%)
- rename arch/x86/include/asm/{intel_rdt_sched.h =3D> resctrl_sched.h} (77%)
- rename arch/x86/kernel/cpu/{intel_rdt.c =3D> resctrl.c} (85%)
- rename arch/x86/kernel/cpu/{intel_rdt.h =3D> resctrl.h} (94%)
- rename arch/x86/kernel/cpu/{intel_rdt_ctrlmondata.c =3D> resctrl_ctrlmonda=
-ta.c} (86%)
- rename arch/x86/kernel/cpu/{intel_rdt_monitor.c =3D> resctrl_monitor.c} (9=
-7%)
- rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock.c =3D> resctrl_pseudo_lo=
-ck.c} (99%)
- rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock_event.h =3D> resctrl_pse=
-udo_lock_event.h} (95%)
- rename arch/x86/kernel/cpu/{intel_rdt_rdtgroup.c =3D> resctrl_rdtgroup.c} =
-(99%)
-
---=20
-2.17.1
+- Joel
 
