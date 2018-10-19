@@ -1,93 +1,222 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ACA1E7D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 15:29:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E26967D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 16:28:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727265AbeJSXgX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 19:36:23 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:45290 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbeJSXgX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 19:36:23 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w9JFO90v088225;
-        Fri, 19 Oct 2018 15:28:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=xO6mOkvKjTumL7VUnexCh0alTTod+vkexKmilM7Pe7M=;
- b=3VwpxBitjvImWvgUcV2PLbI2hvVzTMaAUQj8FHE6mFpS9OTzEolJlrRU0YC9MQsZwskE
- VsyQSYdirNKLxEO5bvtTPRKQA/4uKtEU67z1Vd3DigUe6eeG6iaYU6RlQJBe78LjKh8e
- FMB3u4AfSjQIlytr1chJa/5De6zi2tXWW1dgfCyQq8lkRVQzH6o6GVg5LzH4X/1JTn6l
- jxYyKAhbprpzJzbylt9pi6NdUfaMfii/DF/Bere/NzHzQQzZ7iDGO/zyzHzdXmJRs7VG
- zwjHzGBxSQ7um1PY2qAqk7lESyphz672XcVgv0+RS2CSfCLQCcZyK5MVcMJk5ZfyQ+vE 6w== 
-Received: from aserv0021.oracle.com (aserv0021.oracle.com [141.146.126.233])
-        by userp2130.oracle.com with ESMTP id 2n384umw3n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 19 Oct 2018 15:28:57 +0000
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w9JFSuJC014183
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 19 Oct 2018 15:28:57 GMT
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w9JFSr4U010459;
-        Fri, 19 Oct 2018 15:28:53 GMT
-Received: from [10.154.131.112] (/10.154.131.112)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 19 Oct 2018 08:28:53 -0700
-Subject: Re: [PATCH v14 03/12] cpuset: Simply allocation and freeing of
- cpumasks
-To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
-        luto@amacapital.net, Mike Galbraith <efault@gmx.de>,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <1539635377-22335-1-git-send-email-longman@redhat.com>
- <1539635377-22335-4-git-send-email-longman@redhat.com>
-From:   Tom Hromatka <tom.hromatka@oracle.com>
-Message-ID: <daecd3d4-0fb9-dd50-3282-affad1d21bf3@oracle.com>
-Date:   Fri, 19 Oct 2018 09:28:51 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1727549AbeJTAet (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 20:34:49 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60910 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727038AbeJTAes (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 20:34:48 -0400
+Received: from [IPv6:2a00:5f00:102:0:ba02:a122:2d73:c919] (unknown [IPv6:2a00:5f00:102:0:ba02:a122:2d73:c919])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C0D90260CC2;
+        Fri, 19 Oct 2018 17:27:57 +0100 (BST)
+Subject: Re: [PATCH 0/2] boot to a mapped device
+To:     Mike Snitzer <snitzer@redhat.com>,
+        Kees Cook <keescook@chromium.org>
+Cc:     Richard Weinberger <richard.weinberger@gmail.com>,
+        device-mapper development <dm-devel@redhat.com>,
+        Alasdair G Kergon <agk@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Will Drewry <wad@chromium.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-lvm@redhat.com, kernel@collabora.com
+References: <cover.1537936397.git.helen.koike@collabora.com>
+ <CAFLxGvzCDOTR4stPmp1TTLkQ39x3e8MQuL=AR754abKc5skhpA@mail.gmail.com>
+ <20180927142328.GA4074@redhat.com>
+ <CAGXu5j+Y5e_oTZVCAHa48XgVcvEKGnVW_74oXZOUyLnfYPAjAg@mail.gmail.com>
+ <20180927183141.GA4921@redhat.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=helen.koike@collabora.com; keydata=
+ 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
+Message-ID: <90071912-047f-fb7b-3372-32cca9f2de06@collabora.com>
+Date:   Fri, 19 Oct 2018 13:27:55 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.0
 MIME-Version: 1.0
-In-Reply-To: <1539635377-22335-4-git-send-email-longman@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20180927183141.GA4921@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9050 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=989
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1807170000 definitions=main-1810190136
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi all,
+
+Sorry the delay of my reply.
+
+On 9/27/18 3:31 PM, Mike Snitzer wrote:
+> On Thu, Sep 27 2018 at 12:36pm -0400,
+> Kees Cook <keescook@chromium.org> wrote:
+> 
+>> On Thu, Sep 27, 2018 at 7:23 AM, Mike Snitzer <snitzer@redhat.com> wrote:
+>>> On Wed, Sep 26 2018 at  3:16am -0400,
+>>> Richard Weinberger <richard.weinberger@gmail.com> wrote:
+>>>
+>>>> Helen,
+>>>>
+>>>> On Wed, Sep 26, 2018 at 7:01 AM Helen Koike <helen.koike@collabora.com> wrote:
+>>>>>
+>>>>> This series is reviving an old patchwork.
+>>>>> Booting from a mapped device requires an initramfs. This series is
+>>>>> allows for device-mapper targets to be configured at boot time for
+>>>>> use early in the boot process (as the root device or otherwise).
+>>>>
+>>>> What is the reason for this patch series?
+>>>> Setting up non-trivial root filesystems/storage always requires an
+>>>> initramfs, there is nothing
+>>>> wrong about this.
+>>>
+>>> Exactly.  If phones or whatever would benefit from this patchset then
+>>> say as much.
+>>
+>> I think some of the context for the series was lost in commit logs,
+>> but yes, both Android and Chrome OS do not use initramfs. The only
+>> thing that was needed to do this was being able to configure dm
+>> devices on the kernel command line, so the overhead of a full
+>> initramfs was seen as a boot time liability, a boot image size
+>> liability (e.g. Chrome OS has a limited amount of storage available
+>> for the boot image that is covered by the static root of trust
+>> signature), and a complexity risk: everything that is needed for boot
+>> could be specified on the kernel command line, so better to avoid the
+>> whole initramfs dance.
+>>
+>> So, instead, this plumbs the dm commands directly instead of bringing
+>> up a full userspace and performing ioctls.
+
+Sorry about the missing context, I should've added the change log and
+worked a bit more in the cover letter with a more verbose explanation on
+the reasons for this patch.
+
+Just for reference (I'll describe better the changes in the next version):
+
+v5: https://www.redhat.com/archives/dm-devel/2016-February/msg00112.html
+v6: https://www.redhat.com/archives/dm-devel/2017-April/msg00316.html
+v7: http://lkml.iu.edu/hypermail/linux/kernel/1705.2/02657.html
+v8: https://www.redhat.com/archives/linux-lvm/2017-May/msg00055.html
+
+>>
+>>> I will not accept this patchset at this time.
+>>>
+>>>>> Example, the following could be added in the boot parameters.
+>>>>> dm="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" root=/dev/dm-0
+>>>>
+>>>> Hmmm, the new dm= parameter is anything but easy to get right.
+>>>
+>>> No, it isn't.. exposes way too much potential for users hanging
+>>> themselves.
+>>
+>> IIRC, the changes in syntax were suggested back when I was trying to
+>> drive this series:
+>> https://www.redhat.com/archives/dm-devel/2016-February/msg00199.html
+>>
+>> And it matches the "concise" format in dmsetup:
+>> https://sourceware.org/git/?p=lvm2.git;a=commit;h=827be01758ec5adb7b9d5ea75b658092adc65534
+
+Exactly, this is the "concise" format from dmsetup, it also makes it
+easier for users to copy and paste from "dmsetup --concise", which
+doesn't mean this format is ideal, but imho keeping it consistent with
+dmsetup is a good thing, please let me know if you have any other ideas.
+
+>>
+>> What do you feel are next steps?
+> 
+> There is quite a lot of init/ code, to handle parsing the concise DM
+> format, that is being proposed for inclusion.  I question why that
+> DM-specific code would be located in init/
+
+The main reason was that, taking "md=" and "raid=" as a reference, its
+command line arguments are parsed in init/do_mounts_md.c, I could move
+the parsing logic to drivers/md/* but I was wondering if it wouldn't be
+better to be consistent with init/do_mounts_md.c, what do you think?
+
+> 
+> There also needs to be a careful comparison done between the proposed
+> init/ code to support consise DM format and the userspace lvm2
+> equivalent (e.g. lvm2.git commit 827be0175)
+
+Yes, I am taking a deeper look into the lvm2 parsing code, and actually
+we can use almost the same logic for parsing, which seems better because
+lvm2 is already using it, we already have some validation/review and it
+also seems cleaner.
+I'll update this in the next version.
+
+> 
+> That aside, the DM targets that are allowed to be supported by this dm=
+> commandline boot interface must be constrained (there are serious risks
+> in allowing activation of certain DM targets without first using
+> userspace tools to check the validity of associated metadata, as is done
+> by the DM thin and cache targets).  Also, all targets supported must be
+> upstream.  "linear", "verity" and "bootcache" DM targets are referenced
+> in Documentation, "bootcache" must be a Google target.  I'm not aware of
+> it.
+> 
+> Mike
+> 
+
+I see, I can add this constraint and I'll clean up the documentation for
+the next version.
 
 
-On 10/15/2018 02:29 PM, Waiman Long wrote:
-> The previous commit introduces a new subparts_cpus mask into the cpuset
-> data structure and a new tmpmasks structure.  Managing the allocation
-> and freeing of those cpumasks is becoming more complex.
->
-> So a number of helper functions are added to simplify and streamline
-> the management of those cpumasks. To make it simple, all the cpumasks
-> are now pre-cleared on allocation.
->
-> Signed-off-by: Waiman Long <longman@redhat.com>
+Thank you all for your comments and reviews, I am working on the next
+version of this patch series taking yours comments into consideration
+and cleaning up several parts of the code and documentation.
 
-Thanks!
+Please let me know if you have any other concerns.
 
-Reviewed-by: Tom Hromatka <tom.hromatka@oracle.com>
+Thanks
+Helen
