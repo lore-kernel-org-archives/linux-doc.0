@@ -1,52 +1,52 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EAEC77D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 17:24:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A61B77D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 18:11:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727752AbeJTBb3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 21:31:29 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:43730 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727715AbeJTBb3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 21:31:29 -0400
-Received: by mail-pl1-f193.google.com with SMTP id 30-v6so16126305plb.10
-        for <linux-doc@vger.kernel.org>; Fri, 19 Oct 2018 10:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=VTnFOBixui79GYZyd1d6AFYHBoWHP2ePrlCN4gUkHyk=;
-        b=biW9nDpqzbHaUAY2aAwObqu/S5gb09yycRPQuFQPwS915bCRnOZGzwu7bk/GlIdeD7
-         +WHAVw+YuhIAJ6S/VL+zRA0W+dw51NrMlfyvt4QaAD6HalCdvDMgWCWsXuCHsYTo43+9
-         bX2hHJqOSOWcrk7wqb0NkWzZPUwDjcqas535E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VTnFOBixui79GYZyd1d6AFYHBoWHP2ePrlCN4gUkHyk=;
-        b=BZoIQCpdKV58aRlg1hMNxetiSdQ/Cwa6QjnhB7jTaRmrmMVKDiMHMQEV4C+r3uR7HY
-         UMM6FitrSImN+m9F5gQGns/kds/gAASgqspxtiG6/snayeOWV2QZ/54o3YkDPAKCOoyP
-         B+OV4zKVfLRQyiP+P8APa7suj2edahJ3C28e+OGEK5FIADRxBzJu9ilOYTGH6Ui6tV7I
-         Whs1maEVrtfdNRejVhprg+cw1e1XDZAd2L3lEPiHUG73zPCKbX7hoKHUYjmlg9sdddVA
-         WIwANJgyKuEzBhVdSIrWaIABAtaW0uGwznaik5tt0asoBYHpQ7YXIwu5q20C1PBh5CD6
-         M/Tg==
-X-Gm-Message-State: ABuFfog72Cn/YHtsf6RdPBI9XLSTEt7y1A0QgzydlBxkLkOzDBIsnQXL
-        MemRaFmLnvuZVc7fAnxw5FOEbA==
-X-Google-Smtp-Source: ACcGV63WZpY6yUQ+VqBypfvICr6Xjdf5o5s0h33vJDjjk6DKruyJkEmsqfimin4mYh7ninU9AWIZJg==
-X-Received: by 2002:a17:902:59d2:: with SMTP id d18-v6mr2932755plj.116.1539969867836;
-        Fri, 19 Oct 2018 10:24:27 -0700 (PDT)
-Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
-        by smtp.gmail.com with ESMTPSA id i5-v6sm24315196pgs.10.2018.10.19.10.24.26
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 19 Oct 2018 10:24:26 -0700 (PDT)
-Date:   Fri, 19 Oct 2018 10:24:25 -0700
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+        id S1727193AbeJTCSu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 22:18:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49526 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727050AbeJTCSu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 22:18:50 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9JI9XAf014613
+        for <linux-doc@vger.kernel.org>; Fri, 19 Oct 2018 14:11:40 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2n7jw2m0wd-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 19 Oct 2018 14:11:39 -0400
+Received: from localhost
+        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Fri, 19 Oct 2018 14:11:38 -0400
+Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
+        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 19 Oct 2018 14:11:35 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w9JIBYbJ42991798
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 19 Oct 2018 18:11:34 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 603B5B2067;
+        Fri, 19 Oct 2018 18:11:34 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2EC8BB2066;
+        Fri, 19 Oct 2018 18:11:34 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.109])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Fri, 19 Oct 2018 18:11:34 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 1D84316C300B; Fri, 19 Oct 2018 11:11:34 -0700 (PDT)
+Date:   Fri, 19 Oct 2018 11:11:34 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
 Cc:     Steven Rostedt <rostedt@goodmis.org>,
         Nikolay Borisov <nborisov@suse.com>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
@@ -56,9 +56,8 @@ Cc:     Steven Rostedt <rostedt@goodmis.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
  disabling preemption
-Message-ID: <20181019172425.GA197351@joelaf.mtv.corp.google.com>
-References: <20181018020751.GB99677@joelaf.mtv.corp.google.com>
- <20181018144637.GD2674@linux.ibm.com>
+Reply-To: paulmck@linux.ibm.com
+References: <20181018144637.GD2674@linux.ibm.com>
  <20181019000350.GB89903@joelaf.mtv.corp.google.com>
  <20181019001932.GR2674@linux.ibm.com>
  <20181019012645.GC89903@joelaf.mtv.corp.google.com>
@@ -67,83 +66,101 @@ References: <20181018020751.GB99677@joelaf.mtv.corp.google.com>
  <20181018225223.42641c73@vmware.local.home>
  <20181019035844.GA141835@joelaf.mtv.corp.google.com>
  <20181019120758.GV2674@linux.ibm.com>
+ <20181019172425.GA197351@joelaf.mtv.corp.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181019120758.GV2674@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20181019172425.GA197351@joelaf.mtv.corp.google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18101918-0068-0000-0000-00000350356B
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009902; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000268; SDB=6.01105037; UDB=6.00572114; IPR=6.00885087;
+ MB=3.00023826; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-19 18:11:38
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18101918-0069-0000-0000-000046215C95
+Message-Id: <20181019181134.GK2674@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-19_08:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1810190160
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 19, 2018 at 05:07:58AM -0700, Paul E. McKenney wrote:
-> On Thu, Oct 18, 2018 at 08:58:44PM -0700, Joel Fernandes wrote:
-> > On Thu, Oct 18, 2018 at 10:52:23PM -0400, Steven Rostedt wrote:
-> > > On Thu, 18 Oct 2018 19:25:29 -0700
-> > > Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > 
-> > > > On Thu, Oct 18, 2018 at 09:50:35PM -0400, Steven Rostedt wrote:
-> > > > > On Thu, 18 Oct 2018 18:26:45 -0700
-> > > > > Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > > >   
-> > > > > > Yes, local_irq_restore is light weight, and does not check for reschedules.
-> > > > > > 
-> > > > > > I was thinking of case where ksoftirqd is woken up, but does not run unless
-> > > > > > we set the NEED_RESCHED flag. But that should get set anyway since probably
-> > > > > > ksoftirqd is of high enough priority than the currently running task..
-> > > > > > 
-> > > > > > Roughly speaking the scenario could be something like:
-> > > > > > 
-> > > > > > rcu_read_lock();
-> > > > > >                  <-- IPI comes in for the expedited GP, sets exp_hint
-> > > > > > local_irq_disable();
-> > > > > > // do a bunch of stuff
-> > > > > > rcu_read_unlock();   <-- This calls the rcu_read_unlock_special which raises
-> > > > > >                          the soft irq, and wakesup softirqd.  
-> > > > > 
-> > > > > If softirqd is of higher priority than the current running task, then
-> > > > > the try_to_wake_up() will set NEED_RESCHED of the current task here.
-> > > > >   
+On Fri, Oct 19, 2018 at 10:24:25AM -0700, Joel Fernandes wrote:
+> On Fri, Oct 19, 2018 at 05:07:58AM -0700, Paul E. McKenney wrote:
+> > On Thu, Oct 18, 2018 at 08:58:44PM -0700, Joel Fernandes wrote:
+> > > On Thu, Oct 18, 2018 at 10:52:23PM -0400, Steven Rostedt wrote:
+> > > > On Thu, 18 Oct 2018 19:25:29 -0700
+> > > > Joel Fernandes <joel@joelfernandes.org> wrote:
 > > > > 
-> > > > Yes, only *if*. On my system, ksoftirqd is CFS nice 0. I thought expedited
-> > > > grace periods are quite important and they should complete quickly which is
-> > > > the whole reason for interrupting rcu read sections with an IPI and stuff.
-> > > > IMO there should be no harm in setting NEED_RESCHED unconditionally anyway
-> > > > for possible benefit of systems where the ksoftirqd is not of higher priority
-> > > > than the currently running task, and we need to run it soon on the CPU. But
-> > > > I'm Ok with whatever Paul and you want to do here.
+> > > > > On Thu, Oct 18, 2018 at 09:50:35PM -0400, Steven Rostedt wrote:
+> > > > > > On Thu, 18 Oct 2018 18:26:45 -0700
+> > > > > > Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > > > >   
+> > > > > > > Yes, local_irq_restore is light weight, and does not check for reschedules.
+> > > > > > > 
+> > > > > > > I was thinking of case where ksoftirqd is woken up, but does not run unless
+> > > > > > > we set the NEED_RESCHED flag. But that should get set anyway since probably
+> > > > > > > ksoftirqd is of high enough priority than the currently running task..
+> > > > > > > 
+> > > > > > > Roughly speaking the scenario could be something like:
+> > > > > > > 
+> > > > > > > rcu_read_lock();
+> > > > > > >                  <-- IPI comes in for the expedited GP, sets exp_hint
+> > > > > > > local_irq_disable();
+> > > > > > > // do a bunch of stuff
+> > > > > > > rcu_read_unlock();   <-- This calls the rcu_read_unlock_special which raises
+> > > > > > >                          the soft irq, and wakesup softirqd.  
+> > > > > > 
+> > > > > > If softirqd is of higher priority than the current running task, then
+> > > > > > the try_to_wake_up() will set NEED_RESCHED of the current task here.
+> > > > > >   
+> > > > > 
+> > > > > Yes, only *if*. On my system, ksoftirqd is CFS nice 0. I thought expedited
+> > > > > grace periods are quite important and they should complete quickly which is
+> > > > > the whole reason for interrupting rcu read sections with an IPI and stuff.
+> > > > > IMO there should be no harm in setting NEED_RESCHED unconditionally anyway
+> > > > > for possible benefit of systems where the ksoftirqd is not of higher priority
+> > > > > than the currently running task, and we need to run it soon on the CPU. But
+> > > > > I'm Ok with whatever Paul and you want to do here.
+> > > > 
+> > > > 
+> > > > Setting NEED_RESCHED unconditionally wont help. Because even if we call
+> > > > schedule() ksoftirqd will not be scheduled! If it's CFS nice 0, and the
+> > > > current task still has quota to run, if you call schedule, you'll just
+> > > > waste time calculating that the current task should still be running.
+> > > > It's equivalent to calling yield() (which is why we removed all yield()
+> > > > users in the kernel, because *all* of them were buggy!). This is *why*
+> > > > it only calls schedule *if* softirqd is of higher priority.
 > > > 
+> > > Yes, ok. you are right the TTWU path should handle setting the NEED_RESCHED
+> > > flag or not and unconditionally setting it does not get us anything. I had to
+> > > go through the code a bit since it has been a while since I explored it.
 > > > 
-> > > Setting NEED_RESCHED unconditionally wont help. Because even if we call
-> > > schedule() ksoftirqd will not be scheduled! If it's CFS nice 0, and the
-> > > current task still has quota to run, if you call schedule, you'll just
-> > > waste time calculating that the current task should still be running.
-> > > It's equivalent to calling yield() (which is why we removed all yield()
-> > > users in the kernel, because *all* of them were buggy!). This is *why*
-> > > it only calls schedule *if* softirqd is of higher priority.
+> > > So Paul, I'm Ok with your latest patch for the issue we discussed and don't
+> > > think much more can be done barring raising of ksofitrqd priorities :-) So I
+> > > guess the synchronize_rcu_expedited will just cope with the deal between
+> > > local_irq_enable and the next scheduling point.. :-)
 > > 
-> > Yes, ok. you are right the TTWU path should handle setting the NEED_RESCHED
-> > flag or not and unconditionally setting it does not get us anything. I had to
-> > go through the code a bit since it has been a while since I explored it.
+> > Thank you both!
 > > 
-> > So Paul, I'm Ok with your latest patch for the issue we discussed and don't
-> > think much more can be done barring raising of ksofitrqd priorities :-) So I
-> > guess the synchronize_rcu_expedited will just cope with the deal between
-> > local_irq_enable and the next scheduling point.. :-)
+> > Indeed, real-time systems need to be configured carefully, especially if
+> > you are crazy enough to run them under high load.  I interpreted "Ok with
+> > your latest patch" as an Acked-by, but please let me know if that is a
+> > misinterpretation.
 > 
-> Thank you both!
+> Yes,
 > 
-> Indeed, real-time systems need to be configured carefully, especially if
-> you are crazy enough to run them under high load.  I interpreted "Ok with
-> your latest patch" as an Acked-by, but please let me know if that is a
-> misinterpretation.
+> Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Yes,
+Very good, pre-applied, thank you!  ;-)
 
-Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-
-thanks!
-
-- Joel
+							Thanx, Paul
 
