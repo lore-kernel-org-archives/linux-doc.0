@@ -2,99 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A91B7D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 12:02:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E61D7D088
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 12:08:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbeJSUH7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 16:07:59 -0400
-Received: from vmicros1.altlinux.org ([194.107.17.57]:50096 "EHLO
-        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727544AbeJSUH7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 16:07:59 -0400
-Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
-        by vmicros1.altlinux.org (Postfix) with ESMTP id 20FB172CC59;
-        Fri, 19 Oct 2018 15:02:11 +0300 (MSK)
-Received: from sole.flsd.net (sole.flsd.net [185.75.180.6])
-        by imap.altlinux.org (Postfix) with ESMTPSA id 05DDD4A4A16;
-        Fri, 19 Oct 2018 15:02:11 +0300 (MSK)
-Date:   Fri, 19 Oct 2018 15:02:10 +0300
-From:   Vitaly Chikunov <vt@altlinux.org>
-To:     Mike Snitzer <snitzer@redhat.com>
-Cc:     Alasdair Kergon <agk@redhat.com>, dm-devel@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>, Shaohua Li <shli@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-raid@vger.kernel.org
-Subject: Re: dm: add secdel target
-Message-ID: <20181019120209.osicx2v3vebvsxqr@sole.flsd.net>
-References: <20181014112439.8119-1-vt@altlinux.org>
- <20181018200124.GA6996@redhat.com>
+        id S1727170AbeJSUNy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 16:13:54 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58866 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727460AbeJSUNx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 16:13:53 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9JC4kqr015920
+        for <linux-doc@vger.kernel.org>; Fri, 19 Oct 2018 08:08:04 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2n7betsph3-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 19 Oct 2018 08:08:03 -0400
+Received: from localhost
+        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Fri, 19 Oct 2018 08:08:02 -0400
+Received: from b01cxnp22033.gho.pok.ibm.com (9.57.198.23)
+        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 19 Oct 2018 08:07:59 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w9JC7w5F44302520
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 19 Oct 2018 12:07:58 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A6DA2B2065;
+        Fri, 19 Oct 2018 12:07:58 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 76B51B2066;
+        Fri, 19 Oct 2018 12:07:58 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.109])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Fri, 19 Oct 2018 12:07:58 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 26E7216C39BB; Fri, 19 Oct 2018 05:07:58 -0700 (PDT)
+Date:   Fri, 19 Oct 2018 05:07:58 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Nikolay Borisov <nborisov@suse.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
+ disabling preemption
+Reply-To: paulmck@linux.ibm.com
+References: <20181017203324.GS2674@linux.ibm.com>
+ <20181018020751.GB99677@joelaf.mtv.corp.google.com>
+ <20181018144637.GD2674@linux.ibm.com>
+ <20181019000350.GB89903@joelaf.mtv.corp.google.com>
+ <20181019001932.GR2674@linux.ibm.com>
+ <20181019012645.GC89903@joelaf.mtv.corp.google.com>
+ <20181018215035.5e8ff553@vmware.local.home>
+ <20181019022529.GA155753@joelaf.mtv.corp.google.com>
+ <20181018225223.42641c73@vmware.local.home>
+ <20181019035844.GA141835@joelaf.mtv.corp.google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=koi8-r
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181018200124.GA6996@redhat.com>
-User-Agent: NeoMutt/20171215-106-ac61c7
+In-Reply-To: <20181019035844.GA141835@joelaf.mtv.corp.google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18101912-0060-0000-0000-000002C36E1F
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009899; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000268; SDB=6.01104916; UDB=6.00572041; IPR=6.00884966;
+ MB=3.00023821; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-19 12:08:01
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18101912-0061-0000-0000-000046E6ABAF
+Message-Id: <20181019120758.GV2674@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-18_11:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1810190109
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 18, 2018 at 04:01:25PM -0400, Mike Snitzer wrote:
-> On Sun, Oct 14 2018 at  7:24am -0400,
-> Vitaly Chikunov <vt@altlinux.org> wrote:
-> 
-> > Report to the upper level ability to discard, and translate arriving
-> > discards to the writes of random or zero data to the underlying level.
+On Thu, Oct 18, 2018 at 08:58:44PM -0700, Joel Fernandes wrote:
+> On Thu, Oct 18, 2018 at 10:52:23PM -0400, Steven Rostedt wrote:
+> > On Thu, 18 Oct 2018 19:25:29 -0700
+> > Joel Fernandes <joel@joelfernandes.org> wrote:
 > > 
-> > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
-> > ---
-> >   This target is the same as the linear target except that is reports ability to
-> >   discard to the upper level and translates arriving discards into sector
-> >   overwrites with random (or zero) data.
+> > > On Thu, Oct 18, 2018 at 09:50:35PM -0400, Steven Rostedt wrote:
+> > > > On Thu, 18 Oct 2018 18:26:45 -0700
+> > > > Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > >   
+> > > > > Yes, local_irq_restore is light weight, and does not check for reschedules.
+> > > > > 
+> > > > > I was thinking of case where ksoftirqd is woken up, but does not run unless
+> > > > > we set the NEED_RESCHED flag. But that should get set anyway since probably
+> > > > > ksoftirqd is of high enough priority than the currently running task..
+> > > > > 
+> > > > > Roughly speaking the scenario could be something like:
+> > > > > 
+> > > > > rcu_read_lock();
+> > > > >                  <-- IPI comes in for the expedited GP, sets exp_hint
+> > > > > local_irq_disable();
+> > > > > // do a bunch of stuff
+> > > > > rcu_read_unlock();   <-- This calls the rcu_read_unlock_special which raises
+> > > > >                          the soft irq, and wakesup softirqd.  
+> > > > 
+> > > > If softirqd is of higher priority than the current running task, then
+> > > > the try_to_wake_up() will set NEED_RESCHED of the current task here.
+> > > >   
+> > > 
+> > > Yes, only *if*. On my system, ksoftirqd is CFS nice 0. I thought expedited
+> > > grace periods are quite important and they should complete quickly which is
+> > > the whole reason for interrupting rcu read sections with an IPI and stuff.
+> > > IMO there should be no harm in setting NEED_RESCHED unconditionally anyway
+> > > for possible benefit of systems where the ksoftirqd is not of higher priority
+> > > than the currently running task, and we need to run it soon on the CPU. But
+> > > I'm Ok with whatever Paul and you want to do here.
+> > 
+> > 
+> > Setting NEED_RESCHED unconditionally wont help. Because even if we call
+> > schedule() ksoftirqd will not be scheduled! If it's CFS nice 0, and the
+> > current task still has quota to run, if you call schedule, you'll just
+> > waste time calculating that the current task should still be running.
+> > It's equivalent to calling yield() (which is why we removed all yield()
+> > users in the kernel, because *all* of them were buggy!). This is *why*
+> > it only calls schedule *if* softirqd is of higher priority.
 > 
-> There is a fair amount of code duplication between dm-linear.c and this
-> new target.
+> Yes, ok. you are right the TTWU path should handle setting the NEED_RESCHED
+> flag or not and unconditionally setting it does not get us anything. I had to
+> go through the code a bit since it has been a while since I explored it.
 > 
-> Something needs to give, ideally you'd factor out methods that are
-> shared by both targets, but those methods must _not_ introduce overhead
-> to dm-linear.
+> So Paul, I'm Ok with your latest patch for the issue we discussed and don't
+> think much more can be done barring raising of ksofitrqd priorities :-) So I
+> guess the synchronize_rcu_expedited will just cope with the deal between
+> local_irq_enable and the next scheduling point.. :-)
 
-I see three possible solutions:
- - integrate 'secdel' into dm-linear;
- - export functions like linear_dax_copy_to_iter and fill them into
-   secdel's `struct target_type`;
- - call methods of linear's `struct target_type` from secdel's one.
+Thank you both!
 
-> Could be that dm-linear methods just get called by the wrapper
-> dm-sec-erase target (more on the "dm-sec-erase" name below).
+Indeed, real-time systems need to be configured carefully, especially if
+you are crazy enough to run them under high load.  I interpreted "Ok with
+your latest patch" as an Acked-by, but please let me know if that is a
+misinterpretation.
 
-> > diff --git a/drivers/md/dm-secdel.c b/drivers/md/dm-secdel.c
-> > new file mode 100644
-> > index 000000000000..9aeaf3f243c0
-> > --- /dev/null
-> > +++ b/drivers/md/dm-secdel.c
-> ... 
-> > +			if (mode == SECDEL_MODE_RAND) {
-> > +				page = alloc_page(gfp_mask);
-> > +				if (!page) {
-> > +					DMERR("%s %lu[%lu]: no memory to allocate page for random data",
-> > +					      __func__, sector, nr_sects);
-> > +					/* will fallback to zero filling */
-> 
-> In general, performing memory allocations to service IO is something all
-> DM core and DM targets must work to avoid.  This smells bad.
-> 
-> ...
-
-Yes, but we need to create and write random data, so I don't see other
-solution. In zero overwriting mode page is not allocated. And it's fall
-back to zero overwriting if page allocation fails for random data.
-
-> Mike
-
-I will address these and other your concerns in v2.
-
-Thanks!
+							Thanx, Paul
 
