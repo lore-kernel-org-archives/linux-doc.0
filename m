@@ -1,70 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71ABC7D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 10:20:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D3B37D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 11:01:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbeJSS0K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 14:26:10 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:61480 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726690AbeJSS0K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 14:26:10 -0400
-Received: from 79.184.253.168.ipv4.supernova.orange.pl (79.184.253.168) (HELO aspire.rjw.lan)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.148)
- id b4b2fea5c4214ba0; Fri, 19 Oct 2018 12:20:41 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     corbet@lwn.net, lenb@kernel.org, viresh.kumar@linaro.org,
-        robert.moore@intel.com, erik.schmauss@intel.com,
-        juri.lelli@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-pm@vger.kernel.org, devel@acpica.org,
-        pprakash@codeaurora.org, george.cherian@cavium.com
-Subject: Re: [PATCH v4 0/3] cpufreq: intel_pstate: Base frequency attribute
-Date:   Fri, 19 Oct 2018 12:17:24 +0200
-Message-ID: <2009466.qjoMG8mNOh@aspire.rjw.lan>
-In-Reply-To: <20181015173721.66147-1-srinivas.pandruvada@linux.intel.com>
-References: <20181015173721.66147-1-srinivas.pandruvada@linux.intel.com>
+        id S1726698AbeJSTGx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 15:06:53 -0400
+Received: from o3.31pqt.s2shared.sendgrid.net ([167.89.55.59]:2429 "EHLO
+        o3.31pqt.s2shared.sendgrid.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726784AbeJSTGx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 15:06:53 -0400
+X-Greylist: delayed 321 seconds by postgrey-1.27 at vger.kernel.org; Fri, 19 Oct 2018 15:06:53 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
+        h=mime-version:content-type:content-transfer-encoding:from:to:cc:
+        subject:in-reply-to:references;
+        s=smtpapi; bh=c1EdKy6t0O+c9jc/0yiwOZsUgE3ZS6KVLftcc+CEhgY=;
+        b=GqWq1TUq/SLZ14/Gd1ClDRjoHhZKRZWkWkiVs8KNDQFLlZ5DHhZN7AyYSBS9XNKxQ1e/
+        skfZScnMRnS/KVBO9OQJsHwGlxp2copQ0UZ9JugP5X18xcagqnaN+Y3VKpr/yRX/iu5JtU
+        wQavkJB/zoUZbJORAD2MGomBFuemGaj8A=
+Received: by filter0008p2mdw1.sendgrid.net with SMTP id filter0008p2mdw1-24857-5BC9B83E-11
+        2018-10-19 10:55:58.37389743 +0000 UTC m=+57241.186838637
+Received: from korte.land (unknown [146.185.150.169])
+        by ismtpd0004p1lon1.sendgrid.net (SG) with ESMTP id N71mXe5HQ9i7HXzCtfsQkQ
+        Fri, 19 Oct 2018 10:55:58.125 +0000 (UTC)
+Received: from mail.korte.land (localhost [127.0.0.1])
+        by korte.land (Postfix) with ESMTP id EE2726034E;
+        Fri, 19 Oct 2018 10:55:57 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 19 Oct 2018 10:55:58 +0000 (UTC)
+From:   Will Korteland <will@korte.land>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs/uio: fix a grammar nitpick
+In-Reply-To: <20181018123126.3e59c3fd@lwn.net>
+References: <7e426c03c0e342ade7ce86a977ef13b2@korte.land>
+ <20181018123126.3e59c3fd@lwn.net>
+Message-ID: <fa74b1f965d5a33d708f74d9fe8d7517@korte.land>
+X-Sender: will@korte.land
+X-SG-EID: =?us-ascii?Q?cUnx5NqAuhUbAHG4iZ9Vx1BO6oMeAW3Kqk+xSEzhkR48c1futjyLp2=2Fwp8OUBt?=
+ =?us-ascii?Q?=2F5X+h1tdyY33lVKbOQVGXUFdB3RLJ=2F7GJumKslr?=
+ =?us-ascii?Q?FsVA7C85uAjana18rIdmo50W+R1+Qn3Vm+Rhgvs?=
+ =?us-ascii?Q?ZR46dK87lHmJ1sCkw7gOAQIFvNbEM1czNyJ0UHI?=
+ =?us-ascii?Q?LNlp43O7aogMbbmhW8catrzoqwS3ych95yj4nIQ?=
+ =?us-ascii?Q?X+XLM4tBD5DpAgGuMcIuoKU0HXIAcd1JYJI2Cb?=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, October 15, 2018 7:37:18 PM CEST Srinivas Pandruvada wrote:
-> This series presents base frequency to cpufreq sysfs when intel_pstate
-> is in use in HWP mode.
+On 2018-10-18 18:31, Jonathan Corbet wrote:
+> Unfortunately, this patch is badly white-space mangled.  I tried fixing
+> it up but eventually had to give up and move on.
 > 
-> Changes:
-> v4:
-> - Documentation update only as suggested by Rafael
-> 
-> v3:
-> - Update documentation
-> v2
-> - Removed guaranteed attribute addition to acpi_cppc sysfs
-> - Using the cppc_acpi interface to get base frequency and present
-> 
-> Srinivas Pandruvada (3):
->   ACPI / CPPC: Add support for guaranteed performance
->   cpufreq: intel_pstate: Add base_frequency attribute
->   Documentation: intel_pstate: Add base_frequency information
-> 
->  Documentation/admin-guide/pm/intel_pstate.rst |  7 ++++
->  drivers/acpi/cppc_acpi.c                      |  8 +++-
->  drivers/cpufreq/intel_pstate.c                | 38 +++++++++++++++++++
->  include/acpi/cppc_acpi.h                      |  1 +
->  4 files changed, 52 insertions(+), 2 deletions(-)
-> 
-> 
+> Please fix up your email client so that this doesn't happen; see
+> Documentation/process/email-clients.rst for some helpful suggestions
+> to that end.  Once you can email the patch to yourself and apply the
+> result successfully, please resubmit it.
 
-All three applied, thanks!
+Thanks for taking the time to look at this. I might let it be, since it's
+made it into linux-next-20181019 fine - I got an email from Greg KH to that
+effect as well.
 
+That said, I'll be a bit more careful next time round, just in case
+someone's manually fixed up the whitespace without telling me. Thanks for
+the pointer to the email docs, but unfortunately my client isn't covered
+there. Still, I've used it as a guide for the kind of settings I need,
+hopefully my patches won't get mangled from now on.
 
+- Will
