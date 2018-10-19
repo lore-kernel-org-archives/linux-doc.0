@@ -1,222 +1,149 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E26967D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 16:28:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EAEC77D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 17:24:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727549AbeJTAet (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 20:34:49 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60910 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727038AbeJTAes (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 20:34:48 -0400
-Received: from [IPv6:2a00:5f00:102:0:ba02:a122:2d73:c919] (unknown [IPv6:2a00:5f00:102:0:ba02:a122:2d73:c919])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C0D90260CC2;
-        Fri, 19 Oct 2018 17:27:57 +0100 (BST)
-Subject: Re: [PATCH 0/2] boot to a mapped device
-To:     Mike Snitzer <snitzer@redhat.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Richard Weinberger <richard.weinberger@gmail.com>,
-        device-mapper development <dm-devel@redhat.com>,
-        Alasdair G Kergon <agk@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Will Drewry <wad@chromium.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-lvm@redhat.com, kernel@collabora.com
-References: <cover.1537936397.git.helen.koike@collabora.com>
- <CAFLxGvzCDOTR4stPmp1TTLkQ39x3e8MQuL=AR754abKc5skhpA@mail.gmail.com>
- <20180927142328.GA4074@redhat.com>
- <CAGXu5j+Y5e_oTZVCAHa48XgVcvEKGnVW_74oXZOUyLnfYPAjAg@mail.gmail.com>
- <20180927183141.GA4921@redhat.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=helen.koike@collabora.com; keydata=
- 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
-Message-ID: <90071912-047f-fb7b-3372-32cca9f2de06@collabora.com>
-Date:   Fri, 19 Oct 2018 13:27:55 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        id S1727752AbeJTBb3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 21:31:29 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:43730 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727715AbeJTBb3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 21:31:29 -0400
+Received: by mail-pl1-f193.google.com with SMTP id 30-v6so16126305plb.10
+        for <linux-doc@vger.kernel.org>; Fri, 19 Oct 2018 10:24:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VTnFOBixui79GYZyd1d6AFYHBoWHP2ePrlCN4gUkHyk=;
+        b=biW9nDpqzbHaUAY2aAwObqu/S5gb09yycRPQuFQPwS915bCRnOZGzwu7bk/GlIdeD7
+         +WHAVw+YuhIAJ6S/VL+zRA0W+dw51NrMlfyvt4QaAD6HalCdvDMgWCWsXuCHsYTo43+9
+         bX2hHJqOSOWcrk7wqb0NkWzZPUwDjcqas535E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VTnFOBixui79GYZyd1d6AFYHBoWHP2ePrlCN4gUkHyk=;
+        b=BZoIQCpdKV58aRlg1hMNxetiSdQ/Cwa6QjnhB7jTaRmrmMVKDiMHMQEV4C+r3uR7HY
+         UMM6FitrSImN+m9F5gQGns/kds/gAASgqspxtiG6/snayeOWV2QZ/54o3YkDPAKCOoyP
+         B+OV4zKVfLRQyiP+P8APa7suj2edahJ3C28e+OGEK5FIADRxBzJu9ilOYTGH6Ui6tV7I
+         Whs1maEVrtfdNRejVhprg+cw1e1XDZAd2L3lEPiHUG73zPCKbX7hoKHUYjmlg9sdddVA
+         WIwANJgyKuEzBhVdSIrWaIABAtaW0uGwznaik5tt0asoBYHpQ7YXIwu5q20C1PBh5CD6
+         M/Tg==
+X-Gm-Message-State: ABuFfog72Cn/YHtsf6RdPBI9XLSTEt7y1A0QgzydlBxkLkOzDBIsnQXL
+        MemRaFmLnvuZVc7fAnxw5FOEbA==
+X-Google-Smtp-Source: ACcGV63WZpY6yUQ+VqBypfvICr6Xjdf5o5s0h33vJDjjk6DKruyJkEmsqfimin4mYh7ninU9AWIZJg==
+X-Received: by 2002:a17:902:59d2:: with SMTP id d18-v6mr2932755plj.116.1539969867836;
+        Fri, 19 Oct 2018 10:24:27 -0700 (PDT)
+Received: from localhost ([2620:0:1000:1601:3aef:314f:b9ea:889f])
+        by smtp.gmail.com with ESMTPSA id i5-v6sm24315196pgs.10.2018.10.19.10.24.26
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 19 Oct 2018 10:24:26 -0700 (PDT)
+Date:   Fri, 19 Oct 2018 10:24:25 -0700
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Nikolay Borisov <nborisov@suse.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
+ disabling preemption
+Message-ID: <20181019172425.GA197351@joelaf.mtv.corp.google.com>
+References: <20181018020751.GB99677@joelaf.mtv.corp.google.com>
+ <20181018144637.GD2674@linux.ibm.com>
+ <20181019000350.GB89903@joelaf.mtv.corp.google.com>
+ <20181019001932.GR2674@linux.ibm.com>
+ <20181019012645.GC89903@joelaf.mtv.corp.google.com>
+ <20181018215035.5e8ff553@vmware.local.home>
+ <20181019022529.GA155753@joelaf.mtv.corp.google.com>
+ <20181018225223.42641c73@vmware.local.home>
+ <20181019035844.GA141835@joelaf.mtv.corp.google.com>
+ <20181019120758.GV2674@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20180927183141.GA4921@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181019120758.GV2674@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
-
-Sorry the delay of my reply.
-
-On 9/27/18 3:31 PM, Mike Snitzer wrote:
-> On Thu, Sep 27 2018 at 12:36pm -0400,
-> Kees Cook <keescook@chromium.org> wrote:
+On Fri, Oct 19, 2018 at 05:07:58AM -0700, Paul E. McKenney wrote:
+> On Thu, Oct 18, 2018 at 08:58:44PM -0700, Joel Fernandes wrote:
+> > On Thu, Oct 18, 2018 at 10:52:23PM -0400, Steven Rostedt wrote:
+> > > On Thu, 18 Oct 2018 19:25:29 -0700
+> > > Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > 
+> > > > On Thu, Oct 18, 2018 at 09:50:35PM -0400, Steven Rostedt wrote:
+> > > > > On Thu, 18 Oct 2018 18:26:45 -0700
+> > > > > Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > > >   
+> > > > > > Yes, local_irq_restore is light weight, and does not check for reschedules.
+> > > > > > 
+> > > > > > I was thinking of case where ksoftirqd is woken up, but does not run unless
+> > > > > > we set the NEED_RESCHED flag. But that should get set anyway since probably
+> > > > > > ksoftirqd is of high enough priority than the currently running task..
+> > > > > > 
+> > > > > > Roughly speaking the scenario could be something like:
+> > > > > > 
+> > > > > > rcu_read_lock();
+> > > > > >                  <-- IPI comes in for the expedited GP, sets exp_hint
+> > > > > > local_irq_disable();
+> > > > > > // do a bunch of stuff
+> > > > > > rcu_read_unlock();   <-- This calls the rcu_read_unlock_special which raises
+> > > > > >                          the soft irq, and wakesup softirqd.  
+> > > > > 
+> > > > > If softirqd is of higher priority than the current running task, then
+> > > > > the try_to_wake_up() will set NEED_RESCHED of the current task here.
+> > > > >   
+> > > > 
+> > > > Yes, only *if*. On my system, ksoftirqd is CFS nice 0. I thought expedited
+> > > > grace periods are quite important and they should complete quickly which is
+> > > > the whole reason for interrupting rcu read sections with an IPI and stuff.
+> > > > IMO there should be no harm in setting NEED_RESCHED unconditionally anyway
+> > > > for possible benefit of systems where the ksoftirqd is not of higher priority
+> > > > than the currently running task, and we need to run it soon on the CPU. But
+> > > > I'm Ok with whatever Paul and you want to do here.
+> > > 
+> > > 
+> > > Setting NEED_RESCHED unconditionally wont help. Because even if we call
+> > > schedule() ksoftirqd will not be scheduled! If it's CFS nice 0, and the
+> > > current task still has quota to run, if you call schedule, you'll just
+> > > waste time calculating that the current task should still be running.
+> > > It's equivalent to calling yield() (which is why we removed all yield()
+> > > users in the kernel, because *all* of them were buggy!). This is *why*
+> > > it only calls schedule *if* softirqd is of higher priority.
+> > 
+> > Yes, ok. you are right the TTWU path should handle setting the NEED_RESCHED
+> > flag or not and unconditionally setting it does not get us anything. I had to
+> > go through the code a bit since it has been a while since I explored it.
+> > 
+> > So Paul, I'm Ok with your latest patch for the issue we discussed and don't
+> > think much more can be done barring raising of ksofitrqd priorities :-) So I
+> > guess the synchronize_rcu_expedited will just cope with the deal between
+> > local_irq_enable and the next scheduling point.. :-)
 > 
->> On Thu, Sep 27, 2018 at 7:23 AM, Mike Snitzer <snitzer@redhat.com> wrote:
->>> On Wed, Sep 26 2018 at  3:16am -0400,
->>> Richard Weinberger <richard.weinberger@gmail.com> wrote:
->>>
->>>> Helen,
->>>>
->>>> On Wed, Sep 26, 2018 at 7:01 AM Helen Koike <helen.koike@collabora.com> wrote:
->>>>>
->>>>> This series is reviving an old patchwork.
->>>>> Booting from a mapped device requires an initramfs. This series is
->>>>> allows for device-mapper targets to be configured at boot time for
->>>>> use early in the boot process (as the root device or otherwise).
->>>>
->>>> What is the reason for this patch series?
->>>> Setting up non-trivial root filesystems/storage always requires an
->>>> initramfs, there is nothing
->>>> wrong about this.
->>>
->>> Exactly.  If phones or whatever would benefit from this patchset then
->>> say as much.
->>
->> I think some of the context for the series was lost in commit logs,
->> but yes, both Android and Chrome OS do not use initramfs. The only
->> thing that was needed to do this was being able to configure dm
->> devices on the kernel command line, so the overhead of a full
->> initramfs was seen as a boot time liability, a boot image size
->> liability (e.g. Chrome OS has a limited amount of storage available
->> for the boot image that is covered by the static root of trust
->> signature), and a complexity risk: everything that is needed for boot
->> could be specified on the kernel command line, so better to avoid the
->> whole initramfs dance.
->>
->> So, instead, this plumbs the dm commands directly instead of bringing
->> up a full userspace and performing ioctls.
-
-Sorry about the missing context, I should've added the change log and
-worked a bit more in the cover letter with a more verbose explanation on
-the reasons for this patch.
-
-Just for reference (I'll describe better the changes in the next version):
-
-v5: https://www.redhat.com/archives/dm-devel/2016-February/msg00112.html
-v6: https://www.redhat.com/archives/dm-devel/2017-April/msg00316.html
-v7: http://lkml.iu.edu/hypermail/linux/kernel/1705.2/02657.html
-v8: https://www.redhat.com/archives/linux-lvm/2017-May/msg00055.html
-
->>
->>> I will not accept this patchset at this time.
->>>
->>>>> Example, the following could be added in the boot parameters.
->>>>> dm="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" root=/dev/dm-0
->>>>
->>>> Hmmm, the new dm= parameter is anything but easy to get right.
->>>
->>> No, it isn't.. exposes way too much potential for users hanging
->>> themselves.
->>
->> IIRC, the changes in syntax were suggested back when I was trying to
->> drive this series:
->> https://www.redhat.com/archives/dm-devel/2016-February/msg00199.html
->>
->> And it matches the "concise" format in dmsetup:
->> https://sourceware.org/git/?p=lvm2.git;a=commit;h=827be01758ec5adb7b9d5ea75b658092adc65534
-
-Exactly, this is the "concise" format from dmsetup, it also makes it
-easier for users to copy and paste from "dmsetup --concise", which
-doesn't mean this format is ideal, but imho keeping it consistent with
-dmsetup is a good thing, please let me know if you have any other ideas.
-
->>
->> What do you feel are next steps?
+> Thank you both!
 > 
-> There is quite a lot of init/ code, to handle parsing the concise DM
-> format, that is being proposed for inclusion.  I question why that
-> DM-specific code would be located in init/
+> Indeed, real-time systems need to be configured carefully, especially if
+> you are crazy enough to run them under high load.  I interpreted "Ok with
+> your latest patch" as an Acked-by, but please let me know if that is a
+> misinterpretation.
 
-The main reason was that, taking "md=" and "raid=" as a reference, its
-command line arguments are parsed in init/do_mounts_md.c, I could move
-the parsing logic to drivers/md/* but I was wondering if it wouldn't be
-better to be consistent with init/do_mounts_md.c, what do you think?
+Yes,
 
-> 
-> There also needs to be a careful comparison done between the proposed
-> init/ code to support consise DM format and the userspace lvm2
-> equivalent (e.g. lvm2.git commit 827be0175)
+Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Yes, I am taking a deeper look into the lvm2 parsing code, and actually
-we can use almost the same logic for parsing, which seems better because
-lvm2 is already using it, we already have some validation/review and it
-also seems cleaner.
-I'll update this in the next version.
+thanks!
 
-> 
-> That aside, the DM targets that are allowed to be supported by this dm=
-> commandline boot interface must be constrained (there are serious risks
-> in allowing activation of certain DM targets without first using
-> userspace tools to check the validity of associated metadata, as is done
-> by the DM thin and cache targets).  Also, all targets supported must be
-> upstream.  "linear", "verity" and "bootcache" DM targets are referenced
-> in Documentation, "bootcache" must be a Google target.  I'm not aware of
-> it.
-> 
-> Mike
-> 
+- Joel
 
-I see, I can add this constraint and I'll clean up the documentation for
-the next version.
-
-
-Thank you all for your comments and reviews, I am working on the next
-version of this patch series taking yours comments into consideration
-and cleaning up several parts of the code and documentation.
-
-Please let me know if you have any other concerns.
-
-Thanks
-Helen
