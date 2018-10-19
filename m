@@ -2,165 +2,309 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A61B77D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 18:11:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC9207D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 18:56:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbeJTCSu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 22:18:50 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49526 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727050AbeJTCSu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 22:18:50 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9JI9XAf014613
-        for <linux-doc@vger.kernel.org>; Fri, 19 Oct 2018 14:11:40 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2n7jw2m0wd-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 19 Oct 2018 14:11:39 -0400
-Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Fri, 19 Oct 2018 14:11:38 -0400
-Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 19 Oct 2018 14:11:35 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w9JIBYbJ42991798
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 19 Oct 2018 18:11:34 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 603B5B2067;
-        Fri, 19 Oct 2018 18:11:34 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2EC8BB2066;
-        Fri, 19 Oct 2018 18:11:34 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.109])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Fri, 19 Oct 2018 18:11:34 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 1D84316C300B; Fri, 19 Oct 2018 11:11:34 -0700 (PDT)
-Date:   Fri, 19 Oct 2018 11:11:34 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Nikolay Borisov <nborisov@suse.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH RFC] doc: rcu: remove obsolete (non-)requirement about
- disabling preemption
-Reply-To: paulmck@linux.ibm.com
-References: <20181018144637.GD2674@linux.ibm.com>
- <20181019000350.GB89903@joelaf.mtv.corp.google.com>
- <20181019001932.GR2674@linux.ibm.com>
- <20181019012645.GC89903@joelaf.mtv.corp.google.com>
- <20181018215035.5e8ff553@vmware.local.home>
- <20181019022529.GA155753@joelaf.mtv.corp.google.com>
- <20181018225223.42641c73@vmware.local.home>
- <20181019035844.GA141835@joelaf.mtv.corp.google.com>
- <20181019120758.GV2674@linux.ibm.com>
- <20181019172425.GA197351@joelaf.mtv.corp.google.com>
+        id S1727560AbeJTDDk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 23:03:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35014 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727329AbeJTDDk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Oct 2018 23:03:40 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id E32BC461D0;
+        Fri, 19 Oct 2018 18:56:19 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B2F7268885;
+        Fri, 19 Oct 2018 18:56:13 +0000 (UTC)
+Subject: Re: [PATCH v14 12/12] cpuset: Show descriptive text when reading
+ cpuset.sched.partition
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Tom Hromatka <tom.hromatka@oracle.com>
+References: <1539635377-22335-1-git-send-email-longman@redhat.com>
+ <1539635377-22335-13-git-send-email-longman@redhat.com>
+ <20181017150836.GS270328@devbig004.ftw2.facebook.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <b797288a-6088-f7b0-c881-81633c071754@redhat.com>
+Date:   Fri, 19 Oct 2018 14:56:13 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181019172425.GA197351@joelaf.mtv.corp.google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18101918-0068-0000-0000-00000350356B
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009902; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000268; SDB=6.01105037; UDB=6.00572114; IPR=6.00885087;
- MB=3.00023826; MTD=3.00000008; XFM=3.00000015; UTC=2018-10-19 18:11:38
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18101918-0069-0000-0000-000046215C95
-Message-Id: <20181019181134.GK2674@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-19_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1810190160
+In-Reply-To: <20181017150836.GS270328@devbig004.ftw2.facebook.com>
+Content-Type: multipart/mixed;
+ boundary="------------275CDF22CC2523499699C9E0"
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Fri, 19 Oct 2018 18:56:20 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 19, 2018 at 10:24:25AM -0700, Joel Fernandes wrote:
-> On Fri, Oct 19, 2018 at 05:07:58AM -0700, Paul E. McKenney wrote:
-> > On Thu, Oct 18, 2018 at 08:58:44PM -0700, Joel Fernandes wrote:
-> > > On Thu, Oct 18, 2018 at 10:52:23PM -0400, Steven Rostedt wrote:
-> > > > On Thu, 18 Oct 2018 19:25:29 -0700
-> > > > Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > > 
-> > > > > On Thu, Oct 18, 2018 at 09:50:35PM -0400, Steven Rostedt wrote:
-> > > > > > On Thu, 18 Oct 2018 18:26:45 -0700
-> > > > > > Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > > > >   
-> > > > > > > Yes, local_irq_restore is light weight, and does not check for reschedules.
-> > > > > > > 
-> > > > > > > I was thinking of case where ksoftirqd is woken up, but does not run unless
-> > > > > > > we set the NEED_RESCHED flag. But that should get set anyway since probably
-> > > > > > > ksoftirqd is of high enough priority than the currently running task..
-> > > > > > > 
-> > > > > > > Roughly speaking the scenario could be something like:
-> > > > > > > 
-> > > > > > > rcu_read_lock();
-> > > > > > >                  <-- IPI comes in for the expedited GP, sets exp_hint
-> > > > > > > local_irq_disable();
-> > > > > > > // do a bunch of stuff
-> > > > > > > rcu_read_unlock();   <-- This calls the rcu_read_unlock_special which raises
-> > > > > > >                          the soft irq, and wakesup softirqd.  
-> > > > > > 
-> > > > > > If softirqd is of higher priority than the current running task, then
-> > > > > > the try_to_wake_up() will set NEED_RESCHED of the current task here.
-> > > > > >   
-> > > > > 
-> > > > > Yes, only *if*. On my system, ksoftirqd is CFS nice 0. I thought expedited
-> > > > > grace periods are quite important and they should complete quickly which is
-> > > > > the whole reason for interrupting rcu read sections with an IPI and stuff.
-> > > > > IMO there should be no harm in setting NEED_RESCHED unconditionally anyway
-> > > > > for possible benefit of systems where the ksoftirqd is not of higher priority
-> > > > > than the currently running task, and we need to run it soon on the CPU. But
-> > > > > I'm Ok with whatever Paul and you want to do here.
-> > > > 
-> > > > 
-> > > > Setting NEED_RESCHED unconditionally wont help. Because even if we call
-> > > > schedule() ksoftirqd will not be scheduled! If it's CFS nice 0, and the
-> > > > current task still has quota to run, if you call schedule, you'll just
-> > > > waste time calculating that the current task should still be running.
-> > > > It's equivalent to calling yield() (which is why we removed all yield()
-> > > > users in the kernel, because *all* of them were buggy!). This is *why*
-> > > > it only calls schedule *if* softirqd is of higher priority.
-> > > 
-> > > Yes, ok. you are right the TTWU path should handle setting the NEED_RESCHED
-> > > flag or not and unconditionally setting it does not get us anything. I had to
-> > > go through the code a bit since it has been a while since I explored it.
-> > > 
-> > > So Paul, I'm Ok with your latest patch for the issue we discussed and don't
-> > > think much more can be done barring raising of ksofitrqd priorities :-) So I
-> > > guess the synchronize_rcu_expedited will just cope with the deal between
-> > > local_irq_enable and the next scheduling point.. :-)
-> > 
-> > Thank you both!
-> > 
-> > Indeed, real-time systems need to be configured carefully, especially if
-> > you are crazy enough to run them under high load.  I interpreted "Ok with
-> > your latest patch" as an Acked-by, but please let me know if that is a
-> > misinterpretation.
-> 
-> Yes,
-> 
-> Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+This is a multi-part message in MIME format.
+--------------275CDF22CC2523499699C9E0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Very good, pre-applied, thank you!  ;-)
+On 10/17/2018 11:08 AM, Tejun Heo wrote:
+> On Mon, Oct 15, 2018 at 04:29:37PM -0400, Waiman Long wrote:
+>> Currently, cpuset.sched.partition returns the values, 0, 1 or -1 on
+>> read. A person who is not familiar with the partition code may not
+>> understand what they mean.
+>>
+>> In order to make cpuset.sched.partition more user-friendly, it will
+>> now display the following descriptive text on read:
+>>
+>>   "normal" - A normal cpuset, not a partition root
+>>   "partition" - A partition root
+>>   "partition invalid" - An invalid partition root
+>>
+>> Suggested-by: Tejun Heo <tj@kernel.org>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+> Can you also make this consistent when writing to the file?
+>
+> Thanks.
+>
+How about the attached patch instead?
 
-							Thanx, Paul
+Cheers,
+Longman
 
+
+--------------275CDF22CC2523499699C9E0
+Content-Type: text/x-patch;
+ name="v14-0012-cpuset-Use-descriptive-text-when-reading-writing.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename*0="v14-0012-cpuset-Use-descriptive-text-when-reading-writing.pa";
+ filename*1="tch"
+
+From ab96b5d735102b0167a5e92f0aee92caa18a18ae Mon Sep 17 00:00:00 2001
+From: Waiman Long <longman@redhat.com>
+Date: Fri, 19 Oct 2018 11:46:41 -0400
+Subject: [PATCH v14 12/12] cpuset: Use descriptive text when reading/writing
+ cpuset.sched.partition
+
+Currently, cpuset.sched.partition returns the values, 0, 1 or -1 on
+read. A person who is not familiar with the partition code may not
+understand what they mean.
+
+In order to make cpuset.sched.partition more user-friendly, it will
+now display the following descriptive text on read:
+
+  "normal" - A normal cpuset, not a partition root
+  "partition" - A partition root
+  "partition invalid" - An invalid partition root
+
+The cpuset.sched.partition file will now also accept "normal" and
+"partition" besides 1 and 0 as valid input values. The "partition
+invalid" value is internal only and cannot be written to the file.
+
+Suggested-by: Tejun Heo <tj@kernel.org>
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 50 +++++++++++++++-------------
+ kernel/cgroup/cpuset.c                  | 58 +++++++++++++++++++++++++++++----
+ 2 files changed, 79 insertions(+), 29 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 178cda4..072f09d 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1688,18 +1688,23 @@ Cpuset Interface Files
+ 
+   cpuset.sched.partition
+ 	A read-write single value file which exists on non-root
+-	cpuset-enabled cgroups.  It accepts either "0" (off) or "1"
+-	(on) when written to.  This flag is set and owned by the
++	cpuset-enabled cgroups.  This file is set and owned by the
+ 	parent cgroup.
+ 
+-	If set, it indicates that the current cgroup is the root of a
+-	new partition or scheduling domain that comprises itself and
++        It accepts only the following input values when written to.
++
++        "normal" or "0" - normal cpuset, not a partition root
++        "partition" or "1" - partition root
++
++	When set to a partition root, the current cgroup is the root of
++	a new partition or scheduling domain that comprises itself and
+ 	all its descendants except those that are separate partition
+ 	roots themselves and their descendants.  The root cgroup is
+ 	always a partition root.
+ 
+-	There are constraints on where this flag can be set.  It can
+-	only be set in a cgroup if all the following conditions are true.
++	There are constraints on where a partition root can be set.
++	It can only be set in a cgroup if all the following conditions
++	are true.
+ 
+ 	1) The "cpuset.cpus" is not empty and the list of CPUs are
+ 	   exclusive, i.e. they are not shared by any of its siblings.
+@@ -1710,9 +1715,10 @@ Cpuset Interface Files
+ 	   eliminating corner cases that have to be handled if such a
+ 	   condition is allowed.
+ 
+-	Setting this flag will take the CPUs away from the effective
+-	CPUs of the parent cgroup.  Once it is set, this flag cannot
+-	be cleared if there are any child cgroups with cpuset enabled.
++	Setting it to partition root will take the CPUs away from the
++	effective CPUs of the parent cgroup.  Once it is set, this
++	file cannot be reverted back to "normal" if there are any child
++	cgroups with cpuset enabled.
+ 
+ 	A parent partition cannot distribute all its CPUs to its
+ 	child partitions.  There must be at least one cpu left in the
+@@ -1729,28 +1735,28 @@ Cpuset Interface Files
+ 	root to change.  On read, the "cpuset.sched.partition" file
+ 	can show the following values.
+ 
+-	"0"  Not a partition root
+-	"1"  Partition root
+-	"-1" Erroneous partition root
++	"normal" - Normal cpuset, not a partition root
++	"partition" - Partition root
++	"partition invalid" - Invalid partition root
+ 
+ 	It is a partition root if the first 2 partition root conditions
+ 	above are true and at least one CPU from "cpuset.cpus" is
+ 	granted by the parent cgroup.
+ 
+-	A partition root can become an erroneous partition root if none
+-	of CPUs requested in "cpuset.cpus" can be granted by the parent
+-	cgroup or the parent cgroup is no longer a partition root.
+-	In this case, it is not a real partition even though the
++	A partition root can become an invalid partition root if none
++	of the CPUs requested in "cpuset.cpus" can be granted by the
++	parent cgroup or the parent cgroup is no longer a partition
++	root.  In this case, it is not a real partition even though the
+ 	restriction of the first partition root condition above will
+ 	still apply.  All the tasks in the cgroup will be migrated to
+ 	the nearest ancestor partition.
+ 
+-	An erroneous partition root can be transitioned back to a real
+-	partition root if at least one of the requested CPUs can now be
+-	granted by its parent.	In this case, the tasks will be migrated
+-	back to the newly created partition.  Clearing the partition
+-	flag of an erroneous partition root is always allowed even if
+-	child cpusets are present.
++	An invalid partition root can be transitioned back to a real
++	partition root if at least one of the requested CPUs can now
++	be granted by its parent.  In this case, the tasks will be
++	migrated back to the newly created partition.  Converting an
++	invalid partition root back to "normal" is always allowed even
++	if child cpusets are present.
+ 
+ 
+ Device controller
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 34d47e4..d356205 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -2274,9 +2274,6 @@ static int cpuset_write_s64(struct cgroup_subsys_state *css, struct cftype *cft,
+ 	case FILE_SCHED_RELAX_DOMAIN_LEVEL:
+ 		retval = update_relax_domain_level(cs, val);
+ 		break;
+-	case FILE_PARTITION_ROOT:
+-		retval = update_prstate(cs, val);
+-		break;
+ 	default:
+ 		retval = -EINVAL;
+ 		break;
+@@ -2430,8 +2427,6 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 	switch (type) {
+ 	case FILE_SCHED_RELAX_DOMAIN_LEVEL:
+ 		return cs->relax_domain_level;
+-	case FILE_PARTITION_ROOT:
+-		return cs->partition_root_state;
+ 	default:
+ 		BUG();
+ 	}
+@@ -2440,6 +2435,55 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 	return 0;
+ }
+ 
++static int sched_partition_show(struct seq_file *seq, void *v)
++{
++	struct cpuset *cs = css_cs(seq_css(seq));
++
++	switch (cs->partition_root_state) {
++	case PRS_ENABLED:
++		seq_puts(seq, "partition\n");
++		break;
++	case PRS_DISABLED:
++		seq_puts(seq, "normal\n");
++		break;
++	case PRS_ERROR:
++		seq_puts(seq, "partition invalid\n");
++		break;
++	}
++	return 0;
++}
++
++static ssize_t sched_partition_write(struct kernfs_open_file *of, char *buf,
++				     size_t nbytes, loff_t off)
++{
++	struct cpuset *cs = css_cs(of_css(of));
++	int val;
++	int retval = -ENODEV;
++
++	buf = strstrip(buf);
++
++	/*
++	 * Convert "partition"/"1" to 1, and convert "normal"/"0" to 0.
++	 */
++	if (!strcmp(buf, "partition") || !strcmp(buf, "1"))
++		val = PRS_ENABLED;
++	else if (!strcmp(buf, "normal") || !strcmp(buf, "0"))
++		val = PRS_DISABLED;
++	else
++		return -EINVAL;
++
++	css_get(&cs->css);
++	mutex_lock(&cpuset_mutex);
++	if (!is_cpuset_online(cs))
++		goto out_unlock;
++
++	retval = update_prstate(cs, val);
++out_unlock:
++	mutex_unlock(&cpuset_mutex);
++	css_put(&cs->css);
++	return retval ?: nbytes;
++}
++
+ /*
+  * for the common functions, 'private' gives the type of file
+  */
+@@ -2583,8 +2627,8 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 
+ 	{
+ 		.name = "sched.partition",
+-		.read_s64 = cpuset_read_s64,
+-		.write_s64 = cpuset_write_s64,
++		.seq_show = sched_partition_show,
++		.write = sched_partition_write,
+ 		.private = FILE_PARTITION_ROOT,
+ 		.flags = CFTYPE_NOT_ON_ROOT,
+ 	},
+-- 
+1.8.3.1
+
+
+--------------275CDF22CC2523499699C9E0--
