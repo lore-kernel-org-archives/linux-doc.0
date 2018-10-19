@@ -1,55 +1,30 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 948F07D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 19:24:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CDACA7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 19:32:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727839AbeJTDcP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 23:32:15 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:45066 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727819AbeJTDcP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 23:32:15 -0400
-Received: by mail-qk1-f195.google.com with SMTP id m8-v6so21680513qka.12;
-        Fri, 19 Oct 2018 12:24:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jHydDG8+60wpJW/CzjZHlAATZ1UOTmTYFr6noyYndLY=;
-        b=Gbp2uC8rJfrn6zjV3mVIIh+M6Z5vFHBiIkE6Hhac3yxx2vHU4dyWUsne6aB214PVCf
-         hY8C61E7xp/DO0F9kIYg55EteS7MlW3WNDgRgQ9aFRj+7+tyVyYSWkokCisKA4jG9JPp
-         YvKh7vsKkiJs6jrU3PTCw/lkuF0BhDQ/ax9iku0hP4lSNM0i4E8c88z/1MPmpvJ/lAZt
-         mK+oCQscWinWN0UdhxNj+N2H5OO0G+tJu4UeO4yhulBlFxKZ3VBgaVDcSsNx49lFdflq
-         p95PYi4LbbAaT32eGIkc4AAzlywgOslneVrM6pglGBO9ignvhNa4sAi9vEtfpicXRPnw
-         MDsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jHydDG8+60wpJW/CzjZHlAATZ1UOTmTYFr6noyYndLY=;
-        b=L2AWDX+PP4covlQ3mjaA/nTTDjOIcPS3j5G3uvDBviRSE2s5Q7hBSWE98oAOwNwxdU
-         KODJk/9AlrIMqrPP4+rcbWX8h4KfhK84bNK7iUSiKzjqfU4vak3lmhcXoQg/NqBOkfau
-         0TiqlakGi/iVsJ79Z1+n/2DIkekkG5cjFrRSqwoo38sL9O/xXuWetpYke3PfP2IGVeP6
-         UVndIvf3KK+Qd5UekP8TmGAQMSMMRjH0DSfMLAKFEbbGyMelbkOLtPlZTSXXycM51Cnt
-         Ekpw7mjLNLgnnLLTZg1o9IkTdh5jHfjqp9nQDsFib/a1/WgcKLQXL+ocgrB3Nw8mqORp
-         z6eQ==
-X-Gm-Message-State: ABuFfohrzhRpGRz5JC3ACIdVgno9bB5jbwRCGnb8hWekhpk96Sn2lW4t
-        GnGoK40bxaEesVlP7PncwfM=
-X-Google-Smtp-Source: ACcGV61V6gRiJK6u8m+b/G7kLFFJr7+cP+53Zruc9hHyNZMG61Hc4IsstK3XKDxEv2tmUZhTyhyg2Q==
-X-Received: by 2002:a37:711:: with SMTP id 17-v6mr11016728qkh.64.1539977088233;
-        Fri, 19 Oct 2018 12:24:48 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:200::6:1eb8])
-        by smtp.gmail.com with ESMTPSA id 14-v6sm8110608qki.73.2018.10.19.12.24.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 19 Oct 2018 12:24:47 -0700 (PDT)
-Date:   Fri, 19 Oct 2018 12:24:44 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
+        id S1728016AbeJTDjt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 23:39:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55068 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727772AbeJTDjs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Oct 2018 23:39:48 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 87BD93078ABB;
+        Fri, 19 Oct 2018 19:32:21 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8620E5B241;
+        Fri, 19 Oct 2018 19:32:16 +0000 (UTC)
+Subject: Re: [PATCH v14 12/12] cpuset: Show descriptive text when reading
+ cpuset.sched.partition
+To:     Tejun Heo <tj@kernel.org>
 Cc:     Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -61,50 +36,59 @@ Cc:     Li Zefan <lizefan@huawei.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Tom Hromatka <tom.hromatka@oracle.com>
-Subject: Re: [PATCH v14 12/12] cpuset: Show descriptive text when reading
- cpuset.sched.partition
-Message-ID: <20181019192444.GV270328@devbig004.ftw2.facebook.com>
 References: <1539635377-22335-1-git-send-email-longman@redhat.com>
  <1539635377-22335-13-git-send-email-longman@redhat.com>
  <20181017150836.GS270328@devbig004.ftw2.facebook.com>
  <b797288a-6088-f7b0-c881-81633c071754@redhat.com>
+ <20181019192444.GV270328@devbig004.ftw2.facebook.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <9fd20993-ab71-4a0b-aecb-9ebcc775561a@redhat.com>
+Date:   Fri, 19 Oct 2018 15:32:16 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b797288a-6088-f7b0-c881-81633c071754@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20181019192444.GV270328@devbig004.ftw2.facebook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Fri, 19 Oct 2018 19:32:21 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 19, 2018 at 02:56:13PM -0400, Waiman Long wrote:
-> On 10/17/2018 11:08 AM, Tejun Heo wrote:
-> > On Mon, Oct 15, 2018 at 04:29:37PM -0400, Waiman Long wrote:
-> >> Currently, cpuset.sched.partition returns the values, 0, 1 or -1 on
-> >> read. A person who is not familiar with the partition code may not
-> >> understand what they mean.
-> >>
-> >> In order to make cpuset.sched.partition more user-friendly, it will
-> >> now display the following descriptive text on read:
-> >>
-> >>   "normal" - A normal cpuset, not a partition root
-> >>   "partition" - A partition root
-> >>   "partition invalid" - An invalid partition root
-> >>
-> >> Suggested-by: Tejun Heo <tj@kernel.org>
-> >> Signed-off-by: Waiman Long <longman@redhat.com>
-> > Can you also make this consistent when writing to the file?
-> >
-> > Thanks.
-> >
-> How about the attached patch instead?
+On 10/19/2018 03:24 PM, Tejun Heo wrote:
+> On Fri, Oct 19, 2018 at 02:56:13PM -0400, Waiman Long wrote:
+>> On 10/17/2018 11:08 AM, Tejun Heo wrote:
+>>> On Mon, Oct 15, 2018 at 04:29:37PM -0400, Waiman Long wrote:
+>>>> Currently, cpuset.sched.partition returns the values, 0, 1 or -1 on
+>>>> read. A person who is not familiar with the partition code may not
+>>>> understand what they mean.
+>>>>
+>>>> In order to make cpuset.sched.partition more user-friendly, it will
+>>>> now display the following descriptive text on read:
+>>>>
+>>>>   "normal" - A normal cpuset, not a partition root
+>>>>   "partition" - A partition root
+>>>>   "partition invalid" - An invalid partition root
+>>>>
+>>>> Suggested-by: Tejun Heo <tj@kernel.org>
+>>>> Signed-off-by: Waiman Long <longman@redhat.com>
+>>> Can you also make this consistent when writing to the file?
+>>>
+>>> Thanks.
+>>>
+>> How about the attached patch instead?
+> Looks good to me.  Once Peter is okay with it, I'll roll it into
+> cgroup devel branch.  As v4.19 is almost done, I think it makes more
+> sense to target the next merge window (v4.21).
+>
+> Thanks.
+>
+v4.21 is fine. Thanks for valuable help and suggestions.
 
-Looks good to me.  Once Peter is okay with it, I'll roll it into
-cgroup devel branch.  As v4.19 is almost done, I think it makes more
-sense to target the next merge window (v4.21).
+Cheers,
+Longman
 
-Thanks.
-
--- 
-tejun
