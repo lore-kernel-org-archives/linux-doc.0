@@ -2,111 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BB4637D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 09:04:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71ABC7D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 10:20:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727226AbeJSRKC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 13:10:02 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:49210 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726399AbeJSRKC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Oct 2018 13:10:02 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 917C180D;
-        Fri, 19 Oct 2018 02:04:50 -0700 (PDT)
-Received: from [10.37.10.27] (unknown [10.37.10.27])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4CD83F5D3;
-        Fri, 19 Oct 2018 02:04:44 -0700 (PDT)
-Subject: Re: [PATCH v7 0/8] arm64: untag user pointers passed to the kernel
-To:     Evgenii Stepanov <eugenis@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-References: <cover.1538485901.git.andreyknvl@google.com>
- <be684ce5-92fd-e970-b002-83452cf50abd@arm.com>
- <CAAeHK+yEZTLjgSj8YUzeJec9Pp2TwuLT5nCa1OpfBLXJkx_hhg@mail.gmail.com>
- <CAFKCwrh4-BvFB_R1J0LWcbfeR=d02OazowFuMU+hmq8Y=Dx+4w@mail.gmail.com>
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <9bb7fefd-3f8f-266a-3cc9-cc64f8927206@arm.com>
-Date:   Fri, 19 Oct 2018 10:04:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1726698AbeJSS0K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 14:26:10 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:61480 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726690AbeJSS0K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 14:26:10 -0400
+Received: from 79.184.253.168.ipv4.supernova.orange.pl (79.184.253.168) (HELO aspire.rjw.lan)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.148)
+ id b4b2fea5c4214ba0; Fri, 19 Oct 2018 12:20:41 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     corbet@lwn.net, lenb@kernel.org, viresh.kumar@linaro.org,
+        robert.moore@intel.com, erik.schmauss@intel.com,
+        juri.lelli@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-pm@vger.kernel.org, devel@acpica.org,
+        pprakash@codeaurora.org, george.cherian@cavium.com
+Subject: Re: [PATCH v4 0/3] cpufreq: intel_pstate: Base frequency attribute
+Date:   Fri, 19 Oct 2018 12:17:24 +0200
+Message-ID: <2009466.qjoMG8mNOh@aspire.rjw.lan>
+In-Reply-To: <20181015173721.66147-1-srinivas.pandruvada@linux.intel.com>
+References: <20181015173721.66147-1-srinivas.pandruvada@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFKCwrh4-BvFB_R1J0LWcbfeR=d02OazowFuMU+hmq8Y=Dx+4w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/17/18 9:25 PM, Evgenii Stepanov wrote:
-> On Wed, Oct 17, 2018 at 7:20 AM, Andrey Konovalov <andreyknvl@google.com> wrote:
->> On Wed, Oct 17, 2018 at 4:06 PM, Vincenzo Frascino
->> <vincenzo.frascino@arm.com> wrote:
->>> Hi Andrey,
->>> I have been thinking a bit lately on how to address the problem of user tagged pointers passed to the kernel through syscalls, and IMHO probably the best way we have to catch them all and make sure that the approach is maintainable in the long term is to introduce shims that tag/untag the pointers passed to the kernel.
->>>
->>> In details, what I am proposing can live either in userspace (preferred solution so that we do not have to relax the ABI) or in kernel space and can be summarized as follows:
->>>  - A shim is specific to a syscall and is called by the libc when it needs to invoke the respective syscall.
->>>  - It is required only if the syscall accepts pointers.
->>>  - It saves the tags of a pointers passed to the syscall in memory (same approach if the we are passing a struct that contains pointers to the kernel, with the difference that all the tags of the pointers in the struct need to be saved singularly)
->>>  - Untags the pointers
->>>  - Invokes the syscall
->>>  - Retags the pointers with the tags stored in memory
->>>  - Returns
->>>
->>> What do you think?
->>
->> Hi Vincenzo,
->>
->> If I correctly understand what you are proposing, I'm not sure if that
->> would work with the countless number of different ioctl calls. For
->> example when an ioctl accepts a struct with a bunch of pointer fields.
->> In this case a shim like the one you propose can't live in userspace,
->> since libc doesn't know about the interface of all ioctls, so it can't
->> know which fields to untag. The kernel knows about those interfaces
->> (since the kernel implements them), but then we would need a custom
->> shim for each ioctl variation, which doesn't seem practical.
+On Monday, October 15, 2018 7:37:18 PM CEST Srinivas Pandruvada wrote:
+> This series presents base frequency to cpufreq sysfs when intel_pstate
+> is in use in HWP mode.
 > 
-> The current patchset handles majority of pointers in a just a few
-> common places, like copy_from_user. Userspace shims will need to untag
-> & retag all pointer arguments - we are looking at hundreds if not
-> thousands of shims. They will also be located in a different code base
-> from the syscall / ioctl implementations, which would make them
-> impossible to keep up to date.
+> Changes:
+> v4:
+> - Documentation update only as suggested by Rafael
+> 
+> v3:
+> - Update documentation
+> v2
+> - Removed guaranteed attribute addition to acpi_cppc sysfs
+> - Using the cppc_acpi interface to get base frequency and present
+> 
+> Srinivas Pandruvada (3):
+>   ACPI / CPPC: Add support for guaranteed performance
+>   cpufreq: intel_pstate: Add base_frequency attribute
+>   Documentation: intel_pstate: Add base_frequency information
+> 
+>  Documentation/admin-guide/pm/intel_pstate.rst |  7 ++++
+>  drivers/acpi/cppc_acpi.c                      |  8 +++-
+>  drivers/cpufreq/intel_pstate.c                | 38 +++++++++++++++++++
+>  include/acpi/cppc_acpi.h                      |  1 +
+>  4 files changed, 52 insertions(+), 2 deletions(-)
+> 
 > 
 
-I agree with both of you, ioctl is the real show stopper for this approach. Thanks for pointing this out.
+All three applied, thanks!
 
--- 
-Regards,
-Vincenzo
+
