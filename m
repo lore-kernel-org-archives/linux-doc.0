@@ -1,87 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 693547D088
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 12:00:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A91B7D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Oct 2018 12:02:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727365AbeJSUGW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 19 Oct 2018 16:06:22 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40496 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727170AbeJSUGW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 16:06:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=WpJ5D07eJ33zRkw9eHZ6OBLrJWSPkwsd/VPUtOLOtKQ=; b=b6V+vzHNTNNiuF+hlKCPvhVLn
-        o7Ah1sVWOxXkyRz1AVA2lPrUGE9Wk40CrPoZBzpeVOMj5xnvVbgXyBM/15VWlBNtwBuOOcXHtNngB
-        cfvkO3t5LAx06SaAKvn5+PZ1mmNJhrXenJ1as5HejN+ZIMhVbgyDUdNMRa+Z6m8EyZ4SSOt9lGhbp
-        rylLy3fQsWVcC1qBRyaT68k4hPUDPy7lHaGvfbgBHvF3k5TCKq5l4dXk9Psc8rsUI27uqNgv/ohzz
-        YFzXLxZPVtiB7WMkAua41Fndk5lgCXshzpMPwKtfP3y5PWGjWyxGwS91XYxSBUS73l43qKHI7k1Or
-        +NAHxUqKg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gDTSE-0006yc-6B; Fri, 19 Oct 2018 12:00:34 +0000
-Date:   Fri, 19 Oct 2018 05:00:33 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Vitaly Chikunov <vt@altlinux.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
+        id S1726784AbeJSUH7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Oct 2018 16:07:59 -0400
+Received: from vmicros1.altlinux.org ([194.107.17.57]:50096 "EHLO
+        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727544AbeJSUH7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Oct 2018 16:07:59 -0400
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+        by vmicros1.altlinux.org (Postfix) with ESMTP id 20FB172CC59;
+        Fri, 19 Oct 2018 15:02:11 +0300 (MSK)
+Received: from sole.flsd.net (sole.flsd.net [185.75.180.6])
+        by imap.altlinux.org (Postfix) with ESMTPSA id 05DDD4A4A16;
+        Fri, 19 Oct 2018 15:02:11 +0300 (MSK)
+Date:   Fri, 19 Oct 2018 15:02:10 +0300
+From:   Vitaly Chikunov <vt@altlinux.org>
+To:     Mike Snitzer <snitzer@redhat.com>
+Cc:     Alasdair Kergon <agk@redhat.com>, dm-devel@redhat.com,
         Jonathan Corbet <corbet@lwn.net>, Shaohua Li <shli@kernel.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-raid@vger.kernel.org
-Subject: Re: [dm-devel] [PATCH] dm: add secdel target
-Message-ID: <20181019120033.GA7869@infradead.org>
+Subject: Re: dm: add secdel target
+Message-ID: <20181019120209.osicx2v3vebvsxqr@sole.flsd.net>
 References: <20181014112439.8119-1-vt@altlinux.org>
- <20181019061945.GA7403@infradead.org>
- <20181019114944.syemvziebwfuruof@sole.flsd.net>
+ <20181018200124.GA6996@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=koi8-r
 Content-Disposition: inline
-In-Reply-To: <20181019114944.syemvziebwfuruof@sole.flsd.net>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20181018200124.GA6996@redhat.com>
+User-Agent: NeoMutt/20171215-106-ac61c7
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 19, 2018 at 02:49:44PM +0300, Vitaly Chikunov wrote:
-> On Thu, Oct 18, 2018 at 11:19:45PM -0700, Christoph Hellwig wrote:
-> > Just as a note:  the name is a complete misowner, a couple overwrite
-> > are not in any way secure deletion.  So naming it this way and exposing
-> > this as erase is a problem that is going to get back to bite us.
+On Thu, Oct 18, 2018 at 04:01:25PM -0400, Mike Snitzer wrote:
+> On Sun, Oct 14 2018 at  7:24am -0400,
+> Vitaly Chikunov <vt@altlinux.org> wrote:
 > 
-> In what way it's not secure deletion?
+> > Report to the upper level ability to discard, and translate arriving
+> > discards to the writes of random or zero data to the underlying level.
+> > 
+> > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+> > ---
+> >   This target is the same as the linear target except that is reports ability to
+> >   discard to the upper level and translates arriving discards into sector
+> >   overwrites with random (or zero) data.
 > 
-> It's secure deletion by overwriting discarded data instead of leaving it
-> as is.
+> There is a fair amount of code duplication between dm-linear.c and this
+> new target.
+> 
+> Something needs to give, ideally you'd factor out methods that are
+> shared by both targets, but those methods must _not_ introduce overhead
+> to dm-linear.
 
-Overwriting data does not delete data.  Most certainly not in Flash based
-SSDs, but also not in many storage arrays, or for that matter many modern
-disks that have sectore remapping and various kinds of non-volatile
-caches.  There is a reason why devices tend to have special commands to
-perform secure erase - depending on the media they might or might not
-overwrite internally, but at least they do it in a way that actually
-works for the given media and device configuration.
+I see three possible solutions:
+ - integrate 'secdel' into dm-linear;
+ - export functions like linear_dax_copy_to_iter and fill them into
+   secdel's `struct target_type`;
+ - call methods of linear's `struct target_type` from secdel's one.
 
+> Could be that dm-linear methods just get called by the wrapper
+> dm-sec-erase target (more on the "dm-sec-erase" name below).
 
-> dm-erase or dm-wipe? dm-discerase?
+> > diff --git a/drivers/md/dm-secdel.c b/drivers/md/dm-secdel.c
+> > new file mode 100644
+> > index 000000000000..9aeaf3f243c0
+> > --- /dev/null
+> > +++ b/drivers/md/dm-secdel.c
+> ... 
+> > +			if (mode == SECDEL_MODE_RAND) {
+> > +				page = alloc_page(gfp_mask);
+> > +				if (!page) {
+> > +					DMERR("%s %lu[%lu]: no memory to allocate page for random data",
+> > +					      __func__, sector, nr_sects);
+> > +					/* will fallback to zero filling */
+> 
+> In general, performing memory allocations to service IO is something all
+> DM core and DM targets must work to avoid.  This smells bad.
+> 
+> ...
 
-dm-overwrite?
+Yes, but we need to create and write random data, so I don't see other
+solution. In zero overwriting mode page is not allocated. And it's fall
+back to zero overwriting if page allocation fails for random data.
 
-> But still provide REQ_OP_SECURE_ERASE
-> support?
+> Mike
 
-On the one hand that is highly misleading and would warrant a warning
-(see above), on the other hand discard is purely advisory and can
-be skipped any time, including by intermediate layers.  So I don't think
-you can actually do what you want without major changes to the whole
-I/O stack.
+I will address these and other your concerns in v2.
+
+Thanks!
+
