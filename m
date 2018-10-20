@@ -1,70 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EB0B47D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 20 Oct 2018 00:00:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C7A347D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 20 Oct 2018 00:16:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbeJTIIW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 20 Oct 2018 04:08:22 -0400
-Received: from mga12.intel.com ([192.55.52.136]:30884 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726349AbeJTIIV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 20 Oct 2018 04:08:21 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Oct 2018 17:00:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,401,1534834800"; 
-   d="scan'208";a="82918970"
-Received: from kskibin-mobl.ger.corp.intel.com ([10.249.254.29])
-  by orsmga008.jf.intel.com with ESMTP; 19 Oct 2018 16:59:59 -0700
-Date:   Sat, 20 Oct 2018 02:59:57 +0300 (EEST)
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-X-X-Sender: jsakkine@jsakkine-mobl1
-To:     Pavel Machek <pavel@ucw.cz>
-cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, dave.hansen@intel.com,
-        sean.j.christopherson@intel.com, nhorman@redhat.com,
-        npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, linux-sgx@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v14 19/19] x86/sgx: Driver documentation
-In-Reply-To: <20181018095727.GC10861@amd>
-Message-ID: <alpine.DEB.2.21.1810200235290.9963@jsakkine-mobl1>
-References: <20180925130845.9962-1-jarkko.sakkinen@linux.intel.com> <20180925130845.9962-20-jarkko.sakkinen@linux.intel.com> <20181015205436.GA28500@amd> <alpine.DEB.2.21.1810180205490.5022@jsakkine-mobl1> <20181018095727.GC10861@amd>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726601AbeJTIYo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 20 Oct 2018 04:24:44 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:48888 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726502AbeJTIYn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Oct 2018 04:24:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=FHdaXDegKovCiIPUClRUj3K+U2Dx7QSn81MXOuwniEs=; b=UtH5/yFr6OoZH9ly+vX9gKWEjm
+        Q8t6f1xHV4sfoBrESmXFjQo83gJsezN4amyr5RyhoErJ+DxJ60PH6qzZrtze6sIEqOaVyOcjllGKu
+        +OfGOL1mHTByeAWpQ2xUVReD+ylQzlSaUp8hCcNohSbSrqS8O/N/vLrTKe1aDikKNcxPZNj/DB7jG
+        Eo/GN+l6XGYyvZiPgTiRJk638dywM6vo/zP87/K48OXy3o5JPcA3nxjdEvDTSyfzSuYuCVuZXfegb
+        GHEIoANL796Lu9KnuyAeX7CcNbs20IBSHLTkO8qjpUGYHeKKbSJqUB2uwgd82RV7HH2E6GIsgY5Z0
+        9Y+y6Gsw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gDewB-0001O9-1s; Sat, 20 Oct 2018 00:16:18 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Jason Baron <jbaron@akamai.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: dynamic-debug: fix wildcard description
+Message-ID: <74834e33-3876-9eeb-5139-903bd412059a@infradead.org>
+Date:   Fri, 19 Oct 2018 17:16:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 18 Oct 2018, Pavel Machek wrote:
->> Definitely should be refined.
->>
->> Meltdowns approach AFAIK does not work because reads outside the enclave
->> will always have a predefined value (-1) but only if the page is present,
->> which was later exploited in the Foreshadow attack.
->
-> What about L1tf and https://github.com/lsds/spectre-attack-sgx ?
+From: Randy Dunlap <rdunlap@infradead.org>
 
-L1TF is the vuln and Foreshadow is the attack taking advantage of the
-vuln. I didn't mean to patch the documention in my response or give
-extensive list of the vulns if you expected that.
+Fix grammar about wildcards and insert a space between sentences.
 
-For kernel documentation it does make sense to give a threat model
-but not enumerate every possible vuln.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jason Baron <jbaron@akamai.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/admin-guide/dynamic-debug-howto.rst |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-/Jarkko
+--- lnx-419-rc8.orig/Documentation/admin-guide/dynamic-debug-howto.rst
++++ lnx-419-rc8/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -110,8 +110,8 @@ If your query set is big, you can batch
+ 
+   ~# cat query-batch-file > <debugfs>/dynamic_debug/control
+ 
+-A another way is to use wildcard. The match rule support ``*`` (matches
+-zero or more characters) and ``?`` (matches exactly one character).For
++A another way is to use wildcards. The match rule supports ``*`` (matches
++zero or more characters) and ``?`` (matches exactly one character). For
+ example, you can match all usb drivers::
+ 
+   ~# echo "file drivers/usb/* +p" > <debugfs>/dynamic_debug/control
+
+
