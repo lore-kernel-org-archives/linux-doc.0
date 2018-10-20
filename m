@@ -4,49 +4,48 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E522A7DD29
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 20 Oct 2018 22:23:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 799577D8BB
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 20 Oct 2018 22:25:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727803AbeJUGfU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 21 Oct 2018 02:35:20 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45226 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727719AbeJUGfO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Oct 2018 02:35:14 -0400
-Received: by mail-wr1-f66.google.com with SMTP id f17-v6so9191209wrs.12;
-        Sat, 20 Oct 2018 15:23:15 -0700 (PDT)
+        id S1727470AbeJUGfB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 21 Oct 2018 02:35:01 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:32862 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727423AbeJUGfA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Oct 2018 02:35:00 -0400
+Received: by mail-wm1-f65.google.com with SMTP id y140-v6so6436913wmd.0;
+        Sat, 20 Oct 2018 15:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=2RYRBcvxGrFKD/6dlykR+YG9oy1kUHkBBuwGADsyTj4=;
-        b=A+tu/bKx7vAfhQ5tXcFPWSfghHl9ghA2XBIfNj23pmFtXJr+PJc4ig1lgqEKvk8+Z8
-         A8V/qV/shaBfPqCNkdkhTjmB5UAZxhuvcjsv2MF+84CQoXHyZwxH1UCjfUbhULXabLOr
-         obPZgx4IR+tvE9V6LAmTt6ZIhwY0Sb5oPJ1mDLrpl6qrwQ5/ZV4LbrZAhpMbRYlvtoml
-         1svNbNacnW9kfDex5ZZTaJS3q0rHhUWTX2Ut+8WeTtwcqMMPvK96MXnkgIYtcXT18KhI
-         cxjxm71DYHEEcQiyly2ZlDusHavlNuXFMQzl7utWi+rZmvVYBWF3E8LGSy79G0bTqy5x
-         VmRw==
+        h=from:to:subject:date:message-id;
+        bh=j5IhCilCPKuhu+os03I0QSlpoooNfwaBxP7xJYXDA3A=;
+        b=JVWEgUqGtAQ6zgb6QZzC9k4C0VH11zHiWkv8mGuKfPNXbLyZwGVXYBgPaVQrnTkOjC
+         m9tObW0y1uBswgncTGKh7EGeyeIPEQPuXTQ8n/azlC7Q0bxOUTagTCtsFSXCIfB4QA5Q
+         eGK6SHS2HLhdN+h4GAtN1cwp1YXDxcWYWiS9IAgoyub6+8PJWEYct5C0586vNLlw7oDP
+         S3TXhnRruR2Hec0ku1IooTghhytXQwWJlIYvxU7DZRruZA9l0Jo5EzKh6XBzJJyqzWv1
+         l5ROtuTKAuSQnL5MbPF8ViLH8RP5FZWXx5Qt5Q7HGBbp04FaTSFJ5ffqbPN/emvkYhJ5
+         oS/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=2RYRBcvxGrFKD/6dlykR+YG9oy1kUHkBBuwGADsyTj4=;
-        b=ZBwSeX53cJWALBoQflIG3DEMTes7tdPio62F7F1mmb2ktllax2nGfPtjAVoE2Pe49p
-         0YT7wbSLKRs8bia158jMSXE614tWyXy08R8lkoNE1CuJFWH5s/AVtq1ZVAgNbJHBx3J/
-         TwW/bYZAZtNyOcGtmBMOkj8DmFw8w8ZvHaF7A1OYVPU4X0Tj4m+y9SsNU9KPJkjr38pU
-         ibdX/tsHQylyWnlg47L0aQWYu1YNeJ8Ukk6nQZQTRqNHhb3Qg/zgWmGy25/ZXA/847To
-         85eXmY+tWNjDbfwQPeOBFcmrnBfTzOoXoJUuiAYEJHOlbMFGktooQAtX4OuZO2TM8Pxb
-         zYDQ==
-X-Gm-Message-State: ABuFfohmU0PqRhpqrHENr7M6+wnLY2oxpS2YJCgE2TxLu6vPcM3vqq03
-        oLIBva/UnAu1AOGDzMcKJJo=
-X-Google-Smtp-Source: ACcGV62jnzBOxHD9qHTvVAzL0r8x5JBVha2dIj9SgrnspF6+7UX2Y/FVrxLS6vEW7WYohcNNJXAE3g==
-X-Received: by 2002:a5d:400d:: with SMTP id n13-v6mr13339265wrp.185.1540074194870;
-        Sat, 20 Oct 2018 15:23:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=j5IhCilCPKuhu+os03I0QSlpoooNfwaBxP7xJYXDA3A=;
+        b=dI1lP+EljcJAW1ixATu4dBzkFCTmJ/3bEgCeKx0cQ6fAKfpQyC+hPB6wjz1PO1OHCW
+         gNhvE5eKcbK66p4gTJLrLr6+vP0bEqMgTv25H0o8A4CWiaV75uiKKU6RVej7WIiSYonX
+         nlBBTHNTHQL3QqF2XR4vsC6EIJHbMziTiqR7IqF/0CY3rINXMRNzSrVnB/blq7JUUkOS
+         YM1L0iSTT24jZi13s/+MwvwWBsiwCJNZHSsTR5t/RbAKe8Hd/pNvZ1JED6/9lTjJkP8i
+         yIpb/3CSW6E/8DGsQO4zjILAp1n/Yw0G2l5BRxuVUdVabHI1GDHL+cGam4wfQxDCWsSt
+         HQkg==
+X-Gm-Message-State: ABuFfogRHaWbBeFXZlTcmUuLWR4MwmMPD43inrvkWh7s6F7dDH+zV2Ro
+        +6ajynpUHvhzrh+3pCDXYEs=
+X-Google-Smtp-Source: ACcGV60fSQm33dfHypigFaFcAQIUyqBW+UkDaPEPFpAve1fKeP6vZffSll8DwkCxEOchv1en6VNrBA==
+X-Received: by 2002:a1c:e08a:: with SMTP id x132-v6mr10504776wmg.60.1540074181027;
+        Sat, 20 Oct 2018 15:23:01 -0700 (PDT)
 Received: from localhost.localdomain ([156.213.155.51])
-        by smtp.gmail.com with ESMTPSA id o81-v6sm5013746wmo.38.2018.10.20.15.23.12
+        by smtp.gmail.com with ESMTPSA id o81-v6sm5013746wmo.38.2018.10.20.15.22.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 20 Oct 2018 15:23:14 -0700 (PDT)
+        Sat, 20 Oct 2018 15:23:00 -0700 (PDT)
 From:   Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
 To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,81 +58,55 @@ To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Boris Lukashev <blukashev@sempervictus.com>,
         Hossam Hassan <7ossam9063@gmail.com>,
         Ahmed Lotfy <A7med.lotfey@gmail.com>
-Subject: [PATCH V4 5/5] KVM: Small Refactoring to kvm_free_memslot
-Date:   Sun, 21 Oct 2018 00:21:27 +0200
-Message-Id: <20181020222127.6368-6-ahmedsoliman0x666@gmail.com>
+Subject: Read Only Enforcement patches V4 [VMM based kernel hardening]
+Date:   Sun, 21 Oct 2018 00:21:22 +0200
+Message-Id: <20181020222127.6368-1-ahmedsoliman0x666@gmail.com>
 X-Mailer: git-send-email 2.18.1
-In-Reply-To: <20181020222127.6368-1-ahmedsoliman0x666@gmail.com>
-References: <20181020222127.6368-1-ahmedsoliman0x666@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This should be a little bit more readable and prone to memory leaks
+This is the 4th version and the most complete one. ROE is a hypercall
+that enables host operating system to restrict guest's access to its own memory.
+This will provide a hardening mechanism that can be used to stop rootkits from
+manipulating kernel static data structures and code. Once a memory region is
+protected the guest kernel can't even request undoing the protection.
 
-Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
----
- virt/kvm/kvm_main.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+Memory protected by ROE should be non-swapable because even if the ROE protected
+page got swapped out, It won't be possible to write anything in its place.
 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index d4f36faacd29..75b5b2c987e9 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -552,11 +552,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
-  * Free any memory in @free but not in @dont.
-  */
- static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *free,
--			      struct kvm_memory_slot *dont)
-+			      struct kvm_memory_slot *dont,
-+			      enum kvm_mr_change change)
- {
-+	if (change == KVM_MR_DELETE) {
- #ifdef CONFIG_KVM_ROE
--	if (!dont) {
--		//TODO still this might leak
- 		struct protected_chunk *pos, *n;
- 		struct list_head *head = free->prot_list;
- 		kvfree(free->roe_bitmap);
-@@ -566,10 +566,9 @@ static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *free,
- 			kvfree(pos);
- 		}
- 		kvfree(free->prot_list);
--	}
- #endif
--	if (!dont || free->dirty_bitmap != dont->dirty_bitmap)
- 		kvm_destroy_dirty_bitmap(free);
-+	}
- 
- 	kvm_arch_free_memslot(kvm, free, dont);
- 
-@@ -584,7 +583,7 @@ static void kvm_free_memslots(struct kvm *kvm, struct kvm_memslots *slots)
- 		return;
- 
- 	kvm_for_each_memslot(memslot, slots)
--		kvm_free_memslot(kvm, memslot, NULL);
-+		kvm_free_memslot(kvm, memslot, NULL, KVM_MR_DELETE);
- 
- 	kvfree(slots);
- }
-@@ -1097,14 +1096,14 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 
- 	kvm_arch_commit_memory_region(kvm, mem, &old, &new, change);
- 
--	kvm_free_memslot(kvm, &old, &new);
-+	kvm_free_memslot(kvm, &old, &new, change);
- 	kvfree(old_memslots);
- 	return 0;
- 
- out_slots:
- 	kvfree(slots);
- out_free:
--	kvm_free_memslot(kvm, &new, &old);
-+	kvm_free_memslot(kvm, &new, &old, change);
- out:
- 	return r;
- }
--- 
-2.18.1
+ROE hypercall should be capable of either protecting a whole memory frame or
+parts of it. With these two, it should be possible for guest kernel to protect
+its memory and all the page table entries for that memory inside the page table.
+I am still not sure whether this should be part of ROE job or the guest's job.
+
+
+The reason why it would be better to implement this from inside kvm: instead of
+(host) user space is the need to access SPTEs to modify the permissions, while
+mprotect() from user space can work in theory. It will become a big performance
+hit to vmexit and switch to user space mode on each fault, on the other hand,
+having the permission handled by EPT should make some remarkable performance
+gain.
+
+Our model assumes that an attacker got full root access to a running guest and
+his goal is to manipulate kernel code/data (hook syscalls, overwrite IDT ..etc).
+
+There is future work in progress to also put some sort of protection on the page
+table register CR3 and other critical registers that can be intercepted by KVM.
+This way it won't be possible for an attacker to manipulate any part of the
+guests page table.
+
+Summary:
+
+Documentation/virtual/kvm/hypercalls.txt | 40 -----
+arch/x86/include/asm/kvm_host.h | 11 +-
+arch/x86/kvm/Kconfig | 7 -
+arch/x86/kvm/mmu.c | 129 ++++----------
+arch/x86/kvm/x86.c | 281 +------------------------------
+include/linux/kvm_host.h | 29 ----
+include/uapi/linux/kvm_para.h | 5 -
+virt/kvm/kvm_main.c | 119 ++-----------
+8 files changed, 50 insertions(+), 571 deletions(-)
+
 
