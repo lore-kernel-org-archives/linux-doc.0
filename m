@@ -1,77 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C7A347D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 20 Oct 2018 00:16:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D72B77D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 20 Oct 2018 00:20:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726601AbeJTIYo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 20 Oct 2018 04:24:44 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:48888 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726502AbeJTIYn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Oct 2018 04:24:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=FHdaXDegKovCiIPUClRUj3K+U2Dx7QSn81MXOuwniEs=; b=UtH5/yFr6OoZH9ly+vX9gKWEjm
-        Q8t6f1xHV4sfoBrESmXFjQo83gJsezN4amyr5RyhoErJ+DxJ60PH6qzZrtze6sIEqOaVyOcjllGKu
-        +OfGOL1mHTByeAWpQ2xUVReD+ylQzlSaUp8hCcNohSbSrqS8O/N/vLrTKe1aDikKNcxPZNj/DB7jG
-        Eo/GN+l6XGYyvZiPgTiRJk638dywM6vo/zP87/K48OXy3o5JPcA3nxjdEvDTSyfzSuYuCVuZXfegb
-        GHEIoANL796Lu9KnuyAeX7CcNbs20IBSHLTkO8qjpUGYHeKKbSJqUB2uwgd82RV7HH2E6GIsgY5Z0
-        9Y+y6Gsw==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gDewB-0001O9-1s; Sat, 20 Oct 2018 00:16:18 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Jason Baron <jbaron@akamai.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: dynamic-debug: fix wildcard description
-Message-ID: <74834e33-3876-9eeb-5139-903bd412059a@infradead.org>
-Date:   Fri, 19 Oct 2018 17:16:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1726604AbeJTI20 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 20 Oct 2018 04:28:26 -0400
+Received: from o1.31pqt.s2shared.sendgrid.net ([167.89.100.227]:46344 "EHLO
+        o1.31pqt.s2shared.sendgrid.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726513AbeJTI20 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Oct 2018 04:28:26 -0400
+X-Greylist: delayed 48314 seconds by postgrey-1.27 at vger.kernel.org; Sat, 20 Oct 2018 04:28:26 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
+        h=mime-version:content-type:content-transfer-encoding:from:to:cc:
+        subject:in-reply-to:references;
+        s=smtpapi; bh=8WAgGBP9FqOYcPWmDG0XiMqulOOY1Z3ZxgRPOo3VLt4=;
+        b=KjuVwu2CcZsJD4fHdjGwkbHFOiLWSTOA4NlMVtpNTztuqbJctzSbcHBdgRV36yvAoDPk
+        StiQFOF7XWOr62i5Ieyu23O+wNFfts2JtD9MBbint4R7v6by8aJ/3dsstx8To+469HqFJg
+        SBaO10zaXQz0CwQbqEI/xZHyIUXfbz/Mg=
+Received: by filter0006p2las1.sendgrid.net with SMTP id filter0006p2las1-19557-5BCA74B0-19
+        2018-10-20 00:20:00.988234985 +0000 UTC m=+105217.348206259
+Received: from korte.land (unknown [146.185.150.169])
+        by ismtpd0002p1lon1.sendgrid.net (SG) with ESMTP id YOypaPXITiOI0FfiO3cuZQ
+        Sat, 20 Oct 2018 00:20:00.457 +0000 (UTC)
+Received: from mail.korte.land (localhost [127.0.0.1])
+        by korte.land (Postfix) with ESMTP id 52FA8603F7;
+        Sat, 20 Oct 2018 00:19:59 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+Date:   Sat, 20 Oct 2018 00:20:01 +0000 (UTC)
+From:   Will Korteland <will@korte.land>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        JonathanCorbet <corbet@lwn.net>, Jason Baron <jbaron@akamai.com>,
+        linux-doc-owner@vger.kernel.org
+Subject: Re: [PATCH] Documentation: dynamic-debug: fix wildcard description
+In-Reply-To: <74834e33-3876-9eeb-5139-903bd412059a@infradead.org>
+References: <74834e33-3876-9eeb-5139-903bd412059a@infradead.org>
+Message-ID: <636555f5a50bed2afa7f79aba41321fc@korte.land>
+X-Sender: will@korte.land
+X-SG-EID: =?us-ascii?Q?cUnx5NqAuhUbAHG4iZ9Vx1BO6oMeAW3Kqk+xSEzhkR48c1futjyLp2=2Fwp8OUBt?=
+ =?us-ascii?Q?=2F5X+h1tdyY33lVKbOQVGXUFee5jXzXSX3DwIyxm?=
+ =?us-ascii?Q?3PJkJnr4csFbyGVXRnFtxndcAd2=2F2VMCzpAO8P5?=
+ =?us-ascii?Q?2PwQh8=2FR9IfWi8XpjXWl1lG5zwc55D88TpyOXpM?=
+ =?us-ascii?Q?LrzNjz+rQMDkioUNPJm2OwewrjYFW5MAWKhCNlO?=
+ =?us-ascii?Q?ZxB8BwWmU5kAsres4k0L4ph+WjQ3zuow9XgCDf?=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On 2018-10-20 00:16, Randy Dunlap wrote:
+> -A another way is to use wildcard. The match rule support ``*`` (matches
+> -zero or more characters) and ``?`` (matches exactly one character).For
+> +A another way is to use wildcards. The match rule supports ``*`` (matches
+> +zero or more characters) and ``?`` (matches exactly one character). For
+>  example, you can match all usb drivers::
 
-Fix grammar about wildcards and insert a space between sentences.
+"A another" -> "Another"?
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jason Baron <jbaron@akamai.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/dynamic-debug-howto.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---- lnx-419-rc8.orig/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ lnx-419-rc8/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -110,8 +110,8 @@ If your query set is big, you can batch
- 
-   ~# cat query-batch-file > <debugfs>/dynamic_debug/control
- 
--A another way is to use wildcard. The match rule support ``*`` (matches
--zero or more characters) and ``?`` (matches exactly one character).For
-+A another way is to use wildcards. The match rule supports ``*`` (matches
-+zero or more characters) and ``?`` (matches exactly one character). For
- example, you can match all usb drivers::
- 
-   ~# echo "file drivers/usb/* +p" > <debugfs>/dynamic_debug/control
-
-
+- Will
