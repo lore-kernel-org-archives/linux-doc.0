@@ -1,80 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Level: ***
+X-Spam-Status: No, score=3.2 required=5.0 tests=AXB_XMAILER_MIMEOLE_OL_024C2,
+	DEAR_SOMETHING,FORGED_MUA_OUTLOOK,FSL_CTYPE_WIN1251,FSL_NEW_HELO_USER,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_NAME_MR_MRS,HK_SCAM_N4,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,NSL_RCVD_FROM_USER,RCVD_IN_BL_SPAMCOP_NET,
+	RCVD_IN_DNSWL_HI,RCVD_IN_SBL autolearn=no autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 45C407D082
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 20 Oct 2018 01:11:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E4C697D082
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 20 Oct 2018 13:39:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbeJTJTh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 20 Oct 2018 05:19:37 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:49074 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726663AbeJTJTh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Oct 2018 05:19:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=85nIwNDxq55n7RSHpITgtwkG2TZpwJvyQ6+CTRRpEYs=; b=jHaNPen68G+2Dirq9B7mPaGgGG
-        A2zKseivgtBkPVkBLGRcJzTIF1FFg3j/qF7GHISpw1ygJYwM28uCxGY8/MsPaZMRHjbpFuSZd0a+B
-        tHykDQ0P0dWHhoO9lEsgAA49AULPeR7ZY7Go2cV6Oh0h0zsmyf+s8ohp9QlyV9RUsJyWFVkKXJDP1
-        u3935ITjk5O85ULptgn5fjTI+PHmzoHqWkSHEzAJQANl7GSDLiggOadciOOz4iktZJIcYn/roqKr5
-        JTsla2fnlIVgTpsXwFARBGfMPxzP38ic0ZB0jUzbvY8iRyYfPIpE2JbmCMFeXNBuCBxjMgq3ajHbJ
-        dPyEqhBA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gDfn9-0001SH-Li; Sat, 20 Oct 2018 01:11:00 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Jason Baron <jbaron@akamai.com>, Will Korteland <will@korte.land>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2] Documentation: dynamic-debug: fix wildcard description
-Message-ID: <c3bedde3-4653-f66d-c30f-4772d3d8bae2@infradead.org>
-Date:   Fri, 19 Oct 2018 18:10:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1727476AbeJTVuZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 20 Oct 2018 17:50:25 -0400
+Received: from mbkd0230.ocn.ad.jp ([153.149.233.31]:35668 "EHLO
+        mbkd0230.ocn.ad.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727364AbeJTVuZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Oct 2018 17:50:25 -0400
+Received: from mf-smf-unw008c1 (mf-smf-unw008c1.ocn.ad.jp [153.138.219.102])
+        by mbkd0230.ocn.ad.jp (Postfix) with ESMTP id 6F2861083476;
+        Sat, 20 Oct 2018 22:39:51 +0900 (JST)
+Received: from ocn-vc-mts-102c1.ocn.ad.jp ([153.153.66.81])
+        by mf-smf-unw008c1 with ESMTP
+        id DrMXgb2LabXPgDrTrgX9EW; Sat, 20 Oct 2018 22:39:51 +0900
+Received: from vcsound.ocn.ne.jp ([153.149.227.135])
+        by ocn-vc-mts-102c1.ocn.ad.jp with ESMTP
+        id DrTegxgI98o4xDrTeg6KKl; Sat, 20 Oct 2018 22:39:51 +0900
+Message-ID: <1540042791.DrTegxgI98o4xDrTeg6KKl@ocn-vc-mts-102c1.ocn.ad.jp>
+Received: from User (office.webrun.co.jp [61.199.254.234])
+        by vcsound.ocn.ne.jp (Postfix) with SMTP;
+        Sat, 20 Oct 2018 22:39:38 +0900 (JST)
+Reply-To: <rossoleonardo@aol.com>
+From:   "Mr. Rosso Leonardo" <great@sound.ocn.ne.jp>
+Subject: Hello Sir/Ma
+Date:   Sat, 20 Oct 2018 13:39:51 -0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain;
+        charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Dear Sir/Ma
 
-Fix grammar about wildcards and insert a space between sentences.
+How are you and how was your night? I hope you reply this email immediately so I can email you the details of what I have for you. I assure you, you will be delighted when I tell you the proposal.
+Thank you and God bless you.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jason Baron <jbaron@akamai.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Will Korteland <will@korte.land>
----
-v2: s/A another/Another/ # from Will
-
- Documentation/admin-guide/dynamic-debug-howto.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---- lnx-419-rc8.orig/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ lnx-419-rc8/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -110,8 +110,8 @@ If your query set is big, you can batch
- 
-   ~# cat query-batch-file > <debugfs>/dynamic_debug/control
- 
--A another way is to use wildcard. The match rule support ``*`` (matches
--zero or more characters) and ``?`` (matches exactly one character).For
-+Another way is to use wildcards. The match rule supports ``*`` (matches
-+zero or more characters) and ``?`` (matches exactly one character). For
- example, you can match all usb drivers::
- 
-   ~# echo "file drivers/usb/* +p" > <debugfs>/dynamic_debug/control
-
-
+Yours sincerely,
+Rosso Leonardo
