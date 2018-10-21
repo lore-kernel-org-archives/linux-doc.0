@@ -1,35 +1,34 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F2AEC7D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 21 Oct 2018 18:11:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 31AB47D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 21 Oct 2018 18:29:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728082AbeJVC0y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 21 Oct 2018 22:26:54 -0400
-Received: from smtprelay0047.hostedemail.com ([216.40.44.47]:33289 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727832AbeJVC0y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Oct 2018 22:26:54 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 46B84180A68A9;
-        Sun, 21 Oct 2018 18:11:44 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: quilt34_488cdc69ee618
-X-Filterd-Recvd-Size: 3121
-Received: from XPS-9350.home (unknown [47.151.153.53])
-        (Authenticated sender: joe@perches.com)
-        by omf07.hostedemail.com (Postfix) with ESMTPA;
-        Sun, 21 Oct 2018 18:11:38 +0000 (UTC)
-Message-ID: <f46baa5bb0e3373c89d09b6e0d15170902e5f55c.camel@perches.com>
-Subject: Re: [PATCH 2/2] Compiler Attributes: auxdisplay: panel: use
- __fallthrough
-From:   Joe Perches <joe@perches.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1728030AbeJVCok (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 21 Oct 2018 22:44:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55704 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727827AbeJVCok (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 21 Oct 2018 22:44:40 -0400
+Received: from localhost (unknown [167.98.65.38])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EBEC820838;
+        Sun, 21 Oct 2018 18:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1540146568;
+        bh=gR2ujdJqT5S+krluXdab70IWn5PXGfqnq7Z6JRzEK04=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=skS/wp/c6ePxRV6mMDMomsLeWCXwB93roAJ+jF0IBd2OqhXazNAMSAO9gMOw9Lb4/
+         00phrDKNxtyL1KPsnuBWxpDm5NM1I1qh8iprVCyn/VV7bvXn4H8FDXrVS2DS0dgTmS
+         MNF7SoFz1vN4taiBzoZnxHh1EyCcSCoy67riuKhE=
+Date:   Sun, 21 Oct 2018 19:29:26 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc:     linux-kernel@vger.kernel.org,
         Dan Carpenter <dan.carpenter@oracle.com>,
         Andreas Dilger <adilger.kernel@dilger.ca>,
@@ -58,7 +57,7 @@ Cc:     linux-kernel@vger.kernel.org,
         Theodore Ts'o <tytso@mit.edu>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
         Dominique Martinet <asmadeus@codewreck.org>,
         Stefan Agner <stefan@agner.ch>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
@@ -67,32 +66,34 @@ Cc:     linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
         linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Date:   Sun, 21 Oct 2018 11:11:36 -0700
-In-Reply-To: <20181021171414.22674-3-miguel.ojeda.sandonis@gmail.com>
+Subject: Re: [PATCH 0/2] Compiler Attributes: __fallthrough
+Message-ID: <20181021182926.GB6683@kroah.com>
 References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
-         <20181021171414.22674-3-miguel.ojeda.sandonis@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 2018-10-21 at 19:14 +0200, Miguel Ojeda wrote:
-> Let gcc know these cases are meant to fall through to the next label
-> by annotating them with the new __fallthrough statement attribute;
-> and remove the comment since it conveys the same information
-> (which was also parsed by gcc to suppress the warning).
+On Sun, Oct 21, 2018 at 07:14:12PM +0200, Miguel Ojeda wrote:
+> These are two patches are meant to go on top of the rest of the compiler
+> attributes series on:
+> 
+>   https://github.com/ojeda/linux/tree/compiler-attributes
+> 
+> which will be sent to Greg for the next merge window.
+> 
+> Please review them and let me know! (specially if someone is against
+> __fallthrough for some reason :-).
 
-Instead of many individual conversion patches,
-perhaps a script to do all the conversions at once.
+Will this work with all of the static tools that are currently looking
+for the comment instead?  I know coverity handles that, what about
+others?
 
-Maybe:
+thanks,
 
-pattern='(?:\/\*\s*fall(?:\s*|\s*\-\s*)thr(?:u|ough)\s*\*\/|\/\/\s*fall\s*thr(?:u|ough)\s*$)'
-git grep -P -i --name-only "$pattern" -- '*.[ch]' |
-    xargs perl -p -i -e "s/$pattern/__fallthrough;/gi"
-
-
+greg k-h
