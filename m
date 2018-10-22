@@ -6,59 +6,56 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C68177D8D7
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 17:18:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 811607D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 17:23:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728772AbeJWBhT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 21:37:19 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:39464 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728764AbeJWBhT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 21:37:19 -0400
-Received: by mail-pl1-f194.google.com with SMTP id e67-v6so10394219plb.6
-        for <linux-doc@vger.kernel.org>; Mon, 22 Oct 2018 10:17:57 -0700 (PDT)
+        id S1728744AbeJWBmu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 21:42:50 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:46092 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728428AbeJWBmt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 21:42:49 -0400
+Received: by mail-pg1-f194.google.com with SMTP id r190-v6so7706148pgr.13
+        for <linux-doc@vger.kernel.org>; Mon, 22 Oct 2018 10:23:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=oA7xr5QeyWJpzokAhtSgAZl5pfjfuog8CUj3NpYcIkc=;
-        b=pToAUWGJxfD4G2VB3Ervq0Msf+5dcWN7zvEuegKdnTlgHJ6Qb5lIIqMf+tXcv3ld2u
-         z2IqNhpTlOpPtqgJwA1Sc2LqFliQGIDNdBy4/YEwO+GChHT4cffCgZCainXaRHmLxwW7
-         BuSRHuw/EFb71uQVQsUJeERaWGiSRsQzVBAGza763li/0MygUMaVdk3VVOFJLqxCG6Ma
-         5eZIldSOi2/Ar3BQz+8z3MAj4WcnYeGi252NgWIV3i/iakLxgJUCPFY5s/VyvZhzI1Z+
-         qPoioPtnB9k/M6UpmBheLZ5yUvcuDLUuxYTvw2cxkRmiBFenH8/7GZHJRkC+zm0+79bQ
-         4sDA==
+        bh=hztU8N/gq+fgPc7miLD7Wh6snFgsCBQikLZ9/v92tvU=;
+        b=qesZ2z624uj3vkvmSA8VhC0FmIi2lbxjdmQ7rDowO8JR0icAkybm6Kq/4LwDGjk725
+         QJEopbgDeI7DblLc1EyapaAsu7rV/tNKSXmOgSjwqqddv8acT3f9qOkFonzgpgs2ZxNp
+         Z8U05jOvG80EM8zfNNAf7+N78cVegB0pAWSjj1yHDMun+RrYsFAfedr83i7jFFci+jLl
+         n8kSStyJBrVLzSWVclW2ZEolL2oazN9mp1TkBXiX25QpXhKXLxiQ9pj0juCezRovcqH3
+         hc4gnm+DR2Uek1sfYgyLcBfwNat7/ExEi0OYhiC/qEtZmpglR6kYSk9sH/SFRO9wXOLQ
+         23eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oA7xr5QeyWJpzokAhtSgAZl5pfjfuog8CUj3NpYcIkc=;
-        b=ih7deGHcbgenUb+/O8tXdoEBPREFPWhJFOqZ7wL9uVlcAcdO+bGyElynpoucADmtZu
-         MjqQqiFy9ldNiTjlf2f0uTpfnBzEC/kjAOSHtaijpDzU5BcUsjpFo9haLpHYAgZH3Cw/
-         1zfcv3KenQKLYKSM3Vs2Qy54nSD6g5PlNGN+2aRhRR8fq/yHUIMJzRBbzxN3Edlnj0+r
-         gLHmy0L6ADzIId2ZuP2vbTTsD+wIQ5/VFk9l+O24vP/qBi3SjIcW9mWlf8U5HcGScsFU
-         tmb765j11rUjY+DjZxgOZ6VuZaz5ytqyxKxioTMvyCcvnMrNExoPoiCvW8r1TXURRjLa
-         SGrw==
-X-Gm-Message-State: AGRZ1gJZZ3Su3mHS7XaSU6c09q+tt6Er33ithidVxLvS15J+jW+b3QNJ
-        lOGcroTUawheb81RV6qhxjSC/2VXdCkY0PIMNVclew==
-X-Google-Smtp-Source: AJdET5dzW23d7hR6omCsRZMOYe51E5ruiFFKQlqciLo2n7llX+F9ctIRc9CJ5Qz68T4o0wZZpW6SdnWrA8XKegdf12A=
-X-Received: by 2002:a17:902:b412:: with SMTP id x18-v6mr11189744plr.13.1540228676261;
- Mon, 22 Oct 2018 10:17:56 -0700 (PDT)
+        bh=hztU8N/gq+fgPc7miLD7Wh6snFgsCBQikLZ9/v92tvU=;
+        b=iquG3PVkJbaOPZc+z66YztURAK/M5lrLLUCCgLhAPqMYWHuPDzy3X9LHZVZguRFRB4
+         XNV0FA/h4pVp471MVY3wAsuIDaqZOvBDhIK1YfhYxjqJrIam3xyt+nUj1jer6gxEqLbs
+         Vtv0Oiaa+lNUq+kHE5tH6RqEuQraJ1JysBRUtxBCliRYOSgNnkbSKDTvOB1Kc5GbA4Kh
+         JxFK4kK3LEl2mqkxSw4RXIcgRov884XA4LqsF1lHvqiXQ1odeXGnUyWgsklpWW69g/qm
+         xye7Rxw8+1mhw+1kgQ5gVUvBIeV97pffZjmeJ9DgdeW/1MiMAC9E6sGtw3Vxg5J1R94P
+         M6KQ==
+X-Gm-Message-State: AGRZ1gLcMSaG8JoJYqKWsH6IBED2OWosD+1w2tDGfzY6cnzZ3/iaL2rB
+        QJPf1q7Xc2ClMutq5jKrUhoM+Zsy0YM+IeMhfUuT2g==
+X-Google-Smtp-Source: AJdET5f+Iq3bU3SMhl1uAQ3I/VtmqixQRbfHfFgowLrZ/L3aMQr5VoPyp+Aey9nV9QD/zljDPWVcO0mgMVYRtYfQMTk=
+X-Received: by 2002:a63:42c1:: with SMTP id p184mr1388980pga.202.1540229005714;
+ Mon, 22 Oct 2018 10:23:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
  <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <20181021222712.GI1617@thunk.org>
  <CANiq72mXV6WTyHXNZJDTfFOpPrXD0zD6cB30bGOuKO44AvRiog@mail.gmail.com>
- <CAGXu5jKb-0H+smRAW6ngQKDZ-PbTThhMwhmu34iB8vjTa-4H8Q@mail.gmail.com>
- <CANiq72n4+HDXPqr7xySSGx49g8vEcXaxO7a-By9cSg7YSxOS_A@mail.gmail.com> <CANiq72kNnrhi8OPbF7P+Rw4SGYu=JuvhDKtzGtG2J5AOoC1-Dw@mail.gmail.com>
-In-Reply-To: <CANiq72kNnrhi8OPbF7P+Rw4SGYu=JuvhDKtzGtG2J5AOoC1-Dw@mail.gmail.com>
+In-Reply-To: <CANiq72mXV6WTyHXNZJDTfFOpPrXD0zD6cB30bGOuKO44AvRiog@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 22 Oct 2018 10:17:44 -0700
-Message-ID: <CAKwvOdn1TOzZYg_i0zB0rU+K3jaQQ8XmWnLXz01NCG9V+8PxHw@mail.gmail.com>
+Date:   Mon, 22 Oct 2018 10:23:14 -0700
+Message-ID: <CAKwvOdm7Ts1ZpYV2qw1YLSg8ntjPekY8Gu=Q1CbSq_7==ekUMw@mail.gmail.com>
 Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
  (gcc >= 7.1)
 To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Kees Cook <keescook@chromium.org>, gustavo@embeddedor.com,
-        "Theodore Ts'o" <tytso@mit.edu>,
+Cc:     "Theodore Ts'o" <tytso@mit.edu>,
         Greg KH <gregkh@linuxfoundation.org>,
         LKML <linux-kernel@vger.kernel.org>, dan.carpenter@oracle.com,
         adilger.kernel@dilger.ca,
@@ -68,6 +65,7 @@ Cc:     Kees Cook <keescook@chromium.org>, gustavo@embeddedor.com,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         "David S. Miller" <davem@davemloft.net>,
         Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Kees Cook <keescook@chromium.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@kernel.org>,
         Paul Lawrence <paullawrence@google.com>,
@@ -88,42 +86,67 @@ Cc:     Kees Cook <keescook@chromium.org>, gustavo@embeddedor.com,
         Linus Torvalds <torvalds@linux-foundation.org>,
         linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
         linux-sparse@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Colin Ian King <colin.king@canonical.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 2:43 AM Miguel Ojeda
+On Mon, Oct 22, 2018 at 2:26 AM Miguel Ojeda
 <miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> On Mon, Oct 22, 2018 at 11:41 AM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
+> On Mon, Oct 22, 2018 at 12:27 AM Theodore Y. Ts'o <tytso@mit.edu> wrote:
 > >
-> >   * clang does *not* support the attribute in C.
+> > On Sun, Oct 21, 2018 at 07:14:13PM +0200, Miguel Ojeda wrote:
+> > > From the GCC manual:
+> > >
+> > >   fallthrough
+> > >
+> > >     The fallthrough attribute with a null statement serves as a
+> > >     fallthrough statement. It hints to the compiler that a statement
+> > >     that falls through to another case label, or user-defined label
+> > >     in a switch statement is intentional and thus the -Wimplicit-fallthrough
+> > >     warning must not trigger. The fallthrough attribute may appear
+> > >     at most once in each attribute list, and may not be mixed with
+> > >     other attributes. It can only be used in a switch statement
+> > >     (the compiler will issue an error otherwise), after a preceding
+> > >     statement and before a logically succeeding case label,
+> > >     or user-defined label.
+> > >
+> > >   https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html
+> >
+> > Do we know if coverity understands the fallthrough attribute?  One of
+> > the reasons why I started using /* fallthrough */ is because it kept
+> > Coverity happy.
 >
-> ...nor the warning at all, by the way (which is why this is OK).
+> If Coverity is like gcc, they should be doing both (i.e. I see the
+> comment parsing as an "extra" that gcc did, but the "basic stuff" is
+> the attribute -- and I would guess it is way easier for them to
+> support than the comment parsing).
+>
+> But I cannot test it myself :-( Someone, please?
+
++ Colin, who has been running Coverity on the kernel, and sending patches.
+
+>
+> However, if I understood Greg correctly in his reply to the cover
+> letter, he replied that Coverity knows about it (?).
+>
+> >
+> > If the conversion from /* fallthrough */ to the __fallthrough__
+> > attribute means that we start gethting a lot of Coverity warnings,
+> > that would be unfortunate.  OTOH, if this is getting standardized,
+> > maybe we can get Coverity to understand this attribute?
+>
+> Indeed! That would be the best for everyone, including Coverity customers.
 >
 > Cheers,
 > Miguel
 
-Oh? We're going through and annotating all of Android's C++ source
-right now with it.
-https://clang.llvm.org/docs/DiagnosticsReference.html#wimplicit-fallthrough
 
-Though it looks like the attribute syntax I like from GCC is not yet
-supported in Clang.
-https://bugs.llvm.org/show_bug.cgi?id=37135
-https://github.com/ClangBuiltLinux/linux/issues/235
-I'll take a look at adding support.
 
-So Kees sent me this embarrassing example:
-https://godbolt.org/z/gV_c9_
-(try changing the language from C++ to C; it works)!  That's embarrassing!
-https://bugs.llvm.org/show_bug.cgi?id=39382
-https://github.com/ClangBuiltLinux/linux/issues/236
-Will get these both fixed up.
 -- 
 Thanks,
 ~Nick Desaulniers
