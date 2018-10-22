@@ -5,20 +5,20 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 466B07D099
+	by archive.lwn.net (Postfix) with ESMTP id A00A97D923
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 13:35:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728796AbeJVVxF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728794AbeJVVxF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Mon, 22 Oct 2018 17:53:05 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:51018 "EHLO mail.bootlin.com"
+Received: from mail.bootlin.com ([62.4.15.54]:50987 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728787AbeJVVxE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728723AbeJVVxE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 22 Oct 2018 17:53:04 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 92AB320DFB; Mon, 22 Oct 2018 15:34:26 +0200 (CEST)
+        id A2A3320DF9; Mon, 22 Oct 2018 15:34:25 +0200 (CEST)
 Received: from localhost.localdomain (aaubervilliers-681-1-25-52.w90-88.abo.wanadoo.fr [90.88.145.52])
-        by mail.bootlin.com (Postfix) with ESMTPSA id ACA51208C7;
-        Mon, 22 Oct 2018 15:34:09 +0200 (CEST)
+        by mail.bootlin.com (Postfix) with ESMTPSA id 4FDF520890;
+        Mon, 22 Oct 2018 15:34:08 +0200 (CEST)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc:     Przemyslaw Sroka <psroka@cadence.com>,
         Stephen Boyd <swboyd@chromium.org>,
         Joe Perches <joe@perches.com>,
         Boris Brezillon <boris.brezillon@bootlin.com>
-Subject: [PATCH v9 7/9] dt-bindings: i3c: Document Cadence I3C master bindings
-Date:   Mon, 22 Oct 2018 15:34:02 +0200
-Message-Id: <20181022133404.2061-8-boris.brezillon@bootlin.com>
+Subject: [PATCH v9 5/9] MAINTAINERS: Add myself as the I3C subsystem maintainer
+Date:   Mon, 22 Oct 2018 15:34:00 +0200
+Message-Id: <20181022133404.2061-6-boris.brezillon@bootlin.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181022133404.2061-1-boris.brezillon@bootlin.com>
 References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
@@ -62,84 +62,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document Cadence I3C master DT bindings.
+Create an entry for the I3C subsystem and mark it as maintained by me.
+There's no official git repository, patchwork instance, mailing list or
+website yet, but this will be added after the subsystem has been
+accepted.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 ---
 Changes in v9:
-- Add Arnd's R-b
+- None
 
 Changes in v8:
 - None
 
 Changes in v7:
-- None
-
-Changes in v6:
-- None
+- Add a ML (not created yet) and a git repo
 
 Changes in v5:
-- Add Rob's R-b
-
-Changes in v4:
-- Fix example to match the new representation
+- Add the sysfs ABI file
 ---
- .../bindings/i3c/cdns,i3c-master.txt          | 44 +++++++++++++++++++
- 1 file changed, 44 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
+ MAINTAINERS | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
-new file mode 100644
-index 000000000000..0e2b8b8770bf
---- /dev/null
-+++ b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
-@@ -0,0 +1,44 @@
-+Bindings for cadence I3C master block
-+=====================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a5b256b25905..293c863b6f9f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6918,6 +6918,18 @@ L:	linux-i2c@vger.kernel.org
+ S:	Maintained
+ F:	drivers/i2c/i2c-stub.c
+ 
++I3C SUBSYSTEM
++M:	Boris Brezillon <boris.brezillon@bootlin.com>
++L:	linux-i3c@vger.kernel.org
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git
++S:	Maintained
++F:	Documentation/ABI/testing/sysfs-bus-i3c
++F:	Documentation/devicetree/bindings/i3c/
++F:	Documentation/driver-api/i3c
++F:	drivers/i3c/
++F:	include/linux/i3c/
++F:	include/dt-bindings/i3c/
 +
-+Required properties:
-+--------------------
-+- compatible: shall be "cdns,i3c-master"
-+- clocks: shall reference the pclk and sysclk
-+- clock-names: shall contain "pclk" and "sysclk"
-+- interrupts: the interrupt line connected to this I3C master
-+- reg: I3C master registers
-+
-+Mandatory properties defined by the generic binding (see
-+Documentation/devicetree/bindings/i3c/i3c.txt for more details):
-+
-+- #address-cells: shall be set to 1
-+- #size-cells: shall be set to 0
-+
-+Optional properties defined by the generic binding (see
-+Documentation/devicetree/bindings/i3c/i3c.txt for more details):
-+
-+- i2c-scl-hz
-+- i3c-scl-hz
-+
-+I3C device connected on the bus follow the generic description (see
-+Documentation/devicetree/bindings/i3c/i3c.txt for more details).
-+
-+Example:
-+
-+	i3c-master@0d040000 {
-+		compatible = "cdns,i3c-master";
-+		clocks = <&coreclock>, <&i3csysclock>;
-+		clock-names = "pclk", "sysclk";
-+		interrupts = <3 0>;
-+		reg = <0x0d040000 0x1000>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		i2c-scl-hz = <100000>;
-+
-+		nunchuk: nunchuk@52 {
-+			compatible = "nintendo,nunchuk";
-+			reg = <0x52 0x80000010 0>;
-+		};
-+	};
-+
+ IA64 (Itanium) PLATFORM
+ M:	Tony Luck <tony.luck@intel.com>
+ M:	Fenghua Yu <fenghua.yu@intel.com>
 -- 
 2.17.1
 
