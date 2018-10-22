@@ -1,57 +1,65 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 916E27D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 10:59:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AF70A7D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 11:07:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728696AbeJVTR5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 15:17:57 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42936 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728674AbeJVTR5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 15:17:57 -0400
-Received: by mail-wr1-f66.google.com with SMTP id f8-v6so4932614wro.9;
-        Mon, 22 Oct 2018 03:59:51 -0700 (PDT)
+        id S1727748AbeJVTZy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 15:25:54 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45245 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727700AbeJVTZx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 15:25:53 -0400
+Received: by mail-lf1-f68.google.com with SMTP id c24-v6so3549763lfi.12;
+        Mon, 22 Oct 2018 04:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=DQ/BGw3c1pgniBHBs7s426UMJFj91Fj2ea87hVs35No=;
-        b=ewbkJ+DPMdTuWByvcEmKMsj0NUnsauVtFZXwQ+i+Ax8N5v3aPMw8LB/wBsSQQz87EK
-         Qp7kqi15qLKS44khYwRIMf7E6tCjHxTY6CPuiT+Lh6x9d/tUiDQe1QGKlo5nERUdbS7J
-         Z41cUv9nFVnD0cSyhE2wdde2h4EqgefbMGrthynKurL+SZy9iROyytMxD4EtegSv48FC
-         MyVzn3MO86M0cXbva83ZVm3xL5uLcGnrhVQtqYmctCPQdawz9n6+70pywpnssfimgDUM
-         GnM6GlpsTO2hBXwPywJLedMeQctwtRr1tD+DTOSonDrR+riU8yzHlP9jCNLz66dhyDqy
-         4Ueg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8Gada67H4Jd9QGAjDfvKygVjXwikJjIDttAG0aOjuMc=;
+        b=SVW7nwuvV8faSuwXjHgcAg+cbaAg4qvM1m7dbNdvvgy1li6ZjEdVgSPdx6ABuysHfP
+         Cnv+++CXEocixzUMTe46/i18vQIoxrBbmM4p3dut+cnKmAagVS8kzaSuGxTkhQygpmso
+         PFQ2EiwBR2M406LA5gQkI9A8RcLklhT30dxiMa9lachwdXR2bhffKBKe0DFHby3pNe5m
+         cwnV2yqyqFqc7Tg4jHXosQMVfmTFnJJCZKYBt88CloeItI18k0VtLxiQRCj78OzWRcFm
+         zDkOXbf98Telv/rTfBccPnXtElVkIjvY7li7TIY6TeABpYjDEA86wvgJL/JYEyJp1Ppg
+         SIcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=DQ/BGw3c1pgniBHBs7s426UMJFj91Fj2ea87hVs35No=;
-        b=diQeZfZ5WklQDP+YTo6+z9d9lK62k0EHBtAPmmkGlH3Ht+KLFted5ShQAoZhg0Ubsu
-         ZrJ37s7taZPhuv7RYqnHWDvmLIh8EkZTFoHEVjwkyBNEI7CrUbWk0Y7VmX+CaywO5ZWh
-         MCtXOpKuTgruTsRnjyOc0bsKMuyeuJDJGpGIUR8oVRoZ79Pi2UvJ1NyNw6jUT4VRUQQp
-         OQIdeuWIVwghSib7Re+bYXQNcg0q1LfavxrLK1Hd418Du25i+tIWo1dsvo0vMjk3Pdf0
-         8sIDnvBQo0o7m10xbuFq/n3Ov7ZDcExR4nYR4gz3xhcUj3FwROzDE6GLV44zXXAyOtfL
-         Rl3Q==
-X-Gm-Message-State: AGRZ1gKevsjUrmSB4Mx0fDnTD3OL+aAdqawClqsHbYx322m2XpWaSUSo
-        VCJd/4WGRfz9hKouJpJUCA8=
-X-Google-Smtp-Source: AJdET5ecZ2d3QUOfrNKZOxzxgGjoBNFCL5vJDj+D6FmkyaUyjvegaBPQrvH76BQ3H4E1hDs0rKnqBw==
-X-Received: by 2002:a5d:6944:: with SMTP id r4-v6mr8803486wrw.197.1540205990218;
-        Mon, 22 Oct 2018 03:59:50 -0700 (PDT)
-Received: from gmail.com (62.83.35.8.dyn.user.ono.com. [62.83.35.8])
-        by smtp.gmail.com with ESMTPSA id v1-v6sm28651553wrd.24.2018.10.22.03.59.47
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 22 Oct 2018 03:59:49 -0700 (PDT)
-Date:   Mon, 22 Oct 2018 12:59:44 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8Gada67H4Jd9QGAjDfvKygVjXwikJjIDttAG0aOjuMc=;
+        b=iENM+/9QbgXCCvH7QPvR3W3vhPPmv9xRBud19EcwdH1OXd7gQejFXKgZgpps0wNWyw
+         sFws8UizYQBdOzk/kogWUpxzrPtsIBGFht57Lph0EpdevH6TN2mNcjjxjGPW4anqEwcl
+         Ca61FLfuoOaWfT2W8/Yl7QzJ4KIJ203+7mhkJXKmpgDQIu5jBk5cGvaWD9jngaRtjSdV
+         +NJ40OtxDPZTrJ9Q7Wy0KYCpttLrJbbWqU4MHG/d4rNc/ldXRu3lXoaSVOXxv78bKT4v
+         WHpk+Ha5Crmp+8yjyJGduZnXEQBoWaUSLc6Wr/fvYrL3MPVJvdawmoGFhQ8674pmtwDt
+         NACQ==
+X-Gm-Message-State: ABuFfoijOyyqtx2k5iK7YJrMbXH9FASPVGdRKS5zPQIW6HPxIvFbTdGX
+        UydKjLtqCzeA/oMDTxLl5HO4Wr1NywIo8++sISQ=
+X-Google-Smtp-Source: ACcGV61fXU5RtZ3OmDnAFx+yerN8EXm+MQxt1ThZXxVvCKh+9RvYNbXG9kVbVQm87xstmVrBFmym7xL/8RAsqP+acFU=
+X-Received: by 2002:a19:185b:: with SMTP id o88mr9856918lfi.102.1540206465562;
+ Mon, 22 Oct 2018 04:07:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
+ <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <20181021222712.GI1617@thunk.org>
+ <8fb78062-b6d4-6f2d-d943-44bec6b95ff0@petrovitsch.priv.at>
+ <20181022102743.nua5fgbscyeymzal@mwanda> <1474d995-1b5a-2efb-f077-33eb4a5d9e31@petrovitsch.priv.at>
+ <20181022105314.j6djkrpwbnokhai5@mwanda>
+In-Reply-To: <20181022105314.j6djkrpwbnokhai5@mwanda>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+Date:   Mon, 22 Oct 2018 13:07:34 +0200
+Message-ID: <CANiq72=ioYcRA-yq38+Z4i6iVDNm6C2-+b4feRmnvEiekuR7dA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
+ (gcc >= 7.1)
+To:     Dan <dan.carpenter@oracle.com>
+Cc:     bernd@petrovitsch.priv.at, "Ted Ts'o" <tytso@mit.edu>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Andreas Dilger <adilger.kernel@dilger.ca>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -59,7 +67,7 @@ Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Olof Johansson <olof@lxom.net>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
+        David Miller <davem@davemloft.net>,
         Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Kees Cook <keescook@chromium.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -75,7 +83,6 @@ Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
         Martin Sebor <msebor@gmail.com>,
         Christopher Li <sparse@chrisli.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Theodore Ts'o <tytso@mit.edu>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
@@ -84,117 +91,33 @@ Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
         linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: [GIT PULL] Compiler Attributes for v4.20-rc1
-Message-ID: <20181022105944.GA1411@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: elm/2
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
+On Mon, Oct 22, 2018 at 12:54 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> Doing both is super ugly.  Let's just do comments until Eclipse gets
+> updated.
+>
+> I had wanted to move to the attribute because that would simplify things
+> in Smatch but it's not a huge deal to delay for another year.
 
-Here it is the Compiler Attributes series/tree, which tries to disentangle
-the include/linux/compiler*.h headers and bring them up to date.
+I can re-send them later on, no problem. On the other hand, doing the
+changes will push tools to get updated sooner ;-)
 
-The patches have been in linux-next for a while, *except* the last two
-from Nick which came a bit later. Since AFAIU there will be no linux-next
-this week, I included them here; but let me know if you prefer
-to take them out.
-
-You may see merge conflicts from a few other trees, from what we have
-seen in linux-next.
-
-I am not sure if you followed this, so please let me know if there is
-anything you don't agree with.
-
-And welcome back!
+If tools were doing something as fancy as comment parsing for
+diagnostics, they should have been updated with the attribute support
+(either gcc's or C++17's) -- it has been more than a year now since
+gcc 7.1 and the C++17 final draft. (Note that this does not apply for
+things like clang, since they weren't doing comment parsing to begin
+with.)
 
 Cheers,
 Miguel
-
-The following changes since commit 17b57b1883c1285f3d0dc2266e8f79286a7bef38:
-
-  Linux 4.19-rc6 (2018-09-30 07:15:35 -0700)
-
-are available in the Git repository at:
-
-  https://github.com/ojeda/linux.git tags/compiler-attributes-for-linus-4.20-rc1
-
-for you to fetch changes up to 1ff2fea5e30ca15752777441ecb64a169fe22e9e:
-
-  compiler-gcc: remove comment about gcc 4.5 from unreachable() (2018-10-19 08:47:30 +0200)
-
-----------------------------------------------------------------
-The Compiler Attributes series
-
-This is an effort to disentangle the include/linux/compiler*.h headers
-and bring them up to date.
-
-The main idea behind the series is to use feature checking macros
-(i.e. __has_attribute) instead of compiler version checks (e.g. GCC_VERSION),
-which are compiler-agnostic (so they can be shared, reducing the size
-of compiler-specific headers) and version-agnostic.
-
-Other related improvements have been performed in the headers as well,
-which on top of the use of __has_attribute it has amounted to a significant
-simplification of these headers (e.g. GCC_VERSION is now only guarding
-a few non-attribute macros).
-
-This series should also help the efforts to support compiling the kernel
-with clang and icc. A fair amount of documentation and comments have also
-been added, clarified or removed; and the headers are now more readable,
-which should help kernel developers in general.
-
-The series was triggered due to the move to gcc >= 4.6. In turn, this series
-has also triggered Sparse to gain the ability to recognize __has_attribute
-on its own.
-
-Finally, the __nonstring variable attribute series has been also applied
-on top; plus two related patches from Nick Desaulniers for unreachable()
-that came a bit afterwards.
-
-----------------------------------------------------------------
-Miguel Ojeda (15):
-      Compiler Attributes: remove unused attributes
-      Compiler Attributes: always use the extra-underscores syntax
-      Compiler Attributes: remove unneeded tests
-      Compiler Attributes: homogenize __must_be_array
-      Compiler Attributes: remove unneeded sparse (__CHECKER__) tests
-      Compiler Attributes: add missing SPDX ID in compiler_types.h
-      Compiler Attributes: use feature checks instead of version checks
-      Compiler Attributes: KENTRY used twice the "used" attribute
-      Compiler Attributes: remove uses of __attribute__ from compiler.h
-      Compiler Attributes: add Doc/process/programming-language.rst
-      Compiler Attributes: add MAINTAINERS entry
-      Compiler Attributes: add support for __nonstring (gcc >= 8)
-      Compiler Attributes: enable -Wstringop-truncation on W=1 (gcc >= 8)
-      Compiler Attributes: auxdisplay: panel: use __nonstring
-      Compiler Attributes: ext4: remove local __nonstring definition
-
-ndesaulniers@google.com (2):
-      compiler.h: update definition of unreachable()
-      compiler-gcc: remove comment about gcc 4.5 from unreachable()
-
- Documentation/process/index.rst                |   1 +
- Documentation/process/programming-language.rst |  45 +++++
- MAINTAINERS                                    |   5 +
- drivers/auxdisplay/panel.c                     |   7 +-
- fs/ext4/ext4.h                                 |   9 -
- include/linux/compiler-clang.h                 |   5 -
- include/linux/compiler-gcc.h                   |  74 +------
- include/linux/compiler-intel.h                 |   9 -
- include/linux/compiler.h                       |  24 +--
- include/linux/compiler_attributes.h            | 258 +++++++++++++++++++++++++
- include/linux/compiler_types.h                 | 101 ++--------
- scripts/Makefile.extrawarn                     |   1 +
- 12 files changed, 345 insertions(+), 194 deletions(-)
- create mode 100644 Documentation/process/programming-language.rst
- create mode 100644 include/linux/compiler_attributes.h
