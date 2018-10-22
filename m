@@ -4,62 +4,63 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF70A7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 11:07:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AFED37D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 11:24:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727748AbeJVTZy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 15:25:54 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:45245 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727700AbeJVTZx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 15:25:53 -0400
-Received: by mail-lf1-f68.google.com with SMTP id c24-v6so3549763lfi.12;
-        Mon, 22 Oct 2018 04:07:46 -0700 (PDT)
+        id S1728851AbeJVTm0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 15:42:26 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:35908 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728374AbeJVTm0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 15:42:26 -0400
+Received: by mail-lj1-f194.google.com with SMTP id p89-v6so36613951ljb.3;
+        Mon, 22 Oct 2018 04:24:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8Gada67H4Jd9QGAjDfvKygVjXwikJjIDttAG0aOjuMc=;
-        b=SVW7nwuvV8faSuwXjHgcAg+cbaAg4qvM1m7dbNdvvgy1li6ZjEdVgSPdx6ABuysHfP
-         Cnv+++CXEocixzUMTe46/i18vQIoxrBbmM4p3dut+cnKmAagVS8kzaSuGxTkhQygpmso
-         PFQ2EiwBR2M406LA5gQkI9A8RcLklhT30dxiMa9lachwdXR2bhffKBKe0DFHby3pNe5m
-         cwnV2yqyqFqc7Tg4jHXosQMVfmTFnJJCZKYBt88CloeItI18k0VtLxiQRCj78OzWRcFm
-         zDkOXbf98Telv/rTfBccPnXtElVkIjvY7li7TIY6TeABpYjDEA86wvgJL/JYEyJp1Ppg
-         SIcA==
+        bh=FPdjKwjTXI+wwDG0R240CjO2jC/BynSfRerURsScnAw=;
+        b=q4KwmSEel4WRxtf44uzynKgKbOBskUsffIGJI3KyRhi6SJXrrkDLeOzdU+3AOdUTyc
+         atUaP9R5L9qnx/ir9ieNjZ9KGJLUxBgiRS58c8XLdzUTsH340MBi6NeutShdzxk8TEx2
+         1UkqVgMYQde03/alKtuKh2RGQip5gKDWjiWakX73e68B4jvUmAZezkc2Trmo43Xw8O6s
+         Gl+8PjNixPMSQCz9jL5TlGTPEs2axof6dWJ/gJmpfRiVyzuHYS1VoA+OmshvUFXW3cF+
+         ChiJ6eucfBcBbSsv0BLgO5k3puDPvny+gfY1iSfE32M+JE6J72NFjP2gLfo0xC7AjJN9
+         4alw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8Gada67H4Jd9QGAjDfvKygVjXwikJjIDttAG0aOjuMc=;
-        b=iENM+/9QbgXCCvH7QPvR3W3vhPPmv9xRBud19EcwdH1OXd7gQejFXKgZgpps0wNWyw
-         sFws8UizYQBdOzk/kogWUpxzrPtsIBGFht57Lph0EpdevH6TN2mNcjjxjGPW4anqEwcl
-         Ca61FLfuoOaWfT2W8/Yl7QzJ4KIJ203+7mhkJXKmpgDQIu5jBk5cGvaWD9jngaRtjSdV
-         +NJ40OtxDPZTrJ9Q7Wy0KYCpttLrJbbWqU4MHG/d4rNc/ldXRu3lXoaSVOXxv78bKT4v
-         WHpk+Ha5Crmp+8yjyJGduZnXEQBoWaUSLc6Wr/fvYrL3MPVJvdawmoGFhQ8674pmtwDt
-         NACQ==
-X-Gm-Message-State: ABuFfoijOyyqtx2k5iK7YJrMbXH9FASPVGdRKS5zPQIW6HPxIvFbTdGX
-        UydKjLtqCzeA/oMDTxLl5HO4Wr1NywIo8++sISQ=
-X-Google-Smtp-Source: ACcGV61fXU5RtZ3OmDnAFx+yerN8EXm+MQxt1ThZXxVvCKh+9RvYNbXG9kVbVQm87xstmVrBFmym7xL/8RAsqP+acFU=
-X-Received: by 2002:a19:185b:: with SMTP id o88mr9856918lfi.102.1540206465562;
- Mon, 22 Oct 2018 04:07:45 -0700 (PDT)
+        bh=FPdjKwjTXI+wwDG0R240CjO2jC/BynSfRerURsScnAw=;
+        b=gJpdODxZChMQEYR30D6coePW/Puyt1hcfnzG+I40FTaKVF3LmIGao/vHkFUB0mSd2c
+         5V4gY2FCh5FDnKMP1lVF90IM1hWGagidJWhy0HhuUODYsvIY8H1FvITh+1vXYn7XEPNu
+         lhuhXMKfmKnOuwCYagoke0T8OpS/NsKP6MXCIUOlrv7gHsK+kqu+c7qc1r5CGd7mJ1YH
+         IZAK6kZkUjVjd/MlidWzrnqaN0rL9bylUnImHKmYEOTdqkZ4lXxt+opZ5kv9c5uqx1tV
+         9zOMto8GqYI65+bAMEC4YUn18t9+G13Q0L7MMrddRByOlU5Q4+n8GaW+5VnEQmGyKQHk
+         7Xkw==
+X-Gm-Message-State: ABuFfoiKVQ//Dvl7EBE4Pdw4WWNB9o2rSrCummS4/8L3DdjBjZp4Cz2R
+        MLTxE+Q2ts776ZAmLeJiRKhFnL+tXtrgc//ampo=
+X-Google-Smtp-Source: AJdET5fb4kNAI1F5REsLtCZRhjr2yRbap8W0TIhoZpiA6Z4EDqWPNT0TZ/rlnb6QrJzMjN6bFdUhknYHROyRl2C+Zz4=
+X-Received: by 2002:a2e:240b:: with SMTP id k11-v6mr7582851ljk.139.1540207454975;
+ Mon, 22 Oct 2018 04:24:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
  <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <20181021222712.GI1617@thunk.org>
- <8fb78062-b6d4-6f2d-d943-44bec6b95ff0@petrovitsch.priv.at>
- <20181022102743.nua5fgbscyeymzal@mwanda> <1474d995-1b5a-2efb-f077-33eb4a5d9e31@petrovitsch.priv.at>
- <20181022105314.j6djkrpwbnokhai5@mwanda>
-In-Reply-To: <20181022105314.j6djkrpwbnokhai5@mwanda>
+ <CANiq72mXV6WTyHXNZJDTfFOpPrXD0zD6cB30bGOuKO44AvRiog@mail.gmail.com>
+ <CAGXu5jKb-0H+smRAW6ngQKDZ-PbTThhMwhmu34iB8vjTa-4H8Q@mail.gmail.com>
+ <CANiq72n4+HDXPqr7xySSGx49g8vEcXaxO7a-By9cSg7YSxOS_A@mail.gmail.com> <CAGXu5jLzfuEnWpJFL1Caq94nKbPps-QTaYGpge2CfZWj1Zzf9g@mail.gmail.com>
+In-Reply-To: <CAGXu5jLzfuEnWpJFL1Caq94nKbPps-QTaYGpge2CfZWj1Zzf9g@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 22 Oct 2018 13:07:34 +0200
-Message-ID: <CANiq72=ioYcRA-yq38+Z4i6iVDNm6C2-+b4feRmnvEiekuR7dA@mail.gmail.com>
+Date:   Mon, 22 Oct 2018 13:24:03 +0200
+Message-ID: <CANiq72kpCoVwCzMUVYB_km+9xr41gBZLo_K203e_t4_QZ9-r1Q@mail.gmail.com>
 Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
  (gcc >= 7.1)
-To:     Dan <dan.carpenter@oracle.com>
-Cc:     bernd@petrovitsch.priv.at, "Ted Ts'o" <tytso@mit.edu>,
-        Greg KH <gregkh@linuxfoundation.org>,
+To:     Kees Cook <keescook@chromium.org>
+Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "Ted Ts'o" <tytso@mit.edu>, Greg KH <gregkh@linuxfoundation.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
+        Dan <dan.carpenter@oracle.com>,
         Andreas Dilger <adilger.kernel@dilger.ca>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -69,7 +70,6 @@ Cc:     bernd@petrovitsch.priv.at, "Ted Ts'o" <tytso@mit.edu>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         David Miller <davem@davemloft.net>,
         Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@kernel.org>,
         Paul Lawrence <paullawrence@google.com>,
@@ -101,23 +101,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 12:54 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+On Mon, Oct 22, 2018 at 12:53 PM Kees Cook <keescook@chromium.org> wrote:
 >
-> Doing both is super ugly.  Let's just do comments until Eclipse gets
-> updated.
+> On Mon, Oct 22, 2018 at 2:41 AM, Miguel Ojeda
+> <miguel.ojeda.sandonis@gmail.com> wrote:
+> > Please take a look at the rationale (also more details at the linked thread):
+> >
+> >   * gcc 7.1 added -Wimplicit-fallthrough at the same time as the
+> > attribute and the comment parsing.
 >
-> I had wanted to move to the attribute because that would simplify things
-> in Smatch but it's not a huge deal to delay for another year.
+> Ah, perfect. I missed this. :)
 
-I can re-send them later on, no problem. On the other hand, doing the
-changes will push tools to get updated sooner ;-)
+No problem! I know the commit message is a bit too long, so I understand :)
 
-If tools were doing something as fancy as comment parsing for
-diagnostics, they should have been updated with the attribute support
-(either gcc's or C++17's) -- it has been more than a year now since
-gcc 7.1 and the C++17 final draft. (Note that this does not apply for
-things like clang, since they weren't doing comment parsing to begin
-with.)
+>
+> >   * clang does *not* support the attribute in C.
+>
+> Well that's not good. :)
+
+I will see with clang if they plan to add it.
+
+(By the way, if the "*not*" sounded rude, sorry; I wanted to emphasize
+it is surprising that it doesn't -- I also assumed the opposite until
+I checked it).
 
 Cheers,
 Miguel
