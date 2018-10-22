@@ -1,91 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B00077D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 02:37:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E0A347D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 05:29:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727138AbeJVKyI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 06:54:08 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:39259 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726949AbeJVKyI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 06:54:08 -0400
-Received: by mail-pg1-f193.google.com with SMTP id r9-v6so18299877pgv.6;
-        Sun, 21 Oct 2018 19:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=MwQK2MU94bA4feWCY+ngFTuKVnx2DkuV61peOqPB8HI=;
-        b=Uab4DWuf+bdSGg0dKmZvLOX4p+BC7rf9ETDnPdYl/HWVsZ/0rEuHy2rm64MU8AgGoh
-         Wyw8Rgr9fT9idD73a8JXNrmmxRiTpIfpYEGbFsbdk/h9wglpcAVKNNctpiSx3QKL6/AW
-         JEkTwmhFeuwQa8IfDbs9ZBqK/P5PVlWVF856BULLu/qyMJPnpISeRx60Av8dFHJZ3Brs
-         DJwRugBMr+rfkikMTl6J1zjIdB75WBoK5a0g2M3zXiB62PrXMyZlVRymb7BFXOybyBmG
-         sxc7xjsjYIhkRhKxn3j/jRGfqX7gMdZ+C1YYVumBaSNgrFwdxp7gbPGPSGztwaZDU/11
-         fk3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=MwQK2MU94bA4feWCY+ngFTuKVnx2DkuV61peOqPB8HI=;
-        b=X8myEVqpfns7Y2NSFfyzIBhZCAe2aotqPEwwfQIEiqyjsWD7R4oz8p/InZwesysGyT
-         w8YLJwI44Vya4ML7a8gF5L1kUiqY2zMOPjjLZivBoy2SmOPPGJZcscKvibVImmNm37UD
-         vvO5GXozQXq/RucWaoJw5WMJGP2SlyzoEkacNPGMbstVMtSTnrS6Nj68R6ii2nKQ5TDM
-         aIgOdcRaa/gLciH3AmC3SSQakxKJ44ZkWDOvumBQnZwkTvxoSLipgWuGEWhDF9WPnwgc
-         TVZ5SzuYQjdraAe4zzHYTbc8eHoWE1mVC0vHhkzF1cbjC0IYgbaVxKDT4itUGMLsgi5K
-         wysA==
-X-Gm-Message-State: ABuFfojTQk3jA7+nWoEZZq2MaSBzo4PdgONvPntNngTQk6YMQsSDdnxM
-        JfyH/lLGv1JcY5rvZyewVvw=
-X-Google-Smtp-Source: ACcGV61TCwHH0k8z8CxjJ1Xu0tCjLDRgkSQWNF3qna4e6lMJsJ2GOBdh2cAahVXBwW32bCCB95BFew==
-X-Received: by 2002:a63:d556:: with SMTP id v22-v6mr39519561pgi.357.1540175856147;
-        Sun, 21 Oct 2018 19:37:36 -0700 (PDT)
-Received: from localhost ([39.7.58.252])
-        by smtp.gmail.com with ESMTPSA id d124-v6sm34166829pfa.163.2018.10.21.19.37.34
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 21 Oct 2018 19:37:34 -0700 (PDT)
-Date:   Mon, 22 Oct 2018 11:37:31 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To:     Calvin Owens <calvinowens@fb.com>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        id S1727496AbeJVNq1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 09:46:27 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:43654 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727256AbeJVNq1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 09:46:27 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w9M5O3Zc045947;
+        Mon, 22 Oct 2018 05:27:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=E5A5za2rA0Pq3Zdyo64Eq27B5Okgep/ng7sHNHSVEI4=;
+ b=BdSpz0C0mJAeNQ16naL5sn07x6cLTkKOc+zbmlTykuw4hMAaDVdXcmuP/gYCJRx+Lsih
+ 2OgbzmxsM0mec3D+BNUkF0K4nbwu2WXUZ6abzRHKawqKjlS5dvFsGrT9YixDrJJPHwUX
+ 4X3rOyhRP+YnffXOSHnhjyDUvzLZC/Dr/zvjj+AqIdBFiPrkwj3eGlFdwZ9epLh96zdJ
+ zvORdKKeuN73c7+pWQ4kutGPCjXO9/ZEcmI8KKIOu8jQVI9vk1C8uKgYKqd45TeEuHPK
+ rt5Anx+ZefyS1NDN02mwhzaSdRHqf2B9bqvTc7REToo1mNWP2rcSMMvbJnQ1eOrDbLUE hw== 
+Received: from aserv0022.oracle.com (aserv0022.oracle.com [141.146.126.234])
+        by userp2130.oracle.com with ESMTP id 2n7ustv77g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 22 Oct 2018 05:27:48 +0000
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w9M5RfF6028321
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 22 Oct 2018 05:27:41 GMT
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w9M5RT25027049;
+        Mon, 22 Oct 2018 05:27:31 GMT
+Received: from mwanda (/129.205.6.86)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Sun, 21 Oct 2018 22:27:28 -0700
+Date:   Mon, 22 Oct 2018 08:27:01 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Steven Rostedt <rostedt@goodmis.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>
-Subject: Re: [PATCH 1/3] printk: Introduce per-console loglevel setting
-Message-ID: <20181022023731.GA508@jagdpanzerIV>
-References: <08c1dc1a96afd6b6aecc5ff3c7c0e62c36670893.1506644730.git.calvinowens@fb.com>
- <20181019000403.GB877@jagdpanzerIV>
- <20181019220314.GA8164@Haydn>
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 0/2] Compiler Attributes: __fallthrough
+Message-ID: <20181022052700.a6v3d6t43kot6yso@mwanda>
+References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
+ <20181021182926.GB6683@kroah.com>
+ <d56762f8856201f520a3ee5553276621237e8e27.camel@perches.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181019220314.GA8164@Haydn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <d56762f8856201f520a3ee5553276621237e8e27.camel@perches.com>
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9053 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1807170000 definitions=main-1810220051
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On (10/19/18 22:03), Calvin Owens wrote:
-> Hi Sergey,
+On Sun, Oct 21, 2018 at 11:52:21AM -0700, Joe Perches wrote:
+> On Sun, 2018-10-21 at 19:29 +0100, Greg Kroah-Hartman wrote:i
+> > On Sun, Oct 21, 2018 at 07:14:12PM +0200, Miguel Ojeda wrote:
+> > > These are two patches are meant to go on top of the rest of the compiler
+> > > attributes series on:
+> > > 
+> > >   https://github.com/ojeda/linux/tree/compiler-attributes
+> > > 
+> > > which will be sent to Greg for the next merge window.
+> > > 
+> > > Please review them and let me know! (specially if someone is against
+> > > __fallthrough for some reason :-).
+> > 
+> > Will this work with all of the static tools that are currently looking
+> > for the comment instead?
 > 
-> It's in-progress, I'm sorry it hasn't happened sooner.
+> Does anyone have a list of the static tools that
+> use comment style fallthrough notations?
+> 
 
-Great!
+It would only be CPPcheck I think.
 
-> By embedding the kobject in the console struct, we end up needing to refactor
-> the console drivers to use the kobject refcount instead of simply calling
-> kfree(), which is what I'm working on. It ends up being tedious but not
-> particularly complicated, my goal is to have this up soon :)
+regards,
+dan carpenter
 
-OK :)
-
-	-ss
