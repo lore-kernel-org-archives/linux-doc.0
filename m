@@ -1,136 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CA7FB7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 21:24:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 188F17D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 21:31:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729493AbeJWFoN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Oct 2018 01:44:13 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46250 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727025AbeJWFoN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Oct 2018 01:44:13 -0400
-Received: by mail-lj1-f195.google.com with SMTP id x3-v6so38363137lji.13;
-        Mon, 22 Oct 2018 14:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CxbGsIEBKJXLFMJMwsrH4depnZVFzjL0UEhUtSqhCgc=;
-        b=P5/KMGNw65Q35bdeFHk1TQv/9QBlY6zVMz/YsUU5nkht3Ajw2TjBSVC+tOAYxsaahq
-         /Zz0/clKS1bRgZGq1LmLA98Z4VTFIaUBuctAkpkCCBlo5kHYz+3qKrQtjI3sh8t+Qp4J
-         Rd7Cve20wKgYW1mNAiSbXhOWDIwfSto+tc4tgON7IP2HDk/1Bal2TqAQOPaVRh7n7iXJ
-         oPadhEGKIjvJ8S7JTFrmyhy8j1b1oxcI45NUbg2GfPDa2pPpWCDOh91138LUFXLYuzvV
-         kKfdxJQ73WIsuZC8J4rcnfP9OzOY9aIIofH3rPXQ0xEYVyNFh/7/SH6Y7NrpNf16WEUY
-         cV/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CxbGsIEBKJXLFMJMwsrH4depnZVFzjL0UEhUtSqhCgc=;
-        b=DpZoPqadcSxYvO5eEys45owPDaQ2HvfwBI3QCFBS+xGkawIm5E4FVUgZIUoG+AeErY
-         UBUzVT7TOfNjeJcmfF8R/udNW6D+U8gMO4MSoK9+EelOFSrlRrCRseuCEl2AdIYxb3QY
-         GJL5hlBF6CakM+mpgYCYwmLJPWRKGrnumV3zea8QIa8RmKvvpOiIUlEDjrLqGRvXGQP7
-         zy7DWZzh9GNmyre/OWhKP4xvHoKM/P6neZvsV6AGR9O1FCmC2oONfASEvNXsyUSznt2O
-         yEvDhofizoxe20CuGxtniRwMzoQZuD95eIfGOxTN10CJAskgRZJbfWY9FYARIt5wCEXk
-         fW3A==
-X-Gm-Message-State: ABuFfoi8hX/GH2dELVaDEuLE8Vl0ReWl369EcAQrMso6N5JRLYEt50R1
-        JDL1HjM6olbgZnJ6bjDElfR1USrNz/mCnMWij4E=
-X-Google-Smtp-Source: ACcGV62GwZBnvhASoZye/JJlSPTuVHnBNfWeevRAXwu7h6CbjLNAm2N0sCfW7qVJaLjC/5bIrUTl5T+1ddKwJx8shNg=
-X-Received: by 2002:a2e:6e08:: with SMTP id j8-v6mr33346152ljc.61.1540243437212;
- Mon, 22 Oct 2018 14:23:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
- <20181021182926.GB6683@kroah.com> <CANiq72kOE0a4M0oCmmiWO9xTFJsybEirwUyb_ZTXpJJhc7O_TA@mail.gmail.com>
- <CAKwvOdn9hOcF01eOmwfnrH_ciFZ4fPaspSzMPiY68o3B0En-VQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdn9hOcF01eOmwfnrH_ciFZ4fPaspSzMPiY68o3B0En-VQ@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 22 Oct 2018 23:23:45 +0200
-Message-ID: <CANiq72ktOU91ghnT4eRPvBzO-xq3_Kq-RCyCB1_VSf2b+17YXw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Compiler Attributes: __fallthrough
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dan <dan.carpenter@oracle.com>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>, "Ted Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1729491AbeJWFv6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Oct 2018 01:51:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59598 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728580AbeJWFv6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Oct 2018 01:51:58 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 71FA4308ED5F;
+        Mon, 22 Oct 2018 21:31:42 +0000 (UTC)
+Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B408B5D9CC;
+        Mon, 22 Oct 2018 21:31:39 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        x86@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Vlastimil Babka <vbabka@suse.cz>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH] Documentation/proc.txt: Add 2 missing fields for /proc/<pid>/status
+Date:   Mon, 22 Oct 2018 17:31:30 -0400
+Message-Id: <1540243890-27970-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Mon, 22 Oct 2018 21:31:42 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 6:54 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Mon, Oct 22, 2018 at 2:48 AM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
-> >
-> > On Sun, Oct 21, 2018 at 8:29 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > Will this work with all of the static tools that are currently looking
-> > > for the comment instead?  I know coverity handles that, what about
-> > > others?
-> >
-> > I will also contact the different tools about this.
->
-> Let's contact the authors of these tools if they don't parse the
-> attribute.  I prefer to have the attributes rather than specifically
-> formatted comments.
+It was found that two of the fields in the /proc/<pid>/status file were
+missing - CapAmb & Speculation_Store_Bypass. They are now added to the
+proc.txt documentation file.
 
-Sorry, not sure what you mean -- isn't that what I said? Greg was
-asking whether tools would support the attribute equally well compared
-to the comment parsing; not the comments.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/filesystems/proc.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->
-> I do think this may be tricky to provide backwards support for though;
-> Miguel, do you have info on which versions of GCC support comments vs
-> attribute?
+diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
+index 22b4b00..36a9e62 100644
+--- a/Documentation/filesystems/proc.txt
++++ b/Documentation/filesystems/proc.txt
+@@ -214,7 +214,7 @@ asynchronous manner and the value may not be very precise. To see a precise
+ snapshot of a moment, you can see /proc/<pid>/smaps file and scan page table.
+ It's slow but very precise.
+ 
+-Table 1-2: Contents of the status files (as of 4.8)
++Table 1-2: Contents of the status files (as of 4.18)
+ ..............................................................................
+  Field                       Content
+  Name                        filename of the executable
+@@ -267,8 +267,10 @@ Table 1-2: Contents of the status files (as of 4.8)
+  CapPrm                      bitmap of permitted capabilities
+  CapEff                      bitmap of effective capabilities
+  CapBnd                      bitmap of capabilities bounding set
++ CapAmb                      bitmap of ambient capabilities
+  NoNewPrivs                  no_new_privs, like prctl(PR_GET_NO_NEW_PRIV, ...)
+  Seccomp                     seccomp mode, like prctl(PR_GET_SECCOMP, ...)
++ Speculation_Store_Bypass    speculative store bypass mitigation status
+  Cpus_allowed                mask of CPUs on which this process may run
+  Cpus_allowed_list           Same as previous, but in "list format"
+  Mems_allowed                mask of memory nodes allowed to this process
+-- 
+1.8.3.1
 
-It is in the commit message:
-
-    """
-    In C mode, GCC supports the __fallthrough__ attribute since 7.1,
-    the same time the warning and the comment parsing were introduced.
-    """
-
-Cheers,
-Miguel
