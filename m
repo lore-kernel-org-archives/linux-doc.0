@@ -1,61 +1,32 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E0DE07D090
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 09:52:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C8A4B7D090
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 09:54:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728410AbeJVSKB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 14:10:01 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:41331 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728468AbeJVSKB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 14:10:01 -0400
-Received: by mail-lj1-f193.google.com with SMTP id u21-v6so36334494lja.8;
-        Mon, 22 Oct 2018 02:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ozISLo3xAi9TSU5L7p7SKN5+d47Xsy+1ctEHN8dJBWk=;
-        b=fHvLiAKway712yQlSAlR/phPbI0sBqLJ1r5NThC+Snj91UrsM/uuzcbSkL0O6xoxNu
-         SNc1rAwajjmjWPCU3mToGljfwOzCYNgoD1tPkg7F7Kv9aLHbw671AGLO5ozfChqpfTcH
-         3LEhWVHGw2crLAVcBFYAuI58v/VrpL9xxPTA4qRMYMfpqI/aS06L+kU1EXqQxMxb7DQb
-         RHkLFIO7mc6Sdf4iYSwkaD5EdridUsOY1dRi7tk7l7D/Wffn8ZSz71bwPBbsxz6ICpxE
-         s99ofowUWeHxP2EPdsq3lDPtkhPhUIL+6CFpt/4KYBhDQS4kxn0lATpdJa/uul1HO/5I
-         sZ5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ozISLo3xAi9TSU5L7p7SKN5+d47Xsy+1ctEHN8dJBWk=;
-        b=EI6saGjdvhrP7haEhUeGkCsVDSer7vKKcgC2oUEfGMbIjG1xSWgDC2MGjg070IRizr
-         xbahJ1n3KLLoCq4ujr9D/FuGAiobwNhgPhDYNronZnRvNTzShr5qsJ3aivQ7YehFfSNW
-         athFDpiFS16V841clJ9x2eb8bJZ/Bgvt5edQVAA8259dzOZEwBZlZ3vKsoxnNHWyUxAp
-         s5HCEgJjtrcXz2lt5ORAWsfzY0i1VpFZJjsBv/HnKKw6ZIhxkiBjtvFR7rVplE9pRyAe
-         r11GanQTa2xMtTGpFA9upuS5KQAzA3UR86wWjjAPbtnebFZq2mAQB2dG+/srjMzK7zKq
-         6IyQ==
-X-Gm-Message-State: ABuFfojsBRdDUp7S2egx+fvNsSdXtT52Qk3cNCkAx/pQpTjQIlAVduR4
-        r8SwAhaAyJKzTHT0ZVawbNPtlgIJWvJVPnyLwrA=
-X-Google-Smtp-Source: AJdET5dSofrrtfZt2GwnlLDQOUZJbGFiD0o1r0By8H6HhInbXEa8/2npupJnE8IbaymFRE8UeIYlK43epsx7o43H2dY=
-X-Received: by 2002:a2e:240b:: with SMTP id k11-v6mr7325701ljk.139.1540201930509;
- Mon, 22 Oct 2018 02:52:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
- <20181021171414.22674-3-miguel.ojeda.sandonis@gmail.com> <f46baa5bb0e3373c89d09b6e0d15170902e5f55c.camel@perches.com>
-In-Reply-To: <f46baa5bb0e3373c89d09b6e0d15170902e5f55c.camel@perches.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 22 Oct 2018 11:51:59 +0200
-Message-ID: <CANiq72=Eo-c7M1g1gmE0kXNpxe4vkOBT54n9gMB9UBSEfzTMAw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Compiler Attributes: auxdisplay: panel: use __fallthrough
-To:     Joe Perches <joe@perches.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dan <dan.carpenter@oracle.com>,
+        id S1728464AbeJVSLy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 14:11:54 -0400
+Received: from esgaroth.petrovitsch.at ([78.47.184.11]:3330 "EHLO
+        esgaroth.tuxoid.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728317AbeJVSLy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 14:11:54 -0400
+X-Greylist: delayed 354 seconds by postgrey-1.27 at vger.kernel.org; Mon, 22 Oct 2018 14:11:53 EDT
+Received: from thorin.petrovitsch.priv.at (80-110-99-3.cgn.dynamic.surfer.at [80.110.99.3])
+        (authenticated bits=0)
+        by esgaroth.tuxoid.at (8.15.2/8.15.2) with ESMTPSA id w9M9g6ie022922
+        (version=TLSv1 cipher=AES128-SHA bits=128 verify=NO);
+        Mon, 22 Oct 2018 11:42:16 +0200
+Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
+ (gcc >= 7.1)
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        Dan Carpenter <dan.carpenter@oracle.com>,
         Andreas Dilger <adilger.kernel@dilger.ca>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -63,7 +34,7 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Olof Johansson <olof@lxom.net>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
+        "David S . Miller" <davem@davemloft.net>,
         Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Kees Cook <keescook@chromium.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -78,59 +49,71 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
         Martin Sebor <msebor@gmail.com>,
         Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>, "Ted Ts'o" <tytso@mit.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
         Dominique Martinet <asmadeus@codewreck.org>,
         Stefan Agner <stefan@agner.ch>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
         linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
+ <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com>
+ <20181021222712.GI1617@thunk.org>
+From:   Bernd Petrovitsch <bernd@petrovitsch.priv.at>
+Message-ID: <8fb78062-b6d4-6f2d-d943-44bec6b95ff0@petrovitsch.priv.at>
+Date:   Mon, 22 Oct 2018 11:41:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <20181021222712.GI1617@thunk.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-DCC-debian-Metrics: esgaroth.tuxoid.at 1169; Body=43 Fuz1=43 Fuz2=43
+X-Virus-Scanned: clamav-milter 0.97 at esgaroth.tuxoid.at
+X-Virus-Status: Clean
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 21, 2018 at 8:11 PM Joe Perches <joe@perches.com> wrote:
->
-> On Sun, 2018-10-21 at 19:14 +0200, Miguel Ojeda wrote:
-> > Let gcc know these cases are meant to fall through to the next label
-> > by annotating them with the new __fallthrough statement attribute;
-> > and remove the comment since it conveys the same information
-> > (which was also parsed by gcc to suppress the warning).
->
-> Instead of many individual conversion patches,
-> perhaps a script to do all the conversions at once.
+On 22/10/2018 00:27, Theodore Y. Ts'o wrote:
+> On Sun, Oct 21, 2018 at 07:14:13PM +0200, Miguel Ojeda wrote:
+>> From the GCC manual:
+>>
+>>   fallthrough
+>>
+>>     The fallthrough attribute with a null statement serves as a
+>>     fallthrough statement. It hints to the compiler that a statement
+>>     that falls through to another case label, or user-defined label
+>>     in a switch statement is intentional and thus the -Wimplicit-fallthrough
+>>     warning must not trigger. The fallthrough attribute may appear
+>>     at most once in each attribute list, and may not be mixed with
+>>     other attributes. It can only be used in a switch statement
+>>     (the compiler will issue an error otherwise), after a preceding
+>>     statement and before a logically succeeding case label,
+>>     or user-defined label.
+>>
+>>   https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html
+> 
+> Do we know if coverity understands the fallthrough attribute?  One of
+> the reasons why I started using /* fallthrough */ is because it kept
+> Coverity happy.
 
-Note that this was only an example of the attribute (some people asked
-for an example when introducing another one, so I preemptively did it
-for this one).
+FWIW, current "eclipse" has the same "problem".
 
-Doing the conversion (and how :-) I left it for afterwards, if people
-agree with the attribute.
+> If the conversion from /* fallthrough */ to the __fallthrough__
+> attribute means that we start gethting a lot of Coverity warnings,
 
->
-> Maybe:
->
-> pattern='(?:\/\*\s*fall(?:\s*|\s*\-\s*)thr(?:u|ough)\s*\*\/|\/\/\s*fall\s*thr(?:u|ough)\s*$)'
-> git grep -P -i --name-only "$pattern" -- '*.[ch]' |
->     xargs perl -p -i -e "s/$pattern/__fallthrough;/gi"
+We could keep both.
 
-
-By the way, I checked first if coccinelle could match input comments,
-but it doesn't, according to Julia. I am also thinking whether a
-compiler plugin could easily do this, but I don't have my hopes high
-given these are comments...
-
-Also, regardless of how it is done, the patches need to be sent
-individually to maintainers, no? I have a vague memory that big &
-automated conversions were a bit frozen upon in the kernel. Greg...?
-
-Cheers,
-Miguel
+MfG,
+	Bernd
+-- 
+Bernd Petrovitsch                  Email : bernd@petrovitsch.priv.at
+                     LUGA : http://www.luga.at
