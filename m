@@ -1,141 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0DFA77D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 13:35:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 135867D08E
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 13:40:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728412AbeJVVx4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 17:53:56 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:51062 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728789AbeJVVxF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Oct 2018 17:53:05 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 4415A2090A; Mon, 22 Oct 2018 15:34:27 +0200 (CEST)
-Received: from localhost.localdomain (aaubervilliers-681-1-25-52.w90-88.abo.wanadoo.fr [90.88.145.52])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 1BA49209DA;
-        Mon, 22 Oct 2018 15:34:11 +0200 (CEST)
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
+        id S1727702AbeJVV6j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 17:58:39 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:39184 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727210AbeJVV6j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 17:58:39 -0400
+Received: by mail-lf1-f65.google.com with SMTP id p11-v6so3979338lfc.6;
+        Mon, 22 Oct 2018 06:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C8sQfTUcLqE8TApD3u96Q2vEEW2OfQeFAA+2Uyiw28k=;
+        b=QNV+Rb8mbd8RR9TR0kmkIsA4awKsTC6rLUIYmb8YNk9PiJtpkWrSFlPGV93GEvQR/b
+         MOe4yx++K+9FYqaoG9IiWD5jYohQJeNrZjBzHx4ys/ToJrd4xQ4VT6eSqKhpggV9RLl1
+         mGalG7Ty0J8qJEriXY0WptLIhSU6iSrpFCwdLmHgPmD8q9EXaDh9j5ap//NPjkd80BZc
+         krQ541rKPQTtEkus5EGm6bZWbbXgjSrr1N8gQ4i5W8r1slGavX+kXEaCPelnwOw/ofwZ
+         7RQdX1srDOGiA8K+gf8H5YQhc73cyVDswNflrQhhpobEx+wDMqgOp5XZLllDEnqjDmgp
+         ofeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C8sQfTUcLqE8TApD3u96Q2vEEW2OfQeFAA+2Uyiw28k=;
+        b=aqxoMdP03JKQJ1oQuLwF3JjfIjZptYMXHv+MKO1BKWNMdBQLx/fs7z4lOmGGM4sqoj
+         UV92krHFzwhQ/sMSvTW3kXkbmVadtur1SYI9OQidwhWFMx1GeSn0S01sCQaLtibemq7B
+         IJ3XS1HbPYe50TvN1aiHi82zEoQ/cvIAd5cmVm0XKJkK/r9uUZ7DYC9JQxoJc7i/MxzW
+         c8sYtlS+Z11z3GORpmC2K76uS8orE9tCoh49ugaGBx8prNuwte3SilnjazX7nkvg+xuG
+         vxC65ESNcK+5dCcSDerjYWT/DDB8oaGjH1owOdMuHH3l964SSDHwowqV8K901h4LaWBo
+         HK4g==
+X-Gm-Message-State: ABuFfohMumVnMZ13yggc56KQTRtCq2H6aPBbWfqAYWbnPbx3AtjtJb8C
+        luHHuVnMD+Y8Svb6kevAUwtC0BWsHze2vmUzPSI=
+X-Google-Smtp-Source: ACcGV62YuzbWOrVcbB77xv1qRltSvNdQ0hyhvNFXhF+NpIqYY0RsAr5673XN9NRVmXRiPfuJa5ilwyBpz0U4Xh5VEa0=
+X-Received: by 2002:a19:11c2:: with SMTP id 63mr9060920lfr.131.1540215598557;
+ Mon, 22 Oct 2018 06:39:58 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
+ <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <20181021222712.GI1617@thunk.org>
+ <CANiq72mXV6WTyHXNZJDTfFOpPrXD0zD6cB30bGOuKO44AvRiog@mail.gmail.com>
+ <CAGXu5jKb-0H+smRAW6ngQKDZ-PbTThhMwhmu34iB8vjTa-4H8Q@mail.gmail.com>
+ <CANiq72n4+HDXPqr7xySSGx49g8vEcXaxO7a-By9cSg7YSxOS_A@mail.gmail.com>
+ <CAGXu5jLzfuEnWpJFL1Caq94nKbPps-QTaYGpge2CfZWj1Zzf9g@mail.gmail.com> <CANiq72kpCoVwCzMUVYB_km+9xr41gBZLo_K203e_t4_QZ9-r1Q@mail.gmail.com>
+In-Reply-To: <CANiq72kpCoVwCzMUVYB_km+9xr41gBZLo_K203e_t4_QZ9-r1Q@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 22 Oct 2018 15:39:47 +0200
+Message-ID: <CANiq72k_uBxjzguG8YBmSaV5XUYoOsuHk+UHFdgCarr4--uGDA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
+ (gcc >= 7.1)
+To:     Kees Cook <keescook@chromium.org>
+Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "Ted Ts'o" <tytso@mit.edu>, Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Dan <dan.carpenter@oracle.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        David Miller <davem@davemloft.net>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Joe Perches <joe@perches.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>
-Subject: [PATCH v9 9/9] dt-bindings: gpio: Add bindings for Cadence I3C gpio expander
-Date:   Mon, 22 Oct 2018 15:34:04 +0200
-Message-Id: <20181022133404.2061-10-boris.brezillon@bootlin.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181022133404.2061-1-boris.brezillon@bootlin.com>
-References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the Cadence I3C gpio expander bindings.
+On Mon, Oct 22, 2018 at 1:24 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Mon, Oct 22, 2018 at 12:53 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Mon, Oct 22, 2018 at 2:41 AM, Miguel Ojeda
+> > <miguel.ojeda.sandonis@gmail.com> wrote:
+> >
+> > >   * clang does *not* support the attribute in C.
+> >
+> > Well that's not good. :)
+>
+> I will see with clang if they plan to add it.
+>
 
-Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
----
-Changes in v9:
-- Add Linus R-b
+So I have looked in the clang sources and I have seen that clang is
+already preparing for C2x: since clang >= 6 we can actually enable the
+C++-like attributes with "-fdouble-square-bracket-attributes" in C
+mode, which in turn makes the warning work in C mode and can be
+suppressed with [[fallthrough]]. This would give us the warning also
+in clang, which would be a win vs. the comments. Nick?
 
-Changes in v8:
-- None
+However, I don't see a way to enable [[fallthrough]] in C mode for gcc
+>= 7.1 -- from a quick look, the C parser does not know about [[]]
+attributes, so I don't think we can use [[fallthrough]] for both
+compilers (yet).
 
-Changes in v7:
-- None
-
-Changes in v6:
-- None
-
-Changes in v5:
-- Add Rob's R-b
-
-Changes in v4:
-- Use GPIO_ and IRQ_TYPE_ macros instead of raw numbers
-- Fix the unit-address in the example
----
- .../bindings/gpio/gpio-cdns-i3c.txt           | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
-
-diff --git a/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt b/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
-new file mode 100644
-index 000000000000..d0155a9cea79
---- /dev/null
-+++ b/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
-@@ -0,0 +1,39 @@
-+* Cadence I3C GPIO expander
-+
-+The Cadence I3C GPIO expander provides 8 GPIOs controllable over I3C.
-+This GPIOs can be configured in output or input mode and if they are in input
-+mode they can generate IBIs (In Band Interrupts).
-+
-+Required properties for GPIO node:
-+- reg : 3 cells encoding the I3C static address (none in our case) and the I3C
-+	Provisional ID. See Documentation/devicetree/bindings/i3c/i3c.txt for
-+	more details.
-+	Should be <0x0 0x392 0x0>.
-+- gpio-controller : Marks the device node as a gpio controller.
-+- #gpio-cells : Should be two. The first cell is the pin number and
-+  the second cell is used to specify the gpio polarity (GPIO_ACTIVE_HIGH or
-+  GPIO_ACTIVE_LOW)
-+- interrupt-controller: Marks the device node as an interrupt controller.
-+- #interrupt-cells : Should be 2. The first cell is the GPIO number.
-+  The second cell is used to specify trigger type and level flags.
-+  The following trigger types are accepted (see
-+  <dt-bindings/interrupt-controller/irq.h> for their definition):
-+	IRQ_TYPE_EDGE_RISING
-+	IRQ_TYPE_EDGE_FALLING
-+	IRQ_TYPE_EDGE_BOTH
-+	IRQ_TYPE_LEVEL_HIGH
-+	IRQ_TYPE_LEVEL_LOW
-+
-+Example:
-+
-+	i3c-master@xxx {
-+		...
-+		i3c_gpio_expander: gpio@0,39200000000 {
-+			reg = <0 0x392 0x0>;
-+			gpio-controller;
-+			#gpio-cells = <2>;
-+			interrupt-controller;
-+			#interrupt-cells = <2>;
-+		};
-+		...
-+	};
--- 
-2.17.1
-
+Cheers,
+Miguel
