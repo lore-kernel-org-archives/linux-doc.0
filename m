@@ -3,57 +3,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 29C4E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 16:54:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C68177D8D7
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 17:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728176AbeJWBN5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 21:13:57 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:38922 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728169AbeJWBN5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 21:13:57 -0400
-Received: by mail-pf1-f196.google.com with SMTP id c25-v6so20208234pfe.6
-        for <linux-doc@vger.kernel.org>; Mon, 22 Oct 2018 09:54:40 -0700 (PDT)
+        id S1728772AbeJWBhT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 21:37:19 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:39464 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728764AbeJWBhT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 21:37:19 -0400
+Received: by mail-pl1-f194.google.com with SMTP id e67-v6so10394219plb.6
+        for <linux-doc@vger.kernel.org>; Mon, 22 Oct 2018 10:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=a8cmPZrGRMo0J2wzmUeELFcmTDZd1pKGdJMqmndjEdk=;
-        b=S/prikufPsgp7CDFHp1vLGIE6cWbzKY72J5VsSAGg9njlpBWqaaEsmAc9f5Kx+yYiW
-         +BSmD/MrgyF8OqHNYasXNYHVmhn0h+p/t8PmT0dp5CiNvZxlBB9zZRZD2k9RDRgtl+1Q
-         BiLXmdeEXHSZRzFTikEwQQENcNM3jGzfn43HAAXnbdyjKaHy3oL7ONg5vwBnMPqvKnR6
-         A47C0hbYMxLB1YKCr9k9jQk+TIGXsqOJXkvBuEOigQ6jVgl0fEKo7zDVRzAzQRuTQoix
-         +6GAdn4INGy690qfYyL4p5Q1lowRFkaGVNtKtXkH2eBpf8bd95idK7WEXz3iZXecR5G1
-         XtNA==
+        bh=oA7xr5QeyWJpzokAhtSgAZl5pfjfuog8CUj3NpYcIkc=;
+        b=pToAUWGJxfD4G2VB3Ervq0Msf+5dcWN7zvEuegKdnTlgHJ6Qb5lIIqMf+tXcv3ld2u
+         z2IqNhpTlOpPtqgJwA1Sc2LqFliQGIDNdBy4/YEwO+GChHT4cffCgZCainXaRHmLxwW7
+         BuSRHuw/EFb71uQVQsUJeERaWGiSRsQzVBAGza763li/0MygUMaVdk3VVOFJLqxCG6Ma
+         5eZIldSOi2/Ar3BQz+8z3MAj4WcnYeGi252NgWIV3i/iakLxgJUCPFY5s/VyvZhzI1Z+
+         qPoioPtnB9k/M6UpmBheLZ5yUvcuDLUuxYTvw2cxkRmiBFenH8/7GZHJRkC+zm0+79bQ
+         4sDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=a8cmPZrGRMo0J2wzmUeELFcmTDZd1pKGdJMqmndjEdk=;
-        b=D9h3QIDzPIZjxcf1gc+mRMy3zKJATEbQxYgJVJ7nMuTnqXsaTLMszXlu8iP1Tbtugt
-         MZ7MSQbup/2N3hlxOWHAPNuKc/qO9rlPKa828bYAZPNfZJAdUAoyAdRojjdVHgGaMsbZ
-         +XacfM8r4XajmyMPZEC7xYiGDpbIOuRvdlfu1J4guLt9N2pFrMi9fKPgTx1o3B9ZDIPV
-         huDYZ0bOgpzc3lbmfQdkpyqqZyz/FFR76fLCSi/JhnEO/lOkBl6wc5vFt9i6S0WpmS+p
-         WDKQ2JPUAGUs0UBWGqkrO47fUxpuUg3b+LfMW47F+dUS7AvqVQfcyza/mer47VfrUddb
-         pLKw==
-X-Gm-Message-State: ABuFfoinMDHV84sWdtvr6HU64iQfhy+4DSV4WAXIfwKtgfs7PjwYrO0a
-        IwKY3p79QGx297lWWqlYC1QUQD4yfPin3XA8WBZJqA==
-X-Google-Smtp-Source: ACcGV62mr4xbVj7AWWPJoHqbyMeulVaGWZvjfq30075bzQV8GRmS2j7gedlEtHaTUXAW1EBM3QfwstmQ1+Bk8z3F9hM=
-X-Received: by 2002:a62:4b09:: with SMTP id y9-v6mr46361227pfa.93.1540227279339;
- Mon, 22 Oct 2018 09:54:39 -0700 (PDT)
+        bh=oA7xr5QeyWJpzokAhtSgAZl5pfjfuog8CUj3NpYcIkc=;
+        b=ih7deGHcbgenUb+/O8tXdoEBPREFPWhJFOqZ7wL9uVlcAcdO+bGyElynpoucADmtZu
+         MjqQqiFy9ldNiTjlf2f0uTpfnBzEC/kjAOSHtaijpDzU5BcUsjpFo9haLpHYAgZH3Cw/
+         1zfcv3KenQKLYKSM3Vs2Qy54nSD6g5PlNGN+2aRhRR8fq/yHUIMJzRBbzxN3Edlnj0+r
+         gLHmy0L6ADzIId2ZuP2vbTTsD+wIQ5/VFk9l+O24vP/qBi3SjIcW9mWlf8U5HcGScsFU
+         tmb765j11rUjY+DjZxgOZ6VuZaz5ytqyxKxioTMvyCcvnMrNExoPoiCvW8r1TXURRjLa
+         SGrw==
+X-Gm-Message-State: AGRZ1gJZZ3Su3mHS7XaSU6c09q+tt6Er33ithidVxLvS15J+jW+b3QNJ
+        lOGcroTUawheb81RV6qhxjSC/2VXdCkY0PIMNVclew==
+X-Google-Smtp-Source: AJdET5dzW23d7hR6omCsRZMOYe51E5ruiFFKQlqciLo2n7llX+F9ctIRc9CJ5Qz68T4o0wZZpW6SdnWrA8XKegdf12A=
+X-Received: by 2002:a17:902:b412:: with SMTP id x18-v6mr11189744plr.13.1540228676261;
+ Mon, 22 Oct 2018 10:17:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
- <20181021182926.GB6683@kroah.com> <CANiq72kOE0a4M0oCmmiWO9xTFJsybEirwUyb_ZTXpJJhc7O_TA@mail.gmail.com>
-In-Reply-To: <CANiq72kOE0a4M0oCmmiWO9xTFJsybEirwUyb_ZTXpJJhc7O_TA@mail.gmail.com>
+ <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <20181021222712.GI1617@thunk.org>
+ <CANiq72mXV6WTyHXNZJDTfFOpPrXD0zD6cB30bGOuKO44AvRiog@mail.gmail.com>
+ <CAGXu5jKb-0H+smRAW6ngQKDZ-PbTThhMwhmu34iB8vjTa-4H8Q@mail.gmail.com>
+ <CANiq72n4+HDXPqr7xySSGx49g8vEcXaxO7a-By9cSg7YSxOS_A@mail.gmail.com> <CANiq72kNnrhi8OPbF7P+Rw4SGYu=JuvhDKtzGtG2J5AOoC1-Dw@mail.gmail.com>
+In-Reply-To: <CANiq72kNnrhi8OPbF7P+Rw4SGYu=JuvhDKtzGtG2J5AOoC1-Dw@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 22 Oct 2018 09:54:27 -0700
-Message-ID: <CAKwvOdn9hOcF01eOmwfnrH_ciFZ4fPaspSzMPiY68o3B0En-VQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Compiler Attributes: __fallthrough
+Date:   Mon, 22 Oct 2018 10:17:44 -0700
+Message-ID: <CAKwvOdn1TOzZYg_i0zB0rU+K3jaQQ8XmWnLXz01NCG9V+8PxHw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
+ (gcc >= 7.1)
 To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
+Cc:     Kees Cook <keescook@chromium.org>, gustavo@embeddedor.com,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Greg KH <gregkh@linuxfoundation.org>,
         LKML <linux-kernel@vger.kernel.org>, dan.carpenter@oracle.com,
         adilger.kernel@dilger.ca,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
@@ -62,7 +68,6 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         "David S. Miller" <davem@davemloft.net>,
         Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@kernel.org>,
         Paul Lawrence <paullawrence@google.com>,
@@ -74,7 +79,6 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         paul.burton@mips.com, David Rientjes <rientjes@google.com>,
         Willy Tarreau <w@1wt.eu>, msebor@gmail.com, sparse@chrisli.org,
         Jonathan Corbet <corbet@lwn.net>,
-        "Theodore Ts'o" <tytso@mit.edu>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>, joe@perches.com,
         Arnd Bergmann <arnd@arndb.de>, asmadeus@codewreck.org,
@@ -91,25 +95,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 2:48 AM Miguel Ojeda
+On Mon, Oct 22, 2018 at 2:43 AM Miguel Ojeda
 <miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> On Sun, Oct 21, 2018 at 8:29 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
+> On Mon, Oct 22, 2018 at 11:41 AM Miguel Ojeda
+> <miguel.ojeda.sandonis@gmail.com> wrote:
 > >
-> > Will this work with all of the static tools that are currently looking
-> > for the comment instead?  I know coverity handles that, what about
-> > others?
+> >   * clang does *not* support the attribute in C.
 >
-> I will also contact the different tools about this.
+> ...nor the warning at all, by the way (which is why this is OK).
+>
+> Cheers,
+> Miguel
 
-Let's contact the authors of these tools if they don't parse the
-attribute.  I prefer to have the attributes rather than specifically
-formatted comments.
+Oh? We're going through and annotating all of Android's C++ source
+right now with it.
+https://clang.llvm.org/docs/DiagnosticsReference.html#wimplicit-fallthrough
 
-I do think this may be tricky to provide backwards support for though;
-Miguel, do you have info on which versions of GCC support comments vs
-attribute?
+Though it looks like the attribute syntax I like from GCC is not yet
+supported in Clang.
+https://bugs.llvm.org/show_bug.cgi?id=37135
+https://github.com/ClangBuiltLinux/linux/issues/235
+I'll take a look at adding support.
+
+So Kees sent me this embarrassing example:
+https://godbolt.org/z/gV_c9_
+(try changing the language from C++ to C; it works)!  That's embarrassing!
+https://bugs.llvm.org/show_bug.cgi?id=39382
+https://github.com/ClangBuiltLinux/linux/issues/236
+Will get these both fixed up.
 -- 
 Thanks,
 ~Nick Desaulniers
