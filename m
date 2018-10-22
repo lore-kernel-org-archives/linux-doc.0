@@ -1,49 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD93A7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 10:30:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 95DD37D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 10:48:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728372AbeJVSr7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 14:47:59 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:57058 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727797AbeJVSr7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 14:47:59 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w9MANgJK097602;
-        Mon, 22 Oct 2018 10:28:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=WYiFHO05oFRZx7Uwgb8OEXnSI45jD9jUBA6q1zD7taU=;
- b=YmTupfTCSnUBBUkgueI4VlF8KbCzWt9wYp4hZbxmCT7PK/kXA4jHg2FpLMoLXpHoymFq
- 4PtAxvxiVoUjAKgeIwVH8+ZLi7x8TCv73AURWSaYhgrHfzbnN8R6D3MjTCyciEFIQED2
- iTfZ7rvqQPHyVg6CJAAIiWL7bI9/geq6/Ncm087TRaK6qS9cf3cLi397sVkNsNt+tzdn
- 7LjTYwSeYNquEP6PDXQ0jjclvqvFp/jg741vltZ1YST1WKJDgRQVny/zA/3kTcbc9vI9
- 62WRTCSHRqENtSUmyipuaRzK6Gg7q5b3sO09joSTfP81xg99UcWm1IrsVqCLpsxCYSNL mg== 
-Received: from userv0021.oracle.com (userv0021.oracle.com [156.151.31.71])
-        by userp2130.oracle.com with ESMTP id 2n7ustwmue-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 Oct 2018 10:28:15 +0000
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w9MASFg1013826
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 Oct 2018 10:28:15 GMT
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w9MAS4R8001605;
-        Mon, 22 Oct 2018 10:28:06 GMT
-Received: from mwanda (/129.205.6.86)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 22 Oct 2018 03:28:03 -0700
-Date:   Mon, 22 Oct 2018 13:27:43 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Bernd Petrovitsch <bernd@petrovitsch.priv.at>
+        id S1728646AbeJVTF7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 15:05:59 -0400
+Received: from esgaroth.petrovitsch.at ([78.47.184.11]:3668 "EHLO
+        esgaroth.tuxoid.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727857AbeJVTF7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 15:05:59 -0400
+Received: from [10.68.100.236] (h10-gesig.woeg.acw.at [217.116.178.11] (may be forged))
+        (authenticated bits=0)
+        by esgaroth.tuxoid.at (8.15.2/8.15.2) with ESMTPSA id w9MAj8vG024057
+        (version=TLSv1 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+        Mon, 22 Oct 2018 12:45:09 +0200
+Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
+ (gcc >= 7.1)
+To:     Dan Carpenter <dan.carpenter@oracle.com>
 Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -82,68 +60,115 @@ Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
         linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
- (gcc >= 7.1)
-Message-ID: <20181022102743.nua5fgbscyeymzal@mwanda>
 References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
  <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com>
  <20181021222712.GI1617@thunk.org>
  <8fb78062-b6d4-6f2d-d943-44bec6b95ff0@petrovitsch.priv.at>
+ <20181022102743.nua5fgbscyeymzal@mwanda>
+From:   Bernd Petrovitsch <bernd@petrovitsch.priv.at>
+Message-ID: <1474d995-1b5a-2efb-f077-33eb4a5d9e31@petrovitsch.priv.at>
+Date:   Mon, 22 Oct 2018 12:45:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8fb78062-b6d4-6f2d-d943-44bec6b95ff0@petrovitsch.priv.at>
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9053 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1807170000 definitions=main-1810220093
+In-Reply-To: <20181022102743.nua5fgbscyeymzal@mwanda>
+Content-Type: multipart/mixed;
+ boundary="------------6B430408704DD0FCAEB2EC1A"
+Content-Language: en-US
+X-DCC-EATSERVER-Metrics: esgaroth.tuxoid.at 1166; Body=43 Fuz1=43 Fuz2=43
+X-Virus-Scanned: clamav-milter 0.97 at esgaroth.tuxoid.at
+X-Virus-Status: Clean
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 11:41:56AM +0200, Bernd Petrovitsch wrote:
-> On 22/10/2018 00:27, Theodore Y. Ts'o wrote:
-> > On Sun, Oct 21, 2018 at 07:14:13PM +0200, Miguel Ojeda wrote:
-> >> From the GCC manual:
-> >>
-> >>   fallthrough
-> >>
-> >>     The fallthrough attribute with a null statement serves as a
-> >>     fallthrough statement. It hints to the compiler that a statement
-> >>     that falls through to another case label, or user-defined label
-> >>     in a switch statement is intentional and thus the -Wimplicit-fallthrough
-> >>     warning must not trigger. The fallthrough attribute may appear
-> >>     at most once in each attribute list, and may not be mixed with
-> >>     other attributes. It can only be used in a switch statement
-> >>     (the compiler will issue an error otherwise), after a preceding
-> >>     statement and before a logically succeeding case label,
-> >>     or user-defined label.
-> >>
-> >>   https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html
-> > 
-> > Do we know if coverity understands the fallthrough attribute?  One of
-> > the reasons why I started using /* fallthrough */ is because it kept
-> > Coverity happy.
-> 
-> FWIW, current "eclipse" has the same "problem".
-> 
-> > If the conversion from /* fallthrough */ to the __fallthrough__
-> > attribute means that we start gethting a lot of Coverity warnings,
-> 
-> We could keep both.
+This is a multi-part message in MIME format.
+--------------6B430408704DD0FCAEB2EC1A
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-What does that even mean?  Use both the attribute and the comment until
-Eclipse is updated?
+On 22/10/18 12:27, Dan Carpenter wrote:
+[...]
+> What does that even mean?  Use both the attribute and the comment until=
 
+> Eclipse is updated?
+>=20
+> 	case 3:
+> 		frob();
+> 		__fall_through; /* fall through */
+> 	case 4:
+>=20
+> That seems like a wrong idea...
+
+It's more like
+----  snip  ----
 	case 3:
 		frob();
-		__fall_through; /* fall through */
+		__fall_through;
+		/* no break - fall through */
 	case 4:
+----  snip  ----
+as "eclipse" doesn't accept anything else.
 
-That seems like a wrong idea...
+And yes, it's far from "beautiful" but I hadn't time to dig into
+eclipses innards to fix that.
 
-regards,
-dan carpenter
+MfG,
+	Bernd
+--=20
+"I dislike type abstraction if it has no real reason. And saving
+on typing is not a good reason - if your typing speed is the main
+issue when you're coding, you're doing something seriously wrong."
+    - Linus Torvalds
+
+--------------6B430408704DD0FCAEB2EC1A
+Content-Type: application/pgp-keys;
+ name="pEpkey.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="pEpkey.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D=3D
+=3Dv2Yn
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------6B430408704DD0FCAEB2EC1A--
