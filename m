@@ -1,304 +1,150 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1523E7D8BB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 20:45:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 676CA7D8BB
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 20:59:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729173AbeJWFFz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Oct 2018 01:05:55 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:46334 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727107AbeJWFFy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Oct 2018 01:05:54 -0400
-Received: by mail-ot1-f67.google.com with SMTP id o21so41440993otb.13;
-        Mon, 22 Oct 2018 13:45:48 -0700 (PDT)
+        id S1728896AbeJWFTk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Oct 2018 01:19:40 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:43762 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727063AbeJWFTk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Oct 2018 01:19:40 -0400
+Received: by mail-lf1-f66.google.com with SMTP id p34-v6so31523864lfg.10;
+        Mon, 22 Oct 2018 13:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8HCiXpAVJicrn/bOthmQj0WB0woFgZYyFT6m/r7QNpY=;
+        b=ZkAgiFPyrfWPWVMR0JZ/oXcVFh2dKX0j7AQd5OHh8vLR13r/DSzT8FYSHiWX7xa5RZ
+         ooCjqme8iEXBt4XaOibLXevj0ppLpsLvzBqlOSrPYeSZE6yTsGXT/aXlHOQA6BpiKumQ
+         JlTJCMZAAz9UyjFCveu38LyPF+6epny6/aby7e0Oaly4DEaTB1Ac8sM4vsCFTZAYRbcb
+         J8/A2Si1FvpRLHyRlD5EcnwNVYsvvblHu48vEu9doJ/6PRNk/Hn5Qag6Xf+HDn4nRl2+
+         SAtWEamP0zg4jcmL1Z6aLcbYCZ1p3OhNFS6N2p96A7G98YmT7u8p5yE1b5A5iEl+WksM
+         Jdyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GFz+7S+lN3bXIe1riFyhn7AdxhqAvq+0aDyN8/3BmEM=;
-        b=M24foH0kt8YcPSMA3f+vKWI1+PsXC6gy+agyV7yngAPdBZaH7qbAFPCVT3OOrhjR3G
-         pMc9dZQTanYS1yMuzm0m/dnX603mt/hKEeS3qFLotbAMCqzJ9Mowt2RkuWUU/Bcgt8hX
-         MLUAD1pYUBW0B2aIylbRJghsGRmkSlPUC5O1/BTtRZEmKrMMQGb8SyAAQeoBsbGQXRv8
-         eRQmjA40B+p+ssTfd1P3hWe83TKl0vVcbdvQbzaJtUjxhKK3teGGEUHBB3nAvOczhtYH
-         sFfS+SJ7pYXUdRrYpvZKduSGvDovNA1/aToQ3iAadpNXG0MPkU6zR3egpJsrE1SCI0Mb
-         hqpQ==
-X-Gm-Message-State: ABuFfogtOoKs9zE2bwQtwxXTBJPehvaUSWJX+6fxhIzWHEj8iMrAS7I4
-        2ADyGqgBiYFzcgVdWkfuKQ==
-X-Google-Smtp-Source: ACcGV63Bgtxzz6lnrT8NJt/OVPlY+2sB3rsiexaBja3VXCXRsLezrEd75iE0YlL5YZWP7TyG+cfRxg==
-X-Received: by 2002:a9d:220e:: with SMTP id o14mr31474385ota.290.1540241147853;
-        Mon, 22 Oct 2018 13:45:47 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 107sm11517806oth.20.2018.10.22.13.45.46
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 22 Oct 2018 13:45:47 -0700 (PDT)
-Date:   Mon, 22 Oct 2018 15:45:46 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Joe Perches <joe@perches.com>
-Subject: Re: [PATCH v9 4/9] dt-bindings: i3c: Document core bindings
-Message-ID: <20181022204546.GA3889@bogus>
-References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
- <20181022133404.2061-5-boris.brezillon@bootlin.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8HCiXpAVJicrn/bOthmQj0WB0woFgZYyFT6m/r7QNpY=;
+        b=LWXj4gTBP0MgOTHK/KoMLoffI/mTTPuOVwH1XPLJgsQZz1drQQYVotbF4uKV7g144v
+         xLqkdBRJ6LQ2KtcYULyFO/ayrztsXagJhm11SWMxKyk5PISwjvYHL+TrhY1DGBemKsmX
+         ixU1FzbgJY7e8ps0L5zvnHWj3rswIzJ33B5HPuFR6zcenGdtmvm1jsmeht4nC5FFbpN4
+         RN5NHS2F7LRYlfZRiLXq/XLZgcBNbKworqIKB7oyag4Beho65mhbHzkeOPtTSTqJbkRs
+         Jd8lpKLZqoupI7prQbiP5F0xtB9LvPDaKknBCGhb1N4dEw/i1WiWxVUfLB/W3rzwAmMb
+         ReZQ==
+X-Gm-Message-State: ABuFfoiGy1N8bW2Ygt/fLckQqUbPUCaC3M4atNWzKG1HsTdfHgXxpiuM
+        ZO7awwfci9wQnxNO+fbpD19Vj/fnlM6gafwrlSQ=
+X-Google-Smtp-Source: ACcGV61dgQKzoiO8+p5uDi4Qdkg085WUJ4ThNeoh48AMu/fSxZ4pINNTNeLI/FTS7WNiI4A6dzf6UxRfCwHn+UAxiQY=
+X-Received: by 2002:a19:11c2:: with SMTP id 63mr9961183lfr.131.1540241968459;
+ Mon, 22 Oct 2018 13:59:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181022133404.2061-5-boris.brezillon@bootlin.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
+ <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <20181021222712.GI1617@thunk.org>
+ <CANiq72mXV6WTyHXNZJDTfFOpPrXD0zD6cB30bGOuKO44AvRiog@mail.gmail.com>
+ <CAGXu5jKb-0H+smRAW6ngQKDZ-PbTThhMwhmu34iB8vjTa-4H8Q@mail.gmail.com>
+ <CANiq72n4+HDXPqr7xySSGx49g8vEcXaxO7a-By9cSg7YSxOS_A@mail.gmail.com>
+ <CANiq72kNnrhi8OPbF7P+Rw4SGYu=JuvhDKtzGtG2J5AOoC1-Dw@mail.gmail.com> <CAKwvOdn1TOzZYg_i0zB0rU+K3jaQQ8XmWnLXz01NCG9V+8PxHw@mail.gmail.com>
+In-Reply-To: <CAKwvOdn1TOzZYg_i0zB0rU+K3jaQQ8XmWnLXz01NCG9V+8PxHw@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 22 Oct 2018 22:59:16 +0200
+Message-ID: <CANiq72kUJOSrR=h2=2jXfkBPLrR=DrN8X4OoKOqAte4sMLxkdQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
+ (gcc >= 7.1)
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "Ted Ts'o" <tytso@mit.edu>, Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Dan <dan.carpenter@oracle.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        David Miller <davem@davemloft.net>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 03:33:59PM +0200, Boris Brezillon wrote:
-> A new I3C subsystem has been added and a generic description has been
-> created to represent the I3C bus and the devices connected on it.
-> 
-> Document this generic representation.
-> 
-> Cc: Rob Herring <robh@kernel.org>
-> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
-> ---
-> Rob,
-> 
-> Can you have a look at this v9. I know you previously acked this
-> binding but I changed a bit the way we declare I2C devices and thus
-> had to drop your Ack.
-> The IS_I2C_DEV bit no long exists, and we instead consider that any
-> device with the 2nd reg entry set to 0 is an I2C device, which is
-> just fine because this entry is supposed to contain the upper part of
-> the Provisional ID which is basically the MIPI manufacturer ID,
-> and 0 is not a valid manufacturer ID.
-> 
-> By doing that we make reg definition more straightforward and can
-> drop the ugly {I2C,I3C}_DEV() macros.
-> 
-> Regards,
-> 
-> Boris
-> 
-> Changes in v9:
-> - Rework the way we encode the I2C vs I3C device in the reg property
->   so that we don't need the funky macros to define and I3C or I2C dev
-> - Drop Rob's Reviewed-by
-> 
-> Changes in v8:
-> - None
-> 
-> Changes in v7:
-> - None
-> 
-> Changes in v6:
-> - None
-> 
-> Changes in v5:
-> - Add Rob's R-b
-> 
-> Changes in v4:
-> - Clarify the fact that static address == I3C address and dynamic
->   address == I3C address
-> - Use i2c-scl-hz in the example
-> 
-> Changes in v3:
-> - Rename {i2c,i3c}-scl-frequency DT prop into {i2c,i3c}-scl-hz
-> - Rework the way we expose the provisional ID and LVR information
-> - Rename dynamic-address into assigned-address
-> - Enforce the I3C master node name
-> 
-> Changes in v2:
-> - Define how to describe I3C devices in the DT and when it should be
->   used. Note that the parsing of I3C devices is not yet implemented in
->   the framework. Will be added when someone really needs it.
-> ---
->  Documentation/devicetree/bindings/i3c/i3c.txt | 138 ++++++++++++++++++
->  1 file changed, 138 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/i3c/i3c.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/i3c/i3c.txt b/Documentation/devicetree/bindings/i3c/i3c.txt
-> new file mode 100644
-> index 000000000000..7021468e0205
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/i3c/i3c.txt
-> @@ -0,0 +1,138 @@
-> +Generic device tree bindings for I3C busses
-> +===========================================
-> +
-> +This document describes generic bindings that should be used to describe I3C
-> +busses in a device tree.
-> +
-> +Required properties
-> +-------------------
-> +
-> +- #address-cells  - should be <3>. Read more about addresses below.
-> +- #size-cells     - should be <0>.
-> +- compatible      - name of the I3C master controller driving the I3C bus
-> +
-> +For other required properties e.g. to describe register sets,
-> +clocks, etc. check the binding documentation of the specific driver.
-> +The node describing an I3C bus should be named i3c-master.
-> +
-> +Optional properties
-> +-------------------
-> +
-> +These properties may not be supported by all I3C master drivers. Each I3C
-> +master bindings should specify which of them are supported.
-> +
-> +- i3c-scl-hz: frequency of the SCL signal used for I3C transfers.
-> +	      When undefined the core sets it to 12.5MHz.
-> +
-> +- i2c-scl-hz: frequency of the SCL signal used for I2C transfers.
-> +	      When undefined, the core looks at LVR (Legacy Virtual Register)
-> +	      values of I2C devices described in the device tree to determine
-> +	      the maximum I2C frequency.
-> +
-> +I2C devices
-> +===========
-> +
-> +Each I2C device connected to the bus should be described in a subnode. All
-> +properties described in Documentation/devicetree/bindings/i2c/i2c.txt are
-> +valid here, but several new properties have been added.
-> +
-> +New constraint on existing properties:
-> +--------------------------------------
-> +- reg: contains 3 cells
-> +  + first cell : still encoding the I2C address
-> +
-> +  + second cell: shall be 0
-> +
-> +  + third cell: shall encode the I3C LVR (Legacy Virtual Register)
-> +	bit[31:8]: unused/ignored
-> +	bit[7:5]: I2C device index. Possible values
-> +	* 0: I2C device has a 50 ns spike filter
-> +	* 1: I2C device does not have a 50 ns spike filter but supports high
-> +	     frequency on SCL
-> +	* 2: I2C device does not have a 50 ns spike filter and is not tolerant
-> +	     to high frequencies
-> +	* 3-7: reserved
-> +
-> +	bit[4]: tell whether the device operates in FM (Fast Mode) or FM+ mode
-> +	* 0: FM+ mode
-> +	* 1: FM mode
-> +
-> +	bit[3:0]: device type
-> +	* 0-15: reserved
-> +
-> +I3C devices
-> +===========
-> +
-> +All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
-> +are thus discoverable. So, by default, I3C devices do not have to be described
-> +in the device tree.
-> +This being said, one might want to attach extra resources to these devices,
-> +and those resources may have to be described in the device tree, which in turn
-> +means we have to describe I3C devices.
-> +
-> +Another use case for describing an I3C device in the device tree is when this
-> +I3C device has a static I2C address and we want to assign it a specific I3C
-> +dynamic address before the DAA takes place (so that other devices on the bus
-> +can't take this dynamic address).
-> +
-> +The I3C device should be names <device-type>@<static-i2c-address>,<i3c-pid>,
-> +where device-type is describing the type of device connected on the bus
-> +(gpio-controller, sensor, ...).
-> +
-> +Required properties
-> +-------------------
-> +- reg: contains 3 cells
-> +  + first cell : encodes the static I2C address. Should be 0 if the device does
-> +		 not have one (0 is not a valid I2C address).
-> +
-> +  + second and third cells: should encode the ProvisionalID. The second cell
-> +			    contains the manufacturer ID left-shifted by 1.
-> +			    The third cell contains ORing of the part ID
-> +			    left-shifted by 16, the instance ID left-shifted
-> +			    by 12 and the extra information. This encoding is
-> +			    following the PID definition provided by the I3C
-> +			    specification.
-> +
-> +Optional properties
-> +-------------------
-> +- assigned-address: dynamic address to be assigned to this device. This
-> +		    property is only valid if the I3C device has a static
-> +		    address (first cell of the reg property != 0).
-> +
-> +
-> +Example:
-> +
-> +	i3c-master@d040000 {
-> +		compatible = "cdns,i3c-master";
-> +		clocks = <&coreclock>, <&i3csysclock>;
-> +		clock-names = "pclk", "sysclk";
-> +		interrupts = <3 0>;
-> +		reg = <0x0d040000 0x1000>;
-> +		#address-cells = <3>;
-> +		#size-cells = <0>;
-> +
-> +		status = "okay";
+On Mon, Oct 22, 2018 at 7:17 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Mon, Oct 22, 2018 at 2:43 AM Miguel Ojeda
+> <miguel.ojeda.sandonis@gmail.com> wrote:
+> >
+> > On Mon, Oct 22, 2018 at 11:41 AM Miguel Ojeda
+> > <miguel.ojeda.sandonis@gmail.com> wrote:
+> > >
+> > >   * clang does *not* support the attribute in C.
+> >
+> > ...nor the warning at all, by the way (which is why this is OK).
+> >
+> > Cheers,
+> > Miguel
+>
+> Oh? We're going through and annotating all of Android's C++ source
+> right now with it.
+> https://clang.llvm.org/docs/DiagnosticsReference.html#wimplicit-fallthrough
+>
 
-Don't show status in examples.
+Sure, but I am talking about the C mode only. Please read the previous
+messages in the thread :-)
 
-> +		i2c-scl-hz = <100000>;
-> +
-> +		/* I2C device. */
-> +		nunchuk: nunchuk@52 {
+> Though it looks like the attribute syntax I like from GCC is not yet
+> supported in Clang.
 
-Might clarify somewhere above that I2C only device unit-address is just 
-the 1st cell value.
+Indeed, that is what I explained in the last message.
 
-> +			compatible = "nintendo,nunchuk";
-> +			reg = <0x52 0x80000010 0x0>;
+> https://bugs.llvm.org/show_bug.cgi?id=37135
+> https://github.com/ClangBuiltLinux/linux/issues/235
+> I'll take a look at adding support.
+>
+> So Kees sent me this embarrassing example:
+> https://godbolt.org/z/gV_c9_
+> (try changing the language from C++ to C; it works)!  That's embarrassing!
 
-Cell 2 should be updated?
+Yup, that is what I have been testing yesterday -- see the linked
+thread in the commit message for the summary of the results.
 
-> +		};
-> +
-> +		/* I3C device with a static I2C address. */
-> +		thermal_sensor: sensor@68,39200144004 {
-> +			reg = <0x68 0x392 0x144004>;
-> +			assigned-address = <0xa>;
-> +		};
-> +
-> +		/*
-> +		 * I3C device without a static I2C address but requiring
-> +		 * resources described in the DT.
-> +		 */
-> +		sensor@0,39200154004 {
-> +			reg = <0x0 0x392 0x154004>;
-> +			clocks = <&clock_provider 0>;
-> +		};
-> +	};
-> +
-> -- 
-> 2.17.1
-> 
+> https://bugs.llvm.org/show_bug.cgi?id=39382
+> https://github.com/ClangBuiltLinux/linux/issues/236
+> Will get these both fixed up.
+
+Cheers,
+Miguel
