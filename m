@@ -6,61 +6,56 @@ X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D83D87D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 17:26:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB4F27D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 17:36:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728770AbeJWBph (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 21:45:37 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:44608 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728739AbeJWBpg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 21:45:36 -0400
-Received: by mail-pf1-f193.google.com with SMTP id r9-v6so20240183pff.11
-        for <linux-doc@vger.kernel.org>; Mon, 22 Oct 2018 10:26:12 -0700 (PDT)
+        id S1728829AbeJWB4G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 21:56:06 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33186 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728830AbeJWB4A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 21:56:00 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 78-v6so17885825pfq.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Oct 2018 10:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Uc26wvlO9uSCh/ATf1Fj7RkrCzIc/n2/k3zGe3rfx9c=;
-        b=rODn+uu0x8ErLKdAmBMax1j2cquvLGThv4G//Sn3m6CrzKGGbDmSZSnyJQPBZHhZC6
-         ofPYu2wVC/3BSPrkFqhKkWhrS3YTVNfCVKzLWJhs1zTZnrmaXciKVAGs2iiQwkX4jinl
-         JpcZe4sq74nYqFFCYE/BN7jlCDXkpjq3Qk9CqtHEiU9WPuTZ8BFDZltyDJdLXVuNefUg
-         KRZ4YAq+8v1EA2pdUBB/mXFruR8CaJNJW7HHqQANxOkdDrmwUe7pMPN8QbmPbFkRMOjB
-         J1QlTB52H4JKkSyOUd271vOOXTUhohpe1yuaMHN8GPF/LaDieY2UDQCICKtbYrjKtbdy
-         ob/A==
+        bh=sFstTX7X0zaXGUYtrxG8obho4TSJKsK3S4jKTMtCpY4=;
+        b=SHL6Rv/Pe38jS8Tt3nhYFbMUAznCvIcj180Zi5z+rZempqHqmYh88Eg8ct2tPBriFn
+         bGqvHQp45PzFjXlw+PvlZ43EyIQMUiYGgPTbZ7JyqXSxuO5Vn3AUq55nIVCM+rZsd0SW
+         T3ruH/PnYbzaRQ+t3CN2/Q2qzLM1YL7LYwcsRS0McE1itpkT2EAfqR1iQVqJfD1TWH9R
+         4UvgIRQ+L0Knazgx2+zO66uFWzLzESplLDy3963ixDfuhSFoVAwT3OyN6CqZJpaqPhWT
+         siXeWvQpI6XOyBoonqMFBtpftp1af684FbA+f4JkJiNSTjDEtDYSUFeRWBkBlqsnYM7W
+         YmrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Uc26wvlO9uSCh/ATf1Fj7RkrCzIc/n2/k3zGe3rfx9c=;
-        b=obqMSSCebwy2VZft202BtqNdbPVHXbDZjsdDtujpnSgoNPqSktVRV4BS0jLmty38H2
-         4e9+DNdnAuCMu7poQ0vtFCFB00QXjy2tDsRopMtr3L56k5EkeuzpbYF8WKSWzoIOo6vJ
-         glbQVCEYge8oUBlD8sQkPDPF1nrnWk9aQN02m3DrLkqpKtyJQOFpsp4YONjEH4/VBqrN
-         +bwNQvK7BXXMTBMdGfCpVHdi0ylIbh5tjp/p5sByXcAUKZ4DOzSLonrcf2CE/dStQU7s
-         G5LqEY/bbv3tf/9/UlewDaHVW5tyHyBN1bFHv0ERqq3i0jYPI4TEs+5ivwxX9ESJL5xD
-         KJXQ==
-X-Gm-Message-State: ABuFfoi1cc5PqJsqctW4i3gVe4HXFTCUSbLu46u0B/14ebk4oIr5MeBI
-        BRloEyPpk892/UNokakFDQFYGRdUv1facEnFFOkCNg==
-X-Google-Smtp-Source: ACcGV62lMMOculE+zgthQroeJnnOF0GSCCDi9qvyBZuSdAYwaVTPQdG7UBsZaKhJKo0OGF4HZM7uO/6Hv/b+QRctnMs=
-X-Received: by 2002:aa7:88c2:: with SMTP id p2-v6mr38874608pfo.32.1540229172220;
- Mon, 22 Oct 2018 10:26:12 -0700 (PDT)
+        bh=sFstTX7X0zaXGUYtrxG8obho4TSJKsK3S4jKTMtCpY4=;
+        b=bWikFGQSfG+hVJOQODI4gLCCVTUNYuEQPAD2QiNTD+5qd3wMuhqynyQsPWFBpFDjQa
+         RDqS7tVBdz8gft6mQI5HmBs39QjClxNTHi9THsMPirZe88HyGRzArepX64ZVrD581EC6
+         x612uJ1YtVq3+g/XcOIeKDc310Crv/3iH1OuEMgqDVMvJVvldxy9JHtZ/zfNBq8RhCXl
+         dfAQyhQQ3Q5Yfx/MZrgcgt4F2/uWmfulA5tCKlV9W7/b4Jop7BdhnkJisTfaLm5WtPmA
+         zW2eT0H4+ZWA8nE2A+a+7GMxp4IuURHt7yYT3/ouYOTT9Xx+MvpJflg8GCmkghyc1bUY
+         KdlA==
+X-Gm-Message-State: AGRZ1gKab4G5VUVZ58oWvjM0N5U/zgj4MfgMTqFQdYoBEm2tt5PiLWbR
+        7MFTJRO2oVVlckpVfHcl0M+436V8hUg3RSPwTIqG3w==
+X-Google-Smtp-Source: AJdET5dbc8wG65Sctr/d5jVoncsfxU2CDGKebxJxLKLcYyLtyMPzvsyLMlgXSH0Ih4zPFPtzivmqlzP3bY9G9S1qL3I=
+X-Received: by 2002:a63:f306:: with SMTP id l6-v6mr10909116pgh.255.1540229793262;
+ Mon, 22 Oct 2018 10:36:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
- <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <20181021222712.GI1617@thunk.org>
- <8fb78062-b6d4-6f2d-d943-44bec6b95ff0@petrovitsch.priv.at>
- <20181022102743.nua5fgbscyeymzal@mwanda> <1474d995-1b5a-2efb-f077-33eb4a5d9e31@petrovitsch.priv.at>
- <20181022105314.j6djkrpwbnokhai5@mwanda>
-In-Reply-To: <20181022105314.j6djkrpwbnokhai5@mwanda>
+References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com> <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com>
+In-Reply-To: <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 22 Oct 2018 10:26:00 -0700
-Message-ID: <CAKwvOd=SUTqfASs-_5--GYFx79bETMcjCzBacw5ujMsxGwU5SQ@mail.gmail.com>
+Date:   Mon, 22 Oct 2018 10:36:21 -0700
+Message-ID: <CAKwvOdmPj_mm+9t1i=yLhvO0FAe6Kd7ezjOoTnp1fzcoikPHpw@mail.gmail.com>
 Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
  (gcc >= 7.1)
-To:     dan.carpenter@oracle.com
-Cc:     bernd@petrovitsch.priv.at, "Theodore Ts'o" <tytso@mit.edu>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, adilger.kernel@dilger.ca,
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, dan.carpenter@oracle.com,
+        adilger.kernel@dilger.ca,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>, rostedt@goodmis.org,
         mchehab+samsung@kernel.org, olof@lxom.net,
@@ -79,6 +74,7 @@ Cc:     bernd@petrovitsch.priv.at, "Theodore Ts'o" <tytso@mit.edu>,
         paul.burton@mips.com, David Rientjes <rientjes@google.com>,
         Willy Tarreau <w@1wt.eu>, msebor@gmail.com, sparse@chrisli.org,
         Jonathan Corbet <corbet@lwn.net>,
+        "Theodore Ts'o" <tytso@mit.edu>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>, joe@perches.com,
         Arnd Bergmann <arnd@arndb.de>, asmadeus@codewreck.org,
@@ -95,35 +91,157 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 3:54 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+On Sun, Oct 21, 2018 at 10:14 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> On Mon, Oct 22, 2018 at 12:45:03PM +0200, Bernd Petrovitsch wrote:
-> > It's more like
-> > ----  snip  ----
-> >       case 3:
-> >               frob();
-> >               __fall_through;
-> >               /* no break - fall through */
-> >       case 4:
-> > ----  snip  ----
-> > as "eclipse" doesn't accept anything else.
-> >
-> > And yes, it's far from "beautiful" but I hadn't time to dig into
-> > eclipses innards to fix that.
-> >
+> From the GCC manual:
 >
-> Doing both is super ugly.  Let's just do comments until Eclipse gets
-> updated.
+>   fallthrough
+>
+>     The fallthrough attribute with a null statement serves as a
+>     fallthrough statement. It hints to the compiler that a statement
+>     that falls through to another case label, or user-defined label
+>     in a switch statement is intentional and thus the -Wimplicit-fallthrough
+>     warning must not trigger. The fallthrough attribute may appear
+>     at most once in each attribute list, and may not be mixed with
+>     other attributes. It can only be used in a switch statement
+>     (the compiler will issue an error otherwise), after a preceding
+>     statement and before a logically succeeding case label,
+>     or user-defined label.
+>
+>   https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html
+>
+> Currently, most of the kernel uses fallthrough comments to silence
+> the -Wimplicit-fallthrough warnings (enabled by -Wextra, in W=1).
+> However, C++17 standarized an "statement attribute" (the first
 
-Eclipse as in the IDE?
-https://bugs.eclipse.org/bugs/
+s/standarized/standardized/
+
+> of its kind) to deal with this: [[fallthrough]] is meant to be
+> a new control keyword in the form of an extension.
+
+I think we can leave the details about the [[]] notation out. IIUC,
+it's only applicable to C++.
 
 >
-> I had wanted to move to the attribute because that would simplify things
-> in Smatch but it's not a huge deal to delay for another year.
+> In C mode, GCC supports the __fallthrough__ attribute since 7.1,
+> the same time the warning and the comment parsing were introduced.
 >
-> regards,
-> dan carpenter
+> While comment parsing is a good idea to deal with old codebases
+> that used such a comment as documentation for humans, the best
+> solution is to use the attribute:
+>
+>   * It is a "real" part of the AST (=> better for tooling).
+
++1
+
+>
+>   * It does not follow arbitrary rules for parsing (e.g. regexps
+>     for the comment parsing).
+
++2
+
+>
+>   * It may even become standarized in C as well: there are ongoing
+
+s/standarized/standardized/
+
+>     proposals to import some C++ standard attributes into
+>     the C standard, e.g. for fallthrough:
+>
+>       http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2268.pdf
+>
+> On top of that, it is also a better solution for the kernel, because:
+>
+>   * We can actually use a #define for it like for the rest of
+>     attributes/extensions, which is not possible with a comment,
+>     so that its naming/usage is consistent across the entire kernel.
+
++3
+
+>
+>   * Whenever the migration from the comments to the attribute
+>     is complete, we may increase the level of the GCC warning up to 5,
+>     i.e. comments will not longer be considered for warning
+>     surpression:  only the attribute must be used. This would enforce
+
+s/surpression/suppression/
+
+>     consistency by leveraging the compiler directly (instead of
+>     enforcing it with other tools).
+>
+>   * Further into the future, we can consider moving the warning
+>     up to W=0 or even making it an error.
+>
+> It is worth noting that clang >= 3.2 supports the warning and
+> the attribute, but only in C++ mode (and it is not enabled by
+> -Wall/-Wextra/-Wpedantic like in gcc). Hopefully, they will also
+> support it for C as well.
+
+https://bugs.llvm.org/show_bug.cgi?id=39382
+
+>
+> Further, icc >= 18 does not seem to know anything about the warning;
+> except that it accepts (i.e. ignores) [[fallthrough]] in C++17 mode
+> (to be conformant, probably).
+>
+> Link: https://lore.kernel.org/lkml/20181017062255.oiu44y4zuuwilan3@mwanda/
+> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> ---
+>  include/linux/compiler_attributes.h | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>
+> diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+> index 6b28c1b7310c..9e2153f85462 100644
+> --- a/include/linux/compiler_attributes.h
+> +++ b/include/linux/compiler_attributes.h
+> @@ -32,6 +32,7 @@
+>  # define __GCC4_has_attribute___assume_aligned__      (__GNUC_MINOR__ >= 9)
+>  # define __GCC4_has_attribute___designated_init__     0
+>  # define __GCC4_has_attribute___externally_visible__  1
+> +# define __GCC4_has_attribute___fallthrough__         0
+>  # define __GCC4_has_attribute___noclone__             1
+>  # define __GCC4_has_attribute___optimize__            1
+>  # define __GCC4_has_attribute___nonstring__           0
+> @@ -133,6 +134,23 @@
+>  # define __visible
+>  #endif
+>
+> +/*
+> + * Currently, most of the kernel uses fallthrough comments to silence
+> + * the -Wimplicit-fallthrough warnings (enabled by -Wextra, in W=1).
+> + * For new instances, please use this attribute instead.
+> + *
+> + * Optional: only supported since gcc >= 7.1
+> + * Optional: not supported by clang
+> + * Optional: not supported by icc
+> + *
+> + *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html#index-fallthrough-statement-attribute
+> + */
+> +#if __has_attribute(__fallthrough__)
+> +# define __fallthrough                  __attribute__((__fallthrough__))
+> +#else
+> +# define __fallthrough
+
+While this is in the correct format as the other attributes in this
+file, I think this particular attribute is a special case, because of
+the variety of fallbacks and differing support for them.  I'd like to
+see in the commit message maybe a list of tools we'd like to support
+and links to the feature requests/bug reports for them.  I acknowledge
+it's more work to file bugs, but it's being a good open source
+citizen, IMO.
+
+I'm also curious which is the first version of GCC to support the
+comment format?
+
+> +#endif
+> +
+>  /*
+>   *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-format-function-attribute
+>   * clang: https://clang.llvm.org/docs/AttributeReference.html#format
+> --
+> 2.17.1
 >
 
 
