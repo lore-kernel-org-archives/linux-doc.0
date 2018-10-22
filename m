@@ -1,99 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C60A77D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 00:42:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B00077D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 02:37:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726797AbeJVI6k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 04:58:40 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39132 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726694AbeJVI6k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 04:58:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Gop3IRT770eX7Zwe4U5wCDWcm0dAZj5Nw0+yf+Xyun0=; b=Tk2dngDifGiIkTr9M7a1+VMT7
-        8x/fgR6vmJFiznhitTWyJcGg11QGiywtoVR7MvsorhQgZCvkNpC9mdvu+DrYj993ajIySNVa80peG
-        VWWx5Pmk9sBawc73ieI63W9jVux+WYWnAiwW+Arru89UVzKaXMOSI6LzwSKarQvRazG/p2GDPPJZ/
-        maqmP8eaB1jM+Fn9n2awBQ2jPvls6sQdhv+WGdaAZ4IFhU4w1FQikupu4AYqixVu7RiRlEzlpbkrj
-        cFGiFHbSex4U7qp6MaOSGdJ8G9qgN2ok9Wr7GlXJgHWZMwXEZRvnA75NGqvhhV1wwpKh1sCI5R1gW
-        ozjWGgg2A==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gEOIU-0002Vi-67; Mon, 22 Oct 2018 00:42:18 +0000
-Date:   Sun, 21 Oct 2018 17:42:18 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+        id S1727138AbeJVKyI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 06:54:08 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:39259 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726949AbeJVKyI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 06:54:08 -0400
+Received: by mail-pg1-f193.google.com with SMTP id r9-v6so18299877pgv.6;
+        Sun, 21 Oct 2018 19:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=MwQK2MU94bA4feWCY+ngFTuKVnx2DkuV61peOqPB8HI=;
+        b=Uab4DWuf+bdSGg0dKmZvLOX4p+BC7rf9ETDnPdYl/HWVsZ/0rEuHy2rm64MU8AgGoh
+         Wyw8Rgr9fT9idD73a8JXNrmmxRiTpIfpYEGbFsbdk/h9wglpcAVKNNctpiSx3QKL6/AW
+         JEkTwmhFeuwQa8IfDbs9ZBqK/P5PVlWVF856BULLu/qyMJPnpISeRx60Av8dFHJZ3Brs
+         DJwRugBMr+rfkikMTl6J1zjIdB75WBoK5a0g2M3zXiB62PrXMyZlVRymb7BFXOybyBmG
+         sxc7xjsjYIhkRhKxn3j/jRGfqX7gMdZ+C1YYVumBaSNgrFwdxp7gbPGPSGztwaZDU/11
+         fk3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=MwQK2MU94bA4feWCY+ngFTuKVnx2DkuV61peOqPB8HI=;
+        b=X8myEVqpfns7Y2NSFfyzIBhZCAe2aotqPEwwfQIEiqyjsWD7R4oz8p/InZwesysGyT
+         w8YLJwI44Vya4ML7a8gF5L1kUiqY2zMOPjjLZivBoy2SmOPPGJZcscKvibVImmNm37UD
+         vvO5GXozQXq/RucWaoJw5WMJGP2SlyzoEkacNPGMbstVMtSTnrS6Nj68R6ii2nKQ5TDM
+         aIgOdcRaa/gLciH3AmC3SSQakxKJ44ZkWDOvumBQnZwkTvxoSLipgWuGEWhDF9WPnwgc
+         TVZ5SzuYQjdraAe4zzHYTbc8eHoWE1mVC0vHhkzF1cbjC0IYgbaVxKDT4itUGMLsgi5K
+         wysA==
+X-Gm-Message-State: ABuFfojTQk3jA7+nWoEZZq2MaSBzo4PdgONvPntNngTQk6YMQsSDdnxM
+        JfyH/lLGv1JcY5rvZyewVvw=
+X-Google-Smtp-Source: ACcGV61TCwHH0k8z8CxjJ1Xu0tCjLDRgkSQWNF3qna4e6lMJsJ2GOBdh2cAahVXBwW32bCCB95BFew==
+X-Received: by 2002:a63:d556:: with SMTP id v22-v6mr39519561pgi.357.1540175856147;
+        Sun, 21 Oct 2018 19:37:36 -0700 (PDT)
+Received: from localhost ([39.7.58.252])
+        by smtp.gmail.com with ESMTPSA id d124-v6sm34166829pfa.163.2018.10.21.19.37.34
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 21 Oct 2018 19:37:34 -0700 (PDT)
+Date:   Mon, 22 Oct 2018 11:37:31 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To:     Calvin Owens <calvinowens@fb.com>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
- (gcc >= 7.1)
-Message-ID: <20181022004217.GA4941@bombadil.infradead.org>
-References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
- <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com>
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Kernel Team <Kernel-team@fb.com>
+Subject: Re: [PATCH 1/3] printk: Introduce per-console loglevel setting
+Message-ID: <20181022023731.GA508@jagdpanzerIV>
+References: <08c1dc1a96afd6b6aecc5ff3c7c0e62c36670893.1506644730.git.calvinowens@fb.com>
+ <20181019000403.GB877@jagdpanzerIV>
+ <20181019220314.GA8164@Haydn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <20181019220314.GA8164@Haydn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 21, 2018 at 07:14:13PM +0200, Miguel Ojeda wrote:
-> +#if __has_attribute(__fallthrough__)
-> +# define __fallthrough                  __attribute__((__fallthrough__))
-> +#else
-> +# define __fallthrough
-> +#endif
+On (10/19/18 22:03), Calvin Owens wrote:
+> Hi Sergey,
+> 
+> It's in-progress, I'm sorry it hasn't happened sooner.
 
-Why is the #else not:
+Great!
 
-# define __fallthrough		/* fallthrough */
+> By embedding the kobject in the console struct, we end up needing to refactor
+> the console drivers to use the kobject refcount instead of simply calling
+> kfree(), which is what I'm working on. It ends up being tedious but not
+> particularly complicated, my goal is to have this up soon :)
 
-Would this solve the Coverity problem, or does Coverity look at the raw
-source code before preprocessing?
+OK :)
+
+	-ss
