@@ -4,54 +4,55 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0682D7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 09:41:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1F3BD7D8BB
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 09:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728242AbeJVR7X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 13:59:23 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:42060 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728448AbeJVR7X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 13:59:23 -0400
-Received: by mail-lj1-f193.google.com with SMTP id y71-v6so36316843lje.9;
-        Mon, 22 Oct 2018 02:41:35 -0700 (PDT)
+        id S1728529AbeJVSBO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 14:01:14 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:40721 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728316AbeJVSBO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 14:01:14 -0400
+Received: by mail-lj1-f196.google.com with SMTP id r83-v6so36321246ljr.7;
+        Mon, 22 Oct 2018 02:43:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rTWgU2Je0X4G9uOsT7HSt8L6t+Au4BJ4roV+lIlRI64=;
-        b=V8/U1OjXHH3Mo2KsFcu/E447RFfjJ372hKTOTpbnsS1sPY0VUCXFJz7O0jlZ/pXr8F
-         e1GDgmI+4BV1R1SISXWSQDAIj5SFS7qjKa0ItnPPpw1NC5/yOW/prFTN/cI2ii5D/Qjg
-         Vh55gX4rgK38eg5aVW58MdacoLEDdFq2gkZX1MSzgsZ6+DY0ZMO+4PVqMP5HXKMc2iOs
-         oFj3qo8kV8PDAYLPu3KYSfz0qp5vs5wBXQGpQj4nllhU2o8G0h62ArW93VERXCF7isSZ
-         xZG04pZa0h3db1ot+0Ud+mwjkCdwXP94vsqCk2sPaLRMXnXGKlzRl3J591RkGAgAL8IU
-         50Hg==
+        bh=aTsuRC+sfx70YkhfAV1+N98W1zEAs+8GCZO7LWqJ66Y=;
+        b=QFn27bN407lJTXn3HcBoCwp0+fsvdXbawisTmi2asb8D928Wqs3ud32wejmDCAed0I
+         drcKRwbNLhN99I8DmvEt2WRtm0ffr2rejfK7Zj3LZme/HB58V0GxECDPaA1afRLEM544
+         P3+8OPdhiO5YSy8Soh1iIdGTWEJqkvdpQk7eq+mtmKSDrpMDnPOu316pp4FiT1GUEfQP
+         EfT4VyUWLNss/aC6KpCT0W4q/vau2cnnZmy5xvdhdHAydidCLk6tIpVKNiHroAxm17wE
+         SMZD8xpVMtFpu0MTmr0PmMTQf5g1R9QcnJyGlD2BTznX3jK8Di+gifg0dKHaUjljowyd
+         7gFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rTWgU2Je0X4G9uOsT7HSt8L6t+Au4BJ4roV+lIlRI64=;
-        b=g4RjUmH3CVa+KMMnCf6oqScvFGdw7ITUyEYYVJ92g4Ldsi1lr8F9hacN4JH8+j7kms
-         icH8eI+sP5Tuaw/BJpjWwA5VsJJMR1NiETSu80kmufeeCyO/Pu7VkYuB5k2g/6INbf0+
-         nHJcjPUHVFfdS8Bk/e0Ih5ydRHpYKy+e2EpAG+i46rKcNjxRvz4GFvpUwSRQY7Ng3EWS
-         HL0bqxtTXrVL/Reu/1NJrcfuQSpkgH2u6TDco6WLd4TAX04hgi62Huk6rFqFKJw+shmu
-         c7u54tjmHOy3GOlmrTUR/pjiHdt2ebJuey8EYsVYYoW/E201fl6uzFnCrYr0IWHAB9Xy
-         9z1A==
-X-Gm-Message-State: AGRZ1gKFZL6tVB351/Ynin37Uf4z6je5tEAAs168j4XJcTUDOpx2JOU8
-        82FiI4Hg7aRIlUb1drp2NTu9fLkdZVwA/pEERCc=
-X-Google-Smtp-Source: AJdET5djGcSrpPhuxgfSXdAboMSD0/rJIagYOEq7TnDfWpPq8PrjC7gGJ1D5fJOaLrov0TGb893GqSDXTksCXEtgZeU=
-X-Received: by 2002:a2e:c52:: with SMTP id o18-v6mr4699438ljd.94.1540201294601;
- Mon, 22 Oct 2018 02:41:34 -0700 (PDT)
+        bh=aTsuRC+sfx70YkhfAV1+N98W1zEAs+8GCZO7LWqJ66Y=;
+        b=PDSSmKctHGUQvw7rPH0K5Yu/p9ERaiu+D5wpi+3rqdPeXVLIJ/EOjR6R1HrP2ffIDw
+         jpZhqGVy+YxBbKCEuGnjnt97Ulwu9Ol6iqa9J+AZ+mC8jaL1XFNe+1SYQ/mVb2opgxD9
+         6RqMLhJ2ngY7ANb7jULbw4ftyKNEwpcr+r3obkFJrVY5DpmzqdgDyUQInN5YkJqfl+xD
+         eyx8a3Wk2L7nbf+eMZsMv5S/fPE0D14yL3Xk3oNKM9q+/a/9hftAE7VplOJssMRWwYQK
+         SwPQA0W1ziHCAqo3wdOGTsDiuGon69p1eaoZqYDelFPbVg16kCnTfVlrjf9lKt42Vreg
+         etIg==
+X-Gm-Message-State: ABuFfohesigJUwmMatJWGT7fcj0BqbciSXNWJXWGg7XX5OGpAEqQ9ODx
+        7ntvc1DCw7vbdFW19wP4ZXQzYgrnVcZtIxwB0xg=
+X-Google-Smtp-Source: AJdET5dk9qykMAmjnlWlDVIYcwDar2slhJYgxblV6hkcubBRE6S8V4+yLc3YvlvPvoAv0JcPYsW80WSP0ycWT/rfkok=
+X-Received: by 2002:a2e:240b:: with SMTP id k11-v6mr7303575ljk.139.1540201405449;
+ Mon, 22 Oct 2018 02:43:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
  <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <20181021222712.GI1617@thunk.org>
- <CANiq72mXV6WTyHXNZJDTfFOpPrXD0zD6cB30bGOuKO44AvRiog@mail.gmail.com> <CAGXu5jKb-0H+smRAW6ngQKDZ-PbTThhMwhmu34iB8vjTa-4H8Q@mail.gmail.com>
-In-Reply-To: <CAGXu5jKb-0H+smRAW6ngQKDZ-PbTThhMwhmu34iB8vjTa-4H8Q@mail.gmail.com>
+ <CANiq72mXV6WTyHXNZJDTfFOpPrXD0zD6cB30bGOuKO44AvRiog@mail.gmail.com>
+ <CAGXu5jKb-0H+smRAW6ngQKDZ-PbTThhMwhmu34iB8vjTa-4H8Q@mail.gmail.com> <CANiq72n4+HDXPqr7xySSGx49g8vEcXaxO7a-By9cSg7YSxOS_A@mail.gmail.com>
+In-Reply-To: <CANiq72n4+HDXPqr7xySSGx49g8vEcXaxO7a-By9cSg7YSxOS_A@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 22 Oct 2018 11:41:23 +0200
-Message-ID: <CANiq72n4+HDXPqr7xySSGx49g8vEcXaxO7a-By9cSg7YSxOS_A@mail.gmail.com>
+Date:   Mon, 22 Oct 2018 11:43:13 +0200
+Message-ID: <CANiq72kNnrhi8OPbF7P+Rw4SGYu=JuvhDKtzGtG2J5AOoC1-Dw@mail.gmail.com>
 Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
  (gcc >= 7.1)
 To:     Kees Cook <keescook@chromium.org>
@@ -99,20 +100,12 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 11:36 AM Kees Cook <keescook@chromium.org> wrote:
+On Mon, Oct 22, 2018 at 11:41 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> We need to make sure the static analyzers are happy with either
-> method. Additionally, when was -Wimplicit-fallthrough added to GCC? If
-> it was added _before_ the attribute, we need to continue using the
-> comment style otherwise we lose coverage even with gcc itself.
-> Additionally, does Clang support this attribute (it supports
-> -Wimplicit-fallthrough).
+>   * clang does *not* support the attribute in C.
 
-Please take a look at the rationale (also more details at the linked thread):
-
-  * gcc 7.1 added -Wimplicit-fallthrough at the same time as the
-attribute and the comment parsing.
-  * clang does *not* support the attribute in C.
+...nor the warning at all, by the way (which is why this is OK).
 
 Cheers,
 Miguel
