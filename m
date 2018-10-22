@@ -1,67 +1,69 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 135867D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 13:40:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2105D7D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 14:17:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727702AbeJVV6j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Oct 2018 17:58:39 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:39184 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727210AbeJVV6j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 17:58:39 -0400
-Received: by mail-lf1-f65.google.com with SMTP id p11-v6so3979338lfc.6;
-        Mon, 22 Oct 2018 06:39:59 -0700 (PDT)
+        id S1727416AbeJVWgc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Oct 2018 18:36:32 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:43176 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727146AbeJVWgb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Oct 2018 18:36:31 -0400
+Received: by mail-yw1-f67.google.com with SMTP id j75-v6so16045727ywj.10
+        for <linux-doc@vger.kernel.org>; Mon, 22 Oct 2018 07:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=C8sQfTUcLqE8TApD3u96Q2vEEW2OfQeFAA+2Uyiw28k=;
-        b=QNV+Rb8mbd8RR9TR0kmkIsA4awKsTC6rLUIYmb8YNk9PiJtpkWrSFlPGV93GEvQR/b
-         MOe4yx++K+9FYqaoG9IiWD5jYohQJeNrZjBzHx4ys/ToJrd4xQ4VT6eSqKhpggV9RLl1
-         mGalG7Ty0J8qJEriXY0WptLIhSU6iSrpFCwdLmHgPmD8q9EXaDh9j5ap//NPjkd80BZc
-         krQ541rKPQTtEkus5EGm6bZWbbXgjSrr1N8gQ4i5W8r1slGavX+kXEaCPelnwOw/ofwZ
-         7RQdX1srDOGiA8K+gf8H5YQhc73cyVDswNflrQhhpobEx+wDMqgOp5XZLllDEnqjDmgp
-         ofeg==
+        bh=rMjiCR2LQUA6DC1gYbbouQ4QtRy0545yzfC08/V1Ckk=;
+        b=PkvlheYtk9WK9dMUL5wyOotYB3lJIhQ7VTqthtSDMMzKPykf2U9mNv7oIougm60cZT
+         jxhcVBuDPinHXotRzH8cgzLpFX8ClfClRYmrtsD0FtyOGjWpEgeI1pC5qF33Me4J2vuO
+         n1Khg7j/74hMgGmcS+VZnm5aPckOrskHsbsb4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=C8sQfTUcLqE8TApD3u96Q2vEEW2OfQeFAA+2Uyiw28k=;
-        b=aqxoMdP03JKQJ1oQuLwF3JjfIjZptYMXHv+MKO1BKWNMdBQLx/fs7z4lOmGGM4sqoj
-         UV92krHFzwhQ/sMSvTW3kXkbmVadtur1SYI9OQidwhWFMx1GeSn0S01sCQaLtibemq7B
-         IJ3XS1HbPYe50TvN1aiHi82zEoQ/cvIAd5cmVm0XKJkK/r9uUZ7DYC9JQxoJc7i/MxzW
-         c8sYtlS+Z11z3GORpmC2K76uS8orE9tCoh49ugaGBx8prNuwte3SilnjazX7nkvg+xuG
-         vxC65ESNcK+5dCcSDerjYWT/DDB8oaGjH1owOdMuHH3l964SSDHwowqV8K901h4LaWBo
-         HK4g==
-X-Gm-Message-State: ABuFfohMumVnMZ13yggc56KQTRtCq2H6aPBbWfqAYWbnPbx3AtjtJb8C
-        luHHuVnMD+Y8Svb6kevAUwtC0BWsHze2vmUzPSI=
-X-Google-Smtp-Source: ACcGV62YuzbWOrVcbB77xv1qRltSvNdQ0hyhvNFXhF+NpIqYY0RsAr5673XN9NRVmXRiPfuJa5ilwyBpz0U4Xh5VEa0=
-X-Received: by 2002:a19:11c2:: with SMTP id 63mr9060920lfr.131.1540215598557;
- Mon, 22 Oct 2018 06:39:58 -0700 (PDT)
+        bh=rMjiCR2LQUA6DC1gYbbouQ4QtRy0545yzfC08/V1Ckk=;
+        b=MPfAnffMzDjasxAny91HFWFrA88/99497jrU/UIo4ZHWeXYrAiaMTdPj5P0JA/o4mV
+         KIba9njFKxu2qKigTWDih1Hvi7z7emzaoXSKn4M3jyBi/zolb4z/IKmU5nlQZrWIYw6y
+         n/M+I0+1uoB4i5R+2DWRxIg5kzNQ2MhsdvA1sp2cBpyOFMUJOUU95CVzedk8AQbBbczH
+         2/2kRK1m+lLhIx9ohEMCWyyqH2QT6hA/TYHkB2kIuOkJkkDCZm323iUYbYfhjoKrs+hN
+         +qeV3KtQZJGy6zGsjo8bpzWU9ZsLhCa+pLddaQN/l03p+sLqxDkvGY1m85ChPNHi74+Z
+         DO2Q==
+X-Gm-Message-State: ABuFfohWE30oyQiVR+M+4JS/ERhoUEdgKnwS3hCg4NfK9rpBloXSFXAc
+        IkB6i2byg3sWuUhX0tjs6sLj4oceEBI=
+X-Google-Smtp-Source: ACcGV60ixLBPcjV7UtUlzKY5Hs30cQ0tw/eqBvBNnXLxEVM4et1+UmwAMSsN8Qs9dIszufgLjFx/2A==
+X-Received: by 2002:a81:3b53:: with SMTP id i80-v6mr32982425ywa.166.1540217864761;
+        Mon, 22 Oct 2018 07:17:44 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id f7-v6sm4887230ywf.108.2018.10.22.07.17.44
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Oct 2018 07:17:44 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id m184-v6so5130888ybm.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Oct 2018 07:17:44 -0700 (PDT)
+X-Received: by 2002:a25:8091:: with SMTP id n17-v6mr32679974ybk.209.1540217403211;
+ Mon, 22 Oct 2018 07:10:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
- <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <20181021222712.GI1617@thunk.org>
- <CANiq72mXV6WTyHXNZJDTfFOpPrXD0zD6cB30bGOuKO44AvRiog@mail.gmail.com>
- <CAGXu5jKb-0H+smRAW6ngQKDZ-PbTThhMwhmu34iB8vjTa-4H8Q@mail.gmail.com>
- <CANiq72n4+HDXPqr7xySSGx49g8vEcXaxO7a-By9cSg7YSxOS_A@mail.gmail.com>
- <CAGXu5jLzfuEnWpJFL1Caq94nKbPps-QTaYGpge2CfZWj1Zzf9g@mail.gmail.com> <CANiq72kpCoVwCzMUVYB_km+9xr41gBZLo_K203e_t4_QZ9-r1Q@mail.gmail.com>
-In-Reply-To: <CANiq72kpCoVwCzMUVYB_km+9xr41gBZLo_K203e_t4_QZ9-r1Q@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 22 Oct 2018 15:39:47 +0200
-Message-ID: <CANiq72k_uBxjzguG8YBmSaV5XUYoOsuHk+UHFdgCarr4--uGDA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
- (gcc >= 7.1)
-To:     Kees Cook <keescook@chromium.org>
-Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        "Ted Ts'o" <tytso@mit.edu>, Greg KH <gregkh@linuxfoundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dan <dan.carpenter@oracle.com>,
+Received: by 2002:a25:3990:0:0:0:0:0 with HTTP; Mon, 22 Oct 2018 07:10:02
+ -0700 (PDT)
+In-Reply-To: <20181021171414.22674-3-miguel.ojeda.sandonis@gmail.com>
+References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com> <20181021171414.22674-3-miguel.ojeda.sandonis@gmail.com>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Mon, 22 Oct 2018 07:10:02 -0700
+X-Gmail-Original-Message-ID: <CAGXu5j+3pR2mfcdbURv7MrPxUVjmjQEDRHH8BLpTNGiasJs1pg@mail.gmail.com>
+Message-ID: <CAGXu5j+3pR2mfcdbURv7MrPxUVjmjQEDRHH8BLpTNGiasJs1pg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Compiler Attributes: auxdisplay: panel: use __fallthrough
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
         Andreas Dilger <adilger.kernel@dilger.ca>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -69,7 +71,7 @@ Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Olof Johansson <olof@lxom.net>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
+        "David S . Miller" <davem@davemloft.net>,
         Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@kernel.org>,
@@ -84,6 +86,7 @@ Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
         Martin Sebor <msebor@gmail.com>,
         Christopher Li <sparse@chrisli.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        "Theodore Ts'o" <tytso@mit.edu>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
@@ -93,41 +96,65 @@ Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
+        Sparse Mailing-list <linux-sparse@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 1:24 PM Miguel Ojeda
+On Sun, Oct 21, 2018 at 10:14 AM, Miguel Ojeda
 <miguel.ojeda.sandonis@gmail.com> wrote:
+> Let gcc know these cases are meant to fall through to the next label
+> by annotating them with the new __fallthrough statement attribute;
+> and remove the comment since it conveys the same information
+> (which was also parsed by gcc to suppress the warning).
 >
-> On Mon, Oct 22, 2018 at 12:53 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Mon, Oct 22, 2018 at 2:41 AM, Miguel Ojeda
-> > <miguel.ojeda.sandonis@gmail.com> wrote:
-> >
-> > >   * clang does *not* support the attribute in C.
-> >
-> > Well that's not good. :)
+> Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> ---
+>  drivers/auxdisplay/panel.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> I will see with clang if they plan to add it.
+> diff --git a/drivers/auxdisplay/panel.c b/drivers/auxdisplay/panel.c
+> index 21b9b2f2470a..0755034e49ba 100644
+> --- a/drivers/auxdisplay/panel.c
+> +++ b/drivers/auxdisplay/panel.c
+> @@ -1367,7 +1367,7 @@ static void panel_process_inputs(void)
+>                                 break;
+>                         input->rise_timer = 0;
+>                         input->state = INPUT_ST_RISING;
+> -                       /* fall through */
+> +                       __fallthrough;
+>                 case INPUT_ST_RISING:
+>                         if ((phys_curr & input->mask) != input->value) {
+>                                 input->state = INPUT_ST_LOW;
+> @@ -1380,11 +1380,11 @@ static void panel_process_inputs(void)
+>                         }
+>                         input->high_timer = 0;
+>                         input->state = INPUT_ST_HIGH;
+> -                       /* fall through */
+> +                       __fallthrough;
+>                 case INPUT_ST_HIGH:
+>                         if (input_state_high(input))
+>                                 break;
+> -                       /* fall through */
+> +                       __fallthrough;
+>                 case INPUT_ST_FALLING:
+>                         input_state_falling(input);
+>                 }
+> --
+> 2.17.1
 >
 
-So I have looked in the clang sources and I have seen that clang is
-already preparing for C2x: since clang >= 6 we can actually enable the
-C++-like attributes with "-fdouble-square-bracket-attributes" in C
-mode, which in turn makes the warning work in C mode and can be
-suppressed with [[fallthrough]]. This would give us the warning also
-in clang, which would be a win vs. the comments. Nick?
+I would prefer we continue to use the comment style until we've got
+confirmed support for (at least) Clang, Coverity, CPPcheck, smatch,
+and eclipse.
 
-However, I don't see a way to enable [[fallthrough]] in C mode for gcc
->= 7.1 -- from a quick look, the C parser does not know about [[]]
-attributes, so I don't think we can use [[fallthrough]] for both
-compilers (yet).
+-Kees
 
-Cheers,
-Miguel
+-- 
+Kees Cook
+Pixel Security
