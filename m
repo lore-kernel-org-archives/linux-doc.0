@@ -6,53 +6,53 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1348B7D082
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 21:17:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA7FB7D082
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Oct 2018 21:24:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729004AbeJWFhm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Oct 2018 01:37:42 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:39325 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727557AbeJWFhm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Oct 2018 01:37:42 -0400
-Received: by mail-lf1-f68.google.com with SMTP id p11-v6so5138232lfc.6;
-        Mon, 22 Oct 2018 14:17:27 -0700 (PDT)
+        id S1729493AbeJWFoN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Oct 2018 01:44:13 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46250 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727025AbeJWFoN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Oct 2018 01:44:13 -0400
+Received: by mail-lj1-f195.google.com with SMTP id x3-v6so38363137lji.13;
+        Mon, 22 Oct 2018 14:23:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1/Yc5JujtwwX0NbKIXymg5eBpo08pcsE417gJv5ehyo=;
-        b=tfEZ1oYO5tGKNQrp1HHoF0K4QtOllE4VXQiZX3AiD1WisMc4s2Srwz0kwfNlNE5ZFr
-         WmgmOKYsKn9pMiNuef8WfcWVChge0Rn6lKoGEBRplKwBwP1qCqx3tqZhCzrpJpI7PuzI
-         rwKgmzdLLvfGfqcCDTPLpA8+0WaAYsdvqyeGzcIp9ninIm4u7qtGVKNh95W8pAxisx5h
-         cJaEkiI2tCbsa3Wd/E25w0zJzarVTvsoGO5AsGNCM0CAlbeGMbEDNJQUnNHmr6xpZG0D
-         2JxY04sen5SB//4+Fux5tTA22LRPjjrUVd7IvRKvtxDPlurD2vR+NskJO15x6vw+ViFD
-         0FFw==
+        bh=CxbGsIEBKJXLFMJMwsrH4depnZVFzjL0UEhUtSqhCgc=;
+        b=P5/KMGNw65Q35bdeFHk1TQv/9QBlY6zVMz/YsUU5nkht3Ajw2TjBSVC+tOAYxsaahq
+         /Zz0/clKS1bRgZGq1LmLA98Z4VTFIaUBuctAkpkCCBlo5kHYz+3qKrQtjI3sh8t+Qp4J
+         Rd7Cve20wKgYW1mNAiSbXhOWDIwfSto+tc4tgON7IP2HDk/1Bal2TqAQOPaVRh7n7iXJ
+         oPadhEGKIjvJ8S7JTFrmyhy8j1b1oxcI45NUbg2GfPDa2pPpWCDOh91138LUFXLYuzvV
+         kKfdxJQ73WIsuZC8J4rcnfP9OzOY9aIIofH3rPXQ0xEYVyNFh/7/SH6Y7NrpNf16WEUY
+         cV/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1/Yc5JujtwwX0NbKIXymg5eBpo08pcsE417gJv5ehyo=;
-        b=hISRdJOtda6XDGu3PnLOiDuR3VwXSqmf9pCxxaVZYERKTjhmwgv45dMInrlWCRmncM
-         Sb4/+BcCozwNiOKgfo/ZbPjmtQJixLGX+oMEFWcRFjY1fiyuoZ6QKPvTOwL5SwfiDtlm
-         1ARQy6IwHs4JXcPqi2CGdKRj8Y830NOddxZvayKoNlwEjJ0QjMhzdTPjuEVmWYlQpFoE
-         cWh2oC5FaLe2lRbQ1UR8bTEQuBDQFhCQF5w9BcZao4jGJMpp1dku3nR394tFAy+H1Z8O
-         NTEwiWa+k3iN0z0BvjN3GRoRLi/Xzo8/eKNbGLZbRFHmGr3OYoSd4ekDf77QYGVAe437
-         NIQQ==
-X-Gm-Message-State: ABuFfoi947X14ZkGws1a8hZuGjvz59qWGaKQj8zYmWDJbWzN/vuecprn
-        96FdLWGaHsO8kjPWkuJv2at+RUyiHAIQCF0FffPlrh2H0MQ=
-X-Google-Smtp-Source: ACcGV60KB6Tgyk79xlWUIot8CRvA8eRi0MRQVn3nAK7OIOsHjUOgpj5fSsuoSMvV/zBTYCugDXFALd6Tfl8kI5j3g2Q=
-X-Received: by 2002:a19:6b16:: with SMTP id d22-v6mr10373152lfa.49.1540243046845;
- Mon, 22 Oct 2018 14:17:26 -0700 (PDT)
+        bh=CxbGsIEBKJXLFMJMwsrH4depnZVFzjL0UEhUtSqhCgc=;
+        b=DpZoPqadcSxYvO5eEys45owPDaQ2HvfwBI3QCFBS+xGkawIm5E4FVUgZIUoG+AeErY
+         UBUzVT7TOfNjeJcmfF8R/udNW6D+U8gMO4MSoK9+EelOFSrlRrCRseuCEl2AdIYxb3QY
+         GJL5hlBF6CakM+mpgYCYwmLJPWRKGrnumV3zea8QIa8RmKvvpOiIUlEDjrLqGRvXGQP7
+         zy7DWZzh9GNmyre/OWhKP4xvHoKM/P6neZvsV6AGR9O1FCmC2oONfASEvNXsyUSznt2O
+         yEvDhofizoxe20CuGxtniRwMzoQZuD95eIfGOxTN10CJAskgRZJbfWY9FYARIt5wCEXk
+         fW3A==
+X-Gm-Message-State: ABuFfoi8hX/GH2dELVaDEuLE8Vl0ReWl369EcAQrMso6N5JRLYEt50R1
+        JDL1HjM6olbgZnJ6bjDElfR1USrNz/mCnMWij4E=
+X-Google-Smtp-Source: ACcGV62GwZBnvhASoZye/JJlSPTuVHnBNfWeevRAXwu7h6CbjLNAm2N0sCfW7qVJaLjC/5bIrUTl5T+1ddKwJx8shNg=
+X-Received: by 2002:a2e:6e08:: with SMTP id j8-v6mr33346152ljc.61.1540243437212;
+ Mon, 22 Oct 2018 14:23:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
- <20181021171414.22674-2-miguel.ojeda.sandonis@gmail.com> <CAKwvOdmPj_mm+9t1i=yLhvO0FAe6Kd7ezjOoTnp1fzcoikPHpw@mail.gmail.com>
-In-Reply-To: <CAKwvOdmPj_mm+9t1i=yLhvO0FAe6Kd7ezjOoTnp1fzcoikPHpw@mail.gmail.com>
+ <20181021182926.GB6683@kroah.com> <CANiq72kOE0a4M0oCmmiWO9xTFJsybEirwUyb_ZTXpJJhc7O_TA@mail.gmail.com>
+ <CAKwvOdn9hOcF01eOmwfnrH_ciFZ4fPaspSzMPiY68o3B0En-VQ@mail.gmail.com>
+In-Reply-To: <CAKwvOdn9hOcF01eOmwfnrH_ciFZ4fPaspSzMPiY68o3B0En-VQ@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 22 Oct 2018 23:17:15 +0200
-Message-ID: <CANiq72k2z78uae1GWjECo+OB7GC90b8irt0SHYtnSXT8F2Grrw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Compiler Attributes: add support for __fallthrough
- (gcc >= 7.1)
+Date:   Mon, 22 Oct 2018 23:23:45 +0200
+Message-ID: <CANiq72ktOU91ghnT4eRPvBzO-xq3_Kq-RCyCB1_VSf2b+17YXw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Compiler Attributes: __fallthrough
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Greg KH <gregkh@linuxfoundation.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
@@ -97,73 +97,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 7:36 PM Nick Desaulniers
+On Mon, Oct 22, 2018 at 6:54 PM Nick Desaulniers
 <ndesaulniers@google.com> wrote:
 >
-> On Sun, Oct 21, 2018 at 10:14 AM Miguel Ojeda
+> On Mon, Oct 22, 2018 at 2:48 AM Miguel Ojeda
 > <miguel.ojeda.sandonis@gmail.com> wrote:
 > >
-> > of its kind) to deal with this: [[fallthrough]] is meant to be
-> > a new control keyword in the form of an extension.
+> > On Sun, Oct 21, 2018 at 8:29 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > Will this work with all of the static tools that are currently looking
+> > > for the comment instead?  I know coverity handles that, what about
+> > > others?
+> >
+> > I will also contact the different tools about this.
 >
-> I think we can leave the details about the [[]] notation out. IIUC,
-> it's only applicable to C++.
+> Let's contact the authors of these tools if they don't parse the
+> attribute.  I prefer to have the attributes rather than specifically
+> formatted comments.
 
-No, because C++ is the driving force for the standard attributes
-syntax; i.e. C2x is adding them because of the syntax published by
-C++17; and possibly gcc 7.1 added support for fallthrough (and comment
-parsing) due to C++17 too.
-
-Basically, it is a small paragraph explaining how this came to be.
-
-> > +#if __has_attribute(__fallthrough__)
-> > +# define __fallthrough                  __attribute__((__fallthrough__))
-> > +#else
-> > +# define __fallthrough
->
-> While this is in the correct format as the other attributes in this
-> file, I think this particular attribute is a special case, because of
-> the variety of fallbacks and differing support for them.  I'd like to
-
-No, is it the correct format because we cannot add support for the
-other syntax in gcc; so the best way to proceed is to simply wait
-until clang supports the GNU attribute in C mode.
-
-The tooling, of course, is another matter and independent of this.
-
-> see in the commit message maybe a list of tools we'd like to support
-
-Yes, I already said I would write it in one of the other threads.
-
-> and links to the feature requests/bug reports for them.  I acknowledge
-> it's more work to file bugs, but it's being a good open source
-> citizen, IMO.
-
-Who said we aren't going to do it? :-)
-
-I was actually in the process of checking which OSS tools supported
-what and how easy it was to fix in each of them (gcc's [[...]] syntax,
-clang's GNU and C++ attrs in C mode, cppcheck's fallthrough
-support...), but it takes time; I prefer to do the research
-beforehand; so that the submitted bug reports are better/more
-precise/more helpful, etc.
-
-However, you already sent the LLVM report (without mentioning this
-thread or me, nor the -fdouble-square-bracket-attributes clang flag
-that I mentioned). That is a bit rude :-) Please take things a little
-easier, there is no need to rush stuff. If I didn't have submitted the
-LLVM bug report is because I hadn't finish looking at the issue. In
-general, I think it is polite (and also more productive to avoid
-duplicating efforts) to first ask whoever is working on something
-before you rush to do it...
+Sorry, not sure what you mean -- isn't that what I said? Greg was
+asking whether tools would support the attribute equally well compared
+to the comment parsing; not the comments.
 
 >
-> I'm also curious which is the first version of GCC to support the
-> comment format?
+> I do think this may be tricky to provide backwards support for though;
+> Miguel, do you have info on which versions of GCC support comments vs
+> attribute?
 
-gcc 7.1 started everything. It is stated in the commit message and
-several messages/threads already. Again, please pause, relax and read
-a bit before sending stuff around :-)
+It is in the commit message:
+
+    """
+    In C mode, GCC supports the __fallthrough__ attribute since 7.1,
+    the same time the warning and the comment parsing were introduced.
+    """
 
 Cheers,
 Miguel
