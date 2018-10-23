@@ -1,302 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B52E07D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Oct 2018 08:11:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E6247D088
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Oct 2018 16:48:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727613AbeJWQdt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Oct 2018 12:33:49 -0400
-Received: from ms.lwn.net ([45.79.88.28]:44844 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727602AbeJWQds (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Oct 2018 12:33:48 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 231E230A;
-        Tue, 23 Oct 2018 08:11:29 +0000 (UTC)
-Date:   Tue, 23 Oct 2018 02:11:26 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation for 4.20 (or whatever it's called)
-Message-ID: <20181023021126.41bdb1e0@lwn.net>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728406AbeJXBMe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Oct 2018 21:12:34 -0400
+Received: from sonic311-28.consmr.mail.gq1.yahoo.com ([98.137.65.209]:43046
+        "EHLO sonic311-28.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728270AbeJXBMe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Oct 2018 21:12:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1540313303; bh=yynKm9stIduSWPbk4zo7xnaN/eaxsH/tXE8xgOv8za4=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=KmrBgLXalpL5wnPbINQPxmTe5mWs3L7LrF+NppQU6xT5bgvBCsLzx/seWDLCESfaKCwOSlabL7CkCBc/2CpTWGrSkDvnxRP01SPYERD6FM0O/M4lJzoHD+//caWWHy+xZenUKC3JDooY5o2E0V+D5OXmrUo7MrRgGq+RsCbF0fJEPdm4y/lOZW6LYdat2S5mZKCts/fnZ7MD04TLscgbGGwgJzN+9ZoEeeM4UUV1cWN/6I78b2H5D4xElxlrwvJEHY4W15h8bIkGIFU7uWIQs5z/FZToEC/b7f/XDHq3PC44oc0eA+uaJLG1iascY+8r13t56zc2MK5WbOoH3gZPkQ==
+X-YMail-OSG: v.mP48gVM1lVhhZ4ugFahggzMCsjQncp6iymfalc1FGk0O6IcBXU1v0Tu6Epgfe
+ AWFJMvOcKN3JQ9voTSxUZS6XKWkztuXgAKPvmi85EqsV8UzNZ0ch80TQcRsBIpniY.lRL_kjNKAV
+ bINZc94RadbEEDLRpAD4JCs42VHHM5LQBkg1ZUwZymjelO5RDxwIAHnUNPisZZh_yAmZVIx_JpxI
+ MjV0_vZh1foSFiwrjUFTKZUllfegaAyOQaCmz5R0jFcdD.LgLCIcUTk61_k2JNBd94obG7GxVl1O
+ vtXR.05ag9JzKjfW8Rn8qzFfBp5ScT9_wbs4ee7Fx4aexqff8f9eGmuMqS2yuC9FSgviTeMqnoBl
+ AadEN2FMw4WJ5bJYv78qcJ8AdukY9MQKLgH4M5zAZUX.GnbhPIqfSL5fRrcPA4fqBamYBY0dfXAI
+ teqkpugihjAoPOjMRknze1vnJt.0SRYEsVpMJmFTg.AQsru1mTrpufienXIjBnpOlJd5hSFwJsox
+ oi.qzJYhEyFrQTsnWnS2GPuaNS3mDfCHzqg8PTc75WdN8FuWgXXxJ2gh8OVvEjkjqzxFRR84UldL
+ alQCKmJJA.Wmbu81AlxObS.d4BoOPRoIMpm6VUGF1yDksC61Q8pF6s7U2UZXbAA6DAJJD9Kp45DQ
+ 1LUz3HDTt7XgPSt1yZECSABuW.izuKJVRCAMJSd2iRkDaO.lmayCxnVcjJiRHJptofx7KTWM5Tu9
+ uBMYZPAQiO3WLuSQFlOao530WhifPImaGv0u6dVRSgtWAPJkmCrHR0I_dkHlkEDsM4KPxffJ2uCk
+ Bs2btmt75fPt4WasNHqiiDOH5WDHAxQ0.NC2XQZ.8OWU1zueONdBZ2u_8S3KsufKuFeLrJVKSVvO
+ 2a3zGEHXanhuOwPnWQONC1QboSDSI9SOoE5JQajpeD3feaCTYVMcPpbZ6eAY.YtH6JSfrx.bf5JF
+ n91r5gvqAaQKjrabbklAOwwePvvV2F3ioCGN1Okul1DWN0IF0nX.NIKObGpuqqouh6MJn_U5QpL9
+ V41lwwOJ7PVgbqyumYEQjaGD0S_eZOu3et8xtE6NuBVlG_BUdQEGNO9Mn5eGCdwx4U4kUbdlGTt3
+ 4yAfoXkvhYombS3AiDfNBJ_VSXzWkQWmuUJc1TWJQ1k5HjpFU2Hzf9qD8UfsT
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.gq1.yahoo.com with HTTP; Tue, 23 Oct 2018 16:48:23 +0000
+Received: from c-67-169-65-224.hsd1.ca.comcast.net (EHLO [192.168.0.102]) ([67.169.65.224])
+          by smtp411.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID b419b420ec331b823b05909e1f5b1a99;
+          Tue, 23 Oct 2018 16:48:22 +0000 (UTC)
+Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
+To:     Kees Cook <keescook@chromium.org>,
+        John Johansen <john.johansen@canonical.com>
+Cc:     Jordan Glover <Golden_Miller83@protonmail.ch>,
+        James Morris <jmorris@namei.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20181011001846.30964-1-keescook@chromium.org>
+ <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
+ <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
+ <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
+ <f68e5f4b-6360-a9e7-597f-89d1d3ca73c1@canonical.com>
+ <32stV62RmME8Dj5jKB8Z03zPe_Et72kMo71D8SpgSOHUo6SaROc8DomMWdk5jDGpyqVd8T63NIIK2NdDw95clpF8Uj47Wca2FBFItXDRh7E=@protonmail.ch>
+ <38dde301-d77e-35fd-88d4-5cdc5b570ee8@canonical.com>
+ <_CkJnKYmEZ4ZF0JtsSYuahAd9sgnX9OtcstjXaeqb8wn5uxfimc6S4jomly7If9VqnOXqXwaiCbJ9ttS6NiqE7n6cQUlwLvfO53paLmacvU=@protonmail.ch>
+ <8251564f-ba7a-1777-a606-dec472b32f35@canonical.com>
+ <CAGXu5j+2yVZ5DQHyqvJKnSYYqRCzeMtEabBwYFOWkTcwMUWhEw@mail.gmail.com>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+Message-ID: <96e92224-aedf-5026-d6dd-b29121b4dc0d@schaufler-ca.com>
+Date:   Tue, 23 Oct 2018 09:48:20 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGXu5j+2yVZ5DQHyqvJKnSYYqRCzeMtEabBwYFOWkTcwMUWhEw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit
-5b394b2ddf0347bef56e50c69a58773c94343ff3:
+On 10/12/2018 12:01 PM, Kees Cook wrote:
+> On Friday, October 12, 2018 3:19 AM, John Johansen
+> <john.johansen@canonical.com> wrote:
+>> It isn't perfect but it manages consistency across distros as best as
+>> can be achieved atm.
+> Yeah, this is why I'm okay with the current series: it provides as
+> consistent a view as possible, but leaves room for future improvements
+> (like adding "+" or "!" or "all" or whatever).
+>
+> I'm curious to see what SELinux folks think of v5, though. I *think* I
+> addressed all the concerns there, even Paul's "I want my distro
+> default to not have extreme stacking" case too.
+>
+> -Kees
 
-  Linux 4.19-rc1 (2018-08-26 14:11:59 -0700)
+Looks like I should go on vacation more often. :)
 
-are available in the Git repository at:
+I am generally opposed to fancy specification languages.
+I support the explicit lsm= list specification because you
+don't have to know any context to create a boot line that
+will work, and be as close to what you've specified as possible
+for the kernel configuration. One need look no further than
+the mechanisms for setting POSIX ACLs for an example of
+how to ensure a feature isn't used.
 
-  git://git.lwn.net/linux.git tags/docs-4.20
+Had we the foresight to make security= take a list of
+modules when Yama was added we might have avoided some of
+this brouhaha, but there was no reason to expect that stacking
+was ever going to happen back then.
 
-for you to fetch changes up to aea74de4b216cdacda797d54220b8ac19daa1bf7:
-
-  docs: Fix typos in histogram.rst (2018-10-18 12:33:08 -0600)
-
-----------------------------------------------------------------
-This is a fairly typical cycle for documentation.  There's some welcome
-readability improvements for the formatted output, some LICENSES updates
-including the addition of the ISC license, the removal of the unloved and
-unmaintained 00-INDEX files, the deprecated APIs document from Kees, more
-MM docs from Mike Rapoport, and the usual pile of typo fixes and
-corrections.
-
-----------------------------------------------------------------
-Akinobu Mita (1):
-      docs: fix typo in table describing 4.16 development cycle
-
-Anders Roxell (1):
-      doc: dev-tools: kselftest.rst: update config file location
-
-Andrew Murray (1):
-      Documentation: preempt-locking: Use better example
-
-Baoquan He (1):
-      docs/vm/hmm.rst: Add missed space
-
-Darrick J. Wong (1):
-      docs: improve readability for people with poorer eyesight
-
-David Hildenbrand (1):
-      docs/core-api: memory-hotplug: add some details about locking internals
-
-Felix Eckhofer (1):
-      doc: Fix acronym "FEKEK" in ecryptfs
-
-Geert Uytterhoeven (1):
-      doc: printk-formats: Remove bogus kobject references for device nodes
-
-Grant Likely (1):
-      efi_stub: update documentation on dtb= parameter
-
-Guillaume Dore (1):
-      doc: fix a typo in adding-syscalls.rst
-
-Hans de Goede (2):
-      LICENSES: Add note to CDDL-1.0 license that it should not be used
-      LICENSES: Add ISC license text
-
-Henrik Austad (1):
-      Drop all 00-INDEX files from Documentation/
-
-Himanshu Jha (1):
-      docs: dev-tools: coccinelle: Update documentation
-
-John Garry (1):
-      docs/completion.txt: Fix a couple of punctuation nits
-
-Kees Cook (1):
-      docs: Introduce deprecated APIs list
-
-Markus Heiser (1):
-      docs: tidy up TOCs and refs to license-rules.rst
-
-Masami Hiramatsu (1):
-      docs: tracing: Add stacktrace filter command
-
-Masanari Iida (1):
-      docs: Fix typos in histogram.rst
-
-Mauro Carvalho Chehab (1):
-      docs: fix some broken documentation references
-
-Mike Rapoport (8):
-      docs/boot-time-mm: fix kernel-doc directive for including all but DOC:
-      docs: core-api/gfp_mask-from-fs-io: add a label for cross-referencing
-      docs: core-api/mm-api: add a lable for GFP flags section
-      docs: core-api: add memory allocation guide
-      docs: move memory hotplug description into admin-guide/mm
-      docs/vm: split memory hotplug notifier description to Documentation/core-api
-      docs/core-api: rename memory-hotplug-notifier to memory-hotplug
-      docs/admin-guide: memory-hotplug: remove table of contents
-
-Nikolay Borisov (1):
-      dm flakey: Document "error_writes" feature
-
-Randy Dunlap (6):
-      Documentation/fb/vesafb.txt: "inverse" option corrections
-      FireWire: clean up firewire-cdev.h kernel-doc
-      FireWire: clean up core-iso.c kernel-doc
-      FireWire: clean up core-transaction.c kernel-doc
-      FireWire: add a Documentation driver-api chapter
-      kernel-doc: fix declaration type determination
-
-Robin Murphy (1):
-      iommu: Fix passthrough option documentation
-
-Salvatore Bonaccorso (1):
-      Documentation/l1tf: Fix small spelling typo
-
-Takashi Sakamoto (1):
-      FireWire: add driver-api Introduction section
-
-Wolfram Sang (2):
-      MAINTAINERS: sort excludes for Documentation
-      MAINTAINERS: add i2c to the excludes for Documentation
-
-Yves-Alexis Perez (1):
-      yama: clarify ptrace_scope=2 in Yama documentation
-
- Documentation/00-INDEX                             | 428 ---------------------
- Documentation/PCI/00-INDEX                         |  26 --
- Documentation/RCU/00-INDEX                         |  34 --
- Documentation/RCU/rcu.txt                          |   4 -
- Documentation/admin-guide/LSM/Yama.rst             |   4 +-
- Documentation/admin-guide/README.rst               |   3 +-
- Documentation/admin-guide/kernel-parameters.txt    |   2 +-
- Documentation/admin-guide/l1tf.rst                 |   2 +-
- Documentation/admin-guide/mm/index.rst             |   1 +
- .../mm/memory-hotplug.rst}                         | 169 ++------
- Documentation/arm/00-INDEX                         |  50 ---
- Documentation/block/00-INDEX                       |  34 --
- Documentation/blockdev/00-INDEX                    |  18 -
- Documentation/cdrom/00-INDEX                       |  11 -
- Documentation/cgroup-v1/00-INDEX                   |  26 --
- Documentation/conf.py                              |   6 +-
- Documentation/core-api/boot-time-mm.rst            |   4 +-
- Documentation/core-api/gfp_mask-from-fs-io.rst     |   2 +
- Documentation/core-api/index.rst                   |   3 +
- Documentation/core-api/memory-allocation.rst       | 122 ++++++
- Documentation/core-api/memory-hotplug.rst          | 125 ++++++
- Documentation/core-api/mm-api.rst                  |   2 +
- Documentation/core-api/printk-formats.rst          |   6 +-
- Documentation/dev-tools/coccinelle.rst             |  23 +-
- Documentation/dev-tools/kselftest.rst              |   2 +-
- Documentation/device-mapper/dm-flakey.txt          |   4 +
- Documentation/devicetree/00-INDEX                  |  12 -
- Documentation/driver-api/basics.rst                |   3 +
- Documentation/driver-api/firewire.rst              |  48 +++
- Documentation/driver-api/index.rst                 |   1 +
- Documentation/efi-stub.txt                         |  17 +-
- Documentation/fb/00-INDEX                          |  75 ----
- Documentation/fb/vesafb.txt                        |   4 +-
- Documentation/filesystems/00-INDEX                 | 153 --------
- Documentation/filesystems/dax.txt                  |   2 +-
- Documentation/filesystems/ext2.txt                 |   2 +-
- Documentation/filesystems/nfs/00-INDEX             |  26 --
- Documentation/fmc/00-INDEX                         |  38 --
- Documentation/gpio/00-INDEX                        |   4 -
- Documentation/ide/00-INDEX                         |  14 -
- Documentation/index.rst                            |   5 +-
- Documentation/ioctl/00-INDEX                       |  12 -
- Documentation/isdn/00-INDEX                        |  42 --
- Documentation/kbuild/00-INDEX                      |  14 -
- Documentation/laptops/00-INDEX                     |  16 -
- Documentation/leds/00-INDEX                        |  32 --
- Documentation/locking/00-INDEX                     |  16 -
- Documentation/m68k/00-INDEX                        |   7 -
- Documentation/mips/00-INDEX                        |   4 -
- Documentation/mmc/00-INDEX                         |  10 -
- Documentation/netlabel/00-INDEX                    |  10 -
- Documentation/netlabel/cipso_ipv4.txt              |  11 +-
- Documentation/netlabel/introduction.txt            |   2 +-
- Documentation/networking/00-INDEX                  | 234 -----------
- Documentation/parisc/00-INDEX                      |   6 -
- Documentation/power/00-INDEX                       |  44 ---
- Documentation/powerpc/00-INDEX                     |  34 --
- Documentation/preempt-locking.txt                  |  12 +-
- Documentation/process/2.Process.rst                |   2 +-
- Documentation/process/adding-syscalls.rst          |   2 +-
- Documentation/process/deprecated.rst               | 119 ++++++
- Documentation/process/howto.rst                    |  13 +-
- Documentation/process/index.rst                    |   2 +
- Documentation/process/license-rules.rst            |   2 +
- Documentation/s390/00-INDEX                        |  28 --
- Documentation/scheduler/00-INDEX                   |  18 -
- Documentation/scheduler/completion.txt             |   6 +-
- Documentation/scsi/00-INDEX                        | 108 ------
- Documentation/security/keys/ecryptfs.rst           |   8 +-
- Documentation/serial/00-INDEX                      |  16 -
- Documentation/sphinx-static/theme_overrides.css    |  38 ++
- Documentation/spi/00-INDEX                         |  16 -
- Documentation/sysctl/00-INDEX                      |  16 -
- Documentation/timers/00-INDEX                      |  16 -
- Documentation/trace/ftrace.rst                     |   3 +
- Documentation/trace/histogram.rst                  |   6 +-
- Documentation/virtual/00-INDEX                     |  11 -
- Documentation/virtual/kvm/00-INDEX                 |  35 --
- Documentation/vm/00-INDEX                          |  50 ---
- Documentation/vm/hmm.rst                           |  14 +-
- Documentation/w1/00-INDEX                          |  10 -
- Documentation/w1/masters/00-INDEX                  |  12 -
- Documentation/w1/slaves/00-INDEX                   |  14 -
- Documentation/x86/00-INDEX                         |  20 -
- Documentation/x86/x86_64/00-INDEX                  |  16 -
- LICENSES/other/CDDL-1.0                            |   6 +-
- LICENSES/other/ISC                                 |  24 ++
- MAINTAINERS                                        |  13 +-
- README                                             |   1 -
- drivers/firewire/core-iso.c                        |   7 +
- drivers/firewire/core-transaction.c                |  10 +
- include/uapi/linux/firewire-cdev.h                 |  22 +-
- lib/vsprintf.c                                     |  20 +-
- net/bridge/Kconfig                                 |   2 +-
- scripts/check_00index.sh                           |  67 ----
- scripts/kernel-doc                                 |   8 +-
- 96 files changed, 680 insertions(+), 2122 deletions(-)
- delete mode 100644 Documentation/00-INDEX
- delete mode 100644 Documentation/PCI/00-INDEX
- delete mode 100644 Documentation/RCU/00-INDEX
- rename Documentation/{memory-hotplug.txt => admin-guide/mm/memory-hotplug.rst} (74%)
- delete mode 100644 Documentation/arm/00-INDEX
- delete mode 100644 Documentation/block/00-INDEX
- delete mode 100644 Documentation/blockdev/00-INDEX
- delete mode 100644 Documentation/cdrom/00-INDEX
- delete mode 100644 Documentation/cgroup-v1/00-INDEX
- create mode 100644 Documentation/core-api/memory-allocation.rst
- create mode 100644 Documentation/core-api/memory-hotplug.rst
- delete mode 100644 Documentation/devicetree/00-INDEX
- create mode 100644 Documentation/driver-api/firewire.rst
- delete mode 100644 Documentation/fb/00-INDEX
- delete mode 100644 Documentation/filesystems/00-INDEX
- delete mode 100644 Documentation/filesystems/nfs/00-INDEX
- delete mode 100644 Documentation/fmc/00-INDEX
- delete mode 100644 Documentation/gpio/00-INDEX
- delete mode 100644 Documentation/ide/00-INDEX
- delete mode 100644 Documentation/ioctl/00-INDEX
- delete mode 100644 Documentation/isdn/00-INDEX
- delete mode 100644 Documentation/kbuild/00-INDEX
- delete mode 100644 Documentation/laptops/00-INDEX
- delete mode 100644 Documentation/leds/00-INDEX
- delete mode 100644 Documentation/locking/00-INDEX
- delete mode 100644 Documentation/m68k/00-INDEX
- delete mode 100644 Documentation/mips/00-INDEX
- delete mode 100644 Documentation/mmc/00-INDEX
- delete mode 100644 Documentation/netlabel/00-INDEX
- delete mode 100644 Documentation/networking/00-INDEX
- delete mode 100644 Documentation/parisc/00-INDEX
- delete mode 100644 Documentation/power/00-INDEX
- delete mode 100644 Documentation/powerpc/00-INDEX
- create mode 100644 Documentation/process/deprecated.rst
- delete mode 100644 Documentation/s390/00-INDEX
- delete mode 100644 Documentation/scheduler/00-INDEX
- delete mode 100644 Documentation/scsi/00-INDEX
- delete mode 100644 Documentation/serial/00-INDEX
- delete mode 100644 Documentation/spi/00-INDEX
- delete mode 100644 Documentation/sysctl/00-INDEX
- delete mode 100644 Documentation/timers/00-INDEX
- delete mode 100644 Documentation/virtual/00-INDEX
- delete mode 100644 Documentation/virtual/kvm/00-INDEX
- delete mode 100644 Documentation/vm/00-INDEX
- delete mode 100644 Documentation/w1/00-INDEX
- delete mode 100644 Documentation/w1/masters/00-INDEX
- delete mode 100644 Documentation/w1/slaves/00-INDEX
- delete mode 100644 Documentation/x86/00-INDEX
- delete mode 100644 Documentation/x86/x86_64/00-INDEX
- create mode 100644 LICENSES/other/ISC
- delete mode 100755 scripts/check_00index.sh
