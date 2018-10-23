@@ -1,120 +1,1315 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3A5C57D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Oct 2018 19:05:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71F707D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Oct 2018 21:24:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728608AbeJXDaB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Oct 2018 23:30:01 -0400
-Received: from sonic313-26.consmr.mail.gq1.yahoo.com ([98.137.65.89]:40067
-        "EHLO sonic313-26.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728385AbeJXDaB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Oct 2018 23:30:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1540321520; bh=H1laKsD5UZDPVFerugLJiB83UhuvjeUFPVeNx0++dWM=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=smIgNs/wDQtQiVxK4eC8nQfJdgsY+kRUD5tnTxKabCFr/k9CIybrDxY35/POaS/cliaTAyOrGr+cxb/aqKGnSAW8b+bKAX5Kkt1WKouinfYu809sbR+nTH0QyC4wenEEmhphOKBN2h79yc3la5CV2Bs/JaOHshxza1AWsqn1DnVGody6SwkXl+rNaTV/ClTDdzE8qZY3fMTkZ9y15/qukasITZ/kPnD3VxqJzGD777jpOXdwKydpcgajgt/2pdG5iV28IMs6fUe5fsdKg6FIIxziivvSdZDiWa5kArwFM2B25eUMeaN4w7zjzYJ/0xLWALD9CszlzSlS8D4Myy3Xbw==
-X-YMail-OSG: 7zB_jpUVM1ndDWNZLKcgYrx8lzN8A.54CMf8dnG.zLOCX2Yr8GR9klVoLP3x9rO
- RRYLZ.ueKiHyJtEhNDLV36toaLE5QH0steut6gdm_0FRzDsewmhbsDTfKdu6bmY_VHg.Dw1oXMSN
- 4Cx45r4tl15uJubUheQqCfHyzl_WonzvOOJBbZmggdkGcfTtuxDkPj3YgjSGLK7SoQzlWsd4HPQt
- WiN3jNPplZ05WdaxQTWJkM1l8Ewp7pQ7c2p9s17hh6Q6pYo3dJYzxAiKpN3tw4Mdz6nH51jMdP9p
- MwzkvhnHTHg42YLhFPwjlVnoXW8oTyIdcOrumTSmCxCUCkequA8TF6.EKOZl960wei35wvk4aXW5
- iQXGGhYQP_G65Uhnkyf29fJxQSxvxerqR8XhrqJUCee6FA0kc4qOPWbFDND28spNo4FDiIyszzqH
- zsWvVWfvhdbsfmvsmYW0xHGGjAsOsa_b3WIFdRwcgN3d91At1VA5AhuvcT6amA_dSRVK8TrRcphl
- 0D2U7JLcjA.mogCet7QI44.O1PAYElm2NYcD6VCE.DY2RJwTBydlza5KUqIcB2D9kMeANQwP826U
- Nbh7PhV3J6oVdR6y51pPQiigG1TE1MP.ZHTZtZWYFVC2NQiX35YQV2TLOhqTHV5gJqt2SqCGhT1K
- x8VKQWozhe6frCALwO3GQdHqfmHgW8U2SzGUzKC8INY60uqu5tLC475T582HXMlfgmhDeeWVdmOY
- WTYKpUCjs0LVXZkq9R0YbYWbSYNs6sRGTLLcIwWNdzn48HtPBSrbiooi7XF6D2gezOjpUCAkcJik
- IAb4f3i.MyUO.LVHABhdUrOgYWEMbwYeHKzbDy.Fxce0lxhnDOJhUaq.yWJQyTC4tnp46wze6ie.
- LFCdDlhgAH79ontQP6Xcz9hK3P1qNsCQMCKpowlMOwFwN6ZP61oTUyK6z9EVnxPIXqLoSxaF_kJv
- 5kXoajAGHI2VXILea4sOvS17wA1lgPY_S89v2d2vFnYTmM8f9_BpAjwYZVCq4DTu6HXJXJWVFi6A
- JNzcnRFYSKOVeUdRw2UzsgVVLyDjxr.BWvTFPjlcN37DHhwEaoQ9PrU0T7K_h9Wg2g6OqucD.tza
- YHaePalc2LNRBaFECeC2vDcHCJ7rOqPBnD4tjKduuMsVnyuejxbWbf4U-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.gq1.yahoo.com with HTTP; Tue, 23 Oct 2018 19:05:20 +0000
-Received: from c-67-169-65-224.hsd1.ca.comcast.net (EHLO [192.168.0.102]) ([67.169.65.224])
-          by smtp408.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID 97723a383fa3c53d97cee5cb127bcd58;
-          Tue, 23 Oct 2018 19:05:17 +0000 (UTC)
-Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
-To:     Kees Cook <keescook@chromium.org>
-Cc:     John Johansen <john.johansen@canonical.com>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        James Morris <jmorris@namei.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Casey Schaufler <casey@schaufler-ca.com>
-References: <20181011001846.30964-1-keescook@chromium.org>
- <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
- <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
- <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
- <f68e5f4b-6360-a9e7-597f-89d1d3ca73c1@canonical.com>
- <32stV62RmME8Dj5jKB8Z03zPe_Et72kMo71D8SpgSOHUo6SaROc8DomMWdk5jDGpyqVd8T63NIIK2NdDw95clpF8Uj47Wca2FBFItXDRh7E=@protonmail.ch>
- <38dde301-d77e-35fd-88d4-5cdc5b570ee8@canonical.com>
- <_CkJnKYmEZ4ZF0JtsSYuahAd9sgnX9OtcstjXaeqb8wn5uxfimc6S4jomly7If9VqnOXqXwaiCbJ9ttS6NiqE7n6cQUlwLvfO53paLmacvU=@protonmail.ch>
- <8251564f-ba7a-1777-a606-dec472b32f35@canonical.com>
- <CAGXu5j+2yVZ5DQHyqvJKnSYYqRCzeMtEabBwYFOWkTcwMUWhEw@mail.gmail.com>
- <96e92224-aedf-5026-d6dd-b29121b4dc0d@schaufler-ca.com>
- <CAGXu5jKFqtV_NFRaXPKVgNQt3F1pwFqopDLp1ZQJDGM_Bdid6Q@mail.gmail.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-Message-ID: <63410d08-d0d1-8cd9-5d9e-70d95a1a8ca0@schaufler-ca.com>
-Date:   Tue, 23 Oct 2018 12:05:14 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1728491AbeJXFtU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Oct 2018 01:49:20 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34625 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728426AbeJXFtT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Oct 2018 01:49:19 -0400
+Received: by mail-pf1-f193.google.com with SMTP id f78-v6so1321528pfe.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Oct 2018 14:24:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ev1XAb2dc8Fjb5Co3IFWAplxOGNnQV0QJkeyA4UIrok=;
+        b=FhcSd5LMw7azznfqsJtDsiJXvCaPSHvKP5TBaCR75J0q7+sPFwD2VHsUF3ryEY/ta2
+         wqc5/MC6IxC1npN+uJJWkkgpPi+dnnH9XfwCv76yc/4fjpCGqtJt61ZCFpbE5sy22jbX
+         AmvexKBk0EWQb9ramt3ztpOI+qI+8e7Obevb7ZgOkITWVWyctqPFK9dERIdVSth5IeUG
+         BAmvSyHIRZD0uG8tY4KL5tGBIUALfAEJwnBQkS/9FCKLB9+9cJHwHEQyeuWAQqSX17yz
+         +ggP7UdNVVBb44bKqvtV9NTUIAFUZ6HYkwBCpS5mdjNwTfC8Afr+wWvFIZh8bYivcc6w
+         4YrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ev1XAb2dc8Fjb5Co3IFWAplxOGNnQV0QJkeyA4UIrok=;
+        b=YobwujQ9+fsyHa5fh8NCYH3Y+Cwv8VaPi77xzuQvI11L+RnDlHx6W6GwL3vw+BE6GS
+         QkahSVozRwdFDVP36gD0J1yqhfz+VI5GpqFSNwr/YplotZJ4K4EwVr1VNjW4nwiO1XNr
+         S29J8SOqj4jG9QIH8mxqJEwXl27mZuIg6cLVWjzOqL5LA69JYbLAJ/AODF0GY68IJ5tE
+         KYi6gSL95Btek/D/722UWWlJc4i2Y9LFnOe3DVn4jnNgp/iw4AZEq12KpsicqpyeNzJF
+         TaEObrGsfWMVI+BNMfo9CgCqrHnX2xYmc2jnVXTekbR5BIpD4jyV+whsTQi2G59QiNJk
+         GVew==
+X-Gm-Message-State: ABuFfoiQJ+7i0T7jh7+oAOd75BA7Jnuwjlv4voqQqK2yzNNk11o9P3To
+        CAcY2nHe9tUqjC3VUjxxHEnFrQ==
+X-Google-Smtp-Source: ACcGV637l/HMw/+K6uYyjjjgYAhvkPkY4esHlP68UxAieh2ywT9RD1/Ooyxm7bEWM61W7W+iz9PBHg==
+X-Received: by 2002:a62:7d8d:: with SMTP id y135-v6mr51175088pfc.245.1540329848075;
+        Tue, 23 Oct 2018 14:24:08 -0700 (PDT)
+Received: from paullawrence.mtv.corp.google.com ([2620:0:1000:1601:da51:dc8c:708a:5253])
+        by smtp.gmail.com with ESMTPSA id d2-v6sm2791404pfn.118.2018.10.23.14.24.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 23 Oct 2018 14:24:07 -0700 (PDT)
+From:   Paul Lawrence <paullawrence@google.com>
+Cc:     Paul Lawrence <paullawrence@google.com>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
+        Jonathan Corbet <corbet@lwn.net>, Shaohua Li <shli@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-raid@vger.kernel.org
+Subject: [RFC] dm-bow working prototype
+Date:   Tue, 23 Oct 2018 14:23:28 -0700
+Message-Id: <20181023212358.60292-1-paullawrence@google.com>
+X-Mailer: git-send-email 2.19.1.568.g152ad8e336-goog
 MIME-Version: 1.0
-In-Reply-To: <CAGXu5jKFqtV_NFRaXPKVgNQt3F1pwFqopDLp1ZQJDGM_Bdid6Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/23/2018 11:50 AM, Kees Cook wrote:
-> On Tue, Oct 23, 2018 at 9:48 AM, Casey Schaufler <casey@schaufler-ca.com> wrote:
->> On 10/12/2018 12:01 PM, Kees Cook wrote:
->>> On Friday, October 12, 2018 3:19 AM, John Johansen
->>> <john.johansen@canonical.com> wrote:
->>>> It isn't perfect but it manages consistency across distros as best as
->>>> can be achieved atm.
->>> Yeah, this is why I'm okay with the current series: it provides as
->>> consistent a view as possible, but leaves room for future improvements
->>> (like adding "+" or "!" or "all" or whatever).
->>>
->>> I'm curious to see what SELinux folks think of v5, though. I *think* I
->>> addressed all the concerns there, even Paul's "I want my distro
->>> default to not have extreme stacking" case too.
->>>
->>> -Kees
->> Looks like I should go on vacation more often. :)
->>
->> I am generally opposed to fancy specification languages.
->> I support the explicit lsm= list specification because you
->> don't have to know any context to create a boot line that
->> will work, and be as close to what you've specified as possible
->> for the kernel configuration. One need look no further than
->> the mechanisms for setting POSIX ACLs for an example of
->> how to ensure a feature isn't used.
->>
->> Had we the foresight to make security= take a list of
->> modules when Yama was added we might have avoided some of
->> this brouhaha, but there was no reason to expect that stacking
->> was ever going to happen back then.
-> This sounds like an "Ack" for you? :) I'll harass everyone in person
-> in a couple days.
+bow == backup on write
 
-Acked-by: Casey Schaufler <casey@schaufler-ca.com>
+Similar to dm-snap, add the ability to take a snapshot of a device.
+Unlike dm-snap, a separate volume is not required.
 
-> Did you poke around at my combined series?
-> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=lsm/ordering-v6-blob-sharing
+dm-bow can be in one of three states.
 
-I hope to do that on the plane later today.
+In state one, the free blocks on the device are identified by issuing
+an FSTRIM to the filesystem.
 
-> -Kees
+In state two, any writes cause the overwritten data to be backup up
+to the available free space. While in this state, the device can be
+restored by unmounting the filesystem, removing the dm-bow device
+and running a usermode tool over the underlying device.
+
+In state three, the changes are committed, dm-bow is in pass-through
+mode and the drive can no longer be restored.
+
+It is planned to use this driver to enable restoration of a failed
+update attempt on Android devices using ext4.
+
+Test: Can boot Android with userdata mounted on this device. Can commit
+userdata after SUW has run. Can then reboot, make changes and roll back.
+
+Known issues:
+
+Recovery tool needed
+
+Remove BUG_ONs
+
+Assumtion is that bios are always page aligned. This is not in general
+true. Fix to work with file systems which use 1k blocks.
+
+Mutex is held around entire flush operation, including lengthy I/O. Plan
+is to convert to state machine with pending queues.
+
+Add a linked list of free ranges to avoid linear searches of the tree.
+Similarly sector0_current should be stored in bow_context. There should
+be no linear searches of the map.
+
+Interaction with block encryption is unknown, especially with respect
+to sector 0.
+
+Signed-off-by: Paul Lawrence <paullawrence@google.com>
+Cc: Alasdair Kergon <agk@redhat.com>
+Cc: Mike Snitzer <snitzer@redhat.com>
+Cc: dm-devel@redhat.com
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shaohua Li <shli@kernel.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-raid@vger.kernel.org
+
+---
+ Documentation/device-mapper/dm-bow.txt |  103 +++
+ drivers/md/Kconfig                     |   12 +
+ drivers/md/Makefile                    |    1 +
+ drivers/md/dm-bow.c                    | 1033 ++++++++++++++++++++++++
+ 4 files changed, 1149 insertions(+)
+ create mode 100644 Documentation/device-mapper/dm-bow.txt
+ create mode 100644 drivers/md/dm-bow.c
+
+diff --git a/Documentation/device-mapper/dm-bow.txt b/Documentation/device-mapper/dm-bow.txt
+new file mode 100644
+index 000000000000..a77d5bf8f98b
+--- /dev/null
++++ b/Documentation/device-mapper/dm-bow.txt
+@@ -0,0 +1,103 @@
++dm_bow (backup on write)
++========================
++
++dm_bow is a device mapper driver that uses the free space on a device to back up
++data that is overwritten. The changes can then be committed by a simple state
++change, or rolled back by removing the dm_bow device and running a command line
++utility over the underlying device.
++
++dm_bow has three states, set by writing ‘1’ or ‘2’ to /sys/block/dm-?/bow/state.
++It is only possible to go from state 0 (initial state) to state 1, and then from
++state 1 to state 2.
++
++State 0: dm_bow collects all trims to the device and assumes that these mark
++free space on the overlying file system that can be safely used. Typically the
++mount code would create the dm_bow device, mount the file system, call the
++FITRIM ioctl on the file system then switch to state 1. These trims are not
++propagated to the underlying device.
++
++TODO: There are some race conditions if there are writes in state 0. Test
++mounting the drive ro and see if trims are still allowed. If that fails, test
++holding all writes in a queue until we switch to state 1. If that fails,
++consider implementing a ram disk type affair, which will be complex and risky.
++
++State 1: All writes to the device cause the underlying data to be backed up to
++the free (trimmed) area as needed in such a way as they can be restored.
++However, the writes, with one exception, then happen exactly as they would
++without dm_bow, so the device is always in a good final state. The exception is
++that sector 0 is used to keep a log of the latest changes, both to indicate that
++we are in this state and to allow rollback. See below for all details.
++
++State 2: The transition to state 2 triggers replacing the special sector 0 with
++the normal sector 0, and the freeing of all state information. dm_bow then
++becomes a pass-through driver, allowing the device to continue to be used with
++minimal performance impact.
++
++Usage
++=====
++dm-bow takes one command line parameter, the name of the underlying device.
++
++dm-bow will typically be used in the following way. dm-bow will be loaded with a
++suitable underlying device and the resultant device will be mounted. A file
++system trim will be issued via the FITRIM ioctl, then the device will be
++switched to state 1. The file system will now be used as normal. At some point,
++the changes can either be committed by switching to state 2, or rolled back by
++unmounting the file system, removing the dm-bow device and running the command
++line utility. Note that rebooting the device will be equivalent to unmounting
++and removing, but the command line utility must still be run
++
++Details of operation in state 1
++===============================
++
++dm_bow maintains a type for all sectors. A sector can be any of:
++
++SECTOR0
++SECTOR0_CURRENT
++UNCHANGED
++FREE
++CHANGED
++BACKUP
++
++SECTOR0 is the first sector on the device, and is used to hold the log of
++changes. This is the one exception.
++
++SECTOR0_CURRENT is a sector picked from the FREE sectors, and is where reads and
++writes from the true sector zero are redirected to. Note that like any backup
++sector, if the sector is written to directly, it must be moved again.
++
++UNCHANGED means that the sector has not been changed since we entered state 1.
++Thus if it is written to or trimmed, the contents must first be backed up.
++
++FREE means that the sector was trimmed in state 0 and has not yet been written
++to or used for backup. On being written to, a FREE sector is changed to CHANGED.
++
++CHANGED means that the sector has been modified, and can be further modified
++without further backup.
++
++BACKUP means that this is a free sector being used as a backup. On being written
++to, the contents must first be backed up again.
++
++All backup operations are logged to the first sector. The log sector has the
++format:
++--------------------------------------------------------
++| Magic | Count | Sequence | Log entry | Log entry | …
++--------------------------------------------------------
++
++Magic is a magic number. Count is the number of log entries. Sequence is 0
++initially. A log entry is
++
++-----------------------------------
++| Source | Dest | Size | Checksum |
++-----------------------------------
++
++When SECTOR0 is full, the log sector is backup up and another empty log sector
++created with sequence number one higher. The first entry in any log entry with
++sequence > 0 therefore must be the log of the backing up of the previous log
++sector. Note that sequence is not strictly needed, but is a useful sanity check
++and potentially limits the time spent trying to restore a corrupted snapshot.
++
++On entering state 1, dm_bow has a list of free sectors. All other sectors are
++unchanged. Sector0_current is selected from the free sectors and the contents of
++sector 0 are copied there. The sector 0 is backed up, which triggers the first
++log entry to be written.
++
+diff --git a/drivers/md/Kconfig b/drivers/md/Kconfig
+index 7baee86ded7c..21c95032f698 100644
+--- a/drivers/md/Kconfig
++++ b/drivers/md/Kconfig
+@@ -569,4 +569,16 @@ config DM_ANDROID_VERITY
+ 	  of the metadata contents are verified against the key included
+ 	  in the system keyring. Upon success, the underlying verity
+ 	  target is setup.
++
++config DM_BOW
++	tristate "Create a device that backs up all changes to free blocks"
++	depends on BLK_DEV_DM
++	---help---
++	  This device-mapper target takes a device and keeps a log of all
++	  changes using free blocks identified by issuing a trim command.
++	  This can then be restored by running a command line utility,
++	  or committed by simply replacing the target.
++
++	  If unsure, say N.
++
+ endif # MD
+diff --git a/drivers/md/Makefile b/drivers/md/Makefile
+index c3bf33b35674..7503427e2f3b 100644
+--- a/drivers/md/Makefile
++++ b/drivers/md/Makefile
+@@ -62,6 +62,7 @@ obj-$(CONFIG_DM_ERA)		+= dm-era.o
+ obj-$(CONFIG_DM_LOG_WRITES)	+= dm-log-writes.o
+ obj-$(CONFIG_DM_REQ_CRYPT)	+= dm-req-crypt.o
+ obj-$(CONFIG_DM_ANDROID_VERITY) += dm-android-verity.o
++obj-$(CONFIG_DM_BOW)		+= dm-bow.o
+ 
+ ifeq ($(CONFIG_DM_UEVENT),y)
+ dm-mod-objs			+= dm-uevent.o
+diff --git a/drivers/md/dm-bow.c b/drivers/md/dm-bow.c
+new file mode 100644
+index 000000000000..2f3d6dfd3d6b
+--- /dev/null
++++ b/drivers/md/dm-bow.c
+@@ -0,0 +1,1033 @@
++/*
++ * Copyright (C) 2018 Google Limited.
++ *
++ * This file is released under the GPL.
++ */
++
++#include "dm.h"
++#include "dm-bufio.h"
++#include "dm-core.h"
++
++#include <linux/crc32.h>
++#include <linux/module.h>
++
++#define DM_MSG_PREFIX "bow"
++#define SECTOR_SIZE 512
++
++struct log_entry {
++	u64 source;
++	u64 dest;
++	u32 size;
++	u32 checksum;
++} __packed;
++
++struct log_sector {
++	u32 magic;
++	u32 count;
++	u32 sequence;
++	struct log_entry entries[];
++} __packed;
++
++/*
++ * MAGIC is BOW in ascii
++ */
++#define MAGIC 0x00574f42
++
++struct bow_range {
++	struct rb_node		node;
++	sector_t		sector;
++	enum {
++		SECTOR0,	/* First sector - holds log record */
++		SECTOR0_CURRENT,/* Live contents of sector0 */
++		UNCHANGED,	/* Original contents */
++		TRIMMED,	/* Range has been trimmed */
++		CHANGED,	/* Range has been changed */
++		BACKUP,		/* Range is being used as a backup */
++		TOP,		/* Final range - sector is size of device */
++	} type;
++};
++
++static const char * const readable_type[] = {
++	"Sector0",
++	"Sector0_current",
++	"Unchanged",
++	"Free",
++	"Changed",
++	"Backup",
++	"Top",
++};
++
++enum state {
++	TRIM,
++	CHECKPOINT,
++	COMMITTED,
++};
++
++struct bow_context {
++	struct dm_dev *dev;
++	struct workqueue_struct *workqueue;
++	struct dm_bufio_client *bufio;
++	struct mutex ranges_lock;
++	struct rb_root ranges;
++	struct dm_kobject_holder kobj_holder;	/* for sysfs attributes */
++	atomic_t state; /* One of the enum state values above */
++	union {
++		u8			raw_log_sector[PAGE_SIZE];
++		struct log_sector	log_sector;
++	};
++};
++
++sector_t range_top(struct bow_range *br)
++{
++	return container_of(rb_next(&br->node), struct bow_range, node)
++		->sector;
++}
++
++unsigned int range_size(struct bow_range *br)
++{
++	return (range_top(br) - br->sector) * SECTOR_SIZE;
++}
++
++static sector_t bvec_top(struct bvec_iter *bi_iter)
++{
++	return bi_iter->bi_sector + bi_iter->bi_size / SECTOR_SIZE;
++}
++
++static struct bow_range *find_first_overlapping_range(struct rb_root *ranges,
++						      struct bvec_iter *bi_iter)
++{
++	struct rb_node *node = ranges->rb_node;
++
++	while (node) {
++		struct bow_range *br;
++
++		br = container_of(node, struct bow_range, node);
++		if (br->sector <= bi_iter->bi_sector
++		    && bi_iter->bi_sector < range_top(br))
++			return br;
++		if (bi_iter->bi_sector < br->sector)
++			node = node->rb_left;
++		else
++			node = node->rb_right;
++	}
++
++	BUG_ON(true);
++	return NULL;
++}
++
++void add_before(struct rb_root *ranges, struct bow_range *new_br,
++		struct bow_range *existing)
++{
++	struct rb_node *parent = &(existing->node);
++	struct rb_node **link = &(parent->rb_left);
++
++	while (*link) {
++		parent = *link;
++		link = &((*link)->rb_right);
++	}
++
++	rb_link_node(&new_br->node, parent, link);
++	rb_insert_color(&new_br->node, ranges);
++}
++
++/*
++ * Given a range br returned by find_first_overlapping_range, split br
++ * into a leading range, a range matching the bio and a trailing range.
++ * Leading and trailing may end up size 0 and will then be deleted. The
++ * new range matching the bio is then returned and should have its type
++ * and type specific fields populated.
++ * If the bio runs off the end of the range, the bio is truncated
++ * accordingly
++ */
++static int split_range(struct rb_root *ranges, struct bow_range **br,
++		       struct bvec_iter *bi_iter)
++{
++	struct bow_range *new_br;
++
++	BUG_ON(bi_iter->bi_sector < (*br)->sector);
++
++	if (bi_iter->bi_sector > (*br)->sector) {
++		struct bow_range *leading_br =
++			kzalloc(sizeof(*leading_br), GFP_KERNEL);
++
++		if (!leading_br)
++			return -ENOMEM;
++
++		*leading_br = **br;
++		add_before(ranges, leading_br, *br);
++		(*br)->sector = bi_iter->bi_sector;
++	}
++
++	if (bvec_top(bi_iter) >= range_top(*br)) {
++		bi_iter->bi_size = (range_top(*br) - (*br)->sector)
++					* SECTOR_SIZE;
++		return 0;
++	}
++
++	/* new_br will be the beginning, existing br will be the tail */
++	new_br = kzalloc(sizeof(*new_br), GFP_KERNEL);
++	if (!new_br)
++		return -ENOMEM;
++
++	new_br->sector = (*br)->sector;
++	(*br)->sector = bvec_top(bi_iter);
++	add_before(ranges, new_br, *br);
++	*br = new_br;
++
++	return 0;
++}
++
++/*
++ * Sets type of a range. May merge range into surrounding ranges
++ * Since br may be invalidated, always sets br to NULL to prevent
++ * usage after this is called
++ */
++static void set_type(struct rb_root *ranges, struct bow_range **br, int type)
++{
++	struct bow_range *prev = container_of(rb_prev(&(*br)->node),
++						      struct bow_range, node);
++	struct bow_range *next = container_of(rb_next(&(*br)->node),
++						      struct bow_range, node);
++
++	(*br)->type = type;
++
++	if (next->type == type) {
++		rb_erase(&next->node, ranges);
++		kfree(next);
++	}
++
++	if (prev->type == type) {
++		rb_erase(&(*br)->node, ranges);
++		kfree(*br);
++	}
++
++	*br = NULL;
++}
++
++static struct bow_range *find_free_range(struct rb_root *ranges)
++{
++	struct rb_node *i;
++
++	for (i = rb_first(ranges); i; i = rb_next(i)) {
++		struct bow_range *br = container_of(i, struct bow_range, node);
++
++		if (br->type == TRIMMED)
++			return br;
++	}
++
++	DMERR("Unable to find free space to back up to");
++	return NULL;
++}
++
++static sector_t sector_to_page(sector_t sector)
++{
++	BUG_ON(sector % (PAGE_SIZE / SECTOR_SIZE) != 0);
++	return sector >> (PAGE_SHIFT - SECTOR_SHIFT);
++}
++
++static int copy_data(struct dm_bufio_client *bufio, struct bow_range *source,
++		     struct bow_range *dest, u32 *checksum)
++{
++	int i;
++
++	BUG_ON(range_size(source) != range_size(dest));
++
++	if (checksum)
++		*checksum = sector_to_page(source->sector);
++
++	for (i = 0; i < range_size(source) / PAGE_SIZE; ++i) {
++		struct dm_buffer *read_buffer, *write_buffer;
++		u8 *read, *write;
++
++		read = dm_bufio_read(bufio, sector_to_page(source->sector) + i,
++				     &read_buffer);
++		if (IS_ERR(read)) {
++			DMERR("Cannot read sector");
++			dm_bufio_release(read_buffer);
++			return PTR_ERR(read);
++		}
++
++		if (checksum)
++			*checksum = crc32(*checksum, read, PAGE_SIZE);
++
++		write = dm_bufio_new(bufio, sector_to_page(dest->sector) + i,
++				      &write_buffer);
++		if (IS_ERR(write)) {
++			DMERR("Cannot write sector");
++			dm_bufio_release(write_buffer);
++			dm_bufio_release(read_buffer);
++			return PTR_ERR(write);
++		}
++
++		memcpy(write, read, PAGE_SIZE);
++
++		dm_bufio_mark_buffer_dirty(write_buffer);
++		dm_bufio_release(write_buffer);
++		dm_bufio_release(read_buffer);
++	}
++
++	dm_bufio_write_dirty_buffers(bufio);
++	return 0;
++}
++
++/****** logging functions ******/
++
++static int add_log_entry(struct bow_context *bc, sector_t source, sector_t dest,
++			 unsigned int size, u32 checksum);
++
++static int backup_log_sector(struct bow_context *bc)
++{
++	struct bow_range *first_br, *free_br;
++	struct bvec_iter bi_iter;
++	u32 checksum;
++	int ret;
++
++	first_br = container_of(rb_first(&bc->ranges), struct bow_range, node);
++	BUG_ON(first_br->type != SECTOR0);
++	BUG_ON(range_size(first_br) != PAGE_SIZE);
++
++	free_br = find_free_range(&bc->ranges);
++	/* No space left - return this error to userspace */
++	if (!free_br)
++		return -ENOSPC;
++	bi_iter.bi_sector = free_br->sector;
++	bi_iter.bi_size = PAGE_SIZE;
++	ret = split_range(&bc->ranges, &free_br, &bi_iter);
++	if (ret)
++		return ret;
++	BUG_ON(bi_iter.bi_size != PAGE_SIZE);
++
++	ret = copy_data(bc->bufio, first_br, free_br, &checksum);
++	if (ret)
++		return ret;
++
++	bc->log_sector.count = 0;
++	bc->log_sector.sequence++;
++	ret = add_log_entry(bc, first_br->sector, free_br->sector,
++			    range_size(first_br), checksum);
++	if (ret)
++		return ret;
++
++	set_type(&bc->ranges, &free_br, BACKUP);
++	return 0;
++}
++
++static int add_log_entry(struct bow_context *bc, sector_t source, sector_t dest,
++			 unsigned int size, u32 checksum)
++{
++	struct dm_buffer *sector_buffer;
++	u8 *sector;
++
++	if (sizeof(struct log_sector)
++			+ sizeof(struct log_entry) * (bc->log_sector.count + 1)
++		   > sizeof(bc->raw_log_sector)) {
++		int ret = backup_log_sector(bc);
++
++		if (ret)
++			return ret;
++	}
++
++	bc->log_sector.entries[bc->log_sector.count].source = source;
++	bc->log_sector.entries[bc->log_sector.count].dest = dest;
++	bc->log_sector.entries[bc->log_sector.count].size = size;
++	bc->log_sector.entries[bc->log_sector.count].checksum = checksum;
++	bc->log_sector.count++;
++
++	sector = dm_bufio_new(bc->bufio, 0, &sector_buffer);
++	if (IS_ERR(sector)) {
++		DMERR("Cannot write boot sector");
++		dm_bufio_release(sector_buffer);
++		return -ENOSPC;
++	}
++	memcpy(sector, bc->raw_log_sector, PAGE_SIZE);
++	dm_bufio_mark_buffer_dirty(sector_buffer);
++	dm_bufio_release(sector_buffer);
++	dm_bufio_write_dirty_buffers(bc->bufio);
++	return 0;
++}
++
++static int prepare_log(struct bow_context *bc)
++{
++	struct bow_range *free_br, *first_br;
++	struct bvec_iter bi_iter;
++	u32 checksum;
++	int ret;
++
++	/* Carve out first sector as log sector */
++	first_br = container_of(rb_first(&bc->ranges), struct bow_range, node);
++	BUG_ON(first_br->type != UNCHANGED || range_size(first_br) < PAGE_SIZE);
++	bi_iter.bi_sector = 0;
++	bi_iter.bi_size = PAGE_SIZE;
++	ret = split_range(&bc->ranges, &first_br, &bi_iter);
++	if (ret)
++		return ret;
++	first_br->type = SECTOR0;
++	BUG_ON(range_size(first_br) != PAGE_SIZE);
++
++	/* Find free sector for active sector0 reads/writes */
++	free_br = find_free_range(&bc->ranges);
++	if (!free_br)
++		return -ENOSPC;
++	bi_iter.bi_sector = free_br->sector;
++	bi_iter.bi_size = PAGE_SIZE;
++	ret = split_range(&bc->ranges, &free_br, &bi_iter);
++	if (ret)
++		return ret;
++	free_br->type = SECTOR0_CURRENT;
++
++	/* Copy data */
++	ret = copy_data(bc->bufio, first_br, free_br, NULL);
++	if (ret)
++		return ret;
++
++	/* Find free sector to back up first sector */
++	free_br = find_free_range(&bc->ranges);
++	if (!free_br)
++		return -ENOSPC;
++	bi_iter.bi_sector = free_br->sector;
++	bi_iter.bi_size = PAGE_SIZE;
++	ret = split_range(&bc->ranges, &free_br, &bi_iter);
++	if (ret)
++		return ret;
++
++	/* Back up */
++	ret = copy_data(bc->bufio, first_br, free_br, &checksum);
++	if (ret)
++		return ret;
++
++	/*
++	 * Set up our replacement boot sector - it will get written when we
++	 * add the first log entry, which we do immediately
++	 */
++	bc->log_sector.magic = MAGIC;
++	bc->log_sector.count = 0;
++	bc->log_sector.sequence = 0;
++
++	/* Add log entry */
++	ret = add_log_entry(bc, first_br->sector, free_br->sector,
++			    range_size(first_br), checksum);
++	if (ret)
++		return ret;
++
++	set_type(&bc->ranges, &free_br, BACKUP);
++	return 0;
++}
++
++static struct bow_range *find_sector0_current(struct bow_context *bc)
++{
++	struct rb_node *i;
++
++	for (i = rb_first(&bc->ranges); i; i = rb_next(i)) {
++		struct bow_range *br = container_of(i, struct bow_range, node);
++
++		if (br->type == SECTOR0_CURRENT)
++			return br;
++	}
++
++	BUG_ON(true);
++}
++
++/****** sysfs interface functions ******/
++
++static ssize_t state_show(struct kobject *kobj, struct kobj_attribute *attr,
++			  char *buf)
++{
++	struct bow_context *bc = container_of(kobj, struct bow_context,
++					      kobj_holder.kobj);
++
++	return scnprintf(buf, PAGE_SIZE, "%d\n", atomic_read(&bc->state));
++}
++
++static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
++			   const char *buf, size_t count)
++{
++	struct bow_context *bc = container_of(kobj, struct bow_context,
++					      kobj_holder.kobj);
++	enum state state, original_state;
++	int ret;
++
++	state = buf[0] - '0';
++	if (state < TRIM || state > COMMITTED) {
++		DMERR("State value %d out of range", state);
++		return -EINVAL;
++	}
++
++	mutex_lock(&bc->ranges_lock);
++	original_state = atomic_read(&bc->state);
++	if (state != original_state + 1) {
++		DMERR("Invalid state change from %d to %d",
++		      original_state, state);
++		ret = -EINVAL;
++		goto bad;
++	}
++
++	DMINFO("Switching to state %s", state == CHECKPOINT ? "Checkpoint"
++	       : state == COMMITTED ? "Committed" : "Unknown");
++
++	if (state == CHECKPOINT) {
++		ret = prepare_log(bc);
++		if (ret) {
++			DMERR("Failed to switch to checkpoint state");
++			goto bad;
++		}
++	} else if (state == COMMITTED) {
++		struct bow_range *br = find_sector0_current(bc);
++		struct bow_range *sector0_br =
++			container_of(rb_first(&bc->ranges), struct bow_range,
++				     node);
++
++		ret = copy_data(bc->bufio, br, sector0_br, 0);
++		if (ret) {
++			DMERR("Failed to switch to committed state");
++			goto bad;
++		}
++	}
++	atomic_inc(&bc->state);
++	ret = count;
++
++bad:
++	mutex_unlock(&bc->ranges_lock);
++	return ret;
++}
++
++static int prepare_one_range(struct bow_context *bc, struct bvec_iter *bi_iter);
++static ssize_t write_store(struct kobject *kobj, struct kobj_attribute *attr,
++			   const char *buf, size_t count)
++{
++	struct bow_context *bc = container_of(kobj, struct bow_context,
++					      kobj_holder.kobj);
++	sector_t sector = *(sector_t *)buf;
++	unsigned int size = *(unsigned int *)(buf + sizeof(sector));
++	struct bvec_iter bio_bi_iter, bi_iter;
++	int ret, i;
++
++	bio_bi_iter.bi_sector = sector;
++	bio_bi_iter.bi_size = size;
++	bi_iter = bio_bi_iter;
++
++	DMINFO("Simulate Write: %lu, %u",
++	       bio_bi_iter.bi_sector,
++	       bio_bi_iter.bi_size);
++
++	mutex_lock(&bc->ranges_lock);
++	do {
++		ret = prepare_one_range(bc, &bi_iter);
++		bi_iter.bi_sector += bi_iter.bi_size / SECTOR_SIZE;
++		bi_iter.bi_size = bio_bi_iter.bi_size
++			- (bi_iter.bi_sector - bio_bi_iter.bi_sector)
++			  * SECTOR_SIZE;
++	} while (!ret && bi_iter.bi_size);
++	mutex_unlock(&bc->ranges_lock);
++
++	if (ret)
++		return ret;
++
++	for (i = 0; i < size / PAGE_SIZE; i++) {
++		struct dm_buffer *dm_buffer;
++		u8 *ptr;
++
++		ptr = dm_bufio_new(bc->bufio, sector_to_page(sector) + i,
++				   &dm_buffer);
++		dm_bufio_mark_buffer_dirty(dm_buffer);
++		dm_bufio_release(dm_buffer);
++	}
++	dm_bufio_write_dirty_buffers(bc->bufio);
++
++	return count;
++}
++
++static struct kobj_attribute attr_state = __ATTR_RW(state);
++static struct kobj_attribute attr_write = __ATTR_WO(write);
++
++static struct attribute *bow_attrs[] = {
++	&attr_state.attr,
++	&attr_write.attr,
++	NULL
++};
++
++static struct kobj_type bow_ktype = {
++	.sysfs_ops = &kobj_sysfs_ops,
++	.default_attrs = bow_attrs,
++	.release = dm_kobject_release
++};
++
++/****** constructor/destructor ******/
++
++static void dm_bow_dtr(struct dm_target *ti)
++{
++	struct bow_context *bc = (struct bow_context *) ti->private;
++	struct list_head *i, *q;
++	struct kobject *kobj;
++
++	while (rb_first(&bc->ranges)) {
++		struct bow_range *br = container_of(rb_first(&bc->ranges),
++						    struct bow_range, node);
++
++		rb_erase(&br->node, &bc->ranges);
++		kfree(br);
++	}
++	if (bc->workqueue)
++		destroy_workqueue(bc->workqueue);
++	if (bc->bufio)
++		dm_bufio_client_destroy(bc->bufio);
++
++	kobj = &bc->kobj_holder.kobj;
++	if (kobj->state_initialized) {
++		kobject_put(kobj);
++		wait_for_completion(dm_get_completion_from_kobject(kobj));
++	}
++	kfree(bc);
++}
++
++static int dm_bow_ctr(struct dm_target *ti, unsigned int argc, char **argv)
++{
++	struct bow_context *bc;
++	struct bow_range *br;
++	int ret;
++	struct mapped_device *md = dm_table_get_md(ti->table);
++
++	if (argc != 1) {
++		ti->error = "Invalid argument count";
++		return -EINVAL;
++	}
++
++	bc = kzalloc(sizeof(*bc), GFP_KERNEL);
++	if (!bc) {
++		ti->error = "Cannot allocate bow context";
++		return -ENOMEM;
++	}
++
++	ti->num_flush_bios = 1;
++	ti->num_discard_bios = 1;
++	ti->num_write_same_bios = 1;
++	ti->private = bc;
++
++	ret = dm_get_device(ti, argv[0], dm_table_get_mode(ti->table),
++			    &bc->dev);
++	if (ret) {
++		ti->error = "Device lookup failed";
++		goto bad;
++	}
++
++	init_completion(&bc->kobj_holder.completion);
++	ret = kobject_init_and_add(&bc->kobj_holder.kobj, &bow_ktype,
++				   &disk_to_dev(dm_disk(md))->kobj, "%s",
++				   "bow");
++	if (ret) {
++		ti->error = "Cannot create sysfs node";
++		goto bad;
++	}
++
++	mutex_init(&bc->ranges_lock);
++	bc->ranges = RB_ROOT;
++	bc->bufio = dm_bufio_client_create(bc->dev->bdev, PAGE_SIZE, 1, 0,
++					   NULL, NULL);
++	if (IS_ERR(bc->bufio)) {
++		ti->error = "Cannot initialize dm-bufio";
++		ret = PTR_ERR(bc->bufio);
++		bc->bufio = NULL;
++		goto bad;
++	}
++
++	bc->workqueue = alloc_workqueue("dm-bow",
++					WQ_CPU_INTENSIVE | WQ_MEM_RECLAIM
++					| WQ_UNBOUND, num_online_cpus());
++	if (!bc->workqueue) {
++		ti->error = "Cannot allocate workqueue";
++		ret = -ENOMEM;
++		goto bad;
++	}
++
++	br = kzalloc(sizeof(*br), GFP_KERNEL);
++	if (!br) {
++		ti->error = "Cannot allocate ranges";
++		ret = -ENOMEM;
++		goto bad;
++	}
++
++	br->sector = ti->len;
++	br->type = TOP;
++	rb_link_node(&br->node, NULL, &bc->ranges.rb_node);
++	rb_insert_color(&br->node, &bc->ranges);
++
++	br = kzalloc(sizeof(*br), GFP_KERNEL);
++	if (!br) {
++		ti->error = "Cannot allocate ranges";
++		ret = -ENOMEM;
++		goto bad;
++	}
++
++	br->sector = 0;
++	br->type = UNCHANGED;
++	rb_link_node(&br->node, bc->ranges.rb_node,
++		     &bc->ranges.rb_node->rb_left);
++	rb_insert_color(&br->node, &bc->ranges);
++
++	ti->discards_supported = true;
++
++	return 0;
++
++bad:
++	dm_bow_dtr(ti);
++	return ret;
++}
++
++/****** Handle writes ******/
++
++static int prepare_unchanged_range(struct bow_context *bc, struct bow_range *br,
++				   struct bvec_iter *bi_iter)
++{
++	struct bow_range *backup_br;
++	struct bvec_iter backup_bi;
++	sector_t log_source, log_dest;
++	unsigned int log_size;
++	u32 checksum;
++	int ret;
++
++	/* Find a free range */
++	backup_br = find_free_range(&bc->ranges);
++	if (!backup_br)
++		return -ENOSPC;
++
++	/* Carve out a backup range. This may be smaller than the br given */
++	backup_bi.bi_sector = backup_br->sector;
++	backup_bi.bi_size = min(range_size(backup_br), bi_iter->bi_size);
++	ret = split_range(&bc->ranges, &backup_br, &backup_bi);
++	if (ret)
++		return ret; /* TODO make sure structures are consistent */
++
++	/*
++	 * Carve out a changed range. This will not be smaller than the backup
++	 * br since the backup br is smaller than the source range and iterator
++	 */
++	bi_iter->bi_size = backup_bi.bi_size;
++	ret = split_range(&bc->ranges, &br, bi_iter);
++	if (ret)
++		return ret; /* TODO make sure structures are consistent */
++	BUG_ON(range_size(br) != range_size(backup_br));
++
++	/* Copy data over */
++	ret = copy_data(bc->bufio, br, backup_br, &checksum);
++	if (ret)
++		return ret;
++
++	/* Add an entry to the log */
++	log_source = br->sector;
++	log_dest = backup_br->sector;
++	log_size = range_size(br);
++
++	/*
++	 * Set the types last. Note that since set_type also amalgamates ranges
++	 * we have to be careful of the order here.
++	 * TODO: This is brittle. Work out better solution, maybe separate
++	 * set_type and amalgamate_ranges?
++	 */
++	backup_br->type = br->type == SECTOR0_CURRENT ? SECTOR0_CURRENT
++						      : BACKUP;
++	br->type = CHANGED;
++
++	set_type(&bc->ranges, &backup_br, backup_br->type);
++	set_type(&bc->ranges, &br, br->type);
++
++	/*
++	 * Actually add the log entry at the end, since adding a log can cause
++	 * another backup, which is not safe until this one is committed
++	 */
++	return add_log_entry(bc, log_source, log_dest, log_size, checksum);
++}
++
++static int prepare_free_range(struct bow_context *bc, struct bow_range *br,
++			      struct bvec_iter *bi_iter)
++{
++	int ret;
++
++	ret = split_range(&bc->ranges, &br, bi_iter);
++	if (ret)
++		return ret;
++	set_type(&bc->ranges, &br, CHANGED);
++	return 0;
++}
++
++static int prepare_changed_range(struct bow_context *bc, struct bow_range *br,
++				 struct bvec_iter *bi_iter)
++{
++	/* Nothing to do ... */
++	return 0;
++}
++
++static int prepare_one_range(struct bow_context *bc,
++			     struct bvec_iter *bi_iter)
++{
++	struct bow_range *br = find_first_overlapping_range(&bc->ranges,
++							    bi_iter);
++	bi_iter->bi_size = min(bi_iter->bi_size,
++			       (unsigned int)(range_top(br)
++					      - bi_iter->bi_sector)
++				* SECTOR_SIZE);
++
++	switch (br->type) {
++	case CHANGED:
++		return prepare_changed_range(bc, br, bi_iter);
++
++	case TRIMMED:
++		return prepare_free_range(bc, br, bi_iter);
++
++	case UNCHANGED:
++	case BACKUP:
++	case SECTOR0_CURRENT:
++		return prepare_unchanged_range(bc, br, bi_iter);
++
++	case SECTOR0:	/* Handled in the dm_bow_map */
++	case TOP:	/* Illegal - top is off the end of the device */
++	default:
++		BUG_ON(true);
++	}
++}
++
++struct write_work {
++	struct work_struct work;
++	struct bow_context *bc;
++	struct bio *bio;
++};
++
++static void bow_write(struct work_struct *work)
++{
++	struct write_work *ww = container_of(work, struct write_work, work);
++	struct bow_context *bc = ww->bc;
++	struct bio *bio = ww->bio;
++	struct bvec_iter bi_iter = bio->bi_iter;
++	int ret = 0;
++
++	kfree(ww);
++
++	mutex_lock(&bc->ranges_lock);
++	do {
++		ret = prepare_one_range(bc, &bi_iter);
++		bi_iter.bi_sector += bi_iter.bi_size / SECTOR_SIZE;
++		bi_iter.bi_size = bio->bi_iter.bi_size
++			- (bi_iter.bi_sector - bio->bi_iter.bi_sector)
++			  * SECTOR_SIZE;
++	} while (!ret && bi_iter.bi_size);
++
++	mutex_unlock(&bc->ranges_lock);
++
++	if (!ret) {
++		bio->bi_bdev = bc->dev->bdev;
++		submit_bio(bio);
++	} else {
++		DMERR("Write failure with error %d", -ret);
++		bio->bi_error = ret;
++		bio_endio(bio);
++	}
++}
++
++static int queue_write(struct bow_context *bc, struct bio *bio)
++{
++	struct write_work *ww = kmalloc(sizeof(*ww), GFP_NOIO | __GFP_NORETRY
++					| __GFP_NOMEMALLOC | __GFP_NOWARN);
++	if (!ww) {
++		DMERR("Failed to allocate write_work");
++		return -ENOMEM;
++	}
++
++	INIT_WORK(&ww->work, bow_write);
++	ww->bc = bc;
++	ww->bio = bio;
++	queue_work(bc->workqueue, &ww->work);
++	return DM_MAPIO_SUBMITTED;
++}
++
++static int handle_sector0(struct bow_context *bc, struct bio *bio)
++{
++	int ret = DM_MAPIO_REMAPPED;
++
++	if (bio->bi_iter.bi_size > PAGE_SIZE) {
++		struct bio *split = bio_split(bio,
++					      1 << (PAGE_SHIFT - SECTOR_SHIFT),
++					      GFP_NOIO, fs_bio_set);
++		bio_chain(split, bio);
++		if (bio_data_dir(split) == WRITE) {
++			ret = queue_write(bc, split);
++			if (ret == DM_MAPIO_SUBMITTED)
++				ret = DM_MAPIO_REMAPPED;
++		} else {
++			submit_bio(split);
++		}
++	}
++
++	bio->bi_iter.bi_sector = find_sector0_current(bc)->sector;
++	return ret;
++}
++
++/****** dm interface ******/
++
++static int dm_bow_map(struct dm_target *ti, struct bio *bio)
++{
++	int ret = DM_MAPIO_REMAPPED;
++	struct bow_context *bc = ti->private;
++
++	if (atomic_read(&bc->state) != COMMITTED) {
++		enum state state;
++
++		mutex_lock(&bc->ranges_lock);
++		state = atomic_read(&bc->state);
++		if (state == TRIM && bio_op(bio) == REQ_OP_DISCARD) {
++			struct bow_range *br;
++
++			DMDEBUG("Trim: %lu, %u",
++			       bio->bi_iter.bi_sector,
++			       bio->bi_iter.bi_size);
++
++			br = find_first_overlapping_range(&bc->ranges,
++							  &bio->bi_iter);
++
++			/*
++			 * TODO - we assume this will always be an unmapped
++			 * block containing the whole bio
++			 */
++			BUG_ON(br->type != UNCHANGED);
++			if (!split_range(&bc->ranges, &br, &bio->bi_iter))
++				set_type(&bc->ranges, &br, TRIMMED);
++			bio_endio(bio);
++			ret = DM_MAPIO_SUBMITTED;
++		} else if (state == CHECKPOINT) {
++			if (bio->bi_iter.bi_sector == 0)
++				ret = handle_sector0(bc, bio);
++			else if (bio_data_dir(bio) == WRITE)
++				ret = queue_write(bc, bio);
++			else
++				/* passthrough */;
++		} else {
++			/* passthrough */
++		}
++		mutex_unlock(&bc->ranges_lock);
++	}
++	if (ret == DM_MAPIO_REMAPPED)
++		bio->bi_bdev = bc->dev->bdev;
++	return ret;
++}
++
++static void dm_bow_tablestatus(struct dm_target *ti, char *result,
++			       unsigned int maxlen)
++{
++	char *end = result + maxlen;
++	struct bow_context *bc = ti->private;
++	struct rb_node *i;
++
++	if (maxlen == 0)
++		return;
++	result[0] = 0;
++
++	if (!rb_first(&bc->ranges)) {
++		scnprintf(result, end - result, "ERROR: Empty ranges");
++		return;
++	}
++
++	if (container_of(rb_first(&bc->ranges), struct bow_range, node)
++	    ->sector) {
++		scnprintf(result, end - result,
++			 "ERROR: First range does not start at sector 0");
++		return;
++	}
++
++	for (i = rb_first(&bc->ranges); i; i = rb_next(i)) {
++		struct bow_range *br = container_of(i, struct bow_range, node);
++
++		result += scnprintf(result, end - result, "%s: %lu",
++				    readable_type[br->type], br->sector);
++		if (result >= end)
++			return;
++
++		result += scnprintf(result, end - result, "\n");
++		if (result >= end)
++			return;
++
++		switch (br->type) {
++		case TOP:
++			if (br->sector != ti->len) {
++				scnprintf(result, end - result,
++					 "\nERROR: Top sector is incorrect");
++			}
++
++			if (&br->node != rb_last(&bc->ranges)) {
++				scnprintf(result, end - result,
++					  "\nERROR: Top sector is not last");
++			}
++			return;
++
++		default:
++			break;
++		}
++
++		if (br->sector > range_top(br)) {
++			scnprintf(result, end - result,
++				  "\nERROR: sector too big");
++			return;
++		}
++	}
++}
++
++static void dm_bow_status(struct dm_target *ti, status_type_t type,
++			  unsigned int status_flags, char *result,
++			  unsigned int maxlen)
++{
++	switch (type) {
++	case STATUSTYPE_INFO:
++		result[0] = 0;
++		break;
++
++	case STATUSTYPE_TABLE:
++		dm_bow_tablestatus(ti, result, maxlen);
++		break;
++	}
++}
++
++int dm_bow_prepare_ioctl(struct dm_target *ti,
++			 struct block_device **bdev, fmode_t *mode)
++{
++	struct bow_context *bc = ti->private;
++	struct dm_dev *dev = bc->dev;
++
++	*bdev = dev->bdev;
++	/* Only pass ioctls through if the device sizes match exactly. */
++	return ti->len != i_size_read(dev->bdev->bd_inode) >> SECTOR_SHIFT;
++}
++
++static int dm_bow_iterate_devices(struct dm_target *ti,
++				  iterate_devices_callout_fn fn, void *data)
++{
++	struct bow_context *bc = ti->private;
++
++	return fn(ti, bc->dev, 0, ti->len, data);
++}
++
++static struct target_type bow_target = {
++	.name   = "bow",
++	.version = {1, 1, 1},
++	.module = THIS_MODULE,
++	.ctr    = dm_bow_ctr,
++	.dtr    = dm_bow_dtr,
++	.map    = dm_bow_map,
++	.status = dm_bow_status,
++	.prepare_ioctl  = dm_bow_prepare_ioctl,
++	.iterate_devices = dm_bow_iterate_devices,
++};
++
++int __init dm_bow_init(void)
++{
++	int r = dm_register_target(&bow_target);
++
++	if (r < 0)
++		DMERR("registering bow failed %d", r);
++	return r;
++}
++
++void dm_bow_exit(void)
++{
++	dm_unregister_target(&bow_target);
++}
++
++MODULE_LICENSE("GPL");
++
++module_init(dm_bow_init);
++module_exit(dm_bow_exit);
+-- 
+2.19.1.568.g152ad8e336-goog
 
