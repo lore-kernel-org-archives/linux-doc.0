@@ -1,130 +1,302 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 79ABF7D082
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Oct 2018 05:45:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B52E07D082
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Oct 2018 08:11:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727531AbeJWOGv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Oct 2018 10:06:51 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:36076 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726837AbeJWOGv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Oct 2018 10:06:51 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w9N5Ywf8055778;
-        Tue, 23 Oct 2018 05:43:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=r3XrQGmVnbIZIHhWq1jCXITer5PMz2fgZ36k9EzQQi4=;
- b=KX7imlE7tlDeBrjRV+Rsn8FmH1l7WUQQkC21ZD+7SPmhxWl5iPuEfwnmUoZFrnjfyA4e
- 2CE/QqL3p3iiqItDm2KDckBYgnbgqga8v26djMstKBYYiwPwy+ZwAc8e91TQsxNidpRT
- h6s65MIVeUPmTpKrwnMEFS/ed3HmPNU1kbSklGS8/veOgl5E11Z7/AMs2rnFKhZ+0NjK
- 3XH0fXvvLHhdWvj2sVhFDXdxAlC6UMeu9gkH0EO5WWh1H00RUsHKznrbpo8TODBPCPXC
- S9h58R0Yj5Z6N7PgqdSqBVtF36TJqAYU0q1FHNZGYifKrw8/hsZS6jpAAt9rm6fbT734 Nw== 
-Received: from aserv0021.oracle.com (aserv0021.oracle.com [141.146.126.233])
-        by userp2130.oracle.com with ESMTP id 2n7usu2tt9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 Oct 2018 05:43:40 +0000
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w9N5hYvx029144
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 Oct 2018 05:43:34 GMT
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w9N5hTNo015515;
-        Tue, 23 Oct 2018 05:43:30 GMT
-Received: from mwanda (/129.205.6.86)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 22 Oct 2018 22:43:28 -0700
-Date:   Tue, 23 Oct 2018 08:43:06 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, adilger.kernel@dilger.ca,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>, rostedt@goodmis.org,
-        mchehab+samsung@kernel.org, olof@lxom.net,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        sandipan@linux.vnet.ibm.com,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        paul.burton@mips.com, David Rientjes <rientjes@google.com>,
-        Willy Tarreau <w@1wt.eu>, msebor@gmail.com, sparse@chrisli.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>, joe@perches.com,
-        Arnd Bergmann <arnd@arndb.de>, asmadeus@codewreck.org,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-sparse@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH 0/2] Compiler Attributes: __fallthrough
-Message-ID: <20181023054306.wbmcg6vigc4jlb25@mwanda>
-References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
- <20181021182926.GB6683@kroah.com>
- <CANiq72kOE0a4M0oCmmiWO9xTFJsybEirwUyb_ZTXpJJhc7O_TA@mail.gmail.com>
- <CAKwvOdn9hOcF01eOmwfnrH_ciFZ4fPaspSzMPiY68o3B0En-VQ@mail.gmail.com>
+        id S1727613AbeJWQdt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Oct 2018 12:33:49 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44844 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727602AbeJWQds (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Oct 2018 12:33:48 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 231E230A;
+        Tue, 23 Oct 2018 08:11:29 +0000 (UTC)
+Date:   Tue, 23 Oct 2018 02:11:26 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation for 4.20 (or whatever it's called)
+Message-ID: <20181023021126.41bdb1e0@lwn.net>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdn9hOcF01eOmwfnrH_ciFZ4fPaspSzMPiY68o3B0En-VQ@mail.gmail.com>
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9054 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1807170000 definitions=main-1810230050
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 22, 2018 at 09:54:27AM -0700, Nick Desaulniers wrote:
-> On Mon, Oct 22, 2018 at 2:48 AM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
-> >
-> > On Sun, Oct 21, 2018 at 8:29 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > Will this work with all of the static tools that are currently looking
-> > > for the comment instead?  I know coverity handles that, what about
-> > > others?
-> >
-> > I will also contact the different tools about this.
-> 
-> Let's contact the authors of these tools if they don't parse the
-> attribute.  I prefer to have the attributes rather than specifically
-> formatted comments.
-> 
-> I do think this may be tricky to provide backwards support for though;
-> Miguel, do you have info on which versions of GCC support comments vs
-> attribute?
+The following changes since commit
+5b394b2ddf0347bef56e50c69a58773c94343ff3:
 
-None.  GCC 7.1 added support for the warning, the comment parsing and
-the attribute so it's fine.
+  Linux 4.19-rc1 (2018-08-26 14:11:59 -0700)
 
-The only thing that we know for sure is an issue is Eclipse.
+are available in the Git repository at:
 
-We need to test Coverity but it should work in theory.  And we don't
-know about CPPcheck.
+  git://git.lwn.net/linux.git tags/docs-4.20
 
-regards,
-dan carpenter
+for you to fetch changes up to aea74de4b216cdacda797d54220b8ac19daa1bf7:
+
+  docs: Fix typos in histogram.rst (2018-10-18 12:33:08 -0600)
+
+----------------------------------------------------------------
+This is a fairly typical cycle for documentation.  There's some welcome
+readability improvements for the formatted output, some LICENSES updates
+including the addition of the ISC license, the removal of the unloved and
+unmaintained 00-INDEX files, the deprecated APIs document from Kees, more
+MM docs from Mike Rapoport, and the usual pile of typo fixes and
+corrections.
+
+----------------------------------------------------------------
+Akinobu Mita (1):
+      docs: fix typo in table describing 4.16 development cycle
+
+Anders Roxell (1):
+      doc: dev-tools: kselftest.rst: update config file location
+
+Andrew Murray (1):
+      Documentation: preempt-locking: Use better example
+
+Baoquan He (1):
+      docs/vm/hmm.rst: Add missed space
+
+Darrick J. Wong (1):
+      docs: improve readability for people with poorer eyesight
+
+David Hildenbrand (1):
+      docs/core-api: memory-hotplug: add some details about locking internals
+
+Felix Eckhofer (1):
+      doc: Fix acronym "FEKEK" in ecryptfs
+
+Geert Uytterhoeven (1):
+      doc: printk-formats: Remove bogus kobject references for device nodes
+
+Grant Likely (1):
+      efi_stub: update documentation on dtb= parameter
+
+Guillaume Dore (1):
+      doc: fix a typo in adding-syscalls.rst
+
+Hans de Goede (2):
+      LICENSES: Add note to CDDL-1.0 license that it should not be used
+      LICENSES: Add ISC license text
+
+Henrik Austad (1):
+      Drop all 00-INDEX files from Documentation/
+
+Himanshu Jha (1):
+      docs: dev-tools: coccinelle: Update documentation
+
+John Garry (1):
+      docs/completion.txt: Fix a couple of punctuation nits
+
+Kees Cook (1):
+      docs: Introduce deprecated APIs list
+
+Markus Heiser (1):
+      docs: tidy up TOCs and refs to license-rules.rst
+
+Masami Hiramatsu (1):
+      docs: tracing: Add stacktrace filter command
+
+Masanari Iida (1):
+      docs: Fix typos in histogram.rst
+
+Mauro Carvalho Chehab (1):
+      docs: fix some broken documentation references
+
+Mike Rapoport (8):
+      docs/boot-time-mm: fix kernel-doc directive for including all but DOC:
+      docs: core-api/gfp_mask-from-fs-io: add a label for cross-referencing
+      docs: core-api/mm-api: add a lable for GFP flags section
+      docs: core-api: add memory allocation guide
+      docs: move memory hotplug description into admin-guide/mm
+      docs/vm: split memory hotplug notifier description to Documentation/core-api
+      docs/core-api: rename memory-hotplug-notifier to memory-hotplug
+      docs/admin-guide: memory-hotplug: remove table of contents
+
+Nikolay Borisov (1):
+      dm flakey: Document "error_writes" feature
+
+Randy Dunlap (6):
+      Documentation/fb/vesafb.txt: "inverse" option corrections
+      FireWire: clean up firewire-cdev.h kernel-doc
+      FireWire: clean up core-iso.c kernel-doc
+      FireWire: clean up core-transaction.c kernel-doc
+      FireWire: add a Documentation driver-api chapter
+      kernel-doc: fix declaration type determination
+
+Robin Murphy (1):
+      iommu: Fix passthrough option documentation
+
+Salvatore Bonaccorso (1):
+      Documentation/l1tf: Fix small spelling typo
+
+Takashi Sakamoto (1):
+      FireWire: add driver-api Introduction section
+
+Wolfram Sang (2):
+      MAINTAINERS: sort excludes for Documentation
+      MAINTAINERS: add i2c to the excludes for Documentation
+
+Yves-Alexis Perez (1):
+      yama: clarify ptrace_scope=2 in Yama documentation
+
+ Documentation/00-INDEX                             | 428 ---------------------
+ Documentation/PCI/00-INDEX                         |  26 --
+ Documentation/RCU/00-INDEX                         |  34 --
+ Documentation/RCU/rcu.txt                          |   4 -
+ Documentation/admin-guide/LSM/Yama.rst             |   4 +-
+ Documentation/admin-guide/README.rst               |   3 +-
+ Documentation/admin-guide/kernel-parameters.txt    |   2 +-
+ Documentation/admin-guide/l1tf.rst                 |   2 +-
+ Documentation/admin-guide/mm/index.rst             |   1 +
+ .../mm/memory-hotplug.rst}                         | 169 ++------
+ Documentation/arm/00-INDEX                         |  50 ---
+ Documentation/block/00-INDEX                       |  34 --
+ Documentation/blockdev/00-INDEX                    |  18 -
+ Documentation/cdrom/00-INDEX                       |  11 -
+ Documentation/cgroup-v1/00-INDEX                   |  26 --
+ Documentation/conf.py                              |   6 +-
+ Documentation/core-api/boot-time-mm.rst            |   4 +-
+ Documentation/core-api/gfp_mask-from-fs-io.rst     |   2 +
+ Documentation/core-api/index.rst                   |   3 +
+ Documentation/core-api/memory-allocation.rst       | 122 ++++++
+ Documentation/core-api/memory-hotplug.rst          | 125 ++++++
+ Documentation/core-api/mm-api.rst                  |   2 +
+ Documentation/core-api/printk-formats.rst          |   6 +-
+ Documentation/dev-tools/coccinelle.rst             |  23 +-
+ Documentation/dev-tools/kselftest.rst              |   2 +-
+ Documentation/device-mapper/dm-flakey.txt          |   4 +
+ Documentation/devicetree/00-INDEX                  |  12 -
+ Documentation/driver-api/basics.rst                |   3 +
+ Documentation/driver-api/firewire.rst              |  48 +++
+ Documentation/driver-api/index.rst                 |   1 +
+ Documentation/efi-stub.txt                         |  17 +-
+ Documentation/fb/00-INDEX                          |  75 ----
+ Documentation/fb/vesafb.txt                        |   4 +-
+ Documentation/filesystems/00-INDEX                 | 153 --------
+ Documentation/filesystems/dax.txt                  |   2 +-
+ Documentation/filesystems/ext2.txt                 |   2 +-
+ Documentation/filesystems/nfs/00-INDEX             |  26 --
+ Documentation/fmc/00-INDEX                         |  38 --
+ Documentation/gpio/00-INDEX                        |   4 -
+ Documentation/ide/00-INDEX                         |  14 -
+ Documentation/index.rst                            |   5 +-
+ Documentation/ioctl/00-INDEX                       |  12 -
+ Documentation/isdn/00-INDEX                        |  42 --
+ Documentation/kbuild/00-INDEX                      |  14 -
+ Documentation/laptops/00-INDEX                     |  16 -
+ Documentation/leds/00-INDEX                        |  32 --
+ Documentation/locking/00-INDEX                     |  16 -
+ Documentation/m68k/00-INDEX                        |   7 -
+ Documentation/mips/00-INDEX                        |   4 -
+ Documentation/mmc/00-INDEX                         |  10 -
+ Documentation/netlabel/00-INDEX                    |  10 -
+ Documentation/netlabel/cipso_ipv4.txt              |  11 +-
+ Documentation/netlabel/introduction.txt            |   2 +-
+ Documentation/networking/00-INDEX                  | 234 -----------
+ Documentation/parisc/00-INDEX                      |   6 -
+ Documentation/power/00-INDEX                       |  44 ---
+ Documentation/powerpc/00-INDEX                     |  34 --
+ Documentation/preempt-locking.txt                  |  12 +-
+ Documentation/process/2.Process.rst                |   2 +-
+ Documentation/process/adding-syscalls.rst          |   2 +-
+ Documentation/process/deprecated.rst               | 119 ++++++
+ Documentation/process/howto.rst                    |  13 +-
+ Documentation/process/index.rst                    |   2 +
+ Documentation/process/license-rules.rst            |   2 +
+ Documentation/s390/00-INDEX                        |  28 --
+ Documentation/scheduler/00-INDEX                   |  18 -
+ Documentation/scheduler/completion.txt             |   6 +-
+ Documentation/scsi/00-INDEX                        | 108 ------
+ Documentation/security/keys/ecryptfs.rst           |   8 +-
+ Documentation/serial/00-INDEX                      |  16 -
+ Documentation/sphinx-static/theme_overrides.css    |  38 ++
+ Documentation/spi/00-INDEX                         |  16 -
+ Documentation/sysctl/00-INDEX                      |  16 -
+ Documentation/timers/00-INDEX                      |  16 -
+ Documentation/trace/ftrace.rst                     |   3 +
+ Documentation/trace/histogram.rst                  |   6 +-
+ Documentation/virtual/00-INDEX                     |  11 -
+ Documentation/virtual/kvm/00-INDEX                 |  35 --
+ Documentation/vm/00-INDEX                          |  50 ---
+ Documentation/vm/hmm.rst                           |  14 +-
+ Documentation/w1/00-INDEX                          |  10 -
+ Documentation/w1/masters/00-INDEX                  |  12 -
+ Documentation/w1/slaves/00-INDEX                   |  14 -
+ Documentation/x86/00-INDEX                         |  20 -
+ Documentation/x86/x86_64/00-INDEX                  |  16 -
+ LICENSES/other/CDDL-1.0                            |   6 +-
+ LICENSES/other/ISC                                 |  24 ++
+ MAINTAINERS                                        |  13 +-
+ README                                             |   1 -
+ drivers/firewire/core-iso.c                        |   7 +
+ drivers/firewire/core-transaction.c                |  10 +
+ include/uapi/linux/firewire-cdev.h                 |  22 +-
+ lib/vsprintf.c                                     |  20 +-
+ net/bridge/Kconfig                                 |   2 +-
+ scripts/check_00index.sh                           |  67 ----
+ scripts/kernel-doc                                 |   8 +-
+ 96 files changed, 680 insertions(+), 2122 deletions(-)
+ delete mode 100644 Documentation/00-INDEX
+ delete mode 100644 Documentation/PCI/00-INDEX
+ delete mode 100644 Documentation/RCU/00-INDEX
+ rename Documentation/{memory-hotplug.txt => admin-guide/mm/memory-hotplug.rst} (74%)
+ delete mode 100644 Documentation/arm/00-INDEX
+ delete mode 100644 Documentation/block/00-INDEX
+ delete mode 100644 Documentation/blockdev/00-INDEX
+ delete mode 100644 Documentation/cdrom/00-INDEX
+ delete mode 100644 Documentation/cgroup-v1/00-INDEX
+ create mode 100644 Documentation/core-api/memory-allocation.rst
+ create mode 100644 Documentation/core-api/memory-hotplug.rst
+ delete mode 100644 Documentation/devicetree/00-INDEX
+ create mode 100644 Documentation/driver-api/firewire.rst
+ delete mode 100644 Documentation/fb/00-INDEX
+ delete mode 100644 Documentation/filesystems/00-INDEX
+ delete mode 100644 Documentation/filesystems/nfs/00-INDEX
+ delete mode 100644 Documentation/fmc/00-INDEX
+ delete mode 100644 Documentation/gpio/00-INDEX
+ delete mode 100644 Documentation/ide/00-INDEX
+ delete mode 100644 Documentation/ioctl/00-INDEX
+ delete mode 100644 Documentation/isdn/00-INDEX
+ delete mode 100644 Documentation/kbuild/00-INDEX
+ delete mode 100644 Documentation/laptops/00-INDEX
+ delete mode 100644 Documentation/leds/00-INDEX
+ delete mode 100644 Documentation/locking/00-INDEX
+ delete mode 100644 Documentation/m68k/00-INDEX
+ delete mode 100644 Documentation/mips/00-INDEX
+ delete mode 100644 Documentation/mmc/00-INDEX
+ delete mode 100644 Documentation/netlabel/00-INDEX
+ delete mode 100644 Documentation/networking/00-INDEX
+ delete mode 100644 Documentation/parisc/00-INDEX
+ delete mode 100644 Documentation/power/00-INDEX
+ delete mode 100644 Documentation/powerpc/00-INDEX
+ create mode 100644 Documentation/process/deprecated.rst
+ delete mode 100644 Documentation/s390/00-INDEX
+ delete mode 100644 Documentation/scheduler/00-INDEX
+ delete mode 100644 Documentation/scsi/00-INDEX
+ delete mode 100644 Documentation/serial/00-INDEX
+ delete mode 100644 Documentation/spi/00-INDEX
+ delete mode 100644 Documentation/sysctl/00-INDEX
+ delete mode 100644 Documentation/timers/00-INDEX
+ delete mode 100644 Documentation/virtual/00-INDEX
+ delete mode 100644 Documentation/virtual/kvm/00-INDEX
+ delete mode 100644 Documentation/vm/00-INDEX
+ delete mode 100644 Documentation/w1/00-INDEX
+ delete mode 100644 Documentation/w1/masters/00-INDEX
+ delete mode 100644 Documentation/w1/slaves/00-INDEX
+ delete mode 100644 Documentation/x86/00-INDEX
+ delete mode 100644 Documentation/x86/x86_64/00-INDEX
+ create mode 100644 LICENSES/other/ISC
+ delete mode 100755 scripts/check_00index.sh
