@@ -1,104 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B342E7D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 19:24:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2EF5C7D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 20:09:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726652AbeJYDxx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Oct 2018 23:53:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47966 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726433AbeJYDxx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Oct 2018 23:53:53 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B8340C059B73;
-        Wed, 24 Oct 2018 19:24:34 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E53610694C0;
-        Wed, 24 Oct 2018 19:24:30 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id w9OJOTxA008839;
-        Wed, 24 Oct 2018 15:24:29 -0400
-Received: from localhost (mpatocka@localhost)
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id w9OJOT0l008835;
-        Wed, 24 Oct 2018 15:24:29 -0400
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date:   Wed, 24 Oct 2018 15:24:29 -0400 (EDT)
-From:   Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To:     Paul Lawrence <paullawrence@google.com>
-cc:     Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, linux-doc@vger.kernel.org,
-        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        dm-devel@redhat.com, Shaohua Li <shli@kernel.org>
-Subject: Re: [dm-devel] [RFC] dm-bow working prototype
-In-Reply-To: <296148c2-f2d9-5818-ea76-d71a0d6f5cd4@google.com>
-Message-ID: <alpine.LRH.2.02.1810241514310.4080@file01.intranet.prod.int.rdu2.redhat.com>
-References: <20181023212358.60292-1-paullawrence@google.com> <20181023221819.GB17552@agk-dp.fab.redhat.com> <296148c2-f2d9-5818-ea76-d71a0d6f5cd4@google.com>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+        id S1725877AbeJYEir (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Oct 2018 00:38:47 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:36595 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725821AbeJYEir (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 00:38:47 -0400
+Received: by mail-io1-f66.google.com with SMTP id o19-v6so3970457iod.3
+        for <linux-doc@vger.kernel.org>; Wed, 24 Oct 2018 13:09:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=myUIaGAQ4FX09BC3WcQ/tTbGenycR0huzAA5WP9HNOM=;
+        b=BCa/w9Kqa9uMTeQwC1JOhravLnMIgNNPp8L1DXtvsKbPyw8Gzfh5L3JzRb+eI4HCAg
+         HjS2dou6uBQ189nOnHvQGwo/ZRm2eUgRRFAqtPONkVsGYF0c9W+6HAQTFcmIajf/HEmq
+         JuM4St/WzCKJ5lA+rwMCD0bGoQcuNoUNDnhw8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=myUIaGAQ4FX09BC3WcQ/tTbGenycR0huzAA5WP9HNOM=;
+        b=IRd+RgR9WOcq1qJ0drFOjqvcP27U1t9grFtuTRmSc31E5yvppJ3hPpbIi4+dIOJJxW
+         2NuVDibb3W1fU5Am9CEkxfmWP+6rsGiyNGHKB4y8xiVxpYWDLKKwlzrBfGnpjVLFd4VS
+         dz6HJ+MGbxeDfMgNu5eLTU5ki9vzXAApd2b2pU5StFbDBAJsjLWqjGLkRO0g/Oyh8D1+
+         85Gty+3vIS3tcUuAspnrp8x53MWwhOYanXhzoQYFwIBDzLxYLFc5oCJKRfYMLh2XO/CM
+         77rRlrT+gDdl6Xg+M7b6aJqvNols7gry6DMh4AGYSUny6Rm+BSsAW3Gtv7pGEUGXdl0V
+         IH+w==
+X-Gm-Message-State: AGRZ1gKhKG9zZWGUHv5Ku7vlvaC+BWceJnsMxbwH8zAQB05bpXeUDlB+
+        ZoeJvWuqhyWwbFLDFusywcrwWNYmbIyOrRCIGfMTXQ==
+X-Google-Smtp-Source: AJdET5eLstqBg2h3GbonuFksgEXQq4ZMRiv99rVwn5cFUv3HtbaQvHtHPVMlnYbM36oA68bbtoagdoolPEirK3hdR0w=
+X-Received: by 2002:a6b:ac45:: with SMTP id v66-v6mr16627405ioe.66.1540411758345;
+ Wed, 24 Oct 2018 13:09:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Wed, 24 Oct 2018 19:24:34 +0000 (UTC)
+References: <20181024013132.115907-1-dbasehore@chromium.org>
+ <20181024013132.115907-2-dbasehore@chromium.org> <154038647375.53599.631725372765617195@swboyd.mtv.corp.google.com>
+In-Reply-To: <154038647375.53599.631725372765617195@swboyd.mtv.corp.google.com>
+From:   "dbasehore ." <dbasehore@chromium.org>
+Date:   Wed, 24 Oct 2018 13:09:07 -0700
+Message-ID: <CAGAzgspGA0CExLBrJvM8E7a1ybp=PRDz6kJ-dKyp0hi9db-19g@mail.gmail.com>
+Subject: Re: [PATCH 1/6] clk: Remove recursion in clk_core_{prepare,enable}()
+To:     sboyd@kernel.org
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        aisheng.dong@nxp.com, mchehab+samsung@kernel.org, corbet@lwn.net,
+        Stephen Boyd <sboyd@codeaurora.org>, jbrunet@baylibre.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Oct 24, 2018 at 6:07 AM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Derek Basehore (2018-10-23 18:31:27)
+> > From: Stephen Boyd <sboyd@codeaurora.org>
+> >
+> > Enabling and preparing clocks can be written quite naturally with
+> > recursion. We start at some point in the tree and recurse up the
+> > tree to find the oldest parent clk that needs to be enabled or
+> > prepared. Then we enable/prepare and return to the caller, going
+> > back to the clk we started at and enabling/preparing along the
+> > way.
+> >
+> > The problem is recursion isn't great for kernel code where we
+> > have a limited stack size. Furthermore, we may be calling this
+> > code inside clk_set_rate() which also has recursion in it, so
+> > we're really not looking good if we encounter a tall clk tree.
+> >
+> > Let's create a stack instead by looping over the parent chain and
+> > collecting clks of interest. Then the enable/prepare becomes as
+> > simple as iterating over that list and calling enable.
+> >
+> > Cc: Jerome Brunet <jbrunet@baylibre.com>
+> > Signed-off-by: Stephen Boyd <sboyd@codeaurora.org>
+> > Signed-off-by: Derek Basehore <dbasehore@chromium.org>
+>
+> Did you change anything substantially? Or is it just a resend of my
+> patch from a while ago? If you can add a link to the original and also
+> describe what changed in a maintainer tag it would be much easier for me
+> to compare.
+>
 
+It should just be your patch with the compilation warning fixed.
 
-On Wed, 24 Oct 2018, Paul Lawrence wrote:
-
-> Android has had the concept of A/B updates for since Android N, which means
-> that if an update is unable to boot for any reason three times, we revert to
-> the older system. However, if the failure occurs after the new system has
-> started modifying userdata, we will be attempting to start an older system
-> with a newer userdata, which is an unsupported state. Thus to make A/B able to
-> fully deliver on its promise of safe updates, we need to be able to revert
-> userdata in the event of a failure.
-> 
-> For those cases where the file system on userdata supports
-> snapshots/checkpoints, we should clearly use them. However, there are many
-> Android devices using filesystems that do not support checkpoints, so we need
-> a generic solution. Here we had two options. One was to use overlayfs to
-> manage the changes, then on merge have a script that copies the files to the
-> underlying fs. This was rejected on the grounds of compatibility concerns and
-> managing the merge through reboots, though it is definitely a plausible
-> strategy. The second was to work at the block layer.
-> 
-> At the block layer, dm-snap would have given us a ready-made solution, except
-> that there is no sufficiently large spare partition on Android devices. But in
-> general there is free space on userdata, just scattered over the device, and
-> of course likely to get modified as soon as userdata is written to. We also
-> decided that the merge phase was a high risk component of any design. Since
-> the normal path is that the update succeeds, we anticipate merges happening
-> 99% of the time, and we want to guarantee their success even in the event of
-> unexpected failure during the merge. Thus we decided we preferred a strategy
-> where the device is in the committed state at all times, and rollback requires
-> work, to one where the device remains in the original state but the merge is
-> complex.
-
-What about allocating a big file, using the FIEMAP ioctl to find the 
-physical locations of the file, creating a dm device with many linear 
-targets to map the big file and using it as a snapshot store? I think it 
-would be way easier than re-implementing the snapshot functionality in a 
-new target.
-
-You can mount the whole filesystem using the "origin" target and you can 
-attach a "snapshot" target that uses the mapped big file as its snapshot 
-store - all writes will be placed directly to the device and the old data 
-will be copied to the snapshot store in the big file.
-
-If you decide that rollback is no longer needed, you just unload the 
-snapshot target and delete the big file. If you decide that you want to 
-rollback, you can use the snapshot merge functionality (or you can write a 
-userspace utility that does offline merge).
-
-Mikulas
+This is picked up from https://lore.kernel.org/patchwork/patch/814369/
