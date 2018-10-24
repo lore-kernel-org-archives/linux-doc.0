@@ -5,99 +5,319 @@ X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A32D37D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 20:12:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 417C97D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 20:15:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbeJYElt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Oct 2018 00:41:49 -0400
-Received: from mail-yw1-f66.google.com ([209.85.161.66]:40802 "EHLO
-        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725821AbeJYElt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 00:41:49 -0400
-Received: by mail-yw1-f66.google.com with SMTP id l79-v6so2625380ywc.7
-        for <linux-doc@vger.kernel.org>; Wed, 24 Oct 2018 13:12:20 -0700 (PDT)
+        id S1725877AbeJYEpC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Oct 2018 00:45:02 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:40880 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725821AbeJYEpB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 00:45:01 -0400
+Received: by mail-io1-f65.google.com with SMTP id a23-v6so3979307iod.7
+        for <linux-doc@vger.kernel.org>; Wed, 24 Oct 2018 13:15:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TsdzQEsCFRB5ZvlDDE9nNL5K9y4g+QaqTv54PLCe7kA=;
-        b=FgNSvNZTM6k8BDFlft3do1gGJGEjgfhqRCLx2EMcFcYNiHAhNERWCbUgZUOndN9ToK
-         LbZY1/jlAHvd/IqrDvOBV1d5rlyDewiY+i32BsjpjdR3/vz+V/FZPA4O70PhNzHf7ARL
-         fmypCoDLv9yDoeNJPNPCJ7hGmTK7B9W0lhrSs=
+        bh=MOJhulJo/0XURfFrOcsiTJoaa9Ph7VtNilLsTXAFOgE=;
+        b=NAThINp4q8rv36JKnxPB6g0VlrLrstoDFdEt5qxzDzsKpRD2JcrsFaoVGgp5aako7x
+         DErv9vx81/UrHXOSw9XYd7fD8giaREGB0vxck4MaC1Ey1QQIq4aiy8MhAd7FjEPrZ74s
+         1xCrB2zZ4IemZ4eVvJko6n/yXqyZ5Zl5F7CRI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TsdzQEsCFRB5ZvlDDE9nNL5K9y4g+QaqTv54PLCe7kA=;
-        b=kBWN11ZmD3caKvQqVXVwzMw0UJiC4LFd6fw44yb/hrATruLwb9djgPbrDLxk2oSX+X
-         WzV5ut4s3dG6endCi/EwCAonYdPevn0jBdPDtFenUm1iaZxqrBSl+zSE9ExMrYoAdzYI
-         alN18IPrR++/Dn9mWVy0VOWNYIx4UOUH3T4oyZzyBTn9d9lc6UEXN3IgXDIGScGn0MDc
-         Yb1W3EjaabA8rBWMcUON7kEsEFx1lQnZ2HFJ7OVfL4m97+2B4hQNxTpnpedfes48e1KV
-         eKRM+taL+mYsjAbup7GBJpyyKFvb+NjCJEatoIqgbZHzS7WTyS/rG/DmWHLPNOMMU/D5
-         QSCQ==
-X-Gm-Message-State: AGRZ1gL/P4Qy+3fljXb8OLNSgYo+lp3AtbaLC4VOV5XAqePgHdhKYBDB
-        RkDCTpy4f624f2nIAKqHkRo27MjfSTM=
-X-Google-Smtp-Source: AJdET5eF5jrJdn0FDiaxpoHK6W5tK4lkrXlYghcTgQTiNZo3zIRvTnhbUsWlVHuWRAjR2ClDFQSEuw==
-X-Received: by 2002:a81:7307:: with SMTP id o7-v6mr3746477ywc.183.1540411939021;
-        Wed, 24 Oct 2018 13:12:19 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id d136-v6sm1478757ywh.33.2018.10.24.13.12.16
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Oct 2018 13:12:17 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id n140-v6so2695770yba.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Oct 2018 13:12:16 -0700 (PDT)
-X-Received: by 2002:a25:3588:: with SMTP id c130-v6mr3791627yba.410.1540411936234;
- Wed, 24 Oct 2018 13:12:16 -0700 (PDT)
+        bh=MOJhulJo/0XURfFrOcsiTJoaa9Ph7VtNilLsTXAFOgE=;
+        b=l3P/Hq/OjDAbveMwyfn9s11h5Noc+uxTu8nK+NkhKVKmEc5E+lcHe3VzbUSz9AloO9
+         tdxT6Xu+lmG8V6ukMN+tNXEna97YptAAQ3AXQU01bCq+Zfs6KqHGRFce69+gZ9seIphU
+         qx53UAEDtm/KaXXDRDUNvAcbW5BKgrViGaevng3GNMGMze/wxyeFw1HDHvGf+y76e6te
+         fI0H4FxzzIWZu0myaBSK2VuIBzfkiHwE0SBOC2O2Ef/auP+g7Yn70EyNJAQa9c0U/FrL
+         m7oEZ4rWBLVKVPfud+UNAUXZ3EjMVgXiB/EE6JzIiLGdgLwM2D0OtNWdK4elcHBpya2z
+         rZYw==
+X-Gm-Message-State: AGRZ1gKVveYa+CuCfQdyBbX0yaXHUgxYi914vNybAbx63DRrw0AEuF2r
+        PSCG8z1Fb5Fd5X8CjgTX44dmlveJWtHS2n/TPWPe5A==
+X-Google-Smtp-Source: AJdET5d/aCmU2Mji/WMYk74GyjyMwhXpEJdxmR9LPgMs81J8K0pFHDFFg250b621rguNwnddy6jSN5lfkEm6amtwJcM=
+X-Received: by 2002:a6b:ac45:: with SMTP id v66-v6mr16644206ioe.66.1540412131204;
+ Wed, 24 Oct 2018 13:15:31 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a25:3990:0:0:0:0:0 with HTTP; Wed, 24 Oct 2018 13:12:15
- -0700 (PDT)
-In-Reply-To: <33754ab5-5c7a-b174-0ad6-195323a169f1@schaufler-ca.com>
-References: <20181011001846.30964-1-keescook@chromium.org> <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
- <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
- <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
- <f68e5f4b-6360-a9e7-597f-89d1d3ca73c1@canonical.com> <32stV62RmME8Dj5jKB8Z03zPe_Et72kMo71D8SpgSOHUo6SaROc8DomMWdk5jDGpyqVd8T63NIIK2NdDw95clpF8Uj47Wca2FBFItXDRh7E=@protonmail.ch>
- <38dde301-d77e-35fd-88d4-5cdc5b570ee8@canonical.com> <_CkJnKYmEZ4ZF0JtsSYuahAd9sgnX9OtcstjXaeqb8wn5uxfimc6S4jomly7If9VqnOXqXwaiCbJ9ttS6NiqE7n6cQUlwLvfO53paLmacvU=@protonmail.ch>
- <8251564f-ba7a-1777-a606-dec472b32f35@canonical.com> <CAGXu5j+2yVZ5DQHyqvJKnSYYqRCzeMtEabBwYFOWkTcwMUWhEw@mail.gmail.com>
- <96e92224-aedf-5026-d6dd-b29121b4dc0d@schaufler-ca.com> <CAGXu5jKFqtV_NFRaXPKVgNQt3F1pwFqopDLp1ZQJDGM_Bdid6Q@mail.gmail.com>
- <63410d08-d0d1-8cd9-5d9e-70d95a1a8ca0@schaufler-ca.com> <33754ab5-5c7a-b174-0ad6-195323a169f1@schaufler-ca.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Wed, 24 Oct 2018 13:12:15 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jLyn6mLKFK+RuBkYWenm8sXXR+yqJ3VzVCpUqOVmru_XA@mail.gmail.com>
-Message-ID: <CAGXu5jLyn6mLKFK+RuBkYWenm8sXXR+yqJ3VzVCpUqOVmru_XA@mail.gmail.com>
-Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     John Johansen <john.johansen@canonical.com>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        James Morris <jmorris@namei.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
+References: <20181024013132.115907-1-dbasehore@chromium.org>
+ <20181024013132.115907-2-dbasehore@chromium.org> <264adf2a81bcd602f2a58e4a46c3273cd7c77ca2.camel@baylibre.com>
+In-Reply-To: <264adf2a81bcd602f2a58e4a46c3273cd7c77ca2.camel@baylibre.com>
+From:   "dbasehore ." <dbasehore@chromium.org>
+Date:   Wed, 24 Oct 2018 13:15:19 -0700
+Message-ID: <CAGAzgspHFiuUpfTjD5v9-U=yAxwkBnZh3Mwtaom4wsiO-Bcfgw@mail.gmail.com>
+Subject: Re: [PATCH 1/6] clk: Remove recursion in clk_core_{prepare,enable}()
+To:     jbrunet@baylibre.com
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
+        sboyd@kernel.org, Michael Turquette <mturquette@baylibre.com>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        aisheng.dong@nxp.com, mchehab+samsung@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Stephen Boyd <sboyd@codeaurora.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 24, 2018 at 1:56 AM, Casey Schaufler <casey@schaufler-ca.com> wrote:
-> On 10/23/2018 12:05 PM, Casey Schaufler wrote:
->> On 10/23/2018 11:50 AM, Kees Cook wrote:
->>
->>> Did you poke around at my combined series?
->>> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=lsm/ordering-v6-blob-sharing
->> I hope to do that on the plane later today.
+On Wed, Oct 24, 2018 at 2:51 AM Jerome Brunet <jbrunet@baylibre.com> wrote:
 >
-> I had a chance to poke at the combined series and it
-> all seems to work as advertised.
+> On Tue, 2018-10-23 at 18:31 -0700, Derek Basehore wrote:
+> > From: Stephen Boyd <sboyd@codeaurora.org>
+> >
+> > Enabling and preparing clocks can be written quite naturally with
+> > recursion. We start at some point in the tree and recurse up the
+> > tree to find the oldest parent clk that needs to be enabled or
+> > prepared. Then we enable/prepare and return to the caller, going
+> > back to the clk we started at and enabling/preparing along the
+> > way.
+> >
+> > The problem is recursion isn't great for kernel code where we
+> > have a limited stack size. Furthermore, we may be calling this
+> > code inside clk_set_rate() which also has recursion in it, so
+> > we're really not looking good if we encounter a tall clk tree.
+> >
+> > Let's create a stack instead by looping over the parent chain and
+> > collecting clks of interest. Then the enable/prepare becomes as
+> > simple as iterating over that list and calling enable.
+>
+> Hi Derek,
+>
+> What about unprepare() and disable() ?
+>
+> This patch removes the recursion from the enable path but keeps it for the
+> disable path ... this is very odd. Assuming doing so works, It certainly makes
+> CCF a lot harder to understand.
+>
+> What about clock protection which essentially works on the same model as prepare
+> and enable ?
+>
+> Overall, this change does not look like something that should be merged as it
+> is. If you were just seeking comments, you should add the "RFC" tag to your
+> series.
+>
+> Jerome.
+>
+> >
+> > Cc: Jerome Brunet <jbrunet@baylibre.com>
+>
+> If you don't mind, I would prefer to get the whole series next time. It helps to
+> get the context.
+>
+> > Signed-off-by: Stephen Boyd <sboyd@codeaurora.org>
+> > Signed-off-by: Derek Basehore <dbasehore@chromium.org>
+> > ---
+> >  drivers/clk/clk.c | 113 ++++++++++++++++++++++++++--------------------
+> >  1 file changed, 64 insertions(+), 49 deletions(-)
+> >
+> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> > index af011974d4ec..95d818f5edb2 100644
+> > --- a/drivers/clk/clk.c
+> > +++ b/drivers/clk/clk.c
+> > @@ -71,6 +71,8 @@ struct clk_core {
+> >       struct hlist_head       children;
+> >       struct hlist_node       child_node;
+> >       struct hlist_head       clks;
+> > +     struct list_head        prepare_list;
+> > +     struct list_head        enable_list;
+> >       unsigned int            notifier_count;
+> >  #ifdef CONFIG_DEBUG_FS
+> >       struct dentry           *dentry;
+> > @@ -740,49 +742,48 @@ EXPORT_SYMBOL_GPL(clk_unprepare);
+> >  static int clk_core_prepare(struct clk_core *core)
+> >  {
+> >       int ret = 0;
+> > +     struct clk_core *tmp, *parent;
+> > +     LIST_HEAD(head);
+> >
+> >       lockdep_assert_held(&prepare_lock);
+> >
+> > -     if (!core)
+> > -             return 0;
+> > +     while (core) {
+> > +             list_add(&core->prepare_list, &head);
+> > +             /* Stop once we see a clk that is already prepared */
+> > +             if (core->prepare_count)
+> > +                     break;
+> > +             core = core->parent;
+> > +     }
+> >
+> > -     if (core->prepare_count == 0) {
+> > -             ret = clk_pm_runtime_get(core);
+> > -             if (ret)
+> > -                     return ret;
+> > +     list_for_each_entry_safe(core, tmp, &head, prepare_list) {
+> > +             list_del_init(&core->prepare_list);
+>
+> Is there any point in removing it from the list ?
+> Maybe I missed it but it does not seems useful.
+>
+> Without this, we could use list_for_each_entry()
+>
+> >
+> > -             ret = clk_core_prepare(core->parent);
+> > -             if (ret)
+> > -                     goto runtime_put;
+> > +             if (core->prepare_count == 0) {
+>
+> Should we really check the count here ? You are not checking the count when the
+> put() counterpart is called below.
 
-/me stares at John, Paul, and Stephen. Hurry up and get off your planes! ;)
+I think I accidentally messed that up when I picked up the patch.
+There were some merge conflicts with the addition of the
+clk_pm_runtime code.
 
--Kees
+>
+> Since PM runtime has ref counting as well, either way would work I guess ... but
+> we shall be consistent
+>
+> > +                     ret = clk_pm_runtime_get(core);
+> > +                     if (ret)
+> > +                             goto err;
+> >
+> > -             trace_clk_prepare(core);
+> > +                     trace_clk_prepare(core);
+> >
+> > -             if (core->ops->prepare)
+> > -                     ret = core->ops->prepare(core->hw);
+> > +                     if (core->ops->prepare)
+> > +                             ret = core->ops->prepare(core->hw);
+> >
+> > -             trace_clk_prepare_complete(core);
+> > +                     trace_clk_prepare_complete(core);
+> >
+> > -             if (ret)
+> > -                     goto unprepare;
+> > +                     if (ret) {
+> > +                             clk_pm_runtime_put(core);
+> > +                             goto err;
+> > +                     }
+> > +             }
+> > +             core->prepare_count++;
+> >       }
+> >
+> > -     core->prepare_count++;
+> > -
+> > -     /*
+> > -      * CLK_SET_RATE_GATE is a special case of clock protection
+> > -      * Instead of a consumer claiming exclusive rate control, it is
+> > -      * actually the provider which prevents any consumer from making any
+> > -      * operation which could result in a rate change or rate glitch while
+> > -      * the clock is prepared.
+> > -      */
+> > -     if (core->flags & CLK_SET_RATE_GATE)
+> > -             clk_core_rate_protect(core);
+>
+> This gets removed without anything replacing it.
+>
+> is CLK_SET_RATE_GATE and clock protection support dropped after this change ?
 
--- 
-Kees Cook
+No, I think I just accidentally removed this when resolving conflicts.
+
+>
+> > -
+> >       return 0;
+> > -unprepare:
+> > -     clk_core_unprepare(core->parent);
+> > -runtime_put:
+> > -     clk_pm_runtime_put(core);
+> > +err:
+> > +     parent = core->parent;
+> > +     list_for_each_entry_safe_continue(core, tmp, &head, prepare_list)
+> > +             list_del_init(&core->prepare_list);
+> > +     clk_core_unprepare(parent);
+>
+> If you get here because of failure clk_pm_runtime_get(), you will unprepare a
+> clock which may have not been prepared first
+>
+> Overall the rework of error exit path does not seem right (or necessary)
+>
+
+Yeah, all of this seems to just be a poor resolution of patch
+conflicts on my part. Will fix.
+
+> >       return ret;
+> >  }
+> >
+> > @@ -878,37 +879,49 @@ EXPORT_SYMBOL_GPL(clk_disable);
+> >  static int clk_core_enable(struct clk_core *core)
+> >  {
+> >       int ret = 0;
+> > +     struct clk_core *tmp, *parent;
+> > +     LIST_HEAD(head);
+> >
+> >       lockdep_assert_held(&enable_lock);
+> >
+> > -     if (!core)
+> > -             return 0;
+> > -
+> > -     if (WARN(core->prepare_count == 0,
+> > -         "Enabling unprepared %s\n", core->name))
+> > -             return -ESHUTDOWN;
+> > +     while (core) {
+> > +             list_add(&core->enable_list, &head);
+> > +             /* Stop once we see a clk that is already enabled */
+> > +             if (core->enable_count)
+> > +                     break;
+> > +             core = core->parent;
+> > +     }
+> >
+> > -     if (core->enable_count == 0) {
+> > -             ret = clk_core_enable(core->parent);
+> > +     list_for_each_entry_safe(core, tmp, &head, enable_list) {
+> > +             list_del_init(&core->enable_list);
+> >
+> > -             if (ret)
+> > -                     return ret;
+> > +             if (WARN_ON(core->prepare_count == 0)) {
+> > +                     ret = -ESHUTDOWN;
+> > +                     goto err;
+> > +             }
+> >
+> > -             trace_clk_enable_rcuidle(core);
+> > +             if (core->enable_count == 0) {
+> > +                     trace_clk_enable_rcuidle(core);
+> >
+> > -             if (core->ops->enable)
+> > -                     ret = core->ops->enable(core->hw);
+> > +                     if (core->ops->enable)
+> > +                             ret = core->ops->enable(core->hw);
+> >
+> > -             trace_clk_enable_complete_rcuidle(core);
+> > +                     trace_clk_enable_complete_rcuidle(core);
+> >
+> > -             if (ret) {
+> > -                     clk_core_disable(core->parent);
+> > -                     return ret;
+> > +                     if (ret)
+> > +                             goto err;
+> >               }
+> > +
+> > +             core->enable_count++;
+> >       }
+> >
+> > -     core->enable_count++;
+> >       return 0;
+> > +err:
+> > +     parent = core->parent;
+> > +     list_for_each_entry_safe_continue(core, tmp, &head, enable_list)
+> > +             list_del_init(&core->enable_list);
+> > +     clk_core_disable(parent);
+> > +     return ret;
+> >  }
+> >
+> >  static int clk_core_enable_lock(struct clk_core *core)
+> > @@ -3281,6 +3294,8 @@ struct clk *clk_register(struct device *dev, struct clk_hw *hw)
+> >       core->num_parents = hw->init->num_parents;
+> >       core->min_rate = 0;
+> >       core->max_rate = ULONG_MAX;
+> > +     INIT_LIST_HEAD(&core->prepare_list);
+> > +     INIT_LIST_HEAD(&core->enable_list);
+> >       hw->core = core;
+> >
+> >       /* allocate local copy in case parent_names is __initdata */
+>
+>
