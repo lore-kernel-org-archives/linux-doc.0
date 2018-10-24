@@ -1,322 +1,304 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0B1C37D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 03:28:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F0C137D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 03:48:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726407AbeJXLyQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Oct 2018 07:54:16 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:34777 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725896AbeJXLyP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Oct 2018 07:54:15 -0400
-Received: by mail-pl1-f195.google.com with SMTP id f10-v6so1595611plr.1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Oct 2018 20:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ERbU1tkeMWd/343Ve+mqPg3AxNCH+FYJsIJI9SozjRI=;
-        b=Ojkzc46TOm2NrYKiawGAO5DCy2F6pYYehM528gEpuWW/ajE0Zu53ibup/rrMM4i0hZ
-         y5KmEeHWJDWT9Qpfd3+A6QiNUysWJD/yH1SNUJerVQROc8r+hWeJZzGHKNP6Sy94Mw8t
-         VomcQCFhWnohuKkOSu87FfSm5LAtViSIo3Mhs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ERbU1tkeMWd/343Ve+mqPg3AxNCH+FYJsIJI9SozjRI=;
-        b=qtePAyB03nfgv5pUxylFsf6jfUF61SVbIlzvgxXI6Sm0poQWzsIr1npnyJ1rdDGViw
-         IgOnCmjCDbHDlzuUhvmdvoJMak8n3gAccmRmEJ4ogL3KsSQSHFQzbXUDSb7G9j6LNDAk
-         JC+vISyxOq2GOcHucMZ1suZCc4pE7/nQsdkM9y5fYs5jVbwQeStQkgoPt/LMH3IauD7s
-         w69gWvHNEs/wDgsIJle2S+8lAUuD/IH8s2x5UKwR15gpsrCOHMZef4OW3rAMf1TafQpR
-         AyVfUE8JDIYyErk2qMG5eWFGPyrf728NbpaYMuMhy9iYud75JMxfyfcj+/lj0U7cTCit
-         5kNA==
-X-Gm-Message-State: AGRZ1gL3xLkL1n8F1gu7eQIx0wyw/Kfk/qnUw3Qn2tmkwa2uzHaAPVuH
-        yPryY5jJgTKmZXhlIBKXZiZP1g==
-X-Google-Smtp-Source: AJdET5cQjMvK590McnwOk28XmkXnrKMHi27EgGiZ0hApeGTCywUNjB0HJSYXWQje0cs+THjPUOgWuw==
-X-Received: by 2002:a17:902:82ca:: with SMTP id u10-v6mr589870plz.146.1540344706226;
-        Tue, 23 Oct 2018 18:31:46 -0700 (PDT)
-Received: from exogeni.mtv.corp.google.com ([2620:15c:202:1:5e2b:39df:72ed:4968])
-        by smtp.gmail.com with ESMTPSA id p4-v6sm3882341pfg.188.2018.10.23.18.31.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Oct 2018 18:31:45 -0700 (PDT)
-From:   Derek Basehore <dbasehore@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
-        sboyd@kernel.org, mturquette@baylibre.com, heiko@sntech.de,
-        aisheng.dong@nxp.com, mchehab+samsung@kernel.org, corbet@lwn.net,
-        Derek Basehore <dbasehore@chromium.org>
-Subject: [PATCH 4/6] clk: add pre clk changes support
-Date:   Tue, 23 Oct 2018 18:31:30 -0700
-Message-Id: <20181024013132.115907-5-dbasehore@chromium.org>
-X-Mailer: git-send-email 2.19.1.568.g152ad8e336-goog
-In-Reply-To: <20181024013132.115907-1-dbasehore@chromium.org>
-References: <20181024013132.115907-1-dbasehore@chromium.org>
+        id S1726414AbeJXMOy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Oct 2018 08:14:54 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:60868 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725979AbeJXMOy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Oct 2018 08:14:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=QuZpdeB1g30decvzUgODf+XusTXvloL8MltxAnxKZiQ=; b=wVKjWJwJ0ej8v4nmaanMs5BXbv
+        A3/1HseTI6OrwN2O9/V+/GPWtcoYrjf6N+7e3v4sf3P6kU6RnmuuGTsU2lSndD97BlA0uczxBn77t
+        jLekgr5xm6Q1/n6Ri3TfPn6TB38o5M4kWh87B/9eNVvIX/642ikTSplmnofr7Rj+KEKarIodhMCq4
+        OoDLfq9DEDx5/7TERUJRIhr0h5uxiKgoAOr+zvrZa6KE72U64s3x9S2pYx0LU1vhAhaawkqHAbE1t
+        hB94VfP2Gnf7L9ogZJgDn67c9hVGz6PEkAKsZF26x+ofeBZ0oL4oODoe1viU2YeGXV3uSdoaD2NNd
+        NXe2ut8Q==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gFA9r-0005h7-Hh; Wed, 24 Oct 2018 03:48:35 +0000
+Subject: Re: [PATCH 10/17] prmem: documentation
+To:     Igor Stoppa <igor.stoppa@gmail.com>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        kernel-hardening@lists.openwall.com,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Cc:     igor.stoppa@huawei.com, Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <b09b3feb-8e3d-5fab-4e2b-35e8c252b27c@infradead.org>
+Date:   Tue, 23 Oct 2018 20:48:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181023213504.28905-11-igor.stoppa@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds a new clk_op, pre_rate_req. It allows clks to setup an
-intermediate state when clk rates are changed. One use case for this
-is when a clk needs to switch to a safe parent when its PLL ancestor
-changes rates. This is needed when a PLL cannot guarantee that it will
-not exceed the new rate before it locks. The set_rate, set_parent, and
-set_rate_and_parent callbacks are used with the pre_rate_req callback.
+Hi,
 
-Signed-off-by: Derek Basehore <dbasehore@chromium.org>
----
- drivers/clk/clk.c            | 136 +++++++++++++++++++++++++++++++++--
- include/linux/clk-provider.h |  10 +++
- 2 files changed, 139 insertions(+), 7 deletions(-)
+On 10/23/18 2:34 PM, Igor Stoppa wrote:
+> Documentation for protected memory.
+> 
+> Topics covered:
+> * static memory allocation
+> * dynamic memory allocation
+> * write-rare
+> 
+> Signed-off-by: Igor Stoppa <igor.stoppa@huawei.com>
+> CC: Jonathan Corbet <corbet@lwn.net>
+> CC: Randy Dunlap <rdunlap@infradead.org>
+> CC: Mike Rapoport <rppt@linux.vnet.ibm.com>
+> CC: linux-doc@vger.kernel.org
+> CC: linux-kernel@vger.kernel.org
+> ---
+>  Documentation/core-api/index.rst |   1 +
+>  Documentation/core-api/prmem.rst | 172 +++++++++++++++++++++++++++++++
+>  MAINTAINERS                      |   1 +
+>  3 files changed, 174 insertions(+)
+>  create mode 100644 Documentation/core-api/prmem.rst
 
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index 1db44b4e46b0..36a2f929ab8d 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -39,6 +39,7 @@ static int enable_refcnt;
- static HLIST_HEAD(clk_root_list);
- static HLIST_HEAD(clk_orphan_list);
- static LIST_HEAD(clk_notifier_list);
-+static LIST_HEAD(pre_change_free_list);
- 
- /***    private data structures    ***/
- 
-@@ -1896,6 +1897,74 @@ static struct clk_core *clk_propagate_rate_change(struct clk_core *core,
- 	return fail_clk;
- }
- 
-+static int clk_pre_rate_req(struct list_head *pre_list, struct clk_core *core)
-+{
-+	struct clk_core *child, *parent = core->parent;
-+	struct clk_rate_request next, pre;
-+	struct clk_change *change;
-+	int ret;
-+
-+	hlist_for_each_entry(child, &core->children, child_node) {
-+		ret = clk_pre_rate_req(pre_list, child);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (core->new_child) {
-+		ret = clk_pre_rate_req(pre_list, child);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (!core->ops->pre_rate_req)
-+		return 0;
-+
-+	if (core->change.parent)
-+		parent = core->change.parent;
-+
-+	if (parent) {
-+		next.best_parent_hw = parent->hw;
-+		next.best_parent_rate = parent->change.rate;
-+	}
-+
-+	next.rate = core->change.rate;
-+	clk_core_get_boundaries(core, &next.min_rate, &next.max_rate);
-+
-+	ret = core->ops->pre_rate_req(core->hw, &next, &pre);
-+	if (ret < 0)
-+		return ret;
-+	else if (!ret)
-+		goto out;
-+
-+	/*
-+	 * We allocate a change for each clk with the pre_rate_req op. If we run
-+	 * out, that's because we wrapped around to a clk again in the
-+	 * pre_rate_req step which is not allowed.
-+	 */
-+	change = list_first_entry(&pre_change_free_list, struct clk_change,
-+				  change_list);
-+	if (IS_ERR_OR_NULL(change)) {
-+		pr_err("%s: pre_rate_req loop detected on clk %s. All pre_rate_req clk_change structs are used\n",
-+				__func__, core->name);
-+		return -EDEADLK;
-+	}
-+
-+	change->core = core;
-+	change->rate = pre.rate;
-+	change->parent = pre.best_parent_hw ? pre.best_parent_hw->core : NULL;
-+	list_move(&change->change_list, pre_list);
-+
-+out:
-+	/* If the pre req req pulls in a new parent, add it to the call chain */
-+	if (parent != change->parent) {
-+		ret = clk_pre_rate_req(pre_list, change->parent);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * walk down a subtree and set the new rates notifying the rate
-  * change on the way
-@@ -2065,6 +2134,8 @@ static int clk_core_set_rate_nolock(struct clk_core *core,
- 	struct clk_core *top, *fail_clk;
- 	struct clk_change *change, *tmp;
- 	unsigned long rate;
-+	LIST_HEAD(pre_changes);
-+	LIST_HEAD(post_changes);
- 	LIST_HEAD(changes);
- 	int ret = 0;
- 
-@@ -2092,6 +2163,14 @@ static int clk_core_set_rate_nolock(struct clk_core *core,
- 
- 	clk_calc_subtree(core);
- 
-+	/* We need a separate list for these changes due to error handling. */
-+	ret = clk_pre_rate_req(&pre_changes, top);
-+	if (ret) {
-+		pr_debug("%s: failed pre_rate_req via top clk %s: %d\n",
-+				__func__, top->name, ret);
-+		goto pre_rate_req;
-+	}
-+
- 	/* Construct the list of changes */
- 	clk_prepare_changes(&changes, top);
- 
-@@ -2100,11 +2179,19 @@ static int clk_core_set_rate_nolock(struct clk_core *core,
- 	if (fail_clk) {
- 		pr_debug("%s: failed to set %s rate\n", __func__,
- 				fail_clk->name);
--		clk_propagate_rate_change(top, ABORT_RATE_CHANGE);
- 		ret = -EBUSY;
--		goto err;
-+		goto prop_rate;
-+	}
-+
-+	ret = clk_change_rates(&pre_changes);
-+	if (ret) {
-+		pr_debug("%s: rate rate changes failed via top clk %s: %d\n",
-+				__func__, top->name, ret);
-+		goto pre_rate_req;
- 	}
- 
-+	list_splice_tail(&post_changes, &changes);
-+
- 	/* change the rates */
- 	ret = clk_change_rates(&changes);
- 	list_for_each_entry_safe(change, tmp, &changes, change_list) {
-@@ -2112,16 +2199,28 @@ static int clk_core_set_rate_nolock(struct clk_core *core,
- 		change->parent = NULL;
- 		list_del_init(&change->change_list);
- 	}
--
- 	if (ret) {
- 		pr_debug("%s: failed to set %s rate via top clk %s\n", __func__,
- 				core->name, top->name);
--		clk_propagate_rate_change(top, ABORT_RATE_CHANGE);
--		goto err;
-+		goto change_rates;
- 	}
- 
-+	list_splice(&pre_changes, &pre_change_free_list);
- 	core->req_rate = req_rate;
--err:
-+
-+	return 0;
-+
-+change_rates:
-+	WARN_ON(clk_change_rates(&pre_changes));
-+pre_rate_req:
-+	list_splice(&pre_changes, &pre_change_free_list);
-+prop_rate:
-+	clk_propagate_rate_change(top, ABORT_RATE_CHANGE);
-+	list_for_each_entry_safe(change, tmp, &changes, change_list) {
-+		change->rate = 0;
-+		change->parent = NULL;
-+		list_del_init(&change->change_list);
-+	}
- 	clk_pm_runtime_put(core);
- 
- 	return ret;
-@@ -3139,7 +3238,9 @@ static int __clk_core_init(struct clk_core *core)
- 
- 	/* check that clk_ops are sane.  See Documentation/driver-api/clk.rst */
- 	if (core->ops->set_rate &&
--	    !((core->ops->round_rate || core->ops->determine_rate) &&
-+	    !((core->ops->round_rate ||
-+	       core->ops->determine_rate ||
-+	       core->ops->pre_rate_req) &&
- 	      core->ops->recalc_rate)) {
- 		pr_err("%s: %s must implement .round_rate or .determine_rate in addition to .recalc_rate\n",
- 		       __func__, core->name);
-@@ -3175,6 +3276,20 @@ static int __clk_core_init(struct clk_core *core)
- 				"%s: invalid NULL in %s's .parent_names\n",
- 				__func__, core->name);
- 
-+	/* Allocate a clk_change struct for pre_rate_reqs */
-+	if (core->ops->pre_rate_req) {
-+		struct clk_change *change = kzalloc(sizeof(*change),
-+				GFP_KERNEL);
-+		if (!change) {
-+			ret = -ENOMEM;
-+			kfree(core->parents);
-+			goto out;
-+		}
-+
-+		INIT_LIST_HEAD(&change->change_list);
-+		list_add(&pre_change_free_list, &change->change_list);
-+	}
-+
- 	core->parent = __clk_init_parent(core);
- 
- 	/*
-@@ -3476,6 +3591,13 @@ static void __clk_release(struct kref *ref)
- 	while (--i >= 0)
- 		kfree_const(core->parent_names[i]);
- 
-+	if (core->ops->pre_rate_req) {
-+		struct clk_change *change =
-+			list_first_entry(&pre_change_free_list,
-+					struct clk_change, change_list);
-+		list_del(&change->change_list);
-+		kfree(change);
-+	}
- 	kfree(core->parent_names);
- 	kfree_const(core->name);
- 	kfree(core);
-diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-index 60c51871b04b..98a65c6c326d 100644
---- a/include/linux/clk-provider.h
-+++ b/include/linux/clk-provider.h
-@@ -138,6 +138,13 @@ struct clk_duty {
-  *		actually supported by the clock, and optionally the parent clock
-  *		that should be used to provide the clock rate.
-  *
-+ * @pre_rate_req: Given the next state that the clk will enter via a
-+ *		clk_rate_request struct, next, fill in another clk_rate_request
-+ *		struct, pre, with any desired intermediate state to change to
-+ *		before the state in next is applied. Returns positive to request
-+ *		an intermediate state transition, 0 for no transition, and
-+ *		-EERROR otherwise.
-+ *
-  * @set_parent:	Change the input source of this clock; for clocks with multiple
-  *		possible parents specify a new parent by passing in the index
-  *		as a u8 corresponding to the parent in either the .parent_names
-@@ -236,6 +243,9 @@ struct clk_ops {
- 					unsigned long *parent_rate);
- 	int		(*determine_rate)(struct clk_hw *hw,
- 					  struct clk_rate_request *req);
-+	int		(*pre_rate_req)(struct clk_hw *hw,
-+					const struct clk_rate_request *next,
-+					struct clk_rate_request *pre);
- 	int		(*set_parent)(struct clk_hw *hw, u8 index);
- 	u8		(*get_parent)(struct clk_hw *hw);
- 	int		(*set_rate)(struct clk_hw *hw, unsigned long rate,
+
+> diff --git a/Documentation/core-api/prmem.rst b/Documentation/core-api/prmem.rst
+> new file mode 100644
+> index 000000000000..16d7edfe327a
+> --- /dev/null
+> +++ b/Documentation/core-api/prmem.rst
+> @@ -0,0 +1,172 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _prmem:
+> +
+> +Memory Protection
+> +=================
+> +
+> +:Date: October 2018
+> +:Author: Igor Stoppa <igor.stoppa@huawei.com>
+> +
+> +Foreword
+> +--------
+> +- In a typical system using some sort of RAM as execution environment,
+> +  **all** memory is initially writable.
+> +
+> +- It must be initialized with the appropriate content, be it code or data.
+> +
+> +- Said content typically undergoes modifications, i.e. relocations or
+> +  relocation-induced changes.
+> +
+> +- The present document doesn't address such transient.
+
+                                               transience.
+
+> +
+> +- Kernel code is protected at system level and, unlike data, it doesn't
+> +  require special attention.
+> +
+> +Protection mechanism
+> +--------------------
+> +
+> +- When available, the MMU can write protect memory pages that would be
+> +  otherwise writable.
+> +
+> +- The protection has page-level granularity.
+> +
+> +- An attempt to overwrite a protected page will trigger an exception.
+> +- **Write protected data must go exclusively to write protected pages**
+> +- **Writable data must go exclusively to writable pages**
+> +
+> +Available protections for kernel data
+> +-------------------------------------
+> +
+> +- **constant**
+> +   Labelled as **const**, the data is never supposed to be altered.
+> +   It is statically allocated - if it has any memory footprint at all.
+> +   The compiler can even optimize it away, where possible, by replacing
+> +   references to a **const** with its actual value.
+> +
+> +- **read only after init**
+> +   By tagging an otherwise ordinary statically allocated variable with
+> +   **__ro_after_init**, it is placed in a special segment that will
+> +   become write protected, at the end of the kernel init phase.
+> +   The compiler has no notion of this restriction and it will treat any
+> +   write operation on such variable as legal. However, assignments that
+> +   are attempted after the write protection is in place, will cause
+
+no comma.
+
+> +   exceptions.
+> +
+> +- **write rare after init**
+> +   This can be seen as variant of read only after init, which uses the
+> +   tag **__wr_after_init**. It is also limited to statically allocated
+> +   memory. It is still possible to alter this type of variables, after
+> +   the kernel init phase is complete, however it can be done exclusively
+> +   with special functions, instead of the assignment operator. Using the
+> +   assignment operator after conclusion of the init phase will still
+> +   trigger an exception. It is not possible to transition a certain
+> +   variable from __wr_ater_init to a permanent read-only status, at
+> +   runtime.
+> +
+> +- **dynamically allocated write-rare / read-only**
+> +   After defining a pool, memory can be obtained through it, primarily
+> +   through the **pmalloc()** allocator. The exact writability state of the
+> +   memory obtained from **pmalloc()** and friends can be configured when
+> +   creating the pool. At any point it is possible to transition to a less
+> +   permissive write status the memory currently associated to the pool.
+> +   Once memory has become read-only, it the only valid operation, beside
+> +   reading, is to released it, by destroying the pool it belongs to.
+> +
+> +
+> +Protecting dynamically allocated memory
+> +---------------------------------------
+> +
+> +When dealing with dynamically allocated memory, three options are
+> + available for configuring its writability state:
+> +
+> +- **Options selected when creating a pool**
+> +   When creating the pool, it is possible to choose one of the following:
+> +    - **PMALLOC_MODE_RO**
+> +       - Writability at allocation time: *WRITABLE*
+> +       - Writability at protection time: *NONE*
+> +    - **PMALLOC_MODE_WR**
+> +       - Writability at allocation time: *WRITABLE*
+> +       - Writability at protection time: *WRITE-RARE*
+> +    - **PMALLOC_MODE_AUTO_RO**
+> +       - Writability at allocation time:
+> +           - the latest allocation: *WRITABLE*
+> +           - every other allocation: *NONE*
+> +       - Writability at protection time: *NONE*
+> +    - **PMALLOC_MODE_AUTO_WR**
+> +       - Writability at allocation time:
+> +           - the latest allocation: *WRITABLE*
+> +           - every other allocation: *WRITE-RARE*
+> +       - Writability at protection time: *WRITE-RARE*
+> +    - **PMALLOC_MODE_START_WR**
+> +       - Writability at allocation time: *WRITE-RARE*
+> +       - Writability at protection time: *WRITE-RARE*
+> +
+> +   **Remarks:**
+> +    - The "AUTO" modes perform automatic protection of the content, whenever
+> +       the current vmap_area is used up and a new one is allocated.
+> +        - At that point, the vmap_area being phased out is protected.
+> +        - The size of the vmap_area depends on various parameters.
+> +        - It might not be possible to know for sure *when* certain data will
+> +          be protected.
+> +        - The functionality is provided as tradeoff between hardening and speed.
+> +        - Its usefulness depends on the specific use case at hand
+
+end above sentence with a period, please, like all of the others above it.
+
+> +    - The "START_WR" mode is the only one which provides immediate protection, at the cost of speed.
+
+Please try to keep the line above and a few below to < 80 characters in length.
+(because some of us read rst files as text files, with a text editor, and line
+wrap is ugly)
+
+> +
+> +- **Protecting the pool**
+> +   This is achieved with **pmalloc_protect_pool()**
+> +    - Any vmap_area currently in the pool is write-protected according to its initial configuration.
+> +    - Any residual space still available from the current vmap_area is lost, as the area is protected.
+> +    - **protecting a pool after every allocation will likely be very wasteful**
+> +    - Using PMALLOC_MODE_START_WR is likely a better choice.
+> +
+> +- **Upgrading the protection level**
+> +   This is achieved with **pmalloc_make_pool_ro()**
+> +    - it turns the present content of a write-rare pool into read-only
+> +    - can be useful when the content of the memory has settled
+> +
+> +
+> +Caveats
+> +-------
+> +- Freeing of memory is not supported. Pages will be returned to the
+> +  system upon destruction of their memory pool.
+> +
+> +- The address range available for vmalloc (and thus for pmalloc too) is
+> +  limited, on 32-bit systems. However it shouldn't be an issue, since not
+> +  much data is expected to be dynamically allocated and turned into
+> +  write-protected.
+> +
+> +- Regarding SMP systems, changing state of pages and altering mappings
+> +  requires performing cross-processor synchronizations of page tables.
+> +  This is an additional reason for limiting the use of write rare.
+> +
+> +- Not only the pmalloc memory must be protected, but also any reference to
+> +  it that might become the target for an attack. The attack would replace
+> +  a reference to the protected memory with a reference to some other,
+> +  unprotected, memory.
+> +
+> +- The users of rare write must take care of ensuring the atomicity of the
+
+s/rare write/write rare/ ?
+
+> +  action, respect to the way they use the data being altered; for example,
+
+  This ..   "respect to the way" is awkward, but I don't know what to
+change it to.
+
+> +  take a lock before making a copy of the value to modify (if it's
+> +  relevant), then alter it, issue the call to rare write and finally
+> +  release the lock. Some special scenario might be exempt from the need
+> +  for locking, but in general rare-write must be treated as an operation
+
+It seemed to me that "write-rare" (or write rare) was the going name, but now
+it's being called "rare write" (or rare-write).  Just be consistent, please.
+
+
+> +  that can incur into races.
+> +
+> +- pmalloc relies on virtual memory areas and will therefore use more
+> +  tlb entries. It still does a better job of it, compared to invoking
+
+     TLB
+
+> +  vmalloc for each allocation, but it is undeniably less optimized wrt to
+
+s/wrt/with respect to/
+
+> +  TLB use than using the physmap directly, through kmalloc or similar.
+> +
+> +
+> +Utilization
+> +-----------
+> +
+> +**add examples here**
+> +
+> +API
+> +---
+> +
+> +.. kernel-doc:: include/linux/prmem.h
+> +.. kernel-doc:: mm/prmem.c
+> +.. kernel-doc:: include/linux/prmemextra.h
+
+
+Thanks for the documentation.
+
 -- 
-2.19.1.568.g152ad8e336-goog
-
+~Randy
