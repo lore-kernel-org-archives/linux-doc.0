@@ -5,48 +5,49 @@ X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 417C97D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 20:15:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 52FB37D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 20:23:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725877AbeJYEpC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Oct 2018 00:45:02 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:40880 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725821AbeJYEpB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 00:45:01 -0400
-Received: by mail-io1-f65.google.com with SMTP id a23-v6so3979307iod.7
-        for <linux-doc@vger.kernel.org>; Wed, 24 Oct 2018 13:15:31 -0700 (PDT)
+        id S1726633AbeJYExZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Oct 2018 00:53:25 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:33588 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726297AbeJYExZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 00:53:25 -0400
+Received: by mail-io1-f66.google.com with SMTP id l25-v6so3998884ioj.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Oct 2018 13:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MOJhulJo/0XURfFrOcsiTJoaa9Ph7VtNilLsTXAFOgE=;
-        b=NAThINp4q8rv36JKnxPB6g0VlrLrstoDFdEt5qxzDzsKpRD2JcrsFaoVGgp5aako7x
-         DErv9vx81/UrHXOSw9XYd7fD8giaREGB0vxck4MaC1Ey1QQIq4aiy8MhAd7FjEPrZ74s
-         1xCrB2zZ4IemZ4eVvJko6n/yXqyZ5Zl5F7CRI=
+        bh=j1WVKsPq34LDynxmlYTtr5sMoaPQVZF85kQveofLdkg=;
+        b=VaTHNXwPyp0Vq3w5SwGjMDZ+H36Lz1jdUqnaMeGzW0kBv8e6LyaYojVu6wg0LmWvTj
+         oHFI5unrEam8JSw9Ejy2rnxqHECNQroKW7fIaWcHESDZmN2BkoxkKBgtE68Of7G42sja
+         gmBcd3dsZ73RtO4AwdoI35oLmA/p604YjsZq4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MOJhulJo/0XURfFrOcsiTJoaa9Ph7VtNilLsTXAFOgE=;
-        b=l3P/Hq/OjDAbveMwyfn9s11h5Noc+uxTu8nK+NkhKVKmEc5E+lcHe3VzbUSz9AloO9
-         tdxT6Xu+lmG8V6ukMN+tNXEna97YptAAQ3AXQU01bCq+Zfs6KqHGRFce69+gZ9seIphU
-         qx53UAEDtm/KaXXDRDUNvAcbW5BKgrViGaevng3GNMGMze/wxyeFw1HDHvGf+y76e6te
-         fI0H4FxzzIWZu0myaBSK2VuIBzfkiHwE0SBOC2O2Ef/auP+g7Yn70EyNJAQa9c0U/FrL
-         m7oEZ4rWBLVKVPfud+UNAUXZ3EjMVgXiB/EE6JzIiLGdgLwM2D0OtNWdK4elcHBpya2z
-         rZYw==
-X-Gm-Message-State: AGRZ1gKVveYa+CuCfQdyBbX0yaXHUgxYi914vNybAbx63DRrw0AEuF2r
-        PSCG8z1Fb5Fd5X8CjgTX44dmlveJWtHS2n/TPWPe5A==
-X-Google-Smtp-Source: AJdET5d/aCmU2Mji/WMYk74GyjyMwhXpEJdxmR9LPgMs81J8K0pFHDFFg250b621rguNwnddy6jSN5lfkEm6amtwJcM=
-X-Received: by 2002:a6b:ac45:: with SMTP id v66-v6mr16644206ioe.66.1540412131204;
- Wed, 24 Oct 2018 13:15:31 -0700 (PDT)
+        bh=j1WVKsPq34LDynxmlYTtr5sMoaPQVZF85kQveofLdkg=;
+        b=BH9qfdCGT5I9qsTmUdhFTb2vtZObVVbV5iYLKZlV6aAn3FPEDBI/FqyYMN/05TEzR/
+         K84xBGNIaKhLNuPBWe+SgFcKQ/lidyDZc1+PsrV53zlYOZXwiZ7vOaRhiR7utxqvZ0tz
+         wH7Jkn27pGq/pJRy+3Qg+gTBgxCLFtVkXfim1pxmE/Hmb45Fp23OysMXPPxO3ZNmO4lj
+         zZLWuztV/Ve7udSpJ5mRiCKTU1HTNvTcrRDqjITjwM/bUt28l37Pl7Bb2wjplcZ6RxTp
+         Wd1DFjR5YlocGQHsm3SlPrlbB2zVSE7/l8zYpsHXiJuCQh4spRXyxek1RpAw6bmdiGEh
+         JaYg==
+X-Gm-Message-State: AGRZ1gKuHExZlkw104Fy4gHIOp5RxEav2kyN9hlr1Yta98xzzjzWKuY3
+        1YldQKlX3Y8IRuIdmCXKNmMNjTn3xzV56y8pQDM2sg==
+X-Google-Smtp-Source: AJdET5dcNF2q/whRrjYpyegewTASljsPY43b2eyiH439IIGwgW3Lf2m4rOIDOYfrv5+afg+q+GX9Q96zPsT+aGa6nIk=
+X-Received: by 2002:a6b:bf43:: with SMTP id p64-v6mr14039651iof.41.1540412633300;
+ Wed, 24 Oct 2018 13:23:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181024013132.115907-1-dbasehore@chromium.org>
  <20181024013132.115907-2-dbasehore@chromium.org> <264adf2a81bcd602f2a58e4a46c3273cd7c77ca2.camel@baylibre.com>
-In-Reply-To: <264adf2a81bcd602f2a58e4a46c3273cd7c77ca2.camel@baylibre.com>
+ <CAGAzgspHFiuUpfTjD5v9-U=yAxwkBnZh3Mwtaom4wsiO-Bcfgw@mail.gmail.com>
+In-Reply-To: <CAGAzgspHFiuUpfTjD5v9-U=yAxwkBnZh3Mwtaom4wsiO-Bcfgw@mail.gmail.com>
 From:   "dbasehore ." <dbasehore@chromium.org>
-Date:   Wed, 24 Oct 2018 13:15:19 -0700
-Message-ID: <CAGAzgspHFiuUpfTjD5v9-U=yAxwkBnZh3Mwtaom4wsiO-Bcfgw@mail.gmail.com>
+Date:   Wed, 24 Oct 2018 13:23:42 -0700
+Message-ID: <CAGAzgspQg4_TVLi9XLGFaFHbOo2fuduihajud4GtA5cDu1v+5w@mail.gmail.com>
 Subject: Re: [PATCH 1/6] clk: Remove recursion in clk_core_{prepare,enable}()
 To:     jbrunet@baylibre.com
 Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
@@ -63,261 +64,269 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 24, 2018 at 2:51 AM Jerome Brunet <jbrunet@baylibre.com> wrote:
+On Wed, Oct 24, 2018 at 1:15 PM dbasehore . <dbasehore@chromium.org> wrote:
 >
-> On Tue, 2018-10-23 at 18:31 -0700, Derek Basehore wrote:
-> > From: Stephen Boyd <sboyd@codeaurora.org>
+> On Wed, Oct 24, 2018 at 2:51 AM Jerome Brunet <jbrunet@baylibre.com> wrote:
 > >
-> > Enabling and preparing clocks can be written quite naturally with
-> > recursion. We start at some point in the tree and recurse up the
-> > tree to find the oldest parent clk that needs to be enabled or
-> > prepared. Then we enable/prepare and return to the caller, going
-> > back to the clk we started at and enabling/preparing along the
-> > way.
+> > On Tue, 2018-10-23 at 18:31 -0700, Derek Basehore wrote:
+> > > From: Stephen Boyd <sboyd@codeaurora.org>
+> > >
+> > > Enabling and preparing clocks can be written quite naturally with
+> > > recursion. We start at some point in the tree and recurse up the
+> > > tree to find the oldest parent clk that needs to be enabled or
+> > > prepared. Then we enable/prepare and return to the caller, going
+> > > back to the clk we started at and enabling/preparing along the
+> > > way.
+> > >
+> > > The problem is recursion isn't great for kernel code where we
+> > > have a limited stack size. Furthermore, we may be calling this
+> > > code inside clk_set_rate() which also has recursion in it, so
+> > > we're really not looking good if we encounter a tall clk tree.
+> > >
+> > > Let's create a stack instead by looping over the parent chain and
+> > > collecting clks of interest. Then the enable/prepare becomes as
+> > > simple as iterating over that list and calling enable.
 > >
-> > The problem is recursion isn't great for kernel code where we
-> > have a limited stack size. Furthermore, we may be calling this
-> > code inside clk_set_rate() which also has recursion in it, so
-> > we're really not looking good if we encounter a tall clk tree.
+> > Hi Derek,
 > >
-> > Let's create a stack instead by looping over the parent chain and
-> > collecting clks of interest. Then the enable/prepare becomes as
-> > simple as iterating over that list and calling enable.
+> > What about unprepare() and disable() ?
+> >
+> > This patch removes the recursion from the enable path but keeps it for the
+> > disable path ... this is very odd. Assuming doing so works, It certainly makes
+> > CCF a lot harder to understand.
+> >
+> > What about clock protection which essentially works on the same model as prepare
+> > and enable ?
+> >
+> > Overall, this change does not look like something that should be merged as it
+> > is. If you were just seeking comments, you should add the "RFC" tag to your
+> > series.
+> >
+> > Jerome.
+> >
+> > >
+> > > Cc: Jerome Brunet <jbrunet@baylibre.com>
+> >
+> > If you don't mind, I would prefer to get the whole series next time. It helps to
+> > get the context.
+> >
+> > > Signed-off-by: Stephen Boyd <sboyd@codeaurora.org>
+> > > Signed-off-by: Derek Basehore <dbasehore@chromium.org>
+> > > ---
+> > >  drivers/clk/clk.c | 113 ++++++++++++++++++++++++++--------------------
+> > >  1 file changed, 64 insertions(+), 49 deletions(-)
+> > >
+> > > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> > > index af011974d4ec..95d818f5edb2 100644
+> > > --- a/drivers/clk/clk.c
+> > > +++ b/drivers/clk/clk.c
+> > > @@ -71,6 +71,8 @@ struct clk_core {
+> > >       struct hlist_head       children;
+> > >       struct hlist_node       child_node;
+> > >       struct hlist_head       clks;
+> > > +     struct list_head        prepare_list;
+> > > +     struct list_head        enable_list;
+> > >       unsigned int            notifier_count;
+> > >  #ifdef CONFIG_DEBUG_FS
+> > >       struct dentry           *dentry;
+> > > @@ -740,49 +742,48 @@ EXPORT_SYMBOL_GPL(clk_unprepare);
+> > >  static int clk_core_prepare(struct clk_core *core)
+> > >  {
+> > >       int ret = 0;
+> > > +     struct clk_core *tmp, *parent;
+> > > +     LIST_HEAD(head);
+> > >
+> > >       lockdep_assert_held(&prepare_lock);
+> > >
+> > > -     if (!core)
+> > > -             return 0;
+> > > +     while (core) {
+> > > +             list_add(&core->prepare_list, &head);
+> > > +             /* Stop once we see a clk that is already prepared */
+> > > +             if (core->prepare_count)
+> > > +                     break;
+> > > +             core = core->parent;
+> > > +     }
+> > >
+> > > -     if (core->prepare_count == 0) {
+> > > -             ret = clk_pm_runtime_get(core);
+> > > -             if (ret)
+> > > -                     return ret;
+> > > +     list_for_each_entry_safe(core, tmp, &head, prepare_list) {
+> > > +             list_del_init(&core->prepare_list);
+> >
+> > Is there any point in removing it from the list ?
+> > Maybe I missed it but it does not seems useful.
+> >
+> > Without this, we could use list_for_each_entry()
+> >
+> > >
+> > > -             ret = clk_core_prepare(core->parent);
+> > > -             if (ret)
+> > > -                     goto runtime_put;
+> > > +             if (core->prepare_count == 0) {
+> >
+> > Should we really check the count here ? You are not checking the count when the
+> > put() counterpart is called below.
 >
-> Hi Derek,
->
-> What about unprepare() and disable() ?
->
-> This patch removes the recursion from the enable path but keeps it for the
-> disable path ... this is very odd. Assuming doing so works, It certainly makes
-> CCF a lot harder to understand.
->
-> What about clock protection which essentially works on the same model as prepare
-> and enable ?
->
-> Overall, this change does not look like something that should be merged as it
-> is. If you were just seeking comments, you should add the "RFC" tag to your
-> series.
->
-> Jerome.
+> I think I accidentally messed that up when I picked up the patch.
+> There were some merge conflicts with the addition of the
+> clk_pm_runtime code.
 >
 > >
-> > Cc: Jerome Brunet <jbrunet@baylibre.com>
->
-> If you don't mind, I would prefer to get the whole series next time. It helps to
-> get the context.
->
-> > Signed-off-by: Stephen Boyd <sboyd@codeaurora.org>
-> > Signed-off-by: Derek Basehore <dbasehore@chromium.org>
-> > ---
-> >  drivers/clk/clk.c | 113 ++++++++++++++++++++++++++--------------------
-> >  1 file changed, 64 insertions(+), 49 deletions(-)
+> > Since PM runtime has ref counting as well, either way would work I guess ... but
+> > we shall be consistent
 > >
-> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> > index af011974d4ec..95d818f5edb2 100644
-> > --- a/drivers/clk/clk.c
-> > +++ b/drivers/clk/clk.c
-> > @@ -71,6 +71,8 @@ struct clk_core {
-> >       struct hlist_head       children;
-> >       struct hlist_node       child_node;
-> >       struct hlist_head       clks;
-> > +     struct list_head        prepare_list;
-> > +     struct list_head        enable_list;
-> >       unsigned int            notifier_count;
-> >  #ifdef CONFIG_DEBUG_FS
-> >       struct dentry           *dentry;
-> > @@ -740,49 +742,48 @@ EXPORT_SYMBOL_GPL(clk_unprepare);
-> >  static int clk_core_prepare(struct clk_core *core)
-> >  {
-> >       int ret = 0;
-> > +     struct clk_core *tmp, *parent;
-> > +     LIST_HEAD(head);
+> > > +                     ret = clk_pm_runtime_get(core);
+> > > +                     if (ret)
+> > > +                             goto err;
+> > >
+> > > -             trace_clk_prepare(core);
+> > > +                     trace_clk_prepare(core);
+> > >
+> > > -             if (core->ops->prepare)
+> > > -                     ret = core->ops->prepare(core->hw);
+> > > +                     if (core->ops->prepare)
+> > > +                             ret = core->ops->prepare(core->hw);
+> > >
+> > > -             trace_clk_prepare_complete(core);
+> > > +                     trace_clk_prepare_complete(core);
+> > >
+> > > -             if (ret)
+> > > -                     goto unprepare;
+> > > +                     if (ret) {
+> > > +                             clk_pm_runtime_put(core);
+> > > +                             goto err;
+> > > +                     }
+> > > +             }
+> > > +             core->prepare_count++;
+> > >       }
+> > >
+> > > -     core->prepare_count++;
+> > > -
+> > > -     /*
+> > > -      * CLK_SET_RATE_GATE is a special case of clock protection
+> > > -      * Instead of a consumer claiming exclusive rate control, it is
+> > > -      * actually the provider which prevents any consumer from making any
+> > > -      * operation which could result in a rate change or rate glitch while
+> > > -      * the clock is prepared.
+> > > -      */
+> > > -     if (core->flags & CLK_SET_RATE_GATE)
+> > > -             clk_core_rate_protect(core);
 > >
-> >       lockdep_assert_held(&prepare_lock);
+> > This gets removed without anything replacing it.
 > >
-> > -     if (!core)
-> > -             return 0;
-> > +     while (core) {
-> > +             list_add(&core->prepare_list, &head);
-> > +             /* Stop once we see a clk that is already prepared */
-> > +             if (core->prepare_count)
-> > +                     break;
-> > +             core = core->parent;
-> > +     }
-> >
-> > -     if (core->prepare_count == 0) {
-> > -             ret = clk_pm_runtime_get(core);
-> > -             if (ret)
-> > -                     return ret;
-> > +     list_for_each_entry_safe(core, tmp, &head, prepare_list) {
-> > +             list_del_init(&core->prepare_list);
+> > is CLK_SET_RATE_GATE and clock protection support dropped after this change ?
 >
-> Is there any point in removing it from the list ?
-> Maybe I missed it but it does not seems useful.
->
-> Without this, we could use list_for_each_entry()
+> No, I think I just accidentally removed this when resolving conflicts.
 >
 > >
-> > -             ret = clk_core_prepare(core->parent);
-> > -             if (ret)
-> > -                     goto runtime_put;
-> > +             if (core->prepare_count == 0) {
+> > > -
+> > >       return 0;
+> > > -unprepare:
+> > > -     clk_core_unprepare(core->parent);
+> > > -runtime_put:
+> > > -     clk_pm_runtime_put(core);
+> > > +err:
+> > > +     parent = core->parent;
+> > > +     list_for_each_entry_safe_continue(core, tmp, &head, prepare_list)
+> > > +             list_del_init(&core->prepare_list);
+> > > +     clk_core_unprepare(parent);
+> >
+> > If you get here because of failure clk_pm_runtime_get(), you will unprepare a
+> > clock which may have not been prepared first
+> >
+> > Overall the rework of error exit path does not seem right (or necessary)
+> >
 >
-> Should we really check the count here ? You are not checking the count when the
-> put() counterpart is called below.
+> Yeah, all of this seems to just be a poor resolution of patch
+> conflicts on my part. Will fix.
+>
 
-I think I accidentally messed that up when I picked up the patch.
-There were some merge conflicts with the addition of the
-clk_pm_runtime code.
+Actually, I think that the rework of the error exit path makes sense
+since the prior exit path was for the recursive case, not the list
+iteration case. I will fix the issue where we call clk_core_unprepare
+when it shouldn't, though.
 
->
-> Since PM runtime has ref counting as well, either way would work I guess ... but
-> we shall be consistent
->
-> > +                     ret = clk_pm_runtime_get(core);
-> > +                     if (ret)
-> > +                             goto err;
+> > >       return ret;
+> > >  }
+> > >
+> > > @@ -878,37 +879,49 @@ EXPORT_SYMBOL_GPL(clk_disable);
+> > >  static int clk_core_enable(struct clk_core *core)
+> > >  {
+> > >       int ret = 0;
+> > > +     struct clk_core *tmp, *parent;
+> > > +     LIST_HEAD(head);
+> > >
+> > >       lockdep_assert_held(&enable_lock);
+> > >
+> > > -     if (!core)
+> > > -             return 0;
+> > > -
+> > > -     if (WARN(core->prepare_count == 0,
+> > > -         "Enabling unprepared %s\n", core->name))
+> > > -             return -ESHUTDOWN;
+> > > +     while (core) {
+> > > +             list_add(&core->enable_list, &head);
+> > > +             /* Stop once we see a clk that is already enabled */
+> > > +             if (core->enable_count)
+> > > +                     break;
+> > > +             core = core->parent;
+> > > +     }
+> > >
+> > > -     if (core->enable_count == 0) {
+> > > -             ret = clk_core_enable(core->parent);
+> > > +     list_for_each_entry_safe(core, tmp, &head, enable_list) {
+> > > +             list_del_init(&core->enable_list);
+> > >
+> > > -             if (ret)
+> > > -                     return ret;
+> > > +             if (WARN_ON(core->prepare_count == 0)) {
+> > > +                     ret = -ESHUTDOWN;
+> > > +                     goto err;
+> > > +             }
+> > >
+> > > -             trace_clk_enable_rcuidle(core);
+> > > +             if (core->enable_count == 0) {
+> > > +                     trace_clk_enable_rcuidle(core);
+> > >
+> > > -             if (core->ops->enable)
+> > > -                     ret = core->ops->enable(core->hw);
+> > > +                     if (core->ops->enable)
+> > > +                             ret = core->ops->enable(core->hw);
+> > >
+> > > -             trace_clk_enable_complete_rcuidle(core);
+> > > +                     trace_clk_enable_complete_rcuidle(core);
+> > >
+> > > -             if (ret) {
+> > > -                     clk_core_disable(core->parent);
+> > > -                     return ret;
+> > > +                     if (ret)
+> > > +                             goto err;
+> > >               }
+> > > +
+> > > +             core->enable_count++;
+> > >       }
+> > >
+> > > -     core->enable_count++;
+> > >       return 0;
+> > > +err:
+> > > +     parent = core->parent;
+> > > +     list_for_each_entry_safe_continue(core, tmp, &head, enable_list)
+> > > +             list_del_init(&core->enable_list);
+> > > +     clk_core_disable(parent);
+> > > +     return ret;
+> > >  }
+> > >
+> > >  static int clk_core_enable_lock(struct clk_core *core)
+> > > @@ -3281,6 +3294,8 @@ struct clk *clk_register(struct device *dev, struct clk_hw *hw)
+> > >       core->num_parents = hw->init->num_parents;
+> > >       core->min_rate = 0;
+> > >       core->max_rate = ULONG_MAX;
+> > > +     INIT_LIST_HEAD(&core->prepare_list);
+> > > +     INIT_LIST_HEAD(&core->enable_list);
+> > >       hw->core = core;
+> > >
+> > >       /* allocate local copy in case parent_names is __initdata */
 > >
-> > -             trace_clk_prepare(core);
-> > +                     trace_clk_prepare(core);
 > >
-> > -             if (core->ops->prepare)
-> > -                     ret = core->ops->prepare(core->hw);
-> > +                     if (core->ops->prepare)
-> > +                             ret = core->ops->prepare(core->hw);
-> >
-> > -             trace_clk_prepare_complete(core);
-> > +                     trace_clk_prepare_complete(core);
-> >
-> > -             if (ret)
-> > -                     goto unprepare;
-> > +                     if (ret) {
-> > +                             clk_pm_runtime_put(core);
-> > +                             goto err;
-> > +                     }
-> > +             }
-> > +             core->prepare_count++;
-> >       }
-> >
-> > -     core->prepare_count++;
-> > -
-> > -     /*
-> > -      * CLK_SET_RATE_GATE is a special case of clock protection
-> > -      * Instead of a consumer claiming exclusive rate control, it is
-> > -      * actually the provider which prevents any consumer from making any
-> > -      * operation which could result in a rate change or rate glitch while
-> > -      * the clock is prepared.
-> > -      */
-> > -     if (core->flags & CLK_SET_RATE_GATE)
-> > -             clk_core_rate_protect(core);
->
-> This gets removed without anything replacing it.
->
-> is CLK_SET_RATE_GATE and clock protection support dropped after this change ?
-
-No, I think I just accidentally removed this when resolving conflicts.
-
->
-> > -
-> >       return 0;
-> > -unprepare:
-> > -     clk_core_unprepare(core->parent);
-> > -runtime_put:
-> > -     clk_pm_runtime_put(core);
-> > +err:
-> > +     parent = core->parent;
-> > +     list_for_each_entry_safe_continue(core, tmp, &head, prepare_list)
-> > +             list_del_init(&core->prepare_list);
-> > +     clk_core_unprepare(parent);
->
-> If you get here because of failure clk_pm_runtime_get(), you will unprepare a
-> clock which may have not been prepared first
->
-> Overall the rework of error exit path does not seem right (or necessary)
->
-
-Yeah, all of this seems to just be a poor resolution of patch
-conflicts on my part. Will fix.
-
-> >       return ret;
-> >  }
-> >
-> > @@ -878,37 +879,49 @@ EXPORT_SYMBOL_GPL(clk_disable);
-> >  static int clk_core_enable(struct clk_core *core)
-> >  {
-> >       int ret = 0;
-> > +     struct clk_core *tmp, *parent;
-> > +     LIST_HEAD(head);
-> >
-> >       lockdep_assert_held(&enable_lock);
-> >
-> > -     if (!core)
-> > -             return 0;
-> > -
-> > -     if (WARN(core->prepare_count == 0,
-> > -         "Enabling unprepared %s\n", core->name))
-> > -             return -ESHUTDOWN;
-> > +     while (core) {
-> > +             list_add(&core->enable_list, &head);
-> > +             /* Stop once we see a clk that is already enabled */
-> > +             if (core->enable_count)
-> > +                     break;
-> > +             core = core->parent;
-> > +     }
-> >
-> > -     if (core->enable_count == 0) {
-> > -             ret = clk_core_enable(core->parent);
-> > +     list_for_each_entry_safe(core, tmp, &head, enable_list) {
-> > +             list_del_init(&core->enable_list);
-> >
-> > -             if (ret)
-> > -                     return ret;
-> > +             if (WARN_ON(core->prepare_count == 0)) {
-> > +                     ret = -ESHUTDOWN;
-> > +                     goto err;
-> > +             }
-> >
-> > -             trace_clk_enable_rcuidle(core);
-> > +             if (core->enable_count == 0) {
-> > +                     trace_clk_enable_rcuidle(core);
-> >
-> > -             if (core->ops->enable)
-> > -                     ret = core->ops->enable(core->hw);
-> > +                     if (core->ops->enable)
-> > +                             ret = core->ops->enable(core->hw);
-> >
-> > -             trace_clk_enable_complete_rcuidle(core);
-> > +                     trace_clk_enable_complete_rcuidle(core);
-> >
-> > -             if (ret) {
-> > -                     clk_core_disable(core->parent);
-> > -                     return ret;
-> > +                     if (ret)
-> > +                             goto err;
-> >               }
-> > +
-> > +             core->enable_count++;
-> >       }
-> >
-> > -     core->enable_count++;
-> >       return 0;
-> > +err:
-> > +     parent = core->parent;
-> > +     list_for_each_entry_safe_continue(core, tmp, &head, enable_list)
-> > +             list_del_init(&core->enable_list);
-> > +     clk_core_disable(parent);
-> > +     return ret;
-> >  }
-> >
-> >  static int clk_core_enable_lock(struct clk_core *core)
-> > @@ -3281,6 +3294,8 @@ struct clk *clk_register(struct device *dev, struct clk_hw *hw)
-> >       core->num_parents = hw->init->num_parents;
-> >       core->min_rate = 0;
-> >       core->max_rate = ULONG_MAX;
-> > +     INIT_LIST_HEAD(&core->prepare_list);
-> > +     INIT_LIST_HEAD(&core->enable_list);
-> >       hw->core = core;
-> >
-> >       /* allocate local copy in case parent_names is __initdata */
->
->
