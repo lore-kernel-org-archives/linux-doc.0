@@ -3,47 +3,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3680D7D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 03:07:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 611C27D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 03:15:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726324AbeJXLdm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Oct 2018 07:33:42 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:41887 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725826AbeJXLdm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Oct 2018 07:33:42 -0400
-Received: by mail-pf1-f195.google.com with SMTP id a19-v6so1678854pfo.8
-        for <linux-doc@vger.kernel.org>; Tue, 23 Oct 2018 20:07:39 -0700 (PDT)
+        id S1726224AbeJXLl5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Oct 2018 07:41:57 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:38748 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726111AbeJXLl5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Oct 2018 07:41:57 -0400
+Received: by mail-pl1-f193.google.com with SMTP id p7-v6so1574050plk.5
+        for <linux-doc@vger.kernel.org>; Tue, 23 Oct 2018 20:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HoUgDeYGHgBozPF8BvR8CllNS3AMMSk3lQsJUo6v4lQ=;
-        b=GWXU0gFJkxJKX37VY0PH8faOcJgPAk2h2QOJhmZvHjkvV33ad3FvB/6nc45ofMG8Mp
-         SE49qCNaKFsYCM/r7GbTA5qB6CfBoDup0AImuNY2v1E82Xpq7N4+6p/ofA4vDlfdn/Vs
-         aMySpjcm9euNg5ToOvba7Td9QO9M2lb+v+wXE=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=i9K0nyViFXBj0Drso8AJlM+PUE5qlmvWph59qni6wn8=;
+        b=n/KxNjXuw6UA4CkVkKthC4ej7XwtLwUUPxdcOhrUDuo4U5SEuR5iLEzLxjlxqDmeTm
+         98m3WGuMdHZUisCg/h7GfGBmRbRyDr4E/DaPyRSp4QwjobDkHFVi484fxQzag2+7GgAu
+         CdDsq1nS4v9iqKHF0ag5jYfl8YVnOhRu1N1oc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HoUgDeYGHgBozPF8BvR8CllNS3AMMSk3lQsJUo6v4lQ=;
-        b=DnMN6We7cXeGIEVyXrXB445ZANzPc57W/Re93AreFQDYsXGqLXumFt3W4N9wSYcgcu
-         6JviFJJjnyEApkUAUERhTjFGQapGa/N/3vmlIO70S2fOE8dxy88KHw9VDKeKVaBfnjXK
-         Nayndmqpbv5nzaWtyTHEbhN85612RJ1wDv5Is3nOcmSYBs7aFeHZJmyD44nPV/KhSHVK
-         qQzwgV/kMrAaY6+ZPcU7x6oPPoEkK/RQffFE33x54/2vkkwCi9E+C0vdZLWx3HdHFcti
-         pnKKtDsbiyN/HXG3xXzazjQ33sT1juviiHdDin/hPULSbzsYCKYidlulkjer1FuNJjBb
-         dH2Q==
-X-Gm-Message-State: AGRZ1gKiAju5oxYdtOyTHG0WfzJWLdH9xfCVZdq4B3g9CJpnqiJ1a/hv
-        Y9QcLWWXGhjIdVnx0kDqV2WE8qWexAA=
-X-Google-Smtp-Source: AJdET5ezXFxvRDBDYDo41GXToJDTkUsqNwxqKxsspVnyYcmp5mbR44Btd+lDInTNkrKhw21HO5BGpg==
-X-Received: by 2002:a63:64c:: with SMTP id 73mr596598pgg.373.1540344700541;
-        Tue, 23 Oct 2018 18:31:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=i9K0nyViFXBj0Drso8AJlM+PUE5qlmvWph59qni6wn8=;
+        b=fbHy5ATpQ0F47hC3De938bLF8CMy0NVP/CXLgTr3DeMKQC7ogDy1x5KBtkHK0FbVCJ
+         U9LexmoRAc3JbT3bvymQkxGxK3to12X9bSoWsfiUij/5AJBe3Lec4itDWDTocKL9ODcs
+         Qbjx934xw+gEG6JeIUKKe7uz65mNYaT7ru8j4hZnwk2fksLk3lz3dqj7GvP1RM6KzWQb
+         wkf/mu2e1Arnz2WO7CvqwRNYfuZazQSTOodHQIPg/qLNlAnTVIRf7ZjYcZx8RJAcIjMw
+         uMXXjbfDHMhWv0SySWMGVW+dP3+w2Vq7yKx8419bdqswsJPwLuRWzhSS6nlAoiF1foqw
+         YxuA==
+X-Gm-Message-State: AGRZ1gIPedkFcJrVgYAedL7RbTRvZDi+ylKl4oj6l6DU+ZXyWomkARx7
+        fcz8TkjH/TdgXgTX/b5zX8XzrsenJq0=
+X-Google-Smtp-Source: AJdET5ciNObA0Ldg4HIecnAIeKWC8gKU0jnseVL1j8He0/pTawyqD5GeQW+arrhXQwVhOgZsRMrI6g==
+X-Received: by 2002:a17:902:2907:: with SMTP id g7-v6mr586984plb.201.1540344707606;
+        Tue, 23 Oct 2018 18:31:47 -0700 (PDT)
 Received: from exogeni.mtv.corp.google.com ([2620:15c:202:1:5e2b:39df:72ed:4968])
-        by smtp.gmail.com with ESMTPSA id p4-v6sm3882341pfg.188.2018.10.23.18.31.38
+        by smtp.gmail.com with ESMTPSA id p4-v6sm3882341pfg.188.2018.10.23.18.31.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Oct 2018 18:31:39 -0700 (PDT)
+        Tue, 23 Oct 2018 18:31:46 -0700 (PDT)
 From:   Derek Basehore <dbasehore@chromium.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -51,10 +51,12 @@ Cc:     linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         sboyd@kernel.org, mturquette@baylibre.com, heiko@sntech.de,
         aisheng.dong@nxp.com, mchehab+samsung@kernel.org, corbet@lwn.net,
         Derek Basehore <dbasehore@chromium.org>
-Subject: [PATCH 0/6] Coordinated Clks
-Date:   Tue, 23 Oct 2018 18:31:26 -0700
-Message-Id: <20181024013132.115907-1-dbasehore@chromium.org>
+Subject: [PATCH 5/6] docs: driver-api: add pre_rate_req to clk documentation
+Date:   Tue, 23 Oct 2018 18:31:31 -0700
+Message-Id: <20181024013132.115907-6-dbasehore@chromium.org>
 X-Mailer: git-send-email 2.19.1.568.g152ad8e336-goog
+In-Reply-To: <20181024013132.115907-1-dbasehore@chromium.org>
+References: <20181024013132.115907-1-dbasehore@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -62,30 +64,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Here's the first set of patches that I'm working on for the Common
-Clk Framework. Part of this patch series adds a new clk op,
-pre_rate_req. This is designed to replace the clk notifier approach
-that many clk drivers use right now to setup alt parents or temporary
-dividers. This should allow for the removal of the
-CLK_RECALC_NEW_RATES flag and the implementation of a better locking
-scheme for the prepare lock.
+This adds documentation for the new clk op pre_rate_req.
 
-Derek Basehore (5):
-  clk: fix clk_calc_subtree compute duplications
-  clk: change rates via list iteration
-  clk: add pre clk changes support
-  docs: driver-api: add pre_rate_req to clk documentation
-  clk: rockchip: use pre_rate_req for cpuclk
+Signed-off-by: Derek Basehore <dbasehore@chromium.org>
+---
+ Documentation/driver-api/clk.rst | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Stephen Boyd (1):
-  clk: Remove recursion in clk_core_{prepare,enable}()
-
- Documentation/driver-api/clk.rst |   7 +-
- drivers/clk/clk.c                | 484 +++++++++++++++++++++++--------
- drivers/clk/rockchip/clk-cpu.c   | 256 ++++++++--------
- include/linux/clk-provider.h     |  10 +
- 4 files changed, 509 insertions(+), 248 deletions(-)
-
+diff --git a/Documentation/driver-api/clk.rst b/Documentation/driver-api/clk.rst
+index 593cca5058b1..917f6ac29645 100644
+--- a/Documentation/driver-api/clk.rst
++++ b/Documentation/driver-api/clk.rst
+@@ -82,6 +82,9 @@ the operations defined in clk-provider.h::
+ 						unsigned long *parent_rate);
+ 		int		(*determine_rate)(struct clk_hw *hw,
+ 						  struct clk_rate_request *req);
++		int		(*pre_rate_req)(struct clk_hw *hw,
++						const struct clk_rate_request *next,
++						struct clk_rate_request *pre);
+ 		int		(*set_parent)(struct clk_hw *hw, u8 index);
+ 		u8		(*get_parent)(struct clk_hw *hw);
+ 		int		(*set_rate)(struct clk_hw *hw,
+@@ -224,6 +227,8 @@ optional or must be evaluated on a case-by-case basis.
+    +----------------+------+-------------+---------------+-------------+------+
+    |.determine_rate |      | y [1]_      |               |             |      |
+    +----------------+------+-------------+---------------+-------------+------+
++   |.pre_rate_req   |      | y [1]_      |               |             |      |
++   +----------------+------+-------------+---------------+-------------+------+
+    |.set_rate       |      | y           |               |             |      |
+    +----------------+------+-------------+---------------+-------------+------+
+    +----------------+------+-------------+---------------+-------------+------+
+@@ -238,7 +243,7 @@ optional or must be evaluated on a case-by-case basis.
+    |.init           |      |             |               |             |      |
+    +----------------+------+-------------+---------------+-------------+------+
+ 
+-.. [1] either one of round_rate or determine_rate is required.
++.. [1] one of round_rate, determine_rate, or pre_rate_req is required.
+ 
+ Finally, register your clock at run-time with a hardware-specific
+ registration function.  This function simply populates struct clk_foo's
 -- 
 2.19.1.568.g152ad8e336-goog
 
