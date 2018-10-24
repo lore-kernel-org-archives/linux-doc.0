@@ -1,174 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 53AFE7D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 07:25:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 24E9D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 09:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726792AbeJXPwf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Oct 2018 11:52:35 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:33127 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726426AbeJXPwf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Oct 2018 11:52:35 -0400
-Received: by mail-wm1-f67.google.com with SMTP id y140-v6so13305220wmd.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Oct 2018 00:25:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=4TnendpbB9CSR7B7j1wydhyRcm2nLXRTHKyYlZJY9FU=;
-        b=JEKwrkfllK8nR0qZ8NSPo6+yrVBWe4hskBB1mjw3JHrxe8tSTsCugGdww3HHNhjO7X
-         Wbrr94qun4UPWGrgoJCIh+4i4QGsBZF8jUT0YSgl0Tn8ejPrvzBjUAD/zKSDNxntf5ic
-         z773Lxq21UJhCz2FGnFybbfIVBQp35cQ+B1+w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=4TnendpbB9CSR7B7j1wydhyRcm2nLXRTHKyYlZJY9FU=;
-        b=Btva6/THJVxAMVaQCsG1zWJfSFBkdoAqHtpM9x+++iPi5JaqLg0VxMCIpG4Pv5oUby
-         /mtlaecEbGHPdrrKEdXYlo1dNowYrlblYLM63SL7AK0Dx7AUG6olU+eBEsHpKrrgruDZ
-         Jzdht6VMT79DR/y64BDq3oVhlg76F2WMod6kHD8z7vpwnk6uukP/JujaWC9stXiiXjO2
-         VMX6lfB+qxrX46MmueQUfZ+CD65wzye38AeV96IGWC2EaUF3yJmIxlmi6tggDWldD2X0
-         SsO0q5kpX0We9IXkATW23+ptN+qWX3h0RGpQawJZ/pjV9KM4hMFowMWRC5XyVeKCZWdu
-         0WCA==
-X-Gm-Message-State: AGRZ1gJj0WnY+cFOhmJyt8L9gPE92vWpVWKMTt41LXd9ewEtfoK4RsIM
-        oTvd/i6AgNaVJ4OB8cZHV3/RCQ==
-X-Google-Smtp-Source: AJdET5fMJbstMnraJe8hEjs25b3LSz1sgSDeIpg4ucjuyJGH//QltS/Vd3VlH4TqI4AVk/XmksOxtg==
-X-Received: by 2002:a1c:adce:: with SMTP id w197-v6mr1477186wme.11.1540365943696;
-        Wed, 24 Oct 2018 00:25:43 -0700 (PDT)
-Received: from dell ([2.31.167.182])
-        by smtp.gmail.com with ESMTPSA id j46-v6sm6754729wre.91.2018.10.24.00.25.41
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 24 Oct 2018 00:25:42 -0700 (PDT)
-Date:   Wed, 24 Oct 2018 08:25:40 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S1727333AbeJXR2a (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Oct 2018 13:28:30 -0400
+Received: from sonic308-51.consmr.mail.ir2.yahoo.com ([77.238.178.187]:44637
+        "EHLO sonic308-51.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727534AbeJXR2a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Oct 2018 13:28:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1540371673; bh=7i7W9r87cyd1WQbC7E+uXbkD1Kmf1evaUZ9WbDOGmms=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=kdCUZKo15bXF2eNW1z5Ui6oNw6j/hFIdy704gXrUey4jTtDVHGuOy6mG2UyTdBXElFBgBtUc3UBvCgR7F5jmwgJ/hLeiWdWCVW6+f1EFrfNXnKdSBUitz3ynmasMSc4Cx27Rzn9s0KyOMrAeMGPmEoCgeFsFalxh8seUVhDx+EYryQHc4wbmjdRAXpC5oMB9MnxeI3SF++Q5Jbnu8ObLYhfWw9IOvQyFhyJ5Sm5eltaXORsM7mr7DZ/dIpqfm0ezQ+Zm8ppskiPOQJjeAni/YqTIJAZgbkLjrbzKukIM56YG61O//+kCW0oB4GkgaaFa+md5YNRTehul9iPd69+SJw==
+X-YMail-OSG: anJzjLEVM1nQ32JbJXW9hxZKS5jSR9oG8JMWmWy7MjSNoag4ya2UROdHTJ5QdXl
+ 3XZiY21npEIp1K14i3Ig5lX7.6Nxk4Q8OfE3on6OmKQYtvPT8D5ELYfLBXGBrRlzZWxEsQNwexNL
+ SgE5BN.mZd6l4KoDPzpO0MV1sPeH5dZPYZKj6Q9p_p1c63I5ccuBSC2u3Hi7r8qhIJNcauPKWlgQ
+ IKgBU8hL2B0Dvqymvn9cOMGYWHwx2x51hFGvpNRCw_FyIkPuDtw785nxDliY36YTjwmp5xWDfmCR
+ fP9Amclvm0uUPglt26AieXyAD1GSBij_tJeaTVfEEt3JMUQhpVweZToyKfrpyuWPuIXsOonyy0Du
+ t8B.QEKIKuePS_t0uL_K7HaigoIO5PGR.1IHLs5HuB5AhoKNmB0OkGX1dBTAYL5hfYg1YZL47Y7q
+ 32ZtJ4J8Vjegh0.FuI_vecpM2_PoPfL0OnKbaEfdkkpyrzQNMWMD7LiY6MIt595kLavCmQNouEd7
+ v6xo_XLdVoLVO7fPjprP2j5d5PsgPueokrlfQjZFveF48nZvyEuGa._EHC2mZOUWbm6WfdG2TVX0
+ JvLKqnrfwuJRvXjBXCkUEkIf5lJ7D8Yk2D6e2EDHSMsAU8bGsEs2OAFiqmKPzvDPQ7o2Snduo_Mg
+ lyCaFDPnLXTltW7pPIG0FrdEN76G2aX40sJuKeGUvAYWIaCXusCjP3f388L.WrSb_bnd7_TPgTBO
+ NhedD2RwQzyKjMq..xXIT8valmbZ0MPc1yK.5aGrw09ySxhd39T66ZCKLLSpp8f.POzzbrXH_4Lk
+ ZeGvT_gqLcrLts3vGZPHws2fcH6dC1TtJO3_m822.l5mr1_wrWWAxpS5rEbiBa6KBrpntR_756WC
+ y1DLX1ltd0XApkk3QN3BKOsNVgVLVuMwiNC7FCiv3nBWAMLfBzkBkn1MhSES9ZOm66rq3PrdSWcX
+ TtPYuEwSGizrxSYQN498S.YKJa6IXQVZX9RDrMGtQC3M08J9P.RswwrbdHECxf37rrr.oGiIcfsH
+ od2hCloNA8OWRkNfFsBwYFUxGpgnUxgPbl8GDwNzxFSXcrFSBHaouLF8_vAcvdTDKGNyfin.DDKr
+ KYINKHjv4jkcoLzcdJjrkIDRihoa6iW9kwO3b_V6eb8r3sUxXEZW4aDMIYMw_9_qdBV_HDDS1nvT
+ ROGjyJe63iN7Tdu_k36FPozMycMCSq8xf8wlJ5NiPJ2Y-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ir2.yahoo.com with HTTP; Wed, 24 Oct 2018 09:01:13 +0000
+Received: from 88.128.82.89 (EHLO [172.19.249.176]) ([88.128.82.89])
+          by smtp416.mail.ir2.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID ad239ea74ed2ccdf805308993c90ba59;
+          Wed, 24 Oct 2018 08:57:11 +0000 (UTC)
+Subject: Re: [PATCH security-next v5 00/30] LSM: Explict ordering
+To:     Kees Cook <keescook@chromium.org>
+Cc:     John Johansen <john.johansen@canonical.com>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
+        James Morris <jmorris@namei.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-Subject: Re: [PATCH v8 07/12] dt-bindings: mfd: Add a document for PECI
- client MFD
-Message-ID: <20181024072540.GA4939@dell>
-References: <20180918215124.14003-1-jae.hyun.yoo@linux.intel.com>
- <20180918215124.14003-8-jae.hyun.yoo@linux.intel.com>
+        LSM <linux-security-module@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Casey Schaufler <casey@schaufler-ca.com>
+References: <20181011001846.30964-1-keescook@chromium.org>
+ <CAGXu5jLBaHj5MhXaK-8zdu6Rgo2B6rEq+at17xZ1Puct+YUajQ@mail.gmail.com>
+ <ZhaXhoElmWQlsxHmgFHpB2xSWzJYFZWBasrSKQNjGj4_T2A4AY2F9v1rP9LkUfilUbZ0ExWXX9koLNjUM8S6baX6xfSSMPXY_CpihbCetVc=@protonmail.ch>
+ <CAGXu5j+kekUdcE2EhUu__8MXJ1O+D=-zTXLGNCRVa_VyDxePpw@mail.gmail.com>
+ <f68e5f4b-6360-a9e7-597f-89d1d3ca73c1@canonical.com>
+ <32stV62RmME8Dj5jKB8Z03zPe_Et72kMo71D8SpgSOHUo6SaROc8DomMWdk5jDGpyqVd8T63NIIK2NdDw95clpF8Uj47Wca2FBFItXDRh7E=@protonmail.ch>
+ <38dde301-d77e-35fd-88d4-5cdc5b570ee8@canonical.com>
+ <_CkJnKYmEZ4ZF0JtsSYuahAd9sgnX9OtcstjXaeqb8wn5uxfimc6S4jomly7If9VqnOXqXwaiCbJ9ttS6NiqE7n6cQUlwLvfO53paLmacvU=@protonmail.ch>
+ <8251564f-ba7a-1777-a606-dec472b32f35@canonical.com>
+ <CAGXu5j+2yVZ5DQHyqvJKnSYYqRCzeMtEabBwYFOWkTcwMUWhEw@mail.gmail.com>
+ <96e92224-aedf-5026-d6dd-b29121b4dc0d@schaufler-ca.com>
+ <CAGXu5jKFqtV_NFRaXPKVgNQt3F1pwFqopDLp1ZQJDGM_Bdid6Q@mail.gmail.com>
+ <63410d08-d0d1-8cd9-5d9e-70d95a1a8ca0@schaufler-ca.com>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+Message-ID: <33754ab5-5c7a-b174-0ad6-195323a169f1@schaufler-ca.com>
+Date:   Wed, 24 Oct 2018 01:56:31 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <63410d08-d0d1-8cd9-5d9e-70d95a1a8ca0@schaufler-ca.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180918215124.14003-8-jae.hyun.yoo@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Sep 2018, Jae Hyun Yoo wrote:
+On 10/23/2018 12:05 PM, Casey Schaufler wrote:
+> On 10/23/2018 11:50 AM, Kees Cook wrote:
+>
+>> Did you poke around at my combined series?
+>> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=lsm/ordering-v6-blob-sharing
+> I hope to do that on the plane later today.
 
-> This commit adds a dt-bindings document for PECI client MFD.
-> 
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: James Feist <james.feist@linux.intel.com>
-> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Vernon Mauery <vernon.mauery@linux.intel.com>
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> ---
->  .../bindings/mfd/intel-peci-client.txt        | 34 +++++++++++++++++++
->  1 file changed, 34 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/intel-peci-client.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/intel-peci-client.txt b/Documentation/devicetree/bindings/mfd/intel-peci-client.txt
-> new file mode 100644
-> index 000000000000..cb341e363add
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/intel-peci-client.txt
-> @@ -0,0 +1,34 @@
-> +* Intel PECI client bindings
-> +
-> +PECI (Platform Environment Control Interface) is a one-wire bus interface that
-> +provides a communication channel from PECI clients in Intel processors and
-> +chipset components to external monitoring or control devices. PECI is designed
-> +to support the following sideband functions:
-> +
-> +- Processor and DRAM thermal management
-> +- Platform Manageability
-> +- Processor Interface Tuning and Diagnostics
-> +- Failure Analysis
-> +
-> +Required properties:
-> +- compatible : Should be "intel,peci-client".
-> +- reg        : Should contain address of a client CPU. Address range of CPU
-> +	       clients starts from 0x30 based on PECI specification.
+I had a chance to poke at the combined series and it
+all seems to work as advertised. 
 
-Nit: "start"
-
-Would be better worded:
-
-"According to the PECI specification client addresses start from 0x30."
-
-> +Example:
-> +	peci-bus@0 {
-> +		compatible = "vendor,soc-peci";
-> +		reg = <0x0 0x1000>;
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		peci-client@30 {
-> +			compatible = "intel,peci-client";
-> +			reg = <0x30>;
-> +		};
-> +
-> +		peci-client@31 {
-> +			compatible = "intel,peci-client";
-> +			reg = <0x31>;
-> +		};
-> +	};
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
