@@ -5,45 +5,45 @@ X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7EE7F7D082
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 03:18:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC6677D082
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Oct 2018 03:22:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725979AbeJXLoe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Oct 2018 07:44:34 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:41389 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725826AbeJXLod (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Oct 2018 07:44:33 -0400
-Received: by mail-pl1-f194.google.com with SMTP id p5-v6so1568852plq.8
-        for <linux-doc@vger.kernel.org>; Tue, 23 Oct 2018 20:18:27 -0700 (PDT)
+        id S1726449AbeJXLsg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Oct 2018 07:48:36 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:43932 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725826AbeJXLsg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Oct 2018 07:48:36 -0400
+Received: by mail-pg1-f196.google.com with SMTP id n10-v6so904709pgv.10
+        for <linux-doc@vger.kernel.org>; Tue, 23 Oct 2018 20:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2rDz5In+P0C0bxVMrYHNwbI3vLV6HX8szmW5dC4SssQ=;
-        b=Qglqat34rgNx6f1LxKBsofQd3BhPuDsl7v2G4UtwZDyvGCaVMh0zZlpCZSuNNPkANv
-         CzRHlC8Ox7koYYMZyjnIFTtlMq1lUxGZXZOPsRS6NZyz4DVoB6QTT02fGvransfREIvl
-         PpjIKppsQLZT9UjHaaearBGMI/KfGqfEphtNE=
+        bh=HrPsp6pBOcXi6Ct6scDVU4tHzdJBdJzFt1oM5B21HXE=;
+        b=GtyBDLNFzvLZzxjymVDzrpNr3fBuSlvxU/MQh7IQhJzy8+XXkC2fUbkg73+fsda2Qs
+         sJHS5iAJHP7OgQ7iY63HO5QyauIS6Uw0gKPodFy0O45+V+uaeOXi/yN0PclPRMAdn3RQ
+         I8gNwsb32Q34+sY7d1l592cLNsgw5GnApncD0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2rDz5In+P0C0bxVMrYHNwbI3vLV6HX8szmW5dC4SssQ=;
-        b=DvSi6XSgjZMMaJ44CMbPz0HYuA/qAysHXhD4ClnuoUwAQYJrPHOSHS2GXtEF8EzN4K
-         InOCdl4EjzLcdjKRq7U+Z+h1qXdGgNqSyX72/NJ+uZrRc+A5r1jc3+sW3GHEmaXwhuGa
-         hydsp8AiTahOij6ObRTLt/Q7PmBoZBe913zKT6HxtZ5N04ihp8N+Bon+xsdrjDVQJaeD
-         yTR5/zYn8dhiNZTvQVkFks1q04dUVCVw8s1hRhg8vw06Ni8of2jmkl96wmZfd15JCXMn
-         /k5akkP+13wPTYYw6do3Q6HCLdQKz/pT6AXmhsH/4Zkt4V5jSZ6sqiF91BjSHKMTA5aT
-         lR4g==
-X-Gm-Message-State: AGRZ1gJRy5k5LdH/deTNu8ovOmDSMZB9chBbPbbPCx/K4QoP8aO6ltZl
-        /4r/pMWXr2vKL+ru2km+feQi/Q==
-X-Google-Smtp-Source: AJdET5eB75cTGxW57v8UqI4QVxxEg26ewhGqhjk3ej5x6/q6GqQSkjhYTHbfKh87DrEzT/n0WL6Izg==
-X-Received: by 2002:a17:902:bcc3:: with SMTP id o3-v6mr626102pls.66.1540344708952;
-        Tue, 23 Oct 2018 18:31:48 -0700 (PDT)
+        bh=HrPsp6pBOcXi6Ct6scDVU4tHzdJBdJzFt1oM5B21HXE=;
+        b=G/0R0dRRCKG2z6EX20aOJldEOXEKOzSrf16mno3Q0+O56JKlWBmK/K+aETgUeG564N
+         ywDuFruHXd5W5c5wIqUzv25rq3iJEC29Kjgo8oIUGKnJb5nhPuwImVXA5al9CKjkE+mQ
+         bPc5bg+eCHTdfn5NG2o36yKJ4E5iSy7Q9LFmxc6w+EanbQGtgYG8sv6aHdv9zH9f5oLz
+         npK8h23sK4GB7/O5Qn+hVmWoesabSSJgh+jLVK3/yBHtha9Tbkyau8r2vx7ojotU2GTX
+         //XJk8LscJ8L+2b6Wa0v34x7lHElpwzJcAviksbWLafbITHEirTQGOm9N5N5eyDwn9eI
+         nb8Q==
+X-Gm-Message-State: AGRZ1gJ/fB9PnGvG8sBHNcQ1Pnaqum70SAWW9z0hANTVoPuoBW1HuHGC
+        QAOLJHL4/3dgOsKdBIdRPfjXOHd9+Oc=
+X-Google-Smtp-Source: AJdET5dfPdi7JYSGLyS7tEr6GCsinJHrF3Xs1kJM1Avu8z0ujvwHOk7N3fDsKHasPEFZbhUMwf+KJA==
+X-Received: by 2002:a63:5b1f:: with SMTP id p31mr641606pgb.56.1540344703450;
+        Tue, 23 Oct 2018 18:31:43 -0700 (PDT)
 Received: from exogeni.mtv.corp.google.com ([2620:15c:202:1:5e2b:39df:72ed:4968])
-        by smtp.gmail.com with ESMTPSA id p4-v6sm3882341pfg.188.2018.10.23.18.31.47
+        by smtp.gmail.com with ESMTPSA id p4-v6sm3882341pfg.188.2018.10.23.18.31.42
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Oct 2018 18:31:48 -0700 (PDT)
+        Tue, 23 Oct 2018 18:31:42 -0700 (PDT)
 From:   Derek Basehore <dbasehore@chromium.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -51,9 +51,9 @@ Cc:     linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         sboyd@kernel.org, mturquette@baylibre.com, heiko@sntech.de,
         aisheng.dong@nxp.com, mchehab+samsung@kernel.org, corbet@lwn.net,
         Derek Basehore <dbasehore@chromium.org>
-Subject: [PATCH 6/6] clk: rockchip: use pre_rate_req for cpuclk
-Date:   Tue, 23 Oct 2018 18:31:32 -0700
-Message-Id: <20181024013132.115907-7-dbasehore@chromium.org>
+Subject: [PATCH 2/6] clk: fix clk_calc_subtree compute duplications
+Date:   Tue, 23 Oct 2018 18:31:28 -0700
+Message-Id: <20181024013132.115907-3-dbasehore@chromium.org>
 X-Mailer: git-send-email 2.19.1.568.g152ad8e336-goog
 In-Reply-To: <20181024013132.115907-1-dbasehore@chromium.org>
 References: <20181024013132.115907-1-dbasehore@chromium.org>
@@ -64,379 +64,104 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This makes the rockchip cpuclk use the pre_rate_req op to change to
-the alt parent instead of the clk notifier. This has the benefit of
-the clk not changing parents behind the back of the common clk
-framework. It also changes the divider setting for the alt parent to
-only divide when the alt parent rate is higher than both the old and
-new rates.
+clk_calc_subtree was called at every step up the clk tree in
+clk_calc_new_rates. Since it recursively calls itself for its
+children, this means it would be called once on each clk for each
+step above the top clk is.
+
+This fixes this by breaking the subtree calculation into two parts.
+The first part recalcs the rate for each child of the parent clk in
+clk_calc_new_rates. This part is not recursive itself. The second part
+recursively calls a new clk_calc_subtree on the clk_core that was
+passed into clk_set_rate.
 
 Signed-off-by: Derek Basehore <dbasehore@chromium.org>
 ---
- drivers/clk/rockchip/clk-cpu.c | 256 ++++++++++++++++++---------------
- 1 file changed, 137 insertions(+), 119 deletions(-)
+ drivers/clk/clk.c | 30 ++++++++++++++++++++----------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/clk/rockchip/clk-cpu.c b/drivers/clk/rockchip/clk-cpu.c
-index 32c19c0f1e14..3829e8e75c9e 100644
---- a/drivers/clk/rockchip/clk-cpu.c
-+++ b/drivers/clk/rockchip/clk-cpu.c
-@@ -45,8 +45,6 @@
-  * @alt_parent:	alternate parent clock to use when switching the speed
-  *		of the primary parent clock.
-  * @reg_base:	base register for cpu-clock values.
-- * @clk_nb:	clock notifier registered for changes in clock speed of the
-- *		primary parent clock.
-  * @rate_count:	number of rates in the rate_table
-  * @rate_table:	pll-rates and their associated dividers
-  * @reg_data:	cpu-specific register settings
-@@ -60,7 +58,6 @@ struct rockchip_cpuclk {
- 
- 	struct clk				*alt_parent;
- 	void __iomem				*reg_base;
--	struct notifier_block			clk_nb;
- 	unsigned int				rate_count;
- 	struct rockchip_cpuclk_rate_table	*rate_table;
- 	const struct rockchip_cpuclk_reg_data	*reg_data;
-@@ -78,12 +75,21 @@ static const struct rockchip_cpuclk_rate_table *rockchip_get_cpuclk_settings(
- 							cpuclk->rate_table;
- 	int i;
- 
-+	/*
-+	 * Find the lowest rate settings for which the prate is greater than or
-+	 * equal to the rate. Final rates should match exactly, but some
-+	 * intermediate rates from pre_rate_req will not exactly match, but the
-+	 * settings for a higher prate will work.
-+	 */
- 	for (i = 0; i < cpuclk->rate_count; i++) {
--		if (rate == rate_table[i].prate)
--			return &rate_table[i];
-+		if (rate > rate_table[i].prate)
-+			break;
- 	}
- 
--	return NULL;
-+	if (i == 0 || i == cpuclk->rate_count)
-+		return NULL;
-+
-+	return &rate_table[i - 1];
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index 95d818f5edb2..61de8ad3e4cf 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -1717,11 +1717,19 @@ static int __clk_speculate_rates(struct clk_core *core,
+ 	return ret;
  }
  
- static unsigned long rockchip_cpuclk_recalc_rate(struct clk_hw *hw,
-@@ -98,9 +104,70 @@ static unsigned long rockchip_cpuclk_recalc_rate(struct clk_hw *hw,
- 	return parent_rate / (clksel0 + 1);
- }
+-static void clk_calc_subtree(struct clk_core *core, unsigned long new_rate,
+-			     struct clk_core *new_parent, u8 p_index)
++static void clk_calc_subtree(struct clk_core *core)
+ {
+ 	struct clk_core *child;
  
--static const struct clk_ops rockchip_cpuclk_ops = {
--	.recalc_rate = rockchip_cpuclk_recalc_rate,
--};
-+static int rockchip_cpuclk_pre_rate_req(struct clk_hw *hw,
-+					const struct clk_rate_request *next,
-+					struct clk_rate_request *pre)
-+{
-+	struct rockchip_cpuclk *cpuclk = container_of(hw,
-+			struct rockchip_cpuclk, hw);
-+	const struct rockchip_cpuclk_reg_data *reg_data = cpuclk->reg_data;
-+	unsigned long alt_prate, alt_div, hi_rate;
-+
-+	pre->best_parent_hw = __clk_get_hw(cpuclk->alt_parent);
-+	alt_prate = clk_get_rate(cpuclk->alt_parent);
-+	pre->best_parent_rate = alt_prate;
-+	hi_rate = max_t(unsigned long, next->rate, clk_hw_get_rate(hw));
-+
-+	/* Set dividers if we would go above the current or next rate. */
-+	if (alt_prate > hi_rate) {
-+		alt_div =  DIV_ROUND_UP(alt_prate, hi_rate);
-+		if (alt_div > reg_data->div_core_mask) {
-+			pr_warn("%s: limiting alt-divider %lu to %d\n",
-+				__func__, alt_div, reg_data->div_core_mask);
-+			alt_div = reg_data->div_core_mask;
-+		}
-+
-+		pre->rate = alt_prate / alt_div;
-+	} else {
-+		pre->rate = alt_prate;
++	hlist_for_each_entry(child, &core->children, child_node) {
++		child->new_rate = clk_recalc(child, core->new_rate);
++		clk_calc_subtree(child);
 +	}
-+
-+	return 1;
 +}
 +
-+static int rockchip_cpuclk_set_parent(struct clk_hw *hw, u8 index)
++static void clk_set_change(struct clk_core *core, unsigned long new_rate,
++			   struct clk_core *new_parent, u8 p_index)
 +{
-+	struct rockchip_cpuclk *cpuclk = container_of(hw,
-+			struct rockchip_cpuclk, hw);
-+	const struct rockchip_cpuclk_reg_data *reg_data = cpuclk->reg_data;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(cpuclk->lock, flags);
-+	writel(HIWORD_UPDATE(index,
-+			     reg_data->mux_core_mask,
-+			     reg_data->mux_core_shift),
-+	       cpuclk->reg_base + reg_data->core_reg);
-+	spin_unlock_irqrestore(cpuclk->lock, flags);
-+
-+	return 0;
-+}
-+
-+static u8 rockchip_cpuclk_get_parent(struct clk_hw *hw)
-+{
-+	struct rockchip_cpuclk *cpuclk = container_of(hw,
-+			struct rockchip_cpuclk, hw);
-+	const struct rockchip_cpuclk_reg_data *reg_data = cpuclk->reg_data;
-+	unsigned long flags;
-+	u32 val;
-+
-+	spin_lock_irqsave(cpuclk->lock, flags);
-+	val = readl_relaxed(cpuclk->reg_base + reg_data->core_reg);
-+	val >>= reg_data->mux_core_shift;
-+	val &= reg_data->mux_core_mask;
-+	spin_unlock_irqrestore(cpuclk->lock, flags);
-+
-+	return val;
-+}
- 
- static void rockchip_cpuclk_set_dividers(struct rockchip_cpuclk *cpuclk,
- 				const struct rockchip_cpuclk_rate_table *rate)
-@@ -120,131 +187,92 @@ static void rockchip_cpuclk_set_dividers(struct rockchip_cpuclk *cpuclk,
- 	}
- }
- 
--static int rockchip_cpuclk_pre_rate_change(struct rockchip_cpuclk *cpuclk,
--					   struct clk_notifier_data *ndata)
-+static int rockchip_cpuclk_set_rate(struct clk_hw *hw, unsigned long rate,
-+					unsigned long parent_rate)
- {
-+	struct rockchip_cpuclk *cpuclk = container_of(hw,
-+			struct rockchip_cpuclk, hw);
- 	const struct rockchip_cpuclk_reg_data *reg_data = cpuclk->reg_data;
--	const struct rockchip_cpuclk_rate_table *rate;
--	unsigned long alt_prate, alt_div;
--	unsigned long flags;
-+	const struct rockchip_cpuclk_rate_table *rate_divs;
-+	unsigned long div = (parent_rate / rate) - 1;
-+	unsigned long old_rate, flags;
- 
--	/* check validity of the new rate */
--	rate = rockchip_get_cpuclk_settings(cpuclk, ndata->new_rate);
--	if (!rate) {
--		pr_err("%s: Invalid rate : %lu for cpuclk\n",
--		       __func__, ndata->new_rate);
-+	if (div > reg_data->div_core_mask || rate > parent_rate) {
-+		pr_err("%s: Invalid rate : %lu %lu for cpuclk\n", __func__,
-+				rate, parent_rate);
- 		return -EINVAL;
- 	}
- 
--	alt_prate = clk_get_rate(cpuclk->alt_parent);
+ 	core->new_rate = new_rate;
+ 	core->new_parent = new_parent;
+ 	core->new_parent_index = p_index;
+@@ -1729,11 +1737,6 @@ static void clk_calc_subtree(struct clk_core *core, unsigned long new_rate,
+ 	core->new_child = NULL;
+ 	if (new_parent && new_parent != core->parent)
+ 		new_parent->new_child = core;
 -
-+	old_rate = clk_hw_get_rate(hw);
-+	rate_divs = rockchip_get_cpuclk_settings(cpuclk, rate);
- 	spin_lock_irqsave(cpuclk->lock, flags);
-+	if (old_rate < rate)
-+		rockchip_cpuclk_set_dividers(cpuclk, rate_divs);
- 
--	/*
--	 * If the old parent clock speed is less than the clock speed
--	 * of the alternate parent, then it should be ensured that at no point
--	 * the armclk speed is more than the old_rate until the dividers are
--	 * set.
--	 */
--	if (alt_prate > ndata->old_rate) {
--		/* calculate dividers */
--		alt_div =  DIV_ROUND_UP(alt_prate, ndata->old_rate) - 1;
--		if (alt_div > reg_data->div_core_mask) {
--			pr_warn("%s: limiting alt-divider %lu to %d\n",
--				__func__, alt_div, reg_data->div_core_mask);
--			alt_div = reg_data->div_core_mask;
--		}
--
--		/*
--		 * Change parents and add dividers in a single transaction.
--		 *
--		 * NOTE: we do this in a single transaction so we're never
--		 * dividing the primary parent by the extra dividers that were
--		 * needed for the alt.
--		 */
--		pr_debug("%s: setting div %lu as alt-rate %lu > old-rate %lu\n",
--			 __func__, alt_div, alt_prate, ndata->old_rate);
--
--		writel(HIWORD_UPDATE(alt_div, reg_data->div_core_mask,
--					      reg_data->div_core_shift) |
--		       HIWORD_UPDATE(reg_data->mux_core_alt,
--				     reg_data->mux_core_mask,
--				     reg_data->mux_core_shift),
--		       cpuclk->reg_base + reg_data->core_reg);
--	} else {
--		/* select alternate parent */
--		writel(HIWORD_UPDATE(reg_data->mux_core_alt,
--				     reg_data->mux_core_mask,
--				     reg_data->mux_core_shift),
--		       cpuclk->reg_base + reg_data->core_reg);
+-	hlist_for_each_entry(child, &core->children, child_node) {
+-		child->new_rate = clk_recalc(child, new_rate);
+-		clk_calc_subtree(child, child->new_rate, NULL, 0);
 -	}
-+	writel(HIWORD_UPDATE(div,
-+			     reg_data->div_core_mask,
-+			     reg_data->div_core_shift),
-+	       cpuclk->reg_base + reg_data->core_reg);
-+	if (old_rate > rate)
-+		rockchip_cpuclk_set_dividers(cpuclk, rate_divs);
- 
- 	spin_unlock_irqrestore(cpuclk->lock, flags);
-+
- 	return 0;
  }
  
--static int rockchip_cpuclk_post_rate_change(struct rockchip_cpuclk *cpuclk,
--					    struct clk_notifier_data *ndata)
-+static int rockchip_cpuclk_set_rate_and_parent(struct clk_hw *hw,
-+					unsigned long rate,
-+					unsigned long parent_rate,
-+					u8 index)
+ /*
+@@ -1744,7 +1747,7 @@ static struct clk_core *clk_calc_new_rates(struct clk_core *core,
+ 					   unsigned long rate)
  {
-+	struct rockchip_cpuclk *cpuclk = container_of(hw,
-+			struct rockchip_cpuclk, hw);
- 	const struct rockchip_cpuclk_reg_data *reg_data = cpuclk->reg_data;
--	const struct rockchip_cpuclk_rate_table *rate;
--	unsigned long flags;
-+	const struct rockchip_cpuclk_rate_table *rate_divs;
-+	unsigned long div = (parent_rate / rate) - 1;
-+	unsigned long old_rate, flags;
- 
--	rate = rockchip_get_cpuclk_settings(cpuclk, ndata->new_rate);
--	if (!rate) {
--		pr_err("%s: Invalid rate : %lu for cpuclk\n",
--		       __func__, ndata->new_rate);
-+	if (div > reg_data->div_core_mask || rate > parent_rate) {
-+		pr_err("%s: Invalid rate : %lu %lu for cpuclk\n", __func__,
-+				rate, parent_rate);
- 		return -EINVAL;
+ 	struct clk_core *top = core;
+-	struct clk_core *old_parent, *parent;
++	struct clk_core *old_parent, *parent, *child;
+ 	unsigned long best_parent_rate = 0;
+ 	unsigned long new_rate;
+ 	unsigned long min_rate;
+@@ -1791,6 +1794,8 @@ static struct clk_core *clk_calc_new_rates(struct clk_core *core,
+ 		/* pass-through clock with adjustable parent */
+ 		top = clk_calc_new_rates(parent, rate);
+ 		new_rate = parent->new_rate;
++		hlist_for_each_entry(child, &parent->children, child_node)
++			child->new_rate = clk_recalc(child, new_rate);
+ 		goto out;
  	}
  
-+	old_rate = clk_hw_get_rate(hw);
-+	rate_divs = rockchip_get_cpuclk_settings(cpuclk, rate);
- 	spin_lock_irqsave(cpuclk->lock, flags);
--
--	if (ndata->old_rate < ndata->new_rate)
--		rockchip_cpuclk_set_dividers(cpuclk, rate);
--
- 	/*
--	 * post-rate change event, re-mux to primary parent and remove dividers.
--	 *
--	 * NOTE: we do this in a single transaction so we're never dividing the
--	 * primary parent by the extra dividers that were needed for the alt.
-+	 * TODO: This ain't great... Should change the get_cpuclk_settings code
-+	 * to work with inexact matches to work with alt parent rates.
- 	 */
--
--	writel(HIWORD_UPDATE(0, reg_data->div_core_mask,
--				reg_data->div_core_shift) |
--	       HIWORD_UPDATE(reg_data->mux_core_main,
--				reg_data->mux_core_mask,
--				reg_data->mux_core_shift),
-+	if (old_rate < rate)
-+		rockchip_cpuclk_set_dividers(cpuclk, rate_divs);
-+
-+	writel(HIWORD_UPDATE(div,
-+			     reg_data->div_core_mask,
-+			     reg_data->div_core_shift) |
-+	       HIWORD_UPDATE(index,
-+			     reg_data->mux_core_mask,
-+			     reg_data->mux_core_shift),
- 	       cpuclk->reg_base + reg_data->core_reg);
--
--	if (ndata->old_rate > ndata->new_rate)
--		rockchip_cpuclk_set_dividers(cpuclk, rate);
-+	/* Not technically correct */
-+	if (old_rate > rate)
-+		rockchip_cpuclk_set_dividers(cpuclk, rate_divs);
+@@ -1813,11 +1818,14 @@ static struct clk_core *clk_calc_new_rates(struct clk_core *core,
+ 	}
  
- 	spin_unlock_irqrestore(cpuclk->lock, flags);
-+
- 	return 0;
+ 	if ((core->flags & CLK_SET_RATE_PARENT) && parent &&
+-	    best_parent_rate != parent->rate)
++	    best_parent_rate != parent->rate) {
+ 		top = clk_calc_new_rates(parent, best_parent_rate);
++		hlist_for_each_entry(child, &parent->children, child_node)
++			child->new_rate = clk_recalc(child, parent->new_rate);
++	}
+ 
+ out:
+-	clk_calc_subtree(core, new_rate, parent, p_index);
++	clk_set_change(core, new_rate, parent, p_index);
+ 
+ 	return top;
  }
+@@ -2018,6 +2026,8 @@ static int clk_core_set_rate_nolock(struct clk_core *core,
+ 	if (ret)
+ 		return ret;
  
--/*
-- * This clock notifier is called when the frequency of the parent clock
-- * of cpuclk is to be changed. This notifier handles the setting up all
-- * the divider clocks, remux to temporary parent and handling the safe
-- * frequency levels when using temporary parent.
-- */
--static int rockchip_cpuclk_notifier_cb(struct notifier_block *nb,
--					unsigned long event, void *data)
--{
--	struct clk_notifier_data *ndata = data;
--	struct rockchip_cpuclk *cpuclk = to_rockchip_cpuclk_nb(nb);
--	int ret = 0;
--
--	pr_debug("%s: event %lu, old_rate %lu, new_rate: %lu\n",
--		 __func__, event, ndata->old_rate, ndata->new_rate);
--	if (event == PRE_RATE_CHANGE)
--		ret = rockchip_cpuclk_pre_rate_change(cpuclk, ndata);
--	else if (event == POST_RATE_CHANGE)
--		ret = rockchip_cpuclk_post_rate_change(cpuclk, ndata);
--
--	return notifier_from_errno(ret);
--}
-+static const struct clk_ops rockchip_cpuclk_ops = {
-+	.recalc_rate = rockchip_cpuclk_recalc_rate,
-+	.pre_rate_req = rockchip_cpuclk_pre_rate_req,
-+	.set_parent = rockchip_cpuclk_set_parent,
-+	.get_parent = rockchip_cpuclk_get_parent,
-+	.set_rate = rockchip_cpuclk_set_rate,
-+	.set_rate_and_parent = rockchip_cpuclk_set_rate_and_parent,
-+};
- 
- struct clk *rockchip_clk_register_cpuclk(const char *name,
- 			const char *const *parent_names, u8 num_parents,
-@@ -267,8 +295,8 @@ struct clk *rockchip_clk_register_cpuclk(const char *name,
- 		return ERR_PTR(-ENOMEM);
- 
- 	init.name = name;
--	init.parent_names = &parent_names[reg_data->mux_core_main];
--	init.num_parents = 1;
-+	init.parent_names = parent_names;
-+	init.num_parents = num_parents;
- 	init.ops = &rockchip_cpuclk_ops;
- 
- 	/* only allow rate changes when we have a rate table */
-@@ -282,7 +310,6 @@ struct clk *rockchip_clk_register_cpuclk(const char *name,
- 	cpuclk->reg_base = reg_base;
- 	cpuclk->lock = lock;
- 	cpuclk->reg_data = reg_data;
--	cpuclk->clk_nb.notifier_call = rockchip_cpuclk_notifier_cb;
- 	cpuclk->hw.init = &init;
- 
- 	cpuclk->alt_parent = __clk_lookup(parent_names[reg_data->mux_core_alt]);
-@@ -309,13 +336,6 @@ struct clk *rockchip_clk_register_cpuclk(const char *name,
- 		goto free_alt_parent;
- 	}
- 
--	ret = clk_notifier_register(clk, &cpuclk->clk_nb);
--	if (ret) {
--		pr_err("%s: failed to register clock notifier for %s\n",
--				__func__, name);
--		goto free_alt_parent;
--	}
--
- 	if (nrates > 0) {
- 		cpuclk->rate_count = nrates;
- 		cpuclk->rate_table = kmemdup(rates,
-@@ -323,7 +343,7 @@ struct clk *rockchip_clk_register_cpuclk(const char *name,
- 					     GFP_KERNEL);
- 		if (!cpuclk->rate_table) {
- 			ret = -ENOMEM;
--			goto unregister_notifier;
-+			goto free_alt_parent;
- 		}
- 	}
- 
-@@ -338,8 +358,6 @@ struct clk *rockchip_clk_register_cpuclk(const char *name,
- 
- free_rate_table:
- 	kfree(cpuclk->rate_table);
--unregister_notifier:
--	clk_notifier_unregister(clk, &cpuclk->clk_nb);
- free_alt_parent:
- 	clk_disable_unprepare(cpuclk->alt_parent);
- free_cpuclk:
++	clk_calc_subtree(core);
++
+ 	/* notify that we are about to change rates */
+ 	fail_clk = clk_propagate_rate_change(top, PRE_RATE_CHANGE);
+ 	if (fail_clk) {
 -- 
 2.19.1.568.g152ad8e336-goog
 
