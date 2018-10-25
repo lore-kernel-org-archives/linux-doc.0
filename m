@@ -1,106 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F17EC7D088
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 16:07:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C533F7D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 16:12:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727421AbeJZAku (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Oct 2018 20:40:50 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:50574 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727319AbeJZAkt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Oct 2018 20:40:49 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id B1569208C7; Thu, 25 Oct 2018 18:07:21 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D75282072D;
-        Thu, 25 Oct 2018 18:07:20 +0200 (CEST)
-Date:   Thu, 25 Oct 2018 18:07:20 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Joe Perches <joe@perches.com>
-Subject: Re: [PATCH v9 6/9] i3c: master: Add driver for Cadence IP
-Message-ID: <20181025180720.1790f6a1@bbrezillon>
-In-Reply-To: <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
-References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
-        <20181022133404.2061-7-boris.brezillon@bootlin.com>
-        <20181024202048.7e3534f7@bbrezillon>
-        <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1727319AbeJZAqG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Oct 2018 20:46:06 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:52820 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727313AbeJZAqG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 20:46:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=1JkPSRVnJ9l2rDtS6I6TOh3aAEkxlLLc03SoHV/cc4k=; b=FCYdn55IIuZOVBl7G0BABPZ28x
+        OqsZXj3e6mQp7H/GUm1CzXNSsl/fUUkSDUQIgl9VGiechU+Q9uOKMz7WRbW4MyoaV2P16A+8tCLEz
+        fU85SYVOM0Ob9ig2tcJ5fnkYEjqgEwMMtO/BlGovw9Azauliw2jaSP11436WVn1GCMOPQEN01JFgy
+        TRJ0Rkcu2APou0dJWVO3z96FYygb9PIAXzVDz0EySb80eedOVIbLCVUDskGBSV/sPXky6JBFa8PSs
+        ob+bx1q9IDtCehz7ntUHfWEA0kO6s9e93w6joEKiCF01aBR+Pi8Pl+MjINZUqWtp6v96bpaiJNVT4
+        R7YntScg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gFiFO-0006Hr-69; Thu, 25 Oct 2018 16:12:34 +0000
+Subject: Re: [PATCH v7 2/2] ThunderX2, perf : Add Cavium ThunderX2 SoC UNCORE
+ PMU driver
+To:     "Kulkarni, Ganapatrao" <Ganapatrao.Kulkarni@cavium.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Cc:     "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
+        "Richter, Robert" <Robert.Richter@cavium.com>,
+        "Lomovtsev, Vadim" <Vadim.Lomovtsev@cavium.com>,
+        Jan Glauber <Jan.Glauber@cavium.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+References: <20181025055833.28471-1-ganapatrao.kulkarni@cavium.com>
+ <20181025055833.28471-3-ganapatrao.kulkarni@cavium.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <84978a48-bd25-eede-519a-a4e9991c5c3d@infradead.org>
+Date:   Thu, 25 Oct 2018 09:12:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20181025055833.28471-3-ganapatrao.kulkarni@cavium.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 25 Oct 2018 17:30:26 +0200
-Arnd Bergmann <arnd@arndb.de> wrote:
+On 10/24/18 10:59 PM, Kulkarni, Ganapatrao wrote:
+> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+> index 08ebaf7cca8b..c1956b1af2bb 100644
+> --- a/drivers/perf/Kconfig
+> +++ b/drivers/perf/Kconfig
+> @@ -87,6 +87,15 @@ config QCOM_L3_PMU
+>  	   Adds the L3 cache PMU into the perf events subsystem for
+>  	   monitoring L3 cache events.
+>  
+> +config THUNDERX2_PMU
+> +        tristate "Cavium ThunderX2 SoC PMU UNCORE"
+> +	depends on ARCH_THUNDER2 && ARM64 && ACPI && NUMA
+> +        default m
+> +	help
+> +	  Provides support for ThunderX2 UNCORE events.
+> +	  The SoC has PMU support in its L3 cache controller (L3C) and
+> +	  in the DDR4 Memory Controller (DMC).
+> +
+>  config XGENE_PMU
+>          depends on ARCH_XGENE
+>          bool "APM X-Gene SoC PMU"
 
-> On 10/24/18, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> > Hi Arnd,
-> >
-> > On Mon, 22 Oct 2018 15:34:01 +0200
-> > Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> >
-> >  
-> >> +
-> >> +static void cdns_i3c_master_rd_from_rx_fifo(struct cdns_i3c_master
-> >> *master,
-> >> +					    u8 *bytes, int nbytes)
-> >> +{
-> >> +	readsl(master->regs + RX_FIFO, bytes, nbytes / 4);  
-> >
-> > Vitor reported a problem with readsl(): this function expects the 2nd
-> > argument to be aligned on 32-bit, which is not guaranteed here. Unless
-> > you see a better solution, I'll switch back to a loop doing:
-> >
-> > 	for (i = 0; i < nbytes; i += 4) {
-> > 		u32 tmp = __raw_readl(...);
-> > 		memcpy(bytes + i, &tmp,
-> > 		       nbytes - i  > 4 ? 4 : nbytes - i);
-> > 	}  
-> 
-> Could we maybe mandate that the buffer itself must be aligned here?
-> What would be a reason why we see an unaligned target buffer?
+Please fix the Kconfig indentation.  Use one tab (not spaces) for each of
+tristate, depends, default, and help.  (yes, some of them are tabs and some
+are spaces.)
 
-Well, the buffers we pass to i3c_send_ccc_cmd() are not necessarily
-aligned because they're not dynamically allocated (allocated on the
-stack) and are not naturally aligned on 32-bits (either because they
-are smaller than 32bits or because the struct is declared __packed).
 
-I guess I could dynamically allocate the payload, but that requires
-going over all users of i3c_send_ccc_cmd() to patch them.
+-- 
+~Randy
