@@ -5,129 +5,143 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 03BD87D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 16:14:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D0D947D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 16:16:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727453AbeJZArf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Oct 2018 20:47:35 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:40055 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727313AbeJZArf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 20:47:35 -0400
-Received: by mail-qt1-f196.google.com with SMTP id z9-v6so10526091qto.7;
-        Thu, 25 Oct 2018 09:14:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x3LXVVasdJKF778RgUuO4lJ6BM5jsyB1NU7WJ456Erk=;
-        b=cA7pvcCOGsAn2bTBDjr/QBquEZrpAvNASeNbo1gqpOPkIUtG4iTji8KQh5vGHxqxUN
-         rEHt/aDYq82Oev5krWZjX+GnGDTPHiuvo0AbbRg68x+uhJh3621Whdg33g+YiVAQ3NhQ
-         BE0CgFnBq/zHoA/QFRaoFKLHJ9tKCZ8NgfR6nd8BTOxWu0KpdpdMQt3feoGEwTa1fgSu
-         3Rrcw9lz0ASYQKDBd04ceU2IMq5zn790ctItsLWgTGxb6x6wpaYWbzkqcTLjVVGhiHwP
-         B88NsYj/raXWesU5AEc9N15HLCJhjAzkini1RVluEQvtkaEuu+LwgjIDI+T0E7RjFphY
-         s4EQ==
-X-Gm-Message-State: AGRZ1gLo5py+LclPB4AuJm9oZfqsSBm2lwE5vcjc2aqwAujmj9fQQNjZ
-        o88NesjBaWk2rdP2GGucumYOiJRewiis6vPM2eg=
-X-Google-Smtp-Source: AJdET5df6/3XEn4EmudjpsWG8ZOgg+8OGLpiFFIn1ZQsEMlYADTHcU7OA4zguJu/wTLx2Uh6vcJsuMvGL9l6f5Fv/GE=
-X-Received: by 2002:a0c:c68f:: with SMTP id d15-v6mr2202319qvj.40.1540484047699;
- Thu, 25 Oct 2018 09:14:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
- <20181022133404.2061-7-boris.brezillon@bootlin.com> <20181024202048.7e3534f7@bbrezillon>
- <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com> <20181025180720.1790f6a1@bbrezillon>
-In-Reply-To: <20181025180720.1790f6a1@bbrezillon>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 25 Oct 2018 18:13:51 +0200
-Message-ID: <CAK8P3a02ELWiMB_pe0bzbsMfdqYOG1G0bFnSHzGu3ZbQHatH2w@mail.gmail.com>
-Subject: Re: [PATCH v9 6/9] i3c: master: Add driver for Cadence IP
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
+        id S1727356AbeJZAtb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Oct 2018 20:49:31 -0400
+Received: from mga11.intel.com ([192.55.52.93]:8884 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727319AbeJZAtb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Oct 2018 20:49:31 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Oct 2018 09:16:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,424,1534834800"; 
+   d="scan'208";a="244339326"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
+  by orsmga004.jf.intel.com with ESMTP; 25 Oct 2018 09:16:01 -0700
+Subject: Re: [PATCH v8 08/12] mfd: intel-peci-client: Add PECI client MFD
+ driver
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Eric Sandeen <sandeen@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
+        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
+        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
+        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Stephen Boyd <sboyd@codeaurora.org>,
+        David Kershner <david.kershner@unisys.com>,
+        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Johan Hovold <johan@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juergen Gross <jgross@suse.com>,
+        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>
+References: <20180918215124.14003-1-jae.hyun.yoo@linux.intel.com>
+ <20180918215124.14003-9-jae.hyun.yoo@linux.intel.com>
+ <20181024105903.GB4939@dell>
+ <db7570cb-8f63-b551-d119-c54270ce6139@linux.intel.com>
+ <20181025053030.GD4939@dell>
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <509c4c0e-eabb-2276-3ffd-3fc675801142@linux.intel.com>
+Date:   Thu, 25 Oct 2018 09:16:01 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20181025053030.GD4939@dell>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 25, 2018 at 6:07 PM Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
->
-> On Thu, 25 Oct 2018 17:30:26 +0200
-> Arnd Bergmann <arnd@arndb.de> wrote:
->
-> > On 10/24/18, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> > > Hi Arnd,
-> > >
-> > > On Mon, 22 Oct 2018 15:34:01 +0200
-> > > Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> > >
-> > >
-> > >> +
-> > >> +static void cdns_i3c_master_rd_from_rx_fifo(struct cdns_i3c_master
-> > >> *master,
-> > >> +                                      u8 *bytes, int nbytes)
-> > >> +{
-> > >> +  readsl(master->regs + RX_FIFO, bytes, nbytes / 4);
-> > >
-> > > Vitor reported a problem with readsl(): this function expects the 2nd
-> > > argument to be aligned on 32-bit, which is not guaranteed here. Unless
-> > > you see a better solution, I'll switch back to a loop doing:
-> > >
-> > >     for (i = 0; i < nbytes; i += 4) {
-> > >             u32 tmp = __raw_readl(...);
-> > >             memcpy(bytes + i, &tmp,
-> > >                    nbytes - i  > 4 ? 4 : nbytes - i);
-> > >     }
-> >
-> > Could we maybe mandate that the buffer itself must be aligned here?
-> > What would be a reason why we see an unaligned target buffer?
->
-> Well, the buffers we pass to i3c_send_ccc_cmd() are not necessarily
-> aligned because they're not dynamically allocated (allocated on the
-> stack) and are not naturally aligned on 32-bits (either because they
-> are smaller than 32bits or because the struct is declared __packed).
->
-> I guess I could dynamically allocate the payload, but that requires
-> going over all users of i3c_send_ccc_cmd() to patch them.
+On 10/24/2018 10:30 PM, Lee Jones wrote:
+> On Wed, 24 Oct 2018, Jae Hyun Yoo wrote:
+>> On 10/24/2018 3:59 AM, Lee Jones wrote:
+>>> On Tue, 18 Sep 2018, Jae Hyun Yoo wrote:
+>>>
+>>>> This commit adds PECI client MFD driver.
+>>>>
+>>
+>> <snip>
+> 
+> [...]
+> 
+>>>> +bool peci_temp_need_update(struct temp_data *temp)
+>>>> +{
+>>>> +	if (temp->valid &&
+>>>> +	    time_before(jiffies, temp->last_updated + UPDATE_INTERVAL))
+>>>> +		return false;
+>>>> +
+>>>> +	return true;
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(peci_temp_need_update);
+>>>> +
+>>>> +void peci_temp_mark_updated(struct temp_data *temp)
+>>>> +{
+>>>> +	temp->valid = 1;
+>>>> +	temp->last_updated = jiffies;
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(peci_temp_mark_updated);
+>>>
+>>> These are probably better suited as inline functions to be placed in
+>>> a header file.  No need to export them, since they only use their own
+>>> data.
+> 
+> Also move them into the HWMON header file.
+> 
+> They have no business in MFD.
+> 
 
-This reminds me that Wolfram mentioned in his ELC talk that the
-buffers on i3c should all be DMA capable to make life easier for
-i3c master drivers that want to implement DMA transfers.
+Agreed. I'll move them into the HWMON header.
 
-If we have buffers here that are not aligned to cache lines
-(or even just 32 bit words), doesn't that also mean that the
-same buffers are not DMA capable either?
+> [...]
+> 
+>>>> +int peci_client_rd_pkg_cfg_cmd(struct peci_mfd *priv, u8 mbx_idx,
+>>>
+>>> This is gobbledegook.  What's rd?  Read?
+>>>
+>>
+>> Yes, the 'rd' means 'read'. I intended to keep command names as listed
+>> in the PECI specification such as RdPkgConfig, WrPkgConfig and so on.
+>> Should I change it to 'peci_client_read_package_config_command' ?
+> 
+> I looks/reads a lot nicer, don't you think?
+> 
 
-        Arnd
+Okay. I'll change it too.
+
+Thanks again for your review, Lee!
+
+Jae
+
+> [...]
+> 
