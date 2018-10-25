@@ -1,60 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8AD527D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 15:30:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F17EC7D088
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 16:07:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727441AbeJZADp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Oct 2018 20:03:45 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:33366 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727367AbeJZADo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 20:03:44 -0400
-Received: by mail-qk1-f194.google.com with SMTP id o89so5982974qko.0;
-        Thu, 25 Oct 2018 08:30:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=OIf2DakP0oD5Tq7VvybGtzKfYwkFrt1ppRVPuLM3Xag=;
-        b=WlDIQe57gP9tk72uPFahoq9XcJwdY6/4AdHtFgoBHrwgY1mdNX188rF5c3MrZbB0mo
-         Sdd+ZVVsJjb57v5P6xhu2pxNZKIIxMdN3JqgdyVWs7Znr/s9j6cFnyhVky/XNHA1wiyv
-         Ruhj0AQP7HeaGxM5t7/KWU1c8bEU+RfPNR9t0domp24grMSGUWxtM4Idr/WX7iGSFRbR
-         UkCITaDWtP2qoT4hDnJjLu5ZzgczarNkzrAHBpsvW+biDxsWZLpLWcfcmsScqGcXY1bJ
-         +hlvKpuZTIeiH4i7DsJGK3qLPtBnuDDp9saioLasDy7DYrAUWKRwzVC9mRHcO88yBww7
-         45Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=OIf2DakP0oD5Tq7VvybGtzKfYwkFrt1ppRVPuLM3Xag=;
-        b=kTVREk1pNHKItf/lxpQJLDwRrhwpOk60aDqmB4YVDX7P95DTmOwWF+IhV6QdK47yfG
-         7W+03TSmmyPn98JRK0pekXWZSVpfpWqgyJ6MzekVroDLMlRwtyj2qQjlUS2e2Dws0jgN
-         ZO1SKk94pIfHyoZ0Bm2h8ROUBLwrTRwR1qo0a/0K86gimEfZe7SXrYqsuNtgsd22z6l5
-         t0K/vaiZ95+4SbRt7FirHdY4tUnAm2typyBCDPiTLBtQqwm6gZQ3hhuaslm5xuiKa/y2
-         RSzOrZQI/YxIF1KctWIx2POjU5E7MptyyfTTw+6Ti3FQwxtV2V8IGnS1TxUxrXOWjVot
-         JYyA==
-X-Gm-Message-State: AGRZ1gIFVmhErY1GPh2sJbPw9WZtcFgNNpbJrtW8vIijWl9NIXRZ8shS
-        1lZwIGEPk8RmHkkwbRvSTMSJfF7F7kTLXwFhFFw=
-X-Google-Smtp-Source: AJdET5dKIDJw3eee/VNm0+YOy+7JdTKxePwAYJsBQg96kwyLVfFbPTHnqnpdZaKnAx7LflDRWhK9606VmX9joDDRsW0=
-X-Received: by 2002:a37:e21a:: with SMTP id g26-v6mr1886738qki.330.1540481427236;
- Thu, 25 Oct 2018 08:30:27 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a0c:fd83:0:0:0:0:0 with HTTP; Thu, 25 Oct 2018 08:30:26
- -0700 (PDT)
-In-Reply-To: <20181024202048.7e3534f7@bbrezillon>
-References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
- <20181022133404.2061-7-boris.brezillon@bootlin.com> <20181024202048.7e3534f7@bbrezillon>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 25 Oct 2018 17:30:26 +0200
-X-Google-Sender-Auth: ToJ4qwdkh9WaZwbtqufApwNto38
-Message-ID: <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
-Subject: Re: [PATCH v9 6/9] i3c: master: Add driver for Cadence IP
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
+        id S1727421AbeJZAku (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Oct 2018 20:40:50 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:50574 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727319AbeJZAkt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Oct 2018 20:40:49 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id B1569208C7; Thu, 25 Oct 2018 18:07:21 +0200 (CEST)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id D75282072D;
+        Thu, 25 Oct 2018 18:07:20 +0200 (CEST)
+Date:   Thu, 25 Oct 2018 18:07:20 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -84,40 +51,56 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Mike Shettel <mshettel@codeaurora.org>,
         Stephen Boyd <swboyd@chromium.org>,
         Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v9 6/9] i3c: master: Add driver for Cadence IP
+Message-ID: <20181025180720.1790f6a1@bbrezillon>
+In-Reply-To: <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
+References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
+        <20181022133404.2061-7-boris.brezillon@bootlin.com>
+        <20181024202048.7e3534f7@bbrezillon>
+        <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/24/18, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> Hi Arnd,
->
-> On Mon, 22 Oct 2018 15:34:01 +0200
-> Boris Brezillon <boris.brezillon@bootlin.com> wrote:
->
->
->> +
->> +static void cdns_i3c_master_rd_from_rx_fifo(struct cdns_i3c_master
->> *master,
->> +					    u8 *bytes, int nbytes)
->> +{
->> +	readsl(master->regs + RX_FIFO, bytes, nbytes / 4);
->
-> Vitor reported a problem with readsl(): this function expects the 2nd
-> argument to be aligned on 32-bit, which is not guaranteed here. Unless
-> you see a better solution, I'll switch back to a loop doing:
->
-> 	for (i = 0; i < nbytes; i += 4) {
-> 		u32 tmp = __raw_readl(...);
-> 		memcpy(bytes + i, &tmp,
-> 		       nbytes - i  > 4 ? 4 : nbytes - i);
-> 	}
+On Thu, 25 Oct 2018 17:30:26 +0200
+Arnd Bergmann <arnd@arndb.de> wrote:
 
-Could we maybe mandate that the buffer itself must be aligned here?
-What would be a reason why we see an unaligned target buffer?
+> On 10/24/18, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+> > Hi Arnd,
+> >
+> > On Mon, 22 Oct 2018 15:34:01 +0200
+> > Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+> >
+> >  
+> >> +
+> >> +static void cdns_i3c_master_rd_from_rx_fifo(struct cdns_i3c_master
+> >> *master,
+> >> +					    u8 *bytes, int nbytes)
+> >> +{
+> >> +	readsl(master->regs + RX_FIFO, bytes, nbytes / 4);  
+> >
+> > Vitor reported a problem with readsl(): this function expects the 2nd
+> > argument to be aligned on 32-bit, which is not guaranteed here. Unless
+> > you see a better solution, I'll switch back to a loop doing:
+> >
+> > 	for (i = 0; i < nbytes; i += 4) {
+> > 		u32 tmp = __raw_readl(...);
+> > 		memcpy(bytes + i, &tmp,
+> > 		       nbytes - i  > 4 ? 4 : nbytes - i);
+> > 	}  
+> 
+> Could we maybe mandate that the buffer itself must be aligned here?
+> What would be a reason why we see an unaligned target buffer?
 
-The open-coded loop should generally work (maybe a little slower),
-but it does seem error-prone to use __raw_readl() in general.
+Well, the buffers we pass to i3c_send_ccc_cmd() are not necessarily
+aligned because they're not dynamically allocated (allocated on the
+stack) and are not naturally aligned on 32-bits (either because they
+are smaller than 32bits or because the struct is declared __packed).
 
-      Arnd
+I guess I could dynamically allocate the payload, but that requires
+going over all users of i3c_send_ccc_cmd() to patch them.
