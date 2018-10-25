@@ -1,162 +1,146 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SORBS_WEB autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1660E7D082
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 05:30:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9F9A47D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 05:59:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbeJYOBl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Oct 2018 10:01:41 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:37829 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727090AbeJYOBl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 10:01:41 -0400
-Received: by mail-wm1-f66.google.com with SMTP id p2-v6so134526wmc.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 Oct 2018 22:30:34 -0700 (PDT)
+        id S1726981AbeJYOab (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Oct 2018 10:30:31 -0400
+Received: from mail-by2nam03on0084.outbound.protection.outlook.com ([104.47.42.84]:61024
+        "EHLO NAM03-BY2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726973AbeJYOab (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Oct 2018 10:30:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=Gs9SgyZuw+dbAm6aFOPXkL0Pu2vbsZ/++lD/Uq0//bU=;
-        b=Ye2NAM8pj7R+R3sjfvuIugGew6SEcHzoWDzP3TM8IPg7VilLgE2ILqaU5QJFAXlVKQ
-         iQSqZabpEnHkxOIzNZIs4lI8rFyAfa72XdoO6Qj5Sa+xJBzJNBvJqyqvFpBqmhoMDuGr
-         D5Isju5BkrtEv+YakBnVbq8GGCQljDlwf58jc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=Gs9SgyZuw+dbAm6aFOPXkL0Pu2vbsZ/++lD/Uq0//bU=;
-        b=H0Px3KSJPQ00D9tKvDxZjwQRf7fhvaS4HBZ84+z0w2uTGESpaQf4JM1OdMT74OY5KB
-         4rFMxL+22uW+NajEgdZv0PPfJEn45Xa6gbAuLfhvPeRuSTeJqd8o5pry2FN9LqScWpoP
-         N8nz2h4v/2NVqS9LMtO46Gb1LzdjRBuOieWsbb7611y1dOWKwbi7h2+LTqP9+ncWESkB
-         SEI6MSK4hcSzCePKXEkqmp9E3gjnAHbk3JmhoOvyJBM5TFxcTg5JiGscmzM5pVSz2W9n
-         CQy9Y9EYa979Vlcqo84cVOzdXqf/E85W7m6zyyHC4sjzwuLYmOiTbj2dYDGNx+0wWpYU
-         u2nw==
-X-Gm-Message-State: AGRZ1gLJzAcxheXdAmTpiZo3pjT66NskYDpkxHHsOdhOM+XQERNdSt2h
-        uPMF+AbD45DsNSeMAGxd7cVeiw==
-X-Google-Smtp-Source: AJdET5ehNHALzH5Dzebf5elfVS5aMvq/tcovbcMP1c2szsGgEfBmv+6If/oxsm3CbFBcfPc6FDWdLg==
-X-Received: by 2002:a1c:80d4:: with SMTP id b203-v6mr236310wmd.100.1540445433628;
-        Wed, 24 Oct 2018 22:30:33 -0700 (PDT)
-Received: from dell ([2.31.167.182])
-        by smtp.gmail.com with ESMTPSA id u9-v6sm5374658wrr.66.2018.10.24.22.30.31
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 24 Oct 2018 22:30:32 -0700 (PDT)
-Date:   Thu, 25 Oct 2018 06:30:30 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-Subject: Re: [PATCH v8 08/12] mfd: intel-peci-client: Add PECI client MFD
+ d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nx9zFhIW0SHHTyFWFMqYVorpuP1P34Rt58QBznPDr6U=;
+ b=AbVKn9nXL/MppTXG8CtfDHGx7ve6XsdcLLgnp/sSgfbWpiPu3LAYNzV1E656aE+UIVxbFuf4w5IadFO1EgbrhyqJKJ/dwIRiS5YA9qbavnlYDNa2B2oh8w7AR8uc+QWx31PVRoDna6z/d4e0GJ6Xa1NiSxiZwehILZoUfPYlecs=
+Received: from BN7PR07MB5298.namprd07.prod.outlook.com (20.176.177.92) by
+ BN7PR07MB4626.namprd07.prod.outlook.com (52.135.249.28) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1250.30; Thu, 25 Oct 2018 05:59:16 +0000
+Received: from BN7PR07MB5298.namprd07.prod.outlook.com
+ ([fe80::c8bd:3664:252e:316e]) by BN7PR07MB5298.namprd07.prod.outlook.com
+ ([fe80::c8bd:3664:252e:316e%3]) with mapi id 15.20.1273.019; Thu, 25 Oct 2018
+ 05:59:16 +0000
+From:   "Kulkarni, Ganapatrao" <Ganapatrao.Kulkarni@cavium.com>
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
+        "Richter, Robert" <Robert.Richter@cavium.com>,
+        "Lomovtsev, Vadim" <Vadim.Lomovtsev@cavium.com>,
+        Jan Glauber <Jan.Glauber@cavium.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+Subject: [PATCH v7 0/2] Add ThunderX2 SoC Performance Monitoring Unit driver
+Thread-Topic: [PATCH v7 0/2] Add ThunderX2 SoC Performance Monitoring Unit
  driver
-Message-ID: <20181025053030.GD4939@dell>
-References: <20180918215124.14003-1-jae.hyun.yoo@linux.intel.com>
- <20180918215124.14003-9-jae.hyun.yoo@linux.intel.com>
- <20181024105903.GB4939@dell>
- <db7570cb-8f63-b551-d119-c54270ce6139@linux.intel.com>
+Thread-Index: AQHUbCfcnEzJAObRSEKFUSz45Gi1Og==
+Date:   Thu, 25 Oct 2018 05:59:15 +0000
+Message-ID: <20181025055833.28471-1-ganapatrao.kulkarni@cavium.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: BM1PR0101CA0040.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:1a::26) To BN7PR07MB5298.namprd07.prod.outlook.com
+ (2603:10b6:408:2d::28)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Ganapatrao.Kulkarni@cavium.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [111.93.218.67]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;BN7PR07MB4626;6:Cr0/vc8AK+3qKEoJEaf3XYYAO2qafPRAXWXI/dShtOgn0mJXOJNO3slGS8CPqcvW+3NAHrDqm2mx6qCKfinikS9s9mJLjVeU4k3mlrGH/hxkCZ0P2IKKZWDTYa+GytlQnov4gb7wPY8s8LunUJJVKrVHgN4CM1r9atM789qjIVBdWitd0lHL6P+UrALqrhqc8rdeYboorePaNij8FSymjoRUuEAvcclT4FoBVWYQv/iH8KWYflDRrJbBbpDcyPBaW2o96l1oQ3bUY3C/ytsu+ACBy0wzONfpjff6d9QmHbLI2pY0qrVHHESnZgMQLU3dgtN1c9tGIFP1YybtWlpiS07/YfHDQ/sMq3+qa+vsE6BX2Cu5GMIHAYduvTHqgisO09M0oDajkXaIDBdZOAycOouv6H2qnYsHhhZ4p365Yfs3+pQK7EC9cYgtInT03FAl3APylqLUJFr7n35ZHb9onA==;5:4hR1kQ+pBUY/Ym1rZglmiDZWQjKgcAbV0cRKugZ1UDscyoC7XcWJO8D/8QvqGBLRcnq7HRYhqzuZZ3+mnqwXVRxEDW5v5TBZ0z+YFlokG89xQ6cRH7AYB3W0mgsS1F+MLIh85aK/OqkcHjqF/rNwXm/PLGDw8YeJGKu98kp15aI=;7:weFeup3kAmfAd0/hSHitw+c0esYvFZE+yfHvzZgaqxDxUtg3GTtfiZ0Qf6JtUHxuRwoRPoWr5kTMAoawHzWwTRK1wyw37z43NqgbvYYK59z0hX1XImjwQ9nl6Ai1qNiddPfufKkp8w3YslyMPIjxiGDZtk/LgiJSQdMugDCiciMNXvQLmpTqLipg0xyK2yspD1EhSZBLBwMLg7oB2J8vHk6yS8YGZk8y9mcB/9gsgUiz+pIzf8HHuDEkkPc30rjS
+x-ms-office365-filtering-correlation-id: 0a10562c-9f71-429f-392d-08d63a3efdfe
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989299)(5600074)(711020)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:BN7PR07MB4626;
+x-ms-traffictypediagnostic: BN7PR07MB4626:
+x-microsoft-antispam-prvs: <BN7PR07MB4626A0EB4888C956712080B783F70@BN7PR07MB4626.namprd07.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(72170088055959);
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3231355)(944501410)(52105095)(3002001)(10201501046)(93006095)(93001095)(148016)(149066)(150057)(6041310)(20161123562045)(20161123558120)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:BN7PR07MB4626;BCL:0;PCL:0;RULEID:;SRVR:BN7PR07MB4626;
+x-forefront-prvs: 083691450C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(376002)(396003)(366004)(136003)(39860400002)(189003)(199004)(186003)(71200400001)(3846002)(256004)(305945005)(106356001)(2900100001)(26005)(1076002)(97736004)(8676002)(4326008)(14444005)(6506007)(386003)(53936002)(36756003)(6486002)(25786009)(6116002)(81166006)(81156014)(6436002)(316002)(52116002)(2501003)(105586002)(5250100002)(478600001)(39060400002)(7736002)(71190400001)(66066001)(476003)(99286004)(2616005)(86362001)(72206003)(486006)(5660300001)(2906002)(966005)(6306002)(6512007)(8936002)(102836004)(110136005)(68736007)(14454004)(2201001)(54906003);DIR:OUT;SFP:1101;SCL:1;SRVR:BN7PR07MB4626;H:BN7PR07MB5298.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: cavium.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: NL7ynFdP78QvBbjApTxdEZwrldXK4JTU3hCv5Aq0wwy2JviXiblAJUG5yoluaAi7bUqwQYJqtkQK+TYRA3rM5VpWKI/b4CJyV4t8SBfHnyKMJPQC8IaBCd4IZhlk6bHVEbsWhg4Eup1kABw5mc2GnFalQaWHi13kCTjTvst1g5Lcz5EbQOC0qAAV5PFfYBlEW5g4qOGTD4V5Plpva4GRlJg5zNzml9sh1ff0dzG6VaYKxUyagugqIaxxLeee9jBhYJRGOb1YsTCAWo9G5JAr2/cuVpYec6SdokLLfgUofuzNBVm8l1i5pcrE96GwQq1+i8Qdusm+w5hCAAeF5xZ3IdbiyAgLaoxW3VkLxeXVkeU=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <db7570cb-8f63-b551-d119-c54270ce6139@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: cavium.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a10562c-9f71-429f-392d-08d63a3efdfe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2018 05:59:16.0496
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR07MB4626
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 24 Oct 2018, Jae Hyun Yoo wrote:
-> On 10/24/2018 3:59 AM, Lee Jones wrote:
-> > On Tue, 18 Sep 2018, Jae Hyun Yoo wrote:
-> > 
-> > > This commit adds PECI client MFD driver.
-> > > 
-> 
-> <snip>
+This patchset adds PMU driver for Cavium's ThunderX2 SoC UNCORE devices.
+The SoC has PMU support in L3 cache controller (L3C) and in the
+DDR4 Memory Controller (DMC).
 
-[...]
+v7:
+	Incorporated review comments [3].
+	Modified driver as loadable module.
+	Updated Documentation with Event description.
+	Removed per-channel(no SMC calls) sampling implementation(
+	Since DMC and L3C channels are interleave, we have decided to
+	sample channel zero and prorate it to account for a Device).
 
-> > > +bool peci_temp_need_update(struct temp_data *temp)
-> > > +{
-> > > +	if (temp->valid &&
-> > > +	    time_before(jiffies, temp->last_updated + UPDATE_INTERVAL))
-> > > +		return false;
-> > > +
-> > > +	return true;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(peci_temp_need_update);
-> > > +
-> > > +void peci_temp_mark_updated(struct temp_data *temp)
-> > > +{
-> > > +	temp->valid = 1;
-> > > +	temp->last_updated = jiffies;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(peci_temp_mark_updated);
-> > 
-> > These are probably better suited as inline functions to be placed in
-> > a header file.  No need to export them, since they only use their own
-> > data.
+[3] https://patchwork.kernel.org/patch/10479203/
 
-Also move them into the HWMON header file.
+v6:
+	Rebased to 4.18-rc1
+	Updated with comments from John Garry[3]
 
-They have no business in MFD.
+[3] https://lkml.org/lkml/2018/5/17/408
 
-[...]
+v5:
+	Incorporated review comments from Mark Rutland[2]
+v4:
+	Incorporated review comments from Mark Rutland[1]
 
-> > > +int peci_client_rd_pkg_cfg_cmd(struct peci_mfd *priv, u8 mbx_idx,
-> > 
-> > This is gobbledegook.  What's rd?  Read?
-> > 
-> 
-> Yes, the 'rd' means 'read'. I intended to keep command names as listed
-> in the PECI specification such as RdPkgConfig, WrPkgConfig and so on.
-> Should I change it to 'peci_client_read_package_config_command' ?
+[1] https://www.spinics.net/lists/arm-kernel/msg588563.html
+[2] https://lkml.org/lkml/2018/4/26/376
 
-I looks/reads a lot nicer, don't you think?
+v3:
+	Fixed warning reported by kbuild robot
 
-[...]
+v2:
+	Rebased to 4.12-rc1
+	Removed Arch VULCAN dependency.
+	Update SMC call parameters as per latest firmware.
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+v1:
+	Initial patch
+
+Ganapatrao Kulkarni (2):
+  perf, uncore: Adding documentation for ThunderX2 pmu uncore driver
+  ThunderX2, perf : Add Cavium ThunderX2 SoC UNCORE PMU driver
+
+ Documentation/perf/thunderx2-pmu.txt | 106 ++++
+ drivers/perf/Kconfig                 |   9 +
+ drivers/perf/Makefile                |   1 +
+ drivers/perf/thunderx2_pmu.c         | 867 +++++++++++++++++++++++++++
+ include/linux/cpuhotplug.h           |   1 +
+ 5 files changed, 984 insertions(+)
+ create mode 100644 Documentation/perf/thunderx2-pmu.txt
+ create mode 100644 drivers/perf/thunderx2_pmu.c
+
+--=20
+2.18.0
+
