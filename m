@@ -1,99 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 30C6D7D090
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 10:21:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8AD527D082
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Oct 2018 15:30:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbeJYSxX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Oct 2018 14:53:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42094 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726803AbeJYSxX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Oct 2018 14:53:23 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0C3CB30014D2;
-        Thu, 25 Oct 2018 10:21:17 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.33.36.108])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 27F97611D7;
-        Thu, 25 Oct 2018 10:20:43 +0000 (UTC)
-Date:   Thu, 25 Oct 2018 11:20:40 +0100
-From:   "Bryn M. Reeves" <bmr@redhat.com>
-To:     Mikulas Patocka <mpatocka@redhat.com>
-Cc:     Paul Lawrence <paullawrence@google.com>,
-        Mike Snitzer <snitzer@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, Shaohua Li <shli@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-raid@vger.kernel.org, dm-devel@redhat.com,
-        kernel-team@android.com, Alasdair Kergon <agk@redhat.com>
-Subject: Re: [dm-devel] [RFC] dm-bow working prototype
-Message-ID: <20181025102039.GA9378@localhost.localdomain>
-References: <20181023212358.60292-1-paullawrence@google.com>
- <20181023221819.GB17552@agk-dp.fab.redhat.com>
- <296148c2-f2d9-5818-ea76-d71a0d6f5cd4@google.com>
- <alpine.LRH.2.02.1810241514310.4080@file01.intranet.prod.int.rdu2.redhat.com>
+        id S1727441AbeJZADp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Oct 2018 20:03:45 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:33366 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727367AbeJZADo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Oct 2018 20:03:44 -0400
+Received: by mail-qk1-f194.google.com with SMTP id o89so5982974qko.0;
+        Thu, 25 Oct 2018 08:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=OIf2DakP0oD5Tq7VvybGtzKfYwkFrt1ppRVPuLM3Xag=;
+        b=WlDIQe57gP9tk72uPFahoq9XcJwdY6/4AdHtFgoBHrwgY1mdNX188rF5c3MrZbB0mo
+         Sdd+ZVVsJjb57v5P6xhu2pxNZKIIxMdN3JqgdyVWs7Znr/s9j6cFnyhVky/XNHA1wiyv
+         Ruhj0AQP7HeaGxM5t7/KWU1c8bEU+RfPNR9t0domp24grMSGUWxtM4Idr/WX7iGSFRbR
+         UkCITaDWtP2qoT4hDnJjLu5ZzgczarNkzrAHBpsvW+biDxsWZLpLWcfcmsScqGcXY1bJ
+         +hlvKpuZTIeiH4i7DsJGK3qLPtBnuDDp9saioLasDy7DYrAUWKRwzVC9mRHcO88yBww7
+         45Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=OIf2DakP0oD5Tq7VvybGtzKfYwkFrt1ppRVPuLM3Xag=;
+        b=kTVREk1pNHKItf/lxpQJLDwRrhwpOk60aDqmB4YVDX7P95DTmOwWF+IhV6QdK47yfG
+         7W+03TSmmyPn98JRK0pekXWZSVpfpWqgyJ6MzekVroDLMlRwtyj2qQjlUS2e2Dws0jgN
+         ZO1SKk94pIfHyoZ0Bm2h8ROUBLwrTRwR1qo0a/0K86gimEfZe7SXrYqsuNtgsd22z6l5
+         t0K/vaiZ95+4SbRt7FirHdY4tUnAm2typyBCDPiTLBtQqwm6gZQ3hhuaslm5xuiKa/y2
+         RSzOrZQI/YxIF1KctWIx2POjU5E7MptyyfTTw+6Ti3FQwxtV2V8IGnS1TxUxrXOWjVot
+         JYyA==
+X-Gm-Message-State: AGRZ1gIFVmhErY1GPh2sJbPw9WZtcFgNNpbJrtW8vIijWl9NIXRZ8shS
+        1lZwIGEPk8RmHkkwbRvSTMSJfF7F7kTLXwFhFFw=
+X-Google-Smtp-Source: AJdET5dKIDJw3eee/VNm0+YOy+7JdTKxePwAYJsBQg96kwyLVfFbPTHnqnpdZaKnAx7LflDRWhK9606VmX9joDDRsW0=
+X-Received: by 2002:a37:e21a:: with SMTP id g26-v6mr1886738qki.330.1540481427236;
+ Thu, 25 Oct 2018 08:30:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.LRH.2.02.1810241514310.4080@file01.intranet.prod.int.rdu2.redhat.com>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Thu, 25 Oct 2018 10:21:17 +0000 (UTC)
+Received: by 2002:a0c:fd83:0:0:0:0:0 with HTTP; Thu, 25 Oct 2018 08:30:26
+ -0700 (PDT)
+In-Reply-To: <20181024202048.7e3534f7@bbrezillon>
+References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
+ <20181022133404.2061-7-boris.brezillon@bootlin.com> <20181024202048.7e3534f7@bbrezillon>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 25 Oct 2018 17:30:26 +0200
+X-Google-Sender-Auth: ToJ4qwdkh9WaZwbtqufApwNto38
+Message-ID: <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
+Subject: Re: [PATCH v9 6/9] i3c: master: Add driver for Cadence IP
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>,
+        Mike Shettel <mshettel@codeaurora.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Joe Perches <joe@perches.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 24, 2018 at 03:24:29PM -0400, Mikulas Patocka wrote:
-> 
-> 
-> On Wed, 24 Oct 2018, Paul Lawrence wrote:
-> 
-> > Android has had the concept of A/B updates for since Android N, which means
-> > that if an update is unable to boot for any reason three times, we revert to
-> > the older system. However, if the failure occurs after the new system has
-> > started modifying userdata, we will be attempting to start an older system
-> > with a newer userdata, which is an unsupported state. Thus to make A/B able to
-> > fully deliver on its promise of safe updates, we need to be able to revert
-> > userdata in the event of a failure.
-> > 
-> > For those cases where the file system on userdata supports
-> > snapshots/checkpoints, we should clearly use them. However, there are many
-> > Android devices using filesystems that do not support checkpoints, so we need
-> > a generic solution. Here we had two options. One was to use overlayfs to
-> > manage the changes, then on merge have a script that copies the files to the
-> > underlying fs. This was rejected on the grounds of compatibility concerns and
-> > managing the merge through reboots, though it is definitely a plausible
-> > strategy. The second was to work at the block layer.
-> > 
-> > At the block layer, dm-snap would have given us a ready-made solution, except
-> > that there is no sufficiently large spare partition on Android devices. But in
-> > general there is free space on userdata, just scattered over the device, and
-> > of course likely to get modified as soon as userdata is written to. We also
-> > decided that the merge phase was a high risk component of any design. Since
-> > the normal path is that the update succeeds, we anticipate merges happening
-> > 99% of the time, and we want to guarantee their success even in the event of
-> > unexpected failure during the merge. Thus we decided we preferred a strategy
-> > where the device is in the committed state at all times, and rollback requires
-> > work, to one where the device remains in the original state but the merge is
-> > complex.
-> 
-> What about allocating a big file, using the FIEMAP ioctl to find the 
-> physical locations of the file, creating a dm device with many linear 
-> targets to map the big file and using it as a snapshot store? I think it 
-> would be way easier than re-implementing the snapshot functionality in a 
-> new target.
+On 10/24/18, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+> Hi Arnd,
+>
+> On Mon, 22 Oct 2018 15:34:01 +0200
+> Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+>
+>
+>> +
+>> +static void cdns_i3c_master_rd_from_rx_fifo(struct cdns_i3c_master
+>> *master,
+>> +					    u8 *bytes, int nbytes)
+>> +{
+>> +	readsl(master->regs + RX_FIFO, bytes, nbytes / 4);
+>
+> Vitor reported a problem with readsl(): this function expects the 2nd
+> argument to be aligned on 32-bit, which is not guaranteed here. Unless
+> you see a better solution, I'll switch back to a loop doing:
+>
+> 	for (i = 0; i < nbytes; i += 4) {
+> 		u32 tmp = __raw_readl(...);
+> 		memcpy(bytes + i, &tmp,
+> 		       nbytes - i  > 4 ? 4 : nbytes - i);
+> 	}
 
-libdevmapper already has code to handle enumerating physical file
-extents via the dm-stats file mapping support. It should be fairly easy
-to adapt this to create dm tables rather than dm-stats regions.
+Could we maybe mandate that the buffer itself must be aligned here?
+What would be a reason why we see an unaligned target buffer?
 
-See dm_stats_create_regions_from_fd() and _stats_map_file_regions().
+The open-coded loop should generally work (maybe a little slower),
+but it does seem error-prone to use __raw_readl() in general.
 
-Bryn.
-
+      Arnd
