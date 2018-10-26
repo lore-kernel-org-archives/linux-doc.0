@@ -2,23 +2,23 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9118C7D088
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 14:43:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 19F2D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 14:47:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727537AbeJZXVB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Oct 2018 19:21:01 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:46237 "EHLO mail.bootlin.com"
+        id S1726341AbeJZXVa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Oct 2018 19:21:30 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:46300 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726458AbeJZXVA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Oct 2018 19:21:00 -0400
+        id S1727562AbeJZXVF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Oct 2018 19:21:05 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id A97B12099B; Fri, 26 Oct 2018 16:43:38 +0200 (CEST)
+        id 7070E209BC; Fri, 26 Oct 2018 16:43:41 +0200 (CEST)
 Received: from localhost.localdomain (aaubervilliers-681-1-12-210.w90-88.abo.wanadoo.fr [90.88.133.210])
-        by mail.bootlin.com (Postfix) with ESMTPSA id DF01720794;
-        Fri, 26 Oct 2018 16:43:37 +0200 (CEST)
+        by mail.bootlin.com (Postfix) with ESMTPSA id 9D58B20794;
+        Fri, 26 Oct 2018 16:43:40 +0200 (CEST)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
@@ -49,11 +49,10 @@ Cc:     Przemyslaw Sroka <psroka@cadence.com>,
         Peter Rosin <peda@axentia.se>,
         Mike Shettel <mshettel@codeaurora.org>,
         Stephen Boyd <swboyd@chromium.org>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v10 4/9] dt-bindings: i3c: Document core bindings
-Date:   Fri, 26 Oct 2018 16:43:28 +0200
-Message-Id: <20181026144333.12276-5-boris.brezillon@bootlin.com>
+        Boris Brezillon <boris.brezillon@bootlin.com>
+Subject: [PATCH v10 8/9] gpio: Add a driver for Cadence I3C GPIO expander
+Date:   Fri, 26 Oct 2018 16:43:32 +0200
+Message-Id: <20181026144333.12276-9-boris.brezillon@bootlin.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181026144333.12276-1-boris.brezillon@bootlin.com>
 References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
@@ -62,21 +61,16 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A new I3C subsystem has been added and a generic description has been
-created to represent the I3C bus and the devices connected on it.
+Add a driver for Cadence I3C GPIO expander.
 
-Document this generic representation.
-
-Cc: Rob Herring <robh@kernel.org>
 Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 ---
 Changes in v10:
-- Fix mistakes in the example (reported by Rob)
+- None
 
 Changes in v9:
-- Rework the way we encode the I2C vs I3C device in the reg property
-  so that we don't need the funky macros to define and I3C or I2C dev
-- Drop Rob's Reviewed-by
+- None
 
 Changes in v8:
 - None
@@ -85,176 +79,478 @@ Changes in v7:
 - None
 
 Changes in v6:
-- None
+- Use kmalloc_array() instead of kmalloc(N * sizeof(X))
+- Add Linus' ack
 
 Changes in v5:
-- Add Rob's R-b
+- Use the !! operator to return 0 or 1 in cdns_i3c_gpio_get_direction()
+- Use a scratch buffer to make sure the buffers passed to
+  i3c_device_do_priv_xfers() are DMA-able
+- Fix errors reported by checkpatch
 
 Changes in v4:
-- Clarify the fact that static address == I3C address and dynamic
-  address == I3C address
-- Use i2c-scl-hz in the example
+- none
 
 Changes in v3:
-- Rename {i2c,i3c}-scl-frequency DT prop into {i2c,i3c}-scl-hz
-- Rework the way we expose the provisional ID and LVR information
-- Rename dynamic-address into assigned-address
-- Enforce the I3C master node name
-
-Changes in v2:
-- Define how to describe I3C devices in the DT and when it should be
-  used. Note that the parsing of I3C devices is not yet implemented in
-  the framework. Will be added when someone really needs it.
+- new
 ---
- Documentation/devicetree/bindings/i3c/i3c.txt | 139 ++++++++++++++++++
- 1 file changed, 139 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/i3c/i3c.txt
+ drivers/gpio/Kconfig         |  11 +
+ drivers/gpio/Makefile        |   1 +
+ drivers/gpio/gpio-cdns-i3c.c | 411 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 423 insertions(+)
+ create mode 100644 drivers/gpio/gpio-cdns-i3c.c
 
-diff --git a/Documentation/devicetree/bindings/i3c/i3c.txt b/Documentation/devicetree/bindings/i3c/i3c.txt
+diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+index 4f52c3a8ec99..a941601bf448 100644
+--- a/drivers/gpio/Kconfig
++++ b/drivers/gpio/Kconfig
+@@ -908,6 +908,17 @@ config GPIO_TS4900
+ 
+ endmenu
+ 
++menu "I3C GPIO expanders"
++	depends on I3C
++
++config GPIO_CDNS_I3C
++	tristate "Cadence I3C GPIO expander"
++	select GPIOLIB_IRQCHIP
++	help
++	  Say yes here to enabled the driver for Cadence I3C GPIO expander.
++
++endmenu
++
+ menu "MFD GPIO expanders"
+ 
+ config GPIO_ADP5520
+diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
+index c256aff66a65..12fa0ace618e 100644
+--- a/drivers/gpio/Makefile
++++ b/drivers/gpio/Makefile
+@@ -37,6 +37,7 @@ obj-$(CONFIG_GPIO_BCM_KONA)	+= gpio-bcm-kona.o
+ obj-$(CONFIG_GPIO_BD9571MWV)	+= gpio-bd9571mwv.o
+ obj-$(CONFIG_GPIO_BRCMSTB)	+= gpio-brcmstb.o
+ obj-$(CONFIG_GPIO_BT8XX)	+= gpio-bt8xx.o
++obj-$(CONFIG_GPIO_CDNS_I3C)	+= gpio-cdns-i3c.o
+ obj-$(CONFIG_GPIO_CLPS711X)	+= gpio-clps711x.o
+ obj-$(CONFIG_GPIO_CS5535)	+= gpio-cs5535.o
+ obj-$(CONFIG_GPIO_CRYSTAL_COVE)	+= gpio-crystalcove.o
+diff --git a/drivers/gpio/gpio-cdns-i3c.c b/drivers/gpio/gpio-cdns-i3c.c
 new file mode 100644
-index 000000000000..9774b48ef439
+index 000000000000..37c9d57a2fbb
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/i3c/i3c.txt
-@@ -0,0 +1,139 @@
-+Generic device tree bindings for I3C busses
-+===========================================
++++ b/drivers/gpio/gpio-cdns-i3c.c
+@@ -0,0 +1,411 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2018 Cadence Design Systems Inc.
++ *
++ * Author: Boris Brezillon <boris.brezillon@bootlin.com>
++ */
 +
-+This document describes generic bindings that should be used to describe I3C
-+busses in a device tree.
++#include <linux/gpio/driver.h>
++#include <linux/i3c/device.h>
++#include <linux/module.h>
 +
-+Required properties
-+-------------------
++#define OVR		0x0
++#define IVR		0x1
++#define DIR_MODE	0x2
++#define IMR		0x3
++#define ISR		0x4
++#define ITR(x)		(0x5 + (x))
 +
-+- #address-cells  - should be <3>. Read more about addresses below.
-+- #size-cells     - should be <0>.
-+- compatible      - name of the I3C master controller driving the I3C bus
++struct cdns_i3c_gpio {
++	struct gpio_chip gpioc;
++	struct irq_chip irqc;
++	struct i3c_device *i3cdev;
++	struct mutex irq_lock;
++	u8 dir;
++	u8 ovr;
++	u8 imr;
++	u8 itr[3];
++};
 +
-+For other required properties e.g. to describe register sets,
-+clocks, etc. check the binding documentation of the specific driver.
-+The node describing an I3C bus should be named i3c-master.
++static struct cdns_i3c_gpio *gpioc_to_cdns_gpioc(struct gpio_chip *gpioc)
++{
++	return container_of(gpioc, struct cdns_i3c_gpio, gpioc);
++}
 +
-+Optional properties
-+-------------------
++static int cdns_i3c_gpio_read_reg(struct cdns_i3c_gpio *gpioc, u8 reg,
++				  u8 *val)
++{
++	struct i3c_priv_xfer xfers[2] = { };
++	u8 *scratchbuf;
++	int ret;
 +
-+These properties may not be supported by all I3C master drivers. Each I3C
-+master bindings should specify which of them are supported.
++	/*
++	 * i3c_device_do_priv_xfers() mandates that buffers passed in xfers be
++	 * DMA-able. This prevents us from using reg and val directly since
++	 * reg is on the stack, and val might be too.
++	 * Allocate a temporary buffer with kmalloc() to solve the problem.
++	 */
++	scratchbuf = kmalloc(sizeof(*scratchbuf), GFP_KERNEL);
++	if (!scratchbuf)
++		return -ENOMEM;
 +
-+- i3c-scl-hz: frequency of the SCL signal used for I3C transfers.
-+	      When undefined the core sets it to 12.5MHz.
++	scratchbuf[0] = reg;
++	xfers[0].data.out = scratchbuf;
++	xfers[0].len = 1;
++	xfers[1].data.in = scratchbuf;
++	xfers[1].len = 1;
++	xfers[1].rnw = true;
 +
-+- i2c-scl-hz: frequency of the SCL signal used for I2C transfers.
-+	      When undefined, the core looks at LVR (Legacy Virtual Register)
-+	      values of I2C devices described in the device tree to determine
-+	      the maximum I2C frequency.
++	ret = i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
++				       ARRAY_SIZE(xfers));
++	if (!ret)
++		*val = *scratchbuf;
 +
-+I2C devices
-+===========
++	kfree(scratchbuf);
 +
-+Each I2C device connected to the bus should be described in a subnode. All
-+properties described in Documentation/devicetree/bindings/i2c/i2c.txt are
-+valid here, but several new properties have been added.
++	return ret;
++}
 +
-+New constraint on existing properties:
-+--------------------------------------
-+- reg: contains 3 cells
-+  + first cell : still encoding the I2C address
++static int cdns_i3c_gpio_write_reg(struct cdns_i3c_gpio *gpioc, u8 reg,
++				   u8 val)
++{
++	struct i3c_priv_xfer xfers[2] = { };
++	u8 *scratchbuf;
++	int ret;
 +
-+  + second cell: shall be 0
++	/*
++	 * i3c_device_do_priv_xfers() mandates that buffers passed in xfers be
++	 * DMA-able. This prevents us from using reg and val directly since
++	 * reg is on the stack, and val might be too.
++	 * Allocate a temporary buffer with kmalloc() to solve the problem.
++	 */
++	scratchbuf = kmalloc_array(2, sizeof(*scratchbuf), GFP_KERNEL);
++	if (!scratchbuf)
++		return -ENOMEM;
 +
-+  + third cell: shall encode the I3C LVR (Legacy Virtual Register)
-+	bit[31:8]: unused/ignored
-+	bit[7:5]: I2C device index. Possible values
-+	* 0: I2C device has a 50 ns spike filter
-+	* 1: I2C device does not have a 50 ns spike filter but supports high
-+	     frequency on SCL
-+	* 2: I2C device does not have a 50 ns spike filter and is not tolerant
-+	     to high frequencies
-+	* 3-7: reserved
++	scratchbuf[0] = reg;
++	scratchbuf[1] = val;
++	xfers[0].data.out = scratchbuf;
++	xfers[0].len = 1;
++	xfers[1].data.out = scratchbuf + 1;
++	xfers[1].len = 1;
 +
-+	bit[4]: tell whether the device operates in FM (Fast Mode) or FM+ mode
-+	* 0: FM+ mode
-+	* 1: FM mode
++	ret = i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
++				       ARRAY_SIZE(xfers));
 +
-+	bit[3:0]: device type
-+	* 0-15: reserved
++	kfree(scratchbuf);
 +
-+The I2C node unit-address should always match the first cell of the reg
-+property: <device-type>@<i2c-address>.
++	return ret;
++}
 +
-+I3C devices
-+===========
++static int cdns_i3c_gpio_get_direction(struct gpio_chip *g,
++				       unsigned int offset)
++{
++	struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
 +
-+All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
-+are thus discoverable. So, by default, I3C devices do not have to be described
-+in the device tree.
-+This being said, one might want to attach extra resources to these devices,
-+and those resources may have to be described in the device tree, which in turn
-+means we have to describe I3C devices.
++	return !!(gpioc->dir & BIT(offset));
++}
 +
-+Another use case for describing an I3C device in the device tree is when this
-+I3C device has a static I2C address and we want to assign it a specific I3C
-+dynamic address before the DAA takes place (so that other devices on the bus
-+can't take this dynamic address).
++static void cdns_i3c_gpio_set_multiple(struct gpio_chip *g,
++				       unsigned long *mask,
++				       unsigned long *bits)
++{
++	struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
++	u8 newovr;
++	int ret;
 +
-+The I3C device should be names <device-type>@<static-i2c-address>,<i3c-pid>,
-+where device-type is describing the type of device connected on the bus
-+(gpio-controller, sensor, ...).
++	newovr = (gpioc->ovr & ~(*mask)) | (*bits & *mask);
++	if (newovr == gpioc->ovr)
++		return;
 +
-+Required properties
-+-------------------
-+- reg: contains 3 cells
-+  + first cell : encodes the static I2C address. Should be 0 if the device does
-+		 not have one (0 is not a valid I2C address).
++	ret = cdns_i3c_gpio_write_reg(gpioc, OVR, newovr);
++	if (!ret)
++		gpioc->ovr = newovr;
++}
 +
-+  + second and third cells: should encode the ProvisionalID. The second cell
-+			    contains the manufacturer ID left-shifted by 1.
-+			    The third cell contains ORing of the part ID
-+			    left-shifted by 16, the instance ID left-shifted
-+			    by 12 and the extra information. This encoding is
-+			    following the PID definition provided by the I3C
-+			    specification.
++static void cdns_i3c_gpio_set(struct gpio_chip *g, unsigned int offset,
++			      int value)
++{
++	unsigned long mask = BIT(offset), bits = value ? BIT(offset) : 0;
 +
-+Optional properties
-+-------------------
-+- assigned-address: dynamic address to be assigned to this device. This
-+		    property is only valid if the I3C device has a static
-+		    address (first cell of the reg property != 0).
++	cdns_i3c_gpio_set_multiple(g, &mask, &bits);
++}
 +
++static int cdns_i3c_gpio_set_dir(struct cdns_i3c_gpio *gpioc, unsigned int pin,
++				 bool in)
++{
++	u8 newdir;
++	int ret;
 +
-+Example:
++	newdir = gpioc->dir;
++	if (in)
++		newdir |= BIT(pin);
++	else
++		newdir &= ~BIT(pin);
 +
-+	i3c-master@d040000 {
-+		compatible = "cdns,i3c-master";
-+		clocks = <&coreclock>, <&i3csysclock>;
-+		clock-names = "pclk", "sysclk";
-+		interrupts = <3 0>;
-+		reg = <0x0d040000 0x1000>;
-+		#address-cells = <3>;
-+		#size-cells = <0>;
-+		i2c-scl-hz = <100000>;
++	if (newdir == gpioc->dir)
++		return 0;
 +
-+		/* I2C device. */
-+		nunchuk: nunchuk@52 {
-+			compatible = "nintendo,nunchuk";
-+			reg = <0x52 0x0 0x10>;
-+		};
++	gpioc->dir = newdir;
++	ret = cdns_i3c_gpio_write_reg(gpioc, DIR_MODE, newdir);
++	if (!ret)
++		gpioc->dir = newdir;
 +
-+		/* I3C device with a static I2C address. */
-+		thermal_sensor: sensor@68,39200144004 {
-+			reg = <0x68 0x392 0x144004>;
-+			assigned-address = <0xa>;
-+		};
++	return ret;
++}
 +
-+		/*
-+		 * I3C device without a static I2C address but requiring
-+		 * resources described in the DT.
-+		 */
-+		sensor@0,39200154004 {
-+			reg = <0x0 0x392 0x154004>;
-+			clocks = <&clock_provider 0>;
-+		};
++static int cdns_i3c_gpio_dir_input(struct gpio_chip *g, unsigned int offset)
++{
++	struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
++
++	return cdns_i3c_gpio_set_dir(gpioc, offset, true);
++}
++
++static int cdns_i3c_gpio_dir_output(struct gpio_chip *g, unsigned int offset,
++				    int val)
++{
++	struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
++
++	cdns_i3c_gpio_set(g, offset, val);
++
++	return cdns_i3c_gpio_set_dir(gpioc, offset, true);
++}
++
++static int cdns_i3c_gpio_get_multiple(struct gpio_chip *g,
++				      unsigned long *mask,
++				      unsigned long *bits)
++{
++	struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
++	int ret;
++	u8 ivr;
++
++	ret = cdns_i3c_gpio_read_reg(gpioc, IVR, &ivr);
++	if (ret)
++		return ret;
++
++	*bits = ivr & *mask & gpioc->dir;
++	*bits |= gpioc->ovr & *mask & ~gpioc->dir;
++
++	return 0;
++}
++
++static int cdns_i3c_gpio_get(struct gpio_chip *g, unsigned int offset)
++{
++	unsigned long mask = BIT(offset), bits = 0;
++	int ret;
++
++	ret = cdns_i3c_gpio_get_multiple(g, &mask, &bits);
++	if (ret)
++		return ret;
++
++	return mask & bits;
++}
++
++static void cdns_i3c_gpio_ibi_handler(struct i3c_device *i3cdev,
++				      const struct i3c_ibi_payload *payload)
++{
++	struct cdns_i3c_gpio *gpioc = i3cdev_get_drvdata(i3cdev);
++	u8 isr = 0;
++	int i;
++
++	cdns_i3c_gpio_read_reg(gpioc, ISR, &isr);
++	for (i = 0; i < 8; i++) {
++		unsigned int irq;
++
++		if (!(BIT(i) & isr & gpioc->imr))
++			continue;
++
++		irq = irq_find_mapping(gpioc->gpioc.irq.domain, i);
++		handle_nested_irq(irq);
++	}
++}
++
++static void cdns_i3c_gpio_irq_lock(struct irq_data *data)
++{
++	struct gpio_chip *gc = irq_data_get_irq_chip_data(data);
++	struct cdns_i3c_gpio *gpioc = gpiochip_get_data(gc);
++
++	mutex_lock(&gpioc->irq_lock);
++}
++
++static void cdns_i3c_gpio_irq_sync_unlock(struct irq_data *data)
++{
++	struct gpio_chip *gc = irq_data_get_irq_chip_data(data);
++	struct cdns_i3c_gpio *gpioc = gpiochip_get_data(gc);
++	int i;
++
++	cdns_i3c_gpio_write_reg(gpioc, IMR, gpioc->imr);
++	for (i = 0; i < 3; i++)
++		cdns_i3c_gpio_write_reg(gpioc, ITR(i), gpioc->itr[i]);
++
++	mutex_unlock(&gpioc->irq_lock);
++}
++
++static void cdns_i3c_gpio_irq_unmask(struct irq_data *data)
++{
++	struct gpio_chip *gc = irq_data_get_irq_chip_data(data);
++	struct cdns_i3c_gpio *gpioc = gpiochip_get_data(gc);
++
++	gpioc->imr |= BIT(data->hwirq);
++}
++
++static void cdns_i3c_gpio_irq_mask(struct irq_data *data)
++{
++	struct gpio_chip *gc = irq_data_get_irq_chip_data(data);
++	struct cdns_i3c_gpio *gpioc = gpiochip_get_data(gc);
++
++	gpioc->imr &= ~BIT(data->hwirq);
++}
++
++static int cdns_i3c_gpio_irq_set_type(struct irq_data *data, unsigned int type)
++{
++	struct gpio_chip *gc = irq_data_get_irq_chip_data(data);
++	struct cdns_i3c_gpio *gpioc = gpiochip_get_data(gc);
++
++	switch (type) {
++	case IRQ_TYPE_LEVEL_HIGH:
++		gpioc->itr[0] |= BIT(data->hwirq);
++		gpioc->itr[1] |= BIT(data->hwirq);
++		break;
++
++	case IRQ_TYPE_LEVEL_LOW:
++		gpioc->itr[0] |= BIT(data->hwirq);
++		gpioc->itr[1] &= ~BIT(data->hwirq);
++		break;
++
++	case IRQ_TYPE_EDGE_BOTH:
++		gpioc->itr[0] &= ~BIT(data->hwirq);
++		gpioc->itr[2] |= BIT(data->hwirq);
++		break;
++
++	case IRQ_TYPE_EDGE_RISING:
++		gpioc->itr[0] &= ~BIT(data->hwirq);
++		gpioc->itr[1] |= BIT(data->hwirq);
++		gpioc->itr[2] &= ~BIT(data->hwirq);
++		break;
++
++	case IRQ_TYPE_EDGE_FALLING:
++		gpioc->itr[0] &= ~BIT(data->hwirq);
++		gpioc->itr[1] &= ~BIT(data->hwirq);
++		gpioc->itr[2] &= ~BIT(data->hwirq);
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int cdns_i3c_gpio_probe(struct i3c_device *i3cdev)
++{
++	struct cdns_i3c_gpio *gpioc;
++	struct device *parent = i3cdev_to_dev(i3cdev);
++	struct i3c_ibi_setup ibisetup = {
++		.max_payload_len = 2,
++		.num_slots = 1,
++		.handler = cdns_i3c_gpio_ibi_handler,
 +	};
++	int ret;
 +
++	gpioc = devm_kzalloc(parent, sizeof(*gpioc), GFP_KERNEL);
++	if (!gpioc)
++		return -ENOMEM;
++
++	gpioc->i3cdev = i3cdev;
++	i3cdev_set_drvdata(i3cdev, gpioc);
++
++	/* Mask all interrupts. */
++	ret = cdns_i3c_gpio_write_reg(gpioc, IMR, 0);
++	if (ret)
++		return ret;
++
++	/*
++	 * Clear the ISR after reading it, not when the IBI is is Acked by the
++	 * I3C master. This way we make sure we don't lose events.
++	 */
++	ret = cdns_i3c_gpio_write_reg(gpioc, ITR(3), 0xff);
++	if (ret)
++		return ret;
++
++	ret = cdns_i3c_gpio_read_reg(gpioc, DIR_MODE, &gpioc->dir);
++	if (ret)
++		return ret;
++
++	ret = cdns_i3c_gpio_read_reg(gpioc, OVR, &gpioc->ovr);
++	if (ret)
++		return ret;
++
++	ret = i3c_device_request_ibi(i3cdev, &ibisetup);
++	if (ret)
++		return ret;
++
++	gpioc->gpioc.label = dev_name(parent);
++	gpioc->gpioc.owner = THIS_MODULE;
++	gpioc->gpioc.parent = parent;
++	gpioc->gpioc.base = -1;
++	gpioc->gpioc.ngpio = 8;
++	gpioc->gpioc.can_sleep = true;
++	gpioc->gpioc.get_direction = cdns_i3c_gpio_get_direction;
++	gpioc->gpioc.direction_input = cdns_i3c_gpio_dir_input;
++	gpioc->gpioc.direction_output = cdns_i3c_gpio_dir_output;
++	gpioc->gpioc.get = cdns_i3c_gpio_get;
++	gpioc->gpioc.get_multiple = cdns_i3c_gpio_get_multiple;
++	gpioc->gpioc.set = cdns_i3c_gpio_set;
++	gpioc->gpioc.set_multiple = cdns_i3c_gpio_set_multiple;
++
++	ret = devm_gpiochip_add_data(parent, &gpioc->gpioc, gpioc);
++	if (ret)
++		return ret;
++
++	gpioc->irqc.name = dev_name(parent);
++	gpioc->irqc.parent_device = parent;
++	gpioc->irqc.irq_unmask = cdns_i3c_gpio_irq_unmask;
++	gpioc->irqc.irq_mask = cdns_i3c_gpio_irq_mask;
++	gpioc->irqc.irq_bus_lock = cdns_i3c_gpio_irq_lock;
++	gpioc->irqc.irq_bus_sync_unlock = cdns_i3c_gpio_irq_sync_unlock;
++	gpioc->irqc.irq_set_type = cdns_i3c_gpio_irq_set_type;
++	gpioc->irqc.flags = IRQCHIP_SET_TYPE_MASKED | IRQCHIP_MASK_ON_SUSPEND;
++
++	ret = gpiochip_irqchip_add_nested(&gpioc->gpioc, &gpioc->irqc, 0,
++					  handle_simple_irq, IRQ_TYPE_NONE);
++	if (ret)
++		goto err_free_ibi;
++
++	ret = i3c_device_enable_ibi(i3cdev);
++	if (ret)
++		goto err_free_ibi;
++
++	return 0;
++
++err_free_ibi:
++	i3c_device_free_ibi(i3cdev);
++
++	return ret;
++}
++
++static int cdns_i3c_gpio_remove(struct i3c_device *i3cdev)
++{
++	i3c_device_disable_ibi(i3cdev);
++	i3c_device_free_ibi(i3cdev);
++
++	return 0;
++}
++
++static const struct i3c_device_id cdns_i3c_gpio_ids[] = {
++	I3C_DEVICE(0x1c9, 0x0, NULL),
++	{ /* sentinel */ },
++};
++MODULE_DEVICE_TABLE(i3c, cdns_i3c_gpio_ids);
++
++static struct i3c_driver cdns_i3c_gpio = {
++	.driver.name = "cdns-i3c-gpio",
++	.id_table = cdns_i3c_gpio_ids,
++	.probe = cdns_i3c_gpio_probe,
++	.remove = cdns_i3c_gpio_remove,
++};
++module_i3c_driver(cdns_i3c_gpio);
++
++MODULE_AUTHOR("Boris Brezillon <boris.brezillon@bootlin.com>");
++MODULE_DESCRIPTION("Driver for Cadence I3C GPIO expander");
++MODULE_LICENSE("GPL v2");
 -- 
 2.17.1
 
