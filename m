@@ -1,71 +1,30 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 87A197D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 13:21:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9118C7D088
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 14:43:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726179AbeJZV6j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Oct 2018 17:58:39 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:34647 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726128AbeJZV6i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 17:58:38 -0400
-Received: by mail-qk1-f194.google.com with SMTP id a132so619339qkg.1;
-        Fri, 26 Oct 2018 06:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=VJPdP1GaF4HbvxJXs2SPcVuJaX9CjSo8l0/5Taz3raY=;
-        b=CBRr4Cu+Jqf5ZwrIJhF6fyG2hDFrzVfcvPVznYV0N51xGKek/WkUaG1rNMbgBftMhS
-         tVJhlWcaD6dcTgtKs3lSpGbEgcnGPxFEZ02W0pJ8jQTcQQpQ1ZohjiVjgbeYtratEJkJ
-         WqA3Qgs/dpEqDgn+hfgF0cIO8nNcBhfmgovtaTHXbyzTF6Qj0p56F1Zd/x4ePkfLyTLC
-         sj3rdCpnZRNMhim/aBBmH+wxyYkPiKezmD4VtIIas2oJCvoIop2oI7hvQP0SNk++svTa
-         UXjZikmsK3y2z2z1K5Zj91RvexPLSQEGbxLtw30Bb5p38JmkQ45OzavcNO6fuecKKcf+
-         uL0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=VJPdP1GaF4HbvxJXs2SPcVuJaX9CjSo8l0/5Taz3raY=;
-        b=fULN8jLZqMMgn+CRWyM+r0T3TBgpTSPs/Q6geQTIFXpTx/execcRWAsYHcrsbDmU4s
-         DosbTPhv/iWEQCO8d4dXeIBRVAiRjDMyYhtF2GQ9pJMC2KmKz4a0DAGeCaDJkcBAwxMv
-         oJl8zZVljTShfcNBQhJapCklm0YtApZ/1j3ueFRLFuhc+/EKNYCkJNwCn0KCszUdgF6W
-         0c0yxWvNldVnhIlax3R/8PNrQrgar6aTovtXnn3d+oECBftXjksgyT9YmldjSNLJ+5hb
-         +0z6qVhkyRIOtbHes+mx6wKPzY7Wj2dFTURL7JsHqLAyxMhsG4OzwuBnorJ7KNx5mA+K
-         AqIw==
-X-Gm-Message-State: AGRZ1gI16AqlH3IAcI1GTJe3Z5aQUfezgWmIohWZCD8ytux8gzs+/1Jt
-        YDX8Hx++//Pja1EoG0s8SMmGJxB1SR30lhnfqNw=
-X-Google-Smtp-Source: AJdET5fy6lX0oayUAM6sTvP9xc6f99B++9fYLx03eZX3gWIEF92JE7fEKY4+7TdfC2PhDpL1eiymA1hGrhkt794MrRM=
-X-Received: by 2002:a37:4116:: with SMTP id o22-v6mr2860641qka.107.1540560092946;
- Fri, 26 Oct 2018 06:21:32 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a0c:988d:0:0:0:0:0 with HTTP; Fri, 26 Oct 2018 06:21:31
- -0700 (PDT)
-In-Reply-To: <20181026144647.11926142@bbrezillon>
-References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
- <20181022133404.2061-7-boris.brezillon@bootlin.com> <20181024202048.7e3534f7@bbrezillon>
- <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
- <20181025180720.1790f6a1@bbrezillon> <CAK8P3a02ELWiMB_pe0bzbsMfdqYOG1G0bFnSHzGu3ZbQHatH2w@mail.gmail.com>
- <20181025183005.3c0fa452@bbrezillon> <CAK8P3a0WDRpukjDBm1rGPnZiH2FJRpquWhEknOBg=CphNOYOwg@mail.gmail.com>
- <20181026095707.3cd9b511@bbrezillon> <CAK8P3a0_En6e6ORvNqxprBcsT3+NmFO8nFnQ3nNiv-5Hq2LjrQ@mail.gmail.com>
- <20181026144647.11926142@bbrezillon>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 26 Oct 2018 15:21:31 +0200
-X-Google-Sender-Auth: PENYDRNSXgjBqcG2wOwrr7wvOvo
-Message-ID: <CAK8P3a08jhpUZyiGsUVUFggi1C88SAqYHG7CY1GysZN7iwm5gw@mail.gmail.com>
-Subject: Re: [PATCH v9 6/9] i3c: master: Add driver for Cadence IP
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
+        id S1727537AbeJZXVB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Oct 2018 19:21:01 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:46237 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726458AbeJZXVA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Oct 2018 19:21:00 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id A97B12099B; Fri, 26 Oct 2018 16:43:38 +0200 (CEST)
+Received: from localhost.localdomain (aaubervilliers-681-1-12-210.w90-88.abo.wanadoo.fr [90.88.133.210])
+        by mail.bootlin.com (Postfix) with ESMTPSA id DF01720794;
+        Fri, 26 Oct 2018 16:43:37 +0200 (CEST)
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Przemyslaw Sroka <psroka@cadence.com>,
         Arkadiusz Golec <agolec@cadence.com>,
         Alan Douglas <adouglas@cadence.com>,
         Bartosz Folta <bfolta@cadence.com>,
@@ -79,97 +38,223 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Pawel Moll <pawel.moll@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Vitor Soares <Vitor.Soares@synopsys.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
+        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
         Przemyslaw Gaj <pgaj@cadence.com>,
         Peter Rosin <peda@axentia.se>,
         Mike Shettel <mshettel@codeaurora.org>,
         Stephen Boyd <swboyd@chromium.org>,
-        Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v10 4/9] dt-bindings: i3c: Document core bindings
+Date:   Fri, 26 Oct 2018 16:43:28 +0200
+Message-Id: <20181026144333.12276-5-boris.brezillon@bootlin.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20181026144333.12276-1-boris.brezillon@bootlin.com>
+References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 26, 2018 at 2:46 PM Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
-> On Fri, 26 Oct 2018 12:01:52 +0200
-> Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Fri, Oct 26, 2018 at 9:57 AM Boris Brezillon
-> > <boris.brezillon@bootlin.com> wrote:
-> > > On Fri, 26 Oct 2018 09:43:25 +0200
-> > > Arnd Bergmann <arnd@arndb.de> wrote:
-> > >
-> > > > On Thu, Oct 25, 2018 at 6:30 PM Boris Brezillon
-> > > > <boris.brezillon@bootlin.com> wrote:
-> > > > > On Thu, 25 Oct 2018 18:13:51 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > > On Thu, Oct 25, 2018 at 6:07 PM Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> > > > > > > On Thu, 25 Oct 2018 17:30:26 +0200
-> >
-> > This is apparently not allowed on ARC when 'buffer' is
-> > unaligned. I think what we need here is to use
-> > put_unaligned() instead of the pointer dereference.
-> > For architectures that can do unaligned accesses,
-> > the result is the same, but for ARC it will fix the problem.
->
-> Okay, so writesl()/readsl() should deal with unaligned pointers, and
-> default implementations should be fixed. I guess you'll send a patch to
-> use put/get_unaligned().
+A new I3C subsystem has been added and a generic description has been
+created to represent the I3C bus and the devices connected on it.
 
-That's one way of doing it, though thinking about it some more,
-this can also introduce overhead on machines that don't support
-unaligned buffers and only work on drivers that are guaranteed
-to see fully aligned data.
+Document this generic representation.
 
-We could also override these specifically for ARC, and risk
-running into the same problem elsewhere, rather than be sure
-to fix everyone while risking to introduce noticeable performance
-regressions in existing drivers.
+Cc: Rob Herring <robh@kernel.org>
+Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+---
+Changes in v10:
+- Fix mistakes in the example (reported by Rob)
 
-> > > > One way to address this might be to always bounce any
-> > > > messages that are less than a cache line through a
-> > > > (pre-)kmallocated buffer, and require any longer messages
-> > > > to be cache capable. This could also solve the issue with
-> > > > readsl(), but it would be a rather confusing user interface.
-> > > >
-> > > > Another option might be to have separate interfaces for
-> > > > "short" and "long" messages at the API level and have
-> > > > distinct rules for those: short would always be bounced
-> > > > by the i3c code, and long puts restrictions on the buffer
-> > > > location.
-> > >
-> > > Hm, let's keep the API simple. I'll just mandate that all payload bufs
-> > > passed to i3c_master_send_ccc_cmd_locked() be dynamically allocated.
-> >
-> > Ok. What about i2c commands sent to the same i3c controller
-> > then?
->
-> Still not taken care of.
->
-> > Do we need to copy those to satisfy the requirements
-> > of the i3c layer?
->
-> I guess we should. The question is, should we do that unconditionally
-> or should we try to optimize thins with something like:
->
->         if (!virt_addr_valid(xfer->buf) ||
->             object_is_on_stack(xfer->buf))
->                 /* Alloc bounce buf. */
->         else
->                 /* Use provided buf. */
+Changes in v9:
+- Rework the way we encode the I2C vs I3C device in the reg property
+  so that we don't need the funky macros to define and I3C or I2C dev
+- Drop Rob's Reviewed-by
 
-There may be too many cases that we need to handle here that
-are not DMA capable. To be on the safe side, I'd probably always
-copy all data that is not a multiple of fully aligned cache lines,
-as well as pointers that fails to meet some other requirements
-(stack, vmalloc, kmap, ...)
+Changes in v8:
+- None
 
-        Arnd
+Changes in v7:
+- None
+
+Changes in v6:
+- None
+
+Changes in v5:
+- Add Rob's R-b
+
+Changes in v4:
+- Clarify the fact that static address == I3C address and dynamic
+  address == I3C address
+- Use i2c-scl-hz in the example
+
+Changes in v3:
+- Rename {i2c,i3c}-scl-frequency DT prop into {i2c,i3c}-scl-hz
+- Rework the way we expose the provisional ID and LVR information
+- Rename dynamic-address into assigned-address
+- Enforce the I3C master node name
+
+Changes in v2:
+- Define how to describe I3C devices in the DT and when it should be
+  used. Note that the parsing of I3C devices is not yet implemented in
+  the framework. Will be added when someone really needs it.
+---
+ Documentation/devicetree/bindings/i3c/i3c.txt | 139 ++++++++++++++++++
+ 1 file changed, 139 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i3c/i3c.txt
+
+diff --git a/Documentation/devicetree/bindings/i3c/i3c.txt b/Documentation/devicetree/bindings/i3c/i3c.txt
+new file mode 100644
+index 000000000000..9774b48ef439
+--- /dev/null
++++ b/Documentation/devicetree/bindings/i3c/i3c.txt
+@@ -0,0 +1,139 @@
++Generic device tree bindings for I3C busses
++===========================================
++
++This document describes generic bindings that should be used to describe I3C
++busses in a device tree.
++
++Required properties
++-------------------
++
++- #address-cells  - should be <3>. Read more about addresses below.
++- #size-cells     - should be <0>.
++- compatible      - name of the I3C master controller driving the I3C bus
++
++For other required properties e.g. to describe register sets,
++clocks, etc. check the binding documentation of the specific driver.
++The node describing an I3C bus should be named i3c-master.
++
++Optional properties
++-------------------
++
++These properties may not be supported by all I3C master drivers. Each I3C
++master bindings should specify which of them are supported.
++
++- i3c-scl-hz: frequency of the SCL signal used for I3C transfers.
++	      When undefined the core sets it to 12.5MHz.
++
++- i2c-scl-hz: frequency of the SCL signal used for I2C transfers.
++	      When undefined, the core looks at LVR (Legacy Virtual Register)
++	      values of I2C devices described in the device tree to determine
++	      the maximum I2C frequency.
++
++I2C devices
++===========
++
++Each I2C device connected to the bus should be described in a subnode. All
++properties described in Documentation/devicetree/bindings/i2c/i2c.txt are
++valid here, but several new properties have been added.
++
++New constraint on existing properties:
++--------------------------------------
++- reg: contains 3 cells
++  + first cell : still encoding the I2C address
++
++  + second cell: shall be 0
++
++  + third cell: shall encode the I3C LVR (Legacy Virtual Register)
++	bit[31:8]: unused/ignored
++	bit[7:5]: I2C device index. Possible values
++	* 0: I2C device has a 50 ns spike filter
++	* 1: I2C device does not have a 50 ns spike filter but supports high
++	     frequency on SCL
++	* 2: I2C device does not have a 50 ns spike filter and is not tolerant
++	     to high frequencies
++	* 3-7: reserved
++
++	bit[4]: tell whether the device operates in FM (Fast Mode) or FM+ mode
++	* 0: FM+ mode
++	* 1: FM mode
++
++	bit[3:0]: device type
++	* 0-15: reserved
++
++The I2C node unit-address should always match the first cell of the reg
++property: <device-type>@<i2c-address>.
++
++I3C devices
++===========
++
++All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
++are thus discoverable. So, by default, I3C devices do not have to be described
++in the device tree.
++This being said, one might want to attach extra resources to these devices,
++and those resources may have to be described in the device tree, which in turn
++means we have to describe I3C devices.
++
++Another use case for describing an I3C device in the device tree is when this
++I3C device has a static I2C address and we want to assign it a specific I3C
++dynamic address before the DAA takes place (so that other devices on the bus
++can't take this dynamic address).
++
++The I3C device should be names <device-type>@<static-i2c-address>,<i3c-pid>,
++where device-type is describing the type of device connected on the bus
++(gpio-controller, sensor, ...).
++
++Required properties
++-------------------
++- reg: contains 3 cells
++  + first cell : encodes the static I2C address. Should be 0 if the device does
++		 not have one (0 is not a valid I2C address).
++
++  + second and third cells: should encode the ProvisionalID. The second cell
++			    contains the manufacturer ID left-shifted by 1.
++			    The third cell contains ORing of the part ID
++			    left-shifted by 16, the instance ID left-shifted
++			    by 12 and the extra information. This encoding is
++			    following the PID definition provided by the I3C
++			    specification.
++
++Optional properties
++-------------------
++- assigned-address: dynamic address to be assigned to this device. This
++		    property is only valid if the I3C device has a static
++		    address (first cell of the reg property != 0).
++
++
++Example:
++
++	i3c-master@d040000 {
++		compatible = "cdns,i3c-master";
++		clocks = <&coreclock>, <&i3csysclock>;
++		clock-names = "pclk", "sysclk";
++		interrupts = <3 0>;
++		reg = <0x0d040000 0x1000>;
++		#address-cells = <3>;
++		#size-cells = <0>;
++		i2c-scl-hz = <100000>;
++
++		/* I2C device. */
++		nunchuk: nunchuk@52 {
++			compatible = "nintendo,nunchuk";
++			reg = <0x52 0x0 0x10>;
++		};
++
++		/* I3C device with a static I2C address. */
++		thermal_sensor: sensor@68,39200144004 {
++			reg = <0x68 0x392 0x144004>;
++			assigned-address = <0xa>;
++		};
++
++		/*
++		 * I3C device without a static I2C address but requiring
++		 * resources described in the DT.
++		 */
++		sensor@0,39200154004 {
++			reg = <0x0 0x392 0x154004>;
++			clocks = <&clock_provider 0>;
++		};
++	};
++
+-- 
+2.17.1
+
