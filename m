@@ -1,115 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B6B6B7D088
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 18:54:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 863E77D088
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 20:03:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727784AbeJ0DdH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Oct 2018 23:33:07 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:45308 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727762AbeJ0DdH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 23:33:07 -0400
-Received: by mail-lf1-f66.google.com with SMTP id c24-v6so1657741lfi.12;
-        Fri, 26 Oct 2018 11:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=H3/rtYUf+SrLjFlYeukVasmyKDPkiWYtZfhjXv3OPmY=;
-        b=ORZKyNPnrPVezXgJkrrMYib2bo794VdzE+HII45gV+qO2mjSGn9YnuP5cqCL19jn/u
-         Xyi0xxsFBR1uDM2MykgB8x/ZScq6i2uMOH8HOr3ET7lC5veriVMDBfxe/gc5pKKVnCtX
-         fywm6LYRp6L6p3zwb1vQlsAg2z0g281Js8JbOoK1Yqgqbu3X2vUnhrKnKm9wvmHC0YiY
-         nYlAlrlOaA9t5S8EUMGmr9cKPHPKxcah26/UTR8SY8oZRachI4PbdiYbQ0zaDlsrfWiz
-         qeK2IQ1c8ps0o0tCdAskHs795nATXMx+FfIswZNRPhB5oSjMcn7E/tuoNjcnPGRLv43W
-         nUNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=H3/rtYUf+SrLjFlYeukVasmyKDPkiWYtZfhjXv3OPmY=;
-        b=o/KC1tLZJH9yMtSzfR1BNNtD8LvhNHjai5ocHewOCI7WdH+sriJ1c3olhlwb9eFw2o
-         H8yIwSQRtvcgC7Ln9cRSOmwAswFW1gNqaJMeCTkRBet4bSqahAlgLkJ5IUm+62JMCuAB
-         y2URwMlCVuXcJjAwgridHOMCEKVrqPJF7CdDEDktS/rnUhNzK2FyIsGCLjBv4oWsDp1J
-         0dnMqTQNZKrxg1qKC+d0RQLXpcJdGR3DbzYfmVhUexB/GZ9A02o76Uz2vxFCfthmM3Qu
-         A3O55RfQWZDCWzioZExG4vU1yWkO6zyP0EXnf6G+3T8ORpRHrz7wC9d8yfAynn2g/hrC
-         HKLg==
-X-Gm-Message-State: AGRZ1gLpnb78An1kbsGMgmU1IAHnBICDwNb3OwdGwF56NbPR1Q/NAgtN
-        yT9iwjnLVTcZHL3PuNReEzjeNipVloeougDrSHMTF8UH
-X-Google-Smtp-Source: AJdET5eqPpX8HxT50dGk9bbcjc74e0WMlZcU+88c+0VCXcRLVWOTwkDKaj9VNAImwKujSCZAVQT2mqvr7w/YH3sxR0o=
-X-Received: by 2002:a19:4bc9:: with SMTP id y192mr2911291lfa.49.1540580094890;
- Fri, 26 Oct 2018 11:54:54 -0700 (PDT)
+        id S1727398AbeJ0Elh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 27 Oct 2018 00:41:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51372 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725861AbeJ0Elh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 27 Oct 2018 00:41:37 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id E0E5680F96;
+        Fri, 26 Oct 2018 20:03:15 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 28EA4183CF;
+        Fri, 26 Oct 2018 20:03:11 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id w9QK3A85030069;
+        Fri, 26 Oct 2018 16:03:10 -0400
+Received: from localhost (mpatocka@localhost)
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id w9QK3A1a030065;
+        Fri, 26 Oct 2018 16:03:10 -0400
+X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
+Date:   Fri, 26 Oct 2018 16:03:10 -0400 (EDT)
+From:   Mikulas Patocka <mpatocka@redhat.com>
+X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
+To:     Paul Lawrence <paullawrence@google.com>
+cc:     Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, linux-doc@vger.kernel.org,
+        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+        dm-devel@redhat.com, Shaohua Li <shli@kernel.org>
+Subject: Re: [dm-devel] [RFC] dm-bow working prototype
+In-Reply-To: <4a934593-1bd1-be5f-35c0-945c42762627@google.com>
+Message-ID: <alpine.LRH.2.02.1810261558460.28906@file01.intranet.prod.int.rdu2.redhat.com>
+References: <20181023212358.60292-1-paullawrence@google.com> <20181023221819.GB17552@agk-dp.fab.redhat.com> <296148c2-f2d9-5818-ea76-d71a0d6f5cd4@google.com> <alpine.LRH.2.02.1810241514310.4080@file01.intranet.prod.int.rdu2.redhat.com>
+ <4a934593-1bd1-be5f-35c0-945c42762627@google.com>
+User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 MIME-Version: 1.0
-References: <20181026172549.3628-1-colin.king@canonical.com>
- <CANiq72nFZS=3KGaQpGjRbprh8HTBiTcSpxScE2uacDmg-xqDGA@mail.gmail.com>
- <20181026184009.GV25444@bombadil.infradead.org> <CANiq72m-2FU7ioqj9sqsfWk4nSp2FO9S_8kYcbnGReXNAXYM2w@mail.gmail.com>
-In-Reply-To: <CANiq72m-2FU7ioqj9sqsfWk4nSp2FO9S_8kYcbnGReXNAXYM2w@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 26 Oct 2018 20:54:43 +0200
-Message-ID: <CANiq72=4KUL60=_T_VEUZmjoRFkuRmT5WCfbXO9mJ5bZoVgZ+Q@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: fix spelling mistake, EACCESS -> EACCES
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     colin.king@canonical.com, jk@ozlabs.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dave Airlie <airlied@linux.ie>,
-        maarten.lankhorst@linux.intel.com, maxime.ripard@bootlin.com,
-        sean@poorly.run, linuxppc-dev@lists.ozlabs.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Fri, 26 Oct 2018 20:03:16 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 26, 2018 at 8:53 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Fri, Oct 26, 2018 at 8:40 PM Matthew Wilcox <willy@infradead.org> wrot=
-e:
-> >
-> > On Fri, Oct 26, 2018 at 08:20:12PM +0200, Miguel Ojeda wrote:
-> > > On Fri, Oct 26, 2018 at 7:27 PM Colin King <colin.king@canonical.com>=
- wrote:
-> > > >
-> > > > From: Colin Ian King <colin.king@canonical.com>
-> > > >
-> > > > Trivial fix to a spelling mistake of the error access name EACCESS,
-> > > > rename to EACCES
-> > >
-> > > ? It is not a typo, it is the name of the error (POSIX). Same thing
-> > > for the rest of the patches.
-> >
-> > Are you sure?  From open(2):
-> >
-> >        EACCES The  requested access to the file is not allowed, or sear=
-ch per=E2=80=90
-> >               mission is denied for one of the directories in the path =
- prefix
-> >               of  pathname,  or the file did not exist yet and write ac=
-cess to
-> >               the parent directory is not  allowed.   (See  also  path_=
-resolu=E2=80=90
-> >               tion(7).)
-> >
-> > include/uapi/asm-generic/errno-base.h:#define   EACCES          13     =
- /* Permission denied */
->
-> I thought you were doing the reverse change. Never mind! :-)
->
-> (Btw, the POSIX reference is
-> http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/errno.h.html#tag=
-_13_09,
-> in case you want to include it or are curious)
 
-Sorry Matthew, thought I was answering to Colin. I should go to rest.
 
-Cheers,
-Miguel
+On Thu, 25 Oct 2018, Paul Lawrence wrote:
+
+> Thank you for the suggestion. I spent part of yesterday experimenting with
+> this idea, and it is certainly very promising. However, it does have some
+> disadvantages as compared to dm-bow, if I am understanding the setup
+> correctly:
+> 
+> 1) Since dm-snap has no concept of the free space on the underlying file
+> system any write into the free space will trigger a backup, so using twice the
+> space of dm-bow. Changing existing data will create a backup with both
+> drivers, but since we have to reserve the space for the backups up-front with
+> dm-snap, we would likely only have half the space for that. Either way, it
+> seems that dm-bow is likely to double the amount of changes we could make.
+> 
+> (Might it be possible to dynamically resize the backup file if it is mostly
+> used up? This would fix the problem of only having half the space for changing
+
+Yes - the snapshot store can be extended while the snapshot is active.
+
+> existing data. The documentation seems to indicate that you can increase the
+> size of the snapshot partition, and it seems like it should be possible to
+> grow the underlying file without triggering a lot of writes. OTOH this would
+> have to happen in userspace which creates other issues.)
+> 
+> 2) Similarly, since writes into free space do not trigger a backup in dm-bow,
+> dm-bow is likely to have a lower performance overhead in many circumstances.
+> On the flip side, dm-bow's backup is in free space and will collide with other
+> writes, so this advantage will reduce as free space fills up. But by choosing
+> a suitable algorithm for how we use free space we might be able to retain most
+> of this advantage.
+> 
+> I intend to put together a fully working prototype of your suggestion next to
+> better compare with dm-bow. But I do believe there is value in tracking free
+> space and utilizing it in any such solution.
+
+The snapshot target could be hacked so that it remembers space trimmed 
+with REQ_OP_DISCARD and won't reallocate these blocks.
+
+But I suspect that running discard over the whole device would degrade 
+performance more than copying some unneeded data.
+
+How much data do you intend to backup with this solution?
+
+Mikulas
