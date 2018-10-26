@@ -1,244 +1,256 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3022D7D088
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 07:57:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EDF8D7D088
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 09:31:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725983AbeJZQdN convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Oct 2018 12:33:13 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:36019 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725907AbeJZQdN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Oct 2018 12:33:13 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 9F1AE208DC; Fri, 26 Oct 2018 09:57:10 +0200 (CEST)
-Received: from bbrezillon (aaubervilliers-681-1-12-210.w90-88.abo.wanadoo.fr [90.88.133.210])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D64FD20794;
-        Fri, 26 Oct 2018 09:57:09 +0200 (CEST)
-Date:   Fri, 26 Oct 2018 09:57:07 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
+        id S1726387AbeJZSHu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Oct 2018 14:07:50 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:55232 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726128AbeJZSHu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 14:07:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=jskPvXFFGZLMDOKxc8rFi/4kpUPza1Mn9g43J/u/YFg=; b=En36dcy4WG6tjkYwtjuXXLYbb
+        7z4df4MuAAbuSclsnKYANPtkP88LdamyK/S++NTyE6Mdv8lbqoCBTFlCrbJt1FpEjlPoPC2VYH5WX
+        PYfLC+S9NeYqTK8gFzFwvVzVMle6wbzmiSAUmiaqhRh1Ob4hY9C1aDykSCgc8QUAtL4+J4lSJqkAk
+        KsTh6JZesjgRAggpQpUXfbMIuaxGkVga+rgDMzxNZUsZTP6xBLpEGqeMjgM0L3lKgGWvwVEc8RstT
+        KGNpkoTgbRAX97/vDbkN6nJFcZM7JTRPZo908difULT7fYLSvImx8mjyRAfBtwHDt/bxL+OmbSyt+
+        JCySPNZlA==;
+Received: from [167.98.65.38] (helo=worktop)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gFySd-0000cT-5N; Fri, 26 Oct 2018 09:31:19 +0000
+Received: by worktop (Postfix, from userid 1000)
+        id 98BEB6E07BE; Fri, 26 Oct 2018 11:26:09 +0200 (CEST)
+Date:   Fri, 26 Oct 2018 11:26:09 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Igor Stoppa <igor.stoppa@gmail.com>
+Cc:     Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        kernel-hardening@lists.openwall.com,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, igor.stoppa@huawei.com,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Joe Perches <joe@perches.com>
-Subject: Re: [PATCH v9 6/9] i3c: master: Add driver for Cadence IP
-Message-ID: <20181026095707.3cd9b511@bbrezillon>
-In-Reply-To: <CAK8P3a0WDRpukjDBm1rGPnZiH2FJRpquWhEknOBg=CphNOYOwg@mail.gmail.com>
-References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
-        <20181022133404.2061-7-boris.brezillon@bootlin.com>
-        <20181024202048.7e3534f7@bbrezillon>
-        <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
-        <20181025180720.1790f6a1@bbrezillon>
-        <CAK8P3a02ELWiMB_pe0bzbsMfdqYOG1G0bFnSHzGu3ZbQHatH2w@mail.gmail.com>
-        <20181025183005.3c0fa452@bbrezillon>
-        <CAK8P3a0WDRpukjDBm1rGPnZiH2FJRpquWhEknOBg=CphNOYOwg@mail.gmail.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 10/17] prmem: documentation
+Message-ID: <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181023213504.28905-11-igor.stoppa@huawei.com>
+User-Agent: Mutt/1.5.22.1 (2013-10-16)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Arnd,
+Jon,
 
-On Fri, 26 Oct 2018 09:43:25 +0200
-Arnd Bergmann <arnd@arndb.de> wrote:
+So the below document is a prime example for why I think RST sucks. As a
+text document readability is greatly diminished by all the markup
+nonsense.
 
-> On Thu, Oct 25, 2018 at 6:30 PM Boris Brezillon
-> <boris.brezillon@bootlin.com> wrote:
-> > On Thu, 25 Oct 2018 18:13:51 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Thu, Oct 25, 2018 at 6:07 PM Boris Brezillon <boris.brezillon@bootlin.com> wrote:  
-> > > > On Thu, 25 Oct 2018 17:30:26 +0200
-> > > > Arnd Bergmann <arnd@arndb.de> wrote:  
-> > > > > On 10/24/18, Boris Brezillon <boris.brezillon@bootlin.com> wrote:  
-> > > > > > On Mon, 22 Oct 2018 15:34:01 +0200  
-> > > > I guess I could dynamically allocate the payload, but that requires
-> > > > going over all users of i3c_send_ccc_cmd() to patch them.  
-> > >
-> > > This reminds me that Wolfram mentioned in his ELC talk that the
-> > > buffers on i3c should all be DMA capable to make life easier for
-> > > i3c master drivers that want to implement DMA transfers.  
-> >
-> > And this is the case for all buffers passed to
-> > i3c_device_do_priv_xfers() (and soon i3c_device_send_hdr_cmd()),
-> > but I did not enforce that for the internal
-> > i3c_master_send_ccc_cmd_locked() helper, maybe I should...
-> > It was just convenient to place the object to be transmitted/received on
-> > the stack.  
-> 
-> Ok. Is i3c_master_send_ccc_cmd_locked() what implements the public
-> interfaces then, or is this something else?
+This stuff should not become write-only content like html and other
+gunk. The actual text file is still the primary means of reading this.
 
-i3c_master_send_ccc_cmd_locked() calls master->ops->send_ccc_cmd(), so
-it's part of the master controller interface.
+> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+> index 26b735cefb93..1a90fa878d8d 100644
+> --- a/Documentation/core-api/index.rst
+> +++ b/Documentation/core-api/index.rst
+> @@ -31,6 +31,7 @@ Core utilities
+>     gfp_mask-from-fs-io
+>     timekeeping
+>     boot-time-mm
+> +   prmem
+>  
+>  Interfaces for kernel debugging
+>  ===============================
+> diff --git a/Documentation/core-api/prmem.rst b/Documentation/core-api/prmem.rst
+> new file mode 100644
+> index 000000000000..16d7edfe327a
+> --- /dev/null
+> +++ b/Documentation/core-api/prmem.rst
+> @@ -0,0 +1,172 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _prmem:
+> +
+> +Memory Protection
+> +=================
+> +
+> +:Date: October 2018
+> +:Author: Igor Stoppa <igor.stoppa@huawei.com>
+> +
+> +Foreword
+> +--------
+> +- In a typical system using some sort of RAM as execution environment,
+> +  **all** memory is initially writable.
+> +
+> +- It must be initialized with the appropriate content, be it code or data.
+> +
+> +- Said content typically undergoes modifications, i.e. relocations or
+> +  relocation-induced changes.
+> +
+> +- The present document doesn't address such transient.
+> +
+> +- Kernel code is protected at system level and, unlike data, it doesn't
+> +  require special attention.
 
-> 
-> If you place a buffer on the stack, it is not DMA capable, but
-> it is guaranteed to be at least 32-bit word aligned, and should
-> not cause an exception in readsl(), unless it starts with a couple of
-> (not multiple of four)  extra bytes that are not sent to the devices.
-> Is that what happens here?
+What does this even mean?
 
-Here is the report I received from Vitor:
+> +Protection mechanism
+> +--------------------
+> +
+> +- When available, the MMU can write protect memory pages that would be
+> +  otherwise writable.
 
-"
-	Hi Boris,
+Again; what does this really want to say?
 
+> +- The protection has page-level granularity.
 
-	I'm trying this new patch-set version but I get some issues when use 
-	readsl() function.
+I don't think Linux supports non-paging MMUs.
 
-	Basically the system complain about memory alignment.
+> +- An attempt to overwrite a protected page will trigger an exception.
+> +- **Write protected data must go exclusively to write protected pages**
+> +- **Writable data must go exclusively to writable pages**
 
-	As exemple when I try to read the PID from the device
+WTH is with all those ** ?
 
-	> +static int i3c_master_getpid_locked(struct i3c_master_controller *master,
-	> +				    struct i3c_device_info *info)
-	> +{
-	> +	struct i3c_ccc_getpid getpid;  
+> +Available protections for kernel data
+> +-------------------------------------
+> +
+> +- **constant**
+> +   Labelled as **const**, the data is never supposed to be altered.
+> +   It is statically allocated - if it has any memory footprint at all.
+> +   The compiler can even optimize it away, where possible, by replacing
+> +   references to a **const** with its actual value.
+> +
+> +- **read only after init**
+> +   By tagging an otherwise ordinary statically allocated variable with
+> +   **__ro_after_init**, it is placed in a special segment that will
+> +   become write protected, at the end of the kernel init phase.
+> +   The compiler has no notion of this restriction and it will treat any
+> +   write operation on such variable as legal. However, assignments that
+> +   are attempted after the write protection is in place, will cause
+> +   exceptions.
+> +
+> +- **write rare after init**
+> +   This can be seen as variant of read only after init, which uses the
+> +   tag **__wr_after_init**. It is also limited to statically allocated
+> +   memory. It is still possible to alter this type of variables, after
+> +   the kernel init phase is complete, however it can be done exclusively
+> +   with special functions, instead of the assignment operator. Using the
+> +   assignment operator after conclusion of the init phase will still
+> +   trigger an exception. It is not possible to transition a certain
+> +   variable from __wr_ater_init to a permanent read-only status, at
+> +   runtime.
+> +
+> +- **dynamically allocated write-rare / read-only**
+> +   After defining a pool, memory can be obtained through it, primarily
+> +   through the **pmalloc()** allocator. The exact writability state of the
+> +   memory obtained from **pmalloc()** and friends can be configured when
+> +   creating the pool. At any point it is possible to transition to a less
+> +   permissive write status the memory currently associated to the pool.
+> +   Once memory has become read-only, it the only valid operation, beside
+> +   reading, is to released it, by destroying the pool it belongs to.
 
-	at this point the getpid struct it is already unaligned with
+Can we ditch all the ** nonsense and put whitespace in there? More paragraphs
+and whitespace are more good.
 
-	i3c_master_getpid_locked:1129 getpid_add=0x9a249c7a
+Also, I really don't like how you differentiate between static and
+dynamic wr.
 
-	> +	struct i3c_ccc_cmd_dest dest = {
-	> +		.addr = info->dyn_addr,
-	> +		.payload.len = sizeof(struct i3c_ccc_getpid),
-	> +		.payload.data = &getpid,
-	> +	};
-	> +	struct i3c_ccc_cmd cmd = {
-	> +		.rnw = true,
-	> +		.id = I3C_CCC_GETPID,
-	> +		.dests = &dest,
-	> +		.ndests = 1,
-	> +	};
-	> +	int ret, i;
-	> +
-	> +	ret = i3c_master_send_ccc_cmd_locked(master, &cmd);
-	> +	if (ret)
-	> +		return ret;
-	> +
-	> +	info->pid = 0;
-	> +	for (i = 0; i < sizeof(getpid.pid); i++) {
-	> +		int sft = (sizeof(getpid.pid) - i - 1) * 8;
-	> +
-	> +		info->pid |= (u64)getpid.pid[i] << sft;
-	> +	}
-	> +
-	> +	return 0;
-	> +}
-	> +  
+> +Protecting dynamically allocated memory
+> +---------------------------------------
+> +
+> +When dealing with dynamically allocated memory, three options are
+> + available for configuring its writability state:
+> +
+> +- **Options selected when creating a pool**
+> +   When creating the pool, it is possible to choose one of the following:
+> +    - **PMALLOC_MODE_RO**
+> +       - Writability at allocation time: *WRITABLE*
+> +       - Writability at protection time: *NONE*
+> +    - **PMALLOC_MODE_WR**
+> +       - Writability at allocation time: *WRITABLE*
+> +       - Writability at protection time: *WRITE-RARE*
+> +    - **PMALLOC_MODE_AUTO_RO**
+> +       - Writability at allocation time:
+> +           - the latest allocation: *WRITABLE*
+> +           - every other allocation: *NONE*
+> +       - Writability at protection time: *NONE*
+> +    - **PMALLOC_MODE_AUTO_WR**
+> +       - Writability at allocation time:
+> +           - the latest allocation: *WRITABLE*
+> +           - every other allocation: *WRITE-RARE*
+> +       - Writability at protection time: *WRITE-RARE*
+> +    - **PMALLOC_MODE_START_WR**
+> +       - Writability at allocation time: *WRITE-RARE*
+> +       - Writability at protection time: *WRITE-RARE*
 
-	and them when
+That's just unreadable gibberish from here. Also what?
 
-	static void dw_i3c_master_read_rx_fifo(struct dw_i3c_master *master,
-	                        u8 *bytes, int nbytes)
-	{
-	     readsl(master->regs + RX_TX_DATA_PORT, bytes, nbytes / 4);
-	...
-	}
+We already have RO, why do you need more RO?
 
-	the system crash.
+> +
+> +   **Remarks:**
+> +    - The "AUTO" modes perform automatic protection of the content, whenever
+> +       the current vmap_area is used up and a new one is allocated.
+> +        - At that point, the vmap_area being phased out is protected.
+> +        - The size of the vmap_area depends on various parameters.
+> +        - It might not be possible to know for sure *when* certain data will
+> +          be protected.
 
-	Misaligned Access
-	Path: (null)
-	CPU: 0 PID: 0 Comm: swapper Not tainted 4.19.0-rc1 #88
-	
-	[ECR   ]: 0x00230400 => Misaligned r/w from 0x9a249c7a
-	[EFA   ]: 0x9a249c7a
-	[BLINK ]: dw_i3c_master_irq_handler+0x200/0x2fc [dw_i3c_master]
-	[ERET  ]: dw_i3c_master_irq_handler+0x224/0x2fc [dw_i3c_master]
-	[STAT32]: 0x00000a4c : K DE     A1 E2
-	BTA: 0x70038e44  SP: 0x8071fe58  FP: 0x00000000
-	LPS: 0x8060e63e LPE: 0x8060e642 LPC: 0x00000000
-	r00: 0x00000033 r01: 0x00000004 r02: 0x00000000
-	r03: 0xd0002014 r04: 0x00000006 r05: 0x00000000
-	r06: 0x9a249c7a r07: 0x39307260 r08: 0xe10b6900
-	r09: 0x00000013 r10: 0x00000000 r11: 0x000000c9
-	r12: 0x0a613763
+Surely that is a problem?
 
-	Do you have any idea about this?
+> +        - The functionality is provided as tradeoff between hardening and speed.
 
+Which you fail to explain.
 
-	Best regards,
+> +        - Its usefulness depends on the specific use case at hand
 
-	Vitor Soares
-"
+How about you write sensible text inside the option descriptions
+instead?
 
-> 
-> > > If we have buffers here that are not aligned to cache lines
-> > > (or even just 32 bit words), doesn't that also mean that the
-> > > same buffers are not DMA capable either?  
-> >
-> > Yep, if it's not cache-line-aligned (and on the stack), it's not
-> > DMA-able.  
-> 
-> This sounds like a more fundamental problem to solve first
-> then. Obviously it is incredibly /useful/ to be able to put short
-> i2c or i3c messages on the stack, but allowing that in general
-> also prevents the use of DMA without bounce buffers.
+This is not a presentation; less bullets, more content.
 
-Actually, we have the same problem in MTD (UBI passes vmalloced
-buffers to the MTD stack), so I understand this concern very well,
-and I agree that enforcing all buffers passed to the controller to
-be DMA capable is the right thing to do.
+> +- Not only the pmalloc memory must be protected, but also any reference to
+> +  it that might become the target for an attack. The attack would replace
+> +  a reference to the protected memory with a reference to some other,
+> +  unprotected, memory.
 
-I guess I just didn't think about internal APIs when I made this
-modification which explains why CCC cmds were left behind.
+I still don't really understand the whole write-rare thing; how does it
+really help? If we can write in kernel memory, we can write to
+page-tables too.
 
-> 
-> One way to address this might be to always bounce any
-> messages that are less than a cache line through a
-> (pre-)kmallocated buffer, and require any longer messages
-> to be cache capable. This could also solve the issue with
-> readsl(), but it would be a rather confusing user interface.
-> 
-> Another option might be to have separate interfaces for
-> "short" and "long" messages at the API level and have
-> distinct rules for those: short would always be bounced
-> by the i3c code, and long puts restrictions on the buffer
-> location.
+And I don't think this document even begins to explain _why_ you're
+doing any of this. How does it help?
 
-Hm, let's keep the API simple. I'll just mandate that all payload bufs
-passed to i3c_master_send_ccc_cmd_locked() be dynamically allocated.
+> +- The users of rare write must take care of ensuring the atomicity of the
+> +  action, respect to the way they use the data being altered; for example,
+> +  take a lock before making a copy of the value to modify (if it's
+> +  relevant), then alter it, issue the call to rare write and finally
+> +  release the lock. Some special scenario might be exempt from the need
+> +  for locking, but in general rare-write must be treated as an operation
+> +  that can incur into races.
 
-Thanks for your feedback.
-
-Boris
+What?!
