@@ -4,48 +4,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6C7277D088
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 15:15:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 716CB7D088
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 15:16:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726198AbeJZXwo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Oct 2018 19:52:44 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35923 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726113AbeJZXwo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 19:52:44 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a8-v6so1791855wmf.1;
-        Fri, 26 Oct 2018 08:15:16 -0700 (PDT)
+        id S1726570AbeJZXxa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Oct 2018 19:53:30 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53125 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726113AbeJZXxa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 19:53:30 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 189-v6so1875244wmw.2;
+        Fri, 26 Oct 2018 08:16:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id;
-        bh=/gJpxsRyY5gIbCsJ2vAio9xx9GqlAyJh0govziFB65g=;
-        b=Zqews/Nf3If0V6hE73++8a6YoSseiDQisNXtt3bnhKblrcjMvDW8BMa6HT+x1YBxB7
-         skRVPSCivhxX49/EpXa9C4vqmDjrfAvZGMeKAKOLW/K1oG9jjyj2c3Kyfi/g9YfnBr+c
-         bntIdMhPj7KQnh8JJ8mRuUHt/2YAjAbhrTAxXHs8kB7bntRR34H10HayAgV2cIN8KzJO
-         SwUF7B1uvp5KoT+waejAFZS/RE+gIIJMsugSXm1dUdiCoKCfuClDrFdRG1n0dPWuB2Ng
-         VYEGpav1GodKN14CD9Ui/QXCD2f8cpIDNHieJB9smG4l2gYTow+SC72SqgHrHdtM/wXG
-         OSjQ==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=RWiArh2hS1wXwjmyYMZMynOTmVpcrRnX76eAIdAErZY=;
+        b=tSpjXLUYkvGECBMpjjVzObxCt3s5EZgTJ0aSztZyz8E025w37n/NRs3kB+GE3188jp
+         fTdsZQfbvuFzROSIJP+UVFwNELo4V8gBintj8Mf8f/SD4Rzvg6JlsBEEbd+4mQmnPX0o
+         0/HsnfQXb+D7YSA1aQBJBE1McqIPrfrkpG23D2fKeSZFpDA04tKqrbsbukhu9unQxU4r
+         dJ8kCGsCsITterYQmunWwu3Ysombw5Qhk85yijSFIR/8axGxsYH5ggorHg+TaBJ4l8Jp
+         nMfCV/0I6J2Ona2I/oMgPwD4p/zn1PeFw4aMz44PIw3CMUecYx2CtblGeK6VmS9hCaRV
+         Oi0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=/gJpxsRyY5gIbCsJ2vAio9xx9GqlAyJh0govziFB65g=;
-        b=gXg/1RDpQp0pBTbTMI3CgVGYGVZ85GcmeY8/4cU9AcbibB0GhKJXIadQPigRoa0Vgd
-         fyphjiI2pS1dkm1keL58q7kYj3Wfqo1E9rztsCwkC+SnjiPscm9m4Qab15OLciqsCY1P
-         SdQGjA2JDD5Y80ARuYatpOl+TsnmhWJ86VfRBy/WSH4dVWypPP9UpSaI1wj1pVjBPJV2
-         KSAK2z8FdabkWzV92sK5pw3DwFd+S6Q038X8b5M+IXAx4pCx7MrEHU/IRgNzxiDqE4yk
-         viyhlhmohL4e4Pyozxj2mFrAipyBh1nlRMbMF2r20YMdJ0J1xHSp2NJUlTQPTG3tT41H
-         5PAQ==
-X-Gm-Message-State: AGRZ1gLOi2IASf+zINzgV3uSSeYR/YyjexU2yt50Las+ipfoRaOMLT4C
-        iBX+N6YKcfb7RfIUL8h+OLI=
-X-Google-Smtp-Source: AJdET5dDodT0TeVnimL+oXSHEfXDGvubSG8lcl45KIGlQXOeCy9iDTytuKUZqiZ29EkVzgl6S1LHBg==
-X-Received: by 2002:a1c:4385:: with SMTP id q127-v6mr5799568wma.111.1540566915908;
-        Fri, 26 Oct 2018 08:15:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=RWiArh2hS1wXwjmyYMZMynOTmVpcrRnX76eAIdAErZY=;
+        b=KOn+5OqSdDBVQK0slkOcqOtNjJba+Ojd5aq+kgdaJNwgWeo1ToYve0CFV3FpJth8gE
+         hO5ledjm970UtIq42KlAcrfViyy9kJNPtLfFt4uEWYbRd9viTBw5KPoQB5WcLIzb9Mxg
+         LZoYqhkDO1lwKdM380yQxkqPdeb9m9/oPmxOwfRBTSIwYrcVzfuwzMgoiTRANoSifUp+
+         yWPZT6L0aBQRNjXqsu7dNzQSTdFvbvGCJplZqbJ6amUsHSDIDnglwgSV2Kk5PwLwWIJs
+         F1lH4jFiqJDi/6RpUAIPxOF0C6yKI0vdohlglibyl5558kxoMcNCimUz6uvzQbZvaw7o
+         EOoA==
+X-Gm-Message-State: AGRZ1gL7kSwN3y9QQFG1QbLjTXVS1WCtqlbWc/DYI6Cux5tEyw873HS1
+        DL6COXkQWyCSOhF38OMB3S4=
+X-Google-Smtp-Source: AJdET5fYQexpLLjeUajYQguwu0usM+rJiMT06j9w6NWd2kJuOr+SF9Qgogy40wwtIc7I+wDEE/wQ0g==
+X-Received: by 2002:a1c:a88b:: with SMTP id r133-v6mr5778603wme.97.1540566961476;
+        Fri, 26 Oct 2018 08:16:01 -0700 (PDT)
 Received: from localhost.localdomain ([156.213.138.111])
-        by smtp.gmail.com with ESMTPSA id p7-v6sm10127257wrt.10.2018.10.26.08.14.16
+        by smtp.gmail.com with ESMTPSA id p7-v6sm10127257wrt.10.2018.10.26.08.15.16
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Oct 2018 08:15:15 -0700 (PDT)
+        Fri, 26 Oct 2018 08:16:00 -0700 (PDT)
 From:   Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
 To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -58,60 +59,67 @@ To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Boris Lukashev <blukashev@sempervictus.com>,
         Hossam Hassan <7ossam9063@gmail.com>,
         Ahmed Lotfy <A7med.lotfey@gmail.com>
-Subject: [PATCH V5 0/5] KVM: X86: Introducing ROE Protection Kernel Hardening
-Date:   Fri, 26 Oct 2018 17:12:18 +0200
-Message-Id: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
+Subject: [PATCH V5 1/5] KVM: X86: Memory ROE documentation
+Date:   Fri, 26 Oct 2018 17:12:19 +0200
+Message-Id: <20181026151223.16810-2-ahmedsoliman0x666@gmail.com>
 X-Mailer: git-send-email 2.18.1
+In-Reply-To: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
+References: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is the 5th version which is 4th version with minor fixes. ROE is a 
-hypercall that enables host operating system to restrict guest's access to its
-own memory. This will provide a hardening mechanism that can be used to stop
-rootkits from manipulating kernel static data structures and code. Once a memory
-region is protected the guest kernel can't even request undoing the protection.
-
-Memory protected by ROE should be non-swapable because even if the ROE protected
-page got swapped out, It won't be possible to write anything in its place.
-
-ROE hypercall should be capable of either protecting a whole memory frame or
-parts of it. With these two, it should be possible for guest kernel to protect
-its memory and all the page table entries for that memory inside the page table.
-I am still not sure whether this should be part of ROE job or the guest's job.
-
-
-The reason why it would be better to implement this from inside kvm: instead of
-(host) user space is the need to access SPTEs to modify the permissions, while
-mprotect() from user space can work in theory. It will become a big performance
-hit to vmexit and switch to user space mode on each fault, on the other hand,
-having the permission handled by EPT should make some remarkable performance
-gain.
-
-Our model assumes that an attacker got full root access to a running guest and
-his goal is to manipulate kernel code/data (hook syscalls, overwrite IDT ..etc).
-
-There is future work in progress to also put some sort of protection on the page
-table register CR3 and other critical registers that can be intercepted by KVM.
-This way it won't be possible for an attacker to manipulate any part of the
-guests page table.
-
-V4->V5 change log:
-- Fixed summary (it was reverted summary)
-- Fixed an inaccurate documentation in patch [4/5]
-
-Summary:
-
- Documentation/virtual/kvm/hypercalls.txt |  40 +++++
- arch/x86/include/asm/kvm_host.h          |  11 +-
- arch/x86/kvm/Kconfig                     |   7 +
- arch/x86/kvm/mmu.c                       | 129 ++++++++++----
- arch/x86/kvm/vmx.c                       |   2 +-
- arch/x86/kvm/x86.c                       | 281 ++++++++++++++++++++++++++++++-
- include/linux/kvm_host.h                 |  29 ++++
- include/uapi/linux/kvm_para.h            |   5 +
- virt/kvm/kvm_main.c                      | 119 +++++++++++--
- 9 files changed, 572 insertions(+), 51 deletions(-)
+Following up with my previous threads on KVM assisted Anti rootkit
+protections.
+The current version doesn't address the attacks involving pages
+remapping. It is still design in progress, nevertheless, it will be in
+my later patch sets.
 
 Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
+---
+ Documentation/virtual/kvm/hypercalls.txt | 31 ++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/Documentation/virtual/kvm/hypercalls.txt b/Documentation/virtual/kvm/hypercalls.txt
+index da24c138c8d1..8af64d826f03 100644
+--- a/Documentation/virtual/kvm/hypercalls.txt
++++ b/Documentation/virtual/kvm/hypercalls.txt
+@@ -141,3 +141,34 @@ a0 corresponds to the APIC ID in the third argument (a2), bit 1
+ corresponds to the APIC ID a2+1, and so on.
+ 
+ Returns the number of CPUs to which the IPIs were delivered successfully.
++
++7. KVM_HC_ROE
++----------------
++Architecture: x86
++Status: active
++Purpose: Hypercall used to apply Read-Only Enforcement to guest memory and
++registers
++Usage 1:
++     a0: ROE_VERSION
++
++Returns non-signed number that represents the current version of ROE
++implementation current version.
++
++Usage 2:
++
++     a0: ROE_MPROTECT	(requires version >= 1)
++     a1: Start address aligned to page boundary.
++     a2: Number of pages to be protected.
++
++This configuration lets a guest kernel have part of its read/write memory
++converted into read-only.  This action is irreversible.
++Upon successful run, the number of pages protected is returned.
++
++Error codes:
++	-KVM_ENOSYS: system call being triggered from ring 3 or it is not
++	implemented.
++	-EINVAL: error based on given parameters.
++
++Notes: KVM_HC_ROE can not be triggered from guest Ring 3 (user mode). The
++reason is that user mode malicious software can make use of it to enforce read
++only protection on an arbitrary memory page thus crashing the kernel.
+-- 
+2.18.1
+
