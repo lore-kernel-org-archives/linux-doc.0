@@ -1,79 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 69E547D088
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 18:20:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1AD277D088
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 18:40:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727844AbeJ0C62 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Oct 2018 22:58:28 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:41974 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727734AbeJ0C62 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 22:58:28 -0400
-Received: by mail-lj1-f196.google.com with SMTP id u21-v6so1996735lja.8;
-        Fri, 26 Oct 2018 11:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T56q1WFOtYNSeaP64ZTRRqTdS6w1Bc+ijJta1+x82Qk=;
-        b=XkO369SIZ60TFFWgesTcdetuDj2QB7WRtVPtpTB4xytqLmNAIBrZn2x1EnQjWSEfee
-         l+Sdg9H0MI7wqmFl4ECVG7UIIr3SYv2PdgFqUiGzLDXgAk5UmyaWhy5zgCt8A7WNJSuS
-         tjEP0fj7LXmQP5dAbmsM+Vzq78z9qermJUJCcs2tVId9tO8YYcA1eJDdUt+ty9c1d0Rc
-         ECu14JrsKDN6Zdyc7iUk2eGl5CxSd520bbbR2zkt4CNqLsFY0mTXOObgSr/RtYDFCu9X
-         6N7/AMgdKOfhCflYzznIfvTl1iAPgrSvHquqK538W8qhu11etZBUc2ecgXGJCsrYYA31
-         whKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T56q1WFOtYNSeaP64ZTRRqTdS6w1Bc+ijJta1+x82Qk=;
-        b=rEZwdlSegzaT4amqisLcm1+SDMREmkNoe1vH9mnmeMZi2X9d+YSxUGGOL9x+rYnLRs
-         BidE8yonWBOnfI8vnNch5GDnUE3wCmPnF/s/JIwJScxZ7JH4ABMHZqIY93GFpVEto3Q7
-         4wA+Gh4GuFOz8TlA9QDKbeh3kEdZFEkz8QdfrSzmijGtxuLscU0FJv49GYKpWsEAhCI2
-         01AmCNoSnfUVNplqn9O+zU9grT0HrhPdMLZRMFpI5Fyx8YYNu2NGfjGw3O3ZqK7nHxJ5
-         svDOJpCJYr1eYMBLkizAgbhkELYwqScIPfZQ6x1lLuxfaXLJ4TbHImWZi/X3vy1pyy1q
-         5zdw==
-X-Gm-Message-State: AGRZ1gIUU8OIrNSPHZIM5MFUGZTeT8UP7zlDvRdH0LklbvbZ6TKyMjU1
-        7jTadKlfkwoGSAU5DA48VL8Wo/jJWG/BPCfJ2SM=
-X-Google-Smtp-Source: AJdET5djV3qCBBz+Am4ofKk8nvp7aX8mrHg4ZeqwTTv4xhxojmBX0n6Mvm3k4FkDlOHXlVQsJmJenqUuHARFYuadFc4=
-X-Received: by 2002:a2e:c52:: with SMTP id o18-v6mr3117652ljd.94.1540578023113;
- Fri, 26 Oct 2018 11:20:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181026172549.3628-1-colin.king@canonical.com>
-In-Reply-To: <20181026172549.3628-1-colin.king@canonical.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 26 Oct 2018 20:20:12 +0200
-Message-ID: <CANiq72nFZS=3KGaQpGjRbprh8HTBiTcSpxScE2uacDmg-xqDGA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: fix spelling mistake, EACCESS -> EACCES
-To:     colin.king@canonical.com
-Cc:     jk@ozlabs.org, Jonathan Corbet <corbet@lwn.net>,
+        id S1727969AbeJ0DSX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Oct 2018 23:18:23 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35070 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727595AbeJ0DSX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 23:18:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=SabYTyncpD8UPUQFeRelrBxoXbfzyxS099TcIq9mJaQ=; b=mSq0g4pyoUK8es7/BgD+bw/HkX
+        4h9DhC3UyLv2sLE7EP+VrPgMLu77T1avjQg1yS8fEM7KPvo2WjteyXPTDIb1ULoCbSeRgyVai0+fp
+        0P38CmcrZ5RReUZkclxFn+5qIDTNbBOLCq3btUzvuhJFwbzAVWxKQqhBFtwnNJxNjB3ARhM5snZVM
+        ATTaWTdvjFkJ0svThOWZ6Q5R4YafTHAaF84FxO6S6xxpCmmyMG5FAT3xmjj4Ohmg4VO0zta7HZm5G
+        0Dk9FUMFs83NKCEWmUUfzYkk428soI7hkE8pB+km/mVBUbgEAGSLBdyv5QcEU/tWWyN/nY0Q4WhK5
+        NSSWKoGA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gG71m-0008Sa-1Y; Fri, 26 Oct 2018 18:40:10 +0000
+Date:   Fri, 26 Oct 2018 11:40:09 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     colin.king@canonical.com, jk@ozlabs.org,
+        Jonathan Corbet <corbet@lwn.net>,
         Dave Airlie <airlied@linux.ie>,
         maarten.lankhorst@linux.intel.com, maxime.ripard@bootlin.com,
         sean@poorly.run, linuxppc-dev@lists.ozlabs.org,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         kernel-janitors@vger.kernel.org,
         linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] Documentation: fix spelling mistake, EACCESS -> EACCES
+Message-ID: <20181026184009.GV25444@bombadil.infradead.org>
+References: <20181026172549.3628-1-colin.king@canonical.com>
+ <CANiq72nFZS=3KGaQpGjRbprh8HTBiTcSpxScE2uacDmg-xqDGA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72nFZS=3KGaQpGjRbprh8HTBiTcSpxScE2uacDmg-xqDGA@mail.gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 26, 2018 at 7:27 PM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> Trivial fix to a spelling mistake of the error access name EACCESS,
-> rename to EACCES
+On Fri, Oct 26, 2018 at 08:20:12PM +0200, Miguel Ojeda wrote:
+> On Fri, Oct 26, 2018 at 7:27 PM Colin King <colin.king@canonical.com> wrote:
+> >
+> > From: Colin Ian King <colin.king@canonical.com>
+> >
+> > Trivial fix to a spelling mistake of the error access name EACCESS,
+> > rename to EACCES
+> 
+> ? It is not a typo, it is the name of the error (POSIX). Same thing
+> for the rest of the patches.
 
-? It is not a typo, it is the name of the error (POSIX). Same thing
-for the rest of the patches.
+Are you sure?  From open(2):
 
-Cheers,
-Miguel
+       EACCES The  requested access to the file is not allowed, or search per‐
+              mission is denied for one of the directories in the path  prefix
+              of  pathname,  or the file did not exist yet and write access to
+              the parent directory is not  allowed.   (See  also  path_resolu‐
+              tion(7).)
+
+include/uapi/asm-generic/errno-base.h:#define   EACCES          13      /* Permission denied */
+
