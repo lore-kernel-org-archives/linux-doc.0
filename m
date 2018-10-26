@@ -1,47 +1,28 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4DAE7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 16:21:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA8877D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 16:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727436AbeJ0A6k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Oct 2018 20:58:40 -0400
-Received: from us01smtprelay-2.synopsys.com ([198.182.47.9]:42932 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727240AbeJ0A6k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 20:58:40 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 8C29724E0772;
-        Fri, 26 Oct 2018 09:20:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1540570860; bh=PObhxIaYsDuRI5752s6fwNRYSIzTPGLUAOCTQvjvVJM=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=UruVl0Ak25zUzJOkPl/o93O4QZ+J7J4kWhweHSvQ/H7hxuYb8F3j5PWpRV32nRVrX
-         ISPUgoEYP8R8C8fiJpnLtJ/XLd9mY353lulOnMar8o4IjBAG712jlMvDXNcV+KBIo1
-         DEIRp+45r7VNZgHDFtAyOMRWBWvPE5T8WnnT7b3Cuv9AaTrylo0LF3MY3lN1PZ7Nee
-         F/Fl5h6DHd6eyuLLuouTk+GN50HUFmZXTVd9vbOMHP3RgASxg5Mc1Y/4Px3v396GMt
-         pqcUOk0EEOfzk6XXj9xNHCCf+NK1bnSyFlN+dkswc1ogUD2GFcLeHknb2LDOUF4ivm
-         JavL+EIORwBSQ==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        by mailhost.synopsys.com (Postfix) with ESMTP id A19F25197;
-        Fri, 26 Oct 2018 09:20:58 -0700 (PDT)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 26 Oct 2018 09:20:58 -0700
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 26 Oct 2018 18:20:56 +0200
-Received: from [10.0.2.15] (10.107.19.127) by DE02WEHTCB.internal.synopsys.com
- (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Fri, 26 Oct
- 2018 18:20:56 +0200
-Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
-To:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        vitor <vitor.soares@synopsys.com>
-CC:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
+        id S1727636AbeJ0BIA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Oct 2018 21:08:00 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:50583 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727562AbeJ0BIA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Oct 2018 21:08:00 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 9887F2097B; Fri, 26 Oct 2018 18:30:15 +0200 (CEST)
+Received: from bbrezillon (unknown [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id CCDA320954;
+        Fri, 26 Oct 2018 18:30:04 +0200 (CEST)
+Date:   Fri, 26 Oct 2018 18:30:04 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     vitor <vitor.soares@synopsys.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -69,35 +50,42 @@ CC:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
         Peter Rosin <peda@axentia.se>,
         Mike Shettel <mshettel@codeaurora.org>,
         Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
+Message-ID: <20181026183004.4857ce73@bbrezillon>
+In-Reply-To: <87738b8d-8033-9ef1-b0fb-059b64b0dc96@synopsys.com>
 References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
- <ad79f586-860e-bf57-9970-f58dc16d33b8@synopsys.com>
- <20181026181548.53228a4b@bbrezillon>
-From:   vitor <vitor.soares@synopsys.com>
-Message-ID: <87738b8d-8033-9ef1-b0fb-059b64b0dc96@synopsys.com>
-Date:   Fri, 26 Oct 2018 17:20:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        <ad79f586-860e-bf57-9970-f58dc16d33b8@synopsys.com>
+        <20181026181548.53228a4b@bbrezillon>
+        <87738b8d-8033-9ef1-b0fb-059b64b0dc96@synopsys.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20181026181548.53228a4b@bbrezillon>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.107.19.127]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 26 Oct 2018 17:20:42 +0100
+vitor <vitor.soares@synopsys.com> wrote:
 
-On 26/10/18 17:15, Boris Brezillon wrote:
-> On Fri, 26 Oct 2018 16:22:06 +0100
-> vitor <vitor.soares@synopsys.com> wrote:
->
->> Can you update the i3c/next tree?
-> Done.
+> On 26/10/18 17:15, Boris Brezillon wrote:
+> > On Fri, 26 Oct 2018 16:22:06 +0100
+> > vitor <vitor.soares@synopsys.com> wrote:
+> >  
+> >> Can you update the i3c/next tree?  
+> > Done.  
+> 
+> Thanks.
+> 
+> I will apply the driver and them I give you feedback.
 
-Thanks.
+Great! Note that the bug in the ->send_ccc_cmd() path should be fixed,
+but you might have issues with i2c transfers as msg->buf is not
+guaranteed to be aligned on 32-bit.
 
-I will apply the driver and them I give you feedback.
-
-
+Don't know if you've followed the discussion with Arnd, but it seems
+some (most?) archs are making sure writesl()/readsl() work for
+unaligned bufs. Maybe we should fix that for ARC. The other solution is
+to use i2c_get_dma_safe_msg_buf() to get something aligned on a
+cache-line and by extension aligned on 32bits.
