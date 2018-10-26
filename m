@@ -1,200 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EBAE47D08E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 10:02:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 525467D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 10:20:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbeJZSih (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Oct 2018 14:38:37 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:43932 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726128AbeJZSih (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 14:38:37 -0400
-Received: by mail-qt1-f193.google.com with SMTP id q41-v6so519589qtq.10;
-        Fri, 26 Oct 2018 03:02:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qqxi1PfP84Gp/aXmT/PseO8oQFHIbI2H9A+ahIcGjKc=;
-        b=XLgF5pBXNLOfePp16/ozBjMElUYxuG3UyCxqyqOuXQi2Bstx9mxy8w/CO+u/mhcDzv
-         tA7vep6gprpmw/mKv+W69os14s2TbUhEj/i4iZUpgCigXuh9eA0pY166tz8Ji/d+3d5P
-         MTBs/lDkwv7riakdo/XlCJtfPmMHSew7C1Mb19gA38IZqh8NNTU6ftghiBFfnUTKL5j2
-         7e4uM7DrYpkhrH7JmCGm5TLHDb95soLqARMx778FzwbP3Ekb1oezyRsdzKYAid2bvf7i
-         00cXWDPOec8KolVLKn6L2AM1j+FGI4MRexHzBRO9IzKCjTA0yIlbXL8NzG+q6gMYrB/C
-         IB9w==
-X-Gm-Message-State: AGRZ1gJwKTVpF81/XKLuT8DtNZAPvXL3IukLDua5N2UB1WlDSFSUsMTQ
-        GdOkVmdj/p2gWTVSKSPZRf5JwWSSRJxwDTEy8Gg=
-X-Google-Smtp-Source: AJdET5eoovQVc7tRp2U53Q2TTFEqbp12EzKkU1nZsG5z0pt5RzDS3kQ5t733l5HesdptjE88zpAvS57isiog0scBVRI=
-X-Received: by 2002:ac8:1d11:: with SMTP id d17-v6mr2433707qtl.343.1540548129294;
- Fri, 26 Oct 2018 03:02:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
- <20181022133404.2061-7-boris.brezillon@bootlin.com> <20181024202048.7e3534f7@bbrezillon>
- <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
- <20181025180720.1790f6a1@bbrezillon> <CAK8P3a02ELWiMB_pe0bzbsMfdqYOG1G0bFnSHzGu3ZbQHatH2w@mail.gmail.com>
- <20181025183005.3c0fa452@bbrezillon> <CAK8P3a0WDRpukjDBm1rGPnZiH2FJRpquWhEknOBg=CphNOYOwg@mail.gmail.com>
- <20181026095707.3cd9b511@bbrezillon>
-In-Reply-To: <20181026095707.3cd9b511@bbrezillon>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 26 Oct 2018 12:01:52 +0200
-Message-ID: <CAK8P3a0_En6e6ORvNqxprBcsT3+NmFO8nFnQ3nNiv-5Hq2LjrQ@mail.gmail.com>
-Subject: Re: [PATCH v9 6/9] i3c: master: Add driver for Cadence IP
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
+        id S1727179AbeJZS4n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Oct 2018 14:56:43 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59906 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726128AbeJZS4n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 14:56:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=X5L8N2hL9OFDSaFKVaP49nuxxCgolVFpwwGbpiPLoh8=; b=dw2YelZFnGTEoXq8ckOn+96BO
+        m2I5TlRQEVKX8seeCThXrIpVy7mhkiNf3/Z609hiddmR+ZsTY5OFy0cy5LN7gHrjyu7eB0Ycf6Ign
+        0xsjN6dV3t3I/X7ci8m5vU0bBJsVchUg6GShQPey/DQO1UdqvfkZpEaMJTVXxF/frs4SXBAJIw/AJ
+        BGXp8AVwwauNLmBvvPVSw8PpnuK4mXdBQ5et5FLoKNgCEdEA4YJClANAOCgVNdwytgYXdZNurBJgQ
+        d5nd8KDAQ7T00Q98x0G51xZYJReid0W3NI+p8E4qKz3lz9QU7vthcORFK+sh0YxocAo8kAvrr+J+M
+        9d407XQLQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gFzDu-00047C-6V; Fri, 26 Oct 2018 10:20:10 +0000
+Date:   Fri, 26 Oct 2018 03:20:09 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Igor Stoppa <igor.stoppa@gmail.com>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        kernel-hardening@lists.openwall.com,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, igor.stoppa@huawei.com,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 10/17] prmem: documentation
+Message-ID: <20181026102009.GP25444@bombadil.infradead.org>
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com>
+ <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 26, 2018 at 9:57 AM Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
-> On Fri, 26 Oct 2018 09:43:25 +0200
-> Arnd Bergmann <arnd@arndb.de> wrote:
->
-> > On Thu, Oct 25, 2018 at 6:30 PM Boris Brezillon
-> > <boris.brezillon@bootlin.com> wrote:
-> > > On Thu, 25 Oct 2018 18:13:51 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
-> > > On Thu, Oct 25, 2018 at 6:07 PM Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> > > > > On Thu, 25 Oct 2018 17:30:26 +0200
-> > Ok. Is i3c_master_send_ccc_cmd_locked() what implements the public
-> > interfaces then, or is this something else?
->
-> i3c_master_send_ccc_cmd_locked() calls master->ops->send_ccc_cmd(), so
-> it's part of the master controller interface.
->
-> >
-> > If you place a buffer on the stack, it is not DMA capable, but
-> > it is guaranteed to be at least 32-bit word aligned, and should
-> > not cause an exception in readsl(), unless it starts with a couple of
-> > (not multiple of four)  extra bytes that are not sent to the devices.
-> > Is that what happens here?
->
-> Here is the report I received from Vitor:
->
-> "
->         Hi Boris,
->
->
->         I'm trying this new patch-set version but I get some issues when use
->         readsl() function.
->
->         Basically the system complain about memory alignment.
->
+On Fri, Oct 26, 2018 at 11:26:09AM +0200, Peter Zijlstra wrote:
+> Jon,
+> 
+> So the below document is a prime example for why I think RST sucks. As a
+> text document readability is greatly diminished by all the markup
+> nonsense.
+> 
+> This stuff should not become write-only content like html and other
+> gunk. The actual text file is still the primary means of reading this.
 
->         > +static int i3c_master_getpid_locked(struct i3c_master_controller *master,
->         > +                                 struct i3c_device_info *info)
->         > +{
->         > +     struct i3c_ccc_getpid getpid;
->
->         at this point the getpid struct it is already unaligned with
->
->         i3c_master_getpid_locked:1129 getpid_add=0x9a249c7a
->
->         > +     struct i3c_ccc_cmd_dest dest = {
->         > +             .addr = info->dyn_addr,
->         > +             .payload.len = sizeof(struct i3c_ccc_getpid),
->         > +             .payload.data = &getpid,
->         > +     };
+I think Igor neglected to read doc-guide/sphinx.rst:
 
->         > +}
->         > +
->
->         and them when
->
->         static void dw_i3c_master_read_rx_fifo(struct dw_i3c_master *master,
->                                 u8 *bytes, int nbytes)
->         {
->              readsl(master->regs + RX_TX_DATA_PORT, bytes, nbytes / 4);
->         ...
->         }
+Specific guidelines for the kernel documentation
+------------------------------------------------
 
-Ok, I spent an hour chasing the ARM implementation and finding
-no way this could go wrong here. I see that 'struct i3c_ccc_getpid'
-may be misaligned on the stack (it normally won't be), and that
-the ARM readsl() has a lot of extra code to handle unaligned
-output. However, the dump that Vitor reports
+Here are some specific guidelines for the kernel documentation:
 
->         [ECR   ]: 0x00230400 => Misaligned r/w from 0x9a249c7a
->         [EFA   ]: 0x9a249c7a
->        [BLINK ]: dw_i3c_master_irq_handler+0x200/0x2fc [dw_i3c_master]
+* Please don't go overboard with reStructuredText markup. Keep it
+  simple. For the most part the documentation should be plain text with
+  just enough consistency in formatting that it can be converted to
+  other formats.
 
-Is from an arch/arc kernel that uses asm-generic/io.h, and
-that stores the output using a u32 pointer:
-
-static inline void readsl(const volatile void __iomem *addr, void *buffer,
-                          unsigned int count)
-{
-        if (count) {
-                u32 *buf = buffer;
-
-                do {
-                        u32 x = __raw_readl(addr);
-                        *buf++ = x;
-                } while (--count);
-        }
-}
-
-This is apparently not allowed on ARC when 'buffer' is
-unaligned. I think what we need here is to use
-put_unaligned() instead of the pointer dereference.
-For architectures that can do unaligned accesses,
-the result is the same, but for ARC it will fix the problem.
-
-> > One way to address this might be to always bounce any
-> > messages that are less than a cache line through a
-> > (pre-)kmallocated buffer, and require any longer messages
-> > to be cache capable. This could also solve the issue with
-> > readsl(), but it would be a rather confusing user interface.
-> >
-> > Another option might be to have separate interfaces for
-> > "short" and "long" messages at the API level and have
-> > distinct rules for those: short would always be bounced
-> > by the i3c code, and long puts restrictions on the buffer
-> > location.
->
-> Hm, let's keep the API simple. I'll just mandate that all payload bufs
-> passed to i3c_master_send_ccc_cmd_locked() be dynamically allocated.
-
-Ok. What about i2c commands sent to the same i3c controller
-then? Do we need to copy those to satisfy the requirements
-of the i3c layer?
-
-      Arnd
+I agree that it's overly marked up.
