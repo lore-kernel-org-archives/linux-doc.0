@@ -1,281 +1,175 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DCCD17D082
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 12:56:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87A197D082
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 13:21:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbeJZVdz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Oct 2018 17:33:55 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:37921 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726006AbeJZVdz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 17:33:55 -0400
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gG1fT-0004EI-2v; Fri, 26 Oct 2018 14:56:47 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gG1fR-0005mx-3I; Fri, 26 Oct 2018 14:56:45 +0200
-Date:   Fri, 26 Oct 2018 14:56:45 +0200
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Claudiu.Beznea@microchip.com
-Cc:     mark.rutland@arm.com, linux-pwm@vger.kernel.org,
-        alexandre.belloni@bootlin.com, shc_work@mail.ru, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, robh+dt@kernel.org,
-        thierry.reding@gmail.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [RESEND PATCH v5 0/9] extend PWM framework to support PWM modes
-Message-ID: <20181026125644.ivfw6xefc7wqt2vw@pengutronix.de>
-References: <1535461286-12308-1-git-send-email-claudiu.beznea@microchip.com>
- <20181022082910.uw6i64h3w7jwxyx5@pengutronix.de>
- <f19251eb-80e1-aea1-2d8a-971fe53242d0@microchip.com>
+        id S1726179AbeJZV6j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Oct 2018 17:58:39 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:34647 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726128AbeJZV6i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Oct 2018 17:58:38 -0400
+Received: by mail-qk1-f194.google.com with SMTP id a132so619339qkg.1;
+        Fri, 26 Oct 2018 06:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=VJPdP1GaF4HbvxJXs2SPcVuJaX9CjSo8l0/5Taz3raY=;
+        b=CBRr4Cu+Jqf5ZwrIJhF6fyG2hDFrzVfcvPVznYV0N51xGKek/WkUaG1rNMbgBftMhS
+         tVJhlWcaD6dcTgtKs3lSpGbEgcnGPxFEZ02W0pJ8jQTcQQpQ1ZohjiVjgbeYtratEJkJ
+         WqA3Qgs/dpEqDgn+hfgF0cIO8nNcBhfmgovtaTHXbyzTF6Qj0p56F1Zd/x4ePkfLyTLC
+         sj3rdCpnZRNMhim/aBBmH+wxyYkPiKezmD4VtIIas2oJCvoIop2oI7hvQP0SNk++svTa
+         UXjZikmsK3y2z2z1K5Zj91RvexPLSQEGbxLtw30Bb5p38JmkQ45OzavcNO6fuecKKcf+
+         uL0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=VJPdP1GaF4HbvxJXs2SPcVuJaX9CjSo8l0/5Taz3raY=;
+        b=fULN8jLZqMMgn+CRWyM+r0T3TBgpTSPs/Q6geQTIFXpTx/execcRWAsYHcrsbDmU4s
+         DosbTPhv/iWEQCO8d4dXeIBRVAiRjDMyYhtF2GQ9pJMC2KmKz4a0DAGeCaDJkcBAwxMv
+         oJl8zZVljTShfcNBQhJapCklm0YtApZ/1j3ueFRLFuhc+/EKNYCkJNwCn0KCszUdgF6W
+         0c0yxWvNldVnhIlax3R/8PNrQrgar6aTovtXnn3d+oECBftXjksgyT9YmldjSNLJ+5hb
+         +0z6qVhkyRIOtbHes+mx6wKPzY7Wj2dFTURL7JsHqLAyxMhsG4OzwuBnorJ7KNx5mA+K
+         AqIw==
+X-Gm-Message-State: AGRZ1gI16AqlH3IAcI1GTJe3Z5aQUfezgWmIohWZCD8ytux8gzs+/1Jt
+        YDX8Hx++//Pja1EoG0s8SMmGJxB1SR30lhnfqNw=
+X-Google-Smtp-Source: AJdET5fy6lX0oayUAM6sTvP9xc6f99B++9fYLx03eZX3gWIEF92JE7fEKY4+7TdfC2PhDpL1eiymA1hGrhkt794MrRM=
+X-Received: by 2002:a37:4116:: with SMTP id o22-v6mr2860641qka.107.1540560092946;
+ Fri, 26 Oct 2018 06:21:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f19251eb-80e1-aea1-2d8a-971fe53242d0@microchip.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Received: by 2002:a0c:988d:0:0:0:0:0 with HTTP; Fri, 26 Oct 2018 06:21:31
+ -0700 (PDT)
+In-Reply-To: <20181026144647.11926142@bbrezillon>
+References: <20181022133404.2061-1-boris.brezillon@bootlin.com>
+ <20181022133404.2061-7-boris.brezillon@bootlin.com> <20181024202048.7e3534f7@bbrezillon>
+ <CAK8P3a2DBgfvXs-9KzoDvbQpV+VN96xb7xHG-5=NDDgnt7ViVQ@mail.gmail.com>
+ <20181025180720.1790f6a1@bbrezillon> <CAK8P3a02ELWiMB_pe0bzbsMfdqYOG1G0bFnSHzGu3ZbQHatH2w@mail.gmail.com>
+ <20181025183005.3c0fa452@bbrezillon> <CAK8P3a0WDRpukjDBm1rGPnZiH2FJRpquWhEknOBg=CphNOYOwg@mail.gmail.com>
+ <20181026095707.3cd9b511@bbrezillon> <CAK8P3a0_En6e6ORvNqxprBcsT3+NmFO8nFnQ3nNiv-5Hq2LjrQ@mail.gmail.com>
+ <20181026144647.11926142@bbrezillon>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 26 Oct 2018 15:21:31 +0200
+X-Google-Sender-Auth: PENYDRNSXgjBqcG2wOwrr7wvOvo
+Message-ID: <CAK8P3a08jhpUZyiGsUVUFggi1C88SAqYHG7CY1GysZN7iwm5gw@mail.gmail.com>
+Subject: Re: [PATCH v9 6/9] i3c: master: Add driver for Cadence IP
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        gregkh <gregkh@linuxfoundation.org>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>,
+        Mike Shettel <mshettel@codeaurora.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Joe Perches <joe@perches.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Claudiu,
+On Fri, Oct 26, 2018 at 2:46 PM Boris Brezillon
+<boris.brezillon@bootlin.com> wrote:
+> On Fri, 26 Oct 2018 12:01:52 +0200
+> Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Fri, Oct 26, 2018 at 9:57 AM Boris Brezillon
+> > <boris.brezillon@bootlin.com> wrote:
+> > > On Fri, 26 Oct 2018 09:43:25 +0200
+> > > Arnd Bergmann <arnd@arndb.de> wrote:
+> > >
+> > > > On Thu, Oct 25, 2018 at 6:30 PM Boris Brezillon
+> > > > <boris.brezillon@bootlin.com> wrote:
+> > > > > On Thu, 25 Oct 2018 18:13:51 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
+> > > > > On Thu, Oct 25, 2018 at 6:07 PM Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+> > > > > > > On Thu, 25 Oct 2018 17:30:26 +0200
+> >
+> > This is apparently not allowed on ARC when 'buffer' is
+> > unaligned. I think what we need here is to use
+> > put_unaligned() instead of the pointer dereference.
+> > For architectures that can do unaligned accesses,
+> > the result is the same, but for ARC it will fix the problem.
+>
+> Okay, so writesl()/readsl() should deal with unaligned pointers, and
+> default implementations should be fixed. I guess you'll send a patch to
+> use put/get_unaligned().
 
-On Fri, Oct 26, 2018 at 10:44:43AM +0000, Claudiu.Beznea@microchip.com wrote:
-> Thank you for your inputs and sorry for the late response. Please see my
-> answers inline.
+That's one way of doing it, though thinking about it some more,
+this can also introduce overhead on machines that don't support
+unaligned buffers and only work on drivers that are guaranteed
+to see fully aligned data.
 
-No problems, I didn't held my breath :-)
+We could also override these specifically for ARC, and risk
+running into the same problem elsewhere, rather than be sure
+to fix everyone while risking to introduce noticeable performance
+regressions in existing drivers.
 
-> On 22.10.2018 11:29, Uwe Kleine-König wrote:
-> > On Tue, Aug 28, 2018 at 04:01:17PM +0300, Claudiu Beznea wrote:
-> >> Since PWMs with more than one output per channel could be used as one
-> >> output PWM the normal mode is the default mode for all PWMs (if not
-> >> specified otherwise).
-> >>
-> >> Complementary mode - for PWM channels with two outputs; output waveforms
-> >> for a PWM channel in complementary mode looks line this:
-> >>              __    __    __    __
-> >>     PWMH1 __|  |__|  |__|  |__|  |__
-> >>           __    __    __    __    __
-> >>     PWML1   |__|  |__|  |__|  |__|
-> >>             <--T-->
-> >>
-> >>     Where T is the signal period.
-> > 
-> > So this translates to (I think):
-> > 
-> >            __       __       __       __       __
-> >  PWMH   __/  \_____/  \_____/  \_____/  \_____/  \_____/
-> >         __    _____    _____    _____    _____    _____
-> >  PWML     \__/     \__/     \__/     \__/     \__/     \
-> >           ^        ^        ^        ^        ^        ^
-> > 
-> > That is PWML always pulls in the opposite direction of PWMH. Maybe we
-> > could come up with better terms than PWMH and PWML (which might be
-> > specific for the Atmel implementation?).
-> 
-> Yes, this is Atmel implementation naming.
-> 
-> > Maybe "normal" and
-> > "complement"?
-> 
-> I will think about it try to come with new naming. Normal and Complement
-> may be confusing for users with regards to PWM modes.
-> 
-> > 
-> >> Push-pull mode - for PWM channels with two outputs; output waveforms for a
-> >> PWM channel in push-pull mode with normal polarity looks like this:
-> >>             __          __
-> >>     PWMH __|  |________|  |________
-> >>                   __          __
-> >>     PWML ________|  |________|  |__
-> >>            <--T-->
-> > 
-> > That again with the alternative display method and duty cycle 1/3:
-> > 
-> >            __                __                __
-> >  PWMA   __/  \______________/  \______________/  \______
-> >                     __                __
-> >  PWMB   ___________/  \______________/  \______________/
-> >           ^        ^        ^        ^        ^        ^
-> Ok.
-> 
-> > That is PWMA and PWMB are active only every 2nd period taking alternate
-> > turns, right?
-> 
-> Yes.
-> 
-> > 
-> > 
-> >>     If polarity is inversed:
-> >>          __    ________    ________
-> >>     PWMH   |__|        |__|
-> >>          ________    ________    __
-> >>     PWML         |__|        |__|
-> >>            <--T-->
-> > 
-> > That's again with duty cycle 1/3:
-> > 
-> >         __    ______________    ______________    ______
-> >  PWMA     \__/              \__/              \__/
-> >         ___________    ______________    ______________
-> >  PWMB              \__/              \__/              \
-> >           ^        ^        ^        ^        ^        ^
-> > 
-> 
-> Ok.
-> 
-> > Given that the start of period isn't externally visible this is
-> > equivalent to using a duty cycle 2/3 and not inverting which results in:
-> > 
-> >         __    ______________    ______________    ______
-> >  PWMA     \__/              \__/              \__/
-> >         ___________    ______________    ______________
-> >  PWMB              \__/              \__/              \
-> >              ^        ^        ^        ^        ^
-> > 
-> > I would really like if a more detailed description of the modes would be
-> > created as part of this series.
-> 
-> Sure, I will try to document it better.
+> > > > One way to address this might be to always bounce any
+> > > > messages that are less than a cache line through a
+> > > > (pre-)kmallocated buffer, and require any longer messages
+> > > > to be cache capable. This could also solve the issue with
+> > > > readsl(), but it would be a rather confusing user interface.
+> > > >
+> > > > Another option might be to have separate interfaces for
+> > > > "short" and "long" messages at the API level and have
+> > > > distinct rules for those: short would always be bounced
+> > > > by the i3c code, and long puts restrictions on the buffer
+> > > > location.
+> > >
+> > > Hm, let's keep the API simple. I'll just mandate that all payload bufs
+> > > passed to i3c_master_send_ccc_cmd_locked() be dynamically allocated.
+> >
+> > Ok. What about i2c commands sent to the same i3c controller
+> > then?
+>
+> Still not taken care of.
+>
+> > Do we need to copy those to satisfy the requirements
+> > of the i3c layer?
+>
+> I guess we should. The question is, should we do that unconditionally
+> or should we try to optimize thins with something like:
+>
+>         if (!virt_addr_valid(xfer->buf) ||
+>             object_is_on_stack(xfer->buf))
+>                 /* Alloc bounce buf. */
+>         else
+>                 /* Use provided buf. */
 
-Note here I just leaked my belief that the PWM framework shouldn't
-necessarily expose inversion to users which is part of my discussion
-with Thierry. I think it would be sensible to drop it here.
+There may be too many cases that we need to handle here that
+are not DMA capable. To be on the safe side, I'd probably always
+copy all data that is not a multiple of fully aligned cache lines,
+as well as pointers that fails to meet some other requirements
+(stack, vmalloc, kmap, ...)
 
-> > Currently there are a few implied
-> > properties hidden in the PWM API (unrelated to this series) which I try
-> > to resolve together with Thierry. Getting this documented right from the
-> > start would be great here.
-> 
-> Could you tell me if you want something specific to be touch as part of
-> documentation process for these PWM modes?
-
-At least having something about the expectations in Documenation/ would
-be great.
-
-> > I didn't look in detail into the driver implementation, but from the
-> > PWMs implemented in the STM32F4 family I would have chosen a different
-> > model which makes me wonder if we should stick to a more general way to
-> > describe two outputs from a single PWM channel.
-> > 
-> > I would use four values with nanosecond resolution to describe these:
-> > 
-> >   .period
-> >   .duty_cycle
-> >   .alt_duty_cycle
-> >   .alt_offset
-> > 
-> > period and duty_cycle is as before for the primary output and then the
-> > alt_* values describe offset and duty cycle of the secondary output.
-> > 
-> > What you called "normal mode" would then be specified using
-> > 
-> >   .period = $period
-> >   .duty_cycle = $duty_cycle
-> >   .alt_duty_cycle = 0
-> >   .alt_offset = dontcare
-> > 
-> > Your "push pull mode" would be:
-> > 
-> >   .period = 2 * $period
-> >   .duty_cycle = $duty_cycle
-> >   .alt_duty_cycle = $duty_cycle
-> >   .alt_offset = $period
-> > 
-> > and complementary mode would be specified using:
-> > 
-> >   .period = $period
-> >   .duty_cycle = $duty_cycle
-> >   .alt_duty_cycle = $period - $duty_cycle
-> >   .alt_offset = $duty_cycle
-> > 
-> 
-> On Atmel PWM controller the push-pull mode is hardware generated based on
-> period and duty cycles that are setup for only one channel. The hardware
-> will take care of the synchronization b/w the outputs so that the push-pull
-> characteristic to be generated.
-> 
-> Having different configuration for every output part of the push-pull
-> waveform will allow users to generate every kind of outputs. But for IPs
-> that are capable of push-pull or complementary modes the generation of the
-> 2 outputs are done in hardware (true in case of Atmel PWM controller). In
-> case of STM32F4 as far as I can see from [1] "The advanced-control timers
-> (TIM1 and TIM8 ) can output two complementary signals and
-> manage the switching-off and the switching-on instants of the outputs."
-> Maybe, in this case, if there are 2 hardware blocks that could be synced to
-> work together, e.g. in complementary mode, the setting of these two timers
-> should be done in driver so that the hardware blocks to be configured
-> together, atomically, so that the complementary characteristics to be obtained.
-
-The upside I see in my approach with .alt_duty_cycle and .alt_offset
-over your .mode is that it allows to describe more use-cases. If I
-wanted to support complementary with dead-time I'd need another member
-in pwm_state to specify the dead time. Then the next controller can only
-add dead time on one end of secondary output needing yet another mode
-enum. With my approach I think you can specify all sensible(TM)
-waveforms already now. Then a driver must not be adapted again when
-someone adds support for another mode.
-
-The downside is that if your PWM only supports complementary mode with
-no dead-time you have to find out from .alt_duty_cycle and .alt_offset
-that the specified wave form is indeed matching complementary mode. From
-from the framework's POV this is more elegant though (but YMMV).
-
-> > With this abstraction stuff like "complementary output with dead-time
-> > insertion" (something like:
-> > 
-> >            __                __                __
-> >  PWMA   __/  \______________/  \______________/  \______
-> >                 __________        __________          __
-> >  PWMB   _______/          \______/          \______/
-> >           ^                 ^                 ^
-> > 
-> > ) could be modelled.
-> 
-> Same for this, my opinion is that we should implement generic things in
-> core and drivers should configure properly the IP so that it generates the
-> proper signals.
-
-This is common to both our approaches. Just the way the PWM user
-specifies his/her wishes (and so the input for hw drivers) is different.
- 
-> >> The PWM working modes are per PWM channel registered as PWM's capabilities.
-> >> The driver registers itself to PWM core a get_caps() function, in
-> >> struct pwm_ops, that will be used by PWM core to retrieve PWM capabilities.
-> >> If this function is not registered in driver's probe, a default function
-> >> will be used to retrieve PWM capabilities. Currently, the default
-> >> capabilities includes only PWM normal mode.
-> > 
-> > In the i2c framework this is a function, too, and I wonder if simplicity
-> > is better served when this is just a flags member in the pwm_ops
-> > structure.
-> 
-> Thierry proposed this so that we could retrieve capabilities per PWM channel.
-
-I don't have a complete overview over the different hardware
-implementations, but I'd expect that if two different implementations
-share the operations then the return value of .get_caps is shared by
-both. As long this is the case not introducing a callback for that is
-the easier path. Adding a callback later when (and if) this is required
-is trivial then.
- 
-Best regards
-Uwe
-
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+        Arnd
