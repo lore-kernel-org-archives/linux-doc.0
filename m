@@ -1,152 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D9F07D082
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 28 Oct 2018 18:31:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B7C37D082
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 28 Oct 2018 19:29:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726529AbeJ2DRS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 28 Oct 2018 23:17:18 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:50310 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbeJ2DRS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Oct 2018 23:17:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=QljHHvaILxJgNXGsDqYAJ9V/RePwVryCzz28vYczcdU=; b=JbRnzA9SLmT/gzL9FA+Ob2716
-        k/WoDvQMhKNd2W1g14HzHmVo4QSjP3zc2pzYaXfZZpx6G4+BglzSqqqp6feML00YnjvodB87dAX8s
-        FzI1MOMSQUtFyjmcgnKGEo30/yExfdqMklwP8az/hnDLj/lGDreJ9Q3fPVFZmdMgvDCNN1v77ddFA
-        qxwiksVgJ/H9o3T3MSRMIkxnoQ1VMhezWoIdYo8ERvqFLlXlNPLG2AMtI81SxWqY10p5QZL+Rgf7q
-        Eo+nSN5iIK8d1Ov4gXyna6MgzvCy+JEZS9zsnaHoB1dPLBfy5k9EeaSjOswLCFqdavpBcFFvM1j2Z
-        gkXppHa3g==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gGpqS-0006B0-5Y; Sun, 28 Oct 2018 18:31:28 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 40D46202A40A3; Sun, 28 Oct 2018 19:31:26 +0100 (CET)
-Date:   Sun, 28 Oct 2018 19:31:26 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Igor Stoppa <igor.stoppa@gmail.com>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 10/17] prmem: documentation
-Message-ID: <20181028183126.GB744@hirez.programming.kicks-ass.net>
-References: <20181023213504.28905-1-igor.stoppa@huawei.com>
- <20181023213504.28905-11-igor.stoppa@huawei.com>
- <20181026092609.GB3159@worktop.c.hoisthospitality.com>
- <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+        id S1725949AbeJ2EOj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 00:14:39 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39127 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725920AbeJ2EOj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 00:14:39 -0400
+Received: by mail-wm1-f66.google.com with SMTP id y144-v6so5932189wmd.4;
+        Sun, 28 Oct 2018 12:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7G8bUXdfiSJ9jXpJxKn0RnUIGyllqJB5atX8/kgDc2A=;
+        b=Hns+uBIKmAHMvAelmPK8HI1ypg+2iiZjwX8VRW1MAyafjT4hbVFnpFS/CLzYEX8Klh
+         BO30ItOARxzvea9p68HmiF0IVj8tgKQx8HnIP09sWEwalpGC0+//p+P19APbmw6aPoUT
+         b4rUCcJh4wBQ4ZA+kN74oy+D7UBMbNBx7yPYVQznBa2WsSzg/CZvN4ULDtN1r/WECrDR
+         pRyZj/e1EUFBHCCsTh5z5KWDqpRtRwwiTFLbBe9Jpj0GyK/B8VGl1To8Yvi0FEFPcego
+         N1nZowjZM34GLvQMIn5ZtJOBxExeU7fXC+FLI17IUnwN2NIDn26BkG0ECgWAXvMtLACp
+         /ZRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7G8bUXdfiSJ9jXpJxKn0RnUIGyllqJB5atX8/kgDc2A=;
+        b=LgqTdqbbLJBSBlNeS7EgJ4AaEqanWw1rqASf1D22A36XPZt37e7RLE9ho3roRVry+j
+         qcpF/96Favk/7rKQbmDxzJ5PXKKH58dg73Y5wA96Ri2Aa1C8WdByxsVrfipGlEb2mbS7
+         D3k4xjdUz32C11N6iMOuA4KPFbsxqINmpGnLDQzfWjXb1TyiIQOq+/3FKc/RJUfVBWQ5
+         uzZEhoHDduhG8yyvQ50Epmx2PUpQsvR+9DQTAHKOVdYw9IWAmBe9rvO/Q0Vg8mxd4INx
+         4M+OorDPJ06DtKJEgNsQZXb4L2tcY76a2wkq2mP4NVnciGBTQ4znIsOIcd2jK6jB+3+A
+         wQWA==
+X-Gm-Message-State: AGRZ1gJAhIfgN+y4hSTjkmkX829VL49c+T8wB2Fuysg86Cw7lU2rjrRu
+        ve8bOsgACfLzWEqfNW1fTIs=
+X-Google-Smtp-Source: AJdET5cx010ExiyDOMW1caa5wjJsaHQha/RRLLjtEE4mSYIS9MrDapY3bvWzRWe4e4Se6pbkTaiD3g==
+X-Received: by 2002:a1c:e15:: with SMTP id 21-v6mr12025977wmo.35.1540754941232;
+        Sun, 28 Oct 2018 12:29:01 -0700 (PDT)
+Received: from joris.fritz.box (p200300CF83C0B500C714D115E7850A75.dip0.t-ipconnect.de. [2003:cf:83c0:b500:c714:d115:e785:a75])
+        by smtp.gmail.com with ESMTPSA id t77-v6sm21650076wme.18.2018.10.28.12.29.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 28 Oct 2018 12:29:00 -0700 (PDT)
+From:   Joris Gutjahr <joris.gutjahr@gmail.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Joris Gutjahr <joris.gutjahr@gmail.com>
+Subject: [PATCH] doc-guide:kernel-doc.rst: Reference to foobar
+Date:   Sun, 28 Oct 2018 20:28:28 +0100
+Message-Id: <20181028192827.19136-1-joris.gutjahr@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 26, 2018 at 11:46:28AM +0100, Kees Cook wrote:
-> On Fri, Oct 26, 2018 at 10:26 AM, Peter Zijlstra <peterz@infradead.org> wrote:
-> > I still don't really understand the whole write-rare thing; how does it
-> > really help? If we can write in kernel memory, we can write to
-> > page-tables too.
+In the Function documentation Section of kernel-doc.rst
+there is a function_name() function as an example for
+how to make a comment about a function.
 
-> One aspect of hardening the kernel against attack is reducing the
-> internal attack surface. Not all flaws are created equal, so there is
-> variation in what limitations an attacker may have when exploiting
-> flaws (not many flaws end up being a fully controlled "write anything,
-> anywhere, at any time"). By making the more sensitive data structures
-> of the kernel read-only, we reduce the risk of an attacker finding a
-> path to manipulating the kernel's behavior in a significant way.
-> 
-> Examples of typical sensitive targets are function pointers, security
-> policy, and page tables. Having these "read only at rest" makes them
-> much harder to control by an attacker using memory integrity flaws.
+But at the end of that example there is a reference to foobar 
+instead of function_name.
 
-Because 'write-anywhere' exploits are easier than (and the typical first
-step to) arbitrary code execution thingies?
+I think that should rather be function_name, because that
+was the placeholder the whole example was using.
 
-> The "write rarely" name itself may not sufficiently describe what is
-> wanted either (I'll take the blame for the inaccurate name), so I'm
-> open to new ideas there. The implementation requirements for the
-> "sensitive data read-only at rest" feature are rather tricky:
-> 
-> - allow writes only from specific places in the kernel
-> - keep those locations inline to avoid making them trivial ROP targets
-> - keep the writeability window open only to a single uninterruptable CPU
+Signed-off-by: Joris Gutjahr <joris.gutjahr@gmail.com>
+---
+ Documentation/doc-guide/kernel-doc.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The current patch set does not achieve that because it uses a global
-address space for the alias mapping (vmap) which is equally accessible
-from all CPUs.
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 8db53cdc225f..51be62aa4385 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -77,7 +77,7 @@ The general format of a function and function-like macro kernel-doc comment is::
+    * Context: Describes whether the function can sleep, what locks it takes,
+    *          releases, or expects to be held. It can extend over multiple
+    *          lines.
+-   * Return: Describe the return value of foobar.
++   * Return: Describe the return value of function_name.
+    *
+    * The return value description can also have multiple paragraphs, and should
+    * be placed at the end of the comment block.
+-- 
+2.19.1
 
-> - fast enough to deal with page table updates
-
-The proposed implementation needs page-tables for the alias; I don't see
-how you could ever do R/O page-tables when you need page-tables to
-modify your page-tables.
-
-And this is entirely irrespective of performance.
-
-> The proposal I made a while back only covered .data things (and used
-> x86-specific features).
-
-Oh, right, that CR0.WP stuff.
-
-> Igor's proposal builds on this by including a
-> way to do this with dynamic allocation too, which greatly expands the
-> scope of structures that can be protected. Given that the x86-only
-> method of write-window creation was firmly rejected, this is a new
-> proposal for how to do it (vmap window). Using switch_mm() has also
-> been suggested, etc.
-
-Right... /me goes find the patches we did for text_poke. Hmm, those
-never seem to have made it:
-
-  https://lkml.kernel.org/r/20180902173224.30606-1-namit@vmware.com
-
-like that. That approach will in fact work and not be a completely
-broken mess like this thing.
-
-> We need to find a good way to do the write-windowing that works well
-> for static and dynamic structures _and_ for the page tables... this
-> continues to be tricky.
-> 
-> Making it resilient against ROP-style targets makes it difficult to
-> deal with certain data structures (like list manipulation). In my
-> earlier RFC, I tried to provide enough examples of where this could
-> get used to let people see some of the complexity[1]. Igor's series
-> expands this to even more examples using dynamic allocation.
-
-Doing 2 CR3 writes for 'every' WR write doesn't seem like it would be
-fast enough for much of anything.
-
-And I don't suppose we can take the WP fault and then fix up from there,
-because if we're doing R/O page-tables, that'll incrase the fault depth
-and we'll double fault all the time, and tripple fault where we
-currently double fault. And we all know how _awesome_ tripple faults
-are.
-
-But duplicating (and wrapping in gunk) whole APIs is just not going to
-work.
