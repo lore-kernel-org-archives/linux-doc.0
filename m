@@ -1,101 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 863E77D088
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Oct 2018 20:03:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D9F07D082
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 28 Oct 2018 18:31:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727398AbeJ0Elh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 27 Oct 2018 00:41:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51372 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725861AbeJ0Elh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 27 Oct 2018 00:41:37 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id E0E5680F96;
-        Fri, 26 Oct 2018 20:03:15 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 28EA4183CF;
-        Fri, 26 Oct 2018 20:03:11 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id w9QK3A85030069;
-        Fri, 26 Oct 2018 16:03:10 -0400
-Received: from localhost (mpatocka@localhost)
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id w9QK3A1a030065;
-        Fri, 26 Oct 2018 16:03:10 -0400
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date:   Fri, 26 Oct 2018 16:03:10 -0400 (EDT)
-From:   Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To:     Paul Lawrence <paullawrence@google.com>
-cc:     Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, linux-doc@vger.kernel.org,
-        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        dm-devel@redhat.com, Shaohua Li <shli@kernel.org>
-Subject: Re: [dm-devel] [RFC] dm-bow working prototype
-In-Reply-To: <4a934593-1bd1-be5f-35c0-945c42762627@google.com>
-Message-ID: <alpine.LRH.2.02.1810261558460.28906@file01.intranet.prod.int.rdu2.redhat.com>
-References: <20181023212358.60292-1-paullawrence@google.com> <20181023221819.GB17552@agk-dp.fab.redhat.com> <296148c2-f2d9-5818-ea76-d71a0d6f5cd4@google.com> <alpine.LRH.2.02.1810241514310.4080@file01.intranet.prod.int.rdu2.redhat.com>
- <4a934593-1bd1-be5f-35c0-945c42762627@google.com>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+        id S1726529AbeJ2DRS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 28 Oct 2018 23:17:18 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50310 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726170AbeJ2DRS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Oct 2018 23:17:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=QljHHvaILxJgNXGsDqYAJ9V/RePwVryCzz28vYczcdU=; b=JbRnzA9SLmT/gzL9FA+Ob2716
+        k/WoDvQMhKNd2W1g14HzHmVo4QSjP3zc2pzYaXfZZpx6G4+BglzSqqqp6feML00YnjvodB87dAX8s
+        FzI1MOMSQUtFyjmcgnKGEo30/yExfdqMklwP8az/hnDLj/lGDreJ9Q3fPVFZmdMgvDCNN1v77ddFA
+        qxwiksVgJ/H9o3T3MSRMIkxnoQ1VMhezWoIdYo8ERvqFLlXlNPLG2AMtI81SxWqY10p5QZL+Rgf7q
+        Eo+nSN5iIK8d1Ov4gXyna6MgzvCy+JEZS9zsnaHoB1dPLBfy5k9EeaSjOswLCFqdavpBcFFvM1j2Z
+        gkXppHa3g==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gGpqS-0006B0-5Y; Sun, 28 Oct 2018 18:31:28 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 40D46202A40A3; Sun, 28 Oct 2018 19:31:26 +0100 (CET)
+Date:   Sun, 28 Oct 2018 19:31:26 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Igor Stoppa <igor.stoppa@gmail.com>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 10/17] prmem: documentation
+Message-ID: <20181028183126.GB744@hirez.programming.kicks-ass.net>
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com>
+ <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Fri, 26 Oct 2018 20:03:16 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Oct 26, 2018 at 11:46:28AM +0100, Kees Cook wrote:
+> On Fri, Oct 26, 2018 at 10:26 AM, Peter Zijlstra <peterz@infradead.org> wrote:
+> > I still don't really understand the whole write-rare thing; how does it
+> > really help? If we can write in kernel memory, we can write to
+> > page-tables too.
 
-
-On Thu, 25 Oct 2018, Paul Lawrence wrote:
-
-> Thank you for the suggestion. I spent part of yesterday experimenting with
-> this idea, and it is certainly very promising. However, it does have some
-> disadvantages as compared to dm-bow, if I am understanding the setup
-> correctly:
+> One aspect of hardening the kernel against attack is reducing the
+> internal attack surface. Not all flaws are created equal, so there is
+> variation in what limitations an attacker may have when exploiting
+> flaws (not many flaws end up being a fully controlled "write anything,
+> anywhere, at any time"). By making the more sensitive data structures
+> of the kernel read-only, we reduce the risk of an attacker finding a
+> path to manipulating the kernel's behavior in a significant way.
 > 
-> 1) Since dm-snap has no concept of the free space on the underlying file
-> system any write into the free space will trigger a backup, so using twice the
-> space of dm-bow. Changing existing data will create a backup with both
-> drivers, but since we have to reserve the space for the backups up-front with
-> dm-snap, we would likely only have half the space for that. Either way, it
-> seems that dm-bow is likely to double the amount of changes we could make.
+> Examples of typical sensitive targets are function pointers, security
+> policy, and page tables. Having these "read only at rest" makes them
+> much harder to control by an attacker using memory integrity flaws.
+
+Because 'write-anywhere' exploits are easier than (and the typical first
+step to) arbitrary code execution thingies?
+
+> The "write rarely" name itself may not sufficiently describe what is
+> wanted either (I'll take the blame for the inaccurate name), so I'm
+> open to new ideas there. The implementation requirements for the
+> "sensitive data read-only at rest" feature are rather tricky:
 > 
-> (Might it be possible to dynamically resize the backup file if it is mostly
-> used up? This would fix the problem of only having half the space for changing
+> - allow writes only from specific places in the kernel
+> - keep those locations inline to avoid making them trivial ROP targets
+> - keep the writeability window open only to a single uninterruptable CPU
 
-Yes - the snapshot store can be extended while the snapshot is active.
+The current patch set does not achieve that because it uses a global
+address space for the alias mapping (vmap) which is equally accessible
+from all CPUs.
 
-> existing data. The documentation seems to indicate that you can increase the
-> size of the snapshot partition, and it seems like it should be possible to
-> grow the underlying file without triggering a lot of writes. OTOH this would
-> have to happen in userspace which creates other issues.)
+> - fast enough to deal with page table updates
+
+The proposed implementation needs page-tables for the alias; I don't see
+how you could ever do R/O page-tables when you need page-tables to
+modify your page-tables.
+
+And this is entirely irrespective of performance.
+
+> The proposal I made a while back only covered .data things (and used
+> x86-specific features).
+
+Oh, right, that CR0.WP stuff.
+
+> Igor's proposal builds on this by including a
+> way to do this with dynamic allocation too, which greatly expands the
+> scope of structures that can be protected. Given that the x86-only
+> method of write-window creation was firmly rejected, this is a new
+> proposal for how to do it (vmap window). Using switch_mm() has also
+> been suggested, etc.
+
+Right... /me goes find the patches we did for text_poke. Hmm, those
+never seem to have made it:
+
+  https://lkml.kernel.org/r/20180902173224.30606-1-namit@vmware.com
+
+like that. That approach will in fact work and not be a completely
+broken mess like this thing.
+
+> We need to find a good way to do the write-windowing that works well
+> for static and dynamic structures _and_ for the page tables... this
+> continues to be tricky.
 > 
-> 2) Similarly, since writes into free space do not trigger a backup in dm-bow,
-> dm-bow is likely to have a lower performance overhead in many circumstances.
-> On the flip side, dm-bow's backup is in free space and will collide with other
-> writes, so this advantage will reduce as free space fills up. But by choosing
-> a suitable algorithm for how we use free space we might be able to retain most
-> of this advantage.
-> 
-> I intend to put together a fully working prototype of your suggestion next to
-> better compare with dm-bow. But I do believe there is value in tracking free
-> space and utilizing it in any such solution.
+> Making it resilient against ROP-style targets makes it difficult to
+> deal with certain data structures (like list manipulation). In my
+> earlier RFC, I tried to provide enough examples of where this could
+> get used to let people see some of the complexity[1]. Igor's series
+> expands this to even more examples using dynamic allocation.
 
-The snapshot target could be hacked so that it remembers space trimmed 
-with REQ_OP_DISCARD and won't reallocate these blocks.
+Doing 2 CR3 writes for 'every' WR write doesn't seem like it would be
+fast enough for much of anything.
 
-But I suspect that running discard over the whole device would degrade 
-performance more than copying some unneeded data.
+And I don't suppose we can take the WP fault and then fix up from there,
+because if we're doing R/O page-tables, that'll incrase the fault depth
+and we'll double fault all the time, and tripple fault where we
+currently double fault. And we all know how _awesome_ tripple faults
+are.
 
-How much data do you intend to backup with this solution?
-
-Mikulas
+But duplicating (and wrapping in gunk) whole APIs is just not going to
+work.
