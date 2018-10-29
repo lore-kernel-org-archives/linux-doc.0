@@ -1,132 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 93A867D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 16:51:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 96A737D8BB
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 16:52:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727966AbeJ3Bkf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 21:40:35 -0400
-Received: from mga06.intel.com ([134.134.136.31]:14948 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727744AbeJ3Bkf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Oct 2018 21:40:35 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Oct 2018 09:51:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,441,1534834800"; 
-   d="scan'208";a="92135427"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.193])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Oct 2018 09:51:09 -0700
-Date:   Mon, 29 Oct 2018 09:51:09 -0700
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ovich00@gmail.com, kernel-hardening@lists.openwall.com,
-        nigel.edwards@hpe.com, Boris Lukashev <blukashev@sempervictus.com>,
-        Hossam Hassan <7ossam9063@gmail.com>,
-        Ahmed Lotfy <A7med.lotfey@gmail.com>
-Subject: Re: [PATCH V5 5/5] KVM: Small Refactoring to kvm_free_memslot
-Message-ID: <20181029165109.GB27144@linux.intel.com>
-References: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
- <20181026151223.16810-6-ahmedsoliman0x666@gmail.com>
+        id S1728063AbeJ3BlS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 21:41:18 -0400
+Received: from mail-pg1-f176.google.com ([209.85.215.176]:46578 "EHLO
+        mail-pg1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728006AbeJ3BlQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 21:41:16 -0400
+Received: by mail-pg1-f176.google.com with SMTP id m9-v6so1479033pgl.13
+        for <linux-doc@vger.kernel.org>; Mon, 29 Oct 2018 09:51:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=C+Rs4o3BXVT0ax4Boh47WCS59+Mua9waLchkNV67xPc=;
+        b=MTFDQO7ejSDQQzuFjnhL68aww82CFqI6/LYzLGYzDut7MCztHfajNUN12DTXdMKY0q
+         L5Zt+BkGPRNq1aaGNd0QUGRt8lkzU5eNPNw7cuZaED6oX6nDyTMYrFmHsCwNFlyvc8WC
+         OwQu7nVdgWLlpnjkD6NKWodbg0yQkPVCxKZ9IlUfiCtRhA0s9dnIEdP3EfX0spVtASyx
+         MZpp0OBPczCnSdDYKDK26GDQhH7NyLdHYC3AicCsxrPdcIXsqlH+So5gi0Kb2emDwy3c
+         kyTmYdwQKLHS53cdueKo1BlFCwFlq8MAEHtxgOb3EZ/CLpgJ8QZ1hdhxnRmpBLiy4JVK
+         sNKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=C+Rs4o3BXVT0ax4Boh47WCS59+Mua9waLchkNV67xPc=;
+        b=StsfWFE9lMq20FlHJ6ieHt86U2SiH5sfBUexcj6mPrvnbhiNIzvSO+8EpfGtC4YucO
+         kQhrSXDDw9aLNLrrBPNdH3YDv7LFFtx5lg0p3Lzjs46xrqcyE5B/ZOFxAHLtv1U2vzvm
+         CIkMmn6gGgI+8O3kbWPhOZODgTc5izPMcc97LJ5LTR+mRDuEZBJpI07mDKRNAqa/Lwak
+         tZzhxvfaUf0c4sYpOtzxOqOa46s3TyfkkI+fkOad87tIRPpjO2GHa7lZHdursXvbyStR
+         EiScS4pAaAsn1HPZ48FYnySvi5GcYhG2pJkeNEFRJij1Y98pv6SJ7N13Mo3sRTmZSO56
+         x+Vw==
+X-Gm-Message-State: AGRZ1gIgkwApTlZMpvZvIWzX9cUashgPwOO2BLnK7H6r3wP9yBVFd/EN
+        zOW2LTwSikA9qPgCz0Yt4dmNMQ==
+X-Google-Smtp-Source: AJdET5exAcM5eGzbwkQuv4PSNn6rF8fkPdAai1QNuC26eOsWlkizcXwP6Ye+/hRXDeZb/zeHeM/XHg==
+X-Received: by 2002:a63:24f:: with SMTP id 76-v6mr14327725pgc.67.1540831910928;
+        Mon, 29 Oct 2018 09:51:50 -0700 (PDT)
+Received: from paullawrence.mtv.corp.google.com ([2620:0:1000:1601:da51:dc8c:708a:5253])
+        by smtp.gmail.com with ESMTPSA id 23-v6sm4062159pgp.77.2018.10.29.09.51.49
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Oct 2018 09:51:50 -0700 (PDT)
+Subject: Re: [dm-devel] [RFC] dm-bow working prototype
+To:     Mikulas Patocka <mpatocka@redhat.com>
+Cc:     Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, linux-doc@vger.kernel.org,
+        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, dm-devel@redhat.com,
+        Shaohua Li <shli@kernel.org>
+References: <20181023212358.60292-1-paullawrence@google.com>
+ <20181023221819.GB17552@agk-dp.fab.redhat.com>
+ <296148c2-f2d9-5818-ea76-d71a0d6f5cd4@google.com>
+ <alpine.LRH.2.02.1810241514310.4080@file01.intranet.prod.int.rdu2.redhat.com>
+ <4a934593-1bd1-be5f-35c0-945c42762627@google.com>
+ <alpine.LRH.2.02.1810261558460.28906@file01.intranet.prod.int.rdu2.redhat.com>
+From:   Paul Lawrence <paullawrence@google.com>
+Message-ID: <fba91b2e-4b2e-8daf-ff64-a12c9139cada@google.com>
+Date:   Mon, 29 Oct 2018 09:51:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181026151223.16810-6-ahmedsoliman0x666@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <alpine.LRH.2.02.1810261558460.28906@file01.intranet.prod.int.rdu2.redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 26, 2018 at 05:12:23PM +0200, Ahmed Abd El Mawgood wrote:
-> This should be a little bit more readable and prone to memory leaks
 
-Describe what is being, both in the subject line and continuing on in
-the full changelog, e.g. "Small Refactoring to kvm_free_memslot" doesn't
-provide any clue as to what is being done.  And this is not what I would
-describe as refactoring, e.g. verifying the new behavior means tracing
-through its impact on __kvm_set_memory_region().
+> The snapshot target could be hacked so that it remembers space trimmed
+> with REQ_OP_DISCARD and won't reallocate these blocks.
+>
+> But I suspect that running discard over the whole device would degrade
+> performance more than copying some unneeded data.
+>
+> How much data do you intend to backup with this solution?
+>
+>
+We are space-constrained - we will have to free up space for the backup 
+before we apply the update, so we have to predict the size and keeping 
+usage as low as possible is thus very important.
 
-Lastly, this should be sent as a separate patch.  There is no dependency
-on the ROE code and if it actually addresses a potential memory leak (I
-haven't actually reviewed the code itself) it should go in sooner rather
-than later.
+Also, we've discussed the resizing requirement of the dm-snap solution 
+and that part is not attractive at all - it seems it would be impossible 
+to guarantee that the resizing happens in a timely fashion during the 
+(very busy) update cycle.
 
-> 
-> Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
-> ---
->  virt/kvm/kvm_main.c | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
-> 
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 2d3011e8490e..79c98db03c84 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -550,11 +550,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
->   * Free any memory in @free but not in @dont.
->   */
->  static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *free,
-> -			      struct kvm_memory_slot *dont)
-> +			      struct kvm_memory_slot *dont,
-> +			      enum kvm_mr_change change)
->  {
-> +	if (change == KVM_MR_DELETE) {
->  #ifdef CONFIG_KVM_ROE
-> -	if (!dont) {
-> -		//TODO still this might leak
->  		struct protected_chunk *pos, *n;
->  		struct list_head *head = free->prot_list;
->  		kvfree(free->roe_bitmap);
-> @@ -564,10 +564,9 @@ static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *free,
->  			kvfree(pos);
->  		}
->  		kvfree(free->prot_list);
-> -	}
->  #endif
-> -	if (!dont || free->dirty_bitmap != dont->dirty_bitmap)
->  		kvm_destroy_dirty_bitmap(free);
-> +	}
->  
->  	kvm_arch_free_memslot(kvm, free, dont);
->  
-> @@ -582,7 +581,7 @@ static void kvm_free_memslots(struct kvm *kvm, struct kvm_memslots *slots)
->  		return;
->  
->  	kvm_for_each_memslot(memslot, slots)
-> -		kvm_free_memslot(kvm, memslot, NULL);
-> +		kvm_free_memslot(kvm, memslot, NULL, KVM_MR_DELETE);
->  
->  	kvfree(slots);
->  }
-> @@ -1100,14 +1099,14 @@ int __kvm_set_memory_region(struct kvm *kvm,
->  
->  	kvm_arch_commit_memory_region(kvm, mem, &old, &new, change);
->  
-> -	kvm_free_memslot(kvm, &old, &new);
-> +	kvm_free_memslot(kvm, &old, &new, change);
->  	kvfree(old_memslots);
->  	return 0;
->  
->  out_slots:
->  	kvfree(slots);
->  out_free:
-> -	kvm_free_memslot(kvm, &new, &old);
-> +	kvm_free_memslot(kvm, &new, &old, change);
->  out:
->  	return r;
->  }
-> -- 
-> 2.18.1
-> 
+Thanks everyone for the insights, especially into how dm-snap works, 
+which I hadn't fully appreciated. At the moment, and for the above 
+reasons, we intend to continue with the dm-bow solution, but do want to 
+keep this discussion open. If anyone is going to be at Linux Plumbers, 
+I'll be presenting this work and would love to chat about it more.
