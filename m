@@ -1,101 +1,69 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 863E87D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 16:04:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0BED07D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 16:42:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727593AbeJ3Axw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 20:53:52 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:61845 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727586AbeJ3Axw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 20:53:52 -0400
-X-Greylist: delayed 1342 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Oct 2018 20:53:50 EDT
-Received: from grover.tkatk1.zaq.ne.jp (zaqdadce369.zaq.ne.jp [218.220.227.105]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id w9TG45i0028068;
-        Tue, 30 Oct 2018 01:04:05 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com w9TG45i0028068
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1540829045;
-        bh=0tY//mM+jHbaE/ok29QOqhO+tPXAkxJXjjSXgjK7fho=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jxKfdqClVW7bKA/7MNaoLr4tQAZIWuMcFvC7WworuZpvL5buCTsVCt/oeP1cAd2ni
-         /0oLLBDMbrFKFQ3LARl8ci7OkQ9gNI3vByyGHEE5FEeAsz9sPjYKCeMmCiyREE7SVq
-         HLIoTodN5a4O67tYcsscJ/TgqXJRNng8uxMIn8xyVA8oisIBXJJhdOGOBJcEOfS510
-         VpcACBG7Eqne8peB9JSAXJMzmDVQS9TFuDHL5CKuL/3G4tjsOOebEKcmCsg8XFIOIF
-         yd/44Ena80yAZwHEOvG6YRYstU+dQjDi0+NhJng4rKPy1LBiSwe7gFwpCVEUoOZBJ9
-         15TNzuzeYgFgA==
-X-Nifty-SrcIP: [218.220.227.105]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S1727774AbeJ3Bbx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 21:31:53 -0400
+Received: from mga11.intel.com ([192.55.52.93]:33235 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727715AbeJ3Bbx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Oct 2018 21:31:53 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Oct 2018 09:42:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,441,1534834800"; 
+   d="scan'208";a="92133095"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.193])
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Oct 2018 09:42:29 -0700
+Date:   Mon, 29 Oct 2018 09:42:29 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH] kbuild: remove unused cc-fullversion variable
-Date:   Tue, 30 Oct 2018 01:03:54 +0900
-Message-Id: <1540829034-17725-1-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ovich00@gmail.com, kernel-hardening@lists.openwall.com,
+        nigel.edwards@hpe.com, Boris Lukashev <blukashev@sempervictus.com>,
+        Hossam Hassan <7ossam9063@gmail.com>,
+        Ahmed Lotfy <A7med.lotfey@gmail.com>
+Subject: gRe: [PATCH V5 1/5] KVM: X86: Memory ROE  =?ISO-8859-1?Q?=20documentation=1B?=
+Message-ID: <20181029164229.GA27144@linux.intel.com>
+References: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
+ <20181026151223.16810-2-ahmedsoliman0x666@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181026151223.16810-2-ahmedsoliman0x666@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The last user of cc-fullversion was removed by commit f2910f0e6835
-("powerpc: remove old GCC version checks").
+On Fri, Oct 26, 2018 at 05:12:19PM +0200, Ahmed Abd El Mawgood wrote:
+> Following up with my previous threads on KVM assisted Anti rootkit
+> protections.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+All of the changelogs in this series need to be rewritten to adhere to
+Documentation/process[1].  In particular, use imperative mood and
+describe why/what is being done in a self-contained manner, e.g. the
+above line isn't very helpful without a lot of prior context.
 
- Documentation/kbuild/makefiles.txt | 15 ---------------
- scripts/Kbuild.include             |  4 ----
- 2 files changed, 19 deletions(-)
+[1] https://github.com/torvalds/linux/blob/master/Documentation/process/submitting-patches.rst#2-describe-your-changes
 
-diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-index 7b6a2b2..8da26c6 100644
---- a/Documentation/kbuild/makefiles.txt
-+++ b/Documentation/kbuild/makefiles.txt
-@@ -537,21 +537,6 @@ more details, with real examples.
- 	The third parameter may be a text as in this example, but it may also
- 	be an expanded variable or a macro.
- 
--    cc-fullversion
--	cc-fullversion is useful when the exact version of gcc is needed.
--	One typical use-case is when a specific GCC version is broken.
--	cc-fullversion points out a more specific version than cc-version does.
--
--	Example:
--		#arch/powerpc/Makefile
--		$(Q)if test "$(cc-fullversion)" = "040200" ; then \
--			echo -n '*** GCC-4.2.0 cannot compile the 64-bit powerpc ' ; \
--			false ; \
--		fi
--
--	In this example for a specific GCC version the build will error out
--	explaining to the user why it stops.
--
-     cc-cross-prefix
- 	cc-cross-prefix is used to check if there exists a $(CC) in path with
- 	one of the listed prefixes. The first prefix where there exist a
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index ca21a35..19a63db 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -147,10 +147,6 @@ cc-name = $(shell $(CC) -v 2>&1 | grep -q "clang version" && echo clang || echo
- # cc-version
- cc-version = $(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-version.sh $(CC))
- 
--# cc-fullversion
--cc-fullversion = $(shell $(CONFIG_SHELL) \
--	$(srctree)/scripts/gcc-version.sh -p $(CC))
--
- # cc-ifversion
- # Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
- cc-ifversion = $(shell [ $(cc-version) $(1) $(2) ] && echo $(3) || echo $(4))
--- 
-2.7.4
+> The current version doesn't address the attacks involving pages
+> remapping. It is still design in progress, nevertheless, it will be in
+> my later patch sets.
 
+This series should be tagged RFC if its design is a WIP.
