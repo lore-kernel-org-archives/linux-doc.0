@@ -1,92 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5F04A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 15:57:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 863E87D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 16:04:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727722AbeJ3Aqd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 20:46:33 -0400
-Received: from mga06.intel.com ([134.134.136.31]:10654 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727565AbeJ3Aqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Oct 2018 20:46:33 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Oct 2018 08:57:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,440,1534834800"; 
-   d="asc'?scan'208";a="81823516"
-Received: from jtkirshe-desk1.jf.intel.com ([134.134.177.96])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Oct 2018 08:57:19 -0700
-Message-ID: <c7970686b40e5348b2351580b19f45ee6edc12a9.camel@intel.com>
-Subject: Re: [PATCH 2/2] kconfig: remove silentoldconfig target
-From:   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Reply-To: jeffrey.t.kirsher@intel.com
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kbuild@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org
-Date:   Mon, 29 Oct 2018 09:00:48 -0700
-In-Reply-To: <1540827688-15999-2-git-send-email-yamada.masahiro@socionext.com>
-References: <1540827688-15999-1-git-send-email-yamada.masahiro@socionext.com>
-         <1540827688-15999-2-git-send-email-yamada.masahiro@socionext.com>
-Organization: Intel
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-Zp+VR215FWXUzxuFZmnr"
-X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
-Mime-Version: 1.0
+        id S1727593AbeJ3Axw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 20:53:52 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:61845 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727586AbeJ3Axw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 20:53:52 -0400
+X-Greylist: delayed 1342 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Oct 2018 20:53:50 EDT
+Received: from grover.tkatk1.zaq.ne.jp (zaqdadce369.zaq.ne.jp [218.220.227.105]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id w9TG45i0028068;
+        Tue, 30 Oct 2018 01:04:05 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com w9TG45i0028068
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1540829045;
+        bh=0tY//mM+jHbaE/ok29QOqhO+tPXAkxJXjjSXgjK7fho=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jxKfdqClVW7bKA/7MNaoLr4tQAZIWuMcFvC7WworuZpvL5buCTsVCt/oeP1cAd2ni
+         /0oLLBDMbrFKFQ3LARl8ci7OkQ9gNI3vByyGHEE5FEeAsz9sPjYKCeMmCiyREE7SVq
+         HLIoTodN5a4O67tYcsscJ/TgqXJRNng8uxMIn8xyVA8oisIBXJJhdOGOBJcEOfS510
+         VpcACBG7Eqne8peB9JSAXJMzmDVQS9TFuDHL5CKuL/3G4tjsOOebEKcmCsg8XFIOIF
+         yd/44Ena80yAZwHEOvG6YRYstU+dQjDi0+NhJng4rKPy1LBiSwe7gFwpCVEUoOZBJ9
+         15TNzuzeYgFgA==
+X-Nifty-SrcIP: [218.220.227.105]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH] kbuild: remove unused cc-fullversion variable
+Date:   Tue, 30 Oct 2018 01:03:54 +0900
+Message-Id: <1540829034-17725-1-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The last user of cc-fullversion was removed by commit f2910f0e6835
+("powerpc: remove old GCC version checks").
 
---=-Zp+VR215FWXUzxuFZmnr
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-On Tue, 2018-10-30 at 00:41 +0900, Masahiro Yamada wrote:
-> As commit 911a91c39cab ("kconfig: rename silentoldconfig to
-> syncconfig") announced, it is time for the removal.
->=20
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
->=20
->  Documentation/networking/ice.rst | 2 +-
->  scripts/kconfig/Makefile         | 9 +--------
->  2 files changed, 2 insertions(+), 9 deletions(-)
+ Documentation/kbuild/makefiles.txt | 15 ---------------
+ scripts/Kbuild.include             |  4 ----
+ 2 files changed, 19 deletions(-)
 
-Acked-by: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-
-For the ice driver documentation change.
-
---=-Zp+VR215FWXUzxuFZmnr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAlvXLrAACgkQ5W/vlVpL
-7c7czA/7BJyuUZ7KlnPwyyvsq4CeO2EBjuqMQJTPHs44GgDBGLAQZxmnnsQNS8qY
-VoBpJeytrK3eiCOLEZj2jiQskY1kWY8SPwJumdotICdonIhnBkb9+9YcOKqb+BXx
-1szIy/8acRFWc+3WAoTcrICDKVCwf0cV7phXuj6NMjOPmH33Gt5X6gMfQWobAWZK
-XIppy5J2aBTH6XgDtAi0/SZA4FIZx/wl8mi36QQU83Utd/Cm86WMDi6CjD6InAdw
-eJSEPSATlxhxR4o2J+gv/KrieVKyctShS0nJCJ6IMgD4jHdMYLWOkAE2qMRySGqY
-klt7ts3eUG8V+7uEHROG9UbQUWnynsdgf2EStUJyGgVWRYubbrWs7mJjVX9tIrGa
-74FYauDDoAgd2sCjBIOaP5ys7pMw7Vqqrq5NoytBQJJkTQHpOKIX8ueLA09Kt9Qb
-kFsUhWkuF2G2l0PEb7ltq2O29dfQ6YTOdhGa+xIrgcp0d1f/ietVrAyhHucd8q8O
-iMBSO8cVMW1C+nwtbolmupAMrdDhhTsQ0xhGzruXkqjEj+z1J6zDhJKq/sfpvLNo
-0B73BXGfNL+sZ1L1kFrO5EFkvK7x/4SQtgjQwt11qhBlkBhXgOM1h4/JWa9725v7
-suMbspxRrPXscXBIXnLmHcr7tVY3l5E8NoKNpp88BFFceH7RT/k=
-=SE6r
------END PGP SIGNATURE-----
-
---=-Zp+VR215FWXUzxuFZmnr--
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index 7b6a2b2..8da26c6 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -537,21 +537,6 @@ more details, with real examples.
+ 	The third parameter may be a text as in this example, but it may also
+ 	be an expanded variable or a macro.
+ 
+-    cc-fullversion
+-	cc-fullversion is useful when the exact version of gcc is needed.
+-	One typical use-case is when a specific GCC version is broken.
+-	cc-fullversion points out a more specific version than cc-version does.
+-
+-	Example:
+-		#arch/powerpc/Makefile
+-		$(Q)if test "$(cc-fullversion)" = "040200" ; then \
+-			echo -n '*** GCC-4.2.0 cannot compile the 64-bit powerpc ' ; \
+-			false ; \
+-		fi
+-
+-	In this example for a specific GCC version the build will error out
+-	explaining to the user why it stops.
+-
+     cc-cross-prefix
+ 	cc-cross-prefix is used to check if there exists a $(CC) in path with
+ 	one of the listed prefixes. The first prefix where there exist a
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index ca21a35..19a63db 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -147,10 +147,6 @@ cc-name = $(shell $(CC) -v 2>&1 | grep -q "clang version" && echo clang || echo
+ # cc-version
+ cc-version = $(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-version.sh $(CC))
+ 
+-# cc-fullversion
+-cc-fullversion = $(shell $(CONFIG_SHELL) \
+-	$(srctree)/scripts/gcc-version.sh -p $(CC))
+-
+ # cc-ifversion
+ # Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
+ cc-ifversion = $(shell [ $(cc-version) $(1) $(2) ] && echo $(3) || echo $(4))
+-- 
+2.7.4
 
