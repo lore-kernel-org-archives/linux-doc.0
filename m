@@ -1,103 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 96A737D8BB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 16:52:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D304B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 18:01:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728063AbeJ3BlS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 21:41:18 -0400
-Received: from mail-pg1-f176.google.com ([209.85.215.176]:46578 "EHLO
-        mail-pg1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728006AbeJ3BlQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 21:41:16 -0400
-Received: by mail-pg1-f176.google.com with SMTP id m9-v6so1479033pgl.13
-        for <linux-doc@vger.kernel.org>; Mon, 29 Oct 2018 09:51:51 -0700 (PDT)
+        id S1728219AbeJ3Cv3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 22:51:29 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:37016 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727772AbeJ3Cv3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 22:51:29 -0400
+Received: by mail-lf1-f66.google.com with SMTP id p17so319806lfh.4;
+        Mon, 29 Oct 2018 11:01:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=C+Rs4o3BXVT0ax4Boh47WCS59+Mua9waLchkNV67xPc=;
-        b=MTFDQO7ejSDQQzuFjnhL68aww82CFqI6/LYzLGYzDut7MCztHfajNUN12DTXdMKY0q
-         L5Zt+BkGPRNq1aaGNd0QUGRt8lkzU5eNPNw7cuZaED6oX6nDyTMYrFmHsCwNFlyvc8WC
-         OwQu7nVdgWLlpnjkD6NKWodbg0yQkPVCxKZ9IlUfiCtRhA0s9dnIEdP3EfX0spVtASyx
-         MZpp0OBPczCnSdDYKDK26GDQhH7NyLdHYC3AicCsxrPdcIXsqlH+So5gi0Kb2emDwy3c
-         kyTmYdwQKLHS53cdueKo1BlFCwFlq8MAEHtxgOb3EZ/CLpgJ8QZ1hdhxnRmpBLiy4JVK
-         sNKg==
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=7kgQoUjTh24AyO/p9oeeYLOwg1VLACPfdZMGUe9bi24=;
+        b=ewJWvKQWE+ZIdEn9+5FvVem8ynSjjOZtQ8ASAQwGo9iqJBUQkujpHsYY5hvGEc3GrL
+         mENgeb3vTrUwZN3irUT3epuvMUHXFRzI8xrVsOVCuKbGq++1wtqaDeO1JOFRs6yMbh13
+         4EmaE7C2iCp1awkJ1/wlMMXhvXIZgAg7CmXqA/gzhVnDmE+DQG20zxvWVbQmfSnQZJTu
+         +DPBATd36Cy3WxLb6zmJbYJueHncElUxafG4+Nlbyy8nSXCHNFmayuiM1g6e6DUnUoiC
+         AJmODwTdcCZRrABqDIFNHDofAe8aOsVQgkBL25Mn3cQFdZg05fZxPHrCrN6t5VBKbr6t
+         BB6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=C+Rs4o3BXVT0ax4Boh47WCS59+Mua9waLchkNV67xPc=;
-        b=StsfWFE9lMq20FlHJ6ieHt86U2SiH5sfBUexcj6mPrvnbhiNIzvSO+8EpfGtC4YucO
-         kQhrSXDDw9aLNLrrBPNdH3YDv7LFFtx5lg0p3Lzjs46xrqcyE5B/ZOFxAHLtv1U2vzvm
-         CIkMmn6gGgI+8O3kbWPhOZODgTc5izPMcc97LJ5LTR+mRDuEZBJpI07mDKRNAqa/Lwak
-         tZzhxvfaUf0c4sYpOtzxOqOa46s3TyfkkI+fkOad87tIRPpjO2GHa7lZHdursXvbyStR
-         EiScS4pAaAsn1HPZ48FYnySvi5GcYhG2pJkeNEFRJij1Y98pv6SJ7N13Mo3sRTmZSO56
-         x+Vw==
-X-Gm-Message-State: AGRZ1gIgkwApTlZMpvZvIWzX9cUashgPwOO2BLnK7H6r3wP9yBVFd/EN
-        zOW2LTwSikA9qPgCz0Yt4dmNMQ==
-X-Google-Smtp-Source: AJdET5exAcM5eGzbwkQuv4PSNn6rF8fkPdAai1QNuC26eOsWlkizcXwP6Ye+/hRXDeZb/zeHeM/XHg==
-X-Received: by 2002:a63:24f:: with SMTP id 76-v6mr14327725pgc.67.1540831910928;
-        Mon, 29 Oct 2018 09:51:50 -0700 (PDT)
-Received: from paullawrence.mtv.corp.google.com ([2620:0:1000:1601:da51:dc8c:708a:5253])
-        by smtp.gmail.com with ESMTPSA id 23-v6sm4062159pgp.77.2018.10.29.09.51.49
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7kgQoUjTh24AyO/p9oeeYLOwg1VLACPfdZMGUe9bi24=;
+        b=SVSaenpszEnB+OzleBRExGqO6SnZ7cmtg8xXwBxznKxzP+eFIQNFoMBcOiAlCm6FpT
+         nB7Sp+H2zkBat9Vkov9wEeEME35LX2aHO7HUCv/T7WtuixOSL/8bsAxK/a0518FigUPi
+         LKzWAIQxksWmQ/m9Eiv4mGjqf4zLfl5F+Wv47/iTFMoI5uCMUjXAVeYwIFI3iv/8x4eJ
+         LP5gdDygmB7ZtHZ+caMao+AldFOouP1+RTuLrwvP4PCbGWSZ0Qm0Kctrzo9OGPKbg0+k
+         U7IsDFVVdCPrGdlWOyT4mxHFi1LMoxyJBcU512fTzvZLYwR/STNuAtqf+gMb4wSIhr9c
+         fh1A==
+X-Gm-Message-State: AGRZ1gIl66hsQCjJK6/x0rEpaIRZXaFwj4IV5AZM1CWYUwUb4CClKAUv
+        TDiy4KTkWFjLfzdNvDP5w58=
+X-Google-Smtp-Source: AJdET5ev/pCOW16Nali/5oz0BfpyVCCm+SghGErJwQe1Sq/gvslVbV17kdxSCZE2beFxFW1qcLNJEQ==
+X-Received: by 2002:a19:cc46:: with SMTP id c67mr8710395lfg.145.1540836105613;
+        Mon, 29 Oct 2018 11:01:45 -0700 (PDT)
+Received: from ?IPv6:2001:14bb:52:7be:f0bf:dd2d:f008:5213? (dmkd798g-7z2-yccwcp-4.rev.dnainternet.fi. [2001:14bb:52:7be:f0bf:dd2d:f008:5213])
+        by smtp.gmail.com with ESMTPSA id j12-v6sm517117lja.8.2018.10.29.11.01.43
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Oct 2018 09:51:50 -0700 (PDT)
-Subject: Re: [dm-devel] [RFC] dm-bow working prototype
-To:     Mikulas Patocka <mpatocka@redhat.com>
-Cc:     Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, linux-doc@vger.kernel.org,
-        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, dm-devel@redhat.com,
-        Shaohua Li <shli@kernel.org>
-References: <20181023212358.60292-1-paullawrence@google.com>
- <20181023221819.GB17552@agk-dp.fab.redhat.com>
- <296148c2-f2d9-5818-ea76-d71a0d6f5cd4@google.com>
- <alpine.LRH.2.02.1810241514310.4080@file01.intranet.prod.int.rdu2.redhat.com>
- <4a934593-1bd1-be5f-35c0-945c42762627@google.com>
- <alpine.LRH.2.02.1810261558460.28906@file01.intranet.prod.int.rdu2.redhat.com>
-From:   Paul Lawrence <paullawrence@google.com>
-Message-ID: <fba91b2e-4b2e-8daf-ff64-a12c9139cada@google.com>
-Date:   Mon, 29 Oct 2018 09:51:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Mon, 29 Oct 2018 11:01:44 -0700 (PDT)
+Subject: Re: [PATCH V5 0/5] KVM: X86: Introducing ROE Protection Kernel
+ Hardening
+To:     Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ovich00@gmail.com, kernel-hardening@lists.openwall.com,
+        nigel.edwards@hpe.com, Boris Lukashev <blukashev@sempervictus.com>,
+        Hossam Hassan <7ossam9063@gmail.com>,
+        Ahmed Lotfy <A7med.lotfey@gmail.com>
+References: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
+From:   Igor Stoppa <igor.stoppa@gmail.com>
+Message-ID: <1b3eb10e-c492-dc77-cbe6-3a3e692326d7@gmail.com>
+Date:   Mon, 29 Oct 2018 20:01:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <alpine.LRH.2.02.1810261558460.28906@file01.intranet.prod.int.rdu2.redhat.com>
+In-Reply-To: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
-> The snapshot target could be hacked so that it remembers space trimmed
-> with REQ_OP_DISCARD and won't reallocate these blocks.
->
-> But I suspect that running discard over the whole device would degrade
-> performance more than copying some unneeded data.
->
-> How much data do you intend to backup with this solution?
->
->
-We are space-constrained - we will have to free up space for the backup 
-before we apply the update, so we have to predict the size and keeping 
-usage as low as possible is thus very important.
+On 26/10/2018 16:12, Ahmed Abd El Mawgood wrote:
 
-Also, we've discussed the resizing requirement of the dm-snap solution 
-and that part is not attractive at all - it seems it would be impossible 
-to guarantee that the resizing happens in a timely fashion during the 
-(very busy) update cycle.
+> This is the 5th version which is 4th version with minor fixes. ROE is a
+> hypercall that enables host operating system to restrict guest's access to its
+> own memory. This will provide a hardening mechanism that can be used to stop
+> rootkits from manipulating kernel static data structures and code. Once a memory
+> region is protected the guest kernel can't even request undoing the protection.
 
-Thanks everyone for the insights, especially into how dm-snap works, 
-which I hadn't fully appreciated. At the moment, and for the above 
-reasons, we intend to continue with the dm-bow solution, but do want to 
-keep this discussion open. If anyone is going to be at Linux Plumbers, 
-I'll be presenting this work and would love to chat about it more.
+This is very interesting, because it seems a very good match to the work 
+I'm doing, for supporting the creation of more targets for protection:
+
+https://www.openwall.com/lists/kernel-hardening/2018/10/23/3
+
+In my case the protection would extend also to write-rate type of data.
+There is an open problem of identifying legitimate write-rare 
+operations, however it should be possible to provide at least a certain 
+degree of confidence.
+
+--
+
+igor
