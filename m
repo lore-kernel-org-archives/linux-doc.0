@@ -1,100 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D8CF97D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 11:38:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6FF247D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 11:56:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727743AbeJ2U0X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 16:26:23 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:43175 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726582AbeJ2U0X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 16:26:23 -0400
-Received: by mail-qt1-f196.google.com with SMTP id q41-v6so8697606qtq.10;
-        Mon, 29 Oct 2018 04:38:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MrfYgcsI0Z9PLkqECFLdh9pZ12p98AP1NvZFiH9Mrv0=;
-        b=I0SqV3rGHV7g5gSa8c/cNQUib6HOTOSdcT+MXqhJMIMvvNVcxCCM/gy7VbChNdJ6D0
-         XQgjMeiqVMIA55FuGchn5hfIEsuLZcOeru38Pw27nxR8g/1Hus+USTtj93R6NOsq62Lv
-         17Fbo4beCAY05v4JLOcIcuSSgeihYLO6KE2c2o7UitIfdR0rTzhXeuu4PQaLLGoGeezW
-         ntiQ/PwwoN3g3QiPE1gmrDcOhfXHHLA1Xs0vaP8L8ObRbnmlz1YXXyvHgJiDwH77mU+y
-         s2gXePvjf3GPvtFOX96Z8/d+ACXvrW9l9M3vPkY1n9zLgDgV5uTLWM3fxrlpsVih0kkE
-         GoTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MrfYgcsI0Z9PLkqECFLdh9pZ12p98AP1NvZFiH9Mrv0=;
-        b=GBl0ZEiVsbvi3aMrcMBTK+tlkgm/RtHw5XJvoq2XXOjaVcYtckBcL4BCw1qngLfLpp
-         hbmuGuPM+BklU1433BgmyJ4qUk0UaFmyr1TW8QM6gx0bIxQDuRtqlOeKYQ6v1As5WScv
-         5nUhKv4KurJSMpdOqMhmxAoNbuEl0IuwqcXhoZNe8w8p4UbIFWZ5ldhVRUCG9aZJBO87
-         SKcZBgLRnNraQ7MjrTWwg0zFL0B8XYSRtIy9JNOJ5EvIrrdjGDAPBtK4JZjpkHpOCrzz
-         IA1FEJTMWW+9KkpnW5sVcm280Qg7hYLfBOL7Y+0puEAShU3sr8NCTtzBqGh3Q13Ra04P
-         zhhg==
-X-Gm-Message-State: AGRZ1gILmviivq2O3C006QVo665/zgkYKl/MHB8Plu3rGTrHEN4bcqMy
-        mI4b6rgxvhh9ORaQSWAhJTjnH7DGCnPRIMPm0Ng=
-X-Google-Smtp-Source: AJdET5fvK8ZclxGZvR0uGsenGLJIrAi1HYtmhCEpxEv5MsUGwdEifcsGC3LGKujBV2iTKTOzPFaXesEpqKE5oGhfjHY=
-X-Received: by 2002:a0c:f74c:: with SMTP id e12mr1058088qvo.26.1540813085422;
- Mon, 29 Oct 2018 04:38:05 -0700 (PDT)
+        id S1728143AbeJ2Uo5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 16:44:57 -0400
+Received: from sauhun.de ([88.99.104.3]:34342 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728142AbeJ2Uo5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Oct 2018 16:44:57 -0400
+Received: from localhost (unknown [87.114.85.207])
+        by pokefinder.org (Postfix) with ESMTPSA id 928222E35DD;
+        Mon, 29 Oct 2018 12:56:34 +0100 (CET)
+Date:   Mon, 29 Oct 2018 11:56:34 +0000
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Vitor soares <vitor.soares@synopsys.com>
+Cc:     boris.brezillon@bootlin.com, linux-i2c@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org, arnd@arndb.de, psroka@cadence.com,
+        agolec@cadence.com, adouglas@cadence.com, bfolta@cadence.com,
+        dkos@cadence.com, alicja@cadence.com, cwronka@cadence.com,
+        sureshp@cadence.com, rafalc@cadence.com,
+        thomas.petazzoni@bootlin.com, nm@ti.com, robh+dt@kernel.org,
+        pawel.moll@arm.com, mark.rutland@arm.com,
+        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        geert@linux-m68k.org, linus.walleij@linaro.org,
+        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
+        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
+        mshettel@codeaurora.org, swboyd@chromium.org,
+        joao.pinto@synopsys.com, luis.oliveira@synopsys.com,
+        manuel.abreu@synopsys.com, gustavo.pimentel@synopsys.com
+Subject: Re: [PATCH 0/3] Add driver for Synopsys DesignWare I3C master IP
+Message-ID: <20181029115633.GA5881@kunai>
+References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
 MIME-Version: 1.0
-References: <CAHp75Ve19dcQ3FtRa4BS_Y381g9TDvb2G-M8BNegFuUWA6wzAQ@mail.gmail.com>
- <201810291843424704356@zte.com.cn>
-In-Reply-To: <201810291843424704356@zte.com.cn>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 29 Oct 2018 13:37:54 +0200
-Message-ID: <CAHp75Vd1Fia3i7o1YX9y50EU7Se0vYH4OvUT7eO8cJnHk2mryw@mail.gmail.com>
-Subject: Re: Re: [PATCH V3 1/5] pvpanic: move pvpanic to misc as common driver
-To:     peng.hao2@zte.com.cn
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        hutao@cn.fujitsu.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
+Content-Disposition: inline
+In-Reply-To: <1540807618-13246-1-git-send-email-soares@synopsys.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 29, 2018 at 12:43 PM <peng.hao2@zte.com.cn> wrote:
->
-> >On Mon, Oct 29, 2018 at 5:22 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
-> >>
-> >> move pvpanic.c from drivers/platform/x86 to drivers/misc.
-> >> following patches will use pvpanic device in arm64.
-> >>
-> > Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> >> ---
-> >>  drivers/misc/Kconfig           |   7 +++
-> >>  drivers/misc/Makefile          |   1 +
-> >>  drivers/misc/pvpanic.c         | 124 +++++++++++++++++++++++++++++++++++++++++
-> >>  drivers/platform/Kconfig       |   3 +
-> >>  drivers/platform/Makefile      |   1 +
-> >>  drivers/platform/x86/Kconfig   |   8 ---
-> >>  drivers/platform/x86/Makefile  |   1 -
-> >>  drivers/platform/x86/pvpanic.c | 124 -----------------------------------------
-> >
-> >As I mentioned you better to use -C -M.
-> >This is currently a bit hard to review.
->
-> sorry, I don't understand what "-C -M" means.
-> I should have asked you when you first mention it.
 
-git format-patch -C -M ...
+--a8Wt8u1KmwUX3Y2C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
--- 
-With Best Regards,
-Andy Shevchenko
+Boris,
+
+> This patch series is a proposal for the I3C master driver for Synopsys IP.
+
+Any news on the I3C mailing list? It is not much yet, still I was
+wondering...
+
+
+--a8Wt8u1KmwUX3Y2C
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlvW9W0ACgkQFA3kzBSg
+KbZC9A/+Ii8yRdJYBTx6mJ1Qq2cAjCodzhjGOYHap458IBp5QdRGZi2JAIaPD+Zo
+4RXK2gcYq59xC975wRfd6DrUTEQLvIr/qVWLCLqeBzWjbqWPPDKeDpdWUs39JRiJ
+kCxu15q+tpnIqtIpiocE5xGrWXL0xHatzOqn915hwOJr5ebqBgroHoMzVjR5v2+w
+hLxMnyDvYee0mN/AsgOObrCeHHbrpnFhduvISsTvNKz0CAE5OpbJNPQbjj3+U2aM
+GpfHGK5m5aPvW38BFsadD0lY+P0zNkHJ8ejL5mWlXqFS6G6gGLvHfEcYwxF5vfSJ
+gqFiKqDY/JOAEApDCiDe21UUXyy02l27PQwP4cXA3QiBObHWg+dlIKc5EnNoT+r5
+3pO6eteZnqF0gGA5JiruBw+vOZrPuse9NDuzRoPExO2KE7BXLwR0UDcprr4Z+Usi
+4LlaoagkaFMexuVFFykBaB9Z8U9Y6aBc9f52cjGCuQ28PkCzNuwYINGf65NUWOcY
+IEOjA9v/1RTrQPMlmywoOMyQnmZflvNf9uUG7Dk2HiViO5F7u0IxjwWqTOD7Sc1U
+QLhOGNlfDLJdcLRwlSFE4xsUkrMdAqSfx+Mnzwj0C53ds+2GX5g0zdA/TZmt7JVs
+MLCxt2rGulK1kRPBeVqVs6GH0yXy/iORF/OI4Y2u/OQl0yAteXg=
+=sUO6
+-----END PGP SIGNATURE-----
+
+--a8Wt8u1KmwUX3Y2C--
