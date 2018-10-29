@@ -5,96 +5,94 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 936307D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 07:17:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 42A187D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 10:08:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729283AbeJ2QFO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 12:05:14 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:36668 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729248AbeJ2QFO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 12:05:14 -0400
-Received: by mail-pl1-f195.google.com with SMTP id y11-v6so3362507plt.3
-        for <linux-doc@vger.kernel.org>; Mon, 29 Oct 2018 00:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FDlV+Xbz1j+NaR368L2vTpe24uF3g5mlaQe0xzBflGQ=;
-        b=gI1N7dBtcaiUljcwKUPdD0lhNurPTNaQ728+UNi7gvxJ9tn08e3Hm9+efVxFd0rBys
-         42/qKw4i8NM/Sfjbc7JzC25VK7t8intb8J4+L6fWaZ5K1BvEDUSDCE1T7qsBBebA4EEr
-         NQRzQ6Iq6VRZ6d1kjnvDcJg+Io97QQKRXkeWk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FDlV+Xbz1j+NaR368L2vTpe24uF3g5mlaQe0xzBflGQ=;
-        b=ENwr5+wYI9A1JNb84DCTWAlU0mjYDhpWTr97UeA0eN9JW2bjeTgMD9YN2eka5k1KS6
-         KBu+EGwIUPeGHwG2r038+iNge9pKPc+rL+AUSt/jdnRraZbT1/HaSBsplBdpbX8GF4gx
-         nswbGSaxdiylRPbb3RBhYq96Ss0agLTs/pwUga2hob1qNWFesz9LZLmpMwA7m7VCGKvy
-         5+dzpUMIkz74MBNiApkpW/+yid3+hxIZPf2wAEYzk0X5qYVxHCfOZex5ZOBBZ46HcazT
-         ojfap4JE3xCbugTCUtBl3Rp0Z44JsFNr+VNsrie4NEZIwuJHzpRnSD0GehLnR2TmyOeC
-         7xYg==
-X-Gm-Message-State: AGRZ1gKlbm8BtJ/8lPOiHaBzqnvoqPg6S7vGlDJL7wutvNcJMrcVx9bZ
-        cl/i4RGab0M5mI5xyFgj4A4Vkg==
-X-Google-Smtp-Source: AJdET5c8ObvQnCb8owdZb7slfRkHgqpPhewVlNYQGEQVn9ck0BMr+blRI5Y2ueprqD5ApFe0r8RTeA==
-X-Received: by 2002:a17:902:f203:: with SMTP id gn3mr12600884plb.93.1540797469909;
-        Mon, 29 Oct 2018 00:17:49 -0700 (PDT)
-Received: from localhost ([122.172.56.94])
-        by smtp.gmail.com with ESMTPSA id b16-v6sm21538679pfm.145.2018.10.29.00.17.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Oct 2018 00:17:48 -0700 (PDT)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Pavel <pavel2000@ngs.ru>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: cpu-freq: Frequencies aren't always sorted
-Date:   Mon, 29 Oct 2018 12:47:40 +0530
-Message-Id: <844626b372018192fd0e9fe399343e09ef4dc842.1540797432.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.19.1.568.g152ad8e3369a
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1729707AbeJ2Sz5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 14:55:57 -0400
+Received: from smtprelay4.synopsys.com ([198.182.47.9]:51986 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729457AbeJ2Sz5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 14:55:57 -0400
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id DBCD824E11D9;
+        Mon, 29 Oct 2018 03:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1540807678; bh=cv+vAGIaacXfqsm6laxKspmfbhBbpJnIh33JEQ/PZN0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OjjHnNrA7/5Ji4V+qYIlPitzYwrqss7kviqX7GdPSQYOiS/O/gctzdzg2PxnuQ3sr
+         r+z8J9TlyoRsE1/+F25X9iSFFsmSUh5YkRUK0XYVsJ6Hw2abck0jaPq4DUbawUk5Pg
+         w8vN4PLBElAuwbo/RojjTbhvB4VjscDBe1eoEl1CfS4FikjcRIGeqZ4NgRlIlA2frZ
+         /zOIL5CPqu63iBQ7vpQu0IXhiCZhcbaqIm/NgDXIPMTN3hCu9kAd1qvi0D6n+Puodk
+         sXi++UEs+iI4zXyhRdlcQmpOrY+uuwuFeHpuI8NRYQ6cigoFBHXZ1cG7ZgUxx8QVU1
+         8qA9/rOoV9a+Q==
+Received: from localhost.localdomain (soares-e7470.internal.synopsys.com [10.225.2.39])
+        by mailhost.synopsys.com (Postfix) with ESMTP id CF3245444;
+        Mon, 29 Oct 2018 03:07:46 -0700 (PDT)
+From:   Vitor soares <vitor.soares@synopsys.com>
+To:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
+        linux-i2c@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de
+Cc:     psroka@cadence.com, agolec@cadence.com, adouglas@cadence.com,
+        bfolta@cadence.com, dkos@cadence.com, alicja@cadence.com,
+        cwronka@cadence.com, sureshp@cadence.com, rafalc@cadence.com,
+        thomas.petazzoni@bootlin.com, nm@ti.com, robh+dt@kernel.org,
+        pawel.moll@arm.com, mark.rutland@arm.com,
+        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        vitor.soares@synopsys.com, geert@linux-m68k.org,
+        linus.walleij@linaro.org, Xiang.Lin@synaptics.com,
+        linux-gpio@vger.kernel.org, nsekhar@ti.com, pgaj@cadence.com,
+        peda@axentia.se, mshettel@codeaurora.org, swboyd@chromium.org,
+        joao.pinto@synopsys.com, luis.oliveira@synopsys.com,
+        manuel.abreu@synopsys.com, gustavo.pimentel@synopsys.com
+Subject: [PATCH 0/3] Add driver for Synopsys DesignWare I3C master IP
+Date:   Mon, 29 Oct 2018 10:06:55 +0000
+Message-Id: <1540807618-13246-1-git-send-email-soares@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The order in which the frequencies are displayed in cpufreq stats
-depends on the order in which the frequencies were sorted in the
-frequency table provided to cpufreq core by the cpufreq driver. They can
-be completely unsorted as well.
+This patch series is a proposal for the I3C master driver for Synopsys IP.
+This patch is to be applied on top of I3C subsystem RFC V10 submitted bu Boris Brezillon.
 
-The documentation's claim that the stats will be sorted in descending
-order is hence incorrect and here is an attempt to fix it.
+The change made on bufs passed to i3c_master_send_ccc_cmd_locked() be dynamically allocated allow the use of writesl/readsl() function on I3C transfers.
+For I2C transfers still have memory misalignment on bufs and if the client try to read more than 4bytes the system stops. This will fixed next version.
 
-Reported-by: Pavel <pavel2000@ngs.ru>
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- Documentation/cpu-freq/cpufreq-stats.txt | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Supported features:
+  Regular CCC commands.
+  I3C private transfers.
+  I2C transfers.
 
-diff --git a/Documentation/cpu-freq/cpufreq-stats.txt b/Documentation/cpu-freq/cpufreq-stats.txt
-index a873855c811d..14378cecb172 100644
---- a/Documentation/cpu-freq/cpufreq-stats.txt
-+++ b/Documentation/cpu-freq/cpufreq-stats.txt
-@@ -86,9 +86,11 @@ transitions.
- This will give a fine grained information about all the CPU frequency
- transitions. The cat output here is a two dimensional matrix, where an entry
- <i,j> (row i, column j) represents the count of number of transitions from 
--Freq_i to Freq_j. Freq_i is in descending order with increasing rows and 
--Freq_j is in descending order with increasing columns. The output here also 
--contains the actual freq values for each row and column for better readability.
-+Freq_i to Freq_j. Freq_i rows and Freq_j columns follow the sorting order in
-+which the driver has provided the frequency table initially to the cpufreq core
-+and so can be sorted (ascending or descending) or unsorted.  The output here
-+also contains the actual freq values for each row and column for better
-+readability.
- 
- If the transition table is bigger than PAGE_SIZE, reading this will
- return an -EFBIG error.
+Missing functionalities:
+  Support for I3C_BUS_MODE_MIXED_SLOW.
+  Hot-join.
+  IBI.
+
+Main change between v1 and v2:
+  Add controller version on dt-binding
+  The driver now calls writesl/readsl() instead readl/writel
+  Rename some variables in the driver
+   
+
+Vitor soares (3):
+  i3c: master: Add driver for Synopsys DesignWare IP
+  dt-bindings: i3c: Document Synopsys DesignWare I3C master bindings
+  MAINTAINERS: Add myself as the dw-i3c-master module maintainer
+
+ .../devicetree/bindings/i3c/snps,dw-i3c-master.txt |   42 +
+ MAINTAINERS                                        |    6 +
+ drivers/i3c/master/Kconfig                         |   13 +
+ drivers/i3c/master/Makefile                        |    1 +
+ drivers/i3c/master/dw-i3c-master.c                 | 1217 ++++++++++++++++++++
+ 5 files changed, 1279 insertions(+)
+ create mode 100755 Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+ create mode 100755 drivers/i3c/master/dw-i3c-master.c
+
 -- 
-2.19.1.568.g152ad8e3369a
+2.7.4
+
 
