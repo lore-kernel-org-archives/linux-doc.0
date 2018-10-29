@@ -1,89 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1848D7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 13:41:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ECDE47D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 15:52:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725964AbeJ2W3s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 18:29:48 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:45006 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbeJ2W3s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 18:29:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
-        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=7tOo3mOK1RhCIFMhClp70+XyUYGv1gfIsS6PyLmMgJM=; b=HnokiOq4Tly7OCMPlmMDSRKxVp
-        mWbkYnOTCGE3vShL6H50qNxIhL66pqHkzKmPKxKYmcopgoIoevXegcSvdGuvwdswGeBptDP/1DI+G
-        Gt8T2tAAVkrMjRuXeEyo/ckM0VOP7kAQFJgfQPxnD+KM5Y3KcsdKXC2E5yhOdsUDmnqKUN/Fyf+G0
-        jhggGCjM0mZPMOe2Q1qP+1ljTl+FwlYMjDQtWMnkt9MfGQI/6IR70mj3cwnZxdXt2X396AzN1ThZ1
-        G4/CBl7keWa+aL1nW+psS9j55MBfHwfHdQ7QY2mC0NH/d0tu8nzNXUfUcl8ptzv02bTO6vmIrlHsW
-        PwTZ+rJA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gH7mu-0003HR-R5; Mon, 29 Oct 2018 13:41:00 +0000
-Date:   Mon, 29 Oct 2018 06:41:00 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Vitor soares <vitor.soares@synopsys.com>
-Cc:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
-        linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
-        adouglas@cadence.com, bfolta@cadence.com, dkos@cadence.com,
-        alicja@cadence.com, cwronka@cadence.com, sureshp@cadence.com,
-        rafalc@cadence.com, thomas.petazzoni@bootlin.com, nm@ti.com,
-        robh+dt@kernel.org, pawel.moll@arm.com, mark.rutland@arm.com,
-        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        geert@linux-m68k.org, linus.walleij@linaro.org,
-        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
-        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
-        mshettel@codeaurora.org, swboyd@chromium.org,
-        joao.pinto@synopsys.com, luis.oliveira@synopsys.com,
-        manuel.abreu@synopsys.com, gustavo.pimentel@synopsys.com
-Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
-Message-ID: <20181029134100.GD28520@bombadil.infradead.org>
-References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
- <1540807618-13246-2-git-send-email-soares@synopsys.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1540807618-13246-2-git-send-email-soares@synopsys.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+        id S1727521AbeJ3Ali (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 20:41:38 -0400
+Received: from condef-05.nifty.com ([202.248.20.70]:28942 "EHLO
+        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727520AbeJ3Ali (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 20:41:38 -0400
+X-Greylist: delayed 424 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Oct 2018 20:41:36 EDT
+Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-05.nifty.com with ESMTP id w9TFgJBP028068;
+        Tue, 30 Oct 2018 00:42:22 +0900
+Received: from grover.tkatk1.zaq.ne.jp (zaqdadce369.zaq.ne.jp [218.220.227.105]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id w9TFfWK3013655;
+        Tue, 30 Oct 2018 00:41:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com w9TFfWK3013655
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1540827693;
+        bh=xMpzX31pEjrG2cKDEOQ6VMPhjxV09pqI6xMEUNfOb3g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tupr6Qt1QCw1wOXqjlWl25fpuBj00y5CyVpZKIqxm2f4jGiRGSBKZytAI1PKf0dlP
+         jWVNBstDEYw8rvibX6ccSLCcOQA4B+yYEWVAioi3X5RBACzoVoib7B7zIx8yrLVCWZ
+         kG78SFpqSWA/tw1AKo6zNoKvXYK+1S+K9JVw1jxwPG8l1NqX9a3W57E3Q2aKPKqXTJ
+         W3F7zWBYjTifDgtToJ4KyRREZOw4/6nyFg9ijp5xiRgr2wMuW2tmEVhgRsMwL1xiBd
+         J0BQ/OjHmxnuz//AbYAN4bLzBlJ4HVKiLU5+3IdpTEBi6cEsLN++a5zbf12FVyViCj
+         Oq+JCTVTU10cQ==
+X-Nifty-SrcIP: [218.220.227.105]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] kconfig: remove silentoldconfig target
+Date:   Tue, 30 Oct 2018 00:41:28 +0900
+Message-Id: <1540827688-15999-2-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1540827688-15999-1-git-send-email-yamada.masahiro@socionext.com>
+References: <1540827688-15999-1-git-send-email-yamada.masahiro@socionext.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 29, 2018 at 10:06:56AM +0000, Vitor soares wrote:
-> +config DW_I3C_MASTER
-> +	tristate "Synospsys DesignWare I3C master driver"
-> +	depends on I3C
+As commit 911a91c39cab ("kconfig: rename silentoldconfig to
+syncconfig") announced, it is time for the removal.
 
-> +	depends on !(ALPHA || PARISC)
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-why?
+ Documentation/networking/ice.rst | 2 +-
+ scripts/kconfig/Makefile         | 9 +--------
+ 2 files changed, 2 insertions(+), 9 deletions(-)
 
-> +	help
-> +	  Support·for·Synopsys·DesignWare·MIPI·I3C·Controller.
-
-These strange characters (displayed as a centred dot on my terminal)
-should probably be spaces.
-
-> +static struct dw_i3c_xfer *
-> +dw_i3c_master_alloc_xfer(struct dw_i3c_master *master, unsigned int ncmds)
-> +{
-> +	struct dw_i3c_xfer *xfer;
-> +
-> +	xfer = kzalloc(sizeof(*xfer) + (ncmds * sizeof(*xfer->cmds)),
-> +		       GFP_KERNEL);
-
-You should be using struct_size() here.
+diff --git a/Documentation/networking/ice.rst b/Documentation/networking/ice.rst
+index 1e4948c..4d118b8 100644
+--- a/Documentation/networking/ice.rst
++++ b/Documentation/networking/ice.rst
+@@ -20,7 +20,7 @@ Enabling the driver
+ The driver is enabled via the standard kernel configuration system,
+ using the make command::
+ 
+-  make oldconfig/silentoldconfig/menuconfig/etc.
++  make oldconfig/menuconfig/etc.
+ 
+ The driver is located in the menu structure at:
+ 
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index 5d37a60..63b6092 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -68,14 +68,7 @@ PHONY += $(simple-targets)
+ $(simple-targets): $(obj)/conf
+ 	$< $(silent) --$@ $(Kconfig)
+ 
+-PHONY += silentoldconfig savedefconfig defconfig
+-
+-# We do not expect manual invokcation of "silentoldcofig" (or "syncconfig").
+-silentoldconfig: syncconfig
+-	@echo "  WARNING: \"silentoldconfig\" has been renamed to \"syncconfig\""
+-	@echo "            and is now an internal implementation detail."
+-	@echo "            What you want is probably \"oldconfig\"."
+-	@echo "            \"silentoldconfig\" will be removed after Linux 4.19"
++PHONY += savedefconfig defconfig
+ 
+ savedefconfig: $(obj)/conf
+ 	$< $(silent) --$@=defconfig $(Kconfig)
+-- 
+2.7.4
 
