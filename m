@@ -1,98 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ECDE47D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 15:52:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5F04A7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 15:57:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727521AbeJ3Ali (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 20:41:38 -0400
-Received: from condef-05.nifty.com ([202.248.20.70]:28942 "EHLO
-        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727520AbeJ3Ali (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 20:41:38 -0400
-X-Greylist: delayed 424 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Oct 2018 20:41:36 EDT
-Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-05.nifty.com with ESMTP id w9TFgJBP028068;
-        Tue, 30 Oct 2018 00:42:22 +0900
-Received: from grover.tkatk1.zaq.ne.jp (zaqdadce369.zaq.ne.jp [218.220.227.105]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id w9TFfWK3013655;
-        Tue, 30 Oct 2018 00:41:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com w9TFfWK3013655
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1540827693;
-        bh=xMpzX31pEjrG2cKDEOQ6VMPhjxV09pqI6xMEUNfOb3g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tupr6Qt1QCw1wOXqjlWl25fpuBj00y5CyVpZKIqxm2f4jGiRGSBKZytAI1PKf0dlP
-         jWVNBstDEYw8rvibX6ccSLCcOQA4B+yYEWVAioi3X5RBACzoVoib7B7zIx8yrLVCWZ
-         kG78SFpqSWA/tw1AKo6zNoKvXYK+1S+K9JVw1jxwPG8l1NqX9a3W57E3Q2aKPKqXTJ
-         W3F7zWBYjTifDgtToJ4KyRREZOw4/6nyFg9ijp5xiRgr2wMuW2tmEVhgRsMwL1xiBd
-         J0BQ/OjHmxnuz//AbYAN4bLzBlJ4HVKiLU5+3IdpTEBi6cEsLN++a5zbf12FVyViCj
-         Oq+JCTVTU10cQ==
-X-Nifty-SrcIP: [218.220.227.105]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        id S1727722AbeJ3Aqd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 20:46:33 -0400
+Received: from mga06.intel.com ([134.134.136.31]:10654 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727565AbeJ3Aqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Oct 2018 20:46:33 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Oct 2018 08:57:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,440,1534834800"; 
+   d="asc'?scan'208";a="81823516"
+Received: from jtkirshe-desk1.jf.intel.com ([134.134.177.96])
+  by fmsmga007.fm.intel.com with ESMTP; 29 Oct 2018 08:57:19 -0700
+Message-ID: <c7970686b40e5348b2351580b19f45ee6edc12a9.camel@intel.com>
+Subject: Re: [PATCH 2/2] kconfig: remove silentoldconfig target
+From:   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Reply-To: jeffrey.t.kirsher@intel.com
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org
+Cc:     "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
         intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kconfig: remove silentoldconfig target
-Date:   Tue, 30 Oct 2018 00:41:28 +0900
-Message-Id: <1540827688-15999-2-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1540827688-15999-1-git-send-email-yamada.masahiro@socionext.com>
+Date:   Mon, 29 Oct 2018 09:00:48 -0700
+In-Reply-To: <1540827688-15999-2-git-send-email-yamada.masahiro@socionext.com>
 References: <1540827688-15999-1-git-send-email-yamada.masahiro@socionext.com>
+         <1540827688-15999-2-git-send-email-yamada.masahiro@socionext.com>
+Organization: Intel
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-Zp+VR215FWXUzxuFZmnr"
+X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
+Mime-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As commit 911a91c39cab ("kconfig: rename silentoldconfig to
-syncconfig") announced, it is time for the removal.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+--=-Zp+VR215FWXUzxuFZmnr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- Documentation/networking/ice.rst | 2 +-
- scripts/kconfig/Makefile         | 9 +--------
- 2 files changed, 2 insertions(+), 9 deletions(-)
+On Tue, 2018-10-30 at 00:41 +0900, Masahiro Yamada wrote:
+> As commit 911a91c39cab ("kconfig: rename silentoldconfig to
+> syncconfig") announced, it is time for the removal.
+>=20
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
+>=20
+>  Documentation/networking/ice.rst | 2 +-
+>  scripts/kconfig/Makefile         | 9 +--------
+>  2 files changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/networking/ice.rst b/Documentation/networking/ice.rst
-index 1e4948c..4d118b8 100644
---- a/Documentation/networking/ice.rst
-+++ b/Documentation/networking/ice.rst
-@@ -20,7 +20,7 @@ Enabling the driver
- The driver is enabled via the standard kernel configuration system,
- using the make command::
- 
--  make oldconfig/silentoldconfig/menuconfig/etc.
-+  make oldconfig/menuconfig/etc.
- 
- The driver is located in the menu structure at:
- 
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index 5d37a60..63b6092 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -68,14 +68,7 @@ PHONY += $(simple-targets)
- $(simple-targets): $(obj)/conf
- 	$< $(silent) --$@ $(Kconfig)
- 
--PHONY += silentoldconfig savedefconfig defconfig
--
--# We do not expect manual invokcation of "silentoldcofig" (or "syncconfig").
--silentoldconfig: syncconfig
--	@echo "  WARNING: \"silentoldconfig\" has been renamed to \"syncconfig\""
--	@echo "            and is now an internal implementation detail."
--	@echo "            What you want is probably \"oldconfig\"."
--	@echo "            \"silentoldconfig\" will be removed after Linux 4.19"
-+PHONY += savedefconfig defconfig
- 
- savedefconfig: $(obj)/conf
- 	$< $(silent) --$@=defconfig $(Kconfig)
--- 
-2.7.4
+Acked-by: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+
+For the ice driver documentation change.
+
+--=-Zp+VR215FWXUzxuFZmnr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAlvXLrAACgkQ5W/vlVpL
+7c7czA/7BJyuUZ7KlnPwyyvsq4CeO2EBjuqMQJTPHs44GgDBGLAQZxmnnsQNS8qY
+VoBpJeytrK3eiCOLEZj2jiQskY1kWY8SPwJumdotICdonIhnBkb9+9YcOKqb+BXx
+1szIy/8acRFWc+3WAoTcrICDKVCwf0cV7phXuj6NMjOPmH33Gt5X6gMfQWobAWZK
+XIppy5J2aBTH6XgDtAi0/SZA4FIZx/wl8mi36QQU83Utd/Cm86WMDi6CjD6InAdw
+eJSEPSATlxhxR4o2J+gv/KrieVKyctShS0nJCJ6IMgD4jHdMYLWOkAE2qMRySGqY
+klt7ts3eUG8V+7uEHROG9UbQUWnynsdgf2EStUJyGgVWRYubbrWs7mJjVX9tIrGa
+74FYauDDoAgd2sCjBIOaP5ys7pMw7Vqqrq5NoytBQJJkTQHpOKIX8ueLA09Kt9Qb
+kFsUhWkuF2G2l0PEb7ltq2O29dfQ6YTOdhGa+xIrgcp0d1f/ietVrAyhHucd8q8O
+iMBSO8cVMW1C+nwtbolmupAMrdDhhTsQ0xhGzruXkqjEj+z1J6zDhJKq/sfpvLNo
+0B73BXGfNL+sZ1L1kFrO5EFkvK7x/4SQtgjQwt11qhBlkBhXgOM1h4/JWa9725v7
+suMbspxRrPXscXBIXnLmHcr7tVY3l5E8NoKNpp88BFFceH7RT/k=
+=SE6r
+-----END PGP SIGNATURE-----
+
+--=-Zp+VR215FWXUzxuFZmnr--
 
