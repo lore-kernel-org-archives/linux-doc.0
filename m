@@ -1,96 +1,410 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B7C37D082
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 28 Oct 2018 19:29:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD07E7D923
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 03:22:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725949AbeJ2EOj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 00:14:39 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:39127 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725920AbeJ2EOj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 00:14:39 -0400
-Received: by mail-wm1-f66.google.com with SMTP id y144-v6so5932189wmd.4;
-        Sun, 28 Oct 2018 12:29:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7G8bUXdfiSJ9jXpJxKn0RnUIGyllqJB5atX8/kgDc2A=;
-        b=Hns+uBIKmAHMvAelmPK8HI1ypg+2iiZjwX8VRW1MAyafjT4hbVFnpFS/CLzYEX8Klh
-         BO30ItOARxzvea9p68HmiF0IVj8tgKQx8HnIP09sWEwalpGC0+//p+P19APbmw6aPoUT
-         b4rUCcJh4wBQ4ZA+kN74oy+D7UBMbNBx7yPYVQznBa2WsSzg/CZvN4ULDtN1r/WECrDR
-         pRyZj/e1EUFBHCCsTh5z5KWDqpRtRwwiTFLbBe9Jpj0GyK/B8VGl1To8Yvi0FEFPcego
-         N1nZowjZM34GLvQMIn5ZtJOBxExeU7fXC+FLI17IUnwN2NIDn26BkG0ECgWAXvMtLACp
-         /ZRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7G8bUXdfiSJ9jXpJxKn0RnUIGyllqJB5atX8/kgDc2A=;
-        b=LgqTdqbbLJBSBlNeS7EgJ4AaEqanWw1rqASf1D22A36XPZt37e7RLE9ho3roRVry+j
-         qcpF/96Favk/7rKQbmDxzJ5PXKKH58dg73Y5wA96Ri2Aa1C8WdByxsVrfipGlEb2mbS7
-         D3k4xjdUz32C11N6iMOuA4KPFbsxqINmpGnLDQzfWjXb1TyiIQOq+/3FKc/RJUfVBWQ5
-         uzZEhoHDduhG8yyvQ50Epmx2PUpQsvR+9DQTAHKOVdYw9IWAmBe9rvO/Q0Vg8mxd4INx
-         4M+OorDPJ06DtKJEgNsQZXb4L2tcY76a2wkq2mP4NVnciGBTQ4znIsOIcd2jK6jB+3+A
-         wQWA==
-X-Gm-Message-State: AGRZ1gJAhIfgN+y4hSTjkmkX829VL49c+T8wB2Fuysg86Cw7lU2rjrRu
-        ve8bOsgACfLzWEqfNW1fTIs=
-X-Google-Smtp-Source: AJdET5cx010ExiyDOMW1caa5wjJsaHQha/RRLLjtEE4mSYIS9MrDapY3bvWzRWe4e4Se6pbkTaiD3g==
-X-Received: by 2002:a1c:e15:: with SMTP id 21-v6mr12025977wmo.35.1540754941232;
-        Sun, 28 Oct 2018 12:29:01 -0700 (PDT)
-Received: from joris.fritz.box (p200300CF83C0B500C714D115E7850A75.dip0.t-ipconnect.de. [2003:cf:83c0:b500:c714:d115:e785:a75])
-        by smtp.gmail.com with ESMTPSA id t77-v6sm21650076wme.18.2018.10.28.12.29.00
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 28 Oct 2018 12:29:00 -0700 (PDT)
-From:   Joris Gutjahr <joris.gutjahr@gmail.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Joris Gutjahr <joris.gutjahr@gmail.com>
-Subject: [PATCH] doc-guide:kernel-doc.rst: Reference to foobar
-Date:   Sun, 28 Oct 2018 20:28:28 +0100
-Message-Id: <20181028192827.19136-1-joris.gutjahr@gmail.com>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1729207AbeJ2MI3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 08:08:29 -0400
+Received: from out1.zte.com.cn ([202.103.147.172]:36856 "EHLO mxct.zte.com.cn"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729157AbeJ2MI3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Oct 2018 08:08:29 -0400
+Received: from mse01.zte.com.cn (unknown [10.30.3.20])
+        by Forcepoint Email with ESMTPS id 12534C1150B689C4EFF6;
+        Mon, 29 Oct 2018 11:21:39 +0800 (CST)
+Received: from notes_smtp.zte.com.cn ([10.30.1.239])
+        by mse01.zte.com.cn with ESMTP id w9T3LXqt033975;
+        Mon, 29 Oct 2018 11:21:34 +0800 (GMT-8)
+        (envelope-from peng.hao2@zte.com.cn)
+Received: from localhost.localdomain.localdomain ([10.74.120.59])
+          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
+          with ESMTP id 2018102911213800-7293257 ;
+          Mon, 29 Oct 2018 11:21:38 +0800 
+From:   Peng Hao <peng.hao2@zte.com.cn>
+To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
+        gregkh@linuxfoundation.org, andy@infradead.org,
+        dvhart@infradead.org
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
+        Peng Hao <peng.hao2@zte.com.cn>
+Subject: [PATCH V3 1/5]  pvpanic: move pvpanic to misc as common driver
+Date:   Mon, 29 Oct 2018 19:32:19 +0800
+Message-Id: <1540812743-1825-1-git-send-email-peng.hao2@zte.com.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
+ 21, 2013) at 2018-10-29 11:21:38,
+        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
+ 2018-10-29 11:21:33,
+        Serialize complete at 2018-10-29 11:21:33
+X-MAIL: mse01.zte.com.cn w9T3LXqt033975
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the Function documentation Section of kernel-doc.rst
-there is a function_name() function as an example for
-how to make a comment about a function.
+move pvpanic.c from drivers/platform/x86 to drivers/misc.
+following patches will use pvpanic device in arm64.
 
-But at the end of that example there is a reference to foobar 
-instead of function_name.
-
-I think that should rather be function_name, because that
-was the placeholder the whole example was using.
-
-Signed-off-by: Joris Gutjahr <joris.gutjahr@gmail.com>
+Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 ---
- Documentation/doc-guide/kernel-doc.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/misc/Kconfig           |   7 +++
+ drivers/misc/Makefile          |   1 +
+ drivers/misc/pvpanic.c         | 124 +++++++++++++++++++++++++++++++++++++++++
+ drivers/platform/Kconfig       |   3 +
+ drivers/platform/Makefile      |   1 +
+ drivers/platform/x86/Kconfig   |   8 ---
+ drivers/platform/x86/Makefile  |   1 -
+ drivers/platform/x86/pvpanic.c | 124 -----------------------------------------
+ 8 files changed, 136 insertions(+), 133 deletions(-)
+ create mode 100644 drivers/misc/pvpanic.c
+ delete mode 100644 drivers/platform/x86/pvpanic.c
 
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index 8db53cdc225f..51be62aa4385 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -77,7 +77,7 @@ The general format of a function and function-like macro kernel-doc comment is::
-    * Context: Describes whether the function can sleep, what locks it takes,
-    *          releases, or expects to be held. It can extend over multiple
-    *          lines.
--   * Return: Describe the return value of foobar.
-+   * Return: Describe the return value of function_name.
-    *
-    * The return value description can also have multiple paragraphs, and should
-    * be placed at the end of the comment block.
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 5d71300..ca55c94 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -499,6 +499,13 @@ config MISC_RTSX
+ 	tristate
+ 	default MISC_RTSX_PCI || MISC_RTSX_USB
+ 
++config PVPANIC
++	tristate "pvpanic device support"
++	help
++          This driver provides support for the pvpanic device.  pvpanic is
++          a paravirtualized device provided by QEMU; it lets a virtual machine
++          (guest) communicate panic events to the host.
++
+ source "drivers/misc/c2port/Kconfig"
+ source "drivers/misc/eeprom/Kconfig"
+ source "drivers/misc/cb710/Kconfig"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index 20be70c..39dc005 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -57,3 +57,4 @@ obj-$(CONFIG_ASPEED_LPC_SNOOP)	+= aspeed-lpc-snoop.o
+ obj-$(CONFIG_PCI_ENDPOINT_TEST)	+= pci_endpoint_test.o
+ obj-$(CONFIG_OCXL)		+= ocxl/
+ obj-$(CONFIG_MISC_RTSX)		+= cardreader/
++obj-$(CONFIG_PVPANIC)  		+= pvpanic.o
+diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
+new file mode 100644
+index 0000000..fd86dab
+--- /dev/null
++++ b/drivers/misc/pvpanic.c
+@@ -0,0 +1,124 @@
++/*
++ *  pvpanic.c - pvpanic Device Support
++ *
++ *  Copyright (C) 2013 Fujitsu.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, write to the Free Software
++ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/types.h>
++#include <linux/acpi.h>
++
++MODULE_AUTHOR("Hu Tao <hutao@cn.fujitsu.com>");
++MODULE_DESCRIPTION("pvpanic device driver");
++MODULE_LICENSE("GPL");
++
++static int pvpanic_add(struct acpi_device *device);
++static int pvpanic_remove(struct acpi_device *device);
++
++static const struct acpi_device_id pvpanic_device_ids[] = {
++	{ "QEMU0001", 0 },
++	{ "", 0 },
++};
++MODULE_DEVICE_TABLE(acpi, pvpanic_device_ids);
++
++#define PVPANIC_PANICKED	(1 << 0)
++
++static u16 port;
++
++static struct acpi_driver pvpanic_driver = {
++	.name =		"pvpanic",
++	.class =	"QEMU",
++	.ids =		pvpanic_device_ids,
++	.ops =		{
++				.add =		pvpanic_add,
++				.remove =	pvpanic_remove,
++			},
++	.owner =	THIS_MODULE,
++};
++
++static void
++pvpanic_send_event(unsigned int event)
++{
++	outb(event, port);
++}
++
++static int
++pvpanic_panic_notify(struct notifier_block *nb, unsigned long code,
++		     void *unused)
++{
++	pvpanic_send_event(PVPANIC_PANICKED);
++	return NOTIFY_DONE;
++}
++
++static struct notifier_block pvpanic_panic_nb = {
++	.notifier_call = pvpanic_panic_notify,
++	.priority = 1, /* let this called before broken drm_fb_helper */
++};
++
++
++static acpi_status
++pvpanic_walk_resources(struct acpi_resource *res, void *context)
++{
++	switch (res->type) {
++	case ACPI_RESOURCE_TYPE_END_TAG:
++		return AE_OK;
++
++	case ACPI_RESOURCE_TYPE_IO:
++		port = res->data.io.minimum;
++		return AE_OK;
++
++	default:
++		return AE_ERROR;
++	}
++}
++
++static int pvpanic_add(struct acpi_device *device)
++{
++	int ret;
++
++	ret = acpi_bus_get_status(device);
++	if (ret < 0)
++		return ret;
++
++	if (!device->status.enabled || !device->status.functional)
++		return -ENODEV;
++
++	acpi_walk_resources(device->handle, METHOD_NAME__CRS,
++			    pvpanic_walk_resources, NULL);
++
++	if (!port)
++		return -ENODEV;
++
++	atomic_notifier_chain_register(&panic_notifier_list,
++				       &pvpanic_panic_nb);
++
++	return 0;
++}
++
++static int pvpanic_remove(struct acpi_device *device)
++{
++
++	atomic_notifier_chain_unregister(&panic_notifier_list,
++					 &pvpanic_panic_nb);
++	return 0;
++}
++
++module_acpi_driver(pvpanic_driver);
+diff --git a/drivers/platform/Kconfig b/drivers/platform/Kconfig
+index d4c2e42..8b64b78 100644
+--- a/drivers/platform/Kconfig
++++ b/drivers/platform/Kconfig
+@@ -1,3 +1,6 @@
++if ARM64
++source "drivers/platform/arm/Kconfig"
++endif
+ if X86
+ source "drivers/platform/x86/Kconfig"
+ endif
+diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
+index 4b2ce58..232231c 100644
+--- a/drivers/platform/Makefile
++++ b/drivers/platform/Makefile
+@@ -3,6 +3,7 @@
+ # Makefile for linux/drivers/platform
+ #
+ 
++obj-$(CONFIG_ARM64)               += arm/
+ obj-$(CONFIG_X86)		+= x86/
+ obj-$(CONFIG_MELLANOX_PLATFORM)	+= mellanox/
+ obj-$(CONFIG_MIPS)		+= mips/
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index ef016e4..a6b412e 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -1119,14 +1119,6 @@ config INTEL_SMARTCONNECT
+ 	  This driver checks to determine whether the device has Intel Smart
+ 	  Connect enabled, and if so disables it.
+ 
+-config PVPANIC
+-	tristate "pvpanic device support"
+-	depends on ACPI
+-	---help---
+-	  This driver provides support for the pvpanic device.  pvpanic is
+-	  a paravirtualized device provided by QEMU; it lets a virtual machine
+-	  (guest) communicate panic events to the host.
+-
+ config INTEL_PMC_IPC
+ 	tristate "Intel PMC IPC Driver"
+ 	depends on ACPI
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index 2ba6cb7..a4ec299 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -75,7 +75,6 @@ obj-$(CONFIG_APPLE_GMUX)	+= apple-gmux.o
+ obj-$(CONFIG_INTEL_RST)		+= intel-rst.o
+ obj-$(CONFIG_INTEL_SMARTCONNECT)	+= intel-smartconnect.o
+ 
+-obj-$(CONFIG_PVPANIC)           += pvpanic.o
+ obj-$(CONFIG_ALIENWARE_WMI)	+= alienware-wmi.o
+ obj-$(CONFIG_INTEL_PMC_IPC)	+= intel_pmc_ipc.o
+ obj-$(CONFIG_SILEAD_DMI)	+= silead_dmi.o
+diff --git a/drivers/platform/x86/pvpanic.c b/drivers/platform/x86/pvpanic.c
+deleted file mode 100644
+index fd86dab..0000000
+--- a/drivers/platform/x86/pvpanic.c
++++ /dev/null
+@@ -1,124 +0,0 @@
+-/*
+- *  pvpanic.c - pvpanic Device Support
+- *
+- *  Copyright (C) 2013 Fujitsu.
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, write to the Free Software
+- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+-
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-#include <linux/init.h>
+-#include <linux/types.h>
+-#include <linux/acpi.h>
+-
+-MODULE_AUTHOR("Hu Tao <hutao@cn.fujitsu.com>");
+-MODULE_DESCRIPTION("pvpanic device driver");
+-MODULE_LICENSE("GPL");
+-
+-static int pvpanic_add(struct acpi_device *device);
+-static int pvpanic_remove(struct acpi_device *device);
+-
+-static const struct acpi_device_id pvpanic_device_ids[] = {
+-	{ "QEMU0001", 0 },
+-	{ "", 0 },
+-};
+-MODULE_DEVICE_TABLE(acpi, pvpanic_device_ids);
+-
+-#define PVPANIC_PANICKED	(1 << 0)
+-
+-static u16 port;
+-
+-static struct acpi_driver pvpanic_driver = {
+-	.name =		"pvpanic",
+-	.class =	"QEMU",
+-	.ids =		pvpanic_device_ids,
+-	.ops =		{
+-				.add =		pvpanic_add,
+-				.remove =	pvpanic_remove,
+-			},
+-	.owner =	THIS_MODULE,
+-};
+-
+-static void
+-pvpanic_send_event(unsigned int event)
+-{
+-	outb(event, port);
+-}
+-
+-static int
+-pvpanic_panic_notify(struct notifier_block *nb, unsigned long code,
+-		     void *unused)
+-{
+-	pvpanic_send_event(PVPANIC_PANICKED);
+-	return NOTIFY_DONE;
+-}
+-
+-static struct notifier_block pvpanic_panic_nb = {
+-	.notifier_call = pvpanic_panic_notify,
+-	.priority = 1, /* let this called before broken drm_fb_helper */
+-};
+-
+-
+-static acpi_status
+-pvpanic_walk_resources(struct acpi_resource *res, void *context)
+-{
+-	switch (res->type) {
+-	case ACPI_RESOURCE_TYPE_END_TAG:
+-		return AE_OK;
+-
+-	case ACPI_RESOURCE_TYPE_IO:
+-		port = res->data.io.minimum;
+-		return AE_OK;
+-
+-	default:
+-		return AE_ERROR;
+-	}
+-}
+-
+-static int pvpanic_add(struct acpi_device *device)
+-{
+-	int ret;
+-
+-	ret = acpi_bus_get_status(device);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (!device->status.enabled || !device->status.functional)
+-		return -ENODEV;
+-
+-	acpi_walk_resources(device->handle, METHOD_NAME__CRS,
+-			    pvpanic_walk_resources, NULL);
+-
+-	if (!port)
+-		return -ENODEV;
+-
+-	atomic_notifier_chain_register(&panic_notifier_list,
+-				       &pvpanic_panic_nb);
+-
+-	return 0;
+-}
+-
+-static int pvpanic_remove(struct acpi_device *device)
+-{
+-
+-	atomic_notifier_chain_unregister(&panic_notifier_list,
+-					 &pvpanic_panic_nb);
+-	return 0;
+-}
+-
+-module_acpi_driver(pvpanic_driver);
 -- 
-2.19.1
+1.8.3.1
 
