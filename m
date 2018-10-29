@@ -1,155 +1,236 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,URIBL_SBL,URIBL_SBL_A,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 609C67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 20:22:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 21CE47D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 20:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727387AbeJ3FMG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Oct 2018 01:12:06 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:34125 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728958AbeJ3FMG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 01:12:06 -0400
-Received: by mail-io1-f65.google.com with SMTP id d80-v6so5851075iof.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Oct 2018 13:21:50 -0700 (PDT)
+        id S1729611AbeJ3F0H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Oct 2018 01:26:07 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:39407 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729535AbeJ3F0H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 01:26:07 -0400
+Received: by mail-lf1-f66.google.com with SMTP id p11-v6so7130576lfc.6;
+        Mon, 29 Oct 2018 13:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+VGpz0pPFr/WjkfyRARlME8X0Ya2Wf3uXpp6ohQfnPM=;
-        b=W4c37LrjNvPQCgQYilDFzG0O8oLm+JNHQCGNUf8pQKD6BP+6x7Qi7GyK454ucjv/Nk
-         qywsNQFrgkrWMESCt6lboRCNRNKkmS1Z8cJrZTbFJd+OHwGWPj3SJiLJUcZS0sqrtegH
-         yAgQMXwkbhnPlwSP/gJIb8p6ShXmNux73yYHBSc/bstl3lSU6SNeqHmxv1b1xUMFC0HR
-         igHFSyQOZ4VfFfjwnCI57ctWiNvRFqHVSElsBzwvZUtdCThRlRq8mozuPBucNFZ89RYp
-         hcExpb3r2wwEnvpj0EPpyuFlyD7Z4GrDDYP22dnP6keOSECo56cpt4oMxP2RppBzDzbf
-         ttfQ==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xoROp14gpVcYrnHpanBIcwQXTn+zarzVVmX341Y2MGo=;
+        b=ZgLYO6ktDKWE8nwlBLwYEAvIITbNAwmN2nbaOfoGc2SkAy1mIgkxE+e+KiueKVUyM7
+         tcuhmKpm2OsOUSthP8WKmze4K+U/bU5b82GDSzaWDzoimBhC/icW7BoAWiM86aF0yTFM
+         mSU0RQK5oYbC36tevv801EzhhftwHtTkNHrPUCqRMhan3Kr7GEDyw6hXrmOPjXGgNjFv
+         b6/nSaOf3rFDKwRY/2/+n4cyepQ9chQy+Z/oPXlzWfXclCOEyryxy954anxZkxd/pxWv
+         kaii2x0K7MdcBOcP/y9P9udgGk/74jIhY98mRt3iIxWoK+QjLeukagDL+r3Pw2w3l+mz
+         uzhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+VGpz0pPFr/WjkfyRARlME8X0Ya2Wf3uXpp6ohQfnPM=;
-        b=mQRwn74HlkVyNtxq234K3S5Qx2CQiPtXDkhh28/H1z8e72iw4pv2YxnjMoWoLP6HjQ
-         Z+zjHYoyNRjZXq+hvjjyjZRLiDt/8i9/GxpLOymR5H4j5hCV0TqsLed9CvtsL8wihKvl
-         E0OsuQYpckFctwmbQUnP9JInc9+/UXrxf4hdSiqxaxDqbcuYdrz2oQ4pBrn0u7EBhARz
-         Wuogyb/ZG4dpZa9i8RPsijvj8Pdc/eUHb96kJgkzrj9MNJnCU3vGmULNt/rlDDa2Gt3J
-         8SAn9moDlewQ3FR4e7mHzrDK2z7JyiN1NRB9jibMP6F87a+WKgrEadul+woJ94bHMu0i
-         Lyyg==
-X-Gm-Message-State: AGRZ1gI5+XcrOMcxjY+93oxMS1+iN8UoALMoH77KQcT3TjMvJ8TiORDL
-        xnkQgGxLZbjLGT2qZ+/ku6ghI1BcOzfoX6amt/Z18A==
-X-Google-Smtp-Source: AJdET5fUXEC2NmSa+EcduL0FzfgvXi28Ovm2vpn0cRzfozolMgWdXTpv3GiqN89phwMbZ6lt08qQKPACTtn5Rb9kVjU=
-X-Received: by 2002:a6b:9046:: with SMTP id s67-v6mr8927335iod.295.1540844509710;
- Mon, 29 Oct 2018 13:21:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181017222639.254434-1-kunyi@google.com> <20181027172833.GA25052@roeck-us.net>
-In-Reply-To: <20181027172833.GA25052@roeck-us.net>
-From:   Kun Yi <kunyi@google.com>
-Date:   Mon, 29 Oct 2018 13:21:23 -0700
-Message-ID: <CAGMNF6Xg28hm05wPXtq9bqssoNmgrzFGQiG4P+vLyXKvzvdJCQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] hwmon: (adm1275): Allow setting shunt reg value
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     OpenBMC Maillist <openbmc@lists.ozlabs.org>, jdelvare@suse.com,
-        corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xoROp14gpVcYrnHpanBIcwQXTn+zarzVVmX341Y2MGo=;
+        b=tqYHO9Msmr5SvOwY3+fPOteyO5C5UfHZXvv5fI9UeymWnqsOKRHn9wfGsZHFDRI9av
+         KjQmgw9jgEInqH94yOqmPglRZOF3YueImum+K9nILzfW18Iqio7t/goKfFKqBVQYEdda
+         8mu2lyrCbYv4nb8jZpPvEMVFoSHVCDoY0v+/r8JxPJyleFyQ6Y/olnZZ8um4O/1SP+Fk
+         Oki0JlWTyJH/wFDO3x9uQRMypish5+zMQobjuln2e3lq/lpRHasr9MYg6TmvqCeoPGur
+         6KXghe5i9LXXp9CBi2QHl+/pV6FuVccMUX+Vt00x4gJKL1ADIfp8RDO5m8RtN4Jk04MB
+         PElQ==
+X-Gm-Message-State: AGRZ1gJIMzdtzvmUHjk5G/TgD8jbLHftvcOtJrGdyewl0EBtXpSxM3fj
+        HcmUl2ZM+8kjyP63lJefeHh/Gt/88iA=
+X-Google-Smtp-Source: AJdET5cSRWcuRdnyf6N20sMcTngnAIq6L/3huRMkYVlpn02LRjkV5zy9SzlMT15UTyLO/2uqkGF0yQ==
+X-Received: by 2002:a19:1019:: with SMTP id f25mr150184lfi.54.1540845345157;
+        Mon, 29 Oct 2018 13:35:45 -0700 (PDT)
+Received: from ?IPv6:2001:14bb:52:7be:f0bf:dd2d:f008:5213? (dmkd798g-7z2-yccwcp-4.rev.dnainternet.fi. [2001:14bb:52:7be:f0bf:dd2d:f008:5213])
+        by smtp.gmail.com with ESMTPSA id 71-v6sm3662973lja.90.2018.10.29.13.35.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Oct 2018 13:35:44 -0700 (PDT)
+Subject: Re: [PATCH 10/17] prmem: documentation
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        kernel-hardening@lists.openwall.com,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, igor.stoppa@huawei.com,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com>
+ <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+From:   Igor Stoppa <igor.stoppa@gmail.com>
+Message-ID: <cb42d84d-082a-e1e5-7b71-95c2c4a44d0e@gmail.com>
+Date:   Mon, 29 Oct 2018 22:35:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 27, 2018 at 10:28 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On Wed, Oct 17, 2018 at 03:26:39PM -0700, Kun Yi wrote:
-> > The ADM series of hotswap controllers support extending
-> > the current measurement range by using a sensing resistor
-> > value other than the typical 1 mOhm. For example, using a 0.5 mOhm
-> > sensing resistor doubles the maximal current can be measured.
-> >
-> > Current driver assumes a shunt resistor value of 1 mOhm in calculation,
-> > meaning for other resistor values, hwmon will report scaled
-> > current/power measurements. This patch parses device tree parameter
-> > "shunt-resistor-micro-ohms", if there is one.
-> >
-> > Signed-off-by: Kun Yi <kunyi@google.com>
->
-> Applied to hwmon-next.
->
-> Thanks,
-> Guenter
->
-> > ---
-> > Changes in v3:
-> > - splitted hwmon and device tree binding patches
-> >
-> >  Documentation/hwmon/adm1275   |  3 +++
-> >  drivers/hwmon/pmbus/adm1275.c | 15 +++++++++++++--
-> >  2 files changed, 16 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/hwmon/adm1275 b/Documentation/hwmon/adm1275
-> > index 39033538eb03..5e277b0d91ce 100644
-> > --- a/Documentation/hwmon/adm1275
-> > +++ b/Documentation/hwmon/adm1275
-> > @@ -58,6 +58,9 @@ The ADM1075, unlike many other PMBus devices, does not support internal voltage
-> >  or current scaling. Reported voltages, currents, and power are raw measurements,
-> >  and will typically have to be scaled.
-> >
-> > +The shunt value in micro-ohms can be set via device tree at compile-time. Please
-> > +refer to the Documentation/devicetree/bindings/hwmon/adm1275.txt for bindings
-> > +if the device tree is used.
-> >
-> >  Platform data support
-> >  ---------------------
-> > diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
-> > index 13600fa79e7f..f569372c9204 100644
-> > --- a/drivers/hwmon/pmbus/adm1275.c
-> > +++ b/drivers/hwmon/pmbus/adm1275.c
-> > @@ -373,6 +373,7 @@ static int adm1275_probe(struct i2c_client *client,
-> >       const struct coefficients *coefficients;
-> >       int vindex = -1, voindex = -1, cindex = -1, pindex = -1;
-> >       int tindex = -1;
-> > +     u32 shunt;
-> >
-> >       if (!i2c_check_functionality(client->adapter,
-> >                                    I2C_FUNC_SMBUS_READ_BYTE_DATA
-> > @@ -421,6 +422,13 @@ static int adm1275_probe(struct i2c_client *client,
-> >       if (!data)
-> >               return -ENOMEM;
-> >
-> > +     if (of_property_read_u32(client->dev.of_node,
-> > +                              "shunt-resistor-micro-ohms", &shunt))
-> > +             shunt = 1000; /* 1 mOhm if not set via DT */
-> > +
-> > +     if (shunt == 0)
-> > +             return -EINVAL;
-> > +
-> >       data->id = mid->driver_data;
-> >
-> >       info = &data->info;
-> > @@ -654,12 +662,15 @@ static int adm1275_probe(struct i2c_client *client,
-> >               info->R[PSC_VOLTAGE_OUT] = coefficients[voindex].R;
-> >       }
-> >       if (cindex >= 0) {
-> > -             info->m[PSC_CURRENT_OUT] = coefficients[cindex].m;
-> > +             /* Scale current with sense resistor value */
-> > +             info->m[PSC_CURRENT_OUT] =
-> > +                     coefficients[cindex].m * shunt / 1000;
-> >               info->b[PSC_CURRENT_OUT] = coefficients[cindex].b;
-> >               info->R[PSC_CURRENT_OUT] = coefficients[cindex].R;
-> >       }
-> >       if (pindex >= 0) {
-> > -             info->m[PSC_POWER] = coefficients[pindex].m;
-> > +             info->m[PSC_POWER] =
-> > +                     coefficients[pindex].m * shunt / 1000;
-> >               info->b[PSC_POWER] = coefficients[pindex].b;
-> >               info->R[PSC_POWER] = coefficients[pindex].R;
-> >       }
+On 26/10/2018 10:26, Peter Zijlstra wrote:
 
-Thanks!
+>> +- Kernel code is protected at system level and, unlike data, it doesn't
+>> +  require special attention.
+> 
+> What does this even mean?
 
--- 
-Regards,
-Kun
+I was trying to convey the notion that the pages containing kernel code 
+do not require any special handling by the author of a generic kernel 
+component, for example a kernel driver.
+
+Pages containing either statically or dynamically allocated data, 
+instead, are not automatically protected.
+
+But yes, the sentence is far from being clear.
+
+> 
+>> +Protection mechanism
+>> +--------------------
+>> +
+>> +- When available, the MMU can write protect memory pages that would be
+>> +  otherwise writable.
+> 
+> Again; what does this really want to say?
+
+That it is possible to use the MMU also for write-protecting pages 
+containing data which was not declared as constant.
+> 
+>> +- The protection has page-level granularity.
+> 
+> I don't think Linux supports non-paging MMUs.
+
+This probably came from a model I had in mind where a separate execution 
+environment, such as an hypervisor, could trap and filter writes to a 
+certain parts of a page, rejecting some and performing others, 
+effectively emulating sub-page granularity.
+
+> 
+>> +- An attempt to overwrite a protected page will trigger an exception.
+>> +- **Write protected data must go exclusively to write protected pages**
+>> +- **Writable data must go exclusively to writable pages**
+> 
+> WTH is with all those ** ?
+
+[...]
+
+> Can we ditch all the ** nonsense and put whitespace in there? More paragraphs
+> and whitespace are more good.
+
+Yes
+
+> Also, I really don't like how you differentiate between static and
+> dynamic wr.
+
+ok, but why? what would you suggest, instead?
+
+[...]
+
+> We already have RO, why do you need more RO?
+
+I can explain, but I'm at loss of what is the best place: I was under 
+the impression that this sort of document should focus mostly on the API 
+and its use. I was even considering removing most of the explanation and 
+instead put it in a separate document.
+
+> 
+>> +
+>> +   **Remarks:**
+>> +    - The "AUTO" modes perform automatic protection of the content, whenever
+>> +       the current vmap_area is used up and a new one is allocated.
+>> +        - At that point, the vmap_area being phased out is protected.
+>> +        - The size of the vmap_area depends on various parameters.
+>> +        - It might not be possible to know for sure *when* certain data will
+>> +          be protected.
+> 
+> Surely that is a problem?
+> 
+>> +        - The functionality is provided as tradeoff between hardening and speed.
+> 
+> Which you fail to explain.
+> 
+>> +        - Its usefulness depends on the specific use case at hand
+> 
+> How about you write sensible text inside the option descriptions
+> instead?
+> 
+> This is not a presentation; less bullets, more content.
+
+I tried to say something, without saying too much, but it was clearly a 
+bad choice.
+
+Where should i put a thoroughly detailed explanation?
+Here or in a separate document?
+
+> 
+>> +- Not only the pmalloc memory must be protected, but also any reference to
+>> +  it that might become the target for an attack. The attack would replace
+>> +  a reference to the protected memory with a reference to some other,
+>> +  unprotected, memory.
+> 
+> I still don't really understand the whole write-rare thing; how does it
+> really help? If we can write in kernel memory, we can write to
+> page-tables too.
+
+It has already been answered by Kees, but I'll provide also my answer:
+
+the exploits used to write in kernel memory are specific to certain 
+products and SW builds, so it's not possible to generalize too much, 
+however there might be some limitation in the reach of a specific 
+vulnerability. For example, if a memory location is referred to as 
+offset from a base address, the maximum size of the offset limits the 
+scope of the attack. Which might make it impossible to use that specific 
+vulnerability for writing directly to the page table. But something 
+else, say a statically allocated variable, might be within reach.
+
+said this, there is also the almost orthogonal use case of providing 
+increased robustness by trapping accidental modifications, caused by bugs.
+
+> And I don't think this document even begins to explain _why_ you're
+> doing any of this. How does it help?
+
+ok, point taken
+
+>> +- The users of rare write must take care of ensuring the atomicity of the
+>> +  action, respect to the way they use the data being altered; for example,
+>> +  take a lock before making a copy of the value to modify (if it's
+>> +  relevant), then alter it, issue the call to rare write and finally
+>> +  release the lock. Some special scenario might be exempt from the need
+>> +  for locking, but in general rare-write must be treated as an operation
+>> +  that can incur into races.
+> 
+> What?!
+
+Probably something along the lines of:
+
+"users of write-rare are responsible of using mechanisms that allow 
+reading/writing data in a consistent way"
+
+and if it seems obvious, I can just drop it.
+
+One of the problems I have faced is to decide what level of knowledge or 
+understanding I should expect from the reader of such document: what I 
+can take for granted and what I should explain.
+
+--
+igor
+
+
+
+
