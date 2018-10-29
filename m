@@ -1,28 +1,37 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 875BC7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 13:21:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1848D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 13:41:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbeJ2WKe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 18:10:34 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:35088 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725862AbeJ2WKd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Oct 2018 18:10:33 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 1605420795; Mon, 29 Oct 2018 14:21:52 +0100 (CET)
-Received: from bbrezillon (aaubervilliers-681-1-12-210.w90-88.abo.wanadoo.fr [90.88.133.210])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 4C04C20714;
-        Mon, 29 Oct 2018 14:21:51 +0100 (CET)
-Date:   Mon, 29 Oct 2018 14:21:51 +0100
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Vitor soares <vitor.soares@synopsys.com>,
+        id S1725964AbeJ2W3s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 18:29:48 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45006 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725862AbeJ2W3s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 18:29:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=7tOo3mOK1RhCIFMhClp70+XyUYGv1gfIsS6PyLmMgJM=; b=HnokiOq4Tly7OCMPlmMDSRKxVp
+        mWbkYnOTCGE3vShL6H50qNxIhL66pqHkzKmPKxKYmcopgoIoevXegcSvdGuvwdswGeBptDP/1DI+G
+        Gt8T2tAAVkrMjRuXeEyo/ckM0VOP7kAQFJgfQPxnD+KM5Y3KcsdKXC2E5yhOdsUDmnqKUN/Fyf+G0
+        jhggGCjM0mZPMOe2Q1qP+1ljTl+FwlYMjDQtWMnkt9MfGQI/6IR70mj3cwnZxdXt2X396AzN1ThZ1
+        G4/CBl7keWa+aL1nW+psS9j55MBfHwfHdQ7QY2mC0NH/d0tu8nzNXUfUcl8ptzv02bTO6vmIrlHsW
+        PwTZ+rJA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gH7mu-0003HR-R5; Mon, 29 Oct 2018 13:41:00 +0000
+Date:   Mon, 29 Oct 2018 06:41:00 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Vitor soares <vitor.soares@synopsys.com>
+Cc:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
         linux-i2c@vger.kernel.org, corbet@lwn.net,
         linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
         arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
@@ -38,38 +47,43 @@ Cc:     Vitor soares <vitor.soares@synopsys.com>,
         mshettel@codeaurora.org, swboyd@chromium.org,
         joao.pinto@synopsys.com, luis.oliveira@synopsys.com,
         manuel.abreu@synopsys.com, gustavo.pimentel@synopsys.com
-Subject: Re: [PATCH 0/3] Add driver for Synopsys DesignWare I3C master IP
-Message-ID: <20181029142151.19f480b9@bbrezillon>
-In-Reply-To: <20181029115633.GA5881@kunai>
+Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
+Message-ID: <20181029134100.GD28520@bombadil.infradead.org>
 References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
-        <20181029115633.GA5881@kunai>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ <1540807618-13246-2-git-send-email-soares@synopsys.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1540807618-13246-2-git-send-email-soares@synopsys.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 29 Oct 2018 11:56:34 +0000
-Wolfram Sang <wsa@the-dreams.de> wrote:
+On Mon, Oct 29, 2018 at 10:06:56AM +0000, Vitor soares wrote:
+> +config DW_I3C_MASTER
+> +	tristate "Synospsys DesignWare I3C master driver"
+> +	depends on I3C
 
-> Boris,
-> 
-> > This patch series is a proposal for the I3C master driver for Synopsys IP.  
-> 
-> Any news on the I3C mailing list?
+> +	depends on !(ALPHA || PARISC)
 
-Nope, no news from DaveM so far. I pinged him twice (maybe my emails go
-into his SPAM folder).
+why?
 
-> It is not much yet, still I was
-> wondering...
-> 
+> +	help
+> +	  Support·for·Synopsys·DesignWare·MIPI·I3C·Controller.
 
-The plan is to get the framework merged and then we'll have a good
-argument to have the I3C ML created.
+These strange characters (displayed as a centred dot on my terminal)
+should probably be spaces.
 
-Alternatively, I could ask David Woodhouse to create a ML on infradead,
-but I'd really prefer to have it on kernel.org.
+> +static struct dw_i3c_xfer *
+> +dw_i3c_master_alloc_xfer(struct dw_i3c_master *master, unsigned int ncmds)
+> +{
+> +	struct dw_i3c_xfer *xfer;
+> +
+> +	xfer = kzalloc(sizeof(*xfer) + (ncmds * sizeof(*xfer->cmds)),
+> +		       GFP_KERNEL);
+
+You should be using struct_size() here.
+
