@@ -2,91 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4DEF87DD29
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 10:08:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C32387D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Oct 2018 10:16:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729813AbeJ2S4Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Oct 2018 14:56:24 -0400
-Received: from smtprelay.synopsys.com ([198.182.60.111]:35618 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729802AbeJ2S4Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 14:56:24 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 23AF310C1326;
-        Mon, 29 Oct 2018 03:08:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1540807705; bh=PEXOwxWnNnXhAQvDzEx4CSincLH2//m/s5VHGGoGZJM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RGQH/A5smwRopEA7q7dtR/CVrReb13fiP0+pyG9K6wsHynKY3m3HMM98oXFwcXOIq
-         kAuvc3YK3qmzwVgyoOguGcJBWBEGRjvD6QRzzMVRue0dWR0DLBAz2Nq/wY04GSWApu
-         CGIOE23FBCa2N3SmpUix7r7NgLtoHDSzldBG3VkRqGKURiTC/LJzSlBTiJQvuk7IQc
-         unuCRxg9wFoCGU76Ai8eyEMSyylFRoWbjYpZKeFyksxHagWtz9cQq57b9IO72aa04b
-         Tc3Q7N3M7q7ogjHI/NDHu4PpMPmQVTmV+xYZnFqv0TPv71953rnrdx6iM8Ne/soFN6
-         cDbgEtnuw+Apg==
-Received: from localhost.localdomain (soares-e7470.internal.synopsys.com [10.225.2.39])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 0694A5573;
-        Mon, 29 Oct 2018 03:08:15 -0700 (PDT)
-From:   Vitor soares <vitor.soares@synopsys.com>
-To:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
-        linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        arnd@arndb.de
-Cc:     psroka@cadence.com, agolec@cadence.com, adouglas@cadence.com,
-        bfolta@cadence.com, dkos@cadence.com, alicja@cadence.com,
-        cwronka@cadence.com, sureshp@cadence.com, rafalc@cadence.com,
-        thomas.petazzoni@bootlin.com, nm@ti.com, robh+dt@kernel.org,
-        pawel.moll@arm.com, mark.rutland@arm.com,
-        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        vitor.soares@synopsys.com, geert@linux-m68k.org,
-        linus.walleij@linaro.org, Xiang.Lin@synaptics.com,
-        linux-gpio@vger.kernel.org, nsekhar@ti.com, pgaj@cadence.com,
-        peda@axentia.se, mshettel@codeaurora.org, swboyd@chromium.org,
-        joao.pinto@synopsys.com, luis.oliveira@synopsys.com,
-        manuel.abreu@synopsys.com, gustavo.pimentel@synopsys.com
-Subject: [PATCH 3/3] MAINTAINERS: Add myself as the dw-i3c-master module maintainer
-Date:   Mon, 29 Oct 2018 10:06:58 +0000
-Message-Id: <1540807618-13246-4-git-send-email-soares@synopsys.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1540807618-13246-1-git-send-email-soares@synopsys.com>
-References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
+        id S1729877AbeJ2TEN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Oct 2018 15:04:13 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:45138 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729613AbeJ2TEM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Oct 2018 15:04:12 -0400
+Received: by mail-qt1-f193.google.com with SMTP id l9-v6so8453494qtj.12;
+        Mon, 29 Oct 2018 03:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0XpXxIG6RvfrJcmeHDk6dC/VEkNzaQidrxdFaPMKMV0=;
+        b=I4vj2Xub5Q5Un4bI2t8yTgRZrGCRh9xO4IqL30AkyyFRQ6au2bMZ0mwh2ijRUiuO05
+         HQoARWuj6nQFNvQDuumW1w6YNuUCi6uFBWC27CJdliYFBBGMY+7Fm+A9QYXtSDb5sOz0
+         HZwAJhZG1Kgi/uUmzD9GJ97xA4bvI9hvZhFq7EKjsfyPnT6ev/pf9tzY0Ez+T3lNL0zt
+         MCqtvSfjom+m2y+0LhpacV0QucvbAG/poMQjqDLrMAKoYxwioDXhegHn4+R8xw/4rp1z
+         2kt9vtIkusHHUnOLXntZXwSdjkGScX2IDRM+tD3x2jFXTHpfgM0ByAjlBTPTdcFjYMza
+         o3xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0XpXxIG6RvfrJcmeHDk6dC/VEkNzaQidrxdFaPMKMV0=;
+        b=BvKWCC5wMpstc2+DKN82V3B4Lwoclcd5Dswr3S9dOSdyB/FLzgAuU18dIIWgxCo3MH
+         VfCHpKOcIpBNK0EmUZX1uBRIzqW3rMJHQ3+ZXKkI2jIwr95Ph5HTr0glYMzxn3hvoYj9
+         B0P0Ij8Dq67feZp4iN/otmmKQFV3Ko6KVqtZSTK3KKS4e/CfSseIOJmm0WE7aHKP52Pd
+         0uy6fW2egidOo49ac1mYu9NJUU+zeAqZjbKgxHRjcyb8VeuZVywmjo6zUoyBRVxaU1KJ
+         7LbYXw1q52xJCTAw3+PNzorbI01tlbv7Q+IMmyi3HAbpR4iCqxAqtZUXDwwLJ5X9Rwrf
+         Q0YQ==
+X-Gm-Message-State: AGRZ1gKrcmFhgsytVQWW46mzXyDZ7ztAp+MRvZf3hdkwG6ygvyUVnRCZ
+        Iy8wcrw59uDLsWMIhJOUUX2IU9wCdnImAR0w8Ks=
+X-Google-Smtp-Source: AJdET5egLiFmmHoRTIWCABhRELgj61D9ZxCYemS7kxJfkREnqTBQFxljnVBv5ZJIO04AtB5LSDq5EFoKOqMOX/1ZKnU=
+X-Received: by 2002:aed:3e56:: with SMTP id m22-v6mr2858113qtf.99.1540808171280;
+ Mon, 29 Oct 2018 03:16:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1540812743-1825-1-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1540812743-1825-1-git-send-email-peng.hao2@zte.com.cn>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 29 Oct 2018 12:15:59 +0200
+Message-ID: <CAHp75Ve19dcQ3FtRa4BS_Y381g9TDvb2G-M8BNegFuUWA6wzAQ@mail.gmail.com>
+Subject: Re: [PATCH V3 1/5] pvpanic: move pvpanic to misc as common driver
+To:     peng.hao2@zte.com.cn
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        hutao@cn.fujitsu.com,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Vitor soares <soares@synopsys.com>
----
-Change in v2:
--None
+On Mon, Oct 29, 2018 at 5:22 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
+>
+> move pvpanic.c from drivers/platform/x86 to drivers/misc.
+> following patches will use pvpanic device in arm64.
+>
+> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+> ---
+>  drivers/misc/Kconfig           |   7 +++
+>  drivers/misc/Makefile          |   1 +
+>  drivers/misc/pvpanic.c         | 124 +++++++++++++++++++++++++++++++++++++++++
+>  drivers/platform/Kconfig       |   3 +
+>  drivers/platform/Makefile      |   1 +
+>  drivers/platform/x86/Kconfig   |   8 ---
+>  drivers/platform/x86/Makefile  |   1 -
+>  drivers/platform/x86/pvpanic.c | 124 -----------------------------------------
 
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+As I mentioned you better to use -C -M.
+This is currently a bit hard to review.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 293c863..38c2760 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6930,6 +6930,12 @@ F:	drivers/i3c/
- F:	include/linux/i3c/
- F:	include/dt-bindings/i3c/
- 
-+I3C·DRIVER·FOR·SYNOPSYS·DESIGNWARE
-+M:	Vitor·Soares·<soares@synopsys.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
-+F:	drivers/i3c/master/dw*
-+
- IA64 (Itanium) PLATFORM
- M:	Tony Luck <tony.luck@intel.com>
- M:	Fenghua Yu <fenghua.yu@intel.com>
 -- 
-2.7.4
-
-
+With Best Regards,
+Andy Shevchenko
