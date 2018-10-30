@@ -1,142 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C20F77D8BA
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 16:38:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9EFD77D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 16:51:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727508AbeJaBcT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Oct 2018 21:32:19 -0400
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:43183 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727411AbeJaBcN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 21:32:13 -0400
-Received: by mail-yw1-f65.google.com with SMTP id j75-v6so5173604ywj.10
-        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 09:38:02 -0700 (PDT)
+        id S1727773AbeJaBpX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Oct 2018 21:45:23 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:54644 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727484AbeJaBpX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 21:45:23 -0400
+Received: by mail-it1-f195.google.com with SMTP id d6so8962850itl.4;
+        Tue, 30 Oct 2018 09:51:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=VZoNZooRaqDzEWaRLEKdrKAAKC6uL0sBgSFjdygxcXA=;
-        b=ht93vtlnvVM4sJvsrLS/XVPam18FZGYWOuKhoG7tTU9zDVRzID1jFV+Pax7TEqCHVT
-         dD2GI13/VwJzNEyXB7/8NzOxJcAEhXibtqz87TwTH8gKYu86BY5LT62L3bfaUl77oj3n
-         iqMPDW4MiC0cW8YiHyGJXjeza4kPQeL5zjHnA=
+        bh=xbJZ0jBQRAT1UWNJTqYZCeGU/7QDoqBNuoSoR3iB0OQ=;
+        b=WmbqrhabceHBp4QLjP0T6XkAWJ0IZ8la+kDj8ZvX1CCK5oSRlcbYC9pOEQ8xtvd7kE
+         HYtE8WkpfIdQnZOEcBoLXZlWJD/3bQRs4xMyG3dgl+rSaNjYeBQKq9fJVD4bzlOG2nJc
+         68TRxLw2EGPjhzBXl3M0seMzJfaFZz7Nmi3O5AzMoWG7pTM51vPABbQdLIu61DUSRSVV
+         gDGCqUHNWqfC7wtXVLHc3TqEdPkVV19SE+u+Ap3su+Edh4GcYVNQ4Hzwx59HuQ6lx7J+
+         irNlX3lql5vA9gdVeMH4forGbdhHp/ZIS6zH8bKGO5WhEyzHd+SQeACEte9sUaIBwQeK
+         m0Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VZoNZooRaqDzEWaRLEKdrKAAKC6uL0sBgSFjdygxcXA=;
-        b=uO/aoZ1nCe0OPRkbkRxyuOziSI4iBpMEKhyYZS6xFSu7ZWFuSJMqBb5FZ4qLLSaVs2
-         7LVogtwI/Llcgy83Gs2S+xUgGkeAJGG6C3ZYPDKTx4fS8OPW5TDUiCQbQOVVBkHn45/1
-         UTc0JO1SGlaMcVDesZHxHQCWPvA7eGjfOE4u+9gRCkq6le2qaWmwpXJ1jF7hPGSubmvG
-         YR0Pmm7K1lY8sO1NdYQXQTRbp07WtW7JEk6iHAIRyTWxcvqukXJDWO2HrdTCYFZRUCRS
-         a7TxN3oya4JhCazCjbwa3PfRXVI5E4Jq+XbCgWSihRunSzMZE6JcfnxrsTNROftmSuXI
-         JS9A==
-X-Gm-Message-State: AGRZ1gJZJZB3n8Rc/mSnSSTRtV7bKoyT/fqVtlfxzLGThkoigqQG8ylu
-        nLrbLjDflEyE6GYtuVqvvGyI5b+auH0=
-X-Google-Smtp-Source: AJdET5fAlK1/qCSD3O8Qc+SeE5AT72urNHbBU75vAycvpElw/kxpquPoNGkCQMpQPuL2nR9Elk+W+w==
-X-Received: by 2002:a0d:c3c7:: with SMTP id f190-v6mr679595ywd.105.1540917480613;
-        Tue, 30 Oct 2018 09:38:00 -0700 (PDT)
-Received: from mail-yw1-f52.google.com (mail-yw1-f52.google.com. [209.85.161.52])
-        by smtp.gmail.com with ESMTPSA id t184-v6sm2194429ywd.37.2018.10.30.09.37.58
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Oct 2018 09:37:58 -0700 (PDT)
-Received: by mail-yw1-f52.google.com with SMTP id v199-v6so5187989ywg.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 09:37:58 -0700 (PDT)
-X-Received: by 2002:a81:813:: with SMTP id 19-v6mr3464914ywi.168.1540917477794;
- Tue, 30 Oct 2018 09:37:57 -0700 (PDT)
+        bh=xbJZ0jBQRAT1UWNJTqYZCeGU/7QDoqBNuoSoR3iB0OQ=;
+        b=CaTPeOPbmn2/H/znh5MVPEnef4Mge/qnN6tSLnZD5tL8zS80j68KXvaQYlquetg4B4
+         XjB7mSjNBrnmf76XVw7fmEWm4zsLRHBhHPW7AGFaWJNleRLJvBWGYPE0vPaXIklnaKbW
+         GeVrpJHESlS04Ja1h6Il82T65UF+gHQA6Yz+M7QELcatX01crAd+MFGDjpT8z9VibKCI
+         4qZxOP/OZA8ncHPKjHIhZ9YfB8ivMhjU40eqBXHM+BOejZYdeEGgIso48MUKq8fmuvbJ
+         mcc7wxJpAvs+3ENXWJLSJI4fSElHqFYUnK55BUWW75QOFMA2ayxII12UrPLz/OZSR5L4
+         Ez+A==
+X-Gm-Message-State: AGRZ1gJQBgb61Ng9Gjj+QqI6sjf66iDtZKABSnBWcuU6W8YCWx85d0SQ
+        ilQyUE3v+Es9iy2a+zFPNyZm7c4VoIxbvFITKaE=
+X-Google-Smtp-Source: AJdET5dTOI31dORLHX6nLPycN+e6U3P91g9jty0cXL0rT2RHqB5c0fpscozinN6Fb8cISz4raj36vkL99dwtJdbcITk=
+X-Received: by 2002:a24:59c1:: with SMTP id p184-v6mr1986241itb.93.1540918267830;
+ Tue, 30 Oct 2018 09:51:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a25:3990:0:0:0:0:0 with HTTP; Tue, 30 Oct 2018 09:37:56
- -0700 (PDT)
-In-Reply-To: <20181030152641.GE8177@hirez.programming.kicks-ass.net>
-References: <20181023213504.28905-1-igor.stoppa@huawei.com>
- <20181023213504.28905-11-igor.stoppa@huawei.com> <20181026092609.GB3159@worktop.c.hoisthospitality.com>
- <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
- <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
- <20181030152641.GE8177@hirez.programming.kicks-ass.net>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Tue, 30 Oct 2018 09:37:56 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
-Message-ID: <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
-Subject: Re: [PATCH 10/17] prmem: documentation
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Igor Stoppa <igor.stoppa@gmail.com>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
+References: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com> <20181029064640.GE128403@gmail.com>
+In-Reply-To: <20181029064640.GE128403@gmail.com>
+From:   Ahmed Soliman <ahmedsoliman0x666@gmail.com>
+Date:   Tue, 30 Oct 2018 18:49:35 +0200
+Message-ID: <CAAGnT3atejrUi6ypZPiDCtMVUP6vx51sKkc2yeQg0SF8-kra8w@mail.gmail.com>
+Subject: Re: [PATCH V5 0/5] KVM: X86: Introducing ROE Protection Kernel Hardening
+To:     mingo@kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        nathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?B?6rmA7J246rK4?= <ovich00@gmail.com>,
         Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Thomas Gleixner <tglx@linutronix.de>
+        nigel.edwards@hpe.com, Boris Lukashev <blukashev@sempervictus.com>,
+        Hossam Hassan <7ossam9063@gmail.com>,
+        Ahmed Lotfy <A7med.lotfey@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 30, 2018 at 8:26 AM, Peter Zijlstra <peterz@infradead.org> wrote:
-> I suppose the 'normal' attack goes like:
+On Mon, 29 Oct 2018 at 08:46, Ingo Molnar <mingo@kernel.org> wrote:
 >
->  1) find buffer-overrun / bound check failure
->  2) use that to write to 'interesting' location
->  3) that write results arbitrary code execution
->  4) win
 >
-> Of course, if the store of 2 is to the current cred structure, and
-> simply sets the effective uid to 0, we can skip 3.
+> * Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com> wrote:
+>
+> > This is the 5th version which is 4th version with minor fixes. ROE is a
+> > hypercall that enables host operating system to restrict guest's access to its
+> > own memory. This will provide a hardening mechanism that can be used to stop
+> > rootkits from manipulating kernel static data structures and code. Once a memory
+> > region is protected the guest kernel can't even request undoing the protection.
+> >
+> > Memory protected by ROE should be non-swapable because even if the ROE protected
+> > page got swapped out, It won't be possible to write anything in its place.
+> >
+> > ROE hypercall should be capable of either protecting a whole memory frame or
+> > parts of it. With these two, it should be possible for guest kernel to protect
+> > its memory and all the page table entries for that memory inside the page table.
+> > I am still not sure whether this should be part of ROE job or the guest's job.
+> >
+> >
+> > The reason why it would be better to implement this from inside kvm: instead of
+> > (host) user space is the need to access SPTEs to modify the permissions, while
+> > mprotect() from user space can work in theory. It will become a big performance
+> > hit to vmexit and switch to user space mode on each fault, on the other hand,
+> > having the permission handled by EPT should make some remarkable performance
+> > gain.
+> >
+> > Our model assumes that an attacker got full root access to a running guest and
+> > his goal is to manipulate kernel code/data (hook syscalls, overwrite IDT ..etc).
+> >
+> > There is future work in progress to also put some sort of protection on the page
+> > table register CR3 and other critical registers that can be intercepted by KVM.
+> > This way it won't be possible for an attacker to manipulate any part of the
+> > guests page table.
+>
+> BTW., transparent detection and trapping of attacks would also be nice:
+> if ROE is active and something running on the guest still attempts to
+> change the pagetables, the guest should be frozen and a syslog warning on
+> the hypervisor side should be printed?
 
-In most cases, yes, gaining root is game over. However, I don't want
-to discount other threat models: some systems have been designed not
-to trust root, so a cred attack doesn't always get an attacker full
-control (e.g. lockdown series, signed modules, encrypted VMs, etc).
+I was thinking about logging ROE violations to host's kernel logs too
+and I will have it in the next
+version of the patch set, but I am not sure if we should really freeze
+the guest once a violation
+happens, I wanted to completely isolate the mechanism from the policy.
+In the current implementation,
+the policy followed  is left to users pace host process using kvm. It
+will be notified about a Memory IO
+error in the guest, and the guest will be waiting for the host to take
+actions (vmexit). Of course the
+simplest action shall be "do nothing", so the writing operation will
+fail but the guest continues to run, or it
+can freeze the guest, or maybe do something advanced like cloning the
+vm and disconnecting network
+interface from the cloned vm, then enable the write operation and keep
+track of what is going on somehow.
+Because of the many varieties of possible reactions, we decided to
+keep the them out of KVM and just let the
+user space process decide how should the situation be handled.
 
-> Which seems to suggest all cred structures should be made r/o like this.
-> But I'm not sure I remember these patches doing that.
+> Also, the feature should probably be 'default y' to help spread it on the
+> distro side. It's opt-in functionality from the guest side anyway, so
+> there's no real cost on the host side other than some minor resident
+> memory.
 
-There are things that attempt to protect cred (and other things, like
-page tables) via hypervisors (see Samsung KNOX) or via syscall
-boundary checking (see Linux Kernel Runtime Guard). They're pretty
-interesting, but I'm not sure if there is a clear way forward on it
-working in upstream, but that's why I think these discussions are
-useful.
+Noted, I will have it `default y` in the next patches set.
 
-> Also, there is an inverse situation with all this. If you make
-> everything R/O, then you need this allow-write for everything you do,
-> which then is about to include a case with an overflow / bound check
-> fail, and we're back to square 1.
-
-Sure -- this is the fine line in trying to build these defenses. The
-point is to narrow the scope of attack. Stupid metaphor follows: right
-now we have only a couple walls; if we add walls we can focus on make
-sure the doors and windows are safe. If we make the relatively
-easy-to-find-in-memory page tables read-only-at-rest then a whole
-class of very powerful exploits that depend on page table attacks go
-away.
-
-As part of all of this is the observation that there are two types of
-things clearly worth protecting: that which is updated rarely (no need
-to leave it writable for so much of its lifetime), and that which is
-especially sensitive (page tables, security policy, function pointers,
-etc). Finding a general purpose way to deal with these (like we have
-for other data-lifetime cases like const and __ro_after_init) would be
-very nice. I don't think there is a slippery slope here.
-
--Kees
-
--- 
-Kees Cook
+Thanks,
+Ahmed
