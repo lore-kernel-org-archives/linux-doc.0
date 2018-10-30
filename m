@@ -1,165 +1,187 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MIME_QP_LONG_LINE,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ACDF97D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 17:06:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7B4B57D8BA
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 17:31:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbeJaCBO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Oct 2018 22:01:14 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:35305 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726549AbeJaCBO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 22:01:14 -0400
-Received: by mail-pl1-f193.google.com with SMTP id n4-v6so5281742plp.2
-        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 10:06:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=sJmp+TrcVE0cp1ysnbfmg2a9gbYbs/fVQwhmUWhAsKM=;
-        b=p1l66SWYsa9jw7rC4PMjsgTC62QiTmvIb5lE1PnTeKkdUJFayeHPDUMw6jW3+RzpFu
-         pKOQdHK/b5u9j+v+6E8yGOsp0dO9E5G9WVJE6wotNmtxGeYIsom8GcQWnDNIieLtPMwM
-         xigXW4Ywm9Thy8f/fQfppOcFf0vRpJptRvlODU2nlbnsra2MhrrcYXTosAjSIoNUsarb
-         XbdLjn4SBUPrxtf7sJctAqhEe63yVYFXz9rBzwtsYjLNX7+riHwnd+r62e4XzN7ZkZeK
-         /u3L9UQyFp87WLV1aHCGlhTtqW5Jz1NE+fSsKJvtD2Ndlj10qlKLdOxDeK1rt9YdIPRo
-         yH/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=sJmp+TrcVE0cp1ysnbfmg2a9gbYbs/fVQwhmUWhAsKM=;
-        b=HWFedfPMaKrv9COp2dnbYZFGKic9XSWHmSYD8CT5DrMYgTEeFuJ3HqON7sa7e78Xal
-         DzgeB6WLj3LejP3sv7h0Rc7ChY7ZVR5PSX7eGkH6tNYUreAMRUkThBTnnBozGO0U9/F0
-         QNm/gXJH3UIGD0zl3MyRl8lMbobANLvDVDu6iXQHHg3mPeJA7tq91c+ExHx4zqeB3zWl
-         aDEbuHgUBgzpMAJSHV7hDN87Wu2yVOjUj/Om1s8XSsX3Fv6B8GKMC9IXszAUDL4jYC++
-         dA6AY8SqAUKn8MCMO2lFpuZNB0iDv8CCH5ORDNYdphlVDDMWgNraBxB5xfpHwGS2/Jtl
-         Bmgw==
-X-Gm-Message-State: AGRZ1gK4VnpX6VLrvN6kDs8FoVlicHELT6GtEBtuqVyfdS2OLA6pf9Lh
-        JMFUHO/EtfkIcIgYX/h8azh9Fg==
-X-Google-Smtp-Source: AJdET5fnTABXu89GAubNDA3hUzdJdWV/ivDrtYqUoxQ/cSMvKdlm4RK2+Mqv63Iu2OSxu7de7vlwHA==
-X-Received: by 2002:a17:902:4025:: with SMTP id b34-v6mr15610050pld.318.1540919215631;
-        Tue, 30 Oct 2018 10:06:55 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b06f:4f72:1c47:d0f8:77c2:af6e? ([2600:1010:b06f:4f72:1c47:d0f8:77c2:af6e])
-        by smtp.gmail.com with ESMTPSA id e8-v6sm948953pgh.67.2018.10.30.10.06.53
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Oct 2018 10:06:53 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 10/17] prmem: documentation
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16A404)
-In-Reply-To: <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
-Date:   Tue, 30 Oct 2018 10:06:51 -0700
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Igor Stoppa <igor.stoppa@gmail.com>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        id S1727462AbeJaC0O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Oct 2018 22:26:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39942 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727679AbeJaC0O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 22:26:14 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9UHTnZ5137680
+        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 13:31:49 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2net6acqey-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 13:31:49 -0400
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <borntraeger@de.ibm.com>;
+        Tue, 30 Oct 2018 17:31:46 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 30 Oct 2018 17:31:41 -0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w9UHVe0P59048022
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 30 Oct 2018 17:31:40 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9BE27AE045;
+        Tue, 30 Oct 2018 17:31:40 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B6FFBAE057;
+        Tue, 30 Oct 2018 17:31:38 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.66.239])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue, 30 Oct 2018 17:31:38 +0000 (GMT)
+Subject: Re: [PATCH V5 0/5] KVM: X86: Introducing ROE Protection Kernel
+ Hardening
+To:     Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
-References: <20181023213504.28905-1-igor.stoppa@huawei.com> <20181023213504.28905-11-igor.stoppa@huawei.com> <20181026092609.GB3159@worktop.c.hoisthospitality.com> <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com> <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com> <20181030152641.GE8177@hirez.programming.kicks-ass.net> <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
-To:     Kees Cook <keescook@chromium.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ovich00@gmail.com, kernel-hardening@lists.openwall.com,
+        nigel.edwards@hpe.com, Boris Lukashev <blukashev@sempervictus.com>,
+        Hossam Hassan <7ossam9063@gmail.com>,
+        Ahmed Lotfy <A7med.lotfey@gmail.com>
+References: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
+From:   Christian Borntraeger <borntraeger@de.ibm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ syiRa+UVlsKmx1hsEg==
+Date:   Tue, 30 Oct 2018 18:31:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 18103017-0012-0000-0000-000002C08EFE
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18103017-0013-0000-0000-000020F4B6A1
+Message-Id: <e778a30c-f32e-eb4c-5492-21c81926b87f@de.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-10-30_11:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1810300148
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-> On Oct 30, 2018, at 9:37 AM, Kees Cook <keescook@chromium.org> wrote:
->=20
->> On Tue, Oct 30, 2018 at 8:26 AM, Peter Zijlstra <peterz@infradead.org> wr=
-ote:
->> I suppose the 'normal' attack goes like:
->>=20
->> 1) find buffer-overrun / bound check failure
->> 2) use that to write to 'interesting' location
->> 3) that write results arbitrary code execution
->> 4) win
->>=20
->> Of course, if the store of 2 is to the current cred structure, and
->> simply sets the effective uid to 0, we can skip 3.
->=20
-> In most cases, yes, gaining root is game over. However, I don't want
-> to discount other threat models: some systems have been designed not
-> to trust root, so a cred attack doesn't always get an attacker full
-> control (e.g. lockdown series, signed modules, encrypted VMs, etc).
->=20
->> Which seems to suggest all cred structures should be made r/o like this.
->> But I'm not sure I remember these patches doing that.
->=20
-> There are things that attempt to protect cred (and other things, like
-> page tables) via hypervisors (see Samsung KNOX) or via syscall
-> boundary checking (see Linux Kernel Runtime Guard). They're pretty
-> interesting, but I'm not sure if there is a clear way forward on it
-> working in upstream, but that's why I think these discussions are
-> useful.
->=20
->> Also, there is an inverse situation with all this. If you make
->> everything R/O, then you need this allow-write for everything you do,
->> which then is about to include a case with an overflow / bound check
->> fail, and we're back to square 1.
->=20
-> Sure -- this is the fine line in trying to build these defenses. The
-> point is to narrow the scope of attack. Stupid metaphor follows: right
-> now we have only a couple walls; if we add walls we can focus on make
-> sure the doors and windows are safe. If we make the relatively
-> easy-to-find-in-memory page tables read-only-at-rest then a whole
-> class of very powerful exploits that depend on page table attacks go
-> away.
->=20
-> As part of all of this is the observation that there are two types of
-> things clearly worth protecting: that which is updated rarely (no need
-> to leave it writable for so much of its lifetime), and that which is
-> especially sensitive (page tables, security policy, function pointers,
-> etc). Finding a general purpose way to deal with these (like we have
-> for other data-lifetime cases like const and __ro_after_init) would be
-> very nice. I don't think there is a slippery slope here.
->=20
->=20
+On 10/26/2018 05:12 PM, Ahmed Abd El Mawgood wrote:
+> This is the 5th version which is 4th version with minor fixes. ROE is a 
+> hypercall that enables host operating system to restrict guest's access to its
+> own memory. This will provide a hardening mechanism that can be used to stop
+> rootkits from manipulating kernel static data structures and code. Once a memory
+> region is protected the guest kernel can't even request undoing the protection.
 
-Since I wasn=E2=80=99t cc=E2=80=99d on this series:
+At the KVM forum we considered this as something that could be implemented across
+multiple architectures. Yes, there will be architecture specific implementations 
+and yes some  architectures might be not able to provide everything (e.g. sub-page
+granularity).
+But we should really check if we can come up with a guest interface or guest common 
+code that can be useful across architectures.
+> 
+> Memory protected by ROE should be non-swapable because even if the ROE protected
+> page got swapped out, It won't be possible to write anything in its place.
+> 
+> ROE hypercall should be capable of either protecting a whole memory frame or
+> parts of it. With these two, it should be possible for guest kernel to protect
+> its memory and all the page table entries for that memory inside the page table.
+> I am still not sure whether this should be part of ROE job or the guest's job.
+> 
+> 
+> The reason why it would be better to implement this from inside kvm: instead of
+> (host) user space is the need to access SPTEs to modify the permissions, while
+> mprotect() from user space can work in theory. It will become a big performance
+> hit to vmexit and switch to user space mode on each fault, on the other hand,
+> having the permission handled by EPT should make some remarkable performance
+> gain.
+> 
+> Our model assumes that an attacker got full root access to a running guest and
+> his goal is to manipulate kernel code/data (hook syscalls, overwrite IDT ..etc).
+> 
+> There is future work in progress to also put some sort of protection on the page
+> table register CR3 and other critical registers that can be intercepted by KVM.
+> This way it won't be possible for an attacker to manipulate any part of the
+> guests page table.
+> 
+> V4->V5 change log:
+> - Fixed summary (it was reverted summary)
+> - Fixed an inaccurate documentation in patch [4/5]
+> 
+> Summary:
+> 
+>  Documentation/virtual/kvm/hypercalls.txt |  40 +++++
+>  arch/x86/include/asm/kvm_host.h          |  11 +-
+>  arch/x86/kvm/Kconfig                     |   7 +
+>  arch/x86/kvm/mmu.c                       | 129 ++++++++++----
+>  arch/x86/kvm/vmx.c                       |   2 +-
+>  arch/x86/kvm/x86.c                       | 281 ++++++++++++++++++++++++++++++-
+>  include/linux/kvm_host.h                 |  29 ++++
+>  include/uapi/linux/kvm_para.h            |   5 +
+>  virt/kvm/kvm_main.c                      | 119 +++++++++++--
+>  9 files changed, 572 insertions(+), 51 deletions(-)
+> 
+> Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
+> 
 
-I support the addition of a rare-write mechanism to the upstream kernel.  An=
-d I think that there is only one sane way to implement it: using an mm_struc=
-t. That mm_struct, just like any sane mm_struct, should only differ from ini=
-t_mm in that it has extra mappings in the *user* region.
-
-If anyone wants to use CR0.WP instead, I=E2=80=99ll remind them that they ha=
-ve to fix up the entry code and justify the added complexity. And make perfo=
-rmance not suck in a VM (i.e. CR0 reads on entry are probably off the table)=
-.  None of these will be easy.
-
-If anyone wants to use kmap_atomic-like tricks, I=E2=80=99ll point out that w=
-e already have enough problems with dangling TLB entries due to SMP issues. T=
-he last thing we need is more of them. If someone proposes a viable solution=
- that doesn=E2=80=99t involve CR3 fiddling, I=E2=80=99ll be surprised.
-
-Keep in mind that switch_mm() is actually decently fast on modern CPUs.  It=E2=
-=80=99s probably considerably faster than writing CR0, although I haven=E2=80=
-=99t benchmarked it. It=E2=80=99s certainly faster than writing CR4.  It=E2=80=
-=99s also faster than INVPCID, surprisingly, which means that it will be qui=
-te hard to get better performance using any sort of trickery.
-
-Nadav=E2=80=99s patch set would be an excellent starting point.
-
-P.S. EFI is sort of grandfathered in as a hackish alternate page table hiera=
-rchy. We=E2=80=99re not adding another one.=
