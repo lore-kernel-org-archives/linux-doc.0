@@ -1,124 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 962B67D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 16:02:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C20F77D8BA
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 16:38:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727604AbeJaA4A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Oct 2018 20:56:00 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:25840 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726532AbeJaA4A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 20:56:00 -0400
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id w9UG1Wn1026048;
-        Wed, 31 Oct 2018 01:01:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com w9UG1Wn1026048
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1540915293;
-        bh=csSMXhMjG7/uDF21k0QboUXvMeiYQ+MmLmbh/gWkjIs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rtHHHHyM5UqBUP+EKBTM0LEZ438DaX/Zb6aaqwQ2MzSt+L8nMmCJIsn5uR7R4cDgx
-         ImYPEfTQeIFOXhQOG+PAAeME3AJ9LayqELeVr4ZL76XnCN198wM1YW7B+jKJSyq/YS
-         nglS0+6tCackbjLJ1gG/wKD0wXlnSMbAbNvQ9QsB/zd4V1UYBqtxnMIiXZjeiqkvGa
-         MQ/HQ8g7Wu6+vVCi/IbiXJkEmnvE9AqHff2j93gJB1Fkc3SVAqiYyk7nUvgAOqTFaa
-         kbuwgIgxEtEnUmDvdr3qRfV7ytAt3ZlaUQl1eZNQa3WoxW7mfJA7o/mysAQCmOfDFZ
-         qcLLv8SQpImwg==
-X-Nifty-SrcIP: [209.85.222.50]
-Received: by mail-ua1-f50.google.com with SMTP id d8so3686308ual.2;
-        Tue, 30 Oct 2018 09:01:32 -0700 (PDT)
-X-Gm-Message-State: AGRZ1gJnxoxdM+JjYX1nLWBL6hv6d11xK8Jt33cWqYMsemvDqd4gooHi
-        WIj6GkIC86bNMUzSReQoujSDFuwIM9pWsol2Cnw=
-X-Google-Smtp-Source: AJdET5fmZ4h9Aw8PIZTyTcc3BBnxAhbyyJl3L5r1Q9CjJTVXKEW16yE15z6fddODURosNY69rm5q7dt9YJ1ylo/Iy1o=
-X-Received: by 2002:ab0:3402:: with SMTP id z2mr1162812uap.6.1540915291458;
- Tue, 30 Oct 2018 09:01:31 -0700 (PDT)
+        id S1727508AbeJaBcT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Oct 2018 21:32:19 -0400
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:43183 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727411AbeJaBcN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 21:32:13 -0400
+Received: by mail-yw1-f65.google.com with SMTP id j75-v6so5173604ywj.10
+        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 09:38:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=VZoNZooRaqDzEWaRLEKdrKAAKC6uL0sBgSFjdygxcXA=;
+        b=ht93vtlnvVM4sJvsrLS/XVPam18FZGYWOuKhoG7tTU9zDVRzID1jFV+Pax7TEqCHVT
+         dD2GI13/VwJzNEyXB7/8NzOxJcAEhXibtqz87TwTH8gKYu86BY5LT62L3bfaUl77oj3n
+         iqMPDW4MiC0cW8YiHyGJXjeza4kPQeL5zjHnA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=VZoNZooRaqDzEWaRLEKdrKAAKC6uL0sBgSFjdygxcXA=;
+        b=uO/aoZ1nCe0OPRkbkRxyuOziSI4iBpMEKhyYZS6xFSu7ZWFuSJMqBb5FZ4qLLSaVs2
+         7LVogtwI/Llcgy83Gs2S+xUgGkeAJGG6C3ZYPDKTx4fS8OPW5TDUiCQbQOVVBkHn45/1
+         UTc0JO1SGlaMcVDesZHxHQCWPvA7eGjfOE4u+9gRCkq6le2qaWmwpXJ1jF7hPGSubmvG
+         YR0Pmm7K1lY8sO1NdYQXQTRbp07WtW7JEk6iHAIRyTWxcvqukXJDWO2HrdTCYFZRUCRS
+         a7TxN3oya4JhCazCjbwa3PfRXVI5E4Jq+XbCgWSihRunSzMZE6JcfnxrsTNROftmSuXI
+         JS9A==
+X-Gm-Message-State: AGRZ1gJZJZB3n8Rc/mSnSSTRtV7bKoyT/fqVtlfxzLGThkoigqQG8ylu
+        nLrbLjDflEyE6GYtuVqvvGyI5b+auH0=
+X-Google-Smtp-Source: AJdET5fAlK1/qCSD3O8Qc+SeE5AT72urNHbBU75vAycvpElw/kxpquPoNGkCQMpQPuL2nR9Elk+W+w==
+X-Received: by 2002:a0d:c3c7:: with SMTP id f190-v6mr679595ywd.105.1540917480613;
+        Tue, 30 Oct 2018 09:38:00 -0700 (PDT)
+Received: from mail-yw1-f52.google.com (mail-yw1-f52.google.com. [209.85.161.52])
+        by smtp.gmail.com with ESMTPSA id t184-v6sm2194429ywd.37.2018.10.30.09.37.58
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 30 Oct 2018 09:37:58 -0700 (PDT)
+Received: by mail-yw1-f52.google.com with SMTP id v199-v6so5187989ywg.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 09:37:58 -0700 (PDT)
+X-Received: by 2002:a81:813:: with SMTP id 19-v6mr3464914ywi.168.1540917477794;
+ Tue, 30 Oct 2018 09:37:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <1540829034-17725-1-git-send-email-yamada.masahiro@socionext.com>
-In-Reply-To: <1540829034-17725-1-git-send-email-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 31 Oct 2018 01:00:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASEogAqYTZHdtPWk4xZPXKkJPuWX9BF3o_Cy5s0jCB2cg@mail.gmail.com>
-Message-ID: <CAK7LNASEogAqYTZHdtPWk4xZPXKkJPuWX9BF3o_Cy5s0jCB2cg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: remove unused cc-fullversion variable
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Received: by 2002:a25:3990:0:0:0:0:0 with HTTP; Tue, 30 Oct 2018 09:37:56
+ -0700 (PDT)
+In-Reply-To: <20181030152641.GE8177@hirez.programming.kicks-ass.net>
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com> <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+ <20181030152641.GE8177@hirez.programming.kicks-ass.net>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Tue, 30 Oct 2018 09:37:56 -0700
+X-Gmail-Original-Message-ID: <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+Message-ID: <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+Subject: Re: [PATCH 10/17] prmem: documentation
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Igor Stoppa <igor.stoppa@gmail.com>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 30, 2018 at 1:05 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
+On Tue, Oct 30, 2018 at 8:26 AM, Peter Zijlstra <peterz@infradead.org> wrote:
+> I suppose the 'normal' attack goes like:
 >
-> The last user of cc-fullversion was removed by commit f2910f0e6835
-> ("powerpc: remove old GCC version checks").
+>  1) find buffer-overrun / bound check failure
+>  2) use that to write to 'interesting' location
+>  3) that write results arbitrary code execution
+>  4) win
 >
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
+> Of course, if the store of 2 is to the current cred structure, and
+> simply sets the effective uid to 0, we can skip 3.
 
-Applied to linux-kbuild.
+In most cases, yes, gaining root is game over. However, I don't want
+to discount other threat models: some systems have been designed not
+to trust root, so a cred attack doesn't always get an attacker full
+control (e.g. lockdown series, signed modules, encrypted VMs, etc).
 
+> Which seems to suggest all cred structures should be made r/o like this.
+> But I'm not sure I remember these patches doing that.
 
+There are things that attempt to protect cred (and other things, like
+page tables) via hypervisors (see Samsung KNOX) or via syscall
+boundary checking (see Linux Kernel Runtime Guard). They're pretty
+interesting, but I'm not sure if there is a clear way forward on it
+working in upstream, but that's why I think these discussions are
+useful.
 
+> Also, there is an inverse situation with all this. If you make
+> everything R/O, then you need this allow-write for everything you do,
+> which then is about to include a case with an overflow / bound check
+> fail, and we're back to square 1.
 
->  Documentation/kbuild/makefiles.txt | 15 ---------------
->  scripts/Kbuild.include             |  4 ----
->  2 files changed, 19 deletions(-)
->
-> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-> index 7b6a2b2..8da26c6 100644
-> --- a/Documentation/kbuild/makefiles.txt
-> +++ b/Documentation/kbuild/makefiles.txt
-> @@ -537,21 +537,6 @@ more details, with real examples.
->         The third parameter may be a text as in this example, but it may also
->         be an expanded variable or a macro.
->
-> -    cc-fullversion
-> -       cc-fullversion is useful when the exact version of gcc is needed.
-> -       One typical use-case is when a specific GCC version is broken.
-> -       cc-fullversion points out a more specific version than cc-version does.
-> -
-> -       Example:
-> -               #arch/powerpc/Makefile
-> -               $(Q)if test "$(cc-fullversion)" = "040200" ; then \
-> -                       echo -n '*** GCC-4.2.0 cannot compile the 64-bit powerpc ' ; \
-> -                       false ; \
-> -               fi
-> -
-> -       In this example for a specific GCC version the build will error out
-> -       explaining to the user why it stops.
-> -
->      cc-cross-prefix
->         cc-cross-prefix is used to check if there exists a $(CC) in path with
->         one of the listed prefixes. The first prefix where there exist a
-> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> index ca21a35..19a63db 100644
-> --- a/scripts/Kbuild.include
-> +++ b/scripts/Kbuild.include
-> @@ -147,10 +147,6 @@ cc-name = $(shell $(CC) -v 2>&1 | grep -q "clang version" && echo clang || echo
->  # cc-version
->  cc-version = $(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-version.sh $(CC))
->
-> -# cc-fullversion
-> -cc-fullversion = $(shell $(CONFIG_SHELL) \
-> -       $(srctree)/scripts/gcc-version.sh -p $(CC))
-> -
->  # cc-ifversion
->  # Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
->  cc-ifversion = $(shell [ $(cc-version) $(1) $(2) ] && echo $(3) || echo $(4))
-> --
-> 2.7.4
->
+Sure -- this is the fine line in trying to build these defenses. The
+point is to narrow the scope of attack. Stupid metaphor follows: right
+now we have only a couple walls; if we add walls we can focus on make
+sure the doors and windows are safe. If we make the relatively
+easy-to-find-in-memory page tables read-only-at-rest then a whole
+class of very powerful exploits that depend on page table attacks go
+away.
 
+As part of all of this is the observation that there are two types of
+things clearly worth protecting: that which is updated rarely (no need
+to leave it writable for so much of its lifetime), and that which is
+especially sensitive (page tables, security policy, function pointers,
+etc). Finding a general purpose way to deal with these (like we have
+for other data-lifetime cases like const and __ro_after_init) would be
+very nice. I don't think there is a slippery slope here.
+
+-Kees
 
 -- 
-Best Regards
-Masahiro Yamada
+Kees Cook
