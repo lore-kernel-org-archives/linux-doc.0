@@ -1,61 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0AC4B7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 18:51:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A78F7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 19:14:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727630AbeJaDqB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Oct 2018 23:46:01 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:37026 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727430AbeJaDqA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 23:46:00 -0400
-Received: by mail-pf1-f196.google.com with SMTP id u13-v6so684976pfm.4
-        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 11:51:20 -0700 (PDT)
+        id S1726122AbeJaEJk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 00:09:40 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:41103 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726263AbeJaEJj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 00:09:39 -0400
+Received: by mail-yw1-f67.google.com with SMTP id c126-v6so5397436ywd.8
+        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 12:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=rb6YvcGOAMe/gwiFBMF9WZ2MVHDY2CeNDGz9YQsONMw=;
-        b=dlnDeEWl/upXbbOU895iXNU3Fv7dD34w37fudMV6cLJ0OWuqgP2au4nclePyohHbeC
-         t2624op9N/hpZYLdggT+0lWOYZz0XaIaOYScrz6WpzaA8Ar45iShOgq0Lc2Y9U7yn9f0
-         sS9HPVTm8/kfK2CeoXd+oV/W6ps7FkjzRvAiAOJEFq1DNTAH7y8WC3gBHSdwAD//rHch
-         zxoJnEQ4Di9AwFI5VVIwM8VjExVK5S4saWiwV08gFAgIeqauKSck1AKUbds34kGgddeJ
-         3YYKRpyPuC4DsexudYrLf9PY3Yau7g6crupTZJ46n6t0e51biDl9VQfxwKuPkn8Has9f
-         8dDQ==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=snsTm8fAPGUfSdsnB6UIfUoFWMS1wWtbb4pqgSay4sA=;
+        b=js+vjHyiVy7gKOcR4aV8aB6qbFEHm1tQBHbY/tnoGr1sJ0IsCxOkyAi588iqVgxxTD
+         TmOGu3y1E6hYb+duMhWiN6w6UUykrHTIDJoGIUwZJUO/JjkT8puHgjty3vDuJLXFlBqB
+         K/j7WHf8RIxqYMxXPYrBZLJd7iQ6TARKKl9ek=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=rb6YvcGOAMe/gwiFBMF9WZ2MVHDY2CeNDGz9YQsONMw=;
-        b=gbBvxpdFi6se6bOOkAg7AoGG6Y1PylMNXUu+hTSf2pfaFwUBPGBcZcpMKLhTYPZjdO
-         uVhiFKxfQsXtGiDY1w9bLY8697Xdw3SIwRFso6Oo4yH6CJd/6GMi8yok/p1jVTWpRdbB
-         thk7DXCW7bpbkvPXkoELUekSRjPS0VOYNChwrIrhB7qq5H8j2fdCSUMtwAcyTRmGM9q5
-         BFE9tSOdoA52v0AKCJ7touenO4ZtHs4dMCHF9V1TECguUn5Qk9lHwLFbKfB+l59GhzcF
-         MRQNeOTliY2SUSRWrMbiUs0HjduKlSGjIZCY8RMwkR9W4F3/tx13aEtvt25/CuPmNKoI
-         nB+A==
-X-Gm-Message-State: AGRZ1gKmg5YjPNNCbxXm6RSC4+Uy0b9+VT7RtnY6xXCRqRpgFwHDRxfB
-        xxFFzi7FQRC/G5EQT55PRudmAA==
-X-Google-Smtp-Source: AJdET5dJlZ4nxUnqhdvGPbfJBzHxBH8NcYilBZIMH/rItwX1GAspFkxj86srmnWm+e37pScA+3erQg==
-X-Received: by 2002:a62:5343:: with SMTP id h64-v6mr4136829pfb.226.1540925480273;
-        Tue, 30 Oct 2018 11:51:20 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b021:f9e6:a9a5:9545:35ee:19c8? ([2600:1010:b021:f9e6:a9a5:9545:35ee:19c8])
-        by smtp.gmail.com with ESMTPSA id u1-v6sm24711389pgr.61.2018.10.30.11.51.18
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=snsTm8fAPGUfSdsnB6UIfUoFWMS1wWtbb4pqgSay4sA=;
+        b=ShlV8cEMgWrFXDlNptTOAlCLK8yhol7BUbCPM80zkOt257txKtMbCKUGj05ldILjlh
+         rI/sgs+F8GSOPkCvkdWccEjV4dJkZVstehNqr+1uvYq+dVIc/3oLh9o2h3eehjnpaQDT
+         Ue2Asz6aHkiYe+HOZ6VU+06DpxKMkPLiNzMQltv5THGTkHo28kGFLkm43aseq5JreODY
+         mcP3zmep19iyPC2/feJZUIfktPNiZCPVB54davl8tPMPagdX1O0wB5l/3KZqRyX6VNW8
+         fKIoe7s9JsoipCmBBhaRxt+GF+i4uL4S2X12Rdwj6u7kOnXAz3yvHP/LIDclyGjl/ASD
+         n7CA==
+X-Gm-Message-State: AGRZ1gLINwmtfYDzgmD6WvOJ4oZXUpvO9kkuQ5ts8ZbEfijc/CFX69fS
+        DIlhVI4T3szGzAZ+dXECh4SCFwbgTLg=
+X-Google-Smtp-Source: AJdET5dyaysGNh1DvR0OlyeUBbMHDDcoxPKDRXprv/9qrQvRmNceUpMc9M8q53m12pEcjlBxf42GuA==
+X-Received: by 2002:a81:9e82:: with SMTP id v124-v6mr4010032ywg.258.1540926894778;
+        Tue, 30 Oct 2018 12:14:54 -0700 (PDT)
+Received: from mail-yw1-f48.google.com (mail-yw1-f48.google.com. [209.85.161.48])
+        by smtp.gmail.com with ESMTPSA id e128-v6sm5915486ywd.77.2018.10.30.12.14.52
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Oct 2018 11:51:18 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
+        Tue, 30 Oct 2018 12:14:52 -0700 (PDT)
+Received: by mail-yw1-f48.google.com with SMTP id c126-v6so5397336ywd.8
+        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 12:14:52 -0700 (PDT)
+X-Received: by 2002:a81:98cb:: with SMTP id p194-v6mr3973873ywg.353.1540926891605;
+ Tue, 30 Oct 2018 12:14:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a25:3990:0:0:0:0:0 with HTTP; Tue, 30 Oct 2018 12:14:50
+ -0700 (PDT)
+In-Reply-To: <28C8CD2A-BDC0-49A5-854E-1E18968528B8@amacapital.net>
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com> <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+ <20181030152641.GE8177@hirez.programming.kicks-ass.net> <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+ <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net> <20181030175814.GB10491@bombadil.infradead.org>
+ <28C8CD2A-BDC0-49A5-854E-1E18968528B8@amacapital.net>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Tue, 30 Oct 2018 12:14:50 -0700
+X-Gmail-Original-Message-ID: <CAGXu5jK583zi9NPP2hwm51z6FbF2kkr5Em61eSp3EnwYFnKZEw@mail.gmail.com>
+Message-ID: <CAGXu5jK583zi9NPP2hwm51z6FbF2kkr5Em61eSp3EnwYFnKZEw@mail.gmail.com>
 Subject: Re: [PATCH 10/17] prmem: documentation
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16A404)
-In-Reply-To: <20181030175814.GB10491@bombadil.infradead.org>
-Date:   Tue, 30 Oct 2018 11:51:17 -0700
-Cc:     Kees Cook <keescook@chromium.org>,
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Nadav Amit <nadav.amit@gmail.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Igor Stoppa <igor.stoppa@gmail.com>,
         Mimi Zohar <zohar@linux.vnet.ibm.com>,
@@ -74,65 +86,55 @@ Cc:     Kees Cook <keescook@chromium.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <28C8CD2A-BDC0-49A5-854E-1E18968528B8@amacapital.net>
-References: <20181023213504.28905-1-igor.stoppa@huawei.com> <20181023213504.28905-11-igor.stoppa@huawei.com> <20181026092609.GB3159@worktop.c.hoisthospitality.com> <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com> <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com> <20181030152641.GE8177@hirez.programming.kicks-ass.net> <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com> <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net> <20181030175814.GB10491@bombadil.infradead.org>
-To:     Matthew Wilcox <willy@infradead.org>, nadav.amit@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Oct 30, 2018 at 11:51 AM, Andy Lutomirski <luto@amacapital.net> wrote:
+>
+>
+>> On Oct 30, 2018, at 10:58 AM, Matthew Wilcox <willy@infradead.org> wrote:
+>>
+>> On Tue, Oct 30, 2018 at 10:06:51AM -0700, Andy Lutomirski wrote:
+>>>> On Oct 30, 2018, at 9:37 AM, Kees Cook <keescook@chromium.org> wrote:
+>>> I support the addition of a rare-write mechanism to the upstream kernel.
+>>> And I think that there is only one sane way to implement it: using an
+>>> mm_struct. That mm_struct, just like any sane mm_struct, should only
+>>> differ from init_mm in that it has extra mappings in the *user* region.
+>>
+>> I'd like to understand this approach a little better.  In a syscall path,
+>> we run with the user task's mm.  What you're proposing is that when we
+>> want to modify rare data, we switch to rare_mm which contains a
+>> writable mapping to all the kernel data which is rare-write.
+>>
+>> So the API might look something like this:
+>>
+>>    void *p = rare_alloc(...);    /* writable pointer */
+>>    p->a = x;
+>>    q = rare_protect(p);        /* read-only pointer */
+>>
+>> To subsequently modify q,
+>>
+>>    p = rare_modify(q);
+>>    q->a = y;
+>>    rare_protect(p);
+>
+> How about:
+>
+> rare_write(&q->a, y);
+>
+> Or, for big writes:
+>
+> rare_write_copy(&q, local_q);
+>
+> This avoids a whole ton of issues.  In practice, actually running with a special mm requires preemption disabled as well as some other stuff, which Nadav carefully dealt with.
 
+This is what I had before, yes:
+https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=kspp/write-rarely&id=9ab0cb2618ebbc51f830ceaa06b7d2182fe1a52d
 
-> On Oct 30, 2018, at 10:58 AM, Matthew Wilcox <willy@infradead.org> wrote:
->=20
-> On Tue, Oct 30, 2018 at 10:06:51AM -0700, Andy Lutomirski wrote:
->>> On Oct 30, 2018, at 9:37 AM, Kees Cook <keescook@chromium.org> wrote:
->> I support the addition of a rare-write mechanism to the upstream kernel.
->> And I think that there is only one sane way to implement it: using an
->> mm_struct. That mm_struct, just like any sane mm_struct, should only
->> differ from init_mm in that it has extra mappings in the *user* region.
->=20
-> I'd like to understand this approach a little better.  In a syscall path,
-> we run with the user task's mm.  What you're proposing is that when we
-> want to modify rare data, we switch to rare_mm which contains a
-> writable mapping to all the kernel data which is rare-write.
->=20
-> So the API might look something like this:
->=20
->    void *p =3D rare_alloc(...);    /* writable pointer */
->    p->a =3D x;
->    q =3D rare_protect(p);        /* read-only pointer */
->=20
-> To subsequently modify q,
->=20
->    p =3D rare_modify(q);
->    q->a =3D y;
->    rare_protect(p);
+It just needs the switch_mm() backend.
 
-How about:
-
-rare_write(&q->a, y);
-
-Or, for big writes:
-
-rare_write_copy(&q, local_q);
-
-This avoids a whole ton of issues.  In practice, actually running with a spe=
-cial mm requires preemption disabled as well as some other stuff, which Nada=
-v carefully dealt with.
-
-Also, can we maybe focus on getting something merged for statically allocate=
-d data first?
-
-Finally, one issue: rare_alloc() is going to utterly suck performance-wise d=
-ue to the global IPI when the region gets zapped out of the direct map or ot=
-herwise made RO.  This is the same issue that makes all existing XPO efforts=
- so painful. We need to either optimize the crap out of it somehow or we nee=
-d to make sure it=E2=80=99s not called except during rare events like device=
- enumeration.
-
-Nadav, want to resubmit your series?  IIRC the only thing wrong with it was t=
-hat it was a big change and we wanted a simpler fix to backport. But that=E2=
-=80=99s all done now, and I, at least, rather liked your code. :)
+-- 
+Kees Cook
